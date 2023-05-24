@@ -2,253 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7110BC77B73
-	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 11:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ECF4C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 13:04:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229778AbjEXL6a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 May 2023 07:58:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38092 "EHLO
+        id S235314AbjEXND6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 May 2023 09:03:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbjEXL63 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 07:58:29 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AEB3135;
-        Wed, 24 May 2023 04:58:27 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 802D622168;
-        Wed, 24 May 2023 11:58:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1684929505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rH18iBwWnn9zYEQ2bRQgcgXCwVXM3ls6ER1KLLT/r60=;
-        b=WMTRqdgWgo5Xv1JGWXGXa/4leJ+kA3Fr2EvuxoJ+Aqe6NU5zbCpx8cdBkJRqivz3zlmCI8
-        fYweNr+iUlPQUznzgqAE9D1FG4L+KMokWqHKNGTedF59FJDkPiQa49qcPJoEz7QSNuY/TE
-        11uKzpPFgkG44/ySFC88vJeQKALxzNA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1684929505;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rH18iBwWnn9zYEQ2bRQgcgXCwVXM3ls6ER1KLLT/r60=;
-        b=5OLIE73rOKr/k1ojPtkzX/HPu5nXWbAb/WgNuvY9KLod1eci7r+KTUnNLWeyZDjI8HJPtV
-        go+jXuaQCYw1m7Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F3D0D13425;
-        Wed, 24 May 2023 11:58:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id cu/HOuD7bWSZVgAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Wed, 24 May 2023 11:58:24 +0000
-Message-ID: <18c33bf0-0c7e-7584-5149-33cf77b50b8a@suse.cz>
-Date:   Wed, 24 May 2023 13:58:24 +0200
+        with ESMTP id S235205AbjEXNDg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 09:03:36 -0400
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1DFE44;
+        Wed, 24 May 2023 06:03:20 -0700 (PDT)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34OArOT9031201;
+        Wed, 24 May 2023 09:02:54 -0400
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3qpr27bpte-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 May 2023 09:02:45 -0400
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 34OD23Ci017607
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 24 May 2023 09:02:03 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Wed, 24 May 2023 09:02:02 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Wed, 24 May 2023 09:02:02 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Wed, 24 May 2023 09:02:02 -0400
+Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.214])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 34OD1npV000947;
+        Wed, 24 May 2023 09:01:52 -0400
+From:   Daniel Matyas <daniel.matyas@analog.com>
+CC:     Daniel Matyas <daniel.matyas@analog.com>,
+        Rob Herring <robh@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v10 1/2] dt-bindings: hwmon: add MAX31827
+Date:   Wed, 24 May 2023 19:01:29 +0300
+Message-ID: <20230524160131.14081-1-daniel.matyas@analog.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 09/11] mm/slub: Fold slab_update_freelist()
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>,
-        torvalds@linux-foundation.org
-Cc:     corbet@lwn.net, will@kernel.org, boqun.feng@gmail.com,
-        mark.rutland@arm.com, catalin.marinas@arm.com, dennis@kernel.org,
-        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-crypto@vger.kernel.org
-References: <20230515075659.118447996@infradead.org>
- <20230515080554.520976397@infradead.org>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20230515080554.520976397@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: eguqr4SGfYA-mSGxZHz18lrx9__7x59L
+X-Proofpoint-ORIG-GUID: eguqr4SGfYA-mSGxZHz18lrx9__7x59L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-24_08,2023-05-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ phishscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305240107
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/15/23 09:57, Peter Zijlstra wrote:
-> The two functions slab_update_freelist() and __slab_update_freelist()
-> are nearly identical, fold and add a boolean argument and rely on
-> constant propagation.
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+MAX31827 is a low-power temperature switch with I2C interface.
 
-Something like that has been tried before and the result:
-https://lore.kernel.org/all/CAHk-=wiJLqL2cUhJbvpyPQpkbVOu1rVSzgO2=S2jC55hneLtfQ@mail.gmail.com/
+The device is a ±1°C accuracy from -40°C to +125°C
+(12 bits) local temperature switch and sensor with I2C/SM-
+Bus interface. The combination of small 6-bump wafer-lev-
+el package (WLP) and high accuracy makes this temper-
+ature sensor/switch ideal for a wide range of applications.
 
-Your parameter is not called 'locked' but 'irq_save' which is better, but
-that's just one detail.
+Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+Change log:
+v9 -> v10: Added proper change log.
+v8 -> v9: Did not use '--base'.
+v7 -> v8: Added '--base=[Linux 6.4-rc1 commmit]' when using 'git format-patch'
+v6 -> v7: No change.
+v5 -> v6: Added Reviewed-by tag.
+v3 -> v5: Forgot to add Reviewed-by tag.
+v2 -> v3: Made max31828 and max31829 compatible with max31827.
+v1 -> v2: Resolved dt_binding_check errors. Dropped status at i2c node. Made node name generic. 
 
-After your refactoring in 08/11 which puts most of the code into
-__update_freelist_fast() and _slow() I'd say the result is not so bad already.
+ .../bindings/hwmon/adi,max31827.yaml          | 54 +++++++++++++++++++
+ MAINTAINERS                                   |  7 +++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
 
-BTW I have some suspicion that some SLUB code is based on assumptions that
-are no longer true these days. IIRC I've seen some microbenchmark results a
-while ago that showed that disabling/enabling irqs is surprisingly (to me)
-very cheap today, so maybe it's not so useful to keep doing the
-this_cpu_cmpxchg128 for the struct kmem_cache_cpu operations (less so for
-struct slab cmpxchg128 where actually different cpus may be involved). But
-it needs a closer look.
-
-> ---
->  mm/slub.c |   80 +++++++++++++++++++++-----------------------------------------
->  1 file changed, 28 insertions(+), 52 deletions(-)
-> 
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -559,53 +559,29 @@ __update_freelist_slow(struct slab *slab
->   * allocation/ free operation in hardirq context. Therefore nothing can
->   * interrupt the operation.
->   */
-> -static inline bool __slab_update_freelist(struct kmem_cache *s, struct slab *slab,
-> -		void *freelist_old, unsigned long counters_old,
-> -		void *freelist_new, unsigned long counters_new,
-> -		const char *n)
-> +static __always_inline
-> +bool slab_update_freelist(struct kmem_cache *s, struct slab *slab,
-> +			  void *freelist_old, unsigned long counters_old,
-> +			  void *freelist_new, unsigned long counters_new,
-> +			  bool irq_save, const char *n)
->  {
->  	bool ret;
->  
-> -	if (USE_LOCKLESS_FAST_PATH())
-> +	if (!irq_save && USE_LOCKLESS_FAST_PATH())
->  		lockdep_assert_irqs_disabled();
->  
->  	if (s->flags & __CMPXCHG_DOUBLE) {
->  		ret = __update_freelist_fast(slab, freelist_old, counters_old,
->  				            freelist_new, counters_new);
->  	} else {
-> -		ret = __update_freelist_slow(slab, freelist_old, counters_old,
-> -				            freelist_new, counters_new);
-> -	}
-> -	if (likely(ret))
-> -		return true;
-> -
-> -	cpu_relax();
-> -	stat(s, CMPXCHG_DOUBLE_FAIL);
-> -
-> -#ifdef SLUB_DEBUG_CMPXCHG
-> -	pr_info("%s %s: cmpxchg double redo ", n, s->name);
-> -#endif
-> -
-> -	return false;
-> -}
-> -
-> -static inline bool slab_update_freelist(struct kmem_cache *s, struct slab *slab,
-> -		void *freelist_old, unsigned long counters_old,
-> -		void *freelist_new, unsigned long counters_new,
-> -		const char *n)
-> -{
-> -	bool ret;
-> -
-> -	if (s->flags & __CMPXCHG_DOUBLE) {
-> -		ret = __update_freelist_fast(slab, freelist_old, counters_old,
-> -				            freelist_new, counters_new);
-> -	} else {
->  		unsigned long flags;
->  
-> -		local_irq_save(flags);
-> +		if (irq_save)
-> +			local_irq_save(flags);
->  		ret = __update_freelist_slow(slab, freelist_old, counters_old,
->  				            freelist_new, counters_new);
-> -		local_irq_restore(flags);
-> +		if (irq_save)
-> +			local_irq_restore(flags);
->  	}
->  	if (likely(ret))
->  		return true;
-> @@ -2250,10 +2226,10 @@ static inline void *acquire_slab(struct
->  	VM_BUG_ON(new.frozen);
->  	new.frozen = 1;
->  
-> -	if (!__slab_update_freelist(s, slab,
-> -			freelist, counters,
-> -			new.freelist, new.counters,
-> -			"acquire_slab"))
-> +	if (!slab_update_freelist(s, slab,
-> +				  freelist, counters,
-> +				  new.freelist, new.counters,
-> +				  false, "acquire_slab"))
->  		return NULL;
->  
->  	remove_partial(n, slab);
-> @@ -2577,9 +2553,9 @@ static void deactivate_slab(struct kmem_
->  
->  
->  	if (!slab_update_freelist(s, slab,
-> -				old.freelist, old.counters,
-> -				new.freelist, new.counters,
-> -				"unfreezing slab")) {
-> +				  old.freelist, old.counters,
-> +				  new.freelist, new.counters,
-> +				  true, "unfreezing slab")) {
->  		if (mode == M_PARTIAL)
->  			spin_unlock_irqrestore(&n->list_lock, flags);
->  		goto redo;
-> @@ -2633,10 +2609,10 @@ static void __unfreeze_partials(struct k
->  
->  			new.frozen = 0;
->  
-> -		} while (!__slab_update_freelist(s, slab,
-> -				old.freelist, old.counters,
-> -				new.freelist, new.counters,
-> -				"unfreezing slab"));
-> +		} while (!slab_update_freelist(s, slab,
-> +					       old.freelist, old.counters,
-> +					       new.freelist, new.counters,
-> +					       false, "unfreezing slab"));
->  
->  		if (unlikely(!new.inuse && n->nr_partial >= s->min_partial)) {
->  			slab->next = slab_to_discard;
-> @@ -3072,10 +3048,10 @@ static inline void *get_freelist(struct
->  		new.inuse = slab->objects;
->  		new.frozen = freelist != NULL;
->  
-> -	} while (!__slab_update_freelist(s, slab,
-> -		freelist, counters,
-> -		NULL, new.counters,
-> -		"get_freelist"));
-> +	} while (!slab_update_freelist(s, slab,
-> +				       freelist, counters,
-> +				       NULL, new.counters,
-> +				       false, "get_freelist"));
->  
->  	return freelist;
->  }
-> @@ -3666,9 +3642,9 @@ static void __slab_free(struct kmem_cach
->  		}
->  
->  	} while (!slab_update_freelist(s, slab,
-> -		prior, counters,
-> -		head, new.counters,
-> -		"__slab_free"));
-> +				       prior, counters,
-> +				       head, new.counters,
-> +				       true, "__slab_free"));
->  
->  	if (likely(!n)) {
->  
-> 
-> 
+diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+new file mode 100644
+index 000000000000..2dc8b07b4d3b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/adi,max31827.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch
++
++maintainers:
++  - Daniel Matyas <daniel.matyas@analog.com>
++
++description: |
++  Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch with
++  I2C Interface
++  https://www.analog.com/media/en/technical-documentation/data-sheets/MAX31827-MAX31829.pdf
++
++properties:
++  compatible:
++    oneOf:
++      - const: adi,max31827
++      - items:
++          - enum:
++              - adi,max31828
++              - adi,max31829
++          - const: adi,max31827
++
++  reg:
++    maxItems: 1
++
++  vref-supply:
++    description:
++      Must have values in the interval (1.6V; 3.6V) in order for the device to
++      function correctly.
++
++required:
++  - compatible
++  - reg
++  - vref-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        temperature-sensor@42 {
++            compatible = "adi,max31827";
++            reg = <0x42>;
++            vref-supply = <&reg_vdd>;
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 27ef11624748..752c7e9c4e4a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12612,6 +12612,13 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
+ F:	drivers/media/i2c/max2175*
+ F:	include/uapi/linux/max2175.h
+ 
++MAX31827 TEMPERATURE SWITCH DRIVER
++M:	Daniel Matyas <daniel.matyas@analog.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Supported
++W:	http://ez.analog.com/community/linux-device-drivers
++F:	Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
++
+ MAX6650 HARDWARE MONITOR AND FAN CONTROLLER DRIVER
+ L:	linux-hwmon@vger.kernel.org
+ S:	Orphan
+-- 
+2.34.1
 
