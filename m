@@ -2,101 +2,226 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F2A0C7EE2E
-	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 08:48:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A07B6C7EE2C
+	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 09:34:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240176AbjEXIsX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 May 2023 04:48:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
+        id S229473AbjEXJeX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 May 2023 05:34:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239229AbjEXIsX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 04:48:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB9918D;
-        Wed, 24 May 2023 01:48:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8719663B0D;
-        Wed, 24 May 2023 08:48:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE400C433EF;
-        Wed, 24 May 2023 08:48:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684918100;
-        bh=KpjFPbvFSlimb9DAWRgMaEI2jvOp9NyA89GNu7e4BY0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=es/VwHVqsLur6WIp9leg0DG2PHZH82FJQLXe4vwZjMOwFkc4J4WljkFO1rk0ubqui
-         U2hskEoeGmhEmKnUV4wOsJuJZWTJzyN5fm6rPkktSGC1QHabMlAw3D32kCJlaEn0Sa
-         +5RxlOZRzyJvU8hugMxyI9Opi7c0RoPb+8gSoTVG6vEII12Z2f/ApSSlTcQc1EWUz5
-         8lFf/jbMnpfDuJVHWDWosMna5JC0nVYO65PK3XxtdoB4079MespPQNmj9gcaMDHoNg
-         Sr0eaLG7YbatumBu9CyCSNNpsftZ7wFEx1JkjtfnIc6bqfJMUMfTGnFJXi15T5BP51
-         +m/Bbvn61UwqQ==
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5523bd97c64so3646863eaf.0;
-        Wed, 24 May 2023 01:48:19 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyApT2wUWhyAA4LcIt8tlxMVNVPaFBhTXr6awI5LHmzA+0p1KO2
-        P1qmgHHOZy3lsX5crun1Q5K3UERrr8fTQUPqLU4=
-X-Google-Smtp-Source: ACHHUZ4ZU7eeRyrC+6EILQ9/5BEfv306QfM/OBd/JWy60IPMJtRWvVOjhiiwd3pOr7t3XzKsWVm6EELrEZPuCunjp34=
-X-Received: by 2002:a4a:d24d:0:b0:541:87fe:5b75 with SMTP id
- e13-20020a4ad24d000000b0054187fe5b75mr8497737oos.1.1684918099244; Wed, 24 May
- 2023 01:48:19 -0700 (PDT)
+        with ESMTP id S229448AbjEXJeW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 05:34:22 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68AD9A1;
+        Wed, 24 May 2023 02:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=KyV/tS/uN9DzNvQPoG5MMAxe2UuBWYnz6ke7cE6G1wY=; b=nC6jLhXug1y4diFoSQTkvje5KR
+        HSD1QlG8SO3q1T+JDKxXq+IlMfgYJDaQ7i7bHwdSKbxsc1MqD1gJdTeKNsIgFVwLNX6DDBZGjtVRb
+        MKBZeobJWLqGpbaKIFk6uJnVRCudHgK+Wd+ZPSPTt7amEjPI0BIcViP2iXjtCu6wHmug4YS2CEPgk
+        lCvsWBHcU+9gJk2CmiDcf7TpY7jxrns9h9e+tMKuQykDyjuaH++Ji39wKDKsF92bKq7ZYg42fjXCk
+        E6KVc0W5rZXwf/wbFS2AGqxSrHJGD7AwxifD6SNSoJNR7tFU/91uNjvSCFKtjJOLOz+bpX42COu48
+        7ykdSPMg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q1krX-004xKA-0q;
+        Wed, 24 May 2023 09:32:55 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B87553001AE;
+        Wed, 24 May 2023 11:32:47 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0CA772435C811; Wed, 24 May 2023 11:32:47 +0200 (CEST)
+Date:   Wed, 24 May 2023 11:32:46 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     torvalds@linux-foundation.org
+Cc:     corbet@lwn.net, will@kernel.org, boqun.feng@gmail.com,
+        mark.rutland@arm.com, catalin.marinas@arm.com, dennis@kernel.org,
+        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-crypto@vger.kernel.org, sfr@canb.auug.org.au,
+        mpe@ellerman.id.au
+Subject: Re: [PATCH v3 08/11] slub: Replace cmpxchg_double()
+Message-ID: <20230524093246.GP83892@hirez.programming.kicks-ass.net>
+References: <20230515075659.118447996@infradead.org>
+ <20230515080554.453785148@infradead.org>
 MIME-Version: 1.0
-References: <20230511043852.25803-1-bagasdotme@gmail.com> <CAK7LNATY7EEWy6krs+J-XzXDzmuKQ4Ae4RrxEH6mX=SmcWCiPA@mail.gmail.com>
- <1955521c-b3eb-d084-71c8-31db72753932@gmail.com>
-In-Reply-To: <1955521c-b3eb-d084-71c8-31db72753932@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 24 May 2023 17:47:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATG=XFvUh-gLNpYyncU47-7mRahze3LBLzQKk=2zSZ02A@mail.gmail.com>
-Message-ID: <CAK7LNATG=XFvUh-gLNpYyncU47-7mRahze3LBLzQKk=2zSZ02A@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: module-signing: Mention
- default_x509.genkey template
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux Keyrings <keyrings@vger.kernel.org>,
-        Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230515080554.453785148@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 24, 2023 at 11:40=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.co=
-m> wrote:
->
-> On 5/11/23 23:55, Masahiro Yamada wrote:
-> > On Thu, May 11, 2023 at 1:39=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail=
-.com> wrote:
-> >>
-> >> Commit f3a2ba44e93e2c ("certs: check-in the default x509 config file")
-> >> adds default x509 keypair config file template, but forgets to mention
-> >> it in kernel module signing documentation.
-> >
-> > What did it forget?
-> >
->
-> I mean not mentioning the template.
+On Mon, May 15, 2023 at 09:57:07AM +0200, Peter Zijlstra wrote:
 
+> @@ -3008,6 +3029,22 @@ static inline bool pfmemalloc_match(stru
+>  }
+>  
+>  #ifndef CONFIG_SLUB_TINY
+> +static inline bool
+> +__update_cpu_freelist_fast(struct kmem_cache *s,
+> +			   void *freelist_old, void *freelist_new,
+> +			   unsigned long tid)
+> +{
+> +#ifdef system_has_freelist_aba
+> +	freelist_aba_t old = { .freelist = freelist_old, .counter = tid };
+> +	freelist_aba_t new = { .freelist = freelist_new, .counter = next_tid(tid) };
+> +
+> +	return this_cpu_cmpxchg_freelist(s->cpu_slab->freelist_tid.full,
+> +					 old.full, new.full) == old.full;
+> +#else
+> +	return false;
+> +#endif
+> +}
+> +
+>  /*
+>   * Check the slab->freelist and either transfer the freelist to the
+>   * per cpu freelist or deactivate the slab.
+> @@ -3359,11 +3396,7 @@ static __always_inline void *__slab_allo
+>  		 * against code executing on this cpu *not* from access by
+>  		 * other cpus.
+>  		 */
+> -		if (unlikely(!this_cpu_cmpxchg_double(
+> -				s->cpu_slab->freelist, s->cpu_slab->tid,
+> -				object, tid,
+> -				next_object, next_tid(tid)))) {
+> -
+> +		if (unlikely(!__update_cpu_freelist_fast(s, object, next_object, tid))) {
+>  			note_cmpxchg_failure("slab_alloc", s, tid);
+>  			goto redo;
+>  		}
+> @@ -3736,11 +3769,7 @@ static __always_inline void do_slab_free
+>  
+>  		set_freepointer(s, tail_obj, freelist);
+>  
+> -		if (unlikely(!this_cpu_cmpxchg_double(
+> -				s->cpu_slab->freelist, s->cpu_slab->tid,
+> -				freelist, tid,
+> -				head, next_tid(tid)))) {
+> -
+> +		if (unlikely(!__update_cpu_freelist_fast(s, freelist, head, tid))) {
+>  			note_cmpxchg_failure("slab_free", s, tid);
+>  			goto redo;
+>  		}
 
-f3a2ba44e93e2c192a872f2705fe66dbf39708d6
-is equivalent to what Makefile previously did.
+This isn't right; the this_cpu_cmpxchg_double() was unconditional and
+relied on the local_irq_save() fallback when no native cmpxchg128 is
+present.
 
+The below delta makes things boot again when system_has_cmpxchg128 is
+not defined.
 
-You could manually copy certs/default_x509.genkey
-if you like, but you do not need to.
+I'm going to zap these patches from tip/locking/core for a few days and
+fold the below back into the series and let it run through the robots
+again.
 
+---
+ mm/slab.h | 20 +++++++++++---------
+ mm/slub.c |  6 +-----
+ 2 files changed, 12 insertions(+), 14 deletions(-)
 
-
-
-
->
-> --
-> An old man doll... just what I always wanted! - Clara
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+diff --git a/mm/slab.h b/mm/slab.h
+index 5880c70de3d6..b191bf68e6e0 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -6,36 +6,36 @@
+  */
+ void __init kmem_cache_init(void);
+ 
+-#ifdef CONFIG_HAVE_ALIGNED_STRUCT_PAGE
+ #ifdef CONFIG_64BIT
+ # ifdef system_has_cmpxchg128
+ # define system_has_freelist_aba()	system_has_cmpxchg128()
+ # define try_cmpxchg_freelist		try_cmpxchg128
+-# define this_cpu_cmpxchg_freelist	this_cpu_cmpxchg128
+-typedef u128 freelist_full_t;
+ # endif
++#define this_cpu_cmpxchg_freelist	this_cpu_cmpxchg128
++typedef u128 freelist_full_t;
+ #else /* CONFIG_64BIT */
+ # ifdef system_has_cmpxchg64
+ # define system_has_freelist_aba()	system_has_cmpxchg64()
+ # define try_cmpxchg_freelist		try_cmpxchg64
+-# define this_cpu_cmpxchg_freelist	this_cpu_cmpxchg64
+-typedef u64 freelist_full_t;
+ # endif
++#define this_cpu_cmpxchg_freelist	this_cpu_cmpxchg64
++typedef u64 freelist_full_t;
+ #endif /* CONFIG_64BIT */
+-#endif /* CONFIG_HAVE_ALIGNED_STRUCT_PAGE */
++
++#if defined(system_has_freelist_aba) && !defined(CONFIG_HAVE_ALIGNED_STRUCT_PAGE)
++#undef system_has_freelist_aba
++#endif
+ 
+ /*
+  * Freelist pointer and counter to cmpxchg together, avoids the typical ABA
+  * problems with cmpxchg of just a pointer.
+  */
+ typedef union {
+-#ifdef system_has_freelist_aba
+ 	struct {
+ 		void *freelist;
+ 		unsigned long counter;
+ 	};
+ 	freelist_full_t full;
+-#endif
+ } freelist_aba_t;
+ 
+ /* Reuses the bits in struct page */
+@@ -82,7 +82,9 @@ struct slab {
+ 						};
+ 					};
+ 				};
++#ifdef system_has_freelist_aba
+ 				freelist_aba_t freelist_counter;
++#endif
+ 			};
+ 		};
+ 		struct rcu_head rcu_head;
+@@ -110,7 +112,7 @@ SLAB_MATCH(memcg_data, memcg_data);
+ #undef SLAB_MATCH
+ static_assert(sizeof(struct slab) <= sizeof(struct page));
+ #if defined(system_has_freelist_aba) && defined(CONFIG_SLUB)
+-static_assert(IS_ALIGNED(offsetof(struct slab, freelist), 2*sizeof(void *)));
++static_assert(IS_ALIGNED(offsetof(struct slab, freelist), sizeof(freelist_aba_t)));
+ #endif
+ 
+ /**
+diff --git a/mm/slub.c b/mm/slub.c
+index 161b091746b7..af92c770606d 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3034,15 +3034,11 @@ __update_cpu_freelist_fast(struct kmem_cache *s,
+ 			   void *freelist_old, void *freelist_new,
+ 			   unsigned long tid)
+ {
+-#ifdef system_has_freelist_aba
+ 	freelist_aba_t old = { .freelist = freelist_old, .counter = tid };
+ 	freelist_aba_t new = { .freelist = freelist_new, .counter = next_tid(tid) };
+ 
+ 	return this_cpu_cmpxchg_freelist(s->cpu_slab->freelist_tid.full,
+ 					 old.full, new.full) == old.full;
+-#else
+-	return false;
+-#endif
+ }
+ 
+ /*
