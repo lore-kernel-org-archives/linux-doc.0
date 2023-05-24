@@ -2,111 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6C77C7EE29
-	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 02:11:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46636C7EE29
+	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 02:13:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239090AbjEXCLl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 May 2023 22:11:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48146 "EHLO
+        id S238955AbjEXCNx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 May 2023 22:13:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239086AbjEXCLh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 22:11:37 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6569613E
-        for <linux-doc@vger.kernel.org>; Tue, 23 May 2023 19:11:35 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id 46e09a7af769-6af873d1d8bso124358a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 23 May 2023 19:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1684894294; x=1687486294;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1rvU4IWdyOj7PqgqMsmY1eUvdDYl6lnUaw3J/gTxqbw=;
-        b=RGy0GfD69SeamfTavaqr3JfSK3rg4Pdj9TM/FDSYjzaR5HOmzt+4MWzXN3PVTjpAhN
-         eQjOEyB+3QzaLAbiuGN5iZHAAcI804et5wpqAGjg6yogoDfcyniQd6dqf5DeOhrS4Roa
-         q7tJ2yHxvNO6V65e6LrUcTm0xxrwO8BQznJdG0MA/64/0trvg1ENL6OQlxSCEmk0Qd/6
-         9IDLOqqiHcFj48dNrdUg8GtTXxiODGsSAh5d2kKHwV0SSowYRn+AecAu8SsAAUgu+VUr
-         fODE8MPq3oLroJJbhJ6ho98oQturWtrEJt0o/a9CcomeGZW3QumYkT35up1zSH3B7c/Z
-         t8Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684894294; x=1687486294;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1rvU4IWdyOj7PqgqMsmY1eUvdDYl6lnUaw3J/gTxqbw=;
-        b=Exd2I+mYR1W0W1rAqjqhlKdlogt/h5PACgFCViyzKCmEUUk4Q8eGlYB1DIECcQGWMQ
-         U4lmfWxabdiuBNJr3eakVssnWhAGHcpEUnqQO7m/ySvFdd4AEvXFf0X+T4W3H8V6BPjL
-         iJHQZiUy1nJRBa1dTRbrUgjljdGdNQAKltFYjIGfbKLJx1rWK3Z/n1sSrUDqDWfN22Fj
-         Q4281JxhttblMEGV5aiCMgrKhJgtCBCdmHtDs5zJxXYqLbdo4Kw/xUST2UGMHJsfwNc+
-         MRE+Ci/fQBt4GgD0T+A5IqtH/anzngXmo0gWXljrbFZiOrPpeMA+rMGq2JfRd+wAxb4Y
-         h3mw==
-X-Gm-Message-State: AC+VfDxvxQeJQMGFYPghOySqL/ib6UsO+RkxKz8dQoAufnpogjXm2LqP
-        SP/YGrFfF1Ea0Uy+YYCbey03OqXX6km/L8hBOjAWRg==
-X-Google-Smtp-Source: ACHHUZ7laGQwk4xBWMpdhNm7pHJLBIRyto77+HdA/ivTJLjXhCvzFea62AqmFVXeERyl8CWk707lCkqjyAPbulnzsbE=
-X-Received: by 2002:a9d:6d0a:0:b0:6af:8db0:bd08 with SMTP id
- o10-20020a9d6d0a000000b006af8db0bd08mr2141360otp.10.1684894294728; Tue, 23
- May 2023 19:11:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230515025716.316888-1-vineeth@bitbyteword.org>
- <20230515025716.316888-3-vineeth@bitbyteword.org> <20230515100616.33ba5dd9@luca64>
- <CAO7JXPgq8V5yHM6F2+iXf4XJ9cyT30Hn4ot5b2k7srjsaPc3JQ@mail.gmail.com>
- <20230516093729.0771938c@luca64> <CAO7JXPh5uLV4QjAEi6bJXfAGSsZ=XsnCyzrvKS8m35BGbRPYJw@mail.gmail.com>
- <20230519115621.2b3f75e2@luca64> <20230519121804.6c85a3ed@luca64>
- <CAO7JXPhZPvzVRyL87qNT5VnaVOf=0wrRftFB-Rjx-vJc3JUMog@mail.gmail.com>
- <20230520115857.3838a7ea@nowhere> <CAO7JXPgXi8q02HBeBR_RLWmODd9uQBH_UMCYgVQwbf+FX=Qxkg@mail.gmail.com>
- <20230523225831.60d75b38@nowhere>
-In-Reply-To: <20230523225831.60d75b38@nowhere>
-From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
-Date:   Tue, 23 May 2023 22:11:23 -0400
-Message-ID: <CAO7JXPihFGX5Dop=ox3YDQ=8aQbzZ-ka_1h3hT1G46vsbxpzNw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] sched/deadline: Fix reclaim inaccuracy with SMP
-To:     luca abeni <luca.abeni@santannapisa.it>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
+        with ESMTP id S232036AbjEXCNw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 May 2023 22:13:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 213A713E;
+        Tue, 23 May 2023 19:13:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AA0E963760;
+        Wed, 24 May 2023 02:13:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C3F0C433D2;
+        Wed, 24 May 2023 02:13:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684894430;
+        bh=lQ+RJVQY9YAF2fxnygyHT0XuujcPWCBCVMHk5qLdGYo=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=IfmFNDPZkEainTVx2Mp4ms2bg9tCoaw2yfQ2vL0CrTQF0FZvJa3DmiJVtMXYY1Ovz
+         wJrVehjFX+ZFTGyHf9n2AZahlAkyH4GM+BeIJjcllc32Cn6W3vxogJXvap/LNXoPo1
+         SmAZTdmX+0n/6hexL7yenPDR9GTFaHapkQEOlp/rDTpLpMoJTKdcV5AJFacyvyyWLc
+         zpjnNRp+xI3j8ZWawwqfvElK4zEwKY4ujPLgyNU9lXVSjaWwgY4xG5K/ZAECOb196q
+         bSTxviQ+UCrZPSDUymk3c7mfEGm7LhwHT7yrQ3JHP9V/VZg6emGeVeBCm7V0n98KG3
+         rzo/sBabl+SQg==
+Message-ID: <df5e3225a82ddceffe3cf3bffc2c14f52d0a0bb1.camel@kernel.org>
+Subject: Re: [PATCH] Documentation: module-signing: Mention
+ default_x509.genkey template
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Linux Keyrings <keyrings@vger.kernel.org>,
+        Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 24 May 2023 05:13:47 +0300
+In-Reply-To: <20230511043852.25803-1-bagasdotme@gmail.com>
+References: <20230511043852.25803-1-bagasdotme@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Luca,
+On Thu, 2023-05-11 at 11:38 +0700, Bagas Sanjaya wrote:
+> Commit f3a2ba44e93e2c ("certs: check-in the default x509 config file")
+> adds default x509 keypair config file template, but forgets to mention
+> it in kernel module signing documentation. Update the doc accordingly.
+>=20
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-> >
-> > I think it probably makes sense to get the fix for the equation to go
-> > in as a first step and then we can investigate more about the second
-> > issue (less reclaiming with less load and different bandwidth) and
-> > fix it separately. What do you think?
->
-> I fully agree. If you split this change in a first patch, IMHO it
-> can be applied.
->
-Thanks, I shall have it as the first patch in the next iteration.
+Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
 
-> BTW, I tried changing the equation without introducing div64, and it
-> seems to me that it works well... So, if removing the bw_ratio
-> approximation is needed, I think you can do it in a second patch (so,
-> the first patch changes the reclaiming equation, and the second one
-> introduces div64)
->
-There was one more reason for removing the bw_ratio. The second patch
-fixing the issue with mix of normal and SCHED_FLAG_RECLAIM tasks,
-do not have a constant Umax, so we cannot calculate the bw_ratio in
-advance and has to be calculated in grub_reclaim().
+BR, Jarkko
 
-As you suggested, I shall remove the bw_ratio as the second patch and
-then have the third patch to fix the case of SCHED_FLAG_RECLAIM and
-normal deadline tasks. For the rest of the issues, I shall work on it as
-a separate patch series once this goes in.
-
-Will send it out tomorrow after a bit more testing.
-
-Thanks again,
-Vineeth
