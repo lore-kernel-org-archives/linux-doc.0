@@ -2,140 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7DDDC77B73
-	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 18:21:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63169C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 18:22:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236268AbjEXSVW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 May 2023 14:21:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52208 "EHLO
+        id S235797AbjEXSW0 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 May 2023 14:22:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234518AbjEXSVU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 14:21:20 -0400
-X-Greylist: delayed 122 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 24 May 2023 11:21:15 PDT
-Received: from smtp-lb.pixar.com (smtp-lb.pixar.com [138.72.247.109])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7A1A12E
-        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 11:21:15 -0700 (PDT)
-DomainKey-Signature: s=emeryville; d=pixar.com; c=nofws; q=dns;
-  h=Authentication-Results:IronPort-SDR:X-PixarMID:
-   X-PixarRecvListener:X-PixarRemoteIP:X-PixarMailFlowPolicy:
-   Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-   MIME-Version:Content-Transfer-Encoding;
-  b=d1j/4YnC+mVvTtW7b3uSZjWpcsNFVh9Y3rggMUxn2rnE5NbtE8FOGnS5
-   aPNPzIeAjIRempRcFZuZY6VwxgLEE0UnLG3wONdp9wIVUQV58Qc390y6Z
-   UG7OSoYO9ovNreTTkE4Yn7zCEKoFXj8p6aKbh5VVXenaPUz21+C2fWn23
-   NhWMv71pmHsyius6Tw5G6y4OjhkilIzzXG/REuYzB0Vsq7FBCIqtJTZij
-   lsRG16OuY3JZqKJGyWlEAv52k237aDVlaOU8uDs8ITJegU6U59ZY4y6Hm
-   41Nj7gYunXZx+ae6iwc7VgeJ0n+HZqjUmw0+bnSQRmas8i61Eap7gxCSy
-   w==;
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=pixar.com; i=@pixar.com; q=dns/txt; s=dkimdefault;
-  t=1684952475; x=1716488475;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ww88k/sRfXor8CGXgyhHTr6O6My3nfazkW6nHTYMUoE=;
-  b=ftHYLXejsghE1UV0OZiqLGj8D0G21LpSAuZih5BEIB/jkhziBKSZHe0F
-   mdWWn6bmugp1wfae4aCAy2j1njWO17/AEISAl0CuKbOkzYEZ7zX48B73W
-   gre0JxSq8KIchCMnaaXX18TlG9CMOyBzE8FrjqaeOgcLZkF1c9MXwzkNR
-   DRMKJp00/HdNicixsy2NnMzBcaLCd5WRU/Y2MfRouVw4gntUbHkyDkq6z
-   0bhMj2+SFFk9Ra5Dro8aEWDbIt2Pvn6Zg3ZkjQS433UnUNf+2zCVLDiKl
-   LbOjqw5XVrUvQmeQeA4teMXcrNuAm7RbzP3/TpWc2Qui/L3/w8iUj5woT
-   Q==;
-Authentication-Results: smtp-lb.pixar.com; dkim=none (message not signed) header.i=none
-IronPort-SDR: Uzb3RSa/vzGo8sU7GYm5MeSjCugi8B7FA1VjUyt3kXYw31N9HCzMXHDZpzskXLstM8+drU6fYk
- jblJdBUQLRRw==
-X-PixarMID: 33424248
-X-PixarRecvListener: OutboundMail
-X-PixarRemoteIP: 138.72.53.70
-X-PixarMailFlowPolicy: $RELAYED
-Received: by belboz.pixar.com (Postfix, from userid 1690)
-        id 63EC8601DB34; Wed, 24 May 2023 11:18:04 -0700 (PDT)
-From:   "Lars R. Damerow" <lars@pixar.com>
-To:     mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com
-Cc:     tj@kernel.org, lizefan.x@bytedance.com, hannes@cmpxchg.org,
-        corbet@lwn.net, muchun.song@linux.dev, akpm@linux-foundation.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, lars@pixar.com
-Subject: [PATCH] mm/memcontrol: export memcg.swap watermark via sysfs for v2 memcg
-Date:   Wed, 24 May 2023 11:17:33 -0700
-Message-Id: <20230524181734.125696-1-lars@pixar.com>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S236412AbjEXSWZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 14:22:25 -0400
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E8E119;
+        Wed, 24 May 2023 11:22:24 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-94f9cd65b1aso30969566b.0;
+        Wed, 24 May 2023 11:22:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684952543; x=1687544543;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n4Pq8c6/Mm0bTSYRc0nbUAYoxH/lC7NnfksnqYojmek=;
+        b=Dk/RvGMmkkeFYu/TYhV+0L1eUQHFELoBUXmmp5Gz00N9QF+UHaMoXztA3XIDaFtcYJ
+         QTXHdNc0pXXoUP1ZKQlb4/34gVrTeO7KZffedpyLjZ3ysaDYR+plG1qmblWgU2SpiA8O
+         02s5I2vqRPWMGPxishAx8MZJOPpBOOXb5I9gZz7ZibfdTulmr/D6HYGnR8bQDMGhd5KR
+         Vd1t8KQgTBLe3+3Rxi9Cfzojo02ddwpsJELRAR1SO+HD6/vEAkcapF6Tdq1Kjhwce0eM
+         Z6TxzogmHoQHJ7aNVyzHfRLrhex9/FF69L461p+yit6F8cQj30ArxY6aHUxYS+foWS4o
+         qr+A==
+X-Gm-Message-State: AC+VfDyKWNCMiqlV0aqQRMlw8qH9lsldH+B9lKTT45q5s5ZPMJcfmdzC
+        7UEJbogXNZi5BeUrMezD0XPL2xvps1QGfrLVzWo=
+X-Google-Smtp-Source: ACHHUZ6JK09ysT7P+S7ivY0fKx/cBz2plGL4iP23ASoPbLZXi8ad/mXO0yWabZ9nLQuzu3MmY7E9fgnSN5hNUqXUO6A=
+X-Received: by 2002:a17:906:5189:b0:96f:469d:19ba with SMTP id
+ y9-20020a170906518900b0096f469d19bamr17370163ejk.2.1684952542768; Wed, 24 May
+ 2023 11:22:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230519032719.2581689-1-evalenti@kernel.org>
+In-Reply-To: <20230519032719.2581689-1-evalenti@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 24 May 2023 20:22:11 +0200
+Message-ID: <CAJZ5v0i1bYu0aPWc-xTG9HxOm_Ysczfo_cJPPV40MCG7qOGRTQ@mail.gmail.com>
+Subject: Re: [PATCH 0/7] thermal: enhancements on thermal stats
+To:     Eduardo Valentin <evalenti@kernel.org>
+Cc:     eduval@amazon.com, linux-pm@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch is similar to commit 8e20d4b33266 ("mm/memcontrol: export
-memcg->watermark via sysfs for v2 memcg"), but exports the swap counter's
-watermark.
+Hi Eduardo,
 
-We allocate jobs to our compute farm using heuristics determined by memory
-and swap usage from previous jobs. Tracking the peak swap usage for new
-jobs is important for determining when jobs are exceeding their expected
-bounds, or when our baseline metrics are getting outdated.
+On Fri, May 19, 2023 at 5:27 AM Eduardo Valentin <evalenti@kernel.org> wrote:
+>
+> Hello Rafael and Daniel
+>
+> After a long hiatus, I am returning to more frequent contributions
+> to the thermal subsystems, as least until I drain some of the
+> commits I have in my trees.
+>
+> This is a first series of several that will come as improvements
+> on the thermal subsystem that will enable using this subsystem
+> in the Baseboard Management Controller (BMC) space, as part
+> of the Nitro BMC project. To do so, there were a few improvements
+> and new features wrote.
+>
+> In this series in particular, I present a set of enhancements
+> on how we are handling statistics. The cooling device stats
+> are awesome, but I added a few new entries there. I also
+> introduce stats per thermal zone here too.
+>
+> I tried to keep documentation as current as possible.
+> I may have missed a thing or two, so please help me out here.
+> Testing/Examples are in each code.
+>
+> Let me know any feeback,
+>
+> BR,
+>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org> (supporter:THERMAL)
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org> (supporter:THERMAL)
+> Cc: Amit Kucheria <amitk@kernel.org> (reviewer:THERMAL)
+> Cc: Zhang Rui <rui.zhang@intel.com> (reviewer:THERMAL)
+> Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+> Cc: linux-pm@vger.kernel.org (open list:THERMAL)
+> Cc: linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+> Cc: linux-kernel@vger.kernel.org (open list)
+>
+> Eduardo Valentin (7):
+>   thermal: stats: track time each dev changes due to tz
+>   thermal: stats: track number of change requests due to tz
+>   thermal: stats: introduce thermal zone stats/ directory
+>   thermal: stats: introduce thermal zone stats/min_gradient
+>   thermal: stats: introduce tz time in trip
+>   ythermal: core: report errors to governors
+>   thermal: stats: add error accounting to thermal zone
+>
+>  .../driver-api/thermal/sysfs-api.rst          |  10 +
+>  drivers/thermal/thermal_core.c                |  15 +-
+>  drivers/thermal/thermal_core.h                |  16 +
+>  drivers/thermal/thermal_helpers.c             |  11 +-
+>  drivers/thermal/thermal_sysfs.c               | 495 +++++++++++++++++-
+>  include/linux/thermal.h                       |   5 +
+>  6 files changed, 539 insertions(+), 13 deletions(-)
+>
+> --
 
-Our toolset was written to use the "memory.memsw.max_usage_in_bytes" file
-in cgroups v1, and altering it to poll cgroups v2's "memory.swap.current"
-would give less accurate results as well as add complication to the code.
-Having this watermark exposed in sysfs is much preferred.
+There are still some other things I need to take care of before I can
+get to this series, but I will get to it.
 
-Signed-off-by: Lars R. Damerow <lars@pixar.com>
----
- Documentation/admin-guide/cgroup-v2.rst |  7 +++++++
- mm/memcontrol.c                         | 13 +++++++++++++
- 2 files changed, 20 insertions(+)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index f67c0829350b..1ffe019483ac 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1582,6 +1582,13 @@ PAGE_SIZE multiple when read back.
- 
- 	Healthy workloads are not expected to reach this limit.
- 
-+  memory.swap.peak
-+	A read-only single value file which exists on non-root
-+	cgroups.
-+
-+	The max swap usage recorded for the cgroup and its
-+	descendants since the creation of the cgroup.
-+
-   memory.swap.max
- 	A read-write single value file which exists on non-root
- 	cgroups.  The default is "max".
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 4b27e245a055..1862fee15274 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -7656,6 +7656,14 @@ static u64 swap_current_read(struct cgroup_subsys_state *css,
- 	return (u64)page_counter_read(&memcg->swap) * PAGE_SIZE;
- }
- 
-+static u64 swap_peak_read(struct cgroup_subsys_state *css,
-+			  struct cftype *cft)
-+{
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
-+
-+	return (u64)memcg->swap.watermark * PAGE_SIZE;
-+}
-+
- static int swap_high_show(struct seq_file *m, void *v)
- {
- 	return seq_puts_memcg_tunable(m,
-@@ -7734,6 +7742,11 @@ static struct cftype swap_files[] = {
- 		.seq_show = swap_max_show,
- 		.write = swap_max_write,
- 	},
-+	{
-+		.name = "swap.peak",
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+		.read_u64 = swap_peak_read,
-+	},
- 	{
- 		.name = "swap.events",
- 		.flags = CFTYPE_NOT_ON_ROOT,
-
-base-commit: 9d646009f65d62d32815f376465a3b92d8d9b046
--- 
-2.39.2
-
+Thanks!
