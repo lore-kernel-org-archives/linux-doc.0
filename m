@@ -2,131 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E50BC77B73
-	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 21:39:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46040C7EE2E
+	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 23:51:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235746AbjEXVjz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 May 2023 17:39:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35686 "EHLO
+        id S232530AbjEXXvA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 May 2023 19:51:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231725AbjEXVjy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 17:39:54 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B4A712E
-        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 14:39:53 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5618857518dso16590707b3.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 14:39:53 -0700 (PDT)
+        with ESMTP id S230000AbjEXXu7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 19:50:59 -0400
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 068DF139
+        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 16:50:57 -0700 (PDT)
+Received: by mail-pf1-x44a.google.com with SMTP id d2e1a72fcca58-64d20f79776so908901b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 16:50:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684964392; x=1687556392;
+        d=google.com; s=20221208; t=1684972256; x=1687564256;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u+lTI9LGfJCIeH9eUZOS37jnh9XivOrfiNHxwExkkPU=;
-        b=1OM2n6A6XJR4jj8vE2JD/qVka6KhOa37sATKkJGdtzfw5ejGSX46cgRyM3KxfTglOD
-         0RNiltYW0aqpSJK1ylM7pyVuNywmw3i8GLhqy6D8KbpUnlsiq///5XlVQOyARTMakL95
-         sruDKzgA0kJWIRgwdNf60tHMZ2lnfSldT/PHutYtTTub50wqJp62S52UJsWvKQ7jpGPj
-         JBND0HA8P6pXYHkEPXwT4zPgdYSplBBE7ttHpAHPL1RPyn6nSmxfEos2auwOVntQ9sEN
-         x6n9gU3Z0Y/wI8zE55ONSW8DBiSo/6ReRvhBCmqYQEuA2BiS/6yDjqxNIpbAGpQ1wAiT
-         KtGA==
+        bh=cSR7SiejqAADkjtE2sfBUw7kBDCwXi6R0Pqg2+hbZ5M=;
+        b=sBgm/c/eypRScnM/5VK84NQJotHmdUBdtdu7k+AA2ntAYB6j5QG/rkORL1OXol+KHR
+         V8olrWLcq19w9iPuiX8It70T0bWgLUavXKJVcMFrc9Lcc5uNtTL3TSMcBs6peyxVYbHz
+         8TJwNaRveyodUpGx9k1rKBmJBq6fJYXXo3pftEa2308DCGiNODq5j7xEaVXVbBilzMZR
+         nUvrsvFQxCd4Jh1hWPgKLPYY84wfc/rszy2CSOGTQIirnhWYC64OIaDAYkPGm4obhw+Q
+         KvfboAFt7XMNOhnDUGg7wdUu6I1fkWo6S+YncB0LvSAtW8ZcIyBYPPGeODVGBwdqcnBI
+         4/vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684964392; x=1687556392;
+        d=1e100.net; s=20221208; t=1684972256; x=1687564256;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u+lTI9LGfJCIeH9eUZOS37jnh9XivOrfiNHxwExkkPU=;
-        b=HJ/KoUPrMwvvM7bBbHXEyXllkpCiH3dNI3nCwELuiVlicdYTTkXAvLYl9HTOXUBqFl
-         QgIkJrabm92Z0HndU+4Lvstm0A+y0lnFrv63WlVQgUqqgBhKMJGGfcMlU3wQb10Qjz1z
-         Bn965MZCIB+LudtCTm2vbXsapTWUdtqSK0lSBW6qOdtVxYuJb3o3knYG9C/RLwXWjXDd
-         2SwwihJl2gpqADB2FL1AgKbE76jiOR8NbYwLMG+OhVcg7TyVYjlNQMIwNLr8ClACaj5U
-         DEeY127CEwv1HORrzAlF7aN8Ffz8/Imj9c4+pPqblHRwmXyYK/lv7s+nsq6smk1rft8z
-         /pYw==
-X-Gm-Message-State: AC+VfDzhHy6tIWAz3mZHgR6kfYUY6Ehek9bcLOcnvO+fp7FG6gddZzQ7
-        Vv078lJGZtn7zObwv0/iVf8J78xXJPw=
-X-Google-Smtp-Source: ACHHUZ4gGkG32f/WDPDY+8DnC86QiU6Z2uyq9N2VVLscH3WfhLiakxSPFeyk8pWCaiTnq1AgYyU2vpbztC4=
+        bh=cSR7SiejqAADkjtE2sfBUw7kBDCwXi6R0Pqg2+hbZ5M=;
+        b=Wjl5FVseeHgzoDx0gvbU94gtXQ1Q6AbeX6oj2XAKtjgFTGKLgop1Cw/iNd+gUaABDA
+         hWiGU52WYXe1M4CiS27Ps1UHx3QiyGEkPW9ggGpV0HTymXluMLQSaS9D07tfDjrd+hsH
+         F9xlIBAwzh33f4hVvbBfZE3/AU5TNJnsLji28HRGG9Y7CWJWpcHMbRJHtcmzMZ+rzQi6
+         o10jXdbd0DOheJlZlvhaDJ0vpGBMH3dHqiFZNAxOzXDk2+Cpyip6TEZt8AKrAWoTkXGO
+         dUBgyonqqWIrkgEGxrYiQgA5/Qj+zBiW0qf2CRw3TcoG8rj5COZiV3qzVZv9bmjZL4yi
+         UEVg==
+X-Gm-Message-State: AC+VfDzk797EqDjzrDT5dZtnudb14RM/j0kEUqxDCcm9FVuLQr9/6Skk
+        iVB/KjrjjAToE+zQCszMolwJ+RsgRv4=
+X-Google-Smtp-Source: ACHHUZ5++i/grgISdAgXADrF+3dpyM58oC7OV69ywkCye0aodewP+oJLe6AqjUhs2UrhIZ1ob43Es59MFt0=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:ae14:0:b0:561:8bfb:feb1 with SMTP id
- m20-20020a81ae14000000b005618bfbfeb1mr12005442ywh.10.1684964392193; Wed, 24
- May 2023 14:39:52 -0700 (PDT)
-Date:   Wed, 24 May 2023 14:39:50 -0700
-In-Reply-To: <20230524203336.GC3447678@hirez.programming.kicks-ass.net>
+ (user=seanjc job=sendgmr) by 2002:a05:6a00:189c:b0:63a:ff2a:bf9f with SMTP id
+ x28-20020a056a00189c00b0063aff2abf9fmr1730016pfh.2.1684972256482; Wed, 24 May
+ 2023 16:50:56 -0700 (PDT)
+Date:   Wed, 24 May 2023 16:50:54 -0700
+In-Reply-To: <20230420104622.12504-8-ljrcore@126.com>
 Mime-Version: 1.0
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com> <ZGxo9ylqYI8JXjGn@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
- <ZGzLf4zgxpBjghaF@google.com> <ZG2qv9sWl2RUnGqd@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
- <ZG5wg3VbG4rCYrfk@google.com> <20230524203336.GC3447678@hirez.programming.kicks-ass.net>
-Message-ID: <ZG6EJoXbduApRsgV@google.com>
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
+References: <20230420104622.12504-1-ljrcore@126.com> <20230420104622.12504-8-ljrcore@126.com>
+Message-ID: <ZG6i3sqOcZDg/UCG@google.com>
+Subject: Re: [PATCH v2 7/7] KVM: selftests: Test pmu event filter with
+ incompatible kvm_pmu_event_filter
 From:   Sean Christopherson <seanjc@google.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Kautuk Consul <kconsul@linux.vnet.ibm.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
+To:     Jinrong Liang <ljr.kernel@gmail.com>
+Cc:     Like Xu <like.xu.linux@gmail.com>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
+        Shuah Khan <shuah@kernel.org>,
+        Aaron Lewis <aaronlewis@google.com>,
+        David Matlack <dmatlack@google.com>,
         Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
+        Wanpeng Li <wanpengli@tencent.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jinrong Liang <cloudliang@tencent.com>,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 24, 2023, Peter Zijlstra wrote:
-> On Wed, May 24, 2023 at 01:16:03PM -0700, Sean Christopherson wrote:
-> > Of course, the only accesses outside of mmu_lock are reads, so on x86 that
-> > "atomic" access is just a READ_ONCE() load, but that's not the case for all
-> > architectures.
+On Thu, Apr 20, 2023, Jinrong Liang wrote:
+> From: Jinrong Liang <cloudliang@tencent.com>
 > 
-> This is true on *all* archs. atomic_set() and atomic_read() are no more
-> and no less than WRITE_ONCE() / READ_ONCE().
+> From: Jinrong Liang <cloudliang@tencent.com>
+> 
+> Add test to verify the behavior of the pmu event filter when an
+> incomplete kvm_pmu_event_filter structure is used. By running the
+> test, we can ensure that the pmu event filter correctly handles
+> incomplete structures and does not allow events to be counted when
+> they should not be.
+> 
+> Signed-off-by: Jinrong Liang <cloudliang@tencent.com>
+> ---
+>  .../kvm/x86_64/pmu_event_filter_test.c        | 23 +++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
+> index 9be4c6f8fb7e..a6b6e0d086ae 100644
+> --- a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
+> +++ b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
+> @@ -881,6 +881,24 @@ static bool fixed_ctr_is_allowed(uint8_t idx, uint32_t action, uint32_t bitmap)
+>  		(action == KVM_PMU_EVENT_DENY && !(bitmap & BIT_ULL(idx)));
+>  }
+>  
+> +struct incompatible_pmu_event_filter {
+> +	__u32 action;
+> +	__u32 nevents;
+> +	__u32 fixed_counter_bitmap;
+> +};
+> +
+> +static uint64_t test_incompatible_filter(struct kvm_vcpu *vcpu, uint32_t action,
+> +					 uint32_t bitmap)
+> +{
+> +	struct incompatible_pmu_event_filter err_f;
+> +
+> +	err_f.action = action;
+> +	err_f.fixed_counter_bitmap = bitmap;
+> +	ioctl((vcpu->vm)->fd, KVM_SET_PMU_EVENT_FILTER, &err_f.action);
 
-Ah, I take it s390's handcoded assembly routines are just a paranoid equivalents
-and not truly special?  "l" and "st" do sound quite generic...
+This is completely busted.  It "passes" by luck, not because it's a valid test.
+The size of the argument is embedded in the IOCTL number itself, which means that
+unless glibc is being very nice and using a macro + typeof + sizeof to sanity check
+things, which I highly doubt is the case, this ioctl() is passing random stack data,
+a.k.a. garbage, to KVM.
 
-  commit 7657e41a0bd16c9d8b3cefe8fd5d6ac3c25ae4bf
-  Author: Heiko Carstens <hca@linux.ibm.com>
-  Date:   Thu Feb 17 13:13:58 2011 +0100
-
-    [S390] atomic: use inline asm
-    
-    Use inline assemblies for atomic_read/set(). This way there shouldn't
-    be any questions or subtle volatile semantics left.
-
-static inline int __atomic_read(const atomic_t *v)
-{
-	int c;
-
-	asm volatile(
-		"	l	%0,%1\n"
-		: "=d" (c) : "R" (v->counter));
-	return c;
-}
-
-static inline void __atomic_set(atomic_t *v, int i)
-{
-	asm volatile(
-		"	st	%1,%0\n"
-		: "=R" (v->counter) : "d" (i));
-}
+In short, drop this patch.
