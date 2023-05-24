@@ -2,215 +2,331 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EB06C7EE23
-	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 06:31:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F37E0C7EE23
+	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 06:50:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238970AbjEXGbH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 May 2023 02:31:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55044 "EHLO
+        id S239638AbjEXGuP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 May 2023 02:50:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234376AbjEXGbG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 02:31:06 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C63184;
-        Tue, 23 May 2023 23:31:02 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-94ea38c90ccso11549766b.1;
-        Tue, 23 May 2023 23:31:02 -0700 (PDT)
+        with ESMTP id S231537AbjEXGtg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 02:49:36 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD0F18B
+        for <linux-doc@vger.kernel.org>; Tue, 23 May 2023 23:47:59 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2af2696fd1cso8102381fa.2
+        for <linux-doc@vger.kernel.org>; Tue, 23 May 2023 23:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684909861; x=1687501861;
+        d=linaro.org; s=google; t=1684910874; x=1687502874;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=RjNzEJWtwaikCiJE57i78ekQMAO9RRitNfS4hH15fr0=;
-        b=kCgeZ8obhDo28nCt2Ds+bmfQMAx8mv0ObMk/woGuLotfZnRmNlwttE7rEINi+eBHp4
-         T85lOdsQ89z/7asGLFdEVaOXGEZpklxW+Eh280kwqbsE9f1w7IGv05Xfd5tacAMnRyY/
-         kf1ZywsNSME+NH632UvTNglT0DuYcz5jetPbXvBqAbcpszLeCLNtoohZaImOL14Zegnq
-         ug4unNdHE6FoFdA2TgTNiupihcgrJSztv7jcjiT5advmAvehFoW3oHUt6KzFZ5tKOyWo
-         Tqrc1RD8kc6hV7Wi/YnAjWbJ/r+Uj7kY9b4YnuOH8O/h+Tai6u2/WsAzbX4oPZBHKIhX
-         BEjg==
+        bh=LDC1jVGvThqKpuBCFEeYP5ODzujVbr8/tx+wRi7DjyY=;
+        b=L2VQQpskik4L31bbI5SQf6d4hJocugH5EtwNKoaFF1R3XrUJ09Ja8hBwZNmQ4+pcSQ
+         P7dtH+QTaSzZ1/eEdeFyTTHY1kujbELAS9n9R/GMjtlhF5YrTIa8z7oPSy5ioNx+jrKa
+         40PUi0s+N5iLeGHoGD0irQyWyv5Nx/3HMy+YctqpxwKjAIxvF5xTgl6+wegHPfKp6zeX
+         jTLCXBG+h3n7M6IVE7ftNFwqNClRDpl/PGqIkM2YyXLgTOS/VbN4IzkIpnZMgnXT34qA
+         5Pwt6C5060GI+AB3FCQSTS9TDbDOAn34tAAiW+RtQswbIOJV7Xs6eEkafTi4gapvLxCU
+         nOqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684909861; x=1687501861;
+        d=1e100.net; s=20221208; t=1684910874; x=1687502874;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RjNzEJWtwaikCiJE57i78ekQMAO9RRitNfS4hH15fr0=;
-        b=cjAEtgg06ez5Axd0A0FrEvikZo3S55tjgEGKWYiNfn1BpwhvrMpjG4lEtPAdwtUZJp
-         dMEJSjLFppO58UPHSLJV2fKPoiPnX5qkva89pSx/VBJ7cb4G+cw2eNFKk0PWBPkeTuj/
-         A+1xXBEuK8uQlmHWe022Ho4ZNyEAXrKnFZ2vlhwIl4dL1TTu7fP2XcSPPW6FmJCUW6c3
-         +jW0Wl67BUaosBIzRCEJ2PtSRBrsFt8DZip1mNuxsfPs62rzZ7dETjDF1V16UhbdVw2w
-         q4u64LMIDGgwhU/nHFobR/t1YPNY6HIhsOTJDKeQFfJn29v16biFNopvI/mFZXWCtrdE
-         EV8w==
-X-Gm-Message-State: AC+VfDzD6w6Z8mJZi0OLYSl8KDRve56ZpH+mG/rhh05hOb4dq7DTWN9y
-        6CnAu842dotTYBOS8iq19xk=
-X-Google-Smtp-Source: ACHHUZ4EFPbBocz0ldfP6auAAnd4+8ZZzau3uJD3txGc+GMgqlL/AK60wRd+0xwo+bekiYkQDNiRmg==
-X-Received: by 2002:a17:906:748c:b0:965:9c7d:df96 with SMTP id e12-20020a170906748c00b009659c7ddf96mr16034695ejl.1.1684909860542;
-        Tue, 23 May 2023 23:31:00 -0700 (PDT)
-Received: from [192.168.10.215] ([141.136.93.87])
-        by smtp.gmail.com with ESMTPSA id p19-20020a170906229300b0096f5b48fe43sm5265343eja.47.2023.05.23.23.30.59
+        bh=LDC1jVGvThqKpuBCFEeYP5ODzujVbr8/tx+wRi7DjyY=;
+        b=Ud9nLPtClkEykqbegc1BcxtegsJ1fx2iFM7swoN1LocxYtCcHHkdnXqhTDkXCKAqz6
+         ypzvpiq76QWLFcWWA3XRCuQneqPEf5/c0dqyyE0rO1mSFsE6jbcEqGrzFamRrpb7Pgub
+         9umaKvEyS4f4Bj+O8+G7wFUKDP0p2SAssBQJjep9X8rmE/vOeJM5Yx9rJCmzvUrp9RIC
+         UtUvs3kYa8gp8qA5UIaAQGQaY9yNVrlkhn5W8IFCS8b3hZ5Gf8wOarCILFszVDsD0yUd
+         N+qQN5S6xoXo0AEvaOWZkHobfzb40L8RbhjiJTpzMZPJTRS9QyTX4/TnRU7/8AIGZP4A
+         +Tog==
+X-Gm-Message-State: AC+VfDxeFK0irl1ANB3M44VzqhjFztgmcuLWlQhU6ixvP3/sFcwn7hzU
+        SP4VbNr3Wh3Dy6uJepPk+YOSCQ==
+X-Google-Smtp-Source: ACHHUZ58cfwSmcJRWufPmtmgG4ssP+J/WSqJAC7lZMuewkXGPqpIaqfR2MBarsDT83bxT60vPKVLbA==
+X-Received: by 2002:a2e:86d9:0:b0:2a8:a858:a4ab with SMTP id n25-20020a2e86d9000000b002a8a858a4abmr5942420ljj.39.1684910874559;
+        Tue, 23 May 2023 23:47:54 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+        by smtp.gmail.com with ESMTPSA id n18-20020a2e9052000000b00295a3a64816sm1960375ljg.2.2023.05.23.23.47.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 May 2023 23:31:00 -0700 (PDT)
-Message-ID: <8f0b51f6-bc95-794d-929f-11b84629d0cd@gmail.com>
-Date:   Wed, 24 May 2023 10:30:57 +0400
+        Tue, 23 May 2023 23:47:54 -0700 (PDT)
+Message-ID: <add35529-6719-e901-b919-a86da04cb976@linaro.org>
+Date:   Wed, 24 May 2023 09:47:53 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/3] docs: sound: add 'pcmtest' driver documentation
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, perex@perex.cz,
-        tiwai@suse.com, corbet@lwn.net, broonie@kernel.org,
-        skhan@linuxfoundation.org
-Cc:     alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        gregkh@linuxfoundation.org, himadrispandya@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20230521183218.9641-1-ivan.orlov0322@gmail.com>
- <ZGtntdJVy8dZBnf9@debian.me>
-From:   Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <ZGtntdJVy8dZBnf9@debian.me>
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v13 00/24] Drivers for Gunyah hypervisor
+Content-Language: en-GB
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230509204801.2824351-1-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/22/23 17:01, Bagas Sanjaya wrote:
-> On Sun, May 21, 2023 at 10:32:16PM +0400, Ivan Orlov wrote:
->> diff --git a/Documentation/sound/cards/pcmtest.rst b/Documentation/sound/cards/pcmtest.rst
->> new file mode 100644
->> index 000000000000..ea8070eaa44e
->> --- /dev/null
->> +++ b/Documentation/sound/cards/pcmtest.rst
->> @@ -0,0 +1,119 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +The Virtual PCM Test Driver
->> +===========================
->> +
->> +The Virtual PCM Test Driver emulates a generic PCM device, and can be used for
->> +testing/fuzzing of the userspace ALSA applications, as well as for testing/fuzzing of
->> +the PCM middle layer. Additionally, it can be used for simulating hard to reproduce
->> +problems with PCM devices.
->> +
->> +What can this driver do?
->> +~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +At this moment the driver can do the following things:
->> +	* Simulate both capture and playback processes
->> +	* Generate random or pattern-based capturing data
->> +	* Inject delays into the playback and capturing processes
->> +	* Inject errors during the PCM callbacks
->> +
->> +It supports up to 8 substreams and 4 channels. Also it supports both interleaved and
->> +non-interleaved access modes.
->> +
->> +Also, this driver can check the playback stream for containing the predefined pattern,
->> +which is used in the corresponding selftest (alsa/test-pcmtest-driver.c). To check the
->> +PCM middle layer data transferring functionality. Additionally, this driver redefines
-> "... corresponding selftest ... to check the ..."
->> +the default RESET ioctl, and the selftest covers this PCM API functionality as well.
->> +
->> +Configuration
->> +-------------
->> +
->> +The driver has several parameters besides the common ALSA module parameters:
->> +
->> +	* fill_mode (bool) - Buffer fill mode (see below)
->> +	* inject_delay (int)
->> +	* inject_hwpars_err (bool)
->> +	* inject_prepare_err (bool)
->> +	* inject_trigger_err (bool)
->> +
->> +
->> +Capture Data Generation
->> +-----------------------
->> +
->> +The driver has two modes of data generation: the first (0 in the fill_mode parameter)
->> +means random data generation, the second (1 in the fill_mode) - pattern-based
->> +data generation. Let's look at the second mode.
->> +
->> +First of all, you may want to specify the pattern for data generation. You can do it
->> +by writing the pattern to the debugfs file (/sys/kernel/debug/pcmtest/fill_pattern).
->> +Like that:
-> "For example::"
->> +
->> +.. code-block:: bash
->> +
->> +	echo -n mycoolpattern > /sys/kernel/debug/pcmtest/fill_pattern
->> +
->> +After this, every capture action performed on the 'pcmtest' device will return
->> +'mycoolpatternmycoolpatternmycoolpatternmy...' for every channel buffer.
->> +
->> +In case of interleaved access, the capture buffer will contain the repeated pattern
->> +for every channel. Otherwise, every channel buffer will contain the repeated pattern.
->> +
->> +The pattern itself can be up to 4096 bytes long.
->> +
->> +Delay injection
->> +---------------
->> +
->> +The driver has 'inject_delay' parameter, which has very self-descriptive name and
->> +can be used for time delay/speedup simulations. The parameter has integer type, and
->> +it means the delay added between module's internal timer ticks.
->> +
->> +If the 'inject_delay' value is positive, the buffer will be filled slower, if it is
->> +negative - faster. You can try it yourself by starting a recording in any
->> +audio recording application (like Audacity) and selecting the 'pcmtest' device as a
->> +source.
->> +
->> +This parameter can be also used for generating a huge amount of sound data in a very
->> +short period of time (with the negative 'inject_delay' value).
->> +
->> +Errors injection
->> +----------------
->> +
->> +This module can be used for injecting errors into the PCM communication process. This
->> +action can help you to figure out how the userspace ALSA program behaves under unusual
->> +circumstances.
->> +
->> +For example, you can make all 'hw_params' PCM callback calls return EBUSY error by
->> +writing '1' to the 'inject_hwpars_err' module parameter:
->> +
->> +.. code-block:: bash
->> +
->> +	echo 1 > /sys/module/snd_pcmtest/parameters/inject_hwpars_err
->> +
->> +Errors can be injected into the following PCM callbacks:
->> +
->> +	* hw_params (EBUSY)
->> +	* prepare (EINVAL)
->> +	* trigger (EINVAL)
->> +
->> +
->> +Playback test
->> +-------------
->> +
->> +This driver can be also used for the playback functionality testing - every time you
->> +write the playback data to the 'pcmtest' PCM device and close it, the driver checks the
->> +buffer of each channel for containing the looped pattern (which is specified in the
->> +fill_pattern debugfs file). If the playback buffer content represents the looped pattern,
->> +'pc_test' debugfs entry is set into '1'. Otherwise, the driver sets it to '0'.
->> +
->> +ioctl redefinition test
->> +-----------------------
->> +
->> +The driver redefines the 'reset' ioctl, which is default for all PCM devices. To test
->> +this functionality, we can trigger the reset ioctl and check the 'ioctl_test' debugfs
->> +entry:
->> +
->> +.. code-block:: bash
->> +
->> +	cat /sys/kernel/debug/pcmtest/ioctl_test
->> +
->> +If the ioctl is triggered successfully, this file will contain '1', and '0' otherwise.
+On 09/05/2023 23:47, Elliot Berman wrote:
+> Gunyah is a Type-1 hypervisor independent of any
+> high-level OS kernel, and runs in a higher CPU privilege level. It does
+> not depend on any lower-privileged OS kernel/code for its core
+> functionality. This increases its security and can support a much smaller
+> trusted computing base than a Type-2 hypervisor.
 > 
-> The rest is LGTM, thanks!
+> Gunyah is an open source hypervisor. The source repo is available at
+> https://github.com/quic/gunyah-hypervisor.
 > 
+> The diagram below shows the architecture.
+> 
+> ::
+> 
+>           VM A                    VM B
+>       +-----+ +-----+  | +-----+ +-----+ +-----+
+>       |     | |     |  | |     | |     | |     |
+>   EL0 | APP | | APP |  | | APP | | APP | | APP |
+>       |     | |     |  | |     | |     | |     |
+>       +-----+ +-----+  | +-----+ +-----+ +-----+
+>   ---------------------|-------------------------
+>       +--------------+ | +----------------------+
+>       |              | | |                      |
+>   EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
+>       |              | | |                      |
+>       +--------------+ | +----------------------+
+>   --------hvc/smc------|------hvc/smc------------
+>       +----------------------------------------+
+>       |                                        |
+>   EL2 |            Gunyah Hypervisor           |
+>       |                                        |
+>       +----------------------------------------+
+> 
+> Gunyah provides these following features.
+> 
+> - Threads and Scheduling: The scheduler schedules virtual CPUs (VCPUs) on
+> physical CPUs and enables time-sharing of the CPUs.
+> - Memory Management: Gunyah tracks memory ownership and use of all memory
+> under its control. Memory partitioning between VMs is a fundamental
+> security feature.
+> - Interrupt Virtualization: All interrupts are handled in the hypervisor
+> and routed to the assigned VM.
+> - Inter-VM Communication: There are several different mechanisms provided
+> for communicating between VMs.
+> - Device Virtualization: Para-virtualization of devices is supported using
+> inter-VM communication. Low level system features and devices such as
+> interrupt controllers are supported with emulation where required.
+> 
+> This series adds the basic framework for detecting that Linux is running
+> under Gunyah as a virtual machine, communication with the Gunyah Resource
+> Manager, and a sample virtual machine manager capable of launching virtual machines.
+> 
+> The series relies on two other patches posted separately:
+>   - https://lore.kernel.org/all/20230213181832.3489174-1-quic_eberman@quicinc.com/
+>   - https://lore.kernel.org/all/20230213232537.2040976-2-quic_eberman@quicinc.com/
 
-Hi Bagas!
+The second link returns "message ID not found" page.
 
-Thank you for the review! I'll fix this in the next version of the patch 
-set after getting response from the sound maintainers - probably it 
-isn't the only part which needs to be fixed :)
+> 
+> Changes in v13:
+>   - Tweaks to message queue driver to address race condition between IRQ and mailbox registration
+>   - Allow removal of VM functions by function-specific comparison -- specifically to allow
+>     removing irqfd by label only and not requiring original FD to be provided.
+> 
+> Changes in v12: https://lore.kernel.org/all/20230424231558.70911-1-quic_eberman@quicinc.com/
+>   - Stylistic/cosmetic tweaks suggested by Alex
+>   - Remove patch "virt: gunyah: Identify hypervisor version" and squash the
+>     check that we're running under a reasonable Gunyah hypervisor into RM driver
+>   - Refactor platform hooks into a separate module per suggestion from Srini
+>   - GFP_KERNEL_ACCOUNT and account_locked_vm() for page pinning
+>   - enum-ify related constants
+> 
+> Changes in v11: https://lore.kernel.org/all/20230304010632.2127470-1-quic_eberman@quicinc.com/
+>   - Rename struct gh_vm_dtb_config:gpa -> guest_phys_addr & overflow checks for this
+>   - More docstrings throughout
+>   - Make resp_buf and resp_buf_size optional
+>   - Replace deprecated idr with xarray
+>   - Refconting on misc device instead of RM's platform device
+>   - Renaming variables, structs, etc. from gunyah_ -> gh_
+>   - Drop removal of user mem regions
+>   - Drop mem_lend functionality; to converge with restricted_memfd later
+> 
+> Changes in v10: https://lore.kernel.org/all/20230214211229.3239350-1-quic_eberman@quicinc.com/
+>   - Fix bisectability (end result of series is same, --fixups applied to wrong commits)
+>   - Convert GH_ERROR_* and GH_RM_ERROR_* to enums
+>   - Correct race condition between allocating/freeing user memory
+>   - Replace offsetof with struct_size
+>   - Series-wide renaming of functions to be more consistent
+>   - VM shutdown & restart support added in vCPU and VM Manager patches
+>   - Convert VM function name (string) to type (number)
+>   - Convert VM function argument to value (which could be a pointer) to remove memory wastage for arguments
+>   - Remove defensive checks of hypervisor correctness
+>   - Clean ups to ioeventfd as suggested by Srivatsa
+> 
+> Changes in v9: https://lore.kernel.org/all/20230120224627.4053418-1-quic_eberman@quicinc.com/
+>   - Refactor Gunyah API flags to be exposed as feature flags at kernel level
+>   - Move mbox client cleanup into gunyah_msgq_remove()
+>   - Simplify gh_rm_call return value and response payload
+>   - Missing clean-up/error handling/little endian fixes as suggested by Srivatsa and Alex in v8 series
+> 
+> Changes in v8: https://lore.kernel.org/all/20221219225850.2397345-1-quic_eberman@quicinc.com/
+>   - Treat VM manager as a library of RM
+>   - Add patches 21-28 as RFC to support proxy-scheduled vCPUs and necessary bits to support virtio
+>     from Gunyah userspace
+> 
+> Changes in v7: https://lore.kernel.org/all/20221121140009.2353512-1-quic_eberman@quicinc.com/
+>   - Refactor to remove gunyah RM bus
+>   - Refactor allow multiple RM device instances
+>   - Bump UAPI to start at 0x0
+>   - Refactor QCOM SCM's platform hooks to allow CONFIG_QCOM_SCM=Y/CONFIG_GUNYAH=M combinations
+> 
+> Changes in v6: https://lore.kernel.org/all/20221026185846.3983888-1-quic_eberman@quicinc.com/
+>   - *Replace gunyah-console with gunyah VM Manager*
+>   - Move include/asm-generic/gunyah.h into include/linux/gunyah.h
+>   - s/gunyah_msgq/gh_msgq/
+>   - Minor tweaks and documentation tidying based on comments from Jiri, Greg, Arnd, Dmitry, and Bagas.
+> 
+> Changes in v5: https://lore.kernel.org/all/20221011000840.289033-1-quic_eberman@quicinc.com/
+>   - Dropped sysfs nodes
+>   - Switch from aux bus to Gunyah RM bus for the subdevices
+>   - Cleaning up RM console
+> 
+> Changes in v4: https://lore.kernel.org/all/20220928195633.2348848-1-quic_eberman@quicinc.com/
+>   - Tidied up documentation throughout based on questions/feedback received
+>   - Switched message queue implementation to use mailboxes
+>   - Renamed "gunyah_device" as "gunyah_resource"
+> 
+> Changes in v3: https://lore.kernel.org/all/20220811214107.1074343-1-quic_eberman@quicinc.com/
+>   - /Maintained/Supported/ in MAINTAINERS
+>   - Tidied up documentation throughout based on questions/feedback received
+>   - Moved hypercalls into arch/arm64/gunyah/; following hyper-v's implementation
+>   - Drop opaque typedefs
+>   - Move sysfs nodes under /sys/hypervisor/gunyah/
+>   - Moved Gunyah console driver to drivers/tty/
+>   - Reworked gh_device design to drop the Gunyah bus.
+> 
+> Changes in v2: https://lore.kernel.org/all/20220801211240.597859-1-quic_eberman@quicinc.com/
+>   - DT bindings clean up
+>   - Switch hypercalls to follow SMCCC
+> 
+> v1: https://lore.kernel.org/all/20220223233729.1571114-1-quic_eberman@quicinc.com/
+> 
+> Elliot Berman (24):
+>    dt-bindings: Add binding for gunyah hypervisor
+>    gunyah: Common types and error codes for Gunyah hypercalls
+>    virt: gunyah: Add hypercalls to identify Gunyah
+>    virt: gunyah: msgq: Add hypercalls to send and receive messages
+>    mailbox: Add Gunyah message queue mailbox
+>    gunyah: rsc_mgr: Add resource manager RPC core
+>    gunyah: rsc_mgr: Add VM lifecycle RPC
+>    gunyah: vm_mgr: Introduce basic VM Manager
+>    gunyah: rsc_mgr: Add RPC for sharing memory
+>    gunyah: vm_mgr: Add/remove user memory regions
+>    gunyah: vm_mgr: Add ioctls to support basic non-proxy VM boot
+>    samples: Add sample userspace Gunyah VM Manager
+>    gunyah: rsc_mgr: Add platform ops on mem_lend/mem_reclaim
+>    virt: gunyah: Add Qualcomm Gunyah platform ops
+>    docs: gunyah: Document Gunyah VM Manager
+>    virt: gunyah: Translate gh_rm_hyp_resource into gunyah_resource
+>    gunyah: vm_mgr: Add framework for VM Functions
+>    virt: gunyah: Add resource tickets
+>    virt: gunyah: Add IO handlers
+>    virt: gunyah: Add proxy-scheduled vCPUs
+>    virt: gunyah: Add hypercalls for sending doorbell
+>    virt: gunyah: Add irqfd interface
+>    virt: gunyah: Add ioeventfd
+>    MAINTAINERS: Add Gunyah hypervisor drivers section
+> 
+>   .../bindings/firmware/gunyah-hypervisor.yaml  |  82 ++
+>   .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+>   Documentation/virt/gunyah/index.rst           |   1 +
+>   Documentation/virt/gunyah/message-queue.rst   |   8 +
+>   Documentation/virt/gunyah/vm-manager.rst      | 142 +++
+>   MAINTAINERS                                   |  13 +
+>   arch/arm64/Kbuild                             |   1 +
+>   arch/arm64/gunyah/Makefile                    |   3 +
+>   arch/arm64/gunyah/gunyah_hypercall.c          | 140 +++
+>   arch/arm64/include/asm/gunyah.h               |  24 +
+>   drivers/mailbox/Makefile                      |   2 +
+>   drivers/mailbox/gunyah-msgq.c                 | 212 ++++
+>   drivers/virt/Kconfig                          |   2 +
+>   drivers/virt/Makefile                         |   1 +
+>   drivers/virt/gunyah/Kconfig                   |  59 ++
+>   drivers/virt/gunyah/Makefile                  |  11 +
+>   drivers/virt/gunyah/gunyah_ioeventfd.c        | 130 +++
+>   drivers/virt/gunyah/gunyah_irqfd.c            | 180 ++++
+>   drivers/virt/gunyah/gunyah_platform_hooks.c   |  80 ++
+>   drivers/virt/gunyah/gunyah_qcom.c             | 147 +++
+>   drivers/virt/gunyah/gunyah_vcpu.c             | 468 +++++++++
+>   drivers/virt/gunyah/rsc_mgr.c                 | 910 ++++++++++++++++++
+>   drivers/virt/gunyah/rsc_mgr.h                 |  19 +
+>   drivers/virt/gunyah/rsc_mgr_rpc.c             | 500 ++++++++++
+>   drivers/virt/gunyah/vm_mgr.c                  | 794 +++++++++++++++
+>   drivers/virt/gunyah/vm_mgr.h                  |  70 ++
+>   drivers/virt/gunyah/vm_mgr_mm.c               | 256 +++++
+>   include/linux/gunyah.h                        | 207 ++++
+>   include/linux/gunyah_rsc_mgr.h                | 162 ++++
+>   include/linux/gunyah_vm_mgr.h                 | 126 +++
+>   include/uapi/linux/gunyah.h                   | 293 ++++++
+>   samples/Kconfig                               |  10 +
+>   samples/Makefile                              |   1 +
+>   samples/gunyah/.gitignore                     |   2 +
+>   samples/gunyah/Makefile                       |   6 +
+>   samples/gunyah/gunyah_vmm.c                   | 270 ++++++
+>   samples/gunyah/sample_vm.dts                  |  68 ++
+>   37 files changed, 5401 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>   create mode 100644 Documentation/virt/gunyah/vm-manager.rst
+>   create mode 100644 arch/arm64/gunyah/Makefile
+>   create mode 100644 arch/arm64/gunyah/gunyah_hypercall.c
+>   create mode 100644 arch/arm64/include/asm/gunyah.h
+>   create mode 100644 drivers/mailbox/gunyah-msgq.c
+>   create mode 100644 drivers/virt/gunyah/Kconfig
+>   create mode 100644 drivers/virt/gunyah/Makefile
+>   create mode 100644 drivers/virt/gunyah/gunyah_ioeventfd.c
+>   create mode 100644 drivers/virt/gunyah/gunyah_irqfd.c
+>   create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
+>   create mode 100644 drivers/virt/gunyah/gunyah_qcom.c
+>   create mode 100644 drivers/virt/gunyah/gunyah_vcpu.c
+>   create mode 100644 drivers/virt/gunyah/rsc_mgr.c
+>   create mode 100644 drivers/virt/gunyah/rsc_mgr.h
+>   create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
+>   create mode 100644 drivers/virt/gunyah/vm_mgr.c
+>   create mode 100644 drivers/virt/gunyah/vm_mgr.h
+>   create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
+>   create mode 100644 include/linux/gunyah.h
+>   create mode 100644 include/linux/gunyah_rsc_mgr.h
+>   create mode 100644 include/linux/gunyah_vm_mgr.h
+>   create mode 100644 include/uapi/linux/gunyah.h
+>   create mode 100644 samples/gunyah/.gitignore
+>   create mode 100644 samples/gunyah/Makefile
+>   create mode 100644 samples/gunyah/gunyah_vmm.c
+>   create mode 100644 samples/gunyah/sample_vm.dts
+> 
+> 
+> base-commit: c8c655c34e33544aec9d64b660872ab33c29b5f1
+> prerequisite-patch-id: b48c45acdec06adf37e09fe35e6a9412c5784800
+> prerequisite-patch-id: bc27499c7652385c584424529edbc5781c074d68
 
-Kind regards,
-Ivan Orlov.
+-- 
+With best wishes
+Dmitry
+
