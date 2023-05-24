@@ -2,219 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D31C77B7A
-	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 16:01:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B69C7EE2E
+	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 16:10:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238275AbjEXQBy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 May 2023 12:01:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55128 "EHLO
+        id S231805AbjEXQKa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 May 2023 12:10:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238427AbjEXQBS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 12:01:18 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E45C186;
-        Wed, 24 May 2023 09:00:44 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-53eee18a192so426895a12.3;
-        Wed, 24 May 2023 09:00:44 -0700 (PDT)
+        with ESMTP id S235528AbjEXQKY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 12:10:24 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25BF3E4B
+        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 09:10:19 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3f6042d60b5so12916585e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 09:10:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684944039; x=1687536039;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1684944618; x=1687536618;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ex5RgcOGAy76xADxIoHPP5AhCcNedegsTMiHxYneYvA=;
-        b=AESaB1MjaCZtF0RCoh9e77N5vnrWapnBypJL1aCtjHEnEZb14XPLFFeEJGplihdCB9
-         xcEovBnrNPwzC7actG2PNYtsxUMNUvPyjKjRRUrpLAdhSU5qs/L1njJWvayRfHp6l+gz
-         DqdY/B8iS7/N4Cz3Mh8phN8N4jdj1+hGp50cUv08D3FxbcIRaj092Fo6DNoRQFZ2kjEG
-         FdlR6Vkl83wdnxOKU0/1vIWWJhcfMA+VF0M9QMBpwhVsYaADIYuYWXvuGLJxUk/v3JW0
-         4nYEjVSCl7hMOEonBURtneMlQ5nePBIVU79XIPcNi5N5riSozrlNxKYUZdorCfnJ7/CW
-         cgpg==
+        bh=68APWrLI/lODKmNHwIM0ukcJpP1wefTEFp5Sr6qhG9I=;
+        b=j2kolavyACh6gqcIimKmP/K323GslHL3Lyhf27xsdVH5SvQyk6YU5cyIUgIa7CWdfM
+         IlQ03hhq0lnlMnPG/3ePrr01OcmHUx1+OugHMAf4QlTlh7UbylwGNhmBzZQNBJXMmsnW
+         ybyc0ViCZdVLv0NZtJCg2d4WnpsW5zwDAiueQ6pN8q92EMPegJQJYQXU9tc0REspucvy
+         LOJC398nCw4dAkszxjwPnhrdajF12s4RD+k+LDS+3fekoJDAWB1bUIc515Sn32yTik13
+         zpWHi9kTAgEk02cpRrrv/gbY+tV9ofqtJlQjsG2UfFcSrdKy6tAySVVDGuqPoi5W9rTy
+         xMqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684944039; x=1687536039;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1684944618; x=1687536618;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ex5RgcOGAy76xADxIoHPP5AhCcNedegsTMiHxYneYvA=;
-        b=O4ZkO9fo0HPxLE0x6WK4gELXFwuhQ/lwwb9tCxR+96tyMFMTw/WzJWZZYPizfebulr
-         v0EfS8cqlV8kjRKBcVcTeNUKYXHl4qqJ5JbcGkNHxjD85bf0dPi4dXVO7hv5ifGyp6A6
-         lA7E7umWcuB77x2zGsgSj6z9R7TjpKD0ByXUHLJGxowcI+yMRne/o1vAIxGeF+TXw+lt
-         TeYobUjLkZdLvHjilrGSXU4w4kxSNl26vqDMQb+mnnPvtBUM4q6FPiUIcdizxjz7fG2z
-         lmHPyJAn/OKX3BB9uLs6E2BddvaAGK297z4UpWGJWe5cshRt4nB5HspI4xMyGLBwyftq
-         FZnw==
-X-Gm-Message-State: AC+VfDxaKO+lgZPfBBmPvd5lXgQlHXY8+VP4TbVJlyOY5q7QedrpNkjp
-        kCk9J75ZD8xAQdEMzXcuJdQ=
-X-Google-Smtp-Source: ACHHUZ7onA/29uMKwZvh+T+iC1Z1taVKK6Wncz/arA/4C9WyRm6daOgouT46veHHvrkbpt6hDF5Vwg==
-X-Received: by 2002:a17:902:748c:b0:1a9:21bc:65f8 with SMTP id h12-20020a170902748c00b001a921bc65f8mr16308136pll.11.1684944039060;
-        Wed, 24 May 2023 09:00:39 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
-        by smtp.gmail.com with ESMTPSA id e16-20020a17090301d000b001afccb29d69sm3698533plh.303.2023.05.24.09.00.38
+        bh=68APWrLI/lODKmNHwIM0ukcJpP1wefTEFp5Sr6qhG9I=;
+        b=ctvftOu4/EF55iVqBdyvVbmYEIPt/BURU4k53QreVcA7dZd5OpYll8x3pyoud0xLGj
+         TjJKJpvmaXP3ikvb80o/5EvtD9K7RjtU754i+60gcqC1kqa2HaK0qggzqwz1svm3yfFN
+         oKWrREg9JtUKh9xXCAXmvtfmsbcSM/ZvtO36tLGIGTgvdCChy0nKQK3m47TGx8Q7R/UO
+         WNdcmBwcgx58MBkOpc4ayYjlbTebn3+9DyczJjm7+Bdty8jq2wLZhizpETYD2xOea8kY
+         abfNXkobqt0qhQiODF74uPS2TRBV1j7wZ/jRsaY69+Erib9U9CPsO3z/1Aj+i1TBhr01
+         0wgQ==
+X-Gm-Message-State: AC+VfDxz3YzUFQ6iMbfC+cp9+VEwNgZDgXJJkMaB+ihGX46kdAeobqbh
+        +6B74z7hEKWbHCduewDSeSHjQw==
+X-Google-Smtp-Source: ACHHUZ7Hc7E2ydGg0YS+yWHxWltrgPKxcLAgicQOx2yuY8MZwOAy2cFJzu+reC17VIzNrkvp2fr0Hg==
+X-Received: by 2002:a05:600c:224a:b0:3f6:53a:6665 with SMTP id a10-20020a05600c224a00b003f6053a6665mr239012wmm.19.1684944618231;
+        Wed, 24 May 2023 09:10:18 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id v7-20020a05600c214700b003f4f89bc48dsm2865399wml.15.2023.05.24.09.10.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 May 2023 09:00:38 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
+        Wed, 24 May 2023 09:10:17 -0700 (PDT)
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+To:     dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>
 Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
         Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
         Boris Brezillon <boris.brezillon@collabora.com>,
         Christopher Healy <healych@amazon.com>,
         Emil Velikov <emil.l.velikov@gmail.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
         Rob Clark <robdclark@chromium.org>,
-        Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org,
+        Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
         Dave Airlie <airlied@redhat.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v5 7/7] drm/doc: Relax fdinfo string constraints
-Date:   Wed, 24 May 2023 08:59:37 -0700
-Message-Id: <20230524155956.382440-8-robdclark@gmail.com>
-X-Mailer: git-send-email 2.40.1
+        Guchun Chen <guchun.chen@amd.com>,
+        Jim Cromie <jim.cromie@gmail.com>,
+        Lijo Lazar <lijo.lazar@amd.com>, linux-arm-msm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?utf-8?q?Marek_Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+        Mario Limonciello <mario.limonciello@amd.com>,
+        =?utf-8?q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+        Sean Paul <sean@poorly.run>,
+        Shashank Sharma <shashank.sharma@amd.com>,
+        Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+        YiPeng Chai <YiPeng.Chai@amd.com>
 In-Reply-To: <20230524155956.382440-1-robdclark@gmail.com>
 References: <20230524155956.382440-1-robdclark@gmail.com>
+Subject: Re: [PATCH v5 0/7] drm: fdinfo memory stats
+Message-Id: <168494461705.3403386.1668654169323555925.b4-ty@linaro.org>
+Date:   Wed, 24 May 2023 18:10:17 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+Hi,
 
-The restriction about no whitespace, etc, really only applies to the
-usage of strings in keys.  Values can contain anything (other than
-newline).
+On Wed, 24 May 2023 08:59:30 -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Similar motivation to other similar recent attempt[1].  But with an
+> attempt to have some shared code for this.  As well as documentation.
+> 
+> It is probably a bit UMA-centric, I guess devices with VRAM might want
+> some placement stats as well.  But this seems like a reasonable start.
+> 
+> [...]
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Acked-by: Dave Airlie <airlied@redhat.com>
----
- Documentation/gpu/drm-usage-stats.rst | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index d012eb56885e..fe35a291ff3e 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -17,41 +17,42 @@ wherever possible effort should still be made to standardise as much as
- possible.
- 
- File format specification
- =========================
- 
- - File shall contain one key value pair per one line of text.
- - Colon character (`:`) must be used to delimit keys and values.
- - All keys shall be prefixed with `drm-`.
- - Whitespace between the delimiter and first non-whitespace character shall be
-   ignored when parsing.
--- Neither keys or values are allowed to contain whitespace characters.
-+- Keys are not allowed to contain whitespace characters.
- - Numerical key value pairs can end with optional unit string.
- - Data type of the value is fixed as defined in the specification.
- 
- Key types
- ---------
- 
- 1. Mandatory, fully standardised.
- 2. Optional, fully standardised.
- 3. Driver specific.
- 
- Data types
- ----------
- 
- - <uint> - Unsigned integer without defining the maximum value.
--- <str> - String excluding any above defined reserved characters or whitespace.
-+- <keystr> - String excluding any above defined reserved characters or whitespace.
-+- <valstr> - String.
- 
- Mandatory fully standardised keys
- ---------------------------------
- 
--- drm-driver: <str>
-+- drm-driver: <valstr>
- 
- String shall contain the name this driver registered as via the respective
- `struct drm_driver` data structure.
- 
- Optional fully standardised keys
- --------------------------------
- 
- Identification
- ^^^^^^^^^^^^^^
- 
-@@ -68,62 +69,62 @@ to the in kernel representation of `struct drm_file` instances.
- 
- Uniqueness of the value shall be either globally unique, or unique within the
- scope of each device, in which case `drm-pdev` shall be present as well.
- 
- Userspace should make sure to not double account any usage statistics by using
- the above described criteria in order to associate data to individual clients.
- 
- Utilization
- ^^^^^^^^^^^
- 
--- drm-engine-<str>: <uint> ns
-+- drm-engine-<keystr>: <uint> ns
- 
- GPUs usually contain multiple execution engines. Each shall be given a stable
--and unique name (str), with possible values documented in the driver specific
-+and unique name (keystr), with possible values documented in the driver specific
- documentation.
- 
- Value shall be in specified time units which the respective GPU engine spent
- busy executing workloads belonging to this client.
- 
- Values are not required to be constantly monotonic if it makes the driver
- implementation easier, but are required to catch up with the previously reported
- larger value within a reasonable period. Upon observing a value lower than what
- was previously read, userspace is expected to stay with that larger previous
- value until a monotonic update is seen.
- 
--- drm-engine-capacity-<str>: <uint>
-+- drm-engine-capacity-<keystr>: <uint>
- 
- Engine identifier string must be the same as the one specified in the
--drm-engine-<str> tag and shall contain a greater than zero number in case the
-+drm-engine-<keystr> tag and shall contain a greater than zero number in case the
- exported engine corresponds to a group of identical hardware engines.
- 
- In the absence of this tag parser shall assume capacity of one. Zero capacity
- is not allowed.
- 
--- drm-cycles-<str>: <uint>
-+- drm-cycles-<keystr>: <uint>
- 
- Engine identifier string must be the same as the one specified in the
--drm-engine-<str> tag and shall contain the number of busy cycles for the given
-+drm-engine-<keystr> tag and shall contain the number of busy cycles for the given
- engine.
- 
- Values are not required to be constantly monotonic if it makes the driver
- implementation easier, but are required to catch up with the previously reported
- larger value within a reasonable period. Upon observing a value lower than what
- was previously read, userspace is expected to stay with that larger previous
- value until a monotonic update is seen.
- 
--- drm-maxfreq-<str>: <uint> [Hz|MHz|KHz]
-+- drm-maxfreq-<keystr>: <uint> [Hz|MHz|KHz]
- 
- Engine identifier string must be the same as the one specified in the
--drm-engine-<str> tag and shall contain the maximum frequency for the given
--engine.  Taken together with drm-cycles-<str>, this can be used to calculate
--percentage utilization of the engine, whereas drm-engine-<str> only reflects
-+drm-engine-<keystr> tag and shall contain the maximum frequency for the given
-+engine.  Taken together with drm-cycles-<keystr>, this can be used to calculate
-+percentage utilization of the engine, whereas drm-engine-<keystr> only reflects
- time active without considering what frequency the engine is operating as a
- percentage of it's maximum frequency.
- 
- Memory
- ^^^^^^
- 
- - drm-memory-<region>: <uint> [KiB|MiB]
- 
- Each possible memory type which can be used to store buffer objects by the
- GPU in question shall be given a stable and unique name to be returned as the
+[1/7] drm/docs: Fix usage stats typos
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0020582a8afe9a8570f80ec503c59bf049a616de
+[2/7] drm: Add common fdinfo helper
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3f09a0cd4ea3b9d34495450d686227d48e7ec648
+[3/7] drm/msm: Switch to fdinfo helper
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=51d86ee5e07ccef85af04ee9850b0baa107999b6
+[4/7] drm/amdgpu: Switch to fdinfo helper
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=376c25f8ca47084c4f0aff0f14684780756ccef4
+[5/7] drm: Add fdinfo memory stats
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=686b21b5f6ca2f8a716f9a4ade07246dbfb2713e
+[6/7] drm/msm: Add memory stats to fdinfo
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3e9757f5ddb98238226ad68a1609aa313de35adb
+[7/7] drm/doc: Relax fdinfo string constraints
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=90d63a150b85fd1debb9c01237fb78faee02746a
+
 -- 
-2.40.1
+Neil
 
