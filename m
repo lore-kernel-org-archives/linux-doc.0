@@ -2,163 +2,226 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F160C77B7C
-	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 17:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F27C7EE2D
+	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 17:49:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229996AbjEXRSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 May 2023 13:18:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42144 "EHLO
+        id S233755AbjEXRtU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 May 2023 13:49:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjEXRS3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 13:18:29 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B038FBB
-        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 10:18:27 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3f423521b10so10498975e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 10:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684948706; x=1687540706;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DL0229BoBpNJOI+Nzjlz2oCun7fW2ym7znDfwinMLQM=;
-        b=jj0MwJzaDakiH6V2M55C66XVl7NKA/xqDkbt9zy8hCStHwIC07N6BsrjPdXP5v/oz3
-         yyEjZTqPdYj1Hd1mh7Z2t+8ZRUmwNnEwmEtXsn7Xhbau9CKn4Bv7ID1J2sSdfPpv/9q1
-         XqVNWUrY9dRw4meJnYIURwZRSAWf91CnFX71DqXYLOv71cRiBeOZ24doCwOmrLc1xbr3
-         EweDp3dVMlVDixurzRWNZYFox3mtuHH1o1/1KueqwZzfcsgUdn8ZfTsfi6V8khLGv6fo
-         +qiLB3uBSHIPkqkZXw2Py8TFkrlx75CbG+crEAkMJY7WAcV8Y0E0a8GBYMmRn8afGhY6
-         b2Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684948706; x=1687540706;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DL0229BoBpNJOI+Nzjlz2oCun7fW2ym7znDfwinMLQM=;
-        b=B8lAJWRx1wG3CIGRysueLFhZ1GPz/3Aoc43LsoPml1Ol8P03wUh9k6VlGs3IHS8TUG
-         t39YR1N6A77bT90O4z9bTxlRrsggHeaifvm6BMAtq2Gqdde9wp6KF1ZvpI+AEknvyvSf
-         FBxTG6r8tfkYDAIEuEMYCj4QeHjoMqBc2JY+pvWjOI9SCsrw+B1ApbfzVwOBSng8y6E/
-         qw5Cilh11Ana7dYJe2pwfrAffGYd7HNDlboQevBaL6IJDFw7Ooak6QAyWbNp2ZdZG3Jh
-         6nRi0rjC2otgMTd3sKhr/dq+Ar94VEuH7HorCpEmDviEdvunJdJZlmhruyzvfEFolf+0
-         G26Q==
-X-Gm-Message-State: AC+VfDxhjqZM5/CJFOLlVvTh7Efc272kJ7nhSCITeoCexF96ZonP4cO3
-        6CsDq0X1KSQjB1iXBz4Snl8jqw==
-X-Google-Smtp-Source: ACHHUZ7EtdSlJtb5r5XsSMh9tkQ/f0DDFMNu9ia48hiYqe6yWGQPoYuj/WNNHA1F/l+o3arN16XDbA==
-X-Received: by 2002:a05:600c:3783:b0:3f6:3486:1396 with SMTP id o3-20020a05600c378300b003f634861396mr346875wmr.33.1684948706082;
-        Wed, 24 May 2023 10:18:26 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
-        by smtp.gmail.com with ESMTPSA id i2-20020a05600c290200b003eddc6aa5fasm2917304wmd.39.2023.05.24.10.18.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 May 2023 10:18:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-        by zen.linaroharston (Postfix) with ESMTP id 456A41FFBB;
-        Wed, 24 May 2023 18:18:25 +0100 (BST)
-References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
-User-agent: mu4e 1.11.6; emacs 29.0.91
-From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        with ESMTP id S232199AbjEXRtT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 13:49:19 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C0F8D3;
+        Wed, 24 May 2023 10:49:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=6wNxw+nducg4EyIUz4whyVHInx2gaaIUR5Txh0QLUdM=; b=Ax930C8zsyJklztV6uvrnNZBHy
+        2qM/RnIANtcIKaqE4wABLMFsgYAG96YhxokTN4lGILdq5iMN4uJo0y/pwykuIhfrGULe/4liiBe59
+        YTeM0DtLDc3nS5/ziY431sQcKQFdu7w1S67AX1MK+GdCnqnzaw/GdJ4Da56/ZcVfVD74O1pM6w1J1
+        Ial9Xt818ZsNV/atXzq24OO1HHEqa6mYjkmdhZIolEAu3VOd/s4b1xGNyJ1crDRfW2+YntsRuVihp
+        oufE8A7WzM3obXJXSnpSMtb7UUmKBOW1wyKd95xy1zW8NlRqd4mgQwD0wF/iIXObXjdj91J4/za7e
+        MTO+wqnQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1q1sbp-00EFuy-1R;
+        Wed, 24 May 2023 17:49:13 +0000
+Date:   Wed, 24 May 2023 10:49:13 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Yujie Liu <yujie.liu@intel.com>
+Cc:     oe-lkp@lists.linux.dev, lkp@intel.com,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v13 00/24] Drivers for Gunyah hypervisor
-Date:   Wed, 24 May 2023 18:13:16 +0100
-In-reply-to: <20230509204801.2824351-1-quic_eberman@quicinc.com>
-Message-ID: <87cz2pveam.fsf@linaro.org>
+        linux-modules@vger.kernel.org
+Subject: Re: [linus:master] [module] 8660484ed1:
+ WARNING:at_kernel/module/dups.c:#kmod_dup_request_exists_wait
+Message-ID: <ZG5OGRDfIbMs6sxz@bombadil.infradead.org>
+References: <202305221508.753c7b78-yujie.liu@intel.com>
+ <ZG2doZJrCK7Nlrqf@bombadil.infradead.org>
+ <ZG3Ho7eK+KqoAdda@yujie-X299>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZG3Ho7eK+KqoAdda@yujie-X299>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, May 24, 2023 at 04:15:31PM +0800, Yujie Liu wrote:
+> Hi Luis,
+> 
+> On Tue, May 23, 2023 at 10:16:17PM -0700, Luis Chamberlain wrote:
+> > On Mon, May 22, 2023 at 03:51:59PM +0800, kernel test robot wrote:
+> > > Hello,
+> > > 
+> > > kernel test robot noticed "WARNING:at_kernel/module/dups.c:#kmod_dup_request_exists_wait" on:
+> > > 
+> > > commit: 8660484ed1cf3261e89e0bad94c6395597e87599 ("module: add debugging auto-load duplicate module support")
+> > > https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
+> > > 
+> > > [test failed on linux-next/master 798d276b39e984345d52b933a900a71fa0815928]
+> > > 
+> > > in testcase: boot
+> > > 
+> > > compiler: gcc-11
+> > > test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+> > > 
+> > > (please refer to attached dmesg/kmsg for entire log/backtrace)
+> > > 
+> > > 
+> > > We are not sure if this is expected as this patch is for debugging
+> > > duplicate module requests issues, so we are sending this report for
+> > > your information. Thanks.
+> > > 
+> > > 
+> > > If you fix the issue, kindly add following tag
+> > > | Reported-by: kernel test robot <yujie.liu@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-lkp/202305221508.753c7b78-yujie.liu@intel.com
+> > > 
+> > > 
+> > > [   48.705567][    T1] ------------[ cut here ]------------
+> > > [   48.706519][    T1] module-autoload: duplicate request for module intel_qat
+> > > [ 48.707866][ T1] WARNING: CPU: 0 PID: 1 at kernel/module/dups.c:183 kmod_dup_request_exists_wait (kernel/module/dups.c:183 (discriminator 1)) 
+> > 
+> > This is a real issue since CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS_TRACE was enabled.
+> > If you enable CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS_TRACE and these warnings
+> > come up a bette detailed report would be better. In this case the goal
+> > was to capture races of request_module() and so the idea for developers
+> > is to identify the module that caused this, in this case intel_qat, and
+> > then see who called the request_module() for it. They could try things
+> > like try_module_get(), but could also ensure that multiple requests
+> > won't be done in the code by using locking schemes or whatever. Only
+> > one request should be issued.
+> > 
+> > The trace below would show possible users but I don't even see
+> > drivers/crypto/qat/qat_c3xxx/adf_drv.c in my kernel tree.
+> > 
+> > If you don't to deal with this reporting you can just disable this
+> > config option.
+> 
+> Thanks a lot for the information. Does this indicate that there is
+> indeed a multiple requests issue in that crypto driver and we could
+> report to its author/owner? Thanks.
 
-Elliot Berman <quic_eberman@quicinc.com> writes:
+Not for the crypto driver, there are multiple requests for
+something like:
 
-> Gunyah is a Type-1 hypervisor independent of any
-> high-level OS kernel, and runs in a higher CPU privilege level. It does
-> not depend on any lower-privileged OS kernel/code for its core
-> functionality. This increases its security and can support a much smaller
-> trusted computing base than a Type-2 hypervisor.
->
-<snip>
->
-> The series relies on two other patches posted separately:
->  - https://lore.kernel.org/all/20230213181832.3489174-1-quic_eberman@quic=
-inc.com/
->  -
-> https://lore.kernel.org/all/20230213232537.2040976-2-quic_eberman@quicinc=
-.com/
+  request_module("intel_qat")
 
-I couldn't find this one, but is this what it should have been:
+the trace shows who it could be. A git grep shows:
 
-  b4 am -S -t 20230213232537.2040976-1-quic_eberman@quicinc.com
-  Grabbing thread from lore.kernel.org/all/20230213232537.2040976-1-quic_eb=
-erman%40quicinc.com/t.mbox.gz
-  Analyzing 9 messages in the thread
-  Checking attestation on all messages, may take a moment...
-  ---
-    =E2=9C=93 [PATCH 1/3] mailbox: Allow direct registration to a channel
-      + Tested-by: Sudeep Holla <sudeep.holla@arm.com>
-    =E2=9C=93 [PATCH 2/3] mailbox: omap: Use mbox_bind_client
-      + Tested-by: Sudeep Holla <sudeep.holla@arm.com>
-    =E2=9C=93 [PATCH 3/3] mailbox: pcc: Use mbox_bind_client
-      + Tested-by: Sudeep Holla <sudeep.holla@arm.com>
-    ---
-    =E2=9C=93 Signed: DKIM/quicinc.com
-  ---
-  Total patches: 3
-  ---
-  Cover: ./20230213_quic_eberman_mailbox_allow_direct_registration_to_a_cha=
-nnel.cover
-   Link: https://lore.kernel.org/r/20230213232537.2040976-1-quic_eberman@qu=
-icinc.com
-   Base: base-commit 09e41676e35ab06e4bce8870ea3bf1f191c3cb90 not known, ig=
-noring
-   Base: applies clean to current tree
-         git checkout -b 20230213_quic_eberman_quicinc_com HEAD
-         git am ./20230213_quic_eberman_mailbox_allow_direct_registration_t=
-o_a_channel.mbx
-  =F0=9F=95=9918:10:45 alex@zen:linux.git  on =EE=82=A0 review/gunyah-v12 [=
-$?]=20
-  =E2=9E=9C  git am 20230213_quic_eberman_mailbox_allow_direct_registration=
-_to_a_channel.mbx=20
-  Applying: mailbox: Allow direct registration to a channel
-  Applying: mailbox: omap: Use mbox_bind_client
-  Applying: mailbox: pcc: Use mbox_bind_client
+git grep request_module | grep intel_qat
+drivers/crypto/intel/qat/qat_c3xxx/adf_drv.c: request_module("intel_qat");
+drivers/crypto/intel/qat/qat_c3xxxvf/adf_drv.c: request_module("intel_qat");
+drivers/crypto/intel/qat/qat_c62x/adf_drv.c: request_module("intel_qat");
+drivers/crypto/intel/qat/qat_c62xvf/adf_drv.c: request_module("intel_qat");
+drivers/crypto/intel/qat/qat_dh895xcc/adf_drv.c: request_module("intel_qat");
+drivers/crypto/intel/qat/qat_dh895xccvf/adf_drv.c: request_module("intel_qat");
 
+And so there should be one request issued, ideally.
 
-<snip>
->
-> Elliot Berman (24):
-<snip>
+Nothing bad happens of multiple request are sent, however duplicate
+requests means that you can end up userspace trying to load multiple
+requests just for one to be freed.
 
->   mailbox: Add Gunyah message queue mailbox
+This is not a serious bug.
 
-This patch touches a file that isn't in mainline which makes me wonder
-if I've missed another pre-requisite patch?
+Soon, I'll implement a solution so that even if duplicate requests get
+to userspace it won't trigger a duplicate load in-kernel, and therefore
+duplicate module loads won't have to free the extra ones. At that point
+this becomes less of an issue.
 
-<snip>
->  Documentation/virt/gunyah/message-queue.rst   |   8 +
-<snip>
+request_module() just calls to modprobe, and modprobe is supposed to
+check if a module is already loaded before trying finit_module(). If
+two duplicate requests end up calling modprobe though there is a small
+race that two concurrent finit_module() calls will happen as userspace
+would not have seen one load request going in before. The issue is that
+finit_module() uses vmalloc space multiple times for the size of the
+module, even if the module is a duplicate. One vmalloc space is for
+kernel_read*() call, the other is for the copy we want to keep around
+in kernel, the final copy. If module deeecompression is used another
+vmalloc is used. So in the worst case 3 vmallocs.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+A duplicate request could end up being failed only to find out a module
+is already loaded, and so about 2-3 times the size of vmalloc space of
+a module size could be free'd just due to a duplicate.
+
+We could avoid memory pressure proactively by trying to issue only one
+request out.
+
+CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS was added to detect these possible
+duplicates when they were triggered by module-autoloading, through the
+request_module() API, directly from the kernel. It turns out that there
+aren't many of these duplicates. That was the point to the exercise.
+To proove the kernel likely wasn't the one causing tons of duplicates.
+
+Because if you enable CONFIG_MODULE_STATS and then cat /sys/kernel/debug/modules/stats
+you will see tons of duplicates. This gets worse  by the number of CPUs
+you have. Seeing little reports of CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS
+proves the issue is elsewhere and at this point I'm certain this is
+coming from udev kmod library usage and it forking and not being able
+to detect the same context for the kmod library for loading modules,
+and so duplicate module request go out for tons of modules for each CPU.
+
+See commit 064f4536d13939 ("module: avoid allocation if module is
+already present and ready") for a graph of this.
+
+That commit also prevents having to do one vmalloc allocation if the
+module is already present. I'm going to work now on one which prevents
+the first, and so duplicates requests coming from either userspace or
+the module-autoloader should be harmless. But that is not merged yet,
+and I still have to post the patch.
+
+So in the meantime CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS_TRACE should only
+be enabled so to try to help those who wish to be proactive and want
+to enhance the kernel module auto-loader so to only issue one
+request_module() for a module needed by the kernel.
+
+Technically CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS also implements a
+way to unify requests for the same module into one, and they all
+share the same result, but this works only for non-async calls to
+request_module(). That config option is a debug mechanism right now,
+but we could make it default later.
+
+> Not sure if I undertand this correctly: enabling
+> CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS_TRACE can help detect multiple
+> requests issues in existing code, so we should report to the original
+> author of the modules that have this issue,
+
+It would be an optimization that they could make. It is not a serious
+bug. It would be a more serious bug if we had tons of these reports
+all over. But a few, no.
+
+Come to think of it, at this point in time CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS_TRACE
+should just be considered informational and debugging, no need to report
+anything to anyone becuase I do think I can get the vmalloc wasted
+space issue figured out for userspace and kernel module-autoloader,
+and so this becomes a non-issue at all. Yes, it would still be nice
+to reduce latencies by having duplicate requests not be issued, but
+the developers keen on that would enable CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS_TRACE.
+
+So I'd say enable CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS_TRACE only if
+you want to avoid help avoid duplicates yourself. The kconfig language
+already is a bit clear about that, but we could enhance it to explain
+the gains for developers who may want this. Since we can't talk about
+the future though in kconfig, I think the language now is OK.
+
+The bigger source of duplicates has been determined to come from
+userspace, I'll Cc you on a patch to fix the last vmalloc wasted
+space, so that this would never incur tons of wasted vmalloc space.
+
+I'd recommend for now to just disable CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS_TRACE
+unless you want to make the reports informational and describe the
+situation as I just did.
+
+Actually, could we talk soon about testing? Because I want to automate
+some more tests for modules with kdevops.
+
+> but shouldn't report on
+> this commit that introduces the CONFIG_MODULE_DEBUG_AUTOLOAD_DUPS_TRACE
+> option?
+
+Not sure I understand this question.
+
+  Luis
