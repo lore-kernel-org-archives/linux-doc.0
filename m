@@ -2,136 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB797C77B7C
-	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 02:20:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A611C77B7A
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 03:54:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231126AbjEYCUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 May 2023 22:20:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39316 "EHLO
+        id S236779AbjEYDyH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 May 2023 23:54:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237551AbjEYCT6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 22:19:58 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 569A112E;
-        Wed, 24 May 2023 19:19:57 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id a640c23a62f3a-96f7bf3cf9eso9037266b.0;
-        Wed, 24 May 2023 19:19:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684981196; x=1687573196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S52oQA0/VeO5+jyq6l06Dvqhz2AgZ7EQ+KLBmziYDnM=;
-        b=Fzva5FWVqV/5xC30wA4lZUgXN9VgTPyU6CQ26eRLuSjH1YI5JJZC+5cu5BTbuAOsYp
-         3BJ96JISVhpgwQDkT7WDf8xvGVcfwskKILfV/xGolHelLuERNyIRTn+Kp95wT5Ihp5yP
-         6t6uY6MUdalUBM5VYqm+0cblXix9FwkIG8TqrPITAPMIcfqQGHly4ueQvlyG5tpqDpz3
-         Suc2h/8cyiPmp8WHhwqfyeD0VxCyv5TZ0fFC846O1Yl1cmIf9rHCiTACZLvOMO8XfJW8
-         lmfZI9CNlEHaMqsOA6Q5YrjzW7r+3U8EJN9CZ8Qu6xbL+5iP18dwrdrq7r4ZqFdmm4J2
-         /4zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684981196; x=1687573196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S52oQA0/VeO5+jyq6l06Dvqhz2AgZ7EQ+KLBmziYDnM=;
-        b=M+vmHsSyRYvqeVKIkG4Ccg4dimEngzsc9r1iKIne3bFBqznG5BjXzqCuMweDHbjiRB
-         9cYcGcIeX+eibIeRhYTQN6h/pbTnSePxAQoR24kf3lB+3ac6iuzC4NWFa/44zzlCne1B
-         giguUitWQ3ImwBOZo/UmgaHzmJF3WAKyllzoLZLnxo7rRiVo78vXQRLl1/HvT0WOYSH8
-         COc9z1fHswKK9moHqmYtB6RQO4UTg7Ld+6s3CowE4aCvuB0/uASfhzgJfnguPIi0dR/s
-         Mspp+1HW9Ecz58BXx2M3JEkdmYLiIRmGImwNfbsOLixSaUQOZO+Jf4zSIsX9ILmRkQz4
-         h8Jg==
-X-Gm-Message-State: AC+VfDyRmJ4GxP3p2F0fWTa6BDIubcTRujXxNXT2NH1+pFuyoLwozNpv
-        GYkecdrN03IISLCik/RWsE5QJfyDTsubLK4r11o=
-X-Google-Smtp-Source: ACHHUZ71v53srzTdEIill3Ck8fMuSehVnushOsYQveW7RfM+JUszp/kGVTpAsuq7kxIjPbKV9pie9hagRqd+/UH6fqk=
-X-Received: by 2002:a17:906:6a0f:b0:969:e88a:6071 with SMTP id
- qw15-20020a1709066a0f00b00969e88a6071mr38037ejc.61.1684981195615; Wed, 24 May
- 2023 19:19:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230420104622.12504-1-ljrcore@126.com> <20230420104622.12504-8-ljrcore@126.com>
- <ZG6i3sqOcZDg/UCG@google.com>
-In-Reply-To: <ZG6i3sqOcZDg/UCG@google.com>
-From:   Jinrong Liang <ljr.kernel@gmail.com>
-Date:   Thu, 25 May 2023 10:19:44 +0800
-Message-ID: <CAFg_LQWdSnNOd+VwTu8pQezL7qaN=4L_YffHVQUQWJiV5U76wQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] KVM: selftests: Test pmu event filter with
- incompatible kvm_pmu_event_filter
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Like Xu <like.xu.linux@gmail.com>,
+        with ESMTP id S229680AbjEYDyD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 23:54:03 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE8AA139;
+        Wed, 24 May 2023 20:54:01 -0700 (PDT)
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34P3Be6x026169;
+        Thu, 25 May 2023 03:52:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=v6ZXU6gtBWqPvIHL/d+qw2nLh7zTm1pTEzgdqM8BY18=;
+ b=B6YqZS1jPqUF06BXEDrHfDzumBPLwVJwEDM6Mlu3IE2H6cUE7J6o6ibyuUr7Tzm/OaMs
+ hhautrhEj/2PGY+41qIPtpYoflgWRj/JHrKKa9zF8uUSpIAis0gld8gLLP+5xJWW1GMe
+ sX5+Xajub5MRLWHzRBG5eH/M/bUHF1GEUu7rxcIMZLxBXx/wlfZFX6cDKHX6px+mzpwm
+ kuLEs7WvC0qpOzkjLZTxIq9PsF/ZaNyTduC2Dxkedp6GGbQ4D0E1zA1TyvuZ0HZLdVXV
+ 5URnhC0WaDcCJ3qGCDSNvi50mCcjSmiVmP1CVeL0qUJlMWAvIaqH4Z7WiSQkdl5V8cea +A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qsyjagq7v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 25 May 2023 03:52:29 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34P3qS3q008921;
+        Thu, 25 May 2023 03:52:28 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qsyjagq71-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 25 May 2023 03:52:28 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34P0fMmO026389;
+        Thu, 25 May 2023 03:52:25 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3qppdk284d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 25 May 2023 03:52:25 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+        by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34P3qNT118350798
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 25 May 2023 03:52:23 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4097C20043;
+        Thu, 25 May 2023 03:52:23 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D2F4420040;
+        Thu, 25 May 2023 03:52:14 +0000 (GMT)
+Received: from li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com (unknown [9.109.216.99])
+        by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+        Thu, 25 May 2023 03:52:14 +0000 (GMT)
+Date:   Thu, 25 May 2023 09:22:12 +0530
+From:   Kautuk Consul <kconsul@linux.vnet.ibm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jinrong Liang <cloudliang@tencent.com>,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
+Message-ID: <ZG7bbAkRfHkBijZb@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
+ <ZGxo9ylqYI8JXjGn@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+ <ZGzLf4zgxpBjghaF@google.com>
+ <ZG2qv9sWl2RUnGqd@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+ <ZG5wg3VbG4rCYrfk@google.com>
+ <20230524203336.GC3447678@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230524203336.GC3447678@hirez.programming.kicks-ass.net>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: JMCMkBzE0_vErxya7Uw2ZgGvqaMed5tP
+X-Proofpoint-ORIG-GUID: bS2bLfFp6dr_ipd_3qmflAOTtlaGVqG_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-24_17,2023-05-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 phishscore=0 clxscore=1011 spamscore=0 adultscore=0
+ suspectscore=0 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=901 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2304280000 definitions=main-2305250027
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sean Christopherson <seanjc@google.com> =E4=BA=8E2023=E5=B9=B45=E6=9C=8825=
-=E6=97=A5=E5=91=A8=E5=9B=9B 07:50=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Thu, Apr 20, 2023, Jinrong Liang wrote:
-> > From: Jinrong Liang <cloudliang@tencent.com>
-> >
-> > From: Jinrong Liang <cloudliang@tencent.com>
-> >
-> > Add test to verify the behavior of the pmu event filter when an
-> > incomplete kvm_pmu_event_filter structure is used. By running the
-> > test, we can ensure that the pmu event filter correctly handles
-> > incomplete structures and does not allow events to be counted when
-> > they should not be.
-> >
-> > Signed-off-by: Jinrong Liang <cloudliang@tencent.com>
-> > ---
-> >  .../kvm/x86_64/pmu_event_filter_test.c        | 23 +++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> >
-> > diff --git a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c=
- b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-> > index 9be4c6f8fb7e..a6b6e0d086ae 100644
-> > --- a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-> > +++ b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-> > @@ -881,6 +881,24 @@ static bool fixed_ctr_is_allowed(uint8_t idx, uint=
-32_t action, uint32_t bitmap)
-> >               (action =3D=3D KVM_PMU_EVENT_DENY && !(bitmap & BIT_ULL(i=
-dx)));
-> >  }
-> >
-> > +struct incompatible_pmu_event_filter {
-> > +     __u32 action;
-> > +     __u32 nevents;
-> > +     __u32 fixed_counter_bitmap;
-> > +};
-> > +
-> > +static uint64_t test_incompatible_filter(struct kvm_vcpu *vcpu, uint32=
-_t action,
-> > +                                      uint32_t bitmap)
-> > +{
-> > +     struct incompatible_pmu_event_filter err_f;
-> > +
-> > +     err_f.action =3D action;
-> > +     err_f.fixed_counter_bitmap =3D bitmap;
-> > +     ioctl((vcpu->vm)->fd, KVM_SET_PMU_EVENT_FILTER, &err_f.action);
->
-> This is completely busted.  It "passes" by luck, not because it's a valid=
- test.
-> The size of the argument is embedded in the IOCTL number itself, which me=
-ans that
-> unless glibc is being very nice and using a macro + typeof + sizeof to sa=
-nity check
-> things, which I highly doubt is the case, this ioctl() is passing random =
-stack data,
-> a.k.a. garbage, to KVM.
->
-> In short, drop this patch.
+On 2023-05-24 22:33:36, Peter Zijlstra wrote:
+> On Wed, May 24, 2023 at 01:16:03PM -0700, Sean Christopherson wrote:
+> 
+> > Atomics aren't memory barriers on all architectures, e.g. see the various
+> > definitions of smp_mb__after_atomic().
+> > 
+> > Even if atomic operations did provide barriers, using an atomic would be overkill
+> > and a net negative.  On strongly ordered architectures like x86, memory barriers are
+> > just compiler barriers, whereas atomics may be more expensive. 
+> 
+> Not quite, smp_{r,w}mb() and smp_mb__{before,after}_atomic() are
+> compiler barriers on the TSO archs, but smp_mb() very much isn't. TSO
+> still allows stores to be delayed vs later loads (iow it doesn't pretend
+> to hide the store buffer).
+> 
+> > Of course, the only
+> > accesses outside of mmu_lock are reads, so on x86 that "atomic" access is just a
+> > READ_ONCE() load, but that's not the case for all architectures.
+> 
+> This is true on *all* archs. atomic_set() and atomic_read() are no more
+> and no less than WRITE_ONCE() / READ_ONCE().
+> 
+> > Anyways, the point is that atomics and memory barriers are different things that
+> > serve different purposes.
+> 
+> This is true; esp. on the weakly ordered architectures where atomics do
+> not naturally imply any ordering.
 
-Thank you for letting us know about the issues with the patch. I will
-drop the patch as suggested. Would you advise me to prepare version 3
-to remove this patch?
+Thanks for the information, everyone.
