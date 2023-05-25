@@ -2,103 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67652C7EE2C
-	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 08:55:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB363C7EE29
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 10:31:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233661AbjEYIzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 May 2023 04:55:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42688 "EHLO
+        id S240925AbjEYKbM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 May 2023 06:31:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230389AbjEYIzM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 04:55:12 -0400
+        with ESMTP id S240752AbjEYKbL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 06:31:11 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0505798;
-        Thu, 25 May 2023 01:55:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A18B7E6;
+        Thu, 25 May 2023 03:31:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=4b2eicAEuLtRWdZtNZ5cHEIkzBFWO5fbGUCIkmElStA=; b=awjODk2fwPYTgmCI5gJmw6l9OT
-        webj8qbFiwu2EL0MRewtFXEC24of9u7MvAW5satunvNuK0PfsEXnHCvwZdPeVlmrsw6YlUMgskELw
-        WNFvHhYGq2vX1/nA3+RnT7Ewviy63PEB/VQJlSpqkZNlmRE6hBD+qKC25FfdB8cV/yZPZ6qBNLpBo
-        en8dqOWQjXH3kLxP48mjho4LySuKy+LkE7/OcY26lmBWJY9wsywIRwmVJ4noS0NZY3hsyN8wzzxgY
-        eo9zRmZLXoe6kD+DKJ5sOgSpyhphRKbS6OSMZfY7OxgblBnBnlx+363WZE2cNfcb8tk/Pqg7uMSA3
-        iH5ae6cg==;
+        bh=2b0PecxjqDga2q+GYKiWoz11cnthWs1G0M5GzyNmn34=; b=mpUeLnCWo62XTpDTxX4burZAso
+        4r8I70jFGZVNknFGbGALewmKj5QyyPUMmDf6M1MerTWmgcKeUzUzEtXNEqaPjHyxCBnjAb3Lv70MZ
+        l7lvU1Mx4eAPduZLZX2QpZh+U1lTy6ByReO1PgmZlX8E/iTEE/ijH39fUttPtdqP/o/tzowIaiOeF
+        O0aQae7O5eq6uvs0Kg7tpmg/RNiZT6JSGFfKzy6eNymIVcT0hIlh6jkrpKYhbGwX6OJVtHYSd3YRk
+        vziECqTmVDnUrcqh0m3alPjvQFSM6x2fyvISqjodfjXw1qSa6YkSNFLTMiO3Udk2pb+JeKz2f/QTx
+        b49bAhdQ==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1q26jT-00C1Be-HE; Thu, 25 May 2023 08:54:03 +0000
+        id 1q28EF-00C6Pg-2p; Thu, 25 May 2023 10:29:55 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AA4AA3002F0;
-        Thu, 25 May 2023 10:54:00 +0200 (CEST)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 332303002C5;
+        Thu, 25 May 2023 12:29:46 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 3566720A78733; Thu, 25 May 2023 10:54:00 +0200 (CEST)
-Date:   Thu, 25 May 2023 10:54:00 +0200
+        id BE2BC24387C95; Thu, 25 May 2023 12:29:46 +0200 (CEST)
+Date:   Thu, 25 May 2023 12:29:46 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Kautuk Consul <kconsul@linux.vnet.ibm.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-Message-ID: <20230525085400.GP4253@hirez.programming.kicks-ass.net>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
- <ZGxo9ylqYI8JXjGn@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
- <ZGzLf4zgxpBjghaF@google.com>
- <ZG2qv9sWl2RUnGqd@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
- <ZG5wg3VbG4rCYrfk@google.com>
- <20230524203336.GC3447678@hirez.programming.kicks-ass.net>
- <ZG6EJoXbduApRsgV@google.com>
+To:     torvalds@linux-foundation.org
+Cc:     corbet@lwn.net, will@kernel.org, boqun.feng@gmail.com,
+        mark.rutland@arm.com, catalin.marinas@arm.com, dennis@kernel.org,
+        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-crypto@vger.kernel.org, sfr@canb.auug.org.au,
+        mpe@ellerman.id.au
+Subject: Re: [PATCH v3 08/11] slub: Replace cmpxchg_double()
+Message-ID: <20230525102946.GE38236@hirez.programming.kicks-ass.net>
+References: <20230515075659.118447996@infradead.org>
+ <20230515080554.453785148@infradead.org>
+ <20230524093246.GP83892@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZG6EJoXbduApRsgV@google.com>
+In-Reply-To: <20230524093246.GP83892@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 24, 2023 at 02:39:50PM -0700, Sean Christopherson wrote:
-> On Wed, May 24, 2023, Peter Zijlstra wrote:
-> > On Wed, May 24, 2023 at 01:16:03PM -0700, Sean Christopherson wrote:
-> > > Of course, the only accesses outside of mmu_lock are reads, so on x86 that
-> > > "atomic" access is just a READ_ONCE() load, but that's not the case for all
-> > > architectures.
-> > 
-> > This is true on *all* archs. atomic_set() and atomic_read() are no more
-> > and no less than WRITE_ONCE() / READ_ONCE().
+On Wed, May 24, 2023 at 11:32:47AM +0200, Peter Zijlstra wrote:
+> On Mon, May 15, 2023 at 09:57:07AM +0200, Peter Zijlstra wrote:
 > 
-> Ah, I take it s390's handcoded assembly routines are just a paranoid equivalents
-> and not truly special?  "l" and "st" do sound quite generic...
+> > @@ -3008,6 +3029,22 @@ static inline bool pfmemalloc_match(stru
+> >  }
+> >  
+> >  #ifndef CONFIG_SLUB_TINY
+> > +static inline bool
+> > +__update_cpu_freelist_fast(struct kmem_cache *s,
+> > +			   void *freelist_old, void *freelist_new,
+> > +			   unsigned long tid)
+> > +{
+> > +#ifdef system_has_freelist_aba
+> > +	freelist_aba_t old = { .freelist = freelist_old, .counter = tid };
+> > +	freelist_aba_t new = { .freelist = freelist_new, .counter = next_tid(tid) };
+> > +
+> > +	return this_cpu_cmpxchg_freelist(s->cpu_slab->freelist_tid.full,
+> > +					 old.full, new.full) == old.full;
+> > +#else
+> > +	return false;
+> > +#endif
+> > +}
+> > +
+> >  /*
+> >   * Check the slab->freelist and either transfer the freelist to the
+> >   * per cpu freelist or deactivate the slab.
+> > @@ -3359,11 +3396,7 @@ static __always_inline void *__slab_allo
+> >  		 * against code executing on this cpu *not* from access by
+> >  		 * other cpus.
+> >  		 */
+> > -		if (unlikely(!this_cpu_cmpxchg_double(
+> > -				s->cpu_slab->freelist, s->cpu_slab->tid,
+> > -				object, tid,
+> > -				next_object, next_tid(tid)))) {
+> > -
+> > +		if (unlikely(!__update_cpu_freelist_fast(s, object, next_object, tid))) {
+> >  			note_cmpxchg_failure("slab_alloc", s, tid);
+> >  			goto redo;
+> >  		}
+> > @@ -3736,11 +3769,7 @@ static __always_inline void do_slab_free
+> >  
+> >  		set_freepointer(s, tail_obj, freelist);
+> >  
+> > -		if (unlikely(!this_cpu_cmpxchg_double(
+> > -				s->cpu_slab->freelist, s->cpu_slab->tid,
+> > -				freelist, tid,
+> > -				head, next_tid(tid)))) {
+> > -
+> > +		if (unlikely(!__update_cpu_freelist_fast(s, freelist, head, tid))) {
+> >  			note_cmpxchg_failure("slab_free", s, tid);
+> >  			goto redo;
+> >  		}
+> 
+> This isn't right; the this_cpu_cmpxchg_double() was unconditional and
+> relied on the local_irq_save() fallback when no native cmpxchg128 is
+> present.
 
-Yep, compiler *should* generate the same with READ_ONCE/WRITE_ONCE.
+This then also means I need to look at this_cpu_cmpxchg128 and
+this_cpu_cmoxchg64 behaviour when we dont have the CPUID feature.
+
+Because current verions seem to assume the instruction is present.
