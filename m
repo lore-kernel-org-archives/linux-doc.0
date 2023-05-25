@@ -2,127 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34D5FC7EE2C
-	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 18:12:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC68C7EE2C
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 21:17:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236571AbjEYSMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 May 2023 14:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41190 "EHLO
+        id S236168AbjEYVRR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 May 2023 17:17:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233502AbjEYSMi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 14:12:38 -0400
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDCC8B6
-        for <linux-doc@vger.kernel.org>; Thu, 25 May 2023 11:12:36 -0700 (PDT)
-Received: by mail-pg1-x549.google.com with SMTP id 41be03b00d2f7-517c06c1a1bso1275653a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 May 2023 11:12:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685038356; x=1687630356;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3+IxoBoebOsPjsV+diUVwrxPrkn1mNdsKoZUJH//gMM=;
-        b=asq73AO5EW4oiv2rz/cLLjTKTOMfwul5iEyKEl8XBvFpZk1slUgRJeAxEZiuyOH1il
-         u6vWzpiV/+J0VP2thxrbC0sqUAY8L6T1NcUDmCBfLxl6d4IEhC0+Bjuld2ZOJpvagjNb
-         L0xcP0fnuRpHSql/df5vWdxhu0Td5JGTOmuAxT8GCskaoktlIhL8NaZwrJ53m1zmSJr8
-         MJnhsoTOl8hUPUXSB0Kkd+Ve89P/BiBAft9a1eXs7qZSCwL7jQbkiQIf3EGHP2Qv93he
-         vM1Br6nOaSA/7+oc7SgfBTLePi7DLwbUGNSJ95gGLU8ytW/gI9SPrOsgpeGiuJTdA0cg
-         jMTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685038356; x=1687630356;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3+IxoBoebOsPjsV+diUVwrxPrkn1mNdsKoZUJH//gMM=;
-        b=mAGqxvN53iJferlwnjcI/a/FORRjSqj+YgsgiCcuTkvAG3SveUQ7aDKyrWh0FpNvBq
-         gWpMi7F07sunFHLfMlhmVpK8Av7h5TbVKH2sXLB5/LD5yUvsTXcsRhXWEXXIwjwP1qSx
-         Qut4QHHPi8eJBjMv46S3GbKrItb3njDo9LPe7QNoxwpl0NpLlnB1JeJsQ1JF9ipkPnbA
-         zWjVRYVXr7nOc2wJ7x77rEXU5d8wCUPXvcWLzqr3FvryNI6/jBnP8s20rh5Wx4XIwnS2
-         aPLPDavoJdUpUHnEDfAZKRCZSFceQOKjiYs0P5GWARddV+1IR6E2YRKXQKC1VvyvzULP
-         KojA==
-X-Gm-Message-State: AC+VfDwf6/qShjokmUt4s9E+aPDeh8wxFP9dWFdPDFPFoHJnuRHePG+y
-        SUN+tNC3T4VEFRVjhjq5ST03DrdKmm4=
-X-Google-Smtp-Source: ACHHUZ6bh9fTP225CcehXePeNmklaWj/m62wIsPxSDwvjGLsrPGwpHJr1bq64xWWbip8kwiimsbB77Woop4=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a65:5b45:0:b0:53f:265a:a662 with SMTP id
- y5-20020a655b45000000b0053f265aa662mr691222pgr.4.1685038356418; Thu, 25 May
- 2023 11:12:36 -0700 (PDT)
-Date:   Thu, 25 May 2023 11:12:34 -0700
-In-Reply-To: <20230420104622.12504-7-ljrcore@126.com>
-Mime-Version: 1.0
-References: <20230420104622.12504-1-ljrcore@126.com> <20230420104622.12504-7-ljrcore@126.com>
-Message-ID: <ZG+lEmoiJqB9H5tg@google.com>
-Subject: Re: [PATCH v2 6/7] KVM: selftests: Check gp event filters without
- affecting fixed event filters
-From:   Sean Christopherson <seanjc@google.com>
-To:     Jinrong Liang <ljr.kernel@gmail.com>
-Cc:     Like Xu <like.xu.linux@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jinrong Liang <cloudliang@tencent.com>,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S235747AbjEYVRQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 17:17:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58112198;
+        Thu, 25 May 2023 14:17:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DEE0464B2D;
+        Thu, 25 May 2023 21:17:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 084DCC433D2;
+        Thu, 25 May 2023 21:17:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685049434;
+        bh=+BQpgA/b2ao3wMNuPjBRBOPHdCtlI4INTxsSIyFtPTs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=dsBOLATfz/A+zYQ4T2Ms2FFPQ1PDBD40nWF5l0+hpk5LXR5PL33HsALvmL/lJi2pO
+         i3r55klIrE96/DKSwIEYyyNBQncZXBsm9Ho/aFd6gYoY9Ui+sNz8Iw2nUXMnvGFRtT
+         Djb488i7WWHH2AnwtNA6Uh1/+IjxE3+hHUHMfkRugQ6Gn2wHG+6CnZIBSPm5Vg48/g
+         zbOqhK+Xq5EM58bxyHQKv/KOnegaXl2+MrMJ+fVI8qbM/mJWmR42IrTeJz7sHDNPSh
+         3YaJfTG0eqNbEORzg+krT5od6bYcm5BQGe2vEEQSjbZl5qpq/AJl5lAy3KhzZP85ha
+         d5IHzB9XUspHg==
+From:   Eduardo Valentin <evalenti@kernel.org>
+To:     daniel.lezcano@linaro.org, rafael@kernel.org,
+        linux-pm@vger.kernel.org
+Cc:     Eduardo Valentin <eduval@amazon.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] thermal: core: introduce governor .reboot_prepare()
+Date:   Thu, 25 May 2023 14:16:53 -0700
+Message-Id: <20230525211655.627415-2-evalenti@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230525211655.627415-1-evalenti@kernel.org>
+References: <20230525211655.627415-1-evalenti@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 20, 2023, Jinrong Liang wrote:
-> From: Jinrong Liang <cloudliang@tencent.com>
-> 
-> From: Jinrong Liang <cloudliang@tencent.com>
-> 
-> Add a test to ensure that setting both generic and fixed performance
-> event filters does not affect the consistency of the fixed performance
-> filter behavior in KVM. This test helps to ensure that the fixed
-> performance filter works as expected even when generic performance
-> event filters are also set.
-> 
-> Signed-off-by: Jinrong Liang <cloudliang@tencent.com>
-> ---
->  .../selftests/kvm/x86_64/pmu_event_filter_test.c   | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-> index 0f54c53d7fff..9be4c6f8fb7e 100644
-> --- a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-> +++ b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-> @@ -889,6 +889,7 @@ static void test_fixed_ctr_action_and_bitmap(struct kvm_vcpu *vcpu,
->  	uint32_t bitmap;
->  	uint64_t count;
->  	bool expected;
-> +	struct kvm_pmu_event_filter *f;
->  
->  	/*
->  	 * Check the fixed performance counter can count normally works when
-> @@ -902,6 +903,19 @@ static void test_fixed_ctr_action_and_bitmap(struct kvm_vcpu *vcpu,
->  			expected = fixed_ctr_is_allowed(fixed_ctr_idx, actions[i], bitmap);
->  			count = test_fixed_ctr_with_filter(vcpu, actions[i], bitmap);
->  
-> +			TEST_ASSERT(expected == !!count,
-> +				    "Fixed event filter does not work as expected.");
-> +
-> +			/*
-> +			 * Check that setting both events[] and fixed_counter_bitmap
-> +			 * does not affect the consistency of the fixed ctrs' behaviour.
-> +			 *
-> +			 * Note, the fixed_counter_bitmap rule has high priority.
+From: Eduardo Valentin <eduval@amazon.com>
 
-"high" is ambiguous without a baseline.  I believe what you want to say is
-"the fixed_counter_bitmap has higher priority than the events list".
+This callback is used to notify the governors that
+reboot is coming up. Upon this event, this callback
+gives governors the opportunity to leave the thermal
+zones in a sane state prior to reboot.
 
-> +			 */
-> +			f = event_filter(actions[i]);
-> +			f->fixed_counter_bitmap = bitmap;
-> +			count = test_with_filter(vcpu, f);
-> +
->  			TEST_ASSERT(expected == !!count,
->  				    "Fixed event filter does not work as expected.");
->  		}
-> -- 
-> 2.31.1
-> 
+Cc: "Rafael J. Wysocki" <rafael@kernel.org> (supporter:THERMAL)
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org> (supporter:THERMAL)
+Cc: Amit Kucheria <amitk@kernel.org> (reviewer:THERMAL)
+Cc: Zhang Rui <rui.zhang@intel.com> (reviewer:THERMAL)
+Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+Cc: linux-pm@vger.kernel.org (open list:THERMAL)
+Cc: linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Cc: linux-kernel@vger.kernel.org (open list)
+
+Signed-off-by: Eduardo Valentin <eduval@amazon.com>
+---
+ include/linux/thermal.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/include/linux/thermal.h b/include/linux/thermal.h
+index 82c8e09a63e0..d3c8af928522 100644
+--- a/include/linux/thermal.h
++++ b/include/linux/thermal.h
+@@ -201,6 +201,9 @@ struct thermal_zone_device {
+  *		below the trip point temperature
+  * @check_error:	callback called whenever temperature updates fail.
+  *		Opportunity for the governor to react on errors.
++ * @reboot_prepare:	callback called upon system restart.
++ *		Opportunity for the governor to tear down zones or at least
++ *		leave them in a safe state.
+  * @governor_list:	node in thermal_governor_list (in thermal_core.c)
+  */
+ struct thermal_governor {
+@@ -209,6 +212,7 @@ struct thermal_governor {
+ 	void (*unbind_from_tz)(struct thermal_zone_device *tz);
+ 	int (*throttle)(struct thermal_zone_device *tz, int trip);
+ 	void (*check_error)(struct thermal_zone_device *tz, int error);
++	void (*reboot_prepare)(struct thermal_zone_device *tz);
+ 	struct list_head	governor_list;
+ };
+ 
+-- 
+2.34.1
+
