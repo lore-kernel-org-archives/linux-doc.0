@@ -2,118 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46040C7EE2E
-	for <linux-doc@archiver.kernel.org>; Wed, 24 May 2023 23:51:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E79C77B7A
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 01:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232530AbjEXXvA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 May 2023 19:51:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59678 "EHLO
+        id S234472AbjEYBVH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 May 2023 21:21:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230000AbjEXXu7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 19:50:59 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 068DF139
-        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 16:50:57 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id d2e1a72fcca58-64d20f79776so908901b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 16:50:57 -0700 (PDT)
+        with ESMTP id S231442AbjEYBVH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 May 2023 21:21:07 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 975D7E6
+        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 18:21:05 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-625bb506739so609676d6.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 18:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684972256; x=1687564256;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cSR7SiejqAADkjtE2sfBUw7kBDCwXi6R0Pqg2+hbZ5M=;
-        b=sBgm/c/eypRScnM/5VK84NQJotHmdUBdtdu7k+AA2ntAYB6j5QG/rkORL1OXol+KHR
-         V8olrWLcq19w9iPuiX8It70T0bWgLUavXKJVcMFrc9Lcc5uNtTL3TSMcBs6peyxVYbHz
-         8TJwNaRveyodUpGx9k1rKBmJBq6fJYXXo3pftEa2308DCGiNODq5j7xEaVXVbBilzMZR
-         nUvrsvFQxCd4Jh1hWPgKLPYY84wfc/rszy2CSOGTQIirnhWYC64OIaDAYkPGm4obhw+Q
-         KvfboAFt7XMNOhnDUGg7wdUu6I1fkWo6S+YncB0LvSAtW8ZcIyBYPPGeODVGBwdqcnBI
-         4/vg==
+        d=cmpxchg-org.20221208.gappssmtp.com; s=20221208; t=1684977665; x=1687569665;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=j98gJ4+KN81zlHrINZqrH05Pl+KjXomFxD3KB2ZcwUg=;
+        b=aM2MHGY4xUTYKWMcoV1R2ROW5efcpmXigmAL+mMZ5XEnMx0rFxVwZKHGcFfPYyyt4C
+         fgrmVpz11FsExkBVjSERPrjP/wh8NJ8MczWW9ITix0Db7wdihD4Ac3W9Mlx3hGIcY5TV
+         eWQRaHpScNvFpMGTp8PaXSBqvklX5x18eHZyXR1L9T342LW4WcMfkmIGLFObi24tJs7s
+         r0eLa8u0K8XpmMUwXl6S5cB/KijNkqetUl/um5sOvatWTu21sGkGtGRXB3jq44zaDkwf
+         svBLbM/mdYZ5c5IYM34uw64uf1dbIgdjkcoAQJCLo/AQyVz0V8ojNZ34TAgKmo2ooHRX
+         L9hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684972256; x=1687564256;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cSR7SiejqAADkjtE2sfBUw7kBDCwXi6R0Pqg2+hbZ5M=;
-        b=Wjl5FVseeHgzoDx0gvbU94gtXQ1Q6AbeX6oj2XAKtjgFTGKLgop1Cw/iNd+gUaABDA
-         hWiGU52WYXe1M4CiS27Ps1UHx3QiyGEkPW9ggGpV0HTymXluMLQSaS9D07tfDjrd+hsH
-         F9xlIBAwzh33f4hVvbBfZE3/AU5TNJnsLji28HRGG9Y7CWJWpcHMbRJHtcmzMZ+rzQi6
-         o10jXdbd0DOheJlZlvhaDJ0vpGBMH3dHqiFZNAxOzXDk2+Cpyip6TEZt8AKrAWoTkXGO
-         dUBgyonqqWIrkgEGxrYiQgA5/Qj+zBiW0qf2CRw3TcoG8rj5COZiV3qzVZv9bmjZL4yi
-         UEVg==
-X-Gm-Message-State: AC+VfDzk797EqDjzrDT5dZtnudb14RM/j0kEUqxDCcm9FVuLQr9/6Skk
-        iVB/KjrjjAToE+zQCszMolwJ+RsgRv4=
-X-Google-Smtp-Source: ACHHUZ5++i/grgISdAgXADrF+3dpyM58oC7OV69ywkCye0aodewP+oJLe6AqjUhs2UrhIZ1ob43Es59MFt0=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6a00:189c:b0:63a:ff2a:bf9f with SMTP id
- x28-20020a056a00189c00b0063aff2abf9fmr1730016pfh.2.1684972256482; Wed, 24 May
- 2023 16:50:56 -0700 (PDT)
-Date:   Wed, 24 May 2023 16:50:54 -0700
-In-Reply-To: <20230420104622.12504-8-ljrcore@126.com>
-Mime-Version: 1.0
-References: <20230420104622.12504-1-ljrcore@126.com> <20230420104622.12504-8-ljrcore@126.com>
-Message-ID: <ZG6i3sqOcZDg/UCG@google.com>
-Subject: Re: [PATCH v2 7/7] KVM: selftests: Test pmu event filter with
- incompatible kvm_pmu_event_filter
-From:   Sean Christopherson <seanjc@google.com>
-To:     Jinrong Liang <ljr.kernel@gmail.com>
-Cc:     Like Xu <like.xu.linux@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Aaron Lewis <aaronlewis@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jinrong Liang <cloudliang@tencent.com>,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+        d=1e100.net; s=20221208; t=1684977665; x=1687569665;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j98gJ4+KN81zlHrINZqrH05Pl+KjXomFxD3KB2ZcwUg=;
+        b=Dj0F9pu439SV/0b0OoH/rBXF92iJL1X77CTw2Jyh8t47aM+xWwZQ+UckDX+HVJ7mKH
+         HOCCwqyBs4ywV0r3GW1fZvDUlNSGtxzWMzCwhSogft+mPGbg+GYNyYMPPtTwpob/lmPa
+         EDyEY0dPEB+3aze7YGU8T83RgctY4i+8UWq3y9YPH412R+iGHJRjFr6CUaEIn1OJyhdS
+         Ixo1IHWzKebr7zZoYkdEYDSkrDibeIkBhnhrR7dNe5mvPtULAHL2rYVr9nwCcnHtxjUK
+         EZplh8pvq7TtkGwslM4xzAzHb0GcuwhWgrJ7/ZKA/FZ5MBuaX24SSv5BEetn6uZRTsdo
+         cv8w==
+X-Gm-Message-State: AC+VfDzhT+su/Z+cO1N9bNUtU1VLpBNL2MLrT5/N7QfNwjGt0GXLr3CB
+        iy5SyJuSMfbMlvt10sz8utHvOA==
+X-Google-Smtp-Source: ACHHUZ6e38+gKVOV7QYsLseVpmGvLBi+8/rvohpxXpAcIjVmnxVHK7W7V7pTLM2gUdYJlDIVRMbk+A==
+X-Received: by 2002:a05:6214:124b:b0:623:8896:2d77 with SMTP id r11-20020a056214124b00b0062388962d77mr32062976qvv.41.1684977664722;
+        Wed, 24 May 2023 18:21:04 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:400::5:8bb6])
+        by smtp.gmail.com with ESMTPSA id q5-20020a0cfa05000000b0061b73e331b2sm26089qvn.30.2023.05.24.18.21.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 May 2023 18:21:04 -0700 (PDT)
+Date:   Wed, 24 May 2023 21:21:03 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     "Lars R. Damerow" <lars@pixar.com>
+Cc:     mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+        tj@kernel.org, lizefan.x@bytedance.com, corbet@lwn.net,
+        muchun.song@linux.dev, akpm@linux-foundation.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] mm/memcontrol: export memcg.swap watermark via sysfs for
+ v2 memcg
+Message-ID: <20230525012103.GA24888@cmpxchg.org>
+References: <20230524181734.125696-1-lars@pixar.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230524181734.125696-1-lars@pixar.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 20, 2023, Jinrong Liang wrote:
-> From: Jinrong Liang <cloudliang@tencent.com>
+On Wed, May 24, 2023 at 11:17:33AM -0700, Lars R. Damerow wrote:
+> This patch is similar to commit 8e20d4b33266 ("mm/memcontrol: export
+> memcg->watermark via sysfs for v2 memcg"), but exports the swap counter's
+> watermark.
 > 
-> From: Jinrong Liang <cloudliang@tencent.com>
+> We allocate jobs to our compute farm using heuristics determined by memory
+> and swap usage from previous jobs. Tracking the peak swap usage for new
+> jobs is important for determining when jobs are exceeding their expected
+> bounds, or when our baseline metrics are getting outdated.
 > 
-> Add test to verify the behavior of the pmu event filter when an
-> incomplete kvm_pmu_event_filter structure is used. By running the
-> test, we can ensure that the pmu event filter correctly handles
-> incomplete structures and does not allow events to be counted when
-> they should not be.
+> Our toolset was written to use the "memory.memsw.max_usage_in_bytes" file
+> in cgroups v1, and altering it to poll cgroups v2's "memory.swap.current"
+> would give less accurate results as well as add complication to the code.
+> Having this watermark exposed in sysfs is much preferred.
 > 
-> Signed-off-by: Jinrong Liang <cloudliang@tencent.com>
-> ---
->  .../kvm/x86_64/pmu_event_filter_test.c        | 23 +++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-> index 9be4c6f8fb7e..a6b6e0d086ae 100644
-> --- a/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-> +++ b/tools/testing/selftests/kvm/x86_64/pmu_event_filter_test.c
-> @@ -881,6 +881,24 @@ static bool fixed_ctr_is_allowed(uint8_t idx, uint32_t action, uint32_t bitmap)
->  		(action == KVM_PMU_EVENT_DENY && !(bitmap & BIT_ULL(idx)));
->  }
->  
-> +struct incompatible_pmu_event_filter {
-> +	__u32 action;
-> +	__u32 nevents;
-> +	__u32 fixed_counter_bitmap;
-> +};
-> +
-> +static uint64_t test_incompatible_filter(struct kvm_vcpu *vcpu, uint32_t action,
-> +					 uint32_t bitmap)
-> +{
-> +	struct incompatible_pmu_event_filter err_f;
-> +
-> +	err_f.action = action;
-> +	err_f.fixed_counter_bitmap = bitmap;
-> +	ioctl((vcpu->vm)->fd, KVM_SET_PMU_EVENT_FILTER, &err_f.action);
+> Signed-off-by: Lars R. Damerow <lars@pixar.com>
 
-This is completely busted.  It "passes" by luck, not because it's a valid test.
-The size of the argument is embedded in the IOCTL number itself, which means that
-unless glibc is being very nice and using a macro + typeof + sizeof to sanity check
-things, which I highly doubt is the case, this ioctl() is passing random stack data,
-a.k.a. garbage, to KVM.
+Looks good to me.
 
-In short, drop this patch.
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
