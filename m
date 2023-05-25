@@ -2,128 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E516C7EE29
-	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 21:43:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68929C7EE29
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 22:55:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241965AbjEYVng (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 May 2023 17:43:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46778 "EHLO
+        id S233944AbjEYWza (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 May 2023 18:55:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241948AbjEYVnd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 17:43:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A2B6189;
-        Thu, 25 May 2023 14:43:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E05C864B6C;
-        Thu, 25 May 2023 21:43:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEB18C4339B;
-        Thu, 25 May 2023 21:43:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685051008;
-        bh=FlZuBr64knJ/8JP07S/l782gvTE23ogKRh6IGqK2gr4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oQoq8UhP0KDP7dsBgoau7JHv8ZbqA6Mk7eyiEYs20eSZPB60Mjy409eVD8M/aQbcD
-         mhvONiRVkwQMiWpQGy2aEq1iysz8wQCGutpD9He8OmINpO43C2I9f5UyxRx6vhrG4Z
-         GwcABZVvgk4YVQjaRrLPmRteCzz0RDRcEUGPTHo7kGfrm/9Wut7jkkoODWdXCwnyqL
-         2QSlv7J+B+eRSGGOID/CsZSG7dx3wZpcXnLYkLriEdYkwxsu2Cwwh9ggRTJ9ddWH/H
-         TYT5d7LSPqBsKYp11iYGrWaFXldnJdRFsJi8Mfohaq/HnpLfAVzXP4HIjxacxLtoHc
-         acztIb1xTvRQA==
-From:   SeongJae Park <sj@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        damon@lists.linux.dev, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/10] Docs/mm/damon/design: add a section for the modules layer
-Date:   Thu, 25 May 2023 21:43:14 +0000
-Message-Id: <20230525214314.5204-11-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230525214314.5204-1-sj@kernel.org>
-References: <20230525214314.5204-1-sj@kernel.org>
+        with ESMTP id S230020AbjEYWz2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 18:55:28 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24956DF;
+        Thu, 25 May 2023 15:55:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685055327; x=1716591327;
+  h=message-id:date:mime-version:from:subject:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=nNSE7gZD/t2N1lRWvql6XviO837VuUuQllGGpYRQhgM=;
+  b=Cv7BMQ+ytcxVxXAzpHRs0wSkoCslA3Knry38Jj4HwaaPpnWCpbe0RdOw
+   LkUEYosg1C6lUtYBnAZ/XV942WpuXk0sJ9mQiv0+7N3xKB/Bil4zZKJqy
+   M8LTy7jZuGJA45mbeo0yihlvGP/Zz2h/jSuqA73F4D7dJTNsAkLiOGYQF
+   r2ri81/Jj/qi+U74O35+BRg3XeUiRL3Ecpdh9U1oIY6mKkT6ckRAptk5M
+   pymU1vdG2iGDfxhriJcmChRpNBFVmJ4lh6UDDCOU8nS+2rMzra+J+vi24
+   WsKBaP0ie3ptM/s64xBXJl7BNnydVcrOyVt2MOHBoq1jjPZ2weyXvpDpo
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="354068214"
+X-IronPort-AV: E=Sophos;i="6.00,192,1681196400"; 
+   d="scan'208";a="354068214"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 15:55:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="699194720"
+X-IronPort-AV: E=Sophos;i="6.00,192,1681196400"; 
+   d="scan'208";a="699194720"
+Received: from asobhanx-mobl1.amr.corp.intel.com (HELO [10.209.120.148]) ([10.209.120.148])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 15:55:26 -0700
+Message-ID: <3c57deb0-a311-2aad-c06b-4938e33491b5@linux.intel.com>
+Date:   Thu, 25 May 2023 15:55:25 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.11.0
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Subject: Re: [PATCH v3 0/3] TDX Guest Quote generation support
+To:     Chong Cai <chongc@google.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Erdem Aktas <erdemaktas@google.com>,
+        Dionna Amalie Glaze <dionnaglaze@google.com>,
+        Qinkun Bao <qinkun@apache.org>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <CALRH0CjSko=j9w1U6OY6NaZ-jav1t7adxdK40=FV5gbF2yX1PQ@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CALRH0CjSko=j9w1U6OY6NaZ-jav1t7adxdK40=FV5gbF2yX1PQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a section for covering DAMON modules layer to the design document.
+Hi,
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/mm/damon/design.rst | 61 +++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+On 5/24/23 2:33 PM, Chong Cai wrote:
+> Tested-by: Qinkun Bao <qinkun@google.com>
+> 
+> Thanks Sathyanarayanan for the new patch! This patch is critical for
+> our use case.
+> We built a guest image with the patch, and verified it works for us,
+> when using a host kernel built with https://github.com/intel/tdx repo.
 
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 0ccdd2f6af9f..da110e89cab4 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -370,3 +370,64 @@ access-aware applications using DAMON's core features.  For this, DAMON exposes
- its all features to other kernel components via its application programming
- interface, namely ``include/linux/damon.h``.  Please refer to the API
- :doc:`document </mm/damon/api>` for details of the interface.
-+
-+
-+Modules
-+=======
-+
-+Because the core of DAMON is a framework for kernel components, it doesn't
-+provide any direct interface for the user space.  Such interfaces should be
-+implemented by each DAMON API user kernel components, instead.  DAMON subsystem
-+itself implements such DAMON API user modules, which are supposed to be used
-+for general purpose DAMON control and special purpose data access-aware system
-+operations, and provides stable application binary interfaces (ABI) for the
-+user space.  The user space can build their efficient data access-aware
-+applications using the interfaces.
-+
-+
-+General Purpose User Interface Modules
-+--------------------------------------
-+
-+DAMON modules that provide user space ABIs for general purpose DAMON usage in
-+runtime.
-+
-+DAMON user interface modules, namely 'DAMON sysfs interface' and 'DAMON debugfs
-+interface' are DAMON API user kernel modules that provide ABIs to the
-+user-space.  Please note that DAMON debugfs interface is currently deprecated.
-+
-+Like many other ABIs, the modules create files on sysfs and debugfs, allow
-+users to specify their requests to and get the answers from DAMON by writing to
-+and reading from the files.  As a response to such I/O, DAMON user interface
-+modules control DAMON and retrieve the results as user requested via the DAMON
-+API, and return the results to the user-space.
-+
-+The ABIs are designed to be used for user space applications development,
-+rather than human beings' fingers.  Human users are recommended to use such
-+user space tools.  One such Python-written user space tool is available at
-+Github (https://github.com/awslabs/damo), Pypi
-+(https://pypistats.org/packages/damo), and Fedora
-+(https://packages.fedoraproject.org/pkgs/python-damo/damo/).
-+
-+Please refer to the ABI :doc:`document </admin-guide/mm/damon/usage>` for
-+details of the interfaces.
-+
-+
-+Special-Purpose Access-aware Kernel Modules
-+-------------------------------------------
-+
-+DAMON modules that provide user space ABI for specific purpose DAMON usage.
-+
-+DAMON sysfs/debugfs user interfaces are for full control of all DAMON features
-+in runtime.  For each special-purpose system-wide data access-aware system
-+operations such as proactive reclamation or LRU lists balancing, the interfaces
-+could be simplified by removing unnecessary knobs for the specific purpose, and
-+extended for boot-time and even compile time control.  Default values of DAMON
-+control parameters for the usage would also need to be optimized for the
-+purpose.
-+
-+To support such cases, yet more DAMON API user kernel modules that provide more
-+simple and optimized user space interfaces are available.  Currently, two
-+modules for proactive reclamation and LRU lists manipulation are provided.  For
-+more detail, please read the usage documents for those
-+(:doc:`/admin-guide/mm/damon/reclaim` and
-+:doc:`/admin-guide/mm/damon/lru_sort`).
+Qinkun Bao/Chong Cai, thanks for testing it. I really appreciate the help.
+
+Dave/Boris, could you please take a look at this patch set?
+
+> 
+> On Sun, May 14, 2023 at 12:24 AM Kuppuswamy Sathyanarayanan
+> <sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
+>>
+>> Hi All,
+>>
+>> In TDX guest, the attestation process is used to verify the TDX guest
+>> trustworthiness to other entities before provisioning secrets to the
+>> guest.
+>>
+>> The TDX guest attestation process consists of two steps:
+>>
+>> 1. TDREPORT generation
+>> 2. Quote generation.
+>>
+>> The First step (TDREPORT generation) involves getting the TDX guest
+>> measurement data in the format of TDREPORT which is further used to
+>> validate the authenticity of the TDX guest. The second step involves
+>> sending the TDREPORT to a Quoting Enclave (QE) server to generate a
+>> remotely verifiable Quote. TDREPORT by design can only be verified on
+>> the local platform. To support remote verification of the TDREPORT,
+>> TDX leverages Intel SGX Quoting Enclave to verify the TDREPORT
+>> locally and convert it to a remotely verifiable Quote. Although
+>> attestation software can use communication methods like TCP/IP or
+>> vsock to send the TDREPORT to QE, not all platforms support these
+>> communication models. So TDX GHCI specification [1] defines a method
+>> for Quote generation via hypercalls. Please check the discussion from
+>> Google [2] and Alibaba [3] which clarifies the need for hypercall based
+>> Quote generation support. This patch set adds this support.
+>>
+>> Support for TDREPORT generation already exists in the TDX guest driver.
+>> This patchset extends the same driver to add the Quote generation
+>> support.
+>>
+>> Following are the details of the patch set:
+>>
+>> Patch 1/3 -> Adds event notification IRQ support.
+>> Patch 2/3 -> Adds Quote generation support.
+>> Patch 3/3 -> Adds selftest support for Quote generation feature.
+>>
+>> [1] https://cdrdv2.intel.com/v1/dl/getContent/726790, section titled "TDG.VP.VMCALL<GetQuote>".
+>> [2] https://lore.kernel.org/lkml/CAAYXXYxxs2zy_978GJDwKfX5Hud503gPc8=1kQ-+JwG_kA79mg@mail.gmail.com/
+>> [3] https://lore.kernel.org/lkml/a69faebb-11e8-b386-d591-dbd08330b008@linux.alibaba.com/
+>>
+>> Kuppuswamy Sathyanarayanan (3):
+>>   x86/tdx: Add TDX Guest event notify interrupt support
+>>   virt: tdx-guest: Add Quote generation support
+>>   selftests/tdx: Test GetQuote TDX attestation feature
+>>
+>>  Documentation/virt/coco/tdx-guest.rst        |  11 ++
+>>  arch/x86/coco/tdx/tdx.c                      | 194 +++++++++++++++++++
+>>  arch/x86/include/asm/tdx.h                   |   8 +
+>>  drivers/virt/coco/tdx-guest/tdx-guest.c      | 175 ++++++++++++++++-
+>>  include/uapi/linux/tdx-guest.h               |  44 +++++
+>>  tools/testing/selftests/tdx/tdx_guest_test.c |  65 ++++++-
+>>  6 files changed, 490 insertions(+), 7 deletions(-)
+>>
+>> --
+>> 2.34.1
+>>
+
 -- 
-2.25.1
-
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
