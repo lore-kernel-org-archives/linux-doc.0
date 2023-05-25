@@ -2,145 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E55F0C77B7A
-	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 14:55:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF73AC77B7A
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 15:55:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241337AbjEYOzf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 May 2023 10:55:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38116 "EHLO
+        id S241849AbjEYPze (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 May 2023 11:55:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241730AbjEYOzX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 10:55:23 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AF68E5B;
-        Thu, 25 May 2023 07:55:07 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-30abe551605so571687f8f.0;
-        Thu, 25 May 2023 07:55:07 -0700 (PDT)
+        with ESMTP id S241382AbjEYPzd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 11:55:33 -0400
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38D43197
+        for <linux-doc@vger.kernel.org>; Thu, 25 May 2023 08:55:31 -0700 (PDT)
+Received: by mail-pj1-x104a.google.com with SMTP id 98e67ed59e1d1-25344fbd703so1733349a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 25 May 2023 08:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685026506; x=1687618506;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+        d=google.com; s=20221208; t=1685030130; x=1687622130;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2brWjtv6jnUkszMlshgHY3ZyYZyBqSw+5iV+JVswSb0=;
-        b=ATW5FjSkc8+LeJen8N96L64Cv/XuM3/+5piHXR5L9DCEwvhve894Mj3u9Lq4qXpl/R
-         Escdv7P9zeYiO0rcIcXpExtAXBYESfM5e4Nrn8bVIfkLBX4A9EAfeP1gfWR1qnxW70jz
-         uVpJeJ/eT05fcOzj2TYh3g77krIItZfH1omqVZy84vdbA9YDOPsdcUlwpYSpx/G5qZpE
-         LHKrB3Sc+sogLi69zxFail268I2eanBEQLm6yf3/4yVicFoYFnLcXsFqKiOQFwfoS1pF
-         ZskHcC6tob4Cn9xsAsFVDSepvUMDBB+X4ocpU27Vf+d7c4tEPDXO1KhzRG7NxgKR3Scb
-         VMBQ==
+        bh=FJhJfniAgX/K6aNPg00s0hgGDGDmvcJtzARRej6TGOA=;
+        b=JAaXmQsUiv1MMYlIIQMGz3uobblUt+My3r9AwWFGnhn64piKXxlgqJS5+wucLy7MX3
+         8W/3BpF8qOQtu6SAArifGNKD3hCklvCmZpEX3UU9dlx0SdajPT2NtDYQWrTbkKG3Ojnf
+         863L28cxpMROTC5dUKAGZYr2NkUtGUp1du0EBjsmVt7RAfEl4M1yaJle7dEFJ55egM3Y
+         358v2Bftq3Nn8nSX2IALvmQ4d07XxVKxWUIfpH5C4Ty2GctFW5EfeIuFOkZEb8C4vLGf
+         88mD9zkeC8Arr0UFhwosZRucjhhf4/uUv36ml6I9iMBgPxMHsLjIA9pZx5KYjuTACVIa
+         61mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685026506; x=1687618506;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2brWjtv6jnUkszMlshgHY3ZyYZyBqSw+5iV+JVswSb0=;
-        b=Yjud0isSa43NSAnxfdi2Csdz2XfUT4o6nMmmrdQwaoNG/ZlxzyEnrcPat4ngw4E5V1
-         OT0s2bmx7SXykaMgFgM6UPP0tEeaA7XEsVIxULSLxoHC+r12C9jq3bIkguwDK/Ej5PZe
-         G7lekALOtxpDHdwnjGsRAPejx3495jK7A0ljk37dZsmwUf4JNul13/ov4qUB/Ek6he3/
-         Hy4GFDTrESsb6SLjkUpdzR1eCbQIfvNqx6HIwyA/ZZiu8BJvH8yAP+FlwiSaGEw4uYoS
-         h43w0dAOJc94iODSdrAayoC4XSXZYhFFGDYEdy9lS4R1oRu9/FbddKnkqMcwSxKucwHm
-         /J9A==
-X-Gm-Message-State: AC+VfDwu9D/Bxq19PIf6UV6sBKhrgTh5p2QrB4kIeUDtnTSErxn/4FVD
-        csSpGuEUAjTnKg8HJDqhXlg=
-X-Google-Smtp-Source: ACHHUZ58P0U9MxDchr+fThvUXgeeJk51K21NM20v427978A+OBHbHJ9eKQ3aZ9NHaULcDORs4dHUYQ==
-X-Received: by 2002:a5d:550e:0:b0:30a:8999:3b9 with SMTP id b14-20020a5d550e000000b0030a899903b9mr2375180wrv.28.1685026505540;
-        Thu, 25 May 2023 07:55:05 -0700 (PDT)
-Received: from localhost.localdomain (93-34-93-173.ip49.fastwebnet.it. [93.34.93.173])
-        by smtp.googlemail.com with ESMTPSA id t11-20020a5d49cb000000b0030732d6e104sm2048043wrs.105.2023.05.25.07.55.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 May 2023 07:55:05 -0700 (PDT)
-From:   Christian Marangi <ansuelsmth@gmail.com>
-To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [net-next PATCH v2 13/13] net: dsa: qca8k: add op to get ports netdev
-Date:   Thu, 25 May 2023 16:54:01 +0200
-Message-Id: <20230525145401.27007-14-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230525145401.27007-1-ansuelsmth@gmail.com>
-References: <20230525145401.27007-1-ansuelsmth@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20221208; t=1685030130; x=1687622130;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FJhJfniAgX/K6aNPg00s0hgGDGDmvcJtzARRej6TGOA=;
+        b=g8lDKPFt5UGu1AA1pxdqBjGzUAVPieWHdiCLVHkdIyID3eHI3HkQMf4eLK0QnpzR9O
+         sRxhCnQfAzTW+tlfUiogg4dlPV4PvcTuCN7Ix11C9xjqxc5WVXAa5H3GujBocVLUZjNt
+         Nc7tXXqsp1Oo0Im3U3iq9041XqwCY3YEjLDh/Qb2ekyOUuxdMzzKuv/CCyt2Juj6bloM
+         mI9uAjKGyv2egK4JkTK7ZoEBiZvkpS+Ki62c1zJoLbRtMhm9zCWz4IWNinkNgZ9OC0p2
+         LGvyM2t2nUYq9hjdKFf5sHNy7wXiCwaea0Bccz3vBvnkZbLJYI6rWt2SL1FZXeXCk65P
+         G9Kw==
+X-Gm-Message-State: AC+VfDyweIiErDJrzxRrlyTm6A0SXVNlts4VER4rU3g6fDG/L84E2WFF
+        UfYBkCj/8StGOnOO+uzyleJdxspniE8=
+X-Google-Smtp-Source: ACHHUZ47p24uic5C5tj2sNPe5bf+qa+viyHFYH/qvq+YqkWURKU7nrdyH74GNV/lKXtUyQjQgvbLXa0+QgE=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90a:9804:b0:24d:f3d9:48b5 with SMTP id
+ z4-20020a17090a980400b0024df3d948b5mr505815pjo.3.1685030130685; Thu, 25 May
+ 2023 08:55:30 -0700 (PDT)
+Date:   Thu, 25 May 2023 08:55:29 -0700
+In-Reply-To: <CAFg_LQWdSnNOd+VwTu8pQezL7qaN=4L_YffHVQUQWJiV5U76wQ@mail.gmail.com>
+Mime-Version: 1.0
+References: <20230420104622.12504-1-ljrcore@126.com> <20230420104622.12504-8-ljrcore@126.com>
+ <ZG6i3sqOcZDg/UCG@google.com> <CAFg_LQWdSnNOd+VwTu8pQezL7qaN=4L_YffHVQUQWJiV5U76wQ@mail.gmail.com>
+Message-ID: <ZG+E8YtFtCbKn7fi@google.com>
+Subject: Re: [PATCH v2 7/7] KVM: selftests: Test pmu event filter with
+ incompatible kvm_pmu_event_filter
+From:   Sean Christopherson <seanjc@google.com>
+To:     Jinrong Liang <ljr.kernel@gmail.com>
+Cc:     Like Xu <like.xu.linux@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Aaron Lewis <aaronlewis@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jinrong Liang <cloudliang@tencent.com>,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Andrew Lunn <andrew@lunn.ch>
+On Thu, May 25, 2023, Jinrong Liang wrote:
+> Sean Christopherson <seanjc@google.com> =E4=BA=8E2023=E5=B9=B45=E6=9C=882=
+5=E6=97=A5=E5=91=A8=E5=9B=9B 07:50=E5=86=99=E9=81=93=EF=BC=9A
+> > > +static uint64_t test_incompatible_filter(struct kvm_vcpu *vcpu, uint=
+32_t action,
+> > > +                                      uint32_t bitmap)
+> > > +{
+> > > +     struct incompatible_pmu_event_filter err_f;
+> > > +
+> > > +     err_f.action =3D action;
+> > > +     err_f.fixed_counter_bitmap =3D bitmap;
+> > > +     ioctl((vcpu->vm)->fd, KVM_SET_PMU_EVENT_FILTER, &err_f.action);
+> >
+> > This is completely busted.  It "passes" by luck, not because it's a val=
+id test.
+> > The size of the argument is embedded in the IOCTL number itself, which =
+means that
+> > unless glibc is being very nice and using a macro + typeof + sizeof to =
+sanity check
+> > things, which I highly doubt is the case, this ioctl() is passing rando=
+m stack data,
+> > a.k.a. garbage, to KVM.
+> >
+> > In short, drop this patch.
+>=20
+> Thank you for letting us know about the issues with the patch. I will
+> drop the patch as suggested. Would you advise me to prepare version 3
+> to remove this patch?
 
-In order that the LED trigger can blink the switch MAC ports LED, it
-needs to know the netdev associated to the port. Add the callback to
-return the struct device of the netdev.
-
-Add an helper function qca8k_phy_to_port() to convert the phy back to
-dsa_port index, as we reference LED port based on the internal PHY
-index and needs to be converted back.
-
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- drivers/net/dsa/qca/qca8k-leds.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/drivers/net/dsa/qca/qca8k-leds.c b/drivers/net/dsa/qca/qca8k-leds.c
-index 1e0c61726487..6f02029b454b 100644
---- a/drivers/net/dsa/qca/qca8k-leds.c
-+++ b/drivers/net/dsa/qca/qca8k-leds.c
-@@ -5,6 +5,18 @@
- #include "qca8k.h"
- #include "qca8k_leds.h"
- 
-+static u32 qca8k_phy_to_port(int phy)
-+{
-+	/* Internal PHY 0 has port at index 1.
-+	 * Internal PHY 1 has port at index 2.
-+	 * Internal PHY 2 has port at index 3.
-+	 * Internal PHY 3 has port at index 4.
-+	 * Internal PHY 4 has port at index 5.
-+	 */
-+
-+	return phy + 1;
-+}
-+
- static int
- qca8k_get_enable_led_reg(int port_num, int led_num, struct qca8k_led_pattern_en *reg_info)
- {
-@@ -314,6 +326,20 @@ qca8k_cled_hw_control_get(struct led_classdev *ldev, unsigned long *rules)
- 	return 0;
- }
- 
-+static struct device *qca8k_cled_hw_control_get_device(struct led_classdev *ldev)
-+{
-+	struct qca8k_led *led = container_of(ldev, struct qca8k_led, cdev);
-+	struct qca8k_priv *priv = led->priv;
-+	struct dsa_port *dp;
-+
-+	dp = dsa_to_port(priv->ds, qca8k_phy_to_port(led->port_num));
-+	if (!dp)
-+		return NULL;
-+	if (dp->slave)
-+		return &dp->slave->dev;
-+	return NULL;
-+}
-+
- static int
- qca8k_parse_port_leds(struct qca8k_priv *priv, struct fwnode_handle *port, int port_num)
- {
-@@ -377,6 +403,7 @@ qca8k_parse_port_leds(struct qca8k_priv *priv, struct fwnode_handle *port, int p
- 		port_led->cdev.hw_control_is_supported = qca8k_cled_hw_control_is_supported;
- 		port_led->cdev.hw_control_set = qca8k_cled_hw_control_set;
- 		port_led->cdev.hw_control_get = qca8k_cled_hw_control_get;
-+		port_led->cdev.hw_control_get_device = qca8k_cled_hw_control_get_device;
- 		port_led->cdev.hw_control_trigger = "netdev";
- 		init_data.default_label = ":port";
- 		init_data.fwnode = led;
--- 
-2.39.2
-
+More comments on the other patches are incoming, please hold off on v3 unti=
+l then.
