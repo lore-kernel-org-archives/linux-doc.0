@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BFD3C77B7A
-	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 16:40:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BABFC77B7A
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 16:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235677AbjEYQkN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 May 2023 12:40:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45154 "EHLO
+        id S238968AbjEYQln (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 May 2023 12:41:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233391AbjEYQkM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 12:40:12 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B84199
-        for <linux-doc@vger.kernel.org>; Thu, 25 May 2023 09:40:10 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3f611ccd06eso6345725e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 25 May 2023 09:40:10 -0700 (PDT)
+        with ESMTP id S233274AbjEYQlm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 12:41:42 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0951F19A
+        for <linux-doc@vger.kernel.org>; Thu, 25 May 2023 09:41:40 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3f6e1394060so4259415e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 25 May 2023 09:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1685032808; x=1687624808;
+        d=ventanamicro.com; s=google; t=1685032899; x=1687624899;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AR0TcRh5E3uNMVlwV4MX3XAnDWVMVCj/HBAPlYOkb4Q=;
-        b=SMOO/RHoH9sCbPbHZOhilUrB2bJNfvDLCzNO5ccrVnl5YTsggfxCAGw2enOsIJsw3S
-         muOPMMbM8OB9rpMjOPTcLN0styrxHRbccc9yTmXWbgcevJUP1pwqZXi98iwgUX4Pfv55
-         os7jsjCiXCLLhdD3CTPGSThlSx7rRpRDglbQkL4uhDoPpGndSA0UT7be/09Y3qB4sCTU
-         9Jj2LjqrHnXVoyAXUQEyeCSGlSCPNGIKyvU2Ar0ZXlrITl5RpUUhEMrIW9rij7AQisZh
-         pS4SfprjWAgXcStQyvo0bOqre47fTQRcCig3TUxi2T6iUTtbEYJBhRLX2YVECM6VJ7Ni
-         /zsA==
+        bh=tCR9GGMFNorDSK4vdX+Y26zqtl9VCvHN3JUMiQf7Kew=;
+        b=o0+muES5ARWipQlSHLAB/7akRAZep94c2231xrpi4KXF9lrhcshS97WUidLAwDlV0z
+         RynFU2r3rhKJw/R/nmU6WNfQKB4sdhG5wGjyacVparRSMjT7utlC++3SKNxIWbmEnrqb
+         iCHXwHQ5JCmxDfuVyoomnxx5fXlCmn1FrU94WX//iqa63oTjwym++VI7aXvtVcJPJAnk
+         NxFrHDfHj4z65JE9h93cXQOWf1cNMP7ZqPFB+34FkNCQsI0ojVWYt5Mptr5g22z9HLCz
+         +k1c5zZRwyDfMpndDIIqYhg4r4xDlr4ri4WYXwWXwOy9+6CcBzDuWlNxUyQWJI0UThtJ
+         0Gpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685032808; x=1687624808;
+        d=1e100.net; s=20221208; t=1685032899; x=1687624899;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AR0TcRh5E3uNMVlwV4MX3XAnDWVMVCj/HBAPlYOkb4Q=;
-        b=di3QDF0FA4x15Fwh5wvReGL20r8pwSIIDmR2BzWJkznC+u47JoMsakqTQH5IAvuR4u
-         jwZr8GfXzz8czIui/Nk3gHJlePcu+MnbY3/XlgJll41Vc79KCVg9mNOVs8TnOMm4oxgJ
-         s+cK5RaBtvyhE7moPGkROMkus1ZyEBQL5EFxEfJrdYlzmHLMgTSykVpmLsLJ+6EWvSOO
-         oV9vjuSVGTiKiyxE3fi54nvh/64qVaAZNHpKNRETMtZ/DGCmuNswCRwxrzI5x78yID0f
-         QQtOUeqL3Sp678PhI0QuO6hOojN4TQthk6r7iRw/G994RDxdHLYqXzHG/KX4ssAH8De7
-         d3cA==
-X-Gm-Message-State: AC+VfDw0TGQLxlu8tAfjrsy0yAHGBr10Hxocmp+ou2JXSLn6FVpsgq9T
-        XDWpglsFmjL24QYXPxT5LTwRfA==
-X-Google-Smtp-Source: ACHHUZ4E3vZaFea6aEdcJxuXhPYk5shRp2rDROSu38VNjlX+Zz36M4ciiQeNekDxjPytu3ey3fhDvg==
-X-Received: by 2002:a7b:cbd6:0:b0:3f4:2452:9669 with SMTP id n22-20020a7bcbd6000000b003f424529669mr3090300wmi.0.1685032808575;
-        Thu, 25 May 2023 09:40:08 -0700 (PDT)
+        bh=tCR9GGMFNorDSK4vdX+Y26zqtl9VCvHN3JUMiQf7Kew=;
+        b=Vq2tMBYJJAcASNemKVcfMLmmt38WV95kOH07xHZhsXGD8cWUSaLqN/1DacTuAPc5KM
+         m6dQt3wLoUvjJDD0usTRuj3Qq8bAIhW8RvkL+7A2F0Ej6Q3wviC/mXGx/+BBX9cJmz1s
+         PsKa0pqKrKGKtqI5JKomM+cR2L1hxUcf6UpY61fkWXwLLdt2L+3Yo9qgTltq75hbFznF
+         GJvxZahCMt+1acplbVIMxihh/lgCpM65NbqBenCw+OK+0sIAkZ6kdvP+val54wx2PDRJ
+         a9AdL4crIWeSRgzWlfm3TvdbA3XEbUYgbL6Qc5UxC9Prwbeh/QIbGCfbUuPpjitpVp/V
+         jEtQ==
+X-Gm-Message-State: AC+VfDzdf1ejz8jHz/9Gxyp/euZc+xTVDR089+5L7iMaC/uAQjGee2K3
+        eCKpJKu/UvHg0FUUgOj4fDvdrw==
+X-Google-Smtp-Source: ACHHUZ53ktqlluQQR/F53uKrM+aSDG4pKo6I8rAgr8k2wvNBb6mDiqz/ahIuAkvn+sNwUSvJ1bkr1w==
+X-Received: by 2002:a05:600c:d0:b0:3f6:119:ee11 with SMTP id u16-20020a05600c00d000b003f60119ee11mr3346603wmm.32.1685032899461;
+        Thu, 25 May 2023 09:41:39 -0700 (PDT)
 Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id c2-20020adfed82000000b003078a3f3a24sm2311517wro.114.2023.05.25.09.40.07
+        by smtp.gmail.com with ESMTPSA id o16-20020a5d58d0000000b002ffbf2213d4sm2338037wrf.75.2023.05.25.09.41.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 May 2023 09:40:07 -0700 (PDT)
-Date:   Thu, 25 May 2023 18:40:07 +0200
+        Thu, 25 May 2023 09:41:39 -0700 (PDT)
+Date:   Thu, 25 May 2023 18:41:38 +0200
 From:   Andrew Jones <ajones@ventanamicro.com>
 To:     Haibo Xu <haibo1.xu@intel.com>
 Cc:     xiaobo55x@gmail.com, maz@kernel.org, oliver.upton@linux.dev,
@@ -71,118 +71,65 @@ Cc:     xiaobo55x@gmail.com, maz@kernel.org, oliver.upton@linux.dev,
         kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
         linux-kselftest@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v2 09/11] KVM: riscv: selftests: Make check_supported
- arch specific
-Message-ID: <20230525-705ddcbcd43aa63e3fd356c8@orel>
+Subject: Re: [PATCH v2 10/11] KVM: riscv: selftests: Skip some registers set
+ operation
+Message-ID: <20230525-50097c796339f56320da7643@orel>
 References: <cover.1684999824.git.haibo1.xu@intel.com>
- <26dea518fc5e8da51e61db279d175364bfecd009.1684999824.git.haibo1.xu@intel.com>
+ <a10cd1ff57e07e408d08eca7e6a4557217ca0af3.1684999824.git.haibo1.xu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <26dea518fc5e8da51e61db279d175364bfecd009.1684999824.git.haibo1.xu@intel.com>
+In-Reply-To: <a10cd1ff57e07e408d08eca7e6a4557217ca0af3.1684999824.git.haibo1.xu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 25, 2023 at 03:38:33PM +0800, Haibo Xu wrote:
-> check_supported() was used to verify whether a feature/extension was
-> supported in a guest in the get-reg-list test. Currently this info
-> can be retrieved through the KVM_CAP_ARM_* API in aarch64, but in
-> riscv, this info was only exposed through the KVM_GET_ONE_REG on
-> KVM_REG_RISCV_ISA_EXT pseudo registers.
+On Thu, May 25, 2023 at 03:38:34PM +0800, Haibo Xu wrote:
+> Set operation on some riscv registers(mostly pesudo ones) was not
+> supported and should be skipped in the get-reg-list test. Just
+> reuse the rejects_set utilities to handle it in riscv.
 > 
 > Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
 > ---
->  tools/testing/selftests/kvm/get-reg-list.c | 32 +++++++++++-----------
->  1 file changed, 16 insertions(+), 16 deletions(-)
+>  tools/testing/selftests/kvm/get-reg-list.c | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
 > 
 > diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing/selftests/kvm/get-reg-list.c
-> index f6ad7991a812..f1fc113e9719 100644
+> index f1fc113e9719..ebd6b580b33b 100644
 > --- a/tools/testing/selftests/kvm/get-reg-list.c
 > +++ b/tools/testing/selftests/kvm/get-reg-list.c
-> @@ -99,6 +99,20 @@ void __weak print_reg(const char *prefix, __u64 id)
->  }
+> @@ -211,16 +211,22 @@ static void run_test(struct vcpu_reg_list *c)
+>  			++failed_get;
+>  		}
 >  
->  #ifdef __aarch64__
-> +static void check_supported(struct vcpu_reg_list *c)
-> +{
-> +	struct vcpu_reg_sublist *s;
-> +
-> +	for_each_sublist(c, s) {
-> +		if (!s->capability)
-> +			continue;
-
-I was going to say that making this function aarch64 shouldn't be
-necessary, since riscv leaves capability set to zero and this function
-doesn't do anything, but then looking ahead I see riscv is abusing
-capability by putting isa extensions in it. IMO, capability should
-only be set to KVM_CAP_* values. Since riscv doesn't use it, then it
-should be left zero.
-
-If we're going to abuse something, then I'd rather abuse the 'feature'
-member, but since it's only an int (not an unsigned long), then let's
-just add an 'unsigned long extension' member.
-
-Then, the finalize_vcpu() call can be moved back to run_test(), from
-aarch64's vcpu_config_get_vcpu(). Both aarch64 and riscv will call it
-right after vcpu_config_get_vcpu() and the riscv version of it will
-do what your current riscv check_supported() is doing, using the
-new 'extension' member instead of 'capability'.
-
-And this patch gets dropped.
-
-Thanks,
-drew
-
-> +
-> +		__TEST_REQUIRE(kvm_has_cap(s->capability),
-> +			       "%s: %s not available, skipping tests\n",
-> +			       config_name(c), s->name);
-> +	}
-> +}
-> +
->  static void prepare_vcpu_init(struct vcpu_reg_list *c, struct kvm_vcpu_init *init)
->  {
->  	struct vcpu_reg_sublist *s;
-> @@ -126,6 +140,8 @@ static struct kvm_vcpu *vcpu_config_get_vcpu(struct vcpu_reg_list *c, struct kvm
->  	struct kvm_vcpu_init init = { .target = -1, };
->  	struct kvm_vcpu *vcpu;
->  
-> +	check_supported(c);
-> +
->  	prepare_vcpu_init(c, &init);
->  	vcpu = __vm_vcpu_add(vm, 0);
->  	aarch64_vcpu_setup(vcpu, &init);
-> @@ -140,20 +156,6 @@ static struct kvm_vcpu *vcpu_config_get_vcpu(struct vcpu_reg_list *c, struct kvm
->  }
->  #endif
->  
-> -static void check_supported(struct vcpu_reg_list *c)
-> -{
-> -	struct vcpu_reg_sublist *s;
-> -
-> -	for_each_sublist(c, s) {
-> -		if (!s->capability)
-> -			continue;
-> -
-> -		__TEST_REQUIRE(kvm_has_cap(s->capability),
-> -			       "%s: %s not available, skipping tests\n",
-> -			       config_name(c), s->name);
-> -	}
-> -}
-> -
->  static bool print_list;
->  static bool print_filtered;
->  
-> @@ -165,8 +167,6 @@ static void run_test(struct vcpu_reg_list *c)
->  	struct kvm_vm *vm;
->  	struct vcpu_reg_sublist *s;
->  
-> -	check_supported(c);
-> -
->  	vm = vm_create_barebones();
->  	vcpu = vcpu_config_get_vcpu(c, vm);
->  
+> -		/* rejects_set registers are rejected after KVM_ARM_VCPU_FINALIZE */
+> +		/*
+> +		 * rejects_set registers are rejected after KVM_ARM_VCPU_FINALIZE on aarch64,
+> +		 * or registers that should skip set operation on riscv.
+> +		 */
+>  		for_each_sublist(c, s) {
+>  			if (s->rejects_set && find_reg(s->rejects_set, s->rejects_set_n, reg.id)) {
+>  				reject_reg = true;
+> -				ret = __vcpu_ioctl(vcpu, KVM_SET_ONE_REG, &reg);
+> -				if (ret != -1 || errno != EPERM) {
+> -					printf("%s: Failed to reject (ret=%d, errno=%d) ", config_name(c), ret, errno);
+> -					print_reg(config_name(c), reg.id);
+> -					putchar('\n');
+> -					++failed_reject;
+> +				if ((reg.id & KVM_REG_ARCH_MASK) == KVM_REG_ARM64) {
+> +					ret = __vcpu_ioctl(vcpu, KVM_SET_ONE_REG, &reg);
+> +					if (ret != -1 || errno != EPERM) {
+> +						printf("%s: Failed to reject (ret=%d, errno=%d) ",
+> +								config_name(c), ret, errno);
+> +						print_reg(config_name(c), reg.id);
+> +						putchar('\n');
+> +						++failed_reject;
+> +					}
+>  				}
+>  				break;
+>  			}
 > -- 
 > 2.34.1
-> 
+>
+
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
