@@ -2,124 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 661B8C7EE31
-	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 21:17:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8169AC77B7E
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 21:43:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233368AbjEYVRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 May 2023 17:17:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60298 "EHLO
+        id S241875AbjEYVnY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 May 2023 17:43:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236434AbjEYVRT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 17:17:19 -0400
+        with ESMTP id S230126AbjEYVnX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 17:43:23 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8327AA7;
-        Thu, 25 May 2023 14:17:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295BBFB;
+        Thu, 25 May 2023 14:43:22 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 11BCC64B30;
-        Thu, 25 May 2023 21:17:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31806C433D2;
-        Thu, 25 May 2023 21:17:17 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BA1D64B66;
+        Thu, 25 May 2023 21:43:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A03BC433D2;
+        Thu, 25 May 2023 21:43:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685049437;
-        bh=vEe5IMrxvZ6zjp9aBXSVRXJpxdUpiaH0SmaBoWt1Nqw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OOYzQrWxDyfJoP/3gDvkOTQNTcpl0mwqfLpe6KQap1/xPJQeBfJUO7RYyGvzhmOuc
-         sPgFSRVBY8DV4AVO1YTcpbX0qw3yi5Js+zc/+dZaGt4wV37xEIipDxHW06FlMFjuJS
-         vhwWXp7UusKlHg90Qnuj1QarpO195cnncgjbU6BeqloOqBAoQV2p2+pCfuYxEZ4DfS
-         wuG4o0VNtGWIVVCvYlVEABI3tHoB6YJIm6aqZlu77Zk+HmElPGWrUGTaOsPEwe2T7i
-         DhLUlRD2XTYi++pHyS0dkxF9zfYKKk60w69dvm63WpZqEam/N/P0avkG7br2V5agBS
-         wHmG0E80/2V2Q==
-From:   Eduardo Valentin <evalenti@kernel.org>
-To:     daniel.lezcano@linaro.org, rafael@kernel.org,
-        linux-pm@vger.kernel.org
-Cc:     Eduardo Valentin <eduval@amazon.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] thermal: core: register a crash callback
-Date:   Thu, 25 May 2023 14:16:55 -0700
-Message-Id: <20230525211655.627415-4-evalenti@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230525211655.627415-1-evalenti@kernel.org>
-References: <20230525211655.627415-1-evalenti@kernel.org>
+        s=k20201202; t=1685051001;
+        bh=3HTyPRTo0Vt0yo/NxGIYMv2y8bgYWhJIE9CMcHR1Ijg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mj3d6lLsnIuAjR6BCbduN15xDkEOtelzlHKHP2JSXrxufz1LV7ff3zyBXET5OAWWk
+         uGEdrxxmf0ccyf4NaoOiXs46VmWKAbj/VdmvT+HpZl/mUbKwej6rG6d3DKGKrLYTID
+         hwzLE8M/apS+SIoPXwrqySBPmT4bKzvs4GZh6+vgRuxxYhohFlGCmtfAhFW3QRpVYI
+         LG3+dcQD7QGjXgGWdqil93waHfi52/cRo3KCQU5l09aMc+TybCsCBJ88RIFwQCFLwJ
+         cJgvb/x6pDtrMD/A+0hoGS58fcrkLTblA9yiAIr7WXzXQJCHGIRIZjyrZ4N439qO09
+         zfDEmksv5UfMg==
+From:   SeongJae Park <sj@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        damon@lists.linux.dev, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/10] Docs/mm/damon: Minor fixes and design doc update
+Date:   Thu, 25 May 2023 21:43:04 +0000
+Message-Id: <20230525214314.5204-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Eduardo Valentin <eduval@amazon.com>
+Some of DAMON documents are outdated, or having minor typos or grammar
+erros.  Especially, the design doc has not updated for DAMOS, which is
+an important part of DAMON.  Fix the minor issues and update documents.
 
-This commit will register a crash callback for
-the thermal subsystem, this way the thermal
-core can tear down the thermal zones and ask
-governors to leave the hardware in a known
-safe state prior upon the event of a crash.
+SeongJae Park (10):
+  Docs/mm/damon/faq: remove old questions
+  Docs/mm/damon/maintainer-profile: fix typos and grammar errors
+  Docs/mm/damon/design: add a section for overall architecture
+  Docs/mm/damon/design: update the layout based on the layers
+  Docs/mm/damon/design: rewrite configurable layers
+  Docs/mm/damon/design: add a section for the relation between Core and
+    Modules layer
+  Docs/mm/damon/design: add sections for basic parts of DAMOS
+  Docs/mm/damon/design: add sections for advanced features of DAMOS
+  Docs/mm/damon/design: add a section for DAMON core API
+  Docs/mm/damon/design: add a section for the modules layer
 
-Cc: "Rafael J. Wysocki" <rafael@kernel.org> (supporter:THERMAL)
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org> (supporter:THERMAL)
-Cc: Amit Kucheria <amitk@kernel.org> (reviewer:THERMAL)
-Cc: Zhang Rui <rui.zhang@intel.com> (reviewer:THERMAL)
-Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
-Cc: linux-pm@vger.kernel.org (open list:THERMAL)
-Cc: linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Cc: linux-kernel@vger.kernel.org (open list)
+ Documentation/mm/damon/design.rst             | 309 ++++++++++++++++--
+ Documentation/mm/damon/faq.rst                |  23 --
+ Documentation/mm/damon/maintainer-profile.rst |   4 +-
+ 3 files changed, 285 insertions(+), 51 deletions(-)
 
-Signed-off-by: Eduardo Valentin <eduval@amazon.com>
----
- drivers/thermal/thermal_core.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-index 66a255fb650b..38b168b9245e 100644
---- a/drivers/thermal/thermal_core.c
-+++ b/drivers/thermal/thermal_core.c
-@@ -20,6 +20,7 @@
- #include <linux/string.h>
- #include <linux/of.h>
- #include <linux/suspend.h>
-+#include <linux/panic_notifier.h>
- 
- #define CREATE_TRACE_POINTS
- #include "thermal_trace.h"
-@@ -1525,6 +1526,14 @@ static void thermal_reboot_prepare(void)
- 	}
- }
- 
-+static int thermal_crash_notify(struct notifier_block *nb,
-+				unsigned long mode, void *_unused)
-+{
-+	thermal_reboot_prepare();
-+
-+	return 0;
-+}
-+
- static int thermal_reboot_notify(struct notifier_block *nb,
- 				 unsigned long mode, void *_unused)
- {
-@@ -1569,6 +1578,10 @@ static struct notifier_block thermal_pm_nb = {
- 	.notifier_call = thermal_pm_notify,
- };
- 
-+static struct notifier_block thermal_crash_nb = {
-+	.notifier_call = thermal_crash_notify,
-+};
-+
- static struct notifier_block thermal_reboot_nb = {
- 	.notifier_call = thermal_reboot_notify,
- };
-@@ -1611,6 +1624,8 @@ static int __init thermal_init(void)
- 		pr_warn("Thermal: Can not register reboot notifier, return %d\n",
- 			result);
- 
-+	atomic_notifier_chain_register(&panic_notifier_list,
-+				       &thermal_crash_nb);
- 	return 0;
- 
- unregister_governors:
 -- 
-2.34.1
+2.25.1
 
