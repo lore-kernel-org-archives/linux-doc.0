@@ -2,131 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47A0EC77B7A
-	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 10:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E16DC77B7A
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 11:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240733AbjEYKwk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 May 2023 06:52:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37730 "EHLO
+        id S231160AbjEYLnx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 May 2023 07:43:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238970AbjEYKwi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 06:52:38 -0400
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB2AB199;
-        Thu, 25 May 2023 03:52:36 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id 6FAD52B0681B;
-        Thu, 25 May 2023 06:52:32 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 25 May 2023 06:52:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1685011952; x=1685019152; bh=DU
-        FYLgNR0P3iMDujbNPJ6zcWMVF2ZDhcLM/UDfvQ7oE=; b=MOQIz0mdsCpzsJDpOT
-        8ymmHxd6/8U/1WrSlAu+26J9rPY+bl/QIyP7HlCrsPmJUlV8qXrewBBWaZM/zPbl
-        Avlzez1zIuARarFB8Q+CSpanGgDvavP3UvS7jOZjuO8BEJC5Skq+WhgsPSE7BYso
-        huvQr31ejgwQADplhhctQIrYZoiYvP65bWrP7Ep2/ENITKCKFjM+ORNVQInWBB/U
-        e1xnq3JiYlOQMGLPzi2Gn4d5fn7nPmSS0o6PhQUi+JS4X88aY797/1dcU900mr0r
-        b8dxJ/azB1vY1PWRzlUrX+dxP0NYO2gi5TQFJt7KPkijRDPkRNSWoC8W0yTowW0l
-        f+Mw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1685011952; x=1685019152; bh=DUFYLgNR0P3iM
-        DujbNPJ6zcWMVF2ZDhcLM/UDfvQ7oE=; b=EflHhJQg9wl2mG7bcZk8ETaFCFS2e
-        +KCM2ZXWihEVKvLhonnr7dOUeqG2bh5qJx2FysmmLCMzUPG+HlbFcFxvGE9Yt6Rg
-        c1Zq4zh4OEYt+Q71eWIJqiin1aNt49jXbiLQh9SJE62wFNAo911XNBoucik+Gzc8
-        cspfKUzRXOjWxDMSK7p38IylIxc/LuzE632/sGzGIEm6R1Y34aKYTzNNhuewVS6x
-        mPkAw7cYASaqD4haDeYKF5F8Li1HLZYnk6WFDdHQJiPyYzjJou5z/uFu4KgXX886
-        wVCJOeYCov0f/WDjAlcaoDUMGPabIC66aH+QqtLdoHG3Q/7JEQQMjfKGQ==
-X-ME-Sender: <xms:7D1vZO4QU9Jez8-ha0NTKuIxJkxVOyWMOw59fwy-mdgdKCWyERZ0Qw>
-    <xme:7D1vZH4l8nWr7ujQavOzUH-YdKW1mkNYstrhjZKuCzbgYa4fM7wmWEDCrZfB3fK5i
-    E6t_sOrA2-CCtDMUqg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeejjedgfedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:7D1vZNeCUZGBr8hqNazi1vE2XPDcy56nt9wPzXEdZqoJHZzP3_eX-w>
-    <xmx:7D1vZLJLWXCFdXo0PikDzn15lfJXSQx6C7gtfm9COaeI2OXgWNRmiw>
-    <xmx:7D1vZCLrYnBxTsTvaUHJd6WCBIVu4xSqVNpfgBb3TGefKjjwmCI_bg>
-    <xmx:8D1vZJLI8FQKNsj_QLZ7J4Fw_p8dg7sgs9AIRGxRbmH08jCfAongICIo1Eg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id C3EA8B60086; Thu, 25 May 2023 06:52:28 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-441-ga3ab13cd6d-fm-20230517.001-ga3ab13cd
-Mime-Version: 1.0
-Message-Id: <292934ce-73fa-4077-9051-2ad909828f4a@app.fastmail.com>
-In-Reply-To: <20230525102946.GE38236@hirez.programming.kicks-ass.net>
-References: <20230515075659.118447996@infradead.org>
- <20230515080554.453785148@infradead.org>
- <20230524093246.GP83892@hirez.programming.kicks-ass.net>
- <20230525102946.GE38236@hirez.programming.kicks-ass.net>
-Date:   Thu, 25 May 2023 12:52:06 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Peter Zijlstra" <peterz@infradead.org>,
-        "Linus Torvalds" <torvalds@linux-foundation.org>
-Cc:     "Jonathan Corbet" <corbet@lwn.net>,
-        "Will Deacon" <will@kernel.org>,
-        "Boqun Feng" <boqun.feng@gmail.com>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>, dennis@kernel.org,
-        "Tejun Heo" <tj@kernel.org>, "Christoph Lameter" <cl@linux.com>,
-        "Heiko Carstens" <hca@linux.ibm.com>, gor@linux.ibm.com,
-        "Alexander Gordeev" <agordeev@linux.ibm.com>,
-        borntraeger@linux.ibm.com, "Sven Schnelle" <svens@linux.ibm.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, "Joerg Roedel" <joro@8bytes.org>,
-        suravee.suthikulpanit@amd.com,
-        "Robin Murphy" <robin.murphy@arm.com>,
-        "David Woodhouse" <dwmw2@infradead.org>,
-        "Baolu Lu" <baolu.lu@linux.intel.com>,
-        "Herbert Xu" <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Pekka Enberg" <penberg@kernel.org>,
-        "David Rientjes" <rientjes@google.com>,
-        "Joonsoo Kim" <iamjoonsoo.kim@lge.com>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Roman Gushchin" <roman.gushchin@linux.dev>,
-        "Hyeonggon Yoo" <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-crypto@vger.kernel.org,
-        "Stephen Rothwell" <sfr@canb.auug.org.au>,
-        "Michael Ellerman" <mpe@ellerman.id.au>
-Subject: Re: [PATCH v3 08/11] slub: Replace cmpxchg_double()
-Content-Type: text/plain
+        with ESMTP id S240005AbjEYLnv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 07:43:51 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E90AA;
+        Thu, 25 May 2023 04:43:40 -0700 (PDT)
+Received: from dggpemm500002.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QRmNV2TjhzYslK;
+        Thu, 25 May 2023 19:41:30 +0800 (CST)
+Received: from [10.174.178.247] (10.174.178.247) by
+ dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 25 May 2023 19:43:38 +0800
+Subject: Re: [PATCH 3/3] Documentation/arm64: Update ACPI tables from BBR
+To:     Jose Marinho <Jose.Marinho@arm.com>,
+        Robin Murphy <Robin.Murphy@arm.com>
+CC:     Catalin Marinas <Catalin.Marinas@arm.com>,
+        Jeremy Linton <Jeremy.Linton@arm.com>,
+        James Morse <James.Morse@arm.com>,
+        Rob Herring <Rob.Herring@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>,
+        nd <nd@arm.com>
+References: <20230518105202.451739-1-jose.marinho@arm.com>
+ <20230518105202.451739-4-jose.marinho@arm.com>
+ <0969894f-d653-482c-f043-2a085ee3b404@huawei.com>
+ <e9918d6e-ca5c-5a3a-6ff4-27acf7f73b30@arm.com>
+ <dd0114f5-2e9c-40ea-8722-93fdf3f57b87@huawei.com>
+ <3dcc08c8-f8e8-69d0-7ad8-e8938f4f2cca@arm.com>
+ <DBBPR08MB6012B565A6B819C2506E62BF88439@DBBPR08MB6012.eurprd08.prod.outlook.com>
+From:   Hanjun Guo <guohanjun@huawei.com>
+Message-ID: <6a6c2018-6e90-e11a-113d-a0459e5fcb1f@huawei.com>
+Date:   Thu, 25 May 2023 19:43:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <DBBPR08MB6012B565A6B819C2506E62BF88439@DBBPR08MB6012.eurprd08.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.247]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500002.china.huawei.com (7.185.36.229)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 25, 2023, at 12:29, Peter Zijlstra wrote:
-> On Wed, May 24, 2023 at 11:32:47AM +0200, Peter Zijlstra wrote:
->> On Mon, May 15, 2023 at 09:57:07AM +0200, Peter Zijlstra wrote:
->
-> This then also means I need to look at this_cpu_cmpxchg128 and
-> this_cpu_cmoxchg64 behaviour when we dont have the CPUID feature.
->
-> Because current verions seem to assume the instruction is present.
+On 2023/5/22 18:55, Jose Marinho wrote:
+> Hi Hanjun, Robin,
+> 
+>> On 2023-05-19 08:10, Hanjun Guo wrote:
+>>> On 2023/5/18 21:40, Robin Murphy wrote:
+>>>> On 2023-05-18 13:07, Hanjun Guo wrote:
+>>>>> Hi Jose,
+>>>>>
+>>>>> On 2023/5/18 18:52, Jose Marinho wrote:
+>>>>>> The BBR specification requires (or conditionally requires) a set of
+>>>>>> ACPI tables for a proper working system.
+>>>>>> This commit updates:
+>>>>>> - the list of ACPI tables to reflect the contents of BBR version
+>>>>>> 2.0 (seehttps://developer.arm.com/documentation/den0044/g).
+>>>>>> - the list of ACPI tables in acpi_object_usage. This last update
+>>>>>> ensures that both files remain coherent.
+>>>>> Thanks for the update, some comments inline.
+>>>>>
+>>>>>> Signed-off-by: Jose Marinho<jose.marinho@arm.com>
+>>>>>> Reviewed-by: Samer El-Haj-Mahmoud <Samer.El-Haj-
+>> Mahmoud@arm.com>
+>>>>>> ---
+>>>>>>    Documentation/arm64/acpi_object_usage.rst | 81
+>>>>>> +++++++++++++++++++++--
+>>>>>>    Documentation/arm64/arm-acpi.rst          | 71
+>>>>>> +++++++++++++++++---
+>>>>>>    2 files changed, 139 insertions(+), 13 deletions(-)
+>>>>>>
+>>>>>> diff --git a/Documentation/arm64/acpi_object_usage.rst
+>>>>>> b/Documentation/arm64/acpi_object_usage.rst
+>>>>>> index 484ef9676653..1da22200fdf8 100644
+>>>>>> --- a/Documentation/arm64/acpi_object_usage.rst
+>>>>>> +++ b/Documentation/arm64/acpi_object_usage.rst
+>>>>>> @@ -17,16 +17,37 @@ For ACPI on arm64, tables also fall into the
+>>>>>> following categories:
+>>>>>>           -  Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
+>>>>>> -       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS,
+>>>>>> FPDT, IBFT,
+>>>>>> -          IORT, MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT,
+>>>>>> SPMI, SRAT,
+>>>>>> -          STAO, TCPA, TPM2, UEFI, XENV
+>>>>>> +       -  Optional: AGDI, BGRT, CEDT, CPEP, CSRT, DBG2, DRTM,
+>>>>>> +ECDT,
+>>>>>> FACS, FPDT,
+>>>>>> +          HMAT, IBFT, IORT, MCHI, MPAM, MPST, MSCT, NFIT, PMTT,
+>>>>>> PPTT, RASF, SBST,
+>>>>>> +          SDEI, SLIT, SPMI, SRAT, STAO, TCPA, TPM2, UEFI, XENV
+>>>>>> -       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IVRS, LPIT,
+>>>>>> MSDM, OEMx,
+>>>>>> -          PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
+>>>>>> +       -  Not supported: AEST, APMT, BOOT, DBGP, DMAR, ETDT, HPET,
+>>>>>> IVRS, LPIT,
+>>>>> AEST is ARM Error Source Table, and it can be used for ARM
+>>>>> platforms, so I thinsk AEST is not belong to "Not supportted", "Optional"
+>> instead.
+>>>> Can you point to the code in Linux which does anything with AEST,
+>>>> optionally or otherwise?;)
+>>>>> and APMT is the same.
+>>>>>
+>>>>>> +          MSDM, OEMx, PDTT, PSDT, RAS2, RSDT, SLIC, WAET, WDAT,
+>>>>>> WDRT, WPBT
+>>>>> PDTT and RAS2 are now used for ARM too, please move it to Optional
+>>>>> :)
+> The 6.3 kernel does not yet have code consuming either table.
+> 
+> Perhaps the categories {"Required", "Recommended", "Optional", "Not supported"}
+> listed in Documentation/arm64/acpi_object_usage.rst should be defined.
+> 
+> My opinion (which may be unaligned with the original intent behind the categories) is, If a table
+> is consumed by kernel code, then it is supported, i.e. in {"Required", "Recommended", "Optional"}.
+> Otherwise, the table is "Not supported".
+> 
+>>>> Ditto; as stated in arm-acpi.rst this is Linux documentation covering
+>>>> the interaction between Linux and ACPI. It is not some kind of
+>>>> generic
+>>> Hmm, let me see...
+>>>
+>>> OK, I checked the arm-acpi.rst, it is saying:
+>>>
+>>> "Detailed expectations for ACPI tables and object are listed in the
+>>> file Documentation/arm64/acpi_object_usage.rst."
+>>>
+>>> So if I remember correctly, it is the guidance of ACPI tables and
+>>> methods usage on arm64, to align with the BBR.
+>> "The purpose of this document is to describe the interaction between ACPI
+>> and Linux only, on an ARMv8 system -- that is, what Linux expects of ACPI
+>> and what ACPI can expect of Linux."
+>>
+>> I don't see how it could get much clearer than that. Yes, phrasing like "ACPI
+>> on arm64" is used elsewhere, but remember that in context "arm64"
+>> means "AArch64 Linux".
+>>
+>>>> ACPI-on-Arm guidance whitepaper. If and when Linux actually supports
+>>>> these tables in the sense of meaningfully consuming them, that is
+>>>> when we can document such support.
+>>> If this is the case, we don't need categories of "Required",
+>>> "Recommmened" and etc.
+>> Certainly the distinction between required and optional is significant and
+>> useful, since Linux may fail to boot at all if a required table is missing. I'd
+>> agree I can't really make sense of the "recommended"
+>> category though - it's not like firmware could make up RAS support if the
+>> hardware doesn't have it, and whether SSDTs are appropriate or not seems
+>> to depend on the fundamental design of the system, rather than being
+>> something an OS should dictate :/
+>>
+> I agree with Robin that it isn’t clear what "Recommended" versus "Optional" signifies.
+> Maybe the distinction should be better discussed, and we can make those clarifications in a separate change?
 
-As far as I could tell when reviewing your series, this_cpu_cmpxchg64()
-is always available on all architectures. Depending on compile-time
-feature detection this would be either a native instruction that
-is guaranteed to work, or the irq-disabled version. On x86, this
-is handled at runtime with alternative_io().
+Looks good to me.
 
-this_cpu_cmpxchg128() clearly needed the system_has_cmpxchg128()
-check, same as system_has_cmpxchg_double() today.
-
-     Arnd
+Thanks
+Hanjun
