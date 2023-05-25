@@ -2,159 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A4BC7EE2D
-	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 04:22:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2864C7EE2C
+	for <linux-doc@archiver.kernel.org>; Thu, 25 May 2023 04:55:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238100AbjEYEWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 May 2023 00:22:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48076 "EHLO
+        id S239769AbjEYEzg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 May 2023 00:55:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236525AbjEYEWF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 00:22:05 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50654187
-        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 21:21:59 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-ba2b9ecfadaso282482276.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 May 2023 21:21:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1684988518; x=1687580518;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=98GS1yBDh3h/h+5NjI7rziULFIid1JDrRb2JVZKNFRg=;
-        b=TrJRb1gjIODGA9G7zYo/ODm6PuuPJltD0EoZbN0FAIcLUYYdMaLXh/5IU8HVTcKVNC
-         k5wzgdMdFokn8teszJWIGewAhgthSJ74xEx25ozikYO4GrC1VIY3sorovF/gMq6ZX8Zx
-         RSDyJE4ZK71g5Sayo/ckvyuUtEdT58zK8TiCXOs845fYwWqyYgM6t/IlPm9s94x46BPA
-         QYa/+wL5NzxrwcR94nzoNAE5aOkb8ZCSVbdSXHWA6Ppz8CUSLXOWnbJFX696ET55oULe
-         HtqAD7LaZhWbSRN9YFONBTv1QH4ns7fJ+2CdjxdLZeiNql45+MpaB+baDQF3WYiyYyUb
-         0wtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684988518; x=1687580518;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=98GS1yBDh3h/h+5NjI7rziULFIid1JDrRb2JVZKNFRg=;
-        b=jpml9anBKFyrA80Zg7iUg3YnUq05yIdZK4AVyq/2S7rCyU1xfqlVfWsykHvoSQL80T
-         Ay4Ssf4LR66EvR0WUQahNA2Xa740ym0dXP2HYPuVApfoisY+Ltzu+2AoLzczFeOStx/T
-         CaRNzqpk6x97OVCkTpTM8QdwhCnFd+N6HQi5ki3221WnFj17ikhJfaeKATQRaVLSonKT
-         3nlfJ9lOXhJ6dc29+aKhj/nlLFIzLEEuR2gwWQxwg/H0Z7X18FyzFFQ3ly4FOYhiDI6S
-         nmlk8stDIU224dBR40AnfrYEpWI0XKaG/aWpUIBHESZkjARnuWf7djkQ0TuwK+xHcEPR
-         +9Hg==
-X-Gm-Message-State: AC+VfDz8PFGCDx6+BjYEEo5efjJTiBjURK5C2RQ3lDgtsNeUbLBnNU2Y
-        gco2+GM2L9fCIepI8+aOfjntcU0ZR7ouEA==
-X-Google-Smtp-Source: ACHHUZ7gMiNS3iV21rOO3brq86ZzcHBDRBwpvNy6cIuEboXIgU711R2ZSvPfIrHn1P2qoneGVAb2ZjtNAv4qNQ==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a05:6902:1024:b0:ba8:6422:7fc with SMTP
- id x4-20020a056902102400b00ba8642207fcmr1455878ybt.7.1684988518586; Wed, 24
- May 2023 21:21:58 -0700 (PDT)
-Date:   Thu, 25 May 2023 12:21:31 +0800
-In-Reply-To: <20230525042133.212534-1-davidgow@google.com>
-Mime-Version: 1.0
-References: <20230525042133.212534-1-davidgow@google.com>
-X-Mailer: git-send-email 2.41.0.rc0.172.g3f132b7071-goog
-Message-ID: <20230525042133.212534-4-davidgow@google.com>
-Subject: [PATCH v3 4/4] Documentation: kunit: Add usage notes for kunit_add_action()
-From:   David Gow <davidgow@google.com>
-To:     Matti Vaittinen <mazziesaccount@gmail.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Benjamin Berg <benjamin@sipsolutions.net>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Rae Moar <rmoar@google.com>
-Cc:     David Gow <davidgow@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        with ESMTP id S239470AbjEYEyT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 00:54:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E901732;
+        Wed, 24 May 2023 21:51:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B2E49642A8;
+        Thu, 25 May 2023 04:51:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8648BC433D2;
+        Thu, 25 May 2023 04:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684990307;
+        bh=ez3D8fuLcI2F25obBylshOkOWazf7BuCNrxi08ePRHE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GDKSJazXp7/jKYoPuCF3/6GgslIvVeVomdz7IktiG7XzzyKqXB8x56hAnJaJNTDJL
+         uD2mR+OSvrtdE0n/FIzbsEfh8nSgkB9ZBHQIku56WpWmHqU7ARa4WXolLTZWLCJdEm
+         4rYfMu0uS8EHbQNgKRFcbuHUJr3jizhMiDLbImFtkePIUMATg62HqQq7+RkXTkYkB8
+         PrPRTlbOUEcOxQ6NPqxzKkVm5/y8/es2DBF+9AZG0tkLZtEXSEAbJtVJhFBRdilrB1
+         /SIETI55rhB6fct9Cz/GOz7R+IDqlo54g4Ykue6dxksLV+k1FMjAtd2gg3EZFYwcmC
+         tQIHaqgUaapTg==
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lee Jones <lee@kernel.org>,
         Jonathan Cameron <jic23@kernel.org>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Luca Weiss <luca@z3ntu.xyz>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Subject: Re: (subset) [PATCH v3 0/3] Add PMI632 PMIC and RGB LED on sdm632-fairphone-fp3
+Date:   Wed, 24 May 2023 21:54:25 -0700
+Message-Id: <168499048187.3998961.2050518696021366636.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230414-pmi632-v3-0-079d2cada699@z3ntu.xyz>
+References: <20230414-pmi632-v3-0-079d2cada699@z3ntu.xyz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add some basic documentation for kunit_add_action() and related
-deferred action functions.
+On Tue, 23 May 2023 22:41:27 +0200, Luca Weiss wrote:
+> Add support for the PMI632 PMIC in the spmi-gpio & qcom-lpg driver, add
+> the dtsi for the PMIC and enable the notification LED on fairphone-fp3.
+> 
+> 
 
-Reviewed-by: Rae Moar <rmoar@google.com>
-Signed-off-by: David Gow <davidgow@google.com>
----
+Applied, thanks!
 
-Changes since v2:
-https://lore.kernel.org/linux-kselftest/20230518083849.2631178-4-davidgow@google.com/
-- Fix a couple of typos (Thanks Bagas, Rae)
-- Add Rae's Reviewed-by.
+[1/3] arm64: dts: qcom: Add PMI632 PMIC
+      commit: a1f0f2ebb044c7248c3f30b98de0f151505bd4bd
+[2/3] arm64: dts: qcom: sdm632-fairphone-fp3: Add notification LED
+      commit: 0c4f10917d22e6f36080617bfe71de1ae854ee58
 
-This patch is new in v2.
-
----
- Documentation/dev-tools/kunit/usage.rst | 51 +++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
-
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index 46957d1cbcbb..c27e1646ecd9 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -615,6 +615,57 @@ For example:
- 		KUNIT_ASSERT_STREQ(test, buffer, "");
- 	}
- 
-+Registering Cleanup Actions
-+---------------------------
-+
-+If you need to perform some cleanup beyond simple use of ``kunit_kzalloc``,
-+you can register a custom "deferred action", which is a cleanup function
-+run when the test exits (whether cleanly, or via a failed assertion).
-+
-+Actions are simple functions with no return value, and a single ``void*``
-+context argument, and fulfill the same role as "cleanup" functions in Python
-+and Go tests, "defer" statements in languages which support them, and
-+(in some cases) destructors in RAII languages.
-+
-+These are very useful for unregistering things from global lists, closing
-+files or other resources, or freeing resources.
-+
-+For example:
-+
-+.. code-block:: C
-+
-+	static void cleanup_device(void *ctx)
-+	{
-+		struct device *dev = (struct device *)ctx;
-+
-+		device_unregister(dev);
-+	}
-+
-+	void example_device_test(struct kunit *test)
-+	{
-+		struct my_device dev;
-+
-+		device_register(&dev);
-+
-+		kunit_add_action(test, &cleanup_device, &dev);
-+	}
-+
-+Note that, for functions like device_unregister which only accept a single
-+pointer-sized argument, it's possible to directly cast that function to
-+a ``kunit_action_t`` rather than writing a wrapper function, for example:
-+
-+.. code-block:: C
-+
-+	kunit_add_action(test, (kunit_action_t *)&device_unregister, &dev);
-+
-+``kunit_add_action`` can fail if, for example, the system is out of memory.
-+You can use ``kunit_add_action_or_reset`` instead which runs the action
-+immediately if it cannot be deferred.
-+
-+If you need more control over when the cleanup function is called, you
-+can trigger it early using ``kunit_release_action``, or cancel it entirely
-+with ``kunit_remove_action``.
-+
- 
- Testing Static Functions
- ------------------------
+Best regards,
 -- 
-2.41.0.rc0.172.g3f132b7071-goog
-
+Bjorn Andersson <andersson@kernel.org>
