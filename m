@@ -2,57 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F76DC7EE23
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 06:23:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95EDFC7EE2D
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 07:50:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242089AbjEZGXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 02:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57632 "EHLO
+        id S236772AbjEZHuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 03:50:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231495AbjEZGXF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 02:23:05 -0400
+        with ESMTP id S236059AbjEZHup (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 03:50:45 -0400
 Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294AC125;
-        Thu, 25 May 2023 23:23:04 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-53482b44007so243271a12.2;
-        Thu, 25 May 2023 23:23:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A4C6B6;
+        Fri, 26 May 2023 00:50:44 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-5341737d7aeso410881a12.2;
+        Fri, 26 May 2023 00:50:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685082183; x=1687674183;
+        d=gmail.com; s=20221208; t=1685087444; x=1687679444;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7cCHBf3UytwZfxePPwE+jd6ort0sOdXbbuo1VvBkL64=;
-        b=In9JMr9pXJKdU4OFNrKA8VkqvzNERFgbkF1WTefIBpZGNH1cm6Wu4vy6gHMfTTbpH5
-         Bxt1r4RdI0sl2apwFfU9YncceU9jlq55r9HxXRy93MWRcYsVcXQ/3fCBv5QBexNmd25X
-         6G2yWYoM0MVRHQMx8eH0pxaCBL360ys2TBubCUiYCToafZ9wgibDjDx0qVGg1QlxwNOJ
-         mLFF8yI2zd7UosSjjmAmMe1b3OntVisxuNwReKnyR4cjSdQqdBe57OFiu7V+h7YbDTD9
-         gS4FVXbZxLBVK9nWMBpD7mMOq0v4voFCeypL5pXo+ai/vZiKklNlarHEiS6wZWvQStAQ
-         076A==
+        bh=DC31IUhv/KDwF/7LXlScDdxDoyQnFVByk+1cX0N3RaE=;
+        b=Jhs5ewodbHYux8rWhVtQych048Jh1kydORvmCZBCk1d+cKOfGCAypgl5wP36OA6UPY
+         iV2JB3nG+nkKnPEfCq/6JOGJ+BuIrM/MSAbgOJ0p3dOxlDiW5hfzk/rQnKvK0MZFZZmY
+         LqWyiqzwdd8P8J06ueWglPKI4iG8HTQ35NWYE1Zz+rV438CWkHtoGq3E3q4ocLOP5T8C
+         euSntHUIVUEBh3la/Yy5NtBfEcZBeniHggQeHvjGzwtmUrGsUA8pPjwiFDZqJwloc2H5
+         yRpr2O/ZC0n2mgszGTzp1RfDh7Vg8zx5hGA8wOmNgzT9u5/icQUnuQWM3RMTu7N7NCDg
+         VQhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685082183; x=1687674183;
+        d=1e100.net; s=20221208; t=1685087444; x=1687679444;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7cCHBf3UytwZfxePPwE+jd6ort0sOdXbbuo1VvBkL64=;
-        b=ebjpIGkbPWxespbD+Cr1qrLtNWbdnKXnGoSUtbmExpJ+efkW42z1UxahXGHMk6bL2q
-         Oe0tBcwJdgZ13cKR82hBr8qf2SwVpOFTrm6fbO5gvgCxgUgG26PHSan8oYeJiJ6phP8v
-         isnc6grXZrUBi531so6PKCEigEYanYTBqaBRXLyowYkr/XbBVc52WT/9K1iS10UmRZ93
-         jmMbPTHANuPRj9Lw1yOxS+xMO+R0w8c/a3AbZzixx2XtQvQlN1OSMtgpHCtls9/OCIH7
-         QuHcMw3b2EQKlnOyE6VhsGmotkIpiLNPNWX0gDYlqQfWuh2Lgnaea08P1EsHGaor+3w1
-         2dww==
-X-Gm-Message-State: AC+VfDwIJ5B8DcD38FpUIMgWTPR3jbmeScYQXGpUAGBRPgUOhRFjysda
-        yK8SOegYjoDFpI6VCa6UHUrEgdxzb51lqL0RAxQ=
-X-Google-Smtp-Source: ACHHUZ5+adpq5bn8ccEuSJ16UorMQ11HQo3chgEmsUz3XwrAAvurJ6sIX+3y8mXx79RuaBedX3HqgDmU0iivyP2H1/M=
-X-Received: by 2002:a17:903:2285:b0:1ab:142a:3dd7 with SMTP id
- b5-20020a170903228500b001ab142a3dd7mr1537487plh.68.1685082183465; Thu, 25 May
- 2023 23:23:03 -0700 (PDT)
+        bh=DC31IUhv/KDwF/7LXlScDdxDoyQnFVByk+1cX0N3RaE=;
+        b=OpPQvcSy0O5optSX/GwaXXlU6lU4jwf19dIamUxC4aCJ1ooDb+GrtmqT0PfOfciO4G
+         nnJ/2rd+oZG7SmqCEb22gw+t5FP64Edc3wLzPOZOgiB3U+qPzbBdBXBBXRUYOzmTlqoP
+         wZ9lqxS1ReLNj3hPmfEupxKCmVsyXSlMdXjFlZ3tM1bQig90T9WusNSNVkz5De2N38v6
+         HWEnYGAEQOaK38Fk6oWJwsmBa+gnTHuaeKUu50vU9+BKpbAH13OOVkmmQ9WzS1RI9n87
+         oTOOe9kBjsj6x8mwp/iGzuY7h1Gm9uJXJDTmzdNbJJgd61l2m2IGy2hdkI+4bHNlYfNv
+         jC6w==
+X-Gm-Message-State: AC+VfDx6VKzJmHG7dHUGn1TlWTSrEWpTHCErZTi09TAqXj/qRhthZ0cB
+        df8eaFoFjAnPgavm7PJ5rn7aB/KJmQ7OBnWUsNg=
+X-Google-Smtp-Source: ACHHUZ58ZyNcl4smp7Jn1NrrTnovVntKOMAOSrPor/2jlNcaBY0cnT/p2f56wvJwy1y5P3rJncUZpbKm54trYcAP22Q=
+X-Received: by 2002:a17:903:2345:b0:1af:f4f5:6fae with SMTP id
+ c5-20020a170903234500b001aff4f56faemr1891458plh.54.1685087443821; Fri, 26 May
+ 2023 00:50:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1684999824.git.haibo1.xu@intel.com> <20230525-6e0855eb07086a96eaa82362@orel>
-In-Reply-To: <20230525-6e0855eb07086a96eaa82362@orel>
+References: <cover.1684999824.git.haibo1.xu@intel.com> <26dea518fc5e8da51e61db279d175364bfecd009.1684999824.git.haibo1.xu@intel.com>
+ <20230525-705ddcbcd43aa63e3fd356c8@orel>
+In-Reply-To: <20230525-705ddcbcd43aa63e3fd356c8@orel>
 From:   Haibo Xu <xiaobo55x@gmail.com>
-Date:   Fri, 26 May 2023 14:22:52 +0800
-Message-ID: <CAJve8o=SdjMvsVn=3Vqw3QG5SuU8nqLVC_MRAgPX+GuFZj6jvA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] RISCV: Add KVM_GET_REG_LIST API
+Date:   Fri, 26 May 2023 15:50:32 +0800
+Message-ID: <CAJve8onF9MFuaVsThFnhjWr6ZomB0Lhr9WXGvMiJDt5vrjeKLg@mail.gmail.com>
+Subject: Re: [PATCH v2 09/11] KVM: riscv: selftests: Make check_supported arch specific
 To:     Andrew Jones <ajones@ventanamicro.com>
 Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
         oliver.upton@linux.dev, seanjc@google.com,
@@ -81,42 +82,120 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 26, 2023 at 1:20=E2=80=AFAM Andrew Jones <ajones@ventanamicro.c=
-om> wrote:
+On Fri, May 26, 2023 at 12:40=E2=80=AFAM Andrew Jones <ajones@ventanamicro.=
+com> wrote:
 >
-> On Thu, May 25, 2023 at 03:38:24PM +0800, Haibo Xu wrote:
-> > KVM_GET_REG_LIST will dump all register IDs that are available to
-> > KVM_GET/SET_ONE_REG and It's very useful to identify some platform
-> > regression issue during VM migration.
+> On Thu, May 25, 2023 at 03:38:33PM +0800, Haibo Xu wrote:
+> > check_supported() was used to verify whether a feature/extension was
+> > supported in a guest in the get-reg-list test. Currently this info
+> > can be retrieved through the KVM_CAP_ARM_* API in aarch64, but in
+> > riscv, this info was only exposed through the KVM_GET_ONE_REG on
+> > KVM_REG_RISCV_ISA_EXT pseudo registers.
 > >
-> > Patch 1-7 re-structured the get-reg-list test in aarch64 to make some
-> > of the code as common test framework that can be shared by riscv.
-> >
-> > Patch 8 enabled the KVM_GET_REG_LIST API in riscv and patch 9-11 added
-> > the corresponding kselftest for checking possible register regressions.
-> >
-> > The get-reg-list kvm selftest was ported from aarch64 and tested with
-> > Linux 6.4-rc1 on a Qemu riscv virt machine.
-> >
+> > Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
 > > ---
-> > Changed since v1:
-> >   * rebase to Andrew's changes
-> >   * fix coding style
+> >  tools/testing/selftests/kvm/get-reg-list.c | 32 +++++++++++-----------
+> >  1 file changed, 16 insertions(+), 16 deletions(-)
 > >
-> > Andrew Jones (7):
-> >   KVM: arm64: selftests: Replace str_with_index with strdup_printf
-> >   KVM: arm64: selftests: Drop SVE cap check in print_reg
-> >   KVM: arm64: selftests: Remove print_reg's dependency on vcpu_config
-> >   KVM: arm64: selftests: Rename vcpu_config and add to kvm_util.h
-> >   KVM: arm64: selftests: Delete core_reg_fixup
-> >   KVM: arm64: selftests: Split get-reg-list test code
-> >   KVM: arm64: selftests: Finish generalizing get-reg-list
+> > diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing=
+/selftests/kvm/get-reg-list.c
+> > index f6ad7991a812..f1fc113e9719 100644
+> > --- a/tools/testing/selftests/kvm/get-reg-list.c
+> > +++ b/tools/testing/selftests/kvm/get-reg-list.c
+> > @@ -99,6 +99,20 @@ void __weak print_reg(const char *prefix, __u64 id)
+> >  }
+> >
+> >  #ifdef __aarch64__
+> > +static void check_supported(struct vcpu_reg_list *c)
+> > +{
+> > +     struct vcpu_reg_sublist *s;
+> > +
+> > +     for_each_sublist(c, s) {
+> > +             if (!s->capability)
+> > +                     continue;
 >
-> All the patches above should also have your s-o-b since your posting them=
-.
+> I was going to say that making this function aarch64 shouldn't be
+> necessary, since riscv leaves capability set to zero and this function
+> doesn't do anything, but then looking ahead I see riscv is abusing
+> capability by putting isa extensions in it. IMO, capability should
+> only be set to KVM_CAP_* values. Since riscv doesn't use it, then it
+> should be left zero.
+>
+> If we're going to abuse something, then I'd rather abuse the 'feature'
+> member, but since it's only an int (not an unsigned long), then let's
+> just add an 'unsigned long extension' member.
 >
 
-Sure.
+Good idea!
 
+For the new 'extension' member in riscv, I think its use case should be
+identical to the 'feature' member in aarch64(KVM_RISCV_ISA_EXT_F
+was similar to KVM_ARM_VCPU_SVE)? If so, I think we can just reuse
+the 'feature' member since the data type was not a big deal.
+
+> Then, the finalize_vcpu() call can be moved back to run_test(), from
+> aarch64's vcpu_config_get_vcpu(). Both aarch64 and riscv will call it
+> right after vcpu_config_get_vcpu() and the riscv version of it will
+> do what your current riscv check_supported() is doing, using the
+> new 'extension' member instead of 'capability'.
+>
+> And this patch gets dropped.
+>
 > Thanks,
 > drew
+>
+> > +
+> > +             __TEST_REQUIRE(kvm_has_cap(s->capability),
+> > +                            "%s: %s not available, skipping tests\n",
+> > +                            config_name(c), s->name);
+> > +     }
+> > +}
+> > +
+> >  static void prepare_vcpu_init(struct vcpu_reg_list *c, struct kvm_vcpu=
+_init *init)
+> >  {
+> >       struct vcpu_reg_sublist *s;
+> > @@ -126,6 +140,8 @@ static struct kvm_vcpu *vcpu_config_get_vcpu(struct=
+ vcpu_reg_list *c, struct kvm
+> >       struct kvm_vcpu_init init =3D { .target =3D -1, };
+> >       struct kvm_vcpu *vcpu;
+> >
+> > +     check_supported(c);
+> > +
+> >       prepare_vcpu_init(c, &init);
+> >       vcpu =3D __vm_vcpu_add(vm, 0);
+> >       aarch64_vcpu_setup(vcpu, &init);
+> > @@ -140,20 +156,6 @@ static struct kvm_vcpu *vcpu_config_get_vcpu(struc=
+t vcpu_reg_list *c, struct kvm
+> >  }
+> >  #endif
+> >
+> > -static void check_supported(struct vcpu_reg_list *c)
+> > -{
+> > -     struct vcpu_reg_sublist *s;
+> > -
+> > -     for_each_sublist(c, s) {
+> > -             if (!s->capability)
+> > -                     continue;
+> > -
+> > -             __TEST_REQUIRE(kvm_has_cap(s->capability),
+> > -                            "%s: %s not available, skipping tests\n",
+> > -                            config_name(c), s->name);
+> > -     }
+> > -}
+> > -
+> >  static bool print_list;
+> >  static bool print_filtered;
+> >
+> > @@ -165,8 +167,6 @@ static void run_test(struct vcpu_reg_list *c)
+> >       struct kvm_vm *vm;
+> >       struct vcpu_reg_sublist *s;
+> >
+> > -     check_supported(c);
+> > -
+> >       vm =3D vm_create_barebones();
+> >       vcpu =3D vcpu_config_get_vcpu(c, vm);
+> >
+> > --
+> > 2.34.1
+> >
