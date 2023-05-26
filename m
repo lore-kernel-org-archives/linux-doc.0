@@ -2,145 +2,263 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C14C7EE2D
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 08:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0A3EC7EE2D
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 10:09:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242774AbjEZIoL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 04:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43400 "EHLO
+        id S242762AbjEZKJe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 06:09:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242764AbjEZIoK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 04:44:10 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE135189
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 01:44:07 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-30a4ebbda56so399053f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 01:44:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1685090646; x=1687682646;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=d+EoENykicvVhtEx+udnXdT2B4JfjP100xbZZvVxTGI=;
-        b=UenbCjy/I9HgH2jdm7xkNf6QaTPRnGD3oJYBWp5gW4oKpljuc7vfgywIdXGGlztlNg
-         WBf0GoDaqIVfpEVdwdc5TtB6YVVb0Az0KZa2PFh52MKWCOO7ZOVqX12Fe0P6bEm9nYuD
-         7rik9Qe5TOHIQfHDdGe0FR+WPexBQKohZ3LdAXszvji4181FMT+PMnsh75WOkYxHAc6B
-         uJXTQ/PBWyvmWnsm4Ii+AX7brHBuF63Bus1NWZyvhiJejHNCZExGzqs9+im3YcQqnE19
-         YFt7Yu3IlZpyaIOy/Ks3dLgIR8yXPRN40wjaR9XsNed5xJy67QJFvhrT3y9PYA48il12
-         dxBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685090646; x=1687682646;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d+EoENykicvVhtEx+udnXdT2B4JfjP100xbZZvVxTGI=;
-        b=ef9/j82wPRrpxTztrwIv5hjfVTQqaUZ0lz2+IFjMfKnogtLbbrnbyPVmhMlemoaYtO
-         nGsZ2esR1FLS0WMR1Djd93ETAnZoz0y+TjllUwODIqI4Tj6V0PLllw7kgoaj6KOrF2zZ
-         DfsoRusAhMs5jAqQ5v8qYCgvJtKpvnp+G4b9RZLV9z5cGKf9a0zl45DvmpToICtgYiNy
-         Mak+JuQEbQJO8py1eT5OBYre3UTz8ApLf+hnr7iXk4BDrLxuNfa/A+Cbi6ZpQHWAECmq
-         xXeixJXWUk1zV8cOe+s2u0qkyByInyRJH5x9G3Jwb8pa6QA7XSeeMJQooDZ8W+SEROcX
-         kMBg==
-X-Gm-Message-State: AC+VfDxlv1gK2msiSN+VHqjSO4aKiuSFhLulkB7IbsPeDNWmdD1GlAiH
-        qDPI8HKXI0kFOk18gl6CyqQvEw==
-X-Google-Smtp-Source: ACHHUZ7RVhrzhanSXX26T3aKZBacngzR1xiMWVIi1+n3GAfzb+yNlrKHcOySJ8/US+hibf/xDoZPYg==
-X-Received: by 2002:a5d:6291:0:b0:309:e24:57b3 with SMTP id k17-20020a5d6291000000b003090e2457b3mr826087wru.4.1685090646345;
-        Fri, 26 May 2023 01:44:06 -0700 (PDT)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id x6-20020a5d6506000000b0030639a86f9dsm4312201wru.51.2023.05.26.01.44.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 May 2023 01:44:06 -0700 (PDT)
-Date:   Fri, 26 May 2023 10:44:05 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Haibo Xu <xiaobo55x@gmail.com>
-Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
-        oliver.upton@linux.dev, seanjc@google.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
+        with ESMTP id S229956AbjEZKJd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 06:09:33 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A828EA9;
+        Fri, 26 May 2023 03:09:31 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34Q8IE21008681;
+        Fri, 26 May 2023 10:09:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=8XDHI+wnWwGsmaDmsUi7ySkNC21K9g7xIiJvQeasY4k=;
+ b=pG21CVKgIFqpfc/rrJnx0xJKjkrgm0R61Dr4t0NJ3XG7J93M9mF1YjeOfKPLMHqTsJ5v
+ NTfSHzM2ej029Hifs9nFNjhzqPKAp6TadB8H54kJ4ChY5kMkKUpAk3lw5fTJcaWe5DQi
+ CiBLjibQte+jaFJdiUmd4fU7eHvT9UfixUWXjNmCwAwdanc+/i2gPiiz6rNiCFuuj4NU
+ OHS22HGkq6rVN4xNPHhCRnjo5eqzy+LzCIQoucdK66/Qaev1sF4mhRzG1v1U7aiL6lVh
+ u12Y86sfL8zTIYhIJul+qFgIIJ3QsgaLnKdueKPZvRHk4GQe0O0jgc/5QGYoEmTA5tzQ 1w== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qt02abdj7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 26 May 2023 10:09:08 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34QA97BB001077
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 26 May 2023 10:09:07 GMT
+Received: from hazha-gv.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Fri, 26 May 2023 03:09:02 -0700
+From:   Hao Zhang <quic_hazha@quicinc.com>
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        James Clark <james.clark@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v2 09/11] KVM: riscv: selftests: Make check_supported
- arch specific
-Message-ID: <20230526-d8d768a23cd6bdc274bc165c@orel>
-References: <cover.1684999824.git.haibo1.xu@intel.com>
- <26dea518fc5e8da51e61db279d175364bfecd009.1684999824.git.haibo1.xu@intel.com>
- <20230525-705ddcbcd43aa63e3fd356c8@orel>
- <CAJve8onF9MFuaVsThFnhjWr6ZomB0Lhr9WXGvMiJDt5vrjeKLg@mail.gmail.com>
+        Jonathan Corbet <corbet@lwn.net>
+CC:     Hao Zhang <quic_hazha@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH v5 2/3] dt-bindings: arm: Add support for Coresight dummy trace
+Date:   Fri, 26 May 2023 18:07:52 +0800
+Message-ID: <20230526100753.34581-3-quic_hazha@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230526100753.34581-1-quic_hazha@quicinc.com>
+References: <20230526100753.34581-1-quic_hazha@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJve8onF9MFuaVsThFnhjWr6ZomB0Lhr9WXGvMiJDt5vrjeKLg@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 4PxCql2MkgMFEQqSS8aj7VEpGSoPaj6s
+X-Proofpoint-ORIG-GUID: 4PxCql2MkgMFEQqSS8aj7VEpGSoPaj6s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 spamscore=0 malwarescore=0 suspectscore=0 clxscore=1011
+ mlxscore=0 phishscore=0 adultscore=0 impostorscore=0 mlxlogscore=950
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305260087
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 26, 2023 at 03:50:32PM +0800, Haibo Xu wrote:
-> On Fri, May 26, 2023 at 12:40 AM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> > On Thu, May 25, 2023 at 03:38:33PM +0800, Haibo Xu wrote:
-> > > check_supported() was used to verify whether a feature/extension was
-> > > supported in a guest in the get-reg-list test. Currently this info
-> > > can be retrieved through the KVM_CAP_ARM_* API in aarch64, but in
-> > > riscv, this info was only exposed through the KVM_GET_ONE_REG on
-> > > KVM_REG_RISCV_ISA_EXT pseudo registers.
-> > >
-> > > Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
-> > > ---
-> > >  tools/testing/selftests/kvm/get-reg-list.c | 32 +++++++++++-----------
-> > >  1 file changed, 16 insertions(+), 16 deletions(-)
-> > >
-> > > diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing/selftests/kvm/get-reg-list.c
-> > > index f6ad7991a812..f1fc113e9719 100644
-> > > --- a/tools/testing/selftests/kvm/get-reg-list.c
-> > > +++ b/tools/testing/selftests/kvm/get-reg-list.c
-> > > @@ -99,6 +99,20 @@ void __weak print_reg(const char *prefix, __u64 id)
-> > >  }
-> > >
-> > >  #ifdef __aarch64__
-> > > +static void check_supported(struct vcpu_reg_list *c)
-> > > +{
-> > > +     struct vcpu_reg_sublist *s;
-> > > +
-> > > +     for_each_sublist(c, s) {
-> > > +             if (!s->capability)
-> > > +                     continue;
-> >
-> > I was going to say that making this function aarch64 shouldn't be
-> > necessary, since riscv leaves capability set to zero and this function
-> > doesn't do anything, but then looking ahead I see riscv is abusing
-> > capability by putting isa extensions in it. IMO, capability should
-> > only be set to KVM_CAP_* values. Since riscv doesn't use it, then it
-> > should be left zero.
-> >
-> > If we're going to abuse something, then I'd rather abuse the 'feature'
-> > member, but since it's only an int (not an unsigned long), then let's
-> > just add an 'unsigned long extension' member.
-> >
-> 
-> Good idea!
-> 
-> For the new 'extension' member in riscv, I think its use case should be
-> identical to the 'feature' member in aarch64(KVM_RISCV_ISA_EXT_F
-> was similar to KVM_ARM_VCPU_SVE)? If so, I think we can just reuse
-> the 'feature' member since the data type was not a big deal.
+This patch add support for Coresight dummy source and dummy sink trace.
 
-You're right. An int is fine for the isa extension index, which is all we
-need to represent.
+Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+---
+ .../arm/arm,coresight-dummy-sink.yaml         | 73 +++++++++++++++++++
+ .../arm/arm,coresight-dummy-source.yaml       | 71 ++++++++++++++++++
+ 2 files changed, 144 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy-sink.yaml
+ create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy-source.yaml
 
-Thanks,
-drew
+diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-dummy-sink.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-dummy-sink.yaml
+new file mode 100644
+index 000000000000..cb78cfa56702
+--- /dev/null
++++ b/Documentation/devicetree/bindings/arm/arm,coresight-dummy-sink.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/arm/arm,coresight-dummy-sink.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ARM Coresight Dummy sink component
++
++description: |
++  CoreSight components are compliant with the ARM CoreSight architecture
++  specification and can be connected in various topologies to suit a particular
++  SoCs tracing needs. These trace components can generally be classified as
++  sinks, links and sources. Trace data produced by one or more sources flows
++  through the intermediate links connecting the source to the currently selected
++  sink.
++
++  The Coresight dummy sink component is for the specific coresight sink devices
++  kernel don't have permission to access or configure, e.g., CoreSight EUD on
++  Qualcomm platforms. It is a mini-USB hub implemented to support the USB-based
++  debug and trace capabilities. For this device, a dummy driver is needed to
++  register it as Coresight sink device in kernel side, so that path can be
++  created in the driver. Then the trace flow would be transferred to EUD via
++  coresight link of AP processor. It provides Coresight API for operations on
++  dummy source devices, such as enabling and disabling them. It also provides
++  the Coresight dummy source paths for debugging.
++
++  The primary use case of the coresight dummy sink is to build path in kernel
++  side for dummy sink component.
++
++maintainers:
++  - Mike Leach <mike.leach@linaro.org>
++  - Suzuki K Poulose <suzuki.poulose@arm.com>
++  - James Clark <james.clark@arm.com>
++  - Mao Jinlong <quic_jinlmao@quicinc.com>
++  - Hao Zhang <quic_hazha@quicinc.com>
++
++properties:
++  compatible:
++    enum:
++      - arm,coresight-dummy-sink
++
++  in-ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port:
++        description: Input connection from the Coresight Trace bus to
++          dummy sink, such as Embedded USB debugger(EUD).
++
++        $ref: /schemas/graph.yaml#/properties/port
++
++required:
++  - compatible
++  - in-ports
++
++additionalProperties: false
++
++examples:
++  # Minimum dummy sink definition. Dummy sink connect to coresight replicator.
++  - |
++    sink {
++      compatible = "arm,coresight-dummy-sink";
++
++      in-ports {
++        port {
++          eud_in_replicator_swao: endpoint {
++            remote-endpoint = <&replicator_swao_out_eud>;
++          };
++        };
++      };
++    };
++
++...
+diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-dummy-source.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-dummy-source.yaml
+new file mode 100644
+index 000000000000..5fedaed49a1f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/arm/arm,coresight-dummy-source.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/arm/arm,coresight-dummy-source.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ARM Coresight Dummy source component
++
++description: |
++  CoreSight components are compliant with the ARM CoreSight architecture
++  specification and can be connected in various topologies to suit a particular
++  SoCs tracing needs. These trace components can generally be classified as
++  sinks, links and sources. Trace data produced by one or more sources flows
++  through the intermediate links connecting the source to the currently selected
++  sink.
++
++  The Coresight dummy source component is for the specific coresight source
++  devices kernel don't have permission to access or configure. For some SOCs,
++  there would be Coresight source trace components on sub-processor which
++  are conneted to AP processor via debug bus. For these devices, a dummy driver
++  is needed to register them as Coresight source devices, so that paths can be
++  created in the driver. It provides Coresight API for operations on dummy
++  source devices, such as enabling and disabling them. It also provides the
++  Coresight dummy source paths for debugging.
++
++  The primary use case of the coresight dummy source is to build path in kernel
++  side for dummy source component.
++
++maintainers:
++  - Mike Leach <mike.leach@linaro.org>
++  - Suzuki K Poulose <suzuki.poulose@arm.com>
++  - James Clark <james.clark@arm.com>
++  - Mao Jinlong <quic_jinlmao@quicinc.com>
++  - Hao Zhang <quic_hazha@quicinc.com>
++
++properties:
++  compatible:
++    enum:
++      - arm,coresight-dummy-source
++
++  out-ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port:
++        description: Output connection from the source to Coresight
++          Trace bus.
++        $ref: /schemas/graph.yaml#/properties/port
++
++required:
++  - compatible
++  - out-ports
++
++additionalProperties: false
++
++examples:
++  # Minimum dummy source definition. Dummy source connect to coresight funnel.
++  - |
++    source {
++      compatible = "arm,coresight-dummy-source";
++
++      out-ports {
++        port {
++          dummy_riscv_out_funnel_swao: endpoint {
++            remote-endpoint = <&funnel_swao_in_dummy_riscv>;
++          };
++        };
++      };
++    };
++
++...
+-- 
+2.17.1
+
