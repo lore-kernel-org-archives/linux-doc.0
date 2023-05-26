@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2FCDC7EE31
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 23:45:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27034C77B7C
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 23:45:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238236AbjEZXpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 19:45:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58822 "EHLO
+        id S243584AbjEZXp1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 19:45:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237892AbjEZXox (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 19:44:53 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BCA219D
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 16:44:50 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-babb7aaa605so2784172276.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 16:44:50 -0700 (PDT)
+        with ESMTP id S237655AbjEZXpF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 19:45:05 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BC49E59
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 16:44:56 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-bacfa4ef059so2969982276.2
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 16:44:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685144689; x=1687736689;
+        d=google.com; s=20221208; t=1685144695; x=1687736695;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bguo3hUZaLYxse9v+ik+MX3ufqUdHR10jXNpIhPD3cE=;
-        b=Y62V38pt3Kf7P9M2YivEC5661SUHDQjGPJeLNpi65nB4y+p3TsqoRR0z/9AOIr1Kjf
-         gl3yg0EBv9UJcyGGhkoV+eP5nxHHEckaVjNM+WV0ph8y6N8NKNrOoxejQzf6xVLF0GNF
-         CMPzW7iyFKrk0I+YLOBH1dB2cwpR8z8XT9p+1tlyni+H85cDXJGB/ZGkaiDpbVC82/o/
-         GKwW1qcFloQI+vCY/C+X0I8xbKAWwMlWN0KpQsh6osmLARaX2g1tNlgMEbkEwKadQaPu
-         8s3poXNR7qoLyRgjp4108zRCziAP6oNak8GIUn6lV7gRCswVoQjlt0PKr+oTkaiyWyY0
-         Ciug==
+        bh=M3AF7fBmc1xnJAMOiZdfCsfXZHiS6oPk41ReBM4zbdo=;
+        b=yrD5cypjwj76oGySeMKoL+EObdL+VlHBR0ZE4dlUQxoYbTEWiiVpSKdOJmkcaaiF/Z
+         4zilNg4E7S1qiA0OC/fMHUKvaq4lLe3h3XrcfBRajVZEzuTWsMjYGvjMBJ/wRyLbmfd/
+         x0p59R3lRKLAmUF0+sTBQhD8rRciT1hrCi2rbco+ObNSFPCgz7YI6gzDi295X90OlgMM
+         zrJNip6i/8aKO3FHb/HgogYFOfPOgx60+DOedoHxymQQDAPdmrus+K28IPt1M7E0g0cI
+         asbBmGj30I6PgAgE5VquUWTvHUX2/5VYaFLlsw0xBC7qUsoM7lDeTwedn+JU6nSVVIPC
+         w2tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685144689; x=1687736689;
+        d=1e100.net; s=20221208; t=1685144695; x=1687736695;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bguo3hUZaLYxse9v+ik+MX3ufqUdHR10jXNpIhPD3cE=;
-        b=M1aqaggqXnSpSoGTMv+CtY7jEU085a8o/ry5ZQCVjChbg7W3uVmS2h2bR2U35VQFej
-         A3bqBJZ6L+g3uwKkGRAbIWdGTm+Q0P/xtl2WsceYQAIUsKhEm/wmwetpOqDbSbCEZpuu
-         6gVt2RIh4lACFyyiYN3pdgB0hOWQNREXrxPWY/agVneeIYhWvkZs8lExhB7id6SrCrYv
-         au6esGwu1d3FyHIjphDwZF44FUYY/wQh1k++P4YkVMmqFtQs403ftx+3yh/1VknRu/LW
-         shrlLLC6KRrv5xYQzTXQEpIpcvSqaA06AnWqld6ULxXse1H/bnVbYiPRPsMr1uWzFQ4B
-         nNCQ==
-X-Gm-Message-State: AC+VfDxbGZk3a0g+pUUjxuA+w6jkHztrxZv8GihjiYCbKdKRkoavxYKe
-        6Afh8rEiB5DDkOXhvl5IGwOvDntkeDM=
-X-Google-Smtp-Source: ACHHUZ72Yke0umLVJsAYBjLDCmB2C1ZbHNslgBIJrMfaEGzX80HaCkEwKhsoBR2khvT0ady9wDj4p4x/v3M=
+        bh=M3AF7fBmc1xnJAMOiZdfCsfXZHiS6oPk41ReBM4zbdo=;
+        b=FCK9P/XQNZ5l/vsmtLLcAHuKXq7MqFOTRfxhocPEVrbjF1PmBE5Z+0uEyNDqGj0g8c
+         +aFhVfqagyZ1GyRntWl7O9ri3S2oYaS31vlEBQjvuutdkUCaTKAVh1JHKhEDN40Ve1Kk
+         xlm87YiOf8fSrQmJkbcim+AlkdjgslmYC7bNLSmoYvbWIbktXp8ShEo5vrSgV6xt6+TP
+         DzoLvibDS65JOL0ZZLlAhHwonDK+a0WD3zcZhrCQ3oEeNqcRmbBYXGEjdfF9vsHwD62z
+         gsnVFnh6LNaW3mWMtDnEEFSjG0yh8axsrs1hxaPPSi0f5ylvwlvmPtM1GGlMQzzrdwXz
+         j8Ag==
+X-Gm-Message-State: AC+VfDz7QD6kYxfkWFa4pjnxiRTlQnEU8mw8FtwXFEG2BuPiwp8aw6Le
+        mkOIpi/xtdganSu8+Zux8O2ktmbyBDE=
+X-Google-Smtp-Source: ACHHUZ4QgTvrucO0Q6McE6sU/ZYyF1Ujw9/eAceyjgq3u2aouYR16g/56Sc2t/zSHX7sxuPwIu+K0d0WjYg=
 X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:910f:8a15:592b:2087])
- (user=yuzhao job=sendgmr) by 2002:a25:3cb:0:b0:ba8:337a:d8a3 with SMTP id
- 194-20020a2503cb000000b00ba8337ad8a3mr1807757ybd.11.1685144689141; Fri, 26
- May 2023 16:44:49 -0700 (PDT)
-Date:   Fri, 26 May 2023 17:44:31 -0600
+ (user=yuzhao job=sendgmr) by 2002:a05:6902:1341:b0:bac:6bb:2549 with SMTP id
+ g1-20020a056902134100b00bac06bb2549mr1840571ybu.7.1685144695170; Fri, 26 May
+ 2023 16:44:55 -0700 (PDT)
+Date:   Fri, 26 May 2023 17:44:34 -0600
 In-Reply-To: <20230526234435.662652-1-yuzhao@google.com>
-Message-Id: <20230526234435.662652-7-yuzhao@google.com>
+Message-Id: <20230526234435.662652-10-yuzhao@google.com>
 Mime-Version: 1.0
 References: <20230526234435.662652-1-yuzhao@google.com>
 X-Mailer: git-send-email 2.41.0.rc0.172.g3f132b7071-goog
-Subject: [PATCH mm-unstable v2 06/10] kvm/powerpc: make radix page tables RCU safe
+Subject: [PATCH mm-unstable v2 09/10] kvm/x86: add kvm_arch_test_clear_young()
 From:   Yu Zhao <yuzhao@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Paolo Bonzini <pbonzini@redhat.com>
@@ -96,46 +96,82 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KVM page tables are currently not RCU safe against remapping, i.e.,
-kvmppc_unmap_free_pmd_entry_table() et al. The previous
-mmu_notifier_ops members rely on kvm->mmu_lock to synchronize with
-that operation.
+Implement kvm_arch_test_clear_young() to support the fast path in
+mmu_notifier_ops->test_clear_young().
 
-However, the new mmu_notifier_ops member test_clear_young() provides
-a fast path that does not take kvm->mmu_lock. To implement
-kvm_arch_test_clear_young() for that path, orphan page tables need to
-be freed by RCU.
-
-Unmapping, specifically kvm_unmap_radix(), does not free page tables,
-hence not a concern.
+It focuses on a simple case, i.e., TDP MMU sets the accessed bit in
+KVM PTEs and VMs are not nested, where it can rely on RCU and
+clear_bit() to safely clear the accessed bit without taking
+kvm->mmu_lock. Complex cases fall back to the existing slow path
+where kvm->mmu_lock is then taken.
 
 Signed-off-by: Yu Zhao <yuzhao@google.com>
 ---
- arch/powerpc/kvm/book3s_64_mmu_radix.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ arch/x86/include/asm/kvm_host.h |  7 +++++++
+ arch/x86/kvm/mmu/tdp_mmu.c      | 34 +++++++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/arch/powerpc/kvm/book3s_64_mmu_radix.c b/arch/powerpc/kvm/book3s_64_mmu_radix.c
-index 461307b89c3a..3b65b3b11041 100644
---- a/arch/powerpc/kvm/book3s_64_mmu_radix.c
-+++ b/arch/powerpc/kvm/book3s_64_mmu_radix.c
-@@ -1469,13 +1469,15 @@ int kvmppc_radix_init(void)
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 753c67072c47..d6dfdebe3d94 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -2223,4 +2223,11 @@ int memslot_rmap_alloc(struct kvm_memory_slot *slot, unsigned long npages);
+  */
+ #define KVM_EXIT_HYPERCALL_MBZ		GENMASK_ULL(31, 1)
+ 
++#define kvm_arch_has_test_clear_young kvm_arch_has_test_clear_young
++static inline bool kvm_arch_has_test_clear_young(void)
++{
++	return IS_ENABLED(CONFIG_X86_64) &&
++	       (!IS_REACHABLE(CONFIG_KVM) || (tdp_mmu_enabled && shadow_accessed_mask));
++}
++
+ #endif /* _ASM_X86_KVM_HOST_H */
+diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
+index 08340219c35a..6875a819e007 100644
+--- a/arch/x86/kvm/mmu/tdp_mmu.c
++++ b/arch/x86/kvm/mmu/tdp_mmu.c
+@@ -1232,6 +1232,40 @@ bool kvm_tdp_mmu_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+ 	return kvm_tdp_mmu_handle_gfn(kvm, range, test_age_gfn);
+ }
+ 
++bool kvm_arch_test_clear_young(struct kvm *kvm, struct kvm_gfn_range *range)
++{
++	struct kvm_mmu_page *root;
++	int offset = ffs(shadow_accessed_mask) - 1;
++
++	if (kvm_shadow_root_allocated(kvm))
++		return true;
++
++	rcu_read_lock();
++
++	list_for_each_entry_rcu(root, &kvm->arch.tdp_mmu_roots, link) {
++		struct tdp_iter iter;
++
++		if (kvm_mmu_page_as_id(root) != range->slot->as_id)
++			continue;
++
++		tdp_root_for_each_leaf_pte(iter, root, range->start, range->end) {
++			u64 *sptep = rcu_dereference(iter.sptep);
++
++			VM_WARN_ON_ONCE(!page_count(virt_to_page(sptep)));
++
++			if (!(iter.old_spte & shadow_accessed_mask))
++				continue;
++
++			if (kvm_should_clear_young(range, iter.gfn))
++				clear_bit(offset, (unsigned long *)sptep);
++		}
++	}
++
++	rcu_read_unlock();
++
++	return false;
++}
++
+ static bool set_spte_gfn(struct kvm *kvm, struct tdp_iter *iter,
+ 			 struct kvm_gfn_range *range)
  {
- 	unsigned long size = sizeof(void *) << RADIX_PTE_INDEX_SIZE;
- 
--	kvm_pte_cache = kmem_cache_create("kvm-pte", size, size, 0, pte_ctor);
-+	kvm_pte_cache = kmem_cache_create("kvm-pte", size, size,
-+					  SLAB_TYPESAFE_BY_RCU, pte_ctor);
- 	if (!kvm_pte_cache)
- 		return -ENOMEM;
- 
- 	size = sizeof(void *) << RADIX_PMD_INDEX_SIZE;
- 
--	kvm_pmd_cache = kmem_cache_create("kvm-pmd", size, size, 0, pmd_ctor);
-+	kvm_pmd_cache = kmem_cache_create("kvm-pmd", size, size,
-+					  SLAB_TYPESAFE_BY_RCU, pmd_ctor);
- 	if (!kvm_pmd_cache) {
- 		kmem_cache_destroy(kvm_pte_cache);
- 		return -ENOMEM;
 -- 
 2.41.0.rc0.172.g3f132b7071-goog
 
