@@ -2,98 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F2F0C77B73
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 16:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A31D4C77B7C
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 21:14:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237400AbjEZQQE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 12:16:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60430 "EHLO
+        id S242710AbjEZVOg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 17:14:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237386AbjEZQQC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 12:16:02 -0400
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DDAFA4
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 09:16:01 -0700 (PDT)
-Received: by mail-ot1-x331.google.com with SMTP id 46e09a7af769-6af6ec3df42so1027813a34.2
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 09:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1685117761; x=1687709761;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yDlTDGbuKA41l4lwuGymi6rlTXSveie0ey6DiI9icGU=;
-        b=Euf4o/Ygy5/YJmgSUbCtF0/jd8I0XGXo124m4zSjqOcCspN+5euc9GO9amwQ8qbRRS
-         KTj1qRcNdtrAt/qeRlywDd3rnPFwtUZvDNb3x+srvwIFThIeJlCKlnZjzir9tjhIIlgf
-         Rx6dM8+nmjie2qXwVg03inZ5RXO4KVQSiK0QgPdtd+YYVEF/1MIAey999UPFNUvTPaew
-         0ne+Y/jdf59V/UQeTU1n4j9DOhPrT9ZHjOUalbwj4EO2DEJn7+Lqie1H01c79WyyLHqT
-         griEAuUytczKujqalE+3++1zozEHsZ8ztxkSnKmj3Yn9RmpzyoKcQxKBLSSqqK4hs4tC
-         ywog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685117761; x=1687709761;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yDlTDGbuKA41l4lwuGymi6rlTXSveie0ey6DiI9icGU=;
-        b=MiYndjx6fg6sl4DpJzXNh6RNP6tcj1JBEnx+kDMjYDj8/SzaAKiGGFr6AA2x/Imgaf
-         BEo/RXtxdcyvfeoS6u3EIVAusWYPC2VYQEpNjQlKTOxa8+8/qzIr8ewxD112AutBxhu+
-         VsTMERVlRZTa54JUWhRrAzERzYVwXmn7ZPsNcaLslsQufGoCNsSP5arIGzbeOWhKBkhw
-         oLyW/qkK6/CFXHWGKAGpJpu4iNigZUMroMTkGSDtZlY7rdLalNofM0Cz73WEnmN9Lxoh
-         TBjlOQ4c1hO1MXFEvlgnSnddNWu8RcmMvViDm7vp5F0qmXgOrZvXvdYWgjOqhYejaIUx
-         4t/A==
-X-Gm-Message-State: AC+VfDxbvMvT3bJddEmOuDmhDGmF6rKwASJA1y7yOD7Bj+6S04f6wdNF
-        BHOukxKVD5NjEbOd7s61CD/EnaKCzVmEa4Y+c2Htxw==
-X-Google-Smtp-Source: ACHHUZ4h1so23xGA2B3TC0WeilISx3hYkfkFiojRcVtTpd4y89tXJ9rmMtaDQ2e0iM3blS1V6Cdu7cPRH4w+bvXB/ZA=
-X-Received: by 2002:a9d:6ad3:0:b0:6af:7818:add2 with SMTP id
- m19-20020a9d6ad3000000b006af7818add2mr1056477otq.37.1685117760931; Fri, 26
- May 2023 09:16:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230526145519.2282062-1-vineeth@bitbyteword.org>
- <20230526172959.5440b9dd@nowhere> <CAO7JXPgLFgXANqXY7L-YLbijxJCOgUKmd8nUQizb62JorOXGhA@mail.gmail.com>
- <CAO7JXPit6snFM2oW-uSs-mtbmKr9wpbX2exqAUF0iAiaAO6hOg@mail.gmail.com>
-In-Reply-To: <CAO7JXPit6snFM2oW-uSs-mtbmKr9wpbX2exqAUF0iAiaAO6hOg@mail.gmail.com>
-From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
-Date:   Fri, 26 May 2023 12:15:50 -0400
-Message-ID: <CAO7JXPgf9ffVQ3n9iD8-1abuDSAZHWAZmz56BmM68uJZ7uy+Uw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] sched/deadline: Fix bandwidth reclaim equation in GRUB
-To:     luca abeni <luca.abeni@santannapisa.it>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        youssefesmat@google.com,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S230064AbjEZVOg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 17:14:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9908CBC;
+        Fri, 26 May 2023 14:14:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 27E9F61454;
+        Fri, 26 May 2023 21:14:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61467C433D2;
+        Fri, 26 May 2023 21:14:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685135674;
+        bh=sFVJeNDGSRnmSp5P8Iti+S0l7ZgKTimSNErApLz72Is=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:From;
+        b=LLchCgTdfd5zpsTOrL4HBZuqRDdohvbMFTfGuCqqDaXj6jFxLdW+7wLNl6Ni41T6b
+         fkToFwrnhyIRReD48NWy1yJ9Ga5ozCM3U8qs5BdU4vx1FnMKGch48KUWHNDngbveHs
+         O3aO5z9E1lnOTIZXdKIxmK7myoFAGi9W2nZRTSm+er2uTa7JZup2JRVmX2SWt50nri
+         Yl9o4ZsYdH7zskEX9DP4pf5lw2O1Oby7dqIVAwNAcxCWeR0PN2mEdJP0Qx648Iw7Z9
+         RQvV3zxRgOVZ5b7NwmrH5ITGfeZZaAEVP1+AsCf+EqCvMxuL0fw/LfEhD1IfNBhjGN
+         I9N3egOQl2UgA==
+From:   SeongJae Park <sj@kernel.org>
+To:     mhocko@suse.com
+Cc:     SeongJae Park <sj@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/10] Docs/mm/damon: Minor fixes and design doc update
+Date:   Fri, 26 May 2023 14:14:17 -0700
+Message-Id: <20230526211417.1902-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230525214314.5204-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 26, 2023 at 11:58=E2=80=AFAM Vineeth Remanan Pillai
-<vineeth@bitbyteword.org> wrote:
->
-> > > ...But I think this is wrong (should be "Umax - ...", not "1 - ...").
-> > > I think patch 2/2 has the same issue.
-> > >
-> > Oops sorry, I missed this. Will send the fixed patch as a
-> > reply to the original v4.
-> >
-> On looking again, I think the description is correct. That line
-> mentions the actual m-GRUB equation from the paper. And then the
-> comment explains why we use Umax(because of limiting the bandwidth
-> to RT capacity).
->
-Ahh my bad again :-(, I was looking at the commit message. I see the
-issue in the code comment now.
+On Thu, 25 May 2023 21:43:04 +0000 SeongJae Park <sj@kernel.org> wrote:
 
-I have just sent the fix as a reply to the initial patch. I shall send a
-v5 if needed. Please let me know.
+> Some of DAMON documents are outdated, or having minor typos or grammar
+> erros.  Especially, the design doc has not updated for DAMOS, which is
+> an important part of DAMON.  Fix the minor issues and update documents.
+
+By the way, I started writing this patchset before LSFMM, but Michal's feedback
+about DAMON documentation has definitely motivated this work, and was helpful.
+Thank you, Michal.  I just wanted to say that.  Of course, more documentation
+improvement works will be continued.
+
 
 Thanks,
-Vineeth
+SJ
+
+> 
+> SeongJae Park (10):
+>   Docs/mm/damon/faq: remove old questions
+>   Docs/mm/damon/maintainer-profile: fix typos and grammar errors
+>   Docs/mm/damon/design: add a section for overall architecture
+>   Docs/mm/damon/design: update the layout based on the layers
+>   Docs/mm/damon/design: rewrite configurable layers
+>   Docs/mm/damon/design: add a section for the relation between Core and
+>     Modules layer
+>   Docs/mm/damon/design: add sections for basic parts of DAMOS
+>   Docs/mm/damon/design: add sections for advanced features of DAMOS
+>   Docs/mm/damon/design: add a section for DAMON core API
+>   Docs/mm/damon/design: add a section for the modules layer
+> 
+>  Documentation/mm/damon/design.rst             | 309 ++++++++++++++++--
+>  Documentation/mm/damon/faq.rst                |  23 --
+>  Documentation/mm/damon/maintainer-profile.rst |   4 +-
+>  3 files changed, 285 insertions(+), 51 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
