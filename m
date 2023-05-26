@@ -2,55 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31D44C77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 16:10:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F2F0C77B73
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 16:16:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243557AbjEZQK6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 12:10:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56662 "EHLO
+        id S237400AbjEZQQE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 12:16:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244242AbjEZQK4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 12:10:56 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F90A19D
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 09:10:52 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-75b00e5f8e4so62622485a.0
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 09:10:52 -0700 (PDT)
+        with ESMTP id S237386AbjEZQQC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 12:16:02 -0400
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DDAFA4
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 09:16:01 -0700 (PDT)
+Received: by mail-ot1-x331.google.com with SMTP id 46e09a7af769-6af6ec3df42so1027813a34.2
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 09:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1685117451; x=1687709451;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=bitbyteword.org; s=google; t=1685117761; x=1687709761;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cgIUzMFd0Wu4Ol9oHyv7Wf8bNpCQi48RTzTuWdj5viQ=;
-        b=bMK3rSXUcwt/oyxOni/E1+aDrCvO8uQNH3a669+1l1G1buZyt4hmjxrxaQ9zyDYq0q
-         3OJqmCIi9C1NJDTgt2RukX+DYxLTdJWJdhwAApMmf4CeM5Vx9uhxTahqdBdTePQrJzjU
-         4vCLt5ttYoIYkO2vEX/QgG9TlpwKR28aP0Dp2qZoc2lDpu8Sy06WNbYOWQIpceVB+gEi
-         iMcr68y4vy+xc2rr38ckDu2WusHEOJ/s+Q/b0eJQazEANf6QSgI1SLgsqBHQEte+1e7T
-         aWL4cSYlBdmgq6Ud75RLBbQXE8icxar8Km59ZZ+MqZINkNY4Rp9/CuYOOH9qzmd4CxSq
-         4bsg==
+        bh=yDlTDGbuKA41l4lwuGymi6rlTXSveie0ey6DiI9icGU=;
+        b=Euf4o/Ygy5/YJmgSUbCtF0/jd8I0XGXo124m4zSjqOcCspN+5euc9GO9amwQ8qbRRS
+         KTj1qRcNdtrAt/qeRlywDd3rnPFwtUZvDNb3x+srvwIFThIeJlCKlnZjzir9tjhIIlgf
+         Rx6dM8+nmjie2qXwVg03inZ5RXO4KVQSiK0QgPdtd+YYVEF/1MIAey999UPFNUvTPaew
+         0ne+Y/jdf59V/UQeTU1n4j9DOhPrT9ZHjOUalbwj4EO2DEJn7+Lqie1H01c79WyyLHqT
+         griEAuUytczKujqalE+3++1zozEHsZ8ztxkSnKmj3Yn9RmpzyoKcQxKBLSSqqK4hs4tC
+         ywog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685117451; x=1687709451;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1685117761; x=1687709761;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cgIUzMFd0Wu4Ol9oHyv7Wf8bNpCQi48RTzTuWdj5viQ=;
-        b=EkVruDdxDv7vnJ5cI9laoD5hy08QfvFnDYw+M+6qgHOKI3wS2OZ+C+swTowYQYsAjj
-         NNWYeeBlBuXh6P3Dx6Jr2wwiy8IqHo5eoWsYaeMzdmldsatk1FxhOw/c9bQdJpezY/zt
-         u3auTJWpX4U/MIzMzCOCN1V5j7nqxObDWK2OzX/RVtwlKt85MNWZAAFNif7ZfxDHnmNT
-         dmx+k6Bw7m8UNT8MNOopFPtiKDBpODUyr1Xg3sz8f+ROFPRLUAbCAwuqJkIxpw1Lpb6P
-         fOL7o7+K3o5fA86HndLtpXp9AQdKp3isAv3GPp8V13wSAVbmtdNc615XiYid0u+4BsON
-         rkSQ==
-X-Gm-Message-State: AC+VfDxOSWBM3xJdsE2rVMgrTVg7bTzdEb6tFJL6poiO2UQ2wg+osaEo
-        49V4wwvRn0yxTTpZxc+jmuBCFA==
-X-Google-Smtp-Source: ACHHUZ4+9YD+0XkjiRj7Leu8WRGwVaahM3SelZvLtApMojXLJADrIKSe/xMOJp+1TvDqXUmUNiZVfA==
-X-Received: by 2002:a05:6214:c8d:b0:61b:5cba:5820 with SMTP id r13-20020a0562140c8d00b0061b5cba5820mr1886177qvr.50.1685117451360;
-        Fri, 26 May 2023 09:10:51 -0700 (PDT)
-Received: from vinz16.lan (c-73-143-21-186.hsd1.vt.comcast.net. [73.143.21.186])
-        by smtp.gmail.com with ESMTPSA id l12-20020a056214028c00b0061b608dc4c1sm1303256qvv.94.2023.05.26.09.10.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 May 2023 09:10:51 -0700 (PDT)
-From:   Vineeth Pillai <vineeth@bitbyteword.org>
-To:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
+        bh=yDlTDGbuKA41l4lwuGymi6rlTXSveie0ey6DiI9icGU=;
+        b=MiYndjx6fg6sl4DpJzXNh6RNP6tcj1JBEnx+kDMjYDj8/SzaAKiGGFr6AA2x/Imgaf
+         BEo/RXtxdcyvfeoS6u3EIVAusWYPC2VYQEpNjQlKTOxa8+8/qzIr8ewxD112AutBxhu+
+         VsTMERVlRZTa54JUWhRrAzERzYVwXmn7ZPsNcaLslsQufGoCNsSP5arIGzbeOWhKBkhw
+         oLyW/qkK6/CFXHWGKAGpJpu4iNigZUMroMTkGSDtZlY7rdLalNofM0Cz73WEnmN9Lxoh
+         TBjlOQ4c1hO1MXFEvlgnSnddNWu8RcmMvViDm7vp5F0qmXgOrZvXvdYWgjOqhYejaIUx
+         4t/A==
+X-Gm-Message-State: AC+VfDxbvMvT3bJddEmOuDmhDGmF6rKwASJA1y7yOD7Bj+6S04f6wdNF
+        BHOukxKVD5NjEbOd7s61CD/EnaKCzVmEa4Y+c2Htxw==
+X-Google-Smtp-Source: ACHHUZ4h1so23xGA2B3TC0WeilISx3hYkfkFiojRcVtTpd4y89tXJ9rmMtaDQ2e0iM3blS1V6Cdu7cPRH4w+bvXB/ZA=
+X-Received: by 2002:a9d:6ad3:0:b0:6af:7818:add2 with SMTP id
+ m19-20020a9d6ad3000000b006af7818add2mr1056477otq.37.1685117760931; Fri, 26
+ May 2023 09:16:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230526145519.2282062-1-vineeth@bitbyteword.org>
+ <20230526172959.5440b9dd@nowhere> <CAO7JXPgLFgXANqXY7L-YLbijxJCOgUKmd8nUQizb62JorOXGhA@mail.gmail.com>
+ <CAO7JXPit6snFM2oW-uSs-mtbmKr9wpbX2exqAUF0iAiaAO6hOg@mail.gmail.com>
+In-Reply-To: <CAO7JXPit6snFM2oW-uSs-mtbmKr9wpbX2exqAUF0iAiaAO6hOg@mail.gmail.com>
+From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Date:   Fri, 26 May 2023 12:15:50 -0400
+Message-ID: <CAO7JXPgf9ffVQ3n9iD8-1abuDSAZHWAZmz56BmM68uJZ7uy+Uw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] sched/deadline: Fix bandwidth reclaim equation in GRUB
+To:     luca abeni <luca.abeni@santannapisa.it>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
         Daniel Bristot de Oliveira <bristot@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
@@ -60,50 +66,34 @@ To:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
         youssefesmat@google.com,
         Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>
-Cc:     Vineeth Pillai <vineeth@bitbyteword.org>,
+        Valentin Schneider <vschneid@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v4 2/2] sched/deadline: Update GRUB description in the documentation
-Date:   Fri, 26 May 2023 12:10:45 -0400
-Message-Id: <20230526161045.2283530-1-vineeth@bitbyteword.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230526145519.2282062-2-vineeth@bitbyteword.org>
-References: <20230526145519.2282062-2-vineeth@bitbyteword.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the details of GRUB to reflect the updated logic.
+On Fri, May 26, 2023 at 11:58=E2=80=AFAM Vineeth Remanan Pillai
+<vineeth@bitbyteword.org> wrote:
+>
+> > > ...But I think this is wrong (should be "Umax - ...", not "1 - ...").
+> > > I think patch 2/2 has the same issue.
+> > >
+> > Oops sorry, I missed this. Will send the fixed patch as a
+> > reply to the original v4.
+> >
+> On looking again, I think the description is correct. That line
+> mentions the actual m-GRUB equation from the paper. And then the
+> comment explains why we use Umax(because of limiting the bandwidth
+> to RT capacity).
+>
+Ahh my bad again :-(, I was looking at the commit message. I see the
+issue in the code comment now.
 
-Signed-off-by: Vineeth Pillai (Google) <vineeth@bitbyteword.org>
----
- Documentation/scheduler/sched-deadline.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I have just sent the fix as a reply to the initial patch. I shall send a
+v5 if needed. Please let me know.
 
-diff --git a/Documentation/scheduler/sched-deadline.rst b/Documentation/scheduler/sched-deadline.rst
-index 9d9be52f221a..d9f9f10c2191 100644
---- a/Documentation/scheduler/sched-deadline.rst
-+++ b/Documentation/scheduler/sched-deadline.rst
-@@ -203,12 +203,15 @@ Deadline Task Scheduling
-   - Total bandwidth (this_bw): this is the sum of all tasks "belonging" to the
-     runqueue, including the tasks in Inactive state.
- 
-+  - Maximum usable bandwidth (max_bw): This is the maximum bandwidth usable by
-+    deadline tasks and is currently set to the RT capacity.
-+
- 
-  The algorithm reclaims the bandwidth of the tasks in Inactive state.
-  It does so by decrementing the runtime of the executing task Ti at a pace equal
-  to
- 
--           dq = -max{ Ui / Umax, (1 - Uinact - Uextra) } dt
-+           dq = -(max{ Ui, (Umax - Uinact - Uextra) } / Umax) dt
- 
-  where:
- 
--- 
-2.40.1
-
+Thanks,
+Vineeth
