@@ -2,152 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB96BC77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 13:07:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 889A0C7EE23
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 14:54:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242955AbjEZNHg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 09:07:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49714 "EHLO
+        id S237425AbjEZOyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 10:54:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243181AbjEZNHf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 09:07:35 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4DF219C
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 06:07:29 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f6e1394060so5160915e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 06:07:29 -0700 (PDT)
+        with ESMTP id S243955AbjEZOyW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 10:54:22 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C910BD8
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 07:54:20 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id 5614622812f47-39831cb47fbso579345b6e.1
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 07:54:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685106448; x=1687698448;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3OYN7dZABhmYimN+TZxc/LvZq8eCNJGJVqa65c9esQQ=;
-        b=hVt1U943xtcdOo2EhnLU8fSa9SaQAhhJAK9fHvIygC7JJ8lzJKKxP4k7u5OHw8Cp4/
-         GsuhTsj7XzA72Zxe9iq2RfLMhyqlEB0pzSIDDgSSYWZsnp/ykcjQeDwPRVz7kDJvnGPl
-         KgZToumD2FoaSZR9jpQgonIffD2DIgJPuF4qX7LxLYn3tz66EN6ljaxsV+OcT9Ih0IGM
-         LzrS01FjPnYyjJyAtBTRPL8ZsTEM4QgBcxkM4ldHr/JZvlU2r/KZxoQquvr8tjs/l+mW
-         BJ0oV+JvPFQW+SJPIkGkl+u9pJ9qj152wZMxlg/TDIGZq+oeD3SUbA0kwEs4sgbvGxpB
-         je3g==
+        d=bitbyteword.org; s=google; t=1685112860; x=1687704860;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+56fY/5+2HGaZ2hqcCU8ZKhJQzE36DT9siXObgPb4sI=;
+        b=SEtT0oQS+/fYOqtyGxZV+9T8fQAcpAAz8D+5UIIbdwLy/e03Eyw650js8GGTl99QJ7
+         S0QPylmP8Wawzc7usyDjLPFQnn5/VjVEAh6PBarGE2G7wYHQKXKws8jQAcS/4IGZXdw+
+         6aIly0yimW2hgXTW9xL2SrEzt6xKhitlAIhCfg2pOl3fH2tKoIJhUuaDqvookoNEMUvK
+         WidId6TRRPEjDugBLtT5ErJyIKExi96NJb28feeEJrPBGitxjFvnqvACWjXHxndQjx/q
+         ojOqiAwdZS8FoyvDjIrwE9g1dmCNZmD/FzGFo+3iIaUmZhwmgUbQc5sM6Z2zyHdGl5lx
+         mzeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685106448; x=1687698448;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3OYN7dZABhmYimN+TZxc/LvZq8eCNJGJVqa65c9esQQ=;
-        b=kvCclI9GLYvlr876Z6zBXJhi4FRtlmfVyvEXrrbIzmfNyRviErj3LTdzWKW3DcZOZq
-         Ezfr7zYYBlu/7VdXNYi8c+FZKrcpu9r1yVxaTxLot02hUm+voydk0H0tl07zkD5CC4VE
-         nLN+zXmap07kx49opVxkWlo0MzpjNUy4RM/H5Tn8meFY4Q9DwWqpqZPl2RKP2HDsyKgZ
-         VynZVjasHEIoJva9/aRr652wjYtcs2GrhIY535iunCBXudEcC/DgbYSFHAW1EX19IDvl
-         tWfQuf0WYe+uGeSeQ+IGNKt7UjbO7a79zOuMUWMsxl94vYMGNze2oN9VV1mzuVQ6ocqm
-         oKKA==
-X-Gm-Message-State: AC+VfDwnWo6lhicjhacMMNpDyGqkbMBHAOCWQT9VUIgdlUFU2N8WOLr0
-        FZ8bz9VVNtP4/d9jQlBwPCoQ0tzYqIQpPZMmZFkTkQ==
-X-Google-Smtp-Source: ACHHUZ7YKORMpC4RuNFuNl96MUWxk3+APLsN1PXwJ89q18j6GEnvJOhIRtKVBHTuz15K85dTVUYMJQ==
-X-Received: by 2002:a05:600c:3658:b0:3f5:fb83:62b0 with SMTP id y24-20020a05600c365800b003f5fb8362b0mr1473701wmq.36.1685106448115;
-        Fri, 26 May 2023 06:07:28 -0700 (PDT)
-Received: from loic-ThinkPad-T470p.. ([2a01:e0a:82c:5f0:73c8:c098:1848:c7ac])
-        by smtp.gmail.com with ESMTPSA id i2-20020a05600c290200b003eddc6aa5fasm8731390wmd.39.2023.05.26.06.07.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 May 2023 06:07:27 -0700 (PDT)
-From:   Loic Poulain <loic.poulain@linaro.org>
-To:     corbet@lwn.net, viro@zeniv.linux.org.uk, brauner@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        Loic Poulain <loic.poulain@linaro.org>
-Subject: [PATCH] init: Add support for rootwait timeout parameter
-Date:   Fri, 26 May 2023 15:07:16 +0200
-Message-Id: <20230526130716.2932507-1-loic.poulain@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1685112860; x=1687704860;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+56fY/5+2HGaZ2hqcCU8ZKhJQzE36DT9siXObgPb4sI=;
+        b=ktLcl1q/EsH0SK/KPRMgiWxlWeiTpVcuffd4PLBlHzQghKa9BEbohrKLkpjWoLhehm
+         kxPnHmIC5oPkCre1KYGDxnpeyIehNg2u0ly3jOEZJN0np1CNSMnHGb06fprgV57d1sI9
+         nDhkxsdOR3FxslWMra01c7zaOYu0TNUh0e6GJC+9htKHHFd2gdccZKKUii7pVvquXnGx
+         oP38d3YoDJxWRk9mj3eCdhq7RlihBjSNWDybc4GjqfqnoSnrnWaIAcKh+NNWZ/ocNVHy
+         lP+Arb2NCTcE1OYP0uzGk5S87CvtIQ3OYquyhPoinqURv6uY5lcYaZ8hSFBD61kY/Nup
+         QYlw==
+X-Gm-Message-State: AC+VfDwqKrHafnbWFqoLT2EAkJJRqmp6JfYTDkmKMnjlXVAFsKblGYrN
+        335HPfGRalrjvFdKNzGZz6VqoyAIq6QPLS204UUl1Q==
+X-Google-Smtp-Source: ACHHUZ7FFbPzPwjbPfj3GZk2NOBKYF3PNOSEy2uYN47Ub556uDf5WyWkrw7cf99AoSP72AUFgwbl7zPejSPPx3uLT2g=
+X-Received: by 2002:a05:6808:7c2:b0:398:10ad:e83e with SMTP id
+ f2-20020a05680807c200b0039810ade83emr1068039oij.1.1685112859881; Fri, 26 May
+ 2023 07:54:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230515025716.316888-1-vineeth@bitbyteword.org>
+ <20230515025716.316888-3-vineeth@bitbyteword.org> <20230515100616.33ba5dd9@luca64>
+ <CAO7JXPgq8V5yHM6F2+iXf4XJ9cyT30Hn4ot5b2k7srjsaPc3JQ@mail.gmail.com>
+ <20230516093729.0771938c@luca64> <CAO7JXPh5uLV4QjAEi6bJXfAGSsZ=XsnCyzrvKS8m35BGbRPYJw@mail.gmail.com>
+ <20230519115621.2b3f75e2@luca64> <20230519121804.6c85a3ed@luca64>
+ <CAO7JXPhZPvzVRyL87qNT5VnaVOf=0wrRftFB-Rjx-vJc3JUMog@mail.gmail.com>
+ <20230520115857.3838a7ea@nowhere> <CAO7JXPgXi8q02HBeBR_RLWmODd9uQBH_UMCYgVQwbf+FX=Qxkg@mail.gmail.com>
+ <20230523225831.60d75b38@nowhere> <CAO7JXPihFGX5Dop=ox3YDQ=8aQbzZ-ka_1h3hT1G46vsbxpzNw@mail.gmail.com>
+In-Reply-To: <CAO7JXPihFGX5Dop=ox3YDQ=8aQbzZ-ka_1h3hT1G46vsbxpzNw@mail.gmail.com>
+From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Date:   Fri, 26 May 2023 10:54:09 -0400
+Message-ID: <CAO7JXPhDCzJOvanKG=04wU3Q=C6GRW=+t2Zq6GmuQvfutjE8PA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] sched/deadline: Fix reclaim inaccuracy with SMP
+To:     luca abeni <luca.abeni@santannapisa.it>
+Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an optional timeout arg to 'rootwait' as the maximum time in
-seconds to wait for the root device to show up before attempting
-forced mount of the root filesystem.
+Hi Luca,
 
-This can be helpful to force boot failure and restart in case the
-root device does not show up in time, allowing the bootloader to
-take any appropriate measures (e.g. recovery, A/B switch, retry...).
+On Tue, May 23, 2023 at 10:11=E2=80=AFPM Vineeth Remanan Pillai
+<vineeth@bitbyteword.org> wrote:
+>
+> Hi Luca,
+>
+> [...]
+>
+> Will send it out tomorrow after a bit more testing.
+>
+Sorry for the delay. I was trying to fix the inaccuracy when normal
+and SCHED_FLAG_RECLAIM tasks are present. Its a bit complicated than
+I initially thought as Umax_reclaim and Uextra needs to be computed
+at the root domain level and this would mean more locking. I have a
+patch ready but I think I need to do more testing to understand the
+performance implications and it is better to batch it as a separate
+series.
 
-In success case, mounting happens as soon as the root device is ready,
-contrary to the existing 'rootdelay' parameter (unconditional delay).
+So, I am just sending out the GRUB equation fix which is tested well
+and I am confident about. Will send out rest of the fixes later as
+a separate series.
 
-Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
----
- .../admin-guide/kernel-parameters.txt         |  4 ++++
- init/do_mounts.c                              | 19 +++++++++++++++++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9e5bab29685f..6e351d4c84a5 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5465,6 +5465,10 @@
- 			Useful for devices that are detected asynchronously
- 			(e.g. USB and MMC devices).
- 
-+	rootwait=	[KNL] Maximum time (in seconds) to wait for root device
-+			to show up before attempting to mount the root
-+			filesystem.
-+
- 	rproc_mem=nn[KMG][@address]
- 			[KNL,ARM,CMA] Remoteproc physical memory block.
- 			Memory area to be used by remote processor image,
-diff --git a/init/do_mounts.c b/init/do_mounts.c
-index 811e94daf0a8..942458e7d1c0 100644
---- a/init/do_mounts.c
-+++ b/init/do_mounts.c
-@@ -18,6 +18,7 @@
- #include <linux/slab.h>
- #include <linux/ramfs.h>
- #include <linux/shmem_fs.h>
-+#include <linux/ktime.h>
- 
- #include <linux/nfs_fs.h>
- #include <linux/nfs_fs_sb.h>
-@@ -306,12 +307,20 @@ static int __init rootwait_setup(char *str)
- {
- 	if (*str)
- 		return 0;
--	root_wait = 1;
-+	root_wait = -1;
- 	return 1;
- }
- 
- __setup("rootwait", rootwait_setup);
- 
-+static int __init rootwait_timeout_setup(char *str)
-+{
-+	root_wait = simple_strtoul(str, NULL, 0);
-+	return 1;
-+}
-+
-+__setup("rootwait=", rootwait_timeout_setup);
-+
- static char * __initdata root_mount_data;
- static int __init root_data_setup(char *str)
- {
-@@ -633,11 +642,17 @@ void __init prepare_namespace(void)
- 
- 	/* wait for any asynchronous scanning to complete */
- 	if ((ROOT_DEV == 0) && root_wait) {
-+		const ktime_t end = ktime_add_ms(ktime_get_raw(), root_wait * MSEC_PER_SEC);
-+
- 		printk(KERN_INFO "Waiting for root device %s...\n",
- 			saved_root_name);
- 		while (driver_probe_done() != 0 ||
--			(ROOT_DEV = name_to_dev_t(saved_root_name)) == 0)
-+			(ROOT_DEV = name_to_dev_t(saved_root_name)) == 0) {
- 			msleep(5);
-+
-+			if (root_wait > 0 && ktime_after(ktime_get_raw(), end))
-+				break;
-+		}
- 		async_synchronize_full();
- 	}
- 
--- 
-2.34.1
-
+Thanks,
+Vineeth
