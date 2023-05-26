@@ -2,324 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AABBC7EE33
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 10:09:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B75FC77B7C
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 10:28:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243280AbjEZKJx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 06:09:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56380 "EHLO
+        id S235332AbjEZK2N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 06:28:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243302AbjEZKJv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 06:09:51 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BCA9E;
-        Fri, 26 May 2023 03:09:49 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34Q7pe3o016141;
-        Fri, 26 May 2023 10:09:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=AKvtVm6MJmk1pLBpig8S6VxmOPROgoFdc6sKOL7sKAQ=;
- b=JQ2tCr1KsQxLrhmeF+UNub1qw+RlFiRpL+IyqswDHSVpVKFBuAJh6SYJ2CFXeio6VPOA
- 9eUv3hNxRu0o8wOGvNlJxwz9jY21CRbFX0zxEqggBBptpU8z816YWl/UUnbZD8cc8A6e
- Viub1JhiNUp4l4JbKm7tbgrulMDskGioC1O6Qwi2stDYvjvhNGaiiUz+oXHDszfWldKU
- 7s0NtGdoX71Y/dN2Z04hBXdYmpQp9lAhyUwxzrSQue57Jeq4y03ctaCISvhPRLqtruHr
- Pza3igUaA5hr9oRdnRyYPLa2bRptU9fVNpSm0A+QbUJVCMCGsHVeh5P6L26K59BEI5Eg cA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qtq28geyd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 26 May 2023 10:09:34 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34QA8x0V006651
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 26 May 2023 10:08:59 GMT
-Received: from hazha-gv.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 26 May 2023 03:08:53 -0700
-From:   Hao Zhang <quic_hazha@quicinc.com>
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        James Clark <james.clark@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Hao Zhang <quic_hazha@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <coresight@lists.linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: [PATCH v5 1/3] Coresight: Add coresight dummy driver
-Date:   Fri, 26 May 2023 18:07:51 +0800
-Message-ID: <20230526100753.34581-2-quic_hazha@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230526100753.34581-1-quic_hazha@quicinc.com>
-References: <20230526100753.34581-1-quic_hazha@quicinc.com>
+        with ESMTP id S243149AbjEZK2K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 06:28:10 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4688712F;
+        Fri, 26 May 2023 03:28:02 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1b01dac1a82so241075ad.2;
+        Fri, 26 May 2023 03:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685096882; x=1687688882;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aZO0rJalJeJGbkGsp4THesp5QJNmk1G4UdTf0ECue4c=;
+        b=XhH0D0v1D/gUuJkfVBmEkCkn/0BSN48AWwvSmsd+5pVdMFtBBLC/dvLZnlBouhnPju
+         9yeJO6EJs/28rK/qxSILPALQbfmLRr5TNmhdLjrTl1FfwLQa83GSujmXyXH0zxaWqJHk
+         7ggmKZX3lEo+puMyDfNTDXxmhq24wueKtHN01UmJ5FqeC1Pf1GcDQMY4oT7mh1B7MDlv
+         +rOYfgl0VMjRT6xpUdn07HoVVgUF/MdDVY5JmP7PccYq3+XDeGfEubQ7xSn4T1VVlP5l
+         k/7xETTehE74AE+xQvqz31C3LiFnqWO2ZqCj4cF6jpYxqj7vbpoZN0JD6hb6LvElsE7C
+         ghsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685096882; x=1687688882;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aZO0rJalJeJGbkGsp4THesp5QJNmk1G4UdTf0ECue4c=;
+        b=ic88I3WwiyU7vNIQw1gRws1hHEYHaYU2orGJ2HBXW5Bvt+juWJlmkkGReP/DXcz429
+         /UjKz1ARZReWrxMfkrRRX4o1fpT36k+0scUyGvGvi2uVNdIACzcTfWgFH/eP4+LHP88W
+         rAAhieyCdk/laUaKJh45EQCuDWnxKWNxiTlO4kZ06OE+BoFwJ/5Z0x19YSuwTXLwFVRP
+         xIXR+OIXuHtttvHR1795PkJQ8j4lGcz6bUner+T9oQy6/hB6hTgCbDyTKa/MS8MCVRT2
+         RJgCQ4btqrECX3fqqo/c8qhytEbEh1XEuB8mKPLrZC3I5o6Wwqru8rJBqOFn5aTrHDp/
+         Y0WQ==
+X-Gm-Message-State: AC+VfDwVw5+gDtqfBVzXSFQZqPUTt69MCm/8NHp6UgYO68HbFcQois//
+        JUA2RNcnmeoyWf4O6G/O5ZY=
+X-Google-Smtp-Source: ACHHUZ7Z98CHq6GRXCmsrPlmgwgS2hYtAkiYLAcZOxn45HkkIC+P8mR6M1Tvt3fDPIJZvnVBfa5AoA==
+X-Received: by 2002:a17:902:cecd:b0:1af:f751:1be9 with SMTP id d13-20020a170902cecd00b001aff7511be9mr2156719plg.32.1685096881595;
+        Fri, 26 May 2023 03:28:01 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id n2-20020a170902e54200b001ae268978cfsm2929008plf.259.2023.05.26.03.27.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 May 2023 03:28:01 -0700 (PDT)
+Message-ID: <a5405368-d04c-f95c-ad18-95f429120dbe@gmail.com>
+Date:   Fri, 26 May 2023 19:27:56 +0900
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: LFvz6PUgpZ9qZ5b8GDMPJYfFFMVkLdKj
-X-Proofpoint-ORIG-GUID: LFvz6PUgpZ9qZ5b8GDMPJYfFFMVkLdKj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- impostorscore=0 mlxlogscore=999 bulkscore=0 adultscore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- mlxscore=0 spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2304280000 definitions=main-2305260088
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 24/26] locking/atomic: scripts: generate kerneldoc
+ comments
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+        boqun.feng@gmail.com, corbet@lwn.net, keescook@chromium.org,
+        linux-arch@vger.kernel.org, linux@armlinux.org.uk,
+        linux-doc@vger.kernel.org, paulmck@kernel.org,
+        sstabellini@kernel.org, will@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20230522122429.1915021-1-mark.rutland@arm.com>
+ <20230522122429.1915021-25-mark.rutland@arm.com>
+ <96d6930b-78b1-4b4c-63e3-c385a764d6e3@gmail.com>
+ <20230524141152.GL4253@hirez.programming.kicks-ass.net>
+ <e76c924a-762c-061d-02b8-13be884ab344@gmail.com>
+ <c9399722-b2df-52ee-cefe-338b118aeb1e@infradead.org>
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <c9399722-b2df-52ee-cefe-338b118aeb1e@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some Coresight devices that kernel don't have permission to access or
-configure. For these devices, a dummy driver is needed to register them as
-Coresight devices. The module may also be used to define components that may
-not have any programming interfaces (e.g, static links), so that paths can be
-created in the driver. It provides Coresight API for operations on dummy
-devices, such as enabling and disabling them. It also provides the Coresight
-dummy sink/source paths for debugging.
+Hi Randy,
 
-Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
----
- drivers/hwtracing/coresight/Kconfig           |  11 ++
- drivers/hwtracing/coresight/Makefile          |   1 +
- drivers/hwtracing/coresight/coresight-dummy.c | 163 ++++++++++++++++++
- include/linux/coresight.h                     |   1 +
- 4 files changed, 176 insertions(+)
- create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
-
-diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/coresight/Kconfig
-index 2b5bbfffbc4f..06f0a7594169 100644
---- a/drivers/hwtracing/coresight/Kconfig
-+++ b/drivers/hwtracing/coresight/Kconfig
-@@ -236,4 +236,15 @@ config CORESIGHT_TPDA
+On 2023/05/26 13:51, Randy Dunlap wrote:
+> Hi Akira,
+> 
+> On 5/25/23 20:17, Akira Yokosawa wrote:
+>> On Wed, 24 May 2023 16:11:52 +0200, Peter Zijlstra wrote:
+>>> On Wed, May 24, 2023 at 11:03:58PM +0900, Akira Yokosawa wrote:
+>>>
+>>>>> * All ops are described as an expression using their usual C operator.
+>>>>>   For example:
+>>>>>
+>>>>>   andnot: "Atomically updates @v to (@v & ~@i)"
+>>>>
+>>>> The kernel-doc script converts "~@i" into reST source of "~**i**",
+>>>> where the emphasis of i is not recognized by Sphinx.
+>>>>
+>>>> For the "@" to work as expected, please say "~(@i)" or "~ @i".
+>>>> My preference is the former.
+>>>
+>>> And here we start :-/ making the actual comment less readable because
+>>> retarded tooling.
+>>>
+>>>>>   inc:    "Atomically updates @v to (@v + 1)"
+>>>>>
+>>>>>   Which may be clearer to non-naative English speakers, and allows all
+>>>>                             non-native
+>>>>
+>>>>>   the operations to be described in the same style.
+>>>>>
+>>>>> * All conditional ops have their condition described as an expression
+>>>>>   using the usual C operators. For example:
+>>>>>
+>>>>>   add_unless: "If (@v != @u), atomically updates @v to (@v + @i)"
+>>>>>   cmpxchg:    "If (@v == @old), atomically updates @v to @new"
+>>>>>
+>>>>>   Which may be clearer to non-naative English speakers, and allows all
+>>>>
+>>>> Ditto.
+>>>
+>>> How about we just keep it as is, and all the rst and html weenies learn
+>>> to use a text editor to read code comments?
+>>
+>> :-) :-) :-)
+>>
+>> It turns out that kernel-doc is aware of !@var [1].
+>> Similar tricks can be added for ~@var.
+>> So let's keep it as is!
+>>
+>> I'll ask documentation forks for updating kernel-doc when this change
+>> is merged eventually.
+> 
+> What do you mean by that?
+> What needs to be updated and how?
  
- 	  To compile this driver as a module, choose M here: the module will be
- 	  called coresight-tpda.
-+
-+config CORESIGHT_DUMMY
-+	tristate "Dummy driver support"
-+	help
-+	  Enables support for dummy driver. Dummy driver can be used for
-+	  CoreSight sources/sinks that are owned and configured by some
-+	  other subsystem and use Linux drivers to configure rest of trace
-+	  path.
-+
-+	  To compile this driver as a module, choose M here: the module will be
-+	  called coresight-dummy.
- endif
-diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-index 33bcc3f7b8ae..995d3b2c76df 100644
---- a/drivers/hwtracing/coresight/Makefile
-+++ b/drivers/hwtracing/coresight/Makefile
-@@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
- coresight-cti-y := coresight-cti-core.o	coresight-cti-platform.o \
- 		   coresight-cti-sysfs.o
- obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
-+obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
-diff --git a/drivers/hwtracing/coresight/coresight-dummy.c b/drivers/hwtracing/coresight/coresight-dummy.c
-new file mode 100644
-index 000000000000..42125b7a0f39
---- /dev/null
-+++ b/drivers/hwtracing/coresight/coresight-dummy.c
-@@ -0,0 +1,163 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#include <linux/coresight.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+
-+#include "coresight-priv.h"
-+
-+struct dummy_drvdata {
-+	struct device			*dev;
-+	struct coresight_device		*csdev;
-+};
-+
-+DEFINE_CORESIGHT_DEVLIST(source_devs, "dummy_source");
-+DEFINE_CORESIGHT_DEVLIST(sink_devs, "dummy_sink");
-+
-+static int dummy_source_enable(struct coresight_device *csdev,
-+			       struct perf_event *event, u32 mode)
-+{
-+	dev_dbg(csdev->dev.parent, "Dummy source enabled\n");
-+
-+	return 0;
-+}
-+
-+static void dummy_source_disable(struct coresight_device *csdev,
-+				 struct perf_event *event)
-+{
-+	dev_dbg(csdev->dev.parent, "Dummy source disabled\n");
-+}
-+
-+static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
-+				void *data)
-+{
-+	dev_dbg(csdev->dev.parent, "Dummy sink enabled\n");
-+
-+	return 0;
-+}
-+
-+static int dummy_sink_disable(struct coresight_device *csdev)
-+{
-+	dev_dbg(csdev->dev.parent, "Dummy sink disabled\n");
-+
-+	return 0;
-+}
-+
-+static const struct coresight_ops_source dummy_source_ops = {
-+	.enable	= dummy_source_enable,
-+	.disable = dummy_source_disable,
-+};
-+
-+static const struct coresight_ops dummy_source_cs_ops = {
-+	.source_ops = &dummy_source_ops,
-+};
-+
-+static const struct coresight_ops_sink dummy_sink_ops = {
-+	.enable	= dummy_sink_enable,
-+	.disable = dummy_sink_disable,
-+};
-+
-+static const struct coresight_ops dummy_sink_cs_ops = {
-+	.sink_ops = &dummy_sink_ops,
-+};
-+
-+static int dummy_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *node = dev->of_node;
-+	struct coresight_platform_data *pdata;
-+	struct dummy_drvdata *drvdata;
-+	struct coresight_desc desc = { 0 };
-+
-+	if (of_device_is_compatible(node, "arm,coresight-dummy-source")) {
-+
-+		desc.name = coresight_alloc_device_name(&source_devs, dev);
-+		if (!desc.name)
-+			return -ENOMEM;
-+
-+		desc.type = CORESIGHT_DEV_TYPE_SOURCE;
-+		desc.subtype.source_subtype =
-+					CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
-+		desc.ops = &dummy_source_cs_ops;
-+	} else if (of_device_is_compatible(node, "arm,coresight-dummy-sink")) {
-+		desc.name = coresight_alloc_device_name(&sink_devs, dev);
-+		if (!desc.name)
-+			return -ENOMEM;
-+
-+		desc.type = CORESIGHT_DEV_TYPE_SINK;
-+		desc.subtype.sink_subtype = CORESIGHT_DEV_SUBTYPE_SINK_DUMMY;
-+		desc.ops = &dummy_sink_cs_ops;
-+	} else {
-+		dev_err(dev, "Device type not set\n");
-+		return -EINVAL;
-+	}
-+
-+	pdata = coresight_get_platform_data(dev);
-+	if (IS_ERR(pdata))
-+		return PTR_ERR(pdata);
-+	pdev->dev.platform_data = pdata;
-+
-+	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-+	if (!drvdata)
-+		return -ENOMEM;
-+
-+	drvdata->dev = &pdev->dev;
-+	platform_set_drvdata(pdev, drvdata);
-+
-+	desc.pdata = pdev->dev.platform_data;
-+	desc.dev = &pdev->dev;
-+	drvdata->csdev = coresight_register(&desc);
-+	if (IS_ERR(drvdata->csdev))
-+		return PTR_ERR(drvdata->csdev);
-+
-+	pm_runtime_enable(dev);
-+	dev_dbg(dev, "Dummy device initialized\n");
-+
-+	return 0;
-+}
-+
-+static int dummy_remove(struct platform_device *pdev)
-+{
-+	struct dummy_drvdata *drvdata = platform_get_drvdata(pdev);
-+	struct device *dev = &pdev->dev;
-+
-+	pm_runtime_disable(dev);
-+	coresight_unregister(drvdata->csdev);
-+	return 0;
-+}
-+
-+static const struct of_device_id dummy_match[] = {
-+	{.compatible = "arm,coresight-dummy-source"},
-+	{.compatible = "arm,coresight-dummy-sink"},
-+	{},
-+};
-+
-+static struct platform_driver dummy_driver = {
-+	.probe	= dummy_probe,
-+	.remove	= dummy_remove,
-+	.driver	= {
-+		.name   = "coresight-dummy",
-+		.of_match_table = dummy_match,
-+	},
-+};
-+
-+static int __init dummy_init(void)
-+{
-+	return platform_driver_register(&dummy_driver);
-+}
-+module_init(dummy_init);
-+
-+static void __exit dummy_exit(void)
-+{
-+	platform_driver_unregister(&dummy_driver);
-+}
-+module_exit(dummy_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("CoreSight dummy driver");
-diff --git a/include/linux/coresight.h b/include/linux/coresight.h
-index f19a47b9bb5a..6db4b49751cf 100644
---- a/include/linux/coresight.h
-+++ b/include/linux/coresight.h
-@@ -45,6 +45,7 @@ enum coresight_dev_type {
- };
- 
- enum coresight_dev_subtype_sink {
-+	CORESIGHT_DEV_SUBTYPE_SINK_DUMMY,
- 	CORESIGHT_DEV_SUBTYPE_SINK_PORT,
- 	CORESIGHT_DEV_SUBTYPE_SINK_BUFFER,
- 	CORESIGHT_DEV_SUBTYPE_SINK_SYSMEM,
--- 
-2.17.1
+I mean, scripts/kernel-doc needs to be updated so that "~@var"
+is converted into "**~var**".
 
+I think adding "~" to the substitution pattern added in [1] as follows
+should do the trick (not well tested):
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 2486689ffc7b..eb70c1fd4e86 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -64,7 +64,7 @@ my $type_constant = '\b``([^\`]+)``\b';
+ my $type_constant2 = '\%([-_\w]+)';
+ my $type_func = '(\w+)\(\)';
+ my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+-my $type_param_ref = '([\!]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
++my $type_param_ref = '([\!~]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+ my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
+ my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
+ my $type_env = '(\$\w+)';
+
+Thoughts?
+
+        Thanks, Akira
+
+> 
+> 
+>> [1]: ee2aa7590398 ("scripts: kernel-doc: accept negation like !@var")
+> 
+> thanks.
