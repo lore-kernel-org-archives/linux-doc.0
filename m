@@ -2,164 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B75FC77B7C
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 10:28:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB96BC77B7A
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 13:07:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235332AbjEZK2N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 06:28:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37150 "EHLO
+        id S242955AbjEZNHg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 09:07:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243149AbjEZK2K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 06:28:10 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4688712F;
-        Fri, 26 May 2023 03:28:02 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1b01dac1a82so241075ad.2;
-        Fri, 26 May 2023 03:28:02 -0700 (PDT)
+        with ESMTP id S243181AbjEZNHf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 09:07:35 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4DF219C
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 06:07:29 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f6e1394060so5160915e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 06:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685096882; x=1687688882;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aZO0rJalJeJGbkGsp4THesp5QJNmk1G4UdTf0ECue4c=;
-        b=XhH0D0v1D/gUuJkfVBmEkCkn/0BSN48AWwvSmsd+5pVdMFtBBLC/dvLZnlBouhnPju
-         9yeJO6EJs/28rK/qxSILPALQbfmLRr5TNmhdLjrTl1FfwLQa83GSujmXyXH0zxaWqJHk
-         7ggmKZX3lEo+puMyDfNTDXxmhq24wueKtHN01UmJ5FqeC1Pf1GcDQMY4oT7mh1B7MDlv
-         +rOYfgl0VMjRT6xpUdn07HoVVgUF/MdDVY5JmP7PccYq3+XDeGfEubQ7xSn4T1VVlP5l
-         k/7xETTehE74AE+xQvqz31C3LiFnqWO2ZqCj4cF6jpYxqj7vbpoZN0JD6hb6LvElsE7C
-         ghsw==
+        d=linaro.org; s=google; t=1685106448; x=1687698448;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3OYN7dZABhmYimN+TZxc/LvZq8eCNJGJVqa65c9esQQ=;
+        b=hVt1U943xtcdOo2EhnLU8fSa9SaQAhhJAK9fHvIygC7JJ8lzJKKxP4k7u5OHw8Cp4/
+         GsuhTsj7XzA72Zxe9iq2RfLMhyqlEB0pzSIDDgSSYWZsnp/ykcjQeDwPRVz7kDJvnGPl
+         KgZToumD2FoaSZR9jpQgonIffD2DIgJPuF4qX7LxLYn3tz66EN6ljaxsV+OcT9Ih0IGM
+         LzrS01FjPnYyjJyAtBTRPL8ZsTEM4QgBcxkM4ldHr/JZvlU2r/KZxoQquvr8tjs/l+mW
+         BJ0oV+JvPFQW+SJPIkGkl+u9pJ9qj152wZMxlg/TDIGZq+oeD3SUbA0kwEs4sgbvGxpB
+         je3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685096882; x=1687688882;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aZO0rJalJeJGbkGsp4THesp5QJNmk1G4UdTf0ECue4c=;
-        b=ic88I3WwiyU7vNIQw1gRws1hHEYHaYU2orGJ2HBXW5Bvt+juWJlmkkGReP/DXcz429
-         /UjKz1ARZReWrxMfkrRRX4o1fpT36k+0scUyGvGvi2uVNdIACzcTfWgFH/eP4+LHP88W
-         rAAhieyCdk/laUaKJh45EQCuDWnxKWNxiTlO4kZ06OE+BoFwJ/5Z0x19YSuwTXLwFVRP
-         xIXR+OIXuHtttvHR1795PkJQ8j4lGcz6bUner+T9oQy6/hB6hTgCbDyTKa/MS8MCVRT2
-         RJgCQ4btqrECX3fqqo/c8qhytEbEh1XEuB8mKPLrZC3I5o6Wwqru8rJBqOFn5aTrHDp/
-         Y0WQ==
-X-Gm-Message-State: AC+VfDwVw5+gDtqfBVzXSFQZqPUTt69MCm/8NHp6UgYO68HbFcQois//
-        JUA2RNcnmeoyWf4O6G/O5ZY=
-X-Google-Smtp-Source: ACHHUZ7Z98CHq6GRXCmsrPlmgwgS2hYtAkiYLAcZOxn45HkkIC+P8mR6M1Tvt3fDPIJZvnVBfa5AoA==
-X-Received: by 2002:a17:902:cecd:b0:1af:f751:1be9 with SMTP id d13-20020a170902cecd00b001aff7511be9mr2156719plg.32.1685096881595;
-        Fri, 26 May 2023 03:28:01 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id n2-20020a170902e54200b001ae268978cfsm2929008plf.259.2023.05.26.03.27.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 May 2023 03:28:01 -0700 (PDT)
-Message-ID: <a5405368-d04c-f95c-ad18-95f429120dbe@gmail.com>
-Date:   Fri, 26 May 2023 19:27:56 +0900
+        d=1e100.net; s=20221208; t=1685106448; x=1687698448;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3OYN7dZABhmYimN+TZxc/LvZq8eCNJGJVqa65c9esQQ=;
+        b=kvCclI9GLYvlr876Z6zBXJhi4FRtlmfVyvEXrrbIzmfNyRviErj3LTdzWKW3DcZOZq
+         Ezfr7zYYBlu/7VdXNYi8c+FZKrcpu9r1yVxaTxLot02hUm+voydk0H0tl07zkD5CC4VE
+         nLN+zXmap07kx49opVxkWlo0MzpjNUy4RM/H5Tn8meFY4Q9DwWqpqZPl2RKP2HDsyKgZ
+         VynZVjasHEIoJva9/aRr652wjYtcs2GrhIY535iunCBXudEcC/DgbYSFHAW1EX19IDvl
+         tWfQuf0WYe+uGeSeQ+IGNKt7UjbO7a79zOuMUWMsxl94vYMGNze2oN9VV1mzuVQ6ocqm
+         oKKA==
+X-Gm-Message-State: AC+VfDwnWo6lhicjhacMMNpDyGqkbMBHAOCWQT9VUIgdlUFU2N8WOLr0
+        FZ8bz9VVNtP4/d9jQlBwPCoQ0tzYqIQpPZMmZFkTkQ==
+X-Google-Smtp-Source: ACHHUZ7YKORMpC4RuNFuNl96MUWxk3+APLsN1PXwJ89q18j6GEnvJOhIRtKVBHTuz15K85dTVUYMJQ==
+X-Received: by 2002:a05:600c:3658:b0:3f5:fb83:62b0 with SMTP id y24-20020a05600c365800b003f5fb8362b0mr1473701wmq.36.1685106448115;
+        Fri, 26 May 2023 06:07:28 -0700 (PDT)
+Received: from loic-ThinkPad-T470p.. ([2a01:e0a:82c:5f0:73c8:c098:1848:c7ac])
+        by smtp.gmail.com with ESMTPSA id i2-20020a05600c290200b003eddc6aa5fasm8731390wmd.39.2023.05.26.06.07.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 06:07:27 -0700 (PDT)
+From:   Loic Poulain <loic.poulain@linaro.org>
+To:     corbet@lwn.net, viro@zeniv.linux.org.uk, brauner@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Loic Poulain <loic.poulain@linaro.org>
+Subject: [PATCH] init: Add support for rootwait timeout parameter
+Date:   Fri, 26 May 2023 15:07:16 +0200
+Message-Id: <20230526130716.2932507-1-loic.poulain@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 24/26] locking/atomic: scripts: generate kerneldoc
- comments
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-        boqun.feng@gmail.com, corbet@lwn.net, keescook@chromium.org,
-        linux-arch@vger.kernel.org, linux@armlinux.org.uk,
-        linux-doc@vger.kernel.org, paulmck@kernel.org,
-        sstabellini@kernel.org, will@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20230522122429.1915021-1-mark.rutland@arm.com>
- <20230522122429.1915021-25-mark.rutland@arm.com>
- <96d6930b-78b1-4b4c-63e3-c385a764d6e3@gmail.com>
- <20230524141152.GL4253@hirez.programming.kicks-ass.net>
- <e76c924a-762c-061d-02b8-13be884ab344@gmail.com>
- <c9399722-b2df-52ee-cefe-338b118aeb1e@infradead.org>
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <c9399722-b2df-52ee-cefe-338b118aeb1e@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Randy,
+Add an optional timeout arg to 'rootwait' as the maximum time in
+seconds to wait for the root device to show up before attempting
+forced mount of the root filesystem.
 
-On 2023/05/26 13:51, Randy Dunlap wrote:
-> Hi Akira,
-> 
-> On 5/25/23 20:17, Akira Yokosawa wrote:
->> On Wed, 24 May 2023 16:11:52 +0200, Peter Zijlstra wrote:
->>> On Wed, May 24, 2023 at 11:03:58PM +0900, Akira Yokosawa wrote:
->>>
->>>>> * All ops are described as an expression using their usual C operator.
->>>>>   For example:
->>>>>
->>>>>   andnot: "Atomically updates @v to (@v & ~@i)"
->>>>
->>>> The kernel-doc script converts "~@i" into reST source of "~**i**",
->>>> where the emphasis of i is not recognized by Sphinx.
->>>>
->>>> For the "@" to work as expected, please say "~(@i)" or "~ @i".
->>>> My preference is the former.
->>>
->>> And here we start :-/ making the actual comment less readable because
->>> retarded tooling.
->>>
->>>>>   inc:    "Atomically updates @v to (@v + 1)"
->>>>>
->>>>>   Which may be clearer to non-naative English speakers, and allows all
->>>>                             non-native
->>>>
->>>>>   the operations to be described in the same style.
->>>>>
->>>>> * All conditional ops have their condition described as an expression
->>>>>   using the usual C operators. For example:
->>>>>
->>>>>   add_unless: "If (@v != @u), atomically updates @v to (@v + @i)"
->>>>>   cmpxchg:    "If (@v == @old), atomically updates @v to @new"
->>>>>
->>>>>   Which may be clearer to non-naative English speakers, and allows all
->>>>
->>>> Ditto.
->>>
->>> How about we just keep it as is, and all the rst and html weenies learn
->>> to use a text editor to read code comments?
->>
->> :-) :-) :-)
->>
->> It turns out that kernel-doc is aware of !@var [1].
->> Similar tricks can be added for ~@var.
->> So let's keep it as is!
->>
->> I'll ask documentation forks for updating kernel-doc when this change
->> is merged eventually.
-> 
-> What do you mean by that?
-> What needs to be updated and how?
+This can be helpful to force boot failure and restart in case the
+root device does not show up in time, allowing the bootloader to
+take any appropriate measures (e.g. recovery, A/B switch, retry...).
+
+In success case, mounting happens as soon as the root device is ready,
+contrary to the existing 'rootdelay' parameter (unconditional delay).
+
+Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+---
+ .../admin-guide/kernel-parameters.txt         |  4 ++++
+ init/do_mounts.c                              | 19 +++++++++++++++++--
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 9e5bab29685f..6e351d4c84a5 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5465,6 +5465,10 @@
+ 			Useful for devices that are detected asynchronously
+ 			(e.g. USB and MMC devices).
  
-I mean, scripts/kernel-doc needs to be updated so that "~@var"
-is converted into "**~var**".
++	rootwait=	[KNL] Maximum time (in seconds) to wait for root device
++			to show up before attempting to mount the root
++			filesystem.
++
+ 	rproc_mem=nn[KMG][@address]
+ 			[KNL,ARM,CMA] Remoteproc physical memory block.
+ 			Memory area to be used by remote processor image,
+diff --git a/init/do_mounts.c b/init/do_mounts.c
+index 811e94daf0a8..942458e7d1c0 100644
+--- a/init/do_mounts.c
++++ b/init/do_mounts.c
+@@ -18,6 +18,7 @@
+ #include <linux/slab.h>
+ #include <linux/ramfs.h>
+ #include <linux/shmem_fs.h>
++#include <linux/ktime.h>
+ 
+ #include <linux/nfs_fs.h>
+ #include <linux/nfs_fs_sb.h>
+@@ -306,12 +307,20 @@ static int __init rootwait_setup(char *str)
+ {
+ 	if (*str)
+ 		return 0;
+-	root_wait = 1;
++	root_wait = -1;
+ 	return 1;
+ }
+ 
+ __setup("rootwait", rootwait_setup);
+ 
++static int __init rootwait_timeout_setup(char *str)
++{
++	root_wait = simple_strtoul(str, NULL, 0);
++	return 1;
++}
++
++__setup("rootwait=", rootwait_timeout_setup);
++
+ static char * __initdata root_mount_data;
+ static int __init root_data_setup(char *str)
+ {
+@@ -633,11 +642,17 @@ void __init prepare_namespace(void)
+ 
+ 	/* wait for any asynchronous scanning to complete */
+ 	if ((ROOT_DEV == 0) && root_wait) {
++		const ktime_t end = ktime_add_ms(ktime_get_raw(), root_wait * MSEC_PER_SEC);
++
+ 		printk(KERN_INFO "Waiting for root device %s...\n",
+ 			saved_root_name);
+ 		while (driver_probe_done() != 0 ||
+-			(ROOT_DEV = name_to_dev_t(saved_root_name)) == 0)
++			(ROOT_DEV = name_to_dev_t(saved_root_name)) == 0) {
+ 			msleep(5);
++
++			if (root_wait > 0 && ktime_after(ktime_get_raw(), end))
++				break;
++		}
+ 		async_synchronize_full();
+ 	}
+ 
+-- 
+2.34.1
 
-I think adding "~" to the substitution pattern added in [1] as follows
-should do the trick (not well tested):
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 2486689ffc7b..eb70c1fd4e86 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -64,7 +64,7 @@ my $type_constant = '\b``([^\`]+)``\b';
- my $type_constant2 = '\%([-_\w]+)';
- my $type_func = '(\w+)\(\)';
- my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
--my $type_param_ref = '([\!]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
-+my $type_param_ref = '([\!~]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
- my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
- my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
- my $type_env = '(\$\w+)';
-
-Thoughts?
-
-        Thanks, Akira
-
-> 
-> 
->> [1]: ee2aa7590398 ("scripts: kernel-doc: accept negation like !@var")
-> 
-> thanks.
