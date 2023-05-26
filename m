@@ -2,63 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10978C7EE23
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 03:43:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A86C77B7A
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 04:51:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233978AbjEZDnn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 May 2023 23:43:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46108 "EHLO
+        id S234250AbjEZEvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 00:51:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbjEZDnm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 May 2023 23:43:42 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2390712F;
-        Thu, 25 May 2023 20:43:41 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A39C464AFA;
-        Fri, 26 May 2023 03:43:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE72C433D2;
-        Fri, 26 May 2023 03:43:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685072620;
-        bh=/L2ak1QSeM0cCjQ48lK1EVSqL+J/A7fobg5W3LOtywM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=JO/UjNZpNTEYCO6E/ikfAgokVWP/FSDJVnYoVDsTwnx64cATbJdus3/6wL/S2oEl7
-         usQmN2PW4r6+7rT9/GdABsEtTrfqhCq/YvlMhMlDsWowGMnv4DzCv2507wdv1C10QE
-         hCGQtB2XmW63NMb+i7sKoK5O2gtUHtHUyWEzhjFK/lmMAADcWLUfZER+fqQlsibjFi
-         V2xKtH7tW/6i9tkuMIvFwfzcrkyE8fO6IYkPdKg3eW5yKNt+PKbcDNzvhuTVS8Vumc
-         e3h/W4azpOqY65fKQFUXH7keAveTzvzO8zIaND2WLdwK8N7HyfDNDu5u0nSXz0Rmto
-         Ied8XWvRqx/Yw==
-Date:   Thu, 25 May 2023 20:43:38 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>, linux-leds@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v2 00/13] leds: introduce new LED hw control
- APIs
-Message-ID: <20230525204338.3de1e95c@kernel.org>
-In-Reply-To: <20230525145401.27007-1-ansuelsmth@gmail.com>
-References: <20230525145401.27007-1-ansuelsmth@gmail.com>
+        with ESMTP id S229625AbjEZEvn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 00:51:43 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05651119;
+        Thu, 25 May 2023 21:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=movR2kgaqhuJ0kfo+Y7vgQbU8GIGLJXozmT4bEwaGeU=; b=w5z2ShyZWO3yUGUdUK+xJe80v+
+        7mch2mHhZtYK6vWzLRnG9KczU7EbFNKu2GJu4P3uLK3znFuByYuwKN6o3ajPVUeVYAt/GyBmSgyxd
+        U3jfdJfQAhBIt1q9z77QArvay08XGBovrGU+ws4GnyjOyfnt5tKme6eiBRi35wOv4L8nF1ixdGcs4
+        T5amoGvYHythK8KxLzBbxd+zvIJtiBjzQ+8d5W7MM3TELcqrHFTNnG1mN4E/4hfvJEw3hYkPYcdRP
+        DL58OIxsPfXlhwkJ+0kIVftMLplJHAL4PA4uL8wUWdTb7vLTzvVUvXt0FUZpWlHi0Ya/doWAbNk/p
+        Gni4NbEA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q2PQQ-0011Tf-23;
+        Fri, 26 May 2023 04:51:38 +0000
+Message-ID: <c9399722-b2df-52ee-cefe-338b118aeb1e@infradead.org>
+Date:   Thu, 25 May 2023 21:51:37 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 24/26] locking/atomic: scripts: generate kerneldoc
+ comments
+Content-Language: en-US
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
+        boqun.feng@gmail.com, corbet@lwn.net, keescook@chromium.org,
+        linux-arch@vger.kernel.org, linux@armlinux.org.uk,
+        linux-doc@vger.kernel.org, paulmck@kernel.org,
+        sstabellini@kernel.org, will@kernel.org
+References: <20230522122429.1915021-1-mark.rutland@arm.com>
+ <20230522122429.1915021-25-mark.rutland@arm.com>
+ <96d6930b-78b1-4b4c-63e3-c385a764d6e3@gmail.com>
+ <20230524141152.GL4253@hirez.programming.kicks-ass.net>
+ <e76c924a-762c-061d-02b8-13be884ab344@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <e76c924a-762c-061d-02b8-13be884ab344@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 25 May 2023 16:53:48 +0200 Christian Marangi wrote:
-> This is based on top of branch ib-leds-netdev-v6.5 present here [1].
+Hi Akira,
 
-I merged that PR now, but you'll need to repost.
-Build bots don't read English (yet?) so posting patches which can't 
-be immediately applied is basically an RFC (and should be marked as
-such).
+On 5/25/23 20:17, Akira Yokosawa wrote:
+> On Wed, 24 May 2023 16:11:52 +0200, Peter Zijlstra wrote:
+>> On Wed, May 24, 2023 at 11:03:58PM +0900, Akira Yokosawa wrote:
+>>
+>>>> * All ops are described as an expression using their usual C operator.
+>>>>   For example:
+>>>>
+>>>>   andnot: "Atomically updates @v to (@v & ~@i)"
+>>>
+>>> The kernel-doc script converts "~@i" into reST source of "~**i**",
+>>> where the emphasis of i is not recognized by Sphinx.
+>>>
+>>> For the "@" to work as expected, please say "~(@i)" or "~ @i".
+>>> My preference is the former.
+>>
+>> And here we start :-/ making the actual comment less readable because
+>> retarded tooling.
+>>
+>>>>   inc:    "Atomically updates @v to (@v + 1)"
+>>>>
+>>>>   Which may be clearer to non-naative English speakers, and allows all
+>>>                             non-native
+>>>
+>>>>   the operations to be described in the same style.
+>>>>
+>>>> * All conditional ops have their condition described as an expression
+>>>>   using the usual C operators. For example:
+>>>>
+>>>>   add_unless: "If (@v != @u), atomically updates @v to (@v + @i)"
+>>>>   cmpxchg:    "If (@v == @old), atomically updates @v to @new"
+>>>>
+>>>>   Which may be clearer to non-naative English speakers, and allows all
+>>>
+>>> Ditto.
+>>
+>> How about we just keep it as is, and all the rst and html weenies learn
+>> to use a text editor to read code comments?
+> 
+> :-) :-) :-)
+> 
+> It turns out that kernel-doc is aware of !@var [1].
+> Similar tricks can be added for ~@var.
+> So let's keep it as is!
+> 
+> I'll ask documentation forks for updating kernel-doc when this change
+> is merged eventually.
+
+What do you mean by that?
+What needs to be updated and how?
+
+
+> [1]: ee2aa7590398 ("scripts: kernel-doc: accept negation like !@var")
+
+thanks.
+-- 
+~Randy
