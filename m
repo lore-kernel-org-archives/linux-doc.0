@@ -2,115 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A86C77B7A
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 04:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F76DC7EE23
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 06:23:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234250AbjEZEvo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 00:51:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34690 "EHLO
+        id S242089AbjEZGXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 02:23:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229625AbjEZEvn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 00:51:43 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05651119;
-        Thu, 25 May 2023 21:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=movR2kgaqhuJ0kfo+Y7vgQbU8GIGLJXozmT4bEwaGeU=; b=w5z2ShyZWO3yUGUdUK+xJe80v+
-        7mch2mHhZtYK6vWzLRnG9KczU7EbFNKu2GJu4P3uLK3znFuByYuwKN6o3ajPVUeVYAt/GyBmSgyxd
-        U3jfdJfQAhBIt1q9z77QArvay08XGBovrGU+ws4GnyjOyfnt5tKme6eiBRi35wOv4L8nF1ixdGcs4
-        T5amoGvYHythK8KxLzBbxd+zvIJtiBjzQ+8d5W7MM3TELcqrHFTNnG1mN4E/4hfvJEw3hYkPYcdRP
-        DL58OIxsPfXlhwkJ+0kIVftMLplJHAL4PA4uL8wUWdTb7vLTzvVUvXt0FUZpWlHi0Ya/doWAbNk/p
-        Gni4NbEA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1q2PQQ-0011Tf-23;
-        Fri, 26 May 2023 04:51:38 +0000
-Message-ID: <c9399722-b2df-52ee-cefe-338b118aeb1e@infradead.org>
-Date:   Thu, 25 May 2023 21:51:37 -0700
+        with ESMTP id S231495AbjEZGXF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 02:23:05 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294AC125;
+        Thu, 25 May 2023 23:23:04 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-53482b44007so243271a12.2;
+        Thu, 25 May 2023 23:23:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685082183; x=1687674183;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7cCHBf3UytwZfxePPwE+jd6ort0sOdXbbuo1VvBkL64=;
+        b=In9JMr9pXJKdU4OFNrKA8VkqvzNERFgbkF1WTefIBpZGNH1cm6Wu4vy6gHMfTTbpH5
+         Bxt1r4RdI0sl2apwFfU9YncceU9jlq55r9HxXRy93MWRcYsVcXQ/3fCBv5QBexNmd25X
+         6G2yWYoM0MVRHQMx8eH0pxaCBL360ys2TBubCUiYCToafZ9wgibDjDx0qVGg1QlxwNOJ
+         mLFF8yI2zd7UosSjjmAmMe1b3OntVisxuNwReKnyR4cjSdQqdBe57OFiu7V+h7YbDTD9
+         gS4FVXbZxLBVK9nWMBpD7mMOq0v4voFCeypL5pXo+ai/vZiKklNlarHEiS6wZWvQStAQ
+         076A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685082183; x=1687674183;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7cCHBf3UytwZfxePPwE+jd6ort0sOdXbbuo1VvBkL64=;
+        b=ebjpIGkbPWxespbD+Cr1qrLtNWbdnKXnGoSUtbmExpJ+efkW42z1UxahXGHMk6bL2q
+         Oe0tBcwJdgZ13cKR82hBr8qf2SwVpOFTrm6fbO5gvgCxgUgG26PHSan8oYeJiJ6phP8v
+         isnc6grXZrUBi531so6PKCEigEYanYTBqaBRXLyowYkr/XbBVc52WT/9K1iS10UmRZ93
+         jmMbPTHANuPRj9Lw1yOxS+xMO+R0w8c/a3AbZzixx2XtQvQlN1OSMtgpHCtls9/OCIH7
+         QuHcMw3b2EQKlnOyE6VhsGmotkIpiLNPNWX0gDYlqQfWuh2Lgnaea08P1EsHGaor+3w1
+         2dww==
+X-Gm-Message-State: AC+VfDwIJ5B8DcD38FpUIMgWTPR3jbmeScYQXGpUAGBRPgUOhRFjysda
+        yK8SOegYjoDFpI6VCa6UHUrEgdxzb51lqL0RAxQ=
+X-Google-Smtp-Source: ACHHUZ5+adpq5bn8ccEuSJ16UorMQ11HQo3chgEmsUz3XwrAAvurJ6sIX+3y8mXx79RuaBedX3HqgDmU0iivyP2H1/M=
+X-Received: by 2002:a17:903:2285:b0:1ab:142a:3dd7 with SMTP id
+ b5-20020a170903228500b001ab142a3dd7mr1537487plh.68.1685082183465; Thu, 25 May
+ 2023 23:23:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 24/26] locking/atomic: scripts: generate kerneldoc
- comments
-Content-Language: en-US
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org,
-        boqun.feng@gmail.com, corbet@lwn.net, keescook@chromium.org,
-        linux-arch@vger.kernel.org, linux@armlinux.org.uk,
-        linux-doc@vger.kernel.org, paulmck@kernel.org,
-        sstabellini@kernel.org, will@kernel.org
-References: <20230522122429.1915021-1-mark.rutland@arm.com>
- <20230522122429.1915021-25-mark.rutland@arm.com>
- <96d6930b-78b1-4b4c-63e3-c385a764d6e3@gmail.com>
- <20230524141152.GL4253@hirez.programming.kicks-ass.net>
- <e76c924a-762c-061d-02b8-13be884ab344@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <e76c924a-762c-061d-02b8-13be884ab344@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1684999824.git.haibo1.xu@intel.com> <20230525-6e0855eb07086a96eaa82362@orel>
+In-Reply-To: <20230525-6e0855eb07086a96eaa82362@orel>
+From:   Haibo Xu <xiaobo55x@gmail.com>
+Date:   Fri, 26 May 2023 14:22:52 +0800
+Message-ID: <CAJve8o=SdjMvsVn=3Vqw3QG5SuU8nqLVC_MRAgPX+GuFZj6jvA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] RISCV: Add KVM_GET_REG_LIST API
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
+        oliver.upton@linux.dev, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Akira,
+On Fri, May 26, 2023 at 1:20=E2=80=AFAM Andrew Jones <ajones@ventanamicro.c=
+om> wrote:
+>
+> On Thu, May 25, 2023 at 03:38:24PM +0800, Haibo Xu wrote:
+> > KVM_GET_REG_LIST will dump all register IDs that are available to
+> > KVM_GET/SET_ONE_REG and It's very useful to identify some platform
+> > regression issue during VM migration.
+> >
+> > Patch 1-7 re-structured the get-reg-list test in aarch64 to make some
+> > of the code as common test framework that can be shared by riscv.
+> >
+> > Patch 8 enabled the KVM_GET_REG_LIST API in riscv and patch 9-11 added
+> > the corresponding kselftest for checking possible register regressions.
+> >
+> > The get-reg-list kvm selftest was ported from aarch64 and tested with
+> > Linux 6.4-rc1 on a Qemu riscv virt machine.
+> >
+> > ---
+> > Changed since v1:
+> >   * rebase to Andrew's changes
+> >   * fix coding style
+> >
+> > Andrew Jones (7):
+> >   KVM: arm64: selftests: Replace str_with_index with strdup_printf
+> >   KVM: arm64: selftests: Drop SVE cap check in print_reg
+> >   KVM: arm64: selftests: Remove print_reg's dependency on vcpu_config
+> >   KVM: arm64: selftests: Rename vcpu_config and add to kvm_util.h
+> >   KVM: arm64: selftests: Delete core_reg_fixup
+> >   KVM: arm64: selftests: Split get-reg-list test code
+> >   KVM: arm64: selftests: Finish generalizing get-reg-list
+>
+> All the patches above should also have your s-o-b since your posting them=
+.
+>
 
-On 5/25/23 20:17, Akira Yokosawa wrote:
-> On Wed, 24 May 2023 16:11:52 +0200, Peter Zijlstra wrote:
->> On Wed, May 24, 2023 at 11:03:58PM +0900, Akira Yokosawa wrote:
->>
->>>> * All ops are described as an expression using their usual C operator.
->>>>   For example:
->>>>
->>>>   andnot: "Atomically updates @v to (@v & ~@i)"
->>>
->>> The kernel-doc script converts "~@i" into reST source of "~**i**",
->>> where the emphasis of i is not recognized by Sphinx.
->>>
->>> For the "@" to work as expected, please say "~(@i)" or "~ @i".
->>> My preference is the former.
->>
->> And here we start :-/ making the actual comment less readable because
->> retarded tooling.
->>
->>>>   inc:    "Atomically updates @v to (@v + 1)"
->>>>
->>>>   Which may be clearer to non-naative English speakers, and allows all
->>>                             non-native
->>>
->>>>   the operations to be described in the same style.
->>>>
->>>> * All conditional ops have their condition described as an expression
->>>>   using the usual C operators. For example:
->>>>
->>>>   add_unless: "If (@v != @u), atomically updates @v to (@v + @i)"
->>>>   cmpxchg:    "If (@v == @old), atomically updates @v to @new"
->>>>
->>>>   Which may be clearer to non-naative English speakers, and allows all
->>>
->>> Ditto.
->>
->> How about we just keep it as is, and all the rst and html weenies learn
->> to use a text editor to read code comments?
-> 
-> :-) :-) :-)
-> 
-> It turns out that kernel-doc is aware of !@var [1].
-> Similar tricks can be added for ~@var.
-> So let's keep it as is!
-> 
-> I'll ask documentation forks for updating kernel-doc when this change
-> is merged eventually.
+Sure.
 
-What do you mean by that?
-What needs to be updated and how?
-
-
-> [1]: ee2aa7590398 ("scripts: kernel-doc: accept negation like !@var")
-
-thanks.
--- 
-~Randy
+> Thanks,
+> drew
