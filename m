@@ -2,57 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32FF5C7EE43
-	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 23:44:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D0BC77B7A
+	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 23:45:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237506AbjEZXo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 19:44:56 -0400
+        id S237512AbjEZXo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 19:44:57 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237543AbjEZXot (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 19:44:49 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE179E
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 16:44:45 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-561ceb5b584so30816267b3.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 16:44:45 -0700 (PDT)
+        with ESMTP id S237772AbjEZXov (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 19:44:51 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1AA5E42
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 16:44:48 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-bacfa4eefd3so1681555276.3
+        for <linux-doc@vger.kernel.org>; Fri, 26 May 2023 16:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685144684; x=1687736684;
+        d=google.com; s=20221208; t=1685144687; x=1687736687;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W5mqYLgSgL41U5MVABcpsNGg2VTYVhdnWBmYAGgA32M=;
-        b=lFfC+K1prBwz+QWauf5t3Z5nGOG+XH3WsUV6BbAJbu8yEh9dwSmQ7iKcNTjxofo1xQ
-         drv4Lmvn48X7bRRKv2GPWasyFIShdI23SCQ+h/TYUmoXc/hOnlnscK719N8Jpf3m7n6U
-         mEaD6Epy7t6qJzvv/9f9Jp/JqQmnMe81faOyaQAqHTEXDufnGK7wY+Ey5ZFKaBi7dzJd
-         6O8PEoHW6NsTzElKeYmJHsoCaRTvtaP/AkDf6+cRfXVKyOf9lMpoYxPIHrUwcDj+nl2+
-         7q+JpYkRKelWoBaQmJuf7/axxLP6kaz1KnqZQAEmA4XWZSzVgynpinko26WGtZXkTjpp
-         oXNg==
+        bh=gdtrmeQ7r8fSzyqqoeow0Oco6w18CVCYcKcBQXKvLk0=;
+        b=A+5tnxly4jAziM7PCgC2JSUrvZIuWUL9UuTqWd7F/s/V7U9ZvBSUtbCMn4PDjXhEkh
+         xPkXA8ijRXU8kfBAAJh45kvENT/cQ+0BqqVDKv4CzNn3FeibDZ4esB2AS5+kj2xWW1A/
+         5f+rTWaRryOWr0eLpQP68cwlR3USUfp7Ely4h3ulPbhNc/8a6O9EbhRXY0Hc8yu56mx8
+         LQMCwDasuefCJVI+rIDEYvr3/19bdInHAEUvVq6phC2Jc21wzdoWQlzM7WDhIq/i18eK
+         BEwyErOKi0xkhmnwWH0N/n1UzNpwg5kRKa2pc24aeVs5XXh0p7GOcbD7gzDkKgQaeHXr
+         C7IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685144684; x=1687736684;
+        d=1e100.net; s=20221208; t=1685144687; x=1687736687;
         h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W5mqYLgSgL41U5MVABcpsNGg2VTYVhdnWBmYAGgA32M=;
-        b=NgNCuQ/Mkawim/T8GMjF3amp0jGlO5YKLp9DEztFoaGH9l5Z1aPrcJioojY16qu5I5
-         h4FAd/10TTW7acJZCz8qOJHGPTxfAGs9eFbHM8jYwd0OBHqGpGyfjOhmmDgUZYpCwA8l
-         01M4TUcPdQvmBEbQm48uy0UvyMXqiTHwhpgFKAqWILnV7PNgdiatmrNPnvU6fEkmw285
-         ndibHWUah7VWV4JTbNBmDwgpYyWH+FH/XshSZsp472IiU+jXrcF87wP4+iNU1z8Joj/v
-         NpMg6RGIIFx1yWXRNfclziOlP7LnBmvOSRJNTwNjCdgFrAsXIE3mXbHsdQvwlEwhzahP
-         OWgg==
-X-Gm-Message-State: AC+VfDywW5gqXXHZhie55EsiDMqOcQqBGj5bTNtLC0znrj9vtLQ0fHxE
-        GfWLJvQ9NJNOEBjdchhYCwmzCW66WfU=
-X-Google-Smtp-Source: ACHHUZ5aYhy2MBmaWD1q0FxpVfKGE+Nrskt2Z7iv2nNf760O+qZ11RhzmW2rToUdRrv6PXs76j2V3Kvga7o=
+        bh=gdtrmeQ7r8fSzyqqoeow0Oco6w18CVCYcKcBQXKvLk0=;
+        b=igMbQXrHkjlOHx8e54M2wls+Ftv2TzveEgyECyOi1wujhT4YhuV2knYZgOSdG2ZkcE
+         3Hq0U0FeTqX4X3SaTUoLx8KNpJbRIIfoEVHo6nD/ni4kefdrSDCoh8oIP9IGwne/s+Lj
+         891+0sE6sGIdWqBcXsA5KnFdArfL8dDRk72pXxizqKuuk0nyJnB2GTriiHVOyf7wB90x
+         VZ8L/pl3C+WPuYgOAM6uEHLgviW6KUKJMO73UVgGfCD5+Mt+I+oIBLVeTnECE4aVh0Bm
+         7ZRHpxb/CAJrZkwAn4HHDSPd+FY+J5DhcJiDDz2XnVUixWgzs1sCK3t9UB3lQc9j3SZz
+         k0xw==
+X-Gm-Message-State: AC+VfDz5hR71t5uZXNtJfH0ORG5rV7HUDfXVdgkfAkm7KiCesZq0cFYy
+        /Fi4NGXUQdn/bjNWTByfcemvX7upjMk=
+X-Google-Smtp-Source: ACHHUZ75roT4ZouTjM2lH4DZFyTBmS3QLSjPTFGxgUaEGtzpG1LtCtXvcTQXcsV4/+3guLPQ6FLc+WkYaOc=
 X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:910f:8a15:592b:2087])
- (user=yuzhao job=sendgmr) by 2002:a81:4421:0:b0:565:9f59:664f with SMTP id
- r33-20020a814421000000b005659f59664fmr2006806ywa.6.1685144684605; Fri, 26 May
- 2023 16:44:44 -0700 (PDT)
-Date:   Fri, 26 May 2023 17:44:28 -0600
+ (user=yuzhao job=sendgmr) by 2002:a25:b28d:0:b0:bad:155a:1004 with SMTP id
+ k13-20020a25b28d000000b00bad155a1004mr1830575ybj.2.1685144687512; Fri, 26 May
+ 2023 16:44:47 -0700 (PDT)
+Date:   Fri, 26 May 2023 17:44:30 -0600
 In-Reply-To: <20230526234435.662652-1-yuzhao@google.com>
-Message-Id: <20230526234435.662652-4-yuzhao@google.com>
+Message-Id: <20230526234435.662652-6-yuzhao@google.com>
 Mime-Version: 1.0
 References: <20230526234435.662652-1-yuzhao@google.com>
 X-Mailer: git-send-email 2.41.0.rc0.172.g3f132b7071-goog
-Subject: [PATCH mm-unstable v2 03/10] kvm/arm64: export stage2_try_set_pte()
- and macros
+Subject: [PATCH mm-unstable v2 05/10] kvm/arm64: add kvm_arch_test_clear_young()
 From:   Yu Zhao <yuzhao@google.com>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Paolo Bonzini <pbonzini@redhat.com>
@@ -97,157 +96,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-stage2_try_set_pte() and KVM_PTE_LEAF_ATTR_LO_S2_AF are needed to
-implement kvm_arch_test_clear_young().
+Implement kvm_arch_test_clear_young() to support the fast path in
+mmu_notifier_ops->test_clear_young().
+
+It focuses on a simple case, i.e., hardware sets the accessed bit in
+KVM PTEs and VMs are not protected, where it can rely on RCU and
+cmpxchg to safely clear the accessed bit without taking
+kvm->mmu_lock. Complex cases fall back to the existing slow path
+where kvm->mmu_lock is then taken.
 
 Signed-off-by: Yu Zhao <yuzhao@google.com>
 ---
- arch/arm64/include/asm/kvm_pgtable.h | 53 ++++++++++++++++++++++++++++
- arch/arm64/kvm/hyp/pgtable.c         | 53 ----------------------------
- 2 files changed, 53 insertions(+), 53 deletions(-)
+ arch/arm64/include/asm/kvm_host.h |  6 ++++++
+ arch/arm64/kvm/mmu.c              | 36 +++++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+)
 
-diff --git a/arch/arm64/include/asm/kvm_pgtable.h b/arch/arm64/include/asm/kvm_pgtable.h
-index dc3c072e862f..ff520598b62c 100644
---- a/arch/arm64/include/asm/kvm_pgtable.h
-+++ b/arch/arm64/include/asm/kvm_pgtable.h
-@@ -44,6 +44,49 @@ typedef u64 kvm_pte_t;
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 7e7e19ef6993..da32b0890716 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -1113,4 +1113,10 @@ static inline void kvm_hyp_reserve(void) { }
+ void kvm_arm_vcpu_power_off(struct kvm_vcpu *vcpu);
+ bool kvm_arm_vcpu_stopped(struct kvm_vcpu *vcpu);
  
- #define KVM_PHYS_INVALID		(-1ULL)
- 
-+#define KVM_PTE_TYPE			BIT(1)
-+#define KVM_PTE_TYPE_BLOCK		0
-+#define KVM_PTE_TYPE_PAGE		1
-+#define KVM_PTE_TYPE_TABLE		1
-+
-+#define KVM_PTE_LEAF_ATTR_LO		GENMASK(11, 2)
-+
-+#define KVM_PTE_LEAF_ATTR_LO_S1_ATTRIDX	GENMASK(4, 2)
-+#define KVM_PTE_LEAF_ATTR_LO_S1_AP	GENMASK(7, 6)
-+#define KVM_PTE_LEAF_ATTR_LO_S1_AP_RO	3
-+#define KVM_PTE_LEAF_ATTR_LO_S1_AP_RW	1
-+#define KVM_PTE_LEAF_ATTR_LO_S1_SH	GENMASK(9, 8)
-+#define KVM_PTE_LEAF_ATTR_LO_S1_SH_IS	3
-+#define KVM_PTE_LEAF_ATTR_LO_S1_AF	BIT(10)
-+
-+#define KVM_PTE_LEAF_ATTR_LO_S2_MEMATTR	GENMASK(5, 2)
-+#define KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R	BIT(6)
-+#define KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W	BIT(7)
-+#define KVM_PTE_LEAF_ATTR_LO_S2_SH	GENMASK(9, 8)
-+#define KVM_PTE_LEAF_ATTR_LO_S2_SH_IS	3
-+#define KVM_PTE_LEAF_ATTR_LO_S2_AF	BIT(10)
-+
-+#define KVM_PTE_LEAF_ATTR_HI		GENMASK(63, 51)
-+
-+#define KVM_PTE_LEAF_ATTR_HI_SW		GENMASK(58, 55)
-+
-+#define KVM_PTE_LEAF_ATTR_HI_S1_XN	BIT(54)
-+
-+#define KVM_PTE_LEAF_ATTR_HI_S2_XN	BIT(54)
-+
-+#define KVM_PTE_LEAF_ATTR_S2_PERMS	(KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R | \
-+					 KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W | \
-+					 KVM_PTE_LEAF_ATTR_HI_S2_XN)
-+
-+#define KVM_INVALID_PTE_OWNER_MASK	GENMASK(9, 2)
-+#define KVM_MAX_OWNER_ID		1
-+
-+/*
-+ * Used to indicate a pte for which a 'break-before-make' sequence is in
-+ * progress.
-+ */
-+#define KVM_INVALID_PTE_LOCKED		BIT(10)
-+
- static inline bool kvm_pte_valid(kvm_pte_t pte)
- {
- 	return pte & KVM_PTE_VALID;
-@@ -224,6 +267,16 @@ static inline bool kvm_pgtable_walk_shared(const struct kvm_pgtable_visit_ctx *c
- 	return ctx->flags & KVM_PGTABLE_WALK_SHARED;
- }
- 
-+static inline bool stage2_try_set_pte(const struct kvm_pgtable_visit_ctx *ctx, kvm_pte_t new)
++#define kvm_arch_has_test_clear_young kvm_arch_has_test_clear_young
++static inline bool kvm_arch_has_test_clear_young(void)
 +{
-+	if (!kvm_pgtable_walk_shared(ctx)) {
-+		WRITE_ONCE(*ctx->ptep, new);
-+		return true;
-+	}
-+
-+	return cmpxchg(ctx->ptep, ctx->old, new) == ctx->old;
++	return cpu_has_hw_af() && !is_protected_kvm_enabled();
 +}
 +
- /**
-  * struct kvm_pgtable_walker - Hook into a page-table walk.
-  * @cb:		Callback function to invoke during the walk.
-diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.c
-index 5282cb9ca4cf..24678ccba76a 100644
---- a/arch/arm64/kvm/hyp/pgtable.c
-+++ b/arch/arm64/kvm/hyp/pgtable.c
-@@ -12,49 +12,6 @@
- #include <asm/stage2_pgtable.h>
- 
- 
--#define KVM_PTE_TYPE			BIT(1)
--#define KVM_PTE_TYPE_BLOCK		0
--#define KVM_PTE_TYPE_PAGE		1
--#define KVM_PTE_TYPE_TABLE		1
--
--#define KVM_PTE_LEAF_ATTR_LO		GENMASK(11, 2)
--
--#define KVM_PTE_LEAF_ATTR_LO_S1_ATTRIDX	GENMASK(4, 2)
--#define KVM_PTE_LEAF_ATTR_LO_S1_AP	GENMASK(7, 6)
--#define KVM_PTE_LEAF_ATTR_LO_S1_AP_RO	3
--#define KVM_PTE_LEAF_ATTR_LO_S1_AP_RW	1
--#define KVM_PTE_LEAF_ATTR_LO_S1_SH	GENMASK(9, 8)
--#define KVM_PTE_LEAF_ATTR_LO_S1_SH_IS	3
--#define KVM_PTE_LEAF_ATTR_LO_S1_AF	BIT(10)
--
--#define KVM_PTE_LEAF_ATTR_LO_S2_MEMATTR	GENMASK(5, 2)
--#define KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R	BIT(6)
--#define KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W	BIT(7)
--#define KVM_PTE_LEAF_ATTR_LO_S2_SH	GENMASK(9, 8)
--#define KVM_PTE_LEAF_ATTR_LO_S2_SH_IS	3
--#define KVM_PTE_LEAF_ATTR_LO_S2_AF	BIT(10)
--
--#define KVM_PTE_LEAF_ATTR_HI		GENMASK(63, 51)
--
--#define KVM_PTE_LEAF_ATTR_HI_SW		GENMASK(58, 55)
--
--#define KVM_PTE_LEAF_ATTR_HI_S1_XN	BIT(54)
--
--#define KVM_PTE_LEAF_ATTR_HI_S2_XN	BIT(54)
--
--#define KVM_PTE_LEAF_ATTR_S2_PERMS	(KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R | \
--					 KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W | \
--					 KVM_PTE_LEAF_ATTR_HI_S2_XN)
--
--#define KVM_INVALID_PTE_OWNER_MASK	GENMASK(9, 2)
--#define KVM_MAX_OWNER_ID		1
--
--/*
-- * Used to indicate a pte for which a 'break-before-make' sequence is in
-- * progress.
-- */
--#define KVM_INVALID_PTE_LOCKED		BIT(10)
--
- struct kvm_pgtable_walk_data {
- 	struct kvm_pgtable_walker	*walker;
- 
-@@ -702,16 +659,6 @@ static bool stage2_pte_is_locked(kvm_pte_t pte)
- 	return !kvm_pte_valid(pte) && (pte & KVM_INVALID_PTE_LOCKED);
+ #endif /* __ARM64_KVM_HOST_H__ */
+diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+index c3b3e2afe26f..26a8d955b49c 100644
+--- a/arch/arm64/kvm/mmu.c
++++ b/arch/arm64/kvm/mmu.c
+@@ -1678,6 +1678,42 @@ bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+ 					   range->start << PAGE_SHIFT);
  }
  
--static bool stage2_try_set_pte(const struct kvm_pgtable_visit_ctx *ctx, kvm_pte_t new)
--{
--	if (!kvm_pgtable_walk_shared(ctx)) {
--		WRITE_ONCE(*ctx->ptep, new);
--		return true;
--	}
--
--	return cmpxchg(ctx->ptep, ctx->old, new) == ctx->old;
--}
--
- /**
-  * stage2_try_break_pte() - Invalidates a pte according to the
-  *			    'break-before-make' requirements of the
++static int stage2_test_clear_young(const struct kvm_pgtable_visit_ctx *ctx,
++				   enum kvm_pgtable_walk_flags flags)
++{
++	kvm_pte_t new = ctx->old & ~KVM_PTE_LEAF_ATTR_LO_S2_AF;
++
++	VM_WARN_ON_ONCE(!page_count(virt_to_page(ctx->ptep)));
++
++	if (!kvm_pte_valid(new))
++		return 0;
++
++	if (new == ctx->old)
++		return 0;
++
++	if (kvm_should_clear_young(ctx->arg, ctx->addr / PAGE_SIZE))
++		stage2_try_set_pte(ctx, new);
++
++	return 0;
++}
++
++bool kvm_arch_test_clear_young(struct kvm *kvm, struct kvm_gfn_range *range)
++{
++	u64 start = range->start * PAGE_SIZE;
++	u64 end = range->end * PAGE_SIZE;
++	struct kvm_pgtable_walker walker = {
++		.cb	= stage2_test_clear_young,
++		.arg	= range,
++		.flags	= KVM_PGTABLE_WALK_LEAF | KVM_PGTABLE_WALK_SHARED,
++	};
++
++	BUILD_BUG_ON(is_hyp_code());
++
++	kvm_pgtable_walk(kvm->arch.mmu.pgt, start, end - start, &walker);
++
++	return false;
++}
++
+ phys_addr_t kvm_mmu_get_httbr(void)
+ {
+ 	return __pa(hyp_pgtable->pgd);
 -- 
 2.41.0.rc0.172.g3f132b7071-goog
 
