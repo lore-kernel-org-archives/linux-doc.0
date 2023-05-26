@@ -2,42 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DE8AC7EE31
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED151C7EE2F
 	for <linux-doc@archiver.kernel.org>; Fri, 26 May 2023 10:09:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243225AbjEZKJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 May 2023 06:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56328 "EHLO
+        id S243268AbjEZKJw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 May 2023 06:09:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243223AbjEZKJo (ORCPT
+        with ESMTP id S243222AbjEZKJo (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 26 May 2023 06:09:44 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585B5E7;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 592BEFB;
         Fri, 26 May 2023 03:09:42 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34Q9c4L3002992;
-        Fri, 26 May 2023 10:09:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=927t+Jc3BbVATY+uT8tywu3mTWnUFfdwEVcCWZY9YDk=;
- b=WA2UKZgAnSUcjgtf88laz+SxYLmgl4Ziu4QMmrgPsctbnlpR34PhW9kY/qeSBrfCfIJt
- 79YZRfcFSnGa5uhtFwQxqOKdg7PTMPtly4+G3RyUDyxkBB9xauMNppEZ9ttv7B3W8F8b
- OjAKRtkoC87lqlvu5oIkEQHxZApJQsCAa7Ld+qIniZ7CXfqZU69PdstlkKO6AAYeETai
- XZjlkNjK8XdGJg8zeGLj81vuF1gugNZRaR6EBKatmPFJMlepE+cEsi3AaxEGbQZzG+86
- +rywbzuNtegLtH9K+uSKAmFk7sd534NSJFKdi9VOXxhLKInXYQbauPrtyIr5sqRBAnyU DA== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qt27n35br-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 26 May 2023 10:09:28 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34QA9ITk001304
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34Q9WYhV000523;
         Fri, 26 May 2023 10:09:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=XrJmn7hRc/ijYuto4qVQonay46Rd9Xrt4/4iIg0qhig=;
+ b=RgsYWP9ljFl8r5JuBVn3SdUchYPNDqXIoK2FNOxySwdoDrTorvWReeV53Q8nWkPBMwAh
+ Be/qyIg7c6dYSikr7MoLW+pH4TMBsXoFv7nGU6L4pTYRkM57zql5xpEfpRgLmcEXt6XA
+ zNZs4IIOA2WTLc950hBxoxTd3gNfv727uqPmN2E64Nya/p1TlRmAi33oeEfBrbz8Qis6
+ hW6tN9n/B+QS8KtHkZqTVtinEG3iF7TyMf4QrfIoV748jcH9e2mKh4gyXAkpf6KmUegS
+ 3kvE7fsbNgY7LjtYsRVGHNCD0SXUHiqj0W/f68vnyTLtIcUbkUPdF7hlmmDhoMfxzj2y 2w== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qtpsp8h4h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 26 May 2023 10:09:17 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34QA8oWU030657
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 26 May 2023 10:08:50 GMT
 Received: from hazha-gv.qualcomm.com (10.80.80.8) by
  nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 26 May 2023 03:09:12 -0700
+ 15.2.986.42; Fri, 26 May 2023 03:08:45 -0700
 From:   Hao Zhang <quic_hazha@quicinc.com>
 To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
         Mike Leach <mike.leach@linaro.org>,
@@ -66,12 +65,10 @@ CC:     Hao Zhang <quic_hazha@quicinc.com>,
         <linux-arm-msm@vger.kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         <linux-doc@vger.kernel.org>
-Subject: [PATCH v5 3/3] Documentation: trace: Add documentation for Coresight Dummy Trace
-Date:   Fri, 26 May 2023 18:07:53 +0800
-Message-ID: <20230526100753.34581-4-quic_hazha@quicinc.com>
+Subject: [PATCH v5 0/3] Add support to configure Coresight Dummy subunit
+Date:   Fri, 26 May 2023 18:07:50 +0800
+Message-ID: <20230526100753.34581-1-quic_hazha@quicinc.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230526100753.34581-1-quic_hazha@quicinc.com>
-References: <20230526100753.34581-1-quic_hazha@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -79,66 +76,77 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: BIKqSiad5Hb8lLy5TtcQ7omTW-4K6x1i
-X-Proofpoint-GUID: BIKqSiad5Hb8lLy5TtcQ7omTW-4K6x1i
+X-Proofpoint-ORIG-GUID: LrzZ-V2-nD7DsgsJfB0RxBmO8OcEQz9i
+X-Proofpoint-GUID: LrzZ-V2-nD7DsgsJfB0RxBmO8OcEQz9i
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
  definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
- mlxlogscore=959 adultscore=0 priorityscore=1501 suspectscore=0
- clxscore=1015 mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 mlxlogscore=999
+ lowpriorityscore=0 clxscore=1015 phishscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2304280000 definitions=main-2305260088
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for Coresight Dummy Trace under trace/coresight.
+Changes in V5:
+1. Follow the alphabetical order for the header files in
+coresight-dummy.c. -- Suzuki K Poulose
+2. Update the maintainers.
+3. Split the Coresight Dummy YAML to 2 schema files. 
+-- Rob Herring & Krzysztof Kozlowski
+4. Update the coresight-dummy.rst file. -- Bagas Sanjaya
 
-Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
----
- .../trace/coresight/coresight-dummy.rst       | 32 +++++++++++++++++++
- 1 file changed, 32 insertions(+)
+Changes in V4:
+1. Remove traceid allocation in dummy_probe function since it is
+currently not in use, will upstream it as the part of ATID filtering
+in the further.  -- Suzuki K Poulose
+2. Remove 'oneOf' as there is only one entry. -- Rob Herring
+
+Changes in V3:
+1. Use API "dev_dbg" to replace "dev_info". -- Suzuki K Poulose
+2. Drop "qcom" property and take it as a dummy framework.
+-- Suzuki K Poulose
+3. Add new sub-type "CORESIGHT_DEV_SUBTYPE_SINK_DUMMY" to support
+coresight dummy module -- Mike Leach
+4. Use compatibles "arm,coresight-dummy-source" and
+"arm,coresight-dummy-sink" to replace property "qcom,dummy-source" and
+"qcom,dummy-sink". -- Mike Leach
+5. Define source_devs and sink_devs DEVLIST to replace dummy_devs, make
+it clear at the first level. -- Mike Leach
+6. Modify subject of YAML patch, drop "YAML schema". -- Krzysztof Kozlowski
+7. Drop some redundant items and correct syntax errors in yaml file.
+-- Krzysztof Kozlowski & Rob Herring
+8. Correct required property of yaml file, constrain out ports to
+dummy-source and in ports to dummy-sink. -- Mike Leach
+9. Drop "Sysfs files and directories" contents of coresight-dummy.rst.
+-- Suzuki K Poulose/Greg Kroah-Hartman
+10.Correct syntax errors of coresight-dummy.rst. -- Bagas Sanjaya
+
+Changes in V2:
+1. Declare dummy_init and dummy_exit as static to fix missing-prototypes
+warnings. -- kernel test robot
+2. Fix the errors of coresight-dummy yaml file. -- Rob Herring
+
+Hao Zhang (3):
+  Coresight: Add coresight dummy driver
+  dt-bindings: arm: Add support for Coresight dummy trace
+  Documentation: trace: Add documentation for Coresight Dummy Trace
+
+ .../arm/arm,coresight-dummy-sink.yaml         |  73 ++++++++
+ .../arm/arm,coresight-dummy-source.yaml       |  71 ++++++++
+ .../trace/coresight/coresight-dummy.rst       |  32 ++++
+ drivers/hwtracing/coresight/Kconfig           |  11 ++
+ drivers/hwtracing/coresight/Makefile          |   1 +
+ drivers/hwtracing/coresight/coresight-dummy.c | 163 ++++++++++++++++++
+ include/linux/coresight.h                     |   1 +
+ 7 files changed, 352 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy-sink.yaml
+ create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy-source.yaml
  create mode 100644 Documentation/trace/coresight/coresight-dummy.rst
+ create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
 
-diff --git a/Documentation/trace/coresight/coresight-dummy.rst b/Documentation/trace/coresight/coresight-dummy.rst
-new file mode 100644
-index 000000000000..f0a92669288b
---- /dev/null
-+++ b/Documentation/trace/coresight/coresight-dummy.rst
-@@ -0,0 +1,32 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============================
-+Coresight Dummy Trace Module
-+=============================
-+
-+    :Author:   Hao Zhang <quic_hazha@quicinc.com>
-+    :Date:     May 2023
-+
-+Introduction
-+------------
-+
-+The Coresight dummy trace module is for the specific devices that kernel don't
-+have permission to access or configure, e.g., CoreSight TPDMs on Qualcomm
-+platforms. For these devices, a dummy driver is needed to register them as
-+Coresight devices. The module may also be used to define components that may
-+not have any programming interfaces (e.g, static links), so that paths can be
-+created in the driver. It provides Coresight API for operations on dummy
-+devices, such as enabling and disabling them. It also provides the Coresight
-+dummy sink/source paths for debugging.
-+
-+Config details
-+--------------
-+
-+There are two types of nodes, dummy sink and dummy source. These nodes
-+are available at ``/sys/bus/coresight/devices``.
-+
-+Example output::
-+
-+    $ ls -l /sys/bus/coresight/devices | grep dummy
-+    dummy_sink0 -> ../../../devices/platform/soc@0/soc@0:sink/dummy_sink0
-+    dummy_source0 -> ../../../devices/platform/soc@0/soc@0:source/dummy_source0
 -- 
 2.17.1
 
