@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78061C7EE2C
-	for <linux-doc@archiver.kernel.org>; Sat, 27 May 2023 11:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 336C8C77B7C
+	for <linux-doc@archiver.kernel.org>; Sat, 27 May 2023 11:29:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232372AbjE0L3Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 May 2023 07:29:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56368 "EHLO
+        id S232396AbjE0L3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 May 2023 07:29:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232338AbjE0L3V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 May 2023 07:29:21 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04AFAEB;
-        Sat, 27 May 2023 04:29:20 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3093d10442aso950186f8f.1;
-        Sat, 27 May 2023 04:29:19 -0700 (PDT)
+        with ESMTP id S232403AbjE0L30 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 May 2023 07:29:26 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D657125;
+        Sat, 27 May 2023 04:29:24 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-3f6ef9a928fso8566775e9.3;
+        Sat, 27 May 2023 04:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685186958; x=1687778958;
+        d=gmail.com; s=20221208; t=1685186963; x=1687778963;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MgugxQZ+bMvGGxcEF4OyoNgsowC99irm6wJEB6lkhic=;
-        b=p1gtB7w93BrsAnIdHC/SZ0tL2/Uk8WY7TIYkBFo11l4+3GETDj0VbCIAOa04T7kO/I
-         bYmgqV/mWbv7gcBkhv3c26kDTATF5ltCvZjX2W5y/gRPaybKfPGKOL+dnCCENCOSe3Gx
-         /PDlu0IFdvcnZcIL9BLHRP71v18Sp8Omxnkt2ICCbhHSlKSBgki+ydAApg4vu6JmGPHA
-         S/wpnYlWAyNvkJghUdoD2z8ijY/Tem59qqqFnhhH/bzXNeme/Q3Yw65qZzTyaz45en+f
-         5Dc2n4b1cq0Gd6QuwcFoqeBV169IqjrSCWadHKDCqxrzqWkHEtTITR/A00MXAwLg16Iw
-         LaTA==
+        bh=AMFIVEMdnhDK+r9aZC4DEh7b5Mu4DnfdJk/ks7MSEOs=;
+        b=oFS8fXqtG7ZzSuNm/074P17qC0dmFGT4gs+MWNTauiCXW3DHK1fzFIR1FAT74pZgmf
+         Ci/P+tr5R9RLoMHNe56yI/7JKswjwBn17I8HtrBhkQCDPOJ7XTPO2uDj/Z7rcJAlvsLn
+         CjNlTI7pN5oGJtmhASWQU/EXUZMe88XOpOG/itu2v7+NHUL7C/zLvcXLeP2iXTmMqnl4
+         Y3TYquVnsoS2cZtxt5QQihphNZpsYzqYrCp3RUAQgsfGoc43Eftrf8nF9sE/799zmBRD
+         Yh4EEip0MJh4gLKrc4ryCj3yX3P9eYVyPWkIryv+tTMcwYrimzzoUtqyD1VJVpOuarko
+         j3Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685186958; x=1687778958;
+        d=1e100.net; s=20221208; t=1685186963; x=1687778963;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MgugxQZ+bMvGGxcEF4OyoNgsowC99irm6wJEB6lkhic=;
-        b=ebQ6Y1NWtn34ooEopI31944h7sdPn4lO6LKUnGZkp2M8tTsSGr8fnPauZMDSgqXvJL
-         9GyJGBY4da81ugv/4ELe/eJbXENy3yiJl7OJLfuePM8JpBxcX5No+wWUmjcCn52UNZmR
-         NM0WxRreh+zTnQ51jmGT/F7JYIkZYMatmd2v3PXbgYP3mNkUxPQr0S9nok6qs6KulWOP
-         IyK8u054GftUpPH2bjsJNnJPMXPN+afwBvtgarPDccWWzxkwhjn9A/oKCTIz/eiR7Exl
-         T1oAKoMr4phq/y15C4Eg7tAuEiXWvUmSgi1w1hvnh03loYoJIUrt6xw5LLkvYHZGARSW
-         Hpjw==
-X-Gm-Message-State: AC+VfDzYv5MRGL/ljWQc81n3FU+yej01AZmxfbPawZBOcByxtW7rb1aA
-        6gmcK3IPEu+jfkGQaBPme5iwHRIJgDQ=
-X-Google-Smtp-Source: ACHHUZ7OOZunDzq9xudIHF/Hnk0SRfwCWYS+fM6RUgQ0fUDsJE+Ll3HNtpugNJKRDsq9a3g86Ff6lA==
-X-Received: by 2002:a5d:6e53:0:b0:306:4550:f651 with SMTP id j19-20020a5d6e53000000b003064550f651mr3615976wrz.4.1685186958279;
-        Sat, 27 May 2023 04:29:18 -0700 (PDT)
+        bh=AMFIVEMdnhDK+r9aZC4DEh7b5Mu4DnfdJk/ks7MSEOs=;
+        b=gos0rUCHJ1vQmIPoRaxYcpHAPPHO/rArNFvcDiY5BlyY/6uSSDZepUP8jRCm1x6hzw
+         /vVMIIfYrRe0OrnGaB5QPPwawc/9YQvG97+HHkZqBFLM+VwQNQj520ZxanPjy9/lDQEA
+         QbmV8Doqtg/0UlQepSr/MOlVLjOSJSuZ72Dj3rU79/En1481A72XKuROnt+pkW3EgZ1H
+         yHQw2D9KvDYLFWH/Mi/WQvwSB9d/5KcmyAIZOHNySRZGiArj9kjC1EsJeRaB0qC11PUJ
+         OxXG78v1Vk2zIh65XWOou0NozMc56KJ7HaRfF2wQAYeCPiIJ/OFcN40OJdbjYsbImdIo
+         PQSg==
+X-Gm-Message-State: AC+VfDwozvlxskTVhyG0SaANwKw497Ig8UourYxRA/lPaS5JDvTWk4BP
+        jYX36cjhkzYa0BxWlPG+Ekk=
+X-Google-Smtp-Source: ACHHUZ4R4Z0admEnxkOxbdFIsjOFf2n29cgaZ0FjPhx7IlY+1Jrxi6DivoP338TZYARWn9TzhP14uw==
+X-Received: by 2002:adf:e30c:0:b0:2f7:e3aa:677a with SMTP id b12-20020adfe30c000000b002f7e3aa677amr3535704wrj.46.1685186962745;
+        Sat, 27 May 2023 04:29:22 -0700 (PDT)
 Received: from localhost.localdomain (93-34-93-173.ip49.fastwebnet.it. [93.34.93.173])
-        by smtp.googlemail.com with ESMTPSA id q13-20020a7bce8d000000b003f43f82001asm11711000wmj.31.2023.05.27.04.29.17
+        by smtp.googlemail.com with ESMTPSA id q13-20020a7bce8d000000b003f43f82001asm11711000wmj.31.2023.05.27.04.29.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 May 2023 04:29:17 -0700 (PDT)
+        Sat, 27 May 2023 04:29:22 -0700 (PDT)
 From:   Christian Marangi <ansuelsmth@gmail.com>
 To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
@@ -61,9 +61,9 @@ To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Christian Marangi <ansuelsmth@gmail.com>,
         linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [net-next PATCH v3 03/13] Documentation: leds: leds-class: Document new Hardware driven LEDs APIs
-Date:   Sat, 27 May 2023 13:28:44 +0200
-Message-Id: <20230527112854.2366-4-ansuelsmth@gmail.com>
+Subject: [net-next PATCH v3 07/13] leds: trigger: netdev: reject interval store for hw_control
+Date:   Sat, 27 May 2023 13:28:48 +0200
+Message-Id: <20230527112854.2366-8-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230527112854.2366-1-ansuelsmth@gmail.com>
 References: <20230527112854.2366-1-ansuelsmth@gmail.com>
@@ -73,112 +73,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document new Hardware driven LEDs APIs.
-
-Some LEDs can be programmed to be driven by hardware. This is not
-limited to blink but also to turn off or on autonomously.
-To support this feature, a LED needs to implement various additional
-ops and needs to declare specific support for the supported triggers.
-
-Add documentation for each required value and API to make hw control
-possible and implementable by both LEDs and triggers.
+Reject interval store with hw_control enabled. It's are currently not
+supported and MUST be set to the default value with hw control enabled.
 
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
- Documentation/leds/leds-class.rst | 80 +++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ drivers/leds/trigger/ledtrig-netdev.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
-index cd155ead8703..3d7874c18982 100644
---- a/Documentation/leds/leds-class.rst
-+++ b/Documentation/leds/leds-class.rst
-@@ -169,6 +169,86 @@ Setting the brightness to zero with brightness_set() callback function
- should completely turn off the LED and cancel the previously programmed
- hardware blinking function, if any.
+diff --git a/drivers/leds/trigger/ledtrig-netdev.c b/drivers/leds/trigger/ledtrig-netdev.c
+index 2101cbbda707..cb2ec33abc4e 100644
+--- a/drivers/leds/trigger/ledtrig-netdev.c
++++ b/drivers/leds/trigger/ledtrig-netdev.c
+@@ -265,6 +265,9 @@ static ssize_t interval_store(struct device *dev,
+ 	unsigned long value;
+ 	int ret;
  
-+Hardware driven LEDs
-+====================
++	if (trigger_data->hw_control)
++		return -EINVAL;
 +
-+Some LEDs can be programmed to be driven by hardware. This is not
-+limited to blink but also to turn off or on autonomously.
-+To support this feature, a LED needs to implement various additional
-+ops and needs to declare specific support for the supported triggers.
-+
-+With hw control we refer to the LED driven by hardware.
-+
-+LED driver must define the following value to support hw control:
-+
-+    - hw_control_trigger:
-+               unique trigger name supported by the LED in hw control
-+               mode.
-+
-+LED driver must implement the following API to support hw control:
-+    - hw_control_is_supported:
-+                check if the flags passed by the supported trigger can
-+                be parsed and activate hw control on the LED.
-+
-+                Return 0 if the passed flags mask is supported and
-+                can be set with hw_control_set().
-+
-+                If the passed flags mask is not supported -EOPNOTSUPP
-+                must be returned, the LED trigger will use software
-+                fallback in this case.
-+
-+                Return a negative error in case of any other error like
-+                device not ready or timeouts.
-+
-+     - hw_control_set:
-+                activate hw control. LED driver will use the provided
-+                flags passed from the supported trigger, parse them to
-+                a set of mode and setup the LED to be driven by hardware
-+                following the requested modes.
-+
-+                Set LED_OFF via the brightness_set to deactivate hw control.
-+
-+                Return 0 on success, a negative error number on flags apply
-+                fail.
-+
-+    - hw_control_get:
-+                get active modes from a LED already in hw control, parse
-+                them and set in flags the current active flags for the
-+                supported trigger.
-+
-+                Return 0 on success, a negative error number on failing
-+                parsing the initial mode.
-+                Error from this function is NOT FATAL as the device may
-+                be in a not supported initial state by the attached LED
-+                trigger.
-+
-+    - hw_control_get_device:
-+                return the device associated with the LED driver in
-+                hw control. A trigger might use this to match the
-+                returned device from this function with a configured
-+                device for the trigger as the source for blinking
-+                events and correctly enable hw control.
-+                (example a netdev trigger configured to blink for a
-+                particular dev match the returned dev from get_device
-+                to set hw control)
-+
-+                Return a device or NULL if nothing is currently attached.
-+
-+LED driver can activate additional modes by default to workaround the
-+impossibility of supporting each different mode on the supported trigger.
-+Example are hardcoding the blink speed to a set interval, enable special
-+feature like bypassing blink if some requirements are not met.
-+
-+A trigger should first check if the hw control API are supported by the LED
-+driver and check if the trigger is supported to verify if hw control is possible,
-+use hw_control_is_supported to check if the flags are supported and only at
-+the end use hw_control_set to activate hw control.
-+
-+A trigger can use hw_control_get to check if a LED is already in hw control
-+and init their flags.
-+
-+When the LED is in hw control, no software blink is possible and doing so
-+will effectively disable hw control.
- 
- Known Issues
- ============
+ 	ret = kstrtoul(buf, 0, &value);
+ 	if (ret)
+ 		return ret;
 -- 
 2.39.2
 
