@@ -2,513 +2,277 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F5FAC77B7C
-	for <linux-doc@archiver.kernel.org>; Sat, 27 May 2023 09:37:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CB63C77B7C
+	for <linux-doc@archiver.kernel.org>; Sat, 27 May 2023 11:29:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229706AbjE0JhR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 May 2023 05:37:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36158 "EHLO
+        id S231436AbjE0L3T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 May 2023 07:29:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229684AbjE0JhQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 May 2023 05:37:16 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25BF29C;
-        Sat, 27 May 2023 02:37:12 -0700 (PDT)
-Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.53])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4QSxVM3cL4zLmNn;
-        Sat, 27 May 2023 17:35:39 +0800 (CST)
-Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
- (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sat, 27 May
- 2023 17:37:10 +0800
-Subject: Re: [PATCH 2/3] drivers/perf: hisi: Add support for HiSilicon UC PMU
- driver
-To:     Yicong Yang <yangyicong@huawei.com>, <will@kernel.org>,
-        <jonathan.cameron@huawei.com>, <linux-kernel@vger.kernel.org>,
-        <mark.rutland@arm.com>
-References: <20230523131825.6102-1-hejunhao3@huawei.com>
- <20230523131825.6102-3-hejunhao3@huawei.com>
- <53d143fc-ce68-0d0b-1186-c8a5d87af0c5@huawei.com>
-CC:     <yangyicong@hisilicon.com>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-        <shenyang39@huawei.com>, <prime.zeng@hisilicon.com>
-From:   hejunhao <hejunhao3@huawei.com>
-Message-ID: <be66d939-fcc1-4148-6fd8-96a5ab578f5b@huawei.com>
-Date:   Sat, 27 May 2023 17:37:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        with ESMTP id S229730AbjE0L3S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 May 2023 07:29:18 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5236EB;
+        Sat, 27 May 2023 04:29:16 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f6d7abe9a4so11264145e9.2;
+        Sat, 27 May 2023 04:29:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685186955; x=1687778955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=49u9uYR1lSYJCMJKXyUifMM9gUKq9GWhoR8pU9TMHaM=;
+        b=lJzNHF0XuCNgdGnZ10Scc9Oqnrxt+o0kVNsZh53pcmMokaeneuCUs1U4HQzc2uCf8V
+         oc6bEPZAXzsVqpHyUTvQCr49LvfEzqTFL8g+OlTZQNqjU4wHA8VyTUx+4lgDQl0qBEME
+         ESdrwLuswEHwQcTmHF8U5UNG8IfAeIS2KwE3l1Dk7JiSpauvMSp1F4brS5/IWDaa8/4B
+         K/JWuGP1z1fZXMjRvvt6Lr1VLTFK73mLDZJ8RT17GT44Lw5TY8UtdzcVyhm66MpzaZ5z
+         rJVX8aYYEwUj/tiGn31EdnK5M+1seRsWYs1L0+m+VOra7rEG4k3fXp2+aqtY8nm1BTi/
+         i8nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685186955; x=1687778955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=49u9uYR1lSYJCMJKXyUifMM9gUKq9GWhoR8pU9TMHaM=;
+        b=fQhalIeTjv+3zET1bwqHxsi6Ms6wxVed0w6W9tYcL2luHMncLo0BlCRcZnqfN1D6l5
+         i/nqZzy5/YzrVl21AQN27jeOfLrD1B9z+VVihWvU5cbsQ7Akoc2X4lP56u3Yhco27Lmm
+         lfWsQcDmFTlnNqAtKXTO2wpnlBGJVCfTsgxS0V+CmM78q+zkEov4V9Cp+yoeTkjoy1r/
+         Tq3F2nUifpQNUJczwSsrceB27XotajmDT0I9BNY+iF7HMyN6V7Eu8WD67rqnZqg1+UZs
+         QbqsmY429+VC8ZjZZwhrgSByYrCvwV1lAPdD65DktbUy+hQIgUM6JDYRwReMGps1cEUj
+         AwOQ==
+X-Gm-Message-State: AC+VfDwJIw5MXFnFoIXF7+Kgo/FaqZu8F5J9CVNM4EhLFd9uEhcyDQQi
+        w6+MKV1xo114LfqNAcDawiY=
+X-Google-Smtp-Source: ACHHUZ5QcZFHMIVPP9Z4u1UveGhYexle/qp8Q/3XdQy1e/gdYC+76gWnFD2augCukIEfWir/PwxE+A==
+X-Received: by 2002:a1c:e901:0:b0:3f6:148f:5867 with SMTP id q1-20020a1ce901000000b003f6148f5867mr3545473wmc.4.1685186954707;
+        Sat, 27 May 2023 04:29:14 -0700 (PDT)
+Received: from localhost.localdomain (93-34-93-173.ip49.fastwebnet.it. [93.34.93.173])
+        by smtp.googlemail.com with ESMTPSA id q13-20020a7bce8d000000b003f43f82001asm11711000wmj.31.2023.05.27.04.29.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 May 2023 04:29:14 -0700 (PDT)
+From:   Christian Marangi <ansuelsmth@gmail.com>
+To:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: [net-next PATCH v3 00/13] leds: introduce new LED hw control APIs
+Date:   Sat, 27 May 2023 13:28:41 +0200
+Message-Id: <20230527112854.2366-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-In-Reply-To: <53d143fc-ce68-0d0b-1186-c8a5d87af0c5@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.44]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500002.china.huawei.com (7.185.36.158)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Yicong,
+Since this series is cross subsystem between LED and netdev,
+a stable branch was created to facilitate merging process.
 
+This is based on top of branch ib-leds-netdev-v6.5 present here [1]
+and rebased on top of net-next since the LED stable branch got merged.
 
-On 2023/5/25 21:39, Yicong Yang wrote:
-> Hi Junhao,
->
-> On 2023/5/23 21:18, Junhao He wrote:
->> On HiSilicon Hip09 platform, there is a UC (unified cache) module
->> on each chip SCCL (Super CPU Cluster). UC is a cache that provides
->> coherence between NUMA and UMA domains. It is located between L2
->> and Memory System. While PA uncore PMU model is the same as other
->> Hip09 PMU modules and many PMU events are supported. Let's support
->> the PMU driver using the HiSilicon uncore PMU framework.
->>
->> * rd_req_en : rd_req_en is the abbreviation of read request tracetag enable
->> and allows user to count only read operations.
->> details are listed in the hisi-pmu document.
->>
->> * srcid_en & srcid: allows user to filter statistics that come from
->> specific CPU/ICL by configuration source ID.
->>
->> * uring_channel: Allows users to filter statistical information based on
->> the specified tx request uring channel.
->> uring_channel only supported events: [0x47 ~ 0x59].
->>
-> Just a quick glance and some minor comments below.
+This is a continue of [2]. It was decided to take a more gradual
+approach to implement LEDs support for switch and phy starting with
+basic support and then implementing the hw control part when we have all
+the prereq done.
 
-Thanks for your comments.
+This is the main part of the series, the one that actually implement the
+hw control API.
 
->> Signed-off-by: Junhao He <hejunhao3@huawei.com>
->> ---
->>   drivers/perf/hisilicon/Makefile             |   2 +-
->>   drivers/perf/hisilicon/hisi_uncore_pmu.c    |   5 +-
->>   drivers/perf/hisilicon/hisi_uncore_pmu.h    |   6 +
->>   drivers/perf/hisilicon/hisi_uncore_uc_pmu.c | 581 ++++++++++++++++++++
->>   4 files changed, 592 insertions(+), 2 deletions(-)
->>   create mode 100644 drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
->>
->> diff --git a/drivers/perf/hisilicon/Makefile b/drivers/perf/hisilicon/Makefile
->> index 4d2c9abe3372..48dcc8381ea7 100644
->> --- a/drivers/perf/hisilicon/Makefile
->> +++ b/drivers/perf/hisilicon/Makefile
->> @@ -1,7 +1,7 @@
->>   # SPDX-License-Identifier: GPL-2.0-only
->>   obj-$(CONFIG_HISI_PMU) += hisi_uncore_pmu.o hisi_uncore_l3c_pmu.o \
->>   			  hisi_uncore_hha_pmu.o hisi_uncore_ddrc_pmu.o hisi_uncore_sllc_pmu.o \
->> -			  hisi_uncore_pa_pmu.o hisi_uncore_cpa_pmu.o
->> +			  hisi_uncore_pa_pmu.o hisi_uncore_cpa_pmu.o hisi_uncore_uc_pmu.o
->>   
->>   obj-$(CONFIG_HISI_PCIE_PMU) += hisi_pcie_pmu.o
->>   obj-$(CONFIG_HNS3_PMU) += hns3_pmu.o
->> diff --git a/drivers/perf/hisilicon/hisi_uncore_pmu.c b/drivers/perf/hisilicon/hisi_uncore_pmu.c
->> index 2823f381930d..c5ac1c1a9fc1 100644
->> --- a/drivers/perf/hisilicon/hisi_uncore_pmu.c
->> +++ b/drivers/perf/hisilicon/hisi_uncore_pmu.c
->> @@ -20,7 +20,6 @@
->>   
->>   #include "hisi_uncore_pmu.h"
->>   
->> -#define HISI_GET_EVENTID(ev) (ev->hw.config_base & 0xff)
->>   #define HISI_MAX_PERIOD(nr) (GENMASK_ULL((nr) - 1, 0))
->>   
->>   /*
->> @@ -226,6 +225,10 @@ int hisi_uncore_pmu_event_init(struct perf_event *event)
->>   	hwc->idx		= -1;
->>   	hwc->config_base	= event->attr.config;
->>   
->> +	if (hisi_pmu->ops->check_format)
->> +		if (hisi_pmu->ops->check_format(event))
-> It can be merged into one if.
+Some history about this feature and why
+=======================================
 
-Yes, I will do that.
+This proposal is highly requested by the entire net community but the API
+is not strictly designed for net usage but for a more generic usage.
 
->> +			return -EINVAL;
->> +
->>   	/* Enforce to use the same CPU for all events in this PMU */
->>   	event->cpu = hisi_pmu->on_cpu;
->>   
->> diff --git a/drivers/perf/hisilicon/hisi_uncore_pmu.h b/drivers/perf/hisilicon/hisi_uncore_pmu.h
->> index 73574cc0a243..af6529e99c13 100644
->> --- a/drivers/perf/hisilicon/hisi_uncore_pmu.h
->> +++ b/drivers/perf/hisilicon/hisi_uncore_pmu.h
->> @@ -49,9 +49,15 @@ enum hisi_pmu_version {
->>   	HISI_PMU_MAX
->>   };
->>   
->> +#define HISI_GET_EVENTID(ev) (ev->hw.config_base & 0xff)
->> +
->> +#define HISI_PMU_EVTYPE_BITS		8
->> +#define HISI_PMU_EVTYPE_SHIFT(idx)	((idx) % 4 * HISI_PMU_EVTYPE_BITS)
->> +
->>   struct hisi_pmu;
->>   
->>   struct hisi_uncore_ops {
->> +	int (*check_format)(struct perf_event *event);
->>   	void (*write_evtype)(struct hisi_pmu *, int, u32);
->>   	int (*get_event_idx)(struct perf_event *);
->>   	u64 (*read_counter)(struct hisi_pmu *, struct hw_perf_event *);
->> diff --git a/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c b/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
->> new file mode 100644
->> index 000000000000..385966eab816
->> --- /dev/null
->> +++ b/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
->> @@ -0,0 +1,581 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * HiSilicon SoC UC (unified cache) uncore Hardware event counters support
->> + *
->> + * Copyright (C) 2023 HiSilicon Limited
->> + *
->> + * This code is based on the uncore PMUs like hisi_uncore_l3c_pmu.
->> + */
->> +#include <linux/cpuhotplug.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/irq.h>
->> +#include <linux/list.h>
->> +#include <linux/mod_devicetable.h>
->> +#include <linux/property.h>
->> +
->> +#include "hisi_uncore_pmu.h"
->> +
->> +/* Dynamic CPU hotplug state used by UC PMU */
->> +static enum cpuhp_state hisi_uc_pmu_online;
->> +
->> +/* UC register definition */
->> +#define HISI_UC_INT_MASK_REG		0x0800
->> +#define HISI_UC_INT_STS_REG		0x0808
->> +#define HISI_UC_INT_CLEAR_REG		0x080c
->> +#define HISI_UC_TRACETAG_CTRL_REG	0x1b2c
->> +#define HISI_UC_TRACETAG_REQ_MSK	GENMASK(9, 7)
->> +#define HISI_UC_TRACETAG_MARK_EN	BIT(0)
->> +#define HISI_UC_TRACETAG_REQ_EN		(HISI_UC_TRACETAG_MARK_EN | BIT(2))
->> +#define HISI_UC_TRACETAG_SRCID_EN	BIT(3)
->> +#define HISI_UC_SRCID_CTRL_REG		0x1b40
->> +#define HISI_UC_SRCID_MSK		GENMASK(14, 1)
->> +#define HISI_UC_EVENT_CTRL_REG		0x1c00
->> +#define HISI_UC_EVENT_TRACETAG_EN	BIT(29)
->> +#define HISI_UC_EVENT_URING_MSK		GENMASK(28, 27)
->> +#define HISI_UC_EVENT_GLB_EN		BIT(26)
->> +#define HISI_UC_VERSION_REG		0x1cf0
->> +#define HISI_UC_EVTYPE0_REG		0x1d00
->> +#define HISI_UC_EVTYPE_REG(n)		(HISI_UC_EVTYPE0_REG + (n) * 4)
->> +#define HISI_UC_EVTYPE_MASK		GENMASK(7, 0)
->> +#define HISI_UC_CNTR0_REG		0x1e00
->> +#define HISI_UC_CNTR_REG(n)		(HISI_UC_CNTR0_REG + (n) * 8)
->> +
->> +#define HISI_UC_NR_COUNTERS		0x8
->> +#define HISI_UC_V2_NR_EVENTS		0xFF
->> +#define HISI_UC_CNTR_REG_BITS		64
->> +
->> +#define HISI_UC_RD_REQ_TRACETAG		0x4
->> +#define HISI_UC_URING_EVENT_MIN		0x47
->> +#define HISI_UC_URING_EVENT_MAX		0x59
->> +
->> +HISI_PMU_EVENT_ATTR_EXTRACTOR(rd_req_en, config1, 0, 0);
->> +HISI_PMU_EVENT_ATTR_EXTRACTOR(uring_channel, config1, 5, 4);
->> +HISI_PMU_EVENT_ATTR_EXTRACTOR(srcid, config1, 19, 6);
->> +HISI_PMU_EVENT_ATTR_EXTRACTOR(srcid_en, config1, 20, 20);
->> +
->> +static int hisi_uc_pmu_check_format(struct perf_event *event)
-> check_config or check_event will be clearer.
+Initial version were very flexible and designed to try to support every
+aspect of the LED driver with many complex function that served multiple
+purpose. There was an idea to have sw only and hw only LEDs and sw only
+and hw only LEDs.
 
-Sure, Will fix in next version.
+With some heads up from Andrew from the net mailing list, it was suggested
+to implement a more basic yet easy to implement system.
 
->
->> +{
->> +	struct hisi_pmu *uc_pmu = to_hisi_pmu(event->pmu);
->> +
->> +	if (hisi_get_srcid_en(event) && !hisi_get_rd_req_en(event)) {
->> +		dev_err(uc_pmu->dev,
->> +			"Failed to set srcid: depending on read request enabled!\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (!hisi_get_uring_channel(event))
->> +		return 0;
->> +
->> +	if ((HISI_GET_EVENTID(event) < HISI_UC_URING_EVENT_MIN) ||
->> +	    (HISI_GET_EVENTID(event) > HISI_UC_URING_EVENT_MAX))
->> +		dev_warn(uc_pmu->dev,
->> +			 "Only events: [%#x ~ %#x] support channel filtering!",
->> +			 HISI_UC_URING_EVENT_MIN, HISI_UC_URING_EVENT_MAX);
->> +
->> +	return 0;
->> +}
->> +
->> +static void hisi_uc_pmu_config_req_tracetag(struct perf_event *event)
->> +{
->> +	struct hisi_pmu *uc_pmu = to_hisi_pmu(event->pmu);
->> +	u32 val;
->> +
->> +	if (!hisi_get_rd_req_en(event))
->> +		return;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_TRACETAG_CTRL_REG);
->> +
->> +	/* The request-type has been configured */
->> +	if (FIELD_GET(HISI_UC_TRACETAG_REQ_MSK, val) == HISI_UC_RD_REQ_TRACETAG)
->> +		return;
->> +
->> +	/* Set request-type for tracetag, only read request is supported! */
->> +	val &= ~HISI_UC_TRACETAG_REQ_MSK;
->> +	val |= FIELD_PREP(HISI_UC_TRACETAG_REQ_MSK, HISI_UC_RD_REQ_TRACETAG);
->> +	val |= HISI_UC_TRACETAG_REQ_EN;
->> +	writel(val, uc_pmu->base + HISI_UC_TRACETAG_CTRL_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_clear_req_tracetag(struct perf_event *event)
->> +{
->> +	struct hisi_pmu *uc_pmu = to_hisi_pmu(event->pmu);
->> +	u32 val;
->> +
->> +	if (!hisi_get_rd_req_en(event))
->> +		return;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_TRACETAG_CTRL_REG);
->> +
->> +	/* Do nothing, the request-type tracetag has been cleaned up */
->> +	if (FIELD_GET(HISI_UC_TRACETAG_REQ_MSK, val) == 0)
->> +		return;
->> +
->> +	/* Clear request-type */
->> +	val &= ~HISI_UC_TRACETAG_REQ_MSK;
->> +	val &= ~HISI_UC_TRACETAG_REQ_EN;
->> +	writel(val, uc_pmu->base + HISI_UC_TRACETAG_CTRL_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_config_srcid_tracetag(struct perf_event *event)
->> +{
->> +	struct hisi_pmu *uc_pmu = to_hisi_pmu(event->pmu);
->> +	u32 val;
->> +
->> +	if (!hisi_get_srcid_en(event))
->> +		return;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_TRACETAG_CTRL_REG);
->> +
->> +	/* Do nothing, the source id has been configured */
->> +	if (FIELD_GET(HISI_UC_TRACETAG_SRCID_EN, val))
->> +		return;
->> +
->> +	/* Enable source id tracetag */
->> +	val |= HISI_UC_TRACETAG_SRCID_EN;
->> +	writel(val, uc_pmu->base + HISI_UC_TRACETAG_CTRL_REG);
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_SRCID_CTRL_REG);
->> +	val &= ~HISI_UC_SRCID_MSK;
->> +	val |= FIELD_PREP(HISI_UC_SRCID_MSK, hisi_get_srcid(event));
->> +	writel(val, uc_pmu->base + HISI_UC_SRCID_CTRL_REG);
->> +
->> +	/* Depend on request-type tracetag enabled */
->> +	hisi_uc_pmu_config_req_tracetag(event);
->> +}
->> +
->> +static void hisi_uc_pmu_clear_srcid_tracetag(struct perf_event *event)
->> +{
->> +	struct hisi_pmu *uc_pmu = to_hisi_pmu(event->pmu);
->> +	u32 val;
->> +
->> +	if (!hisi_get_srcid_en(event))
->> +		return;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_TRACETAG_CTRL_REG);
->> +
->> +	/* Do nothing, the source id has been cleaned up */
->> +	if (FIELD_GET(HISI_UC_TRACETAG_SRCID_EN, val) == 0)
->> +		return;
->> +
->> +	hisi_uc_pmu_clear_req_tracetag(event);
->> +
->> +	/* Disable source id tracetag */
->> +	val &= ~HISI_UC_TRACETAG_SRCID_EN;
->> +	writel(val, uc_pmu->base + HISI_UC_TRACETAG_CTRL_REG);
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_SRCID_CTRL_REG);
->> +	val &= ~HISI_UC_SRCID_MSK;
->> +	writel(val, uc_pmu->base + HISI_UC_SRCID_CTRL_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_config_uring_channel(struct perf_event *event)
->> +{
->> +	struct hisi_pmu *uc_pmu = to_hisi_pmu(event->pmu);
->> +	u32 uring_channel = hisi_get_uring_channel(event);
->> +	u32 val;
->> +
->> +	/* Do nothing if not being set or is set explicitly to zero (default) */
->> +	if (uring_channel == 0)
->> +		return;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +
->> +	/* Do nothing, the uring_channel has been configured */
->> +	if (uring_channel == FIELD_GET(HISI_UC_EVENT_URING_MSK, val))
->> +		return;
->> +
->> +	val &= ~HISI_UC_EVENT_URING_MSK;
->> +	val |= FIELD_PREP(HISI_UC_EVENT_URING_MSK, uring_channel);
->> +	writel(val, uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_clear_uring_channel(struct perf_event *event)
->> +{
->> +	struct hisi_pmu *uc_pmu = to_hisi_pmu(event->pmu);
->> +	u32 val;
->> +
->> +	/* Do nothing if not being set or is set explicitly to zero (default) */
->> +	if (hisi_get_uring_channel(event) == 0)
->> +		return;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +
->> +	/* Do nothing, the uring_channel has been cleaned up */
->> +	if (FIELD_GET(HISI_UC_EVENT_URING_MSK, val) == 0)
->> +		return;
->> +
->> +	val &= ~HISI_UC_EVENT_URING_MSK;
->> +	writel(val, uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_enable_filter(struct perf_event *event)
->> +{
->> +	if (event->attr.config1 == 0)
->> +		return;
->> +
->> +	hisi_uc_pmu_config_uring_channel(event);
->> +	hisi_uc_pmu_config_req_tracetag(event);
->> +	hisi_uc_pmu_config_srcid_tracetag(event);
->> +}
->> +
->> +static void hisi_uc_pmu_disable_filter(struct perf_event *event)
->> +{
->> +	if (event->attr.config1 == 0)
->> +		return;
->> +
->> +	hisi_uc_pmu_clear_srcid_tracetag(event);
->> +	hisi_uc_pmu_clear_req_tracetag(event);
->> +	hisi_uc_pmu_clear_uring_channel(event);
->> +}
->> +
->> +static void hisi_uc_pmu_write_evtype(struct hisi_pmu *uc_pmu, int idx, u32 type)
->> +{
->> +	u32 val;
->> +
->> +	/*
->> +	 * Select the appropriate event select register.
->> +	 * There are 2 32-bit event select registers for the
->> +	 * 8 hardware counters, each event code is 8-bit wide.
->> +	 */
->> +	val = readl(uc_pmu->base + HISI_UC_EVTYPE_REG(idx / 4));
->> +	val &= ~(HISI_UC_EVTYPE_MASK << HISI_PMU_EVTYPE_SHIFT(idx));
->> +	val |= (type << HISI_PMU_EVTYPE_SHIFT(idx));
->> +	writel(val, uc_pmu->base + HISI_UC_EVTYPE_REG(idx / 4));
->> +}
->> +
->> +static void hisi_uc_pmu_start_counters(struct hisi_pmu *uc_pmu)
->> +{
->> +	u32 val;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +	val |= HISI_UC_EVENT_GLB_EN;
->> +	writel(val, uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_stop_counters(struct hisi_pmu *uc_pmu)
->> +{
->> +	u32 val;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +	val &= ~HISI_UC_EVENT_GLB_EN;
->> +	writel(val, uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_enable_counter(struct hisi_pmu *uc_pmu,
->> +					struct hw_perf_event *hwc)
->> +{
->> +	u32 val;
->> +
->> +	/* Enable counter index */
->> +	val = readl(uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +	val |= (1 << hwc->idx);
->> +	writel(val, uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_disable_counter(struct hisi_pmu *uc_pmu,
->> +					struct hw_perf_event *hwc)
->> +{
->> +	u32 val;
->> +
->> +	/* Clear counter index */
->> +	val = readl(uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +	val &= ~(1 << hwc->idx);
->> +	writel(val, uc_pmu->base + HISI_UC_EVENT_CTRL_REG);
->> +}
->> +
->> +static u64 hisi_uc_pmu_read_counter(struct hisi_pmu *uc_pmu,
->> +				    struct hw_perf_event *hwc)
->> +{
->> +	return readq(uc_pmu->base + HISI_UC_CNTR_REG(hwc->idx));
->> +}
->> +
->> +static void hisi_uc_pmu_write_counter(struct hisi_pmu *uc_pmu,
->> +				      struct hw_perf_event *hwc, u64 val)
->> +{
->> +	hisi_uc_pmu_start_counters(uc_pmu);
->> +	writeq(val, uc_pmu->base + HISI_UC_CNTR_REG(hwc->idx));
->> +}
->> +
->> +static void hisi_uc_pmu_enable_counter_int(struct hisi_pmu *uc_pmu,
->> +					   struct hw_perf_event *hwc)
->> +{
->> +	u32 val;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_INT_MASK_REG);
->> +	/* Write 0 to enable interrupt */
-> The comment here and below maybe redundant. The code is self explanatory
+These API strictly work with a designated trigger to offload their
+function.
+This may be confused with hw blink offload but LED may have an even more
+advanced configuration where the entire aspect of the trigger is
+offloaded and completely handled by the hardware.
 
-Ok, i will drop this
+An example of this usage are PHY or switch port LEDs. Almost every of
+these kind of device have multiple LED attached and provide info of the
+current port state.
 
->
->> +	val &= ~(1 << hwc->idx);
->> +	writel(val, uc_pmu->base + HISI_UC_INT_MASK_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_disable_counter_int(struct hisi_pmu *uc_pmu,
->> +					    struct hw_perf_event *hwc)
->> +{
->> +	u32 val;
->> +
->> +	val = readl(uc_pmu->base + HISI_UC_INT_MASK_REG);
->> +	/* Write 1 to mask interrupt */
->> +	val |= (1 << hwc->idx);
->> +	writel(val, uc_pmu->base + HISI_UC_INT_MASK_REG);
->> +}
->> +
->> +static u32 hisi_uc_pmu_get_int_status(struct hisi_pmu *uc_pmu)
->> +{
->> +	return readl(uc_pmu->base + HISI_UC_INT_STS_REG);
->> +}
->> +
->> +static void hisi_uc_pmu_clear_int_status(struct hisi_pmu *uc_pmu, int idx)
->> +{
->> +	writel(1 << idx, uc_pmu->base + HISI_UC_INT_CLEAR_REG);
->> +}
->> +
->> +static int hisi_uc_pmu_init_data(struct platform_device *pdev,
->> +				 struct hisi_pmu *uc_pmu)
->> +{
->> +	/*
->> +	 * Use the SCCL_ID and CCL_ID to identify the UC PMU, while
->> +	 * SCCL_ID is in MPIDR[aff2] and CCL_ID is in MPIDR[aff1].
->> +	 */
-> The comment doesn't match what you've done here, these information
-> is gotten from device properties rather than MPIDR.
->
-> Thanks.
+Currently we lack any support of them but these device always provide a
+way to configure them, from basic feature like turning the LED off or no
+(implemented in previous series related to this feature) or even entirely
+driven by the hw and power on/off/blink based on some events, like tx/rx
+traffic, ethernet cable attached, link speed of 10mbps, 100mbps, 1000mbps
+or more. They can also support multiple logic like blink with traffic only
+if a particular link speed is attached. (an example of this is when a LED
+is designated to be turned on only with 100mbps link speed and configured
+to blink on traffic and a secondary LED of a different color is present to
+serve the same function but only when the link speed is 1000mbps)
 
-Will update the comment
-Thanks.
+These case are very common for a PHY or a switch but they were never
+standardized so OEM support all kind of variant and configuration.
 
+Again with Andrew we compared some feature and we reached a common set
+of modes that are for sure present in every kind of devices.
 
-Best regards,
-Junhao.
+And this concludes history and why.
+
+What is present in this series
+==============================
+
+This patch contain the required API to support this feature, I decided on
+the name of hw control to quickly describe this feature.
+
+I documented each require API in the related Documentation for leds-class
+so I think it might me redundant to expose them here. Feel free to tell me
+how to improve it if anything is not clear.
+
+On an abstract idea, this feature require this:
+
+    - The trigger needs to make use of it, this is currently implemented
+      for the netdev trigger but other trigger can be expanded if the
+      device expose these function. An idea might be a anything that
+      handle a storage disk and have the LED configurable to blink when
+      there is any activity to the disk.
+
+    - The LED driver needs to expose and implement these new API.
+
+Currently a LED driver supports only a trigger. The trigger should use
+the related helper to check if the LED can be driven hy hardware.
+
+The different modes a trigger support are exposed in the kernel include
+leds.h header and are used by the LED driver to understand what to do.
+
+From a user standpoint, he should enable modes as usual from sysfs and if
+anything is not supported warned.
+
+Final words and missing piece from this series
+==============================================
+
+I honestly hope this feature can finally be implemented.
+
+This series originally had also additional modes and logic to add to the
+netdev trigger, but I decided to strip them and implement only the API
+and support basic tx and rx. After this is merged, I will quickly propose
+these additional modes.
+
+Currently this is limited to tx and rx and this is what the current user
+qca8k use. Marvell PHY support link and a generic blink with any kind of
+traffic (both rx and tx). qca8k switch supports keeping the LED on based on
+link speed.
+
+The next series will add the concept of hw control only modes to the netdev
+trigger and support for these additional modes:
+- link_10
+- link_100
+- link_1000
+- activity
+
+The current implementation is voluntary basic and limited to put the ground
+work and have something easy to implement and usable. 99% part of the logic
+is done on the trigger side, leaving to the LED driver only the validating
+and the apply part.
+
+As shown for the PHY led binding, people are really intrested in this
+feature as quickly after they were merged, people were already working on
+adding support for it.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/?h=ib-leds-netdev-6.5
+[2] https://lore.kernel.org/lkml/20230216013230.22978-1-ansuelsmth@gmail.com/
+
+Changes in v3:
+- Rebased on top of net-next
+
+Changes in v2:
+- Drop helper as currently used only by one trigger
+- Improve Documentation and document return error of some functions
+- Squash some patch to reduce series size
+- Drop trigger mode mask as currently not used
+- Rework hw control validating function to a simple implementation
+
+Changes from previous v8 series:
+- Rewrite Documentation from scratch and move to separate commit
+- Strip additional trigger modes (to propose in a different series)
+- Strip from qca8k driver additional modes (to implement in the different
+  series)
+- Split the netdev chages to smaller piece to permit easier review
+
+Changelog in the previous v8 series: (stripped of unrelated changes)
+v8:
+- Improve the documentation of the new feature
+- Rename to a more symbolic name
+- Fix some bug in netdev trigger (not using BIT())
+- Add more define for qca8k-leds driver
+- Drop interval support
+- Fix many bugs in the validate option in the netdev trigger
+v7:
+- Fix qca8k leds documentation warning
+- Remove RFC tag
+v6:
+- Back to RFC.
+- Drop additional trigger
+- Rework netdev trigger to support common modes used by switch and
+  hardware only triggers
+- Refresh qca8k leds logic and driver
+v5:
+- Move out of RFC. (no comments from Andrew this is the right path?)
+- Fix more spelling mistake (thx Randy)
+- Fix error reported by kernel test bot
+- Drop the additional HW_CONTROL flag. It does simplify CONFIG
+  handling and hw control should be available anyway to support
+  triggers as module.
+v4:
+- Rework implementation and drop hw_configure logic.
+  We now expand blink_set.
+- Address even more spelling mistake. (thx a lot Randy)
+- Drop blink option and use blink_set delay.
+v3:
+- Rework start/stop as Andrew asked.
+- Use test_bit API to check flag passed to hw_control_configure.
+- Added a new cmd to hw_control_configure to reset any active blink_mode.
+- Refactor all the patches to follow this new implementation.
+v2:
+- Fix spelling mistake (sorry)
+- Drop patch 02 "permit to declare supported offload triggers".
+  Change the logic, now the LED driver declare support for them
+  using the configure_offload with the cmd TRIGGER_SUPPORTED.
+- Rework code to follow this new implementation.
+- Update Documentation to better describe how this offload
+  implementation work.
+
+Andrew Lunn (4):
+  leds: add API to get attached device for LED hw control
+  leds: trigger: netdev: refactor code setting device name
+  leds: trigger: netdev: validate configured netdev
+  net: dsa: qca8k: add op to get ports netdev
+
+Christian Marangi (9):
+  leds: add APIs for LEDs hw control
+  Documentation: leds: leds-class: Document new Hardware driven LEDs
+    APIs
+  leds: trigger: netdev: introduce check for possible hw control
+  leds: trigger: netdev: add basic check for hw control support
+  leds: trigger: netdev: reject interval store for hw_control
+  leds: trigger: netdev: add support for LED hw control
+  leds: trigger: netdev: init mode if hw control already active
+  leds: trigger: netdev: expose netdev trigger modes in linux include
+  net: dsa: qca8k: implement hw_control ops
+
+ Documentation/leds/leds-class.rst     |  80 ++++++++++++
+ drivers/leds/trigger/ledtrig-netdev.c | 137 ++++++++++++++++---
+ drivers/net/dsa/qca/qca8k-leds.c      | 181 ++++++++++++++++++++++++++
+ include/linux/leds.h                  |  53 ++++++++
+ 4 files changed, 433 insertions(+), 18 deletions(-)
+
+-- 
+2.39.2
 
