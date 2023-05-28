@@ -2,151 +2,195 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CFBC77B7E
-	for <linux-doc@archiver.kernel.org>; Sun, 28 May 2023 14:21:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DCAC7EE29
+	for <linux-doc@archiver.kernel.org>; Sun, 28 May 2023 21:19:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbjE1OVi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 May 2023 10:21:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33812 "EHLO
+        id S229652AbjE1VTn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 May 2023 17:19:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbjE1OVg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 May 2023 10:21:36 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F3EEC7;
-        Sun, 28 May 2023 07:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685283692; x=1716819692;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZTkM6DTM94DRGqgS0Z6YEGqsq7Toa2hLcyOuCPilzRU=;
-  b=E9jdJlVRUlgZcuqYvLWva6ubop3k2zh5sM5ynuri/8LSC9gVUEhS6y7r
-   hQkmGGmOQPNVVlR7pjRtKGPdEr0v0mVEchwpCZGw6zbGoXXbcTXqMBrU+
-   F+nyO8T9dyJY+IIduhD3/5d9Rq4jZ4x9Nq73N4ArzACtMhQQfiE4Awex2
-   M1TKKS6cr0H9qrGdES8sXEd+LwW4Ge2X4txDnt0PXznNxqANdOZl8Ayh3
-   HeVn9FC492bgLT3xD6ULIcpBpfKVwX4OwUSc79EwKAGpUpeR+XRgi1T00
-   7CyKMqrT3qtvigT5qseNzDBVgsNrQXLaziZcwKuJgF0CNZ2RDRcdMpTW/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="357767880"
-X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="357767880"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 07:21:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="1035915909"
-X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="1035915909"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga005.fm.intel.com with ESMTP; 28 May 2023 07:21:27 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id B4FEA24F; Sun, 28 May 2023 17:21:31 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>
-Subject: [PATCH v1 1/1] gpiolib: Kill unused GPIOF_EXPORT and Co
-Date:   Sun, 28 May 2023 17:21:27 +0300
-Message-Id: <20230528142127.37330-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
+        with ESMTP id S229482AbjE1VTm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 May 2023 17:19:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9DB4C6
+        for <linux-doc@vger.kernel.org>; Sun, 28 May 2023 14:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1685308736;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Um1A7pr7TdEip1EPUsNyisBw5ieK06CvDe/AUKbysUg=;
+        b=gMGd50ofVJzEEuqVwJzCObnJUOJ4v9788a/oVy2Cp09L29lHUAN5E8j6DpwdI70yAdnlc2
+        pnpG5TgwqJxpV5Z2OvOmfi+TLmT6w5LRIUGI349G5AXkmoAxraJObyqdbYUAgknav1Vsl/
+        1IGrn76Qbgyv7Vs/QMleGldfvEvQ2Fk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-670-QgvzmYV3MZCBaFvfULKyeQ-1; Sun, 28 May 2023 17:18:53 -0400
+X-MC-Unique: QgvzmYV3MZCBaFvfULKyeQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7EDA800BFF;
+        Sun, 28 May 2023 21:18:51 +0000 (UTC)
+Received: from [10.22.16.37] (unknown [10.22.16.37])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A48E4492B0A;
+        Sun, 28 May 2023 21:18:50 +0000 (UTC)
+Message-ID: <18793f4a-fd39-2e71-0b77-856afb01547b@redhat.com>
+Date:   Sun, 28 May 2023 17:18:50 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
+Content-Language: en-US
+To:     Tejun Heo <tj@kernel.org>
+Cc:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Ryan Phillips <rphillips@redhat.com>,
+        Brent Rowsell <browsell@redhat.com>,
+        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
+References: <ZDmOjeBVsIcgSLIV@slm.duckdns.org>
+ <60ec12dc-943c-b8f0-8b6f-97c5d332144c@redhat.com>
+ <46d26abf-a725-b924-47fa-4419b20bbc02@redhat.com>
+ <jqkf7jkuyxqiupmxmdbmpnbpojub2pjsz3oogwncmwqdghlsgk@phsqzirmmlyl>
+ <f2bd7b1e-190e-1d08-f085-b4cae36fb5be@redhat.com>
+ <ZFGOTHQj3k5rzmyR@blackbook>
+ <deb7b684-3d7c-b3ae-7b36-5b7ba2dd8001@redhat.com>
+ <ZFUo5IYAIwTEKR4_@slm.duckdns.org>
+ <759603dd-7538-54ad-e63d-bb827b618ae3@redhat.com>
+ <405b2805-538c-790b-5bf8-e90d3660f116@redhat.com>
+ <ZGvHUjOCjwat91Gq@slm.duckdns.org>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <ZGvHUjOCjwat91Gq@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There is no use of the  GPIOF_EXPORT in the kernel. Kill it for good.
+On 5/22/23 15:49, Tejun Heo wrote:
+> Hello, Waiman.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/driver-api/gpio/legacy.rst                    | 3 ---
- Documentation/translations/zh_CN/driver-api/gpio/legacy.rst | 3 ---
- Documentation/translations/zh_TW/gpio.txt                   | 3 ---
- drivers/gpio/gpiolib-legacy.c                               | 6 ------
- include/linux/gpio.h                                        | 5 -----
- 5 files changed, 20 deletions(-)
+Sorry for the late reply as I had been off for almost 2 weeks due to PTO.
 
-diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
-index 78372853c6d4..c5f98a78499f 100644
---- a/Documentation/driver-api/gpio/legacy.rst
-+++ b/Documentation/driver-api/gpio/legacy.rst
-@@ -322,9 +322,6 @@ where 'flags' is currently defined to specify the following properties:
- 	* GPIOF_OPEN_DRAIN	- gpio pin is open drain type.
- 	* GPIOF_OPEN_SOURCE	- gpio pin is open source type.
- 
--	* GPIOF_EXPORT_DIR_FIXED	- export gpio to sysfs, keep direction
--	* GPIOF_EXPORT_DIR_CHANGEABLE	- also export, allow changing direction
--
- since GPIOF_INIT_* are only valid when configured as output, so group valid
- combinations as:
- 
-diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-index 84ce2322fdba..8720970393fb 100644
---- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-+++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-@@ -297,9 +297,6 @@ gpio_request()前将这类细节配置好，例如使用引脚控制子系统的
- 	* GPIOF_OPEN_DRAIN	- gpio引脚为开漏信号
- 	* GPIOF_OPEN_SOURCE	- gpio引脚为源极开路信号
- 
--	* GPIOF_EXPORT_DIR_FIXED	- 将 gpio 导出到 sysfs，并保持方向
--	* GPIOF_EXPORT_DIR_CHANGEABLE	- 同样是导出, 但允许改变方向
--
- 因为 GPIOF_INIT_* 仅有在配置为输出的时候才存在,所以有效的组合为:
- 
- 	* GPIOF_IN		- 配置为输入
-diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/translations/zh_TW/gpio.txt
-index 62e560ffe628..e0b96d897fa7 100644
---- a/Documentation/translations/zh_TW/gpio.txt
-+++ b/Documentation/translations/zh_TW/gpio.txt
-@@ -303,9 +303,6 @@ gpio_request()前將這類細節配置好，例如使用 pinctrl 子系統的映
- 	* GPIOF_OPEN_DRAIN	- gpio引腳爲開漏信號
- 	* GPIOF_OPEN_SOURCE	- gpio引腳爲源極開路信號
- 
--	* GPIOF_EXPORT_DIR_FIXED	- 將 gpio 導出到 sysfs，並保持方向
--	* GPIOF_EXPORT_DIR_CHANGEABLE	- 同樣是導出, 但允許改變方向
--
- 因爲 GPIOF_INIT_* 僅有在配置爲輸出的時候才存在,所以有效的組合爲:
- 
- 	* GPIOF_IN		- 配置爲輸入
-diff --git a/drivers/gpio/gpiolib-legacy.c b/drivers/gpio/gpiolib-legacy.c
-index 028f7f504209..969f737012f6 100644
---- a/drivers/gpio/gpiolib-legacy.c
-+++ b/drivers/gpio/gpiolib-legacy.c
-@@ -50,12 +50,6 @@ int gpio_request_one(unsigned gpio, unsigned long flags, const char *label)
- 	if (err)
- 		goto free_gpio;
- 
--	if (flags & GPIOF_EXPORT) {
--		err = gpiod_export(desc, flags & GPIOF_EXPORT_CHANGEABLE);
--		if (err)
--			goto free_gpio;
--	}
--
- 	return 0;
- 
-  free_gpio:
-diff --git a/include/linux/gpio.h b/include/linux/gpio.h
-index 8528353e073b..86963a00b018 100644
---- a/include/linux/gpio.h
-+++ b/include/linux/gpio.h
-@@ -38,11 +38,6 @@ struct device;
- /* Gpio pin is open source */
- #define GPIOF_OPEN_SOURCE	(1 << 4)
- 
--#define GPIOF_EXPORT		(1 << 5)
--#define GPIOF_EXPORT_CHANGEABLE	(1 << 6)
--#define GPIOF_EXPORT_DIR_FIXED	(GPIOF_EXPORT)
--#define GPIOF_EXPORT_DIR_CHANGEABLE (GPIOF_EXPORT | GPIOF_EXPORT_CHANGEABLE)
--
- /**
-  * struct gpio - a structure describing a GPIO with configuration
-  * @gpio:	the GPIO number
--- 
-2.40.0.1.gaa8946217a0b
+
+>
+> On Sun, May 07, 2023 at 09:03:44PM -0400, Waiman Long wrote:
+> ...
+>>    cpuset.cpus.reserve
+>>      A read-write multiple values file which exists only on root
+>>      cgroup.
+>>
+>>      It lists all the CPUs that are reserved for adjacent and remote
+>>      partitions created in the system.  See the next section for
+>>      more information on what an adjacent or remote partitions is.
+>>
+>>      Creation of adjacent partition does not require touching this
+>>      control file as CPU reservation will be done automatically.
+>>      In order to create a remote partition, the CPUs needed by the
+>>      remote partition has to be written to this file first.
+>>
+>>      A "+" prefix can be used to indicate a list of additional
+>>      CPUs that are to be added without disturbing the CPUs that are
+>>      originally there.  For example, if its current value is "3-4",
+>>      echoing ""+5" to it will change it to "3-5".
+>>
+>>      Once a remote partition is destroyed, its CPUs have to be
+>>      removed from this file or no other process can use them.  A "-"
+>>      prefix can be used to remove a list of CPUs from it.  However,
+>>      removing CPUs that are currently used in existing partitions
+>>      may cause those partitions to become invalid.  A single "-"
+>>      character without any number can be used to indicate removal
+>>      of all the free CPUs not allocated to any partitions to avoid
+>>      accidental partition invalidation.
+> Why is the syntax different from .cpus? Wouldn't it be better to keep them
+> the same?
+
+Unlike cpuset.cpus, cpuset.cpus.reserve is supposed to contains CPUs 
+that are used in multiple partitions. Also automatic reservation of 
+adjacent partitions can happen in parallel. That is why I think it will 
+be safer if we allow incremental increase or decrease of reserve CPUs to 
+be used for remote partitions. I will include this reasoning into the 
+doc file.
+
+
+>>    cpuset.cpus.partition
+>>      A read-write single value file which exists on non-root
+>>      cpuset-enabled cgroups.  This flag is owned by the parent cgroup
+>>      and is not delegatable.
+>>
+>>      It accepts only the following input values when written to.
+>>
+>>        ==========    =====================================
+>>        "member"    Non-root member of a partition
+>>        "root"    Partition root
+>>        "isolated"    Partition root without load balancing
+>>        ==========    =====================================
+>>
+>>      A cpuset partition is a collection of cgroups with a partition
+>>      root at the top of the hierarchy and its descendants except
+>>      those that are separate partition roots themselves and their
+>>      descendants.  A partition has exclusive access to the set of
+>>      CPUs allocated to it.  Other cgroups outside of that partition
+>>      cannot use any CPUs in that set.
+>>
+>>      There are two types of partitions - adjacent and remote.  The
+>>      parent of an adjacent partition must be a valid partition root.
+>>      Partition roots of adjacent partitions are all clustered around
+>>      the root cgroup.  Creation of adjacent partition is done by
+>>      writing the desired partition type into "cpuset.cpus.partition".
+>>
+>>      A remote partition does not require a partition root parent.
+>>      So a remote partition can be formed far from the root cgroup.
+>>      However, its creation is a 2-step process.  The CPUs needed
+>>      by a remote partition ("cpuset.cpus" of the partition root)
+>>      has to be written into "cpuset.cpus.reserve" of the root
+>>      cgroup first.  After that, "isolated" can be written into
+>>      "cpuset.cpus.partition" of the partition root to form a remote
+>>      isolated partition which is the only supported remote partition
+>>      type for now.
+>>
+>>      All remote partitions are terminal as adjacent partition cannot
+>>      be created underneath it.
+> Can you elaborate this extra restriction a bit further?
+
+Are you referring to the fact that only remote isolated partitions are 
+supported? I do not preclude the support of load balancing remote 
+partitions. I keep it to isolated partitions for now for ease of 
+implementation and I am not currently aware of a use case where such a 
+remote partition type is needed.
+
+If you are talking about remote partition being terminal. It is mainly 
+because it can be more tricky to support hierarchical adjacent 
+partitions underneath it especially if it is not isolated. We can 
+certainly support it if a use case arises. I just don't want to 
+implement code that nobody is really going to use.
+
+BTW, with the current way the remote partition is created, it is not 
+possible to have another remote partition underneath it.
+
+>
+> In general, I think it'd be really helpful if the document explains the
+> reasoning behind the design decisions. ie. Why is reserving for? What
+> purpose does it serve that the regular isolated ones cannot? That'd help
+> clarifying the design decisions.
+
+I understand your concern. If you think it is better to support both 
+types of remote partitions or hierarchical adjacent partitions 
+underneath it for symmetry purpose, I can certain do that. It just needs 
+to take a bit more time.
+
+Cheers,
+Longman
 
