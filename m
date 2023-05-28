@@ -2,212 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37F2CC77B7E
-	for <linux-doc@archiver.kernel.org>; Sun, 28 May 2023 11:30:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CFBC77B7E
+	for <linux-doc@archiver.kernel.org>; Sun, 28 May 2023 14:21:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbjE1Laf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 May 2023 07:30:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37420 "EHLO
+        id S229481AbjE1OVi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 May 2023 10:21:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjE1Lad (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 May 2023 07:30:33 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 503529C;
-        Sun, 28 May 2023 04:30:30 -0700 (PDT)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34SBOPBM024011;
-        Sun, 28 May 2023 11:30:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=jdM3HzsaV7JScZljybz8uxp47jRGdtnCoIrsyHQwbM0=;
- b=TfgCiPvzSdIi5Z+uc+xbTLjYSTFXb0mqTWsn8RDS1y2kg+aTf/yUlsc7uWN+NXhEQN2/
- ZIoJMO4ZM5o5bXVclCuCS+Ol5gSSw5F6FR5uV+sdAEYdsUTkBGWDub/wABhtav0vpkN7
- J5ZJIPEEN/aQX/Ss1fLosnNBGWmFhPKpHg7scxR9Mno7UEC6fDo2SCRb1BeSEhE/Xf0C
- GGCq1XooUTazixCwlp06+qQvYtu4ZriNib5inZgfr1QXOrtk85MSPJQtfCjsW+jBJ9wT
- LHQRm5asVC874Qc4C3gGMPsDRxUO/23zcM4/FxO1iaztTqnNilDmtHOUH9j8g71zRZZd fg== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3quanx9kdw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 28 May 2023 11:30:01 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34SBU0et003198
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 28 May 2023 11:30:00 GMT
-Received: from [10.216.57.186] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Sun, 28 May
- 2023 04:29:53 -0700
-Message-ID: <c2496855-113a-56e6-f6e2-9a9bd03a1267@quicinc.com>
-Date:   Sun, 28 May 2023 16:59:48 +0530
+        with ESMTP id S229559AbjE1OVg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 May 2023 10:21:36 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F3EEC7;
+        Sun, 28 May 2023 07:21:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685283692; x=1716819692;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZTkM6DTM94DRGqgS0Z6YEGqsq7Toa2hLcyOuCPilzRU=;
+  b=E9jdJlVRUlgZcuqYvLWva6ubop3k2zh5sM5ynuri/8LSC9gVUEhS6y7r
+   hQkmGGmOQPNVVlR7pjRtKGPdEr0v0mVEchwpCZGw6zbGoXXbcTXqMBrU+
+   F+nyO8T9dyJY+IIduhD3/5d9Rq4jZ4x9Nq73N4ArzACtMhQQfiE4Awex2
+   M1TKKS6cr0H9qrGdES8sXEd+LwW4Ge2X4txDnt0PXznNxqANdOZl8Ayh3
+   HeVn9FC492bgLT3xD6ULIcpBpfKVwX4OwUSc79EwKAGpUpeR+XRgi1T00
+   7CyKMqrT3qtvigT5qseNzDBVgsNrQXLaziZcwKuJgF0CNZ2RDRcdMpTW/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="357767880"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="357767880"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 07:21:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="1035915909"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="1035915909"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga005.fm.intel.com with ESMTP; 28 May 2023 07:21:27 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id B4FEA24F; Sun, 28 May 2023 17:21:31 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>
+Subject: [PATCH v1 1/1] gpiolib: Kill unused GPIOF_EXPORT and Co
+Date:   Sun, 28 May 2023 17:21:27 +0300
+Message-Id: <20230528142127.37330-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 04/18] soc: qcom: Add Qualcomm minidump kernel driver
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <corbet@lwn.net>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <robh+dt@kernel.org>, <linus.walleij@linaro.org>,
-        <linux-gpio@vger.kernel.org>, <srinivas.kandagatla@linaro.org>
-CC:     <linux-arm-msm@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
-References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
- <1683133352-10046-5-git-send-email-quic_mojha@quicinc.com>
- <c6f730b6-f702-91d4-4abd-71546e02f869@linaro.org>
- <23b493f4-1a01-8d03-fc12-d588b2c6fd74@quicinc.com>
- <575a422d-6224-06b7-628c-8487b47882e9@linaro.org>
- <500e5abc-fb71-8468-a6b0-3ced2676b57c@linaro.org>
- <e714566e-39b7-d46b-13bd-3c0e20e9f944@quicinc.com>
- <7777c016-4875-a6c9-cd5e-78c2ac686448@linaro.org>
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <7777c016-4875-a6c9-cd5e-78c2ac686448@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Wq_YQJJaMTn_p0i8IQNdSFF-sgN61CTi
-X-Proofpoint-GUID: Wq_YQJJaMTn_p0i8IQNdSFF-sgN61CTi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-28_08,2023-05-25_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- mlxlogscore=999 malwarescore=0 suspectscore=0 phishscore=0 clxscore=1015
- mlxscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305280099
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Krzysztof,
+There is no use of the  GPIOF_EXPORT in the kernel. Kill it for good.
 
-On 5/9/2023 12:41 PM, Krzysztof Kozlowski wrote:
-> On 08/05/2023 09:10, Mukesh Ojha wrote:
->>
->>
->> On 5/4/2023 10:04 PM, Krzysztof Kozlowski wrote:
->>> On 04/05/2023 17:21, Krzysztof Kozlowski wrote:
->>>>>>
->>>>>>> +	ret = qcom_minidump_init_apss_subsystem(md);
->>>>>>> +	if (ret) {
->>>>>>> +		dev_err(&pdev->dev, "apss minidump initialization failed: %d\n", ret);
->>>>>>> +		goto unlock;
->>>>>>> +	}
->>>>>>> +
->>>>>>> +	__md = md;
->>>>>>
->>>>>> No. This is a platform device, so it can have multiple instances.
->>>>>
->>>>> It can have only one instance that is created from SMEM driver probe.
->>>>
->>>> Anyone can instantiate more of them.... how did you solve it?
->>>
->>> To clarify - sprinkling more of singletons makes everything tightly
->>> coupled, difficult to debug and non-portable. You cannot have two
->>> instances, you have to control concurrent initialization by yourself in
->>> each of such singletons.
->>>
->>> I understand sometimes they are unavoidable, for example when this does
->>> not map to hardware property. However here you have the parent - smem -
->>> which can return you valid instance. Thus you avoid entire problem of
->>> file-scope variables.
->>
->> I get your point, why one's should avoid file scope variables.
->>
->>
->> This is infrastructure driver and will not have multiple instances and
->> even if it happens could be avoided with with the help of global mutex
->> and protect below function which i am already doing at the moment and
-> 
-> But we do not want global mutexes... so incorrect design is being
-> improved by more incorrect design.
-> 
->> fail the other probe if it is already initialized with proper logging..e.g
->>
->> "already initialized..."
->>
->>
->> ret = qcom_minidump_init_apss_subsystem(md);
->>
->>
->> And this will be in-lined with
->>
->> /* Pointer to the one and only smem handle */
->> static struct qcom_smem *__smem;
->>
->> Let me know if you still disagree...and have some other way ?
-> 
-> Why the parent - smem - cannot return every consumer the instance it
-> has? There will be one smem having only one minidump, so all problems
-> solved?
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ Documentation/driver-api/gpio/legacy.rst                    | 3 ---
+ Documentation/translations/zh_CN/driver-api/gpio/legacy.rst | 3 ---
+ Documentation/translations/zh_TW/gpio.txt                   | 3 ---
+ drivers/gpio/gpiolib-legacy.c                               | 6 ------
+ include/linux/gpio.h                                        | 5 -----
+ 5 files changed, 20 deletions(-)
 
-Sorry, I am extending this discussion but it is needed to avoid rework
-in upcoming patches.
+diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
+index 78372853c6d4..c5f98a78499f 100644
+--- a/Documentation/driver-api/gpio/legacy.rst
++++ b/Documentation/driver-api/gpio/legacy.rst
+@@ -322,9 +322,6 @@ where 'flags' is currently defined to specify the following properties:
+ 	* GPIOF_OPEN_DRAIN	- gpio pin is open drain type.
+ 	* GPIOF_OPEN_SOURCE	- gpio pin is open source type.
+ 
+-	* GPIOF_EXPORT_DIR_FIXED	- export gpio to sysfs, keep direction
+-	* GPIOF_EXPORT_DIR_CHANGEABLE	- also export, allow changing direction
+-
+ since GPIOF_INIT_* are only valid when configured as output, so group valid
+ combinations as:
+ 
+diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
+index 84ce2322fdba..8720970393fb 100644
+--- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
++++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
+@@ -297,9 +297,6 @@ gpio_request()前将这类细节配置好，例如使用引脚控制子系统的
+ 	* GPIOF_OPEN_DRAIN	- gpio引脚为开漏信号
+ 	* GPIOF_OPEN_SOURCE	- gpio引脚为源极开路信号
+ 
+-	* GPIOF_EXPORT_DIR_FIXED	- 将 gpio 导出到 sysfs，并保持方向
+-	* GPIOF_EXPORT_DIR_CHANGEABLE	- 同样是导出, 但允许改变方向
+-
+ 因为 GPIOF_INIT_* 仅有在配置为输出的时候才存在,所以有效的组合为:
+ 
+ 	* GPIOF_IN		- 配置为输入
+diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/translations/zh_TW/gpio.txt
+index 62e560ffe628..e0b96d897fa7 100644
+--- a/Documentation/translations/zh_TW/gpio.txt
++++ b/Documentation/translations/zh_TW/gpio.txt
+@@ -303,9 +303,6 @@ gpio_request()前將這類細節配置好，例如使用 pinctrl 子系統的映
+ 	* GPIOF_OPEN_DRAIN	- gpio引腳爲開漏信號
+ 	* GPIOF_OPEN_SOURCE	- gpio引腳爲源極開路信號
+ 
+-	* GPIOF_EXPORT_DIR_FIXED	- 將 gpio 導出到 sysfs，並保持方向
+-	* GPIOF_EXPORT_DIR_CHANGEABLE	- 同樣是導出, 但允許改變方向
+-
+ 因爲 GPIOF_INIT_* 僅有在配置爲輸出的時候才存在,所以有效的組合爲:
+ 
+ 	* GPIOF_IN		- 配置爲輸入
+diff --git a/drivers/gpio/gpiolib-legacy.c b/drivers/gpio/gpiolib-legacy.c
+index 028f7f504209..969f737012f6 100644
+--- a/drivers/gpio/gpiolib-legacy.c
++++ b/drivers/gpio/gpiolib-legacy.c
+@@ -50,12 +50,6 @@ int gpio_request_one(unsigned gpio, unsigned long flags, const char *label)
+ 	if (err)
+ 		goto free_gpio;
+ 
+-	if (flags & GPIOF_EXPORT) {
+-		err = gpiod_export(desc, flags & GPIOF_EXPORT_CHANGEABLE);
+-		if (err)
+-			goto free_gpio;
+-	}
+-
+ 	return 0;
+ 
+  free_gpio:
+diff --git a/include/linux/gpio.h b/include/linux/gpio.h
+index 8528353e073b..86963a00b018 100644
+--- a/include/linux/gpio.h
++++ b/include/linux/gpio.h
+@@ -38,11 +38,6 @@ struct device;
+ /* Gpio pin is open source */
+ #define GPIOF_OPEN_SOURCE	(1 << 4)
+ 
+-#define GPIOF_EXPORT		(1 << 5)
+-#define GPIOF_EXPORT_CHANGEABLE	(1 << 6)
+-#define GPIOF_EXPORT_DIR_FIXED	(GPIOF_EXPORT)
+-#define GPIOF_EXPORT_DIR_CHANGEABLE (GPIOF_EXPORT | GPIOF_EXPORT_CHANGEABLE)
+-
+ /**
+  * struct gpio - a structure describing a GPIO with configuration
+  * @gpio:	the GPIO number
+-- 
+2.40.0.1.gaa8946217a0b
 
-I am inline with the thought of each smem has its own minidump instance, 
-which is basically one at this moment as SMEM has only instance in DT.
-In that way, Client driver calling qcom_apss_minidump_region_register()
-will also need to know the instance it need to register with right?
-
-However, I do have a use case [1] where SMEM or similar region 
-supporting memory mapped region could be virtualized and guest vm does
-not have direct access to it, that way it will only have one backend at 
-a time.But even if they exist together that can be done with below approach.
-
-File scope variable is still needed in minidump core but can be avoided 
-in backend drivers where each backend register with core and get added 
-itself in the list and for list protection, list mutex would be needed.
-
-
-#define SMEM       0;
-#define MMIO       1;
-or enum may be..
-
-And client can call this to the instance it need to register with..
-int qcom_apss_minidump_region_register(region, SMEM);
-int qcom_apss_minidump_region_register(region, MMIO);
-
-Do you agree with this approach?
-
-[1]
-
-            +----------------+
-            |                |
-            | client A-Z     |
-            +-----+----------+
-                  |
-                  |
-                  |
-                  |
-                  v
-       +------------------------+
-       |                        |                other backends
-       |    minidump core       +----------------------------+
-       |                        |                            |
-       +--+---------------------+                            |
-          |                     |                            |
-          |                     |                            |
-          |                     |                            |e.g,
-          |                     |                            |gunyah-rm
-+--------v------+        +-----v-----------+             +--+---------+
-|               |        |                 |             |            |
-|minidump_smem  |        | minidump_mmio   |             | .....      |
-+---------------+        +-----------------+             +------------+
-  SMEM backend              mmio backend where
-                            smem may be virtualized
-
-
--- Mukesh
-> 
-> Best regards,
-> Krzysztof
-> 
