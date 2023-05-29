@@ -2,112 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BF4C77B7A
-	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 10:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B4AC77B7E
+	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 11:38:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229626AbjE2KzP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 May 2023 06:55:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44280 "EHLO
+        id S231538AbjE2LiR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 May 2023 07:38:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229597AbjE2KzO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 06:55:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F34ACB2
-        for <linux-doc@vger.kernel.org>; Mon, 29 May 2023 03:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685357673;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=grOKklWJfgNBidyEYtxttC3+almW1iCc1sWq6FJDGw4=;
-        b=C0p2XEjdtruSqBFSNJLKPG2ESt0a513r3d166km8d7U9Xp0baQkuwhwjT3q+u9ajksDxNs
-        sZsELAX3KtU+d0HWuhYIIi3ym8RHkQrMk87Js2ft6RZalo+eh0r62aZW40KH2JB/QmwS1/
-        eShS8GPthdCDFR029aTT0oZWtRVK/1c=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-251-PSYe7164Ol6_AZgU6dIyQg-1; Mon, 29 May 2023 06:54:31 -0400
-X-MC-Unique: PSYe7164Ol6_AZgU6dIyQg-1
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-39a013fbef3so1314464b6e.3
-        for <linux-doc@vger.kernel.org>; Mon, 29 May 2023 03:54:31 -0700 (PDT)
+        with ESMTP id S231503AbjE2LiP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 07:38:15 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3D1D9
+        for <linux-doc@vger.kernel.org>; Mon, 29 May 2023 04:37:50 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-565c9109167so17781237b3.2
+        for <linux-doc@vger.kernel.org>; Mon, 29 May 2023 04:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685360267; x=1687952267;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PoBEV3k+mp3G2hTQQ0To+BOyb5fQb9lyHNZaR49GYHU=;
+        b=ut5MJvhBhJKojVYlk2cxRjOBoW1KLjBUrhQf1nfrqlb34LZjvbT0KUmUhgyl3FDl3u
+         rRcgpULH9udsxqIKaA7j8Y/klwMa3AqYLzl/SesP0ZCreRyYQx4L2Eg+3Ec4SeujSuAD
+         Lo85iIXK834uNNVUiNvGVnr5N7wA1x65pJseRkGSNdapGczC8O+NlXa1jULtHIf6yhFl
+         dP9Iq4LN0pMHtC904YvXGjM1eNbA7voRcexFJyBaN59PmGOraJQdWOCdivlrXEEavhuK
+         FkwqgcPby0CpxSRWzsgTP9stNRA4+P7mXTwYpinhaXFhMlaa7usm06hZASQ7VcA2pKjM
+         kb/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685357671; x=1687949671;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=grOKklWJfgNBidyEYtxttC3+almW1iCc1sWq6FJDGw4=;
-        b=MimUq8UC5kfdXijb/LVquZEy9JT1Hz2J4tEhpztMwefeFIUz4X+A/HUmYmUB8kx00T
-         shbxhwvZjhj8ufkwOAzTGbAK7PhD/szwdJ4w/APJ+VJAuDT4meDHhnBfWfQOrVlOrLK4
-         ocgW7Ad8pHCKlVzxHjXbVRJriR1cn30e0ot6tiTL7tcVEqH6HeU3NpGb3P4JCs7pSF9u
-         HouhVuIU4468wVow9bJl1ia3ksq/XIGpIJFYJwW9xzMNc3Ae8lE933+ObqbpDWHQJHGL
-         EA8ejQfI6YFHq4x0cipdejhrtZpQxMp9aHIUJAUh56R2nlyEKvng4fOI5qqa5Vkcef3E
-         nafA==
-X-Gm-Message-State: AC+VfDxtqqoWSJxCOLcwr/8JUONOtSAIIJkXz+G4PkBeuQG6RMPIhBRP
-        kNFJKkBrlB7O4qR7ciHv+LAjLcYhglZAPfgYFte916AQkEgZVwSo9IRJ/i1G6h+nryMK09Spw7Z
-        VkouXVXuROwPrNm8+L3rBHMowbY5yoPhMaKJ6u6A1/uxM
-X-Received: by 2002:a05:6808:86:b0:396:fa0:f580 with SMTP id s6-20020a056808008600b003960fa0f580mr4390707oic.59.1685357670957;
-        Mon, 29 May 2023 03:54:30 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7u5ysTTtG8MXesoOo2QoUcVxebdvNNKFiSnguqjoHBhsq433S290gsCzHsOPlsqvBCkHtRBYqSXIVW//gZ4iI=
-X-Received: by 2002:a05:6808:86:b0:396:fa0:f580 with SMTP id
- s6-20020a056808008600b003960fa0f580mr4390704oic.59.1685357670767; Mon, 29 May
- 2023 03:54:30 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685360267; x=1687952267;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PoBEV3k+mp3G2hTQQ0To+BOyb5fQb9lyHNZaR49GYHU=;
+        b=BAJNqS4MH3fuZj/yl36kfoQ+588+t+bLZErLMuRG2i5c6F94XKrLi740CAXK7ZUInT
+         ScYur7SWCvvFaKNLQ9GVDBDO41SEXSqKM+v3iIxBZxXl9XmTyaMtCaGDyCeM3ktBBNP7
+         ww6g6GVYP5ax/OiM445aXuMYsuNn7AOlDj0o6qD1uAvbgYAt77FLPPnKzXZBwNAnKXab
+         3M6PgFwTf9tp7qlvLQ57f0QhpjUEN7SDENxTOW6+IlGPUd4LmMl8qD8cggszmG8JP6uB
+         ow5lF+fVlSbWuShgAYgiUP3FnltZ5TcwVOqq0TuySTwo5e2lgU98k3xHFh0TthDT2FHv
+         FdjA==
+X-Gm-Message-State: AC+VfDztgnKLRfRnwH1kvFHeFgCXeioCzP8I1MDNwfNyjdWe5l2EWlG3
+        01KCdxvFYYNdjtAmT6P6mlhGIbBRc4MEbSpHpzRDHg==
+X-Google-Smtp-Source: ACHHUZ5p2vilmWRQxNQEN95NJfAxWvpExjUU9mxsfIG0POxhZXTmyvfucsmHflY2abuz5V35HiQwG0iSAhMreQBIubE=
+X-Received: by 2002:a0d:e084:0:b0:565:f045:18c4 with SMTP id
+ j126-20020a0de084000000b00565f04518c4mr5503703ywe.4.1685360267197; Mon, 29
+ May 2023 04:37:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230425072644.868535-1-costa.shul@redhat.com>
-In-Reply-To: <20230425072644.868535-1-costa.shul@redhat.com>
-From:   Costa Shulyupin <costa.shul@redhat.com>
-Date:   Mon, 29 May 2023 13:54:19 +0300
-Message-ID: <CADDUTFyAFaGrmQCa8NyUTq2ktwFvUX-SC-Hg5faNpH6-ozWveA@mail.gmail.com>
-Subject: Re: [PATCH] docs: split subtitle of Submitting patches
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20230528142127.37330-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230528142127.37330-1-andriy.shevchenko@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 29 May 2023 13:37:36 +0200
+Message-ID: <CACRpkdYDtVy3gJYnD-y-fzSQEBWJJRU2QBYMoUzK7y1yTK33qQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] gpiolib: Kill unused GPIOF_EXPORT and Co
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kind reminder
+On Sun, May 28, 2023 at 4:21=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-On Tue, 25 Apr 2023 at 10:27, Costa Shulyupin <costa.shul@redhat.com> wrote:
+> There is no use of the  GPIOF_EXPORT in the kernel. Kill it for good.
 >
-> Motivation:
->
-> The original long page title in the left Content pane spans three lines:
->
-> Submitting patches: the essential
->   guide to getting your code into
->   the kernel
->
-> Issues:
-> - It is not readable.
-> - It further inflates already overpopulated Contents pane.
->
-> The solution:
-> - Split the long title to title and subtitle.
-> - Vertical bar '|' in Sphinx-doc introduces empty line to
->   make the subtitle closer to the title than to the following text.
->
->
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-> ---
->  Documentation/process/submitting-patches.rst | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 7a5619fecb38..051eba1bbc7f 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -1,7 +1,10 @@
->  .. _submittingpatches:
->
-> -Submitting patches: the essential guide to getting your code into the kernel
-> -============================================================================
-> +Submitting patches
-> +==================
-> +The essential guide to getting your code into the kernel
-> +
-> +|
->
->  For a person or company who wishes to submit a change to the Linux
->  kernel, the process can sometimes be daunting if you're not familiar
-> --
-> 2.40.0
->
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
+That's wonderful.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
