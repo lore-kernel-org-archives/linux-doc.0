@@ -2,78 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46FE5C7EE2F
-	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 14:49:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4795C77B7A
+	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 14:52:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbjE2Otr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 May 2023 10:49:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44656 "EHLO
+        id S229773AbjE2OwU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 May 2023 10:52:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbjE2Otp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 10:49:45 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60184E5;
-        Mon, 29 May 2023 07:49:41 -0700 (PDT)
-Received: from tp8.. (mdns.lwn.net [45.79.72.68])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DC85E5CC;
-        Mon, 29 May 2023 14:49:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DC85E5CC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1685371780; bh=qNswSaB1rsYK39qc93wLacaWCqvSv3BALS+O8tlq2Iw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZO4v+5KcvByaNdUK7MWOpCXLrPFFf2KtlOumFM8uDXxuDbvQ4FJbKeuAcHsrod2rS
-         lS8yzaVHlMiRHiGIfoYrY7JC+Fbietmb0KFcqnfe6KWtzXwUgxbo1QAd4c8JTkwnpO
-         ZIDSfl++VeCIyWgFbe74fPfcgZ2XQpMLFu2c+ZI+zEdeKpBPA1au2+rF6Ev1p1h8SV
-         lymNucxBNM5B1WRDWKFYKDBOIRyY9ENCOWJ6tNPZYStKpH5JpbXfDrC4C1g4aa6uCj
-         BGJLGi0CAd+RvrVtV3AX9EkF11j4LO9SM4SN4drTnQkpeOGtOWmHGv19Jf71huM/YX
-         qm9vVjDB43QDQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        with ESMTP id S229689AbjE2OwT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 10:52:19 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D28FDEA;
+        Mon, 29 May 2023 07:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=oPDTzj8X9h6ry+BUfp74vEAP/HJy+DV44qS7NxZNi/8=; b=DW0CDPZ88Mk8//oqYTW32FSDGa
+        BRDRM2wVEabL4p6V9HNDVxmqOl1vFdBf+N5v7ZEFlLiueMwDQT20guuGrRfYwxuc/nfTGUmhKpP7J
+        xgA8ijAk0izy+t+kW4jS3/1M9DY8tcY/8v5E8K0BC9v9d73eO/UAP7LF7HWPBZglIq/Q=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1q3eEA-00EEhk-J0; Mon, 29 May 2023 16:52:06 +0200
+Date:   Mon, 29 May 2023 16:52:06 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Christian Marangi <ansuelsmth@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 7/7] dt-bindings: Update Documentation/arm references
-Date:   Mon, 29 May 2023 08:48:56 -0600
-Message-Id: <20230529144856.102755-8-corbet@lwn.net>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230529144856.102755-1-corbet@lwn.net>
-References: <20230529144856.102755-1-corbet@lwn.net>
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-leds@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v3 03/13] Documentation: leds: leds-class:
+ Document new Hardware driven LEDs APIs
+Message-ID: <8f171eaa-86c9-42de-88d9-a0dbc9baeb7f@lunn.ch>
+References: <20230527112854.2366-1-ansuelsmth@gmail.com>
+ <20230527112854.2366-4-ansuelsmth@gmail.com>
+ <ZHRd5wDnMrWZlwrd@debian.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZHRd5wDnMrWZlwrd@debian.me>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Arm documentation has moved to Documentation/arch/arm; update one
-devicetree reference to match.
+On Mon, May 29, 2023 at 03:10:15PM +0700, Bagas Sanjaya wrote:
+> On Sat, May 27, 2023 at 01:28:44PM +0200, Christian Marangi wrote:
+> > +     - hw_control_set:
+> > +                activate hw control. LED driver will use the provided
+> > +                flags passed from the supported trigger, parse them to
+> > +                a set of mode and setup the LED to be driven by hardware
+> > +                following the requested modes.
+> > +
+> > +                Set LED_OFF via the brightness_set to deactivate hw control.
+> > +
+> > +                Return 0 on success, a negative error number on flags apply
+> > +                fail.
+> 		   "... on failing to apply flags."
+> 
+> > +    - hw_control_get_device:
+> > +                return the device associated with the LED driver in
+> > +                hw control. A trigger might use this to match the
+> > +                returned device from this function with a configured
+> > +                device for the trigger as the source for blinking
+> > +                events and correctly enable hw control.
+> > +                (example a netdev trigger configured to blink for a
+> > +                particular dev match the returned dev from get_device
+> > +                to set hw control)
+> > +
+> > +                Return a device or NULL if nothing is currently attached.
+> Returns a device name?
 
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: devicetree@vger.kernel.org
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/devicetree/bindings/arm/xen.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+How about "Returns a pointer to a struct device ..."
 
-diff --git a/Documentation/devicetree/bindings/arm/xen.txt b/Documentation/devicetree/bindings/arm/xen.txt
-index 61d77acbeb5e..f925290d4641 100644
---- a/Documentation/devicetree/bindings/arm/xen.txt
-+++ b/Documentation/devicetree/bindings/arm/xen.txt
-@@ -56,7 +56,7 @@ hypervisor {
- };
- 
- The format and meaning of the "xen,uefi-*" parameters are similar to those in
--Documentation/arm/uefi.rst, which are provided by the regular UEFI stub. However
-+Documentation/arch/arm/uefi.rst, which are provided by the regular UEFI stub. However
- they differ because they are provided by the Xen hypervisor, together with a set
- of UEFI runtime services implemented via hypercalls, see
- http://xenbits.xen.org/docs/unstable/hypercall/x86_64/include,public,platform.h.html.
--- 
-2.40.1
-
+    Andrew
