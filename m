@@ -2,195 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DCAC7EE29
-	for <linux-doc@archiver.kernel.org>; Sun, 28 May 2023 21:19:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CB2C77B7A
+	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 07:08:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbjE1VTn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 May 2023 17:19:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43970 "EHLO
+        id S230117AbjE2HI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 May 2023 03:08:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjE1VTm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 May 2023 17:19:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9DB4C6
-        for <linux-doc@vger.kernel.org>; Sun, 28 May 2023 14:18:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685308736;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Um1A7pr7TdEip1EPUsNyisBw5ieK06CvDe/AUKbysUg=;
-        b=gMGd50ofVJzEEuqVwJzCObnJUOJ4v9788a/oVy2Cp09L29lHUAN5E8j6DpwdI70yAdnlc2
-        pnpG5TgwqJxpV5Z2OvOmfi+TLmT6w5LRIUGI349G5AXkmoAxraJObyqdbYUAgknav1Vsl/
-        1IGrn76Qbgyv7Vs/QMleGldfvEvQ2Fk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-670-QgvzmYV3MZCBaFvfULKyeQ-1; Sun, 28 May 2023 17:18:53 -0400
-X-MC-Unique: QgvzmYV3MZCBaFvfULKyeQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7EDA800BFF;
-        Sun, 28 May 2023 21:18:51 +0000 (UTC)
-Received: from [10.22.16.37] (unknown [10.22.16.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A48E4492B0A;
-        Sun, 28 May 2023 21:18:50 +0000 (UTC)
-Message-ID: <18793f4a-fd39-2e71-0b77-856afb01547b@redhat.com>
-Date:   Sun, 28 May 2023 17:18:50 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
-Content-Language: en-US
-To:     Tejun Heo <tj@kernel.org>
-Cc:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S229626AbjE2HIz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 03:08:55 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 730DCAD
+        for <linux-doc@vger.kernel.org>; Mon, 29 May 2023 00:08:54 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3f6e68cc738so19035115e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 29 May 2023 00:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1685344133; x=1687936133;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=J9yQZI29FBb5uk90C946uFQGVpaFZWwP+axkfkJPRmA=;
+        b=OGzmkwym+ds5lNbK7+lHCLxUguUfy0QTJ/UI2yLcw74+JBxqixt+zmx3lNyihLZ/qW
+         Rrl7u4zd2ZxT7qCL27Mau576RJoJ1CiSa0kWXOUmjHxKhQMPTfGNSIi0byquj1Nki8n7
+         cCB+xb/M+P51G/dtVskzHEkGHBRc60UcS6xABlKWzdN9VqozEbcdLXxh/0kiL9B4u4h8
+         S557VMaZShp76FvJQOnFzyQD/SYCQVb+/87pTopt7EtnK3a3prWQRrU/9gyxDitIX4ea
+         07jX2bKWoC2ai9FXbUtUjmVHAPupvol8Q7kZEcQ8Ii51pvvXXPZUzSPTvb6/hRgb3eYL
+         SuDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685344133; x=1687936133;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=J9yQZI29FBb5uk90C946uFQGVpaFZWwP+axkfkJPRmA=;
+        b=aquCkgej/J4T1Ht39Ll4WsaxuiAkT5e8XXhsM+9UvhwBjVsgExORn7s0rq5vfI/kjN
+         mKtX0TVaE2IAqFwX1cnNpWpx2D96maQYv8MuDtR/gu1xAk3LiO3GM3uQ8MpWh/3PJ+NA
+         MH+uFZNCWFuXx8FAtxSiekNhsXoRVlkeaPSW920xwqEfOXhXSE464TSnckIqOo7hbdLm
+         LKsEjTAiJwpoftHYdmb8mEb6b8s0YhrhI8A1LSdCobRFoj4lBwt5LpuGwO28Q4Mj1jKb
+         c6l0QtDVMUwde1An4q2KTwSK9OpjIO5siuDYXFutmawnGZp5kE6GDl9ng3bPj6lKuS5e
+         6BNg==
+X-Gm-Message-State: AC+VfDyVt60FCvWBebc3zy02QWFOuV4g70SS3UouEpHwiTFYfegrmK1E
+        /AGeEG91HB6CBsxwMtt65qjTow==
+X-Google-Smtp-Source: ACHHUZ73LyzFhpd/6+sfi011A/EFvj9Fd34HsRwL8GCzpeQu6/GsXCR3FkDg7Ni/nfr2tAz4KOAc6A==
+X-Received: by 2002:a1c:f616:0:b0:3f6:82a:5d1b with SMTP id w22-20020a1cf616000000b003f6082a5d1bmr9377055wmc.34.1685344132851;
+        Mon, 29 May 2023 00:08:52 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id m17-20020a056000009100b0030ae973c2e7sm3092863wrx.83.2023.05.29.00.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 May 2023 00:08:52 -0700 (PDT)
+Date:   Mon, 29 May 2023 09:08:51 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Haibo Xu <xiaobo55x@gmail.com>
+Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
+        oliver.upton@linux.dev, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
         linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Ryan Phillips <rphillips@redhat.com>,
-        Brent Rowsell <browsell@redhat.com>,
-        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
-References: <ZDmOjeBVsIcgSLIV@slm.duckdns.org>
- <60ec12dc-943c-b8f0-8b6f-97c5d332144c@redhat.com>
- <46d26abf-a725-b924-47fa-4419b20bbc02@redhat.com>
- <jqkf7jkuyxqiupmxmdbmpnbpojub2pjsz3oogwncmwqdghlsgk@phsqzirmmlyl>
- <f2bd7b1e-190e-1d08-f085-b4cae36fb5be@redhat.com>
- <ZFGOTHQj3k5rzmyR@blackbook>
- <deb7b684-3d7c-b3ae-7b36-5b7ba2dd8001@redhat.com>
- <ZFUo5IYAIwTEKR4_@slm.duckdns.org>
- <759603dd-7538-54ad-e63d-bb827b618ae3@redhat.com>
- <405b2805-538c-790b-5bf8-e90d3660f116@redhat.com>
- <ZGvHUjOCjwat91Gq@slm.duckdns.org>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <ZGvHUjOCjwat91Gq@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v2 11/11] KVM: riscv: selftests: Add get-reg-list test
+Message-ID: <20230529-7b3e41e6aca55f9e90dd6cd3@orel>
+References: <cover.1684999824.git.haibo1.xu@intel.com>
+ <da390e6200e838fce320a2a43b2f87951b4e0bbb.1684999824.git.haibo1.xu@intel.com>
+ <20230525-2bab5376987792eab73507ac@orel>
+ <CAJve8o=5ji5D-S8k+GaGd7sH7KXNWxDaWhD3jyxtHizKSMtjbA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+In-Reply-To: <CAJve8o=5ji5D-S8k+GaGd7sH7KXNWxDaWhD3jyxtHizKSMtjbA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/22/23 15:49, Tejun Heo wrote:
-> Hello, Waiman.
-
-Sorry for the late reply as I had been off for almost 2 weeks due to PTO.
-
-
+On Sat, May 27, 2023 at 12:39:57PM +0800, Haibo Xu wrote:
+> On Fri, May 26, 2023 at 1:18 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+> >
+> > On Thu, May 25, 2023 at 03:38:35PM +0800, Haibo Xu wrote:
+...
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.a6),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.a7),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s2),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s3),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s4),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s5),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s6),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s7),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s8),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s9),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s10),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s11),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.t3),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.t4),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.t5),
+> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.t6),
+> >
+> > ...all the above would just be indices rather than named registers. I
+> > guess that's better for these registers.
+> >
+> 
+> You mean to show it as KVM_REG_RISCV_CORE_REG(regs.regs[0]) ...
+> KVM_REG_RISCV_CORE_REG(regs.regs[31])?
 >
-> On Sun, May 07, 2023 at 09:03:44PM -0400, Waiman Long wrote:
-> ...
->>    cpuset.cpus.reserve
->>      A read-write multiple values file which exists only on root
->>      cgroup.
->>
->>      It lists all the CPUs that are reserved for adjacent and remote
->>      partitions created in the system.  See the next section for
->>      more information on what an adjacent or remote partitions is.
->>
->>      Creation of adjacent partition does not require touching this
->>      control file as CPU reservation will be done automatically.
->>      In order to create a remote partition, the CPUs needed by the
->>      remote partition has to be written to this file first.
->>
->>      A "+" prefix can be used to indicate a list of additional
->>      CPUs that are to be added without disturbing the CPUs that are
->>      originally there.  For example, if its current value is "3-4",
->>      echoing ""+5" to it will change it to "3-5".
->>
->>      Once a remote partition is destroyed, its CPUs have to be
->>      removed from this file or no other process can use them.  A "-"
->>      prefix can be used to remove a list of CPUs from it.  However,
->>      removing CPUs that are currently used in existing partitions
->>      may cause those partitions to become invalid.  A single "-"
->>      character without any number can be used to indicate removal
->>      of all the free CPUs not allocated to any partitions to avoid
->>      accidental partition invalidation.
-> Why is the syntax different from .cpus? Wouldn't it be better to keep them
-> the same?
 
-Unlike cpuset.cpus, cpuset.cpus.reserve is supposed to contains CPUs 
-that are used in multiple partitions. Also automatic reservation of 
-adjacent partitions can happen in parallel. That is why I think it will 
-be safer if we allow incremental increase or decrease of reserve CPUs to 
-be used for remote partitions. I will include this reasoning into the 
-doc file.
+I'm OK with these registers using their names in this list, it does look
+better. However the original idea for these lists was that they would be
+generated from print_reg(). In this case, print_reg() is generating them
+with their number instead of name. Either print_reg() could learn how to
+generate their names by handling the offset ranges of each register type,
+e.g.
 
+switch (reg_off) {
+case 10 ... 17:
+   strdup_printf("... KVM_REG_RISCV_CORE_REG(regs.a%d),", reg_off - 10);
 
->>    cpuset.cpus.partition
->>      A read-write single value file which exists on non-root
->>      cpuset-enabled cgroups.  This flag is owned by the parent cgroup
->>      and is not delegatable.
->>
->>      It accepts only the following input values when written to.
->>
->>        ==========    =====================================
->>        "member"    Non-root member of a partition
->>        "root"    Partition root
->>        "isolated"    Partition root without load balancing
->>        ==========    =====================================
->>
->>      A cpuset partition is a collection of cgroups with a partition
->>      root at the top of the hierarchy and its descendants except
->>      those that are separate partition roots themselves and their
->>      descendants.  A partition has exclusive access to the set of
->>      CPUs allocated to it.  Other cgroups outside of that partition
->>      cannot use any CPUs in that set.
->>
->>      There are two types of partitions - adjacent and remote.  The
->>      parent of an adjacent partition must be a valid partition root.
->>      Partition roots of adjacent partitions are all clustered around
->>      the root cgroup.  Creation of adjacent partition is done by
->>      writing the desired partition type into "cpuset.cpus.partition".
->>
->>      A remote partition does not require a partition root parent.
->>      So a remote partition can be formed far from the root cgroup.
->>      However, its creation is a 2-step process.  The CPUs needed
->>      by a remote partition ("cpuset.cpus" of the partition root)
->>      has to be written into "cpuset.cpus.reserve" of the root
->>      cgroup first.  After that, "isolated" can be written into
->>      "cpuset.cpus.partition" of the partition root to form a remote
->>      isolated partition which is the only supported remote partition
->>      type for now.
->>
->>      All remote partitions are terminal as adjacent partition cannot
->>      be created underneath it.
-> Can you elaborate this extra restriction a bit further?
+or we can use the numbers here in this list, or we can leave it as you
+have it (i.e. done manually).
 
-Are you referring to the fact that only remote isolated partitions are 
-supported? I do not preclude the support of load balancing remote 
-partitions. I keep it to isolated partitions for now for ease of 
-implementation and I am not currently aware of a use case where such a 
-remote partition type is needed.
-
-If you are talking about remote partition being terminal. It is mainly 
-because it can be more tricky to support hierarchical adjacent 
-partitions underneath it especially if it is not isolated. We can 
-certainly support it if a use case arises. I just don't want to 
-implement code that nobody is really going to use.
-
-BTW, with the current way the remote partition is created, it is not 
-possible to have another remote partition underneath it.
-
->
-> In general, I think it'd be really helpful if the document explains the
-> reasoning behind the design decisions. ie. Why is reserving for? What
-> purpose does it serve that the regular isolated ones cannot? That'd help
-> clarifying the design decisions.
-
-I understand your concern. If you think it is better to support both 
-types of remote partitions or hierarchical adjacent partitions 
-underneath it for symmetry purpose, I can certain do that. It just needs 
-to take a bit more time.
-
-Cheers,
-Longman
-
+Thanks,
+drew
