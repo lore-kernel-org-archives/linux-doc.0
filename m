@@ -2,68 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD2DCC7EE2C
-	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 17:07:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B58C7EE23
+	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 22:16:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjE2RHu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 May 2023 13:07:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48946 "EHLO
+        id S229572AbjE2WQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 May 2023 18:16:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjE2RHt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 13:07:49 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D57DBE;
-        Mon, 29 May 2023 10:07:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=ctAn0AM1Vo5Aq8eCIhGC4WHg91BjrPdeqG9a05gQ9v4=; b=tk43u7gI1eHeQ16EAYoaZmTk70
-        GAsIPIOCiKZFDwokn88VKJslyoyuNaZRZ+efWs/zqHnAE6+5BPVFpfcU52Yo/0IIHOPdxi9spogjr
-        7SwEN1SxrWEF8HcwAuftKT1+aGJk/ECacrLHJBXjdrstJvqWQTEXcRYCV4zFNgra2HO4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1q3gLI-00EFbZ-E3; Mon, 29 May 2023 19:07:36 +0200
-Date:   Mon, 29 May 2023 19:07:36 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Christian Marangi <ansuelsmth@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-leds@vger.kernel.org,
+        with ESMTP id S229899AbjE2WQS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 18:16:18 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E5B11B;
+        Mon, 29 May 2023 15:16:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685398565; x=1716934565;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0gSXcrJw4rVVIbYtKUetrZyc67LpvOlFnbAG461PqkA=;
+  b=WKhKI2X0NJfp0KmVzaCuY3wZzY/avxQcjX4jm2fGTuOh+g7D6+iL9cSa
+   saIWd3iuDLY+XBJAHBgPBSL0NLYUXpu/jUNffS7DtjTWvFMPVW5Ugl/Rw
+   NYHyfbZBU48dZWLFlk7RrodppDAcxHGJv8q06fH9fOZa46rl9NGkrQkGe
+   Rw4n7OJVP4uNeTXJ3b0nxKUOql32q87w0JxwVFjx0I6GxmkrogegrODQM
+   +t4vhd6sHWdtkfx9OYfpro3jb9PYuWXtHzx5mJAylbM7xXgWjVVdoK1bh
+   RwW0PDOGcNGjoIAmyCUNvA/yIAgeh7NkEm3gAn2hiniUag3OM7fsNUq9a
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="353615846"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="353615846"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 15:14:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="700382378"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="700382378"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga007.jf.intel.com with ESMTP; 29 May 2023 15:14:45 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id E63AC24F; Tue, 30 May 2023 01:14:49 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v4 03/13] Documentation: leds: leds-class:
- Document new Hardware driven LEDs APIs
-Message-ID: <dc8c8a5b-8922-4c0e-95d8-7914ea6272d3@lunn.ch>
-References: <20230529163243.9555-1-ansuelsmth@gmail.com>
- <20230529163243.9555-4-ansuelsmth@gmail.com>
+        linux-doc-tw-discuss@lists.sourceforge.net
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>
+Subject: [PATCH v2 1/2] gpiolib: Kill unused GPIOF_EXPORT and Co
+Date:   Tue, 30 May 2023 01:14:45 +0300
+Message-Id: <20230529221446.87785-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230529163243.9555-4-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 29, 2023 at 06:32:33PM +0200, Christian Marangi wrote:
-> Document new Hardware driven LEDs APIs.
-> 
-> Some LEDs can be programmed to be driven by hardware. This is not
-> limited to blink but also to turn off or on autonomously.
-> To support this feature, a LED needs to implement various additional
-> ops and needs to declare specific support for the supported triggers.
-> 
-> Add documentation for each required value and API to make hw control
-> possible and implementable by both LEDs and triggers.
-> 
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+There is no use of the GPIOF_EXPORT in the kernel. Kill it for good.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+---
+v2: added tag (Linus)
+ Documentation/driver-api/gpio/legacy.rst                    | 3 ---
+ Documentation/translations/zh_CN/driver-api/gpio/legacy.rst | 3 ---
+ Documentation/translations/zh_TW/gpio.txt                   | 3 ---
+ drivers/gpio/gpiolib-legacy.c                               | 6 ------
+ include/linux/gpio.h                                        | 5 -----
+ 5 files changed, 20 deletions(-)
 
-    Andrew
+diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
+index 78372853c6d4..c5f98a78499f 100644
+--- a/Documentation/driver-api/gpio/legacy.rst
++++ b/Documentation/driver-api/gpio/legacy.rst
+@@ -322,9 +322,6 @@ where 'flags' is currently defined to specify the following properties:
+ 	* GPIOF_OPEN_DRAIN	- gpio pin is open drain type.
+ 	* GPIOF_OPEN_SOURCE	- gpio pin is open source type.
+ 
+-	* GPIOF_EXPORT_DIR_FIXED	- export gpio to sysfs, keep direction
+-	* GPIOF_EXPORT_DIR_CHANGEABLE	- also export, allow changing direction
+-
+ since GPIOF_INIT_* are only valid when configured as output, so group valid
+ combinations as:
+ 
+diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
+index 84ce2322fdba..8720970393fb 100644
+--- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
++++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
+@@ -297,9 +297,6 @@ gpio_request()前将这类细节配置好，例如使用引脚控制子系统的
+ 	* GPIOF_OPEN_DRAIN	- gpio引脚为开漏信号
+ 	* GPIOF_OPEN_SOURCE	- gpio引脚为源极开路信号
+ 
+-	* GPIOF_EXPORT_DIR_FIXED	- 将 gpio 导出到 sysfs，并保持方向
+-	* GPIOF_EXPORT_DIR_CHANGEABLE	- 同样是导出, 但允许改变方向
+-
+ 因为 GPIOF_INIT_* 仅有在配置为输出的时候才存在,所以有效的组合为:
+ 
+ 	* GPIOF_IN		- 配置为输入
+diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/translations/zh_TW/gpio.txt
+index 62e560ffe628..e0b96d897fa7 100644
+--- a/Documentation/translations/zh_TW/gpio.txt
++++ b/Documentation/translations/zh_TW/gpio.txt
+@@ -303,9 +303,6 @@ gpio_request()前將這類細節配置好，例如使用 pinctrl 子系統的映
+ 	* GPIOF_OPEN_DRAIN	- gpio引腳爲開漏信號
+ 	* GPIOF_OPEN_SOURCE	- gpio引腳爲源極開路信號
+ 
+-	* GPIOF_EXPORT_DIR_FIXED	- 將 gpio 導出到 sysfs，並保持方向
+-	* GPIOF_EXPORT_DIR_CHANGEABLE	- 同樣是導出, 但允許改變方向
+-
+ 因爲 GPIOF_INIT_* 僅有在配置爲輸出的時候才存在,所以有效的組合爲:
+ 
+ 	* GPIOF_IN		- 配置爲輸入
+diff --git a/drivers/gpio/gpiolib-legacy.c b/drivers/gpio/gpiolib-legacy.c
+index 028f7f504209..969f737012f6 100644
+--- a/drivers/gpio/gpiolib-legacy.c
++++ b/drivers/gpio/gpiolib-legacy.c
+@@ -50,12 +50,6 @@ int gpio_request_one(unsigned gpio, unsigned long flags, const char *label)
+ 	if (err)
+ 		goto free_gpio;
+ 
+-	if (flags & GPIOF_EXPORT) {
+-		err = gpiod_export(desc, flags & GPIOF_EXPORT_CHANGEABLE);
+-		if (err)
+-			goto free_gpio;
+-	}
+-
+ 	return 0;
+ 
+  free_gpio:
+diff --git a/include/linux/gpio.h b/include/linux/gpio.h
+index 8528353e073b..86963a00b018 100644
+--- a/include/linux/gpio.h
++++ b/include/linux/gpio.h
+@@ -38,11 +38,6 @@ struct device;
+ /* Gpio pin is open source */
+ #define GPIOF_OPEN_SOURCE	(1 << 4)
+ 
+-#define GPIOF_EXPORT		(1 << 5)
+-#define GPIOF_EXPORT_CHANGEABLE	(1 << 6)
+-#define GPIOF_EXPORT_DIR_FIXED	(GPIOF_EXPORT)
+-#define GPIOF_EXPORT_DIR_CHANGEABLE (GPIOF_EXPORT | GPIOF_EXPORT_CHANGEABLE)
+-
+ /**
+  * struct gpio - a structure describing a GPIO with configuration
+  * @gpio:	the GPIO number
+-- 
+2.40.0.1.gaa8946217a0b
+
