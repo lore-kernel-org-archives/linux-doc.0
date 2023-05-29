@@ -2,135 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CB2C77B7A
-	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 07:08:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CFCAC77B7E
+	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 07:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbjE2HI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 May 2023 03:08:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42670 "EHLO
+        id S229815AbjE2HSI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 May 2023 03:18:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbjE2HIz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 03:08:55 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 730DCAD
-        for <linux-doc@vger.kernel.org>; Mon, 29 May 2023 00:08:54 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3f6e68cc738so19035115e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 29 May 2023 00:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1685344133; x=1687936133;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=J9yQZI29FBb5uk90C946uFQGVpaFZWwP+axkfkJPRmA=;
-        b=OGzmkwym+ds5lNbK7+lHCLxUguUfy0QTJ/UI2yLcw74+JBxqixt+zmx3lNyihLZ/qW
-         Rrl7u4zd2ZxT7qCL27Mau576RJoJ1CiSa0kWXOUmjHxKhQMPTfGNSIi0byquj1Nki8n7
-         cCB+xb/M+P51G/dtVskzHEkGHBRc60UcS6xABlKWzdN9VqozEbcdLXxh/0kiL9B4u4h8
-         S557VMaZShp76FvJQOnFzyQD/SYCQVb+/87pTopt7EtnK3a3prWQRrU/9gyxDitIX4ea
-         07jX2bKWoC2ai9FXbUtUjmVHAPupvol8Q7kZEcQ8Ii51pvvXXPZUzSPTvb6/hRgb3eYL
-         SuDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685344133; x=1687936133;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J9yQZI29FBb5uk90C946uFQGVpaFZWwP+axkfkJPRmA=;
-        b=aquCkgej/J4T1Ht39Ll4WsaxuiAkT5e8XXhsM+9UvhwBjVsgExORn7s0rq5vfI/kjN
-         mKtX0TVaE2IAqFwX1cnNpWpx2D96maQYv8MuDtR/gu1xAk3LiO3GM3uQ8MpWh/3PJ+NA
-         MH+uFZNCWFuXx8FAtxSiekNhsXoRVlkeaPSW920xwqEfOXhXSE464TSnckIqOo7hbdLm
-         LKsEjTAiJwpoftHYdmb8mEb6b8s0YhrhI8A1LSdCobRFoj4lBwt5LpuGwO28Q4Mj1jKb
-         c6l0QtDVMUwde1An4q2KTwSK9OpjIO5siuDYXFutmawnGZp5kE6GDl9ng3bPj6lKuS5e
-         6BNg==
-X-Gm-Message-State: AC+VfDyVt60FCvWBebc3zy02QWFOuV4g70SS3UouEpHwiTFYfegrmK1E
-        /AGeEG91HB6CBsxwMtt65qjTow==
-X-Google-Smtp-Source: ACHHUZ73LyzFhpd/6+sfi011A/EFvj9Fd34HsRwL8GCzpeQu6/GsXCR3FkDg7Ni/nfr2tAz4KOAc6A==
-X-Received: by 2002:a1c:f616:0:b0:3f6:82a:5d1b with SMTP id w22-20020a1cf616000000b003f6082a5d1bmr9377055wmc.34.1685344132851;
-        Mon, 29 May 2023 00:08:52 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id m17-20020a056000009100b0030ae973c2e7sm3092863wrx.83.2023.05.29.00.08.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 00:08:52 -0700 (PDT)
-Date:   Mon, 29 May 2023 09:08:51 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Haibo Xu <xiaobo55x@gmail.com>
-Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
-        oliver.upton@linux.dev, seanjc@google.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
+        with ESMTP id S229570AbjE2HSH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 03:18:07 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41607A4;
+        Mon, 29 May 2023 00:18:06 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34T6u7J6009420;
+        Mon, 29 May 2023 07:17:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=o32+Zs65tVZRqYisIvSrSLdqpdjM/OYIVeuEGXaxkUY=;
+ b=NV6aIBJ8RQk4XcBSZG0GoKVH3FYOmKnwGnBB9H+LFmqAHXGIm7X9ESlcH5Bg+B55mt/3
+ xqvUUm7Q0ooz6Y20uBR8+vaL+97qUDH47AuJFJwlmnZpdGogM0fMT96dv2sFZYptRS2E
+ YGzLBV6i2RKAe12dU3Lek7Vi15RLHsAsBAVSgwQxcJs06gLQpsKqYWlcfZHInO6waXy3
+ ZUQVdq1th9AmjuX7k4cBm93dps4TAch0L/YTj57Rg9li3HMq3Tk21UJCZBnJ5FrApFi3
+ z225Ya2u8UBYmHSTShUKkjNzrlXWK1SR8yrWKjnv9MzkG8N/VH08l/hRZSEseeM5Cj9F Qw== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3quawgjthc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 29 May 2023 07:17:42 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34T7HekE011850
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 29 May 2023 07:17:40 GMT
+Received: from [10.253.79.81] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 29 May
+ 2023 00:17:35 -0700
+Message-ID: <5c56a874-dc41-c68c-6f70-efcbc67c29b2@quicinc.com>
+Date:   Mon, 29 May 2023 15:17:32 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v5 0/3] Add support to configure Coresight Dummy subunit
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        James Clark <james.clark@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v2 11/11] KVM: riscv: selftests: Add get-reg-list test
-Message-ID: <20230529-7b3e41e6aca55f9e90dd6cd3@orel>
-References: <cover.1684999824.git.haibo1.xu@intel.com>
- <da390e6200e838fce320a2a43b2f87951b4e0bbb.1684999824.git.haibo1.xu@intel.com>
- <20230525-2bab5376987792eab73507ac@orel>
- <CAJve8o=5ji5D-S8k+GaGd7sH7KXNWxDaWhD3jyxtHizKSMtjbA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJve8o=5ji5D-S8k+GaGd7sH7KXNWxDaWhD3jyxtHizKSMtjbA@mail.gmail.com>
+        Jonathan Corbet <corbet@lwn.net>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        "Yuanfang Zhang" <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20230526100753.34581-1-quic_hazha@quicinc.com>
+Content-Language: en-US
+From:   Hao Zhang <quic_hazha@quicinc.com>
+In-Reply-To: <20230526100753.34581-1-quic_hazha@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: sFRmv892x0D2A7hEFZSgzFwuaCajquvT
+X-Proofpoint-GUID: sFRmv892x0D2A7hEFZSgzFwuaCajquvT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-29_04,2023-05-25_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 phishscore=0 impostorscore=0 mlxlogscore=999
+ bulkscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305290062
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 27, 2023 at 12:39:57PM +0800, Haibo Xu wrote:
-> On Fri, May 26, 2023 at 1:18 AM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> > On Thu, May 25, 2023 at 03:38:35PM +0800, Haibo Xu wrote:
-...
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.a6),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.a7),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s2),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s3),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s4),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s5),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s6),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s7),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s8),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s9),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s10),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.s11),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.t3),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.t4),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.t5),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(regs.t6),
-> >
-> > ...all the above would just be indices rather than named registers. I
-> > guess that's better for these registers.
-> >
-> 
-> You mean to show it as KVM_REG_RISCV_CORE_REG(regs.regs[0]) ...
-> KVM_REG_RISCV_CORE_REG(regs.regs[31])?
->
+Hi,
 
-I'm OK with these registers using their names in this list, it does look
-better. However the original idea for these lists was that they would be
-generated from print_reg(). In this case, print_reg() is generating them
-with their number instead of name. Either print_reg() could learn how to
-generate their names by handling the offset ranges of each register type,
-e.g.
-
-switch (reg_off) {
-case 10 ... 17:
-   strdup_printf("... KVM_REG_RISCV_CORE_REG(regs.a%d),", reg_off - 10);
-
-or we can use the numbers here in this list, or we can leave it as you
-have it (i.e. done manually).
+Add the missing information for this patch series.
 
 Thanks,
-drew
+Hao
+
+On 5/26/2023 6:07 PM, Hao Zhang wrote:
+
+Introduction of Coresight Dummy subunit
+The Coresight Dummy subunit is for Coresight Dummy component, there are
+some specific Coresight devices that HLOS don't have permission to access.
+Such as some TPDMs, they would be configured in NON-HLOS side, but it's
+necessary to build Coresight path for it to debug. So there need driver 
+to register dummy devices as Coresight devices.
+
+Commit link:
+https://git.codelinaro.org/clo/linux-kernel/coresight/-/tree/coresight-dummy-v5
+
+> Changes in V5:
+> 1. Follow the alphabetical order for the header files in
+> coresight-dummy.c. -- Suzuki K Poulose
+> 2. Update the maintainers.
+> 3. Split the Coresight Dummy YAML to 2 schema files.
+> -- Rob Herring & Krzysztof Kozlowski
+> 4. Update the coresight-dummy.rst file. -- Bagas Sanjaya
+> 
+> Changes in V4:
+> 1. Remove traceid allocation in dummy_probe function since it is
+> currently not in use, will upstream it as the part of ATID filtering
+> in the further.  -- Suzuki K Poulose
+> 2. Remove 'oneOf' as there is only one entry. -- Rob Herring
+> 
+> Changes in V3:
+> 1. Use API "dev_dbg" to replace "dev_info". -- Suzuki K Poulose
+> 2. Drop "qcom" property and take it as a dummy framework.
+> -- Suzuki K Poulose
+> 3. Add new sub-type "CORESIGHT_DEV_SUBTYPE_SINK_DUMMY" to support
+> coresight dummy module -- Mike Leach
+> 4. Use compatibles "arm,coresight-dummy-source" and
+> "arm,coresight-dummy-sink" to replace property "qcom,dummy-source" and
+> "qcom,dummy-sink". -- Mike Leach
+> 5. Define source_devs and sink_devs DEVLIST to replace dummy_devs, make
+> it clear at the first level. -- Mike Leach
+> 6. Modify subject of YAML patch, drop "YAML schema". -- Krzysztof Kozlowski
+> 7. Drop some redundant items and correct syntax errors in yaml file.
+> -- Krzysztof Kozlowski & Rob Herring
+> 8. Correct required property of yaml file, constrain out ports to
+> dummy-source and in ports to dummy-sink. -- Mike Leach
+> 9. Drop "Sysfs files and directories" contents of coresight-dummy.rst.
+> -- Suzuki K Poulose/Greg Kroah-Hartman
+> 10.Correct syntax errors of coresight-dummy.rst. -- Bagas Sanjaya
+> 
+> Changes in V2:
+> 1. Declare dummy_init and dummy_exit as static to fix missing-prototypes
+> warnings. -- kernel test robot
+> 2. Fix the errors of coresight-dummy yaml file. -- Rob Herring
+> 
+> Hao Zhang (3):
+>    Coresight: Add coresight dummy driver
+>    dt-bindings: arm: Add support for Coresight dummy trace
+>    Documentation: trace: Add documentation for Coresight Dummy Trace
+> 
+>   .../arm/arm,coresight-dummy-sink.yaml         |  73 ++++++++
+>   .../arm/arm,coresight-dummy-source.yaml       |  71 ++++++++
+>   .../trace/coresight/coresight-dummy.rst       |  32 ++++
+>   drivers/hwtracing/coresight/Kconfig           |  11 ++
+>   drivers/hwtracing/coresight/Makefile          |   1 +
+>   drivers/hwtracing/coresight/coresight-dummy.c | 163 ++++++++++++++++++
+>   include/linux/coresight.h                     |   1 +
+>   7 files changed, 352 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy-sink.yaml
+>   create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy-source.yaml
+>   create mode 100644 Documentation/trace/coresight/coresight-dummy.rst
+>   create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
+> 
