@@ -2,158 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08949C77B7E
-	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 07:28:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B89C77B7A
+	for <linux-doc@archiver.kernel.org>; Mon, 29 May 2023 08:10:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229615AbjE2H2b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 May 2023 03:28:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48882 "EHLO
+        id S231685AbjE2IKW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 May 2023 04:10:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjE2H2Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 03:28:25 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47D88E3;
-        Mon, 29 May 2023 00:28:22 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-256481ce1b5so1117663a91.1;
-        Mon, 29 May 2023 00:28:22 -0700 (PDT)
+        with ESMTP id S231612AbjE2IKV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 04:10:21 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45A3990;
+        Mon, 29 May 2023 01:10:20 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-51b33c72686so1814967a12.1;
+        Mon, 29 May 2023 01:10:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685345301; x=1687937301;
+        d=gmail.com; s=20221208; t=1685347820; x=1687939820;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ygQ9/7FF2gwyrasLb/Tn66vCuscCVpQE5Y1FOjPAlvA=;
-        b=PaT5Em2sZUZbdhKuuTEBaHrOug2J4KLOC0eMu5votMfZhGJRPy0BYjAALMZ2Hk4I0X
-         nE6C7ICZ6qhr/Ap2FSeBxAmkBCzPSRO2AuT02E42yz8UwWe/wmLmpLUN6VizgVSzq9qV
-         izStqqsyFsXkLFz6khRPLSOrPHYlaoXwV2YI5jlUgboGx4klmKxllqwjg4djsWncvUq/
-         fzRQh+ZmvEr/blPham23epj3XRij9sMc9B1KnZ4DaZtYjXj7A01rfwykK/vC1igBozd0
-         vKTJtaiOEClTuO/5n+mPXxmeS9Ym74F/x44TeKyybgJ65YmFu4eC91emPxf2Qpz5oxIy
-         qKmg==
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2pERwO8sjUT5j9p5YYisC0BMTaQ2RTVQ8D853PyT37g=;
+        b=bYECe3KqMW1lM6zOmAGWXvj0cOaDsPCsxctfRPcEo4p/JeB95x949LB5kAUF1bR+H/
+         F56e6cfR+8nAzQaxD8Twc7gGspTwP0y0AZX6cIR/rvFNuugjUp1EQWd3KdUAauaIJ5nJ
+         uApAW2760gU2jh/N3xKDyqJS83kggvoux72ctG5wIuNDBUa4C22VO/ba7OWEnbgh3aWF
+         BFcPF3sZvuEwxWGFLeGXmd+AJ0Di8GwgnqZkqCa8lRUU3uQrG0O4bpmMp/jqi++OkvYa
+         5yv1s10D2LKkEOC/nLPi9KPLQ+rfPzCsqu+fe+Dpnl4I+YIrmGpJ6SndSGNp1Gsg/XT9
+         3pOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685345301; x=1687937301;
+        d=1e100.net; s=20221208; t=1685347820; x=1687939820;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ygQ9/7FF2gwyrasLb/Tn66vCuscCVpQE5Y1FOjPAlvA=;
-        b=Fry8dXsdctxQgOe8Gv4luJQy2cy1PAz3b+2AjAoKXMNBirBol9RS83b5fWhWWYl6YF
-         /HFlloEuS93aa0QvRMYpICAdCHHPbP77TTsGSvkfVhBYnEtEViKCe+Sj+cW9REL+p2DW
-         cA/wBFWNCTffwMX6ZyIKiB9m4max7u29bzyamR5WolbByJnL4/cm0PPuD+Y+YCmIFfMn
-         06aiMJx2qMcWn+7GItbR1F0+6BW3VejD3iweE0TzwOTf+biYSGqPe1x4WBfYMjzjBr6O
-         QXyJAUFPUmlf5/styTboJTzNAIzprMOhptgaLw5MGTN4DJ+hLCv0moHLNpGMTT6/aEY4
-         a56g==
-X-Gm-Message-State: AC+VfDwlOnpS5Bc8FHm2PKsoMlDA81hhm9TyZlf41JzgkpfD18iYeKDx
-        T9Hd57eYbwq4uev3mSd27FY=
-X-Google-Smtp-Source: ACHHUZ7KTCdr1KdnRENQwXuixuIk9hb09wA9xzWbbZBbsOzhUWrYIaujlVa1hrTdLvD1uPqtDL7XkQ==
-X-Received: by 2002:a17:902:dac2:b0:1b0:4687:ba0c with SMTP id q2-20020a170902dac200b001b04687ba0cmr2131341plx.8.1685345300763;
-        Mon, 29 May 2023 00:28:20 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-25.three.co.id. [180.214.232.25])
-        by smtp.gmail.com with ESMTPSA id ik24-20020a170902ab1800b001b0142908f7sm5512582plb.291.2023.05.29.00.28.20
+        bh=2pERwO8sjUT5j9p5YYisC0BMTaQ2RTVQ8D853PyT37g=;
+        b=kkWvdEfgw+1hhvQznTF2e3Ry+1YgBH30G024kHAjGoHEwIg2oGrD8zkMhaDU1YVuhO
+         SI602BiyrIo7uAMNA3asoBD4Vt0lwE2xnOII6ziN7xjhat5yNGqAbw3bNa0/kAh3KlH0
+         MwBmJCvV2s29p6g9juzi/clcwK35DGNLotu4zHaVObPQsi4sf3IknRkLlKZWc/+mDkIP
+         uVscKH/wmptwLr7E9Fa6jIXfgLOLLrJbXSXwHcP+i//ReUze2BerqJaAkz36V5DjXq0E
+         zYm44O7XaF4UvcoFRTPifJ4ekJ3l9bkEvbK4VoQyyOprfcVnKudpa7oDyVsArtYHARVy
+         4gsw==
+X-Gm-Message-State: AC+VfDzv0hSqoP0nDZtaMrMntoKfkCrp9YLTsg4KOQNb3GYJpGWKmiL3
+        nclwGTt0QgZpHQ+d9AbSABqWr22FQ7I=
+X-Google-Smtp-Source: ACHHUZ4Q/yuoKlTT7swOYhDurvkAjdXaHTvytax7D+G2AvVL61nR5ycrFcPrtopCWin+AhqNc1DEzg==
+X-Received: by 2002:a17:902:d50c:b0:1b0:4b65:79e4 with SMTP id b12-20020a170902d50c00b001b04b6579e4mr543002plg.20.1685347819642;
+        Mon, 29 May 2023 01:10:19 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-78.three.co.id. [180.214.232.78])
+        by smtp.gmail.com with ESMTPSA id n19-20020a170902969300b001a527761c31sm7594709plp.79.2023.05.29.01.10.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 May 2023 00:28:20 -0700 (PDT)
+        Mon, 29 May 2023 01:10:19 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id CB080106A11; Mon, 29 May 2023 14:28:16 +0700 (WIB)
-Date:   Mon, 29 May 2023 14:28:16 +0700
+        id 4294B106A11; Mon, 29 May 2023 15:10:16 +0700 (WIB)
+Date:   Mon, 29 May 2023 15:10:15 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Hao Zhang <quic_hazha@quicinc.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        James Clark <james.clark@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] Documentation: trace: Add documentation for
- Coresight Dummy Trace
-Message-ID: <ZHRUELoOoqw6rkbQ@debian.me>
-References: <20230526100753.34581-1-quic_hazha@quicinc.com>
- <20230526100753.34581-4-quic_hazha@quicinc.com>
+To:     Christian Marangi <ansuelsmth@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-leds@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v3 03/13] Documentation: leds: leds-class:
+ Document new Hardware driven LEDs APIs
+Message-ID: <ZHRd5wDnMrWZlwrd@debian.me>
+References: <20230527112854.2366-1-ansuelsmth@gmail.com>
+ <20230527112854.2366-4-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nzlE/XuSNu6KUNn7"
+        protocol="application/pgp-signature"; boundary="YTDyO4TcEE14SJFj"
 Content-Disposition: inline
-In-Reply-To: <20230526100753.34581-4-quic_hazha@quicinc.com>
+In-Reply-To: <20230527112854.2366-4-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---nzlE/XuSNu6KUNn7
+--YTDyO4TcEE14SJFj
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 26, 2023 at 06:07:53PM +0800, Hao Zhang wrote:
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> +Coresight Dummy Trace Module
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+On Sat, May 27, 2023 at 01:28:44PM +0200, Christian Marangi wrote:
+> +     - hw_control_set:
+> +                activate hw control. LED driver will use the provided
+> +                flags passed from the supported trigger, parse them to
+> +                a set of mode and setup the LED to be driven by hardware
+> +                following the requested modes.
 > +
-> +    :Author:   Hao Zhang <quic_hazha@quicinc.com>
-> +    :Date:     May 2023
+> +                Set LED_OFF via the brightness_set to deactivate hw cont=
+rol.
 > +
-> +Introduction
-> +------------
-> +
-> +The Coresight dummy trace module is for the specific devices that kernel=
- don't
-> +have permission to access or configure, e.g., CoreSight TPDMs on Qualcomm
-> +platforms. For these devices, a dummy driver is needed to register them =
-as
-> +Coresight devices. The module may also be used to define components that=
- may
-> +not have any programming interfaces (e.g, static links), so that paths c=
-an be
-> +created in the driver. It provides Coresight API for operations on dummy
-> +devices, such as enabling and disabling them. It also provides the Cores=
-ight
-> +dummy sink/source paths for debugging.
-> +
-> +Config details
-> +--------------
-> +
-> +There are two types of nodes, dummy sink and dummy source. These nodes
-> +are available at ``/sys/bus/coresight/devices``.
-> +
-> +Example output::
-> +
-> +    $ ls -l /sys/bus/coresight/devices | grep dummy
-> +    dummy_sink0 -> ../../../devices/platform/soc@0/soc@0:sink/dummy_sink0
-> +    dummy_source0 -> ../../../devices/platform/soc@0/soc@0:source/dummy_=
-source0
+> +                Return 0 on success, a negative error number on flags ap=
+ply
+> +                fail.
+		   "... on failing to apply flags."
 
-The doc LGTM, thanks!
+> +    - hw_control_get_device:
+> +                return the device associated with the LED driver in
+> +                hw control. A trigger might use this to match the
+> +                returned device from this function with a configured
+> +                device for the trigger as the source for blinking
+> +                events and correctly enable hw control.
+> +                (example a netdev trigger configured to blink for a
+> +                particular dev match the returned dev from get_device
+> +                to set hw control)
+> +
+> +                Return a device or NULL if nothing is currently attached.
+Returns a device name?
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> +
+> +LED driver can activate additional modes by default to workaround the
+> +impossibility of supporting each different mode on the supported trigger.
+> +Example are hardcoding the blink speed to a set interval, enable special
+"Examples are hardcoding ..."
+
+Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---nzlE/XuSNu6KUNn7
+--YTDyO4TcEE14SJFj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZHRUDAAKCRD2uYlJVVFO
-o5vLAQDo0n/f2fiGCqPXpyaiJvaaIUAHdmAnPJ+2AADYyHDB2wEAqaI6EkHEQUzk
-2cmQ1IYwhe/9minYIy2mrKSyny8A7Q8=
-=a0pw
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZHRd5AAKCRD2uYlJVVFO
+o6OqAPwIkuwDefE/k8PaF3t507mCbalgR2aQkpYignl1vtGOOgD+Ip2BAGGTRs6Q
+B8rCmdw4Nz7QxLypkR+gaHS0rlwbIQ0=
+=wtzq
 -----END PGP SIGNATURE-----
 
---nzlE/XuSNu6KUNn7--
+--YTDyO4TcEE14SJFj--
