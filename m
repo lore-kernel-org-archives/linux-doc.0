@@ -2,95 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1DF1C77B73
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 08:52:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A36C77B73
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 08:54:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229972AbjE3Iw3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 04:52:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54890 "EHLO
+        id S230169AbjE3Iy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 04:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbjE3Iw2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 04:52:28 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A361B2;
-        Tue, 30 May 2023 01:52:27 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-2562cc85d3dso3529414a91.1;
-        Tue, 30 May 2023 01:52:27 -0700 (PDT)
+        with ESMTP id S230107AbjE3IyY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 04:54:24 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFEECAB;
+        Tue, 30 May 2023 01:54:23 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-5343c3daff0so2619085a12.0;
+        Tue, 30 May 2023 01:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685436746; x=1688028746;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vG5ToyO9hEsBuY0qBBoen1Ge6L134iohzwm7Csge9X8=;
-        b=mrTLmaNUUkeRHYIFE1wsMJMAhGCCFPJkTtcPzPBXb1EKVXE2C+0b85C4RlrvxzZIsK
-         k1JcDIyS+wHXzzPyeK/8v+tZKrOxTActAtfBrtW+9nP/oWYf4/8PDLlc7UMNhQ+89Fpn
-         hUKIHlXkDalbE5gQokdExRCFYcPI/Z0gnLDN2lopodHfVOEhUuaJsIadrxdUhUVVqkT8
-         u8IjM3+Td9eH9UVNmZWMQLc3CGYONWI4017JSrT24597AZbnXewFadarGr/wtZKy4mLO
-         PFmK18aSnZLTNKyyCYnuqvsWO5mQ31J2ms6ot0XQZgyXCmT5nqxFpHK1hBB+ok6glVUt
-         trSQ==
+        d=gmail.com; s=20221208; t=1685436863; x=1688028863;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RHOfDHWRu2lnNQ2rwsI4E9GPenGbIFAJzlfsF9ORlaA=;
+        b=Ylgn9iAdMtxxc8FJxKAGE2o1WOnW3T3Lw18t6dKRqKWozr5Iq/nRIpwG+R5TUxHvKz
+         zvpErSFlsOh4Aq/S3x04R937m9P7/iknOualjqnPLqNUiRVfit69aQq6j4qvAm0H+UU9
+         aJI4x23lnXFUUA/lszjmULkwt/hHk9F7HnSqhp7+bO/t3Vkb3MdOTa/z8iAwiIdvJXdu
+         c3WRcTNU9FsVdf0aizB/g37zKSR55Sgcem+WWXP4uuegYEiYdVRAJ7Ln7w3Jp1tU5/J1
+         rEBcIz1Nn76EOxUGObFYr135bZ/v8kPiN87yAw0q1f4KM/SJQInWPU4T6xyAUd/QJ53p
+         p27Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685436746; x=1688028746;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1685436863; x=1688028863;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vG5ToyO9hEsBuY0qBBoen1Ge6L134iohzwm7Csge9X8=;
-        b=gzdqofVWcVfNZFxmntY6rdYSWRRoTHSB+tYSwVPWXukGjGZ+/phKtWaJ1kubgZs2dx
-         exDwJw0vPWD8etJJhurPolEXSOgrPw7o0jEudo5Wn3Cx4UCGToDlrm28bjNFWZplh8kK
-         b3Pzxnrv9hc73imCxfgWMWLfI5OQhsSKWQBLvfy77+pNxffEnXG0eSPJa4uZ4c9T7eBO
-         /GYIypj82TWwdJn6Q06wM1lSAUGNvHuogdGLdadZYXrtl+1E/xNsIysUNgGaRAOmssr+
-         j87SlFIgETpJulwdtOJBey8VUEMcwhJ8+JRQZtp52yg/zoxSU/JAaKF3iW8wqcVam+CX
-         qy2g==
-X-Gm-Message-State: AC+VfDytvtDOz3+QD8WlKJx2ljVvqKwKU2mff8eRHlqEViBL5THBjYnJ
-        5dYRB43/oLEOkRImRl+a6xg=
-X-Google-Smtp-Source: ACHHUZ6vvkxwEe5OYLK8YQg+8LmiqJRvWkmYJeD3vJZ391NjmaDS+ncR8p67II4zp2ZWno3Ev8+0fA==
-X-Received: by 2002:a17:902:ecc3:b0:1ac:5717:fd5 with SMTP id a3-20020a170902ecc300b001ac57170fd5mr2152890plh.60.1685436746416;
-        Tue, 30 May 2023 01:52:26 -0700 (PDT)
+        bh=RHOfDHWRu2lnNQ2rwsI4E9GPenGbIFAJzlfsF9ORlaA=;
+        b=FEKxOV3sQhSHgd7MXxKCp3cc7f/yD54OAICBTTE4RGLcx7MwgsS2igJPlPP6EvBhyH
+         X3j5QE637jxzoMjLeKJl1z2n3gx6rbTX267P38qbbnXZU4s9YYHVJJPsr1huHwZIQ7xf
+         K1mGFkx4x4GRCTqMkhnZJJXnV6DMINzLiHuPEarcEVXnm+hKwUvzb0Oj1kFVAN02W43P
+         vG8pNyN/9ZtxMoEyagfHsvs6Z4U5O4T+8aFQ336bzsxbG9F6m9++5Nn/4fMqLY9tFFT2
+         lDQLHmvtkEV3S1vRUvByxwj1p8WvgKQCFV8nkvYvHjK0avZ1dgBbCwrv0U0pbHI+4phb
+         82Pg==
+X-Gm-Message-State: AC+VfDzirtQcDarXRwwVPRH5+BpsfdNeI5Bz1MFJEEINFTmkQ0AsR18n
+        GZayIj9ON6IM+AqWJsUO8kymuLEGtU0=
+X-Google-Smtp-Source: ACHHUZ7Rk93SVq30nkXleqZYW12ye8Tl15Neszkr2aVbJkc30Bw3jgnoVHpBz9GQvl/GkjlAZ9219A==
+X-Received: by 2002:a17:903:41cb:b0:1ad:edbd:8547 with SMTP id u11-20020a17090341cb00b001adedbd8547mr1936489ple.15.1685436862988;
+        Tue, 30 May 2023 01:54:22 -0700 (PDT)
 Received: from [192.168.43.80] (subs09a-223-255-225-74.three.co.id. [223.255.225.74])
-        by smtp.gmail.com with ESMTPSA id f21-20020a170902ab9500b001b00f9c4578sm7837069plr.138.2023.05.30.01.52.23
+        by smtp.gmail.com with ESMTPSA id x7-20020a170902ec8700b001ab1cdb41d6sm9692178plg.235.2023.05.30.01.54.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 01:52:26 -0700 (PDT)
-Message-ID: <8c028dd1-aa6b-a33d-dcd9-178077fc8b3a@gmail.com>
-Date:   Tue, 30 May 2023 15:52:20 +0700
+        Tue, 30 May 2023 01:54:22 -0700 (PDT)
+Message-ID: <d1e4436e-b428-0f49-ecf1-079955aaecb2@gmail.com>
+Date:   Tue, 30 May 2023 15:54:20 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH] docs: split subtitle of Submitting patches
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH] docs: consolidate storage interfaces
+Content-Language: en-US
 To:     Costa Shulyupin <costa.shul@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Rong Tao <rtoax@foxmail.com>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20230425072644.868535-1-costa.shul@redhat.com>
- <f569e819-9391-0a52-fcda-24946687690d@gmail.com>
-Content-Language: en-US
-In-Reply-To: <f569e819-9391-0a52-fcda-24946687690d@gmail.com>
+Cc:     open list <linux-kernel@vger.kernel.org>
+References: <20230529085521.2574848-1-costa.shul@redhat.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230529085521.2574848-1-costa.shul@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/30/23 08:20, Bagas Sanjaya wrote:
-> On 4/25/23 14:26, Costa Shulyupin wrote:
->> Motivation:
->>
->> The original long page title in the left Content pane spans three lines:
->>
->> Submitting patches: the essential
->>   guide to getting your code into
->>   the kernel
->>
-> 
-> I think it's OK to have that, if the title can't be further condensed.
-> 
+On 5/29/23 15:55, Costa Shulyupin wrote:
+> +Storage interfaces
+> +------------------
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   filesystems/index
+> +   block/index
+> +   cdrom/index
+> +   scsi/index
+> +
+>  **Fixme**: much more organizational work is needed here.
+>  
 
-Oops, I mean it's perfectly OK to have long title written as-is if it
-can't be further condensed to convey the doc theme.
+Can you also categorize below indexes (table of contents) like above?
+
+>  .. toctree::
+> @@ -31,8 +42,6 @@ Human interfaces
+>     core-api/index
+>     locking/index
+>     accounting/index
+> -   block/index
+> -   cdrom/index
+>     cpu-freq/index
+>     fpga/index
+>     i2c/index
+> @@ -54,12 +63,10 @@ Human interfaces
+>     accel/index
+>     security/index
+>     crypto/index
+> -   filesystems/index
+>     mm/index
+>     bpf/index
+>     usb/index
+>     PCI/index
+> -   scsi/index
+>     misc-devices/index
+>     scheduler/index
+>     mhi/index
+
+Thanks.
 
 -- 
 An old man doll... just what I always wanted! - Clara
