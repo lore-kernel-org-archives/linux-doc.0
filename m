@@ -2,115 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A36C77B73
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 08:54:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B564FC77B73
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 09:45:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbjE3Iy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 04:54:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55778 "EHLO
+        id S230397AbjE3Jp2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 05:45:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbjE3IyY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 04:54:24 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFEECAB;
-        Tue, 30 May 2023 01:54:23 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-5343c3daff0so2619085a12.0;
-        Tue, 30 May 2023 01:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685436863; x=1688028863;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RHOfDHWRu2lnNQ2rwsI4E9GPenGbIFAJzlfsF9ORlaA=;
-        b=Ylgn9iAdMtxxc8FJxKAGE2o1WOnW3T3Lw18t6dKRqKWozr5Iq/nRIpwG+R5TUxHvKz
-         zvpErSFlsOh4Aq/S3x04R937m9P7/iknOualjqnPLqNUiRVfit69aQq6j4qvAm0H+UU9
-         aJI4x23lnXFUUA/lszjmULkwt/hHk9F7HnSqhp7+bO/t3Vkb3MdOTa/z8iAwiIdvJXdu
-         c3WRcTNU9FsVdf0aizB/g37zKSR55Sgcem+WWXP4uuegYEiYdVRAJ7Ln7w3Jp1tU5/J1
-         rEBcIz1Nn76EOxUGObFYr135bZ/v8kPiN87yAw0q1f4KM/SJQInWPU4T6xyAUd/QJ53p
-         p27Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685436863; x=1688028863;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RHOfDHWRu2lnNQ2rwsI4E9GPenGbIFAJzlfsF9ORlaA=;
-        b=FEKxOV3sQhSHgd7MXxKCp3cc7f/yD54OAICBTTE4RGLcx7MwgsS2igJPlPP6EvBhyH
-         X3j5QE637jxzoMjLeKJl1z2n3gx6rbTX267P38qbbnXZU4s9YYHVJJPsr1huHwZIQ7xf
-         K1mGFkx4x4GRCTqMkhnZJJXnV6DMINzLiHuPEarcEVXnm+hKwUvzb0Oj1kFVAN02W43P
-         vG8pNyN/9ZtxMoEyagfHsvs6Z4U5O4T+8aFQ336bzsxbG9F6m9++5Nn/4fMqLY9tFFT2
-         lDQLHmvtkEV3S1vRUvByxwj1p8WvgKQCFV8nkvYvHjK0avZ1dgBbCwrv0U0pbHI+4phb
-         82Pg==
-X-Gm-Message-State: AC+VfDzirtQcDarXRwwVPRH5+BpsfdNeI5Bz1MFJEEINFTmkQ0AsR18n
-        GZayIj9ON6IM+AqWJsUO8kymuLEGtU0=
-X-Google-Smtp-Source: ACHHUZ7Rk93SVq30nkXleqZYW12ye8Tl15Neszkr2aVbJkc30Bw3jgnoVHpBz9GQvl/GkjlAZ9219A==
-X-Received: by 2002:a17:903:41cb:b0:1ad:edbd:8547 with SMTP id u11-20020a17090341cb00b001adedbd8547mr1936489ple.15.1685436862988;
-        Tue, 30 May 2023 01:54:22 -0700 (PDT)
-Received: from [192.168.43.80] (subs09a-223-255-225-74.three.co.id. [223.255.225.74])
-        by smtp.gmail.com with ESMTPSA id x7-20020a170902ec8700b001ab1cdb41d6sm9692178plg.235.2023.05.30.01.54.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 01:54:22 -0700 (PDT)
-Message-ID: <d1e4436e-b428-0f49-ecf1-079955aaecb2@gmail.com>
-Date:   Tue, 30 May 2023 15:54:20 +0700
+        with ESMTP id S231160AbjE3JpI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 05:45:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D479C7;
+        Tue, 30 May 2023 02:45:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ED837625E7;
+        Tue, 30 May 2023 09:45:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB5E4C433EF;
+        Tue, 30 May 2023 09:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685439905;
+        bh=ugspOrChK8NXygGAKcQBF1VB7q0atxugNPeJOSVS+Yw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SaEgYuIqkCM+uVTFRtng4syEx2MFC9Hcu7CCYyoFQJdK3TcQ4VfZqbZDkjgluc5ue
+         1vrPIANLTFt3dBfBqzHiwcJkKXUh9nosD4gD0CZ+FsQ+bwwuA3OcuX8qD3ohayxW2q
+         p2p1npBxgICBJEYN3MdHN1DZjIrf3r5Ke5cTebMBGiSeuBWxgcoXp+NoKk6CN2w6nU
+         G9hxC/wMaeRWfOF07zGWiqPrLwpDmuZciaVbzD6P1B31B4B2bWnmXAdtBRP7EmZes/
+         pYHSdMEhGVFCj9Zyj/rgYJyJ4Gyf1ABmpNUksP5a+nXfYnhFqVY9wizmr/FNCHskFe
+         +bGeHk8Sph/sA==
+Date:   Tue, 30 May 2023 11:45:00 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     Loic Poulain <loic.poulain@linaro.org>
+Cc:     corbet@lwn.net, viro@zeniv.linux.org.uk,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] init: Add support for rootwait timeout parameter
+Message-ID: <20230530-polytechnisch-besten-258f74577eff@brauner>
+References: <20230526130716.2932507-1-loic.poulain@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] docs: consolidate storage interfaces
-Content-Language: en-US
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     open list <linux-kernel@vger.kernel.org>
-References: <20230529085521.2574848-1-costa.shul@redhat.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230529085521.2574848-1-costa.shul@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230526130716.2932507-1-loic.poulain@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/29/23 15:55, Costa Shulyupin wrote:
-> +Storage interfaces
-> +------------------
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   filesystems/index
-> +   block/index
-> +   cdrom/index
-> +   scsi/index
-> +
->  **Fixme**: much more organizational work is needed here.
->  
+On Fri, May 26, 2023 at 03:07:16PM +0200, Loic Poulain wrote:
+> Add an optional timeout arg to 'rootwait' as the maximum time in
+> seconds to wait for the root device to show up before attempting
+> forced mount of the root filesystem.
+> 
+> This can be helpful to force boot failure and restart in case the
+> root device does not show up in time, allowing the bootloader to
+> take any appropriate measures (e.g. recovery, A/B switch, retry...).
+> 
+> In success case, mounting happens as soon as the root device is ready,
+> contrary to the existing 'rootdelay' parameter (unconditional delay).
+> 
+> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+> ---
 
-Can you also categorize below indexes (table of contents) like above?
+Not terribly opposed and not terribly convinced yet.
+So, we have rootdelay= with a timeout parameter that allows to specify a
+delay before attempting to mount the root device. And we have rootwait
+currently as an indefinite wait. Adding a timeout for rootwait doesn't
+seem crazy and is backwards compatible. But there's no mention of any
+concrete users or use-case for this which is usually preferable. If this
+is just "could be useful for someone eventually" it's way less desirable
+to merge this than when it's "here's a/multiple user/users"... So I
+would love to see a use-case described here.
 
->  .. toctree::
-> @@ -31,8 +42,6 @@ Human interfaces
->     core-api/index
->     locking/index
->     accounting/index
-> -   block/index
-> -   cdrom/index
->     cpu-freq/index
->     fpga/index
->     i2c/index
-> @@ -54,12 +63,10 @@ Human interfaces
->     accel/index
->     security/index
->     crypto/index
-> -   filesystems/index
->     mm/index
->     bpf/index
->     usb/index
->     PCI/index
-> -   scsi/index
->     misc-devices/index
->     scheduler/index
->     mhi/index
-
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+And this is only useful if there isn't an early userspace init that
+parses and manages root=. So we need to hit prepare_namespaces() as a
+rootwait timeout isn't meaningful if this is done by and early init in
+the initramfs for example.
