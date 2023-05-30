@@ -2,45 +2,45 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F8FAC7EE23
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 14:12:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71221C7EE23
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 14:13:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233000AbjE3OM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 10:12:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54382 "EHLO
+        id S229709AbjE3ONs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 10:13:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233008AbjE3OMW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 10:12:22 -0400
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2055.outbound.protection.outlook.com [40.107.249.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD167109;
-        Tue, 30 May 2023 07:12:13 -0700 (PDT)
+        with ESMTP id S232869AbjE3ONr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 10:13:47 -0400
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2043.outbound.protection.outlook.com [40.107.13.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D638FE44;
+        Tue, 30 May 2023 07:13:11 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=buFL1ST6g1tNGf2MDjOPJvaCqvpLQk5CiPY4wu7/O30eiCL2h8eFxA+rrsOaaFoylGNUQUF/w98NEsogUCfzR85+raY7NHvdgpS8OLvNBqFQmspLRS/V+bQIpKvYCIox+qIBq9tpBpIhLIR6zy3rFQrIEPBzsgdOwLm7NFKkB9hleaiU2bKN8IF2hV0dh3+Z2cDZG0g86MqnhkL5e7rsONiL3BPmQ2UmWs/GKYhKrYawYfFQR7n2aLH4EFvCldlOoTWwARLuvppOOxDZNM9NE4pgsTUs5sFHTWXAnnOHGJZooE1YuK9hvW3BsHDWS+zMOhiOuSZq7R4F7YaL4JdE/w==
+ b=APo6s2276U3Mr+asOHZKjBES3luAUxXf59e6ZkBJ8VuktcLcNZuRNxpvBczIYCBqeptIQ7I/aTCH7JFpF0SFi1sXFpXEy3kf45Wi5nOPV2r2iNoqXks7h6h74T2ofe/EyWeJEpEu4V5Aim4XX4kPL2aofbiOrHSr/5hj6sbDzaQsnlmp7ifrC/dnsiJIM3tYEjk8tffr4K/I5rZtzZYBK7OU7ASPUz1IhY6F2ANMJcImP4cZAsxUGoqjnwbUv5ZLqB1kUkRyFTX1T4bsl4SHn1kEDY3duldxkGp2eBWeXQlw5JbYE7jmSp/weqqm9Qx1YURJ9GYcTn47bLSotRBPUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TnJHi2ZlqSuDd0Mx7M9qF4+qh+fPN9VcRTMp4ilwUeg=;
- b=UDVUPVj8m20VCm+ZmiQCVZq3LyizgCHpNYZP3mhMnkNs337aN6V02i3kRVPV9z23OXTC8788QxhwdzD1Z0fNUrsUHiG2YWNwkGPROYzTfY5ZpRMRo1emGvI3dbS6cJgLzysef/HJoCx6JBtiZb0jkH2YC0k/Qi0iO6kxIaa1+WQsgSl00asTa//nfOOQZbwuTSDsFNhJhmtT54I3JDc7RJRSySpqc6bDQSCzOk7iNcKGvxQTnFH2QeRoaaDBussRa87dox3wfq2cwqpZeq9p6pn5cyS69q2ahaEyS9KgYYKZnjesinsBSaOB/7Ur15LNdr8dveBbCczrmZaGh8/61g==
+ bh=3qBLjUiWq+OdoCD9JPD2suteEWFG+t70JrtUnc7Tal8=;
+ b=njT75ZvCQJQPOmwI2dIJI61nI9xwx+65zxSXtC8Xlw+eHpPNrThJBgNVuVvcfo/pFRcxSppqYVRmYj4znnqAvpaJpIQdc2c9DRCtFBeSGwXmidsfPwViEHZHJBIFXx2LWadQlETociNSVonz4fy9itArJabKe5vRJiDQzR710c6ZUPztWbOgwd4Y3Cb4SdfatOvHC1Q4dkSAvxd7qNiE1lQuLggtLGIkcy2ZjC91H+JWJ49GlPbu0SROWAYGYnhBxoZ/V1hroDjJQixii4xgwfa+MSB9Dl9Isz+ZZbFohOukfj55dehwhsFcY1I5P8oIy7uGGcE5obyJ00PBvXALAg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=santannapisa.it; dmarc=pass action=none
  header.from=santannapisa.it; dkim=pass header.d=santannapisa.it; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=santannapisa.it;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TnJHi2ZlqSuDd0Mx7M9qF4+qh+fPN9VcRTMp4ilwUeg=;
- b=dY94+bMTX60g3ZgX7nfDjJRFuK274Jlmb9/0W2y7CKTOhlyq6jU3qiC8SANywsiE4mxY1+uPM5YUDwLPgJPD7gjgeyo8HLe9d8ZHL2rOoXF+LuX6IhZwthN4mobWcmclO4hSFVlZQn1qoxy+Lxba/Z6M9sepYUF8yzoHMLbqLbc=
+ bh=3qBLjUiWq+OdoCD9JPD2suteEWFG+t70JrtUnc7Tal8=;
+ b=jLYzQMjzCwG2ybKNJBcm/ZVX/KCKGgQ9Noa/xHnEnozJTMkUjajf1SQc3CdMIPM2gT37iKrvEI/TC6QR2sxNKIhdYqS2CL3At15dy4i2KS0vRHUsENc+UL0SG2e+HasDKxEuN48oKBIYGjQs6idGy6W1EgTFNFKUFJ50x/xhTLg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=santannapisa.it;
 Received: from VI1PR03MB2880.eurprd03.prod.outlook.com (2603:10a6:802:2d::21)
- by DB4PR03MB10105.eurprd03.prod.outlook.com (2603:10a6:10:3ff::13) with
+ by PAWPR03MB9033.eurprd03.prod.outlook.com (2603:10a6:102:339::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.22; Tue, 30 May
- 2023 14:12:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Tue, 30 May
+ 2023 14:12:49 +0000
 Received: from VI1PR03MB2880.eurprd03.prod.outlook.com
  ([fe80::8925:5293:e478:c934]) by VI1PR03MB2880.eurprd03.prod.outlook.com
  ([fe80::8925:5293:e478:c934%6]) with mapi id 15.20.6433.020; Tue, 30 May 2023
- 14:12:10 +0000
-Date:   Tue, 30 May 2023 16:12:06 +0200
+ 14:12:49 +0000
+Date:   Tue, 30 May 2023 16:12:46 +0200
 From:   luca abeni <luca.abeni@santannapisa.it>
 To:     Vineeth Pillai <vineeth@bitbyteword.org>
 Cc:     Juri Lelli <juri.lelli@redhat.com>,
@@ -56,277 +56,109 @@ Cc:     Juri Lelli <juri.lelli@redhat.com>,
         Valentin Schneider <vschneid@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] sched/deadline: Fix bandwidth reclaim equation
- in GRUB
-Message-ID: <20230530161206.0ba6e956@nowhere>
-In-Reply-To: <20230530135526.2385378-1-vineeth@bitbyteword.org>
+Subject: Re: [PATCH v5 2/2] sched/deadline: Update GRUB description in the
+ documentation
+Message-ID: <20230530161246.4328421d@nowhere>
+In-Reply-To: <20230530135526.2385378-2-vineeth@bitbyteword.org>
 References: <20230530135526.2385378-1-vineeth@bitbyteword.org>
+        <20230530135526.2385378-2-vineeth@bitbyteword.org>
 Organization: Scuola Superiore Sant'Anna
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZR0P278CA0029.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::16) To VI1PR03MB2880.eurprd03.prod.outlook.com
+X-ClientProxiedBy: ZR0P278CA0142.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:40::21) To VI1PR03MB2880.eurprd03.prod.outlook.com
  (2603:10a6:802:2d::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR03MB2880:EE_|DB4PR03MB10105:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79b1a073-8850-42a4-78c2-08db6117dbb4
+X-MS-TrafficTypeDiagnostic: VI1PR03MB2880:EE_|PAWPR03MB9033:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e4a8510-12ac-4a14-c60b-08db6117f329
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +9fBFo7CT/QDHaB4BUiHh2brhJTPnxq5t+GDJqQufbJHRqaWr8J77Bt0rvJISVADKBNWMECt9rpY+M3d/NJhNg4wmNVY8PpmPhBZ0PgOtbBUpkOPzG34QzCroYFjiCJ29AnwAydf3bRxhknYWBbHRkgSYMlAS5hGdTWcAv4NZ3k//k7D0shbkk1r0ibhTu7q2nA6p64C7eNQHksbHRj5B8J7Px0Rc6QgdZTMjW1aW7QfwYbbgHAapMyI0TbySAcKfnnV7PJkrhgzQIJ6IY6f5qYIHXALaw1flo1ytY/o0YdgFi9YN8KepBJNxliGyAaTkV81Ah4WhPtMNPizQqOB9nq81fctlfyeQdNE5ih8iWUbQFdFx+WaxIiDGpjr0u9LEi7CUJpThNlas9sZij1shRDXGKS520yfYpnUnlj8ntBs3tGx4hVsA/c7LQtHHS3EQoMxxe2mggw7NBlSs5dg5mnPFepcQMpvfGBfqDIE6OWEJ8suod213KBr3J6utihaE5zhTi7uCuOL6JfB7blmiZGlEdBiVHDnuX/myqYFYzcCjm5w7hbO2Teu4H0trcuC
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR03MB2880.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(366004)(396003)(346002)(39850400004)(376002)(136003)(451199021)(54906003)(478600001)(5660300002)(8676002)(41320700001)(4326008)(7416002)(8936002)(2906002)(33716001)(86362001)(66476007)(66556008)(66946007)(6916009)(316002)(786003)(38100700002)(41300700001)(186003)(26005)(6506007)(1076003)(6512007)(6486002)(9686003)(36916002)(6666004)(83380400001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: V1LSlvXy/QMhedDYDJy8dE3MUIh+2XUCf5+k074W1IXn7lkWK5DoWt3LLf9FWjDmgxZKjdtkn5a7W4pl15trwRDlVlH3eQSbfOkOw3HRoBDpCKudmAEkHqR/U+xuIrkGE+3cNd0r8jZ7rCMukaMLev4yfHC0LI8o0IBf8nigABhuZx7ZRqSzNF6tqfEfNDTJf7JeOufhQUcAP3YDJ4V8sF9ijMbUAz0G/up2oHcmHIJDiBrMRwRrnF0NJVDT9JpkQ7F0xJ+3W0d/YXXMkpTpySoeOGuizdtavBUbsKBz+fSJekqdImOKEUxz05B+cte0RM3J22CiwwmrnyERVGufiQ0DB0ICVoW1N+YCSJaDb8ppkDvAiB5jUGVmzwpYVnYwLZJjbS9RbSw/nUQL6jlwPuoH90MoeuajE/MTDukZ6p4XevU5JbZlbxEIB+fjeWTHOn43SYr55GmJDVRPp02jouGemYYdqVtcSng5uRIqlta5ClfQBERRd7VJDxKFS+5Kj8miqYYSuHK654PqlL8qwjWzS9/QQIaC9fJaMm8c/C9DuYZZbhW1rqJuEDPxGwx3
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR03MB2880.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(4636009)(376002)(346002)(39850400004)(366004)(136003)(396003)(451199021)(86362001)(66946007)(66556008)(66476007)(6916009)(54906003)(4326008)(786003)(316002)(478600001)(83380400001)(6512007)(1076003)(26005)(9686003)(186003)(6506007)(41300700001)(8936002)(8676002)(15650500001)(7416002)(2906002)(5660300002)(6486002)(36916002)(6666004)(33716001)(41320700001)(38100700002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?K1/XysAH7PQnB+hrVcesw5UWa3SKnvgdcOhRlwsewlDKvamdRsmSDvfKxj26?=
- =?us-ascii?Q?sub6pkcuQ8tWS18vQLON9Rosc0P4yDd4hUGwdOFVC21ttYTSGlR2N+tPqAjv?=
- =?us-ascii?Q?MH0Xs7mGKFrJ5rJshtXcwalX7x3YTuIUHq81ClNBUTJneiAhoqWGeF7AUQj+?=
- =?us-ascii?Q?YM0ucoEq7wKRxkMqROP/nffEmhBIZ/QT/cu4gTvNzV9fbF2S1CRQExfN3o+a?=
- =?us-ascii?Q?V5Md4OLjZR6A7/jYH80Wgo7ZJmsFVsP4S1YJFm2TEPjNWxmj8yPNnUxyIKR4?=
- =?us-ascii?Q?xnZpyv77wnOiS43KskKQ2866ws0MreOZ9zns8J/uA8lqhb6HjJ5VsRvKEu01?=
- =?us-ascii?Q?sH0dWLmSzj/0Eh2LNiymyYA4Zs/XgkTXnxb3XiB5Q29Ms7OMIRqH8QCIHMmn?=
- =?us-ascii?Q?fmTriscsaMjGIHIHtBvDbKuY3KnRNLm4oEyEZOME5/FG/PN5nLSqy/gVHxke?=
- =?us-ascii?Q?IGgUSSSiSu1Zh9ma1Zlbmv693arQEmkhsJ3JRaP8nDxnPxQ7gqzlkqlPIoD+?=
- =?us-ascii?Q?+kK6si+rGIANGYgfPEvGvmhZQMui3pck+4zhOZlv9MR1gmedt+T+cGlyFL+o?=
- =?us-ascii?Q?JW+5PQAtSsC/N72AjKnjlC0yg584R1BHZMelA82sX9yR/XuAXmF25vt4aaW/?=
- =?us-ascii?Q?gwJnKEquyaoqVK98XSNoKBerooSrWhJA82LJlRa64NXcvZ4J+/8IvHmnsKrs?=
- =?us-ascii?Q?qCCCYJw+AvKGLZynal58VPUinOGpMhg0qEH6wWUiDOjs/tjbPg2JtzHZFe1q?=
- =?us-ascii?Q?OZncryXK1nwfxPK+mfwK+cfa7RTBGmn0ARiT5/CPqGUhi4p5nAaX+TkFYKMB?=
- =?us-ascii?Q?7wOwNRV6lYdOBHuppuDDan/v8x3zkhyfDtmhK6fCBBqc8LWpOUnD88RnkBwe?=
- =?us-ascii?Q?c/TLfUMv+B22As70r2xaZM+ZgQT3WnOPG8xufXlirvUKnKys4C4IHp4cfOWE?=
- =?us-ascii?Q?yd85SwItsOf9DVFxptidGV6WFDOriumO7k7oN5zudMN1wYBuwF3ng0hcupW4?=
- =?us-ascii?Q?t7s+2Uop/g+psftCrRr0Tj7w9ruA+qQdZufvFOq+6dwai51pwkc78odCtgdb?=
- =?us-ascii?Q?5uPWaBNx7iZzRuxSMCrCvzR5F8tQWXtXQg8snpNmWY/d02yrURZ2JLr6FYrw?=
- =?us-ascii?Q?FFxDVyPPCUZIPZ/QIFJp84iP0GkKuE3Uvsz+9CGpP9xQlbCDmaMHqVpCCWIc?=
- =?us-ascii?Q?C+IZv6+WJPKVl6PMdBsfWHUYhscuUzU94BBnILElWk9I0sdZewni0XbWOjKY?=
- =?us-ascii?Q?eL2Gom1WHxmq8kjbNvYIaKoM526UlcO+zbWubSxDcWQ+J2Rifv+F/fasyAJ2?=
- =?us-ascii?Q?wWRor/1W60EnuiNWCCkG0peSSbI6hhfiiFq4eRWbYZ/bc3uSX8v+hgJBiIbX?=
- =?us-ascii?Q?k/P6FZH0DwUaDaDcb8p+tg51f9CDaGN8wghXuv+wzSztIHyt6AVUN9dglBfN?=
- =?us-ascii?Q?EpEdSX7BJT1p01woDSyRKvzP9HEXrFwD3laNkkVq9YnUkj+rz8oLIScekUQk?=
- =?us-ascii?Q?S7eVj6AlurXYuxyy3B38KB6DBLHBnAsQYZDoHEfHU7gIwYf1O3ePqUCJWF1b?=
- =?us-ascii?Q?z+jA/ZAs67BmfnQ0p4JhVlP2CUZ7N2AOraNnPiZ2FqOVZ4fZwHLzenQLgIhA?=
- =?us-ascii?Q?sA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?A5RtKxSZSXndDxPc3zes9kzWsYViA+OlAxToUsuJxYPSIe0kqju85V5k4ROe?=
+ =?us-ascii?Q?FDW7pCCGw7xE8bNu2uj565apS2HbI/4HyKqeDP8iVkQv7hFrJ0ZFADjONGla?=
+ =?us-ascii?Q?RoGeXpYhUQGEykHe1QKh2Fe7+AHbuNsbQcHq/cK7PjLx3a9URyS3Eo1DEW7S?=
+ =?us-ascii?Q?P12ihjqBo7aI8xgvmrlbZAG9Mr895L4am2VFI3gqXEWtlPZEMuzw69MNrDgl?=
+ =?us-ascii?Q?bksGuUrAtR8mI2WntGXndfS9g2jMavoxBouScbo9rKi8qojhlypFsF0yjmmW?=
+ =?us-ascii?Q?zdHySZ8uiOqiIvqRY2Pc6t4fuEq1As9KSTwT/32abKa0UUphZhygF3J41+OQ?=
+ =?us-ascii?Q?cJMskfz6vLivyi/YqhddopTDMiklyi3jqisSCiPLiIuChVA9/gjlOXfCSQmv?=
+ =?us-ascii?Q?yj/00LY9AB5Halik99LeO5+R6dWve0ikmGMBEO75UU/NPIeDxdWQAEZDCaRC?=
+ =?us-ascii?Q?RMmKiIlnke0KSIpBakngm0+ZhpglwWWDPzIB7SPB/QGVENJW6hna4MCFUSLF?=
+ =?us-ascii?Q?J//up5rHt+UAbjrdPTfu5I1QTUDe9bLUJZBfCAummhg4pWIlSIkNzA+uzgDK?=
+ =?us-ascii?Q?+OsVag4QISTvODnWxFpgxjz0764sZEcEi6/4YoJS5YL0w82YRqkcC/ydo3Dx?=
+ =?us-ascii?Q?Z+g0l/yfLXFyuh3PmjVB3WKlT9S4qnrsqJRDfsmAQxEJO60UKIjVUtr21VFv?=
+ =?us-ascii?Q?PnoMSB835PLcKGWTXMOz9dHWsrBFv/PwntVxQnAcojOND3mHZnk1xngaeSXJ?=
+ =?us-ascii?Q?dwH7nFoWPbmVY4/FRqozLwDcu62o0gLiprX0VdLZlHpJNmgU8va6ncfZS6uv?=
+ =?us-ascii?Q?saRABrlUbeFaI7jb42aqntPMZVMe7jfo4BmdfqqJZp15lAghEoJBwq1WFwij?=
+ =?us-ascii?Q?QbubDzvYxQGOM71ySViLsLQOrcNtDj0TiyO1gaG2FiToGOQJxjDGLnvzKHKK?=
+ =?us-ascii?Q?UIAzzjo8VEe42JWZdJrH9vvZWNcgQwbpFJG9IEX6IeTa3kyzwxG1EhaNdLiH?=
+ =?us-ascii?Q?qiS+QM7TEeMFHZD1KDdto6f12opy3hoK5ZdD7qD2BcVzqTulc9e2BVyKu5tt?=
+ =?us-ascii?Q?OThlLUVCETRF+yv3p0j26W+Q3YPlJPF9icOh202Kp/pacMIWLBANcd+sPpmZ?=
+ =?us-ascii?Q?Gz5PosffhbVmyo7zNSV79lmeEFQ6GOcDHIJTCNsJNYenz8aZGCoTR6UtPi4S?=
+ =?us-ascii?Q?xXfIPtitTffBZPVdrvWzQTJpSb6TzjhMobxA+ooF1zTSTo/hzwV66xCtYWty?=
+ =?us-ascii?Q?TLNWtM3DNQvibGmCOsv1va5ztMyd41Zq2E7728duQQXHMcJrL9QH5EMIj2BZ?=
+ =?us-ascii?Q?oOQeJ+hTghtH9IpqCeHhkR8r3tf+aVeegGYbioxfd5DcSSWlyB9Nh2bztMgr?=
+ =?us-ascii?Q?0sE13ag8W94x4P3dtPvNOjhYyhHPIAnWt7q4RtMj9bLi6oUZBPKPEz8DiTmt?=
+ =?us-ascii?Q?iViH4qf7eJWgywGDk+pPKK8mUnbz1iKKgzqIFqfp4ZajLcGbxK3TmpKh1G6P?=
+ =?us-ascii?Q?5KIARH2hTDLBE7hpNyAiu5CbfGwgVIlqP5Prg8gZ9X/GOgw8VtTly07RXw47?=
+ =?us-ascii?Q?LvdBAOh1LkiimSwxYZONi+y/e8pvtrnuMGz2uqeUe55xvS28g7Ie/68NNnuE?=
+ =?us-ascii?Q?Rw=3D=3D?=
 X-OriginatorOrg: santannapisa.it
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79b1a073-8850-42a4-78c2-08db6117dbb4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e4a8510-12ac-4a14-c60b-08db6117f329
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR03MB2880.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 14:12:10.3389
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 14:12:49.6181
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d97360e3-138d-4b5f-956f-a646c364a01e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hlY9LR1Sz+j9H/6fFZP5fcUV1le7lctPIWzDRrY1BvRBfxUJyVG6TQFeZGniJ1TewIdR5JtEDShw1WvhPmD5bMX1hkktkXBHFbi7woBpiFs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR03MB10105
+X-MS-Exchange-CrossTenant-UserPrincipalName: RCjZrsra8u/1kQg8eRpzYkBrNA01O/jq9nhBEORdE5N9zQU189BH7E/4fR8TpDghaTNoTopdwhWbmoJhbzHy1d6oopJW9OyEodPTH9BfnV4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR03MB9033
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I think this patch is OK
+I think this patch is also OK
 
 
 			Thanks,
 				Luca
 
-On Tue, 30 May 2023 09:55:25 -0400
+On Tue, 30 May 2023 09:55:26 -0400
 Vineeth Pillai <vineeth@bitbyteword.org> wrote:
 
-> According to the GRUB[1] rule, the runtime is depreciated as:
->   "dq = -max{u, (1 - Uinact - Uextra)} dt" (1)
-> 
-> To guarantee that deadline tasks doesn't starve lower class tasks,
-> we do not allocate the full bandwidth of the cpu to deadline tasks.
-> Maximum bandwidth usable by deadline tasks is denoted by "Umax".
-> Considering Umax, equation (1) becomes:
->   "dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt" (2)
-> 
-> Current implementation has a minor bug in equation (2), which this
-> patch fixes.
-> 
-> The reclamation logic is verified by a sample program which creates
-> multiple deadline threads and observing their utilization. The tests
-> were run on an isolated cpu(isolcpus=3) on a 4 cpu system.
-> 
-> Tests on 6.3.0
-> ==============
-> 
-> RUN 1: runtime=7ms, deadline=period=10ms, RT capacity = 95%
-> TID[693]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 93.33
-> TID[693]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 93.35
-> 
-> RUN 2: runtime=1ms, deadline=period=100ms, RT capacity = 95%
-> TID[708]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 16.69
-> TID[708]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 16.69
-> 
-> RUN 3: 2 tasks
->   Task 1: runtime=1ms, deadline=period=10ms
->   Task 2: runtime=1ms, deadline=period=100ms
-> TID[631]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 62.67
-> TID[632]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 6.37
-> TID[631]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 62.38
-> TID[632]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 6.23
-> 
-> As seen above, the reclamation doesn't reclaim the maximum allowed
-> bandwidth and as the bandwidth of tasks gets smaller, the reclaimed
-> bandwidth also comes down.
-> 
-> Tests with this patch applied
-> =============================
-> 
-> RUN 1: runtime=7ms, deadline=period=10ms, RT capacity = 95%
-> TID[608]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 95.19
-> TID[608]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 95.16
-> 
-> RUN 2: runtime=1ms, deadline=period=100ms, RT capacity = 95%
-> TID[616]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 95.27
-> TID[616]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 95.21
-> 
-> RUN 3: 2 tasks
->   Task 1: runtime=1ms, deadline=period=10ms
->   Task 2: runtime=1ms, deadline=period=100ms
-> TID[620]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 86.64
-> TID[621]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 8.66
-> TID[620]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 86.45
-> TID[621]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 8.73
-> 
-> Running tasks on all cpus allowing for migration also showed that
-> the utilization is reclaimed to the maximum. Running 10 tasks on
-> 3 cpus SCHED_FLAG_RECLAIM - top shows:
-> %Cpu0  : 94.6 us,  0.0 sy,  0.0 ni,  5.4 id,  0.0 wa
-> %Cpu1  : 95.2 us,  0.0 sy,  0.0 ni,  4.8 id,  0.0 wa
-> %Cpu2  : 95.8 us,  0.0 sy,  0.0 ni,  4.2 id,  0.0 wa
-> 
-> [1]: Abeni, Luca & Lipari, Giuseppe & Parri, Andrea & Sun, Youcheng.
->      (2015). Parallel and sequential reclaiming in multicore
->      real-time global scheduling.
+> Update the details of GRUB to reflect the updated logic.
 > 
 > Signed-off-by: Vineeth Pillai (Google) <vineeth@bitbyteword.org>
 > ---
->  kernel/sched/deadline.c | 50
-> +++++++++++++++++++---------------------- kernel/sched/sched.h    |
-> 6 +++++ 2 files changed, 29 insertions(+), 27 deletions(-)
+>  Documentation/scheduler/sched-deadline.rst | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 71b24371a6f7..dfb59a363560 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-> @@ -1260,43 +1260,39 @@ int dl_runtime_exceeded(struct
-> sched_dl_entity *dl_se) }
+> diff --git a/Documentation/scheduler/sched-deadline.rst
+> b/Documentation/scheduler/sched-deadline.rst index
+> 9d9be52f221a..9fe4846079bb 100644 ---
+> a/Documentation/scheduler/sched-deadline.rst +++
+> b/Documentation/scheduler/sched-deadline.rst @@ -203,12 +203,15 @@
+> Deadline Task Scheduling
+>    - Total bandwidth (this_bw): this is the sum of all tasks
+> "belonging" to the runqueue, including the tasks in Inactive state.
 >  
->  /*
-> - * This function implements the GRUB accounting rule:
-> - * according to the GRUB reclaiming algorithm, the runtime is
-> - * not decreased as "dq = -dt", but as
-> - * "dq = -max{u / Umax, (1 - Uinact - Uextra)} dt",
-> + * This function implements the GRUB accounting rule. According to
-> the
-> + * GRUB reclaiming algorithm, the runtime is not decreased as "dq =
-> -dt",
-> + * but as "dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt",
->   * where u is the utilization of the task, Umax is the maximum
-> reclaimable
->   * utilization, Uinact is the (per-runqueue) inactive utilization,
-> computed
->   * as the difference between the "total runqueue utilization" and the
-> - * runqueue active utilization, and Uextra is the (per runqueue)
-> extra
-> + * "runqueue active utilization", and Uextra is the (per runqueue)
-> extra
->   * reclaimable utilization.
-> - * Since rq->dl.running_bw and rq->dl.this_bw contain utilizations
-> - * multiplied by 2^BW_SHIFT, the result has to be shifted right by
-> - * BW_SHIFT.
-> - * Since rq->dl.bw_ratio contains 1 / Umax multiplied by
-> 2^RATIO_SHIFT,
-> - * dl_bw is multiped by rq->dl.bw_ratio and shifted right by
-> RATIO_SHIFT.
-> - * Since delta is a 64 bit variable, to have an overflow its value
-> - * should be larger than 2^(64 - 20 - 8), which is more than 64
-> seconds.
-> - * So, overflow is not an issue here.
-> + * Since rq->dl.running_bw and rq->dl.this_bw contain utilizations
-> multiplied
-> + * by 2^BW_SHIFT, the result has to be shifted right by BW_SHIFT.
-> + * Since rq->dl.bw_ratio contains 1 / Umax multiplied by
-> 2^RATIO_SHIFT, dl_bw
-> + * is multiped by rq->dl.bw_ratio and shifted right by RATIO_SHIFT.
-> + * Since delta is a 64 bit variable, to have an overflow its value
-> should be
-> + * larger than 2^(64 - 20 - 8), which is more than 64 seconds. So,
-> overflow is
-> + * not an issue here.
->   */
->  static u64 grub_reclaim(u64 delta, struct rq *rq, struct
-> sched_dl_entity *dl_se) {
-> -	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot -
-> Uact */ u64 u_act;
-> -	u64 u_act_min = (dl_se->dl_bw * rq->dl.bw_ratio) >>
-> RATIO_SHIFT;
-> +	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot -
-> Uact */ 
->  	/*
-> -	 * Instead of computing max{u * bw_ratio, (1 - u_inact -
-> u_extra)},
-> -	 * we compare u_inact + rq->dl.extra_bw with
-> -	 * 1 - (u * rq->dl.bw_ratio >> RATIO_SHIFT), because
-> -	 * u_inact + rq->dl.extra_bw can be larger than
-> -	 * 1 * (so, 1 - u_inact - rq->dl.extra_bw would be negative
-> -	 * leading to wrong results)
-> +	 * Instead of computing max{u, (u_max - u_inact - u_extra)},
-> we
-> +	 * compare u_inact + u_extra with u_max - u, because u_inact
-> + u_extra
-> +	 * can be larger than u_max. So, u_max - u_inact - u_extra
-> would be
-> +	 * negative leading to wrong results.
->  	 */
-> -	if (u_inact + rq->dl.extra_bw > BW_UNIT - u_act_min)
-> -		u_act = u_act_min;
-> +	if (u_inact + rq->dl.extra_bw > rq->dl.max_bw - dl_se->dl_bw)
-> +		u_act = dl_se->dl_bw;
->  	else
-> -		u_act = BW_UNIT - u_inact - rq->dl.extra_bw;
-> +		u_act = rq->dl.max_bw - u_inact - rq->dl.extra_bw;
->  
-> +	u_act = (u_act * rq->dl.bw_ratio) >> RATIO_SHIFT;
->  	return (delta * u_act) >> BW_SHIFT;
->  }
->  
-> @@ -2784,12 +2780,12 @@ static void init_dl_rq_bw_ratio(struct dl_rq
-> *dl_rq) {
->  	if (global_rt_runtime() == RUNTIME_INF) {
->  		dl_rq->bw_ratio = 1 << RATIO_SHIFT;
-> -		dl_rq->extra_bw = 1 << BW_SHIFT;
-> +		dl_rq->max_bw = dl_rq->extra_bw = 1 << BW_SHIFT;
->  	} else {
->  		dl_rq->bw_ratio = to_ratio(global_rt_runtime(),
->  			  global_rt_period()) >> (BW_SHIFT -
-> RATIO_SHIFT);
-> -		dl_rq->extra_bw = to_ratio(global_rt_period(),
-> -
-> global_rt_runtime());
-> +		dl_rq->max_bw = dl_rq->extra_bw =
-> +			to_ratio(global_rt_period(),
-> global_rt_runtime()); }
->  }
->  
-> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-> index 3e8df6d31c1e..73027c2806dc 100644
-> --- a/kernel/sched/sched.h
-> +++ b/kernel/sched/sched.h
-> @@ -753,6 +753,12 @@ struct dl_rq {
->  	u64			this_bw;
->  	u64			extra_bw;
->  
-> +	/*
-> +	 * Maximum available bandwidth for reclaiming by
-> SCHED_FLAG_RECLAIM
-> +	 * tasks of this rq. Used in calculation of reclaimable
-> bandwidth(GRUB).
-> +	 */
-> +	u64			max_bw;
+> +  - Maximum usable bandwidth (max_bw): This is the maximum bandwidth
+> usable by
+> +    deadline tasks and is currently set to the RT capacity.
 > +
->  	/*
->  	 * Inverse of the fraction of CPU utilization that can be
-> reclaimed
->  	 * by the GRUB algorithm.
+>  
+>   The algorithm reclaims the bandwidth of the tasks in Inactive state.
+>   It does so by decrementing the runtime of the executing task Ti at
+> a pace equal to
+>  
+> -           dq = -max{ Ui / Umax, (1 - Uinact - Uextra) } dt
+> +           dq = -(max{ Ui, (Umax - Uinact - Uextra) } / Umax) dt
+>  
+>   where:
+>  
 
