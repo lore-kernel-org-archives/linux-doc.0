@@ -2,84 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98FCCC77B73
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 12:41:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A115C77B73
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 12:44:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231716AbjE3Ml3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 08:41:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39246 "EHLO
+        id S230354AbjE3MoP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 08:44:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231443AbjE3Ml0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 08:41:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C70133;
-        Tue, 30 May 2023 05:41:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7C8B662F86;
-        Tue, 30 May 2023 12:39:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4A6C433EF;
-        Tue, 30 May 2023 12:39:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685450359;
-        bh=TS1jJ1+J3AnhYCDxSoKKegrqTQJekZ2DPhjOmpAwbX4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NdkOXaeEgM+F3FBJgO2jS8dcT+yhIeR2jhBp4b+Mt6/CCiXJwhyOF9mFJJKclN+Ed
-         TyeH7phT7HQvqz7Iwap+9YtGlv+9O1vssyfXtX92KZCssxuUSWY2wk9h5TEREfQd8u
-         EQkJl4Z+2dcOrleyJ0PE3EzRjwAF+V8IVZKJqdmHFi8mUQWZkQ4QdFzNW6vIdt8nkQ
-         Nz12PgnDL1VDHZZHxljteMZjyj8OXtrGj/AHZZdY6fu309DkkeYcAQeAN+AqL4zx8+
-         3RsaIU9DhepU64I1ugFOxCfYysEFlCxxwbckxW7W99ooZ6IYg8BHmFd7TGM+3RILEX
-         KxlHEX8QcnSug==
-Date:   Tue, 30 May 2023 14:39:15 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Loic Poulain <loic.poulain@linaro.org>
-Cc:     corbet@lwn.net, viro@zeniv.linux.org.uk,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] init: Add support for rootwait timeout parameter
-Message-ID: <20230530-anziehen-brokkoli-4c1365e888ea@brauner>
-References: <20230526130716.2932507-1-loic.poulain@linaro.org>
- <20230530-polytechnisch-besten-258f74577eff@brauner>
- <CAMZdPi_WE7eegcn3V+7tUsJL2GoGottz2fGY14tkmqG9Tgdbhg@mail.gmail.com>
+        with ESMTP id S229821AbjE3MoO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 08:44:14 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4DF60116;
+        Tue, 30 May 2023 05:43:46 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6470EC14;
+        Tue, 30 May 2023 05:43:45 -0700 (PDT)
+Received: from FVFF77S0Q05N (unknown [10.57.25.100])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 310F33F67D;
+        Tue, 30 May 2023 05:42:58 -0700 (PDT)
+Date:   Tue, 30 May 2023 13:42:55 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        boqun.feng@gmail.com, corbet@lwn.net, keescook@chromium.org,
+        linux-arch@vger.kernel.org, linux@armlinux.org.uk,
+        linux-doc@vger.kernel.org, paulmck@kernel.org,
+        sstabellini@kernel.org, will@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 24/26] locking/atomic: scripts: generate kerneldoc
+ comments
+Message-ID: <ZHXvT86FN/7lx/fv@FVFF77S0Q05N>
+References: <20230522122429.1915021-1-mark.rutland@arm.com>
+ <20230522122429.1915021-25-mark.rutland@arm.com>
+ <96d6930b-78b1-4b4c-63e3-c385a764d6e3@gmail.com>
+ <20230524141152.GL4253@hirez.programming.kicks-ass.net>
+ <e76c924a-762c-061d-02b8-13be884ab344@gmail.com>
+ <c9399722-b2df-52ee-cefe-338b118aeb1e@infradead.org>
+ <a5405368-d04c-f95c-ad18-95f429120dbe@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMZdPi_WE7eegcn3V+7tUsJL2GoGottz2fGY14tkmqG9Tgdbhg@mail.gmail.com>
+In-Reply-To: <a5405368-d04c-f95c-ad18-95f429120dbe@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 30, 2023 at 01:23:50PM +0200, Loic Poulain wrote:
-> Hi Christian,
-> 
-> On Tue, 30 May 2023 at 11:45, Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > On Fri, May 26, 2023 at 03:07:16PM +0200, Loic Poulain wrote:
-> > > Add an optional timeout arg to 'rootwait' as the maximum time in
-> > > seconds to wait for the root device to show up before attempting
-> > > forced mount of the root filesystem.
-> > >
-> > > This can be helpful to force boot failure and restart in case the
-> > > root device does not show up in time, allowing the bootloader to
-> > > take any appropriate measures (e.g. recovery, A/B switch, retry...).
-> > >
-> > > In success case, mounting happens as soon as the root device is ready,
-> > > contrary to the existing 'rootdelay' parameter (unconditional delay).
-> > >
-> > > Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-> > > ---
-> >
-> > Not terribly opposed and not terribly convinced yet.
-> > So, we have rootdelay= with a timeout parameter that allows to specify a
-> > delay before attempting to mount the root device. And we have rootwait
-> > currently as an indefinite wait. Adding a timeout for rootwait doesn't
-> > seem crazy and is backwards compatible. But there's no mention of any
-> > concrete users or use-case for this which is usually preferable. If this
-> > is just "could be useful for someone eventually" it's way less desirable
-> > to merge this than when it's "here's a/multiple user/users"... So I
-> > would love to see a use-case described here.
-> 
-> I can integrate the following use case into a v2 if you think it makes sense:
+Hi Akira,
 
-Yes, please.
+On Fri, May 26, 2023 at 07:27:56PM +0900, Akira Yokosawa wrote:
+> I think adding "~" to the substitution pattern added in [1] as follows
+> should do the trick (not well tested):
+> 
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 2486689ffc7b..eb70c1fd4e86 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -64,7 +64,7 @@ my $type_constant = '\b``([^\`]+)``\b';
+>  my $type_constant2 = '\%([-_\w]+)';
+>  my $type_func = '(\w+)\(\)';
+>  my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+> -my $type_param_ref = '([\!]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+> +my $type_param_ref = '([\!~]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+>  my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
+>  my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
+>  my $type_env = '(\$\w+)';
+
+Are you happy to send this as a patch?
+
+I'd like to pick it into this series, so if you're happy to provide your
+Signed-off-by tag here, I'm happy to go write the commit message and so on.
+
+Thanks,
+Mark.
+
+> 
+> Thoughts?
+> 
+>         Thanks, Akira
+> 
+> > 
+> > 
+> >> [1]: ee2aa7590398 ("scripts: kernel-doc: accept negation like !@var")
+> > 
+> > thanks.
