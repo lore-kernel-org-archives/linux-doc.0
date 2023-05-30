@@ -2,49 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CC43C77B73
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 14:57:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A140C77B7A
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 15:28:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbjE3O5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 10:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34730 "EHLO
+        id S231334AbjE3P2i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 11:28:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232646AbjE3O5E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 10:57:04 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49984F1;
-        Tue, 30 May 2023 07:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=U8HiYp2slXvnvkKX5oxZ1aUtqPhFblbPbekApi8AX98=; b=swj2PYYnUZOwUPz3Ww7CzWaKWs
-        inM6Ivn1u5wfzymid/hw+tl7pEQGO9MyNDyB1KK3ZyzeQGsNI9vXBN8LBguXfyfhKL/UHTb+5YAZy
-        ysNqEgKpPc69U4S63QUKD5/QJhVWoS53qTrOeiZr5GADKTxjNLqrbJu8XL50KoArt5dqY5wkuVXF4
-        VHy7tkBjtdIG73OL7Lkf7jJ3Bembisrv4yFZPa6SYqk/CZloWwQeAcD+2yFVTS5i9tk0xjG8HjAFb
-        gUPyU3nkJ34p3j527ESCxSrXscwNt85h4P70hxuO4IWmoxGLZfgJoC8VJWqGcyM98onbriYYDUzTX
-        4957OcuA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1q40mP-00EIhR-0A;
-        Tue, 30 May 2023 14:56:57 +0000
-Date:   Tue, 30 May 2023 07:56:57 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Loic Poulain <loic.poulain@linaro.org>
-Cc:     corbet@lwn.net, viro@zeniv.linux.org.uk, brauner@kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] init: Add support for rootwait timeout parameter
-Message-ID: <ZHYOucvIYTBwnzOb@infradead.org>
-References: <20230526130716.2932507-1-loic.poulain@linaro.org>
+        with ESMTP id S230063AbjE3P2h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 11:28:37 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50FBDC5;
+        Tue, 30 May 2023 08:28:32 -0700 (PDT)
+Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 17E8F1EC0411;
+        Tue, 30 May 2023 17:28:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1685460510;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=7wMkihUDACMyxG5NoWweKMDlr/7la1a8uhQ7N10j4Jg=;
+        b=mRke7Bdnd6HC68Ll3Z22g/XU5cqrYW9/4I7rc9xVly+dj2IbILa2Ojd4dlSH6Zmjq1e4U2
+        rGgnl547wL6ZH1lBB62dbox0EFY8N1L6Wos2avbZxDKD28UgfJetes2/b3kFH8PkvJev6U
+        D8v8dNzkW0mu3Ye1MfrTXEUa4/CHPgE=
+Date:   Tue, 30 May 2023 17:28:25 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikelley@microsoft.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
+Message-ID: <20230530152825.GAZHYWGXAp8PHgN/w0@fat_crate.local>
+References: <20230502120931.20719-1-jgross@suse.com>
+ <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
+ <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
+ <20230510133024.GBZFuccC1FxIZNKL+8@fat_crate.local>
+ <4c47a11c-0565-678d-3467-e01c5ec16600@suse.com>
+ <20230511163208.GDZF0YiOfxQhSo4RDm@fat_crate.local>
+ <0cd3899b-cf3b-61c1-14ae-60b6b49d14ab@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230526130716.2932507-1-loic.poulain@linaro.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <0cd3899b-cf3b-61c1-14ae-60b6b49d14ab@suse.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This clashes a bit with my big rework in this area in the
-"fix the name_to_dev_t mess" series. I need to resend that series
-anyway, should I just include a rebased version of this patch?
+On Mon, May 22, 2023 at 04:17:50PM +0200, Juergen Gross wrote:
+> The attached diff is for patch 13.
+
+Merged and pushed out into same branch.
+
+Next issue. Diffing /proc/mtrr shows:
+
+--- proc-mtrr.6.3	2023-05-30 17:00:13.215999483 +0200
++++ proc-mtrr.after	2023-05-30 16:01:38.281997816 +0200
+@@ -1,8 +1,8 @@
+ reg00: base=0x000000000 (    0MB), size= 2048MB, count=1: write-back
+-reg01: base=0x080000000 ( 2048MB), size=  512MB, count=1: write-back
++reg01: base=0x080000000 ( 2048MB), size= 1024MB, count=1: write-back
+ reg02: base=0x0a0000000 ( 2560MB), size=  256MB, count=1: write-back
+ reg03: base=0x0ae000000 ( 2784MB), size=   32MB, count=1: uncachable
+-reg04: base=0x100000000 ( 4096MB), size= 4096MB, count=1: write-back
++reg04: base=0x100000000 ( 4096MB), size=  256MB, count=1: write-back
+ reg05: base=0x200000000 ( 8192MB), size= 8192MB, count=1: write-back
+ reg06: base=0x400000000 (16384MB), size= 1024MB, count=1: write-back
+ reg07: base=0x440000000 (17408MB), size=  256MB, count=1: write-back
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
