@@ -2,165 +2,298 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D57C77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 19:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB036C7EE24
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 19:34:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233176AbjE3TBb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 15:01:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44820 "EHLO
+        id S232479AbjE3TeF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 15:34:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233304AbjE3TB0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 15:01:26 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E13F10D;
-        Tue, 30 May 2023 12:00:48 -0700 (PDT)
-Received: from leknes.fjasle.eu ([46.142.48.138]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MWjQU-1pbSuN1bWi-00X0pn; Tue, 30 May 2023 20:55:03 +0200
-Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
+        with ESMTP id S230433AbjE3TeE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 15:34:04 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93CE6BE;
+        Tue, 30 May 2023 12:34:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=4dc8sj3FHzzLhi63BMaL8ARsadXKK6PBMKS8wZ1D+bM=; b=JM7SiKdzfwoBik0AKgxOsdxCpD
+        sDgnOT4X96GVp8CNJPJb+VOQVteRUg7rUp37Z51bccNB5PtdZZdFWuUdw496KccyYIcrBvzDCr6Bv
+        Y9Jko3S3agioN15y2YYHTWvPLYowFj33IOP2SMXTSAX3jmWiVTemAd+VQ5v3vP1z5MSBp1M6+QMNj
+        Yl95WQRRrZI/coCZDx5VKzQpkvp2WzKa6i9icU6WPABaTXb+MamtUc/8gix4iHb9+PGyAKxTFw0YV
+        PhcQmCHWi2/I64g8MCskmYk+R7GDeCcI2mbko//pOUA83Bdwaq1ULOdq+hdnfRe4a1X3c5leImvPG
+        MPvGP5Ww==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1q455b-006ZKF-17; Tue, 30 May 2023 19:33:03 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 40D453E741;
-        Tue, 30 May 2023 20:54:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1685472899; bh=7+tTLj7ZkkpypDR/yXXSvzEo0hl/cf47+VdmIcrlz/E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XhSGT3OT8oL/LejA0JHeojZXUI5QUe1hnidspSFisSpbkkq3IAPR5ZCNxtRiIFn+z
-         Tvjwk9E7GSq7XBDe4NSmYF+fb1JK3Pe2RGt7rir1jGJ9T3pSvJvnGm2rSmv+ZmyzKy
-         kwH0GkM6jya3EUQg9q1chwX6xkdqzhZMDKpfg7A4=
-Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id E6816179; Tue, 30 May 2023 20:54:58 +0200 (CEST)
-Date:   Tue, 30 May 2023 20:54:58 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] doc: Add tar requirement to changes.rst
-Message-ID: <ZHZGgvbTGGeYQXGE@bergen.fjasle.eu>
-References: <20230521132336.1279523-1-masahiroy@kernel.org>
- <20230521132336.1279523-2-masahiroy@kernel.org>
- <ZG5vvdlO8sTbqP4U@bergen.fjasle.eu>
- <CAK7LNASmJrWnV3+z-RE4W57M9tVrd6EwsyA2T07CF8jT3ePS5w@mail.gmail.com>
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9784F300233;
+        Tue, 30 May 2023 21:32:58 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 45294243A9FD8; Tue, 30 May 2023 21:32:58 +0200 (CEST)
+Date:   Tue, 30 May 2023 21:32:58 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     torvalds@linux-foundation.org
+Cc:     corbet@lwn.net, will@kernel.org, boqun.feng@gmail.com,
+        mark.rutland@arm.com, catalin.marinas@arm.com, dennis@kernel.org,
+        tj@kernel.org, cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-crypto@vger.kernel.org, sfr@canb.auug.org.au,
+        mpe@ellerman.id.au, James.Bottomley@hansenpartnership.com,
+        deller@gmx.de, linux-parisc@vger.kernel.org
+Subject: Re: [PATCH v3 08/11] slub: Replace cmpxchg_double()
+Message-ID: <20230530193258.GB211927@hirez.programming.kicks-ass.net>
+References: <20230515075659.118447996@infradead.org>
+ <20230515080554.453785148@infradead.org>
+ <20230524093246.GP83892@hirez.programming.kicks-ass.net>
+ <20230530142232.GA200270@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2sZq/OllSjUtaAk3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNASmJrWnV3+z-RE4W57M9tVrd6EwsyA2T07CF8jT3ePS5w@mail.gmail.com>
-X-Operating-System: Debian GNU/Linux 12.0
-Jabber-ID: nicolas@jabber.no
-X-Provags-ID: V03:K1:SJYsVbZBKo0C1AVlFP4cTMUa7SxYGJHTftG/AN3wJWN++5uBrqA
- PTksSibSFLQyHRYqrN34vM9fg+95nzA3LXCU/3PqOAHrzb640loeuTbvx/14HTHXrYrvr0M
- wQqJA7hB7loZBdL8ep9dRfxWJnenVpr6fbj4Sg2b9wtWjgrkxBlygUK25P7J6XDYjtguvB3
- D9N60+OU9evh7Yrk+t7GA==
-UI-OutboundReport: notjunk:1;M01:P0:yomuKxuFQNQ=;xcRH99lm28Z4nzrPxIGXBOaRxwa
- fYk26KMdNlWL/0UUwLCPkCMKCxL93nRkG8m5hAzBgdysxldGbxPlzJYunnCMG8qdq4b3XuOBz
- crFhjckPK/0qLymOWw3IfagtWnNCGbDYtBgRld+gnuyDiQ82OPC1UqKkPxdxlZHv9o2I3+wro
- Rih1n1usGtBUH7tGx+Vp9G6Ocrs0fsqaJKVU7jN1nHkLM+zvGH8zEIq7cClMP7VobwOZgf4fy
- bP8ai8HWqLXzhLr2/QiPAb0ZFdpZHy2lVS7T1eZnvEUMi8dr9rpolormIwmob9E0wa8kpOGO+
- xz7PlxoPdoMxadBOZSzg7DtCEVKVHquu+D//1HpT7+2WML7UAWE8SsbHTG5kgnLM9Bx2J+D8s
- 6PHJ6RARDnNbxs2N1aKSfwHlcGbmsgPZR/z4PBcXNS9ypQhS6bBCbs+NSfemxgKp8/f/cjPZn
- 2VH0HpQ83wm7ILBd8xUmNb+0xKNX2Id9bLTssxWCfH01GNCLhHE2PSqo1V+z1SW5Lw7q0AXk3
- 9vlqBzI69jjzLlOhrQ/0N5/eAogPLoDV9d8VTLWqlcBqRXhdAcFWcIns+2x1kHEZWAhJubKku
- EOQVWFqZQC4u41mTk6NlIcuzn0Ny2djiwopWL7YRsZDG4A71IfJCJOiIAqDG/nmILUcLpr38W
- G+Wk344iWyDalZ7d+NJZCuWss3NiK46k/8BzDDD5Ow==
+In-Reply-To: <20230530142232.GA200270@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, May 30, 2023 at 04:22:32PM +0200, Peter Zijlstra wrote:
 
---2sZq/OllSjUtaAk3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Yet another alternative is using a struct type and an equality function,
+> just for this.
 
-On Sun 28 May 2023 16:15:02 GMT, Masahiro Yamada wrote:
-> On Thu, May 25, 2023 at 5:13=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu=
->=20
-> wrote:
-> >
-> > On Sun 21 May 2023 22:23:36 GMT, Masahiro Yamada wrote:
-> > > tar is used to build the kernel with CONFIG_IKHEADERS.
-> > >
-> > > GNU tar 1.28 or later is required.
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  Documentation/process/changes.rst | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/Documentation/process/changes.rst b/Documentation/proces=
-s/changes.rst
-> > > index a9ef00509c9b..3c0074214d75 100644
-> > > --- a/Documentation/process/changes.rst
-> > > +++ b/Documentation/process/changes.rst
-> > > @@ -60,6 +60,7 @@ openssl & libcrypto    1.0.0            openssl ver=
-sion
-> > >  bc                     1.06.95          bc --version
-> > >  Sphinx\ [#f1]_         1.7              sphinx-build --version
-> > >  cpio                   any              cpio --version
-> > > +GNU tar                1.28             tar --version
-> > >  gtags (optional)       6.6.5            gtags --version
-> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> > >
-> > > @@ -175,6 +176,12 @@ You will need openssl to build kernels 3.7 and h=
-igher if module signing is
-> > >  enabled.  You will also need openssl development packages to build k=
-ernels 4.3
-> > >  and higher.
-> > >
-> > > +Tar
-> > > +---
-> > > +
-> > > +GNU tar is needed if you want to enable access to the kernel headers=
- via sysfs
-> > > +(CONFIG_IKHEADERS).
-> >
-> > CONFIG_IKHEADERS does also require 'xz' (cp. kernel/gen_kheaders.sh),
-> > should it be mentioned in changes.rst as well?
->=20
->=20
-> It is true, bue 'xz' is required in other situations too.
->=20
-> For example,
-> CONFIG_KERNEL_XZ
-> CONFIG_MODULE_COMPRESS_XZ
-> CONFIG_INITRAMFS_COMPRESSION_XZ
->=20
->=20
-> If we document the requirement for 'xz',
-> we need to document the requirement for
-> 'gzip', 'zstd', 'lzma', etc. for the same reason.
->=20
-> So, I want to go only with 'tar' in this series.
+The best I could come up with in the regard is the below. It builds on
+HPPA64 and x86_64, but I've not ran it yet.
 
-yes, sounds reasonable.
+(also, the introduction of this_cpu_try_cmpxchg() should probably be
+split out into its own patch)
 
-Kind regards,
-Nicolas
-
---2sZq/OllSjUtaAk3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmR2RnoACgkQB1IKcBYm
-Emm88g//VqDBnVK3E88ObcPSlVWeotqPiFEgB3D0C5nO6R78W17Xbm4AacqwX0W2
-J34f4r2MAMa5Qx4d903ReJ/XhSPfn67d4NqtUg/FPcwU6XquYkVA+ZA4SzyjNpsP
-jUD43JJ/CevePo4gi2PlvBDfE0WOl8b54hkyHyS3mU+bHLck8Kq6bzZYKtddBpwO
-hRMPzEhW/wKhCa714nSX0C/oAz9r0pohOZuGuXt44kKZm+wXyZJ+wpEqbL0ZXa20
-KGQc6Dh5NwkK5W+MO2+KhmjBxayBzhtu65BNG0cLJRgbV/MWX/vrSUeuKHVo7agT
-nA6VQntt8bZb3dM01bLI24mm2/3zWuiLLt80ooxVjpRjlTgJW4HirzKWI9OsM0ME
-iqVa1ZSInhuK3Hw8DCu9U1UD1350apwa6AV4bUSDry8RHOqaHK/ItjI2bsKQY1KR
-Io+dtZCqsO0Yer9d5CtGzdEpbr/5HtcNvvSP8orBrpG7apZzZvpoApx9rkvkrZp6
-FisTytNo3bIcgk9tH890t14wm9BY1RY83L4CUnOWROESNwbADH5DCC8ISoPp3Yxa
-bpGEVY3IxcrRnP+/aaU7n/HTnAY3nrmIl4u3LOL64i1cgc/yvRQMuzqh19OdSq5Z
-pOA/nwwyMWTpl9AuEH7aJO1MDocy2EBYWojVNYJaaqAZdH3FLGs=
-=L/i3
------END PGP SIGNATURE-----
-
---2sZq/OllSjUtaAk3--
+--- a/include/asm-generic/percpu.h
++++ b/include/asm-generic/percpu.h
+@@ -99,6 +99,15 @@ do {									\
+ 	__ret;								\
+ })
+ 
++#define raw_cpu_generic_try_cmpxchg(pcp, ovalp, nval)			\
++({									\
++	typeof(pcp) __ret, __old = *(ovalp);				\
++	__ret = raw_cpu_cmpxchg(pcp, __old, nval);			\
++	if (!likely(__ret == __old))					\
++		*(ovalp) = __ret;					\
++	likely(__ret == __old);						\
++})
++
+ #define __this_cpu_generic_read_nopreempt(pcp)				\
+ ({									\
+ 	typeof(pcp) ___ret;						\
+@@ -167,6 +176,15 @@ do {									\
+ 	__ret;								\
+ })
+ 
++#define this_cpu_generic_try_cmpxchg(pcp, ovalp, nval)			\
++({									\
++	typeof(pcp) __ret, __old = *(ovalp);				\
++	__ret = this_cpu_cmpxchg(pcp, __old, nval);			\
++	if (!likely(__ret == __old))					\
++		*(ovalp) = __ret;					\
++	likely(__ret == __old);						\
++})
++
+ #ifndef raw_cpu_read_1
+ #define raw_cpu_read_1(pcp)		raw_cpu_generic_read(pcp)
+ #endif
+@@ -258,6 +276,36 @@ do {									\
+ #define raw_cpu_xchg_8(pcp, nval)	raw_cpu_generic_xchg(pcp, nval)
+ #endif
+ 
++#ifndef __SIZEOF_INT128__
++#define raw_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval)		\
++({									\
++	typeof(pcp) *__p = raw_cpu_ptr(&(pcp));				\
++	typeof(pcp) __ret, __old = *(ovalp);				\
++	bool __s;							\
++	__ret = *__p;							\
++	if (!__builtin_memcmp(&__ret, &__old, sizeof(pcp))) {		\
++		*__p = nval;						\
++		__s = true;						\
++	} else {							\
++		*(ovalp) = __ret;					\
++		__s = false;						\
++	}								\
++	__s;								\
++})
++
++#define raw_cpu_generic_cmpxchg_memcmp(pcp, oval, nval)			\
++({									\
++	typeof(pcp) __old = (oval);					\
++	raw_cpu_generic_try_cmpxchg_memcpy(pcp, &__old, nval);		\
++	__old;								\
++})
++
++#define raw_cpu_cmpxchg128(pcp, oval, nval) \
++	raw_cpu_generic_cmpxchg_memcmp(pcp, oval, nval)
++#define raw_cpu_try_cmpxchg128(pcp, ovalp, nval) \
++	raw_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval)
++#endif
++
+ #ifndef raw_cpu_cmpxchg_1
+ #define raw_cpu_cmpxchg_1(pcp, oval, nval) \
+ 	raw_cpu_generic_cmpxchg(pcp, oval, nval)
+@@ -283,6 +331,31 @@ do {									\
+ 	raw_cpu_generic_cmpxchg(pcp, oval, nval)
+ #endif
+ 
++#ifndef raw_cpu_try_cmpxchg_1
++#define raw_cpu_try_cmpxchg_1(pcp, ovalp, nval) \
++	raw_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef raw_cpu_try_cmpxchg_2
++#define raw_cpu_try_cmpxchg_2(pcp, ovalp, nval) \
++	raw_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef raw_cpu_try_cmpxchg_4
++#define raw_cpu_try_cmpxchg_4(pcp, ovalp, nval) \
++	raw_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef raw_cpu_try_cmpxchg_8
++#define raw_cpu_try_cmpxchg_8(pcp, ovalp, nval) \
++	raw_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef raw_cpu_try_cmpxchg64
++#define raw_cpu_try_cmpxchg64(pcp, ovalp, nval) \
++	raw_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef raw_cpu_try_cmpxchg128
++#define raw_cpu_try_cmpxchg128(pcp, ovalp, nval) \
++	raw_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++
+ #ifndef this_cpu_read_1
+ #define this_cpu_read_1(pcp)		this_cpu_generic_read(pcp)
+ #endif
+@@ -374,6 +447,33 @@ do {									\
+ #define this_cpu_xchg_8(pcp, nval)	this_cpu_generic_xchg(pcp, nval)
+ #endif
+ 
++#ifndef __SIZEOF_INT128__
++#define this_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval)		\
++({									\
++ 	bool __ret;							\
++	unsigned long __flags;						\
++	raw_local_irq_save(__flags);					\
++	__ret = raw_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval);	\
++	raw_local_irq_restore(__flags);					\
++	__ret;								\
++})
++
++#define this_cpu_generic_cmpxchg_memcmp(pcp, oval, nval)		\
++({									\
++	typeof(pcp) __ret;						\
++	unsigned long __flags;						\
++	raw_local_irq_save(__flags);					\
++	__ret = raw_cpu_generic_cmpxchg_memcmp(pcp, oval, nval);	\
++	raw_local_irq_restore(__flags);					\
++	__ret;								\
++})
++
++#define this_cpu_cmpxchg128(pcp, oval, nval) \
++	this_cpu_generic_cmpxchg_memcmp(pcp, oval, nval)
++#define this_cpu_try_cmpxchg128(pcp, ovalp, nval) \
++	this_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval)
++#endif
++
+ #ifndef this_cpu_cmpxchg_1
+ #define this_cpu_cmpxchg_1(pcp, oval, nval) \
+ 	this_cpu_generic_cmpxchg(pcp, oval, nval)
+@@ -399,4 +499,29 @@ do {									\
+ 	this_cpu_generic_cmpxchg(pcp, oval, nval)
+ #endif
+ 
++#ifndef this_cpu_try_cmpxchg_1
++#define this_cpu_try_cmpxchg_1(pcp, ovalp, nval) \
++	this_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef this_cpu_try_cmpxchg_2
++#define this_cpu_try_cmpxchg_2(pcp, ovalp, nval) \
++	this_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef this_cpu_try_cmpxchg_4
++#define this_cpu_try_cmpxchg_4(pcp, ovalp, nval) \
++	this_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef this_cpu_try_cmpxchg_8
++#define this_cpu_try_cmpxchg_8(pcp, ovalp, nval) \
++	this_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef this_cpu_try_cmpxchg64
++#define this_cpu_try_cmpxchg64(pcp, ovalp, nval) \
++	this_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++#ifndef this_cpu_try_cmpxchg128
++#define this_cpu_try_cmpxchg128(pcp, ovalp, nval) \
++	this_cpu_generic_try_cmpxchg(pcp, ovalp, nval)
++#endif
++
+ #endif /* _ASM_GENERIC_PERCPU_H_ */
+--- a/include/linux/types.h
++++ b/include/linux/types.h
+@@ -13,6 +13,13 @@
+ #ifdef __SIZEOF_INT128__
+ typedef __s128 s128;
+ typedef __u128 u128;
++#else
++#ifdef CONFIG_64BIT
++/* hack for this_cpu_cmpxchg128 */
++typedef struct {
++	u64 a, b;
++} u128 __attribute__((aligned(16)));
++#endif
+ #endif
+ 
+ typedef u32 __kernel_dev_t;
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -11,14 +11,14 @@ void __init kmem_cache_init(void);
+ # define system_has_freelist_aba()	system_has_cmpxchg128()
+ # define try_cmpxchg_freelist		try_cmpxchg128
+ # endif
+-#define this_cpu_cmpxchg_freelist	this_cpu_cmpxchg128
++#define this_cpu_try_cmpxchg_freelist	this_cpu_try_cmpxchg128
+ typedef u128 freelist_full_t;
+ #else /* CONFIG_64BIT */
+ # ifdef system_has_cmpxchg64
+ # define system_has_freelist_aba()	system_has_cmpxchg64()
+ # define try_cmpxchg_freelist		try_cmpxchg64
+ # endif
+-#define this_cpu_cmpxchg_freelist	this_cpu_cmpxchg64
++#define this_cpu_try_cmpxchg_freelist	this_cpu_try_cmpxchg64
+ typedef u64 freelist_full_t;
+ #endif /* CONFIG_64BIT */
+ 
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3037,8 +3037,8 @@ __update_cpu_freelist_fast(struct kmem_c
+ 	freelist_aba_t old = { .freelist = freelist_old, .counter = tid };
+ 	freelist_aba_t new = { .freelist = freelist_new, .counter = next_tid(tid) };
+ 
+-	return this_cpu_cmpxchg_freelist(s->cpu_slab->freelist_tid.full,
+-					 old.full, new.full) == old.full;
++	return this_cpu_try_cmpxchg_freelist(s->cpu_slab->freelist_tid.full,
++					     &old.full, new.full);
+ }
+ 
+ /*
