@@ -2,109 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F6E4C77B7E
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 01:20:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24F5AC77B7E
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 03:09:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbjE3BUq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 May 2023 21:20:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57738 "EHLO
+        id S230047AbjE3DJo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 May 2023 23:09:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbjE3BUp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 21:20:45 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FED0B0;
-        Mon, 29 May 2023 18:20:45 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-64d5b4c3ffeso2786023b3a.2;
-        Mon, 29 May 2023 18:20:45 -0700 (PDT)
+        with ESMTP id S230075AbjE3DJk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 May 2023 23:09:40 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732C5E0;
+        Mon, 29 May 2023 20:09:35 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-53f9a376f3eso947648a12.0;
+        Mon, 29 May 2023 20:09:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685409644; x=1688001644;
+        d=gmail.com; s=20221208; t=1685416174; x=1688008174;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GeB1bn1Ql5+eICLY4RZmbNRSVw+MUH1bfVzmbTWRzaw=;
-        b=kxaOaWbBY428vRJIztcvhlJfpi2EqM9xng1XqnaSI0/WeKxi7fcb1NgjlMfuAa3Y9I
-         W8L3wak/i0x1zSmGAQyhHzboFI8y+RonApN7gT7VJJAfslrCZ9zxOCXAe8T7P46UeoRj
-         i4H9UrUCTg+iJGIQCRL871Cv8QfTrqu6hheXHP95ezCqQ4mqINVtuje6nw3xxAlbgd1l
-         pSZZCdAktY4d2j/+U+cRIpHt/Cuy+G8BupxStOiQ6mNDGVVOrtA/AdJoppfwyqSmaWCM
-         4NyWrbB71NH+17razGhwvC0i7t4q5SsCI0BR4q04EwTyIXM+92Uu9gqLCDUvRctd2vDI
-         DW2A==
+        bh=OHha7skYKya3YZ9Yq4CvIc6dsTZef5S5YbQ/NaBv3TA=;
+        b=nqNy+aH6lnZgEWufNk5dgaIMiij6+g5EOXT8T7A+Lt99aQ9mRjK5bLpKqBYYc0yzdH
+         0+d4uvwP6kyZRim96acurrJstqriWKplKYPIayRNwbYPFEZROEj7tl3lJIE/JUfesd5+
+         UHfgjDrNLY9kEAWatkc2hDztMoRi4qolizUwSjXzOHj6sSQD44Jn5YkVv9UslS/9FcUa
+         fudS6BGNkCa/PndUmGasdObstYrgFzDWj0Wsn1NbDL51vo0QYemI5b/7w2b40H8Z/aL6
+         y7vrIXLKy3Urk25tqrFGU9aKfVN6x8tkKWkd09wENjtDzNrTsn1c3XsEZhKcMpmVKdyn
+         ob4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685409644; x=1688001644;
+        d=1e100.net; s=20221208; t=1685416174; x=1688008174;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GeB1bn1Ql5+eICLY4RZmbNRSVw+MUH1bfVzmbTWRzaw=;
-        b=WoNxoTuYo6bZqwXDu7OAmRE+kWy0HI9zZy03HQYKtFVBD2DEqjNKkyKPatBgSudN5Z
-         h6LFQbNSO64sGxxkttMYXMNe0jVEvR5BosgSSe3incrV8XcGeC1Tw7sEI3QKPIfd4hNO
-         cJQzaQt7IDyQFBN4+R2EY+DuWagfLInxbtZPcYxUSNRnR+6I48vUv6otkNoaxN/sRYOo
-         FDRLN7E69CnzvYmEAWNVrgNxwdC1VN8dlMlRlpdv6iBKr2f0ITP6VukQHZu/HD8yfMPp
-         WKS53XuLIeEEQEL3KhAw86PeNDBrS4lQAfrTLyXTaCGUuXdmMiQp+JFIF7d8Vj9ljtla
-         3dSw==
-X-Gm-Message-State: AC+VfDxGSuQCfK0jUzg1KT2JgHKxOOZ2KzvBBgkZwY+g4ZdX6HfmI5yQ
-        cEYAKcTyOv/f92xUeMznc7Q=
-X-Google-Smtp-Source: ACHHUZ7DdXmy6fDeXqOHbYEVSqFa35aqm0taGsyDqf5kW5W5EOM+zjEpxFGezYDOh/Nl8POn1X5Aqw==
-X-Received: by 2002:a05:6a20:5483:b0:10b:2f5a:83af with SMTP id i3-20020a056a20548300b0010b2f5a83afmr860114pzk.16.1685409644530;
-        Mon, 29 May 2023 18:20:44 -0700 (PDT)
-Received: from [192.168.43.80] (subs28-116-206-12-46.three.co.id. [116.206.12.46])
-        by smtp.gmail.com with ESMTPSA id w123-20020a636281000000b00528b78ddbcesm7683403pgb.70.2023.05.29.18.20.41
+        bh=OHha7skYKya3YZ9Yq4CvIc6dsTZef5S5YbQ/NaBv3TA=;
+        b=QbBLxW6uAgtkPWZ3fui8v9OfgqG5M4jzXDMDG1andzI7+PbLXZe6FFJ+ye8d8lHAJz
+         DN4niTu/a4pIuFbK1xItG2a5xWO274Smz9qJQ9yKeSc6uePwjg2Oe35K5aNq/8aYC9/6
+         MKg+ZSx5L7uiYoZLNioozi4pEwUd7m+3vf9AHaCOkUBEMLR5dYr5ecNS/yJDtYKi5S4v
+         4r/UJTS1KfStTEMwEaCHKjRLsNRHkJLQqxfujiLm13olGHXMur66FgViXgcPh1dqptbz
+         FWc1EVmaqvXHc+3Wnx48e7tzVAGjmC0+06RA1Wmh593OiCriGF1tF3iUcti/AmAqGB5r
+         0nFg==
+X-Gm-Message-State: AC+VfDzggNTJo6RptsqgeKZ+N3lLrJrMVueZpRO46k8FJxR+2/D0bSot
+        39ElaqzJl/aeDT95NnTyZx0=
+X-Google-Smtp-Source: ACHHUZ5pMXMQ/CqUWNS0MCIllEY4M9NsQixB8jkD8YOEy/fqDSIycPN4xCg0g4GnwTDQnZmG5hg9Wg==
+X-Received: by 2002:a17:903:278c:b0:1ac:b449:352d with SMTP id jw12-20020a170903278c00b001acb449352dmr805807plb.61.1685416174083;
+        Mon, 29 May 2023 20:09:34 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-15.three.co.id. [180.214.232.15])
+        by smtp.gmail.com with ESMTPSA id p4-20020a170902e74400b001a95c7742bbsm8972584plf.9.2023.05.29.20.09.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 May 2023 18:20:44 -0700 (PDT)
-Message-ID: <f569e819-9391-0a52-fcda-24946687690d@gmail.com>
-Date:   Tue, 30 May 2023 08:20:39 +0700
+        Mon, 29 May 2023 20:09:33 -0700 (PDT)
+Message-ID: <2b8dbe95-c7e9-5158-93f6-865306a661b0@gmail.com>
+Date:   Tue, 30 May 2023 10:09:28 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH] docs: split subtitle of Submitting patches
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Rong Tao <rtoax@foxmail.com>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20230425072644.868535-1-costa.shul@redhat.com>
+Subject: Re: [net-next PATCH v3 03/13] Documentation: leds: leds-class:
+ Document new Hardware driven LEDs APIs
+To:     Christian Marangi <ansuelsmth@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-leds@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+References: <20230527112854.2366-1-ansuelsmth@gmail.com>
+ <20230527112854.2366-4-ansuelsmth@gmail.com> <ZHRd5wDnMrWZlwrd@debian.me>
+ <871qiz5iqt.fsf@meer.lwn.net> <6474b526.050a0220.baa3e.31c1@mx.google.com>
 Content-Language: en-US
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230425072644.868535-1-costa.shul@redhat.com>
+In-Reply-To: <6474b526.050a0220.baa3e.31c1@mx.google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/25/23 14:26, Costa Shulyupin wrote:
-> Motivation:
+On 5/29/23 21:09, Christian Marangi wrote:
+> Just to clarify, a device name can't be returned. Not every device have
+> a name and such name can be changed. An example is network device where
+> you can change the name of the interface.
 > 
-> The original long page title in the left Content pane spans three lines:
-> 
-> Submitting patches: the essential
->   guide to getting your code into
->   the kernel
+> Using the device prevents all of this problem. 
 > 
 
-I think it's OK to have that, if the title can't be further condensed.
-
-> Issues:
-> - It is not readable.
-> - It further inflates already overpopulated Contents pane.
-> 
-
-table of contents?
-
-> The solution:
-> - Split the long title to title and subtitle.
-> - Vertical bar '|' in Sphinx-doc introduces empty line to
->   make the subtitle closer to the title than to the following text.
-> 
-
-Nope.
-
-The title (as a whole) is already descriptive enough for
-describing the text.
-
-Thanks.
+Oh, I guess it was /dev/something.
 
 -- 
 An old man doll... just what I always wanted! - Clara
