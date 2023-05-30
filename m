@@ -2,53 +2,52 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BFD5C77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 13:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4236C77B73
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 13:55:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231708AbjE3Nze (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 09:55:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42860 "EHLO
+        id S231282AbjE3Nzd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 09:55:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231651AbjE3Nze (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 09:55:34 -0400
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE07AEA
-        for <linux-doc@vger.kernel.org>; Tue, 30 May 2023 06:55:32 -0700 (PDT)
-Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-626117a8610so14735976d6.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 May 2023 06:55:32 -0700 (PDT)
+        with ESMTP id S230297AbjE3Nzd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 09:55:33 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E40CC5
+        for <linux-doc@vger.kernel.org>; Tue, 30 May 2023 06:55:31 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-75b1219506fso268500985a.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 May 2023 06:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1685454932; x=1688046932;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gSS96BQmp/orj0veigjn/MG+4No9KgOkSEIBHXDxWNk=;
-        b=nQyentgTue7+lWz00xktFPfo45ahUAyYxIrD7TRCr5XvjtrprXD6x3GejfX+F64zmP
-         wFgszkowqam8yjAXwH5pjAVuIrNDnqCZwPTlkeUutU3qxRrR6/Ga707aT4xP2uQp/Xxr
-         ZIM3rkMiN0uibjTZNA9YpOgPkFCQXG4i1Mi0u3z35yBzfkjbHF1XobjD+XlLyr6oQfQ6
-         +5jlpLgzKkUT3N7E3GQVVeTkluZ2zyNWKUVwsvPlUWmRtZs5ijliG6NNzeamTqXqQwwo
-         Xf1POkN9OlG8jSHzmkbQ2vkj73TRM84ZlPkqLMFA832QZuNKszAA57sq8qgjsr2h9IPL
-         /fhA==
+        d=bitbyteword.org; s=google; t=1685454930; x=1688046930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bCwWToyQKtICdNGe6+AapfyyTv9y8AgeYjg/GDQ7ucM=;
+        b=RiVGEt6lApvzGINUpRZxzXKzaa32ssgJpiwx1K628RDHjX15IYrVrSoaJ3bUya1Glc
+         ARLwus5xGxeWMFu5X5ijDIYP5kZcphn2A351UqaAqCC0JPNcWA1kr5NsVMpfVq60zOZ0
+         aRVvqJVT/O8qHLupKqfd0+ewZhP1ZisbnLMapelcTp+EFDd35X9s8KQhWpG05AXYzKPR
+         cLC4cvlJLyKAEGaRQGQDB9CpgnHClfXXRFAnIouT7b6STTsLucyXbPWL7NfwqUxgO3yi
+         Oysrq/zIjJG21HI/dhspAOfVVBKKI2IuVcMtkBHgRVJchu4LhDNPMy+DpnK94CpKpie/
+         ftKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685454932; x=1688046932;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gSS96BQmp/orj0veigjn/MG+4No9KgOkSEIBHXDxWNk=;
-        b=GInLTOdmFP3K7/T02hd4swPwgFQERcfmCjjhX/r6il0FX0axmYj0eWvPxAYrjOaNqJ
-         6yJ4W+01H/OMfC/F7GsYPJtkrflOznrPpCjmAF1DCtneCxeR1ONOWi0cQn2BcVyIXBNa
-         fSvUxn8cCoqZaF0cujA9Tp2g9Ga6s1bSrz8ZiuCoIQ5TybUwFnWIT1aJAmKj3YEk0peo
-         P1H62Ucgps0XwxwZOWLv6KkO1y2YcfMUrFNctNaaIG5VwF0LujT7fHB3uCJOy03j2whR
-         WZ7+Jq2Yxfy7OB73t5CLeh9r5ubfYx2JfU23efHoU0VYXt9JxXy+uZRyztHTSzY7cmNz
-         iswg==
-X-Gm-Message-State: AC+VfDzbV1QdH22jdswBcnYDNAMWCD9IUnjk6zZl6dH7TCDDc5z+iMQi
-        w3m1wSmTBKFU4hjWSNtCMiQe/CUGlXbMOhLNIuyybg==
-X-Google-Smtp-Source: ACHHUZ4HGmG9UVJRljVDJw5k+9dXUnZxA01/wBQn72HUyv0GiGCkKl5WWl/q8SD7cwN90DQ8akUSNg==
-X-Received: by 2002:a05:6214:529a:b0:621:48be:baa8 with SMTP id kj26-20020a056214529a00b0062148bebaa8mr1866832qvb.48.1685454931816;
-        Tue, 30 May 2023 06:55:31 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685454930; x=1688046930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bCwWToyQKtICdNGe6+AapfyyTv9y8AgeYjg/GDQ7ucM=;
+        b=KEGOscQ2xMbqj9WN561N/4ihDZz8IIcMjX7vI/uFa60rXJIPwKqkwTH4QrVPo4WHdA
+         ICUPPvn69VrXZATVnacoqtpOTSGjUcTG4kvjb+SsK8fZq47apRtD4zLPaB6dZNUh59rY
+         5vJiPVJQ2M7cRZkldOxITN2GUT4OyHcKRZgxlBxTa+szpp8PDYe02qIFxuhzVcpK590f
+         f40jsVPJmXe8nrAhEwD5CIEz7ERieFROuBWRXByl25Ldbn1sKOtMccZDnpwffcmCZ6kI
+         PU79wBpxfybXa/pbFyciIK8bRSmxUHKrJQJbOpiyhKm683+VYgSeuMq2DZ7nZtdipM98
+         sJJw==
+X-Gm-Message-State: AC+VfDzACI24Pl4gEhiqcaSWGqgAvoqwlYM5anSiDviwvcTHrdNb4/bS
+        JuGHFDiK5MZMJQNriqsap0nE6A==
+X-Google-Smtp-Source: ACHHUZ7rhI8Xed0+/5OmnVxXvVzjxdbPPPswgEt0Bur5XhQzvnllG0az4bCT/KmDzbU3IG94B7mclQ==
+X-Received: by 2002:a05:620a:2b48:b0:75b:23a1:8e46 with SMTP id dp8-20020a05620a2b4800b0075b23a18e46mr1879471qkb.23.1685454930466;
+        Tue, 30 May 2023 06:55:30 -0700 (PDT)
 Received: from vinz16.lan (c-73-143-21-186.hsd1.vt.comcast.net. [73.143.21.186])
-        by smtp.gmail.com with ESMTPSA id u6-20020ae9c006000000b0074d4cf8f9fcsm527809qkk.107.2023.05.30.06.55.30
+        by smtp.gmail.com with ESMTPSA id u6-20020ae9c006000000b0074d4cf8f9fcsm527809qkk.107.2023.05.30.06.55.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 06:55:31 -0700 (PDT)
+        Tue, 30 May 2023 06:55:30 -0700 (PDT)
 From:   Vineeth Pillai <vineeth@bitbyteword.org>
 To:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
         Daniel Bristot de Oliveira <bristot@redhat.com>,
@@ -64,46 +63,192 @@ To:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
 Cc:     Vineeth Pillai <vineeth@bitbyteword.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v5 2/2] sched/deadline: Update GRUB description in the documentation
-Date:   Tue, 30 May 2023 09:55:26 -0400
-Message-Id: <20230530135526.2385378-2-vineeth@bitbyteword.org>
+Subject: [PATCH v5 1/2] sched/deadline: Fix bandwidth reclaim equation in GRUB
+Date:   Tue, 30 May 2023 09:55:25 -0400
+Message-Id: <20230530135526.2385378-1-vineeth@bitbyteword.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230530135526.2385378-1-vineeth@bitbyteword.org>
-References: <20230530135526.2385378-1-vineeth@bitbyteword.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the details of GRUB to reflect the updated logic.
+According to the GRUB[1] rule, the runtime is depreciated as:
+  "dq = -max{u, (1 - Uinact - Uextra)} dt" (1)
+
+To guarantee that deadline tasks doesn't starve lower class tasks,
+we do not allocate the full bandwidth of the cpu to deadline tasks.
+Maximum bandwidth usable by deadline tasks is denoted by "Umax".
+Considering Umax, equation (1) becomes:
+  "dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt" (2)
+
+Current implementation has a minor bug in equation (2), which this
+patch fixes.
+
+The reclamation logic is verified by a sample program which creates
+multiple deadline threads and observing their utilization. The tests
+were run on an isolated cpu(isolcpus=3) on a 4 cpu system.
+
+Tests on 6.3.0
+==============
+
+RUN 1: runtime=7ms, deadline=period=10ms, RT capacity = 95%
+TID[693]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 93.33
+TID[693]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 93.35
+
+RUN 2: runtime=1ms, deadline=period=100ms, RT capacity = 95%
+TID[708]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 16.69
+TID[708]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 16.69
+
+RUN 3: 2 tasks
+  Task 1: runtime=1ms, deadline=period=10ms
+  Task 2: runtime=1ms, deadline=period=100ms
+TID[631]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 62.67
+TID[632]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 6.37
+TID[631]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 62.38
+TID[632]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 6.23
+
+As seen above, the reclamation doesn't reclaim the maximum allowed
+bandwidth and as the bandwidth of tasks gets smaller, the reclaimed
+bandwidth also comes down.
+
+Tests with this patch applied
+=============================
+
+RUN 1: runtime=7ms, deadline=period=10ms, RT capacity = 95%
+TID[608]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 95.19
+TID[608]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 95.16
+
+RUN 2: runtime=1ms, deadline=period=100ms, RT capacity = 95%
+TID[616]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 95.27
+TID[616]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 95.21
+
+RUN 3: 2 tasks
+  Task 1: runtime=1ms, deadline=period=10ms
+  Task 2: runtime=1ms, deadline=period=100ms
+TID[620]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 86.64
+TID[621]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 8.66
+TID[620]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 86.45
+TID[621]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 8.73
+
+Running tasks on all cpus allowing for migration also showed that
+the utilization is reclaimed to the maximum. Running 10 tasks on
+3 cpus SCHED_FLAG_RECLAIM - top shows:
+%Cpu0  : 94.6 us,  0.0 sy,  0.0 ni,  5.4 id,  0.0 wa
+%Cpu1  : 95.2 us,  0.0 sy,  0.0 ni,  4.8 id,  0.0 wa
+%Cpu2  : 95.8 us,  0.0 sy,  0.0 ni,  4.2 id,  0.0 wa
+
+[1]: Abeni, Luca & Lipari, Giuseppe & Parri, Andrea & Sun, Youcheng.
+     (2015). Parallel and sequential reclaiming in multicore
+     real-time global scheduling.
 
 Signed-off-by: Vineeth Pillai (Google) <vineeth@bitbyteword.org>
 ---
- Documentation/scheduler/sched-deadline.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ kernel/sched/deadline.c | 50 +++++++++++++++++++----------------------
+ kernel/sched/sched.h    |  6 +++++
+ 2 files changed, 29 insertions(+), 27 deletions(-)
 
-diff --git a/Documentation/scheduler/sched-deadline.rst b/Documentation/scheduler/sched-deadline.rst
-index 9d9be52f221a..9fe4846079bb 100644
---- a/Documentation/scheduler/sched-deadline.rst
-+++ b/Documentation/scheduler/sched-deadline.rst
-@@ -203,12 +203,15 @@ Deadline Task Scheduling
-   - Total bandwidth (this_bw): this is the sum of all tasks "belonging" to the
-     runqueue, including the tasks in Inactive state.
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index 71b24371a6f7..dfb59a363560 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -1260,43 +1260,39 @@ int dl_runtime_exceeded(struct sched_dl_entity *dl_se)
+ }
  
-+  - Maximum usable bandwidth (max_bw): This is the maximum bandwidth usable by
-+    deadline tasks and is currently set to the RT capacity.
+ /*
+- * This function implements the GRUB accounting rule:
+- * according to the GRUB reclaiming algorithm, the runtime is
+- * not decreased as "dq = -dt", but as
+- * "dq = -max{u / Umax, (1 - Uinact - Uextra)} dt",
++ * This function implements the GRUB accounting rule. According to the
++ * GRUB reclaiming algorithm, the runtime is not decreased as "dq = -dt",
++ * but as "dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt",
+  * where u is the utilization of the task, Umax is the maximum reclaimable
+  * utilization, Uinact is the (per-runqueue) inactive utilization, computed
+  * as the difference between the "total runqueue utilization" and the
+- * runqueue active utilization, and Uextra is the (per runqueue) extra
++ * "runqueue active utilization", and Uextra is the (per runqueue) extra
+  * reclaimable utilization.
+- * Since rq->dl.running_bw and rq->dl.this_bw contain utilizations
+- * multiplied by 2^BW_SHIFT, the result has to be shifted right by
+- * BW_SHIFT.
+- * Since rq->dl.bw_ratio contains 1 / Umax multiplied by 2^RATIO_SHIFT,
+- * dl_bw is multiped by rq->dl.bw_ratio and shifted right by RATIO_SHIFT.
+- * Since delta is a 64 bit variable, to have an overflow its value
+- * should be larger than 2^(64 - 20 - 8), which is more than 64 seconds.
+- * So, overflow is not an issue here.
++ * Since rq->dl.running_bw and rq->dl.this_bw contain utilizations multiplied
++ * by 2^BW_SHIFT, the result has to be shifted right by BW_SHIFT.
++ * Since rq->dl.bw_ratio contains 1 / Umax multiplied by 2^RATIO_SHIFT, dl_bw
++ * is multiped by rq->dl.bw_ratio and shifted right by RATIO_SHIFT.
++ * Since delta is a 64 bit variable, to have an overflow its value should be
++ * larger than 2^(64 - 20 - 8), which is more than 64 seconds. So, overflow is
++ * not an issue here.
+  */
+ static u64 grub_reclaim(u64 delta, struct rq *rq, struct sched_dl_entity *dl_se)
+ {
+-	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot - Uact */
+ 	u64 u_act;
+-	u64 u_act_min = (dl_se->dl_bw * rq->dl.bw_ratio) >> RATIO_SHIFT;
++	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot - Uact */
+ 
+ 	/*
+-	 * Instead of computing max{u * bw_ratio, (1 - u_inact - u_extra)},
+-	 * we compare u_inact + rq->dl.extra_bw with
+-	 * 1 - (u * rq->dl.bw_ratio >> RATIO_SHIFT), because
+-	 * u_inact + rq->dl.extra_bw can be larger than
+-	 * 1 * (so, 1 - u_inact - rq->dl.extra_bw would be negative
+-	 * leading to wrong results)
++	 * Instead of computing max{u, (u_max - u_inact - u_extra)}, we
++	 * compare u_inact + u_extra with u_max - u, because u_inact + u_extra
++	 * can be larger than u_max. So, u_max - u_inact - u_extra would be
++	 * negative leading to wrong results.
+ 	 */
+-	if (u_inact + rq->dl.extra_bw > BW_UNIT - u_act_min)
+-		u_act = u_act_min;
++	if (u_inact + rq->dl.extra_bw > rq->dl.max_bw - dl_se->dl_bw)
++		u_act = dl_se->dl_bw;
+ 	else
+-		u_act = BW_UNIT - u_inact - rq->dl.extra_bw;
++		u_act = rq->dl.max_bw - u_inact - rq->dl.extra_bw;
+ 
++	u_act = (u_act * rq->dl.bw_ratio) >> RATIO_SHIFT;
+ 	return (delta * u_act) >> BW_SHIFT;
+ }
+ 
+@@ -2784,12 +2780,12 @@ static void init_dl_rq_bw_ratio(struct dl_rq *dl_rq)
+ {
+ 	if (global_rt_runtime() == RUNTIME_INF) {
+ 		dl_rq->bw_ratio = 1 << RATIO_SHIFT;
+-		dl_rq->extra_bw = 1 << BW_SHIFT;
++		dl_rq->max_bw = dl_rq->extra_bw = 1 << BW_SHIFT;
+ 	} else {
+ 		dl_rq->bw_ratio = to_ratio(global_rt_runtime(),
+ 			  global_rt_period()) >> (BW_SHIFT - RATIO_SHIFT);
+-		dl_rq->extra_bw = to_ratio(global_rt_period(),
+-						    global_rt_runtime());
++		dl_rq->max_bw = dl_rq->extra_bw =
++			to_ratio(global_rt_period(), global_rt_runtime());
+ 	}
+ }
+ 
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index 3e8df6d31c1e..73027c2806dc 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -753,6 +753,12 @@ struct dl_rq {
+ 	u64			this_bw;
+ 	u64			extra_bw;
+ 
++	/*
++	 * Maximum available bandwidth for reclaiming by SCHED_FLAG_RECLAIM
++	 * tasks of this rq. Used in calculation of reclaimable bandwidth(GRUB).
++	 */
++	u64			max_bw;
 +
- 
-  The algorithm reclaims the bandwidth of the tasks in Inactive state.
-  It does so by decrementing the runtime of the executing task Ti at a pace equal
-  to
- 
--           dq = -max{ Ui / Umax, (1 - Uinact - Uextra) } dt
-+           dq = -(max{ Ui, (Umax - Uinact - Uextra) } / Umax) dt
- 
-  where:
- 
+ 	/*
+ 	 * Inverse of the fraction of CPU utilization that can be reclaimed
+ 	 * by the GRUB algorithm.
 -- 
 2.40.1
 
