@@ -2,87 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CA0C7EE23
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 12:56:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 636BBC7EE2C
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 13:02:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232480AbjE3M4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 08:56:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54410 "EHLO
+        id S232487AbjE3NCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 09:02:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232192AbjE3M4I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 08:56:08 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25FD0116;
-        Tue, 30 May 2023 05:55:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=64mK1OFe4COwzCMhVQzo8IqxnAghr5xj5oLavsN+gKE=; b=ps0Jpq5zIVKU0r+7buVHk6F1aW
-        hZz075udJuzE5LaIUrotew7YmMl1daG3V5pCSGzA0SaaagB129AuEqNa3pg48otK6yibizZNcHsex
-        HsGmFdTxJ/wvyBiZxpwqu9sqn01b1UFkrqXV3LGRbhIGl+rv5jJAC3l9wIP4k0gSwC54=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1q3yrg-00EKHq-2y; Tue, 30 May 2023 14:54:16 +0200
-Date:   Tue, 30 May 2023 14:54:16 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Christian Marangi <ansuelsmth@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>, linux-leds@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v4 00/13] leds: introduce new LED hw control APIs
-Message-ID: <7e5d1ed6-3fd7-4110-8171-9efd19b59023@lunn.ch>
-References: <20230529163243.9555-1-ansuelsmth@gmail.com>
- <20230529221722.549dfbd8@kernel.org>
+        with ESMTP id S232540AbjE3NCg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 09:02:36 -0400
+X-Greylist: delayed 79971 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 30 May 2023 06:02:32 PDT
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EAA4D9;
+        Tue, 30 May 2023 06:02:32 -0700 (PDT)
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 165FD5CC;
+        Tue, 30 May 2023 13:02:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 165FD5CC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1685451751; bh=3SGbXGOQNzzGuMtucvkj8QS43S18mpeT+xTTD9gRr68=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=fQLTe/EMkViY19r/dHDcNbZ14XWOlj9BKD73/NwQgPP+qgOQzu6QiIkelbQwXpj3S
+         H1beUZwWf1ho4h4uRVjJ6ByOHdtCN9zXw+WmuLl8WBA7qTwHe4kUiotqquVeJJmfJX
+         +6Eq/Be3Uxp3vxuzEYYd5StIRsHOfYjbwhu9CU0hAEi6OCbPC4vNAJd0n2j//aOhte
+         cI9FdwrwqPvCXBna/YB7M8kToLOgzWlRA6FBDlaopMDy016wrDP6gmrSaxsaFfqPXh
+         vDf7F3ME9XEFq3oRXMEHBBhQ1RO/pAtlagOuf2LQnfbwYtxtZnhwN6rSYNP7cZhSMk
+         2YGJDg55H+4ug==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Conor Dooley <conor.dooley@microchip.com>, soc@kernel.org
+Cc:     conor@kernel.org, conor.dooley@microchip.com,
+        devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        olof@lixom.net, palmer@dabbelt.com, robh+dt@kernel.org,
+        arnd@arndb.de
+Subject: Re: [PATCH v2] Documentation/process: add soc maintainer handbook
+In-Reply-To: <20230530-multiple-whooping-ee5706fceb67@wendy>
+References: <20230530-multiple-whooping-ee5706fceb67@wendy>
+Date:   Tue, 30 May 2023 07:02:26 -0600
+Message-ID: <87bki23rbx.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230529221722.549dfbd8@kernel.org>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 29, 2023 at 10:17:22PM -0700, Jakub Kicinski wrote:
-> On Mon, 29 May 2023 18:32:30 +0200 Christian Marangi wrote:
-> > Since this series is cross subsystem between LED and netdev,
-> > a stable branch was created to facilitate merging process.
-> > 
-> > This is based on top of branch ib-leds-netdev-v6.5 present here [1]
-> > and rebased on top of net-next since the LED stable branch got merged.
-> > 
-> > This is a continue of [2]. It was decided to take a more gradual
-> > approach to implement LEDs support for switch and phy starting with
-> > basic support and then implementing the hw control part when we have all
-> > the prereq done.
-> > 
-> > This is the main part of the series, the one that actually implement the
-> > hw control API.
-> 
-> Just to be 100% sure - these go into netdev/net-next directly, right?
-> No stable branch needed?
+Conor Dooley <conor.dooley@microchip.com> writes:
 
-From Christian and my side, yes. Ideally with Acked-by from Lee. We
-have more patches to come, and we will just stack them on top in
-net-next. The majority of those patches are for network drivers, not
-the LED subsystem.
+> Arnd suggested that adding a maintainer handbook for the SoC "subsystem"
+> would be helpful in trying to bring on board maintainers for the various
+> new platforms cropping up in RISC-V land.
+>
+> Add a document briefly describing the role of the SoC subsystem and some
+> basic advice for (new) platform maintainers.
+>
+> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> Changes in v2:
+> - add Krzysztof's suggested method for avoiding inter-branch
+>   dependencies
+> - explicitly mention that tags should be signed
+> - link to the devicetree abi document, rather than trying to explain it
+>   here & reword that whole section
+> - fix some typos, capitalisation & unify bullet style
+>
+> The devicetree abi doc feels quite out of date at this point, and could
+> probably do with a spring clean - but it also feels like hallowed ground
+> on which one should tread lightly, so I won't go near that til Rob is
+> back.
 
-If there are going to be any merge conflicts, they will be to the core
-LED header files. And such conflicts should be simple to resolve in
-linux-next. If anybody else starts hacking on ledtrig-netdev.c then we
-have problems, especially if it is an LED wide change. I don't know
-how easy it is to create a stable branch from net-next, which could be
-pulled into led-next, without it actually pulling in a huge number of
-networking patches?
+So, this is a nit, but worth considering...
 
-Lee?
+>  Documentation/devicetree/bindings/ABI.rst     |   2 +
+>  .../devicetree/bindings/writing-schema.rst    |   2 +
+>  .../process/maintainer-handbooks.rst          |   3 +-
+>  Documentation/process/maintainer-soc.rst      | 178 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  5 files changed, 185 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/process/maintainer-soc.rst
+>
+> diff --git a/Documentation/devicetree/bindings/ABI.rst b/Documentation/devicetree/bindings/ABI.rst
+> index a885713cf184..93ec82f78ae5 100644
+> --- a/Documentation/devicetree/bindings/ABI.rst
+> +++ b/Documentation/devicetree/bindings/ABI.rst
+> @@ -1,5 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> +.. _devicetree-abi:
 
-	Andrew
+Somehow we've developed this habit of putting labels at the top of each
+file; I really think that they just add clutter and are best left out.
+Without the label, this reference:
 
+> +Perhaps one of the most important things to highlight is that dt-bindings
+> +document the ABI between the devicetree and the kernel. Please see
+> +:ref:`devicetree-abi` more information on the ABI.
+
+...can just be written as "Please see
+Documentation/devicetree/bindings/ABI.rst".  The cross-reference link
+will be generated as expected, and readers of the plain-text docs don't
+have to go grepping to find the reference.
+
+Thanks,
+
+jon
