@@ -2,98 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F876C77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 13:12:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 435A7C7EE23
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 13:12:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232563AbjE3NMb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 09:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39608 "EHLO
+        id S232441AbjE3NMg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 09:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231907AbjE3NM1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 09:12:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D44A1
-        for <linux-doc@vger.kernel.org>; Tue, 30 May 2023 06:11:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685452302;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=r+6EG5NOedHhUekhNBuWsOrX2N+gdRBd6QiNFzYQtzg=;
-        b=VzssYmibBm2bQu7H8LFC/I4fHCvgvV5s5yww5XnnRx7AsbvkevEwzTEfn5cmVs4IbDfPyd
-        1MvRx2g6OnwWENm/Tet1k+SdzTs+Fc+ano5uBNUhANmj0+954VxxYilGqQo8zOX45vrd9Q
-        /Hx7lbR9YaVuLHpWoOtGucb7pD1b2c4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-265-ugdCW7PQNbW0ERH3pZKQXw-1; Tue, 30 May 2023 09:11:41 -0400
-X-MC-Unique: ugdCW7PQNbW0ERH3pZKQXw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9715654aba1so521160766b.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 May 2023 06:11:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685452300; x=1688044300;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r+6EG5NOedHhUekhNBuWsOrX2N+gdRBd6QiNFzYQtzg=;
-        b=Ymxf6Hz8zxAea5K80qKghhWTGeWI52WAirIG3nqn07taLeIDBf2mjv68I73oqw98P/
-         5QGlez/qrbTwhrIoGJQzhypbqv8LHGQFx1xBuGwBfu0ZvpfwvT25vdoQeimXNlYNGF9e
-         FLSRI/55Glb7gpRDYtX3hSMmDnnYK5TTQT6jv21ekqYRoRRt9o1SQht5QYEuvhT5THiO
-         xer/OiJSQSUzzZV/4/mJyKa07B5dlbQKPFhzQ/G9sXIoyQ5W8+HjcWmpN7uDJIZ8T3gB
-         aA73iPTLBUAttGDdLXnuLguJiXt65ekNsxDw86+SrZD/1dPCvwua3LQdob0eN44mqZ7H
-         BYpQ==
-X-Gm-Message-State: AC+VfDwx/sJZxjBFuVUVjA73hx2ehOy0/khuHVLzKqKWIFZbh2/WbIAF
-        hDo98TJxaxeMiQEK0uA6rRBfvhk6D1ku6dU6Q40UGH0HFANP1d2I+fzpsBG6i6u2TiM7/VvOQrh
-        jIIdQb1pA1KrfLaVcah1b
-X-Received: by 2002:a17:907:6292:b0:96f:ddaa:c30d with SMTP id nd18-20020a170907629200b0096fddaac30dmr2358221ejc.26.1685452300001;
-        Tue, 30 May 2023 06:11:40 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5rr6tIM5V+1BgGKNSxcvQbqymOEo9kSvokrEaCOceWoHcCAp3vqmzpgpVudXV76YB2ALbsAQ==
-X-Received: by 2002:a17:907:6292:b0:96f:ddaa:c30d with SMTP id nd18-20020a170907629200b0096fddaac30dmr2358202ejc.26.1685452299746;
-        Tue, 30 May 2023 06:11:39 -0700 (PDT)
-Received: from [192.168.0.224] (host-87-12-203-248.business.telecomitalia.it. [87.12.203.248])
-        by smtp.gmail.com with ESMTPSA id i11-20020a170906114b00b00965af4c7f07sm7258183eja.20.2023.05.30.06.11.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 06:11:39 -0700 (PDT)
-Message-ID: <e9ea284d-3a8b-b9ef-d179-b67628771bf4@redhat.com>
-Date:   Tue, 30 May 2023 15:11:18 +0200
+        with ESMTP id S232564AbjE3NMf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 09:12:35 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B75D0F0;
+        Tue, 30 May 2023 06:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1685452354; x=1716988354;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rgP8/DkgE67Jn/btWtUmo2sPLJIt6my6BaVAXky+q5g=;
+  b=JHD/9STnT4BRmtc9/w7Fvt0D+wh732N0y8MiQtcKzAYWAZO0HlVkJSqq
+   cbGn1BmFy7aOvW5k+VurbtbmgJ/sz7dJahEAVE0R8ZIxxO4GYzz/h8jWc
+   Ei14c0Rk7xiEgXzbKz3PazgY88qiPazAHa6Zz6hCXAU5WCSeE6SjHTR0Y
+   +GU1+gpE9sPu8tmp2MfThAv/yKbci0ohXoKP+5WXa+P9D5izjD+3IjeEO
+   FUiBxk5xFkqsQn7e/ZMTdOVng6BoLN7CAEDwnkzcTCL3KjKlk+EqnbSOP
+   umxlGTVNYxKmV+QW3sghNw1ISrlnMzfZcUINfMPjL+WGGDtaB7eBQ42ET
+   w==;
+X-IronPort-AV: E=Sophos;i="6.00,204,1681196400"; 
+   d="asc'?scan'208";a="213720607"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 30 May 2023 06:12:33 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 30 May 2023 06:12:32 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Tue, 30 May 2023 06:12:30 -0700
+Date:   Tue, 30 May 2023 14:12:07 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     <soc@kernel.org>, <conor@kernel.org>, <devicetree@vger.kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <olof@lixom.net>,
+        <palmer@dabbelt.com>, <robh+dt@kernel.org>, <arnd@arndb.de>
+Subject: Re: [PATCH v2] Documentation/process: add soc maintainer handbook
+Message-ID: <20230530-enviable-poise-183119e695bf@wendy>
+References: <20230530-multiple-whooping-ee5706fceb67@wendy>
+ <87bki23rbx.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v4 1/2] sched/deadline: Fix bandwidth reclaim equation in
- GRUB
-To:     Vineeth Remanan Pillai <vineeth@bitbyteword.org>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        youssefesmat@google.com,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, luca abeni <luca.abeni@santannapisa.it>
-References: <20230526145519.2282062-1-vineeth@bitbyteword.org>
- <20230526172959.5440b9dd@nowhere>
- <CAO7JXPgLFgXANqXY7L-YLbijxJCOgUKmd8nUQizb62JorOXGhA@mail.gmail.com>
- <CAO7JXPit6snFM2oW-uSs-mtbmKr9wpbX2exqAUF0iAiaAO6hOg@mail.gmail.com>
- <CAO7JXPgf9ffVQ3n9iD8-1abuDSAZHWAZmz56BmM68uJZ7uy+Uw@mail.gmail.com>
-Content-Language: en-US
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-In-Reply-To: <CAO7JXPgf9ffVQ3n9iD8-1abuDSAZHWAZmz56BmM68uJZ7uy+Uw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Vd/KN9AFeCUUrCcz"
+Content-Disposition: inline
+In-Reply-To: <87bki23rbx.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/26/23 18:15, Vineeth Remanan Pillai wrote:
-> I have just sent the fix as a reply to the initial patch. I shall send a
-> v5 if needed. Please let me know.
+--Vd/KN9AFeCUUrCcz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please, send a v5... so we avoid mixing up patches on testing.
+On Tue, May 30, 2023 at 07:02:26AM -0600, Jonathan Corbet wrote:
+> Conor Dooley <conor.dooley@microchip.com> writes:
 
--- Daniel
+> > diff --git a/Documentation/devicetree/bindings/ABI.rst b/Documentation/=
+devicetree/bindings/ABI.rst
+> > index a885713cf184..93ec82f78ae5 100644
+> > --- a/Documentation/devicetree/bindings/ABI.rst
+> > +++ b/Documentation/devicetree/bindings/ABI.rst
+> > @@ -1,5 +1,7 @@
+> >  .. SPDX-License-Identifier: GPL-2.0
+> > =20
+> > +.. _devicetree-abi:
+>=20
+> Somehow we've developed this habit of putting labels at the top of each
+> file; I really think that they just add clutter and are best left out.
+> Without the label, this reference:
+>=20
+> > +Perhaps one of the most important things to highlight is that dt-bindi=
+ngs
+> > +document the ABI between the devicetree and the kernel. Please see
+> > +:ref:`devicetree-abi` more information on the ABI.
+>=20
+> ...can just be written as "Please see
+> Documentation/devicetree/bindings/ABI.rst".  The cross-reference link
+> will be generated as expected, and readers of the plain-text docs don't
+> have to go grepping to find the reference.
 
+Sure. As someone who does read these things in their editor that sounds
+preferable to me. I didn't know that I could do that, as the whole
+"building the docs" thing is new to me ;)
+I'll wait a bit before resubmitting for obvious reasons.
+
+Cheers,
+Conor.
+
+--Vd/KN9AFeCUUrCcz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHX2JwAKCRB4tDGHoIJi
+0jE3AP9pDjLP9d6RnL00Efrio6ZoaKZjOG0zDOEg+4VAprMwmwEAjpD8+2LaBcMN
+FnbPRUS5wn47utSB1NzZVqP8Ep4rLAE=
+=VH3D
+-----END PGP SIGNATURE-----
+
+--Vd/KN9AFeCUUrCcz--
