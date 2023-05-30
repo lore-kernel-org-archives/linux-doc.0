@@ -2,253 +2,220 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4236C77B73
-	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 13:55:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53905C77B7A
+	for <linux-doc@archiver.kernel.org>; Tue, 30 May 2023 14:04:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231282AbjE3Nzd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 May 2023 09:55:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42846 "EHLO
+        id S232852AbjE3OER (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 May 2023 10:04:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230297AbjE3Nzd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 09:55:33 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E40CC5
-        for <linux-doc@vger.kernel.org>; Tue, 30 May 2023 06:55:31 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-75b1219506fso268500985a.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 May 2023 06:55:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bitbyteword.org; s=google; t=1685454930; x=1688046930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bCwWToyQKtICdNGe6+AapfyyTv9y8AgeYjg/GDQ7ucM=;
-        b=RiVGEt6lApvzGINUpRZxzXKzaa32ssgJpiwx1K628RDHjX15IYrVrSoaJ3bUya1Glc
-         ARLwus5xGxeWMFu5X5ijDIYP5kZcphn2A351UqaAqCC0JPNcWA1kr5NsVMpfVq60zOZ0
-         aRVvqJVT/O8qHLupKqfd0+ewZhP1ZisbnLMapelcTp+EFDd35X9s8KQhWpG05AXYzKPR
-         cLC4cvlJLyKAEGaRQGQDB9CpgnHClfXXRFAnIouT7b6STTsLucyXbPWL7NfwqUxgO3yi
-         Oysrq/zIjJG21HI/dhspAOfVVBKKI2IuVcMtkBHgRVJchu4LhDNPMy+DpnK94CpKpie/
-         ftKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685454930; x=1688046930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bCwWToyQKtICdNGe6+AapfyyTv9y8AgeYjg/GDQ7ucM=;
-        b=KEGOscQ2xMbqj9WN561N/4ihDZz8IIcMjX7vI/uFa60rXJIPwKqkwTH4QrVPo4WHdA
-         ICUPPvn69VrXZATVnacoqtpOTSGjUcTG4kvjb+SsK8fZq47apRtD4zLPaB6dZNUh59rY
-         5vJiPVJQ2M7cRZkldOxITN2GUT4OyHcKRZgxlBxTa+szpp8PDYe02qIFxuhzVcpK590f
-         f40jsVPJmXe8nrAhEwD5CIEz7ERieFROuBWRXByl25Ldbn1sKOtMccZDnpwffcmCZ6kI
-         PU79wBpxfybXa/pbFyciIK8bRSmxUHKrJQJbOpiyhKm683+VYgSeuMq2DZ7nZtdipM98
-         sJJw==
-X-Gm-Message-State: AC+VfDzACI24Pl4gEhiqcaSWGqgAvoqwlYM5anSiDviwvcTHrdNb4/bS
-        JuGHFDiK5MZMJQNriqsap0nE6A==
-X-Google-Smtp-Source: ACHHUZ7rhI8Xed0+/5OmnVxXvVzjxdbPPPswgEt0Bur5XhQzvnllG0az4bCT/KmDzbU3IG94B7mclQ==
-X-Received: by 2002:a05:620a:2b48:b0:75b:23a1:8e46 with SMTP id dp8-20020a05620a2b4800b0075b23a18e46mr1879471qkb.23.1685454930466;
-        Tue, 30 May 2023 06:55:30 -0700 (PDT)
-Received: from vinz16.lan (c-73-143-21-186.hsd1.vt.comcast.net. [73.143.21.186])
-        by smtp.gmail.com with ESMTPSA id u6-20020ae9c006000000b0074d4cf8f9fcsm527809qkk.107.2023.05.30.06.55.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 06:55:30 -0700 (PDT)
-From:   Vineeth Pillai <vineeth@bitbyteword.org>
-To:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        youssefesmat@google.com,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Valentin Schneider <vschneid@redhat.com>
-Cc:     Vineeth Pillai <vineeth@bitbyteword.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v5 1/2] sched/deadline: Fix bandwidth reclaim equation in GRUB
-Date:   Tue, 30 May 2023 09:55:25 -0400
-Message-Id: <20230530135526.2385378-1-vineeth@bitbyteword.org>
-X-Mailer: git-send-email 2.40.1
+        with ESMTP id S229709AbjE3OEO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 May 2023 10:04:14 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FC1AC5
+        for <linux-doc@vger.kernel.org>; Tue, 30 May 2023 07:04:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+        Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=DefNWfGPPtjXEyFLYdRAxeV7Icph8nveGqgPAWO7xRk=; b=njRcdEuZrHUNH8EBTjeNlN9sRq
+        rsbQkPSSWyhcw4wCFreHsbuJN7m+oOLoBHmcTGso4U4eEc0fnu6t/FijQmrZL3UjwTQFenIoxZvQC
+        AG7XOY1YyCE38BbthsT38yK1ubZSCTJZBpBPW2ZGcTFFqsbg8RwSTgGT0q/zYVcgYXM5pT2vMng07
+        zHANqdAs0dTxWWJcKW1/6Qp72SRmHCLaCzALoNu44aFTd6tD9/Ogr8smszvo36Pd0AREFz6x1EsMw
+        C9C3eIRw1QYCQj3eTZiuHqhN6717yc5ygEjg4HJX02BoodjUVwbojMVO9oV4KaYvnQ9NC5dIXISkb
+        YvwBrKTg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51960)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1q3zxF-0002pY-K8; Tue, 30 May 2023 15:04:05 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1q3zxB-00085V-Ob; Tue, 30 May 2023 15:04:01 +0100
+Date:   Tue, 30 May 2023 15:04:01 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: [PATCH RFC 00/17] arm64 kernel text replication
+Message-ID: <ZHYCUVa8fzmB4XZV@shell.armlinux.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-According to the GRUB[1] rule, the runtime is depreciated as:
-  "dq = -max{u, (1 - Uinact - Uextra)} dt" (1)
+Problem
+-------
 
-To guarantee that deadline tasks doesn't starve lower class tasks,
-we do not allocate the full bandwidth of the cpu to deadline tasks.
-Maximum bandwidth usable by deadline tasks is denoted by "Umax".
-Considering Umax, equation (1) becomes:
-  "dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt" (2)
+NUMA systems have greater latency when accessing data and instructions
+across nodes, which can lead to a reduction in performance on CPU cores
+that mainly perform accesses beyond their local node.
 
-Current implementation has a minor bug in equation (2), which this
-patch fixes.
+Normally when an ARM64 system boots, the kernel will end up placed in
+memory, and each CPU core will have to fetch instructions and data from
+which ever NUMA node the kernel has been placed. This means that while
+executing kernel code, CPUs local to that node will run faster than
+CPUs in remote nodes.
 
-The reclamation logic is verified by a sample program which creates
-multiple deadline threads and observing their utilization. The tests
-were run on an isolated cpu(isolcpus=3) on a 4 cpu system.
+The higher the latency to access remote NUMA node memory, the more the
+kernel performance suffers on those nodes.
 
-Tests on 6.3.0
-==============
+If there is a local copy of the kernel text in each node's RAM, and
+each node runs the kernel using its local copy of the kernel text,
+then it stands to reason that the kernel will run faster due to fewer
+stalls while instructions are fetched from remote memory.
 
-RUN 1: runtime=7ms, deadline=period=10ms, RT capacity = 95%
-TID[693]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 93.33
-TID[693]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 93.35
+The question then arises how to achieve this.
 
-RUN 2: runtime=1ms, deadline=period=100ms, RT capacity = 95%
-TID[708]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 16.69
-TID[708]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 16.69
+Background
+----------
 
-RUN 3: 2 tasks
-  Task 1: runtime=1ms, deadline=period=10ms
-  Task 2: runtime=1ms, deadline=period=100ms
-TID[631]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 62.67
-TID[632]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 6.37
-TID[631]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 62.38
-TID[632]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 6.23
+An important issue to contend with is what happens when a thread
+migrates between nodes. Essentially, the thread's state (including
+instruction pointer) is saved to memory, and the scheduler on that CPU
+loads some other thread's state and that CPU resumes executing that
+new thread.
 
-As seen above, the reclamation doesn't reclaim the maximum allowed
-bandwidth and as the bandwidth of tasks gets smaller, the reclaimed
-bandwidth also comes down.
+The CPU gaining the migrating thread loads the saved state, again
+including the instruction pointer, and the gaining CPU resumes fetching
+instructions at the virtual address where the original CPU left off.
 
-Tests with this patch applied
-=============================
+The key point is that the virtual address is what matters here, and
+this gives us a way to implement kernel text replication fairly easily.
+At a practical level, all we need to do is to ensure that the virtual
+addresses which contain the kernel text point to a local copy of the
+that text.
 
-RUN 1: runtime=7ms, deadline=period=10ms, RT capacity = 95%
-TID[608]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 95.19
-TID[608]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 95.16
+This is exactly how this proposal of kernel text replication achieves
+the replication. We can go a little bit further and include most of
+the read-only data in this replication, as that will never be written
+to by the kernel (and thus remains constant.)
 
-RUN 2: runtime=1ms, deadline=period=100ms, RT capacity = 95%
-TID[616]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 95.27
-TID[616]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 95.21
+Solution
+--------
 
-RUN 3: 2 tasks
-  Task 1: runtime=1ms, deadline=period=10ms
-  Task 2: runtime=1ms, deadline=period=100ms
-TID[620]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 86.64
-TID[621]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 8.66
-TID[620]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 86.45
-TID[621]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 8.73
+So, what we need to achieve is:
 
-Running tasks on all cpus allowing for migration also showed that
-the utilization is reclaimed to the maximum. Running 10 tasks on
-3 cpus SCHED_FLAG_RECLAIM - top shows:
-%Cpu0  : 94.6 us,  0.0 sy,  0.0 ni,  5.4 id,  0.0 wa
-%Cpu1  : 95.2 us,  0.0 sy,  0.0 ni,  4.8 id,  0.0 wa
-%Cpu2  : 95.8 us,  0.0 sy,  0.0 ni,  4.2 id,  0.0 wa
+1. multiple identical copies of the kernel text (and read-only data)
+2. point the virtual mappings to the appropriate copy of kernel text
+   for the NUMA node.
 
-[1]: Abeni, Luca & Lipari, Giuseppe & Parri, Andrea & Sun, Youcheng.
-     (2015). Parallel and sequential reclaiming in multicore
-     real-time global scheduling.
+(1) is fairly easy to achieve - we just need to allocate some memory
+in the appropriate node and copy the parts of the kernel we want to
+replicate. However, we also need to deal with ARM64's kernel patching.
+There are two functions that patch the kernel text,
+__apply_alternatives() and aarch64_insn_patch_text_nosync(). Both of
+these need to to be modified to update all copies of the kernel text.
 
-Signed-off-by: Vineeth Pillai (Google) <vineeth@bitbyteword.org>
----
- kernel/sched/deadline.c | 50 +++++++++++++++++++----------------------
- kernel/sched/sched.h    |  6 +++++
- 2 files changed, 29 insertions(+), 27 deletions(-)
+(2) is slightly harder.
 
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index 71b24371a6f7..dfb59a363560 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -1260,43 +1260,39 @@ int dl_runtime_exceeded(struct sched_dl_entity *dl_se)
- }
- 
- /*
-- * This function implements the GRUB accounting rule:
-- * according to the GRUB reclaiming algorithm, the runtime is
-- * not decreased as "dq = -dt", but as
-- * "dq = -max{u / Umax, (1 - Uinact - Uextra)} dt",
-+ * This function implements the GRUB accounting rule. According to the
-+ * GRUB reclaiming algorithm, the runtime is not decreased as "dq = -dt",
-+ * but as "dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt",
-  * where u is the utilization of the task, Umax is the maximum reclaimable
-  * utilization, Uinact is the (per-runqueue) inactive utilization, computed
-  * as the difference between the "total runqueue utilization" and the
-- * runqueue active utilization, and Uextra is the (per runqueue) extra
-+ * "runqueue active utilization", and Uextra is the (per runqueue) extra
-  * reclaimable utilization.
-- * Since rq->dl.running_bw and rq->dl.this_bw contain utilizations
-- * multiplied by 2^BW_SHIFT, the result has to be shifted right by
-- * BW_SHIFT.
-- * Since rq->dl.bw_ratio contains 1 / Umax multiplied by 2^RATIO_SHIFT,
-- * dl_bw is multiped by rq->dl.bw_ratio and shifted right by RATIO_SHIFT.
-- * Since delta is a 64 bit variable, to have an overflow its value
-- * should be larger than 2^(64 - 20 - 8), which is more than 64 seconds.
-- * So, overflow is not an issue here.
-+ * Since rq->dl.running_bw and rq->dl.this_bw contain utilizations multiplied
-+ * by 2^BW_SHIFT, the result has to be shifted right by BW_SHIFT.
-+ * Since rq->dl.bw_ratio contains 1 / Umax multiplied by 2^RATIO_SHIFT, dl_bw
-+ * is multiped by rq->dl.bw_ratio and shifted right by RATIO_SHIFT.
-+ * Since delta is a 64 bit variable, to have an overflow its value should be
-+ * larger than 2^(64 - 20 - 8), which is more than 64 seconds. So, overflow is
-+ * not an issue here.
-  */
- static u64 grub_reclaim(u64 delta, struct rq *rq, struct sched_dl_entity *dl_se)
- {
--	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot - Uact */
- 	u64 u_act;
--	u64 u_act_min = (dl_se->dl_bw * rq->dl.bw_ratio) >> RATIO_SHIFT;
-+	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot - Uact */
- 
- 	/*
--	 * Instead of computing max{u * bw_ratio, (1 - u_inact - u_extra)},
--	 * we compare u_inact + rq->dl.extra_bw with
--	 * 1 - (u * rq->dl.bw_ratio >> RATIO_SHIFT), because
--	 * u_inact + rq->dl.extra_bw can be larger than
--	 * 1 * (so, 1 - u_inact - rq->dl.extra_bw would be negative
--	 * leading to wrong results)
-+	 * Instead of computing max{u, (u_max - u_inact - u_extra)}, we
-+	 * compare u_inact + u_extra with u_max - u, because u_inact + u_extra
-+	 * can be larger than u_max. So, u_max - u_inact - u_extra would be
-+	 * negative leading to wrong results.
- 	 */
--	if (u_inact + rq->dl.extra_bw > BW_UNIT - u_act_min)
--		u_act = u_act_min;
-+	if (u_inact + rq->dl.extra_bw > rq->dl.max_bw - dl_se->dl_bw)
-+		u_act = dl_se->dl_bw;
- 	else
--		u_act = BW_UNIT - u_inact - rq->dl.extra_bw;
-+		u_act = rq->dl.max_bw - u_inact - rq->dl.extra_bw;
- 
-+	u_act = (u_act * rq->dl.bw_ratio) >> RATIO_SHIFT;
- 	return (delta * u_act) >> BW_SHIFT;
- }
- 
-@@ -2784,12 +2780,12 @@ static void init_dl_rq_bw_ratio(struct dl_rq *dl_rq)
- {
- 	if (global_rt_runtime() == RUNTIME_INF) {
- 		dl_rq->bw_ratio = 1 << RATIO_SHIFT;
--		dl_rq->extra_bw = 1 << BW_SHIFT;
-+		dl_rq->max_bw = dl_rq->extra_bw = 1 << BW_SHIFT;
- 	} else {
- 		dl_rq->bw_ratio = to_ratio(global_rt_runtime(),
- 			  global_rt_period()) >> (BW_SHIFT - RATIO_SHIFT);
--		dl_rq->extra_bw = to_ratio(global_rt_period(),
--						    global_rt_runtime());
-+		dl_rq->max_bw = dl_rq->extra_bw =
-+			to_ratio(global_rt_period(), global_rt_runtime());
- 	}
- }
- 
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 3e8df6d31c1e..73027c2806dc 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -753,6 +753,12 @@ struct dl_rq {
- 	u64			this_bw;
- 	u64			extra_bw;
- 
-+	/*
-+	 * Maximum available bandwidth for reclaiming by SCHED_FLAG_RECLAIM
-+	 * tasks of this rq. Used in calculation of reclaimable bandwidth(GRUB).
-+	 */
-+	u64			max_bw;
-+
- 	/*
- 	 * Inverse of the fraction of CPU utilization that can be reclaimed
- 	 * by the GRUB algorithm.
+Firstly, the aarch64 architecture has a very useful feature here - the
+kernel page tables are entirely separate from the user page tables.
+The hardware contains two page table pointers, one is used for user
+mappings, the other is used for kernel mappings.
+
+Therefore, we only have one page table to be concerned with: the table
+which maps kernel space. We do not need to be concerned with each
+user processes page table.
+
+The approach taken here is to ensure that the kernel is located in an
+area of kernel virtual address space covered by a level-0 page table
+entry which is not shared with any other user. We can then maintain
+separate per-node level-0 page tables for kernel space where the only
+difference between them is this level-0 page table entry.
+
+This gives a couple of benefits. Firstly, when updates to the level-0
+page table happen (e.g. when establishing new mappings) these updates
+can simply be copied to the other level-0 page tables provided it isn't
+for the kernel image. Secondly, we don't need complexity at lower
+levels of the page table code to figure out whether a level-1 or lower
+update needs to be propagated to other nodes.
+
+The level-0 page table entry for the kernel can then be used to point
+at a node-unique set of level 1..N page tables to make the appropriate
+copy of the kernel text (and read-only data) into kernel space, while
+keeping the kernel read-write data shared between nodes.
+
+Performance Analysis
+--------------------
+
+Needless to say, the performance results from kernel text replication
+are workload specific, but appear to show a gain of between 6% and
+17% for database-centric like workloads. When combined with userspace
+awareness of NUMA, this can result in a gain of over 50%.
+
+Problems
+--------
+
+There are a few areas that are a problem for kernel text replication:
+1) As this series changes the kernel space virtual address space
+   layout, it breaks KASAN - and I've zero knowledge of KASAN so I
+   have no idea how to fix it. I would be grateful for input from
+   KASAN folk for suggestions how to fix this.
+
+2) KASLR can not be used with kernel text replication, since we need
+   to place the kernel in its own L0 page table entry, not in vmalloc
+   space. KASLR is disabled when support for kernel text replication
+   is enabled.
+
+3) Changing the kernel virtual address space layout also means that
+   kaslr_offset() and kaslr_enabled() need to become macros rather
+   than inline functions due to the use of PGDIR_SIZE in the
+   calculation of KIMAGE_VADDR. Since asm/pgtable.h defines this
+   constant, but asm/memory.h is included by asm/pgtable.h, having
+   this symbol available would produce a circular include
+   dependency, so I don't think there is any choice here.
+
+4) read-only protection for replicated kernel images is not yet
+   implemented.
+
+Patch overview:
+
+Patch 1 cleans up the rox page protection logic.
+Patch 2 reoganises the kernel virtual address space layout (causing
+  problems (1 and 3).
+Patch 3 provides a version of cpu_replace_ttbr1 that takes physical
+  addresses.
+Patch 4 makes a needed cache flushing function visible.
+Patch 5 through 16 are the guts of kernel text replication.
+Patch 17 adds the Kconfig entry for it.
+
+Further patches not included in this set add a Kconfig for the default
+state, a test module, and add code to verify the replicated kernel
+text matches the node 0 text after the kernel has completed most of
+its boot.
+
+ Documentation/admin-guide/kernel-parameters.txt |   5 +
+ arch/arm64/Kconfig                              |  10 +-
+ arch/arm64/include/asm/cacheflush.h             |   2 +
+ arch/arm64/include/asm/ktext.h                  |  45 ++++++
+ arch/arm64/include/asm/memory.h                 |  26 ++--
+ arch/arm64/include/asm/mmu_context.h            |  12 +-
+ arch/arm64/include/asm/pgtable.h                |  35 ++++-
+ arch/arm64/include/asm/smp.h                    |   1 +
+ arch/arm64/kernel/alternative.c                 |   4 +-
+ arch/arm64/kernel/asm-offsets.c                 |   1 +
+ arch/arm64/kernel/cpufeature.c                  |   2 +-
+ arch/arm64/kernel/head.S                        |   3 +-
+ arch/arm64/kernel/hibernate.c                   |   2 +-
+ arch/arm64/kernel/patching.c                    |   7 +-
+ arch/arm64/kernel/smp.c                         |   3 +
+ arch/arm64/kernel/suspend.c                     |   3 +-
+ arch/arm64/kernel/vmlinux.lds.S                 |   3 +
+ arch/arm64/mm/Makefile                          |   2 +
+ arch/arm64/mm/init.c                            |   3 +
+ arch/arm64/mm/ktext.c                           | 198 ++++++++++++++++++++++++
+ arch/arm64/mm/mmu.c                             |  85 ++++++++--
+ 21 files changed, 413 insertions(+), 39 deletions(-)
+ create mode 100644 arch/arm64/include/asm/ktext.h
+ create mode 100644 arch/arm64/mm/ktext.c
+
+
 -- 
-2.40.1
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
