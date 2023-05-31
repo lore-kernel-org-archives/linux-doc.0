@@ -2,136 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 675CDC7EE23
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 23:23:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F54C77B7A
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 23:41:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbjEaXXI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 19:23:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39082 "EHLO
+        id S229636AbjEaXli (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 19:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjEaXXH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 19:23:07 -0400
-X-Greylist: delayed 14073 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 31 May 2023 16:23:05 PDT
-Received: from out-57.mta1.migadu.com (out-57.mta1.migadu.com [95.215.58.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5DC8A0
-        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 16:23:05 -0700 (PDT)
-Date:   Wed, 31 May 2023 23:22:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1685575383;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SXIoTlecMC6VxxSME1sHTXGjADcYTmN1y7mvnJvjlhM=;
-        b=lyfbrHT4Q4zo1L0ArqeQIdJoep5zRjHJ2OLTTh3iRuaDrDCmyrt6ZdUnmT8D0VRFrnKrfd
-        Fay41KvYXJP8CWHfKOE6M8su7vw1n8IEhIPvIvj0EphIHYOG0Ve9WKW9yduPpl6rDOCxtx
-        CeLsU8HW8TNpYdjp9DmTE9Euk9lTN+Y=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Oliver Upton <oliver.upton@linux.dev>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        Anup Patel <anup@brainfault.org>,
-        Ben Gardon <bgardon@google.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Fabiano Rosas <farosas@linux.ibm.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Gavin Shan <gshan@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Morse <james.morse@arm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Larabel <michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Paul Mackerras <paulus@ozlabs.org>,
-        Peter Xu <peterx@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Huth <thuth@redhat.com>, Will Deacon <will@kernel.org>,
-        Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
-        linux-trace-kernel@vger.kernel.org, x86@kernel.org,
-        linux-mm@google.com
-Subject: Re: [PATCH mm-unstable v2 04/10] kvm/arm64: make stage2 page tables
- RCU safe
-Message-ID: <ZHfWzX04GlcNngdU@linux.dev>
-References: <20230526234435.662652-1-yuzhao@google.com>
- <20230526234435.662652-5-yuzhao@google.com>
- <ZHJHJPBF6euzOFdw@linux.dev>
- <CAOUHufa74CufHziHSquO5bZwbFXz2MNssBzW+AH7=Xo5RCnQ0A@mail.gmail.com>
- <ZHZQdQAApIrw6fBu@linux.dev>
- <CAOUHufZOkBmZJgCU2xW2B8S3P3TWERHezy0xKWY9_TeyV9K7Rg@mail.gmail.com>
- <ZHef0VsZvZ1Vnz0u@linux.dev>
- <CAOUHufZrfnfcbrqSzmHkejR5MA2gmGKZ3LMRhbLHV+1427z=Tw@mail.gmail.com>
+        with ESMTP id S229491AbjEaXlh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 19:41:37 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7BB312C;
+        Wed, 31 May 2023 16:41:35 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-75b015c0508so14996185a.1;
+        Wed, 31 May 2023 16:41:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685576495; x=1688168495;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YqUEtiNzQPXNnkJHbjcbvl93ewqKl8vCNCXtX2f/UHQ=;
+        b=ZLaL5XjurHw1cP3P7ti1sffNrHCPnfESWQZx0KOpSQDptVtHfkjjBUDMrP4gg+8+TF
+         z5NMUxwcsLv4TLrFYHb2eMTiL/Mb7grVYdEPZNJCJtxY/a0s3YXtX+FnqZQM+xu77B7y
+         LtCLAdI7kRiqjgNkEpnSEtRticOpT0TRSsuGKjgIt8Xp+3tYK2TCzqia5H2/uFfC2TO0
+         79uQOMnMhoKXd03scxrb6w5Pj3xHwDkYWGhS036AnmpkBukIWG20aVo3ywtoDVUvLsai
+         s2D2FnAUV3JHL9ouOeSn774K57PdODyYfF/ElT7oHIbrAyJE+ChgubqWADRgU5EZACaE
+         dL1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685576495; x=1688168495;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YqUEtiNzQPXNnkJHbjcbvl93ewqKl8vCNCXtX2f/UHQ=;
+        b=K7rjONGBjOoApYBthuPVKH6GQ4Mf9xEq1GIqfH5ZsyQtP3jKxYF5of60qJAWD2zRsy
+         03NbKAfwsTC9hROy4tnzhLULCYtLHe/IU74S4E1+5GKyN63UYwkmVNn2ECTYuJLyr09f
+         JoGlfc+091ovrYbNVDM3PrkjAnZSBQHxEqOTRyihoAI3o2a9T0t5s8se9UAdZuwUls36
+         Tb3XZifQlBqNVbjU2hKlQfQXQxLFAXXXgwXyxf89F82PCb/aEaeXjUFjZBA62SA0ry2L
+         blZQ6nqjoaV6UVdFMtE0lqSkUb7IBp0P2YFdvkhW6t9H9MxnaLTVNX9Q42kxnUbtfBQr
+         UbcQ==
+X-Gm-Message-State: AC+VfDxdVkyODFZopZKPSZSGI4gcWKo4uwc97KwyOgTCpBfDYTUMJQqC
+        tiAFp7I0om6Lm7hrZvwot9jp9TVxV90=
+X-Google-Smtp-Source: ACHHUZ4lxos4CGogbmpqC3mvvEHI5DbKkQbCUcIpboNTgLki4Pm7TJVmF2SfIUB9pGAWmyik/X+wJQ==
+X-Received: by 2002:a05:620a:2489:b0:75b:23a1:3687 with SMTP id i9-20020a05620a248900b0075b23a13687mr9092920qkn.72.1685576494910;
+        Wed, 31 May 2023 16:41:34 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id f4-20020aa78b04000000b0063d2cd02d69sm3853710pfd.54.2023.05.31.16.41.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 May 2023 16:41:33 -0700 (PDT)
+Message-ID: <fd7b559e-7694-ef92-529d-4663df9c1cbc@gmail.com>
+Date:   Thu, 1 Jun 2023 08:41:29 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOUHufZrfnfcbrqSzmHkejR5MA2gmGKZ3LMRhbLHV+1427z=Tw@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 24/26] locking/atomic: scripts: generate kerneldoc
+ comments
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org, paulmck@kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20230522122429.1915021-1-mark.rutland@arm.com>
+ <20230522122429.1915021-25-mark.rutland@arm.com>
+ <96d6930b-78b1-4b4c-63e3-c385a764d6e3@gmail.com>
+ <20230524141152.GL4253@hirez.programming.kicks-ass.net>
+ <e76c924a-762c-061d-02b8-13be884ab344@gmail.com>
+ <c9399722-b2df-52ee-cefe-338b118aeb1e@infradead.org>
+ <a5405368-d04c-f95c-ad18-95f429120dbe@gmail.com>
+ <ZHXvT86FN/7lx/fv@FVFF77S0Q05N>
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <ZHXvT86FN/7lx/fv@FVFF77S0Q05N>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 31, 2023 at 05:10:52PM -0600, Yu Zhao wrote:
-> On Wed, May 31, 2023 at 1:28 PM Oliver Upton <oliver.upton@linux.dev> wrote:
-> > On Tue, May 30, 2023 at 02:06:55PM -0600, Yu Zhao wrote:
-> > > On Tue, May 30, 2023 at 1:37 PM Oliver Upton <oliver.upton@linux.dev> wrote:
-> > > > As it is currently implemented, yes. But, there's potential to fast-path
-> > > > the implementation by checking page_count() before starting the walk.
-> > >
-> > > Do you mind posting another patch? I'd be happy to ack it, as well as
-> > > the one you suggested above.
-> >
-> > I'd rather not take such a patch independent of the test_clear_young
-> > series if you're OK with that. Do you mind implementing something
-> > similar to the above patch w/ the proposed optimization if you need it?
+[Keeping documentation folks in CC]
+
+On 2023/05/30 21:42, Mark Rutland wrote:
+> Hi Akira,
 > 
-> No worries. I can take the above together with the following, which
-> would form a new series with its own merits, since apparently you
-> think the !AF case is important.
+> On Fri, May 26, 2023 at 07:27:56PM +0900, Akira Yokosawa wrote:
+>> I think adding "~" to the substitution pattern added in [1] as follows
+>> should do the trick (not well tested):
+>>
+>> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+>> index 2486689ffc7b..eb70c1fd4e86 100755
+>> --- a/scripts/kernel-doc
+>> +++ b/scripts/kernel-doc
+>> @@ -64,7 +64,7 @@ my $type_constant = '\b``([^\`]+)``\b';
+>>  my $type_constant2 = '\%([-_\w]+)';
+>>  my $type_func = '(\w+)\(\)';
+>>  my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+>> -my $type_param_ref = '([\!]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+>> +my $type_param_ref = '([\!~]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+>>  my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
+>>  my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
+>>  my $type_env = '(\$\w+)';
+> 
+> Are you happy to send this as a patch?
 
-Sorry if my suggestion was unclear.
+I'm afraid I am not at the moment.
 
-I thought we were talking about ->free_removed_table() being called from
-the stage-2 unmap path, in which case we wind up unnecessarily visiting
-PTEs on a table known to be empty. You could fast-path that by only
-initiating a walk if  page_count() > 1:
+The reason being I have never made changes in that 2500 line perl
+script.  Please consider the change above as a random suggestion from
+someone who don't/can't understand the script fully ...
+> 
+> I'd like to pick it into this series, so if you're happy to provide your
+> Signed-off-by tag here, I'm happy to go write the commit message and so on.
 
-diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.c
-index 95dae02ccc2e..766563dc465c 100644
---- a/arch/arm64/kvm/hyp/pgtable.c
-+++ b/arch/arm64/kvm/hyp/pgtable.c
-@@ -1331,7 +1331,8 @@ void kvm_pgtable_stage2_free_removed(struct kvm_pgtable_mm_ops *mm_ops, void *pg
- 		.end	= kvm_granule_size(level),
- 	};
- 
--	WARN_ON(__kvm_pgtable_walk(&data, mm_ops, ptep, level + 1));
-+	if (mm_ops->page_count(pgtable) > 1)
-+		WARN_ON(__kvm_pgtable_walk(&data, mm_ops, ptep, level + 1));
- 
- 	WARN_ON(mm_ops->page_count(pgtable) != 1);
- 	mm_ops->put_page(pgtable);
+I you happen to know perl well and be confident the change won't have
+any side effect, I wouldn't mind if you go forward and make a patch
+on your own, maybe with my Suggested-by.  That patch should also have
+explicit Cc: tags to Jon and Mauro who are in the SOB chain of commit
+ee2aa7590398.
 
+        Thanks, Akira
 
-A lock-free access fault walker is interesting, but in my testing it hasn't
-led to any significant improvements over acquiring the MMU lock for
-read. Because of that I hadn't bothered with posting the series upstream.
-
--- 
-Thanks,
-Oliver
+> 
+> Thanks,
+> Mark.
+> 
+>>
+>> Thoughts?
+>>
+>>         Thanks, Akira
+>>
+>>>
+>>>
+>>>> [1]: ee2aa7590398 ("scripts: kernel-doc: accept negation like !@var")
+>>>
+>>> thanks.
