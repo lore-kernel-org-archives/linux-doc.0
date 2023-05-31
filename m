@@ -2,128 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6707DC77B73
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 14:19:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 086B4C7EE2E
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 14:21:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236574AbjEaOTC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 10:19:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33114 "EHLO
+        id S237015AbjEaOVm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 10:21:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237092AbjEaOSr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 10:18:47 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46EF31981
-        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 07:17:19 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2af2602848aso61981651fa.2
-        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 07:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1685542599; x=1688134599;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pgpyzmnbNHAseyCM+s0XsB0KjofBbxw68PBCInlqrLM=;
-        b=plJJIp0rTyTgyqmDU9npOz7fz/A56G8ZrYNcM6exA2190alD704Ja6JoXGfrB25mRn
-         sZIU3ADU/LwWYhL0YeDjgsfSntAEdbhtVLR5Sl4wepP05jXoK1jLlT7W6svx+uKlOaj6
-         GR0QFQmB5qOkBqQCXlSOm9dPkNZTZQJL3/f275RMqJ37MeIOjyp3Qj/FQVkCwbe6pVu3
-         k0WzhoZJh7NpH/XUOjsuGR1xwsCODKZWUqx3FUL95BpwuMr4Dbz60TwlNUYPzSHOYyyN
-         P1cY2QQbYdyxzPxTghWd0eiuO/GdHF/4sOkLy+VxYnjWkfxlVVIOpXOKHVVVDr/Adltq
-         AM1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685542599; x=1688134599;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pgpyzmnbNHAseyCM+s0XsB0KjofBbxw68PBCInlqrLM=;
-        b=Jq6UPxw6g5jGKzuZKiED6Dk21uxrXdGpE1dQP1icMjMifshgNYNZQZS0F7gEBacXOA
-         pURyWoBBdczjsnIBoKCVACdBd/GnZP3+MToNljXFpnJjmNF7TUS7ZRKTEdAk9GcHNPil
-         9skoAoAI2F3766lcfdMidA/Ldn7leduRReg1kx9giIYJo6xMbGcCO6C46EpjDbPllzB8
-         wkGXEiEuU/mKdM968uukUXaSScVKvuiAFTTmELFUvXoSQJIu6tKhVcZcAsGXeTPuEGl/
-         Dtqwo6kc4eLfFDqThN/pKSfJ2OGF3yTC4+RlIa006A+d59akGczNaTuXrJpDqyaciYUu
-         5+Mw==
-X-Gm-Message-State: AC+VfDyl7k30PZ/DD4MsnE7zoy5MM0Y1LInKrbtjBs4/xTLJ13mcnIOu
-        rEYR4tfkIuV3EzQN+E6wjvLdFjTFNDNEDv0bhxE=
-X-Google-Smtp-Source: ACHHUZ6/5u1aIeEPR87Cph6/LuYqwzkXH6Ggsh21iSthCsoK8ecfPiKMDhYwuo0sJqTdGafvLc34yA==
-X-Received: by 2002:a5d:526e:0:b0:309:50e7:7c3 with SMTP id l14-20020a5d526e000000b0030950e707c3mr4408962wrc.63.1685542170038;
-        Wed, 31 May 2023 07:09:30 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id d15-20020a056000114f00b0030af72bca98sm4800839wrx.103.2023.05.31.07.09.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 May 2023 07:09:29 -0700 (PDT)
-Date:   Wed, 31 May 2023 16:09:28 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 04/10] drivers: perf: Rename riscv pmu driver
-Message-ID: <20230531-49ed4c2054db0abbacd03632@orel>
-References: <20230512085321.13259-1-alexghiti@rivosinc.com>
- <20230512085321.13259-5-alexghiti@rivosinc.com>
+        with ESMTP id S236343AbjEaOV0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 10:21:26 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0738EE41;
+        Wed, 31 May 2023 07:20:12 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id EFBC51FD72;
+        Wed, 31 May 2023 14:20:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1685542809; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+v7YPVGfZvtKAdTq6nXJd4vhbr1CCQZIq7rqtmuqxmI=;
+        b=I4YbHP2puHb/OuSciSSLm7fdzNJSh2DgLYy5x1HvCYGy3h7SPbwdswoFPjO4OUYVeWco4M
+        w/Oo5uNjF19U2Qq1I4MR+RyDxRe10GdteGuAFDfYZXVJ7eyh/9BqzjsnjzegqbmuzF710d
+        GABiNaaKpgQQ3qsMKLd/zP4tzxiEcMs=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 60097138E8;
+        Wed, 31 May 2023 14:20:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id W1DIFZlXd2TPJAAAMHmgww
+        (envelope-from <jgross@suse.com>); Wed, 31 May 2023 14:20:09 +0000
+Message-ID: <efe79c9e-1e31-adb9-8f93-962249bf01bb@suse.com>
+Date:   Wed, 31 May 2023 16:20:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230512085321.13259-5-alexghiti@rivosinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-US
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikelley@microsoft.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+References: <20230502120931.20719-1-jgross@suse.com>
+ <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
+ <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
+ <20230510133024.GBZFuccC1FxIZNKL+8@fat_crate.local>
+ <4c47a11c-0565-678d-3467-e01c5ec16600@suse.com>
+ <20230511163208.GDZF0YiOfxQhSo4RDm@fat_crate.local>
+ <0cd3899b-cf3b-61c1-14ae-60b6b49d14ab@suse.com>
+ <20230530152825.GAZHYWGXAp8PHgN/w0@fat_crate.local>
+ <888f860d-4307-54eb-01da-11f9adf65559@suse.com>
+ <20230531083508.GAZHcGvB68PUAH7f+a@fat_crate.local>
+From:   Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
+In-Reply-To: <20230531083508.GAZHcGvB68PUAH7f+a@fat_crate.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xd0kCNFJ7htiPbZrxqZVh5R5"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 12, 2023 at 10:53:15AM +0200, Alexandre Ghiti wrote:
-> In addition to being more pretty, it will be useful in upcoming commits
-> to distinguish those pmu drivers from the other pmu drivers.
-> 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  drivers/perf/riscv_pmu_legacy.c | 2 +-
->  drivers/perf/riscv_pmu_sbi.c    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/perf/riscv_pmu_legacy.c b/drivers/perf/riscv_pmu_legacy.c
-> index 0d8c9d8849ee..ffe09d857366 100644
-> --- a/drivers/perf/riscv_pmu_legacy.c
-> +++ b/drivers/perf/riscv_pmu_legacy.c
-> @@ -95,7 +95,7 @@ static void pmu_legacy_init(struct riscv_pmu *pmu)
->  	pmu->ctr_clear_idx = NULL;
->  	pmu->ctr_read = pmu_legacy_read_ctr;
->  
-> -	perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
-> +	perf_pmu_register(&pmu->pmu, RISCV_PMU_LEGACY_PDEV_NAME, PERF_TYPE_RAW);
->  }
->  
->  static int pmu_legacy_device_probe(struct platform_device *pdev)
-> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> index 70cb50fd41c2..3b0ee2148054 100644
-> --- a/drivers/perf/riscv_pmu_sbi.c
-> +++ b/drivers/perf/riscv_pmu_sbi.c
-> @@ -897,7 +897,7 @@ static int pmu_sbi_device_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto out_unregister;
->  
-> -	ret = perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
-> +	ret = perf_pmu_register(&pmu->pmu, RISCV_PMU_PDEV_NAME, PERF_TYPE_RAW);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xd0kCNFJ7htiPbZrxqZVh5R5
+Content-Type: multipart/mixed; boundary="------------uMCsnvuhx47XwqUu0VjOI6Uj";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+ mikelley@microsoft.com, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+Message-ID: <efe79c9e-1e31-adb9-8f93-962249bf01bb@suse.com>
+Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
+References: <20230502120931.20719-1-jgross@suse.com>
+ <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
+ <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
+ <20230510133024.GBZFuccC1FxIZNKL+8@fat_crate.local>
+ <4c47a11c-0565-678d-3467-e01c5ec16600@suse.com>
+ <20230511163208.GDZF0YiOfxQhSo4RDm@fat_crate.local>
+ <0cd3899b-cf3b-61c1-14ae-60b6b49d14ab@suse.com>
+ <20230530152825.GAZHYWGXAp8PHgN/w0@fat_crate.local>
+ <888f860d-4307-54eb-01da-11f9adf65559@suse.com>
+ <20230531083508.GAZHcGvB68PUAH7f+a@fat_crate.local>
+In-Reply-To: <20230531083508.GAZHcGvB68PUAH7f+a@fat_crate.local>
 
-Should we include "sbi" in this name?
+--------------uMCsnvuhx47XwqUu0VjOI6Uj
+Content-Type: multipart/mixed; boundary="------------A7l2ew5FBk47frMXXX4FPWJr"
 
->  	if (ret)
->  		goto out_unregister;
->  
-> -- 
-> 2.37.2
-> 
+--------------A7l2ew5FBk47frMXXX4FPWJr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Otherwise,
+T24gMzEuMDUuMjMgMTA6MzUsIEJvcmlzbGF2IFBldGtvdiB3cm90ZToNCj4gWyAgICAwLjAx
+ODM1N10gTVRSUiBkZWZhdWx0IHR5cGU6IHVuY2FjaGFibGUNCj4gWyAgICAwLjAyMjM0N10g
+TVRSUiBmaXhlZCByYW5nZXMgZW5hYmxlZDoNCj4gWyAgICAwLjAyNjA4NV0gICAwMDAwMC05
+RkZGRiB3cml0ZS1iYWNrDQo+IFsgICAgMC4wMjk2NTBdICAgQTAwMDAtQkZGRkYgdW5jYWNo
+YWJsZQ0KPiBbICAgIDAuMDMzMjE0XSAgIEMwMDAwLUZGRkZGIHdyaXRlLXByb3RlY3QNCj4g
+WyAgICAwLjAzNzAzOV0gTVRSUiB2YXJpYWJsZSByYW5nZXMgZW5hYmxlZDoNCj4gWyAgICAw
+LjA0MTAzOF0gICAwIGJhc2UgMDAwMDAwMDAwMDAwMDAwIG1hc2sgMDAwM0ZGQzAwMDAwMDAw
+IHdyaXRlLWJhY2sNCj4gWyAgICAwLjA0NzM4M10gICAxIGJhc2UgMDAwMDAwNDAwMDAwMDAw
+IG1hc2sgMDAwM0ZGRkMwMDAwMDAwIHdyaXRlLWJhY2sNCj4gWyAgICAwLjA1MzczMF0gICAy
+IGJhc2UgMDAwMDAwNDQwMDAwMDAwIG1hc2sgMDAwM0ZGRkYwMDAwMDAwIHdyaXRlLWJhY2sN
+Cj4gWyAgICAwLjA2MDA3Nl0gICAzIGJhc2UgMDAwMDAwMEFFMDAwMDAwIG1hc2sgMDAwM0ZG
+RkZFMDAwMDAwIHVuY2FjaGFibGUNCj4gWyAgICAwLjA2NjQyMV0gICA0IGJhc2UgMDAwMDAw
+MEIwMDAwMDAwIG1hc2sgMDAwM0ZGRkYwMDAwMDAwIHVuY2FjaGFibGUNCj4gWyAgICAwLjA3
+Mjc2OF0gICA1IGJhc2UgMDAwMDAwMEMwMDAwMDAwIG1hc2sgMDAwM0ZGRkMwMDAwMDAwIHVu
+Y2FjaGFibGUNCj4gWyAgICAwLjA3OTExNF0gICA2IGRpc2FibGVkDQo+IFsgICAgMC4wODE2
+MzVdICAgNyBkaXNhYmxlZA0KPiBbICAgIDAuMDg0MTU2XSAgIDggZGlzYWJsZWQNCj4gWyAg
+ICAwLjA4NjY3N10gICA5IGRpc2FibGVkDQo+IFsgICAgMC4wODkyMDNdIHRvdGFsIFJBTSBj
+b3ZlcmVkOiAxNjM1Mk0NCj4gWyAgICAwLjA5MzAyM10gRm91bmQgb3B0aW1hbCBzZXR0aW5n
+IGZvciBtdHJyIGNsZWFuIHVwDQo+IFsgICAgMC4wOTc3MzRdICBncmFuX3NpemU6IDY0SyAJ
+Y2h1bmtfc2l6ZTogNjRNIAludW1fcmVnOiA4ICAJbG9zZSBjb3ZlciBSQU06IDBHDQoNCk9u
+ZSBvdGhlciBub3RlOiB3aHkgZG9lcyBtdHJyX2NsZWFudXAoKSB0aGluayB0aGF0IHVzaW5n
+IDggaW5zdGVhZCBvZiA2DQp2YXJpYWJsZSBNVFJScyB3b3VsZCBiZSBhbiAib3B0aW1hbCBz
+ZXR0aW5nIj8NCg0KSU1PIGl0IHNob3VsZCByZXBsYWNlIHRoZSBvcmlnaW5hbCBzZXR1cCBv
+bmx5IGluIGNhc2UgaXQgaXMgdXNpbmcgX2xlc3NfDQpNVFJScyB0aGFuIGJlZm9yZS4NCg0K
+QWRkaXRpb25hbGx5IEkgYmVsaWV2ZSBtdHJyX2NsZWFudXAoKSB3b3VsZCBtYWtlIG11Y2gg
+bW9yZSBzZW5zZSBpZiBpdA0Kd291bGRuJ3QgYmUgX19pbml0LCBidXQgYmVpbmcgdXNhYmxl
+IHdoZW4gdHJ5aW5nIHRvIGFkZCBhZGRpdGlvbmFsIE1UUlJzDQppbiB0aGUgcnVubmluZyBz
+eXN0ZW0gaW4gY2FzZSB3ZSBydW4gb3V0IG9mIE1UUlJzLg0KDQpJdCBzaG91bGQgcHJvYmFi
+bHkgYmUgYmFzZWQgb24gdGhlIG5ldyBNVFJSIG1hcCBhbnl3YXkuLi4NCg0KDQpKdWVyZ2Vu
+DQo=
+--------------A7l2ew5FBk47frMXXX4FPWJr
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+jR/i1DG86lem3iBDXzXsZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------A7l2ew5FBk47frMXXX4FPWJr--
+
+--------------uMCsnvuhx47XwqUu0VjOI6Uj--
+
+--------------xd0kCNFJ7htiPbZrxqZVh5R5
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmR3V5gFAwAAAAAACgkQsN6d1ii/Ey+O
+Egf/YUkDfBklAyIeo6WYXLRMHcHggGfaZkdv9nk8mPESYVwlxfwGMW4QjSwuWZbUkMkIApIAsOnX
+ux5xcZ6uHRJbGlJbWoJg3KqHg286K/LmRtiA8KuVNygmEHW+WGqRUL9HdDcUDmfaWPmxOi5mM0i2
+e2xOHC6Zzc95X5C/SlMEo26d3r49m0T0zoFD8d73C7cbAi02CroNavXXDBmhPW/3W+slSBpAPVns
+jSG0lDjFH7ocHDNOlxgP+/umRUZne5NoTPmKQWLc9giYs9razfUawUcDBXWrhPIjFEk8zHWxSLm+
+Vr/2zDu2AjMX+PDrEZnxSG2NZ7Z53ZM7N2tPZX005g==
+=48oc
+-----END PGP SIGNATURE-----
+
+--------------xd0kCNFJ7htiPbZrxqZVh5R5--
