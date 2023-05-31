@@ -2,154 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD676C77B73
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 14:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35579C7EE23
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 14:24:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237236AbjEaOWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 10:22:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36804 "EHLO
+        id S236022AbjEaOYb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 10:24:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237301AbjEaOWc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 10:22:32 -0400
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FE2EE51;
-        Wed, 31 May 2023 07:21:49 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 44D65580177;
-        Wed, 31 May 2023 10:21:45 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 31 May 2023 10:21:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1685542905; x=1685550105; bh=EB
-        qVSuczL8zsM7Z+quPoEDfVsyxlfcBd6Pp556uYrbw=; b=OzFEpTKSe5S3pZEmFP
-        KK1uM3LsgMCSyqEpKXgp8mQacr9rZEDCmrd2k8BVEDg3tEc7xY/t0qJaQdSDGOT2
-        bU9zqMXGeLUQtd2ZGrrNxWGkpEIaVxk071lBAmfAeMQCHDxFTt1RXc0tTa+8BNvc
-        dHGAYyoqxLWEz0DRWsqrZCl7jyQXG+IYTwZfBGL3jP6UuAq+xC/o+0owjbxmZ2CX
-        jKHn0znJCe5sFHF0XfK674YIkVcUuVTivSqn6lMR/WSjKrRbWWAoJGIngDeXfeY4
-        rj3t8KhnnMw/ULtpMFDj7NVn9Ce9QDTK6Kw9M2KCXxWhhGFtgzM636rI9Ixm3L54
-        I9vA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1685542905; x=1685550105; bh=EBqVSuczL8zsM
-        7Z+quPoEDfVsyxlfcBd6Pp556uYrbw=; b=oHsmrYj795DmAa232WElXIyigX6QS
-        0lEvQFY80QEb+Xv0tRxVq8oUZFcRlC2iXWMf6A9EQv2H5cUZwOYXI3ksFh0MS95T
-        a/00JTDEw8+IydUghKJpXfKrc3inW8q2ucI7PDOEPvDnPWUUJno8vH4RJtk3SbTY
-        Xo+OOCRlKmOMcOOakCRfPh4R5icttoicQwN5NjWzxihP8oZl/jY89WgumqrZIZXm
-        4AoaMaI7N608rPOsEyznGm2POVWr2Onut7ICia06/ESVNpGopI564yXoSbydFLpg
-        hbe4TBBj3hxrtKP7i4wcLhqKNVYnyN+0hkR0iUv05alMTrQZU5p/u+1Vw==
-X-ME-Sender: <xms:91d3ZBqipQsTqKHY6NRTD4pyQkRXLNRO_yNlvk1OpXfTPQ31eLUkEA>
-    <xme:91d3ZDp9FwkAkFZcsZEtPeT3CVkRHmUMy4T3RxqVKzTCMhojIEgOsZyV2jdVmH5Ey
-    jaX7xNsSz1_QTWZOGA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeekledgjeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:91d3ZOPFWq78uKB_gUsNnnF0OeIzGpfUdYgHxMmkoms0hJmzyG_XXA>
-    <xmx:91d3ZM6fl1ZFbJDMuACkoSnRzDO_6enBMAgadt8Tx1-uTxmtBRgJMQ>
-    <xmx:91d3ZA7jTUqIpcQxCcujApE4FZxs0WEfQdlu7IS1-X3dmHdmqcfy7g>
-    <xmx:-Vd3ZFWRn8mhzfxV02UCF_CEnRSQ6iF8oeqZ00eFXYcYhyAZq5xkxQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 0E183B60086; Wed, 31 May 2023 10:21:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-447-ge2460e13b3-fm-20230525.001-ge2460e13
-Mime-Version: 1.0
-Message-Id: <70a69deb-7ad4-45b2-8e13-34955594a7ce@app.fastmail.com>
-In-Reply-To: <20230531132323.722039569@infradead.org>
-References: <20230531130833.635651916@infradead.org>
- <20230531132323.722039569@infradead.org>
-Date:   Wed, 31 May 2023 16:21:22 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Peter Zijlstra" <peterz@infradead.org>,
-        "Linus Torvalds" <torvalds@linux-foundation.org>
-Cc:     "Jonathan Corbet" <corbet@lwn.net>,
-        "Will Deacon" <will@kernel.org>,
-        "Boqun Feng" <boqun.feng@gmail.com>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>, dennis@kernel.org,
-        "Tejun Heo" <tj@kernel.org>, "Christoph Lameter" <cl@linux.com>,
-        "Heiko Carstens" <hca@linux.ibm.com>, gor@linux.ibm.com,
-        "Alexander Gordeev" <agordeev@linux.ibm.com>,
-        borntraeger@linux.ibm.com, "Sven Schnelle" <svens@linux.ibm.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, "Joerg Roedel" <joro@8bytes.org>,
-        suravee.suthikulpanit@amd.com,
-        "Robin Murphy" <robin.murphy@arm.com>,
-        "David Woodhouse" <dwmw2@infradead.org>,
-        "Baolu Lu" <baolu.lu@linux.intel.com>,
-        "Herbert Xu" <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Pekka Enberg" <penberg@kernel.org>,
-        "David Rientjes" <rientjes@google.com>,
-        "Joonsoo Kim" <iamjoonsoo.kim@lge.com>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Roman Gushchin" <roman.gushchin@linux.dev>,
-        "Hyeonggon Yoo" <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-crypto@vger.kernel.org,
-        "Stephen Rothwell" <sfr@canb.auug.org.au>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        "Helge Deller" <deller@gmx.de>, linux-parisc@vger.kernel.org
-Subject: Re: [PATCH 07/12] percpu: #ifndef __SIZEOF_INT128__
-Content-Type: text/plain
+        with ESMTP id S231436AbjEaOY2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 10:24:28 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF539198
+        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 07:24:18 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-3f606912ebaso61079055e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 07:24:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1685543057; x=1688135057;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UX4uQnFBny46FGtELxF82bEZ7MtHQbRmUfHqzbpy2lU=;
+        b=IfZ/Ty5r3Rvqpyw7mbNjCMOnUMNLWEjwe+gPBeXaNQKgtzbrn43qBaFsQ01WG62yjv
+         XME9SbyP0N5U1D9NoQRBkV9Zhqo1YGZZ53aXrSteaeilPxLX2+XbnbvtmK8KVitIuNum
+         BTw0oVjDbhu+LZvVe9vwdVAdbPm6FM6OrfIGRXCfRJwEyWbKyAxPmC0AxCpZ/t4lXnVG
+         ZEbjJhaOYnNF5I7VXOD2aSrPOgT/5V5ayPDbsai1cu/XzZW/x1EOnDPlftPM1zLUo5hK
+         LpNd3f3eYdQgduYWjrWRqJHgEFVdyS9CpXr7n4tqRw18zRe8skA+G5OYnlILCzE7fCiE
+         4hHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685543057; x=1688135057;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UX4uQnFBny46FGtELxF82bEZ7MtHQbRmUfHqzbpy2lU=;
+        b=FazAatRKtiV18cBZBv67HRA6oW0t5Ijb5h/0p/EWiwLG3vlCu945tuX+bq4jwAjWU4
+         itdKmbh59UK2Or0YWWO3FmIazBjeUjKushrKzQf2KKHpjCux7BR47yqzKY8pYdLP5Buw
+         zZUxfpBoIItvbGu8ToNM5hbSvATNI8zeVoUfWabLVbOAn9hzzifMNHwETHxkS8dMMZIf
+         Q0JNA4hd+5zDuexVsuL/FJGNw5yerlCOLDVFrjjQtdm1SU9+d6vmHYvqbjML3pDlvpo8
+         axWB4bPhOc2zk0vD7uQzMaZXd6Mn+37GLwCMx1Go5/LZmYokvSHu3vFXtkIRBDPxtCPU
+         nJ4g==
+X-Gm-Message-State: AC+VfDxIIFIVyRO0TbIIprgGPJ8axdI3Z/h0DlIPsnwnfhZzXEX5O/sl
+        zkeukAYW+tNEOkEU6mfshwVwHA==
+X-Google-Smtp-Source: ACHHUZ5dPMhB9kse11TIMIIwrwKdudQXmklhlG9pDb6dSrstXMUpAu5VAPxTeBjZUNfqusU9DTLd+A==
+X-Received: by 2002:a1c:f30e:0:b0:3f6:e42:8f85 with SMTP id q14-20020a1cf30e000000b003f60e428f85mr4390658wmq.37.1685543057440;
+        Wed, 31 May 2023 07:24:17 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id u20-20020a05600c211400b003f4ebeaa970sm21044711wml.25.2023.05.31.07.24.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 May 2023 07:24:17 -0700 (PDT)
+Date:   Wed, 31 May 2023 16:24:16 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 05/10] riscv: Prepare for user-space perf event mmap
+ support
+Message-ID: <20230531-107c91fd5c1926f7c8a2a25d@orel>
+References: <20230512085321.13259-1-alexghiti@rivosinc.com>
+ <20230512085321.13259-6-alexghiti@rivosinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230512085321.13259-6-alexghiti@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 31, 2023, at 15:08, Peter Zijlstra wrote:
-> Some 64bit architectures do not advertise __SIZEOF_INT128__ on all
-> supported compiler versions. Notably the HPPA64 only started doing
-> with GCC-11.
+On Fri, May 12, 2023 at 10:53:16AM +0200, Alexandre Ghiti wrote:
+> Provide all the necessary bits in the generic riscv pmu driver to be
+> able to mmap perf events in userspace: the heavy lifting lies in the
+> driver backend, namely the legacy and sbi implementations.
+> 
+> Note that arch_perf_update_userpage is almost a copy of arm64 code.
+> 
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> ---
+>  arch/riscv/kernel/Makefile     |  2 +-
+>  arch/riscv/kernel/perf_event.c | 58 ++++++++++++++++++++++++++++++++++
+>  drivers/perf/riscv_pmu.c       | 41 ++++++++++++++++++++++++
+>  include/linux/perf/riscv_pmu.h |  4 +++
+>  4 files changed, 104 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/riscv/kernel/perf_event.c
+>
 
-I checked the other compilers to be sure that anything else
-we support (gcc-5.1 and up) across all 64-bit architectures
-does support int128.
-
-It would be nice to have the hack more localized to parisc
-and guarded with a CONFIG_GCC_VERSION check so we can kill
-it off in the future, once we drop either gcc-10 or parisc
-support.
-
-> +#ifndef __SIZEOF_INT128__
-> +#define raw_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval)		\
-> +({									\
-> +	typeof(pcp) *__p = raw_cpu_ptr(&(pcp));				\
-> +	typeof(pcp) __val = *__p, __old = *(ovalp);			\
-> +	bool __ret;							\
-> +	if (!__builtin_memcmp(&__val, &__old, sizeof(pcp))) {		\
-> +		*__p = nval;						\
-> +		__ret = true;						\
-> +	} else {							\
-> +		*(ovalp) = __val;					\
-> +		__ret = false;						\
-> +	}								\
-> +	__ret;								\
-> +})
-> +
-> +#define raw_cpu_generic_cmpxchg_memcmp(pcp, oval, nval)			\
-> +({									\
-> +	typeof(pcp) __old = (oval);					\
-> +	raw_cpu_generic_try_cmpxchg_memcpy(pcp, &__old, nval);		\
-> +	__old;								\
-> +})
-
-Instead of having this in include/asm-generic under
-!__SIZEOF_INT128__, could you just move this into the parisc
-files with a compiler version check?
-
-     Arnd
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
