@@ -2,216 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 475DCC7EE29
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 23:11:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 675CDC7EE23
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 23:23:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbjEaXLo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 19:11:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35136 "EHLO
+        id S229681AbjEaXXI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 19:23:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbjEaXLn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 19:11:43 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65FEC12C;
-        Wed, 31 May 2023 16:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=nmte9E9sXVloF6HUJV4QBiAwzkNA1xzyrniH4jntggs=; b=a/Su64r/VzsuH3nHvF5cXQ/zgX
-        mnKbP/aBaq+ZKi1XzrsK5gORPxNLqYyEbzM/22/x3NWQBBvc2x40ocTn6gG995iRZqKuiP8SjxXxj
-        qLVIkE3AiIGnpz3HntG6+qWplO3b1BaoYoWEKEVozzHNKgZ5TAVm7jab3w5HLtNGRwY08V+jgmAU/
-        k0hbkbFKP9kq3T5KpJy1RGUHwunKj6Dv7TC50cVxWnnpJN/nhMuSb5swDMrYOCFfTZYnaZImZAHiP
-        QhVxkXXjmuFY/4cOkVVCQu1y+RQ7Z0GRaPI9305VKIbvEkg9ugWQtn2c1yKEYPVCyB5S7xBUdjQD9
-        +3vYiCvw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1q4Uyb-001RVl-2n;
-        Wed, 31 May 2023 23:11:33 +0000
-Message-ID: <c26c2a9e-13af-2b7c-d3dd-8455a10d84c6@infradead.org>
-Date:   Wed, 31 May 2023 16:11:30 -0700
+        with ESMTP id S229484AbjEaXXH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 19:23:07 -0400
+X-Greylist: delayed 14073 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 31 May 2023 16:23:05 PDT
+Received: from out-57.mta1.migadu.com (out-57.mta1.migadu.com [95.215.58.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5DC8A0
+        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 16:23:05 -0700 (PDT)
+Date:   Wed, 31 May 2023 23:22:53 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1685575383;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SXIoTlecMC6VxxSME1sHTXGjADcYTmN1y7mvnJvjlhM=;
+        b=lyfbrHT4Q4zo1L0ArqeQIdJoep5zRjHJ2OLTTh3iRuaDrDCmyrt6ZdUnmT8D0VRFrnKrfd
+        Fay41KvYXJP8CWHfKOE6M8su7vw1n8IEhIPvIvj0EphIHYOG0Ve9WKW9yduPpl6rDOCxtx
+        CeLsU8HW8TNpYdjp9DmTE9Euk9lTN+Y=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Oliver Upton <oliver.upton@linux.dev>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Alistair Popple <apopple@nvidia.com>,
+        Anup Patel <anup@brainfault.org>,
+        Ben Gardon <bgardon@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Fabiano Rosas <farosas@linux.ibm.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Gavin Shan <gshan@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Morse <james.morse@arm.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Larabel <michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Peter Xu <peterx@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Huth <thuth@redhat.com>, Will Deacon <will@kernel.org>,
+        Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
+        linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+        linux-mm@google.com
+Subject: Re: [PATCH mm-unstable v2 04/10] kvm/arm64: make stage2 page tables
+ RCU safe
+Message-ID: <ZHfWzX04GlcNngdU@linux.dev>
+References: <20230526234435.662652-1-yuzhao@google.com>
+ <20230526234435.662652-5-yuzhao@google.com>
+ <ZHJHJPBF6euzOFdw@linux.dev>
+ <CAOUHufa74CufHziHSquO5bZwbFXz2MNssBzW+AH7=Xo5RCnQ0A@mail.gmail.com>
+ <ZHZQdQAApIrw6fBu@linux.dev>
+ <CAOUHufZOkBmZJgCU2xW2B8S3P3TWERHezy0xKWY9_TeyV9K7Rg@mail.gmail.com>
+ <ZHef0VsZvZ1Vnz0u@linux.dev>
+ <CAOUHufZrfnfcbrqSzmHkejR5MA2gmGKZ3LMRhbLHV+1427z=Tw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 5/6] cgroup/cpuset: Documentation update for partition
-Content-Language: en-US
-To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Ryan Phillips <rphillips@redhat.com>,
-        Brent Rowsell <browsell@redhat.com>,
-        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
-References: <20230531163405.2200292-6-longman@redhat.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230531163405.2200292-6-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOUHufZrfnfcbrqSzmHkejR5MA2gmGKZ3LMRhbLHV+1427z=Tw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-Just a few small nits below:
-
-On 5/31/23 09:34, Waiman Long wrote:
-> This patch updates the cgroup-v2.rst file to include information about
-> the new "cpuset.cpus.reserve" control file as well as the new remote
-> partition.
+On Wed, May 31, 2023 at 05:10:52PM -0600, Yu Zhao wrote:
+> On Wed, May 31, 2023 at 1:28 PM Oliver Upton <oliver.upton@linux.dev> wrote:
+> > On Tue, May 30, 2023 at 02:06:55PM -0600, Yu Zhao wrote:
+> > > On Tue, May 30, 2023 at 1:37 PM Oliver Upton <oliver.upton@linux.dev> wrote:
+> > > > As it is currently implemented, yes. But, there's potential to fast-path
+> > > > the implementation by checking page_count() before starting the walk.
+> > >
+> > > Do you mind posting another patch? I'd be happy to ack it, as well as
+> > > the one you suggested above.
+> >
+> > I'd rather not take such a patch independent of the test_clear_young
+> > series if you're OK with that. Do you mind implementing something
+> > similar to the above patch w/ the proposed optimization if you need it?
 > 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 92 +++++++++++++++++++++----
->  1 file changed, 79 insertions(+), 13 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index f67c0829350b..3e9351c2cd27 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -2215,6 +2215,38 @@ Cpuset Interface Files
->  
->  	Its value will be affected by memory nodes hotplug events.
->  
-> +  cpuset.cpus.reserve
-> +	A read-write multiple values file which exists only on root
-> +	cgroup.
-> +
-> +	It lists all the CPUs that are reserved for adjacent and remote
-> +	partitions created in the system.  See the next section for
-> +	more information on what an adjacent or remote partitions is.
-> +
-> +	Creation of adjacent partition does not require touching this
-> +	control file as CPU reservation will be done automatically.
-> +	In order to create a remote partition, the CPUs needed by the
-> +	remote partition has to be written to this file first.
-> +
-> +	Due to the fact that "cpuset.cpus.reserve" holds reserve CPUs
-> +	that can be used by multiple partitions and automatic reservation
-> +	may also race with manual reservation, an extension prefixes of
-> +	"+" and "-" are allowed for this file to reduce race.
-> +
-> +	A "+" prefix can be used to indicate a list of additional
-> +	CPUs that are to be added without disturbing the CPUs that are
-> +	originally there.  For example, if its current value is "3-4",
-> +	echoing ""+5" to it will change it to "3-5".
+> No worries. I can take the above together with the following, which
+> would form a new series with its own merits, since apparently you
+> think the !AF case is important.
 
-	        "+5"
+Sorry if my suggestion was unclear.
 
-> +
-> +	Once a remote partition is destroyed, its CPUs have to be
-> +	removed from this file or no other process can use them.  A "-"
-> +	prefix can be used to remove a list of CPUs from it.  However,
-> +	removing CPUs that are currently used in existing partitions
-> +	may cause those partitions to become invalid.  A single "-"
-> +	character without any number can be used to indicate removal
-> +	of all the free CPUs not yet allocated to any partitions to
-> +	avoid accidental partition invalidation.
-> +
->    cpuset.cpus.partition
->  	A read-write single value file which exists on non-root
->  	cpuset-enabled cgroups.  This flag is owned by the parent cgroup
-> @@ -2228,25 +2260,49 @@ Cpuset Interface Files
->  	  "isolated"	Partition root without load balancing
->  	  ==========	=====================================
->  
-> -	The root cgroup is always a partition root and its state
-> -	cannot be changed.  All other non-root cgroups start out as
-> -	"member".
-> +	A cpuset partition is a collection of cgroups with a partition
-> +	root at the top of the hierarchy and its descendants except
-> +	those that are separate partition roots themselves and their
-> +	descendants.  A partition has exclusive access to the set of
-> +	CPUs allocated to it.  Other cgroups outside of that partition
-> +	cannot use any CPUs in that set.
-> +
-> +	There are two types of partitions - adjacent and remote.  The
-> +	parent of an adjacent partition must be a valid partition root.
-> +	Partition roots of adjacent partitions are all clustered around
-> +	the root cgroup.  Creation of adjacent partition is done by
-> +	writing the desired partition type into "cpuset.cpus.partition".
-> +
-> +	A remote partition does not require a partition root parent.
-> +	So a remote partition can be formed far from the root cgroup.
-> +	However, its creation is a 2-step process.  The CPUs needed
-> +	by a remote partition ("cpuset.cpus" of the partition root)
-> +	has to be written into "cpuset.cpus.reserve" of the root
-> +	cgroup first.  After that, "isolated" can be written into
-> +	"cpuset.cpus.partition" of the partition root to form a remote
-> +	isolated partition which is the only supported remote partition
-> +	type for now.
-> +
-> +	All remote partitions are terminal as adjacent partition cannot
-> +	be created underneath it.  With the way remote partition is
-> +	formed, it is not possible to create another valid remote
-> +	partition underneath it.
-> +
-> +	The root cgroup is always a partition root and its state cannot
-> +	be changed.  All other non-root cgroups start out as "member".
->  
->  	When set to "root", the current cgroup is the root of a new
-> -	partition or scheduling domain that comprises itself and all
-> -	its descendants except those that are separate partition roots
-> -	themselves and their descendants.
-> +	partition or scheduling domain.
->  
-> -	When set to "isolated", the CPUs in that partition root will
-> +	When set to "isolated", the CPUs in that partition will
->  	be in an isolated state without any load balancing from the
->  	scheduler.  Tasks placed in such a partition with multiple
->  	CPUs should be carefully distributed and bound to each of the
->  	individual CPUs for optimal performance.
->  
-> -	The value shown in "cpuset.cpus.effective" of a partition root
-> -	is the CPUs that the partition root can dedicate to a potential
-> -	new child partition root. The new child subtracts available
-> -	CPUs from its parent "cpuset.cpus.effective".
-> +	The value shown in "cpuset.cpus.effective" of a partition root is
-> +	the CPUs that are dedicated to that partition and not available
-> +	to cgroups outside of that partittion.
+I thought we were talking about ->free_removed_table() being called from
+the stage-2 unmap path, in which case we wind up unnecessarily visiting
+PTEs on a table known to be empty. You could fast-path that by only
+initiating a walk if  page_count() > 1:
 
-	                           partition.
+diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.c
+index 95dae02ccc2e..766563dc465c 100644
+--- a/arch/arm64/kvm/hyp/pgtable.c
++++ b/arch/arm64/kvm/hyp/pgtable.c
+@@ -1331,7 +1331,8 @@ void kvm_pgtable_stage2_free_removed(struct kvm_pgtable_mm_ops *mm_ops, void *pg
+ 		.end	= kvm_granule_size(level),
+ 	};
+ 
+-	WARN_ON(__kvm_pgtable_walk(&data, mm_ops, ptep, level + 1));
++	if (mm_ops->page_count(pgtable) > 1)
++		WARN_ON(__kvm_pgtable_walk(&data, mm_ops, ptep, level + 1));
+ 
+ 	WARN_ON(mm_ops->page_count(pgtable) != 1);
+ 	mm_ops->put_page(pgtable);
 
->  
->  	A partition root ("root" or "isolated") can be in one of the
->  	two possible states - valid or invalid.  An invalid partition
-> @@ -2270,8 +2326,8 @@ Cpuset Interface Files
->  	In the case of an invalid partition root, a descriptive string on
->  	why the partition is invalid is included within parentheses.
->  
-> -	For a partition root to become valid, the following conditions
-> -	must be met.
-> +	For an adjacent partition root to be valid, the following
-> +	conditions must be met.
->  
->  	1) The "cpuset.cpus" is exclusive with its siblings , i.e. they
->  	   are not shared by any of its siblings (exclusivity rule).
-> @@ -2281,6 +2337,16 @@ Cpuset Interface Files
->  	4) The "cpuset.cpus.effective" cannot be empty unless there is
->  	   no task associated with this partition.
->  
-> +	For a remote partition root to be valid, the following conditions
-> +	must be met.
-> +
-> +	1) The same exclusivity rule as adjacent partition root.
-> +	2) The "cpuset.cpus" is not empty and all the CPUs must be
-> +	   present in "cpuset.cpus.reserve" of the root cgroup and none
-> +	   of them are allocated to another partition.
-> +	3) The "cpuset.cpus" value must be present in all its ancestors
-> +	   to ensure proper hierarchical cpu distribution.
 
-	                                 CPU
-
-> +
->  	External events like hotplug or changes to "cpuset.cpus" can
->  	cause a valid partition root to become invalid and vice versa.
->  	Note that a task cannot be moved to a cgroup with empty
+A lock-free access fault walker is interesting, but in my testing it hasn't
+led to any significant improvements over acquiring the MMU lock for
+read. Because of that I hadn't bothered with posting the series upstream.
 
 -- 
-~Randy
+Thanks,
+Oliver
