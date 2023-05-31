@@ -2,122 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 122C3C7EE24
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 09:40:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B098C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 09:59:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231495AbjEaJkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 05:40:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42924 "EHLO
+        id S235722AbjEaJ67 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 05:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233807AbjEaJkJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 05:40:09 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4140C5;
-        Wed, 31 May 2023 02:40:07 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-64d24136685so563375b3a.1;
-        Wed, 31 May 2023 02:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685526007; x=1688118007;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=0wQqpVqSADYWZhZOHWRUdPhrtQeHJWnavRCiV7c8EhM=;
-        b=AEAGl7RqHoaakBTxItnW4neRY0247fXV6XxN/TqsgEo5vOzLRj4slugR9kpkOs91vT
-         h36+hsB5E8wjphdfZ/YZZlzagrVxgf46epsPbGx6c9nTxL+ZGmWmQXCZW1DiXMBQ1lcR
-         IP/sMhl3JwJn1gZK7VTlpJDtUYgl4DWK654ef/EfvgmoeDMclqtDWM3XXSuyrtOClIUD
-         Opxy1cHXwypRGJ/oko9q4E1nrxxqiegmcqlV7SUOwU96I8eAaSQ3t5vAPc6S4D/DACmT
-         nwPh+yye7TXlIl2/OuP6fuYhSwPgKAjnJGBMA1GVCot5LxlDm9n5wvNCBEQFasSy1qq5
-         JHvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685526007; x=1688118007;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0wQqpVqSADYWZhZOHWRUdPhrtQeHJWnavRCiV7c8EhM=;
-        b=aHwEb9+z3Rmp8Mph2AKfVa/KHn79aWyqvxWQoM2ZkpmxlbsXCJP3Xud2ncfkRGTBTr
-         8pxLweU/ijLCgc+93ag5dkhiQfjCyY2RC+ur1KP9bcDq34iMP/LxqAp8COZtm9ESG5hn
-         9RrXStxdS81M5D6/ZyqN7nuE2S3R+TIFK1AgwcUu9N93ddQX1TAisQzxtBpqnRwhEf3y
-         9ZuowFDbhBzXk9L/FQMZ9p4CCE8YJ3cgzL2/B8fi4LKPxTzAKI1iGFQdh4RcR1hWPsc7
-         ZVHWsrlRWTQqubJ6Es5fzePkzTL6P6etJmxs/hwKQDgNN8YPGh1pCyIxGfE7zOQ/aaoP
-         j7XQ==
-X-Gm-Message-State: AC+VfDzicmDRWjT1HpgzDEwzGXuyNLWu/xcu5VOoAD8YjcsKquR6T9Yh
-        vgu0Z3BAkn+Sj5kDyOpMans=
-X-Google-Smtp-Source: ACHHUZ4ewL6qA9g6t0MbgN8fHUzH7bPB4KBA1K5lLXyl4p5j2OmLW0xQC8mR1Y8Sgp5hXBycuK6oPA==
-X-Received: by 2002:a05:6a00:2d26:b0:63b:54e4:871b with SMTP id fa38-20020a056a002d2600b0063b54e4871bmr5218052pfb.8.1685526006968;
-        Wed, 31 May 2023 02:40:06 -0700 (PDT)
-Received: from XH22050090-L.ad.ts.tri-ad.global ([103.175.111.222])
-        by smtp.gmail.com with ESMTPSA id h26-20020aa786da000000b0063b675f01a5sm3082621pfo.11.2023.05.31.02.40.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 May 2023 02:40:06 -0700 (PDT)
-Sender: Vincent Mailhol <vincent.mailhol@gmail.com>
-From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Daniel Xu <dxu@dxuuu.xyz>, Sven Van Asbroeck <thesven73@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        linux-kernel@vger.kernel.org,
-        Simon Horman <simon.horman@corigine.com>,
-        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Matthew Wilcox <mawilcox@microsoft.com>
-Subject: [PATCH v1] doc-guide: kernel-doc: specify that W=n does not check header files
-Date:   Wed, 31 May 2023 18:39:51 +0900
-Message-Id: <20230531093951.358769-1-mailhol.vincent@wanadoo.fr>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S235713AbjEaJ6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 05:58:54 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D924E54;
+        Wed, 31 May 2023 02:58:30 -0700 (PDT)
+Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A190C1EC04CB;
+        Wed, 31 May 2023 11:58:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1685527105;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=hV5YBOIQSuwVXJ+8Bq//nWeBhs0OtlO6df6O2vn8m1U=;
+        b=Z5dl/Esl28XcJGYLQMWLB7mDNT4HnJmuKuH7Q7rBtdBM4dZsUgVpe+otHybYon2eveTgiP
+        AsTaFAFSoetQQLdUoW1I/5GajpeRc7w7d27DQ5wtBU0egue/Hk38/BctN3oEqzR61+V4pC
+        P8u8HorX55f1Ee47CpUpGwCZiVcGwmM=
+Date:   Wed, 31 May 2023 11:58:21 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikelley@microsoft.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
+Message-ID: <20230531095821.GBZHcaPUvp8jo/IwV7@fat_crate.local>
+References: <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
+ <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
+ <20230510133024.GBZFuccC1FxIZNKL+8@fat_crate.local>
+ <4c47a11c-0565-678d-3467-e01c5ec16600@suse.com>
+ <20230511163208.GDZF0YiOfxQhSo4RDm@fat_crate.local>
+ <0cd3899b-cf3b-61c1-14ae-60b6b49d14ab@suse.com>
+ <20230530152825.GAZHYWGXAp8PHgN/w0@fat_crate.local>
+ <888f860d-4307-54eb-01da-11f9adf65559@suse.com>
+ <20230531083508.GAZHcGvB68PUAH7f+a@fat_crate.local>
+ <7e824a95-6676-9553-4158-d434f617fcbb@suse.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7e824a95-6676-9553-4158-d434f617fcbb@suse.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation states that:
+On Wed, May 31, 2023 at 11:31:37AM +0200, Juergen Gross wrote:
+> What it did would have been printed if pr_debug() would have been
+> active. :-(
 
-  make W=n
+Lemme turn those into pr_info(). pr_debug() is nuts.
 
-can be used to verify the documentation format. This is true for .c
-files but not for headers [1].
+> Did you check whether CONFIG_MTRR_SANITIZER_ENABLE_DEFAULT was the same in both
+> kernels you've tested?
 
-Modify the documentation to specify that headers files are not covered
-by make W=n and that these need to be checked separately with
-scripts/kernel-doc.
+Yes, it is enabled.
 
-[1] commit 3a025e1d1c2e ("Add optional check for bad kernel-doc comments")
-Link: https://git.kernel.org/torvalds/c/3a025e1d1c2e
-
-Fixes: 8fcce5803afd ("doc-guide: kernel-doc: add comment about formatting verification")
-Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
----
-CC: Matthew Wilcox <mawilcox@microsoft.com>
-CC: Jonathan Corbet <corbet@lwn.net>
-
-The best would obviously be to modify scripts/Makefile.build to also
-check headers, but this is easier said than done. Updating the
-documentation is the best I can offer.
----
- Documentation/doc-guide/kernel-doc.rst | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index 1dcbd7332476..c7785ee40e47 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -56,11 +56,14 @@ documentation comments. For example::
- 
- 	scripts/kernel-doc -v -none drivers/foo/bar.c
- 
--The documentation format is verified by the kernel build when it is
--requested to perform extra gcc checks::
-+The documentation format of ``.c`` files is also verified by the kernel build
-+when it is requested to perform extra gcc checks::
- 
- 	make W=n
- 
-+However, the above command does not verify header files. These should be checked
-+separately using ``kernel-doc``.
-+
- Function documentation
- ----------------------
- 
 -- 
-2.25.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
