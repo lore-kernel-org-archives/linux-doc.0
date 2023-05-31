@@ -2,87 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDBA4C7EE31
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 12:22:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE72C7EE2F
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 13:28:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235440AbjEaMW5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 08:22:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33616 "EHLO
+        id S236229AbjEaN2U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 09:28:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235645AbjEaMWq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 08:22:46 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 148BB133;
-        Wed, 31 May 2023 05:22:39 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-64d3491609fso3864994b3a.3;
-        Wed, 31 May 2023 05:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685535758; x=1688127758;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rN0bnH3gWYzBfmgMkHbIKEWC6DN7mRYY+LRbQfT+m8w=;
-        b=HTmJDBodHXoupmovdSQqrWH23609whCbniyvjQt/8cgNZWj+AlndJgjNV6pZBTyCxS
-         2HyCOEDkKDu5nXHoCF4XjKHHmk/JHP7mF2z/A3rJEHiAPchIBimoWPiGVb1yopKhJmsS
-         GZV1NI8i317BxhnBWxKbjAJAHhRT0KseBRpMqDmQPfd4dKFWUqt8HCRI26SK8+KqvF/D
-         sSExthJZjnn28lF73gjBhLDoV/FFpZy3dl8RJpP9l9PvqRqNGZ73lrGg1q5GO5+FOVNf
-         sw0Pe5GEmU04pYQkSlG1h1L1euolw/rJV9oY842wSYllKxfZm1c/K2BXV1nKjEa/uGzj
-         UHfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685535758; x=1688127758;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rN0bnH3gWYzBfmgMkHbIKEWC6DN7mRYY+LRbQfT+m8w=;
-        b=NkM14ZfJ/hisNusWlilRvSk1NWji4Wn841GV6eoiuRFnr7e1GachO38ikHlUjqm37d
-         QzeY6hvlDh34Ic7OIqKFWvi/fBr/mn4F+jeRK6YCz+od6OKaiySni9R8SpqOID27HvaH
-         +Pnqf5pnJXc+DEIQzAQpQ6eYMuAlfC10PsPBFS1EZcXI2MapAuVWHH7EPQkPUQFdZHo9
-         v689ZfiDgSy7bE9DNRBlUmBRyKGd2yOWKGlQxMe+F80MFTIqTqmBIWlKvbiM4lU8SO3O
-         go9nq87zkRefKIFVMNR+D3yJlZnOrXVVKincFKeCVjiKzmF4DXlXu9JC4fEO7mi9UoHk
-         lYLA==
-X-Gm-Message-State: AC+VfDzq2FBhquRl8cS+Q//NopNd50qSjLWydZ5vwZC1HHOtCoFqB47d
-        75hD/HpgTZcEJyqHQNDG5T4=
-X-Google-Smtp-Source: ACHHUZ7DfzLyM4oLMoKb5ptpGN1Rb4GOgWflTWWpLh7DmpnJMvRse3nfgP4G+6QmIdG3Jfb/v9UIAA==
-X-Received: by 2002:a05:6a20:144d:b0:111:2f20:d48f with SMTP id a13-20020a056a20144d00b001112f20d48fmr5327442pzi.53.1685535758400;
-        Wed, 31 May 2023 05:22:38 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-69.three.co.id. [180.214.233.69])
-        by smtp.gmail.com with ESMTPSA id g2-20020a62e302000000b0064f39c6474fsm3261813pfh.56.2023.05.31.05.22.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 May 2023 05:22:37 -0700 (PDT)
-Message-ID: <d07c5c29-e5ff-9469-80c7-c6ad54734e6c@gmail.com>
-Date:   Wed, 31 May 2023 19:22:30 +0700
+        with ESMTP id S231836AbjEaN2T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 09:28:19 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0145C0;
+        Wed, 31 May 2023 06:28:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
+        Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To;
+        bh=YmtjcG8l219y7/fwmL50Z5SyZj2N/Dfw7Oi4KDcDI7Q=; b=EJ3ZB+xFh9CWEpg5yrG6OprVJc
+        4KY9jm91TcbrWOishlejJY5DbVF4mvlHugJmUDSsE/LkTcn4aim13LF+VunBmsPU6byCiTEoAXFtd
+        PMY9zcKVyFfala+gu6tRVAh8pqQ01ufwI6rMYp7FCuX9C5mYnmZzPRiAM2anoIyZGo4A+qMj6+whs
+        fEmcz0eNH94T1AESxYBFQUp4+DmILfWmyLz1Mx+MZvVIgDEzwKNwADbrfOqw3qVGm86SmNMGYmkIt
+        gygTW9IHI214IRvW/eG2FY8W+9D4Iq6PvRg/jFdhrZleggC2VWlbR3HPvZmIIrMcseVeHlANgsyCs
+        01q0OpaA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1q4LrG-007IIk-36; Wed, 31 May 2023 13:27:22 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F357830068D;
+        Wed, 31 May 2023 15:27:16 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
+        id 7D554243B69D8; Wed, 31 May 2023 15:27:16 +0200 (CEST)
+Message-ID: <20230531132323.314826687@infradead.org>
+User-Agent: quilt/0.66
+Date:   Wed, 31 May 2023 15:08:34 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     torvalds@linux-foundation.org
+Cc:     corbet@lwn.net, will@kernel.org, peterz@infradead.org,
+        boqun.feng@gmail.com, mark.rutland@arm.com,
+        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
+        robin.murphy@arm.com, dwmw2@infradead.org,
+        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
+        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-s390@vger.kernel.org,
+        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-crypto@vger.kernel.org, sfr@canb.auug.org.au,
+        mpe@ellerman.id.au, James.Bottomley@hansenpartnership.com,
+        deller@gmx.de, linux-parisc@vger.kernel.org
+Subject: [PATCH 01/12] cyrpto/b128ops: Remove struct u128
+References: <20230531130833.635651916@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] Documentation/process: add soc maintainer handbook
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Conor Dooley <conor.dooley@microchip.com>, soc@kernel.org
-Cc:     conor@kernel.org, corbet@lwn.net, devicetree@vger.kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        olof@lixom.net, palmer@dabbelt.com, robh+dt@kernel.org,
-        arnd@arndb.de
-References: <20230530-multiple-whooping-ee5706fceb67@wendy>
- <ZHbpb98Yn7SDZ4XZ@debian.me>
- <ed4c3564-4083-5568-f999-cfd7f02544a7@linaro.org>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <ed4c3564-4083-5568-f999-cfd7f02544a7@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/31/23 13:51, Krzysztof Kozlowski wrote:
->> Sounds like passing `make dtbs` is a merging requirement.
-> 
-> And why shouldn't be?
-> 
+Per git-grep u128_xor() and its related struct u128 are unused except
+to implement {be,le}128_xor(). Remove them to free up the namespace.
 
-I don't have anything more to say here...
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+---
+ include/crypto/b128ops.h |   14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
--- 
-An old man doll... just what I always wanted! - Clara
+--- a/include/crypto/b128ops.h
++++ b/include/crypto/b128ops.h
+@@ -50,10 +50,6 @@
+ #include <linux/types.h>
+ 
+ typedef struct {
+-	u64 a, b;
+-} u128;
+-
+-typedef struct {
+ 	__be64 a, b;
+ } be128;
+ 
+@@ -61,20 +57,16 @@ typedef struct {
+ 	__le64 b, a;
+ } le128;
+ 
+-static inline void u128_xor(u128 *r, const u128 *p, const u128 *q)
++static inline void be128_xor(be128 *r, const be128 *p, const be128 *q)
+ {
+ 	r->a = p->a ^ q->a;
+ 	r->b = p->b ^ q->b;
+ }
+ 
+-static inline void be128_xor(be128 *r, const be128 *p, const be128 *q)
+-{
+-	u128_xor((u128 *)r, (u128 *)p, (u128 *)q);
+-}
+-
+ static inline void le128_xor(le128 *r, const le128 *p, const le128 *q)
+ {
+-	u128_xor((u128 *)r, (u128 *)p, (u128 *)q);
++	r->a = p->a ^ q->a;
++	r->b = p->b ^ q->b;
+ }
+ 
+ #endif /* _CRYPTO_B128OPS_H */
+
 
