@@ -2,196 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 959DEC77B7C
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 10:20:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF3A2C7EE24
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 10:46:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231495AbjEaKUn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 06:20:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37102 "EHLO
+        id S232537AbjEaKqW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 06:46:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235864AbjEaKTf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 06:19:35 -0400
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B58E50;
-        Wed, 31 May 2023 03:18:43 -0700 (PDT)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4f4b80bf93aso6362769e87.0;
-        Wed, 31 May 2023 03:18:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685528308; x=1688120308;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W6GPjeoHUHTaUuJ49rPZArdhLwRx1KXMFV6aKCSWWIg=;
-        b=EtPaYmBbaFITqxeHc9x5nZdYuiRoiTTIXeW8d5eCxYqm3kKMkIxzftECIea+FcgrOx
-         YlBzUCLHgRZBoppqQzHvMYZzxg6HzuOROkuNJUGcndQa0CyuSwOTmHCEWnu22s/UzMtw
-         ALDPFhIsvYhWNKJSnnNGTXLT2W1v4OsarPQETSEdVIB1UE/wKtt+qM+jmYJXHA8nVHtJ
-         /QrGQOlkWo2WDtUqG5/PZEngf2cJ8nC3yZCZxkLeJZr7diQkuGp+Ils2M8lEQHFg+eJG
-         vqTEfDKWmaGbdq5F0fMdiwqf5XGAdTBvRw4Ot51sNLvbJ6ZU0Gh6QFAtM7aBTejcQ5Au
-         SYxw==
-X-Gm-Message-State: AC+VfDxHFiyPcDY3qt/zvDNxjdlbq6v4e/h31vzoc0w/NH73z/X/kz7j
-        Rm+8v7ZaprVQtq+yduKNW9c=
-X-Google-Smtp-Source: ACHHUZ7VEEsZgO547Ria6nWXtLVSiMK/xoGPSAEwQPvKsZ1jcG25xLrufP0Ux9b14EaHl33BOHN1jA==
-X-Received: by 2002:ac2:482c:0:b0:4f1:1ec4:109b with SMTP id 12-20020ac2482c000000b004f11ec4109bmr2005801lft.15.1685528307990;
-        Wed, 31 May 2023 03:18:27 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a040:1a3:c11b:3ae6:1732:e587:a81f])
-        by smtp.gmail.com with ESMTPSA id l19-20020a19c213000000b004f37a541f0csm658008lfc.270.2023.05.31.03.18.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 May 2023 03:18:27 -0700 (PDT)
-From:   Costa Shulyupin <costa.shul@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Costa Shulyupin <costa.shul@redhat.com>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] docs: organize subsystems
-Date:   Wed, 31 May 2023 13:17:15 +0300
-Message-Id: <20230531101715.3256681-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <d1e4436e-b428-0f49-ecf1-079955aaecb2@gmail.com>
-References: <d1e4436e-b428-0f49-ecf1-079955aaecb2@gmail.com>
+        with ESMTP id S230487AbjEaKqU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 06:46:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916ADBE;
+        Wed, 31 May 2023 03:46:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 218D4627FA;
+        Wed, 31 May 2023 10:46:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD17C433D2;
+        Wed, 31 May 2023 10:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685529978;
+        bh=uvajCD/cT8XPDDXHL1P5zECvOH/G0AyyNrIES1Z6/Ng=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=U/ok+6f1wkidXmCi52ay4cMHzhejtsHqtYwA+9gXXd/YWg72oZmtpsb/yN8YRvB43
+         o5RzGUJb/8sR6kVKcY2eRyZwbmI6kndeBkEnOlGx5gb3NLeFd0LLO7f07SiJ5JQ2Rh
+         WECGpklsOlOx02Qgxou8TlQ/Uvn1QNLIXWqBpBFYhO+dEQ4lJSCfuosihMxsfczjBH
+         geOAjLRvqZjZZ+v3Vv3MaimBz+3nS6or/or6tKpV41D9S6TB5pm5IRM5/Q7q9WqMNh
+         i2UeA5ThiOgn+U3nveHzTMjouMFyT0TJUJAv6X8am3AdK0YH6NX9C+0zTF13OLr1JN
+         DF0NbRxCjtz5A==
+Date:   Wed, 31 May 2023 11:46:11 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     patchwork-bot+netdevbpf@kernel.org
+Cc:     Christian Marangi <ansuelsmth@gmail.com>, pavel@ucw.cz,
+        corbet@lwn.net, andrew@lunn.ch, f.fainelli@gmail.com,
+        olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, linux-leds@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v4 00/13] leds: introduce new LED hw control APIs
+Message-ID: <20230531104611.GC449117@google.com>
+References: <20230529163243.9555-1-ansuelsmth@gmail.com>
+ <168552422621.12579.18364898651664418572.git-patchwork-notify@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=true
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <168552422621.12579.18364898651664418572.git-patchwork-notify@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-as requested.
+On Wed, 31 May 2023, patchwork-bot+netdevbpf@kernel.org wrote:
 
-Add classes:
-* Core subsystems
-* Storage interfaces
-* Networking interfaces
-* Peripherals interfaces
-* Embedded interfaces
-* Other subsystems
+> Hello:
+> 
+> This series was applied to netdev/net-next.git (main)
+> by David S. Miller <davem@davemloft.net>:
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
- Documentation/subsystem-apis.rst | 87 +++++++++++++++++++++++---------
- 1 file changed, 64 insertions(+), 23 deletions(-)
+*sigh*
+ 
+> On Mon, 29 May 2023 18:32:30 +0200 you wrote:
+> > Since this series is cross subsystem between LED and netdev,
+> > a stable branch was created to facilitate merging process.
+> > 
+> > This is based on top of branch ib-leds-netdev-v6.5 present here [1]
+> > and rebased on top of net-next since the LED stable branch got merged.
+> > 
+> > This is a continue of [2]. It was decided to take a more gradual
+> > approach to implement LEDs support for switch and phy starting with
+> > basic support and then implementing the hw control part when we have all
+> > the prereq done.
+> > 
+> > [...]
+> 
+> Here is the summary with links:
+>   - [net-next,v4,01/13] leds: add APIs for LEDs hw control
+>     https://git.kernel.org/netdev/net-next/c/ed554d3f9451
+>   - [net-next,v4,02/13] leds: add API to get attached device for LED hw control
+>     https://git.kernel.org/netdev/net-next/c/052c38eb17e8
+>   - [net-next,v4,03/13] Documentation: leds: leds-class: Document new Hardware driven LEDs APIs
+>     https://git.kernel.org/netdev/net-next/c/8aa2fd7b6698
+>   - [net-next,v4,04/13] leds: trigger: netdev: refactor code setting device name
+>     https://git.kernel.org/netdev/net-next/c/28a6a2ef18ad
+>   - [net-next,v4,05/13] leds: trigger: netdev: introduce check for possible hw control
+>     https://git.kernel.org/netdev/net-next/c/4fd1b6d47a7a
+>   - [net-next,v4,06/13] leds: trigger: netdev: add basic check for hw control support
+>     https://git.kernel.org/netdev/net-next/c/6352f25f9fad
+>   - [net-next,v4,07/13] leds: trigger: netdev: reject interval store for hw_control
+>     https://git.kernel.org/netdev/net-next/c/c84c80c7388f
+>   - [net-next,v4,08/13] leds: trigger: netdev: add support for LED hw control
+>     https://git.kernel.org/netdev/net-next/c/7c145a34ba6e
+>   - [net-next,v4,09/13] leds: trigger: netdev: validate configured netdev
+>     https://git.kernel.org/netdev/net-next/c/33ec0b53beff
+>   - [net-next,v4,10/13] leds: trigger: netdev: init mode if hw control already active
+>     https://git.kernel.org/netdev/net-next/c/0316cc5629d1
+>   - [net-next,v4,11/13] leds: trigger: netdev: expose netdev trigger modes in linux include
+>     https://git.kernel.org/netdev/net-next/c/947acacab5ea
+>   - [net-next,v4,12/13] net: dsa: qca8k: implement hw_control ops
+>     https://git.kernel.org/netdev/net-next/c/e0256648c831
+>   - [net-next,v4,13/13] net: dsa: qca8k: add op to get ports netdev
+>     https://git.kernel.org/netdev/net-next/c/4f53c27f772e
+> 
+> You are awesome, thank you!
+> -- 
+> Deet-doot-dot, I am a bot.
+> https://korg.docs.kernel.org/patchwork/pwbot.html
+> 
+> 
 
-diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-index 55c90d5383ef..20655f6092c2 100644
---- a/Documentation/subsystem-apis.rst
-+++ b/Documentation/subsystem-apis.rst
-@@ -10,6 +10,22 @@ is taken directly from the kernel source, with supplemental material added
- as needed (or at least as we managed to add it — probably *not* all that is
- needed).
- 
-+Core subsystems
-+---------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   core-api/index
-+   driver-api/index
-+   scheduler/index
-+   timers/index
-+   locking/index
-+   cpu-freq/index
-+   mm/index
-+   power/index
-+
-+
- Human interfaces
- ----------------
- 
-@@ -22,46 +38,71 @@ Human interfaces
-    gpu/index
-    fb/index
- 
--**Fixme**: much more organizational work is needed here.
-+
-+Storage interfaces
-+------------------
- 
- .. toctree::
-    :maxdepth: 1
- 
--   driver-api/index
--   core-api/index
--   locking/index
--   accounting/index
-+   filesystems/index
-    block/index
-    cdrom/index
--   cpu-freq/index
--   fpga/index
--   i2c/index
--   iio/index
-+   scsi/index
-+   target/index
-+
-+
-+Networking interfaces
-+---------------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-    isdn/index
-    infiniband/index
--   leds/index
-    netlabel/index
-    networking/index
--   pcmcia/index
--   power/index
--   target/index
--   timers/index
-+   mhi/index
-+
-+
-+Peripherals interfaces
-+----------------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   usb/index
-+   PCI/index
-+   hwmon/index
-+   leds/index
-+
-+
-+Embedded interfaces
-+-------------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   fpga/index
-+   i2c/index
-+   iio/index
-    spi/index
-    w1/index
-+   peci/index
-+
-+Other subsystems
-+----------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   accounting/index
-+   pcmcia/index
-    watchdog/index
-    virt/index
--   hwmon/index
-    accel/index
-    security/index
-    crypto/index
--   filesystems/index
--   mm/index
-    bpf/index
--   usb/index
--   PCI/index
--   scsi/index
-    misc-devices/index
--   scheduler/index
--   mhi/index
--   peci/index
-    wmi/index
 -- 
-2.40.1
-
+Lee Jones [李琼斯]
