@@ -2,156 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B5D3C7EE23
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 17:09:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B83B7C77B73
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 21:23:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjEaRJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 13:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47300 "EHLO
+        id S229745AbjEaVXA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 17:23:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230149AbjEaRJO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 13:09:14 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C71CE18D
-        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 10:09:09 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2af30a12e84so66508381fa.0
-        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 10:09:09 -0700 (PDT)
+        with ESMTP id S229629AbjEaVW7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 17:22:59 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D4CAB3;
+        Wed, 31 May 2023 14:22:58 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-5147e8972a1so337517a12.0;
+        Wed, 31 May 2023 14:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1685552948; x=1688144948;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1685568177; x=1688160177;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jQ4u7E+2pu1MUIvR5vq40l8aNtL/U44SVHTVaiFl+ZE=;
-        b=dpkjmQJu6nzfEvoWvKrVmVKQFGK9PktpjQr+7FUyc7TmLV2jDpBImI3W6D2jWa8bxQ
-         l5hJd7cLgyNz7BZdZU1OQXZKfXRkX4bD9w1XsNtr411FOCbaa6RddJGelQbb9wilkc9y
-         DMWXRHS43Ov4MPvOjEalEiIKCv7yNQTvhrIlI=
+        bh=wQC0Taw9DGW/ijDYPQDBEhLOfb54DcOaqiw5dKW4RRw=;
+        b=fQbgXhP7vZD5Cb5UboaK4p5MsA/A1lgkFfndrv+/e6Xdt9DuyuFoNjaL9zWH1qYT8K
+         9H4c8AZT060gPZ4qDCi2b+rM/kjePV2T6Imlsc17d+sLCRR+86fQR75zjnq2I9yil0Tv
+         GV02WUh3oqGASMqxsvRnMBECZ20TovHpByejrsq8QjgwfCTtd9/p3y2Saso2RPn45O7D
+         mor9RvUFMe89ioFgsQ9qVPOKBP5ORxy8pnIocKTgdXne7HdJaxb5yVWqxYV8DglitDJG
+         ML38K61GcbMU1RVEiCAq4wcoCUt0nRaS+djaA5bo2qRQL1Jsszs8QOE7SEeSqBY2azdd
+         UYLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685552948; x=1688144948;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1685568177; x=1688160177;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jQ4u7E+2pu1MUIvR5vq40l8aNtL/U44SVHTVaiFl+ZE=;
-        b=USxwgN9IEGgV2Uc6e6mEzxGNqAEzUuWL0NlERsCOjjXP6W/En1tRhe7aGJsAF+Zw9M
-         ISnZr0BhFO7JM1ZnMpv7Xk9+GcO3cWxj3Au1JBugSMIQ+wsfwaWoAt21HtoavdYrD15O
-         viAyw+GEBxxl7yNz+KIk+DdSN/eUj6IM2rc7hIb4qfmZBg9lWxMpVzBAE2uK0Hg5lBsP
-         ux7yeFTQDX7Ddjta8bhPxiN0YZH6Ap9z9dEs8QfQHeBF1U54bgGs/xikuToL/zceFS8H
-         7rlkaiFxwbY35Bs3dWlVheOZBEn+PT2KqQHgp6i4HvBc1Cr4R2zqyKbzhOiXvLkRCsqg
-         FP0A==
-X-Gm-Message-State: AC+VfDw3brTsOqq4XuzWNP9FmJbIXUbOTBVsyA1xkDquHyEyRCX2om4U
-        PN/XvuyW/uyr0y3/UZCdFxCGv+v8DQPwQfb1VDZB
-X-Google-Smtp-Source: ACHHUZ4Yj35TR6Xj5jR1jPOnnSx23dqmIilZiSg9iS5EDhMCva7jreZ1DdDVMqkhgJshkIN4lTSdR5pmfFIPgmIgll4=
-X-Received: by 2002:a2e:8189:0:b0:2ad:ba85:9f7 with SMTP id
- e9-20020a2e8189000000b002adba8509f7mr3527397ljg.22.1685552947968; Wed, 31 May
- 2023 10:09:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230512085321.13259-1-alexghiti@rivosinc.com>
- <20230512085321.13259-9-alexghiti@rivosinc.com> <20230531-0707dc46df8078cd92711314@orel>
-In-Reply-To: <20230531-0707dc46df8078cd92711314@orel>
-From:   Atish Patra <atishp@atishpatra.org>
-Date:   Wed, 31 May 2023 10:08:56 -0700
-Message-ID: <CAOnJCU+sda3UaOvC3Si4TT3nvibUSEOwmx94eQK-9ouvG4=ovQ@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] Documentation: admin-guide: Add riscv sysctl_perf_user_access
-To:     Andrew Jones <ajones@ventanamicro.com>
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        bh=wQC0Taw9DGW/ijDYPQDBEhLOfb54DcOaqiw5dKW4RRw=;
+        b=T82SmXIl6uMkylIKwqx9tDpzHm8Rof+9GXLristfgAjc1o1AMSSttybczfsvtiJoVP
+         /GDXU5qzwNR5Mvu0VKB45ioySYOBrjT4ovMZJw/1UCNdy02UeYddUTyvon2X0xay9wq7
+         5i4aVM0+SQUXkt3ONHjDsLNpzv4Lmh8U4T0uBEN3Xr4jB3gQkKiKWA0cQM5mbIJnxCJx
+         f/V5y9zfAVHm+W7pyvZsVDi/TlSLu6VVQuC9AeiNaQZt4fhujlpg/wFYSlwkiU4jdl+0
+         ksTgKulydltW3C9LRqFrh36Mm1AhTUZstD98T05uJW8icqsHbRRzsxUWfJ+EtJf8U4na
+         speA==
+X-Gm-Message-State: AC+VfDy4LAW4Vi9Nhvpu9Z9mkgxi2FJ5ycIW0Bjf/LcNC0TDxzgLj0YQ
+        AnoHbPexyPEotmCjFm8UbI+jsi1IFJapfg==
+X-Google-Smtp-Source: ACHHUZ58AfxanTFy84gvgH+WbnI8SDn1e0skiaPsqfAo0ulKz1ynaHRQnVTu+7rCnWtzRmHPssV4kw==
+X-Received: by 2002:a17:907:6d27:b0:96f:f50b:9b15 with SMTP id sa39-20020a1709076d2700b0096ff50b9b15mr6512573ejc.35.1685568176853;
+        Wed, 31 May 2023 14:22:56 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
+        by smtp.gmail.com with ESMTPSA id lf4-20020a170907174400b0096f7500502csm9594497ejc.199.2023.05.31.14.22.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 May 2023 14:22:56 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Corentin Labbe <clabbe.montjoie@gmail.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-crypto@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 5/7] crypto: update some Arm documentation references
+Date:   Wed, 31 May 2023 23:22:55 +0200
+Message-ID: <2283368.ElGaqSPkdT@jernej-laptop>
+In-Reply-To: <20230529144856.102755-6-corbet@lwn.net>
+References: <20230529144856.102755-1-corbet@lwn.net>
+ <20230529144856.102755-6-corbet@lwn.net>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 31, 2023 at 8:07=E2=80=AFAM Andrew Jones <ajones@ventanamicro.c=
-om> wrote:
->
-> On Fri, May 12, 2023 at 10:53:19AM +0200, Alexandre Ghiti wrote:
-> > riscv now uses this sysctl so document its usage for this architecture.
-> >
-> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > ---
-> >  Documentation/admin-guide/sysctl/kernel.rst | 24 +++++++++++++++++----
-> >  1 file changed, 20 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentatio=
-n/admin-guide/sysctl/kernel.rst
-> > index 4b7bfea28cd7..93cd518ca94b 100644
-> > --- a/Documentation/admin-guide/sysctl/kernel.rst
-> > +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> > @@ -941,16 +941,32 @@ enabled, otherwise writing to this file will retu=
-rn ``-EBUSY``.
-> >  The default value is 8.
-> >
-> >
-> > -perf_user_access (arm64 only)
-> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +perf_user_access (arm64 and riscv only)
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Controls user space access for reading perf event counters.
-> >
-> > -Controls user space access for reading perf event counters. When set t=
-o 1,
-> > -user space can read performance monitor counter registers directly.
-> > +arm64
-> > +=3D=3D=3D=3D=3D
-> >
-> >  The default value is 0 (access disabled).
-> > +When set to 1, user space can read performance monitor counter registe=
-rs
-> > +directly.
-> >
-> >  See Documentation/arm64/perf.rst for more information.
-> >
-> > +riscv
-> > +=3D=3D=3D=3D=3D
-> > +
-> > +When set to 0, user access is disabled.
-> > +
-> > +When set to 1, user space can read performance monitor counter registe=
-rs
-> > +directly only through perf, any direct access without perf interventio=
-n will
-> > +trigger an illegal instruction.
-> > +
-> > +The default value is 2, which enables legacy mode (user space has dire=
-ct
-> > +access to cycle, time and insret CSRs only). Note that this legacy val=
-ue
-> > +is deprecated and will be removed once all userspace applications are =
-fixed.
->
-> All modes can access the time CSR so I'm not sure if it should be pointed
-> out here as if it's an exception. Maybe we shouldn't point it out at all
-> or we should point it out for all three?
->
+Dne ponedeljek, 29. maj 2023 ob 16:48:54 CEST je Jonathan Corbet napisal(a):
+> The Arm documentation has moved to Documentation/arch/arm; update a
+> set of references under crypto/allwinner to match.
+> 
+> Cc: Corentin Labbe <clabbe.montjoie@gmail.com>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-sunxi@lists.linux.dev
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-Valid point. Thanks Drew.
-In the future, we probably want to support prctl
-(PR_SET_TSC/SECCOMP_MODE_STRICT) to disable even
-time CSR access. I don't think there is any use case for it right now.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-> Thanks,
-> drew
+Best regards,
+Jernej
 
 
-
---=20
-Regards,
-Atish
