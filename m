@@ -2,102 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 580F1C7EE2D
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 15:51:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F334C7EE2F
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 15:59:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233923AbjEaPvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 11:51:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36560 "EHLO
+        id S234448AbjEaP7T convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 11:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233977AbjEaPvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 11:51:11 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A798E;
-        Wed, 31 May 2023 08:51:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=4GxduXFN1Frxd3BmJoEShjwinJpZCL7N8to1Qb9sjCw=; b=XOxb/pctyKIE67jtV9zOJA1O6h
-        KDX8WU4s2pCeoH3/S3oVNO9lGRPtvcla5LTnh54RC2cXCFwfYm4zze5PmFsqZ8n9ROW6vuIohamCM
-        I5cOzAkVg8e+9HrZf6Gi5/aNOQldGJZg8139qyB7pZdO2nQZvpj9q23kncsicmIElvd3VbneJhXw6
-        LQtBeo1KW9akFG0gJ2yExeig+oChWby5mWUnJY5OXRQdRjxA10WJUk9wzWMLoYvqxGxKodxIOTDTm
-        Yath8FIN0fn0SlIocfc6kcgjKCtW/a160oZN7tmgfsOgSmBdAqBLt9TvMo0sCH23RFHC895Jan/+h
-        vQqiknSg==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1q4O5c-00FVIz-0y;
-        Wed, 31 May 2023 15:50:21 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id DC8223002A9;
-        Wed, 31 May 2023 17:50:15 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 93E9E2C1E85D3; Wed, 31 May 2023 17:50:15 +0200 (CEST)
-Date:   Wed, 31 May 2023 17:50:15 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>, dennis@kernel.org,
-        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
-        Heiko Carstens <hca@linux.ibm.com>, gor@linux.ibm.com,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        borntraeger@linux.ibm.com, Sven Schnelle <svens@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
-        suravee.suthikulpanit@amd.com, Robin Murphy <robin.murphy@arm.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Baolu Lu <baolu.lu@linux.intel.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-crypto@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org
-Subject: Re: [PATCH 07/12] percpu: #ifndef __SIZEOF_INT128__
-Message-ID: <20230531155015.GB428966@hirez.programming.kicks-ass.net>
-References: <20230531130833.635651916@infradead.org>
- <20230531132323.722039569@infradead.org>
- <70a69deb-7ad4-45b2-8e13-34955594a7ce@app.fastmail.com>
+        with ESMTP id S234479AbjEaP7R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 11:59:17 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7011CB3;
+        Wed, 31 May 2023 08:59:12 -0700 (PDT)
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QWYn36pMtz67Gvv;
+        Wed, 31 May 2023 23:57:27 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 31 May
+ 2023 16:59:09 +0100
+Date:   Wed, 31 May 2023 16:59:08 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Junhao He <hejunhao3@huawei.com>
+CC:     <will@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mark.rutland@arm.com>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
+        <yangyicong@huawei.com>, <shenyang39@huawei.com>,
+        <prime.zeng@hisilicon.com>
+Subject: Re: [PATCH v2 2/3] drivers/perf: hisi: Add support for HiSilicon UC
+ PMU driver
+Message-ID: <20230531165908.000022b0@Huawei.com>
+In-Reply-To: <20230531104625.18296-3-hejunhao3@huawei.com>
+References: <20230531104625.18296-1-hejunhao3@huawei.com>
+        <20230531104625.18296-3-hejunhao3@huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <70a69deb-7ad4-45b2-8e13-34955594a7ce@app.fastmail.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 31, 2023 at 04:21:22PM +0200, Arnd Bergmann wrote:
-> On Wed, May 31, 2023, at 15:08, Peter Zijlstra wrote:
-> > Some 64bit architectures do not advertise __SIZEOF_INT128__ on all
-> > supported compiler versions. Notably the HPPA64 only started doing
-> > with GCC-11.
+On Wed, 31 May 2023 18:46:24 +0800
+Junhao He <hejunhao3@huawei.com> wrote:
+
+Hi Junhao,
+
+A few small comments inline.
+
+> On HiSilicon Hip09 platform, there is a UC (unified cache) module
+> on each chip SCCL (Super CPU Cluster). UC is a cache that provides
+> coherence between NUMA and UMA domains. It is located between L2
+> and Memory System. While PA uncore PMU model is the same as other
+> Hip09 PMU modules and many PMU events are supported. 
+
+I don't follow what this sentence means.  Normally you'd have
+While A, B is different..
+
+
+> Let's support
+> the PMU driver using the HiSilicon uncore PMU framework.
 > 
-> I checked the other compilers to be sure that anything else
-> we support (gcc-5.1 and up) across all 64-bit architectures
-> does support int128.
+> * rd_req_en : rd_req_en is the abbreviation of read request tracetag enable
+> and allows user to count only read operations.
+> details are listed in the hisi-pmu document.
+Details are .. Also no need for the ine break
+  and allows user to count only read operations. Details are listed
+  in the hisi-pmu document at ....
 
-Oh excellent -- I didn't have sufficient old cross compilers to verify,
-hence me not doing what you suggest below.
+> 
+> * srcid_en & srcid: allows user to filter statistics that come from
 
-If HPPA64 really is the only one so affected, then yes, I can move this
-hack into arch/parisc.
+Allows
+for consistency with the uring_channel description that follows.
+
+> specific CPU/ICL by configuration source ID.
+> 
+> * uring_channel: Allows users to filter statistical information based on
+> the specified tx request uring channel.
+> uring_channel only supported events: [0x47 ~ 0x59].
+> 
+> Signed-off-by: Junhao He <hejunhao3@huawei.com>
+
+
+> diff --git a/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c b/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
+> new file mode 100644
+> index 000000000000..d27f28584fd7
+> --- /dev/null
+> +++ b/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
+> @@ -0,0 +1,577 @@
+...
+
+
+
+
+> +static int hisi_uc_pmu_init_data(struct platform_device *pdev,
+> +				 struct hisi_pmu *uc_pmu)
+> +{
+> +	/*
+> +	 * Use SCCL (Super CPU Cluster) ID and CCL (CPU Cluster) ID to
+> +	 * identify the topology information of UC PMU devices in the chip.
+> +	 */
+
+From patch description, I'd assume there is only one of these
+per sccl so why do we care about the cluster level or the sub-id?
+Perhaps that description is missleading?
+
+> +	if (device_property_read_u32(&pdev->dev, "hisilicon,scl-id",
+> +				     &uc_pmu->sccl_id)) {
+> +		dev_err(&pdev->dev, "Can not read uc sccl-id!\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (device_property_read_u32(&pdev->dev, "hisilicon,ccl-id",
+> +				     &uc_pmu->ccl_id)) {
+> +		dev_err(&pdev->dev, "Can not read uc ccl-id!\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (device_property_read_u32(&pdev->dev, "hisilicon,sub-id",
+> +				     &uc_pmu->sub_id)) {
+> +		dev_err(&pdev->dev, "Can not read sub-id!\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	uc_pmu->base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(uc_pmu->base)) {
+> +		dev_err(&pdev->dev, "ioremap failed for uc_pmu resource\n");
+> +		return PTR_ERR(uc_pmu->base);
+> +	}
+> +
+> +	uc_pmu->identifier = readl(uc_pmu->base + HISI_UC_VERSION_REG);
+> +
+> +	return 0;
+> +}
+
+
+> +static struct platform_driver hisi_uc_pmu_driver = {
+> +	.driver = {
+> +		.name = "hisi_uc_pmu",
+> +		.acpi_match_table = hisi_uc_pmu_acpi_match,
+> +		/*
+> +		 * We have not worked out a safe bind/unbind process,
+> +		 * so this is not supported yet.
+
+If you can reference more info on this that would be great.
+Perhaps a thread talking about why?
+
+> +		 */
+> +		.suppress_bind_attrs = true,
+> +	},
+> +	.probe = hisi_uc_pmu_probe,
+> +};
