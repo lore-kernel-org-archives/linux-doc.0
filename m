@@ -2,118 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2301BC7EE23
-	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 15:15:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCE2DC77B7A
+	for <linux-doc@archiver.kernel.org>; Wed, 31 May 2023 15:46:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234258AbjEaPPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 11:15:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43226 "EHLO
+        id S230156AbjEaPqE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 11:46:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234215AbjEaPPT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 11:15:19 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 725E5129
-        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 08:15:18 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-514924b4f8cso7692369a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 31 May 2023 08:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1685546117; x=1688138117;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Quu36W4GU+XEkXfM2HLo4LwzHXTkvm/qQekr1pKlqU=;
-        b=EnWJipeL/xECJsUZckQ/PI6Okm3OpnYm9/YkkMYAuk3P/bqTNKXslUDr063//zOFjl
-         7TkGPY+c6rxT3riSnJs4dfkOFL1JSr1F6ZLSTgB7cUj2q5n6iaqdFBB5WEQ18g1JM8fT
-         sSP/S8CJTMifcyxkncqI3ldVYQeaWYDnCWE4radlJZ5OgOQLjx+ghH6gq7+hRlKGxNkE
-         5X5njE0EAv8nCBA/rFRIIY1tJzsZ8mjg94Ol9mHnzBz7qIxr9Lm7FrsPq8XpyN+/lwuf
-         GWGe55ylkteuaAwtQSdTAM/DMBC2D/9iiPeB8h9J/2b9D1fY6CDz4mMTd5DxWFLLB+/2
-         fi9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685546117; x=1688138117;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9Quu36W4GU+XEkXfM2HLo4LwzHXTkvm/qQekr1pKlqU=;
-        b=KzvW2sUvmp8RTWUTj7WBYRMZevhd2qGKEoDo6tw03ZdYGw+TmxL4rHKrJVsX40GvPz
-         DNh7S4Uu2vODc450IqdjF4TbTZbDmu2HsyQ5SvwDTUloP7p6r29gPGX4jRecO8sCVIGg
-         Sxi9zrH4vyP5pw46oH523PHYYy2ygxsDf+jQ615brmbqi+MHEj43xOIrl7z0+ie3vfBr
-         /jZH60384kx0c8kt16nyOpRWVJrusxjQup323b6kgLEm4HAxawW6INvc+5NWHlMHfNWb
-         q8JabbOJWTM9j1f9uTwrSP8Y1pZAEAaw40bexzR66b6e1Y/363s7sZRR+N5w72SelWMx
-         2Dug==
-X-Gm-Message-State: AC+VfDzrxfveO8ySuggdT+Dxbh7eTnpq5TeSLiqYamcgzhPFJIbNFziK
-        LXbLlgR5JGl+Jr0jO5xA0soEbQ==
-X-Google-Smtp-Source: ACHHUZ7j1l2WBgPDSQlv6cY9A1PO/csyIXY9okDefpzXWxmOVxxkXtn2tz+NimX7Si0YQM2HYlSmzw==
-X-Received: by 2002:a17:907:1c91:b0:96f:5cb3:df66 with SMTP id nb17-20020a1709071c9100b0096f5cb3df66mr6316144ejc.18.1685546116914;
-        Wed, 31 May 2023 08:15:16 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id t11-20020a170906a10b00b009663115c8f8sm9236782ejy.152.2023.05.31.08.15.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 May 2023 08:15:16 -0700 (PDT)
-Date:   Wed, 31 May 2023 17:15:15 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 10/10] perf: tests: Adapt mmap-basic.c for riscv
-Message-ID: <20230531-31bd9ddeaca8cb338f81ed14@orel>
-References: <20230512085321.13259-1-alexghiti@rivosinc.com>
- <20230512085321.13259-11-alexghiti@rivosinc.com>
+        with ESMTP id S231545AbjEaPqB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 11:46:01 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2340D8E;
+        Wed, 31 May 2023 08:46:00 -0700 (PDT)
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QWYTK03h2z67nFJ;
+        Wed, 31 May 2023 23:43:48 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 31 May
+ 2023 16:45:56 +0100
+Date:   Wed, 31 May 2023 16:45:56 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Junhao He <hejunhao3@huawei.com>
+CC:     <will@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mark.rutland@arm.com>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
+        <yangyicong@huawei.com>, <shenyang39@huawei.com>,
+        <prime.zeng@hisilicon.com>
+Subject: Re: [PATCH v2 1/3] drivers/perf: hisi: Add support for HiSilicon
+ H60PA and PAv3 PMU driver
+Message-ID: <20230531164556.000027e9@Huawei.com>
+In-Reply-To: <20230531104625.18296-2-hejunhao3@huawei.com>
+References: <20230531104625.18296-1-hejunhao3@huawei.com>
+        <20230531104625.18296-2-hejunhao3@huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230512085321.13259-11-alexghiti@rivosinc.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 12, 2023 at 10:53:21AM +0200, Alexandre Ghiti wrote:
-> riscv now supports mmaping hardware counters to userspace so adapt the test
-> to run on this architecture.
-> 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  tools/perf/tests/mmap-basic.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.c
-> index e68ca6229756..f5075ca774f8 100644
-> --- a/tools/perf/tests/mmap-basic.c
-> +++ b/tools/perf/tests/mmap-basic.c
-> @@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] = {
->  			 "permissions"),
->  	TEST_CASE_REASON("User space counter reading of instructions",
->  			 mmap_user_read_instr,
-> -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
->  			 "permissions"
->  #else
->  			 "unsupported"
-> @@ -292,7 +292,7 @@ static struct test_case tests__basic_mmap[] = {
->  		),
->  	TEST_CASE_REASON("User space counter reading of cycles",
->  			 mmap_user_read_cycles,
-> -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
->  			 "permissions"
->  #else
->  			 "unsupported"
-> -- 
-> 2.37.2
->
+On Wed, 31 May 2023 18:46:23 +0800
+Junhao He <hejunhao3@huawei.com> wrote:
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> Compared to the original PA device, H60PA offers higher bandwidth.
+> The H60PA is a new device and we use HID to differentiate them.
+> 
+> The events supported by PAv3 and PAv2 are different. They use the
+> same HID. The PMU version register is used in the driver to
+> distinguish different versions.
+> 
+> For each H60PA PMU, except for the overflow interrupt register, other
+> functions of the H60PA PMU are the same as the original PA PMU module.
+> It has 8-programable counters and each counter is free-running.
+> Interrupt is supported to handle counter (64-bits) overflow.
+> 
+> Signed-off-by: Junhao He <hejunhao3@huawei.com>
+
+Hi,
+
+I would have slightly preferred to see the refactoring done as a first
+patch and then the new device supported added in a second, but as that
+second patch would only be a few lines I don't mind that much.
+
+The result looks fine to me.
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
