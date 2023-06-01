@@ -2,120 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5029DC7EE29
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 10:51:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BA60C77B7A
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 11:57:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233097AbjFAKvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 06:51:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49824 "EHLO
+        id S232660AbjFAL5A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 07:57:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjFAKvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 06:51:11 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62AAD9D;
-        Thu,  1 Jun 2023 03:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=sqOkmNSuBD7GBtb46itE8ZDvhkHRWIc2NbvPp9qeOiw=; b=KZkC2WT4XQMr05qEkGpBjCv7TG
-        Ak6b/9n5dS5ZPNEFM10/VvLJvSS1D5ylwPHzd2DaQkM+piIbsvAz/pGM04U57+k94ayIQeNYv/Zpr
-        p75C1W/ZCqWn3ZEDzShydO0ovDBfnP1AqQJwgcDzODs4ufgi5DRaXCvhf1ySS+x4TLywE5eK3nk8v
-        3XQKlVIoFYPn55+2ybBmZuzlaHrG7I/QAPJb5OtatUGXyIlhc26higj14zyA/1vT2iclbpfYPL3TA
-        Nx806QJ6JOI2IEjvEs6POHy4WF448K4MQtyi2wClcFurUdFMq5GGHx9JYbaGa2fFQNILHK/d8n61V
-        wBRZ/4Zw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1q4fsv-008IFd-Tl; Thu, 01 Jun 2023 10:50:26 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E2E913002F0;
-        Thu,  1 Jun 2023 12:50:21 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 96C9A21AA6F9B; Thu,  1 Jun 2023 12:50:21 +0200 (CEST)
-Date:   Thu, 1 Jun 2023 12:50:21 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Helge Deller <deller@gmx.de>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>, dennis@kernel.org,
-        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
-        Heiko Carstens <hca@linux.ibm.com>, gor@linux.ibm.com,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        borntraeger@linux.ibm.com, Sven Schnelle <svens@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
-        suravee.suthikulpanit@amd.com, Robin Murphy <robin.murphy@arm.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Baolu Lu <baolu.lu@linux.intel.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-crypto@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        linux-parisc@vger.kernel.org,
-        John David Anglin <dave.anglin@bell.net>,
-        Sam James <sam@gentoo.org>
-Subject: Re: [PATCH v2 07/12] parisc/percpu: Work around the lack of
- __SIZEOF_INT128__
-Message-ID: <20230601105021.GU4253@hirez.programming.kicks-ass.net>
-References: <20230531130833.635651916@infradead.org>
- <20230531132323.722039569@infradead.org>
- <70a69deb-7ad4-45b2-8e13-34955594a7ce@app.fastmail.com>
- <20230601101409.GS4253@hirez.programming.kicks-ass.net>
- <14c50e58-fecc-e96a-ee73-39ef4e4617c7@gmx.de>
+        with ESMTP id S231651AbjFAL46 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 07:56:58 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E1833FC;
+        Thu,  1 Jun 2023 04:56:56 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B7B9E1063;
+        Thu,  1 Jun 2023 04:57:41 -0700 (PDT)
+Received: from [192.168.178.6] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 156C23F7D8;
+        Thu,  1 Jun 2023 04:56:53 -0700 (PDT)
+Message-ID: <6ba5e4bc-dfb9-dccf-d075-f7bde831acf6@arm.com>
+Date:   Thu, 1 Jun 2023 13:56:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14c50e58-fecc-e96a-ee73-39ef4e4617c7@gmx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v5 1/2] sched/deadline: Fix bandwidth reclaim equation in
+ GRUB
+Content-Language: en-US
+To:     Vineeth Pillai <vineeth@bitbyteword.org>,
+        luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        youssefesmat@google.com, Ben Segall <bsegall@google.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230530135526.2385378-1-vineeth@bitbyteword.org>
+From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
+In-Reply-To: <20230530135526.2385378-1-vineeth@bitbyteword.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 01, 2023 at 12:32:38PM +0200, Helge Deller wrote:
-> On 6/1/23 12:14, Peter Zijlstra wrote:
-> > On Wed, May 31, 2023 at 04:21:22PM +0200, Arnd Bergmann wrote:
-> > 
-> > > It would be nice to have the hack more localized to parisc
-> > > and guarded with a CONFIG_GCC_VERSION check so we can kill
-> > > it off in the future, once we drop either gcc-10 or parisc
-> > > support.
-> > 
-> > I vote for dropping parisc -- it's the only 64bit arch that doesn't have
-> > sane atomics.
-> 
-> Of course I'm against dropping parisc.
+On 30/05/2023 15:55, Vineeth Pillai wrote:
 
-:-)
+[...]
 
-> > Anyway, the below seems to work -- build tested with GCC-10.1
-> 
-> I don't think we need to care about gcc-10 on parisc.
-> Debian and Gentoo are the only supported distributions, while Debian
-> requires gcc-12 to build > 6.x kernels, and I assume Gentoo uses at least
-> gcc-12 as well.
-> 
-> So raising the gcc limit for parisc only (at least temporarily for now)
-> should be fine and your workaround below wouldn't be necessary, right?
+> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+> index 71b24371a6f7..dfb59a363560 100644
+> --- a/kernel/sched/deadline.c
+> +++ b/kernel/sched/deadline.c
+> @@ -1260,43 +1260,39 @@ int dl_runtime_exceeded(struct sched_dl_entity *dl_se)
+>  }
+>  
+>  /*
+> - * This function implements the GRUB accounting rule:
+> - * according to the GRUB reclaiming algorithm, the runtime is
+> - * not decreased as "dq = -dt", but as
+> - * "dq = -max{u / Umax, (1 - Uinact - Uextra)} dt",
+> + * This function implements the GRUB accounting rule. According to the
+> + * GRUB reclaiming algorithm, the runtime is not decreased as "dq = -dt",
+> + * but as "dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt",
+>   * where u is the utilization of the task, Umax is the maximum reclaimable
+>   * utilization, Uinact is the (per-runqueue) inactive utilization, computed
+>   * as the difference between the "total runqueue utilization" and the
+> - * runqueue active utilization, and Uextra is the (per runqueue) extra
+> + * "runqueue active utilization", and Uextra is the (per runqueue) extra
+>   * reclaimable utilization.
+> - * Since rq->dl.running_bw and rq->dl.this_bw contain utilizations
+> - * multiplied by 2^BW_SHIFT, the result has to be shifted right by
+> - * BW_SHIFT.
+> - * Since rq->dl.bw_ratio contains 1 / Umax multiplied by 2^RATIO_SHIFT,
+> - * dl_bw is multiped by rq->dl.bw_ratio and shifted right by RATIO_SHIFT.
+> - * Since delta is a 64 bit variable, to have an overflow its value
+> - * should be larger than 2^(64 - 20 - 8), which is more than 64 seconds.
+> - * So, overflow is not an issue here.
+> + * Since rq->dl.running_bw and rq->dl.this_bw contain utilizations multiplied
+> + * by 2^BW_SHIFT, the result has to be shifted right by BW_SHIFT.
+> + * Since rq->dl.bw_ratio contains 1 / Umax multiplied by 2^RATIO_SHIFT, dl_bw
+> + * is multiped by rq->dl.bw_ratio and shifted right by RATIO_SHIFT.
 
-Correct, if you're willing to set minimum GCC version to 11 for parisc
-all is well and this patch can go play in the bit bucket.
+nit-pick:
+
+s/multiped/multiplied
+
+> + * Since delta is a 64 bit variable, to have an overflow its value should be
+> + * larger than 2^(64 - 20 - 8), which is more than 64 seconds. So, overflow is
+> + * not an issue here.
+>   */
+>  static u64 grub_reclaim(u64 delta, struct rq *rq, struct sched_dl_entity *dl_se)
+>  {
+> -	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot - Uact */
+>  	u64 u_act;
+> -	u64 u_act_min = (dl_se->dl_bw * rq->dl.bw_ratio) >> RATIO_SHIFT;
+> +	u64 u_inact = rq->dl.this_bw - rq->dl.running_bw; /* Utot - Uact */
+>  
+>  	/*
+> -	 * Instead of computing max{u * bw_ratio, (1 - u_inact - u_extra)},
+> -	 * we compare u_inact + rq->dl.extra_bw with
+> -	 * 1 - (u * rq->dl.bw_ratio >> RATIO_SHIFT), because
+> -	 * u_inact + rq->dl.extra_bw can be larger than
+> -	 * 1 * (so, 1 - u_inact - rq->dl.extra_bw would be negative
+> -	 * leading to wrong results)
+> +	 * Instead of computing max{u, (u_max - u_inact - u_extra)}, we
+> +	 * compare u_inact + u_extra with u_max - u, because u_inact + u_extra
+> +	 * can be larger than u_max. So, u_max - u_inact - u_extra would be
+> +	 * negative leading to wrong results.
+>  	 */
+> -	if (u_inact + rq->dl.extra_bw > BW_UNIT - u_act_min)
+> -		u_act = u_act_min;
+> +	if (u_inact + rq->dl.extra_bw > rq->dl.max_bw - dl_se->dl_bw)
+> +		u_act = dl_se->dl_bw;
+>  	else
+> -		u_act = BW_UNIT - u_inact - rq->dl.extra_bw;
+> +		u_act = rq->dl.max_bw - u_inact - rq->dl.extra_bw;
+>  
+> +	u_act = (u_act * rq->dl.bw_ratio) >> RATIO_SHIFT;
+>  	return (delta * u_act) >> BW_SHIFT;
+>  }
+>  
+> @@ -2784,12 +2780,12 @@ static void init_dl_rq_bw_ratio(struct dl_rq *dl_rq)
+>  {
+>  	if (global_rt_runtime() == RUNTIME_INF) {
+>  		dl_rq->bw_ratio = 1 << RATIO_SHIFT;
+> -		dl_rq->extra_bw = 1 << BW_SHIFT;
+> +		dl_rq->max_bw = dl_rq->extra_bw = 1 << BW_SHIFT;
+>  	} else {
+>  		dl_rq->bw_ratio = to_ratio(global_rt_runtime(),
+>  			  global_rt_period()) >> (BW_SHIFT - RATIO_SHIFT);
+> -		dl_rq->extra_bw = to_ratio(global_rt_period(),
+> -						    global_rt_runtime());
+> +		dl_rq->max_bw = dl_rq->extra_bw =
+> +			to_ratio(global_rt_period(), global_rt_runtime());
+>  	}
+>  }
+>  
+> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+> index 3e8df6d31c1e..73027c2806dc 100644
+> --- a/kernel/sched/sched.h
+> +++ b/kernel/sched/sched.h
+> @@ -753,6 +753,12 @@ struct dl_rq {
+>  	u64			this_bw;
+>  	u64			extra_bw;
+>  
+> +	/*
+> +	 * Maximum available bandwidth for reclaiming by SCHED_FLAG_RECLAIM
+> +	 * tasks of this rq. Used in calculation of reclaimable bandwidth(GRUB).
+> +	 */
+> +	u64			max_bw;
+> +
+>  	/*
+>  	 * Inverse of the fraction of CPU utilization that can be reclaimed
+>  	 * by the GRUB algorithm.
+
+Not related to this patch directly but I still can't see how `GRUB-PA`
+with schedutil CPUfreq governor should work together with GRUB reclaiming.
+
+CPU frequency is influenced by Uact (rq->dl.running_bw):
+
+sugov_get_util() -> effective_cpu_util() -> cpu_bw_dl() ->
+
+      return rq->dl.running_bw * SCHED_CAPACITY_SCALE) >> BW_SHIFT
+
+But the extra GRUB reclaim runtime is calculated based on rq->dl.max_bw
+and AFAICS, Uact is not adjusted by scaled_delta_exec?
+
