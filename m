@@ -2,200 +2,227 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FC42C77B7E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 07:59:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 480C6C7EE2A
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 08:19:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231565AbjFAH7N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 03:59:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54062 "EHLO
+        id S232078AbjFAITZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 04:19:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231586AbjFAH6m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 03:58:42 -0400
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com [IPv6:2607:f8b0:4864:20::a2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92A4AE78
-        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 00:53:20 -0700 (PDT)
-Received: by mail-vk1-xa2d.google.com with SMTP id 71dfb90a1353d-45bcbd77636so70877e0c.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Jun 2023 00:53:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1685605999; x=1688197999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KCxhoS108AwfreLzkgxhTjrpQCT4ek+5l6IBuFSI3MQ=;
-        b=JRYZ02V7xhdRKz7/Vz2BZ3rlqGb23P8UZ9JyYYxtLW+kXsizIcyeaIRagJdmEhcETb
-         mTNX+cgpoOvDyqV0qD6puZ+qyxlOdSOo7OdXPB/lw1h/7wuUTrun/h54bux1ax0k5KMv
-         pgxt3O2CECC+dV91SO2Hyq+PdzIN+MdnsftfUee7jDeB5m/kUTMIKT9nGfTbksk2T90w
-         g3o8R8k6yA0V34uezgFAeb/La4pBG47lKOzEP5+CucF8WnkprF9ajrnh9WKmX+5aiGbk
-         YY2iTko96OKjbrdM+N1uPiI2qFEnkBf38UpJZxyd47V1b+V3M6K4u1wBMZ2+vQQ7383P
-         DzUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685605999; x=1688197999;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KCxhoS108AwfreLzkgxhTjrpQCT4ek+5l6IBuFSI3MQ=;
-        b=SeVLT+npM/XG+dFKvrwEOduZ7HG6N6euDrsZxlNWEUFMLoqvurDqHoUAiOwaOPr420
-         Lqcl+sLV54TEXc2JeBA3E3sB2ZkoJF2hl/LN2HmpVPQjmluFI/fTxyvlDyyvsWynAMKY
-         XoZUvOT0vjZqX0D9pdJfn576UV8bHa45+jVtH2CQWFT9FkS6RZRaVRmSLm6Xn3XmSnJB
-         I8cgqnr633D/QPGPEImMTqejw9FbaD4trD3Mf/K94UNmSo2veVeN4fHXfGhr2MKg1+D0
-         BToICjA7GGJ0IrNoPiLiELOdVlvc7TA+2ffq955TdQf18i9/bWfRFeXQx5NXu1WAw64s
-         EU0w==
-X-Gm-Message-State: AC+VfDzZJUysqMxFeiiOFvCIIrG1fhsle5eNN8HN261PB/z92SFYn4ac
-        W1/f/teTPLEb/twIh7bSQtlD/CJGm2vX0GUAo00Wow==
-X-Google-Smtp-Source: ACHHUZ4CrAjd+3JtPRgyfLpu46NuxpRV4JLnat66UJPM6onO/U0Qc1fBNkQyobFAd0jCCnGzRUQ5Cw2shBwvytHhXTk=
-X-Received: by 2002:a1f:3f83:0:b0:456:f9e5:5bcf with SMTP id
- m125-20020a1f3f83000000b00456f9e55bcfmr446575vka.6.1685605999670; Thu, 01 Jun
- 2023 00:53:19 -0700 (PDT)
+        with ESMTP id S232087AbjFAITR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 04:19:17 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75468189;
+        Thu,  1 Jun 2023 01:19:03 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 1E09C2195F;
+        Thu,  1 Jun 2023 08:19:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1685607542; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WkaB/dK8xrG5SL8wE9N8/1S4RV6q2XZjN4rCgCLd8hE=;
+        b=SYvQRgTfg1o6Jc+MhsYnXDrEdiIAqCN+28AB4Ih6MC93GZzV46RJ1/9FDqnMvr5sEDh0pE
+        Zkeo4kK8K2+IoWbBfgYvRPMaYv8oWiF5ldbk3P56lTSgibnRDSdmw7vHZGVerCtOBjXlaK
+        3TNKX198dlMasClONwSG2jS/+AkawHY=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 88747139B7;
+        Thu,  1 Jun 2023 08:19:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id gd/RH3VUeGTpfgAAMHmgww
+        (envelope-from <jgross@suse.com>); Thu, 01 Jun 2023 08:19:01 +0000
+Message-ID: <fe33476d-0ec1-16f1-5874-8a5ff1650c3f@suse.com>
+Date:   Thu, 1 Jun 2023 10:19:01 +0200
 MIME-Version: 1.0
-References: <20230529221446.87785-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20230529221446.87785-1-andriy.shevchenko@linux.intel.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Thu, 1 Jun 2023 09:53:08 +0200
-Message-ID: <CAMRc=Mfj_hWcpTXWdTTPNQ0zdPSTysdKg0Yq8aLLUR7AsA+S=w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] gpiolib: Kill unused GPIOF_EXPORT and Co
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-US
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikelley@microsoft.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+References: <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
+ <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
+ <20230510133024.GBZFuccC1FxIZNKL+8@fat_crate.local>
+ <4c47a11c-0565-678d-3467-e01c5ec16600@suse.com>
+ <20230511163208.GDZF0YiOfxQhSo4RDm@fat_crate.local>
+ <0cd3899b-cf3b-61c1-14ae-60b6b49d14ab@suse.com>
+ <20230530152825.GAZHYWGXAp8PHgN/w0@fat_crate.local>
+ <888f860d-4307-54eb-01da-11f9adf65559@suse.com>
+ <20230531083508.GAZHcGvB68PUAH7f+a@fat_crate.local>
+ <efe79c9e-1e31-adb9-8f93-962249bf01bb@suse.com>
+ <20230531174857.GDZHeIib57h5lT5Vh1@fat_crate.local>
+From:   Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
+In-Reply-To: <20230531174857.GDZHeIib57h5lT5Vh1@fat_crate.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------TKrpmhFrL3wVlG7bmD5W5KrA"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 30, 2023 at 12:14=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> There is no use of the GPIOF_EXPORT in the kernel. Kill it for good.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> v2: added tag (Linus)
->  Documentation/driver-api/gpio/legacy.rst                    | 3 ---
->  Documentation/translations/zh_CN/driver-api/gpio/legacy.rst | 3 ---
->  Documentation/translations/zh_TW/gpio.txt                   | 3 ---
->  drivers/gpio/gpiolib-legacy.c                               | 6 ------
->  include/linux/gpio.h                                        | 5 -----
->  5 files changed, 20 deletions(-)
->
-> diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/dri=
-ver-api/gpio/legacy.rst
-> index 78372853c6d4..c5f98a78499f 100644
-> --- a/Documentation/driver-api/gpio/legacy.rst
-> +++ b/Documentation/driver-api/gpio/legacy.rst
-> @@ -322,9 +322,6 @@ where 'flags' is currently defined to specify the fol=
-lowing properties:
->         * GPIOF_OPEN_DRAIN      - gpio pin is open drain type.
->         * GPIOF_OPEN_SOURCE     - gpio pin is open source type.
->
-> -       * GPIOF_EXPORT_DIR_FIXED        - export gpio to sysfs, keep dire=
-ction
-> -       * GPIOF_EXPORT_DIR_CHANGEABLE   - also export, allow changing dir=
-ection
-> -
->  since GPIOF_INIT_* are only valid when configured as output, so group va=
-lid
->  combinations as:
->
-> diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst =
-b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-> index 84ce2322fdba..8720970393fb 100644
-> --- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-> +++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-> @@ -297,9 +297,6 @@ gpio_request()=E5=89=8D=E5=B0=86=E8=BF=99=E7=B1=BB=E7=
-=BB=86=E8=8A=82=E9=85=8D=E7=BD=AE=E5=A5=BD=EF=BC=8C=E4=BE=8B=E5=A6=82=E4=BD=
-=BF=E7=94=A8=E5=BC=95=E8=84=9A=E6=8E=A7=E5=88=B6=E5=AD=90=E7=B3=BB=E7=BB=9F=
-=E7=9A=84
->         * GPIOF_OPEN_DRAIN      - gpio=E5=BC=95=E8=84=9A=E4=B8=BA=E5=BC=
-=80=E6=BC=8F=E4=BF=A1=E5=8F=B7
->         * GPIOF_OPEN_SOURCE     - gpio=E5=BC=95=E8=84=9A=E4=B8=BA=E6=BA=
-=90=E6=9E=81=E5=BC=80=E8=B7=AF=E4=BF=A1=E5=8F=B7
->
-> -       * GPIOF_EXPORT_DIR_FIXED        - =E5=B0=86 gpio =E5=AF=BC=E5=87=
-=BA=E5=88=B0 sysfs=EF=BC=8C=E5=B9=B6=E4=BF=9D=E6=8C=81=E6=96=B9=E5=90=91
-> -       * GPIOF_EXPORT_DIR_CHANGEABLE   - =E5=90=8C=E6=A0=B7=E6=98=AF=E5=
-=AF=BC=E5=87=BA, =E4=BD=86=E5=85=81=E8=AE=B8=E6=94=B9=E5=8F=98=E6=96=B9=E5=
-=90=91
-> -
->  =E5=9B=A0=E4=B8=BA GPIOF_INIT_* =E4=BB=85=E6=9C=89=E5=9C=A8=E9=85=8D=E7=
-=BD=AE=E4=B8=BA=E8=BE=93=E5=87=BA=E7=9A=84=E6=97=B6=E5=80=99=E6=89=8D=E5=AD=
-=98=E5=9C=A8,=E6=89=80=E4=BB=A5=E6=9C=89=E6=95=88=E7=9A=84=E7=BB=84=E5=90=
-=88=E4=B8=BA:
->
->         * GPIOF_IN              - =E9=85=8D=E7=BD=AE=E4=B8=BA=E8=BE=93=E5=
-=85=A5
-> diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/tr=
-anslations/zh_TW/gpio.txt
-> index 62e560ffe628..e0b96d897fa7 100644
-> --- a/Documentation/translations/zh_TW/gpio.txt
-> +++ b/Documentation/translations/zh_TW/gpio.txt
-> @@ -303,9 +303,6 @@ gpio_request()=E5=89=8D=E5=B0=87=E9=80=99=E9=A1=9E=E7=
-=B4=B0=E7=AF=80=E9=85=8D=E7=BD=AE=E5=A5=BD=EF=BC=8C=E4=BE=8B=E5=A6=82=E4=BD=
-=BF=E7=94=A8 pinctrl =E5=AD=90=E7=B3=BB=E7=B5=B1=E7=9A=84=E6=98=A0
->         * GPIOF_OPEN_DRAIN      - gpio=E5=BC=95=E8=85=B3=E7=88=B2=E9=96=
-=8B=E6=BC=8F=E4=BF=A1=E8=99=9F
->         * GPIOF_OPEN_SOURCE     - gpio=E5=BC=95=E8=85=B3=E7=88=B2=E6=BA=
-=90=E6=A5=B5=E9=96=8B=E8=B7=AF=E4=BF=A1=E8=99=9F
->
-> -       * GPIOF_EXPORT_DIR_FIXED        - =E5=B0=87 gpio =E5=B0=8E=E5=87=
-=BA=E5=88=B0 sysfs=EF=BC=8C=E4=B8=A6=E4=BF=9D=E6=8C=81=E6=96=B9=E5=90=91
-> -       * GPIOF_EXPORT_DIR_CHANGEABLE   - =E5=90=8C=E6=A8=A3=E6=98=AF=E5=
-=B0=8E=E5=87=BA, =E4=BD=86=E5=85=81=E8=A8=B1=E6=94=B9=E8=AE=8A=E6=96=B9=E5=
-=90=91
-> -
->  =E5=9B=A0=E7=88=B2 GPIOF_INIT_* =E5=83=85=E6=9C=89=E5=9C=A8=E9=85=8D=E7=
-=BD=AE=E7=88=B2=E8=BC=B8=E5=87=BA=E7=9A=84=E6=99=82=E5=80=99=E6=89=8D=E5=AD=
-=98=E5=9C=A8,=E6=89=80=E4=BB=A5=E6=9C=89=E6=95=88=E7=9A=84=E7=B5=84=E5=90=
-=88=E7=88=B2:
->
->         * GPIOF_IN              - =E9=85=8D=E7=BD=AE=E7=88=B2=E8=BC=B8=E5=
-=85=A5
-> diff --git a/drivers/gpio/gpiolib-legacy.c b/drivers/gpio/gpiolib-legacy.=
-c
-> index 028f7f504209..969f737012f6 100644
-> --- a/drivers/gpio/gpiolib-legacy.c
-> +++ b/drivers/gpio/gpiolib-legacy.c
-> @@ -50,12 +50,6 @@ int gpio_request_one(unsigned gpio, unsigned long flag=
-s, const char *label)
->         if (err)
->                 goto free_gpio;
->
-> -       if (flags & GPIOF_EXPORT) {
-> -               err =3D gpiod_export(desc, flags & GPIOF_EXPORT_CHANGEABL=
-E);
-> -               if (err)
-> -                       goto free_gpio;
-> -       }
-> -
->         return 0;
->
->   free_gpio:
-> diff --git a/include/linux/gpio.h b/include/linux/gpio.h
-> index 8528353e073b..86963a00b018 100644
-> --- a/include/linux/gpio.h
-> +++ b/include/linux/gpio.h
-> @@ -38,11 +38,6 @@ struct device;
->  /* Gpio pin is open source */
->  #define GPIOF_OPEN_SOURCE      (1 << 4)
->
-> -#define GPIOF_EXPORT           (1 << 5)
-> -#define GPIOF_EXPORT_CHANGEABLE        (1 << 6)
-> -#define GPIOF_EXPORT_DIR_FIXED (GPIOF_EXPORT)
-> -#define GPIOF_EXPORT_DIR_CHANGEABLE (GPIOF_EXPORT | GPIOF_EXPORT_CHANGEA=
-BLE)
-> -
->  /**
->   * struct gpio - a structure describing a GPIO with configuration
->   * @gpio:      the GPIO number
-> --
-> 2.40.0.1.gaa8946217a0b
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------TKrpmhFrL3wVlG7bmD5W5KrA
+Content-Type: multipart/mixed; boundary="------------avHWsmjs7KZwzreMH8jZG9gZ";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org,
+ mikelley@microsoft.com, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ xen-devel@lists.xenproject.org, Jonathan Corbet <corbet@lwn.net>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+Message-ID: <fe33476d-0ec1-16f1-5874-8a5ff1650c3f@suse.com>
+Subject: Re: [PATCH v6 00/16] x86/mtrr: fix handling with PAT but without MTRR
+References: <20230509201437.GFZFqprc6otRejDPUt@fat_crate.local>
+ <20230509233641.GGZFrZCTDH7VwUMp5R@fat_crate.local>
+ <20230510133024.GBZFuccC1FxIZNKL+8@fat_crate.local>
+ <4c47a11c-0565-678d-3467-e01c5ec16600@suse.com>
+ <20230511163208.GDZF0YiOfxQhSo4RDm@fat_crate.local>
+ <0cd3899b-cf3b-61c1-14ae-60b6b49d14ab@suse.com>
+ <20230530152825.GAZHYWGXAp8PHgN/w0@fat_crate.local>
+ <888f860d-4307-54eb-01da-11f9adf65559@suse.com>
+ <20230531083508.GAZHcGvB68PUAH7f+a@fat_crate.local>
+ <efe79c9e-1e31-adb9-8f93-962249bf01bb@suse.com>
+ <20230531174857.GDZHeIib57h5lT5Vh1@fat_crate.local>
+In-Reply-To: <20230531174857.GDZHeIib57h5lT5Vh1@fat_crate.local>
 
-Both applied, thanks!
+--------------avHWsmjs7KZwzreMH8jZG9gZ
+Content-Type: multipart/mixed; boundary="------------rbANpMXHagpw1nH3ypDTwa0R"
 
-Bart
+--------------rbANpMXHagpw1nH3ypDTwa0R
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+T24gMzEuMDUuMjMgMTk6NDgsIEJvcmlzbGF2IFBldGtvdiB3cm90ZToNCj4gT24gV2VkLCBN
+YXkgMzEsIDIwMjMgYXQgMDQ6MjA6MDhQTSArMDIwMCwgSnVlcmdlbiBHcm9zcyB3cm90ZToN
+Cj4+IE9uZSBvdGhlciBub3RlOiB3aHkgZG9lcyBtdHJyX2NsZWFudXAoKSB0aGluayB0aGF0
+IHVzaW5nIDggaW5zdGVhZCBvZiA2DQo+PiB2YXJpYWJsZSBNVFJScyB3b3VsZCBiZSBhbiAi
+b3B0aW1hbCBzZXR0aW5nIj8NCj4gDQo+IE1heWJlIHRoZSBtb3JlIGV4dGVuc2l2ZSBkZWJ1
+ZyBvdXRwdXQgYmVsb3cgd291bGQgaGVscCBhbnN3ZXIgdGhhdC4uLg0KDQpQYXRjaCAyIHdh
+bnRzIHRoaXMgZGlmZiBvbiB0b3A6DQoNCmRpZmYgLS1naXQgYS9hcmNoL3g4Ni9rZXJuZWwv
+Y3B1L210cnIvZ2VuZXJpYy5jIGIvYXJjaC94ODYva2VybmVsL2NwdS9tdHJyL2dlbmVyaWMu
+Yw0KaW5kZXggNTliNDhiZDgzODBjLi5jZTI1NGNhODljNjIgMTAwNjQ0DQotLS0gYS9hcmNo
+L3g4Ni9rZXJuZWwvY3B1L210cnIvZ2VuZXJpYy5jDQorKysgYi9hcmNoL3g4Ni9rZXJuZWwv
+Y3B1L210cnIvZ2VuZXJpYy5jDQpAQCAtNjU1LDcgKzY1NSw3IEBAIHN0YXRpYyBib29sIHNl
+dF9tdHJyX3Zhcl9yYW5nZXModW5zaWduZWQgaW50IGluZGV4LCBzdHJ1Y3QgDQptdHJyX3Zh
+cl9yYW5nZSAqdnIpDQogICAgICAgICBib29sIGNoYW5nZWQgPSBmYWxzZTsNCg0KICAgICAg
+ICAgcmRtc3IoTVRSUnBoeXNCYXNlX01TUihpbmRleCksIGxvLCBoaSk7DQotICAgICAgIGlm
+ICgodnItPmJhc2VfbG8gJiBNVFJSX1BIWVNCQVNFX1JTVkQpICE9IChsbyAmIE1UUlJfUEhZ
+U0JBU0VfUlNWRCkNCisgICAgICAgaWYgKCh2ci0+YmFzZV9sbyAmIH5NVFJSX1BIWVNCQVNF
+X1JTVkQpICE9IChsbyAmIH5NVFJSX1BIWVNCQVNFX1JTVkQpDQogICAgICAgICAgICAgfHwg
+KHZyLT5iYXNlX2hpICYgfnBoeXNfaGlfcnN2ZCkgIT0gKGhpICYgfnBoeXNfaGlfcnN2ZCkp
+IHsNCg0KICAgICAgICAgICAgICAgICBtdHJyX3dybXNyKE1UUlJwaHlzQmFzZV9NU1IoaW5k
+ZXgpLCB2ci0+YmFzZV9sbywgdnItPmJhc2VfaGkpOw0KQEAgLTY2NCw3ICs2NjQsNyBAQCBz
+dGF0aWMgYm9vbCBzZXRfbXRycl92YXJfcmFuZ2VzKHVuc2lnbmVkIGludCBpbmRleCwgc3Ry
+dWN0IA0KbXRycl92YXJfcmFuZ2UgKnZyKQ0KDQogICAgICAgICByZG1zcihNVFJScGh5c01h
+c2tfTVNSKGluZGV4KSwgbG8sIGhpKTsNCg0KLSAgICAgICBpZiAoKHZyLT5tYXNrX2xvICYg
+TVRSUl9QSFlTTUFTS19SU1ZEKSAhPSAobG8gJiBNVFJSX1BIWVNNQVNLX1JTVkQpDQorICAg
+ICAgIGlmICgodnItPm1hc2tfbG8gJiB+TVRSUl9QSFlTTUFTS19SU1ZEKSAhPSAobG8gJiB+
+TVRSUl9QSFlTTUFTS19SU1ZEKQ0KICAgICAgICAgICAgIHx8ICh2ci0+bWFza19oaSAmIH5w
+aHlzX2hpX3JzdmQpICE9IChoaSAmIH5waHlzX2hpX3JzdmQpKSB7DQogICAgICAgICAgICAg
+ICAgIG10cnJfd3Jtc3IoTVRSUnBoeXNNYXNrX01TUihpbmRleCksIHZyLT5tYXNrX2xvLCB2
+ci0+bWFza19oaSk7DQogICAgICAgICAgICAgICAgIGNoYW5nZWQgPSB0cnVlOw0KDQoNCg0K
+SnVlcmdlbg0K
+--------------rbANpMXHagpw1nH3ypDTwa0R
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+jR/i1DG86lem3iBDXzXsZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------rbANpMXHagpw1nH3ypDTwa0R--
+
+--------------avHWsmjs7KZwzreMH8jZG9gZ--
+
+--------------TKrpmhFrL3wVlG7bmD5W5KrA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmR4VHUFAwAAAAAACgkQsN6d1ii/Ey+J
+twf/eQjv8nuDSbYV2TCPrcrs+yZ/Jh9nuEt69gAXyJLlg62X3l+NThYbS8jT3yBmlIesvryNqixd
+W+Q29UtGgdqXjI/SpqWqCaMhNfRWrUFdXPfLZB4tsP8gi/nw/G6c4qvehl2WKOCI0F2LGxHtx+LV
+Ay+k2smkQaT1w6s4GU3sIcmi/+2Dd+ekm0ugo2aj2lQ2X6JpauyJ5hDqLm+KigQqbiPcaZ0Q7fzq
+937YGeNF6h1vkOVSDwWk2yxHlzRZ6b54WMY83z810obsLQnQsITDIMV8DOjDLszsoN3k3nxIQp4O
+odbvQrE3TePQ8ESO0vxg0K4qwk7LOoo9m0P8YykloQ==
+=fnFv
+-----END PGP SIGNATURE-----
+
+--------------TKrpmhFrL3wVlG7bmD5W5KrA--
