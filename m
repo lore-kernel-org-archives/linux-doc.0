@@ -2,88 +2,169 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D1D2C77B7A
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 06:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A927C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 06:54:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231838AbjFAGob (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 02:44:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54912 "EHLO
+        id S231417AbjFAGyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 02:54:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231836AbjFAGoa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 02:44:30 -0400
+        with ESMTP id S231800AbjFAGx7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 02:53:59 -0400
 Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BDD1C0;
-        Wed, 31 May 2023 23:44:27 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QWxM24m0gzqTZv;
-        Thu,  1 Jun 2023 14:39:42 +0800 (CST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D39AAE7;
+        Wed, 31 May 2023 23:53:57 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QWxZ33l7VzqTfv;
+        Thu,  1 Jun 2023 14:49:15 +0800 (CST)
 Received: from [10.67.102.169] (10.67.102.169) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 1 Jun 2023 14:44:22 +0800
-CC:     <yangyicong@hisilicon.com>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-        <shenyang39@huawei.com>, <prime.zeng@hisilicon.com>
-Subject: Re: [PATCH v2 3/3] docs: perf: Add new description for HiSilicon UC
- PMU
-To:     Junhao He <hejunhao3@huawei.com>, <will@kernel.org>,
-        <jonathan.cameron@huawei.com>, <linux-kernel@vger.kernel.org>,
-        <mark.rutland@arm.com>
+ 15.1.2507.23; Thu, 1 Jun 2023 14:53:55 +0800
+Subject: Re: [PATCH v2 2/3] drivers/perf: hisi: Add support for HiSilicon UC
+ PMU driver
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+        Junhao He <hejunhao3@huawei.com>
+CC:     <will@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mark.rutland@arm.com>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <yangyicong@huawei.com>,
+        <shenyang39@huawei.com>, <prime.zeng@hisilicon.com>,
+        <yangyicong@hisilicon.com>, Linuxarm <linuxarm@huawei.com>
 References: <20230531104625.18296-1-hejunhao3@huawei.com>
- <20230531104625.18296-4-hejunhao3@huawei.com>
+ <20230531104625.18296-3-hejunhao3@huawei.com>
+ <20230531165908.000022b0@Huawei.com>
 From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <cfd13726-5078-3a29-0e78-b8ab1faeaa8b@huawei.com>
-Date:   Thu, 1 Jun 2023 14:44:22 +0800
+Message-ID: <17ff38e8-7965-8bba-5a4a-a28d219ea637@huawei.com>
+Date:   Thu, 1 Jun 2023 14:53:55 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20230531104625.18296-4-hejunhao3@huawei.com>
+In-Reply-To: <20230531165908.000022b0@Huawei.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  canpemm500009.china.huawei.com (7.192.105.203)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/5/31 18:46, Junhao He wrote:
-> A new function is added on HiSilicon uncore UC PMU.
+On 2023/5/31 23:59, Jonathan Cameron wrote:
+> On Wed, 31 May 2023 18:46:24 +0800
+> Junhao He <hejunhao3@huawei.com> wrote:
 > 
-> The UC PMU support to filter statistical information based on
-> the specified tx request uring channel. Make user configuration
-> through "uring_channel" parameter.
-> Document them to provide guidance on how to use them.
+> Hi Junhao,
 > 
-> Signed-off-by: Junhao He <hejunhao3@huawei.com>
-
-I still prefer this in the same patch with the driver support, anyway
-the docs alone looks good to me.
-
-Reviewed-by: Yicong Yang <yangyicong@hisilicon.com>
-
-> ---
->  Documentation/admin-guide/perf/hisi-pmu.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> A few small comments inline.
 > 
-> diff --git a/Documentation/admin-guide/perf/hisi-pmu.rst b/Documentation/admin-guide/perf/hisi-pmu.rst
-> index 546979360513..939a524fa1d6 100644
-> --- a/Documentation/admin-guide/perf/hisi-pmu.rst
-> +++ b/Documentation/admin-guide/perf/hisi-pmu.rst
-> @@ -98,6 +98,14 @@ CCL/ICL-ID. For I/O die, the ICL-ID is followed by:
->  5'b00011: HAC_ICL;
->  5'b10000: PCIe_ICL;
->  
-> +(e) uring_channel: UC PMU events 0x47~0x59 supports filtering by tx request
-> +uring channel. It is 2 bits. Some important codes are as follows:
-> +2'b11: count the events which sent to the uring_ext (MATA) channel;
-> +2'b01: is the same as 2'b11;
-> +2'b10: count the events which sent to the uring (non-MATA) channel;
-> +2'b00: default value, count the events which sent to the both uring and
-> +       uring_ext channel;
-> +
->  Users could configure IDs to count data come from specific CCL/ICL, by setting
->  srcid_cmd & srcid_msk, and data desitined for specific CCL/ICL by setting
->  tgtid_cmd & tgtid_msk. A set bit in srcid_msk/tgtid_msk means the PMU will not
+>> On HiSilicon Hip09 platform, there is a UC (unified cache) module
+>> on each chip SCCL (Super CPU Cluster). UC is a cache that provides
+>> coherence between NUMA and UMA domains. It is located between L2
+>> and Memory System. While PA uncore PMU model is the same as other
+>> Hip09 PMU modules and many PMU events are supported. 
+> 
+> I don't follow what this sentence means.  Normally you'd have
+> While A, B is different..
+> 
+> 
+>> Let's support
+>> the PMU driver using the HiSilicon uncore PMU framework.
+>>
+>> * rd_req_en : rd_req_en is the abbreviation of read request tracetag enable
+>> and allows user to count only read operations.
+>> details are listed in the hisi-pmu document.
+> Details are .. Also no need for the ine break
+>   and allows user to count only read operations. Details are listed
+>   in the hisi-pmu document at ....
+> 
+>>
+>> * srcid_en & srcid: allows user to filter statistics that come from
+> 
+> Allows
+> for consistency with the uring_channel description that follows.
+> 
+>> specific CPU/ICL by configuration source ID.
+>>
+>> * uring_channel: Allows users to filter statistical information based on
+>> the specified tx request uring channel.
+>> uring_channel only supported events: [0x47 ~ 0x59].
+>>
+>> Signed-off-by: Junhao He <hejunhao3@huawei.com>
+> 
+> 
+>> diff --git a/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c b/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
+>> new file mode 100644
+>> index 000000000000..d27f28584fd7
+>> --- /dev/null
+>> +++ b/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
+>> @@ -0,0 +1,577 @@
+> ...
+> 
+> 
+> 
+> 
+>> +static int hisi_uc_pmu_init_data(struct platform_device *pdev,
+>> +				 struct hisi_pmu *uc_pmu)
+>> +{
+>> +	/*
+>> +	 * Use SCCL (Super CPU Cluster) ID and CCL (CPU Cluster) ID to
+>> +	 * identify the topology information of UC PMU devices in the chip.
+>> +	 */
+> 
+>>From patch description, I'd assume there is only one of these
+> per sccl so why do we care about the cluster level or the sub-id?
+> Perhaps that description is missleading?
+> 
+>> +	if (device_property_read_u32(&pdev->dev, "hisilicon,scl-id",
+>> +				     &uc_pmu->sccl_id)) {
+>> +		dev_err(&pdev->dev, "Can not read uc sccl-id!\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	if (device_property_read_u32(&pdev->dev, "hisilicon,ccl-id",
+>> +				     &uc_pmu->ccl_id)) {
+>> +		dev_err(&pdev->dev, "Can not read uc ccl-id!\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	if (device_property_read_u32(&pdev->dev, "hisilicon,sub-id",
+>> +				     &uc_pmu->sub_id)) {
+>> +		dev_err(&pdev->dev, "Can not read sub-id!\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	uc_pmu->base = devm_platform_ioremap_resource(pdev, 0);
+>> +	if (IS_ERR(uc_pmu->base)) {
+>> +		dev_err(&pdev->dev, "ioremap failed for uc_pmu resource\n");
+>> +		return PTR_ERR(uc_pmu->base);
+>> +	}
+>> +
+>> +	uc_pmu->identifier = readl(uc_pmu->base + HISI_UC_VERSION_REG);
+>> +
+>> +	return 0;
+>> +}
+> 
+> 
+>> +static struct platform_driver hisi_uc_pmu_driver = {
+>> +	.driver = {
+>> +		.name = "hisi_uc_pmu",
+>> +		.acpi_match_table = hisi_uc_pmu_acpi_match,
+>> +		/*
+>> +		 * We have not worked out a safe bind/unbind process,
+>> +		 * so this is not supported yet.
+> 
+> If you can reference more info on this that would be great.
+> Perhaps a thread talking about why?
+> 
+
+We handle like this from this patch,
+https://lore.kernel.org/linux-arm-kernel/1594975763-32966-1-git-send-email-liuqi115@huawei.com/
+
+>> +		 */
+>> +		.suppress_bind_attrs = true,
+>> +	},
+>> +	.probe = hisi_uc_pmu_probe,
+>> +};
+> .
 > 
