@@ -2,97 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D5B8C77B7E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 10:36:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5029DC7EE29
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 10:51:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232444AbjFAKga (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 06:36:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41210 "EHLO
+        id S233097AbjFAKvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 06:51:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232424AbjFAKg3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 06:36:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68773129
-        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 03:35:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685615740;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rrDwJW6rdR8dN4m357pAF7Ua9/6hSt/PkPvQJS4/ohw=;
-        b=MrQtDBPojSDBXpyvlTh80mABROAbeKwdpGpiC40wvaJuPtCgiQW4So1kz4hRUtiZuQlNbE
-        1w5PmqjOZ7VHF98zWt6BFXzSfnaP8fg1nYNV4iBVGHIh0V28c+/rAxY38XVsV0pblMqZLW
-        WPKSKg5J54UesbJYFIc9jiNwv9ZR014=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-620-x-FIJVyVMDak1ra9akaMGA-1; Thu, 01 Jun 2023 06:35:39 -0400
-X-MC-Unique: x-FIJVyVMDak1ra9akaMGA-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-96fe843f61eso49059966b.2
-        for <linux-doc@vger.kernel.org>; Thu, 01 Jun 2023 03:35:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685615738; x=1688207738;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rrDwJW6rdR8dN4m357pAF7Ua9/6hSt/PkPvQJS4/ohw=;
-        b=EUnMaiX9tc+VX4ktKmHsxFwA1KMWVxkvIBUpGE2sO6lUU7NEecWGURaotqZb+6FKI2
-         zjIQYNvb8Yh/bVPjUi3LKo5IXnc9x37NGQ0qQqVhbndCZvCZ+vzJJ+Egkae68SqsfENU
-         3PaPxRY4NiAn1NMDHB3sRu+yAcGE8Py8nOrKSPeQLD48Mr5F2TVDo6F4cgRIIJ1BF2x8
-         Gf9m8NWFycx+YVDP24YHlgvjP9+7uULByx9X99ZIwMOhfxABPS9cMBGVlDXRykgIbQVp
-         /rB5xwbZzgbb6PnfDFAQXlupqsYsbyKqHDgdd8U51NcfRvu/LW/a/XCSEopzMAjawTEx
-         y1Nw==
-X-Gm-Message-State: AC+VfDyHNvkKXiTJ4FiBFq/f58/RJqyoCzOy2c5gbCJSjOVlB0+djds0
-        L3j9uA4i6cNkC6+qVc8R869Eqe9EWFh2z8FPSddccqLXjmwU4pkdUClFL3UTnoOb8Du/FDjG7e2
-        HrBK1aZC8wEyFXTqoejFg
-X-Received: by 2002:a17:907:9622:b0:973:8c47:2a02 with SMTP id gb34-20020a170907962200b009738c472a02mr10361562ejc.38.1685615738395;
-        Thu, 01 Jun 2023 03:35:38 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7Mo/A5zf7eo3B8l/xRufQqDR6igktxXe10DaKxJb+GTZweZEr0bpLVcum/5v2HT72MQwW/7g==
-X-Received: by 2002:a17:907:9622:b0:973:8c47:2a02 with SMTP id gb34-20020a170907962200b009738c472a02mr10361541ejc.38.1685615738201;
-        Thu, 01 Jun 2023 03:35:38 -0700 (PDT)
-Received: from [192.168.0.224] (host-87-12-203-248.business.telecomitalia.it. [87.12.203.248])
-        by smtp.gmail.com with ESMTPSA id u21-20020a170906b11500b0096f738bc2f7sm10415228ejy.60.2023.06.01.03.35.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Jun 2023 03:35:37 -0700 (PDT)
-Message-ID: <d4cbf715-da95-e304-4aaf-9daf529d695b@redhat.com>
-Date:   Thu, 1 Jun 2023 12:35:36 +0200
+        with ESMTP id S229589AbjFAKvL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 06:51:11 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62AAD9D;
+        Thu,  1 Jun 2023 03:51:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=sqOkmNSuBD7GBtb46itE8ZDvhkHRWIc2NbvPp9qeOiw=; b=KZkC2WT4XQMr05qEkGpBjCv7TG
+        Ak6b/9n5dS5ZPNEFM10/VvLJvSS1D5ylwPHzd2DaQkM+piIbsvAz/pGM04U57+k94ayIQeNYv/Zpr
+        p75C1W/ZCqWn3ZEDzShydO0ovDBfnP1AqQJwgcDzODs4ufgi5DRaXCvhf1ySS+x4TLywE5eK3nk8v
+        3XQKlVIoFYPn55+2ybBmZuzlaHrG7I/QAPJb5OtatUGXyIlhc26higj14zyA/1vT2iclbpfYPL3TA
+        Nx806QJ6JOI2IEjvEs6POHy4WF448K4MQtyi2wClcFurUdFMq5GGHx9JYbaGa2fFQNILHK/d8n61V
+        wBRZ/4Zw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1q4fsv-008IFd-Tl; Thu, 01 Jun 2023 10:50:26 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E2E913002F0;
+        Thu,  1 Jun 2023 12:50:21 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 96C9A21AA6F9B; Thu,  1 Jun 2023 12:50:21 +0200 (CEST)
+Date:   Thu, 1 Jun 2023 12:50:21 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Helge Deller <deller@gmx.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>, dennis@kernel.org,
+        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
+        Heiko Carstens <hca@linux.ibm.com>, gor@linux.ibm.com,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        borntraeger@linux.ibm.com, Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
+        suravee.suthikulpanit@amd.com, Robin Murphy <robin.murphy@arm.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Baolu Lu <baolu.lu@linux.intel.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-crypto@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+        linux-parisc@vger.kernel.org,
+        John David Anglin <dave.anglin@bell.net>,
+        Sam James <sam@gentoo.org>
+Subject: Re: [PATCH v2 07/12] parisc/percpu: Work around the lack of
+ __SIZEOF_INT128__
+Message-ID: <20230601105021.GU4253@hirez.programming.kicks-ass.net>
+References: <20230531130833.635651916@infradead.org>
+ <20230531132323.722039569@infradead.org>
+ <70a69deb-7ad4-45b2-8e13-34955594a7ce@app.fastmail.com>
+ <20230601101409.GS4253@hirez.programming.kicks-ass.net>
+ <14c50e58-fecc-e96a-ee73-39ef4e4617c7@gmx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v5 2/2] sched/deadline: Update GRUB description in the
- documentation
-Content-Language: en-US
-To:     Vineeth Pillai <vineeth@bitbyteword.org>,
-        luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Steven Rostedt <rostedt@goodmis.org>, youssefesmat@google.com,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ben Segall <bsegall@google.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Mel Gorman <mgorman@suse.de>
-References: <20230530135526.2385378-1-vineeth@bitbyteword.org>
- <20230530135526.2385378-2-vineeth@bitbyteword.org>
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-In-Reply-To: <20230530135526.2385378-2-vineeth@bitbyteword.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <14c50e58-fecc-e96a-ee73-39ef4e4617c7@gmx.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/30/23 15:55, Vineeth Pillai wrote:
-> Update the details of GRUB to reflect the updated logic.
+On Thu, Jun 01, 2023 at 12:32:38PM +0200, Helge Deller wrote:
+> On 6/1/23 12:14, Peter Zijlstra wrote:
+> > On Wed, May 31, 2023 at 04:21:22PM +0200, Arnd Bergmann wrote:
+> > 
+> > > It would be nice to have the hack more localized to parisc
+> > > and guarded with a CONFIG_GCC_VERSION check so we can kill
+> > > it off in the future, once we drop either gcc-10 or parisc
+> > > support.
+> > 
+> > I vote for dropping parisc -- it's the only 64bit arch that doesn't have
+> > sane atomics.
 > 
-> Signed-off-by: Vineeth Pillai (Google) <vineeth@bitbyteword.org>
+> Of course I'm against dropping parisc.
 
-Reviewed-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+:-)
 
-Thanks!
--- Daniel
+> > Anyway, the below seems to work -- build tested with GCC-10.1
+> 
+> I don't think we need to care about gcc-10 on parisc.
+> Debian and Gentoo are the only supported distributions, while Debian
+> requires gcc-12 to build > 6.x kernels, and I assume Gentoo uses at least
+> gcc-12 as well.
+> 
+> So raising the gcc limit for parisc only (at least temporarily for now)
+> should be fine and your workaround below wouldn't be necessary, right?
 
+Correct, if you're willing to set minimum GCC version to 11 for parisc
+all is well and this patch can go play in the bit bucket.
