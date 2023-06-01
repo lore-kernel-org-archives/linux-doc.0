@@ -2,240 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA04C77B7E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 14:56:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43768C77B7A
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 15:10:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234339AbjFAO4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 10:56:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38960 "EHLO
+        id S234153AbjFAPKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 11:10:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233870AbjFAO4w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 10:56:52 -0400
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6502107;
-        Thu,  1 Jun 2023 07:56:50 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2af290cf9b7so12928431fa.3;
-        Thu, 01 Jun 2023 07:56:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685631409; x=1688223409;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6pQX1x+nXF4H20kd14hFqiq2M6ndmVSb039N9uVMABU=;
-        b=M54yAih28+g4x2/uh0AkDPpDr6CcGoY7DPAzik2ricRhJPDgWWKV646dprSX/WbM7d
-         2xRTQOt1UdWPPHco9dMIegPU2zu8o0VeqlnhO2eNZz+vLqZLmTcbTNunEToGaZK8BS4b
-         7JSq4hZu+N1zahd6+FCaPZT3GFowq3jFJ0sWk2lHl41+xkN4UawzDG5wzNsASeANbPs+
-         9VXavpFKvSo18R3SdGXYPKJULwNjYiLLtiIklPdv6+LJnRm8aptfLSlQIyy/c0T8GeUd
-         S0lZEFYajUwhgryTvwCXodfq3s1lAI7ULw10OU1nwRTqhns7HutnkX5GCI+NSFmG39un
-         Sd7A==
-X-Gm-Message-State: AC+VfDwH1GNgbJ2Js0jPPimdqIos28rjAJMA0SxXMUn/Dinx5Ufkt+X0
-        sUbXiHto5DYNYHHrjlh4YZw=
-X-Google-Smtp-Source: ACHHUZ7DsCMLYi1ie6WkKA6SYPVt8nN4gTfo/QRLz7d+scYSyBcW8yIs6iiEKel3iFDXusF7A9vqXA==
-X-Received: by 2002:a2e:3203:0:b0:2ad:dd7e:6651 with SMTP id y3-20020a2e3203000000b002addd7e6651mr5556136ljy.43.1685631408555;
-        Thu, 01 Jun 2023 07:56:48 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a040:1a3:c11b:3ae6:1732:e587:a81f])
-        by smtp.gmail.com with ESMTPSA id y24-20020a2e9d58000000b002b135080b1esm366217ljj.12.2023.06.01.07.56.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 07:56:47 -0700 (PDT)
-From:   Costa Shulyupin <costa.shul@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Costa Shulyupin <costa.shul@redhat.com>,
-        linux-kernel@vger.kernel.org (open list),
-        bpf@vger.kernel.org (open list:BPF [MISC])
-Subject: [PATCH v3] Documentation: subsystem-apis: Categorize remaining subsystems
-Date:   Thu,  1 Jun 2023 17:55:55 +0300
-Message-Id: <20230601145556.3927838-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <ZHgM0qKWP3OusjUW@debian.me>
-References: <ZHgM0qKWP3OusjUW@debian.me>
+        with ESMTP id S234099AbjFAPKp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 11:10:45 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 05069E74;
+        Thu,  1 Jun 2023 08:10:23 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C3D851063;
+        Thu,  1 Jun 2023 08:10:46 -0700 (PDT)
+Received: from [10.57.84.85] (unknown [10.57.84.85])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDC563F663;
+        Thu,  1 Jun 2023 08:09:59 -0700 (PDT)
+Message-ID: <2a081ab9-f1f3-569e-72e8-1c743e8357a1@arm.com>
+Date:   Thu, 1 Jun 2023 16:09:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=true
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 4/5] perf: arm_cspmu: Support implementation specific
+ event validation
+Content-Language: en-GB
+To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Besar Wicaksono <bwicaksono@nvidia.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230601030144.3458136-1-ilkka@os.amperecomputing.com>
+ <20230601030144.3458136-5-ilkka@os.amperecomputing.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230601030144.3458136-5-ilkka@os.amperecomputing.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Bagas Sanjaya <bagasdotme@gmail.com>
+On 2023-06-01 04:01, Ilkka Koskinen wrote:
+> Some platforms may use e.g. different filtering mechanism and, thus,
+> may need different way to validate the events.
+> 
+> Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
+> ---
+>   drivers/perf/arm_cspmu/arm_cspmu.c | 4 ++++
+>   drivers/perf/arm_cspmu/arm_cspmu.h | 2 ++
+>   2 files changed, 6 insertions(+)
+> 
+> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c b/drivers/perf/arm_cspmu/arm_cspmu.c
+> index b4c4ef81c719..a26f484e06b1 100644
+> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
+> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
+> @@ -593,6 +593,10 @@ static int arm_cspmu_get_event_idx(struct arm_cspmu_hw_events *hw_events,
+>   	if (idx >= cspmu->num_logical_ctrs)
+>   		return -EAGAIN;
+>   
+> +	if (cspmu->impl.ops.validate_event &&
+> +	    !cspmu->impl.ops.validate_event(cspmu, event))
+> +		return -EAGAIN;
 
-Add classes:
-* Core subsystems
-* Storage
-* Networking
-* Peripherals and devices
-* Embedded systems
-* Integrity
-* Virtualization
-* Miscellaneous
+Seems like this should be -EINVAL, or maybe the callback should return 
+int so it can make its own distinction (yes, I know the outer logic 
+doesn't actually propagate it, but there's no reason that couldn't 
+improve at some point as well).
 
-There is a FIXME that says to organize subsystems listed in
-subsystem-apis.rst. Fulfill it by categorize remaining subsytems
-by purpose/themes, while sorting entries in each category.
+Another thought is that once we get into imp-def conditions for whether 
+an event is valid in itself, we presumably also need to consider imp-def 
+conditions for whether a given pair of events are compatible to be grouped?
 
-HID devices are already categorized in 3c591cc954d56e ("docs:
-consolidate human interface subsystems").
+Thanks,
+Robin.
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-
----
-
-Changes:
-v3: add Integrity, Virtualization and Miscellaneous per Bagas Sanjaya
-v2: add Core subsystems, Networking, Peripherals and Embedded
-v1: add Storgre category
----
- Documentation/subsystem-apis.rst | 119 ++++++++++++++++++++++---------
- 1 file changed, 86 insertions(+), 33 deletions(-)
-
-diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-index 55c90d5383ef..2c0b18a66e4e 100644
---- a/Documentation/subsystem-apis.rst
-+++ b/Documentation/subsystem-apis.rst
-@@ -10,58 +10,111 @@ is taken directly from the kernel source, with supplemental material added
- as needed (or at least as we managed to add it — probably *not* all that is
- needed).
- 
-+Core subsystems
-+---------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   core-api/index
-+   cpu-freq/index
-+   driver-api/index
-+   locking/index
-+   mm/index
-+   power/index
-+   scheduler/index
-+   timers/index
-+   wmi/index
-+
- Human interfaces
- ----------------
- 
- .. toctree::
-    :maxdepth: 1
- 
--   input/index
-+   fb/index
-+   gpu/index
-    hid/index
-+   input/index
-    sound/index
--   gpu/index
--   fb/index
- 
--**Fixme**: much more organizational work is needed here.
-+Storage
-+-------
- 
- .. toctree::
-    :maxdepth: 1
- 
--   driver-api/index
--   core-api/index
--   locking/index
--   accounting/index
-    block/index
-    cdrom/index
--   cpu-freq/index
--   fpga/index
--   i2c/index
--   iio/index
--   isdn/index
-+   filesystems/index
-+   pcmcia/index
-+   scsi/index
-+   target/index
-+
-+
-+Networking
-+----------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   bpf/index
-    infiniband/index
--   leds/index
-+   isdn/index
-+   mhi/index
-    netlabel/index
-    networking/index
--   pcmcia/index
--   power/index
--   target/index
--   timers/index
-+
-+
-+Peripherals and devices
-+-----------------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   PCI/index
-+   hwmon/index
-+   leds/index
-+   misc-devices/index
-+   usb/index
-+
-+
-+Embedded systems
-+----------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   fpga/index
-+   i2c/index
-+   iio/index
-+   peci/index
-    spi/index
-    w1/index
--   watchdog/index
-+
-+Integrity
-+---------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   crypto/index
-+   security/index
-+
-+Virtualization
-+--------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-    virt/index
--   hwmon/index
-+
-+Miscellaneous
-+-------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-    accel/index
--   security/index
--   crypto/index
--   filesystems/index
--   mm/index
--   bpf/index
--   usb/index
--   PCI/index
--   scsi/index
--   misc-devices/index
--   scheduler/index
--   mhi/index
--   peci/index
--   wmi/index
-+   accounting/index
-+   watchdog/index
--- 
-2.40.1
-
+> +
+>   	set_bit(idx, hw_events->used_ctrs);
+>   
+>   	return idx;
+> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.h b/drivers/perf/arm_cspmu/arm_cspmu.h
+> index 4a29b921f7e8..0e5c316c96f9 100644
+> --- a/drivers/perf/arm_cspmu/arm_cspmu.h
+> +++ b/drivers/perf/arm_cspmu/arm_cspmu.h
+> @@ -106,6 +106,8 @@ struct arm_cspmu_impl_ops {
+>   	void (*set_ev_filter)(struct arm_cspmu *cspmu,
+>   			      struct hw_perf_event *hwc,
+>   			      u32 filter);
+> +	/* Implementation specific event validation */
+> +	bool (*validate_event)(struct arm_cspmu *cspmu, struct perf_event *new);
+>   	/* Hide/show unsupported events */
+>   	umode_t (*event_attr_is_visible)(struct kobject *kobj,
+>   					 struct attribute *attr, int unused);
