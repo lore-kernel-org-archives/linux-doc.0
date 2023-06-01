@@ -2,169 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A927C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 06:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FC42C77B7E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 07:59:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231417AbjFAGyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 02:54:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57084 "EHLO
+        id S231565AbjFAH7N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 03:59:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231800AbjFAGx7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 02:53:59 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D39AAE7;
-        Wed, 31 May 2023 23:53:57 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QWxZ33l7VzqTfv;
-        Thu,  1 Jun 2023 14:49:15 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 1 Jun 2023 14:53:55 +0800
-Subject: Re: [PATCH v2 2/3] drivers/perf: hisi: Add support for HiSilicon UC
- PMU driver
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        Junhao He <hejunhao3@huawei.com>
-CC:     <will@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mark.rutland@arm.com>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <yangyicong@huawei.com>,
-        <shenyang39@huawei.com>, <prime.zeng@hisilicon.com>,
-        <yangyicong@hisilicon.com>, Linuxarm <linuxarm@huawei.com>
-References: <20230531104625.18296-1-hejunhao3@huawei.com>
- <20230531104625.18296-3-hejunhao3@huawei.com>
- <20230531165908.000022b0@Huawei.com>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <17ff38e8-7965-8bba-5a4a-a28d219ea637@huawei.com>
-Date:   Thu, 1 Jun 2023 14:53:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        with ESMTP id S231586AbjFAH6m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 03:58:42 -0400
+Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com [IPv6:2607:f8b0:4864:20::a2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92A4AE78
+        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 00:53:20 -0700 (PDT)
+Received: by mail-vk1-xa2d.google.com with SMTP id 71dfb90a1353d-45bcbd77636so70877e0c.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 Jun 2023 00:53:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1685605999; x=1688197999;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KCxhoS108AwfreLzkgxhTjrpQCT4ek+5l6IBuFSI3MQ=;
+        b=JRYZ02V7xhdRKz7/Vz2BZ3rlqGb23P8UZ9JyYYxtLW+kXsizIcyeaIRagJdmEhcETb
+         mTNX+cgpoOvDyqV0qD6puZ+qyxlOdSOo7OdXPB/lw1h/7wuUTrun/h54bux1ax0k5KMv
+         pgxt3O2CECC+dV91SO2Hyq+PdzIN+MdnsftfUee7jDeB5m/kUTMIKT9nGfTbksk2T90w
+         g3o8R8k6yA0V34uezgFAeb/La4pBG47lKOzEP5+CucF8WnkprF9ajrnh9WKmX+5aiGbk
+         YY2iTko96OKjbrdM+N1uPiI2qFEnkBf38UpJZxyd47V1b+V3M6K4u1wBMZ2+vQQ7383P
+         DzUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685605999; x=1688197999;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KCxhoS108AwfreLzkgxhTjrpQCT4ek+5l6IBuFSI3MQ=;
+        b=SeVLT+npM/XG+dFKvrwEOduZ7HG6N6euDrsZxlNWEUFMLoqvurDqHoUAiOwaOPr420
+         Lqcl+sLV54TEXc2JeBA3E3sB2ZkoJF2hl/LN2HmpVPQjmluFI/fTxyvlDyyvsWynAMKY
+         XoZUvOT0vjZqX0D9pdJfn576UV8bHa45+jVtH2CQWFT9FkS6RZRaVRmSLm6Xn3XmSnJB
+         I8cgqnr633D/QPGPEImMTqejw9FbaD4trD3Mf/K94UNmSo2veVeN4fHXfGhr2MKg1+D0
+         BToICjA7GGJ0IrNoPiLiELOdVlvc7TA+2ffq955TdQf18i9/bWfRFeXQx5NXu1WAw64s
+         EU0w==
+X-Gm-Message-State: AC+VfDzZJUysqMxFeiiOFvCIIrG1fhsle5eNN8HN261PB/z92SFYn4ac
+        W1/f/teTPLEb/twIh7bSQtlD/CJGm2vX0GUAo00Wow==
+X-Google-Smtp-Source: ACHHUZ4CrAjd+3JtPRgyfLpu46NuxpRV4JLnat66UJPM6onO/U0Qc1fBNkQyobFAd0jCCnGzRUQ5Cw2shBwvytHhXTk=
+X-Received: by 2002:a1f:3f83:0:b0:456:f9e5:5bcf with SMTP id
+ m125-20020a1f3f83000000b00456f9e55bcfmr446575vka.6.1685605999670; Thu, 01 Jun
+ 2023 00:53:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20230531165908.000022b0@Huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+References: <20230529221446.87785-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230529221446.87785-1-andriy.shevchenko@linux.intel.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Thu, 1 Jun 2023 09:53:08 +0200
+Message-ID: <CAMRc=Mfj_hWcpTXWdTTPNQ0zdPSTysdKg0Yq8aLLUR7AsA+S=w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] gpiolib: Kill unused GPIOF_EXPORT and Co
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/5/31 23:59, Jonathan Cameron wrote:
-> On Wed, 31 May 2023 18:46:24 +0800
-> Junhao He <hejunhao3@huawei.com> wrote:
-> 
-> Hi Junhao,
-> 
-> A few small comments inline.
-> 
->> On HiSilicon Hip09 platform, there is a UC (unified cache) module
->> on each chip SCCL (Super CPU Cluster). UC is a cache that provides
->> coherence between NUMA and UMA domains. It is located between L2
->> and Memory System. While PA uncore PMU model is the same as other
->> Hip09 PMU modules and many PMU events are supported. 
-> 
-> I don't follow what this sentence means.  Normally you'd have
-> While A, B is different..
-> 
-> 
->> Let's support
->> the PMU driver using the HiSilicon uncore PMU framework.
->>
->> * rd_req_en : rd_req_en is the abbreviation of read request tracetag enable
->> and allows user to count only read operations.
->> details are listed in the hisi-pmu document.
-> Details are .. Also no need for the ine break
->   and allows user to count only read operations. Details are listed
->   in the hisi-pmu document at ....
-> 
->>
->> * srcid_en & srcid: allows user to filter statistics that come from
-> 
-> Allows
-> for consistency with the uring_channel description that follows.
-> 
->> specific CPU/ICL by configuration source ID.
->>
->> * uring_channel: Allows users to filter statistical information based on
->> the specified tx request uring channel.
->> uring_channel only supported events: [0x47 ~ 0x59].
->>
->> Signed-off-by: Junhao He <hejunhao3@huawei.com>
-> 
-> 
->> diff --git a/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c b/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
->> new file mode 100644
->> index 000000000000..d27f28584fd7
->> --- /dev/null
->> +++ b/drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
->> @@ -0,0 +1,577 @@
-> ...
-> 
-> 
-> 
-> 
->> +static int hisi_uc_pmu_init_data(struct platform_device *pdev,
->> +				 struct hisi_pmu *uc_pmu)
->> +{
->> +	/*
->> +	 * Use SCCL (Super CPU Cluster) ID and CCL (CPU Cluster) ID to
->> +	 * identify the topology information of UC PMU devices in the chip.
->> +	 */
-> 
->>From patch description, I'd assume there is only one of these
-> per sccl so why do we care about the cluster level or the sub-id?
-> Perhaps that description is missleading?
-> 
->> +	if (device_property_read_u32(&pdev->dev, "hisilicon,scl-id",
->> +				     &uc_pmu->sccl_id)) {
->> +		dev_err(&pdev->dev, "Can not read uc sccl-id!\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (device_property_read_u32(&pdev->dev, "hisilicon,ccl-id",
->> +				     &uc_pmu->ccl_id)) {
->> +		dev_err(&pdev->dev, "Can not read uc ccl-id!\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (device_property_read_u32(&pdev->dev, "hisilicon,sub-id",
->> +				     &uc_pmu->sub_id)) {
->> +		dev_err(&pdev->dev, "Can not read sub-id!\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	uc_pmu->base = devm_platform_ioremap_resource(pdev, 0);
->> +	if (IS_ERR(uc_pmu->base)) {
->> +		dev_err(&pdev->dev, "ioremap failed for uc_pmu resource\n");
->> +		return PTR_ERR(uc_pmu->base);
->> +	}
->> +
->> +	uc_pmu->identifier = readl(uc_pmu->base + HISI_UC_VERSION_REG);
->> +
->> +	return 0;
->> +}
-> 
-> 
->> +static struct platform_driver hisi_uc_pmu_driver = {
->> +	.driver = {
->> +		.name = "hisi_uc_pmu",
->> +		.acpi_match_table = hisi_uc_pmu_acpi_match,
->> +		/*
->> +		 * We have not worked out a safe bind/unbind process,
->> +		 * so this is not supported yet.
-> 
-> If you can reference more info on this that would be great.
-> Perhaps a thread talking about why?
-> 
+On Tue, May 30, 2023 at 12:14=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> There is no use of the GPIOF_EXPORT in the kernel. Kill it for good.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> v2: added tag (Linus)
+>  Documentation/driver-api/gpio/legacy.rst                    | 3 ---
+>  Documentation/translations/zh_CN/driver-api/gpio/legacy.rst | 3 ---
+>  Documentation/translations/zh_TW/gpio.txt                   | 3 ---
+>  drivers/gpio/gpiolib-legacy.c                               | 6 ------
+>  include/linux/gpio.h                                        | 5 -----
+>  5 files changed, 20 deletions(-)
+>
+> diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/dri=
+ver-api/gpio/legacy.rst
+> index 78372853c6d4..c5f98a78499f 100644
+> --- a/Documentation/driver-api/gpio/legacy.rst
+> +++ b/Documentation/driver-api/gpio/legacy.rst
+> @@ -322,9 +322,6 @@ where 'flags' is currently defined to specify the fol=
+lowing properties:
+>         * GPIOF_OPEN_DRAIN      - gpio pin is open drain type.
+>         * GPIOF_OPEN_SOURCE     - gpio pin is open source type.
+>
+> -       * GPIOF_EXPORT_DIR_FIXED        - export gpio to sysfs, keep dire=
+ction
+> -       * GPIOF_EXPORT_DIR_CHANGEABLE   - also export, allow changing dir=
+ection
+> -
+>  since GPIOF_INIT_* are only valid when configured as output, so group va=
+lid
+>  combinations as:
+>
+> diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst =
+b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
+> index 84ce2322fdba..8720970393fb 100644
+> --- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
+> +++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
+> @@ -297,9 +297,6 @@ gpio_request()=E5=89=8D=E5=B0=86=E8=BF=99=E7=B1=BB=E7=
+=BB=86=E8=8A=82=E9=85=8D=E7=BD=AE=E5=A5=BD=EF=BC=8C=E4=BE=8B=E5=A6=82=E4=BD=
+=BF=E7=94=A8=E5=BC=95=E8=84=9A=E6=8E=A7=E5=88=B6=E5=AD=90=E7=B3=BB=E7=BB=9F=
+=E7=9A=84
+>         * GPIOF_OPEN_DRAIN      - gpio=E5=BC=95=E8=84=9A=E4=B8=BA=E5=BC=
+=80=E6=BC=8F=E4=BF=A1=E5=8F=B7
+>         * GPIOF_OPEN_SOURCE     - gpio=E5=BC=95=E8=84=9A=E4=B8=BA=E6=BA=
+=90=E6=9E=81=E5=BC=80=E8=B7=AF=E4=BF=A1=E5=8F=B7
+>
+> -       * GPIOF_EXPORT_DIR_FIXED        - =E5=B0=86 gpio =E5=AF=BC=E5=87=
+=BA=E5=88=B0 sysfs=EF=BC=8C=E5=B9=B6=E4=BF=9D=E6=8C=81=E6=96=B9=E5=90=91
+> -       * GPIOF_EXPORT_DIR_CHANGEABLE   - =E5=90=8C=E6=A0=B7=E6=98=AF=E5=
+=AF=BC=E5=87=BA, =E4=BD=86=E5=85=81=E8=AE=B8=E6=94=B9=E5=8F=98=E6=96=B9=E5=
+=90=91
+> -
+>  =E5=9B=A0=E4=B8=BA GPIOF_INIT_* =E4=BB=85=E6=9C=89=E5=9C=A8=E9=85=8D=E7=
+=BD=AE=E4=B8=BA=E8=BE=93=E5=87=BA=E7=9A=84=E6=97=B6=E5=80=99=E6=89=8D=E5=AD=
+=98=E5=9C=A8,=E6=89=80=E4=BB=A5=E6=9C=89=E6=95=88=E7=9A=84=E7=BB=84=E5=90=
+=88=E4=B8=BA:
+>
+>         * GPIOF_IN              - =E9=85=8D=E7=BD=AE=E4=B8=BA=E8=BE=93=E5=
+=85=A5
+> diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/tr=
+anslations/zh_TW/gpio.txt
+> index 62e560ffe628..e0b96d897fa7 100644
+> --- a/Documentation/translations/zh_TW/gpio.txt
+> +++ b/Documentation/translations/zh_TW/gpio.txt
+> @@ -303,9 +303,6 @@ gpio_request()=E5=89=8D=E5=B0=87=E9=80=99=E9=A1=9E=E7=
+=B4=B0=E7=AF=80=E9=85=8D=E7=BD=AE=E5=A5=BD=EF=BC=8C=E4=BE=8B=E5=A6=82=E4=BD=
+=BF=E7=94=A8 pinctrl =E5=AD=90=E7=B3=BB=E7=B5=B1=E7=9A=84=E6=98=A0
+>         * GPIOF_OPEN_DRAIN      - gpio=E5=BC=95=E8=85=B3=E7=88=B2=E9=96=
+=8B=E6=BC=8F=E4=BF=A1=E8=99=9F
+>         * GPIOF_OPEN_SOURCE     - gpio=E5=BC=95=E8=85=B3=E7=88=B2=E6=BA=
+=90=E6=A5=B5=E9=96=8B=E8=B7=AF=E4=BF=A1=E8=99=9F
+>
+> -       * GPIOF_EXPORT_DIR_FIXED        - =E5=B0=87 gpio =E5=B0=8E=E5=87=
+=BA=E5=88=B0 sysfs=EF=BC=8C=E4=B8=A6=E4=BF=9D=E6=8C=81=E6=96=B9=E5=90=91
+> -       * GPIOF_EXPORT_DIR_CHANGEABLE   - =E5=90=8C=E6=A8=A3=E6=98=AF=E5=
+=B0=8E=E5=87=BA, =E4=BD=86=E5=85=81=E8=A8=B1=E6=94=B9=E8=AE=8A=E6=96=B9=E5=
+=90=91
+> -
+>  =E5=9B=A0=E7=88=B2 GPIOF_INIT_* =E5=83=85=E6=9C=89=E5=9C=A8=E9=85=8D=E7=
+=BD=AE=E7=88=B2=E8=BC=B8=E5=87=BA=E7=9A=84=E6=99=82=E5=80=99=E6=89=8D=E5=AD=
+=98=E5=9C=A8,=E6=89=80=E4=BB=A5=E6=9C=89=E6=95=88=E7=9A=84=E7=B5=84=E5=90=
+=88=E7=88=B2:
+>
+>         * GPIOF_IN              - =E9=85=8D=E7=BD=AE=E7=88=B2=E8=BC=B8=E5=
+=85=A5
+> diff --git a/drivers/gpio/gpiolib-legacy.c b/drivers/gpio/gpiolib-legacy.=
+c
+> index 028f7f504209..969f737012f6 100644
+> --- a/drivers/gpio/gpiolib-legacy.c
+> +++ b/drivers/gpio/gpiolib-legacy.c
+> @@ -50,12 +50,6 @@ int gpio_request_one(unsigned gpio, unsigned long flag=
+s, const char *label)
+>         if (err)
+>                 goto free_gpio;
+>
+> -       if (flags & GPIOF_EXPORT) {
+> -               err =3D gpiod_export(desc, flags & GPIOF_EXPORT_CHANGEABL=
+E);
+> -               if (err)
+> -                       goto free_gpio;
+> -       }
+> -
+>         return 0;
+>
+>   free_gpio:
+> diff --git a/include/linux/gpio.h b/include/linux/gpio.h
+> index 8528353e073b..86963a00b018 100644
+> --- a/include/linux/gpio.h
+> +++ b/include/linux/gpio.h
+> @@ -38,11 +38,6 @@ struct device;
+>  /* Gpio pin is open source */
+>  #define GPIOF_OPEN_SOURCE      (1 << 4)
+>
+> -#define GPIOF_EXPORT           (1 << 5)
+> -#define GPIOF_EXPORT_CHANGEABLE        (1 << 6)
+> -#define GPIOF_EXPORT_DIR_FIXED (GPIOF_EXPORT)
+> -#define GPIOF_EXPORT_DIR_CHANGEABLE (GPIOF_EXPORT | GPIOF_EXPORT_CHANGEA=
+BLE)
+> -
+>  /**
+>   * struct gpio - a structure describing a GPIO with configuration
+>   * @gpio:      the GPIO number
+> --
+> 2.40.0.1.gaa8946217a0b
+>
 
-We handle like this from this patch,
-https://lore.kernel.org/linux-arm-kernel/1594975763-32966-1-git-send-email-liuqi115@huawei.com/
+Both applied, thanks!
 
->> +		 */
->> +		.suppress_bind_attrs = true,
->> +	},
->> +	.probe = hisi_uc_pmu_probe,
->> +};
-> .
-> 
+Bart
