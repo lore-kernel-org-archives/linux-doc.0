@@ -2,123 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5633BC77B73
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 00:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E1BEC7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 02:08:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230022AbjFAAoZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 May 2023 20:44:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57174 "EHLO
+        id S229849AbjFACI4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 May 2023 22:08:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjFAAoY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 20:44:24 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 111EB180;
-        Wed, 31 May 2023 17:44:02 -0700 (PDT)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34VKMq59032547;
-        Thu, 1 Jun 2023 00:43:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2023-03-30;
- bh=DwlCJOrdcwDOpNkwjccWqX8sLlYnPGR/xoGvu6B5/Jo=;
- b=ThA2s8vBavRkrnImgl8oR90Jf1oH1xFKNJNqqAQ7/a9yy11S446TXYma8Iov7VV7TUTz
- BmcmZ1hd4jZcmmF7vfKHxJOmyKB+++2X1qzDq2cKl6s1hQAaNyeHvE9UVQvtmFU8HlaD
- bBdyFUOZvKKqPkbmEZFsKvhatm7mLLoyD36jaTu0xd1/C/SMw8BVry2Ru8PJcEzRUhKn
- x2m2uGPAdOYh8XIXfF9NjkDvwIPAtyvgjolFZTF1C616Be+FuwFwLwGp+ocLqOEgL8SK
- 4WBahuC/foID0jV+4ubt2bXT+f8GHqKOzRNejZ/CO3CwRwMKizIQqB5qkB3Ymp84wdmd 7Q== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3qvhb97d74-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 01 Jun 2023 00:43:36 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 34VNQ8NO004399;
-        Thu, 1 Jun 2023 00:43:34 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3qv4ye2eb3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 01 Jun 2023 00:43:34 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3510hV9N008516;
-        Thu, 1 Jun 2023 00:43:34 GMT
-Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
-        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3qv4ye2e6s-4;
-        Thu, 01 Jun 2023 00:43:34 +0000
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-To:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Gerd Knorr <kraxel@bytesex.org>,
-        Oliver Neukum <oliver@neukum.org>,
-        Ali Akcaagac <aliakc@web.de>,
-        Jamie Lenehan <lenehan@twibble.org>, dc395x@twibble.org,
-        James Smart <james.smart@broadcom.com>,
-        Doug Gilbert <dgilbert@interlog.com>,
-        Finn Thain <fthain@linux-m68k.org>,
-        Michael Schmitz <schmitzmic@gmail.com>,
-        Kashyap Desai <kashyap.desai@broadcom.com>,
-        Sumit Saxena <sumit.saxena@broadcom.com>,
-        Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-        megaraidlinux.pdl@broadcom.com,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH 00/11] Documentation/scsi: organize SCSI docs & make more readable
-Date:   Wed, 31 May 2023 20:43:13 -0400
-Message-Id: <168558000067.2461197.10750328689572620807.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230518212749.18266-1-rdunlap@infradead.org>
-References: <20230518212749.18266-1-rdunlap@infradead.org>
+        with ESMTP id S229459AbjFACIz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 May 2023 22:08:55 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 169E3121;
+        Wed, 31 May 2023 19:08:55 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-2565b864f9aso59410a91.1;
+        Wed, 31 May 2023 19:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685585334; x=1688177334;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3oX7QLOAzm6QWUBabTjRoRDv03PwxV5OaOraCC7VjOQ=;
+        b=QmdL0GPWAgSelup5ZEXgiS4Kt2zjZ0zSD30b4E9BoiOnHwEU5BM4KDD++laeCitJs9
+         FfiJtLDzT7+DFcYgZAh5qAWGQ65zcOu2ieiWd0aYLd09Y+ONeEu3dNxxt9X20jPkdC0Z
+         MBs22NDXRoK+M5iwkFmvxod95zs6Yj4Da6OorYq3S1UAvbNMs6nd485YehrBbdZR50vu
+         gj+g3v7va1nq/ghw1o7ICPuzsEBpKehOikQanDBX6kujJBnbp8iTAj/2gMQsMmN8TAEE
+         pNralqAgWXaA4Jh0cdnSAA6Ye8/zZvvMMl4kTtD0Cj/fifkz1R2oFcW0VBeeU+n/LXQc
+         88+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685585334; x=1688177334;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3oX7QLOAzm6QWUBabTjRoRDv03PwxV5OaOraCC7VjOQ=;
+        b=JgPJ7Z5yNxe5U4WPbPVG1s32ExRGCwiNvL5YehR/N6bBH3sAwsnT6ytPhvqG0Jc1Io
+         0daDwIilJjByhPuglEhhjoTq5EZTOgXyDEzWStZ5d2OlztFsxK32ViL7wDjkZjfE5NK6
+         09mncwEH4/1uRttYNGMiZlNwg7hRuArGgctfjEbEqFV8h+QGzf0rLd4ZA3h+B6JL1xGR
+         dhoSRrqT3ueQLqls3r8jH/n/jiF0Dz2zyBllVX5npJu5LmGsnx2QKaInTSI0G4Rxl/ij
+         64ZTKl3UoOzormzxS347G/JYTHpbhwmEAy2Zdd4WW0MtGOvOy/JBidRsll2DjgJFjSJn
+         caMw==
+X-Gm-Message-State: AC+VfDzLD8QLsnAwfuI+klaCc9s2gtaoNIc8JKZLXf2pz+x58NpLwRC0
+        ps9YC46JFaBt5WIxivCpJa4tDuOORLXHzw==
+X-Google-Smtp-Source: ACHHUZ46vtjiRqs9XzP0DVwSkRPTcJVVkos/z7I8p3nD5k48XuniFDSUl/pA8pKgNEpkVC5cWkdCtg==
+X-Received: by 2002:a17:902:b18f:b0:1ab:7c4:eb24 with SMTP id s15-20020a170902b18f00b001ab07c4eb24mr4856292plr.22.1685585334400;
+        Wed, 31 May 2023 19:08:54 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-81.three.co.id. [180.214.233.81])
+        by smtp.gmail.com with ESMTPSA id je4-20020a170903264400b001ab2b4105ddsm2106399plb.60.2023.05.31.19.08.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 May 2023 19:08:54 -0700 (PDT)
+Message-ID: <e783e493-23a4-0cec-eb6d-f81400324b74@gmail.com>
+Date:   Thu, 1 Jun 2023 09:08:49 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-31_18,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2306010004
-X-Proofpoint-GUID: YOalXPWJ9zyKACfXifjcLWKGlvVbE_3r
-X-Proofpoint-ORIG-GUID: YOalXPWJ9zyKACfXifjcLWKGlvVbE_3r
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 05/11] Docs/scsi: dc395x: shorten the chapter heading
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Oliver Neukum <oliver@neukum.org>,
+        Ali Akcaagac <aliakc@web.de>,
+        Jamie Lenehan <lenehan@twibble.org>, dc395x@twibble.org
+References: <20230518212749.18266-1-rdunlap@infradead.org>
+ <20230518212749.18266-6-rdunlap@infradead.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230518212749.18266-6-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 18 May 2023 14:27:38 -0700, Randy Dunlap wrote:
+On 5/19/23 04:27, Randy Dunlap wrote:
+> -======================================
+> -README file for the dc395x SCSI driver
+> -======================================
+> +==================
+> +dc395x SCSI driver
+> +==================
+>  
 
-> Organize the SCSI documentation into categories instead of
-> alphabetically by filename.
-> 
-> Modify several of the document chapter headings so that they are
-> shorter and easier to find.
-> 
-> Make several updates to the scsi-generic driver documentation.
-> 
-> [...]
-
-Applied to 6.5/scsi-queue, thanks!
-
-[01/11] Docs/scsi: organize the SCSI documentation
-        https://git.kernel.org/mkp/scsi/c/682b07d2ff54
-[02/11] Docs/scsi: introduction: multiple cleanups
-        https://git.kernel.org/mkp/scsi/c/c4e672ac8c49
-[03/11] Docs/scsi: arcmsr: use a chapter heading for clarity
-        https://git.kernel.org/mkp/scsi/c/1d3e21238f50
-[04/11] Docs/scsi: scsi-changer: shorten the chapter heading
-        https://git.kernel.org/mkp/scsi/c/a292835f69c6
-[05/11] Docs/scsi: dc395x: shorten the chapter heading
-        https://git.kernel.org/mkp/scsi/c/573a43f26d80
-[06/11] Docs/scsi: scsi_fc_transport: fix typo in heading
-        https://git.kernel.org/mkp/scsi/c/66fcd6026c71
-[07/11] Docs/scsi: scsi-generic: multiple cleanups
-        https://git.kernel.org/mkp/scsi/c/8ebddfeef518
-[08/11] Docs/scsi: g_NCR5380: shorten chapter heading
-        https://git.kernel.org/mkp/scsi/c/b636a0297e4f
-[09/11] Docs/scsi: megaraid: clarify chapter heading
-        https://git.kernel.org/mkp/scsi/c/0176d3395a3a
-[10/11] Docs/scsi: ncr53c8xx: shorten chapter heading
-        https://git.kernel.org/mkp/scsi/c/7c891fe3db3a
-[11/11] Docs/scsi: sym53c8xx_2: shorten chapter heading
-        https://git.kernel.org/mkp/scsi/c/f047d1e38bdf
+Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+An old man doll... just what I always wanted! - Clara
+
