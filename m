@@ -2,165 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB361C77B7E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 19:03:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4700C77B7E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 19:08:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232626AbjFATDD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 15:03:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52052 "EHLO
+        id S231365AbjFATIL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 15:08:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231410AbjFATDC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 15:03:02 -0400
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2069.outbound.protection.outlook.com [40.107.96.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9EC9E4C;
-        Thu,  1 Jun 2023 12:02:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MmeCByQ/YO8SckBUAAYsnDDlRU8L4MJiplWNHv9dNHutJpd/DpOK1N/z37UwRSrMIV+0GsV5afTK26TxH7XeOEcNlkZ0sX4LwRxN9d2Hm/GDdWNQG+B48HF21W3z9Qg9hkH2byOe4gk7/DOnIS4ij7n4yIkyqLUr5iyHzZqEWwVRuqmFgzqu7XVndQyxxjRrrFxmSSt4sQRpmV24jBnd9Nw1FE7jkOWvuQhGJxOoMZw/HMY14cLmV9PVDjhDc9eIkhq992k0mxpbrX2RzQeOr5MYzpO/Zjr1bMZ6IUFSk9Yn9sCpu0KYgF3+weC3NTk7SGdW5ja9uRg0RXU6nHIJFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7OP3izmuN35dIUh+t44uEj8GzBCiBS9lxHY/vshGP5g=;
- b=MtM473ky7NSLLxKeqspH/iMnB1Zg5k93L1FOlWpEWI3/zu9Zm1ykZdkO3xkd0tjq9M0VLSg3vAHJqEr3JBm3ScdOVlzv8WPSTn3OAqaCZodpkorH4QrFNRNy1DAEgxRCvTu+2zejTAanUTSDwdnkkLLHMX+gucFdQnXWRfi2NuAkLPvKVwFAKESQqcD1yCjTDMlY5NrubaJN5OdlGbMmKG/ekzFsvef3ndBZ3mkcw6yCNoNelIdVJWvqwf7ptY+kqDEnrOW3LEfVVjAm8FAZmJfpH6QQbF/n47lUZ7mZ2tOYdKxDRHlJoBOBp1K2aXU4ZN+4ACZ6l5v8aNxhuSP0uA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7OP3izmuN35dIUh+t44uEj8GzBCiBS9lxHY/vshGP5g=;
- b=2wblee+8wRF0RmmVqldUeeUV59c/j6DnFlHMyy3jsnxWPxjIiI9q1nRJT0lp7+RiveJwFL9EnXJBiHiQftLfx+A3MEbDwR2kf2FIz/MvKKz/0Qo18442bUeoFMcwFP47Aoqml9J2E/61eTevYFMhyRDNUTu0VnL2bMDi/y+5E60=
-Received: from BN7PR02CA0031.namprd02.prod.outlook.com (2603:10b6:408:20::44)
- by DM8PR12MB5463.namprd12.prod.outlook.com (2603:10b6:8:27::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.24; Thu, 1 Jun
- 2023 19:02:22 +0000
-Received: from BN8NAM11FT109.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:20:cafe::b1) by BN7PR02CA0031.outlook.office365.com
- (2603:10b6:408:20::44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.23 via Frontend
- Transport; Thu, 1 Jun 2023 19:02:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT109.mail.protection.outlook.com (10.13.176.221) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6455.24 via Frontend Transport; Thu, 1 Jun 2023 19:02:21 +0000
-Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 1 Jun
- 2023 14:02:18 -0500
-Subject: [PATCH v5 8/8] x86/resctrl: Introduce RFTYPE_DEBUG flag
-From:   Babu Moger <babu.moger@amd.com>
-To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
-CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <songmuchun@bytedance.com>, <peterz@infradead.org>,
-        <jpoimboe@kernel.org>, <pbonzini@redhat.com>, <babu.moger@amd.com>,
-        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
-        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
-        <sandipan.das@amd.com>, <tony.luck@intel.com>,
-        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
-        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
-        <pawan.kumar.gupta@linux.intel.com>, <jarkko@kernel.org>,
-        <adrian.hunter@intel.com>, <quic_jiles@quicinc.com>,
-        <peternewman@google.com>, <babu.moger@amd.com>
-Date:   Thu, 1 Jun 2023 14:02:16 -0500
-Message-ID: <168564613667.527584.13233260903070279360.stgit@bmoger-ubuntu>
-In-Reply-To: <168564586603.527584.10518315376465080920.stgit@bmoger-ubuntu>
-References: <168564586603.527584.10518315376465080920.stgit@bmoger-ubuntu>
-User-Agent: StGit/1.1.dev103+g5369f4c
+        with ESMTP id S229693AbjFATIK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 15:08:10 -0400
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F049F184;
+        Thu,  1 Jun 2023 12:08:03 -0700 (PDT)
+Date:   Thu, 01 Jun 2023 19:07:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uplinklabs.net;
+        s=protonmail; t=1685646480; x=1685905680;
+        bh=lovUSrk93ENXOhw8lq+zt1tvyB45dc+7JHQ1bHcHwCY=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=eqBIFUXyFnfkuDCUZzZLc82UrgimdrumUq0evWnuDTVgSEMc6wj7aYVVtxBs9tv4l
+         tOETU39au2AkYJEx+aGHwlPBJCMvh8Rx/Gcpw2BnPQz/QFGEOo/Fw2rjmoO81ADhC7
+         /1ceHpAHBW6pteof5+L/07v30IfL72OyGTOHgiroFlFTL3Uky9nUQwcJSQ4alQhYie
+         0pNFPSrhzX8jW1sE7gPMNBiS+ZscISyEuEE0ZAdglV5Z/BnmVvVTOeWBOvOLz9+oXk
+         sCtt0lkY7PQglZZhgVu+S6tBjP68oIGt8P/x4YtI/8QvQj0mZp4qIcspNl3d30jMkK
+         RjkZV+mVA7vJw==
+To:     Thomas Gleixner <tglx@linutronix.de>
+From:   Steven Noonan <steven@uplinklabs.net>
+Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>, kernel@collabora.com
+Subject: Re: Direct rdtsc call side-effect
+Message-ID: <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
+In-Reply-To: <87h6rrdoy0.ffs@tglx>
+References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com> <87mt1jeax1.ffs@tglx> <87h6rrdoy0.ffs@tglx>
+Feedback-ID: 10620438:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT109:EE_|DM8PR12MB5463:EE_
-X-MS-Office365-Filtering-Correlation-Id: db3550a6-92e1-4b36-a7c3-08db62d2ba88
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Hrr8cmr3cVMGrqEPl1gdY7wqzahCwkjl6ILwFj5El3s+VJsJ0qXmqnDO2IvCysGig4ux5EEsYDF5ZVE5IbPIWdnAfQieAkPvRkEVmOzLDEGTk6mK9+ubPJe8ITBMoiEsggX9uGHLSZaFXgSn9/2WiCHJSnpfiCNx84cnsgMBtFLI9lnsKOEfatj85LNx9eG2a1qlNakjiRzhezpHK1ZPZDWqPKlUiIzVsYoBTcbfGof54rtwj/vm2vbKsKD9BJsSm+icLDHetsW0pbUv8XM+D20Pjs2bFQdh3WkFT0JCoIi6WEq/AePP/BfurFzRMM8CFD/JvRjYlJP0WPLhO0mzyEiT0s+QTUCk/s6Wbq3FqXAPEYrzRd4u7dvQAypmANZsvo3SC0tHV+UkPr4dbBqKuiwGdLSh6DaQoG7V4cxYI1/gvNW8gvVhnPZib1sJaEo4WSPo/2GNb77lPyliPkLoPyY7OCFTEw2fInxPPNlRoSBvsRCSwLOtgXNmBrLiyu1HBsHABd4QBI+F/OssSGYduflk9Y9reAwxfHWf2o04ulpABZ5y1B+XB1jBVwH4tggfsmOTyxsaAbkjnd3MBTel1mjjoDZGrilYCqUWaCIGpEnHRi8vXyPaRkINXDanL8AiIJVW51EyuZdW3OO4ZtEmd8fEAiCAAvOy0ujXqFqU8tG7Dsx4Q7xxulZDXGMUlTeJ7upHz3R9KSUqIIoVIp+jEMaULLEkQRQBP+hgWbcjs0BxoPs2B657+Dse0BS+SV8LhQaBDSWEWkCbgeYNe+Zm7yLdXvyXbSTiyy6SrimT9Wc=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(7916004)(396003)(346002)(39860400002)(376002)(136003)(451199021)(36840700001)(40470700004)(46966006)(40460700003)(36860700001)(336012)(47076005)(426003)(83380400001)(82310400005)(86362001)(103116003)(81166007)(82740400003)(33716001)(9686003)(26005)(186003)(16526019)(40480700001)(356005)(110136005)(54906003)(8676002)(16576012)(2906002)(8936002)(316002)(41300700001)(5660300002)(7416002)(7406005)(44832011)(4326008)(70206006)(70586007)(478600001)(71626016)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2023 19:02:21.4604
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: db3550a6-92e1-4b36-a7c3-08db62d2ba88
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT109.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5463
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------796aa968aad2e57f8079f70824c4c45caea1f91b291b6bed56b8f34038fce5eb"; charset=utf-8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce RFTYPE_DEBUG flag which can be used to add files when=0A=
-resctrl is mounted with "-o debug" option. RFTYPE_DEBUG is OR'd=0A=
-with other RFTYPE_ flags. These other flags decide where in resctrl=0A=
-structure these files should be created.=0A=
-=0A=
-Signed-off-by: Babu Moger <babu.moger@amd.com>=0A=
----=0A=
- arch/x86/kernel/cpu/resctrl/internal.h |    1 +=0A=
- arch/x86/kernel/cpu/resctrl/rdtgroup.c |    5 +++++=0A=
- 2 files changed, 6 insertions(+)=0A=
-=0A=
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/r=
-esctrl/internal.h=0A=
-index c07c6517d856..5bc8d371fc3e 100644=0A=
---- a/arch/x86/kernel/cpu/resctrl/internal.h=0A=
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h=0A=
-@@ -294,6 +294,7 @@ struct rdtgroup {=0A=
- #define RFTYPE_TOP			BIT(6)=0A=
- #define RFTYPE_RES_CACHE		BIT(8)=0A=
- #define RFTYPE_RES_MB			BIT(9)=0A=
-+#define RFTYPE_DEBUG			BIT(10)=0A=
- #define RFTYPE_CTRL_INFO		(RFTYPE_INFO | RFTYPE_CTRL)=0A=
- #define RFTYPE_MON_INFO			(RFTYPE_INFO | RFTYPE_MON)=0A=
- #define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)=0A=
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/r=
-esctrl/rdtgroup.c=0A=
-index e03cb01c4742..9e42ecbb9063 100644=0A=
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c=0A=
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c=0A=
-@@ -1862,6 +1862,7 @@ static struct rftype res_common_files[] =3D {=0A=
- 		.mode		=3D 0444,=0A=
- 		.kf_ops		=3D &rdtgroup_kf_single_ops,=0A=
- 		.seq_show	=3D rdtgroup_rmid_show,=0A=
-+		.fflags		=3D RFTYPE_BASE | RFTYPE_DEBUG,=0A=
- 	},=0A=
- 	{=0A=
- 		.name		=3D "schemata",=0A=
-@@ -1891,6 +1892,7 @@ static struct rftype res_common_files[] =3D {=0A=
- 		.mode		=3D 0444,=0A=
- 		.kf_ops		=3D &rdtgroup_kf_single_ops,=0A=
- 		.seq_show	=3D rdtgroup_closid_show,=0A=
-+		.fflags		=3D RFTYPE_CTRL_BASE | RFTYPE_DEBUG,=0A=
- 	},=0A=
- =0A=
- };=0A=
-@@ -1905,6 +1907,9 @@ static int rdtgroup_add_files(struct kernfs_node *kn,=
- unsigned long fflags)=0A=
- =0A=
- 	lockdep_assert_held(&rdtgroup_mutex);=0A=
- =0A=
-+	if (resctrl_debug)=0A=
-+		fflags |=3D RFTYPE_DEBUG;=0A=
-+=0A=
- 	for (rft =3D rfts; rft < rfts + len; rft++) {=0A=
- 		if (rft->fflags && ((fflags & rft->fflags) =3D=3D rft->fflags)) {=0A=
- 			ret =3D rdtgroup_add_file(kn, rft);=0A=
-=0A=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------796aa968aad2e57f8079f70824c4c45caea1f91b291b6bed56b8f34038fce5eb
+Content-Type: multipart/mixed;boundary=---------------------17872929c4a151b04539e62bfec4da60
+
+-----------------------17872929c4a151b04539e62bfec4da60
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;charset=utf-8
+
+On Thursday, June 1st, 2023 at 11:20 AM, Thomas Gleixner <tglx@linutronix.=
+de> wrote:
+> Here is an example where it falls flat on its nose.
+> =
+
+
+> One of the early Ryzen laptops had a broken BIOS which came up with
+> unsynchronized TSCs. I tried to fix that up, but couldn't get it to sync
+> on all CPUs because for some stupid reason the TSC write got
+> arbritrarily delayed (assumably by SMI/SMM).
+
+Hah, I remember that. That was actually my laptop. A Lenovo ThinkPad A485 =
+with a Ryzen 2700U. I've seen the problem since then occasionally on newer=
+ Ryzen laptops (and even desktops). Without the awful "tsc=3Ddirectsync" p=
+atch I wrote, which I've been carrying for years now in my own kernel buil=
+ds, it just falls back to HPET. It's not pleasant, but at least it's a sta=
+ble clock.
+
+> After the vendor fixed the BIOS, I tried again and the problem
+> persisted.
+> =
+
+
+> So on such a machine the 'fixup time' mechanism would simply render an
+> otherwise perfectly fine TSC unusable for timekeeping.
+> =
+
+
+> We asked both Intel and AMD to add TSC_ADJUST probably 15 years
+> ago. Intel added it with some HSW variants (IIRC) and since SKL all CPUs
+> have it. I don't know why AMD thought it's not required. That could have
+> spared a gazillion of bugzilla entries vs. the early Ryzen machines.
+>
+
+Agreed, TSC_ADJUST is the ultimate solution for any of these kinds of issu=
+es. But last I heard from AMD, it's still several years out in silicon, an=
+d there's plenty of hardware to maintain compatibility with. Ugh.
+
+A software solution would be preferable in the meantime, but I don't know =
+what options are left at this point.
+
+The trap-and-emulate via SIGSEGV approach proposed earlier in the thread i=
+s unfortunately not likely to be practical, assuming I implemented it prop=
+erly.
+
+One issue is how much overhead it has. This is an instruction that normall=
+y executes in roughly 50 clock cycles (RDTSC) to 100 clock cycles (RDTSCP)=
+ on Zen 3. Based on a proof-of-concept I wrote, the overhead of trapping a=
+nd emulating with a signal handler is roughly 100x. On my Zen 3 system, it=
+ goes up to around 10000 clock cycles per trapped read of RDTSCP. Most Win=
+dows games that use this instruction directly are doing so under the assum=
+ption that the TSC is faster to read than any of the native Windows API cl=
+ock sources. If it's suddenly ~100x slower than even the slowest-to-read W=
+indows clocksource, those games would likely become entirely unplayable, d=
+epending on how frequently they do TSC reads. (And many do so quite often!=
+)
+
+Also, my proof-of-concept doesn't actually do the emulation part. It just =
+traps the instruction and then executes that same instruction in the signa=
+l handler, putting the results in the right registers. So it's a pass-thro=
+ugh approach, which is about the best you can do performance wise.
+
+Another issue is that the implementation might be tricky. In the case of W=
+ine, you'd need to enable PR_TSC_SIGSEGV whenever entering the Windows exe=
+cutable and PR_TSC_ENABLE whenever leaving it. If you don't, any of the no=
+rmally well-behaved clock sources implemented using the TSC (e.g. CLOCK_MO=
+NOTONIC_RAW, etc) would also fault on the Wine side. Also, there's some Wi=
+ndows-specific trickery, in that the Windows registry exposes the TSC freq=
+uency in a couple of places, so those would need to be replaced with the f=
+requency of the emulated clocksource.
+
+- Steven
+-----------------------17872929c4a151b04539e62bfec4da60--
+
+--------796aa968aad2e57f8079f70824c4c45caea1f91b291b6bed56b8f34038fce5eb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wnUEARYKACcFgmR47GEJkAi2TYeeRSZQFiEE707zOy6TKdatSeTPCLZNh55F
+JlAAAJDdAQD0c+SXDqA1PASyKgtok2FQ+jAcie8g0u2Rd/Grlp49QwEAzASw
+DKrwVDCAWWVHMgksqgsdcchcU5d4UJu9AW2nIAk=
+=lfCX
+-----END PGP SIGNATURE-----
+
+
+--------796aa968aad2e57f8079f70824c4c45caea1f91b291b6bed56b8f34038fce5eb--
 
