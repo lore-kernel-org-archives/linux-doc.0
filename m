@@ -2,40 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA00C77B7E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 20:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEEA2C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 20:32:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjFAUNd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 16:13:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45322 "EHLO
+        id S231599AbjFAUcA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 16:32:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjFAUNc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 16:13:32 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DB16D1;
-        Thu,  1 Jun 2023 13:13:31 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1685650409;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VhqYS2lyDFfuoa88kODGtonbyEtHNG3TXqkVpEvaQl8=;
-        b=PGlHMojZjN/9GkSbz2rHDfnwxnlRvrOxaaLVJunjL9LP8LHNGsxTaALStcWxUxIi8sdJX8
-        lqvT3ilMtpVyNXbpQeqU81GEIRUGIPEklrKJKr5YEgd7xaLFHSyZz/zdHQWZaBJnzTb4Dd
-        I8AEhgdqt2QnVwEIx+HzhdQIjKHNiXWzDTJ2uWIC/vh6X+GcLfc+cOx5jpLsSuuY7AwlXq
-        TQKRmBK2E5db9IpX6/1KXh7U0yhsB6Ok2fxS7jdrnS/SM3YhPnKeIl8EqPhZKtBnN9zDvX
-        w709Is3z8nO4YgoJ41KJ5VOx+pGJkACicnoqZLXtsfM07ekiRkGNjUeZALfsHA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1685650409;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VhqYS2lyDFfuoa88kODGtonbyEtHNG3TXqkVpEvaQl8=;
-        b=xleRV+bWpbXMbVWK7dfSAyfJ/A8lvCBKqJk3V6HyfWibUAieNU5VU48PDtqZp09tXaj8ag
-        6rd61mxCICbDZ6CQ==
+        with ESMTP id S232160AbjFAUb5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 16:31:57 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B05E42;
+        Thu,  1 Jun 2023 13:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=3vdVcpDDqjYKJw5ak8ynV4DjOPhUS8HxP0LDWIL1igw=; b=Uwmub2azMCaIbjuHuFLLx5IvzQ
+        eFOI326Kms4l4wmTXrlpVawriFra0lmkqkO6HGD533NRRq8Rsq3sGtqpsJNn14UpGdrbCJqWHARMN
+        1U932RMwU0NTrCtfYn+xcheb7TrYzKfVTyTHKMQdZZW/bknEVOzdPPpBwqCCRTx4l2bJQxguoesXy
+        3eW3jBZYLpzlTZBX7pdoQw6P83tHrzlCk1Bqnxmt4oELtM0sncWIi7ilTUQmULRj7Lxqt9wX0JjPP
+        ywsU5vCcI4xl1efroIVCmzrp2xMnhUhzAq92tfhNZ8w26T6SgZSd8g4O8rC2d+ACle1c218DwB+mK
+        CZHkw23A==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1q4oxF-008fu5-R0; Thu, 01 Jun 2023 20:31:29 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 1310A300220;
+        Thu,  1 Jun 2023 22:31:28 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id E2A16202F9541; Thu,  1 Jun 2023 22:31:27 +0200 (CEST)
+Date:   Thu, 1 Jun 2023 22:31:27 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
 To:     Steven Noonan <steven@uplinklabs.net>
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -45,56 +49,74 @@ Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
         open list <linux-kernel@vger.kernel.org>,
         "Guilherme G. Piccoli" <gpiccoli@igalia.com>, kernel@collabora.com
 Subject: Re: Direct rdtsc call side-effect
-In-Reply-To: <871qivdjui.ffs@tglx>
+Message-ID: <20230601203127.GY4253@hirez.programming.kicks-ass.net>
 References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
- <87mt1jeax1.ffs@tglx> <87h6rrdoy0.ffs@tglx>
+ <87mt1jeax1.ffs@tglx>
+ <87h6rrdoy0.ffs@tglx>
  <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
- <871qivdjui.ffs@tglx>
-Date:   Thu, 01 Jun 2023 22:13:29 +0200
-Message-ID: <87y1l3c55i.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 01 2023 at 22:10, Thomas Gleixner wrote:
->
-> So back to the options:
->
->    1) Kernel
->
->       If at all then this needs to be disabled by default and enabled by
->       a command line option along with a big fat warning that it might
->       disable TSC for timekeeping and bug reports related to this are
->       going to be ignored.
->
->       Honestly I'm not too interested in this. It's yet another piece of
->       art which needs to be maintained and kept alive for a long time.
->
->       The fact that we need to check for synchronized TSCs in the first
->       place is hillarious already. TSC_ADJUST makes the resynchronization
->       attempt at least halfways sensible.
->
->       Without it, it's just a pile of never going to be correct
->       heuristics with a flood of "this fixes it for my machine (and
->       breaks the rest)" patches.
->
->
->    2) Binary patching
->
->       Unfortunately RDTSC is only a two byte instruction, but there are
->       enough advanced binary patching tools to deal with that.
->
->       It might be a completely crazy idea, but I wouldn't dismiss it
->       before trying.
+On Thu, Jun 01, 2023 at 07:07:38PM +0000, Steven Noonan wrote:
+> One issue is how much overhead it has. This is an instruction that
+> normally executes in roughly 50 clock cycles (RDTSC) to 100 clock
+> cycles (RDTSCP) on Zen 3. Based on a proof-of-concept I wrote, the
+> overhead of trapping and emulating with a signal handler is roughly
+> 100x. On my Zen 3 system, it goes up to around 10000 clock cycles per
+> trapped read of RDTSCP.
 
-Duh. Hit send too early
+What about kernel based emulation? You could tie it into user_dispatch
+and have a user_dispatch tsc offset.
 
-     3) Virtualization
+So regular kernel emulation simply returns the native value (keeps the
+VDSO working for one), but then from a user_dispatch range, it returns
++offset.
 
-        Obviously not trivial either but definitely workable.
+That is; how slow is the below?
 
-Thanks,
-
-        tglx
+diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+index 58b1f208eff5..18175b45db1f 100644
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -645,6 +645,25 @@ static bool fixup_iopl_exception(struct pt_regs *regs)
+ 	return true;
+ }
+=20
++static bool fixup_rdtsc_exception(struct pt_regs *regs)
++{
++	unsigned short bytes;
++	u32 eax, edx;
++
++	if (get_user(bytes, (const short __user *)ip))
++		return false;
++
++	if (bytes !=3D 0x0f31)
++		return false;
++
++	asm volatile ("rdtsc", "=3Da" (eax), "=3Dd" (edx));
++	regs->ax =3D eax;
++	regs->dx =3D edx;
++
++	regs->ip +=3D 2;
++	return true;
++}
++
+ /*
+  * The unprivileged ENQCMD instruction generates #GPs if the
+  * IA32_PASID MSR has not been populated.  If possible, populate
+@@ -752,6 +771,9 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+ 		if (fixup_iopl_exception(regs))
+ 			goto exit;
+=20
++		if (fixup_rdtsc_exception(regs))
++			goto exit;
++
+ 		if (fixup_vdso_exception(regs, X86_TRAP_GP, error_code, 0))
+ 			goto exit;
+=20
