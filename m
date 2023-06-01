@@ -2,136 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C43FAC77B7A
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 19:32:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0968C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 19:36:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231628AbjFATcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 15:32:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33158 "EHLO
+        id S231259AbjFATge (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 15:36:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231151AbjFATcN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 15:32:13 -0400
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B20A195;
-        Thu,  1 Jun 2023 12:32:12 -0700 (PDT)
-Received: from [127.0.0.1] ([73.231.166.163])
-        (authenticated bits=0)
-        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 351JVGfm2328876
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Thu, 1 Jun 2023 12:31:17 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 351JVGfm2328876
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2023051001; t=1685647878;
-        bh=GAEb809tzFU8RRL99qzs256NAvp/XGziwXMtqrDZ4bI=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=ZoIAOes0f7syVdcxW7iePtggH8XH5U6HMk/dstA2GF4JwqHI7rXQWP9GVEsqzgXW7
-         NVtzqn7WdAjk6et69elYqDM8RKQoeei4ATmbWQJkWlr+z+OJgg/5M2rrClbsm8p8yt
-         yhX/ucg4bJXc1teThZ5EPAVlSsjnU79vuBzoQUfCp47EwCQidUiFvLVYPMkmnOd8En
-         BQBwZHIrd5VE9P/L+fH/HwS4ftYz6P6Hg5+iBy0q/AmTSiF1CavnQU6DBqVYOrOyiU
-         FIta8RB551Bjph+UoaxlDV/nmOJD+KFewp2rk32bCj80naLixrM00DUKc6lilJfEyn
-         XpytuxVVMx4wA==
-Date:   Thu, 01 Jun 2023 12:31:11 -0700
-From:   "H. Peter Anvin" <hpa@zytor.com>
-To:     Steven Noonan <steven@uplinklabs.net>,
-        Thomas Gleixner <tglx@linutronix.de>
-CC:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        with ESMTP id S229992AbjFATgd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 15:36:33 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5384699
+        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 12:36:32 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-3f6b9ad956cso9570791cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 Jun 2023 12:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20221208.gappssmtp.com; s=20221208; t=1685648191; x=1688240191;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YMBOA4WH9GmX8va2TeN6IF1hKckQ4hk2vM+qJu7Yuk8=;
+        b=JKQScWQlepZwk1rwr8D4B8rhFPkzPfrRjo7oBWfw+nEP9EfqxAcT+QW4osjwPhmT5Q
+         ZQV6JWXs8rJRB3wOSil33aA6VH95iOYN6NoX5pyxPzvm5t4sMk6BhLLDlzYUm0BDj51b
+         NzeK/c8Vw1d6f0CTxvogTrH8Jj3bZjQMBYb3ccX2/bMjCwpvFGw6aikcmLyNiBcs4KEU
+         czOUcxsiQkOFgG8W7JYe0fmkQADh9wc7yDtbyUxt+Mn4vHqjpz7R6q6mj9tnNkmcZpcb
+         6qOD1px5L7EOtewVnd2LWHez4iP7SCtbcRjjzfJCt5Ov8Ju3NzRD7iK3yEysqmi3RAWk
+         z6WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685648191; x=1688240191;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YMBOA4WH9GmX8va2TeN6IF1hKckQ4hk2vM+qJu7Yuk8=;
+        b=dvlEiGF53l1S5MG5EeiIZ5s3Uqt89EN92aSPJoVR9Zu5UKwPPDGrBQTNrB1UYx8q8E
+         wRJKQt712sVIfJMn3TYz2lMYAPAiW5i1Pi5Lvc0/NFvd520DEHl7FGW704DZ5G7qNKee
+         lRR7c1rZ5nIgPduwsnM6MfW6dwfoOeB1b0gE9h/C2sa15xkt2RKMvj7tbrz6dlmkvLhS
+         PhVhTveJOEabdhrlv4xeoOz/y1/S2yp/3bo04uZms7f8x+dOf1FYtpxztv/iqVkcldbL
+         /wdRdGkyPNmrbs2hSTXdDfbw44G0bnQz5j4Av3Z8LPTC3lt2N74TYPs0GN78LSWz1vFA
+         9iMg==
+X-Gm-Message-State: AC+VfDz8lL/b9On6kjZwVg27+ihvSR2v2unna6t3re6QZJO+kXytKs/X
+        QRSjXTXSjovF0wVhCg1EZkxLdw==
+X-Google-Smtp-Source: ACHHUZ7CZ13+q3p59s8LZm39fYm6itDCPooJs/hGoBcJsKdzQMerh2esQX0ar5jZ58mA8fqbfZLxrQ==
+X-Received: by 2002:a05:622a:4d:b0:3f7:fcb1:3153 with SMTP id y13-20020a05622a004d00b003f7fcb13153mr11551235qtw.30.1685648191239;
+        Thu, 01 Jun 2023 12:36:31 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:400::5:ec58])
+        by smtp.gmail.com with ESMTPSA id g11-20020ac8774b000000b003eda962ed24sm7973574qtu.22.2023.06.01.12.36.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jun 2023 12:36:30 -0700 (PDT)
+Date:   Thu, 1 Jun 2023 15:36:30 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Dan Schatzberg <schatzberg.dan@gmail.com>
+Cc:     Tejun Heo <tj@kernel.org>, Chris Down <chris@chrisdown.name>,
+        Zefan Li <lizefan.x@bytedance.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>, kernel@collabora.com
-Subject: Re: Direct rdtsc call side-effect
-User-Agent: K-9 Mail for Android
-In-Reply-To: <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
-References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com> <87mt1jeax1.ffs@tglx> <87h6rrdoy0.ffs@tglx> <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
-Message-ID: <9BF0BF2A-E1D5-476A-A241-3B3BBDAD2750@zytor.com>
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: Clarify usage of memory limits
+Message-ID: <20230601193630.GA157732@cmpxchg.org>
+References: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On June 1, 2023 12:07:38 PM PDT, Steven Noonan <steven@uplinklabs=2Enet> wr=
-ote:
->On Thursday, June 1st, 2023 at 11:20 AM, Thomas Gleixner <tglx@linutronix=
-=2Ede> wrote:
->> Here is an example where it falls flat on its nose=2E
->>=20
->
->> One of the early Ryzen laptops had a broken BIOS which came up with
->> unsynchronized TSCs=2E I tried to fix that up, but couldn't get it to s=
-ync
->> on all CPUs because for some stupid reason the TSC write got
->> arbritrarily delayed (assumably by SMI/SMM)=2E
->
->Hah, I remember that=2E That was actually my laptop=2E A Lenovo ThinkPad =
-A485 with a Ryzen 2700U=2E I've seen the problem since then occasionally on=
- newer Ryzen laptops (and even desktops)=2E Without the awful "tsc=3Ddirect=
-sync" patch I wrote, which I've been carrying for years now in my own kerne=
-l builds, it just falls back to HPET=2E It's not pleasant, but at least it'=
-s a stable clock=2E
->
->> After the vendor fixed the BIOS, I tried again and the problem
->> persisted=2E
->>=20
->
->> So on such a machine the 'fixup time' mechanism would simply render an
->> otherwise perfectly fine TSC unusable for timekeeping=2E
->>=20
->
->> We asked both Intel and AMD to add TSC_ADJUST probably 15 years
->> ago=2E Intel added it with some HSW variants (IIRC) and since SKL all C=
-PUs
->> have it=2E I don't know why AMD thought it's not required=2E That could=
- have
->> spared a gazillion of bugzilla entries vs=2E the early Ryzen machines=
-=2E
->>
->
->Agreed, TSC_ADJUST is the ultimate solution for any of these kinds of iss=
-ues=2E But last I heard from AMD, it's still several years out in silicon, =
-and there's plenty of hardware to maintain compatibility with=2E Ugh=2E
->
->A software solution would be preferable in the meantime, but I don't know=
- what options are left at this point=2E
->
->The trap-and-emulate via SIGSEGV approach proposed earlier in the thread =
-is unfortunately not likely to be practical, assuming I implemented it prop=
-erly=2E
->
->One issue is how much overhead it has=2E This is an instruction that norm=
-ally executes in roughly 50 clock cycles (RDTSC) to 100 clock cycles (RDTSC=
-P) on Zen 3=2E Based on a proof-of-concept I wrote, the overhead of trappin=
-g and emulating with a signal handler is roughly 100x=2E On my Zen 3 system=
-, it goes up to around 10000 clock cycles per trapped read of RDTSCP=2E Mos=
-t Windows games that use this instruction directly are doing so under the a=
-ssumption that the TSC is faster to read than any of the native Windows API=
- clock sources=2E If it's suddenly ~100x slower than even the slowest-to-re=
-ad Windows clocksource, those games would likely become entirely unplayable=
-, depending on how frequently they do TSC reads=2E (And many do so quite of=
-ten!)
->
->Also, my proof-of-concept doesn't actually do the emulation part=2E It ju=
-st traps the instruction and then executes that same instruction in the sig=
-nal handler, putting the results in the right registers=2E So it's a pass-t=
-hrough approach, which is about the best you can do performance wise=2E
->
->Another issue is that the implementation might be tricky=2E In the case o=
-f Wine, you'd need to enable PR_TSC_SIGSEGV whenever entering the Windows e=
-xecutable and PR_TSC_ENABLE whenever leaving it=2E If you don't, any of the=
- normally well-behaved clock sources implemented using the TSC (e=2Eg=2E CL=
-OCK_MONOTONIC_RAW, etc) would also fault on the Wine side=2E Also, there's =
-some Windows-specific trickery, in that the Windows registry exposes the TS=
-C frequency in a couple of places, so those would need to be replaced with =
-the frequency of the emulated clocksource=2E
->
->- Steven
-It seems to me that this is one of several reasons that it might be desira=
-ble to wrap the Windows executable in a KVM wrapper, exactly to be able to =
-intercept non-system-call related system differences=2E
+On Thu, Jun 01, 2023 at 11:38:19AM -0700, Dan Schatzberg wrote:
+> The existing documentation refers to memory.high as the "main mechanism
+> to control memory usage." This seems incorrect to me - memory.high can
+> result in reclaim pressure which simply leads to stalls unless some
+> external component observes and actions on it (e.g. systemd-oomd can be
+> used for this purpose). While this is feasible, users are unaware of
+> this interaction and are led to believe that memory.high alone is an
+> effective mechanism for limiting memory.
+> 
+> The documentation should recommend the use of memory.max as the
+> effective way to enforce memory limits - it triggers reclaim and results
+> in OOM kills by itself.
+> 
+> Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
 
-I realize this is not a small change=2E=2E=2E
+Yeah, this is quite stale. How this ended up working in practice is a
+bit different from how we initially conceived it.
+
+Thanks for updating it.
+
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
