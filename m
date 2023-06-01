@@ -2,113 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15F83C77B7A
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 19:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D04C7EE29
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 20:10:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230174AbjFATxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 15:53:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38110 "EHLO
+        id S230252AbjFAUKu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 16:10:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbjFATxt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 15:53:49 -0400
-Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BCF18F
-        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 12:53:47 -0700 (PDT)
-Received: by mail-vk1-xa34.google.com with SMTP id 71dfb90a1353d-45bcbd77636so350627e0c.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Jun 2023 12:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20221208.gappssmtp.com; s=20221208; t=1685649226; x=1688241226;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=w3wsMJdspm7z8NQJJLLZwkqA93PAgwpcnaWodZ7jv3E=;
-        b=zyyOiaeKEXDVRnfiSYoFMNi6zsJHqBMzLi1N71yQ7rl7aeNEFHJXtP/mYtCzWz4vS4
-         xsz4tLWaE8JItcAX+DEptMCyTHfeB9DRdmrgQlGvcnH6Yl/FDqrvnM7uIBOc57vAd36K
-         893GToJbh29EIbLSuehhEcEzgR44PkZ4HJ6WbDP5o9bnyLxjQLoqrSBeaSn8POUq+7B+
-         +mW6QF5qavI2dyw2VQsbJ8bHGPBZdxwt9/ZLNlul87Bxzps2UybEE9KXZqNJbAPlyNZL
-         exbRvpQrRHE2RtkiVYlsJLqQ5c7NZKsHEGeKJBQa++X3ICWdJXUyXTTjBt7iNaSO80G8
-         /3IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685649226; x=1688241226;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w3wsMJdspm7z8NQJJLLZwkqA93PAgwpcnaWodZ7jv3E=;
-        b=L+ICcO99qhQZQTNmbXP29UmGCz/KB1n0Pt/BKmolog7/u4/cj/VuLrmD7FRXZxtTnM
-         Po0pdSHZs5kZ+i4BpaHcE9Yubw0kR+cHq43rlKFuATNR+3XEfju791n2sSviea8uRzMy
-         LinE3q+o8Ad7QnzHx4jFe7HHDiavjsbJqTxiAVO1rqbYazDiOw0Yp4BL8Jz9fhhO0AtJ
-         jUY3QjHzFFN5w60i3NtwmoW3uykJS880eVju4FL+2AwxxEFCu5Y+IV7ITNrMdPxvTkqT
-         jauI5T1UwA8CqDjiYRRDndZTzVWh2MQfcMnWu2cr9PdZHQzQtDCe7cxiQZWHOioUdy6z
-         iUCw==
-X-Gm-Message-State: AC+VfDzMmEVkY2I5BBq9akM96Ovfc5CtoHR0EappF/E4lP+K5XXjPXRw
-        JIV0xrtEcwwYWNm0JWEAjdDWQg==
-X-Google-Smtp-Source: ACHHUZ7JzeVdZ8ci8HY2hlPjcJMvaslhq2x8FpwT0K7+0s6RYbA1IYwmjIxMrtIVJi7HXqHX+Euxfg==
-X-Received: by 2002:a1f:c158:0:b0:45e:bb34:e43d with SMTP id r85-20020a1fc158000000b0045ebb34e43dmr1126947vkf.15.1685649226593;
-        Thu, 01 Jun 2023 12:53:46 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:400::5:ec58])
-        by smtp.gmail.com with ESMTPSA id q14-20020ac8450e000000b003e4f1b3ce43sm8041867qtn.50.2023.06.01.12.53.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 12:53:46 -0700 (PDT)
-Date:   Thu, 1 Jun 2023 15:53:45 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Dan Schatzberg <schatzberg.dan@gmail.com>,
-        Tejun Heo <tj@kernel.org>, Chris Down <chris@chrisdown.name>,
-        Zefan Li <lizefan.x@bytedance.com>,
+        with ESMTP id S229459AbjFAUKu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 16:10:50 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51B3D134;
+        Thu,  1 Jun 2023 13:10:48 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1685650245;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=chRIhlGc1ewVpa0H2/yhfREyLjRPBthRnCPNhZqy3w4=;
+        b=EqHSk8bEiOWSuwySTSmsQgtq830ssjROGQtit5HNEHYJ/gjR34yN8yXUz7ZMRh/Qnz3bsX
+        3q/i/8ubGcuRoJ9LNSOm4tE6yCne0OUWv7MBaao8tXdHM6EZkZUmK41E8orcToCH6B5LK7
+        Lmrcag+YuWD231i7hncnKtyPl2gvKJ78IKeMCI9gshnm6QdKevb0EZTNqShOV8AD8IiVcl
+        A1ru55rc0KpZTSV2CCf3S3ot8HR9GgiqOUILX/9fN/a/g8aZMRL8PrNgPR9x3YmDzfH5Dt
+        wgt12ihLEiy0/bVOzA41ZBMVyo2LuqhWOSBwWr2XKLDoM8BzfTK3qOgmTC2zZA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1685650245;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=chRIhlGc1ewVpa0H2/yhfREyLjRPBthRnCPNhZqy3w4=;
+        b=17MZUD2EjWUZBS3/xwGd6iUUcbbrPxMb6Kq6j0xq9Ck8dwTyIwKe7JOvBAYABUorn99+vq
+        wiodoJbf/sg1+ICg==
+To:     Steven Noonan <steven@uplinklabs.net>
+Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: Clarify usage of memory limits
-Message-ID: <20230601195345.GB157732@cmpxchg.org>
-References: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
- <e6ae97f4-cdae-e655-d118-a11b3d679fd6@redhat.com>
+        open list <linux-kernel@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>, kernel@collabora.com
+Subject: Re: Direct rdtsc call side-effect
+In-Reply-To: <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
+References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
+ <87mt1jeax1.ffs@tglx> <87h6rrdoy0.ffs@tglx>
+ <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
+Date:   Thu, 01 Jun 2023 22:10:45 +0200
+Message-ID: <871qivdjui.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e6ae97f4-cdae-e655-d118-a11b3d679fd6@redhat.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 01, 2023 at 03:15:28PM -0400, Waiman Long wrote:
-> On 6/1/23 14:38, Dan Schatzberg wrote:
-> > The existing documentation refers to memory.high as the "main mechanism
-> > to control memory usage." This seems incorrect to me - memory.high can
-> > result in reclaim pressure which simply leads to stalls unless some
-> > external component observes and actions on it (e.g. systemd-oomd can be
-> > used for this purpose). While this is feasible, users are unaware of
-> > this interaction and are led to believe that memory.high alone is an
-> > effective mechanism for limiting memory.
-> > 
-> > The documentation should recommend the use of memory.max as the
-> > effective way to enforce memory limits - it triggers reclaim and results
-> > in OOM kills by itself.
-> 
-> That is not how my understanding of memory.high works. When memory usage
-> goes past memory.high, memory reclaim will be initiated to reclaim the
-> memory back. Stall happens when memory.usage keep increasing like by
-> consuming memory faster than what memory reclaim can recover. When
-> memory.max is reached, OOM killer will then kill off the tasks.
+On Thu, Jun 01 2023 at 19:07, Steven Noonan wrote:
+> On Thursday, June 1st, 2023 at 11:20 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
+>> Here is an example where it falls flat on its nose.
+>> 
+>> One of the early Ryzen laptops had a broken BIOS which came up with
+>> unsynchronized TSCs. I tried to fix that up, but couldn't get it to sync
+>> on all CPUs because for some stupid reason the TSC write got
+>> arbritrarily delayed (assumably by SMI/SMM).
+>
+> Hah, I remember that. That was actually my laptop. A Lenovo ThinkPad
+> A485 with a Ryzen 2700U. I've seen the problem since then occasionally
+> on newer Ryzen laptops (and even desktops). Without the awful
+> "tsc=directsync" patch I wrote, which I've been carrying for years now
+> in my own kernel builds, it just falls back to HPET. It's not
+> pleasant, but at least it's a stable clock.
 
-This was the initial plan indeed: Slow down the workload and thus slow
-the growth; hope that the workload recovers with voluntary frees; set
-memory.max as a safety if it keeps going beyond.
+Well, yours seem at least to sync. The silly box I tried refused due to
+SMM value add magic.
 
-This never panned out. Once workloads are stuck, they might not back
-down on their own. By increasingly slowing growth, it becomes harder
-and harder for them to reach the memory.max intervention point.
+> Agreed, TSC_ADJUST is the ultimate solution for any of these kinds of
+> issues. But last I heard from AMD, it's still several years out in
+> silicon, and there's plenty of hardware to maintain compatibility
+> with. Ugh.
 
-It's a very brittle configuration strategy. Unless you very carefully
-calibrate memory.high and memory.max together with awareness of the
-throttling algorithm, workloads that hit memory.high will just go to
-sleep indefinitely. They require outside intervention that either
-adjusts limits or implements kill policies based on observed sleeps
-(they're reported as pressure via psi).
+Yes.
 
-So the common usecases today end up being that memory.max is for
-enforcing kernel OOM kills, and memory.high is a tool to implement
-userspace OOM killing policies.
+> A software solution would be preferable in the meantime, but I don't
+> know what options are left at this point.
 
-Dan is right to point out the additional expectations for userspace
-management when memory.high is in used. And memory.max is still the
-primary, works-out-of-the-box method of memory containment.
+Not that many.
+
+> The trap-and-emulate via SIGSEGV approach proposed earlier in the
+> thread is unfortunately not likely to be practical, assuming I
+> implemented it properly.
+
+That's why I said we need to ask Microsoft to do the same so that the
+applications get fixed. :)
+
+> Most Windows games that use this instruction directly are doing so
+> under the assumption that the TSC is faster to read than any of the
+> native Windows API clock sources.
+
+The recommended interface QueryPerformanceCounter() is actually not much
+slower and safe. But sure performance first and correctness is overrated.
+
+So back to the options:
+
+   1) Kernel
+
+      If at all then this needs to be disabled by default and enabled by
+      a command line option along with a big fat warning that it might
+      disable TSC for timekeeping and bug reports related to this are
+      going to be ignored.
+
+      Honestly I'm not too interested in this. It's yet another piece of
+      art which needs to be maintained and kept alive for a long time.
+
+      The fact that we need to check for synchronized TSCs in the first
+      place is hillarious already. TSC_ADJUST makes the resynchronization
+      attempt at least halfways sensible.
+
+      Without it, it's just a pile of never going to be correct
+      heuristics with a flood of "this fixes it for my machine (and
+      breaks the rest)" patches.
+
+
+   2) Binary patching
+
+      Unfortunately RDTSC is only a two byte instruction, but there are
+      enough advanced binary patching tools to deal with that.
+
+      It might be a completely crazy idea, but I wouldn't dismiss it
+      before trying.
+
+Thanks,
+
+        tglx
+
+      
+      
