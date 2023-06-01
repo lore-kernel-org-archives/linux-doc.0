@@ -2,103 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E489DC77B7A
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 18:20:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C42C77B7E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 18:38:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231258AbjFASUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 14:20:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56344 "EHLO
+        id S232986AbjFASi1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 14:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231653AbjFASUq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 14:20:46 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3036F1A1;
-        Thu,  1 Jun 2023 11:20:42 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1685643640;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=CNltx9NDvm+OFNXI1L4w30XEBvloNgIO3y8bVWYDrIM=;
-        b=BdVhrvQlOYVHGgHmU7sjV76MXVHPlm6F5z2GWHVOlu6kGKpdOFrMw3ROtpALV4V1iVa7rB
-        Yuzws9M/Hm6Z4xtl2jRUzIyCagWemy+W8G7LDvmM0CTFcwoCVNLW3imu5SUSC61ecWutvq
-        ih7SLxsWOdMZ/SjFdA196XLzIvcWjYY6DNiuKFfzRMBInSe13ZSriLZef/BKzNYAmoavtp
-        nsCOmZTxcIFMu8Fc0Sv/7fMhxrToLBoJiVLYgQvQnm9F0o1+p3jzUqTAyhSLcmH0DTD480
-        ai8ngFYungyu7xaS3bZXNdGNmkBVLGH3XYRYGUA597XfgsS84EUbc6uAin8sjg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1685643640;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=CNltx9NDvm+OFNXI1L4w30XEBvloNgIO3y8bVWYDrIM=;
-        b=e8b2hcjpsAod9hIu5JWZDiQuGBbkRWTcJggRVunU9vsqsYDXfYYbO1Qp58L+EVMjX3D1hy
-        8ufBpd4dTHzJNtBQ==
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        with ESMTP id S232344AbjFASi0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 14:38:26 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139F3197;
+        Thu,  1 Jun 2023 11:38:24 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-3f6b24467deso8925261cf.1;
+        Thu, 01 Jun 2023 11:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685644703; x=1688236703;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SzJSGye10y66Z1Cc9RFPHp9tWIbjNHpbJLhF+8yAFeo=;
+        b=Cbq9QM48Z6LYiuI0eqBqMNi7B0znBZKapVJt0GVsuDyMvxSqOoOaZQwp2T7lMVU3Zx
+         6vyB5naOztqPiso2+220gnQtd5JjVJaDbxaSttSMzTcSWj7SkAmBNaK0txhjVmruGo+/
+         +3t+dYZtvMALXnh2JgVqXPKP8guWh5uH9XCkoiW/N5iJCZ6PGIXJJwiRHdmdG3AHwoBp
+         qqhA5WQUBLDTM1vLp6buhENr6YcISGoSQ3IIOvGhEYBUDgs4Fl0Ff3uXdG3CNyiYJ8lW
+         kRbvXZro2PrOnkACkh0cd0Dlgbld8n02Cm03eJWGZukFomSV8qEO+7S2BoCbecgv/4a0
+         SXLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685644703; x=1688236703;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SzJSGye10y66Z1Cc9RFPHp9tWIbjNHpbJLhF+8yAFeo=;
+        b=LDlGsl4BP6ueJwLYbEf6I8bJMQo1VYFUifnLzb8iTVlWIFWA/Eey7apCSDJjsuUsBK
+         MDCupYTbOHB/SamzHqS+fz/hNnVnnUKg7OBrC51+nyM2Y+0Y5LJ0FETAEFuhifr/b+9B
+         Gb1jjc9CKc/VfgiPluOdvNGPy2ChSPYCtuVC22f9KxQ/0ROiTlzxN757tamsNjPvumKf
+         dU4ls9Vda8a8MdHkbRYzQwt5KYCg28k2T4vXdWhaPTk/oI8WBuLccK3RbmYaFOMfk0PG
+         TyHmop8yA06VRKr5NVuHt+Hdel5RzRCByk3RHZF+PFb+Mjnpnd5vGoyNs0e57dQpzbXp
+         ZDkg==
+X-Gm-Message-State: AC+VfDwCRo0GG8kRRTiv0vMEZ3gxxOrK9OU5xXvWesupchsvCV2+HSiD
+        gqkQ3MeQt1tiaHBNe0ILjjNG60sQXn0=
+X-Google-Smtp-Source: ACHHUZ5gbo+qw/W30N9qnWYAcqPQlVEp2ix3dGgsoRU7xMnCUyp7qp2704alYU1ZDDNBeYJGOQhQ0w==
+X-Received: by 2002:ac8:5d91:0:b0:3f5:543:4c46 with SMTP id d17-20020ac85d91000000b003f505434c46mr10419890qtx.53.1685644703076;
+        Thu, 01 Jun 2023 11:38:23 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:500::4:753b])
+        by smtp.gmail.com with ESMTPSA id j21-20020ac85f95000000b003f6b8a6fd18sm8053703qta.96.2023.06.01.11.38.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jun 2023 11:38:22 -0700 (PDT)
+From:   Dan Schatzberg <schatzberg.dan@gmail.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Chris Down <chris@chrisdown.name>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Steven Noonan <steven@uplinklabs.net>, kernel@collabora.com
-Subject: Re: Direct rdtsc call side-effect
-In-Reply-To: <87mt1jeax1.ffs@tglx>
-References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
- <87mt1jeax1.ffs@tglx>
-Date:   Thu, 01 Jun 2023 20:20:39 +0200
-Message-ID: <87h6rrdoy0.ffs@tglx>
+        cgroups@vger.kernel.org (open list:CONTROL GROUP (CGROUP)),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] Documentation: Clarify usage of memory limits
+Date:   Thu,  1 Jun 2023 11:38:19 -0700
+Message-Id: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 01 2023 at 12:26, Thomas Gleixner wrote:
-> On Thu, Jun 01 2023 at 13:45, Muhammad Usama Anjum wrote:
->> We are thinking of saving and restoring the timestamp counter at suspend
->> and resume time respectively.
+The existing documentation refers to memory.high as the "main mechanism
+to control memory usage." This seems incorrect to me - memory.high can
+result in reclaim pressure which simply leads to stalls unless some
+external component observes and actions on it (e.g. systemd-oomd can be
+used for this purpose). While this is feasible, users are unaware of
+this interaction and are led to believe that memory.high alone is an
+effective mechanism for limiting memory.
 
-I assume you talk about suspend to disk here, right? Suspend to RAM
-definitely does not have the problem at least not on any halfways
-contemporary CPU.
+The documentation should recommend the use of memory.max as the
+effective way to enforce memory limits - it triggers reclaim and results
+in OOM kills by itself.
 
->>  In theory it can work on Intel because of
->> TSC_ADJUST register. But it'll never work on AMD until:
->> * AMD supports the same kind of adjust register. (AMD has said that the
->> adjust register cannot be implemented in their firmware. They'll have to
->> add it to their hardware.)
->> * by manual synchronization in kernel (I know you don't like this idea. But
->> there is something Windows is doing to save/restore and sync the TSC)
->
-> Synchronizing TSC by writing the TSC MSR is fragile as hell. This has
-> been tried so often and never reliably passed all synchronization tests
-> on a wide range of systems.
->
-> It kinda works on single socket, but not on larger systems.
+Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-Here is an example where it falls flat on its nose.
-
- One of the early Ryzen laptops had a broken BIOS which came up with
- unsynchronized TSCs. I tried to fix that up, but couldn't get it to sync
- on all CPUs because for some stupid reason the TSC write got
- arbritrarily delayed (assumably by SMI/SMM).
-
- After the vendor fixed the BIOS, I tried again and the problem
- persisted.
-
- So on such a machine the 'fixup time' mechanism would simply render an
- otherwise perfectly fine TSC unusable for timekeeping.
-
-We asked both Intel and AMD to add TSC_ADJUST probably 15 years
-ago. Intel added it with some HSW variants (IIRC) and since SKL all CPUs
-have it. I don't know why AMD thought it's not required. That could have
-spared a gazillion of bugzilla entries vs. the early Ryzen machines.
-
-Thanks,
-
-        tglx
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index f67c0829350b..e592a9364473 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1213,23 +1213,25 @@ PAGE_SIZE multiple when read back.
+ 	A read-write single value file which exists on non-root
+ 	cgroups.  The default is "max".
+ 
+-	Memory usage throttle limit.  This is the main mechanism to
+-	control memory usage of a cgroup.  If a cgroup's usage goes
++	Memory usage throttle limit.  If a cgroup's usage goes
+ 	over the high boundary, the processes of the cgroup are
+ 	throttled and put under heavy reclaim pressure.
+ 
+ 	Going over the high limit never invokes the OOM killer and
+-	under extreme conditions the limit may be breached.
++	under extreme conditions the limit may be breached. The high
++	limit should be used in scenarios where an external process
++	monitors the limited cgroup to alleviate heavy reclaim
++	pressure.
+ 
+   memory.max
+ 	A read-write single value file which exists on non-root
+ 	cgroups.  The default is "max".
+ 
+-	Memory usage hard limit.  This is the final protection
+-	mechanism.  If a cgroup's memory usage reaches this limit and
+-	can't be reduced, the OOM killer is invoked in the cgroup.
+-	Under certain circumstances, the usage may go over the limit
+-	temporarily.
++	Memory usage hard limit.  This is the main mechanism to limit
++	memory usage of a cgroup.  If a cgroup's memory usage reaches
++	this limit and can't be reduced, the OOM killer is invoked in
++	the cgroup. Under certain circumstances, the usage may go
++	over the limit temporarily.
+ 
+ 	In default configuration regular 0-order allocations always
+ 	succeed unless OOM killer chooses current task as a victim.
+@@ -1238,10 +1240,6 @@ PAGE_SIZE multiple when read back.
+ 	Caller could retry them differently, return into userspace
+ 	as -ENOMEM or silently ignore in cases like disk readahead.
+ 
+-	This is the ultimate protection mechanism.  As long as the
+-	high limit is used and monitored properly, this limit's
+-	utility is limited to providing the final safety net.
+-
+   memory.reclaim
+ 	A write-only nested-keyed file which exists for all cgroups.
+ 
+-- 
+2.34.1
 
