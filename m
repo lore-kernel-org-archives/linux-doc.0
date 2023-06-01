@@ -2,165 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4218FC77B7E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 17:39:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E489DC77B7A
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 18:20:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232900AbjFARjo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 13:39:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36614 "EHLO
+        id S231258AbjFASUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 14:20:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231346AbjFARjn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 13:39:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D304136;
-        Thu,  1 Jun 2023 10:39:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EE33E64860;
-        Thu,  1 Jun 2023 17:39:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60D9AC4339E;
-        Thu,  1 Jun 2023 17:39:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685641181;
-        bh=rOyxKwyKoD8JRFg4gUZg/5MsYAzctjBiJEmXXIw+2Pg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=o/tcJHGXDGK+Cmz0WPMH9eqt4DXVRB87b+bOc4yCFZZx+pNoEHu0L6Kk/WHl5TZCQ
-         v4wg++ka5L5/koa89l5lEtczt9Lp/CS49/lq9S/D/gsV6IN2cJNGZcqlW9mzDWtgf8
-         kSPa6HE9uQjRqdmZMZGwEA+2H5w1XPFs1bwtf87IXl053GkxGBjbRGWwQEhiSemK34
-         SURRDqI9JYl4AuMZSjsgfbIzfuYI4ScXci6h+5ayJwzrwQeS7v4C8WHfjDAbGm6Wt7
-         HhKwh2oygRzaHVjZAo7rCNsfYsqW/i3EtbygDwQjD02rjzFKXYyUdDoEjObai2iibs
-         UOf6kgrQWTHWg==
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-45c6c6e0ab2so599177e0c.1;
-        Thu, 01 Jun 2023 10:39:41 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzzxOBgQs22Zp+fPZ5LbXE5al098PVjDPukZSVDJiG9ue70wnq0
-        mTIF1LqBegezr4klJ3rP77T6/6P+iMKs1xV/gVo=
-X-Google-Smtp-Source: ACHHUZ7saBfaT5uX7NLiJU4LIkIoXw37eBnBmjdUSiEWtD7RMOu14iPsR47csoQHy7I8rQlHKSda/v96q9Noy2qP/FE=
-X-Received: by 2002:aca:ead6:0:b0:398:2f7f:a5cd with SMTP id
- i205-20020acaead6000000b003982f7fa5cdmr1228908oih.24.1685641160132; Thu, 01
- Jun 2023 10:39:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230531130833.635651916@infradead.org> <20230531132323.722039569@infradead.org>
- <70a69deb-7ad4-45b2-8e13-34955594a7ce@app.fastmail.com> <20230601101409.GS4253@hirez.programming.kicks-ass.net>
- <14c50e58-fecc-e96a-ee73-39ef4e4617c7@gmx.de> <CAHk-=whL65CLuy9D9gyO608acM5WLWo_ggAMP1cGu2XvyC0-hA@mail.gmail.com>
-In-Reply-To: <CAHk-=whL65CLuy9D9gyO608acM5WLWo_ggAMP1cGu2XvyC0-hA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 2 Jun 2023 02:38:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATxpUK+w=VAkhLZserLr4cMk2ffSr+qzzZwuZ6DKWA0mw@mail.gmail.com>
-Message-ID: <CAK7LNATxpUK+w=VAkhLZserLr4cMk2ffSr+qzzZwuZ6DKWA0mw@mail.gmail.com>
-Subject: Re: [PATCH v2 07/12] parisc/percpu: Work around the lack of __SIZEOF_INT128__
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Helge Deller <deller@gmx.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        with ESMTP id S231653AbjFASUq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 14:20:46 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3036F1A1;
+        Thu,  1 Jun 2023 11:20:42 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1685643640;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=CNltx9NDvm+OFNXI1L4w30XEBvloNgIO3y8bVWYDrIM=;
+        b=BdVhrvQlOYVHGgHmU7sjV76MXVHPlm6F5z2GWHVOlu6kGKpdOFrMw3ROtpALV4V1iVa7rB
+        Yuzws9M/Hm6Z4xtl2jRUzIyCagWemy+W8G7LDvmM0CTFcwoCVNLW3imu5SUSC61ecWutvq
+        ih7SLxsWOdMZ/SjFdA196XLzIvcWjYY6DNiuKFfzRMBInSe13ZSriLZef/BKzNYAmoavtp
+        nsCOmZTxcIFMu8Fc0Sv/7fMhxrToLBoJiVLYgQvQnm9F0o1+p3jzUqTAyhSLcmH0DTD480
+        ai8ngFYungyu7xaS3bZXNdGNmkBVLGH3XYRYGUA597XfgsS84EUbc6uAin8sjg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1685643640;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=CNltx9NDvm+OFNXI1L4w30XEBvloNgIO3y8bVWYDrIM=;
+        b=e8b2hcjpsAod9hIu5JWZDiQuGBbkRWTcJggRVunU9vsqsYDXfYYbO1Qp58L+EVMjX3D1hy
+        8ufBpd4dTHzJNtBQ==
+To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>, dennis@kernel.org,
-        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
-        Heiko Carstens <hca@linux.ibm.com>, gor@linux.ibm.com,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        borntraeger@linux.ibm.com, Sven Schnelle <svens@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
-        suravee.suthikulpanit@amd.com, Robin Murphy <robin.murphy@arm.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Baolu Lu <baolu.lu@linux.intel.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-crypto@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        linux-parisc@vger.kernel.org,
-        John David Anglin <dave.anglin@bell.net>,
-        Sam James <sam@gentoo.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Steven Noonan <steven@uplinklabs.net>, kernel@collabora.com
+Subject: Re: Direct rdtsc call side-effect
+In-Reply-To: <87mt1jeax1.ffs@tglx>
+References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
+ <87mt1jeax1.ffs@tglx>
+Date:   Thu, 01 Jun 2023 20:20:39 +0200
+Message-ID: <87h6rrdoy0.ffs@tglx>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 1, 2023 at 10:29=E2=80=AFPM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Thu, Jun 01 2023 at 12:26, Thomas Gleixner wrote:
+> On Thu, Jun 01 2023 at 13:45, Muhammad Usama Anjum wrote:
+>> We are thinking of saving and restoring the timestamp counter at suspend
+>> and resume time respectively.
+
+I assume you talk about suspend to disk here, right? Suspend to RAM
+definitely does not have the problem at least not on any halfways
+contemporary CPU.
+
+>>  In theory it can work on Intel because of
+>> TSC_ADJUST register. But it'll never work on AMD until:
+>> * AMD supports the same kind of adjust register. (AMD has said that the
+>> adjust register cannot be implemented in their firmware. They'll have to
+>> add it to their hardware.)
+>> * by manual synchronization in kernel (I know you don't like this idea. But
+>> there is something Windows is doing to save/restore and sync the TSC)
 >
-> On Thu, Jun 1, 2023 at 6:32=E2=80=AFAM Helge Deller <deller@gmx.de> wrote=
-:
-> >
-> > I don't think we need to care about gcc-10 on parisc.
-> > Debian and Gentoo are the only supported distributions, while Debian
-> > requires gcc-12 to build > 6.x kernels, and I assume Gentoo uses at lea=
-st
-> > gcc-12 as well.
-> >
-> > So raising the gcc limit for parisc only (at least temporarily for now)
-> > should be fine and your workaround below wouldn't be necessary, right?
+> Synchronizing TSC by writing the TSC MSR is fragile as hell. This has
+> been tried so often and never reliably passed all synchronization tests
+> on a wide range of systems.
 >
-> This absolutely sounds like the right option. Let's simplify the
-> problem space by just saying that parisc needs the newer compiler.
->
-> Right now we have that "minimum gcc version" in a somewhat annoying
-> place: it's in the ./scripts/min-tool-version.sh file as a shell
-> script.
->
-> I wonder if we could move the gcc minimum version check into the
-> Kconfig file instead, and make it easier to let architectures override
-> the minimum version.
+> It kinda works on single socket, but not on larger systems.
 
-Currently, it is invoked in the Kconfig time,
-but not directly in Kconfig files.
+Here is an example where it falls flat on its nose.
 
-scripts/Kconfig.include
- -> scripts/cc-version.sh
-    -> scripts/min-tool-version.sh
+ One of the early Ryzen laptops had a broken BIOS which came up with
+ unsynchronized TSCs. I tried to fix that up, but couldn't get it to sync
+ on all CPUs because for some stupid reason the TSC write got
+ arbritrarily delayed (assumably by SMI/SMM).
 
-It would be ugly if we wrote the equivalent code
-directly in Kconfig files.
+ After the vendor fixed the BIOS, I tried again and the problem
+ persisted.
 
+ So on such a machine the 'fixup time' mechanism would simply render an
+ otherwise perfectly fine TSC unusable for timekeeping.
 
->
-> I don't quite know how to do that sanely, though. I don't think we
-> have a sane way to error out at Kconfig time (except by forcing some
-> syntax error inside an 'if' statement or something horrendously hacky
-> like that).
+We asked both Intel and AMD to add TSC_ADJUST probably 15 years
+ago. Intel added it with some HSW variants (IIRC) and since SKL all CPUs
+have it. I don't know why AMD thought it's not required. That could have
+spared a gazillion of bugzilla entries vs. the early Ryzen machines.
 
-The parse stage can fail by $(error-if ) macro, but
-the evaluation stage never fails. I think it is a design.
+Thanks,
 
-I think checking the compiler version during the parse stage
-makes sense given the current situation. The compiler version is
-fixed when Kconfig starts. If the compiler is found to be too old,
-there is no meaning to proceed.
+        tglx
 
-
-You suggested to choose a compiler in the Kconfig time:
-https://lore.kernel.org/lkml/CAHk-=3DwhdrvCkSWh=3DBRrwZwNo3=3DyLBXXM88NGx8V=
-EpP1VTgmkyQ@mail.gmail.com/
-
-When we achieve that, moving the min version to Kconfig files will be
-the right thing to do. Then, everything will be evaluated dynamically.
-
-
->
-> Added Masahiro to the (already overlong) participants list.
->
->                    Linus
-
-
-
---=20
-Best Regards
-Masahiro Yamada
