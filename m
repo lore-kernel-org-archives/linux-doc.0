@@ -2,149 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4700C77B7E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 19:08:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D52DFC7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 19:16:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231365AbjFATIL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 15:08:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54452 "EHLO
+        id S230268AbjFATQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 15:16:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbjFATIK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 15:08:10 -0400
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F049F184;
-        Thu,  1 Jun 2023 12:08:03 -0700 (PDT)
-Date:   Thu, 01 Jun 2023 19:07:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uplinklabs.net;
-        s=protonmail; t=1685646480; x=1685905680;
-        bh=lovUSrk93ENXOhw8lq+zt1tvyB45dc+7JHQ1bHcHwCY=;
-        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-         Message-ID:BIMI-Selector;
-        b=eqBIFUXyFnfkuDCUZzZLc82UrgimdrumUq0evWnuDTVgSEMc6wj7aYVVtxBs9tv4l
-         tOETU39au2AkYJEx+aGHwlPBJCMvh8Rx/Gcpw2BnPQz/QFGEOo/Fw2rjmoO81ADhC7
-         /1ceHpAHBW6pteof5+L/07v30IfL72OyGTOHgiroFlFTL3Uky9nUQwcJSQ4alQhYie
-         0pNFPSrhzX8jW1sE7gPMNBiS+ZscISyEuEE0ZAdglV5Z/BnmVvVTOeWBOvOLz9+oXk
-         sCtt0lkY7PQglZZhgVu+S6tBjP68oIGt8P/x4YtI/8QvQj0mZp4qIcspNl3d30jMkK
-         RjkZV+mVA7vJw==
-To:     Thomas Gleixner <tglx@linutronix.de>
-From:   Steven Noonan <steven@uplinklabs.net>
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>, kernel@collabora.com
-Subject: Re: Direct rdtsc call side-effect
-Message-ID: <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
-In-Reply-To: <87h6rrdoy0.ffs@tglx>
-References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com> <87mt1jeax1.ffs@tglx> <87h6rrdoy0.ffs@tglx>
-Feedback-ID: 10620438:user:proton
+        with ESMTP id S229536AbjFATQV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 15:16:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1859913E
+        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 12:15:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1685646935;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sTw7D4C+tdrDjUAl3eL33ndjxBJJWM8+IdlGnpSawqo=;
+        b=h6PBIzajQ/GDMTjuw8eGYueQBUAGg5JwMQDTM0oYm27sKOv121/MIeA9d1CV6jCuHxxRzL
+        i8ryzcPpiO/i79Zp011GuuyZNTiRPUxVdOXeLikJag027Apkp3o8pcPNnuWgrz32gQdTyb
+        sQtH+fjAwxfnI93KuIdz9rapi2iQf5A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-126-VjBtih65NBieEvKm0UOqAg-1; Thu, 01 Jun 2023 15:15:30 -0400
+X-MC-Unique: VjBtih65NBieEvKm0UOqAg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82189800B2A;
+        Thu,  1 Jun 2023 19:15:29 +0000 (UTC)
+Received: from [10.22.8.52] (unknown [10.22.8.52])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E1EA9202696C;
+        Thu,  1 Jun 2023 19:15:28 +0000 (UTC)
+Message-ID: <e6ae97f4-cdae-e655-d118-a11b3d679fd6@redhat.com>
+Date:   Thu, 1 Jun 2023 15:15:28 -0400
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------796aa968aad2e57f8079f70824c4c45caea1f91b291b6bed56b8f34038fce5eb"; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] Documentation: Clarify usage of memory limits
+Content-Language: en-US
+To:     Dan Schatzberg <schatzberg.dan@gmail.com>,
+        Tejun Heo <tj@kernel.org>
+Cc:     Chris Down <chris@chrisdown.name>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------796aa968aad2e57f8079f70824c4c45caea1f91b291b6bed56b8f34038fce5eb
-Content-Type: multipart/mixed;boundary=---------------------17872929c4a151b04539e62bfec4da60
-
------------------------17872929c4a151b04539e62bfec4da60
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
-
-On Thursday, June 1st, 2023 at 11:20 AM, Thomas Gleixner <tglx@linutronix.=
-de> wrote:
-> Here is an example where it falls flat on its nose.
-> =
-
-
-> One of the early Ryzen laptops had a broken BIOS which came up with
-> unsynchronized TSCs. I tried to fix that up, but couldn't get it to sync
-> on all CPUs because for some stupid reason the TSC write got
-> arbritrarily delayed (assumably by SMI/SMM).
-
-Hah, I remember that. That was actually my laptop. A Lenovo ThinkPad A485 =
-with a Ryzen 2700U. I've seen the problem since then occasionally on newer=
- Ryzen laptops (and even desktops). Without the awful "tsc=3Ddirectsync" p=
-atch I wrote, which I've been carrying for years now in my own kernel buil=
-ds, it just falls back to HPET. It's not pleasant, but at least it's a sta=
-ble clock.
-
-> After the vendor fixed the BIOS, I tried again and the problem
-> persisted.
-> =
-
-
-> So on such a machine the 'fixup time' mechanism would simply render an
-> otherwise perfectly fine TSC unusable for timekeeping.
-> =
-
-
-> We asked both Intel and AMD to add TSC_ADJUST probably 15 years
-> ago. Intel added it with some HSW variants (IIRC) and since SKL all CPUs
-> have it. I don't know why AMD thought it's not required. That could have
-> spared a gazillion of bugzilla entries vs. the early Ryzen machines.
+On 6/1/23 14:38, Dan Schatzberg wrote:
+> The existing documentation refers to memory.high as the "main mechanism
+> to control memory usage." This seems incorrect to me - memory.high can
+> result in reclaim pressure which simply leads to stalls unless some
+> external component observes and actions on it (e.g. systemd-oomd can be
+> used for this purpose). While this is feasible, users are unaware of
+> this interaction and are led to believe that memory.high alone is an
+> effective mechanism for limiting memory.
 >
+> The documentation should recommend the use of memory.max as the
+> effective way to enforce memory limits - it triggers reclaim and results
+> in OOM kills by itself.
 
-Agreed, TSC_ADJUST is the ultimate solution for any of these kinds of issu=
-es. But last I heard from AMD, it's still several years out in silicon, an=
-d there's plenty of hardware to maintain compatibility with. Ugh.
+That is not how my understanding of memory.high works. When memory usage 
+goes past memory.high, memory reclaim will be initiated to reclaim the 
+memory back. Stall happens when memory.usage keep increasing like by 
+consuming memory faster than what memory reclaim can recover. When 
+memory.max is reached, OOM killer will then kill off the tasks.
 
-A software solution would be preferable in the meantime, but I don't know =
-what options are left at this point.
+IOW, memory consumption should not go past memory.high in normal usage 
+scenario. I believe what you describe here isn't quite correct.
 
-The trap-and-emulate via SIGSEGV approach proposed earlier in the thread i=
-s unfortunately not likely to be practical, assuming I implemented it prop=
-erly.
+Cheers,
+Longman
 
-One issue is how much overhead it has. This is an instruction that normall=
-y executes in roughly 50 clock cycles (RDTSC) to 100 clock cycles (RDTSCP)=
- on Zen 3. Based on a proof-of-concept I wrote, the overhead of trapping a=
-nd emulating with a signal handler is roughly 100x. On my Zen 3 system, it=
- goes up to around 10000 clock cycles per trapped read of RDTSCP. Most Win=
-dows games that use this instruction directly are doing so under the assum=
-ption that the TSC is faster to read than any of the native Windows API cl=
-ock sources. If it's suddenly ~100x slower than even the slowest-to-read W=
-indows clocksource, those games would likely become entirely unplayable, d=
-epending on how frequently they do TSC reads. (And many do so quite often!=
-)
-
-Also, my proof-of-concept doesn't actually do the emulation part. It just =
-traps the instruction and then executes that same instruction in the signa=
-l handler, putting the results in the right registers. So it's a pass-thro=
-ugh approach, which is about the best you can do performance wise.
-
-Another issue is that the implementation might be tricky. In the case of W=
-ine, you'd need to enable PR_TSC_SIGSEGV whenever entering the Windows exe=
-cutable and PR_TSC_ENABLE whenever leaving it. If you don't, any of the no=
-rmally well-behaved clock sources implemented using the TSC (e.g. CLOCK_MO=
-NOTONIC_RAW, etc) would also fault on the Wine side. Also, there's some Wi=
-ndows-specific trickery, in that the Windows registry exposes the TSC freq=
-uency in a couple of places, so those would need to be replaced with the f=
-requency of the emulated clocksource.
-
-- Steven
------------------------17872929c4a151b04539e62bfec4da60--
-
---------796aa968aad2e57f8079f70824c4c45caea1f91b291b6bed56b8f34038fce5eb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wnUEARYKACcFgmR47GEJkAi2TYeeRSZQFiEE707zOy6TKdatSeTPCLZNh55F
-JlAAAJDdAQD0c+SXDqA1PASyKgtok2FQ+jAcie8g0u2Rd/Grlp49QwEAzASw
-DKrwVDCAWWVHMgksqgsdcchcU5d4UJu9AW2nIAk=
-=lfCX
------END PGP SIGNATURE-----
-
-
---------796aa968aad2e57f8079f70824c4c45caea1f91b291b6bed56b8f34038fce5eb--
+> Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
+> ---
+>   Documentation/admin-guide/cgroup-v2.rst | 22 ++++++++++------------
+>   1 file changed, 10 insertions(+), 12 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index f67c0829350b..e592a9364473 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1213,23 +1213,25 @@ PAGE_SIZE multiple when read back.
+>   	A read-write single value file which exists on non-root
+>   	cgroups.  The default is "max".
+>   
+> -	Memory usage throttle limit.  This is the main mechanism to
+> -	control memory usage of a cgroup.  If a cgroup's usage goes
+> +	Memory usage throttle limit.  If a cgroup's usage goes
+>   	over the high boundary, the processes of the cgroup are
+>   	throttled and put under heavy reclaim pressure.
+>   
+>   	Going over the high limit never invokes the OOM killer and
+> -	under extreme conditions the limit may be breached.
+> +	under extreme conditions the limit may be breached. The high
+> +	limit should be used in scenarios where an external process
+> +	monitors the limited cgroup to alleviate heavy reclaim
+> +	pressure.
+>   
+>     memory.max
+>   	A read-write single value file which exists on non-root
+>   	cgroups.  The default is "max".
+>   
+> -	Memory usage hard limit.  This is the final protection
+> -	mechanism.  If a cgroup's memory usage reaches this limit and
+> -	can't be reduced, the OOM killer is invoked in the cgroup.
+> -	Under certain circumstances, the usage may go over the limit
+> -	temporarily.
+> +	Memory usage hard limit.  This is the main mechanism to limit
+> +	memory usage of a cgroup.  If a cgroup's memory usage reaches
+> +	this limit and can't be reduced, the OOM killer is invoked in
+> +	the cgroup. Under certain circumstances, the usage may go
+> +	over the limit temporarily.
+>   
+>   	In default configuration regular 0-order allocations always
+>   	succeed unless OOM killer chooses current task as a victim.
+> @@ -1238,10 +1240,6 @@ PAGE_SIZE multiple when read back.
+>   	Caller could retry them differently, return into userspace
+>   	as -ENOMEM or silently ignore in cases like disk readahead.
+>   
+> -	This is the ultimate protection mechanism.  As long as the
+> -	high limit is used and monitored properly, this limit's
+> -	utility is limited to providing the final safety net.
+> -
+>     memory.reclaim
+>   	A write-only nested-keyed file which exists for all cgroups.
+>   
 
