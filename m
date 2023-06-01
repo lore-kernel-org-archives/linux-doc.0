@@ -2,90 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0968C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 19:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15F83C77B7A
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 19:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231259AbjFATge (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 15:36:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34678 "EHLO
+        id S230174AbjFATxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 15:53:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229992AbjFATgd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 15:36:33 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5384699
-        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 12:36:32 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-3f6b9ad956cso9570791cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Jun 2023 12:36:32 -0700 (PDT)
+        with ESMTP id S229596AbjFATxt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 15:53:49 -0400
+Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93BCF18F
+        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 12:53:47 -0700 (PDT)
+Received: by mail-vk1-xa34.google.com with SMTP id 71dfb90a1353d-45bcbd77636so350627e0c.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 Jun 2023 12:53:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20221208.gappssmtp.com; s=20221208; t=1685648191; x=1688240191;
+        d=cmpxchg-org.20221208.gappssmtp.com; s=20221208; t=1685649226; x=1688241226;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YMBOA4WH9GmX8va2TeN6IF1hKckQ4hk2vM+qJu7Yuk8=;
-        b=JKQScWQlepZwk1rwr8D4B8rhFPkzPfrRjo7oBWfw+nEP9EfqxAcT+QW4osjwPhmT5Q
-         ZQV6JWXs8rJRB3wOSil33aA6VH95iOYN6NoX5pyxPzvm5t4sMk6BhLLDlzYUm0BDj51b
-         NzeK/c8Vw1d6f0CTxvogTrH8Jj3bZjQMBYb3ccX2/bMjCwpvFGw6aikcmLyNiBcs4KEU
-         czOUcxsiQkOFgG8W7JYe0fmkQADh9wc7yDtbyUxt+Mn4vHqjpz7R6q6mj9tnNkmcZpcb
-         6qOD1px5L7EOtewVnd2LWHez4iP7SCtbcRjjzfJCt5Ov8Ju3NzRD7iK3yEysqmi3RAWk
-         z6WA==
+        bh=w3wsMJdspm7z8NQJJLLZwkqA93PAgwpcnaWodZ7jv3E=;
+        b=zyyOiaeKEXDVRnfiSYoFMNi6zsJHqBMzLi1N71yQ7rl7aeNEFHJXtP/mYtCzWz4vS4
+         xsz4tLWaE8JItcAX+DEptMCyTHfeB9DRdmrgQlGvcnH6Yl/FDqrvnM7uIBOc57vAd36K
+         893GToJbh29EIbLSuehhEcEzgR44PkZ4HJ6WbDP5o9bnyLxjQLoqrSBeaSn8POUq+7B+
+         +mW6QF5qavI2dyw2VQsbJ8bHGPBZdxwt9/ZLNlul87Bxzps2UybEE9KXZqNJbAPlyNZL
+         exbRvpQrRHE2RtkiVYlsJLqQ5c7NZKsHEGeKJBQa++X3ICWdJXUyXTTjBt7iNaSO80G8
+         /3IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685648191; x=1688240191;
+        d=1e100.net; s=20221208; t=1685649226; x=1688241226;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YMBOA4WH9GmX8va2TeN6IF1hKckQ4hk2vM+qJu7Yuk8=;
-        b=dvlEiGF53l1S5MG5EeiIZ5s3Uqt89EN92aSPJoVR9Zu5UKwPPDGrBQTNrB1UYx8q8E
-         wRJKQt712sVIfJMn3TYz2lMYAPAiW5i1Pi5Lvc0/NFvd520DEHl7FGW704DZ5G7qNKee
-         lRR7c1rZ5nIgPduwsnM6MfW6dwfoOeB1b0gE9h/C2sa15xkt2RKMvj7tbrz6dlmkvLhS
-         PhVhTveJOEabdhrlv4xeoOz/y1/S2yp/3bo04uZms7f8x+dOf1FYtpxztv/iqVkcldbL
-         /wdRdGkyPNmrbs2hSTXdDfbw44G0bnQz5j4Av3Z8LPTC3lt2N74TYPs0GN78LSWz1vFA
-         9iMg==
-X-Gm-Message-State: AC+VfDz8lL/b9On6kjZwVg27+ihvSR2v2unna6t3re6QZJO+kXytKs/X
-        QRSjXTXSjovF0wVhCg1EZkxLdw==
-X-Google-Smtp-Source: ACHHUZ7CZ13+q3p59s8LZm39fYm6itDCPooJs/hGoBcJsKdzQMerh2esQX0ar5jZ58mA8fqbfZLxrQ==
-X-Received: by 2002:a05:622a:4d:b0:3f7:fcb1:3153 with SMTP id y13-20020a05622a004d00b003f7fcb13153mr11551235qtw.30.1685648191239;
-        Thu, 01 Jun 2023 12:36:31 -0700 (PDT)
+        bh=w3wsMJdspm7z8NQJJLLZwkqA93PAgwpcnaWodZ7jv3E=;
+        b=L+ICcO99qhQZQTNmbXP29UmGCz/KB1n0Pt/BKmolog7/u4/cj/VuLrmD7FRXZxtTnM
+         Po0pdSHZs5kZ+i4BpaHcE9Yubw0kR+cHq43rlKFuATNR+3XEfju791n2sSviea8uRzMy
+         LinE3q+o8Ad7QnzHx4jFe7HHDiavjsbJqTxiAVO1rqbYazDiOw0Yp4BL8Jz9fhhO0AtJ
+         jUY3QjHzFFN5w60i3NtwmoW3uykJS880eVju4FL+2AwxxEFCu5Y+IV7ITNrMdPxvTkqT
+         jauI5T1UwA8CqDjiYRRDndZTzVWh2MQfcMnWu2cr9PdZHQzQtDCe7cxiQZWHOioUdy6z
+         iUCw==
+X-Gm-Message-State: AC+VfDzMmEVkY2I5BBq9akM96Ovfc5CtoHR0EappF/E4lP+K5XXjPXRw
+        JIV0xrtEcwwYWNm0JWEAjdDWQg==
+X-Google-Smtp-Source: ACHHUZ7JzeVdZ8ci8HY2hlPjcJMvaslhq2x8FpwT0K7+0s6RYbA1IYwmjIxMrtIVJi7HXqHX+Euxfg==
+X-Received: by 2002:a1f:c158:0:b0:45e:bb34:e43d with SMTP id r85-20020a1fc158000000b0045ebb34e43dmr1126947vkf.15.1685649226593;
+        Thu, 01 Jun 2023 12:53:46 -0700 (PDT)
 Received: from localhost ([2620:10d:c091:400::5:ec58])
-        by smtp.gmail.com with ESMTPSA id g11-20020ac8774b000000b003eda962ed24sm7973574qtu.22.2023.06.01.12.36.30
+        by smtp.gmail.com with ESMTPSA id q14-20020ac8450e000000b003e4f1b3ce43sm8041867qtn.50.2023.06.01.12.53.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 12:36:30 -0700 (PDT)
-Date:   Thu, 1 Jun 2023 15:36:30 -0400
+        Thu, 01 Jun 2023 12:53:46 -0700 (PDT)
+Date:   Thu, 1 Jun 2023 15:53:45 -0400
 From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Dan Schatzberg <schatzberg.dan@gmail.com>
-Cc:     Tejun Heo <tj@kernel.org>, Chris Down <chris@chrisdown.name>,
+To:     Waiman Long <longman@redhat.com>
+Cc:     Dan Schatzberg <schatzberg.dan@gmail.com>,
+        Tejun Heo <tj@kernel.org>, Chris Down <chris@chrisdown.name>,
         Zefan Li <lizefan.x@bytedance.com>,
         Jonathan Corbet <corbet@lwn.net>,
         "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] Documentation: Clarify usage of memory limits
-Message-ID: <20230601193630.GA157732@cmpxchg.org>
+Message-ID: <20230601195345.GB157732@cmpxchg.org>
 References: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
+ <e6ae97f4-cdae-e655-d118-a11b3d679fd6@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
+In-Reply-To: <e6ae97f4-cdae-e655-d118-a11b3d679fd6@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 01, 2023 at 11:38:19AM -0700, Dan Schatzberg wrote:
-> The existing documentation refers to memory.high as the "main mechanism
-> to control memory usage." This seems incorrect to me - memory.high can
-> result in reclaim pressure which simply leads to stalls unless some
-> external component observes and actions on it (e.g. systemd-oomd can be
-> used for this purpose). While this is feasible, users are unaware of
-> this interaction and are led to believe that memory.high alone is an
-> effective mechanism for limiting memory.
+On Thu, Jun 01, 2023 at 03:15:28PM -0400, Waiman Long wrote:
+> On 6/1/23 14:38, Dan Schatzberg wrote:
+> > The existing documentation refers to memory.high as the "main mechanism
+> > to control memory usage." This seems incorrect to me - memory.high can
+> > result in reclaim pressure which simply leads to stalls unless some
+> > external component observes and actions on it (e.g. systemd-oomd can be
+> > used for this purpose). While this is feasible, users are unaware of
+> > this interaction and are led to believe that memory.high alone is an
+> > effective mechanism for limiting memory.
+> > 
+> > The documentation should recommend the use of memory.max as the
+> > effective way to enforce memory limits - it triggers reclaim and results
+> > in OOM kills by itself.
 > 
-> The documentation should recommend the use of memory.max as the
-> effective way to enforce memory limits - it triggers reclaim and results
-> in OOM kills by itself.
-> 
-> Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
+> That is not how my understanding of memory.high works. When memory usage
+> goes past memory.high, memory reclaim will be initiated to reclaim the
+> memory back. Stall happens when memory.usage keep increasing like by
+> consuming memory faster than what memory reclaim can recover. When
+> memory.max is reached, OOM killer will then kill off the tasks.
 
-Yeah, this is quite stale. How this ended up working in practice is a
-bit different from how we initially conceived it.
+This was the initial plan indeed: Slow down the workload and thus slow
+the growth; hope that the workload recovers with voluntary frees; set
+memory.max as a safety if it keeps going beyond.
 
-Thanks for updating it.
+This never panned out. Once workloads are stuck, they might not back
+down on their own. By increasingly slowing growth, it becomes harder
+and harder for them to reach the memory.max intervention point.
 
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+It's a very brittle configuration strategy. Unless you very carefully
+calibrate memory.high and memory.max together with awareness of the
+throttling algorithm, workloads that hit memory.high will just go to
+sleep indefinitely. They require outside intervention that either
+adjusts limits or implements kill policies based on observed sleeps
+(they're reported as pressure via psi).
+
+So the common usecases today end up being that memory.max is for
+enforcing kernel OOM kills, and memory.high is a tool to implement
+userspace OOM killing policies.
+
+Dan is right to point out the additional expectations for userspace
+management when memory.high is in used. And memory.max is still the
+primary, works-out-of-the-box method of memory containment.
