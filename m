@@ -2,121 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEEA2C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 20:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22695C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 21:09:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231599AbjFAUcA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 16:32:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57270 "EHLO
+        id S231179AbjFAVJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 17:09:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232160AbjFAUb5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 16:31:57 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B05E42;
-        Thu,  1 Jun 2023 13:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=3vdVcpDDqjYKJw5ak8ynV4DjOPhUS8HxP0LDWIL1igw=; b=Uwmub2azMCaIbjuHuFLLx5IvzQ
-        eFOI326Kms4l4wmTXrlpVawriFra0lmkqkO6HGD533NRRq8Rsq3sGtqpsJNn14UpGdrbCJqWHARMN
-        1U932RMwU0NTrCtfYn+xcheb7TrYzKfVTyTHKMQdZZW/bknEVOzdPPpBwqCCRTx4l2bJQxguoesXy
-        3eW3jBZYLpzlTZBX7pdoQw6P83tHrzlCk1Bqnxmt4oELtM0sncWIi7ilTUQmULRj7Lxqt9wX0JjPP
-        ywsU5vCcI4xl1efroIVCmzrp2xMnhUhzAq92tfhNZ8w26T6SgZSd8g4O8rC2d+ACle1c218DwB+mK
-        CZHkw23A==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1q4oxF-008fu5-R0; Thu, 01 Jun 2023 20:31:29 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 1310A300220;
-        Thu,  1 Jun 2023 22:31:28 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id E2A16202F9541; Thu,  1 Jun 2023 22:31:27 +0200 (CEST)
-Date:   Thu, 1 Jun 2023 22:31:27 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Steven Noonan <steven@uplinklabs.net>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        with ESMTP id S229497AbjFAVJe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 17:09:34 -0400
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 086FFF2;
+        Thu,  1 Jun 2023 14:09:32 -0700 (PDT)
+References: <20230531130833.635651916@infradead.org>
+ <20230531132323.722039569@infradead.org>
+ <70a69deb-7ad4-45b2-8e13-34955594a7ce@app.fastmail.com>
+ <20230601101409.GS4253@hirez.programming.kicks-ass.net>
+ <14c50e58-fecc-e96a-ee73-39ef4e4617c7@gmx.de>
+ <20230601105021.GU4253@hirez.programming.kicks-ass.net>
+User-agent: mu4e 1.10.3; emacs 29.0.91
+From:   Sam James <sam@gentoo.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Helge Deller <deller@gmx.de>, Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>, dennis@kernel.org,
+        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
+        Heiko Carstens <hca@linux.ibm.com>, gor@linux.ibm.com,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        borntraeger@linux.ibm.com, Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>, kernel@collabora.com
-Subject: Re: Direct rdtsc call side-effect
-Message-ID: <20230601203127.GY4253@hirez.programming.kicks-ass.net>
-References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
- <87mt1jeax1.ffs@tglx>
- <87h6rrdoy0.ffs@tglx>
- <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
+        suravee.suthikulpanit@amd.com, Robin Murphy <robin.murphy@arm.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Baolu Lu <baolu.lu@linux.intel.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-crypto@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+        linux-parisc@vger.kernel.org,
+        John David Anglin <dave.anglin@bell.net>
+Subject: Re: [PATCH v2 07/12] parisc/percpu: Work around the lack of
+ __SIZEOF_INT128__
+Date:   Thu, 01 Jun 2023 22:08:44 +0100
+In-reply-to: <20230601105021.GU4253@hirez.programming.kicks-ass.net>
+Message-ID: <87jzwmvqin.fsf@gentoo.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha512; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 01, 2023 at 07:07:38PM +0000, Steven Noonan wrote:
-> One issue is how much overhead it has. This is an instruction that
-> normally executes in roughly 50 clock cycles (RDTSC) to 100 clock
-> cycles (RDTSCP) on Zen 3. Based on a proof-of-concept I wrote, the
-> overhead of trapping and emulating with a signal handler is roughly
-> 100x. On my Zen 3 system, it goes up to around 10000 clock cycles per
-> trapped read of RDTSCP.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-What about kernel based emulation? You could tie it into user_dispatch
-and have a user_dispatch tsc offset.
 
-So regular kernel emulation simply returns the native value (keeps the
-VDSO working for one), but then from a user_dispatch range, it returns
-+offset.
+Peter Zijlstra <peterz@infradead.org> writes:
 
-That is; how slow is the below?
+> On Thu, Jun 01, 2023 at 12:32:38PM +0200, Helge Deller wrote:
+>> On 6/1/23 12:14, Peter Zijlstra wrote:
+>> > On Wed, May 31, 2023 at 04:21:22PM +0200, Arnd Bergmann wrote:
+>> >=20
+>> > > It would be nice to have the hack more localized to parisc
+>> > > and guarded with a CONFIG_GCC_VERSION check so we can kill
+>> > > it off in the future, once we drop either gcc-10 or parisc
+>> > > support.
+>> >=20
+>> > I vote for dropping parisc -- it's the only 64bit arch that doesn't ha=
+ve
+>> > sane atomics.
+>>=20
+>> Of course I'm against dropping parisc.
+>
+> :-)
+>
+>> > Anyway, the below seems to work -- build tested with GCC-10.1
+>>=20
+>> I don't think we need to care about gcc-10 on parisc.
+>> Debian and Gentoo are the only supported distributions, while Debian
+>> requires gcc-12 to build > 6.x kernels, and I assume Gentoo uses at least
+>> gcc-12 as well.
+>>=20
+>> So raising the gcc limit for parisc only (at least temporarily for now)
+>> should be fine and your workaround below wouldn't be necessary, right?
+>
+> Correct, if you're willing to set minimum GCC version to 11 for parisc
+> all is well and this patch can go play in the bit bucket.
 
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 58b1f208eff5..18175b45db1f 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -645,6 +645,25 @@ static bool fixup_iopl_exception(struct pt_regs *regs)
- 	return true;
- }
-=20
-+static bool fixup_rdtsc_exception(struct pt_regs *regs)
-+{
-+	unsigned short bytes;
-+	u32 eax, edx;
-+
-+	if (get_user(bytes, (const short __user *)ip))
-+		return false;
-+
-+	if (bytes !=3D 0x0f31)
-+		return false;
-+
-+	asm volatile ("rdtsc", "=3Da" (eax), "=3Dd" (edx));
-+	regs->ax =3D eax;
-+	regs->dx =3D edx;
-+
-+	regs->ip +=3D 2;
-+	return true;
-+}
-+
- /*
-  * The unprivileged ENQCMD instruction generates #GPs if the
-  * IA32_PASID MSR has not been populated.  If possible, populate
-@@ -752,6 +771,9 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
- 		if (fixup_iopl_exception(regs))
- 			goto exit;
-=20
-+		if (fixup_rdtsc_exception(regs))
-+			goto exit;
-+
- 		if (fixup_vdso_exception(regs, X86_TRAP_GP, error_code, 0))
- 			goto exit;
-=20
+It's fine for us in Gentoo, thanks!
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZHkJAF8UgAAAAAAuAChp
+c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
+NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
+by5vcmcACgkQc4QJ9SDfkZCxTgD8DvRqnel67WrRU5+HwB76oJ89eB+XZVKI63Ih
+mkFPKKIBAJQcSVIUwNsG7OzOuRH/3R6pDjmn/yKfCEUMjHqK3HEH
+=fJgU
+-----END PGP SIGNATURE-----
+--=-=-=--
