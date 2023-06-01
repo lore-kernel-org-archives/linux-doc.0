@@ -2,234 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5D34C77B7A
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 10:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21095C77B7E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 10:35:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231797AbjFAKfD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 06:35:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40722 "EHLO
+        id S232983AbjFAKfu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 06:35:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232191AbjFAKep (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 06:34:45 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9087A8E;
-        Thu,  1 Jun 2023 03:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-        t=1685615570; i=deller@gmx.de;
-        bh=G2fVWfFa8Mg7zk8fckBtVkE46aW59z85USR51MF7qtA=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=FmEhh+g+1DMt5R00VGwoA6elCJBKz5sYnrCS4k8pbs4FebbObsTMoS8ilG3++VVdP
-         gNj+IpkiOmplBoLThMFtiF09gwNBcv0lLa3SddmTzCjnQAcAsEV+gQ4IBtia3VTe0q
-         tAzyoTc4yp1UsMYHpvORsVDA4Z0vtf1JD1mZWgh9ltZBLhSBiHmnraCm4wJ38oQfL1
-         uPtjeboQwb5+cNsLX86hk7wLs9t+iTGic+maNc4YnIU/GKSF9v4CUlwOTClbhL7HfT
-         GkEVVU9TosKjG0dG5Lplx/pL7aKB6FeDQbKeezr5taz3oH5M4y6JrWRaSXYSXLdHbS
-         3tntj4pI5wyMQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.56.61] ([109.43.49.30]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mqb1W-1qQkp02L1k-00mYV1; Thu, 01
- Jun 2023 12:32:50 +0200
-Message-ID: <14c50e58-fecc-e96a-ee73-39ef4e4617c7@gmx.de>
-Date:   Thu, 1 Jun 2023 12:32:38 +0200
+        with ESMTP id S232709AbjFAKfm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 06:35:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0CC8D1
+        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 03:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1685615691;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JbwVxe6+xmwUKvGIJv5WqDZHuN38pvVs22yL4zWwfDk=;
+        b=WeeuLdzhWqTDAUwqo0SMrkbMcO2CVkgCg695fHClROR5+Z/nPsGRhC5VKRTm65etMB0//y
+        HTvEb8vYBE1CTnbxjLXGi5kNPMoMrTO9QDX5vhQ/04ykDOUlqaUYVxI+bFZUawNCaLlOSw
+        kkzIJ1cVBnBWNizP0hGPC/J4Bfle0wQ=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-528-izmPwbYEN16dHAy_q-__Wg-1; Thu, 01 Jun 2023 06:34:50 -0400
+X-MC-Unique: izmPwbYEN16dHAy_q-__Wg-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-96fa4c724fdso244015766b.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Jun 2023 03:34:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685615689; x=1688207689;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JbwVxe6+xmwUKvGIJv5WqDZHuN38pvVs22yL4zWwfDk=;
+        b=jBiOuF9/iuS61XNNj9c2XsS49DBTCqWWOmRl7sCEhosHS/Ke/SlOBHEp8V01Tolaq7
+         VpjX2RINaxR2iG/OWw4up6cDV5vPsFMCKz9eHPbAung87cQAQJUkpsFocKzxqBESRFDv
+         DvJeEYDE8Bd2WuYgBJuH7Pat6RRyWyLrVjYyqycdp+ZwMX04gbxXuEmj5C31d/+21Xgz
+         7uFB/yT2y6BKwH2G7PoXocXKnmJAJFcZKuzabGiM3MGDT0+PecvZa3lzW2iiVe0AHoI2
+         0Xo525B0maNDc5rgoYXTSNhaa/lJk0vZlLR4s0aHwhxfvfbU8dQ/U5twlB/Gsa1yaQWc
+         OOQA==
+X-Gm-Message-State: AC+VfDwENVmEo1jzPVnn6b0DpYyGrt4knDbotEhIokAmxKrfgfacJBba
+        pgOYCJ0sITChZY3nNySeGciJ5eja23C1QlpRCJtChFXOWh54ATJj+aGQENzyE3K3Wx8RWCaPCbD
+        y3+/5WVeC8dgFEVL9Gm70
+X-Received: by 2002:a17:907:96a6:b0:973:7096:60c2 with SMTP id hd38-20020a17090796a600b00973709660c2mr1384119ejc.20.1685615689657;
+        Thu, 01 Jun 2023 03:34:49 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6iRZhaMUInghZ0iVaiwaetNtipwYRss7o+cKaQOXKsyUmAG2w/BEDo9bC199Nw3fCDGqCP0Q==
+X-Received: by 2002:a17:907:96a6:b0:973:7096:60c2 with SMTP id hd38-20020a17090796a600b00973709660c2mr1384093ejc.20.1685615689344;
+        Thu, 01 Jun 2023 03:34:49 -0700 (PDT)
+Received: from [192.168.0.224] (host-87-12-203-248.business.telecomitalia.it. [87.12.203.248])
+        by smtp.gmail.com with ESMTPSA id k3-20020a17090627c300b0096a1ba4e0d1sm10330726ejc.32.2023.06.01.03.34.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Jun 2023 03:34:48 -0700 (PDT)
+Message-ID: <605cbf2c-e41e-a3fe-61ee-0703f7a762da@redhat.com>
+Date:   Thu, 1 Jun 2023 12:34:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 07/12] parisc/percpu: Work around the lack of
- __SIZEOF_INT128__
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v5 1/2] sched/deadline: Fix bandwidth reclaim equation in
+ GRUB
+To:     Vineeth Pillai <vineeth@bitbyteword.org>,
+        luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        youssefesmat@google.com,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Ben Segall <bsegall@google.com>
+References: <20230530135526.2385378-1-vineeth@bitbyteword.org>
 Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>, dennis@kernel.org,
-        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
-        Heiko Carstens <hca@linux.ibm.com>, gor@linux.ibm.com,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        borntraeger@linux.ibm.com, Sven Schnelle <svens@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
-        suravee.suthikulpanit@amd.com, Robin Murphy <robin.murphy@arm.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Baolu Lu <baolu.lu@linux.intel.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-crypto@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        linux-parisc@vger.kernel.org,
-        John David Anglin <dave.anglin@bell.net>,
-        Sam James <sam@gentoo.org>
-References: <20230531130833.635651916@infradead.org>
- <20230531132323.722039569@infradead.org>
- <70a69deb-7ad4-45b2-8e13-34955594a7ce@app.fastmail.com>
- <20230601101409.GS4253@hirez.programming.kicks-ass.net>
-From:   Helge Deller <deller@gmx.de>
-In-Reply-To: <20230601101409.GS4253@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qA5DnM4FMT01IDeGOwln/QBbEhpU1XDaseD6BNrJd2GZ0tWK4QE
- 0yoTPW4Cs8Vtb3/jrIjTmQtVVNUdP3oXYDtFd4z2kq0x7GFNVrwG5gEaGKtm2ktl4Sd3zvp
- kxZFe+aVo2LRvUHYM94SCcI5Q+2GxcLHYu9LTSFdlRkYd2lDVuDk6B25dzssNg2eXbmZQ9f
- 0TxMAa4XkIBRA/JlzP4cw==
-UI-OutboundReport: notjunk:1;M01:P0:lEDV+OwbF54=;tqVeNJO4hsUSgmJjpmBUSoVfvY1
- P/H67S16xvXuBRLnk1x8/0oamZFGOOIFXOCJe/hmp8CSY77eEc61k7PxC47hbEI87zrTTLHFH
- dWEbnJsKLZlhk+5pY153PoS6l0SyGPAHVim7eKVrjxF1IXcFt6PFd5Vw+aE2QUnUut9h8jTrt
- Lq78XVCHJNdVnVPOJ47gp+5mkAIqZ6pWonbrlGATCpt+n7YpCCajAlAKSABpRGJjOoOdODf86
- mbdjdqFtOKhQ04CKFfgEyxLNXMYJVzCKf+9SGFTQe/omDQvuTYBYZOi2ceVwi6hH2ZxAiLY7G
- u20XwVk1X296jyJNemf6fgt6cmc7qArCvySvCtplxwnVnBZpfg4bhGRMCdOK1dwbdMNhiav2x
- /dycPeP0gpTyirVYPahuuzRj/g9O6bPOei6Tb1RDaPwoZDm4IFD+PNESrNHJyi/jrX/3NFu4x
- L+EWKh+v2YK6Q8Z4ViEGto3VXXk23pDZGs60enM93LX9ImtdpC4c1PqAYLweRHwPsvBPY6D0i
- bgNY5zxSa7nBXYhTH8oIwu71bBf237gaOpeqzYMcQTLrjv43F7VYzJpJPkM0mvPd3wkz9aiWf
- 4mw7PRUsxB3LwZhEm7ohSC6LPzYEHCjoYFHAyNOqsbdav6WfYZWi610L05paEqu4V1YOWv33S
- 8KLExn5u3Elk8eh4/xpS0HMIf4XUoZwDq1vDVtESK25wGc6HkRYkIl97wmW2TSPBc2Am1fTlb
- roglOE/2aTWHWoCN/qEH4yPzzYaSiJeSyzj+I4skyIkbhebChyE+RALqWDxTybIFJ1w2DfP2o
- anH6ZPyfZQ6d4BLKrKYuyEVPj6FtGAUtN+xLNu0C1FQJFgpdr1j6Txfz7cmh2SG1zaEyeKXQ4
- oXiPN6V3C8LedVzp/tvsi0kHrOtlI6iXIoTkBTy9WR2wsc3i777kCVAftkQkqBuYnkgkQ/rue
- 3QqTKVV3MwstFz1j8XAvezd2tOQ=
+From:   Daniel Bristot de Oliveira <bristot@redhat.com>
+In-Reply-To: <20230530135526.2385378-1-vineeth@bitbyteword.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/1/23 12:14, Peter Zijlstra wrote:
-> On Wed, May 31, 2023 at 04:21:22PM +0200, Arnd Bergmann wrote:
->
->> It would be nice to have the hack more localized to parisc
->> and guarded with a CONFIG_GCC_VERSION check so we can kill
->> it off in the future, once we drop either gcc-10 or parisc
->> support.
->
-> I vote for dropping parisc -- it's the only 64bit arch that doesn't have
-> sane atomics.
+On 5/30/23 15:55, Vineeth Pillai wrote:
+> According to the GRUB[1] rule, the runtime is depreciated as:
+>   "dq = -max{u, (1 - Uinact - Uextra)} dt" (1)
+> 
+> To guarantee that deadline tasks doesn't starve lower class tasks,
+> we do not allocate the full bandwidth of the cpu to deadline tasks.
+> Maximum bandwidth usable by deadline tasks is denoted by "Umax".
+> Considering Umax, equation (1) becomes:
+>   "dq = -(max{u, (Umax - Uinact - Uextra)} / Umax) dt" (2)
+> 
+> Current implementation has a minor bug in equation (2), which this
+> patch fixes.
+> 
+> The reclamation logic is verified by a sample program which creates
+> multiple deadline threads and observing their utilization. The tests
+> were run on an isolated cpu(isolcpus=3) on a 4 cpu system.
+> 
+> Tests on 6.3.0
+> ==============
+> 
+> RUN 1: runtime=7ms, deadline=period=10ms, RT capacity = 95%
+> TID[693]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 93.33
+> TID[693]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 93.35
+> 
+> RUN 2: runtime=1ms, deadline=period=100ms, RT capacity = 95%
+> TID[708]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 16.69
+> TID[708]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 16.69
+> 
+> RUN 3: 2 tasks
+>   Task 1: runtime=1ms, deadline=period=10ms
+>   Task 2: runtime=1ms, deadline=period=100ms
+> TID[631]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 62.67
+> TID[632]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 6.37
+> TID[631]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 62.38
+> TID[632]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 6.23
+> 
+> As seen above, the reclamation doesn't reclaim the maximum allowed
+> bandwidth and as the bandwidth of tasks gets smaller, the reclaimed
+> bandwidth also comes down.
+> 
+> Tests with this patch applied
+> =============================
+> 
+> RUN 1: runtime=7ms, deadline=period=10ms, RT capacity = 95%
+> TID[608]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 95.19
+> TID[608]: RECLAIM=1, (r=7ms, d=10ms, p=10ms), Util: 95.16
+> 
+> RUN 2: runtime=1ms, deadline=period=100ms, RT capacity = 95%
+> TID[616]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 95.27
+> TID[616]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 95.21
+> 
+> RUN 3: 2 tasks
+>   Task 1: runtime=1ms, deadline=period=10ms
+>   Task 2: runtime=1ms, deadline=period=100ms
+> TID[620]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 86.64
+> TID[621]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 8.66
+> TID[620]: RECLAIM=1, (r=1ms, d=10ms, p=10ms), Util: 86.45
+> TID[621]: RECLAIM=1, (r=1ms, d=100ms, p=100ms), Util: 8.73
+> 
+> Running tasks on all cpus allowing for migration also showed that
+> the utilization is reclaimed to the maximum. Running 10 tasks on
+> 3 cpus SCHED_FLAG_RECLAIM - top shows:
+> %Cpu0  : 94.6 us,  0.0 sy,  0.0 ni,  5.4 id,  0.0 wa
+> %Cpu1  : 95.2 us,  0.0 sy,  0.0 ni,  4.8 id,  0.0 wa
+> %Cpu2  : 95.8 us,  0.0 sy,  0.0 ni,  4.2 id,  0.0 wa
+> 
+> [1]: Abeni, Luca & Lipari, Giuseppe & Parri, Andrea & Sun, Youcheng.
+>      (2015). Parallel and sequential reclaiming in multicore
+>      real-time global scheduling.
 
-Of course I'm against dropping parisc.
+So, I did some testing, mainly to validate the "one task cannot run on
+two CPUs,"  that is, a case in which a higher utilization task would
+always have its % of CPU available, even in the presence of low utilization
+trying to reclaim all the CPU time. E.g.,
 
-> Anyway, the below seems to work -- build tested with GCC-10.1
+	Task 1: runtime=1ms, deadline=period=10ms with reclaim
+	Task 2: runtime=1ms, deadline=period=10ms with reclaim
+	Task 3: runtime 8ms, deadline=period=10ms without reclaim
 
-I don't think we need to care about gcc-10 on parisc.
-Debian and Gentoo are the only supported distributions, while Debian
-requires gcc-12 to build > 6.x kernels, and I assume Gentoo uses at least
-gcc-12 as well.
+On two CPUs task 3 always have 80% available... the other tasks
+do not get 95% because of migrations.
 
-So raising the gcc limit for parisc only (at least temporarily for now)
-should be fine and your workaround below wouldn't be necessary, right?
+With 3+ cpus, the tasks can run up to 95% because there are CPUs to
+everyone.
 
-Helge
+I played with migrate disable to force timelines... and yet, I failed
+to break things so... we are good :-).
 
-> ---
-> Subject: parisc/percpu: Work around the lack of __SIZEOF_INT128__
-> From: Peter Zijlstra <peterz@infradead.org>
-> Date: Tue May 30 22:27:40 CEST 2023
->
-> HPPA64 is unique in not providing __SIZEOF_INT128__ across all
-> supported compilers, specifically it only started doing this with
-> GCC-11.
->
-> Since the per-cpu ops are universally availably, and
-> this_cpu_{,try_}cmpxchg128() is expected to be available on all 64bit
-> architectures a wee bodge is in order.
->
-> Sadly, while C reverts to memcpy() for assignment of POD types, it does
-> not revert to memcmp() for for equality. Therefore frob that manually.
->
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->   arch/parisc/include/asm/percpu.h |   77 ++++++++++++++++++++++++++++++=
-+++++++++
->   1 file changed, 77 insertions(+)
->
-> --- /dev/null
-> +++ b/arch/parisc/include/asm/percpu.h
-> @@ -0,0 +1,77 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_PARISC_PERCPU_H
-> +#define _ASM_PARISC_PERCPU_H
-> +
-> +#include <linux/types.h>
-> +
-> +#if defined(CONFIG_64BIT) && CONFIG_GCC_VERSION < 1100000
-> +
-> +/*
-> + * GCC prior to 11 does not provide __SIZEOF_INT128__ on HPPA64
-> + * as such we need to provide an alternative implementation of
-> + * {raw,this}_cpu_{,try_}cmpxchg128().
-> + *
-> + * This obviously doesn't function as u128 should, but for the purpose
-> + * of per-cpu cmpxchg128 it might just do.
-> + */
-> +typedef struct {
-> +	u64 a, b;
-> +} u128 __attribute__((aligned(16)));
-> +
-> +#define raw_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval)		\
-> +({									\
-> +	typeof(pcp) *__p =3D raw_cpu_ptr(&(pcp));				\
-> +	typeof(pcp) __val =3D *__p, __old =3D *(ovalp);			\
-> +	bool __ret;							\
-> +	if (!__builtin_memcmp(&__val, &__old, sizeof(pcp))) {		\
-> +		*__p =3D nval;						\
-> +		__ret =3D true;						\
-> +	} else {							\
-> +		*(ovalp) =3D __val;					\
-> +		__ret =3D false;						\
-> +	}								\
-> +	__ret;								\
-> +})
-> +
-> +#define raw_cpu_generic_cmpxchg_memcmp(pcp, oval, nval)			\
-> +({									\
-> +	typeof(pcp) __old =3D (oval);					\
-> +	raw_cpu_generic_try_cmpxchg_memcpy(pcp, &__old, nval);		\
-> +	__old;								\
-> +})
-> +
-> +#define raw_cpu_cmpxchg128(pcp, oval, nval) \
-> +	raw_cpu_generic_cmpxchg_memcmp(pcp, oval, nval)
-> +#define raw_cpu_try_cmpxchg128(pcp, ovalp, nval) \
-> +	raw_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval)
-> +
-> +#define this_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval)		\
-> +({									\
-> +	bool __ret;							\
-> +	unsigned long __flags;						\
-> +	raw_local_irq_save(__flags);					\
-> +	__ret =3D raw_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval);	\
-> +	raw_local_irq_restore(__flags);					\
-> +	__ret;								\
-> +})
-> +
-> +#define this_cpu_generic_cmpxchg_memcmp(pcp, oval, nval)		\
-> +({									\
-> +	typeof(pcp) __ret;						\
-> +	unsigned long __flags;						\
-> +	raw_local_irq_save(__flags);					\
-> +	__ret =3D raw_cpu_generic_cmpxchg_memcmp(pcp, oval, nval);	\
-> +	raw_local_irq_restore(__flags);					\
-> +	__ret;								\
-> +})
-> +
-> +#define this_cpu_cmpxchg128(pcp, oval, nval) \
-> +	this_cpu_generic_cmpxchg_memcmp(pcp, oval, nval)
-> +#define this_cpu_try_cmpxchg128(pcp, ovalp, nval) \
-> +	this_cpu_generic_try_cmpxchg_memcmp(pcp, ovalp, nval)
-> +
-> +#endif /* !__SIZEOF_INT128__ */
-> +
-> +#include <asm-generic/percpu.h>
-> +
-> +#endif /* _ASM_PARISC_PERCPU_H */
+Reviewed-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+
+Thanks!
+-- Daniel
 
