@@ -2,101 +2,74 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E70BC77B7A
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 10:27:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9525AC7EE29
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Jun 2023 10:31:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233696AbjFAK1Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 06:27:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60126 "EHLO
+        id S231340AbjFAKb2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Jun 2023 06:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233409AbjFAK07 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 06:26:59 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D92F610CE;
-        Thu,  1 Jun 2023 03:26:05 -0700 (PDT)
+        with ESMTP id S230399AbjFAKb0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 06:31:26 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CBB8E;
+        Thu,  1 Jun 2023 03:31:25 -0700 (PDT)
 From:   Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1685615163;
+        s=2020; t=1685615483;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=oBG6LSgcL4OvuvT5P5sO0vfG/HZ7VoTB8zrMnek3QXE=;
-        b=Ok0pAI37eBUUxtyD72XEi/kWXDtqF2cyYqQakQgqv1gcVzpImTA0v1e4tUg95X+deC5XY9
-        lOx47kKlGoTmsXGCE7EJ8FFCDq0IIAETyX9nAxQzzMabggRrIUwUDHi3Q38QabiIEi/O69
-        lsy60XfNp/vNnOw4dz9L9Gsa11esS6vzwsjT7S0pn071wo0R1w/ccoe4RpM7TvQdijxVLK
-        350OsLzpSOPzbxwTX7gY8DVi3dtt4lbk4LWsqX0zWOwWz3FSomSuS5pM54azU6D79g2DK1
-        w5RLaq2RkizcDigKlOoH9QpZygySmYqEvWyDw9WX9SUW02hgYzsZ3BbnhSx2Tg==
+        bh=TgVq7drZsJEBdL8AdFHKWacRbn4TiHQy0G4VwBLZWg8=;
+        b=qQ8ijTwtVbkGlFTXxnt/uY1ol7lxQwHP3oCigXefjoA2dlYMXXRCSa7uHBQu7kILHooIJi
+        LMMHexiFC/VCp3YLjLISvUgfUWA6H4wRd++fPz80U9UygbIGTl+0vguAqtVv1axTxRyLdJ
+        2BSEsPgVm1f611w7Vm46vT3KZP3phnUqACE/gAdUTS+0PIlizJYcxdKH5zkvhRnNBLotlS
+        nHkQxo4Y1Hj0OdKilbvrLV8yvRJjAoDyqVeZ/RYNgPDt5tn7gK4dgjWap4e9pTqpHH1VpR
+        obFeiSPLwF2xLrHVRwl85gv63VSmpkKUspNAE5CGKpdAkhBgi6c0O8nXV7biWA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1685615163;
+        s=2020e; t=1685615483;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=oBG6LSgcL4OvuvT5P5sO0vfG/HZ7VoTB8zrMnek3QXE=;
-        b=/tzvg4GZZVLmApTKNWPjobcVJPi6uoWunc8Omj06UJ53lq6lcsRwJ2UMOKZxbB4erfpMIa
-        N71tNcFW6TSNEOBw==
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        bh=TgVq7drZsJEBdL8AdFHKWacRbn4TiHQy0G4VwBLZWg8=;
+        b=OVUPsZJRJR6sR2J3EcBU7/UWxlDpug4m+eclZl8j12J4HOgjghePNUsGty6A/DvSfafVwi
+        MGZ/5QoUOWTFEgBQ==
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
         Steven Noonan <steven@uplinklabs.net>, kernel@collabora.com
 Subject: Re: Direct rdtsc call side-effect
-In-Reply-To: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
+In-Reply-To: <20230601085602.GR4253@hirez.programming.kicks-ass.net>
 References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
-Date:   Thu, 01 Jun 2023 12:26:02 +0200
-Message-ID: <87mt1jeax1.ffs@tglx>
+ <20230601085602.GR4253@hirez.programming.kicks-ass.net>
+Date:   Thu, 01 Jun 2023 12:31:22 +0200
+Message-ID: <87jzwneao5.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 01 2023 at 13:45, Muhammad Usama Anjum wrote:
-> As more and more things are being added to Wine, Windows application can be
-> run pretty easily on Linux. But this rdtsc is a big hurdle. What are your
-> thoughts on solving this problem?
+On Thu, Jun 01 2023 at 10:56, Peter Zijlstra wrote:
+> On Thu, Jun 01, 2023 at 01:45:35PM +0500, Muhammad Usama Anjum wrote:
+>> We are thinking of saving and restoring the timestamp counter at suspend
+>> and resume time respectively. In theory it can work on Intel because of
+>> TSC_ADJUST register. But it'll never work on AMD until:
+>> * AMD supports the same kind of adjust register. (AMD has said that the
+>> adjust register cannot be implemented in their firmware. They'll have to
+>> add it to their hardware.)
+>> * by manual synchronization in kernel (I know you don't like this idea. But
+>> there is something Windows is doing to save/restore and sync the TSC)
+>
+> Wine could set TIF_NOTSC, which will cause it to run with CR4.TSD
+> cleared and cause RDTSC to #GP, at which point you can emulate it.
 
-Who would have thought that rdtsc() in applications can be a problem.
-Interfaces to query time exist for a reason and it's documented by
-Microsoft:
-
-https://learn.microsoft.com/en-us/windows/win32/dxtecharts/game-timing-and-multicore-processors
-
-But sure, reading documentation is overrated...
-
-> We are thinking of saving and restoring the timestamp counter at suspend
-> and resume time respectively. In theory it can work on Intel because of
-> TSC_ADJUST register. But it'll never work on AMD until:
-> * AMD supports the same kind of adjust register. (AMD has said that the
-> adjust register cannot be implemented in their firmware. They'll have to
-> add it to their hardware.)
-> * by manual synchronization in kernel (I know you don't like this idea. But
-> there is something Windows is doing to save/restore and sync the TSC)
-
-Synchronizing TSC by writing the TSC MSR is fragile as hell. This has
-been tried so often and never reliably passed all synchronization tests
-on a wide range of systems.
-
-It kinda works on single socket, but not on larger systems.
-
-We spent an insane amount of time to make timekeeping correct and I'm
-not interested at all to deal with the fallout of such a mechanim.
-
-I could be persuaded to make this work when TSC_ADJUST is available, but
-that's it.
-
-But even that might turn out to be just a solution for the moment
-because there is a plan on the way that TSC grows an irreversible lock
-bit, which prevents everything including SMM from fiddling with it,
-which in turn spares the TSC_ADJUST sanity checks post boot.
-
-Thanks,
-
-        tglx
-
-
+We should ask Microsoft to do the same. That'll fix the direct RDTSC
+usage quickly. :)
