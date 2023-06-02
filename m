@@ -2,103 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4490BC7EE24
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 11:53:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7229FC7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 12:00:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235019AbjFBLxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 07:53:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41388 "EHLO
+        id S235906AbjFBMAL convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 08:00:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234510AbjFBLxX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 07:53:23 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 34DACE67;
-        Fri,  2 Jun 2023 04:53:00 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93B091063;
-        Fri,  2 Jun 2023 04:52:24 -0700 (PDT)
-Received: from [10.57.84.31] (unknown [10.57.84.31])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C67043F67D;
-        Fri,  2 Jun 2023 04:51:37 -0700 (PDT)
-Message-ID: <93c3f3a6-a3bc-f3ca-9077-8985865b8abf@arm.com>
-Date:   Fri, 2 Jun 2023 12:51:34 +0100
+        with ESMTP id S235714AbjFBL7y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 07:59:54 -0400
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CACAD1B5;
+        Fri,  2 Jun 2023 04:59:42 -0700 (PDT)
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5559e296433so1472132eaf.0;
+        Fri, 02 Jun 2023 04:59:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685707182; x=1688299182;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+fxB1hQZUap5NVzPtf/N8icy9UCTybKAh05Yo1w+lsU=;
+        b=asSmP+IaIo1UDZSX3CAlWRULxdT68ha/0ULHIze17BQbeAmFBaskyseDy7ep1ra0ZQ
+         DCdx25cdrC55W6pm/Zoa5pW5qEmsbPotT6FuHgMBQJHPLS1wh36yvrz8wSohXlLLV0d0
+         02+ZprsmxN9EWMfFydchaS/yRotxUPRcK29azMFV2DMBih0YFK0nWMTt6yr3Qb+xlZk1
+         R2R3yPF97ihLGjlGTp5XunvSPNH+3KGqQ2GxGiW9uhmG8vpOpkgalKGCnjGl2EjbUqi/
+         5yOoBcqMo/O0mrzn84X0RI+qf5OrCeFMZErypOvT7uTq9985S567/pMGlkMTviZ4vZM5
+         LXFw==
+X-Gm-Message-State: AC+VfDyuIIXz4gIqMDz/RfahRZtnp6FZaM/E26sY6lqnEOE5m9UL0207
+        +1YZqAkveVksuN5KJLwqlPaMNgMX++JUC+9o
+X-Google-Smtp-Source: ACHHUZ5dxlyk0Sg89uojHjJqI0Rp9E95bb0ifdSHRNP2BAEboQ369S4LOOXqcoxQcdGOVTLzkPYA9A==
+X-Received: by 2002:a81:9190:0:b0:569:6bb5:d43b with SMTP id i138-20020a819190000000b005696bb5d43bmr66728ywg.26.1685706579567;
+        Fri, 02 Jun 2023 04:49:39 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id k126-20020a816f84000000b00565cf40238csm376038ywc.110.2023.06.02.04.49.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Jun 2023 04:49:37 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-561b7729a12so49025987b3.1;
+        Fri, 02 Jun 2023 04:49:36 -0700 (PDT)
+X-Received: by 2002:a25:e613:0:b0:ba8:b425:6bf2 with SMTP id
+ d19-20020a25e613000000b00ba8b4256bf2mr3528914ybh.20.1685706576471; Fri, 02
+ Jun 2023 04:49:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 5/5] perf: arm_cspmu: ampere_cspmu: Add support for
- Ampere SoC PMU
-Content-Language: en-GB
-To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Besar Wicaksono <bwicaksono@nvidia.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230601030144.3458136-1-ilkka@os.amperecomputing.com>
- <20230601030144.3458136-6-ilkka@os.amperecomputing.com>
- <e15f1773-e843-3bc3-f265-65524ea3385a@arm.com>
- <607a395b-b01f-33e1-c67d-d4bd4d92c3d@os.amperecomputing.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <607a395b-b01f-33e1-c67d-d4bd4d92c3d@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1685696114.git.geert+renesas@glider.be> <14e091fc522aa63a3e33bda1016e5fa946d47d18.1685696114.git.geert+renesas@glider.be>
+ <20230602110459.GC26944@pendragon.ideasonboard.com> <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
+ <20230602113640.GG26944@pendragon.ideasonboard.com>
+In-Reply-To: <20230602113640.GG26944@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 2 Jun 2023 13:49:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWWbMW1cspwr0G_NLV5LVHnjaUbqfusUH8-yuqPobCUUA@mail.gmail.com>
+Message-ID: <CAMuHMdWWbMW1cspwr0G_NLV5LVHnjaUbqfusUH8-yuqPobCUUA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm: Remove references to removed transitional helpers
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-06-02 08:13, Ilkka Koskinen wrote:
-> 
-> Hi Robin,
-> 
-> On Thu, 1 Jun 2023, Robin Murphy wrote:
->> On 2023-06-01 04:01, Ilkka Koskinen wrote:
->> [...]
->>> +static bool ampere_cspmu_validate_event(struct arm_cspmu *cspmu,
->>> +                    struct perf_event *new)
->>> +{
->>> +    struct perf_event *curr;
->>> +    unsigned int idx;
->>> +    u32 threshold = 0, rank = 0, bank = 0;
->>> +
->>> +    /* We compare the global filter settings to existing events */
->>> +    idx = find_first_bit(cspmu->hw_events.used_ctrs,
->>> +                 cspmu->cycle_counter_logical_idx);
->>> +
->>> +    /* This is the first event */
->>> +    if (idx == cspmu->cycle_counter_logical_idx)
->>> +        return true;
->>> +
->>> +    curr = cspmu->hw_events.events[idx];
->>> +
->>> +    if (get_filter_enable(new)) {
->>> +        threshold    = get_threshold(new);
->>> +        rank        = get_rank(new);
->>> +        bank        = get_bank(new);
->>> +    }
->>> +
->>> +    if (get_filter_enable(new) != get_filter_enable(curr) ||
->>
->> Is there any useful purpose in allowing the user to specify nonzero 
->> rank, bank or threshold values with filter_enable=0? Assuming not, 
->> then between this and ampere_cspmu_set_ev_filter() it appears that you 
->> don't need filter_enable at all.
-> 
-> Not really. I dropped filter_enable at one point but restored it later 
-> to match the smmuv3 pmu driver. I totally agree, it's unnecessary and 
-> it's better to remove it completely.
+Hi Laurent,
 
-Ah, I see - the SMMU PMCG driver needs that to differentiate between 
-"filter values defaulted to 0 because user didn't ask for filtering" and 
-"user asked to filter an exact match on StreamID 0", since it's 
-impractical to expect userspace tools to understand and manually set the 
-all-ones mask value to indicate that filtering wasn't requested. In your 
-case, though, since values of 0 appear to mean "no filter", it should 
-just work as expected without needing any additional complexity. Ideally 
-your interface should reflect the functionality and expected usage model 
-of your PMU hardware in the way that's most intuitive and helpful for 
-the user - it doesn't need to be influenced by other PMUs that work 
-differently.
+On Fri, Jun 2, 2023 at 1:36 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Fri, Jun 02, 2023 at 01:17:58PM +0200, Geert Uytterhoeven wrote:
+> > On Fri, Jun 2, 2023 at 1:05 PM Laurent Pinchart wrote:
+> > > On Fri, Jun 02, 2023 at 11:11:35AM +0200, Geert Uytterhoeven wrote:
+> > > > The transitional helpers were removed a long time ago, but some
+> > > > references stuck.  Remove them.
+> > > >
+> > > > Fixes: 21ebe615c16994f3 ("drm: Remove transitional helpers")
+> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > > > --- a/drivers/gpu/drm/drm_plane_helper.c
+> > > > +++ b/drivers/gpu/drm/drm_plane_helper.c
+> > > > @@ -51,14 +51,6 @@
+> > > >   * planes, and newly merged drivers must not rely upon these transitional
+> > > >   * helpers.
+> > > >   *
+> > >
+> > > The first paragraph starts with "This helper library has two parts.". As
+> > > you're dropping the mention of the second part, I think you should
+> > > rework the first paragraph too.
+> >
+> > That was my initial thought, too.
+> > However, the code still has a second part, not related to the topic of
+> > the first part (primary plane support).
+>
+> How about mentioning that in the comment then ?
 
-Thanks,
-Robin.
+Any suggestion about the wording?
+The drm novice in me would write "The second part is not about
+primary plane support" ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
