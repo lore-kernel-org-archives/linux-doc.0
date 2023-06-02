@@ -2,158 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A8DC7EE24
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 13:32:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D8DC7EE2F
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 14:40:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233790AbjFBNcc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 09:32:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43878 "EHLO
+        id S236129AbjFBOkm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 10:40:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235296AbjFBNcb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 09:32:31 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32EB9E72;
-        Fri,  2 Jun 2023 06:32:10 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1b05e96dabbso12122355ad.2;
-        Fri, 02 Jun 2023 06:32:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685712729; x=1688304729;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wLcyyQh2yLRZuI0xq1Spx++5r4QAu7H4WRjm1jN0YiM=;
-        b=MVb3eFphqnGFuZnrZa0fkJUiXKJj6PA6qXPXeVimS6DpQ4AxPt/zIIOaLriKK4YM0s
-         OD5TKvqpdHYN3x0/QPosAXtzCAYO/IE9X3t1Maw3pngCYU6/YtF43NYVhpaM5BqMhMv4
-         S2uj6aE89Q1SllxfQB6OIsUB7rgbHTxAD7lbwdu3ByjWg/6hlW7AvjFJcDKVIZLUfnPK
-         H/F9ARWZoV3GO5l9OEIH73Apr9UeXgkqMyy5TEzNJBMiJA23Lzp8RC2vsdStRVoyuQmt
-         VJ/ATsgU8O3UsjCjDRGBbbnEbgKDL1MHMaSDrkjAnbG5W7EMJQ2Id+enPSwzyi5jI7XV
-         m72g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685712729; x=1688304729;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wLcyyQh2yLRZuI0xq1Spx++5r4QAu7H4WRjm1jN0YiM=;
-        b=W/aXkTQZ/0XA7QU7WkADqNP1ty8u3P72YgAiPRZISlus+tA59d4pKk5SOcCsWlJWVK
-         cYS8hY1X8mzTU79CzqiEB9plNHc/58n3F4spBkk9IMtaWmRr4r5lxRvQ0eVRAF48HuOz
-         sycw1Cop7a02QqFlUe63fINidYeREZjgKuiX4Kos4AskIQTRcJBmFxpbtCEM/Xkzf6Ni
-         yceuq1ERhqrPz58DWXIaq0ZRfklhFVkOTAmTTgyvHI6S3EHYS88xMgxkmUN/fyK5X6tF
-         aR2AoB8KXbxSTo+7aeFMN8OfoeSUZDIptFFSwm6G1rg38utYBtvh1JIpDY6K2I0PLLbu
-         /s+w==
-X-Gm-Message-State: AC+VfDwYwi9aO1bdycsYRxq7ZHYKfBecqPpsqgS7UVk1tKSzUMp6UnqG
-        A6XDHpo5fvR5I0E68+1Dt9Q=
-X-Google-Smtp-Source: ACHHUZ5J63g6NUi0y4MlVavRTrgcGPUU1MafIBD3RB7CH7ggN40W6Ah2+s359IQfSJwPB+m8eYrFiw==
-X-Received: by 2002:a17:902:ec81:b0:1ae:4562:14f1 with SMTP id x1-20020a170902ec8100b001ae456214f1mr18105plg.9.1685712729246;
-        Fri, 02 Jun 2023 06:32:09 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-25.three.co.id. [180.214.232.25])
-        by smtp.gmail.com with ESMTPSA id x16-20020a170902ec9000b001aaecc15d66sm1316041plg.289.2023.06.02.06.32.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jun 2023 06:32:08 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id AE936106A6F; Fri,  2 Jun 2023 20:32:05 +0700 (WIB)
-Date:   Fri, 2 Jun 2023 20:32:05 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+        with ESMTP id S235775AbjFBOkl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 10:40:41 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C87B51BD;
+        Fri,  2 Jun 2023 07:40:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=csXHyTVxkO+EGfVGUkTCJ6dG3JVY9wkWTgHzblW+1z8=; b=SkQmNVOGlL8AQWBC9GS+DAhOCy
+        pofqCKOFBuExSWYSUk1GOFt2m62JU8NEtYoPUUfMMqQ0Tvi3EJsHfNqSp200ooaTXY3PTzxOlEQx6
+        hi6KhG2M0AEguimnvfwFgRjrDAvrv2QoVKzAWqxP0rpemSCRkLCdxugTW/2YQ1/pytbyyJaEsm9Pe
+        9fF8rqccSYOqcoqSnuyarEBqbcWLdOeZyGMTbYC1Yo4yux9gcXUpErSi7OVplE7ALO5MRwva9+CqF
+        /GgutI8B0hYBrP2dcBrjvb6Ay3CWgXFc24hfBxmA3Q5N4iL4PvgjqQKKMoMxbpDLjeMpfcsPrfrFt
+        gFDjAmFA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q55vz-001Lw5-1U;
+        Fri, 02 Jun 2023 14:39:19 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B3BB5300188;
+        Fri,  2 Jun 2023 16:39:12 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6982E22BA6445; Fri,  2 Jun 2023 16:39:12 +0200 (CEST)
+Date:   Fri, 2 Jun 2023 16:39:12 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Helge Deller <deller@gmx.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] drm/todo: Add atomic modesetting references
-Message-ID: <ZHnvVYM7K4jvP8QK@debian.me>
-References: <cover.1685696114.git.geert+renesas@glider.be>
- <7cea42cd09540657875a210cd16421125497d690.1685696114.git.geert+renesas@glider.be>
+        Will Deacon <will@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>, dennis@kernel.org,
+        Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
+        Heiko Carstens <hca@linux.ibm.com>, gor@linux.ibm.com,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        borntraeger@linux.ibm.com, Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
+        suravee.suthikulpanit@amd.com, Robin Murphy <robin.murphy@arm.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Baolu Lu <baolu.lu@linux.intel.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, iommu@lists.linux.dev,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-crypto@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+        linux-parisc@vger.kernel.org,
+        John David Anglin <dave.anglin@bell.net>,
+        Sam James <sam@gentoo.org>
+Subject: Re: [PATCH v2 07/12] parisc/percpu: Work around the lack of
+ __SIZEOF_INT128__
+Message-ID: <20230602143912.GI620383@hirez.programming.kicks-ass.net>
+References: <20230531130833.635651916@infradead.org>
+ <20230531132323.722039569@infradead.org>
+ <70a69deb-7ad4-45b2-8e13-34955594a7ce@app.fastmail.com>
+ <20230601101409.GS4253@hirez.programming.kicks-ass.net>
+ <14c50e58-fecc-e96a-ee73-39ef4e4617c7@gmx.de>
+ <CAHk-=whL65CLuy9D9gyO608acM5WLWo_ggAMP1cGu2XvyC0-hA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="DPoP2WNc/X86Xlln"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7cea42cd09540657875a210cd16421125497d690.1685696114.git.geert+renesas@glider.be>
+In-Reply-To: <CAHk-=whL65CLuy9D9gyO608acM5WLWo_ggAMP1cGu2XvyC0-hA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jun 01, 2023 at 09:29:18AM -0400, Linus Torvalds wrote:
 
---DPoP2WNc/X86Xlln
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Right now we have that "minimum gcc version" in a somewhat annoying
+> place: it's in the ./scripts/min-tool-version.sh file as a shell
+> script.
 
-On Fri, Jun 02, 2023 at 11:11:34AM +0200, Geert Uytterhoeven wrote:
-> -There is a conversion guide for atomic and all you need is a GPU for a
-> +There is a conversion guide for atomic[1] and all you need is a GPU for a
->  non-converted driver (again virtual HW drivers for KVM are still all
-> -suitable).
-> +suitable).  The "Atomic mode setting design overview" series [2][3] at
-> +LWN.net can also be helpful.
-> =20
->  As part of this drivers also need to convert to universal plane (which m=
-eans
->  exposing primary & cursor as proper plane objects). But that's much easi=
-er to
->  do by directly using the new atomic helper driver callbacks.
-> =20
-> +  - [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-dri=
-vers.html
-> +  - [2] https://lwn.net/Articles/653071/
-> +  - [3] https://lwn.net/Articles/653466/
-> +
+Something like so then?
 
-Looks like footnotes better serve these links above:
+---
+Subject: parisc: Raise minimal GCC version
+From: Peter Zijlstra <peterz@infradead.org>
+Date: Fri Jun  2 16:33:54 CEST 2023
 
----- >8 ----
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 51eb67f5268c5e..6ea92f48a2e21c 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -49,18 +49,18 @@ converted over. Modern compositors like Wayland or Surf=
-aceflinger on Android
- really want an atomic modeset interface, so this is all about the bright
- future.
-=20
--There is a conversion guide for atomic[1] and all you need is a GPU for a
-+There is a conversion guide for atomic [1]_ and all you need is a GPU for a
- non-converted driver (again virtual HW drivers for KVM are still all
--suitable).  The "Atomic mode setting design overview" series [2][3] at
-+suitable).  The "Atomic mode setting design overview" series [2]_ [3]_ at
- LWN.net can also be helpful.
-=20
- As part of this drivers also need to convert to universal plane (which mea=
-ns
- exposing primary & cursor as proper plane objects). But that's much easier=
- to
- do by directly using the new atomic helper driver callbacks.
-=20
--  - [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-drive=
-rs.html
--  - [2] https://lwn.net/Articles/653071/
--  - [3] https://lwn.net/Articles/653466/
-+  .. [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-driv=
-ers.html
-+  .. [2] https://lwn.net/Articles/653071/
-+  .. [3] https://lwn.net/Articles/653466/
-=20
- Contact: Daniel Vetter, respective driver maintainers
-=20
-Thanks.
+With 64bit builds depending on __SIZEOF_INT128__ raise the parisc
+minimum compiler version to gcc-11.0.0.
 
---=20
-An old man doll... just what I always wanted! - Clara
+All other 64bit architectures provide this from GCC-5.1.0 (and
+probably before), except hppa64 which only started advertising this
+with GCC-11.
 
---DPoP2WNc/X86Xlln
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+ scripts/min-tool-version.sh |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
-
-iHQEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZHnvUAAKCRD2uYlJVVFO
-o2R9AQDL0rXdsAZ2q75Un/nud8+9skYIJP+8pCerpXMSUJgTAwD1EbjcCcLx7iqs
-1xk3nWj97FZCR273c6lRVz3Cm5VIDg==
-=gt6j
------END PGP SIGNATURE-----
-
---DPoP2WNc/X86Xlln--
+--- a/scripts/min-tool-version.sh
++++ b/scripts/min-tool-version.sh
+@@ -17,7 +17,11 @@ binutils)
+ 	echo 2.25.0
+ 	;;
+ gcc)
+-	echo 5.1.0
++	if [ "$SRCARCH" = parisc ]; then
++		echo 11.0.0
++	else
++		echo 5.1.0
++	fi
+ 	;;
+ llvm)
+ 	if [ "$SRCARCH" = s390 ]; then
