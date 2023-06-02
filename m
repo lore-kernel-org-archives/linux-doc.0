@@ -2,31 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2623AC7EE2E
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 11:06:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F697C7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 11:18:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235203AbjFBLGd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 07:06:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47072 "EHLO
+        id S234495AbjFBLSc convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 07:18:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235329AbjFBLGa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 07:06:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2667E49;
-        Fri,  2 Jun 2023 04:06:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126156168104.26.openmobile.ne.jp [126.156.168.104])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 163206E0;
-        Fri,  2 Jun 2023 13:05:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685703958;
-        bh=H0LfW0kt48rXXIsADqS7s4ieQRL9M5rRvbwHyylFCDs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MSc7QFvzSUD390rJN/7Lpo6HN6lMixboT3h+VA4W1fr3wM1fZmlPN4W9Wc1hIGUxj
-         yb7lgSEZ8OnBGjhiRUrTbwqWbiuwJfhEIVHeAo7V0XTfinpVPuVSaslFA67SRCAJ2o
-         idax+IsxVl7nzOVOnFMRMc4vzDrNVxT6gZ8/IDwA=
-Date:   Fri, 2 Jun 2023 14:06:18 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
+        with ESMTP id S235358AbjFBLSa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 07:18:30 -0400
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0121A1B9;
+        Fri,  2 Jun 2023 04:18:15 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-ba8cd61ee2dso4799658276.1;
+        Fri, 02 Jun 2023 04:18:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685704695; x=1688296695;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=55TCnNM7kMHRew3G4Jl4TYRy0f4Haiew0/tikDTeZNg=;
+        b=QUfrLdFvAGwzYmoCbap1nhDGCSYytke1ndKiXgRySPehbNi0hgnyQQR2CPr7AKeurm
+         fuelDWEh6jNgdD1SbWJUT+VbxS1Q2/XEhsadC7sp3aujSvxtHDW5lcm/s/3vkygnpWhl
+         43A5rQVCMfuXBYNHPPqoXys5KGN7YsHehRXutO+sI/FJiK6I/VJ9kCND4laKowv7pXko
+         cASjaGLcd9sV4kP6mHx/N+Z0UTEFIis+FtI9asH5NR1d3ndSQP+RJ4CFtxl427mKjYgA
+         6miDMlkGwRgN7TNJejn0/lmDgJNSgoyZ/qZ69OLmBl3jRlA+5yWRMJPEJwPtLdQFZKiX
+         iCDA==
+X-Gm-Message-State: AC+VfDwtaeWC9oIyG4myUjM5VlQpN9f9FzhN1No89Zm8MJDIUATj85Bi
+        VeUntkpOjtk9CB0+gb8rFLByLNPjfzboqDzv
+X-Google-Smtp-Source: ACHHUZ5WDEDLyze0p2DKzK94QluEN0m78XsgT8PdUjwD4yVHgBuwa/3hvekURaEK3p0XCi4S2blrlg==
+X-Received: by 2002:a81:4f15:0:b0:561:94a9:f9f7 with SMTP id d21-20020a814f15000000b0056194a9f9f7mr5542787ywb.20.1685704694917;
+        Fri, 02 Jun 2023 04:18:14 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id h187-20020a0dc5c4000000b0055aafcef659sm387316ywd.5.2023.06.02.04.18.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Jun 2023 04:18:13 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-568928af8f5so30320507b3.1;
+        Fri, 02 Jun 2023 04:18:12 -0700 (PDT)
+X-Received: by 2002:a81:4f15:0:b0:561:94a9:f9f7 with SMTP id
+ d21-20020a814f15000000b0056194a9f9f7mr5542636ywb.20.1685704692143; Fri, 02
+ Jun 2023 04:18:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1685696114.git.geert+renesas@glider.be> <14e091fc522aa63a3e33bda1016e5fa946d47d18.1685696114.git.geert+renesas@glider.be>
+ <20230602110459.GC26944@pendragon.ideasonboard.com>
+In-Reply-To: <20230602110459.GC26944@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 2 Jun 2023 13:17:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
+Message-ID: <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm: Remove references to removed transitional helpers
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
@@ -37,75 +63,58 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm: Fix references to drm_plane_helper_check_state()
-Message-ID: <20230602110618.GD26944@pendragon.ideasonboard.com>
-References: <cover.1685696114.git.geert+renesas@glider.be>
- <2408d7841c91e98e9a2b24b1b4df9b2b865519a6.1685696114.git.geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2408d7841c91e98e9a2b24b1b4df9b2b865519a6.1685696114.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
+Hi Laurent,
 
-Thank you for the patch.
+On Fri, Jun 2, 2023 at 1:05 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Fri, Jun 02, 2023 at 11:11:35AM +0200, Geert Uytterhoeven wrote:
+> > The transitional helpers were removed a long time ago, but some
+> > references stuck.  Remove them.
+> >
+> > Fixes: 21ebe615c16994f3 ("drm: Remove transitional helpers")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Fri, Jun 02, 2023 at 11:11:36AM +0200, Geert Uytterhoeven wrote:
-> As of commit a01cb8ba3f628293 ("drm: Move drm_plane_helper_check_state()
-> into drm_atomic_helper.c"), drm_plane_helper_check_state() no longer
-> exists, but is part of drm_atomic_helper_check_plane_state().
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > --- a/drivers/gpu/drm/drm_plane_helper.c
+> > +++ b/drivers/gpu/drm/drm_plane_helper.c
+> > @@ -51,14 +51,6 @@
+> >   * planes, and newly merged drivers must not rely upon these transitional
+> >   * helpers.
+> >   *
+>
+> The first paragraph starts with "This helper library has two parts.". As
+> you're dropping the mention of the second part, I think you should
+> rework the first paragraph too.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+That was my initial thought, too.
+However, the code still has a second part, not related to the topic of
+the first part (primary plane support).
 
-> ---
-> Interestingly, all these comments appeared only after the commit that
-> removed the function...
-> 
-> This is against next-20230602, which does not have the
-> drivers/gpu/drm/{ => renesas}/rcar-du move yet.
-> 
-> Biju: you're adding a new copy in
-> drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 3 ++-
->  drivers/gpu/drm/tidss/tidss_plane.c     | 3 ++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> index d759e019218181ce..e445fac8e0b46c21 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> @@ -600,7 +600,8 @@ int __rcar_du_plane_atomic_check(struct drm_plane *plane,
->  	if (!state->crtc) {
->  		/*
->  		 * The visible field is not reset by the DRM core but only
-> -		 * updated by drm_plane_helper_check_state(), set it manually.
-> +		 * updated by drm_atomic_helper_check_plane_state(), set it
-> +		 * manually.
->  		 */
->  		state->visible = false;
->  		*format = NULL;
-> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-> index 6bdd6e4a955ab3cc..e1c0ef0c3894c855 100644
-> --- a/drivers/gpu/drm/tidss/tidss_plane.c
-> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
-> @@ -38,7 +38,8 @@ static int tidss_plane_atomic_check(struct drm_plane *plane,
->  	if (!new_plane_state->crtc) {
->  		/*
->  		 * The visible field is not reset by the DRM core but only
-> -		 * updated by drm_plane_helper_check_state(), set it manually.
-> +		 * updated by drm_atomic_helper_check_plane_state(), set it
-> +		 * manually.
->  		 */
->  		new_plane_state->visible = false;
->  		return 0;
+>
+> > - * The second part also implements transitional helpers which allow drivers to
+> > - * gradually switch to the atomic helper infrastructure for plane updates. Once
+> > - * that switch is complete drivers shouldn't use these any longer, instead using
+> > - * the proper legacy implementations for update and disable plane hooks provided
+> > - * by the atomic helpers.
+> > - *
+> > - * Again drivers are strongly urged to switch to the new interfaces.
+> > - *
+> >   * The plane helpers share the function table structures with other helpers,
+> >   * specifically also the atomic helpers. See &struct drm_plane_helper_funcs for
+> >   * the details.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
