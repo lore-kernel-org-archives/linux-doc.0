@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94BFEC7EE2F
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 07:05:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E0CEC7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 07:09:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233994AbjFBHFv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 03:05:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55052 "EHLO
+        id S234076AbjFBHJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 03:09:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234184AbjFBHFO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 03:05:14 -0400
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2113.outbound.protection.outlook.com [40.107.96.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44056E61;
-        Fri,  2 Jun 2023 00:04:53 -0700 (PDT)
+        with ESMTP id S234020AbjFBHJj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 03:09:39 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2128.outbound.protection.outlook.com [40.107.237.128])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1CD71A2;
+        Fri,  2 Jun 2023 00:09:37 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GV6Wxza10V+FXzXIJmO0EkWsx1l2opDoWHW5WGXpU31/xD03DjeoIlHRtlkFZzUFDTgK6a5YVTtObOPKGgULkVxOkhLHFxwy9OAcAn7hoirJY/loPQ7g6pMdnr6ytftEFDVCmZhOgnxc7IGpzSl/LBHE+fRfzheMJy2c0/69kid/UoYjgQLjWJYimpAAYjbjL5DEbYuPu8BStmbYfjM7hRNTXJh2sbGw8YEdh7Lqz3mkgRLmVSPqQ7szqwE+0UbtsZ2wNO6TV/hLdxDQ8jJBRUFvedx3G87Fw0E32tbJNznzQhnzEkoC1okrwmQM0cC3x03pno0+ef//WRw8deemSA==
+ b=IJhmLP/HQr0ofTnkyRHlo0IQD2WrSwsrw8F4C1y3T937kUBTqnyEmwV3j2XGRKHyWRFYI8CjmGW+I3sSN+M7CDK/DSx/gnwRgY1HtW/gTWING4iLd3n/D2MWF43SKbijhKGr/5EUMNavk7nqu52EKIdvkqsxPZtkyVCtT0xsAYIQW1unCtstjMkdwY0M2L10HDwO8YLMJAynuSOxFaS4aCZRqFYhoKarZL2JyKzrNjeND2d5eomtN99mSlwbqSLJOZRDh1xcZ7fde7sUqyglFgzR76UpfXj/gzNnfBQYq0vaoYarYya1rTpgaFEABwLHCnQOgm6n2D7CzX9/RdqeEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B3Xv7N78wJJF8v05BSpHgkG+s4731CZUi2PU4as4Yi0=;
- b=e5mXrs2xWvkJgnCkZXJ8SdtfCNW+2Q13WgLNdtGHQxjxAfKd0BJllG0enBy36r2Rn9NgcSYikq5BlEgDyuCvtw0vV3MJGAzZaV9vdY3KClEBKcMipMmzuzP24TUku/6EQEKC2/f13KaBDXjA4x7zg3MIN6qhJTZDQSFz/0L9to/tFVCHn7BXFf+NdMDSAgVAH5OpH13XMiz4ZlZ/RMF4ZQK2scf66iJ867kVIbEF5PQ3Eka4HpIkq90hSlBL7BqnBfSPtqdbwjB474SKGVMHebkbYupZZ0zyMwb/40HIa80NWJIBLlu9j6MZ/1t0MilwqnFEPsdiFxK7sDL0La8QQg==
+ bh=66MkbLZvFQw83i8OwhYRGzUYhGnObS7HmCVJXFC/pFo=;
+ b=H5Wj3xjhpWPV8b6TxEzNxudE6e/3kkQ5OD2Ae5WGKxShdtu/eVVIB+8oB2nIWl5ecergh+LKVXb/720mMoU+f8zD74CBcnLsO9DFPh/1kTGHD1of5AjsppYOIxWiyS3EsYrzbCCz6Qede2xdn+vIfzh2o+t5BtzBO2YrTKlvmXzFMFjt54QY193vpSpdQWQJJiEwiO9hasefZDRLaRfRLBam8Fp5zHYUsTz25Agg5Mc39oWHDNFBjV7GKGCm6RYHckPbEjiHfeP7oXlU8o5sAbu3OAfSm49ZGaTDsXS2glKkvQhKjZYZIjqLtcuDNLw244bV5BNCLQexVeGIALazdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
  header.from=os.amperecomputing.com; dkim=pass
@@ -28,19 +28,19 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B3Xv7N78wJJF8v05BSpHgkG+s4731CZUi2PU4as4Yi0=;
- b=BmuHOHghwuOI2+uZuqh+zB31N015R8YpCzVSOwym30sgRVTVpr5ZXvKmVStFzTXei83zpIUWPhzph2BEL6YL5odGc3Q9H67icZm831GJnoQN4IXuqbaUj5z443GA6HiZJgIIVKV6m1wThwUr5Bd1pjHjkEWFqSzcE0bsSpgAaE4=
+ bh=66MkbLZvFQw83i8OwhYRGzUYhGnObS7HmCVJXFC/pFo=;
+ b=U/UkUS+KsjXx8LYecI8G93JIHFY03Nes+vQ2idELSNDr4r96YqH9vajyHWbk7T5i26ctNCvScuRw5O7rj/1kTtGr5UpRswcPIKKZhnSy3LzoWgGkgl1MkaInlCVpvusFxjMHA+dY7Fj82BHh4pbWWrJutbpqj4Oj5I+SkUFvI7s=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
 Received: from DM5PR0102MB3590.prod.exchangelabs.com (2603:10b6:4:a4::25) by
- PH7PR01MB7581.prod.exchangelabs.com (2603:10b6:510:1e0::11) with Microsoft
+ PH7PR01MB8541.prod.exchangelabs.com (2603:10b6:510:2ee::11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6433.23; Fri, 2 Jun 2023 07:04:48 +0000
+ 15.20.6433.24; Fri, 2 Jun 2023 07:09:32 +0000
 Received: from DM5PR0102MB3590.prod.exchangelabs.com
  ([fe80::5aae:2a5e:15f5:8196]) by DM5PR0102MB3590.prod.exchangelabs.com
  ([fe80::5aae:2a5e:15f5:8196%2]) with mapi id 15.20.6433.022; Fri, 2 Jun 2023
- 07:04:48 +0000
-Date:   Fri, 2 Jun 2023 00:04:42 -0700 (PDT)
+ 07:09:31 +0000
+Date:   Fri, 2 Jun 2023 00:09:24 -0700 (PDT)
 From:   Ilkka Koskinen <ilkka@os.amperecomputing.com>
 To:     Robin Murphy <robin.murphy@arm.com>
 cc:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
@@ -51,63 +51,64 @@ cc:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 2/5] perf: arm_cspmu: Support shared interrupts
-In-Reply-To: <e2f2c524-c7c5-7a55-aee5-699b069a445a@arm.com>
-Message-ID: <77b19b2d-a84e-eb13-db38-78cb34a444a8@os.amperecomputing.com>
-References: <20230601030144.3458136-1-ilkka@os.amperecomputing.com> <20230601030144.3458136-3-ilkka@os.amperecomputing.com> <e2f2c524-c7c5-7a55-aee5-699b069a445a@arm.com>
+Subject: Re: [PATCH v2 4/5] perf: arm_cspmu: Support implementation specific
+ event validation
+In-Reply-To: <2a081ab9-f1f3-569e-72e8-1c743e8357a1@arm.com>
+Message-ID: <30a649f3-f787-56f-38a0-9ce0ef87f4ca@os.amperecomputing.com>
+References: <20230601030144.3458136-1-ilkka@os.amperecomputing.com> <20230601030144.3458136-5-ilkka@os.amperecomputing.com> <2a081ab9-f1f3-569e-72e8-1c743e8357a1@arm.com>
 Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-ClientProxiedBy: CH0PR08CA0003.namprd08.prod.outlook.com
- (2603:10b6:610:33::8) To DM5PR0102MB3590.prod.exchangelabs.com
+X-ClientProxiedBy: CH0PR03CA0434.namprd03.prod.outlook.com
+ (2603:10b6:610:10e::16) To DM5PR0102MB3590.prod.exchangelabs.com
  (2603:10b6:4:a4::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM5PR0102MB3590:EE_|PH7PR01MB7581:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93ef8539-d417-43c2-888a-08db6337a70a
+X-MS-TrafficTypeDiagnostic: DM5PR0102MB3590:EE_|PH7PR01MB8541:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ce9612e-0a9b-4f61-25ac-08db63384f89
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FqZQsBWpBLgPuY26fXu9GoOZ0vpPGuRhuNantwMVaufoeBjrL1w6WOwh/SVunnck1ae8h9nw2HJn7e7FRyE94m8pd3Z72/ECdcjmBeNXyu+FwEYqYm1iZSU505EkB0T/YBZOF4jMrG+6mYBtRqBqppdTT9mhuVR2YM7j41s9J7Xz2wkF6/dcClMdtiEyt6RPOVWGx4Ib47TPo8hwng2LmG1XDavVQ12iRFtdJ9nFBP6yyIoC8dAsdaSok5Jr73tW99HyiweQMXAnQDiPw3UCssSvIgRAzOtSt205TlDH8VkGMY9OaANFN1zj/dtwgfgrIf9R9t3vPCIeCwcbUhM9zwsMseL9+1RK2Z+ktLzx8ZhT6uONrLNNk9/zRmlxuk9CxsGUvzyhaRtqtf88nJA7s6BhUZpAgpLsHOJwf+Qmxk4kpQGiOnzAjMOUJZad/ME/deC562qqbR3MetsIFRnRQJDx5ioVrOg3uuiZna/hXmZtedXjy5my53ZLL5cn1NXCp2zDsxnei7v+hnPX9AjlW9PMaDwEyM+yeQ9qZuBGa9MABn0c2lFXrXib2jSI6ZG90mlwcSVuF6oVDcSKOyr0EQ5O0tK2nhid08ZjX1EISQyCTwfS0fP2D/WHKVoMCnk8
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0102MB3590.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39850400004)(136003)(396003)(366004)(376002)(346002)(451199021)(54906003)(478600001)(66556008)(8936002)(5660300002)(8676002)(66946007)(86362001)(31696002)(2906002)(6916009)(66476007)(316002)(4326008)(38100700002)(41300700001)(6512007)(186003)(6506007)(26005)(53546011)(52116002)(83380400001)(6486002)(38350700002)(6666004)(31686004)(2616005);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: 0hmtBOphQsailJgbLeEp3yq0qx+QS5Bpucs2Fku85P7JSI/IN0rx5yvB/K7lXoAI5YGTkgFT9C5S/io8JEass3KEbr+BI1TcFpJqiSlSeBQ9//R0Vi/lf42QjYhtd6+MSbdAZSV3yxRA0MQlpctXeIR0u3fz7fWoTqundCP3Me0TyNl70gmrk/VNJoSc800JoE68pPs5i5uz33ZIyyHvdI0g3z8UguC3CWX2JxlI9svgw5YuUQAODylUGdpDMLoB+YjzrecI3bvPZPGaMsPUjzxWQM95m5jLtbjf2SmowPbRaFGOFF9td8qJ3zKJ8xhWQS9HeIU755zM136iJN+Dk/sFVVun2uCigrHDJle+o6v8gQr4K/+pAfHb6oAO6dUOhJUJQbyQ0OVmCIIJz7T+rTtu/hbFu//LAtBtIzdW6vnFZkdGeiLpD8fPTZWvNvDVCzYpptxw7F6lk0Dkzy71uSfx+OVEOh/p9P4jjE4HG9o4WGiIVFyedk1pFv0GljDo6nux3i06S9l67gfFzGxHzFEUJSp7k4wd59K+EopV0fNmNPLrLOJQCtOH8O1KbJZrx6xAuUNlFcIP2MkDnup8cKwfg7yqZiAvSvbRpKBYBusUQP6IdHi8p89VbJPoiM9G
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0102MB3590.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(376002)(39850400004)(346002)(396003)(451199021)(38350700002)(38100700002)(5660300002)(8936002)(8676002)(6486002)(54906003)(41300700001)(478600001)(52116002)(6666004)(316002)(66946007)(66556008)(2906002)(186003)(6916009)(4326008)(66476007)(86362001)(2616005)(6506007)(53546011)(83380400001)(26005)(6512007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?g7kyQ7Q8MU8BDySZWEzr9EvY05E+PIw78sGSWAJaWVvl8i/mJXL6tvezf5rq?=
- =?us-ascii?Q?ZIMZ2Ettx7IXIl/8trvC5Y4q2rz5+/VaDC9FCkGPxpKsqcim9OeO5PNzyUsl?=
- =?us-ascii?Q?nutZRwuyQWH34GMLPtGfP7pWHgo2LqlKqfjGoiKSbNJlwTs5U6piFnLX4quk?=
- =?us-ascii?Q?zc7XdJEqpJo08ys2lWpoVl6jHZmhNnf6BI7/1q+XXf8UKvHBFf9Y3iofjXu6?=
- =?us-ascii?Q?6jammOnQYDDH4mx5FhVPg0+RXCKZAkLrvzmyTk87+lVkdKIkTagqxUtHUkSo?=
- =?us-ascii?Q?/SYqx8i5qHnXXME1Jv0gMlY0eaE7LGPJVtl/utoCJdHWPkDxuPZZPOHUAy5Q?=
- =?us-ascii?Q?mYYRVf0Jro5OLCu2TK6lHwXwh9yWWrgdE7qztiC7utdGgVtWMgmmpf4PtU6k?=
- =?us-ascii?Q?qBkKWNYEWsUrHpxugcvnww4TUyLPDKGgXFNgEhc/rAC+IpQHpRNzRzePJlGO?=
- =?us-ascii?Q?PAqxcM3oJXQ10jiPhdy0tT4r6vqEIycM8wKsT22qLU6SCPLIqzg1UdqkBePn?=
- =?us-ascii?Q?Vlnzu9KzVvEzRqHZRtH64/ZqLNERE1/yD4y4bAxWNHduLXvBfZFODqJSAENP?=
- =?us-ascii?Q?+TZOlCF88LeD0I8zWYfCejhAdScVaUYj2lEZxV2gi7GX829GllHaPnXDSBG2?=
- =?us-ascii?Q?9wPNMdRaBhCOcik0g22Txf3vHLjwfAX3NJE62WMgrRrN2kZHR0RBIj8ST/uO?=
- =?us-ascii?Q?lRfkYilyKpe9LbfL7eA4rDZkgGAhiF+/WVoOm8vjk4hbnQfwQ9QK2lHTtI3+?=
- =?us-ascii?Q?kMubW6J5aVCO3U+Wlm5Gqk75gfrS0keX9SqjgPR52yX7oOVrlrbxHG9C1HId?=
- =?us-ascii?Q?kJMBpLKYLkYRVBrepnxdIDqZOxBCvDuyMv0CRZ0jgyor470XwpkQ/3UZHsTq?=
- =?us-ascii?Q?pGMoj4f+hORt3Wk6MUdamwxW9Q3hT3l9LxdC7WGxhx/Zekv2TiMRW3ZvAegm?=
- =?us-ascii?Q?nZtEUDUb2Upvg4jpigv9nVdfR3AOnqz4yh2tWpXkLT276YoDrXVQCeIhL3N0?=
- =?us-ascii?Q?yPOE5Mtj7GoX7cE1/LlT0+ZoikTiEkvmC5JPKMnKUU6U0pHlLpCjxj6GCCJt?=
- =?us-ascii?Q?JgkDce4DTlQlEgfAAe5KcrauwH7/nMs6HzaNFXsMflRPP1qL0CFo3/m8iWEP?=
- =?us-ascii?Q?Y73m8UZG1abY3j0Z7fu5cQSifze0bhcpXUphyzqTnMJ5i0ocNlIn8mvkVB1K?=
- =?us-ascii?Q?vxye1ke53AMfC5b0xUJBo9vjgTEWwes9e6meF83B2y/JAA9e6JNqE+3JXta1?=
- =?us-ascii?Q?poRFo+3x2+jyFhT+jA2LrQabi3HsU76KI5QFKr6ncxJHyTCDCfF/qvMcFPOw?=
- =?us-ascii?Q?WXW2bZmDm7qJWGI4sQPLjAxlH6co9Gr6o3MuRfbvk3FYcxW121W3GdE4E4L/?=
- =?us-ascii?Q?x12o7JcPUDz4hSHyWbh//TVXKoBuNy0bamkNGkLvx25y9CnMgwcNeSVbxTI9?=
- =?us-ascii?Q?1Fb1UCujujMgt0rHPfPY5YnIGCTfdVCTMjo/3KG/e73SINbfu2AoEMv5AJ74?=
- =?us-ascii?Q?0w6//UmPV9hRUbtkjPYy/7GBg/Ys2GybTe9DEH/tkHKdWtKpO9Q+LUfJR2eR?=
- =?us-ascii?Q?w/kTNDFIPsOkBHyrcTxe4te6JOKRKIXFtNBhoRip0ahAHc/H/NW5fD0KB/dw?=
- =?us-ascii?Q?/azXgrtW0mJKBLQJIRlCbu0=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MDKl5+RcjpU/RJJD18+tDhPnS/bXRE2n0jgxeoheMMGfls3S25vDzZOzdWji?=
+ =?us-ascii?Q?J0Ju1hNrZGAYGOdzR9LNBLoxmMyHMDIK3dTGzw/IOuqU3kx49zt2lt/jfMTu?=
+ =?us-ascii?Q?PGTnvFCyYU8hjUpoYPyDAvKSDqZGbzQTfHXKEkWD9mH3lGW2hOKS9Jz9ygJW?=
+ =?us-ascii?Q?aLopAP1Z7et1bfBQoUkicA8eGh06jjcUvFID5BgJBezY6/gvdjvVv9VmF3yY?=
+ =?us-ascii?Q?AOW/yR8xJcBuEiPtCBTKmdBBYADWDFxWc1+AT4Oz3S5YSm/BRwrjp+LTLGAO?=
+ =?us-ascii?Q?6/a0DnzEGWb4w4XZAPfRJ6YCFKloL1T6N/nbEI38l9L9SLtMA7ZlRX6kHPQH?=
+ =?us-ascii?Q?cCo9LZZdjMq2/oH5C1/Bjn2bMUWiQn8c2zuqvxryf5or+wtVMenYbRSEXjyx?=
+ =?us-ascii?Q?VdqZkABafAa3FTkL0xl+zLHrdIjCG0Q5ncV9y0T3b6zVsYgfPbGYbhPxO8n5?=
+ =?us-ascii?Q?f/+UKa+gUD6uCLHkUzcZc6anqozhcc9cDjTCFuUUVQnGdYYRarEuUl2kjULa?=
+ =?us-ascii?Q?p6iyML9R0gPH1+6BQXB51dz0/IN35O8gnUisTNttwO3wc/I5WDNXW1qbcmZR?=
+ =?us-ascii?Q?vuGLUeO2aKraxwSMEx4Ct473Ir7WbYQfDWjHcqUWGlKehRlQIfcQJPRMNiXK?=
+ =?us-ascii?Q?7vToYeM9pbA4Fr7yL95BRlJ3ihldPsEmS3ncnaSTPqlSkdZG2b/7APunqXsz?=
+ =?us-ascii?Q?GQWpWzzVkfaqMFtPps/sVHZuJnM4oomgEZMWKjnXIeGFlTrW2twjHWq946+t?=
+ =?us-ascii?Q?WAPrNZS4Sd4K1H9fZJOOX8+0houfY/oVD8P9Uo27FlV4z06vCJnYZEOmYLPN?=
+ =?us-ascii?Q?LMkd23zXk/jA6P+EhIxYjuQb5XStT8pF56cjRCrS91FKjbyA4ReOUW1aT13T?=
+ =?us-ascii?Q?exGlZqqu86h9xnleS7T8f3bCZkwQTvRva/GIVHakn4EvRJxqaBfUdwJDlXM6?=
+ =?us-ascii?Q?yUISBukJa9FWISQtgUYvXvFU/AYzqEzZswMBPulh9rcNC1wTY4gUoDaD4HsC?=
+ =?us-ascii?Q?FYNRhwLJENk9VeKEOXFqItNyps7Yjl5rHbLCg/fH7Z49vA0A7rU6izexPB9x?=
+ =?us-ascii?Q?nNor6/j9qpGI5pmAHik6R6LIwG0ekZ6Uz48bSZPycJRpNQrHL/HJ3rqOqkGO?=
+ =?us-ascii?Q?yqnD9tU/8kBbYUnO4r4mdo/Q0jpJrBOanFRd0rz8OwQZ2IFbwAEKUOFjAVjJ?=
+ =?us-ascii?Q?vU5Rq/09NmvBuEs2GO8oCDkTCdgF0QXF4vIfGGdmpAcG5xh8o8+WZcfgx9E0?=
+ =?us-ascii?Q?qUxU6l/TuuB0hyT/4yTdhBVx7zriS2MYmXZ2hJBDdpfviji4ZS5fcdZ+hyfJ?=
+ =?us-ascii?Q?BdyGtXwANVOhNnJxecyOpk7GiZ8tic3kmQz7BMspI60sOFSYSig2n8Dd6u+0?=
+ =?us-ascii?Q?ntDYl2VDkSAYc+3LGng+BYOeuETC64rgeOg5u227K1Q0/2u4m3SV/tOzcshF?=
+ =?us-ascii?Q?ed7XqI2NwESdgI82i/oT4sUSkbwrd3sr9Q3rDu24xUPPYo9oytLDctM+oR+R?=
+ =?us-ascii?Q?2aB5zFwCjflUZXBSTp9g9mjg8IN7lggtPuApGM7SWcOG1avXPA3VGwgvC308?=
+ =?us-ascii?Q?MToznkoQnJf23H6qhzDfra1sOHBKav40j+NXp9Y4VnSbuY+sHsp6A2HR9jVc?=
+ =?us-ascii?Q?mGiWy5ZdZgwTNQg6A2mHgw0=3D?=
 X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93ef8539-d417-43c2-888a-08db6337a70a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ce9612e-0a9b-4f61-25ac-08db63384f89
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR0102MB3590.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2023 07:04:48.1202
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2023 07:09:30.8963
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fY53U4+BAZDOgitZLoAkIYXXGAY+O/qHIh//7rBki+lzKFOLGv0TAEvpQidvGfWmlMoaqoNxdCHReVnr0cSGyJfCq5/qTBg9h3NeetV5UwWEwOOjhexJTBXmZqMOMupM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR01MB7581
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6lnTKz8K1DooV0FErk7y9Kz//9vtBwYjyGQiUf7i5fT7dUaeW5WolwoNPIcFwyZUHj8D/mNB6j4HKlKtYf/OfE95NpaRAGh3I9Swk9iJOTAhjGnZv5nfQGh73x12lSeJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR01MB8541
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -117,17 +118,40 @@ Hi Robin,
 
 On Thu, 1 Jun 2023, Robin Murphy wrote:
 > On 2023-06-01 04:01, Ilkka Koskinen wrote:
->> Some of the PMUs may share the interrupt. Support them by
->> setting IRQF_SHARED
+>> Some platforms may use e.g. different filtering mechanism and, thus,
+>> may need different way to validate the events.
+>> 
+>> Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
+>> ---
+>>   drivers/perf/arm_cspmu/arm_cspmu.c | 4 ++++
+>>   drivers/perf/arm_cspmu/arm_cspmu.h | 2 ++
+>>   2 files changed, 6 insertions(+)
+>> 
+>> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c 
+>> b/drivers/perf/arm_cspmu/arm_cspmu.c
+>> index b4c4ef81c719..a26f484e06b1 100644
+>> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
+>> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
+>> @@ -593,6 +593,10 @@ static int arm_cspmu_get_event_idx(struct 
+>> arm_cspmu_hw_events *hw_events,
+>>   	if (idx >= cspmu->num_logical_ctrs)
+>>   		return -EAGAIN;
+>>   +	if (cspmu->impl.ops.validate_event &&
+>> +	    !cspmu->impl.ops.validate_event(cspmu, event))
+>> +		return -EAGAIN;
 >
-> This has the usual problem of allowing any PMU instance to move the IRQ 
-> affinity to a different CPU without also migrating all the other PMU 
-> contexts, and thus breaking perf core's assumptions of mutual exclusion.
+> Seems like this should be -EINVAL, or maybe the callback should return int so 
+> it can make its own distinction (yes, I know the outer logic doesn't actually 
+> propagate it, but there's no reason that couldn't improve at some point as 
+> well).
 
-I see, I wasn't aware of such an assumption. Sounds like there isn't 
-necessarily an easy and clean solution for the shared interrupt case. I 
-drop the patch and get back on the issue if we come up with something 
-reasonable later.
+Makes sense to me.
+
+> Another thought is that once we get into imp-def conditions for whether an 
+> event is valid in itself, we presumably also need to consider imp-def 
+> conditions for whether a given pair of events are compatible to be grouped?
+
+That's a good point. I'll take a look at it.
 
 Cheers, Ilkka
 
@@ -135,27 +159,22 @@ Cheers, Ilkka
 > Thanks,
 > Robin.
 >
->> Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
->> ---
->>   drivers/perf/arm_cspmu/arm_cspmu.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->> 
->> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c 
->> b/drivers/perf/arm_cspmu/arm_cspmu.c
->> index 88547a2b73e6..cc5204d1b5fb 100644
->> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
->> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
->> @@ -1067,8 +1067,8 @@ static int arm_cspmu_request_irq(struct arm_cspmu 
->> *cspmu)
->>   		return irq;
->>     	ret = devm_request_irq(dev, irq, arm_cspmu_handle_irq,
->> -			       IRQF_NOBALANCING | IRQF_NO_THREAD, 
->> dev_name(dev),
->> -			       cspmu);
->> +			       IRQF_NOBALANCING | IRQF_NO_THREAD | 
->> IRQF_SHARED,
->> +			       dev_name(dev), cspmu);
->>   	if (ret) {
->>   		dev_err(dev, "Could not request IRQ %d\n", irq);
->>   		return ret;
+>> +
+>>   	set_bit(idx, hw_events->used_ctrs);
+>>     	return idx;
+>> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.h 
+>> b/drivers/perf/arm_cspmu/arm_cspmu.h
+>> index 4a29b921f7e8..0e5c316c96f9 100644
+>> --- a/drivers/perf/arm_cspmu/arm_cspmu.h
+>> +++ b/drivers/perf/arm_cspmu/arm_cspmu.h
+>> @@ -106,6 +106,8 @@ struct arm_cspmu_impl_ops {
+>>   	void (*set_ev_filter)(struct arm_cspmu *cspmu,
+>>   			      struct hw_perf_event *hwc,
+>>   			      u32 filter);
+>> +	/* Implementation specific event validation */
+>> +	bool (*validate_event)(struct arm_cspmu *cspmu, struct perf_event 
+>> *new);
+>>   	/* Hide/show unsupported events */
+>>   	umode_t (*event_attr_is_visible)(struct kobject *kobj,
+>>   					 struct attribute *attr, int unused);
 >
