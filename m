@@ -2,146 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94353C7EE2E
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 12:13:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D7C6C77B7A
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 12:33:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235501AbjFBMND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 08:13:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53690 "EHLO
+        id S235156AbjFBMdv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 08:33:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235757AbjFBMNC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 08:13:02 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8721B0;
-        Fri,  2 Jun 2023 05:12:55 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 6BB541FDAF;
-        Fri,  2 Jun 2023 12:12:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1685707974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IYIAHDMmiE1O2mmuQzkbbS+OyPQbKM3RtLGdWxOhflM=;
-        b=Q2eEud1dHdWbj63hvUj5MzU8CalW7mrMzE9vcPOjV0+1F/XIjHZ50pui367Mfo9YonUctI
-        tjb6Gu2b6kGgWs71a4FkvP514KFY0Ar6T47AUegipQHRmiLdHouk47nRfWLUV2fV/a2OvP
-        G4lnykpWvWKfZ4xC52QzhNlNjufuWhw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1685707974;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IYIAHDMmiE1O2mmuQzkbbS+OyPQbKM3RtLGdWxOhflM=;
-        b=MkLlk4wmkoBVTEe8h0gFyVSLfi4rRsD8rCOQ4sK9u4HIxyrPBflAV/TrZIVyNutOdJq1cE
-        Mo9RIN011FavmyDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3434013A2E;
-        Fri,  2 Jun 2023 12:12:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id rpTKC8bceWTFEAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Fri, 02 Jun 2023 12:12:54 +0000
-Message-ID: <8ea1e2e8-302c-5519-768b-fff0556269ae@suse.de>
-Date:   Fri, 2 Jun 2023 14:12:53 +0200
+        with ESMTP id S229488AbjFBMds (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 08:33:48 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E2B180;
+        Fri,  2 Jun 2023 05:33:47 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-64d18d772bdso2322279b3a.3;
+        Fri, 02 Jun 2023 05:33:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685709227; x=1688301227;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MEa4HtLCvaR58X6qDLIInuWWrd49EKwYFvmbNgQxP+Y=;
+        b=hPya3AXoo2gk76iraAbuEMCLTv7EJfS+R9Vww94gkSTVHG/8AvYKcRkQuMMs65OJz9
+         6eDmn+mMH5qZdxcCxqGxRP+YHToOoxYzbIhFej/97J3X47KnEQlC2DFx+KYEMNtlhl36
+         tAEkDz7hu5q4wHDBhnPfwE2kYsiyuiy3h4dC3PtL8fmHiGrU8gRjk2xfSF1IxJlIDb0W
+         Bg68vUGheQZ37mILcP96Q53rng5EEnMIq9EVeBWcLK15vECN6tUxP/gZardPvM8CXgWs
+         gV03cNwlkru8QYO9Zvuf7usR+L80Oaf8h/nDnuVqCKCUpOUPlNq7yJsodQ5MD2RqeNvv
+         CUSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685709227; x=1688301227;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MEa4HtLCvaR58X6qDLIInuWWrd49EKwYFvmbNgQxP+Y=;
+        b=UqoGYl80SEKkegMma8Bxun0wqQ7NA6UD2GEZn4tWF4UV7VxCKvrdCiuPrpCfqLeqeQ
+         qyd1iMBk40EY4Q5eKrxbSY+k1rCjuZKggt1wpAS1Etx8ijLFo0l7ZWZy/SAqtK4kbIo0
+         MLteaO8hmmHA+BQC3jYt3ZVWPc4qrIAk92qVIfvE1CnfLtphjyJg650W95OnhOwMBECX
+         Uri0UD6BBLOerAogFdLlCsnUZTiHKW5YzTFWLsoc0PieC95lGDtHe5V2QlA15ARlHSLx
+         yLZoedoJxj0c1lfVv9Fo41LtaUAEDCUHyF1zTZfJ1AyvOfQZAbFRFRlZ4hBvdwIBpcV6
+         H3YQ==
+X-Gm-Message-State: AC+VfDzuSIa6hdW8kK15Vz+qjkWSoRdSqqXP+fQO/KpWGSs77ETJVefP
+        nkEKTa890R/q7947IBn17KA=
+X-Google-Smtp-Source: ACHHUZ7chbBawGs+gJXSh0pchi5h/0LICNEsARTw9zPK6gBA/gL7y1Ko0aQFguAtK1BUAXUfVit0gg==
+X-Received: by 2002:a05:6a00:a8f:b0:64d:2ea4:937a with SMTP id b15-20020a056a000a8f00b0064d2ea4937amr17109892pfl.7.1685709226632;
+        Fri, 02 Jun 2023 05:33:46 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-67.three.co.id. [180.214.233.67])
+        by smtp.gmail.com with ESMTPSA id i8-20020aa78b48000000b0063b6cccd5dfsm903574pfd.195.2023.06.02.05.33.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Jun 2023 05:33:46 -0700 (PDT)
+Message-ID: <1f66d945-4f3f-6f8e-2d14-38167c0a0759@gmail.com>
+Date:   Fri, 2 Jun 2023 19:33:42 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-Subject: Re: [PATCH] drm/todo: Fix corrupted duplicate in defio section
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <843fbc95dd5b067b64fa684204234b915ecf0304.1685705373.git.geert+renesas@glider.be>
+Subject: Re: [PATCH v3] Documentation: subsystem-apis: Categorize remaining
+ subsystems
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Costa Shulyupin <costa.shul@redhat.com>,
+        linux-doc@vger.kernel.org
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux BPF <bpf@vger.kernel.org>
+References: <ZHgM0qKWP3OusjUW@debian.me>
+ <20230601145556.3927838-1-costa.shul@redhat.com> <ZHm_s7kQP6kilBtO@debian.me>
+ <87ilc6yxnl.fsf@meer.lwn.net>
 Content-Language: en-US
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <843fbc95dd5b067b64fa684204234b915ecf0304.1685705373.git.geert+renesas@glider.be>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------PDRo2NaZMTe6VE3xxJWI7t4S"
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87ilc6yxnl.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------PDRo2NaZMTe6VE3xxJWI7t4S
-Content-Type: multipart/mixed; boundary="------------C80EVAhQvWk2LOVmMUaricJH";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-ID: <8ea1e2e8-302c-5519-768b-fff0556269ae@suse.de>
-Subject: Re: [PATCH] drm/todo: Fix corrupted duplicate in defio section
-References: <843fbc95dd5b067b64fa684204234b915ecf0304.1685705373.git.geert+renesas@glider.be>
-In-Reply-To: <843fbc95dd5b067b64fa684204234b915ecf0304.1685705373.git.geert+renesas@glider.be>
+On 6/2/23 17:19, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> 
+>> As you're still newbie here, I'd recommend you to try contributing to
+>> drivers/staging/ first in order to gain experience on kernel developement
+>> workflow. Also, you use your RedHat address, so I expect you have been
+>> given kernel development training from your company (and doesn't make
+>> trivial errors like these ones).
+> 
+> Bagas, please.  I'll ask you directly: please don't go telling
+> documentation contributors how to comport themselves; you have plenty
+> enough to learn yourself on that front.  It's hard enough to get
+> contributors to the documentation as it is without random people showing
+> up and giving orders.
+> 
 
---------------C80EVAhQvWk2LOVmMUaricJH
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Hi jon, thanks for another tip. I also learn contributing patches the
+hard way by being rejected (honestly sometimes I learn, sometimes I
+don't).
 
-SGkNCg0KQW0gMDIuMDYuMjMgdW0gMTM6MzAgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IFBhcnQgb2YgdGhlIHBhcmFncmFwaCB3YXMgYWNjaWRlbnRhbGx5IGR1cGxpY2F0ZWQu
-DQoNClRoaXMgVE9ETyBpdGVtIGlzIG1vc3RseSBvYnNvbGV0ZS4gSXQgc2hvdWxkIGJlIHJl
-bW92ZWQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IEZpeGVzOiBiZTVjYWRj
-N2U3YjRjZWU4ICgiZHJtL3RvZG86IEJldHRlciBkZWZpbyBzdXBwb3J0IGluIHRoZSBnZW5l
-cmljIGZiZGV2IGVtdWxhdGlvbiIpDQo+IFNpZ25lZC1vZmYtYnk6IEdlZXJ0IFV5dHRlcmhv
-ZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+DQo+IC0tLQ0KPiAgIERvY3VtZW50YXRp
-b24vZ3B1L3RvZG8ucnN0IHwgMyArLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
-bi9ncHUvdG9kby5yc3QgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdA0KPiBpbmRleCA2
-NjczNmRiMDBlNmQxODJkLi5jMjVlM2NkYmU5NjQ5NjdhIDEwMDY0NA0KPiAtLS0gYS9Eb2N1
-bWVudGF0aW9uL2dwdS90b2RvLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2Rv
-LnJzdA0KPiBAQCAtMzEyLDggKzMxMiw3IEBAIGV2ZXJ5dGhpbmcgYWZ0ZXIgaXQgaGFzIGRv
-bmUgdGhlIHdyaXRlLXByb3RlY3QvbWt3cml0ZSB0cmlja2VyeToNCj4gICANCj4gICAtIFNl
-dCB0aGUgbWt3cml0ZSBhbmQgZnN5bmMgY2FsbGJhY2tzIHdpdGggc2ltaWxhciBpbXBsZW1l
-bnRpb25zIHRvIHRoZSBjb3JlDQo+ICAgICBmYmRldiBkZWZpbyBzdHVmZi4gVGhlc2Ugc2hv
-dWxkIGFsbCB3b3JrIG9uIHBsYWluIHB0ZXMsIHRoZXkgZG9uJ3QgYWN0dWFsbHkNCj4gLSAg
-cmVxdWlyZSBhIHN0cnVjdCBwYWdlLiAgdWZmLiBUaGVzZSBzaG91bGQgYWxsIHdvcmsgb24g
-cGxhaW4gcHRlcywgdGhleSBkb24ndA0KPiAtICBhY3R1YWxseSByZXF1aXJlIGEgc3RydWN0
-IHBhZ2UuDQo+ICsgIHJlcXVpcmUgYSBzdHJ1Y3QgcGFnZS4NCj4gICANCj4gICAtIFRyYWNr
-IHRoZSBkaXJ0eSBwYWdlcyBpbiBhIHNlcGFyYXRlIHN0cnVjdHVyZSAoYml0ZmllbGQgd2l0
-aCBvbmUgYml0IHBlciBwYWdlDQo+ICAgICBzaG91bGQgd29yaykgdG8gYXZvaWQgY2xvYmJl
-cmluZyBzdHJ1Y3QgcGFnZS4NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2
-byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1h
-bg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+Let me clarify the situation. Previously in v2, I reviewed Costa's patch
+by replying with proposing my own version, keeping patch author intact.
+There, I categorized a few more items while sorting all of them. I
+treated it as minor fixup that was attributed by brackets in the
+SoB area (I could also use Co-developed-by: for this purpose too).
+Then, Costa rerolled v3 using my version, but the From: address
+in the patch message is mine without corresponding SoB, hence when you
+apply his v3, there would be author mismatch (commit author is me
+yet different SoB from him). I expected that my proposal in v2 is
+carried by him (and also have SoB from both me and him as the sender
+who carried my patch).
 
---------------C80EVAhQvWk2LOVmMUaricJH--
+> I have distractions that are increasing my (already less than stellar)
+> latency, but I'll get to this stuff.
+> 
 
---------------PDRo2NaZMTe6VE3xxJWI7t4S
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I'm too, because I'm AuDHD and I can (and do) easily distracted; living
+in a paradox between routine fixation and desire for quick action :).
 
------BEGIN PGP SIGNATURE-----
+Thanks.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmR53MUFAwAAAAAACgkQlh/E3EQov+Dq
-gA/8CCMHTbViNZPBj3aMrnXkmOc7HjdmhyxLvianCpjfD0p8fKekc/GNa1+dA1hQyb9rwxhKFPaQ
-ROfU0ih0Xoe2ZuGEM8EtFzf5gT+2gvkAGivQ4LKHfmvowovz0VBNaQXIJc2UTTsoB9T/51DFeQNo
-cWJt5YznGLUrGCxbXOW61ei6B9naHNO1x/SLJYdAY15O48DEa/PypyBO00BoMy2HbMFJzxxPqPHJ
-Iq86BnhJ4Hcn9jKOw2ne/XpTNNW9WWuYkgT6rZF3B1/EG63lHw/jbmaMX+N0gZXJZeQnm3AW8jPn
-pXlzoLbdfnq62zPUe2nLr2kz5vjyN73yWFjA4V3S8hAWkf9cy0VakLr63If7W+APfeR1ilgyKVcC
-GWBP99+MBUs9YtSb1Idfi/Hp9czq8w68gvdhKhb+z7XrdGjr0hyfdS+ZHvjznyxemb69gOm+cjLY
-yq9HWmLVemRJfVu2VAS7pl2HGjrae1OGAqvkLxX5Np4zawkwi9LMu618IF1CwjXHhpMxD6vPg7Ne
-FQTBoOYvHzZcjmsPF/S4YPpJqxDogsf3yQv97iKdL9LtEsv/0gQ2veNF09EdyT2HoJ6GTjxy14jM
-qG78v0BDSUpikt+Ht87zGpv3MWohh2ub8hov+c4UzISAr7BqW9Skq0JegyaNc/GP4mYA7SG4IxKu
-PdM=
-=Vmu/
------END PGP SIGNATURE-----
+-- 
+An old man doll... just what I always wanted! - Clara
 
---------------PDRo2NaZMTe6VE3xxJWI7t4S--
