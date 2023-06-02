@@ -2,115 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7229FC7EE29
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 12:00:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94353C7EE2E
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 12:13:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235906AbjFBMAL convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 08:00:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47608 "EHLO
+        id S235501AbjFBMND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 08:13:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235714AbjFBL7y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 07:59:54 -0400
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CACAD1B5;
-        Fri,  2 Jun 2023 04:59:42 -0700 (PDT)
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5559e296433so1472132eaf.0;
-        Fri, 02 Jun 2023 04:59:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685707182; x=1688299182;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+fxB1hQZUap5NVzPtf/N8icy9UCTybKAh05Yo1w+lsU=;
-        b=asSmP+IaIo1UDZSX3CAlWRULxdT68ha/0ULHIze17BQbeAmFBaskyseDy7ep1ra0ZQ
-         DCdx25cdrC55W6pm/Zoa5pW5qEmsbPotT6FuHgMBQJHPLS1wh36yvrz8wSohXlLLV0d0
-         02+ZprsmxN9EWMfFydchaS/yRotxUPRcK29azMFV2DMBih0YFK0nWMTt6yr3Qb+xlZk1
-         R2R3yPF97ihLGjlGTp5XunvSPNH+3KGqQ2GxGiW9uhmG8vpOpkgalKGCnjGl2EjbUqi/
-         5yOoBcqMo/O0mrzn84X0RI+qf5OrCeFMZErypOvT7uTq9985S567/pMGlkMTviZ4vZM5
-         LXFw==
-X-Gm-Message-State: AC+VfDyuIIXz4gIqMDz/RfahRZtnp6FZaM/E26sY6lqnEOE5m9UL0207
-        +1YZqAkveVksuN5KJLwqlPaMNgMX++JUC+9o
-X-Google-Smtp-Source: ACHHUZ5dxlyk0Sg89uojHjJqI0Rp9E95bb0ifdSHRNP2BAEboQ369S4LOOXqcoxQcdGOVTLzkPYA9A==
-X-Received: by 2002:a81:9190:0:b0:569:6bb5:d43b with SMTP id i138-20020a819190000000b005696bb5d43bmr66728ywg.26.1685706579567;
-        Fri, 02 Jun 2023 04:49:39 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id k126-20020a816f84000000b00565cf40238csm376038ywc.110.2023.06.02.04.49.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Jun 2023 04:49:37 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-561b7729a12so49025987b3.1;
-        Fri, 02 Jun 2023 04:49:36 -0700 (PDT)
-X-Received: by 2002:a25:e613:0:b0:ba8:b425:6bf2 with SMTP id
- d19-20020a25e613000000b00ba8b4256bf2mr3528914ybh.20.1685706576471; Fri, 02
- Jun 2023 04:49:36 -0700 (PDT)
+        with ESMTP id S235757AbjFBMNC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 08:13:02 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8721B0;
+        Fri,  2 Jun 2023 05:12:55 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 6BB541FDAF;
+        Fri,  2 Jun 2023 12:12:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1685707974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IYIAHDMmiE1O2mmuQzkbbS+OyPQbKM3RtLGdWxOhflM=;
+        b=Q2eEud1dHdWbj63hvUj5MzU8CalW7mrMzE9vcPOjV0+1F/XIjHZ50pui367Mfo9YonUctI
+        tjb6Gu2b6kGgWs71a4FkvP514KFY0Ar6T47AUegipQHRmiLdHouk47nRfWLUV2fV/a2OvP
+        G4lnykpWvWKfZ4xC52QzhNlNjufuWhw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1685707974;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IYIAHDMmiE1O2mmuQzkbbS+OyPQbKM3RtLGdWxOhflM=;
+        b=MkLlk4wmkoBVTEe8h0gFyVSLfi4rRsD8rCOQ4sK9u4HIxyrPBflAV/TrZIVyNutOdJq1cE
+        Mo9RIN011FavmyDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3434013A2E;
+        Fri,  2 Jun 2023 12:12:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id rpTKC8bceWTFEAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Fri, 02 Jun 2023 12:12:54 +0000
+Message-ID: <8ea1e2e8-302c-5519-768b-fff0556269ae@suse.de>
+Date:   Fri, 2 Jun 2023 14:12:53 +0200
 MIME-Version: 1.0
-References: <cover.1685696114.git.geert+renesas@glider.be> <14e091fc522aa63a3e33bda1016e5fa946d47d18.1685696114.git.geert+renesas@glider.be>
- <20230602110459.GC26944@pendragon.ideasonboard.com> <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
- <20230602113640.GG26944@pendragon.ideasonboard.com>
-In-Reply-To: <20230602113640.GG26944@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 2 Jun 2023 13:49:23 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWWbMW1cspwr0G_NLV5LVHnjaUbqfusUH8-yuqPobCUUA@mail.gmail.com>
-Message-ID: <CAMuHMdWWbMW1cspwr0G_NLV5LVHnjaUbqfusUH8-yuqPobCUUA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm: Remove references to removed transitional helpers
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH] drm/todo: Fix corrupted duplicate in defio section
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <843fbc95dd5b067b64fa684204234b915ecf0304.1685705373.git.geert+renesas@glider.be>
+Content-Language: en-US
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <843fbc95dd5b067b64fa684204234b915ecf0304.1685705373.git.geert+renesas@glider.be>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------PDRo2NaZMTe6VE3xxJWI7t4S"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Laurent,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------PDRo2NaZMTe6VE3xxJWI7t4S
+Content-Type: multipart/mixed; boundary="------------C80EVAhQvWk2LOVmMUaricJH";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <8ea1e2e8-302c-5519-768b-fff0556269ae@suse.de>
+Subject: Re: [PATCH] drm/todo: Fix corrupted duplicate in defio section
+References: <843fbc95dd5b067b64fa684204234b915ecf0304.1685705373.git.geert+renesas@glider.be>
+In-Reply-To: <843fbc95dd5b067b64fa684204234b915ecf0304.1685705373.git.geert+renesas@glider.be>
 
-On Fri, Jun 2, 2023 at 1:36 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Jun 02, 2023 at 01:17:58PM +0200, Geert Uytterhoeven wrote:
-> > On Fri, Jun 2, 2023 at 1:05 PM Laurent Pinchart wrote:
-> > > On Fri, Jun 02, 2023 at 11:11:35AM +0200, Geert Uytterhoeven wrote:
-> > > > The transitional helpers were removed a long time ago, but some
-> > > > references stuck.  Remove them.
-> > > >
-> > > > Fixes: 21ebe615c16994f3 ("drm: Remove transitional helpers")
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > > > --- a/drivers/gpu/drm/drm_plane_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_plane_helper.c
-> > > > @@ -51,14 +51,6 @@
-> > > >   * planes, and newly merged drivers must not rely upon these transitional
-> > > >   * helpers.
-> > > >   *
-> > >
-> > > The first paragraph starts with "This helper library has two parts.". As
-> > > you're dropping the mention of the second part, I think you should
-> > > rework the first paragraph too.
-> >
-> > That was my initial thought, too.
-> > However, the code still has a second part, not related to the topic of
-> > the first part (primary plane support).
->
-> How about mentioning that in the comment then ?
+--------------C80EVAhQvWk2LOVmMUaricJH
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Any suggestion about the wording?
-The drm novice in me would write "The second part is not about
-primary plane support" ;-)
+SGkNCg0KQW0gMDIuMDYuMjMgdW0gMTM6MzAgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IFBhcnQgb2YgdGhlIHBhcmFncmFwaCB3YXMgYWNjaWRlbnRhbGx5IGR1cGxpY2F0ZWQu
+DQoNClRoaXMgVE9ETyBpdGVtIGlzIG1vc3RseSBvYnNvbGV0ZS4gSXQgc2hvdWxkIGJlIHJl
+bW92ZWQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IEZpeGVzOiBiZTVjYWRj
+N2U3YjRjZWU4ICgiZHJtL3RvZG86IEJldHRlciBkZWZpbyBzdXBwb3J0IGluIHRoZSBnZW5l
+cmljIGZiZGV2IGVtdWxhdGlvbiIpDQo+IFNpZ25lZC1vZmYtYnk6IEdlZXJ0IFV5dHRlcmhv
+ZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+DQo+IC0tLQ0KPiAgIERvY3VtZW50YXRp
+b24vZ3B1L3RvZG8ucnN0IHwgMyArLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
+bi9ncHUvdG9kby5yc3QgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdA0KPiBpbmRleCA2
+NjczNmRiMDBlNmQxODJkLi5jMjVlM2NkYmU5NjQ5NjdhIDEwMDY0NA0KPiAtLS0gYS9Eb2N1
+bWVudGF0aW9uL2dwdS90b2RvLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2Rv
+LnJzdA0KPiBAQCAtMzEyLDggKzMxMiw3IEBAIGV2ZXJ5dGhpbmcgYWZ0ZXIgaXQgaGFzIGRv
+bmUgdGhlIHdyaXRlLXByb3RlY3QvbWt3cml0ZSB0cmlja2VyeToNCj4gICANCj4gICAtIFNl
+dCB0aGUgbWt3cml0ZSBhbmQgZnN5bmMgY2FsbGJhY2tzIHdpdGggc2ltaWxhciBpbXBsZW1l
+bnRpb25zIHRvIHRoZSBjb3JlDQo+ICAgICBmYmRldiBkZWZpbyBzdHVmZi4gVGhlc2Ugc2hv
+dWxkIGFsbCB3b3JrIG9uIHBsYWluIHB0ZXMsIHRoZXkgZG9uJ3QgYWN0dWFsbHkNCj4gLSAg
+cmVxdWlyZSBhIHN0cnVjdCBwYWdlLiAgdWZmLiBUaGVzZSBzaG91bGQgYWxsIHdvcmsgb24g
+cGxhaW4gcHRlcywgdGhleSBkb24ndA0KPiAtICBhY3R1YWxseSByZXF1aXJlIGEgc3RydWN0
+IHBhZ2UuDQo+ICsgIHJlcXVpcmUgYSBzdHJ1Y3QgcGFnZS4NCj4gICANCj4gICAtIFRyYWNr
+IHRoZSBkaXJ0eSBwYWdlcyBpbiBhIHNlcGFyYXRlIHN0cnVjdHVyZSAoYml0ZmllbGQgd2l0
+aCBvbmUgYml0IHBlciBwYWdlDQo+ICAgICBzaG91bGQgd29yaykgdG8gYXZvaWQgY2xvYmJl
+cmluZyBzdHJ1Y3QgcGFnZS4NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
+RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
+DQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2
+byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1h
+bg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-Gr{oetje,eeting}s,
+--------------C80EVAhQvWk2LOVmMUaricJH--
 
-                        Geert
+--------------PDRo2NaZMTe6VE3xxJWI7t4S
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-----BEGIN PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmR53MUFAwAAAAAACgkQlh/E3EQov+Dq
+gA/8CCMHTbViNZPBj3aMrnXkmOc7HjdmhyxLvianCpjfD0p8fKekc/GNa1+dA1hQyb9rwxhKFPaQ
+ROfU0ih0Xoe2ZuGEM8EtFzf5gT+2gvkAGivQ4LKHfmvowovz0VBNaQXIJc2UTTsoB9T/51DFeQNo
+cWJt5YznGLUrGCxbXOW61ei6B9naHNO1x/SLJYdAY15O48DEa/PypyBO00BoMy2HbMFJzxxPqPHJ
+Iq86BnhJ4Hcn9jKOw2ne/XpTNNW9WWuYkgT6rZF3B1/EG63lHw/jbmaMX+N0gZXJZeQnm3AW8jPn
+pXlzoLbdfnq62zPUe2nLr2kz5vjyN73yWFjA4V3S8hAWkf9cy0VakLr63If7W+APfeR1ilgyKVcC
+GWBP99+MBUs9YtSb1Idfi/Hp9czq8w68gvdhKhb+z7XrdGjr0hyfdS+ZHvjznyxemb69gOm+cjLY
+yq9HWmLVemRJfVu2VAS7pl2HGjrae1OGAqvkLxX5Np4zawkwi9LMu618IF1CwjXHhpMxD6vPg7Ne
+FQTBoOYvHzZcjmsPF/S4YPpJqxDogsf3yQv97iKdL9LtEsv/0gQ2veNF09EdyT2HoJ6GTjxy14jM
+qG78v0BDSUpikt+Ht87zGpv3MWohh2ub8hov+c4UzISAr7BqW9Skq0JegyaNc/GP4mYA7SG4IxKu
+PdM=
+=Vmu/
+-----END PGP SIGNATURE-----
+
+--------------PDRo2NaZMTe6VE3xxJWI7t4S--
