@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA25DC7EE32
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 09:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E5CEC7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 09:13:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234748AbjFBJNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 05:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37696 "EHLO
+        id S234728AbjFBJNT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 05:13:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234728AbjFBJMq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 05:12:46 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D13B61709
-        for <linux-doc@vger.kernel.org>; Fri,  2 Jun 2023 02:11:48 -0700 (PDT)
+        with ESMTP id S234755AbjFBJMp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 05:12:45 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039731705
+        for <linux-doc@vger.kernel.org>; Fri,  2 Jun 2023 02:11:47 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:158c:2ccf:1f70:e136])
-        by baptiste.telenet-ops.be with bizsmtp
-        id 49Bg2A00L1tRZS8019BgSY; Fri, 02 Jun 2023 11:11:46 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id 49Bg2A0061tRZS8019BgaW; Fri, 02 Jun 2023 11:11:46 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q50ob-00BvaU-4t;
+        id 1q50ob-00BvaL-2W;
         Fri, 02 Jun 2023 11:11:40 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1q50ou-00ASIR-8C;
+        id 1q50ou-00ASIJ-6O;
         Fri, 02 Jun 2023 11:11:40 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -39,9 +39,9 @@ To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/3] drm: Fix references to drm_plane_helper_check_state()
-Date:   Fri,  2 Jun 2023 11:11:36 +0200
-Message-Id: <2408d7841c91e98e9a2b24b1b4df9b2b865519a6.1685696114.git.geert+renesas@glider.be>
+Subject: [PATCH 1/3] drm/todo: Add atomic modesetting references
+Date:   Fri,  2 Jun 2023 11:11:34 +0200
+Message-Id: <7cea42cd09540657875a210cd16421125497d690.1685696114.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1685696114.git.geert+renesas@glider.be>
 References: <cover.1685696114.git.geert+renesas@glider.be>
@@ -51,53 +51,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As of commit a01cb8ba3f628293 ("drm: Move drm_plane_helper_check_state()
-into drm_atomic_helper.c"), drm_plane_helper_check_state() no longer
-exists, but is part of drm_atomic_helper_check_plane_state().
+The section about converting existing KMS drivers to atomic modesetting
+mentions the existence of a conversion guide, but does not reference it.
+While the guide is old and rusty, it still contains useful information,
+so add a link to it.  Also link to the LWN.net articles that give an
+overview about the atomic mode setting design.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Interestingly, all these comments appeared only after the commit that
-removed the function...
+ Documentation/gpu/todo.rst | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-This is against next-20230602, which does not have the
-drivers/gpu/drm/{ => renesas}/rcar-du move yet.
-
-Biju: you're adding a new copy in
-drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
----
- drivers/gpu/drm/rcar-du/rcar_du_plane.c | 3 ++-
- drivers/gpu/drm/tidss/tidss_plane.c     | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index d759e019218181ce..e445fac8e0b46c21 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -600,7 +600,8 @@ int __rcar_du_plane_atomic_check(struct drm_plane *plane,
- 	if (!state->crtc) {
- 		/*
- 		 * The visible field is not reset by the DRM core but only
--		 * updated by drm_plane_helper_check_state(), set it manually.
-+		 * updated by drm_atomic_helper_check_plane_state(), set it
-+		 * manually.
- 		 */
- 		state->visible = false;
- 		*format = NULL;
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index 6bdd6e4a955ab3cc..e1c0ef0c3894c855 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -38,7 +38,8 @@ static int tidss_plane_atomic_check(struct drm_plane *plane,
- 	if (!new_plane_state->crtc) {
- 		/*
- 		 * The visible field is not reset by the DRM core but only
--		 * updated by drm_plane_helper_check_state(), set it manually.
-+		 * updated by drm_atomic_helper_check_plane_state(), set it
-+		 * manually.
- 		 */
- 		new_plane_state->visible = false;
- 		return 0;
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 68bdafa0284f55f6..51eb67f5268c5ec1 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -49,14 +49,19 @@ converted over. Modern compositors like Wayland or Surfaceflinger on Android
+ really want an atomic modeset interface, so this is all about the bright
+ future.
+ 
+-There is a conversion guide for atomic and all you need is a GPU for a
++There is a conversion guide for atomic[1] and all you need is a GPU for a
+ non-converted driver (again virtual HW drivers for KVM are still all
+-suitable).
++suitable).  The "Atomic mode setting design overview" series [2][3] at
++LWN.net can also be helpful.
+ 
+ As part of this drivers also need to convert to universal plane (which means
+ exposing primary & cursor as proper plane objects). But that's much easier to
+ do by directly using the new atomic helper driver callbacks.
+ 
++  - [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-drivers.html
++  - [2] https://lwn.net/Articles/653071/
++  - [3] https://lwn.net/Articles/653466/
++
+ Contact: Daniel Vetter, respective driver maintainers
+ 
+ Level: Advanced
 -- 
 2.34.1
 
