@@ -2,98 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15EFDC77B7A
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 11:36:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4490BC7EE24
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 11:53:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235266AbjFBLgv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 07:36:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60730 "EHLO
+        id S235019AbjFBLxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 07:53:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232455AbjFBLgv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 07:36:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77313194;
-        Fri,  2 Jun 2023 04:36:44 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126156168104.26.openmobile.ne.jp [126.156.168.104])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 443CE6E0;
-        Fri,  2 Jun 2023 13:36:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685705780;
-        bh=P6UK7gokiOdLMcgnQqxLjRe/2stcZX5OnfxLzLL/M8Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZXkiKfg3l/3Zn5Hs1rF1UqizLbyGjOovKGO5nYDa5CsXVzIhgdO0OuBQ8YgdHm38X
-         Bxyh7d0X1/u80DgGvAuskxBTqQBbfDqWu2lEb7bY4nexWJTb+xXsdfxHTwRxJXd7mU
-         s+9jbaqSxFpevXaFdQHCREWYp9j9SBrCMzFprxoM=
-Date:   Fri, 2 Jun 2023 14:36:40 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] drm: Remove references to removed transitional
- helpers
-Message-ID: <20230602113640.GG26944@pendragon.ideasonboard.com>
-References: <cover.1685696114.git.geert+renesas@glider.be>
- <14e091fc522aa63a3e33bda1016e5fa946d47d18.1685696114.git.geert+renesas@glider.be>
- <20230602110459.GC26944@pendragon.ideasonboard.com>
- <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
+        with ESMTP id S234510AbjFBLxX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 07:53:23 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 34DACE67;
+        Fri,  2 Jun 2023 04:53:00 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93B091063;
+        Fri,  2 Jun 2023 04:52:24 -0700 (PDT)
+Received: from [10.57.84.31] (unknown [10.57.84.31])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C67043F67D;
+        Fri,  2 Jun 2023 04:51:37 -0700 (PDT)
+Message-ID: <93c3f3a6-a3bc-f3ca-9077-8985865b8abf@arm.com>
+Date:   Fri, 2 Jun 2023 12:51:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 5/5] perf: arm_cspmu: ampere_cspmu: Add support for
+ Ampere SoC PMU
+Content-Language: en-GB
+To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Besar Wicaksono <bwicaksono@nvidia.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230601030144.3458136-1-ilkka@os.amperecomputing.com>
+ <20230601030144.3458136-6-ilkka@os.amperecomputing.com>
+ <e15f1773-e843-3bc3-f265-65524ea3385a@arm.com>
+ <607a395b-b01f-33e1-c67d-d4bd4d92c3d@os.amperecomputing.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <607a395b-b01f-33e1-c67d-d4bd4d92c3d@os.amperecomputing.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXR79TTSAcKb=DA2mRVDgaxBERts5PQLMf+mXpZDQJu=Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
-
-On Fri, Jun 02, 2023 at 01:17:58PM +0200, Geert Uytterhoeven wrote:
-> On Fri, Jun 2, 2023 at 1:05 PM Laurent Pinchart wrote:
-> > On Fri, Jun 02, 2023 at 11:11:35AM +0200, Geert Uytterhoeven wrote:
-> > > The transitional helpers were removed a long time ago, but some
-> > > references stuck.  Remove them.
-> > >
-> > > Fixes: 21ebe615c16994f3 ("drm: Remove transitional helpers")
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 2023-06-02 08:13, Ilkka Koskinen wrote:
 > 
-> > > --- a/drivers/gpu/drm/drm_plane_helper.c
-> > > +++ b/drivers/gpu/drm/drm_plane_helper.c
-> > > @@ -51,14 +51,6 @@
-> > >   * planes, and newly merged drivers must not rely upon these transitional
-> > >   * helpers.
-> > >   *
-> >
-> > The first paragraph starts with "This helper library has two parts.". As
-> > you're dropping the mention of the second part, I think you should
-> > rework the first paragraph too.
+> Hi Robin,
 > 
-> That was my initial thought, too.
-> However, the code still has a second part, not related to the topic of
-> the first part (primary plane support).
+> On Thu, 1 Jun 2023, Robin Murphy wrote:
+>> On 2023-06-01 04:01, Ilkka Koskinen wrote:
+>> [...]
+>>> +static bool ampere_cspmu_validate_event(struct arm_cspmu *cspmu,
+>>> +                    struct perf_event *new)
+>>> +{
+>>> +    struct perf_event *curr;
+>>> +    unsigned int idx;
+>>> +    u32 threshold = 0, rank = 0, bank = 0;
+>>> +
+>>> +    /* We compare the global filter settings to existing events */
+>>> +    idx = find_first_bit(cspmu->hw_events.used_ctrs,
+>>> +                 cspmu->cycle_counter_logical_idx);
+>>> +
+>>> +    /* This is the first event */
+>>> +    if (idx == cspmu->cycle_counter_logical_idx)
+>>> +        return true;
+>>> +
+>>> +    curr = cspmu->hw_events.events[idx];
+>>> +
+>>> +    if (get_filter_enable(new)) {
+>>> +        threshold    = get_threshold(new);
+>>> +        rank        = get_rank(new);
+>>> +        bank        = get_bank(new);
+>>> +    }
+>>> +
+>>> +    if (get_filter_enable(new) != get_filter_enable(curr) ||
+>>
+>> Is there any useful purpose in allowing the user to specify nonzero 
+>> rank, bank or threshold values with filter_enable=0? Assuming not, 
+>> then between this and ampere_cspmu_set_ev_filter() it appears that you 
+>> don't need filter_enable at all.
+> 
+> Not really. I dropped filter_enable at one point but restored it later 
+> to match the smmuv3 pmu driver. I totally agree, it's unnecessary and 
+> it's better to remove it completely.
 
-How about mentioning that in the comment then ?
+Ah, I see - the SMMU PMCG driver needs that to differentiate between 
+"filter values defaulted to 0 because user didn't ask for filtering" and 
+"user asked to filter an exact match on StreamID 0", since it's 
+impractical to expect userspace tools to understand and manually set the 
+all-ones mask value to indicate that filtering wasn't requested. In your 
+case, though, since values of 0 appear to mean "no filter", it should 
+just work as expected without needing any additional complexity. Ideally 
+your interface should reflect the functionality and expected usage model 
+of your PMU hardware in the way that's most intuitive and helpful for 
+the user - it doesn't need to be influenced by other PMUs that work 
+differently.
 
-> > > - * The second part also implements transitional helpers which allow drivers to
-> > > - * gradually switch to the atomic helper infrastructure for plane updates. Once
-> > > - * that switch is complete drivers shouldn't use these any longer, instead using
-> > > - * the proper legacy implementations for update and disable plane hooks provided
-> > > - * by the atomic helpers.
-> > > - *
-> > > - * Again drivers are strongly urged to switch to the new interfaces.
-> > > - *
-> > >   * The plane helpers share the function table structures with other helpers,
-> > >   * specifically also the atomic helpers. See &struct drm_plane_helper_funcs for
-> > >   * the details.
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Robin.
