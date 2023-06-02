@@ -2,118 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D7C6C77B7A
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 12:33:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A8DC7EE24
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 13:32:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235156AbjFBMdv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 08:33:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38608 "EHLO
+        id S233790AbjFBNcc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 09:32:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbjFBMds (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 08:33:48 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E2B180;
-        Fri,  2 Jun 2023 05:33:47 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-64d18d772bdso2322279b3a.3;
-        Fri, 02 Jun 2023 05:33:47 -0700 (PDT)
+        with ESMTP id S235296AbjFBNcb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 09:32:31 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32EB9E72;
+        Fri,  2 Jun 2023 06:32:10 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1b05e96dabbso12122355ad.2;
+        Fri, 02 Jun 2023 06:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685709227; x=1688301227;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MEa4HtLCvaR58X6qDLIInuWWrd49EKwYFvmbNgQxP+Y=;
-        b=hPya3AXoo2gk76iraAbuEMCLTv7EJfS+R9Vww94gkSTVHG/8AvYKcRkQuMMs65OJz9
-         6eDmn+mMH5qZdxcCxqGxRP+YHToOoxYzbIhFej/97J3X47KnEQlC2DFx+KYEMNtlhl36
-         tAEkDz7hu5q4wHDBhnPfwE2kYsiyuiy3h4dC3PtL8fmHiGrU8gRjk2xfSF1IxJlIDb0W
-         Bg68vUGheQZ37mILcP96Q53rng5EEnMIq9EVeBWcLK15vECN6tUxP/gZardPvM8CXgWs
-         gV03cNwlkru8QYO9Zvuf7usR+L80Oaf8h/nDnuVqCKCUpOUPlNq7yJsodQ5MD2RqeNvv
-         CUSQ==
+        d=gmail.com; s=20221208; t=1685712729; x=1688304729;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wLcyyQh2yLRZuI0xq1Spx++5r4QAu7H4WRjm1jN0YiM=;
+        b=MVb3eFphqnGFuZnrZa0fkJUiXKJj6PA6qXPXeVimS6DpQ4AxPt/zIIOaLriKK4YM0s
+         OD5TKvqpdHYN3x0/QPosAXtzCAYO/IE9X3t1Maw3pngCYU6/YtF43NYVhpaM5BqMhMv4
+         S2uj6aE89Q1SllxfQB6OIsUB7rgbHTxAD7lbwdu3ByjWg/6hlW7AvjFJcDKVIZLUfnPK
+         H/F9ARWZoV3GO5l9OEIH73Apr9UeXgkqMyy5TEzNJBMiJA23Lzp8RC2vsdStRVoyuQmt
+         VJ/ATsgU8O3UsjCjDRGBbbnEbgKDL1MHMaSDrkjAnbG5W7EMJQ2Id+enPSwzyi5jI7XV
+         m72g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685709227; x=1688301227;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MEa4HtLCvaR58X6qDLIInuWWrd49EKwYFvmbNgQxP+Y=;
-        b=UqoGYl80SEKkegMma8Bxun0wqQ7NA6UD2GEZn4tWF4UV7VxCKvrdCiuPrpCfqLeqeQ
-         qyd1iMBk40EY4Q5eKrxbSY+k1rCjuZKggt1wpAS1Etx8ijLFo0l7ZWZy/SAqtK4kbIo0
-         MLteaO8hmmHA+BQC3jYt3ZVWPc4qrIAk92qVIfvE1CnfLtphjyJg650W95OnhOwMBECX
-         Uri0UD6BBLOerAogFdLlCsnUZTiHKW5YzTFWLsoc0PieC95lGDtHe5V2QlA15ARlHSLx
-         yLZoedoJxj0c1lfVv9Fo41LtaUAEDCUHyF1zTZfJ1AyvOfQZAbFRFRlZ4hBvdwIBpcV6
-         H3YQ==
-X-Gm-Message-State: AC+VfDzuSIa6hdW8kK15Vz+qjkWSoRdSqqXP+fQO/KpWGSs77ETJVefP
-        nkEKTa890R/q7947IBn17KA=
-X-Google-Smtp-Source: ACHHUZ7chbBawGs+gJXSh0pchi5h/0LICNEsARTw9zPK6gBA/gL7y1Ko0aQFguAtK1BUAXUfVit0gg==
-X-Received: by 2002:a05:6a00:a8f:b0:64d:2ea4:937a with SMTP id b15-20020a056a000a8f00b0064d2ea4937amr17109892pfl.7.1685709226632;
-        Fri, 02 Jun 2023 05:33:46 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-67.three.co.id. [180.214.233.67])
-        by smtp.gmail.com with ESMTPSA id i8-20020aa78b48000000b0063b6cccd5dfsm903574pfd.195.2023.06.02.05.33.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Jun 2023 05:33:46 -0700 (PDT)
-Message-ID: <1f66d945-4f3f-6f8e-2d14-38167c0a0759@gmail.com>
-Date:   Fri, 2 Jun 2023 19:33:42 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v3] Documentation: subsystem-apis: Categorize remaining
- subsystems
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Costa Shulyupin <costa.shul@redhat.com>,
-        linux-doc@vger.kernel.org
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux BPF <bpf@vger.kernel.org>
-References: <ZHgM0qKWP3OusjUW@debian.me>
- <20230601145556.3927838-1-costa.shul@redhat.com> <ZHm_s7kQP6kilBtO@debian.me>
- <87ilc6yxnl.fsf@meer.lwn.net>
-Content-Language: en-US
+        d=1e100.net; s=20221208; t=1685712729; x=1688304729;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wLcyyQh2yLRZuI0xq1Spx++5r4QAu7H4WRjm1jN0YiM=;
+        b=W/aXkTQZ/0XA7QU7WkADqNP1ty8u3P72YgAiPRZISlus+tA59d4pKk5SOcCsWlJWVK
+         cYS8hY1X8mzTU79CzqiEB9plNHc/58n3F4spBkk9IMtaWmRr4r5lxRvQ0eVRAF48HuOz
+         sycw1Cop7a02QqFlUe63fINidYeREZjgKuiX4Kos4AskIQTRcJBmFxpbtCEM/Xkzf6Ni
+         yceuq1ERhqrPz58DWXIaq0ZRfklhFVkOTAmTTgyvHI6S3EHYS88xMgxkmUN/fyK5X6tF
+         aR2AoB8KXbxSTo+7aeFMN8OfoeSUZDIptFFSwm6G1rg38utYBtvh1JIpDY6K2I0PLLbu
+         /s+w==
+X-Gm-Message-State: AC+VfDwYwi9aO1bdycsYRxq7ZHYKfBecqPpsqgS7UVk1tKSzUMp6UnqG
+        A6XDHpo5fvR5I0E68+1Dt9Q=
+X-Google-Smtp-Source: ACHHUZ5J63g6NUi0y4MlVavRTrgcGPUU1MafIBD3RB7CH7ggN40W6Ah2+s359IQfSJwPB+m8eYrFiw==
+X-Received: by 2002:a17:902:ec81:b0:1ae:4562:14f1 with SMTP id x1-20020a170902ec8100b001ae456214f1mr18105plg.9.1685712729246;
+        Fri, 02 Jun 2023 06:32:09 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-25.three.co.id. [180.214.232.25])
+        by smtp.gmail.com with ESMTPSA id x16-20020a170902ec9000b001aaecc15d66sm1316041plg.289.2023.06.02.06.32.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 06:32:08 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id AE936106A6F; Fri,  2 Jun 2023 20:32:05 +0700 (WIB)
+Date:   Fri, 2 Jun 2023 20:32:05 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87ilc6yxnl.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] drm/todo: Add atomic modesetting references
+Message-ID: <ZHnvVYM7K4jvP8QK@debian.me>
+References: <cover.1685696114.git.geert+renesas@glider.be>
+ <7cea42cd09540657875a210cd16421125497d690.1685696114.git.geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="DPoP2WNc/X86Xlln"
+Content-Disposition: inline
+In-Reply-To: <7cea42cd09540657875a210cd16421125497d690.1685696114.git.geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/2/23 17:19, Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
-> 
->> As you're still newbie here, I'd recommend you to try contributing to
->> drivers/staging/ first in order to gain experience on kernel developement
->> workflow. Also, you use your RedHat address, so I expect you have been
->> given kernel development training from your company (and doesn't make
->> trivial errors like these ones).
-> 
-> Bagas, please.  I'll ask you directly: please don't go telling
-> documentation contributors how to comport themselves; you have plenty
-> enough to learn yourself on that front.  It's hard enough to get
-> contributors to the documentation as it is without random people showing
-> up and giving orders.
-> 
 
-Hi jon, thanks for another tip. I also learn contributing patches the
-hard way by being rejected (honestly sometimes I learn, sometimes I
-don't).
+--DPoP2WNc/X86Xlln
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Let me clarify the situation. Previously in v2, I reviewed Costa's patch
-by replying with proposing my own version, keeping patch author intact.
-There, I categorized a few more items while sorting all of them. I
-treated it as minor fixup that was attributed by brackets in the
-SoB area (I could also use Co-developed-by: for this purpose too).
-Then, Costa rerolled v3 using my version, but the From: address
-in the patch message is mine without corresponding SoB, hence when you
-apply his v3, there would be author mismatch (commit author is me
-yet different SoB from him). I expected that my proposal in v2 is
-carried by him (and also have SoB from both me and him as the sender
-who carried my patch).
+On Fri, Jun 02, 2023 at 11:11:34AM +0200, Geert Uytterhoeven wrote:
+> -There is a conversion guide for atomic and all you need is a GPU for a
+> +There is a conversion guide for atomic[1] and all you need is a GPU for a
+>  non-converted driver (again virtual HW drivers for KVM are still all
+> -suitable).
+> +suitable).  The "Atomic mode setting design overview" series [2][3] at
+> +LWN.net can also be helpful.
+> =20
+>  As part of this drivers also need to convert to universal plane (which m=
+eans
+>  exposing primary & cursor as proper plane objects). But that's much easi=
+er to
+>  do by directly using the new atomic helper driver callbacks.
+> =20
+> +  - [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-dri=
+vers.html
+> +  - [2] https://lwn.net/Articles/653071/
+> +  - [3] https://lwn.net/Articles/653466/
+> +
 
-> I have distractions that are increasing my (already less than stellar)
-> latency, but I'll get to this stuff.
-> 
+Looks like footnotes better serve these links above:
 
-I'm too, because I'm AuDHD and I can (and do) easily distracted; living
-in a paradox between routine fixation and desire for quick action :).
-
+---- >8 ----
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 51eb67f5268c5e..6ea92f48a2e21c 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -49,18 +49,18 @@ converted over. Modern compositors like Wayland or Surf=
+aceflinger on Android
+ really want an atomic modeset interface, so this is all about the bright
+ future.
+=20
+-There is a conversion guide for atomic[1] and all you need is a GPU for a
++There is a conversion guide for atomic [1]_ and all you need is a GPU for a
+ non-converted driver (again virtual HW drivers for KVM are still all
+-suitable).  The "Atomic mode setting design overview" series [2][3] at
++suitable).  The "Atomic mode setting design overview" series [2]_ [3]_ at
+ LWN.net can also be helpful.
+=20
+ As part of this drivers also need to convert to universal plane (which mea=
+ns
+ exposing primary & cursor as proper plane objects). But that's much easier=
+ to
+ do by directly using the new atomic helper driver callbacks.
+=20
+-  - [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-drive=
+rs.html
+-  - [2] https://lwn.net/Articles/653071/
+-  - [3] https://lwn.net/Articles/653466/
++  .. [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-driv=
+ers.html
++  .. [2] https://lwn.net/Articles/653071/
++  .. [3] https://lwn.net/Articles/653466/
+=20
+ Contact: Daniel Vetter, respective driver maintainers
+=20
 Thanks.
 
--- 
+--=20
 An old man doll... just what I always wanted! - Clara
 
+--DPoP2WNc/X86Xlln
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHQEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZHnvUAAKCRD2uYlJVVFO
+o2R9AQDL0rXdsAZ2q75Un/nud8+9skYIJP+8pCerpXMSUJgTAwD1EbjcCcLx7iqs
+1xk3nWj97FZCR273c6lRVz3Cm5VIDg==
+=gt6j
+-----END PGP SIGNATURE-----
+
+--DPoP2WNc/X86Xlln--
