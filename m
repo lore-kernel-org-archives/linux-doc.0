@@ -2,92 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33619C7EE24
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 03:54:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDAD5C7EE24
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 06:45:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjFBDyL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Jun 2023 23:54:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37510 "EHLO
+        id S233989AbjFBGp6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 02:45:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231213AbjFBDyK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Jun 2023 23:54:10 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E1B18D
-        for <linux-doc@vger.kernel.org>; Thu,  1 Jun 2023 20:54:08 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-568fd72993cso53251137b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Jun 2023 20:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685678047; x=1688270047;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4rpaRYhp9pezQBgGgl7jQUhQdvTwr6KJlRlk+rOPp+4=;
-        b=oy7uyJW5kSVKl5JSZ/Uud8NxX96LuyPz1MBYWsWFDACRtnYfZ1CykuEc2PuIU66iaC
-         nPGpUMcz+eLB6jycjZt1gVbGp4FGxaTUDJbaAWFE9qLsiXIPMFlFNTs7ymDceTA3fszR
-         T52SUG0LFVyp50KWfFp4BrB78tpk+y11glHpxWmJ0IOh6CcMCPlkb957vcAWhEs/KT3K
-         cXrSV9Y4YNMOWee17PUB5H+ggHFhVEqXycwu25L/+KLR/bWyA1nqzOeG2rbG7Kvudu4s
-         R5vrkEk5r6zFr9seW2+eyeZp/02I+rUHk8MMYmq11yLTl/47oyZCUKm68jpRxRlnCyis
-         GFXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685678047; x=1688270047;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4rpaRYhp9pezQBgGgl7jQUhQdvTwr6KJlRlk+rOPp+4=;
-        b=YtQeWtTKcevhuGIjGLSb3eDSAGA1LNKn2/cV8rdA8gc1fKX5AffDwV4czK7RcaO3QA
-         orbSsVyP9FF4yLUCEChaWXezJ6PObHYJuoFPh26iTH7eX9Q/MiguFnXN+mBWNwt4LXk/
-         z5Asl5ZjW21wuex16yF7hwJYp63BAx+2w6dGwgxXWWVc7sQql0L/bA95ufPPNKk+MAuF
-         rlJBhn7cqTthfEUjH1uONVhfnx2k006NGnqXXQiReE2SPPh1RfvPc4K5mBs54Lk3ADSy
-         ab0mNmjHQbg8sPgyAQM6983lZ9W7xdxu8HpwlA/KvyUGxncIwXxKphsM64msWxOtqfgr
-         YFZw==
-X-Gm-Message-State: AC+VfDwbOXcGAldNw7EQRD+kdpY5DeYlXgtCVrGDItY+XgcmbIV0jFc2
-        JHnKMbJ/4+OUa/SDgq8BTf+ohrWQJM6FRQ==
-X-Google-Smtp-Source: ACHHUZ4kDJe2xZPeYgvJPMDUZ6UocdXCqm7Vq9ZTHKGva9YUiMBK+nsyd/mpj/y1ZSiphFIx6Cj3S9zv926dBQ==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a25:d404:0:b0:bad:2828:479 with SMTP id
- m4-20020a25d404000000b00bad28280479mr1058303ybf.6.1685678047749; Thu, 01 Jun
- 2023 20:54:07 -0700 (PDT)
-Date:   Fri,  2 Jun 2023 11:53:59 +0800
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.41.0.rc2.161.g9c6817b8e7-goog
-Message-ID: <20230602035400.2333527-1-davidgow@google.com>
-Subject: [PATCH] Documentation: kunit: Rename references to kunit_abort()
-From:   David Gow <davidgow@google.com>
-To:     Daniel Latypov <dlatypov@google.com>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Rae Moar <rmoar@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S233879AbjFBGp5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 02:45:57 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 615B0EB;
+        Thu,  1 Jun 2023 23:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=Bnlp6MxAg99YCHUoCG4a6Z05t5+lypBAqx5s7zPKO8c=; b=PLEtxF59sPHDqs2J6RDAZz9QEX
+        Iy7PWm5ZDd8O1vBV+G/4rBZRnFOLP/M1bFTEb/e3XXQ4RJ2Oss7LDCS1/6i5lzEpKOMleXQse+bTq
+        khynrKbRDpiVt9oQo0oVhOpEO1O9uKp9mNRr5HJ+UoPF2ctCxMFaxBFyONnC/7nsBSH7VeDeDKaze
+        mzjmVhtibXAa0a1j/eQbFKYyH3vOEKKsxtZ3HaWSySGtnoVInWlxb87IRFfm/6Hmf4eJrOz3Tipu1
+        lH5gcVVrWO0/gNKoZ4GvDieaO0kZEx2N0AaKUHHrejiCiQYFov8dw/m0VSUXZJ1OD8gf+/nae+2MM
+        gXhc5zpw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q4yXH-001FrB-2i;
+        Fri, 02 Jun 2023 06:45:22 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3E84630031F;
+        Fri,  2 Jun 2023 08:45:16 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 1FA23214120A1; Fri,  2 Jun 2023 08:45:16 +0200 (CEST)
+Date:   Fri, 2 Jun 2023 08:45:15 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Steven Noonan <steven@uplinklabs.net>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>, kernel@collabora.com
+Subject: Re: Direct rdtsc call side-effect
+Message-ID: <20230602064515.GA620383@hirez.programming.kicks-ass.net>
+References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
+ <87mt1jeax1.ffs@tglx>
+ <87h6rrdoy0.ffs@tglx>
+ <L9sTQNWVFoNxz-HmzFoXBX4twp84wuAx5Mf4LcxWw9k0rTAXI32rSl7WEOr7058iN6_Nyf8fLN-Ye3sq5THHjJCKG2vQLlpnVs77kKlLFV4=@uplinklabs.net>
+ <20230601203127.GY4253@hirez.programming.kicks-ass.net>
+ <YveIgyZYN48CEPKlxf6r_CfVBGuON83brWVxnVJGtXW70bDprPOiAtEMeKELDJj3lVYuZm7fTDQnMIuheMN01YfqfWbCGYia0uWcWIx59oM=@uplinklabs.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YveIgyZYN48CEPKlxf6r_CfVBGuON83brWVxnVJGtXW70bDprPOiAtEMeKELDJj3lVYuZm7fTDQnMIuheMN01YfqfWbCGYia0uWcWIx59oM=@uplinklabs.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kunit_abort() function has been renamed __kunit_abort(), update the
-references to it in the documentation.
+On Thu, Jun 01, 2023 at 09:41:15PM +0000, Steven Noonan wrote:
+> On Thursday, June 1st, 2023 at 1:31 PM, Peter Zijlstra <peterz@infradead.=
+org> wrote:
+> > What about kernel based emulation? You could tie it into user_dispatch
+> > and have a user_dispatch tsc offset.
+> >=20
+>=20
+> > So regular kernel emulation simply returns the native value (keeps the
+> > VDSO working for one), but then from a user_dispatch range, it returns
+> > +offset.
+> >=20
+>=20
+> > That is; how slow is the below?
+>=20
+> It's around 1800-1900 clock cycles on this system=20
 
-Suggested-by: Daniel Latypov <dlatypov@google.com>
-Signed-off-by: David Gow <davidgow@google.com>
----
- Documentation/dev-tools/kunit/architecture.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Much more expensive than the actual instruction ofcourse, but that seems
+eminently usable.
 
-diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation/dev-tools/kunit/architecture.rst
-index e95ab05342bb..f335f883f8f6 100644
---- a/Documentation/dev-tools/kunit/architecture.rst
-+++ b/Documentation/dev-tools/kunit/architecture.rst
-@@ -119,9 +119,9 @@ All expectations/assertions are formatted as:
- 	  terminated immediately.
- 
- 		- Assertions call the function:
--		  ``void __noreturn kunit_abort(struct kunit *)``.
-+		  ``void __noreturn __kunit_abort(struct kunit *)``.
- 
--		- ``kunit_abort`` calls the function:
-+		- ``__kunit_abort`` calls the function:
- 		  ``void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch)``.
- 
- 		- ``kunit_try_catch_throw`` calls the function:
--- 
-2.41.0.rc2.161.g9c6817b8e7-goog
+> (modified patch attached, compile fix + rdtscp support).
+
+Right, that's what I get for writing 'patches' while falling asleep :/
+
+> Since faulting would still make the vDSO clocks go through this path
+> we'd have to be careful that whatever offsets we throw into this path
+> don't affect the correctness of the other clocks.
+
+Hence the suggested tie-in with user-dispatch; only add the offset when
+the IP is from the user-dispatch range.
 
