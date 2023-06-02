@@ -2,114 +2,74 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C539FC77B7A
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 11:23:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35E91C77B7A
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 11:26:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234705AbjFBLXn convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 07:23:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56308 "EHLO
+        id S235077AbjFBL0H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 07:26:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbjFBLXm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 07:23:42 -0400
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C15E8194;
-        Fri,  2 Jun 2023 04:23:41 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-ba8afcc82c0so2111300276.2;
-        Fri, 02 Jun 2023 04:23:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685705021; x=1688297021;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xQJ/6UDujFLjt/u17sCfKwDJo4mclYFIu5oHUs16qZw=;
-        b=CjkSBswdSGuTuo/nOzgzaTZPktA4heCa+9XnA3SXkz81i9UTLlPUgC/BUPzlEXdQ4j
-         oQ9D/S+nQihza9hWPgH9jI9D+oWsm5HFQ9/y3er2d2V4cY1QSQECcSBqRc62QrksMbxZ
-         AitUoYCrKVoRFyHVWui9ivbE8l5JbQiFuG6dsEJmiTAQfdRJ93V70hBv3ctG2KC+7YmD
-         2ruX8AqAFbIbqTtW/b2vqJlrtlIqleuTF+WI60GFhubLINlfYz+JFTld3EfHbTGvwgCf
-         PJrCMZiC2jN2RwLotVuuRceQrpBdyJ1SzzruRp1PUA1/IGKeVJMNTcUXgl93sFFA6QU0
-         SixQ==
-X-Gm-Message-State: AC+VfDyOzj7bZ+9zbJZlyGXNhb5SvZTHe1vt5uDFfk3/bVulN+O5WfkT
-        0RnoXQZdkfBe7dQXWGMaCaQmw9z4miO32Ovd
-X-Google-Smtp-Source: ACHHUZ4iY4gZwGs9mBdx69WzARuZNtxdyKIzxxxIy2hgGUoatdsG5vFQLZvN3nBBW1XR1/tx1iYzwQ==
-X-Received: by 2002:a05:6902:249:b0:b9a:2f60:d638 with SMTP id k9-20020a056902024900b00b9a2f60d638mr2659186ybs.37.1685705020776;
-        Fri, 02 Jun 2023 04:23:40 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id l197-20020a2525ce000000b00ba87bc06fe5sm274548ybl.52.2023.06.02.04.23.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Jun 2023 04:23:39 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5694f3a2b70so5798887b3.1;
-        Fri, 02 Jun 2023 04:23:38 -0700 (PDT)
-X-Received: by 2002:a81:d250:0:b0:565:bf0d:e27a with SMTP id
- m16-20020a81d250000000b00565bf0de27amr14382323ywl.15.1685705018386; Fri, 02
- Jun 2023 04:23:38 -0700 (PDT)
+        with ESMTP id S234920AbjFBL0G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 07:26:06 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4EA411AB;
+        Fri,  2 Jun 2023 04:26:02 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 79CBB1063;
+        Fri,  2 Jun 2023 04:26:47 -0700 (PDT)
+Received: from [10.57.84.31] (unknown [10.57.84.31])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A75AB3F7BD;
+        Fri,  2 Jun 2023 04:26:00 -0700 (PDT)
+Message-ID: <4bc59e32-a3cc-4e8c-0264-e509aadeb534@arm.com>
+Date:   Fri, 2 Jun 2023 12:25:53 +0100
 MIME-Version: 1.0
-References: <cover.1685696114.git.geert+renesas@glider.be> <7cea42cd09540657875a210cd16421125497d690.1685696114.git.geert+renesas@glider.be>
- <878rd2cfme.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <878rd2cfme.fsf@minerva.mail-host-address-is-not-set>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 2 Jun 2023 13:23:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUDUT6GbLvsrZjkZj+LKPD=-yYY2vnbP-K+i+yMAeHy7w@mail.gmail.com>
-Message-ID: <CAMuHMdUDUT6GbLvsrZjkZj+LKPD=-yYY2vnbP-K+i+yMAeHy7w@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/todo: Add atomic modesetting references
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jyri Sarha <jyri.sarha@iki.fi>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 2/5] perf: arm_cspmu: Support shared interrupts
+Content-Language: en-GB
+To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Besar Wicaksono <bwicaksono@nvidia.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230601030144.3458136-1-ilkka@os.amperecomputing.com>
+ <20230601030144.3458136-3-ilkka@os.amperecomputing.com>
+ <e2f2c524-c7c5-7a55-aee5-699b069a445a@arm.com>
+ <77b19b2d-a84e-eb13-db38-78cb34a444a8@os.amperecomputing.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <77b19b2d-a84e-eb13-db38-78cb34a444a8@os.amperecomputing.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Javier,
+On 2023-06-02 08:04, Ilkka Koskinen wrote:
+> 
+> Hi Robin,
+> 
+> On Thu, 1 Jun 2023, Robin Murphy wrote:
+>> On 2023-06-01 04:01, Ilkka Koskinen wrote:
+>>> Some of the PMUs may share the interrupt. Support them by
+>>> setting IRQF_SHARED
+>>
+>> This has the usual problem of allowing any PMU instance to move the 
+>> IRQ affinity to a different CPU without also migrating all the other 
+>> PMU contexts, and thus breaking perf core's assumptions of mutual 
+>> exclusion.
+> 
+> I see, I wasn't aware of such an assumption. Sounds like there isn't 
+> necessarily an easy and clean solution for the shared interrupt case. I 
+> drop the patch and get back on the issue if we come up with something 
+> reasonable later.
 
-On Fri, Jun 2, 2023 at 12:39 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> Geert Uytterhoeven <geert+renesas@glider.be> writes:
-> > The section about converting existing KMS drivers to atomic modesetting
-> > mentions the existence of a conversion guide, but does not reference it.
-> > While the guide is old and rusty, it still contains useful information,
-> > so add a link to it.  Also link to the LWN.net articles that give an
-> > overview about the atomic mode setting design.
+What comes to mind is factoring out the explicit interrupt-sharing 
+machinery that we wrote to solve this problem in arm_dmc620_pmu, or 
+possibly trying to do something with IRQ affinity notifiers (however, I 
+recall looking into that a while ago and it didn't seem like they 
+actually interact with CPU hotplug in the way we'd want).
 
-> > --- a/Documentation/gpu/todo.rst
-> > +++ b/Documentation/gpu/todo.rst
-> > @@ -49,14 +49,19 @@ converted over. Modern compositors like Wayland or Surfaceflinger on Android
-> >  really want an atomic modeset interface, so this is all about the bright
-> >  future.
-> >
-> > -There is a conversion guide for atomic and all you need is a GPU for a
-> > +There is a conversion guide for atomic[1] and all you need is a GPU for a
-> >  non-converted driver (again virtual HW drivers for KVM are still all
-> > -suitable).
->
-> Are any of the virtual drivers not yet ported to atomic? This sentence
-> seems to be outdated and maybe you could remove it on a following patch?
-
-Good question.  I'm not sure which driver(s) this refers to.
-drivers/gpu/drm/vkms/ was introduced much later, and always had
-DRIVER_ATOMIC. Perhaps just the boochs driver, which was converted?
-
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Robin.
