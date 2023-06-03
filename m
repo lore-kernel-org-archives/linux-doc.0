@@ -2,101 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 253B5C77B7A
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 01:17:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF410C7EE2C
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 01:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231202AbjFCBRP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 21:17:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48336 "EHLO
+        id S236895AbjFCBUv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 21:20:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229802AbjFCBRO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 21:17:14 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF0B8B9;
-        Fri,  2 Jun 2023 18:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685755033; x=1717291033;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZqjGZ5QOK5/9p0dBTmL1jSNej1ZvjR79xQrDuqbSz60=;
-  b=Uie7uu5TIcfBNKXaInDaknHuwZGBaqqOVwcgYOg6H/vyJd6a3kCIQxts
-   /3B0AEAeouHRI1KLneflNIPjluf3Mz35jUWoiGYEpalcBxdUhdhfPCPJZ
-   ylHV/HFiO6foR3G1sMydWbez3SymhymDM0nUmtMmOVP7Hr+vqOZT7ciwo
-   RGNOFu0I1ewg5xVfBmhYtentZZukLwTSy6P1RpHyL5OPtqrtZBYvWSud2
-   Cc33fq/W6ul/GD0zRdEhAZ/Vv5AFUAjZjWsald34iBejOCJnn7dKzAngn
-   fVawbSj8Zn2hDSixU1AZxybZBTZQMnvRRSNR0L3O0DTeevPFRR45ub2OZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="419549579"
-X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="419549579"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 18:17:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="658443953"
-X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="658443953"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Jun 2023 18:17:10 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q5FtG-000185-00;
-        Sat, 03 Jun 2023 01:17:10 +0000
-Date:   Sat, 3 Jun 2023 09:16:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Besar Wicaksono <bwicaksono@nvidia.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Ilkka Koskinen <ilkka@os.amperecomputing.com>
-Subject: Re: [PATCH v2 5/5] perf: arm_cspmu: ampere_cspmu: Add support for
- Ampere SoC PMU
-Message-ID: <202306030958.1IskqGEt-lkp@intel.com>
-References: <20230601030144.3458136-6-ilkka@os.amperecomputing.com>
+        with ESMTP id S236639AbjFCBUu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 21:20:50 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B4D7D3;
+        Fri,  2 Jun 2023 18:20:49 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-53482b44007so1582152a12.2;
+        Fri, 02 Jun 2023 18:20:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685755249; x=1688347249;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Y8G14r0YKKL8+n+kxnv7WBaleE87AmdN5aEH7tTSD0=;
+        b=GE4o4UgrHnVuBjbHYjL70FiW0mNsGq7LMqCYTiXoyni/vx2kywW1gnRzT4PSyG98in
+         G6fQ7rhf4vu5kMFeka/ZnQoRZeWpKEFIXDEwxuPpb6ixK15sH2NIDEngx+qhdf7FTROy
+         uS0Egk7/Odr4K9WyRbpEXvjbgTwe/T5dQ9rzwq1SeslQTjQxoSDFxMrSiDa7m3Y/9Ub1
+         9c8Y8y/g/1rnNvWtCZhmosgezdT2iArDpxvpi8BqcmIgzz9gGcVu5giQUgkYVDSJDbUq
+         p72/eazhxsfZvLmb5/EIkvHw0nbNZrJFFac6vjis3D5d5m4zTaeeFNgzv9GjFHEm0CgD
+         zKMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685755249; x=1688347249;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Y8G14r0YKKL8+n+kxnv7WBaleE87AmdN5aEH7tTSD0=;
+        b=kbtDvkZoaPDYSo4r/somBUYLt0eejETUX0sfeBTRcqCibD6zQHSspb9B+Csd5ToGvj
+         m64pQSacni5QAnO+WO8u9/vCSyyYKz4qI+Zbc3qxgc4Fid/wVGVEpsKm4QMfmxqfCCxI
+         s6XXtdA6mZAf6jrWOmVdLxKWfrvO8GQHGTvjDHUwBYimSAUvL4B4Vply+0yLFQxILQk4
+         3YzzGrf6/LWIWIMik46fD6P2hG0fF7+u2987DSR4bCwoapMEPN6NiUwGrPF2445wTCiD
+         gPwOX+PILkCI8biShVQUGYWZD/f1AlYVQYFKxzFSYcCbap+9iiggwJputpDXC2RJjY4+
+         j8VA==
+X-Gm-Message-State: AC+VfDz+5nJbrcERpB2bctLNpiu3aO5aQoBrb/1N3My7PJ3segTLqTz1
+        iB8dUmnq0Jh+NKbrBh6SJC5hDe9D22U=
+X-Google-Smtp-Source: ACHHUZ7LmVwCwsURitbtWYQSwB8mFwNeU2UJxFwVrfjzu6MUO9S7a1WjVJoOeSUzyHLEBBLxgtL0hw==
+X-Received: by 2002:a17:90b:374a:b0:256:23f:abc5 with SMTP id ne10-20020a17090b374a00b00256023fabc5mr904687pjb.10.1685755248530;
+        Fri, 02 Jun 2023 18:20:48 -0700 (PDT)
+Received: from debian.me (subs28-116-206-12-37.three.co.id. [116.206.12.37])
+        by smtp.gmail.com with ESMTPSA id t8-20020a17090a3b4800b00246cc751c6bsm3880815pjf.46.2023.06.02.18.20.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 18:20:48 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id B97121069ED; Sat,  3 Jun 2023 08:20:44 +0700 (WIB)
+Date:   Sat, 3 Jun 2023 08:20:44 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Madhumitha Prabakaran <madhumithabiw@gmail.com>, rafael@kernel.org,
+        lenb@kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+        Linux Documentation <linux-doc@vger.kernel.org>
+Cc:     ivan.orlov0322@gmail.com
+Subject: Re: [PATCH] docs: Fix warning:Error in "code-block" directive
+Message-ID: <ZHqVbIouMkvM4OAs@debian.me>
+References: <20230602215102.GA220958@madhu-kernel>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="TMDPLLkdIOvqcUM1"
 Content-Disposition: inline
-In-Reply-To: <20230601030144.3458136-6-ilkka@os.amperecomputing.com>
+In-Reply-To: <20230602215102.GA220958@madhu-kernel>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ilkka,
 
-kernel test robot noticed the following build warnings:
+--TMDPLLkdIOvqcUM1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test WARNING on arm-perf/for-next/perf]
-[also build test WARNING on soc/for-next linus/master v6.4-rc4 next-20230602]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Fri, Jun 02, 2023 at 04:51:02PM -0500, Madhumitha Prabakaran wrote:
+> Fix the error in "code-block" directive by providing the
+> argument as "text".
+>=20
+> <snipped> ...
+>  Result code:
+>  ------------
+> =20
+> -.. code-block::
+> +.. code-block:: text
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ilkka-Koskinen/perf-arm_cspmu-Support-32-bit-accesses-to-64-bit-registers/20230601-110440
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-next/perf
-patch link:    https://lore.kernel.org/r/20230601030144.3458136-6-ilkka%40os.amperecomputing.com
-patch subject: [PATCH v2 5/5] perf: arm_cspmu: ampere_cspmu: Add support for Ampere SoC PMU
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/6757d231639bb7a9f0b47f52d7d4f101ad3a0e29
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ilkka-Koskinen/perf-arm_cspmu-Support-32-bit-accesses-to-64-bit-registers/20230601-110440
-        git checkout 6757d231639bb7a9f0b47f52d7d4f101ad3a0e29
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Nope.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306030958.1IskqGEt-lkp@intel.com/
+I don't see error you mention in this patch when making htmldocs on my
+computer (my setup is pretty standard: see
+Documentation/doc-guide/sphinx.rst). This patch is unneccessary, though,
+unless you have code snippets in some language (e.g. C, where passing
+language name to code-block:: syntax-highlight it). Result code outputs,
+on the other hand, are generic text with no definitive syntax, hence
+you can omit language name.
 
-All warnings (new ones prefixed by >>):
+Thanks.
 
->> Documentation/admin-guide/perf/ampere_cspmu.rst: WARNING: document isn't included in any toctree
+--=20
+An old man doll... just what I always wanted! - Clara
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--TMDPLLkdIOvqcUM1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZHqVZgAKCRD2uYlJVVFO
+o+pPAQC1MK/h/J4QW3qWmnbpauQ0Cr0k33lf8QV+hDnWKCkEpQD/QTYX820N+B3c
+/0rBRMzVYbE7FluBIIK+7tJ0f+ahswg=
+=JKVF
+-----END PGP SIGNATURE-----
+
+--TMDPLLkdIOvqcUM1--
