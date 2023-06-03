@@ -2,114 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D766FC77B73
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 12:50:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03FA9C77B7A
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 15:20:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230185AbjFCMug (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Jun 2023 08:50:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45140 "EHLO
+        id S229570AbjFCPUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Jun 2023 11:20:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229898AbjFCMuf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 08:50:35 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B65F5
-        for <linux-doc@vger.kernel.org>; Sat,  3 Jun 2023 05:50:34 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-53fb64b3368so1623171a12.0
-        for <linux-doc@vger.kernel.org>; Sat, 03 Jun 2023 05:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685796633; x=1688388633;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m3+BN/msO9N0mLkjvZX/WeFDqGUSTUi10KeGYtSRPn8=;
-        b=WcdJ5db8SpF+7Z9Mgld6LKA3AFANFfOvRJPEKGX4Q1Aa27/SVtm80Dcdtfaf3QRcWu
-         XgvkdEAgPmwgM2/tew1uTt/76Qi/u/q4/fgMkr52vHpUkWcrbbpaYo2YYoUaYPqHl1as
-         IyJ2lA0cy/yl+qile4nwxdKk7gCbA7x2PUoHyyMV8SkUUhzkrIP/gpzG9u2NldQc2bNJ
-         /7mVCj+sQDFvi3+/zcb3uhl4A8iqaHNCxTvQ2mVvcGhcKQDO8SCYb2K4yPvDK1s7rSNK
-         zQ7fAOGgN6bFQZo/NIZb50Rt7s/Tg+/DypcFCLIWs7U1JGmNNpONGtz5J829ic8NaEZj
-         ZUOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685796633; x=1688388633;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m3+BN/msO9N0mLkjvZX/WeFDqGUSTUi10KeGYtSRPn8=;
-        b=ErYvhTOdVBqZvq7r5CJA6sRzQeLQJRE8Vct6eLQyLlEAYlB1SdzC5ngHo1E3gJaKIt
-         naDmQGa1nQFadJykI6Hby4qnZkGGPFhVILdcOHZg+Cyvt7FYZS/mMFxWa81z0BdyGhIn
-         hNiCDeZP2Gku4JrzQH7usZrITY+8UvEUDF4FW8O0lxy58Cxs+pOA4msMA9HVEgbTIIy7
-         IAUew+9vPyyk9ezn0/j5AevUAEAdhQtyHNk1om3cZD4Xgng0l2O+IAWEHcw7UuWARyHV
-         se4aySaD2Q5XfdKqM09Of6NE6rrucryUUOTx3Lb0EFg1n9bOc9sTNCsrV/z0s9FfQndM
-         t1Dw==
-X-Gm-Message-State: AC+VfDz24U3p5Ou6nhfC6122Gd3FkelQgah63N2U4CVgWYT/BP6GfkzS
-        gcXq2oFGiJ0LZe9PthnXVDs=
-X-Google-Smtp-Source: ACHHUZ4gLl/xOpectOIjLYWNGUcmE9PAkvHkWOLhO70Bg6SSw5dmS0ttDNkqZBjhSB7ZNzaXZpOLwg==
-X-Received: by 2002:a17:902:d505:b0:1ae:57d4:efbc with SMTP id b5-20020a170902d50500b001ae57d4efbcmr1467938plg.13.1685796633536;
-        Sat, 03 Jun 2023 05:50:33 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-18.three.co.id. [180.214.233.18])
-        by smtp.gmail.com with ESMTPSA id ix20-20020a170902f81400b001a285269b70sm3103021plb.280.2023.06.03.05.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Jun 2023 05:50:33 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 35E111069C9; Sat,  3 Jun 2023 19:50:30 +0700 (WIB)
-Date:   Sat, 3 Jun 2023 19:50:30 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Russell Harmon <eatnumber1@gmail.com>, mpatocka@redhat.com,
-        snitzer@redhat.com, dm-devel@redhat.com
-Cc:     Linux Documentation <linux-doc@vger.kernel.org>
-Subject: Re: [dm-devel] [PATCH] Improve the dm-integrity documentation.
-Message-ID: <ZHs3FqIWkkuFxMjS@debian.me>
-References: <20230530002032.15227-1-eatnumber1@gmail.com>
- <CA+zrezTKon+02mfMRsW34Tkovqn3FsSD2_9tk-+a4icjt9PsDg@mail.gmail.com>
+        with ESMTP id S229445AbjFCPUp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 11:20:45 -0400
+X-Greylist: delayed 301 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 08:20:43 PDT
+Received: from rs227.mailgun.us (rs227.mailgun.us [209.61.151.227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB723F5
+        for <linux-doc@vger.kernel.org>; Sat,  3 Jun 2023 08:20:43 -0700 (PDT)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=equiv.tech; q=dns/txt;
+ s=mx; t=1685805642; x=1685812842; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
+ bh=XTa4pTN8mA1qs4eZR7hkgbdD55qmi0189Q+ftbOrPYA=;
+ b=Rv27hMdMvlxgUxMhqPwenUR6//l3iXHLHf44bvem8absRARfvwU7PGQdcq+xRXq45JUWzEGUzQyl8X1gSjhp6dc57jnlRCIbmf88fuLCQ6nFMU4XsYfQFeRcCKMc+nRpaceVMO+nBKtjG/At++JDoGVHjhms0cyUgkpn3fX0bFXhkr6Y6YcRfqoJ32LsJgGXZJV44BxRI0wKyYdrOiGHXH4DWz1KRqhKGTetGoM16o3Um3tJGesf9QU9TUJ6n29C2366f4kArZdtTdNEMOpL1Qqjnn2qjKuC2gIe0JROPRQXvZIMO+L/I27zF94bhadmN5TwboI4cuqoamxl4HuPrA==
+X-Mailgun-Sending-Ip: 209.61.151.227
+X-Mailgun-Sid: WyIxNjU3YyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI5M2Q1YWIiXQ==
+Received: from mail.equiv.tech (equiv.tech [142.93.28.83]) by 54d8775e8f74 with SMTP id
+ 647b591d2f85f82427c4c48e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 03 Jun 2023 15:15:41 GMT
+Sender: james@equiv.tech
+From:   James Seo <james@equiv.tech>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     James Seo <james@equiv.tech>, Kalle Valo <kvalo@kernel.org>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [RFC] docs: process: Send patches 'To' maintainers and 'Cc' lists
+Date:   Sat,  3 Jun 2023 08:14:47 -0700
+Message-Id: <20230603151447.29288-1-james@equiv.tech>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="XVArsN7NhrhXjAZn"
-Content-Disposition: inline
-In-Reply-To: <CA+zrezTKon+02mfMRsW34Tkovqn3FsSD2_9tk-+a4icjt9PsDg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The existing wording in the 'Select the recipients for your patch'
+section of submitting-patches.rst states that contributors should
+'copy' maintainers and lists, which might be interpreted to mean that
+patch e-mails should be sent 'Cc' such recipients without any 'To'
+recipients at all.
 
---XVArsN7NhrhXjAZn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Indeed, this does happen on occasion (and to be fair, examples of the
+practice predating the submitting-patches document exist in kernel
+mailing list archives). It isn't a problem on the protocol level, as
+SMTP itself deals only with SMTP commands (cf. 'RCPT TO'), but
+software that works with MIME headers in message text, perhaps in
+order to generate those commands, doesn't always handle the situation
+well.
 
-On Sat, Jun 03, 2023 at 03:02:09AM -0700, Russell Harmon wrote:
-> Apologies for my inexperience here, but is this patch likely to get
-> included? I see there's been no discussion.
->=20
+At present, when such an e-mail is sent to the vger listservs, the
+MIME header 'To: unlisted-recipients:; (no To-header on input)' is
+added to it somewhere along the chain. 'unlisted-recipients:;' is a
+valid RFC 5322 Group Address, but it (or '(no To-header on input)')
+sometimes goes on to cause problems itself further down the line.
 
-tl;dr:
+For example, in mutt, it can result in the silent removal of all 'Cc'
+recipients (e.g. kernel mailing lists) from a group reply, leaving
+the 'To' recipient that the original e-mail was 'From' as the only
+actual reply recipient [1]. Other issues [2] are possible in other
+software [3]. It also bears mentioning that a lack of 'To' headers is
+a characteristic of some spam, so such an e-mail may trigger some
+spam filters.
 
-> A: http://en.wikipedia.org/wiki/Top_post
-> Q: Were do I find info about this thing called top-posting?
-> A: Because it messes up the order in which people normally read text.
-> Q: Why is top-posting such a bad thing?
-> A: Top-posting.
-> Q: What is the most annoying thing in e-mail?
->=20
-> A: No.
-> Q: Should I include quotations after my reply?
->=20
-> http://daringfireball.net/2007/07/on_top
+To reduce ambiguity and eliminate this class of potential (albeit
+tangential) issues, prescribe sending patches 'To' maintainers and
+'Cc' lists. While we're at it, strengthen the recommendation to use
+scripts/get_maintainer.pl to find patch recipients, and move Andrew
+Morton's callout as the maintainer of last resort to the next
+paragraph for better flow.
 
-Next time don't top-post here; reply inline with appropriate context instea=
-d.
+Link: https://github.com/neomutt/neomutt/issues/2548 [1]
+Link: https://github.com/python/cpython/issues/83281 [2]
+Link: https://github.com/kvalo/pwcli/issues/15 [3]
+Signed-off-by: James Seo <james@equiv.tech>
+---
+ Documentation/process/submitting-patches.rst | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-Bye!
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index efac910e2659..53460f3cdc1d 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -231,14 +231,15 @@ patch.
+ Select the recipients for your patch
+ ------------------------------------
+ 
+-You should always copy the appropriate subsystem maintainer(s) and list(s) on
+-any patch to code that they maintain; look through the MAINTAINERS file and the
+-source code revision history to see who those maintainers are.  The script
+-scripts/get_maintainer.pl can be very useful at this step (pass paths to your
+-patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
+-maintainer for the subsystem you are working on, Andrew Morton
+-(akpm@linux-foundation.org) serves as a maintainer of last resort.
+-
++You should always notify the appropriate subsystem maintainer(s) and list(s)
++about any patch to code that they maintain.  Identify them by looking through
++the MAINTAINERS file and the source code revision history, and by using the
++script scripts/get_maintainer.pl (pass paths to your patches as arguments to
++scripts/get_maintainer.pl).  Send your patch e-mail "To:" those maintainers and
++"Cc:" those lists.
++
++If you cannot find a maintainer for the subsystem you are working on, Andrew
++Morton (akpm@linux-foundation.org) serves as a maintainer of last resort.  Also,
+ linux-kernel@vger.kernel.org should be used by default for all patches, but the
+ volume on that list has caused a number of developers to tune it out.  Please
+ do not spam unrelated lists and unrelated people, though.
+-- 
+2.39.2
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---XVArsN7NhrhXjAZn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZHs3FgAKCRD2uYlJVVFO
-o5PPAP9htOp2ajlrdlZygU/aGwwxv07nU6VNumDM05NqxZ+LFAEA1alMSdN2/KAw
-Gk/nzfnApbFJA82uiTlqw8oIzL0tvgk=
-=D5kI
------END PGP SIGNATURE-----
-
---XVArsN7NhrhXjAZn--
