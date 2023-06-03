@@ -2,80 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2262C7EE2C
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Jun 2023 21:36:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 253B5C77B7A
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 01:17:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236003AbjFBVgS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Jun 2023 17:36:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43310 "EHLO
+        id S231202AbjFCBRP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Jun 2023 21:17:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235681AbjFBVgR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 17:36:17 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B62E44
-        for <linux-doc@vger.kernel.org>; Fri,  2 Jun 2023 14:36:16 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-3f6a6e9d90dso62671cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Jun 2023 14:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685741775; x=1688333775;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5bXSdg68Nu6Ipeqx4DXmMogRTJ0wZKXtu+V3JAgD7Dw=;
-        b=4BEcihJjrkOc1hpBnt/rQMSN2szZBaDAd6GF0MhsvMk+8MnwM9znQsqD6iIwJJmdZn
-         SnbSmK5wDS4y+luDI9FyavyR8A2zz9Lv/Q79yoNpBYX1EFCDCVS3j/zC3/o5l3kYwiIS
-         ijr5iDY/p7ngfxCwVCFu8AiOK0AFoP9g5/YuyrDB9AqUcG+M9oFbylTw2rJ90VEAXu4/
-         PfE+TH6nzUsN8z/00c6+KYIs9Nb7XfcUmIFwhQOrP96I0G7IoUtlT7M/Mdojl5PxCHgR
-         bEF/F3e1m7wx5btFqjIxE+dFfqfGPVOZ3xoBRF3IT0R1ax+qIWLnLPLdUOBmCyhHlNsS
-         zhmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685741775; x=1688333775;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5bXSdg68Nu6Ipeqx4DXmMogRTJ0wZKXtu+V3JAgD7Dw=;
-        b=flP3D03VEfXEtaKOnt5oFKuppNZp4SjJui+gK6T2V6EWbBv7V/mFTCBc/DeAneiv+r
-         lDoejqbNxnpC09+bkDnjOXM8z+GLwIcjQGztdkTT3j2liFJPtqkQxpEWw+4RNwNqH3vB
-         QPOlmlevQS1Wgr7OSGQtqM8bzhBrqBrkhZG0qdOpcMsOBddGLTlkTdejGztnkHinABrW
-         kancPabu/ANNlXLnLSbVDrABKWhxaEXP0C29ILEL+WoLw4+3P4uD9w5n96MXs2cTzJlX
-         K1qSxHhV7VgzJth/CcF9qyDH9HeKLgQigUQWUwHqut0KxPTQYUBuikTYh7fTkZ4+8q2t
-         lZAg==
-X-Gm-Message-State: AC+VfDxjY1XgzOkQNNYy2cdczoGhs18zCloRnjV8sXlEaBDDL0+eH38H
-        c8TyDP3KyNAF17AhXGmSEb1LFtMOf4mHyFJkihoGNg==
-X-Google-Smtp-Source: ACHHUZ6R/RbK0lgZOsIGD8lNiNYKFwpx2gVJ++04EbFp+o/7g575Bcx1tNgZa4IJRgsldJedUvcqUFCmY0Pk0wzhV2Y=
-X-Received: by 2002:a05:622a:11d3:b0:3f8:1f30:a1f2 with SMTP id
- n19-20020a05622a11d300b003f81f30a1f2mr341117qtk.26.1685741775555; Fri, 02 Jun
- 2023 14:36:15 -0700 (PDT)
+        with ESMTP id S229802AbjFCBRO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Jun 2023 21:17:14 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF0B8B9;
+        Fri,  2 Jun 2023 18:17:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685755033; x=1717291033;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZqjGZ5QOK5/9p0dBTmL1jSNej1ZvjR79xQrDuqbSz60=;
+  b=Uie7uu5TIcfBNKXaInDaknHuwZGBaqqOVwcgYOg6H/vyJd6a3kCIQxts
+   /3B0AEAeouHRI1KLneflNIPjluf3Mz35jUWoiGYEpalcBxdUhdhfPCPJZ
+   ylHV/HFiO6foR3G1sMydWbez3SymhymDM0nUmtMmOVP7Hr+vqOZT7ciwo
+   RGNOFu0I1ewg5xVfBmhYtentZZukLwTSy6P1RpHyL5OPtqrtZBYvWSud2
+   Cc33fq/W6ul/GD0zRdEhAZ/Vv5AFUAjZjWsald34iBejOCJnn7dKzAngn
+   fVawbSj8Zn2hDSixU1AZxybZBTZQMnvRRSNR0L3O0DTeevPFRR45ub2OZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="419549579"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
+   d="scan'208";a="419549579"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 18:17:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="658443953"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
+   d="scan'208";a="658443953"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 02 Jun 2023 18:17:10 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q5FtG-000185-00;
+        Sat, 03 Jun 2023 01:17:10 +0000
+Date:   Sat, 3 Jun 2023 09:16:25 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Besar Wicaksono <bwicaksono@nvidia.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Ilkka Koskinen <ilkka@os.amperecomputing.com>
+Subject: Re: [PATCH v2 5/5] perf: arm_cspmu: ampere_cspmu: Add support for
+ Ampere SoC PMU
+Message-ID: <202306030958.1IskqGEt-lkp@intel.com>
+References: <20230601030144.3458136-6-ilkka@os.amperecomputing.com>
 MIME-Version: 1.0
-References: <20230602035400.2333527-1-davidgow@google.com>
-In-Reply-To: <20230602035400.2333527-1-davidgow@google.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Fri, 2 Jun 2023 14:36:04 -0700
-Message-ID: <CAGS_qxqRStkLU9F-+P3TBUO29=CCXLuv=Ca0d-AXpVogYrOTpg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kunit: Rename references to kunit_abort()
-To:     David Gow <davidgow@google.com>
-Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Rae Moar <rmoar@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230601030144.3458136-6-ilkka@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 1, 2023 at 8:54=E2=80=AFPM David Gow <davidgow@google.com> wrot=
-e:
->
-> The kunit_abort() function has been renamed __kunit_abort(), update the
-> references to it in the documentation.
->
-> Suggested-by: Daniel Latypov <dlatypov@google.com>
-> Signed-off-by: David Gow <davidgow@google.com>
+Hi Ilkka,
 
-Reviewed-by: Daniel Latypov <dlatypov@google.com>
+kernel test robot noticed the following build warnings:
 
-Thanks!
-Double checked that this was the only remaining reference and that
-this patch applied OK.
+[auto build test WARNING on arm-perf/for-next/perf]
+[also build test WARNING on soc/for-next linus/master v6.4-rc4 next-20230602]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ilkka-Koskinen/perf-arm_cspmu-Support-32-bit-accesses-to-64-bit-registers/20230601-110440
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-next/perf
+patch link:    https://lore.kernel.org/r/20230601030144.3458136-6-ilkka%40os.amperecomputing.com
+patch subject: [PATCH v2 5/5] perf: arm_cspmu: ampere_cspmu: Add support for Ampere SoC PMU
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/6757d231639bb7a9f0b47f52d7d4f101ad3a0e29
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ilkka-Koskinen/perf-arm_cspmu-Support-32-bit-accesses-to-64-bit-registers/20230601-110440
+        git checkout 6757d231639bb7a9f0b47f52d7d4f101ad3a0e29
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306030958.1IskqGEt-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/admin-guide/perf/ampere_cspmu.rst: WARNING: document isn't included in any toctree
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
