@@ -2,115 +2,216 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03FA9C77B7A
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 15:20:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77532C7EE29
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 15:35:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjFCPUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Jun 2023 11:20:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36628 "EHLO
+        id S229666AbjFCPfG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Jun 2023 11:35:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjFCPUp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 11:20:45 -0400
-X-Greylist: delayed 301 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 08:20:43 PDT
-Received: from rs227.mailgun.us (rs227.mailgun.us [209.61.151.227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB723F5
-        for <linux-doc@vger.kernel.org>; Sat,  3 Jun 2023 08:20:43 -0700 (PDT)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=equiv.tech; q=dns/txt;
- s=mx; t=1685805642; x=1685812842; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
- bh=XTa4pTN8mA1qs4eZR7hkgbdD55qmi0189Q+ftbOrPYA=;
- b=Rv27hMdMvlxgUxMhqPwenUR6//l3iXHLHf44bvem8absRARfvwU7PGQdcq+xRXq45JUWzEGUzQyl8X1gSjhp6dc57jnlRCIbmf88fuLCQ6nFMU4XsYfQFeRcCKMc+nRpaceVMO+nBKtjG/At++JDoGVHjhms0cyUgkpn3fX0bFXhkr6Y6YcRfqoJ32LsJgGXZJV44BxRI0wKyYdrOiGHXH4DWz1KRqhKGTetGoM16o3Um3tJGesf9QU9TUJ6n29C2366f4kArZdtTdNEMOpL1Qqjnn2qjKuC2gIe0JROPRQXvZIMO+L/I27zF94bhadmN5TwboI4cuqoamxl4HuPrA==
-X-Mailgun-Sending-Ip: 209.61.151.227
-X-Mailgun-Sid: WyIxNjU3YyIsImxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmciLCI5M2Q1YWIiXQ==
-Received: from mail.equiv.tech (equiv.tech [142.93.28.83]) by 54d8775e8f74 with SMTP id
- 647b591d2f85f82427c4c48e (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 03 Jun 2023 15:15:41 GMT
-Sender: james@equiv.tech
-From:   James Seo <james@equiv.tech>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     James Seo <james@equiv.tech>, Kalle Valo <kvalo@kernel.org>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [RFC] docs: process: Send patches 'To' maintainers and 'Cc' lists
-Date:   Sat,  3 Jun 2023 08:14:47 -0700
-Message-Id: <20230603151447.29288-1-james@equiv.tech>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229501AbjFCPfF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 11:35:05 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E410C132;
+        Sat,  3 Jun 2023 08:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685806503; x=1717342503;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=Rw+wxmjMySuTIW59NrPQ4xVEjyG0POQ4g40kzOQSZSk=;
+  b=mZ6mAmTcn7JuhUEhOH5OSQ4u6BUmo0JLghhsZqb60KH6xkhMVTlcI9jk
+   bn/A7c/mZG/rQLjnN8DX0s9acDkSBIb4JvdXoz59euMI5JwOkrhW4Wr+Y
+   UHBcEWhiXMhzxZsEQ8bHdzKusJ9y3JZl0S53IYc2yPAp2NEUWk/BbfbSs
+   kMo9AFtoI7TuTJO/51mZRdTuNJU39kOVmpUWsgQW5fhgnQ+w+Gnt5nyHP
+   RNIp+xPLiQ/yiuNF6f/FZ1fABOOhOUaFhuGBQeqrjGecV2yHauQ+9G57s
+   wmWa4VzxjkyyVR+pp57M608B9gSXUvirl1sg1Jrex4VqAIEWKte0w10aM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="356097300"
+X-IronPort-AV: E=Sophos;i="6.00,216,1681196400"; 
+   d="scan'208";a="356097300"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 08:35:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="702274230"
+X-IronPort-AV: E=Sophos;i="6.00,216,1681196400"; 
+   d="scan'208";a="702274230"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.173])
+  by orsmga007.jf.intel.com with ESMTP; 03 Jun 2023 08:35:01 -0700
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        dm-devel@redhat.com
+Cc:     ebiggers@kernel.org, elliott@hpe.com, gmazyland@gmail.com,
+        luto@kernel.org, dave.hansen@linux.intel.com, tglx@linutronix.de,
+        bp@alien8.de, mingo@kernel.org, x86@kernel.org,
+        herbert@gondor.apana.org.au, ardb@kernel.org,
+        dan.j.williams@intel.com, bernie.keany@intel.com,
+        charishma1.gairuboyina@intel.com,
+        lalithambika.krishnakumar@intel.com, nhuck@google.com,
+        chang.seok.bae@intel.com, Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v8 01/12] Documentation/x86: Document Key Locker
+Date:   Sat,  3 Jun 2023 08:22:16 -0700
+Message-Id: <20230603152227.12335-2-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20230603152227.12335-1-chang.seok.bae@intel.com>
+References: <20230524165717.14062-1-chang.seok.bae@intel.com>
+ <20230603152227.12335-1-chang.seok.bae@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The existing wording in the 'Select the recipients for your patch'
-section of submitting-patches.rst states that contributors should
-'copy' maintainers and lists, which might be interpreted to mean that
-patch e-mails should be sent 'Cc' such recipients without any 'To'
-recipients at all.
+Document the overview of the feature along with relevant consideration
+when provisioning dm-crypt volumes with AES-KL instead of AES-NI.
 
-Indeed, this does happen on occasion (and to be fair, examples of the
-practice predating the submitting-patches document exist in kernel
-mailing list archives). It isn't a problem on the protocol level, as
-SMTP itself deals only with SMTP commands (cf. 'RCPT TO'), but
-software that works with MIME headers in message text, perhaps in
-order to generate those commands, doesn't always handle the situation
-well.
-
-At present, when such an e-mail is sent to the vger listservs, the
-MIME header 'To: unlisted-recipients:; (no To-header on input)' is
-added to it somewhere along the chain. 'unlisted-recipients:;' is a
-valid RFC 5322 Group Address, but it (or '(no To-header on input)')
-sometimes goes on to cause problems itself further down the line.
-
-For example, in mutt, it can result in the silent removal of all 'Cc'
-recipients (e.g. kernel mailing lists) from a group reply, leaving
-the 'To' recipient that the original e-mail was 'From' as the only
-actual reply recipient [1]. Other issues [2] are possible in other
-software [3]. It also bears mentioning that a lack of 'To' headers is
-a characteristic of some spam, so such an e-mail may trigger some
-spam filters.
-
-To reduce ambiguity and eliminate this class of potential (albeit
-tangential) issues, prescribe sending patches 'To' maintainers and
-'Cc' lists. While we're at it, strengthen the recommendation to use
-scripts/get_maintainer.pl to find patch recipients, and move Andrew
-Morton's callout as the maintainer of last resort to the next
-paragraph for better flow.
-
-Link: https://github.com/neomutt/neomutt/issues/2548 [1]
-Link: https://github.com/python/cpython/issues/83281 [2]
-Link: https://github.com/kvalo/pwcli/issues/15 [3]
-Signed-off-by: James Seo <james@equiv.tech>
+Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: x86@kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 ---
- Documentation/process/submitting-patches.rst | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+Changes from v6:
+* Rebase on the upstream -- commit ff61f0791ce9 ("docs: move x86
+  documentation into Documentation/arch/"). (Nathan Huckleberry)
+* Remove a duplicated sentence -- 'But there is no AES-KL instruction
+  to process a 192-bit key.'
+* Update the text for clarity and readability:
+  - Clarify the error code and exemplify the backup failure
+  - Use 'wrapping key' instead of less readable 'IWKey'
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index efac910e2659..53460f3cdc1d 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -231,14 +231,15 @@ patch.
- Select the recipients for your patch
- ------------------------------------
- 
--You should always copy the appropriate subsystem maintainer(s) and list(s) on
--any patch to code that they maintain; look through the MAINTAINERS file and the
--source code revision history to see who those maintainers are.  The script
--scripts/get_maintainer.pl can be very useful at this step (pass paths to your
--patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
--maintainer for the subsystem you are working on, Andrew Morton
--(akpm@linux-foundation.org) serves as a maintainer of last resort.
--
-+You should always notify the appropriate subsystem maintainer(s) and list(s)
-+about any patch to code that they maintain.  Identify them by looking through
-+the MAINTAINERS file and the source code revision history, and by using the
-+script scripts/get_maintainer.pl (pass paths to your patches as arguments to
-+scripts/get_maintainer.pl).  Send your patch e-mail "To:" those maintainers and
-+"Cc:" those lists.
+Changes from v5:
+* Fix a typo: 'feature feature' -> 'feature'
+
+Changes from RFC v2:
+* Add as a new patch.
+
+The preview is available here:
+  https://htmlpreview.github.io/?https://github.com/intel-staging/keylocker/kdoc/arch/x86/keylocker.html
+---
+ Documentation/arch/x86/index.rst     |  1 +
+ Documentation/arch/x86/keylocker.rst | 97 ++++++++++++++++++++++++++++
+ 2 files changed, 98 insertions(+)
+ create mode 100644 Documentation/arch/x86/keylocker.rst
+
+diff --git a/Documentation/arch/x86/index.rst b/Documentation/arch/x86/index.rst
+index c73d133fd37c..256359c24669 100644
+--- a/Documentation/arch/x86/index.rst
++++ b/Documentation/arch/x86/index.rst
+@@ -42,3 +42,4 @@ x86-specific Documentation
+    features
+    elf_auxvec
+    xstate
++   keylocker
+diff --git a/Documentation/arch/x86/keylocker.rst b/Documentation/arch/x86/keylocker.rst
+new file mode 100644
+index 000000000000..5557b8d0659a
+--- /dev/null
++++ b/Documentation/arch/x86/keylocker.rst
+@@ -0,0 +1,97 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+If you cannot find a maintainer for the subsystem you are working on, Andrew
-+Morton (akpm@linux-foundation.org) serves as a maintainer of last resort.  Also,
- linux-kernel@vger.kernel.org should be used by default for all patches, but the
- volume on that list has caused a number of developers to tune it out.  Please
- do not spam unrelated lists and unrelated people, though.
++==============
++x86 Key Locker
++==============
++
++Introduction
++============
++
++Key Locker is a CPU feature to reduce key exfiltration opportunities
++while maintaining a programming interface similar to AES-NI. It
++converts the AES key into an encoded form, called the 'key handle'.
++The key handle is a wrapped version of the clear-text key where the
++wrapping key has limited exposure. Once converted, all subsequent data
++encryption using new AES instructions (AES-KL) uses this key handle,
++reducing the exposure of private key material in memory.
++
++CPU-internal Wrapping Key
++=========================
++
++The CPU-internal wrapping key is an entity in a software-invisible CPU
++state. On every system boot, a new key is loaded. So the key handle that
++was encoded by the old wrapping key is no longer usable on system shutdown
++or reboot.
++
++And the key may be lost on the following exceptional situation upon wakeup:
++
++Wrapping Key Restore Failure
++----------------------------
++
++The CPU state is volatile with the ACPI S3/4 sleep states. When the system
++supports those states, the key has to be backed up so that it is restored
++on wake up. The kernel saves the key in non-volatile media.
++
++The event of a wrapping key restore failure upon resume from suspend, all
++established key handles become invalid. In flight dm-crypt operations
++receive error results from pending operations. In the likely scenario that
++dm-crypt is hosting the root filesystem the recovery is identical to if a
++storage controller failed to resume from suspend, reboot. If the volume
++impacted by a wrapping key restore failure is a data-volume then it is
++possible that I/O errors on that volume do not bring down the rest of the
++system. However, a reboot is still required because the kernel will have
++soft-disabled Key Locker. Upon the failure, the crypto library code will
++return -ENODEV on every AES-KL function call. The Key Locker implementation
++only loads a new wrapping key at initial boot, not any time after like
++resume from suspend.
++
++Use Case and Non-use Cases
++==========================
++
++Bare metal disk encryption is the only intended use case.
++
++Userspace usage is not supported because there is no ABI provided to
++communicate and coordinate wrapping-key restore failure to userspace. For
++now, key restore failures are only coordinated with kernel users. But the
++kernel can not prevent userspace from using the feature's AES instructions
++('AES-KL') when the feature has been enabled. So, the lack of userspace
++support is only documented, not actively enforced.
++
++Key Locker is not expected to be advertised to guest VMs and the kernel
++implementation ignores it even if the VMM enumerates the capability. The
++expectation is that a guest VM wants private wrapping key state, but the
++architecture does not provide that. An emulation of that capability, by
++caching per-VM wrapping keys in memory, defeats the purpose of Key Locker.
++The backup / restore facility is also not performant enough to be suitable
++for guest VM context switches.
++
++AES Instruction Set
++===================
++
++The feature accompanies a new AES instruction set. This instruction set is
++analogous to AES-NI. A set of AES-NI instructions can be mapped to an
++AES-KL instruction. For example, AESENC128KL is responsible for ten rounds
++of transformation, which is equivalent to nine times AESENC and one
++AESENCLAST in AES-NI.
++
++But they have some notable differences:
++
++* AES-KL provides a secure data transformation using an encrypted key.
++
++* If an invalid key handle is provided, e.g. a corrupted one or a handle
++  restriction failure, the instruction fails with setting RFLAGS.ZF. The
++  crypto library implementation includes the flag check to return -EINVAL.
++  Note that this flag is also set if the wrapping key is changed, e.g.,
++  because of the backup error.
++
++* AES-KL implements support for 128-bit and 256-bit keys, but there is no
++  AES-KL instruction to process an 192-bit key. The AES-KL cipher
++  implementation logs a warning message with a 192-bit key and then falls
++  back to AES-NI. So, this 192-bit key-size limitation is only documented,
++  not enforced. It means the key will remain in clear-text in memory. This
++  is to meet Linux crypto-cipher expectation that each implementation must
++  support all the AES-compliant key sizes.
++
++* Some AES-KL hardware implementation may have noticeable performance
++  overhead when compared with AES-NI instructions.
++
 -- 
-2.39.2
+2.17.1
 
