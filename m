@@ -2,81 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52A93C77B7A
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 17:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8753C77B7A
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 20:16:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbjFCRQs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Jun 2023 13:16:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53230 "EHLO
+        id S229810AbjFCUQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Jun 2023 16:16:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbjFCRQr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 13:16:47 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E1B185
-        for <linux-doc@vger.kernel.org>; Sat,  3 Jun 2023 10:16:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685812605; x=1717348605;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q6mvgXclEvZxWmR2IQvHMv+VhhvtR5RjC5l2jothIlY=;
-  b=btAZJXfldd05HVn80AMjCYbqAWzkk/FAOoKCzdx2OeLHyBPLuIzVuTOm
-   JWkSOwpJmDosfW95zeX6NFz7NhlSZ8DFZmWSg+FlfEVvfVJUwJATDMZjY
-   8h5Twc6OO1D1kEag7YSzpeWUiSVYV6pLdhpdhQ9BXpVAjkLmkvyFva6iK
-   xAO7v4f7Si86PU95UWFP8QJeoE8aZh9mrt/ltL0Rfj4H0mJE9q0F2tpgM
-   cn6mqWPTs1ahhi/JBEaiyQzsDlDKrKgANlV1UsGcJkid8n1EqXdl3LvXC
-   oa5JAD3sVczZeYkJZ+Qy4DJIJll4Hm68SR9MYdqdqOFbGCw5ckSukAesm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="335715852"
-X-IronPort-AV: E=Sophos;i="6.00,216,1681196400"; 
-   d="scan'208";a="335715852"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 10:16:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="702288615"
-X-IronPort-AV: E=Sophos;i="6.00,216,1681196400"; 
-   d="scan'208";a="702288615"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 03 Jun 2023 10:16:44 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q5Urr-0001pR-1h;
-        Sat, 03 Jun 2023 17:16:43 +0000
-Date:   Sun, 4 Jun 2023 01:15:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Subject: [trace:probes/core 16/16] htmldocs: Warning:
- Documentation/trace/fprobetrace.rst references a file that doesn't exist:
- Documentation/trace/fprobes.rst
-Message-ID: <202306040144.aD72UzkF-lkp@intel.com>
+        with ESMTP id S230033AbjFCUQH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 16:16:07 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8111198
+        for <linux-doc@vger.kernel.org>; Sat,  3 Jun 2023 13:16:06 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-2566ed9328eso2827092a91.2
+        for <linux-doc@vger.kernel.org>; Sat, 03 Jun 2023 13:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685823366; x=1688415366;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t/RhT6metLrp+ds7LCGxqXYqhQlQZ5qHcKgxrBMCXnY=;
+        b=XVBaQ+R+QIOYmDrexQImfG10JS/mVeS+YWyxj51UUFo28i8tW21OZK8x7DqeeCWI88
+         r2EEpzoePUDmx1uScPSJFjpBqtb7wcMWnAD8mmoINE2gSy2Ue4fSYxFgfsP/E2p7NOVF
+         WbYj3W2y51CcyQ3vElrviXYP7iASbwfa7DNSjjy8aHPXJKZtx19j5Mvw4WJWK7XZain2
+         bHFYVYCJs5QMwcxkNce5BTKIfwNBsMe7X7mgGR7GJGy6lexmZT+J30ML+u4CWZ7Wp7qL
+         ZSszc90jsqkMypHWFk/emMY3ilfDAx14NMyRvcZaueR2twxSeYtAfxV507Scq7RTDS/U
+         32gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685823366; x=1688415366;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t/RhT6metLrp+ds7LCGxqXYqhQlQZ5qHcKgxrBMCXnY=;
+        b=C/bZW6XYEkPFgfzQkC7YY/ObcR+0cxSQMYQP9wdpkuejHTfh/bpMPFESiDheWKqpig
+         NPLBhpA580En1G8GPd6OM3UHqDrMb0kW4ohamJXFnup7FfvIOTgtWgYXqQaddHQmjigz
+         SxtBLv+A7TXcEMjfpanpdEjvNd+QzZxitrOY6U3JF77hDIzuoNrl/iSDkcBrJ3nDm5YD
+         Vs72Qca5eKNrlEA3LbBS5bjLIFVNgojUeoUP7K+AjTycXHTJbzUml/LXx1hXgxqiDFrr
+         pNiJXa+wfRWi2Y0lAy5Q/fXM6vkwXzP+NbHruMAcQzMUJ0DvRxkY5wl+Wi3gGrGlYYhp
+         X29Q==
+X-Gm-Message-State: AC+VfDwpEY8rCAoA3AV7KD1AjMP7yNfaV952o32eNBst5Rpgj6aVsbVB
+        tbS0CU8vZMY5/egyB8CDE3M=
+X-Google-Smtp-Source: ACHHUZ4eGZOOtkk2IxrdjzfQqI8oWBtxgGF8oUbH7xMjjMVsm7FDPCZXmEFLeAg8ysxZiqqNgN0yag==
+X-Received: by 2002:a17:90b:b0d:b0:256:8fae:4d50 with SMTP id bf13-20020a17090b0b0d00b002568fae4d50mr3590460pjb.21.1685823365977;
+        Sat, 03 Jun 2023 13:16:05 -0700 (PDT)
+Received: from localhost.localdomain ([76.132.108.20])
+        by smtp.gmail.com with ESMTPSA id u7-20020a17090a1d4700b00250bf8495b3sm5001691pju.39.2023.06.03.13.16.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Jun 2023 13:16:05 -0700 (PDT)
+From:   Russell Harmon <eatnumber1@gmail.com>
+To:     bagasdotme@gmail.com
+Cc:     mpatocka@redhat.com, snitzer@redhat.com, dm-devel@redhat.com,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] Improve the dm-integrity documentation.
+Date:   Sat,  3 Jun 2023 13:15:21 -0700
+Message-Id: <20230603201525.9409-1-eatnumber1@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <ZHs2BHGBrJ-YGd-v@debian.me>
+References: <ZHs2BHGBrJ-YGd-v@debian.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace probes/core
-head:   438ae37afde3d24731cf23e5b77370e76218744e
-commit: 438ae37afde3d24731cf23e5b77370e76218744e [16/16] Documentation: tracing/probes: Add fprobe event tracing document
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git/commit/?id=438ae37afde3d24731cf23e5b77370e76218744e
-        git remote add trace git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace
-        git fetch --no-tags trace probes/core
-        git checkout 438ae37afde3d24731cf23e5b77370e76218744e
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Thanks for taking a look. Here's the multi-patch series plus the changes
+you suggested.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306040144.aD72UzkF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: Documentation/trace/fprobetrace.rst references a file that doesn't exist: Documentation/trace/fprobes.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
