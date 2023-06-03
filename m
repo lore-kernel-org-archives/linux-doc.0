@@ -2,151 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECD43C87FE7
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 15:35:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36C04C77B73
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 15:55:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230023AbjFCPfV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Jun 2023 11:35:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37510 "EHLO
+        id S229445AbjFCPzu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Jun 2023 11:55:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229872AbjFCPfK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 11:35:10 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C425194;
-        Sat,  3 Jun 2023 08:35:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685806509; x=1717342509;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=59alQ36GnfZiWbiOj/6mr9HkoxqD3DcjLyz1IMSV1Bk=;
-  b=ItxcU203tDi1MPA7M3Yr2Mpmyz17AbqLtqufhUdiv4NiCLsibBfw2VAX
-   j3IwwNAAnt8V6XxOKcNgSlDqirUL0c+tL2ejGpzwOqbKSQlVhTItyRafZ
-   kYlrr9jk7faq6c9CFjCSNCkJTV3mKnoY5E3llr0GN97vIPSg0MV7vUp8w
-   0X630Bs9cVN0sn32syQ6eIipt+PU0x1DBrZmgbsffgRFJvBfqj5WPmEds
-   mC2XlsBH8zPADwnEr4X3XiI254CkHFAbyTusFNGqvB2+8ZsIk5XBVhK/h
-   BfrPWk9uNnHIuZYOpLa30ByIirwx/kh+6yU4NWe9970AHlRitPHzC89Ui
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="356097489"
-X-IronPort-AV: E=Sophos;i="6.00,216,1681196400"; 
-   d="scan'208";a="356097489"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 08:35:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="702274274"
-X-IronPort-AV: E=Sophos;i="6.00,216,1681196400"; 
-   d="scan'208";a="702274274"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.173])
-  by orsmga007.jf.intel.com with ESMTP; 03 Jun 2023 08:35:07 -0700
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dm-devel@redhat.com
-Cc:     ebiggers@kernel.org, elliott@hpe.com, gmazyland@gmail.com,
-        luto@kernel.org, dave.hansen@linux.intel.com, tglx@linutronix.de,
-        bp@alien8.de, mingo@kernel.org, x86@kernel.org,
-        herbert@gondor.apana.org.au, ardb@kernel.org,
-        dan.j.williams@intel.com, bernie.keany@intel.com,
-        charishma1.gairuboyina@intel.com,
-        lalithambika.krishnakumar@intel.com, nhuck@google.com,
-        chang.seok.bae@intel.com, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v8 09/12] x86/cpu: Add a configuration and command line option for Key Locker
-Date:   Sat,  3 Jun 2023 08:22:24 -0700
-Message-Id: <20230603152227.12335-10-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230603152227.12335-1-chang.seok.bae@intel.com>
-References: <20230524165717.14062-1-chang.seok.bae@intel.com>
- <20230603152227.12335-1-chang.seok.bae@intel.com>
+        with ESMTP id S229591AbjFCPzt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 11:55:49 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DACCFB3;
+        Sat,  3 Jun 2023 08:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=R5zYDzwo/pDHUr0DCv4Xr6Wm2HvTFwwN/7z8R7irekc=; b=uS9Hj2auVoA4GO+poXznQY4qIA
+        JYoJKOsrZuIClN/+8r/oi7GeMeT/RzQDV2mzkvx0gqHouz5Qw3OH7kkurPyWRvX1ziuh/E/4F5PWJ
+        LzH23jsv8Xe+7VHqBZfBeWUTWxSxwnzqA9PHfZBM3AGTzAkh32pwmvg2kbCeVhnS86JJOpeb+IyfF
+        b5OMRyQXW03joPKKiJfAeN4Xl8GWiDkDWomZppnJkM1p+1qNoUDhaEaurWyTuB1EGRR9dxMpM0/zW
+        VYKyq4DcpQROpfR9O+xMaevhxXMwkmmA/ffkhk2V26ruvgig0MpYRe6gEYIUDQP2B3BD2jSzMKRJd
+        c2YCuzeA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q5TbS-00A5nv-15;
+        Sat, 03 Jun 2023 15:55:42 +0000
+Message-ID: <975d35cb-e0aa-8ea7-5520-238d1aa4cbaf@infradead.org>
+Date:   Sat, 3 Jun 2023 08:55:39 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC] docs: process: Send patches 'To' maintainers and 'Cc' lists
+Content-Language: en-US
+To:     James Seo <james@equiv.tech>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Kalle Valo <kvalo@kernel.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230603151447.29288-1-james@equiv.tech>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230603151447.29288-1-james@equiv.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add CONFIG_X86_KEYLOCKER to gate whether Key Locker is initialized at
-boot. The option is selected by the Key Locker cipher module
-CRYPTO_AES_KL (to be added in a later patch).
+Hi--
 
-Add a new command line option "nokeylocker" to optionally override the
-default CONFIG_X86_KEYLOCKER=y behavior.
+On 6/3/23 08:14, James Seo wrote:
+> The existing wording in the 'Select the recipients for your patch'
+> section of submitting-patches.rst states that contributors should
+> 'copy' maintainers and lists, which might be interpreted to mean that
+> patch e-mails should be sent 'Cc' such recipients without any 'To'
+> recipients at all.
+> 
+> Indeed, this does happen on occasion (and to be fair, examples of the
+> practice predating the submitting-patches document exist in kernel
+> mailing list archives). It isn't a problem on the protocol level, as
+> SMTP itself deals only with SMTP commands (cf. 'RCPT TO'), but
+> software that works with MIME headers in message text, perhaps in
+> order to generate those commands, doesn't always handle the situation
+> well.
+> 
+> At present, when such an e-mail is sent to the vger listservs, the
+> MIME header 'To: unlisted-recipients:; (no To-header on input)' is
+> added to it somewhere along the chain. 'unlisted-recipients:;' is a
+> valid RFC 5322 Group Address, but it (or '(no To-header on input)')
+> sometimes goes on to cause problems itself further down the line.
+> 
+> For example, in mutt, it can result in the silent removal of all 'Cc'
+> recipients (e.g. kernel mailing lists) from a group reply, leaving
+> the 'To' recipient that the original e-mail was 'From' as the only
+> actual reply recipient [1]. Other issues [2] are possible in other
+> software [3]. It also bears mentioning that a lack of 'To' headers is
+> a characteristic of some spam, so such an e-mail may trigger some
+> spam filters.
 
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-Changes from v6:
-* Rebase on the upstream: commit a894a8a56b57 ("Documentation:
-  kernel-parameters: sort all "no..." parameters")
+It sounds to me like we should just prohibit (not allow) emails that
+don't have a To: recipient in them. It also sounds like mutt (and maybe
+other software) have problems.
 
-Changes from RFC v2:
-* Make the option selected by CRYPTO_AES_KL. (Dan Williams)
-* Massage the changelog and the config option description.
----
- Documentation/admin-guide/kernel-parameters.txt |  2 ++
- arch/x86/Kconfig                                |  3 +++
- arch/x86/kernel/cpu/common.c                    | 16 ++++++++++++++++
- 3 files changed, 21 insertions(+)
+Is that something that vger could do?  (although we have other
+email servers as well, e.g., infradead).
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c1247ec4589a..b42fc53cbcf9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3749,6 +3749,8 @@
- 			kernel and module base offset ASLR (Address Space
- 			Layout Randomization).
- 
-+	nokeylocker     [X86] Disable Key Locker hardware feature.
-+
- 	no-kvmapf	[X86,KVM] Disable paravirtualized asynchronous page
- 			fault handling.
- 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index a98c5f82be48..f9788b477db1 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1879,6 +1879,9 @@ config X86_INTEL_MEMORY_PROTECTION_KEYS
- 
- 	  If unsure, say y.
- 
-+config X86_KEYLOCKER
-+	bool
-+
- choice
- 	prompt "TSX enable mode"
- 	depends on CPU_SUP_INTEL
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 5882ff6e3c6b..718ff1b1d6dd 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -402,6 +402,22 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
- static const unsigned long cr4_pinned_mask =
- 	X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP |
- 	X86_CR4_FSGSBASE | X86_CR4_CET;
-+
-+static __init int x86_nokeylocker_setup(char *arg)
-+{
-+	/* Expect an exact match without trailing characters. */
-+	if (strlen(arg))
-+		return 0;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_KEYLOCKER))
-+		return 1;
-+
-+	setup_clear_cpu_cap(X86_FEATURE_KEYLOCKER);
-+	pr_info("x86/keylocker: Disabled by kernel command line.\n");
-+	return 1;
-+}
-+__setup("nokeylocker", x86_nokeylocker_setup);
-+
- static DEFINE_STATIC_KEY_FALSE_RO(cr_pinning);
- static unsigned long cr4_pinned_bits __ro_after_init;
- 
+> To reduce ambiguity and eliminate this class of potential (albeit
+> tangential) issues, prescribe sending patches 'To' maintainers and
+> 'Cc' lists. While we're at it, strengthen the recommendation to use
+> scripts/get_maintainer.pl to find patch recipients, and move Andrew
+> Morton's callout as the maintainer of last resort to the next
+> paragraph for better flow.
+> 
+
+I think that is going overboard (too far). As long as a maintainer
+is a direct recipient of the email (patch), that should be sufficient.
+
+> Link: https://github.com/neomutt/neomutt/issues/2548 [1]
+> Link: https://github.com/python/cpython/issues/83281 [2]
+> Link: https://github.com/kvalo/pwcli/issues/15 [3]
+> Signed-off-by: James Seo <james@equiv.tech>
+> ---
+>  Documentation/process/submitting-patches.rst | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index efac910e2659..53460f3cdc1d 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -231,14 +231,15 @@ patch.
+>  Select the recipients for your patch
+>  ------------------------------------
+>  
+> -You should always copy the appropriate subsystem maintainer(s) and list(s) on
+> -any patch to code that they maintain; look through the MAINTAINERS file and the
+> -source code revision history to see who those maintainers are.  The script
+> -scripts/get_maintainer.pl can be very useful at this step (pass paths to your
+> -patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
+> -maintainer for the subsystem you are working on, Andrew Morton
+> -(akpm@linux-foundation.org) serves as a maintainer of last resort.
+> -
+> +You should always notify the appropriate subsystem maintainer(s) and list(s)
+> +about any patch to code that they maintain.  Identify them by looking through
+> +the MAINTAINERS file and the source code revision history, and by using the
+> +script scripts/get_maintainer.pl (pass paths to your patches as arguments to
+> +scripts/get_maintainer.pl).  Send your patch e-mail "To:" those maintainers and
+> +"Cc:" those lists.
+> +
+> +If you cannot find a maintainer for the subsystem you are working on, Andrew
+> +Morton (akpm@linux-foundation.org) serves as a maintainer of last resort.  Also,
+>  linux-kernel@vger.kernel.org should be used by default for all patches, but the
+>  volume on that list has caused a number of developers to tune it out.  Please
+>  do not spam unrelated lists and unrelated people, though.
+
 -- 
-2.17.1
-
+~Randy
