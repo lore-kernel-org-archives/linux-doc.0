@@ -2,119 +2,219 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E72C77B7A
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 04:04:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2297C77B73
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Jun 2023 12:46:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbjFCEEP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Jun 2023 00:04:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50416 "EHLO
+        id S230289AbjFCMqD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Jun 2023 08:46:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjFCEEN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 00:04:13 -0400
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com [IPv6:2001:4860:4864:20::35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27791E41;
-        Fri,  2 Jun 2023 21:04:11 -0700 (PDT)
-Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-1a2c85ef3c2so124732fac.0;
-        Fri, 02 Jun 2023 21:04:11 -0700 (PDT)
+        with ESMTP id S230185AbjFCMqC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Jun 2023 08:46:02 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72226F5
+        for <linux-doc@vger.kernel.org>; Sat,  3 Jun 2023 05:46:01 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-51452556acdso1808095a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 03 Jun 2023 05:46:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685765050; x=1688357050;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uDJ4NW+v18hRQd8QqPDqLFxlqAOhHV7cNr8XZuV5p/M=;
-        b=LSX7ARdS59+DyGbvCXkuRwOgqNdiKd9etKckiesB61nejVFFs5qd7juAnJxIbhHaRN
-         gnWjC4xZ/bEAOmnN9DUWXaZc/pVLzF10a/s4mXae33HepSSjnzKYqSAmVtsh2m/FQTEA
-         Am1bupJp1qiwX+EF/j1RYExTuCVjUxxQpwJd74EGo489swZ5ApkGEIfm0w4Ly0Qv01m8
-         ARdb/7uLQ5n8VW70R9piC4lfYxjn86c+s/fLGFSX9N6DGT59IOoIVg/P7d+7QW0XROvC
-         mD9JzoLyvvJeRocyUVZ1k4jqWdso9cJ1iYH84Sxt0QEfu5jGTqkBUI1vyDfyJKMg79ax
-         e+Rw==
+        d=gmail.com; s=20221208; t=1685796361; x=1688388361;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/kQXT/D1g1MKGoMUybziH35SAU5dVuYh1icWNGsyKOM=;
+        b=V94QgyD2dKQCZnm6sD3W746WsFl5C8Aw/flUOd+cgc5uU0Dh4xHHH7zNAVzOb3pWqV
+         Fc2tJdepsZL3Y53d6itz1klo05yf9lR6MCF6pmfAAOHwXP1AdBA5iqpzDvMbs9eoak1f
+         ZuM4onhy3IxnTWHTxsa2Hzb5FaVUWhgw8+XadQOA5kYXn+cEbernuL+kTwQRzaeKnmOD
+         71v+zin4u0N4bGQqxHITCXUKtGWbfbWzliBBbzmSDJzImT/vYF+0fvR1Uy0VGZ5o/TtI
+         sPHVWsLOv9YwOMoxxfUeLZM/tdQmGNTSQOzqbMJeW/UWKir22PwjmBvX1FS19RNX3c+7
+         J5yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685765050; x=1688357050;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uDJ4NW+v18hRQd8QqPDqLFxlqAOhHV7cNr8XZuV5p/M=;
-        b=WipL+BgF2wvxuqtFXi55ml4o03lALAZPlSMYvnuIeVFB7fCdMyEjb6hqkHja3VMKiJ
-         Pz2llQf5bphDkcY/JzyrFXZ6f0ocIXb4RlW/o67l725OIvo+iudL34IOZMAY9YOEXVSm
-         M23fg15wiStEYahJtswAuu9UDMPPil2vFOqtw/j2ZIvZE7yRuOL74sLS516D7h2SxIMK
-         1te1LPsq7irfCsv076qFgw524hFJbaVAD76l5VuDkPCU0MOoKMS43E3tKMCHIMwj+kYY
-         VBPYF6C4rIHhEVVmwS6O1JXZnJ8Ws1V5GVbVklmL5s5N0kjEZ9HAJEJ1eq5HgtpFqpxf
-         yoGg==
-X-Gm-Message-State: AC+VfDxGO9pSEGltUwK86GuX1PUlnOzBxvEaRq3XZJJo3n+JpDWj0LxA
-        bZO+K0ICMQI0C/ZFugBgC2I=
-X-Google-Smtp-Source: ACHHUZ79T/IdMlsUgPFqgx50GCVquh7X2k1tD/RxI5X6jTrEpBwxfRzrW8lGWHsDXQpHaj+wlD+T8Q==
-X-Received: by 2002:a05:6808:186:b0:398:2a35:f328 with SMTP id w6-20020a056808018600b003982a35f328mr2055001oic.8.1685765050391;
-        Fri, 02 Jun 2023 21:04:10 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id ie3-20020a17090b400300b00255e2d5d56csm1944618pjb.1.2023.06.02.21.04.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Jun 2023 21:04:10 -0700 (PDT)
-Message-ID: <bf0dee59-20ce-27d6-5b6a-683525fc012e@gmail.com>
-Date:   Sat, 3 Jun 2023 13:04:04 +0900
+        d=1e100.net; s=20221208; t=1685796361; x=1688388361;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/kQXT/D1g1MKGoMUybziH35SAU5dVuYh1icWNGsyKOM=;
+        b=BPVX3MP3aVWajN2UBWrZrxZA9EDO4l0SxER0oBzV+jZRMufAKFQvpzyuzDrziLP/6P
+         lJwK4QWsfxwgbKGKlplyANdPQXCGxFgx8egNTnvHWKZGjvhiUVn/PkixPKjbZuZ3lLj0
+         BN/yG0IJJZK9CaeQr5KnWrVfB2RbOhwor9W+mLYscjb0mRNA7x5H2+SEitGHPgKZ96Gk
+         JzBtrS42mpHLFHNtfX9+wPgNdoCP8aRVayp5ExT3BGNB7lfKPwpQAlpmMJpfl8p1HhDd
+         sH1oF6aCmxqh1aMAcq7eN6uH52lg4rT6jBVWtyTzHduxeha30J89fWP1trUl02IKOdvX
+         2r6w==
+X-Gm-Message-State: AC+VfDx5wfDKkeSNg/Gq0DZvdYFrA3kBjAEOGJrS9r2nm+ASML/WqxmZ
+        Em6vkbkUqemwDWhKRlayl9A=
+X-Google-Smtp-Source: ACHHUZ7ul+2AjGHwv8RU2B7FQ6sTqG1EpxJS5Sa4Q6Il2hpdcn5WhfTnme1v+Di5r/la48egqoyLfQ==
+X-Received: by 2002:a17:902:ecc4:b0:1ad:8c8f:afb1 with SMTP id a4-20020a170902ecc400b001ad8c8fafb1mr1653007plh.39.1685796360756;
+        Sat, 03 Jun 2023 05:46:00 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-18.three.co.id. [180.214.233.18])
+        by smtp.gmail.com with ESMTPSA id w12-20020a170902d3cc00b001ae6e270d8bsm3100571plb.131.2023.06.03.05.45.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Jun 2023 05:46:00 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 702F31069C9; Sat,  3 Jun 2023 19:45:56 +0700 (WIB)
+Date:   Sat, 3 Jun 2023 19:45:56 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Russell Harmon <eatnumber1@gmail.com>, mpatocka@redhat.com,
+        snitzer@redhat.com, dm-devel@redhat.com
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>
+Subject: Re: [dm-devel] [PATCH] Improve the dm-integrity documentation.
+Message-ID: <ZHs2BHGBrJ-YGd-v@debian.me>
+References: <20230530002032.15227-1-eatnumber1@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-To:     rdunlap@infradead.org
-Cc:     bagasdotme@gmail.com, ivan.orlov0322@gmail.com, lenb@kernel.org,
-        linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, madhumithabiw@gmail.com,
-        rafael@kernel.org, skhan@linuxfoundation.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <e69410c1-8632-354e-e6e0-ac16631f0566@infradead.org>
-Subject: Re: [PATCH] docs: Fix warning:Error in "code-block" directive
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <e69410c1-8632-354e-e6e0-ac16631f0566@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="PWdwoCEpVKy8qUSn"
+Content-Disposition: inline
+In-Reply-To: <20230530002032.15227-1-eatnumber1@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2 Jun 2023 18:41:46 -0700, Randy Dunlap wrote:
-> On 6/2/23 18:20, Bagas Sanjaya wrote:
->> On Fri, Jun 02, 2023 at 04:51:02PM -0500, Madhumitha Prabakaran wrote:
->>> Fix the error in "code-block" directive by providing the
->>> argument as "text".
->>>
->>> <snipped> ...
->>>  Result code:
->>>  ------------
->>>  
->>> -.. code-block::
->>> +.. code-block:: text
->> 
->> Nope.
->> 
->> I don't see error you mention in this patch when making htmldocs on my
->> computer (my setup is pretty standard: see
->> Documentation/doc-guide/sphinx.rst). This patch is unneccessary, though,
->> unless you have code snippets in some language (e.g. C, where passing
->> language name to code-block:: syntax-highlight it). Result code outputs,
->> on the other hand, are generic text with no definitive syntax, hence
->> you can omit language name.
->> 
->> Thanks.
-> 
-> 
-> I also don't see any such warnings so I don't see a need for this patch.
-> My wild guess is that some older version of Sphinx was being used.
 
-Right.
+--PWdwoCEpVKy8qUSn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In Sphinx changelog, "Features added" for 2.0.0b1 [1] lists this:
+On Mon, May 29, 2023 at 05:20:32PM -0700, Russell Harmon wrote:
+> Documents the meaning of the "buffer", adds documentation of the current
+> defaults, and provides an example of how the tunables relate to each
+> other.
 
-    #1851: Allow to omit an argument for code-block directive. If omitted,
-    it follows highlight or highlight_language
+What about splitting this patch into three-patch series, where each
+patch do one improv?
 
-[1]: https://www.sphinx-doc.org/en/master/changes.html#id1306
+Anyway, I'm reviewing the wording here.
 
-Pre-2.0 Sphinx is now deprecated.
-See commit 31abfdda6527 ("docs: Deprecate use of Sphinx < 2.4.x").
+> diff --git a/Documentation/admin-guide/device-mapper/dm-integrity.rst b/D=
+ocumentation/admin-guide/device-mapper/dm-integrity.rst
+> index 8db172efa272..634a780d7c51 100644
+> --- a/Documentation/admin-guide/device-mapper/dm-integrity.rst
+> +++ b/Documentation/admin-guide/device-mapper/dm-integrity.rst
+> @@ -25,7 +25,7 @@ mode it calculates and verifies the integrity tag inter=
+nally. In this
+>  mode, the dm-integrity target can be used to detect silent data
+>  corruption on the disk or in the I/O path.
+> =20
+> -There's an alternate mode of operation where dm-integrity uses bitmap
+> +There's an alternate mode of operation where dm-integrity uses a bitmap
 
-        Thanks, Akira    
+OK.
 
-> 
-> -- 
-> ~Randy
+>  instead of a journal. If a bit in the bitmap is 1, the corresponding
+>  region's data and integrity tags are not synchronized - if the machine
+>  crashes, the unsynchronized regions will be recalculated. The bitmap mode
+> @@ -38,6 +38,15 @@ the device. But it will only format the device if the =
+superblock contains
+>  zeroes. If the superblock is neither valid nor zeroed, the dm-integrity
+>  target can't be loaded.
+> =20
+> +Accesses to the on-disk metadata area containing checksums (aka tags) is
+"Accesses to ... are ..."
+> +buffered using dm-bufio. When an access to any given metadata area
+> +occurs, each unique metadata area gets its own buffer(s). The buffer size
+> +is capped at the size of the metadata area, but may be smaller, thereby
+> +requiring multiple buffers to represent the full metadata area. A smaller
+> +buffer size will produce a smaller resulting read/write operation to the
+> +metadata area for small reads/writes. A full write to the data covered by
+> +a single buffer does *not* skip the read of the metadata.
+What about "The metadata is still read even in a full write to the data
+covered by a single buffer."?
 
+> +
+>  To use the target for the first time:
+> =20
+>  1. overwrite the superblock with zeroes
+> @@ -93,7 +102,7 @@ journal_sectors:number
+>  	device. If the device is already formatted, the value from the
+>  	superblock is used.
+> =20
+> -interleave_sectors:number
+> +interleave_sectors:number (default 32768)
+>  	The number of interleaved sectors. This values is rounded down to
+>  	a power of two. If the device is already formatted, the value from
+>  	the superblock is used.
+> @@ -102,20 +111,16 @@ meta_device:device
+>  	Don't interleave the data and metadata on the device. Use a
+>  	separate device for metadata.
+> =20
+> -buffer_sectors:number
+> -	The number of sectors in one buffer. The value is rounded down to
+> -	a power of two.
+> +buffer_sectors:number (default 128)
+> +	The number of sectors in one metadata buffer. The value is rounded
+> +	down to a power of two.
+> =20
+> -	The tag area is accessed using buffers, the buffer size is
+> -	configurable. The large buffer size means that the I/O size will
+> -	be larger, but there could be less I/Os issued.
+> -
+> -journal_watermark:number
+> +journal_watermark:number (default 50)
+>  	The journal watermark in percents. When the size of the journal
+>  	exceeds this watermark, the thread that flushes the journal will
+>  	be started.
+> =20
+> -commit_time:number
+> +commit_time:number (default 10000)
+>  	Commit time in milliseconds. When this time passes, the journal is
+>  	written. The journal is also written immediately if the FLUSH
+>  	request is received.
+> @@ -163,11 +168,10 @@ journal_mac:algorithm(:key)	(the key is optional)
+>  	the journal. Thus, modified sector number would be detected at
+>  	this stage.
+> =20
+> -block_size:number
+> -	The size of a data block in bytes.  The larger the block size the
+> +block_size:number (default 512)
+> +	The size of a data block in bytes. The larger the block size the
+>  	less overhead there is for per-block integrity metadata.
+> -	Supported values are 512, 1024, 2048 and 4096 bytes.  If not
+> -	specified the default block size is 512 bytes.
+> +	Supported values are 512, 1024, 2048 and 4096 bytes.
+> =20
+>  sectors_per_bit:number
+>  	In the bitmap mode, this parameter specifies the number of
+> @@ -209,6 +213,12 @@ table and swap the tables with suspend and resume). =
+The other arguments
+>  should not be changed when reloading the target because the layout of di=
+sk
+>  data depend on them and the reloaded target would be non-functional.
+> =20
+> +For example, on a device using the default interleave_sectors of 32768, a
+> +block_size of 512, and an internal_hash of crc32c with a tag size of 4
+> +bytes, it will take 128 KiB of tags to track a full data area, requiring
+> +256 sectors of metadata per data area. With the default buffer_sectors of
+> +128, that means there will be 2 buffers per metadata area, or 2 buffers
+> +per 16 MiB of data.
+
+OK.
+
+> =20
+>  Status line:
+> =20
+> @@ -285,8 +295,8 @@ The layout of the formatted block device:
+>  * one or more runs of interleaved tags and data.
+>      Each run contains:
+> =20
+> -	* tag area - it contains integrity tags. There is one tag for each
+> -	  sector in the data area
+> +	* tag area - it contains integrity tags. There is one tag for each sect=
+or in
+> +	  the data area. The size of this area is always 4KiB or greater.
+Corresponding sector in the data area?
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--PWdwoCEpVKy8qUSn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZHs1/QAKCRD2uYlJVVFO
+o3sUAQDW3rmkdctzCygsLFvbfkCpt5czPdlpXyjZs+t1soVdeQEAtLmhK+CY2aJk
+cCjdkPt5kB6FLBq8BrGlzeva5BCGOAk=
+=II0O
+-----END PGP SIGNATURE-----
+
+--PWdwoCEpVKy8qUSn--
