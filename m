@@ -2,80 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35AF2C77B73
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jun 2023 19:06:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA505C77B73
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Jun 2023 19:06:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230070AbjFDTGe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Jun 2023 15:06:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44656 "EHLO
+        id S230392AbjFDTGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Jun 2023 15:06:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbjFDTGd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jun 2023 15:06:33 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F63FB3
-        for <linux-doc@vger.kernel.org>; Sun,  4 Jun 2023 12:06:32 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-655fce0f354so476779b3a.0
-        for <linux-doc@vger.kernel.org>; Sun, 04 Jun 2023 12:06:32 -0700 (PDT)
+        with ESMTP id S229670AbjFDTGh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jun 2023 15:06:37 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DE8BB3
+        for <linux-doc@vger.kernel.org>; Sun,  4 Jun 2023 12:06:37 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1b0424c5137so35599125ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 04 Jun 2023 12:06:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685905592; x=1688497592;
+        d=gmail.com; s=20221208; t=1685905596; x=1688497596;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XbUejC7VSiKPBbjbIMnLeib6LPFan0YFbSc0p4xM48s=;
-        b=rUJ60jE0CtomWv1zSSvtpeforOWFdIGr1yDVewqGoHno53FRmr3DpTihZdG5h1sU9l
-         7Tv/Bu3kExfClR8JvZObbpvGE1ZnVsdnmEcIxO89DRuwwYK+bYIRvAHEMlzULYyalbPZ
-         dDtKjaSQfdXzTNA235lAYkNIAohTdoOjId4S7ABUVPZ8e3Q/bXMqSVFi5mj3xq3mr0As
-         pCvz0i24lDwh9x0+s+AcsjRw4FVT7JQ01UoISyEexf2GKVQDocn/MPJDgRuIFHIma7lj
-         9rVW/r+RZ6Y3E2CKvw5l8E7ntCDFWHF7uSpJgB+N8kgOqGKjCvyfz1MlDak2FJMAIw3n
-         v57A==
+        bh=GG3Hy7n4oCrePrc6XsNght2qZ/b76zbKsk6sMW+iZsQ=;
+        b=SNExni+RWnZSCWO/L3q/9D8I/428t+HoQzSV4cbONgJ1P0wEon48YAibjrI5PEqoqn
+         XPBobm+0v+khFn2FmfK3Tj/Azc1zDM+RbUTLnNhC5ogN8tCFrHN0jX+Hg+fq7WhTbJP+
+         TjfNfOKY2sr+3vujoCf4iTpNethyhsnv8KGTJQugb64N2wAlRtSFvfAMXaVfy74zL2Ab
+         053L/J3r9ae+xWqKV2p8yjzukujwzF5yp1tP433WgDsfuBpr7IkG8cKB8/9y7xbCqoCm
+         o9S/f8vKo1Q3+I4UHuGiO+eZfp8iT1vDdTjjZfnwqIFHn7MG1avPA+c14wO4ijw1eImP
+         LEUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685905592; x=1688497592;
+        d=1e100.net; s=20221208; t=1685905596; x=1688497596;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XbUejC7VSiKPBbjbIMnLeib6LPFan0YFbSc0p4xM48s=;
-        b=AR7KdFERk6AUMgfcqR6HuPsG4RPDQ1JzFnP225bJnkoLv4ZNsFaqu/scpdp0lGnRAG
-         93QqBM3G9hCNPwJtW1GN3i4U3yT9DAOkRyRsjA757J4mR74vJvcp19636Osw0H31yJ0E
-         ZkIuhH5tIhfXr/A9vlSUH0tEc4JuX3rYsZcd7ghpKIUdzkomYhi2Tx+bA9pEVeEE1v+h
-         7ZGtPknCQWt7QTl1pOJfV+YTIMZ2RJ0OkoTjsnlib7/xt8Zpm7xn3g/yNFt+0Nel6++i
-         PZ0xGN7oBXeTNdQgfwpfL0VcrBTVnCzUThO/vikHwoXI7xweVFsoFNtWtuoIXME7nqnN
-         6j8w==
-X-Gm-Message-State: AC+VfDyNEh73YvcWKzM5FD5LEtQnrF3dZvhyOHJ1tQLZNJp+71I3oiBj
-        z/v5nIkMmeN/jCj/4yQN23k=
-X-Google-Smtp-Source: ACHHUZ54Dervt6Wvl7x+XZV5YlVrYo/Ef4fUT5zcf7MFzSkijq+30vW7FyPQvyJHFujKhbOAk/lkAg==
-X-Received: by 2002:a05:6a20:8e19:b0:116:df6e:c84c with SMTP id y25-20020a056a208e1900b00116df6ec84cmr46292pzj.45.1685905591450;
-        Sun, 04 Jun 2023 12:06:31 -0700 (PDT)
+        bh=GG3Hy7n4oCrePrc6XsNght2qZ/b76zbKsk6sMW+iZsQ=;
+        b=ZJ5oXOZgHMX3re5AP3U/xnxjYirnTuRfrVL3oU9qOPOJHc1kGnskYaEnmPJCeQ4WeO
+         BS3F9sz7Km2tLMXm6WxPHfMHBNAzDxapQlCN7EZDcOP1kttefxn/cIsjNNYT5GAI+Qdt
+         Ijee538jVzLLeeoJfdqAGlkuWVP7SgPrRjw4Ay5MhIBkHPDiRGElhgGF8HCStEq1binp
+         GyU18GzmLoe4e9nvZpqmjPw4QO7sTN3osfVwPNbfCIOdyppEtkOeN3yLGRRZOkWUpCSd
+         25hM7q9O0UMWbqc11NAdKzz5Y2y4nU6wxoLiYO/IC19p7SW7bNxl2CKpHlu7LsO4n8Gz
+         a9Hg==
+X-Gm-Message-State: AC+VfDzaUHBd5QIUyR2RYmItQfvU0JCM7bPLaVLdCnYBxCqvqYFia6vh
+        jxZ2AgzNRFNtcR50KINHKpxZbdijPUrC1A==
+X-Google-Smtp-Source: ACHHUZ5pvsmZXxQML0usbfB4Onm1WEYm3om0LDI/OSvyhEtbDdsMhpgRo4e5YYhi9zts2K9eeziOxg==
+X-Received: by 2002:a17:902:6b0a:b0:1ac:5717:fd5 with SMTP id o10-20020a1709026b0a00b001ac57170fd5mr6023028plk.60.1685905596187;
+        Sun, 04 Jun 2023 12:06:36 -0700 (PDT)
 Received: from localhost.localdomain ([76.132.108.20])
-        by smtp.gmail.com with ESMTPSA id m8-20020a170902db0800b001a6ed2d0ef8sm4979072plx.273.2023.06.04.12.06.30
+        by smtp.gmail.com with ESMTPSA id m8-20020a170902db0800b001a6ed2d0ef8sm4979072plx.273.2023.06.04.12.06.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jun 2023 12:06:30 -0700 (PDT)
+        Sun, 04 Jun 2023 12:06:35 -0700 (PDT)
 From:   Russell Harmon <eatnumber1@gmail.com>
 To:     bagasdotme@gmail.com
 Cc:     mpatocka@redhat.com, snitzer@redhat.com, dm-devel@redhat.com,
         linux-doc@vger.kernel.org, Russell Harmon <eatnumber1@gmail.com>
-Subject: [PATCH v3 0/4] Improve the dm-integrity documentation.
-Date:   Sun,  4 Jun 2023 12:06:00 -0700
-Message-Id: <20230604190604.4800-1-eatnumber1@gmail.com>
+Subject: [PATCH v3 1/4] Fix minor grammatical error in dm-integrity.rst.
+Date:   Sun,  4 Jun 2023 12:06:01 -0700
+Message-Id: <20230604190604.4800-2-eatnumber1@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <CA+zrezTegR8jHQA3MNM6WnfFU_RP4=fiCuk6WgwJZsjZ2PYUSw@mail.gmail.com>
+In-Reply-To: <20230604190604.4800-1-eatnumber1@gmail.com>
 References: <CA+zrezTegR8jHQA3MNM6WnfFU_RP4=fiCuk6WgwJZsjZ2PYUSw@mail.gmail.com>
+ <20230604190604.4800-1-eatnumber1@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Version 3, thanks Bagas for working with me.
+"where dm-integrity uses bitmap" becomes "where dm-integrity uses a
+bitmap"
 
-Russell Harmon (4):
-  Fix minor grammatical error in dm-integrity.rst.
-  Documents the meaning of "buffer" in dm-integrity.
-  Document dm-integrity default values.
-  Document an example of how the tunables relate in dm-integrity.
+Signed-off-by: Russell Harmon <eatnumber1@gmail.com>
+---
+ Documentation/admin-guide/device-mapper/dm-integrity.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- .../device-mapper/dm-integrity.rst            | 43 ++++++++++++-------
- 1 file changed, 27 insertions(+), 16 deletions(-)
-
+diff --git a/Documentation/admin-guide/device-mapper/dm-integrity.rst b/Documentation/admin-guide/device-mapper/dm-integrity.rst
+index 8db172efa272..b2a698e955a3 100644
+--- a/Documentation/admin-guide/device-mapper/dm-integrity.rst
++++ b/Documentation/admin-guide/device-mapper/dm-integrity.rst
+@@ -25,7 +25,7 @@ mode it calculates and verifies the integrity tag internally. In this
+ mode, the dm-integrity target can be used to detect silent data
+ corruption on the disk or in the I/O path.
+ 
+-There's an alternate mode of operation where dm-integrity uses bitmap
++There's an alternate mode of operation where dm-integrity uses a bitmap
+ instead of a journal. If a bit in the bitmap is 1, the corresponding
+ region's data and integrity tags are not synchronized - if the machine
+ crashes, the unsynchronized regions will be recalculated. The bitmap mode
 -- 
 2.34.1
 
