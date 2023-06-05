@@ -2,134 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58B2FC77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 14:03:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE8EC77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 14:19:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234339AbjFEODd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 10:03:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60708 "EHLO
+        id S233448AbjFEOTA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 10:19:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233926AbjFEODU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 10:03:20 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D53A410A
-        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 07:03:03 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-307d20548adso4023773f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 07:03:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1685973782; x=1688565782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3TpTdF2O/cApQ1f8cCRIskXNZxv29sK1ejd0fKQhf0A=;
-        b=C0kOoFwZI7gBQMp/Tv/Ev346Vqn39Qz6k9uo241DZp0B0A3B9BKADk+fVB9WNfdZNz
-         apwt9PWDETqF2SOX7E/h0q1yEiCJ/lx4vxtysqO9QvufT13mqG6uc1LJ+6uEsUavKEA1
-         SKCzaEtMLdpl8bRC3mwCBzyvzw6lABO2K+NYuJAgZwZcqpH67c9AkVrba2xgjRAnv4a4
-         eukbdi3aBYszu+O8ojl8ip3il+ThyIlWjjdQPsR674II8p5cem7ZA9GA6r/v3QSbS1XL
-         brRQyn5j73kOhV36J8ELB34s5rit/+/9MGYyyMJFhDTBUjGVSRGszf7kbNe65ucMMfdA
-         YGcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685973782; x=1688565782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3TpTdF2O/cApQ1f8cCRIskXNZxv29sK1ejd0fKQhf0A=;
-        b=LsYTbI+6IFSRs4NDVDHeR/FG5ePlo7KF5WPIthhnCjNt4aW1FWHWMFPqOwsQl1vlxV
-         4jQ5LSyG1COQYJcgoy74db3oUXeJpCFrfq68ykgCN5oEEfr1VB6p6n5mVxvgOm3f7Uil
-         skHUSfeoC11Kbe1gdUbDbtV4WtdkyP0Ddup8Q89nWHpvVClZAdsJPaYtZq6mLwmR6kCy
-         +76MN68VX3qkCP1wl9ryByJBELbb5m3VzLcO4+YGoPH1EGZ8tl+R1pGJQoyke5r8iW2w
-         AQktprQ+fkOLlmIrEQDeiBJj6A+LwGVgNYs3344FCmNO55RzAHUsY7l23W86kMOKDhn4
-         5JcA==
-X-Gm-Message-State: AC+VfDyffCA4x6j7Ni+8sm/KKM9+EQPdebFp3EFJ8Lw/blneWHGJHUCY
-        ChHQurz6zR+AIZfd00qQNxjFXhpKh/mslPGHThx/LQ==
-X-Google-Smtp-Source: ACHHUZ7NakWJkFLD7elRYzpOCRLCQT0EUX48KZ9XktEDXyOh5eBAI+rcnWmdoAItU1aaYSTk+xTAlGnia4YfRKzxDzg=
-X-Received: by 2002:a5d:5490:0:b0:30e:3e6f:3682 with SMTP id
- h16-20020a5d5490000000b0030e3e6f3682mr2185459wrv.5.1685973782326; Mon, 05 Jun
- 2023 07:03:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230512085321.13259-1-alexghiti@rivosinc.com>
- <20230512085321.13259-11-alexghiti@rivosinc.com> <20230531-31bd9ddeaca8cb338f81ed14@orel>
- <ZH3ovt4WnTJuTinF@kernel.org>
-In-Reply-To: <ZH3ovt4WnTJuTinF@kernel.org>
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-Date:   Mon, 5 Jun 2023 16:02:51 +0200
-Message-ID: <CAHVXubgr5=c0c7wMWTHjJw-TWE8vLtUEqcNRabNzdU4zZtnvvA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] perf: tests: Adapt mmap-basic.c for riscv
-To:     Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc:     Andrew Jones <ajones@ventanamicro.com>,
+        with ESMTP id S233400AbjFEOS5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 10:18:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6AAB10C;
+        Mon,  5 Jun 2023 07:18:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 347D66241A;
+        Mon,  5 Jun 2023 14:18:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 632DBC433EF;
+        Mon,  5 Jun 2023 14:18:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685974727;
+        bh=zq25hJ0fHK6GtehEcofkCZeAy8jNCWwt6NKJQEwBpSM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FvbA7sETZUW5ZcfTxbhvBaQKfBV28xcoqYaInME55BvENaD8mTZnOhJJubLqBfwas
+         S2+KfwHil+AQh6U5BY7kxfxfsXzIRbc9Fm1jsuCYqwhPzADC3AiOKBuPyMSCT0XqyT
+         cedzg8Vp/4wtQVT4K8gDNrunucZWVy+D0nvntkUiCe89JGFnvfxB/ML5apb7lEPBog
+         eBDa4Md6P6ZWalE+1acYuyw8GgqeNvLOy8glnwIMA+6yqLP4YDQl+3oF6ZExl56ExD
+         mffuTaNBhr+08U3L0Mdi2mJLHbRxkINhvTP/Ijb/8ECezrov4sJ5PhAhCoLumjP55S
+         unYQlpAMd6HmQ==
+Date:   Mon, 5 Jun 2023 15:18:39 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, qperret@google.com
+Subject: Re: [PATCH v13 10/24] gunyah: vm_mgr: Add/remove user memory regions
+Message-ID: <20230605141839.GD21212@willie-the-truck>
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+ <20230509204801.2824351-11-quic_eberman@quicinc.com>
+ <20230519115948.GB2637@willie-the-truck>
+ <e22c31bd-10ed-f242-3e72-debf40e01e3c@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e22c31bd-10ed-f242-3e72-debf40e01e3c@quicinc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(sorry mail client switched to html on its own)
+Hi Elliot,
 
-On Mon, Jun 5, 2023 at 3:53=E2=80=AFPM Arnaldo Carvalho de Melo <acme@kerne=
-l.org> wrote:
->
-> Em Wed, May 31, 2023 at 05:15:15PM +0200, Andrew Jones escreveu:
-> > On Fri, May 12, 2023 at 10:53:21AM +0200, Alexandre Ghiti wrote:
-> > > riscv now supports mmaping hardware counters to userspace so adapt th=
-e test
-> > > to run on this architecture.
-> > >
-> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > > ---
-> > >  tools/perf/tests/mmap-basic.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-ba=
-sic.c
-> > > index e68ca6229756..f5075ca774f8 100644
-> > > --- a/tools/perf/tests/mmap-basic.c
-> > > +++ b/tools/perf/tests/mmap-basic.c
-> > > @@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] =3D {
-> > >                      "permissions"),
-> > >     TEST_CASE_REASON("User space counter reading of instructions",
-> > >                      mmap_user_read_instr,
-> > > -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> > > +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)=
- || __riscv_xlen =3D=3D 64
-> > >                      "permissions"
-> > >  #else
-> > >                      "unsupported"
-> > > @@ -292,7 +292,7 @@ static struct test_case tests__basic_mmap[] =3D {
-> > >             ),
-> > >     TEST_CASE_REASON("User space counter reading of cycles",
-> > >                      mmap_user_read_cycles,
-> > > -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> > > +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)=
- || __riscv_xlen =3D=3D 64
-> > >                      "permissions"
-> > >  #else
-> > >                      "unsupported"
-> > > --
-> > > 2.37.2
-> > >
-> >
-> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
->
-> Was the kernel part merged upstream?
+[+Quentin since he's looked at the MMU notifiers]
 
-No, I still haven't answered the reviews :)
+Sorry for the slow response, I got buried in email during a week away.
 
->
-> - Arnaldo
+On Fri, May 19, 2023 at 10:02:29AM -0700, Elliot Berman wrote:
+> On 5/19/2023 4:59 AM, Will Deacon wrote:
+> > On Tue, May 09, 2023 at 01:47:47PM -0700, Elliot Berman wrote:
+> > > +	ret = account_locked_vm(ghvm->mm, mapping->npages, true);
+> > > +	if (ret)
+> > > +		goto free_mapping;
+> > > +
+> > > +	mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL_ACCOUNT);
+> > > +	if (!mapping->pages) {
+> > > +		ret = -ENOMEM;
+> > > +		mapping->npages = 0; /* update npages for reclaim */
+> > > +		goto unlock_pages;
+> > > +	}
+> > > +
+> > > +	gup_flags = FOLL_LONGTERM;
+> > > +	if (region->flags & GH_MEM_ALLOW_WRITE)
+> > > +		gup_flags |= FOLL_WRITE;
+> > > +
+> > > +	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
+> > > +					gup_flags, mapping->pages);
+> > > +	if (pinned < 0) {
+> > > +		ret = pinned;
+> > > +		goto free_pages;
+> > > +	} else if (pinned != mapping->npages) {
+> > > +		ret = -EFAULT;
+> > > +		mapping->npages = pinned; /* update npages for reclaim */
+> > > +		goto unpin_pages;
+> > > +	}
+> > 
+> > Sorry if I missed it, but I still don't see where you reject file mappings
+> > here.
+> > 
+> 
+> Sure, I can reject file mappings. I didn't catch that was the ask previously
+> and thought it was only a comment about behavior of file mappings.
+
+I thought the mention of filesystem corruption was clear enough! It's
+definitely something we shouldn't allow.
+
+> > This is also the wrong interface for upstream. Please get involved with
+> > the fd-based guest memory discussions [1] and port your series to that.
+> > 
+> 
+> The user interface design for *shared* memory aligns with
+> KVM_SET_USER_MEMORY_REGION.
+
+I don't think it does. For example, file mappings don't work (as above),
+you're placing additional rlimit requirements on the caller, read-only
+memslots are not functional, the memory cannot be swapped or migrated,
+dirty logging doesn't work etc. pKVM is in the same boat, but that's why
+we're not upstreaming this part in its current form.
+
+> I understood we want to use restricted memfd for giving guest-private memory
+> (Gunyah calls this "lending memory"). When I went through the changes, I
+> gathered KVM is using restricted memfd only for guest-private memory and not
+> for shared memory. Thus, I dropped support for lending memory to the guest
+> VM and only retained the shared memory support in this series. I'd like to
+> merge what we can today and introduce the guest-private memory support in
+> tandem with the restricted memfd; I don't see much reason to delay the
+> series.
+
+Right, protected guests will use the new restricted memfd ("guest mem"
+now, I think?), but non-protected guests should implement the existing
+interface *without* the need for the GUP pin on guest memory pages. Yes,
+that means full support for MMU notifiers so that these pages can be
+managed properly by the host kernel. We're working on that for pKVM, but
+it requires a more flexible form of memory sharing over what we currently
+have so that e.g. the zero page can be shared between multiple entities.
+
+Will
