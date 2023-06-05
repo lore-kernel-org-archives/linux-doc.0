@@ -2,66 +2,64 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E55FC7EE2E
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84681C7EE23
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:51:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236167AbjFETvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 15:51:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59198 "EHLO
+        id S229683AbjFETvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 15:51:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236152AbjFETvJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 15:51:09 -0400
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ABDBE42
-        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:50:38 -0700 (PDT)
-Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-33aa60f4094so16096835ab.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:50:38 -0700 (PDT)
+        with ESMTP id S235972AbjFETvO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 15:51:14 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FF7C19C
+        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:50:43 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id ca18e2360f4ac-7606d460da7so139663839f.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:50:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685994624; x=1688586624;
+        d=linaro.org; s=google; t=1685994633; x=1688586633;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=GpRhe2R0Es6IO0/dJ+FMneELYVcoyyiGXEcYyqBR1zU=;
-        b=lxFaxaUW7Xtd/PdVCMFNnCcKWynLo7WvMj+7E+5Uwcr17Lq1HnUZwAsVch1NnmEobZ
-         UkCEDe8ZKe+jmc9vpPb/AtaE6hoREmpr9fghJoLUyZW5vwiInanWyp6nigFGd7p6gQHr
-         8qL55KpcEh7YhXBMIzCa0sPSgbkclWTzO+vOXMfdJ3O9rq/HUIwyGdJGiXuHV2I27MR/
-         GL24iPlzvO4amOJXaErmeuUcPKezOIcKPAAC18Tas2V70q9GDUFEYIzEob7dViJMnon2
-         og9KJMcklsG0WV68R5n2SoNPOV8a5ZCDzD/zJjpfde+5fsRNTDMXz8vhqCmqRZ0McTTW
-         1bmg==
+        bh=AWux2zN8aBm4AOKOzL2QZg5moSP9cBqza5x96VmFFH0=;
+        b=gb72ZjOG2T702JUBTjXQJ9M8dsR7IB11iT/qMvGwCr5aWKIZizAkkPbHfIK1swW0RK
+         NlqdcWs+K3nHISF6/Ejna0au5d/9swKxDbEnalNGbGz5U4YkhYtUlyaMJGrkXOv/k+4o
+         MaffWmHh+lTfNVqM3KyLaUAx7+IGE7FEYxyGt9zHkw4wFXvJRVNmKbFrNCH/25Etn6w2
+         a4zGjilqkFAzUj4tTqUPC0LorwmzfnqnAHOhDyJxDPUcizI37jqh6H728mVQbKbn+ik7
+         KmkVhuMuQg7NYX2JxmtlRhAIoE8XsCzto2efDbhRbPxG9EXR6TjhT4nV7+EzTq3/ej/x
+         XOlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685994624; x=1688586624;
+        d=1e100.net; s=20221208; t=1685994633; x=1688586633;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GpRhe2R0Es6IO0/dJ+FMneELYVcoyyiGXEcYyqBR1zU=;
-        b=eZrJscB8yZu9dJIJoa3Gdg20+aRPOSm1ypfvBuZl3lfz2QsCh/UV85JrOpQtj7pSa9
-         KcDxSMJowm/ky+4c0EaKWdYc581yej/4hhi/qugT9rQxVIR9WRB38mV3o4ihZ0VZnpEL
-         3w7fB1Tx8KB+8i6lYQXejnGIiTNxT4hT/BIRMPVp4X0t2TIiz9LhbdK56X1nmiTYQrwS
-         tb8ARJJtJdGiLokbJZ2vgJT789ZVm/f5leS7g/+8PNeuE/0lCz2LppdayYIE1BXIyVvs
-         18EnY/I6Cqfm9dsWIx3kVBfSk9QX5MZ5PFh2CbwFw6pA9nk1dn7ZUDbltt/1nM0Nsa+R
-         cq6w==
-X-Gm-Message-State: AC+VfDzKV86uKjl5prbJKezkdI9WjZFex0P+6dvv5KO0cefME1QsIE+/
-        Mmz9lvQquI44KPd8RhSSH4/g2Q==
-X-Google-Smtp-Source: ACHHUZ7n6MVykFwFl4isVQ33tqsrNUEVf4D707qBep/3JqJhjnxPuhPyFAXg1/aDmVtrF3jwk3jcZA==
-X-Received: by 2002:a05:6e02:1152:b0:338:1382:ad12 with SMTP id o18-20020a056e02115200b003381382ad12mr340250ill.11.1685994624495;
-        Mon, 05 Jun 2023 12:50:24 -0700 (PDT)
+        bh=AWux2zN8aBm4AOKOzL2QZg5moSP9cBqza5x96VmFFH0=;
+        b=RV0uKxvu3flhlkN48PU/BXcE+56jFn9HYXpFNn2tYWuIaSicU8XfbGIADxwHM4q1yb
+         A6MxYS7Bjx5/Rtk0s7kLjzycSeXK6fxzdCGWgQzOq22iIBwcTba1Ix0cBWfSTKzvzg5o
+         jPxMMWN4xdJE7/brhBWOMoUe2VrjzZwCkxkXLXwAJtQ/HiWBg6Wlvv4NOrH8buWfuG7d
+         fpTdDETh6vqAUd84F/6jZAI0JcKjbeX6lTBIX+fTxN9ZixH5RFaGZqxOYekEISpbYBNS
+         jOx8Wl0Gz6ab+XHguoHYD7hx5JVbcINymGlF5WMxqng02NdHfPEyq4XmIImoon70YdGK
+         o99A==
+X-Gm-Message-State: AC+VfDyMsZyMj8gjbYqy7yp7hgmw9vgXOGwyuT+v8VXBwGt8ZeeVaqem
+        GljCbw0WGrsiCRZRpjBL0sSqcQ==
+X-Google-Smtp-Source: ACHHUZ79gpJfC3/JN7fry1AODi9w0klUZaKa8fmJlnNw5Wdoe/QxZtf4v4+bIbEII1SP0JleX9WuGQ==
+X-Received: by 2002:a6b:6f15:0:b0:776:feaf:8cec with SMTP id k21-20020a6b6f15000000b00776feaf8cecmr243634ioc.3.1685994633721;
+        Mon, 05 Jun 2023 12:50:33 -0700 (PDT)
 Received: from [172.22.22.28] ([98.61.227.136])
-        by smtp.gmail.com with ESMTPSA id f19-20020a056638119300b0040fad79ac08sm2382351jas.89.2023.06.05.12.50.23
+        by smtp.gmail.com with ESMTPSA id i13-20020a6bf40d000000b00776a991d35asm2642558iog.14.2023.06.05.12.50.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 12:50:24 -0700 (PDT)
-Message-ID: <c34b96cb-efc9-c6aa-78bf-4b1adc407254@linaro.org>
-Date:   Mon, 5 Jun 2023 14:50:22 -0500
+        Mon, 05 Jun 2023 12:50:33 -0700 (PDT)
+Message-ID: <1c386f4e-e2dd-eb79-9117-9b19877f2ccc@linaro.org>
+Date:   Mon, 5 Jun 2023 14:50:32 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 From:   Alex Elder <elder@linaro.org>
-Subject: Re: [PATCH v13 21/24] virt: gunyah: Add hypercalls for sending
- doorbell
+Subject: Re: [PATCH v13 22/24] virt: gunyah: Add irqfd interface
 To:     Elliot Berman <quic_eberman@quicinc.com>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
@@ -73,17 +71,17 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Andy Gross <agross@kernel.org>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-22-quic_eberman@quicinc.com>
+ <20230509204801.2824351-23-quic_eberman@quicinc.com>
 Content-Language: en-US
-In-Reply-To: <20230509204801.2824351-22-quic_eberman@quicinc.com>
+In-Reply-To: <20230509204801.2824351-23-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -91,75 +89,74 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 5/9/23 3:47 PM, Elliot Berman wrote:
-> Gunyah doorbells allow two virtual machines to signal each other using
-> interrupts. Add the hypercalls needed to assert the interrupt.
+> Enable support for creating irqfds which can raise an interrupt on a
+> Gunyah virtual machine. irqfds are exposed to userspace as a Gunyah VM
+> function with the name "irqfd". If the VM devicetree is not configured
+> to create a doorbell with the corresponding label, userspace will still
+> be able to assert the eventfd but no interrupt will be raised on the
+> guest.
 > 
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 
-Looks good.
+I have a minor suggestion.  I think I'd like to look at this
+again, so:
 
-Reviewed-by: Alex Elder <elder@linaro.org>
+Acked-by: Alex Elder <elder@linaro.org>
 
 > ---
->   arch/arm64/gunyah/gunyah_hypercall.c | 25 +++++++++++++++++++++++++
->   include/linux/gunyah.h               |  3 +++
->   2 files changed, 28 insertions(+)
+>   Documentation/virt/gunyah/vm-manager.rst |   2 +-
+>   drivers/virt/gunyah/Kconfig              |   9 ++
+>   drivers/virt/gunyah/Makefile             |   1 +
+>   drivers/virt/gunyah/gunyah_irqfd.c       | 180 +++++++++++++++++++++++
+>   include/uapi/linux/gunyah.h              |  35 +++++
+>   5 files changed, 226 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/virt/gunyah/gunyah_irqfd.c
 > 
-> diff --git a/arch/arm64/gunyah/gunyah_hypercall.c b/arch/arm64/gunyah/gunyah_hypercall.c
-> index 5f33f53e05a9..3d48c8650851 100644
-> --- a/arch/arm64/gunyah/gunyah_hypercall.c
-> +++ b/arch/arm64/gunyah/gunyah_hypercall.c
-> @@ -33,6 +33,8 @@ EXPORT_SYMBOL_GPL(arch_is_gh_guest);
->   						   fn)
+
+. . .
+
+> @@ -99,6 +102,38 @@ struct gh_fn_vcpu_arg {
+>   	__u32 id;
+>   };
 >   
->   #define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x8000)
-> +#define GH_HYPERCALL_BELL_SEND			GH_HYPERCALL(0x8012)
-> +#define GH_HYPERCALL_BELL_SET_MASK		GH_HYPERCALL(0x8015)
->   #define GH_HYPERCALL_MSGQ_SEND			GH_HYPERCALL(0x801B)
->   #define GH_HYPERCALL_MSGQ_RECV			GH_HYPERCALL(0x801C)
->   #define GH_HYPERCALL_VCPU_RUN			GH_HYPERCALL(0x8065)
-> @@ -55,6 +57,29 @@ void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identi
->   }
->   EXPORT_SYMBOL_GPL(gh_hypercall_hyp_identify);
->   
-> +enum gh_error gh_hypercall_bell_send(u64 capid, u64 new_flags, u64 *old_flags)
-> +{
-> +	struct arm_smccc_res res;
+> +/**
+> + * enum gh_irqfd_flags - flags for use in gh_fn_irqfd_arg
+> + * @GH_IRQFD_FLAGS_LEVEL: make the interrupt operate like a level triggered
+> + *                        interrupt on guest side. Triggering IRQFD before
+> + *                        guest handles the interrupt causes interrupt to
+> + *                        stay asserted.
+> + */
+> +enum gh_irqfd_flags {
+> +	GH_IRQFD_FLAGS_LEVEL		= 1UL << 0,
+
+	BIT(0),			/* ? */
+
+> +};
 > +
-> +	arm_smccc_1_1_hvc(GH_HYPERCALL_BELL_SEND, capid, new_flags, 0, &res);
+> +/**
+> + * struct gh_fn_irqfd_arg - Arguments to create an irqfd function.
+> + *
+> + * Create this function with &GH_VM_ADD_FUNCTION using type &GH_FN_IRQFD.
+> + *
+> + * Allows setting an eventfd to directly trigger a guest interrupt.
+> + * irqfd.fd specifies the file descriptor to use as the eventfd.
+> + * irqfd.label corresponds to the doorbell label used in the guest VM's devicetree.
+> + *
+> + * @fd: an eventfd which when written to will raise a doorbell
+> + * @label: Label of the doorbell created on the guest VM
+> + * @flags: see &enum gh_irqfd_flags
+> + * @padding: padding bytes
+> + */
+> +struct gh_fn_irqfd_arg {
+> +	__u32 fd;
+> +	__u32 label;
+> +	__u32 flags;
+> +	__u32 padding;
+> +};
 > +
-> +	if (res.a0 == GH_ERROR_OK && old_flags)
-> +		*old_flags = res.a1;
-> +
-> +	return res.a0;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_hypercall_bell_send);
-> +
-> +enum gh_error gh_hypercall_bell_set_mask(u64 capid, u64 enable_mask, u64 ack_mask)
-> +{
-> +	struct arm_smccc_res res;
-> +
-> +	arm_smccc_1_1_hvc(GH_HYPERCALL_BELL_SET_MASK, capid, enable_mask, ack_mask, 0, &res);
-> +
-> +	return res.a0;
-> +}
-> +EXPORT_SYMBOL_GPL(gh_hypercall_bell_set_mask);
-> +
->   enum gh_error gh_hypercall_msgq_send(u64 capid, size_t size, void *buff, u64 tx_flags, bool *ready)
->   {
->   	struct arm_smccc_res res;
-> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-> index cd5704a82c6a..1f1685518bf3 100644
-> --- a/include/linux/gunyah.h
-> +++ b/include/linux/gunyah.h
-> @@ -171,6 +171,9 @@ static inline u16 gh_api_version(const struct gh_hypercall_hyp_identify_resp *gh
->   
->   void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity);
->   
-> +enum gh_error gh_hypercall_bell_send(u64 capid, u64 new_flags, u64 *old_flags);
-> +enum gh_error gh_hypercall_bell_set_mask(u64 capid, u64 enable_mask, u64 ack_mask);
-> +
->   #define GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH		BIT(0)
->   
->   enum gh_error gh_hypercall_msgq_send(u64 capid, size_t size, void *buff, u64 tx_flags, bool *ready);
+>   /**
+>    * struct gh_fn_desc - Arguments to create a VM function
+>    * @type: Type of the function. See &enum gh_fn_type.
 
