@@ -2,62 +2,63 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C937C77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:48:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5726FC7EE2F
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:49:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235885AbjFETsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 15:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56756 "EHLO
+        id S235953AbjFETtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 15:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235900AbjFETsQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 15:48:16 -0400
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55AE8E68
-        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:47:55 -0700 (PDT)
-Received: by mail-il1-x12d.google.com with SMTP id e9e14a558f8ab-33b22221da6so21053465ab.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:47:55 -0700 (PDT)
+        with ESMTP id S235902AbjFETtA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 15:49:00 -0400
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F9E0E63
+        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:48:23 -0700 (PDT)
+Received: by mail-io1-xd33.google.com with SMTP id ca18e2360f4ac-777094e3d7bso154397839f.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685994474; x=1688586474;
+        d=linaro.org; s=google; t=1685994480; x=1688586480;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=rm3H1hL3UyU3RqlFttRQWiBz05ketFmwfg40BdOH1ZU=;
-        b=SITkELcFQJDG5gJLFqib9UtoPvUcxRZmTNcu/+i0u/Yq8MM5N6ZAoHLbr7vaSMQaZv
-         C4pG28bC9RBDsYoQKsqzSpr/qi1+61Ut0jNGQDs7zmqyvDi7bkCAswp7pw9brhiSaNzx
-         Bosd7YKGALHP/Sitlx/8YLsM+p0ZxUKufMx0f8Fj+dHE774KcvjUi6vVRKPrrIFxHSPq
-         8EQNjXo2k9taHLUsDb25/Jpb5rPb9zcF9R7wDgPNLLq/PuNFPe7jRlJvGMTPw2DBB/mN
-         mZR1sIKm3nBE+AUpXRvOCIouyzxHLGROqlZ2REAo3atxm6J1iMm1/Uw3LpFe18lug31w
-         jNOA==
+        bh=R6zH+9Xd0L2jTwKGYq+vFLj3o1rkjfeZZQ50CrCjKh4=;
+        b=lKiH6uLIpFImkDMiBZFmaPVn5w9ALw3PuWHNckVpTHlOyYPpgCuEDvCl8Y7FfbWWbe
+         IsIyyZkXhboZJ3z1AEUH1h4mh9J8jJWOCGT32mo2vDYIVmUplEvDVdV605z8btVW/IYo
+         CNcAWdn444IPzdk9pQNf30v+FZbMjcUrSNLdi/Nz/0uYvkyA/SGY1zBcbVmtcxVCGHr0
+         XuM1jN70kiTxqXA0JWUXevrm4esRGNrzuvCdfILKs+CjUNpverjI1BfxlRSDD4YARGfW
+         9hs/5R+xFNx8C2xpsR93Bas6RbgCVW/PPPLUUuO9O834Vam1vSaMmFKjlZ/MoagycplL
+         yCAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685994474; x=1688586474;
+        d=1e100.net; s=20221208; t=1685994480; x=1688586480;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rm3H1hL3UyU3RqlFttRQWiBz05ketFmwfg40BdOH1ZU=;
-        b=goHlGsIw+P/aw6RFRlcfznRfQ64csn7pZVr6Y7jbzQfWMc9gv1tjd/tou6bfHv1wl9
-         AUrkaCzGquaGhb1Wgdg4b2QctDdhDzm0hSmDP06lhYy18XcQebG+oVok1NKi4JgHCxxS
-         vhidr9s68jYNgaJ3W3zcc7I/FJ0ZKWlu0kJaj77wp5/uik/c+SASuKpRScmzadw+i2MB
-         AlUDW1Y4rkAcq3bt2hIdDAbUBjduXxtrJkKzgr1CZ0HLgvb7Nlw5OkbfcLY0RDkuGeNx
-         7QhrYLyfS2wO8PmrCGor0yJoM71a7+vBPHubFio27YPJU+gwTqGwrLE/mtz2jbMYimMr
-         JhIQ==
-X-Gm-Message-State: AC+VfDxiCE7Ap0+Bj0UCY2H/f5HkKfktV1doRIxmRyo4ekv9OPTajGkh
-        PPJKTuTmZHLkaNw/mbcHrAq2yw==
-X-Google-Smtp-Source: ACHHUZ7vzn7P9JmR/YlK2PVdEvnBd6GYA0sS+iuOeg4fx7+1R2v4nqdx5QOBIq8wTtCAevPyc9xCog==
-X-Received: by 2002:a92:4a07:0:b0:335:de72:23ca with SMTP id m7-20020a924a07000000b00335de7223camr101291ilf.1.1685994474372;
-        Mon, 05 Jun 2023 12:47:54 -0700 (PDT)
+        bh=R6zH+9Xd0L2jTwKGYq+vFLj3o1rkjfeZZQ50CrCjKh4=;
+        b=Nrxobp72Mz0V6A/mZP3Jc6XrA8B2im4X4EvBLvC9dDMxKDaa1k6OwiBgFfiRVKC9s+
+         7pAm2wfU7Oq0g72dfA7707ilV8tHNm0KxLHT/BdvJZvLEYDpqc8ohv2EK3CdmgG+zvbv
+         RmdSEPy7i3inmwbyVmv3m7t+CscWmZUascJAEV3uelT/lbbr5u6h4uY8ksZDCnqy6cv9
+         fJXjW3DFTGsNECUHN1BYz4Za3a/0xJLcl+itebF4pXXbf2A0mOuEQCIonfz7H+LpM3Gd
+         JjImODrMHy8y+rcrYW1Cxcpo7dc+WBbWbMrBNcsV2ID73G/9rpimNKvwW8DcPzlAQvOe
+         At/A==
+X-Gm-Message-State: AC+VfDyPZkfIv6nMJ73yXf7nq2Q9lMKfrCyPd5xL+oL8nkjY1p6tdCha
+        B/Fg65mEOPVvZHEqMPrJVVHmcIG5Dil26bIWb7lKig==
+X-Google-Smtp-Source: ACHHUZ4zIhiTXqg/NL168EHW0465pSuYIOB/5hvivBy1uG7YBfDJ+HGFxDDJzjjWUMZiApo63412Rg==
+X-Received: by 2002:a6b:da05:0:b0:76c:c974:9da with SMTP id x5-20020a6bda05000000b0076cc97409damr96249iob.19.1685994479826;
+        Mon, 05 Jun 2023 12:47:59 -0700 (PDT)
 Received: from [172.22.22.28] ([98.61.227.136])
-        by smtp.gmail.com with ESMTPSA id x6-20020a92dc46000000b0033d2b3928d1sm2563333ilq.51.2023.06.05.12.47.53
+        by smtp.gmail.com with ESMTPSA id k25-20020a02c659000000b0041f5d9522fcsm855456jan.22.2023.06.05.12.47.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 12:47:54 -0700 (PDT)
-Message-ID: <181df717-66d1-1054-2f52-07a7fb6601b8@linaro.org>
-Date:   Mon, 5 Jun 2023 14:47:52 -0500
+        Mon, 05 Jun 2023 12:47:59 -0700 (PDT)
+Message-ID: <5374c703-f571-c646-dc12-bd4fba360e03@linaro.org>
+Date:   Mon, 5 Jun 2023 14:47:57 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 From:   Alex Elder <elder@linaro.org>
-Subject: Re: [PATCH v13 07/24] gunyah: rsc_mgr: Add VM lifecycle RPC
+Subject: Re: [PATCH v13 08/24] gunyah: vm_mgr: Introduce basic VM Manager
 To:     Elliot Berman <quic_eberman@quicinc.com>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -70,7 +71,6 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -79,9 +79,9 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-8-quic_eberman@quicinc.com>
+ <20230509204801.2824351-9-quic_eberman@quicinc.com>
 Content-Language: en-US
-In-Reply-To: <20230509204801.2824351-8-quic_eberman@quicinc.com>
+In-Reply-To: <20230509204801.2824351-9-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -89,19 +89,169 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 5/9/23 3:47 PM, Elliot Berman wrote:
-> Add Gunyah Resource Manager RPC to launch an unauthenticated VM.
+> Gunyah VM manager is a kernel moduel which exposes an interface to
+> Gunyah userspace to load, run, and interact with other Gunyah virtual
+> machines. The interface is a character device at /dev/gunyah.
 > 
+> Add a basic VM manager driver. Upcoming patches will add more ioctls
+> into this driver.
+> 
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 
-Looks good to me.
+I have a couple of comments, but regardless of how you respond
+to them:
 
 Reviewed-by: Alex Elder <elder@linaro.org>
 
 > ---
->   drivers/virt/gunyah/Makefile      |   2 +-
->   drivers/virt/gunyah/rsc_mgr_rpc.c | 259 ++++++++++++++++++++++++++++++
->   include/linux/gunyah_rsc_mgr.h    |  73 +++++++++
->   3 files changed, 333 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
+>   .../userspace-api/ioctl/ioctl-number.rst      |  1 +
+>   drivers/virt/gunyah/Makefile                  |  2 +-
+>   drivers/virt/gunyah/rsc_mgr.c                 | 50 +++++++++-
+>   drivers/virt/gunyah/vm_mgr.c                  | 93 +++++++++++++++++++
+>   drivers/virt/gunyah/vm_mgr.h                  | 20 ++++
+>   include/uapi/linux/gunyah.h                   | 23 +++++
+>   6 files changed, 187 insertions(+), 2 deletions(-)
+>   create mode 100644 drivers/virt/gunyah/vm_mgr.c
+>   create mode 100644 drivers/virt/gunyah/vm_mgr.h
+>   create mode 100644 include/uapi/linux/gunyah.h
+> 
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 176e8fc3f31b..396212e88f7d 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -137,6 +137,7 @@ Code  Seq#    Include File                                           Comments
+>   'F'   DD     video/sstfb.h                                           conflict!
+>   'G'   00-3F  drivers/misc/sgi-gru/grulib.h                           conflict!
+>   'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                            conflict!
+> +'G'   00-0f  linux/gunyah.h                                          conflict!
+
+The existing pattern throughout this file is to use capital A-F,
+so I would follow that here.
+
+Sort off related:  I prefer lower-case a-f in hexadecimal
+numbers in code, and you use capitals (at least some of the
+time).
+
+>   'H'   00-7F  linux/hiddev.h                                          conflict!
+>   'H'   00-0F  linux/hidraw.h                                          conflict!
+>   'H'   01     linux/mei.h                                             conflict!
+> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+> index 241bab357b86..e47e25895299 100644
+> --- a/drivers/virt/gunyah/Makefile
+> +++ b/drivers/virt/gunyah/Makefile
+> @@ -1,4 +1,4 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   
+> -gunyah-y += rsc_mgr.o rsc_mgr_rpc.o
+> +gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
+>   obj-$(CONFIG_GUNYAH) += gunyah.o
+> diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
+> index 88b5beb1ea51..4f6f96bdcf3d 100644
+> --- a/drivers/virt/gunyah/rsc_mgr.c
+> +++ b/drivers/virt/gunyah/rsc_mgr.c
+> @@ -15,8 +15,10 @@
+>   #include <linux/completion.h>
+>   #include <linux/gunyah_rsc_mgr.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/miscdevice.h>
+>   
+>   #include "rsc_mgr.h"
+> +#include "vm_mgr.h"
+>   
+>   #define RM_RPC_API_VERSION_MASK		GENMASK(3, 0)
+>   #define RM_RPC_HEADER_WORDS_MASK	GENMASK(7, 4)
+> @@ -130,6 +132,7 @@ struct gh_rm_connection {
+>    * @cache: cache for allocating Tx messages
+>    * @send_lock: synchronization to allow only one request to be sent at a time
+>    * @nh: notifier chain for clients interested in RM notification messages
+> + * @miscdev: /dev/gunyah
+>    */
+>   struct gh_rm {
+>   	struct device *dev;
+> @@ -146,6 +149,8 @@ struct gh_rm {
+>   	struct kmem_cache *cache;
+>   	struct mutex send_lock;
+>   	struct blocking_notifier_head nh;
+> +
+> +	struct miscdevice miscdev;
+>   };
+>   
+>   /**
+> @@ -581,6 +586,33 @@ int gh_rm_notifier_unregister(struct gh_rm *rm, struct notifier_block *nb)
+>   }
+>   EXPORT_SYMBOL_GPL(gh_rm_notifier_unregister);
+>   
+> +struct device *gh_rm_get(struct gh_rm *rm)
+> +{
+> +	return get_device(rm->miscdev.this_device);
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_get);
+> +
+> +void gh_rm_put(struct gh_rm *rm)
+> +{
+> +	put_device(rm->miscdev.this_device);
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_put);
+> +
+> +static long gh_dev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+> +{
+> +	struct miscdevice *miscdev = filp->private_data;
+> +	struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
+> +
+> +	return gh_dev_vm_mgr_ioctl(rm, cmd, arg);
+> +}
+> +
+> +static const struct file_operations gh_dev_fops = {
+> +	.owner		= THIS_MODULE,
+> +	.unlocked_ioctl	= gh_dev_ioctl,
+> +	.compat_ioctl	= compat_ptr_ioctl,
+> +	.llseek		= noop_llseek,
+> +};
+> +
+>   static int gh_msgq_platform_probe_direction(struct platform_device *pdev, bool tx,
+>   					    struct gh_resource *ghrsc)
+>   {
+> @@ -665,7 +697,22 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
+>   	rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
+>   	rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
+>   
+> -	return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
+> +	ret = gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
+> +	if (ret)
+> +		goto err_cache;
+> +
+> +	rm->miscdev.name = "gunyah";
+> +	rm->miscdev.minor = MISC_DYNAMIC_MINOR;
+> +	rm->miscdev.fops = &gh_dev_fops;
+> +
+> +	ret = misc_register(&rm->miscdev);
+> +	if (ret)
+> +		goto err_msgq;
+> +
+> +	return 0;
+> +err_msgq:
+> +	mbox_free_channel(gh_msgq_chan(&rm->msgq));
+
+I'm sure I've said this before.  I find it strange that you need
+to call mbox_free_channel() here, when it's not obvious where the
+client got bound to any mbox channel.  It seems like freeing the
+channel should happen inside gh_msgq_remove().  But... perhaps
+you previously explained to me why it's done this way.
+
+> +	gh_msgq_remove(&rm->msgq);
+>   err_cache:
+>   	kmem_cache_destroy(rm->cache);
+>   	return ret;
+> @@ -675,6 +722,7 @@ static int gh_rm_drv_remove(struct platform_device *pdev)
+>   {
+>   	struct gh_rm *rm = platform_get_drvdata(pdev);
+>   
+> +	misc_deregister(&rm->miscdev);
+>   	mbox_free_channel(gh_msgq_chan(&rm->msgq));
+>   	gh_msgq_remove(&rm->msgq);
+>   	kmem_cache_destroy(rm->cache);
 
 . . .
+
