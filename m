@@ -2,90 +2,265 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35277C77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 14:44:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4681C77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 15:31:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232837AbjFEOoC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 10:44:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32928 "EHLO
+        id S231769AbjFEPbT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 11:31:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232958AbjFEOoC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 10:44:02 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40FA49C;
-        Mon,  5 Jun 2023 07:44:01 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1685976239;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Yu8yb2dMCQCeQyNY1nsYlHKgfhBjDttjfMXiSlTo35k=;
-        b=wkeKIqvikWtIbmarvgI7c1qD64y8lAjpTFP4POEo8RpT5Gb04ueDK6KMUTImZAfAVK0pmc
-        qmFrbu0vGSxz/MAZ06gBt92VcOWtG1xy09CbvWYSM+5yaMTMaT4bTAIHM3UHCwDZmbkVd1
-        XfYS9r01Brn9aEqx0ZJNyHyQqoyHQ+rAL5prUG5gdvzSGMDbgUdf5RVoVO2oD2ehtOK+Mi
-        fiY8qadg1nlHpRRuGQAvCIPpNUFQgYlxKblEYbKQuiqUZi5pokF9Cw0I4T5+OzbocpzzIb
-        rlG3Q3H2BuCpbqWKYYvfO+EEukCgLUI5oijxgeQmgm9htCGyoIYv9t78nqHN9A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1685976239;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Yu8yb2dMCQCeQyNY1nsYlHKgfhBjDttjfMXiSlTo35k=;
-        b=mGTycwY1wOkkE9XanANgMyGs568fQpM7xE3JHTc2pqw/l5dmCPXWcDC0F+HZQmyn1kKYn7
-        xxlDu0MXR9YM04Dw==
-To:     David Laight <David.Laight@ACULAB.COM>,
-        Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     Steven Noonan <steven@uplinklabs.net>,
-        "kernel@collabora.com" <kernel@collabora.com>
-Subject: RE: Direct rdtsc call side-effect
-In-Reply-To: <353732783fde46919fdcf698c326b7ed@AcuMS.aculab.com>
-References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
- <87mt1jeax1.ffs@tglx> <353732783fde46919fdcf698c326b7ed@AcuMS.aculab.com>
-Date:   Mon, 05 Jun 2023 16:43:59 +0200
-Message-ID: <87jzwi55qo.ffs@tglx>
+        with ESMTP id S230350AbjFEPbT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 11:31:19 -0400
+Received: from smtpout.efficios.com (smtpout.efficios.com [167.114.26.122])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 493A1AD;
+        Mon,  5 Jun 2023 08:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=efficios.com;
+        s=smtpout1; t=1685979072;
+        bh=pJHnQbCI2ye8sUuCV4a+a0ry4+f3KZMKMeIqnLGZ0DY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=jxyTj1NblqZ4q9+mnvzbYw1c0ndBrIB33qrbJ9rkuToGObrUIXFZ37lj5M40XzHYJ
+         BueSIPuaz5BW0nifySvPGqHXl699eSnKUPVeOTggDsJnq9mLeqNJjR5J8pmrKIjTQI
+         O43AtTA8dnvuggpAdascaQruZFPDRVr41tt6xjBSjMupzI/NvOyygoQuJ3QY5RLR3O
+         teCBCOoSndUzhInV2XjukdJaAIUBFofhHg0LNnao4A/DdKCPNKsHtVo8ELMXZVRTaU
+         MOIMu5U5e+i/2w1fH9cRG7dEONes2Qiiwng993xkuHVfv7dURLVfGf9Y5gRDtqpiEM
+         8/2EEwa9PRd7Q==
+Received: from [172.16.0.134] (192-222-143-198.qc.cable.ebox.net [192.222.143.198])
+        by smtpout.efficios.com (Postfix) with ESMTPSA id 4QZcyS0cq0z16s2;
+        Mon,  5 Jun 2023 11:31:12 -0400 (EDT)
+Message-ID: <a6fc8ce8-4fe1-7bf6-c92d-b793d24e74a1@efficios.com>
+Date:   Mon, 5 Jun 2023 11:31:21 -0400
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC PATCH] Documentation: Document macro coding style
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org
+References: <20230511152951.1970870-1-mathieu.desnoyers@efficios.com>
+ <87y1lkmjjv.fsf@meer.lwn.net>
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+In-Reply-To: <87y1lkmjjv.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 05 2023 at 10:27, David Laight wrote:
-> It has to be said that using it as a time source was fundamentally
-> a bad idea.
+On 5/19/23 11:23, Jonathan Corbet wrote:
+> Mathieu Desnoyers <mathieu.desnoyers@efficios.com> writes:
+> 
+>> Document the kernel coding style for macros with parameters.
+>>
+>> The purpose of this text is to be used as a reference to gradually
+>> transition towards macros with a more consistent style, and eliminate
+>> subtle bugs that can creep up due to missing parentheses, and generally
+>> remove the need to think and argue about C operator precedence.
+>>
+>> This is based on a mailing list discussion with Linus.
+>>
+>> Link: https://lore.kernel.org/lkml/CAHk-=wjfgCa-u8h9z+8U7gaKK6PnRCpws1Md9wYSSXywUxoUSA@mail.gmail.com/
+>> Link: https://lore.kernel.org/lkml/CAHk-=wjzpHjqhybyEhkTzGgTdBP3LZ1FmOw8=1MMXr=-j5OPxQ@mail.gmail.com/
+>> Link: https://lore.kernel.org/lkml/CAHk-=wh-x1PL=UUGD__Dv6kd+kyCHjNF-TCHGG9ayLnysf-PdQ@mail.gmail.com/
+>> Link: https://lore.kernel.org/lkml/CAHk-=wg27iiFZWYmjKmULxwkXisOHuAXq=vbiazBabgh9M1rqg@mail.gmail.com/
+>> Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+>> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+>> Cc: Steven Rostedt <rostedt@goodmis.org>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+>> ---
+>>   Documentation/process/coding-style.rst | 152 ++++++++++++++++++++++++-
+>>   1 file changed, 151 insertions(+), 1 deletion(-)
+> 
+> So this looks generally OK to me.  I really like to see some reviews /
+> acks on coding-style patches, though; I don't feel like I should be the
+> arbiter of kernel coding style.
 
-Too bad you weren't around many moons ago and educated us on that. That
-would have saved us lots of trouble and work.
+Sure, I'll update the patch based on your comments and send without the RFC tag, we'll
+see if we get reviews or ack.
 
-> Sometimes (eg micro benchmarks) you really want a TSC.
-> You can extract one from the performance counters, but it is hard,
-> root only, and the library functions have high and variable overhead.
+Meanwhile there are two additional cases where I think we should mandate the parentheses
+even though they are not strictly needed, because it eliminates corner-cases without
+negatively impacting readability.
 
-Interesting view that high end databases are considered micro benchmarks
-which need root access.
+The first case is when an argument is used as declarator identifier, e.g.
 
-I'm sure you already talked to the developers of such code how they can
-elimiate their performance problems when VDSO/TSC time queries are not
-available.
+         #define DECLARE_WAITQUEUE(name, tsk)    \
+                 struct wait_queue_entry name = __WAITQUEUE_INITIALIZER(name, tsk)
+                                         ^ here
 
-Alternatively you have a replacement implementation to make VDSO work
-with the same performance and precision based on (potentially
-non-existing) legacy time sources.
+Adding parentheses around "name" does not break anything, makes the code *more*
+regular by following the general rule of adding parentheses around macro arguments
+unless it is not possible for some reason.
 
-There are damned good practical reasons, why we spent a lot of effort to
-implement VDSO and make TSC usable at least on any modern platform.
-Micro-benchmarks are definitely not one of those reasons.
+I also think that we should mandate parentheses around initializers, even though
+those are full expressions:
 
-Thanks,
+         #define foo(a)                                  \
+                 do {                                    \
+                         int __m_var = a;                \
+                                       ^ here
+                 } while (0)
 
-        tglx
+Because requiring the (useless) parentheses here makes the code more consistent and
+removes a corner-case to think about when writing code, without negatively impacting
+readability.
 
+This would basically leave only the following corner-cases. Please let me know if any
+of them would be good candidates for requiring the extra parentheses nevertheless:
+
+- For readability:
+
+   - "a;"
+   - "for (a; b; c)"
+   - "if (a)"
+   - "switch (a)"
+   - "while (a)"
+   - "do { ... } while (a)"
+   - "return a;"
+   - "array[a]",
+   - "f(a)",
+   - "f(a, b, c)",
+
+Because it would not work otherwise:
+
+- "(p)->a,
+- "#a",
+- "sym##a".
+
+> 
+> One little comment below
+> 
+>> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+>> index 6db37a46d305..3cf62c91d91c 100644
+>> --- a/Documentation/process/coding-style.rst
+>> +++ b/Documentation/process/coding-style.rst
+>> @@ -819,10 +819,160 @@ Macros with multiple statements should be enclosed in a do - while block:
+>>   
+>>   	#define macrofun(a, b, c)			\
+>>   		do {					\
+>> -			if (a == 5)			\
+>> +			if ((a) == 5)			\
+>>   				do_this(b, c);		\
+>>   		} while (0)
+>>   
+>> +Always use parentheses around macro arguments, except for the situations listed
+>> +below.
+>> +
+>> +Examples where parentheses are required around macro arguments:
+>> +
+>> +.. code-block:: c
+>> +
+>> +	#define foo(a, b)				\
+>> +		do {					\
+>> +			(a) = (b);			\
+>> +		} while (0)
+>> +
+>> +.. code-block:: c
+>> +
+>> +	#define foo(a)					\
+>> +		do {					\
+>> +			(a)++;				\
+>> +		} while (0)
+>> +
+>> +.. code-block:: c
+>> +
+>> +	#define cmp_gt(a, b)			((a) > (b))
+>> +
+>> +.. code-block:: c
+>> +
+>> +	#define foo(a)				do_this(!(a))
+>> +
+>> +.. code-block:: c
+>> +
+>> +	#define foo(a)				do_this(*(a))
+>> +
+>> +.. code-block:: c
+>> +
+>> +	#define foo(a)				do_this(&(a))
+>> +
+>> +.. code-block:: c
+>> +
+>> +	#define get_member(struct_var)		do_this((struct_var).member)
+>> +
+>> +.. code-block:: c
+>> +
+>> +	#define deref_member(struct_ptr)	do_this((struct_ptr)->member)
+> 
+> I wonder if we really need to give all of these examples?  We've already
+> said "always put parentheses except in a few cases" - I would think that
+> would be enough.
+
+OK, let's remove those examples for now. If it proves that it causes confusion
+we can always add them back.
+
+> 
+>> +Situations where parentheses should not be added around arguments, when:
+> 
+> For these, it would be nice to say *why* parentheses shouldn't be added;
+> helping readers understand the reasoning might have more benefit than
+> imparting a set of rules.
+
+OK, those would look like:
+
+Always use parentheses around macro arguments, except when:
+
+* they are used as a full expression and negatively impact code readability
+   (because the extra parentheses would not have any role in preserving operator
+   precedence, making them redundant):
+
+[...]
+
+* they are used as expression within an array subscript operator "[]" (because brackets
+   nest just like parentheses themselves do):
+
+[...]
+
+* they are used as arguments to functions or other macros (because the comma
+   separator between arguments is not even an operator, so there is no operator
+   precedence to preserve):
+
+[...]
+
+(note: the ones below include new additions)
+
+* there is some syntax reason why adding the parentheses would not work, e.g.
+   when using the parameter as member name, for string expansion, or token
+   pasting:
+
+   * the ``member`` argument:
+
+     .. code-block:: c
+
+         #define foo(struct_p, member)   do_this((struct_p)->member)
+
+   * string expansion:
+
+     .. code-block:: c
+
+         #define __stringify_1(x...)     #x
+         #define __stringify(x...)       __stringify_1(x)
+
+   * token pasting:
+
+     .. code-block:: c
+
+         #define COMPAT_SYSCALL_DEFINE1(name, ...)       \
+                 COMPAT_SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
+
+Thanks!
+
+Mathieu
+
+
+> 
+> Thanks,
+> 
+> jon
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
 
