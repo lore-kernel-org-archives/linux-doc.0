@@ -2,194 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31214C77B73
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Jun 2023 22:14:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7085C7EE29
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 00:37:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232211AbjFDWOC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Jun 2023 18:14:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42078 "EHLO
+        id S231594AbjFEAhK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Jun 2023 20:37:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbjFDWOA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jun 2023 18:14:00 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F57DAC;
-        Sun,  4 Jun 2023 15:14:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685916840; x=1717452840;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=RWpFjWTjiUDlCt7DGSVqmQr2TWHIcrYUKXYBSfDQpMI=;
-  b=IvMPZ7N4CSVA1J0lVQWhGg97bz0WWrBXY55pfhAVftuCieLj4tv9+iUs
-   HaNOn0aIITDo4eZZoY7svNriygDgZLrq/yHDb+ihZQ0dkuHhcLzMJWhUv
-   xO0HQJIRdYOeDmGthNV6mBPJNKy0MIPqHGnYqd9rir9rTrddurqIW52Jg
-   bIGYrenrlNS33IYAejQflSqMRAENmk+tsMNk4SOJ46Vwj1BNKJBVjuDQV
-   ZnvZr+rTOfCSdkWhtS6n6zZzEzA8cICtRd5XkmtVkvdZfirnDE9nyVpKg
-   WB1ODywCcY2YJwq+SIJUzv4w6ND0ebAOgStxmF+Lmlsg3Nq8vDSrIQ/oW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="335854606"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="335854606"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 15:13:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="711586224"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="711586224"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga007.fm.intel.com with ESMTP; 04 Jun 2023 15:13:59 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sun, 4 Jun 2023 15:13:59 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Sun, 4 Jun 2023 15:13:59 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.42) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Sun, 4 Jun 2023 15:13:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NSf0iBgioMINR8tXojQE3f2lIKApwV9CT6Hgz3TsU/8kQmEQN40WjHrGy9Bm4XxKsuTp4SdpKQbWhA49cAAc0uWHFB5wvQpbZj2PeKAPnHsqXF4no1XNQcj0lqOZ5blmzqCoHya2CF5rkuwgizvz+yW+osED4kruqYqm62jZq7Mr2lwqT4pgsbioGuiYTPSutS9FQwRD/6qLjOd2z2hFrKW+hGoTry4vjxxHzLOUZyUb2Q9LqgGjoZ4JeFhrHzaWXTfdd32OoBXL+ea9LEYwZOTYYjJmae2+PaDQxVaQH3+ghsK9DPPzUwC9TJLuHobQcGiOAAxb1MkNNmJxLEy6KQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pg5km/kFBRj0+8MzE8GeUnqwZWYJClA/nN3YBKGb2mA=;
- b=VYw4Sji7ajjwqxeElOLcV/ZJyd9YKUtrWSeP1TiV26L4gCgJFK7zgrQenlrlvwDnUiv7zADv5FU+7HIZAUGfN+BfXDbO0Flvt19v+lN4Md30Fc5Eu2ub0aoAEY/RGwPoz8jymfPEHs5O+rvojmMaT6y1VJ8LhHMmOJ09PkDbj97Td/MYZtzOg8MDXdTeLl36noT80SissDRN9AJriROJgbs1w1bbh/n9WQzINflMlslTTVO9MZzrpOWh+QIVHIHCDwokDPaXjr1uJz1FqyPcZiEPn+viqOYmkQulxvfUplJSFGTAxCjpDvkmivdy2oIGAO3XbeFTAs30zrbQC/oqiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB4855.namprd11.prod.outlook.com (2603:10b6:510:41::12)
- by CO6PR11MB5651.namprd11.prod.outlook.com (2603:10b6:5:356::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Sun, 4 Jun
- 2023 22:13:56 +0000
-Received: from PH0PR11MB4855.namprd11.prod.outlook.com
- ([fe80::a41b:1b6c:8306:7644]) by PH0PR11MB4855.namprd11.prod.outlook.com
- ([fe80::a41b:1b6c:8306:7644%6]) with mapi id 15.20.6455.030; Sun, 4 Jun 2023
- 22:13:56 +0000
-Message-ID: <5300deff-9967-d67b-91f4-6f47cf9f12ce@intel.com>
-Date:   Sun, 4 Jun 2023 15:13:53 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v8 09/12] x86/cpu: Add a configuration and command line
- option for Key Locker
-Content-Language: en-US
-To:     Borislav Petkov <bp@alien8.de>
-CC:     <linux-kernel@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
-        <dm-devel@redhat.com>, <ebiggers@kernel.org>, <elliott@hpe.com>,
-        <gmazyland@gmail.com>, <luto@kernel.org>,
-        <dave.hansen@linux.intel.com>, <tglx@linutronix.de>,
-        <mingo@kernel.org>, <x86@kernel.org>,
-        <herbert@gondor.apana.org.au>, <ardb@kernel.org>,
-        <dan.j.williams@intel.com>, <bernie.keany@intel.com>,
-        <charishma1.gairuboyina@intel.com>,
-        <lalithambika.krishnakumar@intel.com>, <nhuck@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, <linux-doc@vger.kernel.org>
-References: <20230524165717.14062-1-chang.seok.bae@intel.com>
- <20230603152227.12335-1-chang.seok.bae@intel.com>
- <20230603152227.12335-10-chang.seok.bae@intel.com>
- <20230603163751.GBZHtsXwW5UUnsSbKX@fat_crate.local>
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-In-Reply-To: <20230603163751.GBZHtsXwW5UUnsSbKX@fat_crate.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0192.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::17) To PH0PR11MB4855.namprd11.prod.outlook.com
- (2603:10b6:510:41::12)
+        with ESMTP id S230218AbjFEAhJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jun 2023 20:37:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9EA1CD;
+        Sun,  4 Jun 2023 17:37:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 75B3D61CB8;
+        Mon,  5 Jun 2023 00:37:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA34AC433EF;
+        Mon,  5 Jun 2023 00:37:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685925427;
+        bh=8ViOZ/67sFC1dwMBsTpVWnyzKQ+Cxx+t5f/lBwak1P0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VuknoifnPM3Ny8uuPvhWMe3iKC6lE+/ud3dTUXPfJKlxcw4v2UEumVfUd9jW7w/bS
+         XNPBYMbEOkU8x57jN72rmSTW15i++Wte5y5W6MiCp9E/1/QlPTEHx/H9anIn0o7UCL
+         NICepO4JqRrXVkRPvIu3Fba39mWJMpsHNdP+UxNeiL8xmxa/6z5S/U6sX7Qg6AY0gt
+         MYITBJLuL6GjitrIYz6L6ADIkD81sI3GoL5VKvtKsbuFORWmFnh9Cf64ViBvhwsVxy
+         SOVU87WTtXLV0n5wt5LnOlq0HBNwEcF8hnTuUH2rDyn4ER/ruYlKdVOJz7bNJoWPnT
+         JEt5j/czJTwIg==
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-558c8a109bdso372805eaf.1;
+        Sun, 04 Jun 2023 17:37:07 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyZgiIrfLbjztRSAGL+SwgtnzCBFoILhCuqdZyES/7UWP9oshu1
+        wq3Jo0u4bszernGO2oHsnMK+JRn/ZBm/x7jFBg4=
+X-Google-Smtp-Source: ACHHUZ7Jm7elrU5npuF1QxqdtBRteBO0IRNznr6jV6ddUwArpX9BkikZ+hfd26MESp8Llek/+jq5zcQT/c7HnabSCGQ=
+X-Received: by 2002:a4a:b3cb:0:b0:54f:4e01:7fc9 with SMTP id
+ q11-20020a4ab3cb000000b0054f4e017fc9mr5073688ooo.3.1685925427055; Sun, 04 Jun
+ 2023 17:37:07 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB4855:EE_|CO6PR11MB5651:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0762f9f6-b156-4927-a8bd-08db6548fd09
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GTiKNywK1GL7TGDd+5W6oJ9n8vWvxFtn24WKh/fXXGR9tzXRiZ3cbNCyRZxlB7pziR7QVIWbY/YnDYEzlAOcq+d9VYETM/WxJYg7eqnqx4neh6xajYOWIeNqZppmmJvbH3FdcjuXKvb2hsCZaTtYQJ/TCqGGlaYR1hQHEVbDQ3WB9FWkT6zkPwe5emPKUZAAxzaoc97KIy1nITlKaTWPvMTe4DKGmSNqrSk3u8Jz5xErqglRnxIDijaE4tfFLYwXlbhu40lcontDX9dnEYX7oOU77nnoykUr/IINR4lbhtDzO2tpJYIgTXBHgXU8t2S0lk8SgaF5u1fyQWh0u3Vdb2FcA87aomYGOXXeJaTeWudJbzL7mAmV8TaN25AHQhA9PNPlAGQ+VUTCqg/XO0uxOUjWliziWALdRV/SFS+4js0wIGvOMfAqj81n7wh83RsN0vRgRln71+zgDKAOppMnrQSxYrD1UgX2ub4iRoXoLG6Jas5xmjKYojdpexspqCPyp0GfOPDjXKMp5j41B9xfw3I03RLZeTDLCFFAX0FDCN4d2NU5EEfWT9hFrhAFOCFrE027EoGI5rSI6AVccLxIABM6KpvvNPppD4wWT+bGVOla8F++oK1Xm0h3A10f1RoNqS7QinQbieTpotyFYVlrIg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB4855.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(346002)(396003)(376002)(136003)(39860400002)(451199021)(7416002)(26005)(6506007)(6512007)(31686004)(53546011)(83380400001)(2906002)(36756003)(186003)(2616005)(5660300002)(31696002)(86362001)(8676002)(8936002)(316002)(4744005)(41300700001)(6666004)(6916009)(38100700002)(66476007)(66946007)(66556008)(82960400001)(54906003)(4326008)(478600001)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWx2UnlmbmpsZ0VSdHk5eWQ2OUMyYW5pQ0JnNStYSHdUSUtpcUhHRUo4Q1Mx?=
- =?utf-8?B?WXRTcXhmaW9jOUwyUEREdnlzRzhVcjl1Z0xaRU5BWCtqc0Rkc2Z4K05VQzJ1?=
- =?utf-8?B?bEY5RDV6S1AvN3dtSW1GVnNITWUxb2gzYzhSV2dNdW1BZyszR2lXbSs2OWhw?=
- =?utf-8?B?OWd5M2N5emljYzMxbDNIQUdwb3BZK0lWVzRYeVRFanNRYTZ0bFZDNVd4MTdE?=
- =?utf-8?B?T1poZVFnai9yTVBrWXBiR1RvWkdhUmFhZFRrNVBrcGRXU3pFTWJQU24weURZ?=
- =?utf-8?B?ODUyTjdQNEFkeXlRbXZWamtyTzErc2RHcFB6R0g3RHlYQmE4cjJKYlZYOHdM?=
- =?utf-8?B?WHlQUFo4ZklXQnFFeGZMek9pS0RNOStSVXB4SytLQjVhSUN0SGwraGdDOUZn?=
- =?utf-8?B?d01IMUhsVFlpdXA5Z20wTmZtNnZxVmJtRDY3VDYzR2xTTHJpbGRBYy92VlJ6?=
- =?utf-8?B?d2FZT0lDNXVjSHVpZWFxZmRpSlhCUHljZDVmVnhZY2xoUXhYMm1ULzBrZHFC?=
- =?utf-8?B?dlhPQkVnTUZCMmRQcldIMUhJYnBYT1J6VEk3bUhvenNSNDJVbGlsMnl0UWg2?=
- =?utf-8?B?dFdBSWNHVmdXUC9lOHVMZlh3Vm5pemVXeFlYenhXR2xHZjdhblNxQ3lxR2FI?=
- =?utf-8?B?c0FIZVZuLythYVpMNzlZdmVyK1pWTStacTZ0dEloZmw3S2ZlZnZxbEtEWlFF?=
- =?utf-8?B?eGxSY25OWTBiNDVkRjNOcFN3STlkTWtLTWlIYzhFT1VRUlRKL0VvNU8yNktN?=
- =?utf-8?B?Qmx2ejZObVZsVGo4djNrUXhVM2dSRDlZaU1FN0NLRzVVd3dWMEFEOUJiTlJZ?=
- =?utf-8?B?eXZScVB2V1dQOWpDczdNUFViNjRMSXViZmpmcDlmZ1J4NGtZM2FLRTl4eDlS?=
- =?utf-8?B?VHhaYml6R1pLUytxT0pNTWhQb3hUN1k1VTgxMDJaSDRxTld4UUQ2YnFVRGF5?=
- =?utf-8?B?Z05UaDRTekw4U1JoTFh6a2I0S2xUMlBLR1VuNWZHUFBHeXZ1Ui8xQVVGcW9N?=
- =?utf-8?B?K2IreWNEYytQTTBvakpPODFWMGVoQk9ieWNMR014SzZtK2hTY0xOemlkMHdW?=
- =?utf-8?B?NnEyR1BxWjBGTjdWNitSVG5ybk5DS3Y0NTdNTXJPblE5MjI2Z3AxbmtZWGxY?=
- =?utf-8?B?dStFUTNnMzZENGp5WmlkQkF5TTg0dDBLQU1uVEZUb1RCSTV1SG5QM21MUXU0?=
- =?utf-8?B?RU9pRUdNbkpHS1FaSDRSQ25GWE9hQzhFUFZTOTg4QS8xZTBqSXB5ZEkyVzV3?=
- =?utf-8?B?R2x2Zm5XUEN1NjIxcHFaQmltNHptRGhSUG4vTitpb29kNzRWckU0RlhLOXNq?=
- =?utf-8?B?Vm4vQkt5aTNYQnNHWFJISlJCbnZlbnY3UFhtOG1uKzZ1UG5vR2d5NHlHYzhm?=
- =?utf-8?B?R3RWYnJoZmxCZjlqRWVKNFcyWmFZU1lBMHlOemhkcG8ycDhQdjlYMk1EY050?=
- =?utf-8?B?dTI1dFhBbk9Vc1p6aHN3MzJ5dWRHODhPcHhMUGhMWm41eWNvdkxWbmZyOTVH?=
- =?utf-8?B?SzFlQW1XeWlqK1FVWVd4SWtRdlRNWmg4M0pFVEp2YkNaWitmWXVYUmxqcDRN?=
- =?utf-8?B?TE05cnJRM29RL2Z2MHVmZ1ByYk1xRTZ1VEh1YUYyTm4zWHpkbjBtbHBoWE4y?=
- =?utf-8?B?Z1MzaXdCaTNKNGdZbkxFNWFvdWFzRnBYOW45OHBvZlZUamppYkRtVE82MWJU?=
- =?utf-8?B?OWxWek4xQWZURWRhR3FqWVJ0TzREckRkYmZ6Q3hkQW9mQkFJb2dEeHpIS1FU?=
- =?utf-8?B?SHdOc09ISllJT1VvMXZXRjlxdk5OV1RwaVhqSE1TeS9qQnJOTlJwN0hyZFNC?=
- =?utf-8?B?NzYyTnlVMElYcjRMQkJqV2ltNVYyTm9NOUYvWTdaeGxOSklObTNLYjE2UlJS?=
- =?utf-8?B?UlZEWFg0bm5oTEx5eC84L3BwdVdqOEErVEJtRzFvWnlhblNVNTRsMS9WeEZM?=
- =?utf-8?B?dDBkOVZuMEo5VFA1ZExERndwZWdSbkNqejBTOEg3eDNaOUVBbUxHS1ExMDVl?=
- =?utf-8?B?N1FYamJnOVorVUVXS040MFRYNldMRDcwQzl3UTBWRmNyZURPNzNVSXlkZVd5?=
- =?utf-8?B?MEdRaVBNU2tzNllFR1BtZlZqZWI5RFoxdGdNbjJ3MkVENlNVQkw1S0dhNzFq?=
- =?utf-8?B?RldzT3d4MUo1V0MyM1dsRGE3alVTeFpPdnpaOXhzTkdiN0VBZG1vWW1WQVFW?=
- =?utf-8?B?Zmc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0762f9f6-b156-4927-a8bd-08db6548fd09
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4855.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2023 22:13:56.4737
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: STmxYR3VzmkUXnGyIOSggcAIEHK51in5eVBWRfnneZ97uCvzVIivimCXZG5pqNYrkNsEGV83kv8TYeq7aAI2BRGrsYfIJAqWccsRdcJM3J4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5651
-X-OriginatorOrg: intel.com
+References: <20230602230014.a435aab03cee.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
+In-Reply-To: <20230602230014.a435aab03cee.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 5 Jun 2023 09:36:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ87U202fgqkd5T9G82h4F6sNOMW2=vH1HmgAoVA48CMw@mail.gmail.com>
+Message-ID: <CAK7LNAQ87U202fgqkd5T9G82h4F6sNOMW2=vH1HmgAoVA48CMw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kernel-doc: don't let V=1 change outcome
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, Johannes Berg <johannes.berg@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/3/2023 9:37 AM, Borislav Petkov wrote:
-> On Sat, Jun 03, 2023 at 08:22:24AM -0700, Chang S. Bae wrote:
->> +static __init int x86_nokeylocker_setup(char *arg)
->> +{
->> +	/* Expect an exact match without trailing characters. */
->> +	if (strlen(arg))
->> +		return 0;
->> +
->> +	if (!cpu_feature_enabled(X86_FEATURE_KEYLOCKER))
->> +		return 1;
->> +
->> +	setup_clear_cpu_cap(X86_FEATURE_KEYLOCKER);
->> +	pr_info("x86/keylocker: Disabled by kernel command line.\n");
->> +	return 1;
->> +}
->> +__setup("nokeylocker", x86_nokeylocker_setup);
-> 
-> Can we stop adding those just to remove them at some point later but
-> simply do:
-> 
-> clearcpuid=keylocker
-> 
-> ?
+On Sat, Jun 3, 2023 at 6:00=E2=80=AFAM Johannes Berg <johannes@sipsolutions=
+.net> wrote:
+>
+> From: Johannes Berg <johannes.berg@intel.com>
+>
+> The kernel-doc script currently reports a number of issues
+> only in "verbose" mode, but that's initialized from V=3D1
+> (via KBUILD_VERBOSE), so if you use KDOC_WERROR=3D1 then
+> adding V=3D1 might actually break the build. This is rather
+> unexpected.
 
-Oh, I was not sure about this policy. Thanks, now I'm glad that I have 
-confidence in removing this.
+Agree.
 
-Chang
+
+>
+> Change kernel-doc to not change its behaviour wrt. errors
+> (or warnings) when verbose mode is enabled, but rather add
+> separate warning flags (and -Wall) for it.
+>
+> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+> ---
+>  scripts/kernel-doc | 41 ++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 36 insertions(+), 5 deletions(-)
+>
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 2486689ffc7b..1eb1819fbe13 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -23,7 +23,7 @@ kernel-doc - Print formatted kernel documentation to st=
+dout
+>
+>  =3Dhead1 SYNOPSIS
+>
+> - kernel-doc [-h] [-v] [-Werror]
+> + kernel-doc [-h] [-v] [-Werror] [-Wreturn] [-Wshort-description] [-Wcont=
+ents-before-sections] [-Wall]
+>     [ -man |
+>       -rst [-sphinx-version VERSION] [-enable-lineno] |
+>       -none
+> @@ -133,6 +133,9 @@ my $dohighlight =3D "";
+>
+>  my $verbose =3D 0;
+>  my $Werror =3D 0;
+> +my $Wreturn =3D 0;
+> +my $Wshort_desc =3D 0;
+> +my $Wcontents_before_sections =3D 0;
+>  my $output_mode =3D "rst";
+>  my $output_preformatted =3D 0;
+>  my $no_doc_sections =3D 0;
+> @@ -191,6 +194,24 @@ if (defined($ENV{'KDOC_WERROR'})) {
+>         $Werror =3D "$ENV{'KDOC_WERROR'}";
+>  }
+>
+> +if (defined($ENV{'KDOC_WRETURN'})) {
+> +       $Wreturn =3D "$ENV{'KDOC_WRETURN'}";
+> +}
+> +
+> +if (defined($ENV{'KDOC_WSHORT_DESC'})) {
+> +       $Wshort_desc =3D "$ENV{'KDOC_WSHORT_DESC'}";
+> +}
+> +
+> +if (defined($ENV{'KDOC_WCONTENTS_BEFORE_SECTION'})) {
+> +       $Wcontents_before_sections =3D "$ENV{'KDOC_WCONTENTS_BEFORE_SECTI=
+ON'}";
+> +}
+> +
+> +if (defined($ENV{'KDOC_WALL'})) {
+> +       $Wreturn =3D "$ENV{'KDOC_WALL'}";
+> +       $Wshort_desc =3D "$ENV{'KDOC_WALL'}";
+> +       $Wcontents_before_sections =3D "$ENV{'KDOC_WALL'}";
+> +}
+
+
+
+Adding an environment variable to each of them is tedious.
+
+
+If you enable -Wall via the command line option,
+these lines are unneeded?
+
+For example,
+
+ifneq ($(KBUILD_EXTRA_WARN),)
+  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
+         $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) $<
+endif
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
