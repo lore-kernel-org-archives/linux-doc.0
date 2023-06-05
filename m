@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F58C7EE32
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44938C7EE3A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:49:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236027AbjFETtY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 15:49:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
+        id S235406AbjFETt1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 15:49:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236038AbjFETtF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 15:49:05 -0400
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5280F10D2
-        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:48:42 -0700 (PDT)
-Received: by mail-il1-x131.google.com with SMTP id e9e14a558f8ab-33d0b7114a9so25500175ab.2
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:48:42 -0700 (PDT)
+        with ESMTP id S235908AbjFETtG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 15:49:06 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BBB810E5
+        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:48:47 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-33bbc91dcb7so26798025ab.3
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:48:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685994514; x=1688586514;
+        d=linaro.org; s=google; t=1685994525; x=1688586525;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=MaFHcySKvSxGlgRg/2jJet+G8xjglec6nqL8of/m/PI=;
-        b=NpqDD3cQrLApJBt5jAh1LUuPY5PtBp8j4T5/wW3fB/aNPL08VMdxJz3zEzCA7lbNa7
-         fTDPXdEYbjbdsK9Nd4DdxZj8TmHeT+OEPCf364vvGLQX3r69/lFrwjxXaRdRo/zNi1vy
-         Gh86qYivrLozxfKgNvXKyEEu7lRTwqteSMYO2TEVrYyvfD2NNJyJVqqJh4DzfbPVH30p
-         8FWViYG8/QM092uU5C/qHzAybdVypAsJIPCJo9Ax1IjF4DIYTP5Xfo48AxIOD/G48e9x
-         2OULNR8RHoE4b5EWZKcgot/v9qmG6aVMXhJXC4CHBIpaJ9W8ePUvn6iLyNloKbqqiXfC
-         vb8w==
+        bh=wl7EFgUA9cMgMK8O5jKjE2iLt6anAcaO3TwMrZK2D3s=;
+        b=RRQhWuf/hwrL/iNreMkEwvmD9kY8GdruyfEUh3ZBdEb2pxaRXc/mk/yFoDtx1XUvZG
+         ez+iNh4zlfj4LsGZ3XN4fl41HQ0mQE6Zos6dcgvLFL6sp0M+Z7aLokRUIIGCxtKHl++B
+         OnGYa2IrkOCi1hPdwpvNxFAXYz0/tY4gXFg/AlBoTDwJM5BcEc1sZ4w5bYOWZ2Fz3yQ+
+         +kpJrcV/qxgPyLfLU1Jz49Kq7euPEIfRXZmcyHuwEJjjwemiOnTvOoDEtqgLCB8M17H8
+         w1a1CmwyF23EeOuw4oPTKVKLq1eQticeI5Mod+OqrssjWtjGCJQB4bmHgbfV30AxgNxd
+         ibbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685994514; x=1688586514;
+        d=1e100.net; s=20221208; t=1685994525; x=1688586525;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MaFHcySKvSxGlgRg/2jJet+G8xjglec6nqL8of/m/PI=;
-        b=Ck2/tmBa5GsxZa0Jx9Miud+oi7w7Vz/SZibiDTTMyDuuXVXpXrEagx2Xn1++nPoxR6
-         rzPITR/KIpV4X3RigKPKm2w9GzNqyGJ3ftZIVRpsoD15ord5fac8YST4Bylwrt/hYU5v
-         rNE2p5OuisKmuEqOBWR3LDkclodUdjLF41QHvsVS6vIgP7U4a+hihV7D9h4L/xC3m90k
-         WzXFcqP3g7t8zrhJKX6R1q5cYYTXLCZLq+znbtzVLwosk9a3jJjsdcHapfx2mNR9v9ep
-         7Xgwp/YVhcvPfizr6M+kOtN6O1p5hGHTZEaaE80509vLkIS70KO/LNfQa7gp/qTZsjTB
-         7ygA==
-X-Gm-Message-State: AC+VfDwnb38mEGQMG/ls7CsT0JcKQOBFpcFc5LL1BJhxF0rzXy7FF85x
-        arF0PJzhgv8Tvtn4Xzg3I8p77A==
-X-Google-Smtp-Source: ACHHUZ6ZzGx3msyeVz4hKwWVCwrJadVqFVtHjtfFhFLQ00VOF66oGFAUJZ2+Dot2lhuobCp7wPJD/Q==
-X-Received: by 2002:a92:c011:0:b0:33b:1060:aff with SMTP id q17-20020a92c011000000b0033b10600affmr36407ild.24.1685994513845;
-        Mon, 05 Jun 2023 12:48:33 -0700 (PDT)
+        bh=wl7EFgUA9cMgMK8O5jKjE2iLt6anAcaO3TwMrZK2D3s=;
+        b=Bo3HHLdWaO7yoRIaW33jtQQHkFE95enjcfkcB3sSsAX/04vloSTBDhk4GrXH1DltvI
+         d+N+sxL3G6LP02NeJ3fTSPsDxw0tgXOCgPuF63Dbw4rhEbbiKiLaJnv5FYj6MSI5EKKU
+         H+uaUzZ/ET3SOrnmx0xG0MAgqXfLa2l44BhZkdDvpDxIqN8EjJHaE/jOVHyux/0T8PR9
+         6Bc5vtxhPc6YjG586+pCcOZsslvPamGA1Q+QRmRyFLwYbouYzGjQTah3ES2Uoe93nnDN
+         ZpkdRsFWEf9yP8t4l7owFQh0U8bHVVrNirhU0O+pRyE6gsjI1nVTQISc38h672Ija0Wa
+         4A5g==
+X-Gm-Message-State: AC+VfDyjYSlJfQz/laEJA4AxYQle+0TRVgWfG67wJ1hesfNgkodlhXB2
+        T1LNK9B6GvRD+fqyfSCwcfeE0w==
+X-Google-Smtp-Source: ACHHUZ4oK5asULJo4ciPjnrVpsFgr5YF/uOT+xhOu+bkswaC95rOsaHPXFs9rNqi+DS0oTXURm6w5w==
+X-Received: by 2002:a92:c08f:0:b0:331:4f70:a2b with SMTP id h15-20020a92c08f000000b003314f700a2bmr115113ile.5.1685994525224;
+        Mon, 05 Jun 2023 12:48:45 -0700 (PDT)
 Received: from [172.22.22.28] ([98.61.227.136])
-        by smtp.gmail.com with ESMTPSA id k22-20020a02c776000000b0041683566965sm2393092jao.80.2023.06.05.12.48.32
+        by smtp.gmail.com with ESMTPSA id i14-20020a02ca4e000000b0041f4f31ec7esm1247291jal.71.2023.06.05.12.48.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 12:48:33 -0700 (PDT)
-Message-ID: <1645c8cd-6c82-7a9c-803f-a92160a1f2b8@linaro.org>
-Date:   Mon, 5 Jun 2023 14:48:32 -0500
+        Mon, 05 Jun 2023 12:48:44 -0700 (PDT)
+Message-ID: <026fb04d-6d58-8d9c-8208-4f34a287a78f@linaro.org>
+Date:   Mon, 5 Jun 2023 14:48:43 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 From:   Alex Elder <elder@linaro.org>
-Subject: Re: [PATCH v13 12/24] samples: Add sample userspace Gunyah VM Manager
+Subject: Re: [PATCH v13 14/24] virt: gunyah: Add Qualcomm Gunyah platform ops
 To:     Elliot Berman <quic_eberman@quicinc.com>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
@@ -79,9 +79,9 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-13-quic_eberman@quicinc.com>
+ <20230509204801.2824351-15-quic_eberman@quicinc.com>
 Content-Language: en-US
-In-Reply-To: <20230509204801.2824351-13-quic_eberman@quicinc.com>
+In-Reply-To: <20230509204801.2824351-15-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -89,448 +89,260 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 5/9/23 3:47 PM, Elliot Berman wrote:
-> Add a sample Gunyah VMM capable of launching a non-proxy scheduled VM.
+> Qualcomm platforms have a firmware entity which performs access control
+> to physical pages. Dynamically started Gunyah virtual machines use the
+> QCOM_SCM_RM_MANAGED_VMID for access. Linux thus needs to assign access
+> to the memory used by guest VMs. Gunyah doesn't do this operation for us
+> since it is the current VM (typically VMID_HLOS) delegating the access
+> and not Gunyah itself. Use the Gunyah platform ops to achieve this so
+> that only Qualcomm platforms attempt to make the needed SCM calls.
 > 
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 
-I haven't tested this, but I trust it works.
-
-I have some trivial comments, but otherwise:
+Minor suggestions below.  Please consider them, but either way:
 
 Reviewed-by: Alex Elder <elder@linaro.org>
 
 > ---
->   samples/Kconfig              |  10 ++
->   samples/Makefile             |   1 +
->   samples/gunyah/.gitignore    |   2 +
->   samples/gunyah/Makefile      |   6 +
->   samples/gunyah/gunyah_vmm.c  | 270 +++++++++++++++++++++++++++++++++++
->   samples/gunyah/sample_vm.dts |  68 +++++++++
->   6 files changed, 357 insertions(+)
->   create mode 100644 samples/gunyah/.gitignore
->   create mode 100644 samples/gunyah/Makefile
->   create mode 100644 samples/gunyah/gunyah_vmm.c
->   create mode 100644 samples/gunyah/sample_vm.dts
+>   drivers/virt/gunyah/Kconfig       |  13 +++
+>   drivers/virt/gunyah/Makefile      |   1 +
+>   drivers/virt/gunyah/gunyah_qcom.c | 147 ++++++++++++++++++++++++++++++
+>   3 files changed, 161 insertions(+)
+>   create mode 100644 drivers/virt/gunyah/gunyah_qcom.c
 > 
-> diff --git a/samples/Kconfig b/samples/Kconfig
-> index b2db430bd3ff..567c7a706c01 100644
-> --- a/samples/Kconfig
-> +++ b/samples/Kconfig
-> @@ -280,6 +280,16 @@ config SAMPLE_KMEMLEAK
->             Build a sample program which have explicitly leaks memory to test
->             kmemleak
+> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+> index de815189dab6..0421b751aad4 100644
+> --- a/drivers/virt/gunyah/Kconfig
+> +++ b/drivers/virt/gunyah/Kconfig
+> @@ -5,6 +5,7 @@ config GUNYAH
+>   	depends on ARM64
+>   	depends on MAILBOX
+>   	select GUNYAH_PLATFORM_HOOKS
+> +	imply GUNYAH_QCOM_PLATFORM if ARCH_QCOM
+>   	help
+>   	  The Gunyah drivers are the helper interfaces that run in a guest VM
+>   	  such as basic inter-VM IPC and signaling mechanisms, and higher level
+> @@ -15,3 +16,15 @@ config GUNYAH
 >   
-> +config SAMPLE_GUNYAH
-> +	bool "Build example Gunyah Virtual Machine Manager"
-> +	depends on CC_CAN_LINK && HEADERS_INSTALL
+>   config GUNYAH_PLATFORM_HOOKS
+>   	tristate
+> +
+> +config GUNYAH_QCOM_PLATFORM
+> +	tristate "Support for Gunyah on Qualcomm platforms"
 > +	depends on GUNYAH
+> +	select GUNYAH_PLATFORM_HOOKS
+> +	select QCOM_SCM
 > +	help
-> +	  Build an example Gunyah VMM userspace program capable of launching
-> +	  a basic virtual machine under the Gunyah hypervisor.
-> +	  This demonstrates how to create a virtual machine under the Gunyah
-> +	  hypervisor.
-
-I think you can drop the second sentence above.  Perhaps adjust the
-first a bit if you think the second adds anything important.
-
+> +	  Enable support for interacting with Gunyah on Qualcomm
+> +	  platforms. Interaction with Qualcomm firmware requires
+> +	  extra platform-specific support.
 > +
->   source "samples/rust/Kconfig"
+> +	  Say Y/M here to use Gunyah on Qualcomm platforms.
+> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+> index 4fbeee521d60..2aa9ff038ed0 100644
+> --- a/drivers/virt/gunyah/Makefile
+> +++ b/drivers/virt/gunyah/Makefile
+> @@ -1,6 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0
 >   
->   endif # SAMPLES
-> diff --git a/samples/Makefile b/samples/Makefile
-> index 7727f1a0d6d1..e1b92dec169f 100644
-> --- a/samples/Makefile
-> +++ b/samples/Makefile
-> @@ -37,3 +37,4 @@ obj-$(CONFIG_SAMPLE_KMEMLEAK)		+= kmemleak/
->   obj-$(CONFIG_SAMPLE_CORESIGHT_SYSCFG)	+= coresight/
->   obj-$(CONFIG_SAMPLE_FPROBE)		+= fprobe/
->   obj-$(CONFIG_SAMPLES_RUST)		+= rust/
-> +obj-$(CONFIG_SAMPLE_GUNYAH)		+= gunyah/
-> diff --git a/samples/gunyah/.gitignore b/samples/gunyah/.gitignore
+>   obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
+> +obj-$(CONFIG_GUNYAH_QCOM_PLATFORM) += gunyah_qcom.o
+>   
+>   gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
+>   obj-$(CONFIG_GUNYAH) += gunyah.o
+> diff --git a/drivers/virt/gunyah/gunyah_qcom.c b/drivers/virt/gunyah/gunyah_qcom.c
 > new file mode 100644
-> index 000000000000..adc7d1589fde
+> index 000000000000..18acbda8fcbd
 > --- /dev/null
-> +++ b/samples/gunyah/.gitignore
-> @@ -0,0 +1,2 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +/gunyah_vmm
-> diff --git a/samples/gunyah/Makefile b/samples/gunyah/Makefile
-> new file mode 100644
-> index 000000000000..faf14f9bb337
-> --- /dev/null
-> +++ b/samples/gunyah/Makefile
-> @@ -0,0 +1,6 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +userprogs-always-y += gunyah_vmm
-> +dtb-y += sample_vm.dtb
-> +
-> +userccflags += -I usr/include
-> diff --git a/samples/gunyah/gunyah_vmm.c b/samples/gunyah/gunyah_vmm.c
-> new file mode 100644
-> index 000000000000..d0eb49e86372
-> --- /dev/null
-> +++ b/samples/gunyah/gunyah_vmm.c
-> @@ -0,0 +1,270 @@
+> +++ b/drivers/virt/gunyah/gunyah_qcom.c
+> @@ -0,0 +1,147 @@
 > +// SPDX-License-Identifier: GPL-2.0-only
 > +/*
-> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-
-Update the copyright.
-
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 > + */
 > +
-> +#include <stdlib.h>
-> +#include <stdio.h>
-> +#include <unistd.h>
-> +#include <sys/types.h>
-> +#include <sys/stat.h>
-> +#include <fcntl.h>
-> +#include <sys/ioctl.h>
-> +#include <getopt.h>
-> +#include <limits.h>
-> +#include <stdint.h>
-> +#include <fcntl.h>
-> +#include <string.h>
-> +#include <sys/sysmacros.h>
-> +#define __USE_GNU
-> +#include <sys/mman.h>
+> +#include <linux/arm-smccc.h>
+> +#include <linux/gunyah_rsc_mgr.h>
+> +#include <linux/module.h>
+> +#include <linux/firmware/qcom/qcom_scm.h>
+> +#include <linux/types.h>
+> +#include <linux/uuid.h>
 > +
-> +#include <linux/gunyah.h>
-> +
-> +struct vm_config {
-> +	int image_fd;
-> +	int dtb_fd;
-> +	int ramdisk_fd;
-> +
-> +	uint64_t guest_base;
-> +	uint64_t guest_size;
-> +
-> +	uint64_t image_offset;
-> +	off_t image_size;
-> +	uint64_t dtb_offset;
-> +	off_t dtb_size;
-> +	uint64_t ramdisk_offset;
-> +	off_t ramdisk_size;
-> +};
-> +
-> +static struct option options[] = {
-> +	{ "help", no_argument, NULL, 'h' },
-> +	{ "image", required_argument, NULL, 'i' },
-> +	{ "dtb", required_argument, NULL, 'd' },
-> +	{ "ramdisk", optional_argument, NULL, 'r' },
-> +	{ "base", optional_argument, NULL, 'B' },
-> +	{ "size", optional_argument, NULL, 'S' },
-> +	{ "image_offset", optional_argument, NULL, 'I' },
-> +	{ "dtb_offset", optional_argument, NULL, 'D' },
-> +	{ "ramdisk_offset", optional_argument, NULL, 'R' },
-> +	{ }
-> +};
-> +
-> +static void print_help(char *cmd)
-> +{
-> +	printf("gunyah_vmm, a sample tool to launch Gunyah VMs\n"
-> +	       "Usage: %s <options>\n"
-> +	       "       --help,    -h  this menu\n"
-> +	       "       --image,   -i <image> VM image file to load (e.g. a kernel Image) [Required]\n"
-> +	       "       --dtb,     -d <dtb>   Devicetree file to load [Required]\n"
-> +	       "       --ramdisk, -r <ramdisk>  Ramdisk file to load\n"
-> +	       "       --base,    -B <address>  Set the base address of guest's memory [Default: 0x80000000]\n"
-> +	       "       --size,    -S <number>   The number of bytes large to make the guest's memory [Default: 0x6400000 (100 MB)]\n"
-> +	       "       --image_offset, -I <number>  Offset into guest memory to load the VM image file [Default: 0x10000]\n"
-> +	       "        --dtb_offset,  -D <number>  Offset into guest memory to load the DTB [Default: 0]\n"
-> +	       "        --ramdisk_offset, -R <number>  Offset into guest memory to load a ramdisk [Default: 0x4600000]\n"
-> +	       , cmd);
+> +#define QCOM_SCM_RM_MANAGED_VMID	0x3A
+> +#define QCOM_SCM_MAX_MANAGED_VMID	0x3F
 
-You could define the default values above with symbolic constants,
-and print them with 0x%08x in the messages above (or something
-similar).
+Is this limited to 63 because there are at most 64 VMIDs
+that can be represented in a 64-bit unsigned?
 
-> +}
 > +
-> +int main(int argc, char **argv)
+> +static int qcom_scm_gh_rm_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
 > +{
-> +	int gunyah_fd, vm_fd, guest_fd;
-> +	struct gh_userspace_memory_region guest_mem_desc = { 0 };
-> +	struct gh_vm_dtb_config dtb_config = { 0 };
-> +	char *guest_mem;
-> +	struct vm_config config = {
-> +		/* Defaults good enough to boot static kernel and a basic ramdisk */
-> +		.ramdisk_fd = -1,
-> +		.guest_base = 0x80000000,
-> +		.guest_size = 0x6400000, /* 100 MB */
-> +		.image_offset = 0,
-> +		.dtb_offset = 0x45f0000,
-> +		.ramdisk_offset = 0x4600000, /* put at +70MB (30MB for ramdisk) */
-> +	};
-> +	struct stat st;
-> +	int opt, optidx, ret = 0;
-> +	long l;
+> +	struct qcom_scm_vmperm *new_perms;
+> +	u64 src, src_cpy;
+> +	int ret = 0, i, n;
+> +	u16 vmid;
 > +
-> +	while ((opt = getopt_long(argc, argv, "hi:d:r:B:S:I:D:R:c:", options, &optidx)) != -1) {
-> +		switch (opt) {
-> +		case 'i':
-> +			config.image_fd = open(optarg, O_RDONLY | O_CLOEXEC);
-> +			if (config.image_fd < 0) {
-> +				perror("Failed to open image");
-> +				return -1;
+> +	new_perms = kcalloc(mem_parcel->n_acl_entries, sizeof(*new_perms), GFP_KERNEL);
+> +	if (!new_perms)
+> +		return -ENOMEM;
+> +
+> +	for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+> +		vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+> +		if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+> +			new_perms[n].vmid = vmid;
+> +		else
+> +			new_perms[n].vmid = QCOM_SCM_RM_MANAGED_VMID;
+
+So any out-of-range VM ID will cause the hunk of memory to
+be assigned to the resource manager.  Is it expected that
+this can occur (and not be an error)?
+
+> +		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_X)
+> +			new_perms[n].perm |= QCOM_SCM_PERM_EXEC;
+> +		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_W)
+> +			new_perms[n].perm |= QCOM_SCM_PERM_WRITE;
+> +		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_R)
+> +			new_perms[n].perm |= QCOM_SCM_PERM_READ;
+> +	}
+> +
+> +	src = (1ull << QCOM_SCM_VMID_HLOS);
+
+	src = BIT_ULL(QCOM_SCM_VMID_HLOS);
+
+> +
+> +	for (i = 0; i < mem_parcel->n_mem_entries; i++) {
+> +		src_cpy = src;
+> +		ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].phys_addr),
+> +						le64_to_cpu(mem_parcel->mem_entries[i].size),
+> +						&src_cpy, new_perms, mem_parcel->n_acl_entries);
+
+Loops like this can look simpler if you jump to error handling
+at the end that does this unwind activity, rather than incorporating
+it inside the loop itself.  Or even just breaking if ret != 0, e.g.:
+
+		if (ret)
+			break;
+	}
+
+	if (!ret)
+		return 0;
+
+	/* And do the following block here, "outdented" twice */
+
+> +		if (ret) {
+> +			src = 0;
+> +			for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+> +				vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+> +				if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+> +					src |= (1ull << vmid);
+
+	src |= BIT_ULL(vmid);
+
+> +				else
+> +					src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
+
+	src |= BIT_ULL(QCOM_SCM_RM_MANAGED_VMID);
+
 > +			}
-> +			if (stat(optarg, &st) < 0) {
-> +				perror("Failed to stat image");
-> +				return -1;
+> +
+> +			new_perms[0].vmid = QCOM_SCM_VMID_HLOS;
+> +
+> +			for (i--; i >= 0; i--) {
+> +				src_cpy = src;
+> +				WARN_ON_ONCE(qcom_scm_assign_mem(
+> +						le64_to_cpu(mem_parcel->mem_entries[i].phys_addr),
+> +						le64_to_cpu(mem_parcel->mem_entries[i].size),
+> +						&src_cpy, new_perms, 1));
 > +			}
-> +			config.image_size = st.st_size;
 > +			break;
-> +		case 'd':
-> +			config.dtb_fd = open(optarg, O_RDONLY | O_CLOEXEC);
-> +			if (config.dtb_fd < 0) {
-> +				perror("Failed to open dtb");
-> +				return -1;
-> +			}
-> +			if (stat(optarg, &st) < 0) {
-> +				perror("Failed to stat dtb");
-> +				return -1;
-> +			}
-> +			config.dtb_size = st.st_size;
-> +			break;
-> +		case 'r':
-> +			config.ramdisk_fd = open(optarg, O_RDONLY | O_CLOEXEC);
-> +			if (config.ramdisk_fd < 0) {
-> +				perror("Failed to open ramdisk");
-> +				return -1;
-> +			}
-> +			if (stat(optarg, &st) < 0) {
-> +				perror("Failed to stat ramdisk");
-> +				return -1;
-> +			}
-> +			config.ramdisk_size = st.st_size;
-> +			break;
-> +		case 'B':
-> +			l = strtol(optarg, NULL, 0);
-> +			if (l == LONG_MIN) {
-> +				perror("Failed to parse base address");
-> +				return -1;
-> +			}
-> +			config.guest_base = l;
-> +			break;
-> +		case 'S':
-> +			l = strtol(optarg, NULL, 0);
-> +			if (l == LONG_MIN) {
-> +				perror("Failed to parse memory size");
-> +				return -1;
-> +			}
-> +			config.guest_size = l;
-> +			break;
-> +		case 'I':
-> +			l = strtol(optarg, NULL, 0);
-> +			if (l == LONG_MIN) {
-> +				perror("Failed to parse image offset");
-> +				return -1;
-> +			}
-> +			config.image_offset = l;
-> +			break;
-> +		case 'D':
-> +			l = strtol(optarg, NULL, 0);
-> +			if (l == LONG_MIN) {
-> +				perror("Failed to parse dtb offset");
-> +				return -1;
-> +			}
-> +			config.dtb_offset = l;
-> +			break;
-> +		case 'R':
-> +			l = strtol(optarg, NULL, 0);
-> +			if (l == LONG_MIN) {
-> +				perror("Failed to parse ramdisk offset");
-> +				return -1;
-> +			}
-> +			config.ramdisk_offset = l;
-> +			break;
-> +		case 'h':
-> +			print_help(argv[0]);
-> +			return 0;
-> +		default:
-> +			print_help(argv[0]);
-> +			return -1;
 > +		}
 > +	}
 > +
-> +	if (!config.image_fd || !config.dtb_fd) {
-
-I *think* it's possible to have 0 be assigned as config.image_fd
-if STDIN is closed when this is run.  I might be wrong though, it's
-been quite a while...  In any case, to guarantee this works correctly
-these should be set to -1 (as you do for ramdisk_fd).
-
-> +		print_help(argv[0]);
-> +		return -1;
-> +	}
-> +
-> +	if (config.image_offset + config.image_size > config.guest_size) {
-> +		fprintf(stderr, "Image offset and size puts it outside guest memory. Make image smaller or increase guest memory size.\n");
-> +		return -1;
-> +	}
-> +
-> +	if (config.dtb_offset + config.dtb_size > config.guest_size) {
-> +		fprintf(stderr, "DTB offset and size puts it outside guest memory. Make dtb smaller or increase guest memory size.\n");
-> +		return -1;
-> +	}
-> +
-> +	if (config.ramdisk_fd == -1 &&
-> +		config.ramdisk_offset + config.ramdisk_size > config.guest_size) {
-> +		fprintf(stderr, "Ramdisk offset and size puts it outside guest memory. Make ramdisk smaller or increase guest memory size.\n");
-> +		return -1;
-> +	}
-> +
-> +	gunyah_fd = open("/dev/gunyah", O_RDWR | O_CLOEXEC);
-> +	if (gunyah_fd < 0) {
-> +		perror("Failed to open /dev/gunyah");
-> +		return -1;
-> +	}
-> +
-> +	vm_fd = ioctl(gunyah_fd, GH_CREATE_VM, 0);
-> +	if (vm_fd < 0) {
-> +		perror("Failed to create vm");
-> +		return -1;
-> +	}
-> +
-> +	guest_fd = memfd_create("guest_memory", MFD_CLOEXEC);
-> +	if (guest_fd < 0) {
-> +		perror("Failed to create guest memfd");
-> +		return -1;
-> +	}
-> +
-> +	if (ftruncate(guest_fd, config.guest_size) < 0) {
-> +		perror("Failed to grow guest memory");
-> +		return -1;
-> +	}
-> +
-> +	guest_mem = mmap(NULL, config.guest_size, PROT_READ | PROT_WRITE, MAP_SHARED, guest_fd, 0);
-> +	if (guest_mem == MAP_FAILED) {
-> +		perror("Not enough memory");
-> +		return -1;
-> +	}
-> +
-> +	if (read(config.image_fd, guest_mem + config.image_offset, config.image_size) < 0) {
-> +		perror("Failed to read image into guest memory");
-> +		return -1;
-> +	}
-> +
-> +	if (read(config.dtb_fd, guest_mem + config.dtb_offset, config.dtb_size) < 0) {
-> +		perror("Failed to read dtb into guest memory");
-> +		return -1;
-> +	}
-> +
-> +	if (config.ramdisk_fd > 0 &&
-> +		read(config.ramdisk_fd, guest_mem + config.ramdisk_offset,
-> +			config.ramdisk_size) < 0) {
-> +		perror("Failed to read ramdisk into guest memory");
-> +		return -1;
-> +	}
-> +
-> +	guest_mem_desc.label = 0;
-> +	guest_mem_desc.flags = GH_MEM_ALLOW_READ | GH_MEM_ALLOW_WRITE | GH_MEM_ALLOW_EXEC;
-> +	guest_mem_desc.guest_phys_addr = config.guest_base;
-> +	guest_mem_desc.memory_size = config.guest_size;
-> +	guest_mem_desc.userspace_addr = (__u64)guest_mem;
-> +
-> +	if (ioctl(vm_fd, GH_VM_SET_USER_MEM_REGION, &guest_mem_desc) < 0) {
-> +		perror("Failed to register guest memory with VM");
-> +		return -1;
-> +	}
-> +
-> +	dtb_config.guest_phys_addr = config.guest_base + config.dtb_offset;
-> +	dtb_config.size = config.dtb_size;
-> +	if (ioctl(vm_fd, GH_VM_SET_DTB_CONFIG, &dtb_config) < 0) {
-> +		perror("Failed to set DTB configuration for VM");
-> +		return -1;
-> +	}
-> +
-> +	ret = ioctl(vm_fd, GH_VM_START);
-> +	if (ret) {
-> +		perror("GH_VM_START failed");
-> +		return -1;
-> +	}
-> +
-> +	while (1)
-> +		sleep(10);
-
-Maybe call pause() instead of sleep?
-
-> +
-> +	return 0;
+> +	kfree(new_perms);
+> +	return ret;
 > +}
-> diff --git a/samples/gunyah/sample_vm.dts b/samples/gunyah/sample_vm.dts
-> new file mode 100644
-> index 000000000000..293bbc0469c8
-> --- /dev/null
-> +++ b/samples/gunyah/sample_vm.dts
-> @@ -0,0 +1,68 @@
-> +// SPDX-License-Identifier: BSD-3-Clause
-> +/*
-> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
 > +
-> +/dts-v1/;
+> +static int qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
+> +{
+> +	struct qcom_scm_vmperm new_perms;
+> +	u64 src = 0, src_cpy;
+> +	int ret = 0, i, n;
+> +	u16 vmid;
 > +
-> +/ {
-> +	#address-cells = <2>;
-> +	#size-cells = <2>;
-> +	interrupt-parent = <&intc>;
+> +	new_perms.vmid = QCOM_SCM_VMID_HLOS;
+> +	new_perms.perm = QCOM_SCM_PERM_EXEC | QCOM_SCM_PERM_WRITE | QCOM_SCM_PERM_READ;
 > +
-> +	chosen {
-> +		bootargs = "nokaslr";
-> +	};
+> +	for (n = 0; n < mem_parcel->n_acl_entries; n++) {
+> +		vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
+> +		if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
+> +			src |= (1ull << vmid);
+> +		else
+> +			src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
+> +	}
 > +
-> +	cpus {
-> +		#address-cells = <0x2>;
-> +		#size-cells = <0>;
+> +	for (i = 0; i < mem_parcel->n_mem_entries; i++) {
+> +		src_cpy = src;
+> +		ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].phys_addr),
+> +						le64_to_cpu(mem_parcel->mem_entries[i].size),
+> +						&src_cpy, &new_perms, 1);
+> +		WARN_ON_ONCE(ret);
+> +	}
 > +
-> +		cpu@0 {
-> +			device_type = "cpu";
-> +			compatible = "arm,armv8";
-> +			reg = <0 0>;
-> +		};
-> +	};
+> +	return ret;
+> +}
 > +
-> +	intc: interrupt-controller@3FFF0000 {
-> +		compatible = "arm,gic-v3";
-> +		#interrupt-cells = <3>;
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		interrupt-controller;
-> +		reg = <0 0x3FFF0000 0 0x10000>,
-> +		      <0 0x3FFD0000 0 0x20000>;
-> +	};
-> +
-> +	timer {
-> +		compatible = "arm,armv8-timer";
-> +		always-on;
-> +		interrupts = <1 13 0x108>,
-> +			     <1 14 0x108>,
-> +			     <1 11 0x108>,
-> +			     <1 10 0x108>;
-> +		clock-frequency = <19200000>;
-> +	};
-> +
-> +	gunyah-vm-config {
-> +		image-name = "linux_vm_0";
-> +
-> +		memory {
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +
-> +			base-address = <0 0x80000000>;
-> +		};
-> +
-> +		interrupts {
-> +			config = <&intc>;
-> +		};
-> +
-> +		vcpus {
-> +			affinity-map = < 0 >;
-> +			sched-priority = < (-1) >;
-> +			sched-timeslice = < 2000 >;
-> +		};
-> +	};
+> +static struct gh_rm_platform_ops qcom_scm_gh_rm_platform_ops = {
+> +	.pre_mem_share = qcom_scm_gh_rm_pre_mem_share,
+> +	.post_mem_reclaim = qcom_scm_gh_rm_post_mem_reclaim,
 > +};
+> +
+> +/* {19bd54bd-0b37-571b-946f-609b54539de6} */
+> +static const uuid_t QCOM_EXT_UUID =
+> +	UUID_INIT(0x19bd54bd, 0x0b37, 0x571b, 0x94, 0x6f, 0x60, 0x9b, 0x54, 0x53, 0x9d, 0xe6);
+> +
+> +#define GH_QCOM_EXT_CALL_UUID_ID	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
+> +							   ARM_SMCCC_OWNER_VENDOR_HYP, 0x3f01)
+> +
+> +static bool gh_has_qcom_extensions(void)
+> +{
+> +	struct arm_smccc_res res;
+> +	uuid_t uuid;
+> +
+> +	arm_smccc_1_1_smc(GH_QCOM_EXT_CALL_UUID_ID, &res);
+> +
+> +	((u32 *)&uuid.b[0])[0] = lower_32_bits(res.a0);
+> +	((u32 *)&uuid.b[0])[1] = lower_32_bits(res.a1);
+> +	((u32 *)&uuid.b[0])[2] = lower_32_bits(res.a2);
+> +	((u32 *)&uuid.b[0])[3] = lower_32_bits(res.a3);
+
+I said this elsewhere.  I'd rather see:
+
+	u32 *u = (u32 *)&uuid;		/* Or &uuid.b? */
+
+	*u++ = lower_32_bits(res.a0);
+		. . .
+
+> +
+> +	return uuid_equal(&uuid, &QCOM_EXT_UUID);
+> +}
+> +
+> +static int __init qcom_gh_platform_hooks_register(void)
+> +{
+> +	if (!gh_has_qcom_extensions())
+> +		return -ENODEV;
+> +
+> +	return gh_rm_register_platform_ops(&qcom_scm_gh_rm_platform_ops);
+> +}
+> +
+> +static void __exit qcom_gh_platform_hooks_unregister(void)
+> +{
+> +	gh_rm_unregister_platform_ops(&qcom_scm_gh_rm_platform_ops);
+> +}
+> +
+> +module_init(qcom_gh_platform_hooks_register);
+> +module_exit(qcom_gh_platform_hooks_unregister);
+> +MODULE_DESCRIPTION("Qualcomm Technologies, Inc. Platform Hooks for Gunyah");
+> +MODULE_LICENSE("GPL");
 
