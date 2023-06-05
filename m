@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CD3C7EE32
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C937C77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:48:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235868AbjFETsI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 15:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56614 "EHLO
+        id S235885AbjFETsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 15:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235857AbjFETsH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 15:48:07 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEE82E5B
-        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:47:50 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id e9e14a558f8ab-33d5df1a862so14152825ab.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:47:50 -0700 (PDT)
+        with ESMTP id S235900AbjFETsQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 15:48:16 -0400
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55AE8E68
+        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:47:55 -0700 (PDT)
+Received: by mail-il1-x12d.google.com with SMTP id e9e14a558f8ab-33b22221da6so21053465ab.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:47:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685994470; x=1688586470;
+        d=linaro.org; s=google; t=1685994474; x=1688586474;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=fS4H1vmagi/9HGtKjLe9H44pep5EenWwrSTFDihg3Hw=;
-        b=ZDJiIJ/ZiS1a0YRKlYQFROx8s/LH38+MySyoMrgxA9Ww4GsGFHanWxA5F5vHIS9vff
-         1TXuh5HdMk57wDZbTLrjJXypkiQM9pFEjeDZ9HwcOdkGFUjNHQr4MMWjt39v2CxCx1pU
-         SpfkMj2EYq9rUIT/XFnn7kJkjJ9RLnj0yyvKg491+USz3/3ShH/CVn46TnyCQR34C9CK
-         6RpsznOJOHqytz8m9iNeQblC72xaUdbjlftuT8gg61m05F0fAP+A69qIm2aVDQ5hq4Yq
-         7ZFNS2p0hVW0WhyObSmzbMadgbEC4NyYcXwmtCBdSWD564UzKy8KeQKKJTgldkii5RnV
-         b9FQ==
+        bh=rm3H1hL3UyU3RqlFttRQWiBz05ketFmwfg40BdOH1ZU=;
+        b=SITkELcFQJDG5gJLFqib9UtoPvUcxRZmTNcu/+i0u/Yq8MM5N6ZAoHLbr7vaSMQaZv
+         C4pG28bC9RBDsYoQKsqzSpr/qi1+61Ut0jNGQDs7zmqyvDi7bkCAswp7pw9brhiSaNzx
+         Bosd7YKGALHP/Sitlx/8YLsM+p0ZxUKufMx0f8Fj+dHE774KcvjUi6vVRKPrrIFxHSPq
+         8EQNjXo2k9taHLUsDb25/Jpb5rPb9zcF9R7wDgPNLLq/PuNFPe7jRlJvGMTPw2DBB/mN
+         mZR1sIKm3nBE+AUpXRvOCIouyzxHLGROqlZ2REAo3atxm6J1iMm1/Uw3LpFe18lug31w
+         jNOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685994470; x=1688586470;
+        d=1e100.net; s=20221208; t=1685994474; x=1688586474;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fS4H1vmagi/9HGtKjLe9H44pep5EenWwrSTFDihg3Hw=;
-        b=HbolgGZvB9EuAOpAX7F/X6zKIpGuIpsL8rqDHLvzhGiAev/4Fv6R7qjpR/hCxaAgXK
-         NgK2MS/kJ9F8j5+reZHO/wE0iAG0nxjnlPqs3ATplp+m/i0CssgOUIbe4sedJs1fgi3W
-         +IQqGEWBX2Wc/achv/yvHQuaV+RQua/qa2X7s4ytMtuTRent1ao1UQ7WztQ43TYmN4Jw
-         lNhpCTIkcKhvWnFMrQ59mEcARt3s+yvN3AaOJUnkpugWsyl7/yol8OV8WcWpI+o2xtNZ
-         fO1C+E7+LlDpZr32spGtt6xDyN/UokPwd+r/2ishpU4F68p/GlWWCOV+XR8cq7tXPx4B
-         lhbA==
-X-Gm-Message-State: AC+VfDz0qQ9gP/MfZZNPUXH3D5U68eLr7Esz+o1UXApIh/ov6qqiy9V0
-        +GLGnaLbQNgY0HhuIKKHScYJGg==
-X-Google-Smtp-Source: ACHHUZ52M/rbpY/BYLeE7U2Ul5H2e1qLHVs2OHOR+ZV048nfZ1FRMFqEHjtFilYA8VbAqkJQcbsTgA==
-X-Received: by 2002:a92:dac5:0:b0:335:908b:8f5 with SMTP id o5-20020a92dac5000000b00335908b08f5mr78375ilq.10.1685994469772;
-        Mon, 05 Jun 2023 12:47:49 -0700 (PDT)
+        bh=rm3H1hL3UyU3RqlFttRQWiBz05ketFmwfg40BdOH1ZU=;
+        b=goHlGsIw+P/aw6RFRlcfznRfQ64csn7pZVr6Y7jbzQfWMc9gv1tjd/tou6bfHv1wl9
+         AUrkaCzGquaGhb1Wgdg4b2QctDdhDzm0hSmDP06lhYy18XcQebG+oVok1NKi4JgHCxxS
+         vhidr9s68jYNgaJ3W3zcc7I/FJ0ZKWlu0kJaj77wp5/uik/c+SASuKpRScmzadw+i2MB
+         AlUDW1Y4rkAcq3bt2hIdDAbUBjduXxtrJkKzgr1CZ0HLgvb7Nlw5OkbfcLY0RDkuGeNx
+         7QhrYLyfS2wO8PmrCGor0yJoM71a7+vBPHubFio27YPJU+gwTqGwrLE/mtz2jbMYimMr
+         JhIQ==
+X-Gm-Message-State: AC+VfDxiCE7Ap0+Bj0UCY2H/f5HkKfktV1doRIxmRyo4ekv9OPTajGkh
+        PPJKTuTmZHLkaNw/mbcHrAq2yw==
+X-Google-Smtp-Source: ACHHUZ7vzn7P9JmR/YlK2PVdEvnBd6GYA0sS+iuOeg4fx7+1R2v4nqdx5QOBIq8wTtCAevPyc9xCog==
+X-Received: by 2002:a92:4a07:0:b0:335:de72:23ca with SMTP id m7-20020a924a07000000b00335de7223camr101291ilf.1.1685994474372;
+        Mon, 05 Jun 2023 12:47:54 -0700 (PDT)
 Received: from [172.22.22.28] ([98.61.227.136])
-        by smtp.gmail.com with ESMTPSA id g12-20020a92d7cc000000b0033d16a45a64sm2582554ilq.14.2023.06.05.12.47.48
+        by smtp.gmail.com with ESMTPSA id x6-20020a92dc46000000b0033d2b3928d1sm2563333ilq.51.2023.06.05.12.47.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 12:47:49 -0700 (PDT)
-Message-ID: <34e595df-021a-8544-2956-d492a07930cb@linaro.org>
-Date:   Mon, 5 Jun 2023 14:47:47 -0500
+        Mon, 05 Jun 2023 12:47:54 -0700 (PDT)
+Message-ID: <181df717-66d1-1054-2f52-07a7fb6601b8@linaro.org>
+Date:   Mon, 5 Jun 2023 14:47:52 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 From:   Alex Elder <elder@linaro.org>
-Subject: Re: [PATCH v13 06/24] gunyah: rsc_mgr: Add resource manager RPC core
+Subject: Re: [PATCH v13 07/24] gunyah: rsc_mgr: Add VM lifecycle RPC
 To:     Elliot Berman <quic_eberman@quicinc.com>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
@@ -79,9 +79,9 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-7-quic_eberman@quicinc.com>
+ <20230509204801.2824351-8-quic_eberman@quicinc.com>
 Content-Language: en-US
-In-Reply-To: <20230509204801.2824351-7-quic_eberman@quicinc.com>
+In-Reply-To: <20230509204801.2824351-8-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -89,178 +89,19 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 5/9/23 3:47 PM, Elliot Berman wrote:
-> The resource manager is a special virtual machine which is always
-> running on a Gunyah system. It provides APIs for creating and destroying
-> VMs, secure memory management, sharing/lending of memory between VMs,
-> and setup of inter-VM communication. Calls to the resource manager are
-> made via message queues.
-> 
-> This patch implements the basic probing and RPC mechanism to make those
-> API calls. Request/response calls can be made with gh_rm_call.
-> Drivers can also register to notifications pushed by RM via
-> gh_rm_register_notifier
-> 
-> Specific API calls that resource manager supports will be implemented in
-> subsequent patches.
+> Add Gunyah Resource Manager RPC to launch an unauthenticated VM.
 > 
 > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 
-I have some comments below, but none is critical so whether or not you
-address what I mention:
+Looks good to me.
 
 Reviewed-by: Alex Elder <elder@linaro.org>
 
 > ---
->   drivers/virt/Makefile          |   1 +
->   drivers/virt/gunyah/Makefile   |   4 +
->   drivers/virt/gunyah/rsc_mgr.c  | 702 +++++++++++++++++++++++++++++++++
->   drivers/virt/gunyah/rsc_mgr.h  |  16 +
->   include/linux/gunyah_rsc_mgr.h |  21 +
->   5 files changed, 744 insertions(+)
->   create mode 100644 drivers/virt/gunyah/Makefile
->   create mode 100644 drivers/virt/gunyah/rsc_mgr.c
->   create mode 100644 drivers/virt/gunyah/rsc_mgr.h
->   create mode 100644 include/linux/gunyah_rsc_mgr.h
-> 
-> diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-> index e9aa6fc96fab..a5817e2d7d71 100644
-> --- a/drivers/virt/Makefile
-> +++ b/drivers/virt/Makefile
-> @@ -12,3 +12,4 @@ obj-$(CONFIG_ACRN_HSM)		+= acrn/
->   obj-$(CONFIG_EFI_SECRET)	+= coco/efi_secret/
->   obj-$(CONFIG_SEV_GUEST)		+= coco/sev-guest/
->   obj-$(CONFIG_INTEL_TDX_GUEST)	+= coco/tdx-guest/
-> +obj-y				+= gunyah/
-> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-> new file mode 100644
-> index 000000000000..0f5aec834698
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/Makefile
-> @@ -0,0 +1,4 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +gunyah-y += rsc_mgr.o
-> +obj-$(CONFIG_GUNYAH) += gunyah.o
-> diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
-> new file mode 100644
-> index 000000000000..88b5beb1ea51
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/rsc_mgr.c
-> @@ -0,0 +1,702 @@
+>   drivers/virt/gunyah/Makefile      |   2 +-
+>   drivers/virt/gunyah/rsc_mgr_rpc.c | 259 ++++++++++++++++++++++++++++++
+>   include/linux/gunyah_rsc_mgr.h    |  73 +++++++++
+>   3 files changed, 333 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
 
 . . .
-
-> +/**
-> + * struct gh_rm - private data for communicating w/Gunyah resource manager
-> + * @dev: pointer to device
-
-This points to the device structure for the RM platform device.
-(Maybe that's clear...)
-
-> + * @tx_ghrsc: message queue resource to TX to RM
-> + * @rx_ghrsc: message queue resource to RX from RM
-> + * @msgq: mailbox instance of TX/RX resources above
-> + * @msgq_client: mailbox client of above msgq
-> + * @active_rx_connection: ongoing gh_rm_connection for which we're receiving fragments
-> + * @last_tx_ret: return value of last mailbox tx
-> + * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
-> + * @next_seq: next ID to allocate (for xa_alloc_cyclic)
-> + * @cache: cache for allocating Tx messages
-> + * @send_lock: synchronization to allow only one request to be sent at a time
-> + * @nh: notifier chain for clients interested in RM notification messages
-> + */
-> +struct gh_rm {
-> +	struct device *dev;
-> +	struct gh_resource tx_ghrsc;
-> +	struct gh_resource rx_ghrsc;
-> +	struct gh_msgq msgq;
-> +	struct mbox_client msgq_client;
-> +	struct gh_rm_connection *active_rx_connection;
-> +	int last_tx_ret;
-> +
-> +	struct xarray call_xarray;
-> +	u32 next_seq;
-> +
-> +	struct kmem_cache *cache;
-> +	struct mutex send_lock;
-> +	struct blocking_notifier_head nh;
-> +};
-> +
-> +/**
-> + * gh_rm_remap_error() - Remap Gunyah resource manager errors into a Linux error code
-> + * @rm_error: "Standard" return value from Gunyah resource manager
-> + */
-> +static inline int gh_rm_remap_error(enum gh_rm_error rm_error)
-
-I suggested something similar last time.  I you are operating
-on an rm_error value, so I would call this gh_rm_error_remap().
-
-> +{
-> +	switch (rm_error) {
-> +	case GH_RM_ERROR_OK:
-> +		return 0;
-> +	case GH_RM_ERROR_UNIMPLEMENTED:
-> +		return -EOPNOTSUPP;
-> +	case GH_RM_ERROR_NOMEM:
-> +		return -ENOMEM;
-> +	case GH_RM_ERROR_NORESOURCE:
-> +		return -ENODEV;
-> +	case GH_RM_ERROR_DENIED:
-> +		return -EPERM;
-> +	case GH_RM_ERROR_BUSY:
-> +		return -EBUSY;
-> +	case GH_RM_ERROR_INVALID:
-> +	case GH_RM_ERROR_ARGUMENT_INVALID:
-> +	case GH_RM_ERROR_HANDLE_INVALID:
-> +	case GH_RM_ERROR_VALIDATE_FAILED:
-> +	case GH_RM_ERROR_MAP_FAILED:
-> +	case GH_RM_ERROR_MEM_INVALID:
-> +	case GH_RM_ERROR_MEM_INUSE:
-> +	case GH_RM_ERROR_MEM_RELEASED:
-> +	case GH_RM_ERROR_VMID_INVALID:
-> +	case GH_RM_ERROR_LOOKUP_FAILED:
-> +	case GH_RM_ERROR_IRQ_INVALID:
-> +	case GH_RM_ERROR_IRQ_INUSE:
-> +	case GH_RM_ERROR_IRQ_RELEASED:
-> +		return -EINVAL;
-> +	default:
-> +		return -EBADMSG;
-> +	}
-> +}
-
-. . .
-
-> +static void gh_rm_process_rply(struct gh_rm *rm, void *msg, size_t msg_size)
-> +{
-> +	struct gh_rm_rpc_reply_hdr *reply_hdr = msg;
-> +	struct gh_rm_connection *connection;
-> +	u16 seq_id;
-> +
-> +	seq_id = le16_to_cpu(reply_hdr->hdr.seq);
-> +	connection = xa_load(&rm->call_xarray, seq_id);
-> +
-> +	if (!connection || connection->msg_id != reply_hdr->hdr.msg_id)
-> +		return;
-
-Do either of the above conditions warrant reporting a warning if
-it occurs?  Or are these expected to be possible--and if either
-occur they're harmless if handled this way?
-
-> +
-> +	if (rm->active_rx_connection)
-> +		gh_rm_abort_connection(rm);
-> +
-> +	if (gh_rm_init_connection_payload(connection, msg, sizeof(*reply_hdr), msg_size)) {
-> +		dev_err(rm->dev, "Failed to alloc connection buffer for sequence %d\n", seq_id);
-> +		/* Send connection complete and error the client. */
-> +		connection->reply.ret = -ENOMEM;
-> +		complete(&connection->reply.seq_done);
-> +		return;
-> +	}
-> +
-> +	connection->reply.rm_error = le32_to_cpu(reply_hdr->err_code);
-> +	rm->active_rx_connection = connection;
-> +}
-
-. . .
-
