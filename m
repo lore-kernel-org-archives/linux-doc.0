@@ -2,106 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7FFC7EE23
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 15:54:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F4DC7EE24
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 16:33:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbjFEPyj convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 11:54:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56524 "EHLO
+        id S229991AbjFEQdl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 12:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjFEPyi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 11:54:38 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DFCC99
-        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 08:54:36 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-98-9yYpkgM7No6H2Bh9opR73w-1; Mon, 05 Jun 2023 16:54:34 +0100
-X-MC-Unique: 9yYpkgM7No6H2Bh9opR73w-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 5 Jun
- 2023 16:54:22 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Mon, 5 Jun 2023 16:54:22 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Thomas Gleixner' <tglx@linutronix.de>,
+        with ESMTP id S235065AbjFEQd3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 12:33:29 -0400
+Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C83E5E40;
+        Mon,  5 Jun 2023 09:33:17 -0700 (PDT)
+Received: from [172.27.2.41] ([73.231.166.163])
+        (authenticated bits=0)
+        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 355GWORK3938757
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Mon, 5 Jun 2023 09:32:26 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 355GWORK3938757
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2023051001; t=1685982748;
+        bh=QzKVr2LoBWHFQbC68p/jgagz+vnQECzay1Xuo/y+g/8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=1em2soU6xzrZzWJ6eJ0F2W2ZLTuU2sc0HBqMtwhLc5Bq+9iEO9/Jw3TxE5uJV/nDX
+         JGoJMStv6xkvY+yeRCzecEqFQ4rcCOm/S+v7kIw6dQrTmLPdmyQd2AGNLBl5/ez4i1
+         59XPlRbiI5YNLiYjT+4UPgzqOeC9P9t65u3I5KLTENI0ZXtkrOzpWu8Vx6h/gHdSe6
+         teuwQwPiAACcffhxljJEOPjRWMOHDm1bhpguq/NXQgVUEaSvq46eRH6DoPl9xRumQ2
+         fjh5+9VjC/hK32y6y18Z2ftg+ofFCrhl5Nf6JRZA9UH6SqRvsPik1gm6DTc5AsHKgs
+         8yGU5xFfYz3DA==
+Message-ID: <4ea6e82c-4761-e0c9-3e75-8ec39eecb30a@zytor.com>
+Date:   Mon, 5 Jun 2023 09:32:24 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: Direct rdtsc call side-effect
+Content-Language: en-US
+To:     David Laight <David.Laight@ACULAB.COM>,
+        "'Thomas Gleixner'" <tglx@linutronix.de>,
         Muhammad Usama Anjum <usama.anjum@collabora.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
         "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-CC:     Steven Noonan <steven@uplinklabs.net>,
+Cc:     Steven Noonan <steven@uplinklabs.net>,
         "kernel@collabora.com" <kernel@collabora.com>
-Subject: RE: Direct rdtsc call side-effect
-Thread-Topic: Direct rdtsc call side-effect
-Thread-Index: AQHZlHOrHGvpd378GUKTvqmuipgWK698BnPAgAA4NYCAACHzkA==
-Date:   Mon, 5 Jun 2023 15:54:22 +0000
-Message-ID: <a39d90e45212461bb31738b7156b60a6@AcuMS.aculab.com>
 References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
  <87mt1jeax1.ffs@tglx> <353732783fde46919fdcf698c326b7ed@AcuMS.aculab.com>
- <87jzwi55qo.ffs@tglx>
-In-Reply-To: <87jzwi55qo.ffs@tglx>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+ <87jzwi55qo.ffs@tglx> <a39d90e45212461bb31738b7156b60a6@AcuMS.aculab.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <a39d90e45212461bb31738b7156b60a6@AcuMS.aculab.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
-> Sent: 05 June 2023 15:44
+On 6/5/23 08:54, David Laight wrote:
+> From: Thomas Gleixner <tglx@linutronix.de>
+>> Sent: 05 June 2023 15:44
+>>
+>> On Mon, Jun 05 2023 at 10:27, David Laight wrote:
+>>> It has to be said that using it as a time source was fundamentally
+>>> a bad idea.
+>>
+>> Too bad you weren't around many moons ago and educated us on that. That
+>> would have saved us lots of trouble and work.
 > 
-> On Mon, Jun 05 2023 at 10:27, David Laight wrote:
-> > It has to be said that using it as a time source was fundamentally
-> > a bad idea.
+> Indeed :-)
+> I do remember thinking the TSC was really a good time source when
+> I first saw it being done about 30 years ago.
 > 
-> Too bad you weren't around many moons ago and educated us on that. That
-> would have saved us lots of trouble and work.
 
-Indeed :-)
-I do remember thinking the TSC was really a good time source when
-I first saw it being done about 30 years ago.
+The TSC is certainly not perfect; partly because, ironically enough, it 
+was introduced just *before* out of order and power management entered 
+the x86 world.
+
+It is no secret that it has been slow to catch up. It was easy to put a 
+counter in; it is a *lot* harder to make it work in all the possible 
+scenarios in the power-managed, out-of-order world.
+
+It is one of my personal pet projects in the architecture work to push 
+to get that last distance; we are not yet there.
 
 > 
-> > Sometimes (eg micro benchmarks) you really want a TSC.
-> > You can extract one from the performance counters, but it is hard,
-> > root only, and the library functions have high and variable overhead.
+> I'm thinking of benchmarking the IP checksum code where you are
+> trying to find out how many bytes/clock the loop is doing.
+> On recent x86-64 the theoretical limit (without fighting AVX) 1s 16
+> bytes/clock, I've measured 12, 8 is relatively easy.
+> (The current asm code runs at 4 on older cpu, doesn't get
+> much above 6 at all.)
 > 
-> Interesting view that high end databases are considered micro benchmarks
-> which need root access.
+> What happens is that the cpu frequency speeds up as soon as the
+> test starts but the TSC frequency stays constants.
+> So you can only use the TSC to measure time, not execution speed.
+> 
+> Run enough copies of 'while :; do :; done &' to make all but one
+> cpu busy and the cpus all speed up giving completely different
+> TSC counts for short loops.
+> 
 
-I'm thinking of benchmarking the IP checksum code where you are
-trying to find out how many bytes/clock the loop is doing.
-On recent x86-64 the theoretical limit (without fighting AVX) 1s 16
-bytes/clock, I've measured 12, 8 is relatively easy.
-(The current asm code runs at 4 on older cpu, doesn't get
-much above 6 at all.)
+That is the reason for architecturally fixed performance counters.
 
-What happens is that the cpu frequency speeds up as soon as the
-test starts but the TSC frequency stays constants.
-So you can only use the TSC to measure time, not execution speed.
-
-Run enough copies of 'while :; do :; done &' to make all but one
-cpu busy and the cpus all speed up giving completely different
-TSC counts for short loops.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+	-hpa
 
