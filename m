@@ -2,61 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6AB8C77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:49:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43238C7EE33
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 19:49:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235941AbjFETtX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 15:49:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57630 "EHLO
+        id S235831AbjFETtZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 15:49:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235835AbjFETtF (ORCPT
+        with ESMTP id S236042AbjFETtF (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 15:49:05 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F8A10CA
-        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:48:41 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-33aa60f4094so16088115ab.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:48:41 -0700 (PDT)
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A23F10D5
+        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 12:48:43 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id e9e14a558f8ab-33bbc91dcb7so26797575ab.3
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 12:48:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685994505; x=1688586505;
+        d=linaro.org; s=google; t=1685994518; x=1688586518;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=CCJxTC/QdIHN1GnfEAwbC+2stOJ6s3qwapkXQDES9zI=;
-        b=Mxq3KNrO9t5P4+wTN0n6VQPCCY/GnWdb2TWR0l27hf+7cUAlO2LuSvPpFA8DRJOJ1T
-         yHzUpWgP3e7xt1/ZfRYPqeg6TFAQP1U9mevenT2R3ym8jloXFW3pIoJVWxhUpit+rZxY
-         UzoToZzJPfEj+BvoazukTmUVvrjAF9mBWwLEZ+xAnf7zZ6YhbVKY8dN2VZ47V90WWnHC
-         dCwS63yfHQmJzaEz/0nnqkH40P3bOvJBOXWD1Z3y80gQmv/Gs4ARsPlMSNoqo3T7RErI
-         hdz7FpC8K9bbUQsPuQgpzXSsnQBetssYm7wJwTJ9iUVXb3BhOFlj28/o6Tb2WP5WSc8C
-         FcmQ==
+        bh=pqz7dKlCFpKHeC1hM9llutxXnmBYOpbsNK/LcnDGjLA=;
+        b=iE7rEZ/5jJEFJkOeyJTDZWDelOFZAqkJA9+l/dzLOqBEhImk+CwYgekGbj4JKgZAEf
+         EayXIDaR5bzrYTKmPrOhq+1fiU/YjtKvOdIHu1q+LIHUE2mtQuEZe0UvNkz/aiHlpUTb
+         GPOr60SnttLPNeVMJJBy2Npq+ZBa5+2875Rau4jT7N65k2mA/fOAYOTCAs7Pgjchfx1r
+         dTnjllpX11zMgBNJDxKBYu9oDfEn9hQQHJNoUogQz4YvL8UbDMghwQcBs5TRp76SKWj+
+         H8Yzfd1E3kzSadZ6tCdKWMj/M5+P1F4FppCV0c5rmkSH+ZauzvZ89vrS49RCXf+cF/ZB
+         XXAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685994505; x=1688586505;
+        d=1e100.net; s=20221208; t=1685994518; x=1688586518;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CCJxTC/QdIHN1GnfEAwbC+2stOJ6s3qwapkXQDES9zI=;
-        b=L00DT0AJhBBMz6BlNVKmOnQLEQKbLBXwNFz95dkuBdp1MiwRt3mR3hPQbBYJDrKDWb
-         ottG9LtS9hR6sEme7L2fHkn1B0TAyW8dhzYnpy4VORGVmuLO5A2njvrCo+4Mlsiup0nA
-         8rSpXkTjTcQ3upvMlsrovLayqB23K9VgZ31mTzoBw08Wq18tWusTTpbWnAnAPNXKPWBa
-         XOiAZitGxl1HeFzqICg8Q8YOnfxFln+wcJ+WugjNXcGzfRKKb6SL3pU5ABxJbCAJAafz
-         yLBsL5P/gfVc3TnXICUscT66VWOBZ8Nh0aviJw7jZAf6B5cjHSvvUoWRjZpjvdJLwu4s
-         k0+A==
-X-Gm-Message-State: AC+VfDxhAPRok0/6DUUcbN9FDePyUmHMhrqc+9tMCh60xD+yHcZF9X/M
-        VRL03NtF+jLqQNRhnGgj+KrG+w==
-X-Google-Smtp-Source: ACHHUZ7ugAPzi9uVbGY8Gzgw9mdLbeSgf/MgIeHnUdMdP/b+cM+PByU07Pbr7UJGLSjdLBaGcfDUfA==
-X-Received: by 2002:a05:6e02:588:b0:337:d335:6469 with SMTP id c8-20020a056e02058800b00337d3356469mr380061ils.5.1685994505338;
-        Mon, 05 Jun 2023 12:48:25 -0700 (PDT)
+        bh=pqz7dKlCFpKHeC1hM9llutxXnmBYOpbsNK/LcnDGjLA=;
+        b=D28d7d4THAVIHeU4ISJJYsPuefnYN+wyG93x1dJ/48p82VDKk93Ge4zlQAz7luDING
+         Xqo/HrDSXUJVEp8M28bfKPaGxyLhwwE9U1BAD8iT5UvNpR6iS6YRr1kx3Wwwad0VAwIM
+         j0u16qyjDi3vlY0wltKnfvLhwbDWSGqfjGHAA5p+CXIyxrEfwlFx83CGObhuy34j+f8Z
+         OUpN9hEK1qxmNkXSO9yM69sNsCZdtOkWvR6JP8d68mzDMd0vKqC7k8+H8wZEFY0h6OqZ
+         a2dWOHLfwdAdBjFIph39cc2JJmGLQJaSfyb34IqaaiJHs6NiIEOSocfm3eLXn6COqnMB
+         t0gw==
+X-Gm-Message-State: AC+VfDxZ6Rx609/ttLOUeoCbJchb0zT12RTu8V82caQY/EwKI1Uda0cc
+        sBj6dI4riHGa4oytdh8+txB64Q==
+X-Google-Smtp-Source: ACHHUZ6TdCehFloH2eMhgF6TB0a01z4a2fQfHv42ISig5LnVp7kPTKBiIS5RncSPu9gGyCXCtH3qyA==
+X-Received: by 2002:a5e:8b47:0:b0:777:b7a0:75d7 with SMTP id z7-20020a5e8b47000000b00777b7a075d7mr203183iom.13.1685994518678;
+        Mon, 05 Jun 2023 12:48:38 -0700 (PDT)
 Received: from [172.22.22.28] ([98.61.227.136])
-        by smtp.gmail.com with ESMTPSA id e4-20020a02caa4000000b0041ac54cbc60sm1848087jap.56.2023.06.05.12.48.23
+        by smtp.gmail.com with ESMTPSA id y28-20020a02ce9c000000b0041684163ee1sm710229jaq.146.2023.06.05.12.48.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 12:48:24 -0700 (PDT)
-Message-ID: <028b5a7f-7d7d-178d-be74-6c93368e06f5@linaro.org>
-Date:   Mon, 5 Jun 2023 14:48:23 -0500
+        Mon, 05 Jun 2023 12:48:38 -0700 (PDT)
+Message-ID: <e57c3c7c-a557-30f1-ffa1-8ead67d3ef2c@linaro.org>
+Date:   Mon, 5 Jun 2023 14:48:37 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 From:   Alex Elder <elder@linaro.org>
-Subject: Re: [PATCH v13 11/24] gunyah: vm_mgr: Add ioctls to support basic
- non-proxy VM boot
+Subject: Re: [PATCH v13 13/24] gunyah: rsc_mgr: Add platform ops on
+ mem_lend/mem_reclaim
 To:     Elliot Berman <quic_eberman@quicinc.com>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
@@ -80,9 +80,9 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-12-quic_eberman@quicinc.com>
+ <20230509204801.2824351-14-quic_eberman@quicinc.com>
 Content-Language: en-US
-In-Reply-To: <20230509204801.2824351-12-quic_eberman@quicinc.com>
+In-Reply-To: <20230509204801.2824351-14-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -90,65 +90,123 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 5/9/23 3:47 PM, Elliot Berman wrote:
-> Add remaining ioctls to support non-proxy VM boot:
-> 
->   - Gunyah Resource Manager uses the VM's devicetree to configure the
->     virtual machine. The location of the devicetree in the guest's
->     virtual memory can be declared via the SET_DTB_CONFIG ioctl.
->   - Trigger start of the virtual machine with VM_START ioctl.
-> 
-> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> On Qualcomm platforms, there is a firmware entity which controls access
+> to physical pages. In order to share memory with another VM, this entity
+> needs to be informed that the guest VM should have access to the memory.
 
-I point out a spelling error, but otherwise this looks OK to me.
+You might be able to avoid the lock by using rcu_assign_pointer() and
+rcu_dereference(), but I'm not recommending it (because I'm not sure).
+
+I have one more suggestion below.
 
 Reviewed-by: Alex Elder <elder@linaro.org>
 
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > ---
->   drivers/virt/gunyah/vm_mgr.c    | 215 ++++++++++++++++++++++++++++++++
->   drivers/virt/gunyah/vm_mgr.h    |  11 ++
->   drivers/virt/gunyah/vm_mgr_mm.c |  20 +++
->   include/uapi/linux/gunyah.h     |  15 +++
->   4 files changed, 261 insertions(+)
+>   drivers/virt/gunyah/Kconfig                 |  4 ++
+>   drivers/virt/gunyah/Makefile                |  2 +
+>   drivers/virt/gunyah/gunyah_platform_hooks.c | 80 +++++++++++++++++++++
+>   drivers/virt/gunyah/rsc_mgr.h               |  3 +
+>   drivers/virt/gunyah/rsc_mgr_rpc.c           | 18 ++++-
+>   include/linux/gunyah_rsc_mgr.h              | 17 +++++
+>   6 files changed, 122 insertions(+), 2 deletions(-)
+>   create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
 > 
-
-
-. . .
-
-> +static int gh_vm_ensure_started(struct gh_vm *ghvm)
+> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+> index 1a737694c333..de815189dab6 100644
+> --- a/drivers/virt/gunyah/Kconfig
+> +++ b/drivers/virt/gunyah/Kconfig
+> @@ -4,6 +4,7 @@ config GUNYAH
+>   	tristate "Gunyah Virtualization drivers"
+>   	depends on ARM64
+>   	depends on MAILBOX
+> +	select GUNYAH_PLATFORM_HOOKS
+>   	help
+>   	  The Gunyah drivers are the helper interfaces that run in a guest VM
+>   	  such as basic inter-VM IPC and signaling mechanisms, and higher level
+> @@ -11,3 +12,6 @@ config GUNYAH
+>   
+>   	  Say Y/M here to enable the drivers needed to interact in a Gunyah
+>   	  virtual environment.
+> +
+> +config GUNYAH_PLATFORM_HOOKS
+> +	tristate
+> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+> index bacf78b8fa33..4fbeee521d60 100644
+> --- a/drivers/virt/gunyah/Makefile
+> +++ b/drivers/virt/gunyah/Makefile
+> @@ -1,4 +1,6 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   
+> +obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
+> +
+>   gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
+>   obj-$(CONFIG_GUNYAH) += gunyah.o
+> diff --git a/drivers/virt/gunyah/gunyah_platform_hooks.c b/drivers/virt/gunyah/gunyah_platform_hooks.c
+> new file mode 100644
+> index 000000000000..60da0e154e98
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/gunyah_platform_hooks.c
+> @@ -0,0 +1,80 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/rwsem.h>
+> +#include <linux/gunyah_rsc_mgr.h>
+> +
+> +#include "rsc_mgr.h"
+> +
+> +static struct gh_rm_platform_ops *rm_platform_ops;
+> +static DECLARE_RWSEM(rm_platform_ops_lock);
+> +
+> +int gh_rm_platform_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
 > +{
-> +	int ret;
+> +	int ret = 0;
 > +
-> +	ret = down_read_interruptible(&ghvm->status_lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Unlikely because VM is typically started */
-> +	if (unlikely(ghvm->vm_status == GH_RM_VM_STATUS_NO_STATE)) {
-> +		up_read(&ghvm->status_lock);
-> +		ret = gh_vm_start(ghvm);
-> +		if (ret)
-> +			return ret;
-> +		/** gh_vm_start() is guaranteed to bring status out of
-> +		 * GH_RM_VM_STATUS_LOAD, thus inifitely recursive call is not
-
-s/inifitely/infinitely/
-
-> +		 * possible
-> +		 */
-> +		return gh_vm_ensure_started(ghvm);
-> +	}
-> +
-> +	/* Unlikely because VM is typically running */
-> +	if (unlikely(ghvm->vm_status != GH_RM_VM_STATUS_RUNNING))
-> +		ret = -ENODEV;
-> +
-> +	up_read(&ghvm->status_lock);
+> +	down_read(&rm_platform_ops_lock);
+> +	if (rm_platform_ops && rm_platform_ops->pre_mem_share)
+> +		ret = rm_platform_ops->pre_mem_share(rm, mem_parcel);
+> +	up_read(&rm_platform_ops_lock);
 > +	return ret;
 > +}
+> +EXPORT_SYMBOL_GPL(gh_rm_platform_pre_mem_share);
 > +
->   static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->   {
->   	struct gh_vm *ghvm = filp->private_data;
+> +int gh_rm_platform_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
+> +{
+> +	int ret = 0;
+> +
+> +	down_read(&rm_platform_ops_lock);
+> +	if (rm_platform_ops && rm_platform_ops->post_mem_reclaim)
+> +		ret = rm_platform_ops->post_mem_reclaim(rm, mem_parcel);
+> +	up_read(&rm_platform_ops_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_platform_post_mem_reclaim);
+> +
+> +int gh_rm_register_platform_ops(struct gh_rm_platform_ops *platform_ops)
+
+Can (should) platform_ops be declared as const?  (I think it can,
+that would be better as long as you don't expect operation function
+pointers to be added after registration.)  If you do that, all such
+arguments will probably need to be updated to pointer-to-const.
+
+
+> +{
+> +	int ret = 0;
+> +
+> +	down_write(&rm_platform_ops_lock);
+> +	if (!rm_platform_ops)
+> +		rm_platform_ops = platform_ops;
+> +	else
+> +		ret = -EEXIST;
+> +	up_write(&rm_platform_ops_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_register_platform_ops);
 . . .
+
