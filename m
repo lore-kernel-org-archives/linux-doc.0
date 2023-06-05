@@ -2,188 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92511C7EE23
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 10:55:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5095C77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 11:39:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbjFEKzJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 06:55:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59856 "EHLO
+        id S229494AbjFELje (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 07:39:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232072AbjFEKyy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 06:54:54 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15766F1;
-        Mon,  5 Jun 2023 03:54:51 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-650352b89f6so2210071b3a.0;
-        Mon, 05 Jun 2023 03:54:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685962490; x=1688554490;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xgcgjvcFqJ16hUvgLs2bTi5nsSAAxgHJ3nGSH16Iezs=;
-        b=qNy9NVkLEUujmwerpRY8KnA7c5hcI5UYt8nLGJEfR0SKXjyZ92BNz8rhuIF0qxl7aX
-         PWW8H3wvdXqu1C/AaEpV7PJsO1VQPrvZ9r66bEjv3KSblQ5e8CuoyEIqEpBFzqyn+fSD
-         ejxSQmbNX01rbFWuoL2xp2Ul9EcdCM82OxPbYf9Q4j02lMYW7Qeh0I081jWb/kPtQB1y
-         K36/UBfNBBMIRuul5cX6oO68vnyeTYYHztTCZPVc2DZRmG9j4BPXIAQzo/t5A1GFTWeO
-         LqCEyCTnuH4706o/krmUW9FO7/tTZF9rvloqGTKuDeYo55v2h02dZ5dqdxkvbEKuGUUa
-         FIGA==
+        with ESMTP id S232680AbjFELjd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 07:39:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 611D219C
+        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 04:38:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1685965117;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nw6c3Frym7PEsE78EAla72qbR0TE8qr6R9Rp/jfKLzY=;
+        b=c3KCDTA2x1/0uawrkpqtcSTPcNEpw8/R8gs9uTdC2Ia8khwdFXe1DsB+oOtNhuP48Ti78L
+        mpA27sLC6hiSFaZ/p4oDwOh7YtQJtk6pO9FPPK5WZN6Bki08eO+PMxUwPDhwVr1oMIv8Sr
+        CA7auRZ7su/duDubpbEnziB27EbXPvg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-223-z6q2SHmjPzy419GozaQ6xQ-1; Mon, 05 Jun 2023 07:38:36 -0400
+X-MC-Unique: z6q2SHmjPzy419GozaQ6xQ-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-3f7678c74beso6204175e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 04:38:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685962490; x=1688554490;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xgcgjvcFqJ16hUvgLs2bTi5nsSAAxgHJ3nGSH16Iezs=;
-        b=WNAQtNHH15B9GJQld6lD98LJ4wyVcDZUevsb1kM98oygD5qqzkt4xcKPz3rdR00sXY
-         sFbfNw+1WHbRIeB2t7PUkuBBvY58FUCuXhKhJm6vo5MroW/i+DHCbL1Gkm4zdvvYEEaA
-         mTB/gESYrHf6aKtv/rLc1ZKXmexmGyukS+69qYBPW7AuXmY3lSHVaFt4eUOmNBSQB69Z
-         /F70O+SRpkqX6UrMQeVOzzZp3o/ID3Ijcnj05XCsCs/SHilzFqBrUmHJlFjYGTfJoTB0
-         Y80xxbKIjNLTylvHYPcTDRG1N95u4IsPhSLu37oraJTOZ6ZOHUTMgBNipnfix+Pimp0t
-         /S7w==
-X-Gm-Message-State: AC+VfDzf6gTayg4HL9QwFazwNMvHT82Hh5YmHKI/XdFpGQkEhuZOY6WE
-        O5tO2QXUVVIiRo23cpihh94=
-X-Google-Smtp-Source: ACHHUZ7bI67fM9JC8fBlc4gJJbjHk34ajtFWisoCdHmD6arrU7/k9D1h4qusPKrbNSe+CBmqSlJmdA==
-X-Received: by 2002:a05:6a20:1451:b0:101:282c:2b with SMTP id a17-20020a056a20145100b00101282c002bmr1857364pzi.32.1685962490313;
-        Mon, 05 Jun 2023 03:54:50 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-71.three.co.id. [180.214.233.71])
-        by smtp.gmail.com with ESMTPSA id jf12-20020a170903268c00b001b176d96da0sm6345746plb.78.2023.06.05.03.54.44
+        d=1e100.net; s=20221208; t=1685965115; x=1688557115;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nw6c3Frym7PEsE78EAla72qbR0TE8qr6R9Rp/jfKLzY=;
+        b=DY1ch1spRoE1ajb1aSd5nif7/sDX6luduKRfTlGm4CFUz5fjk7qhZqjr06bXMAKqEQ
+         45z8lNfFT5CedSHuq3kOucoMghpx9Ifb4g7+mHWaW8fWSXQPZ50rTh+LJS6bdyaCwVDR
+         Wqf8f/3NlhHuhLRTOiopBmdIZbIv5VMFAk9Yq+sjNwEkpdEiuzcMEEpAdbTgOPeJCfqO
+         5hogKvG8+xlpHqinJAD+UCLwQaIWFLo7Nr8hBNgpLmgO3M+AuT7XECZH7+GHwZRvamLA
+         TVJplv2ZeISI+pVavbkGr122gyiJbR8/o+FgP2nhHLtgAVwOUR/jHUSq+QQ4vsyGWjUT
+         tVpw==
+X-Gm-Message-State: AC+VfDyqXg11Zk90r9CYpCSlJ4ys2z3iMZGTBVLr8SwM6eZMaKjuA3KP
+        YKoja3gyYJtPFPf7Sb/aLrzPMY4A9mQ9zjtAkEbcPBRqbtT1sQk4UFJXpApKVadi54biXPBXDhd
+        bKIRxkFQO+oM/fJ5laAVX
+X-Received: by 2002:a05:600c:294b:b0:3f2:549b:3ef2 with SMTP id n11-20020a05600c294b00b003f2549b3ef2mr7114531wmd.17.1685965115489;
+        Mon, 05 Jun 2023 04:38:35 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4kvL4JlLeuJgsapJ+Y6U3lmqfa/03WInR1fTsMNi3NgkfaVjGeDxgrx8WocL5SlrBLyA73Ng==
+X-Received: by 2002:a05:600c:294b:b0:3f2:549b:3ef2 with SMTP id n11-20020a05600c294b00b003f2549b3ef2mr7114527wmd.17.1685965115287;
+        Mon, 05 Jun 2023 04:38:35 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c737:8f00:ed9:16b8:4e22:5820? (p200300cbc7378f000ed916b84e225820.dip0.t-ipconnect.de. [2003:cb:c737:8f00:ed9:16b8:4e22:5820])
+        by smtp.gmail.com with ESMTPSA id q13-20020a05600c46cd00b003f1978bbcd6sm24406738wmo.3.2023.06.05.04.38.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jun 2023 03:54:49 -0700 (PDT)
-Message-ID: <91fc8d61-1a34-bc37-41c1-1528ff93c654@gmail.com>
-Date:   Mon, 5 Jun 2023 17:54:43 +0700
+        Mon, 05 Jun 2023 04:38:34 -0700 (PDT)
+Message-ID: <c9ff1306-9918-5ca5-6578-9a05a164de26@redhat.com>
+Date:   Mon, 5 Jun 2023 13:38:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v8 01/12] Documentation/x86: Document Key Locker
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 11/11] Documentation: kselftest: "make headers" is a
+ prerequisite
 Content-Language: en-US
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>,
-        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dm-devel@redhat.com
-Cc:     ebiggers@kernel.org, elliott@hpe.com, gmazyland@gmail.com,
-        luto@kernel.org, dave.hansen@linux.intel.com, tglx@linutronix.de,
-        bp@alien8.de, mingo@kernel.org, x86@kernel.org,
-        herbert@gondor.apana.org.au, ardb@kernel.org,
-        dan.j.williams@intel.com, bernie.keany@intel.com,
-        charishma1.gairuboyina@intel.com,
-        lalithambika.krishnakumar@intel.com, nhuck@google.com,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <20230524165717.14062-1-chang.seok.bae@intel.com>
- <20230603152227.12335-1-chang.seok.bae@intel.com>
- <20230603152227.12335-2-chang.seok.bae@intel.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230603152227.12335-2-chang.seok.bae@intel.com>
-Content-Type: text/plain; charset=UTF-8
+To:     John Hubbard <jhubbard@nvidia.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20230603021558.95299-1-jhubbard@nvidia.com>
+ <20230603021558.95299-12-jhubbard@nvidia.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230603021558.95299-12-jhubbard@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/3/23 22:22, Chang S. Bae wrote:
-> +==============
-> +x86 Key Locker
-> +==============
-> +
-> +Introduction
-> +============
-> +
-> +Key Locker is a CPU feature to reduce key exfiltration opportunities
-> +while maintaining a programming interface similar to AES-NI. It
-> +converts the AES key into an encoded form, called the 'key handle'.
-> +The key handle is a wrapped version of the clear-text key where the
-> +wrapping key has limited exposure. Once converted, all subsequent data
-> +encryption using new AES instructions (AES-KL) uses this key handle,
-> +reducing the exposure of private key material in memory.
-> +
-> +CPU-internal Wrapping Key
-> +=========================
-> +
-> +The CPU-internal wrapping key is an entity in a software-invisible CPU
-> +state. On every system boot, a new key is loaded. So the key handle that
-> +was encoded by the old wrapping key is no longer usable on system shutdown
-> +or reboot.
-> +
-> +And the key may be lost on the following exceptional situation upon wakeup:
-> +
-> +Wrapping Key Restore Failure
-> +----------------------------
-> +
-> +The CPU state is volatile with the ACPI S3/4 sleep states. When the system
-> +supports those states, the key has to be backed up so that it is restored
-> +on wake up. The kernel saves the key in non-volatile media.
-> +
-> +The event of a wrapping key restore failure upon resume from suspend, all
-> +established key handles become invalid. In flight dm-crypt operations
-> +receive error results from pending operations. In the likely scenario that
-> +dm-crypt is hosting the root filesystem the recovery is identical to if a
-> +storage controller failed to resume from suspend, reboot. If the volume
-"... resume from suspend or reboot."
-> +impacted by a wrapping key restore failure is a data-volume then it is
-> +possible that I/O errors on that volume do not bring down the rest of the
-> +system. However, a reboot is still required because the kernel will have
-> +soft-disabled Key Locker. Upon the failure, the crypto library code will
-> +return -ENODEV on every AES-KL function call. The Key Locker implementation
-> +only loads a new wrapping key at initial boot, not any time after like
-> +resume from suspend.
-> +
-> +Use Case and Non-use Cases
-> +==========================
-> +
-> +Bare metal disk encryption is the only intended use case.
-> +
-> +Userspace usage is not supported because there is no ABI provided to
-> +communicate and coordinate wrapping-key restore failure to userspace. For
-> +now, key restore failures are only coordinated with kernel users. But the
-> +kernel can not prevent userspace from using the feature's AES instructions
-> +('AES-KL') when the feature has been enabled. So, the lack of userspace
-> +support is only documented, not actively enforced.
-> +
-> +Key Locker is not expected to be advertised to guest VMs and the kernel
-> +implementation ignores it even if the VMM enumerates the capability. The
-> +expectation is that a guest VM wants private wrapping key state, but the
-> +architecture does not provide that. An emulation of that capability, by
-> +caching per-VM wrapping keys in memory, defeats the purpose of Key Locker.
-> +The backup / restore facility is also not performant enough to be suitable
-> +for guest VM context switches.
-> +
-> +AES Instruction Set
-> +===================
-> +
-> +The feature accompanies a new AES instruction set. This instruction set is
-> +analogous to AES-NI. A set of AES-NI instructions can be mapped to an
-> +AES-KL instruction. For example, AESENC128KL is responsible for ten rounds
-> +of transformation, which is equivalent to nine times AESENC and one
-> +AESENCLAST in AES-NI.
-> +
-> +But they have some notable differences:
-> +
-> +* AES-KL provides a secure data transformation using an encrypted key.
-> +
-> +* If an invalid key handle is provided, e.g. a corrupted one or a handle
-> +  restriction failure, the instruction fails with setting RFLAGS.ZF. The
-> +  crypto library implementation includes the flag check to return -EINVAL.
-> +  Note that this flag is also set if the wrapping key is changed, e.g.,
-> +  because of the backup error.
-> +
-> +* AES-KL implements support for 128-bit and 256-bit keys, but there is no
-> +  AES-KL instruction to process an 192-bit key. The AES-KL cipher
-> +  implementation logs a warning message with a 192-bit key and then falls
-> +  back to AES-NI. So, this 192-bit key-size limitation is only documented,
-> +  not enforced. It means the key will remain in clear-text in memory. This
-> +  is to meet Linux crypto-cipher expectation that each implementation must
-> +  support all the AES-compliant key sizes.
-> +
-> +* Some AES-KL hardware implementation may have noticeable performance
-> +  overhead when compared with AES-NI instructions.
-> +
+On 03.06.23 04:15, John Hubbard wrote:
+> As per a discussion with Muhammad Usama Anjum [1], the following is how
+> one is supposed to build selftests:
+> 
+>      make headers && make -C tools/testing/selftests/mm
+> 
+> However, that's not yet documented anywhere. So add it to
+> Documentation/dev-tools/kselftest.rst .
+> 
+> [1] https://lore.kernel.org/all/bf910fa5-0c96-3707-cce4-5bcc656b6274@collabora.com/
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> ---
+>   Documentation/dev-tools/kselftest.rst | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+> index 12b575b76b20..6e35d042199c 100644
+> --- a/Documentation/dev-tools/kselftest.rst
+> +++ b/Documentation/dev-tools/kselftest.rst
+> @@ -36,6 +36,7 @@ Running the selftests (hotplug tests are run in limited mode)
+>   
+>   To build the tests::
+>   
+> +  $ make headers
+>     $ make -C tools/testing/selftests
+>   
+>   To run the tests::
 
-The rest is LGTM, thanks!
-
-Anyway,
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
-An old man doll... just what I always wanted! - Clara
+Cheers,
+
+David / dhildenb
 
