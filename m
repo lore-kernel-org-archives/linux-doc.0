@@ -2,129 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13759C77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 14:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35277C77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 14:44:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233929AbjFEObm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 10:31:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
+        id S232837AbjFEOoC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 10:44:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233448AbjFEObl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 10:31:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D85E9;
-        Mon,  5 Jun 2023 07:31:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0C1A462077;
-        Mon,  5 Jun 2023 14:31:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3745BC4339B;
-        Mon,  5 Jun 2023 14:31:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685975499;
-        bh=mrOtizINhh5fwcPJizUYE/rj2XWhdL1zZyiYvybGQy0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ipUDWWw91EH6WtuSoZK4XL6EcAt2gTqwhl+h3IOz3di7bYV00b/T/zOXk/p4Ju31h
-         c4AdttDWyfVpNILj2dEM9x3F7vusCqfB7bxt/TejnJmyRkzif3EKIcXYl54VxmHKL8
-         bQiIp0oLAoAsQVlNh2rbhqLTeLSXShn6is1Y2aaewZav/zEEUisL9ZxpxYm6KzuPVJ
-         oh7IxDtgC1Xse94PiLhzHr2teO1eAlow7zSV9NbMbL10lLxSL83SE87Fqm3WEwOYqE
-         2bUuLcFRAC1Mqxbx77lvECE55OK9AO+2snJL279hxAz51Aai6EevkbrgBQ0HmrEy2Q
-         F0pvcXDa5IP7w==
-Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
-        id E3B0240692; Mon,  5 Jun 2023 11:31:36 -0300 (-03)
-Date:   Mon, 5 Jun 2023 11:31:36 -0300
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Andrew Jones <ajones@ventanamicro.com>,
+        with ESMTP id S232958AbjFEOoC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 10:44:02 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40FA49C;
+        Mon,  5 Jun 2023 07:44:01 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1685976239;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Yu8yb2dMCQCeQyNY1nsYlHKgfhBjDttjfMXiSlTo35k=;
+        b=wkeKIqvikWtIbmarvgI7c1qD64y8lAjpTFP4POEo8RpT5Gb04ueDK6KMUTImZAfAVK0pmc
+        qmFrbu0vGSxz/MAZ06gBt92VcOWtG1xy09CbvWYSM+5yaMTMaT4bTAIHM3UHCwDZmbkVd1
+        XfYS9r01Brn9aEqx0ZJNyHyQqoyHQ+rAL5prUG5gdvzSGMDbgUdf5RVoVO2oD2ehtOK+Mi
+        fiY8qadg1nlHpRRuGQAvCIPpNUFQgYlxKblEYbKQuiqUZi5pokF9Cw0I4T5+OzbocpzzIb
+        rlG3Q3H2BuCpbqWKYYvfO+EEukCgLUI5oijxgeQmgm9htCGyoIYv9t78nqHN9A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1685976239;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Yu8yb2dMCQCeQyNY1nsYlHKgfhBjDttjfMXiSlTo35k=;
+        b=mGTycwY1wOkkE9XanANgMyGs568fQpM7xE3JHTc2pqw/l5dmCPXWcDC0F+HZQmyn1kKYn7
+        xxlDu0MXR9YM04Dw==
+To:     David Laight <David.Laight@ACULAB.COM>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 10/10] perf: tests: Adapt mmap-basic.c for riscv
-Message-ID: <ZH3xyJkEf1b51Ydy@kernel.org>
-References: <20230512085321.13259-1-alexghiti@rivosinc.com>
- <20230512085321.13259-11-alexghiti@rivosinc.com>
- <20230531-31bd9ddeaca8cb338f81ed14@orel>
- <ZH3ovt4WnTJuTinF@kernel.org>
- <CAHVXubhofC+WaSysWaxcTA2GdJAF8kTD3COBeQDAy25af_rSLg@mail.gmail.com>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Steven Noonan <steven@uplinklabs.net>,
+        "kernel@collabora.com" <kernel@collabora.com>
+Subject: RE: Direct rdtsc call side-effect
+In-Reply-To: <353732783fde46919fdcf698c326b7ed@AcuMS.aculab.com>
+References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
+ <87mt1jeax1.ffs@tglx> <353732783fde46919fdcf698c326b7ed@AcuMS.aculab.com>
+Date:   Mon, 05 Jun 2023 16:43:59 +0200
+Message-ID: <87jzwi55qo.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHVXubhofC+WaSysWaxcTA2GdJAF8kTD3COBeQDAy25af_rSLg@mail.gmail.com>
-X-Url:  http://acmel.wordpress.com
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, Jun 05, 2023 at 04:00:12PM +0200, Alexandre Ghiti escreveu:
-> On Mon, Jun 5, 2023 at 3:53 PM Arnaldo Carvalho de Melo <acme@kernel.org>
-> wrote:
-> 
-> > Em Wed, May 31, 2023 at 05:15:15PM +0200, Andrew Jones escreveu:
-> > > On Fri, May 12, 2023 at 10:53:21AM +0200, Alexandre Ghiti wrote:
-> > > > riscv now supports mmaping hardware counters to userspace so adapt the
-> > test
-> > > > to run on this architecture.
-> > > >
-> > > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > > > ---
-> > > >  tools/perf/tests/mmap-basic.c | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/tools/perf/tests/mmap-basic.c
-> > b/tools/perf/tests/mmap-basic.c
-> > > > index e68ca6229756..f5075ca774f8 100644
-> > > > --- a/tools/perf/tests/mmap-basic.c
-> > > > +++ b/tools/perf/tests/mmap-basic.c
-> > > > @@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] = {
-> > > >                      "permissions"),
-> > > >     TEST_CASE_REASON("User space counter reading of instructions",
-> > > >                      mmap_user_read_instr,
-> > > > -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> > > > +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> > || __riscv_xlen == 64
-> > > >                      "permissions"
-> > > >  #else
-> > > >                      "unsupported"
-> > > > @@ -292,7 +292,7 @@ static struct test_case tests__basic_mmap[] = {
-> > > >             ),
-> > > >     TEST_CASE_REASON("User space counter reading of cycles",
-> > > >                      mmap_user_read_cycles,
-> > > > -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> > > > +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> > || __riscv_xlen == 64
-> > > >                      "permissions"
-> > > >  #else
-> > > >                      "unsupported"
-> > > > --
-> > > > 2.37.2
-> > > >
-> > >
-> > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> >
-> > Was the kernel part merged upstream?
-> >
-> 
-> No, I still haven't answered the reviews :)
+On Mon, Jun 05 2023 at 10:27, David Laight wrote:
+> It has to be said that using it as a time source was fundamentally
+> a bad idea.
 
-Ok, I'll then wait for it to happen to consider merging the userland
-parts,
+Too bad you weren't around many moons ago and educated us on that. That
+would have saved us lots of trouble and work.
+
+> Sometimes (eg micro benchmarks) you really want a TSC.
+> You can extract one from the performance counters, but it is hard,
+> root only, and the library functions have high and variable overhead.
+
+Interesting view that high end databases are considered micro benchmarks
+which need root access.
+
+I'm sure you already talked to the developers of such code how they can
+elimiate their performance problems when VDSO/TSC time queries are not
+available.
+
+Alternatively you have a replacement implementation to make VDSO work
+with the same performance and precision based on (potentially
+non-existing) legacy time sources.
+
+There are damned good practical reasons, why we spent a lot of effort to
+implement VDSO and make TSC usable at least on any modern platform.
+Micro-benchmarks are definitely not one of those reasons.
 
 Thanks,
 
-- Arnaldo
+        tglx
+
+
