@@ -2,165 +2,198 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6892C7EE23
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 20:27:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E1AFC77B73
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 21:32:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232296AbjFEU1l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 16:27:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51340 "EHLO
+        id S231836AbjFEVcC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 17:32:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232454AbjFEU1k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 16:27:40 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB8F298;
-        Mon,  5 Jun 2023 13:27:35 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1b01dac1a82so27949405ad.2;
-        Mon, 05 Jun 2023 13:27:35 -0700 (PDT)
+        with ESMTP id S231358AbjFEVbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 17:31:51 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6853C5
+        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 14:31:49 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f7353993cbso17244805e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 14:31:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685996855; x=1688588855;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IcWiwa0YHCZMhNxhxBqh5ZQM/CWxwyBQyza33kkTAC0=;
-        b=i8JXhA9zZMx49v6PRp16clRpN55RyyktDBCfAeBEFfFnEgBqXEDKSYt5ZAyi47e2uf
-         Y/KK46uCWEJLuizeei3enQGeTIl69jOUY8zzIOeGmy3aM/zO7xwfOV+YSbg9EV0cg3G5
-         hqztIAp2GcduSsce4mxSdP04CxAfOcqixllrUe0J8cFFjAlTpii8qkv+EVJQ/+JgZrMh
-         jwbkaENVdINA4RprEbsTX78c//E3/Kj+Oj57bnekhvsKtWG1usE1kmO636cgxZsrWRL+
-         k/INory2HDFdwDxgptcLlPMiQ/obxvaq2ZlTJU/Oba5Vr1E31iY6gKks/921N+Jkqh+K
-         G7wQ==
+        d=linaro.org; s=google; t=1686000708; x=1688592708;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vsMxNf5Vwnvm2j+EraOyZ9qeS4I0RPX8I6SvaUZOdto=;
+        b=HlPR1u+9slU6Kh0sKqpFxjLqAhj3HVgrM5rhkeVdQzg+ltKR7EjgTtrIsKCe3n9y93
+         pNyT45KPRtzDHaC4zX4ffuzdhyE0a5W37rBANoOQaFuCeblYnozvrtA2hlUw3PrwNzIf
+         YhIxUIbFtyC92xac1lgdQ0zXVqUCaxOEsX72Tk+O3UsP9sNPUOGzzjVPB2bneZ+UiVob
+         E2pK/G1qKpvsmB4CvO8TvDkP2B53bbi/4AN4dhjFZhnq7T7nOVtt68guUXGQqkvddmDH
+         uYduFaoiEJbzE2y0+ltWXjSIR0gmkws4abvzQ4zzO8nDAIaHD48A3TUZnlMJWbsmoyEZ
+         x5dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685996855; x=1688588855;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IcWiwa0YHCZMhNxhxBqh5ZQM/CWxwyBQyza33kkTAC0=;
-        b=LXFww5SFr1rKtWcR21+NwHPRcl2aXbZ0nP0Va3Dxa0ddJfthKb611dICo+q7hnaFzr
-         2XCaVdLyPZV6gmoxrVf1KFfaWEnmThdvxYDPFpAGW/boOPNFAa/Dv9bnluIkEHA95ikn
-         V9kkcXcSaw9qIkneCz9w+qlH1d96zy02LUDBLZsw8SdiVTRpKEWBwK1wsDm9MJ9Eo9Wc
-         tWHUDTuoWPU8KbA+SHam9U03uvHlAPli7FfcErd3ZAnTKMmJ1t4u65Kg/V2e4mlMgQ5a
-         BMSECW/Kx3VyFEM5Lg8yvqKaVEBhcWGupvBzI5v+O2w7HcSEHrtTN82UTnpvj8ThxpaV
-         GOuA==
-X-Gm-Message-State: AC+VfDwS9mVoawOJTm0ky2UCzHjrExuG+cc5PrbXnWfor9YmeFbno/U+
-        GAnDtgodlOjwKi/Lreg019M=
-X-Google-Smtp-Source: ACHHUZ63hqcvm7/z6JK1ec5e9pDq0SLHV1VII+2frZ31Kg3Uq6CnAKYMDB6rXQg2Zx47zYHJmrv+Cw==
-X-Received: by 2002:a17:902:bcc5:b0:1b0:3d54:357d with SMTP id o5-20020a170902bcc500b001b03d54357dmr51205pls.24.1685996854689;
-        Mon, 05 Jun 2023 13:27:34 -0700 (PDT)
-Received: from localhost (dhcp-72-235-13-41.hawaiiantel.net. [72.235.13.41])
-        by smtp.gmail.com with ESMTPSA id jj21-20020a170903049500b001ac4d3d3f72sm6920798plb.296.2023.06.05.13.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jun 2023 13:27:34 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 5 Jun 2023 10:27:33 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Ryan Phillips <rphillips@redhat.com>,
-        Brent Rowsell <browsell@redhat.com>,
-        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
-Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
-Message-ID: <ZH5FNc6wjlGPsaaO@slm.duckdns.org>
-References: <f2bd7b1e-190e-1d08-f085-b4cae36fb5be@redhat.com>
- <ZFGOTHQj3k5rzmyR@blackbook>
- <deb7b684-3d7c-b3ae-7b36-5b7ba2dd8001@redhat.com>
- <ZFUo5IYAIwTEKR4_@slm.duckdns.org>
- <759603dd-7538-54ad-e63d-bb827b618ae3@redhat.com>
- <405b2805-538c-790b-5bf8-e90d3660f116@redhat.com>
- <ZGvHUjOCjwat91Gq@slm.duckdns.org>
- <18793f4a-fd39-2e71-0b77-856afb01547b@redhat.com>
- <ZH4jfmypOXGJPu0D@slm.duckdns.org>
- <be64a569-4388-9dd9-3e06-36d716a54f6c@redhat.com>
+        d=1e100.net; s=20221208; t=1686000708; x=1688592708;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vsMxNf5Vwnvm2j+EraOyZ9qeS4I0RPX8I6SvaUZOdto=;
+        b=Qo2LrGz1n/zKnb3d+qdOGBYQB49jcggbt3R81zw+jt74v9H6qcAkPQ0/gAa/dM2pum
+         H2x4RBH0EPI5NnGmVDtbBh5rhNlb0yMAr8eYW0I0kaX8N7CYDC7voAtlrj3rLsVVKxgC
+         SDJEGqZUhT7ThQPPVaYRkb1+OxC7EUCpNa4r/Yaxzhu4IPAj9jfVjkJAyJt400gwgKOz
+         VVpZmM7y9T8l6bohrEaEsa+X8i84nHZOM3tzQh+fOXKukLDhaRNQ495TLXbyH2gmSAl+
+         1wdDEB4FZSghqUNhbF5z7fIX0B0RQBej00b1k6iG2jWBTdurTZZx0OJEIU5r7tYEH2k6
+         oLyA==
+X-Gm-Message-State: AC+VfDx7LxWfdLKv3tZLg+9e8Mh11JIjdpHSelhPqxnxXbw0t8f9ONSt
+        Yy4dXggJJfI9mYUkKSG2ksbFdg==
+X-Google-Smtp-Source: ACHHUZ7MIqGXI0X1CHiRRjTcLBKm1keweji4T/dx4MuwL38Bn/t+21v6YqBFecokhEPRTcSaX4cbgQ==
+X-Received: by 2002:a05:600c:1d98:b0:3f7:367a:38cb with SMTP id p24-20020a05600c1d9800b003f7367a38cbmr4859123wms.2.1686000708386;
+        Mon, 05 Jun 2023 14:31:48 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id j27-20020a05600c1c1b00b003f4283f5c1bsm398001wms.2.2023.06.05.14.31.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jun 2023 14:31:47 -0700 (PDT)
+Message-ID: <29c5ffd5-6300-4fa5-f391-fc0b7ac97831@linaro.org>
+Date:   Mon, 5 Jun 2023 22:31:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <be64a569-4388-9dd9-3e06-36d716a54f6c@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v13 02/24] gunyah: Common types and error codes for Gunyah
+ hypercalls
+Content-Language: en-US
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+ <20230509204801.2824351-3-quic_eberman@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20230509204801.2824351-3-quic_eberman@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
 
-On Mon, Jun 05, 2023 at 04:00:39PM -0400, Waiman Long wrote:
-...
-> > file seems hacky to me. e.g. How would it interact with namespacing? Are
-> > there reasons why this can't be properly hierarchical other than the amount
-> > of work needed? For example:
-> > 
-> >    cpuset.cpus.exclusive is a per-cgroup file and represents the mask of CPUs
-> >    that the cgroup holds exclusively. The mask is always a subset of
-> >    cpuset.cpus. The parent loses access to a CPU when the CPU is given to a
-> >    child by setting the CPU in the child's cpus.exclusive and the CPU can't
-> >    be given to more than one child. IOW, exclusive CPUs are available only to
-> >    the leaf cgroups that have them set in their .exclusive file.
-> > 
-> >    When a cgroup is turned into a partition, its cpuset.cpus and
-> >    cpuset.cpus.exclusive should be the same. For backward compatibility, if
-> >    the cgroup's parent is already a partition, cpuset will automatically
-> >    attempt to add all cpus in cpuset.cpus into cpuset.cpus.exclusive.
-> > 
-> > I could well be missing something important but I'd really like to see
-> > something like the above where the reservation feature blends in with the
-> > rest of cpuset.
+
+On 09/05/2023 21:47, Elliot Berman wrote:
+> Add architecture-independent standard error codes, types, and macros for
+> Gunyah hypercalls.
 > 
-> It can certainly be made hierarchical as you suggest. It does increase
-> complexity from both user and kernel point of view.
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+
+lgtm,
+
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
+--srini
+>   include/linux/gunyah.h | 83 ++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 83 insertions(+)
+>   create mode 100644 include/linux/gunyah.h
 > 
-> From the user point of view, there is one more knob to manage hierarchically
-> which is not used that often.
-
-From user pov, this only affects them when they want to create partitions
-down the tree, right?
-
-> From the kernel point of view, we may need to have one more cpumask per
-> cpuset as the current subparts_cpus is used to track automatic reservation.
-> We need another cpumask to contain extra exclusive CPUs not allocated
-> through automatic reservation. The fact that you mention this new control
-> file as a list of exclusively owned CPUs for this cgroup. Creating a
-> partition is in fact allocating exclusive CPUs to a cgroup. So it kind of
-> overlaps with the cpuset.cpus.partititon file. Can we fail a write to
-
-Yes, it substitutes and expands on cpuset.cpus.partition behavior.
-
-> cpuset.cpus.exclusive if those exclusive CPUs cannot be granted or will this
-> exclusive list is only valid if a valid partition can be formed. So we need
-> to properly manage the dependency between these 2 control files.
-
-So, I think cpus.exclusive can become the sole mechanism to arbitrate
-exclusive owenership of CPUs and .partition can depend on .exclusive.
-
-> Alternatively, I have no problem exposing cpuset.cpus.exclusive as a
-> read-only file. It is a bit problematic if we need to make it writable.
-
-I don't follow. How would remote partitions work then?
-
-> As for namespacing, you do raise a good point. I was thinking mostly from a
-> whole system point of view as the use case that I am aware of does not needs
-> that. To allow delegation of exclusive CPUs to a child cgroup, that cgroup
-> has to be a partition root itself. One compromise that I can think of is to
-> only allow automatic reservation only in such a scenario. In that case, I
-> need to support a remote load balanced partition as well and hierarchical
-> sub-partitions underneath it. That can be done with some extra code to the
-> existing v2 patchset without introducing too much complexity.
-> 
-> IOW, the use of remote partition is only allowed on the whole system level
-> where one has access to the cgroup root. Exclusive CPUs distribution within
-> a container can only be done via the use of adjacent partitions with
-> automatic reservation. Will that be a good enough compromise from your point
-> of view?
-
-It seems too twisted to me. I'd much prefer it to be better integrated with
-the rest of cpuset.
-
-Thanks.
-
--- 
-tejun
+> diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+> new file mode 100644
+> index 000000000000..a4e8ec91961d
+> --- /dev/null
+> +++ b/include/linux/gunyah.h
+> @@ -0,0 +1,83 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef _LINUX_GUNYAH_H
+> +#define _LINUX_GUNYAH_H
+> +
+> +#include <linux/errno.h>
+> +#include <linux/limits.h>
+> +
+> +/******************************************************************************/
+> +/* Common arch-independent definitions for Gunyah hypercalls                  */
+> +#define GH_CAPID_INVAL	U64_MAX
+> +#define GH_VMID_ROOT_VM	0xff
+> +
+> +enum gh_error {
+> +	GH_ERROR_OK			= 0,
+> +	GH_ERROR_UNIMPLEMENTED		= -1,
+> +	GH_ERROR_RETRY			= -2,
+> +
+> +	GH_ERROR_ARG_INVAL		= 1,
+> +	GH_ERROR_ARG_SIZE		= 2,
+> +	GH_ERROR_ARG_ALIGN		= 3,
+> +
+> +	GH_ERROR_NOMEM			= 10,
+> +
+> +	GH_ERROR_ADDR_OVFL		= 20,
+> +	GH_ERROR_ADDR_UNFL		= 21,
+> +	GH_ERROR_ADDR_INVAL		= 22,
+> +
+> +	GH_ERROR_DENIED			= 30,
+> +	GH_ERROR_BUSY			= 31,
+> +	GH_ERROR_IDLE			= 32,
+> +
+> +	GH_ERROR_IRQ_BOUND		= 40,
+> +	GH_ERROR_IRQ_UNBOUND		= 41,
+> +
+> +	GH_ERROR_CSPACE_CAP_NULL	= 50,
+> +	GH_ERROR_CSPACE_CAP_REVOKED	= 51,
+> +	GH_ERROR_CSPACE_WRONG_OBJ_TYPE	= 52,
+> +	GH_ERROR_CSPACE_INSUF_RIGHTS	= 53,
+> +	GH_ERROR_CSPACE_FULL		= 54,
+> +
+> +	GH_ERROR_MSGQUEUE_EMPTY		= 60,
+> +	GH_ERROR_MSGQUEUE_FULL		= 61,
+> +};
+> +
+> +/**
+> + * gh_error_remap() - Remap Gunyah hypervisor errors into a Linux error code
+> + * @gh_error: Gunyah hypercall return value
+> + */
+> +static inline int gh_error_remap(enum gh_error gh_error)
+> +{
+> +	switch (gh_error) {
+> +	case GH_ERROR_OK:
+> +		return 0;
+> +	case GH_ERROR_NOMEM:
+> +		return -ENOMEM;
+> +	case GH_ERROR_DENIED:
+> +	case GH_ERROR_CSPACE_CAP_NULL:
+> +	case GH_ERROR_CSPACE_CAP_REVOKED:
+> +	case GH_ERROR_CSPACE_WRONG_OBJ_TYPE:
+> +	case GH_ERROR_CSPACE_INSUF_RIGHTS:
+> +	case GH_ERROR_CSPACE_FULL:
+> +		return -EACCES;
+> +	case GH_ERROR_BUSY:
+> +	case GH_ERROR_IDLE:
+> +		return -EBUSY;
+> +	case GH_ERROR_IRQ_BOUND:
+> +	case GH_ERROR_IRQ_UNBOUND:
+> +	case GH_ERROR_MSGQUEUE_FULL:
+> +	case GH_ERROR_MSGQUEUE_EMPTY:
+> +		return -EIO;
+> +	case GH_ERROR_UNIMPLEMENTED:
+> +	case GH_ERROR_RETRY:
+> +		return -EOPNOTSUPP;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +#endif
