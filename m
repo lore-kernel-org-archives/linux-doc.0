@@ -2,24 +2,24 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AED2C7EE24
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 07:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88472C7EE24
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 07:04:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230518AbjFEHEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 03:04:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36260 "EHLO
+        id S231127AbjFEHEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 03:04:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230370AbjFEHDY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 03:03:24 -0400
+        with ESMTP id S230515AbjFEHEF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 03:04:05 -0400
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5ACD9E5C;
-        Mon,  5 Jun 2023 00:02:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 44967DC;
+        Mon,  5 Jun 2023 00:03:22 -0700 (PDT)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C005B1655;
-        Mon,  5 Jun 2023 00:03:30 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A4227169E;
+        Mon,  5 Jun 2023 00:03:17 -0700 (PDT)
 Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7AC143F793;
-        Mon,  5 Jun 2023 00:02:43 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 428CB3F793;
+        Mon,  5 Jun 2023 00:02:30 -0700 (PDT)
 From:   Mark Rutland <mark.rutland@arm.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     akiyks@gmail.com, boqun.feng@gmail.com, corbet@lwn.net,
@@ -27,9 +27,9 @@ Cc:     akiyks@gmail.com, boqun.feng@gmail.com, corbet@lwn.net,
         linux-doc@vger.kernel.org, mark.rutland@arm.com,
         mchehab@kernel.org, paulmck@kernel.org, peterz@infradead.org,
         rdunlap@infradead.org, sstabellini@kernel.org, will@kernel.org
-Subject: [PATCH v2 27/27] locking/atomic: treewide: delete arch_atomic_*() kerneldoc
-Date:   Mon,  5 Jun 2023 08:01:24 +0100
-Message-Id: <20230605070124.3741859-28-mark.rutland@arm.com>
+Subject: [PATCH v2 22/27] locking/atomic: scripts: simplify raw_atomic_long*() definitions
+Date:   Mon,  5 Jun 2023 08:01:19 +0100
+Message-Id: <20230605070124.3741859-23-mark.rutland@arm.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230605070124.3741859-1-mark.rutland@arm.com>
 References: <20230605070124.3741859-1-mark.rutland@arm.com>
@@ -39,728 +39,1508 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently several architectures have kerneldoc comments for
-arch_atomic_*(), which is unhelpful as these live in a shared namespace
-where they clash, and the arch_atomic_*() ops are now an implementation
-detail of the raw_atomic_*() ops, which no-one should use those
-directly.
+Currently, atomic-long is split into two sections, one defining the
+raw_atomic_long_*() ops for CONFIG_64BIT, and one defining the raw
+atomic_long_*() ops for !CONFIG_64BIT.
 
-Delete the kerneldoc comments for arch_atomic_*(), along with
-pseudo-kerneldoc comments which are in the correct style but are missing
-the leading '/**' necessary to be true kerneldoc comments.
+With many lines elided, this looks like:
+
+| #ifdef CONFIG_64BIT
+| ...
+| static __always_inline bool
+| raw_atomic_long_try_cmpxchg(atomic_long_t *v, long *old, long new)
+| {
+|         return raw_atomic64_try_cmpxchg(v, (s64 *)old, new);
+| }
+| ...
+| #else /* CONFIG_64BIT */
+| ...
+| static __always_inline bool
+| raw_atomic_long_try_cmpxchg(atomic_long_t *v, long *old, long new)
+| {
+|         return raw_atomic_try_cmpxchg(v, (int *)old, new);
+| }
+| ...
+| #endif
+
+The two definitions are spread far apart in the file, and duplicate the
+prototype, making it hard to have a legible set of kerneldoc comments.
+
+Make this simpler by defining the C prototype once, and writing the two
+definitions inline. For example, the above becomes:
+
+| static __always_inline bool
+| raw_atomic_long_try_cmpxchg(atomic_long_t *v, long *old, long new)
+| {
+| #ifdef CONFIG_64BIT
+|         return raw_atomic64_try_cmpxchg(v, (s64 *)old, new);
+| #else
+|         return raw_atomic_try_cmpxchg(v, (int *)old, new);
+| #endif
+| }
+
+As we now always have a single copy of the C prototype wrapping all the
+potential definitions, we now have an obvious single location for kerneldoc
+comments. As a bonus, both the script and the generated file are
+somewhat shorter.
 
 There should be no functional change as a result of this patch.
 
 Signed-off-by: Mark Rutland <mark.rutland@arm.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Cc: Boqun Feng <boqun.feng@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Paul E. McKenney <paulmck@kernel.org>
 Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Will Deacon <will@kernel.org>
 ---
- arch/alpha/include/asm/atomic.h       | 25 --------
- arch/arc/include/asm/atomic64-arcv2.h | 17 ------
- arch/hexagon/include/asm/atomic.h     | 16 -----
- arch/loongarch/include/asm/atomic.h   | 49 ---------------
- arch/x86/include/asm/atomic.h         | 87 ---------------------------
- arch/x86/include/asm/atomic64_32.h    | 76 -----------------------
- arch/x86/include/asm/atomic64_64.h    | 81 -------------------------
- 7 files changed, 351 deletions(-)
+ include/linux/atomic/atomic-long.h | 857 ++++++++++++-----------------
+ scripts/atomic/gen-atomic-long.sh  |  27 +-
+ 2 files changed, 350 insertions(+), 534 deletions(-)
 
-diff --git a/arch/alpha/include/asm/atomic.h b/arch/alpha/include/asm/atomic.h
-index ec8ab552c527a..cbd9244571af0 100644
---- a/arch/alpha/include/asm/atomic.h
-+++ b/arch/alpha/include/asm/atomic.h
-@@ -200,15 +200,6 @@ ATOMIC_OPS(xor, xor)
- #undef ATOMIC_OP_RETURN
- #undef ATOMIC_OP
+diff --git a/include/linux/atomic/atomic-long.h b/include/linux/atomic/atomic-long.h
+index 92dc82ce1ce6d..63e0b4078ebd5 100644
+--- a/include/linux/atomic/atomic-long.h
++++ b/include/linux/atomic/atomic-long.h
+@@ -21,1030 +21,855 @@ typedef atomic_t atomic_long_t;
+ #define atomic_long_cond_read_relaxed	atomic_cond_read_relaxed
+ #endif
  
--/**
-- * arch_atomic_fetch_add_unless - add unless the number is a given value
-- * @v: pointer of type atomic_t
-- * @a: the amount to add to v...
-- * @u: ...unless v is equal to u.
-- *
-- * Atomically adds @a to @v, so long as it was not @u.
-- * Returns the old value of @v.
-- */
- static __inline__ int arch_atomic_fetch_add_unless(atomic_t *v, int a, int u)
- {
- 	int c, new, old;
-@@ -232,15 +223,6 @@ static __inline__ int arch_atomic_fetch_add_unless(atomic_t *v, int a, int u)
- }
- #define arch_atomic_fetch_add_unless arch_atomic_fetch_add_unless
- 
--/**
-- * arch_atomic64_fetch_add_unless - add unless the number is a given value
-- * @v: pointer of type atomic64_t
-- * @a: the amount to add to v...
-- * @u: ...unless v is equal to u.
-- *
-- * Atomically adds @a to @v, so long as it was not @u.
-- * Returns the old value of @v.
-- */
- static __inline__ s64 arch_atomic64_fetch_add_unless(atomic64_t *v, s64 a, s64 u)
- {
- 	s64 c, new, old;
-@@ -264,13 +246,6 @@ static __inline__ s64 arch_atomic64_fetch_add_unless(atomic64_t *v, s64 a, s64 u
- }
- #define arch_atomic64_fetch_add_unless arch_atomic64_fetch_add_unless
- 
--/*
-- * arch_atomic64_dec_if_positive - decrement by 1 if old value positive
-- * @v: pointer of type atomic_t
-- *
-- * The function returns the old value of *v minus 1, even if
-- * the atomic variable, v, was not decremented.
-- */
- static inline s64 arch_atomic64_dec_if_positive(atomic64_t *v)
- {
- 	s64 old, tmp;
-diff --git a/arch/arc/include/asm/atomic64-arcv2.h b/arch/arc/include/asm/atomic64-arcv2.h
-index 2b7c9e61a2947..6b6db981967ae 100644
---- a/arch/arc/include/asm/atomic64-arcv2.h
-+++ b/arch/arc/include/asm/atomic64-arcv2.h
-@@ -182,14 +182,6 @@ static inline s64 arch_atomic64_xchg(atomic64_t *ptr, s64 new)
- }
- #define arch_atomic64_xchg arch_atomic64_xchg
- 
--/**
-- * arch_atomic64_dec_if_positive - decrement by 1 if old value positive
-- * @v: pointer of type atomic64_t
-- *
-- * The function returns the old value of *v minus 1, even if
-- * the atomic variable, v, was not decremented.
-- */
+-#ifdef CONFIG_64BIT
 -
- static inline s64 arch_atomic64_dec_if_positive(atomic64_t *v)
- {
- 	s64 val;
-@@ -214,15 +206,6 @@ static inline s64 arch_atomic64_dec_if_positive(atomic64_t *v)
- }
- #define arch_atomic64_dec_if_positive arch_atomic64_dec_if_positive
- 
--/**
-- * arch_atomic64_fetch_add_unless - add unless the number is a given value
-- * @v: pointer of type atomic64_t
-- * @a: the amount to add to v...
-- * @u: ...unless v is equal to u.
-- *
-- * Atomically adds @a to @v, if it was not @u.
-- * Returns the old value of @v
-- */
- static inline s64 arch_atomic64_fetch_add_unless(atomic64_t *v, s64 a, s64 u)
- {
- 	s64 old, temp;
-diff --git a/arch/hexagon/include/asm/atomic.h b/arch/hexagon/include/asm/atomic.h
-index 5c8440016c762..2447d083c432f 100644
---- a/arch/hexagon/include/asm/atomic.h
-+++ b/arch/hexagon/include/asm/atomic.h
-@@ -28,12 +28,6 @@ static inline void arch_atomic_set(atomic_t *v, int new)
- 
- #define arch_atomic_set_release(v, i)	arch_atomic_set((v), (i))
- 
--/**
-- * arch_atomic_read - reads a word, atomically
-- * @v: pointer to atomic value
-- *
-- * Assumes all word reads on our architecture are atomic.
-- */
- #define arch_atomic_read(v)		READ_ONCE((v)->counter)
- 
- #define ATOMIC_OP(op)							\
-@@ -112,16 +106,6 @@ ATOMIC_OPS(xor)
- #undef ATOMIC_OP_RETURN
- #undef ATOMIC_OP
- 
--/**
-- * arch_atomic_fetch_add_unless - add unless the number is a given value
-- * @v: pointer to value
-- * @a: amount to add
-- * @u: unless value is equal to u
-- *
-- * Returns old value.
-- *
-- */
+-static __always_inline long
+-raw_atomic_long_read(const atomic_long_t *v)
+-{
+-	return raw_atomic64_read(v);
+-}
 -
- static inline int arch_atomic_fetch_add_unless(atomic_t *v, int a, int u)
- {
- 	int __oldval;
-diff --git a/arch/loongarch/include/asm/atomic.h b/arch/loongarch/include/asm/atomic.h
-index 8d73c85911b08..e27f0c72d3242 100644
---- a/arch/loongarch/include/asm/atomic.h
-+++ b/arch/loongarch/include/asm/atomic.h
-@@ -29,21 +29,7 @@
- 
- #define ATOMIC_INIT(i)	  { (i) }
- 
--/*
-- * arch_atomic_read - read atomic variable
-- * @v: pointer of type atomic_t
-- *
-- * Atomically reads the value of @v.
-- */
- #define arch_atomic_read(v)	READ_ONCE((v)->counter)
+-static __always_inline long
+-raw_atomic_long_read_acquire(const atomic_long_t *v)
+-{
+-	return raw_atomic64_read_acquire(v);
+-}
 -
--/*
-- * arch_atomic_set - set atomic variable
-- * @v: pointer of type atomic_t
-- * @i: required value
-- *
-- * Atomically sets the value of @v to @i.
-- */
- #define arch_atomic_set(v, i)	WRITE_ONCE((v)->counter, (i))
- 
- #define ATOMIC_OP(op, I, asm_op)					\
-@@ -139,14 +125,6 @@ static inline int arch_atomic_fetch_add_unless(atomic_t *v, int a, int u)
- }
- #define arch_atomic_fetch_add_unless arch_atomic_fetch_add_unless
- 
--/*
-- * arch_atomic_sub_if_positive - conditionally subtract integer from atomic variable
-- * @i: integer value to subtract
-- * @v: pointer of type atomic_t
-- *
-- * Atomically test @v and subtract @i if @v is greater or equal than @i.
-- * The function returns the old value of @v minus @i.
-- */
- static inline int arch_atomic_sub_if_positive(int i, atomic_t *v)
- {
- 	int result;
-@@ -181,28 +159,13 @@ static inline int arch_atomic_sub_if_positive(int i, atomic_t *v)
- 	return result;
- }
- 
--/*
-- * arch_atomic_dec_if_positive - decrement by 1 if old value positive
-- * @v: pointer of type atomic_t
-- */
- #define arch_atomic_dec_if_positive(v)	arch_atomic_sub_if_positive(1, v)
- 
- #ifdef CONFIG_64BIT
- 
- #define ATOMIC64_INIT(i)    { (i) }
- 
--/*
-- * arch_atomic64_read - read atomic variable
-- * @v: pointer of type atomic64_t
-- *
-- */
- #define arch_atomic64_read(v)	READ_ONCE((v)->counter)
+-static __always_inline void
+-raw_atomic_long_set(atomic_long_t *v, long i)
+-{
+-	raw_atomic64_set(v, i);
+-}
 -
--/*
-- * arch_atomic64_set - set atomic variable
-- * @v: pointer of type atomic64_t
-- * @i: required value
-- */
- #define arch_atomic64_set(v, i)	WRITE_ONCE((v)->counter, (i))
- 
- #define ATOMIC64_OP(op, I, asm_op)					\
-@@ -297,14 +260,6 @@ static inline long arch_atomic64_fetch_add_unless(atomic64_t *v, long a, long u)
- }
- #define arch_atomic64_fetch_add_unless arch_atomic64_fetch_add_unless
- 
--/*
-- * arch_atomic64_sub_if_positive - conditionally subtract integer from atomic variable
-- * @i: integer value to subtract
-- * @v: pointer of type atomic64_t
-- *
-- * Atomically test @v and subtract @i if @v is greater or equal than @i.
-- * The function returns the old value of @v minus @i.
-- */
- static inline long arch_atomic64_sub_if_positive(long i, atomic64_t *v)
- {
- 	long result;
-@@ -339,10 +294,6 @@ static inline long arch_atomic64_sub_if_positive(long i, atomic64_t *v)
- 	return result;
- }
- 
--/*
-- * arch_atomic64_dec_if_positive - decrement by 1 if old value positive
-- * @v: pointer of type atomic64_t
-- */
- #define arch_atomic64_dec_if_positive(v)	arch_atomic64_sub_if_positive(1, v)
- 
- #endif /* CONFIG_64BIT */
-diff --git a/arch/x86/include/asm/atomic.h b/arch/x86/include/asm/atomic.h
-index 5e754e8957671..55a55ec043502 100644
---- a/arch/x86/include/asm/atomic.h
-+++ b/arch/x86/include/asm/atomic.h
-@@ -14,12 +14,6 @@
-  * resource counting etc..
-  */
- 
--/**
-- * arch_atomic_read - read atomic variable
-- * @v: pointer of type atomic_t
-- *
-- * Atomically reads the value of @v.
-- */
- static __always_inline int arch_atomic_read(const atomic_t *v)
- {
- 	/*
-@@ -29,25 +23,11 @@ static __always_inline int arch_atomic_read(const atomic_t *v)
- 	return __READ_ONCE((v)->counter);
- }
- 
--/**
-- * arch_atomic_set - set atomic variable
-- * @v: pointer of type atomic_t
-- * @i: required value
-- *
-- * Atomically sets the value of @v to @i.
-- */
- static __always_inline void arch_atomic_set(atomic_t *v, int i)
- {
- 	__WRITE_ONCE(v->counter, i);
- }
- 
--/**
-- * arch_atomic_add - add integer to atomic variable
-- * @i: integer value to add
-- * @v: pointer of type atomic_t
-- *
-- * Atomically adds @i to @v.
-- */
- static __always_inline void arch_atomic_add(int i, atomic_t *v)
- {
- 	asm volatile(LOCK_PREFIX "addl %1,%0"
-@@ -55,13 +35,6 @@ static __always_inline void arch_atomic_add(int i, atomic_t *v)
- 		     : "ir" (i) : "memory");
- }
- 
--/**
-- * arch_atomic_sub - subtract integer from atomic variable
-- * @i: integer value to subtract
-- * @v: pointer of type atomic_t
-- *
-- * Atomically subtracts @i from @v.
-- */
- static __always_inline void arch_atomic_sub(int i, atomic_t *v)
- {
- 	asm volatile(LOCK_PREFIX "subl %1,%0"
-@@ -69,27 +42,12 @@ static __always_inline void arch_atomic_sub(int i, atomic_t *v)
- 		     : "ir" (i) : "memory");
- }
- 
--/**
-- * arch_atomic_sub_and_test - subtract value from variable and test result
-- * @i: integer value to subtract
-- * @v: pointer of type atomic_t
-- *
-- * Atomically subtracts @i from @v and returns
-- * true if the result is zero, or false for all
-- * other cases.
-- */
- static __always_inline bool arch_atomic_sub_and_test(int i, atomic_t *v)
- {
- 	return GEN_BINARY_RMWcc(LOCK_PREFIX "subl", v->counter, e, "er", i);
- }
- #define arch_atomic_sub_and_test arch_atomic_sub_and_test
- 
--/**
-- * arch_atomic_inc - increment atomic variable
-- * @v: pointer of type atomic_t
-- *
-- * Atomically increments @v by 1.
-- */
- static __always_inline void arch_atomic_inc(atomic_t *v)
- {
- 	asm volatile(LOCK_PREFIX "incl %0"
-@@ -97,12 +55,6 @@ static __always_inline void arch_atomic_inc(atomic_t *v)
- }
- #define arch_atomic_inc arch_atomic_inc
- 
--/**
-- * arch_atomic_dec - decrement atomic variable
-- * @v: pointer of type atomic_t
-- *
-- * Atomically decrements @v by 1.
-- */
- static __always_inline void arch_atomic_dec(atomic_t *v)
- {
- 	asm volatile(LOCK_PREFIX "decl %0"
-@@ -110,69 +62,30 @@ static __always_inline void arch_atomic_dec(atomic_t *v)
- }
- #define arch_atomic_dec arch_atomic_dec
- 
--/**
-- * arch_atomic_dec_and_test - decrement and test
-- * @v: pointer of type atomic_t
-- *
-- * Atomically decrements @v by 1 and
-- * returns true if the result is 0, or false for all other
-- * cases.
-- */
- static __always_inline bool arch_atomic_dec_and_test(atomic_t *v)
- {
- 	return GEN_UNARY_RMWcc(LOCK_PREFIX "decl", v->counter, e);
- }
- #define arch_atomic_dec_and_test arch_atomic_dec_and_test
- 
--/**
-- * arch_atomic_inc_and_test - increment and test
-- * @v: pointer of type atomic_t
-- *
-- * Atomically increments @v by 1
-- * and returns true if the result is zero, or false for all
-- * other cases.
-- */
- static __always_inline bool arch_atomic_inc_and_test(atomic_t *v)
- {
- 	return GEN_UNARY_RMWcc(LOCK_PREFIX "incl", v->counter, e);
- }
- #define arch_atomic_inc_and_test arch_atomic_inc_and_test
- 
--/**
-- * arch_atomic_add_negative - add and test if negative
-- * @i: integer value to add
-- * @v: pointer of type atomic_t
-- *
-- * Atomically adds @i to @v and returns true
-- * if the result is negative, or false when
-- * result is greater than or equal to zero.
-- */
- static __always_inline bool arch_atomic_add_negative(int i, atomic_t *v)
- {
- 	return GEN_BINARY_RMWcc(LOCK_PREFIX "addl", v->counter, s, "er", i);
- }
- #define arch_atomic_add_negative arch_atomic_add_negative
- 
--/**
-- * arch_atomic_add_return - add integer and return
-- * @i: integer value to add
-- * @v: pointer of type atomic_t
-- *
-- * Atomically adds @i to @v and returns @i + @v
-- */
- static __always_inline int arch_atomic_add_return(int i, atomic_t *v)
- {
- 	return i + xadd(&v->counter, i);
- }
- #define arch_atomic_add_return arch_atomic_add_return
- 
--/**
-- * arch_atomic_sub_return - subtract integer and return
-- * @v: pointer of type atomic_t
-- * @i: integer value to subtract
-- *
-- * Atomically subtracts @i from @v and returns @v - @i
-- */
- static __always_inline int arch_atomic_sub_return(int i, atomic_t *v)
- {
- 	return arch_atomic_add_return(-i, v);
-diff --git a/arch/x86/include/asm/atomic64_32.h b/arch/x86/include/asm/atomic64_32.h
-index 808b4eece251e..3486d91b8595f 100644
---- a/arch/x86/include/asm/atomic64_32.h
-+++ b/arch/x86/include/asm/atomic64_32.h
-@@ -61,30 +61,12 @@ ATOMIC64_DECL(add_unless);
- #undef __ATOMIC64_DECL
- #undef ATOMIC64_EXPORT
- 
--/**
-- * arch_atomic64_cmpxchg - cmpxchg atomic64 variable
-- * @v: pointer to type atomic64_t
-- * @o: expected value
-- * @n: new value
-- *
-- * Atomically sets @v to @n if it was equal to @o and returns
-- * the old value.
-- */
+-static __always_inline void
+-raw_atomic_long_set_release(atomic_long_t *v, long i)
+-{
+-	raw_atomic64_set_release(v, i);
+-}
 -
- static __always_inline s64 arch_atomic64_cmpxchg(atomic64_t *v, s64 o, s64 n)
+-static __always_inline void
+-raw_atomic_long_add(long i, atomic_long_t *v)
+-{
+-	raw_atomic64_add(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_add_return(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_add_return(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_add_return_acquire(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_add_return_acquire(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_add_return_release(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_add_return_release(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_add_return_relaxed(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_add_return_relaxed(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_add(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_add(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_add_acquire(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_add_acquire(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_add_release(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_add_release(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_add_relaxed(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_add_relaxed(i, v);
+-}
+-
+-static __always_inline void
+-raw_atomic_long_sub(long i, atomic_long_t *v)
+-{
+-	raw_atomic64_sub(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_sub_return(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_sub_return(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_sub_return_acquire(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_sub_return_acquire(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_sub_return_release(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_sub_return_release(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_sub_return_relaxed(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_sub_return_relaxed(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_sub(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_sub(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_sub_acquire(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_sub_acquire(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_sub_release(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_sub_release(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_sub_relaxed(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_sub_relaxed(i, v);
+-}
+-
+-static __always_inline void
+-raw_atomic_long_inc(atomic_long_t *v)
+-{
+-	raw_atomic64_inc(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_inc_return(atomic_long_t *v)
+-{
+-	return raw_atomic64_inc_return(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_inc_return_acquire(atomic_long_t *v)
+-{
+-	return raw_atomic64_inc_return_acquire(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_inc_return_release(atomic_long_t *v)
+-{
+-	return raw_atomic64_inc_return_release(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_inc_return_relaxed(atomic_long_t *v)
+-{
+-	return raw_atomic64_inc_return_relaxed(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_inc(atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_inc(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_inc_acquire(atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_inc_acquire(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_inc_release(atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_inc_release(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_inc_relaxed(atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_inc_relaxed(v);
+-}
+-
+-static __always_inline void
+-raw_atomic_long_dec(atomic_long_t *v)
+-{
+-	raw_atomic64_dec(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_dec_return(atomic_long_t *v)
+-{
+-	return raw_atomic64_dec_return(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_dec_return_acquire(atomic_long_t *v)
+-{
+-	return raw_atomic64_dec_return_acquire(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_dec_return_release(atomic_long_t *v)
+-{
+-	return raw_atomic64_dec_return_release(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_dec_return_relaxed(atomic_long_t *v)
+-{
+-	return raw_atomic64_dec_return_relaxed(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_dec(atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_dec(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_dec_acquire(atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_dec_acquire(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_dec_release(atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_dec_release(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_dec_relaxed(atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_dec_relaxed(v);
+-}
+-
+-static __always_inline void
+-raw_atomic_long_and(long i, atomic_long_t *v)
+-{
+-	raw_atomic64_and(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_and(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_and(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_and_acquire(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_and_acquire(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_and_release(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_and_release(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_and_relaxed(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_and_relaxed(i, v);
+-}
+-
+-static __always_inline void
+-raw_atomic_long_andnot(long i, atomic_long_t *v)
+-{
+-	raw_atomic64_andnot(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_andnot(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_andnot(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_andnot_acquire(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_andnot_acquire(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_andnot_release(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_andnot_release(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_andnot_relaxed(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_andnot_relaxed(i, v);
+-}
+-
+-static __always_inline void
+-raw_atomic_long_or(long i, atomic_long_t *v)
+-{
+-	raw_atomic64_or(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_or(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_or(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_or_acquire(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_or_acquire(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_or_release(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_or_release(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_or_relaxed(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_or_relaxed(i, v);
+-}
+-
+-static __always_inline void
+-raw_atomic_long_xor(long i, atomic_long_t *v)
+-{
+-	raw_atomic64_xor(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_xor(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_xor(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_xor_acquire(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_xor_acquire(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_xor_release(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_xor_release(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_xor_relaxed(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_fetch_xor_relaxed(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_xchg(atomic_long_t *v, long i)
+-{
+-	return raw_atomic64_xchg(v, i);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_xchg_acquire(atomic_long_t *v, long i)
+-{
+-	return raw_atomic64_xchg_acquire(v, i);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_xchg_release(atomic_long_t *v, long i)
+-{
+-	return raw_atomic64_xchg_release(v, i);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_xchg_relaxed(atomic_long_t *v, long i)
+-{
+-	return raw_atomic64_xchg_relaxed(v, i);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_cmpxchg(atomic_long_t *v, long old, long new)
+-{
+-	return raw_atomic64_cmpxchg(v, old, new);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_cmpxchg_acquire(atomic_long_t *v, long old, long new)
+-{
+-	return raw_atomic64_cmpxchg_acquire(v, old, new);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_cmpxchg_release(atomic_long_t *v, long old, long new)
+-{
+-	return raw_atomic64_cmpxchg_release(v, old, new);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_cmpxchg_relaxed(atomic_long_t *v, long old, long new)
+-{
+-	return raw_atomic64_cmpxchg_relaxed(v, old, new);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_try_cmpxchg(atomic_long_t *v, long *old, long new)
+-{
+-	return raw_atomic64_try_cmpxchg(v, (s64 *)old, new);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_try_cmpxchg_acquire(atomic_long_t *v, long *old, long new)
+-{
+-	return raw_atomic64_try_cmpxchg_acquire(v, (s64 *)old, new);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_try_cmpxchg_release(atomic_long_t *v, long *old, long new)
+-{
+-	return raw_atomic64_try_cmpxchg_release(v, (s64 *)old, new);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_try_cmpxchg_relaxed(atomic_long_t *v, long *old, long new)
+-{
+-	return raw_atomic64_try_cmpxchg_relaxed(v, (s64 *)old, new);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_sub_and_test(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_sub_and_test(i, v);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_dec_and_test(atomic_long_t *v)
+-{
+-	return raw_atomic64_dec_and_test(v);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_inc_and_test(atomic_long_t *v)
+-{
+-	return raw_atomic64_inc_and_test(v);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_add_negative(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_add_negative(i, v);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_add_negative_acquire(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_add_negative_acquire(i, v);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_add_negative_release(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_add_negative_release(i, v);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_add_negative_relaxed(long i, atomic_long_t *v)
+-{
+-	return raw_atomic64_add_negative_relaxed(i, v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_fetch_add_unless(atomic_long_t *v, long a, long u)
+-{
+-	return raw_atomic64_fetch_add_unless(v, a, u);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_add_unless(atomic_long_t *v, long a, long u)
+-{
+-	return raw_atomic64_add_unless(v, a, u);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_inc_not_zero(atomic_long_t *v)
+-{
+-	return raw_atomic64_inc_not_zero(v);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_inc_unless_negative(atomic_long_t *v)
+-{
+-	return raw_atomic64_inc_unless_negative(v);
+-}
+-
+-static __always_inline bool
+-raw_atomic_long_dec_unless_positive(atomic_long_t *v)
+-{
+-	return raw_atomic64_dec_unless_positive(v);
+-}
+-
+-static __always_inline long
+-raw_atomic_long_dec_if_positive(atomic_long_t *v)
+-{
+-	return raw_atomic64_dec_if_positive(v);
+-}
+-
+-#else /* CONFIG_64BIT */
+-
+ static __always_inline long
+ raw_atomic_long_read(const atomic_long_t *v)
  {
- 	return arch_cmpxchg64(&v->counter, o, n);
++#ifdef CONFIG_64BIT
++	return raw_atomic64_read(v);
++#else
+ 	return raw_atomic_read(v);
++#endif
  }
- #define arch_atomic64_cmpxchg arch_atomic64_cmpxchg
  
--/**
-- * arch_atomic64_xchg - xchg atomic64 variable
-- * @v: pointer to type atomic64_t
-- * @n: value to assign
-- *
-- * Atomically xchgs the value of @v to @n and returns
-- * the old value.
-- */
- static __always_inline s64 arch_atomic64_xchg(atomic64_t *v, s64 n)
+ static __always_inline long
+ raw_atomic_long_read_acquire(const atomic_long_t *v)
  {
- 	s64 o;
-@@ -97,13 +79,6 @@ static __always_inline s64 arch_atomic64_xchg(atomic64_t *v, s64 n)
- }
- #define arch_atomic64_xchg arch_atomic64_xchg
- 
--/**
-- * arch_atomic64_set - set atomic64 variable
-- * @v: pointer to type atomic64_t
-- * @i: value to assign
-- *
-- * Atomically sets the value of @v to @n.
-- */
- static __always_inline void arch_atomic64_set(atomic64_t *v, s64 i)
- {
- 	unsigned high = (unsigned)(i >> 32);
-@@ -113,12 +88,6 @@ static __always_inline void arch_atomic64_set(atomic64_t *v, s64 i)
- 			     : "eax", "edx", "memory");
++#ifdef CONFIG_64BIT
++	return raw_atomic64_read_acquire(v);
++#else
+ 	return raw_atomic_read_acquire(v);
++#endif
  }
  
--/**
-- * arch_atomic64_read - read atomic64 variable
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically reads the value of @v and returns it.
-- */
- static __always_inline s64 arch_atomic64_read(const atomic64_t *v)
+ static __always_inline void
+ raw_atomic_long_set(atomic_long_t *v, long i)
  {
- 	s64 r;
-@@ -126,13 +95,6 @@ static __always_inline s64 arch_atomic64_read(const atomic64_t *v)
- 	return r;
++#ifdef CONFIG_64BIT
++	raw_atomic64_set(v, i);
++#else
+ 	raw_atomic_set(v, i);
++#endif
  }
  
--/**
-- * arch_atomic64_add_return - add and return
-- * @i: integer value to add
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically adds @i to @v and returns @i + *@v
-- */
- static __always_inline s64 arch_atomic64_add_return(s64 i, atomic64_t *v)
+ static __always_inline void
+ raw_atomic_long_set_release(atomic_long_t *v, long i)
  {
- 	alternative_atomic64(add_return,
-@@ -142,9 +104,6 @@ static __always_inline s64 arch_atomic64_add_return(s64 i, atomic64_t *v)
- }
- #define arch_atomic64_add_return arch_atomic64_add_return
- 
--/*
-- * Other variants with different arithmetic operators:
-- */
- static __always_inline s64 arch_atomic64_sub_return(s64 i, atomic64_t *v)
- {
- 	alternative_atomic64(sub_return,
-@@ -172,13 +131,6 @@ static __always_inline s64 arch_atomic64_dec_return(atomic64_t *v)
- }
- #define arch_atomic64_dec_return arch_atomic64_dec_return
- 
--/**
-- * arch_atomic64_add - add integer to atomic64 variable
-- * @i: integer value to add
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically adds @i to @v.
-- */
- static __always_inline s64 arch_atomic64_add(s64 i, atomic64_t *v)
- {
- 	__alternative_atomic64(add, add_return,
-@@ -187,13 +139,6 @@ static __always_inline s64 arch_atomic64_add(s64 i, atomic64_t *v)
- 	return i;
++#ifdef CONFIG_64BIT
++	raw_atomic64_set_release(v, i);
++#else
+ 	raw_atomic_set_release(v, i);
++#endif
  }
  
--/**
-- * arch_atomic64_sub - subtract the atomic64 variable
-- * @i: integer value to subtract
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically subtracts @i from @v.
-- */
- static __always_inline s64 arch_atomic64_sub(s64 i, atomic64_t *v)
+ static __always_inline void
+ raw_atomic_long_add(long i, atomic_long_t *v)
  {
- 	__alternative_atomic64(sub, sub_return,
-@@ -202,12 +147,6 @@ static __always_inline s64 arch_atomic64_sub(s64 i, atomic64_t *v)
- 	return i;
++#ifdef CONFIG_64BIT
++	raw_atomic64_add(i, v);
++#else
+ 	raw_atomic_add(i, v);
++#endif
  }
  
--/**
-- * arch_atomic64_inc - increment atomic64 variable
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically increments @v by 1.
-- */
- static __always_inline void arch_atomic64_inc(atomic64_t *v)
+ static __always_inline long
+ raw_atomic_long_add_return(long i, atomic_long_t *v)
  {
- 	__alternative_atomic64(inc, inc_return, /* no output */,
-@@ -215,12 +154,6 @@ static __always_inline void arch_atomic64_inc(atomic64_t *v)
- }
- #define arch_atomic64_inc arch_atomic64_inc
- 
--/**
-- * arch_atomic64_dec - decrement atomic64 variable
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically decrements @v by 1.
-- */
- static __always_inline void arch_atomic64_dec(atomic64_t *v)
- {
- 	__alternative_atomic64(dec, dec_return, /* no output */,
-@@ -228,15 +161,6 @@ static __always_inline void arch_atomic64_dec(atomic64_t *v)
- }
- #define arch_atomic64_dec arch_atomic64_dec
- 
--/**
-- * arch_atomic64_add_unless - add unless the number is a given value
-- * @v: pointer of type atomic64_t
-- * @a: the amount to add to v...
-- * @u: ...unless v is equal to u.
-- *
-- * Atomically adds @a to @v, so long as it was not @u.
-- * Returns non-zero if the add was done, zero otherwise.
-- */
- static __always_inline int arch_atomic64_add_unless(atomic64_t *v, s64 a, s64 u)
- {
- 	unsigned low = (unsigned)u;
-diff --git a/arch/x86/include/asm/atomic64_64.h b/arch/x86/include/asm/atomic64_64.h
-index c496595bf6012..3165c0feedf74 100644
---- a/arch/x86/include/asm/atomic64_64.h
-+++ b/arch/x86/include/asm/atomic64_64.h
-@@ -10,37 +10,16 @@
- 
- #define ATOMIC64_INIT(i)	{ (i) }
- 
--/**
-- * arch_atomic64_read - read atomic64 variable
-- * @v: pointer of type atomic64_t
-- *
-- * Atomically reads the value of @v.
-- * Doesn't imply a read memory barrier.
-- */
- static __always_inline s64 arch_atomic64_read(const atomic64_t *v)
- {
- 	return __READ_ONCE((v)->counter);
++#ifdef CONFIG_64BIT
++	return raw_atomic64_add_return(i, v);
++#else
+ 	return raw_atomic_add_return(i, v);
++#endif
  }
  
--/**
-- * arch_atomic64_set - set atomic64 variable
-- * @v: pointer to type atomic64_t
-- * @i: required value
-- *
-- * Atomically sets the value of @v to @i.
-- */
- static __always_inline void arch_atomic64_set(atomic64_t *v, s64 i)
+ static __always_inline long
+ raw_atomic_long_add_return_acquire(long i, atomic_long_t *v)
  {
- 	__WRITE_ONCE(v->counter, i);
++#ifdef CONFIG_64BIT
++	return raw_atomic64_add_return_acquire(i, v);
++#else
+ 	return raw_atomic_add_return_acquire(i, v);
++#endif
  }
  
--/**
-- * arch_atomic64_add - add integer to atomic64 variable
-- * @i: integer value to add
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically adds @i to @v.
-- */
- static __always_inline void arch_atomic64_add(s64 i, atomic64_t *v)
+ static __always_inline long
+ raw_atomic_long_add_return_release(long i, atomic_long_t *v)
  {
- 	asm volatile(LOCK_PREFIX "addq %1,%0"
-@@ -48,13 +27,6 @@ static __always_inline void arch_atomic64_add(s64 i, atomic64_t *v)
- 		     : "er" (i), "m" (v->counter) : "memory");
++#ifdef CONFIG_64BIT
++	return raw_atomic64_add_return_release(i, v);
++#else
+ 	return raw_atomic_add_return_release(i, v);
++#endif
  }
  
--/**
-- * arch_atomic64_sub - subtract the atomic64 variable
-- * @i: integer value to subtract
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically subtracts @i from @v.
-- */
- static __always_inline void arch_atomic64_sub(s64 i, atomic64_t *v)
+ static __always_inline long
+ raw_atomic_long_add_return_relaxed(long i, atomic_long_t *v)
  {
- 	asm volatile(LOCK_PREFIX "subq %1,%0"
-@@ -62,27 +34,12 @@ static __always_inline void arch_atomic64_sub(s64 i, atomic64_t *v)
- 		     : "er" (i), "m" (v->counter) : "memory");
++#ifdef CONFIG_64BIT
++	return raw_atomic64_add_return_relaxed(i, v);
++#else
+ 	return raw_atomic_add_return_relaxed(i, v);
++#endif
  }
  
--/**
-- * arch_atomic64_sub_and_test - subtract value from variable and test result
-- * @i: integer value to subtract
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically subtracts @i from @v and returns
-- * true if the result is zero, or false for all
-- * other cases.
-- */
- static __always_inline bool arch_atomic64_sub_and_test(s64 i, atomic64_t *v)
+ static __always_inline long
+ raw_atomic_long_fetch_add(long i, atomic_long_t *v)
  {
- 	return GEN_BINARY_RMWcc(LOCK_PREFIX "subq", v->counter, e, "er", i);
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_add(i, v);
++#else
+ 	return raw_atomic_fetch_add(i, v);
++#endif
  }
- #define arch_atomic64_sub_and_test arch_atomic64_sub_and_test
  
--/**
-- * arch_atomic64_inc - increment atomic64 variable
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically increments @v by 1.
-- */
- static __always_inline void arch_atomic64_inc(atomic64_t *v)
+ static __always_inline long
+ raw_atomic_long_fetch_add_acquire(long i, atomic_long_t *v)
  {
- 	asm volatile(LOCK_PREFIX "incq %0"
-@@ -91,12 +48,6 @@ static __always_inline void arch_atomic64_inc(atomic64_t *v)
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_add_acquire(i, v);
++#else
+ 	return raw_atomic_fetch_add_acquire(i, v);
++#endif
  }
- #define arch_atomic64_inc arch_atomic64_inc
  
--/**
-- * arch_atomic64_dec - decrement atomic64 variable
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically decrements @v by 1.
-- */
- static __always_inline void arch_atomic64_dec(atomic64_t *v)
+ static __always_inline long
+ raw_atomic_long_fetch_add_release(long i, atomic_long_t *v)
  {
- 	asm volatile(LOCK_PREFIX "decq %0"
-@@ -105,56 +56,24 @@ static __always_inline void arch_atomic64_dec(atomic64_t *v)
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_add_release(i, v);
++#else
+ 	return raw_atomic_fetch_add_release(i, v);
++#endif
  }
- #define arch_atomic64_dec arch_atomic64_dec
  
--/**
-- * arch_atomic64_dec_and_test - decrement and test
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically decrements @v by 1 and
-- * returns true if the result is 0, or false for all other
-- * cases.
-- */
- static __always_inline bool arch_atomic64_dec_and_test(atomic64_t *v)
+ static __always_inline long
+ raw_atomic_long_fetch_add_relaxed(long i, atomic_long_t *v)
  {
- 	return GEN_UNARY_RMWcc(LOCK_PREFIX "decq", v->counter, e);
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_add_relaxed(i, v);
++#else
+ 	return raw_atomic_fetch_add_relaxed(i, v);
++#endif
  }
- #define arch_atomic64_dec_and_test arch_atomic64_dec_and_test
  
--/**
-- * arch_atomic64_inc_and_test - increment and test
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically increments @v by 1
-- * and returns true if the result is zero, or false for all
-- * other cases.
-- */
- static __always_inline bool arch_atomic64_inc_and_test(atomic64_t *v)
+ static __always_inline void
+ raw_atomic_long_sub(long i, atomic_long_t *v)
  {
- 	return GEN_UNARY_RMWcc(LOCK_PREFIX "incq", v->counter, e);
++#ifdef CONFIG_64BIT
++	raw_atomic64_sub(i, v);
++#else
+ 	raw_atomic_sub(i, v);
++#endif
  }
- #define arch_atomic64_inc_and_test arch_atomic64_inc_and_test
  
--/**
-- * arch_atomic64_add_negative - add and test if negative
-- * @i: integer value to add
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically adds @i to @v and returns true
-- * if the result is negative, or false when
-- * result is greater than or equal to zero.
-- */
- static __always_inline bool arch_atomic64_add_negative(s64 i, atomic64_t *v)
+ static __always_inline long
+ raw_atomic_long_sub_return(long i, atomic_long_t *v)
  {
- 	return GEN_BINARY_RMWcc(LOCK_PREFIX "addq", v->counter, s, "er", i);
++#ifdef CONFIG_64BIT
++	return raw_atomic64_sub_return(i, v);
++#else
+ 	return raw_atomic_sub_return(i, v);
++#endif
  }
- #define arch_atomic64_add_negative arch_atomic64_add_negative
  
--/**
-- * arch_atomic64_add_return - add and return
-- * @i: integer value to add
-- * @v: pointer to type atomic64_t
-- *
-- * Atomically adds @i to @v and returns @i + @v
-- */
- static __always_inline s64 arch_atomic64_add_return(s64 i, atomic64_t *v)
+ static __always_inline long
+ raw_atomic_long_sub_return_acquire(long i, atomic_long_t *v)
  {
- 	return i + xadd(&v->counter, i);
++#ifdef CONFIG_64BIT
++	return raw_atomic64_sub_return_acquire(i, v);
++#else
+ 	return raw_atomic_sub_return_acquire(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_sub_return_release(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_sub_return_release(i, v);
++#else
+ 	return raw_atomic_sub_return_release(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_sub_return_relaxed(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_sub_return_relaxed(i, v);
++#else
+ 	return raw_atomic_sub_return_relaxed(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_sub(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_sub(i, v);
++#else
+ 	return raw_atomic_fetch_sub(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_sub_acquire(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_sub_acquire(i, v);
++#else
+ 	return raw_atomic_fetch_sub_acquire(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_sub_release(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_sub_release(i, v);
++#else
+ 	return raw_atomic_fetch_sub_release(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_sub_relaxed(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_sub_relaxed(i, v);
++#else
+ 	return raw_atomic_fetch_sub_relaxed(i, v);
++#endif
+ }
+ 
+ static __always_inline void
+ raw_atomic_long_inc(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	raw_atomic64_inc(v);
++#else
+ 	raw_atomic_inc(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_inc_return(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_inc_return(v);
++#else
+ 	return raw_atomic_inc_return(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_inc_return_acquire(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_inc_return_acquire(v);
++#else
+ 	return raw_atomic_inc_return_acquire(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_inc_return_release(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_inc_return_release(v);
++#else
+ 	return raw_atomic_inc_return_release(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_inc_return_relaxed(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_inc_return_relaxed(v);
++#else
+ 	return raw_atomic_inc_return_relaxed(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_inc(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_inc(v);
++#else
+ 	return raw_atomic_fetch_inc(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_inc_acquire(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_inc_acquire(v);
++#else
+ 	return raw_atomic_fetch_inc_acquire(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_inc_release(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_inc_release(v);
++#else
+ 	return raw_atomic_fetch_inc_release(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_inc_relaxed(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_inc_relaxed(v);
++#else
+ 	return raw_atomic_fetch_inc_relaxed(v);
++#endif
+ }
+ 
+ static __always_inline void
+ raw_atomic_long_dec(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	raw_atomic64_dec(v);
++#else
+ 	raw_atomic_dec(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_dec_return(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_dec_return(v);
++#else
+ 	return raw_atomic_dec_return(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_dec_return_acquire(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_dec_return_acquire(v);
++#else
+ 	return raw_atomic_dec_return_acquire(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_dec_return_release(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_dec_return_release(v);
++#else
+ 	return raw_atomic_dec_return_release(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_dec_return_relaxed(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_dec_return_relaxed(v);
++#else
+ 	return raw_atomic_dec_return_relaxed(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_dec(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_dec(v);
++#else
+ 	return raw_atomic_fetch_dec(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_dec_acquire(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_dec_acquire(v);
++#else
+ 	return raw_atomic_fetch_dec_acquire(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_dec_release(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_dec_release(v);
++#else
+ 	return raw_atomic_fetch_dec_release(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_dec_relaxed(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_dec_relaxed(v);
++#else
+ 	return raw_atomic_fetch_dec_relaxed(v);
++#endif
+ }
+ 
+ static __always_inline void
+ raw_atomic_long_and(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	raw_atomic64_and(i, v);
++#else
+ 	raw_atomic_and(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_and(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_and(i, v);
++#else
+ 	return raw_atomic_fetch_and(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_and_acquire(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_and_acquire(i, v);
++#else
+ 	return raw_atomic_fetch_and_acquire(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_and_release(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_and_release(i, v);
++#else
+ 	return raw_atomic_fetch_and_release(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_and_relaxed(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_and_relaxed(i, v);
++#else
+ 	return raw_atomic_fetch_and_relaxed(i, v);
++#endif
+ }
+ 
+ static __always_inline void
+ raw_atomic_long_andnot(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	raw_atomic64_andnot(i, v);
++#else
+ 	raw_atomic_andnot(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_andnot(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_andnot(i, v);
++#else
+ 	return raw_atomic_fetch_andnot(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_andnot_acquire(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_andnot_acquire(i, v);
++#else
+ 	return raw_atomic_fetch_andnot_acquire(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_andnot_release(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_andnot_release(i, v);
++#else
+ 	return raw_atomic_fetch_andnot_release(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_andnot_relaxed(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_andnot_relaxed(i, v);
++#else
+ 	return raw_atomic_fetch_andnot_relaxed(i, v);
++#endif
+ }
+ 
+ static __always_inline void
+ raw_atomic_long_or(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	raw_atomic64_or(i, v);
++#else
+ 	raw_atomic_or(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_or(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_or(i, v);
++#else
+ 	return raw_atomic_fetch_or(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_or_acquire(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_or_acquire(i, v);
++#else
+ 	return raw_atomic_fetch_or_acquire(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_or_release(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_or_release(i, v);
++#else
+ 	return raw_atomic_fetch_or_release(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_or_relaxed(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_or_relaxed(i, v);
++#else
+ 	return raw_atomic_fetch_or_relaxed(i, v);
++#endif
+ }
+ 
+ static __always_inline void
+ raw_atomic_long_xor(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	raw_atomic64_xor(i, v);
++#else
+ 	raw_atomic_xor(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_xor(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_xor(i, v);
++#else
+ 	return raw_atomic_fetch_xor(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_xor_acquire(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_xor_acquire(i, v);
++#else
+ 	return raw_atomic_fetch_xor_acquire(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_xor_release(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_xor_release(i, v);
++#else
+ 	return raw_atomic_fetch_xor_release(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_xor_relaxed(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_xor_relaxed(i, v);
++#else
+ 	return raw_atomic_fetch_xor_relaxed(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_xchg(atomic_long_t *v, long i)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_xchg(v, i);
++#else
+ 	return raw_atomic_xchg(v, i);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_xchg_acquire(atomic_long_t *v, long i)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_xchg_acquire(v, i);
++#else
+ 	return raw_atomic_xchg_acquire(v, i);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_xchg_release(atomic_long_t *v, long i)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_xchg_release(v, i);
++#else
+ 	return raw_atomic_xchg_release(v, i);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_xchg_relaxed(atomic_long_t *v, long i)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_xchg_relaxed(v, i);
++#else
+ 	return raw_atomic_xchg_relaxed(v, i);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_cmpxchg(atomic_long_t *v, long old, long new)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_cmpxchg(v, old, new);
++#else
+ 	return raw_atomic_cmpxchg(v, old, new);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_cmpxchg_acquire(atomic_long_t *v, long old, long new)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_cmpxchg_acquire(v, old, new);
++#else
+ 	return raw_atomic_cmpxchg_acquire(v, old, new);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_cmpxchg_release(atomic_long_t *v, long old, long new)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_cmpxchg_release(v, old, new);
++#else
+ 	return raw_atomic_cmpxchg_release(v, old, new);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_cmpxchg_relaxed(atomic_long_t *v, long old, long new)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_cmpxchg_relaxed(v, old, new);
++#else
+ 	return raw_atomic_cmpxchg_relaxed(v, old, new);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_try_cmpxchg(atomic_long_t *v, long *old, long new)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_try_cmpxchg(v, (s64 *)old, new);
++#else
+ 	return raw_atomic_try_cmpxchg(v, (int *)old, new);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_try_cmpxchg_acquire(atomic_long_t *v, long *old, long new)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_try_cmpxchg_acquire(v, (s64 *)old, new);
++#else
+ 	return raw_atomic_try_cmpxchg_acquire(v, (int *)old, new);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_try_cmpxchg_release(atomic_long_t *v, long *old, long new)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_try_cmpxchg_release(v, (s64 *)old, new);
++#else
+ 	return raw_atomic_try_cmpxchg_release(v, (int *)old, new);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_try_cmpxchg_relaxed(atomic_long_t *v, long *old, long new)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_try_cmpxchg_relaxed(v, (s64 *)old, new);
++#else
+ 	return raw_atomic_try_cmpxchg_relaxed(v, (int *)old, new);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_sub_and_test(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_sub_and_test(i, v);
++#else
+ 	return raw_atomic_sub_and_test(i, v);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_dec_and_test(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_dec_and_test(v);
++#else
+ 	return raw_atomic_dec_and_test(v);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_inc_and_test(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_inc_and_test(v);
++#else
+ 	return raw_atomic_inc_and_test(v);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_add_negative(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_add_negative(i, v);
++#else
+ 	return raw_atomic_add_negative(i, v);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_add_negative_acquire(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_add_negative_acquire(i, v);
++#else
+ 	return raw_atomic_add_negative_acquire(i, v);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_add_negative_release(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_add_negative_release(i, v);
++#else
+ 	return raw_atomic_add_negative_release(i, v);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_add_negative_relaxed(long i, atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_add_negative_relaxed(i, v);
++#else
+ 	return raw_atomic_add_negative_relaxed(i, v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_fetch_add_unless(atomic_long_t *v, long a, long u)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_fetch_add_unless(v, a, u);
++#else
+ 	return raw_atomic_fetch_add_unless(v, a, u);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_add_unless(atomic_long_t *v, long a, long u)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_add_unless(v, a, u);
++#else
+ 	return raw_atomic_add_unless(v, a, u);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_inc_not_zero(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_inc_not_zero(v);
++#else
+ 	return raw_atomic_inc_not_zero(v);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_inc_unless_negative(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_inc_unless_negative(v);
++#else
+ 	return raw_atomic_inc_unless_negative(v);
++#endif
+ }
+ 
+ static __always_inline bool
+ raw_atomic_long_dec_unless_positive(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_dec_unless_positive(v);
++#else
+ 	return raw_atomic_dec_unless_positive(v);
++#endif
+ }
+ 
+ static __always_inline long
+ raw_atomic_long_dec_if_positive(atomic_long_t *v)
+ {
++#ifdef CONFIG_64BIT
++	return raw_atomic64_dec_if_positive(v);
++#else
+ 	return raw_atomic_dec_if_positive(v);
++#endif
+ }
+ 
+-#endif /* CONFIG_64BIT */
+ #endif /* _LINUX_ATOMIC_LONG_H */
+-// 108784846d3bbbb201b8dabe621c5dc30b216206
++// ad09f849db0db5b30c82e497eeb9056a394c5f22
+diff --git a/scripts/atomic/gen-atomic-long.sh b/scripts/atomic/gen-atomic-long.sh
+index 13832171f7219..af27a71b37ef1 100755
+--- a/scripts/atomic/gen-atomic-long.sh
++++ b/scripts/atomic/gen-atomic-long.sh
+@@ -32,7 +32,7 @@ gen_args_cast()
+ 	done
+ }
+ 
+-#gen_proto_order_variant(meta, pfx, name, sfx, order, atomic, int, arg...)
++#gen_proto_order_variant(meta, pfx, name, sfx, order, arg...)
+ gen_proto_order_variant()
+ {
+ 	local meta="$1"; shift
+@@ -40,21 +40,24 @@ gen_proto_order_variant()
+ 	local name="$1"; shift
+ 	local sfx="$1"; shift
+ 	local order="$1"; shift
+-	local atomic="$1"; shift
+-	local int="$1"; shift
+ 
+ 	local atomicname="${pfx}${name}${sfx}${order}"
+ 
+ 	local ret="$(gen_ret_type "${meta}" "long")"
+ 	local params="$(gen_params "long" "atomic_long" "$@")"
+-	local argscast="$(gen_args_cast "${int}" "${atomic}" "$@")"
++	local argscast_32="$(gen_args_cast "int" "atomic" "$@")"
++	local argscast_64="$(gen_args_cast "s64" "atomic64" "$@")"
+ 	local retstmt="$(gen_ret_stmt "${meta}")"
+ 
+ cat <<EOF
+ static __always_inline ${ret}
+ raw_atomic_long_${atomicname}(${params})
+ {
+-	${retstmt}raw_${atomic}_${atomicname}(${argscast});
++#ifdef CONFIG_64BIT
++	${retstmt}raw_atomic64_${atomicname}(${argscast_64});
++#else
++	${retstmt}raw_atomic_${atomicname}(${argscast_32});
++#endif
+ }
+ 
+ EOF
+@@ -84,24 +87,12 @@ typedef atomic_t atomic_long_t;
+ #define atomic_long_cond_read_relaxed	atomic_cond_read_relaxed
+ #endif
+ 
+-#ifdef CONFIG_64BIT
+-
+-EOF
+-
+-grep '^[a-z]' "$1" | while read name meta args; do
+-	gen_proto "${meta}" "${name}" "atomic64" "s64" ${args}
+-done
+-
+-cat <<EOF
+-#else /* CONFIG_64BIT */
+-
+ EOF
+ 
+ grep '^[a-z]' "$1" | while read name meta args; do
+-	gen_proto "${meta}" "${name}" "atomic" "int" ${args}
++	gen_proto "${meta}" "${name}" ${args}
+ done
+ 
+ cat <<EOF
+-#endif /* CONFIG_64BIT */
+ #endif /* _LINUX_ATOMIC_LONG_H */
+ EOF
 -- 
 2.30.2
 
