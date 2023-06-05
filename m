@@ -2,104 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7017C77B73
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 03:08:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5126C7EE24
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 03:16:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232527AbjFEDIG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Jun 2023 23:08:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60354 "EHLO
+        id S232361AbjFEDQt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Jun 2023 23:16:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232389AbjFEDIE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jun 2023 23:08:04 -0400
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4342BA9
-        for <linux-doc@vger.kernel.org>; Sun,  4 Jun 2023 20:08:02 -0700 (PDT)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-19f9f11ba3dso4007888fac.2
-        for <linux-doc@vger.kernel.org>; Sun, 04 Jun 2023 20:08:02 -0700 (PDT)
+        with ESMTP id S231280AbjFEDQr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jun 2023 23:16:47 -0400
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C816A9
+        for <linux-doc@vger.kernel.org>; Sun,  4 Jun 2023 20:16:46 -0700 (PDT)
+Received: by mail-il1-x12e.google.com with SMTP id e9e14a558f8ab-33d31ab00bdso13523715ab.3
+        for <linux-doc@vger.kernel.org>; Sun, 04 Jun 2023 20:16:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685934481; x=1688526481;
+        d=gmail.com; s=20221208; t=1685935005; x=1688527005;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HmucptkZoDu3+K08LKOsMYAoXOw3eVCfWImOiCZOdF8=;
-        b=X+TDiHxfgevZOeX20EHHhoXH2LvvAtjtpoG85idHqVCYPVuM/OgwXjMZ4NHjNJY86Z
-         GaQ11IlULLuCY3w1Gmw6vpbm1Z1HEmOf0SYMrWBhWSueRiw0vJkVMbUwfsftq6QSCRC6
-         Tx3S4muvvYff4VTGE67lUnpDgScieCAYX8wOGACR0IQxD+bl8RFcwl5u6S9BfU/q0/ym
-         pxYuvOuK97Gi2zavSuNFVgJl18kEIujAVrxr3oHASiYn481x6FfxDWJEqH5OHww4BN9Q
-         lP9evoAT37Mb64bWXI/e1uGMxM/2mzPZu2FBN5sgap9Bi8uKDmUlae/GHdIfcm4HbL27
-         FZ0g==
+        bh=6RIp8/+2ROMbmgfodBV7gNklXelK6i7IpUS5pUrmgjw=;
+        b=hddC6w38wMV3dA04eyYz8Xl4kSCg5yYnN8ycdOIU44yue1a47jm1elclLHGiH3Q4sA
+         2FqdHsJcN/jT1b1VivKBGh7ivizYHzontXSMEhtj/XWpeQUe/TYgEEA7SFRygFB/PvMl
+         dwgDzlGGrONqs1GjL8410dNEOhSNLMcvW50OTk/l3yMl2Va5GRo6GInekHCGeOoyqyhp
+         onw36cTxOoLVgTtPG6uD5TVQvXsPgnucFgPFap/imxeTDVfiWnDeMG1pqhQ4SImnzNzQ
+         QFOz72yo5NwlJZyGHQRDjWIRtEbnhiGACqBo8Xt1HgUpeDiUiMlvIMlnnA5g3o2LvEb6
+         pvFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685934481; x=1688526481;
+        d=1e100.net; s=20221208; t=1685935005; x=1688527005;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HmucptkZoDu3+K08LKOsMYAoXOw3eVCfWImOiCZOdF8=;
-        b=ODlqZVfgVbKNBEUzPNYfHwnT+1a2dwMkowKqKeUqFuikZ5Ye4PYnnBDeEyelRzO/79
-         6BKGUc3k/NYUIhwWDqTWbsvoF1JIRL09hKrk504S+Fjxbzklt9K2p/P8azXdv75ok03A
-         ibvw9DN6DPkkKSXKDegnxGt8X8ey3PDbASN6lfVWDJ93O+A9Ptx1bsj1Rr/5XYrhlFV1
-         kuGbXzUcQdQ689WpJ/ru7MLoF+lgTxsOaOqud4mPZz4WHjm7r0HhDJ9j4+zz4p5w++Vf
-         RPls1hgcYKZpTDDznspwCT0OLGtE3cPQ/Gezu/1aTBme6TmWYwzL3xJ28mMTo30HmYrR
-         zdXA==
-X-Gm-Message-State: AC+VfDyQAqyjWsqEoEaEAVYE3Dx3merCjLfomrzgIUpj+vg0M00zPQ2W
-        B6Gjk1OfPi0hH6nIoIrMJTg=
-X-Google-Smtp-Source: ACHHUZ7m72Kp1UdoPnUIdV5YMJ3ZbM2ARYoaAbyUayvanFIB8zvJRCRnKJZXF5okiIpHRPeTIC+3Kw==
-X-Received: by 2002:a05:6870:98a6:b0:1a1:2939:3f13 with SMTP id eg38-20020a05687098a600b001a129393f13mr8256009oab.24.1685934481111;
-        Sun, 04 Jun 2023 20:08:01 -0700 (PDT)
+        bh=6RIp8/+2ROMbmgfodBV7gNklXelK6i7IpUS5pUrmgjw=;
+        b=SdvEYAB/p3vx+Dizbb1xew/IhYZalo4SmtrvCgm76gWg5X5IQs5suZgp2lLHQY7rFF
+         IxLGJb+d+99qJmKzvjVIHBMctVJhkBQWfempPQYev3Hl49mAvtHInEa50Iv7vpLst9Ub
+         mluUBLIVPBvSNucHt1ZzEzfOQQgYjyBrm0cs1d2FU7cY3njKVnTs5X6DEbZoSParFZv9
+         x+NC7qJTir7225djWUkGY5BL7fjNVPBS9bC0k1032HDrevJflJvRI0YKNm9O+maElfac
+         D3MofUl8ruwt2o1oaBmOXPkgC/02AUyknYVWcF1XP7wwDNIp4TTrmkiIgQMwLh6UhP+e
+         xSUg==
+X-Gm-Message-State: AC+VfDx0vsOF4CJk3ORGkFMBw+Em5Eju6m6qxG98TiF/THcLWssZa3WV
+        X0f7CLvOUI2kzWfbDBt7r+o+p5zBNRKLdg==
+X-Google-Smtp-Source: ACHHUZ5gh6OL2VL0ttW0+wx8rwFffRN+NKM156RLHk3uSO0deVArqH2NJxZgrS9IZCecilcQ9u4fqA==
+X-Received: by 2002:a92:cd49:0:b0:331:35c2:d242 with SMTP id v9-20020a92cd49000000b0033135c2d242mr15938042ilq.32.1685935005445;
+        Sun, 04 Jun 2023 20:16:45 -0700 (PDT)
 Received: from debian.me (subs03-180-214-233-4.three.co.id. [180.214.233.4])
-        by smtp.gmail.com with ESMTPSA id c3-20020a656183000000b0053b92b26412sm4246493pgv.14.2023.06.04.20.08.00
+        by smtp.gmail.com with ESMTPSA id y2-20020a62b502000000b0064c98c87384sm4178939pfe.44.2023.06.04.20.16.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jun 2023 20:08:00 -0700 (PDT)
+        Sun, 04 Jun 2023 20:16:44 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 0E7941061BF; Mon,  5 Jun 2023 10:07:57 +0700 (WIB)
-Date:   Mon, 5 Jun 2023 10:07:57 +0700
+        id 81FDE106291; Mon,  5 Jun 2023 10:16:42 +0700 (WIB)
+Date:   Mon, 5 Jun 2023 10:16:42 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Russell Harmon <eatnumber1@gmail.com>
 Cc:     mpatocka@redhat.com, snitzer@redhat.com, dm-devel@redhat.com,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] Documents the meaning of "buffer" in dm-integrity.
-Message-ID: <ZH1RjWUfq3Af4fiB@debian.me>
+Subject: Re: [PATCH v3 3/4] Document dm-integrity default values.
+Message-ID: <ZH1TmkyVJbIlNUEE@debian.me>
 References: <CA+zrezTegR8jHQA3MNM6WnfFU_RP4=fiCuk6WgwJZsjZ2PYUSw@mail.gmail.com>
  <20230604190604.4800-1-eatnumber1@gmail.com>
- <20230604190604.4800-3-eatnumber1@gmail.com>
+ <20230604190604.4800-4-eatnumber1@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="HSFYUBcIsEVvpXlP"
+        protocol="application/pgp-signature"; boundary="Uv1ofh8JTa3EH3uz"
 Content-Disposition: inline
-In-Reply-To: <20230604190604.4800-3-eatnumber1@gmail.com>
+In-Reply-To: <20230604190604.4800-4-eatnumber1@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---HSFYUBcIsEVvpXlP
+--Uv1ofh8JTa3EH3uz
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 04, 2023 at 12:06:02PM -0700, Russell Harmon wrote:
-> "Buffers" are buffers of the metadata/checksum area of dm-integrity.
-> They are always at most as large as a single metadata area on-disk, but
-> may be smaller.
+On Sun, Jun 04, 2023 at 12:06:03PM -0700, Russell Harmon wrote:
+> Specifically:
+>   interleave_sectors =3D 32768
+>   buffer_sectors =3D 128
+>   block_size =3D 512
+>   journal_watermark =3D 50
+>   commit_time =3D 10000
 
-Hey, I forgot to mention below.
-
-Where is the subject prefix? The patch title should have been "Documentatio=
-n: dm-integrity: Document
-buffers".
+Your patch description duplicates the diff content below. Please write
+in a mood that evocates curiosity to read the diff (and make sure it is
+also imperative).
 
 Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---HSFYUBcIsEVvpXlP
+--Uv1ofh8JTa3EH3uz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZH1RjQAKCRD2uYlJVVFO
-o4s9AQDcc+iJrSPFyOxiVtNsDj14f0Sd9tDmnXoUZ7wDxKqPRAEAquh4m8KjN8Cx
-crwOHqbq0WwzkHlXZuPC2dSSz1XGmgs=
-=lfu6
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZH1TmgAKCRD2uYlJVVFO
+oxtOAQDxw0K4WAzLOQJeDgTZ7eKZGmfQHtK8yGKMib5ms10aBQD+N1pKF9YxeXZM
+z6jjsj1Q7fsfCkCdevSHNeih/7UssAo=
+=/mJ5
 -----END PGP SIGNATURE-----
 
---HSFYUBcIsEVvpXlP--
+--Uv1ofh8JTa3EH3uz--
