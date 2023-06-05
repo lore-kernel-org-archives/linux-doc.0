@@ -2,24 +2,24 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CE2C7EE2E
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 07:02:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF93C7EE2A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 07:02:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbjFEHCL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 03:02:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35122 "EHLO
+        id S230253AbjFEHCO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 03:02:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230212AbjFEHBs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 03:01:48 -0400
+        with ESMTP id S230246AbjFEHCI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 03:02:08 -0400
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C5585110;
-        Mon,  5 Jun 2023 00:01:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DF06119A;
+        Mon,  5 Jun 2023 00:01:50 -0700 (PDT)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0DAAAD75;
-        Mon,  5 Jun 2023 00:02:30 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 396EED75;
+        Mon,  5 Jun 2023 00:02:36 -0700 (PDT)
 Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6EEF23F793;
-        Mon,  5 Jun 2023 00:01:42 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E92E03F793;
+        Mon,  5 Jun 2023 00:01:48 -0700 (PDT)
 From:   Mark Rutland <mark.rutland@arm.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     akiyks@gmail.com, boqun.feng@gmail.com, corbet@lwn.net,
@@ -27,9 +27,9 @@ Cc:     akiyks@gmail.com, boqun.feng@gmail.com, corbet@lwn.net,
         linux-doc@vger.kernel.org, mark.rutland@arm.com,
         mchehab@kernel.org, paulmck@kernel.org, peterz@infradead.org,
         rdunlap@infradead.org, sstabellini@kernel.org, will@kernel.org
-Subject: [PATCH v2 05/27] locking/atomic: arc: add preprocessor symbols
-Date:   Mon,  5 Jun 2023 08:01:02 +0100
-Message-Id: <20230605070124.3741859-6-mark.rutland@arm.com>
+Subject: [PATCH v2 07/27] locking/atomic: hexagon: add preprocessor symbols
+Date:   Mon,  5 Jun 2023 08:01:04 +0100
+Message-Id: <20230605070124.3741859-8-mark.rutland@arm.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230605070124.3741859-1-mark.rutland@arm.com>
 References: <20230605070124.3741859-1-mark.rutland@arm.com>
@@ -50,7 +50,7 @@ Subsequent patches will require that architectures define a preprocessor
 symbol for any atomic (or ordering variant) which is optional. This will
 make the fallback ifdeffery more robust, and simplify future changes.
 
-Add the required definitions to arch/arc.
+Add the required definitions to arch/hexagon.
 
 Signed-off-by: Mark Rutland <mark.rutland@arm.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
@@ -59,37 +59,36 @@ Cc: Paul E. McKenney <paulmck@kernel.org>
 Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Will Deacon <will@kernel.org>
 ---
- arch/arc/include/asm/atomic-spinlock.h | 9 +++++++++
+ arch/hexagon/include/asm/atomic.h | 9 +++++++++
  1 file changed, 9 insertions(+)
 
-diff --git a/arch/arc/include/asm/atomic-spinlock.h b/arch/arc/include/asm/atomic-spinlock.h
-index 2c830347bfb4e..89d12a60f84c0 100644
---- a/arch/arc/include/asm/atomic-spinlock.h
-+++ b/arch/arc/include/asm/atomic-spinlock.h
-@@ -81,6 +81,11 @@ static inline int arch_atomic_fetch_##op(int i, atomic_t *v)		\
- ATOMIC_OPS(add, +=, add)
- ATOMIC_OPS(sub, -=, sub)
+diff --git a/arch/hexagon/include/asm/atomic.h b/arch/hexagon/include/asm/atomic.h
+index ad6c111e9c10f..5c8440016c762 100644
+--- a/arch/hexagon/include/asm/atomic.h
++++ b/arch/hexagon/include/asm/atomic.h
+@@ -91,6 +91,11 @@ static inline int arch_atomic_fetch_##op(int i, atomic_t *v)		\
+ ATOMIC_OPS(add)
+ ATOMIC_OPS(sub)
  
-+#define arch_atomic_fetch_add		arch_atomic_fetch_add
-+#define arch_atomic_fetch_sub		arch_atomic_fetch_sub
-+#define arch_atomic_add_return		arch_atomic_add_return
-+#define arch_atomic_sub_return		arch_atomic_sub_return
++#define arch_atomic_add_return			arch_atomic_add_return
++#define arch_atomic_sub_return			arch_atomic_sub_return
++#define arch_atomic_fetch_add			arch_atomic_fetch_add
++#define arch_atomic_fetch_sub			arch_atomic_fetch_sub
 +
  #undef ATOMIC_OPS
- #define ATOMIC_OPS(op, c_op, asm_op)					\
- 	ATOMIC_OP(op, c_op, asm_op)					\
-@@ -92,7 +97,11 @@ ATOMIC_OPS(or, |=, or)
- ATOMIC_OPS(xor, ^=, xor)
+ #define ATOMIC_OPS(op) ATOMIC_OP(op) ATOMIC_FETCH_OP(op)
  
- #define arch_atomic_andnot		arch_atomic_andnot
+@@ -98,6 +103,10 @@ ATOMIC_OPS(and)
+ ATOMIC_OPS(or)
+ ATOMIC_OPS(xor)
+ 
++#define arch_atomic_fetch_and			arch_atomic_fetch_and
++#define arch_atomic_fetch_or			arch_atomic_fetch_or
++#define arch_atomic_fetch_xor			arch_atomic_fetch_xor
 +
-+#define arch_atomic_fetch_and		arch_atomic_fetch_and
- #define arch_atomic_fetch_andnot	arch_atomic_fetch_andnot
-+#define arch_atomic_fetch_or		arch_atomic_fetch_or
-+#define arch_atomic_fetch_xor		arch_atomic_fetch_xor
- 
  #undef ATOMIC_OPS
  #undef ATOMIC_FETCH_OP
+ #undef ATOMIC_OP_RETURN
 -- 
 2.30.2
 
