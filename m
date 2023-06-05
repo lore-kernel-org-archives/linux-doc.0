@@ -2,153 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7085C7EE29
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 00:37:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E677C7EE29
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Jun 2023 01:58:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231594AbjFEAhK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Jun 2023 20:37:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32826 "EHLO
+        id S229449AbjFEB6Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Jun 2023 21:58:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230218AbjFEAhJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jun 2023 20:37:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9EA1CD;
-        Sun,  4 Jun 2023 17:37:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 75B3D61CB8;
-        Mon,  5 Jun 2023 00:37:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA34AC433EF;
-        Mon,  5 Jun 2023 00:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685925427;
-        bh=8ViOZ/67sFC1dwMBsTpVWnyzKQ+Cxx+t5f/lBwak1P0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=VuknoifnPM3Ny8uuPvhWMe3iKC6lE+/ud3dTUXPfJKlxcw4v2UEumVfUd9jW7w/bS
-         XNPBYMbEOkU8x57jN72rmSTW15i++Wte5y5W6MiCp9E/1/QlPTEHx/H9anIn0o7UCL
-         NICepO4JqRrXVkRPvIu3Fba39mWJMpsHNdP+UxNeiL8xmxa/6z5S/U6sX7Qg6AY0gt
-         MYITBJLuL6GjitrIYz6L6ADIkD81sI3GoL5VKvtKsbuFORWmFnh9Cf64ViBvhwsVxy
-         SOVU87WTtXLV0n5wt5LnOlq0HBNwEcF8hnTuUH2rDyn4ER/ruYlKdVOJz7bNJoWPnT
-         JEt5j/czJTwIg==
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-558c8a109bdso372805eaf.1;
-        Sun, 04 Jun 2023 17:37:07 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyZgiIrfLbjztRSAGL+SwgtnzCBFoILhCuqdZyES/7UWP9oshu1
-        wq3Jo0u4bszernGO2oHsnMK+JRn/ZBm/x7jFBg4=
-X-Google-Smtp-Source: ACHHUZ7Jm7elrU5npuF1QxqdtBRteBO0IRNznr6jV6ddUwArpX9BkikZ+hfd26MESp8Llek/+jq5zcQT/c7HnabSCGQ=
-X-Received: by 2002:a4a:b3cb:0:b0:54f:4e01:7fc9 with SMTP id
- q11-20020a4ab3cb000000b0054f4e017fc9mr5073688ooo.3.1685925427055; Sun, 04 Jun
- 2023 17:37:07 -0700 (PDT)
+        with ESMTP id S232412AbjFEB6P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Jun 2023 21:58:15 -0400
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 411C4DA
+        for <linux-doc@vger.kernel.org>; Sun,  4 Jun 2023 18:58:11 -0700 (PDT)
+Received: by mail-ot1-x32c.google.com with SMTP id 46e09a7af769-6b0d38ce700so3306297a34.2
+        for <linux-doc@vger.kernel.org>; Sun, 04 Jun 2023 18:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bitbyteword.org; s=google; t=1685930290; x=1688522290;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=woMTl6Q2e+ae4QSNZueTlUS9px8Mf5/8HDEl7sylqqA=;
+        b=fi2o5gntsaBJAHQDwvQ+cq5NmWknXOJ0ZzfxOoiZ5NRTNsBUnXJ+6Mzby7EnagFEgU
+         HX19Tj6rL36obcujXAlPNEL/PEviF6OeLJ6wNrdrCorMjyAY9EvMZsI+qVwvUUKpkZmF
+         onnY9bkl0B7hZpcpiYx4fn3KWB5wagX5ODtqHsYtmJwFbg+wff1mtd+dqhBG4372c1cC
+         g03A9wbloml6vsG2Y2UEIIoGtXiAQKbcy+mQASNe89TUCeWRnzPAZvWVgbojj+g55ctq
+         kbHZBBw7UAA9w2Evmgt2csg+Mp1u6Aih764vh8ge9i7a02Jo8xAaMO9uBA4rSklx1M3N
+         wiDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685930290; x=1688522290;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=woMTl6Q2e+ae4QSNZueTlUS9px8Mf5/8HDEl7sylqqA=;
+        b=LQ56v0qsISnv+r2S/Gb+VP9+xtdZCdM315j1PvMmy7LDwol/Zd62GOidqsHWzOortE
+         BhzLaMQY1KZ6T0s87M2MUYlXS3UQanjrZkpzd27RGH+QI+uP2P8A+QliqPrjZYYGsxBd
+         l2aMLSE1J0VdoPUbQX4KOewcFMM9ktnegd5jIJ0hoc7RCSgJ+mAaAMObnVDt3J1WBuPY
+         QolwJp9NyvPmJ08BQEziLs7XuFGsiDjvf5UQ6sqztSBoMWYZsjWJArLA/qOylzCEnXZ8
+         kr37e1cFwSBSuHcQ9qH9GO9kZ1K/7UuLsR7G9p8bx7m8GklmkMT98MP05yyqHcCSopsm
+         gC9w==
+X-Gm-Message-State: AC+VfDxGUfnykq0GdXa2wYHJjvYebp6DCTiUPSPcsZUS+CUTnHSYx3DK
+        T+MpIn0rYvhpQ2vhyLhYSKmFf3g2Z3tb4q5LdbuzeQ==
+X-Google-Smtp-Source: ACHHUZ7dMG6VFUeLVAxlOKiRl5/BMcAoH6Asz7b9Gt7hBrlFBXiX3P6gzRB0npQfBUThKsynv0nkc3EHpRNMlOG1Vqg=
+X-Received: by 2002:a05:6830:39d9:b0:6b0:c632:ff59 with SMTP id
+ bt25-20020a05683039d900b006b0c632ff59mr8886151otb.19.1685930290555; Sun, 04
+ Jun 2023 18:58:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230602230014.a435aab03cee.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
-In-Reply-To: <20230602230014.a435aab03cee.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 5 Jun 2023 09:36:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ87U202fgqkd5T9G82h4F6sNOMW2=vH1HmgAoVA48CMw@mail.gmail.com>
-Message-ID: <CAK7LNAQ87U202fgqkd5T9G82h4F6sNOMW2=vH1HmgAoVA48CMw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kernel-doc: don't let V=1 change outcome
-To:     Johannes Berg <johannes@sipsolutions.net>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, Johannes Berg <johannes.berg@intel.com>
+References: <20230530135526.2385378-1-vineeth@bitbyteword.org> <6ba5e4bc-dfb9-dccf-d075-f7bde831acf6@arm.com>
+In-Reply-To: <6ba5e4bc-dfb9-dccf-d075-f7bde831acf6@arm.com>
+From:   Vineeth Remanan Pillai <vineeth@bitbyteword.org>
+Date:   Sun, 4 Jun 2023 21:57:59 -0400
+Message-ID: <CAO7JXPgV4p3-c-ZB=Ab0rNphdg4+gb7p2KKYwV3CgnMJiYKvPQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] sched/deadline: Fix bandwidth reclaim equation in GRUB
+To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc:     luca.abeni@santannapisa.it, Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        youssefesmat@google.com, Ben Segall <bsegall@google.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 3, 2023 at 6:00=E2=80=AFAM Johannes Berg <johannes@sipsolutions=
-.net> wrote:
+Hi Dietmar,
+
+Sorry for my late response..
+
+> > + * Since rq->dl.bw_ratio contains 1 / Umax multiplied by 2^RATIO_SHIFT, dl_bw
+> > + * is multiped by rq->dl.bw_ratio and shifted right by RATIO_SHIFT.
 >
-> From: Johannes Berg <johannes.berg@intel.com>
+> nit-pick:
 >
-> The kernel-doc script currently reports a number of issues
-> only in "verbose" mode, but that's initialized from V=3D1
-> (via KBUILD_VERBOSE), so if you use KDOC_WERROR=3D1 then
-> adding V=3D1 might actually break the build. This is rather
-> unexpected.
-
-Agree.
-
-
+> s/multiped/multiplied
 >
-> Change kernel-doc to not change its behaviour wrt. errors
-> (or warnings) when verbose mode is enabled, but rather add
-> separate warning flags (and -Wall) for it.
+Sorry I missed this. I am working on couple more GRUB fixes and will fix
+this along with those changes.
+
+> Not related to this patch directly but I still can't see how `GRUB-PA`
+> with schedutil CPUfreq governor should work together with GRUB reclaiming.
 >
-> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-> ---
->  scripts/kernel-doc | 41 ++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 36 insertions(+), 5 deletions(-)
+> CPU frequency is influenced by Uact (rq->dl.running_bw):
 >
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 2486689ffc7b..1eb1819fbe13 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -23,7 +23,7 @@ kernel-doc - Print formatted kernel documentation to st=
-dout
+> sugov_get_util() -> effective_cpu_util() -> cpu_bw_dl() ->
 >
->  =3Dhead1 SYNOPSIS
+>       return rq->dl.running_bw * SCHED_CAPACITY_SCALE) >> BW_SHIFT
 >
-> - kernel-doc [-h] [-v] [-Werror]
-> + kernel-doc [-h] [-v] [-Werror] [-Wreturn] [-Wshort-description] [-Wcont=
-ents-before-sections] [-Wall]
->     [ -man |
->       -rst [-sphinx-version VERSION] [-enable-lineno] |
->       -none
-> @@ -133,6 +133,9 @@ my $dohighlight =3D "";
+> But the extra GRUB reclaim runtime is calculated based on rq->dl.max_bw
+> and AFAICS, Uact is not adjusted by scaled_delta_exec?
 >
->  my $verbose =3D 0;
->  my $Werror =3D 0;
-> +my $Wreturn =3D 0;
-> +my $Wshort_desc =3D 0;
-> +my $Wcontents_before_sections =3D 0;
->  my $output_mode =3D "rst";
->  my $output_preformatted =3D 0;
->  my $no_doc_sections =3D 0;
-> @@ -191,6 +194,24 @@ if (defined($ENV{'KDOC_WERROR'})) {
->         $Werror =3D "$ENV{'KDOC_WERROR'}";
->  }
->
-> +if (defined($ENV{'KDOC_WRETURN'})) {
-> +       $Wreturn =3D "$ENV{'KDOC_WRETURN'}";
-> +}
-> +
-> +if (defined($ENV{'KDOC_WSHORT_DESC'})) {
-> +       $Wshort_desc =3D "$ENV{'KDOC_WSHORT_DESC'}";
-> +}
-> +
-> +if (defined($ENV{'KDOC_WCONTENTS_BEFORE_SECTION'})) {
-> +       $Wcontents_before_sections =3D "$ENV{'KDOC_WCONTENTS_BEFORE_SECTI=
-ON'}";
-> +}
-> +
-> +if (defined($ENV{'KDOC_WALL'})) {
-> +       $Wreturn =3D "$ENV{'KDOC_WALL'}";
-> +       $Wshort_desc =3D "$ENV{'KDOC_WALL'}";
-> +       $Wcontents_before_sections =3D "$ENV{'KDOC_WALL'}";
-> +}
+I haven't had a chance to look at GRUB-PA till now and after reading
+your mail, I had a quick read of GRUB-PA paper[1] :-). From what I
+understood, the dea of GRUB-PA is not to reclaim to the maximum
+allowable bandwidth, but to scale down the frequency to the required
+utilization(running_bw). This way the tasks run longer(similar to
+reclaiming) but using less power.
 
+GRUB reclaim is calculated indirectly based on running_bw as well as
+"Uinact = this_bw - running_bw". We factor in reserved and running bw
+into the equation and then scale it down to max_bw. So if my
+understanding is correct, GRUB-PA doesn't technically reclaim extra
+processing capacity, but just allows the task to run longer at lower
+frequency so as to save power. I might be wrong and not an expert
+here. Luca, please correct me if I am wrong.
 
+Thanks,
+Vineeth
 
-Adding an environment variable to each of them is tedious.
-
-
-If you enable -Wall via the command line option,
-these lines are unneeded?
-
-For example,
-
-ifneq ($(KBUILD_EXTRA_WARN),)
-  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
-         $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) $<
-endif
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+[1] C. Scordino, G. Lipari, A Resource Reservation Algorithm for Power-Aware
+    Scheduling of Periodic and Aperiodic Real-Time Tasks, IEEE Transactions
+    on Computers, December 2006.
