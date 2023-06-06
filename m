@@ -2,171 +2,189 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB643C7EE24
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 03:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A10D9C7EE24
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 04:18:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231836AbjFFD5c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 23:57:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50740 "EHLO
+        id S232877AbjFFEST (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 00:18:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230483AbjFFD5b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 23:57:31 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 551D812B
-        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 20:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=g7Pov4hYToHPPLgJtu0NNFS7UNME9MxY28Z3h6zECZg=; b=fRawv2FljXPWPo4iMDnIAB78Ja
-        vAUsQEqKg4ZaRltM1F9iT0YTNF8Z1feyt1jGmoohDa1Ii52w+oBCPX5jVjUbfrcEo4hlp2roycFsT
-        zYJMKtsA2WmUajztFsxvFc3fWY2LFxTdu9qKhR6KozL5ee1p9C1iBIvTdvt6cfeEf1YyE5WjAlbS4
-        GlaK1jo8xBq6cDrehTqO8y1ltFS3h/H6TcIUuJrWQaJq0Ugd68u2l/NFPwr4sisCYCvjCLEckeclq
-        cJG+7+evnVE164859LnhG2ypcY0CXDjJ3KtJyHhZcAI/79R1U+uis1YtJ13DwOTqQs/I9kY6fzZ9X
-        ZWQAS66g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1q6Now-00CicD-FS; Tue, 06 Jun 2023 03:57:22 +0000
-Date:   Tue, 6 Jun 2023 04:57:22 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] Documentation/mm: Initial page table documentation
-Message-ID: <ZH6uolQWeyX9kb+j@casper.infradead.org>
-References: <20230605221035.3681812-1-linus.walleij@linaro.org>
+        with ESMTP id S232479AbjFFESR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 00:18:17 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34B05187;
+        Mon,  5 Jun 2023 21:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686025096; x=1717561096;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=n3YCE2NekWexwswEKL7gSJ9CXsZkQ0O0A13odkEPxp4=;
+  b=lstWmdveSblFogr6sLzETEuAPuS5PKLdP29vFvKayXI9mri/g7Q6fFo+
+   2bJgTjrC8xa5F/HFz7FXaaHQzllyt0RnLEYMKqZ2w0BqY0FJDYdXSV1vl
+   k8KqvcRksYHUV5ZZkHRju3vRZqOGT7jm/xIHJZiozghwnCO5gdlkC94tS
+   B3qga/kb0fdOnIUmiRgl24bxW+k6WHC/NP6+vgmqN7B2K7Z0tnXdYeFSe
+   LPIsU5cE8zxBNQj6bYi4cK8+GLDEvThia5WBSqqVWxlY0WEkr54SVGCE3
+   WlqwnwwFqUAAriY0HudW9n2orbDoAC09P0fb3/sRByb0iH4GED4f/l3OY
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="354052382"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="354052382"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 21:18:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="1039025039"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="1039025039"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga005.fm.intel.com with ESMTP; 05 Jun 2023 21:18:15 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 5 Jun 2023 21:18:15 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Mon, 5 Jun 2023 21:18:15 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Mon, 5 Jun 2023 21:18:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XowtzFxAnb9nxCwWi87NxJkYqwNdFC4ubOPpzSz3Y4tvuYxNUhgZSBMbrLQpe7+43HJzyd1vmkIrYrOdfXyfdmXIDChm+6zHaTmpx9FTwYqBSl/qECZmQ8U0j6fdPhEgqL2WxIJGsPBwdVoxjR3scAbIs00np4MAf7X8c1Mztc63+0hqmbjtt6T/L6GknPWKGPntHAFpX/xjM5Um/zD5DmoJxAZvwq70HOHsNT2xKlHGMfXduMo22bv1nYcSMJi6gvbSD0dbwPlJZO6m9vn0D4TN99p7NMO1/Jl9Vq9hewQTkH3IGvci+MXdhxSDfiyRy3tXXaazYQ3Viudg1g7O0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/7/O49xeITvX6w5EZMZrUPUFap6IbtGUWM77jgzGO8s=;
+ b=WrcX1CoUW2mMyIXgb/f+75Z/3eF4Z5UkbYMbTPwfsEgCjC6Fe2r1hUcAHNok0/buvH9g159PDvhnhWGKKHEMqBlumBzrJj/M7nY+X+i3wpxd3s0rXDLBmAOxlQdnTnnx8Uuq0ClnNyL/iRwv/7smZU/1ocuhxnhUYWLOT0oaZLj9ldkhJWbJZh9alUjoWIRQAkmrZnchkfgjdXrKbHSj9Q04EMbU8fwk0GPvkKINIfz4bDa2/rerBiw0Elf4Zkb7SEoTKrSl3FJVt9cG3EvcSJQnq8gaUdF+hlv+9KuCc+Jm9a01sj/lxvvuxYLfM3SlTPTx9xYkeWzHF8qrWKe4Og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB4855.namprd11.prod.outlook.com (2603:10b6:510:41::12)
+ by DM4PR11MB5518.namprd11.prod.outlook.com (2603:10b6:5:39a::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Tue, 6 Jun
+ 2023 04:18:12 +0000
+Received: from PH0PR11MB4855.namprd11.prod.outlook.com
+ ([fe80::a41b:1b6c:8306:7644]) by PH0PR11MB4855.namprd11.prod.outlook.com
+ ([fe80::a41b:1b6c:8306:7644%6]) with mapi id 15.20.6455.030; Tue, 6 Jun 2023
+ 04:18:12 +0000
+Message-ID: <0c32fc78-5755-09b8-4d2c-81101e33fdee@intel.com>
+Date:   Mon, 5 Jun 2023 21:18:10 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v8 01/12] Documentation/x86: Document Key Locker
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+        <dm-devel@redhat.com>
+CC:     <ebiggers@kernel.org>, <elliott@hpe.com>, <gmazyland@gmail.com>,
+        <luto@kernel.org>, <dave.hansen@linux.intel.com>,
+        <tglx@linutronix.de>, <bp@alien8.de>, <mingo@kernel.org>,
+        <x86@kernel.org>, <herbert@gondor.apana.org.au>, <ardb@kernel.org>,
+        <dan.j.williams@intel.com>, <bernie.keany@intel.com>,
+        <charishma1.gairuboyina@intel.com>,
+        <lalithambika.krishnakumar@intel.com>, <nhuck@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+References: <20230524165717.14062-1-chang.seok.bae@intel.com>
+ <20230603152227.12335-1-chang.seok.bae@intel.com>
+ <20230603152227.12335-2-chang.seok.bae@intel.com>
+ <32ffb593-c39c-c741-7b6f-6f1cbcb1d558@infradead.org>
+Content-Language: en-US
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+In-Reply-To: <32ffb593-c39c-c741-7b6f-6f1cbcb1d558@infradead.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR07CA0011.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::24) To PH0PR11MB4855.namprd11.prod.outlook.com
+ (2603:10b6:510:41::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230605221035.3681812-1-linus.walleij@linaro.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB4855:EE_|DM4PR11MB5518:EE_
+X-MS-Office365-Filtering-Correlation-Id: 928138a0-dcd2-4476-8676-08db66450aac
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nlpH+S7yY6VXm3gAT2+Sbb/0VbEcqjWU8WaLy/fCRydGIzj3spyjERffY+tep8VB/x0oZGJn85/wv7Ke6LCt1MvG8KvYhBDv7Lk3Gh6/smvfdHhZp1UA0xN7kmhOm+W/gn+R2PHxfrU2/aDB7Wgk+w3ljQBwg0XJ+JZFJKn15ORcA8ASzkYtNi7ZxZIuPgQ7bnpx6u9/Bo+RLdFvBigVqFAi1Xlx7KcsRZPgzQXWlxdxMb2hya4RQmLwLhIOtP5b1KfSaBK0EMZYVccDq8D5FmF6iPYqm5IYJpPCg+5YYpRqA2UkXUM0MkNfofpzaAlNyiL+6I8h3bbmAb/TDjeKpXJ1SfkuQAqSthjkmDMWmI1v4uU1okfBHCU2UKoKEOTxKFj2zKzPEL82CMZXCQC9w2oB1BULaCBnw4NYtPi0nzp4CuGmttG4KQwi9WhSgoWZNY7cLh1Zb5mLohgL2qSDeAfrW4d2OyYR4Eo7Yx+q7JPvJlrb++bkVzWFklLURpyzxjd2yXATZQ8PcAZRFYYKn3g/Fx0/lXgjHTSU5pM+YX4vQemqh+SvLGRslZwBeruH7L1ODZV/Lm1qZbSIvsJj9vMVTWWZ2sIXyRTyUuspv9RQC1xNLUk6QTHJ4QUODGeeIWUY0LI57Axz3eixDGgGEw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB4855.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(136003)(376002)(396003)(39860400002)(366004)(451199021)(6506007)(186003)(26005)(6512007)(53546011)(2616005)(31686004)(83380400001)(7416002)(6486002)(36756003)(2906002)(4744005)(8676002)(8936002)(82960400001)(54906003)(478600001)(86362001)(5660300002)(31696002)(38100700002)(316002)(66476007)(41300700001)(4326008)(66556008)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SzlkSVZsRW1DOG1oU3NhRUFCS2Z6bGZRVSs5ZUllNkFEdEpBYXNQdFNtSXcw?=
+ =?utf-8?B?dlJFdUR2R3ZkdnJVdnc1Ym5jUWJwNlBMU3ZUbE9Hd1ZuU3ZhM2lEeFJjeWh3?=
+ =?utf-8?B?OU9FL2QzeWFGV1p2cmEyaTIvbWNJd3psVFdqYkQrWHAxRGkzZExvZ0lZT083?=
+ =?utf-8?B?MEh4UTRiQm93b2ZhR0xMb3hiTG9oWWo1a2xiM0lVUFd2bHloTHdqS3htSkRv?=
+ =?utf-8?B?ZkdyWjdSaHFyMTdJcDVQak1Pa0dacU1ZcWJaNEsyWVl6Y1JpWVBCMUh5SDdC?=
+ =?utf-8?B?cmNTOGJIWE1wT2N0My90VzU1by9wRDB4M1IwYWlkMVdUOUM1ejdqd0J3MTV2?=
+ =?utf-8?B?dFVwYldvamQrQnJvaFowamVjcFlFQWk3NjNxcTV3aExMcm5QdGcyYllqZzIw?=
+ =?utf-8?B?czlZN3NVMnhSZXJGdDhORU1sdDlsTHpSV0pBaXVoUzNQWHhCNFgwbnFLM1Vt?=
+ =?utf-8?B?bENZZDNNTFdibXg1RW1hdVNBNStxTlV2a0wzaVM5OU93OTU1amwrNXFySXRs?=
+ =?utf-8?B?b2tta0hJNUtJR1JRREY5L1hhZkN3NjYwZEsxanYrdE9OcXJTaXJBYllIMjk2?=
+ =?utf-8?B?dmVabEtUV3VoYTRYN0U5VldTaTlGeVZDZU5Sall3RHhoTWhuSldQcEdpMm9O?=
+ =?utf-8?B?Tit2RXh4Ty94dVBKenhFWFNOZXBFWi9zakZKN1pjMG9Ra3RpdDY5bXkyMUpn?=
+ =?utf-8?B?UFdESDBiQktyR1h6eHV4ZkxadjJCdnNHQ1VnSUhUUk1HOEplWVMvSG96TXdo?=
+ =?utf-8?B?Uy9JaXZNM3l3ck9idlk0aURxMmhmZzhJYldmeitUYTBmRy9pYVpKaTJHV2Vi?=
+ =?utf-8?B?aFp2UmdMMnYyL3hLMVVxOEx0VmhQRS9FVWIwLzFiU0lvZC9vTlNaaWdndmQz?=
+ =?utf-8?B?VjQ4eGdMV1JKdlZwYUVtQkpJUWpCcnlOdkxKb0VlU3JBUDFHSE8vL0tGZFht?=
+ =?utf-8?B?bGRzMjMzZGptbDZBUU5xRlpNWXdFeW4xbjJndWtxZWdscGxFMFdnR21LTkpX?=
+ =?utf-8?B?RFBqY3E1dkpoVnZDQzJoSEFkTkNOMlhPbExsV0Z3Qm13UjFPakQrcGtFb2gv?=
+ =?utf-8?B?RkxiU1QyUFhhNjlhNEF1aEtNQTB0K0U4ZEx0Z0xZYldKVzZMd3YzSUJXOGw1?=
+ =?utf-8?B?M3MvWDVTcDdaOTBvM2FRUit6QUFnUEFMQnpNS3EvZWdRUXNkYmdhSFYrQ3lK?=
+ =?utf-8?B?cUpCU3hmNnlqN3FnTEQ0N1QwS0FHeU5kTVJGbU5acVdsd2NFSU5TeVQ1dmtE?=
+ =?utf-8?B?M3lwbW44bTR3bjNid3VqUmMvNWx0UUMxWWVsUGVOTXJtTWZEWjVhWndZRFh5?=
+ =?utf-8?B?VFlqT3JOb29yVllCUFNZNy96cFBHWk12bm1hU3Y5dGd4aitZYWpESEtVcGc1?=
+ =?utf-8?B?cWRJVmpvSnRDWXg4dWpBVGI3OW5ibDhOUkhmYjEzTnA2YWprN3ZzV2hib1ZB?=
+ =?utf-8?B?aXFDVGJqeExSQ3VtUVdKbnRWOEcxYXBlUW1CMm5yOWFiRlRCMTRCWUE1Z3Fp?=
+ =?utf-8?B?SXNleFVNRGRyRFpCQ3ZVY2NVK2RNRTRlRDkwQmp6aFEzUHFqdjVFeGdrRDJx?=
+ =?utf-8?B?K3pqTStHaUh1TjRyM1Y5N0diNU9OaDhLaks1ZHE2MHpOUTZjVzlidS9JdHVT?=
+ =?utf-8?B?VTVZTytNMytMWHFhaml6VlNpbTVpRFZCVFhJOWEwVytucVM4QUZuKzBuazRJ?=
+ =?utf-8?B?MEJyTTA3ZWl4RzNycll2ZVNsTHF5UjBNVjFIYSswcEt4T1ZmYmgrMkhCSkNE?=
+ =?utf-8?B?UFRvN1AxVVlmQm9PdWZXQWZ4Yy9FdFNRT0hyZE5MdWpWMVZObnlNTUpFMFpy?=
+ =?utf-8?B?VG11T1NQc04wNGQ3OVkvN2hIcm1LbVlUaEVZU0ZZRys1UERpMmFTeW85L3Z2?=
+ =?utf-8?B?akhPNXR1RGVQeEVGV044blZvTExEanJuNEFMWGZOVDg5dEdnamJKQ2huVkZ5?=
+ =?utf-8?B?aGRWR3ZTNVB3VUxYbzRDS2NZV0xGYlhHbUlRRm5tM0NhMlJnY1N2QVdIUmx0?=
+ =?utf-8?B?NkI1T25yS3djdmxLM210bW1JSjNGMXFBVDZaWFBmUHFQa2YwdWdmYXk0Q0FH?=
+ =?utf-8?B?cEdCdGFjQXcvR2QvUzFvSVR0OFNoWkFSU3FNbWFRaUJYdEFkdkIrZW5nNlJR?=
+ =?utf-8?B?VnFyWVFDUURxZURFTHdXczh4VDN4aHRFRFQzdjdmaXBxVHhUZjdYN1RmTUhV?=
+ =?utf-8?B?V2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 928138a0-dcd2-4476-8676-08db66450aac
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4855.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2023 04:18:12.3798
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qS9EL/oh3Wz5fjILXR4yrRF46gEA70x4lDIeWiK91/bnmqBZ9G1rDXIIDKmdmyrXjLY9OXw+sgS0PfWgoafCABzXZGixD/chDpMUq5EWNbQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5518
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 06, 2023 at 12:10:35AM +0200, Linus Walleij wrote:
-> +Paged virtual memory was invented along with virtual memory as a concept in
-> +1962 on the Ferranti Atlas Computer which was the first computer with paged
-> +virtual memory. The feature migrated to newer computers and became a de facto
-> +feature of all Unix-like systems as time went by. In 1985 the feature was
-> +included in the Intel 80386, which was the CPU Linux 1.0 was developed on.
-> +
-> +The first computers with virtual memory had one single page table, but the
-> +increased size of physical memories demanded that the page tables be split in
-> +two hierarchical levels. This happens because a single page table cannot cover
-> +the desired amount of memory with the desired granualarity, such as a page size
-> +of 4KB.
+On 6/5/2023 7:17 PM, Randy Dunlap wrote:
+> On 6/3/23 08:22, Chang S. Bae wrote:
+>> +
+>> +* AES-KL implements support for 128-bit and 256-bit keys, but there is no
+>> +  AES-KL instruction to process an 192-bit key. The AES-KL cipher
+>> +  implementation logs a warning message with a 192-bit key and then falls
+>> +  back to AES-NI. So, this 192-bit key-size limitation is only documented,
+> 
+> Is it logged anywhere?  i.e., a kernel log message?
 
-I'm not sure this is the best way to introduce the concept of the page
-tables.  I might go with something more like ...
+Yes, this is the relevant change in the last patch:
 
-Page tables are a way to map virtual addresses to physical addresses.
-While hardware architectures have many different ways of handling this,
-Linux uses hierarchical tables, currently defined to be five levels in
-height.  Architecture code takes care of mapping these software page
-tables to whatever hardware requires on a given platform.
+ > +static int aeskl_setkey(struct crypto_tfm *tfm, void *raw_ctx, const 
+u8 *in_key,
+ > +			unsigned int keylen)
+ > +{
+...
+ > +	if (unlikely(keylen == AES_KEYSIZE_192)) {
+ > +		pr_warn_once("AES-KL does not support 192-bit key. Use AES-NI.\n");
+...
+ > +}
 
-> +The physical address corresponding to the virtual address is commonly
-> +defined by the index point in the hierarchy, and this is called a **page frame
-> +number** or **pfn**. The first entry on the top level to the first entry in the
-> +second and so on down the hierarchy will point out the virtual address for the
-> +physical memory address 0, which will be *pfn 0* and the highest pfn will be
-> +the last page of physical memory the external address bus of the CPU can
-> +address.
-
-This reads backwards to me.  The index point in the hierarchy (what an
-unusual turn of phrase!) is surely the virtual address, since the
-hierarchy is indexed by virtual addresses.  If this paragraph is
-supposed to define what a pfn is, how about simply:
-
-The pfn of a page of memory is the physical address of the page divided
-by PAGE_SIZE
-
-> +With a page granularity of 4KB and a address range of 32 bits, pfn 0 is at
-> +address 0x00000000, pfn 1 is at address 0x00004000, pfn 2 is at 0x00008000
-> +and so on until we reach pfn 0x3ffff at 0xffffc000.
-
-Good example, keep that.
-
-> +Over time the page table hierarchy has developed into this::
-> +
-> +  +-----+
-> +  | PGD |
-> +  +-----+
-> +     ^
-> +     |   +-----+
-> +     +---| P4D |
-> +         +-----+
-> +            ^
-> +            |   +-----+
-> +            +---| PUD |
-> +                +-----+
-> +                   ^
-> +                   |   +-----+
-> +                   +---| PMD |
-> +                       +-----+
-> +                          ^
-> +                          |   +-----+
-> +                          +---| PTE |
-> +                              +-----+
-
-Your arrows are backwards.  The PTE doesn't point to the PMD; the PMD
-points to PTEs.
-
-> +
-> +Symbols on the different levels of the page table hierarchy have the following
-> +meaning:
-> +
-> +- **pgd**, `pgd_t`, `pgdval_t` = **Page Global Directory** - the Linux kernel
-> +  main page table handling the PGD for the kernel memory is still found in
-> +  `swapper_pg_dir`, but each userspace process in the system also has its own
-> +  memory context and thus its own *pgd*, found in `struct mm_struct` which
-> +  in turn is referenced to in each `struct task_struct`. So tasks have memory
-> +  context in the form of a `struct mm_struct` and this in turn has a
-> +  `struct pgt_t *pgd` pointer to the corresponding page global directory.
-> +
-> +- **p4d**, `p4d_t`, `p4dval_t` = **Page Level 4 Directory** was introduced to
-> +  handle 5-level page tables after the *pud* was introduced. Now it was clear
-> +  that we nee to replace *pgd*, *pmd*, *pud* etc with a figure indicating the
-> +  directory level and that we cannot go on with ad hoc names any more. This
-> +  is only used on systems which actually have 5 levels of page tables.
-> +
-> +- **pud**, `pud_t`, `pudval_t` = **Page Upper Directory** was introduced after
-> +  the other levels to handle 4-level page tables. Like *p4d*, it is potentially
-> +  unused.
-
-You have rather too many forward references in this description for my
-taste.  Start with the PTE, then the PMD, then  PUD, P4D, PGD.
-
-> +- **pmd**, `pmd_t`, `pmdval_t` = **Page Middle Directory**.
-> +
-> +- **pte**, `pte_t`, `pteval_t` = **Page Table Entry** - mentioned earlier.
-> +  The name is a bit confusing because while in Linux 1.0 this did refer to a
-> +  single page table entry in the top level page table, it was retrofitted
-> +  to be "what the level above points to". So when two-level page tables were
-> +  introduced, the *pte* became a list of pointers, which is why
-> +  `PTRS_PER_PTE` exists. This oxymoronic term can be mildly confusing.
-
-I don't think this is right.  PTRS_PER_PTE is how many pointers are in
-the PMD page table, so it's how many pointers you can walk if you have a
-pte *.  Yes, it's complicated and confusing, but I don't think this
-explanation clears up any of that confusion.
-
-> +As already mentioned, each level in the page table hierarchy is a *list of
-
-array, not list
-
-> +pointers*, so the **pgd** contains `PTRS_PER_PGD` pointers to the next level
-> +below, **p4d** contains `PTRS_PER_P4D` pointers to **pud** items and so on. The
-> +number of pointers on each level is architecture-defined. The most usual layout
-
-I don't think it's helpful to say this.  It's really not that usual
-(maybe half of our architectures behave that way?)
-
-
-I think a document like this that talks about page tables really needs to
-include a description of how some PMDs / PUDs / ... may not be pointers
-to lower levels, but direct pointers to the actual memory (ie THPs /
-hugetlb pages).
-
-
-Sorry to take a wrecking ball to this, I'm sure you worked hard on it.
+Thanks,
+Chang
