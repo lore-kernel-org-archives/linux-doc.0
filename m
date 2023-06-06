@@ -2,96 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2C2CC7EE24
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 15:47:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F3E4C7EE29
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 16:12:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237679AbjFFPrE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 11:47:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34962 "EHLO
+        id S237260AbjFFQMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 12:12:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237603AbjFFPrB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 11:47:01 -0400
-Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7441210D4;
-        Tue,  6 Jun 2023 08:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1686066420; x=1717602420;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=a7OcS8+yumWTq/BlaF7JXHbMEqlIKENdhEJ0HlWByrY=;
-  b=o8ejMYsQeh7e3GinWoPh89a0ZHnIzVGm2EYW3qwv8pkEWI8wTUlwE4qH
-   Wo9cfGU9rlnlzOAJjHw5NjRVTAsCUAZNrwtwjUbg8F4xloD3+KQ/JlAOx
-   6zPglRYVZlL/9PaHE04c0nPafCuwCicu9i0fbvING7x3vUzQVWZDgpW5R
-   g=;
-X-IronPort-AV: E=Sophos;i="6.00,221,1681171200"; 
-   d="scan'208";a="339446680"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-pdx-2a-m6i4x-d40ec5a9.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 15:46:55 +0000
-Received: from EX19MTAUWC001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-pdx-2a-m6i4x-d40ec5a9.us-west-2.amazon.com (Postfix) with ESMTPS id 939D14155D;
-        Tue,  6 Jun 2023 15:46:54 +0000 (UTC)
-Received: from EX19D002ANA003.ant.amazon.com (10.37.240.141) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 6 Jun 2023 15:46:45 +0000
-Received: from b0f1d8753182.ant.amazon.com.com (10.106.82.24) by
- EX19D002ANA003.ant.amazon.com (10.37.240.141) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 6 Jun 2023 15:46:41 +0000
-From:   Takahiro Itazuri <itazur@amazon.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S237337AbjFFQMh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 12:12:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D80E8;
+        Tue,  6 Jun 2023 09:12:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 919E862D99;
+        Tue,  6 Jun 2023 16:12:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE4A9C433D2;
+        Tue,  6 Jun 2023 16:12:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686067956;
+        bh=NzTyqwK+gbG+XiS2KsPh2vX4Tmt6XxOCACaA21wsJRY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HQFKOk4w0f+omkGtP5ehv47JO+C2MKUi590vake2J1F6hmuQQOauUVaLlZilR1t7y
+         6dWY+NNMMquHEamZervuU06G10gorAjIyjYA3rYhclIre5sBERr1E5cyAXTooTpTxX
+         Xm6KzWcdlugr5nXOkWyn8DLwCO0ZkbZctUBPrMDp3Wz9vbjF9sWHZIS6Mkv9s/hfKH
+         uJPHzzREwIomy+GdW+989uaVgSWfxGtSBh77jplXVcp8j2FpLr4nJp21eFF5nmQ88E
+         CF9nXwTqeQ7aCl7khnbQ4D6V9n/I6EegQnzFVla8obrfcfyKPjkrEEnmDEP6/0N5GT
+         7LXMpTS2uoGdA==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-doc@vger.kernel.org, Juri Lelli <juri.lelli@redhat.com>,
+        William White <chwhite@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-CC:     Dave Martin <Dave.Martin@arm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <zulinx86@gmail.com>,
-        Takahiro Itazuri <itazur@amazon.com>
-Subject: [PATCH v2] docs: KVM: Fix register ID of SPSR_FIQ
-Date:   Tue, 6 Jun 2023 16:46:28 +0100
-Message-ID: <20230606154628.95498-1-itazur@amazon.com>
-X-Mailer: git-send-email 2.38.0
+Subject: [PATCH V3 00/11] rtla improvements
+Date:   Tue,  6 Jun 2023 18:12:14 +0200
+Message-Id: <cover.1686066600.git.bristot@kernel.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.106.82.24]
-X-ClientProxiedBy: EX19D044UWB002.ant.amazon.com (10.13.139.188) To
- EX19D002ANA003.ant.amazon.com (10.37.240.141)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fixes the register ID of SPSR_FIQ.
+This is a series of improvements for rtla, mainly as a result of our
+daily usage of the tool debugging problems at red hat.
 
-SPSR_FIQ is a 64-bit register and the 64-bit register size mask is
-0x0030000000000000ULL.
+The cgroup support and house keeping options are from our usage
+of the tool debugging containers.
 
-Fixes: fd3bc912d3d1 ("KVM: Documentation: Document arm64 core registers in detail")
-Signed-off-by: Takahiro Itazuri <itazur@amazon.com>
+The auto-analysis overhead reduction is needed when we go to
+large boxes - but it is really hand in practice, as it gives an idea
+of the problem without having to look at the trace.
 
----
-Changes from v1
-- Add a description about the 64-bit register size mask in the commit
-  message.
-- Link: https://lore.kernel.org/all/20230410121927.26953-1-itazur@amazon.com/
+Running hwnoise 100 % of CPU time might cause some systems
+to slow down too much. Reduce its utilization to 75% by default to
+avoid problems for people using it for the first time.
 
----
- Documentation/virt/kvm/api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Finally, it adds support for running timerlat user-space threads,
+and to collect the additional field via rtla timerlat top/hist.
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index a5c803f39832..65dad2581751 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -2535,7 +2535,7 @@ Specifically:
-   0x6030 0000 0010 004a SPSR_ABT    64  spsr[KVM_SPSR_ABT]
-   0x6030 0000 0010 004c SPSR_UND    64  spsr[KVM_SPSR_UND]
-   0x6030 0000 0010 004e SPSR_IRQ    64  spsr[KVM_SPSR_IRQ]
--  0x6060 0000 0010 0050 SPSR_FIQ    64  spsr[KVM_SPSR_FIQ]
-+  0x6030 0000 0010 0050 SPSR_FIQ    64  spsr[KVM_SPSR_FIQ]
-   0x6040 0000 0010 0054 V0         128  fp_regs.vregs[0]    [1]_
-   0x6040 0000 0010 0058 V1         128  fp_regs.vregs[1]    [1]_
-   ...
+Changes from V2:
+  - Add timerlat hist -u option
+  - Link: https://lore.kernel.org/lkml/cover.1684863094.git.bristot@kernel.org/
+Changes from V1:
+  - Add the user-space thread support to rtla timerlat top
+  - Link: https://lore.kernel.org/lkml/cover.1683827510.git.bristot@kernel.org/
+
+Daniel Bristot de Oliveira (11):
+  rtla: Add -C cgroup support
+  rtla: Add --house-keeping option
+  rtla: Change monitored_cpus from char * to cpu_set_t
+  rtla: Automatically move rtla to a house-keeping cpu
+  rtla/timerlat: Give timerlat auto analysis its own instance
+  rtla/timerlat_hist: Add auto-analysis support
+  rtla: Start the tracers after creating all instances
+  rtla/hwnoise: Reduce runtime to 75%
+  rtla: Add timerlat user-space support for timerlat top
+  rtla: Add timerlat user-space support for
+  Documentation: Add tools/rtla timerlat -u option documentation
+
+ Documentation/tools/rtla/common_options.rst   |   8 +
+ .../tools/rtla/common_timerlat_aa.rst         |   7 -
+ .../tools/rtla/common_timerlat_options.rst    |   7 +
+ .../tools/rtla/rtla-timerlat-hist.rst         |   7 +-
+ .../tools/rtla/rtla-timerlat-top.rst          |   7 +
+ tools/tracing/rtla/src/osnoise.c              |  65 ++++
+ tools/tracing/rtla/src/osnoise.h              |   5 +
+ tools/tracing/rtla/src/osnoise_hist.c         |  90 ++++-
+ tools/tracing/rtla/src/osnoise_top.c          |  83 ++++-
+ tools/tracing/rtla/src/timerlat_aa.c          |  35 +-
+ tools/tracing/rtla/src/timerlat_aa.h          |   5 +-
+ tools/tracing/rtla/src/timerlat_hist.c        | 262 ++++++++++++--
+ tools/tracing/rtla/src/timerlat_top.c         | 229 +++++++++++--
+ tools/tracing/rtla/src/timerlat_u.c           | 224 ++++++++++++
+ tools/tracing/rtla/src/timerlat_u.h           |  18 +
+ tools/tracing/rtla/src/utils.c                | 324 +++++++++++++++++-
+ tools/tracing/rtla/src/utils.h                |   7 +
+ 17 files changed, 1277 insertions(+), 106 deletions(-)
+ create mode 100644 tools/tracing/rtla/src/timerlat_u.c
+ create mode 100644 tools/tracing/rtla/src/timerlat_u.h
+
 -- 
-2.38.0
+2.38.1
 
