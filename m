@@ -2,338 +2,203 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9FCEC77B7A
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 11:43:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94EF0C7EE24
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 11:50:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233324AbjFFLnD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 07:43:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
+        id S232631AbjFFLux (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 07:50:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232336AbjFFLnC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 07:43:02 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B6B99E;
-        Tue,  6 Jun 2023 04:43:00 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.54])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Qb7ph4mskz1c0H3;
-        Tue,  6 Jun 2023 19:41:16 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 6 Jun 2023 19:42:58 +0800
-Subject: Re: [PATCH v3 3/4] hwtracing: hisi_ptt: Export available filters
- through sysfs
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-CC:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <helgaas@kernel.org>, <linux-pci@vger.kernel.org>,
-        <prime.zeng@huawei.com>, Yicong Yang <yangyicong@huawei.com>,
-        <yangyicong@hisilicon.com>
-References: <20230523093228.48149-1-yangyicong@huawei.com>
- <20230523093228.48149-4-yangyicong@huawei.com>
- <20230606111517.00007bc4@Huawei.com>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <9e4b323a-08e9-18ef-5a5b-259799f41910@huawei.com>
-Date:   Tue, 6 Jun 2023 19:42:58 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        with ESMTP id S230394AbjFFLux (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 07:50:53 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 57736A0;
+        Tue,  6 Jun 2023 04:50:51 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5EF9D2F4;
+        Tue,  6 Jun 2023 04:51:36 -0700 (PDT)
+Received: from [10.57.73.174] (unknown [10.57.73.174])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5D7583F663;
+        Tue,  6 Jun 2023 04:50:48 -0700 (PDT)
+Message-ID: <c9b8469e-6e94-2e55-9b39-986f4eb581d3@arm.com>
+Date:   Tue, 6 Jun 2023 12:50:44 +0100
 MIME-Version: 1.0
-In-Reply-To: <20230606111517.00007bc4@Huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 1/3 v2] Documentation/arm64: Update ARM and arch reference
+To:     Jose Marinho <jose.marinho@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jeremy Linton <Jeremy.Linton@arm.com>,
+        James Morse <James.Morse@arm.com>,
+        Rob Herring <Rob.Herring@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
+References: <20230606093528.1494344-1-jose.marinho@arm.com>
+ <20230606093528.1494344-2-jose.marinho@arm.com>
+Content-Language: en-GB
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230606093528.1494344-2-jose.marinho@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/6/6 18:15, Jonathan Cameron wrote:
-> On Tue, 23 May 2023 17:32:27 +0800
-> Yicong Yang <yangyicong@huawei.com> wrote:
+On 2023-06-06 10:35, Jose Marinho wrote:
+> This patch clarifies that both Armv8 and v9 are in scope, not
+> just Armv8 systems.
+> Also, ARM is re-written as Arm.
 > 
->> From: Yicong Yang <yangyicong@hisilicon.com>
->>
->> The PTT can only filter the traced TLP headers by the Root Ports or the
->> Requester ID of the Endpoint, which are located on the same core of the
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Jeremy Linton <Jeremy.Linton@arm.com>
+> Cc: James Morse <James.Morse@arm.com>
+> Cc: Rob Herring <Rob.Herring@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Hanjun Guo <guohanjun@huawei.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-acpi@vger.kernel.org
 > 
-> PCI core (could be confused with CPU core)
+> Signed-off-by: Jose Marinho <jose.marinho@arm.com>
+> Reviewed-by: Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
+> ---
+>   Documentation/arm64/arm-acpi.rst | 41 ++++++++++++++++----------------
+>   1 file changed, 21 insertions(+), 20 deletions(-)
 > 
->> PTT device. The filter value used is derived from the BDF number of the
->> supported Root Port or the Endpoint. It's not friendly enough for the
->> users since it requires the user to be familiar enough with the platform
->> and calculate the filter value manually.
-> 
-> Could we in theory push this problem to userspace?  If so perhaps
-> call out advantages / disadvantages of doing so?
-> 
+> diff --git a/Documentation/arm64/arm-acpi.rst b/Documentation/arm64/arm-acpi.rst
+> index 47ecb9930dde..1cafe38fc7f9 100644
+> --- a/Documentation/arm64/arm-acpi.rst
+> +++ b/Documentation/arm64/arm-acpi.rst
+> @@ -1,40 +1,41 @@
+> -=====================
+> -ACPI on ARMv8 Servers
+> -=====================
+> +===================
+> +ACPI on Arm systems
+> +===================
+>   
+> -ACPI can be used for ARMv8 general purpose servers designed to follow
+> -the ARM SBSA (Server Base System Architecture) [0] and SBBR (Server
+> +ACPI can be used for Armv8 and Armv9 systems designed to follow
+> +the Arm SBSA (Server Base System Architecture) [0] and SBBR (Server
+>   Base Boot Requirements) [1] specifications.  Please note that the SBBR
+>   can be retrieved simply by visiting [1], but the SBSA is currently only
+>   available to those with an ARM login due to ARM IP licensing concerns.
+>   
+> -The ARMv8 kernel implements the reduced hardware model of ACPI version
+> +
+> +The Arm kernel implements the reduced hardware model of ACPI version
+>   5.1 or later.  Links to the specification and all external documents
+>   it refers to are managed by the UEFI Forum.  The specification is
+>   available at http://www.uefi.org/specifications and documents referenced
+>   by the specification can be found via http://www.uefi.org/acpi.
+>   
+> -If an ARMv8 system does not meet the requirements of the SBSA and SBBR,
+> +If an Arm system does not meet the requirements of the BSA and BBR,
+>   or cannot be described using the mechanisms defined in the required ACPI
+>   specifications, then ACPI may not be a good fit for the hardware.
+>   
+>   While the documents mentioned above set out the requirements for building
+> -industry-standard ARMv8 servers, they also apply to more than one operating
+> +industry-standard Arm systems, they also apply to more than one operating
+>   system.  The purpose of this document is to describe the interaction between
+> -ACPI and Linux only, on an ARMv8 system -- that is, what Linux expects of
+> +ACPI and Linux only, on an Arm system -- that is, what Linux expects of
+>   ACPI and what ACPI can expect of Linux.
+>   
+>   
+> -Why ACPI on ARM?
+> +Why ACPI on Arm?
+>   ----------------
+>   Before examining the details of the interface between ACPI and Linux, it is
+>   useful to understand why ACPI is being used.  Several technologies already
+>   exist in Linux for describing non-enumerable hardware, after all.  In this
+>   section we summarize a blog post [2] from Grant Likely that outlines the
+> -reasoning behind ACPI on ARMv8 servers.  Actually, we snitch a good portion
+> +reasoning behind ACPI on Arm systems.  Actually, we snitch a good portion
+>   of the summary text almost directly, to be honest.
+>   
+> -The short form of the rationale for ACPI on ARM is:
+> +The short form of the rationale for ACPI on Arm is:
+>   
+>   -  ACPI’s byte code (AML) allows the platform to encode hardware behavior,
+>      while DT explicitly does not support this.  For hardware vendors, being
+> @@ -47,7 +48,7 @@ The short form of the rationale for ACPI on ARM is:
+>   
+>   -  In the enterprise server environment, ACPI has established bindings (such
+>      as for RAS) which are currently used in production systems.  DT does not.
+> -   Such bindings could be defined in DT at some point, but doing so means ARM
+> +   Such bindings could be defined in DT at some point, but doing so means Arm
+>      and x86 would end up using completely different code paths in both firmware
+>      and the kernel.
+>   
+> @@ -108,7 +109,7 @@ recent version of the kernel.
+>   
+>   Relationship with Device Tree
+>   -----------------------------
+> -ACPI support in drivers and subsystems for ARMv8 should never be mutually
+> +ACPI support in drivers and subsystems for Arm should never be mutually
+>   exclusive with DT support at compile time.
+>   
+>   At boot time the kernel will only use one description method depending on
+> @@ -121,11 +122,11 @@ time).
+>   
+>   Booting using ACPI tables
+>   -------------------------
+> -The only defined method for passing ACPI tables to the kernel on ARMv8
+> +The only defined method for passing ACPI tables to the kernel on Arm
+>   is via the UEFI system configuration table.  Just so it is explicit, this
+>   means that ACPI is only supported on platforms that boot via UEFI.
+>   
+> -When an ARMv8 system boots, it can either have DT information, ACPI tables,
+> +When an Arm system boots, it can either have DT information, ACPI tables,
+>   or in some very unusual cases, both.  If no command line parameters are used,
+>   the kernel will try to use DT for device enumeration; if there is no DT
+>   present, the kernel will try to use ACPI tables, but only if they are present.
+> @@ -448,7 +449,7 @@ ASWG
+>   ----
+>   The ACPI specification changes regularly.  During the year 2014, for instance,
+>   version 5.1 was released and version 6.0 substantially completed, with most of
+> -the changes being driven by ARM-specific requirements.  Proposed changes are
+> +the changes being driven by Arm-specific requirements.  Proposed changes are
+>   presented and discussed in the ASWG (ACPI Specification Working Group) which
+>   is a part of the UEFI Forum.  The current version of the ACPI specification
+>   is 6.1 release in January 2016.
+> @@ -456,7 +457,7 @@ is 6.1 release in January 2016.
+>   Participation in this group is open to all UEFI members.  Please see
+>   http://www.uefi.org/workinggroup for details on group membership.
+>   
+> -It is the intent of the ARMv8 ACPI kernel code to follow the ACPI specification
+> +It is the intent of the Arm ACPI kernel code to follow the ACPI specification
+>   as closely as possible, and to only implement functionality that complies with
+>   the released standards from UEFI ASWG.  As a practical matter, there will be
+>   vendors that provide bad ACPI tables or violate the standards in some way.
+> @@ -470,12 +471,12 @@ likely be willing to assist in submitting ECRs.
+>   
+>   Linux Code
+>   ----------
+> -Individual items specific to Linux on ARM, contained in the Linux
+> +Individual items specific to Linux on Arm, contained in the Linux
+>   source code, are in the list that follows:
+>   
+>   ACPI_OS_NAME
+>                          This macro defines the string to be returned when
+> -                       an ACPI method invokes the _OS method.  On ARM64
+> +                       an ACPI method invokes the _OS method.  On Arm64
 
-I'm not quite sure how userspace can get this mapping information, currently
-in the driver we get part of the information from the firmware. Userspace
-alone cannot handle it, I think it need driver assistant anyway.
+Super-nit: that one should probably be just "Arm" as well, but then this 
+whole section appears to be erroneous - I don't see anything in mainline 
+obviously setting ACPI_OS_NAME to anything other than the ACPICA default 
+of "Microsoft Windows NT", and there is no "acpi_os=" parameter - so it 
+seems futile to worry about the trivialities within.
 
->>
->> This patch export the available filters through sysfs. Each available
->> filters is presented as an individual file with the name of the BDF
->> number of the related PCIe device. The files are created under
->> $(PTT PMU dir)/available_root_port_filters and
->> $(PTT PMU dir)/available_requester_filters respectively. The filter
->> value can be known by reading the related file.
->>
->> Then the users can easily know the available filters for trace and get
->> the filter values without calculating.
->>
->> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> A few minor editorial type comments inline
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
-Will fix them up.
-
-Thanks.
-
-> 
-> Jonathan
-> 
->> ---
->>  .../ABI/testing/sysfs-devices-hisi_ptt        |  50 +++++
->>  Documentation/trace/hisi-ptt.rst              |   6 +
->>  drivers/hwtracing/ptt/hisi_ptt.c              | 206 ++++++++++++++++++
->>  drivers/hwtracing/ptt/hisi_ptt.h              |  14 ++
->>  4 files changed, 276 insertions(+)
->>
->> diff --git a/Documentation/ABI/testing/sysfs-devices-hisi_ptt b/Documentation/ABI/testing/sysfs-devices-hisi_ptt
->> index 82de6d710266..190ed504346b 100644
->> --- a/Documentation/ABI/testing/sysfs-devices-hisi_ptt
->> +++ b/Documentation/ABI/testing/sysfs-devices-hisi_ptt
->> @@ -59,3 +59,53 @@ Description:	(RW) Control the allocated buffer watermark of outbound packets.
->>  		The available tune data is [0, 1, 2]. Writing a negative value
->>  		will return an error, and out of range values will be converted
->>  		to 2. The value indicates a probable level of the event.
->> +
->> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/root_port_filters
->> +Date:		May 2023
->> +KernelVersion:	6.5
->> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
->> +Description:	This directory contains the files providing the PCIe Root Port filters
->> +		information used for PTT trace. Each file is named after the supported
->> +		Root Port device name <domain>:<bus>:<device>.<function>.
->> +
->> +		See the description of the "filter" in Documentation/trace/hisi-ptt.rst
->> +		for more information.
->> +
->> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/root_port_filters/multiselect
->> +Date:		May 2023
->> +KernelVersion:	6.5
->> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
->> +Description:	(Read) Indicates whether this kind of filter can be multiselected
->> +		or not. 1 for multiselectable, 0 for not.
-> multiselect term isn't totally clear - so I'd say exactly what it means here.
-> 
-> 	Indicates if this kind of filter can be selected at the same time as
->         others filters, or must be used on it's own.
-> 
->> +
->> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/root_port_filters/<bdf>
->> +Date:		May 2023
->> +KernelVersion:	6.5
->> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
->> +Description:	(Read) Indicates the filter value of this Root Port filter, which
->> +		can be used to control the TLP headers to trace by the PTT trace.
->> +
->> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/requester_filters
->> +Date:		May 2023
->> +KernelVersion:	6.5
->> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
->> +Description:	This directory contains the files providing the PCIe Requester filters
->> +		information used for PTT trace. Each file is named after the supported
->> +		Endpoint device name <domain>:<bus>:<device>.<function>.
->> +
->> +		See the description of the "filter" in Documentation/trace/hisi-ptt.rst
->> +		for more information.
->> +
->> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/requester_filters/multiselect
->> +Date:		May 2023
->> +KernelVersion:	6.5
->> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
->> +Description:	(Read) Indicates whether this kind of filter can be multiselected
->> +		or not. 1 for multiselectable, 0 for not.
-> 
-> As above - explain multiselect using a different set of terms.
-> 
->> +
->> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/requester_filters/<bdf>
->> +Date:		May 2023
->> +KernelVersion:	6.5
->> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
->> +Description:	(Read) Indicates the filter value of this Requester filter, which
->> +		can be used to control the TLP headers to trace by the PTT trace.
->> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
->> index 3641aca4287a..b8c7d71aee32 100644
->> --- a/Documentation/trace/hisi-ptt.rst
->> +++ b/Documentation/trace/hisi-ptt.rst
->> @@ -148,6 +148,12 @@ For example, if the desired filter is Endpoint function 0000:01:00.1 the filter
->>  value will be 0x00101. If the desired filter is Root Port 0000:00:10.0 then
->>  then filter value is calculated as 0x80001.
->>  
->> +The driver also presents every supported Root Port and Requester filter through
->> +sysfs. Each filter will be an individual file with name of its related PCIe
->> +device name (domain:bus:device.function). The files of Root Port filters are
->> +under $(PTT PMU dir)/root_port_filters and files of Requester filters
->> +are under $(PTT PMU dir)/requester_filters.
->> +
->>  Note that multiple Root Ports can be specified at one time, but only one
->>  Endpoint function can be specified in one trace. Specifying both Root Port
->>  and function at the same time is not supported. Driver maintains a list of
->> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
->> index 9b4acbc434b0..65f4288a1915 100644
->> --- a/drivers/hwtracing/ptt/hisi_ptt.c
->> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
->> @@ -404,6 +404,142 @@ hisi_ptt_alloc_add_filter(struct hisi_ptt *hisi_ptt, u16 devid, bool is_port)
->>  	return filter;
->>  }
->>  
->> +static ssize_t hisi_ptt_filter_show(struct device *dev, struct device_attribute *attr,
->> +				    char *buf)
->> +{
->> +	struct hisi_ptt_filter_desc *filter;
->> +	unsigned long filter_val;
->> +
->> +	filter = container_of(attr, struct hisi_ptt_filter_desc, attr);
->> +	filter_val = hisi_ptt_get_filter_val(filter->devid, filter->is_port) |
->> +		     (filter->is_port ? HISI_PTT_PMU_FILTER_IS_PORT : 0);
->> +
->> +	return sysfs_emit(buf, "0x%05lx\n", filter_val);
->> +}
->> +
->> +static int hisi_ptt_create_rp_filter_attr(struct hisi_ptt *hisi_ptt,
->> +					  struct hisi_ptt_filter_desc *filter)
->> +{
->> +	struct kobject *kobj = &hisi_ptt->hisi_ptt_pmu.dev->kobj;
->> +
->> +	filter->attr.attr.name = filter->name;
->> +	filter->attr.attr.mode = 0400; /* DEVICE_ATTR_ADMIN_RO */
->> +	filter->attr.show = hisi_ptt_filter_show;
->> +
->> +	return sysfs_add_file_to_group(kobj, &filter->attr.attr,
->> +				       HISI_PTT_RP_FILTERS_GRP_NAME);
->> +}
->> +
->> +static void hisi_ptt_remove_rp_filter_attr(struct hisi_ptt *hisi_ptt,
->> +					  struct hisi_ptt_filter_desc *filter)
->> +{
->> +	struct kobject *kobj = &hisi_ptt->hisi_ptt_pmu.dev->kobj;
->> +
->> +	sysfs_remove_file_from_group(kobj, &filter->attr.attr,
->> +				     HISI_PTT_RP_FILTERS_GRP_NAME);
->> +}
->> +
->> +static int hisi_ptt_create_req_filter_attr(struct hisi_ptt *hisi_ptt,
->> +					   struct hisi_ptt_filter_desc *filter)
->> +{
->> +	struct kobject *kobj = &hisi_ptt->hisi_ptt_pmu.dev->kobj;
->> +
->> +	filter->attr.attr.name = filter->name;
->> +	filter->attr.attr.mode = 0400; /* DEVICE_ATTR_ADMIN_RO */
->> +	filter->attr.show = hisi_ptt_filter_show;
->> +
->> +	return sysfs_add_file_to_group(kobj, &filter->attr.attr,
->> +				       HISI_PTT_REQ_FILTERS_GRP_NAME);
->> +}
->> +
->> +static void hisi_ptt_remove_req_filter_attr(struct hisi_ptt *hisi_ptt,
->> +					   struct hisi_ptt_filter_desc *filter)
->> +{
->> +	struct kobject *kobj = &hisi_ptt->hisi_ptt_pmu.dev->kobj;
->> +
->> +	sysfs_remove_file_from_group(kobj, &filter->attr.attr,
->> +				     HISI_PTT_REQ_FILTERS_GRP_NAME);
->> +}
->> +
->> +static int hisi_ptt_create_filter_attr(struct hisi_ptt *hisi_ptt,
->> +				       struct hisi_ptt_filter_desc *filter)
->> +{
->> +	int ret;
->> +
->> +	if (filter->is_port)
->> +		ret = hisi_ptt_create_rp_filter_attr(hisi_ptt, filter);
->> +	else
->> +		ret = hisi_ptt_create_req_filter_attr(hisi_ptt, filter);
->> +
->> +	if (ret)
->> +		pci_err(hisi_ptt->pdev, "failed to create sysfs attribute for filter %s\n",
->> +			filter->name);
->> +
->> +	return ret;
->> +}
->> +
->> +static void hisi_ptt_remove_filter_attr(struct hisi_ptt *hisi_ptt,
->> +					struct hisi_ptt_filter_desc *filter)
->> +{
->> +	if (filter->is_port)
->> +		hisi_ptt_remove_rp_filter_attr(hisi_ptt, filter);
->> +	else
->> +		hisi_ptt_remove_req_filter_attr(hisi_ptt, filter);
->> +}
->> +
->> +static void hisi_ptt_remove_all_filter_attributes(void *data)
->> +{
->> +	struct hisi_ptt_filter_desc *filter;
->> +	struct hisi_ptt *hisi_ptt = data;
->> +
->> +	mutex_lock(&hisi_ptt->filter_lock);
->> +
->> +	list_for_each_entry(filter, &hisi_ptt->req_filters, list)
->> +		hisi_ptt_remove_filter_attr(hisi_ptt, filter);
->> +
->> +	list_for_each_entry(filter, &hisi_ptt->port_filters, list)
->> +		hisi_ptt_remove_filter_attr(hisi_ptt, filter);
->> +
->> +	hisi_ptt->sysfs_inited = false;
->> +	mutex_unlock(&hisi_ptt->filter_lock);
->> +}
->> +
->> +static int hisi_ptt_init_filter_attributes(struct hisi_ptt *hisi_ptt)
->> +{
->> +	struct hisi_ptt_filter_desc *filter;
->> +	int ret;
->> +
->> +	mutex_lock(&hisi_ptt->filter_lock);
->> +
->> +	/*
->> +	 * Register the reset callback in the first stage. In reset we traverse
->> +	 * the filters list to remove the sysfs attributes so itself alone can
-> 
-> "itself alone" is confusing.   Maybe "the callback"
-> 
->> +	 * be called safely even without below filter attributes creation work.
->> +	 */
->> +	ret = devm_add_action(&hisi_ptt->pdev->dev,
->> +			      hisi_ptt_remove_all_filter_attributes,
->> +			      hisi_ptt);
->> +	if (ret)
->> +		goto out;
->> +
->> +	list_for_each_entry(filter, &hisi_ptt->port_filters, list) {
->> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
->> +		if (ret)
->> +			goto out;
->> +	}
->> +
->> +	list_for_each_entry(filter, &hisi_ptt->req_filters, list) {
->> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
->> +		if (ret)
->> +			goto out;
->> +	}
->> +
->> +	hisi_ptt->sysfs_inited = true;
->> +out:
->> +	mutex_unlock(&hisi_ptt->filter_lock);
->> +	return ret;
->> +}
->> +
-> ...
-> 
-> 
-> .
-> 
+>                          systems, this macro will be "Linux" by default.
+>                          The command line parameter acpi_os=<string>
+>                          can be used to set it to some other value.  The
