@@ -2,87 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DA5C7EE37
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 21:07:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92544C87FDD
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 22:32:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234053AbjFFVHo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 17:07:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33664 "EHLO
+        id S239906AbjFFWcs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 18:32:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230504AbjFFVHm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 17:07:42 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F12B1720;
-        Tue,  6 Jun 2023 14:07:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-        Resent-Cc:Resent-Message-ID; bh=8h2wUeDvnp3Fch8Oa8+slI7py/Nq++3cO7nSIOkvMXk=;
-        t=1686085661; x=1687295261; b=cK7jGkz8aVA6JL5+3CqLENz+cjeEEGdMeCrRUF3nxZacPF4
-        C5j7CQHnOM3szVCvqrLQ1aXcuGVuYDGZVz+d+mf5v8AMq2ds/UyaLic/NJmKDrGeQ+dagvyUKeaxf
-        FnYYIr3xl8h1TFXrbMbraD9uzsr20vVZGiV2gP63Gmc7ALID6dud83mofT3xD6UJJ+NWBqTAUEsgP
-        pt8z8VETij7bnV5isT6dVATGx1ffPyGo87s9fFtrXRGWDtiS7DGZfZh5Pg36MRUcZ7qSUYfkiJK7F
-        k1/26tvHhr3IaYzHk00Liouz4HxnLCmWeGchRm/IqLn6nSkbMGMuGDfqVNWTyw0g==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.96)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1q6dtz-00Fl1n-0j;
-        Tue, 06 Jun 2023 23:07:39 +0200
-Message-ID: <2017a6dba12cc7cd05aec33e8066cb7038a89a31.camel@sipsolutions.net>
-Subject: Re: [PATCH v2 1/2] kernel-doc: don't let V=1 change outcome
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Date:   Tue, 06 Jun 2023 23:07:38 +0200
-In-Reply-To: <CAK7LNASe+HWuufyANGJJ0dajzSC4LFy=x2N6erGis0+ZQkAAXA@mail.gmail.com>
-References: <20230606105706.60807b85ff79.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
-         <CAK7LNASe+HWuufyANGJJ0dajzSC4LFy=x2N6erGis0+ZQkAAXA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.2 (3.48.2-1.fc38) 
+        with ESMTP id S239899AbjFFWch (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 18:32:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB80D171B
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jun 2023 15:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686090707;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TgaMBAQqmFIKSof0UPPW7FVba5nvGkZRXtKURLuSZuM=;
+        b=VRatodlxyuG/TOJlRhTZziMXdWnV2YJn3p0vtTM5YM1o7yFDN5zeNA32ujlkmuehH5BnZj
+        hAxKvhcs5qH8e6UwIEB5xj4cibeXqBVDH9k43nJPPqow4BM2ZuimdcP42bvt8lT6KVGViv
+        1TDVBWCQC/fkZpAkymlyR/Hezzm6b9s=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-283-rdVdC8IwPcmP2YBj7Pre6Q-1; Tue, 06 Jun 2023 18:31:46 -0400
+X-MC-Unique: rdVdC8IwPcmP2YBj7Pre6Q-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-977d0333523so334868866b.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jun 2023 15:31:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686090705; x=1688682705;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TgaMBAQqmFIKSof0UPPW7FVba5nvGkZRXtKURLuSZuM=;
+        b=djDB9eq26725ju7D5mvdyrQr6A+0BVmEazig72t/Jh3PuC1XASEiKFMtLMk9LCauVs
+         S9LGr8gVYmbLA99CI9zhFfg6S3MKvkMoxAHC1aLF5i+EjnqwP2k0eOO1O/Zx1ZFHjiq1
+         XIyD1ssqmAQbfnbXiT1raRSqaQccYTIycjgMH8gie1bgu1SSIqQGbTeIKvvVrU+aEs5P
+         P+p02tEeVYapUSiJyNT5QREw1UsHl5ZdyF4wtot/0h5DtADIq6+0mnT+VnY4nQoSdZ82
+         Homr3XPEzg9eah4anQoa2efYcYx0kDhUxCKy6wkitY9nmDqnUFE3zzkdxyrlJoBomQpQ
+         u6OA==
+X-Gm-Message-State: AC+VfDweDJ+6QOsqQRtaXGWCypfSYy2l+krgq2LgvT9FilT03HouS6h0
+        +v408eOb8JUyZKp9bFffDYfHoMtL3G6+0XqLzJteTE8VdkB4kY9/XtTU+erVVxhsirsQqJRO8qB
+        9FQwN9AdczbfeBmWogLYW
+X-Received: by 2002:a17:907:7f1f:b0:974:55ea:1ad8 with SMTP id qf31-20020a1709077f1f00b0097455ea1ad8mr4182401ejc.63.1686090705433;
+        Tue, 06 Jun 2023 15:31:45 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7k+gI0czoVmC921zhzIqzKXOHylci9OpwOhdlMHjnqE4m4dX7VavWWqZ5q7J8PkPFhDWIb4g==
+X-Received: by 2002:a17:907:7f1f:b0:974:55ea:1ad8 with SMTP id qf31-20020a1709077f1f00b0097455ea1ad8mr4182384ejc.63.1686090705309;
+        Tue, 06 Jun 2023 15:31:45 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
+        by smtp.gmail.com with ESMTPSA id rh19-20020a17090720f300b0094edbe5c7ddsm6162646ejb.38.2023.06.06.15.31.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jun 2023 15:31:44 -0700 (PDT)
+From:   Danilo Krummrich <dakr@redhat.com>
+To:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, boris.brezillon@collabora.com,
+        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
+        willy@infradead.org, jason@jlekstrand.net
+Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>
+Subject: [PATCH drm-next v4 02/14] maple_tree: split up MA_STATE() macro
+Date:   Wed,  7 Jun 2023 00:31:18 +0200
+Message-Id: <20230606223130.6132-3-dakr@redhat.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230606223130.6132-1-dakr@redhat.com>
+References: <20230606223130.6132-1-dakr@redhat.com>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2023-06-06 at 20:15 +0900, Masahiro Yamada wrote:
-> >=20
-> >  ifneq ($(KBUILD_EXTRA_WARN),)
-> > -  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none $<
-> > +  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
-> > +        $(if $(KDOC_WALL), -Wall) \
-> > +        $(if $(KDOC_WRETURN), -Wreturn) \
-> > +        $(if $(KDOC_WSHORT_DESC), -Wshort-desc) \
-> > +        $(if $(KDOC_WSHORT_DESC), -Wcontents-before-sections) \
->=20
->=20
->=20
-> Sorry, I misunderstood your intention.
-> (I just thought existing env variables would be moved to Makefile)
->=20
->=20
-> I do not want to proliferate env variables any more.
+Split up the MA_STATE() macro such that components using the maple tree
+can easily inherit from struct ma_state and build custom tree walk
+macros to hide their internals from users.
 
-Oh, ok, sure.
+Example:
 
-> If you need per-flag control, maybe we can do like this?
+struct sample_iterator {
+	struct ma_state mas;
+	struct sample_mgr *mgr;
+};
 
-Well honestly, I myself just want to pass -Wall, but not necessarily W=3D2
-since that adds more stuff from the C compiler.
+\#define SAMPLE_ITERATOR(name, __mgr, start)			\
+	struct sample_iterator name = {				\
+		.mas = MA_STATE_INIT(&(__mgr)->mt, start, 0),	\
+		.mgr = __mgr,					\
+	}
 
-> cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
->               $(KDOCFLAGS)
->=20
->=20
-> Then, users can do
->=20
->   $ make KDOCFLAGS=3D-Wall
->   $ make KDOCFLAGS=3D-Wreturn
+\#define sample_iter_for_each_range(it__, entry__, end__) \
+	mas_for_each(&(it__).mas, entry__, end__)
 
-I'd rather call it KDOC_FLAGS if you don't mind to align with
-KDOC_WERROR which we have already, but sure, can do.
+--
 
-johannes
+struct sample *sample;
+SAMPLE_ITERATOR(si, min);
+
+sample_iter_for_each_range(&si, sample, max) {
+	frob(mgr, sample);
+}
+
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+---
+ include/linux/maple_tree.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+index 1fadb5f5978b..87d55334f1c2 100644
+--- a/include/linux/maple_tree.h
++++ b/include/linux/maple_tree.h
+@@ -423,8 +423,8 @@ struct ma_wr_state {
+ #define MA_ERROR(err) \
+ 		((struct maple_enode *)(((unsigned long)err << 2) | 2UL))
+ 
+-#define MA_STATE(name, mt, first, end)					\
+-	struct ma_state name = {					\
++#define MA_STATE_INIT(mt, first, end)					\
++	{								\
+ 		.tree = mt,						\
+ 		.index = first,						\
+ 		.last = end,						\
+@@ -435,6 +435,9 @@ struct ma_wr_state {
+ 		.mas_flags = 0,						\
+ 	}
+ 
++#define MA_STATE(name, mt, first, end)					\
++	struct ma_state name = MA_STATE_INIT(mt, first, end)
++
+ #define MA_WR_STATE(name, ma_state, wr_entry)				\
+ 	struct ma_wr_state name = {					\
+ 		.mas = ma_state,					\
+-- 
+2.40.1
+
