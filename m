@@ -2,395 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7197C77B7A
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 12:52:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 032BDC77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 13:10:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237478AbjFFMw3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 08:52:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51192 "EHLO
+        id S237939AbjFFNKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 09:10:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232692AbjFFMw2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 08:52:28 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28F5170C
-        for <linux-doc@vger.kernel.org>; Tue,  6 Jun 2023 05:51:50 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f6e1394060so52610865e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jun 2023 05:51:50 -0700 (PDT)
+        with ESMTP id S229827AbjFFNKO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 09:10:14 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 646381735;
+        Tue,  6 Jun 2023 06:09:54 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-75d4aa85303so254186485a.2;
+        Tue, 06 Jun 2023 06:09:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686055908; x=1688647908;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xZh99cIYnwvZsi6uZpNCU21woKiQBSAqCICVQ7Ob5E0=;
-        b=zPz/3ZBG0cPd6MQtjJaYXoEjtlfz9hcya6M2rJWZD90St+gjqlyY35Z7EJR8a+9FvQ
-         2Hwv/hxhLFhwC6dJzW1C7S2JPKI2fOioe3KA/R3EaYdNehcoYOov0WGvLu1Mn+WfG4ne
-         AgKVkeRzLF2CXYP271biPMDwXqIDFnJN8ZQXPrpVom9NVOGpnSQfb/zSZjCsS5OmkC0p
-         rfen1v3ksaoGwSuGxTVJlPIlRx6hS4Ks82gC/7y4+EkbdcZQr44VLC4alrhuqSd8wN63
-         bpEysiVinj3oZk/qr3q6Rmfi6gEQTXUikac6vhmqz2bjdO3XADq4UJQ90i2h48HaLa/g
-         ucJQ==
+        d=gmail.com; s=20221208; t=1686056993; x=1688648993;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=33ubNGnlWzb0zUgKXOo7PameOxfWs466JIL20ejCxRU=;
+        b=YLInumMaJo4nCJrIXzReQU0BlvN7m/0+3WtFgkqlPKn6GyR1fIwy2krQvMzHNjBGH1
+         Y68DUYUasgdDYG/uqY+QQR0cx+AWlJ90UMPDSrj03K7ZPH/Vcg+7r/ioR4jNrittWwJV
+         OWXP2/8dAEQaaQnInokesrQdcEBGKe0kDdwzHAOP972bTAcmV3T0+h9xvzx/JmmslsqT
+         WyYU75DQR0D7ifiPW7k56WL7/LxxgAn5oHOrj6CtGzvZpuIl0Hoo169ua5O1ja5QvQvo
+         +mKDM5pGvxu/FO4dEtgsRgQq8OX00FRaGyrOm/XI0oC/+XGwwQ1XXsu/XVNuyfhRCFnr
+         Lfrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686055908; x=1688647908;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xZh99cIYnwvZsi6uZpNCU21woKiQBSAqCICVQ7Ob5E0=;
-        b=RY6X6Y+TAKF3RK+qv5XNGRoLmKM/s9YCy+Kc/2k4D7WuiJuZtvos5FwNfw5RuGO5oj
-         FzTQl6HeEdZLPjPm7ESlazZ1b/kntrgfjidNU9usAxbYG3BNxxEdTq6XzbXUA88mFl9h
-         HuKPqpAkd9+hrnvydh3M1fBuRY+zwgFlj8RI/gdoISFr9wGKSTQetw9Vpagj3JOyiJRx
-         OMLdEo0pUWnZ2C3CIu9lqE6chfEV754hmM8miUpWZVvqFdNzEhLkPasMLcpGmj6J7VWM
-         iHMesglHkTTnhW4v+DHTP0lha/jiF/UD7uj4AjQin5dYgi9hofjWPJTjYhRF9CP/xyJ7
-         bnaA==
-X-Gm-Message-State: AC+VfDw09M/LvzO0XP6UUokodWVlg1TT/JlIyDTrpV5CAeEKa44UqOrh
-        u+Lil6tu0bdG/XVFdaqB3ApbqQ==
-X-Google-Smtp-Source: ACHHUZ4Ae36WqblRWF0dpgIZyUiWIfTtkAnUt2NN2wz9itn7NnEzqxaZdrANrhn9T9EAmOMNz2qLPQ==
-X-Received: by 2002:a7b:c041:0:b0:3f6:787:4a84 with SMTP id u1-20020a7bc041000000b003f607874a84mr1999484wmc.7.1686055907851;
-        Tue, 06 Jun 2023 05:51:47 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id z24-20020a1c4c18000000b003f734ee1670sm10136442wmf.31.2023.06.06.05.51.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jun 2023 05:51:47 -0700 (PDT)
-Message-ID: <898f5d05-8d9c-c2f3-723f-dd326dcb9439@linaro.org>
-Date:   Tue, 6 Jun 2023 13:51:45 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v13 08/24] gunyah: vm_mgr: Introduce basic VM Manager
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
+        d=1e100.net; s=20221208; t=1686056993; x=1688648993;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=33ubNGnlWzb0zUgKXOo7PameOxfWs466JIL20ejCxRU=;
+        b=VTPj7K7Rfj14hEdtTxQdjP7KApoJKXQO8zThgVT3YegnCHZskpS0ZeV3YBCxUTjLdO
+         FLdtO1np+T9XY/F+cG8/jB/lU3XsAVT793Zmq4VsrIKGhU/wemhKGmHwGkcAVzgZrz2v
+         O+tIykCafhUUDouTh+OKGbZsS6vwoHsIjaVdVBGfe5JWh+TKCz0b5T6fBlcHlK9wlevM
+         NA8a0ci3pQ7V9OURI2IE4eggRkJ1jkEvBSQdWiU90PxqGyIkRjokAmt6OK8vEnev3b76
+         sQUeiXI5aSwV6cm7f/fPFWJaKtT1E5oW+uAv6ZplYE5XcA04b4Nf4IMLJ4Xg3dY2zSM0
+         WTdA==
+X-Gm-Message-State: AC+VfDwanVri0pw0ecMaA/fL2eM7ZL7kjQ8RSLyrVjxZWONxwfI9WkaW
+        FqQpUeHsVFmCgWDqqmNlxNAourkHPJeQng==
+X-Google-Smtp-Source: ACHHUZ5wqKztZBRaznjkUEdJsWrdECyI9l14LFbb7jqQUw5Lqd69wkHR6kktGC79O0E7d+ApAmNjiQ==
+X-Received: by 2002:a05:6214:2269:b0:626:2047:c845 with SMTP id gs9-20020a056214226900b006262047c845mr2541061qvb.55.1686056992800;
+        Tue, 06 Jun 2023 06:09:52 -0700 (PDT)
+Received: from dschatzberg-fedora-PC0Y6AEN ([2620:10d:c091:400::5:eed0])
+        by smtp.gmail.com with ESMTPSA id px8-20020a056214050800b0061b63237be3sm5358299qvb.131.2023.06.06.06.09.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jun 2023 06:09:52 -0700 (PDT)
+Date:   Tue, 6 Jun 2023 09:09:50 -0400
+From:   Dan Schatzberg <schatzberg.dan@gmail.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Chris Down <chris@chrisdown.name>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-9-quic_eberman@quicinc.com>
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20230509204801.2824351-9-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: Clarify usage of memory limits
+Message-ID: <ZH8wHva5/8n1EJv0@dschatzberg-fedora-PC0Y6AEN>
+References: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
+ <ZH55K79CaSD6Zya1@slm.duckdns.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZH55K79CaSD6Zya1@slm.duckdns.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 09/05/2023 21:47, Elliot Berman wrote:
-> Gunyah VM manager is a kernel moduel which exposes an interface to
-> Gunyah userspace to load, run, and interact with other Gunyah virtual
-> machines. The interface is a character device at /dev/gunyah.
+On Mon, Jun 05, 2023 at 02:09:15PM -1000, Tejun Heo wrote:
+> Hello,
+>
+> ...
 > 
-> Add a basic VM manager driver. Upcoming patches will add more ioctls
-> into this driver.
-> 
-> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
+> I think it'd be helpful to provide pointers to oomd and systemd's
+> implementation of it here.
 
-
-
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
---srini
-
->   .../userspace-api/ioctl/ioctl-number.rst      |  1 +
->   drivers/virt/gunyah/Makefile                  |  2 +-
->   drivers/virt/gunyah/rsc_mgr.c                 | 50 +++++++++-
->   drivers/virt/gunyah/vm_mgr.c                  | 93 +++++++++++++++++++
->   drivers/virt/gunyah/vm_mgr.h                  | 20 ++++
->   include/uapi/linux/gunyah.h                   | 23 +++++
->   6 files changed, 187 insertions(+), 2 deletions(-)
->   create mode 100644 drivers/virt/gunyah/vm_mgr.c
->   create mode 100644 drivers/virt/gunyah/vm_mgr.h
->   create mode 100644 include/uapi/linux/gunyah.h
-> 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 176e8fc3f31b..396212e88f7d 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -137,6 +137,7 @@ Code  Seq#    Include File                                           Comments
->   'F'   DD     video/sstfb.h                                           conflict!
->   'G'   00-3F  drivers/misc/sgi-gru/grulib.h                           conflict!
->   'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                            conflict!
-> +'G'   00-0f  linux/gunyah.h                                          conflict!
->   'H'   00-7F  linux/hiddev.h                                          conflict!
->   'H'   00-0F  linux/hidraw.h                                          conflict!
->   'H'   01     linux/mei.h                                             conflict!
-> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-> index 241bab357b86..e47e25895299 100644
-> --- a/drivers/virt/gunyah/Makefile
-> +++ b/drivers/virt/gunyah/Makefile
-> @@ -1,4 +1,4 @@
->   # SPDX-License-Identifier: GPL-2.0
->   
-> -gunyah-y += rsc_mgr.o rsc_mgr_rpc.o
-> +gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
->   obj-$(CONFIG_GUNYAH) += gunyah.o
-> diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
-> index 88b5beb1ea51..4f6f96bdcf3d 100644
-> --- a/drivers/virt/gunyah/rsc_mgr.c
-> +++ b/drivers/virt/gunyah/rsc_mgr.c
-> @@ -15,8 +15,10 @@
->   #include <linux/completion.h>
->   #include <linux/gunyah_rsc_mgr.h>
->   #include <linux/platform_device.h>
-> +#include <linux/miscdevice.h>
->   
->   #include "rsc_mgr.h"
-> +#include "vm_mgr.h"
->   
->   #define RM_RPC_API_VERSION_MASK		GENMASK(3, 0)
->   #define RM_RPC_HEADER_WORDS_MASK	GENMASK(7, 4)
-> @@ -130,6 +132,7 @@ struct gh_rm_connection {
->    * @cache: cache for allocating Tx messages
->    * @send_lock: synchronization to allow only one request to be sent at a time
->    * @nh: notifier chain for clients interested in RM notification messages
-> + * @miscdev: /dev/gunyah
->    */
->   struct gh_rm {
->   	struct device *dev;
-> @@ -146,6 +149,8 @@ struct gh_rm {
->   	struct kmem_cache *cache;
->   	struct mutex send_lock;
->   	struct blocking_notifier_head nh;
-> +
-> +	struct miscdevice miscdev;
->   };
->   
->   /**
-> @@ -581,6 +586,33 @@ int gh_rm_notifier_unregister(struct gh_rm *rm, struct notifier_block *nb)
->   }
->   EXPORT_SYMBOL_GPL(gh_rm_notifier_unregister);
->   
-> +struct device *gh_rm_get(struct gh_rm *rm)
-> +{
-> +	return get_device(rm->miscdev.this_device);
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_get);
-> +
-> +void gh_rm_put(struct gh_rm *rm)
-> +{
-> +	put_device(rm->miscdev.this_device);
-> +}
-> +EXPORT_SYMBOL_GPL(gh_rm_put);
-> +
-> +static long gh_dev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-> +{
-> +	struct miscdevice *miscdev = filp->private_data;
-> +	struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
-> +
-> +	return gh_dev_vm_mgr_ioctl(rm, cmd, arg);
-> +}
-> +
-> +static const struct file_operations gh_dev_fops = {
-> +	.owner		= THIS_MODULE,
-> +	.unlocked_ioctl	= gh_dev_ioctl,
-> +	.compat_ioctl	= compat_ptr_ioctl,
-> +	.llseek		= noop_llseek,
-> +};
-> +
->   static int gh_msgq_platform_probe_direction(struct platform_device *pdev, bool tx,
->   					    struct gh_resource *ghrsc)
->   {
-> @@ -665,7 +697,22 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
->   	rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
->   	rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
->   
-> -	return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
-> +	ret = gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
-> +	if (ret)
-> +		goto err_cache;
-> +
-> +	rm->miscdev.name = "gunyah";
-> +	rm->miscdev.minor = MISC_DYNAMIC_MINOR;
-> +	rm->miscdev.fops = &gh_dev_fops;
-> +
-> +	ret = misc_register(&rm->miscdev);
-> +	if (ret)
-> +		goto err_msgq;
-> +
-> +	return 0;
-> +err_msgq:
-> +	mbox_free_channel(gh_msgq_chan(&rm->msgq));
-> +	gh_msgq_remove(&rm->msgq);
->   err_cache:
->   	kmem_cache_destroy(rm->cache);
->   	return ret;
-> @@ -675,6 +722,7 @@ static int gh_rm_drv_remove(struct platform_device *pdev)
->   {
->   	struct gh_rm *rm = platform_get_drvdata(pdev);
->   
-> +	misc_deregister(&rm->miscdev);
->   	mbox_free_channel(gh_msgq_chan(&rm->msgq));
->   	gh_msgq_remove(&rm->msgq);
->   	kmem_cache_destroy(rm->cache);
-> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
-> new file mode 100644
-> index 000000000000..a43401cb34f7
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/vm_mgr.c
-> @@ -0,0 +1,93 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#define pr_fmt(fmt) "gh_vm_mgr: " fmt
-> +
-> +#include <linux/anon_inodes.h>
-> +#include <linux/file.h>
-> +#include <linux/gunyah_rsc_mgr.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/module.h>
-> +
-> +#include <uapi/linux/gunyah.h>
-> +
-> +#include "vm_mgr.h"
-> +
-> +static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
-> +{
-> +	struct gh_vm *ghvm;
-> +
-> +	ghvm = kzalloc(sizeof(*ghvm), GFP_KERNEL);
-> +	if (!ghvm)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ghvm->parent = gh_rm_get(rm);
-> +	ghvm->rm = rm;
-> +
-> +	return ghvm;
-> +}
-> +
-> +static int gh_vm_release(struct inode *inode, struct file *filp)
-> +{
-> +	struct gh_vm *ghvm = filp->private_data;
-> +
-> +	gh_rm_put(ghvm->rm);
-> +	kfree(ghvm);
-> +	return 0;
-> +}
-> +
-> +static const struct file_operations gh_vm_fops = {
-> +	.owner = THIS_MODULE,
-> +	.release = gh_vm_release,
-> +	.llseek = noop_llseek,
-> +};
-> +
-> +static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
-> +{
-> +	struct gh_vm *ghvm;
-> +	struct file *file;
-> +	int fd, err;
-> +
-> +	/* arg reserved for future use. */
-> +	if (arg)
-> +		return -EINVAL;
-> +
-> +	ghvm = gh_vm_alloc(rm);
-> +	if (IS_ERR(ghvm))
-> +		return PTR_ERR(ghvm);
-> +
-> +	fd = get_unused_fd_flags(O_CLOEXEC);
-> +	if (fd < 0) {
-> +		err = fd;
-> +		goto err_destroy_vm;
-> +	}
-> +
-> +	file = anon_inode_getfile("gunyah-vm", &gh_vm_fops, ghvm, O_RDWR);
-> +	if (IS_ERR(file)) {
-> +		err = PTR_ERR(file);
-> +		goto err_put_fd;
-> +	}
-> +
-> +	fd_install(fd, file);
-> +
-> +	return fd;
-> +
-> +err_put_fd:
-> +	put_unused_fd(fd);
-> +err_destroy_vm:
-> +	gh_rm_put(ghvm->rm);
-> +	kfree(ghvm);
-> +	return err;
-> +}
-> +
-> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg)
-> +{
-> +	switch (cmd) {
-> +	case GH_CREATE_VM:
-> +		return gh_dev_ioctl_create_vm(rm, arg);
-> +	default:
-> +		return -ENOTTY;
-> +	}
-> +}
-> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
-> new file mode 100644
-> index 000000000000..1e94b58d7d34
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/vm_mgr.h
-> @@ -0,0 +1,20 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef _GH_VM_MGR_H
-> +#define _GH_VM_MGR_H
-> +
-> +#include <linux/gunyah_rsc_mgr.h>
-> +
-> +#include <uapi/linux/gunyah.h>
-> +
-> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg);
-> +
-> +struct gh_vm {
-> +	struct gh_rm *rm;
-> +	struct device *parent;
-> +};
-> +
-> +#endif
-> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-> new file mode 100644
-> index 000000000000..86b9cb60118d
-> --- /dev/null
-> +++ b/include/uapi/linux/gunyah.h
-> @@ -0,0 +1,23 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef _UAPI_LINUX_GUNYAH_H
-> +#define _UAPI_LINUX_GUNYAH_H
-> +
-> +/*
-> + * Userspace interface for /dev/gunyah - gunyah based virtual machine
-> + */
-> +
-> +#include <linux/types.h>
-> +#include <linux/ioctl.h>
-> +
-> +#define GH_IOCTL_TYPE			'G'
-> +
-> +/*
-> + * ioctls for /dev/gunyah fds:
-> + */
-> +#define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
-> +
-> +#endif
+Yeah, I considered that but didn't see any other external links in
+this doc, so it felt out of place. I don't feel strongly, but feel
+free to add to the patch and link to oomd
+(https://github.com/facebookincubator/oomd) and systemd-oomd
+(https://www.freedesktop.org/software/systemd/man/systemd-oomd.service.html)
