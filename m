@@ -2,107 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8BD6C77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 02:18:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 758DEC7EE24
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 02:47:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233706AbjFFCSj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 22:18:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49604 "EHLO
+        id S233609AbjFFCrz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 22:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232034AbjFFCSi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 22:18:38 -0400
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91448114
-        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 19:18:37 -0700 (PDT)
-Received: by mail-ot1-x32e.google.com with SMTP id 46e09a7af769-6b29a03ec42so15973a34.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 19:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686017917; x=1688609917;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pq85JV2SdkTWT1UykTpgwMJ7kQGul6RVMXpZztrA70k=;
-        b=ALScxAXZfrT9BPJUTkAeH2f8cYqLzBXaTf/a3oKF9zKW9UtGYAPWsWq8eBVk3xUIcY
-         Jd8t90JZdVk7gmx/cmuNhxlPjygWg+xXmkv8RMuHFPs6YxxDjyLml22nFlNKFeu2M7Mz
-         QIUVRxqQbXpo853W/qRz3cjtet+cBVRChokpyvp5RQ9OcKIrGuYjjbeyPst5nikt833V
-         eDyJ3hzO5QfxTBTIawravz1KwvPUNY+DjNNcjFw2JipI1pIrbaU1576h6PrDZisrnDeG
-         x0g5sc38MrMte482vHPlMGF/cChPPaSDrQEnpdxZS3dYNyv0u07Vi7EK59I+bNpVcRM2
-         vFKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686017917; x=1688609917;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pq85JV2SdkTWT1UykTpgwMJ7kQGul6RVMXpZztrA70k=;
-        b=aAIzJIbqzrc65rIq7dNuog/gRxHSyCy655oEXobncLWpYteUvmGVUp/Ni9vdQBgPix
-         OfNo/1d0hsnW9lw+gCIB86tZ2HnOa40oOuqFyAmrYfnw5dhQ17VvacldHgz7Fil83XHS
-         iJLHi3+vyR1CbOTg2JXx+fKUxY+gBWMerRAQjQkg/eIrFVsCagF0nqfT8VeUctDkXsL6
-         VpTUDVbubnJH7i75SY4xb4kXwjaaN7VU1BQozW+tBqpHMO62jpiKZ0Y/IaLko9U/dvDA
-         KckQdQdHyLW8TSNRyzcJ2rv4sf0jKc3udo0GaQWLvfY9cQr3njkhJMaTXvKnkfdZTmrp
-         OVrg==
-X-Gm-Message-State: AC+VfDzR3PEQyJ/a+0BL71IE8Bf1R76aSHoJ5ACy1s0rUPC9WbMX0Qyn
-        zuX7K8/Y/hI9AywKC3x1Xe4=
-X-Google-Smtp-Source: ACHHUZ73hfAfBiMqB9tqWPbU/FwVETl7ryRQhqynyRWcQRUNX7uwhnkiuU+pE67e3wnEXA/xLD7HVg==
-X-Received: by 2002:a05:6358:bb89:b0:129:cf4e:c0e1 with SMTP id df9-20020a056358bb8900b00129cf4ec0e1mr796577rwb.32.1686017916654;
-        Mon, 05 Jun 2023 19:18:36 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-36.three.co.id. [116.206.28.36])
-        by smtp.gmail.com with ESMTPSA id q5-20020a17090a4f8500b002563e8a0225sm6890499pjh.48.2023.06.05.19.18.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jun 2023 19:18:36 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 604CB1069FD; Tue,  6 Jun 2023 09:18:32 +0700 (WIB)
-Date:   Tue, 6 Jun 2023 09:18:32 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Russell Harmon <eatnumber1@gmail.com>
-Cc:     mpatocka@redhat.com, snitzer@redhat.com, dm-devel@redhat.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] Documentation: dm-integrity: Document the meaning
- of "buffer".
-Message-ID: <ZH6XeM4Uir4zQMn6@debian.me>
-References: <20230604190604.4800-1-eatnumber1@gmail.com>
- <20230605050853.6240-1-eatnumber1@gmail.com>
- <20230605050853.6240-3-eatnumber1@gmail.com>
+        with ESMTP id S232590AbjFFCrz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 22:47:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A4911B
+        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 19:47:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686019634;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TyrQkndqpMXQTJvEYsFWn/XnRkmO/S0R4Ew8kAm6EeM=;
+        b=d2DAVV91Y9XsSzSBo9bg1clikhsGrqiZzPKwa+b4QXRQ5gvt9E7hyAlM3OQi/H0K4fPZbi
+        Qjr+ebUHdtzbsFZww9M14ZmSy6rU7NwnVJPS0WsdfFCjzauwtWdTF++sybJxFFeqIWU9py
+        RRIO8+Ljkhkmcmea4IdSKEP1Rcz3UAo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-bJSmIJ0JP_iCmZBWbtvQrA-1; Mon, 05 Jun 2023 22:47:10 -0400
+X-MC-Unique: bJSmIJ0JP_iCmZBWbtvQrA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 012D63C0CEE0;
+        Tue,  6 Jun 2023 02:47:10 +0000 (UTC)
+Received: from [10.22.8.27] (unknown [10.22.8.27])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C9E762026D49;
+        Tue,  6 Jun 2023 02:47:08 +0000 (UTC)
+Message-ID: <a2220c9f-7a8d-da82-ecc0-b39f3807408c@redhat.com>
+Date:   Mon, 5 Jun 2023 22:47:08 -0400
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="8dT9jEFPjY4b25Xy"
-Content-Disposition: inline
-In-Reply-To: <20230605050853.6240-3-eatnumber1@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
+Content-Language: en-US
+To:     Tejun Heo <tj@kernel.org>
+Cc:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Ryan Phillips <rphillips@redhat.com>,
+        Brent Rowsell <browsell@redhat.com>,
+        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
+References: <f2bd7b1e-190e-1d08-f085-b4cae36fb5be@redhat.com>
+ <ZFGOTHQj3k5rzmyR@blackbook>
+ <deb7b684-3d7c-b3ae-7b36-5b7ba2dd8001@redhat.com>
+ <ZFUo5IYAIwTEKR4_@slm.duckdns.org>
+ <759603dd-7538-54ad-e63d-bb827b618ae3@redhat.com>
+ <405b2805-538c-790b-5bf8-e90d3660f116@redhat.com>
+ <ZGvHUjOCjwat91Gq@slm.duckdns.org>
+ <18793f4a-fd39-2e71-0b77-856afb01547b@redhat.com>
+ <ZH4jfmypOXGJPu0D@slm.duckdns.org>
+ <be64a569-4388-9dd9-3e06-36d716a54f6c@redhat.com>
+ <ZH5FNc6wjlGPsaaO@slm.duckdns.org>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <ZH5FNc6wjlGPsaaO@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 6/5/23 16:27, Tejun Heo wrote:
+> Hello,
+>
+> On Mon, Jun 05, 2023 at 04:00:39PM -0400, Waiman Long wrote:
+> ...
+>>> file seems hacky to me. e.g. How would it interact with namespacing? Are
+>>> there reasons why this can't be properly hierarchical other than the amount
+>>> of work needed? For example:
+>>>
+>>>     cpuset.cpus.exclusive is a per-cgroup file and represents the mask of CPUs
+>>>     that the cgroup holds exclusively. The mask is always a subset of
+>>>     cpuset.cpus. The parent loses access to a CPU when the CPU is given to a
+>>>     child by setting the CPU in the child's cpus.exclusive and the CPU can't
+>>>     be given to more than one child. IOW, exclusive CPUs are available only to
+>>>     the leaf cgroups that have them set in their .exclusive file.
+>>>
+>>>     When a cgroup is turned into a partition, its cpuset.cpus and
+>>>     cpuset.cpus.exclusive should be the same. For backward compatibility, if
+>>>     the cgroup's parent is already a partition, cpuset will automatically
+>>>     attempt to add all cpus in cpuset.cpus into cpuset.cpus.exclusive.
+>>>
+>>> I could well be missing something important but I'd really like to see
+>>> something like the above where the reservation feature blends in with the
+>>> rest of cpuset.
+>> It can certainly be made hierarchical as you suggest. It does increase
+>> complexity from both user and kernel point of view.
+>>
+>>  From the user point of view, there is one more knob to manage hierarchically
+>> which is not used that often.
+>  From user pov, this only affects them when they want to create partitions
+> down the tree, right?
+>
+>>  From the kernel point of view, we may need to have one more cpumask per
+>> cpuset as the current subparts_cpus is used to track automatic reservation.
+>> We need another cpumask to contain extra exclusive CPUs not allocated
+>> through automatic reservation. The fact that you mention this new control
+>> file as a list of exclusively owned CPUs for this cgroup. Creating a
+>> partition is in fact allocating exclusive CPUs to a cgroup. So it kind of
+>> overlaps with the cpuset.cpus.partititon file. Can we fail a write to
+> Yes, it substitutes and expands on cpuset.cpus.partition behavior.
+>
+>> cpuset.cpus.exclusive if those exclusive CPUs cannot be granted or will this
+>> exclusive list is only valid if a valid partition can be formed. So we need
+>> to properly manage the dependency between these 2 control files.
+> So, I think cpus.exclusive can become the sole mechanism to arbitrate
+> exclusive owenership of CPUs and .partition can depend on .exclusive.
+>
+>> Alternatively, I have no problem exposing cpuset.cpus.exclusive as a
+>> read-only file. It is a bit problematic if we need to make it writable.
+> I don't follow. How would remote partitions work then?
 
---8dT9jEFPjY4b25Xy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I had a different idea on the semantics of the cpuset.cpus.exclusive at 
+the beginning. My original thinking is that it was the actual exclusive 
+CPUs that are allocated to the cgroup. Now if we treat this as a hint of 
+what exclusive CPUs should be used and it becomes valid only if the 
+cgroup can become a valid partition. I can see it as a value that can be 
+hierarchically set throughout the whole cpuset hierarchy.
 
-On Sun, Jun 04, 2023 at 10:08:51PM -0700, Russell Harmon wrote:
-> +Accesses to the on-disk metadata area containing checksums (aka tags) are
-> +buffered using dm-bufio. When an access to any given metadata area
-> +occurs, each unique metadata area gets its own buffer(s). The buffer size
-> +is capped at the size of the metadata area, but may be smaller, thereby
-> +requiring multiple buffers to represent the full metadata area. A smaller
-> +buffer size will produce a smaller resulting read/write operation to the
-> +metadata area for small reads/writes. The metadata is still read even in
-> +a full write to the data covered by a single buffer.
-> +
+So a transition to a valid partition is possible iff
 
-LGTM, thanks!
+1) cpuset.cpus.exclusive is a subset of cpuset.cpus and is a subset of 
+cpuset.cpus.exclusive of all its ancestors.
+2) If its parent is not a partition root, none of the CPUs in 
+cpuset.cpus.exclusive are currently allocated to other partitions. This 
+the same remote partition concept in my v2 patch. If its parent is a 
+partition root, part of its exclusive CPUs will be distributed to this 
+child partition like the current behavior of cpuset partition.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+I can rework my patch to adopt this model if it is what you have in mind.
 
---=20
-An old man doll... just what I always wanted! - Clara
+Thanks,
+Longman
 
---8dT9jEFPjY4b25Xy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZH6XeAAKCRD2uYlJVVFO
-oxMmAQDQw+DyLg4djiSiS72ErEICH5CXhJavIm92BeL22KsbJgD9HON0Q4ehRfPA
-uydfE7iQ8VprJ9S5xNAHQXGHgGoIMAU=
-=Gs2+
------END PGP SIGNATURE-----
-
---8dT9jEFPjY4b25Xy--
