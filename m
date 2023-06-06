@@ -2,84 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 032BDC77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 13:10:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0515C77B7A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 13:29:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237939AbjFFNKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 09:10:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39282 "EHLO
+        id S232637AbjFFN3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 09:29:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbjFFNKO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 09:10:14 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 646381735;
-        Tue,  6 Jun 2023 06:09:54 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-75d4aa85303so254186485a.2;
-        Tue, 06 Jun 2023 06:09:54 -0700 (PDT)
+        with ESMTP id S231431AbjFFN3a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 09:29:30 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87A5690;
+        Tue,  6 Jun 2023 06:29:29 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6532671ccc7so5113972b3a.2;
+        Tue, 06 Jun 2023 06:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686056993; x=1688648993;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=33ubNGnlWzb0zUgKXOo7PameOxfWs466JIL20ejCxRU=;
-        b=YLInumMaJo4nCJrIXzReQU0BlvN7m/0+3WtFgkqlPKn6GyR1fIwy2krQvMzHNjBGH1
-         Y68DUYUasgdDYG/uqY+QQR0cx+AWlJ90UMPDSrj03K7ZPH/Vcg+7r/ioR4jNrittWwJV
-         OWXP2/8dAEQaaQnInokesrQdcEBGKe0kDdwzHAOP972bTAcmV3T0+h9xvzx/JmmslsqT
-         WyYU75DQR0D7ifiPW7k56WL7/LxxgAn5oHOrj6CtGzvZpuIl0Hoo169ua5O1ja5QvQvo
-         +mKDM5pGvxu/FO4dEtgsRgQq8OX00FRaGyrOm/XI0oC/+XGwwQ1XXsu/XVNuyfhRCFnr
-         Lfrw==
+        d=gmail.com; s=20221208; t=1686058169; x=1688650169;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SI0b4P3I9+60f/UCoHnIQQcWOpJpZ2k6ic4EQz/5KSo=;
+        b=mLOuy8Ernr9ulMFsisqVK3v4AXX4veGbmFf4Ct3mtOxGu+OYHMBs0iPOPZcwC68my8
+         mRfcslKCkn8syXfhb1D7RF2dImmYfesKbcChbn1EbJ9tpCXKmT+MALYI3EoM7TMdDK4m
+         uSUpj+bJVdhkdXdf9k1lTsBvXAG0efKyYl03Pjk53PqnrNFY6AIedrrau1cJYbNNMCGH
+         BAa97bPHSbbeRGWhD+aKrGDZUf/nxTqUX94ABk5cZzo4oFU6mioP4wk4NQhjxJ+b4/wE
+         1FOMtuP0xb8uWpKj3TUNGnMQpj3W0ebJvLMX5svLGZPl/gDhDkCumqf3t/8h/DIsj+V6
+         AdbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686056993; x=1688648993;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=33ubNGnlWzb0zUgKXOo7PameOxfWs466JIL20ejCxRU=;
-        b=VTPj7K7Rfj14hEdtTxQdjP7KApoJKXQO8zThgVT3YegnCHZskpS0ZeV3YBCxUTjLdO
-         FLdtO1np+T9XY/F+cG8/jB/lU3XsAVT793Zmq4VsrIKGhU/wemhKGmHwGkcAVzgZrz2v
-         O+tIykCafhUUDouTh+OKGbZsS6vwoHsIjaVdVBGfe5JWh+TKCz0b5T6fBlcHlK9wlevM
-         NA8a0ci3pQ7V9OURI2IE4eggRkJ1jkEvBSQdWiU90PxqGyIkRjokAmt6OK8vEnev3b76
-         sQUeiXI5aSwV6cm7f/fPFWJaKtT1E5oW+uAv6ZplYE5XcA04b4Nf4IMLJ4Xg3dY2zSM0
-         WTdA==
-X-Gm-Message-State: AC+VfDwanVri0pw0ecMaA/fL2eM7ZL7kjQ8RSLyrVjxZWONxwfI9WkaW
-        FqQpUeHsVFmCgWDqqmNlxNAourkHPJeQng==
-X-Google-Smtp-Source: ACHHUZ5wqKztZBRaznjkUEdJsWrdECyI9l14LFbb7jqQUw5Lqd69wkHR6kktGC79O0E7d+ApAmNjiQ==
-X-Received: by 2002:a05:6214:2269:b0:626:2047:c845 with SMTP id gs9-20020a056214226900b006262047c845mr2541061qvb.55.1686056992800;
-        Tue, 06 Jun 2023 06:09:52 -0700 (PDT)
-Received: from dschatzberg-fedora-PC0Y6AEN ([2620:10d:c091:400::5:eed0])
-        by smtp.gmail.com with ESMTPSA id px8-20020a056214050800b0061b63237be3sm5358299qvb.131.2023.06.06.06.09.52
+        d=1e100.net; s=20221208; t=1686058169; x=1688650169;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SI0b4P3I9+60f/UCoHnIQQcWOpJpZ2k6ic4EQz/5KSo=;
+        b=iZ5MUEHiq0tj2D4h8YqR6QvlBmpJUk098t/xW4dQ7jmaMw0Pu+HhAWpye5NRMLTIds
+         CFvKthVxEo9vG1EDBjAh0WICW4TBTJn1NPUD/Wrwc4rCjyzP+/H/tQRwoeFDN7brveLw
+         cjNxT+6QJdnuY0eOEdpiH5k74J82O4neCOo7GLsZKKgqnxywZwI3uEt/BXnZex2xw5DN
+         61KFGylnOriBC6fHtXmdU05Fy+BmH9QQZngQ1P+TpBl3sParSf3pqj1xmKc2xmPqmNSt
+         kv1CS5B23z4PtKeSxPNtjEXAdFay4/aAu0zTtkl99YqNfCOQlcMWNYbq9pyp9qUAYt4r
+         3Zmg==
+X-Gm-Message-State: AC+VfDxlwYQveQ2HK1pL3saM2QTKll3LSNPM+Dd5N7k99CTwF1oiSvkQ
+        FCKPUz4yRQ6ATfXVvkHT4HE=
+X-Google-Smtp-Source: ACHHUZ5h7h3dktfa+nsT8G9VO4WH2ZJRqEtX9W7/9S1MMO02w9hxQAC5ejRZCvpVlIPDcE2w8Ng3tg==
+X-Received: by 2002:a05:6a00:ad5:b0:649:93a7:571b with SMTP id c21-20020a056a000ad500b0064993a7571bmr2700821pfl.13.1686058168888;
+        Tue, 06 Jun 2023 06:29:28 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-93.three.co.id. [180.214.232.93])
+        by smtp.gmail.com with ESMTPSA id j7-20020aa783c7000000b00652364169d9sm6798175pfn.192.2023.06.06.06.29.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 06:09:52 -0700 (PDT)
-Date:   Tue, 6 Jun 2023 09:09:50 -0400
-From:   Dan Schatzberg <schatzberg.dan@gmail.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Chris Down <chris@chrisdown.name>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        Tue, 06 Jun 2023 06:29:28 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id D9D4E106A3A; Tue,  6 Jun 2023 20:29:25 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Zhangfei Gao <zhangfei.gao@linaro.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: Clarify usage of memory limits
-Message-ID: <ZH8wHva5/8n1EJv0@dschatzberg-fedora-PC0Y6AEN>
-References: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
- <ZH55K79CaSD6Zya1@slm.duckdns.org>
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Zaibo Xu <xuzaibo@huawei.com>
+Cc:     Linux Accelerators <linux-accelerators@lists.ozlabs.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] Documentation: uacce: Add doc title
+Date:   Tue,  6 Jun 2023 20:29:11 +0700
+Message-ID: <20230606132911.37137-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZH55K79CaSD6Zya1@slm.duckdns.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1058; i=bagasdotme@gmail.com; h=from:subject; bh=kWDRbexCOx46ujAnzbYoAxrFy0QxCcZqXVWhj+nSHM0=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDCn1JstnKnPxPeL4fXbNZr23ehOEFcU2y5yM4Xn77gXX9 o+NHgfyOkpZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRCe2MDAvmlelrsuZyKM4t DlrIek2wZY7eQdUP8xhNGKb+vLR920GGv9J8M3i+h24OLcrbtX7nMyU53QlXZrBmHUm0mXH68LR z/zkB
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 05, 2023 at 02:09:15PM -1000, Tejun Heo wrote:
-> Hello,
->
-> ...
-> 
-> I think it'd be helpful to provide pointers to oomd and systemd's
-> implementation of it here.
+There isn't page title on Uacce documentation, which causes all of its
+sections to be listed in table of contents for miscellaneous devices as
+separate titles (since there is only section headings).
 
-Yeah, I considered that but didn't see any other external links in
-this doc, so it felt out of place. I don't feel strongly, but feel
-free to add to the patch and link to oomd
-(https://github.com/facebookincubator/oomd) and systemd-oomd
-(https://www.freedesktop.org/software/systemd/man/systemd-oomd.service.html)
+Add the proper title.
+
+Fixes: aa017ab97a223d ("uacce: Add documents for uacce")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/misc-devices/uacce.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Documentation/misc-devices/uacce.rst b/Documentation/misc-devices/uacce.rst
+index 1db412e9b1a380..8c536b84167cbf 100644
+--- a/Documentation/misc-devices/uacce.rst
++++ b/Documentation/misc-devices/uacce.rst
+@@ -1,5 +1,9 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
++========================================================
++Unified/User-space-access-intended Accelerator Framework
++========================================================
++
+ Introduction of Uacce
+ ---------------------
+ 
+
+base-commit: 9561de3a55bed6bdd44a12820ba81ec416e705a7
+-- 
+An old man doll... just what I always wanted! - Clara
+
