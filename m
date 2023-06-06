@@ -2,142 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3454CC7EE24
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 08:00:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D40CAC7EE2A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 08:24:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235842AbjFFIAj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 04:00:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35346 "EHLO
+        id S232009AbjFFIYV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 04:24:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237191AbjFFIAU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 04:00:20 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 312A82D71;
-        Tue,  6 Jun 2023 00:57:54 -0700 (PDT)
-Received: from [192.168.10.48] (unknown [119.152.150.198])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: usama.anjum)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 33DCF6606E98;
-        Tue,  6 Jun 2023 08:57:50 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1686038272;
-        bh=3mvikzsrZ6UUqHFtYoJSndS+MYKtof2+48NtxLq92KI=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=kVLKlUef7fSpaZPOn+iXxXPHzOr7Ff+dAj1OX0Cvym0iDwVQDV0rpmtNtBrWndlRN
-         l0EZlowVKOe00KX1u6LUgu0igsYeckNmUCH2YqzzLO4HikM5PbAxwUOKQiJueOT2WX
-         IlLUinbeLUTDgsi/XZzvTyAQk2wqa+lFppzCh9gaTO6HlHhhyPKvWFGqxGiAvUpW74
-         fUZx7f6aU54I/53kB+dve3V/wFBKZuqKnFIbA76XvHVK0LSW3RkX6SE66+TrfD11b8
-         P7je2uYEnUVoNTHVrLP5G85A6n/GqrF4AtICxmt/0yyOQp5fxLmVLDEC2PmSU6pdZR
-         fofv2mkKzzLlw==
-Message-ID: <59b157ac-d6ee-c122-802c-a44b0f9463a5@collabora.com>
-Date:   Tue, 6 Jun 2023 12:57:46 +0500
+        with ESMTP id S235523AbjFFIYU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 04:24:20 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94BFD10F4
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jun 2023 01:24:00 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-27-nSSzYmyDMbyDTK30Pb0fqg-1; Tue, 06 Jun 2023 09:23:54 +0100
+X-MC-Unique: nSSzYmyDMbyDTK30Pb0fqg-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 6 Jun
+ 2023 09:23:52 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Tue, 6 Jun 2023 09:23:52 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'H. Peter Anvin'" <hpa@zytor.com>,
+        'Thomas Gleixner' <tglx@linutronix.de>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+CC:     Steven Noonan <steven@uplinklabs.net>,
+        "kernel@collabora.com" <kernel@collabora.com>
+Subject: RE: Direct rdtsc call side-effect
+Thread-Topic: Direct rdtsc call side-effect
+Thread-Index: AQHZlHOrHGvpd378GUKTvqmuipgWK698BnPAgAA4NYCAACHzkP///FcAgAEVfSA=
+Date:   Tue, 6 Jun 2023 08:23:52 +0000
+Message-ID: <cabfcf8a8840410399d2bfc1202e77ce@AcuMS.aculab.com>
+References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
+ <87mt1jeax1.ffs@tglx> <353732783fde46919fdcf698c326b7ed@AcuMS.aculab.com>
+ <87jzwi55qo.ffs@tglx> <a39d90e45212461bb31738b7156b60a6@AcuMS.aculab.com>
+ <4ea6e82c-4761-e0c9-3e75-8ec39eecb30a@zytor.com>
+In-Reply-To: <4ea6e82c-4761-e0c9-3e75-8ec39eecb30a@zytor.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        David Hildenbrand <david@redhat.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 11/11] selftests: error out if kernel header files are
- not yet built
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-To:     John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20230606071637.267103-1-jhubbard@nvidia.com>
- <20230606071637.267103-12-jhubbard@nvidia.com>
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <20230606071637.267103-12-jhubbard@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/6/23 12:16 PM, John Hubbard wrote:
-> As per a discussion with Muhammad Usama Anjum [1], the following is how
-> one is supposed to build selftests:
-> 
->     make headers && make -C tools/testing/selftests/mm
-> 
-> Change the selftest build system's lib.mk to fail out with a helpful
-> message if that prerequisite "make headers" has not been done yet.
-> 
-> [1] https://lore.kernel.org/all/bf910fa5-0c96-3707-cce4-5bcc656b6274@collabora.com/
-> 
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-Reviewed-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+RnJvbTogSC4gUGV0ZXIgQW52aW4NCj4gU2VudDogMDUgSnVuZSAyMDIzIDE3OjMyDQouLi4NCj4g
+VGhlIFRTQyBpcyBjZXJ0YWlubHkgbm90IHBlcmZlY3Q7IHBhcnRseSBiZWNhdXNlLCBpcm9uaWNh
+bGx5IGVub3VnaCwgaXQNCj4gd2FzIGludHJvZHVjZWQganVzdCAqYmVmb3JlKiBvdXQgb2Ygb3Jk
+ZXIgYW5kIHBvd2VyIG1hbmFnZW1lbnQgZW50ZXJlZA0KPiB0aGUgeDg2IHdvcmxkLg0KDQpBbm90
+aGVyIGlzc3VlIGlzIHRoYXQgdGhlIGNyeXN0YWwgdXNlZCBmb3IgdGhlIGNwdSBjbG9jayB3b24n
+dCBiZQ0KdGhhdCBhY2N1cmF0ZSAoaW4gdGVybXMgb2YgcHBtIGVycm9yIHJhdGUpLCBhbmQgd2ls
+bCBoYXZlIHNpZ25pZmljYW50DQp0ZW1wZXJhdHVyZSBkcmlmdC4NCk9UT0ggdGhlIGNyeXN0YWwg
+aW4gdGhlIHRyYWRpdGlvbmFsIHg4NiBtb3RoZXJib2FyZCAnY2xvY2snIGNoaXANCmlzIChtZWFu
+dCB0byBiZSkgZGVzaWduZWQgdG8gaGF2ZSBsb25nIHRlcm0gYWNjdXJhY3kuDQpXaGlsZSByZWFk
+aW5nIHRoZSBUU0MgaXMgYSBsb3QgZmFzdGVyIHRoZXJlIG91Z2h0IHRvIGhhdmUgYmVlbg0Kc29t
+ZSBraW5kIG9mIFBMTCB0byBjb250aW51b3VzbHkgYWRqdXN0IHRoZSBtZWFzdXJlZCBUU0MgZnJl
+cXVlbmN5DQp0byBrZWVwIHN5bmNocm9uaXNlZCB3aXRoIHRoZSB0aW1lciBjaGlwLg0KKEluc3Rl
+YWQga2VybmVscyBlbmQgdXAgd3JpdGluZyB0aGUgZHJpZnRlZCBUU0MgYmFzZWQgdGltZSBiYWNr
+IHRvDQp0aGUgdGltZXIgY2hpcCBkdXJpbmcgc2h1dGRvd24uKSANCg0KPiBJdCBpcyBubyBzZWNy
+ZXQgdGhhdCBpdCBoYXMgYmVlbiBzbG93IHRvIGNhdGNoIHVwLiBJdCB3YXMgZWFzeSB0byBwdXQg
+YQ0KPiBjb3VudGVyIGluOyBpdCBpcyBhICpsb3QqIGhhcmRlciB0byBtYWtlIGl0IHdvcmsgaW4g
+YWxsIHRoZSBwb3NzaWJsZQ0KPiBzY2VuYXJpb3MgaW4gdGhlIHBvd2VyLW1hbmFnZWQsIG91dC1v
+Zi1vcmRlciB3b3JsZC4NCg0KVGhhdCByYXRoZXIgZGVwZW5kcyBvbiB3aGF0IHlvdSBtZWFuIGJ5
+ICd3b3JrJyA6LSkNCg0KPiBJdCBpcyBvbmUgb2YgbXkgcGVyc29uYWwgcGV0IHByb2plY3RzIGlu
+IHRoZSBhcmNoaXRlY3R1cmUgd29yayB0byBwdXNoDQo+IHRvIGdldCB0aGF0IGxhc3QgZGlzdGFu
+Y2U7IHdlIGFyZSBub3QgeWV0IHRoZXJlLg0KDQpGb3IgcGVyZm9ybWFuY2UgbWVhc3VyZW1lbnRz
+IHBvc3NpYmx5IHdoYXQgeW91IHdhbnQgaXMgYSBzaW1wbGUNCmNsb2NrIGNvdW50ZXIgd2hpY2gg
+aXMgZGVwZW5kZW50IG9uIGFuIGEgcmVnaXN0ZXIuDQpTbyBwcmV0dHkgbXVjaCB6ZXJvIG92ZXJo
+ZWFkIGJ1dCBpcyBndWFyYW50ZWVkIHRvIGhhcHBlbiBhZnRlcg0Kc29tZSBvdGhlciBpbnN0cnVj
+dGlvbiB3aXRob3V0IHJlYWxseSBhZmZlY3RpbmcgdGhlIHBpcGVsaW5lLg0KDQpJSVJDIHRoZSB4
+ODYgcGVyZm9ybWFuY2UgY291bnRlcnMgYXJlbid0IGRlcGVuZGVudCBvbiBhbnl0aGluZw0Kc28g
+dGhleSB0ZW5kIHRvIGV4ZWN1dGUgbXVjaCBlYXJsaWVyIHRoYW4geW91IHdhbnQuDQpPVE9IIHJk
+dHNjIGlzIGxpa2VseSB0byBiZSBzeW5jaHJvbmlzaW5nIGFuZCBhZmZlY3Qgd2hhdCBmb2xsb3dz
+Lg0KSVNUUiB1c2luZyByZHRzYyB0byB3YWl0IGZvciBpbnN0cnVjdGlvbnMgdG8gY29tcGxldGUg
+YW5kIHRoZW4NCnRoZSBwZXJmb3JtYW5jZSBjbG9jayBjb3VudGVyIHRvIHNlZSBob3cgbG9uZyBp
+dCB0b29rLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFt
+bGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3Ry
+YXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
-> ---
->  tools/testing/selftests/lib.mk | 36 +++++++++++++++++++++++++++++++---
->  1 file changed, 33 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
-> index 05400462c779..b8ea03b9a015 100644
-> --- a/tools/testing/selftests/lib.mk
-> +++ b/tools/testing/selftests/lib.mk
-> @@ -44,10 +44,22 @@ endif
->  selfdir = $(realpath $(dir $(filter %/lib.mk,$(MAKEFILE_LIST))))
->  top_srcdir = $(selfdir)/../../..
->  
-> -ifeq ($(KHDR_INCLUDES),)
-> -KHDR_INCLUDES := -isystem $(top_srcdir)/usr/include
-> +ifneq ($(KBUILD_OUTPUT),)
-> +  # Make's built-in functions such as $(abspath ...), $(realpath ...) cannot
-> +  # expand a shell special character '~'. We use a somewhat tedious way here.
-> +  abs_objtree := $(shell cd $(top_srcdir) && mkdir -p $(KBUILD_OUTPUT) && cd $(KBUILD_OUTPUT) && pwd)
-> +  $(if $(abs_objtree),, \
-> +    $(error failed to create output directory "$(KBUILD_OUTPUT)"))
-> +  # $(realpath ...) resolves symlinks
-> +  abs_objtree := $(realpath $(abs_objtree))
-> +  KHDR_DIR := ${abs_objtree}/usr/include
-> +else
-> +  abs_srctree := $(shell cd $(top_srcdir) && pwd)
-> +  KHDR_DIR := ${abs_srctree}/usr/include
->  endif
->  
-> +KHDR_INCLUDES := -isystem $(KHDR_DIR)
-> +
->  # The following are built by lib.mk common compile rules.
->  # TEST_CUSTOM_PROGS should be used by tests that require
->  # custom build rule and prevent common build rule use.
-> @@ -58,7 +70,25 @@ TEST_GEN_PROGS := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS))
->  TEST_GEN_PROGS_EXTENDED := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_PROGS_EXTENDED))
->  TEST_GEN_FILES := $(patsubst %,$(OUTPUT)/%,$(TEST_GEN_FILES))
->  
-> -all: $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED) $(TEST_GEN_FILES)
-> +all: kernel_header_files $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED) \
-> +     $(TEST_GEN_FILES)
-> +
-> +kernel_header_files:
-> +	@ls $(KHDR_DIR)/linux/*.h >/dev/null 2>/dev/null;                      \
-> +	if [ $$? -ne 0 ]; then                                                 \
-> +            RED='\033[1;31m';                                                  \
-> +            NOCOLOR='\033[0m';                                                 \
-> +            echo;                                                              \
-> +            echo -e "$${RED}error$${NOCOLOR}: missing kernel header files.";   \
-> +            echo "Please run this and try again:";                             \
-> +            echo;                                                              \
-> +            echo "    cd $(top_srcdir)";                                       \
-> +            echo "    make headers";                                           \
-> +            echo;                                                              \
-> +	    exit 1; \
-> +	fi
-> +
-> +.PHONY: kernel_header_files
->  
->  define RUN_TESTS
->  	BASE_DIR="$(selfdir)";			\
-
--- 
-BR,
-Muhammad Usama Anjum
