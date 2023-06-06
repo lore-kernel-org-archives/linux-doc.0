@@ -2,76 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF570C7EE24
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 13:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 858C9C7EE29
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 13:56:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237543AbjFFNqf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 09:46:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34726 "EHLO
+        id S233493AbjFFN4k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 09:56:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236774AbjFFNqe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 09:46:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04FAFE6B;
-        Tue,  6 Jun 2023 06:46:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229758AbjFFN4j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 09:56:39 -0400
+X-Greylist: delayed 284 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 06 Jun 2023 06:56:37 PDT
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AC878F;
+        Tue,  6 Jun 2023 06:56:37 -0700 (PDT)
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+        by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 00E4011D5;
+        Tue,  6 Jun 2023 15:50:44 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 00E4011D5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+        t=1686059445; bh=inf9czf+Fxft+0nBooxISAuEFReZinVPBtqDt/EIdoQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=mUZRpAjzEIWL/Y6XLYQjIKsPJfvecZuVjnU7H5955AKOjs5pvEu3XBlIEOuxX/PGF
+         05934txPHJYUIfplC71NAXLaHSGjDM7GI3aZIpGGVneL5K4nHYjutVhLlgINMvzLze
+         NeWQq6BD6/njYHApvWVsDPmWICBfN4Ybj2918PO0=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 949E4627CE;
-        Tue,  6 Jun 2023 13:46:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170F9C433EF;
-        Tue,  6 Jun 2023 13:46:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686059193;
-        bh=68eaGrLGrnORDP1z2Q9crKD3m6oo24cQZZ0jGyTzM9g=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=oWB9VCBzGWlONboGUB2EfG9Dpzthr9066iDyJx6GNNpEi4Zfwl5Gu0tYTMMmnJpdk
-         pmm3kAY+jeWGHqKKt5VyzWzzmnyRhMR8Cj87ISDaRjMWSko7WO+uBmeSEGYhi5y4py
-         z6Rqimlc+UD62AyS1YplgBIDcGeqTM/8wE1mIQZ7vxC3dryFTv1HRm8E7bSClm6qLc
-         CIHxj/SM5muMKaf6mq6YZyJ/ShZ0BdS3Hh9KQp/n9+36ObkIMNhq+8Kx8TODcTCLaa
-         efx8uSFDZdWVxLFF4hxA+xI+uUkXyPrehTB/4LKWCcUQBkPxfdeZPs9qSnuAfyCqO1
-         3eav54GnVKIfA==
-From:   Kalle Valo <kvalo@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Willy Tarreau <w@1wt.eu>, Randy Dunlap <rdunlap@infradead.org>,
-        James Seo <james@equiv.tech>, Jonathan Corbet <corbet@lwn.net>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC] docs: process: Send patches 'To' maintainers and 'Cc' lists
-References: <20230603151447.29288-1-james@equiv.tech>
-        <975d35cb-e0aa-8ea7-5520-238d1aa4cbaf@infradead.org>
-        <20230603160659.GA5182@1wt.eu> <20230604112644.49ac2035@kernel.org>
-        <20230605041258.GA22604@pendragon.ideasonboard.com>
-        <87v8g2hwm1.fsf@kernel.org> <20230605103029.3fb821db@kernel.org>
-Date:   Tue, 06 Jun 2023 16:46:25 +0300
-In-Reply-To: <20230605103029.3fb821db@kernel.org> (Jakub Kicinski's message of
-        "Mon, 5 Jun 2023 10:30:29 -0700")
-Message-ID: <87ilc0itzi.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        (Authenticated sender: perex)
+        by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+        Tue,  6 Jun 2023 15:50:32 +0200 (CEST)
+Message-ID: <d0be2139-0dae-158b-2760-ab62080b73ba@perex.cz>
+Date:   Tue, 6 Jun 2023 15:50:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v3 1/3] docs: sound: add 'pcmtest' driver documentation
+Content-Language: en-US
+To:     Ivan Orlov <ivan.orlov0322@gmail.com>, tiwai@suse.com,
+        corbet@lwn.net, broonie@kernel.org, skhan@linuxfoundation.org
+Cc:     alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        gregkh@linuxfoundation.org, himadrispandya@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20230606133807.14089-1-ivan.orlov0322@gmail.com>
+From:   Jaroslav Kysela <perex@perex.cz>
+In-Reply-To: <20230606133807.14089-1-ivan.orlov0322@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+On 06. 06. 23 15:38, Ivan Orlov wrote:
+> Add documentation for the new Virtual PCM Test Driver. It covers all
+> possible usage cases: errors and delay injections, random and
+> pattern-based data generation, playback and ioctl redefinition
+> functionalities testing.
 
-> On Mon, 05 Jun 2023 16:22:46 +0300 Kalle Valo wrote:
->> > Note that some maintainers process pull requests from patchwork, not
->> > from their mailbox, and prefer not to be aadressed in the To or CC
->> > headers. I don't know how widespread that is.  
->> 
->> FWIW I belong to this group and prefer not be in To or Cc, I'll always
->> check the patch from patchwork.
->
-> Ah, I didn't realize this. 
-
-So no action needed for this, I'm sure I'm in a very small minority and
-I can handle the mails with my filters just fine. Just wanted to comment
-that such maintainers do exist.
+Acked-by: Jaroslav Kysela <perex@perex.cz>
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
