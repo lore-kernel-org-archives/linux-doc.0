@@ -2,236 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3DC0C7EE2C
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 09:57:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 520D4C7EE31
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 09:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237519AbjFFJ5J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 05:57:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59062 "EHLO
+        id S237576AbjFFJ6c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 05:58:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237502AbjFFJ5F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 05:57:05 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80133E76;
-        Tue,  6 Jun 2023 02:57:03 -0700 (PDT)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Qb5S71v1kz67lVQ;
-        Tue,  6 Jun 2023 17:55:03 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 6 Jun
- 2023 10:57:01 +0100
-Date:   Tue, 6 Jun 2023 10:56:55 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Yicong Yang <yangyicong@huawei.com>
-CC:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
-        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alexander.shishkin@linux.intel.com>,
-        <helgaas@kernel.org>, <linux-pci@vger.kernel.org>,
-        <prime.zeng@huawei.com>, <linuxarm@huawei.com>
-Subject: Re: [PATCH v3 2/4] hwtracing: hisi_ptt: Add support for dynamically
- updating the filter list
-Message-ID: <20230606105655.00006d92@Huawei.com>
-In-Reply-To: <20230523093228.48149-3-yangyicong@huawei.com>
-References: <20230523093228.48149-1-yangyicong@huawei.com>
-        <20230523093228.48149-3-yangyicong@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+        with ESMTP id S235078AbjFFJ61 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 05:58:27 -0400
+X-Greylist: delayed 623 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 06 Jun 2023 02:58:16 PDT
+Received: from mail.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08D1C10D2;
+        Tue,  6 Jun 2023 02:58:15 -0700 (PDT)
+Received: from BillyTsai-pc.aspeed.com (192.168.1.221) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 6 Jun
+ 2023 17:43:41 +0800
+From:   Billy Tsai <billy_tsai@aspeedtech.com>
+To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <lee@kernel.org>, <thierry.reding@gmail.com>,
+        <u.kleine-koenig@pengutronix.de>, <corbet@lwn.net>,
+        <p.zabel@pengutronix.de>, <billy_tsai@aspeedtech.com>,
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <patrick@stwcx.xyz>
+Subject: [v5 0/5] Support pwm/tach driver for aspeed ast26xx
+Date:   Tue, 6 Jun 2023 17:45:30 +0800
+Message-ID: <20230606094535.5388-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.1.221]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 23 May 2023 17:32:26 +0800
-Yicong Yang <yangyicong@huawei.com> wrote:
+Unlike the old design that the register setting of the TACH should based
+on the configure of the PWM. In ast26xx, the dependency between pwm and
+tach controller is eliminated and becomes a separate hardware block. One
+is used to provide pwm output and another is used to monitor the frequency
+of the input. Therefore, this patch serials implements them by writing the
+two driver "pwm-aspeed-ast2600.c" and "tach-aspeed-ast2600.c". The former
+is following the pwm subsystem which can apply the existed driver to
+controller the fan(pwm-fan.c), beeper(pwm-beeper.c) and so on. The latter
+is following the sysfs interface of hwmon to creat the node for fan
+monitor.
 
-> From: Yicong Yang <yangyicong@hisilicon.com>
-> 
-> The PCIe devices supported by the PTT trace can be removed/rescanned by
-> hotplug or through sysfs.  Add support for dynamically updating the
-> available filter list by registering a PCI bus notifier block. Then user
-> can always get latest information about available tracing filters and
-> driver can block the invalid filters of which related devices no longer
-> exist in the system.
-> 
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-Hi Yangyicong,
+Changes since v4:
+- pwm:
+  - Fix the return type of get_status function.
+- tach:
+  - read clk source once and re-use it
+  - Remove the constants variables
+  - Allocate tach_channel as array
+  - Use dev->parent
+- dt-binding:
+  - Fix the order of the patches
+  - Add example and description for tach child node
+  - Remove pwm extension property
 
-A few comments inline
+Changes since v3:
+- pwm:
+  - Remove unnecessary include header
+  - Fix warning Prefer "GPL" over "GPL v2"
+- tach:
+  - Remove the paremeter min_rpm and max_rpm and return the tach value 
+  directly without any polling or delay.
+  - Fix warning Prefer "GPL" over "GPL v2"
+- dt-binding:
+  - Replace underscore in node names with dashes
+  - Split per subsystem
 
-Jonathan
+Changes since v2:
+- pwm:
+  - Use devm_* api to simplify the error cleanup
+  - Fix the multi-line alignment problem
+- tach:
+  - Add tach-aspeed-ast2600 to index.rst
+  - Fix the multi-line alignment problem
+  - Remove the tach enable/disable when read the rpm
+  - Fix some coding format issue
 
-> ---
->  Documentation/trace/hisi-ptt.rst |   6 +-
->  drivers/hwtracing/ptt/hisi_ptt.c | 165 +++++++++++++++++++++++++++++--
->  drivers/hwtracing/ptt/hisi_ptt.h |  39 ++++++++
->  3 files changed, 201 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
-> index 4f87d8e21065..3641aca4287a 100644
-> --- a/Documentation/trace/hisi-ptt.rst
-> +++ b/Documentation/trace/hisi-ptt.rst
-> @@ -153,9 +153,9 @@ Endpoint function can be specified in one trace. Specifying both Root Port
->  and function at the same time is not supported. Driver maintains a list of
->  available filters and will check the invalid inputs.
->  
-> -Currently the available filters are detected in driver's probe. If the supported
-> -devices are removed/added after probe, you may need to reload the driver to update
-> -the filters.
-> +The available filters will be dynamically updates, which means you will always
+Changes since v1:
+- tach:
+  - Add the document tach-aspeed-ast2600.rst
+  - Use devm_* api to simplify the error cleanup.
+  - Change hwmon register api to devm_hwmon_device_register_with_info
 
-updated, 
+Billy Tsai (5):
+  dt-bindings: pwm: Add bindings for aspeed pwm controller
+  dt-bindings: hwmon: Add bindings for aspeed tach controller
+  dt-bindings: mfd: Add aspeed pwm-tach binding
+  pwm: Add Aspeed ast2600 PWM support
+  hwmon: Add Aspeed ast2600 TACH support
 
-> +get correct filter information when hotplug events happen, or when you manually
-> +remove/rescan the devices.
->  
->  2. Type
->  -------
-> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
-> index 548cfef51ace..9b4acbc434b0 100644
-> --- a/drivers/hwtracing/ptt/hisi_ptt.c
-> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
-> @@ -357,24 +357,41 @@ static int hisi_ptt_register_irq(struct hisi_ptt *hisi_ptt)
+ .../bindings/hwmon/aspeed,ast2600-tach.yaml   |  40 ++
+ .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml |  76 ++++
+ .../bindings/pwm/aspeed,ast2600-pwm.yaml      |  32 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/tach-aspeed-ast2600.rst   |  25 ++
+ drivers/hwmon/Kconfig                         |   9 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/tach-aspeed-ast2600.c           | 367 ++++++++++++++++++
+ drivers/pwm/Kconfig                           |  10 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-aspeed-ast2600.c              | 319 +++++++++++++++
+ 11 files changed, 881 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+ create mode 100644 Documentation/hwmon/tach-aspeed-ast2600.rst
+ create mode 100644 drivers/hwmon/tach-aspeed-ast2600.c
+ create mode 100644 drivers/pwm/pwm-aspeed-ast2600.c
 
-...
-
->  static struct hisi_ptt_filter_desc *
-> -hisi_ptt_alloc_add_filter(struct hisi_ptt *hisi_ptt, struct pci_dev *pdev)
-> +hisi_ptt_alloc_add_filter(struct hisi_ptt *hisi_ptt, u16 devid, bool is_port)
->  {
->  	struct hisi_ptt_filter_desc *filter;
-> +	u8 devfn = devid & 0xff;
-> +	char *filter_name;
-> +
-> +	filter_name = kasprintf(GFP_KERNEL, "%04x:%02x:%02x.%d", pci_domain_nr(hisi_ptt->pdev->bus),
-> +				 PCI_BUS_NUM(devid), PCI_SLOT(devfn), PCI_FUNC(devfn));
-> +	if (!filter_name) {
-> +		pci_err(hisi_ptt->pdev, "failed to allocate name for filter %s\n",
-> +			filter_name);
-> +		kfree(filter);
-
-Don't think you've allocated filter yet.
-
-> +		return NULL;
-> +	}
->  
->  	filter = kzalloc(sizeof(*filter), GFP_KERNEL);
->  	if (!filter) {
->  		pci_err(hisi_ptt->pdev, "failed to add filter for %s\n",
-> -			pci_name(pdev));
-> +			filter_name);
->  		return NULL;
->  	}
->  
-> -	filter->devid = PCI_DEVID(pdev->bus->number, pdev->devfn);
-> -	filter->is_port = pci_pcie_type(pdev) == PCI_EXP_TYPE_ROOT_PORT;
-> +	filter->name = filter_name;
-> +	filter->is_port = is_port;
-> +	filter->devid = devid;
-> +
->  	if (filter->is_port) {
->  		list_add_tail(&filter->list, &hisi_ptt->port_filters);
->  
-> @@ -387,6 +404,102 @@ hisi_ptt_alloc_add_filter(struct hisi_ptt *hisi_ptt, struct pci_dev *pdev)
->  	return filter;
->  }
-
-
-
-
-...
-
-> @@ -633,14 +752,19 @@ static int hisi_ptt_trace_valid_filter(struct hisi_ptt *hisi_ptt, u64 config)
->  	 * For Requester ID filters, walk the available filter list to see
->  	 * whether we have one matched.
->  	 */
-> +	mutex_lock(&hisi_ptt->filter_lock);
->  	if (!hisi_ptt->trace_ctrl.is_port) {
->  		list_for_each_entry(filter, &hisi_ptt->req_filters, list) {
-> -			if (val == hisi_ptt_get_filter_val(filter->devid, filter->is_port))
-> +			if (val == hisi_ptt_get_filter_val(filter->devid, filter->is_port)) {
-> +				mutex_unlock(&hisi_ptt->filter_lock);
-
-Perhaps a single exit location makes more sense given we need to unlock in
-all paths?  goto unlock; etc
-
->  				return 0;
-> +			}
->  		}
->  	} else if (bitmap_subset(&val, &port_mask, BITS_PER_LONG)) {
-> +		mutex_unlock(&hisi_ptt->filter_lock);
->  		return 0;
->  	}
-> +	mutex_unlock(&hisi_ptt->filter_lock);
->  
->  	return -EINVAL;
->  }
-> @@ -916,6 +1040,31 @@ static int hisi_ptt_register_pmu(struct hisi_ptt *hisi_ptt)
->  					&hisi_ptt->hisi_ptt_pmu);
->  }
-
-
-
-> diff --git a/drivers/hwtracing/ptt/hisi_ptt.h b/drivers/hwtracing/ptt/hisi_ptt.h
-> index 5beb1648c93a..d080b306af77 100644
-> --- a/drivers/hwtracing/ptt/hisi_ptt.h
-> +++ b/drivers/hwtracing/ptt/hisi_ptt.h
-
-...
-
-> @@ -161,6 +182,7 @@ struct hisi_ptt_pmu_buf {
->   * struct hisi_ptt - Per PTT device data
->   * @trace_ctrl:   the control information of PTT trace
->   * @hotplug_node: node for register cpu hotplug event
-> + * @hisi_ptt_nb:  dynamic filter update notifier
-
-Wrong location. Order should match the fields in the structure.
-So this belongs just above hotplug_node
-
-
->   * @hisi_ptt_pmu: the pum device of trace
->   * @iobase:       base IO address of the device
->   * @pdev:         pci_dev of this PTT device
-> @@ -170,10 +192,15 @@ struct hisi_ptt_pmu_buf {
->   * @lower_bdf:    the lower BDF range of the PCI devices managed by this PTT device
->   * @port_filters: the filter list of root ports
->   * @req_filters:  the filter list of requester ID
-> + * @filter_lock:  lock to protect the filters
->   * @port_mask:    port mask of the managed root ports
-> + * @work:         delayed work for filter updating
-> + * @filter_update_lock: spinlock to protect the filter update fifo
-> + * @filter_update_fifo: fifo of the filters waiting to update the filter list
->   */
->  struct hisi_ptt {
->  	struct hisi_ptt_trace_ctrl trace_ctrl;
-> +	struct notifier_block hisi_ptt_nb;
->  	struct hlist_node hotplug_node;
->  	struct pmu hisi_ptt_pmu;
->  	void __iomem *iobase;
-> @@ -192,7 +219,19 @@ struct hisi_ptt {
->  	 */
->  	struct list_head port_filters;
->  	struct list_head req_filters;
-> +	struct mutex filter_lock;
->  	u16 port_mask;
-> +
-> +	/*
-> +	 * We use a delayed work here to avoid indefinitely waiting for
-> +	 * the hisi_ptt->mutex which protecting the filter list. The
-> +	 * work will be delayed only if the mutex can not be held,
-> +	 * otherwise no delay will be applied.
-> +	 */
-> +	struct delayed_work work;
-> +	spinlock_t filter_update_lock;
-> +	DECLARE_KFIFO(filter_update_kfifo, struct hisi_ptt_filter_update_info,
-> +		      HISI_PTT_FILTER_UPDATE_FIFO_SIZE);
->  };
->  
->  #define to_hisi_ptt(pmu) container_of(pmu, struct hisi_ptt, hisi_ptt_pmu)
+-- 
+2.25.1
 
