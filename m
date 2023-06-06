@@ -2,75 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24DABC7EE2F
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 08:57:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5CD5C77B7A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 09:36:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237362AbjFFI51 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 04:57:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46172 "EHLO
+        id S237359AbjFFJgO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 05:36:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237330AbjFFI5V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 04:57:21 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 345E310D8;
-        Tue,  6 Jun 2023 01:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Content-Type:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-        Resent-Cc:Resent-Message-ID; bh=6Jfqh7+Yp3/D9bkuECnNj4TIYjvEwVcWvp8C30R7kuM=;
-        t=1686041836; x=1687251436; b=hwGdMiArSI6kAYcv6P3jHPE9yN8Xe1y/FWd2nqq3hz7J3w+
-        lD/2pi1MlCR8/iRbJV6eijBRT62RgKW79Yt7f6EQ2cQEDDwOKGtom8Jwt+1KoWBsItq20P+YKab6N
-        Ex9fbSySqEGhBCeIMkhUmff2YjIeWBuoo5Qtr6Ej1PWjpHoTC78I0IgGZofnZpxzte2nbbqjqufgy
-        aiu5B66SFluWDk+MKY2m3dv5y0c9IS2nd+HPl62UyA6lnUJDmEyM8wlxEuXh2JfMPFXaVpB1TsY8w
-        V96FBFuiDo40swNQJNh+keurzyvytTC82G8q4HR43OUqfADcaBUvsWRA9rLYLJ0w==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.96)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1q6SV7-00FTy6-1G;
-        Tue, 06 Jun 2023 10:57:13 +0200
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Johannes Berg <johannes.berg@intel.com>
-Subject: [PATCH v2 2/2] kbuild: enable kernel-doc -Wall for W=2
-Date:   Tue,  6 Jun 2023 10:57:06 +0200
-Message-Id: <20230606105706.eb8a57848349.Ibd08cad396b630b68d93b2469905ad55b375af65@changeid>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230606105706.60807b85ff79.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
-References: <20230606105706.60807b85ff79.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
+        with ESMTP id S237393AbjFFJfv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 05:35:51 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E799610C0;
+        Tue,  6 Jun 2023 02:35:45 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2BD922F4;
+        Tue,  6 Jun 2023 02:36:31 -0700 (PDT)
+Received: from josmar02Desktop.cambridge.arm.com (josmar02Desktop.cambridge.arm.com [10.2.78.53])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 413243F587;
+        Tue,  6 Jun 2023 02:35:44 -0700 (PDT)
+From:   Jose Marinho <jose.marinho@arm.com>
+Cc:     Jose Marinho <jose.marinho@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jeremy Linton <Jeremy.Linton@arm.com>,
+        James Morse <James.Morse@arm.com>,
+        Rob Herring <Rob.Herring@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Subject: [PATCH 0/3 v2] Update ACPI documentation for Arm systems
+Date:   Tue,  6 Jun 2023 10:35:25 +0100
+Message-Id: <20230606093528.1494344-1-jose.marinho@arm.com>
+X-Mailer: git-send-email 2.40.0.141.g8d90352acc
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Johannes Berg <johannes.berg@intel.com>
+This set of patches updates the Linux kernel ACPI documentation for Arm
+systems. The intent is to integrate the developments in the BBR
+specification that happened over the last couple of years.
 
-For W=2, we can enable more kernel-doc warnings,
-such as missing return value descriptions etc.
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Jeremy Linton <Jeremy.Linton@arm.com>
+Cc: James Morse <James.Morse@arm.com>
+Cc: Rob Herring <Rob.Herring@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Hanjun Guo <guohanjun@huawei.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-acpi@vger.kernel.org
 
-Signed-off-by: Johannes Berg <johannes.berg@intel.com>
----
-v2: - create command-line instead of exporting an
-      env var, as suggested by Masahiro Yamada
----
- scripts/Makefile.build | 1 +
- 1 file changed, 1 insertion(+)
+v2:
+ - Clarify that the RAS tables are conditionaly required when ACPI
+   Platform Error Interfaces are required: Hanjun Guo.
+ - Clarify that HMAT is required if NUMA is supported and the system
+   contains heterogeneous memory: Hanjun Guo.
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 90bb5badb0e9..920eeee2cb6e 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -102,6 +102,7 @@ endif
- 
- ifneq ($(KBUILD_EXTRA_WARN),)
-   cmd_checkdoc = $(srctree)/scripts/kernel-doc -none \
-+        $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
-         $(if $(KDOC_WALL), -Wall) \
-         $(if $(KDOC_WRETURN), -Wreturn) \
-         $(if $(KDOC_WSHORT_DESC), -Wshort-desc) \
+
+Jose Marinho (3):
+  Documentation/arm64: Update ARM and arch reference
+  Documentation/arm64: Update references in arm-acpi
+  Documentation/arm64: Update ACPI tables from BBR
+
+ Documentation/arm64/acpi_object_usage.rst |  81 ++++++++++-
+ Documentation/arm64/arm-acpi.rst          | 168 ++++++++++++++--------
+ 2 files changed, 183 insertions(+), 66 deletions(-)
+
 -- 
-2.40.1
+2.40.0.141.g8d90352acc
 
