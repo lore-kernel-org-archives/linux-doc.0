@@ -2,224 +2,244 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2412C7EE2C
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 11:16:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BB7C77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 11:35:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230252AbjFFLQb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 07:16:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48804 "EHLO
+        id S236419AbjFFLf3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 07:35:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjFFLQa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 07:16:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3B99E;
-        Tue,  6 Jun 2023 04:16:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C5ADA630D1;
-        Tue,  6 Jun 2023 11:16:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29BC6C433EF;
-        Tue,  6 Jun 2023 11:16:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686050188;
-        bh=XDJDcGG80GlYg7+dAvlJOwWlcqLK2ncWi2uAinUamoI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t9e2AJPQXQcELAE9KjMTAO+tm3PE1gdlVv27bCdXctG2qXkUF+FcLw/tkQxZdIWTo
-         5H6/7SGkYHpMceqiLaSu+zzRUhkjY0MEaa801AOBZEeH9LgzfFoWzTzRy9VOsmuxTG
-         FRQaiAfHzP066yODhuVuoTsJly5ooae0cwEbUNKtmkcoIvtYba9EDlwEc9vLH6ek71
-         Lw7bALBDlfprCxQH1LuRUVGrY/fQ8/0nkqbP86m4qvPoU8r+7Ru/S/kGfXiGe5TGCV
-         fd/umzPR69pHsTDFI+WcA4uSvHS6nsIlVIV3p6fV0V0cMRBjcVosh0nIxTAu3IT6Pp
-         TrfjWrTupMdww==
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-38e04d1b2b4so5078038b6e.3;
-        Tue, 06 Jun 2023 04:16:28 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxbfzigPtjFcZwaXEIFKNKfrfcYFGhd7lDfDEPzpNT9a3PDCYFr
-        yi/IY9E4+hixWiIVokI102s3o+Nr8drvz3PWh6Q=
-X-Google-Smtp-Source: ACHHUZ5AzTOXvCe2ai1WaPE5RKi81mi2f4whjeE9f64UvotlAvLs5QntMNj14nNH0Vy0ihztwr5YbNgNkp3J7FA2U5s=
-X-Received: by 2002:aca:6548:0:b0:398:59fe:6ee3 with SMTP id
- j8-20020aca6548000000b0039859fe6ee3mr1967791oiw.54.1686050187288; Tue, 06 Jun
- 2023 04:16:27 -0700 (PDT)
+        with ESMTP id S236409AbjFFLf3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 07:35:29 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64262E47;
+        Tue,  6 Jun 2023 04:35:25 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Qb7cP2yyJzLqTL;
+        Tue,  6 Jun 2023 19:32:21 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 6 Jun 2023 19:35:23 +0800
+Subject: Re: [PATCH v3 2/4] hwtracing: hisi_ptt: Add support for dynamically
+ updating the filter list
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+CC:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alexander.shishkin@linux.intel.com>,
+        <helgaas@kernel.org>, <linux-pci@vger.kernel.org>,
+        <prime.zeng@huawei.com>, Yicong Yang <yangyicong@huawei.com>,
+        <yangyicong@hisilicon.com>
+References: <20230523093228.48149-1-yangyicong@huawei.com>
+ <20230523093228.48149-3-yangyicong@huawei.com>
+ <20230606105655.00006d92@Huawei.com>
+From:   Yicong Yang <yangyicong@huawei.com>
+Message-ID: <f6c80e50-d78e-e34a-be6b-7fd20c48a59f@huawei.com>
+Date:   Tue, 6 Jun 2023 19:35:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-References: <20230606105706.60807b85ff79.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
-In-Reply-To: <20230606105706.60807b85ff79.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 6 Jun 2023 20:15:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASe+HWuufyANGJJ0dajzSC4LFy=x2N6erGis0+ZQkAAXA@mail.gmail.com>
-Message-ID: <CAK7LNASe+HWuufyANGJJ0dajzSC4LFy=x2N6erGis0+ZQkAAXA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kernel-doc: don't let V=1 change outcome
-To:     Johannes Berg <johannes@sipsolutions.net>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, Johannes Berg <johannes.berg@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230606105655.00006d92@Huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 6, 2023 at 5:57=E2=80=AFPM Johannes Berg <johannes@sipsolutions=
-.net> wrote:
->
-> From: Johannes Berg <johannes.berg@intel.com>
->
-> The kernel-doc script currently reports a number of issues
-> only in "verbose" mode, but that's initialized from V=3D1
-> (via KBUILD_VERBOSE), so if you use KDOC_WERROR=3D1 then
-> adding V=3D1 might actually break the build. This is rather
-> unexpected.
->
-> Change kernel-doc to not change its behaviour wrt. errors
-> (or warnings) when verbose mode is enabled, but rather add
-> separate warning flags (and -Wall) for it. Allow enabling
-> those flags via environment/make variables in the kernel's
-> build system for easier user use, but to not have to parse
-> them in the script itself.
->
-> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-> ---
-> v2: - parse environment variables in build system rather than
->       the script itself, as suggested by Masahiro Yamada
->     - fix indentation
-> ---
->  scripts/Makefile.build |  7 ++++++-
->  scripts/kernel-doc     | 28 +++++++++++++++++++++++-----
->  2 files changed, 29 insertions(+), 6 deletions(-)
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 9f94fc83f086..90bb5badb0e9 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -101,7 +101,12 @@ else ifeq ($(KBUILD_CHECKSRC),2)
->  endif
->
->  ifneq ($(KBUILD_EXTRA_WARN),)
-> -  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none $<
-> +  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
-> +        $(if $(KDOC_WALL), -Wall) \
-> +        $(if $(KDOC_WRETURN), -Wreturn) \
-> +        $(if $(KDOC_WSHORT_DESC), -Wshort-desc) \
-> +        $(if $(KDOC_WSHORT_DESC), -Wcontents-before-sections) \
+On 2023/6/6 17:56, Jonathan Cameron wrote:
+> On Tue, 23 May 2023 17:32:26 +0800
+> Yicong Yang <yangyicong@huawei.com> wrote:
+> 
+>> From: Yicong Yang <yangyicong@hisilicon.com>
+>>
+>> The PCIe devices supported by the PTT trace can be removed/rescanned by
+>> hotplug or through sysfs.  Add support for dynamically updating the
+>> available filter list by registering a PCI bus notifier block. Then user
+>> can always get latest information about available tracing filters and
+>> driver can block the invalid filters of which related devices no longer
+>> exist in the system.
+>>
+>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> Hi Yangyicong,
+> 
+> A few comments inline
 
+Thanks for the comments! Will fix them up in next version.
 
-
-Sorry, I misunderstood your intention.
-(I just thought existing env variables would be moved to Makefile)
-
-
-I do not want to proliferate env variables any more.
-
-If you need per-flag control, maybe we can do like this?
-
-cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
-              $(KDOCFLAGS)
-
-
-Then, users can do
-
-  $ make KDOCFLAGS=3D-Wall
-  $ make KDOCFLAGS=3D-Wreturn
-
-etc.
-
-
-
-
-> +        $<
->  endif
->
->  # Compile C sources (.c)
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 2486689ffc7b..8f8440870a0f 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -23,7 +23,7 @@ kernel-doc - Print formatted kernel documentation to st=
-dout
->
->  =3Dhead1 SYNOPSIS
->
-> - kernel-doc [-h] [-v] [-Werror]
-> + kernel-doc [-h] [-v] [-Werror] [-Wall] [-Wreturn] [-Wshort-description]=
- [-Wcontents-before-sections]
->     [ -man |
->       -rst [-sphinx-version VERSION] [-enable-lineno] |
->       -none
-> @@ -133,6 +133,9 @@ my $dohighlight =3D "";
->
->  my $verbose =3D 0;
->  my $Werror =3D 0;
-> +my $Wreturn =3D 0;
-> +my $Wshort_desc =3D 0;
-> +my $Wcontents_before_sections =3D 0;
->  my $output_mode =3D "rst";
->  my $output_preformatted =3D 0;
->  my $no_doc_sections =3D 0;
-> @@ -187,9 +190,14 @@ if (defined($ENV{'KCFLAGS'})) {
->         }
->  }
->
-> +# reading this variable is for backwards compat just in case
-> +# someone was calling it with the variable from outside the
-> +# kernel's build system
->  if (defined($ENV{'KDOC_WERROR'})) {
->         $Werror =3D "$ENV{'KDOC_WERROR'}";
->  }
-> +# other environment variables are converted to command-line
-> +# arguments in cmd_checkdoc in the build system
->
->  # Generated docbook code is inserted in a template at a point where
->  # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
-> @@ -318,6 +326,16 @@ while ($ARGV[0] =3D~ m/^--?(.*)/) {
->         $verbose =3D 1;
->      } elsif ($cmd eq "Werror") {
->         $Werror =3D 1;
-> +    } elsif ($cmd eq "Wreturn") {
-> +       $Wreturn =3D 1;
-> +    } elsif ($cmd eq "Wshort-desc") {
-> +       $Wshort_desc =3D 1;
-> +    } elsif ($cmd eq "Wcontents-before-sections") {
-> +       $Wcontents_before_sections =3D 1;
-> +    } elsif ($cmd eq "Wall") {
-> +        $Wreturn =3D 1;
-> +        $Wshort_desc =3D 1;
-> +        $Wcontents_before_sections =3D 1;
->      } elsif (($cmd eq "h") || ($cmd eq "help")) {
->                 pod2usage(-exitval =3D> 0, -verbose =3D> 2);
->      } elsif ($cmd eq 'no-doc-sections') {
-> @@ -1748,9 +1766,9 @@ sub dump_function($$) {
->      # This check emits a lot of warnings at the moment, because many
->      # functions don't have a 'Return' doc section. So until the number
->      # of warnings goes sufficiently down, the check is only performed in
-> -    # verbose mode.
-> +    # -Wreturn mode.
->      # TODO: always perform the check.
-> -    if ($verbose && !$noret) {
-> +    if ($Wreturn && !$noret) {
->             check_return_section($file, $declaration_name, $return_type);
->      }
->
-> @@ -2054,7 +2072,7 @@ sub process_name($$) {
->             $state =3D STATE_NORMAL;
->         }
->
-> -       if (($declaration_purpose eq "") && $verbose) {
-> +       if (($declaration_purpose eq "") && $Wshort_desc) {
->             emit_warning("${file}:$.", "missing initial short description=
- on line:\n$_");
->         }
->
-> @@ -2103,7 +2121,7 @@ sub process_body($$) {
->         }
->
->         if (($contents ne "") && ($contents ne "\n")) {
-> -           if (!$in_doc_sect && $verbose) {
-> +           if (!$in_doc_sect && $Wcontents_before_sections) {
->                 emit_warning("${file}:$.", "contents before sections\n");
->             }
->             dump_section($file, $section, $contents);
-> --
-> 2.40.1
->
-
-
---
-Best Regards
-Masahiro Yamada
+> 
+> Jonathan
+> 
+>> ---
+>>  Documentation/trace/hisi-ptt.rst |   6 +-
+>>  drivers/hwtracing/ptt/hisi_ptt.c | 165 +++++++++++++++++++++++++++++--
+>>  drivers/hwtracing/ptt/hisi_ptt.h |  39 ++++++++
+>>  3 files changed, 201 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
+>> index 4f87d8e21065..3641aca4287a 100644
+>> --- a/Documentation/trace/hisi-ptt.rst
+>> +++ b/Documentation/trace/hisi-ptt.rst
+>> @@ -153,9 +153,9 @@ Endpoint function can be specified in one trace. Specifying both Root Port
+>>  and function at the same time is not supported. Driver maintains a list of
+>>  available filters and will check the invalid inputs.
+>>  
+>> -Currently the available filters are detected in driver's probe. If the supported
+>> -devices are removed/added after probe, you may need to reload the driver to update
+>> -the filters.
+>> +The available filters will be dynamically updates, which means you will always
+> 
+> updated, 
+> 
+>> +get correct filter information when hotplug events happen, or when you manually
+>> +remove/rescan the devices.
+>>  
+>>  2. Type
+>>  -------
+>> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
+>> index 548cfef51ace..9b4acbc434b0 100644
+>> --- a/drivers/hwtracing/ptt/hisi_ptt.c
+>> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
+>> @@ -357,24 +357,41 @@ static int hisi_ptt_register_irq(struct hisi_ptt *hisi_ptt)
+> 
+> ...
+> 
+>>  static struct hisi_ptt_filter_desc *
+>> -hisi_ptt_alloc_add_filter(struct hisi_ptt *hisi_ptt, struct pci_dev *pdev)
+>> +hisi_ptt_alloc_add_filter(struct hisi_ptt *hisi_ptt, u16 devid, bool is_port)
+>>  {
+>>  	struct hisi_ptt_filter_desc *filter;
+>> +	u8 devfn = devid & 0xff;
+>> +	char *filter_name;
+>> +
+>> +	filter_name = kasprintf(GFP_KERNEL, "%04x:%02x:%02x.%d", pci_domain_nr(hisi_ptt->pdev->bus),
+>> +				 PCI_BUS_NUM(devid), PCI_SLOT(devfn), PCI_FUNC(devfn));
+>> +	if (!filter_name) {
+>> +		pci_err(hisi_ptt->pdev, "failed to allocate name for filter %s\n",
+>> +			filter_name);
+>> +		kfree(filter);
+> 
+> Don't think you've allocated filter yet.
+> 
+>> +		return NULL;
+>> +	}
+>>  
+>>  	filter = kzalloc(sizeof(*filter), GFP_KERNEL);
+>>  	if (!filter) {
+>>  		pci_err(hisi_ptt->pdev, "failed to add filter for %s\n",
+>> -			pci_name(pdev));
+>> +			filter_name);
+>>  		return NULL;
+>>  	}
+>>  
+>> -	filter->devid = PCI_DEVID(pdev->bus->number, pdev->devfn);
+>> -	filter->is_port = pci_pcie_type(pdev) == PCI_EXP_TYPE_ROOT_PORT;
+>> +	filter->name = filter_name;
+>> +	filter->is_port = is_port;
+>> +	filter->devid = devid;
+>> +
+>>  	if (filter->is_port) {
+>>  		list_add_tail(&filter->list, &hisi_ptt->port_filters);
+>>  
+>> @@ -387,6 +404,102 @@ hisi_ptt_alloc_add_filter(struct hisi_ptt *hisi_ptt, struct pci_dev *pdev)
+>>  	return filter;
+>>  }
+> 
+> 
+> 
+> 
+> ...
+> 
+>> @@ -633,14 +752,19 @@ static int hisi_ptt_trace_valid_filter(struct hisi_ptt *hisi_ptt, u64 config)
+>>  	 * For Requester ID filters, walk the available filter list to see
+>>  	 * whether we have one matched.
+>>  	 */
+>> +	mutex_lock(&hisi_ptt->filter_lock);
+>>  	if (!hisi_ptt->trace_ctrl.is_port) {
+>>  		list_for_each_entry(filter, &hisi_ptt->req_filters, list) {
+>> -			if (val == hisi_ptt_get_filter_val(filter->devid, filter->is_port))
+>> +			if (val == hisi_ptt_get_filter_val(filter->devid, filter->is_port)) {
+>> +				mutex_unlock(&hisi_ptt->filter_lock);
+> 
+> Perhaps a single exit location makes more sense given we need to unlock in
+> all paths?  goto unlock; etc
+> 
+>>  				return 0;
+>> +			}
+>>  		}
+>>  	} else if (bitmap_subset(&val, &port_mask, BITS_PER_LONG)) {
+>> +		mutex_unlock(&hisi_ptt->filter_lock);
+>>  		return 0;
+>>  	}
+>> +	mutex_unlock(&hisi_ptt->filter_lock);
+>>  
+>>  	return -EINVAL;
+>>  }
+>> @@ -916,6 +1040,31 @@ static int hisi_ptt_register_pmu(struct hisi_ptt *hisi_ptt)
+>>  					&hisi_ptt->hisi_ptt_pmu);
+>>  }
+> 
+> 
+> 
+>> diff --git a/drivers/hwtracing/ptt/hisi_ptt.h b/drivers/hwtracing/ptt/hisi_ptt.h
+>> index 5beb1648c93a..d080b306af77 100644
+>> --- a/drivers/hwtracing/ptt/hisi_ptt.h
+>> +++ b/drivers/hwtracing/ptt/hisi_ptt.h
+> 
+> ...
+> 
+>> @@ -161,6 +182,7 @@ struct hisi_ptt_pmu_buf {
+>>   * struct hisi_ptt - Per PTT device data
+>>   * @trace_ctrl:   the control information of PTT trace
+>>   * @hotplug_node: node for register cpu hotplug event
+>> + * @hisi_ptt_nb:  dynamic filter update notifier
+> 
+> Wrong location. Order should match the fields in the structure.
+> So this belongs just above hotplug_node
+> 
+> 
+>>   * @hisi_ptt_pmu: the pum device of trace
+>>   * @iobase:       base IO address of the device
+>>   * @pdev:         pci_dev of this PTT device
+>> @@ -170,10 +192,15 @@ struct hisi_ptt_pmu_buf {
+>>   * @lower_bdf:    the lower BDF range of the PCI devices managed by this PTT device
+>>   * @port_filters: the filter list of root ports
+>>   * @req_filters:  the filter list of requester ID
+>> + * @filter_lock:  lock to protect the filters
+>>   * @port_mask:    port mask of the managed root ports
+>> + * @work:         delayed work for filter updating
+>> + * @filter_update_lock: spinlock to protect the filter update fifo
+>> + * @filter_update_fifo: fifo of the filters waiting to update the filter list
+>>   */
+>>  struct hisi_ptt {
+>>  	struct hisi_ptt_trace_ctrl trace_ctrl;
+>> +	struct notifier_block hisi_ptt_nb;
+>>  	struct hlist_node hotplug_node;
+>>  	struct pmu hisi_ptt_pmu;
+>>  	void __iomem *iobase;
+>> @@ -192,7 +219,19 @@ struct hisi_ptt {
+>>  	 */
+>>  	struct list_head port_filters;
+>>  	struct list_head req_filters;
+>> +	struct mutex filter_lock;
+>>  	u16 port_mask;
+>> +
+>> +	/*
+>> +	 * We use a delayed work here to avoid indefinitely waiting for
+>> +	 * the hisi_ptt->mutex which protecting the filter list. The
+>> +	 * work will be delayed only if the mutex can not be held,
+>> +	 * otherwise no delay will be applied.
+>> +	 */
+>> +	struct delayed_work work;
+>> +	spinlock_t filter_update_lock;
+>> +	DECLARE_KFIFO(filter_update_kfifo, struct hisi_ptt_filter_update_info,
+>> +		      HISI_PTT_FILTER_UPDATE_FIFO_SIZE);
+>>  };
+>>  
+>>  #define to_hisi_ptt(pmu) container_of(pmu, struct hisi_ptt, hisi_ptt_pmu)
+> 
+> .
+> 
