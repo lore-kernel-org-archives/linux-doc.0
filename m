@@ -2,155 +2,224 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A5DC7EE32
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 14:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B159C7EE29
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 14:19:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233557AbjFFOH3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 10:07:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47606 "EHLO
+        id S237212AbjFFOTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 10:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237367AbjFFOHA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 10:07:00 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD50E73;
-        Tue,  6 Jun 2023 07:06:59 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 9E9185C0126;
-        Tue,  6 Jun 2023 10:06:58 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 06 Jun 2023 10:06:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1686060418; x=1686146818; bh=ZW
-        YxLXpwIqN3lIMQiG+E5JZqyRLLSTTKr6hHGJz4eoE=; b=ZhoFiBBHHqozMl9Xww
-        zRPvoHzC8QjfO6bUoKb2inXskBsCb2mW4AvRnoEqNu613rWkesu7KcbB+kB9QHVt
-        IF+2F5cYxFNi5CwiY17uvG8fIRXHskN5nwBTv8adKDO1qPsF6n/qSA5UcBFSstTU
-        7q3IfGGI5nUCF9LcbD66nQJ09yq2Dg5aqehsXZhaTj5MwG5a2sgXh9kwJuY4mZFX
-        McgXwdaPRm2/y62UkxxFXCXwWjJDbQWAXpikj6TdVNl9Tr3ixPsNin637A4XfGdq
-        dacf49TCUxwwHJmlS5xhX64mlOWkSf1VGf5tIzXg5VTLn4Gn3/pk7m9eyWZeDMrn
-        03Jw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1686060418; x=1686146818; bh=ZWYxLXpwIqN3l
-        IMQiG+E5JZqyRLLSTTKr6hHGJz4eoE=; b=JpwJNUVdXVsxn2WdGNaUEgdefIsUI
-        XvuRzFyYQIgrLatcR8dqWsaBrgK0UrIEMTsjHsn1v62fsZyuXn88kQojEWcDo3FE
-        YfEVkHuKy4Jtj+sU/ltpmnalMjl8Als2J270bLELESrOP5USxbAZZaqK04dGaelA
-        lRThb49T5z7yKXi5phLCpNtIZQJFuWFKNwefDZeVn6a9EY0lRYgpmnjYSHOhiH2v
-        wgIwVnIMfewM8G2pr/bqbv3od99LAs4WqJiYCMimpRs3K6SHgMEfOyz0DNyioQs+
-        EXPj7YAi5bN+Wf4a3LLQQUzz6AZ3MCXL5H4MSY17NupNbYamCiOI3m0Yw==
-X-ME-Sender: <xms:fz1_ZCfDySLyL_ascxriCuNl-DITBWZqCTlSH_B_uBtbdAAmn4Pu7A>
-    <xme:fz1_ZMM9JxdNifLIFJmaA_5aWWlZ13PNbGdav2_IXIUG_SDvvaoOPijQJX-NNaUpV
-    MnUoNzVYUJQYqZ8_rs>
-X-ME-Received: <xmr:fz1_ZDjWVh5pnApQVmt_XFCCIGEpUWggIi8oNS5-rTnwWWCTQ4slx0gRKBlMhKV3TL6A0B1pP8_4EoUS_E9w_fGDY0qFfYIkP88>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedtuddgjeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdlvdefmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredt
-    tddvnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
-    hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpeejgfdtleelvdeftdeggefffeeu
-    feevgeejkeelgeeujeevveeufeeigfeivdejjeenucffohhmrghinhepkhgvrhhnvghlrd
-    horhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    phgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:fz1_ZP_x8j94IUAq0vNyR--OT7lFlwK9TFpUvg1K56xZcitv68Czmw>
-    <xmx:fz1_ZOvnM_WOkMoEXeEB_oNE60FCsQLt2yfDw9BP1DTMi35M-aJz_A>
-    <xmx:fz1_ZGF9ASGzJLIK4Ovp90snm2ez2OOOK8CygX3TrBHfF3aTq0uqSg>
-    <xmx:gj1_ZJlCPLmAZUWPyl-uhUyIS8zVcWFKRo_Gjfn06js8Abw7ubQhAg>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jun 2023 10:06:55 -0400 (EDT)
-Date:   Tue, 6 Jun 2023 09:06:53 -0500
-From:   Patrick Williams <patrick@stwcx.xyz>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
-        linux@roeck-us.net, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
-        lee@kernel.org, thierry.reding@gmail.com,
-        u.kleine-koenig@pengutronix.de, corbet@lwn.net,
-        p.zabel@pengutronix.de, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [v5 3/5] dt-bindings: mfd: Add aspeed pwm-tach binding
-Message-ID: <ZH89fXknZlhGmM_H@heinlein.vulture-banana.ts.net>
-References: <20230606094535.5388-1-billy_tsai@aspeedtech.com>
- <20230606094535.5388-4-billy_tsai@aspeedtech.com>
- <35bf0a69-bcf6-ae35-eb3c-e74cfcf9c571@linaro.org>
+        with ESMTP id S237815AbjFFOTU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 10:19:20 -0400
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 938401A7
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jun 2023 07:19:15 -0700 (PDT)
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20230606141912epoutp02c6e4ab43922982dc3a4bd0380a75fc54~mF69xI_HD3214332143epoutp028
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jun 2023 14:19:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20230606141912epoutp02c6e4ab43922982dc3a4bd0380a75fc54~mF69xI_HD3214332143epoutp028
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1686061152;
+        bh=UOxM1GwH4N78/5VcZmRi0SOFUE4InTqlB4yboWdBops=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=PZw1PRsP3Vrqe4rBgl2Q+llmA+X/Y64Mgt62j0rqVIiINQHQz37xv9cTHbe78woTb
+         5BxEesBBycF+gggWT9A5ORabSDHqm0HgkJVRO6OoIW9+f+7OZdJFEDgW6HO58kUDBK
+         ZFYVIHdSenb57diO3bEYFPfETDlbB5mJcxWAs+jM=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+        20230606141911epcas5p3feaf4868278ede2a218037055402778a~mF68ppvKo0226602266epcas5p3G;
+        Tue,  6 Jun 2023 14:19:11 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+        epsnrtp3.localdomain (Postfix) with ESMTP id 4QbCJt3gbnz4x9Pp; Tue,  6 Jun
+        2023 14:19:10 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+        epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        ED.0D.04567.E504F746; Tue,  6 Jun 2023 23:19:10 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+        20230606113849epcas5p20436fd9c3a47354fc4f5264540cd9887~mDu7kpk5C1243112431epcas5p2V;
+        Tue,  6 Jun 2023 11:38:49 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20230606113849epsmtrp1037164b0d5a6cfbe44a01819ba98ed2b~mDu7i-Kls0420604206epsmtrp1I;
+        Tue,  6 Jun 2023 11:38:49 +0000 (GMT)
+X-AuditID: b6c32a49-943ff700000011d7-f9-647f405ec85f
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        B7.47.28392.9CA1F746; Tue,  6 Jun 2023 20:38:49 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20230606113842epsmtip230b93d2fae8d0d35d5b4cfcfbf869ead~mDu1DVgJ-2435324353epsmtip29;
+        Tue,  6 Jun 2023 11:38:42 +0000 (GMT)
+Date:   Tue, 6 Jun 2023 17:05:35 +0530
+From:   Nitesh Shetty <nj.shetty@samsung.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        James Smart <james.smart@broadcom.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+        willy@infradead.org, hare@suse.de, djwong@kernel.org,
+        bvanassche@acm.org, ming.lei@redhat.com, dlemoal@kernel.org,
+        nitheshshetty@gmail.com, gost.dev@samsung.com,
+        Kanchan Joshi <joshi.k@samsung.com>,
+        Javier =?utf-8?B?R29uesOhbGV6?= <javier.gonz@samsung.com>,
+        Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v12 5/9] nvme: add copy offload support
+Message-ID: <20230606113535.rjbhe6eqlyqk4pqq@green245>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="b9kntY5Oezf+TuoA"
-Content-Disposition: inline
-In-Reply-To: <35bf0a69-bcf6-ae35-eb3c-e74cfcf9c571@linaro.org>
+In-Reply-To: <ZH3mjUb+yqI11XD8@infradead.org>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1STZRzHz/O+493QZq9c6nGUcN44JtiAGeADSKChvQEVzTpd/gB2tvcw
+        AradjYlmHW4KAnJRWycWxEUuAiUIZBNEcURDkYAQCPJCBmgQ90MoKLS50fG/z/P9/b7P7/n9
+        fufh4DZX2TxOtCyeUcpEsRSxgXWhzWU7PzwwUeJRnmmHaq//gqOUvCc4qrmdS6DJtnmAvp59
+        hKPR1nSA+kY3oZErAahl+lsrNNR6EUOXSk9hqDOvFENVNe0Yai6Zw9BftxbYqH1tikCn9AMA
+        jfVrMdQyvAOVpJWx0KWWayzU11RAoKKKMTbKGtQRqNKwiiH96VQM6UaTATo3OcNCHcMOqPuJ
+        wQqtPCwgAh3pvpshtPZuF0Ff1N5m0913zrPohrOudF+Xmq6vziDohrJEunkoiaDP5Jy2orNT
+        pwl6bmyYRc9c7ifonMZqQDd0HqEX6reGbf40ZreUEUkYpRMjE8sl0bIofyrkQMSbEV7eHgK+
+        wAftopxkojjGnwoKDePvj441DotyOiiKVRulMJFKRbm/sVspV8czTlK5Kt6fYhSSWIWnwk0l
+        ilOpZVFuMibeV+DhsdPLmBgZIzUMlrIVDQ6HBpYfWiWBKy9kAmsOJD1hT2EFy8Q2ZDOAustv
+        ZYINRp4HMD9LA8yHBQCLu/uxdcdEVwZhDjQB2N8+ZMkaB3B5rR2YslikM2w7M2d0cDgEuQN2
+        rnFMsh3pAocr03ET42Q1G7auUia2Jf3gyODkU51LesM/0qosvBleyx9lma6xJvlwOPsjk2xP
+        vgS/KV/ETWUh+a81LO4xtwDJIFjSfhI3sy2cMDSyzcyDf+emWTgBVn11ljCbjwKoHdQCcyAA
+        Hruea3mcFJb0j1v0l6Hm+jnMrG+C2Sujlklwoe67dX4Ffl9bTJh5CxxYSrYwDc/3PLZM6x6A
+        bSl6LA84ap9pTvtMPTP7wozZFCutsWmcdICVqxwzusDaJvdiYFUNtjAKVVwUo/JSCGRMwv8L
+        F8vj6sHTv+T6tg7cHpl10wOMA/QAcnDKjvtZQKLEhisRHf6cUcojlOpYRqUHXsZdncR59mK5
+        8TPK4iMEnj4ent7e3p4+r3sLqBe5r/pfE9uQUaJ4JoZhFIxy3YdxrHlJGHK4eKFWfMc2fJnn
+        5yzgCJMNB/bZP256b3DJdwCbC+w3iBxDHgiXeoM9uxf9Auq8KiUYN0WhGj9xaT6O3Lq2Udgb
+        Tsn5edJmeye+5uO6LKFPTfmhB7d0E9s60MC+XceL7FM06SNTWWq334lk/s8rFUKe+7bUHu6j
+        9B9GkjUn6HcTZB/8s1odmX/0tRs81nxP4dXf9nwZoqZCe9N6/YV2+p2FU6HHfrxboJvR7V3I
+        HZ2ua5wUf7gH3P9kY2pZuziHf397/g2NRurc4WbI/fMWCH4nKPL9sKidrUXJVZ0d+MzzB8ti
+        vgheFFXcvGc35PTcfuGuw4yj8CdSefwI8WtE3VoYxVJJRQJXXKkS/Qe0f8wY1AQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42LZdlhJXvekVH2KwYpt8hbrTx1jtmia8JfZ
+        YvXdfjaL14c/MVpM+/CT2eLJgXZGi8tP+Cwe7Le32PtuNqvFzQM7mSz2LJrEZHF6wiImi5Wr
+        jzJZ7F74kcni8Z3P7BZH/79ls5h06BqjxdOrs5gs9t7StljYtoTFYs/ekywWl3fNYbOYv+wp
+        u0X39R1sFsuP/2OyODS5mclix5NGRot1r9+zWJy4JW1x/u9xVovfP+awOch7XL7i7THr/lk2
+        j52z7rJ7nL+3kcVj8wotj8tnSz02repk89i8pN5j980GNo/FfZNZPXqb37F5fHx6i8Xj/b6r
+        bB59W1Yxemw+Xe3xeZNcgGAUl01Kak5mWWqRvl0CV8afTztYC55KVBx5vZi5gbFbpIuRk0NC
+        wETi1dlONhBbSGAHo8SvmxYQcUmJZX+PMEPYwhIr/z1n72LkAqp5wihx9vpeFpAEi4CKxOHF
+        H5m6GDk42AS0JU7/5wAJiwhoStxa3s4MUs8ssI5d4uvWa2CDhAWsJR5cfw1m8wqYSdxuW8kM
+        MfQRo8T/I8ugEoISJ2c+AVvADFQ0b/NDZpAFzALSEsv/cYCYnAK6Erd6w0EqRAVkJGYs/co8
+        gVFwFpLmWUiaZyE0L2BkXsUomVpQnJueW2xYYJSXWq5XnJhbXJqXrpecn7uJEZxMtLR2MO5Z
+        9UHvECMTB+MhRgkOZiUR3l1e1SlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeS90nYwXEkhPLEnN
+        Tk0tSC2CyTJxcEo1MLU+OaWufuTyRoVPCv08vlE7nq07MuF4bcMm/o60vvMlbcm7Pl/1mLd9
+        ztH9l+72c6ee+DXFKzvLa+ZxCT/JZIblbzofX2vVkWUO0L/6SClK5h6Xs/ilnIlPQ9XXn3vq
+        az1NPSqi7N2O30XznC8Hlk7YfTvg9nRR5xtOV+4Giql2/vgsmRWz+OOxyODJgvZWjS8c5py8
+        fTj96Y+iY/HVKw/4199n3rhRdOf3isRqnWVybZllKaqa1/bfevKp3m99aAznpTviSy66L308
+        TyX0j4DyhcYmmVbBc4zz9NRN+5Z379TodNuh9HDxt9N7zy5+5bJ37v2m09OYj1kk+FwXNmN1
+        bHg75X/8fTv5DyZ9PSFKLMUZiYZazEXFiQAmhJ86lQMAAA==
+X-CMS-MailID: 20230606113849epcas5p20436fd9c3a47354fc4f5264540cd9887
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+        boundary="----JBF_njb0NWiSS48ThI00c_Y9Zxz.JAos93qymBy6wSZnW6dc=_4db83_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230605122310epcas5p4aaebfc26fe5377613a36fe50423cf494
+References: <20230605121732.28468-1-nj.shetty@samsung.com>
+        <CGME20230605122310epcas5p4aaebfc26fe5377613a36fe50423cf494@epcas5p4.samsung.com>
+        <20230605121732.28468-6-nj.shetty@samsung.com>
+        <ZH3mjUb+yqI11XD8@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---b9kntY5Oezf+TuoA
-Content-Type: text/plain; charset=us-ascii
+------JBF_njb0NWiSS48ThI00c_Y9Zxz.JAos93qymBy6wSZnW6dc=_4db83_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 06, 2023 at 12:49:04PM +0200, Krzysztof Kozlowski wrote:
+On 23/06/05 06:43AM, Christoph Hellwig wrote:
+>>  		break;
+>>  	case REQ_OP_READ:
+>> -		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_read);
+>> +		if (unlikely(req->cmd_flags & REQ_COPY))
+>> +			nvme_setup_copy_read(ns, req);
+>> +		else
+>> +			ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_read);
+>>  		break;
+>>  	case REQ_OP_WRITE:
+>> -		ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_write);
+>> +		if (unlikely(req->cmd_flags & REQ_COPY))
+>> +			ret = nvme_setup_copy_write(ns, req, cmd);
+>> +		else
+>> +			ret = nvme_setup_rw(ns, req, cmd, nvme_cmd_write);
+>
+>Yikes.  Overloading REQ_OP_READ and REQ_OP_WRITE with something entirely
+>different brings us back the horrors of the block layer 15 years ago.
+>Don't do that.  Please add separate REQ_COPY_IN/OUT (or maybe
+>SEND/RECEIVE or whatever) methods.
+>
 
-Hi Krzysztof,
+Downside will be duplicating checks which are present for read, write in
+block layer, device-mapper and zoned devices.
+But we can do this, shouldn't be an issue.
 
-Thank you for reviewing this from Billy.
+>> +	/* setting copy limits */
+>> +	if (blk_queue_flag_test_and_set(QUEUE_FLAG_COPY, q))
+>
+>I don't understand this comment.
+>
 
-The Aspeed chip is heavily used by the OpenBMC community and the 2600
-has been used in production systems for almost 2 years now.  Many
-companies are having to carry previous versions of these as patches, and
-some of the APIs changed since the last revision from Billy.  So, I had
-asked him to submit the latest patch set with as many revisions as he
-understood what to change, since the conversation seemed to have died
-since last time he submitted. =20
+It was a mistake. Comment is misplaced and it should have been
+"setting copy flag" instead of "setting copy limits".
+Anyway now we feel this comment is redundant, will remove it.
+Also, we should have used blk_queue_flag_set to enable copy offload.
 
-I don't believe Billy is intentionally ignoring your feedback and he is
-motivated to get this patch set wrapped up into an acceptable state.
+>> +struct nvme_copy_token {
+>> +	char *subsys;
+>> +	struct nvme_ns *ns;
+>> +	sector_t src_sector;
+>> +	sector_t sectors;
+>> +};
+>
+>Why do we need a subsys token?  Inter-namespace copy is pretty crazy,
+>and not really anything we should aim for.  But this whole token design
+>is pretty odd anyway.  The only thing we'd need is a sequence number /
+>idr / etc to find an input and output side match up, as long as we
+>stick to the proper namespace scope.
+>
 
-> On 06/06/2023 11:45, Billy Tsai wrote:
-=20
-> NAK. You got here clear comment. You cannot have simple MFD with
-> resources. It is not simple anymore.
->=20
+The idea behind subsys is to prevent copy across different subsystem.
+For example, copy across nvme subsystem and the scsi subsystem. [1]
+At present, we don't support inter-namespace(copy across NVMe namespace),
+but after community feedback for previous series we left scope for it.
+About idr per namespace, it will be similar to namespace check that
+we are doing to prevent copy across namespace.
+We went with current structure for token, as it was solving above
+issues as well as provides a placeholder for storing source LBA and
+number of sectors.
+Do have any suggestions on how we can store source info, if we go with
+idr based approach ?
 
-In fairness, Billy asked for clarification from you on this point and didn't
-receive it.
+[1] https://lore.kernel.org/all/alpine.LRH.2.02.2202011327350.22481@file01.intranet.prod.int.rdu2.redhat.com/T/#m407f24fb4454d35c3283a5e51fdb04f1600463af
 
-https://lore.kernel.org/lkml/24DD1FEB-95F3-47BE-BE61-8B0E6FBDE20F@aspeedtec=
-h.com/
+>> +	if (unlikely((req->cmd_flags & REQ_COPY) &&
+>> +				(req_op(req) == REQ_OP_READ))) {
+>> +		blk_mq_start_request(req);
+>> +		return BLK_STS_OK;
+>> +	}
+>
+>This really needs to be hiden inside of nvme_setup_cmd.  And given
+>that other drivers might need similar handling the best way is probably
+>to have a new magic BLK_STS_* value for request started but we're
+>not actually sending it to hardware.
 
-He felt what he was trying to accomplish met the documented
-expectations.  Are there some changes that need to be done in mfd.txt to
-further clarify when to use it and when not to?
+Sure we will add new BLK_STS_* for completion and move the snippet.
 
-Again, we appreciate the time you've spent reviewing this patch set
-already.  Thank you.
+Thank you,
+Nitesh Shetty
 
---=20
-Patrick Williams
+------JBF_njb0NWiSS48ThI00c_Y9Zxz.JAos93qymBy6wSZnW6dc=_4db83_
+Content-Type: text/plain; charset="utf-8"
 
---b9kntY5Oezf+TuoA
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmR/PXsACgkQqwNHzC0A
-wRmTsQ//bK2vzp9XFuY+GPUMQGpWDdqT6j7sDHCU+IAOEkrOpM88FfU4PErhYBFO
-VT5MWDXKbLBGB5PBE/lyGPYw4pyEEuBl9tSnVfPxQCcV+nvWabeW9HibdoG6J2au
-Dm3A7FDm2wuBhdF6R9kI6vUxSMs4709R5vLr+iqFyUSPo065p8eK85LE23avU1SF
-MnQZPcM+nP5HeWTLKOwjEOQ6ouQnGv+CmQAr21ZFuz4KajnMHBbXRDV6fouqLwgI
-zXyDhK7iK843VRU8/dQDBmAI86XqZqkTG9hcSJjfWUyHmhMN7o3URTEP3ci6xae7
-tIfdqQp3aiRhzHMI4oqJRs1kMDSSdRUk826AifALKRNM+ip6/WlIUqoE9VcZr3mN
-fw4btAjo3NzkbRvrCbI9i+1pWk8wOqBQ8vx8TIyv6uAaRMCEQggtVDTJIiJttSPk
-oKQgTdhI1fbFn7A4K1oHIA9MMsu5+imNYbMNtpGrXz8T2Gx1XRx+6B/vEz8EYHBB
-4tbx4d0ziIeGs45mqSiIznBR8Wedo3XOe4eJJaWkUjaq4KQKiXj39S9H+XD4ASS+
-EvUUqtHy/kblFWr500FtCp6lGri8iNJ4RrgpfPpEi9L/+cchbcT6AZIpN2R7wuL6
-g5JsTh1Pr1XPkNqpHN/rHz8GB3bTIpz6rPBCqv4RJZr21sp/AMA=
-=loqp
------END PGP SIGNATURE-----
-
---b9kntY5Oezf+TuoA--
+------JBF_njb0NWiSS48ThI00c_Y9Zxz.JAos93qymBy6wSZnW6dc=_4db83_--
