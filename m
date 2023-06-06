@@ -2,62 +2,63 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC6FC77B7A
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 12:50:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7197C77B7A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 12:52:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237734AbjFFMuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 08:50:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48850 "EHLO
+        id S237478AbjFFMw3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 08:52:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237704AbjFFMuF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 08:50:05 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB101170A
-        for <linux-doc@vger.kernel.org>; Tue,  6 Jun 2023 05:49:40 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f60e536250so51416785e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jun 2023 05:49:40 -0700 (PDT)
+        with ESMTP id S232692AbjFFMw2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 08:52:28 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28F5170C
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jun 2023 05:51:50 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f6e1394060so52610865e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jun 2023 05:51:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686055778; x=1688647778;
+        d=linaro.org; s=google; t=1686055908; x=1688647908;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VCGHAbK4qVWlhCUlXtth8nNW6RRYub17kBe2eEw9rQ0=;
-        b=gOaL1iHl+uJXek6eEz1EGiLy1ng8H0PbjHVVrOqWA9TjJXnNSOtbPBReoO5pJH8uCT
-         RIxMQbrCDTajPzQRwMhbkNnDOdo6F3O4sPwLU8j/JNQGzc7M6HCsc+AF5vLTwo2YPsly
-         BNZU6/4MZd9oEHpJVSKRCGTIEuy6AxuQCZTb28raxAvVhAZ6kxRUAq8JbEAmIE0bmKTJ
-         ejzyFUBvUd4rsI+hZTrJIs8Cm0xOxZuO8IVQhtuGY/l6UbwM9ooor19e5bqLa2UyflwC
-         cXNx3noJHdvQq2uQWmr3gugL8ifH68Ylie14Y0mfGDgqQOHLQBqZ4ZHWF5sLHkejHn5t
-         g8Mg==
+        bh=xZh99cIYnwvZsi6uZpNCU21woKiQBSAqCICVQ7Ob5E0=;
+        b=zPz/3ZBG0cPd6MQtjJaYXoEjtlfz9hcya6M2rJWZD90St+gjqlyY35Z7EJR8a+9FvQ
+         2Hwv/hxhLFhwC6dJzW1C7S2JPKI2fOioe3KA/R3EaYdNehcoYOov0WGvLu1Mn+WfG4ne
+         AgKVkeRzLF2CXYP271biPMDwXqIDFnJN8ZQXPrpVom9NVOGpnSQfb/zSZjCsS5OmkC0p
+         rfen1v3ksaoGwSuGxTVJlPIlRx6hS4Ks82gC/7y4+EkbdcZQr44VLC4alrhuqSd8wN63
+         bpEysiVinj3oZk/qr3q6Rmfi6gEQTXUikac6vhmqz2bjdO3XADq4UJQ90i2h48HaLa/g
+         ucJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686055778; x=1688647778;
+        d=1e100.net; s=20221208; t=1686055908; x=1688647908;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VCGHAbK4qVWlhCUlXtth8nNW6RRYub17kBe2eEw9rQ0=;
-        b=JU4ZDWnqtcUy0r1FKq4vS19E+QSwgllQDPvw8z1sBV5/J2uQQlM6udRVEUrgcI370R
-         0qng+zqSkM4t1zho6AEsVEGt55dH6U9IbiGR58uiED4wbelE/nC8DtXPHuFJxj0j98io
-         QUxH4ksmde9R77/i5whNCKunut4DS9/0XtxnCFjaZom/nZOQ3fNHXV0mDU7CyCWiMrjs
-         bJJoRoafitcRoAKJPRgRCZqkLs3djQwXlTtt+krFSpP3FqhivUSMC5e0k29xPfcsCEPY
-         4yFDaPflZt2wgwhMzQSzWv968tJ9jvoMfakxMrwA8oVDJzgQOTsHB2hs94GLbKrUTNpz
-         1pLA==
-X-Gm-Message-State: AC+VfDwtbTeS3Msiv+pW/mNTDWc5ffzn3BqDiszJR1VIuFd7ZAdYTX6d
-        20clhMY6Lh8ZGY373xlSbVVguA==
-X-Google-Smtp-Source: ACHHUZ4TNeE7rzV/AZKb1vaYemUZqSiNlFkmK0MEaptlGGmCvKgIrCL/c64z0CAvCfY7BUkDs2X3Mg==
-X-Received: by 2002:a05:600c:46c7:b0:3f7:16dd:1c3b with SMTP id q7-20020a05600c46c700b003f716dd1c3bmr10715952wmo.10.1686055778622;
-        Tue, 06 Jun 2023 05:49:38 -0700 (PDT)
+        bh=xZh99cIYnwvZsi6uZpNCU21woKiQBSAqCICVQ7Ob5E0=;
+        b=RY6X6Y+TAKF3RK+qv5XNGRoLmKM/s9YCy+Kc/2k4D7WuiJuZtvos5FwNfw5RuGO5oj
+         FzTQl6HeEdZLPjPm7ESlazZ1b/kntrgfjidNU9usAxbYG3BNxxEdTq6XzbXUA88mFl9h
+         HuKPqpAkd9+hrnvydh3M1fBuRY+zwgFlj8RI/gdoISFr9wGKSTQetw9Vpagj3JOyiJRx
+         OMLdEo0pUWnZ2C3CIu9lqE6chfEV754hmM8miUpWZVvqFdNzEhLkPasMLcpGmj6J7VWM
+         iHMesglHkTTnhW4v+DHTP0lha/jiF/UD7uj4AjQin5dYgi9hofjWPJTjYhRF9CP/xyJ7
+         bnaA==
+X-Gm-Message-State: AC+VfDw09M/LvzO0XP6UUokodWVlg1TT/JlIyDTrpV5CAeEKa44UqOrh
+        u+Lil6tu0bdG/XVFdaqB3ApbqQ==
+X-Google-Smtp-Source: ACHHUZ4Ae36WqblRWF0dpgIZyUiWIfTtkAnUt2NN2wz9itn7NnEzqxaZdrANrhn9T9EAmOMNz2qLPQ==
+X-Received: by 2002:a7b:c041:0:b0:3f6:787:4a84 with SMTP id u1-20020a7bc041000000b003f607874a84mr1999484wmc.7.1686055907851;
+        Tue, 06 Jun 2023 05:51:47 -0700 (PDT)
 Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id f18-20020a1cc912000000b003f4e3ed98ffsm13920918wmb.35.2023.06.06.05.49.37
+        by smtp.googlemail.com with ESMTPSA id z24-20020a1c4c18000000b003f734ee1670sm10136442wmf.31.2023.06.06.05.51.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jun 2023 05:49:37 -0700 (PDT)
-Message-ID: <b88d096b-7714-d06c-0daf-41c35885369a@linaro.org>
-Date:   Tue, 6 Jun 2023 13:49:36 +0100
+        Tue, 06 Jun 2023 05:51:47 -0700 (PDT)
+Message-ID: <898f5d05-8d9c-c2f3-723f-dd326dcb9439@linaro.org>
+Date:   Tue, 6 Jun 2023 13:51:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v13 07/24] gunyah: rsc_mgr: Add VM lifecycle RPC
+Subject: Re: [PATCH v13 08/24] gunyah: vm_mgr: Introduce basic VM Manager
 Content-Language: en-US
 To:     Elliot Berman <quic_eberman@quicinc.com>,
         Alex Elder <elder@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -70,7 +71,6 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -79,9 +79,9 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-8-quic_eberman@quicinc.com>
+ <20230509204801.2824351-9-quic_eberman@quicinc.com>
 From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20230509204801.2824351-8-quic_eberman@quicinc.com>
+In-Reply-To: <20230509204801.2824351-9-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -91,8 +91,15 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 On 09/05/2023 21:47, Elliot Berman wrote:
-> Add Gunyah Resource Manager RPC to launch an unauthenticated VM.
+> Gunyah VM manager is a kernel moduel which exposes an interface to
+> Gunyah userspace to load, run, and interact with other Gunyah virtual
+> machines. The interface is a character device at /dev/gunyah.
 > 
+> Add a basic VM manager driver. Upcoming patches will add more ioctls
+> into this driver.
+> 
+> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > ---
 
@@ -102,367 +109,288 @@ Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
 --srini
 
-
->   drivers/virt/gunyah/Makefile      |   2 +-
->   drivers/virt/gunyah/rsc_mgr_rpc.c | 259 ++++++++++++++++++++++++++++++
->   include/linux/gunyah_rsc_mgr.h    |  73 +++++++++
->   3 files changed, 333 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
+>   .../userspace-api/ioctl/ioctl-number.rst      |  1 +
+>   drivers/virt/gunyah/Makefile                  |  2 +-
+>   drivers/virt/gunyah/rsc_mgr.c                 | 50 +++++++++-
+>   drivers/virt/gunyah/vm_mgr.c                  | 93 +++++++++++++++++++
+>   drivers/virt/gunyah/vm_mgr.h                  | 20 ++++
+>   include/uapi/linux/gunyah.h                   | 23 +++++
+>   6 files changed, 187 insertions(+), 2 deletions(-)
+>   create mode 100644 drivers/virt/gunyah/vm_mgr.c
+>   create mode 100644 drivers/virt/gunyah/vm_mgr.h
+>   create mode 100644 include/uapi/linux/gunyah.h
 > 
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 176e8fc3f31b..396212e88f7d 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -137,6 +137,7 @@ Code  Seq#    Include File                                           Comments
+>   'F'   DD     video/sstfb.h                                           conflict!
+>   'G'   00-3F  drivers/misc/sgi-gru/grulib.h                           conflict!
+>   'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                            conflict!
+> +'G'   00-0f  linux/gunyah.h                                          conflict!
+>   'H'   00-7F  linux/hiddev.h                                          conflict!
+>   'H'   00-0F  linux/hidraw.h                                          conflict!
+>   'H'   01     linux/mei.h                                             conflict!
 > diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-> index 0f5aec834698..241bab357b86 100644
+> index 241bab357b86..e47e25895299 100644
 > --- a/drivers/virt/gunyah/Makefile
 > +++ b/drivers/virt/gunyah/Makefile
 > @@ -1,4 +1,4 @@
 >   # SPDX-License-Identifier: GPL-2.0
 >   
-> -gunyah-y += rsc_mgr.o
-> +gunyah-y += rsc_mgr.o rsc_mgr_rpc.o
+> -gunyah-y += rsc_mgr.o rsc_mgr_rpc.o
+> +gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
 >   obj-$(CONFIG_GUNYAH) += gunyah.o
-> diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
+> diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
+> index 88b5beb1ea51..4f6f96bdcf3d 100644
+> --- a/drivers/virt/gunyah/rsc_mgr.c
+> +++ b/drivers/virt/gunyah/rsc_mgr.c
+> @@ -15,8 +15,10 @@
+>   #include <linux/completion.h>
+>   #include <linux/gunyah_rsc_mgr.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/miscdevice.h>
+>   
+>   #include "rsc_mgr.h"
+> +#include "vm_mgr.h"
+>   
+>   #define RM_RPC_API_VERSION_MASK		GENMASK(3, 0)
+>   #define RM_RPC_HEADER_WORDS_MASK	GENMASK(7, 4)
+> @@ -130,6 +132,7 @@ struct gh_rm_connection {
+>    * @cache: cache for allocating Tx messages
+>    * @send_lock: synchronization to allow only one request to be sent at a time
+>    * @nh: notifier chain for clients interested in RM notification messages
+> + * @miscdev: /dev/gunyah
+>    */
+>   struct gh_rm {
+>   	struct device *dev;
+> @@ -146,6 +149,8 @@ struct gh_rm {
+>   	struct kmem_cache *cache;
+>   	struct mutex send_lock;
+>   	struct blocking_notifier_head nh;
+> +
+> +	struct miscdevice miscdev;
+>   };
+>   
+>   /**
+> @@ -581,6 +586,33 @@ int gh_rm_notifier_unregister(struct gh_rm *rm, struct notifier_block *nb)
+>   }
+>   EXPORT_SYMBOL_GPL(gh_rm_notifier_unregister);
+>   
+> +struct device *gh_rm_get(struct gh_rm *rm)
+> +{
+> +	return get_device(rm->miscdev.this_device);
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_get);
+> +
+> +void gh_rm_put(struct gh_rm *rm)
+> +{
+> +	put_device(rm->miscdev.this_device);
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_put);
+> +
+> +static long gh_dev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+> +{
+> +	struct miscdevice *miscdev = filp->private_data;
+> +	struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
+> +
+> +	return gh_dev_vm_mgr_ioctl(rm, cmd, arg);
+> +}
+> +
+> +static const struct file_operations gh_dev_fops = {
+> +	.owner		= THIS_MODULE,
+> +	.unlocked_ioctl	= gh_dev_ioctl,
+> +	.compat_ioctl	= compat_ptr_ioctl,
+> +	.llseek		= noop_llseek,
+> +};
+> +
+>   static int gh_msgq_platform_probe_direction(struct platform_device *pdev, bool tx,
+>   					    struct gh_resource *ghrsc)
+>   {
+> @@ -665,7 +697,22 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
+>   	rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
+>   	rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
+>   
+> -	return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
+> +	ret = gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
+> +	if (ret)
+> +		goto err_cache;
+> +
+> +	rm->miscdev.name = "gunyah";
+> +	rm->miscdev.minor = MISC_DYNAMIC_MINOR;
+> +	rm->miscdev.fops = &gh_dev_fops;
+> +
+> +	ret = misc_register(&rm->miscdev);
+> +	if (ret)
+> +		goto err_msgq;
+> +
+> +	return 0;
+> +err_msgq:
+> +	mbox_free_channel(gh_msgq_chan(&rm->msgq));
+> +	gh_msgq_remove(&rm->msgq);
+>   err_cache:
+>   	kmem_cache_destroy(rm->cache);
+>   	return ret;
+> @@ -675,6 +722,7 @@ static int gh_rm_drv_remove(struct platform_device *pdev)
+>   {
+>   	struct gh_rm *rm = platform_get_drvdata(pdev);
+>   
+> +	misc_deregister(&rm->miscdev);
+>   	mbox_free_channel(gh_msgq_chan(&rm->msgq));
+>   	gh_msgq_remove(&rm->msgq);
+>   	kmem_cache_destroy(rm->cache);
+> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
 > new file mode 100644
-> index 000000000000..a4a9f0ba4e1f
+> index 000000000000..a43401cb34f7
 > --- /dev/null
-> +++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
-> @@ -0,0 +1,259 @@
+> +++ b/drivers/virt/gunyah/vm_mgr.c
+> @@ -0,0 +1,93 @@
 > +// SPDX-License-Identifier: GPL-2.0-only
 > +/*
 > + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 > + */
 > +
+> +#define pr_fmt(fmt) "gh_vm_mgr: " fmt
+> +
+> +#include <linux/anon_inodes.h>
+> +#include <linux/file.h>
 > +#include <linux/gunyah_rsc_mgr.h>
-> +#include "rsc_mgr.h"
+> +#include <linux/miscdevice.h>
+> +#include <linux/module.h>
 > +
-> +/* Message IDs: VM Management */
-> +#define GH_RM_RPC_VM_ALLOC_VMID			0x56000001
-> +#define GH_RM_RPC_VM_DEALLOC_VMID		0x56000002
-> +#define GH_RM_RPC_VM_START			0x56000004
-> +#define GH_RM_RPC_VM_STOP			0x56000005
-> +#define GH_RM_RPC_VM_RESET			0x56000006
-> +#define GH_RM_RPC_VM_CONFIG_IMAGE		0x56000009
-> +#define GH_RM_RPC_VM_INIT			0x5600000B
-> +#define GH_RM_RPC_VM_GET_HYP_RESOURCES		0x56000020
-> +#define GH_RM_RPC_VM_GET_VMID			0x56000024
+> +#include <uapi/linux/gunyah.h>
 > +
-> +struct gh_rm_vm_common_vmid_req {
-> +	__le16 vmid;
-> +	__le16 _padding;
-> +} __packed;
+> +#include "vm_mgr.h"
 > +
-> +/* Call: VM_ALLOC */
-> +struct gh_rm_vm_alloc_vmid_resp {
-> +	__le16 vmid;
-> +	__le16 _padding;
-> +} __packed;
-> +
-> +/* Call: VM_STOP */
-> +#define GH_RM_VM_STOP_FLAG_FORCE_STOP		BIT(0)
-> +
-> +#define GH_RM_VM_STOP_REASON_FORCE_STOP		3
-> +
-> +struct gh_rm_vm_stop_req {
-> +	__le16 vmid;
-> +	u8 flags;
-> +	u8 _padding;
-> +	__le32 stop_reason;
-> +} __packed;
-> +
-> +/* Call: VM_CONFIG_IMAGE */
-> +struct gh_rm_vm_config_image_req {
-> +	__le16 vmid;
-> +	__le16 auth_mech;
-> +	__le32 mem_handle;
-> +	__le64 image_offset;
-> +	__le64 image_size;
-> +	__le64 dtb_offset;
-> +	__le64 dtb_size;
-> +} __packed;
-> +
-> +/*
-> + * Several RM calls take only a VMID as a parameter and give only standard
-> + * response back. Deduplicate boilerplate code by using this common call.
-> + */
-> +static int gh_rm_common_vmid_call(struct gh_rm *rm, u32 message_id, u16 vmid)
+> +static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
 > +{
-> +	struct gh_rm_vm_common_vmid_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
+> +	struct gh_vm *ghvm;
 > +
-> +	return gh_rm_call(rm, message_id, &req_payload, sizeof(req_payload), NULL, NULL);
+> +	ghvm = kzalloc(sizeof(*ghvm), GFP_KERNEL);
+> +	if (!ghvm)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ghvm->parent = gh_rm_get(rm);
+> +	ghvm->rm = rm;
+> +
+> +	return ghvm;
 > +}
 > +
-> +/**
-> + * gh_rm_alloc_vmid() - Allocate a new VM in Gunyah. Returns the VM identifier.
-> + * @rm: Handle to a Gunyah resource manager
-> + * @vmid: Use 0 to dynamically allocate a VM. A reserved VMID can be supplied
-> + *        to request allocation of a platform-defined VM.
-> + *
-> + * Returns - the allocated VMID or negative value on error
-> + */
-> +int gh_rm_alloc_vmid(struct gh_rm *rm, u16 vmid)
+> +static int gh_vm_release(struct inode *inode, struct file *filp)
 > +{
-> +	struct gh_rm_vm_common_vmid_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
-> +	struct gh_rm_vm_alloc_vmid_resp *resp_payload;
-> +	size_t resp_size;
-> +	void *resp;
-> +	int ret;
+> +	struct gh_vm *ghvm = filp->private_data;
 > +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_ALLOC_VMID, &req_payload, sizeof(req_payload), &resp,
-> +			&resp_size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!vmid) {
-> +		resp_payload = resp;
-> +		ret = le16_to_cpu(resp_payload->vmid);
-> +		kfree(resp);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * gh_rm_dealloc_vmid() - Dispose of a VMID
-> + * @rm: Handle to a Gunyah resource manager
-> + * @vmid: VM identifier allocated with gh_rm_alloc_vmid
-> + */
-> +int gh_rm_dealloc_vmid(struct gh_rm *rm, u16 vmid)
-> +{
-> +	return gh_rm_common_vmid_call(rm, GH_RM_RPC_VM_DEALLOC_VMID, vmid);
-> +}
-> +
-> +/**
-> + * gh_rm_vm_reset() - Reset a VM's resources
-> + * @rm: Handle to a Gunyah resource manager
-> + * @vmid: VM identifier allocated with gh_rm_alloc_vmid
-> + *
-> + * As part of tearing down the VM, request RM to clean up all the VM resources
-> + * associated with the VM. Only after this, Linux can clean up all the
-> + * references it maintains to resources.
-> + */
-> +int gh_rm_vm_reset(struct gh_rm *rm, u16 vmid)
-> +{
-> +	return gh_rm_common_vmid_call(rm, GH_RM_RPC_VM_RESET, vmid);
-> +}
-> +
-> +/**
-> + * gh_rm_vm_start() - Move a VM into "ready to run" state
-> + * @rm: Handle to a Gunyah resource manager
-> + * @vmid: VM identifier allocated with gh_rm_alloc_vmid
-> + *
-> + * On VMs which use proxy scheduling, vcpu_run is needed to actually run the VM.
-> + * On VMs which use Gunyah's scheduling, the vCPUs start executing in accordance with Gunyah
-> + * scheduling policies.
-> + */
-> +int gh_rm_vm_start(struct gh_rm *rm, u16 vmid)
-> +{
-> +	return gh_rm_common_vmid_call(rm, GH_RM_RPC_VM_START, vmid);
-> +}
-> +
-> +/**
-> + * gh_rm_vm_stop() - Send a request to Resource Manager VM to forcibly stop a VM.
-> + * @rm: Handle to a Gunyah resource manager
-> + * @vmid: VM identifier allocated with gh_rm_alloc_vmid
-> + */
-> +int gh_rm_vm_stop(struct gh_rm *rm, u16 vmid)
-> +{
-> +	struct gh_rm_vm_stop_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +		.flags = GH_RM_VM_STOP_FLAG_FORCE_STOP,
-> +		.stop_reason = cpu_to_le32(GH_RM_VM_STOP_REASON_FORCE_STOP),
-> +	};
-> +
-> +	return gh_rm_call(rm, GH_RM_RPC_VM_STOP, &req_payload, sizeof(req_payload), NULL, NULL);
-> +}
-> +
-> +/**
-> + * gh_rm_vm_configure() - Prepare a VM to start and provide the common
-> + *			  configuration needed by RM to configure a VM
-> + * @rm: Handle to a Gunyah resource manager
-> + * @vmid: VM identifier allocated with gh_rm_alloc_vmid
-> + * @auth_mechanism: Authentication mechanism used by resource manager to verify
-> + *                  the virtual machine
-> + * @mem_handle: Handle to a previously shared memparcel that contains all parts
-> + *              of the VM image subject to authentication.
-> + * @image_offset: Start address of VM image, relative to the start of memparcel
-> + * @image_size: Size of the VM image
-> + * @dtb_offset: Start address of the devicetree binary with VM configuration,
-> + *              relative to start of memparcel.
-> + * @dtb_size: Maximum size of devicetree binary.
-> + */
-> +int gh_rm_vm_configure(struct gh_rm *rm, u16 vmid, enum gh_rm_vm_auth_mechanism auth_mechanism,
-> +		u32 mem_handle, u64 image_offset, u64 image_size, u64 dtb_offset, u64 dtb_size)
-> +{
-> +	struct gh_rm_vm_config_image_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +		.auth_mech = cpu_to_le16(auth_mechanism),
-> +		.mem_handle = cpu_to_le32(mem_handle),
-> +		.image_offset = cpu_to_le64(image_offset),
-> +		.image_size = cpu_to_le64(image_size),
-> +		.dtb_offset = cpu_to_le64(dtb_offset),
-> +		.dtb_size = cpu_to_le64(dtb_size),
-> +	};
-> +
-> +	return gh_rm_call(rm, GH_RM_RPC_VM_CONFIG_IMAGE, &req_payload, sizeof(req_payload),
-> +			  NULL, NULL);
-> +}
-> +
-> +/**
-> + * gh_rm_vm_init() - Move the VM to initialized state.
-> + * @rm: Handle to a Gunyah resource manager
-> + * @vmid: VM identifier
-> + *
-> + * RM will allocate needed resources for the VM.
-> + */
-> +int gh_rm_vm_init(struct gh_rm *rm, u16 vmid)
-> +{
-> +	return gh_rm_common_vmid_call(rm, GH_RM_RPC_VM_INIT, vmid);
-> +}
-> +
-> +/**
-> + * gh_rm_get_hyp_resources() - Retrieve hypervisor resources (capabilities) associated with a VM
-> + * @rm: Handle to a Gunyah resource manager
-> + * @vmid: VMID of the other VM to get the resources of
-> + * @resources: Set by gh_rm_get_hyp_resources and contains the returned hypervisor resources.
-> + *             Caller must free the resources pointer if successful.
-> + */
-> +int gh_rm_get_hyp_resources(struct gh_rm *rm, u16 vmid,
-> +				struct gh_rm_hyp_resources **resources)
-> +{
-> +	struct gh_rm_vm_common_vmid_req req_payload = {
-> +		.vmid = cpu_to_le16(vmid),
-> +	};
-> +	struct gh_rm_hyp_resources *resp;
-> +	size_t resp_size;
-> +	int ret;
-> +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_GET_HYP_RESOURCES,
-> +			 &req_payload, sizeof(req_payload),
-> +			 (void **)&resp, &resp_size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!resp_size)
-> +		return -EBADMSG;
-> +
-> +	if (resp_size < struct_size(resp, entries, 0) ||
-> +		resp_size != struct_size(resp, entries, le32_to_cpu(resp->n_entries))) {
-> +		kfree(resp);
-> +		return -EBADMSG;
-> +	}
-> +
-> +	*resources = resp;
+> +	gh_rm_put(ghvm->rm);
+> +	kfree(ghvm);
 > +	return 0;
 > +}
 > +
-> +/**
-> + * gh_rm_get_vmid() - Retrieve VMID of this virtual machine
-> + * @rm: Handle to a Gunyah resource manager
-> + * @vmid: Filled with the VMID of this VM
-> + */
-> +int gh_rm_get_vmid(struct gh_rm *rm, u16 *vmid)
-> +{
-> +	static u16 cached_vmid = GH_VMID_INVAL;
-> +	size_t resp_size;
-> +	__le32 *resp;
-> +	int ret;
+> +static const struct file_operations gh_vm_fops = {
+> +	.owner = THIS_MODULE,
+> +	.release = gh_vm_release,
+> +	.llseek = noop_llseek,
+> +};
 > +
-> +	if (cached_vmid != GH_VMID_INVAL) {
-> +		*vmid = cached_vmid;
-> +		return 0;
+> +static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
+> +{
+> +	struct gh_vm *ghvm;
+> +	struct file *file;
+> +	int fd, err;
+> +
+> +	/* arg reserved for future use. */
+> +	if (arg)
+> +		return -EINVAL;
+> +
+> +	ghvm = gh_vm_alloc(rm);
+> +	if (IS_ERR(ghvm))
+> +		return PTR_ERR(ghvm);
+> +
+> +	fd = get_unused_fd_flags(O_CLOEXEC);
+> +	if (fd < 0) {
+> +		err = fd;
+> +		goto err_destroy_vm;
 > +	}
 > +
-> +	ret = gh_rm_call(rm, GH_RM_RPC_VM_GET_VMID, NULL, 0, (void **)&resp, &resp_size);
-> +	if (ret)
-> +		return ret;
+> +	file = anon_inode_getfile("gunyah-vm", &gh_vm_fops, ghvm, O_RDWR);
+> +	if (IS_ERR(file)) {
+> +		err = PTR_ERR(file);
+> +		goto err_put_fd;
+> +	}
 > +
-> +	*vmid = cached_vmid = lower_16_bits(le32_to_cpu(*resp));
-> +	kfree(resp);
+> +	fd_install(fd, file);
 > +
-> +	return ret;
+> +	return fd;
+> +
+> +err_put_fd:
+> +	put_unused_fd(fd);
+> +err_destroy_vm:
+> +	gh_rm_put(ghvm->rm);
+> +	kfree(ghvm);
+> +	return err;
 > +}
-> +EXPORT_SYMBOL_GPL(gh_rm_get_vmid);
-> diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
-> index f2a312e80af5..1ac66d9004d2 100644
-> --- a/include/linux/gunyah_rsc_mgr.h
-> +++ b/include/linux/gunyah_rsc_mgr.h
-> @@ -18,4 +18,77 @@ int gh_rm_notifier_unregister(struct gh_rm *rm, struct notifier_block *nb);
->   struct device *gh_rm_get(struct gh_rm *rm);
->   void gh_rm_put(struct gh_rm *rm);
->   
-> +struct gh_rm_vm_exited_payload {
-> +	__le16 vmid;
-> +	__le16 exit_type;
-> +	__le32 exit_reason_size;
-> +	u8 exit_reason[];
-> +} __packed;
 > +
-> +#define GH_RM_NOTIFICATION_VM_EXITED		 0x56100001
+> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg)
+> +{
+> +	switch (cmd) {
+> +	case GH_CREATE_VM:
+> +		return gh_dev_ioctl_create_vm(rm, arg);
+> +	default:
+> +		return -ENOTTY;
+> +	}
+> +}
+> diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+> new file mode 100644
+> index 000000000000..1e94b58d7d34
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/vm_mgr.h
+> @@ -0,0 +1,20 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
 > +
-> +enum gh_rm_vm_status {
-> +	GH_RM_VM_STATUS_NO_STATE	= 0,
-> +	GH_RM_VM_STATUS_INIT		= 1,
-> +	GH_RM_VM_STATUS_READY		= 2,
-> +	GH_RM_VM_STATUS_RUNNING		= 3,
-> +	GH_RM_VM_STATUS_PAUSED		= 4,
-> +	GH_RM_VM_STATUS_LOAD		= 5,
-> +	GH_RM_VM_STATUS_AUTH		= 6,
-> +	GH_RM_VM_STATUS_INIT_FAILED	= 8,
-> +	GH_RM_VM_STATUS_EXITED		= 9,
-> +	GH_RM_VM_STATUS_RESETTING	= 10,
-> +	GH_RM_VM_STATUS_RESET		= 11,
+> +#ifndef _GH_VM_MGR_H
+> +#define _GH_VM_MGR_H
+> +
+> +#include <linux/gunyah_rsc_mgr.h>
+> +
+> +#include <uapi/linux/gunyah.h>
+> +
+> +long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg);
+> +
+> +struct gh_vm {
+> +	struct gh_rm *rm;
+> +	struct device *parent;
 > +};
 > +
-> +struct gh_rm_vm_status_payload {
-> +	__le16 vmid;
-> +	u16 reserved;
-> +	u8 vm_status;
-> +	u8 os_status;
-> +	__le16 app_status;
-> +} __packed;
+> +#endif
+> diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+> new file mode 100644
+> index 000000000000..86b9cb60118d
+> --- /dev/null
+> +++ b/include/uapi/linux/gunyah.h
+> @@ -0,0 +1,23 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
 > +
-> +#define GH_RM_NOTIFICATION_VM_STATUS		 0x56100008
+> +#ifndef _UAPI_LINUX_GUNYAH_H
+> +#define _UAPI_LINUX_GUNYAH_H
 > +
-> +/* RPC Calls */
-> +int gh_rm_alloc_vmid(struct gh_rm *rm, u16 vmid);
-> +int gh_rm_dealloc_vmid(struct gh_rm *rm, u16 vmid);
-> +int gh_rm_vm_reset(struct gh_rm *rm, u16 vmid);
-> +int gh_rm_vm_start(struct gh_rm *rm, u16 vmid);
-> +int gh_rm_vm_stop(struct gh_rm *rm, u16 vmid);
+> +/*
+> + * Userspace interface for /dev/gunyah - gunyah based virtual machine
+> + */
 > +
-> +enum gh_rm_vm_auth_mechanism {
-> +	GH_RM_VM_AUTH_NONE		= 0,
-> +	GH_RM_VM_AUTH_QCOM_PIL_ELF	= 1,
-> +	GH_RM_VM_AUTH_QCOM_ANDROID_PVM	= 2,
-> +};
+> +#include <linux/types.h>
+> +#include <linux/ioctl.h>
 > +
-> +int gh_rm_vm_configure(struct gh_rm *rm, u16 vmid, enum gh_rm_vm_auth_mechanism auth_mechanism,
-> +			u32 mem_handle, u64 image_offset, u64 image_size,
-> +			u64 dtb_offset, u64 dtb_size);
-> +int gh_rm_vm_init(struct gh_rm *rm, u16 vmid);
+> +#define GH_IOCTL_TYPE			'G'
 > +
-> +struct gh_rm_hyp_resource {
-> +	u8 type;
-> +	u8 reserved;
-> +	__le16 partner_vmid;
-> +	__le32 resource_handle;
-> +	__le32 resource_label;
-> +	__le64 cap_id;
-> +	__le32 virq_handle;
-> +	__le32 virq;
-> +	__le64 base;
-> +	__le64 size;
-> +} __packed;
+> +/*
+> + * ioctls for /dev/gunyah fds:
+> + */
+> +#define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
 > +
-> +struct gh_rm_hyp_resources {
-> +	__le32 n_entries;
-> +	struct gh_rm_hyp_resource entries[];
-> +} __packed;
-> +
-> +int gh_rm_get_hyp_resources(struct gh_rm *rm, u16 vmid,
-> +				struct gh_rm_hyp_resources **resources);
-> +int gh_rm_get_vmid(struct gh_rm *rm, u16 *vmid);
-> +
->   #endif
+> +#endif
