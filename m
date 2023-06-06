@@ -2,325 +2,900 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60009C77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 12:38:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6199FC77B7A
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 12:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237562AbjFFMi2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 08:38:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38086 "EHLO
+        id S237702AbjFFMqZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 08:46:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231940AbjFFMi2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 08:38:28 -0400
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 927AFE5D;
-        Tue,  6 Jun 2023 05:38:24 -0700 (PDT)
-Received: from loongson.cn (unknown [223.106.25.146])
-        by gateway (Coremail) with SMTP id _____8Bxb+usKH9kkCoAAA--.782S3;
-        Tue, 06 Jun 2023 20:38:04 +0800 (CST)
-Received: from [192.168.100.8] (unknown [223.106.25.146])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxZuSpKH9k3VsCAA--.9716S3;
-        Tue, 06 Jun 2023 20:38:02 +0800 (CST)
-Message-ID: <ea4447e4-1157-9cf4-23d0-2411eb63f540@loongson.cn>
-Date:   Tue, 6 Jun 2023 20:38:01 +0800
+        with ESMTP id S237829AbjFFMp7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 08:45:59 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93DC919A7
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jun 2023 05:45:18 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f6da07ff00so61544355e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jun 2023 05:45:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686055515; x=1688647515;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M8KLwc4VLLWzZLTN4JGO+nDc634f1+ItWwR5XDwMtZk=;
+        b=iPJMd8q0ZkNLKGYTD98Z69EOAwmH+2ujOv3hAKzOHkiV8KA8qKcWycEorGWyOp1Agh
+         QIMYxIsBrafbboC+YZRetkak2RlW5Phbwf7hESVJwroI+F4URG18kDjzM9QQkCw9k+JT
+         n9M/4g7NSuVqqHY6+B+e1yGtquFgkO7Au+YHnyCTvJo3MPlrKfeGimM7IG/1f4YUBGYG
+         vuMYkcgx3SgSrg0+el8ILPfNwYa1TFFswr8Ha4eVhBBM2IiwEG3L7ruVGc42mCKd8BFo
+         sIAdFz9iYzIqadY01C3J5ky/05xkQSf66P3NEna10445gImDchkzCkxW8vXOHm13Qhss
+         5Jbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686055515; x=1688647515;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=M8KLwc4VLLWzZLTN4JGO+nDc634f1+ItWwR5XDwMtZk=;
+        b=iU1eV7OooTdEBKtb+7UXgw3osoXaramnpKNz/HOY7HT+3x+Goq9XBxO69TEXk+YEab
+         grrCJ3qtCMSx4E6Y/auoC0cUjCrnjgpNzhLKl/hPeTK5DNp6Q1Eq4r/fN+dP4I4r9xkx
+         OFpQZozVCjQryGXZb1v1cxT8ofnPra6TX6V7IeeGONTARQM89Ke3d02w6qQMDxuGV3vV
+         QKeJJf8DDDhzaVqsr9zefakZzHw89u2DmuZ3Der+ObMfnacK2MRW8fNpQ2c5uSvCYtku
+         XSJNzNdJbvYt5cs3dp0emmjHM0glg3+SGAL0lPmVR0sT5YuDfDjFLKUw7ZYU69l5rKv/
+         AtoQ==
+X-Gm-Message-State: AC+VfDx8AGqD4eb8w+GhL1KQsxr3iFGZs5goRXj66CvSsmrV/PqOARso
+        oeYNM9YMJIsQWs1k/cxIHIzQzA==
+X-Google-Smtp-Source: ACHHUZ6Mfe8M6qo6tNfqXTawsVs1S0XbKLrQfuTjCR53N04nyliiep/za1b+TjBqs6d8tXQT+2iFKw==
+X-Received: by 2002:a05:6000:149:b0:2fb:1d3a:93ff with SMTP id r9-20020a056000014900b002fb1d3a93ffmr1871734wrx.61.1686055514869;
+        Tue, 06 Jun 2023 05:45:14 -0700 (PDT)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id a14-20020adfface000000b0030add836194sm12501242wrs.65.2023.06.06.05.45.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Jun 2023 05:45:14 -0700 (PDT)
+Message-ID: <84c829fe-d371-ec50-3399-2257f9b1434b@linaro.org>
+Date:   Tue, 6 Jun 2023 13:45:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 1/1] gpiolib: Remove unused gpio_cansleep()
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v13 06/24] gunyah: rsc_mgr: Add resource manager RPC core
 Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Hu Haowen <src.res@email.cn>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-References: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+ <20230509204801.2824351-7-quic_eberman@quicinc.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20230509204801.2824351-7-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxZuSpKH9k3VsCAA--.9716S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj9fXoW3tFyxGryfXry5AF43uw45Jwc_yoW8Jry3Wo
-        W7Awsruwn7Ja13JrW3Ga1kWFnrursFkrZ5Za1vq3yrKry7t3s3X3W8Ja43Ja4rAFyrG3Wf
-        GFyxuFWUJrZ5tFyUl-sFpf9Il3svdjkaLaAFLSUrUUUUob8apTn2vfkv8UJUUUU8wcxFpf
-        9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
-        UjIYCTnIWjp_UUUO87kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
-        8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
-        Y2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14
-        v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AK
-        xVWxJr0_GcWln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-        xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-        6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-        1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxG
-        rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14
-        v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
-        c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI
-        0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4U
-        MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jTq2NUUU
-        UU=
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-在 2023/6/5 20:54, Andy Shevchenko 写道:
-> There is not a single user in the entire kernel of this deprecated API,
-> kill it for good.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-
-
-Thanks,
-
-Yanteng
-
+On 09/05/2023 21:47, Elliot Berman wrote:
+> The resource manager is a special virtual machine which is always
+> running on a Gunyah system. It provides APIs for creating and destroying
+> VMs, secure memory management, sharing/lending of memory between VMs,
+> and setup of inter-VM communication. Calls to the resource manager are
+> made via message queues.
+> 
+> This patch implements the basic probing and RPC mechanism to make those
+> API calls. Request/response calls can be made with gh_rm_call.
+> Drivers can also register to notifications pushed by RM via
+> gh_rm_register_notifier
+> 
+> Specific API calls that resource manager supports will be implemented in
+> subsequent patches.
+> 
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > ---
-> v2: amended Chinese translation (thanks to Yanteng Si)
->   Documentation/driver-api/gpio/legacy.rst           | 12 +-----------
->   .../translations/zh_CN/driver-api/gpio/legacy.rst  | 14 +++-----------
->   Documentation/translations/zh_TW/gpio.txt          | 14 +++-----------
->   arch/m68k/include/asm/mcfgpio.h                    |  8 --------
->   arch/mips/include/asm/mach-au1x00/gpio-au1000.h    |  5 -----
->   arch/mips/include/asm/mach-au1x00/gpio-au1300.h    |  5 -----
->   include/linux/gpio.h                               | 12 ------------
->   7 files changed, 7 insertions(+), 63 deletions(-)
->
-> diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
-> index 9eda54811faa..b6505914791c 100644
-> --- a/Documentation/driver-api/gpio/legacy.rst
-> +++ b/Documentation/driver-api/gpio/legacy.rst
-> @@ -165,8 +165,7 @@ Most GPIO controllers can be accessed with memory read/write instructions.
->   Those don't need to sleep, and can safely be done from inside hard
->   (nonthreaded) IRQ handlers and similar contexts.
->   
-> -Use the following calls to access such GPIOs,
-> -for which gpio_cansleep() will always return false (see below)::
-> +Use the following calls to access such GPIOs::
->   
->   	/* GPIO INPUT:  return zero or nonzero */
->   	int gpio_get_value(unsigned gpio);
-> @@ -200,13 +199,6 @@ Some GPIO controllers must be accessed using message based busses like I2C
->   or SPI.  Commands to read or write those GPIO values require waiting to
->   get to the head of a queue to transmit a command and get its response.
->   This requires sleeping, which can't be done from inside IRQ handlers.
-> -
-> -Platforms that support this type of GPIO distinguish them from other GPIOs
-> -by returning nonzero from this call (which requires a valid GPIO number,
-> -which should have been previously allocated with gpio_request)::
-> -
-> -	int gpio_cansleep(unsigned gpio);
-> -
->   To access such GPIOs, a different set of accessors is defined::
->   
->   	/* GPIO INPUT:  return zero or nonzero, might sleep */
-> @@ -215,7 +207,6 @@ To access such GPIOs, a different set of accessors is defined::
->   	/* GPIO OUTPUT, might sleep */
->   	void gpio_set_value_cansleep(unsigned gpio, int value);
->   
-> -
->   Accessing such GPIOs requires a context which may sleep,  for example
->   a threaded IRQ handler, and those accessors must be used instead of
->   spinlock-safe accessors without the cansleep() name suffix.
-> @@ -537,7 +528,6 @@ code, which always dispatches through the gpio_chip::
->   
->     #define gpio_get_value	__gpio_get_value
->     #define gpio_set_value	__gpio_set_value
-> -  #define gpio_cansleep		__gpio_cansleep
->   
->   Fancier implementations could instead define those as inline functions with
->   logic optimizing access to specific SOC-based GPIOs.  For example, if the
-> diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-> index 1bddecf73670..aeccff777170 100644
-> --- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-> +++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-> @@ -153,8 +153,7 @@ get/set(获取/设置)函数调用没法返回错误,且有可能是配置错误
->   大多数 GPIO 控制器可以通过内存读/写指令来访问。这些指令不会休眠,可以
->   安全地在硬(非线程)中断例程和类似的上下文中完成。
->   
-> -对于那些用 gpio_cansleep()测试总是返回失败的 GPIO(见下文)，使用
-> -以下的函数访问::
-> +对于那些 GPIO，使用以下的函数访问::
->   
->   	/* GPIO 输入:返回零或非零 */
->   	int gpio_get_value(unsigned gpio);
-> @@ -186,11 +185,6 @@ GPIO值是布尔值，零表示低电平，非零表示高电平。当读取一
->   GPIO 值的命令需要等待其信息排到队首才发送命令，再获得其反馈。期间需要
->   休眠，这不能在 IRQ 例程(中断上下文)中执行。
->   
-> -支持此类 GPIO 的平台通过以下函数返回非零值来区分出这种 GPIO。(此函数需要
-> -一个之前通过 gpio_request 分配到的有效 GPIO 编号)::
-> -
-> -	int gpio_cansleep(unsigned gpio);
-> -
->   为了访问这种 GPIO,内核定义了一套不同的函数::
->   
->   	/* GPIO 输入:返回零或非零 ,可能会休眠 */
-> @@ -199,7 +193,6 @@ GPIO 值的命令需要等待其信息排到队首才发送命令，再获得其
->   	/* GPIO 输出,可能会休眠 */
->   	void gpio_set_value_cansleep(unsigned gpio, int value);
->   
-> -
->   访问这样的 GPIO 需要一个允许休眠的上下文，例如线程 IRQ 处理例程，并用以上的
->   访问函数替换那些没有 cansleep()后缀的自旋锁安全访问函数。
->   
-> @@ -483,8 +476,8 @@ GPIO 实现者的框架（可选）
->   
->   为了支持这个框架，一个平台的 Kconfig 文件将会 "select"(选择)
->   ARCH_REQUIRE_GPIOLIB 或 ARCH_WANT_OPTIONAL_GPIOLIB，并让它的
-> -<asm/gpio.h> 包含 <asm-generic/gpio.h>，同时定义三个方法:
-> -gpio_get_value()、gpio_set_value()和 gpio_cansleep()。
-> +<asm/gpio.h> 包含 <asm-generic/gpio.h>，同时定义两个方法:
-> +gpio_get_value()、gpio_set_value()。
->   
->   它也应提供一个 ARCH_NR_GPIOS 的定义值，这样可以更好地反映该平台 GPIO
->   的实际数量,节省静态表的空间。(这个定义值应该包含片上系统内建 GPIO 和
-> @@ -502,7 +495,6 @@ ARCH_WANT_OPTIONAL_GPIOLIB 意味着 gpiolib 核心默认关闭,且用户可以
->   
->     #define gpio_get_value	__gpio_get_value
->     #define gpio_set_value	__gpio_set_value
-> -  #define gpio_cansleep		__gpio_cansleep
->   
->   这些定义可以用更理想的实现方法替代，那就是使用经过逻辑优化的内联函数来访问
->   基于特定片上系统的 GPIO。例如,若引用的 GPIO (寄存器位偏移)是常量“12”，
-> diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/translations/zh_TW/gpio.txt
-> index 66bc7f2bbe53..b93788a2628b 100644
-> --- a/Documentation/translations/zh_TW/gpio.txt
-> +++ b/Documentation/translations/zh_TW/gpio.txt
-> @@ -161,8 +161,7 @@ get/set(獲取/設置)函數調用沒法返回錯誤,且有可能是配置錯誤
->   大多數 GPIO 控制器可以通過內存讀/寫指令來訪問。這些指令不會休眠,可以
->   安全地在硬(非線程)中斷例程和類似的上下文中完成。
->   
-> -對於那些用 gpio_cansleep()測試總是返回失敗的 GPIO(見下文)，使用
-> -以下的函數訪問:
-> +對於那些 GPIO，使用以下的函數訪問:
->   
->   	/* GPIO 輸入:返回零或非零 */
->   	int gpio_get_value(unsigned gpio);
-> @@ -193,11 +192,6 @@ GPIO值是布爾值，零表示低電平，非零表示高電平。當讀取一
->   GPIO 值的命令需要等待其信息排到隊首才發送命令，再獲得其反饋。期間需要
->   休眠，這不能在 IRQ 例程(中斷上下文)中執行。
->   
-> -支持此類 GPIO 的平台通過以下函數返回非零值來區分出這種 GPIO。(此函數需要
-> -一個之前通過 gpio_request 分配到的有效 GPIO 編號):
-> -
-> -	int gpio_cansleep(unsigned gpio);
-> -
->   爲了訪問這種 GPIO,內核定義了一套不同的函數:
->   
->   	/* GPIO 輸入:返回零或非零 ,可能會休眠 */
-> @@ -206,7 +200,6 @@ GPIO 值的命令需要等待其信息排到隊首才發送命令，再獲得其
->   	/* GPIO 輸出,可能會休眠 */
->   	void gpio_set_value_cansleep(unsigned gpio, int value);
->   
-> -
->   訪問這樣的 GPIO 需要一個允許休眠的上下文，例如線程 IRQ 處理例程，並用以上的
->   訪問函數替換那些沒有 cansleep()後綴的自旋鎖安全訪問函數。
->   
-> @@ -449,8 +442,8 @@ GPIO 實現者的框架 (可選)
->   -------
->   爲了支持這個框架，一個平台的 Kconfig 文件將會 "select"(選擇)
->   ARCH_REQUIRE_GPIOLIB 或 ARCH_WANT_OPTIONAL_GPIOLIB，並讓它的
-> -<asm/gpio.h> 包含 <asm-generic/gpio.h>，同時定義三個方法:
-> -gpio_get_value()、gpio_set_value()和 gpio_cansleep()。
-> +<asm/gpio.h> 包含 <asm-generic/gpio.h>，同時定義二個方法:
-> +gpio_get_value()、gpio_set_value()。
->   
->   它也應提供一個 ARCH_NR_GPIOS 的定義值，這樣可以更好地反映該平台 GPIO
->   的實際數量,節省靜態表的空間。(這個定義值應該包含片上系統內建 GPIO 和
-> @@ -468,7 +461,6 @@ ARCH_WANT_OPTIONAL_GPIOLIB 意味著 gpiolib 核心默認關閉,且用戶可以
->   
->     #define gpio_get_value	__gpio_get_value
->     #define gpio_set_value	__gpio_set_value
-> -  #define gpio_cansleep		__gpio_cansleep
->   
->   這些定義可以用更理想的實現方法替代，那就是使用經過邏輯優化的內聯函數來訪問
->   基於特定片上系統的 GPIO。例如,若引用的 GPIO (寄存器位偏移)是常量「12」，
-> diff --git a/arch/m68k/include/asm/mcfgpio.h b/arch/m68k/include/asm/mcfgpio.h
-> index 2cefe8445980..7abd322c019f 100644
-> --- a/arch/m68k/include/asm/mcfgpio.h
-> +++ b/arch/m68k/include/asm/mcfgpio.h
-> @@ -34,14 +34,6 @@ static inline void __gpio_set_value(unsigned gpio, int value)
->   		__mcfgpio_set_value(gpio, value);
->   }
->   
-> -static inline int __gpio_cansleep(unsigned gpio)
-> -{
-> -	if (gpio < MCFGPIO_PIN_MAX)
-> -		return 0;
-> -	else
-> -		return -EINVAL;
-> -}
-> -
->   static inline int __gpio_to_irq(unsigned gpio)
->   {
->   	return -EINVAL;
-> diff --git a/arch/mips/include/asm/mach-au1x00/gpio-au1000.h b/arch/mips/include/asm/mach-au1x00/gpio-au1000.h
-> index adde1fa5097e..82bc2766e2ec 100644
-> --- a/arch/mips/include/asm/mach-au1x00/gpio-au1000.h
-> +++ b/arch/mips/include/asm/mach-au1x00/gpio-au1000.h
-> @@ -500,11 +500,6 @@ static inline int alchemy_gpio_is_valid(int gpio)
->   		alchemy_gpio1_is_valid(gpio);
->   }
->   
-> -static inline int alchemy_gpio_cansleep(int gpio)
-> -{
-> -	return 0;	/* Alchemy never gets tired */
-> -}
-> -
->   static inline int alchemy_gpio_to_irq(int gpio)
->   {
->   	return (gpio >= ALCHEMY_GPIO2_BASE) ?
-> diff --git a/arch/mips/include/asm/mach-au1x00/gpio-au1300.h b/arch/mips/include/asm/mach-au1x00/gpio-au1300.h
-> index d16add7ba49d..43d44f384f97 100644
-> --- a/arch/mips/include/asm/mach-au1x00/gpio-au1300.h
-> +++ b/arch/mips/include/asm/mach-au1x00/gpio-au1300.h
-> @@ -98,11 +98,6 @@ static inline int au1300_gpio_is_valid(unsigned int gpio)
->   	return ret;
->   }
->   
-> -static inline int au1300_gpio_cansleep(unsigned int gpio)
-> -{
-> -	return 0;
-> -}
-> -
->   /* hardware remembers gpio 0-63 levels on powerup */
->   static inline int au1300_gpio_getinitlvl(unsigned int gpio)
->   {
-> diff --git a/include/linux/gpio.h b/include/linux/gpio.h
-> index 88efac969754..7ecc25c543ce 100644
-> --- a/include/linux/gpio.h
-> +++ b/include/linux/gpio.h
-> @@ -108,11 +108,6 @@ static inline void gpio_set_value(unsigned gpio, int value)
->   	return gpiod_set_raw_value(gpio_to_desc(gpio), value);
->   }
->   
-> -static inline int gpio_cansleep(unsigned gpio)
-> -{
-> -	return gpiod_cansleep(gpio_to_desc(gpio));
-> -}
-> -
->   static inline int gpio_to_irq(unsigned gpio)
->   {
->   	return gpiod_to_irq(gpio_to_desc(gpio));
-> @@ -195,13 +190,6 @@ static inline void gpio_set_value(unsigned gpio, int value)
->   	WARN_ON(1);
->   }
->   
-> -static inline int gpio_cansleep(unsigned gpio)
-> -{
-> -	/* GPIO can never have been requested or set as {in,out}put */
-> -	WARN_ON(1);
-> -	return 0;
-> -}
-> -
->   static inline int gpio_get_value_cansleep(unsigned gpio)
->   {
->   	/* GPIO can never have been requested or set as {in,out}put */
 
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
+--srini
+
+>   drivers/virt/Makefile          |   1 +
+>   drivers/virt/gunyah/Makefile   |   4 +
+>   drivers/virt/gunyah/rsc_mgr.c  | 702 +++++++++++++++++++++++++++++++++
+>   drivers/virt/gunyah/rsc_mgr.h  |  16 +
+>   include/linux/gunyah_rsc_mgr.h |  21 +
+>   5 files changed, 744 insertions(+)
+>   create mode 100644 drivers/virt/gunyah/Makefile
+>   create mode 100644 drivers/virt/gunyah/rsc_mgr.c
+>   create mode 100644 drivers/virt/gunyah/rsc_mgr.h
+>   create mode 100644 include/linux/gunyah_rsc_mgr.h
+> 
+> diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+> index e9aa6fc96fab..a5817e2d7d71 100644
+> --- a/drivers/virt/Makefile
+> +++ b/drivers/virt/Makefile
+> @@ -12,3 +12,4 @@ obj-$(CONFIG_ACRN_HSM)		+= acrn/
+>   obj-$(CONFIG_EFI_SECRET)	+= coco/efi_secret/
+>   obj-$(CONFIG_SEV_GUEST)		+= coco/sev-guest/
+>   obj-$(CONFIG_INTEL_TDX_GUEST)	+= coco/tdx-guest/
+> +obj-y				+= gunyah/
+> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+> new file mode 100644
+> index 000000000000..0f5aec834698
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/Makefile
+> @@ -0,0 +1,4 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +gunyah-y += rsc_mgr.o
+> +obj-$(CONFIG_GUNYAH) += gunyah.o
+> diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
+> new file mode 100644
+> index 000000000000..88b5beb1ea51
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/rsc_mgr.c
+> @@ -0,0 +1,702 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/of.h>
+> +#include <linux/slab.h>
+> +#include <linux/mutex.h>
+> +#include <linux/sched.h>
+> +#include <linux/gunyah.h>
+> +#include <linux/module.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/notifier.h>
+> +#include <linux/workqueue.h>
+> +#include <linux/completion.h>
+> +#include <linux/gunyah_rsc_mgr.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include "rsc_mgr.h"
+> +
+> +#define RM_RPC_API_VERSION_MASK		GENMASK(3, 0)
+> +#define RM_RPC_HEADER_WORDS_MASK	GENMASK(7, 4)
+> +#define RM_RPC_API_VERSION		FIELD_PREP(RM_RPC_API_VERSION_MASK, 1)
+> +#define RM_RPC_HEADER_WORDS		FIELD_PREP(RM_RPC_HEADER_WORDS_MASK, \
+> +						(sizeof(struct gh_rm_rpc_hdr) / sizeof(u32)))
+> +#define RM_RPC_API			(RM_RPC_API_VERSION | RM_RPC_HEADER_WORDS)
+> +
+> +#define RM_RPC_TYPE_CONTINUATION	0x0
+> +#define RM_RPC_TYPE_REQUEST		0x1
+> +#define RM_RPC_TYPE_REPLY		0x2
+> +#define RM_RPC_TYPE_NOTIF		0x3
+> +#define RM_RPC_TYPE_MASK		GENMASK(1, 0)
+> +
+> +#define GH_RM_MAX_NUM_FRAGMENTS		62
+> +#define RM_RPC_FRAGMENTS_MASK		GENMASK(7, 2)
+> +
+> +struct gh_rm_rpc_hdr {
+> +	u8 api;
+> +	u8 type;
+> +	__le16 seq;
+> +	__le32 msg_id;
+> +} __packed;
+> +
+> +struct gh_rm_rpc_reply_hdr {
+> +	struct gh_rm_rpc_hdr hdr;
+> +	__le32 err_code; /* GH_RM_ERROR_* */
+> +} __packed;
+> +
+> +#define GH_RM_MAX_MSG_SIZE	(GH_MSGQ_MAX_MSG_SIZE - sizeof(struct gh_rm_rpc_hdr))
+> +
+> +/* RM Error codes */
+> +enum gh_rm_error {
+> +	GH_RM_ERROR_OK			= 0x0,
+> +	GH_RM_ERROR_UNIMPLEMENTED	= 0xFFFFFFFF,
+> +	GH_RM_ERROR_NOMEM		= 0x1,
+> +	GH_RM_ERROR_NORESOURCE		= 0x2,
+> +	GH_RM_ERROR_DENIED		= 0x3,
+> +	GH_RM_ERROR_INVALID		= 0x4,
+> +	GH_RM_ERROR_BUSY		= 0x5,
+> +	GH_RM_ERROR_ARGUMENT_INVALID	= 0x6,
+> +	GH_RM_ERROR_HANDLE_INVALID	= 0x7,
+> +	GH_RM_ERROR_VALIDATE_FAILED	= 0x8,
+> +	GH_RM_ERROR_MAP_FAILED		= 0x9,
+> +	GH_RM_ERROR_MEM_INVALID		= 0xA,
+> +	GH_RM_ERROR_MEM_INUSE		= 0xB,
+> +	GH_RM_ERROR_MEM_RELEASED	= 0xC,
+> +	GH_RM_ERROR_VMID_INVALID	= 0xD,
+> +	GH_RM_ERROR_LOOKUP_FAILED	= 0xE,
+> +	GH_RM_ERROR_IRQ_INVALID		= 0xF,
+> +	GH_RM_ERROR_IRQ_INUSE		= 0x10,
+> +	GH_RM_ERROR_IRQ_RELEASED	= 0x11,
+> +};
+> +
+> +/**
+> + * struct gh_rm_connection - Represents a complete message from resource manager
+> + * @payload: Combined payload of all the fragments (msg headers stripped off).
+> + * @size: Size of the payload received so far.
+> + * @msg_id: Message ID from the header.
+> + * @type: RM_RPC_TYPE_REPLY or RM_RPC_TYPE_NOTIF.
+> + * @num_fragments: total number of fragments expected to be received.
+> + * @fragments_received: fragments received so far.
+> + * @reply: Fields used for request/reply sequences
+> + * @notification: Fields used for notifiations
+> + */
+> +struct gh_rm_connection {
+> +	void *payload;
+> +	size_t size;
+> +	__le32 msg_id;
+> +	u8 type;
+> +
+> +	u8 num_fragments;
+> +	u8 fragments_received;
+> +
+> +	union {
+> +		/**
+> +		 * @ret: Linux return code, there was an error processing connection
+> +		 * @seq: Sequence ID for the main message.
+> +		 * @rm_error: For request/reply sequences with standard replies
+> +		 * @seq_done: Signals caller that the RM reply has been received
+> +		 */
+> +		struct {
+> +			int ret;
+> +			u16 seq;
+> +			enum gh_rm_error rm_error;
+> +			struct completion seq_done;
+> +		} reply;
+> +
+> +		/**
+> +		 * @rm: Pointer to the RM that launched the connection
+> +		 * @work: Triggered when all fragments of a notification received
+> +		 */
+> +		struct {
+> +			struct gh_rm *rm;
+> +			struct work_struct work;
+> +		} notification;
+> +	};
+> +};
+> +
+> +/**
+> + * struct gh_rm - private data for communicating w/Gunyah resource manager
+> + * @dev: pointer to device
+> + * @tx_ghrsc: message queue resource to TX to RM
+> + * @rx_ghrsc: message queue resource to RX from RM
+> + * @msgq: mailbox instance of TX/RX resources above
+> + * @msgq_client: mailbox client of above msgq
+> + * @active_rx_connection: ongoing gh_rm_connection for which we're receiving fragments
+> + * @last_tx_ret: return value of last mailbox tx
+> + * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
+> + * @next_seq: next ID to allocate (for xa_alloc_cyclic)
+> + * @cache: cache for allocating Tx messages
+> + * @send_lock: synchronization to allow only one request to be sent at a time
+> + * @nh: notifier chain for clients interested in RM notification messages
+> + */
+> +struct gh_rm {
+> +	struct device *dev;
+> +	struct gh_resource tx_ghrsc;
+> +	struct gh_resource rx_ghrsc;
+> +	struct gh_msgq msgq;
+> +	struct mbox_client msgq_client;
+> +	struct gh_rm_connection *active_rx_connection;
+> +	int last_tx_ret;
+> +
+> +	struct xarray call_xarray;
+> +	u32 next_seq;
+> +
+> +	struct kmem_cache *cache;
+> +	struct mutex send_lock;
+> +	struct blocking_notifier_head nh;
+> +};
+> +
+> +/**
+> + * gh_rm_remap_error() - Remap Gunyah resource manager errors into a Linux error code
+> + * @rm_error: "Standard" return value from Gunyah resource manager
+> + */
+> +static inline int gh_rm_remap_error(enum gh_rm_error rm_error)
+> +{
+> +	switch (rm_error) {
+> +	case GH_RM_ERROR_OK:
+> +		return 0;
+> +	case GH_RM_ERROR_UNIMPLEMENTED:
+> +		return -EOPNOTSUPP;
+> +	case GH_RM_ERROR_NOMEM:
+> +		return -ENOMEM;
+> +	case GH_RM_ERROR_NORESOURCE:
+> +		return -ENODEV;
+> +	case GH_RM_ERROR_DENIED:
+> +		return -EPERM;
+> +	case GH_RM_ERROR_BUSY:
+> +		return -EBUSY;
+> +	case GH_RM_ERROR_INVALID:
+> +	case GH_RM_ERROR_ARGUMENT_INVALID:
+> +	case GH_RM_ERROR_HANDLE_INVALID:
+> +	case GH_RM_ERROR_VALIDATE_FAILED:
+> +	case GH_RM_ERROR_MAP_FAILED:
+> +	case GH_RM_ERROR_MEM_INVALID:
+> +	case GH_RM_ERROR_MEM_INUSE:
+> +	case GH_RM_ERROR_MEM_RELEASED:
+> +	case GH_RM_ERROR_VMID_INVALID:
+> +	case GH_RM_ERROR_LOOKUP_FAILED:
+> +	case GH_RM_ERROR_IRQ_INVALID:
+> +	case GH_RM_ERROR_IRQ_INUSE:
+> +	case GH_RM_ERROR_IRQ_RELEASED:
+> +		return -EINVAL;
+> +	default:
+> +		return -EBADMSG;
+> +	}
+> +}
+> +
+> +static int gh_rm_init_connection_payload(struct gh_rm_connection *connection, void *msg,
+> +					size_t hdr_size, size_t msg_size)
+> +{
+> +	size_t max_buf_size, payload_size;
+> +	struct gh_rm_rpc_hdr *hdr = msg;
+> +
+> +	if (msg_size < hdr_size)
+> +		return -EINVAL;
+> +
+> +	payload_size = msg_size - hdr_size;
+> +
+> +	connection->num_fragments = FIELD_GET(RM_RPC_FRAGMENTS_MASK, hdr->type);
+> +	connection->fragments_received = 0;
+> +
+> +	/* There's not going to be any payload, no need to allocate buffer. */
+> +	if (!payload_size && !connection->num_fragments)
+> +		return 0;
+> +
+> +	if (connection->num_fragments > GH_RM_MAX_NUM_FRAGMENTS)
+> +		return -EINVAL;
+> +
+> +	max_buf_size = payload_size + (connection->num_fragments * GH_RM_MAX_MSG_SIZE);
+> +
+> +	connection->payload = kzalloc(max_buf_size, GFP_KERNEL);
+> +	if (!connection->payload)
+> +		return -ENOMEM;
+> +
+> +	memcpy(connection->payload, msg + hdr_size, payload_size);
+> +	connection->size = payload_size;
+> +	return 0;
+> +}
+> +
+> +static void gh_rm_abort_connection(struct gh_rm *rm)
+> +{
+> +	switch (rm->active_rx_connection->type) {
+> +	case RM_RPC_TYPE_REPLY:
+> +		rm->active_rx_connection->reply.ret = -EIO;
+> +		complete(&rm->active_rx_connection->reply.seq_done);
+> +		break;
+> +	case RM_RPC_TYPE_NOTIF:
+> +		fallthrough;
+> +	default:
+> +		kfree(rm->active_rx_connection->payload);
+> +		kfree(rm->active_rx_connection);
+> +	}
+> +
+> +	rm->active_rx_connection = NULL;
+> +}
+> +
+> +static void gh_rm_notif_work(struct work_struct *work)
+> +{
+> +	struct gh_rm_connection *connection = container_of(work, struct gh_rm_connection,
+> +								notification.work);
+> +	struct gh_rm *rm = connection->notification.rm;
+> +
+> +	blocking_notifier_call_chain(&rm->nh, le32_to_cpu(connection->msg_id), connection->payload);
+> +
+> +	put_device(rm->dev);
+> +	kfree(connection->payload);
+> +	kfree(connection);
+> +}
+> +
+> +static void gh_rm_process_notif(struct gh_rm *rm, void *msg, size_t msg_size)
+> +{
+> +	struct gh_rm_connection *connection;
+> +	struct gh_rm_rpc_hdr *hdr = msg;
+> +	int ret;
+> +
+> +	if (rm->active_rx_connection)
+> +		gh_rm_abort_connection(rm);
+> +
+> +	connection = kzalloc(sizeof(*connection), GFP_KERNEL);
+> +	if (!connection)
+> +		return;
+> +
+> +	connection->type = RM_RPC_TYPE_NOTIF;
+> +	connection->msg_id = hdr->msg_id;
+> +
+> +	get_device(rm->dev);
+> +	connection->notification.rm = rm;
+> +	INIT_WORK(&connection->notification.work, gh_rm_notif_work);
+> +
+> +	ret = gh_rm_init_connection_payload(connection, msg, sizeof(*hdr), msg_size);
+> +	if (ret) {
+> +		dev_err(rm->dev, "Failed to initialize connection for notification: %d\n", ret);
+> +		put_device(rm->dev);
+> +		kfree(connection);
+> +		return;
+> +	}
+> +
+> +	rm->active_rx_connection = connection;
+> +}
+> +
+> +static void gh_rm_process_rply(struct gh_rm *rm, void *msg, size_t msg_size)
+> +{
+> +	struct gh_rm_rpc_reply_hdr *reply_hdr = msg;
+> +	struct gh_rm_connection *connection;
+> +	u16 seq_id;
+> +
+> +	seq_id = le16_to_cpu(reply_hdr->hdr.seq);
+> +	connection = xa_load(&rm->call_xarray, seq_id);
+> +
+> +	if (!connection || connection->msg_id != reply_hdr->hdr.msg_id)
+> +		return;
+> +
+> +	if (rm->active_rx_connection)
+> +		gh_rm_abort_connection(rm);
+> +
+> +	if (gh_rm_init_connection_payload(connection, msg, sizeof(*reply_hdr), msg_size)) {
+> +		dev_err(rm->dev, "Failed to alloc connection buffer for sequence %d\n", seq_id);
+> +		/* Send connection complete and error the client. */
+> +		connection->reply.ret = -ENOMEM;
+> +		complete(&connection->reply.seq_done);
+> +		return;
+> +	}
+> +
+> +	connection->reply.rm_error = le32_to_cpu(reply_hdr->err_code);
+> +	rm->active_rx_connection = connection;
+> +}
+> +
+> +static void gh_rm_process_cont(struct gh_rm *rm, struct gh_rm_connection *connection,
+> +				void *msg, size_t msg_size)
+> +{
+> +	struct gh_rm_rpc_hdr *hdr = msg;
+> +	size_t payload_size = msg_size - sizeof(*hdr);
+> +
+> +	if (!rm->active_rx_connection)
+> +		return;
+> +
+> +	/*
+> +	 * hdr->fragments and hdr->msg_id preserves the value from first reply
+> +	 * or notif message. To detect mishandling, check it's still intact.
+> +	 */
+> +	if (connection->msg_id != hdr->msg_id ||
+> +		connection->num_fragments != FIELD_GET(RM_RPC_FRAGMENTS_MASK, hdr->type)) {
+> +		gh_rm_abort_connection(rm);
+> +		return;
+> +	}
+> +
+> +	memcpy(connection->payload + connection->size, msg + sizeof(*hdr), payload_size);
+> +	connection->size += payload_size;
+> +	connection->fragments_received++;
+> +}
+> +
+> +static void gh_rm_try_complete_connection(struct gh_rm *rm)
+> +{
+> +	struct gh_rm_connection *connection = rm->active_rx_connection;
+> +
+> +	if (!connection || connection->fragments_received != connection->num_fragments)
+> +		return;
+> +
+> +	switch (connection->type) {
+> +	case RM_RPC_TYPE_REPLY:
+> +		complete(&connection->reply.seq_done);
+> +		break;
+> +	case RM_RPC_TYPE_NOTIF:
+> +		schedule_work(&connection->notification.work);
+> +		break;
+> +	default:
+> +		dev_err_ratelimited(rm->dev, "Invalid message type (%u) received\n",
+> +					connection->type);
+> +		gh_rm_abort_connection(rm);
+> +		break;
+> +	}
+> +
+> +	rm->active_rx_connection = NULL;
+> +}
+> +
+> +static void gh_rm_msgq_rx_data(struct mbox_client *cl, void *mssg)
+> +{
+> +	struct gh_rm *rm = container_of(cl, struct gh_rm, msgq_client);
+> +	struct gh_msgq_rx_data *rx_data = mssg;
+> +	size_t msg_size = rx_data->length;
+> +	void *msg = rx_data->data;
+> +	struct gh_rm_rpc_hdr *hdr;
+> +
+> +	if (msg_size < sizeof(*hdr) || msg_size > GH_MSGQ_MAX_MSG_SIZE)
+> +		return;
+> +
+> +	hdr = msg;
+> +	if (hdr->api != RM_RPC_API) {
+> +		dev_err(rm->dev, "Unknown RM RPC API version: %x\n", hdr->api);
+> +		return;
+> +	}
+> +
+> +	switch (FIELD_GET(RM_RPC_TYPE_MASK, hdr->type)) {
+> +	case RM_RPC_TYPE_NOTIF:
+> +		gh_rm_process_notif(rm, msg, msg_size);
+> +		break;
+> +	case RM_RPC_TYPE_REPLY:
+> +		gh_rm_process_rply(rm, msg, msg_size);
+> +		break;
+> +	case RM_RPC_TYPE_CONTINUATION:
+> +		gh_rm_process_cont(rm, rm->active_rx_connection, msg, msg_size);
+> +		break;
+> +	default:
+> +		dev_err(rm->dev, "Invalid message type (%lu) received\n",
+> +			FIELD_GET(RM_RPC_TYPE_MASK, hdr->type));
+> +		return;
+> +	}
+> +
+> +	gh_rm_try_complete_connection(rm);
+> +}
+> +
+> +static void gh_rm_msgq_tx_done(struct mbox_client *cl, void *mssg, int r)
+> +{
+> +	struct gh_rm *rm = container_of(cl, struct gh_rm, msgq_client);
+> +
+> +	kmem_cache_free(rm->cache, mssg);
+> +	rm->last_tx_ret = r;
+> +}
+> +
+> +static int gh_rm_send_request(struct gh_rm *rm, u32 message_id,
+> +			      const void *req_buf, size_t req_buf_size,
+> +			      struct gh_rm_connection *connection)
+> +{
+> +	size_t buf_size_remaining = req_buf_size;
+> +	const void *req_buf_curr = req_buf;
+> +	struct gh_msgq_tx_data *msg;
+> +	struct gh_rm_rpc_hdr *hdr, hdr_template;
+> +	u32 cont_fragments = 0;
+> +	size_t payload_size;
+> +	void *payload;
+> +	int ret;
+> +
+> +	if (req_buf_size > GH_RM_MAX_NUM_FRAGMENTS * GH_RM_MAX_MSG_SIZE) {
+> +		dev_warn(rm->dev, "Limit (%lu bytes) exceeded for the maximum message size: %lu\n",
+> +			GH_RM_MAX_NUM_FRAGMENTS * GH_RM_MAX_MSG_SIZE, req_buf_size);
+> +		dump_stack();
+> +		return -E2BIG;
+> +	}
+> +
+> +	if (req_buf_size)
+> +		cont_fragments = (req_buf_size - 1) / GH_RM_MAX_MSG_SIZE;
+> +
+> +	hdr_template.api = RM_RPC_API;
+> +	hdr_template.type = FIELD_PREP(RM_RPC_TYPE_MASK, RM_RPC_TYPE_REQUEST) |
+> +				FIELD_PREP(RM_RPC_FRAGMENTS_MASK, cont_fragments);
+> +	hdr_template.seq = cpu_to_le16(connection->reply.seq);
+> +	hdr_template.msg_id = cpu_to_le32(message_id);
+> +
+> +	ret = mutex_lock_interruptible(&rm->send_lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	do {
+> +		msg = kmem_cache_zalloc(rm->cache, GFP_KERNEL);
+> +		if (!msg) {
+> +			ret = -ENOMEM;
+> +			goto out;
+> +		}
+> +
+> +		/* Fill header */
+> +		hdr = (struct gh_rm_rpc_hdr *)&msg->data[0];
+> +		*hdr = hdr_template;
+> +
+> +		/* Copy payload */
+> +		payload = &msg->data[0] + sizeof(*hdr);
+> +		payload_size = min(buf_size_remaining, GH_RM_MAX_MSG_SIZE);
+> +		memcpy(payload, req_buf_curr, payload_size);
+> +		req_buf_curr += payload_size;
+> +		buf_size_remaining -= payload_size;
+> +
+> +		/* Force the last fragment to immediately alert the receiver */
+> +		msg->push = !buf_size_remaining;
+> +		msg->length = sizeof(*hdr) + payload_size;
+> +
+> +		ret = mbox_send_message(gh_msgq_chan(&rm->msgq), msg);
+> +		if (ret < 0) {
+> +			kmem_cache_free(rm->cache, msg);
+> +			break;
+> +		}
+> +
+> +		if (rm->last_tx_ret) {
+> +			ret = rm->last_tx_ret;
+> +			break;
+> +		}
+> +
+> +		hdr_template.type = FIELD_PREP(RM_RPC_TYPE_MASK, RM_RPC_TYPE_CONTINUATION) |
+> +					FIELD_PREP(RM_RPC_FRAGMENTS_MASK, cont_fragments);
+> +	} while (buf_size_remaining);
+> +
+> +out:
+> +	mutex_unlock(&rm->send_lock);
+> +	return ret < 0 ? ret : 0;
+> +}
+> +
+> +/**
+> + * gh_rm_call: Achieve request-response type communication with RPC
+> + * @rm: Pointer to Gunyah resource manager internal data
+> + * @message_id: The RM RPC message-id
+> + * @req_buf: Request buffer that contains the payload
+> + * @req_buf_size: Total size of the payload
+> + * @resp_buf: Pointer to a response buffer
+> + * @resp_buf_size: Size of the response buffer
+> + *
+> + * Make a request to the Resource Manager and wait for reply back. For a successful
+> + * response, the function returns the payload. The size of the payload is set in
+> + * resp_buf_size. The resp_buf must be freed by the caller when 0 is returned
+> + * and resp_buf_size != 0.
+> + *
+> + * req_buf should be not NULL for req_buf_size >0. If req_buf_size == 0,
+> + * req_buf *can* be NULL and no additional payload is sent.
+> + *
+> + * Context: Process context. Will sleep waiting for reply.
+> + * Return: 0 on success. <0 if error.
+> + */
+> +int gh_rm_call(struct gh_rm *rm, u32 message_id, const void *req_buf, size_t req_buf_size,
+> +		void **resp_buf, size_t *resp_buf_size)
+> +{
+> +	struct gh_rm_connection *connection;
+> +	u32 seq_id;
+> +	int ret;
+> +
+> +	/* message_id 0 is reserved. req_buf_size implies req_buf is not NULL */
+> +	if (!rm || !message_id || (!req_buf && req_buf_size))
+> +		return -EINVAL;
+> +
+> +
+> +	connection = kzalloc(sizeof(*connection), GFP_KERNEL);
+> +	if (!connection)
+> +		return -ENOMEM;
+> +
+> +	connection->type = RM_RPC_TYPE_REPLY;
+> +	connection->msg_id = cpu_to_le32(message_id);
+> +
+> +	init_completion(&connection->reply.seq_done);
+> +
+> +	/* Allocate a new seq number for this connection */
+> +	ret = xa_alloc_cyclic(&rm->call_xarray, &seq_id, connection, xa_limit_16b, &rm->next_seq,
+> +				GFP_KERNEL);
+> +	if (ret < 0)
+> +		goto free;
+> +	connection->reply.seq = lower_16_bits(seq_id);
+> +
+> +	/* Send the request to the Resource Manager */
+> +	ret = gh_rm_send_request(rm, message_id, req_buf, req_buf_size, connection);
+> +	if (ret < 0)
+> +		goto out;
+> +
+> +	/* Wait for response */
+> +	ret = wait_for_completion_interruptible(&connection->reply.seq_done);
+> +	if (ret)
+> +		goto out;
+> +
+> +	/* Check for internal (kernel) error waiting for the response */
+> +	if (connection->reply.ret) {
+> +		ret = connection->reply.ret;
+> +		if (ret != -ENOMEM)
+> +			kfree(connection->payload);
+> +		goto out;
+> +	}
+> +
+> +	/* Got a response, did resource manager give us an error? */
+> +	if (connection->reply.rm_error != GH_RM_ERROR_OK) {
+> +		dev_warn(rm->dev, "RM rejected message %08x. Error: %d\n", message_id,
+> +			connection->reply.rm_error);
+> +		dump_stack();
+> +		ret = gh_rm_remap_error(connection->reply.rm_error);
+> +		kfree(connection->payload);
+> +		goto out;
+> +	}
+> +
+> +	/* Everything looks good, return the payload */
+> +	if (resp_buf_size)
+> +		*resp_buf_size = connection->size;
+> +	if (connection->size && resp_buf)
+> +		*resp_buf = connection->payload;
+> +	else {
+> +		/* kfree in case RM sent us multiple fragments but never any data in
+> +		 * those fragments. We would've allocated memory for it, but connection->size == 0
+> +		 */
+> +		kfree(connection->payload);
+> +	}
+> +
+> +out:
+> +	xa_erase(&rm->call_xarray, connection->reply.seq);
+> +free:
+> +	kfree(connection);
+> +	return ret;
+> +}
+> +
+> +
+> +int gh_rm_notifier_register(struct gh_rm *rm, struct notifier_block *nb)
+> +{
+> +	return blocking_notifier_chain_register(&rm->nh, nb);
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_notifier_register);
+> +
+> +int gh_rm_notifier_unregister(struct gh_rm *rm, struct notifier_block *nb)
+> +{
+> +	return blocking_notifier_chain_unregister(&rm->nh, nb);
+> +}
+> +EXPORT_SYMBOL_GPL(gh_rm_notifier_unregister);
+> +
+> +static int gh_msgq_platform_probe_direction(struct platform_device *pdev, bool tx,
+> +					    struct gh_resource *ghrsc)
+> +{
+> +	struct device_node *node = pdev->dev.of_node;
+> +	int ret;
+> +	int idx = tx ? 0 : 1;
+> +
+> +	ghrsc->type = tx ? GH_RESOURCE_TYPE_MSGQ_TX : GH_RESOURCE_TYPE_MSGQ_RX;
+> +
+> +	ghrsc->irq = platform_get_irq(pdev, idx);
+> +	if (ghrsc->irq < 0) {
+> +		dev_err(&pdev->dev, "Failed to get irq%d: %d\n", idx, ghrsc->irq);
+> +		return ghrsc->irq;
+> +	}
+> +
+> +	ret = of_property_read_u64_index(node, "reg", idx, &ghrsc->capid);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to get capid%d: %d\n", idx, ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int gh_identify(void)
+> +{
+> +	struct gh_hypercall_hyp_identify_resp gh_api;
+> +
+> +	if (!arch_is_gh_guest())
+> +		return -ENODEV;
+> +
+> +	gh_hypercall_hyp_identify(&gh_api);
+> +
+> +	pr_info("Running under Gunyah hypervisor %llx/v%u\n",
+> +		FIELD_GET(GH_API_INFO_VARIANT_MASK, gh_api.api_info),
+> +		gh_api_version(&gh_api));
+> +
+> +	/* We might move this out to individual drivers if there's ever an API version bump */
+> +	if (gh_api_version(&gh_api) != GH_API_V1) {
+> +		pr_info("Unsupported Gunyah version: %u\n", gh_api_version(&gh_api));
+> +		return -ENODEV;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int gh_rm_drv_probe(struct platform_device *pdev)
+> +{
+> +	struct gh_msgq_tx_data *msg;
+> +	struct gh_rm *rm;
+> +	int ret;
+> +
+> +	ret = gh_identify();
+> +	if (ret)
+> +		return ret;
+> +
+> +	rm = devm_kzalloc(&pdev->dev, sizeof(*rm), GFP_KERNEL);
+> +	if (!rm)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, rm);
+> +	rm->dev = &pdev->dev;
+> +
+> +	mutex_init(&rm->send_lock);
+> +	BLOCKING_INIT_NOTIFIER_HEAD(&rm->nh);
+> +	xa_init_flags(&rm->call_xarray, XA_FLAGS_ALLOC);
+> +	rm->cache = kmem_cache_create("gh_rm", struct_size(msg, data, GH_MSGQ_MAX_MSG_SIZE), 0,
+> +		SLAB_HWCACHE_ALIGN, NULL);
+> +	if (!rm->cache)
+> +		return -ENOMEM;
+> +
+> +	ret = gh_msgq_platform_probe_direction(pdev, true, &rm->tx_ghrsc);
+> +	if (ret)
+> +		goto err_cache;
+> +
+> +	ret = gh_msgq_platform_probe_direction(pdev, false, &rm->rx_ghrsc);
+> +	if (ret)
+> +		goto err_cache;
+> +
+> +	rm->msgq_client.dev = &pdev->dev;
+> +	rm->msgq_client.tx_block = true;
+> +	rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
+> +	rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
+> +
+> +	return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
+> +err_cache:
+> +	kmem_cache_destroy(rm->cache);
+> +	return ret;
+> +}
+> +
+> +static int gh_rm_drv_remove(struct platform_device *pdev)
+> +{
+> +	struct gh_rm *rm = platform_get_drvdata(pdev);
+> +
+> +	mbox_free_channel(gh_msgq_chan(&rm->msgq));
+> +	gh_msgq_remove(&rm->msgq);
+> +	kmem_cache_destroy(rm->cache);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id gh_rm_of_match[] = {
+> +	{ .compatible = "gunyah-resource-manager" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, gh_rm_of_match);
+> +
+> +static struct platform_driver gh_rm_driver = {
+> +	.probe = gh_rm_drv_probe,
+> +	.remove = gh_rm_drv_remove,
+> +	.driver = {
+> +		.name = "gh_rsc_mgr",
+> +		.of_match_table = gh_rm_of_match,
+> +	},
+> +};
+> +module_platform_driver(gh_rm_driver);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Gunyah Resource Manager Driver");
+> diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
+> new file mode 100644
+> index 000000000000..8309b7bf4668
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/rsc_mgr.h
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +#ifndef __GH_RSC_MGR_PRIV_H
+> +#define __GH_RSC_MGR_PRIV_H
+> +
+> +#include <linux/gunyah.h>
+> +#include <linux/gunyah_rsc_mgr.h>
+> +#include <linux/types.h>
+> +
+> +struct gh_rm;
+> +int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, const void *req_buf, size_t req_buf_size,
+> +		void **resp_buf, size_t *resp_buf_size);
+> +
+> +#endif
+> diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
+> new file mode 100644
+> index 000000000000..f2a312e80af5
+> --- /dev/null
+> +++ b/include/linux/gunyah_rsc_mgr.h
+> @@ -0,0 +1,21 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef _GUNYAH_RSC_MGR_H
+> +#define _GUNYAH_RSC_MGR_H
+> +
+> +#include <linux/list.h>
+> +#include <linux/notifier.h>
+> +#include <linux/gunyah.h>
+> +
+> +#define GH_VMID_INVAL		U16_MAX
+> +
+> +struct gh_rm;
+> +int gh_rm_notifier_register(struct gh_rm *rm, struct notifier_block *nb);
+> +int gh_rm_notifier_unregister(struct gh_rm *rm, struct notifier_block *nb);
+> +struct device *gh_rm_get(struct gh_rm *rm);
+> +void gh_rm_put(struct gh_rm *rm);
+> +
+> +#endif
