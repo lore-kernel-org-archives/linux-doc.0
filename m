@@ -2,119 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C24CC83003
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 20:13:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DA5C7EE37
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 21:07:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239471AbjFFUNf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 16:13:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47216 "EHLO
+        id S234053AbjFFVHo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 17:07:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234673AbjFFUNe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 16:13:34 -0400
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB1EB0;
-        Tue,  6 Jun 2023 13:13:33 -0700 (PDT)
-Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-6b28fc460bcso1592212a34.1;
-        Tue, 06 Jun 2023 13:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686082412; x=1688674412;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4fV7Pb5i2MwRKtXI+L72eacF/AO/0yqXx0MJ01SSud0=;
-        b=pDP+yL9WN+pff/JjCduS7JvbmoHcUSbG+eB9kCz+wqvdammYyaHY7+8vJHuvMS2fq/
-         wiDeLf7KOGZcqtQNbGAEc8cfZqZ03MuVCAWl7EFXiUe4r2M3mpMpPBs3vzm9/Bo/75Lx
-         9BQjCpEmrUs9QbozWlAryEHce3fGTg8unUtkNcIsLsEbC87BqGdI/b2EUZjbVWjLf58a
-         zelXaH1SDbvnKF5pNVwCS69lLvPBQLsjYLmUOVlxC0+SblWdlOdmN5POjSpacS5wXzdW
-         kKAwGzBoG4g4vye8rCXAQcekBLgJRqhfL3YzPy42XeTh0addYmx2XSyBsIhIO743iW5y
-         8a9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686082412; x=1688674412;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4fV7Pb5i2MwRKtXI+L72eacF/AO/0yqXx0MJ01SSud0=;
-        b=LiXBXWZAkDuB65ntKty2uYqsaNFN7VsRIyHigLqWCwqhUUzXQkgmnFHIxPr9zMsvOw
-         cN5gNRD0hN+HPs0hR7IIWhCFNGdXFtQDTXor33VvPFwPESgL/UOplRG239EVE6mSwElh
-         3pAfMpFu4MnIxP+fcoCttZF/mzQptGjM2FObXj5xuswV21nBodiyGUyGPOmcGbFiKsEo
-         QN9dKL+urjAHA7GLCME3DclckjcPpJVlsP7Kx26LZteorVMp20mIQwfwNp1uvDdirqcD
-         V4QtYF4UTVEwvb6arQ3IgkiwRZW3yQ7xwvWeGxtG6N9F8HjwDXB5+rCsnacDvX4ouydr
-         gYgA==
-X-Gm-Message-State: AC+VfDy3Q9lJjyY+4Kl8yw2pALOrlbRwqwlOQmYvMgaYFWBIM60suz0N
-        Pos4oDjDMh86NYCEtMHptUy1F8i8+t4=
-X-Google-Smtp-Source: ACHHUZ4iLr+olIDpe6s8ZRWHjb0zuQyQc8mlYCwoYHuAuIvcatBpGiqxjkl/qs78RZxnA9Jw8tY6zg==
-X-Received: by 2002:a9d:6253:0:b0:6af:9eb0:5de1 with SMTP id i19-20020a9d6253000000b006af9eb05de1mr3007443otk.36.1686082412201;
-        Tue, 06 Jun 2023 13:13:32 -0700 (PDT)
-Received: from localhost (dhcp-72-235-13-41.hawaiiantel.net. [72.235.13.41])
-        by smtp.gmail.com with ESMTPSA id b16-20020aa78710000000b00646e7d2b5a7sm7157908pfo.112.2023.06.06.13.13.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jun 2023 13:13:31 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Tue, 6 Jun 2023 10:13:31 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Ryan Phillips <rphillips@redhat.com>,
-        Brent Rowsell <browsell@redhat.com>,
-        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
-Subject: Re: [RFC PATCH 0/5] cgroup/cpuset: A new "isolcpus" paritition
-Message-ID: <ZH-Ta7jDozegNo3o@slm.duckdns.org>
-References: <759603dd-7538-54ad-e63d-bb827b618ae3@redhat.com>
- <405b2805-538c-790b-5bf8-e90d3660f116@redhat.com>
- <ZGvHUjOCjwat91Gq@slm.duckdns.org>
- <18793f4a-fd39-2e71-0b77-856afb01547b@redhat.com>
- <ZH4jfmypOXGJPu0D@slm.duckdns.org>
- <be64a569-4388-9dd9-3e06-36d716a54f6c@redhat.com>
- <ZH5FNc6wjlGPsaaO@slm.duckdns.org>
- <a2220c9f-7a8d-da82-ecc0-b39f3807408c@redhat.com>
- <ZH-P7X_yjnVfhy7b@slm.duckdns.org>
- <563fd5e1-650a-e329-8aab-2fa1953a9f49@redhat.com>
+        with ESMTP id S230504AbjFFVHm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 17:07:42 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F12B1720;
+        Tue,  6 Jun 2023 14:07:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=8h2wUeDvnp3Fch8Oa8+slI7py/Nq++3cO7nSIOkvMXk=;
+        t=1686085661; x=1687295261; b=cK7jGkz8aVA6JL5+3CqLENz+cjeEEGdMeCrRUF3nxZacPF4
+        C5j7CQHnOM3szVCvqrLQ1aXcuGVuYDGZVz+d+mf5v8AMq2ds/UyaLic/NJmKDrGeQ+dagvyUKeaxf
+        FnYYIr3xl8h1TFXrbMbraD9uzsr20vVZGiV2gP63Gmc7ALID6dud83mofT3xD6UJJ+NWBqTAUEsgP
+        pt8z8VETij7bnV5isT6dVATGx1ffPyGo87s9fFtrXRGWDtiS7DGZfZh5Pg36MRUcZ7qSUYfkiJK7F
+        k1/26tvHhr3IaYzHk00Liouz4HxnLCmWeGchRm/IqLn6nSkbMGMuGDfqVNWTyw0g==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1q6dtz-00Fl1n-0j;
+        Tue, 06 Jun 2023 23:07:39 +0200
+Message-ID: <2017a6dba12cc7cd05aec33e8066cb7038a89a31.camel@sipsolutions.net>
+Subject: Re: [PATCH v2 1/2] kernel-doc: don't let V=1 change outcome
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Date:   Tue, 06 Jun 2023 23:07:38 +0200
+In-Reply-To: <CAK7LNASe+HWuufyANGJJ0dajzSC4LFy=x2N6erGis0+ZQkAAXA@mail.gmail.com>
+References: <20230606105706.60807b85ff79.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
+         <CAK7LNASe+HWuufyANGJJ0dajzSC4LFy=x2N6erGis0+ZQkAAXA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.2 (3.48.2-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <563fd5e1-650a-e329-8aab-2fa1953a9f49@redhat.com>
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Tue, 2023-06-06 at 20:15 +0900, Masahiro Yamada wrote:
+> >=20
+> >  ifneq ($(KBUILD_EXTRA_WARN),)
+> > -  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none $<
+> > +  cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
+> > +        $(if $(KDOC_WALL), -Wall) \
+> > +        $(if $(KDOC_WRETURN), -Wreturn) \
+> > +        $(if $(KDOC_WSHORT_DESC), -Wshort-desc) \
+> > +        $(if $(KDOC_WSHORT_DESC), -Wcontents-before-sections) \
+>=20
+>=20
+>=20
+> Sorry, I misunderstood your intention.
+> (I just thought existing env variables would be moved to Makefile)
+>=20
+>=20
+> I do not want to proliferate env variables any more.
 
-On Tue, Jun 06, 2023 at 04:11:02PM -0400, Waiman Long wrote:
-...
-> The current CPU exclusive behavior is limited to sibling cgroups only.
-> Because of the hierarchical nature of cpu distribution, the set of exclusive
-> CPUs have to appear in all its ancestors. When partition is enabled, we do a
-> sibling exclusivity test at that point to verify that it is exclusive. It
-> looks like you want to do an exclusivity test even when the partition isn't
-> active. I can certainly do that when the file is being updated. However, it
-> will fail the write if the exclusivity test fails just like the v1
-> cpuset.cpus.exclusive flag if you are OK with that.
+Oh, ok, sure.
 
-Yeah, doesn't look like there's a way around it if we want to make
-.exclusive a feature which is useful on its own.
+> If you need per-flag control, maybe we can do like this?
 
-> > Instead, it can be sth like "if the parent is a
-> > partition root, cpuset implicitly tries to set all CPUs in its cpus file in
-> > its cpus.exclusive file" so that user-visible behavior stays unchanged
-> > depending on past history.
-> 
-> If parent is a partition root, auto reservation will be done and
-> cpus.exclusive will be set automatically just like before. So existing
-> applications using partition will not be affected.
+Well honestly, I myself just want to pass -Wall, but not necessarily W=3D2
+since that adds more stuff from the C compiler.
 
-Sounds great.
+> cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none \
+>               $(KDOCFLAGS)
+>=20
+>=20
+> Then, users can do
+>=20
+>   $ make KDOCFLAGS=3D-Wall
+>   $ make KDOCFLAGS=3D-Wreturn
 
-Thanks.
+I'd rather call it KDOC_FLAGS if you don't mind to align with
+KDOC_WERROR which we have already, but sure, can do.
 
--- 
-tejun
+johannes
