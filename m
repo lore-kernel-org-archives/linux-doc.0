@@ -2,81 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C18BCC7EE24
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 16:13:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 253FEC77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 16:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237347AbjFFQNz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 12:13:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48304 "EHLO
+        id S233304AbjFFQ0E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 12:26:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237776AbjFFQN1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 12:13:27 -0400
+        with ESMTP id S237833AbjFFQ0E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 12:26:04 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E9719BD;
-        Tue,  6 Jun 2023 09:13:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F9410D5;
+        Tue,  6 Jun 2023 09:26:02 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DF4462DE6;
-        Tue,  6 Jun 2023 16:13:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CEEBC4339E;
-        Tue,  6 Jun 2023 16:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686067983;
-        bh=SNMZc0L/b6GLmVD1yPrxAZQaDWAwMEPVbWJyNUZPapU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ISrLLMAQMED7jumB7rUxj4NLoUAL1EUyBok+B70FXLeTV8RbWw2YEyhDwpUUt2W+8
-         BSxK7qj0Xsy1sBuOEiYEIDscWsMI8kOhRR5UpQ1uYg9B2NN7A3Omlc1BfNFBZY0dvi
-         4brp+zhcc4iOG+YQwY906r240v+Ox0bb7YrQqkZA2AgpiYnVG/xEO7OM3wnAUf3T1a
-         tC7uJTlisTSrjMOg93qS/eQVXTnpCtKJ4KNPzc+VxwQ0RwYF7suOc5KDTQFRGDOVrk
-         M4xRJ0dhiRl0bQyu6vIGQpuwUPKNMeKGpLwXJPqYVcPlyuNBp7fyJKxA9iF59EasAc
-         mSJfqaSQpNEEQ==
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-doc@vger.kernel.org, Juri Lelli <juri.lelli@redhat.com>,
-        William White <chwhite@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F42663585;
+        Tue,  6 Jun 2023 16:26:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D8F1C433D2;
+        Tue,  6 Jun 2023 16:26:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1686068761;
+        bh=l0TwkmD0wdgbtQLh9PHpe3cthZ6I+Cvy/LxgM83nceQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=zXwlPtxxrvj4DRGL9PtwAxt/0qqL+5ILgPWfopfjykAEykAiPQPatmOvJrtF99jrp
+         7pBmSxH39ziEsCHJtQM9oIfI3XMh/j1+yqMt6xUm6OJB1QhPFxHOJ3IzdA+Ebv/PQ2
+         Bkv1Fr2sqmolIcjFVdI0fPFBB8sIv2OVmFjqMpfw=
+Date:   Tue, 6 Jun 2023 18:25:59 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH V3 11/11] Documentation: Add tools/rtla timerlat -u option documentation
-Date:   Tue,  6 Jun 2023 18:12:25 +0200
-Message-Id: <bf727c8ccb8f50792200ae620141e047edf4af7a.1686066600.git.bristot@kernel.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <cover.1686066600.git.bristot@kernel.org>
-References: <cover.1686066600.git.bristot@kernel.org>
+Subject: Re: Stock image illustration (licensing)
+Message-ID: <2023060629-monogram-nursing-e9f5@gregkh>
+References: <e6047201-7cf1-ecc4-ca68-490142f6f40b@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e6047201-7cf1-ecc4-ca68-490142f6f40b@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the -u/--user-thread option documentation for timerlat top/hist.
+On Tue, Jun 06, 2023 at 09:21:23PM +0700, Bagas Sanjaya wrote:
+> Hi,
+> 
+> Imagine that there is a new Linux kernel contributor, contributing
+> documentation patches. As it is the habit from her company, she adds
+> stock images from various sources (which may or may not be related
+> to the doc), e.g. freepik or pexels [1], as illustration.
+> 
+> However, on the source file, the image requires attribution. Yet,
+> the attribution instruction doesn't mention image license (she
+> attributes as "Illustration of foo by bar on pexels"), hence
+> all rights reserved. Can that stock image be added to the kernel
+> docs (which is licensed under GPL)?
+> 
+> PS: none is lawyer here.
 
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- Documentation/tools/rtla/common_timerlat_options.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+Then please consult one if you have questions about licensing issues.
+Would you ask a lawyer about dental problems?  :)
 
-diff --git a/Documentation/tools/rtla/common_timerlat_options.rst b/Documentation/tools/rtla/common_timerlat_options.rst
-index bacdea6de7a3..88506b397c2d 100644
---- a/Documentation/tools/rtla/common_timerlat_options.rst
-+++ b/Documentation/tools/rtla/common_timerlat_options.rst
-@@ -26,3 +26,10 @@
-         Set the /dev/cpu_dma_latency to *us*, aiming to bound exit from idle latencies.
-         *cyclictest* sets this value to *0* by default, use **--dma-latency** *0* to have
-         similar results.
-+
-+**-u**, **--user-threads**
-+
-+        Set timerlat to run without a workload, and then dispatches user-space workloads
-+        to wait on the timerlat_fd. Once the workload is awakes, it goes to sleep again
-+        adding so the measurement for the kernel-to-user and user-to-kernel to the tracer
-+        output.
--- 
-2.38.1
+thanks,
 
+greg k-h
