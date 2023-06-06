@@ -2,511 +2,323 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C61C1C77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 10:00:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 874C8C77B73
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 10:15:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237614AbjFFJ7r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 05:59:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33726 "EHLO
+        id S233981AbjFFKPZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Jun 2023 06:15:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237631AbjFFJ7a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 05:59:30 -0400
-Received: from mail.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9951707;
-        Tue,  6 Jun 2023 02:59:04 -0700 (PDT)
-Received: from BillyTsai-pc.aspeed.com (192.168.1.221) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 6 Jun
- 2023 17:43:42 +0800
-From:   Billy Tsai <billy_tsai@aspeedtech.com>
-To:     <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <lee@kernel.org>, <thierry.reding@gmail.com>,
-        <u.kleine-koenig@pengutronix.de>, <corbet@lwn.net>,
-        <p.zabel@pengutronix.de>, <billy_tsai@aspeedtech.com>,
-        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <patrick@stwcx.xyz>
-Subject: [v5 5/5] hwmon: Add Aspeed ast2600 TACH support
-Date:   Tue, 6 Jun 2023 17:45:35 +0800
-Message-ID: <20230606094535.5388-6-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230606094535.5388-1-billy_tsai@aspeedtech.com>
-References: <20230606094535.5388-1-billy_tsai@aspeedtech.com>
+        with ESMTP id S233058AbjFFKPY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 06:15:24 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09DF1E47;
+        Tue,  6 Jun 2023 03:15:20 -0700 (PDT)
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Qb5sD2LrLz6D8Wm;
+        Tue,  6 Jun 2023 18:13:20 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 6 Jun
+ 2023 11:15:18 +0100
+Date:   Tue, 6 Jun 2023 11:15:17 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Yicong Yang <yangyicong@huawei.com>
+CC:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alexander.shishkin@linux.intel.com>,
+        <helgaas@kernel.org>, <linux-pci@vger.kernel.org>,
+        <prime.zeng@huawei.com>, <linuxarm@huawei.com>
+Subject: Re: [PATCH v3 3/4] hwtracing: hisi_ptt: Export available filters
+ through sysfs
+Message-ID: <20230606111517.00007bc4@Huawei.com>
+In-Reply-To: <20230523093228.48149-4-yangyicong@huawei.com>
+References: <20230523093228.48149-1-yangyicong@huawei.com>
+        <20230523093228.48149-4-yangyicong@huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.1.221]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the support of Tachometer which can use to monitor the frequency of
-the input. The tach supports up to 16 channels and it's part function of
-multi-function device "pwm-tach controller".
+On Tue, 23 May 2023 17:32:27 +0800
+Yicong Yang <yangyicong@huawei.com> wrote:
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
----
- Documentation/hwmon/index.rst               |   1 +
- Documentation/hwmon/tach-aspeed-ast2600.rst |  25 ++
- drivers/hwmon/Kconfig                       |   9 +
- drivers/hwmon/Makefile                      |   1 +
- drivers/hwmon/tach-aspeed-ast2600.c         | 367 ++++++++++++++++++++
- 5 files changed, 403 insertions(+)
- create mode 100644 Documentation/hwmon/tach-aspeed-ast2600.rst
- create mode 100644 drivers/hwmon/tach-aspeed-ast2600.c
+> From: Yicong Yang <yangyicong@hisilicon.com>
+> 
+> The PTT can only filter the traced TLP headers by the Root Ports or the
+> Requester ID of the Endpoint, which are located on the same core of the
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index ddff3c5713d7..4c3dd74675ef 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -194,6 +194,7 @@ Hardware Monitoring Kernel Drivers
-    sparx5-temp
-    stpddc60
-    sy7636a-hwmon
-+   tach-aspeed-ast2600
-    tc654
-    tc74
-    thmc50
-diff --git a/Documentation/hwmon/tach-aspeed-ast2600.rst b/Documentation/hwmon/tach-aspeed-ast2600.rst
-new file mode 100644
-index 000000000000..8faa00f6ad47
---- /dev/null
-+++ b/Documentation/hwmon/tach-aspeed-ast2600.rst
-@@ -0,0 +1,25 @@
-+Kernel driver tach-aspeed-ast2600
-+=================================
-+
-+Supported chips:
-+	ASPEED AST2600
-+
-+Authors:
-+	<billy_tsai@aspeedtech.com>
-+
-+Description:
-+------------
-+This driver implements support for ASPEED AST2600 Fan Tacho controller.
-+The controller supports up to 16 tachometer inputs.
-+
-+The driver provides the following sensor accesses in sysfs:
-+
-+=============== ======= ======================================================
-+fanX_input	ro	provide current fan rotation value in RPM as reported
-+			by the fan to the device.
-+fanX_div	rw	Fan divisor: Supported value are power of 4 (1, 4, 16
-+                        64, ... 4194304)
-+                        The larger divisor, the less rpm accuracy and the less
-+                        affected by fan signal glitch.
-+fanX_pulses	rw      Fan pulses per resolution.
-+=============== ======= ======================================================
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index a5253abb7ea7..5fba87d46b7f 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -411,6 +411,15 @@ config SENSORS_ASPEED
- 	  This driver can also be built as a module. If so, the module
- 	  will be called aspeed_pwm_tacho.
- 
-+config SENSORS_TACH_ASPEED_AST2600
-+	tristate "ASPEED ast2600 Tachometer support"
-+	select REGMAP
-+	help
-+	  This driver provides support for Aspeed ast2600 Tachometer.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called tach-aspeed-ast2600.
-+
- config SENSORS_ATXP1
- 	tristate "Attansic ATXP1 VID controller"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index c5cd7e3a67ff..a3bf5b438e0f 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -53,6 +53,7 @@ obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
- obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
- obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
- obj-$(CONFIG_SENSORS_ASC7621)	+= asc7621.o
-+obj-$(CONFIG_SENSORS_TACH_ASPEED_AST2600) += tach-aspeed-ast2600.o
- obj-$(CONFIG_SENSORS_ASPEED)	+= aspeed-pwm-tacho.o
- obj-$(CONFIG_SENSORS_ATXP1)	+= atxp1.o
- obj-$(CONFIG_SENSORS_AXI_FAN_CONTROL) += axi-fan-control.o
-diff --git a/drivers/hwmon/tach-aspeed-ast2600.c b/drivers/hwmon/tach-aspeed-ast2600.c
-new file mode 100644
-index 000000000000..ee63844aa3a1
---- /dev/null
-+++ b/drivers/hwmon/tach-aspeed-ast2600.c
-@@ -0,0 +1,367 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) ASPEED Technology Inc.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/errno.h>
-+#include <linux/hwmon.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/reset.h>
-+#include <linux/sysfs.h>
-+
-+/* The channel number of Aspeed tach controller */
-+#define TACH_ASPEED_NR_TACHS		16
-+/* TACH Control Register */
-+#define TACH_ASPEED_CTRL(ch)		(((ch) * 0x10) + 0x08)
-+#define TACH_ASPEED_IER			BIT(31)
-+#define TACH_ASPEED_INVERS_LIMIT	BIT(30)
-+#define TACH_ASPEED_LOOPBACK		BIT(29)
-+#define TACH_ASPEED_ENABLE		BIT(28)
-+#define TACH_ASPEED_DEBOUNCE_MASK	GENMASK(27, 26)
-+#define TACH_ASPEED_DEBOUNCE_BIT	26
-+#define TACH_ASPEED_IO_EDGE_MASK	GENMASK(25, 24)
-+#define TACH_ASPEED_IO_EDGE_BIT		24
-+#define TACH_ASPEED_CLK_DIV_T_MASK	GENMASK(23, 20)
-+#define TACH_ASPEED_CLK_DIV_BIT		20
-+#define TACH_ASPEED_THRESHOLD_MASK	GENMASK(19, 0)
-+/* [27:26] */
-+#define DEBOUNCE_3_CLK			0x00
-+#define DEBOUNCE_2_CLK			0x01
-+#define DEBOUNCE_1_CLK			0x02
-+#define DEBOUNCE_0_CLK			0x03
-+/* [25:24] */
-+#define F2F_EDGES			0x00
-+#define R2R_EDGES			0x01
-+#define BOTH_EDGES			0x02
-+/* [23:20] */
-+/* divisor = 4 to the nth power, n = register value */
-+#define DEFAULT_TACH_DIV		1024
-+#define DIV_TO_REG(divisor)		(ilog2(divisor) >> 1)
-+
-+/* TACH Status Register */
-+#define TACH_ASPEED_STS(ch)		(((ch) * 0x10) + 0x0C)
-+
-+/*PWM_TACH_STS */
-+#define TACH_ASPEED_ISR			BIT(31)
-+#define TACH_ASPEED_PWM_OUT		BIT(25)
-+#define TACH_ASPEED_PWM_OEN		BIT(24)
-+#define TACH_ASPEED_DEB_INPUT		BIT(23)
-+#define TACH_ASPEED_RAW_INPUT		BIT(22)
-+#define TACH_ASPEED_VALUE_UPDATE	BIT(21)
-+#define TACH_ASPEED_FULL_MEASUREMENT	BIT(20)
-+#define TACH_ASPEED_VALUE_MASK		GENMASK(19, 0)
-+/**********************************************************
-+ * Software setting
-+ *********************************************************/
-+#define DEFAULT_FAN_PULSE_PR		2
-+struct aspeed_tach_channel_params {
-+	u8 pulse_pr;
-+	u32 divisor;
-+};
-+
-+struct aspeed_tach_data {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct clk *clk;
-+	struct reset_control *reset;
-+	bool tach_present[TACH_ASPEED_NR_TACHS];
-+	struct aspeed_tach_channel_params tach_channel[TACH_ASPEED_NR_TACHS];
-+	unsigned long clk_source;
-+};
-+
-+static void aspeed_tach_ch_enable(struct aspeed_tach_data *priv, u8 tach_ch,
-+				  bool enable)
-+{
-+	if (enable)
-+		regmap_set_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+				TACH_ASPEED_ENABLE);
-+	else
-+		regmap_clear_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+				  TACH_ASPEED_ENABLE);
-+}
-+
-+static u64 aspeed_tach_val_to_rpm(struct aspeed_tach_data *priv, u8 fan_tach_ch,
-+				  u32 tach_val)
-+{
-+	u64 rpm;
-+	u32 tach_div;
-+
-+	tach_div = tach_val * (priv->tach_channel[fan_tach_ch].divisor) *
-+		   (priv->tach_channel[fan_tach_ch].pulse_pr);
-+
-+	dev_dbg(priv->dev, "clk %ld, tach_val %d , tach_div %d\n",
-+		priv->clk_source, tach_val, tach_div);
-+
-+	rpm = (u64)priv->clk_source * 60;
-+	do_div(rpm, tach_div);
-+
-+	return rpm;
-+}
-+
-+static int aspeed_get_fan_tach_ch_rpm(struct aspeed_tach_data *priv,
-+				      u8 fan_tach_ch)
-+{
-+	u32 val;
-+	u64 rpm;
-+	int ret;
-+
-+	ret = regmap_read(priv->regmap, TACH_ASPEED_STS(fan_tach_ch), &val);
-+	if (ret)
-+		return ret;
-+
-+	if (!(val & TACH_ASPEED_FULL_MEASUREMENT))
-+		return 0;
-+	rpm = aspeed_tach_val_to_rpm(priv, fan_tach_ch,
-+				     val & TACH_ASPEED_VALUE_MASK);
-+
-+	return rpm;
-+}
-+
-+static int aspeed_tach_hwmon_read(struct device *dev,
-+				  enum hwmon_sensor_types type, u32 attr,
-+				  int channel, long *val)
-+{
-+	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-+	u32 reg_val;
-+	int ret;
-+
-+	switch (attr) {
-+	case hwmon_fan_input:
-+		ret = aspeed_get_fan_tach_ch_rpm(priv, channel);
-+		if (ret < 0)
-+			return ret;
-+		*val = ret;
-+		break;
-+	case hwmon_fan_div:
-+		regmap_read(priv->regmap, TACH_ASPEED_CTRL(channel), &reg_val);
-+		reg_val = FIELD_GET(TACH_ASPEED_CLK_DIV_T_MASK, reg_val);
-+		*val = BIT(reg_val << 1);
-+		break;
-+	case hwmon_fan_pulses:
-+		*val = priv->tach_channel[channel].pulse_pr;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+	return 0;
-+}
-+
-+static int aspeed_tach_hwmon_write(struct device *dev,
-+				   enum hwmon_sensor_types type, u32 attr,
-+				   int channel, long val)
-+{
-+	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-+
-+	switch (attr) {
-+	case hwmon_fan_div:
-+		if (!is_power_of_2(val) || (ilog2(val) % 2))
-+			return -EINVAL;
-+		else if (DIV_TO_REG(val) > 0xb)
-+			return -ERANGE;
-+		priv->tach_channel[channel].divisor = val;
-+		regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(channel),
-+				  TACH_ASPEED_CLK_DIV_T_MASK,
-+				  DIV_TO_REG(priv->tach_channel[channel].divisor)
-+					  << TACH_ASPEED_CLK_DIV_BIT);
-+		break;
-+	case hwmon_fan_pulses:
-+		priv->tach_channel[channel].pulse_pr = val;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static umode_t aspeed_tach_dev_is_visible(const void *drvdata,
-+					  enum hwmon_sensor_types type,
-+					  u32 attr, int channel)
-+{
-+	const struct aspeed_tach_data *priv = drvdata;
-+
-+	if (!priv->tach_present[channel])
-+		return 0;
-+	switch (attr) {
-+	case hwmon_fan_input:
-+		return 0444;
-+	case hwmon_fan_div:
-+	case hwmon_fan_pulses:
-+		return 0644;
-+	}
-+	return 0;
-+}
-+
-+static const struct hwmon_ops aspeed_tach_ops = {
-+	.is_visible = aspeed_tach_dev_is_visible,
-+	.read = aspeed_tach_hwmon_read,
-+	.write = aspeed_tach_hwmon_write,
-+};
-+
-+static const struct hwmon_channel_info *aspeed_tach_info[] = {
-+	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info aspeed_tach_chip_info = {
-+	.ops = &aspeed_tach_ops,
-+	.info = aspeed_tach_info,
-+};
-+
-+static void aspeed_create_fan_tach_channel(struct aspeed_tach_data *priv,
-+					   u32 tach_ch)
-+{
-+	priv->tach_present[tach_ch] = true;
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_INVERS_LIMIT, 0);
-+
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_DEBOUNCE_MASK,
-+			  DEBOUNCE_3_CLK << TACH_ASPEED_DEBOUNCE_BIT);
-+
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_IO_EDGE_MASK, F2F_EDGES);
-+
-+	priv->tach_channel[tach_ch].divisor = DEFAULT_TACH_DIV;
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_CLK_DIV_T_MASK,
-+			  DIV_TO_REG(priv->tach_channel[tach_ch].divisor)
-+				  << TACH_ASPEED_CLK_DIV_BIT);
-+
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_THRESHOLD_MASK, 0);
-+
-+	priv->tach_channel[tach_ch].pulse_pr = DEFAULT_FAN_PULSE_PR;
-+
-+	aspeed_tach_ch_enable(priv, tach_ch, true);
-+}
-+
-+static int aspeed_tach_create_fan(struct device *dev, struct device_node *child,
-+				  struct aspeed_tach_data *priv)
-+{
-+	u32 tach_channel;
-+	int ret;
-+
-+	ret = of_property_read_u32(child, "reg", &tach_channel);
-+	if (ret)
-+		return ret;
-+
-+	aspeed_create_fan_tach_channel(priv, tach_channel);
-+
-+	return 0;
-+}
-+
-+static void aspeed_tach_reset_assert(void *data)
-+{
-+	struct reset_control *rst = data;
-+
-+	reset_control_assert(rst);
-+}
-+
-+static int aspeed_tach_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np, *child;
-+	struct aspeed_tach_data *priv;
-+	struct device *hwmon;
-+	int ret;
-+
-+	np = dev->parent->of_node;
-+	if (!of_device_is_compatible(np, "aspeed,ast2600-pwm-tach"))
-+		return dev_err_probe(dev, -ENODEV,
-+				     "Unsupported tach device binding\n");
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+	priv->dev = &pdev->dev;
-+
-+	priv->regmap = syscon_node_to_regmap(np);
-+	if (IS_ERR(priv->regmap))
-+		return dev_err_probe(dev, PTR_ERR(priv->regmap),
-+				     "Couldn't get regmap\n");
-+
-+	priv->clk = devm_clk_get_enabled(dev->parent, NULL);
-+	if (IS_ERR(priv->clk))
-+		return dev_err_probe(dev, PTR_ERR(priv->clk),
-+				     "Couldn't get clock\n");
-+
-+	priv->clk_source = clk_get_rate(priv->clk);
-+
-+	priv->reset = devm_reset_control_get_shared(dev->parent, NULL);
-+	if (IS_ERR(priv->reset))
-+		return dev_err_probe(dev, PTR_ERR(priv->reset),
-+				     "Couldn't get reset control\n");
-+
-+	ret = reset_control_deassert(priv->reset);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Couldn't deassert reset control\n");
-+
-+	ret = devm_add_action_or_reset(dev, aspeed_tach_reset_assert,
-+				       priv->reset);
-+	if (ret)
-+		return ret;
-+
-+	for_each_child_of_node(dev->of_node, child) {
-+		ret = aspeed_tach_create_fan(dev, child, priv);
-+		if (ret) {
-+			of_node_put(child);
-+			return ret;
-+		}
-+	}
-+
-+	hwmon = devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv,
-+						     &aspeed_tach_chip_info, NULL);
-+	ret = PTR_ERR_OR_ZERO(hwmon);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to register hwmon device\n");
-+	return 0;
-+}
-+
-+static const struct of_device_id of_stach_match_table[] = {
-+	{
-+		.compatible = "aspeed,ast2600-tach",
-+	},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, of_stach_match_table);
-+
-+static struct platform_driver aspeed_tach_driver = {
-+	.probe		= aspeed_tach_probe,
-+	.driver		= {
-+		.name	= "aspeed_tach",
-+		.of_match_table = of_stach_match_table,
-+	},
-+};
-+
-+module_platform_driver(aspeed_tach_driver);
-+
-+MODULE_AUTHOR("Billy Tsai <billy_tsai@aspeedtech.com>");
-+MODULE_DESCRIPTION("Aspeed ast2600 TACH device driver");
-+MODULE_LICENSE("GPL");
--- 
-2.25.1
+PCI core (could be confused with CPU core)
+
+> PTT device. The filter value used is derived from the BDF number of the
+> supported Root Port or the Endpoint. It's not friendly enough for the
+> users since it requires the user to be familiar enough with the platform
+> and calculate the filter value manually.
+
+Could we in theory push this problem to userspace?  If so perhaps
+call out advantages / disadvantages of doing so?
+
+> 
+> This patch export the available filters through sysfs. Each available
+> filters is presented as an individual file with the name of the BDF
+> number of the related PCIe device. The files are created under
+> $(PTT PMU dir)/available_root_port_filters and
+> $(PTT PMU dir)/available_requester_filters respectively. The filter
+> value can be known by reading the related file.
+> 
+> Then the users can easily know the available filters for trace and get
+> the filter values without calculating.
+> 
+> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+A few minor editorial type comments inline
+
+Jonathan
+
+> ---
+>  .../ABI/testing/sysfs-devices-hisi_ptt        |  50 +++++
+>  Documentation/trace/hisi-ptt.rst              |   6 +
+>  drivers/hwtracing/ptt/hisi_ptt.c              | 206 ++++++++++++++++++
+>  drivers/hwtracing/ptt/hisi_ptt.h              |  14 ++
+>  4 files changed, 276 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-devices-hisi_ptt b/Documentation/ABI/testing/sysfs-devices-hisi_ptt
+> index 82de6d710266..190ed504346b 100644
+> --- a/Documentation/ABI/testing/sysfs-devices-hisi_ptt
+> +++ b/Documentation/ABI/testing/sysfs-devices-hisi_ptt
+> @@ -59,3 +59,53 @@ Description:	(RW) Control the allocated buffer watermark of outbound packets.
+>  		The available tune data is [0, 1, 2]. Writing a negative value
+>  		will return an error, and out of range values will be converted
+>  		to 2. The value indicates a probable level of the event.
+> +
+> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/root_port_filters
+> +Date:		May 2023
+> +KernelVersion:	6.5
+> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
+> +Description:	This directory contains the files providing the PCIe Root Port filters
+> +		information used for PTT trace. Each file is named after the supported
+> +		Root Port device name <domain>:<bus>:<device>.<function>.
+> +
+> +		See the description of the "filter" in Documentation/trace/hisi-ptt.rst
+> +		for more information.
+> +
+> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/root_port_filters/multiselect
+> +Date:		May 2023
+> +KernelVersion:	6.5
+> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
+> +Description:	(Read) Indicates whether this kind of filter can be multiselected
+> +		or not. 1 for multiselectable, 0 for not.
+multiselect term isn't totally clear - so I'd say exactly what it means here.
+
+	Indicates if this kind of filter can be selected at the same time as
+        others filters, or must be used on it's own.
+
+> +
+> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/root_port_filters/<bdf>
+> +Date:		May 2023
+> +KernelVersion:	6.5
+> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
+> +Description:	(Read) Indicates the filter value of this Root Port filter, which
+> +		can be used to control the TLP headers to trace by the PTT trace.
+> +
+> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/requester_filters
+> +Date:		May 2023
+> +KernelVersion:	6.5
+> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
+> +Description:	This directory contains the files providing the PCIe Requester filters
+> +		information used for PTT trace. Each file is named after the supported
+> +		Endpoint device name <domain>:<bus>:<device>.<function>.
+> +
+> +		See the description of the "filter" in Documentation/trace/hisi-ptt.rst
+> +		for more information.
+> +
+> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/requester_filters/multiselect
+> +Date:		May 2023
+> +KernelVersion:	6.5
+> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
+> +Description:	(Read) Indicates whether this kind of filter can be multiselected
+> +		or not. 1 for multiselectable, 0 for not.
+
+As above - explain multiselect using a different set of terms.
+
+> +
+> +What:		/sys/devices/hisi_ptt<sicl_id>_<core_id>/requester_filters/<bdf>
+> +Date:		May 2023
+> +KernelVersion:	6.5
+> +Contact:	Yicong Yang <yangyicong@hisilicon.com>
+> +Description:	(Read) Indicates the filter value of this Requester filter, which
+> +		can be used to control the TLP headers to trace by the PTT trace.
+> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
+> index 3641aca4287a..b8c7d71aee32 100644
+> --- a/Documentation/trace/hisi-ptt.rst
+> +++ b/Documentation/trace/hisi-ptt.rst
+> @@ -148,6 +148,12 @@ For example, if the desired filter is Endpoint function 0000:01:00.1 the filter
+>  value will be 0x00101. If the desired filter is Root Port 0000:00:10.0 then
+>  then filter value is calculated as 0x80001.
+>  
+> +The driver also presents every supported Root Port and Requester filter through
+> +sysfs. Each filter will be an individual file with name of its related PCIe
+> +device name (domain:bus:device.function). The files of Root Port filters are
+> +under $(PTT PMU dir)/root_port_filters and files of Requester filters
+> +are under $(PTT PMU dir)/requester_filters.
+> +
+>  Note that multiple Root Ports can be specified at one time, but only one
+>  Endpoint function can be specified in one trace. Specifying both Root Port
+>  and function at the same time is not supported. Driver maintains a list of
+> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
+> index 9b4acbc434b0..65f4288a1915 100644
+> --- a/drivers/hwtracing/ptt/hisi_ptt.c
+> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
+> @@ -404,6 +404,142 @@ hisi_ptt_alloc_add_filter(struct hisi_ptt *hisi_ptt, u16 devid, bool is_port)
+>  	return filter;
+>  }
+>  
+> +static ssize_t hisi_ptt_filter_show(struct device *dev, struct device_attribute *attr,
+> +				    char *buf)
+> +{
+> +	struct hisi_ptt_filter_desc *filter;
+> +	unsigned long filter_val;
+> +
+> +	filter = container_of(attr, struct hisi_ptt_filter_desc, attr);
+> +	filter_val = hisi_ptt_get_filter_val(filter->devid, filter->is_port) |
+> +		     (filter->is_port ? HISI_PTT_PMU_FILTER_IS_PORT : 0);
+> +
+> +	return sysfs_emit(buf, "0x%05lx\n", filter_val);
+> +}
+> +
+> +static int hisi_ptt_create_rp_filter_attr(struct hisi_ptt *hisi_ptt,
+> +					  struct hisi_ptt_filter_desc *filter)
+> +{
+> +	struct kobject *kobj = &hisi_ptt->hisi_ptt_pmu.dev->kobj;
+> +
+> +	filter->attr.attr.name = filter->name;
+> +	filter->attr.attr.mode = 0400; /* DEVICE_ATTR_ADMIN_RO */
+> +	filter->attr.show = hisi_ptt_filter_show;
+> +
+> +	return sysfs_add_file_to_group(kobj, &filter->attr.attr,
+> +				       HISI_PTT_RP_FILTERS_GRP_NAME);
+> +}
+> +
+> +static void hisi_ptt_remove_rp_filter_attr(struct hisi_ptt *hisi_ptt,
+> +					  struct hisi_ptt_filter_desc *filter)
+> +{
+> +	struct kobject *kobj = &hisi_ptt->hisi_ptt_pmu.dev->kobj;
+> +
+> +	sysfs_remove_file_from_group(kobj, &filter->attr.attr,
+> +				     HISI_PTT_RP_FILTERS_GRP_NAME);
+> +}
+> +
+> +static int hisi_ptt_create_req_filter_attr(struct hisi_ptt *hisi_ptt,
+> +					   struct hisi_ptt_filter_desc *filter)
+> +{
+> +	struct kobject *kobj = &hisi_ptt->hisi_ptt_pmu.dev->kobj;
+> +
+> +	filter->attr.attr.name = filter->name;
+> +	filter->attr.attr.mode = 0400; /* DEVICE_ATTR_ADMIN_RO */
+> +	filter->attr.show = hisi_ptt_filter_show;
+> +
+> +	return sysfs_add_file_to_group(kobj, &filter->attr.attr,
+> +				       HISI_PTT_REQ_FILTERS_GRP_NAME);
+> +}
+> +
+> +static void hisi_ptt_remove_req_filter_attr(struct hisi_ptt *hisi_ptt,
+> +					   struct hisi_ptt_filter_desc *filter)
+> +{
+> +	struct kobject *kobj = &hisi_ptt->hisi_ptt_pmu.dev->kobj;
+> +
+> +	sysfs_remove_file_from_group(kobj, &filter->attr.attr,
+> +				     HISI_PTT_REQ_FILTERS_GRP_NAME);
+> +}
+> +
+> +static int hisi_ptt_create_filter_attr(struct hisi_ptt *hisi_ptt,
+> +				       struct hisi_ptt_filter_desc *filter)
+> +{
+> +	int ret;
+> +
+> +	if (filter->is_port)
+> +		ret = hisi_ptt_create_rp_filter_attr(hisi_ptt, filter);
+> +	else
+> +		ret = hisi_ptt_create_req_filter_attr(hisi_ptt, filter);
+> +
+> +	if (ret)
+> +		pci_err(hisi_ptt->pdev, "failed to create sysfs attribute for filter %s\n",
+> +			filter->name);
+> +
+> +	return ret;
+> +}
+> +
+> +static void hisi_ptt_remove_filter_attr(struct hisi_ptt *hisi_ptt,
+> +					struct hisi_ptt_filter_desc *filter)
+> +{
+> +	if (filter->is_port)
+> +		hisi_ptt_remove_rp_filter_attr(hisi_ptt, filter);
+> +	else
+> +		hisi_ptt_remove_req_filter_attr(hisi_ptt, filter);
+> +}
+> +
+> +static void hisi_ptt_remove_all_filter_attributes(void *data)
+> +{
+> +	struct hisi_ptt_filter_desc *filter;
+> +	struct hisi_ptt *hisi_ptt = data;
+> +
+> +	mutex_lock(&hisi_ptt->filter_lock);
+> +
+> +	list_for_each_entry(filter, &hisi_ptt->req_filters, list)
+> +		hisi_ptt_remove_filter_attr(hisi_ptt, filter);
+> +
+> +	list_for_each_entry(filter, &hisi_ptt->port_filters, list)
+> +		hisi_ptt_remove_filter_attr(hisi_ptt, filter);
+> +
+> +	hisi_ptt->sysfs_inited = false;
+> +	mutex_unlock(&hisi_ptt->filter_lock);
+> +}
+> +
+> +static int hisi_ptt_init_filter_attributes(struct hisi_ptt *hisi_ptt)
+> +{
+> +	struct hisi_ptt_filter_desc *filter;
+> +	int ret;
+> +
+> +	mutex_lock(&hisi_ptt->filter_lock);
+> +
+> +	/*
+> +	 * Register the reset callback in the first stage. In reset we traverse
+> +	 * the filters list to remove the sysfs attributes so itself alone can
+
+"itself alone" is confusing.   Maybe "the callback"
+
+> +	 * be called safely even without below filter attributes creation work.
+> +	 */
+> +	ret = devm_add_action(&hisi_ptt->pdev->dev,
+> +			      hisi_ptt_remove_all_filter_attributes,
+> +			      hisi_ptt);
+> +	if (ret)
+> +		goto out;
+> +
+> +	list_for_each_entry(filter, &hisi_ptt->port_filters, list) {
+> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
+> +		if (ret)
+> +			goto out;
+> +	}
+> +
+> +	list_for_each_entry(filter, &hisi_ptt->req_filters, list) {
+> +		ret = hisi_ptt_create_filter_attr(hisi_ptt, filter);
+> +		if (ret)
+> +			goto out;
+> +	}
+> +
+> +	hisi_ptt->sysfs_inited = true;
+> +out:
+> +	mutex_unlock(&hisi_ptt->filter_lock);
+> +	return ret;
+> +}
+> +
+...
+
 
