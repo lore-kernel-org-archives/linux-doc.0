@@ -2,115 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E4B5C77B73
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 00:09:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADBEC7EE23
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 02:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233025AbjFFAJV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Jun 2023 20:09:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36222 "EHLO
+        id S231836AbjFFCQM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Jun 2023 22:16:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230328AbjFFAJU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 20:09:20 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E9FFA;
-        Mon,  5 Jun 2023 17:09:18 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-654f8b56807so2809326b3a.1;
-        Mon, 05 Jun 2023 17:09:18 -0700 (PDT)
+        with ESMTP id S231388AbjFFCQL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Jun 2023 22:16:11 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AFC811B
+        for <linux-doc@vger.kernel.org>; Mon,  5 Jun 2023 19:16:10 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-256931ec244so4784992a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jun 2023 19:16:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686010158; x=1688602158;
+        d=gmail.com; s=20221208; t=1686017770; x=1688609770;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z84IZvmzWip89Eeas0z1NQsVyFYK452XIFdNItStgJo=;
-        b=hrqPYRMhlf3i8gMrJ2AXc9LXwaaiJbiN9/s2TQXdJBJ80dtZzCntUtMbGD2yPaR5t5
-         69JVQjlA6r1ljlN6bELt0TBdxnRRM5Qd38lMvlwgZl3QW2RcW8IKKaMk9TI9vHddTgf0
-         zWD5mwak9jULNMU8vsOsHm3u3WdT4TsJ7yIj8yNPECuaKt4x8XSYr0GoUBgMmHdf1MLw
-         sfdoULkhA9K/77al/u3iWAO4LxhuwtSxgJWqZyjLUn4wFOt0+Q7XPZ9OM9pTDsfrHgmU
-         gtIxFiWJyF/Cbg4jEBFUi2UoSQBYmOzRMzPIWY0nKZK+LtC4TqdUOZnq6RqFg6/7PBfS
-         OzNg==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C5XyoZjWsuOCRV87SUXSoI1z8iAmtIIbTjGmQ4j3EJ8=;
+        b=hdWbrRa4Fi5VSH7GYleswA8LBDhJHmZd2cT5dzDxy9OF3VeBcM3dDqjToGMmjW4lo8
+         3qE4CEiizuk8qjEV+jlnQ/lt7n02FBQQhdgSGvcPW9NUZf5va8X62VJvpV+5KicZ1V3Q
+         6z/hpUb1dbmrbOeEs9Tm93w4ue+tXNqkBXNYohXN8YMpZaKjjxKBI3lOXjs8Juy5FG4h
+         uODdthiGP5jhQKzgWTivXeXBzuIICMES1BnmGf04NxDwosGevlT/d/gdI3sJeAXWVjMo
+         t2xxTa9wbYvUKA8S+BYD1u+WLhp3axp4CYZBuqX+wyuggQvrjkXYxrlPnQZ5q+ZgLARh
+         EHgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686010158; x=1688602158;
+        d=1e100.net; s=20221208; t=1686017770; x=1688609770;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z84IZvmzWip89Eeas0z1NQsVyFYK452XIFdNItStgJo=;
-        b=T8RzcR88rc/U6LZmeoRYq0G14f/HBeuTkzTVWtavgj9LZs3Y0WL1fC4nTtNvDT7ikB
-         vtXkSe18O0VF07oshLRuLj93hCMekYuOg7wUBKz4K43MTmcFnpCmMjGbfTxBp/kLuv2k
-         imGww3wR9sY1qSR7rJ/5IfvhFSC3HqeGIA/Z3EzsiEWQf5Lc51vELSxJVEY3i1tSWUQf
-         pq3U5jHU4eKaFblw/DOX7nNLBkvhzFs+Y+pf4FY8E42tGLqqjstLVBe9L+bmStgDcHwX
-         5n9rdjku/u0105NVgWrmwjLIg1LjGxTbfDIxtmCqqzfQXcfNHjcN+F+4lePDk6eBG2Po
-         3H9g==
-X-Gm-Message-State: AC+VfDxH761OxAe+Az1rS1RgKN7OxdSh0jMqBtvmv6S/5n1KatKisPWB
-        WH/Ly5CJD8bfaHHXYbXKltXL+w419w0=
-X-Google-Smtp-Source: ACHHUZ4J0kaXrsmCfj5YsGenu5P3xx5lgX4AqWKOx6ZSv3+F0vXh8bd+gjZiBDMlgN8LucBN8KtSFg==
-X-Received: by 2002:a05:6a20:7487:b0:10b:3b0d:b05c with SMTP id p7-20020a056a20748700b0010b3b0db05cmr773322pzd.28.1686010157419;
-        Mon, 05 Jun 2023 17:09:17 -0700 (PDT)
-Received: from localhost (dhcp-72-235-13-41.hawaiiantel.net. [72.235.13.41])
-        by smtp.gmail.com with ESMTPSA id x7-20020aa793a7000000b006475f831838sm5741516pff.30.2023.06.05.17.09.16
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C5XyoZjWsuOCRV87SUXSoI1z8iAmtIIbTjGmQ4j3EJ8=;
+        b=g54CKWIn5G0wuWqsZIZtf1HN75zjLan4LMSprCQsLPrx8DWvKmx+OB+VtYHyvp9vJ+
+         0U3yG2THiwCIaNmgW7zTOaIslrxPgVVWz52Hty0I5HfSXeamKaBd2sjjY/CWUS/oX9vF
+         uKhMPafq72+3okwZJfkRWwKIADW/EG6VGjUluuzTGndRFyDBvApaRvsB00VQVPoBnQuY
+         td7ccO+Ivs2H+lM0bApbgB3gS35h6IU1tri4tyt/DnNVrXdwBHzEzR06Mh3u5NWmLAva
+         QOwp9GQQDk3t6Bm76ZiFSPJGC2UKEjsIRXKRWfcASHGzriK6qsBB8DNg2lXNj7Q+c5ZA
+         N5pg==
+X-Gm-Message-State: AC+VfDxFijcNUIddeMDRSfU9pGuZ01HOnnN8jSKEkIC8N4X1GNHFhwTz
+        c7N4Pn3KgiL+xg8A8j7G8bg=
+X-Google-Smtp-Source: ACHHUZ5N9RU4fhFUW5Lc67Fb7VuqKmhcmQPducBgOZuXThdKJqR83I91aNFur900MA4NmiMh3ZWtBA==
+X-Received: by 2002:a17:90a:1a11:b0:255:a1d9:4486 with SMTP id 17-20020a17090a1a1100b00255a1d94486mr641168pjk.1.1686017769632;
+        Mon, 05 Jun 2023 19:16:09 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-36.three.co.id. [116.206.28.36])
+        by smtp.gmail.com with ESMTPSA id gf18-20020a17090ac7d200b00256b9d26a2bsm8318745pjb.44.2023.06.05.19.16.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jun 2023 17:09:16 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 5 Jun 2023 14:09:15 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Dan Schatzberg <schatzberg.dan@gmail.com>
-Cc:     Chris Down <chris@chrisdown.name>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: Clarify usage of memory limits
-Message-ID: <ZH55K79CaSD6Zya1@slm.duckdns.org>
-References: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
+        Mon, 05 Jun 2023 19:16:09 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id CB2161069FD; Tue,  6 Jun 2023 09:16:04 +0700 (WIB)
+Date:   Tue, 6 Jun 2023 09:16:03 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Russell Harmon <eatnumber1@gmail.com>
+Cc:     mpatocka@redhat.com, snitzer@redhat.com, dm-devel@redhat.com,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] Document dm-integrity default values.
+Message-ID: <ZH6W4yegFI1ioMzt@debian.me>
+References: <CA+zrezTegR8jHQA3MNM6WnfFU_RP4=fiCuk6WgwJZsjZ2PYUSw@mail.gmail.com>
+ <20230604190604.4800-1-eatnumber1@gmail.com>
+ <20230604190604.4800-4-eatnumber1@gmail.com>
+ <ZH1TmkyVJbIlNUEE@debian.me>
+ <875y82yre1.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="M9h4JANILIPQgPJG"
 Content-Disposition: inline
-In-Reply-To: <20230601183820.3839891-1-schatzberg.dan@gmail.com>
+In-Reply-To: <875y82yre1.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
 
-On Thu, Jun 01, 2023 at 11:38:19AM -0700, Dan Schatzberg wrote:
-> The existing documentation refers to memory.high as the "main mechanism
-> to control memory usage." This seems incorrect to me - memory.high can
-> result in reclaim pressure which simply leads to stalls unless some
-> external component observes and actions on it (e.g. systemd-oomd can be
-> used for this purpose). While this is feasible, users are unaware of
-> this interaction and are led to believe that memory.high alone is an
-> effective mechanism for limiting memory.
-> 
-> The documentation should recommend the use of memory.max as the
-> effective way to enforce memory limits - it triggers reclaim and results
-> in OOM kills by itself.
-> 
-> Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
+--M9h4JANILIPQgPJG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied to cgroup/for-6.4-fixes. Please see below for a comment tho.
+On Mon, Jun 05, 2023 at 07:23:34AM -0600, Jonathan Corbet wrote:
+> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+>=20
+> > On Sun, Jun 04, 2023 at 12:06:03PM -0700, Russell Harmon wrote:
+> >> Specifically:
+> >>   interleave_sectors =3D 32768
+> >>   buffer_sectors =3D 128
+> >>   block_size =3D 512
+> >>   journal_watermark =3D 50
+> >>   commit_time =3D 10000
+> >
+> > Your patch description duplicates the diff content below. Please write
+> > in a mood that evocates curiosity to read the diff (and make sure it is
+> > also imperative).
+>=20
+> Bagas, this is a typo-fix patch.  It does not need to be nitpicked into
+> the ground.
+>=20
+> Russell, Bagas is inadvertently teaching you another lesson about the
+> kernel development community; it includes a certain number of people who
+> like to push contributors around with authoritative-sounding messages.
+> These people do not always need to be listened to.
 
-> @@ -1213,23 +1213,25 @@ PAGE_SIZE multiple when read back.
->  	A read-write single value file which exists on non-root
->  	cgroups.  The default is "max".
->  
-> -	Memory usage throttle limit.  This is the main mechanism to
-> -	control memory usage of a cgroup.  If a cgroup's usage goes
-> +	Memory usage throttle limit.  If a cgroup's usage goes
->  	over the high boundary, the processes of the cgroup are
->  	throttled and put under heavy reclaim pressure.
->  
->  	Going over the high limit never invokes the OOM killer and
-> -	under extreme conditions the limit may be breached.
-> +	under extreme conditions the limit may be breached. The high
-> +	limit should be used in scenarios where an external process
-> +	monitors the limited cgroup to alleviate heavy reclaim
-> +	pressure.
+OK, thanks for the tip again!
 
-I think it'd be helpful to provide pointers to oomd and systemd's
-implementation of it here.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Thanks.
+--M9h4JANILIPQgPJG
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-tejun
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZH6W4wAKCRD2uYlJVVFO
+o+HiAQClaUBtBehl8TpkH8yaVIXPPll/LkDnss0br3iiXPCjFAD/XUI9GPV0AyGM
+9q7MPwXm/t0Xxn84QJSh1OtLXeSHUw8=
+=b2Ha
+-----END PGP SIGNATURE-----
+
+--M9h4JANILIPQgPJG--
