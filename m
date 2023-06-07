@@ -2,118 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17003C7EE23
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jun 2023 08:56:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A602BC77B7A
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jun 2023 09:32:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239705AbjFGI4d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jun 2023 04:56:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54630 "EHLO
+        id S240088AbjFGJc5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jun 2023 05:32:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239616AbjFGI4L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 04:56:11 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B24D1BCB
-        for <linux-doc@vger.kernel.org>; Wed,  7 Jun 2023 01:55:13 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-5169f920a9dso465087a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jun 2023 01:55:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686128112; x=1688720112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RTpA5qOAPRS8MQZfyN8Ss9cXLKE3reuQWNe17eVOs98=;
-        b=D2ESwCvV3EMJ4Ca9Xo0YrNr2h8zDu3w8UAFRDTvjKd+CzOHysYAMrUv95WmgXW6pef
-         PsKk6OT+GE3LhG59KbziqQ8SX2zQaEPT9u8GVDR84WIwdNAJaeEZI0k91AdVnjG4fkba
-         7QfIE+0YEtfGCqwMJjmHD0uUn7sG3yGccZKVA9w7gvuWa2pSa7UzCkUG/q57UumGb1EA
-         4OKi4guQJOqGhlKfXqujVgAzpzyCQ7hJotGxoUFQ9FHVd4N13KRLYrRg+JJE1C5Pxxon
-         yqRiF+kOeMILJ7ArRRRzkzEFaxvUjTteQsnxlZPRwwLMcnLuFClt6rOtK1yjIsDrIlmd
-         ftfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686128112; x=1688720112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RTpA5qOAPRS8MQZfyN8Ss9cXLKE3reuQWNe17eVOs98=;
-        b=KMIw9h4oyecSbuIkRtyOqUFfYti3EJg0qAcAA/GptpryboYYIicJiLQnWxE7BZ1kfe
-         La/XGQsYps4hmvN6onmqbHxTbn8RZBKvv7J3g8lguwR2usEGUITP1SlphUCB6gBiVDd9
-         xN23GVM5SYhuh7GTDt3KPCuHujwajEp2Aj61q/ZSfpTrenFFG/AHU6uAG/0NJH+nuK6Q
-         AKVe9zxLwSFQm9FZ2ITua/lxxB88REGA5+xWmTuTgrI1U9+WJ36+rCTC0EwFY4bLCebN
-         XJA9jxU8vjiXoOQbdgwXucn2eH5SUbmwbvQWUZk/VuGFqBp7TbmIM0oB/jLRyLwKUgCL
-         rFGA==
-X-Gm-Message-State: AC+VfDxdzWESneh3PZphHZIBmJtrugpdw/vfiuggUq8I4P+yWxVP+YEB
-        LVPbHTIsReO6VnkdMPx4x9qaJQ==
-X-Google-Smtp-Source: ACHHUZ68EljsPgkNMfLt/pjzYCbcf3rch3Eqf0hQ739bCBHvP3l1XP1YD46PoScoXp1Rg3YgbqRIWg==
-X-Received: by 2002:aa7:c59a:0:b0:514:9e47:4319 with SMTP id g26-20020aa7c59a000000b005149e474319mr4990483edq.5.1686128111991;
-        Wed, 07 Jun 2023 01:55:11 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id u6-20020aa7d0c6000000b0050488d1d376sm5951735edo.0.2023.06.07.01.55.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 01:55:11 -0700 (PDT)
-Message-ID: <c8fe71a4-f8bb-d0a5-a227-14040fa024a9@linaro.org>
-Date:   Wed, 7 Jun 2023 10:55:08 +0200
+        with ESMTP id S239537AbjFGJcz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 05:32:55 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 010431720;
+        Wed,  7 Jun 2023 02:32:53 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QbhrY6sgPzLqYS;
+        Wed,  7 Jun 2023 17:29:49 +0800 (CST)
+Received: from localhost.localdomain (10.50.163.32) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Wed, 7 Jun 2023 17:32:51 +0800
+From:   Yicong Yang <yangyicong@huawei.com>
+To:     <mathieu.poirier@linaro.org>, <suzuki.poulose@arm.com>,
+        <jonathan.cameron@huawei.com>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC:     <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
+        <linux-pci@vger.kernel.org>, <prime.zeng@huawei.com>,
+        <linuxarm@huawei.com>, <yangyicong@hisilicon.com>
+Subject: [PATCH v5 1/5] hwtracing: hisi_ptt: Factor out filter allocation and release operation
+Date:   Wed, 7 Jun 2023 17:31:19 +0800
+Message-ID: <20230607093123.51421-2-yangyicong@huawei.com>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20230607093123.51421-1-yangyicong@huawei.com>
+References: <20230607093123.51421-1-yangyicong@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [v5 3/5] dt-bindings: mfd: Add aspeed pwm-tach binding
-Content-Language: en-US
-To:     Billy Tsai <billy_tsai@aspeedtech.com>,
-        Patrick Williams <patrick@stwcx.xyz>
-Cc:     "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20230606094535.5388-1-billy_tsai@aspeedtech.com>
- <20230606094535.5388-4-billy_tsai@aspeedtech.com>
- <35bf0a69-bcf6-ae35-eb3c-e74cfcf9c571@linaro.org>
- <ZH89fXknZlhGmM_H@heinlein.vulture-banana.ts.net>
- <c28f963e-d13c-6b5c-c389-996e986f81d5@linaro.org>
- <SG2PR06MB33652E18980E9CF8E4F0894D8B53A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SG2PR06MB33652E18980E9CF8E4F0894D8B53A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.50.163.32]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/06/2023 08:26, Billy Tsai wrote:
->         >>
->         >> He felt what he was trying to accomplish met the documented
->         >> expectations.  Are there some changes that need to be done in mfd.txt to
->         >> further clarify when to use it and when not to?
-> 
->         > I think mfd.txt clearly states:
->         > "For more complex devices, when the nexus driver has to
->         > probe registers to figure out what child devices exist etc, this should
->         > not be used. In the latter case the child devices will be determined by
->         > the operating system."
-> 
-> About the mfd:
-> For our pwm and tach devices, there is no need to check/apply any hardware register from parent to determine child’s existence or functional.
-> They don’t have any dependency on the parent node. In fact, it doesn’t require a specific driver to bind with the "aspeed,ast2600-pwm-tach" label. Their purpose is solely to share the same clock, reset phandle and base address. The main reason for using simple-mfd in this case is because these two independent devices share the same base address.
+From: Yicong Yang <yangyicong@hisilicon.com>
 
-Actually one more thoughts. I have doubt that you have two independent
-devices. If you share the clock, reset line and register address space,
-this means *you do not have two independent devices*.
+Factor out the allocation and release of filters. This will make it easier
+to extend and manage the function of the filter.
 
-You have most likely only one device.
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+---
+ drivers/hwtracing/ptt/hisi_ptt.c | 63 ++++++++++++++++++++------------
+ 1 file changed, 39 insertions(+), 24 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
+index 30f1525639b5..548cfef51ace 100644
+--- a/drivers/hwtracing/ptt/hisi_ptt.c
++++ b/drivers/hwtracing/ptt/hisi_ptt.c
+@@ -354,6 +354,39 @@ static int hisi_ptt_register_irq(struct hisi_ptt *hisi_ptt)
+ 	return 0;
+ }
+ 
++static void hisi_ptt_del_free_filter(struct hisi_ptt *hisi_ptt,
++				      struct hisi_ptt_filter_desc *filter)
++{
++	list_del(&filter->list);
++	kfree(filter);
++}
++
++static struct hisi_ptt_filter_desc *
++hisi_ptt_alloc_add_filter(struct hisi_ptt *hisi_ptt, struct pci_dev *pdev)
++{
++	struct hisi_ptt_filter_desc *filter;
++
++	filter = kzalloc(sizeof(*filter), GFP_KERNEL);
++	if (!filter) {
++		pci_err(hisi_ptt->pdev, "failed to add filter for %s\n",
++			pci_name(pdev));
++		return NULL;
++	}
++
++	filter->devid = PCI_DEVID(pdev->bus->number, pdev->devfn);
++	filter->is_port = pci_pcie_type(pdev) == PCI_EXP_TYPE_ROOT_PORT;
++	if (filter->is_port) {
++		list_add_tail(&filter->list, &hisi_ptt->port_filters);
++
++		/* Update the available port mask */
++		hisi_ptt->port_mask |= hisi_ptt_get_filter_val(filter->devid, true);
++	} else {
++		list_add_tail(&filter->list, &hisi_ptt->req_filters);
++	}
++
++	return filter;
++}
++
+ static int hisi_ptt_init_filters(struct pci_dev *pdev, void *data)
+ {
+ 	struct pci_dev *root_port = pcie_find_root_port(pdev);
+@@ -374,23 +407,9 @@ static int hisi_ptt_init_filters(struct pci_dev *pdev, void *data)
+ 	 * should be partial initialized and users would know which filter fails
+ 	 * through the log. Other functions of PTT device are still available.
+ 	 */
+-	filter = kzalloc(sizeof(*filter), GFP_KERNEL);
+-	if (!filter) {
+-		pci_err(hisi_ptt->pdev, "failed to add filter %s\n", pci_name(pdev));
++	filter = hisi_ptt_alloc_add_filter(hisi_ptt, pdev);
++	if (!filter)
+ 		return -ENOMEM;
+-	}
+-
+-	filter->devid = PCI_DEVID(pdev->bus->number, pdev->devfn);
+-
+-	if (pci_pcie_type(pdev) == PCI_EXP_TYPE_ROOT_PORT) {
+-		filter->is_port = true;
+-		list_add_tail(&filter->list, &hisi_ptt->port_filters);
+-
+-		/* Update the available port mask */
+-		hisi_ptt->port_mask |= hisi_ptt_get_filter_val(filter->devid, true);
+-	} else {
+-		list_add_tail(&filter->list, &hisi_ptt->req_filters);
+-	}
+ 
+ 	return 0;
+ }
+@@ -400,15 +419,11 @@ static void hisi_ptt_release_filters(void *data)
+ 	struct hisi_ptt_filter_desc *filter, *tmp;
+ 	struct hisi_ptt *hisi_ptt = data;
+ 
+-	list_for_each_entry_safe(filter, tmp, &hisi_ptt->req_filters, list) {
+-		list_del(&filter->list);
+-		kfree(filter);
+-	}
++	list_for_each_entry_safe(filter, tmp, &hisi_ptt->req_filters, list)
++		hisi_ptt_del_free_filter(hisi_ptt, filter);
+ 
+-	list_for_each_entry_safe(filter, tmp, &hisi_ptt->port_filters, list) {
+-		list_del(&filter->list);
+-		kfree(filter);
+-	}
++	list_for_each_entry_safe(filter, tmp, &hisi_ptt->port_filters, list)
++		hisi_ptt_del_free_filter(hisi_ptt, filter);
+ }
+ 
+ static int hisi_ptt_config_trace_buf(struct hisi_ptt *hisi_ptt)
+-- 
+2.24.0
 
