@@ -2,102 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F106FC7EE29
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jun 2023 14:15:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1723C7EE25
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jun 2023 14:28:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235922AbjFGOPp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jun 2023 10:15:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48824 "EHLO
+        id S239988AbjFGO20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jun 2023 10:28:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240039AbjFGOPo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 10:15:44 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C7888E;
-        Wed,  7 Jun 2023 07:15:41 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id F272E5C01FA;
-        Wed,  7 Jun 2023 10:15:40 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 07 Jun 2023 10:15:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tycho.pizza; h=
-        cc:cc:content-transfer-encoding:content-type:date:date:from:from
-        :in-reply-to:message-id:mime-version:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1686147340; x=1686233740; bh=kV54xPBWSO
-        6jMRDaa0Nz4NRiwXl2hA/6yyw97A8fySA=; b=rClrL9xg4oWeWdx/QDG/GMl+D5
-        s3uH/2yHFup5Hylu3zYmRHQZ/U/cvBlMdWHKXV8dlV1CW1RhGLxP84FokE+Y0Pte
-        sE15lwqmlAAYLFyoasuLnrt2fc9scdIL1Uk/kHoR+Au4V6OnyHTEFDd2ciOv4oH/
-        ivQ+++TAQhFFXzF8CEu6ryudeCCTg4cQONoo6egJ0+1Vg6neEVb5cY/9N25N1WI6
-        ItjHcqufcgbe3L3Y2D3rhgr1cKAnMuOXS02MXESLlSxZC326oHHGxaxJpKjtsmyi
-        ljxLXOK57IoaUq0mERgzQF4rFXkViqyCyR1JR6o1nnhBTLaEVGbXfaXX2jgQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:message-id:mime-version:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1686147340; x=1686233740; bh=kV54xPBWSO6jM
-        RDaa0Nz4NRiwXl2hA/6yyw97A8fySA=; b=mQ7UPclt+8YsRjJ8OMuoVy7mZbEV1
-        t6VKMJi46vysfr7Q0T6qc3h1e/5npznxqQoIwi3sKhqPSB4EvPJQ8p/qMD1bmhxn
-        MvGjkVeaZvY37venlZH1IuzRnx9nkCDYuFemnq3Q1NU4uFvFnlH36I4+MfCnq+pz
-        /sZuvZslYssOTHjPCfCB+WG9t3l24nX4W6D/WZdn9fTeUOwoB+ZGnJyi7UN8MdK1
-        KEZsRjiZyiaXHnMkF65mrayWrNi0j3cAKYRD3yFc6xX2bZi/AalhsmDLoAwB0JFR
-        sDhdbBQ/M0dZgB2u6d9sdC5LrkXEx396Ckf6xLoBsaSvLEOHFB8YYLewA==
-X-ME-Sender: <xms:DJGAZE-DQAzuL8l8JyKcPTzZZR0lTkuyXsJzXwvMZLIpKHLjJU85rA>
-    <xme:DJGAZMv-OgThk8SzwGoovDsg4OWsxNqno3ImlTlb_QwO61b0IBwqrcfO1IQ_lzo5k
-    57j1vyrQOekovPT8gw>
-X-ME-Received: <xmr:DJGAZKA2jbKIC4B7tE7LoKaXMYLUviVsnjPuXgve9ewbvryAuT2_lz6rkVVhNsZcwYKnU_mn>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedtgedgjeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepvfihtghhohcu
-    tehnuggvrhhsvghnuceothihtghhohesthihtghhohdrphhiiiiirgeqnecuggftrfgrth
-    htvghrnhepheeffeehleeftdfgjeegheelieefvdfghfeuudeuheehuefhhffhtefhiedv
-    geegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepth
-    ihtghhohesthihtghhohdrphhiiiiirg
-X-ME-Proxy: <xmx:DJGAZEdul0Wf-CGFYbs6muLf3RGIh39JpPTBeUjuay8fSb2LRm2eEg>
-    <xmx:DJGAZJOCRSZt7jHq19Wq8SqqcLEguZUAZ3siM9A5nev-RBBKWQZI9w>
-    <xmx:DJGAZOlGUxm-9rlydG_ORy9-hIU_rlhhv_Fk1jp3Q8Z9LUTrma5zCQ>
-    <xmx:DJGAZM08tfyy-gdiPMhj99OLtffOd2qlu0z0KT0fek4ENShuVwPNqA>
-Feedback-ID: i21f147d5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jun 2023 10:15:39 -0400 (EDT)
-From:   Tycho Andersen <tycho@tycho.pizza>
-To:     "Paul E . McKenney" <paulmck@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tycho Andersen <tycho@tycho.pizza>,
-        Tycho Andersen <tandersen@netflix.com>
-Subject: [PATCH] documentation/rcu: fix typo
-Date:   Wed,  7 Jun 2023 08:15:21 -0600
-Message-Id: <20230607141521.539828-1-tycho@tycho.pizza>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S235633AbjFGO2Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 10:28:25 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413F4BA
+        for <linux-doc@vger.kernel.org>; Wed,  7 Jun 2023 07:28:24 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1b0218c979cso42273485ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jun 2023 07:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686148104; x=1688740104;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IYxLrENoa6fLzoq9JCLGKKY3HqSTatxxb13DcYAiDNU=;
+        b=sNs96nbrvSU7ztAkj2PgjW4O8Nhl07ZErpP+5V2m4yuVFNX+u5I9xBAAlBfsFI98Df
+         hkdCqf7vZy6iVYC+P5NisaDEiEX2/knCYc0qYU+GewBuz/VsBD/HXgq2g6pPQ6MqBVCa
+         BScDKXSglppLY87ZW+C1HHe3Qd++mheAGdMmaBHVkRSYR0pyrkuyJuKfmzJ+mEmJ8OH7
+         h3BJmZC8qsOPHVw/4Q7xT6X1n/kR81v7ThL3hc8VaSjReqwm1p/+kJds1Zh/V9rua1Bz
+         NPhLJPCE05PK9Fx8jmrWfNraeMm+hOpf0ot5Sa/IuXABwarqxWODY/YwRBR/DLhHx/BJ
+         +lSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686148104; x=1688740104;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IYxLrENoa6fLzoq9JCLGKKY3HqSTatxxb13DcYAiDNU=;
+        b=PYCJnmEmdLeHWcpBf/v8w65OirL4FxcXNIWZVv6CtgGJa55P1uOX8T2rhnJlLWRyRw
+         UU3AnVgRvZJSnueoRoz3o9Ost79Ton1n4D3ZHivYTjvUuBjeAWKP2Met8VR00sMEq/I7
+         GNgTrvi9ECi8l/JJY4NQKc8gaYhLRhsTfMQg+t2zzKnCD2y2n1EEJO92vPNpIFTKe20I
+         QohO3FQdNj0+e6KsbEZ78HT0bybCTmmJRwgeD+VDDrwO09bfSqV88y4BFvEUdKHgxXI6
+         h1nG2Pkj7zZpipe0ZFLkV1U8Ny+Z0emdwQ9M4PgQ1xE8Qgmv6qBg7ZSCQd+ljv+LIbWf
+         Qf6w==
+X-Gm-Message-State: AC+VfDxeAzzjLqwWD0IT41tl7MJPe6FR2eoFqEqYSMnoRcSMUfr/ME6B
+        sbMVghgRFsPZPcSZXyA+GLEl2Q==
+X-Google-Smtp-Source: ACHHUZ5y4pMevhd0x2TrN/nddMvUrM4tc1Xl58HsNIvNlQeORsX5Iark0cvZM4OCCotdBTKpA/jszA==
+X-Received: by 2002:a17:903:1207:b0:1aa:feca:b616 with SMTP id l7-20020a170903120700b001aafecab616mr4706557plh.65.1686148103713;
+        Wed, 07 Jun 2023 07:28:23 -0700 (PDT)
+Received: from [100.64.100.6] ([199.101.192.34])
+        by smtp.gmail.com with ESMTPSA id u4-20020a170902e5c400b001ae5d21f760sm10494093plf.146.2023.06.07.07.28.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 07:28:23 -0700 (PDT)
+Message-ID: <4f5316cf-f6e8-2016-d29a-f0cc6cc75c8b@linaro.org>
+Date:   Wed, 7 Jun 2023 22:28:11 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.11.0
+Subject: Re: [PATCH] Documentation: uacce: Add doc title
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Zaibo Xu <xuzaibo@huawei.com>
+Cc:     Linux Accelerators <linux-accelerators@lists.ozlabs.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>
+References: <20230606132911.37137-2-bagasdotme@gmail.com>
+From:   Zhangfei Gao <zhangfei.gao@linaro.org>
+In-Reply-To: <20230606132911.37137-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tycho Andersen <tandersen@netflix.com>
 
-Signed-off-by: Tycho Andersen <tandersen@netflix.com>
----
- Documentation/RCU/lockdep-splat.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+在 2023/6/6 21:29, Bagas Sanjaya 写道:
+> There isn't page title on Uacce documentation, which causes all of its
+> sections to be listed in table of contents for miscellaneous devices as
+> separate titles (since there is only section headings).
+>
+> Add the proper title.
+>
+> Fixes: aa017ab97a223d ("uacce: Add documents for uacce")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-diff --git a/Documentation/RCU/lockdep-splat.rst b/Documentation/RCU/lockdep-splat.rst
-index 2a5c79db57dc..bcbc4b3c88d7 100644
---- a/Documentation/RCU/lockdep-splat.rst
-+++ b/Documentation/RCU/lockdep-splat.rst
-@@ -10,7 +10,7 @@ misuses of the RCU API, most notably using one of the rcu_dereference()
- family to access an RCU-protected pointer without the proper protection.
- When such misuse is detected, an lockdep-RCU splat is emitted.
- 
--The usual cause of a lockdep-RCU slat is someone accessing an
-+The usual cause of a lockdep-RCU splat is someone accessing an
- RCU-protected data structure without either (1) being in the right kind of
- RCU read-side critical section or (2) holding the right update-side lock.
- This problem can therefore be serious: it might result in random memory
 
-base-commit: a4d7d701121981e3c3fe69ade376fe9f26324161
--- 
-2.34.1
+Thanks Bagas
 
+Acked-by: Zhangfei Gao <zhangfei.gao@linaro.org>
+
+
+./scripts/checkpatch.pl reports a warning.
+
+WARNING: Please use correct Fixes: style 'Fixes: <12 chars of sha1> 
+("<title line>")' - ie: 'Fixes: aa017ab97a22 ("uacce: Add documents for 
+uacce")'
+#12:
+Fixes: aa017ab97a223d ("uacce: Add documents for uacce")
+
+Thanks
+
+
+> ---
+>   Documentation/misc-devices/uacce.rst | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/Documentation/misc-devices/uacce.rst b/Documentation/misc-devices/uacce.rst
+> index 1db412e9b1a380..8c536b84167cbf 100644
+> --- a/Documentation/misc-devices/uacce.rst
+> +++ b/Documentation/misc-devices/uacce.rst
+> @@ -1,5 +1,9 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> +========================================================
+> +Unified/User-space-access-intended Accelerator Framework
+> +========================================================
+> +
+>   Introduction of Uacce
+>   ---------------------
+>   
+>
+> base-commit: 9561de3a55bed6bdd44a12820ba81ec416e705a7
