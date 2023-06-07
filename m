@@ -2,96 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFAEC7EE25
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jun 2023 17:07:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B51CC7EE25
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jun 2023 17:34:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbjFGRHG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jun 2023 13:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44930 "EHLO
+        id S232100AbjFGRe3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jun 2023 13:34:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231151AbjFGRHE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 13:07:04 -0400
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693371FC2;
-        Wed,  7 Jun 2023 10:07:03 -0700 (PDT)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1b02497f4cfso39071405ad.3;
-        Wed, 07 Jun 2023 10:07:03 -0700 (PDT)
+        with ESMTP id S231755AbjFGReU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 13:34:20 -0400
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5152B26AB;
+        Wed,  7 Jun 2023 10:33:58 -0700 (PDT)
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-33b3f679cafso5088075ab.1;
+        Wed, 07 Jun 2023 10:33:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686157623; x=1688749623;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=505T6N7yolcBjOfAxvT9wkjvITv0vcGHyeXuGtzFDfs=;
-        b=Fm7Qs5xAkRb53Yr2g4Lm5o2OLpPM73XgGA63V6m+1KnjXvntTG96EG5M32X1QPYZkF
-         Ilk4oWDCrQKOJqpDd0sbg0dUEqgYb+WYTv42teHbIXl+bqy9BJ83BBZQtGDt2t8it0bq
-         iOoYGojKc+wiYNQNTfWNowyDpQiVt84kIGyPalxdX2tRtoayDHdTPazIpBbiLb4D3D8C
-         eZgitGe2HPMBETj7UzdonKdeybw7bZU/sdStHe0sFZz1Ong+0Q0T2bToDFLmn//T+PW+
-         0gvqzHwLHRdOSnIaZGpZw6x9vlpKcwt4Q8OA5pZmM2fErYYSvIKwlo9VNh7COZzKajix
-         cvyw==
-X-Gm-Message-State: AC+VfDwXsC0P/LdGuB+nFMsTIAg7PoqAUQCL9PQIF0zByKkXQ/DkOASs
-        9mx0+F3GS1ZDxhw2NTENSLU=
-X-Google-Smtp-Source: ACHHUZ6mZAtaQU022XtjO6NH0ithDH8YOqSyrY2Mmgzn8U7Z2fxNC8LwGJafFGYT3z5tZEfD2rls7A==
-X-Received: by 2002:a17:902:f545:b0:1af:fe12:4e18 with SMTP id h5-20020a170902f54500b001affe124e18mr3360049plf.20.1686157622600;
-        Wed, 07 Jun 2023 10:07:02 -0700 (PDT)
-Received: from [192.168.3.219] ([98.51.102.78])
-        by smtp.gmail.com with ESMTPSA id e11-20020a170902b78b00b001afa7040a70sm10659096pls.276.2023.06.07.10.07.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 10:07:01 -0700 (PDT)
-Message-ID: <e9b8b9c5-f400-9152-0f4b-537b05203dd2@acm.org>
-Date:   Wed, 7 Jun 2023 10:07:00 -0700
+        d=1e100.net; s=20221208; t=1686159236; x=1688751236;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ifvHsSrfgeIcTvAsIeYExAkFBsAsOW3wN6CFaDak0ak=;
+        b=Iv9bSay5LS2kEPuZiwndx4ovET+jzVprAMMcEE74kVKT9vHcwqYdcKp0Pw9eHDlSx+
+         FrOWAtlrh7xdsklTvrT1VMxyixW+rziNLA4/idBY2BvE/22YPq5m2J+Gdl9FXbtGETDv
+         6nhAY7Z4Wui8uNxQF51FycPv98bfkBiNycWLYQkMKV/NFqGEo7dmCs8p2Tj8LfcBen4K
+         UQPBcZ26tKYTpGBJ/cTXW7ffYljHqSHgV/yEji+yZzZiH9fd7MreQDjkC/0wYJj7fE7S
+         cs5UAK3jqfr9qzF8gkhrNeeHIoQGO6WeBf5gNfovbq2eIGJ3/wAyrCwMRM6fWVwiot3Y
+         eEhA==
+X-Gm-Message-State: AC+VfDz55y5D65L9ZO4VLq0gyYCQ79Ghb6+3WuRPye5tv/U4GyYOMLkx
+        loP86ibJDtGmX105QpVmTQ==
+X-Google-Smtp-Source: ACHHUZ4oOXRGnUSWhKStEGpwOqs79jvUdrL1G7Py5e078ZLrAaLBYtTFxhYdiixTt+hgpUmdJe1eZg==
+X-Received: by 2002:a05:6e02:803:b0:33e:5b02:17ce with SMTP id u3-20020a056e02080300b0033e5b0217cemr955193ilm.24.1686159236017;
+        Wed, 07 Jun 2023 10:33:56 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id b3-20020a05663801a300b004161a1fbb06sm3601911jaq.121.2023.06.07.10.33.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 10:33:55 -0700 (PDT)
+Received: (nullmailer pid 3608594 invoked by uid 1000);
+        Wed, 07 Jun 2023 17:33:51 -0000
+Date:   Wed, 7 Jun 2023 11:33:51 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Lee Jones <lee@kernel.org>
+Cc:     Julien Panis <jpanis@baylibre.com>,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
+        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
+        macro@orcam.me.uk, baolu.lu@linux.intel.com, yi.l.liu@intel.com,
+        jirislaby@kernel.org, rostedt@goodmis.org, revest@chromium.org,
+        gehao@kylinos.cn, akpm@linux-foundation.org, jgg@ziepe.ca,
+        razor@blackwall.org, stephen@networkplumber.org,
+        prabhakar.csengg@gmail.com, contact@emersion.fr,
+        alex.williamson@redhat.com, akrowiak@linux.ibm.com,
+        mark.rutland@arm.com, ye.xingchen@zte.com.cn, ojeda@kernel.org,
+        me@kloenk.de, milan@mdaverde.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        sterzik@ti.com, u-kumar1@ti.com, eblanc@baylibre.com,
+        jneanne@baylibre.com, aseketeli@baylibre.com
+Subject: Re: [PATCH v7 2/6] mfd: tps6594: Add driver for TI TPS6594 PMIC
+Message-ID: <20230607173351.GA3605615-robh@kernel.org>
+References: <20230511095126.105104-1-jpanis@baylibre.com>
+ <20230511095126.105104-3-jpanis@baylibre.com>
+ <20230518150740.GN404509@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH] scsi: sd: support specify probe type of build-in driver
-Content-Language: en-US
-To:     Jianlin Lv <iecedge@gmail.com>
-Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com, paulmck@kernel.org,
-        bp@suse.de, peterz@infradead.org, will@kernel.org,
-        rdunlap@infradead.org, kim.phillips@amd.com, rostedt@goodmis.org,
-        wyes.karny@amd.com, jianlv@ebay.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org
-References: <20230606051217.2064-1-iecedge@gmail.com>
- <6ad5fba3-926a-7a23-b21b-abffd33708be@acm.org>
- <CAFA-uR_Zn4MdFKs6U6dqPjuVS60yN4RcYU4jJzjknqy7-RWyEQ@mail.gmail.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <CAFA-uR_Zn4MdFKs6U6dqPjuVS60yN4RcYU4jJzjknqy7-RWyEQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230518150740.GN404509@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/7/23 08:55, Jianlin Lv wrote:
-> 1. MegaRAID adapters associated with 24 local disks. The disks are named
-> sequentially as "sda," "sdb," and so on, up to "sdx."
-> 2. STAT controllers associated with the root disk, named "sdy."
+On Thu, May 18, 2023 at 04:07:40PM +0100, Lee Jones wrote:
+> On Thu, 11 May 2023, Julien Panis wrote:
 > 
-> Both the MegaRAID adapters and the SATA controller (PCH) are accessed via
-> the PCIe bus. In theory, depending on their PCIe bus ID in ascending order,
-> the devices should be initialized in ascending order as well.
+> > This patch adds support for TPS6594 PMIC MFD core. It provides
+> > communication through the I2C and SPI interfaces, and supports
+> > protocols with embedded CRC data fields for safety applications.
+> > 
+> > Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> > Acked-for-MFD-by: Lee Jones <lee@kernel.org>
+> > ---
+> >  drivers/mfd/Kconfig         |   32 ++
+> >  drivers/mfd/Makefile        |    3 +
+> >  drivers/mfd/tps6594-core.c  |  462 ++++++++++++++++
+> >  drivers/mfd/tps6594-i2c.c   |  244 +++++++++
+> >  drivers/mfd/tps6594-spi.c   |  129 +++++
+> >  include/linux/mfd/tps6594.h | 1020 +++++++++++++++++++++++++++++++++++
+> >  6 files changed, 1890 insertions(+)
+> >  create mode 100644 drivers/mfd/tps6594-core.c
+> >  create mode 100644 drivers/mfd/tps6594-i2c.c
+> >  create mode 100644 drivers/mfd/tps6594-spi.c
+> >  create mode 100644 include/linux/mfd/tps6594.h
+> 
+> Applied - current being build tested.
+> 
+> Once complete, I'll send out a pull-request for the other maintainers.
 
-Hmm ... I don't think there is anything that prevents the PCIe maintainer
-from changing the PCIe probing behavior from synchronous to asynchronous?
-In other words, I don't think it is safe to assume that PCIe devices are
-always scanned in the same order.
+Some reason the binding wasn't applied too? The compatible strings are 
+now reported as undocumented (make dt_compatible_check).
 
-> For cloud deployment, the local volume provisioner detects and creates PVs
-> for each local disk (from sda to sdx) on the host, and it cleans up the
-> disks when they are released.
-> This requires the logical names of the disks to be deterministic.
-
-I see two possible solutions:
-- Change the volume provisioner such that it uses disk references that do
-   not depend on the probing order, e.g. /dev/disk/by-id/...
-- Implement an algorithm in systemd that makes disk names predictable.
-   An explanation of how predictable names work for network interfaces is
-   available here: https://wiki.debian.org/NetworkInterfaceNames. The
-   systemd documentation about predictable network names is available here:
-   https://www.freedesktop.org/software/systemd/man/systemd.net-naming-scheme.html
-
-These alternatives have the advantage that disk scanning remains asynchronous.
-
-Thanks,
-
-Bart.
-
+Rob
