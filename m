@@ -2,122 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1723C7EE25
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Jun 2023 14:28:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9632C77B7A
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jun 2023 15:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239988AbjFGO20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jun 2023 10:28:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55578 "EHLO
+        id S234989AbjFGPnh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jun 2023 11:43:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235633AbjFGO2Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 10:28:25 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413F4BA
-        for <linux-doc@vger.kernel.org>; Wed,  7 Jun 2023 07:28:24 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1b0218c979cso42273485ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jun 2023 07:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686148104; x=1688740104;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IYxLrENoa6fLzoq9JCLGKKY3HqSTatxxb13DcYAiDNU=;
-        b=sNs96nbrvSU7ztAkj2PgjW4O8Nhl07ZErpP+5V2m4yuVFNX+u5I9xBAAlBfsFI98Df
-         hkdCqf7vZy6iVYC+P5NisaDEiEX2/knCYc0qYU+GewBuz/VsBD/HXgq2g6pPQ6MqBVCa
-         BScDKXSglppLY87ZW+C1HHe3Qd++mheAGdMmaBHVkRSYR0pyrkuyJuKfmzJ+mEmJ8OH7
-         h3BJmZC8qsOPHVw/4Q7xT6X1n/kR81v7ThL3hc8VaSjReqwm1p/+kJds1Zh/V9rua1Bz
-         NPhLJPCE05PK9Fx8jmrWfNraeMm+hOpf0ot5Sa/IuXABwarqxWODY/YwRBR/DLhHx/BJ
-         +lSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686148104; x=1688740104;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IYxLrENoa6fLzoq9JCLGKKY3HqSTatxxb13DcYAiDNU=;
-        b=PYCJnmEmdLeHWcpBf/v8w65OirL4FxcXNIWZVv6CtgGJa55P1uOX8T2rhnJlLWRyRw
-         UU3AnVgRvZJSnueoRoz3o9Ost79Ton1n4D3ZHivYTjvUuBjeAWKP2Met8VR00sMEq/I7
-         GNgTrvi9ECi8l/JJY4NQKc8gaYhLRhsTfMQg+t2zzKnCD2y2n1EEJO92vPNpIFTKe20I
-         QohO3FQdNj0+e6KsbEZ78HT0bybCTmmJRwgeD+VDDrwO09bfSqV88y4BFvEUdKHgxXI6
-         h1nG2Pkj7zZpipe0ZFLkV1U8Ny+Z0emdwQ9M4PgQ1xE8Qgmv6qBg7ZSCQd+ljv+LIbWf
-         Qf6w==
-X-Gm-Message-State: AC+VfDxeAzzjLqwWD0IT41tl7MJPe6FR2eoFqEqYSMnoRcSMUfr/ME6B
-        sbMVghgRFsPZPcSZXyA+GLEl2Q==
-X-Google-Smtp-Source: ACHHUZ5y4pMevhd0x2TrN/nddMvUrM4tc1Xl58HsNIvNlQeORsX5Iark0cvZM4OCCotdBTKpA/jszA==
-X-Received: by 2002:a17:903:1207:b0:1aa:feca:b616 with SMTP id l7-20020a170903120700b001aafecab616mr4706557plh.65.1686148103713;
-        Wed, 07 Jun 2023 07:28:23 -0700 (PDT)
-Received: from [100.64.100.6] ([199.101.192.34])
-        by smtp.gmail.com with ESMTPSA id u4-20020a170902e5c400b001ae5d21f760sm10494093plf.146.2023.06.07.07.28.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 07:28:23 -0700 (PDT)
-Message-ID: <4f5316cf-f6e8-2016-d29a-f0cc6cc75c8b@linaro.org>
-Date:   Wed, 7 Jun 2023 22:28:11 +0800
+        with ESMTP id S240088AbjFGPng (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 11:43:36 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0814173B;
+        Wed,  7 Jun 2023 08:43:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686152615; x=1717688615;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j6zflyQMoWlDas1SZirAeOtucemhZGcw3KpPqh1Lgbc=;
+  b=elmY1HQzSzVoTfnUwXwM7pma+QNO7V9eLQqVDTKjbm8UFULv0Nm4/jVY
+   v1ohLV/zMi7mBlTZeNpbwq/SjSElMf+LKpk+2bREjdhB/x78CeJsOs9gQ
+   Qq+73sEV/FQmQ8Ls9mu9YzC7OoxZi8Li90ObuDF5WHA6crXUgUzM0ywq1
+   Ksluj8NaQURR9OMZhUcIaMSpBJf2EFj6SuBRObD/GG9//c7g4TiqLU+mo
+   l4u2T410X7QU/PDZSm+CFcFLNb3xxrWmA+yLpNiOtFTfntuqBrHBEGDpV
+   SDK6MBhWtvI33NDIRGMgsLcsbxueBNMnVBv7IVvqQ9/1Qnr+eAt5tP4aK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="420584314"
+X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; 
+   d="scan'208";a="420584314"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 08:43:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="1039727330"
+X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; 
+   d="scan'208";a="1039727330"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 07 Jun 2023 08:43:20 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q6vJf-0006hv-24;
+        Wed, 07 Jun 2023 15:43:19 +0000
+Date:   Wed, 7 Jun 2023 23:42:32 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
+        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net
+Cc:     oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v4 09/14] drm/nouveau: fence: separate fence
+ alloc and emit
+Message-ID: <202306072327.BHC88W12-lkp@intel.com>
+References: <20230606223130.6132-10-dakr@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.11.0
-Subject: Re: [PATCH] Documentation: uacce: Add doc title
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zaibo Xu <xuzaibo@huawei.com>
-Cc:     Linux Accelerators <linux-accelerators@lists.ozlabs.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>
-References: <20230606132911.37137-2-bagasdotme@gmail.com>
-From:   Zhangfei Gao <zhangfei.gao@linaro.org>
-In-Reply-To: <20230606132911.37137-2-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230606223130.6132-10-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Danilo,
 
-在 2023/6/6 21:29, Bagas Sanjaya 写道:
-> There isn't page title on Uacce documentation, which causes all of its
-> sections to be listed in table of contents for miscellaneous devices as
-> separate titles (since there is only section headings).
->
-> Add the proper title.
->
-> Fixes: aa017ab97a223d ("uacce: Add documents for uacce")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 33a86170888b7e4aa0cea94ebb9c67180139cea9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230607-063442
+base:   33a86170888b7e4aa0cea94ebb9c67180139cea9
+patch link:    https://lore.kernel.org/r/20230606223130.6132-10-dakr%40redhat.com
+patch subject: [PATCH drm-next v4 09/14] drm/nouveau: fence: separate fence alloc and emit
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230607/202306072327.BHC88W12-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        git checkout 33a86170888b7e4aa0cea94ebb9c67180139cea9
+        b4 shazam https://lore.kernel.org/r/20230606223130.6132-10-dakr@redhat.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306072327.BHC88W12-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_chunk':
+>> drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: error: 'chunk' undeclared (first use in this function)
+     681 |                 nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+         |                                           ^~~~~
+   drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: note: each undeclared identifier is reported only once for each function it appears in
 
 
-Thanks Bagas
+vim +/chunk +681 drivers/gpu/drm/nouveau/nouveau_dmem.c
 
-Acked-by: Zhangfei Gao <zhangfei.gao@linaro.org>
+   664	
+   665	static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
+   666			struct nouveau_svmm *svmm, struct migrate_vma *args,
+   667			dma_addr_t *dma_addrs, u64 *pfns)
+   668	{
+   669		struct nouveau_fence *fence;
+   670		unsigned long addr = args->start, nr_dma = 0, i;
+   671	
+   672		for (i = 0; addr < args->end; i++) {
+   673			args->dst[i] = nouveau_dmem_migrate_copy_one(drm, svmm,
+   674					args->src[i], dma_addrs + nr_dma, pfns + i);
+   675			if (!dma_mapping_error(drm->dev->dev, dma_addrs[nr_dma]))
+   676				nr_dma++;
+   677			addr += PAGE_SIZE;
+   678		}
+   679	
+   680		if (!nouveau_fence_new(&fence))
+ > 681			nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+   682		migrate_vma_pages(args);
+   683		nouveau_dmem_fence_done(&fence);
+   684		nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
+   685	
+   686		while (nr_dma--) {
+   687			dma_unmap_page(drm->dev->dev, dma_addrs[nr_dma], PAGE_SIZE,
+   688					DMA_BIDIRECTIONAL);
+   689		}
+   690		migrate_vma_finalize(args);
+   691	}
+   692	
 
-
-./scripts/checkpatch.pl reports a warning.
-
-WARNING: Please use correct Fixes: style 'Fixes: <12 chars of sha1> 
-("<title line>")' - ie: 'Fixes: aa017ab97a22 ("uacce: Add documents for 
-uacce")'
-#12:
-Fixes: aa017ab97a223d ("uacce: Add documents for uacce")
-
-Thanks
-
-
-> ---
->   Documentation/misc-devices/uacce.rst | 4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/misc-devices/uacce.rst b/Documentation/misc-devices/uacce.rst
-> index 1db412e9b1a380..8c536b84167cbf 100644
-> --- a/Documentation/misc-devices/uacce.rst
-> +++ b/Documentation/misc-devices/uacce.rst
-> @@ -1,5 +1,9 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> +========================================================
-> +Unified/User-space-access-intended Accelerator Framework
-> +========================================================
-> +
->   Introduction of Uacce
->   ---------------------
->   
->
-> base-commit: 9561de3a55bed6bdd44a12820ba81ec416e705a7
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
