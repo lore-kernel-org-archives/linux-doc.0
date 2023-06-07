@@ -2,151 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28E53C7EE2F
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Jun 2023 23:56:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22B02C7EE25
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Jun 2023 04:29:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239673AbjFFX4b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Jun 2023 19:56:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36650 "EHLO
+        id S234210AbjFGE3r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jun 2023 00:29:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234129AbjFFX43 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Jun 2023 19:56:29 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61A74172E;
-        Tue,  6 Jun 2023 16:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686095788; x=1717631788;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=66dLf9QF5suSz6s4ALv0ff3Sijn5fcliAkM/PxefKBo=;
-  b=LI2My02QO2QjDSKzbiHeOri3apAP3wJh9uM6EyYBrqR0Zu1q9lyVs1CG
-   ydPr9TNnwskd1iUzz47/omn5JWnmGC/4XPHoTHWOsB3xGg/qyktvOfa8m
-   amy+veLfms+yslJxQ6ahmhb28oZMjrewWFecqe41ggUT7kBhJvQirseP+
-   wVbCj3KZLhLjIVYtH4p+gpSZddBJ80m9EUFdGzUxezyBlD0twM+7TMOwy
-   4ggNFfIDKk4RoE/vsfRwWH7oA0ZI83+9K8dVc6H2LQpT9vaSSxekluIYB
-   SypuRXSdayFBb1EhocB0WHmv36Ysaw+HPiV5NWRjn4st0jvAmDbUhRhHr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="337190041"
-X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="337190041"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 16:56:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="738979508"
-X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="738979508"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 06 Jun 2023 16:56:22 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q6gXF-0005th-2F;
-        Tue, 06 Jun 2023 23:56:21 +0000
-Date:   Wed, 7 Jun 2023 07:55:41 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
-        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net
-Cc:     oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-next v4 04/14] drm: debugfs: provide infrastructure
- to dump a DRM GPU VA space
-Message-ID: <202306070751.26WX3ive-lkp@intel.com>
-References: <20230606223130.6132-5-dakr@redhat.com>
+        with ESMTP id S233902AbjFGE3R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 00:29:17 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD1B26B5
+        for <linux-doc@vger.kernel.org>; Tue,  6 Jun 2023 21:27:05 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id d75a77b69052e-3f9b9c9a13eso1219821cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jun 2023 21:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1686112025; x=1688704025;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WPSKz7WcmWYDoiWla/HjpfomHebC25lLZctCV/vLH4k=;
+        b=YoflSz/WWxi5+uAGhkj3VOsHqFcBqNc2/nJq9qn0WwAt7+Jb+cNtwE/5wehV4e5iNw
+         LjjKvgxxNAG2mjKSNdnhAogPK/DpK2l79V51b3G70hzwnsyGpAl4RrhLwcv3tJ9EDtTX
+         vVyjcp9QiLM9j3NjPKw4mX51UiG2kxTthhPf1vSOoiLxBP7Z5S70RCo4rIddBPIKcOCD
+         WrHV3kpK94KzFZ9ysDcqNaRe55bIxZC83YS8eiTw4bTv3rXdUcoG4vQY5M+7yfIm3Ysc
+         rGcl9SfpUW26IMk3MddsmlZHEzf2u3GAR9oUy1X3y7c21uche6LUoeCWj6EjRoJllgRk
+         zQSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686112025; x=1688704025;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WPSKz7WcmWYDoiWla/HjpfomHebC25lLZctCV/vLH4k=;
+        b=C35QXAzuzlYX0I8SXRqxgr/u/HhIjHgKmhyqOhYpr6rLd5MK4d+YbLdBEnlqeFC6m2
+         cC5+32vz70H4+C/yRBIfL3sSbqfdzAmH25YCDmq5lY/7PQa5h0m4e6XBo/IPCR5myB3L
+         far5ktpJGAh2npyc8Z3gq5iHMH5HBo9eUbw3MnLqdN1TuI3iEnxh4/dV05gtaTY9f/tQ
+         8wfWpT3caTzXUgr0gkZcOAUduRSdkEVQDuth65lCzUbt4PNRWwosVinelQX1XABnn2YO
+         IXjfkLAV/6OYgIethioevNjB46RVXPtjw2Wk5D3gtpdulDG5e+0v/PGhzLZznXdyxNnE
+         Bp3g==
+X-Gm-Message-State: AC+VfDwGDw/qAmt/m4+z8ohWrYP8xhENxkxGBSCTBlxh5kiNztQWPqTw
+        ApPriTF9sYSM+pqBt9dB3k1oeg==
+X-Google-Smtp-Source: ACHHUZ7NSTxdF/ubgwDQxb7ez4TU1x57Ynb13u73yomi8AoMLRBZYFeKffKYiqjTywUrm5xkQXX/YQ==
+X-Received: by 2002:ac8:5c8c:0:b0:3f4:fdaa:8e14 with SMTP id r12-20020ac85c8c000000b003f4fdaa8e14mr5856641qta.2.1686112024916;
+        Tue, 06 Jun 2023 21:27:04 -0700 (PDT)
+Received: from [127.0.0.1] ([50.234.116.5])
+        by smtp.gmail.com with ESMTPSA id l16-20020ac81490000000b003f8685c403fsm4369867qtj.22.2023.06.06.21.27.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jun 2023 21:27:04 -0700 (PDT)
+From:   Jens Axboe <axboe@kernel.dk>
+To:     linux-block@vger.kernel.org, Hou Tao <houtao@huaweicloud.com>
+Cc:     Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Chaitanya Kulkarni <kch@nvidia.com>, cgroups@vger.kernel.org,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, houtao1@huawei.com
+In-Reply-To: <20230428074404.280532-1-houtao@huaweicloud.com>
+References: <20230428074404.280532-1-houtao@huaweicloud.com>
+Subject: Re: [PATCH v4] blk-ioprio: Introduce promote-to-rt policy
+Message-Id: <168611202214.121141.17298993524876974749.b4-ty@kernel.dk>
+Date:   Tue, 06 Jun 2023 22:27:02 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230606223130.6132-5-dakr@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-c6835
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Danilo,
 
-kernel test robot noticed the following build warnings:
+On Fri, 28 Apr 2023 15:44:04 +0800, Hou Tao wrote:
+> Since commit a78418e6a04c ("block: Always initialize bio IO priority on
+> submit"), bio->bi_ioprio will never be IOPRIO_CLASS_NONE when calling
+> blkcg_set_ioprio(), so there will be no way to promote the io-priority
+> of one cgroup to IOPRIO_CLASS_RT, because bi_ioprio will always be
+> greater than or equals to IOPRIO_CLASS_RT.
+> 
+> It seems possible to call blkcg_set_ioprio() first then try to
+> initialize bi_ioprio later in bio_set_ioprio(), but this doesn't work
+> for bio in which bi_ioprio is already initialized (e.g., direct-io), so
+> introduce a new promote-to-rt policy to promote the iopriority of bio to
+> IOPRIO_CLASS_RT if the ioprio is not already RT.
+> 
+> [...]
 
-[auto build test WARNING on 33a86170888b7e4aa0cea94ebb9c67180139cea9]
+Applied, thanks!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230607-063442
-base:   33a86170888b7e4aa0cea94ebb9c67180139cea9
-patch link:    https://lore.kernel.org/r/20230606223130.6132-5-dakr%40redhat.com
-patch subject: [PATCH drm-next v4 04/14] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230607/202306070751.26WX3ive-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git checkout 33a86170888b7e4aa0cea94ebb9c67180139cea9
-        b4 shazam https://lore.kernel.org/r/20230606223130.6132-5-dakr@redhat.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/drm/
+[1/1] blk-ioprio: Introduce promote-to-rt policy
+      commit: ddf63516d8d37528dc6834c7f19b55084e956068
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306070751.26WX3ive-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/drm_debugfs.c: In function 'drm_debugfs_gpuva_info':
->> drivers/gpu/drm/drm_debugfs.c:213:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     213 |                            (u64)va->gem.obj, va->gem.offset);
-         |                            ^
-
-
-vim +213 drivers/gpu/drm/drm_debugfs.c
-
-   178	
-   179	/**
-   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
-   181	 * @m: pointer to the &seq_file to write
-   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
-   183	 *
-   184	 * Dumps the GPU VA mappings of a given DRM GPU VA manager.
-   185	 *
-   186	 * For each DRM GPU VA space drivers should call this function from their
-   187	 * &drm_info_list's show callback.
-   188	 *
-   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
-   190	 */
-   191	int drm_debugfs_gpuva_info(struct seq_file *m,
-   192				   struct drm_gpuva_manager *mgr)
-   193	{
-   194		DRM_GPUVA_ITER(it, mgr, 0);
-   195		struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
-   196	
-   197		if (!mgr->name)
-   198			return -ENODEV;
-   199	
-   200		seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
-   201			   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
-   202		seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
-   203			   kva->va.addr, kva->va.addr + kva->va.range);
-   204		seq_puts(m, "\n");
-   205		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
-   206		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
-   207		drm_gpuva_iter_for_each(va, it) {
-   208			if (unlikely(va == &mgr->kernel_alloc_node))
-   209				continue;
-   210	
-   211			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
-   212				   va->va.addr, va->va.range, va->va.addr + va->va.range,
- > 213				   (u64)va->gem.obj, va->gem.offset);
-   214		}
-   215	
-   216		return 0;
-   217	}
-   218	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
-   219	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jens Axboe
+
+
+
