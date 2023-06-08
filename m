@@ -2,101 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34116C7EE29
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 13:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF664C7EE29
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 13:18:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236110AbjFHNOq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 09:14:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46380 "EHLO
+        id S236138AbjFHNSR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 09:18:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231626AbjFHNOp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 09:14:45 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07BD2210C;
-        Thu,  8 Jun 2023 06:14:43 -0700 (PDT)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QcPl90XYPz6802G;
-        Thu,  8 Jun 2023 21:12:37 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 8 Jun
- 2023 14:14:41 +0100
-Date:   Thu, 8 Jun 2023 14:14:40 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Junhao He <hejunhao3@huawei.com>
-CC:     <will@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mark.rutland@arm.com>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-        <yangyicong@huawei.com>, <shenyang39@huawei.com>,
-        <prime.zeng@hisilicon.com>
-Subject: Re: [PATCH] drivers/perf: hisi: Don't migrate perf to the CPU going
- to teardown
-Message-ID: <20230608141440.000003db@Huawei.com>
-In-Reply-To: <20230608114326.27649-1-hejunhao3@huawei.com>
-References: <20230608114326.27649-1-hejunhao3@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+        with ESMTP id S235911AbjFHNSP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 09:18:15 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8EED210C;
+        Thu,  8 Jun 2023 06:18:14 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b2439e9004so2693645ad.3;
+        Thu, 08 Jun 2023 06:18:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686230294; x=1688822294;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=D7t/IcsLb1sT149B6ebMikIHDMKdt1t6KHWtlJh10/o=;
+        b=K4GWIYXT3UU+cMQQ9MmBi0hMM0SFVFnM2dt0AhYzqQABRQdYWtL79TlQGkIPQz1jS4
+         j55JKWZeEMYrCfaH0CB8RQ4z0/XvIjIbQw9FiHIi7qRO7VgKAU8XSSVRO50Le2wUROBy
+         hYx/mbWxDd4z4XSFH1+weJ6o3Bf3DpMs3zuPZdEXLf0ugnP4e2nFAFemUqcGc1CfBZ9H
+         POQRpHfPq75yAiPFGsOCS/CN+kzmaTuAXs/BqMdfn6LCKHXq5GeH09gv4X8E8/kRDclF
+         yOoVOoMoM0da32wBUR44aUNaE2gGyfmbgDJwWHq9632pppxAtP2vwHnkJ5zZhcqrC/ng
+         nZxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686230294; x=1688822294;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D7t/IcsLb1sT149B6ebMikIHDMKdt1t6KHWtlJh10/o=;
+        b=Y4RXF2/rhEMuJm2PFmAjFQuvL7KIhYNy0M92nIrHyJhRbbGmhv5fKatXnBVI3BXhcD
+         MZWjUwt1xnNo1XNfZ1b0uCkZOanDH+B3vij6Tqt8WAsf7BBaCpg1Uj0adl3hVanqRCUw
+         MxWHK6afDKdNTcU9hv66VSimGyWsVXhqEsBVmZbM0eQBRlOHU4x+KK6NX6Hcpq2OoPHr
+         pkgXyxu2ZxELPJX1LtTkPjh7H+0Vi8Ns6shvbjeUdfslxhY8QmzfXrRzH/Y+Kg2+uihz
+         +Q+J7dRRswvLOVTa/Hrw5PUFCfDR1ZVPZ1nVd50FiSOjyjLe/EvJsP0ow0Sspd3zSwhq
+         HIMQ==
+X-Gm-Message-State: AC+VfDxjjvMTLfqpc3s1eiTd8Gtrsq35aI8J9R96TgZ3Rna5gopFHln9
+        89uTySC9cHOFmQsL8e0MRck=
+X-Google-Smtp-Source: ACHHUZ5M/cI7gc7yzFDF3kqFxm4rWeaJQMCH5IYlgrLd2Urk2wIeKfwBQ3qpgm5c0VI/CYCFNUAMfg==
+X-Received: by 2002:a17:903:1207:b0:1b0:ec0:7d01 with SMTP id l7-20020a170903120700b001b00ec07d01mr4863322plh.35.1686230294140;
+        Thu, 08 Jun 2023 06:18:14 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t12-20020a170902b20c00b001ac741dfd29sm1387520plr.295.2023.06.08.06.18.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jun 2023 06:18:13 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <f76f89a0-7773-6f64-c890-293093d4aba3@roeck-us.net>
+Date:   Thu, 8 Jun 2023 06:18:10 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+Content-Language: en-US
+To:     Billy Tsai <billy_tsai@aspeedtech.com>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patrick@stwcx.xyz" <patrick@stwcx.xyz>
+References: <20230608021839.12769-1-billy_tsai@aspeedtech.com>
+ <20230608021839.12769-3-billy_tsai@aspeedtech.com>
+ <c1c485b0-b68b-4db7-4b67-5d59f1ecb84e@roeck-us.net>
+ <SG2PR06MB3365E360F3FCDE639F3D2D1E8B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <SG2PR06MB3365E360F3FCDE639F3D2D1E8B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 8 Jun 2023 19:43:26 +0800
-Junhao He <hejunhao3@huawei.com> wrote:
+On 6/7/23 23:21, Billy Tsai wrote:
+>          > The code says:
+> 
+>          > In Aspeed AST2600 SoC features 16 TACH controllers, with each
+> 
+>          > controller capable of supporting up to 1 input.
+> 
+>          > which is a bit different. I guess there are no examples anymore,
+> 
+>          > but I'd really like to see how this looks like in the devicetree file,
+> 
+>          > and how the driver is supposed to distinguish/select the 16 inputs.
+> 
+> Hi Roeck,
+> 
+> The node in the devicetree file will looks like following:
+> 
+> tach0: tach0@1e610008 {
+> 
+>          compatible = "aspeed,ast2600-tach";
+> 
+>          reg = <0x1e610008 0x8>;
+> 
+>          #address-cells = <1>;
+> 
+>          #size-cells = <0>;
+> 
+>          pinctrl-names = "default";
+> 
+>          pinctrl-0 = <&pinctrl_tach0_default>;
+> 
+>          clocks = <&syscon ASPEED_CLK_AHB>;
+> 
+>          resets = <&syscon ASPEED_RESET_PWM>;
+> 
+>          status = "disabled";
+> 
+> };
+> 
 
-> The driver needs to migrate the perf context if the current using CPU going
-> to teardown. By the time calling the cpuhp::teardown() callback the
-> cpu_online_mask() hasn't updated yet and still includes the CPU going to
-> teardown. In current driver's implementation we may migrate the context
-> to the teardown CPU and leads to the below calltrace:
-> 
-> ...
-> [  368.104662][  T932] task:cpuhp/0         state:D stack:    0 pid:   15 ppid:     2 flags:0x00000008
-> [  368.113699][  T932] Call trace:
-> [  368.116834][  T932]  __switch_to+0x7c/0xbc
-> [  368.120924][  T932]  __schedule+0x338/0x6f0
-> [  368.125098][  T932]  schedule+0x50/0xe0
-> [  368.128926][  T932]  schedule_preempt_disabled+0x18/0x24
-> [  368.134229][  T932]  __mutex_lock.constprop.0+0x1d4/0x5dc
-> [  368.139617][  T932]  __mutex_lock_slowpath+0x1c/0x30
-> [  368.144573][  T932]  mutex_lock+0x50/0x60
-> [  368.148579][  T932]  perf_pmu_migrate_context+0x84/0x2b0
-> [  368.153884][  T932]  hisi_pcie_pmu_offline_cpu+0x90/0xe0 [hisi_pcie_pmu]
-> [  368.160579][  T932]  cpuhp_invoke_callback+0x2a0/0x650
-> [  368.165707][  T932]  cpuhp_thread_fun+0xe4/0x190
-> [  368.170316][  T932]  smpboot_thread_fn+0x15c/0x1a0
-> [  368.175099][  T932]  kthread+0x108/0x13c
-> [  368.179012][  T932]  ret_from_fork+0x10/0x18
-> ...
-> 
-> Use function cpumask_any_but() to find one correct active cpu to fixes
-> this issue.
-> 
-> Fixes: 8404b0fbc7fb ("drivers/perf: hisi: Add driver for HiSilicon PCIe PMU")
-> Signed-off-by: Junhao He <hejunhao3@huawei.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Neither reg nor pinctrl is mentioned in the bindings. Maybe that is not needed nowadays,
+but I find it confusing.
 
-> ---
->  drivers/perf/hisilicon/hisi_pcie_pmu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/perf/hisilicon/hisi_pcie_pmu.c b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-> index 0bc8dc36aff5..14f8b4b03337 100644
-> --- a/drivers/perf/hisilicon/hisi_pcie_pmu.c
-> +++ b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-> @@ -683,7 +683,7 @@ static int hisi_pcie_pmu_offline_cpu(unsigned int cpu, struct hlist_node *node)
->  
->  	pcie_pmu->on_cpu = -1;
->  	/* Choose a new CPU from all online cpus. */
-> -	target = cpumask_first(cpu_online_mask);
-> +	target = cpumask_any_but(cpu_online_mask, cpu);
->  	if (target >= nr_cpu_ids) {
->  		pci_err(pcie_pmu->pdev, "There is no CPU to set\n");
->  		return 0;
+Either case, it is highly unusual that there would be 16 instances of this device
+instead of one. Why is this done ? It doesn't really make sense to me.
+
+Guenter
 
