@@ -2,220 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB34C7EE29
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 16:09:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC16C7EE25
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 16:24:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbjFHQJc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 12:09:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55550 "EHLO
+        id S229544AbjFHQYO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 12:24:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232708AbjFHQJb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 12:09:31 -0400
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B3451BDF;
-        Thu,  8 Jun 2023 09:09:30 -0700 (PDT)
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-777b4560ae8so26807539f.2;
-        Thu, 08 Jun 2023 09:09:30 -0700 (PDT)
+        with ESMTP id S235038AbjFHQX4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 12:23:56 -0400
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC063AAC;
+        Thu,  8 Jun 2023 09:23:25 -0700 (PDT)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so552409a12.1;
+        Thu, 08 Jun 2023 09:23:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686240569; x=1688832569;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A8MAtXZkrsYG/HkNDt42uWE09jxVB49iJ0UFdWUAyow=;
-        b=OLR6Eeudy+WLujveKYM9mYpLYDnTgYNOJUDLDJkDceejtMkZnN0aZxEIDHgZacF2UM
-         OFPeDcYjc5Db/W9ywpFDAPuDLlrc9KYg0lJSIj8eADJMzDePFixJ/7RM3W6/M/n7PX3y
-         I2QUxJGB5ZqVvi8RY4r3iRqpkr/FLGbpwBeDPJOYiC4JvvEljnDw8pIlD+SvQbtx0kxd
-         8zBRH7wAIYwWEyUu6u+hixE1IdQOHeMlxvf10K2okPiT5kiyEYBSKR6lFzbNtfTNBorp
-         AnZcpPqM6WkLIzLGeDmzmvfIg4oAq7NfmOo8nbq26/0BS0UjS1wXza79oOq0hd0Vkxs+
-         HKYQ==
-X-Gm-Message-State: AC+VfDxRj1KeaCO718ivoQfVZb/bgjknpasfFCMyxvAbNSS7/Uoku9Ez
-        BHIOPDZkYdVmcZFE9Mowbg==
-X-Google-Smtp-Source: ACHHUZ64aKy+sH0t8A7IOQ7qgaq0gx7MJX7wPrx+Ud/5T6iVeFYfh1Oqmiu/A65L7jv4nbkZXhpRKw==
-X-Received: by 2002:a5e:834d:0:b0:778:82d1:39a3 with SMTP id y13-20020a5e834d000000b0077882d139a3mr10262471iom.13.1686240569183;
-        Thu, 08 Jun 2023 09:09:29 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id y14-20020a02a38e000000b004090c67f155sm358129jak.91.2023.06.08.09.09.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jun 2023 09:09:28 -0700 (PDT)
-Received: (nullmailer pid 2787707 invoked by uid 1000);
-        Thu, 08 Jun 2023 16:09:25 -0000
-Date:   Thu, 8 Jun 2023 10:09:25 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Hao Zhang <quic_hazha@quicinc.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Tingwei Zhang <quic_tingweiz@quicinc.com>,
-        Jinlong Mao <quic_jinlmao@quicinc.com>,
-        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
-        Tao Zhang <quic_taozha@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] dt-bindings: arm: Add Coresight Dummy Trace
-Message-ID: <20230608160925.GA2780221-robh@kernel.org>
-References: <20230505092422.32217-1-quic_hazha@quicinc.com>
- <20230505092422.32217-3-quic_hazha@quicinc.com>
- <99343862-6b6a-30ba-40e5-7f984434b1dc@linaro.org>
- <44524ce9-b24e-7e2d-819c-232149e29f0e@quicinc.com>
+        d=1e100.net; s=20221208; t=1686241398; x=1688833398;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wqu/i7eeSgXY/ZHZ2JjHyZ/7wB17Cu+AK25hSX7kGOQ=;
+        b=h246vOavl/KLNV+ogk29KP7SnDUtwCJUtMOy21ehFEoxpEAoD3E3/OacbBwJRyBhex
+         zIJ90A9S9kQ4k9Ht4GMnjesSM96C8MjCHzocwjJlPaYCDd2O9J7cK+QGvpKJe5JuQyUf
+         vexwdyrmOTovyN03W26pxKdnKlLfk01ney3eOXfd2SF8mfmtEoCz8xOw/2W1goIA1S7M
+         MrFhlPDoo09aUXtUIyzidKKZ44uacHNS43kJS/MEk2RlbUGLELlmzo8DkDG3a2ty62SA
+         PRhHLC0m67rQpnkpCKPgRiaJlmwdL5wohUnH9xrw3U2Igh27OMBxr6EozilYNOiBHtWt
+         wvLQ==
+X-Gm-Message-State: AC+VfDxCkMO8OrzuRVQDkU6pw8QDwukKQy6nc6ruVsd9+IUihf+dKaFc
+        aoWPXsAjT9dJvDZqSxPUuSk=
+X-Google-Smtp-Source: ACHHUZ6VpgHsGG8pXfBSvZUuAHTYHWngXlZb+0AI56ny79aH26oCesKm78tThBWyQGmn0AdMd368GA==
+X-Received: by 2002:a17:903:1206:b0:1af:e8cf:7004 with SMTP id l6-20020a170903120600b001afe8cf7004mr10557914plh.15.1686241398305;
+        Thu, 08 Jun 2023 09:23:18 -0700 (PDT)
+Received: from [192.168.51.14] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id 28-20020a17090a1a5c00b0024e4f169931sm3526454pjl.2.2023.06.08.09.23.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jun 2023 09:23:17 -0700 (PDT)
+Message-ID: <5b898dde-2f76-51af-5d2e-c4572719a5be@acm.org>
+Date:   Thu, 8 Jun 2023 09:23:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <44524ce9-b24e-7e2d-819c-232149e29f0e@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] scsi: sd: support specify probe type of build-in driver
+Content-Language: en-US
+To:     Jianlin Lv <iecedge@gmail.com>
+Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com, paulmck@kernel.org,
+        bp@suse.de, peterz@infradead.org, will@kernel.org,
+        rdunlap@infradead.org, kim.phillips@amd.com, rostedt@goodmis.org,
+        wyes.karny@amd.com, jianlv@ebay.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org
+References: <20230606051217.2064-1-iecedge@gmail.com>
+ <6ad5fba3-926a-7a23-b21b-abffd33708be@acm.org>
+ <CAFA-uR_Zn4MdFKs6U6dqPjuVS60yN4RcYU4jJzjknqy7-RWyEQ@mail.gmail.com>
+ <e9b8b9c5-f400-9152-0f4b-537b05203dd2@acm.org>
+ <CAFA-uR83jHJsDXnn-3LWcrw251S4MizHC_JPJssYrgoD6kLoAg@mail.gmail.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <CAFA-uR83jHJsDXnn-3LWcrw251S4MizHC_JPJssYrgoD6kLoAg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 15, 2023 at 01:52:41PM +0800, Hao Zhang wrote:
+On 6/7/23 19:51, Jianlin Lv wrote:
+> On Thu, Jun 8, 2023 at 1:07 AM Bart Van Assche <bvanassche@acm.org> wrote:
+>> On 6/7/23 08:55, Jianlin Lv wrote:
+>> I see two possible solutions:
+>> - Change the volume provisioner such that it uses disk references that do
+>>     not depend on the probing order, e.g. /dev/disk/by-id/...
 > 
-> 
-> On 5/7/2023 4:04 PM, Krzysztof Kozlowski wrote:
-> > On 05/05/2023 11:24, Hao Zhang wrote:
-> > > Add new coresight-dummy.yaml file describing the bindings required
-> > > to define coresight dummy trace in the device trees.
-> > > 
-> > > Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
-> > > ---
-> > >   .../bindings/arm/arm,coresight-dummy.yaml     | 102 ++++++++++++++++++
-> > >   1 file changed, 102 insertions(+)
-> > >   create mode 100644 Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
-> > > new file mode 100644
-> > > index 000000000000..126518863eea
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/arm/arm,coresight-dummy.yaml
-> > > @@ -0,0 +1,102 @@
-> > > +# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/arm/arm,coresight-dummy.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: ARM Coresight Dummy component
-> > > +
-> > > +description: |
-> > > +  Coresight Dummy Trace Module is for the specific devices that kernel
-> > > +  don't have permission to access or configure, e.g., CoreSight TPDMs
-> > > +  on Qualcomm platforms. So there need driver to register dummy devices
-> > > +  as Coresight devices. It may also be used to define components that
-> > > +  may not have any programming interfaces (e.g, static links), so that
-> > > +  paths can be established in the driver. Provide Coresight API for
-> > > +  dummy device operations, such as enabling and disabling dummy devices.
-> > > +  Build the Coresight path for dummy sink or dummy source for debugging.
-> > > +
-> > > +  The primary use case of the coresight dummy is to build path in kernel
-> > > +  side for dummy sink and dummy source.
-> > > +
-> > > +maintainers:
-> > > +  - Mao Jinlong <quic_jinlmao@quicinc.com>
-> > > +  - Tao Zhang <quic_taozha@quicinc.com>
-> > > +  - Hao Zhang <quic_hazha@quicinc.com>
-> > > +  - Yuanfang Zhang <quic_yuanfang@quicinc.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > 
-> > You were asked to drop oneOf, not to replace with items. Drop items.
-> > Drop oneOf. It's just enum.
-> > 
-> 
-> Hi Krzysztof,
-> 
-> I will drop items and update it in the next version.
-> 
-> Thanks,
-> Hao
-> 
-> > > +      - enum:
-> > > +          - arm,coresight-dummy-sink
-> > > +          - arm,coresight-dummy-source
-> > > +
-> > > +  out-ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +
-> > > +    properties:
-> > > +      port:
-> > > +        description: Output connection from the source to Coresight
-> > > +          Trace bus.
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +
-> > > +  in-ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +
-> > > +    properties:
-> > > +      port:
-> > > +        description: Input connection from the Coresight Trace bus to
-> > > +          dummy sink, such as Embedded USB debugger(EUD).
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +
-> > > +if:
-> > > +  # If the compatible contains the below value
-> > > +  properties:
-> > > +    compatible:
-> > > +      contains:
-> > > +        const: arm,coresight-dummy-sink
-> > > +
-> > > +then:
-> > > +  required:
-> > > +    - in-ports
-> > > +
-> > > +else:
-> > > +  required:
-> > > +    - out-ports
-> > 
-> > No improvements. Implement Rob's comments.
-> > 
-> 
-> Hi Krzysztof, Rob,
-> 
-> There are two comments from Rob:
-> 1) I could imagine the OS wanting to know more information than just
-> 'dummy'. Is data from an unknown source useful? Likewise, don't you want
-> to know where you are sending data too?
-> 2) This still allows the nodes when they don't make sense. I think this
-> needs to be 2 schema files. The only common part is 'compatible' and
-> that's not even shared.
-> 
-> 
-> 1. The necessary information for coresight is connection(ports) between
-> different components. However, this information is not very intuitive. There
-> would be a generic change to support coresight name in the further. You can
-> refer to the below link, this solution is still under discussion, I think
-> it's also helpful for our query.
-> https://lore.kernel.org/linux-arm-kernel/b7abee2a-99ca-26d6-5850-60ee19d9c0e9@quicinc.com/T/
+> Yes, The "/dev/disk/by-id/" can uniquely identify SCSI devices. However,
+> I don't think it is suitable for the volume provisioner workflow.
+> For nodes of the same SKU , a unified YAML file will be defined to instruct
+> the volume provisioner on how to manage the local disks.
+> If use WWID, it would mean that a unique YAML file needs to be defined
+> for each node. This approach becomes impractical when dealing with a large
+> number of work nodes.
+Please consider using the paths available in /dev/disk/by-path.
 
-I don't really have more input. I'm looking for input from coresight 
-folks on this.
+Thanks,
 
-Design the binding so it is future proof. If you need to go back and add 
-more data to the binding in the future you've lost. It is perfectly fine 
-to have specific bindings with generic drivers (e.g. simple panel). Then 
-if you need more capabilities than a generic driver, then you can add a 
-specific driver in the future with no DT change.
-
-> 2. Dummy driver is very simple, the only goal of it is to build a path in
-> kernel for subsystem, so we want to handle dummy source and sink in one
-> generic driver. For one same driver, shall we split the schema file?
-
-schemas and drivers are not 1:1. So yes, split the schema.
-
-Rob
+Bart.
