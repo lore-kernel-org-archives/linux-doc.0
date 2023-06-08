@@ -2,90 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B23D2C7EE37
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 22:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7995AC7EE25
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 23:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235454AbjFHWm6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 18:42:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60644 "EHLO
+        id S230083AbjFHXGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 19:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjFHWm5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 18:42:57 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC152D4B;
-        Thu,  8 Jun 2023 15:42:56 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3f732d37d7bso8741265e9.0;
-        Thu, 08 Jun 2023 15:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686264175; x=1688856175;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=z5+I2QWhzf+RiNGGieH6S0XhkG75IeU581JZPazQ2GI=;
-        b=IqSmXlKKrCQF3YfLlNtzZEwjkn2rJP/t6RfM79OSim9NNQSqdhL7Mx/hj/B4VryRkP
-         Q9eaghh9EiGHItvCrIu/FMhbk0+r3lbnkMQZYHVBtUGDddE+CPoXTSq6145NOrU99HyJ
-         BMzuFB/FRiIA/dyTHlbGhNW/TgOFnHUlc39h1mJrNlmzUWqIM8zv8kqfp/3DSwg1g6NC
-         2H/xk4O8IE4Fq6++kCspk0MHRc5S6Qavc/JIYvWR1Jq7kUS6RggUPqkztmaYJqKvvDEk
-         w90nEEktVeJC9Fs6kzMMytD8EaMOPAnSzwF5MmnJoAvtXlaFNev+G322CqVep8i49GGB
-         idKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686264175; x=1688856175;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z5+I2QWhzf+RiNGGieH6S0XhkG75IeU581JZPazQ2GI=;
-        b=WFQ6bCsxZzogmJJ1fcAgcyFdJu0gkIuikq2YGui2v5+RvGZKqrhFcBD7xKvemxGpyM
-         ngVusdZDTIxmjBOHcWS011o5jI/ZV4ZzKbjXVXdGrOsM4az/uqvr8O8LhTwvZgbhdlBB
-         CUkF7B2TQfeY7j8QQWqF32TSQD6JOLybY5xSC/STQBorNAY9QZ466NcN76CI4no+aQDJ
-         Z+1jyc4oh9KP4Wdmh5MeY6gnA5xtvRmh+hl5V6Ijpl+b+Su0gHViTdIRtr9GZ6I55Via
-         nGvk/1aRyWSl304+Wq3UzJAUA49nQjd4s9aTtVdUtaMn0sHBiPrZpVNSIXbLongzywEE
-         1qWA==
-X-Gm-Message-State: AC+VfDwPhYfrf/uNa2+Jq+sdZNF8idAATImeT9tb/q7Ho0IYBOV80vaD
-        8G1WcUXKEu67XDB1v9S99c4=
-X-Google-Smtp-Source: ACHHUZ4xO0JlZa9TP0ZuhFKWPo+2u51TbDZEONZ5ifIh/0+ViToGtZphCf+S8K0f2fGLbDBibEpcDA==
-X-Received: by 2002:a7b:c40b:0:b0:3f8:1a:6b9f with SMTP id k11-20020a7bc40b000000b003f8001a6b9fmr1250070wmi.2.1686264174959;
-        Thu, 08 Jun 2023 15:42:54 -0700 (PDT)
-Received: from localhost.localdomain (bba-2-50-150-163.alshamil.net.ae. [2.50.150.163])
-        by smtp.gmail.com with ESMTPSA id x5-20020adff0c5000000b003078a3f3a24sm2693912wro.114.2023.06.08.15.42.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jun 2023 15:42:53 -0700 (PDT)
-From:   YYang <iyysheng@gmail.com>
-To:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, YYang <iyysheng@gmai.com>
-Subject: [PATCH] Documentation/hwmon: Fix description of devm_hwmon_device_unregister
-Date:   Fri,  9 Jun 2023 02:42:30 +0400
-Message-ID: <20230608224231.1156-1-iyysheng@gmail.com>
-X-Mailer: git-send-email 2.41.0.windows.1
+        with ESMTP id S236269AbjFHXGy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 19:06:54 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67CB830C3
+        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 16:06:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686265609; x=1717801609;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vl9G1QSuA7ilJ+TglaAeFYIzhthc8BU1twBHAkS5g5w=;
+  b=GfYxrD8TKVNEivN6LLOj5u//u/cCZ2vkfaPD8T9StfInkCPQ4nhWyK0X
+   n8/WOSuQCZDVJzomDU0/E6fjxzr4zRUPgRZRJY8jlpUA+N2dDjFMosnJs
+   G9CeC6SnQO3UWiDYnTLf3ljtTZFa+w6tYdPKXO7ZzMawW9knXLlHopQd/
+   StTUAZo7tsYg6pJitkpEyVNLQlJGqYyeG0Q4C1/1DDY1heX0Zf/5GCARi
+   2WL8YzEPWx57zqwLFjeOIaJeA4/kO0dVLEeAltDVrka1r/p6qmHFwb8qK
+   1YBPwlhAeGJ1tulzXP0IYiF24X9CMClH4K5zWboe/m2TrG51tVg2MTzxX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="356342163"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
+   d="scan'208";a="356342163"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 16:06:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="834391281"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
+   d="scan'208";a="834391281"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 08 Jun 2023 16:06:47 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q7OiM-0008KS-1I;
+        Thu, 08 Jun 2023 23:06:46 +0000
+Date:   Fri, 9 Jun 2023 07:06:03 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Stanley.Yang" <Stanley.Yang@amd.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        linux-doc@vger.kernel.org
+Subject: [agd5f:drm-next 834/865]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c:76: warning: This comment
+ starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202306090615.QR4VmYLN-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: YYang <iyysheng@gmai.com>
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
+head:   11007d9259632b46afa565cba971de53b889c7cc
+commit: 4a4cbe5d13827db793b3f4523553a5dee39fe6a4 [834/865] drm/amdgpu: Add support EEPROM table v2.1
+config: csky-buildonly-randconfig-r006-20230608 (https://download.01.org/0day-ci/archive/20230609/202306090615.QR4VmYLN-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
+        git fetch --no-tags agd5f drm-next
+        git checkout 4a4cbe5d13827db793b3f4523553a5dee39fe6a4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
 
-Use devm_hwmon_device_register_with_info to replace
-hwmon_device_register_with_info in description of
-devm_hwmon_device_unregister.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306090615.QR4VmYLN-lkp@intel.com/
 
-Signed-off-by: YYang <iyysheng@gmai.com>
----
- Documentation/hwmon/hwmon-kernel-api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
-index c2d1e0299d8d..6cacf7daf25c 100644
---- a/Documentation/hwmon/hwmon-kernel-api.rst
-+++ b/Documentation/hwmon/hwmon-kernel-api.rst
-@@ -66,7 +66,7 @@ hwmon_device_register_with_info.
- 
- devm_hwmon_device_unregister does not normally have to be called. It is only
- needed for error handling, and only needed if the driver probe fails after
--the call to hwmon_device_register_with_info and if the automatic (device
-+the call to devm_hwmon_device_register_with_info and if the automatic (device
- managed) removal would be too late.
- 
- All supported hwmon device registration functions only accept valid device
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c:76: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * EEPROM Table structure v1
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c:98: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * EEPROM Table structrue v2.1
+
+
+vim +76 drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c
+
+    74	
+    75	/**
+  > 76	 * EEPROM Table structure v1
+    77	 * ---------------------------------
+    78	 * |                               |
+    79	 * |     EEPROM TABLE HEADER       |
+    80	 * |      ( size 20 Bytes )        |
+    81	 * |                               |
+    82	 * ---------------------------------
+    83	 * |                               |
+    84	 * |    BAD PAGE RECORD AREA       |
+    85	 * |                               |
+    86	 * ---------------------------------
+    87	 */
+    88	
+
 -- 
-2.37.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
