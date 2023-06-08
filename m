@@ -2,102 +2,242 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9454EC7EE25
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 12:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB2BBC7EE29
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 12:37:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235474AbjFHMca (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 08:32:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51686 "EHLO
+        id S233910AbjFHMhY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 08:37:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234608AbjFHMc3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 08:32:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC211E43;
-        Thu,  8 Jun 2023 05:32:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 587EB64D26;
-        Thu,  8 Jun 2023 12:32:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54A26C433D2;
-        Thu,  8 Jun 2023 12:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686227547;
-        bh=fOIh00zUsqrqEdfNZOGPcviNsKUmrWFA0cvT+HdU7bw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cXQ9YLYUnV4G4NTQ7+9pYEtShpe+uwTuwZu9W29GrYrGtu7DW/fOJWZsDoyRObAVo
-         EF4xcLQUCauJa/cRtxi5iEevrYqaf+CbaZttx2sdz5s1f65yZuEx4/rFEo2J9BwajU
-         QThEzJiIu9c4X5N3bx0hQ83pnGqaBGZ/7TVCZKJwS4adFFTlDnx2xJ2Ioh2VpgIG/v
-         sRFs0ZK+/QdlVHQ67W9x6RVbrDgCWrC42TWHTADFFQ5qH0+3jnG/tA8svRFSP1CBxW
-         dPp0QYElm6BwCNkAlpbl4qp9Q00nP/JdT5vaxB4d1bga/2pJmTM6GY9gg4F1zm43se
-         3vj8mdiY3iY0A==
-Date:   Thu, 8 Jun 2023 13:32:18 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Julien Panis <jpanis@baylibre.com>,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        corbet@lwn.net, arnd@arndb.de, gregkh@linuxfoundation.org,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
-        macro@orcam.me.uk, baolu.lu@linux.intel.com, yi.l.liu@intel.com,
-        jirislaby@kernel.org, rostedt@goodmis.org, revest@chromium.org,
-        gehao@kylinos.cn, akpm@linux-foundation.org, jgg@ziepe.ca,
-        razor@blackwall.org, stephen@networkplumber.org,
-        prabhakar.csengg@gmail.com, contact@emersion.fr,
-        alex.williamson@redhat.com, akrowiak@linux.ibm.com,
-        mark.rutland@arm.com, ye.xingchen@zte.com.cn, ojeda@kernel.org,
-        me@kloenk.de, milan@mdaverde.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        sterzik@ti.com, u-kumar1@ti.com, eblanc@baylibre.com,
-        jneanne@baylibre.com, aseketeli@baylibre.com
-Subject: Re: [PATCH v7 2/6] mfd: tps6594: Add driver for TI TPS6594 PMIC
-Message-ID: <20230608123218.GF1930705@google.com>
-References: <20230511095126.105104-1-jpanis@baylibre.com>
- <20230511095126.105104-3-jpanis@baylibre.com>
- <20230518150740.GN404509@google.com>
- <20230607173351.GA3605615-robh@kernel.org>
+        with ESMTP id S234372AbjFHMhX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 08:37:23 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4FC1E62;
+        Thu,  8 Jun 2023 05:37:21 -0700 (PDT)
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 358CHOXA028165;
+        Thu, 8 Jun 2023 12:37:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=fsd0e+83dm6G5og5UYRQp+4H7dINEmgeUwftwVBRy50=;
+ b=QucOWYyUAQSdSJuKjqCHSQk6/W/mB29QWlABK9EnqjaV0ivUTX+LNmam86NXLADXRJ3b
+ dYPXlO5NlAQRqx+WPzIdt0aH+dezTWAXcve+BJs3nDQYDgQfxvlSLoGzsEmV7SYlgm13
+ 2BGCBZaFj1wsdXGDZa5xK1DbJS/BeNp1MktTb9wdZfYV4ozT4ICWE66TMtR2604sncb6
+ tsVFv4hCLcVKlZlY1kEmaNxvQEVnBReBrdF1UefFrD+SCTKV3Y7UkUDMKCAELotNUCP7
+ sRCJEHDbj6hflA36b66jchVv3lrrEJzgB8MZVXjIv8PJDde7l5faDFrx876RMXwWlmKr TQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3r3ev20d1q-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 08 Jun 2023 12:37:12 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 358CJCWm000910;
+        Thu, 8 Jun 2023 12:37:11 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3r3ev20cym-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 08 Jun 2023 12:37:11 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 358BKL4n005897;
+        Thu, 8 Jun 2023 12:34:58 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+        by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3r2a790vp6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 08 Jun 2023 12:34:58 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+        by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 358CYuQm8782508
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 8 Jun 2023 12:34:56 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3E18E20043;
+        Thu,  8 Jun 2023 12:34:56 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6194C20040;
+        Thu,  8 Jun 2023 12:34:54 +0000 (GMT)
+Received: from r223l.aus.stglabs.ibm.com (unknown [9.3.109.14])
+        by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+        Thu,  8 Jun 2023 12:34:54 +0000 (GMT)
+From:   Kautuk Consul <kconsul@linux.vnet.ibm.com>
+To:     Nicholas Piggin <npiggin@gmail.com>,
+        Fabiano Rosas <farosas@linux.ibm.com>, jpn@linux.vnet.ibm.com,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Thomas Huth <thuth@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+        Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Subject: [PATCH] KVM: ppc64: Enable ring-based dirty memory tracking
+Date:   Thu,  8 Jun 2023 08:34:48 -0400
+Message-Id: <20230608123448.71861-1-kconsul@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230607173351.GA3605615-robh@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: v8X-d65sqIc0h91LpFoHj7sGmGqn-Z7y
+X-Proofpoint-ORIG-GUID: KMfzz0lN4-_Wt50y0eaFbQgynUHQz74N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-08_08,2023-06-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ mlxscore=0 malwarescore=0 adultscore=0 mlxlogscore=901 priorityscore=1501
+ clxscore=1011 suspectscore=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306080109
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 07 Jun 2023, Rob Herring wrote:
+- Enable CONFIG_HAVE_KVM_DIRTY_RING_ACQ_REL as ppc64 is weakly
+  ordered.
+- Enable CONFIG_NEED_KVM_DIRTY_RING_WITH_BITMAP because the
+  kvmppc_xive_native_set_attr is called in the context of an ioctl
+  syscall and will call kvmppc_xive_native_eq_sync for setting the
+  KVM_DEV_XIVE_EQ_SYNC attribute which will call mark_dirty_page()
+  when there isn't a running vcpu. Implemented the
+  kvm_arch_allow_write_without_running_vcpu to always return true
+  to allow mark_page_dirty_in_slot to mark the page dirty in the
+  memslot->dirty_bitmap in this case.
+- Set KVM_DIRTY_LOG_PAGE_OFFSET for the ring buffer's physical page
+  offset.
+- Implement the kvm_arch_mmu_enable_log_dirty_pt_masked function required
+  for the generic KVM code to call.
+- Add a check to kvmppc_vcpu_run_hv for checking whether the dirty
+  ring is soft full.
+- Implement the kvm_arch_flush_remote_tlbs_memslot function to support
+  the CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT config option.
 
-> On Thu, May 18, 2023 at 04:07:40PM +0100, Lee Jones wrote:
-> > On Thu, 11 May 2023, Julien Panis wrote:
-> > 
-> > > This patch adds support for TPS6594 PMIC MFD core. It provides
-> > > communication through the I2C and SPI interfaces, and supports
-> > > protocols with embedded CRC data fields for safety applications.
-> > > 
-> > > Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> > > Acked-for-MFD-by: Lee Jones <lee@kernel.org>
-> > > ---
-> > >  drivers/mfd/Kconfig         |   32 ++
-> > >  drivers/mfd/Makefile        |    3 +
-> > >  drivers/mfd/tps6594-core.c  |  462 ++++++++++++++++
-> > >  drivers/mfd/tps6594-i2c.c   |  244 +++++++++
-> > >  drivers/mfd/tps6594-spi.c   |  129 +++++
-> > >  include/linux/mfd/tps6594.h | 1020 +++++++++++++++++++++++++++++++++++
-> > >  6 files changed, 1890 insertions(+)
-> > >  create mode 100644 drivers/mfd/tps6594-core.c
-> > >  create mode 100644 drivers/mfd/tps6594-i2c.c
-> > >  create mode 100644 drivers/mfd/tps6594-spi.c
-> > >  create mode 100644 include/linux/mfd/tps6594.h
-> > 
-> > Applied - current being build tested.
-> > 
-> > Once complete, I'll send out a pull-request for the other maintainers.
-> 
-> Some reason the binding wasn't applied too? The compatible strings are 
-> now reported as undocumented (make dt_compatible_check).
+On testing with live migration it was found that there is around
+150-180 ms improvment in overall migration time with this patch.
 
-Good call.
+Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+---
+ Documentation/virt/kvm/api.rst      |  2 +-
+ arch/powerpc/include/uapi/asm/kvm.h |  2 ++
+ arch/powerpc/kvm/Kconfig            |  2 ++
+ arch/powerpc/kvm/book3s_64_mmu_hv.c | 42 +++++++++++++++++++++++++++++
+ arch/powerpc/kvm/book3s_hv.c        |  3 +++
+ include/linux/kvm_dirty_ring.h      |  5 ++++
+ 6 files changed, 55 insertions(+), 1 deletion(-)
 
-Applied now, thanks.
-
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index add067793b90..ce1ebc513bae 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -8114,7 +8114,7 @@ regardless of what has actually been exposed through the CPUID leaf.
+ 8.29 KVM_CAP_DIRTY_LOG_RING/KVM_CAP_DIRTY_LOG_RING_ACQ_REL
+ ----------------------------------------------------------
+ 
+-:Architectures: x86, arm64
++:Architectures: x86, arm64, ppc64
+ :Parameters: args[0] - size of the dirty log ring
+ 
+ KVM is capable of tracking dirty memory using ring buffers that are
+diff --git a/arch/powerpc/include/uapi/asm/kvm.h b/arch/powerpc/include/uapi/asm/kvm.h
+index 9f18fa090f1f..f722309ed7fb 100644
+--- a/arch/powerpc/include/uapi/asm/kvm.h
++++ b/arch/powerpc/include/uapi/asm/kvm.h
+@@ -33,6 +33,8 @@
+ /* Not always available, but if it is, this is the correct offset.  */
+ #define KVM_COALESCED_MMIO_PAGE_OFFSET 1
+ 
++#define KVM_DIRTY_LOG_PAGE_OFFSET 64
++
+ struct kvm_regs {
+ 	__u64 pc;
+ 	__u64 cr;
+diff --git a/arch/powerpc/kvm/Kconfig b/arch/powerpc/kvm/Kconfig
+index 902611954200..c93354ec3bd5 100644
+--- a/arch/powerpc/kvm/Kconfig
++++ b/arch/powerpc/kvm/Kconfig
+@@ -26,6 +26,8 @@ config KVM
+ 	select IRQ_BYPASS_MANAGER
+ 	select HAVE_KVM_IRQ_BYPASS
+ 	select INTERVAL_TREE
++	select HAVE_KVM_DIRTY_RING_ACQ_REL
++	select NEED_KVM_DIRTY_RING_WITH_BITMAP
+ 
+ config KVM_BOOK3S_HANDLER
+ 	bool
+diff --git a/arch/powerpc/kvm/book3s_64_mmu_hv.c b/arch/powerpc/kvm/book3s_64_mmu_hv.c
+index 7f765d5ad436..c92e8022e017 100644
+--- a/arch/powerpc/kvm/book3s_64_mmu_hv.c
++++ b/arch/powerpc/kvm/book3s_64_mmu_hv.c
+@@ -2147,3 +2147,45 @@ void kvmppc_mmu_book3s_hv_init(struct kvm_vcpu *vcpu)
+ 
+ 	vcpu->arch.hflags |= BOOK3S_HFLAG_SLB;
+ }
++
++/*
++ * kvm_arch_mmu_enable_log_dirty_pt_masked - enable dirty logging for selected
++ * dirty pages.
++ *
++ * It write protects selected pages to enable dirty logging for them.
++ */
++void kvm_arch_mmu_enable_log_dirty_pt_masked(struct kvm *kvm,
++					     struct kvm_memory_slot *slot,
++					     gfn_t gfn_offset,
++					     unsigned long mask)
++{
++	phys_addr_t base_gfn = slot->base_gfn + gfn_offset;
++	phys_addr_t start = (base_gfn +  __ffs(mask)) << PAGE_SHIFT;
++	phys_addr_t end = (base_gfn + __fls(mask) + 1) << PAGE_SHIFT;
++
++	while (start < end) {
++		pte_t *ptep;
++		unsigned int shift;
++
++		ptep = find_kvm_secondary_pte(kvm, start, &shift);
++
++		*ptep = __pte(pte_val(*ptep) & ~(_PAGE_WRITE));
++
++		start += PAGE_SIZE;
++	}
++}
++
++#ifdef CONFIG_NEED_KVM_DIRTY_RING_WITH_BITMAP
++bool kvm_arch_allow_write_without_running_vcpu(struct kvm *kvm)
++{
++	return true;
++}
++#endif
++
++#ifdef CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT
++void kvm_arch_flush_remote_tlbs_memslot(struct kvm *kvm,
++					const struct kvm_memory_slot *memslot)
++{
++	kvm_flush_remote_tlbs(kvm);
++}
++#endif
+diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
+index 130bafdb1430..1d1264ea72c4 100644
+--- a/arch/powerpc/kvm/book3s_hv.c
++++ b/arch/powerpc/kvm/book3s_hv.c
+@@ -4804,6 +4804,9 @@ static int kvmppc_vcpu_run_hv(struct kvm_vcpu *vcpu)
+ 		return -EINTR;
+ 	}
+ 
++	if (kvm_dirty_ring_check_request(vcpu))
++		return 0;
++
+ #ifdef CONFIG_PPC_TRANSACTIONAL_MEM
+ 	/*
+ 	 * Don't allow entry with a suspended transaction, because
+diff --git a/include/linux/kvm_dirty_ring.h b/include/linux/kvm_dirty_ring.h
+index 4862c98d80d3..a00301059da5 100644
+--- a/include/linux/kvm_dirty_ring.h
++++ b/include/linux/kvm_dirty_ring.h
+@@ -69,6 +69,11 @@ static inline void kvm_dirty_ring_free(struct kvm_dirty_ring *ring)
+ {
+ }
+ 
++static inline bool kvm_dirty_ring_check_request(struct kvm_vcpu *vcpu)
++{
++	return false;
++}
++
+ #else /* CONFIG_HAVE_KVM_DIRTY_RING */
+ 
+ int kvm_cpu_dirty_log_size(void);
 -- 
-Lee Jones [李琼斯]
+2.39.2
+
