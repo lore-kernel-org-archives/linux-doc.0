@@ -2,119 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD3FFC7EE2E
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 08:14:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8762C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 08:36:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234940AbjFHIOD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 04:14:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57822 "EHLO
+        id S235309AbjFHIgo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 04:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231674AbjFHIOC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 04:14:02 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FD5C2695
-        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 01:14:01 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id 3f1490d57ef6-ba818eb96dcso403203276.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jun 2023 01:14:01 -0700 (PDT)
+        with ESMTP id S234190AbjFHIgm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 04:36:42 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3C6526B8
+        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 01:36:40 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-5148e4a2f17so571815a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jun 2023 01:36:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686212041; x=1688804041;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SozPjokJrntF/Oo8htMG+TXiphVXSJ/WTfbCCYukN6c=;
-        b=cczgcKQXzuA+Fvo6OnlqL2crMtCvHHH2m4epR4C/qmv/FJnEnQgZ9c7M0fr/SJ2Mcb
-         pgrz8YetWVEKEIpv16KT8QiVoAWjvKwObhX9M7BrOmJSC8moQlzQgGBZNEvIjZGw032K
-         X36ylsSl+ZtzDyHf21dANfTvU1NOQuKVE5Q8HX6sAZ7ktF/yjuEy31sZY6Xx5RgCIakG
-         RsLuOw8NpA2iTwczy1HJXcWFAmkN6FopOUUn9WI2c7UWvqZK/ngCc7m+KxTVTJbumaIS
-         hdEw+oXYE1xY/UpIdbxS7ZnAw3NFQgAqG+Z3i+YEJSH2I0GRs+MKEhOYtSXZYx8e0Ch8
-         9/lw==
+        d=linaro.org; s=google; t=1686213399; x=1688805399;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KP6FTQbezAovuHn8DXvJcqsrbsf1/vJCY3Cy9QhDcuY=;
+        b=l4G/0deA780yke9lCVpsQz9+5T9PPXsj68cOKT9hCDkYvKS49eun7pxuHW16iEZP/b
+         T1rcaMRIMwY+8YXee5rtf22mLEczKIXKY1g6IJBzTYh471ju92mHUqknGGuLD0DTvK8Z
+         gFaYicpruiY2UWFTlTY1B+9YGcvYGv9AmWpOuzaH0SqhJydXhDzbO6yxWhnK0fU60jhp
+         bHyzWnQ2qhDJ8aEb4KEPr7YSKlujuWbYyaEDzbcjNUEjblTOKuqMBaiFHiZdGrUpFjbs
+         N4XexIeytr493Pqqf1a1u5OohNOLFMz2kR6lq6Xx3EkEt8dXjJ7INiOHPvv8G4fVb2dz
+         atLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686212041; x=1688804041;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SozPjokJrntF/Oo8htMG+TXiphVXSJ/WTfbCCYukN6c=;
-        b=aVg/eL0AoDVK+Z5vJ3Y4GI9GODsFcCMU4bsoFpip0GoVxAWDB1z84xCmbZCLXNzfEH
-         UvNmwv2chvn2yyteHZYUy1HHmEf5mc0F7lR28tZjsGm3d09jWN3vnk3mkdAwjsecbdPp
-         WWMt4E4nZHQEd7DbIglCxsVKjuNlnFhgTdWYPxZPyGS8KqF326FeyH/vkGPeJkE2qK0k
-         2DMFtpg5rarCI0PJ+GCInmwHZ2SxswOYpOpKe4kneq0i2vLK+QOpgoFUHm67VUGczizn
-         akWJgOdFxEXtajnl3Kr55HS5uP4Nl8Ug8SQNAaC0cUsg8mKtdzcJNqslwTCV/r9KT8fC
-         DuRQ==
-X-Gm-Message-State: AC+VfDzgPjWqu80HvUPJbbBxsSn7TxiZZtTzY987WH6w7BSf7PpYF4Ql
-        K73C2RI7HITsEx/MpFAn+kAasGt0Desof2yPrembnMo6gWPYKCmlrI8=
-X-Google-Smtp-Source: ACHHUZ4lKcngg3cUQXYN/Nr+g2EBp9Mt4Nh/jGLDWz1HIvDz3G1mNWdigm3jaN8J2YmlfdP3a/WD3P4bbz0MXDF6EXQ=
-X-Received: by 2002:a0d:c7c3:0:b0:54f:9cd0:990 with SMTP id
- j186-20020a0dc7c3000000b0054f9cd00990mr8755401ywd.18.1686212040844; Thu, 08
- Jun 2023 01:14:00 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686213399; x=1688805399;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KP6FTQbezAovuHn8DXvJcqsrbsf1/vJCY3Cy9QhDcuY=;
+        b=FceMME2yxW8KSJp1xbCQL+h+ymE3UjQqLFsNwxdH5ju+HzaFh/xSNt0qtliBwotG8G
+         fiPsKP9xPKJQ6p0MiDsCzcysuV0xTpbT7gam3KrMfninWSLTfjU6HuIgkLmOS2z6+3j6
+         i8gXUuI2wAxQWRbWLPAPJ5KI3+hc2x3m2Uk7XaYTDs7eGrB7MTXJVh45WN/9eU6z/Jbd
+         Lk8dC9aIQia9fUIZxKrfZaF3m2yP8gvtQjsxx+UHuvjpIKiU5sSnjRG1+hzReqSfrmYx
+         dvV9fsKOjWBl9BtEYhIUJbTGmGCmd+lNqEOQ/YzH7DE0KzO0TCzi9DEkDN91uKca1i4A
+         0ONQ==
+X-Gm-Message-State: AC+VfDz2aGu5MZUwK3xbJ9+CwJos08TSINI6P24HXz+V8JGs/u4K+Hsx
+        ixwi06QdFQsSw7v6G1YWg8IvXg==
+X-Google-Smtp-Source: ACHHUZ4Rr0xFX57yVQfz1/k8GLc/jFvOpE/oXWcHFHi0S+gaR1ek3G1G18/OfI6o6YcStn+m8N0Kig==
+X-Received: by 2002:a17:907:1c15:b0:96a:8c13:8dc0 with SMTP id nc21-20020a1709071c1500b0096a8c138dc0mr9105461ejc.37.1686213399231;
+        Thu, 08 Jun 2023 01:36:39 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id a14-20020a1709063a4e00b0097456b4085fsm383939ejf.190.2023.06.08.01.36.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jun 2023 01:36:38 -0700 (PDT)
+Message-ID: <9f8a9208-62d4-0c96-7d1c-a452d3d7e799@linaro.org>
+Date:   Thu, 8 Jun 2023 10:36:36 +0200
 MIME-Version: 1.0
-References: <20230605221035.3681812-1-linus.walleij@linaro.org> <ZH6uolQWeyX9kb+j@casper.infradead.org>
-In-Reply-To: <ZH6uolQWeyX9kb+j@casper.infradead.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 8 Jun 2023 10:13:49 +0200
-Message-ID: <CACRpkdYPPLWW6P5wwEuXjM6ZL6k6fpq_G7my6jBRhz76426bcA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/mm: Initial page table documentation
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, Mike Rapoport <rppt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [v6 1/4] dt-bindings: pwm: Add ASPEED PWM Control documentation
+Content-Language: en-US
+To:     Billy Tsai <billy_tsai@aspeedtech.com>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patrick@stwcx.xyz" <patrick@stwcx.xyz>
+References: <20230608021839.12769-1-billy_tsai@aspeedtech.com>
+ <20230608021839.12769-2-billy_tsai@aspeedtech.com>
+ <4dffd320-8e30-fb30-6ded-79519afddc21@linaro.org>
+ <SG2PR06MB3365DD80EA2FD026D400C4A78B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+ <61278e12-ba39-4503-ca74-a7118b0f6e99@linaro.org>
+ <SG2PR06MB336528007D2685F8D95DF4078B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <SG2PR06MB336528007D2685F8D95DF4078B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Matthew,
+On 08/06/2023 10:21, Billy Tsai wrote:
+>         On 08/06/2023 09:47, Billy Tsai wrote:
+>         >>
+>         >>   >> +
+>         >>   >> +allOf:
+>         >>   >> +  - $ref: pwm.yaml#
+>         >>   >> +
+>         >>   >> +properties:
+>         >>   >> +  compatible:
+>         >>   >> +    enum:
+>         >>   >> +      - aspeed,ast2600-pwm
+>         >>   >> +
+>         >>   >> +  "#pwm-cells":
+>         >>   >> +    const: 3
+>         >>
+>         >>   > 3 cells? For one PWM? What are they?
+>         >>
+>         >> channel, period and polarity.
+> 
+>         > Don't cut my responses. You wrote you have one PWM output, so only one
+>         > channel. What do you put then in the channel?
+> 
+> You need to put 0 in the cell of the channel, the example of the dts usage will like following:
 
-I fixes up most of the comments.
+If you always put 0 isn't this a proof that it's wrong?
 
-On Tue, Jun 6, 2023 at 5:57=E2=80=AFAM Matthew Wilcox <willy@infradead.org>=
- wrote:
-> On Tue, Jun 06, 2023 at 12:10:35AM +0200, Linus Walleij wrote:
 
-> > +- **pte**, `pte_t`, `pteval_t` =3D **Page Table Entry** - mentioned ea=
-rlier.
-> > +  The name is a bit confusing because while in Linux 1.0 this did refe=
-r to a
-> > +  single page table entry in the top level page table, it was retrofit=
-ted
-> > +  to be "what the level above points to". So when two-level page table=
-s were
-> > +  introduced, the *pte* became a list of pointers, which is why
-> > +  `PTRS_PER_PTE` exists. This oxymoronic term can be mildly confusing.
->
-> I don't think this is right.  PTRS_PER_PTE is how many pointers are in
-> the PMD page table,
 
-I don't get this. What does PTRS_PER_PMD mean then (and
-then all the way up to PTRS_PER_PGD...)
+Best regards,
+Krzysztof
 
-> so it's how many pointers you can walk if you have a
-> pte *.  Yes, it's complicated and confusing, but I don't think this
-> explanation clears up any of that confusion.
-
-I will try to reword it so this gets through.
-
-> > +pointers*, so the **pgd** contains `PTRS_PER_PGD` pointers to the next=
- level
-> > +below, **p4d** contains `PTRS_PER_P4D` pointers to **pud** items and s=
-o on. The
-> > +number of pointers on each level is architecture-defined. The most usu=
-al layout
->
-> I don't think it's helpful to say this.  It's really not that usual
-> (maybe half of our architectures behave that way?)
->
-> I think a document like this that talks about page tables really needs to
-> include a description of how some PMDs / PUDs / ... may not be pointers
-> to lower levels, but direct pointers to the actual memory (ie THPs /
-> hugetlb pages).
-
-I don't understand that stuff. I suggest you patch this into the document
-when the basics are in place.
-
-> Sorry to take a wrecking ball to this, I'm sure you worked hard on it.
-
-Don't worry about that, I'm an academic, I just rewrite.
-
-Yours,
-Linus Walleij
