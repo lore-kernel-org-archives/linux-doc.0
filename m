@@ -2,86 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1BE5C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 11:51:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4618C7EE29
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 11:53:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236365AbjFHLvn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 07:51:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36476 "EHLO
+        id S236258AbjFHLxB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 07:53:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236258AbjFHLvm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 07:51:42 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 705C31FD5
-        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 04:51:41 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-ba8cd61ee2dso2383067276.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jun 2023 04:51:41 -0700 (PDT)
+        with ESMTP id S232417AbjFHLxA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 07:53:00 -0400
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA9CD1FEB;
+        Thu,  8 Jun 2023 04:52:59 -0700 (PDT)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-56ca07b34b1so4387067b3.0;
+        Thu, 08 Jun 2023 04:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686225100; x=1688817100;
+        d=gmail.com; s=20221208; t=1686225179; x=1688817179;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BUtbBCyg3/ru6fquO7pFhKs4Gtk9wx/uUOHkpEel6iI=;
-        b=XczW/2BCQTzxU/efbVnK9I0dKRxLRPzp4a+WFPeB8gNNkp8kaO6d0Bp40CQXKJxmiR
-         YXr7gXULOQfvFzpBmUaGR0QwPA4rrm7ybARS382pDkZezBxAcMBp1b/pzhqX16lAApMn
-         vFwCq5r46VIBm+zdplCkME8o9AdLyHSg51xHaZO+oPbUYnMapPjFNU+5XIe5oBz9iyPy
-         Wv32NnDU72kDU2b2BwTzGEPuxRM8ZM2SUYQI80iSU7OPkzJu8IS0Pj/rEK++42Jt7Mnn
-         Viv3kWdBrw172ylgL+YmGSdz9R5cjGPs2misvISqi1zBvAkJ1b0fSvY/ktx2eQjkw0dd
-         EmMA==
+        bh=zl1R25aFlMknfZ0TZaTg0XuHD/qftBgk3A9a/qrvBxE=;
+        b=JkWwFpUHXV9of/EMlxEglfiJIwG1whJEIcTeXTzj0r1UXBhS3QQTuzkkduG01/PtL+
+         Dc6zQvaguzzgwBx7WI0aYdeB7ZdtueyKcmvT7IKVzNRsqhuqwtYMPUyjy1gqCKi7EY23
+         SDoM2b1Qy5nIPOupVMsQuZokYSz/qFGraoOECWmgxh0wTrApXG7k5bt7SAB/kFmj9Ux4
+         H5IMMf5fkjKmupydwZm55ILHeDzk4y1Otqyjwmj34EZ6NbSwkuOhAZc6ig5rU70vV4i/
+         Y8Mwh64R+JCNUx3ml3+xihLvBqH1Ja3Dh1iA1tYZ2SdKKDpJQVjhW0iAhUfUpepA3d1x
+         UUKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686225100; x=1688817100;
+        d=1e100.net; s=20221208; t=1686225179; x=1688817179;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BUtbBCyg3/ru6fquO7pFhKs4Gtk9wx/uUOHkpEel6iI=;
-        b=MzdpcIijj2xuk9AHCAnjUp8Ao0q3taTe6SCtxnbxWWxhakSvSL3huhtJbo3yMXEFdA
-         5fVX8ewrICtxIGTHbN66RNkVT+Cz2Xkps+l7zZIKDD7oiwC4dTln+NHyqNedfeptthuS
-         /QD56/qkGkIbrEfeVJzdQnOQMnfDD98faf5YileAsFNkt4idjNWJLZo7jQIvuNWL6Nbz
-         YHhSynuW0UONi0UNkgluNrTwleDw9i6MhQYMQsa+esHgtEqVh96wSQxmrz7noObA0sKH
-         p/uGnBITDsyNykYctaF1dvRfM7hyMDtrcVFiVUOo09k9llKkYDR3smis6xMJGkO3Ez89
-         x8qg==
-X-Gm-Message-State: AC+VfDwefXVZxUeGpPwBfbjSq1rVEpHE9uG6JRdbOWV/Rboz9KCv1cco
-        xYYvWt1PFGD+oy6HFcEIq5YZi2qSoTk+zZv+Cv6xgJ53ogJhjLub
-X-Google-Smtp-Source: ACHHUZ5sVaxM+0CunjDO8KA1s84laXOn+p3BVyjyJZO35Vh2FFb2Wat1WtfICaqy5TqZY4OUGppmO4JcWPUYL47bMXI=
-X-Received: by 2002:a81:5f06:0:b0:561:bbb8:2dc3 with SMTP id
- t6-20020a815f06000000b00561bbb82dc3mr1883804ywb.21.1686225100687; Thu, 08 Jun
- 2023 04:51:40 -0700 (PDT)
+        bh=zl1R25aFlMknfZ0TZaTg0XuHD/qftBgk3A9a/qrvBxE=;
+        b=DhlBh/6mCNcw8V8OMmn/ng8l0eb0wUuOEKbIMBYbXv9wLkue65tCJFZkI29/91rmQG
+         NDuxLdfTqWYwBCGxM6nVL2gMAwIhsksoTN60ErZrllYWnTXsYFfi3RWtt92qz2o3l4mk
+         IFDTP1jSHJ2sKhgKKfbROsZH6ErJ9iOq7oEolfZPbTzKG6MIzZXGbD7XgqSortxIB3lJ
+         XnWmy8ex6QxBT9qHGIt20ncjUofzi7Vs5e6uJOJFZs2DzKkwNTEuQNMd+aeWfOXwXaGY
+         lObg1sVZ+UK39QMfoLrkO6uN5ZyjQsO7y31NZ4MYBYsVh+zXP9+bqTtNDSJM3MUIBTbl
+         85ZQ==
+X-Gm-Message-State: AC+VfDwFc5HjTM2XjZWEhSQj/hqawcAtbpvj1gsPjjwY244ZCuI3gFQ+
+        7b/YgjjsIgOWjshyyYpqh7i95s2j9xMaEMKL+QI=
+X-Google-Smtp-Source: ACHHUZ6h6dDyv4SxutQEfzo1GDIGkQqE4VT4CGwB81++CdMgJ3EN0Xs26iS4UkX3+1xwEFlXbP9izWEIR2g4zFlOcTk=
+X-Received: by 2002:a0d:c584:0:b0:561:b246:77ca with SMTP id
+ h126-20020a0dc584000000b00561b24677camr9370671ywd.28.1686225178967; Thu, 08
+ Jun 2023 04:52:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230605221035.3681812-1-linus.walleij@linaro.org> <a1690394c1f51875c85600251f7789289c798227.camel@mediatek.com>
-In-Reply-To: <a1690394c1f51875c85600251f7789289c798227.camel@mediatek.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 8 Jun 2023 13:51:28 +0200
-Message-ID: <CACRpkdZ7Xn4kUoqvvhRJY7WGbf5Tgo_gvSf81j-on_jRfxPfdA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/mm: Initial page table documentation
-To:     =?UTF-8?B?S3Vhbi1ZaW5nIExlZSAo5p2O5Yag56mOKQ==?= 
-        <Kuan-Ying.Lee@mediatek.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20230307102441.94417-1-conor.dooley@microchip.com> <20230608-dispatch-sneer-aa09bd7b2eb8@wendy>
+In-Reply-To: <20230608-dispatch-sneer-aa09bd7b2eb8@wendy>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 8 Jun 2023 13:52:47 +0200
+Message-ID: <CANiq72nnph7LS1fLRtHz8NJ91PWXPaUnm0EuoV3wrbvK398AnA@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     linux-riscv@lists.infradead.org, conor@kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, rust-for-linux@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 8, 2023 at 11:32=E2=80=AFAM Kuan-Ying Lee (=E6=9D=8E=E5=86=A0=
-=E7=A9=8E)
-<Kuan-Ying.Lee@mediatek.com> wrote:
-
-> > +With a page granularity of 4KB and a address range of 32 bits, pfn 0
-> > is at
-> > +address 0x00000000, pfn 1 is at address 0x00004000, pfn 2 is at
-> > 0x00008000
-> > +and so on until we reach pfn 0x3ffff at 0xffffc000.
+On Thu, Jun 8, 2023 at 9:01=E2=80=AFAM Conor Dooley <conor.dooley@microchip=
+.com> wrote:
 >
-> pfn 1 is at 0x00001000.
-> pfn 2 is at 0x00002000.
->
-> And so on until we reach pfn 0xfffff at 0xfffff000.
+> I do intend revisting this, probably after the min. version for rust
+> gets bumped, I've just been really busy with other work the last weeks.
 
-It seems I went immediately for 16K pages... Thanks, I'll fix it up.
+Thanks Conor! That would be great. We are increasing the minimum
+version after the merge window to Rust 1.70.0 (assuming no unexpected
+issues).
 
-Yours,
-Linus Walleij
+This is the branch I have in case you want to use it, I will submit it
+soon: https://github.com/ojeda/linux/tree/rust-1.70
+
+Cheers,
+Miguel
