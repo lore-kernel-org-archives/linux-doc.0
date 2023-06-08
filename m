@@ -2,207 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AADAC7EE37
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 06:11:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F75BC7EE25
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 06:38:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234592AbjFHGLy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 02:11:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49582 "EHLO
+        id S234768AbjFHGiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 02:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233529AbjFHGLw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 02:11:52 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B997726AA;
-        Wed,  7 Jun 2023 23:11:46 -0700 (PDT)
-X-UUID: 566aa9d205c311ee9cb5633481061a41-20230608
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=1OFytwcSfT7HEMWZ//hdXR+9Ei5VduxsNxF9LbaYBOo=;
-        b=EVsH/fUshQCEfh1g2bFJ/pAT76PKkqC0OtdfGCgL0g1JGJD/n6vrJa40np64OEj747jPDqXIsU678tvxoUQ8vb21Sc7bYhylckvEGmhG+p878hduA9rBFgjJ6E2vD81YJfjhN+vFm2DXNH+j+MVsF1khtUkSR4faHvPEnyNWi2o=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.26,REQID:e2288b81-6030-4251-8b11-039f52ac1564,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:cb9a4e1,CLOUDID:14d6f43d-7aa7-41f3-a6bd-0433bee822f3,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 566aa9d205c311ee9cb5633481061a41-20230608
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
-        (envelope-from <yi-de.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 231024555; Thu, 08 Jun 2023 14:11:42 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 8 Jun 2023 14:11:40 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 8 Jun 2023 14:11:40 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B5kLEG02chaQxN0JNSV7li5uKIQRePujlaysC1qiHB6W3Gwavvy9h8z6VXMypA/sSV0YZzksiQ8itQ7/fgkKTumWcU4C8j9v5so89aIjDBtdZXi/BDRdnRnyG8b6y0ckXFv6Dz/UFmQpaatv5e/MvNL6growf9VhETPGSWA5b+BsnCaGrFaZfgT707u8ntnU24OTC6YbyeWXg4SwKrCrQoTw8qGGeXQGyJ7McltlT2UIWw6CYnLWWLFMlAv55AYlr8eFZB9iF3dpN1W2qpSpns6AeWLd2cBMCnjihYEwHUjreUgCfpO68r/9UJwse4uqlkRpLcxioSUStUA3336cQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1OFytwcSfT7HEMWZ//hdXR+9Ei5VduxsNxF9LbaYBOo=;
- b=XlYDA53jO8hkwCS4pYtmrW9dQkVLdQxUixaqnLzP1/768XCku41+NCZJF3pSYHK3TXn3fc9hKumwF4FnEAZllO1qfrPX9X6Ra7OSXoZG+QLCe4k7TOOhQbPKO88D4d7pCH6VOqX+/frrrufjpHmtM/btkQ5DpnpKpw8EokCXI5YQKd2jC7ZKRDxs5rkcTNWx5lIrbPegYSKKGqpwfHRsX8DVy4EPoPXX4BTTqT8GqvorVmrJzoyuhbHpJ6wVMk8KNDptz47IpHiXFm78yhmoied52amvC4mvPXe3KG4ng8AuHiN7YX8U7Drtr62Qo6IAw/vOZ3A7te+7tOa1XsLkCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+        with ESMTP id S234417AbjFHGiE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 02:38:04 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38F52688
+        for <linux-doc@vger.kernel.org>; Wed,  7 Jun 2023 23:38:02 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-5147f7d045bso309533a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jun 2023 23:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1OFytwcSfT7HEMWZ//hdXR+9Ei5VduxsNxF9LbaYBOo=;
- b=bLQG7NQT60o0bDD9/20ovz/muxnFWEc37vv6O8nUzsi/kPoTSCjAx2W9n/O96RYP6MSUTpOpVqb1suzqTmwKsjDrglkTY2OL+RkeJgPqKLfpFXwFNHqJOWYdMoin1eKdoxrpTJ3fZKenm8dV2UKa7cNOAAQUtSVFE/KgVraViuY=
-Received: from SI2PR03MB6167.apcprd03.prod.outlook.com (2603:1096:4:14f::8) by
- SI2PR03MB6461.apcprd03.prod.outlook.com (2603:1096:4:1a1::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6455.33; Thu, 8 Jun 2023 06:11:38 +0000
-Received: from SI2PR03MB6167.apcprd03.prod.outlook.com
- ([fe80::18a:8f94:379c:982d]) by SI2PR03MB6167.apcprd03.prod.outlook.com
- ([fe80::18a:8f94:379c:982d%6]) with mapi id 15.20.6455.030; Thu, 8 Jun 2023
- 06:11:38 +0000
-From:   =?utf-8?B?WWktRGUgV3UgKOWQs+S4gOW+tyk=?= <Yi-De.Wu@mediatek.com>
-To:     "conor.dooley@microchip.com" <conor.dooley@microchip.com>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        =?utf-8?B?TVkgQ2h1YW5nICjojormmI7ouo0p?= <MY.Chuang@mediatek.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "quic_tsoni@quicinc.com" <quic_tsoni@quicinc.com>,
-        =?utf-8?B?U2hhd24gSHNpYW8gKOiVreW/l+elpSk=?= 
-        <shawn.hsiao@mediatek.com>,
-        =?utf-8?B?TWlsZXMgQ2hlbiAo6Zmz5rCR5qi6KQ==?= 
-        <Miles.Chen@mediatek.com>,
-        =?utf-8?B?UGVpTHVuIFN1ZWkgKOmai+WfueWAqyk=?= 
-        <PeiLun.Suei@mediatek.com>,
-        =?utf-8?B?TGlqdS1jbHIgQ2hlbiAo6Zmz6bqX5aaCKQ==?= 
-        <Liju-clr.Chen@mediatek.com>,
-        =?utf-8?B?SmFkZXMgU2hpaCAo5pa95ZCR546oKQ==?= 
-        <jades.shih@mediatek.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "yipei.chang@gmail.com" <yipei.chang@gmail.com>,
-        "dbrazdil@google.com" <dbrazdil@google.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        =?utf-8?B?WWluZ3NoaXVhbiBQYW4gKOa9mOepjui7kik=?= 
-        <Yingshiuan.Pan@mediatek.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        =?utf-8?B?WmUteXUgV2FuZyAo546L5r6k5a6HKQ==?= 
-        <Ze-yu.Wang@mediatek.com>, "will@kernel.org" <will@kernel.org>,
-        =?utf-8?B?SXZhbiBUc2VuZyAo5pu+5b+X6LuSKQ==?= 
-        <ivan.tseng@mediatek.com>
-Subject: Re: [PATCH v3 2/7] dt-bindings: hypervisor: Add MediaTek GenieZone
- hypervisor
-Thread-Topic: [PATCH v3 2/7] dt-bindings: hypervisor: Add MediaTek GenieZone
- hypervisor
-Thread-Index: AQHZhKhmUF0/38V75UeFrDKRhI8uD69Wex2AgCobuwA=
-Date:   Thu, 8 Jun 2023 06:11:38 +0000
-Message-ID: <076db7465b2efb29589a00f6346854260664b1f7.camel@mediatek.com>
-References: <20230512080405.12043-1-yi-de.wu@mediatek.com>
-         <20230512080405.12043-3-yi-de.wu@mediatek.com>
-         <20230512-kudos-stunt-489ee651bdd8@wendy>
-In-Reply-To: <20230512-kudos-stunt-489ee651bdd8@wendy>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SI2PR03MB6167:EE_|SI2PR03MB6461:EE_
-x-ms-office365-filtering-correlation-id: 1322757b-c0d4-4fb9-fdc9-08db67e7386f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +D7c2042meO6Fsj3QIg0MNkggpvSxCzRZInnlGtR18DJL1I4IxuBl6nXpQpK0nrIsOkcMtHg5R5z7S2k4f/8Q5DzwmUCrv9YFDh1zTdlpxPDIm1UEekEWqdNKAe16jNm+/RW/ckuqw+EsuhdX5QQpaokfOqZWX/jknLH1EEfDr5fQ1DEhLKNU6+CaVCtinWPFuvKrawjcQniOkK5EmoxyQPV1bJJLGqinWG3TvAamJrYLjC/wDIamqk+Vgg6/8JkxtK4h3If2YFNImx3r7HUD1m4NlSPxABFL3Kfq6OdiAib8qsWK7+8BBTfpbINJAb6uVSPN0m4o+oifExTKjAgWFMaoeRWD/cVkh4Yx5JgI+OabosBuCvHbqdQjXJzZGBort+eXbfq3HSvyu+0trlkEpS5KI8fFsx07DqoSOf4JC77L7u8pYQkybSyZ0LgSco0gnGLp+1a2Mrlx3cqDobmtqfhch9wWLE6afFNLL/6/3l0J92yaHkt/jRwbAO2alD/sEjAcvq+TOfhYFRFDmooWh0K3c+AlyWtYQU/E1+rkYxFapU1Cm64Mwkl0Hub1xqCtvI0H/S54L2JKR8asfhBMy25vDubwKOk3ttzUS3uuaSHMyfpee1ErAg/qB+ehvd5+srojDRpUXdm0iQGH+lcPMLjjm4lftylu+vHcpDkxss=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB6167.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(39860400002)(396003)(366004)(136003)(451199021)(66476007)(76116006)(478600001)(66446008)(66946007)(4326008)(6916009)(316002)(2906002)(64756008)(8936002)(41300700001)(8676002)(54906003)(66556008)(91956017)(5660300002)(7416002)(6486002)(71200400001)(6512007)(6506007)(26005)(107886003)(38100700002)(2616005)(83380400001)(186003)(36756003)(85182001)(86362001)(38070700005)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?K2hTTW9xeVZqYVBvdGE4a2pmYW5BTmEzZU9TUDRmOFVjeXNoQXJvMzloUnhU?=
- =?utf-8?B?K042eDI0MzlRbkRqb0lpbFF6NkY5ZEVzR25zblNvMzhmd0pKRmF6M09VVWhs?=
- =?utf-8?B?MGxqN1ZkdlB3dzd0QzdlVU11VmJZZkNaM0dSTGRpZTFuQmMrYW1GMTU1M05x?=
- =?utf-8?B?TWkwRWlpazNpQ05VR0RKait3Y0V0NnVjaWNBckdtcWMyR05aZnBtY05lSE03?=
- =?utf-8?B?MWNxNENEVXBVZDJ1eFMvUHN4TDNhYWhhUzdNNlBzSHdjTTczS05hM0JtMmtT?=
- =?utf-8?B?WGptOXlSKzlwVmZFdldwS0hSNUgvRFhDSjBLMFVqTW5sSkVTTWFSNHYxODM4?=
- =?utf-8?B?QlVpN0JlL1BDaG5zKzFyc3ZhT2c1U1kvMlp4d2NQenRFR2JDYVVPSnRROHpy?=
- =?utf-8?B?SHd3bmppM2RudVgrOEMxeVpiYVJzY0dHSllsL0Q5L01pa1dHNXlMSVBtVFM4?=
- =?utf-8?B?NnFKemJWZkY0WUoxQ3psMlBvcFF5NXZXQjNlczc3RG9RNURhSlJuTk5Dc2cz?=
- =?utf-8?B?MXkyRUs0VzArVXVFbzNQU3RodGtWdnhNbDJKa0JNVnJtL3RKa0xFL0Jpa3h2?=
- =?utf-8?B?QlkraGxTUVphcEh2eXVjUENpOW1sNCs4YUZ2QmJqclJQM1dlQjhFc2lMVnBo?=
- =?utf-8?B?b0xQdnllVUdHa0t6Wk1EZ2xHSlZESXF5VmY0dGhwdUpxeXVkUWNxL2lDKzFm?=
- =?utf-8?B?NVJDODhYTGQxSGdhWFh3WDlNTHpUK1pGMWlCQWpRc0E0NGdrc3draHl1REFl?=
- =?utf-8?B?WFI5OUZuRnY5UmFublN1em5xakliSUtCRGNHZzlQTmFUZnZiZTdiZXM3MHZh?=
- =?utf-8?B?NVpnNjRhS2txdUpydGdkQnczK2d0Z1J4V3RiSEZGQUlnTFAwK1ViZy9DcGoy?=
- =?utf-8?B?bmhFZm9DK0JQMGc0dnJGUElvRnA5ZFZPRExQRXUzNGlVaHBZbGVZMFNxWnVi?=
- =?utf-8?B?U1UxMEQ4VlYvaDgzalRrZTUwelFYRWVPS0ZhRWkyZDF0V245QjEvV09KRHFU?=
- =?utf-8?B?dVRIY3c2S1hBN0syVkg2dGNTVGlRNE9aQm9UMjZra0NqWE1XSDd6YWJqUDhi?=
- =?utf-8?B?bmVWcXBNMjN3N3huVDNMakViK3JaeHg1VkpXTjZod29odms5S0JmbHlXUkFr?=
- =?utf-8?B?dzU0SVRiRUw5TVF2cWJqcFg1N0wzVjBhOTBnN1A3dm53R01uZkJ2TTU0cGpl?=
- =?utf-8?B?VFFXZjlZY282Z2dSQ0UvSWdocVFVaHRJU2FBNjhHelpOV1R6L0RCcW43Y0Za?=
- =?utf-8?B?YW5hTEJLVXBOM2FFQU5yM2VUUmlLUU90b0YvbUZFQ25IMm1aaU9KR2MyMGlv?=
- =?utf-8?B?SXNvM2JaSzVlN2M0SXVlUmRScWp5V0VZQzR1YVVmdnI1SFdSZ0ZodVlTM2ky?=
- =?utf-8?B?bXRRZXpZdSttcmN0cFRpWDA1V2NiMjlnOWMxNEN0T0dJVXFlZEVWZ1Q1RGcw?=
- =?utf-8?B?UWxZRnl3V3dkaEVvUGZxVi83a3kxTzFiS2ticDlnQzVvWXU0dDlYK0JLVGc4?=
- =?utf-8?B?cjdGbjhpdHJpVXFkQlc4YlhXOFRVYU0vSXJCK1h5SzdNRTB4WGIvNjVWbmpH?=
- =?utf-8?B?SUh0VFVIZ0FwajZ0OXkvcGEveWw4TmlLcm0yMXdLekNwR0R6cTBkcG1ORDdF?=
- =?utf-8?B?VGl3RVpYZHhwMGpPTGZWbCtLSTB0M1RuYnc5RDhJUytIeElhTmgrckZFWmly?=
- =?utf-8?B?dXBmUEpzVW1ESmNSUXhGYnZsa2s4VmlVNThDNnE5UTFyaEU5b3N6UHd4NTFi?=
- =?utf-8?B?NjRzSmJLRW1OUjd2SjVDZENWM01IM3U0azZMQlU2QWkrelFaOCt5QWtON3ZJ?=
- =?utf-8?B?SXdFMXRMbitTS2UrZGEzQ2RQWDJqa0lZR2g2eFlXVUc5ZTZnVTM1UTI0SU5D?=
- =?utf-8?B?djN6UENJVEtVTks3azM0akwwd05xN3ZkR1RvNUdFNHdmNElITmFPYUdkcHJY?=
- =?utf-8?B?VnNSSERpQzYzY2FSanQxSHRwODk5MG1TaFpCUEQ3Sk5sNUVtWXN6U2JkMXZi?=
- =?utf-8?B?cnR2NmJoaEUxalVmWXlnUWhjbmtTdXRhTXFGeTlaQTlCZ2xIbGJ3ZXNWa2s4?=
- =?utf-8?B?ZWp2V2M2QWJFakNNZlhwc0NLK3JWbWpCYlNQTGxNV05Rd0hnUnBuR3M4ZzNK?=
- =?utf-8?B?QlhiUmJPRTc5R0ZUeVhYN0ZYdjdoK2ozMmhudVRxN1g3UTl1RFlCcnlqb1gz?=
- =?utf-8?B?NlE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3DE40CB27277BD45B456001CF11DC835@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=linaro.org; s=google; t=1686206281; x=1688798281;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lqo0A7BM5THz83RAtHMEkVHjNz7WCnOgKYrgDzsaaU4=;
+        b=CUbo1fahuMwU8hQpPyLHBQTQNthgS0+azjXEB5AuMpivBaAN7sKBcqOMHCbudzENfS
+         E2sZnGqcbYx2nNJ0yBKlteFKjUuDqif5VYX9YDV94/AGcAdw+KtmKakYxEmVd724gm4D
+         cgg6z7n3Hn31+jor2LbZSAW6BjWkrJIirz5GlLUhGi1HX7d8qocpZ6PC2QHc5U8lL5Sm
+         Mixy66cV0bGiUy/Q5e5jVgtKz1exAoXZFKX4pvxrlUOrC+w+rqPSUHlRk3q2Y9UaSL6/
+         /KuNUsRD5M0DtbjpW3yM9eCYmIcUSlviUeNpmY1YHxxcAc+4XrL/W+Y6dMQhcCAeYlde
+         5I2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686206281; x=1688798281;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lqo0A7BM5THz83RAtHMEkVHjNz7WCnOgKYrgDzsaaU4=;
+        b=G8OO/tPScFrpjmho0BX78ofrJaiL1yvhjy9X4HfRMTqSbzcMsWX+/iWhyML/8y2RwU
+         erqauVJiboBtTrZ9duA+lWe/AlyWUf/iM8QZEPEgVpqKfZMEOl3m1u/woR1ODodLvBh3
+         03qP6nGHIav8L/+d1iZ6uqXmlk2JfYu2mCu1hGE4PD3ZTsxw5rwyWDMpL3F0bSwAPDYL
+         3VCUz3OdYl5DKF9abDXUqj0bq+nmfzBLGB6rqzdFHeoWdBFXfZonyoGKjmA3L435LNgN
+         GmOsJ1I6epdPh03NrFrRCzyi5SMXR+CxN3siKWbdqhyszb/gj1Lww4ji9K+lqdOYHjYE
+         VdkQ==
+X-Gm-Message-State: AC+VfDyiAQPAuBG1dOI1rmw29Y1oYWZMnyZe/0pUgoB8T6fDmXRlSqtI
+        zDBxBVMkJWkJv82sfS6e3tWUPg==
+X-Google-Smtp-Source: ACHHUZ4KhhXuTCYSDPgoRLBB4u32f/WMlazF4shqwwkZ3icYzTu7KI3MJObyFYaJY0xBRdj6ON+xew==
+X-Received: by 2002:aa7:cc98:0:b0:50d:88f3:2e30 with SMTP id p24-20020aa7cc98000000b0050d88f32e30mr7084851edt.13.1686206281341;
+        Wed, 07 Jun 2023 23:38:01 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id n27-20020a056402515b00b00502689a06b2sm168728edd.91.2023.06.07.23.37.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 23:38:00 -0700 (PDT)
+Message-ID: <797c61d2-b8f1-e80e-24b9-4c7a7d266080@linaro.org>
+Date:   Thu, 8 Jun 2023 08:37:57 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB6167.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1322757b-c0d4-4fb9-fdc9-08db67e7386f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2023 06:11:38.4651
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: B4UWEgrglb43T2N+UH5uS+KJLA121gG1kAqYFGTx3G3F6fFU4JtIpmNtRDP8m92p85NdimSmhUIMf2zPbTEY3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR03MB6461
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [v6 0/4] Support pwm/tach driver for aspeed ast26xx
+Content-Language: en-US
+To:     Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
+        linux@roeck-us.net, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
+        thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
+        corbet@lwn.net, p.zabel@pengutronix.de,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
+        patrick@stwcx.xyz
+References: <20230608021839.12769-1-billy_tsai@aspeedtech.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230608021839.12769-1-billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gRnJpLCAyMDIzLTA1LTEyIGF0IDEyOjA5ICswMTAwLCBDb25vciBEb29sZXkgd3JvdGU6DQo+
-IE9uIEZyaSwgTWF5IDEyLCAyMDIzIGF0IDA0OjA0OjAwUE0gKzA4MDAsIFlpLURlIFd1IHdyb3Rl
-Og0KPiA+IEZyb206ICJZaW5nc2hpdWFuIFBhbiIgPHlpbmdzaGl1YW4ucGFuQG1lZGlhdGVrLmNv
-bT4NCj4gPiANCj4gPiBBZGQgZG9jdW1lbnRhdGlvbiBmb3IgR2VuaWVab25lKGd6dm0pIG5vZGUu
-IFRoaXMgbm9kZSBpbmZvcm1zIGd6dm0NCj4gPiBkcml2ZXIgdG8gc3RhcnQgcHJvYmluZyBpZiBn
-ZW5pZXpvbmUgaHlwZXJ2aXNvciBpcyBhdmFpbGFibGUgYW5kDQo+ID4gYWJsZSB0byBkbyB2aXJ0
-dWFsIG1hY2hpbmUgb3BlcmF0aW9ucy4NCj4gDQo+IFByb3BhZ2F0ZWQgZnJvbSB2MjoNCj4gPiA+
-IFdoeSBjYW4ndCB0aGUgZHJpdmVyIGp1c3QgdHJ5IGFuZCBkbyB2aXJ0dWFsIG1hY2hpbmUgb3Bl
-cmF0aW9ucw0KPiA+ID4gdG8NCj4gPiA+IHNlZQ0KPiA+ID4gaWYgdGhlIGh5cGVydmlzb3IgaXMg
-dGhlcmU/IElPVywgbWFrZSB5b3VyIHNvZnR3YXJlIGludGVyZmFjZXMNCj4gPiA+IGRpc2NvdmVy
-YWJsZS4gRFQgaXMgZm9yIG5vbi1kaXNjb3ZlcmFibGUgaGFyZHdhcmUuDQo+ID4gDQo+ID4gQ2Fu
-IGRvLCBvdXIgaHlwZXJ2aXNvciBpcyBkaXNjb3ZlcmFibGUgdGhyb3VnaCBpbnZva2luZyBwcm9i
-aW5nDQo+ID4gaHlwZXJjYWxsLCBhbmQgd2UgdXNlIHRoZSBkZXZpY2UgdHJlZSB0byBwcmV2ZW50
-IHVubmVjZXNzYXJ5IG1vZHVsZQ0KPiA+IGxvYWRpbmcgb24gYWxsIHN5c3RlbXMuDQo+IA0KPiBS
-b2IgaXMgb3V0IG9mIG9mZmljZSBhdCB0aGUgbW9tZW50LCBidXQgdGhhdCBhcHBlYXJzIHRvIGJl
-IGEgcmVxdWVzdA0KPiB0bw0KPiBkcm9wIHRoZSB1c2Ugb2YgZGV2aWNldHJlZSBlbnRpcmVseS4g
-TWFpbmx5IHJlLXBvc3Rpbmcgc28gdGhhdCB0aGF0DQo+IGNvbnZlcnNhdGlvbiBhcHBlYXJzIG9u
-IHRoZSBsYXRlc3QgdmVyc2lvbiBvZiB0aGUgcGF0Y2hzZXQsIGdpdmVuIHlvdQ0KPiBvbmx5IHJl
-cGxpZWQgdG8gUm9iIHRvZGF5Lg0KPiANCj4gVGhhbmtzLA0KPiBDb25vci4NCg0KV2Ugd2lsbCBy
-ZW1vdmUgb3VyIGR0IGhlcmUgYW5kIHVzZSB0aGUgZGlzY292ZXJhYmxlIHdheSB0byBpbml0aWFs
-aXplDQpvdXIgZGV2aWNlcy4gVjQgcGF0Y2hlcyB3aGljaCBjb250YWluIHRoZSBjaGFuZ2VzIG1l
-bnRpb25lZCB3b3VsZCBiZQ0Kc3VibWl0dGVkIHNvb24gaW4gcmVjZW50IGRheXMuDQo=
+On 08/06/2023 04:18, Billy Tsai wrote:
+> Unlike the old design that the register setting of the TACH should based
+> on the configure of the PWM. In ast26xx, the dependency between pwm and
+> tach controller is eliminated and becomes a separate hardware block. One
+> is used to provide pwm output and another is used to monitor the frequency
+> of the input. Therefore, this patch serials implements them by writing the
+> two driver "pwm-aspeed-ast2600.c" and "tach-aspeed-ast2600.c". The former
+> is following the pwm subsystem which can apply the existed driver to
+> controller the fan(pwm-fan.c), beeper(pwm-beeper.c) and so on. The latter
+> is following the sysfs interface of hwmon to creat the node for fan
+> monitor.
+
+You like to ignore my comments... How did you implement them? Go one by
+one - answer to v4 emails.
+
+Best regards,
+Krzysztof
+
