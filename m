@@ -2,124 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E5D4C7EE25
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 07:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C39E1C7EE45
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 07:20:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235014AbjFHHKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 03:10:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48576 "EHLO
+        id S235040AbjFHHU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 03:20:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233900AbjFHHKu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 03:10:50 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F6A137;
-        Thu,  8 Jun 2023 00:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1686208249; x=1717744249;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=77a0rYSCp2pI+GmaZCGA16px4DVtNmeBHtA66fSs5X0=;
-  b=jPEVMUVEiBhX+hyD3cwPQiTUDJGptkWdTopDIf1E1MW1YUAbS8EITr6R
-   t3t0ELcXmhZpKU3zQBXV3V045DlKxfiEURQYir+D97oMKf7WmotyZ4b68
-   oz3vZ/h0xEq6tPs5hzX7sH7pxxLiv6lKg9i3rryPvk683SN9HX/ozLrk5
-   feMGYifnOzWkGsUVc4XR8TPu5MVINpcETyUAczUu4saJK9SOzdDed00oR
-   SCP4bR+Hw/lE2AdgM2mJBK6HEf1Q++48anKu6ZNcsZEwDNiPXTKryDWIv
-   rAdpxi23XV3DWA4G+GII3hBnlgiqxS2ldrHQadqrTcz4x6X5JRjtHQpQB
-   w==;
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="asc'?scan'208";a="219384620"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 08 Jun 2023 00:10:48 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 8 Jun 2023 00:10:48 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Thu, 8 Jun 2023 00:10:45 -0700
-Date:   Thu, 8 Jun 2023 08:10:21 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     <linux-riscv@lists.infradead.org>
-CC:     <conor@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <llvm@lists.linux.dev>, <k.son@samsung.com>
-Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
-Message-ID: <20230608-hesitant-yield-5d95d8588584@wendy>
-References: <20230307102441.94417-1-conor.dooley@microchip.com>
- <20230608-dispatch-sneer-aa09bd7b2eb8@wendy>
+        with ESMTP id S235200AbjFHHUX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 03:20:23 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE23019A4
+        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 00:20:12 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-977d6aa3758so60515066b.0
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jun 2023 00:20:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686208811; x=1688800811;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sCl6rtqI/lnsAp34i7m13i8YaVFA5i7mUTO1m89CYUc=;
+        b=l725wZUxx6r1Ycdzj7cFBsrukTjy35bP8IPHmCSPAz2hwoQ7qy8PxBKnau50bylSgD
+         HR75/QKRHMZqVnep07+5VoUwjXIK1GOar8CmX+kSwjwZWQBzxsrJ3vI/jvm6cGzwUz0G
+         h4BXewrylaAkKZWViWZzgE2aRhGAcI6xcMtveDLMcSp9Cl6zrvAKlUt0b7xoRBdosabR
+         MOoX7D2/feSpNpjMkhKJM30W0R1//Ojj8UTP/OZW+U47/wyyxY6cduOrMp4VijBrz+7a
+         NveV1pzoP2fV+SB8xaAMgkXATbpJ4PAH5tckzUVAwOU8ilr5RuWYZXWQ/NtkyW/CFKc1
+         6VEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686208811; x=1688800811;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sCl6rtqI/lnsAp34i7m13i8YaVFA5i7mUTO1m89CYUc=;
+        b=DQZoys2CyY1Q4FXzCeC/F/ZSoVazmqxopjkCXFH56yxE5tZ9P6wKU0//CtP4KgN+Sx
+         LOPckMwBgKtzach30WaSwDL3J1KO2j9ksFEM2wCA2HhL9J0WFmiitfSpIvlK8ewW12Tu
+         YasT7BWFHMrSz4K+lxMnoFz3luklTWQwXh2V+BwMRUjl1tJWnW9fabPlcTesqvKmIeeo
+         Chzx1koyWrIUeJvCP7vhWO3D2dcqteh/N4bJ9jAG7HK2DsbPRHNtFMuJ82oigbqLfpec
+         w4ZbQNXOJbkFQY4IC8SjATzGxpABXsy6IMggeoetj/d8ykuBD68yi46xN/X2xK4yaCrG
+         6ilA==
+X-Gm-Message-State: AC+VfDy8RWEwfVBud9JtSiIaMwNuttulaV/EgLlTb25MRQ58kuegeevl
+        OTtealAGi7v1iZSUbEpI+oQ8MA==
+X-Google-Smtp-Source: ACHHUZ5dyxvogNuartC9WpRJfkks70+K3BJ8tJOfNobMtwn0tLJXermHSdQpCm9l7vzWKuJsNrZRpA==
+X-Received: by 2002:a17:907:1628:b0:974:5e8b:fc35 with SMTP id hb40-20020a170907162800b009745e8bfc35mr8746192ejc.26.1686208811151;
+        Thu, 08 Jun 2023 00:20:11 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id j24-20020a170906051800b00965e1be3002sm309402eja.166.2023.06.08.00.20.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jun 2023 00:20:10 -0700 (PDT)
+Message-ID: <5000d481-2125-95e0-4033-d9c71a49cbd7@linaro.org>
+Date:   Thu, 8 Jun 2023 09:20:08 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="jwKHTUeWzoRRJDdX"
-Content-Disposition: inline
-In-Reply-To: <20230608-dispatch-sneer-aa09bd7b2eb8@wendy>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [v4 1/5] dt-bindings: mfd: Add aspeed pwm-tach binding
+Content-Language: en-US
+To:     Billy Tsai <billy_tsai@aspeedtech.com>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "lee@kernel.org" <lee@kernel.org>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
+ <20221123061635.32025-2-billy_tsai@aspeedtech.com>
+ <c4b188b1-06a4-3cb0-a758-e12942e1f67b@linaro.org>
+ <ce99a709-ba4a-eb53-39ac-88a194879000@linaro.org>
+ <SG2PR06MB3365AE9D075601CB62C6E7F78B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <SG2PR06MB3365AE9D075601CB62C6E7F78B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---jwKHTUeWzoRRJDdX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 08/06/2023 09:15, Billy Tsai wrote:
+>         On 23/11/2022 09:24, Krzysztof Kozlowski wrote:
+>         >> On 23/11/2022 07:16, Billy Tsai wrote:
+>         >>> Add device binding for aspeed pwm-tach device which is a multi-function
+>         >>> device include pwm and tach function.
+>         >>
+>         >> Subject: drop second, redundant "bindings".
+> 
+>         > Where did you implement this comment in your v6?
+> 
+> Sorry, I guess by "Subject: drop second, redundant "bindings"" you meant to remove the second "bindings" string from my subject. So I change the subject from "dt-bindings: hwmon: Add bindings for aspeed tach controller" and "dt-bindings: pwm: Add bindings for aspeed pwm controller" in v4 to "dt-bindings: hwmon: Add ASPEED TACH Control documentation" and "dt-bindings: pwm: Add ASPEED PWM Control documentation" in v6.
 
-Whoops, actually to Kwang this time...
+A nit, subject: drop second/last, redundant "documentation". The
+"dt-bindings" prefix is already stating that these are bindings and
+documentation.
 
-On Thu, Jun 08, 2023 at 08:01:16AM +0100, Conor Dooley wrote:
-> Hey Kwang,
->=20
-> On 08/06/2023 05:46, =EC=86=90=EA=B4=91=ED=9B=88/Tizen Platform Lab(SR)/=
-=EC=82=BC=EC=84=B1=EC=A0=84=EC=9E=90 wrote:
-> > Hi,
-> > Recently I'm trying to put a rust patch on the risc-v board.
-> > I saw a patch [1] and looked through it roughly.
-> > Only if llvm(not gcc) is allowed, it looks good with no major problems.
-> >=20
-> > > I'll revisit this when my thoughts have settled down.
-> >=20
-> > If you let me know the problematic part, may I try the patch?
-> >=20
-> > [1] https://lore.kernel.org/linux-riscv/20230405-itinerary-handgrip-
-> > a5ffba368148@spud/
->=20
-> Yeah, you can definitely try this or the downstream rust-for-linux
-> project - both should work well on RISC-V.
-> The problematic part is figuring out what ISA extensions are supported
-> by the rust compiler being used (and by bindgen), and deciding what to
-> put in -march as a result.
->=20
-> I think it is unlikely to matter for you, unless you're aggressively
-> mixing versions for different parts of your toolchain.
->=20
-> I do intend revisting this, probably after the min. version for rust
-> gets bumped, I've just been really busy with other work the last weeks.
->=20
-> Cheers,
-> Conor.
+> If I have misunderstood your comment, please let me know.
+
+You replaced one redundant with other redundant. I only asked to drop
+it, not replace it.
 
 
+Best regards,
+Krzysztof
 
---jwKHTUeWzoRRJDdX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIF+3QAKCRB4tDGHoIJi
-0r8aAQDt9wF+pdgpVhMZv8tXfWeGH+y3LngjRFfXsNrCWFKrMgEA8mUqA5y0O7OT
-apVAA19VykNqtMRTWy+d1gGuDYRcfQc=
-=GVNO
------END PGP SIGNATURE-----
-
---jwKHTUeWzoRRJDdX--
