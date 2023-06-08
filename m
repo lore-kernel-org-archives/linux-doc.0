@@ -2,536 +2,258 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBBBC7EE37
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 05:01:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E13C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 05:14:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233922AbjFHFBK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 01:01:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59718 "EHLO
+        id S231320AbjFHFOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 01:14:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233626AbjFHFBJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 01:01:09 -0400
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9448B26AF;
-        Wed,  7 Jun 2023 22:01:07 -0700 (PDT)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1a26f26ebb8so171115fac.2;
-        Wed, 07 Jun 2023 22:01:07 -0700 (PDT)
+        with ESMTP id S230300AbjFHFOR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 01:14:17 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8B6626B5;
+        Wed,  7 Jun 2023 22:14:16 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1b00ecabdf2so933425ad.2;
+        Wed, 07 Jun 2023 22:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686200466; x=1688792466;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tLZi1CYZuu2VgWmDxEUsvma/BxogAGe1aTFKnySv72E=;
-        b=dOUSITiXhrAW9w7lSMWSXYnbmhE+9Z0knBBzF0jANYpU53hS8y5kkq7a45iO9XH/Rq
-         kNVUgy68lnLDFFuUheOcD6oOYY30Wx6nQoV7YdnSBBmUu/8c4M50k/wl9hkPRNirnMoK
-         l3yTCP4bsiVNxXKqUlml3WdqaJZdA6RcBo5OxzCmshedd5Nrs7puGV33tJHZb0sVplau
-         SBOY5YFFKd4Gd2tKX/xdQITCDYAD8J8nrVF0UsjYuenPvRs3LCKMGYMUNTY4A3+LgvC+
-         k0MJKLS/tnmWNixZNtPtYQuPyVtBVALDdOyCZnSAOA7rrY41c4hI++u+X3atqYaLkkPn
-         jQhA==
+        d=gmail.com; s=20221208; t=1686201256; x=1688793256;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bpAU5WkVE/wtFEVm7r+ibR0BKuprOl5u/o3sLZZPjdU=;
+        b=JiLj0k/kt8UytBRW9NDnQPfNyI1FzzcS1zD8eSiGWFHmHsXEHkZHMgIdVQmx2TbbYL
+         Sg/6aXsoIlV3Rafg81/vh2k7MFwQ0cTAjC49qdSKNbDM5yOR2aRa1LBUkTJrKEh1t1hc
+         Yuctujxh65UjI0r6pe2rnKfs10v6vlLxvM8nCPRMzD9/x++VltFTLKRt1TOqYRMc6hEu
+         YDRAhryE8swk60466ySyVM1e++NDP175JGoJrlACgLDs+anSrXsL5tnL4ZtpvJi9x5hY
+         Dc4abXqrLa9K6aftYEiY6E0ab1voy45A1NdC9oPYkMmH7l2u+63pbUqZ6PV9B6iNtfH9
+         QTOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686200466; x=1688792466;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tLZi1CYZuu2VgWmDxEUsvma/BxogAGe1aTFKnySv72E=;
-        b=HXCQVzOT23QORIhG84hheg3Zhe33B8v4XXBRHrExgBG06KgjdcdP63MnMVnSzXdW4C
-         wQApT1evsIXDyA9QNPUV7KsJ3V1mAhLuVYa5Mznvu7N7g7NQbCdfOlhVQdSPBq6sq6TK
-         nMIDNuixYf/zZpwxE7hLNU0L0iSZiu23kuhMw4lfgizNZDh8NPKJ9ujQFRENhcxAim/D
-         op9DcO8FmNl+wz2KWyc94rtPdNPDNzXa1lufKasJ3k8REy8MpiKb4CucJxi7PXSfOgSi
-         dWJoKMBCePsWkl9CVGMOwXqi4m2FCAzXt3q8QFrhqTSjg02AkmODbvjx/h2kTJznTmNV
-         OLaw==
-X-Gm-Message-State: AC+VfDwZyU48Ci06TYR2ko74tl8RvlQNWcBo1TADYFPNi0JykwF2SSbg
-        KGcPq8b58frOx+3odFrLlhc=
-X-Google-Smtp-Source: ACHHUZ7mOcP3G0nBPWzh/Jfi432lHgdOvWOndI4O4UpB/qIDWOZuktIrrdDifh6RacP8a7iD0OyxsA==
-X-Received: by 2002:a05:6870:e6d0:b0:19e:8883:b0ea with SMTP id s16-20020a056870e6d000b0019e8883b0eamr4828686oak.6.1686200465789;
-        Wed, 07 Jun 2023 22:01:05 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s23-20020a170902b19700b001afd275e186sm360625plr.286.2023.06.07.22.01.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 22:01:05 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <8d889c6c-b0fb-0a1f-9441-3d983c1a3923@roeck-us.net>
-Date:   Wed, 7 Jun 2023 22:01:02 -0700
+        d=1e100.net; s=20221208; t=1686201256; x=1688793256;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bpAU5WkVE/wtFEVm7r+ibR0BKuprOl5u/o3sLZZPjdU=;
+        b=NpMJTWxUcZUurK/FG/HBiFs4QPhYZrYbjzyow5eJOxZq0b2ijB5d+qz9bFJLW4fTsw
+         GRIyOQf2V8d1BE5+iIZix3VXYwjzzi5O2+8GB1ShbbS+GbqzbKO1O/63V9EuA30RlTNv
+         wWuFcwSv0L+gdDdkGIGve0Kmh+mzQjY7Wm9E111Lvb07JAljYos2rcXnC9+p/HHzbfeh
+         yu91/elPBzpcDJN5GBQfttoY6DmtEL72zcCs0b+vXPLJMWmxbZPUqReN1k8l8yVmfRMK
+         +8bORUFHRH4DwbQ3vUziqZ3cG097ys9kK1dPlXcCvEfEbjBgDZzfwsmuOqhlqoz7Y9xc
+         XyVA==
+X-Gm-Message-State: AC+VfDx8pTTWBxd98GpWO+H4tam0XZcEuamoztHQRtOJz/BbwPvOyX+j
+        yUBxvrpJMnQNi06sPsUPldQI/RT87vftmQ==
+X-Google-Smtp-Source: ACHHUZ7PsZUhyvqZvDzdteGKDPRW07qivbilkfyHjFiAtWZ7dNWv1WVJ4+MYga1/UpWAi96+fh/w/g==
+X-Received: by 2002:a17:903:4295:b0:1ae:5914:cbec with SMTP id ju21-20020a170903429500b001ae5914cbecmr7531015plb.10.1686201255924;
+        Wed, 07 Jun 2023 22:14:15 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-10.three.co.id. [180.214.233.10])
+        by smtp.gmail.com with ESMTPSA id i12-20020a17090332cc00b001b04949e0acsm396483plr.232.2023.06.07.22.14.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 22:14:15 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 16A921069EA; Thu,  8 Jun 2023 12:14:10 +0700 (WIB)
+Date:   Thu, 8 Jun 2023 12:14:10 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz,
+        tiwai@suse.com, corbet@lwn.net, broonie@kernel.org,
+        skhan@linuxfoundation.org
+Cc:     alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        gregkh@linuxfoundation.org, himadrispandya@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v3 1/3] docs: sound: add 'pcmtest' driver documentation
+Message-ID: <ZIFjog1a93_FFBPF@debian.me>
+References: <20230606133807.14089-1-ivan.orlov0322@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US
-To:     Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        joel@jms.id.au, andrew@aj.id.au, thierry.reding@gmail.com,
-        u.kleine-koenig@pengutronix.de, corbet@lwn.net,
-        p.zabel@pengutronix.de, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
-        patrick@stwcx.xyz
-References: <20230608021839.12769-1-billy_tsai@aspeedtech.com>
- <20230608021839.12769-5-billy_tsai@aspeedtech.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [v6 4/4] hwmon: Add Aspeed ast2600 TACH support
-In-Reply-To: <20230608021839.12769-5-billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="lJm1/npRizm0mCUv"
+Content-Disposition: inline
+In-Reply-To: <20230606133807.14089-1-ivan.orlov0322@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/7/23 19:18, Billy Tsai wrote:
-> Add the support of Tachometer which can use to monitor the frequency of
-> the input. In Aspeed AST2600 SoC features 16 TACH controllers, with each
-> controller capable of supporting up to 1 input.
-> 
 
-You mean there will be 16 instances of this driver ? That is weird,
-confusing, and warrants a detailed explanation.
+--lJm1/npRizm0mCUv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->   Documentation/hwmon/index.rst               |   1 +
->   Documentation/hwmon/tach-aspeed-ast2600.rst |  25 ++
->   drivers/hwmon/Kconfig                       |  10 +
->   drivers/hwmon/Makefile                      |   1 +
->   drivers/hwmon/tach-aspeed-ast2600.c         | 305 ++++++++++++++++++++
->   5 files changed, 342 insertions(+)
->   create mode 100644 Documentation/hwmon/tach-aspeed-ast2600.rst
->   create mode 100644 drivers/hwmon/tach-aspeed-ast2600.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index ddff3c5713d7..4c3dd74675ef 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -194,6 +194,7 @@ Hardware Monitoring Kernel Drivers
->      sparx5-temp
->      stpddc60
->      sy7636a-hwmon
-> +   tach-aspeed-ast2600
->      tc654
->      tc74
->      thmc50
-> diff --git a/Documentation/hwmon/tach-aspeed-ast2600.rst b/Documentation/hwmon/tach-aspeed-ast2600.rst
+On Tue, Jun 06, 2023 at 05:38:05PM +0400, Ivan Orlov wrote:
+> diff --git a/Documentation/sound/cards/pcmtest.rst b/Documentation/sound/=
+cards/pcmtest.rst
 > new file mode 100644
-> index 000000000000..b08c73a4237f
+> index 000000000000..e163522f3205
 > --- /dev/null
-> +++ b/Documentation/hwmon/tach-aspeed-ast2600.rst
-> @@ -0,0 +1,25 @@
-> +Kernel driver tach-aspeed-ast2600
-> +=================================
+> +++ b/Documentation/sound/cards/pcmtest.rst
+> @@ -0,0 +1,120 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +Supported chips:
-> +	ASPEED AST2600
+> +The Virtual PCM Test Driver
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
 > +
-> +Authors:
-> +	<billy_tsai@aspeedtech.com>
+> +The Virtual PCM Test Driver emulates a generic PCM device, and can be us=
+ed for
+> +testing/fuzzing of the userspace ALSA applications, as well as for testi=
+ng/fuzzing of
+> +the PCM middle layer. Additionally, it can be used for simulating hard t=
+o reproduce
+> +problems with PCM devices.
 > +
-> +Description:
-> +------------
-> +This driver implements support for ASPEED AST2600 Fan Tacho controller.
-> +The controller supports up to 1 tachometer inputs.
+> +What can this driver do?
+> +~~~~~~~~~~~~~~~~~~~~~~~~
 > +
-> +The driver provides the following sensor accesses in sysfs:
+> +At this moment the driver can do the following things:
+> +	* Simulate both capture and playback processes
+> +	* Generate random or pattern-based capturing data
+> +	* Inject delays into the playback and capturing processes
+> +	* Inject errors during the PCM callbacks
 > +
-> +=============== ======= ======================================================
-> +fanX_input	ro	provide current fan rotation value in RPM as reported
-> +			by the fan to the device.
-> +fanX_div	rw	Fan divisor: Supported value are power of 4 (1, 4, 16
-> +                        64, ... 4194304)
-> +                        The larger divisor, the less rpm accuracy and the less
-> +                        affected by fan signal glitch.
-> +fanX_pulses	rw      Fan pulses per resolution.
+> +It supports up to 8 substreams and 4 channels. Also it supports both int=
+erleaved and
+> +non-interleaved access modes.
+> +
+> +Also, this driver can check the playback stream for containing the prede=
+fined pattern,
+> +which is used in the corresponding selftest (alsa/pcmtest-test.sh) to ch=
+eck the PCM middle
+> +layer data transferring functionality. Additionally, this driver redefin=
+es the default
+> +RESET ioctl, and the selftest covers this PCM API functionality as well.
+> +
+> +Configuration
+> +-------------
+> +
+> +The driver has several parameters besides the common ALSA module paramet=
+ers:
+> +
+> +	* fill_mode (bool) - Buffer fill mode (see below)
+> +	* inject_delay (int)
+> +	* inject_hwpars_err (bool)
+> +	* inject_prepare_err (bool)
+> +	* inject_trigger_err (bool)
+> +
+> +
+> +Capture Data Generation
+> +-----------------------
+> +
+> +The driver has two modes of data generation: the first (0 in the fill_mo=
+de parameter)
+> +means random data generation, the second (1 in the fill_mode) - pattern-=
+based
+> +data generation. Let's look at the second mode.
+> +
+> +First of all, you may want to specify the pattern for data generation. Y=
+ou can do it
+> +by writing the pattern to the debugfs file. There are pattern buffer deb=
+ugfs entries
+> +for each channel, as well as entries which contain the pattern buffer le=
+ngth.
+> +
+> +	* /sys/kernel/debug/pcmtest/fill_pattern[0-3]
+> +	* /sys/kernel/debug/pcmtest/fill_pattern[0-3]_len
+> +
+> +To set the pattern for the channel 0 you can execute the following comma=
+nd:
+> +
+> +.. code-block:: bash
+> +
+> +	echo -n mycoolpattern > /sys/kernel/debug/pcmtest/fill_pattern0
+> +
+> +Then, after every capture action performed on the 'pcmtest' device the b=
+uffer for the
+> +channel 0 will contain 'mycoolpatternmycoolpatternmycoolpatternmy...'.
+> +
+> +The pattern itself can be up to 4096 bytes long.
+> +
+> +Delay injection
+> +---------------
+> +
+> +The driver has 'inject_delay' parameter, which has very self-descriptive=
+ name and
+> +can be used for time delay/speedup simulations. The parameter has intege=
+r type, and
+> +it means the delay added between module's internal timer ticks.
+> +
+> +If the 'inject_delay' value is positive, the buffer will be filled slowe=
+r, if it is
+> +negative - faster. You can try it yourself by starting a recording in any
+> +audiorecording application (like Audacity) and selecting the 'pcmtest' d=
+evice as a
+> +source.
+> +
+> +This parameter can be also used for generating a huge amount of sound da=
+ta in a very
+> +short period of time (with the negative 'inject_delay' value).
+> +
+> +Errors injection
+> +----------------
+> +
+> +This module can be used for injecting errors into the PCM communication =
+process. This
+> +action can help you to figure out how the userspace ALSA program behaves=
+ under unusual
+> +circumstances.
+> +
+> +For example, you can make all 'hw_params' PCM callback calls return EBUS=
+Y error by
+> +writing '1' to the 'inject_hwpars_err' module parameter:
+> +
+> +.. code-block:: bash
+> +
+> +	echo 1 > /sys/module/snd_pcmtest/parameters/inject_hwpars_err
+> +
+> +Errors can be injected into the following PCM callbacks:
+> +
+> +	* hw_params (EBUSY)
+> +	* prepare (EINVAL)
+> +	* trigger (EINVAL)
+> +
+> +Playback test
+> +-------------
+> +
+> +This driver can be also used for the playback functionality testing - ev=
+ery time you
+> +write the playback data to the 'pcmtest' PCM device and close it, the dr=
+iver checks the
+> +buffer for containing the looped pattern (which is specified in the fill=
+_pattern
+> +debugfs file for each channel). If the playback buffer content represent=
+s the looped
+> +pattern, 'pc_test' debugfs entry is set into '1'. Otherwise, the driver =
+sets it to '0'.
+> +
+> +ioctl redefinition test
+> +-----------------------
+> +
+> +The driver redefines the 'reset' ioctl, which is default for all PCM dev=
+ices. To test
+> +this functionality, we can trigger the reset ioctl and check the 'ioctl_=
+test' debugfs
+> +entry:
+> +
+> +.. code-block:: bash
+> +
+> +	cat /sys/kernel/debug/pcmtest/ioctl_test
+> +
+> +If the ioctl is triggered successfully, this file will contain '1', and =
+'0' otherwise.
 
-Presumably, as implemented, that would be 16 instances, each with fan1_{input,div}.
+LGTM, thanks!
 
-> +=============== ======= ======================================================
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index a5253abb7ea7..5948a63e44e7 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -411,6 +411,16 @@ config SENSORS_ASPEED
->   	  This driver can also be built as a module. If so, the module
->   	  will be called aspeed_pwm_tacho.
->   
-> +config SENSORS_TACH_ASPEED_AST2600
-> +	tristate "ASPEED ast2600 Tachometer support"
-> +	depends on ARCH_ASPEED || COMPILE_TEST
-> +	depends on HAVE_CLK && HAS_IOMEM
-> +	help
-> +	  This driver provides support for Aspeed ast2600 Tachometer.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called tach-aspeed-ast2600.
-> +
->   config SENSORS_ATXP1
->   	tristate "Attansic ATXP1 VID controller"
->   	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index c5cd7e3a67ff..a3bf5b438e0f 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -53,6 +53,7 @@ obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
->   obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
->   obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
->   obj-$(CONFIG_SENSORS_ASC7621)	+= asc7621.o
-> +obj-$(CONFIG_SENSORS_TACH_ASPEED_AST2600) += tach-aspeed-ast2600.o
->   obj-$(CONFIG_SENSORS_ASPEED)	+= aspeed-pwm-tacho.o
->   obj-$(CONFIG_SENSORS_ATXP1)	+= atxp1.o
->   obj-$(CONFIG_SENSORS_AXI_FAN_CONTROL) += axi-fan-control.o
-> diff --git a/drivers/hwmon/tach-aspeed-ast2600.c b/drivers/hwmon/tach-aspeed-ast2600.c
-> new file mode 100644
-> index 000000000000..8be66ee25a31
-> --- /dev/null
-> +++ b/drivers/hwmon/tach-aspeed-ast2600.c
-> @@ -0,0 +1,305 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) ASPEED Technology Inc.
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/errno.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reset.h>
-> +#include <linux/sysfs.h>
-> +
-> +/* TACH Control Register */
-> +#define TACH_ASPEED_CTRL		(0x00)
-> +#define TACH_ASPEED_IER			BIT(31)
-> +#define TACH_ASPEED_INVERS_LIMIT	BIT(30)
-> +#define TACH_ASPEED_LOOPBACK		BIT(29)
-> +#define TACH_ASPEED_ENABLE		BIT(28)
-> +#define TACH_ASPEED_DEBOUNCE_MASK	GENMASK(27, 26)
-> +#define TACH_ASPEED_DEBOUNCE_BIT	26
-> +#define TACH_ASPEED_IO_EDGE_MASK	GENMASK(25, 24)
-> +#define TACH_ASPEED_IO_EDGE_BIT		24
-> +#define TACH_ASPEED_CLK_DIV_T_MASK	GENMASK(23, 20)
-> +#define TACH_ASPEED_CLK_DIV_BIT		20
-> +#define TACH_ASPEED_THRESHOLD_MASK	GENMASK(19, 0)
-> +/* [27:26] */
-> +#define DEBOUNCE_3_CLK			0x00
-> +#define DEBOUNCE_2_CLK			0x01
-> +#define DEBOUNCE_1_CLK			0x02
-> +#define DEBOUNCE_0_CLK			0x03
-> +/* [25:24] */
-> +#define F2F_EDGES			0x00
-> +#define R2R_EDGES			0x01
-> +#define BOTH_EDGES			0x02
-> +/* [23:20] */
-> +/* divisor = 4 to the nth power, n = register value */
-> +#define DEFAULT_TACH_DIV		1024
-> +#define DIV_TO_REG(divisor)		(ilog2(divisor) >> 1)
-> +
-> +/* TACH Status Register */
-> +#define TACH_ASPEED_STS			(0x04)
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Unnecesarry ()
+--=20
+An old man doll... just what I always wanted! - Clara
 
-> +
-> +/*PWM_TACH_STS */
-> +#define TACH_ASPEED_ISR			BIT(31)
-> +#define TACH_ASPEED_PWM_OUT		BIT(25)
-> +#define TACH_ASPEED_PWM_OEN		BIT(24)
-> +#define TACH_ASPEED_DEB_INPUT		BIT(23)
-> +#define TACH_ASPEED_RAW_INPUT		BIT(22)
-> +#define TACH_ASPEED_VALUE_UPDATE	BIT(21)
-> +#define TACH_ASPEED_FULL_MEASUREMENT	BIT(20)
-> +#define TACH_ASPEED_VALUE_MASK		GENMASK(19, 0)
-> +/**********************************************************
-> + * Software setting
-> + *********************************************************/
-> +#define DEFAULT_FAN_PULSE_PR		2
-> +
-> +struct aspeed_tach_channel_params {
-> +	u8 pulse_pr;
-> +	u32 divisor;
-> +};
-> +
-> +struct aspeed_tach_data {
-> +	struct device *dev;
-> +	void __iomem *base;
-> +	struct clk *clk;
-> +	struct reset_control *reset;
-> +	bool tach_present;
-> +	struct aspeed_tach_channel_params tach_channel;
+--lJm1/npRizm0mCUv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Assuming that all channels have the same divisor, this structure
-is really unnecessary (especially since pulse_pr should be dropped -
-see below).
+-----BEGIN PGP SIGNATURE-----
 
-> +	unsigned long clk_source;
-> +};
-> +
-> +static void aspeed_tach_ch_enable(struct aspeed_tach_data *priv, bool enable)
-> +{
-> +	if (enable)
-> +		writel(readl(priv->base + TACH_ASPEED_CTRL) |
-> +			       (TACH_ASPEED_ENABLE),
-> +		       priv->base + TACH_ASPEED_CTRL);
-> +	else
-> +		writel(readl(priv->base + TACH_ASPEED_CTRL) &
-> +			       ~(TACH_ASPEED_ENABLE),
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZIFjmgAKCRD2uYlJVVFO
+o/VoAQDOriEk9HJC+190k8ieuW500QCJ/NEFQxzXMk7or87YlAEA5QHYfRdTu/of
+gQzNqexUMffrXbfMLkuxIG7SEeWA/QE=
+=riD2
+-----END PGP SIGNATURE-----
 
-Unnecessary () around TACH_ASPEED_ENABLE.
-
-> +		       priv->base + TACH_ASPEED_CTRL);
-> +}
-> +
-> +static u64 aspeed_tach_val_to_rpm(struct aspeed_tach_data *priv, u32 tach_val)
-> +{
-> +	u64 rpm;
-> +	u32 tach_div;
-> +
-> +	tach_div = tach_val * (priv->tach_channel.divisor) *
-> +		   (priv->tach.channel.pulse_pr);
-> +
-
-Unnecessary () around priv->tach_channel.pulse_pr and priv->tach_channel.divisor.
-I am not going to look further for those. Please make sure you drop them all.
-
-> +	dev_dbg(priv->dev, "clk %ld, tach_val %d , tach_div %d\n",
-> +		priv->clk_source, tach_val, tach_div);
-> +
-> +	rpm = (u64)priv->clk_source * 60;
-> +	do_div(rpm, tach_div);
-> +
-> +	return rpm;
-
-This function should really return an integer.
-
-> +}
-> +
-> +static int aspeed_get_fan_tach_ch_rpm(struct aspeed_tach_data *priv)
-> +{
-> +	u32 val;
-> +	u64 rpm;
-> +
-> +	val = readl(priv->base + TACH_ASPEED_STS);
-> +
-> +	if (!(val & TACH_ASPEED_FULL_MEASUREMENT))
-> +		return 0;
-> +	rpm = aspeed_tach_val_to_rpm(priv, val & TACH_ASPEED_VALUE_MASK);
-> +
-> +	return rpm;
-
-The 'rpm' variable is unnecessary.
-
-> +}
-> +
-> +static int aspeed_tach_hwmon_read(struct device *dev,
-> +				  enum hwmon_sensor_types type, u32 attr,
-> +				  int channel, long *val)
-> +{
-> +	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-> +	u32 reg_val;
-> +	int ret;
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		ret = aspeed_get_fan_tach_ch_rpm(priv);
-> +		if (ret < 0)
-> +			return ret;
-
-Why ? The called code never returns a negative value.
-
-> +		*val = ret;
-> +		break;
-> +	case hwmon_fan_div:
-> +		reg_val = readl(priv->base + TACH_ASPEED_CTRL);
-> +		reg_val = FIELD_GET(TACH_ASPEED_CLK_DIV_T_MASK, reg_val);
-> +		*val = BIT(reg_val << 1);
-> +		break;
-> +	case hwmon_fan_pulses:
-> +		*val = priv->tach_channel.pulse_pr;
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int aspeed_tach_hwmon_write(struct device *dev,
-> +				   enum hwmon_sensor_types type, u32 attr,
-> +				   int channel, long val)
-> +{
-> +	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_div:
-> +		if (!is_power_of_2(val) || (ilog2(val) % 2))
-> +			return -EINVAL;
-> +		else if (DIV_TO_REG(val) > 0xb)
-
-Else after return is unnecessary
-
-> +			return -ERANGE;
-
-Math result not representable ? Not really.
-
-> +		priv->tach_channel.divisor = val;
-> +		writel((readl(priv->base + TACH_ASPEED_CTRL) &
-> +			~(TACH_ASPEED_CLK_DIV_T_MASK)) |
-
-Unnecessary () around TACH_ASPEED_CLK_DIV_T_MASK.
-
-> +			       (DIV_TO_REG(priv->tach_channel.divisor)
-> +				<< TACH_ASPEED_CLK_DIV_BIT),
-> +		       priv->base + TACH_ASPEED_CTRL);
-> +		break;
-> +	case hwmon_fan_pulses:
-> +		priv->tach_channel.pulse_pr = val;
-
-
-The ABI says for the pulses atribute:
-
-                 Should only be created if the chip has a register to configure
-                 the number of pulses. In the absence of such a register (and
-                 thus attribute) the value assumed by all devices is 2 pulses
-                 per fan revolution.
-
-I see no evidence that there is a chip register for the number of pulses.
-Please drop this attribute.
-
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t aspeed_tach_dev_is_visible(const void *drvdata,
-> +					  enum hwmon_sensor_types type,
-> +					  u32 attr, int channel)
-> +{
-> +	const struct aspeed_tach_data *priv = drvdata;
-> +
-> +	if (!priv->tach_present)
-> +		return 0;
-
-What is the point of instantiating the driver in this case ?
-
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		return 0444;
-> +	case hwmon_fan_div:
-> +	case hwmon_fan_pulses:
-> +		return 0644;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static const struct hwmon_ops aspeed_tach_ops = {
-> +	.is_visible = aspeed_tach_dev_is_visible,
-> +	.read = aspeed_tach_hwmon_read,
-> +	.write = aspeed_tach_hwmon_write,
-> +};
-> +
-> +static const struct hwmon_channel_info *aspeed_tach_info[] = {
-> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES),
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_chip_info aspeed_tach_chip_info = {
-> +	.ops = &aspeed_tach_ops,
-> +	.info = aspeed_tach_info,
-> +};
-> +
-> +static void aspeed_present_fan_tach(struct aspeed_tach_data *priv)
-> +{
-> +	priv->tach_present = true;
-> +	priv->tach_channel.divisor = DEFAULT_TACH_DIV;
-> +	priv->tach_channel.pulse_pr = DEFAULT_FAN_PULSE_PR;
-> +
-> +	writel((readl(priv->base + TACH_ASPEED_CTRL) &
-> +		~(TACH_ASPEED_INVERS_LIMIT | TACH_ASPEED_DEBOUNCE_MASK |
-> +		  TACH_ASPEED_IO_EDGE_MASK | TACH_ASPEED_CLK_DIV_T_MASK |
-> +		  TACH_ASPEED_THRESHOLD_MASK)) |
-> +		       ((DEBOUNCE_3_CLK << TACH_ASPEED_DEBOUNCE_BIT) |
-> +			F2F_EDGES |
-> +			(DIV_TO_REG(priv->tach_channel.divisor)
-> +			 << TACH_ASPEED_CLK_DIV_BIT)),
-> +	       priv->base + TACH_ASPEED_CTRL);
-> +
-> +	aspeed_tach_ch_enable(priv, true);
-> +}
-> +
-> +static void aspeed_tach_reset_assert(void *data)
-> +{
-> +	struct reset_control *rst = data;
-> +
-> +	reset_control_assert(rst);
-> +}
-> +
-> +static int aspeed_tach_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct aspeed_tach_data *priv;
-> +	struct device *hwmon;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +	priv->dev = &pdev->dev;
-> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(priv->base))
-> +		return PTR_ERR(priv->base);
-> +	priv->clk = devm_clk_get_enabled(dev, NULL);
-> +	if (IS_ERR(priv->clk))
-> +		return dev_err_probe(dev, PTR_ERR(priv->clk),
-> +				     "Couldn't get clock\n");
-> +
-> +	priv->clk_source = clk_get_rate(priv->clk);
-> +	priv->reset = devm_reset_control_get_shared(dev, NULL);
-> +	if (IS_ERR(priv->reset))
-> +		return dev_err_probe(dev, PTR_ERR(priv->reset),
-> +				     "Couldn't get reset control\n");
-> +
-> +	ret = reset_control_deassert(priv->reset);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Couldn't deassert reset control\n");
-> +
-> +	ret = devm_add_action_or_reset(dev, aspeed_tach_reset_assert,
-> +				       priv->reset);
-> +	if (ret)
-> +		return ret;
-> +
-> +	aspeed_present_fan_tach(priv);
-> +
-> +	hwmon = devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv,
-> +						     &aspeed_tach_chip_info, NULL);
-> +	ret = PTR_ERR_OR_ZERO(hwmon);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to register hwmon device\n");
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id of_stach_match_table[] = {
-> +	{
-> +		.compatible = "aspeed,ast2600-tach",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, of_stach_match_table);
-> +
-> +static struct platform_driver aspeed_tach_driver = {
-> +	.probe		= aspeed_tach_probe,
-> +	.driver		= {
-> +		.name	= "aspeed_tach",
-> +		.of_match_table = of_stach_match_table,
-> +	},
-> +};
-> +
-> +module_platform_driver(aspeed_tach_driver);
-> +
-> +MODULE_AUTHOR("Billy Tsai <billy_tsai@aspeedtech.com>");
-> +MODULE_DESCRIPTION("Aspeed ast2600 TACH device driver");
-> +MODULE_LICENSE("GPL");
-
+--lJm1/npRizm0mCUv--
