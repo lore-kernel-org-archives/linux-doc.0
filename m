@@ -2,116 +2,333 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C39E1C7EE45
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 07:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E9B3C7EE23
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 07:45:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235040AbjFHHU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 03:20:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55742 "EHLO
+        id S232125AbjFHHpZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 03:45:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235200AbjFHHUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 03:20:23 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE23019A4
-        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 00:20:12 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-977d6aa3758so60515066b.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jun 2023 00:20:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686208811; x=1688800811;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sCl6rtqI/lnsAp34i7m13i8YaVFA5i7mUTO1m89CYUc=;
-        b=l725wZUxx6r1Ycdzj7cFBsrukTjy35bP8IPHmCSPAz2hwoQ7qy8PxBKnau50bylSgD
-         HR75/QKRHMZqVnep07+5VoUwjXIK1GOar8CmX+kSwjwZWQBzxsrJ3vI/jvm6cGzwUz0G
-         h4BXewrylaAkKZWViWZzgE2aRhGAcI6xcMtveDLMcSp9Cl6zrvAKlUt0b7xoRBdosabR
-         MOoX7D2/feSpNpjMkhKJM30W0R1//Ojj8UTP/OZW+U47/wyyxY6cduOrMp4VijBrz+7a
-         NveV1pzoP2fV+SB8xaAMgkXATbpJ4PAH5tckzUVAwOU8ilr5RuWYZXWQ/NtkyW/CFKc1
-         6VEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686208811; x=1688800811;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sCl6rtqI/lnsAp34i7m13i8YaVFA5i7mUTO1m89CYUc=;
-        b=DQZoys2CyY1Q4FXzCeC/F/ZSoVazmqxopjkCXFH56yxE5tZ9P6wKU0//CtP4KgN+Sx
-         LOPckMwBgKtzach30WaSwDL3J1KO2j9ksFEM2wCA2HhL9J0WFmiitfSpIvlK8ewW12Tu
-         YasT7BWFHMrSz4K+lxMnoFz3luklTWQwXh2V+BwMRUjl1tJWnW9fabPlcTesqvKmIeeo
-         Chzx1koyWrIUeJvCP7vhWO3D2dcqteh/N4bJ9jAG7HK2DsbPRHNtFMuJ82oigbqLfpec
-         w4ZbQNXOJbkFQY4IC8SjATzGxpABXsy6IMggeoetj/d8ykuBD68yi46xN/X2xK4yaCrG
-         6ilA==
-X-Gm-Message-State: AC+VfDy8RWEwfVBud9JtSiIaMwNuttulaV/EgLlTb25MRQ58kuegeevl
-        OTtealAGi7v1iZSUbEpI+oQ8MA==
-X-Google-Smtp-Source: ACHHUZ5dyxvogNuartC9WpRJfkks70+K3BJ8tJOfNobMtwn0tLJXermHSdQpCm9l7vzWKuJsNrZRpA==
-X-Received: by 2002:a17:907:1628:b0:974:5e8b:fc35 with SMTP id hb40-20020a170907162800b009745e8bfc35mr8746192ejc.26.1686208811151;
-        Thu, 08 Jun 2023 00:20:11 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id j24-20020a170906051800b00965e1be3002sm309402eja.166.2023.06.08.00.20.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jun 2023 00:20:10 -0700 (PDT)
-Message-ID: <5000d481-2125-95e0-4033-d9c71a49cbd7@linaro.org>
-Date:   Thu, 8 Jun 2023 09:20:08 +0200
+        with ESMTP id S230193AbjFHHpX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 03:45:23 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2B9C1BF7;
+        Thu,  8 Jun 2023 00:45:20 -0700 (PDT)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3585b6Cf006476;
+        Thu, 8 Jun 2023 07:44:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=rPsADric/4vzkPQa9Wmz9QLZDn4DXFKJVBsRL0CAJrA=;
+ b=CFEVOLQJfkcIj1KIHKxMVTYrLlYf4suMzj7D2rKvutDQSm4TwaO2vuEx7oxjqPKIJ4Kw
+ bVoyU4kUsRhGaLOIVD3Ex+RUrRHgmdJzJ6Flx3vXbAtwsHEAc0Fnh6yP889gUFnp8VbT
+ g5FOOjJniDquMEIeQc5V6Aipmgs55wIOXt0tszDD5Odpb4PKELFMbK35PCsnj/ZEIsFB
+ HAjwI8aBmD1USQih3Qmw6XU5Q5mEv6h/hRXrc4ig8Bdcx58OOXDsx+vCggDdyWadCpF7
+ WdLNrGr079USxsBHcgripiqDKq/SmNJWsGFpv7aIMt779VixtvrcOf6zn4WMyprxo8B6 ug== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r34em0kut-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 08 Jun 2023 07:44:54 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3587iqSU018169
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 8 Jun 2023 07:44:52 GMT
+Received: from [10.233.17.245] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 8 Jun 2023
+ 00:44:47 -0700
+Message-ID: <03a53571-8e87-d187-de7e-b8cdb671d771@quicinc.com>
+Date:   Thu, 8 Jun 2023 15:44:44 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-Subject: Re: [v4 1/5] dt-bindings: mfd: Add aspeed pwm-tach binding
+Subject: Re: [PATCH v6 1/3] Coresight: Add coresight dummy driver
 Content-Language: en-US
-To:     Billy Tsai <billy_tsai@aspeedtech.com>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        James Clark <james.clark@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <coresight@lists.linaro.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
- <20221123061635.32025-2-billy_tsai@aspeedtech.com>
- <c4b188b1-06a4-3cb0-a758-e12942e1f67b@linaro.org>
- <ce99a709-ba4a-eb53-39ac-88a194879000@linaro.org>
- <SG2PR06MB3365AE9D075601CB62C6E7F78B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SG2PR06MB3365AE9D075601CB62C6E7F78B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        "Yuanfang Zhang" <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20230602084149.40031-1-quic_hazha@quicinc.com>
+ <20230602084149.40031-2-quic_hazha@quicinc.com>
+From:   Hao Zhang <quic_hazha@quicinc.com>
+In-Reply-To: <20230602084149.40031-2-quic_hazha@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: CQhQG97_X68PB7Ut7QEYGXNnDzLzOdOj
+X-Proofpoint-GUID: CQhQG97_X68PB7Ut7QEYGXNnDzLzOdOj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-08_04,2023-06-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ lowpriorityscore=0 suspectscore=0 phishscore=0 mlxscore=0
+ priorityscore=1501 malwarescore=0 impostorscore=0 bulkscore=0
+ mlxlogscore=999 adultscore=0 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306080064
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/06/2023 09:15, Billy Tsai wrote:
->         On 23/11/2022 09:24, Krzysztof Kozlowski wrote:
->         >> On 23/11/2022 07:16, Billy Tsai wrote:
->         >>> Add device binding for aspeed pwm-tach device which is a multi-function
->         >>> device include pwm and tach function.
->         >>
->         >> Subject: drop second, redundant "bindings".
+Hi Reviewers,
+
+Could you please help to review this patch?
+
+Thanks
+Hao
+
+On 6/2/2023 4:41 PM, Hao Zhang wrote:
+> Some Coresight devices that kernel don't have permission to access or
+> configure. For these devices, a dummy driver is needed to register them as
+> Coresight devices. The module may also be used to define components that
+> may not have any programming interfaces, so that paths can be created
+> in the driver. It provides Coresight API for operations on dummy devices,
+> such as enabling and disabling them. It also provides the Coresight dummy
+> sink/source paths for debugging.
 > 
->         > Where did you implement this comment in your v6?
+> Signed-off-by: Hao Zhang <quic_hazha@quicinc.com>
+> ---
+>   drivers/hwtracing/coresight/Kconfig           |  11 ++
+>   drivers/hwtracing/coresight/Makefile          |   1 +
+>   drivers/hwtracing/coresight/coresight-dummy.c | 163 ++++++++++++++++++
+>   include/linux/coresight.h                     |   1 +
+>   4 files changed, 176 insertions(+)
+>   create mode 100644 drivers/hwtracing/coresight/coresight-dummy.c
 > 
-> Sorry, I guess by "Subject: drop second, redundant "bindings"" you meant to remove the second "bindings" string from my subject. So I change the subject from "dt-bindings: hwmon: Add bindings for aspeed tach controller" and "dt-bindings: pwm: Add bindings for aspeed pwm controller" in v4 to "dt-bindings: hwmon: Add ASPEED TACH Control documentation" and "dt-bindings: pwm: Add ASPEED PWM Control documentation" in v6.
-
-A nit, subject: drop second/last, redundant "documentation". The
-"dt-bindings" prefix is already stating that these are bindings and
-documentation.
-
-> If I have misunderstood your comment, please let me know.
-
-You replaced one redundant with other redundant. I only asked to drop
-it, not replace it.
-
-
-Best regards,
-Krzysztof
-
+> diff --git a/drivers/hwtracing/coresight/Kconfig b/drivers/hwtracing/coresight/Kconfig
+> index 2b5bbfffbc4f..06f0a7594169 100644
+> --- a/drivers/hwtracing/coresight/Kconfig
+> +++ b/drivers/hwtracing/coresight/Kconfig
+> @@ -236,4 +236,15 @@ config CORESIGHT_TPDA
+>   
+>   	  To compile this driver as a module, choose M here: the module will be
+>   	  called coresight-tpda.
+> +
+> +config CORESIGHT_DUMMY
+> +	tristate "Dummy driver support"
+> +	help
+> +	  Enables support for dummy driver. Dummy driver can be used for
+> +	  CoreSight sources/sinks that are owned and configured by some
+> +	  other subsystem and use Linux drivers to configure rest of trace
+> +	  path.
+> +
+> +	  To compile this driver as a module, choose M here: the module will be
+> +	  called coresight-dummy.
+>   endif
+> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
+> index 33bcc3f7b8ae..995d3b2c76df 100644
+> --- a/drivers/hwtracing/coresight/Makefile
+> +++ b/drivers/hwtracing/coresight/Makefile
+> @@ -30,3 +30,4 @@ obj-$(CONFIG_CORESIGHT_TPDA) += coresight-tpda.o
+>   coresight-cti-y := coresight-cti-core.o	coresight-cti-platform.o \
+>   		   coresight-cti-sysfs.o
+>   obj-$(CONFIG_ULTRASOC_SMB) += ultrasoc-smb.o
+> +obj-$(CONFIG_CORESIGHT_DUMMY) += coresight-dummy.o
+> diff --git a/drivers/hwtracing/coresight/coresight-dummy.c b/drivers/hwtracing/coresight/coresight-dummy.c
+> new file mode 100644
+> index 000000000000..42125b7a0f39
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-dummy.c
+> @@ -0,0 +1,163 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/coresight.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include "coresight-priv.h"
+> +
+> +struct dummy_drvdata {
+> +	struct device			*dev;
+> +	struct coresight_device		*csdev;
+> +};
+> +
+> +DEFINE_CORESIGHT_DEVLIST(source_devs, "dummy_source");
+> +DEFINE_CORESIGHT_DEVLIST(sink_devs, "dummy_sink");
+> +
+> +static int dummy_source_enable(struct coresight_device *csdev,
+> +			       struct perf_event *event, u32 mode)
+> +{
+> +	dev_dbg(csdev->dev.parent, "Dummy source enabled\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static void dummy_source_disable(struct coresight_device *csdev,
+> +				 struct perf_event *event)
+> +{
+> +	dev_dbg(csdev->dev.parent, "Dummy source disabled\n");
+> +}
+> +
+> +static int dummy_sink_enable(struct coresight_device *csdev, u32 mode,
+> +				void *data)
+> +{
+> +	dev_dbg(csdev->dev.parent, "Dummy sink enabled\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int dummy_sink_disable(struct coresight_device *csdev)
+> +{
+> +	dev_dbg(csdev->dev.parent, "Dummy sink disabled\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct coresight_ops_source dummy_source_ops = {
+> +	.enable	= dummy_source_enable,
+> +	.disable = dummy_source_disable,
+> +};
+> +
+> +static const struct coresight_ops dummy_source_cs_ops = {
+> +	.source_ops = &dummy_source_ops,
+> +};
+> +
+> +static const struct coresight_ops_sink dummy_sink_ops = {
+> +	.enable	= dummy_sink_enable,
+> +	.disable = dummy_sink_disable,
+> +};
+> +
+> +static const struct coresight_ops dummy_sink_cs_ops = {
+> +	.sink_ops = &dummy_sink_ops,
+> +};
+> +
+> +static int dummy_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct device_node *node = dev->of_node;
+> +	struct coresight_platform_data *pdata;
+> +	struct dummy_drvdata *drvdata;
+> +	struct coresight_desc desc = { 0 };
+> +
+> +	if (of_device_is_compatible(node, "arm,coresight-dummy-source")) {
+> +
+> +		desc.name = coresight_alloc_device_name(&source_devs, dev);
+> +		if (!desc.name)
+> +			return -ENOMEM;
+> +
+> +		desc.type = CORESIGHT_DEV_TYPE_SOURCE;
+> +		desc.subtype.source_subtype =
+> +					CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
+> +		desc.ops = &dummy_source_cs_ops;
+> +	} else if (of_device_is_compatible(node, "arm,coresight-dummy-sink")) {
+> +		desc.name = coresight_alloc_device_name(&sink_devs, dev);
+> +		if (!desc.name)
+> +			return -ENOMEM;
+> +
+> +		desc.type = CORESIGHT_DEV_TYPE_SINK;
+> +		desc.subtype.sink_subtype = CORESIGHT_DEV_SUBTYPE_SINK_DUMMY;
+> +		desc.ops = &dummy_sink_cs_ops;
+> +	} else {
+> +		dev_err(dev, "Device type not set\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	pdata = coresight_get_platform_data(dev);
+> +	if (IS_ERR(pdata))
+> +		return PTR_ERR(pdata);
+> +	pdev->dev.platform_data = pdata;
+> +
+> +	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
+> +	if (!drvdata)
+> +		return -ENOMEM;
+> +
+> +	drvdata->dev = &pdev->dev;
+> +	platform_set_drvdata(pdev, drvdata);
+> +
+> +	desc.pdata = pdev->dev.platform_data;
+> +	desc.dev = &pdev->dev;
+> +	drvdata->csdev = coresight_register(&desc);
+> +	if (IS_ERR(drvdata->csdev))
+> +		return PTR_ERR(drvdata->csdev);
+> +
+> +	pm_runtime_enable(dev);
+> +	dev_dbg(dev, "Dummy device initialized\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int dummy_remove(struct platform_device *pdev)
+> +{
+> +	struct dummy_drvdata *drvdata = platform_get_drvdata(pdev);
+> +	struct device *dev = &pdev->dev;
+> +
+> +	pm_runtime_disable(dev);
+> +	coresight_unregister(drvdata->csdev);
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id dummy_match[] = {
+> +	{.compatible = "arm,coresight-dummy-source"},
+> +	{.compatible = "arm,coresight-dummy-sink"},
+> +	{},
+> +};
+> +
+> +static struct platform_driver dummy_driver = {
+> +	.probe	= dummy_probe,
+> +	.remove	= dummy_remove,
+> +	.driver	= {
+> +		.name   = "coresight-dummy",
+> +		.of_match_table = dummy_match,
+> +	},
+> +};
+> +
+> +static int __init dummy_init(void)
+> +{
+> +	return platform_driver_register(&dummy_driver);
+> +}
+> +module_init(dummy_init);
+> +
+> +static void __exit dummy_exit(void)
+> +{
+> +	platform_driver_unregister(&dummy_driver);
+> +}
+> +module_exit(dummy_exit);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("CoreSight dummy driver");
+> diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+> index f19a47b9bb5a..6db4b49751cf 100644
+> --- a/include/linux/coresight.h
+> +++ b/include/linux/coresight.h
+> @@ -45,6 +45,7 @@ enum coresight_dev_type {
+>   };
+>   
+>   enum coresight_dev_subtype_sink {
+> +	CORESIGHT_DEV_SUBTYPE_SINK_DUMMY,
+>   	CORESIGHT_DEV_SUBTYPE_SINK_PORT,
+>   	CORESIGHT_DEV_SUBTYPE_SINK_BUFFER,
+>   	CORESIGHT_DEV_SUBTYPE_SINK_SYSMEM,
