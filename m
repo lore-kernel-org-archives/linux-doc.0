@@ -2,109 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18A4FC7EE25
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 12:28:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C3D4C7EE25
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 12:30:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235178AbjFHM2s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 08:28:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49504 "EHLO
+        id S235239AbjFHMaX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 08:30:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232984AbjFHM2r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 08:28:47 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2C2F26B0;
-        Thu,  8 Jun 2023 05:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1686227322; x=1717763322;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D3eGuNa1+BoSZIrVhFPmuw0PAOKIN8uK8gmRTqHfLG4=;
-  b=esVpqYHHgx5kpOfYhZ9Mf2DbbVPU0TwLUQaqB68pCrEYa5aj9NJUppYj
-   SoR4pMDc989qcqcbvuJu20j+1kLMIVdOw867bP8VIIbMJpTuT3icTOf3w
-   Xk6kJdL9M19yZKrcEX7NwAZtECza5asr1sRg015OKO7YtGioZS4niq4jV
-   q1SZFOgu6MQPuO0hBvO24/2OqhOoqhH93ZqHg2a/ZWYP+EQeLA1ztZeAi
-   9hkByaA/KTt4sKrRyhe+91c4+D1kvo2usJCU9CXoPJWKazFenisEbmY1/
-   2OxWpn9hpdEUc7dnFUGqTXNuAXZYmN3GK4JivOEgeHYroA3qQocyxwZ3f
-   A==;
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="asc'?scan'208";a="219411820"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 08 Jun 2023 05:28:40 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+        with ESMTP id S232984AbjFHMaW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 08:30:22 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F8510FB;
+        Thu,  8 Jun 2023 05:30:20 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QcNkq5nzFzLqJg;
+        Thu,  8 Jun 2023 20:27:15 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 8 Jun 2023 05:28:33 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Thu, 8 Jun 2023 05:28:30 -0700
-Date:   Thu, 8 Jun 2023 13:28:06 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC:     <linux-riscv@lists.infradead.org>, <conor@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <llvm@lists.linux.dev>
-Subject: Re: [PATCH v1 0/2] RISC-V: enable rust
-Message-ID: <20230608-spiritism-gonad-5f5aff4c3a24@wendy>
-References: <20230307102441.94417-1-conor.dooley@microchip.com>
- <20230608-dispatch-sneer-aa09bd7b2eb8@wendy>
- <CANiq72nnph7LS1fLRtHz8NJ91PWXPaUnm0EuoV3wrbvK398AnA@mail.gmail.com>
+ 15.1.2507.23; Thu, 8 Jun 2023 20:30:18 +0800
+Subject: Re: [PATCH] drivers/perf: hisi: Don't migrate perf to the CPU going
+ to teardown
+To:     Junhao He <hejunhao3@huawei.com>, <will@kernel.org>,
+        <jonathan.cameron@huawei.com>, <linux-kernel@vger.kernel.org>,
+        <mark.rutland@arm.com>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <yangyicong@huawei.com>,
+        <shenyang39@huawei.com>, <prime.zeng@hisilicon.com>,
+        <yangyicong@hisilicon.com>
+References: <20230608114326.27649-1-hejunhao3@huawei.com>
+From:   Yicong Yang <yangyicong@huawei.com>
+Message-ID: <1e6ebefe-5a9b-2d14-6474-86e9eaf94656@huawei.com>
+Date:   Thu, 8 Jun 2023 20:30:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="HEkduUF7a/Zaoz5V"
-Content-Disposition: inline
-In-Reply-To: <CANiq72nnph7LS1fLRtHz8NJ91PWXPaUnm0EuoV3wrbvK398AnA@mail.gmail.com>
+In-Reply-To: <20230608114326.27649-1-hejunhao3@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---HEkduUF7a/Zaoz5V
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2023/6/8 19:43, Junhao He wrote:
+> The driver needs to migrate the perf context if the current using CPU going
+> to teardown. By the time calling the cpuhp::teardown() callback the
+> cpu_online_mask() hasn't updated yet and still includes the CPU going to
+> teardown. In current driver's implementation we may migrate the context
+> to the teardown CPU and leads to the below calltrace:
+> 
+> ...
+> [  368.104662][  T932] task:cpuhp/0         state:D stack:    0 pid:   15 ppid:     2 flags:0x00000008
+> [  368.113699][  T932] Call trace:
+> [  368.116834][  T932]  __switch_to+0x7c/0xbc
+> [  368.120924][  T932]  __schedule+0x338/0x6f0
+> [  368.125098][  T932]  schedule+0x50/0xe0
+> [  368.128926][  T932]  schedule_preempt_disabled+0x18/0x24
+> [  368.134229][  T932]  __mutex_lock.constprop.0+0x1d4/0x5dc
+> [  368.139617][  T932]  __mutex_lock_slowpath+0x1c/0x30
+> [  368.144573][  T932]  mutex_lock+0x50/0x60
+> [  368.148579][  T932]  perf_pmu_migrate_context+0x84/0x2b0
+> [  368.153884][  T932]  hisi_pcie_pmu_offline_cpu+0x90/0xe0 [hisi_pcie_pmu]
+> [  368.160579][  T932]  cpuhp_invoke_callback+0x2a0/0x650
+> [  368.165707][  T932]  cpuhp_thread_fun+0xe4/0x190
+> [  368.170316][  T932]  smpboot_thread_fn+0x15c/0x1a0
+> [  368.175099][  T932]  kthread+0x108/0x13c
+> [  368.179012][  T932]  ret_from_fork+0x10/0x18
+> ...
+> 
+> Use function cpumask_any_but() to find one correct active cpu to fixes
+> this issue.
+> 
+> Fixes: 8404b0fbc7fb ("drivers/perf: hisi: Add driver for HiSilicon PCIe PMU")
+> Signed-off-by: Junhao He <hejunhao3@huawei.com>
+Reviewed-by: Yicong Yang <yangyicong@hisilicon.com>
 
-On Thu, Jun 08, 2023 at 01:52:47PM +0200, Miguel Ojeda wrote:
-> On Thu, Jun 8, 2023 at 9:01=E2=80=AFAM Conor Dooley <conor.dooley@microch=
-ip.com> wrote:
-> >
-> > I do intend revisting this, probably after the min. version for rust
-> > gets bumped, I've just been really busy with other work the last weeks.
->=20
-> Thanks Conor! That would be great. We are increasing the minimum
-> version after the merge window to Rust 1.70.0 (assuming no unexpected
-> issues).
-
-Right, so probably I won't resubmit anything until after v6.6 then,
-as it won't be in the RISC-V tree until then, by the sounds of your
-timeline.
-Gives me plenty of time to try and unravel the mess of libclang versions
-and what extensions are supported by each tool. Not like I am devoid of
-other things that need to be done!
-
-
---HEkduUF7a/Zaoz5V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIHJVgAKCRB4tDGHoIJi
-0ikSAP9vwx3IhwT2YQBx4VTPuAhBIV9NLradoYYCFXuEPhuj0QD/TlPI2RbulZ9K
-uWEHPxTMU46fCeYmbOUy5I7dtUUEwgg=
-=ram8
------END PGP SIGNATURE-----
-
---HEkduUF7a/Zaoz5V--
+> ---
+>  drivers/perf/hisilicon/hisi_pcie_pmu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/perf/hisilicon/hisi_pcie_pmu.c b/drivers/perf/hisilicon/hisi_pcie_pmu.c
+> index 0bc8dc36aff5..14f8b4b03337 100644
+> --- a/drivers/perf/hisilicon/hisi_pcie_pmu.c
+> +++ b/drivers/perf/hisilicon/hisi_pcie_pmu.c
+> @@ -683,7 +683,7 @@ static int hisi_pcie_pmu_offline_cpu(unsigned int cpu, struct hlist_node *node)
+>  
+>  	pcie_pmu->on_cpu = -1;
+>  	/* Choose a new CPU from all online cpus. */
+> -	target = cpumask_first(cpu_online_mask);
+> +	target = cpumask_any_but(cpu_online_mask, cpu);
+>  	if (target >= nr_cpu_ids) {
+>  		pci_err(pcie_pmu->pdev, "There is no CPU to set\n");
+>  		return 0;
+> 
