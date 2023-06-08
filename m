@@ -2,139 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98D40C7EE23
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 09:58:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E70C7EE29
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 10:42:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235755AbjFHJ6x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 05:58:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54258 "EHLO
+        id S234664AbjFHKmp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 06:42:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235687AbjFHJ6w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 05:58:52 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5562700
-        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 02:58:50 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-30ae141785bso414304f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jun 2023 02:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1686218329; x=1688810329;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bro8SCdRCjEHWuDcBtldZHsndfar0M9rwEdZ8SQ0W0s=;
-        b=DWLlXBMjR+In9QMk6WByU+4r6ZJwRxIdZLTZafSYiCKOJbbbT6swcxcbDLzxBWXjSp
-         1fbhQV7xgyvNNKARmYmQiulH1nZx4WLvUTDj3K4StImn2hgIxDj2+ikZyPIKdWisMOTf
-         POkUvZLouPzWG0TFB+pG8Fqpf4v308cP9MheL82rSXAkIQHV8FTqswIFUo3ofKEZH1T5
-         gBAYnPnURVTOhHfQfMReB4ybwIfvFPWb9VgzTP9BzQ4nEZKp69qw8Fh1mVAeJnQ4O6Qb
-         hvdyiWTomMIhVCmxq/xcYY3sZSRGDpAgFxYDyLLQmROw3quJagxDYH4kZcjPI1PfZRLY
-         vJdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686218329; x=1688810329;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bro8SCdRCjEHWuDcBtldZHsndfar0M9rwEdZ8SQ0W0s=;
-        b=kLcF6s5liUyjx2XdyIEUeOL3Os8hCMqc8aS9ylZ3lit61HQHGXo+Y07AL5lCCAdymi
-         moFotCX6gPVM4vmZOTum0YhtF8DQ5arkKeDAwPQUdJsrVnY2MIIJloGjaO+XxN+jFyZI
-         dfLcmLa1vgiG1tyKwXxS0iTzMavuSFEB8+0N3s/bWVY4AYTtSYxq3f8Xt3P4fho2LBF5
-         hpXt2gxe7PgkGuC7ctLdti6ruV22eADyeQP6wbCg3q0h/E433Ryjr4yytwLHpBeRZSvK
-         YPy75ATcQcg9Jr6kP8cdrzCpZXVKssKvloi7UFoHxUaI0eY90+E+VYbhJvmZfOMng6Uw
-         TXXA==
-X-Gm-Message-State: AC+VfDyVB8My70cNRvCxN3O/M6a726VQRBaOVG3sha93rnwweKND7vZR
-        OsLF1xgoxPAwSOv3dj2LbHYM6w==
-X-Google-Smtp-Source: ACHHUZ6f6RLGsz44l11hXuy9AWjs8GZ3O0KJYqBLOUqFSQ6jSeZDCKr+qhXxSeHoE89ty7CpeH4xmQ==
-X-Received: by 2002:a5d:6550:0:b0:30a:9014:838d with SMTP id z16-20020a5d6550000000b0030a9014838dmr6419901wrv.11.1686218329062;
-        Thu, 08 Jun 2023 02:58:49 -0700 (PDT)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id q12-20020a05600000cc00b002ff2c39d072sm1065586wrx.104.2023.06.08.02.58.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jun 2023 02:58:48 -0700 (PDT)
-Date:   Thu, 8 Jun 2023 11:58:47 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Haibo Xu <xiaobo55x@gmail.com>
-Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
-        oliver.upton@linux.dev, seanjc@google.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S234666AbjFHKml (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 06:42:41 -0400
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE782D47;
+        Thu,  8 Jun 2023 03:42:39 -0700 (PDT)
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3588gtZX008719;
+        Thu, 8 Jun 2023 06:42:22 -0400
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+        by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3r2a9dvdxf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 08 Jun 2023 06:42:21 -0400
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+        by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 358AgKMa060703
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 8 Jun 2023 06:42:20 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Thu, 8 Jun 2023
+ 06:42:19 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Thu, 8 Jun 2023 06:42:19 -0400
+Received: from daniel-Precision-5530.ad.analog.com ([10.48.65.214])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 358Ag6lb015182;
+        Thu, 8 Jun 2023 06:42:08 -0400
+From:   Daniel Matyas <daniel.matyas@analog.com>
+CC:     Daniel Matyas <daniel.matyas@analog.com>,
+        Rob Herring <robh@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v2 11/11] KVM: riscv: selftests: Add get-reg-list test
-Message-ID: <20230608-344953a953eeb63ef6c26fb8@orel>
-References: <cover.1684999824.git.haibo1.xu@intel.com>
- <da390e6200e838fce320a2a43b2f87951b4e0bbb.1684999824.git.haibo1.xu@intel.com>
- <20230525-2bab5376987792eab73507ac@orel>
- <CAJve8okR_iH4vF9DV9zTkDaeYe25kP7KUcKQphmjG5q-iVb-KA@mail.gmail.com>
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v11 1/2] dt-bindings: hwmon: add MAX31827
+Date:   Thu, 8 Jun 2023 13:41:48 +0300
+Message-ID: <20230608104152.14249-1-daniel.matyas@analog.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJve8okR_iH4vF9DV9zTkDaeYe25kP7KUcKQphmjG5q-iVb-KA@mail.gmail.com>
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: 3xzTneVN_t0juPP8nOkfhJukPiGQkVWX
+X-Proofpoint-ORIG-GUID: 3xzTneVN_t0juPP8nOkfhJukPiGQkVWX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-08_07,2023-06-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 clxscore=1011 mlxscore=0 spamscore=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 adultscore=0 impostorscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306080090
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 08, 2023 at 05:45:21PM +0800, Haibo Xu wrote:
-> On Fri, May 26, 2023 at 1:18 AM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> 
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CORE | KVM_REG_RISCV_CORE_REG(mode),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(sstatus),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(sie),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(stvec),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(sscratch),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(sepc),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(scause),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(stval),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(sip),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(satp),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_CSR | KVM_REG_RISCV_CSR_REG(scounteren),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_TIMER | KVM_REG_RISCV_TIMER_REG(frequency),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_TIMER | KVM_REG_RISCV_TIMER_REG(time),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_TIMER | KVM_REG_RISCV_TIMER_REG(compare),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_TIMER | KVM_REG_RISCV_TIMER_REG(state),
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_ISA_EXT | KVM_RISCV_ISA_EXT_A,
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_ISA_EXT | KVM_RISCV_ISA_EXT_C,
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_ISA_EXT | KVM_RISCV_ISA_EXT_D,
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_ISA_EXT | KVM_RISCV_ISA_EXT_F,
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_ISA_EXT | KVM_RISCV_ISA_EXT_H,
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_ISA_EXT | KVM_RISCV_ISA_EXT_I,
-> > > +     KVM_REG_RISCV | KVM_REG_SIZE_U64 | KVM_REG_RISCV_ISA_EXT | KVM_RISCV_ISA_EXT_M,
-> >
-> > I think all the above should have the size KVM_REG_SIZE_ULONG. Please also
-> > test with a 32-bit host.
-> >
-> 
-> Hi Andrew,
-> 
-> Just noticed the RISC-V 32-bit kvm selftests was not supported currently.
+MAX31827 is a low-power temperature switch with I2C interface.
 
-Oh, right.
+The device is a ±1°C accuracy from -40°C to +125°C
+(12 bits) local temperature switch and sensor with I2C/SM-
+Bus interface. The combination of small 6-bump wafer-lev-
+el package (WLP) and high accuracy makes this temper-
+ature sensor/switch ideal for a wide range of applications.
 
-> Even though I tried to remove the below check for 32-bit, there were
-> still many warning and error messages during compiling.
-> It seems 32-bit KVM selftests was not supported either for ARM/x86. Do
-> we have a plan to support it on risc-v?
+Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
 
-No plan and, if there was, it would be super low priority. So for stuff
-like using KVM_REG_SIZE_ULONG, we'll just have to try and get it right
-without testing. If somebody adds 32-bit support to these tests someday,
-then, hopefully, it'll just work (I'm allowed one overly optimistic
-comment per day).
+Change log:
+v10 -> v11: No change.
+v9 -> v10: Added proper change log.
+v8 -> v9: Did not use '--base'.
+v7 -> v8: Added '--base=[Linux 6.4-rc1 commmit]' when using 'git format-patch'
+v6 -> v7: No change.
+v5 -> v6: Added Reviewed-by tag.
+v3 -> v5: Forgot to add Reviewed-by tag.
+v2 -> v3: Made max31828 and max31829 compatible with max31827.
+v1 -> v2: Resolved dt_binding_check errors. Dropped status at i2c node. Made node name generic. 
 
-Thanks,
-drew
+
+ .../bindings/hwmon/adi,max31827.yaml          | 54 +++++++++++++++++++
+ MAINTAINERS                                   |  7 +++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+
+diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+new file mode 100644
+index 000000000000..2dc8b07b4d3b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/adi,max31827.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch
++
++maintainers:
++  - Daniel Matyas <daniel.matyas@analog.com>
++
++description: |
++  Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch with
++  I2C Interface
++  https://www.analog.com/media/en/technical-documentation/data-sheets/MAX31827-MAX31829.pdf
++
++properties:
++  compatible:
++    oneOf:
++      - const: adi,max31827
++      - items:
++          - enum:
++              - adi,max31828
++              - adi,max31829
++          - const: adi,max31827
++
++  reg:
++    maxItems: 1
++
++  vref-supply:
++    description:
++      Must have values in the interval (1.6V; 3.6V) in order for the device to
++      function correctly.
++
++required:
++  - compatible
++  - reg
++  - vref-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        temperature-sensor@42 {
++            compatible = "adi,max31827";
++            reg = <0x42>;
++            vref-supply = <&reg_vdd>;
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 27ef11624748..752c7e9c4e4a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12612,6 +12612,13 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
+ F:	drivers/media/i2c/max2175*
+ F:	include/uapi/linux/max2175.h
+ 
++MAX31827 TEMPERATURE SWITCH DRIVER
++M:	Daniel Matyas <daniel.matyas@analog.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Supported
++W:	http://ez.analog.com/community/linux-device-drivers
++F:	Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
++
+ MAX6650 HARDWARE MONITOR AND FAN CONTROLLER DRIVER
+ L:	linux-hwmon@vger.kernel.org
+ S:	Orphan
+-- 
+2.34.1
+
