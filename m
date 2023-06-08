@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38439C7EE45
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 09:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C157FC7EE2E
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 09:27:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232139AbjFHJ0K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 05:26:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33948 "EHLO
+        id S232417AbjFHJ1y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 05:27:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235491AbjFHJ0J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 05:26:09 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D13A426AB
-        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 02:26:07 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-516a0546230so524403a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jun 2023 02:26:07 -0700 (PDT)
+        with ESMTP id S235773AbjFHJ1x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 05:27:53 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3144269F
+        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 02:27:50 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-51458187be1so662047a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jun 2023 02:27:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686216366; x=1688808366;
+        d=linaro.org; s=google; t=1686216469; x=1688808469;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=03BJWd8kwUz/PX6fs8czwd8z71E5lrJAOIWmRROBv7A=;
-        b=BCIwoqj1/HqVJuDuxVAPMqTyjB7V+UwDfa6WmqI61Vv2CH/q907TPnwZe8lDCpshaP
-         U4i7ixKUvm1351RYVjsAhT9Zv6VELRHMbQjnxeUjQkRXh35mJFHGoA+MV5Yk60gI/iQW
-         CGABrPWuL+d7yOjaOTTOJAde32O0Noo0O2ksbE/w5wnMEL3923L0wk54rPaWnlGJ75k5
-         Jx4cQ4OjixStgbtr7fVmI0Upx0Hy79un2WUtUW2hW7eFYwepScbBNpuP4zD6/RbrxUN0
-         w9Tp8YFaarb6Zw632o/8V87KKfbZPJ7WoP1MzWj0Xku9FYsCdmx0rEO7iN4j8zy+ODNd
-         ZviA==
+        bh=4M4AXwuus3QNcxn5wLRmX6dWFPy9Bx8ysuH50InMwSo=;
+        b=Iv/XXxWBX0f2XCCR6QA12a+irtrS/oHxhfmmy7hqMHSK7RAzwb9HV+XNm5fKtRB0QF
+         k6beldcZQW2GRHQE+1UonNwxq60CY/l6n4IJeMZpujS1xMr50FRH9qLdxDCIgRCsuTDu
+         Z2vqQqsbZ/BvujbnKRRIIbZ0mc4/U5+4GEzJw9aI4wOEMpeidmed3Dc21wgupOgRVec1
+         7mMA04e5O3EeoB9JJ7pSX2P2ftncDThKdmmxKh7fVi5MXEf7vSwk78e+JVIqwLaXYnTn
+         rFTUV59anSVgY9cSY/QoPl6O4eGFQOOwkRaTAyJAZpNqAFZq6sl+KqPvyaB0W9RozFm/
+         t5rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686216366; x=1688808366;
+        d=1e100.net; s=20221208; t=1686216469; x=1688808469;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=03BJWd8kwUz/PX6fs8czwd8z71E5lrJAOIWmRROBv7A=;
-        b=RrmNr4Ct2MOjWUU3HB4uQE4T8lrdxHDjcSWsEIieb/pevhoZQwOutgjumaqNp8/iA2
-         3q/LD4KVamp1HKv6g8l57qE0pf5CHlO0twRIHRkzoQJ5q62JYLiBd8pNDXuLUokZMF3a
-         TRKbMzWFL5J5hI2FPGoX6yaKjlOwekLanwX/Rrj/ZTjTgTnjJLAkb3r/1tFssNm918Dm
-         vCLBPTWlc2zKQUrH9Kw24R8hHRz2HFGYkz1MkOZ+eYP1HAASfsJMW8lnaL0RWhHMqRII
-         we+2J09bPUObddahKpaNNgMydvgvsOkXR1QtCFnnA/YrhgzgiHSkkWd0u3oe+G4NIJkB
-         6WMQ==
-X-Gm-Message-State: AC+VfDz3mD3qD85uf587quiLdy+OTNIduxdFyJuyHxga09ZcVhbGG0Gc
-        NkttHZRf/uShQM1+HEgp2ctqJQ==
-X-Google-Smtp-Source: ACHHUZ7OEP3vwBVFqBeczcFqR9O9YzQQuofZmkKRaPneB03HPeNiGD9Xju5/x1O66AFVuWpIlRBApA==
-X-Received: by 2002:aa7:dc04:0:b0:514:9c80:e3ff with SMTP id b4-20020aa7dc04000000b005149c80e3ffmr6237809edu.2.1686216366279;
-        Thu, 08 Jun 2023 02:26:06 -0700 (PDT)
+        bh=4M4AXwuus3QNcxn5wLRmX6dWFPy9Bx8ysuH50InMwSo=;
+        b=WgbnJJBvNssSrEJWk3l6sKw7QuopbFlw0ChzFCZlTKfG7J/4QVBZzGqJmZ8aIce1U0
+         u0cVulqk8X0M/0hOON1Xn3lYD92QJddBOrAfVskiuyFNJ3amnzbOHi2ggqmE+mCVPO8e
+         SPcXerjR4oPLsWNLR1h3HEz4ivIBu2Gq95QBIAuyu+AHqNPDszBUrK122SPNGi3wq/Nd
+         zJ5mDsJv71uVznPFUAc8E9LpfYOWbEHDzoBUs9Y0Q5u9g0usLxLx3L40KJxNK3G85uOa
+         u4zNS8nL2hMJ39s9dIzSlAPxV8D+6MnRpHuuWMqSnsa+klKL3ZnnK9H3OmRcQv1ct7uJ
+         /dbA==
+X-Gm-Message-State: AC+VfDxgATMA5EXaeQ1Yk+cLjKntQ7lYbVLaUcA+G6rvZAbbfUPXtSHm
+        ED9QrgIQCnG/JWC8LHx+ZlOxCA==
+X-Google-Smtp-Source: ACHHUZ61lgRdfNH+4iXxEctmcKpZlKsW/Cb7gNYirHVgh00nzDxu+CtNqzKNbg5xj0GFO96YbeoOVQ==
+X-Received: by 2002:a05:6402:613:b0:516:7928:ed70 with SMTP id n19-20020a056402061300b005167928ed70mr6344488edv.3.1686216469187;
+        Thu, 08 Jun 2023 02:27:49 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id g16-20020aa7c590000000b0051056dc47e0sm326588edq.8.2023.06.08.02.26.03
+        by smtp.gmail.com with ESMTPSA id n17-20020aa7c691000000b005105f002fd1sm316888edq.66.2023.06.08.02.27.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jun 2023 02:26:05 -0700 (PDT)
-Message-ID: <05038be8-f59d-5b2b-9b51-36094941f731@linaro.org>
-Date:   Thu, 8 Jun 2023 11:26:02 +0200
+        Thu, 08 Jun 2023 02:27:48 -0700 (PDT)
+Message-ID: <5b5ccfb9-d6ea-9f22-bc8f-c048da726cc9@linaro.org>
+Date:   Thu, 8 Jun 2023 11:27:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
@@ -83,17 +83,17 @@ References: <20230608021839.12769-1-billy_tsai@aspeedtech.com>
  <SG2PR06MB3365DD80EA2FD026D400C4A78B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
  <61278e12-ba39-4503-ca74-a7118b0f6e99@linaro.org>
  <SG2PR06MB336528007D2685F8D95DF4078B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
- <9f8a9208-62d4-0c96-7d1c-a452d3d7e799@linaro.org>
- <SG2PR06MB3365FCF5BEA6555EC503EFEC8B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+ <fb3cb26b-61d7-5f57-41de-f419aa50ac0b@linaro.org>
+ <SG2PR06MB3365558F9A3127744CEF1C068B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SG2PR06MB3365FCF5BEA6555EC503EFEC8B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+In-Reply-To: <SG2PR06MB3365558F9A3127744CEF1C068B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/06/2023 10:57, Billy Tsai wrote:
+On 08/06/2023 11:15, Billy Tsai wrote:
 > On 08/06/2023 10:21, Billy Tsai wrote:
 >         >>         On 08/06/2023 09:47, Billy Tsai wrote:
 >         >>         >>
@@ -117,25 +117,44 @@ On 08/06/2023 10:57, Billy Tsai wrote:
 >         >>         > channel. What do you put then in the channel?
 >         >>
 >         >> You need to put 0 in the cell of the channel, the example of the dts usage will like following:
+>         >>
+>         >> pwm0: pwm0@1e610000 {
+>         >>         compatible = "aspeed,ast2600-pwm";
+>         >>         reg = <0x1e610000 0x8>;
+>         >>         #pwm-cells = <3>;
+>         >>         #address-cells = <1>;
+>         >>         #size-cells = <0>;
+>         >>         pinctrl-names = "default";
+>         >>         pinctrl-0 = <&pinctrl_pwm0_default>;
+>         >>         clocks = <&syscon ASPEED_CLK_AHB>;
+>         >>         resets = <&syscon ASPEED_RESET_PWM>;
+>         >>         status = "okay";
+>         >> };
+>         >>
+>         >> pwm1: pwm1@1e610010 {
+>         >>         compatible = "aspeed,ast2600-pwm";
+>         >>         reg = <0x1e610010 0x8>;
+>         >>         #pwm-cells = <3>;
+>         >>         #address-cells = <1>;
+>         >>         #size-cells = <0>;
+>         >>         pinctrl-names = "default";
+>         >>         pinctrl-0 = <&pinctrl_pwm1_default>;
+>         >>         clocks = <&syscon ASPEED_CLK_AHB>;
+>         >>         resets = <&syscon ASPEED_RESET_PWM>;
+>         >>         status = "okay";
 > 
->         > If you always put 0 isn't this a proof that it's wrong?
+>         > BTW, these are not two PWM devices but one. I don't understand why you
+>         > changed previous design into something like this, but this is not
+>         > representing your hardware.
 > 
-> No, if your PWM controller only has one pwm output, then it should only be configured as 0.
-> This is the usage of the pwm-cells property.
-> https://github.com/torvalds/linux/blob/master/drivers/pwm/core.c#L129-L158
+> The previous design of my patch treated our PWM controller as having 16 PWM channels.
+> However, from a hardware perspective, it consists of 16 individual PWM chips, each
+> with its own set of two 4-byte control registers. These chips operate independently
+> and are not affected by each other.
 
-This is only when you use generic of_xlate. You do not have to use
-generic of_xlate if it does not suite you. Again you speak about the
-drivers, but we talk about bindings:
-
-https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/pwm/pwm.txt#L13
-
-"controller specific"
-
-> https://github.com/torvalds/linux/blob/master/include/linux/pwm.h#LL299C20-L299C20
-> All of the pwm driver with npwm = 1 will has the same usage.
-
-So it seems many simplified their drivers...
+They are affected by each other - you use the same clock and reset line.
+I really doubt you have 16 PWM controllers. Anyway, I cannot judge.
+Either your previous submissions were totally bogus or this one is.
 
 Best regards,
 Krzysztof
