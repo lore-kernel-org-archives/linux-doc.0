@@ -2,83 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC16C7EE25
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 16:24:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE862C87FDD
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 18:41:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbjFHQYO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 12:24:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33958 "EHLO
+        id S234331AbjFHSly (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 14:41:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235038AbjFHQX4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 12:23:56 -0400
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC063AAC;
-        Thu,  8 Jun 2023 09:23:25 -0700 (PDT)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so552409a12.1;
-        Thu, 08 Jun 2023 09:23:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686241398; x=1688833398;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wqu/i7eeSgXY/ZHZ2JjHyZ/7wB17Cu+AK25hSX7kGOQ=;
-        b=h246vOavl/KLNV+ogk29KP7SnDUtwCJUtMOy21ehFEoxpEAoD3E3/OacbBwJRyBhex
-         zIJ90A9S9kQ4k9Ht4GMnjesSM96C8MjCHzocwjJlPaYCDd2O9J7cK+QGvpKJe5JuQyUf
-         vexwdyrmOTovyN03W26pxKdnKlLfk01ney3eOXfd2SF8mfmtEoCz8xOw/2W1goIA1S7M
-         MrFhlPDoo09aUXtUIyzidKKZ44uacHNS43kJS/MEk2RlbUGLELlmzo8DkDG3a2ty62SA
-         PRhHLC0m67rQpnkpCKPgRiaJlmwdL5wohUnH9xrw3U2Igh27OMBxr6EozilYNOiBHtWt
-         wvLQ==
-X-Gm-Message-State: AC+VfDxCkMO8OrzuRVQDkU6pw8QDwukKQy6nc6ruVsd9+IUihf+dKaFc
-        aoWPXsAjT9dJvDZqSxPUuSk=
-X-Google-Smtp-Source: ACHHUZ6VpgHsGG8pXfBSvZUuAHTYHWngXlZb+0AI56ny79aH26oCesKm78tThBWyQGmn0AdMd368GA==
-X-Received: by 2002:a17:903:1206:b0:1af:e8cf:7004 with SMTP id l6-20020a170903120600b001afe8cf7004mr10557914plh.15.1686241398305;
-        Thu, 08 Jun 2023 09:23:18 -0700 (PDT)
-Received: from [192.168.51.14] ([98.51.102.78])
-        by smtp.gmail.com with ESMTPSA id 28-20020a17090a1a5c00b0024e4f169931sm3526454pjl.2.2023.06.08.09.23.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jun 2023 09:23:17 -0700 (PDT)
-Message-ID: <5b898dde-2f76-51af-5d2e-c4572719a5be@acm.org>
-Date:   Thu, 8 Jun 2023 09:23:16 -0700
+        with ESMTP id S230459AbjFHSlx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 14:41:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 604019E;
+        Thu,  8 Jun 2023 11:41:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E54756504F;
+        Thu,  8 Jun 2023 18:41:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45677C4339B;
+        Thu,  8 Jun 2023 18:41:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686249710;
+        bh=/XC56gk/QbgREe0xAI2tn4FfsDa1kINSQp93sc9KMmY=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=a5HX1cvs2lh+CKT1AoGiz2HamfaHGe9HhWnhN8t5KBxob3N2HvUDkV2nTmXfQr8cV
+         BWSSvKv5ZxaUcU5xl7XuRI00G/Q/iMcC0Vc9tzy3VAIt4GwBAH5fz3Q7C/l6bO2O6e
+         liErzoucstRS74wiolAg90/s2zIo7K6/7CyE6FuE6E7zjv064gkuajS5YxPL+WV4lU
+         QjFKREg3YWqcHbsjpSrzi9dU9b9mmhKJ81WUpScx50A2oAAwcOQyKMkXIhCVN9tFI7
+         28I9kHUDbbENTUu5hdEiAoan/DB2CKtcVW4f24bJxwHI+n6h4JhjwTEhDmeVQZLMOe
+         qSjjhXMiaUbdw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id C3721CE3A30; Thu,  8 Jun 2023 11:41:49 -0700 (PDT)
+Date:   Thu, 8 Jun 2023 11:41:49 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Tycho Andersen <tycho@tycho.pizza>
+Cc:     Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tycho Andersen <tandersen@netflix.com>
+Subject: Re: [PATCH] documentation/rcu: fix typo
+Message-ID: <4d9430d4-735e-4da9-891b-7cff41a5b3de@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20230607141521.539828-1-tycho@tycho.pizza>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] scsi: sd: support specify probe type of build-in driver
-Content-Language: en-US
-To:     Jianlin Lv <iecedge@gmail.com>
-Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com, paulmck@kernel.org,
-        bp@suse.de, peterz@infradead.org, will@kernel.org,
-        rdunlap@infradead.org, kim.phillips@amd.com, rostedt@goodmis.org,
-        wyes.karny@amd.com, jianlv@ebay.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org
-References: <20230606051217.2064-1-iecedge@gmail.com>
- <6ad5fba3-926a-7a23-b21b-abffd33708be@acm.org>
- <CAFA-uR_Zn4MdFKs6U6dqPjuVS60yN4RcYU4jJzjknqy7-RWyEQ@mail.gmail.com>
- <e9b8b9c5-f400-9152-0f4b-537b05203dd2@acm.org>
- <CAFA-uR83jHJsDXnn-3LWcrw251S4MizHC_JPJssYrgoD6kLoAg@mail.gmail.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <CAFA-uR83jHJsDXnn-3LWcrw251S4MizHC_JPJssYrgoD6kLoAg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230607141521.539828-1-tycho@tycho.pizza>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/7/23 19:51, Jianlin Lv wrote:
-> On Thu, Jun 8, 2023 at 1:07 AM Bart Van Assche <bvanassche@acm.org> wrote:
->> On 6/7/23 08:55, Jianlin Lv wrote:
->> I see two possible solutions:
->> - Change the volume provisioner such that it uses disk references that do
->>     not depend on the probing order, e.g. /dev/disk/by-id/...
+On Wed, Jun 07, 2023 at 08:15:21AM -0600, Tycho Andersen wrote:
+> From: Tycho Andersen <tandersen@netflix.com>
 > 
-> Yes, The "/dev/disk/by-id/" can uniquely identify SCSI devices. However,
-> I don't think it is suitable for the volume provisioner workflow.
-> For nodes of the same SKU , a unified YAML file will be defined to instruct
-> the volume provisioner on how to manage the local disks.
-> If use WWID, it would mean that a unique YAML file needs to be defined
-> for each node. This approach becomes impractical when dealing with a large
-> number of work nodes.
-Please consider using the paths available in /dev/disk/by-path.
+> Signed-off-by: Tycho Andersen <tandersen@netflix.com>
 
-Thanks,
+Good eyes, queued, thank you!
 
-Bart.
+Build a fence out of all those lockdep-RCU slats?  ;-)
+
+							Thanx, Paul
+
+> ---
+>  Documentation/RCU/lockdep-splat.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/RCU/lockdep-splat.rst b/Documentation/RCU/lockdep-splat.rst
+> index 2a5c79db57dc..bcbc4b3c88d7 100644
+> --- a/Documentation/RCU/lockdep-splat.rst
+> +++ b/Documentation/RCU/lockdep-splat.rst
+> @@ -10,7 +10,7 @@ misuses of the RCU API, most notably using one of the rcu_dereference()
+>  family to access an RCU-protected pointer without the proper protection.
+>  When such misuse is detected, an lockdep-RCU splat is emitted.
+>  
+> -The usual cause of a lockdep-RCU slat is someone accessing an
+> +The usual cause of a lockdep-RCU splat is someone accessing an
+>  RCU-protected data structure without either (1) being in the right kind of
+>  RCU read-side critical section or (2) holding the right update-side lock.
+>  This problem can therefore be serious: it might result in random memory
+> 
+> base-commit: a4d7d701121981e3c3fe69ade376fe9f26324161
+> -- 
+> 2.34.1
+> 
