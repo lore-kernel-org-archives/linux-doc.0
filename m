@@ -2,59 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62BEBC77B7A
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 02:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C2AC7EE25
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 03:11:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233829AbjFHCv0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Jun 2023 22:51:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51534 "EHLO
+        id S230424AbjFHDLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Jun 2023 23:11:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233803AbjFHCvU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 22:51:20 -0400
-Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 064BA1FF7;
-        Wed,  7 Jun 2023 19:51:16 -0700 (PDT)
-Received: by mail-vk1-xa34.google.com with SMTP id 71dfb90a1353d-463fdee669cso147754e0c.0;
-        Wed, 07 Jun 2023 19:51:15 -0700 (PDT)
+        with ESMTP id S229827AbjFHDLF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Jun 2023 23:11:05 -0400
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507881FCC;
+        Wed,  7 Jun 2023 20:11:04 -0700 (PDT)
+Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-558a7faa989so86307eaf.1;
+        Wed, 07 Jun 2023 20:11:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686192675; x=1688784675;
+        d=gmail.com; s=20221208; t=1686193863; x=1688785863;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+4iCMufvU+mSHmPOmnXMCrZIm6v3t8Nrs/bcmlqQqCU=;
-        b=JKRyNhZ8bTG0BgOBUtLCvd/63nTwEAMUi/YoZ+JabRgc64hK9Jc+/4gll1b5cpxVJL
-         waD71aWa0V2zpn9hL3NEPyYfvpn7+P89wrGyqNBS0zicSX1lktF+PYXW3KPFICXk+4aG
-         6wm2GA80Vg53vRio3rR9tahUCTNPr9d1RerNYpnYjmgmIyWqlOnXgCYmKEIj4htcq/DP
-         Wf9tEpi0xGKs6DG/OCxjNKHEhPLRnz2IQE2X4aXwAwORBeRfuweY5cQ+4cdKkvUrt/HV
-         olB7OkwTLiY6CdMtC9eZ3xqDqD/VcctKbhvpilS2X6K/zlhil9ucXV4Zfo7eRjXfnw1c
-         nzRw==
+        bh=TVv0WmiPBkvHnpM4wciZoOdFpdVlJtYuVG+P5KmWvKs=;
+        b=C2lqtC4kb8IueyvNg14bgzJHz7IijFzuVhv9wlLXnU2hAk9DJ0dppZHWl08ts7w8pv
+         1m4a0OIDx9G3L+LyTricAgAwd19PGPd6N3MgstC0/Feco0Bcx/uSHzphmQ0j1Houm5t7
+         M+KM3LpR+opun8YDCQOY++L3xSzb5N6Ut6EJGuQn+oNJHwFBxu35+2rV6BUzHlOnRaF3
+         nJC9ZSF5VaBfYCDZaPuP0GZy3zESZojZ+WLGt97FNMU3cSNVgEsAiSNOCE0tbw/kUugx
+         MEZSSpE7A+/JkQeAz2W52oumObzUVKQiq3il4wEEsbU2SocEpikFz24wmEGETDGnP62s
+         yJkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686192675; x=1688784675;
+        d=1e100.net; s=20221208; t=1686193863; x=1688785863;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+4iCMufvU+mSHmPOmnXMCrZIm6v3t8Nrs/bcmlqQqCU=;
-        b=agmBw+imyaYEfFTqpsDeqmjOm2XIrUWVlU2I2F+M1m6WJQfKC9qYBSq8XG/ChgUMQt
-         crosi2b7E7sp4JpBGuDNiSLtFWny6sOBsmDsb+QKcY6eEGPX3MysDxe07LEwhiAxwe+q
-         l3iZj0xxu4oO0wQ5CWAlbP7tUn3zm1yTXMxPAsUCS1nlpYrP7r3oAmkP3+sbkatA3VeF
-         k1z/hWEGFb+J5dMDtFiTfAdCNC7i47IBp6hl+mmKRyPXeSca++SOBv+bvTsFpq3GzuyJ
-         mZonERQQ3iyGhg1n1OsE+gjvrovh/5i/T/V/g/CkWKAueGG8oC/eArLlSJoq3haxXye/
-         LwEw==
-X-Gm-Message-State: AC+VfDwWoVRRkg0JmxVwf0ND3/J+cLr3PmyUHCBbx1uKp25JBIvaJKTB
-        OobtJ+i4wuJxYPgobFgKzeWBtNgfsGUrZ6n+IGShD/g+jIk=
-X-Google-Smtp-Source: ACHHUZ45xdz52r6mci4tsf4hW5WjVNgXix00zbT41XCQNvK3y33Ok0aCpKw5aIYWRfWbw+QdwBYs5ZW/gUGomuqLCp0=
-X-Received: by 2002:a1f:4551:0:b0:440:4946:fac with SMTP id
- s78-20020a1f4551000000b0044049460facmr407809vka.4.1686192674953; Wed, 07 Jun
- 2023 19:51:14 -0700 (PDT)
+        bh=TVv0WmiPBkvHnpM4wciZoOdFpdVlJtYuVG+P5KmWvKs=;
+        b=A/XdOF4wlHk/1U2CflsAkWmJr3ikniDXYSMar8rMN1goaEMpySfSWvPOWJOGg4wzuA
+         jJ6O1YTLwkDlaXlpKkHNKja74iINy2Y29vQ+TP00eNwSpHnRylXEX/wznY31nWoY6QUJ
+         4Okd0ysS3fN1lt3RIuT4u4vEiVdjDV8YSHONDWq8bCjmxHcTyxX2oZeTnUH6L000nXX9
+         schCe/lqCwsb5vtLwIo6/XJOc8NA/FQWvEYLLPeE801zr4ntt0YeRc5zI3nCvrGg1lZ5
+         LUckG7SXAvsGf+iytrMdEP0hAA6QhwSIdU31Kt4rHoWgDZ15HNGs7HtqYnl0PJ6LnVsa
+         6Tmg==
+X-Gm-Message-State: AC+VfDxZ6sd3PeqHz5WlGAJ6MKXnTZ7d8YBOo1KY2XDCgZ5SIYr+BKrU
+        /Q6z1Es7wnYCXy0LWTkvWEFMhX1Rk+mVrM/cj3hcWwm+
+X-Google-Smtp-Source: ACHHUZ6Sv2lxD1fsTeKj0IaYTHigGZ8yfJkKVDQYKsCYl7c9pS43hNKwJai62DnwlJSBvdrky1os2wKAXk4VGSwutnI=
+X-Received: by 2002:a05:6358:611a:b0:129:cbc5:95ca with SMTP id
+ 26-20020a056358611a00b00129cbc595camr1750336rws.16.1686193862688; Wed, 07 Jun
+ 2023 20:11:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230606051217.2064-1-iecedge@gmail.com> <6ad5fba3-926a-7a23-b21b-abffd33708be@acm.org>
- <CAFA-uR_Zn4MdFKs6U6dqPjuVS60yN4RcYU4jJzjknqy7-RWyEQ@mail.gmail.com> <e9b8b9c5-f400-9152-0f4b-537b05203dd2@acm.org>
-In-Reply-To: <e9b8b9c5-f400-9152-0f4b-537b05203dd2@acm.org>
+References: <20230606051217.2064-1-iecedge@gmail.com> <ZICP8GFjPSu7rOjv@infradead.org>
+In-Reply-To: <ZICP8GFjPSu7rOjv@infradead.org>
 From:   Jianlin Lv <iecedge@gmail.com>
-Date:   Thu, 8 Jun 2023 10:51:03 +0800
-Message-ID: <CAFA-uR83jHJsDXnn-3LWcrw251S4MizHC_JPJssYrgoD6kLoAg@mail.gmail.com>
+Date:   Thu, 8 Jun 2023 11:10:50 +0800
+Message-ID: <CAFA-uR9C0hu0o6C5b-3B0i7xBVUTJ+BbuYRYp10jAEUD+1gp3A@mail.gmail.com>
 Subject: Re: [PATCH] scsi: sd: support specify probe type of build-in driver
-To:     Bart Van Assche <bvanassche@acm.org>
+To:     Christoph Hellwig <hch@infradead.org>
 Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com, paulmck@kernel.org,
         bp@suse.de, peterz@infradead.org, will@kernel.org,
         rdunlap@infradead.org, kim.phillips@amd.com, rostedt@goodmis.org,
@@ -66,58 +65,16 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 8, 2023 at 1:07=E2=80=AFAM Bart Van Assche <bvanassche@acm.org>=
- wrote:
+On Wed, Jun 7, 2023 at 10:10=E2=80=AFPM Christoph Hellwig <hch@infradead.or=
+g> wrote:
 >
-> On 6/7/23 08:55, Jianlin Lv wrote:
-> > 1. MegaRAID adapters associated with 24 local disks. The disks are name=
-d
-> > sequentially as "sda," "sdb," and so on, up to "sdx."
-> > 2. STAT controllers associated with the root disk, named "sdy."
-> >
-> > Both the MegaRAID adapters and the SATA controller (PCH) are accessed v=
-ia
-> > the PCIe bus. In theory, depending on their PCIe bus ID in ascending or=
-der,
-> > the devices should be initialized in ascending order as well.
+> On Tue, Jun 06, 2023 at 05:12:17AM +0000, Jianlin Lv wrote:
+> > When SCSI disks are located on different SCSI hosts within a system,
+> > asynchronous detection can lead to non-deterministic SCSI disk names.
 >
-> Hmm ... I don't think there is anything that prevents the PCIe maintainer
-> from changing the PCIe probing behavior from synchronous to asynchronous?
-> In other words, I don't think it is safe to assume that PCIe devices are
-> always scanned in the same order.
->
-> > For cloud deployment, the local volume provisioner detects and creates =
-PVs
-> > for each local disk (from sda to sdx) on the host, and it cleans up the
-> > disks when they are released.
-> > This requires the logical names of the disks to be deterministic.
->
-> I see two possible solutions:
-> - Change the volume provisioner such that it uses disk references that do
->    not depend on the probing order, e.g. /dev/disk/by-id/...
+> Yes, as can various other conditions.  Your code better be able to deal
+> with that.
 
-Yes, The "/dev/disk/by-id/" can uniquely identify SCSI devices. However,
-I don't think it is suitable for the volume provisioner workflow.
-For nodes of the same SKU , a unified YAML file will be defined to instruct
-the volume provisioner on how to manage the local disks.
-If use WWID, it would mean that a unique YAML file needs to be defined
-for each node. This approach becomes impractical when dealing with a large
-number of work nodes.
+Could you give an example about "other conditions" ?
 
 Jianlin
-
-> - Implement an algorithm in systemd that makes disk names predictable.
->    An explanation of how predictable names work for network interfaces is
->    available here: https://wiki.debian.org/NetworkInterfaceNames. The
->    systemd documentation about predictable network names is available her=
-e:
->    https://www.freedesktop.org/software/systemd/man/systemd.net-naming-sc=
-heme.html
->
-> These alternatives have the advantage that disk scanning remains asynchro=
-nous.
->
-> Thanks,
->
-> Bart.
->
