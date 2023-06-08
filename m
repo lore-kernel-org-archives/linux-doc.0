@@ -2,88 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C25DC7EE43
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 13:22:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F20C7EE29
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 13:27:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235748AbjFHNWn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 09:22:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50650 "EHLO
+        id S236619AbjFHN1p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 09:27:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235659AbjFHNWk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 09:22:40 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70CC2717;
-        Thu,  8 Jun 2023 06:22:13 -0700 (PDT)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QcPxY3cpGz6J7rT;
-        Thu,  8 Jun 2023 21:21:37 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 8 Jun
- 2023 14:22:01 +0100
-Date:   Thu, 8 Jun 2023 14:22:00 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Junhao He <hejunhao3@huawei.com>
-CC:     <will@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mark.rutland@arm.com>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-        <yangyicong@huawei.com>, <shenyang39@huawei.com>,
-        <prime.zeng@hisilicon.com>
-Subject: Re: [PATCH v3 2/3] drivers/perf: hisi: Add support for HiSilicon UC
- PMU driver
-Message-ID: <20230608142200.0000753c@Huawei.com>
-In-Reply-To: <20230608113719.27433-3-hejunhao3@huawei.com>
-References: <20230608113719.27433-1-hejunhao3@huawei.com>
-        <20230608113719.27433-3-hejunhao3@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+        with ESMTP id S234860AbjFHN1o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 09:27:44 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5DE2136;
+        Thu,  8 Jun 2023 06:27:43 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6537d2a8c20so351297b3a.2;
+        Thu, 08 Jun 2023 06:27:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686230863; x=1688822863;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=qTMZtxLsgZNc3cuP7Uokky79RRouOuEgPTdkBkwmwtc=;
+        b=kxqpzDX+UXXviHrKawFn8GFyawmYEm1odpfT91KAzRbE0urbs58ds+pSUX1koV9UnJ
+         eCipIZ8Cm30xJZzrhikbzxwmIPptF2O5QHVzMwNxt6LgXXRYxOSPd0hh6uLjfMmGPbOX
+         gF9Gx6rpO/H8xS3rR0yoL0r90Jo32qIJMO2nhZs10q9VSGwZXVl1qmsYyWA7MAW/u93f
+         skP+4Ujzujnh+4O1xrP2VqzglY8u4NTYuZfOJLp1TBGydVc7tvpTDtxRtKsiBDw9q2ja
+         2Vqnng0lLxwFWytR6BjeCWp5dcZ4/ghPNrjZt8tESSxI7SprYx7yIO47KHaBcmbaES6J
+         7Y8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686230863; x=1688822863;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qTMZtxLsgZNc3cuP7Uokky79RRouOuEgPTdkBkwmwtc=;
+        b=YxDjN1Rm5w8tSHM/QN8GN1O9eoaVYX63hpeZAMOB5XOBAxmzuhDEYFanT6/C/GtH78
+         Liqv7KQDKC3D/sxqLODevLjcfkL9BV9aOwI24QOoEb+f+D0QVRjFp5c0CLYaB8wwEcLq
+         JY92Mq0bcYuZ1xIT1OzY8KQa9PGMczhxyr6XkhA93VysRo0sgfTx5eyivIYfrau6kzPE
+         8a+QKJlTmtHBBwMxhJK543mUjpKqIe3qTHdyeDim0ReIl4Aw5UddzUTHAnDGj52E+nTQ
+         Dhjwe1SLWRxl9ZnZz2UR0nAI0y/q1qkJTmp2PUwETBua/vc8h6h72OPeyJZ9HtWOKdv5
+         ePfw==
+X-Gm-Message-State: AC+VfDzO2oQFLuDaJrHms0/rRIJc8lmSvcIGbkq2oTbk2gjoonIeiuTE
+        cRUq7/Pgnkyc+trtxo6vwHNTkdTsDlc=
+X-Google-Smtp-Source: ACHHUZ7XnHRkgrU20otn1V777Rw1TPxhaBNfOWLz68sNpQjXPu7waU9jRrBNs3zlEfTXX61ue966dQ==
+X-Received: by 2002:a05:6a00:24d1:b0:662:93b5:56b9 with SMTP id d17-20020a056a0024d100b0066293b556b9mr3850834pfv.14.1686230862785;
+        Thu, 08 Jun 2023 06:27:42 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id e21-20020a62aa15000000b0065014c15a57sm1130991pff.35.2023.06.08.06.27.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jun 2023 06:27:42 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <da56e9c8-ed4a-c11f-fe8c-a97fbbddb736@roeck-us.net>
+Date:   Thu, 8 Jun 2023 06:27:39 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v11 1/2] dt-bindings: hwmon: add MAX31827
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Daniel Matyas <daniel.matyas@analog.com>
+Cc:     Rob Herring <robh@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230608104152.14249-1-daniel.matyas@analog.com>
+ <aeef2066-72f4-8e41-cec3-f5c6815820a6@linaro.org>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <aeef2066-72f4-8e41-cec3-f5c6815820a6@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 8 Jun 2023 19:37:18 +0800
-Junhao He <hejunhao3@huawei.com> wrote:
-
-
-> On HiSilicon Hip09 platform, there is 4 UC (unified cache) module
-
-are 4 UC (unified cache) modules
-
-> on each chip CCL (CPU Cluster). UC is a cache that provides
-> coherence between NUMA and UMA domains. It is located between L2
-> and Memory System. And many PMU events are supported. Let's support
-
-Many PMU events are supported.
-
-> the UC PMU driver using the HiSilicon uncore PMU framework.
+On 6/8/23 04:30, Krzysztof Kozlowski wrote:
+> On 08/06/2023 12:41, Daniel Matyas wrote:
+>> MAX31827 is a low-power temperature switch with I2C interface.
+>>
+>> The device is a ±1°C accuracy from -40°C to +125°C
+>> (12 bits) local temperature switch and sensor with I2C/SM-
+>> Bus interface. The combination of small 6-bump wafer-lev-
+>> el package (WLP) and high accuracy makes this temper-
+>> ature sensor/switch ideal for a wide range of applications.
+>>
+>> Signed-off-by: Daniel Matyas <daniel.matyas@analog.com>
+>> Reviewed-by: Rob Herring <robh@kernel.org>
+>> ---
+>>
+>> Change log:
+>> v10 -> v11: No change.
 > 
-> * rd_req_en : rd_req_en is the abbreviation of read request tracetag
-> enable and allows user to count only read operations. Details are listed
-> in the hisi-pmu document at Documentation/admin-guide/perf/hisi-pmu.rst
+> Wasn't this applied? Why do you send it again?
 > 
-> * srcid_en & srcid: Allows users to filter statistical information based
-> on specific CPU/ICL by srcid.
-> srcid_en depending on rd_req_en enabled.
 
-srcid_en depends on rd_req_en being enabled.
+There was a problem reported in the driver implementation
+(bad compatible entry). The submitter chose to send
+v11 instead of a patch fixing the already applied driver.
 
-> 
-> * uring_channel: Allows users to filter statistical information based on
-> the specified tx request uring channel.
-> uring_channel only supported events: [0x47 ~ 0x59].
-> 
-> Signed-off-by: Junhao He <hejunhao3@huawei.com>
-> Reviewed-by: Yicong Yang <yangyicong@hisilicon.com>
+I'll fix up the original driver patch instead. Please ignore.
 
-The editorial stuff above is trivial and original text can be easily 
-understood. So maintainers may not care. If you happen to be re rolling
-the patch then nice to clean it up.
+Guenter
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
