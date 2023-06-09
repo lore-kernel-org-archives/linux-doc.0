@@ -2,162 +2,257 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CFC9C7EE25
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 19:19:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29DDAC7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 19:50:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230160AbjFITTr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 15:19:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38612 "EHLO
+        id S231966AbjFITuV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 15:50:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjFITTq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 15:19:46 -0400
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03hn2215.outbound.protection.outlook.com [52.100.14.215])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBCC7E62;
-        Fri,  9 Jun 2023 12:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/fZaCbyPA4PG9YwOAZW6PpKz0tRw29BfdhRN8WKwp3A=;
- b=xVXWBzVJnPizPru6r0oY2G/JSh717V7+ff0zJnL4CvlyYNYGDfyH20TCSxBJapM7ULazAvAnaV/tIePk2rw9I61RTgeIEwIJxvs/tp8tWeUn+e2hL3L0jZQEuzIqDWJuinfxKU/NU4RimB+igYEJbVuco/YNWCDUZ7uCHfn1du0iVA3w6T1sTYBfblHArHhvDhCZ19CptGCJ9V4hgcqdGXyWD6XQLcjjbkLPHV0g+O4DYqTrirjAc8NmmmOAZIdkuSVwpqSIKKbtZgrDeRddtmojZcRjOrPuZ5Vg44R8SpMJKOl2ZrTXqxq5BoS9oMhqEhG0/nIfDgiE3nBy4NwZbw==
-Received: from AM5PR0402CA0021.eurprd04.prod.outlook.com
- (2603:10a6:203:90::31) by AS4PR03MB8277.eurprd03.prod.outlook.com
- (2603:10a6:20b:4ff::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Fri, 9 Jun
- 2023 19:19:41 +0000
-Received: from VI1EUR05FT040.eop-eur05.prod.protection.outlook.com
- (2603:10a6:203:90:cafe::22) by AM5PR0402CA0021.outlook.office365.com
- (2603:10a6:203:90::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.19 via Frontend
- Transport; Fri, 9 Jun 2023 19:19:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.160.56.86)
- smtp.mailfrom=seco.com; dkim=pass (signature was verified)
- header.d=seco.com;dmarc=pass action=none header.from=seco.com;
-Received-SPF: Pass (protection.outlook.com: domain of seco.com designates
- 20.160.56.86 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.160.56.86; helo=inpost-eu.tmcas.trendmicro.com; pr=C
-Received: from inpost-eu.tmcas.trendmicro.com (20.160.56.86) by
- VI1EUR05FT040.mail.protection.outlook.com (10.233.243.186) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6477.29 via Frontend Transport; Fri, 9 Jun 2023 19:19:39 +0000
-Received: from outmta (unknown [192.168.82.135])
-        by inpost-eu.tmcas.trendmicro.com (Trend Micro CAS) with ESMTP id C864220081129;
-        Fri,  9 Jun 2023 19:19:38 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (unknown [104.47.14.55])
-        by repre.tmcas.trendmicro.com (Trend Micro CAS) with ESMTPS id 1945120080073;
-        Fri,  9 Jun 2023 19:23:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PBhoh/W5NK9ejofCrVvdDxuaml2HhdgoL5jOJxMlhm4mcOYojGrnLzt3X7MrYAEvwEsEalPuf+K7vIJBGa2ijj0XT/KbGqG48Z9/uuwmw/Yw7qm5lRp06uHvrm+/t5Coe7fP65ssmmHmkuQ4aVeHQxIwCNCvXF7F2M3aO/Z6P6aSY4n7ai1vaklsUmFlVb22LorP3Fojq54SvrLYSaXbxlzNUHZ7wJjYgBxIfRTZk/MoPwpirjSIujlcCGJuzS1xisK5cfeVGBhVXxGbRV+HNf7qdB2eJRQOTKbE4vVz8fhqQ0ROsPWfs5mT1J3/PddX1G/gC/gGZrwjkvjoq6tubw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/fZaCbyPA4PG9YwOAZW6PpKz0tRw29BfdhRN8WKwp3A=;
- b=O8nqSJe4qRofFFYgr22+cI5zhIMqusbL8yowr3JVvhRzRijMMVGWiRd70gxXvRvI6np/jT8X+t/0rM1B1NjcbH0LS7M+7/bBt98zdgc5kbS+E0PRrvN7BZYc/8VABhEl82JryPuawEVgr9PuNaH7QttN8ePKwB3E3OrnJFhb1+J+WiyQYdGgIgTd16x/nhUmGy+gE1L3NW6NYvcKHWbt0wz5qAj5I5kHwMh/aRYUIpRZBWXCURQ+gB9N+HgzcUgsrbGBgg0q5/cCTQukqa6YZqPktgh8var3jZXP00YI32UYe7tU/co8yHV1douJmOtPIOAgHh4VvZc88Dx71s4f6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/fZaCbyPA4PG9YwOAZW6PpKz0tRw29BfdhRN8WKwp3A=;
- b=xVXWBzVJnPizPru6r0oY2G/JSh717V7+ff0zJnL4CvlyYNYGDfyH20TCSxBJapM7ULazAvAnaV/tIePk2rw9I61RTgeIEwIJxvs/tp8tWeUn+e2hL3L0jZQEuzIqDWJuinfxKU/NU4RimB+igYEJbVuco/YNWCDUZ7uCHfn1du0iVA3w6T1sTYBfblHArHhvDhCZ19CptGCJ9V4hgcqdGXyWD6XQLcjjbkLPHV0g+O4DYqTrirjAc8NmmmOAZIdkuSVwpqSIKKbtZgrDeRddtmojZcRjOrPuZ5Vg44R8SpMJKOl2ZrTXqxq5BoS9oMhqEhG0/nIfDgiE3nBy4NwZbw==
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
- by PA4PR03MB6958.eurprd03.prod.outlook.com (2603:10a6:102:e5::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.32; Fri, 9 Jun
- 2023 19:19:27 +0000
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::d632:8122:75f7:7b0e]) by DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::d632:8122:75f7:7b0e%3]) with mapi id 15.20.6455.030; Fri, 9 Jun 2023
- 19:19:28 +0000
-Message-ID: <22a28a6f-2c84-a6b1-bb57-a269af34c993@seco.com>
-Date:   Fri, 9 Jun 2023 15:19:22 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
-Content-Language: en-US
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-phy@lists.infradead.org,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        =?UTF-8?B?RmVybuKUnMOtbmRleiBSb2phcw==?= <noltari@gmail.com>,
-        Jonas Gorski <jonas.gorski@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-References: <b7779674-c3ac-e0ab-3ca8-db1ec5953a97@seco.com>
- <20230426105140.t4yqv6irtjcwptm5@skbuf>
- <20230425195002.fls5cmwolyrslpad@skbuf>
- <b7779674-c3ac-e0ab-3ca8-db1ec5953a97@seco.com>
- <20230426105140.t4yqv6irtjcwptm5@skbuf>
- <7c7ab84b-3c4a-4e44-b5b5-4acf733a0246@seco.com>
- <7c7ab84b-3c4a-4e44-b5b5-4acf733a0246@seco.com>
- <20230429172422.vc35tnwkekfieoru@skbuf>
- <c81d23b6-ed22-0b37-d71b-ddce9d5d58eb@seco.com>
- <c2f928d2-25f6-0e31-9ab3-9d585968df1b@seco.com>
- <20230522150010.q5zndfwcuvrb6pg2@skbuf>
-From:   Sean Anderson <sean.anderson@seco.com>
-In-Reply-To: <20230522150010.q5zndfwcuvrb6pg2@skbuf>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR12CA0013.namprd12.prod.outlook.com
- (2603:10b6:208:a8::26) To DB9PR03MB8847.eurprd03.prod.outlook.com
- (2603:10a6:10:3dd::13)
+        with ESMTP id S231896AbjFITuT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 15:50:19 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE4BD1FEC;
+        Fri,  9 Jun 2023 12:50:15 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 359JmZSR027255;
+        Fri, 9 Jun 2023 19:50:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=wJ9YsL7W5/uRql9g9hLhUuvRfqvi5U2DpIzDMRyuY24=;
+ b=bpdhHglfmOl+rUc3Bh1rHXvvRS0RYoiWlPagMs3tJO36HKRwwDYlGjzchA0IRqEL6Ytu
+ mAKREe1enrdhVx41bV7+wy2MNYzB4BBY8kS9HthglrAVE+bfH5XJ44SbtD5ROCFY8DOs
+ v5t+uuGccUk1cewM8zSCXonUUFd/aI/W/M8KoLVHbWR0lb/LYHdnWxcf4AMhQfSwEdNT
+ D8p9O3BnpwoaIhU9PaTB/GpgyHoGY5xTEgYikgXDCq/E8wRIA7AYkDSCanV3RP0z1D09
+ 2aJ7xEruOv6z2vWaGspvSXhkNro6Yd4cY5h7l8UsXjXVn5vje0ZzHstlAjSvv0+RmLAi tQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r3vu4hsbc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 09 Jun 2023 19:49:59 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 359JnwPC005250
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 9 Jun 2023 19:49:58 GMT
+Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 9 Jun 2023
+ 12:49:57 -0700
+Message-ID: <c625a138-d27e-bbcb-8056-25abefb75152@quicinc.com>
+Date:   Fri, 9 Jun 2023 12:49:57 -0700
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|PA4PR03MB6958:EE_|VI1EUR05FT040:EE_|AS4PR03MB8277:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92094327-e588-49a8-be8b-08db691e78a1
-X-TrendMicro-CAS-OUT-LOOP-IDENTIFIER: 656f966764b7fb185830381c646b41a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 6Ce6HHma1hB09kOrIu9Ym+j4Woj0JyQMeDohkGIa7BJgl6ZGDJFvemumKBR59xcRLZ3aovgJv6Y5qpFObqe3VIeD1rNxPHL/+Epyi5xJ7PO1Bai5ZO5wp+FWzAjXiPKeLFCy3BhT09DMxdbfJ6imJrny1DydwvBDGZczppGWDJ7UmgZvgP4eZ/ij7YbKpVgpjrp+Pi+n3DxgTTGGbKngMc6fk7uVLYR+4VHq27gkPvx7fe8og4qJbvHdFYX8GBYDeb/0p6YCqPVMXykCWfoT48FIDC+VfOx5rMlh6csnBeQ3i9UDV3M3wLXbcjEUg8azeXgkGl9vc6nLkVFTRww9f1Pu1EzJUK6I1kIvQ7mpOm1rPqNb/rEY7QGjKSE+idMqFfbjuyRqpKcqzYvwxi9o/x69mG4D12Mg4L+bQ7q46uwIUMjygahn6EL+8ynN/GbOFwBORp4FqwfKOqKGV29O7Pndy2eFK6pbK2XwFDVSzUzW1X/9cwY5oAHNbPIfvPyiCdisSKbMgTWP4Fx9fmvkiJ9wl3fSuQJ78+hcUmXjAWxG2r87Euj+WnGXS/CBshXgzL4nbVnAjHo0+sn22vFELPfDtvUNoUwsaMr+gXSWbZjK9aEZtdj0ZlCNejYXnN8sjFLk4NUgrmsi3GXxFeFWhQXKxJH3e0YA6Rgj3ormC1UXS3HIvT+Aj6rRhQ4HudKZ
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(366004)(136003)(39850400004)(346002)(396003)(451199021)(6506007)(26005)(6512007)(53546011)(31686004)(7416002)(44832011)(4744005)(186003)(2906002)(86362001)(36756003)(8936002)(5660300002)(316002)(41300700001)(31696002)(2616005)(8676002)(6916009)(66946007)(66556008)(38350700002)(54906003)(6666004)(4326008)(38100700002)(478600001)(6486002)(66476007)(52116002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR03MB6958
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: VI1EUR05FT040.eop-eur05.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 9eee2c1e-4197-4ae6-4ab8-08db691e7205
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4m6ryoUHJhAC+d6Rdq3lNxv+1lXjFYrYyJvJ/T0+DLAHUYqab4B+YZwebwqN9uvwGrbR8HIkFP8gJ09NbwT1sRHRWdHS3dZEw/MwXH+STae/aBMwnhIW1ZRlzmPMP3MWWu0giHB1beOEVx3cftwWarOiYgNZXLQquEoBy30BCjKwyh31+KcvuUCNcOek/ibAeD8blwmc3QPo0xCmYLc2cK/kllqpIFGDYXVKLVf5x+1H64H3EyBkvbwPjXsQe8xPP+IwIAz0vGGI/vJI9Vx/lyyK6ygsA4epDVklV8tqIss6zoBhZmLk+dy0bBZZV7f9OwImXfsP/P2BwuakpTj4aB/8FtgaOIEnEMZ1M/9Agxn8G9XLYkYvSul4mekGvow44YXgvENyZVhyhAlIadlP5TBzbQpX4ami1BuRZkHtmJdyDr8UEZvk+zW9ebh6qwk0cXV6cAcsP0M5hBiHu8WTh8RlEqfMXYfog7jIw4xjqNZKa+qAvDfjk9V9ziBRuiMwawyIoC+zPLFldC6e5k6UIX/qeOudnp1cDOia8ov/HcByuSZbu0nWtPC5j2GyHJeYyfkjBhKT/kS7rVB0LYCKu0UnWYyBIs8KQQYGj/6QA50d7G1cP7gCEDBJH9rGJF3EpB/z8XZeC1polHKr7Cxp6obfhxYTtA9hK6IqcONW/y4Epd6Uxwh6oZFuMDRX+t/QhjXtMc/epMmluBWCCQC9+8aI0k3W0krw+QWWOMKNOoNXJOsSqKi9ypr9m9FHaA6MhvE8NyUvYdIs4FTSkimphIkvT7J5zIDA8afV+MQ5bW32q+oBj5BiRPjD5BkqCFM3IEQd9DR8nlv4o2o/Rslr+w==
-X-Forefront-Antispam-Report: CIP:20.160.56.86;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:inpost-eu.tmcas.trendmicro.com;PTR:inpost-eu.tmcas.trendmicro.com;CAT:NONE;SFS:(13230028)(376002)(346002)(136003)(39850400004)(396003)(451199021)(5400799015)(40470700004)(46966006)(36840700001)(40460700003)(31686004)(47076005)(6666004)(70586007)(316002)(70206006)(54906003)(6916009)(4326008)(86362001)(478600001)(36756003)(31696002)(36860700001)(336012)(26005)(6506007)(6512007)(34020700004)(186003)(53546011)(44832011)(8676002)(41300700001)(82310400005)(8936002)(7416002)(2906002)(4744005)(5660300002)(6486002)(40480700001)(7596003)(2616005)(82740400003)(356005)(7636003)(43740500002)(12100799033);DIR:OUT;SFP:1501;
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2023 19:19:39.6077
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92094327-e588-49a8-be8b-08db691e78a1
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bebe97c3-6438-442e-ade3-ff17aa50e733;Ip=[20.160.56.86];Helo=[inpost-eu.tmcas.trendmicro.com]
-X-MS-Exchange-CrossTenant-AuthSource: VI1EUR05FT040.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR03MB8277
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v13 17/24] gunyah: vm_mgr: Add framework for VM Functions
+Content-Language: en-US
+To:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+ <20230509204801.2824351-18-quic_eberman@quicinc.com>
+ <3dd82ec0-2a9a-3401-5385-965c624f9f32@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <3dd82ec0-2a9a-3401-5385-965c624f9f32@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: n9i9EZLoAwf-p1UluZlSCL4RXYHZG_Ok
+X-Proofpoint-ORIG-GUID: n9i9EZLoAwf-p1UluZlSCL4RXYHZG_Ok
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-09_14,2023-06-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ suspectscore=0 spamscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306090165
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/22/23 11:00, Vladimir Oltean wrote:
-> On Mon, May 22, 2023 at 10:42:04AM -0400, Sean Anderson wrote:
->> Have you had a chance to review this driver?
+
+
+On 6/5/2023 12:49 PM, Alex Elder wrote:
+> On 5/9/23 3:47 PM, Elliot Berman wrote:
+>> Introduce a framework for Gunyah userspace to install VM functions. VM
+>> functions are optional interfaces to the virtual machine. vCPUs,
+>> ioeventfs, and irqfds are examples of such VM functions and are
 > 
-> Partially / too little (and no, I don't have an answer yet). I am
-> debugging a SERDES protocol change procedure from XFI to SGMII.
+> s/ioventfs/ioventfds/
+> 
+> Also, these aren't just examples of VM functions, they *are* the
+> VM functions implemented.
+> 
+>> implemented in subsequent patches.
+>>
+>> A generic framework is implemented instead of individual ioctls to
+>> create vCPUs, irqfds, etc., in order to simplify the VM manager core
+>> implementation and allow dynamic loading of VM function modules.
+> 
+> This also allows the set of VM functions to be extended without
+> updating the API (like it or not).
+> 
+>>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> 
+> I have a few more comments, but this looks pretty good.
+> 
+> Reviewed-by: Alex Elder <elder@linaro.org>
+> 
+>> ---
+>>   Documentation/virt/gunyah/vm-manager.rst |  18 ++
+>>   drivers/virt/gunyah/vm_mgr.c             | 216 ++++++++++++++++++++++-
+>>   drivers/virt/gunyah/vm_mgr.h             |   4 +
+>>   include/linux/gunyah_vm_mgr.h            |  87 +++++++++
+>>   include/uapi/linux/gunyah.h              |  18 ++
+>>   5 files changed, 340 insertions(+), 3 deletions(-)
+>>   create mode 100644 include/linux/gunyah_vm_mgr.h
+>>
+>> diff --git a/Documentation/virt/gunyah/vm-manager.rst 
+>> b/Documentation/virt/gunyah/vm-manager.rst
+>> index 50d8ae7fabcd..3b51bab9d793 100644
+>> --- a/Documentation/virt/gunyah/vm-manager.rst
+>> +++ b/Documentation/virt/gunyah/vm-manager.rst
+>> @@ -17,6 +17,24 @@ sharing userspace memory with a VM is done via the 
+>> `GH_VM_SET_USER_MEM_REGION`_
+>>   ioctl. The VM itself is configured to use the memory region via the
+>>   devicetree.
+>> +Gunyah Functions
+>> +================
+>> +
+>> +Components of a Gunyah VM's configuration that need kernel 
+>> configuration are
+>> +called "functions" and are built on top of a framework. Functions are 
+>> identified
+>> +by a string and have some argument(s) to configure them. They are 
+>> typically
+>> +created by the `GH_VM_ADD_FUNCTION`_ ioctl.
+> 
+> Is a function *type* (e.g., VCPU or ioeventfd) identified by a string?
+> Or a function *instance* (e.g. four VCPUs)?  Or both?
+> 
 
-I'd just like to reiterate that, like I said in the cover letter, I
-believe this driver still has value even if it cannot yet perform
-protocol switching.
+Ah, this should be:
 
-Please send me your feedback, and I will try and incorporate it into the
-next revision. Previously, you said you had major objections to the
-contents of this series, but you still have not listed them.
+Function types are identified by an enum and have some argument(s)...
 
---Sean
+>> +
+>> +Functions typically will always do at least one of these operations:
+> 
+> Typically, or always?
+> 
+
+Hmm, I didn't want to use a more absolute term like "always" since it 
+implies to me that the framework forces this somehow. A VM function 
+wouldn't do much interesting if it weren't interacting with the VM and 
+resource tickets/IO handlers are the ways for functions to interact with 
+VMs.
+
+I'll tweak the wording here.
+
+>> +
+>> +1. Create resource ticket(s). Resource tickets allow a function to 
+>> register
+>> +   itself as the client for a Gunyah resource (e.g. doorbell or vCPU) 
+>> and
+>> +   the function is given the pointer to the &struct gh_resource when the
+>> +   VM is starting.
+>> +
+> 
+> What I think this means is that tickets are used to allow functions
+> to be defined *before* the VM is actually started.  So once it starts,
+> the functions get added.  (I might have this slightly wrong, but in
+> any case I'm not sure the above sentence is very clear.)
+> 
+
+I'm going to remove the "and the function is given the pointer to..." 
+since I agree it is a bit confusing. I think it'll be clearer for me to 
+put it in the resource ticket kerneldoc where there's context of the 
+populate() callback in the resource ticket. I'll mention there that the 
+populate() callback may not be made until the VM is started which could 
+be a while.
+
+>> +2. Register IO handler(s). IO handlers allow a function to handle 
+>> stage-2 faults
+>> +   from the virtual machine.
+>> +
+>>   Sample Userspace VMM
+>>   ====================
+>> diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+>> index a800061f56bf..56464451b262 100644
+>> --- a/drivers/virt/gunyah/vm_mgr.c
+>> +++ b/drivers/virt/gunyah/vm_mgr.c
+>> @@ -6,10 +6,13 @@
+>>   #define pr_fmt(fmt) "gh_vm_mgr: " fmt
+>>   #include <linux/anon_inodes.h>
+>> +#include <linux/compat.h>
+>>   #include <linux/file.h>
+>>   #include <linux/gunyah_rsc_mgr.h>
+>> +#include <linux/gunyah_vm_mgr.h>
+>>   #include <linux/miscdevice.h>
+>>   #include <linux/module.h>
+>> +#include <linux/xarray.h>
+>>   #include <uapi/linux/gunyah.h>
+>> @@ -17,6 +20,172 @@
+>>   static void gh_vm_free(struct work_struct *work);
+>> +static DEFINE_XARRAY(gh_vm_functions);
+>> +
+>> +static void gh_vm_put_function(struct gh_vm_function *fn)
+>> +{
+>> +    module_put(fn->mod);
+>> +}
+>> +
+>> +static struct gh_vm_function *gh_vm_get_function(u32 type)
+>> +{
+>> +    struct gh_vm_function *fn;
+>> +    int r;
+>> +
+>> +    fn = xa_load(&gh_vm_functions, type);
+>> +    if (!fn) {
+>> +        r = request_module("ghfunc:%d", type);
+>> +        if (r)
+>> +            return ERR_PTR(r > 0 ? -r : r);
+> 
+> Almost all callers of request_module() simply ignore the
+> return value.  What positive values are you expecting to
+> see here (and are you sure they're positive errno values)?
+> 
+
+I can ignore the return value here, too, to follow the convention.
+
+I had observed request_module can return modprobe's exit code.
+
+>> +
+>> +        fn = xa_load(&gh_vm_functions, type);
+>> +    }
+>> +
+>> +    if (!fn || !try_module_get(fn->mod))
+>> +        fn = ERR_PTR(-ENOENT);
+>> +
+>> +    return fn;
+>> +}
+> 
+> . . .
