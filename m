@@ -2,90 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 346B2C87FDC
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 23:28:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A09FDC7EE2F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 23:43:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232785AbjFIX2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 19:28:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33290 "EHLO
+        id S229937AbjFIXnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 19:43:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232396AbjFIX1t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 19:27:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 954DE3ABF;
-        Fri,  9 Jun 2023 16:27:43 -0700 (PDT)
+        with ESMTP id S229470AbjFIXnC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 19:43:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F26BF30FE;
+        Fri,  9 Jun 2023 16:43:00 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2250565CD2;
-        Fri,  9 Jun 2023 23:27:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ABABC433D2;
-        Fri,  9 Jun 2023 23:27:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8E9126344B;
+        Fri,  9 Jun 2023 23:43:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E86C2C433EF;
+        Fri,  9 Jun 2023 23:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686353262;
-        bh=LhcK1dVS/ODURx+/PKNTsLc8985DDWmW1YmahU/XwI8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oe+mJXeo6zzuE2GSIILaWA014EJ0/y1TG6erjhnN7raTZqCGevhGZBjVONwYd565u
-         LaIlt5Da9w3UC2npEHEhdbpajaiMq/BT7IUZb88vq7nVNODU9P3kfw6KRCJpmCSaqi
-         L8yC0LVf9b10zxZiFcQt0czKjDNS0z43jMTp3npICWRs9hdsh+8maPXv0pJt400qlv
-         dUXvUk/lc4raRvB2SnN6cJ3ifJqFMe3tQATshe4JaxB3EkJFUdoektHcksejFzHiVv
-         zAaDW+7TKjtn0y6kKOSoW8QCABYxGwaeg9DiYAo3JXufGmDfESe2CuglPmIN2KEqrO
-         HoxeBwhXY0BcA==
-Date:   Fri, 9 Jun 2023 16:27:39 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc:     jiri@resnulli.us, vadfed@meta.com, jonathan.lemon@gmail.com,
-        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
-        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
-        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
-        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
-        michal.michalik@intel.com, gregkh@linuxfoundation.org,
-        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
-        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
-        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
-        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
-        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
-        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
-        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
-        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
-        mschmidt@redhat.com, linux-clk@vger.kernel.org,
-        vadim.fedorenko@linux.dev
-Subject: Re: [RFC PATCH v8 00/10] Create common DPLL configuration API
-Message-ID: <20230609162739.0d94a704@kernel.org>
-In-Reply-To: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
-References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+        s=k20201202; t=1686354179;
+        bh=DQaYRhed9iRGzYmdroHoIOdGjQzbLmn6nX4veiFuct8=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=P5yrpJ4UJGyWtrVLoP7Sjiq/mj1e6t0YirUa8xOGE+sYl+N/9VR0k61OtBoQdWh9I
+         h8yqALxXWXq5u5SsXnwbMWE6We1c/89vNh/rgyhGx5pN+8yapriE2acVR9k4r+ykJY
+         cnO3OWmKcR6kskafc3NGIcysRmEmQGf0YYANpreo8/VzYUikJ8RQoSZCT7lKFxdSDn
+         s3icO6AUVWCQKep8uL4KaIHXkMS7kER0yAyDrulHt+KBNPoYj2HdfDvlHYP4T9vAoK
+         7PVYLNSJBiut8Ku+3rbayFS9afv6c7WBI/egGEGoZlKB+TOrdDcIXkI2/XWV2jX3tS
+         E1ccbuPrVnOvg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 772FFCE14D2; Fri,  9 Jun 2023 16:42:59 -0700 (PDT)
+Date:   Fri, 9 Jun 2023 16:42:59 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Joel Fernandes <joel@joelfernandes.org>, corbet@lwn.net,
+        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] Docs/RCU/rculist_nulls: Drop unnecessary '_release'
+ in insert function
+Message-ID: <46440869-644a-4982-b790-b71b43976c66@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <CAEXW_YQFqW2QcAuHZEhc_GaUaB-=QOS0WgUOizd=FYwtFQ8vag@mail.gmail.com>
+ <20230609191206.30465-1-sj@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230609191206.30465-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  9 Jun 2023 14:18:43 +0200 Arkadiusz Kubalewski wrote:
-> Implement common API for clock/DPLL configuration and status reporting.
-> The API utilises netlink interface as transport for commands and event
-> notifications. This API aim to extend current pin configuration and
-> make it flexible and easy to cover special configurations.
+On Fri, Jun 09, 2023 at 07:12:06PM +0000, SeongJae Park wrote:
+> On Fri, 19 May 2023 14:52:50 -0400 Joel Fernandes <joel@joelfernandes.org> wrote:
 > 
-> Netlink interface is based on ynl spec, it allows use of in-kernel
-> tools/net/ynl/cli.py application to control the interface with properly
-> formated command and json attribute strings. Here are few command
-> examples of how it works with `ice` driver on supported NIC:
+> > On Thu, May 18, 2023 at 6:40 PM SeongJae Park <sj@kernel.org> wrote:
+> > >
+> > > The document says we can avoid extra smp_rmb() in lockless_lookup() and
+> > > extra _release() in insert function when hlist_nulls is used.  However,
+> > > the example code snippet for the insert function is still using the
+> > > extra _release().  Drop it.
+> > >
+> > > Signed-off-by: SeongJae Park <sj@kernel.org>
+> > > ---
+> > >  Documentation/RCU/rculist_nulls.rst | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
+> > > index 5cd6f3f8810f..463270273d89 100644
+> > > --- a/Documentation/RCU/rculist_nulls.rst
+> > > +++ b/Documentation/RCU/rculist_nulls.rst
+> > > @@ -191,7 +191,7 @@ scan the list again without harm.
+> > >    obj = kmem_cache_alloc(cachep);
+> > >    lock_chain(); // typically a spin_lock()
+> > >    obj->key = key;
+> > > -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
+> > > +  atomic_set(&obj->refcnt, 1);
+> > >    /*
+> > >     * insert obj in RCU way (readers might be traversing chain)
+> > >     */
+> > 
+> > If write to ->refcnt of 1 is reordered with setting of ->key, what
+> > prevents the 'lookup algorithm' from doing a key match (obj->key ==
+> > key) before the refcount has been initialized?
+> > 
+> > Are we sure the reordering mentioned in the document is the same as
+> > the reordering prevented by the atomic_set_release()?
+> 
+> Paul, may I ask your opinion?
 
-Now I see why you sent the ynl-gen patch you sent :) It's the
-combination of nest and multi-attr which doesn't populate the right
-policy. Also the enums are not policed right by ynl-gen.
+The next line of code is this:
 
-I pushed two fixes to my local tree:
-https://github.com/kuba-moo/linux/commits/ynl-c
-in case you need them. I'll submit them on Monday.
+	hlist_nulls_add_head_rcu(&obj->obj_node, list);
 
-I also tried to run the user space C code gen (for generating C
-API/lib as described in [1]). It seems to work just fine, FWIW, so
-just LMK if C bindings would be useful, I can give more instructions.
+If I understand the code correctly, obj (and thus *obj) are not
+visible to readers before the hlist_nulls_add_head_rcu().  And
+hlist_nulls_add_head_rcu() uses rcu_assign_pointer() to ensure that
+initialization (including both ->key and ->refcnt) is ordered before
+list insertion.
 
-[1] https://docs.kernel.org/next/userspace-api/netlink/intro-specs.html#ynl-lib
+Except that this memory is being allocated from a slab cache that was
+created with SLAB_TYPESAFE_BY_RCU.  This means that there can be readers
+who gained a reference before this object was freed, and who still hold
+their references.
+
+Unfortunately, the implementation of try_get_ref() is not shown.  However,
+if ->refcnt is non-zero, this can succeed, and if it succeeds, we need
+the subsequent check of obj->key with key in the lookup algorithm to
+be stable.  For this check to be stable, try_get_ref() needs to use an
+atomic operation with at least acquire semantics (kref_get_unless_zero()
+would work), and this must pair with something in the initialization.
+
+So I don't see how it is safe to weaken that atomic_set_release() to
+atomic_set(), even on x86.
+
+Or am I missing something subtle here?
+
+							Thanx, Paul
+
+> Thanks,
+> SJ
+> 
+> > 
+> > For the other 3 patches, feel free to add:
+> > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > 
+> > thanks,
+> > 
+> >  - Joel
