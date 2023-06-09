@@ -2,463 +2,421 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F494C7EE29
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 12:17:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CC02C7EE25
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 12:21:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240320AbjFIMRG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 08:17:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59738 "EHLO
+        id S239061AbjFIMVI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 08:21:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240265AbjFIMQ4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 08:16:56 -0400
-X-Greylist: delayed 634 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 09 Jun 2023 05:16:52 PDT
-Received: from mx1.veeam.com (mx1.veeam.com [216.253.77.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD15AEB;
-        Fri,  9 Jun 2023 05:16:51 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1.veeam.com (Postfix) with ESMTPS id 973B942538;
-        Fri,  9 Jun 2023 08:01:11 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx1-2022; t=1686312071;
-        bh=DvsoRC4qtPyWhPXl+yrlCQ2ZcW10JE1dL/zxP/5SJho=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=c0ecuVeqll5fEiDv8tDWmXjpOoYed4G4UTIGNoZn7RMiDc4rTaR9c3KwAEg8R23nE
-         g4eaVRTBwV3Bm4dIkl60/DI8dIH0FwkvT+4X4e/1BRkLTXQg1HZLDY8GlSQrAA+N2v
-         ZES2MUxOfc+ekyX4qEBMSDJmoxrI0rrc9mjMDwmYtzJYgJHAyZzCq+y1tz4NgQbU2z
-         C0HrySP4WYirQxmjpJS7+wS67Qjp7Qa5P48VfThna36XzhZj1Ck6pQXoDON7XmeF6Z
-         XgmcMkTewam8JsSf4JJyb0lPpzLMz+0heuxIhAN9vu1r3Bof6mbx9cBK4vSxwyqG9+
-         mKOjXl3OmoZeA==
-Received: from ssh-deb10-ssd-vb.amust.local (172.24.10.107) by
- prgmbx01.amust.local (172.24.128.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 9 Jun 2023 14:01:07 +0200
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-To:     <axboe@kernel.dk>, <hch@infradead.org>, <corbet@lwn.net>,
-        <snitzer@kernel.org>
-CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <willy@infradead.org>, <dlemoal@kernel.org>, <wsa@kernel.org>,
-        <heikki.krogerus@linux.intel.com>, <ming.lei@redhat.com>,
-        <gregkh@linuxfoundation.org>, <linux-block@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <sergei.shtepa@veeam.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v4 03/11] documentation: Block Devices Snapshots Module
-Date:   Fri, 9 Jun 2023 13:58:50 +0200
-Message-ID: <20230609115858.4737-3-sergei.shtepa@veeam.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230609115858.4737-1-sergei.shtepa@veeam.com>
-References: <20230609115858.4737-1-sergei.shtepa@veeam.com>
+        with ESMTP id S239055AbjFIMVB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 08:21:01 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8D61E50;
+        Fri,  9 Jun 2023 05:20:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686313259; x=1717849259;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rdh8Kl69+xkYuoast0lKfh0GODJsyTNnmG1WAARcz24=;
+  b=huMAND/Cifi00ywqBWKFQ403Asq2GVGsJDxdaZqaELoF5BuykSzTkMaz
+   +Vhobp94YJV4pNoqrzJ8hv9NDUss8BMVoP0Ha6YG7y2aQiJ7+LfszicZC
+   mtk46/ldcsJJNwnbPsk+lnRJNHjOPmF5SkljG8/rSZ3v14i+KNxeVarpH
+   Fg7mTh+EWiS3IkM1cSjbf0U3KHXRw0jWjOB+/eIKRQEMUTUZJ8H0vK7Ot
+   Ti16P1BmwZlfGBFZjTDwjvzR9umkQfxk8Ce2+XRGi+XfmeOc3q4ukEDiG
+   mKhjlDGKIERXGBVdEW8v4iVVFDyFEVXGAU4u33Q4co27Wx7zUZGHj5Ndh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="337219728"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
+   d="scan'208";a="337219728"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 05:20:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="710348232"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
+   d="scan'208";a="710348232"
+Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
+  by orsmga002.jf.intel.com with ESMTP; 09 Jun 2023 05:20:46 -0700
+From:   Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+To:     kuba@kernel.org, jiri@resnulli.us, arkadiusz.kubalewski@intel.com,
+        vadfed@meta.com, jonathan.lemon@gmail.com, pabeni@redhat.com
+Cc:     corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+        vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org,
+        vadim.fedorenko@linux.dev
+Subject: [RFC PATCH v8 00/10] Create common DPLL configuration API
+Date:   Fri,  9 Jun 2023 14:18:43 +0200
+Message-Id: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2924031554627C6B
-X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The document contains:
-* Describes the purpose of the mechanism
-* Description of features
-* Description of algorithms
-* Recommendations about using the module from the user-space side
-* Reference to module interface description
+Implement common API for clock/DPLL configuration and status reporting.
+The API utilises netlink interface as transport for commands and event
+notifications. This API aim to extend current pin configuration and
+make it flexible and easy to cover special configurations.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
----
- Documentation/block/blksnap.rst | 345 ++++++++++++++++++++++++++++++++
- Documentation/block/index.rst   |   1 +
- MAINTAINERS                     |   6 +
- 3 files changed, 352 insertions(+)
- create mode 100644 Documentation/block/blksnap.rst
+Netlink interface is based on ynl spec, it allows use of in-kernel
+tools/net/ynl/cli.py application to control the interface with properly
+formated command and json attribute strings. Here are few command
+examples of how it works with `ice` driver on supported NIC:
 
-diff --git a/Documentation/block/blksnap.rst b/Documentation/block/blksnap.rst
-new file mode 100644
-index 000000000000..eb20d466d1ca
---- /dev/null
-+++ b/Documentation/block/blksnap.rst
-@@ -0,0 +1,345 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================================
-+Block Devices Snapshots Module (blksnap)
-+========================================
-+
-+Introduction
-+============
-+
-+At first glance, there is no novelty in the idea of creating snapshots for
-+block devices. The Linux kernel already has mechanisms for creating snapshots.
-+Device Mapper includes dm-snap, which allows to create snapshots of block
-+devices. BTRFS supports snapshots at the file system level. However, both
-+of these options have flaws that do not allow to use them as a universal
-+tool for creating backups.
-+
-+The main properties that a backup tool should have are:
-+
-+- Simplicity and versatility of use
-+- Reliability
-+- Minimal consumption of system resources during backup
-+- Minimal time required for recovery or replication of the entire system
-+
-+Taking above properties into account, blksnap module features:
-+
-+- Change tracker
-+- Snapshots at the block device level
-+- Dynamic allocation of space for storing differences
-+- Snapshot overflow resistance
-+- Coherent snapshot of multiple block devices
-+
-+Features
-+========
-+
-+Change tracker
-+--------------
-+
-+The change tracker allows to determine which blocks were changed during the
-+time between the last snapshot created and any of the previous snapshots.
-+With a map of changes, it is enough to copy only the changed blocks, and no
-+need to reread the entire block device completely. The change tracker allows
-+to implement the logic of both incremental and differential backups.
-+Incremental backup is critical for large file repositories whose size can be
-+hundreds of terabytes and whose full backup time can take more than a day.
-+On such servers, the use of backup tools without a change tracker becomes
-+practically impossible.
-+
-+Snapshot at the block device level
-+----------------------------------
-+
-+A snapshot at the block device level allows to simplify the backup algorithm
-+and reduce consumption of system resources. It also allows to perform linear
-+reading of disk space directly, which allows to achieve maximum reading speed
-+with minimal use of processor time. At the same time, the versatility of
-+creating snapshots for any block device is achieved, regardless of the file
-+system located on it. The exceptions are BTRFS, ZFS and cluster file systems.
-+
-+Dynamic allocation of storage space for differences
-+---------------------------------------------------
-+
-+To store differences, the module does not require a pre-reserved block
-+device range. A range of sectors can be allocated on any block device
-+immediately before creating a snapshot in individual files on the file
-+system. In addition, the size of the difference storage can be increased
-+after the snapshot is created by adding new sector ranges on block devices.
-+Sector ranges can be allocated on any block devices of the system, including
-+those on which the snapshot was created. A shared difference storage for
-+all images of snapshot block devices allows to optimize the use of disk space.
-+
-+Snapshot overflow resistance
-+----------------------------
-+
-+To create images of snapshots of block devices, the module stores blocks
-+of the original block device that have been changed since the snapshot
-+was taken. To do this, the module handles write requests and reads blocks
-+that need to be overwritten. This algorithm guarantees safety of the data
-+of the original block device in the event of an overflow of the snapshot,
-+and even in the case of unpredictable critical errors. If a problem occurs
-+during backup, the difference storage is released, the snapshot is closed,
-+no backup is created, but the server continues to work.
-+
-+Coherent snapshot of multiple block devices
-+-------------------------------------------
-+
-+A snapshot is created simultaneously for all block devices for which a backup
-+is being created, ensuring their coherent state.
-+
-+
-+Algorithms
-+==========
-+
-+Overview
-+--------
-+
-+The blksnap module is a block-level filter. It handles all write I/O units.
-+The filter is attached to the block device when the snapshot is created
-+for the first time. The change tracker marks all overwritten blocks.
-+Information about the history of changes on the block device is available
-+while holding the snapshot. The module reads the blocks that need to be
-+overwritten and stores them in the difference storage. When reading from
-+a snapshot image, reading is performed either from the original device or
-+from the difference storage.
-+
-+Change tracking
-+---------------
-+
-+A change tracker map is created for each block device. One byte
-+of this map corresponds to one block. The block size is set by the
-+``tracking_block_minimum_shift`` and ``tracking_block_maximum_count``
-+module parameters. The ``tracking_block_minimum_shift`` parameter limits
-+the minimum block size for tracking, while ``tracking_block_maximum_count``
-+defines the maximum allowed number of blocks. The size of the change tracker
-+block is determined depending on the size of the block device when adding
-+a tracking device, that is, when the snapshot is taken for the first time.
-+The block size must be a power of two. The ``tracking_block_maximum_shift``
-+module parameter allows to limit the maximum block size for tracking. If the
-+block size reaches the allowable limit, the number of blocks will exceed the
-+``tracking_block_maximum_count`` parameter.
-+
-+The byte of the change map stores a number from 0 to 255. This is the
-+snapshot number, since the creation of which there have been changes in
-+the block. Each time a snapshot is created, the number of the current
-+snapshot is increased by one. This number is written to the cell of the
-+change map when writing to the block. Thus, knowing the number of one of
-+the previous snapshots and the number of the last snapshot, one can determine
-+from the change map which blocks have been changed. When the number of the
-+current change reaches the maximum allowed value for the map of 255, at the
-+time when the next snapshot is created, the map of changes is reset to zero,
-+and the number of the current snapshot is assigned the value 1. The change
-+tracker is reset, and a new UUID is generated - a unique identifier of the
-+snapshot generation. The snapshot generation identifier allows to identify
-+that a change tracking reset has been performed.
-+
-+The change map has two copies. One copy is active, it tracks the current
-+changes on the block device. The second copy is available for reading
-+while the snapshot is being held, and contains the history up to the moment
-+the snapshot is taken. Copies are synchronized at the moment of snapshot
-+creation. After the snapshot is released, a second copy of the map is not
-+needed, but it is not released, so as not to allocate memory for it again
-+the next time the snapshot is created.
-+
-+Copy on write
-+-------------
-+
-+Data is copied in blocks, or rather in chunks. The term "chunk" is used to
-+avoid confusion with change tracker blocks and I/O blocks. In addition,
-+the "chunk" in the blksnap module means about the same as the "chunk" in
-+the dm-snap module.
-+
-+The size of the chunk is determined by the ``chunk_minimum_shift`` and
-+``chunk_maximum_count`` module parameters. The ``chunk_minimum_shift``
-+parameter limits the minimum size of the chunk, while ``chunk_maximum_count``
-+defines the maximum allowed number of chunks. The size of the chunk is
-+determined depending on the size of the block device at the time of taking the
-+snapshot. The size of the chunk must be a power of two. The module parameter
-+``chunk_maximum_shift`` allows to limit the maximum chunk size. If the chunk
-+size reaches the allowable limit, the number of chunks will exceed the
-+``chunk_maximum_count`` parameter.
-+
-+One chunk is described by the ``struct chunk`` structure. An array of structures
-+is created for each block device. The structure contains all the necessary
-+information to copy the chunks data from the original block device to the
-+difference storage. This information allows to describe the snapshot image.
-+A semaphore is located in the structure, which allows synchronization of threads
-+accessing the chunk.
-+
-+The block level has a feature. If a read I/O unit was sent, and a write I/O
-+unit was sent after it, then a write can be performed first, and only then
-+a read. Therefore, the copy-on-write algorithm is executed synchronously.
-+If a write request is handled, the execution of this I/O unit will be
-+delayed until the overwritten chunks are copied to the difference storage.
-+But if, when handling a write I/O unit, it turns out that the recorded range
-+of sectors has already been copied to the difference storage, then the I/O
-+unit is simply passed.
-+
-+This algorithm allows to efficiently perform backups of systems that run
-+Round Robin Database. Such databases can be overwritten several times during
-+the system backup. Of course, the value of a backup of the RRD monitoring
-+system data can be questioned. However, it is often a task to make a backup
-+of the entire enterprise infrastructure in order to restore or replicate it
-+entirely in case of problems.
-+
-+There is also a flaw in the algorithm. When overwriting at least one sector,
-+an entire chunk is copied. Thus, a situation of rapid filling of the difference
-+storage when writing data to a block device in small portions in random order
-+is possible. This situation is possible in case of strong fragmentation of
-+data on the file system. But it must be borne in mind that with such data
-+fragmentation, performance of systems usually degrades greatly. So, this
-+problem does not occur on real servers, although it can easily be created
-+by artificial tests.
-+
-+Difference storage
-+------------------
-+
-+The difference storage is a pool of disk space areas, and it is shared with
-+all block devices in the snapshot. Therefore, there is no need to divide
-+the difference storage area between block devices, and the difference storage
-+itself can be located on different block devices.
-+
-+There is no need to allocate a large disk space immediately before creating
-+a snapshot. Even while the snapshot is being held, the difference storage
-+can be expanded. It is enough to have free space on the file system.
-+
-+Areas of disk space can be allocated on the file system using fallocate(),
-+and the file location can be requested using Fiemap Ioctl or Fibmap Ioctl.
-+Unfortunately, not all file systems support these mechanisms, but the most
-+common XFS, EXT4 and BTRFS file systems support it. BTRFS requires additional
-+conversion of virtual offsets to physical ones.
-+
-+While holding the snapshot, the user process can poll the status of the module.
-+When free space in the difference storage is reduced to a threshold value, the
-+module generates an event about it. The user process can prepare a new area
-+and pass it to the module to expand the difference storage. The threshold
-+value is determined as half of the value of the ``diff_storage_minimum``
-+module parameter.
-+
-+If free space in the difference storage runs out, an event is generated about
-+the overflow of the snapshot. Such a snapshot is considered corrupted, and
-+read I/O units to snapshot images will be terminated with an error code.
-+The difference storage stores outdated data required for snapshot images,
-+so when the snapshot is overflowed, the backup process is interrupted,
-+but the system maintains its operability without data loss.
-+
-+Performing I/O for a snapshot image
-+-----------------------------------
-+
-+To read snapshot data, when taking a snapshot, block devices of snapshot images
-+are created. The snapshot image block devices support the write operation.
-+This allows to perform additional data preparation on the file system before
-+creating a backup.
-+
-+To process the I/O unit, clones of the I/O unit are created, which redirect
-+the I/O unit either to the original block device or to the difference storage.
-+When processing of cloned I/O units is completed, the original I/O unit is
-+marked as completed too.
-+
-+An I/O unit can be partially processed without accessing to block devices if
-+the I/O unit refers to a chunk that is in the queue for storing to the
-+difference storage. In this case, the data is read or written in a buffer in
-+memory.
-+
-+If, when processing the write I/O unit, it turns out that the data of the
-+referred chunk has not yet been stored to the difference storage or has not
-+even been read from the original device, then an I/O unit to read data from the
-+original device is initiated beforehand. After the reading from original device
-+is performed, their data from the I/O unit is partially overwritten directly in
-+the buffer of the chunk in memory, and the chunk is scheduled to be saved to the
-+difference storage.
-+
-+How to use
-+==========
-+
-+Depending on the needs and the selected license, you can choose different
-+options for managing the module:
-+
-+- Using ioctl directly
-+- Using a static C++ library
-+- Using the blksnap console tool
-+
-+Using a BLKFILTER_CTL for block device
-+--------------------------------------
-+
-+BLKFILTER_CTL allows to send a filter-specific command to the filter on block
-+device and get the result of its execution. The module provides the
-+``include/uapi/blksnap.h`` header file with a description of the commands and
-+their data structures.
-+
-+1. ``blkfilter_ctl_blksnap_cbtinfo`` allows to get information from the
-+   change tracker.
-+2. ``blkfilter_ctl_blksnap_cbtmap`` reads the change tracker table. If a write
-+   operation was performed for the snapshot, then the change tracker takes this
-+   into account. Therefore, it is necessary to receive tracker data after write
-+   operations have been completed.
-+3. ``blkfilter_ctl_blksnap_cbtdirty`` mark blocks as changed in the change
-+   tracker table. This is necessary if post-processing is performed after the
-+   backup is created, which changes the backup blocks.
-+4. ``blkfilter_ctl_blksnap_snapshotadd`` adds a block device to the snapshot.
-+5. ``blkfilter_ctl_blksnap_snapshotinfo`` allows to get the name of the snapshot
-+   image block device and the presence of an error.
-+
-+Using ioctl
-+-----------
-+
-+Using a BLKFILTER_CTL ioctl does not allow to fully implement the management of
-+the blksnap module. A control file ``blksnap-control`` is created to manage
-+snapshots. The control commands are also described in the file
-+``include/uapi/blksnap.h``.
-+
-+1. ``blksnap_ioctl_version`` get the version number.
-+2. ``blk_snap_ioctl_snapshot_create`` initiates the snapshot creation process.
-+3. ``blk_snap_ioctl_snapshot_append_storage`` add the range of blocks to
-+   difference storage.
-+4. ``blk_snap_ioctl_snapshot_take`` creates block devices of block device
-+   snapshot images.
-+5. ``blk_snap_ioctl_snapshot_collect`` collect all created snapshots.
-+6. ``blk_snap_ioctl_snapshot_wait_event`` allows to track the status of
-+   snapshots and receive events about the requirement to expand the difference
-+   storage or about snapshot overflow.
-+7. ``blk_snap_ioctl_snapshot_destroy`` releases the snapshot.
-+
-+Static C++ library
-+------------------
-+
-+The [#userspace_libs]_ library was created primarily to simplify creation of
-+tests in C++, and it is also a good example of using the module interface.
-+When creating applications, direct use of control calls is preferable.
-+However, the library can be used in an application with a GPL-2+ license,
-+or a library with an LGPL-2+ license can be created, with which even a
-+proprietary application can be dynamically linked.
-+
-+blksnap console tool
-+--------------------
-+
-+The blksnap [#userspace_tools]_ console tool allows to control the module from
-+the command line. The tool contains detailed built-in help. To get list of
-+commands with usage description, see ``blksnap --help`` command. The ``blksnap
-+<command name> --help`` command allows to get detailed information about the
-+parameters of each command call. This option may be convenient when creating
-+proprietary software, as it allows not to compile with the open source code.
-+At the same time, the blksnap tool can be used for creating backup scripts.
-+For example, rsync can be called to synchronize files on the file system of
-+the mounted snapshot image and files in the archive on a file system that
-+supports compression.
-+
-+Tests
-+-----
-+
-+A set of tests was created for regression testing [#userspace_tests]_.
-+Tests with simple algorithms that use the ``blksnap`` console tool to
-+control the module are written in Bash. More complex testing algorithms
-+are implemented in C++.
-+
-+References
-+==========
-+
-+.. [#userspace_libs] https://github.com/veeam/blksnap/tree/stable-v2.0/lib
-+
-+.. [#userspace_tools] https://github.com/veeam/blksnap/tree/stable-v2.0/tools
-+
-+.. [#userspace_tests] https://github.com/veeam/blksnap/tree/stable-v2.0/tests
-+
-+Module interface description
-+============================
-+
-+.. kernel-doc:: include/uapi/linux/blksnap.h
-diff --git a/Documentation/block/index.rst b/Documentation/block/index.rst
-index e9712f72cd6d..696ff150c6b7 100644
---- a/Documentation/block/index.rst
-+++ b/Documentation/block/index.rst
-@@ -11,6 +11,7 @@ Block
-    biovecs
-    blk-mq
-    blkfilter
-+   blksnap
-    cmdline-partition
-    data-integrity
-    deadline-iosched
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 853cc551a946..408e0df0a3c6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3592,6 +3592,12 @@ F:	block/blk-filter.c
- F:	include/linux/blk-filter.h
- F:	include/uapi/linux/blk-filter.h
+- dump dpll devices
+$# ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/dpll.yaml \
+--dump device-get
+[{'clock-id': 282574471561216,
+  'id': 0,
+  'lock-status': 'unlocked',
+  'mode': 'automatic',
+  'module-name': 'ice',
+  'type': 'eec'},
+ {'clock-id': 282574471561216,
+  'id': 1,
+  'lock-status': 'unlocked',
+  'mode': 'automatic',
+  'module-name': 'ice',
+  'type': 'pps'}]
 
-+BLOCK DEVICE SNAPSHOTS MODULE
-+M:	Sergei Shtepa <sergei.shtepa@veeam.com>
-+L:	linux-block@vger.kernel.org
-+S:	Supported
-+F:	Documentation/block/blksnap.rst
-+
- BLOCK LAYER
- M:	Jens Axboe <axboe@kernel.dk>
- L:	linux-block@vger.kernel.org
---
-2.20.1
+- get single pin info:
+$# ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/dpll.yaml \
+--do pin-get --json '{"pin-id":2}'
+{'clock-id': 282574471561216,
+ 'module-name': 'ice',
+ 'pin-board-label': 'C827_0-RCLKA',
+ 'pin-dpll-caps': 6,
+ 'pin-frequency': 1953125,
+ 'pin-id': 2,
+ 'pin-parent': [{'id': 0,
+                 'pin-direction': 'input',
+                 'pin-prio': 11,
+                 'pin-state': 'selectable'},
+                {'id': 1,
+                 'pin-direction': 'input',
+                 'pin-prio': 9,
+                 'pin-state': 'selectable'}],
+ 'pin-type': 'mux'}
+
+- set pin's state on dpll:
+$# ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/dpll.yaml \
+--do pin-set --json '{"pin-id":2, "pin-parent":{"id":1, "pin-state":2}}'
+
+- set pin's prio on dpll:
+$# ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/dpll.yaml \
+--do pin-set --json '{"pin-id":2, "pin-parent":{"id":1, "pin-prio":4}}'
+
+- set pin's state on parent pin:
+$# ./tools/net/ynl/cli.py --spec Documentation/netlink/specs/dpll.yaml \
+--do pin-set --json '{"pin-id":13, \
+                      "pin-parent":{"pin-id":2, "pin-state":1}}'
+
+
+v7 -> v8:
+[0/10] Create common DPLL configuration API
+- reorder the patches in patch series
+- split patch "[RFC PATCH v7 2/8] dpll: Add DPLL framework base functions"
+  into 3 smaller patches for easier review:
+  - [03/10] dpll: core: Add DPLL framework base functions
+  - [04/10] dpll: netlink: Add DPLL framework base functions
+  - [05/10] dpll: api header: Add DPLL framework base
+- add cli.py usage examples in commit message
+
+[01/10] dpll: documentation on DPLL subsystem interface
+- fix DPLL_MODE_MANUAL documentation
+- remove DPLL_MODE_NCO
+- remove DPLL_LOCK_STATUS_CALIBRATING
+- add grepability Use full names of commands, attributes and values of
+  dpll subsystem in the documentation
+- align documentation with changes introduced in v8
+- fix typos
+- fix phrases to better show the intentions
+- move dpll.rst to Documentation/driver-api/
+
+[02/10] dpll: spec: Add Netlink spec in YAML
+- remove unspec attribute values
+- add 10 KHZ and 77,5 KHZ frequency defines
+- fix documentation
+- remove assigned values from subset attributes
+- reorder dpll attributes
+- fix `device` nested attribute usage, device get is not used on pin-get
+- temperature with 3 digit float precision
+- remove enum from subset definitions
+- move pin-direction to pin-dpll tuple/subset
+- remove DPLL_MODE_NCO
+- remove DPLL_LOCK_STATUS_CALIBRATING
+- fix naming scheme od notification interface functions
+- separate notifications for pins
+- rename attribute enum name: dplla -> dpll_a
+- rename pin-idx to pin-id
+- remove attributes: pin-parent-idx, device
+- replace bus-name and dev-name attributes with module-name
+- replace pin-label with 3 new attributes: pin-board-label,
+  pin-panel-label, pin-package-label
+- add device-id-get and pin-id-get commands
+- remove rclk-dev-name atribute
+- rename DPLL_PIN_DIRECTION_SOURCE -> DPLL_PIN_DIRECTION_INPUT
+
+[03/10] dpll: core: Add DPLL framework base functions
+[04/10] dpll: netlink: Add DPLL framework base functions
+[05/10] dpll: api header: Add DPLL framework base
+- remove unspec attributes after removing from dpll netlink spec
+- move pin-direction to pin-dpll tuple
+- pass parent_priv on state_on_pin_<get/set>
+- align with new notification definitions from netlink spec
+- use separated notifications for dpll pins and devices
+- format notification messages as corresponding get netlink commands
+- rename pin-idx to pin-id
+- remove attributes pin-parent-idx, device
+- use DPLL_A_PIN_PARENT to hold information on parent pin or dpll device
+- refactor lookup for pins and dplls for dpll subsystem
+- replace bus-name, dev-name with module-name
+- replace pin-label with 3 new attributes: pin-board-label,
+  pin-panel-label, pin-package-label
+- add device-id-get and pin-id-get commands
+- rename dpll_xa_lock to dpll_lock
+- improve doxygen in dpll_core.c
+- remove unused parent and dev fields from dpll_device struct
+- use u32 for pin_idx in dpll_pin_alloc
+- use driver provided pin properties struct
+- verify pin/dpll owner on registering pin
+- remove const arg modifier for helper _priv functions
+- remove function declaration _get_by_name()
+- update SPDX headers
+- parse netlink set attributes with nlattr array
+- remove rclk-dev-name attribute
+- remove device pointer from dpll_pin_register/dpll_device_register
+- remove redundant doxygen from dpll header
+- use module_name() to get name of module
+- add missing/remove outdated kdocs
+- fix call frequency_set only if available
+- fix call direction_set only for pin-dpll tuple
+
+[06/10] netdev: expose DPLL pin handle for netdevice
+- rebased on top of v8 changes
+  - use dpll_msg_add_pin_handle() in dpll_pin_find_from_nlattr()
+    and dpll_msg_add_pin_parents()
+  - fixed handle to use DPLL_A_PIN_ID and removed temporary comments
+- added documentation record for dpll_pin pointer
+- fixed compilation of net/core/dev.c when CONFIG_DPLL is not enabled
+- adjusted patch description a bit
+
+[07/10] ice: add admin commands to access cgu configuration
+- Remove unspec attributes after removing from dpll netlink spec.
+
+[08/10] ice: implement dpll interface to control cgu
+- remove unspec attributes
+- do not store pin flags received in set commands
+- use pin state field to provide pin state to the caller
+- remove include of uapi header
+- remove redundant check against null arguments
+- propagate lock function return value to the caller
+- use switch case instead of if statements
+- fix dev_dbg to dev_err for error cases
+- fix dpll/pin lookup on dpll subsytem callbacks
+- fix extack of dpll subsystem callbacks
+- remove double negation and variable cast
+- simplify ice_dpll_pin_state_set function
+- pass parent_priv on state_on_pin_<get/set>
+- remove parent hw_idx lookup
+- fix use const qualifier for dpll/dpll_pin ops
+- fix IS_ERR macros usage in ice_dpll
+- add notify previous source state change
+- fix mutex locking on releasing pins
+- use '|=' instead of '+=' when modifing capabilities field
+- rename ice_dpll_register_pins function
+- clock_id function to return clock ID on the stack instead of using
+  an output variable
+- DPLL_LOCK_STATUS_CALIBRATING was removed, return:
+  DPLL_LOCK_STATUS_LOCKED - if dpll was locked
+  DPLL_LOCK_STATUS_LOCKED_HO_ACQ - if dpll was locked and holdover is
+  acquired
+- propagate and use dpll_priv to obtain pf pointer in corresponding
+  functions.
+- remove null check for pf pointer
+- adapt to `dpll: core: fix notification scheme`
+- expose pf related pin to corresponding netdevice
+- fix dpll init error path
+- fix dpll pins naming scheme `source` -> `input`
+- replace pin-label with pin-board-label
+- dpll remove parent and dev fields from dpll_device
+- remove device pointer from dpll_pin_register/dpll_device_register
+- rename DPLL_PIN_DIRECTION_SOURCE -> DPLL_PIN_DIRECTION_INPUT
+
+[09/10] ptp_ocp: implement DPLL ops
+- replace pin-label with pin-board-label
+- dpll remove parent and dev fields from dpll_device
+- remove device pointer from dpll_pin_register/dpll_device_register
+- rename DPLL_PIN_DIRECTION_SOURCE -> DPLL_PIN_DIRECTION_INPUT
+
+[10/10] mlx5: Implement SyncE support using DPLL infrastructure
+- rebased on top of v8 changes:
+  - changed notification scheme
+  - no need to fill pin label
+  - implemented locked_ho_acq status
+  - rename DPLL_PIN_DIRECTION_SOURCE -> DPLL_PIN_DIRECTION_INPUT
+  - remove device pointer from dpll_pin_register/dpll_device_register
+- fixed MSEES register writes
+- adjusted pin state and lock state values reported
+- fixed a white space issue
+
+v6 -> v7:
+ * YAML spec:
+   - remove nested 'pin' attribute
+   - clean up definitions on top of the latest changes
+ * pin object:
+   - pin xarray uses id provided by the driver
+   - remove usage of PIN_IDX_INVALID in set function
+   - source_pin_get() returns object instead of idx
+   - fixes in frequency support API
+ * device and pin operations are const now
+ * small fixes in naming in Makefile and in the functions
+ * single mutex for the subsystem to avoid possible ABBA locks
+ * no special *_priv() helpers anymore, private data is passed as void*
+ * no netlink filters by name anymore, only index is supported
+ * update ptp_ocp and ice drivers to follow new API version
+ * add mlx5e driver as a new customer of the subsystem
+v5 -> v6:
+ * rework pin part to better fit shared pins use cases
+ * add YAML spec to easy generate user-space apps
+ * simple implementation in ptp_ocp is back again
+v4 -> v5:
+ * fix code issues found during last reviews:
+   - replace cookie with clock id
+   - follow one naming schema in dpll subsys
+   - move function comments to dpll_core.c, fix exports
+   - remove single-use helper functions
+   - merge device register with alloc
+   - lock and unlock mutex on dpll device release
+   - move dpll_type to uapi header
+   - rename DPLLA_DUMP_FILTER to DPLLA_FILTER
+   - rename dpll_pin_state to dpll_pin_mode
+   - rename DPLL_MODE_FORCED to DPLL_MODE_MANUAL
+   - remove DPLL_CHANGE_PIN_TYPE enum value
+ * rewrite framework once again (Arkadiusz)
+   - add clock class:
+     Provide userspace with clock class value of DPLL with dpll device
+     dump netlink request. Clock class is assigned by driver allocating
+     a dpll device. Clock class values are defined as specified in:
+     ITU-T G.8273.2/Y.1368.2 recommendation.
+   - dpll device naming schema use new pattern:
+     "dpll_%s_%d_%d", where:
+       - %s - dev_name(parent) of parent device,
+       - %d (1) - enum value of dpll type,
+       - %d (2) - device index provided by parent device.
+   - new muxed/shared pin registration:
+     Let the kernel module to register a shared or muxed pin without
+     finding it or its parent. Instead use a parent/shared pin
+     description to find correct pin internally in dpll_core, simplifing
+     a dpll API
+ * Implement complex DPLL design in ice driver (Arkadiusz)
+ * Remove ptp_ocp driver from the series for now
+v3 -> v4:
+ * redesign framework to make pins dynamically allocated (Arkadiusz)
+ * implement shared pins (Arkadiusz)
+v2 -> v3:
+ * implement source select mode (Arkadiusz)
+ * add documentation
+ * implementation improvements (Jakub)
+v1 -> v2:
+ * implement returning supported input/output types
+ * ptp_ocp: follow suggestions from Jonathan
+ * add linux-clk mailing list
+v0 -> v1:
+ * fix code style and errors
+ * add linux-arm mailing list
+
+Arkadiusz Kubalewski (3):
+  dpll: spec: Add Netlink spec in YAML
+  ice: add admin commands to access cgu configuration
+  ice: implement dpll interface to control cgu
+
+Jiri Pirko (2):
+  netdev: expose DPLL pin handle for netdevice
+  mlx5: Implement SyncE support using DPLL infrastructure
+
+Vadim Fedorenko (5):
+  dpll: documentation on DPLL subsystem interface
+  dpll: core: Add DPLL framework base functions
+  dpll: netlink: Add DPLL framework base functions
+  dpll: api header: Add DPLL framework base functions
+  ptp_ocp: implement DPLL ops
+
+ Documentation/driver-api/dpll.rst             |  458 ++++
+ Documentation/driver-api/index.rst            |    1 +
+ Documentation/netlink/specs/dpll.yaml         |  466 ++++
+ MAINTAINERS                                   |    8 +
+ drivers/Kconfig                               |    2 +
+ drivers/Makefile                              |    1 +
+ drivers/dpll/Kconfig                          |    7 +
+ drivers/dpll/Makefile                         |    9 +
+ drivers/dpll/dpll_core.c                      |  953 ++++++++
+ drivers/dpll/dpll_core.h                      |  104 +
+ drivers/dpll/dpll_netlink.c                   | 1195 ++++++++++
+ drivers/dpll/dpll_netlink.h                   |   44 +
+ drivers/dpll/dpll_nl.c                        |  161 ++
+ drivers/dpll/dpll_nl.h                        |   50 +
+ drivers/net/ethernet/intel/Kconfig            |    1 +
+ drivers/net/ethernet/intel/ice/Makefile       |    3 +-
+ drivers/net/ethernet/intel/ice/ice.h          |    5 +
+ .../net/ethernet/intel/ice/ice_adminq_cmd.h   |  240 +-
+ drivers/net/ethernet/intel/ice/ice_common.c   |  467 ++++
+ drivers/net/ethernet/intel/ice/ice_common.h   |   43 +
+ drivers/net/ethernet/intel/ice/ice_dpll.c     | 2015 +++++++++++++++++
+ drivers/net/ethernet/intel/ice/ice_dpll.h     |  102 +
+ drivers/net/ethernet/intel/ice/ice_lib.c      |   17 +-
+ drivers/net/ethernet/intel/ice/ice_main.c     |    7 +
+ drivers/net/ethernet/intel/ice/ice_ptp_hw.c   |  414 ++++
+ drivers/net/ethernet/intel/ice/ice_ptp_hw.h   |  230 ++
+ drivers/net/ethernet/intel/ice/ice_type.h     |    1 +
+ .../net/ethernet/mellanox/mlx5/core/Kconfig   |    8 +
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |    3 +
+ drivers/net/ethernet/mellanox/mlx5/core/dev.c |   17 +
+ .../net/ethernet/mellanox/mlx5/core/dpll.c    |  432 ++++
+ drivers/ptp/Kconfig                           |    1 +
+ drivers/ptp/ptp_ocp.c                         |  329 ++-
+ include/linux/dpll.h                          |  164 ++
+ include/linux/mlx5/driver.h                   |    2 +
+ include/linux/mlx5/mlx5_ifc.h                 |   59 +-
+ include/linux/netdevice.h                     |   10 +
+ include/uapi/linux/dpll.h                     |  184 ++
+ include/uapi/linux/if_link.h                  |    2 +
+ net/core/dev.c                                |   22 +
+ net/core/rtnetlink.c                          |   38 +
+ 41 files changed, 8216 insertions(+), 59 deletions(-)
+ create mode 100644 Documentation/driver-api/dpll.rst
+ create mode 100644 Documentation/netlink/specs/dpll.yaml
+ create mode 100644 drivers/dpll/Kconfig
+ create mode 100644 drivers/dpll/Makefile
+ create mode 100644 drivers/dpll/dpll_core.c
+ create mode 100644 drivers/dpll/dpll_core.h
+ create mode 100644 drivers/dpll/dpll_netlink.c
+ create mode 100644 drivers/dpll/dpll_netlink.h
+ create mode 100644 drivers/dpll/dpll_nl.c
+ create mode 100644 drivers/dpll/dpll_nl.h
+ create mode 100644 drivers/net/ethernet/intel/ice/ice_dpll.c
+ create mode 100644 drivers/net/ethernet/intel/ice/ice_dpll.h
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/dpll.c
+ create mode 100644 include/linux/dpll.h
+ create mode 100644 include/uapi/linux/dpll.h
+
+-- 
+2.37.3
 
