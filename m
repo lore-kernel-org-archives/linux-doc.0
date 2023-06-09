@@ -2,190 +2,207 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC704C7EE43
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 08:46:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E960C7EE2E
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 08:52:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239691AbjFIIq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 04:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49872 "EHLO
+        id S239134AbjFIIwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 04:52:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239153AbjFIIqy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 04:46:54 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 962471730;
-        Fri,  9 Jun 2023 01:46:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Content-Type:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-To:Resent-Cc:
-        Resent-Message-ID:In-Reply-To:References;
-        bh=rYsZ7NUM9QnsnZDvOA2XVbvmpJGN8lxYjvG/P+i1FWY=; t=1686300408; x=1687510008; 
-        b=HqA2KMqsn9ICFDaWj4YroeLzOFnG0XLVJeQiIglFG9YZAwT7CreIyStCebg+ylxuZcCE5/zCLpr
-        gy4rdI+WZc01zd5d8rN+6JiN33VruWNL4oiIEo1paR9WxOFUouKKl8pIfpF1Gx5sJ32qCB1/hGj5Q
-        WxuvUC9ls050/93+6jGhhsIRhvgD04qhOdtsVfM+KwTnia2x5PlY/RkUDgNGyGPusk5p6eovVsmzY
-        LIKRsXi7icdf+fCJ0BhMkii0www8oJsmNBKRGwKNGIveZIOTRO/piu/VxhIX92EpENLhAZLPLbGod
-        gSn9PAMs8cR91ErEj7Ld7QERZWyDF2YpB3nQ==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.96)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1q7Xld-000seH-1T;
-        Fri, 09 Jun 2023 10:46:45 +0200
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Johannes Berg <johannes.berg@intel.com>
-Subject: [PATCH v3 1/2] kernel-doc: don't let V=1 change outcome
-Date:   Fri,  9 Jun 2023 10:46:41 +0200
-Message-Id: <20230609104642.0a5f030f59a5.I21ab3b54eeebd638676bead3b2f87417944e44f3@changeid>
-X-Mailer: git-send-email 2.40.1
+        with ESMTP id S238928AbjFIIwZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 04:52:25 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B8FB95;
+        Fri,  9 Jun 2023 01:52:21 -0700 (PDT)
+X-UUID: ef24577406a211ee9cb5633481061a41-20230609
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=dLIYRoXshZCYjSVWIjyzdBAAVLO0fisUp3j6Z8T0P4A=;
+        b=WJcos5W5Et208j+7Ov+VCgujf7AwzkGwRkTxArFJGzYkL8TAaLTC4lMzBwC7fgJes8ALOKUW7INM3bjiqWljN23pNxG7wtFKdtuZDpzS9U4lRTo9P7w0+emRgTROjmpYTABl4Er5ZBZAbYrxhQ+CMbQo2nKlmiB53O5S7C1AiH8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.26,REQID:70af0df7-d156-4991-861e-a728b95b32fb,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:47,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:47
+X-CID-INFO: VERSION:1.1.26,REQID:70af0df7-d156-4991-861e-a728b95b32fb,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:47,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+        elease,TS:47
+X-CID-META: VersionHash:cb9a4e1,CLOUDID:15f8ea3d-de1e-4348-bc35-c96f92f1dcbb,B
+        ulkID:230609165216951NQGEH,BulkQuantity:0,Recheck:0,SF:48|101|38|29|28|100
+        |17|19|102,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:ni
+        l,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR,TF_CID_SPAM_SDM,TF_CID_SPAM_FAS,
+        TF_CID_SPAM_FSD
+X-UUID: ef24577406a211ee9cb5633481061a41-20230609
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <yi-de.wu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1656020971; Fri, 09 Jun 2023 16:52:16 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 9 Jun 2023 16:52:15 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 9 Jun 2023 16:52:15 +0800
+From:   Yi-De Wu <yi-de.wu@mediatek.com>
+To:     Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Yi-De Wu <yi-de.wu@mediatek.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arch@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        David Bradil <dbrazdil@google.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>,
+        Willix Yeh <chi-shen.yeh@mediatek.com>
+Subject: [PATCH v4 1/9] docs: geniezone: Introduce GenieZone hypervisor
+Date:   Fri, 9 Jun 2023 16:52:06 +0800
+Message-ID: <20230609085214.31071-2-yi-de.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20230609085214.31071-1-yi-de.wu@mediatek.com>
+References: <20230609085214.31071-1-yi-de.wu@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Johannes Berg <johannes.berg@intel.com>
+From: "Yi-De Wu" <yi-de.wu@mediatek.com>
 
-The kernel-doc script currently reports a number of issues
-only in "verbose" mode, but that's initialized from V=1
-(via KBUILD_VERBOSE), so if you use KDOC_WERROR=1 then
-adding V=1 might actually break the build. This is rather
-unexpected.
+GenieZone is MediaTek proprietary hypervisor solution, and it is running
+in EL2 stand alone as a type-I hypervisor. It is a pure EL2
+implementation which implies it does not rely any specific host VM, and
+this behavior improves GenieZone's security as it limits its interface.
 
-Change kernel-doc to not change its behaviour wrt. errors
-(or warnings) when verbose mode is enabled, but rather add
-separate warning flags (and -Wall) for it. Allow enabling
-those flags via environment/make variables in the kernel's
-build system for easier user use, but to not have to parse
-them in the script itself.
-
-Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
+Signed-off-by: Liju Chen <liju-clr.chen@mediatek.com>
+Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
 ---
-v2: - parse environment variables in build system rather than
-      the script itself, as suggested by Masahiro Yamada
-    - fix indentation
-v3: - use a single KDOCFLAGS variable
----
- Documentation/kbuild/kbuild.rst |  6 ++++++
- scripts/Makefile.build          |  2 +-
- scripts/kernel-doc              | 28 +++++++++++++++++++++++-----
- 3 files changed, 30 insertions(+), 6 deletions(-)
+ Documentation/virt/geniezone/introduction.rst | 79 +++++++++++++++++++
+ MAINTAINERS                                   |  6 ++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 Documentation/virt/geniezone/introduction.rst
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 2a22ddb1b848..bd906407e307 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -150,6 +150,12 @@ the UTS_MACHINE variable, and on some architectures also the kernel config.
- The value of KBUILD_DEBARCH is assumed (not checked) to be a valid Debian
- architecture.
- 
-+KDOCFLAGS
-+---------
-+Specify extra (warning/error) flags for kernel-doc checks during the build,
-+see scripts/kernel-doc for which flags are supported. Note that this doesn't
-+(currently) apply to documentation builds.
+diff --git a/Documentation/virt/geniezone/introduction.rst b/Documentation/virt/geniezone/introduction.rst
+new file mode 100644
+index 000000000000..872c66f60e7f
+--- /dev/null
++++ b/Documentation/virt/geniezone/introduction.rst
+@@ -0,0 +1,79 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- ARCH
- ----
- Set ARCH to the architecture to be built.
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 9f94fc83f086..a0b4fb58201c 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -101,7 +101,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
- endif
++======================
++GenieZone Introduction
++======================
++
++Overview
++========
++
++GenieZone hypervisor(gzvm) is a type-1 hypervisor that supports various virtual
++machine types and provides security features such as TEE-like scenarios and
++secure boot. It can create guest VMs for security use cases and has
++virtualization capabilities for both platform and interrupt. Although the
++hypervisor can be booted independently, it requires the assistance of GenieZone
++hypervisor kernel driver(gzvm-ko) to leverage the ability of Linux kernel for
++vCPU scheduling, memory management, inter-VM communication and virtio backend
++support.
++
++Supported Architecture
++======================
++
++GenieZone now only supports MediaTek ARM64 SoC.
++
++Features
++========
++
++- vCPU Management
++VM manager aims to provide vCPUs on the basis of time sharing on physical CPUs.
++It requires Linux kernel in host VM for vCPU scheduling and VM power management.
++
++- Memory Management
++Direct use of physical memory from VMs is forbidden and designed to be dictated
++to the privilege models managed by GenieZone hypervisor for security reason.
++With the help of gzvm-ko, the hypervisor would be able to manipulate memory as
++objects.
++
++- Virtual Platform
++We manage to emulate a virtual mobile platform for guest OS running on guest
++VM. The platform supports various architecture-defined devices, such as
++virtual virtual arch timer, GIC, MMIO, PSCI, and exception watching...etc.
++
++- Inter-VM Communication
++Communication among guest VMs was provided mainly on RPC. More communication
++mechanisms were to be provided in the future based on VirtIO-vsock.
++
++- Device Virtualization
++The solution is provided using the well-known VirtIO. The gzvm-ko would
++redirect MMIO traps back to VMM where the virtual devices are mostly emulated.
++Ioeventfd is implemented using eventfd for signaling host VM that some IO
++events in guest VMs need to be processed.
++
++- Interrupt virtualization
++All Interrupts during some guest VMs running would be handled by GenieZone
++hypervisor with the help of gzvm-ko, both virtual and physical ones. In case
++there's no guest VM running out there, physical interrupts would be handled by
++host VM directly for performance reason. Irqfd is also implemented using
++eventfd for accepting vIRQ requests in gzvm-ko.
++
++Platform architecture component
++===============================
++
++- vm
++The vm component is responsible for setting up the capability and memory
++management for the protected VMs. The capability is mainly about the lifecycle
++control and boot context initialization. And the memory management is highly
++integrated with ARM 2-stage translation tables to convert VA to IPA to PA under
++proper security measures required by protected VMs.
++
++- vcpu
++The vcpu component is the core of virtualizing aarch64 physical CPU runnable,
++and it controls the vCPU lifecycle including creating, running and destroying.
++With self-defined exit handler, the vm component would be able to act
++accordingly before terminated.
++
++- vgic
++The vgic component exposes control interfaces to Linux kernel via irqchip, and
++we intend to support all SPI, PPI, and SGI. When it comes to virtual
++interrupts, the GenieZone hypervisor would write to list registers and trigger
++vIRQ injection in guest VMs via GIC.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3a05599017b4..1b1db2073f8b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8745,6 +8745,12 @@ F:	include/vdso/
+ F:	kernel/time/vsyscall.c
+ F:	lib/vdso/
  
- ifneq ($(KBUILD_EXTRA_WARN),)
--  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
-+  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $(KDOCFLAGS) $<
- endif
- 
- # Compile C sources (.c)
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 2486689ffc7b..8f8440870a0f 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -23,7 +23,7 @@ kernel-doc - Print formatted kernel documentation to stdout
- 
- =head1 SYNOPSIS
- 
-- kernel-doc [-h] [-v] [-Werror]
-+ kernel-doc [-h] [-v] [-Werror] [-Wall] [-Wreturn] [-Wshort-description] [-Wcontents-before-sections]
-    [ -man |
-      -rst [-sphinx-version VERSION] [-enable-lineno] |
-      -none
-@@ -133,6 +133,9 @@ my $dohighlight = "";
- 
- my $verbose = 0;
- my $Werror = 0;
-+my $Wreturn = 0;
-+my $Wshort_desc = 0;
-+my $Wcontents_before_sections = 0;
- my $output_mode = "rst";
- my $output_preformatted = 0;
- my $no_doc_sections = 0;
-@@ -187,9 +190,14 @@ if (defined($ENV{'KCFLAGS'})) {
- 	}
- }
- 
-+# reading this variable is for backwards compat just in case
-+# someone was calling it with the variable from outside the
-+# kernel's build system
- if (defined($ENV{'KDOC_WERROR'})) {
- 	$Werror = "$ENV{'KDOC_WERROR'}";
- }
-+# other environment variables are converted to command-line
-+# arguments in cmd_checkdoc in the build system
- 
- # Generated docbook code is inserted in a template at a point where
- # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
-@@ -318,6 +326,16 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
- 	$verbose = 1;
-     } elsif ($cmd eq "Werror") {
- 	$Werror = 1;
-+    } elsif ($cmd eq "Wreturn") {
-+	$Wreturn = 1;
-+    } elsif ($cmd eq "Wshort-desc") {
-+	$Wshort_desc = 1;
-+    } elsif ($cmd eq "Wcontents-before-sections") {
-+	$Wcontents_before_sections = 1;
-+    } elsif ($cmd eq "Wall") {
-+        $Wreturn = 1;
-+        $Wshort_desc = 1;
-+        $Wcontents_before_sections = 1;
-     } elsif (($cmd eq "h") || ($cmd eq "help")) {
- 		pod2usage(-exitval => 0, -verbose => 2);
-     } elsif ($cmd eq 'no-doc-sections') {
-@@ -1748,9 +1766,9 @@ sub dump_function($$) {
-     # This check emits a lot of warnings at the moment, because many
-     # functions don't have a 'Return' doc section. So until the number
-     # of warnings goes sufficiently down, the check is only performed in
--    # verbose mode.
-+    # -Wreturn mode.
-     # TODO: always perform the check.
--    if ($verbose && !$noret) {
-+    if ($Wreturn && !$noret) {
- 	    check_return_section($file, $declaration_name, $return_type);
-     }
- 
-@@ -2054,7 +2072,7 @@ sub process_name($$) {
- 	    $state = STATE_NORMAL;
- 	}
- 
--	if (($declaration_purpose eq "") && $verbose) {
-+	if (($declaration_purpose eq "") && $Wshort_desc) {
- 	    emit_warning("${file}:$.", "missing initial short description on line:\n$_");
- 	}
- 
-@@ -2103,7 +2121,7 @@ sub process_body($$) {
- 	}
- 
- 	if (($contents ne "") && ($contents ne "\n")) {
--	    if (!$in_doc_sect && $verbose) {
-+	    if (!$in_doc_sect && $Wcontents_before_sections) {
- 		emit_warning("${file}:$.", "contents before sections\n");
- 	    }
- 	    dump_section($file, $section, $contents);
++GENIEZONE HYPERVISOR DRIVER
++M:	Yingshiuan Pan <yingshiuan.pan@mediatek.com>
++M:	Ze-Yu Wang <ze-yu.wang@mediatek.com>
++M:	Yi-De Wu <yi-de.wu@mediatek.com>
++F:	Documentation/virt/geniezone/
++
+ GENWQE (IBM Generic Workqueue Card)
+ M:	Frank Haverkamp <haver@linux.ibm.com>
+ S:	Supported
 -- 
-2.40.1
+2.18.0
 
