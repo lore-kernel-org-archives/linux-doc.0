@@ -2,200 +2,249 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF71C83005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF1E1C7EE29
 	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 15:05:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240896AbjFIPFA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 11:05:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44854 "EHLO
+        id S241695AbjFIPFB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 11:05:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241762AbjFIPEw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 11:04:52 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB9E35A3
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 08:04:26 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f7fc9014fdso14224175e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 08:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686323065; x=1688915065;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2WGZ/ed2vrJ5KRXftei7L+b/a8JlbJSLWIRO6uJ+BPA=;
-        b=mgm79aK5ZEyzsjL4fshBGIDqime5sfPSyhoXjr89GPPJML5PZXLCSy2RCsJHtbQVoc
-         joZsRl99ZwtTpryeLpdTql1KIdb+cwSF7FLYE8E1ut+OeiHO0XFgsLoco3dSKa/guzRq
-         +wSB5yi8UNqipIlEeUxnBtX2vpoUqwzYukPP9U2CA/OJFz8PoJ83g6D6hAk48fdjjn7W
-         uPw8t8MMAsNb0OInvMc3lssBS93yN+0IwT06zsZALOCy3cbFC9l4zDMIQnKSb65UvTtN
-         wq1TCSzd09ftW4qrg7rGlqfc37FNB0gWeTIsCq3Oz+t1ke8Uat1SrJevfsMmUA1fnAPh
-         6NXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686323065; x=1688915065;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2WGZ/ed2vrJ5KRXftei7L+b/a8JlbJSLWIRO6uJ+BPA=;
-        b=BrajidNp3Msx6YOAS4lpTZkCPyMNNg3jAvvoq2yZlfm/6ake7A4PtzUM0ngiD2rHbj
-         vizjE72w1JUz+njb+x79bNU9Io6gcacKOf9nyDkZRc/s3HQQYBV29Ydx+I32DzXCzMU2
-         h1FEcITMnH3FsLkRvtoD+gz1lOGxS5zeclUPHczcoxyJ22D9XbXa9fS5kDvDTjHYL42C
-         jCnh7Ry7WVjPNHFLa5KsaRFVi//xuKpGZlAezSkwWgfvJK8J2OT2SRRr7XRYNpwYlHOG
-         C1vWA8PStZEJXLjoPTUNIhthhRdfka5WW9UaoKVDbqTqTtyeMf9aSDsRm5yCGqX3pcQq
-         a9zg==
-X-Gm-Message-State: AC+VfDwoqfpIOtn3n4AMC+aW41DoqHtmDDZPmLbYEjRV2v1N6P75H4rp
-        O2Go5QbsHKIvPOXv6tVmTxHiXg==
-X-Google-Smtp-Source: ACHHUZ7eaW16qzdTf8udY5wHHza5lq/L2Y9Nr39LRq/YBL3Qd2LXZ9BnBUzkteeXGvdPFEbRzMo11A==
-X-Received: by 2002:a05:600c:2212:b0:3f4:23b9:eed2 with SMTP id z18-20020a05600c221200b003f423b9eed2mr1198999wml.38.1686323064766;
-        Fri, 09 Jun 2023 08:04:24 -0700 (PDT)
-Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id m14-20020a7bce0e000000b003f602e2b653sm2905098wmc.28.2023.06.09.08.04.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 08:04:23 -0700 (PDT)
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-To:     vkoul@kernel.org, broonie@kernel.org, tiwai@suse.com
-Cc:     corbet@lwn.net, alsa-devel@alsa-project.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_plai@quicinc.com, quic_mohs@quicinc.com,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH v2] ALSA: compress: allow setting codec params after next track
-Date:   Fri,  9 Jun 2023 16:04:16 +0100
-Message-Id: <20230609150416.24525-1-srinivas.kandagatla@linaro.org>
-X-Mailer: git-send-email 2.21.0
+        with ESMTP id S241770AbjFIPFA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 11:05:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61CDB2D71
+        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 08:04:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686323057;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EWVIdw42kvaUEVB9fypVLDqQXfw7FfQjjY+1yjJwfjg=;
+        b=VaCpMck9wnDWLIjD5vkqBOGr62oD8vhCqLbqs8hDxD7UN2M4lix2aYRM8M+vWLaSDQREMG
+        HhFAyZIdQq/nKy+geAoBg66LaG594N5ZQ+MKZEVNmHMxJDFbXoGWjXp8o4Bs/94uHVI9gC
+        hojH9BrtT/xj0t1hYTxMdfb6D/0wPoI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-VQM2C7eiOsWVLUt4-WUDNw-1; Fri, 09 Jun 2023 11:04:14 -0400
+X-MC-Unique: VQM2C7eiOsWVLUt4-WUDNw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE9A8185A78B;
+        Fri,  9 Jun 2023 15:04:13 +0000 (UTC)
+Received: from vschneid.remote.csb (unknown [10.42.28.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C0D3D4087C62;
+        Fri,  9 Jun 2023 15:04:11 +0000 (UTC)
+From:   Valentin Schneider <vschneid@redhat.com>
+To:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Leonardo Bras <leobras@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>
+Subject: [RFC PATCH 2/5] tracing/filters: Enable filtering a cpumask field by another cpumask
+Date:   Fri,  9 Jun 2023 16:03:21 +0100
+Message-Id: <20230609150324.143538-3-vschneid@redhat.com>
+In-Reply-To: <20230609150324.143538-1-vschneid@redhat.com>
+References: <20230609150324.143538-1-vschneid@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For gapless playback it is possible that each track can have different
-codec profile with same decoder, for example we have WMA album,
-we may have different tracks as WMA v9, WMA v10 and so on
+The recently introduced ipi_send_cpumask trace event contains a cpumask
+field, but it currently cannot be used in filter expressions.
 
-Or if DSP's like QDSP have abililty to switch decoders on single stream
-for each track, then this call could be used to set new codec parameters.
+Make event filtering aware of cpumask fields, and allow these to be
+filtered by a user-provided cpumask.
 
-Existing code does not allow to change this profile while doing gapless
-playback.
+The user-provided cpumask is to be given in cpulist format and wrapped as:
+"MASK{$cpulist}". The use of curly braces instead of parentheses is to
+prevent predicate_parse() from parsing the contents of MASK{...} as a
+full-fledged predicate subexpression.
 
-Reuse existing SNDRV_COMPRESS_SET_PARAMS to set this new track params along
-some additional checks to enforce proper state machine.
+This enables e.g.:
 
-With this new changes now the user can call SNDRV_COMPRESS_SET_PARAMS
-anytime after setting next track and additional check in write should
-also ensure that params are set before writing new data.
+$ trace-cmd record -e 'ipi_send_cpumask' -f 'cpu & MASK{2,4,6,8-32}'
 
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Signed-off-by: Valentin Schneider <vschneid@redhat.com>
 ---
-Changes since v1/RFC:
-	- removed introduction of new IOCTL, as suggested.
-	- update the state-machine doc.
+ include/linux/trace_events.h       |  1 +
+ kernel/trace/trace_events_filter.c | 85 +++++++++++++++++++++++++++++-
+ 2 files changed, 84 insertions(+), 2 deletions(-)
 
- .../sound/designs/compress-offload.rst        | 52 +++++++++----------
- sound/core/compress_offload.c                 | 10 ++--
- 2 files changed, 33 insertions(+), 29 deletions(-)
-
-diff --git a/Documentation/sound/designs/compress-offload.rst b/Documentation/sound/designs/compress-offload.rst
-index 935f325dbc77..205cadcabe70 100644
---- a/Documentation/sound/designs/compress-offload.rst
-+++ b/Documentation/sound/designs/compress-offload.rst
-@@ -256,32 +256,32 @@ Gapless Playback SM
- For Gapless, we move from running state to partial drain and back, along
- with setting of meta_data and signalling for next track ::
+diff --git a/include/linux/trace_events.h b/include/linux/trace_events.h
+index 7c4a0b72334eb..974ef37a06c83 100644
+--- a/include/linux/trace_events.h
++++ b/include/linux/trace_events.h
+@@ -804,6 +804,7 @@ enum {
+ 	FILTER_RDYN_STRING,
+ 	FILTER_PTR_STRING,
+ 	FILTER_TRACE_FN,
++	FILTER_CPUMASK,
+ 	FILTER_COMM,
+ 	FILTER_CPU,
+ 	FILTER_STACKTRACE,
+diff --git a/kernel/trace/trace_events_filter.c b/kernel/trace/trace_events_filter.c
+index d999a218fe833..8af00caa363f7 100644
+--- a/kernel/trace/trace_events_filter.c
++++ b/kernel/trace/trace_events_filter.c
+@@ -64,6 +64,7 @@ enum filter_pred_fn {
+ 	FILTER_PRED_FN_PCHAR_USER,
+ 	FILTER_PRED_FN_PCHAR,
+ 	FILTER_PRED_FN_CPU,
++	FILTER_PRED_FN_CPUMASK,
+ 	FILTER_PRED_FN_FUNCTION,
+ 	FILTER_PRED_FN_,
+ 	FILTER_PRED_TEST_VISITED,
+@@ -71,6 +72,7 @@ enum filter_pred_fn {
  
--
--                                        +----------+
--                compr_drain_notify()    |          |
--              +------------------------>|  RUNNING |
--              |                         |          |
--              |                         +----------+
--              |                              |
--              |                              |
--              |                              | compr_next_track()
--              |                              |
--              |                              V
--              |                         +----------+
--              |                         |          |
--              |                         |NEXT_TRACK|
--              |                         |          |
--              |                         +----------+
--              |                              |
--              |                              |
--              |                              | compr_partial_drain()
--              |                              |
--              |                              V
--              |                         +----------+
--              |                         |          |
--              +------------------------ | PARTIAL_ |
--                                        |  DRAIN   |
--                                        +----------+
-+                            +----------+
-+     compr_drain_notify()   |          | compr_set_params() iff next-track set.
-+  +------------------------>|  RUNNING |----------------------+
-+  |                         |          |                      |
-+  |                         +----------+                      |
-+  |                              |                            |
-+  |                              |                            |
-+  |                              | compr_next_track()         |
-+  |                              |                            V
-+  |                              V                            |
-+  |                         +----------+                      |
-+  |                         |          |                      |
-+  |                         |NEXT_TRACK|                      |
-+  |                         |          |                      |
-+  |                         +----------+                      |
-+  |                              |                            |
-+  |                              +----------------------------+
-+  |                              |
-+  |                              | compr_partial_drain()
-+  |                              |
-+  |                              V
-+  |                         +----------+
-+  |                         |          |
-+  +------------------------ | PARTIAL_ |
-+                            |  DRAIN   |
-+                            +----------+
- 
- Not supported
- =============
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index 243acad89fd3..fe67228e74b3 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -294,6 +294,9 @@ static ssize_t snd_compr_write(struct file *f, const char __user *buf,
- 	case SNDRV_PCM_STATE_SETUP:
- 	case SNDRV_PCM_STATE_PREPARED:
- 	case SNDRV_PCM_STATE_RUNNING:
-+		/* Make sure next track params are set before writing new data */
-+		if (stream->next_track)
-+			return -EPERM;
- 		break;
- 	default:
- 		mutex_unlock(&stream->device->lock);
-@@ -589,7 +592,8 @@ snd_compr_set_params(struct snd_compr_stream *stream, unsigned long arg)
- 	struct snd_compr_params *params;
- 	int retval;
- 
--	if (stream->runtime->state == SNDRV_PCM_STATE_OPEN) {
-+	if (stream->runtime->state == SNDRV_PCM_STATE_OPEN ||
-+	    (stream->runtime->state == SNDRV_PCM_STATE_RUNNING && stream->next_track)) {
- 		/*
- 		 * we should allow parameter change only when stream has been
- 		 * opened not in other cases
-@@ -615,7 +619,8 @@ snd_compr_set_params(struct snd_compr_stream *stream, unsigned long arg)
- 		stream->metadata_set = false;
- 		stream->next_track = false;
- 
--		stream->runtime->state = SNDRV_PCM_STATE_SETUP;
-+		if (stream->runtime->state == SNDRV_PCM_STATE_OPEN)
-+			stream->runtime->state = SNDRV_PCM_STATE_SETUP;
- 	} else {
- 		return -EPERM;
- 	}
-@@ -956,7 +961,6 @@ static int snd_compr_partial_drain(struct snd_compr_stream *stream)
- 		return retval;
- 	}
- 
--	stream->next_track = false;
- 	return snd_compress_wait_for_drain(stream);
+ struct filter_pred {
+ 	struct regex		*regex;
++	struct cpumask          *mask;
+ 	unsigned short		*ops;
+ 	struct ftrace_event_field *field;
+ 	u64			val;
+@@ -94,6 +96,8 @@ struct filter_pred {
+ 	C(TOO_MANY_OPEN,	"Too many '('"),			\
+ 	C(TOO_MANY_CLOSE,	"Too few '('"),				\
+ 	C(MISSING_QUOTE,	"Missing matching quote"),		\
++	C(MISSING_BRACE_OPEN,   "Missing '{'"),				\
++	C(MISSING_BRACE_CLOSE,  "Missing '}'"),				\
+ 	C(OPERAND_TOO_LONG,	"Operand too long"),			\
+ 	C(EXPECT_STRING,	"Expecting string field"),		\
+ 	C(EXPECT_DIGIT,		"Expecting numeric field"),		\
+@@ -103,6 +107,7 @@ struct filter_pred {
+ 	C(BAD_SUBSYS_FILTER,	"Couldn't find or set field in one of a subsystem's events"), \
+ 	C(TOO_MANY_PREDS,	"Too many terms in predicate expression"), \
+ 	C(INVALID_FILTER,	"Meaningless filter expression"),	\
++	C(INVALID_CPULIST,	"Invalid cpulist"),	\
+ 	C(IP_FIELD_ONLY,	"Only 'ip' field is supported for function trace"), \
+ 	C(INVALID_VALUE,	"Invalid value (did you forget quotes)?"), \
+ 	C(NO_FUNCTION,		"Function not found"),			\
+@@ -189,6 +194,7 @@ enum {
+ static void free_predicate(struct filter_pred *pred)
+ {
+ 	kfree(pred->regex);
++	kfree(pred->mask);
+ 	kfree(pred);
  }
  
+@@ -875,6 +881,26 @@ static int filter_pred_cpu(struct filter_pred *pred, void *event)
+ 	}
+ }
+ 
++/* Filter predicate for cpumasks. */
++static int filter_pred_cpumask(struct filter_pred *pred, void *event)
++{
++	u32 item = *(u32 *)(event + pred->offset);
++	int loc = item & 0xffff;
++	const struct cpumask *mask = (event + loc);
++	const struct cpumask *cmp = pred->mask;
++
++	switch (pred->op) {
++	case OP_EQ:
++		return cpumask_equal(mask, cmp);
++	case OP_NE:
++		return !cpumask_equal(mask, cmp);
++	case OP_BAND:
++		return cpumask_intersects(mask, cmp);
++	default:
++		return 0;
++	}
++}
++
+ /* Filter predicate for COMM. */
+ static int filter_pred_comm(struct filter_pred *pred, void *event)
+ {
+@@ -1242,8 +1268,12 @@ static void filter_free_subsystem_filters(struct trace_subsystem_dir *dir,
+ 
+ int filter_assign_type(const char *type)
+ {
+-	if (strstr(type, "__data_loc") && strstr(type, "char"))
+-		return FILTER_DYN_STRING;
++	if (strstr(type, "__data_loc")) {
++		if (strstr(type, "char"))
++			return FILTER_DYN_STRING;
++		if (strstr(type, "cpumask_t"))
++			return FILTER_CPUMASK;
++		}
+ 
+ 	if (strstr(type, "__rel_loc") && strstr(type, "char"))
+ 		return FILTER_RDYN_STRING;
+@@ -1355,6 +1385,8 @@ static int filter_pred_fn_call(struct filter_pred *pred, void *event)
+ 		return filter_pred_pchar(pred, event);
+ 	case FILTER_PRED_FN_CPU:
+ 		return filter_pred_cpu(pred, event);
++	case FILTER_PRED_FN_CPUMASK:
++		return filter_pred_cpumask(pred, event);
+ 	case FILTER_PRED_FN_FUNCTION:
+ 		return filter_pred_function(pred, event);
+ 	case FILTER_PRED_TEST_VISITED:
+@@ -1566,6 +1598,55 @@ static int parse_pred(const char *str, void *data,
+ 		strncpy(pred->regex->pattern, str + s, len);
+ 		pred->regex->pattern[len] = 0;
+ 
++	} else if (!strncmp(str + i, "MASK", 4)) {
++		unsigned int maskstart;
++		char *tmp;
++
++		if (field->filter_type != FILTER_CPUMASK) {
++			parse_error(pe, FILT_ERR_ILLEGAL_FIELD_OP, pos + i);
++			goto err_free;
++		}
++
++		/* Skip MASK */
++		i += 4;
++		if (str[i++] != '{') {
++			parse_error(pe, FILT_ERR_MISSING_BRACE_OPEN, pos + i);
++			goto err_free;
++		}
++		maskstart = i;
++
++		/* Walk the cpulist until closing } */
++		for (; str[i] && str[i] != '}'; i++);
++		if (str[i] != '}') {
++			parse_error(pe, FILT_ERR_MISSING_BRACE_CLOSE, pos + i);
++			goto err_free;
++		}
++
++		if (maskstart == i) {
++			parse_error(pe, FILT_ERR_INVALID_CPULIST, pos + i);
++			goto err_free;
++		}
++
++		/* Copy the cpulist between { and } */
++		tmp = kmalloc(i - maskstart + 1, GFP_KERNEL);
++		strncpy(tmp, str + maskstart, i - maskstart);
++		tmp[i - maskstart] = '\0';
++
++		pred->mask = kzalloc(cpumask_size(), GFP_KERNEL);
++		if (!pred->mask)
++			goto err_mem;
++
++		/* Now parse it */
++		if (cpulist_parse(tmp, pred->mask)) {
++			parse_error(pe, FILT_ERR_INVALID_CPULIST, pos + i);
++			goto err_free;
++		}
++
++		/* Move along */
++		i++;
++		if (field->filter_type == FILTER_CPUMASK)
++			pred->fn_num = FILTER_PRED_FN_CPUMASK;
++
+ 	/* This is either a string, or an integer */
+ 	} else if (str[i] == '\'' || str[i] == '"') {
+ 		char q = str[i];
 -- 
-2.21.0
+2.31.1
 
