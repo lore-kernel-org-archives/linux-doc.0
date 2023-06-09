@@ -2,85 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E84D7C7EE25
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 07:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E0E9C7EE2F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 07:47:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238677AbjFIH1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 03:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42580 "EHLO
+        id S239042AbjFIHra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 03:47:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238658AbjFIH1a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 03:27:30 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3657A2D7F
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 00:27:27 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-5689335d2b6so12603377b3.3
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 00:27:27 -0700 (PDT)
+        with ESMTP id S239034AbjFIHr3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 03:47:29 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 985D830D1;
+        Fri,  9 Jun 2023 00:47:21 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f738f579ceso10408685e9.3;
+        Fri, 09 Jun 2023 00:47:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686295646; x=1688887646;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1686296840; x=1688888840;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=79c5wwIkf5JFBuHBe/pz5shE4weHE+6yaH3P5LzlEZA=;
-        b=CDzIQHQESQF3OKQcN2e/Uk5EHv1GuvRpWWO6qmJ28hV2ZWI0oltmfJfsEuVni7JKUj
-         MCdkaTR+qjFMBLDpsbPTxFzbj0w+A1JE/fAuGkUh0K6HjZzUrICNeUSAWaD+wOoNSS+P
-         3FxmA4eW0FCjImvwEvo8l3yBa021DL2+11cFd53jLhmiY8Se/cULYNYoenWkI+RBXecI
-         xmjN5QtEggW/NGkgrUp5NplJ3uOONvUVP14do+mliUULmzE6iUR9pHU+yyrl+xAlcBdM
-         qBrseG0CmciAuLddOaigdFvLesrrEPSFx+PExltJsxIEHZq1Y9lgwGCE3hPUCH9MzndW
-         3jMA==
+        bh=E3GyzALgiAbKVN3scNeYJuUugUOGcxM8aiFsKeh7Wl4=;
+        b=R+uUnQnUw8AxfbwxaV8YiwuF1jLiTqyc3ikoithVKsDf2XRY1Grc2neL5OuPsMvI6k
+         Aut8pa1a2xznKmSJPHM79kd4zTp2KNIeOMqs4W3Wjd8riKCaPnH77NhiEtQmqZG4n3NK
+         KzQ1qM0MzBY+88JxJK+2WDoQZuavecnHTvzKehTsL7N7zPp0/WZ+PvlMw2mQEpcgkbSu
+         yVnxPDfcBhbfvA6vh6cHEdyhrmYkXKbtuup90Sjm/+Kg2+rYjB4OyWcQA/cWvT4GlI4W
+         lLXRzq1YM3cJLPIOnE6j7u0TMrthQANIHCdVbhGvnQ02OS0DGXcr847XvPzB3ilzkzXP
+         udBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686295646; x=1688887646;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1686296840; x=1688888840;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=79c5wwIkf5JFBuHBe/pz5shE4weHE+6yaH3P5LzlEZA=;
-        b=HIC0Ty/4EWHeQHZEqacabdm6+ClbE9UNf6ZrUVa7lvHxYYGffqSD3egsrZ+HhsyOTB
-         DEsgQ2yJogYyxbY1kpbo0HIaKRrq1lnrrZL8ZQREDrkcDfcoPgRNmbwDhtKWUMGfp9mN
-         HCW26RB7flGVFX20PYTa5lY2qPFY+9NOe1eGtlrW1b7GaEVCgC6q7/okANnfeWK3kv8O
-         KlD5guN/uzBr4dntW/19ZUzos1kb7kNJieKa0rilG8IY5W2mab8/4zOFXUg3Fl1TSZXj
-         /nWMEWDdhHgXz85or34nksSrMp9IUU6Haeoi3SJfCvUxc3pYVpiAx2COSVW/+fs+NZqk
-         QRGw==
-X-Gm-Message-State: AC+VfDx97NLXRLLNc9ZQzVq5EI+xtE/qlFpV24WZLbo8C8ZzHvAFZj5L
-        f4y3yMeMk9aSAdI8CRDnKNwu2IJViwIUdBMcxdZlTw==
-X-Google-Smtp-Source: ACHHUZ6V8n51QunpOT9L+GvuKgO/ttKnk5Hb+I0waoIxJieTUrGVZBGkGdL4GRVfFKMIqAUIu0H1FEJhwjKDXkDyqJY=
-X-Received: by 2002:a25:a025:0:b0:b9e:4d05:1f96 with SMTP id
- x34-20020a25a025000000b00b9e4d051f96mr385739ybh.44.1686295646461; Fri, 09 Jun
- 2023 00:27:26 -0700 (PDT)
+        bh=E3GyzALgiAbKVN3scNeYJuUugUOGcxM8aiFsKeh7Wl4=;
+        b=Stx5YS4vcxeyGG3nYfMc5/yubY4PaZ17n+npM9KVk6OWt3QlBYAtP56QwE7PN/9lX1
+         99jvdFG4AXwwWHFfhnYnTHG5Ekxdz1ysxNHOR8X+LHDZ7JkZLj4niBZ65FkZM9ISvaAO
+         liiNbpdLMF/hOIk7b1ANTLtnNNZFbZejwVjh/c6YpDbgIXy58MMC9qvC83Huj/ZKT16F
+         oBsIIaeUP1texsHgTEkZOzhBy0psRUizBbB/y4sRkmiHnVqcu31SGVC4o47Aj/fomw4h
+         twGU8pU1Hg+U5JhGGezwNDsEvgFPhLMAw5Vj3v+6f4bTgXdVSSptBItJejpFBTiU5CfI
+         KuDw==
+X-Gm-Message-State: AC+VfDyRR4oHT8y7UXMA85PwRrgDuvEckdAOopafrVLBK3J9QPiY9yRH
+        uduQnYM0zikti1mCdzX5+fc=
+X-Google-Smtp-Source: ACHHUZ4gwo6kHA7MJ+HM5oTO2Vi7xTZ8RW4693y0tK8OmSBoiP3YJ6/wNOeC+7NfEEjhZUC5Q5wcNg==
+X-Received: by 2002:a05:600c:21c7:b0:3f6:11cb:4926 with SMTP id x7-20020a05600c21c700b003f611cb4926mr288758wmj.22.1686296839703;
+        Fri, 09 Jun 2023 00:47:19 -0700 (PDT)
+Received: from localhost.localdomain (bba-2-50-150-163.alshamil.net.ae. [2.50.150.163])
+        by smtp.gmail.com with ESMTPSA id b10-20020adfe30a000000b00300aee6c9cesm3693602wrj.20.2023.06.09.00.47.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 00:47:19 -0700 (PDT)
+From:   Yongsheng Yang <iyysheng@gmail.com>
+To:     linux@roeck-us.net
+Cc:     bagasdotme@gmail.com, corbet@lwn.net, iyysheng@gmail.com,
+        jdelvare@suse.com, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/hwmon: Fix description of devm_hwmon_device_unregister
+Date:   Fri,  9 Jun 2023 11:47:04 +0400
+Message-ID: <20230609074704.1259-1-iyysheng@gmail.com>
+X-Mailer: git-send-email 2.41.0.windows.1
+In-Reply-To: <e1fcbb8d-c9b3-868e-8053-6ebc33a3e66a@roeck-us.net>
+References: <e1fcbb8d-c9b3-868e-8053-6ebc33a3e66a@roeck-us.net>
 MIME-Version: 1.0
-References: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 9 Jun 2023 09:27:15 +0200
-Message-ID: <CACRpkdYnFHBUt4rwLFqA7LYJRJxJ7e9hEGf_B8oi3rc_+Hc3AA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] gpiolib: Remove unused gpio_cansleep()
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 5, 2023 at 2:54=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+> On 6/8/23 18:31, Bagas Sanjaya wrote:
+> > On Fri, Jun 09, 2023 at 02:42:30AM +0400, YYang wrote:
+> >> From: YYang <iyysheng@gmai.com>
+> >>
+> >> Use devm_hwmon_device_register_with_info to replace
+> >> hwmon_device_register_with_info in description of
+> >> devm_hwmon_device_unregister.
+> >>
+> >> Signed-off-by: YYang <iyysheng@gmai.com>
+> > 
+> > Is your SoB address gmail one (sounds typo here)?
+> > 
+> 
+> Looks like it. YYang - please resubmit with correct SoB.
+> 
+> Thanks,
+> Guenter
 
-> There is not a single user in the entire kernel of this deprecated API,
-> kill it for good.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Sorry for my mistake, I fixed the misspelling. Will post the updated version.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Thanks
 
-Thanks for working on this!
-
-Yours,
-Linus Walleij
+Yongsheng
