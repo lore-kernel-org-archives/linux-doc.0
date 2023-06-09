@@ -2,170 +2,238 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B364C7EE25
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 12:31:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C3DC7EE25
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 12:32:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231351AbjFIMbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 08:31:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41360 "EHLO
+        id S239263AbjFIMcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 08:32:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230423AbjFIMbX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 08:31:23 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C36530CD
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 05:30:48 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4f660e57123so25954e87.3
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 05:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1686313843; x=1688905843;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8h26DQt30aCyEhPT/ooAbXH6FQid93QFBSmTC7V6R+4=;
-        b=A1lJFrFXashPyOVE6TwjfXwLaFl61XNjBlCsCbs7HxXdXlscKu2aQeb9jnMUEWsnFP
-         Gqa4zxdJoUevS4rlfUKzeXGooNKBl4E8McMllHfEube1l2jxq71XlpYKaEuc/AZTzZGU
-         FsJEx0y3rWxOwbP1p8DZ4JU1y29iK9r7H2K4jK3YiLEIbADb92nGDzMy8FKbGTP1EjBu
-         3917iiGGQ3TOwK7VW37L0tpiNLdcO/xRJYaSVn899cvVXqbC0NpJnY27H3fNnzr7Hp3R
-         YkdzhR8Zn3sKS5jyM7PVZnwGzGYfrvHrwJrvRUDWtwkbk8efwrHQ7bTVrSq6sPp2DS0N
-         OEaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686313843; x=1688905843;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8h26DQt30aCyEhPT/ooAbXH6FQid93QFBSmTC7V6R+4=;
-        b=jEF41ZbnqF59Cixsw+81trZNHJUfFPCUCYxFxarjzWUdF7uMpGaKvAEQHY59dgTG3L
-         DD+cNy2Nx9NCyDKjLI0fX4Yth+C+PklYcADTgdBPURXuUej4TBREGr6lVxfDQ2/Z+jvK
-         IxBOJXWffuES1eNhLv0hxjrmEKvUrJUw+yFR4ZPGnwFM7FrOHExNQ/qUP9JkXPmtWzKp
-         w9jdt2+lnCNxQAD3nm2XkPwtE28laD4NgW7gd53ZsDKR6vr0T84I9md3nNvkiDybrkB6
-         c/ex37CBvS2tc/xpb6XXYwRcT7HWdwzyqImi4HI26pBy3nd5zrSjX3CR1nSlsTlhPbpN
-         cIvA==
-X-Gm-Message-State: AC+VfDx8zfOzX9Nc1+LKOAKWQoWa7/lcE5V0REhwVWfydcmWnO+ZD6Jw
-        XTAkTrJS583unYG/d/vG7q/xeCLMYlHXMJvwPfI=
-X-Google-Smtp-Source: ACHHUZ7LLidgDgGdihFdLBcYHtdurgJJ/J4UsIY+yeDDqqFfP2vMmCiYedKW6YkV6nfEzVsYqhM/Ow==
-X-Received: by 2002:ac2:5bd0:0:b0:4f2:40dd:e2cf with SMTP id u16-20020ac25bd0000000b004f240dde2cfmr773184lfn.55.1686313843048;
-        Fri, 09 Jun 2023 05:30:43 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id v26-20020aa7dbda000000b0050cc4461fc5sm1703120edt.92.2023.06.09.05.30.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 05:30:42 -0700 (PDT)
-Date:   Fri, 9 Jun 2023 14:30:41 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Haibo Xu <haibo1.xu@intel.com>
-Cc:     xiaobo55x@gmail.com, maz@kernel.org, oliver.upton@linux.dev,
-        seanjc@google.com, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v3 07/10] KVM: arm64: selftests: Finish generalizing
- get-reg-list
-Message-ID: <20230609-b900162a66c26a004b751b1f@orel>
-References: <cover.1686275310.git.haibo1.xu@intel.com>
- <450cb59db52ebeaa68f3d77f1bd995618f3612b8.1686275310.git.haibo1.xu@intel.com>
+        with ESMTP id S240648AbjFIMcw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 08:32:52 -0400
+Received: from mx2.veeam.com (mx2.veeam.com [64.129.123.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA3713A85;
+        Fri,  9 Jun 2023 05:32:17 -0700 (PDT)
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx2.veeam.com (Postfix) with ESMTPS id 1906141AA3;
+        Fri,  9 Jun 2023 07:52:41 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
+        s=mx2-2022; t=1686311561;
+        bh=krk8hUPrMmB198Ms1g5PyIDtLt0DcV19Jou6f4yAGwg=;
+        h=From:To:CC:Subject:Date:From;
+        b=IYJsg9N8eytz39WLMlcbPEK7OW3PSm2AGMBBVCJJGD1mONe+Zb3UBRqSPU+uPhwNt
+         OBhPHWZGyx3G7CLm4z2WCWIFCcXfw79pW+GA/N8GcHMNF4aTPdpQ9NS0JWOu7USYBl
+         OmQKvJBz+QstQ1cuEDSetc8+A5p2lKjIbwUAKV4xFut9efGMkpRb+jZvPozPwelxV+
+         T3op1xFuVgVdlMVUjt0TCxce/4s64+MjNoA2yG23nlWnr3MBlHvrrIQK6llB4sPrZf
+         GAAXmMbsEIgc3ui7YpZwA9swn2bT+ybsft1d0dNGb3P6Uumhr1YCFAUYOPI7yhU4/W
+         50ki8aOclQMQA==
+Received: from ssh-deb10-ssd-vb.amust.local (172.24.10.107) by
+ prgmbx01.amust.local (172.24.128.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 9 Jun 2023 13:52:39 +0200
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+To:     <axboe@kernel.dk>, <hch@infradead.org>, <corbet@lwn.net>,
+        <snitzer@kernel.org>
+CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+        <willy@infradead.org>, <dlemoal@kernel.org>, <wsa@kernel.org>,
+        <heikki.krogerus@linux.intel.com>, <ming.lei@redhat.com>,
+        <gregkh@linuxfoundation.org>, <linux-block@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <sergei.shtepa@veeam.com>
+Subject: [PATCH v4 00/11] blksnap - block devices snapshots module
+Date:   Fri, 9 Jun 2023 13:51:55 +0200
+Message-ID: <20230609115206.4649-1-sergei.shtepa@veeam.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <450cb59db52ebeaa68f3d77f1bd995618f3612b8.1686275310.git.haibo1.xu@intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.24.10.107]
+X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
+ prgmbx01.amust.local (172.24.128.102)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2924031554627C6B
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 09, 2023 at 10:12:15AM +0800, Haibo Xu wrote:
-> From: Andrew Jones <ajones@ventanamicro.com>
-> 
-> Add some unfortunate #ifdeffery to ensure the common get-reg-list.c
-> can be compiled and run with other architectures. The next
-> architecture to support get-reg-list should now only need to provide
-> $(ARCH_DIR)/get-reg-list.c where arch-specific print_reg() and
-> vcpu_configs[] get defined.
-> 
-> Signed-off-by: Andrew Jones <ajones@ventanamicro.com>
-> Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
-> ---
->  tools/testing/selftests/kvm/get-reg-list.c | 24 ++++++++++++++++++----
->  1 file changed, 20 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing/selftests/kvm/get-reg-list.c
-> index 69bb91087081..c4bd5a5259da 100644
-> --- a/tools/testing/selftests/kvm/get-reg-list.c
-> +++ b/tools/testing/selftests/kvm/get-reg-list.c
-> @@ -98,6 +98,7 @@ void __weak print_reg(const char *prefix, __u64 id)
->  	printf("\t0x%llx,\n", id);
->  }
->  
-> +#ifdef __aarch64__
->  static void prepare_vcpu_init(struct vcpu_reg_list *c, struct kvm_vcpu_init *init)
->  {
->  	struct vcpu_reg_sublist *s;
-> @@ -120,6 +121,24 @@ static void finalize_vcpu(struct kvm_vcpu *vcpu, struct vcpu_reg_list *c)
->  	}
->  }
->  
-> +static struct kvm_vcpu *vcpu_config_get_vcpu(struct vcpu_reg_list *c, struct kvm_vm *vm)
-> +{
-> +	struct kvm_vcpu_init init = { .target = -1, };
-> +	struct kvm_vcpu *vcpu;
-> +
-> +	prepare_vcpu_init(c, &init);
-> +	vcpu = __vm_vcpu_add(vm, 0);
-> +	aarch64_vcpu_setup(vcpu, &init);
-> +
-> +	return vcpu;
-> +}
-> +#else
-> +static struct kvm_vcpu *vcpu_config_get_vcpu(struct vcpu_reg_list *c, struct kvm_vm *vm)
-> +{
-> +	return __vm_vcpu_add(vm, 0);
-> +}
-> +#endif
-> +
->  static void check_supported(struct vcpu_reg_list *c)
->  {
->  	struct vcpu_reg_sublist *s;
-> @@ -139,7 +158,6 @@ static bool print_filtered;
->  
->  static void run_test(struct vcpu_reg_list *c)
->  {
-> -	struct kvm_vcpu_init init = { .target = -1, };
->  	int new_regs = 0, missing_regs = 0, i, n;
->  	int failed_get = 0, failed_set = 0, failed_reject = 0;
->  	struct kvm_vcpu *vcpu;
-> @@ -149,9 +167,7 @@ static void run_test(struct vcpu_reg_list *c)
->  	check_supported(c);
->  
->  	vm = vm_create_barebones();
-> -	prepare_vcpu_init(c, &init);
-> -	vcpu = __vm_vcpu_add(vm, 0);
-> -	aarch64_vcpu_setup(vcpu, &init);
-> +	vcpu = vcpu_config_get_vcpu(c, vm);
->  	finalize_vcpu(vcpu, c);
+Hi all.
 
-I just noticed that this has been modified from what I posted to leave
-the finalize_vcpu() call here, despite it now being inside the #ifdef
-__aarch64__. That breaks the purpose of the patch. Please make sure this
-file compiles for other architectures without requiring additional
-patches, which would keep the commit message honest. You can either
-revert this to what I posted, and then readd the finalize_vcpu() call in
-another patch, or you can add a finalize_vcpu() stub to the #else part
-of the ifdef in this patch.
+I am happy to offer a improved version of the Block Devices Snapshots
+Module. It allows to create non-persistent snapshots of any block devices.
+The main purpose of such snapshots is to provide backups of block devices.
+See more in Documentation/block/blksnap.rst.
 
-Also please don't modify patches authored by others without calling out
-the modifications somewhere, either the commit message or under the ---
-of the patch or in the cover letter.
+The Block Device Filtering Mechanism is added to the block layer. This
+allows to attach and detach block device filters to the block layer.
+Filters allow to extend the functionality of the block layer.
+See more in Documentation/block/blkfilter.rst.
 
-Thanks,
-drew
+The tool, library and tests for working with blksnap can be found on github.
+Link: https://github.com/veeam/blksnap/tree/stable-v2.0
+
+There are few changes in this patch version. The experience of using the
+out-of-tree version of the blksnap module on real servers was taken into
+account.
+
+v4 changes:
+- Structures for describing the state of chunks are allocated dynamically.
+  This reduces memory consumption, since the struct chunk is allocated only
+  for those blocks for which the snapshot image state differs from the
+  original block device.
+- The algorithm for calculating the chunk size depending on the size of the
+  block device has been changed. For large block devices, it is now
+  possible to allocate a larger number of chunks, and their size is smaller.
+- For block devices, a 'filter' file has been added to /sys/block/<device>.
+  It displays the name of the filter that is attached to the block device.
+- Fixed a problem with the lack of protection against re-adding a block
+  device to a snapshot.
+- Fixed a bug in the algorithm of allocating the next bio for a chunk.
+  This problem was accurred on large disks, for which a chunk consists of
+  at least two bio.
+- The ownership mechanism of the diff_area structure has been changed.
+  This fixed the error of prematurely releasing the diff_area structure
+  when destroying the snapshot.
+- Documentation corrected.
+- The Sparse analyzer is passed.
+- Use __u64 type instead pointers in UAPI.
+
+v3 changes:
+- New block device I/O contols BLKFILTER_ATTACH and BLKFILTER_DETACH allow
+  to attach and detach filters.
+- New block device I/O contol BLKFILTER_CTL allow send command to attached
+  block device filter.
+- The copy-on-write algorithm for processing I/O units has been optimized
+  and has become asynchronous.
+- The snapshot image reading algorithm has been optimized and has become
+  asynchronous.
+- Optimized the finite state machine for processing chunks.
+- Fixed a tracking block size calculation bug.
+
+v2 changes:
+- Added documentation for Block Device Filtering Mechanism.
+- Added documentation for Block Devices Snapshots Module (blksnap).
+- The MAINTAINERS file has been updated.
+- Optimized queue code for snapshot images.
+- Fixed comments, log messages and code for better readability.
+
+v1 changes:
+- Forgotten "static" declarations have been added.
+- The text of the comments has been corrected.
+- It is possible to connect only one filter, since there are no others in
+  upstream.
+- Do not have additional locks for attach/detach filter.
+- blksnap.h moved to include/uapi/.
+- #pragma once and commented code removed.
+- uuid_t removed from user API.
+- Removed default values for module parameters from the configuration file.
+- The debugging code for tracking memory leaks has been removed.
+- Simplified Makefile.
+- Optimized work with large memory buffers, CBT tables are now in virtual
+  memory.
+- The allocation code of minor numbers has been optimized.
+- The implementation of the snapshot image block device has been
+  simplified, now it is a bio-based block device.
+- Removed initialization of global variables with null values.
+- only one bio is used to copy one chunk.
+- Checked on ppc64le.
+
+Thanks for preparing v4 patch:
+- Christoph Hellwig <hch@infradead.org> for his significant contribution
+  to the project.
+- Fabio Fantoni <fantonifabio@tiscali.it> for his participation in the
+  project, useful advice and faith in the success of the project.
+- Donald Buczek <buczek@molgen.mpg.de> for researching the module and
+  user-space tool. His fresh look revealed a number of flaw.
+- Bagas Sanjaya <bagasdotme@gmail.com> for comments on the documentation.
+
+Sergei Shtepa (11):
+  documentation: Block Device Filtering Mechanism
+  block: Block Device Filtering Mechanism
+  documentation: Block Devices Snapshots Module
+  blksnap: header file of the module interface
+  blksnap: module management interface functions
+  blksnap: handling and tracking I/O units
+  blksnap: minimum data storage unit of the original block device
+  blksnap: difference storage
+  blksnap: event queue from the difference storage
+  blksnap: snapshot and snapshot image block device
+  blksnap: Kconfig and Makefile
+
+ Documentation/block/blkfilter.rst    |  64 ++++
+ Documentation/block/blksnap.rst      | 345 +++++++++++++++++
+ Documentation/block/index.rst        |   2 +
+ MAINTAINERS                          |  17 +
+ block/Makefile                       |   2 +-
+ block/bdev.c                         |   1 +
+ block/blk-core.c                     |  27 ++
+ block/blk-filter.c                   | 213 ++++++++++
+ block/blk.h                          |  11 +
+ block/genhd.c                        |  10 +
+ block/ioctl.c                        |   7 +
+ block/partitions/core.c              |  10 +
+ drivers/block/Kconfig                |   2 +
+ drivers/block/Makefile               |   2 +
+ drivers/block/blksnap/Kconfig        |  12 +
+ drivers/block/blksnap/Makefile       |  15 +
+ drivers/block/blksnap/cbt_map.c      | 227 +++++++++++
+ drivers/block/blksnap/cbt_map.h      |  90 +++++
+ drivers/block/blksnap/chunk.c        | 454 ++++++++++++++++++++++
+ drivers/block/blksnap/chunk.h        | 114 ++++++
+ drivers/block/blksnap/diff_area.c    | 554 +++++++++++++++++++++++++++
+ drivers/block/blksnap/diff_area.h    | 144 +++++++
+ drivers/block/blksnap/diff_buffer.c  | 127 ++++++
+ drivers/block/blksnap/diff_buffer.h  |  37 ++
+ drivers/block/blksnap/diff_storage.c | 315 +++++++++++++++
+ drivers/block/blksnap/diff_storage.h | 111 ++++++
+ drivers/block/blksnap/event_queue.c  |  87 +++++
+ drivers/block/blksnap/event_queue.h  |  65 ++++
+ drivers/block/blksnap/main.c         | 483 +++++++++++++++++++++++
+ drivers/block/blksnap/params.h       |  16 +
+ drivers/block/blksnap/snapimage.c    | 124 ++++++
+ drivers/block/blksnap/snapimage.h    |  10 +
+ drivers/block/blksnap/snapshot.c     | 443 +++++++++++++++++++++
+ drivers/block/blksnap/snapshot.h     |  68 ++++
+ drivers/block/blksnap/tracker.c      | 339 ++++++++++++++++
+ drivers/block/blksnap/tracker.h      |  75 ++++
+ include/linux/blk-filter.h           |  51 +++
+ include/linux/blk_types.h            |   2 +
+ include/linux/blkdev.h               |   1 +
+ include/uapi/linux/blk-filter.h      |  35 ++
+ include/uapi/linux/blksnap.h         | 421 ++++++++++++++++++++
+ include/uapi/linux/fs.h              |   3 +
+ 42 files changed, 5135 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/block/blkfilter.rst
+ create mode 100644 Documentation/block/blksnap.rst
+ create mode 100644 block/blk-filter.c
+ create mode 100644 drivers/block/blksnap/Kconfig
+ create mode 100644 drivers/block/blksnap/Makefile
+ create mode 100644 drivers/block/blksnap/cbt_map.c
+ create mode 100644 drivers/block/blksnap/cbt_map.h
+ create mode 100644 drivers/block/blksnap/chunk.c
+ create mode 100644 drivers/block/blksnap/chunk.h
+ create mode 100644 drivers/block/blksnap/diff_area.c
+ create mode 100644 drivers/block/blksnap/diff_area.h
+ create mode 100644 drivers/block/blksnap/diff_buffer.c
+ create mode 100644 drivers/block/blksnap/diff_buffer.h
+ create mode 100644 drivers/block/blksnap/diff_storage.c
+ create mode 100644 drivers/block/blksnap/diff_storage.h
+ create mode 100644 drivers/block/blksnap/event_queue.c
+ create mode 100644 drivers/block/blksnap/event_queue.h
+ create mode 100644 drivers/block/blksnap/main.c
+ create mode 100644 drivers/block/blksnap/params.h
+ create mode 100644 drivers/block/blksnap/snapimage.c
+ create mode 100644 drivers/block/blksnap/snapimage.h
+ create mode 100644 drivers/block/blksnap/snapshot.c
+ create mode 100644 drivers/block/blksnap/snapshot.h
+ create mode 100644 drivers/block/blksnap/tracker.c
+ create mode 100644 drivers/block/blksnap/tracker.h
+ create mode 100644 include/linux/blk-filter.h
+ create mode 100644 include/uapi/linux/blk-filter.h
+ create mode 100644 include/uapi/linux/blksnap.h
+
+--
+2.20.1
+
