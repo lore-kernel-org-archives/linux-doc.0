@@ -2,93 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D31C7EE43
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 13:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA2BBC7EE43
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 13:44:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231172AbjFINol (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 09:44:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54694 "EHLO
+        id S237994AbjFINoo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 09:44:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjFINok (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 09:44:40 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDE030E4;
-        Fri,  9 Jun 2023 06:44:39 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-652a6cf1918so1508543b3a.1;
-        Fri, 09 Jun 2023 06:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686318279; x=1688910279;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pvl1ODfYpXdx5tiAQ2WeY28wbqmcjr4dGt9a9iD0Qkc=;
-        b=RqLUiqe3bKvGMoQWoC9hgzNFXKbZgVj5odcAej97eabKbRmt+tz2anHGDAk8bfz+vH
-         /EdWl9n43tr9OkVKFZhyb8hrp9y0QXJDsHXIvlf8wFZv8Ta0ndCEKe3dc8KhR8nw3ayq
-         Z+VpAVGflI5TnnKLR5TwzujcSl192nvfvwtM7/w6rFErnXTk7tZzDeeA2rxIijcal4Cs
-         VU6CGK5rwDZxGQ7xlSHC/E49eM0kiZLK762eo2qfY+xJ4H2GGWcKMuRU7gHlPPRtHh02
-         fqG6dtOb/MI5ibyJzf1GAXiu9KPeBamu1lboul6ICMdnE0reLhVyhm8ZuxbLUBDIjMJK
-         SARQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686318279; x=1688910279;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pvl1ODfYpXdx5tiAQ2WeY28wbqmcjr4dGt9a9iD0Qkc=;
-        b=CpxVihmCbL96cS0vfslHoys86tfxvGEDRNu82BjaUnANoP2CohjGdvweMwfqYRz8rc
-         m0zNKyI/fzRmgWmFjzSrxHAYXkKKS/nn1qf+SNnV+1WBVo0kEY1JYcpZt3qRxR/my/RI
-         wX/xmvNpObJirdsAzewHRffCdrtOglcCT9GFxDy9T3Z2FFcPkjnMAnE5GsMz/L7D7wKd
-         jto3fM2FdNYAGR/2y5oXmA4IXXHno9wL3kX63xQbm4xYPceE16mgXxkwQtglu0/0a05P
-         Rvy0rN8zf1uAfFw9KiS+jRuDgLzY5hwaR1etPZ3CA+YSbH9qrgpSgMZZ/PPDM5j56rgl
-         u4aQ==
-X-Gm-Message-State: AC+VfDya4phKjPfzs7DtBfcknXDQ4+iM4t1gZgw/jAMDTdozzJwyEgaC
-        1MacTIqIgcxUbObVamFqYKU=
-X-Google-Smtp-Source: ACHHUZ5riBRDaiPf46nnW5WFnf6pFsL8GqhhPnOabQB9l8wewVAzCQqFkI4KTsewTCuT0ULe3sl7eQ==
-X-Received: by 2002:a17:902:7c94:b0:1b0:4b65:7a10 with SMTP id y20-20020a1709027c9400b001b04b657a10mr983932pll.53.1686318279053;
-        Fri, 09 Jun 2023 06:44:39 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-68.three.co.id. [180.214.232.68])
-        by smtp.gmail.com with ESMTPSA id h13-20020a170902f7cd00b001b0034557afsm3310111plw.15.2023.06.09.06.44.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jun 2023 06:44:38 -0700 (PDT)
-Message-ID: <88c195a1-21ee-2b9c-3606-8c3928e3dff2@gmail.com>
-Date:   Fri, 9 Jun 2023 20:44:34 +0700
+        with ESMTP id S232169AbjFINon (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 09:44:43 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9868630E4
+        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 06:44:41 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:a1e2:1b31:cba3:390d])
+        by baptiste.telenet-ops.be with bizsmtp
+        id 71kZ2A00512zQ4r011kZdr; Fri, 09 Jun 2023 15:44:39 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q7cPS-008La7-38;
+        Fri, 09 Jun 2023 15:44:33 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q7cPp-00GCTT-43;
+        Fri, 09 Jun 2023 15:44:33 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 2/4] drm/todo: Convert list of fbconv links to footnotes
+Date:   Fri,  9 Jun 2023 15:44:28 +0200
+Message-Id: <be8d2886f50485c86f74a3c1a117abb1b8718a07.1686318012.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1686318012.git.geert+renesas@glider.be>
+References: <cover.1686318012.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2] Documentation/hwmon: Fix description of
- devm_hwmon_device_unregister()
-To:     Yongsheng Yang <iyysheng@gmail.com>, jdelvare@suse.com,
-        linux@roeck-us.net, corbet@lwn.net
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230609075510.1305-1-iyysheng@gmail.com>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230609075510.1305-1-iyysheng@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/9/23 14:55, Yongsheng Yang wrote:
-> diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
-> index c2d1e0299d8d..6cacf7daf25c 100644
-> --- a/Documentation/hwmon/hwmon-kernel-api.rst
-> +++ b/Documentation/hwmon/hwmon-kernel-api.rst
-> @@ -66,7 +66,7 @@ hwmon_device_register_with_info.
->  
->  devm_hwmon_device_unregister does not normally have to be called. It is only
->  needed for error handling, and only needed if the driver probe fails after
-> -the call to hwmon_device_register_with_info and if the automatic (device
-> +the call to devm_hwmon_device_register_with_info and if the automatic (device
->  managed) removal would be too late.
->  
->  All supported hwmon device registration functions only accept valid device
+Convert the references to fbconv links to footnotes, so they can be
+navigated.
 
-LGTM, thanks!
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v2:
+  - New.
+---
+ Documentation/gpu/todo.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 6c328613c049fc1d..ce1d4e22c327063b 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -753,16 +753,16 @@ existing hardware. The new driver's call-back functions are filled from
+ existing fbdev code.
+ 
+ More complex fbdev drivers can be refactored step-by-step into a DRM
+-driver with the help of the DRM fbconv helpers. [1] These helpers provide
++driver with the help of the DRM fbconv helpers [4]_. These helpers provide
+ the transition layer between the DRM core infrastructure and the fbdev
+ driver interface. Create a new DRM driver on top of the fbconv helpers,
+ copy over the fbdev driver, and hook it up to the DRM code. Examples for
+-several fbdev drivers are available at [1] and a tutorial of this process
+-available at [2]. The result is a primitive DRM driver that can run X11
++several fbdev drivers are available at [4]_ and a tutorial of this process
++available at [5]_. The result is a primitive DRM driver that can run X11
+ and Weston.
+ 
+- - [1] https://gitlab.freedesktop.org/tzimmermann/linux/tree/fbconv
+- - [2] https://gitlab.freedesktop.org/tzimmermann/linux/blob/fbconv/drivers/gpu/drm/drm_fbconv_helper.c
++ .. [4] https://gitlab.freedesktop.org/tzimmermann/linux/tree/fbconv
++ .. [5] https://gitlab.freedesktop.org/tzimmermann/linux/blob/fbconv/drivers/gpu/drm/drm_fbconv_helper.c
+ 
+ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+ 
 -- 
-An old man doll... just what I always wanted! - Clara
+2.34.1
 
