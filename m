@@ -2,169 +2,159 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3881FC7EE37
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 20:00:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 689BBC7EE43
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 21:12:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229615AbjFIUAe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 16:00:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52270 "EHLO
+        id S230384AbjFIVMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 17:12:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjFIUAd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 16:00:33 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEA44210D;
-        Fri,  9 Jun 2023 13:00:31 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 359JXQDX023055;
-        Fri, 9 Jun 2023 20:00:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=hNSFKWryMT4l8OSN2viRKRuPpy4F59qui6oi84nwnZc=;
- b=hocPd0owKosziZRgIVGQxfUiVGYcXC6of1dJfsZlC2pQ6apE8NpgSbQs7qCkp83+DC1U
- 0aKFDpCNrP2bdplAOCy87PAmtLaV/mw89V7a1LrzDRtD2O4i/TCxFx3CTZoR4ikGR/r2
- IIx2teYx1jNEYGfPWcV3KUiGp2H8oGYKq2UIYupOqwjs9XKq0bsP/E1YByO21atZW1qu
- rrgJcAxTdVr+RCNSM4i+E48ffL3EDqLABzutGIKBXSJn0aFEPEE9o2kqFgOZfMDDN6/+
- pEeohxxG8DlH38JDoxK8QvgGlPInFJUukWQdVEi2WS5QMRfwwze75cjxly1XnC4TNb7g Bg== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r3vu4hstr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 09 Jun 2023 20:00:18 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 359K0Hql030988
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 9 Jun 2023 20:00:17 GMT
-Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 9 Jun 2023
- 13:00:16 -0700
-Message-ID: <5a026df6-05d2-42ef-21dd-e0f70071fc90@quicinc.com>
-Date:   Fri, 9 Jun 2023 13:00:16 -0700
+        with ESMTP id S229517AbjFIVMd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 17:12:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9913035A2;
+        Fri,  9 Jun 2023 14:12:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 36BE260F4D;
+        Fri,  9 Jun 2023 21:12:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C035C433EF;
+        Fri,  9 Jun 2023 21:12:29 +0000 (UTC)
+Date:   Fri, 9 Jun 2023 17:12:27 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Alan Maguire <alan.maguire@oracle.com>
+Cc:     mhiramat@kernel.org, corbet@lwn.net, shuah@kernel.org,
+        linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 tracing 3/6] tracing: support IPv6 filter predicates
+Message-ID: <20230609171227.56dc45b6@gandalf.local.home>
+In-Reply-To: <1682696089-27937-4-git-send-email-alan.maguire@oracle.com>
+References: <1682696089-27937-1-git-send-email-alan.maguire@oracle.com>
+        <1682696089-27937-4-git-send-email-alan.maguire@oracle.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v13 16/24] virt: gunyah: Translate gh_rm_hyp_resource into
- gunyah_resource
-Content-Language: en-US
-To:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-17-quic_eberman@quicinc.com>
- <91d52a40-98c5-3d79-79af-7a21b41acfc4@linaro.org>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <91d52a40-98c5-3d79-79af-7a21b41acfc4@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: -Fe6BvKa1-udwQSoo5shOSKtZwc-7S-E
-X-Proofpoint-ORIG-GUID: -Fe6BvKa1-udwQSoo5shOSKtZwc-7S-E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-09_14,2023-06-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=978
- lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1015
- suspectscore=0 spamscore=0 mlxscore=0 adultscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306090167
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+BTW, the subjects for the tracing subsystem should always start with a
+capital letter.
 
-On 6/5/2023 12:49 PM, Alex Elder wrote:
-> On 5/9/23 3:47 PM, Elliot Berman wrote:
->> When booting a Gunyah virtual machine, the host VM may gain capabilities
->> to interact with resources for the guest virtual machine. Examples of
->> such resources are vCPUs or message queues. To use those resources, we
->> need to translate the RM response into a gunyah_resource structure which
->> are useful to Linux drivers. Presently, Linux drivers need only to know
->> the type of resource, the capability ID, and an interrupt.
->>
->> On ARM64 systems, the interrupt reported by Gunyah is the GIC interrupt
->> ID number and always a SPI.
->>
->> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+  "tracing: Support IPv6 filter predicates"
+
+But that's not why I'm replying here.
+
+On Fri, 28 Apr 2023 16:34:46 +0100
+Alan Maguire <alan.maguire@oracle.com> wrote:
+
+> Support '==' and '!=' predicates for IPv6 addresses;
+> for example
 > 
-> Please zero the automatic variable in the place I suggest it.
-> I have two other comments/questions.  Otherwise, this looks good.
+>  cd /sys/kernel/debug/tracing/events/tcp/tcp_receive_reset
+>  echo "saddr_v6 == ::1" > filter
 > 
-> Reviewed-by: Alex Elder <elder@linaro.org>
+>  or equivalently
 > 
->> ---
-
-...
-
->> +struct gh_resource *gh_rm_alloc_resource(struct gh_rm *rm, struct 
->> gh_rm_hyp_resource *hyp_resource)
->> +{
->> +    struct gh_resource *ghrsc;
->> +    int ret;
->> +
->> +    ghrsc = kzalloc(sizeof(*ghrsc), GFP_KERNEL);
->> +    if (!ghrsc)
->> +        return NULL;
->> +
->> +    ghrsc->type = hyp_resource->type;
->> +    ghrsc->capid = le64_to_cpu(hyp_resource->cap_id);
->> +    ghrsc->irq = IRQ_NOTCONNECTED;
->> +    ghrsc->rm_label = le32_to_cpu(hyp_resource->resource_label);
->> +    if (hyp_resource->virq) {
->> +        struct gh_irq_chip_data irq_data = {
->> +            .gh_virq = le32_to_cpu(hyp_resource->virq),
->> +        };
->> +
->> +        ret = irq_domain_alloc_irqs(rm->irq_domain, 1, NUMA_NO_NODE, 
->> &irq_data);
->> +        if (ret < 0) {
->> +            dev_err(rm->dev,
->> +                "Failed to allocate interrupt for resource %d label: 
->> %d: %d\n",
->> +                ghrsc->type, ghrsc->rm_label, ghrsc->irq);
+>  echo "saddr_v6 == 0:0:0:0:0:0:0:1" > filter
 > 
-> Is it reasonable to return in this case without indicating to the
-> caller that something is wrong?
+> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> ---
+>  kernel/trace/trace_events_filter.c | 73 ++++++++++++++++++++++++++++++
+>  1 file changed, 73 insertions(+)
 > 
+> diff --git a/kernel/trace/trace_events_filter.c b/kernel/trace/trace_events_filter.c
+> index d8e08d3c3594..e2521574f3c4 100644
+> --- a/kernel/trace/trace_events_filter.c
+> +++ b/kernel/trace/trace_events_filter.c
+> @@ -1665,6 +1665,79 @@ static int parse_pred(const char *str, void *data,
+>  		if (pred->op == OP_NE)
+>  			pred->not = 1;
+>  
+> +	} else if (field->size == 16 &&
+> +		   (str[i] == ':' ||
+> +		    (isalnum(str[i]) && tolower(str[i + 1]) != 'x'))) {
+> +		u8 j, gap_size, gap = 0, gap_count = 0, index = 0;
+> +		u16 tmp_v6addr[8] = {};
+> +		u16 v6addr[8] = {};
+> +
+> +		/* For IPv6 addresses, only '==' or '!=' are supported. */
+> +		if (pred->op != OP_EQ && pred->op != OP_NE) {
+> +			parse_error(pe, FILT_ERR_ILLEGAL_FIELD_OP, pos + i);
+> +			goto err_free;
+> +		}
+> +		/* Store the u16s in the address string consecutively in
+> +		 * tmp_v6addr while tracking the presence of a "::" (if any)
+> +		 * in the IPv6 address string; we will use its location
+> +		 * to determine how many u16s it represents (the gap_size
+> +		 * below).  Only one "::" is allowed in an IPv6 address
+> +		 * string.
+> +		 */
+> +		while (isalnum(str[i]) || str[i] == ':') {
+> +			switch (str[i]) {
+> +			case ':':
+> +				i++;
+> +				/* mark "::" index by setting gap */
+> +				if (str[i] == ':') {
+> +					gap = index;
+> +					gap_count++;
+> +					i++;
+> +				}
+> +				if (gap_count > 1) {
+> +					parse_error(pe, FILT_ERR_ILLEGAL_FIELD_OP,
+> +						    pos + s);
+> +					goto err_free;
+> +				}
+> +				break;
+> +			default:
+> +				if (sscanf(&str[i], "%hx", &tmp_v6addr[index]) != 1) {
+> +					parse_error(pe, FILT_ERR_ILLEGAL_FIELD_OP,
+> +						    pos + s);
+> +					goto err_free;
+> +				}
+> +				index++;
+> +				while (isalnum(str[i]))
+> +					i++;
+> +				break;
+> +			}
+> +		}
 
-I wasn't sure what to do here since this is unexpected edge case. Not 
-returning would cause a client's "request_irq" to fail down the line if 
-the client was interested in the irq. I had picked not to return since 
-this error doesn't put us in an unrecoverable state. No one currently 
-wants to try to recover from that error, so I'm really just deferring 
-the real error handling until later.
+There appears to be no limit to the above loop. I panic'd my machine with:
 
-I can return ret here.
+ # echo 'saddr_v6 == 0123:4567:89ab:cdef:0123:4567:89ab:cdef:0123:4567:89ab:cdef:0123:4567:89ab:cdef:0123:4567:89ab:cdef:0123:4567:89ab:cdef:0123:4567:89ab:cdef:0123:4567:89ab:cdef' > /sys/kernel/tracing/events/sock/inet_sk_error_report/filter
 
->> +        } else {
->> +            ghrsc->irq = ret;
->> +        }
->> +    }
->> +
->> +    return ghrsc;
+-- Steve
 
-...
+> +		/* The gap_size here represents the number of u16s the "::"
+> +		 * represents; for ::1 the gap size is 7, for feed::face
+> +		 * it is 6, etc.
+> +		 */
+> +		gap_size = 8 - index;
+> +		index = 0;
+> +		for (j = 0; j < 8; ) {
+> +			if (gap_size > 0 && j == gap) {
+> +				j += gap_size;
+> +			} else {
+> +#ifdef __BIG_ENDIAN
+> +				v6addr[j++] = tmp_v6addr[index];
+> +#else
+> +				v6addr[j++] = ((tmp_v6addr[index] & 0xff) << 8) +
+> +					      ((tmp_v6addr[index] & 0xff00) >> 8);
+> +#endif
+> +				index++;
+> +			}
+> +		}
+> +		pred_val = kzalloc(field->size, GFP_KERNEL);
+> +		memcpy(pred_val, v6addr, field->size);
+> +		pred->val = (u64)pred_val;
+> +		pred->fn_num = FILTER_PRED_FN_MEMCMP;
+> +		if (pred->op == OP_NE)
+> +			pred->not = 1;
+> +
+>  	} else if (str[i] == '0' && tolower(str[i + 1]) == 'x' &&
+>  		   field->size > 8) {
+>  		/* For sizes > 8 bytes, we store hex bytes for comparison;
+
