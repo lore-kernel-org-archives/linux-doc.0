@@ -2,310 +2,169 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63D86C7EE37
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 19:54:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3881FC7EE37
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 20:00:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231650AbjFITyM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 15:54:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50862 "EHLO
+        id S229615AbjFIUAe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 16:00:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231675AbjFITyG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 15:54:06 -0400
-Received: from smtp-fw-9105.amazon.com (smtp-fw-9105.amazon.com [207.171.188.204])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FCB83AA6;
-        Fri,  9 Jun 2023 12:54:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1686340441; x=1717876441;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=L8AJYXTOF2/4YdwafM0nj79mMZyRJRuD9KvtxPd4yGw=;
-  b=SUpga5AjHAN33rob5sz5oxL1kzlXXwAbCdPde+OiGaPKqNcyEP/AfxTl
-   B/pqp3qj/wLvtTPmGsBTJwZ9MYA8y3CfRV4JUVobmVpyhtVIS2c14xote
-   LBYDrxrCNeSQgf14jaA15fjhAxEufeqwGWYOY0GyxBzsqBGJg9dIwmbth
-   g=;
-X-IronPort-AV: E=Sophos;i="6.00,230,1681171200"; 
-   d="scan'208";a="654069006"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-pdx-2b-m6i4x-f323d91c.us-west-2.amazon.com) ([10.25.36.214])
-  by smtp-border-fw-9105.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 19:53:55 +0000
-Received: from EX19MTAUWB002.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-pdx-2b-m6i4x-f323d91c.us-west-2.amazon.com (Postfix) with ESMTPS id DDAD740DDB;
-        Fri,  9 Jun 2023 19:53:53 +0000 (UTC)
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 9 Jun 2023 19:53:52 +0000
-Received: from 88665a182662.ant.amazon.com (10.106.101.20) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 9 Jun 2023 19:53:47 +0000
-From:   Kuniyuki Iwashima <kuniyu@amazon.com>
-To:     <haiyangz@microsoft.com>
-CC:     <ncardwell@google.com>, <atenart@kernel.org>,
-        <bagasdotme@gmail.com>, <corbet@lwn.net>, <davem@davemloft.net>,
-        <dsahern@kernel.org>, <edumazet@google.com>, <kuba@kernel.org>,
-        <kuniyu@amazon.com>, <kys@microsoft.com>,
-        <linux-doc@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <liushixin2@huawei.com>,
-        <maheshb@google.com>, <netdev@vger.kernel.org>, <olaf@aepfle.de>,
-        <pabeni@redhat.com>, <simon.horman@corigine.com>,
-        <soheil@google.com>, <stephen@networkplumber.org>,
-        <tim.gardner@canonical.com>, <vkuznets@redhat.com>,
-        <weiwan@google.com>, <ycheng@google.com>, <ykaliuta@redhat.com>
-Subject: Re: [PATCH net-next] tcp: Make pingpong threshold tunable
-Date:   Fri, 9 Jun 2023 12:53:38 -0700
-Message-ID: <20230609195338.27299-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <CADVnQykbSQTrNtpFm8YVgGY929mmzY2zSQ2-KxGmNthYyR9GLg@mail.gmail.com>
-References: <CADVnQykbSQTrNtpFm8YVgGY929mmzY2zSQ2-KxGmNthYyR9GLg@mail.gmail.com>
+        with ESMTP id S229541AbjFIUAd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 16:00:33 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEA44210D;
+        Fri,  9 Jun 2023 13:00:31 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 359JXQDX023055;
+        Fri, 9 Jun 2023 20:00:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=hNSFKWryMT4l8OSN2viRKRuPpy4F59qui6oi84nwnZc=;
+ b=hocPd0owKosziZRgIVGQxfUiVGYcXC6of1dJfsZlC2pQ6apE8NpgSbQs7qCkp83+DC1U
+ 0aKFDpCNrP2bdplAOCy87PAmtLaV/mw89V7a1LrzDRtD2O4i/TCxFx3CTZoR4ikGR/r2
+ IIx2teYx1jNEYGfPWcV3KUiGp2H8oGYKq2UIYupOqwjs9XKq0bsP/E1YByO21atZW1qu
+ rrgJcAxTdVr+RCNSM4i+E48ffL3EDqLABzutGIKBXSJn0aFEPEE9o2kqFgOZfMDDN6/+
+ pEeohxxG8DlH38JDoxK8QvgGlPInFJUukWQdVEi2WS5QMRfwwze75cjxly1XnC4TNb7g Bg== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r3vu4hstr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 09 Jun 2023 20:00:18 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 359K0Hql030988
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 9 Jun 2023 20:00:17 GMT
+Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 9 Jun 2023
+ 13:00:16 -0700
+Message-ID: <5a026df6-05d2-42ef-21dd-e0f70071fc90@quicinc.com>
+Date:   Fri, 9 Jun 2023 13:00:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v13 16/24] virt: gunyah: Translate gh_rm_hyp_resource into
+ gunyah_resource
+Content-Language: en-US
+To:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+ <20230509204801.2824351-17-quic_eberman@quicinc.com>
+ <91d52a40-98c5-3d79-79af-7a21b41acfc4@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <91d52a40-98c5-3d79-79af-7a21b41acfc4@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.106.101.20]
-X-ClientProxiedBy: EX19D032UWB003.ant.amazon.com (10.13.139.165) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: -Fe6BvKa1-udwQSoo5shOSKtZwc-7S-E
+X-Proofpoint-ORIG-GUID: -Fe6BvKa1-udwQSoo5shOSKtZwc-7S-E
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-09_14,2023-06-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=978
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ suspectscore=0 spamscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306090167
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Neal Cardwell <ncardwell@google.com>
-Date: Fri, 9 Jun 2023 15:16:00 -0400
-> On Fri, Jun 9, 2023 at 12:26 PM Haiyang Zhang <haiyangz@microsoft.com> wrote:
-> 
-> Regarding the patch title:
-> > [PATCH net-next] tcp: Make pingpong threshold tunable
-> 
-> There are many ways to make something tunable these days, including
-> BPF, setsockopt(), and sysctl. :-) This patch only uses sysctl. Please
-> consider a more clear/specific title, like:
-> 
->    [PATCH net-next] tcp: set pingpong threshold via sysctl
-> 
-> > TCP pingpong threshold is 1 by default. But some applications, like SQL DB
-> > may prefer a higher pingpong threshold to activate delayed acks in quick
-> > ack mode for better performance.
-> >
-> > The pingpong threshold and related code were changed to 3 in the year
-> > 2019, and reverted to 1 in the year 2022.
-> 
-> Please include the specific commit, like:
-> 
-> The pingpong threshold and related code were changed to 3 in the year
->  2019 in:
->    commit 4a41f453bedf ("tcp: change pingpong threshold to 3")
-> and reverted to 1 in the year 2022 in:
->   commit 4d8f24eeedc5 ("Revert "tcp: change pingpong threshold to 3"")
-> 
-> Then please make sure to use scripts/checkpatch.pl on your resulting
-> patch to check the formatting of the commit references, among other
-> things.
-> 
-> > There is no single value that
-> > fits all applications.
-> >
-> > Add net.core.tcp_pingpong_thresh sysctl tunable,
-> 
-> For consistency, TCP sysctls should be in net.ipv4 rather than
-> net.core. Yes, that is awkward, given IPv6 support. But consistency is
-> very important here. :-)
-> 
-> > so it can be tuned for
-> > optimal performance based on the application needs.
-> >
-> > Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
-> > ---
-> >  Documentation/admin-guide/sysctl/net.rst |  8 ++++++++
-> >  include/net/inet_connection_sock.h       | 14 +++++++++++---
-> >  net/core/sysctl_net_core.c               |  9 +++++++++
-> >  net/ipv4/tcp.c                           |  2 ++
-> >  net/ipv4/tcp_output.c                    | 17 +++++++++++++++--
-> >  5 files changed, 45 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> > index 4877563241f3..16f54be9461f 100644
-> > --- a/Documentation/admin-guide/sysctl/net.rst
-> > +++ b/Documentation/admin-guide/sysctl/net.rst
-> > @@ -413,6 +413,14 @@ historical importance.
-> >
-> >  Default: 0
-> >
-> > +tcp_pingpong_thresh
-> > +-------------------
-> > +
-> > +TCP pingpong threshold is 1 by default, but some application may need a higher
-> > +threshold for optimal performance.
-> > +
-> > +Default: 1, min: 1, max: 3
-> 
-> If we want to make this tunable, it seems sad to make the max 3. I'd
-> suggest making the max 255, since we have 8 bits of space anyway in
-> the inet_csk(sk)->icsk_ack.pingpong field.
-> 
-> > +
-> >  2. /proc/sys/net/unix - Parameters for Unix domain sockets
-> >  ----------------------------------------------------------
-> >
-> > diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
-> > index c2b15f7e5516..e84e33ddae49 100644
-> > --- a/include/net/inet_connection_sock.h
-> > +++ b/include/net/inet_connection_sock.h
-> > @@ -324,11 +324,11 @@ void inet_csk_update_fastreuse(struct inet_bind_bucket *tb,
-> >
-> >  struct dst_entry *inet_csk_update_pmtu(struct sock *sk, u32 mtu);
-> >
-> > -#define TCP_PINGPONG_THRESH    1
-> > +extern int tcp_pingpong_thresh;
-> 
-> To match most TCP sysctls, this should be per-namespace, rather than global.
-
-Also, please change int to u8.
 
 
+On 6/5/2023 12:49 PM, Alex Elder wrote:
+> On 5/9/23 3:47 PM, Elliot Berman wrote:
+>> When booting a Gunyah virtual machine, the host VM may gain capabilities
+>> to interact with resources for the guest virtual machine. Examples of
+>> such resources are vCPUs or message queues. To use those resources, we
+>> need to translate the RM response into a gunyah_resource structure which
+>> are useful to Linux drivers. Presently, Linux drivers need only to know
+>> the type of resource, the capability ID, and an interrupt.
+>>
+>> On ARM64 systems, the interrupt reported by Gunyah is the GIC interrupt
+>> ID number and always a SPI.
+>>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > 
-> Please follow a recent example by Eric, perhaps:
->  65466904b015f6eeb9225b51aeb29b01a1d4b59c
->   tcp: adjust TSO packet sizes based on min_rtt
+> Please zero the automatic variable in the place I suggest it.
+> I have two other comments/questions.  Otherwise, this looks good.
 > 
+> Reviewed-by: Alex Elder <elder@linaro.org>
 > 
-> >
-> >  static inline void inet_csk_enter_pingpong_mode(struct sock *sk)
-> >  {
-> > -       inet_csk(sk)->icsk_ack.pingpong = TCP_PINGPONG_THRESH;
-> > +       inet_csk(sk)->icsk_ack.pingpong = tcp_pingpong_thresh;
-> >  }
-> 
->   inet_csk(sk)->icsk_ack.pingpong =  sock_net(sk)->sysctl_tcp_pingpong_thresh;
+>> ---
 
-Let's use READ_ONCE(sock_net(sk)->sysctl_tcp_pingpong_thresh).
-Same for other sysctl reads.
+...
 
+>> +struct gh_resource *gh_rm_alloc_resource(struct gh_rm *rm, struct 
+>> gh_rm_hyp_resource *hyp_resource)
+>> +{
+>> +    struct gh_resource *ghrsc;
+>> +    int ret;
+>> +
+>> +    ghrsc = kzalloc(sizeof(*ghrsc), GFP_KERNEL);
+>> +    if (!ghrsc)
+>> +        return NULL;
+>> +
+>> +    ghrsc->type = hyp_resource->type;
+>> +    ghrsc->capid = le64_to_cpu(hyp_resource->cap_id);
+>> +    ghrsc->irq = IRQ_NOTCONNECTED;
+>> +    ghrsc->rm_label = le32_to_cpu(hyp_resource->resource_label);
+>> +    if (hyp_resource->virq) {
+>> +        struct gh_irq_chip_data irq_data = {
+>> +            .gh_virq = le32_to_cpu(hyp_resource->virq),
+>> +        };
+>> +
+>> +        ret = irq_domain_alloc_irqs(rm->irq_domain, 1, NUMA_NO_NODE, 
+>> &irq_data);
+>> +        if (ret < 0) {
+>> +            dev_err(rm->dev,
+>> +                "Failed to allocate interrupt for resource %d label: 
+>> %d: %d\n",
+>> +                ghrsc->type, ghrsc->rm_label, ghrsc->irq);
+> 
+> Is it reasonable to return in this case without indicating to the
+> caller that something is wrong?
+> 
 
-> 
-> >  static inline void inet_csk_exit_pingpong_mode(struct sock *sk)
-> > @@ -338,7 +338,15 @@ static inline void inet_csk_exit_pingpong_mode(struct sock *sk)
-> >
-> >  static inline bool inet_csk_in_pingpong_mode(struct sock *sk)
-> >  {
-> > -       return inet_csk(sk)->icsk_ack.pingpong >= TCP_PINGPONG_THRESH;
-> > +       return inet_csk(sk)->icsk_ack.pingpong >= tcp_pingpong_thresh;
-> > +}
-> 
-> Again, sock_net(sk)->sysctl_tcp_pingpong_thresh rather than tcp_pingpong_thresh.
-> 
-> > +static inline void inet_csk_inc_pingpong_cnt(struct sock *sk)
-> > +{
-> > +       struct inet_connection_sock *icsk = inet_csk(sk);
-> > +
-> > +       if (icsk->icsk_ack.pingpong < U8_MAX)
-> > +               icsk->icsk_ack.pingpong++;
-> >  }
-> >
-> >  static inline bool inet_csk_has_ulp(struct sock *sk)
-> > diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
-> > index 782273bb93c2..b5253567f2bd 100644
-> > --- a/net/core/sysctl_net_core.c
-> > +++ b/net/core/sysctl_net_core.c
-> > @@ -653,6 +653,15 @@ static struct ctl_table net_core_table[] = {
-> 
-> Again, in net.ipv4, not net.core.
-> 
-> >                 .proc_handler   = proc_dointvec_minmax,
-> >                 .extra1         = SYSCTL_ZERO,
-> >         },
-> > +       {
-> > +               .procname       = "tcp_pingpong_thresh",
-> > +               .data           = &tcp_pingpong_thresh,
-> > +               .maxlen         = sizeof(int),
-> > +               .mode           = 0644,
-> > +               .proc_handler   = proc_dointvec_minmax,
-> > +               .extra1         = SYSCTL_ONE,
-> > +               .extra2         = SYSCTL_THREE,
-> 
-> Please make the max U8_MAX to allow more flexibility (since we have 8
-> bits of space anyway in the inet_csk(sk)->icsk_ack.pingpong field).
+I wasn't sure what to do here since this is unexpected edge case. Not 
+returning would cause a client's "request_irq" to fail down the line if 
+the client was interested in the irq. I had picked not to return since 
+this error doesn't put us in an unrecoverable state. No one currently 
+wants to try to recover from that error, so I'm really just deferring 
+the real error handling until later.
 
-Please use proc_dou8vec_minmax(), then you can drop .extra2.
+I can return ret here.
 
-		.maxlen		= sizeof(u8),
-		.mode		= 0644,
-		.proc_handler	= proc_dou8vec_minmax,
-		.extra1         = SYSCTL_ONE,
+>> +        } else {
+>> +            ghrsc->irq = ret;
+>> +        }
+>> +    }
+>> +
+>> +    return ghrsc;
 
-Thanks,
-Kuniyuki
-
-> 
-> > +       },
-> >         { }
-> >  };
-> >
-> > diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-> > index 53b7751b68e1..dcd143193d41 100644
-> > --- a/net/ipv4/tcp.c
-> > +++ b/net/ipv4/tcp.c
-> > @@ -308,6 +308,8 @@ EXPORT_SYMBOL(tcp_have_smc);
-> >  struct percpu_counter tcp_sockets_allocated ____cacheline_aligned_in_smp;
-> >  EXPORT_SYMBOL(tcp_sockets_allocated);
-> >
-> > +int tcp_pingpong_thresh __read_mostly = 1;
-> > +
-> 
-> Again, per-network-namespace. You will need to initialize the
-> per-netns value in tcp_sk_init(). Again, see Eric's
-> 65466904b015f6eeb9225b51aeb29b01a1d4b59c commit for an example.
-> 
-> >   * TCP splice context
-> >   */
-> > diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-> > index cfe128b81a01..576d21621778 100644
-> > --- a/net/ipv4/tcp_output.c
-> > +++ b/net/ipv4/tcp_output.c
-> > @@ -167,12 +167,25 @@ static void tcp_event_data_sent(struct tcp_sock *tp,
-> >         if (tcp_packets_in_flight(tp) == 0)
-> >                 tcp_ca_event(sk, CA_EVENT_TX_START);
-> >
-> > +       /* If tcp_pingpong_thresh > 1, and
-> > +        * this is the first data packet sent in response to the
-> > +        * previous received data,
-> > +        * and it is a reply for ato after last received packet,
-> > +        * increase pingpong count.
-> > +        */
-> > +       if (tcp_pingpong_thresh > 1 &&
-> > +           before(tp->lsndtime, icsk->icsk_ack.lrcvtime) &&
-> > +           (u32)(now - icsk->icsk_ack.lrcvtime) < icsk->icsk_ack.ato)
-> > +               inet_csk_inc_pingpong_cnt(sk);
-> > +
-> 
-> Introducing this new code re-introduces a bug fixed in 4d8f24eeedc5.
-> As that commit description noted:
-> 
->     This to-be-reverted commit was meant to apply a stricter rule for the
->     stack to enter pingpong mode. However, the condition used to check for
->     interactive session "before(tp->lsndtime, icsk->icsk_ack.lrcvtime)" is
->     jiffy based and might be too coarse, which delays the stack entering
->     pingpong mode.
->     We revert this patch so that we no longer use the above condition to
->     determine interactive session,
-> 
-> >         tp->lsndtime = now;
-> >
-> > -       /* If it is a reply for ato after last received
-> > +       /* If tcp_pingpong_thresh == 1, and
-> 
-> Please remove the "If tcp_pingpong_thresh == 1, and" part, since this
-> is the correct code path no matter the value of the threshold.
-> 
-> > +        * it is a reply for ato after last received
-> >          * packet, enter pingpong mode.
-> >          */
-> > -       if ((u32)(now - icsk->icsk_ack.lrcvtime) < icsk->icsk_ack.ato)
-> > +       if (tcp_pingpong_thresh == 1 &&
-> 
-> Please remove the "if (tcp_pingpong_thresh == 1 &&" part, since this
-> is the correct code path no matter the value of the threshold.
-> 
-> > +           (u32)(now - icsk->icsk_ack.lrcvtime) < icsk->icsk_ack.ato)
-> >                 inet_csk_enter_pingpong_mode(sk);
-> 
-> Please make this call inet_csk_inc_pingpong_cnt(), since this is the
-> correct code path no matter the value of the threshold.
+...
