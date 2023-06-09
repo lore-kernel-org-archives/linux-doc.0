@@ -2,115 +2,247 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 488ABC7EE29
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 13:04:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36249C7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 13:22:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239341AbjFINEg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 09:04:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33330 "EHLO
+        id S231960AbjFINWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 09:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238814AbjFINEf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 09:04:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B052D72;
-        Fri,  9 Jun 2023 06:04:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S231396AbjFINW3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 09:22:29 -0400
+X-Greylist: delayed 119 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 09 Jun 2023 06:22:28 PDT
+Received: from mx4.veeam.com (mx4.veeam.com [104.41.138.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 108B7180;
+        Fri,  9 Jun 2023 06:22:28 -0700 (PDT)
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 97BBB61234;
-        Fri,  9 Jun 2023 13:04:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC01EC433EF;
-        Fri,  9 Jun 2023 13:04:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686315874;
-        bh=90rVHTRs/3F5on7zL7vvDRpDwafaR4yvoFsAW9sVsUU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ct18ILo60TPRsRZeRF0MA6HqVV541momQ/jF4nftPln9ac11WPptBUohnWBmUvWqE
-         vnbarfiPcuydHingkmODEEfgyBqMNPOYeP2WxeWyeZBtXUQLPWlTQiK3YoRCoQuOkz
-         ykp2yROWej+XaTRvcPNC1Mj4JCwFi/idPxZcvWKMzoJB4BmjIGu9z7nSlgQ6TTTjIl
-         qP4PTzdDzoU3b8crpqEvZ0W3ktzTOLFYBKjsvJzANfoNoi8mgwX007iMF+sc9WNoo4
-         c5+GV/8GYH3NerKeEbysr3Xjw/+GD6dgRglU5pvXYup5qB/zjHokXJytURgg3jzfRS
-         C5Xro19M414WQ==
-Received: from 152.5.30.93.rev.sfr.net ([93.30.5.152] helo=wait-a-minute.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1q7bn5-0045UR-GR;
-        Fri, 09 Jun 2023 14:04:31 +0100
-Date:   Fri, 09 Jun 2023 14:04:27 +0100
-Message-ID: <873530okh0.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        Anup Patel <anup@brainfault.org>,
-        Ben Gardon <bgardon@google.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Fabiano Rosas <farosas@linux.ibm.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Gavin Shan <gshan@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        James Morse <james.morse@arm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Larabel <michael@michaellarabel.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        Paul Mackerras <paulus@ozlabs.org>,
-        Peter Xu <peterx@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Huth <thuth@redhat.com>, Will Deacon <will@kernel.org>,
-        Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
-        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
-        linux-trace-kernel@vger.kernel.org, x86@kernel.org,
-        linux-mm@google.com
-Subject: Re: kvm/arm64: Spark benchmark
-In-Reply-To: <20230609005935.42390-1-yuzhao@google.com>
-References: <20230526234435.662652-1-yuzhao@google.com>
-        <20230609005935.42390-1-yuzhao@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 93.30.5.152
-X-SA-Exim-Rcpt-To: yuzhao@google.com, akpm@linux-foundation.org, pbonzini@redhat.com, apopple@nvidia.com, anup@brainfault.org, bgardon@google.com, bp@alien8.de, catalin.marinas@arm.com, chao.p.peng@linux.intel.com, christophe.leroy@csgroup.eu, dave.hansen@linux.intel.com, farosas@linux.ibm.com, cuigaosheng1@huawei.com, gshan@redhat.com, hpa@zytor.com, mingo@redhat.com, james.morse@arm.com, Jason@zx2c4.com, jgg@ziepe.ca, corbet@lwn.net, mhiramat@kernel.org, mpe@ellerman.id.au, michael@michaellarabel.com, rppt@kernel.org, npiggin@gmail.com, oliver.upton@linux.dev, paulus@ozlabs.org, peterx@redhat.com, seanjc@google.com, rostedt@goodmis.org, suzuki.poulose@arm.com, tglx@linutronix.de, thuth@redhat.com, will@kernel.org, yuzenghui@huawei.com, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org, x86@kernel.org, linux-m
- m@google.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+        by mx4.veeam.com (Postfix) with ESMTPS id 9E5A52B42E;
+        Fri,  9 Jun 2023 15:07:05 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
+        s=mx4-2022; t=1686312425;
+        bh=SLOWvZa9vJo565OIEup8WCzwZ50SqCqIg3IOsqiIpd8=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+        b=GHGB+24O9PSDaRBLKgrbNR6Hr9z102CSwo5YhbnrnUx+K1Vk1VqoT9PCPV3cl9qo+
+         /OqDhsS/t4aZSnMv0vuOV+GC7PaYvvk3SoTfRIES1mK5Uj5w1CqLBckK4rgH3BBBu9
+         luh9137icizk3A8R0bJKFRMsRjUNqpii9g5jFb5WPCZ9PoI2V7r5hWtWQpKAYhqK6H
+         z3KPHuAFYFI1OS40a+AaTVy0/cQKpEYbVSnYVw12fq57dsgI/TVK2HpjL9QW1VCPDg
+         MT/Jqoqj8XrH+8LaleHjsL4qCQ2HHcC9gHuvMXGxcODjCQwovoy+bDwNOLQMso/fmY
+         qw3R/2PPzBfqQ==
+Received: from ssh-deb10-ssd-vb.amust.local (172.24.10.107) by
+ prgmbx01.amust.local (172.24.128.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 9 Jun 2023 14:07:04 +0200
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+To:     <axboe@kernel.dk>, <hch@infradead.org>, <corbet@lwn.net>,
+        <snitzer@kernel.org>
+CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+        <willy@infradead.org>, <dlemoal@kernel.org>, <wsa@kernel.org>,
+        <heikki.krogerus@linux.intel.com>, <ming.lei@redhat.com>,
+        <gregkh@linuxfoundation.org>, <linux-block@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <sergei.shtepa@veeam.com>
+Subject: [PATCH v4 09/11] blksnap: event queue from the difference storage
+Date:   Fri, 9 Jun 2023 13:58:56 +0200
+Message-ID: <20230609115858.4737-9-sergei.shtepa@veeam.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20230609115858.4737-1-sergei.shtepa@veeam.com>
+References: <20230609115858.4737-1-sergei.shtepa@veeam.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.24.10.107]
+X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
+ prgmbx01.amust.local (172.24.128.102)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2924031554627C6B
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 09 Jun 2023 01:59:35 +0100,
-Yu Zhao <yuzhao@google.com> wrote:
-> 
-> TLDR
-> ====
-> Apache Spark spent 12% less time sorting four billion random integers twenty times (in ~4 hours) after this patchset [1].
+Provides transmission of events from the difference storage to the user
+process. Only two events are currently defined. The first is that there
+are few free regions in the difference storage. The second is that the
+request for a free region for storing differences failed with an error,
+since there are no more free regions left in the difference storage
+(the snapshot overflow state).
 
-Why are the 3 architectures you have considered being evaluated with 3
-different benchmarks? I am not suspecting you to have cherry-picked
-the best results, but I'd really like to see a variety of benchmarks
-that exercise this stuff differently.
+Co-developed-by: Christoph Hellwig <hch@infradead.org>
+Signed-off-by: Christoph Hellwig <hch@infradead.org>
+Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+---
+ drivers/block/blksnap/event_queue.c | 87 +++++++++++++++++++++++++++++
+ drivers/block/blksnap/event_queue.h | 65 +++++++++++++++++++++
+ 2 files changed, 152 insertions(+)
+ create mode 100644 drivers/block/blksnap/event_queue.c
+ create mode 100644 drivers/block/blksnap/event_queue.h
 
-Thanks,
+diff --git a/drivers/block/blksnap/event_queue.c b/drivers/block/blksnap/event_queue.c
+new file mode 100644
+index 000000000000..5d3bedd63c10
+--- /dev/null
++++ b/drivers/block/blksnap/event_queue.c
+@@ -0,0 +1,87 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Copyright (C) 2023 Veeam Software Group GmbH */
++#define pr_fmt(fmt) KBUILD_MODNAME "-event_queue: " fmt
++
++#include <linux/slab.h>
++#include <linux/sched.h>
++#include "event_queue.h"
++
++void event_queue_init(struct event_queue *event_queue)
++{
++	INIT_LIST_HEAD(&event_queue->list);
++	spin_lock_init(&event_queue->lock);
++	init_waitqueue_head(&event_queue->wq_head);
++}
++
++void event_queue_done(struct event_queue *event_queue)
++{
++	struct event *event;
++
++	spin_lock(&event_queue->lock);
++	while (!list_empty(&event_queue->list)) {
++		event = list_first_entry(&event_queue->list, struct event,
++					 link);
++		list_del(&event->link);
++		event_free(event);
++	}
++	spin_unlock(&event_queue->lock);
++}
++
++int event_gen(struct event_queue *event_queue, gfp_t flags, int code,
++	      const void *data, int data_size)
++{
++	struct event *event;
++
++	event = kzalloc(sizeof(struct event) + data_size + 1, flags);
++	if (!event)
++		return -ENOMEM;
++
++	event->time = ktime_get();
++	event->code = code;
++	event->data_size = data_size;
++	memcpy(event->data, data, data_size);
++
++	pr_debug("Generate event: time=%lld code=%d data_size=%d\n",
++		 event->time, event->code, event->data_size);
++
++	spin_lock(&event_queue->lock);
++	list_add_tail(&event->link, &event_queue->list);
++	spin_unlock(&event_queue->lock);
++
++	wake_up(&event_queue->wq_head);
++	return 0;
++}
++
++struct event *event_wait(struct event_queue *event_queue,
++			 unsigned long timeout_ms)
++{
++	int ret;
++
++	ret = wait_event_interruptible_timeout(event_queue->wq_head,
++				!list_empty(&event_queue->list), timeout_ms);
++	if (ret >= 0) {
++		struct event *event = ERR_PTR(-ENOENT);
++
++		spin_lock(&event_queue->lock);
++		if (!list_empty(&event_queue->list)) {
++			event = list_first_entry(&event_queue->list,
++						 struct event, link);
++			list_del(&event->link);
++		}
++		spin_unlock(&event_queue->lock);
++
++		if (IS_ERR(event))
++			pr_debug("Queue list is empty, timeout_ms=%lu\n", timeout_ms);
++		else
++			pr_debug("Event received: time=%lld code=%d\n",
++				 event->time, event->code);
++		return event;
++	}
++	if (ret == -ERESTARTSYS) {
++		pr_debug("event waiting interrupted\n");
++		return ERR_PTR(-EINTR);
++	}
++
++	pr_err("Failed to wait event. errno=%d\n", abs(ret));
++	return ERR_PTR(ret);
++}
+diff --git a/drivers/block/blksnap/event_queue.h b/drivers/block/blksnap/event_queue.h
+new file mode 100644
+index 000000000000..7f1209bbfc98
+--- /dev/null
++++ b/drivers/block/blksnap/event_queue.h
+@@ -0,0 +1,65 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright (C) 2023 Veeam Software Group GmbH */
++#ifndef __BLKSNAP_EVENT_QUEUE_H
++#define __BLKSNAP_EVENT_QUEUE_H
++
++#include <linux/types.h>
++#include <linux/ktime.h>
++#include <linux/list.h>
++#include <linux/spinlock.h>
++#include <linux/wait.h>
++
++/**
++ * struct event - An event to be passed to the user space.
++ * @link:
++ *	The list header allows to combine events from the queue.
++ * @time:
++ *	A timestamp indicates when an event occurred.
++ * @code:
++ *	Event code.
++ * @data_size:
++ *	The number of bytes in the event data array.
++ * @data:
++ *	An array of event data. The allowed size of the array is limited
++ *      so that the size of the entire structure does not exceed PAGE_SIZE.
++ *
++ * Events can be different, so they contain different data. The size of the
++ * data array is not defined exactly, but it has limitations. The size of
++ * the event structure may exceed the PAGE_SIZE.
++ */
++struct event {
++	struct list_head link;
++	ktime_t time;
++	int code;
++	int data_size;
++	char data[];
++};
++
++/**
++ * struct event_queue - A queue of &struct event.
++ * @list:
++ *	Linked list for storing events.
++ * @lock:
++ *	Spinlock allows to guarantee safety of the linked list.
++ * @wq_head:
++ *	A wait queue allows to put a user thread in a waiting state until
++ *	an event appears in the linked list.
++ */
++struct event_queue {
++	struct list_head list;
++	spinlock_t lock;
++	struct wait_queue_head wq_head;
++};
++
++void event_queue_init(struct event_queue *event_queue);
++void event_queue_done(struct event_queue *event_queue);
++
++int event_gen(struct event_queue *event_queue, gfp_t flags, int code,
++	      const void *data, int data_size);
++struct event *event_wait(struct event_queue *event_queue,
++			 unsigned long timeout_ms);
++static inline void event_free(struct event *event)
++{
++	kfree(event);
++};
++#endif /* __BLKSNAP_EVENT_QUEUE_H */
+--
+2.20.1
 
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
