@@ -2,133 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BA1AC7EE45
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 15:07:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C05C7EE25
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 15:22:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239932AbjFIPHb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 11:07:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46552 "EHLO
+        id S241421AbjFIPWc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 11:22:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239725AbjFIPHa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 11:07:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E67CE35A7
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 08:06:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686323187;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HhCGDFDeE6330wjTb7+eVdOM5sDQ6eAc/Pd0Q124xLM=;
-        b=XCOLcq3N0RtxwxyMV5G1epM4iyIsgYU3nh8+nyKNMl/iWE5sY6W5gN/X/AOd630rY8Twk1
-        1schNugwd2LAlsa0rGpCN0YBoFjdPbCf8NZhjhmRD0bLIjcqiYGdbWHDrxvc+4KOy553Rt
-        sYJY0tWMiv2iWi533SEewGt5I1DdZms=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-Tk9tFEnVO-ePKnVkh1JcRA-1; Fri, 09 Jun 2023 11:04:26 -0400
-X-MC-Unique: Tk9tFEnVO-ePKnVkh1JcRA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4CDA43C0D1A5;
-        Fri,  9 Jun 2023 15:04:18 +0000 (UTC)
-Received: from vschneid.remote.csb (unknown [10.42.28.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id BD1BC4087C6A;
-        Fri,  9 Jun 2023 15:04:16 +0000 (UTC)
-From:   Valentin Schneider <vschneid@redhat.com>
-To:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Leonardo Bras <leobras@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>
-Subject: [RFC PATCH 4/5] tracing/filters: Enable filtering the CPU common field by a cpumask
-Date:   Fri,  9 Jun 2023 16:03:23 +0100
-Message-Id: <20230609150324.143538-5-vschneid@redhat.com>
-In-Reply-To: <20230609150324.143538-1-vschneid@redhat.com>
-References: <20230609150324.143538-1-vschneid@redhat.com>
+        with ESMTP id S239375AbjFIPWa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 11:22:30 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8F33583
+        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 08:22:28 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-97460240863so325124466b.0
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 08:22:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686324147; x=1688916147;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GgdpsFvlSHfvL616lpSzlLkpCKPLET85+hweuPq7lJc=;
+        b=FzyLHKGcr/Xw1q9ffKxueV/CMkIQ9Sh16XHXg/11EsJ+JRZrZplrMeYCYt/aNFUs3X
+         RdPmw7diWOrISV+qzlcK3NoKC95i/SRsMIBtshckxVTJ0Pa4KOVFSkpu/BNhxNnTmGrp
+         alRKlSV192nhtWZ4bqi5NyFGNRovkaWhK7ajlUrPgtYKXYULL0QBtwNpGn1BKpoU0q+k
+         lfz5KqSMv39OjRz6M8rRoeoEU3DhWBc00/qCbus0vPV02PfoEjgJURxLnUCDqJz5gmNI
+         V9HAuk0Zf3E4SV+MY2IKl7tR7OrAqZsFakwO9UUejmT6ygjkv7xuF7XZ1w7vCx2CHA76
+         k0+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686324147; x=1688916147;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GgdpsFvlSHfvL616lpSzlLkpCKPLET85+hweuPq7lJc=;
+        b=KxzYD9/Ux4SqMpe87l/o5rk1qhuw9AlO7i1UHObMWqCvmHWXDZAKDs/MitZ2j96J2l
+         EZaQvQ1TTA7PszhI3ExNzibCuyfnU3DX1efDlHyMaeRBUAgXBZNNu8w2/EckNwOkqBWR
+         wYMQcytr0TfheG01n1YWzaxZNsv0Afr2C13JxDI85VKl2UvFKCaiXZoVowv2pAPwjK41
+         EM44Q+kz2pEsp3MOWsZA5DZNtZKATDv+Xw4ysI3TS2SRNDJaVUpTSPio/XKFoVU6qMAY
+         lUlVI70hoKFsvxTlAf5PorqXqtbZ0PFsXKYqk2GGZu/OM3jvnWDR4GS9wyTlAPUzdQL9
+         vpnQ==
+X-Gm-Message-State: AC+VfDzUfxX6nGFH0wY8b9B0KjRc3+lQ3tQLLLpYAlAfC9xE93o2atwq
+        efOsb87c6r0WDccRJeIoq3iGtQ==
+X-Google-Smtp-Source: ACHHUZ7q69XNyD0Ob8QMei1RaexdonLE4GtsIMKFsMTA3rAxns1PVZy9ZARL+DMqns9sNRl+z541mA==
+X-Received: by 2002:a17:907:25cc:b0:94f:6218:191d with SMTP id ae12-20020a17090725cc00b0094f6218191dmr2079991ejc.32.1686324146722;
+        Fri, 09 Jun 2023 08:22:26 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id v19-20020a170906565300b00969e9fef151sm1421651ejr.97.2023.06.09.08.22.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Jun 2023 08:22:26 -0700 (PDT)
+Message-ID: <2fe0c7f9-55fc-ae63-3631-8526a0212ccd@linaro.org>
+Date:   Fri, 9 Jun 2023 17:22:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v4 2/9] virt: geniezone: Add GenieZone hypervisor support
+To:     Yi-De Wu <yi-de.wu@mediatek.com>,
+        Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+        Ze-Yu Wang <ze-yu.wang@mediatek.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        David Bradil <dbrazdil@google.com>,
+        Jade Shih <jades.shih@mediatek.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        Ivan Tseng <ivan.tseng@mediatek.com>,
+        My Chuang <my.chuang@mediatek.com>,
+        Shawn Hsiao <shawn.hsiao@mediatek.com>,
+        PeiLun Suei <peilun.suei@mediatek.com>,
+        Liju Chen <liju-clr.chen@mediatek.com>,
+        Willix Yeh <chi-shen.yeh@mediatek.com>
+References: <20230609085214.31071-1-yi-de.wu@mediatek.com>
+ <20230609085214.31071-3-yi-de.wu@mediatek.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230609085214.31071-3-yi-de.wu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The tracing_cpumask lets us specify which CPUs are traced in a buffer
-instance, but doesn't let us do this on a per-event basis (unless one
-creates an instance per event).
+On 09/06/2023 10:52, Yi-De Wu wrote:
+> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+> 
+> GenieZone is MediaTek hypervisor solution, and it is running in EL2
+> stand alone as a type-I hypervisor. This patch exports a set of ioctl
+> interfaces for userspace VMM (e.g., crosvm) to operate guest VMs
+> lifecycle (creation and destroy) on GenieZone.
 
-A previous commit added filtering scalar fields by a user-given cpumask,
-make this work with the CPU common field as well.
+...
 
-This enables doing things like
+> +static int gzvm_drv_probe(void)
+> +{
+> +	int ret;
+> +
+> +	if (gzvm_arch_probe() != 0) {
+> +		pr_err("Not found available conduit\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = misc_register(&gzvm_dev);
+> +	if (ret)
+> +		return ret;
+> +	gzvm_debug_dev = &gzvm_dev;
+> +
+> +	return 0;
+> +}
+> +
+> +static int gzvm_drv_remove(void)
+> +{
+> +	destroy_all_vm();
+> +	misc_deregister(&gzvm_dev);
+> +	return 0;
+> +}
+> +
+> +static int gzvm_dev_init(void)
+> +{
+> +	return gzvm_drv_probe();
 
-$ trace-cmd record -e 'sched_switch' -f 'CPU & MASK{12-52}' \
-		   -e 'sched_wakeup' -f 'target_cpu & MASK{12-52}'
+So for every system and architecture you want to: probe, run some SMC
+and then print error that it is not othe system you wanted.
 
-Signed-off-by: Valentin Schneider <vschneid@redhat.com>
----
- kernel/trace/trace_events_filter.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+I don't think this is what we want. You basically pollute all of other
+users just to have your hypervisor guest additions...
 
-diff --git a/kernel/trace/trace_events_filter.c b/kernel/trace/trace_events_filter.c
-index 99e111c237a93..b3d2612d4670a 100644
---- a/kernel/trace/trace_events_filter.c
-+++ b/kernel/trace/trace_events_filter.c
-@@ -68,6 +68,7 @@ enum filter_pred_fn {
- 	FILTER_PRED_FN_PCHAR_USER,
- 	FILTER_PRED_FN_PCHAR,
- 	FILTER_PRED_FN_CPU,
-+	FILTER_PRED_FN_CPU_CPUMASK,
- 	FILTER_PRED_FN_CPUMASK,
- 	FILTER_PRED_FN_FUNCTION,
- 	FILTER_PRED_FN_,
-@@ -933,6 +934,13 @@ static int filter_pred_cpu(struct filter_pred *pred, void *event)
- 	}
- }
- 
-+static int filter_pred_cpu_cpumask(struct filter_pred *pred, void *event)
-+{
-+	int cpu = raw_smp_processor_id();
-+
-+	return do_filter_cpumask_scalar(pred->op, cpu, pred->mask);
-+}
-+
- /* Filter predicate for cpumasks. */
- static int filter_pred_cpumask(struct filter_pred *pred, void *event)
- {
-@@ -1436,6 +1444,8 @@ static int filter_pred_fn_call(struct filter_pred *pred, void *event)
- 		return filter_pred_pchar(pred, event);
- 	case FILTER_PRED_FN_CPU:
- 		return filter_pred_cpu(pred, event);
-+	case FILTER_PRED_FN_CPU_CPUMASK:
-+		return filter_pred_cpu_cpumask(pred, event);
- 	case FILTER_PRED_FN_CPUMASK:
- 		return filter_pred_cpumask(pred, event);
- 	case FILTER_PRED_FN_FUNCTION:
-@@ -1654,6 +1664,7 @@ static int parse_pred(const char *str, void *data,
- 		char *tmp;
- 
- 		if (field->filter_type != FILTER_CPUMASK &&
-+		    field->filter_type != FILTER_CPU &&
- 		    field->filter_type != FILTER_OTHER) {
- 			parse_error(pe, FILT_ERR_ILLEGAL_FIELD_OP, pos + i);
- 			goto err_free;
-@@ -1698,6 +1709,8 @@ static int parse_pred(const char *str, void *data,
- 		i++;
- 		if (field->filter_type == FILTER_CPUMASK) {
- 			pred->fn_num = FILTER_PRED_FN_CPUMASK;
-+		} else if (field->filter_type == FILTER_CPU) {
-+			pred->fn_num = FILTER_PRED_FN_CPU_CPUMASK;
- 		} else {
- 			switch (field->size) {
- 			case 8:
--- 
-2.31.1
+
+Best regards,
+Krzysztof
 
