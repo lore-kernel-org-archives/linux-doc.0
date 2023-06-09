@@ -2,177 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B37CBC7EE29
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 18:23:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFF26C7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 18:28:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229935AbjFISXD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 14:23:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38816 "EHLO
+        id S229506AbjFIS25 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 14:28:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbjFISXC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 14:23:02 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09F6B1730;
-        Fri,  9 Jun 2023 11:23:00 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 359FqxYu003464;
-        Fri, 9 Jun 2023 18:22:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=xZAwHAYdiTHICYvfdxFuK+h4NxTCnlISN12IpXG6Fug=;
- b=UHBqy/E9IkxqoT8OB0UOGj1ZWnAXq+E1h4dxaKEGTuai6hIt1i+BixS6PI9jD+5uJUJK
- nxcmVIQAOnRXjazMiK8aEq8TD71ffYOc5Pv52fKiY3Lo1Sd+nhodUhnHdCoA+WQe8+WM
- nSGpY/zmlqMhhrB2ejEPbJ5DE9nD1dPCROVZ2RACEVksnXTl4Aq4WSPjShZVd0a6ZW0K
- hAoJwnCd/gUhgJTtCojQkyNS5NLywBVpUIMTcCD3fpM7ZTQKZnJT4y4XnSFrWcpfCiPW
- /qIhzeK1WdNve9kqff+ti4DBVzvVHCpDb5zHb+82T7J72ajAEouo+gTEWramFT3ygWNh 4A== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r3w7dsj45-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 09 Jun 2023 18:22:47 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 359IMZRC003104
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 9 Jun 2023 18:22:35 GMT
-Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 9 Jun 2023
- 11:22:35 -0700
-Message-ID: <0416ee79-ac07-aefc-d83b-bc21894312ab@quicinc.com>
-Date:   Fri, 9 Jun 2023 11:22:34 -0700
+        with ESMTP id S229622AbjFIS24 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 14:28:56 -0400
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B81A3A99
+        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 11:28:51 -0700 (PDT)
+Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-33b0cae115bso9013455ab.3
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 11:28:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686335330; x=1688927330;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OwNlstd6GLY/gpYePGYsVq8R17Kj6KhaKvtt1rti+C4=;
+        b=rboeRG2yRA94EUvvID0LlH4crt9keRYwTcSwURW5fEAJ3PahctoEyCxz2GCZaymQoV
+         EwenNrbkbGIVPF87Iomux1SdIKGrRq+k7KHJzKNjcFhoQZoHZ8k7ydznTLFh1t6o70cM
+         UcUTV8MKHrVXNeGl1qbieauwvdfNJ8lLA3youcegQ1r1dmGnuE7SmVBGqxEdb7OgciU0
+         7KtamtiYj8BBKe4W/2QZ520bmAoSsnwwj9ZfPsqhtOfsoyu8N2QrYbNJKP3okLtdHlfe
+         kbsHe/NZf+j0wEbXrzm0X0xg2TvCG8+wH2UqMQNfRVeSbomjM6JWU0Ux5VxzXxmddmLr
+         w4Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686335330; x=1688927330;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OwNlstd6GLY/gpYePGYsVq8R17Kj6KhaKvtt1rti+C4=;
+        b=NgDuxO090RnNIUQvMcJzZ1DW4yJcttPauoynjsfZOGr3fdzmTcw7qzAQJ9RKI8mzUP
+         cUCCYfkFiM+MjTx2s599UqyGRy47lFtOrqsnxezqKndfbjI/lpzmuxD1s5CLiKBbRnFI
+         WTfJcqUIbr+E2l+tCP58KM1wC3imE8KfRnh8VPvgTLyABbCWM+yUwYii5i/FXMTNxdBN
+         JtnMZzgz1QNoEMjdz/dETs26nhil1XMZrVoJJuXhsNhu7xdtKm79IrZRc4WLEzAmb281
+         UPJLNyKMJKsHGjr92K77vJOfxO9xhnoR6o4v1irAl1QvJTpoZNeLikKanEZgO1jY5laR
+         ivVA==
+X-Gm-Message-State: AC+VfDxYHJS53ncKz3mwH9mo/HqUzZGnhJa+3gwtJcVWBnmS0j2XlnT0
+        nxgx/YSiNtibIL0M6zF64846tw==
+X-Google-Smtp-Source: ACHHUZ7Xmpyaxn0X+knYWrv5zpcoikhu29c88lVDDo/mBpA/GcpMOfcE134G00xIJqEdpMbw9oFI7g==
+X-Received: by 2002:a92:c892:0:b0:33d:825c:3266 with SMTP id w18-20020a92c892000000b0033d825c3266mr2338606ilo.1.1686335330422;
+        Fri, 09 Jun 2023 11:28:50 -0700 (PDT)
+Received: from [172.22.22.28] ([98.61.227.136])
+        by smtp.gmail.com with ESMTPSA id c10-20020a92cf0a000000b0033aa769d1a9sm1230196ilo.72.2023.06.09.11.28.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Jun 2023 11:28:50 -0700 (PDT)
+Message-ID: <368ea795-68df-ebf7-18b5-3f5abfe2d189@linaro.org>
+Date:   Fri, 9 Jun 2023 13:28:48 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
 Subject: Re: [PATCH v13 22/24] virt: gunyah: Add irqfd interface
 Content-Language: en-US
-To:     Alex Elder <elder@linaro.org>,
+To:     Elliot Berman <quic_eberman@quicinc.com>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
         Jonathan Corbet <corbet@lwn.net>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
 References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
  <20230509204801.2824351-23-quic_eberman@quicinc.com>
  <1c386f4e-e2dd-eb79-9117-9b19877f2ccc@linaro.org>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <1c386f4e-e2dd-eb79-9117-9b19877f2ccc@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <0416ee79-ac07-aefc-d83b-bc21894312ab@quicinc.com>
+From:   Alex Elder <elder@linaro.org>
+In-Reply-To: <0416ee79-ac07-aefc-d83b-bc21894312ab@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: woGnfPQzRI2anPREFMhlFBTuvfUVFi7P
-X-Proofpoint-ORIG-GUID: woGnfPQzRI2anPREFMhlFBTuvfUVFi7P
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-09_13,2023-06-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- spamscore=0 impostorscore=0 phishscore=0 adultscore=0 mlxlogscore=917
- lowpriorityscore=0 suspectscore=0 clxscore=1015 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306090153
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 6/5/2023 12:50 PM, Alex Elder wrote:
-> On 5/9/23 3:47 PM, Elliot Berman wrote:
->> Enable support for creating irqfds which can raise an interrupt on a
->> Gunyah virtual machine. irqfds are exposed to userspace as a Gunyah VM
->> function with the name "irqfd". If the VM devicetree is not configured
->> to create a doorbell with the corresponding label, userspace will still
->> be able to assert the eventfd but no interrupt will be raised on the
->> guest.
+On 6/9/23 1:22 PM, Elliot Berman wrote:
+>>>
+>>> +enum gh_irqfd_flags {
+>>> +    GH_IRQFD_FLAGS_LEVEL        = 1UL << 0,
 >>
->> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
->> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
->> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> 
-> I have a minor suggestion.  I think I'd like to look at this
-> again, so:
-> 
-> Acked-by: Alex Elder <elder@linaro.org>
-> 
->> ---
->>   Documentation/virt/gunyah/vm-manager.rst |   2 +-
->>   drivers/virt/gunyah/Kconfig              |   9 ++
->>   drivers/virt/gunyah/Makefile             |   1 +
->>   drivers/virt/gunyah/gunyah_irqfd.c       | 180 +++++++++++++++++++++++
->>   include/uapi/linux/gunyah.h              |  35 +++++
->>   5 files changed, 226 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/virt/gunyah/gunyah_irqfd.c
+>>      BIT(0),            /* ? */
 >>
 > 
-> . . .
-> 
->> @@ -99,6 +102,38 @@ struct gh_fn_vcpu_arg {
->>       __u32 id;
->>   };
->> +/**
->> + * enum gh_irqfd_flags - flags for use in gh_fn_irqfd_arg
->> + * @GH_IRQFD_FLAGS_LEVEL: make the interrupt operate like a level 
->> triggered
->> + *                        interrupt on guest side. Triggering IRQFD 
->> before
->> + *                        guest handles the interrupt causes 
->> interrupt to
->> + *                        stay asserted.
->> + */
->> +enum gh_irqfd_flags {
->> +    GH_IRQFD_FLAGS_LEVEL        = 1UL << 0,
-> 
->      BIT(0),            /* ? */
-> 
+> The BIT macro isn't a standard C macro and isn't defined by Linux, so it 
+> causes compile errors at least for me when I use it in userspace.
 
-The BIT macro isn't a standard C macro and isn't defined by Linux, so it 
-causes compile errors at least for me when I use it in userspace.
+OK that makes sense.  I hadn't thought about this
+being a user space header when I made the comment.
 
->> +};
->> +
->> +/**
->> + * struct gh_fn_irqfd_arg - Arguments to create an irqfd function.
->> + *
->> + * Create this function with &GH_VM_ADD_FUNCTION using type 
->> &GH_FN_IRQFD.
->> + *
->> + * Allows setting an eventfd to directly trigger a guest interrupt.
->> + * irqfd.fd specifies the file descriptor to use as the eventfd.
->> + * irqfd.label corresponds to the doorbell label used in the guest 
->> VM's devicetree.
->> + *
->> + * @fd: an eventfd which when written to will raise a doorbell
->> + * @label: Label of the doorbell created on the guest VM
->> + * @flags: see &enum gh_irqfd_flags
->> + * @padding: padding bytes
->> + */
->> +struct gh_fn_irqfd_arg {
->> +    __u32 fd;
->> +    __u32 label;
->> +    __u32 flags;
->> +    __u32 padding;
->> +};
->> +
->>   /**
->>    * struct gh_fn_desc - Arguments to create a VM function
->>    * @type: Type of the function. See &enum gh_fn_type.
-> 
+					-Alex
