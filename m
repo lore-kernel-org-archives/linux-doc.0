@@ -2,66 +2,64 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B01FC7EE37
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 09:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7DECC7EE25
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 09:18:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241205AbjFIJJa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 05:09:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34746 "EHLO
+        id S241424AbjFIJSS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 05:18:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231239AbjFIJHB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 05:07:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EF830CD
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 02:06:12 -0700 (PDT)
+        with ESMTP id S241435AbjFIJRo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 05:17:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 059434693
+        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 02:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686301571;
+        s=mimecast20190719; t=1686301872;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=eyj9qAaMTXhV0BDBMXgw3bkhoC43Djt8OMEq06UECOo=;
-        b=Ctd/JFVp+ZVSLwE1f3uJb8gXFvSLGLmE5KAaFnRfgXZusjtzNw9jdk3QLAmGuEkhOGrZYU
-        liqsfb+G+pragWRJLb+0/pzJkuxQmgcu2MNlvkDC03Noa/0gIpityPBLXlDIMckepKxHs5
-        BkneES+JWNhNmcx5dp5khR6+bkWnU0M=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=+lS4qtD2LImPdpu4Ozd1FIICWXob78VQWCuBmNpNqeU=;
+        b=DicECw0HM5Qbsnt9tKJKT23jXtCdmxkd62vrvgbm3rIdnxdDRx7ae8CSb3aSM5bNsf44ft
+        McMhWc/LT1YUIKoAbyOS9bs0AMzT3fnZ+bDWxNQb4poc6Am6n1iF4CIUjhSa2tFF8J1KJ3
+        8tvD1sXhLNY5Tw7ztWbHXsHxOqp5fdQ=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-39-q7jVQtDHPmaGNclkBpo83A-1; Fri, 09 Jun 2023 05:06:06 -0400
-X-MC-Unique: q7jVQtDHPmaGNclkBpo83A-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-506b21104faso1507646a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 02:06:06 -0700 (PDT)
+ us-mta-258-kn0DvqY4Nc-Z1TDGHsHsJw-1; Fri, 09 Jun 2023 05:08:02 -0400
+X-MC-Unique: kn0DvqY4Nc-Z1TDGHsHsJw-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-97463348446so185488266b.2
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 02:08:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686301565; x=1688893565;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1686301681; x=1688893681;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eyj9qAaMTXhV0BDBMXgw3bkhoC43Djt8OMEq06UECOo=;
-        b=WnuYRco7BEC06IYtaQ/gdiIOnkjWtnWTYaevSseA//N36PDUQPFMgHvU2Fy517TA5L
-         RmGfBLhVc4A0ngPW8EzKq/x5sjkmlZXvy4n9rnX7jmWLIM5yzSGDu+vl6M9gJgOJjSr2
-         5TUUahNGeybZcBvJzljshyEZIrH8xRFvocNUQFO5PXeIHNX51Wg42ocoBY0yplp1HDXk
-         +KRy76t0BPhIizm1hZnSRHG8WsO/85vv0l6Zhhz4/XM3PgVcrkCXVPO+bC5Nijr4aRpn
-         f6MFp57XkMLOtLypg2Pvwhz14+y2WVVwDKgOk8VuPMpxYYMjn7sOJeMToHlLXOcGW2n4
-         jltA==
-X-Gm-Message-State: AC+VfDzRXeC/ZsjW6witVkPG8zH+whoiTEaN7FomzpaF70hYPODwCyJ7
-        x0h2Ybx4Ds6dq5gJst+SfkbdqYmlQClKqsUTn5Bbs2lIueX/vJhbLFmGtAJr4aATzHjPVbVBh7M
-        LVOncvXPmRya6rqn1oLtS
-X-Received: by 2002:a05:6402:643:b0:510:82b4:844d with SMTP id u3-20020a056402064300b0051082b4844dmr902452edx.2.1686301565418;
-        Fri, 09 Jun 2023 02:06:05 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5Eo2fL8sg8ZAFF9ExDb1hoz+RWsXilNiiceAqQ1jh6YF+h+q2Lb+V5P8mQdJn5E/+DPP6p2g==
-X-Received: by 2002:a05:6402:643:b0:510:82b4:844d with SMTP id u3-20020a056402064300b0051082b4844dmr902445edx.2.1686301565157;
-        Fri, 09 Jun 2023 02:06:05 -0700 (PDT)
+        bh=+lS4qtD2LImPdpu4Ozd1FIICWXob78VQWCuBmNpNqeU=;
+        b=ffm6OA4fherduXconBXPzlxX/Lx/vNnxBvBgo4U6ps6eOTbHTeRnQF01+7QM4ETwd2
+         qe7lp7TMeYtQQAEQxQIOcfYRag2GI+7ZrNYOjciuDAghJYciPK6Vxs6k1xDJxv+lXTsL
+         glQRavmiTscfQDTFo42tIRONRYYD0sbNmG1WJbvTnsuVnF6ldASoM5lN5wSebQSh4UYN
+         RN2KhphCmItDjEjgYdHtjsuYUMWPE28fXl7hjN8dHGNUwP9xFyfRZZbRRk/kdDiS/vpm
+         cXXv10/OqPAIHXyS+whSy7rntKVvSYZle47gBlX5QRoPvy7ulXH8K8rH/qJq5kx++j5w
+         jcrw==
+X-Gm-Message-State: AC+VfDzg2ljjrxs3TplNZVZ9mMZCC0B9PeRsQmR5jTabti/7LhCBS/Zx
+        5PuyF2AqkiJVCzao3QDR8ydUqH/vupHih25YZk+amIXrudJ8KwEFbi6oCE2XXfxvcURmUFHMh2r
+        5YssfpvHOrdw2zJ3zn6QC
+X-Received: by 2002:a17:907:94cb:b0:97a:e0c0:2f8f with SMTP id dn11-20020a17090794cb00b0097ae0c02f8fmr315217ejc.65.1686301681499;
+        Fri, 09 Jun 2023 02:08:01 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6fk08I4RsyK9p9wcnjDRbMYLy3XBaoHlqt3xl1DLkFDODgHMHCV4XPzuR/CPTVwoW0y6Qefw==
+X-Received: by 2002:a17:907:94cb:b0:97a:e0c0:2f8f with SMTP id dn11-20020a17090794cb00b0097ae0c02f8fmr315171ejc.65.1686301681128;
+        Fri, 09 Jun 2023 02:08:01 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89? ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
-        by smtp.googlemail.com with ESMTPSA id f9-20020a056402068900b0051495ce23absm1517006edy.10.2023.06.09.02.06.02
+        by smtp.googlemail.com with ESMTPSA id z8-20020a1709067e4800b00977ecf6942bsm1036209ejr.90.2023.06.09.02.07.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jun 2023 02:06:04 -0700 (PDT)
-Message-ID: <f0fc6e43-ffe3-dc38-03c1-77b2105cd0fb@redhat.com>
-Date:   Fri, 9 Jun 2023 11:06:02 +0200
+        Fri, 09 Jun 2023 02:08:00 -0700 (PDT)
+Message-ID: <26cf0b0a-cda5-08a9-a669-6966f9e626b1@redhat.com>
+Date:   Fri, 9 Jun 2023 11:07:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH mm-unstable v2 09/10] kvm/x86: add
- kvm_arch_test_clear_young()
 Content-Language: en-US
 To:     Yu Zhao <yuzhao@google.com>,
         Andrew Morton <akpm@linux-foundation.org>
@@ -102,9 +100,10 @@ Cc:     Alistair Popple <apopple@nvidia.com>,
         linux-trace-kernel@vger.kernel.org, x86@kernel.org,
         linux-mm@google.com
 References: <20230526234435.662652-1-yuzhao@google.com>
- <20230526234435.662652-10-yuzhao@google.com>
 From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230526234435.662652-10-yuzhao@google.com>
+Subject: Re: [PATCH mm-unstable v2 00/10] mm/kvm: locklessly clear the
+ accessed bit
+In-Reply-To: <20230526234435.662652-1-yuzhao@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -112,17 +111,27 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 5/27/23 01:44, Yu Zhao wrote:
-> +#define kvm_arch_has_test_clear_young kvm_arch_has_test_clear_young
-> +static inline bool kvm_arch_has_test_clear_young(void)
-> +{
-> +	return IS_ENABLED(CONFIG_X86_64) &&
-> +	       (!IS_REACHABLE(CONFIG_KVM) || (tdp_mmu_enabled && shadow_accessed_mask));
-> +}
+> TLDR
+> ====
+> This patchset adds a fast path to clear the accessed bit without
+> taking kvm->mmu_lock. It can significantly improve the performance of
+> guests when the host is under heavy memory pressure.
+> 
+> ChromeOS has been using a similar approach [1] since mid 2021 and it
+> was proven successful on tens of millions devices.
+> 
+> This v2 addressed previous requests [2] on refactoring code, removing
+> inaccurate/redundant texts, etc.
+> 
+> [1]https://crrev.com/c/2987928
+> [2]https://lore.kernel.org/r/20230217041230.2417228-1-yuzhao@google.com/
 
-I don't think you need IS_REACHABLE(CONFIG_KVM) here, it would be a bug 
-if this is called from outside KVM code.
+ From the KVM point of view the patches look good (though I wouldn't 
+mind if Nicholas took a look at the ppc part).  Jason's comment on the 
+MMU notifier side are promising as well.  Can you send v3 with Oliver's 
+comments addressed?
 
-Maybe make it a BUILD_BUG_ON?
+Thanks,
 
 Paolo
 
