@@ -2,68 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5E4C7EE29
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 08:00:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 025E8C7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 08:01:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239822AbjFIIAk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 04:00:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33432 "EHLO
+        id S235585AbjFIIBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 04:01:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239911AbjFIH7x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 03:59:53 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD84449C;
-        Fri,  9 Jun 2023 00:58:41 -0700 (PDT)
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9DED8218;
-        Fri,  9 Jun 2023 07:58:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9DED8218
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1686297519; bh=2EHa8FhMrcu51fRSpi7i1IAQ7GWyQ0qfKe2xhFMGwO8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=fCEbLKtxgboAcYHLsFNjqVDS5DRjl+edCxiV2VSyDF2xJ83d2LwicIKaVT+6LNfhI
-         q/HkKO1FN79f7TX/O7nItREk/uFaW8H4N5luqeMrfWBd1LpYNJ5NCkQtIut343mC08
-         B21x9h1+3zAUJVSPgvMWS3eRTIxqwBxM98qHhzEhv+QTDk6O/74CSysCG1XSwD8tkN
-         kI74ibqoBNK1ZTj3uOMbNbrgWFqe4ZKjN79W2men0JOcIDiNmaodjslQeZ1xbHb9WE
-         2bkWzHQ4ntQwSY2OuSWJuNDB/ZVmba7W+bErfvjVEovF2yKrdDiN7TS0p9XxoDw4iJ
-         v5k2QL9NlFp+A==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joe Stringer <joe@isovalent.com>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: Re: [PATCH linux-doc v3] docs/doc-guide: Clarify how to write tables
-In-Reply-To: <20230424171850.3612317-1-joe@isovalent.com>
-References: <20230424171850.3612317-1-joe@isovalent.com>
-Date:   Fri, 09 Jun 2023 01:58:35 -0600
-Message-ID: <87mt19oyms.fsf@meer.lwn.net>
+        with ESMTP id S239708AbjFIIAf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 04:00:35 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A872D2D7F;
+        Fri,  9 Jun 2023 00:58:53 -0700 (PDT)
+Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QctfN3RP9zLqTp;
+        Fri,  9 Jun 2023 15:55:08 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ dggpeml500002.china.huawei.com (7.185.36.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 9 Jun 2023 15:58:11 +0800
+From:   Junhao He <hejunhao3@huawei.com>
+To:     <will@kernel.org>, <jonathan.cameron@huawei.com>,
+        <linux-kernel@vger.kernel.org>, <mark.rutland@arm.com>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
+        <yangyicong@huawei.com>, <shenyang39@huawei.com>,
+        <prime.zeng@hisilicon.com>, <hejunhao3@huawei.com>
+Subject: [PATCH v4 0/3] Add support for HiSilicon SoC uncore PMU
+Date:   Fri, 9 Jun 2023 15:56:05 +0800
+Message-ID: <20230609075608.36559-1-hejunhao3@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.69.192.56]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Joe Stringer <joe@isovalent.com> writes:
+Add support for HiSilicon UC/H60PA/PAv3 PMU driver.
 
-> Prior to this commit, the kernel docs writing guide spent over a page
-> describing exactly how *not* to write tables into the kernel docs,
-> without providing a example about the desired format.
->
-> This patch provides a positive example first in the guide so that it's
-> harder to miss, then leaves the existing less desirable approach below
-> for contributors to follow if they have some stronger justification for
-> why to use that approach.
->
-> Signed-off-by: Joe Stringer <joe@isovalent.com>
-> ---
-> v3: Fix grammar mistake
-> v2: Simplify recommendation for either simple or grid table syntax
->     Remove example, link to rST user reference
-> ---
->  Documentation/doc-guide/sphinx.rst | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+PAv3 PMU: Compared with the PAv2 PMU, the PAv3 PMU has different event. The
+version of PMU version register is used to distinguish the v2 and v3.
 
-I stumbled across this languishing in my docs folder, sorry ... it's
-applied now, thanks.
+H60PA PMU: The H60PA PMU and PA are two different devices. The H60PA PMU
+supports higher bandwidth, and the PA PMU delay is relatively low.
+Different HIDs are used to distinguish the delay.
 
-jon
+UC PMU: Each cluster is integrated with a unified cache (UC) PMU, which
+provides consistency between NUMA and UMA domains. It sits between
+L2 and the memory system.
+
+Change since v3:
+- Modify the UC PMU patch commit message according to Jonathan's comment.
+Link: https://lore.kernel.org/linux-arm-kernel/20230608113719.27433-1-hejunhao3@huawei.com/
+
+Change since v2:
+- Modify the driver description according to Jonathan's comment.
+Link: https://lore.kernel.org/linux-arm-kernel/20230531104625.18296-1-hejunhao3@huawei.com/
+
+Change since v1:
+- Improve according to Yicong's suggestion
+- Fixes build warning of "-Wmissing-prototypes"
+Link: https://lore.kernel.org/lkml/20230523131825.6102-1-hejunhao3@huawei.com/
+
+Junhao He (3):
+  drivers/perf: hisi: Add support for HiSilicon H60PA and PAv3 PMU
+    driver
+  drivers/perf: hisi: Add support for HiSilicon UC PMU driver
+  docs: perf: Add new description for HiSilicon UC PMU
+
+ Documentation/admin-guide/perf/hisi-pmu.rst |   8 +
+ drivers/perf/hisilicon/Makefile             |   2 +-
+ drivers/perf/hisilicon/hisi_uncore_pa_pmu.c | 142 ++++-
+ drivers/perf/hisilicon/hisi_uncore_pmu.c    |   4 +-
+ drivers/perf/hisilicon/hisi_uncore_pmu.h    |  15 +
+ drivers/perf/hisilicon/hisi_uncore_uc_pmu.c | 578 ++++++++++++++++++++
+ 6 files changed, 732 insertions(+), 17 deletions(-)
+ create mode 100644 drivers/perf/hisilicon/hisi_uncore_uc_pmu.c
+
+-- 
+2.33.0
+
