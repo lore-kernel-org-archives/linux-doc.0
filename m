@@ -2,167 +2,257 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A4AEC7EE25
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 16:20:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E89DC7EE2F
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 16:26:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242178AbjFIQUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 12:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35796 "EHLO
+        id S239786AbjFIQ0X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 12:26:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242190AbjFIQUY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 12:20:24 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E31A3AA3
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 09:20:14 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2b1a46ad09fso22369221fa.2
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 09:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686327612; x=1688919612;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=usUa91lFTwm78ZcJqDITECIX6IQZqVVPZb/qreiSqx0=;
-        b=ot7OR9FGvlcYcZD5e+cFOOoEF/WG2TryjkzKF7Y7nyRNcMhYN0MPV79TOo+C+dmXVR
-         lvY31ZIut1OfKvPeIw1e4q0ma1wj7mAjXEFWSFt7BORxCehJmy+esFpQFKx8xRPe5RPa
-         s4oATGJiDMXjJbGLGJxsRdaGE8LN2xwnUjHvb003d2AHf4bECiPk6MM3tIZC1gDgtqIo
-         S8rUIbK2/DPKp88G24eIsWO5PYwE1Plm80C+bNKFkMHjM0r4iYDPMwaUxCptdVMLIqDT
-         NdWzm185jBe4dLSFadFllbTJ1U8CNLjkqheJd96W2zGVd0ou9BREA0NHohLbIw/KL3G4
-         vHgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686327612; x=1688919612;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=usUa91lFTwm78ZcJqDITECIX6IQZqVVPZb/qreiSqx0=;
-        b=F+XZqouUe+x+BwbtyKx67K5xu3nNkEWpIyPsnn0uByR+JdLuldA4xaw+ItdO+lUrYT
-         Fes+xaT+binxqUs3gXmg1m2zQ+Xhsh4W28wqwUZLB4AghLGU1DiLqlBYjPvGKXHel79q
-         Rj5RuI/Wc442TPHvMHPVP0AG35aekR1AXg9BdlnjWYFvAA9VPc033kn9uC5PC6Z5RTnA
-         5/lN8GpzuTy0oKhFQ/Ss6B2kk87tEsZ/YyLW+Y7YvaGmAiwiftLUuz8J8veyvI5tr1QR
-         qvGwKjcve0EzQNoAPcRxf+k1n/jjTlY+6NmXjdbZd53Y+7ObvlEy/YVM3juS55Zhbvff
-         6v/w==
-X-Gm-Message-State: AC+VfDzaYuTwoO1itlR8TDxOEZdyu2bHXYz106beH2ArBMvyP/P3VkAY
-        CwJk9f3owJ7SGuzcvoBz3/h61g==
-X-Google-Smtp-Source: ACHHUZ5JUKhb5xLWhhwfP9hIde5UuYkLpVxnT1k61JKzExG1On60bR+Hs2VUE0a/47NYIgSj/pTTUg==
-X-Received: by 2002:a19:5009:0:b0:4f3:b588:48d0 with SMTP id e9-20020a195009000000b004f3b58848d0mr1249482lfb.14.1686327612574;
-        Fri, 09 Jun 2023 09:20:12 -0700 (PDT)
-Received: from [192.168.1.101] (abyj190.neoplus.adsl.tpnet.pl. [83.9.29.190])
-        by smtp.gmail.com with ESMTPSA id a1-20020a056512020100b004f138c4de81sm594947lfo.149.2023.06.09.09.20.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jun 2023 09:20:12 -0700 (PDT)
-Message-ID: <90b04e1b-8f3b-982e-bab2-36c09cc1d53d@linaro.org>
-Date:   Fri, 9 Jun 2023 18:20:09 +0200
+        with ESMTP id S231167AbjFIQ0W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 12:26:22 -0400
+Received: from BN6PR00CU002.outbound.protection.outlook.com (mail-eastus2azon11021015.outbound.protection.outlook.com [52.101.57.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524752D5F;
+        Fri,  9 Jun 2023 09:26:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G0LgF3mSiJNAmfhUIPmpxLnB1Q12XrfbMGPa4COf2Wx9P5x0hDMGrse13gkQrAauoN6HtQrTAHLsNJWxxmCh0ZoQx/bmZtKdL3huxyW0aONRc8t6WGNSKEEKq/rT9vsOlu7M9v/nu+rTFk+e0jYyS3uXziDl6piOJj17gyuA9QgTCKB6GtBy8z6P5sNcfSGFDLC5zsj+r1ywdqPHIOIbPDN29TBRVb7r6omJopzEq614me/Fw80s1pn6uE+wDDR+DygMcrkRsilA3e4m4g8zXoeJjwdoybCghnqXFeZK4piAvvxN5UZB/zftOdTAr6fTLY9aKNyXgL/9v+scNP1P2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w5bfv1H+CGDfbkwZ2cBIh4gyavf+5rvdrsvjYmkXPcQ=;
+ b=UbSHC2S4qEpv2orM7/fqdeTuV/rFurX6AfUmJPBnhEnbt/0LvLVIVp5VxgESJ8BK7UenevwWBYav8rLfGdSp3FaJN+hOOqw8B7Njtr4m7CsyRiHacqXrQP06I41SkIJ7pnFFyM72NEeo6SOS08necWVDb7SxPAY7wjvdNu0UyCdfmb12JNOVbXwebq5IVVEcAHaf9dVc9xUCrnY741lTU4b8YMm/iq70UfBB/O8ZWxMWy7YFYckj+BBmGRNTYBY65BugM2bMOZ0/3yFnZ6x3u/wHIMCUhB3GAMcrcTe8s4AyoYUqnRMeJHciQxgoSdIQogbB2KzAO40Td4ievAZxUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w5bfv1H+CGDfbkwZ2cBIh4gyavf+5rvdrsvjYmkXPcQ=;
+ b=ESD3q6mug2xhtm8HdsTQDxE092V7RGn3UbAWxDyaDsrKHerKX2NiYuPh8x61pfYD+THdCy4ckUlKpXSUHnpT4Teux0HsZrnGhv2Lzcp4uK44kS7HywYXoJrBCoDgb0TxoE8Wih5KlIQto6LghytN2kbi5aaWoS94kih8vqisGns=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+Received: from BY5PR21MB1443.namprd21.prod.outlook.com (2603:10b6:a03:21f::18)
+ by BY5PR21MB1474.namprd21.prod.outlook.com (2603:10b6:a03:21f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.15; Fri, 9 Jun
+ 2023 16:26:18 +0000
+Received: from BY5PR21MB1443.namprd21.prod.outlook.com
+ ([fe80::4eff:a209:efda:81d4]) by BY5PR21MB1443.namprd21.prod.outlook.com
+ ([fe80::4eff:a209:efda:81d4%6]) with mapi id 15.20.6500.016; Fri, 9 Jun 2023
+ 16:26:17 +0000
+From:   Haiyang Zhang <haiyangz@microsoft.com>
+To:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org
+Cc:     haiyangz@microsoft.com, kys@microsoft.com, olaf@aepfle.de,
+        vkuznets@redhat.com, davem@davemloft.net, weiwan@google.com,
+        tim.gardner@canonical.com, corbet@lwn.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, dsahern@kernel.org,
+        atenart@kernel.org, bagasdotme@gmail.com, ykaliuta@redhat.com,
+        kuniyu@amazon.com, stephen@networkplumber.org,
+        simon.horman@corigine.com, maheshb@google.com,
+        liushixin2@huawei.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH net-next] tcp: Make pingpong threshold tunable
+Date:   Fri,  9 Jun 2023 09:25:59 -0700
+Message-Id: <1686327959-13478-1-git-send-email-haiyangz@microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+Content-Type: text/plain
+X-ClientProxiedBy: MW4PR04CA0294.namprd04.prod.outlook.com
+ (2603:10b6:303:89::29) To BY5PR21MB1443.namprd21.prod.outlook.com
+ (2603:10b6:a03:21f::18)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Content-Language: en-US
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>, corbet@lwn.net,
-        will@kernel.org, boqun.feng@gmail.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, dennis@kernel.org, tj@kernel.org,
-        cl@linux.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, joro@8bytes.org, suravee.suthikulpanit@amd.com,
-        robin.murphy@arm.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        Andrew Morton <akpm@linux-foundation.org>, vbabka@suse.cz,
-        roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-s390@vger.kernel.org,
-        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-crypto@vger.kernel.org, sfr@canb.auug.org.au,
-        mpe@ellerman.id.au, James.Bottomley@hansenpartnership.com,
-        deller@gmx.de, linux-parisc@vger.kernel.org, llvm@lists.linux.dev
-References: <20230531132323.587480729@infradead.org>
- <f320f021-88c4-c5c9-0781-c82d0b88f67d@linaro.org>
- <20230609161340.GA4019185@dev-arch.thelio-3990X>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v2 5/12] percpu: Add {raw,this}_cpu_try_cmpxchg()
-In-Reply-To: <20230609161340.GA4019185@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Sender: LKML haiyangz <lkmlhyz@microsoft.com>
+X-MS-Exchange-MessageSentRepresentingType: 2
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR21MB1443:EE_|BY5PR21MB1474:EE_
+X-MS-Office365-Filtering-Correlation-Id: 27637225-4df6-4cde-43f0-08db69064010
+X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lCMfJfrt4VmHW74gLSp7kFMWk/ytLG43jidsRrgnfrEX+NUsHPZPqzYtyKYoq5OE+z8PCWJq9tDtS6+GekskppA+SUOz+9/nZq4NqNa4GgCvyxinby1qp9qCZUJELyDaYOTsK1Ud7PBUAylDPrOg1ldA4opTFiIIT1geSZrQHLSMqFwU8SGsCLgPf2DhoS7iAhuy5mHb5GYCvkrk6IVJLS3pIAD4ae/q31aXJwiIodtKah+U3knSDhmacJWhgglJbk/wDd++2LCZXmcw4BKBMhrz0O2LjUGDleSVHHvsPzn3AsXPlK8k28C8kl1zWFqmuFicCLNvZfAJoxHkWxXUe/vqzq7tW38gofchGsKWo37QkgkFdTCtvT61IrxA8cn7VGKvpA6d98n1tRgCCNhbrovZ34Q1Ar+20dIQZjrN6jgeO4dq+bdqwPjocKhFs59NyKaAHa0J6qWEYaPdQE4os85/qhXUBYHU7aTE0mByay7K4ISET33MQ9tD7nvjTWQUZ1WHHKLawOJQ+cTYMfY2vYdkOIXnmSPHs7lNbQbPVoVEZjqi9cd22ggv6hROfp1AxfcOdzE/5/ZcRuc7egDSl5M2LEHwo9OAh1QRnWo5SWWEC1lrSIkaKd7fEYPha7CaX5L1ch4vm8+enNQn3Tcs/2clPVOzsQfzsqkdRMkvlFw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR21MB1443.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(39860400002)(396003)(346002)(366004)(451199021)(8676002)(8936002)(478600001)(10290500003)(7846003)(6666004)(41300700001)(5660300002)(4326008)(316002)(6486002)(52116002)(6506007)(6512007)(26005)(186003)(7416002)(66556008)(66476007)(66946007)(2616005)(2906002)(83380400001)(38100700002)(38350700002)(82960400001)(82950400001)(36756003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6/3+KJxF+NpZx41J5hrmfAV6+CRz77iRmpN1ApA1zxoLVUQirrsKMzX0eSyq?=
+ =?us-ascii?Q?Jd2mgAmoMNMrhrRrfC7tMQdewVLzy+5R2JTjO1U6quJWkkQ26GlrOR3FIK0G?=
+ =?us-ascii?Q?q6FKril6XCHr8qL0qwYwQhQr0MCLN19KrhDvEuKk60Oj188kafYuBWL0D9Uj?=
+ =?us-ascii?Q?uh7Y5bL397rXOUK4jOaJnNrpC8UMiLFi5SBz2xKdnggyb6ZQk9dqo/+HVPjQ?=
+ =?us-ascii?Q?L1Rw4leEtK2gCgO3/RJoufYd1tw0xqaad0SP2Bzqqlaj+8uxNu8ixY30mA3P?=
+ =?us-ascii?Q?9hpNhh/lcyE4VRGeDAXdAz+bPipOlNAhkLex/He6Zn//l862rFzAMN9+o6uF?=
+ =?us-ascii?Q?/K6W5aY4B8Bsxee0J3snbtx2RHM/fJGsXV2JZgJrmG1S+bSWROgMDbR8uXJE?=
+ =?us-ascii?Q?7wmNKSJAVd5V5cYEsc5GtZJ3XyxoBxxLQUHnOftEfsx7S3SQ7Bf8OULqLLx0?=
+ =?us-ascii?Q?dMsgpuMf31JoaHfNNty5U3YxceQZxqVuCT9GQAGz45PTfRNdINzO6GvyF8Cd?=
+ =?us-ascii?Q?SUUEiU/8nwhImDKADme5dd+XDlj6AxXgMIkAsOfKQwE1mlcxCR/R5sv6c5uZ?=
+ =?us-ascii?Q?JcV/qgooDEbac0AnB7XA99ND1mHmnbTLGRKaMpeujchLMG7XXujJP601UHBh?=
+ =?us-ascii?Q?TP4OT9TxDtv27N9UDf2jxs2tXvs8wJbUyhqzHDYuTf8NsyIzWxoKqWb8lGDa?=
+ =?us-ascii?Q?mTJGozcBfeDqIQ8yMjqE9PyjOR7HlbnA5BixkR2AcvgemkXsPJ59El87zRRr?=
+ =?us-ascii?Q?23vgNlikbPEbozTIPgKoupYTwLmkc3mU9ed6cU9vHW+7WoPot5q+yT0zL5y0?=
+ =?us-ascii?Q?s4BTyMzeWNyoSFIfXg5WgBZYOMt0C/lnWpqVoKwyXKR510t5Fpcz4f2HPINk?=
+ =?us-ascii?Q?N8cVwv6/liIF6Bc+zqM2nI6FxFBEk2D5Yt3Ca8xCrdoKEKaC+Nug8hb32qB5?=
+ =?us-ascii?Q?HG8Bf2YK1V50BV/gK4jlA4Gpvbi/FDITmO8QBVYaJpzIf3cBPYgG52pjkgvr?=
+ =?us-ascii?Q?40httRdTJypdTFw03tYBedLr8iLOMyZbz+4VZDgHQyATlzX6fVOKt5lpxQg6?=
+ =?us-ascii?Q?g3oEx273NYZY8QGbYNOwoFuvVVZDwWR+wUnfXCCU3+rW9cK1vI0IHsknkQ95?=
+ =?us-ascii?Q?Snf4jhec9ly+p/i62SN+SR2rdSqknoY/4ZLX8TSpAPjOr75+8m/E40ysqqGP?=
+ =?us-ascii?Q?G7MZspxKBHub7FYZksUahhxjsZQpWcLqLehCz2+QVuPihOT1AA+VV+VVxLGM?=
+ =?us-ascii?Q?KNUFc2XfjNjA6RZ+yf5LiUrXBzVEGSEgXeTNldnfG/7XCHu20JzT2WrNzwNK?=
+ =?us-ascii?Q?lPB4NRbzoZF5f/mZXkFM3DAMIyUmMAFt9hs+KgjoUPNj30UHzjhPDN8Uh6nU?=
+ =?us-ascii?Q?lLxa02yHIXRiTO0OEDVQoD126LPp4b2iQrT3TWf52ko6qdSluvWyAjlKAZYs?=
+ =?us-ascii?Q?y3/GPgDk6EJcXfwM3yj5pzyepqT5+aQpQZKtPrC5LxX7kuWTOGdwiujWAJjQ?=
+ =?us-ascii?Q?LVMtRkGjSY2fgn/+I6+ZLQhXoPvO5GY7QDkrDMB+mClTmCb8M72ZRHFXp1Zk?=
+ =?us-ascii?Q?8zoOxZdoLMSEdDPtqvX54NadtUJyrjSiQW1TxI/1?=
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27637225-4df6-4cde-43f0-08db69064010
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR21MB1443.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2023 16:26:17.8406
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9RHwuWVAAVbpUVo4zgg/QneIlPre0cXcCBGkvEvy1yDKUoE5aRKQmeBRiNF/oiogOGI8ucIUdqeyvX1IjYTXWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR21MB1474
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+TCP pingpong threshold is 1 by default. But some applications, like SQL DB
+may prefer a higher pingpong threshold to activate delayed acks in quick
+ack mode for better performance.
 
+The pingpong threshold and related code were changed to 3 in the year
+2019, and reverted to 1 in the year 2022. There is no single value that
+fits all applications.
 
-On 9.06.2023 18:13, Nathan Chancellor wrote:
-> Hi Konrad,
-> 
-> On Fri, Jun 09, 2023 at 06:10:38PM +0200, Konrad Dybcio wrote:
->>
->>
->> On 31.05.2023 15:08, Peter Zijlstra wrote:
->>> Add the try_cmpxchg() form to the per-cpu ops.
->>>
->>> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
->>> ---
->> +CC Nathan, llvm list
->>
->> Hi all, this patch seems to break booting on Qualcomm ARM64 platforms
->> when compiled with clang (GCC works fine) for some reason..:
->>
->> next-20230605 - works
->> next-20230606 - doesn't
->>
->> grev -m 1 dc4e51fd9846 on next-20230606 - works again
->> b4 shazam <this_msgid> -P 1-4 - still works
->> b4 shazam <this_msgid> -P 5 - breaks
->>
->> Confirmed on at least Qualcomm QCM2290, SM8250.
->>
->> Checking the serial console, it hits a BUG_ON:
->>
->> [    0.000000] ------------[ cut here ]------------
->> [    0.000000] kernel BUG at mm/vmalloc.c:1638!
->> [    0.000000] Internal error: Oops - BUG: 00000000f2000800 [#1] SMP
->> [    0.000000] Modules linked in:
->> [    0.000000] CPU: 0 PID: 0 Comm: swapper/0 Not tainted [snip]
->> [    0.000000] Hardware name: Qualcomm Technologies, Inc. Robotics RB1 (DT)
->> [    0.000000] pstate: 000000c5 (nzcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->> [    0.000000] pc : alloc_vmap_area+0xafc/0xb08
->> [    0.000000] lr : alloc_vmap_area+0x9e4/0xb08
->> [    0.000000] sp : ffffa50137f53c20
->> [    0.000000] x29: ffffa50137f53c60 x28: ffffa50137f30c18 x27: 0000000000000000
->> [    0.000000] x26: 0000000000007fff x25: ffff800080000000 x24: 000000000000cfff
->> [    0.000000] x23: ffffffffffff8000 x22: ffffa50137fef970 x21: fffffbfff0000000
->> [    0.000000] x20: ffff022982003208 x19: ffff0229820031f8 x18: ffffa50137f64f70
->> [    0.000000] x17: ffffa50137fef980 x16: ffffa501375e6d08 x15: 0000000000000001
->> [    0.000000] x14: ffffa5013831e1a0 x13: ffffa50137f30c18 x12: 0000000000402dc2
->> [    0.000000] x11: 0000000000000000 x10: ffff022982003018 x9 : ffffa5013831e188
->> [    0.000000] x8 : ffffcb55ff003228 x7 : 0000000000000000 x6 : 0000000000000048
->> [    0.000000] x5 : 0000000000000000 x4 : ffffa50137f53bd0 x3 : ffffa50136490000
->> [    0.000000] x2 : 0000000000000001 x1 : ffffa5013831e190 x0 : ffff022982003208
->> [    0.000000] Call trace:
->> [    0.000000]  alloc_vmap_area+0xafc/0xb08
->> [    0.000000]  __get_vm_area_node+0x108/0x1e8
->> [    0.000000]  __vmalloc_node_range+0x1fc/0x728
->> [    0.000000]  __vmalloc_node+0x5c/0x70
->> [    0.000000]  init_IRQ+0x90/0x11c
->> [    0.000000]  start_kernel+0x1ac/0x3bc
->> [    0.000000]  __primary_switched+0xc4/0xcc
->> [    0.000000] Code: f000e300 91062000 943bd9ba 17ffff8f (d4210000)
->> [    0.000000] ---[ end trace 0000000000000000 ]---
->> [    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
->>
->> Compiled with clang 15.0.7 from Arch repos, with
->> make ARCH=arm64 LLVM=1
-> 
-> Thanks a lot for testing with LLVM, submitting this report, and doing a
-> bisect.
-No, thank *you* for making it even possible ;)
+Add net.core.tcp_pingpong_thresh sysctl tunable, so it can be tuned for
+optimal performance based on the application needs.
 
-I sent a patch to fix this a couple of days ago and Peter pushed
-> it to -tip today, so it should be in the next -next release:
-> 
-> https://git.kernel.org/tip/093d9b240a1fa261ff8aeb7c7cc484dedacfda53
-Amazing, I can boot the most recent next-20230609 with it again!
+Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+---
+ Documentation/admin-guide/sysctl/net.rst |  8 ++++++++
+ include/net/inet_connection_sock.h       | 14 +++++++++++---
+ net/core/sysctl_net_core.c               |  9 +++++++++
+ net/ipv4/tcp.c                           |  2 ++
+ net/ipv4/tcp_output.c                    | 17 +++++++++++++++--
+ 5 files changed, 45 insertions(+), 5 deletions(-)
 
-Konrad
-> 
-> Cheers,
-> Nathan
+diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
+index 4877563241f3..16f54be9461f 100644
+--- a/Documentation/admin-guide/sysctl/net.rst
++++ b/Documentation/admin-guide/sysctl/net.rst
+@@ -413,6 +413,14 @@ historical importance.
+ 
+ Default: 0
+ 
++tcp_pingpong_thresh
++-------------------
++
++TCP pingpong threshold is 1 by default, but some application may need a higher
++threshold for optimal performance.
++
++Default: 1, min: 1, max: 3
++
+ 2. /proc/sys/net/unix - Parameters for Unix domain sockets
+ ----------------------------------------------------------
+ 
+diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
+index c2b15f7e5516..e84e33ddae49 100644
+--- a/include/net/inet_connection_sock.h
++++ b/include/net/inet_connection_sock.h
+@@ -324,11 +324,11 @@ void inet_csk_update_fastreuse(struct inet_bind_bucket *tb,
+ 
+ struct dst_entry *inet_csk_update_pmtu(struct sock *sk, u32 mtu);
+ 
+-#define TCP_PINGPONG_THRESH	1
++extern int tcp_pingpong_thresh;
+ 
+ static inline void inet_csk_enter_pingpong_mode(struct sock *sk)
+ {
+-	inet_csk(sk)->icsk_ack.pingpong = TCP_PINGPONG_THRESH;
++	inet_csk(sk)->icsk_ack.pingpong = tcp_pingpong_thresh;
+ }
+ 
+ static inline void inet_csk_exit_pingpong_mode(struct sock *sk)
+@@ -338,7 +338,15 @@ static inline void inet_csk_exit_pingpong_mode(struct sock *sk)
+ 
+ static inline bool inet_csk_in_pingpong_mode(struct sock *sk)
+ {
+-	return inet_csk(sk)->icsk_ack.pingpong >= TCP_PINGPONG_THRESH;
++	return inet_csk(sk)->icsk_ack.pingpong >= tcp_pingpong_thresh;
++}
++
++static inline void inet_csk_inc_pingpong_cnt(struct sock *sk)
++{
++	struct inet_connection_sock *icsk = inet_csk(sk);
++
++	if (icsk->icsk_ack.pingpong < U8_MAX)
++		icsk->icsk_ack.pingpong++;
+ }
+ 
+ static inline bool inet_csk_has_ulp(struct sock *sk)
+diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
+index 782273bb93c2..b5253567f2bd 100644
+--- a/net/core/sysctl_net_core.c
++++ b/net/core/sysctl_net_core.c
+@@ -653,6 +653,15 @@ static struct ctl_table net_core_table[] = {
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+ 	},
++	{
++		.procname	= "tcp_pingpong_thresh",
++		.data		= &tcp_pingpong_thresh,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ONE,
++		.extra2		= SYSCTL_THREE,
++	},
+ 	{ }
+ };
+ 
+diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+index 53b7751b68e1..dcd143193d41 100644
+--- a/net/ipv4/tcp.c
++++ b/net/ipv4/tcp.c
+@@ -308,6 +308,8 @@ EXPORT_SYMBOL(tcp_have_smc);
+ struct percpu_counter tcp_sockets_allocated ____cacheline_aligned_in_smp;
+ EXPORT_SYMBOL(tcp_sockets_allocated);
+ 
++int tcp_pingpong_thresh __read_mostly = 1;
++
+ /*
+  * TCP splice context
+  */
+diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+index cfe128b81a01..576d21621778 100644
+--- a/net/ipv4/tcp_output.c
++++ b/net/ipv4/tcp_output.c
+@@ -167,12 +167,25 @@ static void tcp_event_data_sent(struct tcp_sock *tp,
+ 	if (tcp_packets_in_flight(tp) == 0)
+ 		tcp_ca_event(sk, CA_EVENT_TX_START);
+ 
++	/* If tcp_pingpong_thresh > 1, and
++	 * this is the first data packet sent in response to the
++	 * previous received data,
++	 * and it is a reply for ato after last received packet,
++	 * increase pingpong count.
++	 */
++	if (tcp_pingpong_thresh > 1 &&
++	    before(tp->lsndtime, icsk->icsk_ack.lrcvtime) &&
++	    (u32)(now - icsk->icsk_ack.lrcvtime) < icsk->icsk_ack.ato)
++		inet_csk_inc_pingpong_cnt(sk);
++
+ 	tp->lsndtime = now;
+ 
+-	/* If it is a reply for ato after last received
++	/* If tcp_pingpong_thresh == 1, and
++	 * it is a reply for ato after last received
+ 	 * packet, enter pingpong mode.
+ 	 */
+-	if ((u32)(now - icsk->icsk_ack.lrcvtime) < icsk->icsk_ack.ato)
++	if (tcp_pingpong_thresh == 1 &&
++	    (u32)(now - icsk->icsk_ack.lrcvtime) < icsk->icsk_ack.ato)
+ 		inet_csk_enter_pingpong_mode(sk);
+ }
+ 
+-- 
+2.25.1
+
