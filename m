@@ -2,92 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3065C7EE37
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 01:51:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD57C7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 02:06:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237995AbjFIBvY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 21:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52880 "EHLO
+        id S234125AbjFICGO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 22:06:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238000AbjFIBvX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 21:51:23 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97E301BF0;
-        Thu,  8 Jun 2023 18:51:17 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1b01d912924so3412145ad.1;
-        Thu, 08 Jun 2023 18:51:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686275477; x=1688867477;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=ExVnv9Hua4o/9LiKX5VT7Fy71gRUPiGtaPQt3M65gPA=;
-        b=GH0olp1WNnT01+7hnipCcJFY5OLfsyFib9DXZAFXvfq43mC1hkwpeznMfCxaRCNXzo
-         bSKoXYZwoYgZbXbJE6GI1+S7IRJ3/phkBZ3jtm7baCfBaxEbY0aqIp0JVeYxl8K6Xk/E
-         OthxNwNN1DovkMeQvSQ/mX1etlF1n2hSjf8/tYSOPCbnXIspu0VxygGb29q9RERF4Y8w
-         4g5/lpu89BGSG0DApjJXzLCU7mYL0I/lGGN6Q7wTVM1U4Jpm6wmdwISNqGJQZxxTui5q
-         Pkm04oNXg3MRiF/qcaGMPXolIOgs8lXLmsKBQ/AtSUj9Ll0D7HLzSSkx+Ieh57FVU4DL
-         4hlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686275477; x=1688867477;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ExVnv9Hua4o/9LiKX5VT7Fy71gRUPiGtaPQt3M65gPA=;
-        b=AFPBSooOqmDqKlCKn5uBFyoIC9dEDipa2ytvzx+VNYrOO26vCPUOSYOcvlUr1+tcYg
-         qAIxp3/VFDNYceefSOc1ZX4WwKpf2RhnQLbDyJ8E/GZtJIw31tp0fQu6unsYi7he45ta
-         sWbNsAsWoHGwsbDGcRhhtF8h5cG8OaGCVdHql1jZOnO4wTSfw/09H/RkXLQAgE5WpaJc
-         Oara+OAM3+lVdl0OoI0qP8xK8cn3qyhx8xvgjkTHGjezf1XNL14wKn0XsA4fniWAz3oI
-         OzekDiC/rR2UcsrHKQFGTqsVNT3cDrqPj7BwvPUgf9Zi9pI1iXVjZs0HTgMFQe3Nrf+5
-         XU2Q==
-X-Gm-Message-State: AC+VfDyaikUpXrHoqiS/wPLnUVauW538ZsZtAKy9FM+SVJox90lODNxI
-        yVgJ7zXHRJCve6JkDS7gZuw=
-X-Google-Smtp-Source: ACHHUZ7e91JfKHjzsGMwENeW0HwPaTbbf5BtDIz0MJm2h8tnRZT9+voQ6NDMPhDWJMMIK3aZklhBtg==
-X-Received: by 2002:a17:902:c949:b0:1b0:5d15:3132 with SMTP id i9-20020a170902c94900b001b05d153132mr18482pla.58.1686275476683;
-        Thu, 08 Jun 2023 18:51:16 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g18-20020a170902869200b001b01fc7337csm2006329plo.247.2023.06.08.18.51.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jun 2023 18:51:16 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e1fcbb8d-c9b3-868e-8053-6ebc33a3e66a@roeck-us.net>
-Date:   Thu, 8 Jun 2023 18:51:14 -0700
+        with ESMTP id S229784AbjFICGN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 22:06:13 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7BED30D2;
+        Thu,  8 Jun 2023 19:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686276372; x=1717812372;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yf/goSKZB9+Tho1Vqu1nbwxS6JRsN/UDlhFgsPkydz8=;
+  b=ZhmJ0RpBdfrMKU0SYtsaNKZzlruL/A5A6ghA6LspeOKIT5hlzAaPvjdh
+   p7RMu69C4IU1ot6Kf/MQ1atO+XVbThWjXKNKnSgRUrSOsdNRVBrobKjXK
+   v6kOl4ajIM/jJGXe9aBasgBHlS4UQRJFDJ512L7FeVX0QeKM4gMkk1p87
+   rce5FHWXZE1zjy2vj3mhuscF7nrGUTvSD+e9D+FMM22X7WL8PG2zwwpTa
+   KM8f3bCCmL59mbhKD73CDDrUrrTI3mYKy2UkJseT2ToV+Xct81C6P7NG2
+   LSoOA/h3LbbUhYe0HWRIXjHvble5+7uTB3drqmws6qv8+v21fJSRLf6Zm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="359975109"
+X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; 
+   d="scan'208";a="359975109"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 19:06:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="713334272"
+X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; 
+   d="scan'208";a="713334272"
+Received: from haibo-optiplex-7090.sh.intel.com ([10.239.159.132])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 19:06:05 -0700
+From:   Haibo Xu <haibo1.xu@intel.com>
+Cc:     xiaobo55x@gmail.com, haibo1.xu@intel.com, ajones@ventanamicro.com,
+        maz@kernel.org, oliver.upton@linux.dev, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: [PATCH v3 00/10] RISCV: Add KVM_GET_REG_LIST API
+Date:   Fri,  9 Jun 2023 10:12:08 +0800
+Message-Id: <cover.1686275310.git.haibo1.xu@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] Documentation/hwmon: Fix description of
- devm_hwmon_device_unregister
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, YYang <iyysheng@gmail.com>,
-        jdelvare@suse.com, corbet@lwn.net
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, YYang <iyysheng@gmai.com>
-References: <20230608224231.1156-1-iyysheng@gmail.com>
- <ZIKA3MNR1t2HvnHo@debian.me>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <ZIKA3MNR1t2HvnHo@debian.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/8/23 18:31, Bagas Sanjaya wrote:
-> On Fri, Jun 09, 2023 at 02:42:30AM +0400, YYang wrote:
->> From: YYang <iyysheng@gmai.com>
->>
->> Use devm_hwmon_device_register_with_info to replace
->> hwmon_device_register_with_info in description of
->> devm_hwmon_device_unregister.
->>
->> Signed-off-by: YYang <iyysheng@gmai.com>
-> 
-> Is your SoB address gmail one (sounds typo here)?
-> 
+KVM_GET_REG_LIST will dump all register IDs that are available to
+KVM_GET/SET_ONE_REG and It's very useful to identify some platform
+regression issue during VM migration.
 
-Looks like it. YYang - please resubmit with correct SoB.
+Patch 1-7 re-structured the get-reg-list test in aarch64 to make some
+of the code as common test framework that can be shared by riscv.
 
-Thanks,
-Guenter
+Patch 8 enabled the KVM_GET_REG_LIST API in riscv and patch 9-10 added
+the corresponding kselftest for checking possible register regressions.
+
+The get-reg-list kvm selftest was ported from aarch64 and tested with
+Linux 6.4-rc5 on a Qemu riscv64 virt machine.
+
+---
+Changed since v2:
+  * Rebase to Linux 6.4-rc5
+  * Filter out ZICBO* config and ISA_EXT registers report if the
+    extensions were not supported in host
+  * Enable AIA CSR test
+  * Move vCPU extension check_supported() to finalize_vcpu() per
+    Andrew's suggestion
+  * Switch to use KVM_REG_SIZE_ULONG for most registers' definition
+
+---
+Changed since v1:
+   * rebase to Andrew's changes
+   * fix coding style
+
+Andrew Jones (7):
+  KVM: arm64: selftests: Replace str_with_index with strdup_printf
+  KVM: arm64: selftests: Drop SVE cap check in print_reg
+  KVM: arm64: selftests: Remove print_reg's dependency on vcpu_config
+  KVM: arm64: selftests: Rename vcpu_config and add to kvm_util.h
+  KVM: arm64: selftests: Delete core_reg_fixup
+  KVM: arm64: selftests: Split get-reg-list test code
+  KVM: arm64: selftests: Finish generalizing get-reg-list
+
+Haibo Xu (3):
+  KVM: riscv: Add KVM_GET_REG_LIST API support
+  KVM: riscv: selftests: Skip some registers set operation
+  KVM: riscv: selftests: Add get-reg-list test
+
+ Documentation/virt/kvm/api.rst                |   2 +-
+ arch/riscv/kvm/vcpu.c                         | 378 +++++++++++
+ tools/testing/selftests/kvm/Makefile          |  11 +-
+ .../selftests/kvm/aarch64/get-reg-list.c      | 540 ++--------------
+ tools/testing/selftests/kvm/get-reg-list.c    | 421 ++++++++++++
+ .../selftests/kvm/include/kvm_util_base.h     |  16 +
+ .../selftests/kvm/include/riscv/processor.h   |   3 +
+ .../testing/selftests/kvm/include/test_util.h |   2 +
+ tools/testing/selftests/kvm/lib/test_util.c   |  15 +
+ .../selftests/kvm/riscv/get-reg-list.c        | 611 ++++++++++++++++++
+ 10 files changed, 1499 insertions(+), 500 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/get-reg-list.c
+ create mode 100644 tools/testing/selftests/kvm/riscv/get-reg-list.c
+
+-- 
+2.34.1
 
