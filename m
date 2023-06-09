@@ -2,113 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE28C7EE29
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 17:46:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B37CBC7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 18:23:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbjFIRqn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 13:46:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52802 "EHLO
+        id S229935AbjFISXD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 14:23:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbjFIRql (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 13:46:41 -0400
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3A85E4E
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 10:46:30 -0700 (PDT)
-Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-77ada5cacd9so55417039f.3
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 10:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686332790; x=1688924790;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ORN9WVquc1eDa/NSYBsODEMAyXT/sC/8w6SXWS7Qzgo=;
-        b=fzsnU9EoqafeV7Cn73ofchOoBCacaYnZUnIOw7tL8zNyqaxJs4nTNt0evUic6C65tq
-         qE6DW7IgcvWLEivIP6r42+q3oN77yHyRpK5Mj6Cy3c8hZ7HA/sm43fuRoSJ5+H9PJjzu
-         50HWDhOJy7qrVxtNvrjuuWsaO/EOfdFzpXgnqaAHTZvz2+RwI5iaroHa8Hwt9ol3QoWs
-         jBD5q/6FQIHxrrcegz3/vuEARZdmu2uu5YFkKD5CCVou8U+O9FvAyBwRc5dUTHKg3RtF
-         U9AvH1RKRcXrz7Zq8B7TidkYyvB1rp0prVXkXmJl0IW4iBYwuQvHiM081/3u5XUAyq2O
-         HkFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686332790; x=1688924790;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ORN9WVquc1eDa/NSYBsODEMAyXT/sC/8w6SXWS7Qzgo=;
-        b=N6rU8NrAFikj4p5XBSxmLy6+5cTwXWEPAw76u0vgGRRqVvx4/nbAWphKPza6r5bcEm
-         0rpkW+s4Eh/m/QIVJfGoMk6MuvOMVaopHi/lufBdY5KMjIGKXTuYlgEw0M2jhzsMAZxP
-         bWu+KMY3rYCm6q1YSJsu0qAPkmjUXGDaokr/M4ANJp5Ibiymx0Xn9X9m6sLZ5kydTK5c
-         +PwUaVfaxHmhvkM4JQtGjhHTnWSrZJOlsyT3hkAI1WBSLwy6PP86lRHffY1/aXDcLziw
-         w+YFWVnLdIb3/3iqzSOEPz0OWX8Ul/X0vHLZYKILF1W5P/cR3Yv3TFDZUCk5G9JSkd9e
-         ejMA==
-X-Gm-Message-State: AC+VfDxZVb98C1rHJs976tlRwOM7eHEI8cPHgT+moxtSc2pvzf+kIrAK
-        pHvXoi79V5OI2gwpiBmlwsibMA==
-X-Google-Smtp-Source: ACHHUZ47AG3wAglH5Pw0GaXvZRnB3BfoAgvmfvevkXVlgMtgzr6hM2rkymQ7qMD3eChz4oaVWxieBg==
-X-Received: by 2002:a05:6602:2747:b0:774:8786:1b59 with SMTP id b7-20020a056602274700b0077487861b59mr2513455ioe.11.1686332790231;
-        Fri, 09 Jun 2023 10:46:30 -0700 (PDT)
-Received: from [172.22.22.28] ([98.61.227.136])
-        by smtp.gmail.com with ESMTPSA id a22-20020a5d89d6000000b007747a6d875csm1190529iot.9.2023.06.09.10.46.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jun 2023 10:46:29 -0700 (PDT)
-Message-ID: <ab5013da-51fe-8bd4-e4ff-e16f9d81bd48@linaro.org>
-Date:   Fri, 9 Jun 2023 12:46:27 -0500
+        with ESMTP id S229664AbjFISXC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 14:23:02 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09F6B1730;
+        Fri,  9 Jun 2023 11:23:00 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 359FqxYu003464;
+        Fri, 9 Jun 2023 18:22:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=xZAwHAYdiTHICYvfdxFuK+h4NxTCnlISN12IpXG6Fug=;
+ b=UHBqy/E9IkxqoT8OB0UOGj1ZWnAXq+E1h4dxaKEGTuai6hIt1i+BixS6PI9jD+5uJUJK
+ nxcmVIQAOnRXjazMiK8aEq8TD71ffYOc5Pv52fKiY3Lo1Sd+nhodUhnHdCoA+WQe8+WM
+ nSGpY/zmlqMhhrB2ejEPbJ5DE9nD1dPCROVZ2RACEVksnXTl4Aq4WSPjShZVd0a6ZW0K
+ hAoJwnCd/gUhgJTtCojQkyNS5NLywBVpUIMTcCD3fpM7ZTQKZnJT4y4XnSFrWcpfCiPW
+ /qIhzeK1WdNve9kqff+ti4DBVzvVHCpDb5zHb+82T7J72ajAEouo+gTEWramFT3ygWNh 4A== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r3w7dsj45-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 09 Jun 2023 18:22:47 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 359IMZRC003104
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 9 Jun 2023 18:22:35 GMT
+Received: from [10.134.65.165] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 9 Jun 2023
+ 11:22:35 -0700
+Message-ID: <0416ee79-ac07-aefc-d83b-bc21894312ab@quicinc.com>
+Date:   Fri, 9 Jun 2023 11:22:34 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v13 23/24] virt: gunyah: Add ioeventfd
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v13 22/24] virt: gunyah: Add irqfd interface
 Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
+To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
 References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-24-quic_eberman@quicinc.com>
- <85e7c3ae-0991-0ca9-909c-f38773f63894@linaro.org>
- <2f60fc9f-a8b2-fe8c-183a-5ee9b276b02d@quicinc.com>
-From:   Alex Elder <elder@linaro.org>
-In-Reply-To: <2f60fc9f-a8b2-fe8c-183a-5ee9b276b02d@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20230509204801.2824351-23-quic_eberman@quicinc.com>
+ <1c386f4e-e2dd-eb79-9117-9b19877f2ccc@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <1c386f4e-e2dd-eb79-9117-9b19877f2ccc@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: woGnfPQzRI2anPREFMhlFBTuvfUVFi7P
+X-Proofpoint-ORIG-GUID: woGnfPQzRI2anPREFMhlFBTuvfUVFi7P
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-09_13,2023-06-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ spamscore=0 impostorscore=0 phishscore=0 adultscore=0 mlxlogscore=917
+ lowpriorityscore=0 suspectscore=0 clxscore=1015 priorityscore=1501
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306090153
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/9/23 12:33 PM, Elliot Berman wrote:
->>> +static int gh_write_ioeventfd(struct gh_vm_io_handler *io_dev, u64 
->>> addr, u32 len, u64 data)
->>> +{
->>> +    struct gh_ioeventfd *iofd = container_of(io_dev, struct 
->>> gh_ioeventfd, io_handler);
+
+
+On 6/5/2023 12:50 PM, Alex Elder wrote:
+> On 5/9/23 3:47 PM, Elliot Berman wrote:
+>> Enable support for creating irqfds which can raise an interrupt on a
+>> Gunyah virtual machine. irqfds are exposed to userspace as a Gunyah VM
+>> function with the name "irqfd". If the VM devicetree is not configured
+>> to create a doorbell with the corresponding label, userspace will still
+>> be able to assert the eventfd but no interrupt will be raised on the
+>> guest.
 >>
->> Does a write of 0 bytes still signal an event?
+>> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> 
+> I have a minor suggestion.  I think I'd like to look at this
+> again, so:
+> 
+> Acked-by: Alex Elder <elder@linaro.org>
+> 
+>> ---
+>>   Documentation/virt/gunyah/vm-manager.rst |   2 +-
+>>   drivers/virt/gunyah/Kconfig              |   9 ++
+>>   drivers/virt/gunyah/Makefile             |   1 +
+>>   drivers/virt/gunyah/gunyah_irqfd.c       | 180 +++++++++++++++++++++++
+>>   include/uapi/linux/gunyah.h              |  35 +++++
+>>   5 files changed, 226 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/virt/gunyah/gunyah_irqfd.c
 >>
 > 
->  From gunyah_ioeventfd perspective, yes. I don't think a write of 0 
-> bytes is possible, but maybe you are thinking of scenario I'm not?
+> . . .
 > 
->>> +
->>> +    eventfd_signal(iofd->ctx, 1);
->>> +    return 0;
->>> +} 
+>> @@ -99,6 +102,38 @@ struct gh_fn_vcpu_arg {
+>>       __u32 id;
+>>   };
+>> +/**
+>> + * enum gh_irqfd_flags - flags for use in gh_fn_irqfd_arg
+>> + * @GH_IRQFD_FLAGS_LEVEL: make the interrupt operate like a level 
+>> triggered
+>> + *                        interrupt on guest side. Triggering IRQFD 
+>> before
+>> + *                        guest handles the interrupt causes 
+>> interrupt to
+>> + *                        stay asserted.
+>> + */
+>> +enum gh_irqfd_flags {
+>> +    GH_IRQFD_FLAGS_LEVEL        = 1UL << 0,
+> 
+>      BIT(0),            /* ? */
+> 
 
-No, I was just observing that eventfd_signal() is called regardless
-of the value of len.
+The BIT macro isn't a standard C macro and isn't defined by Linux, so it 
+causes compile errors at least for me when I use it in userspace.
 
-					-Alex
+>> +};
+>> +
+>> +/**
+>> + * struct gh_fn_irqfd_arg - Arguments to create an irqfd function.
+>> + *
+>> + * Create this function with &GH_VM_ADD_FUNCTION using type 
+>> &GH_FN_IRQFD.
+>> + *
+>> + * Allows setting an eventfd to directly trigger a guest interrupt.
+>> + * irqfd.fd specifies the file descriptor to use as the eventfd.
+>> + * irqfd.label corresponds to the doorbell label used in the guest 
+>> VM's devicetree.
+>> + *
+>> + * @fd: an eventfd which when written to will raise a doorbell
+>> + * @label: Label of the doorbell created on the guest VM
+>> + * @flags: see &enum gh_irqfd_flags
+>> + * @padding: padding bytes
+>> + */
+>> +struct gh_fn_irqfd_arg {
+>> +    __u32 fd;
+>> +    __u32 label;
+>> +    __u32 flags;
+>> +    __u32 padding;
+>> +};
+>> +
+>>   /**
+>>    * struct gh_fn_desc - Arguments to create a VM function
+>>    * @type: Type of the function. See &enum gh_fn_type.
+> 
