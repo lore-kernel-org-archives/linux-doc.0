@@ -2,78 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC7A6C7EE37
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 06:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E84D7C7EE25
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 07:27:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237635AbjFIGpN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 02:45:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53978 "EHLO
+        id S238677AbjFIH1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 03:27:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238705AbjFIGpI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 02:45:08 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AE159E;
-        Thu,  8 Jun 2023 23:45:06 -0700 (PDT)
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 95BC0218;
-        Fri,  9 Jun 2023 06:45:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 95BC0218
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1686293104; bh=3rg0WjJw4hPJ60vNtrNt09H4yyqqTmW+xSH4eaVGQ4E=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=fWfK+2HjxgovIqkglzIVgkIQkgiDxV2Bc5hYjkaChsm+Lx4UzF6+Krg18reMCcd4F
-         XoC6Jj10WSF2u76SET8xVN4id6QXQ7vtN1vjR6TjFuD35FrkD62PWscd77BIyIf/wg
-         d4/I/JN2uANqHBpJJRQ9B8x6RaHg6YKK1sAdoF0ZcQ9Or1R6Vp9AAu9rXhGCSgw93m
-         8S7Rba0hEdak1iAFTHVaqDP3bKcx9ePGuEbFcSNhX6GrMhKlmXOcJCl0hsNuxLPQ+I
-         VMJzQHgMFbKU7JrEe7wr34CZa2VHtJ5z+3h0NK1VdTjKM9nbLkWPHtgRZRQFuM6Mho
-         8Xy4nRAwKyoJg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     YYang <iyysheng@gmail.com>, jdelvare@suse.com, linux@roeck-us.net
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, YYang <iyysheng@gmai.com>
-Subject: Re: [PATCH] Documentation/hwmon: Fix description of
- devm_hwmon_device_unregister
-In-Reply-To: <20230608224231.1156-1-iyysheng@gmail.com>
-References: <20230608224231.1156-1-iyysheng@gmail.com>
-Date:   Fri, 09 Jun 2023 00:45:00 -0600
-Message-ID: <871qilqglv.fsf@meer.lwn.net>
+        with ESMTP id S238658AbjFIH1a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 03:27:30 -0400
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3657A2D7F
+        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 00:27:27 -0700 (PDT)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-5689335d2b6so12603377b3.3
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 00:27:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686295646; x=1688887646;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=79c5wwIkf5JFBuHBe/pz5shE4weHE+6yaH3P5LzlEZA=;
+        b=CDzIQHQESQF3OKQcN2e/Uk5EHv1GuvRpWWO6qmJ28hV2ZWI0oltmfJfsEuVni7JKUj
+         MCdkaTR+qjFMBLDpsbPTxFzbj0w+A1JE/fAuGkUh0K6HjZzUrICNeUSAWaD+wOoNSS+P
+         3FxmA4eW0FCjImvwEvo8l3yBa021DL2+11cFd53jLhmiY8Se/cULYNYoenWkI+RBXecI
+         xmjN5QtEggW/NGkgrUp5NplJ3uOONvUVP14do+mliUULmzE6iUR9pHU+yyrl+xAlcBdM
+         qBrseG0CmciAuLddOaigdFvLesrrEPSFx+PExltJsxIEHZq1Y9lgwGCE3hPUCH9MzndW
+         3jMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686295646; x=1688887646;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=79c5wwIkf5JFBuHBe/pz5shE4weHE+6yaH3P5LzlEZA=;
+        b=HIC0Ty/4EWHeQHZEqacabdm6+ClbE9UNf6ZrUVa7lvHxYYGffqSD3egsrZ+HhsyOTB
+         DEsgQ2yJogYyxbY1kpbo0HIaKRrq1lnrrZL8ZQREDrkcDfcoPgRNmbwDhtKWUMGfp9mN
+         HCW26RB7flGVFX20PYTa5lY2qPFY+9NOe1eGtlrW1b7GaEVCgC6q7/okANnfeWK3kv8O
+         KlD5guN/uzBr4dntW/19ZUzos1kb7kNJieKa0rilG8IY5W2mab8/4zOFXUg3Fl1TSZXj
+         /nWMEWDdhHgXz85or34nksSrMp9IUU6Haeoi3SJfCvUxc3pYVpiAx2COSVW/+fs+NZqk
+         QRGw==
+X-Gm-Message-State: AC+VfDx97NLXRLLNc9ZQzVq5EI+xtE/qlFpV24WZLbo8C8ZzHvAFZj5L
+        f4y3yMeMk9aSAdI8CRDnKNwu2IJViwIUdBMcxdZlTw==
+X-Google-Smtp-Source: ACHHUZ6V8n51QunpOT9L+GvuKgO/ttKnk5Hb+I0waoIxJieTUrGVZBGkGdL4GRVfFKMIqAUIu0H1FEJhwjKDXkDyqJY=
+X-Received: by 2002:a25:a025:0:b0:b9e:4d05:1f96 with SMTP id
+ x34-20020a25a025000000b00b9e4d051f96mr385739ybh.44.1686295646461; Fri, 09 Jun
+ 2023 00:27:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 9 Jun 2023 09:27:15 +0200
+Message-ID: <CACRpkdYnFHBUt4rwLFqA7LYJRJxJ7e9hEGf_B8oi3rc_+Hc3AA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] gpiolib: Remove unused gpio_cansleep()
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-YYang <iyysheng@gmail.com> writes:
+On Mon, Jun 5, 2023 at 2:54=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-> From: YYang <iyysheng@gmai.com>
+> There is not a single user in the entire kernel of this deprecated API,
+> kill it for good.
 >
-> Use devm_hwmon_device_register_with_info to replace
-> hwmon_device_register_with_info in description of
-> devm_hwmon_device_unregister.
->
-> Signed-off-by: YYang <iyysheng@gmai.com>
-> ---
->  Documentation/hwmon/hwmon-kernel-api.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
-> index c2d1e0299d8d..6cacf7daf25c 100644
-> --- a/Documentation/hwmon/hwmon-kernel-api.rst
-> +++ b/Documentation/hwmon/hwmon-kernel-api.rst
-> @@ -66,7 +66,7 @@ hwmon_device_register_with_info.
->  
->  devm_hwmon_device_unregister does not normally have to be called. It is only
->  needed for error handling, and only needed if the driver probe fails after
-> -the call to hwmon_device_register_with_info and if the automatic (device
-> +the call to devm_hwmon_device_register_with_info and if the automatic (device
->  managed) removal would be too late.
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-If, while you're at it, you add the trailing parentheses() to the
-function name, then the docs build will automatically make a cross-link
-to the documentation.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Thanks,
+Thanks for working on this!
 
-jon
+Yours,
+Linus Walleij
