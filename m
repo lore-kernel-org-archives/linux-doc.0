@@ -2,112 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7995AC7EE25
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Jun 2023 23:06:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB49C7EE29
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 00:15:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230083AbjFHXGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Jun 2023 19:06:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39058 "EHLO
+        id S237200AbjFIAPW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Jun 2023 20:15:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236269AbjFHXGy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 19:06:54 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67CB830C3
-        for <linux-doc@vger.kernel.org>; Thu,  8 Jun 2023 16:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686265609; x=1717801609;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vl9G1QSuA7ilJ+TglaAeFYIzhthc8BU1twBHAkS5g5w=;
-  b=GfYxrD8TKVNEivN6LLOj5u//u/cCZ2vkfaPD8T9StfInkCPQ4nhWyK0X
-   n8/WOSuQCZDVJzomDU0/E6fjxzr4zRUPgRZRJY8jlpUA+N2dDjFMosnJs
-   G9CeC6SnQO3UWiDYnTLf3ljtTZFa+w6tYdPKXO7ZzMawW9knXLlHopQd/
-   StTUAZo7tsYg6pJitkpEyVNLQlJGqYyeG0Q4C1/1DDY1heX0Zf/5GCARi
-   2WL8YzEPWx57zqwLFjeOIaJeA4/kO0dVLEeAltDVrka1r/p6qmHFwb8qK
-   1YBPwlhAeGJ1tulzXP0IYiF24X9CMClH4K5zWboe/m2TrG51tVg2MTzxX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="356342163"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="356342163"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 16:06:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="834391281"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="834391281"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 08 Jun 2023 16:06:47 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q7OiM-0008KS-1I;
-        Thu, 08 Jun 2023 23:06:46 +0000
-Date:   Fri, 9 Jun 2023 07:06:03 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Stanley.Yang" <Stanley.Yang@amd.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Hawking Zhang <Hawking.Zhang@amd.com>,
-        linux-doc@vger.kernel.org
-Subject: [agd5f:drm-next 834/865]
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c:76: warning: This comment
- starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202306090615.QR4VmYLN-lkp@intel.com>
+        with ESMTP id S229981AbjFIAPW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Jun 2023 20:15:22 -0400
+Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9229C2D68;
+        Thu,  8 Jun 2023 17:15:21 -0700 (PDT)
+Received: from [172.27.2.41] ([73.231.166.163])
+        (authenticated bits=0)
+        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 3590EBwb1069072
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Thu, 8 Jun 2023 17:14:11 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 3590EBwb1069072
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2023051001; t=1686269655;
+        bh=eETL6+MlMl0BOovD6hR1LxTwJy34pjipmc6N88BiyoY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=nkA2WU9VUv+xW1YPZFGnwcSq6G/5AFtmFSKNwIjsqdU8yMvYEqjQNTyqX7SwXiVdH
+         NBPYrXo3KQQt3sVa827d69La1n74ytlWcVlVajaL8C9Aa/GJKWLmPC3I3k3ZRoQWtF
+         HHHDwZTANxoHh6iphKSW5D6CL/SzDM9gNwVtD3aUxeaG202qL0zCOAk9RggyxHAG7G
+         pSI3NZy+HlPZ5+e0J6tLFutQ8N4LVDO6Qp1aGpHVuSIPQEJGVUEXBQFICFnTAJYA7E
+         rz8EFfbtzKrUHpXLd2ssOwJTlvTo9yTLlglJt1XEYPXrhhZ3S8xKGXp9RyefMhXdW+
+         BEz71wLR4dAwQ==
+Message-ID: <98718c79-d589-3689-3c59-6ca158148641@zytor.com>
+Date:   Thu, 8 Jun 2023 17:14:10 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: Direct rdtsc call side-effect
+Content-Language: en-US
+To:     David Laight <David.Laight@ACULAB.COM>,
+        "'Thomas Gleixner'" <tglx@linutronix.de>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Steven Noonan <steven@uplinklabs.net>,
+        "kernel@collabora.com" <kernel@collabora.com>
+References: <6719fb05-382c-8ec4-ccda-72798906a54b@collabora.com>
+ <87mt1jeax1.ffs@tglx> <353732783fde46919fdcf698c326b7ed@AcuMS.aculab.com>
+ <87jzwi55qo.ffs@tglx> <a39d90e45212461bb31738b7156b60a6@AcuMS.aculab.com>
+ <4ea6e82c-4761-e0c9-3e75-8ec39eecb30a@zytor.com>
+ <cabfcf8a8840410399d2bfc1202e77ce@AcuMS.aculab.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <cabfcf8a8840410399d2bfc1202e77ce@AcuMS.aculab.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next
-head:   11007d9259632b46afa565cba971de53b889c7cc
-commit: 4a4cbe5d13827db793b3f4523553a5dee39fe6a4 [834/865] drm/amdgpu: Add support EEPROM table v2.1
-config: csky-buildonly-randconfig-r006-20230608 (https://download.01.org/0day-ci/archive/20230609/202306090615.QR4VmYLN-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add agd5f https://gitlab.freedesktop.org/agd5f/linux.git
-        git fetch --no-tags agd5f drm-next
-        git checkout 4a4cbe5d13827db793b3f4523553a5dee39fe6a4
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+On 6/6/23 01:23, David Laight wrote:
+> 
+> IIRC the x86 performance counters aren't dependent on anything
+> so they tend to execute much earlier than you want.
+> OTOH rdtsc is likely to be synchronising and affect what follows.
+> ISTR using rdtsc to wait for instructions to complete and then
+> the performance clock counter to see how long it took.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306090615.QR4VmYLN-lkp@intel.com/
+RDPMC and RDTSC have the same (lack of) synchronization guarantees; you 
+need to fence them appropriately for your application no matter what.
 
-All warnings (new ones prefixed by >>):
+	-hpa
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c:76: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * EEPROM Table structure v1
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c:98: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * EEPROM Table structrue v2.1
-
-
-vim +76 drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c
-
-    74	
-    75	/**
-  > 76	 * EEPROM Table structure v1
-    77	 * ---------------------------------
-    78	 * |                               |
-    79	 * |     EEPROM TABLE HEADER       |
-    80	 * |      ( size 20 Bytes )        |
-    81	 * |                               |
-    82	 * ---------------------------------
-    83	 * |                               |
-    84	 * |    BAD PAGE RECORD AREA       |
-    85	 * |                               |
-    86	 * ---------------------------------
-    87	 */
-    88	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
