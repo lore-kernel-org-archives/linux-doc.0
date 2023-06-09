@@ -2,61 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01EA8C7EE25
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 07:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F3CCC7EE25
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 07:56:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230009AbjFIHzi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 03:55:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33030 "EHLO
+        id S239353AbjFIH4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 03:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239717AbjFIHzJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 03:55:09 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D28735B0;
-        Fri,  9 Jun 2023 00:54:47 -0700 (PDT)
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0D55D4A2;
-        Fri,  9 Jun 2023 07:53:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0D55D4A2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1686297191; bh=9D0R5T6cmhBfx5S7xPGN5oChCgWg2uNoNNcTmG2sYEc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=bj67Wu2MLD5+LqIXRXeq6EGEUGSYhgTEleur7PHs4IQbJ5xePlBArWhb1sW0OQsP/
-         QYTIC22gchpn64WRHult7VGG3FUMZxSLH9uC3hO4n9aflBqXwLotvQP1midMYVLB+e
-         ry1hICpjAnyw37AMEPbO+VlLSUJcjJI/IELlOtgFxEPKSySJWXNHwOf3FlymUxSmBB
-         NE0WLxEZegDBCveMTsTH6nbQ+Mn1ZiHikL4RGRrJ6OQAPA27PuUzu7dYmDECNzlvaW
-         Nwl/0LB/J7vdbyHPZy+g/B8hY3XDfRr2xaGgoAKKnwzHTF3GvYwcXpfQgGtJbdUsrc
-         6NdSWK/vY+OsA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        regressions@lists.linux.dev,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH v1] docs: handling-regressions: rework section about
- fixing procedures
-In-Reply-To: <6971680941a5b7b9cb0c2839c75b5cc4ddb2d162.1684139586.git.linux@leemhuis.info>
-References: <6971680941a5b7b9cb0c2839c75b5cc4ddb2d162.1684139586.git.linux@leemhuis.info>
-Date:   Fri, 09 Jun 2023 01:53:07 -0600
-Message-ID: <87pm65oyvw.fsf@meer.lwn.net>
+        with ESMTP id S239473AbjFIH4a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 03:56:30 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A56A4206;
+        Fri,  9 Jun 2023 00:56:00 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4f62cf9755eso1807970e87.1;
+        Fri, 09 Jun 2023 00:56:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686297354; x=1688889354;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7XDBOKDA6bfl/qmJTSZHOtCV0YaHuP39l5+ZHaqyhDE=;
+        b=SO3wMSPRuf7Dg8JYNPq00RVBzG9EQtH+filTpzwquADZPkHN5CZSZBHmLCHYXnduiA
+         vupVF5759/HcGksJRNsE90CQrZxj3jo0/wmVBiYr8oW4H1e7Ua0LTZ8yo3usQQZ400/5
+         UooFVXpkq59+SkIIq/uwMHJdTbKIqmYkP4cSn75FVSaYU8UiZtqE8na4dUGq5XntIcp9
+         L3N1BUU+E+9cz03GXpOafpGjryW3BGoPbwxHKeqL66d0RlCC0PFUUtB+WkiG1DKKqgKK
+         LvqtOc9+oBPTA6q/BzPuuB4ZF7++s1ub39gZlInY9pLDp6/xP/nO05wLQ0PhScStteFA
+         mwXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686297354; x=1688889354;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7XDBOKDA6bfl/qmJTSZHOtCV0YaHuP39l5+ZHaqyhDE=;
+        b=cE73Bhx52eKPKSTS5IwOzdISvJ4IUNQR3bCiCsdjB04F1jcXOi7nqlFvEiJ4C2IBbI
+         CuB5LQgWSuLsefpuYXqJ7P5dQ7llBLEl/WZmb/F/CyuX9oeOqXs65Gr1uUzq9QGASr8D
+         u/HybdMnCkDq6G6an3nxx+SD7i98+rW2sRSMHi7l7vNME0pRAcZHtq64rmfEt9Uh/ycE
+         qkwJBiBAYJ+lJZToDwM4M2NCF7qN1OpwqUKdC3pv41KynQcC4SHmJVsrby+pqU/2azug
+         nbiEeBBuupBeqhb+4iO9EVxm/VaY7W+rExfEmn9z+dqvczpYZH3dZe3gzcjLNi8aw8nv
+         7AkQ==
+X-Gm-Message-State: AC+VfDwqbUbqSFw36wsJw3cFHa7mgjetz4ZuXqC6RnOrsqZ7vjHEC3ax
+        K0iotmGSyIkW+/XmWZ3UXKo=
+X-Google-Smtp-Source: ACHHUZ52DeNk/IADD/j/BqpPoRKGiHRiaSyBny/WfMinS1Vtiuxjt1HkkNvew5ltdn4YGjVqt7VtwA==
+X-Received: by 2002:a19:6518:0:b0:4e8:c81b:1a11 with SMTP id z24-20020a196518000000b004e8c81b1a11mr428022lfb.49.1686297354332;
+        Fri, 09 Jun 2023 00:55:54 -0700 (PDT)
+Received: from localhost.localdomain (bba-2-50-150-163.alshamil.net.ae. [2.50.150.163])
+        by smtp.gmail.com with ESMTPSA id n5-20020a7bcbc5000000b003f7eafe9d76sm1788703wmi.37.2023.06.09.00.55.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 00:55:53 -0700 (PDT)
+From:   Yongsheng Yang <iyysheng@gmail.com>
+To:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yongsheng Yang <iyysheng@gmail.com>
+Subject: [PATCH v2] Documentation/hwmon: Fix description of devm_hwmon_device_unregister()
+Date:   Fri,  9 Jun 2023 11:55:10 +0400
+Message-ID: <20230609075510.1305-1-iyysheng@gmail.com>
+X-Mailer: git-send-email 2.41.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Use devm_hwmon_device_register_with_info to replace
+hwmon_device_register_with_info in description of
+devm_hwmon_device_unregister.
 
-> This basically rewrites the 'Prioritize work on fixing regressions'
-> section of Documentation/process/handling-regressions.rst for various
-> reasons. Among them: some things were too demanding, some didn't align
-> well with the usual workflows, and some apparently were not clear enough
-> -- and of course a few things were missing that would be good to have in
-> there.
+Signed-off-by: Yongsheng Yang <iyysheng@gmail.com>
+---
+ Documentation/hwmon/hwmon-kernel-api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks.
+diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
+index c2d1e0299d8d..6cacf7daf25c 100644
+--- a/Documentation/hwmon/hwmon-kernel-api.rst
++++ b/Documentation/hwmon/hwmon-kernel-api.rst
+@@ -66,7 +66,7 @@ hwmon_device_register_with_info.
+ 
+ devm_hwmon_device_unregister does not normally have to be called. It is only
+ needed for error handling, and only needed if the driver probe fails after
+-the call to hwmon_device_register_with_info and if the automatic (device
++the call to devm_hwmon_device_register_with_info and if the automatic (device
+ managed) removal would be too late.
+ 
+ All supported hwmon device registration functions only accept valid device
+-- 
+2.37.1
 
-jon
