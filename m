@@ -2,106 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFF26C7EE29
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 18:28:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64AE6C7EE2E
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 19:12:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229506AbjFIS25 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 14:28:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42336 "EHLO
+        id S229671AbjFITML (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 15:12:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbjFIS24 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 14:28:56 -0400
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B81A3A99
-        for <linux-doc@vger.kernel.org>; Fri,  9 Jun 2023 11:28:51 -0700 (PDT)
-Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-33b0cae115bso9013455ab.3
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jun 2023 11:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686335330; x=1688927330;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OwNlstd6GLY/gpYePGYsVq8R17Kj6KhaKvtt1rti+C4=;
-        b=rboeRG2yRA94EUvvID0LlH4crt9keRYwTcSwURW5fEAJ3PahctoEyCxz2GCZaymQoV
-         EwenNrbkbGIVPF87Iomux1SdIKGrRq+k7KHJzKNjcFhoQZoHZ8k7ydznTLFh1t6o70cM
-         UcUTV8MKHrVXNeGl1qbieauwvdfNJ8lLA3youcegQ1r1dmGnuE7SmVBGqxEdb7OgciU0
-         7KtamtiYj8BBKe4W/2QZ520bmAoSsnwwj9ZfPsqhtOfsoyu8N2QrYbNJKP3okLtdHlfe
-         kbsHe/NZf+j0wEbXrzm0X0xg2TvCG8+wH2UqMQNfRVeSbomjM6JWU0Ux5VxzXxmddmLr
-         w4Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686335330; x=1688927330;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OwNlstd6GLY/gpYePGYsVq8R17Kj6KhaKvtt1rti+C4=;
-        b=NgDuxO090RnNIUQvMcJzZ1DW4yJcttPauoynjsfZOGr3fdzmTcw7qzAQJ9RKI8mzUP
-         cUCCYfkFiM+MjTx2s599UqyGRy47lFtOrqsnxezqKndfbjI/lpzmuxD1s5CLiKBbRnFI
-         WTfJcqUIbr+E2l+tCP58KM1wC3imE8KfRnh8VPvgTLyABbCWM+yUwYii5i/FXMTNxdBN
-         JtnMZzgz1QNoEMjdz/dETs26nhil1XMZrVoJJuXhsNhu7xdtKm79IrZRc4WLEzAmb281
-         UPJLNyKMJKsHGjr92K77vJOfxO9xhnoR6o4v1irAl1QvJTpoZNeLikKanEZgO1jY5laR
-         ivVA==
-X-Gm-Message-State: AC+VfDxYHJS53ncKz3mwH9mo/HqUzZGnhJa+3gwtJcVWBnmS0j2XlnT0
-        nxgx/YSiNtibIL0M6zF64846tw==
-X-Google-Smtp-Source: ACHHUZ7Xmpyaxn0X+knYWrv5zpcoikhu29c88lVDDo/mBpA/GcpMOfcE134G00xIJqEdpMbw9oFI7g==
-X-Received: by 2002:a92:c892:0:b0:33d:825c:3266 with SMTP id w18-20020a92c892000000b0033d825c3266mr2338606ilo.1.1686335330422;
-        Fri, 09 Jun 2023 11:28:50 -0700 (PDT)
-Received: from [172.22.22.28] ([98.61.227.136])
-        by smtp.gmail.com with ESMTPSA id c10-20020a92cf0a000000b0033aa769d1a9sm1230196ilo.72.2023.06.09.11.28.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Jun 2023 11:28:50 -0700 (PDT)
-Message-ID: <368ea795-68df-ebf7-18b5-3f5abfe2d189@linaro.org>
-Date:   Fri, 9 Jun 2023 13:28:48 -0500
+        with ESMTP id S229644AbjFITMK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 15:12:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00F751A4;
+        Fri,  9 Jun 2023 12:12:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8997E611B0;
+        Fri,  9 Jun 2023 19:12:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 628F2C433D2;
+        Fri,  9 Jun 2023 19:12:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686337929;
+        bh=KFNOV3o4cqtQYNywig/OkDKy4bUHopCwMFlABCAl2zQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nXyUBVzvCMSSoCB+HWwPC+EduJ1s0zzgtsCoFlQp/k4a/Yg37cO5twLzXZYmhhNfY
+         ywrwWgFT0+H7daHKQfEdQn2yfabwnOqdu41l2ruM993kQ8WmX+EuekP+WtfxyLk/vj
+         waVl4IAMZW0Y2i5lESWeJsBZHkCQhtU6jgv+j9tsxHn5zWpT+M7aqcmobKNEshZ5D+
+         he9Zq5MwPM7wD67cvQ2RAwCSp3yA1ptrKhY5UjXueJJNfp6r59XLKtKSubGNKNK8Rb
+         3AdJKu7vWZ/ykO1d/KfIuWysfwQnzEMQRd52WOXjmCmfRbXKke8BBE3yhZovpqZASD
+         KmIO1cZ0ZXvKA==
+From:   SeongJae Park <sj@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     SeongJae Park <sj@kernel.org>, paulmck@kernel.org, corbet@lwn.net,
+        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] Docs/RCU/rculist_nulls: Drop unnecessary '_release' in insert function
+Date:   Fri,  9 Jun 2023 19:12:06 +0000
+Message-Id: <20230609191206.30465-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CAEXW_YQFqW2QcAuHZEhc_GaUaB-=QOS0WgUOizd=FYwtFQ8vag@mail.gmail.com>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v13 22/24] virt: gunyah: Add irqfd interface
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-23-quic_eberman@quicinc.com>
- <1c386f4e-e2dd-eb79-9117-9b19877f2ccc@linaro.org>
- <0416ee79-ac07-aefc-d83b-bc21894312ab@quicinc.com>
-From:   Alex Elder <elder@linaro.org>
-In-Reply-To: <0416ee79-ac07-aefc-d83b-bc21894312ab@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/9/23 1:22 PM, Elliot Berman wrote:
->>>
->>> +enum gh_irqfd_flags {
->>> +    GH_IRQFD_FLAGS_LEVEL        = 1UL << 0,
->>
->>      BIT(0),            /* ? */
->>
+On Fri, 19 May 2023 14:52:50 -0400 Joel Fernandes <joel@joelfernandes.org> wrote:
+
+> On Thu, May 18, 2023 at 6:40 PM SeongJae Park <sj@kernel.org> wrote:
+> >
+> > The document says we can avoid extra smp_rmb() in lockless_lookup() and
+> > extra _release() in insert function when hlist_nulls is used.  However,
+> > the example code snippet for the insert function is still using the
+> > extra _release().  Drop it.
+> >
+> > Signed-off-by: SeongJae Park <sj@kernel.org>
+> > ---
+> >  Documentation/RCU/rculist_nulls.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
+> > index 5cd6f3f8810f..463270273d89 100644
+> > --- a/Documentation/RCU/rculist_nulls.rst
+> > +++ b/Documentation/RCU/rculist_nulls.rst
+> > @@ -191,7 +191,7 @@ scan the list again without harm.
+> >    obj = kmem_cache_alloc(cachep);
+> >    lock_chain(); // typically a spin_lock()
+> >    obj->key = key;
+> > -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
+> > +  atomic_set(&obj->refcnt, 1);
+> >    /*
+> >     * insert obj in RCU way (readers might be traversing chain)
+> >     */
 > 
-> The BIT macro isn't a standard C macro and isn't defined by Linux, so it 
-> causes compile errors at least for me when I use it in userspace.
+> If write to ->refcnt of 1 is reordered with setting of ->key, what
+> prevents the 'lookup algorithm' from doing a key match (obj->key ==
+> key) before the refcount has been initialized?
+> 
+> Are we sure the reordering mentioned in the document is the same as
+> the reordering prevented by the atomic_set_release()?
 
-OK that makes sense.  I hadn't thought about this
-being a user space header when I made the comment.
+Paul, may I ask your opinion?
 
-					-Alex
+
+Thanks,
+SJ
+
+> 
+> For the other 3 patches, feel free to add:
+> Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> 
+> thanks,
+> 
+>  - Joel
