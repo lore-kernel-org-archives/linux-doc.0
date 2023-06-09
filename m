@@ -2,842 +2,1170 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7089AC87FE4
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 12:21:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D6A1C83005
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Jun 2023 12:22:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240362AbjFIMVr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 08:21:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33812 "EHLO
+        id S240446AbjFIMV6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 08:21:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230385AbjFIMVk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 08:21:40 -0400
-Received: from mx1.veeam.com (mx1.veeam.com [216.253.77.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5E930F4;
-        Fri,  9 Jun 2023 05:21:36 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1.veeam.com (Postfix) with ESMTPS id E421340EBD;
-        Fri,  9 Jun 2023 08:04:04 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx1-2022; t=1686312245;
-        bh=6gyDBU+bZpM7PR7kVjYuNvLrbXF3RzcMqfOzTKK/taw=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=UwJt2lJli6s6eQ1DjPm6OkTy6lAiUEXUvyqS0El1eDbj3tZlEqrLcQZMDJG5QHPCj
-         KsHZfzHf4EyfTKNhTXC0wrmbHF97bYxSdwyl2cisQ2HnSx1iFBhG/lMgNnKR2kwmRF
-         /9W2YNWKq3G97KgewXYzwNbYIEqZUAFbduQ2CeVUc9qBZDZ0Il9/JJPD6Fayt02yen
-         iq9eWpmNUYo73EBJfWC+kBsgz7JAh1C8r/kh1ReaDKjbAaJk5tUMjrI26IbXoM0MRw
-         CTPxp2E8wxzmsOzG1io+i1/5G8pNrzIvKBfksLVhuhbltEOpXYaOZU2u55h6kLjbgP
-         c6Xm+n2aiVyCw==
-Received: from ssh-deb10-ssd-vb.amust.local (172.24.10.107) by
- prgmbx01.amust.local (172.24.128.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 9 Jun 2023 14:04:03 +0200
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-To:     <axboe@kernel.dk>, <hch@infradead.org>, <corbet@lwn.net>,
-        <snitzer@kernel.org>
-CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <willy@infradead.org>, <dlemoal@kernel.org>, <wsa@kernel.org>,
-        <heikki.krogerus@linux.intel.com>, <ming.lei@redhat.com>,
-        <gregkh@linuxfoundation.org>, <linux-block@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <sergei.shtepa@veeam.com>
-Subject: [PATCH v4 06/11] blksnap: handling and tracking I/O units
-Date:   Fri, 9 Jun 2023 13:58:53 +0200
-Message-ID: <20230609115858.4737-6-sergei.shtepa@veeam.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230609115858.4737-1-sergei.shtepa@veeam.com>
-References: <20230609115858.4737-1-sergei.shtepa@veeam.com>
+        with ESMTP id S239485AbjFIMVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 08:21:48 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2A45E50;
+        Fri,  9 Jun 2023 05:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686313305; x=1717849305;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=3gE8nNOcnTaF9djX7xysI2UKPoN891NIZ2CgC98Mdhg=;
+  b=WWudj1+32OgAPAauLUiHl/uwDZT1G9xp+Pg4vgFhMc22mLy5YLJXeMls
+   g0dxQE6OvZ5shvMmRXD+wZlDdG4H/WkIboF9XEDLV4Iv7n7oy8QTBMY/6
+   i1gRVbNaEXYVPAh5fTCgwbDIp5L/1We9X3EVACmmFZ8RGOTf8HHRbPXpo
+   KxfuH8CUP45znAwhgTJEy0akcG7ILyCTLYNvtF/hHb+N2bqycE/s6NMuN
+   O2EaulRnTWEifS9jz/lgSepUkIRV8sHYRXIukNJCVjJ4+Pkp/flDWB3V0
+   5TCNZ5o581ElJC1N3pcOQAbrlXlTOUQSJVY/0s8U1krTvtBZRi5Z1fqFs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="337220040"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
+   d="scan'208";a="337220040"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 05:21:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="710348427"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
+   d="scan'208";a="710348427"
+Received: from amlin-018-114.igk.intel.com ([10.102.18.114])
+  by orsmga002.jf.intel.com with ESMTP; 09 Jun 2023 05:21:22 -0700
+From:   Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+To:     kuba@kernel.org, jiri@resnulli.us, arkadiusz.kubalewski@intel.com,
+        vadfed@meta.com, jonathan.lemon@gmail.com, pabeni@redhat.com
+Cc:     corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+        vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org,
+        vadim.fedorenko@linux.dev
+Subject: [RFC PATCH v8 03/10] dpll: core: Add DPLL framework base functions
+Date:   Fri,  9 Jun 2023 14:18:46 +0200
+Message-Id: <20230609121853.3607724-4-arkadiusz.kubalewski@intel.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2924031554627C6B
-X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The struct tracker contains callback functions for handling a I/O units
-of a block device. When a write request is handled, the change block
-tracking (CBT) map functions are called and initiates the process of
-copying data from the original block device to the change store.
-Registering and unregistering the tracker is provided by the functions
-blkfilter_register() and blkfilter_unregister().
-The struct cbt_map allows to store the history of block device changes.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
 
-Co-developed-by: Christoph Hellwig <hch@infradead.org>
-Signed-off-by: Christoph Hellwig <hch@infradead.org>
-Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+DPLL framework is used to represent and configure DPLL devices
+in systems. Each device that has DPLL and can configure inputs
+and outputs can use this framework.
+
+Implement core framework functions for further interactions
+with device drivers implementing dpll subsystem, as well as for
+interactions of DPLL netlink framework part with the subsystem
+itself.
+
+Co-developed-by: Milena Olech <milena.olech@intel.com>
+Signed-off-by: Milena Olech <milena.olech@intel.com>
+Co-developed-by: Michal Michalik <michal.michalik@intel.com>
+Signed-off-by: Michal Michalik <michal.michalik@intel.com>
+Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Co-developed-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
 ---
- drivers/block/blksnap/cbt_map.c | 227 +++++++++++++++++++++
- drivers/block/blksnap/cbt_map.h |  90 +++++++++
- drivers/block/blksnap/tracker.c | 339 ++++++++++++++++++++++++++++++++
- drivers/block/blksnap/tracker.h |  75 +++++++
- 4 files changed, 731 insertions(+)
- create mode 100644 drivers/block/blksnap/cbt_map.c
- create mode 100644 drivers/block/blksnap/cbt_map.h
- create mode 100644 drivers/block/blksnap/tracker.c
- create mode 100644 drivers/block/blksnap/tracker.h
+ drivers/dpll/dpll_core.c | 953 +++++++++++++++++++++++++++++++++++++++
+ drivers/dpll/dpll_core.h | 104 +++++
+ 2 files changed, 1057 insertions(+)
+ create mode 100644 drivers/dpll/dpll_core.c
+ create mode 100644 drivers/dpll/dpll_core.h
 
-diff --git a/drivers/block/blksnap/cbt_map.c b/drivers/block/blksnap/cbt_map.c
+diff --git a/drivers/dpll/dpll_core.c b/drivers/dpll/dpll_core.c
 new file mode 100644
-index 000000000000..a0aeef8c2e94
+index 000000000000..ee515b7c18be
 --- /dev/null
-+++ b/drivers/block/blksnap/cbt_map.c
-@@ -0,0 +1,227 @@
++++ b/drivers/dpll/dpll_core.c
+@@ -0,0 +1,953 @@
 +// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (C) 2023 Veeam Software Group GmbH */
-+#define pr_fmt(fmt) KBUILD_MODNAME "-cbt_map: " fmt
++/*
++ *  dpll_core.c - Generic DPLL Management class support.
++ *
++ *  Copyright (c) 2023 Meta Platforms, Inc. and affiliates
++ *  Copyright (c) 2023 Intel Corporation.
++ */
 +
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/device.h>
++#include <linux/err.h>
 +#include <linux/slab.h>
-+#include <linux/vmalloc.h>
-+#include <uapi/linux/blksnap.h>
-+#include "cbt_map.h"
-+#include "params.h"
++#include <linux/string.h>
 +
-+static inline unsigned long long count_by_shift(sector_t capacity,
-+						unsigned long long shift)
-+{
-+	sector_t blk_size = 1ull << (shift - SECTOR_SHIFT);
++#include "dpll_core.h"
 +
-+	return round_up(capacity, blk_size) / blk_size;
-+}
++DEFINE_MUTEX(dpll_lock);
 +
-+static void cbt_map_calculate_block_size(struct cbt_map *cbt_map)
-+{
-+	unsigned long long count;
-+	unsigned long long shift = get_tracking_block_minimum_shift();
++DEFINE_XARRAY_FLAGS(dpll_device_xa, XA_FLAGS_ALLOC);
++DEFINE_XARRAY_FLAGS(dpll_pin_xa, XA_FLAGS_ALLOC);
 +
-+	pr_debug("Device capacity %llu sectors\n", cbt_map->device_capacity);
-+	/*
-+	 * The size of the tracking block is calculated based on the size of the disk
-+	 * so that the CBT table does not exceed a reasonable size.
-+	 */
-+	count = count_by_shift(cbt_map->device_capacity, shift);
-+	pr_debug("Blocks count %llu\n", count);
-+	while (count > get_tracking_block_maximum_count()) {
-+		if (shift >= get_tracking_block_maximum_shift()) {
-+			pr_info("The maximum allowable CBT block size has been reached.\n");
-+			break;
-+		}
-+		shift = shift + 1ull;
-+		count = count_by_shift(cbt_map->device_capacity, shift);
-+		pr_debug("Blocks count %llu\n", count);
-+	}
-+
-+	cbt_map->blk_size_shift = shift;
-+	cbt_map->blk_count = count;
-+	pr_debug("The optimal CBT block size was calculated as %llu bytes\n",
-+		 (1ull << cbt_map->blk_size_shift));
-+}
-+
-+static int cbt_map_allocate(struct cbt_map *cbt_map)
-+{
-+	unsigned char *read_map = NULL;
-+	unsigned char *write_map = NULL;
-+	size_t size = cbt_map->blk_count;
-+
-+	pr_debug("Allocate CBT map of %zu blocks\n", size);
-+
-+	if (cbt_map->read_map || cbt_map->write_map)
-+		return -EINVAL;
-+
-+	read_map = __vmalloc(size, GFP_NOIO | __GFP_ZERO);
-+	if (!read_map)
-+		return -ENOMEM;
-+
-+	write_map = __vmalloc(size, GFP_NOIO | __GFP_ZERO);
-+	if (!write_map) {
-+		vfree(read_map);
-+		return -ENOMEM;
-+	}
-+
-+	cbt_map->read_map = read_map;
-+	cbt_map->write_map = write_map;
-+
-+	cbt_map->snap_number_previous = 0;
-+	cbt_map->snap_number_active = 1;
-+	generate_random_uuid(cbt_map->generation_id.b);
-+	cbt_map->is_corrupted = false;
-+
-+	return 0;
-+}
-+
-+static void cbt_map_deallocate(struct cbt_map *cbt_map)
-+{
-+	cbt_map->is_corrupted = false;
-+
-+	if (cbt_map->read_map) {
-+		vfree(cbt_map->read_map);
-+		cbt_map->read_map = NULL;
-+	}
-+
-+	if (cbt_map->write_map) {
-+		vfree(cbt_map->write_map);
-+		cbt_map->write_map = NULL;
-+	}
-+}
-+
-+int cbt_map_reset(struct cbt_map *cbt_map, sector_t device_capacity)
-+{
-+	cbt_map_deallocate(cbt_map);
-+
-+	cbt_map->device_capacity = device_capacity;
-+	cbt_map_calculate_block_size(cbt_map);
-+
-+	return cbt_map_allocate(cbt_map);
-+}
-+
-+void cbt_map_destroy(struct cbt_map *cbt_map)
-+{
-+	pr_debug("CBT map destroy\n");
-+
-+	cbt_map_deallocate(cbt_map);
-+	kfree(cbt_map);
-+}
-+
-+struct cbt_map *cbt_map_create(struct block_device *bdev)
-+{
-+	struct cbt_map *cbt_map = NULL;
-+	int ret;
-+
-+	pr_debug("CBT map create\n");
-+
-+	cbt_map = kzalloc(sizeof(struct cbt_map), GFP_KERNEL);
-+	if (cbt_map == NULL)
-+		return NULL;
-+
-+	cbt_map->device_capacity = bdev_nr_sectors(bdev);
-+	cbt_map_calculate_block_size(cbt_map);
-+
-+	ret = cbt_map_allocate(cbt_map);
-+	if (ret) {
-+		pr_err("Failed to create tracker. errno=%d\n", abs(ret));
-+		cbt_map_destroy(cbt_map);
-+		return NULL;
-+	}
-+
-+	spin_lock_init(&cbt_map->locker);
-+	cbt_map->is_corrupted = false;
-+
-+	return cbt_map;
-+}
-+
-+void cbt_map_switch(struct cbt_map *cbt_map)
-+{
-+	pr_debug("CBT map switch\n");
-+	spin_lock(&cbt_map->locker);
-+
-+	cbt_map->snap_number_previous = cbt_map->snap_number_active;
-+	++cbt_map->snap_number_active;
-+	if (cbt_map->snap_number_active == 256) {
-+		cbt_map->snap_number_active = 1;
-+
-+		memset(cbt_map->write_map, 0, cbt_map->blk_count);
-+
-+		generate_random_uuid(cbt_map->generation_id.b);
-+
-+		pr_debug("CBT reset\n");
-+	} else
-+		memcpy(cbt_map->read_map, cbt_map->write_map, cbt_map->blk_count);
-+	spin_unlock(&cbt_map->locker);
-+}
-+
-+static inline int _cbt_map_set(struct cbt_map *cbt_map, sector_t sector_start,
-+			       sector_t sector_cnt, u8 snap_number,
-+			       unsigned char *map)
-+{
-+	int res = 0;
-+	u8 num;
-+	size_t inx;
-+	size_t cbt_block_first = (size_t)(
-+		sector_start >> (cbt_map->blk_size_shift - SECTOR_SHIFT));
-+	size_t cbt_block_last = (size_t)(
-+		(sector_start + sector_cnt - 1) >>
-+		(cbt_map->blk_size_shift - SECTOR_SHIFT));
-+
-+	for (inx = cbt_block_first; inx <= cbt_block_last; ++inx) {
-+		if (unlikely(inx >= cbt_map->blk_count)) {
-+			pr_err("Block index is too large\n");
-+			pr_err("Block #%zu was demanded, map size %zu blocks\n",
-+			       inx, cbt_map->blk_count);
-+			res = -EINVAL;
-+			break;
-+		}
-+
-+		num = map[inx];
-+		if (num < snap_number)
-+			map[inx] = snap_number;
-+	}
-+	return res;
-+}
-+
-+int cbt_map_set(struct cbt_map *cbt_map, sector_t sector_start,
-+		sector_t sector_cnt)
-+{
-+	int res;
-+
-+	spin_lock(&cbt_map->locker);
-+	if (unlikely(cbt_map->is_corrupted)) {
-+		spin_unlock(&cbt_map->locker);
-+		return -EINVAL;
-+	}
-+	res = _cbt_map_set(cbt_map, sector_start, sector_cnt,
-+			   (u8)cbt_map->snap_number_active, cbt_map->write_map);
-+	if (unlikely(res))
-+		cbt_map->is_corrupted = true;
-+
-+	spin_unlock(&cbt_map->locker);
-+
-+	return res;
-+}
-+
-+int cbt_map_set_both(struct cbt_map *cbt_map, sector_t sector_start,
-+		     sector_t sector_cnt)
-+{
-+	int res;
-+
-+	spin_lock(&cbt_map->locker);
-+	if (unlikely(cbt_map->is_corrupted)) {
-+		spin_unlock(&cbt_map->locker);
-+		return -EINVAL;
-+	}
-+	res = _cbt_map_set(cbt_map, sector_start, sector_cnt,
-+			   (u8)cbt_map->snap_number_active, cbt_map->write_map);
-+	if (!res)
-+		res = _cbt_map_set(cbt_map, sector_start, sector_cnt,
-+				   (u8)cbt_map->snap_number_previous,
-+				   cbt_map->read_map);
-+	spin_unlock(&cbt_map->locker);
-+
-+	return res;
-+}
-diff --git a/drivers/block/blksnap/cbt_map.h b/drivers/block/blksnap/cbt_map.h
-new file mode 100644
-index 000000000000..f87bffd5b3a7
---- /dev/null
-+++ b/drivers/block/blksnap/cbt_map.h
-@@ -0,0 +1,90 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (C) 2023 Veeam Software Group GmbH */
-+#ifndef __BLKSNAP_CBT_MAP_H
-+#define __BLKSNAP_CBT_MAP_H
-+
-+#include <linux/kernel.h>
-+#include <linux/kref.h>
-+#include <linux/uuid.h>
-+#include <linux/spinlock.h>
-+#include <linux/blkdev.h>
-+
-+struct blksnap_sectors;
++#define ASSERT_DPLL_REGISTERED(d)                                          \
++	WARN_ON_ONCE(!xa_get_mark(&dpll_device_xa, (d)->id, DPLL_REGISTERED))
++#define ASSERT_DPLL_NOT_REGISTERED(d)                                      \
++	WARN_ON_ONCE(xa_get_mark(&dpll_device_xa, (d)->id, DPLL_REGISTERED))
 +
 +/**
-+ * struct cbt_map - The table of changes for a block device.
++ * dpll_device_get_by_id - find dpll device by it's id
++ * @id: id of searched dpll
 + *
-+ * @locker:
-+ *	Locking for atomic modification of structure members.
-+ * @blk_size_shift:
-+ *	The power of 2 used to specify the change tracking block size.
-+ * @blk_count:
-+ *	The number of change tracking blocks.
-+ * @device_capacity:
-+ *	The actual capacity of the device.
-+ * @read_map:
-+ *	A table of changes available for reading. This is the table that can
-+ *	be read after taking a snapshot.
-+ * @write_map:
-+ *	The current table for tracking changes.
-+ * @snap_number_active:
-+ *	The current sequential number of changes. This is the number that is written to
-+ *	the current table when the block data changes.
-+ * @snap_number_previous:
-+ *	The previous sequential number of changes. This number is used to identify the
-+ *	blocks that were changed between the penultimate snapshot and the last snapshot.
-+ * @generation_id:
-+ *	UUID of the generation of changes.
-+ * @is_corrupted:
-+ *	A flag that the change tracking data is no longer reliable.
-+ *
-+ * The change block tracking map is a byte table. Each byte stores the
-+ * sequential number of changes for one block. To determine which blocks have changed
-+ * since the previous snapshot with the change number 4, it is enough to
-+ * find all bytes with the number more than 4.
-+ *
-+ * Since one byte is allocated to track changes in one block, the change
-+ * table is created again at the 255th snapshot. At the same time, a new
-+ * unique generation identifier is generated. Tracking changes is
-+ * possible only for tables of the same generation.
-+ *
-+ * There are two tables on the change block tracking map. One is
-+ * available for reading, and the other is available for writing. At the moment of taking
-+ * a snapshot, the tables are synchronized. The user's process, when
-+ * calling the corresponding ioctl, can read the readable table.
-+ * At the same time, the change tracking mechanism continues to work with
-+ * the writable table.
-+ *
-+ * To provide the ability to mount a snapshot image as writeable, it is
-+ * possible to make changes to both of these tables simultaneously.
-+ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return:
++ * * dpll_device struct if found
++ * * NULL otherwise
 + */
-+struct cbt_map {
-+	spinlock_t locker;
-+
-+	size_t blk_size_shift;
-+	size_t blk_count;
-+	sector_t device_capacity;
-+
-+	unsigned char *read_map;
-+	unsigned char *write_map;
-+
-+	unsigned long snap_number_active;
-+	unsigned long snap_number_previous;
-+	uuid_t generation_id;
-+
-+	bool is_corrupted;
-+};
-+
-+struct cbt_map *cbt_map_create(struct block_device *bdev);
-+int cbt_map_reset(struct cbt_map *cbt_map, sector_t device_capacity);
-+
-+void cbt_map_destroy(struct cbt_map *cbt_map);
-+
-+void cbt_map_switch(struct cbt_map *cbt_map);
-+int cbt_map_set(struct cbt_map *cbt_map, sector_t sector_start,
-+		sector_t sector_cnt);
-+int cbt_map_set_both(struct cbt_map *cbt_map, sector_t sector_start,
-+		     sector_t sector_cnt);
-+
-+#endif /* __BLKSNAP_CBT_MAP_H */
-diff --git a/drivers/block/blksnap/tracker.c b/drivers/block/blksnap/tracker.c
-new file mode 100644
-index 000000000000..da6539fb6f54
---- /dev/null
-+++ b/drivers/block/blksnap/tracker.c
-@@ -0,0 +1,339 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (C) 2023 Veeam Software Group GmbH */
-+#define pr_fmt(fmt) KBUILD_MODNAME "-tracker: " fmt
-+
-+#include <linux/slab.h>
-+#include <linux/blk-mq.h>
-+#include <linux/sched/mm.h>
-+#include <linux/build_bug.h>
-+#include <uapi/linux/blksnap.h>
-+#include "tracker.h"
-+#include "cbt_map.h"
-+#include "diff_area.h"
-+#include "snapimage.h"
-+#include "snapshot.h"
-+
-+void tracker_free(struct kref *kref)
++struct dpll_device *dpll_device_get_by_id(int id)
 +{
-+	struct tracker *tracker = container_of(kref, struct tracker, kref);
++	if (xa_get_mark(&dpll_device_xa, id, DPLL_REGISTERED))
++		return xa_load(&dpll_device_xa, id);
 +
-+	might_sleep();
-+
-+	pr_debug("Free tracker for device [%u:%u]\n", MAJOR(tracker->dev_id),
-+		 MINOR(tracker->dev_id));
-+
-+	if (tracker->diff_area)
-+		diff_area_put(tracker->diff_area);
-+	if (tracker->cbt_map)
-+		cbt_map_destroy(tracker->cbt_map);
-+
-+	kfree(tracker);
++	return NULL;
 +}
 +
-+static bool tracker_submit_bio(struct bio *bio)
++/**
++ * dpll_pin_registration_find - find a pin registration record
++ * @ref: reference between dpll and pin
++ * @ops: searched pin ops pointer
++ * @priv: searched pin priv pointer
++ *
++ * Search dpll's registered pins for given ops and priv data.
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return:
++ * * NULL - if pin was not found
++ * * pointer to `struct dpll_pin_registration` if found
++ */
++static struct dpll_pin_registration *
++dpll_pin_registration_find(struct dpll_pin_ref *ref,
++			   const struct dpll_pin_ops *ops, void *priv)
 +{
-+	struct blkfilter *flt = bio->bi_bdev->bd_filter;
-+	struct tracker *tracker = container_of(flt, struct tracker, filter);
-+	sector_t count = bio_sectors(bio);
-+	struct bvec_iter copy_iter;
++	struct dpll_pin_registration *reg;
 +
-+	if (!op_is_write(bio_op(bio)) || !count)
-+		return false;
-+
-+	copy_iter = bio->bi_iter;
-+	if (bio_flagged(bio, BIO_REMAPPED))
-+		copy_iter.bi_sector -= bio->bi_bdev->bd_start_sect;
-+
-+	if (cbt_map_set(tracker->cbt_map, copy_iter.bi_sector, count) ||
-+	    !atomic_read(&tracker->snapshot_is_taken))
-+		return false;
-+	/*
-+	 * The diff_area is not blocked from releasing now, because
-+	 * changing the value of the snapshot_is_taken is performed when
-+	 * the block device queue is frozen in tracker_release_snapshot().
-+	 */
-+	if (diff_area_is_corrupted(tracker->diff_area))
-+		return false;
-+
-+	return diff_area_cow(bio, tracker->diff_area, &copy_iter);
++	list_for_each_entry(reg, &ref->registration_list, list) {
++		if (reg->ops == ops && reg->priv == priv)
++			return reg;
++	}
++	return NULL;
 +}
 +
-+static struct blkfilter *tracker_attach(struct block_device *bdev)
++/**
++ * dpll_xa_ref_pin_add - add pin reference to a given xarray
++ * @xa_pins: dpll_pin_ref xarray holding pins
++ * @pin: pin being added
++ * @ops: ops for a pin
++ * @priv: pointer to private data of owner
++ *
++ * Allocate and create reference of a pin and enlist a registration
++ * structure storing ops and priv pointers of a caller registant.
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return:
++ * * 0 on success
++ * * -ENOMEM on failed allocation
++ */
++static int
++dpll_xa_ref_pin_add(struct xarray *xa_pins, struct dpll_pin *pin,
++		    const struct dpll_pin_ops *ops, void *priv)
 +{
-+	struct tracker *tracker = NULL;
-+	struct cbt_map *cbt_map;
++	struct dpll_pin_registration *reg;
++	struct dpll_pin_ref *ref;
++	bool ref_exists = false;
++	unsigned long i;
++	int ret;
 +
-+	pr_debug("Creating tracker for device [%u:%u]\n",
-+		 MAJOR(bdev->bd_dev), MINOR(bdev->bd_dev));
-+
-+	cbt_map = cbt_map_create(bdev);
-+	if (!cbt_map) {
-+		pr_err("Failed to create CBT map for device [%u:%u]\n",
-+		       MAJOR(bdev->bd_dev), MINOR(bdev->bd_dev));
-+		return ERR_PTR(-ENOMEM);
++	xa_for_each(xa_pins, i, ref) {
++		if (ref->pin != pin)
++			continue;
++		reg = dpll_pin_registration_find(ref, ops, priv);
++		if (reg) {
++			refcount_inc(&ref->refcount);
++			return 0;
++		}
++		ref_exists = true;
++		break;
 +	}
 +
-+	tracker = kzalloc(sizeof(struct tracker), GFP_KERNEL);
-+	if (tracker == NULL) {
-+		cbt_map_destroy(cbt_map);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	mutex_init(&tracker->ctl_lock);
-+	INIT_LIST_HEAD(&tracker->link);
-+	kref_init(&tracker->kref);
-+	tracker->dev_id = bdev->bd_dev;
-+	atomic_set(&tracker->snapshot_is_taken, false);
-+	tracker->cbt_map = cbt_map;
-+	tracker->diff_area = NULL;
-+
-+	pr_debug("New tracker for device [%u:%u] was created\n",
-+		 MAJOR(tracker->dev_id), MINOR(tracker->dev_id));
-+
-+	return &tracker->filter;
-+}
-+
-+static void tracker_detach(struct blkfilter *flt)
-+{
-+	struct tracker *tracker = container_of(flt, struct tracker, filter);
-+
-+	pr_debug("Detach tracker from device [%u:%u]\n",
-+		 MAJOR(tracker->dev_id), MINOR(tracker->dev_id));
-+
-+	tracker_put(tracker);
-+}
-+
-+static int ctl_cbtinfo(struct tracker *tracker, __u8 __user *buf, __u32 *plen)
-+{
-+	struct cbt_map *cbt_map = tracker->cbt_map;
-+	struct blksnap_cbtinfo arg;
-+
-+	if (!cbt_map)
-+		return -ESRCH;
-+
-+	if (*plen < sizeof(arg))
-+		return -EINVAL;
-+
-+	arg.device_capacity = (__u64)(cbt_map->device_capacity << SECTOR_SHIFT);
-+	arg.block_size = (__u32)(1 << cbt_map->blk_size_shift);
-+	arg.block_count = (__u32)cbt_map->blk_count;
-+	export_uuid(arg.generation_id.b, &cbt_map->generation_id);
-+	arg.changes_number = (__u8)cbt_map->snap_number_previous;
-+
-+	if (copy_to_user(buf, &arg, sizeof(arg)))
-+		return -ENODATA;
-+
-+	*plen = sizeof(arg);
-+	return 0;
-+}
-+
-+static int ctl_cbtmap(struct tracker *tracker, __u8 __user *buf, __u32 *plen)
-+{
-+	struct cbt_map *cbt_map = tracker->cbt_map;
-+	struct blksnap_cbtmap arg;
-+
-+	if (!cbt_map)
-+		return -ESRCH;
-+
-+	if (unlikely(cbt_map->is_corrupted)) {
-+		pr_err("CBT table was corrupted\n");
-+		return -EFAULT;
-+	}
-+
-+	if (*plen < sizeof(arg))
-+		return -EINVAL;
-+
-+	if (copy_from_user(&arg, buf, sizeof(arg)))
-+		return -ENODATA;
-+
-+	if (arg.length > (cbt_map->blk_count - arg.offset))
-+		return -ENODATA;
-+
-+	if (copy_to_user(u64_to_user_ptr(arg.buffer),
-+			 cbt_map->read_map + arg.offset, arg.length))
-+
-+		return -EINVAL;
-+
-+	*plen = 0;
-+	return 0;
-+}
-+static int ctl_cbtdirty(struct tracker *tracker, __u8 __user *buf, __u32 *plen)
-+{
-+	struct cbt_map *cbt_map = tracker->cbt_map;
-+	struct blksnap_cbtdirty arg;
-+	unsigned int inx;
-+
-+	if (!cbt_map)
-+		return -ESRCH;
-+
-+	if (*plen < sizeof(arg))
-+		return -EINVAL;
-+
-+	if (copy_from_user(&arg, buf, sizeof(arg)))
-+		return -ENODATA;
-+
-+	for (inx = 0; inx < arg.count; inx++) {
-+		struct blksnap_sectors range;
-+		int ret;
-+
-+		if (copy_from_user(&range, u64_to_user_ptr(arg.dirty_sectors),
-+				   sizeof(range)))
-+			return -ENODATA;
-+
-+		ret = cbt_map_set_both(cbt_map, range.offset, range.count);
-+		if (ret)
++	if (!ref_exists) {
++		ref = kzalloc(sizeof(*ref), GFP_KERNEL);
++		if (!ref)
++			return -ENOMEM;
++		ref->pin = pin;
++		INIT_LIST_HEAD(&ref->registration_list);
++		ret = xa_insert(xa_pins, pin->pin_idx, ref, GFP_KERNEL);
++		if (ret) {
++			kfree(ref);
 +			return ret;
++		}
++		refcount_set(&ref->refcount, 1);
 +	}
-+	*plen = 0;
-+	return 0;
-+}
-+static int ctl_snapshotadd(struct tracker *tracker,
-+			   __u8 __user *buf, __u32 *plen)
-+{
-+	struct blksnap_snapshotadd arg;
 +
-+	if (*plen < sizeof(arg))
-+		return -EINVAL;
++	reg = kzalloc(sizeof(*reg), GFP_KERNEL);
++	if (!reg) {
++		if (!ref_exists)
++			kfree(ref);
++		return -ENOMEM;
++	}
++	reg->ops = ops;
++	reg->priv = priv;
++	if (ref_exists)
++		refcount_inc(&ref->refcount);
++	list_add_tail(&reg->list, &ref->registration_list);
 +
-+	if (copy_from_user(&arg, buf, sizeof(arg)))
-+		return -ENODATA;
-+
-+	*plen = 0;
-+	return  snapshot_add_device((uuid_t *)&arg.id, tracker);
-+}
-+static int ctl_snapshotinfo(struct tracker *tracker,
-+			    __u8 __user *buf, __u32 *plen)
-+{
-+	struct blksnap_snapshotinfo arg = {0};
-+
-+	if (*plen < sizeof(arg))
-+		return -EINVAL;
-+
-+	if (copy_from_user(&arg, buf, sizeof(arg)))
-+		return -ENODATA;
-+
-+
-+	if (tracker->diff_area && diff_area_is_corrupted(tracker->diff_area))
-+		arg.error_code = tracker->diff_area->error_code;
-+	else
-+		arg.error_code = 0;
-+
-+	if (tracker->snap_disk)
-+		strncpy(arg.image, tracker->snap_disk->disk_name, IMAGE_DISK_NAME_LEN);
-+
-+	if (copy_to_user(buf, &arg, sizeof(arg)))
-+		return -ENODATA;
-+
-+	*plen = sizeof(arg);
 +	return 0;
 +}
 +
-+static int (*const ctl_table[])(struct tracker *tracker,
-+				__u8 __user *buf, __u32 *plen) = {
-+	ctl_cbtinfo,
-+	ctl_cbtmap,
-+	ctl_cbtdirty,
-+	ctl_snapshotadd,
-+	ctl_snapshotinfo,
-+};
-+
-+static int tracker_ctl(struct blkfilter *flt, const unsigned int cmd,
-+		       __u8 __user *buf, __u32 *plen)
++/**
++ * dpll_xa_ref_pin_del - remove reference of a pin from xarray
++ * @xa_pins: dpll_pin_ref xarray holding pins
++ * @pin: pointer to a pin being removed
++ * @ops: pointer to ops of pin being removed
++ * @priv: pointer to private data of registerer who invoked pin removal
++ *
++ * Decrement refcount of existing pin reference on given xarray.
++ * If all registrations are lifted delete the reference and free its memory.
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return:
++ * * 0 on success
++ * * -EINVAL if reference to a pin was not found
++ */
++static int dpll_xa_ref_pin_del(struct xarray *xa_pins, struct dpll_pin *pin,
++			       const struct dpll_pin_ops *ops, void *priv)
 +{
-+	int ret = 0;
-+	struct tracker *tracker = container_of(flt, struct tracker, filter);
++	struct dpll_pin_registration *reg;
++	struct dpll_pin_ref *ref;
++	unsigned long i;
 +
-+	if (cmd > ARRAY_SIZE(ctl_table))
-+		return -ENOTTY;
++	xa_for_each(xa_pins, i, ref) {
++		if (ref->pin != pin)
++			continue;
++		reg = dpll_pin_registration_find(ref, ops, priv);
++		if (WARN_ON(!reg))
++			return -EINVAL;
++		if (refcount_dec_and_test(&ref->refcount)) {
++			list_del(&reg->list);
++			kfree(reg);
++			xa_erase(xa_pins, i);
++			WARN_ON(!list_empty(&ref->registration_list));
++			kfree(ref);
++		}
++		return 0;
++	}
 +
-+	mutex_lock(&tracker->ctl_lock);
-+	ret = ctl_table[cmd](tracker, buf, plen);
-+	mutex_unlock(&tracker->ctl_lock);
++	return -EINVAL;
++}
++
++/**
++ * dpll_xa_ref_dpll_add - add dpll reference to a given xarray
++ * @xa_dplls: dpll_pin_ref xarray holding dplls
++ * @dpll: dpll being added
++ * @ops: pin-reference ops for a dpll
++ * @priv: pointer to private data of owner
++ *
++ * Allocate and create reference of a dpll-pin ops or increase refcount
++ * on existing dpll reference on given xarray.
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return:
++ * * 0 on success
++ * * -ENOMEM on failed allocation
++ */
++static int
++dpll_xa_ref_dpll_add(struct xarray *xa_dplls, struct dpll_device *dpll,
++		     const struct dpll_pin_ops *ops, void *priv)
++{
++	struct dpll_pin_registration *reg;
++	struct dpll_pin_ref *ref;
++	bool ref_exists = false;
++	unsigned long i;
++	int ret;
++
++	xa_for_each(xa_dplls, i, ref) {
++		if (ref->dpll != dpll)
++			continue;
++		reg = dpll_pin_registration_find(ref, ops, priv);
++		if (reg) {
++			refcount_inc(&ref->refcount);
++			return 0;
++		}
++		ref_exists = true;
++		break;
++	}
++
++	if (!ref_exists) {
++		ref = kzalloc(sizeof(*ref), GFP_KERNEL);
++		if (!ref)
++			return -ENOMEM;
++		ref->dpll = dpll;
++		INIT_LIST_HEAD(&ref->registration_list);
++		ret = xa_insert(xa_dplls, dpll->device_idx, ref, GFP_KERNEL);
++		if (ret) {
++			kfree(ref);
++			return ret;
++		}
++		refcount_set(&ref->refcount, 1);
++	}
++
++	reg = kzalloc(sizeof(*reg), GFP_KERNEL);
++	if (!reg) {
++		if (!ref_exists)
++			kfree(ref);
++		return -ENOMEM;
++	}
++	reg->ops = ops;
++	reg->priv = priv;
++	if (ref_exists)
++		refcount_inc(&ref->refcount);
++	list_add_tail(&reg->list, &ref->registration_list);
++
++	return 0;
++}
++
++/**
++ * dpll_xa_ref_dpll_del - remove reference of a dpll from xarray
++ * @xa_dplls: dpll_pin_ref xarray holding dplls
++ * @dpll: pointer to a dpll to remove
++ * @ops: pointer to ops of dpll being removed
++ * @priv: pointer to private data of registerer who invoked dpll removal
++ *
++ * Decrement refcount of existing dpll reference on given xarray.
++ * If all references are dropped, delete the reference and free its memory.
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ */
++static void
++dpll_xa_ref_dpll_del(struct xarray *xa_dplls, struct dpll_device *dpll,
++		     const struct dpll_pin_ops *ops, void *priv)
++{
++	struct dpll_pin_registration *reg;
++	struct dpll_pin_ref *ref;
++	unsigned long i;
++
++	xa_for_each(xa_dplls, i, ref) {
++		if (ref->dpll != dpll)
++			continue;
++		reg = dpll_pin_registration_find(ref, ops, priv);
++		if (WARN_ON(!reg))
++			return;
++		if (refcount_dec_and_test(&ref->refcount)) {
++			list_del(&reg->list);
++			kfree(reg);
++			xa_erase(xa_dplls, i);
++			WARN_ON(!list_empty(&ref->registration_list));
++			kfree(ref);
++		}
++		return;
++	}
++}
++
++/**
++ * dpll_xa_ref_dpll_find - find dpll reference on xarray
++ * @xa_refs: dpll_pin_ref xarray holding dpll references
++ * @dpll: pointer to a dpll being searched
++ *
++ * Search for dpll-pin ops reference struct of a given dpll on given xarray.
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return:
++ * * pin reference struct pointer on success
++ * * NULL - reference to a pin was not found
++ */
++struct dpll_pin_ref *
++dpll_xa_ref_dpll_find(struct xarray *xa_refs, const struct dpll_device *dpll)
++{
++	struct dpll_pin_ref *ref;
++	unsigned long i;
++
++	xa_for_each(xa_refs, i, ref) {
++		if (ref->dpll == dpll)
++			return ref;
++	}
++
++	return NULL;
++}
++
++/**
++ * dpll_xa_ref_dpll_first - find first record of given xarray
++ * @xa_refs: xarray
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return: first element on given xaaray
++ */
++struct dpll_pin_ref *dpll_xa_ref_dpll_first(struct xarray *xa_refs)
++{
++	struct dpll_pin_ref *ref;
++	unsigned long i = 0;
++
++	ref = xa_find(xa_refs, &i, ULONG_MAX, XA_PRESENT);
++	WARN_ON(!ref);
++	return ref;
++}
++
++/**
++ * dpll_device_alloc - allocate the memory for dpll device
++ * @clock_id: clock_id of creator
++ * @device_idx: id given by dev driver
++ * @module: reference to registering module
++ *
++ * Allocates memory and initialize dpll device, hold its reference on global
++ * xarray.
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return:
++ * * valid dpll_device struct pointer if succeeded
++ * * ERR_PTR(-ENOMEM) - failed memory allocation
++ * * ERR_PTR(X) - failed allocation on dpll's xa
++ */
++static struct dpll_device *
++dpll_device_alloc(const u64 clock_id, u32 device_idx, struct module *module)
++{
++	struct dpll_device *dpll;
++	int ret;
++
++	dpll = kzalloc(sizeof(*dpll), GFP_KERNEL);
++	if (!dpll)
++		return ERR_PTR(-ENOMEM);
++	refcount_set(&dpll->refcount, 1);
++	INIT_LIST_HEAD(&dpll->registration_list);
++	dpll->device_idx = device_idx;
++	dpll->clock_id = clock_id;
++	dpll->module = module;
++	ret = xa_alloc(&dpll_device_xa, &dpll->id, dpll, xa_limit_16b,
++		       GFP_KERNEL);
++	if (ret) {
++		kfree(dpll);
++		return ERR_PTR(ret);
++	}
++	xa_init_flags(&dpll->pin_refs, XA_FLAGS_ALLOC);
++
++	return dpll;
++}
++
++/**
++ * dpll_device_get - find existing or create new dpll device
++ * @clock_id: clock_id of creator
++ * @device_idx: idx given by device driver
++ * @module: reference to registering module
++ *
++ * Get existing object of a dpll device, unique for given arguments.
++ * Create new if doesn't exist yet.
++ *
++ * Context: Acquires a lock (dpll_lock)
++ * Return:
++ * * valid dpll_device struct pointer if succeeded
++ * * ERR_PTR(-ENOMEM) - failed memory allocation
++ * * ERR_PTR(X) - failed allocation on dpll's xa
++ */
++struct dpll_device *
++dpll_device_get(u64 clock_id, u32 device_idx, struct module *module)
++{
++	struct dpll_device *dpll, *ret = NULL;
++	unsigned long index;
++
++	mutex_lock(&dpll_lock);
++	xa_for_each(&dpll_device_xa, index, dpll) {
++		if (dpll->clock_id == clock_id &&
++		    dpll->device_idx == device_idx &&
++		    dpll->module == module) {
++			ret = dpll;
++			refcount_inc(&ret->refcount);
++			break;
++		}
++	}
++	if (!ret)
++		ret = dpll_device_alloc(clock_id, device_idx, module);
++	mutex_unlock(&dpll_lock);
 +
 +	return ret;
 +}
++EXPORT_SYMBOL_GPL(dpll_device_get);
 +
-+static struct blkfilter_operations tracker_ops = {
-+	.owner		= THIS_MODULE,
-+	.name		= "blksnap",
-+	.attach		= tracker_attach,
-+	.detach		= tracker_detach,
-+	.ctl		= tracker_ctl,
-+	.submit_bio	= tracker_submit_bio,
-+};
-+
-+int tracker_take_snapshot(struct tracker *tracker)
++/**
++ * dpll_device_put - decrease the refcount and free memory if possible
++ * @dpll: dpll_device struct pointer
++ *
++ * Context: Acquires a lock (dpll_lock)
++ * Drop reference for a dpll device, if all references are gone, delete
++ * dpll device object.
++ */
++void dpll_device_put(struct dpll_device *dpll)
 +{
-+	int ret = 0;
-+	bool cbt_reset_needed = false;
-+	struct block_device *orig_bdev = tracker->diff_area->orig_bdev;
-+	sector_t capacity;
-+	unsigned int current_flag;
++	if (!dpll)
++		return;
++	mutex_lock(&dpll_lock);
++	if (refcount_dec_and_test(&dpll->refcount)) {
++		ASSERT_DPLL_NOT_REGISTERED(dpll);
++		WARN_ON_ONCE(!xa_empty(&dpll->pin_refs));
++		xa_destroy(&dpll->pin_refs);
++		xa_erase(&dpll_device_xa, dpll->id);
++		WARN_ON(!list_empty(&dpll->registration_list));
++		kfree(dpll);
++	}
++	mutex_unlock(&dpll_lock);
++}
++EXPORT_SYMBOL_GPL(dpll_device_put);
 +
-+	blk_mq_freeze_queue(orig_bdev->bd_queue);
-+	current_flag = memalloc_noio_save();
++static struct dpll_device_registration *
++dpll_device_registration_find(struct dpll_device *dpll,
++			      const struct dpll_device_ops *ops, void *priv)
++{
++	struct dpll_device_registration *reg;
 +
-+	if (tracker->cbt_map->is_corrupted) {
-+		cbt_reset_needed = true;
-+		pr_warn("Corrupted CBT table detected. CBT fault\n");
++	list_for_each_entry(reg, &dpll->registration_list, list) {
++		if (reg->ops == ops && reg->priv == priv)
++			return reg;
++	}
++	return NULL;
++}
++
++/**
++ * dpll_device_register - register the dpll device in the subsystem
++ * @dpll: pointer to a dpll
++ * @type: type of a dpll
++ * @ops: ops for a dpll device
++ * @priv: pointer to private information of owner
++ *
++ * Make dpll device available for user space.
++ *
++ * Context: Acquires a lock (dpll_lock)
++ * Return:
++ * * 0 on success
++ * * -EINVAL on failure due to wrong arguments provided
++ * * -EEXIST if device was already registered
++ */
++int dpll_device_register(struct dpll_device *dpll, enum dpll_type type,
++			 const struct dpll_device_ops *ops, void *priv)
++{
++	struct dpll_device_registration *reg;
++	bool first_registration = false;
++
++	if (WARN_ON(!ops))
++		return -EINVAL;
++	if (WARN_ON(type < DPLL_TYPE_PPS || type > DPLL_TYPE_MAX))
++		return -EINVAL;
++
++	mutex_lock(&dpll_lock);
++	reg = dpll_device_registration_find(dpll, ops, priv);
++	if (reg) {
++		mutex_unlock(&dpll_lock);
++		return -EEXIST;
 +	}
 +
-+	capacity = bdev_nr_sectors(orig_bdev);
-+	if (tracker->cbt_map->device_capacity != capacity) {
-+		cbt_reset_needed = true;
-+		pr_warn("Device resize detected. CBT fault\n");
++	reg = kzalloc(sizeof(*reg), GFP_KERNEL);
++	if (!reg) {
++		mutex_unlock(&dpll_lock);
++		return -EEXIST;
++	}
++	reg->ops = ops;
++	reg->priv = priv;
++	dpll->type = type;
++	first_registration = list_empty(&dpll->registration_list);
++	list_add_tail(&reg->list, &dpll->registration_list);
++	if (!first_registration) {
++		mutex_unlock(&dpll_lock);
++		return 0;
 +	}
 +
-+	if (cbt_reset_needed) {
-+		ret = cbt_map_reset(tracker->cbt_map, capacity);
-+		if (ret) {
-+			pr_err("Failed to create tracker. errno=%d\n",
-+			       abs(ret));
-+			return ret;
-+		}
-+	}
-+
-+	cbt_map_switch(tracker->cbt_map);
-+	atomic_set(&tracker->snapshot_is_taken, true);
-+
-+	memalloc_noio_restore(current_flag);
-+	blk_mq_unfreeze_queue(orig_bdev->bd_queue);
++	xa_set_mark(&dpll_device_xa, dpll->id, DPLL_REGISTERED);
++	mutex_unlock(&dpll_lock);
++	dpll_device_create_ntf(dpll);
 +
 +	return 0;
 +}
-+
-+void tracker_release_snapshot(struct tracker *tracker)
-+{
-+	struct diff_area *diff_area = tracker->diff_area;
-+
-+	if (unlikely(!diff_area))
-+		return;
-+
-+	snapimage_free(tracker);
-+
-+	blk_mq_freeze_queue(diff_area->orig_bdev->bd_queue);
-+
-+	pr_debug("Tracker for device [%u:%u] release snapshot\n",
-+		 MAJOR(tracker->dev_id), MINOR(tracker->dev_id));
-+
-+	atomic_set(&tracker->snapshot_is_taken, false);
-+	tracker->diff_area = NULL;
-+
-+	blk_mq_unfreeze_queue(diff_area->orig_bdev->bd_queue);
-+
-+	diff_area_put(diff_area);
-+}
-+
-+int __init tracker_init(void)
-+{
-+	pr_debug("Register filter '%s'", tracker_ops.name);
-+
-+	return blkfilter_register(&tracker_ops);
-+}
-+
-+void tracker_done(void)
-+{
-+	pr_debug("Unregister filter '%s'", tracker_ops.name);
-+
-+	blkfilter_unregister(&tracker_ops);
-+}
-diff --git a/drivers/block/blksnap/tracker.h b/drivers/block/blksnap/tracker.h
-new file mode 100644
-index 000000000000..dbf8295f9518
---- /dev/null
-+++ b/drivers/block/blksnap/tracker.h
-@@ -0,0 +1,75 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (C) 2023 Veeam Software Group GmbH */
-+#ifndef __BLKSNAP_TRACKER_H
-+#define __BLKSNAP_TRACKER_H
-+
-+#include <linux/blk-filter.h>
-+#include <linux/kref.h>
-+#include <linux/spinlock.h>
-+#include <linux/list.h>
-+#include <linux/rwsem.h>
-+#include <linux/blkdev.h>
-+#include <linux/fs.h>
-+
-+struct cbt_map;
-+struct diff_area;
++EXPORT_SYMBOL_GPL(dpll_device_register);
 +
 +/**
-+ * struct tracker - Tracker for a block device.
++ * dpll_device_unregister - unregister dpll device
++ * @dpll: registered dpll pointer
++ * @ops: ops for a dpll device
++ * @priv: pointer to private information of owner
 + *
-+ * @filter:
-+ *	The block device filter structure.
-+ * @ctl_lock:
-+ *	The mutex blocks simultaneous management of the tracker from different
-+ *	treads.
-+ * @link:
-+ *	List header. Allows to combine trackers into a list in a snapshot.
-+ * @kref:
-+ *	The link counter allows to control the lifetime of the tracker.
-+ * @dev_id:
-+ *	Original block device ID.
-+ * @snapshot_is_taken:
-+ *	Indicates that a snapshot was taken for the device whose I/O unit are
-+ *	handled by this tracker.
-+ * @cbt_map:
-+ *	Pointer to a change block tracker map.
-+ * @diff_area:
-+ *	Pointer to a difference area.
-+ * @snap_disk:
-+ *	Snapshot image disk.
-+ *
-+ * The goal of the tracker is to handle I/O unit. The tracker detectes
-+ * the range of sectors that will change and transmits them to the CBT map
-+ * and to the difference area.
++ * Unregister device, make it unavailable for userspace.
++ * Note: It does not free the memory
++ * Context: Acquires a lock (dpll_lock)
 + */
-+struct tracker {
-+	struct blkfilter filter;
-+	struct mutex ctl_lock;
-+	struct list_head link;
-+	struct kref kref;
-+	dev_t dev_id;
-+
-+	atomic_t snapshot_is_taken;
-+
-+	struct cbt_map *cbt_map;
-+	struct diff_area *diff_area;
-+	struct gendisk *snap_disk;
-+};
-+
-+int __init tracker_init(void);
-+void tracker_done(void);
-+
-+void tracker_free(struct kref *kref);
-+static inline void tracker_put(struct tracker *tracker)
++void dpll_device_unregister(struct dpll_device *dpll,
++			    const struct dpll_device_ops *ops, void *priv)
 +{
-+	if (likely(tracker))
-+		kref_put(&tracker->kref, tracker_free);
-+};
-+static inline void tracker_get(struct tracker *tracker)
-+{
-+	kref_get(&tracker->kref);
-+};
-+int tracker_take_snapshot(struct tracker *tracker);
-+void tracker_release_snapshot(struct tracker *tracker);
++	struct dpll_device_registration *reg;
 +
-+#endif /* __BLKSNAP_TRACKER_H */
---
-2.20.1
++	mutex_lock(&dpll_lock);
++	ASSERT_DPLL_REGISTERED(dpll);
++	dpll_device_delete_ntf(dpll);
++	reg = dpll_device_registration_find(dpll, ops, priv);
++	if (WARN_ON(!reg)) {
++		mutex_unlock(&dpll_lock);
++		return;
++	}
++	list_del(&reg->list);
++	kfree(reg);
++
++	if (!list_empty(&dpll->registration_list)) {
++		mutex_unlock(&dpll_lock);
++		return;
++	}
++	xa_clear_mark(&dpll_device_xa, dpll->id, DPLL_REGISTERED);
++	mutex_unlock(&dpll_lock);
++}
++EXPORT_SYMBOL_GPL(dpll_device_unregister);
++
++/**
++ * dpll_pin_alloc - allocate the memory for dpll pin
++ * @clock_id: clock_id of creator
++ * @pin_idx: idx given by dev driver
++ * @module: reference to registering module
++ * @prop: dpll pin properties
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return:
++ * * valid allocated dpll_pin struct pointer if succeeded
++ * * ERR_PTR(-ENOMEM) - failed memory allocation
++ * * ERR_PTR(-EINVAL) - wrong pin type property value
++ */
++static struct dpll_pin *
++dpll_pin_alloc(u64 clock_id, u32 pin_idx, struct module *module,
++	       const struct dpll_pin_properties *prop)
++{
++	struct dpll_pin *pin;
++	int ret;
++
++	pin = kzalloc(sizeof(*pin), GFP_KERNEL);
++	if (!pin)
++		return ERR_PTR(-ENOMEM);
++	pin->pin_idx = pin_idx;
++	pin->clock_id = clock_id;
++	pin->module = module;
++	if (WARN_ON(prop->type < DPLL_PIN_TYPE_MUX ||
++		    prop->type > DPLL_PIN_TYPE_MAX)) {
++		ret = -EINVAL;
++		goto err;
++	}
++	pin->prop = prop;
++	refcount_set(&pin->refcount, 1);
++	xa_init_flags(&pin->dpll_refs, XA_FLAGS_ALLOC);
++	xa_init_flags(&pin->parent_refs, XA_FLAGS_ALLOC);
++	ret = xa_alloc(&dpll_pin_xa, &pin->id, pin, xa_limit_16b, GFP_KERNEL);
++	if (ret)
++		goto err;
++	return pin;
++err:
++	xa_destroy(&pin->dpll_refs);
++	xa_destroy(&pin->parent_refs);
++	kfree(pin);
++	return ERR_PTR(ret);
++}
++
++/**
++ * dpll_pin_get - find existing or create new dpll pin
++ * @clock_id: clock_id of creator
++ * @pin_idx: idx given by dev driver
++ * @module: reference to registering module
++ * @prop: dpll pin properties
++ *
++ * Get existing object of a pin (unique for given arguments) or create new
++ * if doesn't exist yet.
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return:
++ * * valid allocated dpll_pin struct pointer if succeeded
++ * * ERR_PTR of an error
++ */
++struct dpll_pin *
++dpll_pin_get(u64 clock_id, u32 pin_idx, struct module *module,
++	     const struct dpll_pin_properties *prop)
++{
++	struct dpll_pin *pos, *ret = NULL;
++	unsigned long i;
++
++	xa_for_each(&dpll_pin_xa, i, pos) {
++		if (pos->clock_id == clock_id &&
++		    pos->pin_idx == pin_idx &&
++		    pos->module == module) {
++			ret = pos;
++			refcount_inc(&ret->refcount);
++			break;
++		}
++	}
++	if (!ret)
++		ret = dpll_pin_alloc(clock_id, pin_idx, module, prop);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(dpll_pin_get);
++
++/**
++ * dpll_pin_put - decrease the refcount and free memory if possible
++ * @pin: pointer to a pin to be put
++ *
++ * Drop reference for a pin, if all references are gone, delete pin object.
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ */
++void dpll_pin_put(struct dpll_pin *pin)
++{
++	if (!pin)
++		return;
++	if (refcount_dec_and_test(&pin->refcount)) {
++		xa_destroy(&pin->dpll_refs);
++		xa_destroy(&pin->parent_refs);
++		xa_erase(&dpll_pin_xa, pin->id);
++		kfree(pin);
++	}
++}
++EXPORT_SYMBOL_GPL(dpll_pin_put);
++
++static int
++__dpll_pin_register(struct dpll_device *dpll, struct dpll_pin *pin,
++		    const struct dpll_pin_ops *ops, void *priv)
++{
++	int ret;
++
++	if (WARN_ON(!ops))
++		return -EINVAL;
++
++	ret = dpll_xa_ref_pin_add(&dpll->pin_refs, pin, ops, priv);
++	if (ret)
++		return ret;
++	ret = dpll_xa_ref_dpll_add(&pin->dpll_refs, dpll, ops, priv);
++	if (ret)
++		goto ref_pin_del;
++	else
++		dpll_pin_create_ntf(pin);
++
++	return ret;
++
++ref_pin_del:
++	dpll_xa_ref_pin_del(&dpll->pin_refs, pin, ops, priv);
++	return ret;
++}
++
++/**
++ * dpll_pin_register - register the dpll pin in the subsystem
++ * @dpll: pointer to a dpll
++ * @pin: pointer to a dpll pin
++ * @ops: ops for a dpll pin ops
++ * @priv: pointer to private information of owner
++ *
++ * Context: Acquires a lock (dpll_lock)
++ * Return:
++ * * 0 on success
++ * * -EINVAL - missing pin ops
++ * * -ENOMEM - failed to allocate memory
++ */
++int
++dpll_pin_register(struct dpll_device *dpll, struct dpll_pin *pin,
++		  const struct dpll_pin_ops *ops, void *priv)
++{
++	int ret;
++
++	mutex_lock(&dpll_lock);
++	if (WARN_ON(!(dpll->module == pin->module &&
++		      dpll->clock_id == pin->clock_id)))
++		ret = -EFAULT;
++	else
++		ret = __dpll_pin_register(dpll, pin, ops, priv);
++	mutex_unlock(&dpll_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(dpll_pin_register);
++
++static void
++__dpll_pin_unregister(struct dpll_device *dpll, struct dpll_pin *pin,
++		      const struct dpll_pin_ops *ops, void *priv)
++{
++	dpll_xa_ref_pin_del(&dpll->pin_refs, pin, ops, priv);
++	dpll_xa_ref_dpll_del(&pin->dpll_refs, dpll, ops, priv);
++}
++
++/**
++ * dpll_pin_unregister - unregister dpll pin from dpll device
++ * @dpll: registered dpll pointer
++ * @pin: pointer to a pin
++ * @ops: ops for a dpll pin
++ * @priv: pointer to private information of owner
++ *
++ * Note: It does not free the memory
++ * Context: Acquires a lock (dpll_lock)
++ */
++void dpll_pin_unregister(struct dpll_device *dpll, struct dpll_pin *pin,
++			 const struct dpll_pin_ops *ops, void *priv)
++{
++	if (WARN_ON(xa_empty(&dpll->pin_refs)))
++		return;
++
++	mutex_lock(&dpll_lock);
++	__dpll_pin_unregister(dpll, pin, ops, priv);
++	mutex_unlock(&dpll_lock);
++}
++EXPORT_SYMBOL_GPL(dpll_pin_unregister);
++
++/**
++ * dpll_pin_on_pin_register - register a pin with a parent pin
++ * @parent: pointer to a parent pin
++ * @pin: pointer to a pin
++ * @ops: ops for a dpll pin
++ * @priv: pointer to private information of owner
++ *
++ * Register a pin with a parent pin, create references between them and
++ * between newly registered pin and dplls connected with a parent pin.
++ *
++ * Context: Acquires a lock (dpll_lock)
++ * Return:
++ * * 0 on success
++ * * -EINVAL missing pin or parent
++ * * -ENOMEM failed allocation
++ * * -EPERM if parent is not allowed
++ */
++int dpll_pin_on_pin_register(struct dpll_pin *parent, struct dpll_pin *pin,
++			     const struct dpll_pin_ops *ops, void *priv)
++{
++	struct dpll_pin_ref *ref;
++	unsigned long i, stop;
++	int ret;
++
++	if (WARN_ON(parent->prop->type != DPLL_PIN_TYPE_MUX))
++		return -EINVAL;
++	ret = dpll_xa_ref_pin_add(&pin->parent_refs, parent, ops, priv);
++	if (ret)
++		goto unlock;
++	refcount_inc(&pin->refcount);
++	xa_for_each(&parent->dpll_refs, i, ref) {
++		mutex_lock(&dpll_lock);
++		ret = __dpll_pin_register(ref->dpll, pin, ops, priv);
++		mutex_unlock(&dpll_lock);
++		if (ret) {
++			stop = i;
++			goto dpll_unregister;
++		}
++		dpll_pin_create_ntf(pin);
++	}
++
++	return ret;
++
++dpll_unregister:
++	xa_for_each(&parent->dpll_refs, i, ref) {
++		if (i < stop) {
++			mutex_lock(&dpll_lock);
++			__dpll_pin_unregister(ref->dpll, pin, ops, priv);
++			mutex_unlock(&dpll_lock);
++		}
++	}
++	refcount_dec(&pin->refcount);
++	dpll_xa_ref_pin_del(&pin->parent_refs, parent, ops, priv);
++unlock:
++	return ret;
++}
++EXPORT_SYMBOL_GPL(dpll_pin_on_pin_register);
++
++/**
++ * dpll_pin_on_pin_unregister - unregister dpll pin from a parent pin
++ * @parent: pointer to a parent pin
++ * @pin: pointer to a pin
++ * @ops: ops for a dpll pin
++ * @priv: pointer to private information of owner
++ *
++ * Context: Acquires a lock (dpll_lock)
++ * Note: It does not free the memory
++ */
++void dpll_pin_on_pin_unregister(struct dpll_pin *parent, struct dpll_pin *pin,
++				const struct dpll_pin_ops *ops, void *priv)
++{
++	struct dpll_pin_ref *ref;
++	unsigned long i;
++
++	mutex_lock(&dpll_lock);
++	dpll_pin_delete_ntf(pin);
++	dpll_xa_ref_pin_del(&pin->parent_refs, parent, ops, priv);
++	refcount_dec(&pin->refcount);
++	xa_for_each(&pin->dpll_refs, i, ref) {
++		__dpll_pin_unregister(ref->dpll, pin, ops, priv);
++	}
++	mutex_unlock(&dpll_lock);
++}
++EXPORT_SYMBOL_GPL(dpll_pin_on_pin_unregister);
++
++
++/**
++ * dpll_device_registration_first - get first registration of dpll device
++ * @dpll: pointer to a dpll
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return: pointer to the first registration of a dpll
++ */
++static struct dpll_device_registration *
++dpll_device_registration_first(struct dpll_device *dpll)
++{
++	struct dpll_device_registration *reg;
++
++	reg = list_first_entry_or_null((struct list_head *) &dpll->registration_list,
++				       struct dpll_device_registration, list);
++	WARN_ON(!reg);
++	return reg;
++}
++
++/**
++ * dpll_priv - get the dpll device private owner data
++ * @dpll: registered dpll pointer
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return: pointer to the first registration priv data
++ */
++void *dpll_priv(struct dpll_device *dpll)
++{
++	struct dpll_device_registration *reg;
++
++	reg = dpll_device_registration_first(dpll);
++	return reg->priv;
++}
++
++/**
++ * dpll_device_ops - get the dpll device ops pointer
++ * @dpll: registered dpll pointer
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return: pointer to the first registration ops of the dpll
++ */
++const struct dpll_device_ops *dpll_device_ops(struct dpll_device *dpll)
++{
++	struct dpll_device_registration *reg;
++
++	reg = dpll_device_registration_first(dpll);
++	return reg->ops;
++}
++
++/**
++ * dpll_pin_registration_first - get first registration of dpll pin ref
++ * @ref: pointer to a pin ref struct
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return: pointer to the first registration of a dpll_pin_ref
++ */
++static struct dpll_pin_registration *
++dpll_pin_registration_first(struct dpll_pin_ref *ref)
++{
++	struct dpll_pin_registration *reg;
++
++	reg = list_first_entry_or_null(&ref->registration_list,
++				       struct dpll_pin_registration, list);
++	WARN_ON(!reg);
++	return reg;
++}
++
++/**
++ * dpll_pin_on_dpll_priv - get the dpll device private owner data
++ * @dpll:      registered dpll pointer
++ * @pin:       pointer to a pin
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return: pointer to the data
++ */
++void *dpll_pin_on_dpll_priv(struct dpll_device *dpll,
++			    struct dpll_pin *pin)
++{
++	struct dpll_pin_registration *reg;
++	struct dpll_pin_ref *ref;
++
++	ref = xa_load(&dpll->pin_refs, pin->pin_idx);
++	if (!ref)
++		return NULL;
++	reg = dpll_pin_registration_first(ref);
++	return reg->priv;
++}
++
++/**
++ * dpll_pin_on_pin_priv - get the dpll pin private owner data
++ * @parent: pointer to a parent pin
++ * @pin: pointer to a pin
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return: pointer to the data
++ */
++void *dpll_pin_on_pin_priv(struct dpll_pin *parent,
++			   struct dpll_pin *pin)
++{
++	struct dpll_pin_registration *reg;
++	struct dpll_pin_ref *ref;
++
++	ref = xa_load(&pin->parent_refs, parent->pin_idx);
++	if (!ref)
++		return NULL;
++	reg = dpll_pin_registration_first(ref);
++	return reg->priv;
++}
++
++/**
++ * dpll_pin_ops - get the pin ops pointer
++ * @ref: dpll pin ref
++ *
++ * Context: shall be called under a lock (dpll_lock)
++ * Return: pointer to the first ops registered with the pin
++ */
++const struct dpll_pin_ops *dpll_pin_ops(struct dpll_pin_ref *ref)
++{
++	struct dpll_pin_registration *reg;
++
++	reg = dpll_pin_registration_first(ref);
++	return reg->ops;
++}
++
++/**
++ * dpll_init - initialize dpll subsystem
++ *
++ * Return:
++ * 0 - success
++ * negative - netlink init error
++ */
++static int __init dpll_init(void)
++{
++	int ret;
++
++	ret = dpll_netlink_init();
++	if (ret)
++		goto error;
++
++	return 0;
++
++error:
++	mutex_destroy(&dpll_lock);
++	return ret;
++}
++subsys_initcall(dpll_init);
+diff --git a/drivers/dpll/dpll_core.h b/drivers/dpll/dpll_core.h
+new file mode 100644
+index 000000000000..ef95e272937c
+--- /dev/null
++++ b/drivers/dpll/dpll_core.h
+@@ -0,0 +1,104 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ *  Copyright (c) 2023 Meta Platforms, Inc. and affiliates
++ *  Copyright (c) 2023 Intel and affiliates
++ */
++
++#ifndef __DPLL_CORE_H__
++#define __DPLL_CORE_H__
++
++#include <linux/dpll.h>
++#include <linux/list.h>
++#include <linux/refcount.h>
++#include "dpll_netlink.h"
++
++#define DPLL_REGISTERED		XA_MARK_1
++
++struct dpll_device_registration {
++	struct list_head list;
++	const struct dpll_device_ops *ops;
++	void *priv;
++};
++
++/**
++ * struct dpll_device - stores DPLL device internal data
++ * @id:			unique id number for each device given by kernel
++ * @device_idx:		id given by dev driver
++ * @clock_id:		unique identifier (clock_id) of a dpll
++ * @module:		module of creator
++ * @type:		type of a dpll
++ * @pin_refs:		stores pins registered within a dpll
++ * @mode_supported_mask: mask of supported modes
++ * @refcount:		refcount
++ * @registration_list:	list of registered ops and priv data of dpll owners
++ **/
++struct dpll_device {
++	u32 id;
++	u32 device_idx;
++	u64 clock_id;
++	struct module *module;
++	enum dpll_type type;
++	struct xarray pin_refs;
++	unsigned long mode_supported_mask;
++	refcount_t refcount;
++	struct list_head registration_list;
++};
++
++/**
++ * struct dpll_pin - structure for a dpll pin
++ * @id:			unique id number for pin given by kernel
++ * @pin_idx:		index of a pin given by dev driver
++ * @clock_id:		clock_id of creator
++ * @module:		module of creator
++ * @dpll_refs:		hold referencees to dplls pin was registered with
++ * @parent_refs:	hold references to parent pins pin was registered with
++ * @prop:		pointer to pin properties given by registerer
++ * @rclk_dev_name:	holds name of device when pin can recover clock from it
++ * @refcount:		refcount
++ **/
++struct dpll_pin {
++	u32 id;
++	u32 pin_idx;
++	u64 clock_id;
++	struct module *module;
++	struct xarray dpll_refs;
++	struct xarray parent_refs;
++	const struct dpll_pin_properties *prop;
++	char *rclk_dev_name;
++	refcount_t refcount;
++};
++
++struct dpll_pin_registration {
++	struct list_head list;
++	const struct dpll_pin_ops *ops;
++	void *priv;
++};
++
++/**
++ * struct dpll_pin_ref - structure for referencing either dpll or pins
++ * @dpll:		pointer to a dpll
++ * @pin:		pointer to a pin
++ * @registration_list:	list of ops and priv data registered with the ref
++ * @refcount:		refcount
++ **/
++struct dpll_pin_ref {
++	union {
++		struct dpll_device *dpll;
++		struct dpll_pin *pin;
++	};
++	struct list_head registration_list;
++	refcount_t refcount;
++};
++
++void *dpll_priv(struct dpll_device *dpll);
++void *dpll_pin_on_dpll_priv(struct dpll_device *dpll, struct dpll_pin *pin);
++void *dpll_pin_on_pin_priv(struct dpll_pin *parent, struct dpll_pin *pin);
++
++const struct dpll_device_ops *dpll_device_ops(struct dpll_device *dpll);
++struct dpll_device *dpll_device_get_by_id(int id);
++const struct dpll_pin_ops *dpll_pin_ops(struct dpll_pin_ref *ref);
++struct dpll_pin_ref *dpll_xa_ref_dpll_first(struct xarray *xa_refs);
++extern struct xarray dpll_device_xa;
++extern struct xarray dpll_pin_xa;
++extern struct mutex dpll_lock;
++#endif
+-- 
+2.37.3
 
