@@ -2,178 +2,190 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66E76C7EE29
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Jun 2023 00:20:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA59AC7EE2F
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Jun 2023 02:35:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230332AbjFJAUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Jun 2023 20:20:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46858 "EHLO
+        id S233644AbjFJCfi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Jun 2023 22:35:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231767AbjFJAUa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 20:20:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F2043A85;
-        Fri,  9 Jun 2023 17:20:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9970A646C3;
-        Sat, 10 Jun 2023 00:20:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E6BC4339B;
-        Sat, 10 Jun 2023 00:20:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686356427;
-        bh=hAWErQdgtzrtLLnuP2Z32/Gd7HN0S3pIO7CaoqvpH6M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jGkqFKGrPFOks6pEpqeh+5vynI5ErlrszFLAKeFWx+ru7eUxN0bhpvcTBpFtdMLku
-         rsunnA6eRuqrHf/t62LCMlBvFVqEGbkVph4YGBwlIAeHQv53vveU42Ep+XeGk/EajW
-         pnpNwOLzPJVTbBAzEdBlVN7zhckYeQU4xxR8M11e2dC8aD/ZOn4LGjQD0WFbhwHf7M
-         xSTSagsP2xvB2KxdVqxmrg96rIgTZLcFVU/19/h4eordnith64Gl2JheAL7YsLPv8N
-         WUj0JbrywL1drCSoH9+Psn24w2IeyUg2SgfGFQaAGe5KeT5YGxz8UXo824N7Qevt3b
-         5cem9xa98dfHQ==
-From:   SeongJae Park <sj@kernel.org>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     SeongJae Park <sj@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] Docs/RCU/rculist_nulls: Drop unnecessary '_release' in insert function
-Date:   Sat, 10 Jun 2023 00:20:24 +0000
-Message-Id: <20230610002024.80653-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <46440869-644a-4982-b790-b71b43976c66@paulmck-laptop>
-References: 
+        with ESMTP id S229942AbjFJCfh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Jun 2023 22:35:37 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3369235B3;
+        Fri,  9 Jun 2023 19:35:36 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-65314ee05c6so2103964b3a.1;
+        Fri, 09 Jun 2023 19:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686364535; x=1688956535;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B+cQ2OwbycVyxFVqiOSniKxXaS+hWOW1t5Cl7Mhvz3A=;
+        b=Kb6eH8l3yhks8jc06qIZNQE1A8b6Q8s5z7YxYMQtG84G5idJNCwHY54K2aO+07BVS5
+         kVtoqyGLMuNUelZqpalq41FDA8pNkYCcXjCVGGBapbfFqUJ4WSsdkvz7PCNssfTj/Xa8
+         5MeFd1LjBHZo35Zu32oCkV1iO99HnUueFmuPioQlNu6KFlTDvjXnvErrqP+mmyAkZtbF
+         gka37/1OCMSyGaD6KC6epfW2C0i/wirz53++DZI0bR0cNqJfWjqW/1PpEyU5NZDpv7O0
+         CnKTY14bKBRCa5kXDZSvXPOsmMxbMOpwlAqTcIhkUC/6dIUhbTKPiD7sS5/BZgVX7Mvt
+         xkow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686364535; x=1688956535;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B+cQ2OwbycVyxFVqiOSniKxXaS+hWOW1t5Cl7Mhvz3A=;
+        b=XRMb230QOqwq7aOVqVp4EQ/mssGd75/Hh08god+OrQ//ZVgyukOCSRUgBja138j3q0
+         F2lNaiXZWjWn2jif9Wfkgvr/348bklRcFMRalecCcS0+MRELeJoHzf/+VeMHe8kUzlZI
+         ZKY5Efi3OOcFK4stNFTQgoFGp8LB4ZAsQWHHmzjKmIpGTjAfV1Eu65eRNTIe+HU7p2sy
+         MFrQmVfIgO5Zsi57HZEV3ei0Ly88r3DOGQWH+2a8gCm3gtxjYmEz1wnXai0Xves86AYh
+         dbQ0NE+VynBBYykUx4QDfMwyACgGYGbYb1J/DIsMgp6y28S2aWkhAWHlnC1RJLcE5Qkw
+         8Cww==
+X-Gm-Message-State: AC+VfDyjD5MeFZF+zw1C+KCPVMBzTvNgY/B+MtemiDhCzGv+EG8NcKOH
+        EtCWSHFL6cj9bgzoUX7tIisLZUKCLxLqTJHQ32c=
+X-Google-Smtp-Source: ACHHUZ6rNnkh2m1Yt4Pj3/pGOqJ4UHP9zSc6CE3jFoWY+FrVfA5ENGv5ysmIcDXuIOSFDb9BxkKoP9BiytTg0kXa/dU=
+X-Received: by 2002:a05:6a20:e616:b0:105:94e5:f5c5 with SMTP id
+ my22-20020a056a20e61600b0010594e5f5c5mr2595006pzb.56.1686364535616; Fri, 09
+ Jun 2023 19:35:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1686275310.git.haibo1.xu@intel.com> <73045958d9ab71d5266d012f1e13061afa8c5331.1686275310.git.haibo1.xu@intel.com>
+ <20230609-05521f954b0485c69612f00b@orel>
+In-Reply-To: <20230609-05521f954b0485c69612f00b@orel>
+From:   Haibo Xu <xiaobo55x@gmail.com>
+Date:   Sat, 10 Jun 2023 10:35:24 +0800
+Message-ID: <CAJve8omPV_XgCSvw8POZwisb6uTOFMJU4FyAKArryui2SAsqtw@mail.gmail.com>
+Subject: Re: [PATCH v3 09/10] KVM: riscv: selftests: Skip some registers set operation
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
+        oliver.upton@linux.dev, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 9 Jun 2023 16:42:59 -0700 "Paul E. McKenney" <paulmck@kernel.org> wrote:
+On Fri, Jun 9, 2023 at 5:24=E2=80=AFPM Andrew Jones <ajones@ventanamicro.co=
+m> wrote:
+>
+> On Fri, Jun 09, 2023 at 10:12:17AM +0800, Haibo Xu wrote:
+> > Set operation on some riscv registers(mostly pesudo ones) was not
+> > supported and should be skipped in the get-reg-list test. Just
+> > reuse the rejects_set utilities to handle it in riscv.
+> >
+> > Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > ---
+> >  tools/testing/selftests/kvm/get-reg-list.c | 20 +++++++++++++-------
+> >  1 file changed, 13 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing=
+/selftests/kvm/get-reg-list.c
+> > index c4bd5a5259da..abacb95c21c6 100644
+> > --- a/tools/testing/selftests/kvm/get-reg-list.c
+> > +++ b/tools/testing/selftests/kvm/get-reg-list.c
+> > @@ -211,16 +211,22 @@ static void run_test(struct vcpu_reg_list *c)
+> >                       ++failed_get;
+> >               }
+> >
+> > -             /* rejects_set registers are rejected after KVM_ARM_VCPU_=
+FINALIZE */
+> > +             /*
+> > +              * rejects_set registers are rejected after KVM_ARM_VCPU_=
+FINALIZE on aarch64,
+> > +              * or registers that should skip set operation on riscv.
+> > +              */
+> >               for_each_sublist(c, s) {
+> >                       if (s->rejects_set && find_reg(s->rejects_set, s-=
+>rejects_set_n, reg.id)) {
+> >                               reject_reg =3D true;
+> > -                             ret =3D __vcpu_ioctl(vcpu, KVM_SET_ONE_RE=
+G, &reg);
+> > -                             if (ret !=3D -1 || errno !=3D EPERM) {
+> > -                                     printf("%s: Failed to reject (ret=
+=3D%d, errno=3D%d) ", config_name(c), ret, errno);
+> > -                                     print_reg(config_name(c), reg.id)=
+;
+> > -                                     putchar('\n');
+> > -                                     ++failed_reject;
+> > +                             if ((reg.id & KVM_REG_ARCH_MASK) =3D=3D K=
+VM_REG_ARM64) {
+> > +                                     ret =3D __vcpu_ioctl(vcpu, KVM_SE=
+T_ONE_REG, &reg);
+> > +                                     if (ret !=3D -1 || errno !=3D EPE=
+RM) {
+> > +                                             printf("%s: Failed to rej=
+ect (ret=3D%d, errno=3D%d) ",
+> > +                                                             config_na=
+me(c), ret, errno);
+> > +                                             print_reg(config_name(c),=
+ reg.id);
+> > +                                             putchar('\n');
+> > +                                             ++failed_reject;
+> > +                                     }
+>
+> Thinking about this some more, shouldn't we attempt the set ioctl for
+> riscv reject registers as well, but look for different error numbers?
+>
 
-> On Fri, Jun 09, 2023 at 07:12:06PM +0000, SeongJae Park wrote:
-> > On Fri, 19 May 2023 14:52:50 -0400 Joel Fernandes <joel@joelfernandes.org> wrote:
-> > 
-> > > On Thu, May 18, 2023 at 6:40 PM SeongJae Park <sj@kernel.org> wrote:
-> > > >
-> > > > The document says we can avoid extra smp_rmb() in lockless_lookup() and
-> > > > extra _release() in insert function when hlist_nulls is used.  However,
-> > > > the example code snippet for the insert function is still using the
-> > > > extra _release().  Drop it.
-> > > >
-> > > > Signed-off-by: SeongJae Park <sj@kernel.org>
-> > > > ---
-> > > >  Documentation/RCU/rculist_nulls.rst | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-> > > > index 5cd6f3f8810f..463270273d89 100644
-> > > > --- a/Documentation/RCU/rculist_nulls.rst
-> > > > +++ b/Documentation/RCU/rculist_nulls.rst
-> > > > @@ -191,7 +191,7 @@ scan the list again without harm.
-> > > >    obj = kmem_cache_alloc(cachep);
-> > > >    lock_chain(); // typically a spin_lock()
-> > > >    obj->key = key;
-> > > > -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> > > > +  atomic_set(&obj->refcnt, 1);
-> > > >    /*
-> > > >     * insert obj in RCU way (readers might be traversing chain)
-> > > >     */
-> > > 
-> > > If write to ->refcnt of 1 is reordered with setting of ->key, what
-> > > prevents the 'lookup algorithm' from doing a key match (obj->key ==
-> > > key) before the refcount has been initialized?
-> > > 
-> > > Are we sure the reordering mentioned in the document is the same as
-> > > the reordering prevented by the atomic_set_release()?
-> > 
-> > Paul, may I ask your opinion?
-> 
-> The next line of code is this:
-> 
-> 	hlist_nulls_add_head_rcu(&obj->obj_node, list);
-> 
-> If I understand the code correctly, obj (and thus *obj) are not
-> visible to readers before the hlist_nulls_add_head_rcu().  And
-> hlist_nulls_add_head_rcu() uses rcu_assign_pointer() to ensure that
-> initialization (including both ->key and ->refcnt) is ordered before
-> list insertion.
-> 
-> Except that this memory is being allocated from a slab cache that was
-> created with SLAB_TYPESAFE_BY_RCU.  This means that there can be readers
-> who gained a reference before this object was freed, and who still hold
-> their references.
-> 
-> Unfortunately, the implementation of try_get_ref() is not shown.  However,
-> if ->refcnt is non-zero, this can succeed, and if it succeeds, we need
-> the subsequent check of obj->key with key in the lookup algorithm to
-> be stable.  For this check to be stable, try_get_ref() needs to use an
-> atomic operation with at least acquire semantics (kref_get_unless_zero()
-> would work), and this must pair with something in the initialization.
-> 
-> So I don't see how it is safe to weaken that atomic_set_release() to
-> atomic_set(), even on x86.
+Yes, we can. Currently, 2 different errno(EOPNOTSUPP/EINVAL) would be
+reported for the rejected registers in risc-v.
+These 2 errnos can be handled specially like below:
 
-Thank you for the nice explanation, and I agree.
-
-> 
-> Or am I missing something subtle here?
-
-I found the text is saying extra _release() in insert function is not
-needed[1], and I thought it means the atomic_set_release().  Am I misreading
-it?  If not, would it be better to fix the text, for example, like below?
-
-```
---- a/Documentation/RCU/rculist_nulls.rst
-+++ b/Documentation/RCU/rculist_nulls.rst
-@@ -129,8 +129,7 @@ very very fast (before the end of RCU grace period)
- Avoiding extra smp_rmb()
- ========================
-
--With hlist_nulls we can avoid extra smp_rmb() in lockless_lookup()
--and extra _release() in insert function.
-+With hlist_nulls we can avoid extra smp_rmb() in lockless_lookup().
-
- For example, if we choose to store the slot number as the 'nulls'
- end-of-list marker for each slot of the hash table, we can detect
-@@ -182,6 +181,9 @@ scan the list again without harm.
- 2) Insert algorithm
- -------------------
-
-+Same to the above one, but uses hlist_nulls_add_head_rcu() instead of
-+hlist_add_head_rcu().
+diff --git a/tools/testing/selftests/kvm/get-reg-list.c
+b/tools/testing/selftests/kvm/get-reg-list.c
+index 73f40e0842b8..f3f2c4519318 100644
+--- a/tools/testing/selftests/kvm/get-reg-list.c
++++ b/tools/testing/selftests/kvm/get-reg-list.c
+@@ -255,6 +255,15 @@ static void run_test(struct vcpu_reg_list *c)
+                                                putchar('\n');
+                                                ++failed_reject;
+                                        }
++                } else {
++                                       ret =3D __vcpu_ioctl(vcpu,
+KVM_SET_ONE_REG, &reg);
++                                       if (ret !=3D -1 || (errno !=3D
+EINVAL && errno !=3D EOPNOTSUPP)) {
++                                               printf("%s: Failed to
+reject (ret=3D%d, errno=3D%d) ",
 +
- ::
+config_name(c), ret, errno);
++
+print_reg(config_name(c), reg.id);
++                                               putchar('\n');
++                                               ++failed_reject;
++                                       }
 
-   /*
-@@ -191,7 +193,7 @@ scan the list again without harm.
-   obj = kmem_cache_alloc(cachep);
-   lock_chain(); // typically a spin_lock()
-   obj->key = key;
--  atomic_set_release(&obj->refcnt, 1); // key before refcnt
-+  atomic_set(&obj->refcnt, 1);
-   /*
-    * insert obj in RCU way (readers might be traversing chain)
-    */
-```
+One possible issue for the above change is that when new registers
+that don't support sets were added, we need
+to add them to the reject registers list, or the test would fail.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/RCU/rculist_nulls.rst#n133
+Initially, in the v1 patch, the design was to just skip the EOPNOTSUPP
+errno in set operations for all registers
+since it's a known errno for registers that don't support sets. This
+change cover all the registers even for future
+new ones.
 
+What's your opinion?
 
 Thanks,
-SJ
-
-> 
-> 							Thanx, Paul
-> 
-> > Thanks,
-> > SJ
-> > 
-> > > 
-> > > For the other 3 patches, feel free to add:
-> > > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > 
-> > > thanks,
-> > > 
-> > >  - Joel
+Haibo
+> Thanks,
+> drew
