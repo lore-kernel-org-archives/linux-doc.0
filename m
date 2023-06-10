@@ -2,199 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 696E5C77B7A
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Jun 2023 11:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7201BC7EE29
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Jun 2023 12:59:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231347AbjFJLFF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Jun 2023 07:05:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52814 "EHLO
+        id S230415AbjFJM7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Jun 2023 08:59:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229639AbjFJLFE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Jun 2023 07:05:04 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115622D55;
-        Sat, 10 Jun 2023 04:05:02 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-543a09ee32eso1240438a12.1;
-        Sat, 10 Jun 2023 04:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686395101; x=1688987101;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7dBfYYGBslBF4bmtNYVdnpM97g0oABxKKJJ2EhyCgIc=;
-        b=ClUo/umlDklAa2WkPhtQIVfQxie4UhuP+yU29/3nBXyslSFT/NMqkALeN2E5vb4Hpd
-         z1yAUWR7RQvceJvv9Ls/PRdG3c/fJl5caZwSmflS0INPA6YZzGZHY8D6bGy5UcObbDLZ
-         yRzASSDIgb76LkI5qykDIGzTIdoumee441eHZGDdpg/wfHvRHZ7bdGce/RrD1wS+N/Le
-         UPSJotv3xnhrRa9ukMWO46Zcgxm/cIpVSxps8UqVB64Hsqw9lgD10jHiNsjsvNdKx+y1
-         nwTqJ6Ok7wC+EpV65y+f6ussVrnfCFn0i7MyFjqeQQdXD9YB0UBcTVY6rlN2xJhe8CDT
-         RHlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686395101; x=1688987101;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7dBfYYGBslBF4bmtNYVdnpM97g0oABxKKJJ2EhyCgIc=;
-        b=e86yu/ZhCnizLg0VKByA7LD94OTQHlyzVGKT4E/Sn3WqVv9gUZy1OBCyNVoWXy9KWC
-         u8fq0gCpx0LufZatWNYAHFja+IVg/DTszdHDsx310rutMHFfphxfTuJws5fK+ekCrVPn
-         HCU/Df3uBm7DwuLuGj8AE3FHxXaPsHxNMgbSOtz+/o5BYl4Te9PZ9M/G4sRUuL3YiSDQ
-         ujTRC8LlHEp3T02vNEiB/Fx6g53smKkznK4lpYMvOfkROoKY2KNS3fUedtCEnny1CVb0
-         yP/KxbMFxhyrF5aLA8i/PJG6QGQdalhfVq7ZlZfJP2hgw9DEW9oEVvEdaBIIG3UPKruj
-         rBww==
-X-Gm-Message-State: AC+VfDyiJcDmveJHvj3mG6bMib1JDBAL/9k8qgP2Ho1nFjLlXfAlXTVU
-        v5yASVl5FwbbgiLUu0oC068=
-X-Google-Smtp-Source: ACHHUZ5SW6wDpsvTFfe6r3H/woWn1BXuXnXIr8wM3HUf02TTfApB95iqRZNOKPYHQ/ILteIP1oXnOQ==
-X-Received: by 2002:a17:90b:3658:b0:256:28ab:de61 with SMTP id nh24-20020a17090b365800b0025628abde61mr8716106pjb.11.1686395101118;
-        Sat, 10 Jun 2023 04:05:01 -0700 (PDT)
-Received: from smtpclient.apple ([2402:d0c0:2:a2a::1])
-        by smtp.gmail.com with ESMTPSA id y4-20020a17090a154400b00256395cb599sm6420477pja.38.2023.06.10.04.04.57
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 10 Jun 2023 04:05:00 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH 4/4] Docs/RCU/rculist_nulls: Drop unnecessary '_release'
- in insert function
-From:   Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <4071FE01-BEB5-4BEE-A424-F50F0E0E3410@gmail.com>
-Date:   Sat, 10 Jun 2023 19:04:44 +0800
-Cc:     SeongJae Park <sj@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <F61F0ED7-D82B-412F-971F-691856539B6C@gmail.com>
-References: <CAEXW_YQFqW2QcAuHZEhc_GaUaB-=QOS0WgUOizd=FYwtFQ8vag@mail.gmail.com>
- <20230609191206.30465-1-sj@kernel.org>
- <46440869-644a-4982-b790-b71b43976c66@paulmck-laptop>
- <4071FE01-BEB5-4BEE-A424-F50F0E0E3410@gmail.com>
-To:     paulmck@kernel.org
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
+        with ESMTP id S229749AbjFJM7o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Jun 2023 08:59:44 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EEB1AB;
+        Sat, 10 Jun 2023 05:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686401983; x=1717937983;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ITLJwuiMSNZijdY4Cz6EusiXck7vPTOmLnkmQWskaI8=;
+  b=OShB4cayu10aFZla9A0oE9/QG63uiZ6GWDEPrfLgPV93QNywgAj6cBEo
+   KKBVu7Aatq0Wi+2JooeueON54gqju3Q/VgkeioLtd96581UVlsAqOKbsv
+   ORk05fn6N3BN9I/owLjhHmRPxjPwnZKUTEuQQ8iQZ+lG5P2LYXzH5ClN3
+   vILYp7Wjs0NyDNQG+Xzl1bPxPymmdQcehpF1dsmKd14Bim1Jgf4Tlyr5S
+   +absCNldqZJRq13EbA7aKP3MAYC9WMK7aDs2W9tfeetY4DjG2sazUUvU4
+   nfRbMenTM06cskmFSXONjS8MtyfstYj/tQBzFNjvSoSJK3VH1EioU7e0B
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="338122799"
+X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
+   d="scan'208";a="338122799"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 05:59:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="957451084"
+X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
+   d="scan'208";a="957451084"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 10 Jun 2023 05:59:38 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q7yBt-000A6A-2O;
+        Sat, 10 Jun 2023 12:59:37 +0000
+Date:   Sat, 10 Jun 2023 20:59:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Demi Marie Obenour <demi@invisiblethingslab.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Demi Marie Obenour <demi@invisiblethingslab.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 2/4] vsscanf(): Return -ERANGE on integer overflow
+Message-ID: <202306102055.ZSJK8Xsj-lkp@intel.com>
+References: <20230610025759.1813-2-demi@invisiblethingslab.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230610025759.1813-2-demi@invisiblethingslab.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Demi,
 
-> 2023=E5=B9=B46=E6=9C=8810=E6=97=A5 13:37=EF=BC=8CAlan Huang =
-<mmpgouride@gmail.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Hi Paul,
->=20
->> 2023=E5=B9=B46=E6=9C=8810=E6=97=A5 07:42=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->>=20
->> On Fri, Jun 09, 2023 at 07:12:06PM +0000, SeongJae Park wrote:
->>> On Fri, 19 May 2023 14:52:50 -0400 Joel Fernandes =
-<joel@joelfernandes.org> wrote:
->>>=20
->>>> On Thu, May 18, 2023 at 6:40=E2=80=AFPM SeongJae Park =
-<sj@kernel.org> wrote:
->>>>>=20
->>>>> The document says we can avoid extra smp_rmb() in =
-lockless_lookup() and
->>>>> extra _release() in insert function when hlist_nulls is used.  =
-However,
->>>>> the example code snippet for the insert function is still using =
-the
->>>>> extra _release().  Drop it.
->>>>>=20
->>>>> Signed-off-by: SeongJae Park <sj@kernel.org>
->>>>> ---
->>>>> Documentation/RCU/rculist_nulls.rst | 2 +-
->>>>> 1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>=20
->>>>> diff --git a/Documentation/RCU/rculist_nulls.rst =
-b/Documentation/RCU/rculist_nulls.rst
->>>>> index 5cd6f3f8810f..463270273d89 100644
->>>>> --- a/Documentation/RCU/rculist_nulls.rst
->>>>> +++ b/Documentation/RCU/rculist_nulls.rst
->>>>> @@ -191,7 +191,7 @@ scan the list again without harm.
->>>>>  obj =3D kmem_cache_alloc(cachep);
->>>>>  lock_chain(); // typically a spin_lock()
->>>>>  obj->key =3D key;
->>>>> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
->>>>> +  atomic_set(&obj->refcnt, 1);
->>>>>  /*
->>>>>   * insert obj in RCU way (readers might be traversing chain)
->>>>>   */
->>>>=20
->>>> If write to ->refcnt of 1 is reordered with setting of ->key, what
->>>> prevents the 'lookup algorithm' from doing a key match (obj->key =3D=3D=
+kernel test robot noticed the following build warnings:
 
->>>> key) before the refcount has been initialized?
->>>>=20
->>>> Are we sure the reordering mentioned in the document is the same as
->>>> the reordering prevented by the atomic_set_release()?
->>>=20
->>> Paul, may I ask your opinion?
->>=20
->> The next line of code is this:
->>=20
->> hlist_nulls_add_head_rcu(&obj->obj_node, list);
->>=20
->> If I understand the code correctly, obj (and thus *obj) are not
->> visible to readers before the hlist_nulls_add_head_rcu().  And
->> hlist_nulls_add_head_rcu() uses rcu_assign_pointer() to ensure that
->> initialization (including both ->key and ->refcnt) is ordered before
->> list insertion.
->>=20
->> Except that this memory is being allocated from a slab cache that was
->> created with SLAB_TYPESAFE_BY_RCU.  This means that there can be =
-readers
->> who gained a reference before this object was freed, and who still =
-hold
->> their references.
->>=20
->> Unfortunately, the implementation of try_get_ref() is not shown.  =
-However,
->> if ->refcnt is non-zero, this can succeed, and if it succeeds, we =
-need
->> the subsequent check of obj->key with key in the lookup algorithm to
->> be stable.  For this check to be stable, try_get_ref() needs to use =
-an
->> atomic operation with at least acquire semantics =
-(kref_get_unless_zero()
->> would work), and this must pair with something in the initialization.
->>=20
->> So I don't see how it is safe to weaken that atomic_set_release() to
->> atomic_set(), even on x86.
->=20
-> I totally agree, but only in the case of using hlist_nulls.
->=20
-> That means, atomic_set_release() is not enough in the case without =
-using hlist_nulls,
-> we must ensure that storing to obj->next (in hlist_add_head_rcu) is =
-ordered before storing
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on lee-leds/for-leds-next linus/master v6.4-rc5 next-20230609]
+[cannot apply to xen-tip/linux-next lee-mfd/for-mfd-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Typo: not before, but after.
+url:    https://github.com/intel-lab-lkp/linux/commits/Demi-Marie-Obenour/vsscanf-Return-ERANGE-on-integer-overflow/20230610-110026
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20230610025759.1813-2-demi%40invisiblethingslab.com
+patch subject: [PATCH 2/4] vsscanf(): Return -ERANGE on integer overflow
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230610/202306102055.ZSJK8Xsj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        git remote add lee-mfd https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
+        git fetch lee-mfd for-mfd-next
+        git checkout lee-mfd/for-mfd-next
+        b4 shazam https://lore.kernel.org/r/20230610025759.1813-2-demi@invisiblethingslab.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/media/atomisp/
 
-> to obj->key. Otherwise, we can get the new =E2=80=98next' and the old =
-=E2=80=98key' in which case we can=E2=80=99t detect
-> an object movement(from one chain to another).
->=20
-> So, I=E2=80=99m afraid that the atomic_set_release() in insertion =
-algorithm without using hlist_nulls should=20
-> change back to:
->=20
-> smp_wmb();
-> atomic_set(&obj->refcnt, 1);
->=20
-> Thanks,
-> Alan
->=20
->>=20
->> Or am I missing something subtle here?
->>=20
->> Thanx, Paul
->>=20
->>> Thanks,
->>> SJ
->>>=20
->>>>=20
->>>> For the other 3 patches, feel free to add:
->>>> Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->>>>=20
->>>> thanks,
->>>>=20
->>>> - Joel
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306102055.ZSJK8Xsj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/staging/media/atomisp//pci/ia_css_acc_types.h:25,
+                    from drivers/staging/media/atomisp//pci/ia_css_pipe_public.h:29,
+                    from drivers/staging/media/atomisp//pci/ia_css_stream_public.h:25,
+                    from drivers/staging/media/atomisp//pci/runtime/binary/interface/ia_css_binary.h:23,
+                    from drivers/staging/media/atomisp//pci/runtime/debug/interface/ia_css_debug.h:25,
+                    from drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc.host.c:18:
+>> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:30: warning: "UCHAR_MAX" redefined
+      30 | #define UCHAR_MAX  (255)
+         | 
+   In file included from include/linux/limits.h:7,
+                    from drivers/staging/media/atomisp//pci/hive_isp_css_include/type_support.h:37,
+                    from drivers/staging/media/atomisp//pci/ia_css_types.h:27,
+                    from drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc.host.c:16:
+   include/vdso/limits.h:5: note: this is the location of the previous definition
+       5 | #define UCHAR_MAX       ((unsigned char)~0U)
+         | 
 
 
+vim +/UCHAR_MAX +30 drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h
+
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  27  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  28  #define UINT16_MAX USHRT_MAX
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  29  #define UINT32_MAX UINT_MAX
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19 @30  #define UCHAR_MAX  (255)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  31  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
