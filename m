@@ -2,250 +2,358 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0341C7EE43
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Jun 2023 05:52:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE75CC7EE2E
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Jun 2023 07:26:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbjFJFwp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Jun 2023 01:52:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49346 "EHLO
+        id S229538AbjFJH0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Jun 2023 03:26:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbjFJFwo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Jun 2023 01:52:44 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301923AA7;
-        Fri,  9 Jun 2023 22:52:43 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-654f8b56807so2619157b3a.1;
-        Fri, 09 Jun 2023 22:52:43 -0700 (PDT)
+        with ESMTP id S231208AbjFJH0K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Jun 2023 03:26:10 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F4E3AA5
+        for <linux-doc@vger.kernel.org>; Sat, 10 Jun 2023 00:26:03 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-978863fb00fso448070166b.3
+        for <linux-doc@vger.kernel.org>; Sat, 10 Jun 2023 00:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686376362; x=1688968362;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iRgmV2IZs4TvDybCRGo+p0nMuzbLZLONErtuLHAt0W8=;
-        b=rUM+Nt1BI5exs0ACt/g7CJfrsg/UgrAs+xQ4PXOP16lbSa2oihB9w4uvPvfPK0yE63
-         xVEhaai4CL/MxvSTWKW98CgsFHxef1ondIutOhhOOgqnV0Jq5Z97q6tt7E+g5AYwmKvY
-         cHL3Lo62jscZRIw1I8CY7QnmrCt2r0i8N0h3xy4eDwO3/i+Sa1pG8m+ltk7s1XEdUwwG
-         AIRKMHvjPLV6hE2p1N+q78TVGFyijYGVeEFhKCgy5sEIRYj4dvGv6MnCVTGiuhKa05c0
-         /zmibrM723E7IHfJB/OjgSx9yibHXjkkX2miIplq86XqbSRGpjPbFiuW27DY1BGN3h+3
-         Gl8w==
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1686381961; x=1688973961;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5R+1aU+0tbtByu5DRweaXUAmfZyH+0hDrQHKeFWESNo=;
+        b=1qnubHDiiUBaYfvLNUmh6HjLQy/ZY0nYgGgvtKiq7x3v1W2wznVYz687cvO49YEFNz
+         zctJGsSQvsdBgzOJqWAwQLMF//LaVyrbaDdm5u+lETdUPQ2piMJ6i/wW3s1bQjuk+cR5
+         VQOOZI+JBNULIa6GvvLtPKT/y442XaGmC9sj2Xtp7f64HDNkVAWaQaT5RVM8N4FfSo+E
+         WyAPaa+P1Q6gnczNilo2vj75mt3l0f4InHTJDZnotoBZvlUEj5C9DyPE7N7qxbEi5DQq
+         WMMG2UNEE532gEPnNY9AT8heOl1TSHmGLzgx4jME0daT3/j8J9u9przb8vT3TNxsRdew
+         5xNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686376362; x=1688968362;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iRgmV2IZs4TvDybCRGo+p0nMuzbLZLONErtuLHAt0W8=;
-        b=bbmkeM4YAtgvCVmgi2iMDBYD/ew0u3AIuz0SKQvQoUzVN8uBfUjVx3xTBhXU+eo8OL
-         i4af5zGzjCW7JpK/pmE7HyrM+LLpXExV7hEGXDOpGo/v9ruPwmA4vKa8QngdIRgNuO8J
-         3/aToS1EKbkna8QACfMIH/fMzwCuaZ8TMyU5r6hQC+mJju8oRD+zR0wWFG5POa6tLgYk
-         N5wn7xtFCJCC6dUbWNp5weryzBnMj9NMJ5R/x83hhlmdRLBKjdjNq9K5RO9r0LaiVaP8
-         4wbXctnxf3PnYNSxqu+M2jVhANQO15I5A6zERM8UP6DxnNcPoNZtU6kslrp8unkUMagy
-         8UWA==
-X-Gm-Message-State: AC+VfDyy9jB0t5XCUazvNTpoTskPrymkZp49CWhQeiNYsEC6CrEszzup
-        qXhTLvUUhwNkapcQLgDz9Z6rTP5uwCDIcg==
-X-Google-Smtp-Source: ACHHUZ7HcWWTWhlrzQ4ylzDwnMAxFrtlY4iUTKSgzNVHU9n/p/J8fugYbK2v/NOnzEx3npagdeZahw==
-X-Received: by 2002:a05:6a00:180e:b0:656:e7a2:5322 with SMTP id y14-20020a056a00180e00b00656e7a25322mr4460309pfa.26.1686376362472;
-        Fri, 09 Jun 2023 22:52:42 -0700 (PDT)
-Received: from smtpclient.apple ([2402:d0c0:2:a2a::1])
-        by smtp.gmail.com with ESMTPSA id a10-20020aa780ca000000b00642ea56f06dsm3487739pfn.26.2023.06.09.22.52.38
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 09 Jun 2023 22:52:42 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH 4/4] Docs/RCU/rculist_nulls: Drop unnecessary '_release'
- in insert function
-From:   Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <20230610002024.80653-1-sj@kernel.org>
-Date:   Sat, 10 Jun 2023 13:52:25 +0800
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <6C469091-6C20-4BBD-B503-F024021C8AE7@gmail.com>
-References: <20230610002024.80653-1-sj@kernel.org>
-To:     SeongJae Park <sj@kernel.org>
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
+        d=1e100.net; s=20221208; t=1686381961; x=1688973961;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5R+1aU+0tbtByu5DRweaXUAmfZyH+0hDrQHKeFWESNo=;
+        b=JZ6DL/oT/6JGVg4IgWC1bEjiF1dw2JaZhJDaqq3EJVZlmLA8U7NBNzRpFhZ7DrpRhl
+         Liq28CeUaYrX8CgKbiV2lH12h0keSH7ACMAvsjjoKEvsI+fyZQqF6Kv7dtj9uFGDTJoS
+         MDUCtXFxbRIBSVjx3vrzT/WmTCjOLQXDqwA01ie/wHQJHSgRPwnHMHksIPMW+dYRB0yP
+         unTS45LvHZNtRfWs1KBeiyW2mwYSbzX8LouTW6F6gVR0l3mkvlIp4e4xFxuls7qcsGa/
+         OizyOuz9DE2fBWBjL7ur13ps4Tz9XinD1faUuxjFRFBPe/s2vX5JVMgb1vUWR62QsGMF
+         Dh0g==
+X-Gm-Message-State: AC+VfDzosagkUMrlrDGzubwj8bHgnfLT4e7Y4LYugglxMgLNP97roO03
+        AEH7uW51Dufsd4Tu00Je2kxJ+Q==
+X-Google-Smtp-Source: ACHHUZ4Y65Tywhty78311MRIqRo1wGp0WzFlbf3wayIZiqtz3DF37g3GzNp/7YnZvR9gKGGpRcjDpA==
+X-Received: by 2002:a17:906:dac6:b0:96a:3f29:40d9 with SMTP id xi6-20020a170906dac600b0096a3f2940d9mr4146715ejb.25.1686381961287;
+        Sat, 10 Jun 2023 00:26:01 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id b20-20020aa7d494000000b00514a3c04646sm2573878edr.73.2023.06.10.00.26.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jun 2023 00:26:00 -0700 (PDT)
+Date:   Sat, 10 Jun 2023 09:25:59 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc:     kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
+        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
+        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org,
+        vadim.fedorenko@linux.dev
+Subject: Re: [RFC PATCH v8 05/10] dpll: api header: Add DPLL framework base
+ functions
+Message-ID: <ZIQlhyXJAtcp1Fjr@nanopsycho>
+References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+ <20230609121853.3607724-6-arkadiusz.kubalewski@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230609121853.3607724-6-arkadiusz.kubalewski@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi SJ,
+Fri, Jun 09, 2023 at 02:18:48PM CEST, arkadiusz.kubalewski@intel.com wrote:
+>From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+>
+>DPLL framework is used to represent and configure DPLL devices
+>in systems. Each device that has DPLL and can configure sources
+>and outputs can use this framework. Netlink interface is used to
+>provide configuration data and to receive notification messages
+>about changes in the configuration or status of DPLL device.
+>Inputs and outputs of the DPLL device are represented as special
+>objects which could be dynamically added to and removed from DPLL
+>device.
+>
+>Add kernel api header, make dpll subsystem available to device drivers.
+>
+>Add/update makefiles/Kconfig to allow compilation of dpll subsystem.
+>
+>Co-developed-by: Milena Olech <milena.olech@intel.com>
+>Signed-off-by: Milena Olech <milena.olech@intel.com>
+>Co-developed-by: Michal Michalik <michal.michalik@intel.com>
+>Signed-off-by: Michal Michalik <michal.michalik@intel.com>
+>Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+>Co-developed-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+>Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+>---
+> MAINTAINERS           |   8 +++
+> drivers/Kconfig       |   2 +
+> drivers/Makefile      |   1 +
+> drivers/dpll/Kconfig  |   7 ++
+> drivers/dpll/Makefile |   9 +++
+> include/linux/dpll.h  | 144 ++++++++++++++++++++++++++++++++++++++++++
+> 6 files changed, 171 insertions(+)
+> create mode 100644 drivers/dpll/Kconfig
+> create mode 100644 drivers/dpll/Makefile
+> create mode 100644 include/linux/dpll.h
+>
+>diff --git a/MAINTAINERS b/MAINTAINERS
+>index 288d9a5edb9d..0e69429ecc55 100644
+>--- a/MAINTAINERS
+>+++ b/MAINTAINERS
+>@@ -6306,6 +6306,14 @@ F:	Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-drive
+> F:	drivers/net/ethernet/freescale/dpaa2/dpaa2-switch*
+> F:	drivers/net/ethernet/freescale/dpaa2/dpsw*
+> 
+>+DPLL CLOCK SUBSYSTEM
+>+M:	Vadim Fedorenko <vadfed@fb.com>
+>+L:	netdev@vger.kernel.org
+>+S:	Maintained
 
-> 2023=E5=B9=B46=E6=9C=8810=E6=97=A5 08:20=EF=BC=8CSeongJae Park =
-<sj@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Fri, 9 Jun 2023 16:42:59 -0700 "Paul E. McKenney" =
-<paulmck@kernel.org> wrote:
->=20
->> On Fri, Jun 09, 2023 at 07:12:06PM +0000, SeongJae Park wrote:
->>> On Fri, 19 May 2023 14:52:50 -0400 Joel Fernandes =
-<joel@joelfernandes.org> wrote:
->>>=20
->>>> On Thu, May 18, 2023 at 6:40=E2=80=AFPM SeongJae Park =
-<sj@kernel.org> wrote:
->>>>>=20
->>>>> The document says we can avoid extra smp_rmb() in =
-lockless_lookup() and
->>>>> extra _release() in insert function when hlist_nulls is used.  =
-However,
->>>>> the example code snippet for the insert function is still using =
-the
->>>>> extra _release().  Drop it.
->>>>>=20
->>>>> Signed-off-by: SeongJae Park <sj@kernel.org>
->>>>> ---
->>>>> Documentation/RCU/rculist_nulls.rst | 2 +-
->>>>> 1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>=20
->>>>> diff --git a/Documentation/RCU/rculist_nulls.rst =
-b/Documentation/RCU/rculist_nulls.rst
->>>>> index 5cd6f3f8810f..463270273d89 100644
->>>>> --- a/Documentation/RCU/rculist_nulls.rst
->>>>> +++ b/Documentation/RCU/rculist_nulls.rst
->>>>> @@ -191,7 +191,7 @@ scan the list again without harm.
->>>>>   obj =3D kmem_cache_alloc(cachep);
->>>>>   lock_chain(); // typically a spin_lock()
->>>>>   obj->key =3D key;
->>>>> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
->>>>> +  atomic_set(&obj->refcnt, 1);
->>>>>   /*
->>>>>    * insert obj in RCU way (readers might be traversing chain)
->>>>>    */
->>>>=20
->>>> If write to ->refcnt of 1 is reordered with setting of ->key, what
->>>> prevents the 'lookup algorithm' from doing a key match (obj->key =3D=3D=
+I think status should be rather "Supported":
+"Supported:   Someone is actually paid to look after this."
 
->>>> key) before the refcount has been initialized?
->>>>=20
->>>> Are we sure the reordering mentioned in the document is the same as
->>>> the reordering prevented by the atomic_set_release()?
->>>=20
->>> Paul, may I ask your opinion?
->>=20
->> The next line of code is this:
->>=20
->> hlist_nulls_add_head_rcu(&obj->obj_node, list);
->>=20
->> If I understand the code correctly, obj (and thus *obj) are not
->> visible to readers before the hlist_nulls_add_head_rcu().  And
->> hlist_nulls_add_head_rcu() uses rcu_assign_pointer() to ensure that
->> initialization (including both ->key and ->refcnt) is ordered before
->> list insertion.
->>=20
->> Except that this memory is being allocated from a slab cache that was
->> created with SLAB_TYPESAFE_BY_RCU.  This means that there can be =
-readers
->> who gained a reference before this object was freed, and who still =
-hold
->> their references.
->>=20
->> Unfortunately, the implementation of try_get_ref() is not shown.  =
-However,
->> if ->refcnt is non-zero, this can succeed, and if it succeeds, we =
-need
->> the subsequent check of obj->key with key in the lookup algorithm to
->> be stable.  For this check to be stable, try_get_ref() needs to use =
-an
->> atomic operation with at least acquire semantics =
-(kref_get_unless_zero()
->> would work), and this must pair with something in the initialization.
->>=20
->> So I don't see how it is safe to weaken that atomic_set_release() to
->> atomic_set(), even on x86.
->=20
-> Thank you for the nice explanation, and I agree.
->=20
->>=20
->> Or am I missing something subtle here?
->=20
-> I found the text is saying extra _release() in insert function is not
-> needed[1], and I thought it means the atomic_set_release().  Am I =
-misreading
-> it?  If not, would it be better to fix the text, for example, like =
-below?
+Also, I think that it would be good to have Arkadiusz Kubalewski
+listed here, as he is the one that knows the subsystem by heart.
 
-The original text is:
-
-	=E2=80=9CWith hlist_nulls we can avoid extra smp_rmb() in =
-lockless_lookup()
-	 and extra smp_wmb() in insert function.=E2=80=9D
-
-We can avoid the extra smp_wmb(), but the _release is required,
-
-As Paul said,
-
->> Except that this memory is being allocated from a slab cache that was
->> created with SLAB_TYPESAFE_BY_RCU.  This means that there can be =
-readers
->> who gained a reference before this object was freed, and who still =
-hold
->> their references.
-
-Without the _release, we can get the old =E2=80=98key=E2=80=99 after the =
-invocation of
-try_get_ref (although try_get_ref noticed the effect of atomic_set).
-
-Thanks,
-Alan
-
->=20
-> ```
-> --- a/Documentation/RCU/rculist_nulls.rst
-> +++ b/Documentation/RCU/rculist_nulls.rst
-> @@ -129,8 +129,7 @@ very very fast (before the end of RCU grace =
-period)
-> Avoiding extra smp_rmb()
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-
->=20
-> -With hlist_nulls we can avoid extra smp_rmb() in lockless_lookup()
-> -and extra _release() in insert function.
-> +With hlist_nulls we can avoid extra smp_rmb() in lockless_lookup().
->=20
-> For example, if we choose to store the slot number as the 'nulls'
-> end-of-list marker for each slot of the hash table, we can detect
-> @@ -182,6 +181,9 @@ scan the list again without harm.
-> 2) Insert algorithm
-> -------------------
->=20
-> +Same to the above one, but uses hlist_nulls_add_head_rcu() instead of
-> +hlist_add_head_rcu().
-> +
-> ::
->=20
->   /*
-> @@ -191,7 +193,7 @@ scan the list again without harm.
->   obj =3D kmem_cache_alloc(cachep);
->   lock_chain(); // typically a spin_lock()
->   obj->key =3D key;
-> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> +  atomic_set(&obj->refcnt, 1);
->   /*
->    * insert obj in RCU way (readers might be traversing chain)
->    */
-> ```
->=20
-> [1] =
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/RCU/rculist_nulls.rst#n133
->=20
->=20
-> Thanks,
-> SJ
->=20
->>=20
->> Thanx, Paul
->>=20
->>> Thanks,
->>> SJ
->>>=20
->>>>=20
->>>> For the other 3 patches, feel free to add:
->>>> Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
->>>>=20
->>>> thanks,
->>>>=20
->>>> - Joel
+Also, if you don't mind, I would be happy as a co-maintainer of the
+subsystem to be listed here, as I helped to shape the code and
+interfaces and I also know it pretty good.
 
 
+
+>+F:	drivers/dpll/*
+>+F:	include/net/dpll.h
+>+F:	include/uapi/linux/dpll.h
+>+
+> DRBD DRIVER
+> M:	Philipp Reisner <philipp.reisner@linbit.com>
+> M:	Lars Ellenberg <lars.ellenberg@linbit.com>
+>diff --git a/drivers/Kconfig b/drivers/Kconfig
+>index 514ae6b24cb2..ce5f63918eba 100644
+>--- a/drivers/Kconfig
+>+++ b/drivers/Kconfig
+>@@ -243,4 +243,6 @@ source "drivers/hte/Kconfig"
+> 
+> source "drivers/cdx/Kconfig"
+> 
+>+source "drivers/dpll/Kconfig"
+>+
+> endmenu
+>diff --git a/drivers/Makefile b/drivers/Makefile
+>index 7241d80a7b29..6fea42a6dd05 100644
+>--- a/drivers/Makefile
+>+++ b/drivers/Makefile
+>@@ -195,3 +195,4 @@ obj-$(CONFIG_PECI)		+= peci/
+> obj-$(CONFIG_HTE)		+= hte/
+> obj-$(CONFIG_DRM_ACCEL)		+= accel/
+> obj-$(CONFIG_CDX_BUS)		+= cdx/
+>+obj-$(CONFIG_DPLL)		+= dpll/
+>diff --git a/drivers/dpll/Kconfig b/drivers/dpll/Kconfig
+>new file mode 100644
+>index 000000000000..a4cae73f20d3
+>--- /dev/null
+>+++ b/drivers/dpll/Kconfig
+>@@ -0,0 +1,7 @@
+>+# SPDX-License-Identifier: GPL-2.0-only
+>+#
+>+# Generic DPLL drivers configuration
+>+#
+>+
+>+config DPLL
+>+  bool
+>diff --git a/drivers/dpll/Makefile b/drivers/dpll/Makefile
+>new file mode 100644
+>index 000000000000..2e5b27850110
+>--- /dev/null
+>+++ b/drivers/dpll/Makefile
+>@@ -0,0 +1,9 @@
+>+# SPDX-License-Identifier: GPL-2.0
+>+#
+>+# Makefile for DPLL drivers.
+>+#
+>+
+>+obj-$(CONFIG_DPLL)      += dpll.o
+>+dpll-y                  += dpll_core.o
+>+dpll-y                  += dpll_netlink.o
+>+dpll-y                  += dpll_nl.o
+>diff --git a/include/linux/dpll.h b/include/linux/dpll.h
+>new file mode 100644
+>index 000000000000..a18bcaa13553
+>--- /dev/null
+>+++ b/include/linux/dpll.h
+>@@ -0,0 +1,144 @@
+>+/* SPDX-License-Identifier: GPL-2.0 */
+>+/*
+>+ *  Copyright (c) 2023 Meta Platforms, Inc. and affiliates
+>+ *  Copyright (c) 2023 Intel and affiliates
+>+ */
+>+
+>+#ifndef __DPLL_H__
+>+#define __DPLL_H__
+>+
+>+#include <uapi/linux/dpll.h>
+>+#include <linux/device.h>
+>+#include <linux/netlink.h>
+>+
+>+struct dpll_device;
+>+struct dpll_pin;
+>+
+>+struct dpll_device_ops {
+>+	int (*mode_get)(const struct dpll_device *dpll, void *dpll_priv,
+>+			enum dpll_mode *mode, struct netlink_ext_ack *extack);
+>+	int (*mode_set)(const struct dpll_device *dpll, void *dpll_priv,
+>+			const enum dpll_mode mode,
+>+			struct netlink_ext_ack *extack);
+>+	bool (*mode_supported)(const struct dpll_device *dpll, void *dpll_priv,
+>+			       const enum dpll_mode mode,
+>+			       struct netlink_ext_ack *extack);
+>+	int (*source_pin_idx_get)(const struct dpll_device *dpll,
+>+				  void *dpll_priv,
+>+				  u32 *pin_idx,
+>+				  struct netlink_ext_ack *extack);
+>+	int (*lock_status_get)(const struct dpll_device *dpll, void *dpll_priv,
+>+			       enum dpll_lock_status *status,
+>+			       struct netlink_ext_ack *extack);
+>+	int (*temp_get)(const struct dpll_device *dpll, void *dpll_priv,
+>+			s32 *temp, struct netlink_ext_ack *extack);
+>+};
+>+
+>+struct dpll_pin_ops {
+>+	int (*frequency_set)(const struct dpll_pin *pin, void *pin_priv,
+>+			     const struct dpll_device *dpll, void *dpll_priv,
+>+			     const u64 frequency,
+>+			     struct netlink_ext_ack *extack);
+>+	int (*frequency_get)(const struct dpll_pin *pin, void *pin_priv,
+>+			     const struct dpll_device *dpll, void *dpll_priv,
+>+			     u64 *frequency, struct netlink_ext_ack *extack);
+>+	int (*direction_set)(const struct dpll_pin *pin, void *pin_priv,
+>+			     const struct dpll_device *dpll, void *dpll_priv,
+>+			     const enum dpll_pin_direction direction,
+>+			     struct netlink_ext_ack *extack);
+>+	int (*direction_get)(const struct dpll_pin *pin, void *pin_priv,
+>+			     const struct dpll_device *dpll, void *dpll_priv,
+>+			     enum dpll_pin_direction *direction,
+>+			     struct netlink_ext_ack *extack);
+>+	int (*state_on_pin_get)(const struct dpll_pin *pin, void *pin_priv,
+>+				const struct dpll_pin *parent_pin,
+>+				void *parent_pin_priv,
+>+				enum dpll_pin_state *state,
+>+				struct netlink_ext_ack *extack);
+>+	int (*state_on_dpll_get)(const struct dpll_pin *pin, void *pin_priv,
+>+				 const struct dpll_device *dpll,
+>+				 void *dpll_priv, enum dpll_pin_state *state,
+>+				 struct netlink_ext_ack *extack);
+>+	int (*state_on_pin_set)(const struct dpll_pin *pin, void *pin_priv,
+>+				const struct dpll_pin *parent_pin,
+>+				void *parent_pin_priv,
+>+				const enum dpll_pin_state state,
+>+				struct netlink_ext_ack *extack);
+>+	int (*state_on_dpll_set)(const struct dpll_pin *pin, void *pin_priv,
+>+				 const struct dpll_device *dpll,
+>+				 void *dpll_priv,
+>+				 const enum dpll_pin_state state,
+>+				 struct netlink_ext_ack *extack);
+>+	int (*prio_get)(const struct dpll_pin *pin,  void *pin_priv,
+>+			const struct dpll_device *dpll,  void *dpll_priv,
+>+			u32 *prio, struct netlink_ext_ack *extack);
+>+	int (*prio_set)(const struct dpll_pin *pin, void *pin_priv,
+>+			const struct dpll_device *dpll, void *dpll_priv,
+>+			const u32 prio, struct netlink_ext_ack *extack);
+>+};
+>+
+>+struct dpll_pin_frequency {
+>+	u64 min;
+>+	u64 max;
+>+};
+>+
+>+#define DPLL_PIN_FREQUENCY_RANGE(_min, _max)	\
+>+	{					\
+>+		.min = _min,			\
+>+		.max = _max,			\
+>+	}
+>+
+>+#define DPLL_PIN_FREQUENCY(_val) DPLL_PIN_FREQUENCY_RANGE(_val, _val)
+>+#define DPLL_PIN_FREQUENCY_1PPS \
+>+	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_1_HZ)
+>+#define DPLL_PIN_FREQUENCY_10MHZ \
+>+	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_10_MHZ)
+>+#define DPLL_PIN_FREQUENCY_IRIG_B \
+>+	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_10_KHZ)
+>+#define DPLL_PIN_FREQUENCY_DCF77 \
+>+	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_77_5_KHZ)
+>+
+>+struct dpll_pin_properties {
+>+	const char *board_label;
+>+	const char *panel_label;
+>+	const char *package_label;
+>+	enum dpll_pin_type type;
+>+	unsigned long capabilities;
+>+	u32 freq_supported_num;
+>+	struct dpll_pin_frequency *freq_supported;
+>+};
+>+
+>+struct dpll_device
+>+*dpll_device_get(u64 clock_id, u32 dev_driver_id, struct module *module);
+>+
+>+void dpll_device_put(struct dpll_device *dpll);
+>+
+>+int dpll_device_register(struct dpll_device *dpll, enum dpll_type type,
+>+			 const struct dpll_device_ops *ops, void *priv);
+>+
+>+void dpll_device_unregister(struct dpll_device *dpll,
+>+			    const struct dpll_device_ops *ops, void *priv);
+>+
+>+struct dpll_pin
+>+*dpll_pin_get(u64 clock_id, u32 dev_driver_id, struct module *module,
+>+	      const struct dpll_pin_properties *prop);
+>+
+>+int dpll_pin_register(struct dpll_device *dpll, struct dpll_pin *pin,
+>+		      const struct dpll_pin_ops *ops, void *priv);
+>+
+>+void dpll_pin_unregister(struct dpll_device *dpll, struct dpll_pin *pin,
+>+			 const struct dpll_pin_ops *ops, void *priv);
+>+
+>+void dpll_pin_put(struct dpll_pin *pin);
+>+
+>+int dpll_pin_on_pin_register(struct dpll_pin *parent, struct dpll_pin *pin,
+>+			     const struct dpll_pin_ops *ops, void *priv);
+>+
+>+void dpll_pin_on_pin_unregister(struct dpll_pin *parent, struct dpll_pin *pin,
+>+				const struct dpll_pin_ops *ops, void *priv);
+>+
+>+int dpll_device_change_ntf(struct dpll_device *dpll);
+>+
+>+int dpll_pin_change_ntf(struct dpll_pin *pin);
+
+Why exactly did you split this into a separate patch? To me, it does not
+make any sense. Please squash this header addition to the 
+
+
+>+
+>+#endif
+>-- 
+>2.37.3
+>
