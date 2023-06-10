@@ -2,140 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7201BC7EE29
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Jun 2023 12:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43134C7EE37
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Jun 2023 14:39:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230415AbjFJM7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Jun 2023 08:59:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44384 "EHLO
+        id S234747AbjFJOjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Jun 2023 10:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbjFJM7o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Jun 2023 08:59:44 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EEB1AB;
-        Sat, 10 Jun 2023 05:59:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686401983; x=1717937983;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ITLJwuiMSNZijdY4Cz6EusiXck7vPTOmLnkmQWskaI8=;
-  b=OShB4cayu10aFZla9A0oE9/QG63uiZ6GWDEPrfLgPV93QNywgAj6cBEo
-   KKBVu7Aatq0Wi+2JooeueON54gqju3Q/VgkeioLtd96581UVlsAqOKbsv
-   ORk05fn6N3BN9I/owLjhHmRPxjPwnZKUTEuQQ8iQZ+lG5P2LYXzH5ClN3
-   vILYp7Wjs0NyDNQG+Xzl1bPxPymmdQcehpF1dsmKd14Bim1Jgf4Tlyr5S
-   +absCNldqZJRq13EbA7aKP3MAYC9WMK7aDs2W9tfeetY4DjG2sazUUvU4
-   nfRbMenTM06cskmFSXONjS8MtyfstYj/tQBzFNjvSoSJK3VH1EioU7e0B
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="338122799"
-X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="338122799"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 05:59:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="957451084"
-X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="957451084"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Jun 2023 05:59:38 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q7yBt-000A6A-2O;
-        Sat, 10 Jun 2023 12:59:37 +0000
-Date:   Sat, 10 Jun 2023 20:59:16 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Demi Marie Obenour <demi@invisiblethingslab.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Demi Marie Obenour <demi@invisiblethingslab.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 2/4] vsscanf(): Return -ERANGE on integer overflow
-Message-ID: <202306102055.ZSJK8Xsj-lkp@intel.com>
-References: <20230610025759.1813-2-demi@invisiblethingslab.com>
+        with ESMTP id S229521AbjFJOjH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Jun 2023 10:39:07 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6184B30E8;
+        Sat, 10 Jun 2023 07:39:06 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b39d67ea37so5472175ad.1;
+        Sat, 10 Jun 2023 07:39:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686407946; x=1688999946;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2qopnUmixAlEvP9yxsQYqJj5bG7AmKHZ/6sELnX42H8=;
+        b=ZdE2YLOTcbyc6PpFjkmgx3+/CngX9h3/j6lDjBEa/rq1+4+nHL9A3lHgi4uYoReT8z
+         NsfriXBi1GJb5bVj9xJWpQxWApUs/1vOvWn1PyNiblHq/yuMr0FWcy6WKDhoT3oNJe52
+         9pR6SYw8L//3245SVUY6JBPqXheUqCyWj9xdeglCDj4huGp3ZpjRWpcUGA69tfsyR3Jk
+         fK7JaahGNLjscgl7criBCcqhfp4o3cYJO60WV9oBp9VbOv+Mk7kG6r+0CRy7rnRuQsv9
+         93LgVumOXiLQLMafKZdbXRGl6yMweiJmYvBUj1uZwT1qo90VKOTCPnkYdxsh2Mc9Qtm4
+         I7Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686407946; x=1688999946;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2qopnUmixAlEvP9yxsQYqJj5bG7AmKHZ/6sELnX42H8=;
+        b=LTbaAY7EfMkv1ERUsEGwvlOF0NNN6kjweV9L/v7xDQY1/fS0FxHdrbLjn2XRdbZLx7
+         lSphAr1aohl9vAF7aRwj+xCpFlvYVVE6d4PiREZqo7KJmnkgU+huxojDYWcKcn/OUcRk
+         DNndt2G+g0gbkbQ0h+50zoJSCoF1CSzpGd0XjqmP39mq9zXZBsS73Ahoyzmrw8EqYgRH
+         WXkhAU7O4y0nAoK1B1Oc7ZhVLXuAnYPPpgV/3CeFtSGI46QD0M7CEb85zDbN5nZG1R53
+         JoVsIhn6QTVQRyViVnPt+8nxxW9b0vqkc6SqpViKp/Q0l9IaSg3sKg7T60FJYa6DhBdm
+         k8UQ==
+X-Gm-Message-State: AC+VfDxppX2Hm/lvf17DH1TyvDn5wz6UMeogzcoWRq/7ZScstmPUWkrm
+        ME2Omcv3k7jxsCgwTmwfdsc=
+X-Google-Smtp-Source: ACHHUZ5Z/BtdYjB3c1V/mcqJqbzIASBeXrjux+w7gQXgzxmlDEM+pXVTnOu3vb5AcRNf6DYhKCrINw==
+X-Received: by 2002:a17:903:2285:b0:1a3:cd4c:8d08 with SMTP id b5-20020a170903228500b001a3cd4c8d08mr2381010plh.38.1686407945841;
+        Sat, 10 Jun 2023 07:39:05 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id p4-20020a1709026b8400b001b034d2e71csm5082178plk.34.2023.06.10.07.39.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jun 2023 07:39:05 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sat, 10 Jun 2023 07:39:04 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Yongsheng Yang <iyysheng@gmail.com>
+Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/hwmon: Fix description of
+ devm_hwmon_device_unregister()
+Message-ID: <e605a8d8-4f40-447d-8238-eccb7e22342a@roeck-us.net>
+References: <20230609075510.1305-1-iyysheng@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230610025759.1813-2-demi@invisiblethingslab.com>
+In-Reply-To: <20230609075510.1305-1-iyysheng@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Demi,
+On Fri, Jun 09, 2023 at 11:55:10AM +0400, Yongsheng Yang wrote:
+> Use devm_hwmon_device_register_with_info to replace
+> hwmon_device_register_with_info in description of
+> devm_hwmon_device_unregister.
+> 
 
-kernel test robot noticed the following build warnings:
+You didn't add () to function names, but I guess it is better to do that
+in a separate patch anyway.
 
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on lee-leds/for-leds-next linus/master v6.4-rc5 next-20230609]
-[cannot apply to xen-tip/linux-next lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Applied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Demi-Marie-Obenour/vsscanf-Return-ERANGE-on-integer-overflow/20230610-110026
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20230610025759.1813-2-demi%40invisiblethingslab.com
-patch subject: [PATCH 2/4] vsscanf(): Return -ERANGE on integer overflow
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230610/202306102055.ZSJK8Xsj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        git remote add lee-mfd https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
-        git fetch lee-mfd for-mfd-next
-        git checkout lee-mfd/for-mfd-next
-        b4 shazam https://lore.kernel.org/r/20230610025759.1813-2-demi@invisiblethingslab.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/media/atomisp/
+Thanks,
+Guenter
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306102055.ZSJK8Xsj-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/staging/media/atomisp//pci/ia_css_acc_types.h:25,
-                    from drivers/staging/media/atomisp//pci/ia_css_pipe_public.h:29,
-                    from drivers/staging/media/atomisp//pci/ia_css_stream_public.h:25,
-                    from drivers/staging/media/atomisp//pci/runtime/binary/interface/ia_css_binary.h:23,
-                    from drivers/staging/media/atomisp//pci/runtime/debug/interface/ia_css_debug.h:25,
-                    from drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc.host.c:18:
->> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:30: warning: "UCHAR_MAX" redefined
-      30 | #define UCHAR_MAX  (255)
-         | 
-   In file included from include/linux/limits.h:7,
-                    from drivers/staging/media/atomisp//pci/hive_isp_css_include/type_support.h:37,
-                    from drivers/staging/media/atomisp//pci/ia_css_types.h:27,
-                    from drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc.host.c:16:
-   include/vdso/limits.h:5: note: this is the location of the previous definition
-       5 | #define UCHAR_MAX       ((unsigned char)~0U)
-         | 
-
-
-vim +/UCHAR_MAX +30 drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h
-
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  27  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  28  #define UINT16_MAX USHRT_MAX
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  29  #define UINT32_MAX UINT_MAX
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19 @30  #define UCHAR_MAX  (255)
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  31  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Signed-off-by: Yongsheng Yang <iyysheng@gmail.com>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/hwmon/hwmon-kernel-api.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
+> index c2d1e0299d8d..6cacf7daf25c 100644
+> --- a/Documentation/hwmon/hwmon-kernel-api.rst
+> +++ b/Documentation/hwmon/hwmon-kernel-api.rst
+> @@ -66,7 +66,7 @@ hwmon_device_register_with_info.
+>  
+>  devm_hwmon_device_unregister does not normally have to be called. It is only
+>  needed for error handling, and only needed if the driver probe fails after
+> -the call to hwmon_device_register_with_info and if the automatic (device
+> +the call to devm_hwmon_device_register_with_info and if the automatic (device
+>  managed) removal would be too late.
+>  
+>  All supported hwmon device registration functions only accept valid device
