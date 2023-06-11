@@ -2,155 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F3DC7EE29
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Jun 2023 22:21:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4C7C7EE43
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Jun 2023 05:24:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbjFJWVd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Jun 2023 18:21:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34464 "EHLO
+        id S232910AbjFKFYf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Jun 2023 01:24:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbjFJWVc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Jun 2023 18:21:32 -0400
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2052.outbound.protection.outlook.com [40.107.105.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EB435A9;
-        Sat, 10 Jun 2023 15:21:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CHUPoe26JP4KKeYEAqUju3M8UgysECKZgH2ZJxFktRgNNJyjIsqwgfXUN3hZZNjiSwfDAT/2BLCzGnutexLUeTRZoMut3ubGSEzyuaiG/HrE+1U4nN4rhE4xzpxeHQ9sNd69zoCpwj1y0+WTNNKFJZWrOuNN5V5TXKwCquhiO2Sl6XrCdMfqsNcDbxBELHzETpknLUCINH472EOmEdNPoXMlwp9a2kOZTfuL14qJWZ6d1ZisA6QnAyhuiFy89iZ/3LjMlx3JPpU/59lOerIxtc2QWPEZyCxPw6lqh4sa65kkys6lth1gDXdAoU0PG+MEYHvrhrmfTjltcEws408vRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WKSZO/0Qi5yRSL/CE20ZtCxT6d4ihwnB8xx0vBz0nME=;
- b=hZ8ySEBba+mM3U/rY2J00mr7RS3eJ/u+LOp9X0lH/c5UFM5mpEPWYSiUm2HtvGyHP2CkWh1Wjt2hUE9C8k/EHPnixMzXzTk50rxbczlABwD+ulucPplMz+sw3XUnC1kt8/3qM6Ddl6TR/1eT/hi7k2ZoqRXU522/jkqA6LoUaep30aqwtBsCnaB2SgfbxEYoVrf+DOWpeh1z0s7iiDCfSl1ecBbGcidbsRgMnTSVZBsNqBmvUzDA6RCeFx3JVRkmwQedGA2WBUX8KMLWdk5OqFnDKpc4T6XskQwZl/2NGT8zZ0QhmUiNLHRv0cMnKfW0xpU4BWOeHuVzToLdr3XbQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WKSZO/0Qi5yRSL/CE20ZtCxT6d4ihwnB8xx0vBz0nME=;
- b=RoDL4XiIn7u9sWubX5Tv9b9JhwdyzZQ+DjWlylErVP/sZGtZ7S8ZhWWHQY/faLbe5ty01hEvQ3DYMIqfx73FGQJQW74bm1LZVhsognmvJmOM63lguu4qv12bBMm0QL8qm9OvYD+fAQpZyCw0D8eX9/1YAH1vX3LJLqeXYOApBW8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
- by AS8PR04MB7509.eurprd04.prod.outlook.com (2603:10a6:20b:23e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.29; Sat, 10 Jun
- 2023 22:21:25 +0000
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::c40e:d76:fd88:f460]) by AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::c40e:d76:fd88:f460%4]) with mapi id 15.20.6455.030; Sat, 10 Jun 2023
- 22:21:24 +0000
-Date:   Sun, 11 Jun 2023 01:21:23 +0300
-From:   Vladimir Oltean <vladimir.oltean@nxp.com>
-To:     Sean Anderson <sean.anderson@seco.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-phy@lists.infradead.org,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        =?utf-8?B?RmVybuKUnMOtbmRleg==?= Rojas <noltari@gmail.com>,
-        Jonas Gorski <jonas.gorski@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
-Message-ID: <20230610222123.mzmfjx7zfw4nh2lo@skbuf>
-References: <20230425195002.fls5cmwolyrslpad@skbuf>
- <b7779674-c3ac-e0ab-3ca8-db1ec5953a97@seco.com>
- <20230426105140.t4yqv6irtjcwptm5@skbuf>
- <7c7ab84b-3c4a-4e44-b5b5-4acf733a0246@seco.com>
- <7c7ab84b-3c4a-4e44-b5b5-4acf733a0246@seco.com>
- <20230429172422.vc35tnwkekfieoru@skbuf>
- <c81d23b6-ed22-0b37-d71b-ddce9d5d58eb@seco.com>
- <c2f928d2-25f6-0e31-9ab3-9d585968df1b@seco.com>
- <20230522150010.q5zndfwcuvrb6pg2@skbuf>
- <22a28a6f-2c84-a6b1-bb57-a269af34c993@seco.com>
+        with ESMTP id S229562AbjFKFYf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Jun 2023 01:24:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F26C30F1
+        for <linux-doc@vger.kernel.org>; Sat, 10 Jun 2023 22:24:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1176461BB6
+        for <linux-doc@vger.kernel.org>; Sun, 11 Jun 2023 05:24:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBA3C433D2;
+        Sun, 11 Jun 2023 05:24:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686461072;
+        bh=nBz5ZAKG98XxWEj/i8c62WgI6RMXqSvSkQvA+drJYpU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cVg7CNcDS7wOY3ZdDAEtKezxcxGKLg4glkOD857y1G3fQbINNQ4FFqVCk7KPrRZrM
+         ELBq9znqPQnl2r8WuMDg+VKEVYgrcd3GCgLxWIJjKd4JR6DNyhJROP9bZLBbRHqTrZ
+         WKetokBug3EPyw/hqKdImMdj6/W3FpCnkJjILeYA2BTg9UJw0l6iJpjcLPikxE6BNy
+         vInEBjtoWiLViXnL3dSZ22n81XXaf9rUfpWVkVAO8ZrG2WEP20LPGKAgLRosZdedBX
+         SPAOUuKD2tMlbU/S/Unpdu32NcidHmvjdzzAllc5Kg2k3ulBb1Nz+GFk4m6rKhSxkj
+         vY2gaiUPSHtcg==
+Date:   Sun, 11 Jun 2023 08:24:03 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3] Documentation/mm: Initial page table documentation
+Message-ID: <20230611052403.GK52412@kernel.org>
+References: <20230608125501.3960093-1-linus.walleij@linaro.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <22a28a6f-2c84-a6b1-bb57-a269af34c993@seco.com>
-X-ClientProxiedBy: FR2P281CA0154.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::9) To AM0PR04MB6452.eurprd04.prod.outlook.com
- (2603:10a6:208:16d::21)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|AS8PR04MB7509:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4dd344d-f310-4ceb-450b-08db6a0106c1
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cxfts+6W42RNPe6jlSWqAJGTudt6/0I/GD3Hva0Bh/KuSt7l3jvoWPjhsJEEmk7ycggr8QnLPSvtx3dmU5w+oeOnEi6Md+Vut4yizvsWIU3J74CiTCvyk7/zFPc6L1bh7iNZaAMVnHotvsk7vL4NijccXvWRQwHe1VJmvWmD72DrTWEaeBhwGyjMd6fuH6fhc1jBpcmlN4tGAUCNWsmN4DTia68nx3qoWASphEe6X+Z69EL4ksed48tUpzhxHAuxN5/AjifOjVK5v5d1owjH8s8bs6QpcbTqQSvisYIkKIXYEqEndrn/p6g8UY890pjJLQdXU3I+RS9kxm+B3EMf8izRiHrvuwPdUwRJk1WzeiHErhR6/4TJ1yyr3JF8Vz8sxVZmUsM2BsdlRxkt1B1KKxgm+vjmMP05NmoLXYyQhOWmyP8Gb+VLgXj8HhTqxlSCuK8ErKVCeLLKaosalCuvjyDK5Ji4kHeN4Wh50vgktim9UdNOqBN0L5HZzt8vY5fDp82ga26Ni1i4QN2SWKLG+zB7CfPX1alALmTsjhBzjyb5RkSiFA0lderf55Kz2iYZ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(7916004)(376002)(396003)(39860400002)(136003)(366004)(346002)(451199021)(6916009)(4326008)(66946007)(66476007)(66556008)(186003)(478600001)(54906003)(4744005)(2906002)(33716001)(8676002)(316002)(41300700001)(86362001)(6486002)(7416002)(6506007)(1076003)(9686003)(53546011)(44832011)(8936002)(5660300002)(26005)(38100700002)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1K0qZT4SWw85bGNlvihoVn81pfaLjs3/EsQ91pwf+VwWYnuzKiVw3n/Rgq5c?=
- =?us-ascii?Q?k1NKttIl0Dw7PUSfEFUiI8s48ekx8dbHzeXmhETf/rM27bt2SenI9Ktzf2Wk?=
- =?us-ascii?Q?Pcru1IlauYstm66X9vQKY3nppMPznbV7WLBY5N1EqK6MSCDowgbvVt5s5UJk?=
- =?us-ascii?Q?QpcH9xQlwy7SmklcbT3NsBgk7AATekEOxkNjKWEhFZw3bBi8g713sHadOwYv?=
- =?us-ascii?Q?2UOin/A6GN6gh00BgB05nxSgB5W7LAwXfnVEqEzUf5XpgQ98EDwIaFD+gnjl?=
- =?us-ascii?Q?3Ji7xku/KqTt8cOxsLoxdOcRSlOmbM7jZsz6aL4Iw9tT+uhlNEPZulJTJ0po?=
- =?us-ascii?Q?id0xiSw+UrqI52ut7avrl9ZNpLyxBXdqKFpHcgyg9WJcbO4iXXO4UffwDcUT?=
- =?us-ascii?Q?vnGL07zb3OsWPmHarCh1Txt5+s2jpZsvAyKkTA8Jdfh3KTsh+jxLI9XY8gTM?=
- =?us-ascii?Q?fhndONoqkChdUA5+7oDN5SO0mZ+sQdEMBqBV9nemasDfBKkWkDUfAoMncEZ9?=
- =?us-ascii?Q?6ZIN5zyDcAbtzzS+pOLTXqW3xx/jmVB2owXNjFL6x9hCUf8B8r9PAhYcV3SZ?=
- =?us-ascii?Q?RZC6+ccAr5Eke+Zik/Bc1pU9x+bE6FnxT4xSL4+qWaXTK/v4TDt7MAQTMvWs?=
- =?us-ascii?Q?jQPhWJKopZp70Ir+wuQaImOTmz1RbnkBkvPXCTVA4ym32vcsZ+HUP76BcUGm?=
- =?us-ascii?Q?+2wOBUsPnRhKinqU3bSyFB4uHN0XZqtllAh4tSBl652NxJDqCJ/M13eYVnZN?=
- =?us-ascii?Q?bvMXVpyP09EQf+f8tezT5/tRN5tT4PUgo6YnGjnJO8MT4l12iA3xbPXPkAUg?=
- =?us-ascii?Q?1n5LVNuUOD6AYJv5yyVofXwV+VBJOTZWV2t7T03pGg4NZ4j/5tYZBujej6/L?=
- =?us-ascii?Q?GdqvjEiM2XQLZ6GoJdWjDl8UpPLExkqXgo9Ygr5H0+rUF03TZ3B0Ur8ad0oj?=
- =?us-ascii?Q?nGyyivymSkhHE9qHGgtAWG/OfBzPb/bBE1xwjndCW50ggE2DTDhZWm5jybpk?=
- =?us-ascii?Q?UpYBG1JvkIw3ddS1ueA0mzQwUxXs82d+f3dhTzuQ9d7oyYWdsXHPB/nzvW/s?=
- =?us-ascii?Q?uS1iALC5Ev2M9PR1Up7ylNLwiMsYx90hlI6apY8Gyk3N7rcmBe2GfaVMaIoE?=
- =?us-ascii?Q?sfCeNyZeFdYbB6zkqElA+HJ8le5gOPUkpUp27mHJPhUPuTWfJ2+KHqCJWZC8?=
- =?us-ascii?Q?ux4Q3gl+dEsyqKqKo4UHrykjIZ6fNxM8J4FxQ2w1wKHHOpk2EKPiJ0fWJzdU?=
- =?us-ascii?Q?dT0jdAspd61n5dZ5Ipvi+5HOiW3gI23ZSmUU5Aqx7h8zIJfslGoEjgjiVb7e?=
- =?us-ascii?Q?oIaHUNJ40EQkI+kOQ0kmXYLRRaMQGSOKKLki3LsFuILRegWfp3tpTjpvYCzA?=
- =?us-ascii?Q?9QQprOv/92w2SGuBFLyHyEWUtc7F30cgSEyeBWFwGYcK2CSg55IkZyq6mF5S?=
- =?us-ascii?Q?h9UaAMlpcmnTEeL0gb9d68RBjZKV5mv/Aa7AxanRzFBD+Iid08CyPBhstnbK?=
- =?us-ascii?Q?CFoXgjZjeIVmCY7/GNYhj+x1mMQ9OyOZM3zZ5ZYUTYF/+j7NFPJ5ja3D2g1K?=
- =?us-ascii?Q?xyqjwaGnNDUUDVOmICaw1wKE04IkjT0OfV36WmoqDC1XQbQym8XrODoTmvSP?=
- =?us-ascii?Q?xQ=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4dd344d-f310-4ceb-450b-08db6a0106c1
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2023 22:21:24.7154
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2Y5AMagOdMBQtrKet/e6fYJHrZIedqOJJ2l6rlV1LXHf0PJkNyrFO5YrxTxLcCU/8ixHaqa3tKoqBkzDElQAWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7509
+In-Reply-To: <20230608125501.3960093-1-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Sean,
+Hi Linus,
 
-On Fri, Jun 09, 2023 at 03:19:22PM -0400, Sean Anderson wrote:
-> On 5/22/23 11:00, Vladimir Oltean wrote:
-> > On Mon, May 22, 2023 at 10:42:04AM -0400, Sean Anderson wrote:
-> >> Have you had a chance to review this driver?
-> > 
-> > Partially / too little (and no, I don't have an answer yet). I am
-> > debugging a SERDES protocol change procedure from XFI to SGMII.
+On Thu, Jun 08, 2023 at 02:55:01PM +0200, Linus Walleij wrote:
+> This is based on an earlier blog post at people.kernel.org,
+> it describes the concepts about page tables that were hardest
+> for me to grasp when dealing with them for the first time,
+> such as the prevalent three-letter acronyms pfn, pgd, p4d,
+> pud, pmd and pte.
 > 
-> I'd just like to reiterate that, like I said in the cover letter, I
-> believe this driver still has value even if it cannot yet perform
-> protocol switching.
+> I don't know if this is what people want, but it's what I would
+> have wanted.
 > 
-> Please send me your feedback, and I will try and incorporate it into the
-> next revision. Previously, you said you had major objections to the
-> contents of this series, but you still have not listed them.
+> I discussed at one point with Mike Rapoport to bring this into
+> the kernel documentation, so here is a small proposal.
+> 
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Link: https://people.kernel.org/linusw/arm32-page-tables
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v2->v3:
+> - Fix the page size example, also have examples for both 4K and
+>   16K pages since people will confront these.
+> - Add a section explaining a bit why we have hierarchical
+>   page tables at all.
+> ChangeLog v1->v2:
+> - Fixed speling mistakes
+> - Copyedit the paragraph on page frame numbers.
+> - Reverse the arrows in the page table hierarchy illustration.
+> - Reverse the order of description of the page hierarchy levels.
+> - Create a new section for folding
+> - Emphasize that architectures should try to be page hierarchy
+>   neutral
+> - Trying to better describe the fact that the lowest page table PTE
+>   is called like that for historical reasons.
+> ---
+>  Documentation/mm/page_tables.rst | 142 +++++++++++++++++++++++++++++++
+>  1 file changed, 142 insertions(+)
+> 
+> diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
+> index 96939571d7bc..13c196bc48a1 100644
+> --- a/Documentation/mm/page_tables.rst
+> +++ b/Documentation/mm/page_tables.rst
+> @@ -3,3 +3,145 @@
+>  ===========
+>  Page Tables
+>  ===========
+> +
+> +Paged virtual memory was invented along with virtual memory as a concept in
+> +1962 on the Ferranti Atlas Computer which was the first computer with paged
+> +virtual memory. The feature migrated to newer computers and became a de facto
+> +feature of all Unix-like systems as time went by. In 1985 the feature was
+> +included in the Intel 80386, which was the CPU Linux 1.0 was developed on.
+> +
+> +Page tables map virtual addresses as seen by the CPU program counter into
+> +physical addresses as seen on the external memory bus.
+> +
+> +Linux defines page tables as a hierarchy which is currently five levels in
+> +height. The target architecture code for each supported architecture will then
+> +map this to the restrictions of the target hardware.
+> +
+> +The physical address corresponding to the virtual address is often referenced
+> +by the underlying physical page frame. The **page frame number** or **pfn**
+> +is the physical address of the page (as seen on the external memory bus)
+> +divided by `PAGE_SIZE`.
+> +
+> +Physical memory address 0 will be *pfn 0* and the highest pfn will be
+> +the last page of physical memory the external address bus of the CPU can
+> +address.
+> +
+> +With a page granularity of 4KB and a address range of 32 bits, pfn 0 is at
+> +address 0x00000000, pfn 1 is at address 0x00001000, pfn 2 is at 0x00002000
+> +and so on until we reach pfn 0xfffff at 0xfffff000. With 16KB pages pfs are
 
-And if SERDES protocol switching was not physically possible, would this
-patch set still have value?
+                                                                      ^ pfns
+
+> +at 0x00004000, 0x00008000 ... 0xffffc000 and pfn goes from 0 to 0x3fffff.
+> +
+> +As you can see, with 4KB pages the page base address uses bits 12-31 of the
+> +address, and this is why `PAGE_SHIFT` in this case is defined as 12 and
+> +`PAGE_SIZE` is usually defined in terms of the page shift as `(1 << PAGE_SHIFT)`
+> +
+> +Over time a deeper hierarchy has been developed in response to increasing memory
+> +sizes. When Linux was created, 4KB pages and a single page table called
+> +`swapper_pg_dir` with 1024 entries was used, covering 4MB which coincided with
+> +the fact that Torvald's first computer had 4MB of physical memory. Entries in
+> +this single table was referred to as *PTE*:s - page table entries.
+> +
+> +The hierarchy reflects the fact that page table hardware has become hierarchical
+
+This is somehow tautological ;-)
+
+> +and that in turn is done to save page table memory: one could of course imagine
+> +a single page table with hundreds of kilobytes of entries, but in practice,
+> +the hardware needs some help to traverse the memory where the page table is
+> +stored, and large parts of the memory space is often empty, leading to
+> +an unnecessarily large and sparse page table. For this reason page tables are
+> +hierarchical, using parts of the virtual address to branch off at each level.
+> +By marking a page table entry on a certain level invalid, the corresponding
+> +range of the virtual address space is left unmapped.
+
+How about 
+
+One could of course imagine a linear page table with enormous amount of
+entries, but that would be really wasteful because large parts of the
+virtual address space are empty and such linear table would be extremely
+sparse. With hierarchical page tables large holes in the virtual address
+space do not waste memory because it is enough to mark them as unmapped at
+a higher level of the page table. 
+
+And on modern CPUs, a higher level page table can point directly to physical
+memory range, which allows mapping of several megabytes or even gigabytes
+by a single high level page table entry.
+
+> +The page table hierarchy has now developed into this::
+> +
+
+-- 
+Sincerely yours,
+Mike.
