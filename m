@@ -2,155 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBF5FC77B7A
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Jun 2023 05:51:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5937EC77B7A
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Jun 2023 09:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbjFKFv2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Jun 2023 01:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50052 "EHLO
+        id S233273AbjFKJhC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Jun 2023 05:37:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjFKFv0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Jun 2023 01:51:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5CFCC4;
-        Sat, 10 Jun 2023 22:51:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3969960AB6;
-        Sun, 11 Jun 2023 05:51:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31432C433EF;
-        Sun, 11 Jun 2023 05:51:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686462684;
-        bh=odwd+s+PPw9HVkel4y3m5C8tVdKpRQo8tMCWtU9VGeA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=khqjTupPSnTEHqr1EM60Mm/tlRG4Z4toiUsPnnrwv+mZExfujDwv+LxazAHlIGeDJ
-         q9kBzitPQC4TESVNRIcRsCl6DOEkmIvKAH+oc3ukyyeHzRgULD+TL+GGp7QBmFc5Ow
-         3uZdZzCw3+1dPhQSOAlLVTAcipRnDEAkxSxUf3IrAyqUh1UQvLB6ulYKDYK9DJ8LD7
-         JR6JI20YJyeHNOElPezQtianTnNZhQpBvXixE8Nx0DI7uq+3pP1u20p9EdS41ttq4k
-         AAb2DA0XCtqQAi9EGM/4kkm/LSOpwM16IaAsqtwglR9dQQUfXYYcB+r1PY0iEdD/Nm
-         KvX4VCg6olVPg==
-Date:   Sun, 11 Jun 2023 08:50:52 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Deming Wang <wangdeming@inspur.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] Documentation/mm: Add kmap_local_folio() to Temporary
- Virt. Mappings
-Message-ID: <20230611055052.GO52412@kernel.org>
-References: <20230609030908.31373-1-fmdefrancesco@gmail.com>
+        with ESMTP id S229763AbjFKJhC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Jun 2023 05:37:02 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA682DD
+        for <linux-doc@vger.kernel.org>; Sun, 11 Jun 2023 02:36:59 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-30fbf253dc7so105332f8f.0
+        for <linux-doc@vger.kernel.org>; Sun, 11 Jun 2023 02:36:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1686476218; x=1689068218;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1RzKoavleYmYbGi4L50Fse1b510eueYfvrCoJAmsbxo=;
+        b=GQKny/Ocfst/o+Iz0zqLh9RYFAbp7j4h3MNYdU0ew61bb+vEXAkw3uBdHqUYfrK5kJ
+         Mmo+9ATeTsy6jpHk4rWHMICl+7C8UibYVaL2giyJyB3zqUMVLC/QsdxrQEEoQoKWfbmg
+         +Lo3EuyVmxQvNzDGtYq+41t3CP/zZbUuKl5HuNxk+qfYeEqSt+iG4NNUyH9OrtIhmVzp
+         UbDUe/olXXA6Cgx1+RhqGFa/0ms3SJiQnQIUOeMrysO1ozG9Z6Fm3bpD34jdKyrPq57H
+         uQUVcz7IhjPT78Bp0Ndtwiugfk5Sh0OhOyGLGcIUpuNxbBD92XvQm04DgjSD2PPpoNed
+         i66Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686476218; x=1689068218;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1RzKoavleYmYbGi4L50Fse1b510eueYfvrCoJAmsbxo=;
+        b=H3BQJKIovLojS1MFiTv/xuEZAEyUWsGuhkwRJKtAJHLRWLoBWypQW8H5SqPTKwlxjO
+         cpTHudE3BvS/akBbA8pw/dU+Z7EjeJCRRFeGEGiF3YbV3TgBC8lmVaAGor0lKOAogBfB
+         0oMN1x4SK2C3Xbv0Fj/cXCCecvi/t921ZyYh8r300RFxInbC6ePB7s6b3RkZizhPF3xp
+         AwzWbkLQw6qcebJiy8B1gpbK9xFOu0Zo+QTV38vooCZu+YXjEepkLJqMwJsM8h3gC8kS
+         6MgFHBDCdeswTfURIhMpXCxqNJ4C8OCewmwpeF+kX4eTuqCGiZpRBDeHdW9qfvYh3iP0
+         uQzw==
+X-Gm-Message-State: AC+VfDyQYpyLKtIy4bFPZg/za09HKyoJrExB7iZV0bvqcfMhrY27WuI0
+        rcLlhOCgiSxhpiDv3ZUlLae+ng==
+X-Google-Smtp-Source: ACHHUZ5+nfn02bkuQTuCe1HVJNha7vkQ+Bf1+3Syh+Cs505sLe6+OvuIFC/T+1SNK4FODSOQZ+G7VQ==
+X-Received: by 2002:a5d:6e0c:0:b0:30e:47e2:7eca with SMTP id h12-20020a5d6e0c000000b0030e47e27ecamr2880966wrz.3.1686476218225;
+        Sun, 11 Jun 2023 02:36:58 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id k20-20020a05600c0b5400b003f4266965fbsm7983801wmr.5.2023.06.11.02.36.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jun 2023 02:36:57 -0700 (PDT)
+Date:   Sun, 11 Jun 2023 11:36:56 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc:     kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
+        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
+        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org,
+        vadim.fedorenko@linux.dev
+Subject: Re: [RFC PATCH v8 03/10] dpll: core: Add DPLL framework base
+ functions
+Message-ID: <ZIWVuPMyKRPv6oyh@nanopsycho>
+References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+ <20230609121853.3607724-4-arkadiusz.kubalewski@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230609030908.31373-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20230609121853.3607724-4-arkadiusz.kubalewski@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 09, 2023 at 05:09:08AM +0200, Fabio M. De Francesco wrote:
-> The differences between kmap_local_page() and kmap_local_folio() consist
-> only in the first taking a pointer to a page and the second taking two
-> arguments, a pointer to a folio and the byte offset within the folio which
-> identifies the page.
-> 
-> The two API's can be explained at the same time in the "Temporary Virtual
-> Mappings" section of the Highmem's documentation.
-> 
-> Add information about kmap_local_folio() in the same subsection that
-> explains kmap_local_page().
-> 
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Cc: Mike Rapoport <rppt@linux.ibm.com>
-> Cc: Peter Collingbourne <pcc@google.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Will Deacon <will@kernel.org>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Fri, Jun 09, 2023 at 02:18:46PM CEST, arkadiusz.kubalewski@intel.com wrote:
+>From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
 
-Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+[...]
 
-> ---
->  Documentation/mm/highmem.rst | 27 +++++++++++++++------------
->  1 file changed, 15 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/mm/highmem.rst b/Documentation/mm/highmem.rst
-> index c964e0848702..bb9584f167a6 100644
-> --- a/Documentation/mm/highmem.rst
-> +++ b/Documentation/mm/highmem.rst
-> @@ -51,11 +51,14 @@ Temporary Virtual Mappings
->  The kernel contains several ways of creating temporary mappings. The following
->  list shows them in order of preference of use.
->  
-> -* kmap_local_page().  This function is used to require short term mappings.
-> -  It can be invoked from any context (including interrupts) but the mappings
-> -  can only be used in the context which acquired them.
-> -
-> -  This function should always be used, whereas kmap_atomic() and kmap() have
-> +* kmap_local_page(), kmap_local_folio() - These functions are used to require
-> +  short term mappings. They can be invoked from any context (including
-> +  interrupts) but the mappings can only be used in the context which acquired
-> +  them. The only differences between them consist in the first taking a pointer
-> +  to a struct page and the second taking a pointer to struct folio and the byte
-> +  offset within the folio which identifies the page.
-> +
-> +  These functions should always be used, whereas kmap_atomic() and kmap() have
->    been deprecated.
->  
->    These mappings are thread-local and CPU-local, meaning that the mapping
-> @@ -72,17 +75,17 @@ list shows them in order of preference of use.
->    maps of the outgoing task are saved and those of the incoming one are
->    restored.
->  
-> -  kmap_local_page() always returns a valid virtual address and it is assumed
-> -  that kunmap_local() will never fail.
-> +  kmap_local_page(), as well as kmap_local_folio() always returns valid virtual
-> +  kernel addresses and it is assumed that kunmap_local() will never fail.
->  
-> -  On CONFIG_HIGHMEM=n kernels and for low memory pages this returns the
-> +  On CONFIG_HIGHMEM=n kernels and for low memory pages they return the
->    virtual address of the direct mapping. Only real highmem pages are
->    temporarily mapped. Therefore, users may call a plain page_address()
->    for pages which are known to not come from ZONE_HIGHMEM. However, it is
-> -  always safe to use kmap_local_page() / kunmap_local().
-> +  always safe to use kmap_local_{page,folio}() / kunmap_local().
->  
-> -  While it is significantly faster than kmap(), for the highmem case it
-> -  comes with restrictions about the pointers validity. Contrary to kmap()
-> +  While they are significantly faster than kmap(), for the highmem case they
-> +  come with restrictions about the pointers validity. Contrary to kmap()
->    mappings, the local mappings are only valid in the context of the caller
->    and cannot be handed to other contexts. This implies that users must
->    be absolutely sure to keep the use of the return address local to the
-> @@ -91,7 +94,7 @@ list shows them in order of preference of use.
->    Most code can be designed to use thread local mappings. User should
->    therefore try to design their code to avoid the use of kmap() by mapping
->    pages in the same thread the address will be used and prefer
-> -  kmap_local_page().
-> +  kmap_local_page() or kmap_local_folio().
->  
->    Nesting kmap_local_page() and kmap_atomic() mappings is allowed to a certain
->    extent (up to KMAP_TYPE_NR) but their invocations have to be strictly ordered
-> -- 
-> 2.40.1
-> 
+>+int dpll_device_register(struct dpll_device *dpll, enum dpll_type type,
+>+			 const struct dpll_device_ops *ops, void *priv)
+>+{
+>+	struct dpll_device_registration *reg;
+>+	bool first_registration = false;
+>+
+>+	if (WARN_ON(!ops))
+>+		return -EINVAL;
+>+	if (WARN_ON(type < DPLL_TYPE_PPS || type > DPLL_TYPE_MAX))
+>+		return -EINVAL;
+>+
+>+	mutex_lock(&dpll_lock);
+>+	reg = dpll_device_registration_find(dpll, ops, priv);
+>+	if (reg) {
+>+		mutex_unlock(&dpll_lock);
+>+		return -EEXIST;
+>+	}
+>+
+>+	reg = kzalloc(sizeof(*reg), GFP_KERNEL);
+>+	if (!reg) {
+>+		mutex_unlock(&dpll_lock);
+>+		return -EEXIST;
+>+	}
+>+	reg->ops = ops;
+>+	reg->priv = priv;
+>+	dpll->type = type;
+>+	first_registration = list_empty(&dpll->registration_list);
+>+	list_add_tail(&reg->list, &dpll->registration_list);
+>+	if (!first_registration) {
+>+		mutex_unlock(&dpll_lock);
+>+		return 0;
+>+	}
+>+
+>+	xa_set_mark(&dpll_device_xa, dpll->id, DPLL_REGISTERED);
+>+	mutex_unlock(&dpll_lock);
+>+	dpll_device_create_ntf(dpll);
 
--- 
-Sincerely yours,
-Mike.
+This function is introduced in the next patch. Breaks bissection. Make
+sure you can compile the code after every patch applied.
+
+
+
+>+
+>+	return 0;
+>+}
+
+[...]
