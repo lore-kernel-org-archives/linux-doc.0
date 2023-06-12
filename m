@@ -2,217 +2,228 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 617FCC7EE2F
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 19:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E98C7EE43
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 19:45:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235796AbjFLTDe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jun 2023 15:03:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40800 "EHLO
+        id S237066AbjFLTpE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jun 2023 15:45:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233694AbjFLTDd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 15:03:33 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7262EAD;
-        Mon, 12 Jun 2023 12:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686596612; x=1718132612;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=jWbJRWFg4ljIaTwK/HUWBT7d253Zb1hXl+DtdnjIzCg=;
-  b=PowSFfEZEoT0E/ipVHCNh1buc2i1u32OZlutO/IIdj1zFtuK5NKJ8t0Q
-   6Hjwi6PtxAyPNjhYHK+bVdzFjiZvXh7yFQKWyDZ+oGHzU9Lvc1UOQhRKa
-   ZGxkVyLpYvbDsrCUbAdIuVJE0n9lua/NKbRieeQK/v8rxIG0GhElh7tQs
-   e7XVus+d38fJqwk4eRDhalpXeWgY0aPrIFLd2vrSr6GTXTkwrK54iotIu
-   yucD2kPsRsRiw6wY/nPNBphIDU259rkF/5y+ehNKN0Y6xJQfXP7FXPACn
-   WufGkAnPGH7r8x2YZubNv14NPypBmW+EkbsZIHjJ6IqE8wv8rp5yUaFuS
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="342822139"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="342822139"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 12:03:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="801127943"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="801127943"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2023 12:03:31 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 12 Jun 2023 12:03:30 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 12 Jun 2023 12:03:30 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.47) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 12 Jun 2023 12:03:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aAyZiDPnO5xOyYRlaqPmssheiAa344Za0+S8oG+7XlP9DSflb2zQ6Li491RBEUNoEzIyOVwVE+wSzlFZ9idfd0v7ZSiW+jprCSyo8h38V2E4Tc+ZCVueq361UyaRkgTZuPWTt/9sK7SFLuhko4Cp7WpPwsua0hUtZngqVHavc2OGEX7384FvCl/3381tDMTYvo023ypS3Nd94IsRivYsbuExKthZAEAfQrrZfwM0SWFv67zLvjz2kOH7AR640/v8I3YcYzpsA4h7+/wjLiyyNT9MqMGr62+bEIyT9h29n9ThyRO1tHe5aaWTfU6ilc47S7y6KQS7dp90+yBztX7IJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0EOrSDdB9FJEDAo5xrAgvOV9SgyvM5Nm7M/vDvlTzA8=;
- b=XxSDgHgSjzlxEdbXd4CT9HVM3W7DGE7BRib/lJkYd88lFwKHz3N79u4MjTDo7HApSVTV3y74s5Kst1brEEkl8JmV7oPVMCFpEdKZwpiF3DOM6EuTAT05VCrv6kzqOgsh8TwDAVVLO3an5vI4flpTuWCyqf2p9wZsKcM4y7LPmWZPTtmdZVRjATuqXEofjUBDfU3pHRL+V3HTYKsWfxUzbfw7aU75uxFoUQWfTe/tm63eYGPmY07sddRmcD90i42IrHuNSNLlL/jPt7x5Rfx6BI73/uHyB3YJuspPsALQG3NuTaU9lU4TKftMn1Sx7HHQHkuhzSrqtOG0o636TX84WQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by DM8PR11MB5607.namprd11.prod.outlook.com (2603:10b6:8:28::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.46; Mon, 12 Jun
- 2023 19:03:22 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::95c6:c77e:733b:eee5]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::95c6:c77e:733b:eee5%5]) with mapi id 15.20.6455.030; Mon, 12 Jun 2023
- 19:03:22 +0000
-Date:   Mon, 12 Jun 2023 12:03:18 -0700
-From:   Dan Williams <dan.j.williams@intel.com>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-CC:     "H . Peter Anvin" <hpa@zytor.com>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        "Wander Lairson Costa" <wander@redhat.com>,
-        Erdem Aktas <erdemaktas@google.com>,
-        Dionna Amalie Glaze <dionnaglaze@google.com>,
-        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
-        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
-        "Du Fan" <fan.du@intel.com>, <linux-kernel@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <dhowells@redhat.com>, <brijesh.singh@amd.com>,
-        <atishp@rivosinc.com>
-Subject: RE: [PATCH v3 3/3] selftests/tdx: Test GetQuote TDX attestation
- feature
-Message-ID: <64876bf6c30e2_1433ac29415@dwillia2-xfh.jf.intel.com.notmuch>
-References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
- <972e1d5c5ec53e2757fb17a586558c5385e987dd.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <972e1d5c5ec53e2757fb17a586558c5385e987dd.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
-X-ClientProxiedBy: SJ2PR07CA0003.namprd07.prod.outlook.com
- (2603:10b6:a03:505::26) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+        with ESMTP id S236652AbjFLTpD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 15:45:03 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F69E62;
+        Mon, 12 Jun 2023 12:45:02 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-652328c18d5so3689956b3a.1;
+        Mon, 12 Jun 2023 12:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686599101; x=1689191101;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SqkCjzH8EDX69emqqTnSLhV/oO1OorGxyiylgKOLPhs=;
+        b=n8E45iNLNI5A1fK4mNvFfCMpoJC/UvMNT0d5QOE6Ze2+RTG6LcQvPX09TZRJQOmhiN
+         N/lty5wFosqnDu07ERqOtzJ7OqYw/ap3bfACWKuzood41h/dPvdPZEV/ctUpMEJzIUFy
+         UoKFt6etNeGazvvHMjES5ANqcxJh/W3CT2wqG9GciZE94nHmQST/wNRU+fhCV29wW3pu
+         H7PpjvRLruvaMCSFmqcRqbtjEjPtAs9F4ipuszj0HlCpbmwOsrRMefvgqboizAqyl7ht
+         rsIvYELUWjTLiehFy2km7hhQBjI27Qdfg/6lv4wTsPFWrR1gt8CUpKDVANGyPjR9ulhA
+         nicQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686599101; x=1689191101;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SqkCjzH8EDX69emqqTnSLhV/oO1OorGxyiylgKOLPhs=;
+        b=BiIreOxAOSlOCJCrOjkLomFA/Lem5+/Mj4u/q62uKpUfuJPWfKvpaieDxj9ufhU8nm
+         eZuyLfj2gJCMhCk7fLfxBr3KfpvD4+mkcwJEghmR3o377Jwe07qAUHOZ49VpC+MD39AK
+         kU74EAz1zW2oCyH+jtemF/iKzLn9bLU80KeDsymeQlBTMJMfrBv7q8PiTj2NzDSO384A
+         IKMhJenTzsGxz1eOACnu/bZweJIgCx45DOzyy2XcvNFbX5RS4K6MOtBPAjeUmM3q4/GF
+         g+G6h7D93WrFcdCtNgEuYTkZtjlupNX+uHcDH1Gyyq9crCWH5MinbQmGJJJ7knCs/iNB
+         zp6w==
+X-Gm-Message-State: AC+VfDxhTSz662Je3zPPmzo/jArlmfa+qy7eVCXtiIOTJcXBJPM9PI9k
+        UoQQXo/VkiUxZyvED4s2W0k=
+X-Google-Smtp-Source: ACHHUZ4m0aYpRl01maIeL2HiWz0Am9u27+hloUxmq+d5BC1fnWyP4A9YVICUOGvFTsxMDL+syl8Hlg==
+X-Received: by 2002:a05:6a21:99aa:b0:114:6f3c:4332 with SMTP id ve42-20020a056a2199aa00b001146f3c4332mr12014892pzb.24.1686599101395;
+        Mon, 12 Jun 2023 12:45:01 -0700 (PDT)
+Received: from fedora.. ([2409:40e2:102b:b6d8:efc7:8b57:73a7:8d1])
+        by smtp.gmail.com with ESMTPSA id c8-20020aa781c8000000b0063aa1763146sm7502869pfn.17.2023.06.12.12.44.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jun 2023 12:45:00 -0700 (PDT)
+From:   Aakash Sen Sharma <aakashsensharma@gmail.com>
+To:     corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com,
+        wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+        bjorn3_gh@protonmail.com, nathan@kernel.org,
+        ndesaulniers@google.com, trix@redhat.com, masahiroy@kernel.org,
+        me@kloenk.de, aakashsensharma@gmail.com, aliceryhl@google.com,
+        benno.lossin@proton.me, dev@niklasmohrin.de, lina@asahilina.net,
+        hca@linux.ibm.com, rust-for-linux@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev
+Subject: [PATCH] rust: bindgen: upgrade to 0.65.1
+Date:   Tue, 13 Jun 2023 01:13:11 +0530
+Message-Id: <20230612194311.24826-1-aakashsensharma@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|DM8PR11MB5607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a94278c-e999-4fd5-bfdb-08db6b77b111
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /aSOYcgTlyVZM1bc5AayzDuxTniJ8GdV3BXZO6iAXIgFl0rw3SjTiPTfDYwaok9Ley+yWlliGJ07qA61lcbRlAmbvOF2da8fXMFmIlBu+QiMpE83sL/dHsY/zSvgATCE+Lpms2R2IHqvKK7VrbP/j41q2JqzrlNe3DE91AGvj2saOiOcJe2mNman+FPfzKsP+v8Hb63B4wr9LcraZVtVQhl3/CzZfS+48/Y278E73ZS7QXxHlXs8F22z4vX1AvsUVCFEZBUfBS+LboSgavUDEMuZ3aqjto9XwLjkjWKjLhqcfSXPZmIrxF3qR7gW3rUZK5eE7DJ9KndMcR4IMtIfEuh2yeXjCPOvvmj/BILeUQGN1+8sMzyoOmw3vX478qTzRHh5F6kXNVmev0342rqBbhIewbJT4mxYSK8JQgYjUDiOaAeYbBVWsIMmVjuhc7qo+qk1tp8VPiHNnXoVr9WtFn/PfVQW/PruWRV8lYFzcSvWCIdMsygjx/CUqFMO/kUrFrOOz+AQzSMguU7dc2YTHasWan+J6kkyX+ueURiPmICgSIt/UonM1Sg+S1Uh8SdX
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(346002)(376002)(366004)(136003)(39860400002)(451199021)(66476007)(66556008)(4326008)(316002)(7416002)(41300700001)(186003)(2906002)(110136005)(54906003)(478600001)(66946007)(8676002)(8936002)(5660300002)(6666004)(6486002)(6512007)(6506007)(26005)(83380400001)(9686003)(86362001)(82960400001)(38100700002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HdK4XvzzGpS6MBdlNBbBU4nI0Jcos1dzVEzfEpjiPXJhVuYOd2bUZrdwfiDu?=
- =?us-ascii?Q?lzdTcQuOwOaHoBF5kyn62peS0gxvb+3AKfXj2AusifwoW1J4KHdoIQDoWdTv?=
- =?us-ascii?Q?cDf6b3IZk1DiUh1IoC2lD4PBJXvFIFajNS2jTL7r6rOdTRklRfg1KHDjkw0G?=
- =?us-ascii?Q?vsZg2wgKsCowjQP3wtN7RqvUyiady8AEcubq85O7I4eCo4rAYvH7p3eThKTw?=
- =?us-ascii?Q?Tu+FguU3Qh58smzLo6E2FAqpxAbrkQ0W1P/IVAYMy0bdEhK2a4kiknYRiFuj?=
- =?us-ascii?Q?Jx5ZEyq0xPUYxo9B1ZUOaiko6za5bL1Pi+Hdvv8XpO/ogJSCqpE6mV2dsl4z?=
- =?us-ascii?Q?092G01FXBYan0JZHebQGcU9dfViwBnD/zf7Evm8rToQGRdtL0fwfxzWxXu5G?=
- =?us-ascii?Q?wity90cWcErkDIEmuoU11tJxNSxNT1NZ6XOQq1R358lY+G9Ua8uAfpnuLknG?=
- =?us-ascii?Q?sdvGn6cBCh/+j2mAs9ui97FoRh+nC9HpI1mrKj0XNTRsSWnaWxJ08UvyTpQs?=
- =?us-ascii?Q?FIu3LNRI43oYxHvWvPdkQveE3LlWNeob3ID3SuaKKqCACMu1y6umE52SlJst?=
- =?us-ascii?Q?HwuF+0cHcIz29a9+9xpeoFCYW9dKQGaUBvKfp/R4oGpXUcF8HSg9G+ZIl0nW?=
- =?us-ascii?Q?OV3wSjZ9TcRhdQJWsW9dwoxJ1xHsCMryB8qourcIo+2gwhkX5Hep7qWc0e03?=
- =?us-ascii?Q?BgE6YkkvkQbo17uaNHCshwudENtSiwb+aWw6C0iUUtJllUjjWzHtIg916LSK?=
- =?us-ascii?Q?aLvrrtXLp1QzFgMvEj4DDXkQah9hG1qh2aBCglDq4pLn+MOuL06b+Q5SvUYt?=
- =?us-ascii?Q?b4bfsABujkysVnBLRpsIpJUJzpvKd00gBKbPHXTf8rrC+0Uxe/L6Np2gyOdy?=
- =?us-ascii?Q?VM9nZlg7ljemp04+fEz6Lsc7FKa+sFrLI91aX0YUIaQGq7V7Ye9jhDElzHs6?=
- =?us-ascii?Q?AL6aM9pgyYOEdDZ0IjVpbbnDO12gWTSp7ygE36sf87wjHpHcjfAkLoZlNGT+?=
- =?us-ascii?Q?4Csp7Hltb//cWJEqa3FHUmr87qFWTsSp/gVqTVIX7ZsrdtdcEboxK6MvBF76?=
- =?us-ascii?Q?SHIQF2KB+nRYwXYnuCh/zlSAasELOwcqEjG/a6KThKL4XYpYBSHZ4vlZDiZj?=
- =?us-ascii?Q?Wbngripw0qgM/LP2jWo2k82TfJT7ZNNNvF4GlCisPuwK0kUkHVHjNBhWhuEN?=
- =?us-ascii?Q?bZ7vtkmBHNHlvEQCj5rNia3LXaHgS7z4HCuQL0lxz4132IGoe0NB3EGWEVUD?=
- =?us-ascii?Q?eVyzxp2oE2W7xWrK5V1toNqznhLwobRnLZXHrPGYE5kxwhPWJl/WouRPqhZj?=
- =?us-ascii?Q?+8WZzYJIKT2/iBC6AKpgu4ICh7z6qz8T49ZZ1l1gkTVhf2VwJTTE6BIuJoUm?=
- =?us-ascii?Q?j8FEHuVtT3FGgXs5r1kfPO7LNwGufJ5orGS+zOjMDtg57BDzd9otdcCRyMY8?=
- =?us-ascii?Q?3nn/9HjsivY64zeXMoakNQFla+d5Qal4WEjUZ28Bbs48yWmc+oCU8Dl7qrg9?=
- =?us-ascii?Q?HqH1OlCJ3OY0yS7z7ZVB14qW/sF4p5IWrN7Awzmq9TUjwhPPZtnkdDF5MxyZ?=
- =?us-ascii?Q?wjq79ydFKOGvwuRK9Y73bdikDG2igx3A6qScJ/G+PEeKEkg6yOeYnv1OGdTj?=
- =?us-ascii?Q?7g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a94278c-e999-4fd5-bfdb-08db6b77b111
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 19:03:22.2085
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hX83VqSc2ksN4kHbAo9ik6hqLpOJfT2W3N5UBgtvVyZcTCQT75d09V+737vm4PZRGKGc9es1i2ctUD7dGeMSY5xOzh+omIbeZpgQBOApifo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5607
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[ add David, Brijesh, and Atish]
+* Rationale:
 
-Kuppuswamy Sathyanarayanan wrote:
-> In TDX guest, the second stage of the attestation process is Quote
-> generation. This process is required to convert the locally generated
-> TDREPORT into a remotely verifiable Quote. It involves sending the
-> TDREPORT data to a Quoting Enclave (QE) which will verify the
-> integrity of the TDREPORT and sign it with an attestation key.
-> 
-> Intel's TDX attestation driver exposes TDX_CMD_GET_QUOTE IOCTL to
-> allow the user agent to get the TD Quote.
-> 
-> Add a kernel selftest module to verify the Quote generation feature.
-> 
-> TD Quote generation involves following steps:
-> 
-> * Get the TDREPORT data using TDX_CMD_GET_REPORT IOCTL.
-> * Embed the TDREPORT data in quote buffer and request for quote
->   generation via TDX_CMD_GET_QUOTE IOCTL request.
-> * Upon completion of the GetQuote request, check for non zero value
->   in the status field of Quote header to make sure the generated
->   quote is valid.
+Upgrades bindgen to code-generation for anonymous unions, structs, and enums [7]
+for LLVM-16 based toolchains.
 
-What this cover letter does not say is that this is adding another
-instance of the similar pattern as SNP_GET_REPORT.
+The following upgrade also incorporates `noreturn` support from bindgen
+allowing us to remove useless `loop` calls which was placed as a
+workaround.
 
-Linux is best served when multiple vendors trying to do similar
-operations are brought together behind a common ABI. We see this in the
-history of wrangling SCSI vendors behind common interfaces. Now multiple
-confidential computing vendors trying to develop similar flows with
-differentiated formats where that differentiation need not leak over the
-ABI boundary.
+* Truncated build logs on using bindgen `v0.56.0` prior to LLVM-16 toolchain:
 
-My observation of SNP_GET_REPORT and TDX_CMD_GET_REPORT is that they are
-both passing blobs across the user/kernel and platform/kernel boundary
-for the purposes of unlocking other resources. To me that is a flow that
-the Keys subsystem has infrastructure to handle. It has the concept of
-upcalls and asynchronous population of blobs by handles and mechanisms
-to protect and cache those communications. Linux / the Keys subsystem
-could benefit from the enhancements it would need to cover these 2
-cases. Specifically, the benefit that when ARM and RISC-V arrive with
-similar communications with platform TSMs (Trusted Security Module) they
-can build upon the same infrastructure.
+```
+$ make rustdoc LLVM=1 CLIPPY=1 -j$(nproc)
+  RUSTC L rust/core.o
+  BINDGEN rust/bindings/bindings_generated.rs
+  BINDGEN rust/bindings/bindings_helpers_generated.rs
+  BINDGEN rust/uapi/uapi_generated.rs
+thread 'main' panicked at '"ftrace_branch_data_union_(anonymous_at__/_/include/linux/compiler_types_h_146_2)" is not a valid Ident', .../proc-macro2-1.0.24/src/fallback.rs:693:9
+...
+thread 'main' panicked at '"ftrace_branch_data_union_(anonymous_at__/_/include/linux/compiler_types_h_146_2)" is not a valid Ident', .../proc-macro2-1.0.24/src/fallback.rs:693:9
+...
+```
 
-David, am I reaching with that association? My strawman mapping of
-TDX_CMD_GET_QUOTE to request_key() is something like:
+* LLVM-16 Changes:
 
-request_key(coco_quote, "description", "<uuencoded tdreport>")
+API changes [1] were introduced such that libclang would emit names like
+"(unnamed union at compiler_types.h:146:2)" for unnamed unions, structs, and
+enums whereas it previously returned an empty string.
 
-Where this is a common key_type for all vendors, but the description and
-arguments have room for vendor differentiation when doing the upcall to
-the platform TSM, but userspace never needs to contend with the
-different vendor formats, that is all handled internally to the kernel.
+* Bindgen Changes:
 
-At this point I am just looking for confirmation that the "every vendor
-invent a new character device + ioctl" does not scale and a deeper
-conversation is needed. Keys is a plausible solution to that ABI
-proliferation problem.
+Bindgen `v0.56.0` on LLVM-16 based toolchains hence was unable to process the
+anonymous union in `include/linux/compiler_types` `struct ftrace_branch_data`
+and caused subsequent panics as the new `libclang` API emitted name was not
+being handled. The following issue was fixed in Bindgen `v0.62.0` [2].
+
+Bindgen `v0.58.0` changed the flags `--whitelist-*` and `--blacklist-*`
+to `--allowlist-*` and `--blocklist-*` respectively [3].
+
+Bindgen `v0.61.0` added support for `_Noreturn`, `[[noreturn]]`, `__attribute__((noreturn))` [4],
+hence the empty `loop`s used to circumvent bindgen returning `!` in place of `()`
+for noreturn attributes have been removed completely.
+
+Bindgen `v0.61.0` also changed default functionality to bind `size_t` to `usize` [5] and
+added the `--no-size_t-is-usize` [5] flag to not bind `size_t` as `usize`.
+
+Bindgen `v0.65.0` removed `--size_t-is-usize` flag [6].
+
+Link: https://github.com/llvm/llvm-project/commit/19e984ef8f49bc3ccced15621989fa9703b2cd5b [1]
+Link: https://github.com/rust-lang/rust-bindgen/pull/2319 [2]
+Link: https://github.com/rust-lang/rust-bindgen/pull/1990 [3]
+Link: https://github.com/rust-lang/rust-bindgen/issues/2094 [4]
+Link: https://github.com/rust-lang/rust-bindgen/commit/cc78b6fdb6e829e5fb8fa1639f2182cb49333569 [5]
+Link: https://github.com/rust-lang/rust-bindgen/pull/2408 [6]
+Closes: https://github.com/Rust-for-Linux/linux/issues/1013 [7]
+Signed-off-by: Aakash Sen Sharma <aakashsensharma@gmail.com>
+---
+ Documentation/process/changes.rst |  2 +-
+ rust/Makefile                     |  6 +++---
+ rust/helpers.c                    | 13 ++++++-------
+ rust/kernel/lib.rs                |  3 ---
+ scripts/min-tool-version.sh       |  2 +-
+ 5 files changed, 11 insertions(+), 15 deletions(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index ef540865ad22..5f21c4c6cf5c 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -32,7 +32,7 @@ you probably needn't concern yourself with pcmciautils.
+ GNU C                  5.1              gcc --version
+ Clang/LLVM (optional)  11.0.0           clang --version
+ Rust (optional)        1.62.0           rustc --version
+-bindgen (optional)     0.56.0           bindgen --version
++bindgen (optional)     0.65.1           bindgen --version
+ GNU make               3.82             make --version
+ bash                   4.2              bash --version
+ binutils               2.25             ld -v
+diff --git a/rust/Makefile b/rust/Makefile
+index f88d108fbef0..c187c6f3a384 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -279,7 +279,7 @@ quiet_cmd_bindgen = BINDGEN $@
+ 	$(BINDGEN) $< $(bindgen_target_flags) \
+ 		--use-core --with-derive-default --ctypes-prefix core::ffi --no-layout-tests \
+ 		--no-debug '.*' \
+-		--size_t-is-usize -o $@ -- $(bindgen_c_flags_final) -DMODULE \
++		-o $@ -- $(bindgen_c_flags_final) -DMODULE \
+ 		$(bindgen_target_cflags) $(bindgen_target_extra)
+
+ $(obj)/bindings/bindings_generated.rs: private bindgen_target_flags = \
+@@ -293,8 +293,8 @@ $(obj)/bindings/bindings_generated.rs: $(src)/bindings/bindings_helper.h \
+ # given it is `libclang`; but for consistency, future Clang changes and/or
+ # a potential future GCC backend for `bindgen`, we disable it too.
+ $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_flags = \
+-    --blacklist-type '.*' --whitelist-var '' \
+-    --whitelist-function 'rust_helper_.*'
++    --blocklist-type '.*' --allowlist-var '' \
++    --allowlist-function 'rust_helper_.*'
+ $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_cflags = \
+     -I$(objtree)/$(obj) -Wno-missing-prototypes -Wno-missing-declarations
+ $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_extra = ; \
+diff --git a/rust/helpers.c b/rust/helpers.c
+index 121583282976..98d9ef47225b 100644
+--- a/rust/helpers.c
++++ b/rust/helpers.c
+@@ -122,19 +122,18 @@ void rust_helper_put_task_struct(struct task_struct *t)
+ EXPORT_SYMBOL_GPL(rust_helper_put_task_struct);
+
+ /*
+- * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
+- * as the Rust `usize` type, so we can use it in contexts where Rust
+- * expects a `usize` like slice (array) indices. `usize` is defined to be
+- * the same as C's `uintptr_t` type (can hold any pointer) but not
+- * necessarily the same as `size_t` (can hold the size of any single
++ * `bindgen` binds the C `size_t` type the Rust `usize` type, so we can
++ * use it in contexts where Rust expects a `usize` like slice (array) indices.
++ * `usize` is defined to be the same as C's `uintptr_t` type (can hold any pointer)
++ * but not necessarily the same as `size_t` (can hold the size of any single
+  * object). Most modern platforms use the same concrete integer type for
+  * both of them, but in case we find ourselves on a platform where
+  * that's not true, fail early instead of risking ABI or
+  * integer-overflow issues.
+  *
+  * If your platform fails this assertion, it means that you are in
+- * danger of integer-overflow bugs (even if you attempt to remove
+- * `--size_t-is-usize`). It may be easiest to change the kernel ABI on
++ * danger of integer-overflow bugs (even if you attempt to add
++ * `--no-size_t-is-usize`). It may be easiest to change the kernel ABI on
+  * your platform such that `size_t` matches `uintptr_t` (i.e., to increase
+  * `size_t`, because `uintptr_t` has to be at least as big as `size_t`).
+  */
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index ee27e10da479..1b0dcf03b9c2 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -95,7 +95,4 @@ fn panic(info: &core::panic::PanicInfo<'_>) -> ! {
+     pr_emerg!("{}\n", info);
+     // SAFETY: FFI call.
+     unsafe { bindings::BUG() };
+-    // Bindgen currently does not recognize `__noreturn` so `BUG` returns `()`
+-    // instead of `!`. See <https://github.com/rust-lang/rust-bindgen/issues/2094>.
+-    loop {}
+ }
+diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
+index 20d483ec6f5f..5b80c5d3a9f8 100755
+--- a/scripts/min-tool-version.sh
++++ b/scripts/min-tool-version.sh
+@@ -30,7 +30,7 @@ rustc)
+ 	echo 1.62.0
+ 	;;
+ bindgen)
+-	echo 0.56.0
++	echo 0.65.1
+ 	;;
+ *)
+ 	echo "$1: unknown tool" >&2
+--
+2.40.1
+
