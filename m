@@ -2,84 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB8EC7EE23
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Jun 2023 23:05:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DADA7C7EE23
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 01:15:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229441AbjFKXFN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Jun 2023 19:05:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39158 "EHLO
+        id S229573AbjFLBPE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Jun 2023 21:15:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232052AbjFKXFL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Jun 2023 19:05:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6535EE4E
-        for <linux-doc@vger.kernel.org>; Sun, 11 Jun 2023 16:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686524655;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=11LmYFEb2txGYaQwbovbb9GnPZ2QfmpSTTWbszkY7ug=;
-        b=BdNGJbUwzcEmoWNwTdnqSkWnyYeqOr8EZsAz/+bIbIDZ8m99z1r48+eFlmjGRhJRzMC7jx
-        zH30MQHyDY2D5FTwsA0U5mfro3cWp7LFjnlCmxyDs0K/EnUPF5TzDbQQTKnZcLWKJ1QsZL
-        6ZegHCtMsEiUKaMC6cQX51QUgILX16o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-kqJYrdwTOOqhtegdoOQAoQ-1; Sun, 11 Jun 2023 19:04:12 -0400
-X-MC-Unique: kqJYrdwTOOqhtegdoOQAoQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C83E5101A52C;
-        Sun, 11 Jun 2023 23:04:11 +0000 (UTC)
-Received: from MiWiFi-R3L-srv.redhat.com (ovpn-12-34.pek2.redhat.com [10.72.12.34])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C6F78492B0B;
-        Sun, 11 Jun 2023 23:04:07 +0000 (UTC)
-From:   Baoquan He <bhe@redhat.com>
-To:     linux-kernel@vger.kernel.org, catalin.marinas@arm.com
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, will@kernel.org, Baoquan He <bhe@redhat.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH] arm64: add kdump.rst into index.rst
-Date:   Mon, 12 Jun 2023 07:03:58 +0800
-Message-Id: <20230611230358.13635-1-bhe@redhat.com>
+        with ESMTP id S229477AbjFLBPD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Jun 2023 21:15:03 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1F1919C;
+        Sun, 11 Jun 2023 18:15:01 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-25bec2512f3so233973a91.0;
+        Sun, 11 Jun 2023 18:15:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686532501; x=1689124501;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M4r95/HNn3Z0zrSpboHuCJ1hLyk1T3UrNK3O9mwvSAU=;
+        b=qBHQS/3mVdkqwWUwjNHfJG7MgUz02uTuSRMWHzmuF0huYJGmaCwPFFbu34+TV6ntNb
+         NvNp1hh0DBIrPP0NJkdtG3glSpYlAJTB+ALyFDAZZ5J2Y7z0dgPha1XId+uGzoz57Zz4
+         3Kw1D87TdXfMC82D3xhl/O6WDVKhMP7jfiaVrP06IrDNcnNXv9Tf7huVcwqeeGIFe1Sg
+         5J0rsvttL6RJ9Y2OTUWTkXBj7QgjlNY2AfBSg+jRL/ZUf9pPdf17PMXCKC7hJa2MNzua
+         t4G5lD+bejpiFC24EuLhWuPIJr7dAT/A/WmU0Ks8FRlOzJMJ5aJz2FyXcLRnKeV2zPCj
+         Tofw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686532501; x=1689124501;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=M4r95/HNn3Z0zrSpboHuCJ1hLyk1T3UrNK3O9mwvSAU=;
+        b=ObgbZLEmV15I/PNqxmN5jpmFVLLVsQ3fmU0lhEr5jxWKHR9X11FwCUqQkkYj7BJEAI
+         VKpQzBUJ4+P7x4GSvnc+tmFOpyXLNVHW7T8A2v61tdGroCZA8DGZuaAmpDbywYWUqoqb
+         MB4WnogxTSzLQqek9MLNuQ+QU+VXxedj1vSVNjrOA6vuTs4wjUN5Zr3+NXDymU8AEZWX
+         nR7d4ngf7sfXOH/gIdF0yO9ECy7YglY+Fym+TGHSM7UtQ51VX4bQ+4DhdzevlQ9MNbUB
+         0kxOh5RhNjBh/zEXHZLHVGDPrTA8XVuUIn61D/C6qSy0B/Qnpa1Dd+RMMTxI+ZmQnU4I
+         2c1Q==
+X-Gm-Message-State: AC+VfDwvMHKyFE9qXsToVDPxpKUDEEmpMDEUWBVWQmZVsE8LFodpsUcP
+        Racx4UGWQfLyyAyJXgwwYOp5+iEkn0A=
+X-Google-Smtp-Source: ACHHUZ4jjTczZTWwetrRr3xBtZ88HLcYRMXd8tv1P+Tyu8mNyogOWakBKA9EFPYVGhBB8nFuSSRb8w==
+X-Received: by 2002:a17:90a:404b:b0:25b:e25e:9bd7 with SMTP id k11-20020a17090a404b00b0025be25e9bd7mr1867718pjg.1.1686532501391;
+        Sun, 11 Jun 2023 18:15:01 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-80.three.co.id. [180.214.232.80])
+        by smtp.gmail.com with ESMTPSA id x10-20020a63cc0a000000b0053fb37fb626sm6308170pgf.43.2023.06.11.18.14.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Jun 2023 18:15:00 -0700 (PDT)
+Message-ID: <049d6b11-d5a9-ca28-2111-7fce2d946d7f@gmail.com>
+Date:   Mon, 12 Jun 2023 08:14:56 +0700
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH] arm64: add kdump.rst into index.rst
+To:     Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org,
+        catalin.marinas@arm.com
+Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, will@kernel.org, kernel test robot <lkp@intel.com>
+References: <20230611230358.13635-1-bhe@redhat.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230611230358.13635-1-bhe@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document kdump.rst was added into Documentation/arm64/, but not listed
-in Documentation/arm64/index.rst. That triggers below warning when
-executing "make htmldoc":
+On 6/12/23 06:03, Baoquan He wrote:
+> Document kdump.rst was added into Documentation/arm64/, but not listed
+> in Documentation/arm64/index.rst. That triggers below warning when
+> executing "make htmldoc":
+> 
+>>> Documentation/arm64/kdump.rst: WARNING: document isn't included in any toctree
+> 
+> Fix it now.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202306110549.ynH2Juok-lkp@intel.com/
+> Signed-off-by: Baoquan He <bhe@redhat.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
 
->> Documentation/arm64/kdump.rst: WARNING: document isn't included in any toctree
+Let me add Fixes tag:
 
-Fix it now.
+Fixes: 03dc0e05407f39 ("Documentation: add kdump.rst to present crashkernel reservation on arm64")
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202306110549.ynH2Juok-lkp@intel.com/
-Signed-off-by: Baoquan He <bhe@redhat.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
----
- Documentation/arm64/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+> ---
+>  Documentation/arm64/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
+> index ae21f8118830..e58391557f00 100644
+> --- a/Documentation/arm64/index.rst
+> +++ b/Documentation/arm64/index.rst
+> @@ -15,6 +15,7 @@ ARM64 Architecture
+>      cpu-feature-registers
+>      elf_hwcaps
+>      hugetlbpage
+> +    kdump
+>      legacy_instructions
+>      memory
+>      memory-tagging-extension
 
-diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
-index ae21f8118830..e58391557f00 100644
---- a/Documentation/arm64/index.rst
-+++ b/Documentation/arm64/index.rst
-@@ -15,6 +15,7 @@ ARM64 Architecture
-     cpu-feature-registers
-     elf_hwcaps
-     hugetlbpage
-+    kdump
-     legacy_instructions
-     memory
-     memory-tagging-extension
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
 -- 
-2.34.1
+An old man doll... just what I always wanted! - Clara
 
