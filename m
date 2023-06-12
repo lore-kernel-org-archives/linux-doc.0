@@ -2,228 +2,210 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E98C7EE43
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 19:45:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69137C88CB8
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 20:50:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237066AbjFLTpE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jun 2023 15:45:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32808 "EHLO
+        id S236764AbjFLUul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jun 2023 16:50:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236652AbjFLTpD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 15:45:03 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F69E62;
-        Mon, 12 Jun 2023 12:45:02 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-652328c18d5so3689956b3a.1;
-        Mon, 12 Jun 2023 12:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686599101; x=1689191101;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SqkCjzH8EDX69emqqTnSLhV/oO1OorGxyiylgKOLPhs=;
-        b=n8E45iNLNI5A1fK4mNvFfCMpoJC/UvMNT0d5QOE6Ze2+RTG6LcQvPX09TZRJQOmhiN
-         N/lty5wFosqnDu07ERqOtzJ7OqYw/ap3bfACWKuzood41h/dPvdPZEV/ctUpMEJzIUFy
-         UoKFt6etNeGazvvHMjES5ANqcxJh/W3CT2wqG9GciZE94nHmQST/wNRU+fhCV29wW3pu
-         H7PpjvRLruvaMCSFmqcRqbtjEjPtAs9F4ipuszj0HlCpbmwOsrRMefvgqboizAqyl7ht
-         rsIvYELUWjTLiehFy2km7hhQBjI27Qdfg/6lv4wTsPFWrR1gt8CUpKDVANGyPjR9ulhA
-         nicQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686599101; x=1689191101;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SqkCjzH8EDX69emqqTnSLhV/oO1OorGxyiylgKOLPhs=;
-        b=BiIreOxAOSlOCJCrOjkLomFA/Lem5+/Mj4u/q62uKpUfuJPWfKvpaieDxj9ufhU8nm
-         eZuyLfj2gJCMhCk7fLfxBr3KfpvD4+mkcwJEghmR3o377Jwe07qAUHOZ49VpC+MD39AK
-         kU74EAz1zW2oCyH+jtemF/iKzLn9bLU80KeDsymeQlBTMJMfrBv7q8PiTj2NzDSO384A
-         IKMhJenTzsGxz1eOACnu/bZweJIgCx45DOzyy2XcvNFbX5RS4K6MOtBPAjeUmM3q4/GF
-         g+G6h7D93WrFcdCtNgEuYTkZtjlupNX+uHcDH1Gyyq9crCWH5MinbQmGJJJ7knCs/iNB
-         zp6w==
-X-Gm-Message-State: AC+VfDxhTSz662Je3zPPmzo/jArlmfa+qy7eVCXtiIOTJcXBJPM9PI9k
-        UoQQXo/VkiUxZyvED4s2W0k=
-X-Google-Smtp-Source: ACHHUZ4m0aYpRl01maIeL2HiWz0Am9u27+hloUxmq+d5BC1fnWyP4A9YVICUOGvFTsxMDL+syl8Hlg==
-X-Received: by 2002:a05:6a21:99aa:b0:114:6f3c:4332 with SMTP id ve42-20020a056a2199aa00b001146f3c4332mr12014892pzb.24.1686599101395;
-        Mon, 12 Jun 2023 12:45:01 -0700 (PDT)
-Received: from fedora.. ([2409:40e2:102b:b6d8:efc7:8b57:73a7:8d1])
-        by smtp.gmail.com with ESMTPSA id c8-20020aa781c8000000b0063aa1763146sm7502869pfn.17.2023.06.12.12.44.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 12:45:00 -0700 (PDT)
-From:   Aakash Sen Sharma <aakashsensharma@gmail.com>
-To:     corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com,
-        wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
-        bjorn3_gh@protonmail.com, nathan@kernel.org,
-        ndesaulniers@google.com, trix@redhat.com, masahiroy@kernel.org,
-        me@kloenk.de, aakashsensharma@gmail.com, aliceryhl@google.com,
-        benno.lossin@proton.me, dev@niklasmohrin.de, lina@asahilina.net,
-        hca@linux.ibm.com, rust-for-linux@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: [PATCH] rust: bindgen: upgrade to 0.65.1
-Date:   Tue, 13 Jun 2023 01:13:11 +0530
-Message-Id: <20230612194311.24826-1-aakashsensharma@gmail.com>
-X-Mailer: git-send-email 2.40.1
+        with ESMTP id S238003AbjFLUsY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 16:48:24 -0400
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05hn2205.outbound.protection.outlook.com [52.100.175.205])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ABC919B7;
+        Mon, 12 Jun 2023 13:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7WZU4NJiEeTIJcT5/NpobxXlKuSOf9QTCkRWtL0wIgc=;
+ b=Tc48mo7/ZFbGX/eFyHHQzkNSWu0aFCy7Y2o2PnjiJnEIueMvZo81iOXRomAEmsiiic5RUI5ibEWBcBZQ4hvKbSG2QPvsLaiftuQ0Tn8eAca09n+6n8uxc3Tzm3ngErhyX49BC4IzAxeEX31aR9D/kq+09PPNgHl8tJfYiVvxI762MP7BbOKtsbI/c/zaATULeXV2I7nEhdCoTup8PrJ6BnSX2KWnu+i2JkOk7MLGAS7AQiPV4EKhoeQ8QyB+MAWrH8Opx7+OXH/oDO8b+IuOAK0+M5cFNdi4GyqtBQ26qCUKT3J6C3RVJEyxcwe9hvgT+Rjyw85Eq0SqPinjfefU2A==
+Received: from AS9PR05CA0328.eurprd05.prod.outlook.com (2603:10a6:20b:491::33)
+ by AM9PR03MB7169.eurprd03.prod.outlook.com (2603:10a6:20b:266::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.44; Mon, 12 Jun
+ 2023 20:46:31 +0000
+Received: from AM6EUR05FT025.eop-eur05.prod.protection.outlook.com
+ (2603:10a6:20b:491:cafe::3) by AS9PR05CA0328.outlook.office365.com
+ (2603:10a6:20b:491::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.34 via Frontend
+ Transport; Mon, 12 Jun 2023 20:46:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.160.56.86)
+ smtp.mailfrom=seco.com; dkim=pass (signature was verified)
+ header.d=seco.com;dmarc=pass action=none header.from=seco.com;
+Received-SPF: Pass (protection.outlook.com: domain of seco.com designates
+ 20.160.56.86 as permitted sender) receiver=protection.outlook.com;
+ client-ip=20.160.56.86; helo=inpost-eu.tmcas.trendmicro.com; pr=C
+Received: from inpost-eu.tmcas.trendmicro.com (20.160.56.86) by
+ AM6EUR05FT025.mail.protection.outlook.com (10.233.240.185) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6500.22 via Frontend Transport; Mon, 12 Jun 2023 20:46:30 +0000
+Received: from outmta (unknown [192.168.82.133])
+        by inpost-eu.tmcas.trendmicro.com (Trend Micro CAS) with ESMTP id 58D2220080091;
+        Mon, 12 Jun 2023 20:46:30 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (unknown [104.47.17.169])
+        by repre.tmcas.trendmicro.com (Trend Micro CAS) with ESMTPS id 017C720080073;
+        Mon, 12 Jun 2023 20:50:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fgVQWPC9f8Hn5+iijQit0ZuwcRzeuRXj9cPshQ6T0XY0BPiv0IzLMijap853wq5gc3kcMQ8bbmT1CaU6iUFSYxfK4divPCiss0IHorVKIolUMEdLpNwcVTDacRYOcn9SGiJLuhHULY08tqDJUPgLHIijXXDcE/y3tvxSjakxO7Nbrpwy4kB4NcGPQP5yjEXGwVUeoNhcqCW4XrSSemrk+vs1GQfc0Ude/yAW35gsff85W2y/h01pvU5f7t87jmCTzLJmtLfW/4Z/YbNohFtwPEQHtm4auSktFng5gf+OE3xJoHmAF29LeNHkCo0Xj5SSnFvWu/2S32x8Am8BrhxOxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7WZU4NJiEeTIJcT5/NpobxXlKuSOf9QTCkRWtL0wIgc=;
+ b=Ly44mz+slmfVl4f8GA3SP3Wvok7y6b217WJ7TsVXXUG2YKPusCRUHm9JGcnbpBdD74K4M3re8Tuf0T4qGFOS0daZJ6sPbUlPfEde2i0T/HxbC9fqylivt3pEYjIiDVrHts0QEPfbqErD9UFUa3u+WlKeHtJ2Cgu/kr88KxsYAUhyZBYFWja1hNGeAMWAa8xOmdFuAHnl+cS5etiWkRU2iKAOaVMm2ozW6Ly2wMnwazNKaPEQ2ev8M7SJHJxGOwGzgvidg9vA3Pg4eDZimn8Mm1uj4jncLAA9ZxNf0zRoGzCd/Y5xTtjPKbAChsyi/chlDxMNDcYNQV348rDBe7LiEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7WZU4NJiEeTIJcT5/NpobxXlKuSOf9QTCkRWtL0wIgc=;
+ b=Tc48mo7/ZFbGX/eFyHHQzkNSWu0aFCy7Y2o2PnjiJnEIueMvZo81iOXRomAEmsiiic5RUI5ibEWBcBZQ4hvKbSG2QPvsLaiftuQ0Tn8eAca09n+6n8uxc3Tzm3ngErhyX49BC4IzAxeEX31aR9D/kq+09PPNgHl8tJfYiVvxI762MP7BbOKtsbI/c/zaATULeXV2I7nEhdCoTup8PrJ6BnSX2KWnu+i2JkOk7MLGAS7AQiPV4EKhoeQ8QyB+MAWrH8Opx7+OXH/oDO8b+IuOAK0+M5cFNdi4GyqtBQ26qCUKT3J6C3RVJEyxcwe9hvgT+Rjyw85Eq0SqPinjfefU2A==
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
+ by PAXPR03MB7548.eurprd03.prod.outlook.com (2603:10a6:102:1db::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.29; Mon, 12 Jun
+ 2023 20:46:22 +0000
+Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::d632:8122:75f7:7b0e]) by DB9PR03MB8847.eurprd03.prod.outlook.com
+ ([fe80::d632:8122:75f7:7b0e%3]) with mapi id 15.20.6455.045; Mon, 12 Jun 2023
+ 20:46:21 +0000
+Message-ID: <1dd01fe2-08a8-ec2f-1184-a58b2f55ba85@seco.com>
+Date:   Mon, 12 Jun 2023 16:46:16 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
+Content-Language: en-US
+To:     Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc:     Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-phy@lists.infradead.org,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        =?UTF-8?B?RmVybuKUnMOtbmRleiBSb2phcw==?= <noltari@gmail.com>,
+        Jonas Gorski <jonas.gorski@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+References: <20230426105140.t4yqv6irtjcwptm5@skbuf>
+ <7c7ab84b-3c4a-4e44-b5b5-4acf733a0246@seco.com>
+ <7c7ab84b-3c4a-4e44-b5b5-4acf733a0246@seco.com>
+ <20230429172422.vc35tnwkekfieoru@skbuf>
+ <c81d23b6-ed22-0b37-d71b-ddce9d5d58eb@seco.com>
+ <c2f928d2-25f6-0e31-9ab3-9d585968df1b@seco.com>
+ <20230522150010.q5zndfwcuvrb6pg2@skbuf>
+ <22a28a6f-2c84-a6b1-bb57-a269af34c993@seco.com>
+ <20230610222123.mzmfjx7zfw4nh2lo@skbuf>
+ <c702e2b6-cb0f-4ac9-86fe-a220284d45aa@seco.com>
+ <20230612163353.dwouatvqbuo6h4ea@skbuf>
+From:   Sean Anderson <sean.anderson@seco.com>
+In-Reply-To: <20230612163353.dwouatvqbuo6h4ea@skbuf>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL0PR01CA0001.prod.exchangelabs.com (2603:10b6:208:71::14)
+ To DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|PAXPR03MB7548:EE_|AM6EUR05FT025:EE_|AM9PR03MB7169:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d57c4d5-9fe1-400d-a7fd-08db6b8619dd
+X-TrendMicro-CAS-OUT-LOOP-IDENTIFIER: 656f966764b7fb185830381c646b41a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: yG1q7L0l7oznMaSKWRKnF3rtdsluiuP1mylk+HTUGMno0sfPBbTVBKNnYs+EMIbxZLQyQXksyKMkq5XUDpTi1fIn3RshOzNj97iGn9Ev39WyKk6kcg7RFLA4cMGsrdQJJ9hO3UQqaj+WzXPAy6viI5U7YBjxhcGC5QSZggmP14ubZGx3V5ycY9CUYdI+Ub8E4ULP/PNJooZrzxJjeyejEMluFqQc0JyJBDPIWrscv0FYt4+Xz9PbVzTkUMvQI2R7CaZGhQU76ihwXyo8sLa8zpnGP69cRZzdr87xyn2oLIChC/IwirkcKBGVsoKDeqQL+TEfFVyqTAvyy/K695nvXrWaZ0v7p5GNBM8rChF0uSa6ETeQGlZqfKZSXhwsrCnEK64w+0JK3fYwAem8r6newS6CIzB+9O7SK1mu/0Y7lDe25cfDKvn2+2dAn1OnyIbBTfVVml4o7UeMPp4pJ2w/is1GJi0AXy+xuOZJCitZQAdbsHbPsUV4DITUxwF+vQSa481UHorL9nXnmpNtrhDlipbdcJ6U9gRi6gi+OYpwVpyoBT3idyMgYrG0Sa87oeFeWri4fq8sugwN9rOM+mx7eUKfcDZTW/5u4V26yZXCm6lSRIaI2/G5QjJ2JO0mdGA1D5bujJh/tp5qWGEvQRNJnr6sUE5T/kFg8ozctGH9BtPBcB22pqroAasbDDZuqAIV
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(346002)(39850400004)(136003)(376002)(396003)(451199021)(52116002)(6486002)(6666004)(36756003)(83380400001)(2616005)(38350700002)(31696002)(38100700002)(86362001)(6506007)(53546011)(6512007)(26005)(186003)(2906002)(54906003)(66476007)(4326008)(44832011)(316002)(7416002)(6916009)(66556008)(31686004)(41300700001)(5660300002)(478600001)(66946007)(8936002)(8676002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR03MB7548
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM6EUR05FT025.eop-eur05.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 05a29540-3560-4880-6556-08db6b861464
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0Z2XC+ceVo9ELcdMdE2tCD7pTL8elkK28UMCjeLKN0WhRADQouwI13GaebuhbGuBWnMH4dyp/xI3R9X2KZrza74L8CR7lfB81EhdE96eefkWTOimPLX1VnmCwU5skf7PB4JCC7A2f2bLfFDI90E92bBDllFW+8+fxRd4BIWfi1scng5hL2aA7ECr5U7jcUxJWpdBAvcO7LGo9FqNXNybORYeO86yzoyKIE5Vuq+UPjMUVERuguG4YjL6bRu4y31AtkaKXf1XMqCZ0WROecMmn3ZpTWoUtlEd1qjF1TvYb1XzvAwrB5AExZmBf+r4XR+xZs6ZSN+c2nbDZsH/L4Ewvuksa2Ihd646MjKAHlB+q+475zr77L0RTW6S30hdsY3EiK+0/RechjTERJ7JrO2T1Ycm/6I5jUl12Od6+AbiNcWM82xtwMGUkc9JjdH92BI5kSICB+AymgFiHdfJV7VE8Q/jWih28zXmtdv0ODZmNDtFyjI+ye5hRTOw/9HMCBGwtPdRCfEQCA4z7uuhblrXQkyLKEhrUQjYriezjZ8WuWB2jfWC7u2tYxpBWw7oYGy3KqyyoP7z8mKUsQTFY5AdO50EDGGcLED2VoWomhqpN5wdP9orZNRfIQqm4/XSPouKM2+aosfpEGNXg+d2MMVhizVj0/JV57Jb43X9YGZjCZx2GSpuCl6MLLggbQo00dunbVUwycgYJfOUe1XiIq9kgO9dVmELcfmoQuC9+bgNGhc08CWITZwltYf4MubTGxg4tryXL8gNUwDTJzrde51AUY9c4d5wvE78dm49WXS8clz6B2J/x60njljlc7sbiZJ/5AN1sHv/+Y52vx0/aIjuIA==
+X-Forefront-Antispam-Report: CIP:20.160.56.86;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:inpost-eu.tmcas.trendmicro.com;PTR:inpost-eu.tmcas.trendmicro.com;CAT:NONE;SFS:(13230028)(136003)(346002)(39850400004)(396003)(376002)(5400799015)(451199021)(40470700004)(36840700001)(46966006)(5660300002)(40480700001)(6486002)(54906003)(7636003)(82740400003)(7596003)(356005)(6916009)(41300700001)(8936002)(8676002)(4326008)(70586007)(70206006)(316002)(2616005)(478600001)(186003)(36860700001)(83380400001)(6666004)(6512007)(336012)(6506007)(26005)(53546011)(34070700002)(47076005)(40460700003)(31696002)(86362001)(82310400005)(7416002)(44832011)(2906002)(36756003)(31686004)(43740500002)(12100799033);DIR:OUT;SFP:1501;
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 20:46:30.6334
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d57c4d5-9fe1-400d-a7fd-08db6b8619dd
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bebe97c3-6438-442e-ade3-ff17aa50e733;Ip=[20.160.56.86];Helo=[inpost-eu.tmcas.trendmicro.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM6EUR05FT025.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR03MB7169
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Rationale:
+On 6/12/23 12:33, Vladimir Oltean wrote:
+> On Mon, Jun 12, 2023 at 10:35:21AM -0400, Sean Anderson wrote:
+>> > And if SERDES protocol switching was not physically possible, would this
+>> > patch set still have value?
 
-Upgrades bindgen to code-generation for anonymous unions, structs, and enums [7]
-for LLVM-16 based toolchains.
+More to the point, did you make any progress in this area?
 
-The following upgrade also incorporates `noreturn` support from bindgen
-allowing us to remove useless `loop` calls which was placed as a
-workaround.
+>> Yes. To e.g. set up SGMII25 or to fix the clocking situation.
+> 
+> Let me analyze the reasons one by one.
+> 
+> The clocking situation only exists due to a hope that protocol changing
+> would be possible. If you were sure it wasn't possible, your board would
+> have had refclks set up for protocol 3333 via the supported PLL mapping 2222.
+> In essence, I consider this almost a non-argument, as it fixes a
+> self-inflicted problem.
 
-* Truncated build logs on using bindgen `v0.56.0` prior to LLVM-16 toolchain:
+2222 also does not work, as outlined above.
 
-```
-$ make rustdoc LLVM=1 CLIPPY=1 -j$(nproc)
-  RUSTC L rust/core.o
-  BINDGEN rust/bindings/bindings_generated.rs
-  BINDGEN rust/bindings/bindings_helpers_generated.rs
-  BINDGEN rust/uapi/uapi_generated.rs
-thread 'main' panicked at '"ftrace_branch_data_union_(anonymous_at__/_/include/linux/compiler_types_h_146_2)" is not a valid Ident', .../proc-macro2-1.0.24/src/fallback.rs:693:9
-...
-thread 'main' panicked at '"ftrace_branch_data_union_(anonymous_at__/_/include/linux/compiler_types_h_146_2)" is not a valid Ident', .../proc-macro2-1.0.24/src/fallback.rs:693:9
-...
-```
+The clocking is incompatible, and must be fixed by software.
 
-* LLVM-16 Changes:
+The only thing self-inflicted is NXP's conflicting design.
 
-API changes [1] were introduced such that libclang would emit names like
-"(unnamed union at compiler_types.h:146:2)" for unnamed unions, structs, and
-enums whereas it previously returned an empty string.
+> Have you actually tested changing individual lanes from SGMII to SGMII 2.5?
+> I know it works on LS1028A, but I don't know if that's also true on LS1046A.
+> Your comments do say "LYNX_PROTO_SGMII25, /* Not tested */".
 
-* Bindgen Changes:
+Not yet. 
 
-Bindgen `v0.56.0` on LLVM-16 based toolchains hence was unable to process the
-anonymous union in `include/linux/compiler_types` `struct ftrace_branch_data`
-and caused subsequent panics as the new `libclang` API emitted name was not
-being handled. The following issue was fixed in Bindgen `v0.62.0` [2].
+This driver would also be a good place to add the KR link training with
+NXP tried to upstream a few years ago.
 
-Bindgen `v0.58.0` changed the flags `--whitelist-*` and `--blacklist-*`
-to `--allowlist-*` and `--blocklist-*` respectively [3].
+> Assuming a start from SERDES protocol 3333 with PLL mapping 2222,
+> this protocol change implies powering on PLL 1 (reset state machine
+> wants it to be disabled) and moving those lanes from PLL 2 to PLL 1.
+> 
+> At first sight you might appear to have a point related to the fact that
+> PLL register writes are necessary, and thus this whole shebang is necessary.
+> But this can all be done using PBI commands, with the added benefit that
+> U-Boot can also use those SERDES networking ports, and not just Linux.
+> You can use the RCW+PBL specific to your board to inform the SoC that
+> your platform's refclk 1 is 156 MHz (something which the reset state
+> machine seems unable to learn, with protocol 0x3333). You don't have to
+> put that in the device tree. You don't have to push code to any open
+> source project to expose your platform specific details. Then, just like
+> in the case of the Lynx 28G driver on LX2160, the SERDES driver could
+> just treat the PLL configuration as read-only, which would greatly
+> simplify things and eliminate the need for a clk driver.
+> 
+> Here is an illustrative example (sorry, I don't have a board with the
+> right refclk on that PLL, to verify all the way):
+> 
+> ... snip ...
 
-Bindgen `v0.61.0` added support for `_Noreturn`, `[[noreturn]]`, `__attribute__((noreturn))` [4],
-hence the empty `loop`s used to circumvent bindgen returning `!` in place of `()`
-for noreturn attributes have been removed completely.
+(which of course complicates the process of building the PBIs...)
 
-Bindgen `v0.61.0` also changed default functionality to bind `size_t` to `usize` [5] and
-added the `--no-size_t-is-usize` [5] flag to not bind `size_t` as `usize`.
+> In short, I believe the reasons you have cited do not justify the
+> complexity of the solution that you propose.
 
-Bindgen `v0.65.0` removed `--size_t-is-usize` flag [6].
+The work is done, and it is certainly more flexible than what you
+propose. E.g. imagine a clock which needs to be configured before it has
+the correct frequency. Such a thing is difficult to do in a PBI solution,
+but is trivial in Linux.
 
-Link: https://github.com/llvm/llvm-project/commit/19e984ef8f49bc3ccced15621989fa9703b2cd5b [1]
-Link: https://github.com/rust-lang/rust-bindgen/pull/2319 [2]
-Link: https://github.com/rust-lang/rust-bindgen/pull/1990 [3]
-Link: https://github.com/rust-lang/rust-bindgen/issues/2094 [4]
-Link: https://github.com/rust-lang/rust-bindgen/commit/cc78b6fdb6e829e5fb8fa1639f2182cb49333569 [5]
-Link: https://github.com/rust-lang/rust-bindgen/pull/2408 [6]
-Closes: https://github.com/Rust-for-Linux/linux/issues/1013 [7]
-Signed-off-by: Aakash Sen Sharma <aakashsensharma@gmail.com>
----
- Documentation/process/changes.rst |  2 +-
- rust/Makefile                     |  6 +++---
- rust/helpers.c                    | 13 ++++++-------
- rust/kernel/lib.rs                |  3 ---
- scripts/min-tool-version.sh       |  2 +-
- 5 files changed, 11 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index ef540865ad22..5f21c4c6cf5c 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -32,7 +32,7 @@ you probably needn't concern yourself with pcmciautils.
- GNU C                  5.1              gcc --version
- Clang/LLVM (optional)  11.0.0           clang --version
- Rust (optional)        1.62.0           rustc --version
--bindgen (optional)     0.56.0           bindgen --version
-+bindgen (optional)     0.65.1           bindgen --version
- GNU make               3.82             make --version
- bash                   4.2              bash --version
- binutils               2.25             ld -v
-diff --git a/rust/Makefile b/rust/Makefile
-index f88d108fbef0..c187c6f3a384 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -279,7 +279,7 @@ quiet_cmd_bindgen = BINDGEN $@
- 	$(BINDGEN) $< $(bindgen_target_flags) \
- 		--use-core --with-derive-default --ctypes-prefix core::ffi --no-layout-tests \
- 		--no-debug '.*' \
--		--size_t-is-usize -o $@ -- $(bindgen_c_flags_final) -DMODULE \
-+		-o $@ -- $(bindgen_c_flags_final) -DMODULE \
- 		$(bindgen_target_cflags) $(bindgen_target_extra)
-
- $(obj)/bindings/bindings_generated.rs: private bindgen_target_flags = \
-@@ -293,8 +293,8 @@ $(obj)/bindings/bindings_generated.rs: $(src)/bindings/bindings_helper.h \
- # given it is `libclang`; but for consistency, future Clang changes and/or
- # a potential future GCC backend for `bindgen`, we disable it too.
- $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_flags = \
--    --blacklist-type '.*' --whitelist-var '' \
--    --whitelist-function 'rust_helper_.*'
-+    --blocklist-type '.*' --allowlist-var '' \
-+    --allowlist-function 'rust_helper_.*'
- $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_cflags = \
-     -I$(objtree)/$(obj) -Wno-missing-prototypes -Wno-missing-declarations
- $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_extra = ; \
-diff --git a/rust/helpers.c b/rust/helpers.c
-index 121583282976..98d9ef47225b 100644
---- a/rust/helpers.c
-+++ b/rust/helpers.c
-@@ -122,19 +122,18 @@ void rust_helper_put_task_struct(struct task_struct *t)
- EXPORT_SYMBOL_GPL(rust_helper_put_task_struct);
-
- /*
-- * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
-- * as the Rust `usize` type, so we can use it in contexts where Rust
-- * expects a `usize` like slice (array) indices. `usize` is defined to be
-- * the same as C's `uintptr_t` type (can hold any pointer) but not
-- * necessarily the same as `size_t` (can hold the size of any single
-+ * `bindgen` binds the C `size_t` type the Rust `usize` type, so we can
-+ * use it in contexts where Rust expects a `usize` like slice (array) indices.
-+ * `usize` is defined to be the same as C's `uintptr_t` type (can hold any pointer)
-+ * but not necessarily the same as `size_t` (can hold the size of any single
-  * object). Most modern platforms use the same concrete integer type for
-  * both of them, but in case we find ourselves on a platform where
-  * that's not true, fail early instead of risking ABI or
-  * integer-overflow issues.
-  *
-  * If your platform fails this assertion, it means that you are in
-- * danger of integer-overflow bugs (even if you attempt to remove
-- * `--size_t-is-usize`). It may be easiest to change the kernel ABI on
-+ * danger of integer-overflow bugs (even if you attempt to add
-+ * `--no-size_t-is-usize`). It may be easiest to change the kernel ABI on
-  * your platform such that `size_t` matches `uintptr_t` (i.e., to increase
-  * `size_t`, because `uintptr_t` has to be at least as big as `size_t`).
-  */
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index ee27e10da479..1b0dcf03b9c2 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -95,7 +95,4 @@ fn panic(info: &core::panic::PanicInfo<'_>) -> ! {
-     pr_emerg!("{}\n", info);
-     // SAFETY: FFI call.
-     unsafe { bindings::BUG() };
--    // Bindgen currently does not recognize `__noreturn` so `BUG` returns `()`
--    // instead of `!`. See <https://github.com/rust-lang/rust-bindgen/issues/2094>.
--    loop {}
- }
-diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-index 20d483ec6f5f..5b80c5d3a9f8 100755
---- a/scripts/min-tool-version.sh
-+++ b/scripts/min-tool-version.sh
-@@ -30,7 +30,7 @@ rustc)
- 	echo 1.62.0
- 	;;
- bindgen)
--	echo 0.56.0
-+	echo 0.65.1
- 	;;
- *)
- 	echo "$1: unknown tool" >&2
---
-2.40.1
-
+--Sean
