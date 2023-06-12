@@ -2,110 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8C60C77B7A
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 01:33:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C26C7EE37
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 01:43:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbjFLBdz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Jun 2023 21:33:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51198 "EHLO
+        id S229579AbjFLBnA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Jun 2023 21:43:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbjFLBdy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Jun 2023 21:33:54 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA44BE41;
-        Sun, 11 Jun 2023 18:33:48 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b3a9e5bf6aso8154895ad.3;
-        Sun, 11 Jun 2023 18:33:48 -0700 (PDT)
+        with ESMTP id S229531AbjFLBm7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Jun 2023 21:42:59 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41A0F0;
+        Sun, 11 Jun 2023 18:42:58 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3f6e13940daso39471865e9.0;
+        Sun, 11 Jun 2023 18:42:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686533628; x=1689125628;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pj8Psjqk7CgWPc+v//HZXxY7XZibLgT4Jrs268KptsY=;
-        b=SeLKtZUDZuopbxgpwykl9UBZkOEpcVJhEVEBWYWAR708Ot8Nb5rgHOqDhiBxXXLc0h
-         1gcQKsqbe7SCPY8eMEfbvZz1w8Twr7A4b6bLtbxdA4nnURORJb7I6SBThjrPKKQqAwTm
-         BpTx9z5ITGmexslmFp++ui3mieLK6z0e9NGcsDxwP06L6rft1l9RWnXVp64ZrdgyHmDG
-         aLcLyFTa7IBKOf/0W26/mr/g7vTxinAJQAjOsAQj5QAfcBsaY9cjU/U4roiycw9C6bul
-         mCVVaZoBKwiu2q0GQaCXHQcH2VzHieOvYoPL+zi2taesHqX3aJinoGgYJG+Ttf07MhrU
-         dnbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686533628; x=1689125628;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1686534177; x=1689126177;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pj8Psjqk7CgWPc+v//HZXxY7XZibLgT4Jrs268KptsY=;
-        b=Ile4MUJHHq0AXiTlZvCdcwZWj8ZndMJXyO4H8tRtLd0xCmwLpy/k5UccdAF1MKg/Mq
-         cnopMydV3l4Kjbz7TQz968Bls6syO1gNTkuFwh1JQqyNxp+tiq3XETd+2iYbS9/WPvwS
-         djZJB4j+zKSPPhb483ycye9Y0e6BxjgYAZawHabayVDiWrqwYXiRk2C+4I58SPXPDJiz
-         hiNXKHgXE3fnpOZCsybCpVXQatRrqfci0R6Jwkhi/EdjaTZUgtgieAHZLdpJlxeERTnQ
-         vCrTh2kxJmDvTmxQen5OGEtxZj07FIxfbHljOIHSdFoEmtYDuIq7IE3UN2Df7Ju4giFz
-         leCA==
-X-Gm-Message-State: AC+VfDxatS71yuIcALCciGH4unACq8SYO4X1ArYCoSEiIryDqKbVocHO
-        M6ryGGN4m2e6ay4dI0Fg+inc8/KkuR0=
-X-Google-Smtp-Source: ACHHUZ4NlhL/4lcVM5lAWw/oCFvSortwIYk1gB8R29RjN6q6E+VuMQT32+qlqhj9RaiJfcvFyDrmgg==
-X-Received: by 2002:a17:902:c406:b0:1b0:48e9:cddd with SMTP id k6-20020a170902c40600b001b048e9cdddmr7194103plk.69.1686533628246;
-        Sun, 11 Jun 2023 18:33:48 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-80.three.co.id. [180.214.232.80])
-        by smtp.gmail.com with ESMTPSA id jm18-20020a17090304d200b001a1d553de0fsm6914241plb.271.2023.06.11.18.33.47
+        bh=QJ3L8d7H1al/XCBYgfDABPwcj+9CgFQ1uhpMmg8tLFw=;
+        b=YrCSBa/HlivCvBCVejVf4szh9u3ZzJk/97t1dAoztEYwGqYJTlygJHfrPmMkhiS1bs
+         P5ZG8JU8IRmtg/XG+xEGQeH2eqJ48dKoxG2X2QWO62rV2dA2hoEv3q4BU2pkG4RROSVI
+         UbixJWQkkFKu8U76y1o9QtdjnARevZmbTO9ooewcpFsWMq/d6GVoIXxX37G+xJp+jsEq
+         2yMO/GgtI/5B7Wc20hYJNeIcuNqyL5BzOp0c3w9widfsHWpmLUOAxCMg5+8qAniUx96N
+         iDZr4XKq0POAXbGHeelfw5AUNUQroMEl26VSPNqPLnZXDgdVX7CN/xuu2UbDPLLTxy6n
+         +2TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686534177; x=1689126177;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QJ3L8d7H1al/XCBYgfDABPwcj+9CgFQ1uhpMmg8tLFw=;
+        b=Xt8EPvpo8eNpub0N34WhLwA32+HSa1VGzaY2CKI8C4j6QwAuLcifitD9fiWY397MoF
+         6nVXv4E5a1vrXlaIUsEzUMb4M8jQt1xyRIOr/W25qZzjhrmVcAFftl3JPguYBOpF89Cx
+         c6QJ8RuzMRvgbAGyVHWASRsGMJSd0KK4vulnQGIoV9H9T3v793zbYvuX2NM0OgW2nTLH
+         xrfPnBlcPdr/vxU8+xuHpPZbLI8MSHfyhGW/AxiYK3jIZwlPu814QCwmpxNRAh5P6Xc1
+         3kOeFh8+IFxtQUSLC7Jyt7a89bwfTya0EtDIrIlwq81u6mVMF/XVbeej/eKPqJJyRoBH
+         dI9Q==
+X-Gm-Message-State: AC+VfDwK71/m4AZdwQZAtuoHxVVLGQUmybu/EVPtNoYIwgjmhfoB1+FV
+        kjRWkGssY0Q1TK2VjG8rLcxG23getPUxPQ==
+X-Google-Smtp-Source: ACHHUZ5uZyXyqI1SDe4IGuFmMUgHBiVfmTfAk8MyK/tXOuq4WxiqalciA8Nk3idZyxBOnCyPchXxaw==
+X-Received: by 2002:a05:600c:aca:b0:3f6:44e:9d8 with SMTP id c10-20020a05600c0aca00b003f6044e09d8mr6784156wmr.22.1686534176921;
+        Sun, 11 Jun 2023 18:42:56 -0700 (PDT)
+Received: from localhost.localdomain (bba-2-50-150-163.alshamil.net.ae. [2.50.150.163])
+        by smtp.gmail.com with ESMTPSA id a11-20020a05600c224b00b003f8126bcf34sm5421323wmm.48.2023.06.11.18.42.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jun 2023 18:33:47 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id C3CAD106B23; Mon, 12 Jun 2023 08:33:42 +0700 (WIB)
-Date:   Mon, 12 Jun 2023 08:33:42 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Marcelo Tosatti <mtosatti@redhat.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: virt: correct location of haltpoll module
- params
-Message-ID: <ZIZ19ghqt_dbEEQF@debian.me>
-References: <20230610054302.6223-1-rdunlap@infradead.org>
+        Sun, 11 Jun 2023 18:42:56 -0700 (PDT)
+From:   Yongsheng Yang <iyysheng@gmail.com>
+To:     linux@roeck-us.net
+Cc:     corbet@lwn.net, iyysheng@gmail.com, jdelvare@suse.com,
+        linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/hwmon: Fix description of devm_hwmon_device_unregister()
+Date:   Mon, 12 Jun 2023 05:42:46 +0400
+Message-ID: <20230612014246.1394-1-iyysheng@gmail.com>
+X-Mailer: git-send-email 2.41.0.windows.1
+In-Reply-To: <e605a8d8-4f40-447d-8238-eccb7e22342a@roeck-us.net>
+References: <e605a8d8-4f40-447d-8238-eccb7e22342a@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="pOsHwrdnPQXWfJ2n"
-Content-Disposition: inline
-In-Reply-To: <20230610054302.6223-1-rdunlap@infradead.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> On Fri, Jun 09, 2023 at 11:55:10AM +0400, Yongsheng Yang wrote:
+> > Use devm_hwmon_device_register_with_info to replace
+> > hwmon_device_register_with_info in description of
+> > devm_hwmon_device_unregister.
+> > 
+> 
+> You didn't add () to function names, but I guess it is better to do that
+> in a separate patch anyway.
+> 
+> Applied.
+> 
+> Thanks,
+> Guenter
+> 
+Ok, I just add () to function names in commit message title. I will add
+() to function names releate in the whole commit message. Then I will
+post the updated version.
 
---pOsHwrdnPQXWfJ2n
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks
 
-On Fri, Jun 09, 2023 at 10:43:02PM -0700, Randy Dunlap wrote:
-> diff -- a/Documentation/virt/guest-halt-polling.rst b/Documentation/virt/=
-guest-halt-polling.rst
-> --- a/Documentation/virt/guest-halt-polling.rst
-> +++ b/Documentation/virt/guest-halt-polling.rst
-> @@ -72,7 +72,7 @@ high once achieves global guest_halt_pol
-> =20
->  Default: Y
-> =20
-> -The module parameters can be set from the debugfs files in::
-> +The module parameters can be set from the sysfs files in::
-> =20
->  	/sys/module/haltpoll/parameters/
-> =20
+Yongsheng
+> > Signed-off-by: Yongsheng Yang <iyysheng@gmail.com>
+> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > ---
+> >  Documentation/hwmon/hwmon-kernel-api.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
+> > index c2d1e0299d8d..6cacf7daf25c 100644
+> > --- a/Documentation/hwmon/hwmon-kernel-api.rst
+> > +++ b/Documentation/hwmon/hwmon-kernel-api.rst
+> > @@ -66,7 +66,7 @@ hwmon_device_register_with_info.
+> >  
+> >  devm_hwmon_device_unregister does not normally have to be called. It is only
+> >  needed for error handling, and only needed if the driver probe fails after
+> > -the call to hwmon_device_register_with_info and if the automatic (device
+> > +the call to devm_hwmon_device_register_with_info and if the automatic (device
+> >  managed) removal would be too late.
+> >  
+> >  All supported hwmon device registration functions only accept valid device
 
-LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---pOsHwrdnPQXWfJ2n
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZIZ17wAKCRD2uYlJVVFO
-oxPUAP9Nd0IqK7CJvUjbdoPbvj+rByu59sIirlsDAgiPKeGd5QEAnIoxS7TiUYnw
-Zrze6zXCLU/uktE2qFQbDojBhuk1JQE=
-=/gTz
------END PGP SIGNATURE-----
-
---pOsHwrdnPQXWfJ2n--
