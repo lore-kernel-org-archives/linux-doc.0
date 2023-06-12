@@ -2,150 +2,211 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDADCC7EE25
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 08:06:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B1FC7EE25
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 09:02:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232526AbjFLIGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jun 2023 04:06:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39680 "EHLO
+        id S233308AbjFLJCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jun 2023 05:02:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232732AbjFLIG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 04:06:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0371A2115
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jun 2023 01:05:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686557058;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4o6iBs/cGUwezMGSZngT4KvoAhZmnl7dmMW6aK8mMXs=;
-        b=JEM5WGvO/vYynQ5dl/5eXYin6p0s8pvXlpJ1wtTawTOCg5kZJnwV9rej74B+AsOsyGAwyw
-        YneN86CyjrnKWRYnzkPjRQ/RoJQQWv5VBXWGtEZe/XAR/F+oiW2ku6f/JFZyZVQHUsC6oC
-        ExHH0uiBh343dwYQbnqIA6+9iDS0mbI=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-459-wvWyff2RONCwKk4bcUmwbA-1; Mon, 12 Jun 2023 03:25:16 -0400
-X-MC-Unique: wvWyff2RONCwKk4bcUmwbA-1
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-75ec91f26c8so86315785a.1
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jun 2023 00:25:16 -0700 (PDT)
+        with ESMTP id S235085AbjFLJAz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 05:00:55 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A624498
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jun 2023 01:57:13 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9745d99cfccso723632766b.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jun 2023 01:57:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1686560232; x=1689152232;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Vq/s2M0H1YpBEWwWc84/BK1dGfh4JEMbe1jCjTxpQG8=;
+        b=Zvx3pTxmhOCcdamy0jWfgspLI2c3P25QDH2fEU6KcaeNBB6wCOvuCsH1DfCXlY2rix
+         GrwNavx2wp06jiwkRSKkY0N5B2CJfz55RsHEgCIsDB3+MxNeZjdXEhFet1Xw+Y67EmwQ
+         K3Zab7ithsSmsFQ+z/qGmc+xLIZJmCPFrejmURK9QPWLkpm2U8CoXlxYW7BO4TnXyqEr
+         XoE1E14eGPqZvGCegno53VJkXOqjTQwLAyadxhZGk1AWPRKR0WnMFXAa7tXgdbgq2A5W
+         Aqanwi7bsKdI/iUh2wwfo7IuP5Dq+f8i+kydMxd2M2oShZ+176nddxHBzoxVQGr2esz6
+         VdvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686554716; x=1689146716;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4o6iBs/cGUwezMGSZngT4KvoAhZmnl7dmMW6aK8mMXs=;
-        b=PdgCgUc/xyD2UUcgQSWiCk+RcvrQxBTYLtyijh4YdoTwsLSm1ppDcwzynTKTeLUWGf
-         0GT/O1cbEqJYV8evA1qUVHXHKhPBMMBQ7Id7Ix6eNrHYJm56dwMJLJgJqZ+kpEnJt6Xn
-         kNT/IAIMamVmUMimFVOqhg/40Ks2OXRoEeXBe66L8ORfgD/UBNynPgNhRtNh5lk/qg8x
-         c4JBnvNSr+XVQ73r/JR23mcCslMtYeHXv9MuZRuo77IdpVSWZ5Gmqaas2Gm0C3LnY6M9
-         ELugU3pvbWKMbfHwO5A1QDKY352Xo0Q+8uHd2ejgzeQvTWS/KY2YyNzP9VTeTKNy3wAn
-         +uAA==
-X-Gm-Message-State: AC+VfDwcyqpBimbh22naqgnMxr1S9KVfywcqkQU206SmPJrAIDfG59MF
-        2sjt4ufbN/b/FwdUvAsnMu9LoQfV2XfRusXrqxSF4ZUa9tSrLO2M8XCHKdlMAYQDG3UHMgo+2we
-        a2aQk8OdH2tDQ++TKlFV1
-X-Received: by 2002:a05:620a:261b:b0:75d:53ee:ced2 with SMTP id z27-20020a05620a261b00b0075d53eeced2mr9737732qko.3.1686554715870;
-        Mon, 12 Jun 2023 00:25:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5VuifOapEch7jQlR/qS70uakqBc0QmL94RvL3OjCGbDQ+rEyQGny14ZUgrn99WU43OqLM/LQ==
-X-Received: by 2002:a05:620a:261b:b0:75d:53ee:ced2 with SMTP id z27-20020a05620a261b00b0075d53eeced2mr9737716qko.3.1686554715595;
-        Mon, 12 Jun 2023 00:25:15 -0700 (PDT)
-Received: from gerbillo.redhat.com (146-241-250-244.dyn.eolo.it. [146.241.250.244])
-        by smtp.gmail.com with ESMTPSA id v11-20020ae9e30b000000b0074fb15e2319sm2685635qkf.122.2023.06.12.00.25.08
+        d=1e100.net; s=20221208; t=1686560232; x=1689152232;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vq/s2M0H1YpBEWwWc84/BK1dGfh4JEMbe1jCjTxpQG8=;
+        b=Q/1M4Ofm39Dipdp63yzuJQQArXvwq00AR9N/sf5+RdgzRaESj060VPSzfYW6wGFSQG
+         RGdEQwbG8Wg8dPQ4KXaBHcjbpYePg1VgY+6EzuzrPpH/eYhgkp78RnKslvJ3jTm0tUyO
+         5kg8xFSn1VOj7IeivWLAC51WSuiiY4GnAwZus6sEgzXqTl2QihL6KaJV8IWycBI5r8Gr
+         CIYFL+OfIa9tiByyMM4YpAIlj+bDwi5KnfjBsfQwIngl7n/Ac2gid5jra58O0bz0XeVI
+         Ye1BWsFLPTw9wdrJcFyrm35Snz3tzZBcxg1Tv49FMG4KGmXUP8xz4rtQcIn3QbtBNrEt
+         pQlw==
+X-Gm-Message-State: AC+VfDySxWXQd7hnNZiQZFRYOeRPQHqJdZcCofDOCzarRAUUfkUbxsrR
+        XwkrkUHHynQH/2mtOrTT73q2Qg==
+X-Google-Smtp-Source: ACHHUZ4FOO/LVl8AgQkKecgccHHS4sYRKVgWaVzPYmir3ayy2BYmRbvmSwzE3ppomAG9QgpBstEahg==
+X-Received: by 2002:a17:906:7945:b0:978:8e58:e1b9 with SMTP id l5-20020a170906794500b009788e58e1b9mr9960520ejo.74.1686560231841;
+        Mon, 12 Jun 2023 01:57:11 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id e25-20020a170906081900b0094ee3e4c934sm4849967ejd.221.2023.06.12.01.57.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 00:25:15 -0700 (PDT)
-Message-ID: <38dad5cb196741e56d018cea155982928694b2cc.camel@redhat.com>
-Subject: Re: [RFC PATCH v8 03/10] dpll: core: Add DPLL framework base
- functions
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     Jiri Pirko <jiri@resnulli.us>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc:     kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
-        corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
-        vadfed@fb.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
-        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
-        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
-        michal.michalik@intel.com, gregkh@linuxfoundation.org,
-        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
-        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
-        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
-        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
-        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
-        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
-        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
-        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
-        mschmidt@redhat.com, linux-clk@vger.kernel.org,
-        vadim.fedorenko@linux.dev
-Date:   Mon, 12 Jun 2023 09:25:06 +0200
-In-Reply-To: <ZIWVuPMyKRPv6oyh@nanopsycho>
-References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
-         <20230609121853.3607724-4-arkadiusz.kubalewski@intel.com>
-         <ZIWVuPMyKRPv6oyh@nanopsycho>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        Mon, 12 Jun 2023 01:57:11 -0700 (PDT)
+Date:   Mon, 12 Jun 2023 10:57:10 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Haibo Xu <xiaobo55x@gmail.com>
+Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
+        oliver.upton@linux.dev, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v3 09/10] KVM: riscv: selftests: Skip some registers set
+ operation
+Message-ID: <20230612-05314de3b73277af1ee729b0@orel>
+References: <cover.1686275310.git.haibo1.xu@intel.com>
+ <73045958d9ab71d5266d012f1e13061afa8c5331.1686275310.git.haibo1.xu@intel.com>
+ <20230609-05521f954b0485c69612f00b@orel>
+ <CAJve8omPV_XgCSvw8POZwisb6uTOFMJU4FyAKArryui2SAsqtw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJve8omPV_XgCSvw8POZwisb6uTOFMJU4FyAKArryui2SAsqtw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 2023-06-11 at 11:36 +0200, Jiri Pirko wrote:
-> Fri, Jun 09, 2023 at 02:18:46PM CEST, arkadiusz.kubalewski@intel.com wrot=
-e:
-> > From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
->=20
-> [...]
->=20
-> > +int dpll_device_register(struct dpll_device *dpll, enum dpll_type type=
-,
-> > +			 const struct dpll_device_ops *ops, void *priv)
-> > +{
-> > +	struct dpll_device_registration *reg;
-> > +	bool first_registration =3D false;
-> > +
-> > +	if (WARN_ON(!ops))
-> > +		return -EINVAL;
-> > +	if (WARN_ON(type < DPLL_TYPE_PPS || type > DPLL_TYPE_MAX))
-> > +		return -EINVAL;
-> > +
-> > +	mutex_lock(&dpll_lock);
-> > +	reg =3D dpll_device_registration_find(dpll, ops, priv);
-> > +	if (reg) {
-> > +		mutex_unlock(&dpll_lock);
-> > +		return -EEXIST;
-> > +	}
-> > +
-> > +	reg =3D kzalloc(sizeof(*reg), GFP_KERNEL);
-> > +	if (!reg) {
-> > +		mutex_unlock(&dpll_lock);
-> > +		return -EEXIST;
-> > +	}
-> > +	reg->ops =3D ops;
-> > +	reg->priv =3D priv;
-> > +	dpll->type =3D type;
-> > +	first_registration =3D list_empty(&dpll->registration_list);
-> > +	list_add_tail(&reg->list, &dpll->registration_list);
-> > +	if (!first_registration) {
-> > +		mutex_unlock(&dpll_lock);
-> > +		return 0;
-> > +	}
-> > +
-> > +	xa_set_mark(&dpll_device_xa, dpll->id, DPLL_REGISTERED);
-> > +	mutex_unlock(&dpll_lock);
-> > +	dpll_device_create_ntf(dpll);
->=20
-> This function is introduced in the next patch. Breaks bissection. Make
-> sure you can compile the code after every patch applied.
+On Sat, Jun 10, 2023 at 10:35:24AM +0800, Haibo Xu wrote:
+> On Fri, Jun 9, 2023 at 5:24 PM Andrew Jones <ajones@ventanamicro.com> wrote:
+> >
+> > On Fri, Jun 09, 2023 at 10:12:17AM +0800, Haibo Xu wrote:
+> > > Set operation on some riscv registers(mostly pesudo ones) was not
+> > > supported and should be skipped in the get-reg-list test. Just
+> > > reuse the rejects_set utilities to handle it in riscv.
+> > >
+> > > Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
+> > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > > ---
+> > >  tools/testing/selftests/kvm/get-reg-list.c | 20 +++++++++++++-------
+> > >  1 file changed, 13 insertions(+), 7 deletions(-)
+> > >
+> > > diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing/selftests/kvm/get-reg-list.c
+> > > index c4bd5a5259da..abacb95c21c6 100644
+> > > --- a/tools/testing/selftests/kvm/get-reg-list.c
+> > > +++ b/tools/testing/selftests/kvm/get-reg-list.c
+> > > @@ -211,16 +211,22 @@ static void run_test(struct vcpu_reg_list *c)
+> > >                       ++failed_get;
+> > >               }
+> > >
+> > > -             /* rejects_set registers are rejected after KVM_ARM_VCPU_FINALIZE */
+> > > +             /*
+> > > +              * rejects_set registers are rejected after KVM_ARM_VCPU_FINALIZE on aarch64,
+> > > +              * or registers that should skip set operation on riscv.
+> > > +              */
+> > >               for_each_sublist(c, s) {
+> > >                       if (s->rejects_set && find_reg(s->rejects_set, s->rejects_set_n, reg.id)) {
+> > >                               reject_reg = true;
+> > > -                             ret = __vcpu_ioctl(vcpu, KVM_SET_ONE_REG, &reg);
+> > > -                             if (ret != -1 || errno != EPERM) {
+> > > -                                     printf("%s: Failed to reject (ret=%d, errno=%d) ", config_name(c), ret, errno);
+> > > -                                     print_reg(config_name(c), reg.id);
+> > > -                                     putchar('\n');
+> > > -                                     ++failed_reject;
+> > > +                             if ((reg.id & KVM_REG_ARCH_MASK) == KVM_REG_ARM64) {
+> > > +                                     ret = __vcpu_ioctl(vcpu, KVM_SET_ONE_REG, &reg);
+> > > +                                     if (ret != -1 || errno != EPERM) {
+> > > +                                             printf("%s: Failed to reject (ret=%d, errno=%d) ",
+> > > +                                                             config_name(c), ret, errno);
+> > > +                                             print_reg(config_name(c), reg.id);
+> > > +                                             putchar('\n');
+> > > +                                             ++failed_reject;
+> > > +                                     }
+> >
+> > Thinking about this some more, shouldn't we attempt the set ioctl for
+> > riscv reject registers as well, but look for different error numbers?
+> >
+> 
+> Yes, we can. Currently, 2 different errno(EOPNOTSUPP/EINVAL) would be
+> reported for the rejected registers in risc-v.
+> These 2 errnos can be handled specially like below:
+> 
+> diff --git a/tools/testing/selftests/kvm/get-reg-list.c
+> b/tools/testing/selftests/kvm/get-reg-list.c
+> index 73f40e0842b8..f3f2c4519318 100644
+> --- a/tools/testing/selftests/kvm/get-reg-list.c
+> +++ b/tools/testing/selftests/kvm/get-reg-list.c
+> @@ -255,6 +255,15 @@ static void run_test(struct vcpu_reg_list *c)
+>                                                 putchar('\n');
+>                                                 ++failed_reject;
+>                                         }
+> +                } else {
+> +                                       ret = __vcpu_ioctl(vcpu,
+> KVM_SET_ONE_REG, &reg);
+> +                                       if (ret != -1 || (errno !=
+> EINVAL && errno != EOPNOTSUPP)) {
+> +                                               printf("%s: Failed to
+> reject (ret=%d, errno=%d) ",
+> +
+> config_name(c), ret, errno);
+> +
+> print_reg(config_name(c), reg.id);
+> +                                               putchar('\n');
+> +                                               ++failed_reject;
+> +                                       }
 
-WRT, I think the easiest way to solve the above is adding the function
-call in the next patch.
+Instead of duplicating the code Arm uses, we just need an errno check
+function, preferably one that takes the register as an input, so we
+can check for specific errnos for specific registers.
 
-Cheers,
+> 
+> One possible issue for the above change is that when new registers
+> that don't support sets were added, we need
+> to add them to the reject registers list, or the test would fail.
+> 
+> Initially, in the v1 patch, the design was to just skip the EOPNOTSUPP
+> errno in set operations for all registers
+> since it's a known errno for registers that don't support sets. This
+> change cover all the registers even for future
+> new ones.
+> 
+> What's your opinion?
 
-Paolo
+I think we should only do the get/set tests on present, blessed list
+registers, since if it's a new register we don't know its capabilities.
 
+So, instead of
+
+  for_each_reg(i) {
+     /* get/set tests */
+  }
+
+we do
+  
+  for_each_present_blessed_reg(i) {
+     /* get/set tests */
+  }
+
+where we have
+
+ #define for_each_present_blessed_reg(i) \
+     for ((i) = 0; (i) < blessed_n; ++(i)) \
+         if (find_reg(reg_list->reg, reg_list->n, blessed_reg[i]))
+
+
+Changing run_test() to work this way should be a separate patch.
+
+Thanks,
+drew
