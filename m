@@ -2,171 +2,221 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBD40C88CB4
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 14:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57037C7EE2E
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 15:05:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237499AbjFLOft (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jun 2023 10:35:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48250 "EHLO
+        id S236325AbjFLPFW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jun 2023 11:05:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236150AbjFLOfr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 10:35:47 -0400
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03hn2200.outbound.protection.outlook.com [52.100.14.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089BFCC;
-        Mon, 12 Jun 2023 07:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NaJWH/OuZgFe57gG+gllEceWdteSVqu7/EZZlytr+dM=;
- b=Zuihk2O5kK9sJAvA4ztNdJkjyiIOj4KSszfrgSDz8xUnOTv/HG3r8Vavk8RnPFRHHfK68uWTKcCLrs9mKcG7SCmqn5MDBkAG1BXpHB9VuIETnjKSVHbVB5dTEJyR/W4xr+PbQBM2QIaAKfatUl+ME81x52I1PxfNX57IbvfKXINgDrRhlBu5HMirfkIfzmT9qXgJp761E1aKkcpds1CLBWJ77eE5SE1y1RVKtCQ0ufwSziJZZyX3vJc0OqQgeCxrn49ASK60ZgnJt2yvGzHQSeVB990S6BQhkNOzEEe7s5M1tBVB1zuZVSU4fX/dUuJ8qXX++gF4AYuqFGRCCo0NcQ==
-Received: from AS8P251CA0023.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:2f2::12)
- by AS8PR03MB8859.eurprd03.prod.outlook.com (2603:10a6:20b:56f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.39; Mon, 12 Jun
- 2023 14:35:33 +0000
-Received: from AM6EUR05FT030.eop-eur05.prod.protection.outlook.com
- (2603:10a6:20b:2f2:cafe::65) by AS8P251CA0023.outlook.office365.com
- (2603:10a6:20b:2f2::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.33 via Frontend
- Transport; Mon, 12 Jun 2023 14:35:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.160.56.81)
- smtp.mailfrom=seco.com; dkim=pass (signature was verified)
- header.d=seco.com;dmarc=pass action=none header.from=seco.com;
-Received-SPF: Pass (protection.outlook.com: domain of seco.com designates
- 20.160.56.81 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.160.56.81; helo=inpost-eu.tmcas.trendmicro.com; pr=C
-Received: from inpost-eu.tmcas.trendmicro.com (20.160.56.81) by
- AM6EUR05FT030.mail.protection.outlook.com (10.233.240.61) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6477.34 via Frontend Transport; Mon, 12 Jun 2023 14:35:32 +0000
-Received: from outmta (unknown [192.168.82.140])
-        by inpost-eu.tmcas.trendmicro.com (Trend Micro CAS) with ESMTP id 7D7B820080092;
-        Mon, 12 Jun 2023 14:35:32 +0000 (UTC)
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (unknown [104.47.1.53])
-        by repre.tmcas.trendmicro.com (Trend Micro CAS) with ESMTPS id 4049720080073;
-        Mon, 12 Jun 2023 14:39:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SY+dA12UjoV7FhimJCktji9WRYXv076MSltAmCwerb5UFrwUfpfzRpbm/Yq5XOCcnW4DyxBRX+3hPZoQFTsJVmqhU3GELYCS1c181A+WgHnSavoWkoLiWLw1gn4hJNDl+T4BSl+H9bwim/9VnPexduLxPvu4q00RzfkmFsejDzASoaG2jzc4WQ8mG94wLowmovsfVU4PByoBGWDKh8bRfs+31H8uk/pxW04w53BnCKRegeTbqzkARj+7huUFs3l5QaHQVAhpHgOF6cnd+MwDlqAksEg82HtfHM5c/acdr2lIML5R0ZTB+FzhJ6utFWtv2DeP70csbrt3vwR+kQZQ/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NaJWH/OuZgFe57gG+gllEceWdteSVqu7/EZZlytr+dM=;
- b=V58og4uqJuAl4XqGBfX3+vFZik/sPqF8xnzfRbNJ1N8lrUklNV3rWzV4eM9Fm/RiDSm4caBcvNHTEiSVLXMf7iFsYM+cdqcgxQxUAtZC4AiHBkbKEQaALCyicUAK87d80k+T7lvyNziHRVofoe+oFxdMBpdY5w6NdNVy8bREK2mIJg8IE/apV9+GyVVByEAZp/RAKvT+4cY1fR7jnyCDPfybczM3ZXJCwAeK3kn6T4VMMPD27oeIX4tbfnMRtGelfDufiQpDqkWyfQz2rID9t81wBYEiA+o8rJx6CsL3yrFVX0/01Q2sYrqa8O9eIL6vr+n0Zi8MEGZZMiEYHbyFNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NaJWH/OuZgFe57gG+gllEceWdteSVqu7/EZZlytr+dM=;
- b=Zuihk2O5kK9sJAvA4ztNdJkjyiIOj4KSszfrgSDz8xUnOTv/HG3r8Vavk8RnPFRHHfK68uWTKcCLrs9mKcG7SCmqn5MDBkAG1BXpHB9VuIETnjKSVHbVB5dTEJyR/W4xr+PbQBM2QIaAKfatUl+ME81x52I1PxfNX57IbvfKXINgDrRhlBu5HMirfkIfzmT9qXgJp761E1aKkcpds1CLBWJ77eE5SE1y1RVKtCQ0ufwSziJZZyX3vJc0OqQgeCxrn49ASK60ZgnJt2yvGzHQSeVB990S6BQhkNOzEEe7s5M1tBVB1zuZVSU4fX/dUuJ8qXX++gF4AYuqFGRCCo0NcQ==
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
- by AS8PR03MB7860.eurprd03.prod.outlook.com (2603:10a6:20b:343::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.46; Mon, 12 Jun
- 2023 14:35:28 +0000
-Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::d632:8122:75f7:7b0e]) by DB9PR03MB8847.eurprd03.prod.outlook.com
- ([fe80::d632:8122:75f7:7b0e%3]) with mapi id 15.20.6455.045; Mon, 12 Jun 2023
- 14:35:28 +0000
-Message-ID: <c702e2b6-cb0f-4ac9-86fe-a220284d45aa@seco.com>
-Date:   Mon, 12 Jun 2023 10:35:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v14 00/15] phy: Add support for Lynx 10G SerDes
-Content-Language: en-US
-To:     Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        linux-phy@lists.infradead.org,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        =?UTF-8?B?RmVybuKUnMOtbmRleiBSb2phcw==?= <noltari@gmail.com>,
-        Jonas Gorski <jonas.gorski@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-References: <20230425195002.fls5cmwolyrslpad@skbuf>
- <b7779674-c3ac-e0ab-3ca8-db1ec5953a97@seco.com>
- <20230426105140.t4yqv6irtjcwptm5@skbuf>
- <7c7ab84b-3c4a-4e44-b5b5-4acf733a0246@seco.com>
- <7c7ab84b-3c4a-4e44-b5b5-4acf733a0246@seco.com>
- <20230429172422.vc35tnwkekfieoru@skbuf>
- <c81d23b6-ed22-0b37-d71b-ddce9d5d58eb@seco.com>
- <c2f928d2-25f6-0e31-9ab3-9d585968df1b@seco.com>
- <20230522150010.q5zndfwcuvrb6pg2@skbuf>
- <22a28a6f-2c84-a6b1-bb57-a269af34c993@seco.com>
- <20230610222123.mzmfjx7zfw4nh2lo@skbuf>
-From:   Sean Anderson <sean.anderson@seco.com>
-In-Reply-To: <20230610222123.mzmfjx7zfw4nh2lo@skbuf>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL0PR02CA0104.namprd02.prod.outlook.com
- (2603:10b6:208:51::45) To DB9PR03MB8847.eurprd03.prod.outlook.com
- (2603:10a6:10:3dd::13)
+        with ESMTP id S237130AbjFLPFV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 11:05:21 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73BC12A
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jun 2023 08:05:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=fjw6/kOmcRvjbZMFwT2l68AeeEdTSyvr3VicSf1pM6c=; b=jrNDa+uLBk3X9v5NumTh6wad6t
+        +buub1e26rqNsqU2l8Kxg7Q2O2GRpLRgix4GkSDfbFaInhTT4JZmxrWjx2Yl5nHAwLS78BZvX5kG1
+        BTPjcIYoEkq/aL3OJGAe2mYUPiw88xqHKIO0fW9g2KT/WBF7AhAV10c8o+NDdcDw0DmKAEsldfs/+
+        h901ax92APIGm+KH0Y52wrvBsZcyMQtVfndRfiZmoBMeJNy7RdpQWEy+GJq6rFSUJlc3Akg8M6zix
+        sWIb82ySBu7qltqVt8uFihXgGs8JTXISD3HMs3eZm5MrgGy+2dQGl4y335VvA+7ge3qoQvFpCeTqI
+        SAR7wQqQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38836)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1q8j6L-0005uu-A9; Mon, 12 Jun 2023 16:05:01 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1q8j6I-00053l-Pd; Mon, 12 Jun 2023 16:04:58 +0100
+Date:   Mon, 12 Jun 2023 16:04:58 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH RFC 02/17] arm64: place kernel in its own L0 page table
+ entry
+Message-ID: <ZIc0Glqg2HalujXJ@shell.armlinux.org.uk>
+References: <ZHYCUVa8fzmB4XZV@shell.armlinux.org.uk>
+ <E1q3zxo-00A5Js-9E@rmk-PC.armlinux.org.uk>
+ <ZIb+Lg9F9b4ay90p@FVFF77S0Q05N>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|AS8PR03MB7860:EE_|AM6EUR05FT030:EE_|AS8PR03MB8859:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56fe191f-3c22-4406-034c-08db6b524710
-X-TrendMicro-CAS-OUT-LOOP-IDENTIFIER: 656f966764b7fb185830381c646b41a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 6v7q6MU1Si8e20a55HhlWWCNbyg8aD1ZP7QrRzJ4wcyumEXKhlW/AH6HYWSPQPwc7hiTEopZF7zA8R1hPfGmC6pHyY56BEfWsRuJGLiMBpOe1XefzJHf2FA+x37p3hL2cn4YZupnO7agC38eCKA5ckOsmNtNlkUCQa6VSIc5NhZVUkGALclJRo6KlIQmw1H31ilZdyN1meo7sZXbfq1lYziQ26O6PmmR0iS9CxfZtVymPj8gx4BUtC+nyrSw4FAYFQ9m4UZMKMIEhDFioct4FZMvZrLZoZFFSmyohXZOgkvWRkfZK6fJi3HjnMOPvWvhpedUd71lsf/zx+804KrFjxPz/iiiw+ncbV8hbypo/PK3aCdPVFYda18cA7Ztq4U3xzE43CaxYi36m5ZY8e0O/Ny/k5vtURBfh1zlYRffUSyJ+/Vuk2zJLeSAv00lNc6ExGcJ6q3o12kMEiYSrP58MeFJJikZD1dOJFmOEe9wbkTWbKPzENFVGctZHN6Cv8195f2+8CBFk6aqGi5e82rOdAqqx0ixJ8Fd+JzLOIEAYpcXOiIbrGz+vjVQnkd5xX4xifWChOGiHOpr8Xn1L08sW07piD1RZddhTZ4Ts72nXn0iLZcHWtTsCPOIGMRlAu3fVTnrQE/6R7DEtpHwFWM42tZlZi8AAHbENSOAaUu+fcJkhGjXnT/yqZg1iRWj4Bjy
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB8847.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(346002)(39850400004)(396003)(136003)(376002)(451199021)(6916009)(4326008)(44832011)(66476007)(66556008)(66946007)(316002)(7416002)(31686004)(41300700001)(186003)(4744005)(2906002)(54906003)(478600001)(8676002)(8936002)(5660300002)(6666004)(52116002)(6486002)(53546011)(6512007)(6506007)(26005)(83380400001)(36756003)(86362001)(2616005)(31696002)(38100700002)(38350700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR03MB7860
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM6EUR05FT030.eop-eur05.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: e8ef41fb-616e-421e-3dda-08db6b524421
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4MOQWZ11aCucXZQWKW+6ks4cD8yJv7re6XBboRTMnCN8H5AgLtMX5zWN51uzGHR7BMWdNq7ZpnkbaypH/eLXnExDW1jpm84xCVcutBYw/F7FrEKy7KB8Hr4Uzp8o30QynFHg5LmTvcnuIKMpxk+OfpVnxFscIm9by+6RUek5VCRfu3BWEqrefzzyDVI5DLq0OPZVJttY6caQFm+TDtnpWa1HV4tj86zJ792akUH+X+bnbHadaNANslChH/A+ZBcYWzG6Uu4uZBRg/Z/yGUkhDx/g7IDyQr/bGLbs3AcThm8CrsddbdAq10vAGLWIvzl/54OvdR099w4BWcdiW9GA7/KFbtxexpLaKPtiRLvWiH925jN+DxWWNYukeKQt1Q2R9CPIp2zbj3UBz7Jem+BAygQguuRq8B01uB4e1BVFQevGALYrIAasCs32iNnUmkV0GaD5I1fpC37PlgrO5JiC08ycH69PvX/TOJFxOCEfACCuL1YP4xwwP9ZcB3f4Nm7ZkX8ddW+s9iuuD1f8g/bCnYq0apNQyxMNb/hELv2SKzvMSpg6LU3A9xksJ5hUsBABKkeD0UI9cZ7fB9VSWb5KwpJ0nbj7Wr8HGtY3+vV1ESQOaYBkG/aUU2dBKZMYdnIZZr2en6pK3sYrFnn7jSW2UDdlddM8AFvLN5g87nwjHED3SqzHJtAS0wel+yG5tkonm2sWHZAVbbfH8KgYdsijEj8vpioGf0bykzKgWDFOT667w+5PsOIFhwbHwqWPaEHc+ANsOiyJJ1yLWIQQ3OYysnkMYljEKsVvU2Cv6O+56E5bK7odqKve+e3b37J4JqGBB9G4hQi0m+SSYudVOZG/OA==
-X-Forefront-Antispam-Report: CIP:20.160.56.81;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:inpost-eu.tmcas.trendmicro.com;PTR:inpost-eu.tmcas.trendmicro.com;CAT:NONE;SFS:(13230028)(39850400004)(376002)(396003)(136003)(346002)(451199021)(5400799015)(36840700001)(40470700004)(46966006)(2906002)(478600001)(4744005)(5660300002)(41300700001)(44832011)(54906003)(316002)(8676002)(8936002)(70586007)(70206006)(4326008)(6486002)(7416002)(6916009)(31686004)(6666004)(2616005)(6506007)(26005)(6512007)(40460700003)(53546011)(36860700001)(40480700001)(82740400003)(186003)(356005)(47076005)(7596003)(83380400001)(34070700002)(36756003)(7636003)(82310400005)(86362001)(31696002)(336012)(43740500002)(12100799033);DIR:OUT;SFP:1501;
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 14:35:32.6310
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56fe191f-3c22-4406-034c-08db6b524710
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bebe97c3-6438-442e-ade3-ff17aa50e733;Ip=[20.160.56.81];Helo=[inpost-eu.tmcas.trendmicro.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM6EUR05FT030.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR03MB8859
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZIb+Lg9F9b4ay90p@FVFF77S0Q05N>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/10/23 18:21, Vladimir Oltean wrote:
-> Hello Sean,
+On Mon, Jun 12, 2023 at 12:14:54PM +0100, Mark Rutland wrote:
+> Hi Russell,
 > 
-> On Fri, Jun 09, 2023 at 03:19:22PM -0400, Sean Anderson wrote:
->> On 5/22/23 11:00, Vladimir Oltean wrote:
->> > On Mon, May 22, 2023 at 10:42:04AM -0400, Sean Anderson wrote:
->> >> Have you had a chance to review this driver?
->> > 
->> > Partially / too little (and no, I don't have an answer yet). I am
->> > debugging a SERDES protocol change procedure from XFI to SGMII.
->> 
->> I'd just like to reiterate that, like I said in the cover letter, I
->> believe this driver still has value even if it cannot yet perform
->> protocol switching.
->> 
->> Please send me your feedback, and I will try and incorporate it into the
->> next revision. Previously, you said you had major objections to the
->> contents of this series, but you still have not listed them.
+> On Tue, May 30, 2023 at 03:04:40PM +0100, Russell King (Oracle) wrote:
+> > Kernel text replication needs to maintain separate per-node page
+> > tables for the kernel text. In order to do this without affecting
+> > other kernel memory mappings, placing the kernel such that it does
+> > not share a L0 page table entry with any other mapping is desirable.
+> > 
+> > Prior to this commit, the layout without KASLR was:
+> > 
+> > +----------+
+> > |  vmalloc |
+> > +----------+
+> > |  Kernel  |
+> > +----------+ MODULES_END, VMALLOC_START, KIMAGE_VADDR =
+> > |  Modules |                 MODULES_VADDR + MODULES_VSIZE
+> > +----------+ MODULES_VADDR = _PAGE_END(VA_BITS_MIN)
+> > | VA space |
+> > +----------+ 0
+> > 
+> > This becomes:
+> > 
+> > +----------+
+> > |  vmalloc |
+> > +----------+ VMALLOC_START = MODULES_END + PGDIR_SIZE
+> > |  Kernel  |
+> > +----------+ MODULES_END, KIMAGE_VADDR = _PAGE_END(VA_BITS_MIN) + PGDIR_SIZE
+> > |  Modules |
+> > +----------+ MODULES_VADDR = MODULES_END - MODULES_VSIZE
+> > | VA space |
+> > +----------+ 0
 > 
-> And if SERDES protocol switching was not physically possible, would this
-> patch set still have value?
+> With KSASLR we may randomize the kernel and module space over a substantial
+> portion of the vmalloc range. Are you expecting that text replication is going
+> to restruct that range, or that we'd make it mutually exclusive with KASLR?
 
-Yes. To e.g. set up SGMII25 or to fix the clocking situation.
+In the patch that adds the REPLICATE_KTEXT config option, I've made it
+exclusive with RANDOMIZE_BASE, but this change in layout isn't dependent
+on REPLICATE_KTEXT.
 
---Sean
+I've tested it with RANDOMIZE_BASE=y, and nothing seems to get upset,
+so I believe that this patch doesn't cause any negative issues.
+
+> I also note that the L0 table could have as few as two entries (with 16K pages
+> and 4 levels). So either we'd need to also mess with an L1 table, or make text
+> replication mutually exclusive with such configurations.
+
+Ah, thanks for pointing that out - I was hoping to avoid needing
+to touch anything but L0 tables.
+
+However, it brings up a question: are there any NUMA systems that would
+have just two entries in the L0 table? I suspect NUMA systems have lots
+of RAM, and so would want a page table layout that results in multiple
+L0 entries.
+
+> > This assumes MODULES_VSIZE (128M) <= PGDIR_SIZE.
+> 
+> As a heads-up, we've just changed MODULES_VSIZE to be 2G in
+> 
+>   https://lore.kernel.org/linux-arm-kernel/20230530110328.2213762-1-mark.rutland@arm.com/
+> 
+> .. which is queued in the arm64 for-next/module-alloc branch:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/module-alloc
+
+Ok - so I need to get a bit more clever about calculating MODULES_END
+and KIMAGE_VADDR
+
+> > One side effect of this change is that KIMAGE_VADDR's definition now
+> > includes PGDIR_SIZE (to leave room for the modules) but this is not
+> > defined when asm/memory.h is included. This means KIMAGE_VADDR can
+> > not be used in inline functions within this file, so we convert
+> > kaslr_offset() and kaslr_enabled() to be macros instead.
+> 
+> That series above also decoupled kaslr_enabled() from kaslr_offset(), 
+> so we'd only need to change kaslr_offset().
+
+Ok, I'll take a look to see how my changes are impacted.
+
+> > diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+> > index 4829abe017e9..baf74d0c43c9 100644
+> > --- a/arch/arm64/mm/mmu.c
+> > +++ b/arch/arm64/mm/mmu.c
+> > @@ -478,7 +478,8 @@ void __init create_pgd_mapping(struct mm_struct *mm, phys_addr_t phys,
+> >  static void update_mapping_prot(phys_addr_t phys, unsigned long virt,
+> >  				phys_addr_t size, pgprot_t prot)
+> >  {
+> > -	if ((virt >= PAGE_END) && (virt < VMALLOC_START)) {
+> > +	if ((virt >= PAGE_END) && (virt < VMALLOC_START) &&
+> > +	    !is_kernel(virt)) {
+> >  		pr_warn("BUG: not updating mapping for %pa at 0x%016lx - outside kernel range\n",
+> >  			&phys, virt);
+> >  		return;
+> 
+> I think the existing conditions here aren't quite right, and have become bogus
+> over time, and I don't think that the is_kernel() check is necessary here.
+> 
+> Originally, back in commit:
+> 
+>   c1cc1552616d0f35 ("arm64: MMU initialisation")
+> 
+> We had:
+> 
+> 	if (virt < VMALLOC_START) {
+> 		pr_warning("BUG: not creating mapping for 0x%016llx at 0x%016lx - outside kernel range\n",
+> 			   phys, virt);
+> 		return;
+> 	}
+> 
+> ... which checked that the VA range we were manipulating was in the TTBR1 VA
+> range, as at the time, VMALLOC_START happened to be the lowest TTBR1 address.
+> 
+> That didn't substantially change until commit:
+> 
+>   14c127c957c1c607 ("arm64: mm: Flip kernel VA space")
+> 
+> ... when the test was changed to:
+> 
+> 	if ((virt >= VA_START) && (virt < VMALLOC_START)) {
+> 		pr_warn("BUG: not creating mapping for %pa at 0x%016lx - outside kernel range\n",
+> 			&phys, virt);
+> 		return;
+> 	}
+> 
+> Note: in that commit, VA_START was actually the end of the linear map (which
+> was itself a the start of the TTBR1 address space), so this is just checking if
+> we're poking a small portion of the TTBR1 address space, rather than if we're
+> poking *outside* of the TTBR1 address space.
+> 
+> That doesn't make much sense, and I'm pretty sure that was a thinko rather than
+> an intentional change of semantic.
+> 
+> I "fixed" that without thinking in commit:
+> 
+>   77ad4ce69321abbe ("arm64: memory: rename VA_START to PAGE_END")
+> 
+> ... making that:
+> 
+> 	if ((virt >= PAGE_END) && (virt < VMALLOC_START)) {
+> 		pr_warn("BUG: not creating mapping for %pa at 0x%016lx - outside kernel range\n",
+> 			&phys, virt);
+> 		return;
+> 	}
+> 
+> ... but clearly it has lost the original semantic and doesn't make much sense.
+> 
+> I think the test should actually be something like:
+> 
+> 	/* Must be a TTBR1 address */
+> 	if (virt < PAGE_OFFSET ) {
+> 		...
+> 	}
+> 
+> ... and then we won't randomly trip for kernel mappings if those fall between
+> the linear map and vmalloc range.
+
+Okay, so that sounds like if this is fixed, then I won't need to patch
+it! Yay!
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
