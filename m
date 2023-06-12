@@ -2,604 +2,584 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 834BBC88CB2
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 13:56:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37B0DC88CB7
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 14:06:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232814AbjFLN4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jun 2023 09:56:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
+        id S236889AbjFLOGI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jun 2023 10:06:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236880AbjFLNyc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 09:54:32 -0400
-Received: from mx2.veeam.com (mx2.veeam.com [64.129.123.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875EF1985;
-        Mon, 12 Jun 2023 06:54:05 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        with ESMTP id S236880AbjFLOGH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 10:06:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47882A1;
+        Mon, 12 Jun 2023 07:06:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx2.veeam.com (Postfix) with ESMTPS id E4D5D41C8E;
-        Mon, 12 Jun 2023 09:54:02 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx2-2022; t=1686578043;
-        bh=yaq/4FsG/2MuXFGrk8IZIIpm2ljp3ayFKai9wzNOGBU=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=Ma0+2HKlulpf9ZvuKGVFnsT96nH7WEZ8+QzpF7vvjudCpfP0YJwJr7iN0V8uW4eX2
-         LEi3UIgIJGL+xURcpxidAcs/f+tF+HAsqNmJ4bxN8NI9JwFhI0mlIMNN+Ey2cyidLN
-         EsWqyYy1Y7Tf5P+ovUYKCMyk4NaOvL946pXp8XZER5L0dOrtZwx2o47R2VhEJgTumA
-         raV/hciMjKA/x7aRSd27suCivxiYumioIVnhYEKe/At6pFyaCMyhYXiamVHlrSWX85
-         iC83FUj190yk+aa14UyTcckXd+DVQsUjsGTxdGcFuB1/bpNPB1+meGjwMbD8TpU2kD
-         Tp9HhihGzrlzA==
-Received: from ssh-deb10-ssd-vb.amust.local (172.24.10.107) by
- prgmbx01.amust.local (172.24.128.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 12 Jun 2023 15:54:01 +0200
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-To:     <axboe@kernel.dk>, <hch@infradead.org>, <corbet@lwn.net>,
-        <snitzer@kernel.org>
-CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <dchinner@redhat.com>, <willy@infradead.org>, <dlemoal@kernel.org>,
-        <linux@weissschuh.net>, <jack@suse.cz>, <ming.lei@redhat.com>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <sergei.shtepa@veeam.com>
-Subject: [PATCH v5 05/11] blksnap: module management interface functions
-Date:   Mon, 12 Jun 2023 15:52:22 +0200
-Message-ID: <20230612135228.10702-6-sergei.shtepa@veeam.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230612135228.10702-1-sergei.shtepa@veeam.com>
-References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29240315546D776B
-X-Veeam-MMEX: True
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B60916299A;
+        Mon, 12 Jun 2023 14:06:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 846A3C433D2;
+        Mon, 12 Jun 2023 14:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686578764;
+        bh=uLqyqxD/9IhBKEZaxugIUrvoO6jx00t64M+mDxwyjAI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=d6CuA0ouuekx/0n3pYEXbEm/dNvT7l8ZpihmKPASY/LvaLV4qeGftT1UtCB/Esfud
+         N7ty5BCguycdFafR8l6pBCovphP89qc5PXOf/KpI1J4UYBuzCXSJtqnjBy0deQWc/v
+         Ni6BgD30Z7fsPwnri2jMW04zOcOeeQvFBtjow3I95HoabEL3XqkGq3HEuQ+/h0L+AP
+         26/QzElOH/JCHMPTT/oTDue2b81z4obe5law3aTUtLUNPEE2uqR3nB+JfRByhA9/P/
+         tHl+zk9YVKvwHRipZQ5hbevCakr8ri7yVYdIBGtKJs4opRyDpPu5j6B87+XhtC7602
+         nrqrvj4oeYmrg==
+Date:   Mon, 12 Jun 2023 23:06:00 +0900
+From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-doc@vger.kernel.org, Juri Lelli <juri.lelli@redhat.com>,
+        William White <chwhite@redhat.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH V3 02/11] rtla: Add --house-keeping option
+Message-Id: <20230612230600.7e009782e8365cd5f1bce444@kernel.org>
+In-Reply-To: <6a6c78a579a96ba8b02ae67ee1e0ba2cb5e03c4a.1686066600.git.bristot@kernel.org>
+References: <cover.1686066600.git.bristot@kernel.org>
+        <6a6c78a579a96ba8b02ae67ee1e0ba2cb5e03c4a.1686066600.git.bristot@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Contains callback functions for loading and unloading the module and
-implementation of module management interface functions. The module
-parameters and other mandatory declarations for the kernel module are
-also defined.
+On Tue,  6 Jun 2023 18:12:16 +0200
+Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 
-Co-developed-by: Christoph Hellwig <hch@infradead.org>
-Signed-off-by: Christoph Hellwig <hch@infradead.org>
-Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
----
- MAINTAINERS                    |   1 +
- drivers/block/blksnap/main.c   | 483 +++++++++++++++++++++++++++++++++
- drivers/block/blksnap/params.h |  16 ++
- 3 files changed, 500 insertions(+)
- create mode 100644 drivers/block/blksnap/main.c
- create mode 100644 drivers/block/blksnap/params.h
+> To avoid having rtla interfering with the measurement threads, add an
+> option for the user to set the CPUs in which rtla should run. For
+> instance:
+> 
+>   # rtla timerlat top -H 0 -C 1-7
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 76b14ad604dc..a26eee956aec 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3594,6 +3594,7 @@ M:	Sergei Shtepa <sergei.shtepa@veeam.com>
- L:	linux-block@vger.kernel.org
- S:	Supported
- F:	Documentation/block/blksnap.rst
-+F:	drivers/block/blksnap/*
- F:	include/uapi/linux/blksnap.h
- 
- BLOCK LAYER
-diff --git a/drivers/block/blksnap/main.c b/drivers/block/blksnap/main.c
-new file mode 100644
-index 000000000000..7bb37c191fda
---- /dev/null
-+++ b/drivers/block/blksnap/main.c
-@@ -0,0 +1,483 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (C) 2023 Veeam Software Group GmbH */
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/module.h>
-+#include <linux/miscdevice.h>
-+#include <linux/build_bug.h>
-+#include <uapi/linux/blksnap.h>
-+#include "snapimage.h"
-+#include "snapshot.h"
-+#include "tracker.h"
-+#include "chunk.h"
-+#include "params.h"
-+
-+/*
-+ * The power of 2 for minimum tracking block size.
-+ * If we make the tracking block size small, we will get detailed information
-+ * about the changes, but the size of the change tracker table will be too
-+ * large, which will lead to inefficient memory usage.
-+ */
-+static unsigned int tracking_block_minimum_shift = 16;
-+
-+/*
-+ * The maximum number of tracking blocks.
-+ * A table is created to store information about the status of all tracking
-+ * blocks in RAM. So, if the size of the tracking block is small, then the size
-+ * of the table turns out to be large and memory is consumed inefficiently.
-+ * As the size of the block device grows, the size of the tracking block
-+ * size should also grow. For this purpose, the limit of the maximum
-+ * number of block size is set.
-+ */
-+static unsigned int tracking_block_maximum_count = 2097152;
-+
-+/*
-+ * The power of 2 for maximum tracking block size.
-+ * On very large capacity disks, the block size may be too large. To prevent
-+ * this, the maximum block size is limited.
-+ * If the limit on the maximum block size has been reached, then the number of
-+ * blocks may exceed the tracking_block_maximum_count.
-+ */
-+static unsigned int tracking_block_maximum_shift = 26;
-+
-+/*
-+ * The power of 2 for minimum chunk size.
-+ * The size of the chunk depends on how much data will be copied to the
-+ * difference storage when at least one sector of the block device is changed.
-+ * If the size is small, then small I/O units will be generated, which will
-+ * reduce performance. Too large a chunk size will lead to inefficient use of
-+ * the difference storage.
-+ */
-+static unsigned int chunk_minimum_shift = 18;
-+
-+/*
-+ * The power of 2 for maximum number of chunks.
-+ * To store information about the state of the chunks, a table is created
-+ * in RAM. So, if the size of the chunk is small, then the size of the table
-+ * turns out to be large and memory is consumed inefficiently.
-+ * As the size of the block device grows, the size of the chunk should also
-+ * grow. For this purpose, the maximum number of chunks is set.
-+ * The table expands dynamically when new chunks are allocated. Therefore,
-+ * memory consumption also depends on the intensity of writing to the block
-+ * device under the snapshot.
-+ */
-+static unsigned int chunk_maximum_count_shift = 40;
-+
-+/*
-+ * The power of 2 for maximum chunk size.
-+ * On very large capacity disks, the block size may be too large. To prevent
-+ * this, the maximum block size is limited.
-+ * If the limit on the maximum block size has been reached, then the number of
-+ * blocks may exceed the chunk_maximum_count.
-+ */
-+static unsigned int chunk_maximum_shift = 26;
-+/*
-+ * The maximum number of chunks in queue.
-+ * The chunk is not immediately stored to the difference storage. The chunks
-+ * are put in a store queue. The store queue allows to postpone the operation
-+ * of storing a chunks data to the difference storage and perform it later in
-+ * the worker thread.
-+ */
-+static unsigned int chunk_maximum_in_queue = 16;
-+
-+/*
-+ * The size of the pool of preallocated difference buffers.
-+ * A buffer can be allocated for each chunk. After use, this buffer is not
-+ * released immediately, but is sent to the pool of free buffers.
-+ * However, if there are too many free buffers in the pool, then these free
-+ * buffers will be released immediately.
-+ */
-+static unsigned int free_diff_buffer_pool_size = 128;
-+
-+/*
-+ * The minimum allowable size of the difference storage in sectors.
-+ * The difference storage is a part of the disk space allocated for storing
-+ * snapshot data. If there is less free space in the storage than the minimum,
-+ * an event is generated about the lack of free space.
-+ */
-+static unsigned int diff_storage_minimum = 2097152;
-+
-+#define VERSION_STR "2.0.0.0"
-+static const struct blksnap_version version = {
-+	.major = 2,
-+	.minor = 0,
-+	.revision = 0,
-+	.build = 0,
-+};
-+
-+unsigned int get_tracking_block_minimum_shift(void)
-+{
-+	return tracking_block_minimum_shift;
-+}
-+
-+unsigned int get_tracking_block_maximum_shift(void)
-+{
-+	return tracking_block_maximum_shift;
-+}
-+
-+unsigned int get_tracking_block_maximum_count(void)
-+{
-+	return tracking_block_maximum_count;
-+}
-+
-+unsigned int get_chunk_minimum_shift(void)
-+{
-+	return chunk_minimum_shift;
-+}
-+
-+unsigned int get_chunk_maximum_shift(void)
-+{
-+	return chunk_maximum_shift;
-+}
-+
-+unsigned long get_chunk_maximum_count(void)
-+{
-+	return (1ul << chunk_maximum_count_shift);
-+}
-+
-+unsigned int get_chunk_maximum_in_queue(void)
-+{
-+	return chunk_maximum_in_queue;
-+}
-+
-+unsigned int get_free_diff_buffer_pool_size(void)
-+{
-+	return free_diff_buffer_pool_size;
-+}
-+
-+unsigned int get_diff_storage_minimum(void)
-+{
-+	return diff_storage_minimum;
-+}
-+
-+static int ioctl_version(unsigned long arg)
-+{
-+	struct blksnap_version __user *user_version =
-+		(struct blksnap_version __user *)arg;
-+
-+	if (copy_to_user(user_version, &version, sizeof(version))) {
-+		pr_err("Unable to get version: invalid user buffer\n");
-+		return -ENODATA;
-+	}
-+
-+	return 0;
-+}
-+
-+static_assert(sizeof(uuid_t) == sizeof(struct blksnap_uuid),
-+	"Invalid size of struct blksnap_uuid.");
-+
-+static int ioctl_snapshot_create(unsigned long arg)
-+{
-+	struct blksnap_uuid __user *user_id = (struct blksnap_uuid __user *)arg;
-+	uuid_t kernel_id;
-+	int ret;
-+
-+	ret = snapshot_create(&kernel_id);
-+	if (ret)
-+		return ret;
-+
-+	if (copy_to_user(user_id->b, kernel_id.b, sizeof(uuid_t))) {
-+		pr_err("Unable to create snapshot: invalid user buffer\n");
-+		return -ENODATA;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ioctl_snapshot_destroy(unsigned long arg)
-+{
-+	struct blksnap_uuid __user *user_id = (struct blksnap_uuid __user *)arg;
-+	uuid_t kernel_id;
-+
-+	if (copy_from_user(kernel_id.b, user_id->b, sizeof(uuid_t))) {
-+		pr_err("Unable to destroy snapshot: invalid user buffer\n");
-+		return -ENODATA;
-+	}
-+
-+	return snapshot_destroy(&kernel_id);
-+}
-+
-+static int ioctl_snapshot_append_storage(unsigned long arg)
-+{
-+	int ret;
-+	struct blksnap_snapshot_append_storage __user *uarg =
-+		(struct blksnap_snapshot_append_storage __user *)arg;
-+	struct blksnap_snapshot_append_storage karg;
-+	char *bdev_path = NULL;
-+
-+	pr_debug("Append difference storage\n");
-+
-+	if (copy_from_user(&karg, uarg, sizeof(karg))) {
-+		pr_err("Unable to append difference storage: invalid user buffer\n");
-+		return -EINVAL;
-+	}
-+
-+	bdev_path = strndup_user(u64_to_user_ptr(karg.bdev_path),
-+				 karg.bdev_path_size);
-+	if (IS_ERR(bdev_path)) {
-+		pr_err("Unable to append difference storage: invalid block device name buffer\n");
-+		return PTR_ERR(bdev_path);
-+	}
-+
-+	ret = snapshot_append_storage((uuid_t *)karg.id.b, bdev_path,
-+				      u64_to_user_ptr(karg.ranges), karg.count);
-+	kfree(bdev_path);
-+	return ret;
-+}
-+
-+static int ioctl_snapshot_take(unsigned long arg)
-+{
-+	struct blksnap_uuid __user *user_id = (struct blksnap_uuid __user *)arg;
-+	uuid_t kernel_id;
-+
-+	if (copy_from_user(kernel_id.b, user_id->b, sizeof(uuid_t))) {
-+		pr_err("Unable to take snapshot: invalid user buffer\n");
-+		return -ENODATA;
-+	}
-+
-+	return snapshot_take(&kernel_id);
-+}
-+
-+static int ioctl_snapshot_collect(unsigned long arg)
-+{
-+	int ret;
-+	struct blksnap_snapshot_collect karg;
-+
-+	if (copy_from_user(&karg, (const void __user *)arg, sizeof(karg))) {
-+		pr_err("Unable to collect available snapshots: invalid user buffer\n");
-+		return -ENODATA;
-+	}
-+
-+	ret = snapshot_collect(&karg.count, u64_to_user_ptr(karg.ids));
-+
-+	if (copy_to_user((void __user *)arg, &karg, sizeof(karg))) {
-+		pr_err("Unable to collect available snapshots: invalid user buffer\n");
-+		return -ENODATA;
-+	}
-+
-+	return ret;
-+}
-+
-+static_assert(sizeof(struct blksnap_snapshot_event) == 4096,
-+	"The size struct blksnap_snapshot_event should be equal to the size of the page.");
-+
-+static int ioctl_snapshot_wait_event(unsigned long arg)
-+{
-+	int ret = 0;
-+	struct blksnap_snapshot_event __user *uarg =
-+		(struct blksnap_snapshot_event __user *)arg;
-+	struct blksnap_snapshot_event *karg;
-+	struct event *ev;
-+
-+	karg = kzalloc(sizeof(struct blksnap_snapshot_event), GFP_KERNEL);
-+	if (!karg)
-+		return -ENOMEM;
-+
-+	/* Copy only snapshot ID and timeout*/
-+	if (copy_from_user(karg, uarg, sizeof(uuid_t) + sizeof(__u32))) {
-+		pr_err("Unable to get snapshot event. Invalid user buffer\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	ev = snapshot_wait_event((uuid_t *)karg->id.b, karg->timeout_ms);
-+	if (IS_ERR(ev)) {
-+		ret = PTR_ERR(ev);
-+		goto out;
-+	}
-+
-+	pr_debug("Received event=%lld code=%d data_size=%d\n", ev->time,
-+		 ev->code, ev->data_size);
-+	karg->code = ev->code;
-+	karg->time_label = ev->time;
-+
-+	if (ev->data_size > sizeof(karg->data)) {
-+		pr_err("Event size %d is too big\n", ev->data_size);
-+		ret = -ENOSPC;
-+		/* If we can't copy all the data, we copy only part of it. */
-+	}
-+	memcpy(karg->data, ev->data, ev->data_size);
-+	event_free(ev);
-+
-+	if (copy_to_user(uarg, karg, sizeof(struct blksnap_snapshot_event))) {
-+		pr_err("Unable to get snapshot event. Invalid user buffer\n");
-+		ret = -EINVAL;
-+	}
-+out:
-+	kfree(karg);
-+
-+	return ret;
-+}
-+
-+static int (*const blksnap_ioctl_table[])(unsigned long arg) = {
-+	ioctl_version,
-+	ioctl_snapshot_create,
-+	ioctl_snapshot_destroy,
-+	ioctl_snapshot_append_storage,
-+	ioctl_snapshot_take,
-+	ioctl_snapshot_collect,
-+	ioctl_snapshot_wait_event,
-+};
-+
-+static_assert(
-+	sizeof(blksnap_ioctl_table) ==
-+	((blksnap_ioctl_snapshot_wait_event + 1) * sizeof(void *)),
-+	"The size of table blksnap_ioctl_table does not match the enum blksnap_ioctl.");
-+
-+static long ctrl_unlocked_ioctl(struct file *filp, unsigned int cmd,
-+				unsigned long arg)
-+{
-+	int nr = _IOC_NR(cmd);
-+
-+	if (nr > (sizeof(blksnap_ioctl_table) / sizeof(void *)))
-+		return -ENOTTY;
-+
-+	if (!blksnap_ioctl_table[nr])
-+		return -ENOTTY;
-+
-+	return blksnap_ioctl_table[nr](arg);
-+}
-+
-+static const struct file_operations blksnap_ctrl_fops = {
-+	.owner		= THIS_MODULE,
-+	.unlocked_ioctl	= ctrl_unlocked_ioctl,
-+};
-+
-+static struct miscdevice blksnap_ctrl_misc = {
-+	.minor		= MISC_DYNAMIC_MINOR,
-+	.name		= BLKSNAP_CTL,
-+	.fops		= &blksnap_ctrl_fops,
-+};
-+
-+static int __init parameters_init(void)
-+{
-+	pr_debug("tracking_block_minimum_shift: %d\n",
-+		 tracking_block_minimum_shift);
-+	pr_debug("tracking_block_maximum_shift: %d\n",
-+		 tracking_block_maximum_shift);
-+	pr_debug("tracking_block_maximum_count: %d\n",
-+		 tracking_block_maximum_count);
-+
-+	pr_debug("chunk_minimum_shift: %d\n", chunk_minimum_shift);
-+	pr_debug("chunk_maximum_shift: %d\n", chunk_maximum_shift);
-+	pr_debug("chunk_maximum_count_shift: %u\n", chunk_maximum_count_shift);
-+
-+	pr_debug("chunk_maximum_in_queue: %d\n", chunk_maximum_in_queue);
-+	pr_debug("free_diff_buffer_pool_size: %d\n",
-+		 free_diff_buffer_pool_size);
-+	pr_debug("diff_storage_minimum: %d\n", diff_storage_minimum);
-+
-+	if (tracking_block_maximum_shift < tracking_block_minimum_shift) {
-+		tracking_block_maximum_shift = tracking_block_minimum_shift;
-+		pr_warn("fixed tracking_block_maximum_shift: %d\n",
-+			 tracking_block_maximum_shift);
-+	}
-+
-+	if (chunk_maximum_shift < chunk_minimum_shift) {
-+		chunk_maximum_shift = chunk_minimum_shift;
-+		pr_warn("fixed chunk_maximum_shift: %d\n",
-+			 chunk_maximum_shift);
-+	}
-+
-+	/*
-+	 * The XArray is used to store chunks. And 'unsigned long' is used as
-+	 * chunk number parameter. So, The number of chunks cannot exceed the
-+	 * limits of ULONG_MAX.
-+	 */
-+	if (sizeof(unsigned long) < 4u)
-+		chunk_maximum_count_shift = min(16u, chunk_maximum_count_shift);
-+	else if (sizeof(unsigned long) == 4)
-+		chunk_maximum_count_shift = min(32u, chunk_maximum_count_shift);
-+	else if (sizeof(unsigned long) >= 8)
-+		chunk_maximum_count_shift = min(64u, chunk_maximum_count_shift);
-+
-+	return 0;
-+}
-+
-+static int __init blksnap_init(void)
-+{
-+	int ret;
-+
-+	pr_debug("Loading\n");
-+	pr_debug("Version: %s\n", VERSION_STR);
-+
-+	ret = parameters_init();
-+	if (ret)
-+		return ret;
-+
-+	ret = chunk_init();
-+	if (ret)
-+		goto fail_chunk_init;
-+
-+	ret = tracker_init();
-+	if (ret)
-+		goto fail_tracker_init;
-+
-+	ret = misc_register(&blksnap_ctrl_misc);
-+	if (ret)
-+		goto fail_misc_register;
-+
-+	return 0;
-+
-+fail_misc_register:
-+	tracker_done();
-+fail_tracker_init:
-+	chunk_done();
-+fail_chunk_init:
-+
-+	return ret;
-+}
-+
-+static void __exit blksnap_exit(void)
-+{
-+	pr_debug("Unloading module\n");
-+
-+	misc_deregister(&blksnap_ctrl_misc);
-+
-+	chunk_done();
-+	snapshot_done();
-+	tracker_done();
-+
-+	pr_debug("Module was unloaded\n");
-+}
-+
-+module_init(blksnap_init);
-+module_exit(blksnap_exit);
-+
-+module_param_named(tracking_block_minimum_shift, tracking_block_minimum_shift,
-+		   uint, 0644);
-+MODULE_PARM_DESC(tracking_block_minimum_shift,
-+		 "The power of 2 for minimum tracking block size");
-+module_param_named(tracking_block_maximum_count, tracking_block_maximum_count,
-+		   uint, 0644);
-+MODULE_PARM_DESC(tracking_block_maximum_count,
-+		 "The maximum number of tracking blocks");
-+module_param_named(tracking_block_maximum_shift, tracking_block_maximum_shift,
-+		   uint, 0644);
-+MODULE_PARM_DESC(tracking_block_maximum_shift,
-+		 "The power of 2 for maximum trackings block size");
-+module_param_named(chunk_minimum_shift, chunk_minimum_shift, uint, 0644);
-+MODULE_PARM_DESC(chunk_minimum_shift,
-+		 "The power of 2 for minimum chunk size");
-+module_param_named(chunk_maximum_count_shift, chunk_maximum_count_shift,
-+		   uint, 0644);
-+MODULE_PARM_DESC(chunk_maximum_count_shift,
-+		 "The power of 2 for maximum number of chunks");
-+module_param_named(chunk_maximum_shift, chunk_maximum_shift, uint, 0644);
-+MODULE_PARM_DESC(chunk_maximum_shift,
-+		 "The power of 2 for maximum snapshots chunk size");
-+module_param_named(chunk_maximum_in_queue, chunk_maximum_in_queue, uint, 0644);
-+MODULE_PARM_DESC(chunk_maximum_in_queue,
-+		 "The maximum number of chunks in store queue");
-+module_param_named(free_diff_buffer_pool_size, free_diff_buffer_pool_size,
-+		   uint, 0644);
-+MODULE_PARM_DESC(free_diff_buffer_pool_size,
-+		 "The size of the pool of preallocated difference buffers");
-+module_param_named(diff_storage_minimum, diff_storage_minimum, uint, 0644);
-+MODULE_PARM_DESC(diff_storage_minimum,
-+	"The minimum allowable size of the difference storage in sectors");
-+
-+MODULE_DESCRIPTION("Block Device Snapshots Module");
-+MODULE_VERSION(VERSION_STR);
-+MODULE_AUTHOR("Veeam Software Group GmbH");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/block/blksnap/params.h b/drivers/block/blksnap/params.h
-new file mode 100644
-index 000000000000..85606e1a8746
---- /dev/null
-+++ b/drivers/block/blksnap/params.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (C) 2023 Veeam Software Group GmbH */
-+#ifndef __BLKSNAP_PARAMS_H
-+#define __BLKSNAP_PARAMS_H
-+
-+unsigned int get_tracking_block_minimum_shift(void);
-+unsigned int get_tracking_block_maximum_shift(void);
-+unsigned int get_tracking_block_maximum_count(void);
-+unsigned int get_chunk_minimum_shift(void);
-+unsigned int get_chunk_maximum_shift(void);
-+unsigned long get_chunk_maximum_count(void);
-+unsigned int get_chunk_maximum_in_queue(void);
-+unsigned int get_free_diff_buffer_pool_size(void);
-+unsigned int get_diff_storage_minimum(void);
-+
-+#endif /* __BLKSNAP_PARAMS_H */
+Isn't it '-c 1-7' instead of '-C', because -C is for cgroup name?
+
+Thanks,
+
+> 
+> Will place rtla in the CPU 0, while running the measurement threads in
+> the CPU 1-7.
+> 
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Suggested-by: Juri Lelli <juri.lelli@redhat.com>
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> ---
+>  Documentation/tools/rtla/common_options.rst |  4 ++
+>  tools/tracing/rtla/src/osnoise_hist.c       | 29 +++++++++--
+>  tools/tracing/rtla/src/osnoise_top.c        | 27 +++++++++-
+>  tools/tracing/rtla/src/timerlat_hist.c      | 27 +++++++++-
+>  tools/tracing/rtla/src/timerlat_top.c       | 27 +++++++++-
+>  tools/tracing/rtla/src/utils.c              | 58 +++++++++++++++++++++
+>  tools/tracing/rtla/src/utils.h              |  3 ++
+>  7 files changed, 166 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/tools/rtla/common_options.rst b/Documentation/tools/rtla/common_options.rst
+> index ede07359d93c..aeb91ff3bd68 100644
+> --- a/Documentation/tools/rtla/common_options.rst
+> +++ b/Documentation/tools/rtla/common_options.rst
+> @@ -2,6 +2,10 @@
+>  
+>          Set the osnoise tracer to run the sample threads in the cpu-list.
+>  
+> +**-H**, **--house-keeping** *cpu-list*
+> +
+> +        Run rtla control threads only on the given cpu-list.
+> +
+>  **-d**, **--duration** *time[s|m|h|d]*
+>  
+>          Set the duration of the session.
+> diff --git a/tools/tracing/rtla/src/osnoise_hist.c b/tools/tracing/rtla/src/osnoise_hist.c
+> index 076f4c6af3dd..d2b68177ffac 100644
+> --- a/tools/tracing/rtla/src/osnoise_hist.c
+> +++ b/tools/tracing/rtla/src/osnoise_hist.c
+> @@ -3,6 +3,7 @@
+>   * Copyright (C) 2021 Red Hat Inc, Daniel Bristot de Oliveira <bristot@kernel.org>
+>   */
+>  
+> +#define _GNU_SOURCE
+>  #include <getopt.h>
+>  #include <stdlib.h>
+>  #include <string.h>
+> @@ -11,6 +12,7 @@
+>  #include <errno.h>
+>  #include <stdio.h>
+>  #include <time.h>
+> +#include <sched.h>
+>  
+>  #include "utils.h"
+>  #include "osnoise.h"
+> @@ -30,6 +32,8 @@ struct osnoise_hist_params {
+>  	int			set_sched;
+>  	int			output_divisor;
+>  	int			cgroup;
+> +	int			hk_cpus;
+> +	cpu_set_t		hk_cpu_set;
+>  	struct sched_attr	sched_param;
+>  	struct trace_events	*events;
+>  
+> @@ -434,8 +438,8 @@ static void osnoise_hist_usage(char *usage)
+>  		"",
+>  		"  usage: rtla osnoise hist [-h] [-D] [-d s] [-a us] [-p us] [-r us] [-s us] [-S us] \\",
+>  		"	  [-T us] [-t[=file]] [-e sys[:event]] [--filter <filter>] [--trigger <trigger>] \\",
+> -		"	  [-c cpu-list] [-P priority] [-b N] [-E N] [--no-header] [--no-summary] [--no-index] \\",
+> -		"	  [--with-zeros] [-C[=cgroup_name]]",
+> +		"	  [-c cpu-list] [-H cpu-list] [-P priority] [-b N] [-E N] [--no-header] [--no-summary] \\",
+> +		"	  [--no-index] [--with-zeros] [-C[=cgroup_name]]",
+>  		"",
+>  		"	  -h/--help: print this menu",
+>  		"	  -a/--auto: set automatic trace mode, stopping the session if argument in us sample is hit",
+> @@ -445,6 +449,7 @@ static void osnoise_hist_usage(char *usage)
+>  		"	  -S/--stop-total us: stop trace if the total sample is higher than the argument in us",
+>  		"	  -T/--threshold us: the minimum delta to be considered a noise",
+>  		"	  -c/--cpus cpu-list: list of cpus to run osnoise threads",
+> +		"	  -H/--house-keeping cpus: run rtla control threads only on the given cpus",
+>  		"	  -C/--cgroup[=cgroup_name]: set cgroup, if no cgroup_name is passed, the rtla's cgroup will be inherited",
+>  		"	  -d/--duration time[s|m|h|d]: duration of the session",
+>  		"	  -D/--debug: print debug info",
+> @@ -507,6 +512,7 @@ static struct osnoise_hist_params
+>  			{"cgroup",		optional_argument,	0, 'C'},
+>  			{"debug",		no_argument,		0, 'D'},
+>  			{"duration",		required_argument,	0, 'd'},
+> +			{"house-keeping",	required_argument,		0, 'H'},
+>  			{"help",		no_argument,		0, 'h'},
+>  			{"period",		required_argument,	0, 'p'},
+>  			{"priority",		required_argument,	0, 'P'},
+> @@ -528,7 +534,7 @@ static struct osnoise_hist_params
+>  		/* getopt_long stores the option index here. */
+>  		int option_index = 0;
+>  
+> -		c = getopt_long(argc, argv, "a:c:C::b:d:e:E:Dhp:P:r:s:S:t::T:01234:5:",
+> +		c = getopt_long(argc, argv, "a:c:C::b:d:e:E:DhH:p:P:r:s:S:t::T:01234:5:",
+>  				 long_options, &option_index);
+>  
+>  		/* detect the end of the options. */
+> @@ -597,6 +603,14 @@ static struct osnoise_hist_params
+>  		case '?':
+>  			osnoise_hist_usage(NULL);
+>  			break;
+> +		case 'H':
+> +			params->hk_cpus = 1;
+> +			retval = parse_cpu_set(optarg, &params->hk_cpu_set);
+> +			if (retval) {
+> +				err_msg("Error parsing house keeping CPUs\n");
+> +				exit(EXIT_FAILURE);
+> +			}
+> +			break;
+>  		case 'p':
+>  			params->period = get_llong_from_str(optarg);
+>  			if (params->period > 10000000)
+> @@ -732,6 +746,15 @@ osnoise_hist_apply_config(struct osnoise_tool *tool, struct osnoise_hist_params
+>  		}
+>  	}
+>  
+> +	if (params->hk_cpus) {
+> +		retval = sched_setaffinity(getpid(), sizeof(params->hk_cpu_set),
+> +					   &params->hk_cpu_set);
+> +		if (retval == -1) {
+> +			err_msg("Failed to set rtla to the house keeping CPUs\n");
+> +			goto out_err;
+> +		}
+> +	}
+> +
+>  	return 0;
+>  
+>  out_err:
+> diff --git a/tools/tracing/rtla/src/osnoise_top.c b/tools/tracing/rtla/src/osnoise_top.c
+> index 139d8d392540..fcf6c14ce1bc 100644
+> --- a/tools/tracing/rtla/src/osnoise_top.c
+> +++ b/tools/tracing/rtla/src/osnoise_top.c
+> @@ -3,6 +3,7 @@
+>   * Copyright (C) 2021 Red Hat Inc, Daniel Bristot de Oliveira <bristot@kernel.org>
+>   */
+>  
+> +#define _GNU_SOURCE
+>  #include <getopt.h>
+>  #include <stdlib.h>
+>  #include <string.h>
+> @@ -10,6 +11,7 @@
+>  #include <unistd.h>
+>  #include <stdio.h>
+>  #include <time.h>
+> +#include <sched.h>
+>  
+>  #include "osnoise.h"
+>  #include "utils.h"
+> @@ -37,6 +39,8 @@ struct osnoise_top_params {
+>  	int			quiet;
+>  	int			set_sched;
+>  	int			cgroup;
+> +	int			hk_cpus;
+> +	cpu_set_t		hk_cpu_set;
+>  	struct sched_attr	sched_param;
+>  	struct trace_events	*events;
+>  	enum osnoise_mode	mode;
+> @@ -278,7 +282,7 @@ static void osnoise_top_usage(struct osnoise_top_params *params, char *usage)
+>  	static const char * const msg[] = {
+>  		" [-h] [-q] [-D] [-d s] [-a us] [-p us] [-r us] [-s us] [-S us] \\",
+>  		"	  [-T us] [-t[=file]] [-e sys[:event]] [--filter <filter>] [--trigger <trigger>] \\",
+> -		"	  [-c cpu-list] [-P priority] [-C[=cgroup_name]]",
+> +		"	  [-c cpu-list] [-H cpu-list] [-P priority] [-C[=cgroup_name]]",
+>  		"",
+>  		"	  -h/--help: print this menu",
+>  		"	  -a/--auto: set automatic trace mode, stopping the session if argument in us sample is hit",
+> @@ -288,6 +292,7 @@ static void osnoise_top_usage(struct osnoise_top_params *params, char *usage)
+>  		"	  -S/--stop-total us: stop trace if the total sample is higher than the argument in us",
+>  		"	  -T/--threshold us: the minimum delta to be considered a noise",
+>  		"	  -c/--cpus cpu-list: list of cpus to run osnoise threads",
+> +		"	  -H/--house-keeping cpus: run rtla control threads only on the given cpus",
+>  		"	  -C/--cgroup[=cgroup_name]: set cgroup, if no cgroup_name is passed, the rtla's cgroup will be inherited",
+>  		"	  -d/--duration time[s|m|h|d]: duration of the session",
+>  		"	  -D/--debug: print debug info",
+> @@ -354,6 +359,7 @@ struct osnoise_top_params *osnoise_top_parse_args(int argc, char **argv)
+>  			{"debug",		no_argument,		0, 'D'},
+>  			{"duration",		required_argument,	0, 'd'},
+>  			{"event",		required_argument,	0, 'e'},
+> +			{"house-keeping",	required_argument,	0, 'H'},
+>  			{"help",		no_argument,		0, 'h'},
+>  			{"period",		required_argument,	0, 'p'},
+>  			{"priority",		required_argument,	0, 'P'},
+> @@ -371,7 +377,7 @@ struct osnoise_top_params *osnoise_top_parse_args(int argc, char **argv)
+>  		/* getopt_long stores the option index here. */
+>  		int option_index = 0;
+>  
+> -		c = getopt_long(argc, argv, "a:c:C::d:De:hp:P:qr:s:S:t::T:0:1:",
+> +		c = getopt_long(argc, argv, "a:c:C::d:De:hH:p:P:qr:s:S:t::T:0:1:",
+>  				 long_options, &option_index);
+>  
+>  		/* Detect the end of the options. */
+> @@ -430,6 +436,14 @@ struct osnoise_top_params *osnoise_top_parse_args(int argc, char **argv)
+>  		case '?':
+>  			osnoise_top_usage(params, NULL);
+>  			break;
+> +		case 'H':
+> +			params->hk_cpus = 1;
+> +			retval = parse_cpu_set(optarg, &params->hk_cpu_set);
+> +			if (retval) {
+> +				err_msg("Error parsing house keeping CPUs\n");
+> +				exit(EXIT_FAILURE);
+> +			}
+> +			break;
+>  		case 'p':
+>  			params->period = get_llong_from_str(optarg);
+>  			if (params->period > 10000000)
+> @@ -561,6 +575,15 @@ osnoise_top_apply_config(struct osnoise_tool *tool, struct osnoise_top_params *p
+>  		}
+>  	}
+>  
+> +	if (params->hk_cpus) {
+> +		retval = sched_setaffinity(getpid(), sizeof(params->hk_cpu_set),
+> +					   &params->hk_cpu_set);
+> +		if (retval == -1) {
+> +			err_msg("Failed to set rtla to the house keeping CPUs\n");
+> +			goto out_err;
+> +		}
+> +	}
+> +
+>  	return 0;
+>  
+>  out_err:
+> diff --git a/tools/tracing/rtla/src/timerlat_hist.c b/tools/tracing/rtla/src/timerlat_hist.c
+> index 459c159923e8..d48c05d238f9 100644
+> --- a/tools/tracing/rtla/src/timerlat_hist.c
+> +++ b/tools/tracing/rtla/src/timerlat_hist.c
+> @@ -3,6 +3,7 @@
+>   * Copyright (C) 2021 Red Hat Inc, Daniel Bristot de Oliveira <bristot@kernel.org>
+>   */
+>  
+> +#define _GNU_SOURCE
+>  #include <getopt.h>
+>  #include <stdlib.h>
+>  #include <string.h>
+> @@ -10,6 +11,7 @@
+>  #include <unistd.h>
+>  #include <stdio.h>
+>  #include <time.h>
+> +#include <sched.h>
+>  
+>  #include "utils.h"
+>  #include "osnoise.h"
+> @@ -31,6 +33,8 @@ struct timerlat_hist_params {
+>  	int			set_sched;
+>  	int			dma_latency;
+>  	int			cgroup;
+> +	int			hk_cpus;
+> +	cpu_set_t		hk_cpu_set;
+>  	struct sched_attr	sched_param;
+>  	struct trace_events	*events;
+>  	char			no_irq;
+> @@ -432,7 +436,7 @@ static void timerlat_hist_usage(char *usage)
+>  	char *msg[] = {
+>  		"",
+>  		"  usage: [rtla] timerlat hist [-h] [-q] [-d s] [-D] [-n] [-a us] [-p us] [-i us] [-T us] [-s us] \\",
+> -		"         [-t[=file]] [-e sys[:event]] [--filter <filter>] [--trigger <trigger>] [-c cpu-list] \\",
+> +		"         [-t[=file]] [-e sys[:event]] [--filter <filter>] [--trigger <trigger>] [-c cpu-list] [-H cpu-list]\\",
+>  		"	  [-P priority] [-E N] [-b N] [--no-irq] [--no-thread] [--no-header] [--no-summary] \\",
+>  		"	  [--no-index] [--with-zeros] [--dma-latency us] [-C[=cgroup_name]]",
+>  		"",
+> @@ -443,6 +447,7 @@ static void timerlat_hist_usage(char *usage)
+>  		"	  -T/--thread us: stop trace if the thread latency is higher than the argument in us",
+>  		"	  -s/--stack us: save the stack trace at the IRQ if a thread latency is higher than the argument in us",
+>  		"	  -c/--cpus cpus: run the tracer only on the given cpus",
+> +		"	  -H/--house-keeping cpus: run rtla control threads only on the given cpus",
+>  		"	  -C/--cgroup[=cgroup_name]: set cgroup, if no cgroup_name is passed, the rtla's cgroup will be inherited",
+>  		"	  -d/--duration time[m|h|d]: duration of the session in seconds",
+>  		"	  -D/--debug: print debug info",
+> @@ -513,6 +518,7 @@ static struct timerlat_hist_params
+>  			{"debug",		no_argument,		0, 'D'},
+>  			{"entries",		required_argument,	0, 'E'},
+>  			{"duration",		required_argument,	0, 'd'},
+> +			{"house-keeping",	required_argument,	0, 'H'},
+>  			{"help",		no_argument,		0, 'h'},
+>  			{"irq",			required_argument,	0, 'i'},
+>  			{"nano",		no_argument,		0, 'n'},
+> @@ -537,7 +543,7 @@ static struct timerlat_hist_params
+>  		/* getopt_long stores the option index here. */
+>  		int option_index = 0;
+>  
+> -		c = getopt_long(argc, argv, "a:c:C::b:d:e:E:Dhi:np:P:s:t::T:0123456:7:8:",
+> +		c = getopt_long(argc, argv, "a:c:C::b:d:e:E:DhH:i:np:P:s:t::T:0123456:7:8:",
+>  				 long_options, &option_index);
+>  
+>  		/* detect the end of the options. */
+> @@ -608,6 +614,14 @@ static struct timerlat_hist_params
+>  		case '?':
+>  			timerlat_hist_usage(NULL);
+>  			break;
+> +		case 'H':
+> +			params->hk_cpus = 1;
+> +			retval = parse_cpu_set(optarg, &params->hk_cpu_set);
+> +			if (retval) {
+> +				err_msg("Error parsing house keeping CPUs\n");
+> +				exit(EXIT_FAILURE);
+> +			}
+> +			break;
+>  		case 'i':
+>  			params->stop_us = get_llong_from_str(optarg);
+>  			break;
+> @@ -755,6 +769,15 @@ timerlat_hist_apply_config(struct osnoise_tool *tool, struct timerlat_hist_param
+>  		}
+>  	}
+>  
+> +	if (params->hk_cpus) {
+> +		retval = sched_setaffinity(getpid(), sizeof(params->hk_cpu_set),
+> +					   &params->hk_cpu_set);
+> +		if (retval == -1) {
+> +			err_msg("Failed to set rtla to the house keeping CPUs\n");
+> +			goto out_err;
+> +		}
+> +	}
+> +
+>  	return 0;
+>  
+>  out_err:
+> diff --git a/tools/tracing/rtla/src/timerlat_top.c b/tools/tracing/rtla/src/timerlat_top.c
+> index a19cbc2aa1f4..5395d1c5921e 100644
+> --- a/tools/tracing/rtla/src/timerlat_top.c
+> +++ b/tools/tracing/rtla/src/timerlat_top.c
+> @@ -3,6 +3,7 @@
+>   * Copyright (C) 2021 Red Hat Inc, Daniel Bristot de Oliveira <bristot@kernel.org>
+>   */
+>  
+> +#define _GNU_SOURCE
+>  #include <getopt.h>
+>  #include <stdlib.h>
+>  #include <string.h>
+> @@ -11,6 +12,7 @@
+>  #include <stdio.h>
+>  #include <time.h>
+>  #include <errno.h>
+> +#include <sched.h>
+>  
+>  #include "utils.h"
+>  #include "osnoise.h"
+> @@ -37,6 +39,8 @@ struct timerlat_top_params {
+>  	int			aa_only;
+>  	int			dump_tasks;
+>  	int			cgroup;
+> +	int			hk_cpus;
+> +	cpu_set_t		hk_cpu_set;
+>  	struct sched_attr	sched_param;
+>  	struct trace_events	*events;
+>  };
+> @@ -286,7 +290,7 @@ static void timerlat_top_usage(char *usage)
+>  	static const char *const msg[] = {
+>  		"",
+>  		"  usage: rtla timerlat [top] [-h] [-q] [-a us] [-d s] [-D] [-n] [-p us] [-i us] [-T us] [-s us] \\",
+> -		"	  [[-t[=file]] [-e sys[:event]] [--filter <filter>] [--trigger <trigger>] [-c cpu-list] \\",
+> +		"	  [[-t[=file]] [-e sys[:event]] [--filter <filter>] [--trigger <trigger>] [-c cpu-list] [-H cpu-list]\\",
+>  		"	  [-P priority] [--dma-latency us] [--aa-only us] [-C[=cgroup_name]]",
+>  		"",
+>  		"	  -h/--help: print this menu",
+> @@ -297,6 +301,7 @@ static void timerlat_top_usage(char *usage)
+>  		"	  -T/--thread us: stop trace if the thread latency is higher than the argument in us",
+>  		"	  -s/--stack us: save the stack trace at the IRQ if a thread latency is higher than the argument in us",
+>  		"	  -c/--cpus cpus: run the tracer only on the given cpus",
+> +		"	  -H/--house-keeping cpus: run rtla control threads only on the given cpus",
+>  		"	  -C/--cgroup[=cgroup_name]: set cgroup, if no cgroup_name is passed, the rtla's cgroup will be inherited",
+>  		"	  -d/--duration time[m|h|d]: duration of the session in seconds",
+>  		"	  -D/--debug: print debug info",
+> @@ -360,6 +365,7 @@ static struct timerlat_top_params
+>  			{"duration",		required_argument,	0, 'd'},
+>  			{"event",		required_argument,	0, 'e'},
+>  			{"help",		no_argument,		0, 'h'},
+> +			{"house-keeping",	required_argument,	0, 'H'},
+>  			{"irq",			required_argument,	0, 'i'},
+>  			{"nano",		no_argument,		0, 'n'},
+>  			{"period",		required_argument,	0, 'p'},
+> @@ -380,7 +386,7 @@ static struct timerlat_top_params
+>  		/* getopt_long stores the option index here. */
+>  		int option_index = 0;
+>  
+> -		c = getopt_long(argc, argv, "a:c:C::d:De:hi:np:P:qs:t::T:0:1:2:345:",
+> +		c = getopt_long(argc, argv, "a:c:C::d:De:hH:i:np:P:qs:t::T:0:1:2:345:",
+>  				 long_options, &option_index);
+>  
+>  		/* detect the end of the options. */
+> @@ -454,6 +460,14 @@ static struct timerlat_top_params
+>  		case '?':
+>  			timerlat_top_usage(NULL);
+>  			break;
+> +		case 'H':
+> +			params->hk_cpus = 1;
+> +			retval = parse_cpu_set(optarg, &params->hk_cpu_set);
+> +			if (retval) {
+> +				err_msg("Error parsing house keeping CPUs\n");
+> +				exit(EXIT_FAILURE);
+> +			}
+> +			break;
+>  		case 'i':
+>  			params->stop_us = get_llong_from_str(optarg);
+>  			break;
+> @@ -598,6 +612,15 @@ timerlat_top_apply_config(struct osnoise_tool *top, struct timerlat_top_params *
+>  		}
+>  	}
+>  
+> +	if (params->hk_cpus) {
+> +		retval = sched_setaffinity(getpid(), sizeof(params->hk_cpu_set),
+> +					   &params->hk_cpu_set);
+> +		if (retval == -1) {
+> +			err_msg("Failed to set rtla to the house keeping CPUs\n");
+> +			goto out_err;
+> +		}
+> +	}
+> +
+>  	return 0;
+>  
+>  out_err:
+> diff --git a/tools/tracing/rtla/src/utils.c b/tools/tracing/rtla/src/utils.c
+> index bcc0a9f39cfe..ee6fab09acae 100644
+> --- a/tools/tracing/rtla/src/utils.c
+> +++ b/tools/tracing/rtla/src/utils.c
+> @@ -3,6 +3,7 @@
+>   * Copyright (C) 2021 Red Hat Inc, Daniel Bristot de Oliveira <bristot@kernel.org>
+>   */
+>  
+> +#define _GNU_SOURCE
+>  #include <dirent.h>
+>  #include <stdarg.h>
+>  #include <stdlib.h>
+> @@ -150,6 +151,63 @@ int parse_cpu_list(char *cpu_list, char **monitored_cpus)
+>  	return 1;
+>  }
+>  
+> +/*
+> + * parse_cpu_set - parse a cpu_list filling cpu_set_t argument
+> + *
+> + * Receives a cpu list, like 1-3,5 (cpus 1, 2, 3, 5), and then set
+> + * filling cpu_set_t argument.
+> + *
+> + * Returns 1 on success, 0 otherwise.
+> + */
+> +int parse_cpu_set(char *cpu_list, cpu_set_t *set)
+> +{
+> +	const char *p;
+> +	int end_cpu;
+> +	int nr_cpus;
+> +	int cpu;
+> +	int i;
+> +
+> +	CPU_ZERO(set);
+> +
+> +	nr_cpus = sysconf(_SC_NPROCESSORS_CONF);
+> +
+> +	for (p = cpu_list; *p; ) {
+> +		cpu = atoi(p);
+> +		if (cpu < 0 || (!cpu && *p != '0') || cpu >= nr_cpus)
+> +			goto err;
+> +
+> +		while (isdigit(*p))
+> +			p++;
+> +		if (*p == '-') {
+> +			p++;
+> +			end_cpu = atoi(p);
+> +			if (end_cpu < cpu || (!end_cpu && *p != '0') || end_cpu >= nr_cpus)
+> +				goto err;
+> +			while (isdigit(*p))
+> +				p++;
+> +		} else
+> +			end_cpu = cpu;
+> +
+> +		if (cpu == end_cpu) {
+> +			debug_msg("cpu_set: adding cpu %d\n", cpu);
+> +			CPU_SET(cpu, set);
+> +		} else {
+> +			for (i = cpu; i <= end_cpu; i++) {
+> +				debug_msg("cpu_set: adding cpu %d\n", i);
+> +				CPU_SET(i, set);
+> +			}
+> +		}
+> +
+> +		if (*p == ',')
+> +			p++;
+> +	}
+> +
+> +	return 0;
+> +err:
+> +	debug_msg("Error parsing the cpu set %s\n", cpu_list);
+> +	return 1;
+> +}
+> +
+>  /*
+>   * parse_duration - parse duration with s/m/h/d suffix converting it to seconds
+>   */
+> diff --git a/tools/tracing/rtla/src/utils.h b/tools/tracing/rtla/src/utils.h
+> index 42b6f099d10a..9ab2f0d7bc1c 100644
+> --- a/tools/tracing/rtla/src/utils.h
+> +++ b/tools/tracing/rtla/src/utils.h
+> @@ -1,6 +1,8 @@
+>  // SPDX-License-Identifier: GPL-2.0
+> +
+>  #include <stdint.h>
+>  #include <time.h>
+> +#include <sched.h>
+>  
+>  /*
+>   * '18446744073709551615\0'
+> @@ -54,6 +56,7 @@ struct sched_attr {
+>  };
+>  
+>  int parse_prio(char *arg, struct sched_attr *sched_param);
+> +int parse_cpu_set(char *cpu_list, cpu_set_t *set);
+>  int set_comm_sched_attr(const char *comm_prefix, struct sched_attr *attr);
+>  int set_comm_cgroup(const char *comm_prefix, const char *cgroup);
+>  int set_cpu_dma_latency(int32_t latency);
+> -- 
+> 2.38.1
+> 
+
+
 -- 
-2.20.1
-
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
