@@ -2,221 +2,347 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57037C7EE2E
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 15:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E746C7EE2F
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Jun 2023 15:08:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236325AbjFLPFW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jun 2023 11:05:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38382 "EHLO
+        id S239179AbjFLPIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jun 2023 11:08:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237130AbjFLPFV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 11:05:21 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73BC12A
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jun 2023 08:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=fjw6/kOmcRvjbZMFwT2l68AeeEdTSyvr3VicSf1pM6c=; b=jrNDa+uLBk3X9v5NumTh6wad6t
-        +buub1e26rqNsqU2l8Kxg7Q2O2GRpLRgix4GkSDfbFaInhTT4JZmxrWjx2Yl5nHAwLS78BZvX5kG1
-        BTPjcIYoEkq/aL3OJGAe2mYUPiw88xqHKIO0fW9g2KT/WBF7AhAV10c8o+NDdcDw0DmKAEsldfs/+
-        h901ax92APIGm+KH0Y52wrvBsZcyMQtVfndRfiZmoBMeJNy7RdpQWEy+GJq6rFSUJlc3Akg8M6zix
-        sWIb82ySBu7qltqVt8uFihXgGs8JTXISD3HMs3eZm5MrgGy+2dQGl4y335VvA+7ge3qoQvFpCeTqI
-        SAR7wQqQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38836)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1q8j6L-0005uu-A9; Mon, 12 Jun 2023 16:05:01 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1q8j6I-00053l-Pd; Mon, 12 Jun 2023 16:04:58 +0100
-Date:   Mon, 12 Jun 2023 16:04:58 +0100
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH RFC 02/17] arm64: place kernel in its own L0 page table
- entry
-Message-ID: <ZIc0Glqg2HalujXJ@shell.armlinux.org.uk>
-References: <ZHYCUVa8fzmB4XZV@shell.armlinux.org.uk>
- <E1q3zxo-00A5Js-9E@rmk-PC.armlinux.org.uk>
- <ZIb+Lg9F9b4ay90p@FVFF77S0Q05N>
+        with ESMTP id S238722AbjFLPIW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 11:08:22 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 12 Jun 2023 08:08:19 PDT
+Received: from out-27.mta1.migadu.com (out-27.mta1.migadu.com [95.215.58.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15D84E56
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jun 2023 08:08:19 -0700 (PDT)
+Message-ID: <610b2e82-7b84-4ccd-a6da-1f018c7f6568@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1686582045;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TMgykxS1qJzKT5Nx6Zd900nrWZlCFYHsPI+xqXc7IWA=;
+        b=njOM9oT+4yYOCJBc4OCMe8j2y3ysHxLXwLoXtnkk6yE4nrxzcFAOdC/3e9MHU0D7q+fqSR
+        tA5kpR2+OMZAysr8jfQ6UX8PE9fSpWoypBYA/wpYOILuBC4N/1DTXkzKx63dfBNWUy82aG
+        1hOh3Q+m3HiwOc7+lEpB9ij4aIBGGXY=
+Date:   Mon, 12 Jun 2023 16:00:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZIb+Lg9F9b4ay90p@FVFF77S0Q05N>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Subject: Re: [RFC PATCH v8 05/10] dpll: api header: Add DPLL framework base
+ functions
+Content-Language: en-US
+To:     Jiri Pirko <jiri@resnulli.us>,
+        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc:     kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
+        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
+        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org
+References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+ <20230609121853.3607724-6-arkadiusz.kubalewski@intel.com>
+ <ZIQlhyXJAtcp1Fjr@nanopsycho>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <ZIQlhyXJAtcp1Fjr@nanopsycho>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 12, 2023 at 12:14:54PM +0100, Mark Rutland wrote:
-> Hi Russell,
+On 10/06/2023 08:25, Jiri Pirko wrote:
+> Fri, Jun 09, 2023 at 02:18:48PM CEST, arkadiusz.kubalewski@intel.com wrote:
+>> From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+>>
+>> DPLL framework is used to represent and configure DPLL devices
+>> in systems. Each device that has DPLL and can configure sources
+>> and outputs can use this framework. Netlink interface is used to
+>> provide configuration data and to receive notification messages
+>> about changes in the configuration or status of DPLL device.
+>> Inputs and outputs of the DPLL device are represented as special
+>> objects which could be dynamically added to and removed from DPLL
+>> device.
+>>
+>> Add kernel api header, make dpll subsystem available to device drivers.
+>>
+>> Add/update makefiles/Kconfig to allow compilation of dpll subsystem.
+>>
+>> Co-developed-by: Milena Olech <milena.olech@intel.com>
+>> Signed-off-by: Milena Olech <milena.olech@intel.com>
+>> Co-developed-by: Michal Michalik <michal.michalik@intel.com>
+>> Signed-off-by: Michal Michalik <michal.michalik@intel.com>
+>> Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+>> Co-developed-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+>> Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+>> ---
+>> MAINTAINERS           |   8 +++
+>> drivers/Kconfig       |   2 +
+>> drivers/Makefile      |   1 +
+>> drivers/dpll/Kconfig  |   7 ++
+>> drivers/dpll/Makefile |   9 +++
+>> include/linux/dpll.h  | 144 ++++++++++++++++++++++++++++++++++++++++++
+>> 6 files changed, 171 insertions(+)
+>> create mode 100644 drivers/dpll/Kconfig
+>> create mode 100644 drivers/dpll/Makefile
+>> create mode 100644 include/linux/dpll.h
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 288d9a5edb9d..0e69429ecc55 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -6306,6 +6306,14 @@ F:	Documentation/networking/device_drivers/ethernet/freescale/dpaa2/switch-drive
+>> F:	drivers/net/ethernet/freescale/dpaa2/dpaa2-switch*
+>> F:	drivers/net/ethernet/freescale/dpaa2/dpsw*
+>>
+>> +DPLL CLOCK SUBSYSTEM
+>> +M:	Vadim Fedorenko <vadfed@fb.com>
+>> +L:	netdev@vger.kernel.org
+>> +S:	Maintained
 > 
-> On Tue, May 30, 2023 at 03:04:40PM +0100, Russell King (Oracle) wrote:
-> > Kernel text replication needs to maintain separate per-node page
-> > tables for the kernel text. In order to do this without affecting
-> > other kernel memory mappings, placing the kernel such that it does
-> > not share a L0 page table entry with any other mapping is desirable.
-> > 
-> > Prior to this commit, the layout without KASLR was:
-> > 
-> > +----------+
-> > |  vmalloc |
-> > +----------+
-> > |  Kernel  |
-> > +----------+ MODULES_END, VMALLOC_START, KIMAGE_VADDR =
-> > |  Modules |                 MODULES_VADDR + MODULES_VSIZE
-> > +----------+ MODULES_VADDR = _PAGE_END(VA_BITS_MIN)
-> > | VA space |
-> > +----------+ 0
-> > 
-> > This becomes:
-> > 
-> > +----------+
-> > |  vmalloc |
-> > +----------+ VMALLOC_START = MODULES_END + PGDIR_SIZE
-> > |  Kernel  |
-> > +----------+ MODULES_END, KIMAGE_VADDR = _PAGE_END(VA_BITS_MIN) + PGDIR_SIZE
-> > |  Modules |
-> > +----------+ MODULES_VADDR = MODULES_END - MODULES_VSIZE
-> > | VA space |
-> > +----------+ 0
+> I think status should be rather "Supported":
+> "Supported:   Someone is actually paid to look after this."
 > 
-> With KSASLR we may randomize the kernel and module space over a substantial
-> portion of the vmalloc range. Are you expecting that text replication is going
-> to restruct that range, or that we'd make it mutually exclusive with KASLR?
+> Also, I think that it would be good to have Arkadiusz Kubalewski
+> listed here, as he is the one that knows the subsystem by heart.
+> 
+> Also, if you don't mind, I would be happy as a co-maintainer of the
+> subsystem to be listed here, as I helped to shape the code and
+> interfaces and I also know it pretty good.
+> 
 
-In the patch that adds the REPLICATE_KTEXT config option, I've made it
-exclusive with RANDOMIZE_BASE, but this change in layout isn't dependent
-on REPLICATE_KTEXT.
+Yes, sure, I'll update the list of maintainers to add both yourself and
+Arkadiusz to the list, and of course the status to Supported.
+> 
+> 
+>> +F:	drivers/dpll/*
+>> +F:	include/net/dpll.h
+>> +F:	include/uapi/linux/dpll.h
+>> +
+>> DRBD DRIVER
+>> M:	Philipp Reisner <philipp.reisner@linbit.com>
+>> M:	Lars Ellenberg <lars.ellenberg@linbit.com>
+>> diff --git a/drivers/Kconfig b/drivers/Kconfig
+>> index 514ae6b24cb2..ce5f63918eba 100644
+>> --- a/drivers/Kconfig
+>> +++ b/drivers/Kconfig
+>> @@ -243,4 +243,6 @@ source "drivers/hte/Kconfig"
+>>
+>> source "drivers/cdx/Kconfig"
+>>
+>> +source "drivers/dpll/Kconfig"
+>> +
+>> endmenu
+>> diff --git a/drivers/Makefile b/drivers/Makefile
+>> index 7241d80a7b29..6fea42a6dd05 100644
+>> --- a/drivers/Makefile
+>> +++ b/drivers/Makefile
+>> @@ -195,3 +195,4 @@ obj-$(CONFIG_PECI)		+= peci/
+>> obj-$(CONFIG_HTE)		+= hte/
+>> obj-$(CONFIG_DRM_ACCEL)		+= accel/
+>> obj-$(CONFIG_CDX_BUS)		+= cdx/
+>> +obj-$(CONFIG_DPLL)		+= dpll/
+>> diff --git a/drivers/dpll/Kconfig b/drivers/dpll/Kconfig
+>> new file mode 100644
+>> index 000000000000..a4cae73f20d3
+>> --- /dev/null
+>> +++ b/drivers/dpll/Kconfig
+>> @@ -0,0 +1,7 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +#
+>> +# Generic DPLL drivers configuration
+>> +#
+>> +
+>> +config DPLL
+>> +  bool
+>> diff --git a/drivers/dpll/Makefile b/drivers/dpll/Makefile
+>> new file mode 100644
+>> index 000000000000..2e5b27850110
+>> --- /dev/null
+>> +++ b/drivers/dpll/Makefile
+>> @@ -0,0 +1,9 @@
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +#
+>> +# Makefile for DPLL drivers.
+>> +#
+>> +
+>> +obj-$(CONFIG_DPLL)      += dpll.o
+>> +dpll-y                  += dpll_core.o
+>> +dpll-y                  += dpll_netlink.o
+>> +dpll-y                  += dpll_nl.o
+>> diff --git a/include/linux/dpll.h b/include/linux/dpll.h
+>> new file mode 100644
+>> index 000000000000..a18bcaa13553
+>> --- /dev/null
+>> +++ b/include/linux/dpll.h
+>> @@ -0,0 +1,144 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + *  Copyright (c) 2023 Meta Platforms, Inc. and affiliates
+>> + *  Copyright (c) 2023 Intel and affiliates
+>> + */
+>> +
+>> +#ifndef __DPLL_H__
+>> +#define __DPLL_H__
+>> +
+>> +#include <uapi/linux/dpll.h>
+>> +#include <linux/device.h>
+>> +#include <linux/netlink.h>
+>> +
+>> +struct dpll_device;
+>> +struct dpll_pin;
+>> +
+>> +struct dpll_device_ops {
+>> +	int (*mode_get)(const struct dpll_device *dpll, void *dpll_priv,
+>> +			enum dpll_mode *mode, struct netlink_ext_ack *extack);
+>> +	int (*mode_set)(const struct dpll_device *dpll, void *dpll_priv,
+>> +			const enum dpll_mode mode,
+>> +			struct netlink_ext_ack *extack);
+>> +	bool (*mode_supported)(const struct dpll_device *dpll, void *dpll_priv,
+>> +			       const enum dpll_mode mode,
+>> +			       struct netlink_ext_ack *extack);
+>> +	int (*source_pin_idx_get)(const struct dpll_device *dpll,
+>> +				  void *dpll_priv,
+>> +				  u32 *pin_idx,
+>> +				  struct netlink_ext_ack *extack);
+>> +	int (*lock_status_get)(const struct dpll_device *dpll, void *dpll_priv,
+>> +			       enum dpll_lock_status *status,
+>> +			       struct netlink_ext_ack *extack);
+>> +	int (*temp_get)(const struct dpll_device *dpll, void *dpll_priv,
+>> +			s32 *temp, struct netlink_ext_ack *extack);
+>> +};
+>> +
+>> +struct dpll_pin_ops {
+>> +	int (*frequency_set)(const struct dpll_pin *pin, void *pin_priv,
+>> +			     const struct dpll_device *dpll, void *dpll_priv,
+>> +			     const u64 frequency,
+>> +			     struct netlink_ext_ack *extack);
+>> +	int (*frequency_get)(const struct dpll_pin *pin, void *pin_priv,
+>> +			     const struct dpll_device *dpll, void *dpll_priv,
+>> +			     u64 *frequency, struct netlink_ext_ack *extack);
+>> +	int (*direction_set)(const struct dpll_pin *pin, void *pin_priv,
+>> +			     const struct dpll_device *dpll, void *dpll_priv,
+>> +			     const enum dpll_pin_direction direction,
+>> +			     struct netlink_ext_ack *extack);
+>> +	int (*direction_get)(const struct dpll_pin *pin, void *pin_priv,
+>> +			     const struct dpll_device *dpll, void *dpll_priv,
+>> +			     enum dpll_pin_direction *direction,
+>> +			     struct netlink_ext_ack *extack);
+>> +	int (*state_on_pin_get)(const struct dpll_pin *pin, void *pin_priv,
+>> +				const struct dpll_pin *parent_pin,
+>> +				void *parent_pin_priv,
+>> +				enum dpll_pin_state *state,
+>> +				struct netlink_ext_ack *extack);
+>> +	int (*state_on_dpll_get)(const struct dpll_pin *pin, void *pin_priv,
+>> +				 const struct dpll_device *dpll,
+>> +				 void *dpll_priv, enum dpll_pin_state *state,
+>> +				 struct netlink_ext_ack *extack);
+>> +	int (*state_on_pin_set)(const struct dpll_pin *pin, void *pin_priv,
+>> +				const struct dpll_pin *parent_pin,
+>> +				void *parent_pin_priv,
+>> +				const enum dpll_pin_state state,
+>> +				struct netlink_ext_ack *extack);
+>> +	int (*state_on_dpll_set)(const struct dpll_pin *pin, void *pin_priv,
+>> +				 const struct dpll_device *dpll,
+>> +				 void *dpll_priv,
+>> +				 const enum dpll_pin_state state,
+>> +				 struct netlink_ext_ack *extack);
+>> +	int (*prio_get)(const struct dpll_pin *pin,  void *pin_priv,
+>> +			const struct dpll_device *dpll,  void *dpll_priv,
+>> +			u32 *prio, struct netlink_ext_ack *extack);
+>> +	int (*prio_set)(const struct dpll_pin *pin, void *pin_priv,
+>> +			const struct dpll_device *dpll, void *dpll_priv,
+>> +			const u32 prio, struct netlink_ext_ack *extack);
+>> +};
+>> +
+>> +struct dpll_pin_frequency {
+>> +	u64 min;
+>> +	u64 max;
+>> +};
+>> +
+>> +#define DPLL_PIN_FREQUENCY_RANGE(_min, _max)	\
+>> +	{					\
+>> +		.min = _min,			\
+>> +		.max = _max,			\
+>> +	}
+>> +
+>> +#define DPLL_PIN_FREQUENCY(_val) DPLL_PIN_FREQUENCY_RANGE(_val, _val)
+>> +#define DPLL_PIN_FREQUENCY_1PPS \
+>> +	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_1_HZ)
+>> +#define DPLL_PIN_FREQUENCY_10MHZ \
+>> +	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_10_MHZ)
+>> +#define DPLL_PIN_FREQUENCY_IRIG_B \
+>> +	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_10_KHZ)
+>> +#define DPLL_PIN_FREQUENCY_DCF77 \
+>> +	DPLL_PIN_FREQUENCY(DPLL_PIN_FREQUENCY_77_5_KHZ)
+>> +
+>> +struct dpll_pin_properties {
+>> +	const char *board_label;
+>> +	const char *panel_label;
+>> +	const char *package_label;
+>> +	enum dpll_pin_type type;
+>> +	unsigned long capabilities;
+>> +	u32 freq_supported_num;
+>> +	struct dpll_pin_frequency *freq_supported;
+>> +};
+>> +
+>> +struct dpll_device
+>> +*dpll_device_get(u64 clock_id, u32 dev_driver_id, struct module *module);
+>> +
+>> +void dpll_device_put(struct dpll_device *dpll);
+>> +
+>> +int dpll_device_register(struct dpll_device *dpll, enum dpll_type type,
+>> +			 const struct dpll_device_ops *ops, void *priv);
+>> +
+>> +void dpll_device_unregister(struct dpll_device *dpll,
+>> +			    const struct dpll_device_ops *ops, void *priv);
+>> +
+>> +struct dpll_pin
+>> +*dpll_pin_get(u64 clock_id, u32 dev_driver_id, struct module *module,
+>> +	      const struct dpll_pin_properties *prop);
+>> +
+>> +int dpll_pin_register(struct dpll_device *dpll, struct dpll_pin *pin,
+>> +		      const struct dpll_pin_ops *ops, void *priv);
+>> +
+>> +void dpll_pin_unregister(struct dpll_device *dpll, struct dpll_pin *pin,
+>> +			 const struct dpll_pin_ops *ops, void *priv);
+>> +
+>> +void dpll_pin_put(struct dpll_pin *pin);
+>> +
+>> +int dpll_pin_on_pin_register(struct dpll_pin *parent, struct dpll_pin *pin,
+>> +			     const struct dpll_pin_ops *ops, void *priv);
+>> +
+>> +void dpll_pin_on_pin_unregister(struct dpll_pin *parent, struct dpll_pin *pin,
+>> +				const struct dpll_pin_ops *ops, void *priv);
+>> +
+>> +int dpll_device_change_ntf(struct dpll_device *dpll);
+>> +
+>> +int dpll_pin_change_ntf(struct dpll_pin *pin);
+> 
+> Why exactly did you split this into a separate patch? To me, it does not
+> make any sense. Please squash this header addition to the
+> 
 
-I've tested it with RANDOMIZE_BASE=y, and nothing seems to get upset,
-so I believe that this patch doesn't cause any negative issues.
+Sounds reasonable.
 
-> I also note that the L0 table could have as few as two entries (with 16K pages
-> and 4 levels). So either we'd need to also mess with an L1 table, or make text
-> replication mutually exclusive with such configurations.
+> 
+>> +
+>> +#endif
+>> -- 
+>> 2.37.3
+>>
 
-Ah, thanks for pointing that out - I was hoping to avoid needing
-to touch anything but L0 tables.
-
-However, it brings up a question: are there any NUMA systems that would
-have just two entries in the L0 table? I suspect NUMA systems have lots
-of RAM, and so would want a page table layout that results in multiple
-L0 entries.
-
-> > This assumes MODULES_VSIZE (128M) <= PGDIR_SIZE.
-> 
-> As a heads-up, we've just changed MODULES_VSIZE to be 2G in
-> 
->   https://lore.kernel.org/linux-arm-kernel/20230530110328.2213762-1-mark.rutland@arm.com/
-> 
-> .. which is queued in the arm64 for-next/module-alloc branch:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/module-alloc
-
-Ok - so I need to get a bit more clever about calculating MODULES_END
-and KIMAGE_VADDR
-
-> > One side effect of this change is that KIMAGE_VADDR's definition now
-> > includes PGDIR_SIZE (to leave room for the modules) but this is not
-> > defined when asm/memory.h is included. This means KIMAGE_VADDR can
-> > not be used in inline functions within this file, so we convert
-> > kaslr_offset() and kaslr_enabled() to be macros instead.
-> 
-> That series above also decoupled kaslr_enabled() from kaslr_offset(), 
-> so we'd only need to change kaslr_offset().
-
-Ok, I'll take a look to see how my changes are impacted.
-
-> > diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-> > index 4829abe017e9..baf74d0c43c9 100644
-> > --- a/arch/arm64/mm/mmu.c
-> > +++ b/arch/arm64/mm/mmu.c
-> > @@ -478,7 +478,8 @@ void __init create_pgd_mapping(struct mm_struct *mm, phys_addr_t phys,
-> >  static void update_mapping_prot(phys_addr_t phys, unsigned long virt,
-> >  				phys_addr_t size, pgprot_t prot)
-> >  {
-> > -	if ((virt >= PAGE_END) && (virt < VMALLOC_START)) {
-> > +	if ((virt >= PAGE_END) && (virt < VMALLOC_START) &&
-> > +	    !is_kernel(virt)) {
-> >  		pr_warn("BUG: not updating mapping for %pa at 0x%016lx - outside kernel range\n",
-> >  			&phys, virt);
-> >  		return;
-> 
-> I think the existing conditions here aren't quite right, and have become bogus
-> over time, and I don't think that the is_kernel() check is necessary here.
-> 
-> Originally, back in commit:
-> 
->   c1cc1552616d0f35 ("arm64: MMU initialisation")
-> 
-> We had:
-> 
-> 	if (virt < VMALLOC_START) {
-> 		pr_warning("BUG: not creating mapping for 0x%016llx at 0x%016lx - outside kernel range\n",
-> 			   phys, virt);
-> 		return;
-> 	}
-> 
-> ... which checked that the VA range we were manipulating was in the TTBR1 VA
-> range, as at the time, VMALLOC_START happened to be the lowest TTBR1 address.
-> 
-> That didn't substantially change until commit:
-> 
->   14c127c957c1c607 ("arm64: mm: Flip kernel VA space")
-> 
-> ... when the test was changed to:
-> 
-> 	if ((virt >= VA_START) && (virt < VMALLOC_START)) {
-> 		pr_warn("BUG: not creating mapping for %pa at 0x%016lx - outside kernel range\n",
-> 			&phys, virt);
-> 		return;
-> 	}
-> 
-> Note: in that commit, VA_START was actually the end of the linear map (which
-> was itself a the start of the TTBR1 address space), so this is just checking if
-> we're poking a small portion of the TTBR1 address space, rather than if we're
-> poking *outside* of the TTBR1 address space.
-> 
-> That doesn't make much sense, and I'm pretty sure that was a thinko rather than
-> an intentional change of semantic.
-> 
-> I "fixed" that without thinking in commit:
-> 
->   77ad4ce69321abbe ("arm64: memory: rename VA_START to PAGE_END")
-> 
-> ... making that:
-> 
-> 	if ((virt >= PAGE_END) && (virt < VMALLOC_START)) {
-> 		pr_warn("BUG: not creating mapping for %pa at 0x%016lx - outside kernel range\n",
-> 			&phys, virt);
-> 		return;
-> 	}
-> 
-> ... but clearly it has lost the original semantic and doesn't make much sense.
-> 
-> I think the test should actually be something like:
-> 
-> 	/* Must be a TTBR1 address */
-> 	if (virt < PAGE_OFFSET ) {
-> 		...
-> 	}
-> 
-> ... and then we won't randomly trip for kernel mappings if those fall between
-> the linear map and vmalloc range.
-
-Okay, so that sounds like if this is fixed, then I won't need to patch
-it! Yay!
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
