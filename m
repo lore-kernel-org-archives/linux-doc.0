@@ -2,82 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC1CC88CB5
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 03:18:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFFEAC77B7A
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 05:50:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237529AbjFMDSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jun 2023 23:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33990 "EHLO
+        id S234158AbjFMFub (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 01:50:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238629AbjFMDRe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 23:17:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401D0184;
-        Mon, 12 Jun 2023 20:16:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C93B062A2D;
-        Tue, 13 Jun 2023 03:16:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CDA4C433D2;
-        Tue, 13 Jun 2023 03:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686626214;
-        bh=574MtmQBYF5Z2cqxJjhyhpDH313XmH785GV0HQJvXlM=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=dH7ZfpG6qhgomBac3YRIZDI5oK3J03ePzbhyac2LeBW5czAZ3JJ8uH32srqPyoL4N
-         qdEdlhGUEcrFa2pEjt2Jjk+DDPTV0cbv0bE5gHszB9OuuXjP4Tv5gcOVdYGW5oajN6
-         9Se8UB90brrmIdKD3SYCBlxar4+CU+ttSKkUbSobSs5NLU/wZnSG3F9iXWtJMQkjvA
-         IerpMxCbugjAa+J5AhyaHMN0puJdTrbfk/HOw6NUjB9eRsPFf100sRwJMIW+6Srixi
-         pnwFDXGLnDnOPkodJ4eAkX2EM2LHAaoGS1wphirCOt+6u6Wf+eriOQwwneGgtoiGOU
-         vLdYJyXq1JYZA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id B5F79CE09E7; Mon, 12 Jun 2023 20:16:53 -0700 (PDT)
-Date:   Mon, 12 Jun 2023 20:16:53 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Alan Huang <mmpgouride@gmail.com>
-Cc:     corbet@lwn.net, rcu@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/RCU: Add the missing rcu_read_unlock()
-Message-ID: <b384fa57-a760-40c5-a07b-faf166817772@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230613005701.8728-1-mmpgouride@gmail.com>
+        with ESMTP id S240095AbjFMFu1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 01:50:27 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18C5693;
+        Mon, 12 Jun 2023 22:50:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=pv13t75OeaLi0Wnedj8EISboR7Hj3/TyA2pQxdDC4e8=; b=hXcSNk2KPdcQyfjrbkKlXoE5A8
+        zHE+DOIDMV94Qeo3me/ZgOieikMcg1ilrc+v5wbdLQ9JogD4Tp+qS4GVyG7b8qYngNk7BsRW5aLFb
+        tF6rnwSpJ51d2rtfmaVN4nxRoZavhXjKNyyEMaMSFDaeFxlomjvwlAmZFXmPUtZaaAAorhnJBIm+H
+        vblo1Smiv8csEcFKVVkhbdxBms8UhjBa35xnir36Rqty6Zt38WM/zYPriU2n5rYkNd6gXeWDW+X9R
+        tGgf9hgo8YIeMREAWS7aGdCIMOh/tnWsg+y63di0f0e7kAWjMdnQ7L24EHgCMLczmFIF9jQXwmDb2
+        fN0lqz+Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1q8wuy-0070IZ-2V;
+        Tue, 13 Jun 2023 05:50:12 +0000
+Date:   Mon, 12 Jun 2023 22:50:12 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+        willy@infradead.org, dlemoal@kernel.org, linux@weissschuh.net,
+        jack@suse.cz, ming.lei@redhat.com, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 00/11] blksnap - block devices snapshots module
+Message-ID: <ZIgDlA/nMQIMqeLU@infradead.org>
+References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
+ <20230612161911.GA1200@sol.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230613005701.8728-1-mmpgouride@gmail.com>
+In-Reply-To: <20230612161911.GA1200@sol.localdomain>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 13, 2023 at 12:57:01AM +0000, Alan Huang wrote:
-> We should exit the RCU read-side critical section before re-entering.
+On Mon, Jun 12, 2023 at 09:19:11AM -0700, Eric Biggers wrote:
+> On Mon, Jun 12, 2023 at 03:52:17PM +0200, Sergei Shtepa wrote:
+> > Hi all.
+> > 
+> > I am happy to offer a improved version of the Block Devices Snapshots
+> > Module. It allows to create non-persistent snapshots of any block devices.
+> > The main purpose of such snapshots is to provide backups of block devices.
+> > See more in Documentation/block/blksnap.rst.
 > 
-> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-
-Queued and pushed, thank you!
-
-							Thanx, Paul
-
-> ---
->  Documentation/RCU/rculist_nulls.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> How does blksnap interact with blk-crypto?
 > 
-> diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-> index 9a734bf54..0612a6387 100644
-> --- a/Documentation/RCU/rculist_nulls.rst
-> +++ b/Documentation/RCU/rculist_nulls.rst
-> @@ -29,8 +29,10 @@ algorithms:
->    rcu_read_lock()
->    obj = lockless_lookup(key);
->    if (obj) {
-> -    if (!try_get_ref(obj)) // might fail for free objects
-> +    if (!try_get_ref(obj)) { // might fail for free objects
-> +      rcu_read_unlock();
->        goto begin;
-> +    }
->      /*
->      * Because a writer could delete object, and a writer could
->      * reuse these object before the RCU grace period, we
-> -- 
-> 2.34.1
+> I.e., what happens if a bio with a ->bi_crypt_context set is submitted to a
+> block device that has blksnap active?
 > 
+> If you are unfamiliar with blk-crypto, please read
+> Documentation/block/inline-encryption.rst
+> 
+> It looks like blksnap hooks into the block layer directly, via the new
+> "blkfilter" mechanism.  I'm concerned that it might ignore ->bi_crypt_context
+> and write data to the disk in plaintext, when it is supposed to be encrypted.
+
+Yeah.  Same for integrity.  I guess for now the best would be to
+not allow attaching a filter to block devices that have encryption or
+integrity enabled and then look into that as a separate project fully
+reviewed by the respective experts.
+
