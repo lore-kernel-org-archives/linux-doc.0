@@ -2,397 +2,251 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62BAFEB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 18:45:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CEDEB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 19:37:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239427AbjFMSpC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 14:45:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41974 "EHLO
+        id S230430AbjFMThh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 15:37:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239267AbjFMSpB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 14:45:01 -0400
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEDA01BDB
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 11:44:58 -0700 (PDT)
-Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-33fa4707d03so20675ab.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 11:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686681898; x=1689273898;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GkCb0yFxfR4opINNJsGvfT//mpUEjiOj45xzWBFj8VM=;
-        b=Zby6oNorVmRoqwVF6+hjAJrFiNISC3tvVqx5OLJFMY3po6VG1xGebxomdPBOCbJ0gS
-         c+2j61h66X4fgfZqNNEb3v+l0wdeW2fIH8XTKl5mCJrAXFGNC7L+Ziq0ousiTRgEDQYI
-         nf53wPeH+XYEoE4YcnQ4s3rnhJHf+xMQBWSPDrMWFJwgUqYQmw8lHP8e2JoRp41b0qba
-         wTgcgznq6Skj4GVzJxC2OdvIeSpCL6mJJ67xB8EASSbKJt5hNhoziN/loKMDFcUjoko4
-         leuQjxmdQlXZsE8WF5DWFJEjWsYK00un35D6tLc34dgV1ogxS+SJF8PqM9d3nqMe/hHT
-         EhnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686681898; x=1689273898;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GkCb0yFxfR4opINNJsGvfT//mpUEjiOj45xzWBFj8VM=;
-        b=HvBBWyt1ryG/iwp98zzzbcBhvYYrY72rng9jy00P5WX8rlOilcd4pbPzNSOhWIZ5fV
-         R3KWCmJ2r/rTrZPJQUm+QGMsb3f2wEKc/GzKF/yfabTy6nfIzXfjuYDqxg+HdwRpq1+q
-         NBOh23M1jTJfKSUSR3gzyeVPU2OzargqKLID6Fb+d/hog2zyQYkurM97dHXPMZx4V1gb
-         to0f3aSUtHsl9gflxgy/cnCTHpdJ9H9341cGnInQJA2LonZ5iQIyajnUBBFFKjLC50VA
-         MopEsPceKnV0TipElj1Lx7x9x1CDLYfgfalKR6IGa1pRqtvXLClYtMksNks7gslCkFJW
-         fUKQ==
-X-Gm-Message-State: AC+VfDyJ0y+mZc3XWYeSSW6OpJk5hPlcu7bXlzCJkmuCsA03yMCmHx0w
-        PsYU0KSe7hPwdGmeF8LrdrnOoVhNDN4IW/LkOVW5wQ==
-X-Google-Smtp-Source: ACHHUZ4JbDitzJjJ2Lghi72Mu72vEuviVacnx0bwQzYEBNyM6dNJ+ETPjetmQMYyiVyhpZB/h0gF3w==
-X-Received: by 2002:a05:6e02:194c:b0:337:c28c:3d0f with SMTP id x12-20020a056e02194c00b00337c28c3d0fmr29219ilu.6.1686681898060;
-        Tue, 13 Jun 2023 11:44:58 -0700 (PDT)
-Received: from google.com ([2620:15c:183:200:cb62:3c3c:921b:d84])
-        by smtp.gmail.com with ESMTPSA id k11-20020a02cccb000000b004065707eb2bsm3610615jaq.42.2023.06.13.11.44.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 11:44:57 -0700 (PDT)
-Date:   Tue, 13 Jun 2023 12:44:54 -0600
-From:   Yu Zhao <yuzhao@google.com>
-To:     Ryan Roberts <ryan.roberts@arm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S229601AbjFMThf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 15:37:35 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0BE0199;
+        Tue, 13 Jun 2023 12:37:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686685054; x=1718221054;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=uxM8+3chatd4aG+3xV1JFo9YgQfO0PUa3GPJwIS22cc=;
+  b=WEubFRhvB0RArHmO7qHG5hCYPQ2NLjUbryrLtHpAX7DI1+u8osYcnQkd
+   q/tpXx7ukP2YzmJlutEHlHeGkkvws3omidjMJDqILsOfIkrQpdAyX9Eb5
+   zGZ6+y13mPITMDn7d4xufqnCRYX45dwHoRcOo7YKlJP6AMzuozx0X1mdX
+   NzT4I3JQ5APHd/1TD4qXTZIrV/pK0PHbkcbnrti+Gsg0A9UbIyZZyEBqJ
+   cU0P8+nF6bkt4vWt4koZwdmwY/a80YLswUFGBtek9Y+RrdnpDWgNeiG/H
+   ZX7oPHOrbWd5Nx8dsOY29MREehgPwER9XMd55l256ow19GB7GQK3AfFkp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="355934394"
+X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
+   d="scan'208";a="355934394"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 12:37:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="824528794"
+X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
+   d="scan'208";a="824528794"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2023 12:37:33 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 13 Jun 2023 12:37:32 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Tue, 13 Jun 2023 12:37:32 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Tue, 13 Jun 2023 12:37:32 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Tue, 13 Jun 2023 12:37:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZoNg8f7l4lYVo7pCmzL/bu4JN4z/gutUDSBPeSkJTNCrZvme+T2vOcEdrFgtVtx3i0cR1MF440Rz7WPl7CACNrEELd8ofjTnzo7MlOCCaqg6bkoQuhq9OIGh1N5FBzMtw6JHiavsB9fAtewb46kFCvVnbC2Fb001VoEbNrhfU30WwhvJ5aLBZ3dkoLF+izM+Uu1cCSxbvPZVVlv33bAWhB+gr2s5pjk9FKGb+x9MtReNBpS9wtP3o3pzxOR6v0E6VBld4ydz9COWopcGxm0BhzXoILZn0qanyzImCuce9mNmnXX97Aqp5nP9mbHA+Rt0a82ZFEOv7MhzoUh3LGCa/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KC+PjH8ZnBzr0VG6kw8bpEoGsWlRHvr6e7+Tlj/oQDE=;
+ b=gnRT9wX+D93kABZihtYjiKsrZTSw/fiOQsX91zhM0b3duL3e63hUg1TpdFvyCM6BJBOSnKnRe7zncq371FwwTur9x8nTFHVdrVXuB9zVA8m87raNJbqCRrEfCaou0QWPIamkWvpdMkDBkyR5xzYRHV1h/wP8QuDbQvbDITq/Dd5Zm0CFY/IrDuu3PB0WO0PMKfMrpPZmiz4gUnRQBiOoTRd3rUfXzKDJblLV9MWlsbYr97qLqSElkeehdfkDwkVQRFAvj23nBa22yWUmDvqiLjqWOeWoOmtMzgx6RS1s9y27l3uQp4vWNAeB3bT79qSg6niGf4gfw3pnW+eLnPsCWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by CH0PR11MB5539.namprd11.prod.outlook.com (2603:10b6:610:d6::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.29; Tue, 13 Jun
+ 2023 19:37:30 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::7237:cab8:f7f:52a5]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::7237:cab8:f7f:52a5%6]) with mapi id 15.20.6455.037; Tue, 13 Jun 2023
+ 19:37:30 +0000
+Date:   Tue, 13 Jun 2023 12:37:20 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v1 0/2] Report on physically contiguous memory in smaps
-Message-ID: <ZIi5JnOOffcsoVL0@google.com>
-References: <20230613160950.3554675-1-ryan.roberts@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Deming Wang <wangdeming@inspur.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     Catalin Marinas <catalin.marinas@arm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        "Peter Collingbourne" <pcc@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH] Documentation/mm: Add kmap_local_folio() to Temporary
+ Virt. Mappings
+Message-ID: <6488c5706b99b_1ad8992949@iweiny-mobl.notmuch>
+References: <20230609030908.31373-1-fmdefrancesco@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230613160950.3554675-1-ryan.roberts@arm.com>
+In-Reply-To: <20230609030908.31373-1-fmdefrancesco@gmail.com>
+X-ClientProxiedBy: BYAPR05CA0054.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::31) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|CH0PR11MB5539:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2fd2b733-85c8-44dc-f761-08db6c459ff1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wzTW1ME9jf0q5GYvUjNH6QKspWLibbgJKUMENCgy4v6gchfHQ43N4GZRRrQxQ4IWEeajffN2VM+wNANj3bRZEmFTSeNF6xmaplhYq1Y8NJ/Cipy2ZR2nF5c4vUO+TquhnUz0WBwb9jjg0GsZUxuWTicNgPR6Odr9TAjBTmMoulJO8juebhxfe2QQxbrUMJszd1vb7H5lgyYjUgpdLNvx/hHoirdnh0oXorZ9w9DeQIM0Hwn8vv5SttK/K6Q9mjD4+sEl3DH8cIppnyE09fdah7ZYQe4sKnxfO895IdRpH2DuQ/+XDCDwigVPPok14ZrEq6csEBqckBcq+FIiWGhHQuAzM1pJ9qj5Qa4KHz1P/zIDFzbBysQlWPiYues6wrFxHYI8eI7GYWzRdS1i0WhML6KWeL4luqwWfRkv+oz0xhKqxw/JBH/QPCXBtu9mDCOfbcKqtmjsEYA3SZTNqtkxFMFelb6YH5d1mJApsO4APYOYj/gle2DVwdhivpAn93z28J8HicWOPWd9eOfj2FMFhjezRfzpzzxG3HFcnJAu6AROgV0AiWTZ8oTAkzkBAD0D
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(346002)(136003)(396003)(366004)(39860400002)(451199021)(86362001)(7416002)(6486002)(316002)(8676002)(41300700001)(83380400001)(82960400001)(26005)(5660300002)(6512007)(38100700002)(9686003)(6506007)(6666004)(44832011)(8936002)(66476007)(66556008)(66946007)(4326008)(478600001)(186003)(54906003)(2906002)(110136005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xFNbHszEAO03uslS8tCUbOBanvHmlLPA28i/T1Xb0MN3Iweb+iBlSd32rl1+?=
+ =?us-ascii?Q?MjEUZAqn0j6+dx/ChGLnzfRIdQnmMbtkOfeHo+7OtAFUqm3M5KgUuZ3ag1/+?=
+ =?us-ascii?Q?0Qh5+w2fQ9cjS9FMw3DOBN/ntyjWNOImC7otCOE3PFH9fGFZdxlmxhOnFbhI?=
+ =?us-ascii?Q?rXHLzfzJp56XifcmGk5uE91CCalyy2eiR8QqGFWFp9OLYoa9UR2ELKmxd/nv?=
+ =?us-ascii?Q?KcHP4XgwDrvx1jS+fWfYIkZ2FTHhcDec25lyIHNDQVLWdk95zJhFXPItmY8c?=
+ =?us-ascii?Q?dHEfCo2AQixxPneSIVVtZz5pMJy/NE5OJRJj+pz4vUiWczv9p2eMgJPI6Ors?=
+ =?us-ascii?Q?r/JBr7dcQgou4zuSIBaG/byMtqMZqrB2tagQLbhzSgvyRRhvETRZim5OwJfH?=
+ =?us-ascii?Q?HfM+e8Ki3455I4+g6COV3w0ltW5hg4aZJn/W+0FCTO/Elo7qh57EXsuPXhzg?=
+ =?us-ascii?Q?Isu9TQLQMKjIRgSyFKQMl6VETJCEqg9QN7QD1Y9An/BS+UxRj9gfw5o4zT1o?=
+ =?us-ascii?Q?xwYd9erqMvWYJqD+rhZz1apr0Mvb/EtB2eK6Gy9jGRBDHHQ4nUqNcmG3IMiS?=
+ =?us-ascii?Q?EUxJt8RzUyRQ0YM4s4xIrLlg+UsG/o+GVbH47F7ena/N8HC0KuePlHe+0fBu?=
+ =?us-ascii?Q?Vhn53RHniTA4Z0Zs4Mjh/mg+hnS4HA+y/hPdou/Km9DV7Vi/e+6X1mTRpZQW?=
+ =?us-ascii?Q?7IWZY1a9r3Kq6eJ4wdNQJwynH1fIrJvo/452mui8nXtkDlShhLY4TdTG7JkW?=
+ =?us-ascii?Q?a7mzJHEfAEOPpUZXPhDyI5CcGPxH6MZaCEsa2Qd4zf1aRfQKk/2b8VDuIdBu?=
+ =?us-ascii?Q?q045FAR6fp5oIqULZCC2JR2pMd3pReYJHjkJxTaw3v7mwAPqa4HyTLQkZ4cJ?=
+ =?us-ascii?Q?ZS4IOY2MueW4AFTnSnwXV3jkuT8c3vRpS0fajMgm83vcW4H/KfPGm2QyZZsf?=
+ =?us-ascii?Q?g8dACDOc3gdy8APpvDpdel5E0ca/7qQNhYesaqO8jZeX3CNu7MhJ2RXQqo1A?=
+ =?us-ascii?Q?YxoqAyArocfxndXCUZ4NOZ8O8Bv9UTbq+Pgsnhx/4ZWwcW4EnkyISXZU2APB?=
+ =?us-ascii?Q?7RCnfZFRvO6lqZuHv+jnUTxTQ8hmnWSjLvmY0evPwocTkTXsc17xvoaS5Mka?=
+ =?us-ascii?Q?9h3q1AwV62A8jfMltjpCDaTHVvg1C9myFkkE4J8biCNGvpodZX8ueysXypw7?=
+ =?us-ascii?Q?Sm7jEzHv2eeYfQPogurSUnIhhVX2kYZCVS7oG04tv4dnV2ufAjYZWeAT2KUX?=
+ =?us-ascii?Q?9U9wzPYnyZ2BAYk/5V+LaS24UflVNANaxZ1SzCcdtxhzi/tpTwORNFCcEjSg?=
+ =?us-ascii?Q?Y24ywmmvs9tUaEJIr8yQiRI9d81cnEe3LONAkVK4s1V4D6Hu24OxfogYlBFB?=
+ =?us-ascii?Q?9Ze/ymEJE2PbKiRl8ik4Ryi6+lta8oE0x8bGYB66ayPWrlpFEUsgkd4F1Ipj?=
+ =?us-ascii?Q?U3JwZMlTQP918AcDnxOmB8WApizjRuStqiBtXnx+OVRhQKilhV1AJ5W6FunS?=
+ =?us-ascii?Q?OCx7JALLe/zXyuJaLR9ulDu2T2ojh5HmwppJM7XGua4cNVZGQdXo+Z7e8FSm?=
+ =?us-ascii?Q?4//7d23E+gnnzqKjsluAdnRI5M0gM8TdsV0sVhrx?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fd2b733-85c8-44dc-f761-08db6c459ff1
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 19:37:29.9007
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4fxAm7WTOkoowPmoA3pOlqE+Uaz6ONovH7filmhdfOolX8XwJ4pMUBWoT8CsNTWhGqfm7TPuCS5EFd3SlxMq2g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5539
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 13, 2023 at 05:09:48PM +0100, Ryan Roberts wrote:
-> Hi All,
+Fabio M. De Francesco wrote:
+> The differences between kmap_local_page() and kmap_local_folio() consist
+> only in the first taking a pointer to a page and the second taking two
+> arguments, a pointer to a folio and the byte offset within the folio which
+> identifies the page.
 > 
-> I thought I would try my luck with this pair of patches...
-
-Ack on the idea.
-
-Actually I have a script to do just this, but it's based on pagemap (attaching the script at the end).
-
-> This series adds new entries to /proc/pid/smaps[_rollup] to report on physically
-> contiguous runs of memory. The first patch reports on the sizes of the runs by
-> binning into power-of-2 blocks and reporting how much memory is in which bin.
-> The second patch reports on how much of the memory is contpte-mapped in the page
-> table (this is a hint that arm64 supports to tell the HW that a range of ptes
-> map physically contiguous memory).
+> The two API's can be explained at the same time in the "Temporary Virtual
+> Mappings" section of the Highmem's documentation.
 > 
-> With filesystems now supporting large folios in the page cache, this provides a
-> useful way to see what sizes are actually getting mapped. And with the prospect
-> of large folios for anonymous memory and contpte mapping for conformant large
-> folios on the horizon, this reporting will become useful to aid application
-> performance optimization.
+> Add information about kmap_local_folio() in the same subsection that
+> explains kmap_local_page().
 > 
-> Perhaps I should really be submitting these patches as part of my large anon
-> folios and contpte sets (which I plan to post soon), but given this touches
-> the user ABI, I thought it was sensible to post it early and separately to get
-> feedback.
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: Mike Rapoport <rppt@linux.ibm.com>
+> Cc: Peter Collingbourne <pcc@google.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Will Deacon <will@kernel.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+>
+
+Good to keep the doc up to date with reality.
+
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+
+> ---
+>  Documentation/mm/highmem.rst | 27 +++++++++++++++------------
+>  1 file changed, 15 insertions(+), 12 deletions(-)
 > 
-> It would specifically be good to get feedback on:
+> diff --git a/Documentation/mm/highmem.rst b/Documentation/mm/highmem.rst
+> index c964e0848702..bb9584f167a6 100644
+> --- a/Documentation/mm/highmem.rst
+> +++ b/Documentation/mm/highmem.rst
+> @@ -51,11 +51,14 @@ Temporary Virtual Mappings
+>  The kernel contains several ways of creating temporary mappings. The following
+>  list shows them in order of preference of use.
+>  
+> -* kmap_local_page().  This function is used to require short term mappings.
+> -  It can be invoked from any context (including interrupts) but the mappings
+> -  can only be used in the context which acquired them.
+> -
+> -  This function should always be used, whereas kmap_atomic() and kmap() have
+> +* kmap_local_page(), kmap_local_folio() - These functions are used to require
+> +  short term mappings. They can be invoked from any context (including
+> +  interrupts) but the mappings can only be used in the context which acquired
+> +  them. The only differences between them consist in the first taking a pointer
+> +  to a struct page and the second taking a pointer to struct folio and the byte
+> +  offset within the folio which identifies the page.
+> +
+> +  These functions should always be used, whereas kmap_atomic() and kmap() have
+>    been deprecated.
+>  
+>    These mappings are thread-local and CPU-local, meaning that the mapping
+> @@ -72,17 +75,17 @@ list shows them in order of preference of use.
+>    maps of the outgoing task are saved and those of the incoming one are
+>    restored.
+>  
+> -  kmap_local_page() always returns a valid virtual address and it is assumed
+> -  that kunmap_local() will never fail.
+> +  kmap_local_page(), as well as kmap_local_folio() always returns valid virtual
+> +  kernel addresses and it is assumed that kunmap_local() will never fail.
+>  
+> -  On CONFIG_HIGHMEM=n kernels and for low memory pages this returns the
+> +  On CONFIG_HIGHMEM=n kernels and for low memory pages they return the
+>    virtual address of the direct mapping. Only real highmem pages are
+>    temporarily mapped. Therefore, users may call a plain page_address()
+>    for pages which are known to not come from ZONE_HIGHMEM. However, it is
+> -  always safe to use kmap_local_page() / kunmap_local().
+> +  always safe to use kmap_local_{page,folio}() / kunmap_local().
+>  
+> -  While it is significantly faster than kmap(), for the highmem case it
+> -  comes with restrictions about the pointers validity. Contrary to kmap()
+> +  While they are significantly faster than kmap(), for the highmem case they
+> +  come with restrictions about the pointers validity. Contrary to kmap()
+>    mappings, the local mappings are only valid in the context of the caller
+>    and cannot be handed to other contexts. This implies that users must
+>    be absolutely sure to keep the use of the return address local to the
+> @@ -91,7 +94,7 @@ list shows them in order of preference of use.
+>    Most code can be designed to use thread local mappings. User should
+>    therefore try to design their code to avoid the use of kmap() by mapping
+>    pages in the same thread the address will be used and prefer
+> -  kmap_local_page().
+> +  kmap_local_page() or kmap_local_folio().
+>  
+>    Nesting kmap_local_page() and kmap_atomic() mappings is allowed to a certain
+>    extent (up to KMAP_TYPE_NR) but their invocations have to be strictly ordered
+> -- 
+> 2.40.1
 > 
->   - The exact set of new fields depend on the system that its being run on. Does
->     this cause problem for compat? (specifically the bins are determined based
->     on PAGE_SIZE and PMD_SIZE).
->   - The ContPTEMapped field is effectively arm64-specific. What is the preferred
->     way to handle arch-specific values if not here?
-
-No strong opinions here.
-
-===
-
-$ cat memory-histogram/mem_hist.py
-"""Script that scans VMAs, outputting histograms regarding memory allocations.
-
-Example usage:
-  python3 mem_hist.py --omit-file-backed --omit-unfaulted-vmas
-
-For every process on the system, this script scans each VMA, counting the number
-of order n allocations for 0 <= n <= MAX_ORDER. An order n allocation is a
-region of memory aligned to a PAGESIZE * (2 ^ n) sized region consisting of 2 ^
-n pages in which every page is present (according to the data in
-/proc/<pid>/pagemap).  VMA information as in /proc/<pid>/maps is output for all
-scanned VMAs along with a histogram of allocation orders. For example, this
-histogram states that there are 12 order 0 allocations, 4 order 1 allocations, 5
-order 2 allocations, and so on:
-
-  [12, 4, 5, 9, 5, 10, 6, 2, 2, 4, 3, 4]
-
-In addition to per-VMA histograms, per-process histograms are printed.
-Per-process histograms are the sum of the histograms of all VMAs contained
-within it, allowing for an overview of the memory allocations patterns of the
-process as a whole.
-
-Processes, and VMAs under each process are printed sorted in reverse-lexographic
-order of historgrams. That is, VMAs containing more high order allocations will
-be printed after ones containing more low order allocations. The output can thus
-be easily visually scanned to find VMAs in which hugepage use shows the most
-potential benefit.
-
-To reduce output clutter, the options --omit-file-backed exists to omit VMAs
-that are file backed (which, outside of tmpfs, don't support transparent
-hugepages on Linux). Additionally, the option --omit-unfaulted-vmas exists to
-omit VMAs containing zero resident pages.
-"""
-import argparse
-import functools
-import re
-import struct
-import subprocess
-import sys
-
-ALL_PIDS_CMD = "ps --no-headers -e | awk '{ print $1 }'"
-
-# Maximum order the script creates histograms up to. This is by default 9
-# since the usual hugepage size on x86 is 2MB which is 2**9 4KB pages
-MAX_ORDER = 9
-
-PAGE_SIZE = 2**12
-BLANK_HIST = [0] * (MAX_ORDER + 1)
-
-class Vma:
-  """Represents a virtual memory area.
-
-  Attributes:
-    proc: Process object in which this VMA is contained
-    start_vaddr: Start virtual address of VMA
-    end_vaddr: End virtual address of VMA
-    perms: Permission string of VMA as in /proc/<pid>/maps (eg. rw-p)
-    mapped_file: Path to file backing this VMA from /proc/<pid>/maps, empty
-      string if not file backed. Note there are some cases in Linux where this
-      may be nonempty and the VMA not file backed (eg. memfds)
-    hist: This VMA's histogram as a list of integers
-  """
-
-  def __init__(self, proc, start_vaddr, end_vaddr, perms, mapped_file):
-    self.proc = proc
-    self.start_vaddr = start_vaddr
-    self.end_vaddr = end_vaddr
-    self.perms = perms
-    self.mapped_file = mapped_file
-
-  def is_file_backed(self):
-    """Returns true if this VMA is file backed, false otherwise."""
-    # The output printed for memfds (eg. /memfd:crosvm) also happens to be a
-    # valid file path on *nix, so special case them
-    return (bool(re.match("(?:/[^/]+)+", self.mapped_file)) and
-            not bool(re.match("^/memfd:", self.mapped_file)))
-
-  @staticmethod
-  def bitmask(hi, lo):
-    """Returns a bitmask with the bits from index hi to low+1 set."""
-    return ((1 << (hi - lo)) - 1) << lo
-
-  @property
-  @functools.lru_cache(maxsize=50000)
-  def hist(self):
-    """Returns this VMA's histogram as a list."""
-    hist = BLANK_HIST[:]
-
-    pagemap_file = safe_open_procfile(self.proc.pid, "pagemap", "rb")
-    if not pagemap_file:
-      err_print(
-          "Cannot open /proc/{0}/pagemap, not generating histogram".format(
-              self.proc.pid))
-      return hist
-
-    # Page index of start/end VMA virtual addresses
-    vma_start_page_i = self.start_vaddr // PAGE_SIZE
-    vma_end_page_i = self.end_vaddr // PAGE_SIZE
-
-    for order in range(0, MAX_ORDER + 1):
-      # If there are less than two previous order pages, there can be no more
-      # pages of a higher order so just break out to save time
-      if order > 0 and hist[order - 1] < 2:
-        break
-
-      # First and last pages aligned to 2**order bytes in this VMA
-      first_aligned_page = (vma_start_page_i
-                            & self.bitmask(64, order)) + 2**order
-      last_aligned_page = vma_end_page_i & self.bitmask(64, order)
-
-      # Iterate over all order-sized and order-aligned chunks in this VMA
-      for start_page_i in range(first_aligned_page, last_aligned_page,
-                                2**order):
-        if self._is_region_present(pagemap_file, start_page_i,
-                                   start_page_i + 2**order):
-          hist[order] += 1
-
-          # Subtract two lower order VMAs so that we don't double-count
-          # order n VMAs as two order n-1 VMAs as well
-          if order > 0:
-            hist[order - 1] -= 2
-
-    pagemap_file.close()
-    return hist
-
-  def _is_region_present(self, pagemap_file, start_page_i, end_page_i):
-    """Returns True if all pages in the given range are resident.
-
-    Args:
-      pagemap_file: Opened /proc/<pid>/pagemap file for this process
-      start_page_i: Start page index for range
-      end_page_i: End page index for range
-
-    Returns:
-      True if all pages from page index start_page_i to end_page_i are present
-      according to the pagemap file, False otherwise.
-    """
-    pagemap_file.seek(start_page_i * 8)
-    for _ in range(start_page_i, end_page_i):
-      # /proc/<pid>/pagemaps contains an 8 byte value for every page
-      page_info, = struct.unpack("Q", pagemap_file.read(8))
-      # Bit 63 is set if the page is present
-      if not page_info & (1 << 63):
-        return False
-    return True
-
-  def __str__(self):
-    return ("{start:016x}-{end:016x} {size:<8} {perms:<4} {hist:<50} "
-            "{mapped_file:<40}").format(
-                start=self.start_vaddr,
-                end=self.end_vaddr,
-                size="%dk" % ((self.end_vaddr - self.start_vaddr) // 1024),
-                perms=self.perms,
-                hist=str(self.hist),
-                mapped_file=str(self.mapped_file))
 
 
-class Process:
-  """Represents a running process.
-
-  Attributes:
-    vmas: List of VMA objects representing this processes's VMAs
-    pid: Process PID
-    name: Name of process (read from /proc/<pid>/status
-  """
-  _MAPS_LINE_REGEX = ("([0-9a-f]+)-([0-9a-f]+) ([r-][w-][x-][ps-]) "
-                      "[0-9a-f]+ [0-9a-f]+:[0-9a-f]+ [0-9]+[ ]*(.*)")
-
-  def __init__(self, pid):
-    self.vmas = []
-    self.pid = pid
-    self.name = None
-    self._read_name()
-    self._read_vma_info()
-
-  def _read_name(self):
-    """Reads this Process's name from /proc/<pid>/status."""
-    get_name_sp = subprocess.Popen(
-        "grep Name: /proc/%d/status | awk '{ print $2 }'" % self.pid,
-        shell=True,
-        stdout=subprocess.PIPE)
-    self.name = get_name_sp.communicate()[0].decode("ascii").strip()
-
-  def _read_vma_info(self):
-    """Populates this Process's VMA list."""
-    f = safe_open_procfile(self.pid, "maps", "r")
-    if not f:
-      err_print("Could not read maps for process {0}".format(self.pid))
-      return
-
-    for line in f:
-      match = re.match(Process._MAPS_LINE_REGEX, line)
-      start_vaddr = int(match.group(1), 16)
-      end_vaddr = int(match.group(2), 16)
-      perms = match.group(3)
-      mapped_file = match.group(4) if match.lastindex == 4 else None
-      self.vmas.append(Vma(self, start_vaddr, end_vaddr, perms, mapped_file))
-    f.close()
-
-  @property
-  @functools.lru_cache(maxsize=50000)
-  def hist(self):
-    """The process-level memory allocation histogram.
-
-    This is the sum of all VMA histograms for every VMA in this process.
-    For example, if a process had two VMAs with the following histograms:
-
-      [1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0]
-      [0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0]
-
-    This would return:
-      [1, 3, 5, 3, 0, 0, 0, 0, 0, 0, 0]
-    """
-    return [sum(x) for x in zip(*[vma.hist for vma in self.vmas])]
-
-  def __str__(self):
-    return "process {pid:<18} {name:<25} {hist:<50}".format(
-        pid=self.pid, name=str(self.name), hist=str(self.hist))
-
-
-def safe_open_procfile(pid, file_name, mode):
-  """Safely open the given file under /proc/<pid>.
-
-  This catches a variety of common errors bound to happen when using this
-  script (eg. permission denied, process already exited).
-
-  Args:
-    pid: Pid of process (used to construct /proc/<pid>/)
-    file_name: File directly under /proc/<pid>/ to open
-    mode: Mode to pass to open (eg. "w", "r")
-
-  Returns:
-    File object corresponding to file requested or None if there was an error
-  """
-  full_path = "/proc/{0}/{1}".format(pid, file_name)
-  try:
-    return open(full_path, mode)
-  except PermissionError:
-    err_print("Not accessing {0} (permission denied)".format(full_path))
-  except FileNotFoundError:
-    err_print(
-        "Not opening {0} (does not exist, process {1} likely exited)".format(
-            full_path, pid))
-
-
-def err_print(*args, **kwargs):
-  print(*args, file=sys.stderr, **kwargs)
-
-
-def print_hists(args):
-  """Prints all process and VMA histograms as/per module documentation."""
-  pid_list_sp = subprocess.Popen(
-      ALL_PIDS_CMD, shell=True, stdout=subprocess.PIPE)
-  pid_list = map(int, pid_list_sp.communicate()[0].splitlines())
-  procs = []
-
-  for pid in pid_list:
-    procs.append(Process(pid))
-
-  for proc in sorted(procs, key=lambda p: p.hist[::-1]):
-    # Don't print info on kernel threads or processes we couldn't collect info
-    # on due to insufficent permissions
-    if not proc.vmas:
-      continue
-    print(proc)
-    for vma in sorted(proc.vmas, key=lambda v: v.hist[::-1]):
-      if args.no_unfaulted_vmas and vma.hist == BLANK_HIST:
-        continue
-      elif args.omit_file_backed and vma.is_file_backed():
-        continue
-      print("    ", vma)
-
-
-if __name__ == "__main__":
-  parser = argparse.ArgumentParser(
-      description=("Create per-process and per-VMA "
-                   "histograms of contigous virtual "
-                   "memory allocations"))
-  parser.add_argument(
-      "--omit-unfaulted-vmas",
-      dest="no_unfaulted_vmas",
-      action="store_true",
-      help="Omit VMAs containing 0 present pages from output")
-  parser.add_argument(
-      "--omit-file-backed",
-      dest="omit_file_backed",
-      action="store_true",
-      help="Omit VMAs corresponding to mmaped files")
-  print_hists(parser.parse_args())
