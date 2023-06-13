@@ -2,124 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14EB1C7EE29
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 10:39:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 575FBC7EE2E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 10:47:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241777AbjFMKjg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 06:39:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36386 "EHLO
+        id S241211AbjFMKrl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 06:47:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241683AbjFMKjc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 06:39:32 -0400
-X-Greylist: delayed 882 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 13 Jun 2023 03:39:21 PDT
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10DD410F2;
-        Tue, 13 Jun 2023 03:39:21 -0700 (PDT)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 572CEC5C;
-        Tue, 13 Jun 2023 12:14:32 +0200 (CEST)
-Authentication-Results: ext-mx-out001.mykolab.com (amavisd-new);
-        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
-        header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1686651269; x=1688465670; bh=94135Llpo4X+SaFFGeVF4swSyy+5MGZ6pEN
-        GkoD9PzI=; b=COiv4Xy/HgpKYDWq2SGnRCUqZRQUFU8kPYWDbzEk2OvLpBay6z1
-        U9DLvTiXU4YERZPI6gUc/yTgvIS3IuvP8kOSPvWkn0l1qTZfWRmq6dQAE1rGYWjs
-        rfhNiyhxUobBWE3nuSRo8jjEj4B/k92UQtD+p5iNsV3RZ2rXDedQVSsfYmZmct1V
-        1i9a/nA3TZKOwRqNfaDhUPesBJu+i7OTwMIQIg+Tsdbs6w+eoxvR7O2KGY15QatV
-        FKupam9oHEa7NKdfZ9mI8sj3nwndNhxknzH0sDPOKY1frrgvPiBbCEVfLNm2CoOF
-        fDNSqJsx/k/uBVAv7jwSk0EVnTe5Zc7lvtze2kFYW6+SPq8dtWvaiAo0iJnpZazF
-        DKQHKcEpyV3umm89c+Od2I08Lg333Hwrx07XaFVvBuX2S/1HGgjPDwF0a5rJIzL3
-        4tiWp9YngvStOgIqlZBzAMEUkm6PIBuZg5RI9rfHHrqNIgg/dpGyPqZtamL4Z2PN
-        P+6LyvORze/gBoc0S1+s/kdCIssBrBXXcNmfsLaF5Qr0eVvc6o//SOmY9LQcNG9a
-        JNZYfwgn1dJA+LlYzE4zUktSssF0cvO9ArvH/ZWLfuJT/EXCrDi7u0qcocSedyBK
-        Y8L7KIQSw8QWFvSkgoCxlWw/O/niNRKHxPVoVJ95zPQl7o1JI7IgKH58=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id PzXKXS9F3agU; Tue, 13 Jun 2023 12:14:29 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by mx.kolabnow.com (Postfix) with ESMTPS id 33888A6F;
-        Tue, 13 Jun 2023 12:14:24 +0200 (CEST)
-Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 358533500;
-        Tue, 13 Jun 2023 12:14:24 +0200 (CEST)
+        with ESMTP id S238981AbjFMKrk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 06:47:40 -0400
+Received: from mx4.veeam.com (mx4.veeam.com [104.41.138.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B96811AC;
+        Tue, 13 Jun 2023 03:47:39 -0700 (PDT)
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx4.veeam.com (Postfix) with ESMTPS id D96E25E91D;
+        Tue, 13 Jun 2023 13:47:37 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
+        s=mx4-2022; t=1686653258;
+        bh=Z7dNDDmcpifePckvcqW3TSCqfRweG1amD84n3lPragY=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
+        b=G81g0nM4EYIPIQEClVwgOGTxMajn0Ko1zyPiCrWwoKHprdoEd8oLiDEE4qaLbjrNp
+         VZe0PpeeqGdLTgyqAMv2gCODJvMXr18nCaOsz5uCa+B6EVY6YO7LbLYxubvuHknSLw
+         +Sf5GD/P3f4ElvgLDl6C+02x/jeBbE/ecien7pvE44117yMV9PhA7S0lDmEpnYXF1G
+         6w/xdup9AYJbf4dvxFFT1pjLUWh9USwm94QAnCU0vDSOYXuecjsgmOwttyBomuIiva
+         j+SLkf2kWAH5bumQnimtvQ79U7Qj5xta8aMXLkRzurdwUqt6I0ADNfdWYQuOrjvf9f
+         O6tUHBnRi4eww==
+Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
+ (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Tue, 13 Jun
+ 2023 12:47:36 +0200
+Message-ID: <7dbbaf60-c85d-5a7a-8f16-5f5e4ff43cd8@veeam.com>
+Date:   Tue, 13 Jun 2023 12:47:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Tue, 13 Jun 2023 12:14:22 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Demi Marie Obenour <demi@invisiblethingslab.com>
-Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 1/4] Rip out simple_strtoll()
-In-Reply-To: <20230610025759.1813-1-demi@invisiblethingslab.com>
-References: <20230610025759.1813-1-demi@invisiblethingslab.com>
-Message-ID: <5606bac989cc4ca706d04faf196fc6ab@vaga.pv.it>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v4 11/11] blksnap: Kconfig and Makefile
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>, <axboe@kernel.dk>,
+        <hch@infradead.org>, <corbet@lwn.net>, <snitzer@kernel.org>
+CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+        <willy@infradead.org>, <dlemoal@kernel.org>, <wsa@kernel.org>,
+        <heikki.krogerus@linux.intel.com>, <ming.lei@redhat.com>,
+        <gregkh@linuxfoundation.org>, <linux-block@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>
+References: <20230609115858.4737-1-sergei.shtepa@veeam.com>
+ <20230609115858.4737-11-sergei.shtepa@veeam.com>
+ <499ded51-3fb8-f11b-8776-08ab2e9a8812@infradead.org>
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+In-Reply-To: <499ded51-3fb8-f11b-8776-08ab2e9a8812@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.24.10.107]
+X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
+ prgmbx01.amust.local (172.24.128.102)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29240315546D7163
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023-06-10 04:57, Demi Marie Obenour wrote:
-> It is not used anywhere but its own unit tests.
+
+
+On 6/13/23 01:43, Randy Dunlap wrote:
+>> +config BLKSNAP
+>> +	tristate "Block Devices Snapshots Module (blksnap)"
+>> +	help
+>> +	  Allow to create snapshots and track block changes for block devices.
+>> +	  Designed for creating backups for simple block devices. Snapshots are
+>> +	  temporary and are released then backup is completed. Change block
+> 	                             when backup is completed.
 > 
-> Signed-off-by: Demi Marie Obenour <demi@invisiblethingslab.com>
-> ---
->  Documentation/dev-tools/checkpatch.rst             |  9 ++++-----
->  Documentation/process/deprecated.rst               |  5 ++---
->  .../translations/it_IT/process/deprecated.rst      |  9 ++++-----
->  .../translations/sp_SP/process/deprecated.rst      | 14 +++++++-------
->  include/linux/kstrtox.h                            |  1 -
->  lib/kstrtox.c                                      |  2 +-
->  lib/test_scanf.c                                   | 10 ----------
->  lib/vsprintf.c                                     | 14 --------------
->  8 files changed, 18 insertions(+), 46 deletions(-)
-
-> --- a/Documentation/translations/it_IT/process/deprecated.rst
-> +++ b/Documentation/translations/it_IT/process/deprecated.rst
-> @@ -118,12 +118,11 @@ Per maggiori dettagli fate riferimento a
-> array3_size() e flex_array_size(), ma
->  anche le funzioni della famiglia check_mul_overflow(), 
-> check_add_overflow(),
->  check_sub_overflow(), e check_shl_overflow().
+> or is the order of operations as listed: release snapshots and then backup
+> can be completed?
 > 
-> -simple_strtol(), simple_strtoll(), simple_strtoul(), simple_strtoull()
-> +simple_strtol(), simple_strtoul(), simple_strtoull()
->  ----------------------------------------------------------------------
-> -Le funzioni simple_strtol(), simple_strtoll(),
-> -simple_strtoul(), e simple_strtoull() ignorano volutamente
-> -i possibili overflow, e questo può portare il chiamante a generare 
-> risultati
-> -inaspettati. Le rispettive funzioni kstrtol(), kstrtoll(),
-> +Le funzioni simple_strtol(), simple_strtoul(), e simple_strtoull() 
-> ignorano
-> +volutamente i possibili overflow, e questo può portare il chiamante a 
-> generare
-> +risultati inaspettati. Le rispettive funzioni kstrtol(), kstrtoll(),
->  kstrtoul(), e kstrtoull() sono da considerarsi le corrette
->  sostitute; tuttavia va notato che queste richiedono che la stringa sia
->  terminata con il carattere NUL o quello di nuova riga.
+>> +	  tracking allows to create incremental or differential backups.
 
-This is fine
+"when backup is completed." - it will be more correct.
 
--- 
-Federico Vaga
+Normal backup process:
+
+Take snapshot                                        Release snapshot
+    |    Start backup                        Finish backup   |
+    |        |  Copy data from snapshot images    |          |
+------------------------------------------------------------------------->
+                                                                         t
+
+In case of failure, for example, when the snapshot is overflowing:
+
+                                           The snapshot is corrupted
+Take snapshot                                   | Release snapshot
+    |    Start backup                           |   | Finish failed backup
+    |        |  Copy data from snapshot images  |   |    |
+------------------------------------------------------------------------->
+                                                                         t
