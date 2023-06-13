@@ -2,259 +2,199 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0451DC7EE29
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 08:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4EBFC7EE2E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 08:16:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233870AbjFMIEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 04:04:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
+        id S240333AbjFMIQ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 04:16:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233941AbjFMID4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 04:03:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED9D419BC;
-        Tue, 13 Jun 2023 01:03:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S239466AbjFMIQ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 04:16:56 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD81E4E;
+        Tue, 13 Jun 2023 01:16:54 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B35C61446;
-        Tue, 13 Jun 2023 08:03:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561C1C433D2;
-        Tue, 13 Jun 2023 08:03:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1686643433;
-        bh=IbqKvRQt5VBDRTYPdOQS+ty2cQ4CTJhQibclditk/S4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vDh0uSUnLpyrWDbMMeUrvD9Zd8MJfQhw3KEV+S69h2EgvKzcPDYAV3hc5nhjKH1c7
-         k05EfIr0CtBiPudnzfw98Q2JOb36RI8DDk0N2ulQk7RGZETZaccHuqtdYWD+ptX5Su
-         K+s8HB5VkOFmXzGCMkF9DsaPyuO2fn7/uHW239tc=
-Date:   Tue, 13 Jun 2023 10:03:51 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Eric DeVolder <eric.devolder@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, david@redhat.com, osalvador@suse.de,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, bhe@redhat.com,
-        ebiederm@xmission.com, kexec@lists.infradead.org, hpa@zytor.com,
-        rafael@kernel.org, vgoyal@redhat.com, dyoung@redhat.com,
-        lf32.dev@gmail.com, akpm@linux-foundation.org,
-        naveen.n.rao@linux.vnet.ibm.com, zohar@linux.ibm.com,
-        bhelgaas@google.com, vbabka@suse.cz, tiwai@suse.de,
-        seanjc@google.com, linux@weissschuh.net, vschneid@redhat.com,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        sourabhjain@linux.ibm.com, konrad.wilk@oracle.com,
-        boris.ostrovsky@oracle.com
-Subject: Re: [PATCH v23 4/8] crash: memory and CPU hotplug sysfs attributes
-Message-ID: <2023061320-vindicate-usual-6643@gregkh>
-References: <20230612210712.683175-1-eric.devolder@oracle.com>
- <20230612210712.683175-5-eric.devolder@oracle.com>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 834BA2236B;
+        Tue, 13 Jun 2023 08:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1686644213; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1Oj/gcuuB44r6saYYM7CYnUwY1Lak3+wZfGJTIYPEpw=;
+        b=MwwIhts8/ksGQ47ht4E2VgYu7vHERjHXPmrPc+xTUrNjOP//oJ4Jns6B18yOlVVdlrQNBV
+        +c8ihibL2UT+8LsO50aFG22VHGRM8Xp8m4+cOfuTsegVVd7Neti6y6dYed0/EmcWKQAXCp
+        AlUXHHS8sxcJ4Aw5OHi9PVaH072+ac8=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6C30813483;
+        Tue, 13 Jun 2023 08:16:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id G6RbGvUliGS3LQAAMHmgww
+        (envelope-from <mhocko@suse.com>); Tue, 13 Jun 2023 08:16:53 +0000
+Date:   Tue, 13 Jun 2023 10:16:53 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
+        <chengkaitao@didiglobal.com>
+Cc:     "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "muchun.song@linux.dev" <muchun.song@linux.dev>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "pilgrimtao@gmail.com" <pilgrimtao@gmail.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: Re: [PATCH v3 0/2] memcontrol: support cgroup level OOM protection
+Message-ID: <ZIgl9Zl5D+Y1RGM0@dhcp22.suse.cz>
+References: <ZHSwhyGnPteiLKs/@dhcp22.suse.cz>
+ <C5E5137F-8754-40CC-9F0C-0EB3D8AC1EC2@didiglobal.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230612210712.683175-5-eric.devolder@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <C5E5137F-8754-40CC-9F0C-0EB3D8AC1EC2@didiglobal.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 12, 2023 at 05:07:08PM -0400, Eric DeVolder wrote:
-> Introduce the crash_hotplug attribute for memory and CPUs for
-> use by userspace.  These attributes directly facilitate the udev
-> rule for managing userspace re-loading of the crash kernel upon
-> hot un/plug changes.
+On Sun 04-06-23 08:05:53, 程垲涛 Chengkaitao Cheng wrote:
+> At 2023-05-29 22:02:47, "Michal Hocko" <mhocko@suse.com> wrote:
+> >On Thu 25-05-23 07:35:41, 程垲涛 Chengkaitao Cheng wrote:
+> >> At 2023-05-22 21:03:50, "Michal Hocko" <mhocko@suse.com> wrote:
+> >[...]
+> >> >> I have created a new indicator oom_kill_inherit that maintains a negative correlation 
+> >> >> with memory.oom.protect, so we have a ruler to measure the optimal value of 
+> >> >> memory.oom.protect.
+> >> >
+> >> >An example might help here.
+> >> 
+> >> In my testing case, by adjusting memory.oom.protect, I was able to significantly 
+> >> reduce the oom_kill_inherit of the corresponding cgroup. In a physical machine 
+> >> with severely oversold memory, I divided all cgroups into three categories and 
+> >> controlled their probability of being selected by the oom-killer to 0%,% 20, 
+> >> and 80%, respectively.
+> >
+> >I might be just dense but I am lost. Can we focus on the barebone
+> >semantic of the group oom selection and killing first. No magic
+> >auto-tuning at this stage please.
+> >
+> >> >> >> about the semantics of non-leaf memcgs protection,
+> >> >> >> If a non-leaf memcg's oom_protect quota is set, its leaf memcg will proportionally 
+> >> >> >> calculate the new effective oom_protect quota based on non-leaf memcg's quota.
+> >> >> >
+> >> >> >So the non-leaf memcg is never used as a target? What if the workload is
+> >> >> >distributed over several sub-groups? Our current oom.group
+> >> >> >implementation traverses the tree to find a common ancestor in the oom
+> >> >> >domain with the oom.group.
+> >> >> 
+> >> >> If the oom_protect quota of the parent non-leaf memcg is less than the sum of 
+> >> >> sub-groups oom_protect quota, the oom_protect quota of each sub-group will 
+> >> >> be proportionally reduced
+> >> >> If the oom_protect quota of the parent non-leaf memcg is greater than the sum 
+> >> >> of sub-groups oom_protect quota, the oom_protect quota of each sub-group 
+> >> >> will be proportionally increased
+> >> >> The purpose of doing so is that users can set oom_protect quota according to 
+> >> >> their own needs, and the system management process can set appropriate 
+> >> >> oom_protect quota on the parent non-leaf memcg as the final cover, so that 
+> >> >> the system management process can indirectly manage all user processes.
+> >> >
+> >> >I guess that you are trying to say that the oom protection has a
+> >> >standard hierarchical behavior. And that is fine, well, in fact it is
+> >> >mandatory for any control knob to have a sane hierarchical properties.
+> >> >But that doesn't address my above question. Let me try again. When is a
+> >> >non-leaf memcg potentially selected as the oom victim? It doesn't have
+> >> >any tasks directly but it might be a suitable target to kill a multi
+> >> >memcg based workload (e.g. a full container).
+> >> 
+> >> If nonleaf memcg have the higher memory usage and the smaller 
+> >> memory.oom.protect, it will have the higher the probability being 
+> >> selected by the killer. If the non-leaf memcg is selected as the oom 
+> >> victim, OOM-killer will continue to select the appropriate child 
+> >> memcg downwards until the leaf memcg is selected.
+> >
+> >Parent memcg has more or equal memory charged than its child(ren) by
+> >definition. Let me try to ask differently. Say you have the following
+> >hierarchy
+> >
+> >		  root
+> >		/     \
+> >       container_A     container_B
+> >     (oom.prot=100M)   (oom.prot=200M)
+> >     (usage=120M)      (usage=180M)
+> >     /     |     \
+> >    A      B      C
+> >                 / \
+> >		C1  C2
+> >
+> >
+> >container_B is protected so it should be excluded. Correct? So we are at
+> >container_A to chose from. There are multiple ways the system and
+> >continer admin might want to achieve.
+> >1) system admin might want to shut down the whole container.
+> >2) continer admin might want to shut the whole container down
+> >3) cont. admin might want to shut down a whole sub group (e.g. C as it
+> >   is a self contained workload and killing portion of it will put it into
+> >   inconsistent state).
+> >4) cont. admin might want to kill the most excess cgroup with tasks (i.e. a
+> >   leaf memcg).
+> >5) admin might want to kill a process in the most excess memcg.
+> >
+> >Now we already have oom.group thingy that can drive the group killing
+> >policy but it is not really clear how you want to incorporate that to
+> >the protection.
+> >
+> >Again, I think that an oom.protection makes sense but the semantic has
+> >to be very carefully thought through because it is quite easy to create
+> >corner cases and weird behavior. I also think that oom.group has to be
+> >consistent with the protection.
 > 
-> For memory, expose the crash_hotplug attribute to the
-> /sys/devices/system/memory directory. For example:
-> 
->  # udevadm info --attribute-walk /sys/devices/system/memory/memory81
->   looking at device '/devices/system/memory/memory81':
->     KERNEL=="memory81"
->     SUBSYSTEM=="memory"
->     DRIVER==""
->     ATTR{online}=="1"
->     ATTR{phys_device}=="0"
->     ATTR{phys_index}=="00000051"
->     ATTR{removable}=="1"
->     ATTR{state}=="online"
->     ATTR{valid_zones}=="Movable"
-> 
->   looking at parent device '/devices/system/memory':
->     KERNELS=="memory"
->     SUBSYSTEMS==""
->     DRIVERS==""
->     ATTRS{auto_online_blocks}=="offline"
->     ATTRS{block_size_bytes}=="8000000"
->     ATTRS{crash_hotplug}=="1"
-> 
-> For CPUs, expose the crash_hotplug attribute to the
-> /sys/devices/system/cpu directory. For example:
-> 
->  # udevadm info --attribute-walk /sys/devices/system/cpu/cpu0
->   looking at device '/devices/system/cpu/cpu0':
->     KERNEL=="cpu0"
->     SUBSYSTEM=="cpu"
->     DRIVER=="processor"
->     ATTR{crash_notes}=="277c38600"
->     ATTR{crash_notes_size}=="368"
->     ATTR{online}=="1"
-> 
->   looking at parent device '/devices/system/cpu':
->     KERNELS=="cpu"
->     SUBSYSTEMS==""
->     DRIVERS==""
->     ATTRS{crash_hotplug}=="1"
->     ATTRS{isolated}==""
->     ATTRS{kernel_max}=="8191"
->     ATTRS{nohz_full}=="  (null)"
->     ATTRS{offline}=="4-7"
->     ATTRS{online}=="0-3"
->     ATTRS{possible}=="0-7"
->     ATTRS{present}=="0-3"
-> 
-> With these sysfs attributes in place, it is possible to efficiently
-> instruct the udev rule to skip crash kernel reloading for kernels
-> configured with crash hotplug support.
-> 
-> For example, the following is the proposed udev rule change for RHEL
-> system 98-kexec.rules (as the first lines of the rule file):
-> 
->  # The kernel updates the crash elfcorehdr for CPU and memory changes
->  SUBSYSTEM=="cpu", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
->  SUBSYSTEM=="memory", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
-> 
-> When examined in the context of 98-kexec.rules, the above rules
-> test if crash_hotplug is set, and if so, the userspace initiated
-> unload-then-reload of the crash kernel is skipped.
-> 
-> CPU and memory checks are separated in accordance with
-> CONFIG_HOTPLUG_CPU and CONFIG_MEMORY_HOTPLUG kernel config options.
-> If an architecture supports, for example, memory hotplug but not
-> CPU hotplug, then the /sys/devices/system/memory/crash_hotplug
-> attribute file is present, but the /sys/devices/system/cpu/crash_hotplug
-> attribute file will NOT be present. Thus the udev rule skips
-> userspace processing of memory hot un/plug events, but the udev
-> rule will evaluate false for CPU events, thus allowing userspace to
-> process CPU hot un/plug events (ie the unload-then-reload of the kdump
-> capture kernel).
-> 
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-> Acked-by: Hari Bathini <hbathini@linux.ibm.com>
-> Acked-by: Baoquan He <bhe@redhat.com>
-> ---
->  .../admin-guide/mm/memory-hotplug.rst          |  8 ++++++++
->  Documentation/core-api/cpu_hotplug.rst         | 18 ++++++++++++++++++
->  drivers/base/cpu.c                             | 14 ++++++++++++++
->  drivers/base/memory.c                          | 13 +++++++++++++
->  include/linux/kexec.h                          |  8 ++++++++
->  5 files changed, 61 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> index 1b02fe5807cc..eb99d79223a3 100644
-> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> @@ -291,6 +291,14 @@ The following files are currently defined:
->  		       Availability depends on the CONFIG_ARCH_MEMORY_PROBE
->  		       kernel configuration option.
->  ``uevent``	       read-write: generic udev file for device subsystems.
-> +``crash_hotplug``      read-only: when changes to the system memory map
-> +		       occur due to hot un/plug of memory, this file contains
-> +		       '1' if the kernel updates the kdump capture kernel memory
-> +		       map itself (via elfcorehdr), or '0' if userspace must update
-> +		       the kdump capture kernel memory map.
-> +
-> +		       Availability depends on the CONFIG_MEMORY_HOTPLUG kernel
-> +		       configuration option.
->  ====================== =========================================================
->  
->  .. note::
-> diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
-> index f75778d37488..0c8dc3fe5f94 100644
-> --- a/Documentation/core-api/cpu_hotplug.rst
-> +++ b/Documentation/core-api/cpu_hotplug.rst
-> @@ -750,6 +750,24 @@ will receive all events. A script like::
->  
->  can process the event further.
->  
-> +When changes to the CPUs in the system occur, the sysfs file
-> +/sys/devices/system/cpu/crash_hotplug contains '1' if the kernel
-> +updates the kdump capture kernel list of CPUs itself (via elfcorehdr),
-> +or '0' if userspace must update the kdump capture kernel list of CPUs.
-> +
-> +The availability depends on the CONFIG_HOTPLUG_CPU kernel configuration
-> +option.
-> +
-> +To skip userspace processing of CPU hot un/plug events for kdump
-> +(ie the unload-then-reload to obtain a current list of CPUs), this sysfs
-> +file can be used in a udev rule as follows:
-> +
-> + SUBSYSTEM=="cpu", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
-> +
-> +For a cpu hot un/plug event, if the architecture supports kernel updates
-> +of the elfcorehdr (which contains the list of CPUs), then the rule skips
-> +the unload-then-reload of the kdump capture kernel.
-> +
->  Kernel Inline Documentations Reference
->  ======================================
->  
-> diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-> index c1815b9dae68..06a0c22b37b8 100644
-> --- a/drivers/base/cpu.c
-> +++ b/drivers/base/cpu.c
-> @@ -282,6 +282,17 @@ static ssize_t print_cpus_nohz_full(struct device *dev,
->  static DEVICE_ATTR(nohz_full, 0444, print_cpus_nohz_full, NULL);
->  #endif
->  
-> +#ifdef CONFIG_HOTPLUG_CPU
-> +#include <linux/kexec.h>
-> +static ssize_t crash_hotplug_show(struct device *dev,
-> +				     struct device_attribute *attr,
-> +				     char *buf)
-> +{
-> +	return sprintf(buf, "%d\n", crash_hotplug_cpu_support());
-> +}
-> +static DEVICE_ATTR_ADMIN_RO(crash_hotplug);
-> +#endif
-> +
->  static void cpu_device_release(struct device *dev)
->  {
->  	/*
-> @@ -469,6 +480,9 @@ static struct attribute *cpu_root_attrs[] = {
->  #ifdef CONFIG_NO_HZ_FULL
->  	&dev_attr_nohz_full.attr,
->  #endif
-> +#ifdef CONFIG_HOTPLUG_CPU
-> +	&dev_attr_crash_hotplug.attr,
-> +#endif
->  #ifdef CONFIG_GENERIC_CPU_AUTOPROBE
->  	&dev_attr_modalias.attr,
->  #endif
-> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-> index b456ac213610..24b8ef4c830c 100644
-> --- a/drivers/base/memory.c
-> +++ b/drivers/base/memory.c
-> @@ -490,6 +490,16 @@ static ssize_t auto_online_blocks_store(struct device *dev,
->  
->  static DEVICE_ATTR_RW(auto_online_blocks);
->  
-> +#ifdef CONFIG_MEMORY_HOTPLUG
-> +#include <linux/kexec.h>
-> +static ssize_t crash_hotplug_show(struct device *dev,
-> +				       struct device_attribute *attr, char *buf)
-> +{
-> +	return sprintf(buf, "%d\n", crash_hotplug_memory_support());
-> +}
+> The barebone semantic of the function implemented by my patch are 
+> summarized as follows:
+> Memcg only allows processes in the memcg to be selected by their 
+> ancestor's OOM killer when the memory usage exceeds "oom.protect"
 
-This sysfs file has to be documented in Documentation/ABI/ right?
+I am sure you would need to break this expectation if there is no such
+memcg with tasks available or do you panic the system in that case in
+the global case and retry for ever for the memcg oom?
 
-And did you use checkpatch?  It should have told you to use sysfs_emit()
-instead...
+> It should be noted that "oom.protect" and "oom.group" are completely 
+> different things, and kneading them together may make the explanation 
+> more confusing.
 
-> +static DEVICE_ATTR_RO(crash_hotplug);
-> +#endif
+I am not suggesting to tight those two together by any means. I am
+merely saying that those two have to be mutually cooperative and still
+represent a reasonable semantic. Please have a look at above example
+usecases and try to explain how the memory protection fits in here as
+you have defined and implemented it.
 
-All of these #ifdefs should all be removed and instead use the
-is_visible() callback to determine if the attribute is shown or not,
-using the IS_ENABLED() test in the function.
-
-thanks,
-
-greg k-h
+-- 
+Michal Hocko
+SUSE Labs
