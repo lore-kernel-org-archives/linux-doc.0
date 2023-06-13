@@ -2,100 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 575FBC7EE2E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 10:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA48C7EE2E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 11:56:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241211AbjFMKrl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 06:47:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40384 "EHLO
+        id S235491AbjFML4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 07:56:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238981AbjFMKrk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 06:47:40 -0400
-Received: from mx4.veeam.com (mx4.veeam.com [104.41.138.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B96811AC;
-        Tue, 13 Jun 2023 03:47:39 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        with ESMTP id S233561AbjFML4G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 07:56:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86070C5;
+        Tue, 13 Jun 2023 04:56:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx4.veeam.com (Postfix) with ESMTPS id D96E25E91D;
-        Tue, 13 Jun 2023 13:47:37 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx4-2022; t=1686653258;
-        bh=Z7dNDDmcpifePckvcqW3TSCqfRweG1amD84n3lPragY=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
-        b=G81g0nM4EYIPIQEClVwgOGTxMajn0Ko1zyPiCrWwoKHprdoEd8oLiDEE4qaLbjrNp
-         VZe0PpeeqGdLTgyqAMv2gCODJvMXr18nCaOsz5uCa+B6EVY6YO7LbLYxubvuHknSLw
-         +Sf5GD/P3f4ElvgLDl6C+02x/jeBbE/ecien7pvE44117yMV9PhA7S0lDmEpnYXF1G
-         6w/xdup9AYJbf4dvxFFT1pjLUWh9USwm94QAnCU0vDSOYXuecjsgmOwttyBomuIiva
-         j+SLkf2kWAH5bumQnimtvQ79U7Qj5xta8aMXLkRzurdwUqt6I0ADNfdWYQuOrjvf9f
-         O6tUHBnRi4eww==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Tue, 13 Jun
- 2023 12:47:36 +0200
-Message-ID: <7dbbaf60-c85d-5a7a-8f16-5f5e4ff43cd8@veeam.com>
-Date:   Tue, 13 Jun 2023 12:47:29 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 19A6D63561;
+        Tue, 13 Jun 2023 11:56:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EACCDC433D2;
+        Tue, 13 Jun 2023 11:55:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686657360;
+        bh=Y55L/ifTD+Az3stG2Sj9E0dJ66FX1dAYyv7iV54FE38=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cJlSzc9cAgm+2yPlvuu8gZ/T9bYn86hE9l2Db7NKeGcKpGhGvt7nMuKa9vtZJwAT7
+         0Pmee1IYLv6zI2hlTDbTl6kEbzuR1MPKb0GXqZkfxDGQN3LMMHlPbOmipHaUitPNM4
+         jBKIhm7wEHcU4eP3gK1FD9EmtjFk8kbAc+SOmOedWRYnvFr4EU/ZjtWIc91Cnva7MV
+         hqMk3ik2IP8ek/EQJOmpQZqBnsvWOCw6XrnSMmjExBuNtmzzbjCyLNhYBa1kXiNB4P
+         nkM/bQf3AFb+1byGT0Q1A0J92v6m3KwLTngcBazzoy7js0bJb/+ns83TVxjGjk/Ojs
+         japRf5kSxwZmg==
+Date:   Tue, 13 Jun 2023 12:55:48 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
+        torvalds@linux-foundation.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v4 11/11] blksnap: Kconfig and Makefile
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>, <axboe@kernel.dk>,
-        <hch@infradead.org>, <corbet@lwn.net>, <snitzer@kernel.org>
-CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <willy@infradead.org>, <dlemoal@kernel.org>, <wsa@kernel.org>,
-        <heikki.krogerus@linux.intel.com>, <ming.lei@redhat.com>,
-        <gregkh@linuxfoundation.org>, <linux-block@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>
-References: <20230609115858.4737-1-sergei.shtepa@veeam.com>
- <20230609115858.4737-11-sergei.shtepa@veeam.com>
- <499ded51-3fb8-f11b-8776-08ab2e9a8812@infradead.org>
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-In-Reply-To: <499ded51-3fb8-f11b-8776-08ab2e9a8812@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29240315546D7163
-X-Veeam-MMEX: True
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="kfP6EvgSuUvXOsjA"
+Content-Disposition: inline
+In-Reply-To: <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
+X-Cookie: Not a flying toy.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--kfP6EvgSuUvXOsjA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 6/13/23 01:43, Randy Dunlap wrote:
->> +config BLKSNAP
->> +	tristate "Block Devices Snapshots Module (blksnap)"
->> +	help
->> +	  Allow to create snapshots and track block changes for block devices.
->> +	  Designed for creating backups for simple block devices. Snapshots are
->> +	  temporary and are released then backup is completed. Change block
-> 	                             when backup is completed.
-> 
-> or is the order of operations as listed: release snapshots and then backup
-> can be completed?
-> 
->> +	  tracking allows to create incremental or differential backups.
+On Mon, Jun 12, 2023 at 05:10:49PM -0700, Rick Edgecombe wrote:
 
-"when backup is completed." - it will be more correct.
+> +Enabling arch_prctl()'s
+> +=======================
+> +
+> +Elf features should be enabled by the loader using the below arch_prctl's. They
+> +are only supported in 64 bit user applications. These operate on the features
+> +on a per-thread basis. The enablement status is inherited on clone, so if the
+> +feature is enabled on the first thread, it will propagate to all the thread's
+> +in an app.
 
-Normal backup process:
+I appreciate it's very late in the development of this series but given
+that there are very similar features on both arm64 and riscv would it
+make sense to make these just regular prctl()s, arch_prctl() isn't used
+on other architectures and it'd reduce the amount of arch specific work
+that userspace needs to do if the interface is shared.
 
-Take snapshot                                        Release snapshot
-    |    Start backup                        Finish backup   |
-    |        |  Copy data from snapshot images    |          |
-------------------------------------------------------------------------->
-                                                                         t
+It should also be possible to support both interfaces for x86 I guess,
+though that feels like askng for trouble.
 
-In case of failure, for example, when the snapshot is overflowing:
+--kfP6EvgSuUvXOsjA
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                                           The snapshot is corrupted
-Take snapshot                                   | Release snapshot
-    |    Start backup                           |   | Finish failed backup
-    |        |  Copy data from snapshot images  |   |    |
-------------------------------------------------------------------------->
-                                                                         t
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSIWUMACgkQJNaLcl1U
+h9Decwf/Sfj1gjBXiige5kMFXXsGESCn0ysC4UryS29Y6kt4AZaDRY4e+Sav+q1E
+HJvMz1T1PvtW/of626ohvIdHHQfnw/cgBY8fiJty2koBqH3rLv49GkdgFBqGQadw
+i6mt0r8Iic3mgMA0U0vKYbaVRH3XFW57t/wHv/s0ZXymAp/gfHVEu19h/mJ5Q6Id
+VcxOUUbwLG8iAQqf4LeFqinIuDMF/RLh8ww2N7qfmZAjtZjVR1sK9EZEL3wi7rPf
+TXkYE2ytzOBsdr20PSk0IPDn6THMit+hJN13KtV+fC1CR4pUrPpV34smNhxLdKz4
+w23fBr1HzZUByK5stGOoiP+mPWjeqQ==
+=Bwcu
+-----END PGP SIGNATURE-----
+
+--kfP6EvgSuUvXOsjA--
