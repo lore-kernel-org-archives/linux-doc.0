@@ -2,344 +2,244 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7D0EEB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 318C9EB64D0
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:28:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241460AbjFMRZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 13:25:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50530 "EHLO
+        id S229806AbjFMR2p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 13:28:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239942AbjFMRYN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:24:13 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30372273D;
-        Tue, 13 Jun 2023 10:22:51 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DEHkMt009531;
-        Tue, 13 Jun 2023 17:22:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=FlrxgEvt7L4TBZyxO2kgQkEc4ZQKY0Bf4bp//OqkEjg=;
- b=j4QE66esYU1XJU8eQSHHgaWURGZuSvC3eLWlyWWTH5NKKDdkuag+S+Q2LxKn23XEzEYo
- rLkNfCVWVKtbcBPdMR7WmJ514OvQHjcFNpn7WxXC36Tv2/qF/UUEw8dxtg6m6WqQc1B3
- aBcFYCljFodsOqFMKNstAuWMve3/+uuC7GNReClZ1x2D605mg2qL8ETj3VNq2UigasG2
- 3yGvO2oFLPC4LkveZxSpuW8P98ynhtz5emKZAnF2qwX4jhYtl8+Cj3VNjdxDh4msS0em
- fFb1P7Chy46zjxeSHoxjAa48XaZdss2DYCj00Ro2AJgQCoRgSE86+auUm85yArbBgQ9j Rw== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6s3wrnca-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:59 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHLvfs029866
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:57 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 13 Jun 2023 10:21:56 -0700
-From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v14 24/25] virt: gunyah: Add ioeventfd
-Date:   Tue, 13 Jun 2023 10:20:52 -0700
-Message-ID: <20230613172054.3959700-25-quic_eberman@quicinc.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230613172054.3959700-1-quic_eberman@quicinc.com>
-References: <20230613172054.3959700-1-quic_eberman@quicinc.com>
+        with ESMTP id S229766AbjFMR2o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:28:44 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57EA81FC6;
+        Tue, 13 Jun 2023 10:28:15 -0700 (PDT)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DGiBQ2013871;
+        Tue, 13 Jun 2023 17:25:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2023-03-30;
+ bh=SeGKV2FbE5oaBOinr8p+N5j5c9oH38W99kLRnydrRPc=;
+ b=KpH/HTz7AGBUeyPBCdGodQtbVg8CHUkGFsacvYM6ofveswjGfUYEeU7sxxzhW+t8q4GI
+ BD5hZKxNC5QRcHa/MSXZ1LET6Gj/9MB/4EyXGAiul7a0chgGWGX63uUJ6PeqyyboTT80
+ z5N/OzehEL1OWv+6JYxYN0xph9KVH0aEwWOFMeYn+6zJ1rQ4VjNhE4XBrEYQvHkbTc+f
+ MNxGEptWmyDmB7GiHaZ7JMgo+7Vg4NSDAMnDuaTd/5h1RinWVeN0lOIGRJG6t8RdC9GI
+ +FPbii1wTyk/ADUfyYavhstLpxbJfLDlLzZbsUtLQWWuecab3RG5Jtx3ursJrU4vi3Gx 5Q== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3r4fs1wvmq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Jun 2023 17:25:41 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 35DG3n1j016278;
+        Tue, 13 Jun 2023 17:25:39 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3r4fm4fwsn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 13 Jun 2023 17:25:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y2PGmiPuEKiyVzpt05nwc/Rwja0W3XpOO/Ds6ZcHfaMeRqsz4P62wP6DggnYKxD1VgZEIaDjtJxRJUiAJnF+t8MqY59VbgV5+rhA8zo2R7uFOUBF1gh3WUsJbK5aPvyEEoIUzVT90rlsG4JoKxhO1LOwo62RGaWuMCbsXMTxfUJxj9TvZWQt/HOlOYvKhOL8ghO0w26gV/ltTNLfycbssqfGIQLEjHUxXTiVHTyLlWJCmOCkB9V7Anvw4PwFji9s8y2T9ZELHfWtOcbsAOacsZPy+SECLZl/YQM1wZlYFgk1kD0vlBqFuDFShCblnEZzNzPSNWOhne1icn0MEdFDHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SeGKV2FbE5oaBOinr8p+N5j5c9oH38W99kLRnydrRPc=;
+ b=fY43GtwpKWijLFQShaSzLb/QmeatxLmqSox86ePatOj+I3jprZN1kin3j7AajL3wIs55cLDb0eGJtR+mfPejAin0Lih8Wj9Onm1wIJI+KFByDgZ2AOxrFS0h50A5hOxEIkKjC3Xg4J0Wd5l0FO3Ss8eYX7/6vCSkTDLwLZI542wYjKi4ZvU1M5fQdHFByHxqOTgVswy4ty0Z5T5A8HETPI7eoT+l0xlw6SMAHkNztSbWY6WUTuHSzlc+jpmMUrFpEcFGplgNkZE1MuVRGrX4tnUURDbkUQkwJwgYYvq/ku0Yye+J+SqGpFYIIUqT5Q59tIlXPmy90BSvZfFyHB95fA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SeGKV2FbE5oaBOinr8p+N5j5c9oH38W99kLRnydrRPc=;
+ b=D2rDt5EblaTDW6CEKNtpOc2iWAtnRQ+s5kMmWgCsgrG6Z/M9beNFIB9LaTWkxUB6LZasdRVL9ScDVcxFp9tTnkBVruGaC0SsaR9qsAyQVrEdrwfuDCsii0LrDR0LHOHmaq/tpVL4Ou1i3SAO56c9EiDSsN3Spojng2kgIISwihQ=
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com (2603:10b6:805:d8::25)
+ by CO1PR10MB4596.namprd10.prod.outlook.com (2603:10b6:303:6f::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.44; Tue, 13 Jun
+ 2023 17:25:36 +0000
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::998f:d221:5fb6:c67d]) by SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::998f:d221:5fb6:c67d%7]) with mapi id 15.20.6455.045; Tue, 13 Jun 2023
+ 17:25:36 +0000
+Date:   Tue, 13 Jun 2023 13:25:32 -0400
+From:   "Liam R. Howlett" <Liam.Howlett@Oracle.com>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH drm-next v4 02/14] maple_tree: split up MA_STATE() macro
+Message-ID: <20230613172532.o7gswjygcqndzsqw@revolver>
+Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
+        Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
+        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
+        matthew.brost@intel.com, boris.brezillon@collabora.com,
+        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
+        willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+References: <20230606223130.6132-1-dakr@redhat.com>
+ <20230606223130.6132-3-dakr@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230606223130.6132-3-dakr@redhat.com>
+User-Agent: NeoMutt/20220429
+X-ClientProxiedBy: YT4PR01CA0403.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:108::17) To SN6PR10MB3022.namprd10.prod.outlook.com
+ (2603:10b6:805:d8::25)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: iBjD5XAYBg7uZ5J1W_W3nFDmwKmfPylL
-X-Proofpoint-GUID: iBjD5XAYBg7uZ5J1W_W3nFDmwKmfPylL
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR10MB3022:EE_|CO1PR10MB4596:EE_
+X-MS-Office365-Filtering-Correlation-Id: 640ce331-a024-4efd-a88b-08db6c333369
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NrdeWLbJxnPdQIxod87ZF/oe6Tv2HCT5m937UdAFwSwmaUKV25AnOI4P8twlLeim2B4qy8Hi2RbBbegYR0fXaS6EU6sLxoX3AlZNc0bYnMTiRXqvcI06Q75onYiqeU5k5L6+ywBsPQmgOa1yoYg4nwrF9hVrTJVxeU+Jk9w1POE9Ik2PwgCwQ1C9mSlkYDIurD+m9P45nOUvMSs0vOX/LpmZyEAO6uF3nJkfxs4tRsUrsnM12WfSv767eODzAbgBzTZUWshEPcpXLSvOtdCvBz8z35j5Iu6OCZFTLapc3zy1p+74pdvtYhAYVDNUbRuKCQOZ74ePQrYZinjUQGGKQZ3E60ZhGiT3uMOtNx8OjisrdbrfqP/29hAlLXjWx23HYe5a6twR8iGWnbbxZhfsZmcc1ihkC2VIlSKyQWnxevyx+0lGOlAZmSfzVEREQmNB/nbL9/qaePn5gEgZ1iVvYdwZoT5YgHBLL1fqygf0NBEuCZZajZQC+qd6CEib/h/8t4EqLEplSHzXp1GiKJU1cZECDwfb3Up/eeHQzhXedDmXDMrNRW0rDnvRf+tiyrsV
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB3022.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(396003)(346002)(136003)(376002)(366004)(39860400002)(451199021)(6486002)(6666004)(9686003)(83380400001)(38100700002)(86362001)(33716001)(6512007)(26005)(1076003)(6506007)(186003)(2906002)(5660300002)(8676002)(7416002)(8936002)(316002)(41300700001)(6916009)(66946007)(66556008)(4326008)(66476007)(478600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?riDRQKvDVDcQvV/GLBPlaOaEIJGT4e+YAImAlZNNXTo+Io3uogZNwOupum1Z?=
+ =?us-ascii?Q?AKqG2RAq65hnZAkGde123Njw1FY4DA1lf+IuV9kgYZLysXlxxANPv/DKnd+r?=
+ =?us-ascii?Q?67170BAljZs4ftmzZVbICxEp8bHMbcBusfzc7j6XR0rul0XVyQ2OrKjiX4Hz?=
+ =?us-ascii?Q?6rwba9wyc1u3VC3LAObqQW03kIMeAHCiG/+LS43tr0EVyfGucN8LNIgK74F0?=
+ =?us-ascii?Q?gVuSqnz9rDvCrT8qaA0kFdmUzSHFOkLT3Fwzzudk8PpUD1NrHBQ8cfF5VidD?=
+ =?us-ascii?Q?ODMQQDgCshlNFFSyWaA7rtOwU+rSZbuNIjdHS3n7UVk6Rg43vCZusbniD2Ri?=
+ =?us-ascii?Q?JrFJUEFAgWnHZbkaxD4aj2UJECPXowmCCZmtgC9AMIcTW9A5njt87E+0+uui?=
+ =?us-ascii?Q?tGc7Lv1p/psjNYrSkMi9g4hCvBJfRxUNT2tBn1/ijWsRTPJZ1oxYGyNHoJTX?=
+ =?us-ascii?Q?XwcTN1Y2AZDqcKh7K8q8rq2XcAZCzv85pyVLIqO8jD3H9YdDPIJlbKQv7zRT?=
+ =?us-ascii?Q?IN4ah6GB+jhJPPRGOkiHp9upIO9/ne/4+A/uqXyGFV6Bdxr9A/tK6LH4zLEY?=
+ =?us-ascii?Q?kEruXnT9ecxUKrm+CxPZ547uOJ5lOtsDh3qj3wMsdd6sT/DQd4suC5HeidQj?=
+ =?us-ascii?Q?ciM+foC8lWFenVtk4kMzoQDNeoVu+lNTZeY9lXSLeY35vb5TA8HeMzx2OPk7?=
+ =?us-ascii?Q?mdkhirRjcVtxMJ/jYiXyfGkEqvmf2I+mgRf+06qWORn2P/PPEgTY+cyVnsAi?=
+ =?us-ascii?Q?ZYW0t/HLJth5XN43OlJZeduYWTb4mWEFBsicfcFXjR+P2UcPbDfjiOyOfwwk?=
+ =?us-ascii?Q?PAvVUZE8+SKibTBKZL3hXNWM7cT1iSWiFkNB2qLN1SOrH/lrae72SaTe5yQ5?=
+ =?us-ascii?Q?8dpJPpfoKS+OBYE6AddYOXcX5WRcSEXeSb2ZhwY4VMEotsr0HrXNDSsYtGb7?=
+ =?us-ascii?Q?mKgpS+2u5Hf4TtWCgV8pHeCxpESwt5bPD5LokBLIoPYvOk/hMdNlGrS751fm?=
+ =?us-ascii?Q?YFCoDwxhGkGL5yoYIxlHjcf9W4fC/b4qMgCex+Xm10XGgN5HbELlB0ZL/gFy?=
+ =?us-ascii?Q?OwhLJhpDMfg7QlyUxnKUDPMWjHFYl2KH8eFAuJhZvNK98MOq/mUN2i/vztK5?=
+ =?us-ascii?Q?aXtXo9Ls8EHPSn3/Xo5R0Oq3DyuRL92kXko4Vh0QEbV4cauDhxzXuZa0jINN?=
+ =?us-ascii?Q?ShhtL7f3cbtBpnqGO06iaUQkLsP92+hHXwB8r3yUTsahSZxZmkl6gNqRDHl3?=
+ =?us-ascii?Q?sdvB4ecxEPpitaHnB7N5/LS0gDhnjW0kW+j93EMGm6lUIDY5KLfGnuTQRnkN?=
+ =?us-ascii?Q?LoNzgiNVDh0MB1B255YaTnhKG1Ii1A0NCzCEiuxeuUREsYZnNsJUsTuiOH6W?=
+ =?us-ascii?Q?Agz676ZaMUZglGz4jVVrrBKn1UHUk4Kndp9UcduaogZBast4v+WXd7JZTCrs?=
+ =?us-ascii?Q?u80r9CfMs4smTnZslb0dltSkzhuyHlO4nHfgqvrKPdM84aoABe12lfrpu2zn?=
+ =?us-ascii?Q?2kzhwqRc6t5LnSkoCx5OiurlzcWvXMXi/mVeS1Z97aYo9rAOHpJ2o/abD2wH?=
+ =?us-ascii?Q?L2XjXymVg5WTcIQyDWiFpnGWO3jW9zORFobowSIOfbUVNRDSRsRK7Mhactfg?=
+ =?us-ascii?Q?DQ=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?N4WO+w89SjHcVLkFb4ZSm8WN+fMinGRDep2AOJDhKiZxA7ApQ9In/1oWTmyY?=
+ =?us-ascii?Q?3fjIGyaB4rXko1MxneNNz6y2goncsuE7b2XD7Zzzt8NF/28ptNBpKUgWKi5K?=
+ =?us-ascii?Q?38wkj7fesVoADTFNs5ic0gSk/sc3y1Zo+aiqdfwlVR/iWQHKpK+asybHVonI?=
+ =?us-ascii?Q?PH4ZNmxaZxNyEhqgYY5Nu2OMh73B9RBo3kPy0glHGBh7XyFnhkNaPbKi4jf+?=
+ =?us-ascii?Q?Yoy3vQU+ZRwq/76DRXoz5/qvFcOHJ+YCmvjRiQgne6PiuiEvbr7+aVr+RONV?=
+ =?us-ascii?Q?5WcdmPa9f/em+WyTC3eAzqEwparXPH5hvkcQ2E0ITQZeU2d/ennN1AgB9SKu?=
+ =?us-ascii?Q?6i5bzkLTSYsla8MyRUeVeGWS7aFMSW+1CwkqeGNBlreGZgyqGKC/BT7MMKXl?=
+ =?us-ascii?Q?H6bpA0GDgEjod68XADnTBW4jYvrD4WqgjjF5Hmu4nolSS8NU41Y69NdwWthn?=
+ =?us-ascii?Q?Vb6lCpOEz0A4lQc1xIUztGo/wqAjhFQr7tDidsOPgc2KOvZktm6cT7yNpx31?=
+ =?us-ascii?Q?Ubonef9hQLBxSa7ERHWnqlukc1ZISW3fya56Y6AgNkAi1u4hKqnNMni1o+VW?=
+ =?us-ascii?Q?TiuUf/KxIP68f/UM9opawRI+V2ybHkK3WYPMHfnXhll/Gh2Ajt+zBZwQpC7n?=
+ =?us-ascii?Q?o4Elj3QMwyT35EL3IfP4+/eIUn/s0zykDmctYNbUvmrIDfZ54NTd195vkieu?=
+ =?us-ascii?Q?FsxqtJFjwhDU6TIdlSCvJ7KVwU/bbCXTnzvILDgT+tHmqmE4K2xVfwUA9hQH?=
+ =?us-ascii?Q?JRtIf6Eiit8tZrv84DiJGC0PkOrDSG3Bmeete1s515db62OUV6wYGW825tl2?=
+ =?us-ascii?Q?OM2GPW0JtQDRMFZQvp2JR2KZNx3FWYi8INNeky8FiNBKzFCt3tacBiOIiTcr?=
+ =?us-ascii?Q?UCAvit6eMquloXjCtGevj9Mdt0ormqzw8SX5Er0CamdDS+v0Uy2IIc9Wn6pc?=
+ =?us-ascii?Q?tJ6Sz48IoJCLXVcR17jTGQWcNffFJCE0+vbyo9ObTJbQ0zHKIN9+X0Xkpldw?=
+ =?us-ascii?Q?/AfVY79EY79iozKdxf7ky142/NhOaCy5Da+Pk0vq/Z8JIR3dxuxlNC45c4Ub?=
+ =?us-ascii?Q?oivAyQtE6MPF0guu2DkDSc2++T5FYjZDBEVv7OUxcQ5HXQ04V95MAZMj7R+B?=
+ =?us-ascii?Q?nfEbBrDmVMKwh/8giUYEGw9NmH1Do6/wzQ=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 640ce331-a024-4efd-a88b-08db6c333369
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB3022.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 17:25:36.5681
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nR6pIlSOcQ1TdkqpFh3fuqPYbVilXS8AlpTWkn9LwfjkdlbcP3dusrSryZY/5zTfLvPWNEk3ssRJJKAzp0GNBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4596
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-13_19,2023-06-12_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- adultscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015 impostorscore=0
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306130153
+ definitions=2023-06-13_20,2023-06-12_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ spamscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306130154
+X-Proofpoint-GUID: vpWtrFuiJbunxAjfgUpK1H4iSDUxzOT1
+X-Proofpoint-ORIG-GUID: vpWtrFuiJbunxAjfgUpK1H4iSDUxzOT1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Allow userspace to attach an ioeventfd to an mmio address within the guest.
+* Danilo Krummrich <dakr@redhat.com> [230606 18:31]:
+> Split up the MA_STATE() macro such that components using the maple tree
+> can easily inherit from struct ma_state and build custom tree walk
+> macros to hide their internals from users.
+> 
+> Example:
+> 
+> struct sample_iterator {
+> 	struct ma_state mas;
+> 	struct sample_mgr *mgr;
+> };
+> 
+> \#define SAMPLE_ITERATOR(name, __mgr, start)			\
+> 	struct sample_iterator name = {				\
+> 		.mas = MA_STATE_INIT(&(__mgr)->mt, start, 0),	\
+> 		.mgr = __mgr,					\
+> 	}
+> 
+> \#define sample_iter_for_each_range(it__, entry__, end__) \
+> 	mas_for_each(&(it__).mas, entry__, end__)
+> 
+> --
+> 
+> struct sample *sample;
+> SAMPLE_ITERATOR(si, min);
+> 
+> sample_iter_for_each_range(&si, sample, max) {
+> 	frob(mgr, sample);
+> }
+> 
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 
-Reviewed-by: Alex Elder <elder@linaro.org>
-Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
----
- Documentation/virt/gunyah/vm-manager.rst |   2 +-
- drivers/virt/gunyah/Kconfig              |   9 ++
- drivers/virt/gunyah/Makefile             |   1 +
- drivers/virt/gunyah/gunyah_ioeventfd.c   | 130 +++++++++++++++++++++++
- include/uapi/linux/gunyah.h              |  37 +++++++
- 5 files changed, 178 insertions(+), 1 deletion(-)
- create mode 100644 drivers/virt/gunyah/gunyah_ioeventfd.c
+Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
 
-diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/gunyah/vm-manager.rst
-index 57a254827be26..415b11248e00b 100644
---- a/Documentation/virt/gunyah/vm-manager.rst
-+++ b/Documentation/virt/gunyah/vm-manager.rst
-@@ -116,7 +116,7 @@ the VM *before* the VM starts.
- The argument types are documented below:
- 
- .. kernel-doc:: include/uapi/linux/gunyah.h
--   :identifiers: gh_fn_vcpu_arg gh_fn_irqfd_arg gh_irqfd_flags
-+   :identifiers: gh_fn_vcpu_arg gh_fn_irqfd_arg gh_irqfd_flags gh_fn_ioeventfd_arg gh_ioeventfd_flags
- 
- Gunyah VCPU API Descriptions
- ----------------------------
-diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
-index bc2c46d9df946..63bebc5b9f825 100644
---- a/drivers/virt/gunyah/Kconfig
-+++ b/drivers/virt/gunyah/Kconfig
-@@ -48,3 +48,12 @@ config GUNYAH_IRQFD
- 	  on Gunyah virtual machine.
- 
- 	  Say Y/M here if unsure and you want to support Gunyah VMMs.
-+
-+config GUNYAH_IOEVENTFD
-+	tristate "Gunyah ioeventfd interface"
-+	depends on GUNYAH
-+	help
-+	  Enable kernel support for creating ioeventfds which can alert userspace
-+	  when a Gunyah virtual machine accesses a memory address.
-+
-+	  Say Y/M here if unsure and you want to support Gunyah VMMs.
-diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-index ad212a1cf9671..63ca11e747961 100644
---- a/drivers/virt/gunyah/Makefile
-+++ b/drivers/virt/gunyah/Makefile
-@@ -8,3 +8,4 @@ obj-$(CONFIG_GUNYAH) += gunyah.o
- 
- obj-$(CONFIG_GUNYAH_VCPU) += gunyah_vcpu.o
- obj-$(CONFIG_GUNYAH_IRQFD) += gunyah_irqfd.o
-+obj-$(CONFIG_GUNYAH_IOEVENTFD) += gunyah_ioeventfd.o
-diff --git a/drivers/virt/gunyah/gunyah_ioeventfd.c b/drivers/virt/gunyah/gunyah_ioeventfd.c
-new file mode 100644
-index 0000000000000..5b1b9fd9ac3aa
---- /dev/null
-+++ b/drivers/virt/gunyah/gunyah_ioeventfd.c
-@@ -0,0 +1,130 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#include <linux/eventfd.h>
-+#include <linux/file.h>
-+#include <linux/fs.h>
-+#include <linux/gunyah.h>
-+#include <linux/gunyah_vm_mgr.h>
-+#include <linux/module.h>
-+#include <linux/printk.h>
-+
-+#include <uapi/linux/gunyah.h>
-+
-+struct gh_ioeventfd {
-+	struct gh_vm_function_instance *f;
-+	struct gh_vm_io_handler io_handler;
-+
-+	struct eventfd_ctx *ctx;
-+};
-+
-+static int gh_write_ioeventfd(struct gh_vm_io_handler *io_dev, u64 addr, u32 len, u64 data)
-+{
-+	struct gh_ioeventfd *iofd = container_of(io_dev, struct gh_ioeventfd, io_handler);
-+
-+	eventfd_signal(iofd->ctx, 1);
-+	return 0;
-+}
-+
-+static struct gh_vm_io_handler_ops io_ops = {
-+	.write = gh_write_ioeventfd,
-+};
-+
-+static long gh_ioeventfd_bind(struct gh_vm_function_instance *f)
-+{
-+	const struct gh_fn_ioeventfd_arg *args = f->argp;
-+	struct gh_ioeventfd *iofd;
-+	struct eventfd_ctx *ctx;
-+	int ret;
-+
-+	if (f->arg_size != sizeof(*args))
-+		return -EINVAL;
-+
-+	/* All other flag bits are reserved for future use */
-+	if (args->flags & ~GH_IOEVENTFD_FLAGS_DATAMATCH)
-+		return -EINVAL;
-+
-+	/* must be natural-word sized, or 0 to ignore length */
-+	switch (args->len) {
-+	case 0:
-+	case 1:
-+	case 2:
-+	case 4:
-+	case 8:
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	/* check for range overflow */
-+	if (overflows_type(args->addr + args->len, u64))
-+		return -EINVAL;
-+
-+	/* ioeventfd with no length can't be combined with DATAMATCH */
-+	if (!args->len && (args->flags & GH_IOEVENTFD_FLAGS_DATAMATCH))
-+		return -EINVAL;
-+
-+	ctx = eventfd_ctx_fdget(args->fd);
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
-+
-+	iofd = kzalloc(sizeof(*iofd), GFP_KERNEL);
-+	if (!iofd) {
-+		ret = -ENOMEM;
-+		goto err_eventfd;
-+	}
-+
-+	f->data = iofd;
-+	iofd->f = f;
-+
-+	iofd->ctx = ctx;
-+
-+	if (args->flags & GH_IOEVENTFD_FLAGS_DATAMATCH) {
-+		iofd->io_handler.datamatch = true;
-+		iofd->io_handler.len = args->len;
-+		iofd->io_handler.data = args->datamatch;
-+	}
-+	iofd->io_handler.addr = args->addr;
-+	iofd->io_handler.ops = &io_ops;
-+
-+	ret = gh_vm_add_io_handler(f->ghvm, &iofd->io_handler);
-+	if (ret)
-+		goto err_io_dev_add;
-+
-+	return 0;
-+
-+err_io_dev_add:
-+	kfree(iofd);
-+err_eventfd:
-+	eventfd_ctx_put(ctx);
-+	return ret;
-+}
-+
-+static void gh_ioevent_unbind(struct gh_vm_function_instance *f)
-+{
-+	struct gh_ioeventfd *iofd = f->data;
-+
-+	eventfd_ctx_put(iofd->ctx);
-+	gh_vm_remove_io_handler(iofd->f->ghvm, &iofd->io_handler);
-+	kfree(iofd);
-+}
-+
-+static bool gh_ioevent_compare(const struct gh_vm_function_instance *f,
-+				const void *arg, size_t size)
-+{
-+	const struct gh_fn_ioeventfd_arg *instance = f->argp,
-+					 *other = arg;
-+
-+	if (sizeof(*other) != size)
-+		return false;
-+
-+	return instance->addr == other->addr;
-+}
-+
-+DECLARE_GH_VM_FUNCTION_INIT(ioeventfd, GH_FN_IOEVENTFD, 3,
-+				gh_ioeventfd_bind, gh_ioevent_unbind,
-+				gh_ioevent_compare);
-+MODULE_DESCRIPTION("Gunyah ioeventfd VM Function");
-+MODULE_LICENSE("GPL");
-diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-index 0c480c622686a..fa1cae7419d2b 100644
---- a/include/uapi/linux/gunyah.h
-+++ b/include/uapi/linux/gunyah.h
-@@ -79,10 +79,13 @@ struct gh_vm_dtb_config {
-  *              Return: file descriptor to manipulate the vcpu.
-  * @GH_FN_IRQFD: register eventfd to assert a Gunyah doorbell
-  *               &struct gh_fn_desc.arg is a pointer to &struct gh_fn_irqfd_arg
-+ * @GH_FN_IOEVENTFD: register ioeventfd to trigger when VM faults on parameter
-+ *                   &struct gh_fn_desc.arg is a pointer to &struct gh_fn_ioeventfd_arg
-  */
- enum gh_fn_type {
- 	GH_FN_VCPU = 1,
- 	GH_FN_IRQFD,
-+	GH_FN_IOEVENTFD,
- };
- 
- #define GH_FN_MAX_ARG_SIZE		256
-@@ -134,6 +137,40 @@ struct gh_fn_irqfd_arg {
- 	__u32 padding;
- };
- 
-+/**
-+ * enum gh_ioeventfd_flags - flags for use in gh_fn_ioeventfd_arg
-+ * @GH_IOEVENTFD_FLAGS_DATAMATCH: the event will be signaled only if the
-+ *                                written value to the registered address is
-+ *                                equal to &struct gh_fn_ioeventfd_arg.datamatch
-+ */
-+enum gh_ioeventfd_flags {
-+	GH_IOEVENTFD_FLAGS_DATAMATCH	= 1UL << 0,
-+};
-+
-+/**
-+ * struct gh_fn_ioeventfd_arg - Arguments to create an ioeventfd function
-+ * @datamatch: data used when GH_IOEVENTFD_DATAMATCH is set
-+ * @addr: Address in guest memory
-+ * @len: Length of access
-+ * @fd: When ioeventfd is matched, this eventfd is written
-+ * @flags: See &enum gh_ioeventfd_flags
-+ * @padding: padding bytes
-+ *
-+ * Create this function with &GH_VM_ADD_FUNCTION using type &GH_FN_IOEVENTFD.
-+ *
-+ * Attaches an ioeventfd to a legal mmio address within the guest. A guest write
-+ * in the registered address will signal the provided event instead of triggering
-+ * an exit on the GH_VCPU_RUN ioctl.
-+ */
-+struct gh_fn_ioeventfd_arg {
-+	__u64 datamatch;
-+	__u64 addr;        /* legal mmio address */
-+	__u32 len;         /* 1, 2, 4, or 8 bytes; or 0 to ignore length */
-+	__s32 fd;
-+	__u32 flags;
-+	__u32 padding;
-+};
-+
- /**
-  * struct gh_fn_desc - Arguments to create a VM function
-  * @type: Type of the function. See &enum gh_fn_type.
--- 
-2.40.0
-
+> ---
+>  include/linux/maple_tree.h | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+> index 1fadb5f5978b..87d55334f1c2 100644
+> --- a/include/linux/maple_tree.h
+> +++ b/include/linux/maple_tree.h
+> @@ -423,8 +423,8 @@ struct ma_wr_state {
+>  #define MA_ERROR(err) \
+>  		((struct maple_enode *)(((unsigned long)err << 2) | 2UL))
+>  
+> -#define MA_STATE(name, mt, first, end)					\
+> -	struct ma_state name = {					\
+> +#define MA_STATE_INIT(mt, first, end)					\
+> +	{								\
+>  		.tree = mt,						\
+>  		.index = first,						\
+>  		.last = end,						\
+> @@ -435,6 +435,9 @@ struct ma_wr_state {
+>  		.mas_flags = 0,						\
+>  	}
+>  
+> +#define MA_STATE(name, mt, first, end)					\
+> +	struct ma_state name = MA_STATE_INIT(mt, first, end)
+> +
+>  #define MA_WR_STATE(name, ma_state, wr_entry)				\
+>  	struct ma_wr_state name = {					\
+>  		.mas = ma_state,					\
+> -- 
+> 2.40.1
+> 
+> 
