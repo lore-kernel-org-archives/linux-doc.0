@@ -2,185 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D332EB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 13:52:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44FD7EB64D0
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 14:16:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240290AbjFMNwb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 09:52:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52656 "EHLO
+        id S241822AbjFMOQs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 10:16:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236500AbjFMNw2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 09:52:28 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 720F21FEB
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 06:52:00 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-30fcda210cfso425796f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 06:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1686664317; x=1689256317;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WaeJYs/uG6fynkKfa9zh2deKdFZIe8/Di6A1zgej6LU=;
-        b=Q1TcKKMKKnZe7DzIPaTDFI6gquigAuW8XeW4+klDezAjpwuO6fGCnJ1f7r/u6KZ0ER
-         O9dM1DXba6jhcO9WyqBBbXkOHVH51o+LTctGbKiFGcSH95isneJQPVjB5zHyiodmtN3Q
-         iiKAFQe47MdbZTDN7b34IMWXoX3zXEDuCXxkBRbmTYHrBDa3wPpgoRjui2Igf2KIbXxJ
-         LQWjxywaHFKOJAd0qWNhlGfaGxanYdhKtQUL87ogp+qDZ0PVjsxPh/zmXDXpLVRlr1QP
-         CsMUeQ2Eo5dTH5eOxqCdjEV+d9P6uNSTayFwtj3BByZuvQAvlobd7CngPX5JuQ9zHbHY
-         fMiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686664317; x=1689256317;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WaeJYs/uG6fynkKfa9zh2deKdFZIe8/Di6A1zgej6LU=;
-        b=IOoLnEx37djvZocORkhfJuBpnow5FLb/yYhhlUnqRJmksfHChZSf4PA0bYBGLmk7Rq
-         VlZXxGchnbwaztt5zJ7I09t38/a1AhYAeYQJcJsSJFReZ0+Jmm8GrN6EGUIzayzKqwI0
-         oICYVm+YUiTebE1AXbQOD41sCX1zDxrYi1mcGTdGI8rOIuv69jPCnQZ/bdn82viEwHKv
-         zVM1Rqu8ATKknCfNYOsuQ/dvfaOtqtKQCpD/ge/Dldl/DAqBIy2dx1ojm6noD+0WPe5x
-         MDzIDWSmgh12MBo+IzslclyYn7Tms5ek1+KlsNeTK+HKm1+38RHLqy4Cxd3qvfDNEdDe
-         9vrQ==
-X-Gm-Message-State: AC+VfDy2m9FKWZOaecL+ob6r87kEXBTdkAw67k3KYWEoN+1AS6HaaU61
-        +oxDjRB+/O4Swm6VrRGOwiGmlQ==
-X-Google-Smtp-Source: ACHHUZ6tbmwrKTMNvbpuPLgT+1R9lK2K8a7nds1UQDOt+PvY6ORk2+AOkeh44wiUBJm89/taQrjyYQ==
-X-Received: by 2002:adf:f548:0:b0:30e:1103:2e39 with SMTP id j8-20020adff548000000b0030e11032e39mr6622276wrp.58.1686664317375;
-        Tue, 13 Jun 2023 06:51:57 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id n16-20020adfe350000000b0030e5b1fffc3sm15502558wrj.9.2023.06.13.06.51.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 06:51:56 -0700 (PDT)
-Date:   Tue, 13 Jun 2023 15:51:55 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Petr Oros <poros@redhat.com>
-Cc:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
-        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
-        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
-        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
-        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
-        michal.michalik@intel.com, gregkh@linuxfoundation.org,
-        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
-        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
-        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
-        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
-        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
-        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
-        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
-        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, mschmidt@redhat.com,
-        linux-clk@vger.kernel.org, vadim.fedorenko@linux.dev,
-        Jiri Pirko <jiri@nvidia.com>
-Subject: Re: [RFC PATCH v8 06/10] netdev: expose DPLL pin handle for netdevice
-Message-ID: <ZIh0e5b/xp6H85pN@nanopsycho>
-References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
- <20230609121853.3607724-7-arkadiusz.kubalewski@intel.com>
- <343e2638d2e9b3d13216235f85c2d1dae2634881.camel@redhat.com>
+        with ESMTP id S240572AbjFMOQr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 10:16:47 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 733C194;
+        Tue, 13 Jun 2023 07:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=CbGcyfHi9QA1um+JXK92ovTuo4LzjCmAsPSThsU99qE=; b=YHP/QC3m5r8bf93VtZEyxh/INM
+        9SOJij2U2Pjj1WYK4iuiA5KnydctxBsfTeeOshHG6I5pU/VVHdwrIhivOjqLXT3nzcB1acCCbiql8
+        S2dITLjPcWpzWwA0o1jk3ep/cZh80zjDVXi36DD6YTUnyNSkggJpNz648uDI6nV4UJDjxPt0gaXgQ
+        KlMDjs/fCy5DGFXU3tp5QvcaznNwNLq4CDvuFyyxYHbeZ/n7YABL0evJaWOiVE26mwVdnjgCh81Dm
+        jEiv3jIzyvmTOQ/V6ntL6I59lSH1Qkl1aEHOGSBr+j/meYKNOgSM8/8LFgCJH8F9FmRj9A3byqfaF
+        06OCKDmw==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q94oy-008IDS-2l;
+        Tue, 13 Jun 2023 14:16:32 +0000
+Message-ID: <77171ea8-c8d9-5f8d-caf0-76bd5ca03f0c@infradead.org>
+Date:   Tue, 13 Jun 2023 07:16:31 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <343e2638d2e9b3d13216235f85c2d1dae2634881.camel@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v4 02/11] block: Block Device Filtering Mechanism
+Content-Language: en-US
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
+Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, willy@infradead.org,
+        dlemoal@kernel.org, wsa@kernel.org,
+        heikki.krogerus@linux.intel.com, ming.lei@redhat.com,
+        gregkh@linuxfoundation.org, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Donald Buczek <buczek@molgen.mpg.de>
+References: <20230609115858.4737-1-sergei.shtepa@veeam.com>
+ <20230609115858.4737-2-sergei.shtepa@veeam.com>
+ <e2f851d7-6b17-7a36-b5b3-2d60d450989d@infradead.org>
+ <f7b67068-62c4-0977-265a-37c84f553eab@veeam.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <f7b67068-62c4-0977-265a-37c84f553eab@veeam.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mon, Jun 12, 2023 at 11:17:23AM CEST, poros@redhat.com wrote:
->Arkadiusz Kubalewski píše v Pá 09. 06. 2023 v 14:18 +0200:
->> From: Jiri Pirko <jiri@nvidia.com>
-
-[...]
 
 
->> +static size_t rtnl_dpll_pin_size(const struct net_device *dev)
->> +{
->> +       size_t size = nla_total_size(0); /* nest IFLA_DPLL_PIN */
->> +
->> +       if (dev->dpll_pin)
->> +               size += dpll_msg_pin_handle_size(dev->dpll_pin);
->
->Hi Arkadiusz,
->
->net_device->dpll_pin is only valid if IS_ENABLED(CONFIG_DPLL)
->But the code in net/core/rtnetlink.c doesn't respect that.
->If CONFIG_DPLL is not set, net/core/rtnetlink.c cannot be compiled.
->
->Regards,
->Petr 
+On 6/13/23 05:34, Sergei Shtepa wrote:
+> 
+> 
+> On 6/13/23 03:51, Randy Dunlap wrote:
+>>
+>> On 6/9/23 04:58, Sergei Shtepa wrote:
+>>> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+>>> index b7b56871029c..7904f157b245 100644
+>>> --- a/include/uapi/linux/fs.h
+>>> +++ b/include/uapi/linux/fs.h
+>>> @@ -189,6 +189,9 @@ struct fsxattr {
+>>>   * A jump here: 130-136 are reserved for zoned block devices
+>>>   * (see uapi/linux/blkzoned.h)
+>>>   */
+>>> +#define BLKFILTER_ATTACH	_IOWR(0x12, 140, struct blkfilter_name)
+>>> +#define BLKFILTER_DETACH	_IOWR(0x12, 141, struct blkfilter_name)
+>>> +#define BLKFILTER_CTL		_IOWR(0x12, 142, struct blkfilter_ctl)
+>>
+>> Please update Documentation/userspace-api/ioctl/ioctl-number.rst
+>> with the blkfilter ioctl number usage.
+> 
+> It seems to me that there is no need to change anything in the table of
+> numbers for 'blkfilter'. I think the existing record is enough:
+> 
+> 0x10  20-2F  arch/s390/include/uapi/asm/hypfs.h
+> 0x12  all    linux/fs.h
+>              linux/blkpg.h
 
-You are correct. Here's the squash-patch to fix this. Arkadiusz, could
-you please make the squash? Thanks!
+Yes, OK.
 
-diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
-index e6efc17aaf26..00dc96c3ade4 100644
---- a/drivers/dpll/dpll_netlink.c
-+++ b/drivers/dpll/dpll_netlink.c
-@@ -303,12 +303,14 @@ dpll_cmd_pin_fill_details(struct sk_buff *msg, struct dpll_pin *pin,
- 
- size_t dpll_msg_pin_handle_size(struct dpll_pin *pin)
- {
--	return nla_total_size(4); /* DPLL_A_PIN_ID */
-+	return pin ? nla_total_size(4) : 0; /* DPLL_A_PIN_ID */
- }
- EXPORT_SYMBOL_GPL(dpll_msg_pin_handle_size);
- 
- int dpll_msg_add_pin_handle(struct sk_buff *msg, struct dpll_pin *pin)
- {
-+	if (!pin)
-+		return 0;
- 	if (nla_put_u32(msg, DPLL_A_PIN_ID, pin->id))
- 		return -EMSGSIZE;
- 	return 0;
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index b002e3cc9943..82ad12fd4266 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -3967,6 +3967,16 @@ int dev_get_port_parent_id(struct net_device *dev,
- bool netdev_port_same_parent_id(struct net_device *a, struct net_device *b);
- void netdev_dpll_pin_set(struct net_device *dev, struct dpll_pin *dpll_pin);
- void netdev_dpll_pin_clear(struct net_device *dev);
-+
-+static inline struct dpll_pin *netdev_dpll_pin(const struct net_device *dev)
-+{
-+#if IS_ENABLED(CONFIG_DPLL)
-+	return dev->dpll_pin;
-+#else
-+	return NULL;
-+#endif
-+}
-+
- struct sk_buff *validate_xmit_skb_list(struct sk_buff *skb, struct net_device *dev, bool *again);
- struct sk_buff *dev_hard_start_xmit(struct sk_buff *skb, struct net_device *dev,
- 				    struct netdev_queue *txq, int *ret);
-diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
-index ebe9ae8608fc..67dd455e15c7 100644
---- a/net/core/rtnetlink.c
-+++ b/net/core/rtnetlink.c
-@@ -1056,8 +1056,7 @@ static size_t rtnl_dpll_pin_size(const struct net_device *dev)
- {
- 	size_t size = nla_total_size(0); /* nest IFLA_DPLL_PIN */
- 
--	if (dev->dpll_pin)
--		size += dpll_msg_pin_handle_size(dev->dpll_pin);
-+	size += dpll_msg_pin_handle_size(netdev_dpll_pin(dev));
- 
- 	return size;
- }
-@@ -1790,11 +1789,9 @@ static int rtnl_fill_dpll_pin(struct sk_buff *skb,
- 	if (!dpll_pin_nest)
- 		return -EMSGSIZE;
- 
--	if (dev->dpll_pin) {
--		ret = dpll_msg_add_pin_handle(skb, dev->dpll_pin);
--		if (ret < 0)
--			goto nest_cancel;
--	}
-+	ret = dpll_msg_add_pin_handle(skb, netdev_dpll_pin(dev));
-+	if (ret < 0)
-+		goto nest_cancel;
- 
- 	nla_nest_end(skb, dpll_pin_nest);
- 	return 0;
+> Maybe it would probably be correct to specify the file 'uapi/linux/fs.h'?
+> And maybe we need to specify the request numbers for blksnap?
 
+Yes.
+
+> add ioctls numbers for blksnap
+> 
+> Asked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+> ---
+>  Documentation/userspace-api/ioctl/ioctl-number.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 176e8fc3f31b..96af64988251 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -202,6 +202,7 @@ Code  Seq#    Include File                                           Comments
+>  'V'   C0     linux/ivtvfb.h                                          conflict!
+>  'V'   C0     linux/ivtv.h                                            conflict!
+>  'V'   C0     media/si4713.h                                          conflict!
+> +'V'   00-1F  uapi/linux/blksnap.h                                    conflict!
+>  'W'   00-1F  linux/watchdog.h                                        conflict!
+>  'W'   00-1F  linux/wanrouter.h                                       conflict! (pre 3.9)
+>  'W'   00-3F  sound/asound.h                                          conflict!
+
+-- 
+~Randy
