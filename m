@@ -2,115 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BC9C7EE2E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 12:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17D9AC7EE2E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 13:00:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242408AbjFMMiX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 08:38:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42372 "EHLO
+        id S238315AbjFMNAn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 09:00:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242375AbjFMMiW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 08:38:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324E7173C
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 05:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686659855;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+b1T4bP+M0GcWXoHUW/q06urYQjMJ7X0Y1cHVDwah1s=;
-        b=eSs5uxtTfphSReOWi++uIDuvFoDX7hm4bBsgldwwaWlquOg3A9fylXd0nj1N++HL5yWVYV
-        onqKuiR2xaHecNgl2OoSKqI78Hi+HqDzlux74NTIP5jpCi6TdtUFBYgWHaIHi/7UY5ZzmV
-        rwD6yjEI7jg2xd/5FA7MDkPM4GxJ3nQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-505-NQoKV6qBNHuOgzR9uwg-rw-1; Tue, 13 Jun 2023 08:37:31 -0400
-X-MC-Unique: NQoKV6qBNHuOgzR9uwg-rw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S236464AbjFMNAm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 09:00:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FBD7191
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 06:00:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8B3185A5BA;
-        Tue, 13 Jun 2023 12:37:27 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.18])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 652C41121315;
-        Tue, 13 Jun 2023 12:37:20 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D8841635EF
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 13:00:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E79AAC433D2;
+        Tue, 13 Jun 2023 13:00:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686661240;
+        bh=gqhjdmXTpBiAVW68HBds+hnWsKQm7Yc8GSe81z4kXRU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=I47wTEWG7rUyqCsGy0zpylblH8YaHXHe/M/Krtl7lRtj6GvUN608/u36tVNgo7JiA
+         FRA5yGOVfobw2MCOh+kpDQCUeBogaQZ3HYKfMfUjPvBuP3m5BbjueKFNtWFlYw5oh4
+         gvMWIycEaK+GDwzqYgKRxOyusNfM2lAidLkRlIy6Xxs1ArAn/gaVoFqB/5KbV2vyFl
+         xdAQ6au0LI86ii3hRnbIDBi3tnRlXa+Hyf/Gv+e/qYYAXZWr5tULxoL2dNA0fyFV7T
+         s8EWNKnyRjYMRywFByc09ZNLjs6fSe2alaH6CioRcEszPNNciDi32z6BbmZgXr8ED7
+         Z1w8Kz9oc46pA==
+From:   =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To:     Conor Dooley <conor.dooley@microchip.com>, palmer@dabbelt.com
+Cc:     conor@kernel.org, conor.dooley@microchip.com,
+        Paul Walmsley <paul.walmsley@sifive.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
-        torvalds@linux-foundation.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
- description
-References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
-        <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
-        <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
-Date:   Tue, 13 Jun 2023 14:37:18 +0200
-In-Reply-To: <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk> (Mark
-        Brown's message of "Tue, 13 Jun 2023 12:55:48 +0100")
-Message-ID: <87y1knh729.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+        linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: RISC-V: patch-acceptance: mention
+ patchwork's role
+In-Reply-To: <20230606-rehab-monsoon-12c17bbe08e3@wendy>
+References: <20230606-rehab-monsoon-12c17bbe08e3@wendy>
+Date:   Tue, 13 Jun 2023 15:00:37 +0200
+Message-ID: <87mt13ldoq.fsf@all.your.base.are.belong.to.us>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Mark Brown:
+Conor Dooley <conor.dooley@microchip.com> writes:
 
-> On Mon, Jun 12, 2023 at 05:10:49PM -0700, Rick Edgecombe wrote:
+> Palmer suggested at some point, not sure if it was in one of the
+> weekly linux-riscv syncs, or a conversation at FOSDEM, that we
+> should document the role of the automation running on our patchwork
+> instance plays in patch acceptance.
 >
->> +Enabling arch_prctl()'s
->> +=======================
->> +
->> +Elf features should be enabled by the loader using the below arch_prctl's. They
->> +are only supported in 64 bit user applications. These operate on the features
->> +on a per-thread basis. The enablement status is inherited on clone, so if the
->> +feature is enabled on the first thread, it will propagate to all the thread's
->> +in an app.
+> Add a short note to the patch-acceptance document to that end.
 >
-> I appreciate it's very late in the development of this series but given
-> that there are very similar features on both arm64 and riscv would it
-> make sense to make these just regular prctl()s, arch_prctl() isn't used
-> on other architectures and it'd reduce the amount of arch specific work
-> that userspace needs to do if the interface is shared.
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> I was also not sure if this was the correct doc for this, or whether a
+> process/maintainer-riscv.rst file was better suited. There's clearly no
+> rush on this though so =C2=AF\_(=E3=83=84)_/=C2=AF
 
-Has the Arm feature been fully disclosed?
+I'm fine with this file. Thanks for adding it!
 
-I would expect the integration with stack switching and unwinding
-differs between architectures even if the core mechanism is similar.
-It's probably tempting to handle shadow stack placement differently,
-too.
-
-Thanks,
-Florian
-
+Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn@rivosinc.com>
