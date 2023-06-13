@@ -2,119 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE5EC77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 12:35:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BC9C7EE2E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 12:38:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238175AbjFMMfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 08:35:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
+        id S242408AbjFMMiX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 08:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242537AbjFMMfK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 08:35:10 -0400
-Received: from mx4.veeam.com (mx4.veeam.com [104.41.138.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93B3BE7A;
-        Tue, 13 Jun 2023 05:35:08 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S242375AbjFMMiW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 08:38:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324E7173C
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 05:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686659855;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+b1T4bP+M0GcWXoHUW/q06urYQjMJ7X0Y1cHVDwah1s=;
+        b=eSs5uxtTfphSReOWi++uIDuvFoDX7hm4bBsgldwwaWlquOg3A9fylXd0nj1N++HL5yWVYV
+        onqKuiR2xaHecNgl2OoSKqI78Hi+HqDzlux74NTIP5jpCi6TdtUFBYgWHaIHi/7UY5ZzmV
+        rwD6yjEI7jg2xd/5FA7MDkPM4GxJ3nQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-505-NQoKV6qBNHuOgzR9uwg-rw-1; Tue, 13 Jun 2023 08:37:31 -0400
+X-MC-Unique: NQoKV6qBNHuOgzR9uwg-rw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx4.veeam.com (Postfix) with ESMTPS id E09391B72E;
-        Tue, 13 Jun 2023 15:35:06 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx4-2022; t=1686659707;
-        bh=4oNmRkLesBC9RjRkU4eqkCoLnWTFT9D5was/erYZ+04=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
-        b=Y2GAhHPF7F6Nw9yN00Ft+kqym1xOwxfwE3WOYgZap+Vrl9M3uFULJMehxZEY6JTVo
-         qtADvpKq2vnFKHf/2x2nX8721HIr2mGOw7LDkD2b5zd9vj2Uiue4O1cZ6DU6ZmRMx3
-         XwwWX+T7jHAREJ2cnO1lyB3vfuOa4iTVqi3RSKK77D4xXAa+oci2I30A8VVgPssEOX
-         xqii/Plgtwdvaw1M6F0xM2ndkWZ1nX3ew8yh83s3Z61saWXiMqkF5WQAevWFLO7MG+
-         6YFdjZYux3j4VYnWRAiwWjt0LbnPJUWHi0r5qf0HKB6E0do97YsFIfes+NkLSz16/k
-         pE715DtG5+Oug==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Tue, 13 Jun
- 2023 14:35:05 +0200
-Message-ID: <f7b67068-62c4-0977-265a-37c84f553eab@veeam.com>
-Date:   Tue, 13 Jun 2023 14:34:58 +0200
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8B3185A5BA;
+        Tue, 13 Jun 2023 12:37:27 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.18])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 652C41121315;
+        Tue, 13 Jun 2023 12:37:20 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
+        torvalds@linux-foundation.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+        <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
+        <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
+Date:   Tue, 13 Jun 2023 14:37:18 +0200
+In-Reply-To: <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk> (Mark
+        Brown's message of "Tue, 13 Jun 2023 12:55:48 +0100")
+Message-ID: <87y1knh729.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v4 02/11] block: Block Device Filtering Mechanism
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>, <axboe@kernel.dk>,
-        <hch@infradead.org>, <corbet@lwn.net>, <snitzer@kernel.org>
-CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <willy@infradead.org>, <dlemoal@kernel.org>, <wsa@kernel.org>,
-        <heikki.krogerus@linux.intel.com>, <ming.lei@redhat.com>,
-        <gregkh@linuxfoundation.org>, <linux-block@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>,
-        "Donald Buczek" <buczek@molgen.mpg.de>
-References: <20230609115858.4737-1-sergei.shtepa@veeam.com>
- <20230609115858.4737-2-sergei.shtepa@veeam.com>
- <e2f851d7-6b17-7a36-b5b3-2d60d450989d@infradead.org>
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-In-Reply-To: <e2f851d7-6b17-7a36-b5b3-2d60d450989d@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29240315546D7163
-X-Veeam-MMEX: True
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+* Mark Brown:
 
+> On Mon, Jun 12, 2023 at 05:10:49PM -0700, Rick Edgecombe wrote:
+>
+>> +Enabling arch_prctl()'s
+>> +=======================
+>> +
+>> +Elf features should be enabled by the loader using the below arch_prctl's. They
+>> +are only supported in 64 bit user applications. These operate on the features
+>> +on a per-thread basis. The enablement status is inherited on clone, so if the
+>> +feature is enabled on the first thread, it will propagate to all the thread's
+>> +in an app.
+>
+> I appreciate it's very late in the development of this series but given
+> that there are very similar features on both arm64 and riscv would it
+> make sense to make these just regular prctl()s, arch_prctl() isn't used
+> on other architectures and it'd reduce the amount of arch specific work
+> that userspace needs to do if the interface is shared.
 
-On 6/13/23 03:51, Randy Dunlap wrote:
-> 
-> On 6/9/23 04:58, Sergei Shtepa wrote:
->> diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
->> index b7b56871029c..7904f157b245 100644
->> --- a/include/uapi/linux/fs.h
->> +++ b/include/uapi/linux/fs.h
->> @@ -189,6 +189,9 @@ struct fsxattr {
->>   * A jump here: 130-136 are reserved for zoned block devices
->>   * (see uapi/linux/blkzoned.h)
->>   */
->> +#define BLKFILTER_ATTACH	_IOWR(0x12, 140, struct blkfilter_name)
->> +#define BLKFILTER_DETACH	_IOWR(0x12, 141, struct blkfilter_name)
->> +#define BLKFILTER_CTL		_IOWR(0x12, 142, struct blkfilter_ctl)
-> 
-> Please update Documentation/userspace-api/ioctl/ioctl-number.rst
-> with the blkfilter ioctl number usage.
+Has the Arm feature been fully disclosed?
 
-It seems to me that there is no need to change anything in the table of
-numbers for 'blkfilter'. I think the existing record is enough:
+I would expect the integration with stack switching and unwinding
+differs between architectures even if the core mechanism is similar.
+It's probably tempting to handle shadow stack placement differently,
+too.
 
-0x10  20-2F  arch/s390/include/uapi/asm/hypfs.h
-0x12  all    linux/fs.h
-             linux/blkpg.h
+Thanks,
+Florian
 
-Maybe it would probably be correct to specify the file 'uapi/linux/fs.h'?
-And maybe we need to specify the request numbers for blksnap?
-
-add ioctls numbers for blksnap
-
-Asked-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
----
- Documentation/userspace-api/ioctl/ioctl-number.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index 176e8fc3f31b..96af64988251 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -202,6 +202,7 @@ Code  Seq#    Include File                                           Comments
- 'V'   C0     linux/ivtvfb.h                                          conflict!
- 'V'   C0     linux/ivtv.h                                            conflict!
- 'V'   C0     media/si4713.h                                          conflict!
-+'V'   00-1F  uapi/linux/blksnap.h                                    conflict!
- 'W'   00-1F  linux/watchdog.h                                        conflict!
- 'W'   00-1F  linux/wanrouter.h                                       conflict! (pre 3.9)
- 'W'   00-3F  sound/asound.h                                          conflict!
--- 
-2.20.1
