@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A84F7C001DC
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:23:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF85C001DF
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:23:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239641AbjFMRXK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 13:23:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50258 "EHLO
+        id S238720AbjFMRXQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 13:23:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239129AbjFMRW3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:22:29 -0400
+        with ESMTP id S239273AbjFMRWc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:22:32 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B231FC9;
-        Tue, 13 Jun 2023 10:22:02 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DAtVY0011423;
-        Tue, 13 Jun 2023 17:21:36 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36EA71FFB;
+        Tue, 13 Jun 2023 10:22:07 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DAc8Sj024932;
+        Tue, 13 Jun 2023 17:21:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=ZR5DrOyn7BtztEo0/Q9Z+lMegXaU3nqBZWV0gGytyRA=;
- b=d1WqsbVzae/9zAhF+phosChOVnMDM0OmLX4euhtPRwwFsl/scuProcPCnsyhKZJ8E0wo
- yGKgKu8uf0cnojT8bZ0RIQd1A4D4153qZcM9dyDGbAhEDmuiXKxc9q9aZ2FPAcNoIyFr
- 5NY16SkYj4x40XD1SyuKfeCNCCRHa2C7gmOLoGiHVuNSqMWj2/wBs9/0TvPaLe4loSyd
- rppLrkDr2OeWwOun+U+PrIN1d+M0hUlVue/XjzRBnC9k2cOdktV6Zp5QO3uoUcXEp9Gf
- 0LhepuTwSYtlPVRJDsqRw8CW9XUumb+v4al19tWlCiicHUnpVWJxwtQI5TPqGhARU8xj QQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6q4r0xeb-1
+ bh=2dGoHiZGXQO/3XzpGqgnZG8qZ1fUB2ur8D+86DuXzpM=;
+ b=niZNNZoAEOgiFXSNVD4U3USTP1q6JULHpUUKqiuoP0Msiw867caTXM4MiDx6upWTiMgZ
+ Qm7X6sePCXUBVVML/edjbC11NRBG74cfnZV8j0IwJFV3kKI4Hpo6ftUOr2uFyQ4ZMjhh
+ DI4pe7+nPqSj11LmQAuZm3qxXoVuKwp4KktdXceEI4pAJ17zrSTC7nZBWtj+wn3P7w8l
+ Hgw5bFGqjnfbYZx+Cj4RU8sxDCeJ0gYVsrhnJytiCK8iJFVUAFvEr7tD/7jdUiTW+5LR
+ 36thDc2VCt9ncSd2YMbsCaYi/npliCs0KHOkVQPiMLlgnk0oHz2GXxORle2RNUA/5dp3 Xw== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r68x9ae10-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:36 +0000
+        Tue, 13 Jun 2023 17:21:42 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHLacK013208
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHLfx9005703
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:36 GMT
+        Tue, 13 Jun 2023 17:21:41 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 13 Jun 2023 10:21:35 -0700
+ 15.2.986.42; Tue, 13 Jun 2023 10:21:40 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
@@ -63,9 +63,9 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v14 11/25] gunyah: vm_mgr: Add/remove user memory regions
-Date:   Tue, 13 Jun 2023 10:20:39 -0700
-Message-ID: <20230613172054.3959700-12-quic_eberman@quicinc.com>
+Subject: [PATCH v14 14/25] gunyah: rsc_mgr: Add platform ops on mem_lend/mem_reclaim
+Date:   Tue, 13 Jun 2023 10:20:42 -0700
+Message-ID: <20230613172054.3959700-15-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230613172054.3959700-1-quic_eberman@quicinc.com>
 References: <20230613172054.3959700-1-quic_eberman@quicinc.com>
@@ -77,470 +77,235 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: nYXa7leADpDLwEB6rdO-8hmlH3FACh5S
-X-Proofpoint-ORIG-GUID: nYXa7leADpDLwEB6rdO-8hmlH3FACh5S
+X-Proofpoint-GUID: 34k8r9ljwTrzWrXZCEPnMpXQcv-c8iYW
+X-Proofpoint-ORIG-GUID: 34k8r9ljwTrzWrXZCEPnMpXQcv-c8iYW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
  definitions=2023-06-13_19,2023-06-12_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- spamscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501
- adultscore=0 bulkscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306130153
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 spamscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0
+ clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306130153
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When launching a virtual machine, Gunyah userspace allocates memory for
-the guest and informs Gunyah about these memory regions through
-SET_USER_MEMORY_REGION ioctl.
+On Qualcomm platforms, there is a firmware entity which controls access
+to physical pages. In order to share memory with another VM, this entity
+needs to be informed that the guest VM should have access to the memory.
 
+Reviewed-by: Alex Elder <elder@linaro.org>
 Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- drivers/virt/gunyah/Makefile    |   2 +-
- drivers/virt/gunyah/vm_mgr.c    |  59 +++++++-
- drivers/virt/gunyah/vm_mgr.h    |  26 ++++
- drivers/virt/gunyah/vm_mgr_mm.c | 232 ++++++++++++++++++++++++++++++++
- include/uapi/linux/gunyah.h     |  37 +++++
- 5 files changed, 352 insertions(+), 4 deletions(-)
- create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
+ drivers/virt/gunyah/Kconfig                 |  4 ++
+ drivers/virt/gunyah/Makefile                |  2 +
+ drivers/virt/gunyah/gunyah_platform_hooks.c | 80 +++++++++++++++++++++
+ drivers/virt/gunyah/rsc_mgr.h               |  3 +
+ drivers/virt/gunyah/rsc_mgr_rpc.c           | 18 ++++-
+ include/linux/gunyah_rsc_mgr.h              | 17 +++++
+ 6 files changed, 122 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
 
+diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+index 1a737694c333d..de815189dab6c 100644
+--- a/drivers/virt/gunyah/Kconfig
++++ b/drivers/virt/gunyah/Kconfig
+@@ -4,6 +4,7 @@ config GUNYAH
+ 	tristate "Gunyah Virtualization drivers"
+ 	depends on ARM64
+ 	depends on MAILBOX
++	select GUNYAH_PLATFORM_HOOKS
+ 	help
+ 	  The Gunyah drivers are the helper interfaces that run in a guest VM
+ 	  such as basic inter-VM IPC and signaling mechanisms, and higher level
+@@ -11,3 +12,6 @@ config GUNYAH
+ 
+ 	  Say Y/M here to enable the drivers needed to interact in a Gunyah
+ 	  virtual environment.
++
++config GUNYAH_PLATFORM_HOOKS
++	tristate
 diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-index e47e25895299c..bacf78b8fa337 100644
+index bacf78b8fa337..4fbeee521d60a 100644
 --- a/drivers/virt/gunyah/Makefile
 +++ b/drivers/virt/gunyah/Makefile
-@@ -1,4 +1,4 @@
+@@ -1,4 +1,6 @@
  # SPDX-License-Identifier: GPL-2.0
  
--gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
-+gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
++obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
++
+ gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
  obj-$(CONFIG_GUNYAH) += gunyah.o
-diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
-index a43401cb34f7d..297427952b8c7 100644
---- a/drivers/virt/gunyah/vm_mgr.c
-+++ b/drivers/virt/gunyah/vm_mgr.c
-@@ -15,6 +15,8 @@
- 
- #include "vm_mgr.h"
- 
-+static void gh_vm_free(struct work_struct *work);
-+
- static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
- {
- 	struct gh_vm *ghvm;
-@@ -26,20 +28,72 @@ static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
- 	ghvm->parent = gh_rm_get(rm);
- 	ghvm->rm = rm;
- 
-+	mmgrab(current->mm);
-+	ghvm->mm = current->mm;
-+	mutex_init(&ghvm->mm_lock);
-+	INIT_LIST_HEAD(&ghvm->memory_mappings);
-+	INIT_WORK(&ghvm->free_work, gh_vm_free);
-+
- 	return ghvm;
- }
- 
--static int gh_vm_release(struct inode *inode, struct file *filp)
-+static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- {
- 	struct gh_vm *ghvm = filp->private_data;
-+	void __user *argp = (void __user *)arg;
-+	long r;
-+
-+	switch (cmd) {
-+	case GH_VM_SET_USER_MEM_REGION: {
-+		struct gh_userspace_memory_region region;
-+
-+		/* only allow owner task to add memory */
-+		if (ghvm->mm != current->mm)
-+			return -EPERM;
-+
-+		if (copy_from_user(&region, argp, sizeof(region)))
-+			return -EFAULT;
-+
-+		/* All other flag bits are reserved for future use */
-+		if (region.flags & ~(GH_MEM_ALLOW_READ | GH_MEM_ALLOW_WRITE | GH_MEM_ALLOW_EXEC))
-+			return -EINVAL;
-+
-+		r = gh_vm_mem_alloc(ghvm, &region);
-+		break;
-+	}
-+	default:
-+		r = -ENOTTY;
-+		break;
-+	}
- 
-+	return r;
-+}
-+
-+static void gh_vm_free(struct work_struct *work)
-+{
-+	struct gh_vm *ghvm = container_of(work, struct gh_vm, free_work);
-+
-+	gh_vm_mem_reclaim(ghvm);
- 	gh_rm_put(ghvm->rm);
-+	mmdrop(ghvm->mm);
- 	kfree(ghvm);
-+}
-+
-+static int gh_vm_release(struct inode *inode, struct file *filp)
-+{
-+	struct gh_vm *ghvm = filp->private_data;
-+
-+	/* VM will be reset and make RM calls which can interruptible sleep.
-+	 * Defer to a work so this thread can receive signal.
-+	 */
-+	schedule_work(&ghvm->free_work);
- 	return 0;
- }
- 
- static const struct file_operations gh_vm_fops = {
- 	.owner = THIS_MODULE,
-+	.unlocked_ioctl = gh_vm_ioctl,
-+	.compat_ioctl	= compat_ptr_ioctl,
- 	.release = gh_vm_release,
- 	.llseek = noop_llseek,
- };
-@@ -77,8 +131,7 @@ static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
- err_put_fd:
- 	put_unused_fd(fd);
- err_destroy_vm:
--	gh_rm_put(ghvm->rm);
--	kfree(ghvm);
-+	gh_vm_free(&ghvm->free_work);
- 	return err;
- }
- 
-diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
-index 1e94b58d7d34d..434ef9f662a7a 100644
---- a/drivers/virt/gunyah/vm_mgr.h
-+++ b/drivers/virt/gunyah/vm_mgr.h
-@@ -7,14 +7,40 @@
- #define _GH_VM_MGR_H
- 
- #include <linux/gunyah_rsc_mgr.h>
-+#include <linux/list.h>
-+#include <linux/miscdevice.h>
-+#include <linux/mutex.h>
- 
- #include <uapi/linux/gunyah.h>
- 
- long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg);
- 
-+enum gh_vm_mem_share_type {
-+	VM_MEM_SHARE,
-+	VM_MEM_LEND,
-+};
-+
-+struct gh_vm_mem {
-+	struct list_head list;
-+	enum gh_vm_mem_share_type share_type;
-+	struct gh_rm_mem_parcel parcel;
-+
-+	__u64 guest_phys_addr;
-+	struct page **pages;
-+	unsigned long npages;
-+};
-+
- struct gh_vm {
- 	struct gh_rm *rm;
- 	struct device *parent;
-+
-+	struct work_struct free_work;
-+	struct mm_struct *mm; /* userspace tied to this vm */
-+	struct mutex mm_lock;
-+	struct list_head memory_mappings;
- };
- 
-+int gh_vm_mem_alloc(struct gh_vm *ghvm, struct gh_userspace_memory_region *region);
-+void gh_vm_mem_reclaim(struct gh_vm *ghvm);
-+
- #endif
-diff --git a/drivers/virt/gunyah/vm_mgr_mm.c b/drivers/virt/gunyah/vm_mgr_mm.c
+diff --git a/drivers/virt/gunyah/gunyah_platform_hooks.c b/drivers/virt/gunyah/gunyah_platform_hooks.c
 new file mode 100644
-index 0000000000000..6974607f02edd
+index 0000000000000..905515b4589e3
 --- /dev/null
-+++ b/drivers/virt/gunyah/vm_mgr_mm.c
-@@ -0,0 +1,232 @@
++++ b/drivers/virt/gunyah/gunyah_platform_hooks.c
+@@ -0,0 +1,80 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#define pr_fmt(fmt) "gh_vm_mgr: " fmt
-+
++#include <linux/module.h>
++#include <linux/rwsem.h>
 +#include <linux/gunyah_rsc_mgr.h>
-+#include <linux/mm.h>
 +
-+#include <uapi/linux/gunyah.h>
++#include "rsc_mgr.h"
 +
-+#include "vm_mgr.h"
++static const struct gh_rm_platform_ops *rm_platform_ops;
++static DECLARE_RWSEM(rm_platform_ops_lock);
 +
-+static bool pages_are_mergeable(struct page *a, struct page *b)
-+{
-+	return page_to_pfn(a) + 1 == page_to_pfn(b);
-+}
-+
-+static bool gh_vm_mem_overlap(struct gh_vm_mem *a, u64 addr, u64 size)
-+{
-+	u64 a_end = a->guest_phys_addr + (a->npages << PAGE_SHIFT);
-+	u64 end = addr + size;
-+
-+	return a->guest_phys_addr < end && addr < a_end;
-+}
-+
-+static struct gh_vm_mem *__gh_vm_mem_find_by_label(struct gh_vm *ghvm, u32 label)
-+	__must_hold(&ghvm->mm_lock)
-+{
-+	struct gh_vm_mem *mapping;
-+
-+	list_for_each_entry(mapping, &ghvm->memory_mappings, list)
-+		if (mapping->parcel.label == label)
-+			return mapping;
-+
-+	return NULL;
-+}
-+
-+static void gh_vm_mem_reclaim_mapping(struct gh_vm *ghvm, struct gh_vm_mem *mapping)
-+	__must_hold(&ghvm->mm_lock)
++int gh_rm_platform_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
 +{
 +	int ret = 0;
 +
-+	if (mapping->parcel.mem_handle != GH_MEM_HANDLE_INVAL) {
-+		ret = gh_rm_mem_reclaim(ghvm->rm, &mapping->parcel);
-+		if (ret)
-+			pr_warn("Failed to reclaim memory parcel for label %d: %d\n",
-+				mapping->parcel.label, ret);
-+	}
++	down_read(&rm_platform_ops_lock);
++	if (rm_platform_ops && rm_platform_ops->pre_mem_share)
++		ret = rm_platform_ops->pre_mem_share(rm, mem_parcel);
++	up_read(&rm_platform_ops_lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gh_rm_platform_pre_mem_share);
 +
-+	if (!ret) {
-+		unpin_user_pages(mapping->pages, mapping->npages);
-+		account_locked_vm(ghvm->mm, mapping->npages, false);
-+	}
++int gh_rm_platform_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
++{
++	int ret = 0;
 +
-+	kfree(mapping->pages);
-+	kfree(mapping->parcel.acl_entries);
-+	kfree(mapping->parcel.mem_entries);
++	down_read(&rm_platform_ops_lock);
++	if (rm_platform_ops && rm_platform_ops->post_mem_reclaim)
++		ret = rm_platform_ops->post_mem_reclaim(rm, mem_parcel);
++	up_read(&rm_platform_ops_lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gh_rm_platform_post_mem_reclaim);
 +
-+	list_del(&mapping->list);
++int gh_rm_register_platform_ops(const struct gh_rm_platform_ops *platform_ops)
++{
++	int ret = 0;
++
++	down_write(&rm_platform_ops_lock);
++	if (!rm_platform_ops)
++		rm_platform_ops = platform_ops;
++	else
++		ret = -EEXIST;
++	up_write(&rm_platform_ops_lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gh_rm_register_platform_ops);
++
++void gh_rm_unregister_platform_ops(const struct gh_rm_platform_ops *platform_ops)
++{
++	down_write(&rm_platform_ops_lock);
++	if (rm_platform_ops == platform_ops)
++		rm_platform_ops = NULL;
++	up_write(&rm_platform_ops_lock);
++}
++EXPORT_SYMBOL_GPL(gh_rm_unregister_platform_ops);
++
++static void _devm_gh_rm_unregister_platform_ops(void *data)
++{
++	gh_rm_unregister_platform_ops((const struct gh_rm_platform_ops *)data);
 +}
 +
-+void gh_vm_mem_reclaim(struct gh_vm *ghvm)
++int devm_gh_rm_register_platform_ops(struct device *dev, const struct gh_rm_platform_ops *ops)
 +{
-+	struct gh_vm_mem *mapping, *tmp;
++	int ret;
 +
-+	mutex_lock(&ghvm->mm_lock);
-+
-+	list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
-+		gh_vm_mem_reclaim_mapping(ghvm, mapping);
-+		kfree(mapping);
-+	}
-+
-+	mutex_unlock(&ghvm->mm_lock);
-+}
-+
-+int gh_vm_mem_alloc(struct gh_vm *ghvm, struct gh_userspace_memory_region *region)
-+{
-+	struct gh_vm_mem *mapping, *tmp_mapping;
-+	struct page *curr_page, *prev_page;
-+	struct gh_rm_mem_parcel *parcel;
-+	int i, j, pinned, ret = 0;
-+	unsigned int gup_flags;
-+	size_t entry_size;
-+	u16 vmid;
-+
-+	if (!region->memory_size || !PAGE_ALIGNED(region->memory_size) ||
-+		!PAGE_ALIGNED(region->userspace_addr) ||
-+		!PAGE_ALIGNED(region->guest_phys_addr))
-+		return -EINVAL;
-+
-+	if (overflows_type(region->guest_phys_addr + region->memory_size, u64))
-+		return -EOVERFLOW;
-+
-+	ret = mutex_lock_interruptible(&ghvm->mm_lock);
++	ret = gh_rm_register_platform_ops(ops);
 +	if (ret)
 +		return ret;
 +
-+	mapping = __gh_vm_mem_find_by_label(ghvm, region->label);
-+	if (mapping) {
-+		ret = -EEXIST;
-+		goto unlock;
-+	}
-+
-+	list_for_each_entry(tmp_mapping, &ghvm->memory_mappings, list) {
-+		if (gh_vm_mem_overlap(tmp_mapping, region->guest_phys_addr,
-+					region->memory_size)) {
-+			ret = -EEXIST;
-+			goto unlock;
-+		}
-+	}
-+
-+	mapping = kzalloc(sizeof(*mapping), GFP_KERNEL_ACCOUNT);
-+	if (!mapping) {
-+		ret = -ENOMEM;
-+		goto unlock;
-+	}
-+
-+	mapping->guest_phys_addr = region->guest_phys_addr;
-+	mapping->npages = region->memory_size >> PAGE_SHIFT;
-+	parcel = &mapping->parcel;
-+	parcel->label = region->label;
-+	parcel->mem_handle = GH_MEM_HANDLE_INVAL; /* to be filled later by mem_share/mem_lend */
-+	parcel->mem_type = GH_RM_MEM_TYPE_NORMAL;
-+
-+	ret = account_locked_vm(ghvm->mm, mapping->npages, true);
-+	if (ret)
-+		goto free_mapping;
-+
-+	mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL_ACCOUNT);
-+	if (!mapping->pages) {
-+		ret = -ENOMEM;
-+		mapping->npages = 0; /* update npages for reclaim */
-+		goto unlock_pages;
-+	}
-+
-+	gup_flags = FOLL_LONGTERM;
-+	if (region->flags & GH_MEM_ALLOW_WRITE)
-+		gup_flags |= FOLL_WRITE;
-+
-+	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
-+					gup_flags, mapping->pages);
-+	if (pinned < 0) {
-+		ret = pinned;
-+		goto free_pages;
-+	} else if (pinned != mapping->npages) {
-+		ret = -EFAULT;
-+		mapping->npages = pinned; /* update npages for reclaim */
-+		goto unpin_pages;
-+	}
-+
-+	parcel->n_acl_entries = 2;
-+	mapping->share_type = VM_MEM_SHARE;
-+	parcel->acl_entries = kcalloc(parcel->n_acl_entries, sizeof(*parcel->acl_entries),
-+					GFP_KERNEL);
-+	if (!parcel->acl_entries) {
-+		ret = -ENOMEM;
-+		goto unpin_pages;
-+	}
-+
-+	/* acl_entries[0].vmid will be this VM's vmid. We'll fill it when the
-+	 * VM is starting and we know the VM's vmid.
-+	 */
-+	if (region->flags & GH_MEM_ALLOW_READ)
-+		parcel->acl_entries[0].perms |= GH_RM_ACL_R;
-+	if (region->flags & GH_MEM_ALLOW_WRITE)
-+		parcel->acl_entries[0].perms |= GH_RM_ACL_W;
-+	if (region->flags & GH_MEM_ALLOW_EXEC)
-+		parcel->acl_entries[0].perms |= GH_RM_ACL_X;
-+
-+	ret = gh_rm_get_vmid(ghvm->rm, &vmid);
-+	if (ret)
-+		goto free_acl;
-+
-+	parcel->acl_entries[1].vmid = cpu_to_le16(vmid);
-+	/* Host assumed to have all these permissions. Gunyah will not
-+	 * grant new permissions if host actually had less than RWX
-+	 */
-+	parcel->acl_entries[1].perms = GH_RM_ACL_R | GH_RM_ACL_W | GH_RM_ACL_X;
-+
-+	parcel->n_mem_entries = 1;
-+	for (i = 1; i < mapping->npages; i++) {
-+		if (!pages_are_mergeable(mapping->pages[i - 1], mapping->pages[i]))
-+			parcel->n_mem_entries++;
-+	}
-+
-+	parcel->mem_entries = kcalloc(parcel->n_mem_entries,
-+					sizeof(parcel->mem_entries[0]),
-+					GFP_KERNEL_ACCOUNT);
-+	if (!parcel->mem_entries) {
-+		ret = -ENOMEM;
-+		goto free_acl;
-+	}
-+
-+	/* reduce number of entries by combining contiguous pages into single memory entry */
-+	prev_page = mapping->pages[0];
-+	parcel->mem_entries[0].phys_addr = cpu_to_le64(page_to_phys(prev_page));
-+	entry_size = PAGE_SIZE;
-+	for (i = 1, j = 0; i < mapping->npages; i++) {
-+		curr_page = mapping->pages[i];
-+		if (pages_are_mergeable(prev_page, curr_page)) {
-+			entry_size += PAGE_SIZE;
-+		} else {
-+			parcel->mem_entries[j].size = cpu_to_le64(entry_size);
-+			j++;
-+			parcel->mem_entries[j].phys_addr =
-+				cpu_to_le64(page_to_phys(curr_page));
-+			entry_size = PAGE_SIZE;
-+		}
-+
-+		prev_page = curr_page;
-+	}
-+	parcel->mem_entries[j].size = cpu_to_le64(entry_size);
-+
-+	list_add(&mapping->list, &ghvm->memory_mappings);
-+	mutex_unlock(&ghvm->mm_lock);
-+	return 0;
-+free_acl:
-+	kfree(parcel->acl_entries);
-+unpin_pages:
-+	unpin_user_pages(mapping->pages, pinned);
-+free_pages:
-+	kfree(mapping->pages);
-+unlock_pages:
-+	account_locked_vm(ghvm->mm, mapping->npages, false);
-+free_mapping:
-+	kfree(mapping);
-+unlock:
-+	mutex_unlock(&ghvm->mm_lock);
-+	return ret;
++	return devm_add_action(dev, _devm_gh_rm_unregister_platform_ops, (void *)ops);
 +}
-diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-index 86b9cb60118dd..91d6dd26fcc89 100644
---- a/include/uapi/linux/gunyah.h
-+++ b/include/uapi/linux/gunyah.h
-@@ -20,4 +20,41 @@
-  */
- #define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
++EXPORT_SYMBOL_GPL(devm_gh_rm_register_platform_ops);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Gunyah Platform Hooks");
+diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
+index 8309b7bf46683..3d43bb79ff447 100644
+--- a/drivers/virt/gunyah/rsc_mgr.h
++++ b/drivers/virt/gunyah/rsc_mgr.h
+@@ -13,4 +13,7 @@ struct gh_rm;
+ int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, const void *req_buf, size_t req_buf_size,
+ 		void **resp_buf, size_t *resp_buf_size);
  
-+/*
-+ * ioctls for VM fds
-+ */
++int gh_rm_platform_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
++int gh_rm_platform_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
 +
-+/**
-+ * enum gh_mem_flags - Possible flags on &struct gh_userspace_memory_region
-+ * @GH_MEM_ALLOW_READ: Allow guest to read the memory
-+ * @GH_MEM_ALLOW_WRITE: Allow guest to write to the memory
-+ * @GH_MEM_ALLOW_EXEC: Allow guest to execute instructions in the memory
-+ */
-+enum gh_mem_flags {
-+	GH_MEM_ALLOW_READ	= 1UL << 0,
-+	GH_MEM_ALLOW_WRITE	= 1UL << 1,
-+	GH_MEM_ALLOW_EXEC	= 1UL << 2,
+ #endif
+diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
+index 25064123a31c3..d0548db1500c2 100644
+--- a/drivers/virt/gunyah/rsc_mgr_rpc.c
++++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
+@@ -207,6 +207,12 @@ static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_
+ 	if (!msg)
+ 		return -ENOMEM;
+ 
++	ret = gh_rm_platform_pre_mem_share(rm, p);
++	if (ret) {
++		kfree(msg);
++		return ret;
++	}
++
+ 	req_header = msg;
+ 	acl_section = (void *)req_header + sizeof(*req_header);
+ 	mem_section = (void *)acl_section + acl_section_size;
+@@ -231,8 +237,10 @@ static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_
+ 	ret = gh_rm_call(rm, message_id, msg, msg_size, (void **)&resp, &resp_size);
+ 	kfree(msg);
+ 
+-	if (ret)
++	if (ret) {
++		gh_rm_platform_post_mem_reclaim(rm, p);
+ 		return ret;
++	}
+ 
+ 	p->mem_handle = le32_to_cpu(*resp);
+ 	kfree(resp);
+@@ -287,8 +295,14 @@ int gh_rm_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel)
+ 	struct gh_rm_mem_release_req req = {
+ 		.mem_handle = cpu_to_le32(parcel->mem_handle),
+ 	};
++	int ret;
++
++	ret = gh_rm_call(rm, GH_RM_RPC_MEM_RECLAIM, &req, sizeof(req), NULL, NULL);
++	/* Only call the platform mem reclaim hooks if we reclaimed the memory */
++	if (ret)
++		return ret;
+ 
+-	return gh_rm_call(rm, GH_RM_RPC_MEM_RECLAIM, &req, sizeof(req), NULL, NULL);
++	return gh_rm_platform_post_mem_reclaim(rm, parcel);
+ }
+ 
+ /**
+diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
+index dfac088420bda..cac4476b46ade 100644
+--- a/include/linux/gunyah_rsc_mgr.h
++++ b/include/linux/gunyah_rsc_mgr.h
+@@ -139,4 +139,21 @@ int gh_rm_get_hyp_resources(struct gh_rm *rm, u16 vmid,
+ 				struct gh_rm_hyp_resources **resources);
+ int gh_rm_get_vmid(struct gh_rm *rm, u16 *vmid);
+ 
++struct gh_rm_platform_ops {
++	int (*pre_mem_share)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
++	int (*post_mem_reclaim)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
 +};
 +
-+/**
-+ * struct gh_userspace_memory_region - Userspace memory descripion for GH_VM_SET_USER_MEM_REGION
-+ * @label: Identifer to the region which is unique to the VM.
-+ * @flags: Flags for memory parcel behavior. See &enum gh_mem_flags.
-+ * @guest_phys_addr: Location of the memory region in guest's memory space (page-aligned)
-+ * @memory_size: Size of the region (page-aligned)
-+ * @userspace_addr: Location of the memory region in caller (userspace)'s memory
-+ *
-+ * See Documentation/virt/gunyah/vm-manager.rst for further details.
-+ */
-+struct gh_userspace_memory_region {
-+	__u32 label;
-+	__u32 flags;
-+	__u64 guest_phys_addr;
-+	__u64 memory_size;
-+	__u64 userspace_addr;
-+};
-+
-+#define GH_VM_SET_USER_MEM_REGION	_IOW(GH_IOCTL_TYPE, 0x1, \
-+						struct gh_userspace_memory_region)
++#if IS_ENABLED(CONFIG_GUNYAH_PLATFORM_HOOKS)
++int gh_rm_register_platform_ops(const struct gh_rm_platform_ops *platform_ops);
++void gh_rm_unregister_platform_ops(const struct gh_rm_platform_ops *platform_ops);
++int devm_gh_rm_register_platform_ops(struct device *dev, const struct gh_rm_platform_ops *ops);
++#else
++static inline int gh_rm_register_platform_ops(const struct gh_rm_platform_ops *platform_ops)
++	{ return 0; }
++static inline void gh_rm_unregister_platform_ops(const struct gh_rm_platform_ops *platform_ops) { }
++static inline int devm_gh_rm_register_platform_ops(struct device *dev,
++	const struct gh_rm_platform_ops *ops) { return 0; }
++#endif
 +
  #endif
 -- 
