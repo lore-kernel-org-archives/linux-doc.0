@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 841AAC7EE2E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 00:19:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FBB7C88CB7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 00:19:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239599AbjFMATO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Jun 2023 20:19:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52884 "EHLO
+        id S239604AbjFMATQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Jun 2023 20:19:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238376AbjFMARi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 20:17:38 -0400
+        with ESMTP id S239116AbjFMAR5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Jun 2023 20:17:57 -0400
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB2E3A98;
-        Mon, 12 Jun 2023 17:14:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7AB319BF;
+        Mon, 12 Jun 2023 17:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686615255; x=1718151255;
+  t=1686615261; x=1718151261;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Umo485lkaXi+aij5vBJ9ejxN8cdryMJacLabCk9dyEI=;
-  b=MWPkJUdmtyjntK5lDrs/JDccnFDWtHqzqfZbFawreZbEia0neiUKvyIs
-   L/Xkukjx4tFeYXalOUMN3smyv9Hko+wyJIj7AYHQc6bJtsg1yyIYI/2jD
-   OuWmyqJbmkq6gLSvG2I4N0YBQ4szoPKEwEgT671iJ5M/5yO0y1C7pJ6Vp
-   9x2Fk+U+4IXfi8jETSAdXN5CMfJhfKzM2UapONY5T7z3ziGbbB+Tru8G/
-   ZRQ0HBefpxT/K+Su1gSkvM1uNwanzh+d9IlvQtaROm5K/ooGMfjLXBnUg
-   ABrllXCJao/a3M5WjBMvVFo3z/TZjPbZhFsFhyB+b5NWWY23xpfKgIwWl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="361557564"
+  bh=YlC9UAklwmTYEYA/IeAnmisSABN50M2A88ovR11LHkA=;
+  b=JM13llmtFLVqxpUU/TalEJO7CymFGuC8WreiN5kmRlThp6PBegZsDYoM
+   NtaYi1vmDEJfgdYPCW+DJJzuFprnxjxPxX4yXQoewOVyUSNJKjFBQzS+U
+   o3MClS5pvD+uBJYfAUVtZcnaJgvbpRuKVxk0faqWbqT16vbNfU2SJUdYg
+   dDR56quH1gYbl1nO9saYAy0F3Gmv9j2HKntdjY7EVuvnLPV9xOOD8hniw
+   PLg8WwDjxfRWk1OA4OJk7uirl5upAnu6NHv2wh2VerHZMhJ3Odt9mhOzi
+   evljsAEjMJL4uafiLMEIVdujI7iTPKhHdkFZHDnmQbVDLp12FAO/I3QD2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="361557610"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="361557564"
+   d="scan'208";a="361557610"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 17:12:41 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 17:12:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="835671162"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="835671179"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="835671162"
+   d="scan'208";a="835671179"
 Received: from almeisch-mobl1.amr.corp.intel.com (HELO rpedgeco-desk4.amr.corp.intel.com) ([10.209.42.242])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 17:12:40 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 17:12:42 -0700
 From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
 To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -70,9 +70,9 @@ To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         torvalds@linux-foundation.org, broonie@kernel.org
 Cc:     rick.p.edgecombe@intel.com, Yu-cheng Yu <yu-cheng.yu@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: [PATCH v9 38/42] x86/cpufeatures: Enable CET CR4 bit for shadow stack
-Date:   Mon, 12 Jun 2023 17:11:04 -0700
-Message-Id: <20230613001108.3040476-39-rick.p.edgecombe@intel.com>
+Subject: [PATCH v9 40/42] x86: Add PTRACE interface for shadow stack
+Date:   Mon, 12 Jun 2023 17:11:06 -0700
+Message-Id: <20230613001108.3040476-41-rick.p.edgecombe@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
 References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
@@ -82,16 +82,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Setting CR4.CET is a prerequisite for utilizing any CET features, most of
-which also require setting MSRs.
+Some applications (like GDB) would like to tweak shadow stack state via
+ptrace. This allows for existing functionality to continue to work for
+seized shadow stack applications. Provide a regset interface for
+manipulating the shadow stack pointer (SSP).
 
-Kernel IBT already enables the CET CR4 bit when it detects IBT HW support
-and is configured with kernel IBT. However, future patches that enable
-userspace shadow stack support will need the bit set as well. So change
-the logic to enable it in either case.
+There is already ptrace functionality for accessing xstate, but this
+does not include supervisor xfeatures. So there is not a completely
+clear place for where to put the shadow stack state. Adding it to the
+user xfeatures regset would complicate that code, as it currently shares
+logic with signals which should not have supervisor features.
 
-Clear MSR_IA32_U_CET in cet_disable() so that it can't live to see
-userspace in a new kexec-ed kernel that has CR4.CET set from kernel IBT.
+Don't add a general supervisor xfeature regset like the user one,
+because it is better to maintain flexibility for other supervisor
+xfeatures to define their own interface. For example, an xfeature may
+decide not to expose all of it's state to userspace, as is actually the
+case for  shadow stack ptrace functionality. A lot of enum values remain
+to be used, so just put it in dedicated shadow stack regset.
+
+The only downside to not having a generic supervisor xfeature regset,
+is that apps need to be enlightened of any new supervisor xfeature
+exposed this way (i.e. they can't try to have generic save/restore
+logic). But maybe that is a good thing, because they have to think
+through each new xfeature instead of encountering issues when a new
+supervisor xfeature was added.
+
+By adding a shadow stack regset, it also has the effect of including the
+shadow stack state in a core dump, which could be useful for debugging.
+
+The shadow stack specific xstate includes the SSP, and the shadow stack
+and WRSS enablement status. Enabling shadow stack or WRSS in the kernel
+involves more than just flipping the bit. The kernel is made aware that
+it has to do extra things when cloning or handling signals. That logic
+is triggered off of separate feature enablement state kept in the task
+struct. So the flipping on HW shadow stack enforcement without notifying
+the kernel to change its behavior would severely limit what an application
+could do without crashing, and the results would depend on kernel
+internal implementation details. There is also no known use for controlling
+this state via ptrace today. So only expose the SSP, which is something
+that userspace already has indirect control over.
 
 Co-developed-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -103,75 +132,178 @@ Tested-by: Pengfei Xu <pengfei.xu@intel.com>
 Tested-by: John Allen <john.allen@amd.com>
 Tested-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/kernel/cpu/common.c | 35 +++++++++++++++++++++++++++--------
- 1 file changed, 27 insertions(+), 8 deletions(-)
+v9:
+ - Squash "Enforce only whole copies for ssp_set()" fix that previously
+   was in tip.
+---
+ arch/x86/include/asm/fpu/regset.h |  7 +--
+ arch/x86/kernel/fpu/regset.c      | 81 +++++++++++++++++++++++++++++++
+ arch/x86/kernel/ptrace.c          | 12 +++++
+ include/uapi/linux/elf.h          |  2 +
+ 4 files changed, 99 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 80710a68ef7d..3ea06b0b4570 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -601,27 +601,43 @@ __noendbr void ibt_restore(u64 save)
+diff --git a/arch/x86/include/asm/fpu/regset.h b/arch/x86/include/asm/fpu/regset.h
+index 4f928d6a367b..697b77e96025 100644
+--- a/arch/x86/include/asm/fpu/regset.h
++++ b/arch/x86/include/asm/fpu/regset.h
+@@ -7,11 +7,12 @@
  
- static __always_inline void setup_cet(struct cpuinfo_x86 *c)
- {
--	u64 msr = CET_ENDBR_EN;
-+	bool user_shstk, kernel_ibt;
+ #include <linux/regset.h>
  
--	if (!HAS_KERNEL_IBT ||
--	    !cpu_feature_enabled(X86_FEATURE_IBT))
-+	if (!IS_ENABLED(CONFIG_X86_CET))
- 		return;
- 
--	wrmsrl(MSR_IA32_S_CET, msr);
-+	kernel_ibt = HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT);
-+	user_shstk = cpu_feature_enabled(X86_FEATURE_SHSTK) &&
-+		     IS_ENABLED(CONFIG_X86_USER_SHADOW_STACK);
-+
-+	if (!kernel_ibt && !user_shstk)
-+		return;
-+
-+	if (user_shstk)
-+		set_cpu_cap(c, X86_FEATURE_USER_SHSTK);
-+
-+	if (kernel_ibt)
-+		wrmsrl(MSR_IA32_S_CET, CET_ENDBR_EN);
-+	else
-+		wrmsrl(MSR_IA32_S_CET, 0);
-+
- 	cr4_set_bits(X86_CR4_CET);
- 
--	if (!ibt_selftest()) {
-+	if (kernel_ibt && !ibt_selftest()) {
- 		pr_err("IBT selftest: Failed!\n");
- 		wrmsrl(MSR_IA32_S_CET, 0);
- 		setup_clear_cpu_cap(X86_FEATURE_IBT);
--		return;
- 	}
- }
- 
- __noendbr void cet_disable(void)
- {
--	if (cpu_feature_enabled(X86_FEATURE_IBT))
--		wrmsrl(MSR_IA32_S_CET, 0);
-+	if (!(cpu_feature_enabled(X86_FEATURE_IBT) ||
-+	      cpu_feature_enabled(X86_FEATURE_SHSTK)))
-+		return;
-+
-+	wrmsrl(MSR_IA32_S_CET, 0);
-+	wrmsrl(MSR_IA32_U_CET, 0);
- }
+-extern user_regset_active_fn regset_fpregs_active, regset_xregset_fpregs_active;
++extern user_regset_active_fn regset_fpregs_active, regset_xregset_fpregs_active,
++				ssp_active;
+ extern user_regset_get2_fn fpregs_get, xfpregs_get, fpregs_soft_get,
+-				 xstateregs_get;
++				 xstateregs_get, ssp_get;
+ extern user_regset_set_fn fpregs_set, xfpregs_set, fpregs_soft_set,
+-				 xstateregs_set;
++				 xstateregs_set, ssp_set;
  
  /*
-@@ -1483,6 +1499,9 @@ static void __init cpu_parse_early_param(void)
- 	if (cmdline_find_option_bool(boot_command_line, "noxsaves"))
- 		setup_clear_cpu_cap(X86_FEATURE_XSAVES);
+  * xstateregs_active == regset_fpregs_active. Please refer to the comment
+diff --git a/arch/x86/kernel/fpu/regset.c b/arch/x86/kernel/fpu/regset.c
+index 6d056b68f4ed..6bc1eb2a21bd 100644
+--- a/arch/x86/kernel/fpu/regset.c
++++ b/arch/x86/kernel/fpu/regset.c
+@@ -8,6 +8,7 @@
+ #include <asm/fpu/api.h>
+ #include <asm/fpu/signal.h>
+ #include <asm/fpu/regset.h>
++#include <asm/prctl.h>
  
-+	if (cmdline_find_option_bool(boot_command_line, "nousershstk"))
-+		setup_clear_cpu_cap(X86_FEATURE_USER_SHSTK);
+ #include "context.h"
+ #include "internal.h"
+@@ -174,6 +175,86 @@ int xstateregs_set(struct task_struct *target, const struct user_regset *regset,
+ 	return ret;
+ }
+ 
++#ifdef CONFIG_X86_USER_SHADOW_STACK
++int ssp_active(struct task_struct *target, const struct user_regset *regset)
++{
++	if (target->thread.features & ARCH_SHSTK_SHSTK)
++		return regset->n;
 +
- 	arglen = cmdline_find_option(boot_command_line, "clearcpuid", arg, sizeof(arg));
- 	if (arglen <= 0)
- 		return;
++	return 0;
++}
++
++int ssp_get(struct task_struct *target, const struct user_regset *regset,
++	    struct membuf to)
++{
++	struct fpu *fpu = &target->thread.fpu;
++	struct cet_user_state *cetregs;
++
++	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK))
++		return -ENODEV;
++
++	sync_fpstate(fpu);
++	cetregs = get_xsave_addr(&fpu->fpstate->regs.xsave, XFEATURE_CET_USER);
++	if (WARN_ON(!cetregs)) {
++		/*
++		 * This shouldn't ever be NULL because shadow stack was
++		 * verified to be enabled above. This means
++		 * MSR_IA32_U_CET.CET_SHSTK_EN should be 1 and so
++		 * XFEATURE_CET_USER should not be in the init state.
++		 */
++		return -ENODEV;
++	}
++
++	return membuf_write(&to, (unsigned long *)&cetregs->user_ssp,
++			    sizeof(cetregs->user_ssp));
++}
++
++int ssp_set(struct task_struct *target, const struct user_regset *regset,
++	    unsigned int pos, unsigned int count,
++	    const void *kbuf, const void __user *ubuf)
++{
++	struct fpu *fpu = &target->thread.fpu;
++	struct xregs_state *xsave = &fpu->fpstate->regs.xsave;
++	struct cet_user_state *cetregs;
++	unsigned long user_ssp;
++	int r;
++
++	if (!cpu_feature_enabled(X86_FEATURE_USER_SHSTK) ||
++	    !ssp_active(target, regset))
++		return -ENODEV;
++
++	if (pos != 0 || count != sizeof(user_ssp))
++		return -EINVAL;
++
++	r = user_regset_copyin(&pos, &count, &kbuf, &ubuf, &user_ssp, 0, -1);
++	if (r)
++		return r;
++
++	/*
++	 * Some kernel instructions (IRET, etc) can cause exceptions in the case
++	 * of disallowed CET register values. Just prevent invalid values.
++	 */
++	if (user_ssp >= TASK_SIZE_MAX || !IS_ALIGNED(user_ssp, 8))
++		return -EINVAL;
++
++	fpu_force_restore(fpu);
++
++	cetregs = get_xsave_addr(xsave, XFEATURE_CET_USER);
++	if (WARN_ON(!cetregs)) {
++		/*
++		 * This shouldn't ever be NULL because shadow stack was
++		 * verified to be enabled above. This means
++		 * MSR_IA32_U_CET.CET_SHSTK_EN should be 1 and so
++		 * XFEATURE_CET_USER should not be in the init state.
++		 */
++		return -ENODEV;
++	}
++
++	cetregs->user_ssp = user_ssp;
++	return 0;
++}
++#endif /* CONFIG_X86_USER_SHADOW_STACK */
++
+ #if defined CONFIG_X86_32 || defined CONFIG_IA32_EMULATION
+ 
+ /*
+diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
+index dfaa270a7cc9..095f04bdabdc 100644
+--- a/arch/x86/kernel/ptrace.c
++++ b/arch/x86/kernel/ptrace.c
+@@ -58,6 +58,7 @@ enum x86_regset_64 {
+ 	REGSET64_FP,
+ 	REGSET64_IOPERM,
+ 	REGSET64_XSTATE,
++	REGSET64_SSP,
+ };
+ 
+ #define REGSET_GENERAL \
+@@ -1267,6 +1268,17 @@ static struct user_regset x86_64_regsets[] __ro_after_init = {
+ 		.active		= ioperm_active,
+ 		.regset_get	= ioperm_get
+ 	},
++#ifdef CONFIG_X86_USER_SHADOW_STACK
++	[REGSET64_SSP] = {
++		.core_note_type	= NT_X86_SHSTK,
++		.n		= 1,
++		.size		= sizeof(u64),
++		.align		= sizeof(u64),
++		.active		= ssp_active,
++		.regset_get	= ssp_get,
++		.set		= ssp_set
++	},
++#endif
+ };
+ 
+ static const struct user_regset_view user_x86_64_view = {
+diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
+index ac3da855fb19..fa1ceeae2596 100644
+--- a/include/uapi/linux/elf.h
++++ b/include/uapi/linux/elf.h
+@@ -406,6 +406,8 @@ typedef struct elf64_shdr {
+ #define NT_386_TLS	0x200		/* i386 TLS slots (struct user_desc) */
+ #define NT_386_IOPERM	0x201		/* x86 io permission bitmap (1=deny) */
+ #define NT_X86_XSTATE	0x202		/* x86 extended state using xsave */
++/* Old binutils treats 0x203 as a CET state */
++#define NT_X86_SHSTK	0x204		/* x86 SHSTK state */
+ #define NT_S390_HIGH_GPRS	0x300	/* s390 upper register halves */
+ #define NT_S390_TIMER	0x301		/* s390 timer register */
+ #define NT_S390_TODCMP	0x302		/* s390 TOD clock comparator register */
 -- 
 2.34.1
 
