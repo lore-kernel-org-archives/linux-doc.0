@@ -2,82 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E3C4C7EE2E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 09:47:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C98C88CB4
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 09:55:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241945AbjFMJrf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 05:47:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60424 "EHLO
+        id S239427AbjFMJzg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 05:55:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241594AbjFMJrD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 05:47:03 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B62819A4;
-        Tue, 13 Jun 2023 02:46:48 -0700 (PDT)
-Received: from tp8.. (mdns.lwn.net [45.79.72.68])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3B1FA7DE;
-        Tue, 13 Jun 2023 09:46:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3B1FA7DE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1686649600; bh=Ws0sgPK8ew7x5vxl+TuTJyXb8SBuL/KQ6lfSG/O9Xu8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rFS60iFolb45Rs8MlzAbX9/IuNIHcSz+Kh3iCrSfaqXJXiHRzsDJjwhJAGdCK2fp/
-         4tRCQQsJsJtnxTcol2K+zkySYho9KntiXdqkYfR2ZPVebcQTRVgCPP7MFKZN52p9cf
-         0V9j0i2vmxH4u1OXTtuVk7c4taBYVMw15HJQA6XKCuJdmFOYyuOF/IIypZV6c5iHwY
-         CofdjXO1zlP230wQ5GZyHzIpVxjd32GM0Z2FSsz9+ORhaG7EsQG2UtCS9nUlHs62u6
-         KQs18KP840i93BAh1rlsDQL+7TmC6X3irvglULosWSeq8IQL+jWx17ZI9nJhoGcUld
-         AJbXeYPk1aKpA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>
-Subject: [PATCH 5/5] perf arm-spe: Fix a dangling Documentation/arm64 reference
-Date:   Tue, 13 Jun 2023 03:46:06 -0600
-Message-Id: <20230613094606.334687-6-corbet@lwn.net>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230613094606.334687-1-corbet@lwn.net>
-References: <20230613094606.334687-1-corbet@lwn.net>
+        with ESMTP id S241852AbjFMJzR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 05:55:17 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D464A191
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 02:55:15 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-307d20548adso3711135f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 02:55:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1686650114; x=1689242114;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RqNvggRPyNB9Hehd7xfWxJNAOn1bnmQJXJE17DkVdBU=;
+        b=g/gQ2/z9jaLvDVlTUHmih1Mf6W7SQX7wJSQ+I8XBYvpmmlpFWCMKBmAtIqbdA9HJWB
+         iWJ8265l0uWUBs0Kg2xf88IK1ASsgY7HBMkicdvyoLSF2ZFw96kmx8hlZ4inRvc6mfw6
+         usW+eWfcjxc7P7c5wlWofL6a/6amUVvrMqWmVbcEPl/2nvlor4GEZMJYDGvrBQ2ES0Kz
+         MIm+Gt3o5Al8+xgJHIvN+k83T0tslOCriSPQAfvlsubkAEA+EPvZDMa6sTwznVHhsGT7
+         9tQ5f+N1kjiEiCDElzEW318WS8K22rXW/SvG9B0QnKg+Y4mmXmNqLX7TKuwjrx3J05kI
+         izbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686650114; x=1689242114;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RqNvggRPyNB9Hehd7xfWxJNAOn1bnmQJXJE17DkVdBU=;
+        b=SJzrDr5hC0Z1PQ4KZSx6Wri0CPxbRrxivlF6Azq7i21eBTTjBZCxnFNf58oM4/maPj
+         FYDN5dIpX0oz1YF4d4C/eagOYn8lkEf9mj55vicJ2S2mJv6VvtnqnKTSkFGX4a0RvM3Y
+         PIOfLZHXyKwTMm05pxjBehResOCdWmjQQ7BL8Cvpo6jKah8tZ+WeK3RatOMyMxATP+P6
+         km2ec61KuzoMUiFJBVjJfd4/jkVwTY2otTFg1iXOTRY9WCx+aV+hZNIX+dsfk27Yn4ew
+         fkYJk8e+5kWHqowQyZB4tn0gKBoVvThvqPz4qBFS2HhZT0O8Q73MR8/ELfIuCWcJLY4i
+         OfVw==
+X-Gm-Message-State: AC+VfDzg3ottreP5HQ4m4meTUyicIUW7payfpkZU2laoM6O+FP3Z6IsR
+        SyuaXY69aC0saKCR7hzcQgobfQ==
+X-Google-Smtp-Source: ACHHUZ5ZrdfyYh5y1tk49fFKsi3ApIfFMGD+jwFkSrpureaIeIWoGT4Ghm/fdObK/np4YyjXHk7Jyg==
+X-Received: by 2002:adf:e252:0:b0:307:7f38:37f with SMTP id bl18-20020adfe252000000b003077f38037fmr6934139wrb.66.1686650114217;
+        Tue, 13 Jun 2023 02:55:14 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id e4-20020adfdbc4000000b0030ada01ca78sm14844845wrj.10.2023.06.13.02.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jun 2023 02:55:13 -0700 (PDT)
+Date:   Tue, 13 Jun 2023 11:55:11 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        vadfed@meta.com, jonathan.lemon@gmail.com, pabeni@redhat.com,
+        corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+        vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org,
+        vadim.fedorenko@linux.dev
+Subject: Re: [RFC PATCH v8 01/10] dpll: documentation on DPLL subsystem
+ interface
+Message-ID: <ZIg8/0UJB9Lbyx2D@nanopsycho>
+References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+ <20230609121853.3607724-2-arkadiusz.kubalewski@intel.com>
+ <20230612154329.7bd2d52f@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230612154329.7bd2d52f@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The arm64 documentation has moved under Documentation/arch/.  Fix up a
-dangling reference to match.
+Tue, Jun 13, 2023 at 12:43:29AM CEST, kuba@kernel.org wrote:
+>On Fri,  9 Jun 2023 14:18:44 +0200 Arkadiusz Kubalewski wrote:
+>> From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+>> 
+>> Add documentation explaining common netlink interface to configure DPLL
+>> devices and monitoring events. Common way to implement DPLL device in
+>> a driver is also covered.
+>
+>> +``'pin': [{
+>> + {'clock-id': 282574471561216,
+>> +  'module-name': 'ice',
+>> +  'pin-dpll-caps': 4,
+>> +  'pin-id': 13,
+>> +  'pin-parent': [{'pin-id': 2, 'pin-state': 'connected'},
+>> +                 {'pin-id': 3, 'pin-state': 'disconnected'},
+>> +                 {'id': 0, 'pin-direction': 'input'},
+>> +                 {'id': 1, 'pin-direction': 'input'}],
+>> +  'pin-type': 'synce-eth-port'}
+>> +}]``
+>
+>It seems like pin-parent is overloaded, can we split it into two
+>different nests?
 
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: Jiri Olsa <jolsa@kernel.org>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- tools/perf/util/arm-spe-decoder/arm-spe-decoder.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yeah, we had it as two and converged to this one. The thing is, the rest
+of the attrs are the same for both parent pin and parent device. I link
+it this way a bit better. No strong feeling.
 
-diff --git a/tools/perf/util/arm-spe-decoder/arm-spe-decoder.c b/tools/perf/util/arm-spe-decoder/arm-spe-decoder.c
-index f3918f290df5..ba807071d3c1 100644
---- a/tools/perf/util/arm-spe-decoder/arm-spe-decoder.c
-+++ b/tools/perf/util/arm-spe-decoder/arm-spe-decoder.c
-@@ -51,7 +51,7 @@ static u64 arm_spe_calc_ip(int index, u64 payload)
- 		 * (bits [63:56]) is assigned as top-byte tag; so we only can
- 		 * retrieve address value from bits [55:0].
- 		 *
--		 * According to Documentation/arm64/memory.rst, if detects the
-+		 * According to Documentation/arch/arm64/memory.rst, if detects the
- 		 * specific pattern in bits [55:52] of payload which falls in
- 		 * the kernel space, should fixup the top byte and this allows
- 		 * perf tool to parse DSO symbol for data address correctly.
--- 
-2.40.1
 
+>
+>> +SET commands format
+>> +===================
+>> +
+>> +``DPLL_CMD_DEVICE_SET`` - to target a dpll device, the user provides
+>> +``DPLL_A_ID``, which is unique identifier of dpll device in the system,
+>> +as well as parameter being configured (``DPLL_A_MODE``).
+>> +
+>> +``DPLL_CMD_PIN_SET`` - to target a pin user has to provide a
+>> +``DPLL_A_PIN_ID``, which is unique identifier of a pin in the system.
+>> +Also configured pin parameters must be added.
+>> +If ``DPLL_A_PIN_DIRECTION`` or ``DPLL_A_PIN_FREQUENCY`` are configured,
+>> +this affects all the dpll device they are connected, that is why those
+>> +attributes shall not be enclosed in ``DPLL_A_PIN_PARENT``.
+>> +Other attributes:
+>> +``DPLL_A_PIN_PRIO`` or ``DPLL_A_PIN_STATE`` must be enclosed in
+>> +``DPLL_A_PIN_PARENT`` as their configuration relates to only one
+>> +parent dpll or parent pin.
+>
+>Also sounds like setting pin attrs and pin-parent attrs should be
+>different commands.
+
+Could be, but what't the benefit? Also, you are not configuring
+pin-parent. You are configuring pin:pin-parent tuple. Basically the pin
+configuration as a child. So this is mainly config of the pin itsest
+Therefore does not really make sense to me to split to two comments.
