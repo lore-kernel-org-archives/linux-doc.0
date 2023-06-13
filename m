@@ -2,74 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B5EEB64D0
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 14:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 471A1EB64D0
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 14:53:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241000AbjFMOpd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 10:45:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56918 "EHLO
+        id S242850AbjFMOxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 10:53:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242655AbjFMOpY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 10:45:24 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C5951739
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 07:45:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=p6IXXzrIIM5v8wClJsiV/eW+6rZyGRYzOocxk3ijSjw=; b=oOH0jvB5rkPUDOY2KrUgb1DVHq
-        tR6BkmrMEhIvidHc02Dj/dzwM5jXgWyi6RfVwVZI+pycZ0yoaYcdzmuWhYTFwIHnYl8ym8X5f7oFw
-        etEITFVNkCu6817h8kF6qkQdcsEqp3JahY/X5xjHz712ppK2jzKcr7h2RfBPQj88tLBM9q01q24Ck
-        DI4261NSHxuXeD6b7Md+EalWZR6rqSgR1ReSWKWqAH1Ni5jHtKLGBzrugsS/nHyxP7NFYaPegkgZw
-        YIbxtGQFHgBt+cvpvOop41ArITgOQ4fkwnEn4DXrtqp2vNHDOpZgEqGWfGKamACiX1qaIAfzYlEpO
-        pBaNMVPQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1q95Gi-0040br-Qq; Tue, 13 Jun 2023 14:45:12 +0000
-Date:   Tue, 13 Jun 2023 15:45:12 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v4] Documentation/mm: Initial page table documentation
-Message-ID: <ZIiA+E3W2oWy9uuR@casper.infradead.org>
-References: <20230613083906.757878-1-linus.walleij@linaro.org>
+        with ESMTP id S237019AbjFMOxR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 10:53:17 -0400
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4559F173F
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 07:53:16 -0700 (PDT)
+Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-43de86a069fso329966137.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 07:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1686667995; x=1689259995;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aj9On63tZGT4xZHZRbn4kNAEZXg6WSSzte0QQ5DFG5Y=;
+        b=3xz+2W3O1cEmUosWRClgJqLxl0RaLvVadqpzTPvT27Bjy1/yeTJfSOMsG0D7X0iH5o
+         KzX/+z8/VC+rShQubEE/VWKrIyoN8QvzBgqS0+P+gzuMDwG2uuiMKQNdJ2eTNqYu+MaU
+         P+wY2VwAJRMgCg+VbM31WFoOirbEbUKbIVp99SgYmsgjUjHp/9PlvRgETuYgt7l4pIrw
+         lpcgVQIqnHllPbvDsAbALV3GDuBLMOQT0rpRWdnghItx3SNqTwglIa2ZAFhANA6IrrAQ
+         HUA8KJNWZZ+7RJl7qtzwp22HsQazZ2H6FahZGeNmNAzxVORq2tbBkfFGiqOhiXscImN7
+         jHRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686667995; x=1689259995;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aj9On63tZGT4xZHZRbn4kNAEZXg6WSSzte0QQ5DFG5Y=;
+        b=LVtljIAI3RCRrauy0WL02Gd0WCoELA3vTwawpgQ/D7uk9wt0vEH25NlBqcu4DmaHG5
+         MCJutX4BmKAJ/I3dC9u/2p3Q3MSCCTJfFBOTb9XB0UpNYKgM1y6Io8tUPLxoEj4ijp1I
+         joAusUyqYaYOG6Z4NDUC0GeKOKZLS8XsmfbhvOfRtZ+ZB1gxmecqdXDrKSx4MYr74mJQ
+         wLDALp8S8HsiE0opG3892GFMI9Z9mFRp93lv9dSp++8bEx6J4PM28SegqCQn8fm6P2YK
+         XqMM4mCooLhhLOgo6CjeycL7utbLawmOkEAiCl1ou7guRPROGzI+bctRSZjZvjzKvExc
+         PT2w==
+X-Gm-Message-State: AC+VfDw4d71a06VSQ6xR/0TXlvwK//CTVm6jbKzkYYDsbBQ0S/Qhtwqk
+        CkXcvHipxZLuMyTomYDK1+aRi7h9ikfok4NcxAW9BA==
+X-Google-Smtp-Source: ACHHUZ756bnFHTg62RATpM6wA8I/VVqR/uhiSiA71IFDFVJY4JyUcDi5z39sBzm7jpDc1KvVUBsrTNtF6uxgL2g4exY=
+X-Received: by 2002:a05:6102:3a71:b0:43b:3e78:9886 with SMTP id
+ bf17-20020a0561023a7100b0043b3e789886mr4214600vsb.26.1686667995404; Tue, 13
+ Jun 2023 07:53:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230613083906.757878-1-linus.walleij@linaro.org>
+References: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Tue, 13 Jun 2023 16:53:04 +0200
+Message-ID: <CAMRc=Mcg62aoeiwG_3aUAGqL9MeoYjWvL4mxRTEPUPw3RbAUjw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] gpiolib: Remove unused gpio_cansleep()
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 13, 2023 at 10:39:06AM +0200, Linus Walleij wrote:
-> +Paged virtual memory was invented along with virtual memory as a concept in
-> +1962 on the Ferranti Atlas Computer which was the first computer with paged
-> +virtual memory. The feature migrated to newer computers and became a de facto
-> +feature of all Unix-like systems as time went by. In 1985 the feature was
-> +included in the Intel 80386, which was the CPU Linux 1.0 was developed on.
+On Mon, Jun 5, 2023 at 2:54=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> There is not a single user in the entire kernel of this deprecated API,
+> kill it for good.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
 
-I still don't think the origin story is useful.  It's trivia and doesn't
-help someone understand what they need to know.
+Applied, thanks!
 
-> +Page tables map virtual addresses as seen by the CPU program counter into
-> +physical addresses as seen on the external memory bus.
-
-This makes it sound like virtual addresses are only used for
-instructions.  I had better wording earlier, but there's no point in
-repeating it.  Just: I dissent. 
-
-> +Linux defines page tables as a hierarchy which is currently five levels in
-> +height. The target architecture code for each supported architecture will then
-> +map this to the restrictions of the target hardware.
-
-The word "target" isn't adding any value in this paragraph.
-
-Honestly, I don't like much about this document.  The writing is
-flabby and untargetted.  Much of my last review was ignored.  I'm just
-going to stop here since I have low confidence that any suggestions
-would be incorporated.
+Bart
