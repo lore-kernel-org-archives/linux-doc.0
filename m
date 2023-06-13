@@ -2,48 +2,49 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8115C0015E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FF88EB64DC
 	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:21:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238699AbjFMRV4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 13:21:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49868 "EHLO
+        id S238663AbjFMRVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 13:21:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238578AbjFMRVx (ORCPT
+        with ESMTP id S238560AbjFMRVx (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:21:53 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED98E1985;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 481B1172A;
         Tue, 13 Jun 2023 10:21:48 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DFEIPd008206;
-        Tue, 13 Jun 2023 17:21:34 GMT
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DExcXQ031315;
+        Tue, 13 Jun 2023 17:21:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=OomKIjNL6cdcEyH1I43OE5b9avAeKsEDzcb743DD7Mo=;
- b=ZwW39B1YoxDac1oMkthy6wRMa2wbaA+aKuSf5jh+yzgQzwMUahWTKFI3Wp5ISj+nT5v7
- vilrzR/cRLLAs3qWyVyqroY7rqUqP7I8j/fach7A6jfjrEhEogVoNH8Rw3yMmQ4HRZmf
- njdpIuplzSZV3ScjaWk2tHr+nm7MOPcJqs+FDB26WfD0OJzQdxBSEERIuMrIkZ7Kd10a
- YSSi21IPEMHlC/bz+lyOHEXRaFmMAagCxr4ENLDXVo+Fh30lCSzLMbxQm4ku//72heMx
- Ts1ExU8Gpy+0zjpR0xze7iPZXzLjGXm6B8Lghd6IRYWlx+uiRQUo5L4n9Jj0dkw1hfm9 7w== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6nqh15fc-1
+ bh=/iuZ7CWGG0VNBdKzkKlxIpiC9jWY1cnfrqMBIOf43ZM=;
+ b=ETaXzldmsyF1TTadVZVQiOUNAnvs2DBSKZsmV/ZY5HDp2VxIfErZpGiRWB0WAptOWvWo
+ tezOOewo49XAUmvKQKAoPjSa3HfJlbm5D6Otl6HMF8jgI62mNzBERTfQhWSt3uVYEtWI
+ wPteAH/InR4hON2WHpQua1Tjq8Ml3WhlgcQRXMyyflPYHai6r0QmeHO/Hw3ssayqLKnK
+ uorocncPSpYNIWegYNqmnp6eJEC5acV/y2ZJOKido+K5dWoGvTVXj3+R0bTco06gWssF
+ 0815/6GlhOyhZd0GJ45V+c8Ngyb9kg+wmPYskAPC2B8oxtfaVAZQ1nTx8xaHdWm/Bquq Vg== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6s3wrnav-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:34 +0000
+        Tue, 13 Jun 2023 17:21:28 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHLWWD021062
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHLQco029074
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:32 GMT
+        Tue, 13 Jun 2023 17:21:26 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 13 Jun 2023 10:21:31 -0700
+ 15.2.986.42; Tue, 13 Jun 2023 10:21:25 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Elliot Berman" <quic_eberman@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+        Jassi Brar <jassisinghbrar@gmail.com>
 CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
@@ -59,13 +60,12 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v14 09/25] gunyah: vm_mgr: Introduce basic VM Manager
-Date:   Tue, 13 Jun 2023 10:20:37 -0700
-Message-ID: <20230613172054.3959700-10-quic_eberman@quicinc.com>
+Subject: [PATCH v14 06/25] mailbox: Add Gunyah message queue mailbox
+Date:   Tue, 13 Jun 2023 10:20:34 -0700
+Message-ID: <20230613172054.3959700-7-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230613172054.3959700-1-quic_eberman@quicinc.com>
 References: <20230613172054.3959700-1-quic_eberman@quicinc.com>
@@ -77,317 +77,361 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: XHQ_w8nZeGKlO9c6zVi3UW9hFdyLa9H_
-X-Proofpoint-ORIG-GUID: XHQ_w8nZeGKlO9c6zVi3UW9hFdyLa9H_
+X-Proofpoint-ORIG-GUID: JecKb8AV1797_2_Cth_RBwhCv0rWSRo3
+X-Proofpoint-GUID: JecKb8AV1797_2_Cth_RBwhCv0rWSRo3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-13_18,2023-06-12_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 mlxscore=0 priorityscore=1501 impostorscore=0 spamscore=0
- phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ definitions=2023-06-13_19,2023-06-12_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ adultscore=0 mlxscore=0 mlxlogscore=413 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2305260000 definitions=main-2306130153
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Gunyah VM manager is a kernel moduel which exposes an interface to
-Gunyah userspace to load, run, and interact with other Gunyah virtual
-machines. The interface is a character device at /dev/gunyah.
-
-Add a basic VM manager driver. Upcoming patches will add more ioctls
-into this driver.
+Gunyah message queues are a unidirectional inter-VM pipe for messages up
+to 1024 bytes. This driver supports pairing a receiver message queue and
+a transmitter message queue to expose a single mailbox channel.
 
 Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Reviewed-by: Alex Elder <elder@linaro.org>
-Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- .../userspace-api/ioctl/ioctl-number.rst      |  1 +
- drivers/virt/gunyah/Makefile                  |  2 +-
- drivers/virt/gunyah/rsc_mgr.c                 | 49 +++++++++-
- drivers/virt/gunyah/vm_mgr.c                  | 93 +++++++++++++++++++
- drivers/virt/gunyah/vm_mgr.h                  | 20 ++++
- include/uapi/linux/gunyah.h                   | 23 +++++
- 6 files changed, 186 insertions(+), 2 deletions(-)
- create mode 100644 drivers/virt/gunyah/vm_mgr.c
- create mode 100644 drivers/virt/gunyah/vm_mgr.h
- create mode 100644 include/uapi/linux/gunyah.h
+ Documentation/virt/gunyah/message-queue.rst |   8 +
+ drivers/mailbox/Makefile                    |   2 +
+ drivers/mailbox/gunyah-msgq.c               | 219 ++++++++++++++++++++
+ include/linux/gunyah.h                      |  57 +++++
+ 4 files changed, 286 insertions(+)
+ create mode 100644 drivers/mailbox/gunyah-msgq.c
 
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index 4f7b23faebb98..c7d7afa17a3dd 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -137,6 +137,7 @@ Code  Seq#    Include File                                           Comments
- 'F'   DD     video/sstfb.h                                           conflict!
- 'G'   00-3F  drivers/misc/sgi-gru/grulib.h                           conflict!
- 'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                            conflict!
-+'G'   00-0F  linux/gunyah.h                                          conflict!
- 'H'   00-7F  linux/hiddev.h                                          conflict!
- 'H'   00-0F  linux/hidraw.h                                          conflict!
- 'H'   01     linux/mei.h                                             conflict!
-diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-index 241bab357b86c..e47e25895299c 100644
---- a/drivers/virt/gunyah/Makefile
-+++ b/drivers/virt/gunyah/Makefile
-@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/virt/gunyah/message-queue.rst b/Documentation/virt/gunyah/message-queue.rst
+index b352918ae54b4..70d82a4ef32d7 100644
+--- a/Documentation/virt/gunyah/message-queue.rst
++++ b/Documentation/virt/gunyah/message-queue.rst
+@@ -61,3 +61,11 @@ vIRQ: two TX message queues will have two vIRQs (and two capability IDs).
+       |               |         |                 |         |               |
+       |               |         |                 |         |               |
+       +---------------+         +-----------------+         +---------------+
++
++Gunyah message queues are exposed as mailboxes. To create the mailbox, create
++a mbox_client and call `gh_msgq_init()`. On receipt of the RX_READY interrupt,
++all messages in the RX message queue are read and pushed via the `rx_callback`
++of the registered mbox_client.
++
++.. kernel-doc:: drivers/mailbox/gunyah-msgq.c
++   :identifiers: gh_msgq_init
+diff --git a/drivers/mailbox/Makefile b/drivers/mailbox/Makefile
+index fc93761171113..5f929bb55e9a5 100644
+--- a/drivers/mailbox/Makefile
++++ b/drivers/mailbox/Makefile
+@@ -55,6 +55,8 @@ obj-$(CONFIG_MTK_CMDQ_MBOX)	+= mtk-cmdq-mailbox.o
  
--gunyah-y += rsc_mgr.o rsc_mgr_rpc.o
-+gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o
- obj-$(CONFIG_GUNYAH) += gunyah.o
-diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
-index 04c8e131d259f..a0faf126ee56e 100644
---- a/drivers/virt/gunyah/rsc_mgr.c
-+++ b/drivers/virt/gunyah/rsc_mgr.c
-@@ -15,8 +15,10 @@
- #include <linux/completion.h>
- #include <linux/gunyah_rsc_mgr.h>
- #include <linux/platform_device.h>
-+#include <linux/miscdevice.h>
+ obj-$(CONFIG_ZYNQMP_IPI_MBOX)	+= zynqmp-ipi-mailbox.o
  
- #include "rsc_mgr.h"
-+#include "vm_mgr.h"
++obj-$(CONFIG_GUNYAH)		+= gunyah-msgq.o
++
+ obj-$(CONFIG_SUN6I_MSGBOX)	+= sun6i-msgbox.o
  
- #define RM_RPC_API_VERSION_MASK		GENMASK(3, 0)
- #define RM_RPC_HEADER_WORDS_MASK	GENMASK(7, 4)
-@@ -130,6 +132,7 @@ struct gh_rm_connection {
-  * @cache: cache for allocating Tx messages
-  * @send_lock: synchronization to allow only one request to be sent at a time
-  * @nh: notifier chain for clients interested in RM notification messages
-+ * @miscdev: /dev/gunyah
-  */
- struct gh_rm {
- 	struct device *dev;
-@@ -146,6 +149,8 @@ struct gh_rm {
- 	struct kmem_cache *cache;
- 	struct mutex send_lock;
- 	struct blocking_notifier_head nh;
-+
-+	struct miscdevice miscdev;
- };
- 
- /**
-@@ -580,6 +585,33 @@ int gh_rm_notifier_unregister(struct gh_rm *rm, struct notifier_block *nb)
- }
- EXPORT_SYMBOL_GPL(gh_rm_notifier_unregister);
- 
-+struct device *gh_rm_get(struct gh_rm *rm)
-+{
-+	return get_device(rm->miscdev.this_device);
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_get);
-+
-+void gh_rm_put(struct gh_rm *rm)
-+{
-+	put_device(rm->miscdev.this_device);
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_put);
-+
-+static long gh_dev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-+{
-+	struct miscdevice *miscdev = filp->private_data;
-+	struct gh_rm *rm = container_of(miscdev, struct gh_rm, miscdev);
-+
-+	return gh_dev_vm_mgr_ioctl(rm, cmd, arg);
-+}
-+
-+static const struct file_operations gh_dev_fops = {
-+	.owner		= THIS_MODULE,
-+	.unlocked_ioctl	= gh_dev_ioctl,
-+	.compat_ioctl	= compat_ptr_ioctl,
-+	.llseek		= noop_llseek,
-+};
-+
- static int gh_msgq_platform_probe_direction(struct platform_device *pdev, bool tx,
- 					    struct gh_resource *ghrsc)
- {
-@@ -664,7 +696,21 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
- 	rm->msgq_client.rx_callback = gh_rm_msgq_rx_data;
- 	rm->msgq_client.tx_done = gh_rm_msgq_tx_done;
- 
--	return gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
-+	ret = gh_msgq_init(&pdev->dev, &rm->msgq, &rm->msgq_client, &rm->tx_ghrsc, &rm->rx_ghrsc);
-+	if (ret)
-+		goto err_cache;
-+
-+	rm->miscdev.name = "gunyah";
-+	rm->miscdev.minor = MISC_DYNAMIC_MINOR;
-+	rm->miscdev.fops = &gh_dev_fops;
-+
-+	ret = misc_register(&rm->miscdev);
-+	if (ret)
-+		goto err_msgq;
-+
-+	return 0;
-+err_msgq:
-+	gh_msgq_remove(&rm->msgq);
- err_cache:
- 	kmem_cache_destroy(rm->cache);
- 	return ret;
-@@ -674,6 +720,7 @@ static int gh_rm_drv_remove(struct platform_device *pdev)
- {
- 	struct gh_rm *rm = platform_get_drvdata(pdev);
- 
-+	misc_deregister(&rm->miscdev);
- 	gh_msgq_remove(&rm->msgq);
- 	kmem_cache_destroy(rm->cache);
- 
-diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+ obj-$(CONFIG_SPRD_MBOX)		+= sprd-mailbox.o
+diff --git a/drivers/mailbox/gunyah-msgq.c b/drivers/mailbox/gunyah-msgq.c
 new file mode 100644
-index 0000000000000..a43401cb34f7d
+index 0000000000000..7f777339278eb
 --- /dev/null
-+++ b/drivers/virt/gunyah/vm_mgr.c
-@@ -0,0 +1,93 @@
++++ b/drivers/mailbox/gunyah-msgq.c
+@@ -0,0 +1,219 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#define pr_fmt(fmt) "gh_vm_mgr: " fmt
-+
-+#include <linux/anon_inodes.h>
-+#include <linux/file.h>
-+#include <linux/gunyah_rsc_mgr.h>
-+#include <linux/miscdevice.h>
++#include <linux/mailbox_controller.h>
 +#include <linux/module.h>
++#include <linux/interrupt.h>
++#include <linux/gunyah.h>
++#include <linux/printk.h>
++#include <linux/init.h>
++#include <linux/slab.h>
++#include <linux/wait.h>
 +
-+#include <uapi/linux/gunyah.h>
++#define mbox_chan_to_msgq(chan) (container_of(chan->mbox, struct gh_msgq, mbox))
 +
-+#include "vm_mgr.h"
-+
-+static __must_check struct gh_vm *gh_vm_alloc(struct gh_rm *rm)
++static irqreturn_t gh_msgq_rx_irq_handler(int irq, void *data)
 +{
-+	struct gh_vm *ghvm;
++	struct gh_msgq *msgq = data;
++	struct gh_msgq_rx_data rx_data;
++	enum gh_error gh_error;
++	bool ready = true;
 +
-+	ghvm = kzalloc(sizeof(*ghvm), GFP_KERNEL);
-+	if (!ghvm)
-+		return ERR_PTR(-ENOMEM);
++	while (ready) {
++		gh_error = gh_hypercall_msgq_recv(msgq->rx_ghrsc->capid,
++				&rx_data.data, sizeof(rx_data.data),
++				&rx_data.length, &ready);
++		if (gh_error != GH_ERROR_OK) {
++			if (gh_error != GH_ERROR_MSGQUEUE_EMPTY)
++				dev_warn(msgq->mbox.dev, "Failed to receive data: %d\n", gh_error);
++			break;
++		}
++		if (likely(gh_msgq_chan(msgq)->cl))
++			mbox_chan_received_data(gh_msgq_chan(msgq), &rx_data);
++	}
 +
-+	ghvm->parent = gh_rm_get(rm);
-+	ghvm->rm = rm;
-+
-+	return ghvm;
++	return IRQ_HANDLED;
 +}
 +
-+static int gh_vm_release(struct inode *inode, struct file *filp)
++/* Fired when message queue transitions from "full" to "space available" to send messages */
++static irqreturn_t gh_msgq_tx_irq_handler(int irq, void *data)
 +{
-+	struct gh_vm *ghvm = filp->private_data;
++	struct gh_msgq *msgq = data;
 +
-+	gh_rm_put(ghvm->rm);
-+	kfree(ghvm);
++	mbox_chan_txdone(gh_msgq_chan(msgq), 0);
++
++	return IRQ_HANDLED;
++}
++
++/* Fired after sending message and hypercall told us there was more space available. */
++static void gh_msgq_txdone_tasklet(struct tasklet_struct *tasklet)
++{
++	struct gh_msgq *msgq = container_of(tasklet, struct gh_msgq, txdone_tasklet);
++
++	mbox_chan_txdone(gh_msgq_chan(msgq), msgq->last_ret);
++}
++
++static int gh_msgq_send_data(struct mbox_chan *chan, void *data)
++{
++	struct gh_msgq *msgq = mbox_chan_to_msgq(chan);
++	struct gh_msgq_tx_data *msgq_data = data;
++	u64 tx_flags = 0;
++	enum gh_error gh_error;
++	bool ready;
++
++	if (!msgq->tx_ghrsc)
++		return -EOPNOTSUPP;
++
++	if (msgq_data->push)
++		tx_flags |= GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH;
++
++	gh_error = gh_hypercall_msgq_send(msgq->tx_ghrsc->capid, msgq_data->length, msgq_data->data,
++						tx_flags, &ready);
++
++	/**
++	 * unlikely because Linux tracks state of msgq and should not try to
++	 * send message when msgq is full.
++	 */
++	if (unlikely(gh_error == GH_ERROR_MSGQUEUE_FULL))
++		return -EAGAIN;
++
++	/**
++	 * Propagate all other errors to client. If we return error to mailbox
++	 * framework, then no other messages can be sent and nobody will know
++	 * to retry this message.
++	 */
++	msgq->last_ret = gh_error_remap(gh_error);
++
++	/**
++	 * This message was successfully sent, but message queue isn't ready to
++	 * accept more messages because it's now full. Mailbox framework
++	 * requires that we only report that message was transmitted when
++	 * we're ready to transmit another message. We'll get that in the form
++	 * of tx IRQ once the other side starts to drain the msgq.
++	 */
++	if (gh_error == GH_ERROR_OK) {
++		if (!ready)
++			return 0;
++	} else {
++		dev_err(msgq->mbox.dev, "Failed to send data: %d (%d)\n", gh_error, msgq->last_ret);
++	}
++
++	/**
++	 * We can send more messages. Mailbox framework requires that tx done
++	 * happens asynchronously to sending the message. Gunyah message queues
++	 * tell us right away on the hypercall return whether we can send more
++	 * messages. To work around this, defer the txdone to a tasklet.
++	 */
++	tasklet_schedule(&msgq->txdone_tasklet);
++
 +	return 0;
 +}
 +
-+static const struct file_operations gh_vm_fops = {
-+	.owner = THIS_MODULE,
-+	.release = gh_vm_release,
-+	.llseek = noop_llseek,
++static struct mbox_chan_ops gh_msgq_ops = {
++	.send_data = gh_msgq_send_data,
 +};
 +
-+static long gh_dev_ioctl_create_vm(struct gh_rm *rm, unsigned long arg)
++/**
++ * gh_msgq_init() - Initialize a Gunyah message queue with an mbox_client
++ * @parent: device parent used for the mailbox controller
++ * @msgq: Pointer to the gh_msgq to initialize
++ * @cl: A mailbox client to bind to the mailbox channel that the message queue creates
++ * @tx_ghrsc: optional, the transmission side of the message queue
++ * @rx_ghrsc: optional, the receiving side of the message queue
++ *
++ * At least one of tx_ghrsc and rx_ghrsc must be not NULL. Most message queue use cases come with
++ * a pair of message queues to facilitate bidirectional communication. When tx_ghrsc is set,
++ * the client can send messages with mbox_send_message(gh_msgq_chan(msgq), msg). When rx_ghrsc
++ * is set, the mbox_client must register an .rx_callback() and the message queue driver will
++ * deliver all available messages upon receiving the RX ready interrupt. The messages should be
++ * consumed or copied by the client right away as the gh_msgq_rx_data will be replaced/destroyed
++ * after the callback.
++ *
++ * Returns - 0 on success, negative otherwise
++ */
++int gh_msgq_init(struct device *parent, struct gh_msgq *msgq, struct mbox_client *cl,
++		 struct gh_resource *tx_ghrsc, struct gh_resource *rx_ghrsc)
 +{
-+	struct gh_vm *ghvm;
-+	struct file *file;
-+	int fd, err;
++	int ret;
 +
-+	/* arg reserved for future use. */
-+	if (arg)
++	/* Must have at least a tx_ghrsc or rx_ghrsc and that they are the right device types */
++	if ((!tx_ghrsc && !rx_ghrsc) ||
++	    (tx_ghrsc && tx_ghrsc->type != GH_RESOURCE_TYPE_MSGQ_TX) ||
++	    (rx_ghrsc && rx_ghrsc->type != GH_RESOURCE_TYPE_MSGQ_RX))
 +		return -EINVAL;
 +
-+	ghvm = gh_vm_alloc(rm);
-+	if (IS_ERR(ghvm))
-+		return PTR_ERR(ghvm);
++	msgq->mbox.dev = parent;
++	msgq->mbox.ops = &gh_msgq_ops;
++	msgq->mbox.num_chans = 1;
++	msgq->mbox.txdone_irq = true;
++	msgq->mbox.chans = &msgq->mbox_chan;
 +
-+	fd = get_unused_fd_flags(O_CLOEXEC);
-+	if (fd < 0) {
-+		err = fd;
-+		goto err_destroy_vm;
++	ret = mbox_controller_register(&msgq->mbox);
++	if (ret)
++		return ret;
++
++	ret = mbox_bind_client(gh_msgq_chan(msgq), cl);
++	if (ret)
++		goto err_mbox;
++
++	if (tx_ghrsc) {
++		msgq->tx_ghrsc = tx_ghrsc;
++
++		ret = request_irq(msgq->tx_ghrsc->irq, gh_msgq_tx_irq_handler, 0, "gh_msgq_tx",
++				msgq);
++		if (ret)
++			goto err_tx_ghrsc;
++
++		enable_irq_wake(msgq->tx_ghrsc->irq);
++
++		tasklet_setup(&msgq->txdone_tasklet, gh_msgq_txdone_tasklet);
 +	}
 +
-+	file = anon_inode_getfile("gunyah-vm", &gh_vm_fops, ghvm, O_RDWR);
-+	if (IS_ERR(file)) {
-+		err = PTR_ERR(file);
-+		goto err_put_fd;
++	if (rx_ghrsc) {
++		msgq->rx_ghrsc = rx_ghrsc;
++
++		ret = request_threaded_irq(msgq->rx_ghrsc->irq, NULL, gh_msgq_rx_irq_handler,
++						IRQF_ONESHOT, "gh_msgq_rx", msgq);
++		if (ret)
++			goto err_tx_irq;
++
++		enable_irq_wake(msgq->rx_ghrsc->irq);
 +	}
 +
-+	fd_install(fd, file);
++	return 0;
++err_tx_irq:
++	if (msgq->tx_ghrsc)
++		free_irq(msgq->tx_ghrsc->irq, msgq);
 +
-+	return fd;
-+
-+err_put_fd:
-+	put_unused_fd(fd);
-+err_destroy_vm:
-+	gh_rm_put(ghvm->rm);
-+	kfree(ghvm);
-+	return err;
++	msgq->rx_ghrsc = NULL;
++err_tx_ghrsc:
++	msgq->tx_ghrsc = NULL;
++err_mbox:
++	mbox_controller_unregister(&msgq->mbox);
++	return ret;
 +}
++EXPORT_SYMBOL_GPL(gh_msgq_init);
 +
-+long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg)
++void gh_msgq_remove(struct gh_msgq *msgq)
 +{
-+	switch (cmd) {
-+	case GH_CREATE_VM:
-+		return gh_dev_ioctl_create_vm(rm, arg);
-+	default:
-+		return -ENOTTY;
++	mbox_free_channel(gh_msgq_chan(msgq));
++
++	if (msgq->rx_ghrsc)
++		free_irq(msgq->rx_ghrsc->irq, msgq);
++
++	if (msgq->tx_ghrsc) {
++		tasklet_kill(&msgq->txdone_tasklet);
++		free_irq(msgq->tx_ghrsc->irq, msgq);
 +	}
++
++	mbox_controller_unregister(&msgq->mbox);
++
++	msgq->rx_ghrsc = NULL;
++	msgq->tx_ghrsc = NULL;
 +}
-diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
-new file mode 100644
-index 0000000000000..1e94b58d7d34d
---- /dev/null
-+++ b/drivers/virt/gunyah/vm_mgr.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
++EXPORT_SYMBOL_GPL(gh_msgq_remove);
 +
-+#ifndef _GH_VM_MGR_H
-+#define _GH_VM_MGR_H
-+
-+#include <linux/gunyah_rsc_mgr.h>
-+
-+#include <uapi/linux/gunyah.h>
-+
-+long gh_dev_vm_mgr_ioctl(struct gh_rm *rm, unsigned int cmd, unsigned long arg);
-+
-+struct gh_vm {
-+	struct gh_rm *rm;
-+	struct device *parent;
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Gunyah Message Queue Driver");
+diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+index 01a6f202d037e..982e27d10d57f 100644
+--- a/include/linux/gunyah.h
++++ b/include/linux/gunyah.h
+@@ -8,11 +8,68 @@
+ 
+ #include <linux/bitfield.h>
+ #include <linux/errno.h>
++#include <linux/interrupt.h>
+ #include <linux/limits.h>
++#include <linux/mailbox_controller.h>
++#include <linux/mailbox_client.h>
+ #include <linux/types.h>
+ 
++/* Matches resource manager's resource types for VM_GET_HYP_RESOURCES RPC */
++enum gh_resource_type {
++	GH_RESOURCE_TYPE_BELL_TX	= 0,
++	GH_RESOURCE_TYPE_BELL_RX	= 1,
++	GH_RESOURCE_TYPE_MSGQ_TX	= 2,
++	GH_RESOURCE_TYPE_MSGQ_RX	= 3,
++	GH_RESOURCE_TYPE_VCPU		= 4,
 +};
 +
-+#endif
-diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-new file mode 100644
-index 0000000000000..86b9cb60118dd
---- /dev/null
-+++ b/include/uapi/linux/gunyah.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
-+/*
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
++struct gh_resource {
++	enum gh_resource_type type;
++	u64 capid;
++	unsigned int irq;
++};
++
++/**
++ * Gunyah Message Queues
 + */
 +
-+#ifndef _UAPI_LINUX_GUNYAH_H
-+#define _UAPI_LINUX_GUNYAH_H
++#define GH_MSGQ_MAX_MSG_SIZE		240
 +
-+/*
-+ * Userspace interface for /dev/gunyah - gunyah based virtual machine
-+ */
++struct gh_msgq_tx_data {
++	size_t length;
++	bool push;
++	char data[];
++};
 +
-+#include <linux/types.h>
-+#include <linux/ioctl.h>
++struct gh_msgq_rx_data {
++	size_t length;
++	char data[GH_MSGQ_MAX_MSG_SIZE];
++};
 +
-+#define GH_IOCTL_TYPE			'G'
++struct gh_msgq {
++	struct gh_resource *tx_ghrsc;
++	struct gh_resource *rx_ghrsc;
 +
-+/*
-+ * ioctls for /dev/gunyah fds:
-+ */
-+#define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x0) /* Returns a Gunyah VM fd */
++	/* msgq private */
++	int last_ret; /* Linux error, not GH_STATUS_* */
++	struct mbox_chan mbox_chan;
++	struct mbox_controller mbox;
++	struct tasklet_struct txdone_tasklet;
++};
 +
-+#endif
++
++int gh_msgq_init(struct device *parent, struct gh_msgq *msgq, struct mbox_client *cl,
++		     struct gh_resource *tx_ghrsc, struct gh_resource *rx_ghrsc);
++void gh_msgq_remove(struct gh_msgq *msgq);
++
++static inline struct mbox_chan *gh_msgq_chan(struct gh_msgq *msgq)
++{
++	return &msgq->mbox.chans[0];
++}
++
+ /******************************************************************************/
+ /* Common arch-independent definitions for Gunyah hypercalls                  */
++
+ #define GH_CAPID_INVAL	U64_MAX
+ #define GH_VMID_ROOT_VM	0xff
+ 
 -- 
 2.40.0
 
