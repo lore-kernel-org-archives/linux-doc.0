@@ -2,120 +2,259 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35F4FC77B7A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 08:03:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0451DC7EE29
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 08:04:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240761AbjFMIDP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 04:03:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
+        id S233870AbjFMIEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 04:04:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240766AbjFMIC7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 04:02:59 -0400
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2131.outbound.protection.outlook.com [40.107.117.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413131FF2;
-        Tue, 13 Jun 2023 01:02:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZvgncqonQty9SlmwoKqyvkztZ+7MlX6/C6j6naTPjMeJ3o3oBhWloeIIPRryhU9Foe1A92JYjf3O8xKP+C0s2Cliwi7c2smW1/Os9MU4P7kx7AgiLKitVuJNCUQBCPwnn7xx7Nmbp/8kg71RTYoJTFkSsAFmFwlOoPUd0/chK58rlBrRHgyN/SBxhaE8vDjhgM3EcZAGhnmY9kaF8xn4lNba24GC6NCqGp/fc4Ttv52hhoJwKz3mJtRmAPeGBt7FKc7ygoRhJNVLoQK9b9XxGVvzWJl1Riru23oqwgVtnUHwaX0VjnbiublXRYZxTNvUg6EP7qbQp2C/SI5QI+jWZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WASiI+LGr+j54QgtHqz/Mb0c0vmWaC6GIOI+FQCQgEU=;
- b=BDJ2bCwkLtHTFDagUojtEDURjYkrqwmghpxXQfGCcqFhTaC4Juge0IGYmtSygPQYtOyAIQW9GRRUf/ol8pGDcIhlgUps8cacVw9nIL5raoOEa59tUBhNCGMRE+ps9SCj57MJYUVvg7PmpdooW7lLUvd8RMj7BgxsAjITvckgT4QJXlvC7JDIqNSG0M72utbGCoRAYFhEIbUhTRe4iwqdgsElbqSqyHArm4bslTc6fGW28/ecmEbELrL5cpBfckIwRK9xnIFTrHB3GucslYiUh1heCZ1vQEeaGWagx4MovA1g3+fIIDmUoMxQQb83Og7baxSLlE23fvQzbPAZXvhrsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WASiI+LGr+j54QgtHqz/Mb0c0vmWaC6GIOI+FQCQgEU=;
- b=TrV+Fy5ipErdoMF9oGf+oR2gQUfTXmRa1qguuGAfR8xK1jrGFuSY5vA77wKNcWp/eLtVTPaoPslp3SmEKTslGGxxwrSChAXoMTlFCRvblD01RO4t1FfEPp35eIVZumdn18Zx8glDhBC7+kaOfdegdgqoXzWGIJl5ZKclIAxQIDLEt/JodV0XVjuClqRye9KEWzDvwcn45rIaAla3NmRdNgQgqMaKPVDD9NhnbrSbjhgY2D8SUE6YFj6me0B/ErkazWyhnD404jjKqPyvn1rmgMlUzIiLGDGJe2jaNwGeGeui6K7JYiLaPpeXMUgqTbCnzd0mos9XaUn8Uv1pJT9xog==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by SEZPR06MB6667.apcprd06.prod.outlook.com (2603:1096:101:17d::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.38; Tue, 13 Jun
- 2023 08:01:59 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::76d6:4828:7e80:2965]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::76d6:4828:7e80:2965%3]) with mapi id 15.20.6455.039; Tue, 13 Jun 2023
- 08:01:58 +0000
-Message-ID: <b42482fd-debd-1939-f129-4867017f0ce2@vivo.com>
-Date:   Tue, 13 Jun 2023 16:01:53 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v6] f2fs: support FAULT_LOCK type fault injection
-To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     kernel test robot <lkp@intel.com>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20230420062207.26879-1-frank.li@vivo.com>
-From:   Yangtao Li <frank.li@vivo.com>
-In-Reply-To: <20230420062207.26879-1-frank.li@vivo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SGXP274CA0010.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::22)
- To SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+        with ESMTP id S233941AbjFMID4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 04:03:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED9D419BC;
+        Tue, 13 Jun 2023 01:03:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B35C61446;
+        Tue, 13 Jun 2023 08:03:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561C1C433D2;
+        Tue, 13 Jun 2023 08:03:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1686643433;
+        bh=IbqKvRQt5VBDRTYPdOQS+ty2cQ4CTJhQibclditk/S4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vDh0uSUnLpyrWDbMMeUrvD9Zd8MJfQhw3KEV+S69h2EgvKzcPDYAV3hc5nhjKH1c7
+         k05EfIr0CtBiPudnzfw98Q2JOb36RI8DDk0N2ulQk7RGZETZaccHuqtdYWD+ptX5Su
+         K+s8HB5VkOFmXzGCMkF9DsaPyuO2fn7/uHW239tc=
+Date:   Tue, 13 Jun 2023 10:03:51 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Eric DeVolder <eric.devolder@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, david@redhat.com, osalvador@suse.de,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, bhe@redhat.com,
+        ebiederm@xmission.com, kexec@lists.infradead.org, hpa@zytor.com,
+        rafael@kernel.org, vgoyal@redhat.com, dyoung@redhat.com,
+        lf32.dev@gmail.com, akpm@linux-foundation.org,
+        naveen.n.rao@linux.vnet.ibm.com, zohar@linux.ibm.com,
+        bhelgaas@google.com, vbabka@suse.cz, tiwai@suse.de,
+        seanjc@google.com, linux@weissschuh.net, vschneid@redhat.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        sourabhjain@linux.ibm.com, konrad.wilk@oracle.com,
+        boris.ostrovsky@oracle.com
+Subject: Re: [PATCH v23 4/8] crash: memory and CPU hotplug sysfs attributes
+Message-ID: <2023061320-vindicate-usual-6643@gregkh>
+References: <20230612210712.683175-1-eric.devolder@oracle.com>
+ <20230612210712.683175-5-eric.devolder@oracle.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|SEZPR06MB6667:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c6ad287-42e0-4ea4-6c67-08db6be4763a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GX3BVmR1u0JdKn7W6IQx2kz/sOHhUdDiCodi/Wzf4C1GUCLaeOY1Jex07nHC1XIxfdf0R40xa+y73JFC9b/3hbuRNC6YXyClzbZfDcMvjpDFwedRgJdN+/RThyAX5wbxlyIR4kQYKtg1xoX3Dz3U3C0OeEwhS/xAZOb5ANCSXq0YOtRMxxFv5iooS4/nFJO1EaCMGvG/8m5nprR7ObjZuPaPlcDrqFYGi+TtUVU/HmL8uIxnmGGO8gPekSVp2VQw+ewbQHf+gJVARhEZUJw4fngJHGzaZSRRJkLoRwJ29jfojQrfy3skdb64Wvn5pqn1+yf052MjCGBbzOeHNr6QQTKMImhWrgSEKApMwbvUdBhhX9GO0c3S5RaVNlSeipP+VdLfHduXBxR9+ro6oLklkJDHxwApgxhP8wmNAQEm5sY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(366004)(136003)(39860400002)(396003)(451199021)(31686004)(26005)(6512007)(41300700001)(186003)(6506007)(6486002)(558084003)(36756003)(2616005)(66946007)(4326008)(66476007)(66556008)(6666004)(110136005)(8676002)(8936002)(478600001)(38100700002)(52116002)(2906002)(31696002)(86362001)(316002)(38350700002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L3hDWmRKaWtpRWlvMWdOZm5JMkwrWG9FVUpEZ3hCN3R5VlpYTUdWKzhNcDdY?=
- =?utf-8?B?WkpiMHN1Sms2MmFDVmtZZE1Vd3l0QUZ6a2hENGkxUFczYW80OVcyTnh0a3Va?=
- =?utf-8?B?eUFnTlV0THlHMGNMRWZldUlUQmxZQWNmQTBSYzJvV0hLSzBTTjZTeEMwV0ln?=
- =?utf-8?B?dEZ0dG5HN1hCNjE3c1l0b0lrdmwvT1BMQ3l2bWN4Nmg0Y0RFbitkdVE4KzlI?=
- =?utf-8?B?ZjJwWEM1ZU8zY09Bd0pOQ1gxc3Bkc1FBSjQxdEVtNTl0RUNlN1p2Lzd5TmpH?=
- =?utf-8?B?UlMwcm5jdlFWZjRMLzVqeGpiOHNObFY3ZlZNampFR1ZyVCsvSUgyS2c0K09B?=
- =?utf-8?B?dzZRRUo5bkVlRVRtSGxkVitndUZ1eXdyTnZzY2hUaDBlT20rRW9GZit4MUtZ?=
- =?utf-8?B?YWRGeGFPdUYxNkpWQVcwRVA5TS9xYzJHZ3lCSUhaQXNYU3R6Zi92ZkxaMGx3?=
- =?utf-8?B?WU0rdUxvRDNWZVozckFnZlFJSXZCejUrZklnYWdjV3l0ejRvTkZjVW9pY2RN?=
- =?utf-8?B?eU1iakVaZm5aRVB3RkVNUUNUQmRMY0lEeEVBMlJvYWFqMmU1a1FoY1dORFpQ?=
- =?utf-8?B?eW9IT3BlNHRvWUdOb3BGRWtpRmpybUVFendXTDNJR0dWQlQ4aW0wVmRHajY3?=
- =?utf-8?B?T2NYT25QSTd6dFdJVUREYzNDakJqT2oyRjkxQ0FiVnNMQmpCSS9GQ2pnVC92?=
- =?utf-8?B?VlpKVVhIajNycGJNVCsvZExEMGY5NDFlSkF2SmdxalJmYjh2RTMrSzdVSUxX?=
- =?utf-8?B?RVZmc2ZROHh5ZFMwYWFCeFJzMkhHcEhxTXFsblZ3am1JY2pmUGRmZEVhbm9m?=
- =?utf-8?B?WGFtd3F5dTBXVTUrcmhpZzJJYmpJbkIzczVBN0U0dHc5ZGMxcmFmalNRYkxV?=
- =?utf-8?B?aGd6cXRsMG41Q2ZpUUhYdis0dDgvaG1HOVR0Ky8zWDVxSkt5VC9Yd1huR3dI?=
- =?utf-8?B?ZTRBOW96UjVNeEJHVVFybzVweUd6UWpUVGozbW93QlhKSnB2dVN2QzYxMmY0?=
- =?utf-8?B?Ny91enUrenU0SzRpbHR3RnhsRGhCWHFveVRQZThOQ0xNR2NXQkw2WlF0ZjlH?=
- =?utf-8?B?STk2NHoxTnZIamVuTXZ4Y2s5dXpmL0VRRmxyMHlGNEVKY2I3cnFwR1VTa0tl?=
- =?utf-8?B?Sno4QXVnTDZlTTZON0d4QU9jaUpJYVBPUENuYzI5RUk5VXRYalM2S0VVNXhW?=
- =?utf-8?B?WS9OeGtqRDMvY3JnWER1Z1k4aFhQVENCMkoxaFVkSmJ6QjZrclc4TlBUMVl0?=
- =?utf-8?B?QnhaR3E3NlFXMURHYjErZktFQUNFd0NjK2FOWTM4NitmNU42SHZLRG16b0Vx?=
- =?utf-8?B?K1BoSXB3d05qYkxpTWFPNFVvUG9wSmJxOGZvekhFZHBMWWErdEh2NVlkRnBR?=
- =?utf-8?B?b0VnM1JiRktTdlJIVnZpQTNtWmJoZ25iNFVCZ25KV1dwN0t5SmJXTkEvc3E4?=
- =?utf-8?B?NEEzVnRhRDJUVGI3dEl6ZG4wdnB5d2pOZjh4SW5HUkxGNEJWOERSUmpBUE4y?=
- =?utf-8?B?THd5dGhIVWhEbmd5dTNmL2xvVGZQcWZEc0d6bE0rbmZIRlBCWGFhcGdCV0dp?=
- =?utf-8?B?SlRPSzliZlZkNDdSQVBZZUpWWmxITThva08xMkdKVHplYzJsQWhKeVB4MjVm?=
- =?utf-8?B?aEJ5aG1CSVNmQmc0cFE2MDU3L21nSVByNTBtN1FXc2VXM25IeUc3Y3ZlUjJo?=
- =?utf-8?B?U2dTSVFXTXdZWXpzbU9rbHNDWjJiSlI4M3Y5MFlhWHFSMVNoQUJQKytFcXdy?=
- =?utf-8?B?T241ZGx1MmVHbHVGUkUyVUNhQVBiMC96VVk2SlM2Wno0QUFtSEFFVVVDNWk2?=
- =?utf-8?B?aHoyOFpIWDBFeDNvM1p2U0FIYTIrc2RYbTBuYlhKY3c3NTVXMzRYcC84Vkxl?=
- =?utf-8?B?YzFCejd3ZEhFZFNaUWs4SjJ3YjI4Q0Q1eGNMTGZmVFhld2NFUUwzR1p3RVhY?=
- =?utf-8?B?SWVFaXFidWhvd2UyL2pIMWlQc1BVc2h0UHFIWllGNWN1ZU1ZVm14UTd0dzQy?=
- =?utf-8?B?WXdhRFJHandMeTJzVFZqKzBoT29sOGRvVzdMaHZEMWhhRG55aXFRZlk5Uk5X?=
- =?utf-8?B?eWl0R3dCUjRWT0RiaThCajVVU01rcS9NWStQSnE0SEcxNFJGUnE2bEw4Mitw?=
- =?utf-8?Q?5wnhvxCxUv6rIjIibv+FLAwYp?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c6ad287-42e0-4ea4-6c67-08db6be4763a
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 08:01:58.7614
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sHCyy6Yin05z0o/2VpLd4f/HH4WummlZXZOi75hBf7lCuad21DukqxLSsj0jbLlBa4QZAO6KjnlNq/WI1Y5mlA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6667
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230612210712.683175-5-eric.devolder@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ping......
+On Mon, Jun 12, 2023 at 05:07:08PM -0400, Eric DeVolder wrote:
+> Introduce the crash_hotplug attribute for memory and CPUs for
+> use by userspace.  These attributes directly facilitate the udev
+> rule for managing userspace re-loading of the crash kernel upon
+> hot un/plug changes.
+> 
+> For memory, expose the crash_hotplug attribute to the
+> /sys/devices/system/memory directory. For example:
+> 
+>  # udevadm info --attribute-walk /sys/devices/system/memory/memory81
+>   looking at device '/devices/system/memory/memory81':
+>     KERNEL=="memory81"
+>     SUBSYSTEM=="memory"
+>     DRIVER==""
+>     ATTR{online}=="1"
+>     ATTR{phys_device}=="0"
+>     ATTR{phys_index}=="00000051"
+>     ATTR{removable}=="1"
+>     ATTR{state}=="online"
+>     ATTR{valid_zones}=="Movable"
+> 
+>   looking at parent device '/devices/system/memory':
+>     KERNELS=="memory"
+>     SUBSYSTEMS==""
+>     DRIVERS==""
+>     ATTRS{auto_online_blocks}=="offline"
+>     ATTRS{block_size_bytes}=="8000000"
+>     ATTRS{crash_hotplug}=="1"
+> 
+> For CPUs, expose the crash_hotplug attribute to the
+> /sys/devices/system/cpu directory. For example:
+> 
+>  # udevadm info --attribute-walk /sys/devices/system/cpu/cpu0
+>   looking at device '/devices/system/cpu/cpu0':
+>     KERNEL=="cpu0"
+>     SUBSYSTEM=="cpu"
+>     DRIVER=="processor"
+>     ATTR{crash_notes}=="277c38600"
+>     ATTR{crash_notes_size}=="368"
+>     ATTR{online}=="1"
+> 
+>   looking at parent device '/devices/system/cpu':
+>     KERNELS=="cpu"
+>     SUBSYSTEMS==""
+>     DRIVERS==""
+>     ATTRS{crash_hotplug}=="1"
+>     ATTRS{isolated}==""
+>     ATTRS{kernel_max}=="8191"
+>     ATTRS{nohz_full}=="  (null)"
+>     ATTRS{offline}=="4-7"
+>     ATTRS{online}=="0-3"
+>     ATTRS{possible}=="0-7"
+>     ATTRS{present}=="0-3"
+> 
+> With these sysfs attributes in place, it is possible to efficiently
+> instruct the udev rule to skip crash kernel reloading for kernels
+> configured with crash hotplug support.
+> 
+> For example, the following is the proposed udev rule change for RHEL
+> system 98-kexec.rules (as the first lines of the rule file):
+> 
+>  # The kernel updates the crash elfcorehdr for CPU and memory changes
+>  SUBSYSTEM=="cpu", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
+>  SUBSYSTEM=="memory", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
+> 
+> When examined in the context of 98-kexec.rules, the above rules
+> test if crash_hotplug is set, and if so, the userspace initiated
+> unload-then-reload of the crash kernel is skipped.
+> 
+> CPU and memory checks are separated in accordance with
+> CONFIG_HOTPLUG_CPU and CONFIG_MEMORY_HOTPLUG kernel config options.
+> If an architecture supports, for example, memory hotplug but not
+> CPU hotplug, then the /sys/devices/system/memory/crash_hotplug
+> attribute file is present, but the /sys/devices/system/cpu/crash_hotplug
+> attribute file will NOT be present. Thus the udev rule skips
+> userspace processing of memory hot un/plug events, but the udev
+> rule will evaluate false for CPU events, thus allowing userspace to
+> process CPU hot un/plug events (ie the unload-then-reload of the kdump
+> capture kernel).
+> 
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+> Acked-by: Hari Bathini <hbathini@linux.ibm.com>
+> Acked-by: Baoquan He <bhe@redhat.com>
+> ---
+>  .../admin-guide/mm/memory-hotplug.rst          |  8 ++++++++
+>  Documentation/core-api/cpu_hotplug.rst         | 18 ++++++++++++++++++
+>  drivers/base/cpu.c                             | 14 ++++++++++++++
+>  drivers/base/memory.c                          | 13 +++++++++++++
+>  include/linux/kexec.h                          |  8 ++++++++
+>  5 files changed, 61 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+> index 1b02fe5807cc..eb99d79223a3 100644
+> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
+> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+> @@ -291,6 +291,14 @@ The following files are currently defined:
+>  		       Availability depends on the CONFIG_ARCH_MEMORY_PROBE
+>  		       kernel configuration option.
+>  ``uevent``	       read-write: generic udev file for device subsystems.
+> +``crash_hotplug``      read-only: when changes to the system memory map
+> +		       occur due to hot un/plug of memory, this file contains
+> +		       '1' if the kernel updates the kdump capture kernel memory
+> +		       map itself (via elfcorehdr), or '0' if userspace must update
+> +		       the kdump capture kernel memory map.
+> +
+> +		       Availability depends on the CONFIG_MEMORY_HOTPLUG kernel
+> +		       configuration option.
+>  ====================== =========================================================
+>  
+>  .. note::
+> diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
+> index f75778d37488..0c8dc3fe5f94 100644
+> --- a/Documentation/core-api/cpu_hotplug.rst
+> +++ b/Documentation/core-api/cpu_hotplug.rst
+> @@ -750,6 +750,24 @@ will receive all events. A script like::
+>  
+>  can process the event further.
+>  
+> +When changes to the CPUs in the system occur, the sysfs file
+> +/sys/devices/system/cpu/crash_hotplug contains '1' if the kernel
+> +updates the kdump capture kernel list of CPUs itself (via elfcorehdr),
+> +or '0' if userspace must update the kdump capture kernel list of CPUs.
+> +
+> +The availability depends on the CONFIG_HOTPLUG_CPU kernel configuration
+> +option.
+> +
+> +To skip userspace processing of CPU hot un/plug events for kdump
+> +(ie the unload-then-reload to obtain a current list of CPUs), this sysfs
+> +file can be used in a udev rule as follows:
+> +
+> + SUBSYSTEM=="cpu", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
+> +
+> +For a cpu hot un/plug event, if the architecture supports kernel updates
+> +of the elfcorehdr (which contains the list of CPUs), then the rule skips
+> +the unload-then-reload of the kdump capture kernel.
+> +
+>  Kernel Inline Documentations Reference
+>  ======================================
+>  
+> diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+> index c1815b9dae68..06a0c22b37b8 100644
+> --- a/drivers/base/cpu.c
+> +++ b/drivers/base/cpu.c
+> @@ -282,6 +282,17 @@ static ssize_t print_cpus_nohz_full(struct device *dev,
+>  static DEVICE_ATTR(nohz_full, 0444, print_cpus_nohz_full, NULL);
+>  #endif
+>  
+> +#ifdef CONFIG_HOTPLUG_CPU
+> +#include <linux/kexec.h>
+> +static ssize_t crash_hotplug_show(struct device *dev,
+> +				     struct device_attribute *attr,
+> +				     char *buf)
+> +{
+> +	return sprintf(buf, "%d\n", crash_hotplug_cpu_support());
+> +}
+> +static DEVICE_ATTR_ADMIN_RO(crash_hotplug);
+> +#endif
+> +
+>  static void cpu_device_release(struct device *dev)
+>  {
+>  	/*
+> @@ -469,6 +480,9 @@ static struct attribute *cpu_root_attrs[] = {
+>  #ifdef CONFIG_NO_HZ_FULL
+>  	&dev_attr_nohz_full.attr,
+>  #endif
+> +#ifdef CONFIG_HOTPLUG_CPU
+> +	&dev_attr_crash_hotplug.attr,
+> +#endif
+>  #ifdef CONFIG_GENERIC_CPU_AUTOPROBE
+>  	&dev_attr_modalias.attr,
+>  #endif
+> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+> index b456ac213610..24b8ef4c830c 100644
+> --- a/drivers/base/memory.c
+> +++ b/drivers/base/memory.c
+> @@ -490,6 +490,16 @@ static ssize_t auto_online_blocks_store(struct device *dev,
+>  
+>  static DEVICE_ATTR_RW(auto_online_blocks);
+>  
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+> +#include <linux/kexec.h>
+> +static ssize_t crash_hotplug_show(struct device *dev,
+> +				       struct device_attribute *attr, char *buf)
+> +{
+> +	return sprintf(buf, "%d\n", crash_hotplug_memory_support());
+> +}
 
+This sysfs file has to be documented in Documentation/ABI/ right?
+
+And did you use checkpatch?  It should have told you to use sysfs_emit()
+instead...
+
+> +static DEVICE_ATTR_RO(crash_hotplug);
+> +#endif
+
+All of these #ifdefs should all be removed and instead use the
+is_visible() callback to determine if the attribute is shown or not,
+using the IS_ENABLED() test in the function.
+
+thanks,
+
+greg k-h
