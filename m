@@ -2,121 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA48C7EE2E
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 11:56:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22F1BC7EE2E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 12:06:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235491AbjFML4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 07:56:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48278 "EHLO
+        id S241092AbjFMMGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 08:06:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233561AbjFML4G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 07:56:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86070C5;
-        Tue, 13 Jun 2023 04:56:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S240461AbjFMMGr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 08:06:47 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E665AE57;
+        Tue, 13 Jun 2023 05:06:45 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 19A6D63561;
-        Tue, 13 Jun 2023 11:56:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EACCDC433D2;
-        Tue, 13 Jun 2023 11:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686657360;
-        bh=Y55L/ifTD+Az3stG2Sj9E0dJ66FX1dAYyv7iV54FE38=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cJlSzc9cAgm+2yPlvuu8gZ/T9bYn86hE9l2Db7NKeGcKpGhGvt7nMuKa9vtZJwAT7
-         0Pmee1IYLv6zI2hlTDbTl6kEbzuR1MPKb0GXqZkfxDGQN3LMMHlPbOmipHaUitPNM4
-         jBKIhm7wEHcU4eP3gK1FD9EmtjFk8kbAc+SOmOedWRYnvFr4EU/ZjtWIc91Cnva7MV
-         hqMk3ik2IP8ek/EQJOmpQZqBnsvWOCw6XrnSMmjExBuNtmzzbjCyLNhYBa1kXiNB4P
-         nkM/bQf3AFb+1byGT0Q1A0J92v6m3KwLTngcBazzoy7js0bJb/+ns83TVxjGjk/Ojs
-         japRf5kSxwZmg==
-Date:   Tue, 13 Jun 2023 12:55:48 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
-        torvalds@linux-foundation.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
- description
-Message-ID: <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
-References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
- <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 8A1D2224C5;
+        Tue, 13 Jun 2023 12:06:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1686658004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HYVUFO1wPWNonY/X8OsDNVi5gRCOnIF00hLJCgVVXL8=;
+        b=E2hmup+R2QkYLjr7YF45V8o6ojzs8mRStZDGZ4gtvemfRUU6ZMdUti8UWYB14K4N087zID
+        PCmHqx+U0pWm1b+NAhJZWgxdcsmQ+DfDoUQ1SrXhDczXVUyCIOGHqIdZ4Mqv9LGNpjulD7
+        sr0aoAT7cMde28oU3y65lkUec6malk0=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7511513345;
+        Tue, 13 Jun 2023 12:06:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id ab+LHNRbiGSNKAAAMHmgww
+        (envelope-from <mhocko@suse.com>); Tue, 13 Jun 2023 12:06:44 +0000
+Date:   Tue, 13 Jun 2023 14:06:44 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Yosry Ahmed <yosryahmed@google.com>
+Cc:     =?utf-8?B?56iL5Z6y5rab?= Chengkaitao Cheng 
+        <chengkaitao@didiglobal.com>, "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "muchun.song@linux.dev" <muchun.song@linux.dev>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "pilgrimtao@gmail.com" <pilgrimtao@gmail.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH v3 0/2] memcontrol: support cgroup level OOM protection
+Message-ID: <ZIhb1EwvrdKXpEMb@dhcp22.suse.cz>
+References: <ZFd5bpfYc3nPEVie@dhcp22.suse.cz>
+ <66F9BB37-3BE1-4B0F-8DE1-97085AF4BED2@didiglobal.com>
+ <ZFkEqhAs7FELUO3a@dhcp22.suse.cz>
+ <CAJD7tkaw_7vYACsyzAtY9L0ZVC0B=XJEWgG=Ad_dOtL_pBDDvQ@mail.gmail.com>
+ <ZIgodGWoC/R07eak@dhcp22.suse.cz>
+ <CAJD7tkawYZAWKYgttgtPjscnZTARj+QaGZLGiMiSadwC3oCELQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="kfP6EvgSuUvXOsjA"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
-X-Cookie: Not a flying toy.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJD7tkawYZAWKYgttgtPjscnZTARj+QaGZLGiMiSadwC3oCELQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue 13-06-23 01:36:51, Yosry Ahmed wrote:
+> +David Rientjes
+> 
+> On Tue, Jun 13, 2023 at 1:27 AM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Sun 04-06-23 01:25:42, Yosry Ahmed wrote:
+> > [...]
+> > > There has been a parallel discussion in the cover letter thread of v4
+> > > [1]. To summarize, at Google, we have been using OOM scores to
+> > > describe different job priorities in a more explicit way -- regardless
+> > > of memory usage. It is strictly priority-based OOM killing. Ties are
+> > > broken based on memory usage.
+> > >
+> > > We understand that something like memory.oom.protect has an advantage
+> > > in the sense that you can skip killing a process if you know that it
+> > > won't free enough memory anyway, but for an environment where multiple
+> > > jobs of different priorities are running, we find it crucial to be
+> > > able to define strict ordering. Some jobs are simply more important
+> > > than others, regardless of their memory usage.
+> >
+> > I do remember that discussion. I am not a great fan of simple priority
+> > based interfaces TBH. It sounds as an easy interface but it hits
+> > complications as soon as you try to define a proper/sensible
+> > hierarchical semantic. I can see how they might work on leaf memcgs with
+> > statically assigned priorities but that sounds like a very narrow
+> > usecase IMHO.
+> 
+> Do you mind elaborating the problem with the hierarchical semantics?
 
---kfP6EvgSuUvXOsjA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Well, let me be more specific. If you have a simple hierarchical numeric
+enforcement (assume higher priority more likely to be chosen and the
+effective priority to be max(self, max(parents)) then the semantic
+itslef is straightforward.
 
-On Mon, Jun 12, 2023 at 05:10:49PM -0700, Rick Edgecombe wrote:
+I am not really sure about the practical manageability though. I have
+hard time to imagine priority assignment on something like a shared
+workload with a more complex hierarchy. For example:
+	    root
+	/    |    \
+cont_A    cont_B  cont_C
 
-> +Enabling arch_prctl()'s
-> +=======================
-> +
-> +Elf features should be enabled by the loader using the below arch_prctl's. They
-> +are only supported in 64 bit user applications. These operate on the features
-> +on a per-thread basis. The enablement status is inherited on clone, so if the
-> +feature is enabled on the first thread, it will propagate to all the thread's
-> +in an app.
+each container running its workload with own hierarchy structures that
+might be rather dynamic during the lifetime. In order to have a
+predictable OOM behavior you need to watch and reassign priorities all
+the time, no?
 
-I appreciate it's very late in the development of this series but given
-that there are very similar features on both arm64 and riscv would it
-make sense to make these just regular prctl()s, arch_prctl() isn't used
-on other architectures and it'd reduce the amount of arch specific work
-that userspace needs to do if the interface is shared.
+> The way it works with our internal implementation is (imo) sensible
+> and straightforward from a hierarchy POV. Starting at the OOM memcg
+> (which can be root), we recursively compare the OOM scores of the
+> children memcgs and pick the one with the lowest score, until we
+> arrive at a leaf memcg.
 
-It should also be possible to support both interfaces for x86 I guess,
-though that feels like askng for trouble.
+This approach has a strong requirement on the memcg hierarchy
+organization. Siblings have to be directly comparable because you cut
+off many potential sub-trees this way (e.g. is it easy to tell
+whether you want to rule out all system or user slices?).
 
---kfP6EvgSuUvXOsjA
-Content-Type: application/pgp-signature; name="signature.asc"
+I can imagine usecases where this could work reasonably well e.g. a set
+of workers of a different priority all of them running under a shared
+memcg parent. But more more involved hierarchies seem more complex
+because you always keep in mind how the hierarchy is organize to get to
+your desired victim.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSIWUMACgkQJNaLcl1U
-h9Decwf/Sfj1gjBXiige5kMFXXsGESCn0ysC4UryS29Y6kt4AZaDRY4e+Sav+q1E
-HJvMz1T1PvtW/of626ohvIdHHQfnw/cgBY8fiJty2koBqH3rLv49GkdgFBqGQadw
-i6mt0r8Iic3mgMA0U0vKYbaVRH3XFW57t/wHv/s0ZXymAp/gfHVEu19h/mJ5Q6Id
-VcxOUUbwLG8iAQqf4LeFqinIuDMF/RLh8ww2N7qfmZAjtZjVR1sK9EZEL3wi7rPf
-TXkYE2ytzOBsdr20PSk0IPDn6THMit+hJN13KtV+fC1CR4pUrPpV34smNhxLdKz4
-w23fBr1HzZUByK5stGOoiP+mPWjeqQ==
-=Bwcu
------END PGP SIGNATURE-----
-
---kfP6EvgSuUvXOsjA--
+-- 
+Michal Hocko
+SUSE Labs
