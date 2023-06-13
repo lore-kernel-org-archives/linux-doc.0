@@ -2,155 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9091EEB64D0
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:54:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1F9EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:57:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234319AbjFMRy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 13:54:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43818 "EHLO
+        id S239035AbjFMR5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 13:57:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbjFMRy0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:54:26 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 503291980;
-        Tue, 13 Jun 2023 10:54:25 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DAcQUT005633;
-        Tue, 13 Jun 2023 17:54:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=FhHkLfZLOO4yubpLLOyR5XbfFkbOYFd4xCfqu/OhtOM=;
- b=WLBdAf4s58gCWraHEtcEbi+333ggNU+wSCE5XiFjnaS8jpvIAsWxBJSNiBxv0UodIaN/
- BEz2YDZDHPpyoneYq2uItCzMI1Y4EEiV0LmKu/7boadOEbE5VVP1QF2XV07cwLfi+uMT
- vFzYtChsr13HHcUBZ3qgsCzsrJYdsrHZ+6Pr27JpvK+JeDEpKHSalDXfT6979rl+gQqB
- 8Q/4AcsVHFUQSCyEA6CKsoRfUFw1dl3g2aTZKNcfzImXyzo7K03HpFqi3TOYmBlhvtG5
- WdLHivwDzAxRw5R1AtJL0psbPiNRrSlR3eDVQgmWC/8SkOFS2DsSUCkxA0K4aVxWl9Gg Vw== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6nqh17wm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:54:08 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHs6ds018982
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:54:06 GMT
-Received: from [10.71.108.253] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 13 Jun
- 2023 10:54:05 -0700
-Message-ID: <e907ce20-b523-eedc-9883-18a5484464be@quicinc.com>
-Date:   Tue, 13 Jun 2023 10:54:05 -0700
+        with ESMTP id S229469AbjFMR5V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:57:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76E6919A8;
+        Tue, 13 Jun 2023 10:57:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0C83960F9E;
+        Tue, 13 Jun 2023 17:57:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9901FC433F2;
+        Tue, 13 Jun 2023 17:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686679039;
+        bh=IqkXJldW0A8Y3vMcqq5u/QYVg8dqjY4RiGJcpPC+dDM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tXNaOwvwJobwrSfQe3xFszHWpyiN680KdOA21GqS7X2QKkM4lO3Ya5uu/CVey7AYQ
+         6B0SdqkaM82XRdl3/S/adJtfmiMsGODaMhh7ViBWfe0bx6/gp2uv+ZiOWf0IKUS7Q4
+         /fUcMef7XXkwU+hbd0Nn801CVkLL5iqlL3NZdOB1dJ53duw0F+I8u/IvER2mgMrGpr
+         8JYWyHb3aB0nG6LbiG8JhLATWfFPRRyp4gM1KsSfHBg7cQ0yIt8TELy9vX7795LTIS
+         GONT6vW9Orcmg0TeSaj/vqBca40GctyDGjeFFrmaAja5mE7CYoKQV+CMJTpPgvHEte
+         YLpTuDs9MvDVw==
+Date:   Tue, 13 Jun 2023 18:57:05 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "fweimer@redhat.com" <fweimer@redhat.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Xu, Pengfei" <pengfei.xu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "bp@alien8.de" <bp@alien8.de>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <fc2ebfcf-8d91-4f07-a119-2aaec3aa099f@sirena.org.uk>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
+ <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
+ <87y1knh729.fsf@oldenburg.str.redhat.com>
+ <1f04fa59-6ca9-4f18-b138-6c33e164b6c2@sirena.org.uk>
+ <49eabafa97032dec8ace7361bccae72c6ecf3860.camel@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v13 10/24] gunyah: vm_mgr: Add/remove user memory regions
-To:     Will Deacon <will@kernel.org>
-CC:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Bagas Sanjaya" <bagasdotme@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <qperret@google.com>,
-        <quic_cgoldswo@quicinc.com>, <quic_pdaly@quicinc.com>
-References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-11-quic_eberman@quicinc.com>
- <20230519115948.GB2637@willie-the-truck>
- <e22c31bd-10ed-f242-3e72-debf40e01e3c@quicinc.com>
- <20230605141839.GD21212@willie-the-truck>
-Content-Language: en-US
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <20230605141839.GD21212@willie-the-truck>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: RRoR3Wi9gjSZJW0Y14gRHykPVltqrZeH
-X-Proofpoint-ORIG-GUID: RRoR3Wi9gjSZJW0Y14gRHykPVltqrZeH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-13_20,2023-06-12_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 malwarescore=0 mlxlogscore=607 bulkscore=0
- suspectscore=0 mlxscore=0 priorityscore=1501 impostorscore=0 spamscore=0
- phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306130158
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ltcThYaE8QK6dqDg"
+Content-Disposition: inline
+In-Reply-To: <49eabafa97032dec8ace7361bccae72c6ecf3860.camel@intel.com>
+X-Cookie: Not a flying toy.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--ltcThYaE8QK6dqDg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 6/5/2023 7:18 AM, Will Deacon wrote:
-> Hi Elliot,
-> 
-> [+Quentin since he's looked at the MMU notifiers]
-> 
-> Sorry for the slow response, I got buried in email during a week away.
-> 
-> On Fri, May 19, 2023 at 10:02:29AM -0700, Elliot Berman wrote:
->> On 5/19/2023 4:59 AM, Will Deacon wrote:
->>> On Tue, May 09, 2023 at 01:47:47PM -0700, Elliot Berman wrote:
->>>> +	ret = account_locked_vm(ghvm->mm, mapping->npages, true);
->>>> +	if (ret)
->>>> +		goto free_mapping;
->>>> +
->>>> +	mapping->pages = kcalloc(mapping->npages, sizeof(*mapping->pages), GFP_KERNEL_ACCOUNT);
->>>> +	if (!mapping->pages) {
->>>> +		ret = -ENOMEM;
->>>> +		mapping->npages = 0; /* update npages for reclaim */
->>>> +		goto unlock_pages;
->>>> +	}
->>>> +
->>>> +	gup_flags = FOLL_LONGTERM;
->>>> +	if (region->flags & GH_MEM_ALLOW_WRITE)
->>>> +		gup_flags |= FOLL_WRITE;
->>>> +
->>>> +	pinned = pin_user_pages_fast(region->userspace_addr, mapping->npages,
->>>> +					gup_flags, mapping->pages);
->>>> +	if (pinned < 0) {
->>>> +		ret = pinned;
->>>> +		goto free_pages;
->>>> +	} else if (pinned != mapping->npages) {
->>>> +		ret = -EFAULT;
->>>> +		mapping->npages = pinned; /* update npages for reclaim */
->>>> +		goto unpin_pages;
->>>> +	}
->>>
->>> Sorry if I missed it, but I still don't see where you reject file mappings
->>> here.
->>>
->>
->> Sure, I can reject file mappings. I didn't catch that was the ask previously
->> and thought it was only a comment about behavior of file mappings.
-> 
-> I thought the mention of filesystem corruption was clear enough! It's
-> definitely something we shouldn't allow.
-> 
+On Tue, Jun 13, 2023 at 05:11:35PM +0000, Edgecombe, Rick P wrote:
 
-I tried preventing file mappings but this breaks memfd used by crosvm. I 
-didn't understand the vector you were tracking for filesystem 
-corruption. I ran a few basic experiments with real filesystem backed 
-memory mappings and didn't observe corruption, but maybe my experiments 
-weren't right.
+> Two things that came up as far as unifying the interface were:
+> 1. The map_shadow_stack syscall
+> x86 shadow stack does some optional pre-populating of the shadow stack
+> memory. And in additional not all types of memory are supported
+> (private anonymous only). This is partly to strengthen the security
+> (which might be a cross-arch thing) and also partly due to x86's
+> Write=0,Dirty=1 PTE bit combination. So a new syscall fit better. Some
+> core-mm folks were not super keen on overloading mmap() to start doing
+> things like writing to the memory being mapped, as well.
 
-[snip; response to other comments in 
-https://lore.kernel.org/all/3bd86221-ee2e-d157-009b-11f6ada98537@quicinc.com/]
+Right, the strengthening security bits made this one look cross arch -
+that one wasn't worrying me.
+
+> 2. The arch_prctl() interface
+> While enable and disable might be shared, there are some arch-specific
+> stuff for x86 like enabling the WRSS instruction.
+
+> For x86 all of the exercising of the kernel interface was in arch
+> specific code, so unifying the kernel interface didn't save much on the
+> user side. If there turns out to be some unification opportunities when
+> everything is explored and decided on, we could have the option of
+> tying x86's feature into it later.
+
+> I think the map_shadow_stack syscall had the most debate. But the
+> arch_prctl() was mostly agreed on IIRC. The debate was mostly with
+> glibc folks and the riscv shadow stack developer.
+
+For arm64 we have an equivalentish thing to WRSS which lets us control
+if userspace can explicitly push or pop values onto the shadow stack
+(GCS for us) so it all maps on well - before I noticed that it was
+arch_prctl() I was looking at it and thinking it worked for us.  At the
+minute I've taken the prctl() patch from the riscv series and added in a
+flag for writability since we just don't have an arch_prctl(), this
+isn't a huge deal but it just seemed like needless effort to wonder why
+it's different.
+
+> For my part, the thing I would really like to see unified as much as
+> possible is at the app developer's interface (glibc/gcc). The idea
+> would be to make it easy for app developers to know if their app
+> supports shadow stack. There will probably be some differences, but it
+> would be great if there was mostly the same behavior and a small list
+> of differences. I'm thinking about the behavior of longjmp(),
+> swapcontext(), etc.
+
+Yes, very much so.  sigaltcontext() too.
+
+--ltcThYaE8QK6dqDg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSIrfAACgkQJNaLcl1U
+h9BVLAf+KkmhHb5ViBKmTT5RX0bhxDT5K+kyBt9O8VX7Yf4WGGM3Fewbz4iSD/Nx
+mLQ5cFFNZzLIAq+sPgH07Fua09/YuFeHw+3wluPhl/gR6ntKdzsnyO/D5i0XJ2Xb
+uwvQDzsmyjv59ztCH47aBTjpXlpS3uCkUnbQ+7uyO8B340Azh1IVSH65RN54Y7Yx
+BsjSEIauQFDGbvHfMg8K6a4WDFBjBRhng6/c3izXh4zfMKlj7FS9LNdpUIAPDrrV
+PbbFBlx/9ZA9bh5bCQezEGey0B9n7mrkmSTdym1yTz4dvuTqRdzsb2Lz8I/tZaXg
+Gd9+l3Zwvvuq1ZkIboLiiS0t6FnepQ==
+=xrY1
+-----END PGP SIGNATURE-----
+
+--ltcThYaE8QK6dqDg--
