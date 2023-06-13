@@ -2,47 +2,48 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF85C001DF
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:23:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A65EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:23:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238720AbjFMRXQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 13:23:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50498 "EHLO
+        id S239293AbjFMRX0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 13:23:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239273AbjFMRWc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:22:32 -0400
+        with ESMTP id S239426AbjFMRXA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:23:00 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36EA71FFB;
-        Tue, 13 Jun 2023 10:22:07 -0700 (PDT)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DAc8Sj024932;
-        Tue, 13 Jun 2023 17:21:42 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B162102;
+        Tue, 13 Jun 2023 10:22:08 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DEOTkM008970;
+        Tue, 13 Jun 2023 17:21:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=2dGoHiZGXQO/3XzpGqgnZG8qZ1fUB2ur8D+86DuXzpM=;
- b=niZNNZoAEOgiFXSNVD4U3USTP1q6JULHpUUKqiuoP0Msiw867caTXM4MiDx6upWTiMgZ
- Qm7X6sePCXUBVVML/edjbC11NRBG74cfnZV8j0IwJFV3kKI4Hpo6ftUOr2uFyQ4ZMjhh
- DI4pe7+nPqSj11LmQAuZm3qxXoVuKwp4KktdXceEI4pAJ17zrSTC7nZBWtj+wn3P7w8l
- Hgw5bFGqjnfbYZx+Cj4RU8sxDCeJ0gYVsrhnJytiCK8iJFVUAFvEr7tD/7jdUiTW+5LR
- 36thDc2VCt9ncSd2YMbsCaYi/npliCs0KHOkVQPiMLlgnk0oHz2GXxORle2RNUA/5dp3 Xw== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r68x9ae10-1
+ bh=0EoPusqu98de6/QYJRAJ5A5E0IpiAs/i2FtOF590R1g=;
+ b=HRlNCUeMPEI4kXaSQbT6H/8DLqpQIC0iJgCN9qYH0RVfCJIcdLahkB9nnd6Ganc7zKii
+ F1b9YxQQ0QWZVSi0hY6a/Lnj44/WHnSzazyV7h4S0apRRTHTRFhr53TnoJkS2pNVXwQo
+ vRMa08t+z0EmhxaR7b3TWZZoJ3L6XlrPAbsaG8uK5MIWdmO5VjxuEFII56NNYPn2d8sz
+ 5aoDZoY5cbTAm7Xl3kFPKQpT+h+ynRzebn1l3CoYZtHN9Ifgqog8JAEMvXhys8VSQHVG
+ oXkhBgbhnDG8TokDtjaAjOROmPRQ9ydS1VHTqB0GZnq4zeZMq3hEZXZs+fseqfbXCBKV 9Q== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6km41d4y-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:42 +0000
+        Tue, 13 Jun 2023 17:21:44 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHLfx9005703
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHLiTb004391
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:41 GMT
+        Tue, 13 Jun 2023 17:21:44 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 13 Jun 2023 10:21:40 -0700
+ 15.2.986.42; Tue, 13 Jun 2023 10:21:43 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Elliot Berman <quic_eberman@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>
 CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
@@ -55,7 +56,6 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
         Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -63,9 +63,9 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v14 14/25] gunyah: rsc_mgr: Add platform ops on mem_lend/mem_reclaim
-Date:   Tue, 13 Jun 2023 10:20:42 -0700
-Message-ID: <20230613172054.3959700-15-quic_eberman@quicinc.com>
+Subject: [PATCH v14 16/25] docs: gunyah: Document Gunyah VM Manager
+Date:   Tue, 13 Jun 2023 10:20:44 -0700
+Message-ID: <20230613172054.3959700-17-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230613172054.3959700-1-quic_eberman@quicinc.com>
 References: <20230613172054.3959700-1-quic_eberman@quicinc.com>
@@ -77,237 +77,130 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 34k8r9ljwTrzWrXZCEPnMpXQcv-c8iYW
-X-Proofpoint-ORIG-GUID: 34k8r9ljwTrzWrXZCEPnMpXQcv-c8iYW
+X-Proofpoint-ORIG-GUID: 4Wj5x3wV_4OH3Cl_Y7491pAjq1I2qRVF
+X-Proofpoint-GUID: 4Wj5x3wV_4OH3Cl_Y7491pAjq1I2qRVF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-13_19,2023-06-12_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 spamscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306130153
+ definitions=2023-06-13_18,2023-06-12_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 spamscore=0
+ impostorscore=0 phishscore=0 mlxscore=0 suspectscore=0 bulkscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306130153
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Qualcomm platforms, there is a firmware entity which controls access
-to physical pages. In order to share memory with another VM, this entity
-needs to be informed that the guest VM should have access to the memory.
+Document the ioctls and usage of Gunyah VM Manager driver.
 
-Reviewed-by: Alex Elder <elder@linaro.org>
-Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- drivers/virt/gunyah/Kconfig                 |  4 ++
- drivers/virt/gunyah/Makefile                |  2 +
- drivers/virt/gunyah/gunyah_platform_hooks.c | 80 +++++++++++++++++++++
- drivers/virt/gunyah/rsc_mgr.h               |  3 +
- drivers/virt/gunyah/rsc_mgr_rpc.c           | 18 ++++-
- include/linux/gunyah_rsc_mgr.h              | 17 +++++
- 6 files changed, 122 insertions(+), 2 deletions(-)
- create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
+ Documentation/virt/gunyah/index.rst      |  1 +
+ Documentation/virt/gunyah/vm-manager.rst | 83 ++++++++++++++++++++++++
+ 2 files changed, 84 insertions(+)
+ create mode 100644 Documentation/virt/gunyah/vm-manager.rst
 
-diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
-index 1a737694c333d..de815189dab6c 100644
---- a/drivers/virt/gunyah/Kconfig
-+++ b/drivers/virt/gunyah/Kconfig
-@@ -4,6 +4,7 @@ config GUNYAH
- 	tristate "Gunyah Virtualization drivers"
- 	depends on ARM64
- 	depends on MAILBOX
-+	select GUNYAH_PLATFORM_HOOKS
- 	help
- 	  The Gunyah drivers are the helper interfaces that run in a guest VM
- 	  such as basic inter-VM IPC and signaling mechanisms, and higher level
-@@ -11,3 +12,6 @@ config GUNYAH
+diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunyah/index.rst
+index 74aa345e0a144..7058249825b16 100644
+--- a/Documentation/virt/gunyah/index.rst
++++ b/Documentation/virt/gunyah/index.rst
+@@ -7,6 +7,7 @@ Gunyah Hypervisor
+ .. toctree::
+    :maxdepth: 1
  
- 	  Say Y/M here to enable the drivers needed to interact in a Gunyah
- 	  virtual environment.
-+
-+config GUNYAH_PLATFORM_HOOKS
-+	tristate
-diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-index bacf78b8fa337..4fbeee521d60a 100644
---- a/drivers/virt/gunyah/Makefile
-+++ b/drivers/virt/gunyah/Makefile
-@@ -1,4 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
++   vm-manager
+    message-queue
  
-+obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
-+
- gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
- obj-$(CONFIG_GUNYAH) += gunyah.o
-diff --git a/drivers/virt/gunyah/gunyah_platform_hooks.c b/drivers/virt/gunyah/gunyah_platform_hooks.c
+ Gunyah is a Type-1 hypervisor which is independent of any OS kernel, and runs in
+diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/gunyah/vm-manager.rst
 new file mode 100644
-index 0000000000000..905515b4589e3
+index 0000000000000..df0e1a8279bf5
 --- /dev/null
-+++ b/drivers/virt/gunyah/gunyah_platform_hooks.c
-@@ -0,0 +1,80 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
++++ b/Documentation/virt/gunyah/vm-manager.rst
+@@ -0,0 +1,83 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+#include <linux/module.h>
-+#include <linux/rwsem.h>
-+#include <linux/gunyah_rsc_mgr.h>
++=======================
++Virtual Machine Manager
++=======================
 +
-+#include "rsc_mgr.h"
++The Gunyah Virtual Machine Manager is a Linux driver to support launching
++virtual machines using Gunyah. It presently supports launching virtual machines
++scheduled by Gunyah's scheduler.
 +
-+static const struct gh_rm_platform_ops *rm_platform_ops;
-+static DECLARE_RWSEM(rm_platform_ops_lock);
++Configuration of a Gunyah virtual machine is done via a devicetree. When the VM
++is launched, memory is provided by the host VM which contains the devictree.
++Gunyah reads the devicetree to configure the memory map and create resources
++such as vCPUs for the VM. Memory can be shared with the VM with
++`GH_VM_SET_USER_MEM_REGION`_. Userspace can interact with the resources in Linux
++by adding "functions" to the VM.
 +
-+int gh_rm_platform_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
-+{
-+	int ret = 0;
++Sample Userspace VMM
++====================
 +
-+	down_read(&rm_platform_ops_lock);
-+	if (rm_platform_ops && rm_platform_ops->pre_mem_share)
-+		ret = rm_platform_ops->pre_mem_share(rm, mem_parcel);
-+	up_read(&rm_platform_ops_lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_platform_pre_mem_share);
++A sample userspace VMM is included in samples/gunyah/ along with a minimal
++devicetree that can be used to launch a VM. To build this sample, enable
++CONFIG_SAMPLE_GUNYAH.
 +
-+int gh_rm_platform_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
-+{
-+	int ret = 0;
++IOCTLs and userspace VMM flows
++==============================
 +
-+	down_read(&rm_platform_ops_lock);
-+	if (rm_platform_ops && rm_platform_ops->post_mem_reclaim)
-+		ret = rm_platform_ops->post_mem_reclaim(rm, mem_parcel);
-+	up_read(&rm_platform_ops_lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_platform_post_mem_reclaim);
++The kernel exposes a char device interface at /dev/gunyah.
 +
-+int gh_rm_register_platform_ops(const struct gh_rm_platform_ops *platform_ops)
-+{
-+	int ret = 0;
++To create a VM, use the `GH_CREATE_VM`_ ioctl. A successful call will return a
++"Gunyah VM" file descriptor.
 +
-+	down_write(&rm_platform_ops_lock);
-+	if (!rm_platform_ops)
-+		rm_platform_ops = platform_ops;
-+	else
-+		ret = -EEXIST;
-+	up_write(&rm_platform_ops_lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_register_platform_ops);
++/dev/gunyah API Descriptions
++----------------------------
 +
-+void gh_rm_unregister_platform_ops(const struct gh_rm_platform_ops *platform_ops)
-+{
-+	down_write(&rm_platform_ops_lock);
-+	if (rm_platform_ops == platform_ops)
-+		rm_platform_ops = NULL;
-+	up_write(&rm_platform_ops_lock);
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_unregister_platform_ops);
++GH_CREATE_VM
++~~~~~~~~~~~~
 +
-+static void _devm_gh_rm_unregister_platform_ops(void *data)
-+{
-+	gh_rm_unregister_platform_ops((const struct gh_rm_platform_ops *)data);
-+}
++Creates a Gunyah VM. The argument is reserved for future use and must be 0.
++A successful call will return a Gunyah VM file descriptor. See
++`Gunyah VM API Descriptions`_ for list of IOCTLs that can be made on this file
++file descriptor.
 +
-+int devm_gh_rm_register_platform_ops(struct device *dev, const struct gh_rm_platform_ops *ops)
-+{
-+	int ret;
++Gunyah VM API Descriptions
++--------------------------
 +
-+	ret = gh_rm_register_platform_ops(ops);
-+	if (ret)
-+		return ret;
++GH_VM_SET_USER_MEM_REGION
++~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+	return devm_add_action(dev, _devm_gh_rm_unregister_platform_ops, (void *)ops);
-+}
-+EXPORT_SYMBOL_GPL(devm_gh_rm_register_platform_ops);
++This ioctl allows the user to create or delete a memory parcel for a guest
++virtual machine. Each memory region is uniquely identified by a label;
++attempting to create two regions with the same label is not allowed. Labels are
++unique per virtual machine.
 +
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Gunyah Platform Hooks");
-diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
-index 8309b7bf46683..3d43bb79ff447 100644
---- a/drivers/virt/gunyah/rsc_mgr.h
-+++ b/drivers/virt/gunyah/rsc_mgr.h
-@@ -13,4 +13,7 @@ struct gh_rm;
- int gh_rm_call(struct gh_rm *rsc_mgr, u32 message_id, const void *req_buf, size_t req_buf_size,
- 		void **resp_buf, size_t *resp_buf_size);
- 
-+int gh_rm_platform_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
-+int gh_rm_platform_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
++While VMM is guest-agnostic and allows runtime addition of memory regions,
++Linux guest virtual machines do not support accepting memory regions at runtime.
++Thus, for Linux guests, memory regions should be provided before starting the VM
++and the VM must be configured via the devicetree to accept these at boot-up.
 +
- #endif
-diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
-index 25064123a31c3..d0548db1500c2 100644
---- a/drivers/virt/gunyah/rsc_mgr_rpc.c
-+++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
-@@ -207,6 +207,12 @@ static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_
- 	if (!msg)
- 		return -ENOMEM;
- 
-+	ret = gh_rm_platform_pre_mem_share(rm, p);
-+	if (ret) {
-+		kfree(msg);
-+		return ret;
-+	}
++The guest physical address is used by Linux kernel to check that the requested
++user regions do not overlap and to help find the corresponding memory region
++for calls like `GH_VM_SET_DTB_CONFIG`_. It must be page aligned.
 +
- 	req_header = msg;
- 	acl_section = (void *)req_header + sizeof(*req_header);
- 	mem_section = (void *)acl_section + acl_section_size;
-@@ -231,8 +237,10 @@ static int gh_rm_mem_lend_common(struct gh_rm *rm, u32 message_id, struct gh_rm_
- 	ret = gh_rm_call(rm, message_id, msg, msg_size, (void **)&resp, &resp_size);
- 	kfree(msg);
- 
--	if (ret)
-+	if (ret) {
-+		gh_rm_platform_post_mem_reclaim(rm, p);
- 		return ret;
-+	}
- 
- 	p->mem_handle = le32_to_cpu(*resp);
- 	kfree(resp);
-@@ -287,8 +295,14 @@ int gh_rm_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *parcel)
- 	struct gh_rm_mem_release_req req = {
- 		.mem_handle = cpu_to_le32(parcel->mem_handle),
- 	};
-+	int ret;
++To add a memory region, call `GH_VM_SET_USER_MEM_REGION`_ with fields set as
++described above.
 +
-+	ret = gh_rm_call(rm, GH_RM_RPC_MEM_RECLAIM, &req, sizeof(req), NULL, NULL);
-+	/* Only call the platform mem reclaim hooks if we reclaimed the memory */
-+	if (ret)
-+		return ret;
- 
--	return gh_rm_call(rm, GH_RM_RPC_MEM_RECLAIM, &req, sizeof(req), NULL, NULL);
-+	return gh_rm_platform_post_mem_reclaim(rm, parcel);
- }
- 
- /**
-diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
-index dfac088420bda..cac4476b46ade 100644
---- a/include/linux/gunyah_rsc_mgr.h
-+++ b/include/linux/gunyah_rsc_mgr.h
-@@ -139,4 +139,21 @@ int gh_rm_get_hyp_resources(struct gh_rm *rm, u16 vmid,
- 				struct gh_rm_hyp_resources **resources);
- int gh_rm_get_vmid(struct gh_rm *rm, u16 *vmid);
- 
-+struct gh_rm_platform_ops {
-+	int (*pre_mem_share)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
-+	int (*post_mem_reclaim)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
-+};
++.. kernel-doc:: include/uapi/linux/gunyah.h
++   :identifiers: gh_userspace_memory_region gh_mem_flags
 +
-+#if IS_ENABLED(CONFIG_GUNYAH_PLATFORM_HOOKS)
-+int gh_rm_register_platform_ops(const struct gh_rm_platform_ops *platform_ops);
-+void gh_rm_unregister_platform_ops(const struct gh_rm_platform_ops *platform_ops);
-+int devm_gh_rm_register_platform_ops(struct device *dev, const struct gh_rm_platform_ops *ops);
-+#else
-+static inline int gh_rm_register_platform_ops(const struct gh_rm_platform_ops *platform_ops)
-+	{ return 0; }
-+static inline void gh_rm_unregister_platform_ops(const struct gh_rm_platform_ops *platform_ops) { }
-+static inline int devm_gh_rm_register_platform_ops(struct device *dev,
-+	const struct gh_rm_platform_ops *ops) { return 0; }
-+#endif
++GH_VM_SET_DTB_CONFIG
++~~~~~~~~~~~~~~~~~~~~
 +
- #endif
++This ioctl sets the location of the VM's devicetree blob and is used by Gunyah
++Resource Manager to allocate resources. The guest physical memory must be part
++of the primary memory parcel provided to the VM prior to GH_VM_START.
++
++.. kernel-doc:: include/uapi/linux/gunyah.h
++   :identifiers: gh_vm_dtb_config
++
++GH_VM_START
++~~~~~~~~~~~
++
++This ioctl starts the VM.
 -- 
 2.40.0
 
