@@ -2,83 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 471A1EB64D0
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 14:53:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B61EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 15:15:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242850AbjFMOxS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 10:53:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60838 "EHLO
+        id S242430AbjFMPP4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 11:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237019AbjFMOxR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 10:53:17 -0400
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4559F173F
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 07:53:16 -0700 (PDT)
-Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-43de86a069fso329966137.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jun 2023 07:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1686667995; x=1689259995;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aj9On63tZGT4xZHZRbn4kNAEZXg6WSSzte0QQ5DFG5Y=;
-        b=3xz+2W3O1cEmUosWRClgJqLxl0RaLvVadqpzTPvT27Bjy1/yeTJfSOMsG0D7X0iH5o
-         KzX/+z8/VC+rShQubEE/VWKrIyoN8QvzBgqS0+P+gzuMDwG2uuiMKQNdJ2eTNqYu+MaU
-         P+wY2VwAJRMgCg+VbM31WFoOirbEbUKbIVp99SgYmsgjUjHp/9PlvRgETuYgt7l4pIrw
-         lpcgVQIqnHllPbvDsAbALV3GDuBLMOQT0rpRWdnghItx3SNqTwglIa2ZAFhANA6IrrAQ
-         HUA8KJNWZZ+7RJl7qtzwp22HsQazZ2H6FahZGeNmNAzxVORq2tbBkfFGiqOhiXscImN7
-         jHRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686667995; x=1689259995;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aj9On63tZGT4xZHZRbn4kNAEZXg6WSSzte0QQ5DFG5Y=;
-        b=LVtljIAI3RCRrauy0WL02Gd0WCoELA3vTwawpgQ/D7uk9wt0vEH25NlBqcu4DmaHG5
-         MCJutX4BmKAJ/I3dC9u/2p3Q3MSCCTJfFBOTb9XB0UpNYKgM1y6Io8tUPLxoEj4ijp1I
-         joAusUyqYaYOG6Z4NDUC0GeKOKZLS8XsmfbhvOfRtZ+ZB1gxmecqdXDrKSx4MYr74mJQ
-         wLDALp8S8HsiE0opG3892GFMI9Z9mFRp93lv9dSp++8bEx6J4PM28SegqCQn8fm6P2YK
-         XqMM4mCooLhhLOgo6CjeycL7utbLawmOkEAiCl1ou7guRPROGzI+bctRSZjZvjzKvExc
-         PT2w==
-X-Gm-Message-State: AC+VfDw4d71a06VSQ6xR/0TXlvwK//CTVm6jbKzkYYDsbBQ0S/Qhtwqk
-        CkXcvHipxZLuMyTomYDK1+aRi7h9ikfok4NcxAW9BA==
-X-Google-Smtp-Source: ACHHUZ756bnFHTg62RATpM6wA8I/VVqR/uhiSiA71IFDFVJY4JyUcDi5z39sBzm7jpDc1KvVUBsrTNtF6uxgL2g4exY=
-X-Received: by 2002:a05:6102:3a71:b0:43b:3e78:9886 with SMTP id
- bf17-20020a0561023a7100b0043b3e789886mr4214600vsb.26.1686667995404; Tue, 13
- Jun 2023 07:53:15 -0700 (PDT)
+        with ESMTP id S240619AbjFMPPz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 11:15:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40BBD118;
+        Tue, 13 Jun 2023 08:15:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 44AF662EA4;
+        Tue, 13 Jun 2023 15:15:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDDEFC433F0;
+        Tue, 13 Jun 2023 15:15:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686669344;
+        bh=/rl23s8079daMc/L5xKX5HaxFBpVGzkrwZXcRhgrzUo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d3rTI8P1B/ZQkdGFSOLmBZfHDc0v1qUD5ReW/6vIFrV7gdzkt39bZ2f0RXKWqznCP
+         mak7dZUd/dZLoXk+ERH4/Z/OVpJCuCJ7PW860UL+CYqnIPUIQyoC7A3eHZs9TtLQr5
+         RAcdJKHXTcUwcaKJtteJrUAQtkyCrHBuDuh0abZfKzX5Kg9LVT8FJEMv7uVGPNXJR/
+         NjAx9gqLWqqJe5OVYmp9Z/fs5MfA6nBNw0SBJf4UIrswTkNexThtVewvq7yM5qWje8
+         AQzZV7HczX0LzsXj27rMLtOQ5REMxlatnITnkxaqLgbald+Ki8/N1aEqxZnChb+Bp7
+         fqdF79Ugiy5uQ==
+Date:   Tue, 13 Jun 2023 16:15:31 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
+        torvalds@linux-foundation.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <1f04fa59-6ca9-4f18-b138-6c33e164b6c2@sirena.org.uk>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
+ <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
+ <87y1knh729.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
-References: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20230605125411.60378-1-andriy.shevchenko@linux.intel.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Tue, 13 Jun 2023 16:53:04 +0200
-Message-ID: <CAMRc=Mcg62aoeiwG_3aUAGqL9MeoYjWvL4mxRTEPUPw3RbAUjw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] gpiolib: Remove unused gpio_cansleep()
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="CHHivuSQNQZBIb3Y"
+Content-Disposition: inline
+In-Reply-To: <87y1knh729.fsf@oldenburg.str.redhat.com>
+X-Cookie: Not a flying toy.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 5, 2023 at 2:54=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> There is not a single user in the entire kernel of this deprecated API,
-> kill it for good.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
 
-Applied, thanks!
+--CHHivuSQNQZBIb3Y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Bart
+On Tue, Jun 13, 2023 at 02:37:18PM +0200, Florian Weimer wrote:
+
+> > I appreciate it's very late in the development of this series but given
+> > that there are very similar features on both arm64 and riscv would it
+> > make sense to make these just regular prctl()s, arch_prctl() isn't used
+> > on other architectures and it'd reduce the amount of arch specific work
+> > that userspace needs to do if the interface is shared.
+
+> Has the Arm feature been fully disclosed?
+
+Unfortunately no, it's not yet been folded into the ARM.  The system
+registers and instructions are in the latest XML releases but that's not
+the full story.
+
+> I would expect the integration with stack switching and unwinding
+> differs between architectures even if the core mechanism is similar.
+> It's probably tempting to handle shadow stack placement differently,
+> too.
+
+Yeah, there's likely to be some differences (though given the amount of
+discussion on the x86 implementation I'm trying to follow the decisions
+there as much as reasonable on the basis that we should hopefully come
+to the same conclusions).  It seemed worth mentioning as a needless
+bump, OTOH I defninitely don't see it as critical.
+
+--CHHivuSQNQZBIb3Y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSIiBMACgkQJNaLcl1U
+h9DYKAf/Vz3wx22uDdLyCBpiG7PQdfsvx6Gsa3OkqligILXiOR/RqMgrq58a10CL
+1Y83LNYyJWuUw541NRW64qugDHs9G2NwIpxrgeD3mBQibPyJoJyFsEOia0VFOvB/
+jEcMyC/PLUl6W0LBP7P/tyDcf6UyZY5mhI32w4k5JHImx4iNswSTcS5bEMrkbs/J
+wcEZi8RTKT6XeWHM1Y7Ky3oQax1I8b1G3pzGa6WK0c5fNstN0QRY6hpMFKknp1sR
+yygF1dgoS3kygw4ZeBsmpkmGJKETDGsCpqteh2JQ7XV2i2kEJe8IeOD/NAcPl43V
+Sovm7EiMjuwISm0hPggYtQ+vsFGHrg==
+=tl5C
+-----END PGP SIGNATURE-----
+
+--CHHivuSQNQZBIb3Y--
