@@ -2,47 +2,45 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3142EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:23:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB332EB64D0
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Jun 2023 17:23:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239441AbjFMRXb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 13:23:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50528 "EHLO
+        id S239794AbjFMRXs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 13:23:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239430AbjFMRXB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:23:01 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25AFF2107;
-        Tue, 13 Jun 2023 10:22:09 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DAcB7U013140;
-        Tue, 13 Jun 2023 17:21:46 GMT
+        with ESMTP id S239463AbjFMRXC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 13:23:02 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 618D9211D;
+        Tue, 13 Jun 2023 10:22:12 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DDKH59028476;
+        Tue, 13 Jun 2023 17:21:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=4/SA01msRGmq1EICw6Qrx94Nx9mcHg58f7FWx5ylvo4=;
- b=bmW/UAvfsq19QMnyXzmEFLrw+GdyXR3UikR3iQ3Xm5Vuytl7F8pRkeAruZcRijcBzX47
- 3OuEE2aKHLU0nyHxVgCRC/ayDKju8EdEXqYELpBcrxlhc5QAHzp6EiZBW61VnRNNKOa6
- GwlVLjqM69N2wzNTnl8H+aREohgCYjNKoknemhdfR8oqSgpt3oOMQXrB0wSxUPr2moym
- nKJ115ol/qYIkRRvgmQhvs68Kbl4hsSy5G8METXKyyziK47HOJ6IyImxOeJjHpcTpfRY
- ycDycTxnq6V7V5CBLN5iThigGzXvzahj6h8nbygWzc+c+K31ZMJpV8C9//CxbcWBNVAN Dg== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6km41d51-1
+ bh=f50WDWExzuV0WDZKHgEPO+SK5wQsm5rHlLHq49sA+NE=;
+ b=iZrBt7arR1cCHDoGvudN85t5XigwPyaRz/BJVkKluMpBKkgt3rKcda7rnequ/m75ayyq
+ D5La5vcO//fOd0XMEjAyd7XkfgXZmX91gpgSDP8oI872AbBa8imVLfpbw1/ZWvNy9WEj
+ cPZ+UAN5+mh471FFZ6wuuwo0lG/qU78qenbvDhZubwQn7PIBVkl9rsFdIlC9bn1gH1Ek
+ r9sJRcW6RLg6M4BN2atpUw5zhK+lPNsA3hGm2ZGF/vIIQ1TSxZKMAYM/QzJrx76R2V/a
+ x33jpnq17YI35yGQ1ugaVfKBPnIt/Tg6hhckRPUgxdf6nKTkdpRqK5/mk2jTn9ZY0SG2 Vw== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6nqh15fm-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:46 +0000
+        Tue, 13 Jun 2023 17:21:44 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHLjAV013331
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DHLguO029618
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Jun 2023 17:21:45 GMT
+        Tue, 13 Jun 2023 17:21:42 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Tue, 13 Jun 2023 10:21:44 -0700
+ 15.2.986.42; Tue, 13 Jun 2023 10:21:41 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Alex Elder <elder@linaro.org>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
         Elliot Berman <quic_eberman@quicinc.com>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
@@ -59,14 +57,15 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Conor Dooley <conor+dt@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Bagas Sanjaya <bagasdotme@gmail.com>,
-        Andy Gross <agross@kernel.org>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v14 17/25] virt: gunyah: Translate gh_rm_hyp_resource into gunyah_resource
-Date:   Tue, 13 Jun 2023 10:20:45 -0700
-Message-ID: <20230613172054.3959700-18-quic_eberman@quicinc.com>
+Subject: [PATCH v14 15/25] virt: gunyah: Add Qualcomm Gunyah platform ops
+Date:   Tue, 13 Jun 2023 10:20:43 -0700
+Message-ID: <20230613172054.3959700-16-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230613172054.3959700-1-quic_eberman@quicinc.com>
 References: <20230613172054.3959700-1-quic_eberman@quicinc.com>
@@ -78,323 +77,238 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: m_wtWEYHroWtSy94Sy66X03BvXvtp2S1
-X-Proofpoint-GUID: m_wtWEYHroWtSy94Sy66X03BvXvtp2S1
+X-Proofpoint-GUID: nmODhVbsGYehKqWU9qWXL4rYeAJS1SiV
+X-Proofpoint-ORIG-GUID: nmODhVbsGYehKqWU9qWXL4rYeAJS1SiV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
  definitions=2023-06-13_18,2023-06-12_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 spamscore=0
- impostorscore=0 phishscore=0 mlxscore=0 suspectscore=0 bulkscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2306130153
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 mlxscore=0 priorityscore=1501 impostorscore=0 spamscore=0
+ phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306130153
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When booting a Gunyah virtual machine, the host VM may gain capabilities
-to interact with resources for the guest virtual machine. Examples of
-such resources are vCPUs or message queues. To use those resources, we
-need to translate the RM response into a gunyah_resource structure which
-are useful to Linux drivers. Presently, Linux drivers need only to know
-the type of resource, the capability ID, and an interrupt.
-
-On ARM64 systems, the interrupt reported by Gunyah is the GIC interrupt
-ID number and always a SPI.
+Qualcomm platforms have a firmware entity which performs access control
+to physical pages. Dynamically started Gunyah virtual machines use the
+QCOM_SCM_RM_MANAGED_VMID for access. Linux thus needs to assign access
+to the memory used by guest VMs. Gunyah doesn't do this operation for us
+since it is the current VM (typically VMID_HLOS) delegating the access
+and not Gunyah itself. Use the Gunyah platform ops to achieve this so
+that only Qualcomm platforms attempt to make the needed SCM calls.
 
 Reviewed-by: Alex Elder <elder@linaro.org>
+Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- arch/arm64/include/asm/gunyah.h |  24 +++++
- drivers/virt/gunyah/rsc_mgr.c   | 164 +++++++++++++++++++++++++++++++-
- include/linux/gunyah.h          |   3 +
- include/linux/gunyah_rsc_mgr.h  |   3 +
- 4 files changed, 193 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/include/asm/gunyah.h
+ drivers/virt/gunyah/Kconfig       |  13 +++
+ drivers/virt/gunyah/Makefile      |   1 +
+ drivers/virt/gunyah/gunyah_qcom.c | 153 ++++++++++++++++++++++++++++++
+ 3 files changed, 167 insertions(+)
+ create mode 100644 drivers/virt/gunyah/gunyah_qcom.c
 
-diff --git a/arch/arm64/include/asm/gunyah.h b/arch/arm64/include/asm/gunyah.h
+diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+index de815189dab6c..0421b751aad4f 100644
+--- a/drivers/virt/gunyah/Kconfig
++++ b/drivers/virt/gunyah/Kconfig
+@@ -5,6 +5,7 @@ config GUNYAH
+ 	depends on ARM64
+ 	depends on MAILBOX
+ 	select GUNYAH_PLATFORM_HOOKS
++	imply GUNYAH_QCOM_PLATFORM if ARCH_QCOM
+ 	help
+ 	  The Gunyah drivers are the helper interfaces that run in a guest VM
+ 	  such as basic inter-VM IPC and signaling mechanisms, and higher level
+@@ -15,3 +16,15 @@ config GUNYAH
+ 
+ config GUNYAH_PLATFORM_HOOKS
+ 	tristate
++
++config GUNYAH_QCOM_PLATFORM
++	tristate "Support for Gunyah on Qualcomm platforms"
++	depends on GUNYAH
++	select GUNYAH_PLATFORM_HOOKS
++	select QCOM_SCM
++	help
++	  Enable support for interacting with Gunyah on Qualcomm
++	  platforms. Interaction with Qualcomm firmware requires
++	  extra platform-specific support.
++
++	  Say Y/M here to use Gunyah on Qualcomm platforms.
+diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+index 4fbeee521d60a..2aa9ff038ed02 100644
+--- a/drivers/virt/gunyah/Makefile
++++ b/drivers/virt/gunyah/Makefile
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+ obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
++obj-$(CONFIG_GUNYAH_QCOM_PLATFORM) += gunyah_qcom.o
+ 
+ gunyah-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mm.o
+ obj-$(CONFIG_GUNYAH) += gunyah.o
+diff --git a/drivers/virt/gunyah/gunyah_qcom.c b/drivers/virt/gunyah/gunyah_qcom.c
 new file mode 100644
-index 0000000000000..c83d983b0f4e0
+index 0000000000000..f06a598f2e1b3
 --- /dev/null
-+++ b/arch/arm64/include/asm/gunyah.h
-@@ -0,0 +1,24 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
++++ b/drivers/virt/gunyah/gunyah_qcom.c
+@@ -0,0 +1,153 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
++ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
-+#ifndef _ASM_GUNYAH_H
-+#define _ASM_GUNYAH_H
 +
-+#include <linux/irq.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <linux/arm-smccc.h>
++#include <linux/gunyah_rsc_mgr.h>
++#include <linux/module.h>
++#include <linux/firmware/qcom/qcom_scm.h>
++#include <linux/types.h>
++#include <linux/uuid.h>
 +
-+static inline int arch_gh_fill_irq_fwspec_params(u32 virq, struct irq_fwspec *fwspec)
++#define QCOM_SCM_RM_MANAGED_VMID	0x3A
++#define QCOM_SCM_MAX_MANAGED_VMID	0x3F
++
++static int qcom_scm_gh_rm_pre_mem_share(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
 +{
-+	/* Assume that Gunyah gave us an SPI; defensively check it */
-+	if (WARN_ON(virq < 32 || virq > 1019))
-+		return -EINVAL;
++	struct qcom_scm_vmperm *new_perms;
++	u64 src, src_cpy;
++	int ret = 0, i, n;
++	u16 vmid;
 +
-+	fwspec->param_count = 3;
-+	fwspec->param[0] = GIC_SPI;
-+	fwspec->param[1] = virq - 32;
-+	fwspec->param[2] = IRQ_TYPE_EDGE_RISING;
-+	return 0;
-+}
-+
-+#endif
-diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
-index a0faf126ee56e..3255ae1855990 100644
---- a/drivers/virt/gunyah/rsc_mgr.c
-+++ b/drivers/virt/gunyah/rsc_mgr.c
-@@ -17,6 +17,8 @@
- #include <linux/platform_device.h>
- #include <linux/miscdevice.h>
- 
-+#include <asm/gunyah.h>
-+
- #include "rsc_mgr.h"
- #include "vm_mgr.h"
- 
-@@ -133,6 +135,7 @@ struct gh_rm_connection {
-  * @send_lock: synchronization to allow only one request to be sent at a time
-  * @nh: notifier chain for clients interested in RM notification messages
-  * @miscdev: /dev/gunyah
-+ * @irq_domain: Domain to translate Gunyah hwirqs to Linux irqs
-  */
- struct gh_rm {
- 	struct device *dev;
-@@ -151,6 +154,7 @@ struct gh_rm {
- 	struct blocking_notifier_head nh;
- 
- 	struct miscdevice miscdev;
-+	struct irq_domain *irq_domain;
- };
- 
- /**
-@@ -191,6 +195,135 @@ static inline int gh_rm_error_remap(enum gh_rm_error rm_error)
- 	}
- }
- 
-+struct gh_irq_chip_data {
-+	u32 gh_virq;
-+};
-+
-+static struct irq_chip gh_rm_irq_chip = {
-+	.name			= "Gunyah",
-+	.irq_enable		= irq_chip_enable_parent,
-+	.irq_disable		= irq_chip_disable_parent,
-+	.irq_ack		= irq_chip_ack_parent,
-+	.irq_mask		= irq_chip_mask_parent,
-+	.irq_mask_ack		= irq_chip_mask_ack_parent,
-+	.irq_unmask		= irq_chip_unmask_parent,
-+	.irq_eoi		= irq_chip_eoi_parent,
-+	.irq_set_affinity	= irq_chip_set_affinity_parent,
-+	.irq_set_type		= irq_chip_set_type_parent,
-+	.irq_set_wake		= irq_chip_set_wake_parent,
-+	.irq_set_vcpu_affinity	= irq_chip_set_vcpu_affinity_parent,
-+	.irq_retrigger		= irq_chip_retrigger_hierarchy,
-+	.irq_get_irqchip_state	= irq_chip_get_parent_state,
-+	.irq_set_irqchip_state	= irq_chip_set_parent_state,
-+	.flags			= IRQCHIP_SET_TYPE_MASKED |
-+				  IRQCHIP_SKIP_SET_WAKE |
-+				  IRQCHIP_MASK_ON_SUSPEND,
-+};
-+
-+static int gh_rm_irq_domain_alloc(struct irq_domain *d, unsigned int virq, unsigned int nr_irqs,
-+				 void *arg)
-+{
-+	struct gh_irq_chip_data *chip_data, *spec = arg;
-+	struct irq_fwspec parent_fwspec = {};
-+	struct gh_rm *rm = d->host_data;
-+	u32 gh_virq = spec->gh_virq;
-+	int ret;
-+
-+	if (nr_irqs != 1)
-+		return -EINVAL;
-+
-+	chip_data = kzalloc(sizeof(*chip_data), GFP_KERNEL);
-+	if (!chip_data)
++	new_perms = kcalloc(mem_parcel->n_acl_entries, sizeof(*new_perms), GFP_KERNEL);
++	if (!new_perms)
 +		return -ENOMEM;
 +
-+	chip_data->gh_virq = gh_virq;
-+
-+	ret = irq_domain_set_hwirq_and_chip(d, virq, chip_data->gh_virq, &gh_rm_irq_chip,
-+						chip_data);
-+	if (ret)
-+		goto err_free_irq_data;
-+
-+	parent_fwspec.fwnode = d->parent->fwnode;
-+	ret = arch_gh_fill_irq_fwspec_params(chip_data->gh_virq, &parent_fwspec);
-+	if (ret) {
-+		dev_err(rm->dev, "virq translation failed %u: %d\n", chip_data->gh_virq, ret);
-+		goto err_free_irq_data;
++	for (n = 0; n < mem_parcel->n_acl_entries; n++) {
++		vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
++		if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
++			new_perms[n].vmid = vmid;
++		else
++			new_perms[n].vmid = QCOM_SCM_RM_MANAGED_VMID;
++		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_X)
++			new_perms[n].perm |= QCOM_SCM_PERM_EXEC;
++		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_W)
++			new_perms[n].perm |= QCOM_SCM_PERM_WRITE;
++		if (mem_parcel->acl_entries[n].perms & GH_RM_ACL_R)
++			new_perms[n].perm |= QCOM_SCM_PERM_READ;
 +	}
 +
-+	ret = irq_domain_alloc_irqs_parent(d, virq, nr_irqs, &parent_fwspec);
-+	if (ret)
-+		goto err_free_irq_data;
++	src = BIT_ULL(QCOM_SCM_VMID_HLOS);
++
++	for (i = 0; i < mem_parcel->n_mem_entries; i++) {
++		src_cpy = src;
++		ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].phys_addr),
++						le64_to_cpu(mem_parcel->mem_entries[i].size),
++						&src_cpy, new_perms, mem_parcel->n_acl_entries);
++		if (ret)
++			break;
++	}
++
++	if (!ret)
++		goto out;
++
++	src = 0;
++	for (n = 0; n < mem_parcel->n_acl_entries; n++) {
++		vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
++		if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
++			src |= BIT_ULL(vmid);
++		else
++			src |= BIT_ULL(QCOM_SCM_RM_MANAGED_VMID);
++	}
++
++	new_perms[0].vmid = QCOM_SCM_VMID_HLOS;
++
++	for (i--; i >= 0; i--) {
++		src_cpy = src;
++		WARN_ON_ONCE(qcom_scm_assign_mem(
++				le64_to_cpu(mem_parcel->mem_entries[i].phys_addr),
++				le64_to_cpu(mem_parcel->mem_entries[i].size),
++				&src_cpy, new_perms, 1));
++	}
++
++out:
++	kfree(new_perms);
++	return ret;
++}
++
++static int qcom_scm_gh_rm_post_mem_reclaim(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel)
++{
++	struct qcom_scm_vmperm new_perms;
++	u64 src = 0, src_cpy;
++	int ret = 0, i, n;
++	u16 vmid;
++
++	new_perms.vmid = QCOM_SCM_VMID_HLOS;
++	new_perms.perm = QCOM_SCM_PERM_EXEC | QCOM_SCM_PERM_WRITE | QCOM_SCM_PERM_READ;
++
++	for (n = 0; n < mem_parcel->n_acl_entries; n++) {
++		vmid = le16_to_cpu(mem_parcel->acl_entries[n].vmid);
++		if (vmid <= QCOM_SCM_MAX_MANAGED_VMID)
++			src |= (1ull << vmid);
++		else
++			src |= (1ull << QCOM_SCM_RM_MANAGED_VMID);
++	}
++
++	for (i = 0; i < mem_parcel->n_mem_entries; i++) {
++		src_cpy = src;
++		ret = qcom_scm_assign_mem(le64_to_cpu(mem_parcel->mem_entries[i].phys_addr),
++						le64_to_cpu(mem_parcel->mem_entries[i].size),
++						&src_cpy, &new_perms, 1);
++		WARN_ON_ONCE(ret);
++	}
 +
 +	return ret;
-+err_free_irq_data:
-+	kfree(chip_data);
-+	return ret;
 +}
 +
-+static void gh_rm_irq_domain_free_single(struct irq_domain *d, unsigned int virq)
-+{
-+	struct irq_data *irq_data;
-+
-+	irq_data = irq_domain_get_irq_data(d, virq);
-+	if (!irq_data)
-+		return;
-+
-+	kfree(irq_data->chip_data);
-+	irq_data->chip_data = NULL;
-+}
-+
-+static void gh_rm_irq_domain_free(struct irq_domain *d, unsigned int virq, unsigned int nr_irqs)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < nr_irqs; i++)
-+		gh_rm_irq_domain_free_single(d, virq);
-+}
-+
-+static const struct irq_domain_ops gh_rm_irq_domain_ops = {
-+	.alloc		= gh_rm_irq_domain_alloc,
-+	.free		= gh_rm_irq_domain_free,
++static struct gh_rm_platform_ops qcom_scm_gh_rm_platform_ops = {
++	.pre_mem_share = qcom_scm_gh_rm_pre_mem_share,
++	.post_mem_reclaim = qcom_scm_gh_rm_post_mem_reclaim,
 +};
 +
-+struct gh_resource *gh_rm_alloc_resource(struct gh_rm *rm, struct gh_rm_hyp_resource *hyp_resource)
++/* {19bd54bd-0b37-571b-946f-609b54539de6} */
++static const uuid_t QCOM_EXT_UUID =
++	UUID_INIT(0x19bd54bd, 0x0b37, 0x571b, 0x94, 0x6f, 0x60, 0x9b, 0x54, 0x53, 0x9d, 0xe6);
++
++#define GH_QCOM_EXT_CALL_UUID_ID	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
++							   ARM_SMCCC_OWNER_VENDOR_HYP, 0x3f01)
++
++static bool gh_has_qcom_extensions(void)
 +{
-+	struct gh_resource *ghrsc;
-+	int ret;
++	struct arm_smccc_res res;
++	uuid_t uuid;
++	u32 *up;
 +
-+	ghrsc = kzalloc(sizeof(*ghrsc), GFP_KERNEL);
-+	if (!ghrsc)
-+		return NULL;
++	arm_smccc_1_1_smc(GH_QCOM_EXT_CALL_UUID_ID, &res);
 +
-+	ghrsc->type = hyp_resource->type;
-+	ghrsc->capid = le64_to_cpu(hyp_resource->cap_id);
-+	ghrsc->irq = IRQ_NOTCONNECTED;
-+	ghrsc->rm_label = le32_to_cpu(hyp_resource->resource_label);
-+	if (hyp_resource->virq) {
-+		struct gh_irq_chip_data irq_data = {
-+			.gh_virq = le32_to_cpu(hyp_resource->virq),
-+		};
++	up = (u32 *)&uuid.b[0];
++	up[0] = lower_32_bits(res.a0);
++	up[1] = lower_32_bits(res.a1);
++	up[2] = lower_32_bits(res.a2);
++	up[3] = lower_32_bits(res.a3);
 +
-+		ret = irq_domain_alloc_irqs(rm->irq_domain, 1, NUMA_NO_NODE, &irq_data);
-+		if (ret < 0) {
-+			dev_err(rm->dev,
-+				"Failed to allocate interrupt for resource %d label: %d: %d\n",
-+				ghrsc->type, ghrsc->rm_label, ret);
-+			kfree(ghrsc);
-+			return NULL;
-+		} else {
-+			ghrsc->irq = ret;
-+		}
-+	}
-+
-+	return ghrsc;
++	return uuid_equal(&uuid, &QCOM_EXT_UUID);
 +}
 +
-+void gh_rm_free_resource(struct gh_resource *ghrsc)
++static int __init qcom_gh_platform_hooks_register(void)
 +{
-+	irq_dispose_mapping(ghrsc->irq);
-+	kfree(ghrsc);
++	if (!gh_has_qcom_extensions())
++		return -ENODEV;
++
++	return gh_rm_register_platform_ops(&qcom_scm_gh_rm_platform_ops);
 +}
 +
- static int gh_rm_init_connection_payload(struct gh_rm_connection *connection, void *msg,
- 					size_t hdr_size, size_t msg_size)
- {
-@@ -660,6 +793,8 @@ static int gh_identify(void)
- 
- static int gh_rm_drv_probe(struct platform_device *pdev)
- {
-+	struct irq_domain *parent_irq_domain;
-+	struct device_node *parent_irq_node;
- 	struct gh_msgq_tx_data *msg;
- 	struct gh_rm *rm;
- 	int ret;
-@@ -700,15 +835,41 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_cache;
- 
-+	parent_irq_node = of_irq_find_parent(pdev->dev.of_node);
-+	if (!parent_irq_node) {
-+		dev_err(&pdev->dev, "Failed to find interrupt parent of resource manager\n");
-+		ret = -ENODEV;
-+		goto err_msgq;
-+	}
++static void __exit qcom_gh_platform_hooks_unregister(void)
++{
++	gh_rm_unregister_platform_ops(&qcom_scm_gh_rm_platform_ops);
++}
 +
-+	parent_irq_domain = irq_find_host(parent_irq_node);
-+	if (!parent_irq_domain) {
-+		dev_err(&pdev->dev, "Failed to find interrupt parent domain of resource manager\n");
-+		ret = -ENODEV;
-+		goto err_msgq;
-+	}
-+
-+	rm->irq_domain = irq_domain_add_hierarchy(parent_irq_domain, 0, 0, pdev->dev.of_node,
-+							&gh_rm_irq_domain_ops, NULL);
-+	if (!rm->irq_domain) {
-+		dev_err(&pdev->dev, "Failed to add irq domain\n");
-+		ret = -ENODEV;
-+		goto err_msgq;
-+	}
-+	rm->irq_domain->host_data = rm;
-+
-+	rm->miscdev.parent = &pdev->dev;
- 	rm->miscdev.name = "gunyah";
- 	rm->miscdev.minor = MISC_DYNAMIC_MINOR;
- 	rm->miscdev.fops = &gh_dev_fops;
- 
- 	ret = misc_register(&rm->miscdev);
- 	if (ret)
--		goto err_msgq;
-+		goto err_irq_domain;
- 
- 	return 0;
-+err_irq_domain:
-+	irq_domain_remove(rm->irq_domain);
- err_msgq:
- 	gh_msgq_remove(&rm->msgq);
- err_cache:
-@@ -721,6 +882,7 @@ static int gh_rm_drv_remove(struct platform_device *pdev)
- 	struct gh_rm *rm = platform_get_drvdata(pdev);
- 
- 	misc_deregister(&rm->miscdev);
-+	irq_domain_remove(rm->irq_domain);
- 	gh_msgq_remove(&rm->msgq);
- 	kmem_cache_destroy(rm->cache);
- 
-diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-index 982e27d10d57f..4b398b59c2c5a 100644
---- a/include/linux/gunyah.h
-+++ b/include/linux/gunyah.h
-@@ -27,6 +27,9 @@ struct gh_resource {
- 	enum gh_resource_type type;
- 	u64 capid;
- 	unsigned int irq;
-+
-+	struct list_head list;
-+	u32 rm_label;
- };
- 
- /**
-diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
-index cac4476b46ade..c0cf8b4dc7beb 100644
---- a/include/linux/gunyah_rsc_mgr.h
-+++ b/include/linux/gunyah_rsc_mgr.h
-@@ -139,6 +139,9 @@ int gh_rm_get_hyp_resources(struct gh_rm *rm, u16 vmid,
- 				struct gh_rm_hyp_resources **resources);
- int gh_rm_get_vmid(struct gh_rm *rm, u16 *vmid);
- 
-+struct gh_resource *gh_rm_alloc_resource(struct gh_rm *rm, struct gh_rm_hyp_resource *hyp_resource);
-+void gh_rm_free_resource(struct gh_resource *ghrsc);
-+
- struct gh_rm_platform_ops {
- 	int (*pre_mem_share)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
- 	int (*post_mem_reclaim)(struct gh_rm *rm, struct gh_rm_mem_parcel *mem_parcel);
++module_init(qcom_gh_platform_hooks_register);
++module_exit(qcom_gh_platform_hooks_unregister);
++MODULE_DESCRIPTION("Qualcomm Technologies, Inc. Platform Hooks for Gunyah");
++MODULE_LICENSE("GPL");
 -- 
 2.40.0
 
