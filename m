@@ -2,110 +2,209 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 778C5EB64D9
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 07:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 007FCEB64D9
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 07:12:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229943AbjFNHGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jun 2023 03:06:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60586 "EHLO
+        id S235153AbjFNHM3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jun 2023 03:12:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243259AbjFNHE1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 03:04:27 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A84A81BF0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jun 2023 00:04:26 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q9KYC-0000oB-KR; Wed, 14 Jun 2023 09:04:16 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q9KY9-007IK9-8z; Wed, 14 Jun 2023 09:04:13 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q9KY8-00E8Az-HT; Wed, 14 Jun 2023 09:04:12 +0200
-Date:   Wed, 14 Jun 2023 09:04:12 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-pwm@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] docs: update some straggling Documentation/arm
- references
-Message-ID: <20230614070412.ts5yd47uefkvhlet@pengutronix.de>
-References: <20230529144856.102755-1-corbet@lwn.net>
- <20230529144856.102755-7-corbet@lwn.net>
+        with ESMTP id S234795AbjFNHM0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 03:12:26 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DB6719B7
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jun 2023 00:12:25 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-bc43a73ab22so533883276.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jun 2023 00:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686726744; x=1689318744;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AWHbDUIB8U+qtgrSoFxR3VEwuBtSP2zu4dnUABc1wvE=;
+        b=yAKVXLzwY5/bo3MapGalo/VmgpZhXPFzARCopGZQH1dIFiIRMsz2HLdGC384K+5VVs
+         NmfxnOrpOCjHtsd4qE2m89xz2aPe5WKjQ8UALL80ptcTFn8W4XweIly80WPKALOJMko/
+         /tzNsManeqVF/JCNKAEOaN6ztEClHDkpBNScnxionCtKtL1wqih/qcb7WXhhpJnl+yFp
+         z5Z2IYSvPtRlh0YEkIIRl7MjX/D0LEA6qNP2IRZ4ahsY9E5mb/NJ4oXMo3EM3Qenc1ty
+         dBCB6ojG/mC0Ueh8keldvhRzxfRWT4oKcUV2/qZOf/8jPg+uUDyBLgasv8A8O9Gxaotw
+         tFQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686726744; x=1689318744;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AWHbDUIB8U+qtgrSoFxR3VEwuBtSP2zu4dnUABc1wvE=;
+        b=A+4uTcROEf1yTK7KZxTTbzsTp992ASZGnN29eaFkVAquc9qRDlNzB7SFn6VA7GCADb
+         ig7xAvcmeRb6O8YUQVA0WSUf6VFqPe0OwnxbB3cTvWIlZ604cWMCKgC0zhgWi115aNNP
+         z8r+AmXDj/nTGOXtER9gs+9QOv00KOEi0dgxIkaCt189mARq4FWkr31Cdock9AzruT/r
+         z8GLbfED25QaDFVW1GKlXPSR0WwSoEG2y7hlwrTXcdkmupbUDMijktz8q66FuyMLuwJP
+         cA3nbC3CiYWxt9Ck8s2Vw0dc/afnuAOP43j9on7zX2P6yRQ8S+b7WTAxvecpQI/Mrp8I
+         U4Pw==
+X-Gm-Message-State: AC+VfDzye/ut2+x0cuTz/05Tiqn5vRNx02mTD7D/+xEGY6enWyPybXYC
+        Lc+sE/OKAkZMnhMynx8O5rRtettQnMKDUAiT4z6ykQ==
+X-Google-Smtp-Source: ACHHUZ4Ay9jY6iCOsAGVFKmaIHQT6ZQsGm25F5VYaPHt8JoX8//CV2rAJFvPTBsVOOEJ4H52hEtVwe8Da5FE9B1phwI=
+X-Received: by 2002:a25:4150:0:b0:bc5:16ba:aab2 with SMTP id
+ o77-20020a254150000000b00bc516baaab2mr1132838yba.1.1686726744607; Wed, 14 Jun
+ 2023 00:12:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="p4c3uocja4ru6qiz"
-Content-Disposition: inline
-In-Reply-To: <20230529144856.102755-7-corbet@lwn.net>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20230613083906.757878-1-linus.walleij@linaro.org> <ZIiA+E3W2oWy9uuR@casper.infradead.org>
+In-Reply-To: <ZIiA+E3W2oWy9uuR@casper.infradead.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 14 Jun 2023 09:12:13 +0200
+Message-ID: <CACRpkdbtj8uedJDHiSgyVZGAPwn08Yhw4qgfOa=z7qbN10t+Mw@mail.gmail.com>
+Subject: Re: [PATCH v4] Documentation/mm: Initial page table documentation
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jun 13, 2023 at 4:45=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
+> wrote:
+> On Tue, Jun 13, 2023 at 10:39:06AM +0200, Linus Walleij wrote:
 
---p4c3uocja4ru6qiz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > +Paged virtual memory was invented along with virtual memory as a conce=
+pt in
+> > +1962 on the Ferranti Atlas Computer which was the first computer with =
+paged
+> > +virtual memory. The feature migrated to newer computers and became a d=
+e facto
+> > +feature of all Unix-like systems as time went by. In 1985 the feature =
+was
+> > +included in the Intel 80386, which was the CPU Linux 1.0 was developed=
+ on.
+>
+> I still don't think the origin story is useful.  It's trivia and doesn't
+> help someone understand what they need to know.
 
-Hello,
+I think history is pretty important for understanding concepts, otherwise
+they appear as not invented but emergent. However the question about
+what is important and what is trivia is a question of professional technica=
+l
+writing. The documentation maintainer works with technical writing and
+can decide the value of this.
 
-On Mon, May 29, 2023 at 08:48:55AM -0600, Jonathan Corbet wrote:
-> The Arm documentation has moved to Documentation/arch/arm; update the
-> last remaining references to match.
->=20
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-sunxi@lists.linux.dev
-> Cc: linux-pwm@vger.kernel.org
-> Cc: linux-serial@vger.kernel.org
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> > +Page tables map virtual addresses as seen by the CPU program counter i=
+nto
+> > +physical addresses as seen on the external memory bus.
+>
+> This makes it sound like virtual addresses are only used for
+> instructions.  I had better wording earlier, but there's no point in
+> repeating it.  Just: I dissent.
 
-If you respin this series, you can add my:
+You are right I should reword this to be about memory accesses, I
+might have missed some of your feedback so I will go back and check
+what you said.
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de> # for pwm
+> > +Linux defines page tables as a hierarchy which is currently five level=
+s in
+> > +height. The target architecture code for each supported architecture w=
+ill then
+> > +map this to the restrictions of the target hardware.
+>
+> The word "target" isn't adding any value in this paragraph.
 
-Best regards
-Uwe
+Thanks dropping it.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+I guess the word is a byproduct of doing too much cross compiling...
 
---p4c3uocja4ru6qiz
-Content-Type: application/pgp-signature; name="signature.asc"
+> Honestly, I don't like much about this document.  The writing is
+> flabby and untargetted.
 
------BEGIN PGP SIGNATURE-----
+Please refarain from using this kind of unproffessional wording in your
+professional communication. Be technical, precise and to the point and do
+not use value statements.
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSJZmsACgkQj4D7WH0S
-/k7I6Qf/RuLkOuJd0YIg1k8zFTfaS2bByaI7jkNapwz2cj6IM37CjKT8PnJl0khU
-USzG5sc02bVd0COaO0E69Pv1+l86wxBMqx/wRW65PSkBz6krz2skusoIGek56vDe
-LKz/YRIGjP3gcIx6fVKjPVgWb3pgQAJyi6iN+yEac+AAgBbK5NtjvRSqrjpKPSC8
-+BSS5Tb7JmOthh3NMEwKUOeiBgsjuHCD//UNmenONHQBIWet3+5gOxB+sKVQQZmc
-H+bw4c8bVF8elViKHnk/omalp7oIL4l2tFITkpcR0np44NRwr8D4MSsrlEkiSxuy
-KAFqHYnkJtypcQQCYJ21VCVOBoU1ig==
-=kqLy
------END PGP SIGNATURE-----
+> Much of my last review was ignored.  I'm just
+> going to stop here since I have low confidence that any suggestions
+> would be incorporated.
 
---p4c3uocja4ru6qiz--
+Your statement is incorrect. Your feedback is seen as valuable
+and it is read, reacted on and incorporated.
+
+I did rewrite the document thoroughly in reaction to your comments,
+and in order so you feel respected I am going to illustrate.
+
+You wrote:
+
+> This reads backwards to me.  The index point in the hierarchy (what an
+> unusual turn of phrase!) is surely the virtual address, since the
+> hierarchy is indexed by virtual addresses.  If this paragraph is
+> supposed to define what a pfn is, how about simply:
+>
+> The pfn of a page of memory is the physical address of the page divided
+> by PAGE_SIZE
+
+Which I took as a good suggestion, and the paragraph is rewritten
+from this (which you criticized):
+
+> +The physical address corresponding to the virtual address is commonly
+> +defined by the index point in the hierarchy, and this is called a **page=
+ frame
+> +number** or **pfn**. The first entry on the top level to the first entry=
+ in the
+> +second and so on down the hierarchy will point out the virtual address f=
+or the
+> +physical memory address 0, which will be *pfn 0* and the highest pfn wil=
+l be
+> +the last page of physical memory the external address bus of the CPU can
+> +address.
+
+To this (current wording):
+
+> The physical address corresponding to the virtual address is often refere=
+nced
+> by the underlying physical page frame. The **page frame number** or **pfn=
+**
+> is the physical address of the page (as seen on the external memory bus)
+> divided by `PAGE_SIZE`.
+
+Which obviously includes some of your wording (divided by PAGE_SIZE etc).
+I also got review comments from other reviewers and that is reflected in th=
+e
+current wording.
+
+You wrote:
+
+> Your arrows are backwards.  The PTE doesn't point to the PMD; the PMD
+> points to PTEs.
+
+And this was changed to what you suggested, and it was a pretty
+fundamental and important change.
+
+You wrote:
+
+> You have rather too many forward references in this description for my
+> taste.  Start with the PTE, then the PMD, then  PUD, P4D, PGD.
+
+And this was changed to exactly what you suggested.
+
+You wrote:
+
+> array, not list
+
+And this was changed (everywhere) to what you suggested.
+
+You wrote:
+
+> I think a document like this that talks about page tables really needs to
+> include a description of how some PMDs / PUDs / ... may not be pointers
+> to lower levels, but direct pointers to the actual memory (ie THPs /
+> hugetlb pages).
+
+And the document now includes this (Mike Rapoport made the same
+comment).
+
+So your claim that "Much of my last review was ignored." is simply
+incorrect. It was not ignored, rather it has thoroughly shaped the document=
+.
+
+Yours,
+Linus Walleij
