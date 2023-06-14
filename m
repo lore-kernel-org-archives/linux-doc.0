@@ -2,77 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D46ADEB64D8
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 04:40:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF772EB64D8
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 06:26:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231720AbjFNEkq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jun 2023 00:40:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
+        id S242823AbjFNG0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jun 2023 02:26:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229783AbjFNEkp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 00:40:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA41A7;
-        Tue, 13 Jun 2023 21:40:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F288063D81;
-        Wed, 14 Jun 2023 04:40:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4107C433C8;
-        Wed, 14 Jun 2023 04:40:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686717643;
-        bh=0ucmmW3adV4+eqQVBYgvmKckBTOl6NDz0Ul52vNk6IM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=dg5101Tl455j/arfoVjzrVjaCZJ819UcB4X9QiFmxupTrdGqx1Dqyyu0LzxEjeSgQ
-         bgdUJ+70vxtma18+RsVJ0os0UTx/4PnxmeQJjDfraBHIkaOCUPK2KFcudlKy46vMHD
-         jYPxoEWIB1RnzC9hoIbnBXX63RaKo4mkzvlj1yVqpmbtuPP1j1kDwPRgoKltNymPi5
-         dDy8BM78W/Tsxmcpl3HuV9Sux36JiZIb5qtTHEOOazDoSlftFhRcXNzDW2yVdAStsB
-         LLmwm8OEhXtnYN0V75Pl0o5YInS/HjzxIkDWfq2I/XtBH01g+SaFykQCa8kBEKI888
-         oBw+xT+d8oG0Q==
-Date:   Tue, 13 Jun 2023 21:40:41 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Yunsheng Lin <linyunsheng@huawei.com>
-Cc:     <davem@davemloft.net>, <pabeni@redhat.com>,
-        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Alexander Duyck <alexander.duyck@gmail.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        <linux-doc@vger.kernel.org>, <bpf@vger.kernel.org>
-Subject: Re: [PATCH net-next v4 5/5] page_pool: update document about frag
- API
-Message-ID: <20230613214041.1c29a357@kernel.org>
-In-Reply-To: <20230612130256.4572-6-linyunsheng@huawei.com>
-References: <20230612130256.4572-1-linyunsheng@huawei.com>
-        <20230612130256.4572-6-linyunsheng@huawei.com>
+        with ESMTP id S242281AbjFNG0o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 02:26:44 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B9E199;
+        Tue, 13 Jun 2023 23:26:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=GAL8rYu1Idr0YOdnXNBIthABV/YsGkUhTmU/DBbzch8=; b=tvDzinqkrdr5HsvTJrFz63M6uM
+        s38FyrvASnhlz58s1iCWQyO4ieh+ddqTrlYffk6YGHFCs1y5BsV1s6RdMFczPVMHrvHhofzB6IsA6
+        9hmJKz9Rz36FWYHj+a2EUqh/4KB/Xs1HARqfQZiC1PdmZAXLFwAB8tm59uVn+zNjVHLeLjvGzS5qq
+        almeyKHsarLuYOZzQKgNcw84/3bgIoydHoBeHOnrhd/OlHNFclDqtRGIJMsZR9JOP26ppFL8ZywOc
+        abpa3Ut6d7aZ2ydfYcdZSPsE0uXeonEwBnNGTID5qoVkjc2eIcbGjStZZRhS1DBkfHLemIWiyNw3G
+        JLkP8r4w==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1q9JxZ-00AQvZ-0a;
+        Wed, 14 Jun 2023 06:26:25 +0000
+Date:   Tue, 13 Jun 2023 23:26:25 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+        willy@infradead.org, dlemoal@kernel.org, linux@weissschuh.net,
+        jack@suse.cz, ming.lei@redhat.com, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Donald Buczek <buczek@molgen.mpg.de>
+Subject: Re: [PATCH v5 04/11] blksnap: header file of the module interface
+Message-ID: <ZIldkb1pwhNsSlfl@infradead.org>
+References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
+ <20230612135228.10702-5-sergei.shtepa@veeam.com>
+ <ZIjsywOtHM5nIhSr@dread.disaster.area>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZIjsywOtHM5nIhSr@dread.disaster.area>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 12 Jun 2023 21:02:56 +0800 Yunsheng Lin wrote:
-> +2. page_pool_alloc_frag(): allocate memory with page splitting when driver knows
-> +   that the memory it need is always smaller than or equal to half of the page
-> +   allocated from page pool. Page splitting enables memory saving and thus avoid
-> +   TLB/cache miss for data access, but there also is some cost to implement page
-> +   splitting, mainly some cache line dirtying/bouncing for 'struct page' and
-> +   atomic operation for page->pp_frag_count.
-> +
-> +3. page_pool_alloc(): allocate memory with or without page splitting depending
-> +   on the requested memory size when driver doesn't know the size of memory it
-> +   need beforehand. It is a mix of the above two case, so it is a wrapper of the
-> +   above API to simplify driver's interface for memory allocation with least
-> +   memory utilization and performance penalty.
+On Wed, Jun 14, 2023 at 08:25:15AM +1000, Dave Chinner wrote:
+> > + * Return: 0 if succeeded, negative errno otherwise.
+> > + */
+> > +#define IOCTL_BLKSNAP_SNAPSHOT_APPEND_STORAGE					\
+> > +	_IOW(BLKSNAP, blksnap_ioctl_snapshot_append_storage,			\
+> > +	     struct blksnap_snapshot_append_storage)
+> 
+> That's an API I'm extremely uncomfortable with. We've learnt the
+> lesson *many times* that userspace physical mappings of underlying
+> file storage are unreliable.
+> 
+> i.e.  This is reliant on userspace telling the kernel the physical
+> mapping of the filesystem file to block device LBA space and then
+> providing a guarantee (somehow) that the mapping will always remain
+> unchanged. i.e. It's reliant on passing FIEMAP data from the
+> filesystem to userspace and then back into the kernel without it
+> becoming stale and somehow providing a guarantee that nothing (not
+> even the filesystem doing internal garbage collection) will change
+> it.
 
-Seems like the semantics of page_pool_alloc() are always better than
-page_pool_alloc_frag(). Is there a reason to keep these two separate?
+Hmm, I never thought of this API as used on files that somewhere
+had a logical to physical mapping applied to them.
+
+Sergey, is that the indtended use case?  If so we really should
+be going through the file system using direct I/O.
+
