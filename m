@@ -2,237 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3785EEB64DB
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 12:31:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA7F2EB64D8
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 13:13:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244544AbjFNMbd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jun 2023 08:31:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36534 "EHLO
+        id S244923AbjFNNN5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jun 2023 09:13:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244343AbjFNMbc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 08:31:32 -0400
+        with ESMTP id S244795AbjFNNNz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 09:13:55 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54FF61FF5;
-        Wed, 14 Jun 2023 05:31:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFBF7268B;
+        Wed, 14 Jun 2023 06:13:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 09241641C7;
-        Wed, 14 Jun 2023 12:29:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8092EC433C0;
-        Wed, 14 Jun 2023 12:29:32 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C76F1639C3;
+        Wed, 14 Jun 2023 13:13:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E57C433C0;
+        Wed, 14 Jun 2023 13:12:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686745773;
-        bh=zxon5NMoXVL9mnY8tEa3It+ebZ+D6nHuTWhO9EgoumY=;
+        s=k20201202; t=1686748385;
+        bh=x8Up71mCwqWQG8AsnfE4/2MdVJDUJadORPWbH0I1tuE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PGW8va75zggAvLloAWsaTQpOBvwXYUx4r1KKPd6PuY3ODIaPou42Cydpt4yxcT6iJ
-         md9kWIaFgJfN4xtuvokWOPLOAPhhERR90OtsB62lxvdMh7zeR5hGma6g952DkM2NNW
-         +/POYYcIvMoNCF5XuTCvQIQPmXXxGcayQTz25Q0YrzariIv/BvADoDhLNE03uudCGe
-         HuV2xvhfxv5sk7zxPThGJYtkdHVguFY6T2+QXpYuXs6RZ0zDldnTIkbm/0vm6gr6eL
-         w7JWX6Imhk36P7NmkLcbPuiP6GyCmJYttoVoXyzB5iylf8njKdAX+kqWXSGlyoPvyK
-         UsPUxJCPyzgsw==
-Date:   Wed, 14 Jun 2023 17:59:28 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc:     Takashi Iwai <tiwai@suse.de>, broonie@kernel.org, tiwai@suse.com,
-        corbet@lwn.net, alsa-devel@alsa-project.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_plai@quicinc.com, quic_mohs@quicinc.com
-Subject: Re: [PATCH v2] ALSA: compress: allow setting codec params after next
- track
-Message-ID: <ZImyqMsNUrzqjuk/@matsya>
-References: <20230609150416.24525-1-srinivas.kandagatla@linaro.org>
- <87edmebk2w.wl-tiwai@suse.de>
- <5e9e525a-690d-38ce-d80f-da433d4062fd@linaro.org>
+        b=NmGuG1scUFZKhFQNFytyrqQs4QH8kSngMWTDWQhh/IAxUShNkfAlHA0mYatvTs83/
+         jOKmBA00V+we+EzssIXOd/Qz6QecVS5ksEJeq0J3SvWSO8bj5PSDHbZgMaN95IeN8R
+         P733m+ruVwxdOGQxxq0YxO2HZWTkeNUJANSmfjGDgbvalwxGKpo4E3gTq3Iv5L2IZO
+         zKhN1qUc4PaKfYBJnBHQfjM3sPbtik1D4+Ru3w0XxYPIZqDW9YzPa4GikNGjqHoBr8
+         valRm0kUucRd4MnoMTxBiQVaEQ6kAsOzmbiwXIMM0TI99Z7h0v4MW5wcMejZM+cOhR
+         a/QxJGFDHl0Uw==
+Date:   Wed, 14 Jun 2023 14:12:53 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "Xu, Pengfei" <pengfei.xu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "bp@alien8.de" <bp@alien8.de>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <898e952a-be97-4424-b889-4f766e3e0cd4@sirena.org.uk>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-24-rick.p.edgecombe@intel.com>
+ <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
+ <87y1knh729.fsf@oldenburg.str.redhat.com>
+ <1f04fa59-6ca9-4f18-b138-6c33e164b6c2@sirena.org.uk>
+ <49eabafa97032dec8ace7361bccae72c6ecf3860.camel@intel.com>
+ <fc2ebfcf-8d91-4f07-a119-2aaec3aa099f@sirena.org.uk>
+ <a0f1da840ad21fae99479288f5d74c7ab9095bb6.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="4ibPQ7ywZvQ2KqFY"
 Content-Disposition: inline
-In-Reply-To: <5e9e525a-690d-38ce-d80f-da433d4062fd@linaro.org>
+In-Reply-To: <a0f1da840ad21fae99479288f5d74c7ab9095bb6.camel@intel.com>
+X-Cookie: At participating locations only.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14-06-23, 12:55, Srinivas Kandagatla wrote:
-> Thanks Takashi for review,
-> 
-> On 14/06/2023 08:04, Takashi Iwai wrote:
-> > On Fri, 09 Jun 2023 17:04:16 +0200,
-> > Srinivas Kandagatla wrote:
-> > > 
-> > > For gapless playback it is possible that each track can have different
-> > > codec profile with same decoder, for example we have WMA album,
-> > > we may have different tracks as WMA v9, WMA v10 and so on
-> > > 
-> > > Or if DSP's like QDSP have abililty to switch decoders on single stream
-> > > for each track, then this call could be used to set new codec parameters.
-> > > 
-> > > Existing code does not allow to change this profile while doing gapless
-> > > playback.
-> > > 
-> > > Reuse existing SNDRV_COMPRESS_SET_PARAMS to set this new track params along
-> > > some additional checks to enforce proper state machine.
-> > > 
-> > > With this new changes now the user can call SNDRV_COMPRESS_SET_PARAMS
-> > > anytime after setting next track and additional check in write should
-> > > also ensure that params are set before writing new data.
-> > > 
-> > > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > > ---
-> > > Changes since v1/RFC:
-> > > 	- removed introduction of new IOCTL, as suggested.
-> > > 	- update the state-machine doc.
-> > > 
-> > >   .../sound/designs/compress-offload.rst        | 52 +++++++++----------
-> > >   sound/core/compress_offload.c                 | 10 ++--
-> > >   2 files changed, 33 insertions(+), 29 deletions(-)
-> > > 
-> > > diff --git a/Documentation/sound/designs/compress-offload.rst b/Documentation/sound/designs/compress-offload.rst
-> > > index 935f325dbc77..205cadcabe70 100644
-> > > --- a/Documentation/sound/designs/compress-offload.rst
-> > > +++ b/Documentation/sound/designs/compress-offload.rst
-> > > @@ -256,32 +256,32 @@ Gapless Playback SM
-> > >   For Gapless, we move from running state to partial drain and back, along
-> > >   with setting of meta_data and signalling for next track ::
-> > > -
-> > > -                                        +----------+
-> > > -                compr_drain_notify()    |          |
-> > > -              +------------------------>|  RUNNING |
-> > > -              |                         |          |
-> > > -              |                         +----------+
-> > > -              |                              |
-> > > -              |                              |
-> > > -              |                              | compr_next_track()
-> > > -              |                              |
-> > > -              |                              V
-> > > -              |                         +----------+
-> > > -              |                         |          |
-> > > -              |                         |NEXT_TRACK|
-> > > -              |                         |          |
-> > > -              |                         +----------+
-> > > -              |                              |
-> > > -              |                              |
-> > > -              |                              | compr_partial_drain()
-> > > -              |                              |
-> > > -              |                              V
-> > > -              |                         +----------+
-> > > -              |                         |          |
-> > > -              +------------------------ | PARTIAL_ |
-> > > -                                        |  DRAIN   |
-> > > -                                        +----------+
-> > > +                            +----------+
-> > > +     compr_drain_notify()   |          | compr_set_params() iff next-track set.
-> > > +  +------------------------>|  RUNNING |----------------------+
-> > > +  |                         |          |                      |
-> > > +  |                         +----------+                      |
-> > > +  |                              |                            |
-> > > +  |                              |                            |
-> > > +  |                              | compr_next_track()         |
-> > > +  |                              |                            V
-> > > +  |                              V                            |
-> > > +  |                         +----------+                      |
-> > > +  |                         |          |                      |
-> > > +  |                         |NEXT_TRACK|                      |
-> > > +  |                         |          |                      |
-> > > +  |                         +----------+                      |
-> > > +  |                              |                            |
-> > > +  |                              +----------------------------+
-> > > +  |                              |
-> > > +  |                              | compr_partial_drain()
-> > > +  |                              |
-> > > +  |                              V
-> > > +  |                         +----------+
-> > > +  |                         |          |
-> > > +  +------------------------ | PARTIAL_ |
-> > > +                            |  DRAIN   |
-> > > +                            +----------+
-> > >   Not supported
-> > >   =============
-> > > diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-> > > index 243acad89fd3..fe67228e74b3 100644
-> > > --- a/sound/core/compress_offload.c
-> > > +++ b/sound/core/compress_offload.c
-> > > @@ -294,6 +294,9 @@ static ssize_t snd_compr_write(struct file *f, const char __user *buf,
-> > >   	case SNDRV_PCM_STATE_SETUP:
-> > >   	case SNDRV_PCM_STATE_PREPARED:
-> > >   	case SNDRV_PCM_STATE_RUNNING:
-> > > +		/* Make sure next track params are set before writing new data */
-> > > +		if (stream->next_track)
-> > > +			return -EPERM;
-> > 
-> > Hm, does this logic correctly match with the comment above?
-> Yes I agree, it bit confusing and also going to break the partial drain
-> path.
-> > Also, this misses the mutex unlock.
-> 
-> Thinking about this again, Its not required have this check here to start
-> with.
-> 
-> Something like below works, I can send this as v3, if this looks fine.
-> 
-> ------------------------->cut<----------------------------------
-> 
-> diff --git a/Documentation/sound/designs/compress-offload.rst
-> b/Documentation/sound/designs/compress-offload.rst
-> index 935f325dbc77..655624f77092 100644
-> --- a/Documentation/sound/designs/compress-offload.rst
-> +++ b/Documentation/sound/designs/compress-offload.rst
-> @@ -268,11 +268,12 @@ with setting of meta_data and signalling for next
-> track ::
->                |                              |
->                |                              V
->                |                         +----------+
-> -              |                         |          |
-> -              |                         |NEXT_TRACK|
-> -              |                         |          |
-> -              |                         +----------+
-> -              |                              |
-> +              |    compr_set_params()   |          |
-> +              |             +-----------|NEXT_TRACK|
-> +              |             |           |          |
-> +              |             |           +--+-------+
-> +              |             |              | |
-> +              |             +--------------+ |
->                |                              |
->                |                              | compr_partial_drain()
->                |                              |
-> diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-> index 243acad89fd3..30f73097447b 100644
-> --- a/sound/core/compress_offload.c
-> +++ b/sound/core/compress_offload.c
-> @@ -589,7 +589,7 @@ snd_compr_set_params(struct snd_compr_stream *stream,
-> unsigned long arg)
->         struct snd_compr_params *params;
->         int retval;
-> 
-> -       if (stream->runtime->state == SNDRV_PCM_STATE_OPEN) {
-> +       if (stream->runtime->state == SNDRV_PCM_STATE_OPEN ||
-> stream->next_track) {
 
-Yes this would be my idea for this as well, allow params to be set when
-we have signalled partial drain
+--4ibPQ7ywZvQ2KqFY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->                 /*
->                  * we should allow parameter change only when stream has
-> been
->                  * opened not in other cases
-> @@ -612,6 +612,9 @@ snd_compr_set_params(struct snd_compr_stream *stream,
-> unsigned long arg)
->                 if (retval)
->                         goto out;
-> 
-> +               if (stream->next_track)
-> +                       goto out;
-> +
->                 stream->metadata_set = false;
->                 stream->next_track = false;
-> ------------------------->cut<----------------------------------
-> 
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
+On Tue, Jun 13, 2023 at 07:57:37PM +0000, Edgecombe, Rick P wrote:
 
--- 
-~Vinod
+> For alt shadow stack's, this is what I came up with:
+> https://lore.kernel.org/lkml/20220929222936.14584-40-rick.p.edgecombe@intel.com/
+
+> Unfortunately it can't work automatically with sigaltstack(). Since it
+> has to be a new thing anyway, it's been left for the future. I guess
+> that might have a better chance of being cross arch.
+
+Yeah, I've not seen and can't think of anything that's entirely
+satisfactory either.  Like Szabolcs says I do think we need a story on
+this.
+
+> BTW, last time this series accidentally broke an arm config and made it
+> all the way through the robots up to Linus. Would you mind giving
+> patches 1-3 a check?
+
+I'm in the middle of importing the whole series into my development
+branch, but note that I'm only really working with arm64 not arm so
+might miss stuff the bots would hit.  Hopefully there should be some
+Tested-bys coming for arm64 anyway.
+
+--4ibPQ7ywZvQ2KqFY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSJvNQACgkQJNaLcl1U
+h9CPyQf/Y4GwjTyNGgoEGlusyMBRxull9v6onRkwCcTUbLHk6Nmd68eA186L2jZS
+kTkjXNcM67CHwcz3xw1W/1T4uXcitQqHeNznnES31wFwPnJYZzDJSF3RfyhC3WXk
+eh9so9SyTG2SO/AK4CUgdhSph0eYMo2o606r/S+4mWiThEC6sMK/5Wly6vVmM4mm
+dAHJecna4winLvCpMTb5gW/khUtn5Bc3w58b/45FoVytXFnMV65H+Q/WIsySPl2J
+pHH93UeI0zJXXKzhm6iSQBFjRmLa18i7o0k456fIKYxFYknblATaeJvSXC4YhCtA
+zVN7zhOEPqONu5RRMukB6WRZgpm3tw==
+=ErsU
+-----END PGP SIGNATURE-----
+
+--4ibPQ7ywZvQ2KqFY--
