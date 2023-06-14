@@ -2,129 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84301EB64D9
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 09:26:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77E64EB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 09:27:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243977AbjFNJ0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jun 2023 05:26:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33840 "EHLO
+        id S243983AbjFNJ1g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jun 2023 05:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243564AbjFNJ0g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 05:26:36 -0400
-Received: from mx2.veeam.com (mx2.veeam.com [64.129.123.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E946D1FD4;
-        Wed, 14 Jun 2023 02:26:33 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx2.veeam.com (Postfix) with ESMTPS id 1EFF9422C4;
-        Wed, 14 Jun 2023 05:26:28 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx2-2022; t=1686734788;
-        bh=TrwuhYcstPik75UcplGmnA0hgEPNnuFfFZc3d9G7byk=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
-        b=W3a5lkq5kxpezhv3wFI+XM203PRzZQ1+sZJij4aCENw/bd0T8yGdPVvn9vyxYmAyG
-         ek98R3IRPtJ5DB9PBJKc9YGB4YGnKoHBMBxINqgF0hSi8h1fSkwaxIu4oQ27fdXN1e
-         GKJrVLaNGB7mdnNeOuvjUeHvYuW78lKCDMGSa19LeC3vIaJ2Rt9+HARWZc6vzp/Nvq
-         PAhSFfyhuVFNGMviFWy0/2JMNQbKoFiqhxZYoVtGRg83ICXIOa3u3pp6tLTkjhEupY
-         wd6c7d6Z0lg+BZr8c53Qeb+7vfAjOSN6Mu8JNgov83tEnAErmNgyP8TXY++Oh6lwU8
-         USTS0e2ROpbBA==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Wed, 14 Jun
- 2023 11:26:26 +0200
-Message-ID: <733f591e-0e8f-8668-8298-ddb11a74df81@veeam.com>
-Date:   Wed, 14 Jun 2023 11:26:20 +0200
+        with ESMTP id S243980AbjFNJ1d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 05:27:33 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F29E41
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jun 2023 02:27:30 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-30fc6b513afso2034875f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jun 2023 02:27:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1686734849; x=1689326849;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HtefXDjYklud7abCsC+WgTuAbpHOK06ISGHObSNNODA=;
+        b=yrfI34Q6GvN+FjN0tBMhRhIOeZ+VqlZlmPBIeLwUQwYA9symwc6XeIfHRDvjxLjG6V
+         mWI92FC7g4Iy+mbS+/EKtIv6gpw4bdc2QDKWvI32GRRv8eRIejwNFcMqxmc54nmtzfOS
+         vf3+qYecBp+aVBHQXycTqZiXDwW3Cs5cTChM//GSlmbcUKVdqWeA+3LPSuydIIMrsEB+
+         q1rV5ytMHmwhHX17niRkrt4lA0p7by3+yJTr4CpUmls7/tfRMGt4+9e4kjWUuWR080Qf
+         P3ot1hflAhk4tZAoWorHdR08BCgd3svaC365uWcMicY8oIDQ/xlHHpPBO6Z0nBwgzCNt
+         WmZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686734849; x=1689326849;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HtefXDjYklud7abCsC+WgTuAbpHOK06ISGHObSNNODA=;
+        b=Bv/Kv6eLVCuCO7LaT993CzlQMD7R++sMlVdlsH5v/VgnFbFKN+WDdMSgDwKAJoAdXq
+         OcTG2PVFhRtVhzpfiQ9VSaS0xNQNHI4eINAEhEHmZh0crPfgQvMnk5moXoFliyH+Ova4
+         XvJqYQM5Ratf9azaV/FZqFE1a+GySPJoPDyj+mlEwH3sNVBVwzHz3PK3eRXoKsrNMa3C
+         JJSQq8FieHF3qzwJUsk/VFTvwp6Nt0ftovpST+zVEXYK9q34PtOuPoz0wB1lHd4Wgfes
+         1SVmtfcjHugtwWqCuc1SMU5ur3cA/rOS0WgJ2jQVqDjGzYsQaKQ7TYxNUnr2zg6+vtkO
+         7yIA==
+X-Gm-Message-State: AC+VfDy4T4X+uEy+8Omv+dkN3VujhlLQrSoLyzp5lAgC7iPnfZJOjRW3
+        idSBxHJqDZWIR7VgxYsSWSaF/A==
+X-Google-Smtp-Source: ACHHUZ7GlBUfe4DA2qBjSg64mcltE0M9LgJWODvo3Av0ztoxCP/DZKdZxYp0GD/Cv/+mNbbxd4YpFg==
+X-Received: by 2002:adf:e54c:0:b0:30f:bd48:6828 with SMTP id z12-20020adfe54c000000b0030fbd486828mr7876719wrm.31.1686734849068;
+        Wed, 14 Jun 2023 02:27:29 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id s14-20020adfeb0e000000b0030ae53550f5sm17681103wrn.51.2023.06.14.02.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jun 2023 02:27:28 -0700 (PDT)
+Date:   Wed, 14 Jun 2023 11:27:27 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        vadfed@meta.com, jonathan.lemon@gmail.com, pabeni@redhat.com,
+        corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
+        vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org,
+        vadim.fedorenko@linux.dev
+Subject: Re: [RFC PATCH v8 01/10] dpll: documentation on DPLL subsystem
+ interface
+Message-ID: <ZImH/6GzGdydC3U3@nanopsycho>
+References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+ <20230609121853.3607724-2-arkadiusz.kubalewski@intel.com>
+ <20230612154329.7bd2d52f@kernel.org>
+ <ZIg8/0UJB9Lbyx2D@nanopsycho>
+ <20230613093801.735cd341@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v5 04/11] blksnap: header file of the module interface
-Content-Language: en-US
-To:     Christoph Hellwig <hch@infradead.org>,
-        Dave Chinner <david@fromorbit.com>
-CC:     <axboe@kernel.dk>, <corbet@lwn.net>, <snitzer@kernel.org>,
-        <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
-        <dchinner@redhat.com>, <willy@infradead.org>, <dlemoal@kernel.org>,
-        <linux@weissschuh.net>, <jack@suse.cz>, <ming.lei@redhat.com>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        Donald Buczek <buczek@molgen.mpg.de>
-References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
- <20230612135228.10702-5-sergei.shtepa@veeam.com>
- <ZIjsywOtHM5nIhSr@dread.disaster.area> <ZIldkb1pwhNsSlfl@infradead.org>
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-In-Reply-To: <ZIldkb1pwhNsSlfl@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29240315546D7063
-X-Veeam-MMEX: True
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230613093801.735cd341@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Tue, Jun 13, 2023 at 06:38:01PM CEST, kuba@kernel.org wrote:
+>On Tue, 13 Jun 2023 11:55:11 +0200 Jiri Pirko wrote:
+>> >> +``'pin': [{
+>> >> + {'clock-id': 282574471561216,
+>> >> +  'module-name': 'ice',
+>> >> +  'pin-dpll-caps': 4,
+>> >> +  'pin-id': 13,
+>> >> +  'pin-parent': [{'pin-id': 2, 'pin-state': 'connected'},
+>> >> +                 {'pin-id': 3, 'pin-state': 'disconnected'},
+>> >> +                 {'id': 0, 'pin-direction': 'input'},
+>> >> +                 {'id': 1, 'pin-direction': 'input'}],
+>> >> +  'pin-type': 'synce-eth-port'}
+>> >> +}]``  
+>> >
+>> >It seems like pin-parent is overloaded, can we split it into two
+>> >different nests?  
+>> 
+>> Yeah, we had it as two and converged to this one. The thing is, the rest
+>> of the attrs are the same for both parent pin and parent device. I link
+>> it this way a bit better. No strong feeling.
+>
+>Do you mean the same attribute enum / "space" / "set"?
+
+Yeah, that is my understanding. Arkadiusz, could you please clarify?
 
 
-On 6/14/23 08:26, Christoph Hellwig wrote:
-> Subject:
-> Re: [PATCH v5 04/11] blksnap: header file of the module interface
-> From:
-> Christoph Hellwig <hch@infradead.org>
-> Date:
-> 6/14/23, 08:26
-> 
-> To:
-> Dave Chinner <david@fromorbit.com>
-> CC:
-> Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org, viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com, willy@infradead.org, dlemoal@kernel.org, linux@weissschuh.net, jack@suse.cz, ming.lei@redhat.com, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Donald Buczek <buczek@molgen.mpg.de>
-> 
-> 
-> On Wed, Jun 14, 2023 at 08:25:15AM +1000, Dave Chinner wrote:
->>> + * Return: 0 if succeeded, negative errno otherwise.
->>> + */
->>> +#define IOCTL_BLKSNAP_SNAPSHOT_APPEND_STORAGE					\
->>> +	_IOW(BLKSNAP, blksnap_ioctl_snapshot_append_storage,			\
->>> +	     struct blksnap_snapshot_append_storage)
->> That's an API I'm extremely uncomfortable with. We've learnt the
->> lesson *many times* that userspace physical mappings of underlying
->> file storage are unreliable.
->>
->> i.e.  This is reliant on userspace telling the kernel the physical
->> mapping of the filesystem file to block device LBA space and then
->> providing a guarantee (somehow) that the mapping will always remain
->> unchanged. i.e. It's reliant on passing FIEMAP data from the
->> filesystem to userspace and then back into the kernel without it
->> becoming stale and somehow providing a guarantee that nothing (not
->> even the filesystem doing internal garbage collection) will change
->> it.
-> Hmm, I never thought of this API as used on files that somewhere
-> had a logical to physical mapping applied to them.
-> 
-> Sergey, is that the indtended use case?  If so we really should
-> be going through the file system using direct I/O.
-> 
+>In the example above the attributes present don't seem to overlap.
+>For user space its an extra if to sift thru the objects under
+>pin-parent.
+>
+>> >Also sounds like setting pin attrs and pin-parent attrs should be
+>> >different commands.  
+>> 
+>> Could be, but what't the benefit? Also, you are not configuring
+>> pin-parent. You are configuring pin:pin-parent tuple. Basically the pin
+>> configuration as a child. So this is mainly config of the pin itsest
+>> Therefore does not really make sense to me to split to two comments.
+>
+>Clarity of the API. If muxing everything thru few calls was the goal
+>we should also have very few members in struct dpll_pin_ops, and we
+>don't.
 
-Hi!
-Thank you, Dave, for such a detailed comment. 
-Yes, everything is really as you described.
+How the the internal kernel api related to the uapi? I mean, it's quite
+common to have 1:N relationsip between cmd and op. I have to be missing
+your point. Could you be more specific please?
 
-This code worked quite successfully for the veeamsnap module, on the
-basis of which blksnap was created. Indeed, such an allocation of an
-area on a block device using a file does not look safe.
-
-We've already discussed this with Donald Buczek <buczek@molgen.mpg.de>.
-Link: https://github.com/veeam/blksnap/issues/57#issuecomment-1576569075
-And I have planned work on moving to a more secure ioctl in the future.
-Link: https://github.com/veeam/blksnap/issues/61
-
-Now, thanks to Dave, it becomes clear to me how to solve this problem best.
-swapfile is a good example of how to do it right.
-
-Fixing this vulnerability will entail transferring the algorithm for
-allocating the difference storage from the user-space to the blksnap code.
-The changes are quite significant. The UAPI will be changed.
-
-So I agree that the blksnap module is not good enough for upstream yet.
+Current code presents PIN_SET command with accepts structured set of
+attribute to be set. The core-driver api is pretty clear. Squashing to
+a single op would be disaster. Having one command per attr looks like an
+overkill without any real benefit. How exactly do you propose to change
+this?
