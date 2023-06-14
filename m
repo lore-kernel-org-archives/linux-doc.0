@@ -2,65 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EA0EB64D9
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 21:17:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F08EB64D8
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 23:30:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235873AbjFNVRG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jun 2023 17:17:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41612 "EHLO
+        id S235542AbjFNXa6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jun 2023 19:30:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234541AbjFNVRF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 17:17:05 -0400
+        with ESMTP id S229516AbjFNXa5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 19:30:57 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A785BE6C;
-        Wed, 14 Jun 2023 14:17:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69E51BC3;
+        Wed, 14 Jun 2023 16:30:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3D16E60DF4;
-        Wed, 14 Jun 2023 21:17:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26E42C433C0;
-        Wed, 14 Jun 2023 21:17:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1686777423;
-        bh=XjFv25feh5z3BwlZoH20bTGy8or+VylkkD7fQlyCmDs=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 393A0615A3;
+        Wed, 14 Jun 2023 23:30:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A951FC433C0;
+        Wed, 14 Jun 2023 23:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686785455;
+        bh=f7m/k4m/SzTcQEKr9Wills9wPUmF4MEp7tvV5JdprYs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ud2jLywLAUn44FGVrlbm5A9plEIgqO9h/bZ0oQGDszWvMpdaaMgXLmZ7L0Sq5nDNB
-         BhF2TrqEQMY0VDMeHv+g6dhBz4fzrsqaQp9PVvF5Owyf7Q9oxf3ezNnSXEEZwss+kw
-         +nTK2KACF3ehVRYlxBiFFZGoTlEVIk1TMEI7KFXs=
-Date:   Wed, 14 Jun 2023 23:17:00 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Saurabh Sengar <ssengar@linux.microsoft.com>
-Cc:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-        decui@microsoft.com, mikelley@microsoft.com, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] tools: hv: Add new fcopy application based on uio
- driver
-Message-ID: <2023061413-flap-underage-90b9@gregkh>
-References: <1686766512-2589-1-git-send-email-ssengar@linux.microsoft.com>
- <1686766512-2589-4-git-send-email-ssengar@linux.microsoft.com>
+        b=AxnNy/PTwivnZmnoA0n9FUmkdB18azckUI31v358TTIJLRtOuaUS62OE+GYL9uaw0
+         LLKYo1BhMHqpeSyLli0o/58B1fUwQ0FWJETiE4eIoMOa1PvWHGcFg4uy2O+0z9+wAk
+         QivKdAIG55/YXelf2xnFVfaBXfJW+yC5zCJhPkcnPluODE5H5caY3Ae0xixR2123RX
+         b2gF2pZz04shEMtNYrkwHm5FDUUWeGxpo9F4866l5ZvvwggwGtxelmT6GpZ9n1A1mf
+         LqLQARdF8tT+5j+qi5wTZo/Y875JQNIM+B5e6dHZusrdDpQ4ipdzmOKGJl2VONWYhg
+         3qre3dOoYsl9Q==
+Date:   Thu, 15 Jun 2023 00:30:43 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
+        torvalds@linux-foundation.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v9 04/42] mm: Re-introduce vm_flags to do_mmap()
+Message-ID: <f939a796-b04f-4e44-be16-be243c6a250e@sirena.org.uk>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-5-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="o+sRcL1+mT+ugmLs"
 Content-Disposition: inline
-In-Reply-To: <1686766512-2589-4-git-send-email-ssengar@linux.microsoft.com>
+In-Reply-To: <20230613001108.3040476-5-rick.p.edgecombe@intel.com>
+X-Cookie: You are false data.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 14, 2023 at 11:15:10AM -0700, Saurabh Sengar wrote:
-> New fcopy application which utilizes uio_hv_vmbus_client driver
 
-Please read the kernel documentation for how to write a good kernel
-changelog.
+--o+sRcL1+mT+ugmLs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-THen get another microsoft kernel developer to review this patchset
-before you send it out again, it needs some basic rework for simple
-things like this.
+On Mon, Jun 12, 2023 at 05:10:30PM -0700, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>=20
+> There was no more caller passing vm_flags to do_mmap(), and vm_flags was
+> removed from the function's input by:
+>=20
+>     commit 45e55300f114 ("mm: remove unnecessary wrapper function do_mmap=
+_pgoff()").
+>=20
+> There is a new user now.  Shadow stack allocation passes VM_SHADOW_STACK =
+to
+> do_mmap().  Thus, re-introduce vm_flags to do_mmap().
 
-I've stopped reviewing this series here.
+Reviewed-by: Mark Brown <broonie@kernel.org>
+Tested-by: Mark Brown <broonie@kernel.org>
 
-thanks,
+--o+sRcL1+mT+ugmLs
+Content-Type: application/pgp-signature; name="signature.asc"
 
-greg k-h
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSKTaIACgkQJNaLcl1U
+h9A5IAf+P39LmrqSebKqcPED1RRnsd8N6hWOJJ5CLMb8xh2UB35SggOsMBO9xg93
+QKWxl/4SCzh0LwkbavIvr/pUjHB8n6yOOJTcJyo5P8YgCdgBnLlPdIswYQ8hhA7W
+HOFWSkZjo2y/EcbfMabs/vXFASf2vd8qbTko9u+6P660y4nuvtoW53fgA9jkkNJV
+o7UfVTq47yy53evUsMPDVeWYU71G0cja2Kf1xkrCs1tB4+Wjw4+AZsl45bmMnWI1
+Yh6mYKNhAS1P+e9ZhcMUExbKM0RBwXIFkMNk9Z8L97MFr7ATmh++ww0cKYC4kqKP
+HST8fG626N/FXw8qykkdh7ChIsExGg==
+=CJwi
+-----END PGP SIGNATURE-----
+
+--o+sRcL1+mT+ugmLs--
