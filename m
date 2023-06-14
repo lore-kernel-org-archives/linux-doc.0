@@ -2,253 +2,940 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3E42EB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 01:21:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B0C3EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 01:29:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242002AbjFNBVd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Jun 2023 21:21:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41114 "EHLO
+        id S241578AbjFNB3t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Jun 2023 21:29:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230495AbjFNBVc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 21:21:32 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58EBFC3;
-        Tue, 13 Jun 2023 18:21:31 -0700 (PDT)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35DGhxsi023878;
-        Wed, 14 Jun 2023 01:21:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2023-03-30;
- bh=dMM8w9pf86PhRklwfY86e6q2rasuh+eE61w8/97jSrU=;
- b=uObAXzBl8Mez4qvnuw0t2fx63sjfHzXtA0l0KFpcfHtQOmBzWmIcZgowZ2zT8+TRoSch
- cgi65tTAwM2PriyA+qqztN71OyE8h1gLJnB3eEPUHRT8mlI4C5nEG8ZMOznCTqdz2mDg
- 3FceZjRpH0ScnDY2hrNfo+YqJt9w32lzt3qbZXgd0IzhZoHMYVsopbtDuV7XoyfstWnR
- QMLSFgtO0nweW4V38Xk6Hvq+J6c7eVKM7UBZQWYNhlsGTxKTDuSeyuthC5Fm1a6v848x
- rP9OoS6MVRnCbiKWJSgUvcG7uWgxw5LlQxVFMo63fmLJG6z8uWNqdxqQGWI+8RAk3q6w Tw== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3r4hqupgqy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 14 Jun 2023 01:21:04 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 35DNjPZS008467;
-        Wed, 14 Jun 2023 01:21:03 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2049.outbound.protection.outlook.com [104.47.57.49])
-        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3r4fmb694m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 14 Jun 2023 01:21:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mdmk4p5JhfeXeFGdlsQ80oqmOCabqeDUtJQ794nlH2KgX+JvDlSSWeFHLFTj3N9O3/EunhK9uq4zKk/ciS0zW+6jcqVvLLl2dr6nKs2jXtioYGx11m6WJMBa+UnRsGGLs0h19MZbIuCX+xgMPu6bRYxet3bImKNs6fYMl5p8pHS65BpzgoAjLtp/97iX0chf/tyr6Ak0ldFj3I17txVHTNqLBuCeYGbEwu0Bz/ovUb6JSW+XcaBFxi3nCZNSPVk2q6lFW/AlBkKrxfbTal1JozuOlSvs+0wNLNCCKOs9tDNmkmADciRbDD9DfbB09m/m3R8ddMei+7tslCEfdDWhfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dMM8w9pf86PhRklwfY86e6q2rasuh+eE61w8/97jSrU=;
- b=VIzE2OeXJDHj+1E6gSNTeocnLE5HUt4VvPIMtFcKa0dcz4TN7HhbCHXFGuvg+LPRZTjoYPQVHMKMsHRJHDYeosrixAY8iueEsMJe8PN6lBCqB2D/jvxuEcz89GUNxmtnMQr2bko0+gyBW+JamNuTmB9NBSwUEoWpY6F/pxnnx+FxBNoSux7ORyVV+pJTgX9RwxyCQ8xK5UWZdvbhTKU2pbFrmAPC2QJWyJRHLdtA6+xiYn8k37idQOyYWwBn6+zl2M0/bT29+RjuNfb21PwDRHe7GMOp5Hx2NnvplDXciLMMcWzk6ni8clVo4ICeKXQWaj+62ihE+ZNF2ThQHaTq6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dMM8w9pf86PhRklwfY86e6q2rasuh+eE61w8/97jSrU=;
- b=Di861fCVTVST1h/RKzT3/nc03d2FaNLhlSuF6qc2FHIhdjBu5+Y+hgZD7FwhNIAHESY440TVYeJ168jM3YlFj1RDEKbfzq/nuq/8FIqyGSDbJmdvqXRNmmI6+AkXH5XDPDpVF6NEOloiZrkcjOHkqS8/NKdM1rhmoBRZ5ApTZ5s=
-Received: from SN6PR10MB3022.namprd10.prod.outlook.com (2603:10b6:805:d8::25)
- by BLAPR10MB4849.namprd10.prod.outlook.com (2603:10b6:208:321::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.44; Wed, 14 Jun
- 2023 01:21:00 +0000
-Received: from SN6PR10MB3022.namprd10.prod.outlook.com
- ([fe80::998f:d221:5fb6:c67d]) by SN6PR10MB3022.namprd10.prod.outlook.com
- ([fe80::998f:d221:5fb6:c67d%7]) with mapi id 15.20.6455.045; Wed, 14 Jun 2023
- 01:21:00 +0000
-Date:   Tue, 13 Jun 2023 21:20:57 -0400
-From:   "Liam R. Howlett" <Liam.Howlett@Oracle.com>
-To:     Danilo Krummrich <dakr@redhat.com>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
-        bskeggs@redhat.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH drm-next v4 14/14] drm/nouveau: debugfs: implement DRM
- GPU VA debugfs
-Message-ID: <20230614012057.jhyzdliloui5k7yx@revolver>
-Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
-        Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
-        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
-        matthew.brost@intel.com, boris.brezillon@collabora.com,
-        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
-        willy@infradead.org, jason@jlekstrand.net,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-References: <20230606223130.6132-1-dakr@redhat.com>
- <20230606223130.6132-15-dakr@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230606223130.6132-15-dakr@redhat.com>
-User-Agent: NeoMutt/20220429
-X-ClientProxiedBy: YT4PR01CA0118.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:d7::10) To SN6PR10MB3022.namprd10.prod.outlook.com
- (2603:10b6:805:d8::25)
+        with ESMTP id S233353AbjFNB3r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Jun 2023 21:29:47 -0400
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B459A1FC7;
+        Tue, 13 Jun 2023 18:29:38 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.112.76])
+        by gateway (Coremail) with SMTP id _____8AxnOoAGIlkj+UEAA--.10427S3;
+        Wed, 14 Jun 2023 09:29:36 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.112.76])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxFOT6F4lkvvsZAA--.8647S3;
+        Wed, 14 Jun 2023 09:29:31 +0800 (CST)
+Message-ID: <4601100c-9a79-705c-dcdb-ec883ed49c50@loongson.cn>
+Date:   Wed, 14 Jun 2023 09:29:30 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR10MB3022:EE_|BLAPR10MB4849:EE_
-X-MS-Office365-Filtering-Correlation-Id: c31576c4-f838-4879-a34c-08db6c759d2d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Xk/ZtxaghqPLs1QIzjbo85IxTsk09UzL4oJAk+CLV0RGW2q4YRZaVXEASe59ZSRLMLdW7K9qKaYa9k2vQlm4BBMLWDqoZQX7Oud9g204+YmtGtE3AYrarb3P4QYYYuvyeXvFHYitPyxZUxFOefMCYmAKaAtiU0ky/oyg5v8BVF07wKqWpnfel2SbDQweU1qCv9YRvxgfG2LFn3nE32NO9H1na1WDzhCXV0lhPB/XlR9phbHj+WueFI/LfCPMWkmw53CAHGntT6H0KsXnturzsUSJFqN/OzGuxmZRHuJqqR+Wdwda6oVXNqQJ3+gH4D0aSzzzYWV/puH+fRGcIaMCAx63nW+/YPlp/mw7tNEVbXJdRZ9qbxPC93DgmubkeTlqDCFLQEi60Ft0ceuplmH814mGnKwbmp6v+rXVLAtDG3JQmJOc7XsDfZj2s2Sfg4JnfAU4zoWB/TQchWHpQFPVL1xRdAo7ADm68+q9qIBW2KFPlAJFyNYfu1KwOMLNNA9HsddFsbLWYGgoYnK/AY31Wal6vyAXSs8vQ6tYr1PuG11IFb3ZxE/EWj7MCIvEKO0h
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB3022.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(396003)(346002)(376002)(39860400002)(136003)(366004)(451199021)(6486002)(6666004)(83380400001)(38100700002)(86362001)(33716001)(26005)(6506007)(9686003)(6512007)(1076003)(186003)(2906002)(5660300002)(8936002)(316002)(7416002)(41300700001)(8676002)(4326008)(6916009)(66946007)(66556008)(478600001)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?m+Ea8tOAKQ+Oy20gfRTtjNrkqjl7VJsGnjILWR1McOiQpuEJz+t6JgI3he6K?=
- =?us-ascii?Q?QALNjV5lvazzde6RuqEv8ZsJ4AeuWOpcNdmtMbZ4yXtQMRT6ojcuqhlZzpEx?=
- =?us-ascii?Q?pljzgp/WZx6ho5+uzGXkxPXxiB0vzi6QtY90rM0K1pgDm2aLdwiBLdDCMP91?=
- =?us-ascii?Q?D8sIeyLpBrLW69C8AtK25cSYbxo77rp6qrTxiH8uzmYPOl6fjyqXbcW4VHMR?=
- =?us-ascii?Q?Z6WgdcLIJ/XH0LyGJLFd6vnErGYvf1FSetQIBbPv5qSOObLnUy2BL7D9673H?=
- =?us-ascii?Q?7gvW4AphykkuMj79tcnL0sjx/N+35j0dcIwBFHxoWdv2DGcESzShGxsNnR0k?=
- =?us-ascii?Q?R33jBfYograCXIJGFhVOVXtDyuq+xMt60I8NOeKuwfljJIFelEiAVtWog9Qg?=
- =?us-ascii?Q?NHGoxZDvGLLIu0Vx6CL8mui92atr3DlpOEC9BC8jgomvwWuDHOGGR4fauDhU?=
- =?us-ascii?Q?oWFKUPHsyOR1884jeht7IqLgjYdVd0Ud2y8VzP9UtFgNWQFr+2vQ32HHYM4v?=
- =?us-ascii?Q?PJIFCVKFmq51J4OLDpD91E8sOCeeBPj5b0PW2Iqbb7RIde+rWc4YcO5t9Mec?=
- =?us-ascii?Q?tFAJKGHmeUAnUau4pj5NhGUs8p8N0RRKnEAdfhQAQPNjdavnZhiAYRYzcqvP?=
- =?us-ascii?Q?1a2HpEbcMZErIJKT0R5pW3RlabjY0nS1djxf/Q+m4xo9OSswdQp6LiJTq/z2?=
- =?us-ascii?Q?D1rqCCFWeSUGQOLaiy9Q4MWgO5Ws7h3gcU37+YE1wrJskRqMmD8WVLbP/yVW?=
- =?us-ascii?Q?4WftPxt+jW1l2AN31/D6Om9xJVt2ep/0TUHyt7qG2kwjmxpL7lCCrUsE9I31?=
- =?us-ascii?Q?eAw5v+8jzl9+3J8NzpKx6INjHFkt9mxNlfeO3gmJvVPIaYn++Md1WWjTVJVa?=
- =?us-ascii?Q?VYsP9MkZ+kd0Cx0gK4Mz2NZBEGBMcxYIQ/z/e1tqvws45SjjBZxk7BQLbP6r?=
- =?us-ascii?Q?zkKfi6bNsxu++iP8fLvTeHADpRKiaFqUnOpQL/zMhSve1i8MOsl5qEfi7iyJ?=
- =?us-ascii?Q?FgINW4WkO6gjLpzcOB8g65o/ezHssC/j/26AU4eIAZzQaNgxaRSQOtVU5Hl/?=
- =?us-ascii?Q?Ww/to7/iVfhvFHc/pw/2VseyGnr9YAAa6XddPIS2QV7DdKelVUVBlJrUMMc6?=
- =?us-ascii?Q?8oN7ouAgp2mNcnVhp/o3Fw2g7koBtUZiQG6CTsuGxrkWNKSbaC9USplh5c4E?=
- =?us-ascii?Q?7Kocnkx37sehpdTSwCCs9+at6+2iztmLCtEAmBipt51bsXPv5CZUSwhRZeFM?=
- =?us-ascii?Q?hszIvaw3MebcHUELilMIohUYrPWv9gxO+/bnUmHgJUVSTO5F6hz3ghSZepPD?=
- =?us-ascii?Q?Y+r1ffsp+uwSJbeV4wir1lHrs7fzLkWugT7NCaUV0tRVUj7q08LUKn56BrlV?=
- =?us-ascii?Q?WMZG/xQ2BpvT58fKERWalQYRvjBv3KXz19SJ54nN3n/DkDvfnYTSZYOJdZFp?=
- =?us-ascii?Q?aPMt4MamAk/dCoTUP0VHq5rg0z6e5DfbCrgtfEdf/WKCFohXm+j2Ybsllpy5?=
- =?us-ascii?Q?jYy382siFnsCQ6EXPXJ3P9ShdVq+u6iPEIUw9Y6/wSLZHPbbPEoUJC4zfwSt?=
- =?us-ascii?Q?uWhY3qwewYjHaWOjDthtNRJ9WKPmcZJKiorOLmK6yKLC42/Ty8mZJAcx1pCA?=
- =?us-ascii?Q?Sg=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?jnGOzA4bC2g+sJnur02KbNMtglRqaaHBFtBSJKXFg81v1WFWgMEG8kPHu571?=
- =?us-ascii?Q?unwOkNCY9a6vTpKIobB1f33NuvwcNyQCoPdioMNNm1Gpv/RZekkkJNUJcs6j?=
- =?us-ascii?Q?O9kaJ8cnxG8OgQsjzyhVLcuko0vYj3vY5SEmD6rEdWxfmu0niDks3IXfJDF0?=
- =?us-ascii?Q?ZgdgtyRbyX77Yjy9ad3B8+EChR7DuJrvV4Mo0YR7ehQCa9VGla8tTwRi3nCV?=
- =?us-ascii?Q?0n8xfeWZCzBitSADNNTGu1B8QyyCvj4tz332cWXAhlVfjByCeTKXnn8n3F50?=
- =?us-ascii?Q?o3DwZqROi9ih43WdBHOtVpTMt/BULZweOQLkk6CKMUXlb3eoZyMuKRraPPmJ?=
- =?us-ascii?Q?noq+6VO8L2qFT7LfOIPlRCDRqhNlnmaqZPMe6SwW/qfQ2LEHgWMRl7ub3nHm?=
- =?us-ascii?Q?tWclaI4xDh+3muliDTR5rZ9vaKk9KDFzjkGi1JXmNdlp9Cvgpo+JVZxECo4L?=
- =?us-ascii?Q?YNSCBf0AIQzPG+iKYBQ9rnqxJfBUKZBa7fs2yJ9s47lCGFKXevd+uEmHqQdR?=
- =?us-ascii?Q?lRABLdjZy0SKNygqzkeI9TsoHoR12kA0HiPx8rwz1InepZlEk/ByVy0VJivu?=
- =?us-ascii?Q?mzEaXg4pQ4NQ+rYgujOj03NT31Jij7Nud5e1tJPNYz3JmFvsTek2lMLVgkp7?=
- =?us-ascii?Q?oHRRnzmj5FRxDrZVEYbKPzwHLws9DaMixluGCW6obdYNIM+2g4f6nbu3cpP+?=
- =?us-ascii?Q?72by4ko++Pds1y+nwl34O7yFdGcR6X9ii4JR3CslF7ryPUtyKiBSG4tbYRmb?=
- =?us-ascii?Q?0IeVX00tbfrLpqtg0v7twyF/idpmjVt0fs8d7ZgeG2/Cmujc9GUoj6ub2IKB?=
- =?us-ascii?Q?j8C+hTcV0IwUENQYal1MNcuyIMWlU+FMvhKeb6Am7J39zDQyerueXIN7tTMA?=
- =?us-ascii?Q?zfeo+5E1/Ye5eK61S1oNNDr0VlFcG9kpqWQm6IVVPDPZOOblP36FkoC7ydZL?=
- =?us-ascii?Q?x40dVjuqam6vD2691qvk1y7ALfjQlgM8Bdlfq7ZqSEsFr1xpVGM7K8L/d5za?=
- =?us-ascii?Q?1jhgMCQv6B+lHB9vOBGZg6TkRT9WUQQr/ygPwt1WhJTDgeRmkJq/ualrIjRf?=
- =?us-ascii?Q?d8Tyk4cELgK5R/ae9cvcpmNcAR5Uw+iPJCrdPZPQtCNKuBboLhc8iFqk6FQ0?=
- =?us-ascii?Q?4/MhwTsc3QGs3OfD3jGFfb1BDTJxu50xdw=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c31576c4-f838-4879-a34c-08db6c759d2d
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB3022.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2023 01:21:00.8453
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YwxY0mZQR/vMisQq7XBrQxuH6vVw/YUJkr2BIPuSO2XNMscdy/AOkU8ityMlPWF6Gk79pctORYLK+AGDEMRBzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4849
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-13_24,2023-06-12_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
- malwarescore=0 mlxscore=0 adultscore=0 bulkscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306140008
-X-Proofpoint-ORIG-GUID: rJdYf5tANraTRlwaW5hFRC3vxYssYZ8J
-X-Proofpoint-GUID: rJdYf5tANraTRlwaW5hFRC3vxYssYZ8J
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 1/5] docs: arm64: Move arm64 documentation under
+ Documentation/arch/
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Alex Shi <alexs@kernel.org>,
+        Hu Haowen <src.res@email.cn>,
+        Paolo Bonzini <pbonzini@redhat.com>
+References: <20230613094606.334687-1-corbet@lwn.net>
+ <20230613094606.334687-2-corbet@lwn.net>
+Content-Language: en-US
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20230613094606.334687-2-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxFOT6F4lkvvsZAA--.8647S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj9fXoWDAFW5ZFyfAFyfCr1kKw13WrX_yoWrKr4xJo
+        ZF9a1UCwnrAFsrJFs8GrWUAr17XFn3urs7Xr47tw1DGw42yF1rGa1xZw1Ygwsakr45GFyf
+        JFWxua13WryxJ3WDl-sFpf9Il3svdjkaLaAFLSUrUUUUnb8apTn2vfkv8UJUUUU8wcxFpf
+        9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
+        UjIYCTnIWjp_UUUO17kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
+        8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
+        Y2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
+        v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AK
+        xVWxJr0_GcWln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+        xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r12
+        6r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+        1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxG
+        rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14
+        v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
+        c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI
+        0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
+        MIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Dl1DUUUU
+        U==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Danilo Krummrich <dakr@redhat.com> [230606 18:32]:
-> Provide the driver indirection iterating over all DRM GPU VA spaces to
-> enable the common 'gpuvas' debugfs file for dumping DRM GPU VA spaces.
-> 
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+
+在 2023/6/13 17:46, Jonathan Corbet 写道:
+> Architecture-specific documentation is being moved into Documentation/arch/
+> as a way of cleaning up the top-level documentation directory and making
+> the docs hierarchy more closely match the source hierarchy.  Move
+> Documentation/arm64 into arch/ (along with the Chinese equvalent
+> translations) and fix up documentation references.
+>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Alex Shi <alexs@kernel.org>
+> Cc: Yanteng Si <siyanteng@loongson.cn>
+> Cc: Hu Haowen <src.res@email.cn>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+
+Reviewed-by: Yantengsi <siyanteng@loongson.cn>
+
+
+Thanks
+
+Yanteng
+
 > ---
->  drivers/gpu/drm/nouveau/nouveau_debugfs.c | 39 +++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-> index 99d022a91afc..053f703f2f68 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-> @@ -203,6 +203,44 @@ nouveau_debugfs_pstate_open(struct inode *inode, struct file *file)
->  	return single_open(file, nouveau_debugfs_pstate_get, inode->i_private);
->  }
->  
-> +static void
-> +nouveau_debugfs_gpuva_regions(struct seq_file *m, struct nouveau_uvmm *uvmm)
-> +{
-> +	MA_STATE(mas, &uvmm->region_mt, 0, 0);
-> +	struct nouveau_uvma_region *reg;
-> +
-> +	seq_puts  (m, " VA regions  | start              | range              | end                \n");
-> +	seq_puts  (m, "----------------------------------------------------------------------------\n");
+>   Documentation/ABI/testing/sysfs-devices-system-cpu   |  2 +-
+>   Documentation/admin-guide/kernel-parameters.txt      |  2 +-
+>   Documentation/admin-guide/sysctl/kernel.rst          |  2 +-
+>   Documentation/{ => arch}/arm64/acpi_object_usage.rst |  0
+>   Documentation/{ => arch}/arm64/amu.rst               |  0
+>   Documentation/{ => arch}/arm64/arm-acpi.rst          |  2 +-
+>   Documentation/{ => arch}/arm64/asymmetric-32bit.rst  |  0
+>   Documentation/{ => arch}/arm64/booting.rst           |  0
+>   .../{ => arch}/arm64/cpu-feature-registers.rst       |  0
+>   Documentation/{ => arch}/arm64/elf_hwcaps.rst        | 12 ++++++------
+>   Documentation/{ => arch}/arm64/features.rst          |  0
+>   Documentation/{ => arch}/arm64/hugetlbpage.rst       |  0
+>   Documentation/{ => arch}/arm64/index.rst             |  0
+>   Documentation/{ => arch}/arm64/kasan-offsets.sh      |  0
+>   .../{ => arch}/arm64/legacy_instructions.rst         |  0
+>   .../{ => arch}/arm64/memory-tagging-extension.rst    |  2 +-
+>   Documentation/{ => arch}/arm64/memory.rst            |  0
+>   Documentation/{ => arch}/arm64/perf.rst              |  0
+>   .../{ => arch}/arm64/pointer-authentication.rst      |  0
+>   Documentation/{ => arch}/arm64/silicon-errata.rst    |  0
+>   Documentation/{ => arch}/arm64/sme.rst               |  2 +-
+>   Documentation/{ => arch}/arm64/sve.rst               |  2 +-
+>   .../{ => arch}/arm64/tagged-address-abi.rst          |  2 +-
+>   Documentation/{ => arch}/arm64/tagged-pointers.rst   |  2 +-
+>   Documentation/arch/index.rst                         |  2 +-
+>   .../translations/zh_CN/{ => arch}/arm64/amu.rst      |  4 ++--
+>   .../translations/zh_CN/{ => arch}/arm64/booting.txt  |  4 ++--
+>   .../zh_CN/{ => arch}/arm64/elf_hwcaps.rst            | 10 +++++-----
+>   .../zh_CN/{ => arch}/arm64/hugetlbpage.rst           |  4 ++--
+>   .../translations/zh_CN/{ => arch}/arm64/index.rst    |  4 ++--
+>   .../zh_CN/{ => arch}/arm64/legacy_instructions.txt   |  4 ++--
+>   .../translations/zh_CN/{ => arch}/arm64/memory.txt   |  4 ++--
+>   .../translations/zh_CN/{ => arch}/arm64/perf.rst     |  4 ++--
+>   .../zh_CN/{ => arch}/arm64/silicon-errata.txt        |  4 ++--
+>   .../zh_CN/{ => arch}/arm64/tagged-pointers.txt       |  4 ++--
+>   Documentation/translations/zh_CN/arch/index.rst      |  2 +-
+>   .../translations/zh_TW/{ => arch}/arm64/amu.rst      |  4 ++--
+>   .../translations/zh_TW/{ => arch}/arm64/booting.txt  |  4 ++--
+>   .../zh_TW/{ => arch}/arm64/elf_hwcaps.rst            | 10 +++++-----
+>   .../zh_TW/{ => arch}/arm64/hugetlbpage.rst           |  4 ++--
+>   .../translations/zh_TW/{ => arch}/arm64/index.rst    |  4 ++--
+>   .../zh_TW/{ => arch}/arm64/legacy_instructions.txt   |  4 ++--
+>   .../translations/zh_TW/{ => arch}/arm64/memory.txt   |  4 ++--
+>   .../translations/zh_TW/{ => arch}/arm64/perf.rst     |  4 ++--
+>   .../zh_TW/{ => arch}/arm64/silicon-errata.txt        |  4 ++--
+>   .../zh_TW/{ => arch}/arm64/tagged-pointers.txt       |  4 ++--
+>   Documentation/translations/zh_TW/index.rst           |  2 +-
+>   Documentation/virt/kvm/api.rst                       |  2 +-
+>   MAINTAINERS                                          |  2 +-
+>   49 files changed, 66 insertions(+), 66 deletions(-)
+>   rename Documentation/{ => arch}/arm64/acpi_object_usage.rst (100%)
+>   rename Documentation/{ => arch}/arm64/amu.rst (100%)
+>   rename Documentation/{ => arch}/arm64/arm-acpi.rst (99%)
+>   rename Documentation/{ => arch}/arm64/asymmetric-32bit.rst (100%)
+>   rename Documentation/{ => arch}/arm64/booting.rst (100%)
+>   rename Documentation/{ => arch}/arm64/cpu-feature-registers.rst (100%)
+>   rename Documentation/{ => arch}/arm64/elf_hwcaps.rst (96%)
+>   rename Documentation/{ => arch}/arm64/features.rst (100%)
+>   rename Documentation/{ => arch}/arm64/hugetlbpage.rst (100%)
+>   rename Documentation/{ => arch}/arm64/index.rst (100%)
+>   rename Documentation/{ => arch}/arm64/kasan-offsets.sh (100%)
+>   rename Documentation/{ => arch}/arm64/legacy_instructions.rst (100%)
+>   rename Documentation/{ => arch}/arm64/memory-tagging-extension.rst (99%)
+>   rename Documentation/{ => arch}/arm64/memory.rst (100%)
+>   rename Documentation/{ => arch}/arm64/perf.rst (100%)
+>   rename Documentation/{ => arch}/arm64/pointer-authentication.rst (100%)
+>   rename Documentation/{ => arch}/arm64/silicon-errata.rst (100%)
+>   rename Documentation/{ => arch}/arm64/sme.rst (99%)
+>   rename Documentation/{ => arch}/arm64/sve.rst (99%)
+>   rename Documentation/{ => arch}/arm64/tagged-address-abi.rst (99%)
+>   rename Documentation/{ => arch}/arm64/tagged-pointers.rst (98%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/amu.rst (97%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/booting.txt (98%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/elf_hwcaps.rst (94%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/hugetlbpage.rst (91%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/index.rst (63%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/legacy_instructions.txt (95%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/memory.txt (97%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/perf.rst (96%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/silicon-errata.txt (97%)
+>   rename Documentation/translations/zh_CN/{ => arch}/arm64/tagged-pointers.txt (94%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/amu.rst (97%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/booting.txt (98%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/elf_hwcaps.rst (94%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/hugetlbpage.rst (91%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/index.rst (71%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/legacy_instructions.txt (96%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/memory.txt (97%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/perf.rst (96%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/silicon-errata.txt (97%)
+>   rename Documentation/translations/zh_TW/{ => arch}/arm64/tagged-pointers.txt (95%)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> index f54867cadb0f..ecd585ca2d50 100644
+> --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
+> +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> @@ -670,7 +670,7 @@ Description:	Preferred MTE tag checking mode
+>   		"async"	  	  Prefer asynchronous mode
+>   		================  ==============================================
+>   
+> -		See also: Documentation/arm64/memory-tagging-extension.rst
+> +		See also: Documentation/arch/arm64/memory-tagging-extension.rst
+>   
+>   What:		/sys/devices/system/cpu/nohz_full
+>   Date:		Apr 2015
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 9e5bab29685f..893b5a133041 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -304,7 +304,7 @@
+>   			EL0 is indicated by /sys/devices/system/cpu/aarch32_el0
+>   			and hot-unplug operations may be restricted.
+>   
+> -			See Documentation/arm64/asymmetric-32bit.rst for more
+> +			See Documentation/arch/arm64/asymmetric-32bit.rst for more
+>   			information.
+>   
+>   	amd_iommu=	[HW,X86-64]
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index d85d90f5d000..3800fab1619b 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -949,7 +949,7 @@ user space can read performance monitor counter registers directly.
+>   
+>   The default value is 0 (access disabled).
+>   
+> -See Documentation/arm64/perf.rst for more information.
+> +See Documentation/arch/arm64/perf.rst for more information.
+>   
+>   
+>   pid_max
+> diff --git a/Documentation/arm64/acpi_object_usage.rst b/Documentation/arch/arm64/acpi_object_usage.rst
+> similarity index 100%
+> rename from Documentation/arm64/acpi_object_usage.rst
+> rename to Documentation/arch/arm64/acpi_object_usage.rst
+> diff --git a/Documentation/arm64/amu.rst b/Documentation/arch/arm64/amu.rst
+> similarity index 100%
+> rename from Documentation/arm64/amu.rst
+> rename to Documentation/arch/arm64/amu.rst
+> diff --git a/Documentation/arm64/arm-acpi.rst b/Documentation/arch/arm64/arm-acpi.rst
+> similarity index 99%
+> rename from Documentation/arm64/arm-acpi.rst
+> rename to Documentation/arch/arm64/arm-acpi.rst
+> index 47ecb9930dde..1636352756bb 100644
+> --- a/Documentation/arm64/arm-acpi.rst
+> +++ b/Documentation/arch/arm64/arm-acpi.rst
+> @@ -485,7 +485,7 @@ ACPI_OS_NAME
+>   ACPI Objects
+>   ------------
+>   Detailed expectations for ACPI tables and object are listed in the file
+> -Documentation/arm64/acpi_object_usage.rst.
+> +Documentation/arch/arm64/acpi_object_usage.rst.
+>   
+>   
+>   References
+> diff --git a/Documentation/arm64/asymmetric-32bit.rst b/Documentation/arch/arm64/asymmetric-32bit.rst
+> similarity index 100%
+> rename from Documentation/arm64/asymmetric-32bit.rst
+> rename to Documentation/arch/arm64/asymmetric-32bit.rst
+> diff --git a/Documentation/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+> similarity index 100%
+> rename from Documentation/arm64/booting.rst
+> rename to Documentation/arch/arm64/booting.rst
+> diff --git a/Documentation/arm64/cpu-feature-registers.rst b/Documentation/arch/arm64/cpu-feature-registers.rst
+> similarity index 100%
+> rename from Documentation/arm64/cpu-feature-registers.rst
+> rename to Documentation/arch/arm64/cpu-feature-registers.rst
+> diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arch/arm64/elf_hwcaps.rst
+> similarity index 96%
+> rename from Documentation/arm64/elf_hwcaps.rst
+> rename to Documentation/arch/arm64/elf_hwcaps.rst
+> index 83e57e4d38e2..58a86d532228 100644
+> --- a/Documentation/arm64/elf_hwcaps.rst
+> +++ b/Documentation/arch/arm64/elf_hwcaps.rst
+> @@ -102,7 +102,7 @@ HWCAP_ASIMDHP
+>   
+>   HWCAP_CPUID
+>       EL0 access to certain ID registers is available, to the extent
+> -    described by Documentation/arm64/cpu-feature-registers.rst.
+> +    described by Documentation/arch/arm64/cpu-feature-registers.rst.
+>   
+>       These ID registers may imply the availability of features.
+>   
+> @@ -163,12 +163,12 @@ HWCAP_SB
+>   HWCAP_PACA
+>       Functionality implied by ID_AA64ISAR1_EL1.APA == 0b0001 or
+>       ID_AA64ISAR1_EL1.API == 0b0001, as described by
+> -    Documentation/arm64/pointer-authentication.rst.
+> +    Documentation/arch/arm64/pointer-authentication.rst.
+>   
+>   HWCAP_PACG
+>       Functionality implied by ID_AA64ISAR1_EL1.GPA == 0b0001 or
+>       ID_AA64ISAR1_EL1.GPI == 0b0001, as described by
+> -    Documentation/arm64/pointer-authentication.rst.
+> +    Documentation/arch/arm64/pointer-authentication.rst.
+>   
+>   HWCAP2_DCPODP
+>       Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
+> @@ -226,7 +226,7 @@ HWCAP2_BTI
+>   
+>   HWCAP2_MTE
+>       Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0010, as described
+> -    by Documentation/arm64/memory-tagging-extension.rst.
+> +    by Documentation/arch/arm64/memory-tagging-extension.rst.
+>   
+>   HWCAP2_ECV
+>       Functionality implied by ID_AA64MMFR0_EL1.ECV == 0b0001.
+> @@ -239,11 +239,11 @@ HWCAP2_RPRES
+>   
+>   HWCAP2_MTE3
+>       Functionality implied by ID_AA64PFR1_EL1.MTE == 0b0011, as described
+> -    by Documentation/arm64/memory-tagging-extension.rst.
+> +    by Documentation/arch/arm64/memory-tagging-extension.rst.
+>   
+>   HWCAP2_SME
+>       Functionality implied by ID_AA64PFR1_EL1.SME == 0b0001, as described
+> -    by Documentation/arm64/sme.rst.
+> +    by Documentation/arch/arm64/sme.rst.
+>   
+>   HWCAP2_SME_I16I64
+>       Functionality implied by ID_AA64SMFR0_EL1.I16I64 == 0b1111.
+> diff --git a/Documentation/arm64/features.rst b/Documentation/arch/arm64/features.rst
+> similarity index 100%
+> rename from Documentation/arm64/features.rst
+> rename to Documentation/arch/arm64/features.rst
+> diff --git a/Documentation/arm64/hugetlbpage.rst b/Documentation/arch/arm64/hugetlbpage.rst
+> similarity index 100%
+> rename from Documentation/arm64/hugetlbpage.rst
+> rename to Documentation/arch/arm64/hugetlbpage.rst
+> diff --git a/Documentation/arm64/index.rst b/Documentation/arch/arm64/index.rst
+> similarity index 100%
+> rename from Documentation/arm64/index.rst
+> rename to Documentation/arch/arm64/index.rst
+> diff --git a/Documentation/arm64/kasan-offsets.sh b/Documentation/arch/arm64/kasan-offsets.sh
+> similarity index 100%
+> rename from Documentation/arm64/kasan-offsets.sh
+> rename to Documentation/arch/arm64/kasan-offsets.sh
+> diff --git a/Documentation/arm64/legacy_instructions.rst b/Documentation/arch/arm64/legacy_instructions.rst
+> similarity index 100%
+> rename from Documentation/arm64/legacy_instructions.rst
+> rename to Documentation/arch/arm64/legacy_instructions.rst
+> diff --git a/Documentation/arm64/memory-tagging-extension.rst b/Documentation/arch/arm64/memory-tagging-extension.rst
+> similarity index 99%
+> rename from Documentation/arm64/memory-tagging-extension.rst
+> rename to Documentation/arch/arm64/memory-tagging-extension.rst
+> index dbae47bba25e..679725030731 100644
+> --- a/Documentation/arm64/memory-tagging-extension.rst
+> +++ b/Documentation/arch/arm64/memory-tagging-extension.rst
+> @@ -221,7 +221,7 @@ programs should not retry in case of a non-zero system call return.
+>   ``NT_ARM_TAGGED_ADDR_CTRL`` allow ``ptrace()`` access to the tagged
+>   address ABI control and MTE configuration of a process as per the
+>   ``prctl()`` options described in
+> -Documentation/arm64/tagged-address-abi.rst and above. The corresponding
+> +Documentation/arch/arm64/tagged-address-abi.rst and above. The corresponding
+>   ``regset`` is 1 element of 8 bytes (``sizeof(long))``).
+>   
+>   Core dump support
+> diff --git a/Documentation/arm64/memory.rst b/Documentation/arch/arm64/memory.rst
+> similarity index 100%
+> rename from Documentation/arm64/memory.rst
+> rename to Documentation/arch/arm64/memory.rst
+> diff --git a/Documentation/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
+> similarity index 100%
+> rename from Documentation/arm64/perf.rst
+> rename to Documentation/arch/arm64/perf.rst
+> diff --git a/Documentation/arm64/pointer-authentication.rst b/Documentation/arch/arm64/pointer-authentication.rst
+> similarity index 100%
+> rename from Documentation/arm64/pointer-authentication.rst
+> rename to Documentation/arch/arm64/pointer-authentication.rst
+> diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> similarity index 100%
+> rename from Documentation/arm64/silicon-errata.rst
+> rename to Documentation/arch/arm64/silicon-errata.rst
+> diff --git a/Documentation/arm64/sme.rst b/Documentation/arch/arm64/sme.rst
+> similarity index 99%
+> rename from Documentation/arm64/sme.rst
+> rename to Documentation/arch/arm64/sme.rst
+> index 1c43ea12eb4f..ba529a1dc606 100644
+> --- a/Documentation/arm64/sme.rst
+> +++ b/Documentation/arch/arm64/sme.rst
+> @@ -465,4 +465,4 @@ References
+>   [2] arch/arm64/include/uapi/asm/ptrace.h
+>       AArch64 Linux ptrace ABI definitions
+>   
+> -[3] Documentation/arm64/cpu-feature-registers.rst
+> +[3] Documentation/arch/arm64/cpu-feature-registers.rst
+> diff --git a/Documentation/arm64/sve.rst b/Documentation/arch/arm64/sve.rst
+> similarity index 99%
+> rename from Documentation/arm64/sve.rst
+> rename to Documentation/arch/arm64/sve.rst
+> index 1b90a30382ac..0d9a426e9f85 100644
+> --- a/Documentation/arm64/sve.rst
+> +++ b/Documentation/arch/arm64/sve.rst
+> @@ -606,7 +606,7 @@ References
+>   [2] arch/arm64/include/uapi/asm/ptrace.h
+>       AArch64 Linux ptrace ABI definitions
+>   
+> -[3] Documentation/arm64/cpu-feature-registers.rst
+> +[3] Documentation/arch/arm64/cpu-feature-registers.rst
+>   
+>   [4] ARM IHI0055C
+>       http://infocenter.arm.com/help/topic/com.arm.doc.ihi0055c/IHI0055C_beta_aapcs64.pdf
+> diff --git a/Documentation/arm64/tagged-address-abi.rst b/Documentation/arch/arm64/tagged-address-abi.rst
+> similarity index 99%
+> rename from Documentation/arm64/tagged-address-abi.rst
+> rename to Documentation/arch/arm64/tagged-address-abi.rst
+> index 540a1d4fc6c9..fe24a3f158c5 100644
+> --- a/Documentation/arm64/tagged-address-abi.rst
+> +++ b/Documentation/arch/arm64/tagged-address-abi.rst
+> @@ -107,7 +107,7 @@ following behaviours are guaranteed:
+>   
+>   
+>   A definition of the meaning of tagged pointers on AArch64 can be found
+> -in Documentation/arm64/tagged-pointers.rst.
+> +in Documentation/arch/arm64/tagged-pointers.rst.
+>   
+>   3. AArch64 Tagged Address ABI Exceptions
+>   -----------------------------------------
+> diff --git a/Documentation/arm64/tagged-pointers.rst b/Documentation/arch/arm64/tagged-pointers.rst
+> similarity index 98%
+> rename from Documentation/arm64/tagged-pointers.rst
+> rename to Documentation/arch/arm64/tagged-pointers.rst
+> index 19d284b70384..81b6c2a770dd 100644
+> --- a/Documentation/arm64/tagged-pointers.rst
+> +++ b/Documentation/arch/arm64/tagged-pointers.rst
+> @@ -22,7 +22,7 @@ Passing tagged addresses to the kernel
+>   All interpretation of userspace memory addresses by the kernel assumes
+>   an address tag of 0x00, unless the application enables the AArch64
+>   Tagged Address ABI explicitly
+> -(Documentation/arm64/tagged-address-abi.rst).
+> +(Documentation/arch/arm64/tagged-address-abi.rst).
+>   
+>   This includes, but is not limited to, addresses found in:
+>   
+> diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
+> index 80ee31016584..41cd957d53ea 100644
+> --- a/Documentation/arch/index.rst
+> +++ b/Documentation/arch/index.rst
+> @@ -11,7 +11,7 @@ implementation.
+>   
+>      arc/index
+>      ../arm/index
+> -   ../arm64/index
+> +   arm64/index
+>      ia64/index
+>      ../loongarch/index
+>      m68k/index
+> diff --git a/Documentation/translations/zh_CN/arm64/amu.rst b/Documentation/translations/zh_CN/arch/arm64/amu.rst
+> similarity index 97%
+> rename from Documentation/translations/zh_CN/arm64/amu.rst
+> rename to Documentation/translations/zh_CN/arch/arm64/amu.rst
+> index ab7180f91394..f8e09fd21ef5 100644
+> --- a/Documentation/translations/zh_CN/arm64/amu.rst
+> +++ b/Documentation/translations/zh_CN/arch/arm64/amu.rst
+> @@ -1,6 +1,6 @@
+> -.. include:: ../disclaimer-zh_CN.rst
+> +.. include:: ../../disclaimer-zh_CN.rst
+>   
+> -:Original: :ref:`Documentation/arm64/amu.rst <amu_index>`
+> +:Original: :ref:`Documentation/arch/arm64/amu.rst <amu_index>`
+>   
+>   Translator: Bailu Lin <bailu.lin@vivo.com>
+>   
+> diff --git a/Documentation/translations/zh_CN/arm64/booting.txt b/Documentation/translations/zh_CN/arch/arm64/booting.txt
+> similarity index 98%
+> rename from Documentation/translations/zh_CN/arm64/booting.txt
+> rename to Documentation/translations/zh_CN/arch/arm64/booting.txt
+> index 5b0164132c71..630eb32a8854 100644
+> --- a/Documentation/translations/zh_CN/arm64/booting.txt
+> +++ b/Documentation/translations/zh_CN/arch/arm64/booting.txt
+> @@ -1,4 +1,4 @@
+> -Chinese translated version of Documentation/arm64/booting.rst
+> +Chinese translated version of Documentation/arch/arm64/booting.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -10,7 +10,7 @@ M:	Will Deacon <will.deacon@arm.com>
+>   zh_CN:	Fu Wei <wefu@redhat.com>
+>   C:	55f058e7574c3615dea4615573a19bdb258696c6
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/booting.rst 的中文翻译
+> +Documentation/arch/arm64/booting.rst 的中文翻译
+>   
+>   如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+>   交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> diff --git a/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst b/Documentation/translations/zh_CN/arch/arm64/elf_hwcaps.rst
+> similarity index 94%
+> rename from Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
+> rename to Documentation/translations/zh_CN/arch/arm64/elf_hwcaps.rst
+> index 9aa4637eac97..f60ac1580d3e 100644
+> --- a/Documentation/translations/zh_CN/arm64/elf_hwcaps.rst
+> +++ b/Documentation/translations/zh_CN/arch/arm64/elf_hwcaps.rst
+> @@ -1,6 +1,6 @@
+> -.. include:: ../disclaimer-zh_CN.rst
+> +.. include:: ../../disclaimer-zh_CN.rst
+>   
+> -:Original: :ref:`Documentation/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
+> +:Original: :ref:`Documentation/arch/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
+>   
+>   Translator: Bailu Lin <bailu.lin@vivo.com>
+>   
+> @@ -92,7 +92,7 @@ HWCAP_ASIMDHP
+>       ID_AA64PFR0_EL1.AdvSIMD == 0b0001 表示有此功能。
+>   
+>   HWCAP_CPUID
+> -    根据 Documentation/arm64/cpu-feature-registers.rst 描述，EL0 可以访问
+> +    根据 Documentation/arch/arm64/cpu-feature-registers.rst 描述，EL0 可以访问
+>       某些 ID 寄存器。
+>   
+>       这些 ID 寄存器可能表示功能的可用性。
+> @@ -152,12 +152,12 @@ HWCAP_SB
+>       ID_AA64ISAR1_EL1.SB == 0b0001 表示有此功能。
+>   
+>   HWCAP_PACA
+> -    如 Documentation/arm64/pointer-authentication.rst 所描述，
+> +    如 Documentation/arch/arm64/pointer-authentication.rst 所描述，
+>       ID_AA64ISAR1_EL1.APA == 0b0001 或 ID_AA64ISAR1_EL1.API == 0b0001
+>       表示有此功能。
+>   
+>   HWCAP_PACG
+> -    如 Documentation/arm64/pointer-authentication.rst 所描述，
+> +    如 Documentation/arch/arm64/pointer-authentication.rst 所描述，
+>       ID_AA64ISAR1_EL1.GPA == 0b0001 或 ID_AA64ISAR1_EL1.GPI == 0b0001
+>       表示有此功能。
+>   
+> diff --git a/Documentation/translations/zh_CN/arm64/hugetlbpage.rst b/Documentation/translations/zh_CN/arch/arm64/hugetlbpage.rst
+> similarity index 91%
+> rename from Documentation/translations/zh_CN/arm64/hugetlbpage.rst
+> rename to Documentation/translations/zh_CN/arch/arm64/hugetlbpage.rst
+> index 13304d269d0b..8079eadde29a 100644
+> --- a/Documentation/translations/zh_CN/arm64/hugetlbpage.rst
+> +++ b/Documentation/translations/zh_CN/arch/arm64/hugetlbpage.rst
+> @@ -1,6 +1,6 @@
+> -.. include:: ../disclaimer-zh_CN.rst
+> +.. include:: ../../disclaimer-zh_CN.rst
+>   
+> -:Original: :ref:`Documentation/arm64/hugetlbpage.rst <hugetlbpage_index>`
+> +:Original: :ref:`Documentation/arch/arm64/hugetlbpage.rst <hugetlbpage_index>`
+>   
+>   Translator: Bailu Lin <bailu.lin@vivo.com>
+>   
+> diff --git a/Documentation/translations/zh_CN/arm64/index.rst b/Documentation/translations/zh_CN/arch/arm64/index.rst
+> similarity index 63%
+> rename from Documentation/translations/zh_CN/arm64/index.rst
+> rename to Documentation/translations/zh_CN/arch/arm64/index.rst
+> index 57dc5de5ccc5..e12b9f6e5d6c 100644
+> --- a/Documentation/translations/zh_CN/arm64/index.rst
+> +++ b/Documentation/translations/zh_CN/arch/arm64/index.rst
+> @@ -1,6 +1,6 @@
+> -.. include:: ../disclaimer-zh_CN.rst
+> +.. include:: ../../disclaimer-zh_CN.rst
+>   
+> -:Original: :ref:`Documentation/arm64/index.rst <arm64_index>`
+> +:Original: :ref:`Documentation/arch/arm64/index.rst <arm64_index>`
+>   :Translator: Bailu Lin <bailu.lin@vivo.com>
+>   
+>   .. _cn_arm64_index:
+> diff --git a/Documentation/translations/zh_CN/arm64/legacy_instructions.txt b/Documentation/translations/zh_CN/arch/arm64/legacy_instructions.txt
+> similarity index 95%
+> rename from Documentation/translations/zh_CN/arm64/legacy_instructions.txt
+> rename to Documentation/translations/zh_CN/arch/arm64/legacy_instructions.txt
+> index e295cf75f606..e469fccbe356 100644
+> --- a/Documentation/translations/zh_CN/arm64/legacy_instructions.txt
+> +++ b/Documentation/translations/zh_CN/arch/arm64/legacy_instructions.txt
+> @@ -1,4 +1,4 @@
+> -Chinese translated version of Documentation/arm64/legacy_instructions.rst
+> +Chinese translated version of Documentation/arch/arm64/legacy_instructions.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -10,7 +10,7 @@ Maintainer: Punit Agrawal <punit.agrawal@arm.com>
+>               Suzuki K. Poulose <suzuki.poulose@arm.com>
+>   Chinese maintainer: Fu Wei <wefu@redhat.com>
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/legacy_instructions.rst 的中文翻译
+> +Documentation/arch/arm64/legacy_instructions.rst 的中文翻译
+>   
+>   如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+>   交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> diff --git a/Documentation/translations/zh_CN/arm64/memory.txt b/Documentation/translations/zh_CN/arch/arm64/memory.txt
+> similarity index 97%
+> rename from Documentation/translations/zh_CN/arm64/memory.txt
+> rename to Documentation/translations/zh_CN/arch/arm64/memory.txt
+> index be20f8228b91..c6962e9cb9f8 100644
+> --- a/Documentation/translations/zh_CN/arm64/memory.txt
+> +++ b/Documentation/translations/zh_CN/arch/arm64/memory.txt
+> @@ -1,4 +1,4 @@
+> -Chinese translated version of Documentation/arm64/memory.rst
+> +Chinese translated version of Documentation/arch/arm64/memory.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -9,7 +9,7 @@ or if there is a problem with the translation.
+>   Maintainer: Catalin Marinas <catalin.marinas@arm.com>
+>   Chinese maintainer: Fu Wei <wefu@redhat.com>
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/memory.rst 的中文翻译
+> +Documentation/arch/arm64/memory.rst 的中文翻译
+>   
+>   如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+>   交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> diff --git a/Documentation/translations/zh_CN/arm64/perf.rst b/Documentation/translations/zh_CN/arch/arm64/perf.rst
+> similarity index 96%
+> rename from Documentation/translations/zh_CN/arm64/perf.rst
+> rename to Documentation/translations/zh_CN/arch/arm64/perf.rst
+> index 9bf21d73f4d1..6be72704e659 100644
+> --- a/Documentation/translations/zh_CN/arm64/perf.rst
+> +++ b/Documentation/translations/zh_CN/arch/arm64/perf.rst
+> @@ -1,8 +1,8 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> -.. include:: ../disclaimer-zh_CN.rst
+> +.. include:: ../../disclaimer-zh_CN.rst
+>   
+> -:Original: :ref:`Documentation/arm64/perf.rst <perf_index>`
+> +:Original: :ref:`Documentation/arch/arm64/perf.rst <perf_index>`
+>   
+>   Translator: Bailu Lin <bailu.lin@vivo.com>
+>   
+> diff --git a/Documentation/translations/zh_CN/arm64/silicon-errata.txt b/Documentation/translations/zh_CN/arch/arm64/silicon-errata.txt
+> similarity index 97%
+> rename from Documentation/translations/zh_CN/arm64/silicon-errata.txt
+> rename to Documentation/translations/zh_CN/arch/arm64/silicon-errata.txt
+> index 440c59ac7dce..f4767ffdd61d 100644
+> --- a/Documentation/translations/zh_CN/arm64/silicon-errata.txt
+> +++ b/Documentation/translations/zh_CN/arch/arm64/silicon-errata.txt
+> @@ -1,4 +1,4 @@
+> -Chinese translated version of Documentation/arm64/silicon-errata.rst
+> +Chinese translated version of Documentation/arch/arm64/silicon-errata.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -10,7 +10,7 @@ M:	Will Deacon <will.deacon@arm.com>
+>   zh_CN:	Fu Wei <wefu@redhat.com>
+>   C:	1926e54f115725a9248d0c4c65c22acaf94de4c4
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/silicon-errata.rst 的中文翻译
+> +Documentation/arch/arm64/silicon-errata.rst 的中文翻译
+>   
+>   如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+>   交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> diff --git a/Documentation/translations/zh_CN/arm64/tagged-pointers.txt b/Documentation/translations/zh_CN/arch/arm64/tagged-pointers.txt
+> similarity index 94%
+> rename from Documentation/translations/zh_CN/arm64/tagged-pointers.txt
+> rename to Documentation/translations/zh_CN/arch/arm64/tagged-pointers.txt
+> index 77ac3548a16d..27577c3c5e3f 100644
+> --- a/Documentation/translations/zh_CN/arm64/tagged-pointers.txt
+> +++ b/Documentation/translations/zh_CN/arch/arm64/tagged-pointers.txt
+> @@ -1,4 +1,4 @@
+> -Chinese translated version of Documentation/arm64/tagged-pointers.rst
+> +Chinese translated version of Documentation/arch/arm64/tagged-pointers.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -9,7 +9,7 @@ or if there is a problem with the translation.
+>   Maintainer: Will Deacon <will.deacon@arm.com>
+>   Chinese maintainer: Fu Wei <wefu@redhat.com>
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/tagged-pointers.rst 的中文翻译
+> +Documentation/arch/arm64/tagged-pointers.rst 的中文翻译
+>   
+>   如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+>   交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
+> index 908ea131bb1c..6fa0cb671009 100644
+> --- a/Documentation/translations/zh_CN/arch/index.rst
+> +++ b/Documentation/translations/zh_CN/arch/index.rst
+> @@ -9,7 +9,7 @@
+>      :maxdepth: 2
+>   
+>      ../mips/index
+> -   ../arm64/index
+> +   arm64/index
+>      ../riscv/index
+>      openrisc/index
+>      parisc/index
+> diff --git a/Documentation/translations/zh_TW/arm64/amu.rst b/Documentation/translations/zh_TW/arch/arm64/amu.rst
+> similarity index 97%
+> rename from Documentation/translations/zh_TW/arm64/amu.rst
+> rename to Documentation/translations/zh_TW/arch/arm64/amu.rst
+> index ffdc466e0f62..f947a6c7369f 100644
+> --- a/Documentation/translations/zh_TW/arm64/amu.rst
+> +++ b/Documentation/translations/zh_TW/arch/arm64/amu.rst
+> @@ -1,8 +1,8 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> -.. include:: ../disclaimer-zh_TW.rst
+> +.. include:: ../../disclaimer-zh_TW.rst
+>   
+> -:Original: :ref:`Documentation/arm64/amu.rst <amu_index>`
+> +:Original: :ref:`Documentation/arch/arm64/amu.rst <amu_index>`
+>   
+>   Translator: Bailu Lin <bailu.lin@vivo.com>
+>               Hu Haowen <src.res@email.cn>
+> diff --git a/Documentation/translations/zh_TW/arm64/booting.txt b/Documentation/translations/zh_TW/arch/arm64/booting.txt
+> similarity index 98%
+> rename from Documentation/translations/zh_TW/arm64/booting.txt
+> rename to Documentation/translations/zh_TW/arch/arm64/booting.txt
+> index b9439dd54012..24817b8b70cd 100644
+> --- a/Documentation/translations/zh_TW/arm64/booting.txt
+> +++ b/Documentation/translations/zh_TW/arch/arm64/booting.txt
+> @@ -1,6 +1,6 @@
+>   SPDX-License-Identifier: GPL-2.0
+>   
+> -Chinese translated version of Documentation/arm64/booting.rst
+> +Chinese translated version of Documentation/arch/arm64/booting.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -13,7 +13,7 @@ zh_CN:	Fu Wei <wefu@redhat.com>
+>   zh_TW:	Hu Haowen <src.res@email.cn>
+>   C:	55f058e7574c3615dea4615573a19bdb258696c6
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/booting.rst 的中文翻譯
+> +Documentation/arch/arm64/booting.rst 的中文翻譯
+>   
+>   如果想評論或更新本文的內容，請直接聯繫原文檔的維護者。如果你使用英文
+>   交流有困難的話，也可以向中文版維護者求助。如果本翻譯更新不及時或者翻
+> diff --git a/Documentation/translations/zh_TW/arm64/elf_hwcaps.rst b/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
+> similarity index 94%
+> rename from Documentation/translations/zh_TW/arm64/elf_hwcaps.rst
+> rename to Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
+> index 3eb1c623ce31..fca3c6ff7b93 100644
+> --- a/Documentation/translations/zh_TW/arm64/elf_hwcaps.rst
+> +++ b/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
+> @@ -1,8 +1,8 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> -.. include:: ../disclaimer-zh_TW.rst
+> +.. include:: ../../disclaimer-zh_TW.rst
+>   
+> -:Original: :ref:`Documentation/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
+> +:Original: :ref:`Documentation/arch/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
+>   
+>   Translator: Bailu Lin <bailu.lin@vivo.com>
+>               Hu Haowen <src.res@email.cn>
+> @@ -95,7 +95,7 @@ HWCAP_ASIMDHP
+>       ID_AA64PFR0_EL1.AdvSIMD == 0b0001 表示有此功能。
+>   
+>   HWCAP_CPUID
+> -    根據 Documentation/arm64/cpu-feature-registers.rst 描述，EL0 可以訪問
+> +    根據 Documentation/arch/arm64/cpu-feature-registers.rst 描述，EL0 可以訪問
+>       某些 ID 寄存器。
+>   
+>       這些 ID 寄存器可能表示功能的可用性。
+> @@ -155,12 +155,12 @@ HWCAP_SB
+>       ID_AA64ISAR1_EL1.SB == 0b0001 表示有此功能。
+>   
+>   HWCAP_PACA
+> -    如 Documentation/arm64/pointer-authentication.rst 所描述，
+> +    如 Documentation/arch/arm64/pointer-authentication.rst 所描述，
+>       ID_AA64ISAR1_EL1.APA == 0b0001 或 ID_AA64ISAR1_EL1.API == 0b0001
+>       表示有此功能。
+>   
+>   HWCAP_PACG
+> -    如 Documentation/arm64/pointer-authentication.rst 所描述，
+> +    如 Documentation/arch/arm64/pointer-authentication.rst 所描述，
+>       ID_AA64ISAR1_EL1.GPA == 0b0001 或 ID_AA64ISAR1_EL1.GPI == 0b0001
+>       表示有此功能。
+>   
+> diff --git a/Documentation/translations/zh_TW/arm64/hugetlbpage.rst b/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
+> similarity index 91%
+> rename from Documentation/translations/zh_TW/arm64/hugetlbpage.rst
+> rename to Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
+> index 846b500dae97..10feb329dfb8 100644
+> --- a/Documentation/translations/zh_TW/arm64/hugetlbpage.rst
+> +++ b/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
+> @@ -1,8 +1,8 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> -.. include:: ../disclaimer-zh_TW.rst
+> +.. include:: ../../disclaimer-zh_TW.rst
+>   
+> -:Original: :ref:`Documentation/arm64/hugetlbpage.rst <hugetlbpage_index>`
+> +:Original: :ref:`Documentation/arch/arm64/hugetlbpage.rst <hugetlbpage_index>`
+>   
+>   Translator: Bailu Lin <bailu.lin@vivo.com>
+>               Hu Haowen <src.res@email.cn>
+> diff --git a/Documentation/translations/zh_TW/arm64/index.rst b/Documentation/translations/zh_TW/arch/arm64/index.rst
+> similarity index 71%
+> rename from Documentation/translations/zh_TW/arm64/index.rst
+> rename to Documentation/translations/zh_TW/arch/arm64/index.rst
+> index 2322783f3881..68befee14b99 100644
+> --- a/Documentation/translations/zh_TW/arm64/index.rst
+> +++ b/Documentation/translations/zh_TW/arch/arm64/index.rst
+> @@ -1,8 +1,8 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> -.. include:: ../disclaimer-zh_TW.rst
+> +.. include:: ../../disclaimer-zh_TW.rst
+>   
+> -:Original: :ref:`Documentation/arm64/index.rst <arm64_index>`
+> +:Original: :ref:`Documentation/arch/arm64/index.rst <arm64_index>`
+>   :Translator: Bailu Lin <bailu.lin@vivo.com>
+>                Hu Haowen <src.res@email.cn>
+>   
+> diff --git a/Documentation/translations/zh_TW/arm64/legacy_instructions.txt b/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt
+> similarity index 96%
+> rename from Documentation/translations/zh_TW/arm64/legacy_instructions.txt
+> rename to Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt
+> index 6d4454f77b9e..3c915df9836c 100644
+> --- a/Documentation/translations/zh_TW/arm64/legacy_instructions.txt
+> +++ b/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt
+> @@ -1,6 +1,6 @@
+>   SPDX-License-Identifier: GPL-2.0
+>   
+> -Chinese translated version of Documentation/arm64/legacy_instructions.rst
+> +Chinese translated version of Documentation/arch/arm64/legacy_instructions.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -13,7 +13,7 @@ Maintainer: Punit Agrawal <punit.agrawal@arm.com>
+>   Chinese maintainer: Fu Wei <wefu@redhat.com>
+>   Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/legacy_instructions.rst 的中文翻譯
+> +Documentation/arch/arm64/legacy_instructions.rst 的中文翻譯
+>   
+>   如果想評論或更新本文的內容，請直接聯繫原文檔的維護者。如果你使用英文
+>   交流有困難的話，也可以向中文版維護者求助。如果本翻譯更新不及時或者翻
+> diff --git a/Documentation/translations/zh_TW/arm64/memory.txt b/Documentation/translations/zh_TW/arch/arm64/memory.txt
+> similarity index 97%
+> rename from Documentation/translations/zh_TW/arm64/memory.txt
+> rename to Documentation/translations/zh_TW/arch/arm64/memory.txt
+> index 99c2b78b5674..2437380a26d8 100644
+> --- a/Documentation/translations/zh_TW/arm64/memory.txt
+> +++ b/Documentation/translations/zh_TW/arch/arm64/memory.txt
+> @@ -1,6 +1,6 @@
+>   SPDX-License-Identifier: GPL-2.0
+>   
+> -Chinese translated version of Documentation/arm64/memory.rst
+> +Chinese translated version of Documentation/arch/arm64/memory.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -12,7 +12,7 @@ Maintainer: Catalin Marinas <catalin.marinas@arm.com>
+>   Chinese maintainer: Fu Wei <wefu@redhat.com>
+>   Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/memory.rst 的中文翻譯
+> +Documentation/arch/arm64/memory.rst 的中文翻譯
+>   
+>   如果想評論或更新本文的內容，請直接聯繫原文檔的維護者。如果你使用英文
+>   交流有困難的話，也可以向中文版維護者求助。如果本翻譯更新不及時或者翻
+> diff --git a/Documentation/translations/zh_TW/arm64/perf.rst b/Documentation/translations/zh_TW/arch/arm64/perf.rst
+> similarity index 96%
+> rename from Documentation/translations/zh_TW/arm64/perf.rst
+> rename to Documentation/translations/zh_TW/arch/arm64/perf.rst
+> index f1ffd55dfe50..3b39997a52eb 100644
+> --- a/Documentation/translations/zh_TW/arm64/perf.rst
+> +++ b/Documentation/translations/zh_TW/arch/arm64/perf.rst
+> @@ -1,8 +1,8 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> -.. include:: ../disclaimer-zh_TW.rst
+> +.. include:: ../../disclaimer-zh_TW.rst
+>   
+> -:Original: :ref:`Documentation/arm64/perf.rst <perf_index>`
+> +:Original: :ref:`Documentation/arch/arm64/perf.rst <perf_index>`
+>   
+>   Translator: Bailu Lin <bailu.lin@vivo.com>
+>               Hu Haowen <src.res@email.cn>
+> diff --git a/Documentation/translations/zh_TW/arm64/silicon-errata.txt b/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
+> similarity index 97%
+> rename from Documentation/translations/zh_TW/arm64/silicon-errata.txt
+> rename to Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
+> index bf2077197504..66c3a3506458 100644
+> --- a/Documentation/translations/zh_TW/arm64/silicon-errata.txt
+> +++ b/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
+> @@ -1,6 +1,6 @@
+>   SPDX-License-Identifier: GPL-2.0
+>   
+> -Chinese translated version of Documentation/arm64/silicon-errata.rst
+> +Chinese translated version of Documentation/arch/arm64/silicon-errata.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -13,7 +13,7 @@ zh_CN:	Fu Wei <wefu@redhat.com>
+>   zh_TW:	Hu Haowen <src.res@email.cn>
+>   C:	1926e54f115725a9248d0c4c65c22acaf94de4c4
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/silicon-errata.rst 的中文翻譯
+> +Documentation/arch/arm64/silicon-errata.rst 的中文翻譯
+>   
+>   如果想評論或更新本文的內容，請直接聯繫原文檔的維護者。如果你使用英文
+>   交流有困難的話，也可以向中文版維護者求助。如果本翻譯更新不及時或者翻
+> diff --git a/Documentation/translations/zh_TW/arm64/tagged-pointers.txt b/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt
+> similarity index 95%
+> rename from Documentation/translations/zh_TW/arm64/tagged-pointers.txt
+> rename to Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt
+> index 87f88628401a..b7f683f20ed1 100644
+> --- a/Documentation/translations/zh_TW/arm64/tagged-pointers.txt
+> +++ b/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt
+> @@ -1,6 +1,6 @@
+>   SPDX-License-Identifier: GPL-2.0
+>   
+> -Chinese translated version of Documentation/arm64/tagged-pointers.rst
+> +Chinese translated version of Documentation/arch/arm64/tagged-pointers.rst
+>   
+>   If you have any comment or update to the content, please contact the
+>   original document maintainer directly.  However, if you have a problem
+> @@ -12,7 +12,7 @@ Maintainer: Will Deacon <will.deacon@arm.com>
+>   Chinese maintainer: Fu Wei <wefu@redhat.com>
+>   Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
+>   ---------------------------------------------------------------------
+> -Documentation/arm64/tagged-pointers.rst 的中文翻譯
+> +Documentation/arch/arm64/tagged-pointers.rst 的中文翻譯
+>   
+>   如果想評論或更新本文的內容，請直接聯繫原文檔的維護者。如果你使用英文
+>   交流有困難的話，也可以向中文版維護者求助。如果本翻譯更新不及時或者翻
+> diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
+> index e97d7d578751..e7c83868e780 100644
+> --- a/Documentation/translations/zh_TW/index.rst
+> +++ b/Documentation/translations/zh_TW/index.rst
+> @@ -150,7 +150,7 @@ TODOList:
+>   .. toctree::
+>      :maxdepth: 2
+>   
+> -   arm64/index
+> +   arch/arm64/index
+>   
+>   TODOList:
+>   
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index add067793b90..96c4475539c2 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -2613,7 +2613,7 @@ follows::
+>          this vcpu, and determines which register slices are visible through
+>          this ioctl interface.
+>   
+> -(See Documentation/arm64/sve.rst for an explanation of the "vq"
+> +(See Documentation/arch/arm64/sve.rst for an explanation of the "vq"
+>   nomenclature.)
+>   
+>   KVM_REG_ARM64_SVE_VLS is only accessible after KVM_ARM_VCPU_INIT.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f794002a192e..09d5b6b58ebb 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3062,7 +3062,7 @@ M:	Will Deacon <will@kernel.org>
+>   L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>   S:	Maintained
+>   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+> -F:	Documentation/arm64/
+> +F:	Documentation/arch/arm64/
+>   F:	arch/arm64/
+>   F:	tools/testing/selftests/arm64/
+>   X:	arch/arm64/boot/dts/
 
-rcu_read_lock();
-
-> +	mas_for_each(&mas, reg, ULONG_MAX)
-> +		seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx\n",
-> +			   reg->va.addr, reg->va.range, reg->va.addr + reg->va.range);
-
-rcu_read_unlock();
-
-> +}
-> +
-> +static int
-> +nouveau_debugfs_gpuva(struct seq_file *m, void *data)
-> +{
-> +	struct drm_info_node *node = (struct drm_info_node *) m->private;
-> +	struct nouveau_drm *drm = nouveau_drm(node->minor->dev);
-> +	struct nouveau_cli *cli;
-> +
-> +	mutex_lock(&drm->clients_lock);
-> +	list_for_each_entry(cli, &drm->clients, head) {
-> +		struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
-> +
-> +		if (!uvmm)
-> +			continue;
-> +
-> +		nouveau_uvmm_lock(uvmm);
-> +		drm_debugfs_gpuva_info(m, &uvmm->umgr);
-> +		seq_puts(m, "\n");
-> +		nouveau_debugfs_gpuva_regions(m, uvmm);
-> +		nouveau_uvmm_unlock(uvmm);
-> +	}
-> +	mutex_unlock(&drm->clients_lock);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct file_operations nouveau_pstate_fops = {
->  	.owner = THIS_MODULE,
->  	.open = nouveau_debugfs_pstate_open,
-> @@ -214,6 +252,7 @@ static const struct file_operations nouveau_pstate_fops = {
->  static struct drm_info_list nouveau_debugfs_list[] = {
->  	{ "vbios.rom",  nouveau_debugfs_vbios_image, 0, NULL },
->  	{ "strap_peek", nouveau_debugfs_strap_peek, 0, NULL },
-> +	DRM_DEBUGFS_GPUVA_INFO(nouveau_debugfs_gpuva, NULL),
->  };
->  #define NOUVEAU_DEBUGFS_ENTRIES ARRAY_SIZE(nouveau_debugfs_list)
->  
-> -- 
-> 2.40.1
-> 
