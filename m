@@ -2,98 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B01B5EB64D8
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 16:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E51EB64D8
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 16:56:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235311AbjFNQnb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jun 2023 12:43:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54498 "EHLO
+        id S232918AbjFNQ4y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jun 2023 12:56:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235224AbjFNQn1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 12:43:27 -0400
-Received: from mx1.veeam.com (mx1.veeam.com [216.253.77.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA7C81A3;
-        Wed, 14 Jun 2023 09:43:24 -0700 (PDT)
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229703AbjFNQ4x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 12:56:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C2951BC6;
+        Wed, 14 Jun 2023 09:56:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by mx1.veeam.com (Postfix) with ESMTPS id A838441C22;
-        Wed, 14 Jun 2023 12:43:21 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
-        s=mx1-2022; t=1686761001;
-        bh=jNTgcvWm1vw80HHo0h776WVZUmiYhzpPLC0Z4LijRXU=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
-        b=kIebp/AY7hQOAPU7dr4d2uQksODoxH0g/Z1VW20qAjTclm2YEp/FOQMds78ngEKkK
-         X5AoTgpoN2bGr1/8zPbkNYjRImT29BknuqEfCgYsAeE+gYWJmEMEnv0DdkOLFydauT
-         a7ihjMGKq5BHyq5bAhAGErRN30NDlXD04HhOfwoJn2MeJIVC+Spr9+kVY0UDPIpMA7
-         ICWaidyXrAjvvvMeqSeLy/12zbRN7Hq5ckHeI9IQ3MD1e7IznjuXwbDArQK8V3obt1
-         XSwV2jtKL3cTAlka9tAqd3JrvElD67sQpFr9l+5T6N3FAaMVhxC/hKY7WJzDksj0v9
-         PkFEwWfHNV3PQ==
-Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
- (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Wed, 14 Jun
- 2023 18:43:20 +0200
-Message-ID: <c4c9da4f-0d82-4e35-0365-f246666f0c37@veeam.com>
-Date:   Wed, 14 Jun 2023 18:43:10 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D186363EC8;
+        Wed, 14 Jun 2023 16:56:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CE09C433C0;
+        Wed, 14 Jun 2023 16:56:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686761811;
+        bh=JDM0HAS6PaF/JR+qgqrW0SQvJ7ciVgLgv02udiikKF8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=lWoXAirWNGlRowrSNl53iWU7sefp8jy2qQoYUvLgsAZZHYTTuHm0i1aG7UvY1WiKe
+         o/FijxZxDdaEp9RpSFAOwgPvlOQPCHqZPTc9fkax1p3WS0p8c9u7DABC1zPLIhl6oM
+         hhzndx/99LsY3KtkY1XEdh9BqeDlhKIHvZDhw2oqmTJLhSjq5lFkTsRxqAQzuhT9yj
+         aEqoYYwGVubSxcBU31D11zjeke0Ngg9hvPSPzyIn88YYXbLfPKSCvJ1hVkqCzrcmpT
+         9QqWR0liaBff4/zRssAvO/SwZmSl5JyCmiG15Qsv5kXl34npzpqwTertF8tKtrmcfe
+         k3WU9Nd/ufj/g==
+Date:   Wed, 14 Jun 2023 09:56:49 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Yunsheng Lin <linyunsheng@huawei.com>
+Cc:     <davem@davemloft.net>, <pabeni@redhat.com>,
+        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Alexander Duyck <alexander.duyck@gmail.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        John Fastabend <john.fastabend@gmail.com>,
+        <linux-doc@vger.kernel.org>, <bpf@vger.kernel.org>
+Subject: Re: [PATCH net-next v4 5/5] page_pool: update document about frag
+ API
+Message-ID: <20230614095649.5f7d8d40@kernel.org>
+In-Reply-To: <1dc9b2e3-65ee-aa33-d604-a758fea98eb8@huawei.com>
+References: <20230612130256.4572-1-linyunsheng@huawei.com>
+        <20230612130256.4572-6-linyunsheng@huawei.com>
+        <20230613214041.1c29a357@kernel.org>
+        <1dc9b2e3-65ee-aa33-d604-a758fea98eb8@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v5 04/11] blksnap: header file of the module interface
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     Dave Chinner <david@fromorbit.com>, <axboe@kernel.dk>,
-        <corbet@lwn.net>, <snitzer@kernel.org>, <viro@zeniv.linux.org.uk>,
-        <brauner@kernel.org>, <dchinner@redhat.com>, <willy@infradead.org>,
-        <dlemoal@kernel.org>, <linux@weissschuh.net>, <jack@suse.cz>,
-        <ming.lei@redhat.com>, <linux-block@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>,
-        "Donald Buczek" <buczek@molgen.mpg.de>
-References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
- <20230612135228.10702-5-sergei.shtepa@veeam.com>
- <ZIjsywOtHM5nIhSr@dread.disaster.area> <ZIldkb1pwhNsSlfl@infradead.org>
- <733f591e-0e8f-8668-8298-ddb11a74df81@veeam.com>
- <ZInJlD70tMKoBi7T@infradead.org>
-Content-Language: en-US
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-In-Reply-To: <ZInJlD70tMKoBi7T@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.24.10.107]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.128.103) To
- prgmbx01.amust.local (172.24.128.102)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29240315546D7067
-X-Veeam-MMEX: True
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 6/14/23 16:07, Christoph Hellwig wrote:
-> I don't actually think swapfile is a very good idea, in fact the Linux
-> swap code in general is not a very good place to look for inspirations
-> 😄
-
-Perhaps. I haven't looked at the code yet. But I like the idea of
-protecting the file from any access from the user-space, as it is
-implemented for swapfile.
-
+On Wed, 14 Jun 2023 20:04:39 +0800 Yunsheng Lin wrote:
+> > Seems like the semantics of page_pool_alloc() are always better than
+> > page_pool_alloc_frag(). Is there a reason to keep these two separate?  
 > 
-> IFF the usage is always to have a whole file for the diff storage the
-> over all API is very simple - just pass a fd to the kernel for the area,
-> and then use in-kernel direct I/O on it.  Now if that file should also
-> be able to reside on the same file system that the snapshot is taken
-> of things get a little more complicated, because writes to it also need
-> to automatically set the BIO_REFFED flag.
+> I am agree the semantics of page_pool_alloc() is better, I was thinking
+> about combining those two too.
+> The reason I am keeping it is about the nic hw with fixed buffer size for
+> each desc, and that buffer size is always smaller than or equal to half
+> of the page allocated from page pool, so it doesn't bother doing the
+> checking of 'size << 1 > max_size' and doesn't care about the actual
+> truesize.
 
-There is definitely no task to create a difference storage file on the
-same block device for which the snapshot is being created. The file can
-be created on any block device.
+I see. Let's reorg the documentation, then? Something along the lines
+of, maybe:
 
-Still, the variant when a whole partition is allocated for the difference
-storage can also be useful.
 
-> I have some ideas for that and will share some draft code with you.
+The page_pool allocator is optimized for recycling page or page frag used by skb
+packet and xdp frame.
 
-I'll be glad.
+Basic use involves replacing napi_alloc_frag() and alloc_pages() calls
+with page_pool_alloc(). page_pool_alloc() allocates memory with or
+without page splitting depending on the requested memory size.
+
+If the driver knows that it always requires full pages or its allocates
+are always smaller than half a page, it can use one of the more specific
+API calls:
+
+1. page_pool_alloc_pages(): allocate memory without page splitting when
+   driver knows that the memory it need is always bigger than half of the
+   page allocated from page pool. There is no cache line dirtying for
+   'struct page' when a page is recycled back to the page pool.
+
+2. page_pool_alloc_frag(): allocate memory with page splitting when driver knows
+   that the memory it need is always smaller than or equal to half of the page
+   allocated from page pool. Page splitting enables memory saving and thus avoid
+   TLB/cache miss for data access, but there also is some cost to implement page
+   splitting, mainly some cache line dirtying/bouncing for 'struct page' and
+   atomic operation for page->pp_frag_count.
