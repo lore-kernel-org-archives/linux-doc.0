@@ -2,78 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF772EB64D8
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 06:26:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46C0AEB64D9
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 07:05:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242823AbjFNG0q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jun 2023 02:26:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42344 "EHLO
+        id S243075AbjFNHFv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jun 2023 03:05:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242281AbjFNG0o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 02:26:44 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B9E199;
-        Tue, 13 Jun 2023 23:26:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=GAL8rYu1Idr0YOdnXNBIthABV/YsGkUhTmU/DBbzch8=; b=tvDzinqkrdr5HsvTJrFz63M6uM
-        s38FyrvASnhlz58s1iCWQyO4ieh+ddqTrlYffk6YGHFCs1y5BsV1s6RdMFczPVMHrvHhofzB6IsA6
-        9hmJKz9Rz36FWYHj+a2EUqh/4KB/Xs1HARqfQZiC1PdmZAXLFwAB8tm59uVn+zNjVHLeLjvGzS5qq
-        almeyKHsarLuYOZzQKgNcw84/3bgIoydHoBeHOnrhd/OlHNFclDqtRGIJMsZR9JOP26ppFL8ZywOc
-        abpa3Ut6d7aZ2ydfYcdZSPsE0uXeonEwBnNGTID5qoVkjc2eIcbGjStZZRhS1DBkfHLemIWiyNw3G
-        JLkP8r4w==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1q9JxZ-00AQvZ-0a;
-        Wed, 14 Jun 2023 06:26:25 +0000
-Date:   Tue, 13 Jun 2023 23:26:25 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
-        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org,
-        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
-        willy@infradead.org, dlemoal@kernel.org, linux@weissschuh.net,
-        jack@suse.cz, ming.lei@redhat.com, linux-block@vger.kernel.org,
+        with ESMTP id S242890AbjFNHFM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 03:05:12 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC6201FCB;
+        Wed, 14 Jun 2023 00:04:57 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 743121FDE2;
+        Wed, 14 Jun 2023 07:04:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1686726296; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QWE+RkxHjYktQzS7y33JQNdxPH8PUJVU2JWp2e825tg=;
+        b=Xx4BN9hOnRqru8ALBeKVfhvqQTU418nvhTIC1SN1HBLXecQScy5svNLbHmQA8ySW5hV01l
+        S9Hp29/RJdCxZSilZnf7vXRfIcTIy1kS2hfmLcAZqNBBVJfBQdXpO+TcbPdALW0qdzkMpr
+        cygUgMQyJynGmCSGwcvOJcRhRZuBK5o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1686726296;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QWE+RkxHjYktQzS7y33JQNdxPH8PUJVU2JWp2e825tg=;
+        b=XJXfc2uMDX8ipkukt4YIUsbT0bOWBuZRo7reHVKNV6Drjq4c5tnnCTFNMxURFaYXeEwA9A
+        /XaIhfRpO746nRBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 248F81357F;
+        Wed, 14 Jun 2023 07:04:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id gdv7B5hmiWSMEAAAMHmgww
+        (envelope-from <tiwai@suse.de>); Wed, 14 Jun 2023 07:04:56 +0000
+Date:   Wed, 14 Jun 2023 09:04:55 +0200
+Message-ID: <87edmebk2w.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc:     vkoul@kernel.org, broonie@kernel.org, tiwai@suse.com,
+        corbet@lwn.net, alsa-devel@alsa-project.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Donald Buczek <buczek@molgen.mpg.de>
-Subject: Re: [PATCH v5 04/11] blksnap: header file of the module interface
-Message-ID: <ZIldkb1pwhNsSlfl@infradead.org>
-References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
- <20230612135228.10702-5-sergei.shtepa@veeam.com>
- <ZIjsywOtHM5nIhSr@dread.disaster.area>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZIjsywOtHM5nIhSr@dread.disaster.area>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+        quic_plai@quicinc.com, quic_mohs@quicinc.com
+Subject: Re: [PATCH v2] ALSA: compress: allow setting codec params after next track
+In-Reply-To: <20230609150416.24525-1-srinivas.kandagatla@linaro.org>
+References: <20230609150416.24525-1-srinivas.kandagatla@linaro.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 14, 2023 at 08:25:15AM +1000, Dave Chinner wrote:
-> > + * Return: 0 if succeeded, negative errno otherwise.
-> > + */
-> > +#define IOCTL_BLKSNAP_SNAPSHOT_APPEND_STORAGE					\
-> > +	_IOW(BLKSNAP, blksnap_ioctl_snapshot_append_storage,			\
-> > +	     struct blksnap_snapshot_append_storage)
+On Fri, 09 Jun 2023 17:04:16 +0200,
+Srinivas Kandagatla wrote:
 > 
-> That's an API I'm extremely uncomfortable with. We've learnt the
-> lesson *many times* that userspace physical mappings of underlying
-> file storage are unreliable.
+> For gapless playback it is possible that each track can have different
+> codec profile with same decoder, for example we have WMA album,
+> we may have different tracks as WMA v9, WMA v10 and so on
 > 
-> i.e.  This is reliant on userspace telling the kernel the physical
-> mapping of the filesystem file to block device LBA space and then
-> providing a guarantee (somehow) that the mapping will always remain
-> unchanged. i.e. It's reliant on passing FIEMAP data from the
-> filesystem to userspace and then back into the kernel without it
-> becoming stale and somehow providing a guarantee that nothing (not
-> even the filesystem doing internal garbage collection) will change
-> it.
+> Or if DSP's like QDSP have abililty to switch decoders on single stream
+> for each track, then this call could be used to set new codec parameters.
+> 
+> Existing code does not allow to change this profile while doing gapless
+> playback.
+> 
+> Reuse existing SNDRV_COMPRESS_SET_PARAMS to set this new track params along
+> some additional checks to enforce proper state machine.
+> 
+> With this new changes now the user can call SNDRV_COMPRESS_SET_PARAMS
+> anytime after setting next track and additional check in write should
+> also ensure that params are set before writing new data.
+> 
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> ---
+> Changes since v1/RFC:
+> 	- removed introduction of new IOCTL, as suggested.
+> 	- update the state-machine doc.
+> 
+>  .../sound/designs/compress-offload.rst        | 52 +++++++++----------
+>  sound/core/compress_offload.c                 | 10 ++--
+>  2 files changed, 33 insertions(+), 29 deletions(-)
+> 
+> diff --git a/Documentation/sound/designs/compress-offload.rst b/Documentation/sound/designs/compress-offload.rst
+> index 935f325dbc77..205cadcabe70 100644
+> --- a/Documentation/sound/designs/compress-offload.rst
+> +++ b/Documentation/sound/designs/compress-offload.rst
+> @@ -256,32 +256,32 @@ Gapless Playback SM
+>  For Gapless, we move from running state to partial drain and back, along
+>  with setting of meta_data and signalling for next track ::
+>  
+> -
+> -                                        +----------+
+> -                compr_drain_notify()    |          |
+> -              +------------------------>|  RUNNING |
+> -              |                         |          |
+> -              |                         +----------+
+> -              |                              |
+> -              |                              |
+> -              |                              | compr_next_track()
+> -              |                              |
+> -              |                              V
+> -              |                         +----------+
+> -              |                         |          |
+> -              |                         |NEXT_TRACK|
+> -              |                         |          |
+> -              |                         +----------+
+> -              |                              |
+> -              |                              |
+> -              |                              | compr_partial_drain()
+> -              |                              |
+> -              |                              V
+> -              |                         +----------+
+> -              |                         |          |
+> -              +------------------------ | PARTIAL_ |
+> -                                        |  DRAIN   |
+> -                                        +----------+
+> +                            +----------+
+> +     compr_drain_notify()   |          | compr_set_params() iff next-track set.
+> +  +------------------------>|  RUNNING |----------------------+
+> +  |                         |          |                      |
+> +  |                         +----------+                      |
+> +  |                              |                            |
+> +  |                              |                            |
+> +  |                              | compr_next_track()         |
+> +  |                              |                            V
+> +  |                              V                            |
+> +  |                         +----------+                      |
+> +  |                         |          |                      |
+> +  |                         |NEXT_TRACK|                      |
+> +  |                         |          |                      |
+> +  |                         +----------+                      |
+> +  |                              |                            |
+> +  |                              +----------------------------+
+> +  |                              |
+> +  |                              | compr_partial_drain()
+> +  |                              |
+> +  |                              V
+> +  |                         +----------+
+> +  |                         |          |
+> +  +------------------------ | PARTIAL_ |
+> +                            |  DRAIN   |
+> +                            +----------+
+>  
+>  Not supported
+>  =============
+> diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
+> index 243acad89fd3..fe67228e74b3 100644
+> --- a/sound/core/compress_offload.c
+> +++ b/sound/core/compress_offload.c
+> @@ -294,6 +294,9 @@ static ssize_t snd_compr_write(struct file *f, const char __user *buf,
+>  	case SNDRV_PCM_STATE_SETUP:
+>  	case SNDRV_PCM_STATE_PREPARED:
+>  	case SNDRV_PCM_STATE_RUNNING:
+> +		/* Make sure next track params are set before writing new data */
+> +		if (stream->next_track)
+> +			return -EPERM;
 
-Hmm, I never thought of this API as used on files that somewhere
-had a logical to physical mapping applied to them.
+Hm, does this logic correctly match with the comment above?
+Also, this misses the mutex unlock.
 
-Sergey, is that the indtended use case?  If so we really should
-be going through the file system using direct I/O.
 
+thanks,
+
+Takashi
