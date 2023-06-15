@@ -2,159 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08897C0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 07:41:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03151EB64DC
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 08:17:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243365AbjFOHlW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 03:41:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54420 "EHLO
+        id S238456AbjFOIRf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jun 2023 04:17:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245533AbjFOHk1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 03:40:27 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB1652953;
-        Thu, 15 Jun 2023 00:39:59 -0700 (PDT)
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-X-GND-Sasl: alex@ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4A1B84000F;
-        Thu, 15 Jun 2023 07:38:27 +0000 (UTC)
-Message-ID: <4c511218-eb54-0ec4-6820-265f06d91730@ghiti.fr>
-Date:   Thu, 15 Jun 2023 09:38:26 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 06/10] drivers: perf: Implement perf event mmap support
- in the legacy backend
-Content-Language: en-US
-To:     Andrew Jones <ajones@ventanamicro.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        with ESMTP id S229511AbjFOIRf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 04:17:35 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E61381BF8;
+        Thu, 15 Jun 2023 01:17:33 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D0A611FB;
+        Thu, 15 Jun 2023 01:18:17 -0700 (PDT)
+Received: from ewhatever.cambridge.arm.com (ewhatever.cambridge.arm.com [10.1.197.1])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C48DB3F71E;
+        Thu, 15 Jun 2023 01:17:29 -0700 (PDT)
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+To:     Konrad Dybcio <konradybcio@gmail.com>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        James Clark <james.clark@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mike Leach <mike.leach@linaro.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
+        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230512085321.13259-1-alexghiti@rivosinc.com>
- <20230512085321.13259-7-alexghiti@rivosinc.com>
- <20230531-705f2911e8d66938ece04905@orel>
-From:   Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20230531-705f2911e8d66938ece04905@orel>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Hao Zhang <quic_hazha@quicinc.com>
+Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-msm@vger.kernel.org,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        linux-doc@vger.kernel.org, coresight@lists.linaro.org,
+        Yuanfang Zhang <quic_yuanfang@quicinc.com>,
+        Tao Zhang <quic_taozha@quicinc.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Bjorn Andersson <andersson@kernel.org>,
+        Jinlong Mao <quic_jinlmao@quicinc.com>,
+        devicetree@vger.kernel.org,
+        Tingwei Zhang <quic_tingweiz@quicinc.com>
+Subject: Re: [PATCH v6 0/3] Add support to configure Coresight Dummy subunit
+Date:   Thu, 15 Jun 2023 09:16:38 +0100
+Message-Id: <168681694253.417491.1580155663436908350.b4-ty@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230602084149.40031-1-quic_hazha@quicinc.com>
+References: <20230602084149.40031-1-quic_hazha@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 2 Jun 2023 16:41:46 +0800, Hao Zhang wrote:
+> Introduction of Coresight Dummy subunit
+> The Coresight Dummy subunit is for Coresight Dummy component, there are
+> some specific Coresight devices that HLOS don't have permission to access.
+> Such as some TPDMs, they would be configured in NON-HLOS side, but it's
+> necessary to build Coresight path for it to debug. So there need driver to
+> register dummy devices as Coresight devices.
+> 
+> [...]
 
-On 31/05/2023 16:27, Andrew Jones wrote:
-> On Fri, May 12, 2023 at 10:53:17AM +0200, Alexandre Ghiti wrote:
->> Implement the needed callbacks in the legacy driver so that we can
->> directly access the counters through perf in userspace.
->>
->> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->> ---
->>   drivers/perf/riscv_pmu_legacy.c | 28 ++++++++++++++++++++++++++++
->>   1 file changed, 28 insertions(+)
->>
->> diff --git a/drivers/perf/riscv_pmu_legacy.c b/drivers/perf/riscv_pmu_legacy.c
->> index ffe09d857366..f0f5bd856f66 100644
->> --- a/drivers/perf/riscv_pmu_legacy.c
->> +++ b/drivers/perf/riscv_pmu_legacy.c
->> @@ -74,6 +74,31 @@ static void pmu_legacy_ctr_start(struct perf_event *event, u64 ival)
->>   	local64_set(&hwc->prev_count, initial_val);
->>   }
->>   
->> +static uint8_t pmu_legacy_csr_index(struct perf_event *event)
->> +{
->> +	return event->hw.idx;
->> +}
->> +
->> +static void pmu_legacy_event_mapped(struct perf_event *event, struct mm_struct *mm)
->> +{
->> +	/* In legacy mode, the first 3 CSRs are available. */
-> Shouldn't this be
->
->   /* In legacy mode, the first and third CSR are available. */
->
-> ?
+Applied, thanks!
 
+[1/3] Coresight: Add coresight dummy driver
+      commit: 9d3ba0b6c056918355cf36094d6ed63cdd01a2ab
+[2/3] dt-bindings: arm: Add support for Coresight dummy trace
+      commit: 5911ff4559e45532c1f67257c5731b5e13f5e7a3
+[3/3] Documentation: trace: Add documentation for Coresight Dummy Trace
+      commit: 3b79104f80036231a40ba5d15c3e329985029a0f
 
-Yes, I guess this comment is not right in this context, so I'll remove 
-the comment entirely as it does bring much.
-
-
->> +	if (event->attr.config != PERF_COUNT_HW_CPU_CYCLES &&
->> +	    event->attr.config != PERF_COUNT_HW_INSTRUCTIONS)
->> +		return;
->> +
->> +	event->hw.flags |= PERF_EVENT_FLAG_USER_READ_CNT;
->> +}
->> +
->> +static void pmu_legacy_event_unmapped(struct perf_event *event, struct mm_struct *mm)
->> +{
->> +	/* In legacy mode, the first 3 CSRs are available. */
-> same comment
->
->> +	if (event->attr.config != PERF_COUNT_HW_CPU_CYCLES &&
->> +	    event->attr.config != PERF_COUNT_HW_INSTRUCTIONS)
->> +		return;
->> +
->> +	event->hw.flags &= ~PERF_EVENT_FLAG_USER_READ_CNT;
->> +}
->> +
->>   /*
->>    * This is just a simple implementation to allow legacy implementations
->>    * compatible with new RISC-V PMU driver framework.
->> @@ -94,6 +119,9 @@ static void pmu_legacy_init(struct riscv_pmu *pmu)
->>   	pmu->ctr_get_width = NULL;
->>   	pmu->ctr_clear_idx = NULL;
->>   	pmu->ctr_read = pmu_legacy_read_ctr;
->> +	pmu->event_mapped = pmu_legacy_event_mapped;
->> +	pmu->event_unmapped = pmu_legacy_event_unmapped;
->> +	pmu->csr_index = pmu_legacy_csr_index;
->>   
->>   	perf_pmu_register(&pmu->pmu, RISCV_PMU_LEGACY_PDEV_NAME, PERF_TYPE_RAW);
->>   }
->> -- 
->> 2.37.2
->>
-> Otherwise,
->
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-
-
-Thanks!
-
+Best regards,
+-- 
+Suzuki K Poulose <suzuki.poulose@arm.com>
