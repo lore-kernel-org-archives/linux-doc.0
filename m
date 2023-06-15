@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A048EB64D9
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 08:26:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 655D2EB64DB
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 08:34:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231288AbjFOI0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 04:26:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52208 "EHLO
+        id S244824AbjFOIec (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jun 2023 04:34:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243449AbjFOIYz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 04:24:55 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B19BF1BF8
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 01:24:53 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2b448470602so2705781fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 01:24:53 -0700 (PDT)
+        with ESMTP id S244874AbjFOIeZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 04:34:25 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34932946
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 01:34:23 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2b43a99c887so9061621fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 01:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1686817492; x=1689409492;
+        d=atishpatra.org; s=google; t=1686818062; x=1689410062;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TO/9bQchmvWU5XsZ6PVSrKCC9iEyDaJ7fBfesY7nUXo=;
-        b=FHIIfDdJcAOiiR4LbSL4/uGAdi7niaXDloG0VoBSjXwwGpoL4MfrwpXKJhGzPQwucE
-         dOdvEIxRl+k6G2Hh2lXO8KWmw7BZwrfanEepuJFlHhgMixev0/FEqtjq051lycVOa9ab
-         XGqysDrQA2Sx0DQo8Y41Vi1CNyTAhFB+HJMdo=
+        bh=TOUuXh6LkHViNleXIOakwtRWdQ9JIjITkUXKZrXdE44=;
+        b=dsFsxX9NzLHxh8ziw/gPNEVf2K7Iiy/Q308RAWmRpFaYqIQJ1r5328jelF+drS0JS2
+         +2hKkC13N/IuU48umjqUbsFQwa0tGqHeuulBLsC34FvZRp39kpROk+zItB1aZtjKli6H
+         douxZUHkvyYCrvyNZqPjqVgd7R+ClO2B1t5FI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686817492; x=1689409492;
+        d=1e100.net; s=20221208; t=1686818062; x=1689410062;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TO/9bQchmvWU5XsZ6PVSrKCC9iEyDaJ7fBfesY7nUXo=;
-        b=FKzvrM75oFVHNKGPyv9Prn1RKsBdPW3yQZ4jInGYN+MRcKyqdA6zl+28mOw0dCIZzP
-         cSCyBrGEgFYi7raOe+PUk23nW+h8kYBhoScB1+NFa+04Y9v5wJWoa5+77pf1IqrLeeHy
-         1VXOyg+0b4hixm+76pqNUun9FWdJNZ8gqiHuX9mMFbsqzsjPsTKdphtR6LvuzKwGCVIW
-         k5prA6IVFzQc9B9mpKgHbanhTNaWsACi7/s5oeIbxn5gJT8y2GcWepaAejK+2ntxyZdt
-         by859IR8QPqhFpukk3TblMDj97n480FD8vkZAgSneQreKb5T15/1t8pYbWpcB+X8UblA
-         3XJg==
-X-Gm-Message-State: AC+VfDyM1g4UzgwowuatSBYOz/zCfPBWjbPhdMMqToxIvXquzUMLZIfs
-        Flg3/DMyjN2O6cLWRs8fVgdM/ltEtn7xAc6hgWLq
-X-Google-Smtp-Source: ACHHUZ58CLSQF6iLpuxgFB1R71m1T7/aC/04CVGgkmQPECwvn6JLMHS3x0PLLr7WuPja8wAD1MVhHvQNld8wIM4pSkM=
-X-Received: by 2002:a2e:a165:0:b0:2b1:e369:f98 with SMTP id
- u5-20020a2ea165000000b002b1e3690f98mr8402105ljl.11.1686817491842; Thu, 15 Jun
- 2023 01:24:51 -0700 (PDT)
+        bh=TOUuXh6LkHViNleXIOakwtRWdQ9JIjITkUXKZrXdE44=;
+        b=UpTqIZdxuyjL/E/Ecaxkxr5Y8PaLziG+UI+MbYywgioL+CRy1SGtxi/otD5gu0NKaM
+         psfMq20bt8Kwo6IKGtoDlp0AoyEkjYjnBJt6WADcW9zvhskpwP1FmJVI0DtjxZI7Zi0L
+         TDu06C79wXu3u+wxfASjSKNiVmsLRKOxGzKnqFQkoaUMlmH3NtgEUTRyEuHaxUPIkqYV
+         10KvpdWgUR8U8TDKjgWpdVW5PYHF7RYXlwmjIAPqZ9fuciqw6Sw4Cf4ZwIx3MEUWw9Sn
+         GCBt6+rtRhidbq9MpsoKP/s9Ffz1Gk4DwJpmKyO2yZre0wx5FJw0aSNNgAH6s7owf8ZQ
+         AGxA==
+X-Gm-Message-State: AC+VfDz6Y3z+A9W1/flfpTopoyiNndX4AgSK9xsIxFmwplLcsa5QOMXz
+        +UD++E8vZZuxdVqVSEa0i7pdcT2wfoObAMG8ICdj
+X-Google-Smtp-Source: ACHHUZ7Re7eG1GNlDD8M+Z7LAqeY4hwZD9akdA2bTvqq2esGdprdeu7d9Y69jONfiP1qhBujHcI2VjHNjyziGs1ljxE=
+X-Received: by 2002:a2e:7c15:0:b0:2b1:d6bf:d8b2 with SMTP id
+ x21-20020a2e7c15000000b002b1d6bfd8b2mr9598864ljc.22.1686818061744; Thu, 15
+ Jun 2023 01:34:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230512085321.13259-1-alexghiti@rivosinc.com>
- <20230512085321.13259-2-alexghiti@rivosinc.com> <20230531-5678beb107af4b9805cbb611@orel>
- <84626c83-8806-d807-a7bf-b497f70e56fd@ghiti.fr>
-In-Reply-To: <84626c83-8806-d807-a7bf-b497f70e56fd@ghiti.fr>
+ <20230512085321.13259-5-alexghiti@rivosinc.com> <20230531-49ed4c2054db0abbacd03632@orel>
+ <6d9fefd9-472c-b8d3-d871-b81bfdbe4f6d@ghiti.fr>
+In-Reply-To: <6d9fefd9-472c-b8d3-d871-b81bfdbe4f6d@ghiti.fr>
 From:   Atish Patra <atishp@atishpatra.org>
-Date:   Thu, 15 Jun 2023 01:24:40 -0700
-Message-ID: <CAOnJCU+rhbFY6DaA508E6KFaa4VoEWiHOFpZnsjiqTwEdTVGEg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] perf: Fix wrong comment about default event_idx
+Date:   Thu, 15 Jun 2023 01:34:10 -0700
+Message-ID: <CAOnJCUJhfzotL5ErjCKTfGjH2kw5W-e6VdwR37KZa-N_M9NDBQ@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] drivers: perf: Rename riscv pmu driver
 To:     Alexandre Ghiti <alex@ghiti.fr>
 Cc:     Andrew Jones <ajones@ventanamicro.com>,
         Alexandre Ghiti <alexghiti@rivosinc.com>,
@@ -78,49 +78,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 15, 2023 at 12:10=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> wr=
+On Thu, Jun 15, 2023 at 12:25=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> wr=
 ote:
 >
 >
-> On 31/05/2023 15:54, Andrew Jones wrote:
-> > On Fri, May 12, 2023 at 10:53:12AM +0200, Alexandre Ghiti wrote:
-> >> event_idx default implementation returns 0, not idx + 1.
-> > The comment was correct until commit c719f56092ad ("perf: Fix and clean
-> > up initialization of pmu::event_idx"). I'm not sure that warrants a fix=
-es
-> > tag, but maybe a reference in the commit message.
->
->
-> You're right, I'll add a reference, I don't think it deserves a
-> backport, that's just a comment.
->
->
-
-With that done:
-
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
-
+> On 31/05/2023 16:09, Andrew Jones wrote:
+> > On Fri, May 12, 2023 at 10:53:15AM +0200, Alexandre Ghiti wrote:
+> >> In addition to being more pretty, it will be useful in upcoming commit=
+s
+> >> to distinguish those pmu drivers from the other pmu drivers.
+> >>
 > >> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 > >> ---
-> >>   include/linux/perf_event.h | 3 ++-
-> >>   1 file changed, 2 insertions(+), 1 deletion(-)
+> >>   drivers/perf/riscv_pmu_legacy.c | 2 +-
+> >>   drivers/perf/riscv_pmu_sbi.c    | 2 +-
+> >>   2 files changed, 2 insertions(+), 2 deletions(-)
 > >>
-> >> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-> >> index d5628a7b5eaa..56fe43b20966 100644
-> >> --- a/include/linux/perf_event.h
-> >> +++ b/include/linux/perf_event.h
-> >> @@ -442,7 +442,8 @@ struct pmu {
+> >> diff --git a/drivers/perf/riscv_pmu_legacy.c b/drivers/perf/riscv_pmu_=
+legacy.c
+> >> index 0d8c9d8849ee..ffe09d857366 100644
+> >> --- a/drivers/perf/riscv_pmu_legacy.c
+> >> +++ b/drivers/perf/riscv_pmu_legacy.c
+> >> @@ -95,7 +95,7 @@ static void pmu_legacy_init(struct riscv_pmu *pmu)
+> >>      pmu->ctr_clear_idx =3D NULL;
+> >>      pmu->ctr_read =3D pmu_legacy_read_ctr;
 > >>
-> >>      /*
-> >>       * Will return the value for perf_event_mmap_page::index for this=
- event,
-> >> -     * if no implementation is provided it will default to: event->hw=
-.idx + 1.
-> >> +     * if no implementation is provided it will default to 0 (see
-> >> +     * perf_event_idx_default).
-> >>       */
-> >>      int (*event_idx)                (struct perf_event *event); /*opt=
-ional */
+> >> -    perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
+> >> +    perf_pmu_register(&pmu->pmu, RISCV_PMU_LEGACY_PDEV_NAME, PERF_TYP=
+E_RAW);
+> >>   }
+> >>
+> >>   static int pmu_legacy_device_probe(struct platform_device *pdev)
+> >> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi=
+.c
+> >> index 70cb50fd41c2..3b0ee2148054 100644
+> >> --- a/drivers/perf/riscv_pmu_sbi.c
+> >> +++ b/drivers/perf/riscv_pmu_sbi.c
+> >> @@ -897,7 +897,7 @@ static int pmu_sbi_device_probe(struct platform_de=
+vice *pdev)
+> >>      if (ret)
+> >>              goto out_unregister;
+> >>
+> >> -    ret =3D perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
+> >> +    ret =3D perf_pmu_register(&pmu->pmu, RISCV_PMU_PDEV_NAME, PERF_TY=
+PE_RAW);
+> > Should we include "sbi" in this name?
+>
+>
+> I'd say that it is safe to do so and I understand your point, @Atish WDYT=
+?
+>
+
+Actually, the argument in perf_pmu_register is about the pmu instance
+name rather than the driver name.
+Both legacy & SBI PMU drivers are just ways to access the "cpu" pmu instanc=
+e.
+
+In future we may have separate drivers for counter delegation
+extensions that won't use the SBI PMU extension
+at all for supported hardware. However, the PMU would still be cpu pmu.
+
+There will be different SoC PMU drivers which will have different
+names because it will represent SoC PMU instead of cpu pmu.
+
+>
+> >
+> >>      if (ret)
+> >>              goto out_unregister;
 > >>
 > >> --
 > >> 2.37.2
@@ -128,10 +152,7 @@ ional */
 > > Otherwise,
 > >
 > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
->
->
-> Thanks!
->
+
 
 
 --=20
