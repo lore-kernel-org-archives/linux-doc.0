@@ -2,59 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 655D2EB64DB
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 08:34:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22106EB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 08:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244824AbjFOIec (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 04:34:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56026 "EHLO
+        id S244924AbjFOIhC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jun 2023 04:37:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244874AbjFOIeZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 04:34:25 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34932946
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 01:34:23 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2b43a99c887so9061621fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 01:34:23 -0700 (PDT)
+        with ESMTP id S245175AbjFOIgn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 04:36:43 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB504295F
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 01:36:27 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b43a99c887so9092831fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 01:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1686818062; x=1689410062;
+        d=atishpatra.org; s=google; t=1686818186; x=1689410186;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TOUuXh6LkHViNleXIOakwtRWdQ9JIjITkUXKZrXdE44=;
-        b=dsFsxX9NzLHxh8ziw/gPNEVf2K7Iiy/Q308RAWmRpFaYqIQJ1r5328jelF+drS0JS2
-         +2hKkC13N/IuU48umjqUbsFQwa0tGqHeuulBLsC34FvZRp39kpROk+zItB1aZtjKli6H
-         douxZUHkvyYCrvyNZqPjqVgd7R+ClO2B1t5FI=
+        bh=XDqFlnJs7b5XSrXYfFDcBdbg7c+MBzrrq0kAraysWF0=;
+        b=BF4NTGgyxuXLd/DCtsfhMWllCFX5t8hYdRqzQeUl9mxCjttJAJ7Pm8/A9437zSmkP2
+         fiulhEjOtigFq6kjTjDFwsjbyk5q51xYQkvo3CsBOJjdXMSWDuxF3PDmK12cqPN7B66v
+         hsQKjBkbPmpmAppRPNgBHtAEKvcG+b6yfyydk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686818062; x=1689410062;
+        d=1e100.net; s=20221208; t=1686818186; x=1689410186;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TOUuXh6LkHViNleXIOakwtRWdQ9JIjITkUXKZrXdE44=;
-        b=UpTqIZdxuyjL/E/Ecaxkxr5Y8PaLziG+UI+MbYywgioL+CRy1SGtxi/otD5gu0NKaM
-         psfMq20bt8Kwo6IKGtoDlp0AoyEkjYjnBJt6WADcW9zvhskpwP1FmJVI0DtjxZI7Zi0L
-         TDu06C79wXu3u+wxfASjSKNiVmsLRKOxGzKnqFQkoaUMlmH3NtgEUTRyEuHaxUPIkqYV
-         10KvpdWgUR8U8TDKjgWpdVW5PYHF7RYXlwmjIAPqZ9fuciqw6Sw4Cf4ZwIx3MEUWw9Sn
-         GCBt6+rtRhidbq9MpsoKP/s9Ffz1Gk4DwJpmKyO2yZre0wx5FJw0aSNNgAH6s7owf8ZQ
-         AGxA==
-X-Gm-Message-State: AC+VfDz6Y3z+A9W1/flfpTopoyiNndX4AgSK9xsIxFmwplLcsa5QOMXz
-        +UD++E8vZZuxdVqVSEa0i7pdcT2wfoObAMG8ICdj
-X-Google-Smtp-Source: ACHHUZ7Re7eG1GNlDD8M+Z7LAqeY4hwZD9akdA2bTvqq2esGdprdeu7d9Y69jONfiP1qhBujHcI2VjHNjyziGs1ljxE=
-X-Received: by 2002:a2e:7c15:0:b0:2b1:d6bf:d8b2 with SMTP id
- x21-20020a2e7c15000000b002b1d6bfd8b2mr9598864ljc.22.1686818061744; Thu, 15
- Jun 2023 01:34:21 -0700 (PDT)
+        bh=XDqFlnJs7b5XSrXYfFDcBdbg7c+MBzrrq0kAraysWF0=;
+        b=O3W5S14p8Tok4HqwptDpjaYIIQCIPTjTTAKB01P1/Q8sP1iJTfagpcDHhMASTtohgh
+         vwWAA7zpR23wsBdIyH3luYhxw1zL/PKvW3b/HoW/BlOG/Gr1OpvZR115SWL669CatpjY
+         z9bUU/HsiZyOK+sviNyVETNsFSl7IWenjF7Li0tdSgP0K1nIaexoiyjy35cPqjn8DDC2
+         DhW5dsBk+rzEapGqg6BcGX0n2gNmm8UfkUWGNr//U3Oz2DirE0VVsrPm2Ek9Hb9jyROb
+         7QgxHEFJd9ocqte0/hiUW0a1LmXnpsH/gYMM9fGM6neyuJQ4FCbRl8YPxiy9bGhWZYy1
+         +dbg==
+X-Gm-Message-State: AC+VfDyb5rdMOdU/xvaPpg2PsR8MTLjgz5Y1ezg4gBzkmM4vjd3nTAby
+        txWNRn8e1bpOChsqur630zKCKlJLfLqnxtqZ/juA
+X-Google-Smtp-Source: ACHHUZ5Bdq/pHXm3zHoqwzxyGEBNA9JTaa6iUkRvIy+81mbIKyUzp1Kmd9vgi/5KwuUU4fD/I76lgbpxMD9W4Q7qWlI=
+X-Received: by 2002:a2e:8611:0:b0:2b3:4c18:cf41 with SMTP id
+ a17-20020a2e8611000000b002b34c18cf41mr2931471lji.53.1686818186178; Thu, 15
+ Jun 2023 01:36:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230512085321.13259-1-alexghiti@rivosinc.com>
- <20230512085321.13259-5-alexghiti@rivosinc.com> <20230531-49ed4c2054db0abbacd03632@orel>
- <6d9fefd9-472c-b8d3-d871-b81bfdbe4f6d@ghiti.fr>
-In-Reply-To: <6d9fefd9-472c-b8d3-d871-b81bfdbe4f6d@ghiti.fr>
+ <20230512085321.13259-3-alexghiti@rivosinc.com> <20230531-707d254be1238272fb2c182d@orel>
+In-Reply-To: <20230531-707d254be1238272fb2c182d@orel>
 From:   Atish Patra <atishp@atishpatra.org>
-Date:   Thu, 15 Jun 2023 01:34:10 -0700
-Message-ID: <CAOnJCUJhfzotL5ErjCKTfGjH2kw5W-e6VdwR37KZa-N_M9NDBQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/10] drivers: perf: Rename riscv pmu driver
-To:     Alexandre Ghiti <alex@ghiti.fr>
-Cc:     Andrew Jones <ajones@ventanamicro.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
+Date:   Thu, 15 Jun 2023 01:36:14 -0700
+Message-ID: <CAOnJCUJHMt4ziauJw-O5vr1NohaSDpN=NQUoSC4oxHRurkV0JQ@mail.gmail.com>
+Subject: Re: [PATCH v2 02/10] include: riscv: Fix wrong include guard in riscv_pmu.h
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
@@ -71,89 +69,60 @@ Cc:     Andrew Jones <ajones@ventanamicro.com>,
         Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
+        linux-arm-kernel@lists.infradead.org,
+        Conor Dooley <conor.dooley@microchip.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 15, 2023 at 12:25=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> wr=
-ote:
+On Wed, May 31, 2023 at 6:56=E2=80=AFAM Andrew Jones <ajones@ventanamicro.c=
+om> wrote:
 >
->
-> On 31/05/2023 16:09, Andrew Jones wrote:
-> > On Fri, May 12, 2023 at 10:53:15AM +0200, Alexandre Ghiti wrote:
-> >> In addition to being more pretty, it will be useful in upcoming commit=
-s
-> >> to distinguish those pmu drivers from the other pmu drivers.
-> >>
-> >> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> >> ---
-> >>   drivers/perf/riscv_pmu_legacy.c | 2 +-
-> >>   drivers/perf/riscv_pmu_sbi.c    | 2 +-
-> >>   2 files changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/perf/riscv_pmu_legacy.c b/drivers/perf/riscv_pmu_=
-legacy.c
-> >> index 0d8c9d8849ee..ffe09d857366 100644
-> >> --- a/drivers/perf/riscv_pmu_legacy.c
-> >> +++ b/drivers/perf/riscv_pmu_legacy.c
-> >> @@ -95,7 +95,7 @@ static void pmu_legacy_init(struct riscv_pmu *pmu)
-> >>      pmu->ctr_clear_idx =3D NULL;
-> >>      pmu->ctr_read =3D pmu_legacy_read_ctr;
-> >>
-> >> -    perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
-> >> +    perf_pmu_register(&pmu->pmu, RISCV_PMU_LEGACY_PDEV_NAME, PERF_TYP=
-E_RAW);
-> >>   }
-> >>
-> >>   static int pmu_legacy_device_probe(struct platform_device *pdev)
-> >> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi=
-.c
-> >> index 70cb50fd41c2..3b0ee2148054 100644
-> >> --- a/drivers/perf/riscv_pmu_sbi.c
-> >> +++ b/drivers/perf/riscv_pmu_sbi.c
-> >> @@ -897,7 +897,7 @@ static int pmu_sbi_device_probe(struct platform_de=
-vice *pdev)
-> >>      if (ret)
-> >>              goto out_unregister;
-> >>
-> >> -    ret =3D perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
-> >> +    ret =3D perf_pmu_register(&pmu->pmu, RISCV_PMU_PDEV_NAME, PERF_TY=
-PE_RAW);
-> > Should we include "sbi" in this name?
->
->
-> I'd say that it is safe to do so and I understand your point, @Atish WDYT=
-?
->
-
-Actually, the argument in perf_pmu_register is about the pmu instance
-name rather than the driver name.
-Both legacy & SBI PMU drivers are just ways to access the "cpu" pmu instanc=
-e.
-
-In future we may have separate drivers for counter delegation
-extensions that won't use the SBI PMU extension
-at all for supported hardware. However, the PMU would still be cpu pmu.
-
-There will be different SoC PMU drivers which will have different
-names because it will represent SoC PMU instead of cpu pmu.
-
->
+> On Fri, May 12, 2023 at 10:53:13AM +0200, Alexandre Ghiti wrote:
+> > The current include guard prevents the inclusion of asm/perf_event.h
+> > which uses the same include guard: fix the one in riscv_pmu.h so that i=
+t
+> > matches the file name.
 > >
-> >>      if (ret)
-> >>              goto out_unregister;
-> >>
-> >> --
-> >> 2.37.2
-> >>
-> > Otherwise,
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > ---
+> >  include/linux/perf/riscv_pmu.h | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
 > >
-> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > diff --git a/include/linux/perf/riscv_pmu.h b/include/linux/perf/riscv_=
+pmu.h
+> > index 43fc892aa7d9..9f70d94942e0 100644
+> > --- a/include/linux/perf/riscv_pmu.h
+> > +++ b/include/linux/perf/riscv_pmu.h
+> > @@ -6,8 +6,8 @@
+> >   *
+> >   */
+> >
+> > -#ifndef _ASM_RISCV_PERF_EVENT_H
+> > -#define _ASM_RISCV_PERF_EVENT_H
+> > +#ifndef _RISCV_PMU_H
+> > +#define _RISCV_PMU_H
+> >
+> >  #include <linux/perf_event.h>
+> >  #include <linux/ptrace.h>
+> > @@ -81,4 +81,4 @@ int riscv_pmu_get_hpm_info(u32 *hw_ctr_width, u32 *nu=
+m_hw_ctr);
+> >
+> >  #endif /* CONFIG_RISCV_PMU */
+> >
+> > -#endif /* _ASM_RISCV_PERF_EVENT_H */
+> > +#endif /* _RISCV_PMU_H */
+> > --
+> > 2.37.2
+> >
+>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
 
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
 
 --=20
 Regards,
