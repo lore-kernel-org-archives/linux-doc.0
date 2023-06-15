@@ -2,494 +2,601 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EB72EB64DC
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 13:27:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB95EB64DB
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 13:42:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241282AbjFON1r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 09:27:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39916 "EHLO
+        id S1344546AbjFONmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jun 2023 09:42:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241287AbjFON1q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 09:27:46 -0400
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5962A273B
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 06:27:42 -0700 (PDT)
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id D8CEE3F8C7
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 13:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1686835658;
-        bh=pmiNPwgE3KMFqmooTFrN6Vn4u5JSaY1Dw1DCIEOod+Q=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=aGqWxhg1ayTZ6Kta077dOXs+/t6TRNqf0MMI6bal6qQzooMJ6qhjwEN6ztIusqNtO
-         bczk/I3wg82xwf0IkIRvyzX/OFaSDWDRCrztsl9XdKQD9JL97xrTaYR3LJ3gfYtaYD
-         KA5OoEgr7Tpq0dQLbtfotdjLKEzwjmBOOEJwwnI3Z5rS/X4t55mb/nmxMUpvOVZK0P
-         7IoTtfDaZdQQYVkY73pDu1OrZrcBTMLWCqHhpZWeuRCmDCvoeyu8AwzWSAVEhm7sdS
-         2yDUgIIzNo+CupbgualKoZW5GQo4r8O6+j9vG2mfy/BCvlO031W1JbdvABhi6OGCgF
-         /0f46SrxHLgNQ==
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3110d623e2bso906437f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 06:27:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686835657; x=1689427657;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pmiNPwgE3KMFqmooTFrN6Vn4u5JSaY1Dw1DCIEOod+Q=;
-        b=NsZc75ztI3Agvq/agCIk6lHVMbWe0JFiW9nm8T7PprGIkfHjptDaz/TJbRTLjzBh0z
-         HGIGrQwpaf3VOcIXE7QlwZVVZMzS/HF4cGn32F0IrAQUK+sXGA7xaw/cHMLYQ3l4Onmm
-         3HA9Apr3lu4K664dY29VkS1zIapYOWv/PZeRvD/Q6O0htP8Nw7Sv8FcyCnRkylmDSev3
-         C2XRdvo46Q7bgYwvGrLRmDOKFMUxb9vz49FT694bgyCDrJgYF3rr61k1ipFMRwjjh0bY
-         tfl+rl8CK4xg+yyio4D3J+plfBepUEVzQL5lDx4z25j+eG7MZgg4IIAgZp/X+miLw/IG
-         sz0w==
-X-Gm-Message-State: AC+VfDy5PPafj6P/Ix3o7acVxpXywF1zrgraYRXsz1JLL+8R6eu+Pbft
-        XX3a64kJESjFmfPHy7rHDu2Jqo2rnp2W1kOoLZmRJotTuVDRTL9eKKb089+6shuSe9w86KqFHug
-        19nQVhonFHjDz6KJGn1VXqWYIvClig6zi7Noqtw==
-X-Received: by 2002:adf:d0c7:0:b0:30f:d1e3:22b7 with SMTP id z7-20020adfd0c7000000b0030fd1e322b7mr4523126wrh.6.1686835657058;
-        Thu, 15 Jun 2023 06:27:37 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5tc18E1shmQlP6r5bTT/RRUzeEmZ44GxOZaz29SXvOsOZC9mLd47i2MmyxuogDSrd+n91t+A==
-X-Received: by 2002:adf:d0c7:0:b0:30f:d1e3:22b7 with SMTP id z7-20020adfd0c7000000b0030fd1e322b7mr4523106wrh.6.1686835656550;
-        Thu, 15 Jun 2023 06:27:36 -0700 (PDT)
-Received: from [192.168.123.67] (ip-084-119-033-219.um24.pools.vodafone-ip.de. [84.119.33.219])
-        by smtp.gmail.com with ESMTPSA id h17-20020a5d4311000000b003048477729asm21028155wrq.81.2023.06.15.06.27.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jun 2023 06:27:36 -0700 (PDT)
-Message-ID: <51af30bd-9913-8ba6-fa5e-d38e4617a7ef@canonical.com>
-Date:   Thu, 15 Jun 2023 15:27:35 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 07/10] drivers: perf: Implement perf event mmap support
- in the SBI backend
+        with ESMTP id S1344547AbjFONm3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 09:42:29 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B4330D6;
+        Thu, 15 Jun 2023 06:42:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686836532; x=1718372532;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=wCsXpDLnrIIjeXVTbgwmAPZVxPjNB9j2ZOUcOVxLBpg=;
+  b=UtCfnHSJVGLCVG470cCnyygg4Zm5q6fHA8TQlWtq0/+G//elugr8QzK+
+   fNqF6sQRUagug1x42485Kt6McQGyHka9TxckgXpaUkr0R5OcudoytbnKI
+   c7Hn+tZrBR+j+5Nn3NEZtKrgoyrvFE37VWJev5REzMpmkKxQUGU0kCBYt
+   w7UYDa1Uh+hSHg5/Ni1jBfwhBlctrqlkrsWv6GHFd1AIJHhbSOAduEPjB
+   Zfl9aE+vB0jt2NjfuLiNiv723XAJJRybi9xPKHzquQt2eytyT3BzDhEfy
+   NoLgJRDgl9IoZyKF7faP+QMyxAnXNwUj0/Z2A/jE6U3pSfxLljFQaODMs
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="356408540"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="356408540"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 06:42:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="782522481"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="782522481"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga004.fm.intel.com with ESMTP; 15 Jun 2023 06:42:10 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 15 Jun 2023 06:42:09 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 15 Jun 2023 06:42:09 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Thu, 15 Jun 2023 06:42:09 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Thu, 15 Jun 2023 06:42:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vj4s7hijdnQNoqq+FWReqxIWv4a7G0OgeHfSjs1wUnibfoAaG3GABxXcgNm0L9bD4pdTGDg44BT6AYYXnyYI7+fMhuthec3PRwPlKBG/HfryjX1vIpm9lUkM23NnUzN8IDUIaxZql2iim32FzNV/t+mkZ6xZ5yrsqUI6JSV1zd2qMTL70wPyId/PO/5IRxkofJtIattuY09Z9vbSRfXSDMzGNRkb5CAfQiNURDdn+kZLeAMbY//pXARfLotSovZwzQ0IoV+CxRhNaYAtnmsSVqtQ7xHirGvnYeXaKQWjb0lvYnToySEGcmvBG2PcuwXiU2rQgMI4yofDUvmhhX7AoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DeRrVA8z8DHzZsUPOCRSijPr54Z4whodI8kdH8N6y+4=;
+ b=DqZfWaOaAUY7uSx3Cr4ODrA7Nsh+2Oix306yFY0mXQR8JZxD+LR6ZaS3uoC/hv/7nvbXZY7o7Mo3lWFGQbfXtmoD+0Wmf10BhRnCLv4tnJaIgxltv49eX5aHBz9MfIqG4o9kETOJWR6d+c0CUZKYmm4qj7NBka9PM/BoY49UfDE3TUUW3aW8GL/usnV6YXkoX4sdlkF0vG74HqN1HV63NrfPMGtbd4qyALC5uB6KVfPbj0Clki11mxuOEX48wzPGYjnqYIWQwmJlckKgDPo13Ck3t7RdB0uVdde/DKf0uUM4x/q5cJM7/MGoBBmbBdLidn3eZO01LezcDtOKycsiRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
+ PH7PR11MB7097.namprd11.prod.outlook.com (2603:10b6:510:20c::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6455.44; Thu, 15 Jun 2023 13:42:03 +0000
+Received: from DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::24bd:974b:5c01:83d6]) by DM6PR11MB4657.namprd11.prod.outlook.com
+ ([fe80::24bd:974b:5c01:83d6%3]) with mapi id 15.20.6500.025; Thu, 15 Jun 2023
+ 13:42:03 +0000
+From:   "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+To:     Jiri Pirko <jiri@resnulli.us>
+CC:     "kuba@kernel.org" <kuba@kernel.org>,
+        "vadfed@meta.com" <vadfed@meta.com>,
+        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "vadfed@fb.com" <vadfed@fb.com>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "M, Saeed" <saeedm@nvidia.com>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "sj@kernel.org" <sj@kernel.org>,
+        "javierm@redhat.com" <javierm@redhat.com>,
+        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "Michalik, Michal" <michal.michalik@intel.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "jacek.lawrynowicz@linux.intel.com" 
+        <jacek.lawrynowicz@linux.intel.com>,
+        "airlied@redhat.com" <airlied@redhat.com>,
+        "ogabbay@kernel.org" <ogabbay@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "linux@zary.sk" <linux@zary.sk>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "Olech, Milena" <milena.olech@intel.com>,
+        "kuniyu@amazon.com" <kuniyu@amazon.com>,
+        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
+        "razor@blackwall.org" <razor@blackwall.org>,
+        "idosch@nvidia.com" <idosch@nvidia.com>,
+        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        "phil@nwl.cc" <phil@nwl.cc>,
+        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
+        mschmidt <mschmidt@redhat.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
+Subject: RE: [RFC PATCH v8 02/10] dpll: spec: Add Netlink spec in YAML
+Thread-Topic: [RFC PATCH v8 02/10] dpll: spec: Add Netlink spec in YAML
+Thread-Index: AQHZmszr2BJDDEOJ60yRPuK1IWG2S6+EOc6AgAeqEYA=
+Date:   Thu, 15 Jun 2023 13:42:02 +0000
+Message-ID: <DM6PR11MB4657F2003E744E0462FD5E7D9B5BA@DM6PR11MB4657.namprd11.prod.outlook.com>
+References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+ <20230609121853.3607724-3-arkadiusz.kubalewski@intel.com>
+ <ZISjMUcpmUTBXIOA@nanopsycho>
+In-Reply-To: <ZISjMUcpmUTBXIOA@nanopsycho>
+Accept-Language: pl-PL, en-US
 Content-Language: en-US
-To:     Atish Patra <atishp@atishpatra.org>
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Aurelien Jarno <aurelien@aurel32.net>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Jones <ajones@ventanamicro.com>
-References: <20230512085321.13259-1-alexghiti@rivosinc.com>
- <20230512085321.13259-8-alexghiti@rivosinc.com>
- <20230531-7e3740ca04a3fe6e2fd25a01@orel>
- <CAOnJCULmOuP=EGuR7RXgkBU0LrQ9c++M43UXc1dy86kaLxOeVQ@mail.gmail.com>
-From:   Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-In-Reply-To: <CAOnJCULmOuP=EGuR7RXgkBU0LrQ9c++M43UXc1dy86kaLxOeVQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|PH7PR11MB7097:EE_
+x-ms-office365-filtering-correlation-id: 7ab41417-6874-43e1-9bc7-08db6da64d1d
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tQw4xzIaDIZk9PJabZjLyjhQtB+ib9NwFGrnQhkE7S0hJ2a6EzLOGVLk22HkN6U//lDLeMTXeqv4oS+sQZLXyW23eajawYiPBvQT0Qwpm2y+eL9qJ5sM7yainIisjmG1ROTjHVU9L+hYN9UQeV6UmDCtQ/agtRYboLkZ+oq+MEPleyvdP13PP/CdhNwXSMZWKfPIC5IoIWdwkopCh3uUyJOYBYm074ZxAgXp8fkm7irhf1QB3V7Tb4jjDNVUpeLjZO9kJffyKIN85+bYI7r8XrmY+gJNQ9pdz8x1kR62VUJkRcIg9vCFgsWP3q7SzrlqGh9WP1ZBziS7XjsFarM+fq1zV9+QVwLBbIQD5x0OX8PAyI/zL8FFzrl6ZiHe6FVC/AKNW+bHjZ4rYzg0t5sou9ikqhfpMNnd/JB3x1opaDhO2uE0IvR51chE68IDFbPszrKmQB33AuykPVpP1tktXLjUESq7WA+W858v1Xi886GFWZ66XXzAvUZOvne6FwMXfbVs5RFV79wSXGlsegCzCzgvIsExv9dgx0nqJPCCui1fsYraui3qoN0mmtrSqpyoO6wYnZMMB6CpdD5FgX640S6QU7+FLj2+NUvsegLXtVuVwpVOSui6WJYbyP4AjCjT
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(396003)(346002)(136003)(376002)(39860400002)(451199021)(38070700005)(52536014)(33656002)(86362001)(7416002)(2906002)(7406005)(71200400001)(55016003)(5660300002)(7696005)(186003)(83380400001)(9686003)(6506007)(26005)(82960400001)(122000001)(54906003)(66476007)(66446008)(4326008)(76116006)(66946007)(66556008)(64756008)(478600001)(316002)(38100700002)(8676002)(8936002)(6916009)(41300700001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0OwbbEj4vV9cvcAocJw2RMKX+RPVyG9oAJ71OUjfOkey2zUPHbkPLf7jnPzi?=
+ =?us-ascii?Q?ZRpNS7cL5PEZ8DMGhiNJTSnTRqNQBIAS8yRGg0JPSyHudxqGcfNx2iMHk4oB?=
+ =?us-ascii?Q?pcZGLSNAJOBkE0wv1sU+56RlUfOeph8AGMX0TvspFxLqBxtbEEzcRQXYn2EC?=
+ =?us-ascii?Q?mT+REKReO2jLD6YWBxgtJ5XbZBnaGfL7qyWv3lBTQrR7Iq2B90GKYXvJr8nH?=
+ =?us-ascii?Q?i8SSbMGbk1fGv7mWr6CaMSIh4nlJ0+VHc9Vdw/gI3qE0fbSCYjvh2zbmM4D7?=
+ =?us-ascii?Q?/GDRH3S1Rw/WFAb5rJ+fndY2afAKN8tApfOxeXbpXAsbDM7Abe/vz1eBAxBS?=
+ =?us-ascii?Q?w1ACLRihjWgE1uOOyLb83KwP5+UZ3CP14bjGgpF1rf1sn/kQW0fqAFWXVhPe?=
+ =?us-ascii?Q?jpv2iMMjh1dS4x4DvgEHoxhKL04NO+3L1bbjLv0nHnIJrdEazfap4qO/fNav?=
+ =?us-ascii?Q?4OuVe//YqQQSxPLCeOB9gKocbLZmRR+xuXQwY0aEj+DhGLz9mAM+iU+H9OTl?=
+ =?us-ascii?Q?Yj9X+zYY4p+VBmeXetn6S9J9vVG8yDTcszHh2qxwzc0qiBK4teFqhuuNzE3J?=
+ =?us-ascii?Q?unWWWpnacOR7WuuqDwN1/bb57iUDo6dG8Je0jmGVcWkM0ugSdkrx6VYQvR2g?=
+ =?us-ascii?Q?gWlYivtfkGd7x4RQg5fpprYKbqt1YlgoqNmYc/GA2eJaqptFjfx+T/o1Ux5d?=
+ =?us-ascii?Q?7qzcHbQvawYawKj7prflhYEK8+kIWzHtI1AArzGZw+9IbFJsZhu5W3ZvByFO?=
+ =?us-ascii?Q?QctFwp2UuAqjXNQ+l0ljMSloU/x/EBNV00BdhT//u9FGZjTZeHijtSpP79Yv?=
+ =?us-ascii?Q?JLODWdz00j3DKASPs09paNh+qKhk56LZdh9nkcQczxws2842KGnmq64LQGF+?=
+ =?us-ascii?Q?mJa+ZLg6xjKTOSZedYJHbSKRghe6u7DY3A5VVOKVRt0pMbwITOdaYf6+1I8c?=
+ =?us-ascii?Q?N6BqOcbsmZEpnLiSCM7t/iW/X9WelJ7nzEfHjV7cssX+YMb4xMr50K0qjqCO?=
+ =?us-ascii?Q?aKCGkWUq2mAtN+qOdcdmF9GKtfkExTARnu4D2cDVHLNqt3BT4Vc3yiDO4Me+?=
+ =?us-ascii?Q?8jNZNPxIILfsQ8VpGVHIpgx+mPiPPACRQFCEkLYGH4huRaEpRUonKEITDbSx?=
+ =?us-ascii?Q?pBGOH6YRsWEPtYSKKteMMXqvIIMqhdYWc98VFxinQl7aI/vrhUYPM5vYMOWz?=
+ =?us-ascii?Q?Rl3ZpdhSQIJKJIwWcebLN/8xyjctwybxzIy2O1+DfPyYaeHC5ESHzRtDndIv?=
+ =?us-ascii?Q?1XzBDK/igKoHoM0+xEvlU6oFgWeBZsTx6rdZB9E+nfTJDDkNA9Tt6gZ6QM1w?=
+ =?us-ascii?Q?ILD2xVdQFyiFPRyTwLzmV5YrduGlmJn/X3M8+RdAOserhbdNJBIOo1oyRGey?=
+ =?us-ascii?Q?Lkgo0sT9XSw5DjEEFOBrEy1AgFfMLEXhDlJYntcxPDqblp3Xh+mHQRYGKwSv?=
+ =?us-ascii?Q?OvRTEDLoaJO2zDizyDFGJX1HAeMGj/TpFraH+u8DRIOkBvoVDkxYVusp1x4m?=
+ =?us-ascii?Q?cXLFUC65qbMxFsVR2aXdMEZqFkL9m2QDADspDYbejSjYobfs/TGtYNFs/c4I?=
+ =?us-ascii?Q?fbYqWRppByQ/yC/jIb9SZH0cW76kwufc03ZPq4m+fQK4S0BD8IyJjE2btSqN?=
+ =?us-ascii?Q?Yg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ab41417-6874-43e1-9bc7-08db6da64d1d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2023 13:42:02.8498
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OTUmTs0G4LKmLr/YoMKT1PKYRt8T9iKNKRni/Jjboc8rPPfxohmTj7AaJ1Kxbt94aTewX/4yZoFf6R5Esd8kb0p+P6HUhE9OqjZ9cEeWUNI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7097
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/15/23 10:41, Atish Patra wrote:
-> On Wed, May 31, 2023 at 8:02 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+>From: Jiri Pirko <jiri@resnulli.us>
+>Sent: Saturday, June 10, 2023 6:22 PM
+>
+>Fri, Jun 09, 2023 at 02:18:45PM CEST, arkadiusz.kubalewski@intel.com wrote=
+:
+>>Add a protocol spec for DPLL.
+>>Add code generated from the spec.
 >>
->> On Fri, May 12, 2023 at 10:53:18AM +0200, Alexandre Ghiti wrote:
->>> We used to unconditionnally expose the cycle and instret csrs to
->>> userspace, which gives rise to security concerns.
->>>
->>> So now we only allow access to hw counters from userspace through the perf
->>> framework which will handle context switches, per-task events...etc. But
->>> as we cannot break userspace, we give the user the choice to go back to
->>> the previous behaviour by setting the sysctl perf_user_access.
->>>
->>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->>> ---
->>>   arch/riscv/kernel/perf_event.c |  18 ++-
->>>   drivers/perf/riscv_pmu_sbi.c   | 194 ++++++++++++++++++++++++++++++++-
->>>   2 files changed, 205 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/arch/riscv/kernel/perf_event.c b/arch/riscv/kernel/perf_event.c
->>> index 94174a0fc251..3af9ca45b43f 100644
->>> --- a/arch/riscv/kernel/perf_event.c
->>> +++ b/arch/riscv/kernel/perf_event.c
->>> @@ -1,9 +1,13 @@
->>>   // SPDX-License-Identifier: GPL-2.0-only
->>> +#include <linux/perf/riscv_pmu.h>
->>>   #include <linux/sched_clock.h>
->>>
->>>   void arch_perf_update_userpage(struct perf_event *event,
->>>                               struct perf_event_mmap_page *userpg, u64 now)
->>>   {
->>> +#ifdef CONFIG_RISCV_PMU_SBI
->>> +     struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
->>> +#endif
+>>Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+>>Signed-off-by: Michal Michalik <michal.michalik@intel.com>
+>>Signed-off-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+>>Signed-off-by: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+>>---
+>> Documentation/netlink/specs/dpll.yaml | 466 ++++++++++++++++++++++++++
+>> drivers/dpll/dpll_nl.c                | 161 +++++++++
+>> drivers/dpll/dpll_nl.h                |  50 +++
+>> include/uapi/linux/dpll.h             | 184 ++++++++++
+>> 4 files changed, 861 insertions(+)
+>> create mode 100644 Documentation/netlink/specs/dpll.yaml
+>> create mode 100644 drivers/dpll/dpll_nl.c
+>> create mode 100644 drivers/dpll/dpll_nl.h
+>> create mode 100644 include/uapi/linux/dpll.h
 >>
->> Can avoid this pair of #ifdef/#endif's by just declaring rvpmu inside the
->> if block below where it's needed. Or even just using to_riscv_pmu()
->> directly in place of rvpmu.
->>
->>>        struct clock_read_data *rd;
->>>        unsigned int seq;
->>>        u64 ns;
->>> @@ -14,7 +18,19 @@ void arch_perf_update_userpage(struct perf_event *event,
->>>        userpg->cap_user_rdpmc =
->>>                !!(event->hw.flags & PERF_EVENT_FLAG_USER_READ_CNT);
->>>
->>> -     userpg->pmc_width = 64;
->>> +#ifdef CONFIG_RISCV_PMU_SBI
->>> +     /*
->>> +      * The counters are 64-bit but the priv spec doesn't mandate all the
->>> +      * bits to be implemented: that's why, counter width can vary based on
->>> +      * the cpu vendor.
->>> +      */
->>> +     if (event->pmu->name &&
->>> +         !strncmp(event->pmu->name,
->>> +                  RISCV_PMU_PDEV_NAME, sizeof(RISCV_PMU_PDEV_NAME)))
->>> +             userpg->pmc_width = rvpmu->ctr_get_width(event->hw.idx) + 1;
->>> +     else
->>> +#endif
->>> +             userpg->pmc_width = 64;
->>
->> Can leave the initialization to 64 above the #ifdef CONFIG_RISCV_PMU_SBI
->> as is and drop the else.
->>
->>>
->>>        do {
->>>                rd = sched_clock_read_begin(&seq);
->>> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
->>> index 3b0ee2148054..d9bcc5cc6df5 100644
->>> --- a/drivers/perf/riscv_pmu_sbi.c
->>> +++ b/drivers/perf/riscv_pmu_sbi.c
->>> @@ -24,6 +24,14 @@
->>>   #include <asm/sbi.h>
->>>   #include <asm/hwcap.h>
->>>
->>> +#define SYSCTL_NO_USER_ACCESS        0
->>> +#define SYSCTL_USER_ACCESS   1
->>> +#define SYSCTL_LEGACY                2
->>> +
->>> +#define PERF_EVENT_FLAG_NO_USER_ACCESS       BIT(SYSCTL_NO_USER_ACCESS)
->>> +#define PERF_EVENT_FLAG_USER_ACCESS  BIT(SYSCTL_USER_ACCESS)
->>> +#define PERF_EVENT_FLAG_LEGACY               BIT(SYSCTL_LEGACY)
->>> +
->>>   PMU_FORMAT_ATTR(event, "config:0-47");
->>>   PMU_FORMAT_ATTR(firmware, "config:63");
->>>
->>> @@ -43,6 +51,9 @@ static const struct attribute_group *riscv_pmu_attr_groups[] = {
->>>        NULL,
->>>   };
->>>
->>> +/* Allow legacy access by default */
->>> +static int sysctl_perf_user_access __read_mostly = SYSCTL_LEGACY;
->>> +
->>
->> I'm still not in favor of this. Hopefully the distro discussions result in
->> it being changed.
->>
-> 
-> I did not see any feedback from distro guys. I talked to David (fedora
-> maintainer) and he is even okay with
-> SYSCTL_NO_USER_ACCESS :). I would love to hear back from others (cc'd
-> a few distro folks to this thread).
+>>diff --git a/Documentation/netlink/specs/dpll.yaml
+>>b/Documentation/netlink/specs/dpll.yaml
+>>new file mode 100644
+>>index 000000000000..f7317003d312
+>>--- /dev/null
+>>+++ b/Documentation/netlink/specs/dpll.yaml
+>>@@ -0,0 +1,466 @@
+>>+# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-
+>>Clause)
+>>+
+>>+name: dpll
+>>+
+>>+doc: DPLL subsystem.
+>>+
+>>+definitions:
+>>+  -
+>>+    type: enum
+>>+    name: mode
+>>+    doc: |
+>>+      working-modes a dpll can support, differentiate if and how dpll
+>>selects
+>
+>s/working-modes/working modes/
+>s/differentiate/differentiates/
+>?
 
-In future we will have to support scenarios for confidential compute. 
-Here we have to avoid timing attacks against virtual machines. If access 
-to the cycle register is critical, this implies that hiding it behind a 
-sysctl setting is not good enough.
+Fixed.
 
-If we keep this sysctl based access at all, it should be behind a 
-Kconfig setting that is disabled by default and were the help text 
-clearly indicates the security implications.
+>
+>
+>>+      one of its inputs to syntonize with it, valid values for DPLL_A_MO=
+DE
+>>+      attribute
+>>+    entries:
+>>+      -
+>>+        name: manual
+>>+        doc: input can be only selected by sending a request to dpll
+>>+        value: 1
+>>+      -
+>>+        name: automatic
+>>+        doc: highest prio, valid input, auto selected by dpll
+>
+>s/valid input, auto selected by dpll/input pin auto selected by dpll/
+>?
 
-Best regards
+Fixed.
 
-Heinrich
+>
+>
+>>+      -
+>>+        name: holdover
+>>+        doc: dpll forced into holdover mode
+>>+      -
+>>+        name: freerun
+>>+        doc: dpll driven on system clk
+>
+>Thinking about modes "holdover" and "freerun".
+>1) You don't use them anywhere in this patchset, please remove them
+>   until they are needed. ptp_ocp and ice uses automatic, mlx5 uses
+>   manual. Btw, are there any other unused parts of UAPI? If yes, could
+>   you please remove them too?
+>
+>2) I don't think it is correct to have them.
+>   a) to achieve holdover:
+>      if state is LOCKED_HO_ACQ you just disconnect all input pins.
+>   b) to achieve freerun:
+>      if state LOCKED you just disconnect all input pins.
+>   So don't mangle the mode with status.
+>
 
-> 
->>>   /*
->>>    * RISC-V doesn't have heterogeneous harts yet. This need to be part of
->>>    * per_cpu in case of harts with different pmu counters
->>> @@ -301,6 +312,11 @@ int riscv_pmu_get_hpm_info(u32 *hw_ctr_width, u32 *num_hw_ctr)
->>>   }
->>>   EXPORT_SYMBOL_GPL(riscv_pmu_get_hpm_info);
->>>
->>> +static uint8_t pmu_sbi_csr_index(struct perf_event *event)
->>> +{
->>> +     return pmu_ctr_list[event->hw.idx].csr - CSR_CYCLE;
->>> +}
->>> +
->>>   static unsigned long pmu_sbi_get_filter_flags(struct perf_event *event)
->>>   {
->>>        unsigned long cflags = 0;
->>> @@ -329,18 +345,34 @@ static int pmu_sbi_ctr_get_idx(struct perf_event *event)
->>>        struct cpu_hw_events *cpuc = this_cpu_ptr(rvpmu->hw_events);
->>>        struct sbiret ret;
->>>        int idx;
->>> -     uint64_t cbase = 0;
->>> +     uint64_t cbase = 0, cmask = rvpmu->cmask;
->>>        unsigned long cflags = 0;
->>>
->>>        cflags = pmu_sbi_get_filter_flags(event);
->>> +
->>> +     /*
->>> +      * In legacy mode, we have to force the fixed counters for those events
->>> +      * but not in the user access mode as we want to use the other counters
->>> +      * that support sampling/filtering.
->>> +      */
->>> +     if (hwc->flags & PERF_EVENT_FLAG_LEGACY) {
->>> +             if (event->attr.config == PERF_COUNT_HW_CPU_CYCLES) {
->>> +                     cflags |= SBI_PMU_CFG_FLAG_SKIP_MATCH;
->>> +                     cmask = 1;
->>> +             } else if (event->attr.config == PERF_COUNT_HW_INSTRUCTIONS) {
->>> +                     cflags |= SBI_PMU_CFG_FLAG_SKIP_MATCH;
->>> +                     cmask = 1UL << (CSR_INSTRET - CSR_CYCLE);
->>> +             }
->>> +     }
->>> +
->>>        /* retrieve the available counter index */
->>>   #if defined(CONFIG_32BIT)
->>>        ret = sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_CFG_MATCH, cbase,
->>> -                     rvpmu->cmask, cflags, hwc->event_base, hwc->config,
->>> +                     cmask, cflags, hwc->event_base, hwc->config,
->>>                        hwc->config >> 32);
->>>   #else
->>>        ret = sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_CFG_MATCH, cbase,
->>> -                     rvpmu->cmask, cflags, hwc->event_base, hwc->config, 0);
->>> +                     cmask, cflags, hwc->event_base, hwc->config, 0);
->>>   #endif
->>>        if (ret.error) {
->>>                pr_debug("Not able to find a counter for event %lx config %llx\n",
->>> @@ -474,6 +506,14 @@ static u64 pmu_sbi_ctr_read(struct perf_event *event)
->>>        return val;
->>>   }
->>>
->>> +static void pmu_sbi_set_scounteren(void *arg)
->>> +{
->>> +     struct perf_event *event = (struct perf_event *)arg;
->>> +
->>> +     csr_write(CSR_SCOUNTEREN,
->>> +               csr_read(CSR_SCOUNTEREN) | (1 << pmu_sbi_csr_index(event)));
->>> +}
->>> +
->>>   static void pmu_sbi_ctr_start(struct perf_event *event, u64 ival)
->>>   {
->>>        struct sbiret ret;
->>> @@ -490,6 +530,18 @@ static void pmu_sbi_ctr_start(struct perf_event *event, u64 ival)
->>>        if (ret.error && (ret.error != SBI_ERR_ALREADY_STARTED))
->>>                pr_err("Starting counter idx %d failed with error %d\n",
->>>                        hwc->idx, sbi_err_map_linux_errno(ret.error));
->>> +
->>> +     if (hwc->flags & PERF_EVENT_FLAG_USER_ACCESS &&
->>> +         hwc->flags & PERF_EVENT_FLAG_USER_READ_CNT)
->>> +             pmu_sbi_set_scounteren((void *)event);
->>> +}
->>> +
->>> +static void pmu_sbi_reset_scounteren(void *arg)
->>> +{
->>> +     struct perf_event *event = (struct perf_event *)arg;
->>> +
->>> +     csr_write(CSR_SCOUNTEREN,
->>> +               csr_read(CSR_SCOUNTEREN) & ~(1 << pmu_sbi_csr_index(event)));
->>>   }
->>>
->>>   static void pmu_sbi_ctr_stop(struct perf_event *event, unsigned long flag)
->>> @@ -497,6 +549,10 @@ static void pmu_sbi_ctr_stop(struct perf_event *event, unsigned long flag)
->>>        struct sbiret ret;
->>>        struct hw_perf_event *hwc = &event->hw;
->>>
->>> +     if (hwc->flags & PERF_EVENT_FLAG_USER_ACCESS &&
->>> +         hwc->flags & PERF_EVENT_FLAG_USER_READ_CNT)
->>> +             pmu_sbi_reset_scounteren((void *)event);
->>> +
->>>        ret = sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_STOP, hwc->idx, 1, flag, 0, 0, 0);
->>>        if (ret.error && (ret.error != SBI_ERR_ALREADY_STOPPED) &&
->>>                flag != SBI_PMU_STOP_FLAG_RESET)
->>> @@ -704,10 +760,13 @@ static int pmu_sbi_starting_cpu(unsigned int cpu, struct hlist_node *node)
->>>        struct cpu_hw_events *cpu_hw_evt = this_cpu_ptr(pmu->hw_events);
->>>
->>>        /*
->>> -      * Enable the access for CYCLE, TIME, and INSTRET CSRs from userspace,
->>> -      * as is necessary to maintain uABI compatibility.
->>> +      * We keep enabling userspace access to CYCLE, TIME and INSRET via the
->>> +      * legacy option but that will be removed in the future.
->>>         */
->>> -     csr_write(CSR_SCOUNTEREN, 0x7);
->>> +     if (sysctl_perf_user_access == SYSCTL_LEGACY)
->>> +             csr_write(CSR_SCOUNTEREN, 0x7);
->>> +     else
->>> +             csr_write(CSR_SCOUNTEREN, 0x2);
->>>
->>>        /* Stop all the counters so that they can be enabled from perf */
->>>        pmu_sbi_stop_all(pmu);
->>> @@ -851,6 +910,123 @@ static void riscv_pmu_destroy(struct riscv_pmu *pmu)
->>>        cpuhp_state_remove_instance(CPUHP_AP_PERF_RISCV_STARTING, &pmu->node);
->>>   }
->>>
->>> +static void pmu_sbi_event_init(struct perf_event *event)
->>> +{
->>> +     /*
->>> +      * The permissions are set at event_init so that we do not depend
->>> +      * on the sysctl value that can change.
->>> +      */
->>> +     if (sysctl_perf_user_access == SYSCTL_NO_USER_ACCESS)
->>> +             event->hw.flags |= PERF_EVENT_FLAG_NO_USER_ACCESS;
->>> +     else if (sysctl_perf_user_access == SYSCTL_USER_ACCESS)
->>> +             event->hw.flags |= PERF_EVENT_FLAG_USER_ACCESS;
->>> +     else
->>> +             event->hw.flags |= PERF_EVENT_FLAG_LEGACY;
->>> +}
->>> +
->>> +static void pmu_sbi_event_mapped(struct perf_event *event, struct mm_struct *mm)
->>> +{
->>> +     if (event->hw.flags & PERF_EVENT_FLAG_NO_USER_ACCESS)
->>> +             return;
->>> +
->>> +     /* In legacy mode, the first 3 CSRs are available. */
->>
->> first and third
->>
->>> +     if (event->hw.flags & PERF_EVENT_FLAG_LEGACY) {
->>> +             if (event->attr.config != PERF_COUNT_HW_CPU_CYCLES &&
->>> +                 event->attr.config != PERF_COUNT_HW_INSTRUCTIONS) {
->>> +                     return;
->>> +             }
->>> +     }
->>> +
->>> +     /*
->>> +      * The user mmapped the event to directly access it: this is where
->>> +      * we determine based on sysctl_perf_user_access if we grant userspace
->>> +      * the direct access to this event. That means that within the same
->>> +      * task, some events may be directly accessible and some other may not,
->>> +      * if the user changes the value of sysctl_perf_user_accesss in the
->>> +      * meantime.
->>> +      */
->>> +
->>> +     event->hw.flags |= PERF_EVENT_FLAG_USER_READ_CNT;
->>> +
->>> +     /*
->>> +      * We must enable userspace access *before* advertising in the user page
->>> +      * that it is possible to do so to avoid any race.
->>> +      * And we must notify all cpus here because threads that currently run
->>> +      * on other cpus will try to directly access the counter too without
->>> +      * calling pmu_sbi_ctr_start.
->>> +      */
->>> +     if (event->hw.flags & PERF_EVENT_FLAG_USER_ACCESS)
->>> +             on_each_cpu_mask(mm_cpumask(mm),
->>> +                              pmu_sbi_set_scounteren, (void *)event, 1);
->>> +}
->>> +
->>> +static void pmu_sbi_event_unmapped(struct perf_event *event, struct mm_struct *mm)
->>> +{
->>> +     if (event->hw.flags & PERF_EVENT_FLAG_NO_USER_ACCESS)
->>> +             return;
->>> +
->>> +     /* In legacy mode, the first 3 CSRs are available. */
->>
->> first and third
->>
->>> +     if (event->hw.flags & PERF_EVENT_FLAG_LEGACY) {
->>> +             if (event->attr.config != PERF_COUNT_HW_CPU_CYCLES &&
->>> +                 event->attr.config != PERF_COUNT_HW_INSTRUCTIONS) {
->>> +                     return;
->>> +             }
->>> +     }
->>> +
->>> +     /*
->>> +      * Here we can directly remove user access since the user does not have
->>> +      * access to the user page anymore so we avoid the racy window where the
->>> +      * user could have read cap_user_rdpmc to true right before we disable
->>> +      * it.
->>> +      */
->>> +     event->hw.flags &= ~PERF_EVENT_FLAG_USER_READ_CNT;
->>> +
->>> +     if (event->hw.flags & PERF_EVENT_FLAG_USER_ACCESS)
->>> +             on_each_cpu_mask(mm_cpumask(mm),
->>> +                              pmu_sbi_reset_scounteren, (void *)event, 1);
->>> +}
->>> +
->>> +static void riscv_pmu_update_counter_access(void *info)
->>> +{
->>> +     if (sysctl_perf_user_access == SYSCTL_LEGACY)
->>> +             csr_write(CSR_SCOUNTEREN, 0x7);
->>> +     else
->>> +             csr_write(CSR_SCOUNTEREN, 0x2);
->>> +}
->>> +
->>> +static int riscv_pmu_proc_user_access_handler(struct ctl_table *table,
->>> +                                           int write, void *buffer,
->>> +                                           size_t *lenp, loff_t *ppos)
->>> +{
->>> +     int prev = sysctl_perf_user_access;
->>> +     int ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
->>> +
->>> +     /*
->>> +      * Test against the previous value since we clear SCOUNTEREN when
->>> +      * sysctl_perf_user_access is set to SYSCTL_USER_ACCESS, but we should
->>> +      * not do that if that was already the case.
->>> +      */
->>> +     if (ret || !write || prev == sysctl_perf_user_access)
->>> +             return ret;
->>> +
->>> +     on_each_cpu(riscv_pmu_update_counter_access, (void *)&prev, 1);
->>
->> Instead of passing prev shouldn't we pass NULL, as it's not used?
->>
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +static struct ctl_table sbi_pmu_sysctl_table[] = {
->>> +     {
->>> +             .procname       = "perf_user_access",
->>> +             .data           = &sysctl_perf_user_access,
->>> +             .maxlen         = sizeof(unsigned int),
->>> +             .mode           = 0644,
->>> +             .proc_handler   = riscv_pmu_proc_user_access_handler,
->>> +             .extra1         = SYSCTL_ZERO,
->>> +             .extra2         = SYSCTL_TWO,
->>> +     },
->>> +     { }
->>> +};
->>> +
->>>   static int pmu_sbi_device_probe(struct platform_device *pdev)
->>>   {
->>>        struct riscv_pmu *pmu = NULL;
->>> @@ -888,6 +1064,10 @@ static int pmu_sbi_device_probe(struct platform_device *pdev)
->>>        pmu->ctr_get_width = pmu_sbi_ctr_get_width;
->>>        pmu->ctr_clear_idx = pmu_sbi_ctr_clear_idx;
->>>        pmu->ctr_read = pmu_sbi_ctr_read;
->>> +     pmu->event_init = pmu_sbi_event_init;
->>> +     pmu->event_mapped = pmu_sbi_event_mapped;
->>> +     pmu->event_unmapped = pmu_sbi_event_unmapped;
->>> +     pmu->csr_index = pmu_sbi_csr_index;
->>>
->>>        ret = cpuhp_state_add_instance(CPUHP_AP_PERF_RISCV_STARTING, &pmu->node);
->>>        if (ret)
->>> @@ -901,6 +1081,8 @@ static int pmu_sbi_device_probe(struct platform_device *pdev)
->>>        if (ret)
->>>                goto out_unregister;
->>>
->>> +     register_sysctl("kernel", sbi_pmu_sysctl_table);
->>> +
->>>        return 0;
->>>
->>>   out_unregister:
->>> --
->>> 2.37.2
->>>
->>
->> Thanks,
->> drew
-> 
-> 
-> 
+Well this is not entierly true, the mode is not a state.
+Technically in those modes the user would not be able to set any states
+on the pins.
+The modes are supported on the synchronizer chips we are using, altough
+the ice driver does not have this support enabled yet.
+So I am removing those for now, if they would be needed, we will submit the
+patches for it.
 
+>
+>>+    render-max: true
+>>+  -
+>>+    type: enum
+>>+    name: lock-status
+>>+    doc: |
+>>+      provides information of dpll device lock status, valid values for
+>>+      DPLL_A_LOCK_STATUS attribute
+>>+    entries:
+>>+      -
+>>+        name: unlocked
+>>+        doc: |
+>>+          dpll was not yet locked to any valid input (or is in mode:
+>>+            DPLL_MODE_FREERUN)
+>
+>Don't forget to remove the mention of mode freerun from here.
+>
+
+Fixed.
+
+>
+>>+        value: 1
+>>+      -
+>>+        name: locked
+>>+        doc: |
+>>+          dpll is locked to a valid signal, but no holdover available
+>>+      -
+>>+        name: locked-ho-acq
+>>+        doc: |
+>>+          dpll is locked and holdover acquired
+>>+      -
+>>+        name: holdover
+>>+        doc: |
+>>+          dpll is in holdover state - lost a valid lock or was forced
+>>+          by selecting DPLL_MODE_HOLDOVER mode (latter possible only
+>>+          when dpll lock-state was already DPLL_LOCK_STATUS_LOCKED,
+>>+          if dpll lock-state was not DPLL_LOCK_STATUS_LOCKED, the
+>>+          dpll's lock-state shall remain DPLL_LOCK_STATUS_UNLOCKED
+>>+          even if DPLL_MODE_HOLDOVER was requested)
+>
+>Don't forget to remove the mention of mode holdover from here.
+>
+
+Fixed.
+
+>
+>>+    render-max: true
+>>+  -
+>>+    type: const
+>>+    name: temp-divider
+>>+    value: 1000
+>>+    doc: |
+>>+      temperature divider allowing userspace to calculate the
+>>+      temperature as float with three digit decimal precision.
+>>+      Value of (DPLL_A_TEMP / DPLL_TEMP_DIVIDER) is integer part of
+>>+      temperature value.
+>>+      Value of (DPLL_A_TEMP % DPLL_TEMP_DIVIDER) is fractional part of
+>>+      temperature value.
+>>+  -
+>>+    type: enum
+>>+    name: type
+>>+    doc: type of dpll, valid values for DPLL_A_TYPE attribute
+>>+    entries:
+>>+      -
+>>+        name: pps
+>>+        doc: dpll produces Pulse-Per-Second signal
+>>+        value: 1
+>>+      -
+>>+        name: eec
+>>+        doc: dpll drives the Ethernet Equipment Clock
+>>+    render-max: true
+>>+  -
+>>+    type: enum
+>>+    name: pin-type
+>>+    doc: |
+>>+      defines possible types of a pin, valid values for DPLL_A_PIN_TYPE
+>>+      attribute
+>>+    entries:
+>>+      -
+>>+        name: mux
+>>+        doc: aggregates another layer of selectable pins
+>>+        value: 1
+>>+      -
+>>+        name: ext
+>>+        doc: external input
+>>+      -
+>>+        name: synce-eth-port
+>>+        doc: ethernet port PHY's recovered clock
+>>+      -
+>>+        name: int-oscillator
+>>+        doc: device internal oscillator
+>>+      -
+>>+        name: gnss
+>>+        doc: GNSS recovered clock
+>>+    render-max: true
+>>+  -
+>>+    type: enum
+>>+    name: pin-direction
+>>+    doc: |
+>>+      defines possible direction of a pin, valid values for
+>>+      DPLL_A_PIN_DIRECTION attribute
+>>+    entries:
+>>+      -
+>>+        name: input
+>>+        doc: pin used as a input of a signal
+>
+>I don't think I have any objections against "input", but out of
+>curiosity, why you changed that from "source"?
+>
+
+Agreed to previous version review comment from Jakub,
+to use either: input/output or source/sink naming scheme.
+
+>
+>>+        value: 1
+>>+      -
+>>+        name: output
+>>+        doc: pin used to output the signal
+>>+    render-max: true
+>>+  -
+>>+    type: const
+>>+    name: pin-frequency-1-hz
+>>+    value: 1
+>>+  -
+>>+    type: const
+>>+    name: pin-frequency-10-khz
+>>+    value: 10000
+>>+  -
+>>+    type: const
+>>+    name: pin-frequency-77_5-khz
+>>+    value: 77500
+>>+  -
+>>+    type: const
+>>+    name: pin-frequency-10-mhz
+>>+    value: 10000000
+>>+  -
+>>+    type: enum
+>>+    name: pin-state
+>>+    doc: |
+>>+      defines possible states of a pin, valid values for
+>>+      DPLL_A_PIN_STATE attribute
+>>+    entries:
+>>+      -
+>>+        name: connected
+>>+        doc: pin connected, active input of phase locked loop
+>>+        value: 1
+>>+      -
+>>+        name: disconnected
+>>+        doc: pin disconnected, not considered as a valid input
+>>+      -
+>>+        name: selectable
+>>+        doc: pin enabled for automatic input selection
+>>+    render-max: true
+>>+  -
+>>+    type: flags
+>>+    name: pin-caps
+>>+    doc: |
+>>+      defines possible capabilities of a pin, valid flags on
+>>+      DPLL_A_PIN_CAPS attribute
+>>+    entries:
+>>+      -
+>>+        name: direction-can-change
+>>+      -
+>>+        name: priority-can-change
+>>+      -
+>>+        name: state-can-change
+>>+
+>>+attribute-sets:
+>>+  -
+>>+    name: dpll
+>>+    enum-name: dpll_a
+>>+    attributes:
+>>+      -
+>>+        name: id
+>>+        type: u32
+>>+        value: 1
+>>+      -
+>>+        name: module-name
+>>+        type: string
+>>+      -
+>>+        name: clock-id
+>>+        type: u64
+>>+      -
+>>+        name: mode
+>>+        type: u8
+>>+        enum: mode
+>>+      -
+>>+        name: mode-supported
+>>+        type: u8
+>>+        enum: mode
+>>+        multi-attr: true
+>>+      -
+>>+        name: lock-status
+>>+        type: u8
+>>+        enum: lock-status
+>>+      -
+>>+        name: temp
+>>+        type: s32
+>>+      -
+>>+        name: type
+>>+        type: u8
+>>+        enum: type
+>>+      -
+>>+        name: pin-id
+>>+        type: u32
+>>+      -
+>>+        name: pin-board-label
+>>+        type: string
+>>+      -
+>>+        name: pin-panel-label
+>>+        type: string
+>>+      -
+>>+        name: pin-package-label
+>>+        type: string
+>
+>Wouldn't it make sense to add some small documentation blocks to the
+>attrs? IDK.
+>
+
+Actually already tried that, but after all they did not generate any docs
+for attr enums. So this need also fix in ynl-gen-c.py
+
+I think this would be useful, but only if we could use them in the dpll.rst=
+.
+Right now it is not case, but we already try to incorporate other enums
+description there, for now it is broken, but will try to fix this in the ne=
+ar
+future.
+
+Thank you!
+Arkadiusz
+
+>
+>>+      -
+>>+        name: pin-type
+>>+        type: u8
+>>+        enum: pin-type
+>>+      -
+>>+        name: pin-direction
+>>+        type: u8
+>>+        enum: pin-direction
+>>+      -
+>>+        name: pin-frequency
+>>+        type: u64
+>>+      -
+>>+        name: pin-frequency-supported
+>>+        type: nest
+>>+        multi-attr: true
+>>+        nested-attributes: pin-frequency-range
+>>+      -
+>>+        name: pin-frequency-min
+>>+        type: u64
+>>+      -
+>>+        name: pin-frequency-max
+>>+        type: u64
+>>+      -
+>>+        name: pin-prio
+>>+        type: u32
+>>+      -
+>>+        name: pin-state
+>>+        type: u8
+>>+        enum: pin-state
+>>+      -
+>>+        name: pin-dpll-caps
+>>+        type: u32
+>>+      -
+>>+        name: pin-parent
+>>+        type: nest
+>>+        multi-attr: true
+>>+        nested-attributes: pin-parent
+>>+  -
+>>+    name: pin-parent
+>>+    subset-of: dpll
+>>+    attributes:
+>>+      -
+>>+        name: id
+>>+        type: u32
+>>+      -
+>>+        name: pin-direction
+>>+        type: u8
+>>+      -
+>>+        name: pin-prio
+>>+        type: u32
+>>+      -
+>>+        name: pin-state
+>>+        type: u8
+>>+      -
+>>+        name: pin-id
+>>+        type: u32
+>>+
+>>+  -
+>>+    name: pin-frequency-range
+>>+    subset-of: dpll
+>>+    attributes:
+>>+      -
+>>+        name: pin-frequency-min
+>>+        type: u64
+>>+      -
+>>+        name: pin-frequency-max
+>>+        type: u64
+>
+>[...]
