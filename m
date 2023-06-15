@@ -2,95 +2,185 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0F67C001B1
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 18:10:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 538F8EB64DB
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 18:26:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238219AbjFOSKU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 14:10:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32970 "EHLO
+        id S229730AbjFOS0z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jun 2023 14:26:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239387AbjFOSKM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 14:10:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2792960;
-        Thu, 15 Jun 2023 11:10:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8905A6102A;
-        Thu, 15 Jun 2023 18:10:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 586F0C433CB;
-        Thu, 15 Jun 2023 18:10:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686852611;
-        bh=U6h6ZVnX1R+TPZKq+FI4cbLfEjWQ4SmBj/oLpCWrvdk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CEZlK7GCdb9WE0sL23de54xVIUpj9JSjgpgizcOcQf65VgF3Y9YHrYcfE36RoYDCO
-         jlJ9aTzLeztjAvJXhDxv2B5P0KPrtyFgHMch9XmU0P8ntPEwAdbRZmCJSEA8QNgIl5
-         GHORoF4RnwMkZBg4R3XkoY/ZgR7plNGJPf/PgBmAg9ybrQJQACTyOc2Apw12Ncvzvg
-         60BncB3GqgSNcWwqxv0UD1+YM+7dpRCKg5ewIUK+kNz1+D/h/iittKEKVOM2hw8HvI
-         s8tNTMRPDrAQav5j4OXBCCjIkEO1czVyUaVt7d9u1bSqj3WJS02mZcylu0xF5xAEAB
-         KfXc6WUzD9QgQ==
-From:   SeongJae Park <sj@kernel.org>
-To:     paulmck@kernel.org
-Cc:     SeongJae Park <sj@kernel.org>, joel@joelfernandes.org,
-        mmpgouride@gmail.com, corbet@lwn.net, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/3] Docs/RCU/rculist_nulls: Specify type of the object in examples
-Date:   Thu, 15 Jun 2023 18:10:02 +0000
-Message-Id: <20230615181004.86850-2-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230615181004.86850-1-sj@kernel.org>
-References: <20230615181004.86850-1-sj@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229648AbjFOS0y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 14:26:54 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3301B1FD4
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 11:26:53 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id d9443c01a7336-1b516cb26c9so7792935ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 11:26:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686853612; x=1689445612;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=v5j0wCZPnfsM4/SjEwwVDfexZdOw0uK6iqseA0HQUzE=;
+        b=pVetr2jEMF5lF1mCTvADonXqP6bFE0nxsdmxOn0ASTw2/bFTnBCX3GM5/ND7idJYcK
+         WLJ9v5Jtgv7YkQ2t1A7zr6BtWjGAUd3nGNd07s8rKjBzK87V1SPxXbBBFz/A0h4/TJ+6
+         PGmBMXeXE9iwEFyxsQoXFCV8sBkm29Ah7+IBIGN34Rgv+Rsgl1RNt8i9bBt7KJ4b5QVP
+         kObHHMIWjacSwTjfHlphojvQG6ZoJtxmutK76LuVb5zNph2otTKjSu6e9v7dG85CX5qp
+         /ZUeWSJZa6+15VCNA95293lQnjitxNStYywqEhGfprGR2cMKGHH5r/UDSXD2EdD+dK2Z
+         XA6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686853612; x=1689445612;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v5j0wCZPnfsM4/SjEwwVDfexZdOw0uK6iqseA0HQUzE=;
+        b=JHYGwo5oswm6+lFtg/cYykPpb7bnluTdHnfOTMH9iJ6U1Tq3pZrLoTjClnQ3C96jJU
+         616caZcCOy2rXGqgqd27slv3Yq+LA+pAD/PBwDZXohmtlYjFTLdUmkoep1uiKxeS39rB
+         DbrxkiNdC4AkGkl4MuLM9JtsfbOk6BKpRoh4S4SiXZjeFHfTP2NK2Oy69jvs+CpT7ORu
+         AzcA6heUf5fE3HW3ahAikOVRyQ3jhpkTT18vvXZWSRTENLlr+0IhSxwBjogP0F7PNMVw
+         VtdjD4CfJj8/FMOdoJFtxAcr+FeTcH0XiVbX8SKmQEMuVhK2ju6H7sF06PHlFNqzgw8X
+         5z9w==
+X-Gm-Message-State: AC+VfDyKFyrWaSgNnxXyMLNcX0hQlrVy9jDb5WRWE2lnKPR7df/45A3o
+        iGA7l6BSaLeTsABWhOyluxumUo/QLyI=
+X-Google-Smtp-Source: ACHHUZ4XblfvtELYfPfTXYv/mZguDzYqVYK+D/wTZAy9MdyrQSECLLlB+UmOM8NMKOmXv6Fwf6a/c1+W5jI=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:a70f:b0:1b5:64:1862 with SMTP id
+ w15-20020a170902a70f00b001b500641862mr893196plq.9.1686853612603; Thu, 15 Jun
+ 2023 11:26:52 -0700 (PDT)
+Date:   Thu, 15 Jun 2023 11:26:51 -0700
+In-Reply-To: <20230526234435.662652-10-yuzhao@google.com>
+Mime-Version: 1.0
+References: <20230526234435.662652-1-yuzhao@google.com> <20230526234435.662652-10-yuzhao@google.com>
+Message-ID: <ZItX64Bbx5vdjo9M@google.com>
+Subject: Re: [PATCH mm-unstable v2 09/10] kvm/x86: add kvm_arch_test_clear_young()
+From:   Sean Christopherson <seanjc@google.com>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Alistair Popple <apopple@nvidia.com>,
+        Anup Patel <anup@brainfault.org>,
+        Ben Gardon <bgardon@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Fabiano Rosas <farosas@linux.ibm.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Gavin Shan <gshan@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Morse <james.morse@arm.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Larabel <michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Peter Xu <peterx@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Huth <thuth@redhat.com>, Will Deacon <will@kernel.org>,
+        Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
+        linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+        linux-mm@google.com
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The type of 'obj' in example code of rculist_nulls.rst is implicit.
-Provide the specific type of it before the example code.
+On Fri, May 26, 2023, Yu Zhao wrote:
+> diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
+> index 08340219c35a..6875a819e007 100644
+> --- a/arch/x86/kvm/mmu/tdp_mmu.c
+> +++ b/arch/x86/kvm/mmu/tdp_mmu.c
+> @@ -1232,6 +1232,40 @@ bool kvm_tdp_mmu_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+>  	return kvm_tdp_mmu_handle_gfn(kvm, range, test_age_gfn);
+>  }
+>  
+> +bool kvm_arch_test_clear_young(struct kvm *kvm, struct kvm_gfn_range *range)
+> +{
+> +	struct kvm_mmu_page *root;
+> +	int offset = ffs(shadow_accessed_mask) - 1;
+> +
+> +	if (kvm_shadow_root_allocated(kvm))
 
-Suggested-by: aul E. McKenney <paulmck@kernel.org>
-Link: https://lore.kernel.org/rcu/43943609-f80c-4b6a-9844-994eef800757@paulmck-laptop/
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/RCU/rculist_nulls.rst | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+This needs a comment.
 
-diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-index 94a8bfe9f560..4b66e2fd2fb5 100644
---- a/Documentation/RCU/rculist_nulls.rst
-+++ b/Documentation/RCU/rculist_nulls.rst
-@@ -18,7 +18,16 @@ to solve following problem.
+> +		return true;
+> +
+> +	rcu_read_lock();
+> +
+> +	list_for_each_entry_rcu(root, &kvm->arch.tdp_mmu_roots, link) {
+
+As requested in v1[1], please add a macro for a lockless walk.
+
+[1] https://lkml.kernel.org/r/Y%2Fed0XYAPx%2B7pukA%40google.com
+
+> +		struct tdp_iter iter;
+> +
+> +		if (kvm_mmu_page_as_id(root) != range->slot->as_id)
+> +			continue;
+> +
+> +		tdp_root_for_each_leaf_pte(iter, root, range->start, range->end) {
+> +			u64 *sptep = rcu_dereference(iter.sptep);
+> +
+> +			VM_WARN_ON_ONCE(!page_count(virt_to_page(sptep)));
+
+Hrm, I don't like adding this in KVM.  The primary MMU might guarantee that this
+callback is invoked if and only if the SPTE is backed by struct page memory, but
+there's no reason to assume that's true in KVM.  If we want the sanity check, then
+this needs to use kvm_pfn_to_refcounted_page().
+
+And it should use KVM's MMU_WARN_ON(), which is a mess and effectively dead code,
+but I'm working on changing that[*], i.e. by the time this gets to Linus' tree,
+the sanity check should have a much cleaner implementation.
+
+[2] https://lore.kernel.org/all/20230511235917.639770-8-seanjc@google.com
+
+> +
+> +			if (!(iter.old_spte & shadow_accessed_mask))
+> +				continue;
+> +
+> +			if (kvm_should_clear_young(range, iter.gfn))
+> +				clear_bit(offset, (unsigned long *)sptep);
+
+If/when you rebase on https://github.com/kvm-x86/linux/tree/next, can you pull
+out the atomic bits of tdp_mmu_clear_spte_bits() and use that new helper? E.g.
+
+diff --git a/arch/x86/kvm/mmu/tdp_iter.h b/arch/x86/kvm/mmu/tdp_iter.h
+index fae559559a80..914c34518829 100644
+--- a/arch/x86/kvm/mmu/tdp_iter.h
++++ b/arch/x86/kvm/mmu/tdp_iter.h
+@@ -58,15 +58,18 @@ static inline u64 kvm_tdp_mmu_write_spte(tdp_ptep_t sptep, u64 old_spte,
+        return old_spte;
+ }
  
- Without 'nulls', a typical RCU linked list managing objects which are
- allocated with SLAB_TYPESAFE_BY_RCU kmem_cache can use the following
--algorithms:
-+algorithms.  Following examples assume 'obj' is a pointer to such
-+objects, which is having below type.
++static inline u64 tdp_mmu_clear_spte_bits_atomic(tdp_ptep_t sptep, u64 mask)
++{
++       atomic64_t *sptep_atomic = (atomic64_t *)rcu_dereference(sptep);
 +
-+::
++       return (u64)atomic64_fetch_and(~mask, sptep_atomic);
++}
 +
-+  struct object {
-+    struct hlist_node obj_node;
-+    refcount_t refcnt;
-+    unsigned int key;
-+  };
+ static inline u64 tdp_mmu_clear_spte_bits(tdp_ptep_t sptep, u64 old_spte,
+                                          u64 mask, int level)
+ {
+-       atomic64_t *sptep_atomic;
+-
+-       if (kvm_tdp_mmu_spte_need_atomic_write(old_spte, level)) {
+-               sptep_atomic = (atomic64_t *)rcu_dereference(sptep);
+-               return (u64)atomic64_fetch_and(~mask, sptep_atomic);
+-       }
++       if (kvm_tdp_mmu_spte_need_atomic_write(old_spte, level))
++               return tdp_mmu_clear_spte_bits_atomic(sptep, mask);
  
- 1) Lookup algorithm
- -------------------
-@@ -142,6 +151,9 @@ the beginning. If the object was moved to the same chain,
- then the reader doesn't care: It might occasionally
- scan the list again without harm.
- 
-+Note that using hlist_nulls means the type of 'obj_node' field of
-+'struct object' becomes 'struct hlist_nulls_node'.
-+
- 
- 1) lookup algorithm
- -------------------
--- 
-2.25.1
+        __kvm_tdp_mmu_write_spte(sptep, old_spte & ~mask);
+        return old_spte;
 
