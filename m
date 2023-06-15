@@ -2,100 +2,341 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E811EEB64DB
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 17:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C97AEB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 17:43:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230099AbjFORaG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 13:30:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
+        id S237797AbjFORnF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jun 2023 13:43:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjFORaF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 13:30:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 712372711;
-        Thu, 15 Jun 2023 10:30:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 04E4762CB3;
-        Thu, 15 Jun 2023 17:30:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B88EDC433C8;
-        Thu, 15 Jun 2023 17:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686850202;
-        bh=6k2E/HCymMi+Pobov+FDLKMTyKLdXmhmMMQubn2X9mw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sWwSxCgCLH0WUIpbjt58Uyggj9hwD7ibn43ARD2yu1I97/hU0ZofR+PX27bh1q1rs
-         eqNvlr0mW4uM5wiLLXMRe1kEUln6sVWkIn8uIS0dTyVXJWUIMie8VSsbXcmj+Z6+rI
-         Am8gsmkWNGEEA1vPdqPXJSnGQU1Rmda5NjXrJJzS/hI32y1aZZATBE2D79ygZFglEj
-         RvYBqMQwINEURPhAo0YhNA5OozP7qbJUERMt6JaRxCZSkANgB0uQWt4sON84HZ2a3l
-         cPZQFjRhH/0kK7k5jmg+rORLyWxRNw+ET+qHaTi+rJLRX1fr7dZc4xjnX9I0uawnLN
-         W1a9CG2VTHXFA==
-From:   SeongJae Park <sj@kernel.org>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     SeongJae Park <sj@kernel.org>, joel@joelfernandes.org,
-        mmpgouride@gmail.com, corbet@lwn.net, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] Docs/RCU/rculist_nulls: Fix hlist_head field name of 'obj'
-Date:   Thu, 15 Jun 2023 17:30:00 +0000
-Message-Id: <20230615173000.84885-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <43943609-f80c-4b6a-9844-994eef800757@paulmck-laptop>
-References: 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S237349AbjFORnE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 13:43:04 -0400
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CC52945
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 10:42:59 -0700 (PDT)
+Received: by mail-pl1-x649.google.com with SMTP id d9443c01a7336-1b50e3096b0so12002455ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 10:42:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686850979; x=1689442979;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3VaVpYnKKIXM0ZMJBv2BahWS6rKgSDR5ikxQlp7Qm5M=;
+        b=CRqM4fJoSy0TOwQEM+dwNf4YLmN8ZNvadtNeqmejsTpkrhB3fUKCS5gVORcT3YAFGF
+         i/3D4htNDkxjLmMQr6ex9h88D9Mn3b3BcimZjQyHYDLLHrnhvGGLYYK4DnkhEsQ6CVaZ
+         cXJTMz7MEXsf3MpnUFcr6Mx0t4RSwdzHZHJMQ/Gw529RF41s9TMoKGTDzFQ40JREZYAz
+         j/q5bFPXA1TGS/pjeQnxzb2ibh5u61Yat52z5h2i3whlu/NZWmrHHKlNBlQzVnj3NGqb
+         fUd5ZYUT6Xx5VG3C07mjHJV5Ti0lFZylCk6cioTWTVk9aptHHtPLM7okEk048bn6RBzX
+         EGGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686850979; x=1689442979;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3VaVpYnKKIXM0ZMJBv2BahWS6rKgSDR5ikxQlp7Qm5M=;
+        b=dvFDpr/Ut0HFnnuCagpj+GMwqwF6wWuOv9JxjvXgmHIAMPZ1WaDhj8YLo5i/GGLD9X
+         BtWkxDp0/ESTy3NxE4/YVMIOvdvV/9AE81FI0p8wFAhGJPJ8ANoF7I2nAXciTcrUJa1P
+         hlw+aDf+tJNsNWh590TzX8M5vnyeyoyYEs/S0UGf0ZRPAhpOmrtV76COWN7Si1J6k5Cb
+         7yHkguOS7myV1nRSzCJSNn/zUMlae/rzOjkGdkj47b3uhapn5JL2E9jONs+P/bKfdC4u
+         INphS30F1IqGeFnmkYGPBDKZEbt7bnrPW1lblb2gSnIYnYqiysALWISFqp9qMbjPNnzN
+         pvvg==
+X-Gm-Message-State: AC+VfDzgYTn6fGTaUSSuJuPJVp03aMuSzoHkG/DgK+yi8IPVzUerjZS9
+        7rsepbX3PkpRbuCn9a353m6G5ri1NnI=
+X-Google-Smtp-Source: ACHHUZ4cQlpzVe0KczazAvYqGjGYoNkXv8UVqui26XxKS9kOBWmazT/WNj+BhRRRMGskVfw0J/AilzSk6Q0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:f7d3:b0:1b5:147f:d8d1 with SMTP id
+ h19-20020a170902f7d300b001b5147fd8d1mr547182plw.3.1686850979254; Thu, 15 Jun
+ 2023 10:42:59 -0700 (PDT)
+Date:   Thu, 15 Jun 2023 10:42:57 -0700
+In-Reply-To: <20230526234435.662652-2-yuzhao@google.com>
+Mime-Version: 1.0
+References: <20230526234435.662652-1-yuzhao@google.com> <20230526234435.662652-2-yuzhao@google.com>
+Message-ID: <ZItNoeWriZgLUaon@google.com>
+Subject: Re: [PATCH mm-unstable v2 01/10] mm/kvm: add mmu_notifier_ops->test_clear_young()
+From:   Sean Christopherson <seanjc@google.com>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Alistair Popple <apopple@nvidia.com>,
+        Anup Patel <anup@brainfault.org>,
+        Ben Gardon <bgardon@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Fabiano Rosas <farosas@linux.ibm.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Gavin Shan <gshan@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Morse <james.morse@arm.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Larabel <michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Peter Xu <peterx@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Huth <thuth@redhat.com>, Will Deacon <will@kernel.org>,
+        Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
+        linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+        linux-mm@google.com
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 14 Jun 2023 09:36:50 -0700 "Paul E. McKenney" <paulmck@kernel.org> wrote:
+On Fri, May 26, 2023, Yu Zhao wrote:
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 0e571e973bc2..374262545f96 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -258,6 +258,7 @@ int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
+>  #ifdef KVM_ARCH_WANT_MMU_NOTIFIER
+>  struct kvm_gfn_range {
+>  	struct kvm_memory_slot *slot;
+> +	void *args;
 
-> On Tue, Jun 13, 2023 at 06:24:33PM +0000, SeongJae Park wrote:
-> > The example code snippets on rculist_nulls.rst are assuming 'obj' to
-> > have the 'hlist_head' field named 'obj_node', but a sentence is wrongly
-> > mentioning 'obj->obj_node.next' as 'obj->obj_next'.  Fix it.
-> > 
-> > Signed-off-by: SeongJae Park <sj@kernel.org>
-> > Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > ---
-> >  Documentation/RCU/rculist_nulls.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-> > index 94a8bfe9f560..5cd6f3f8810f 100644
-> > --- a/Documentation/RCU/rculist_nulls.rst
-> > +++ b/Documentation/RCU/rculist_nulls.rst
-> > @@ -86,7 +86,7 @@ Quoting Corey Minyard::
-> >  2) Insertion algorithm
-> >  ----------------------
-> >  
-> > -We need to make sure a reader cannot read the new 'obj->obj_next' value
-> > +We need to make sure a reader cannot read the new 'obj->obj_node.next' value
-> 
-> I do like this being more specific, but if we are going do add this
-> level of specificity, shouldn't we refer to a definition of ->obj_node?
+There's no reason to make this "void *", just declare "struct test_clear_young_args"
+in the header.  Arch code won't be able to use it regardless.  And I vote for
+something more like "test_clear_young_metadata", as there's far more information
+in there than just function arguments.
 
-Agreed, I will add the example definition in the next spin.  I also found we
-would better to further fix wrong 'member' field assumption, like below:
+And to stave off the argument that "void *" would allow reuse, take this opportunity
+to unionize the test_clear_young field with the change_pte field, e.g.
 
--       ({ obj = hlist_entry(pos, typeof(*obj), member); 1; });
-+       ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
+	/* comment about these fields being callback specific. */
+	union {
+		struct test_clear_young_metadata *metadata;
+		pte_t pte;
+		unsigned long callback_arg; /* needs a better name */
+	};
 
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 51e4882d0873..31ee58754b19 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -541,6 +541,7 @@ typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
+>  typedef void (*on_unlock_fn_t)(struct kvm *kvm);
+>  
+>  struct kvm_hva_range {
+> +	void *args;
 
+Same feedback as kvm_gfn_range.
 
-Thanks,
-SJ
+>  	unsigned long start;
+>  	unsigned long end;
+>  	pte_t pte;
+> @@ -549,6 +550,7 @@ struct kvm_hva_range {
+>  	on_unlock_fn_t on_unlock;
+>  	bool flush_on_ret;
+>  	bool may_block;
+> +	bool lockless;
+>  };
+>  
+>  /*
+> @@ -602,6 +604,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+>  			hva_end = min(range->end, slot->userspace_addr +
+>  						  (slot->npages << PAGE_SHIFT));
+>  
+> +			gfn_range.args = range->args;
 
-> 
-> (I queued and pushed 1/4 and 2/4, thank you, and stopped here.)
-> 
-> 							Thanx, Paul
-> 
-> >  and previous value of 'obj->key'. Otherwise, an item could be deleted
-> >  from a chain, and inserted into another chain. If new chain was empty
-> >  before the move, 'next' pointer is NULL, and lockless reader can not
-> > -- 
-> > 2.25.1
-> > 
-> 
+And this goes away because the generic callback_arg is what gets propagated.
+
+> +
+>  			/*
+>  			 * To optimize for the likely case where the address
+>  			 * range is covered by zero or one memslots, don't
+> @@ -619,7 +623,7 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+>  			gfn_range.end = hva_to_gfn_memslot(hva_end + PAGE_SIZE - 1, slot);
+>  			gfn_range.slot = slot;
+>  
+> -			if (!locked) {
+> +			if (!range->lockless && !locked) {
+>  				locked = true;
+>  				KVM_MMU_LOCK(kvm);
+>  				if (!IS_KVM_NULL_FN(range->on_lock))
+> @@ -628,6 +632,9 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+>  					break;
+>  			}
+>  			ret |= range->handler(kvm, &gfn_range);
+> +
+> +			if (range->lockless && ret)
+
+I don't like overloading "lockless" to also mean "stop on ret".  Just add another
+flag, there's literally no cost for most callbacks as everything is constant at
+compile time and gets optimized away.
+
+> +		range.args = &args;
+> +		range.lockless = true;
+
+The lockless and stop_on_ret behavior needs comments.
+
+> +		range.handler = kvm_arch_test_clear_young;
+> +
+> +		if (!__kvm_handle_hva_range(kvm, &range))
+> +			return args.young ? MMU_NOTIFIER_RANGE_LOCKLESS : 0;
+> +	}
+> +
+> +	if (bitmap)
+> +		return 0;
+> +
+> +	range.args = NULL;
+> +	range.lockless = false;
+
+No need to manually clear these, they'll be zeroed by the initialization code.
+
+E.g. all in all, something like so
+
+---
+ include/linux/kvm_host.h |  9 +++++++--
+ virt/kvm/kvm_main.c      | 29 +++++++++++++++++------------
+ 2 files changed, 24 insertions(+), 14 deletions(-)
+
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 7a0922cbc36f..e04605061f5e 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -256,12 +256,17 @@ int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
+ #endif
+ 
+ #ifdef KVM_ARCH_WANT_MMU_NOTIFIER
++struct test_clear_young_metadata;
++
+ struct kvm_gfn_range {
+ 	struct kvm_memory_slot *slot;
+-	void *args;
+ 	gfn_t start;
+ 	gfn_t end;
+-	pte_t pte;
++	union {
++		struct test_clear_young_metadata *metadata;
++		pte_t pte;
++		unsigned long callback_arg;
++	};
+ 	bool may_block;
+ };
+ 
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index ac83cfb30771..8cf4fee9cd8b 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -536,16 +536,20 @@ typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
+ typedef void (*on_unlock_fn_t)(struct kvm *kvm);
+ 
+ struct kvm_hva_range {
+-	void *args;
+ 	unsigned long start;
+ 	unsigned long end;
+-	pte_t pte;
+ 	hva_handler_t handler;
++	union {
++		struct test_clear_young_metadata *metadata;
++		pte_t pte;
++		unsigned long callback_arg;
++	};
+ 	on_lock_fn_t on_lock;
+ 	on_unlock_fn_t on_unlock;
+ 	bool flush_on_ret;
+ 	bool may_block;
+ 	bool lockless;
++	bool stop_on_ret;
+ };
+ 
+ /*
+@@ -576,6 +580,9 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+ 	struct kvm_memslots *slots;
+ 	int i, idx;
+ 
++	BUILD_BUG_ON(sizeof(gfn_range.callback_arg) != sizeof(gfn_range.pte) ||
++		     sizeof(gfn_range.callback_arg) != sizeof(gfn_range.metadata));
++
+ 	if (WARN_ON_ONCE(range->end <= range->start))
+ 		return 0;
+ 
+@@ -599,16 +606,14 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+ 			hva_end = min(range->end, slot->userspace_addr +
+ 						  (slot->npages << PAGE_SHIFT));
+ 
+-			gfn_range.args = range->args;
+-
+ 			/*
+ 			 * To optimize for the likely case where the address
+ 			 * range is covered by zero or one memslots, don't
+ 			 * bother making these conditional (to avoid writes on
+ 			 * the second or later invocation of the handler).
+ 			 */
+-			gfn_range.pte = range->pte;
+ 			gfn_range.may_block = range->may_block;
++			gfn_range.callback_arg = range->callback_arg;
+ 
+ 			/*
+ 			 * {gfn(page) | page intersects with [hva_start, hva_end)} =
+@@ -628,7 +633,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+ 			}
+ 			ret |= range->handler(kvm, &gfn_range);
+ 
+-			if (range->lockless && ret)
++			/* comment goes here. */
++			if (range->stop_on_ret && ret)
+ 				break;
+ 		}
+ 	}
+@@ -830,7 +836,7 @@ static int kvm_mmu_notifier_clear_flush_young(struct mmu_notifier *mn,
+ 	return kvm_handle_hva_range(mn, start, end, __pte(0), kvm_age_gfn);
+ }
+ 
+-struct test_clear_young_args {
++struct test_clear_young_metadata {
+ 	unsigned long *bitmap;
+ 	unsigned long end;
+ 	bool clear;
+@@ -839,7 +845,7 @@ struct test_clear_young_args {
+ 
+ bool kvm_should_clear_young(struct kvm_gfn_range *range, gfn_t gfn)
+ {
+-	struct test_clear_young_args *args = range->args;
++	struct test_clear_young_metadata *args = range->metadata;
+ 
+ 	VM_WARN_ON_ONCE(gfn < range->start || gfn >= range->end);
+ 
+@@ -880,14 +886,15 @@ static int kvm_mmu_notifier_test_clear_young(struct mmu_notifier *mn, struct mm_
+ 	trace_kvm_age_hva(start, end);
+ 
+ 	if (kvm_test_clear_young) {
+-		struct test_clear_young_args args = {
++		struct test_clear_young_metadata args = {
+ 			.bitmap	= bitmap,
+ 			.end	= end,
+ 			.clear	= clear,
+ 		};
+ 
+-		range.args = &args;
+ 		range.lockless = true;
++		range.stop_on_ret = true;
++		range.metadata = &args;
+ 		range.handler = kvm_test_clear_young;
+ 
+ 		if (!__kvm_handle_hva_range(kvm, &range))
+@@ -897,8 +904,6 @@ static int kvm_mmu_notifier_test_clear_young(struct mmu_notifier *mn, struct mm_
+ 	if (bitmap)
+ 		return 0;
+ 
+-	range.args = NULL;
+-	range.lockless = false;
+ 	range.handler = clear ? kvm_age_gfn : kvm_test_age_gfn;
+ 
+ 	return __kvm_handle_hva_range(kvm, &range) ? MMU_NOTIFIER_RANGE_YOUNG : 0;
+
+base-commit: 7a5d8be2c18415b73b9380741095f439d6983a40
+-- 
+
