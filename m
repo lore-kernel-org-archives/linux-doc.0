@@ -2,174 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 823C4EB64D9
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 16:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3FFCEB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 16:40:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232816AbjFOQc5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 12:32:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37786 "EHLO
+        id S231842AbjFOQkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jun 2023 12:40:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231528AbjFOQc5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 12:32:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DF0212C
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 09:32:13 -0700 (PDT)
+        with ESMTP id S230266AbjFOQkN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 12:40:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B320C213F
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 09:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686846732;
+        s=mimecast20190719; t=1686847168;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=P8prCxNwHYsAASYpnEixZIiXJnat1jStC3yPASEgEOY=;
-        b=ZT6BdFlL2ZqQ9pATUmuxhLkoXkm+x7v2oCe2o/FZhOwF89KgNCRp34McHwi7m4WKWj58Mj
-        fq6Lo26QiskX8krxw+L0OiX7dF/Zs4WVjUronYHdHOLB2PIjZ67bRTYCTjwY+OAka1dpdX
-        T/0886eiS/ZalpXequUxE8gHqwF1e6o=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=85Cde2lC1B5p+slsHblZ/ywkw9kOFzxqw+4KoOzSvts=;
+        b=EezBJypgjPjVrpJBGfCMRH5ZysFd+q61d55B5yEp3kl1DnQBsyTO83ghLKnIHqnSD0YEcs
+        g07Gru8lziP1Bz7qeA8oZ1YzM2+jjKK4Yzp0pt6vexcJudwG0eHUR5P8eulQ8ndCiPEF75
+        bJ3Wb6jYqlMBk89BGHJS7kL5sjaoWcE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-646-SMY6ZeVJOKWhqbGb26RT0w-1; Thu, 15 Jun 2023 12:32:03 -0400
-X-MC-Unique: SMY6ZeVJOKWhqbGb26RT0w-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9835bf83157so6599166b.2
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 09:31:59 -0700 (PDT)
+ us-mta-335-jnNyTYJIOn2SFwFr4barCQ-1; Thu, 15 Jun 2023 12:39:23 -0400
+X-MC-Unique: jnNyTYJIOn2SFwFr4barCQ-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9749b806f81so177720966b.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 09:39:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686846719; x=1689438719;
+        d=1e100.net; s=20221208; t=1686847162; x=1689439162;
         h=content-transfer-encoding:in-reply-to:organization:from:references
          :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=P8prCxNwHYsAASYpnEixZIiXJnat1jStC3yPASEgEOY=;
-        b=VCgbivCNDiRlR4Uk0YHxHJ46fhbYvbuIqOytlMroGo9zqmLH8bGj27QGWTYQeNe78o
-         rTV+rTKG/IjHF992gtB6Guqhc5LSvjBXYbD8/+Iw8lE10vl8s+fVBQgp0bIYG+MaAoWc
-         x9yQii53pua/7kpy+T1hYjwP8X9nXtQUrPOguo8belIMjFezTYX43ewh5IAzPjUN8GjV
-         BMP7UFVJuDHtf9GAE144eQsN97Ray0mHvxxAWPH194QWYhDM3CVGwecd5Wg9CJ1VdbrZ
-         p+SpypLrHK+cgS2TNp4nvl5azvtuXTW4d8+9m+9gD2+v4ThW4dhp6VfI1qHxEvSd/y+W
-         wU0Q==
-X-Gm-Message-State: AC+VfDwUtm/iVFrqnnvArF1uhKVoG2CMCCbb5HclJjvLjJWLasbRTJsl
-        yW5xGLdNOQrdGCjH9pSVQjjumxmAiYPD1KkSpsE7KsyOlfM9xCuNLojJGT7bGVLv7UWHWA3qijC
-        AB1EeR4ZjULI0yPZtXDfo
-X-Received: by 2002:a17:907:36c3:b0:973:9f60:c57e with SMTP id bj3-20020a17090736c300b009739f60c57emr19336027ejc.2.1686846719005;
-        Thu, 15 Jun 2023 09:31:59 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5+R8RzzvJRBN02oNH7VD/7mlr9HZ1UXhQY/4JOFMYjuMwKKZwmGEwfZjYH1RFjjAHfmir7Fw==
-X-Received: by 2002:a17:907:36c3:b0:973:9f60:c57e with SMTP id bj3-20020a17090736c300b009739f60c57emr19335996ejc.2.1686846718666;
-        Thu, 15 Jun 2023 09:31:58 -0700 (PDT)
+        bh=85Cde2lC1B5p+slsHblZ/ywkw9kOFzxqw+4KoOzSvts=;
+        b=GssBaGH7CSKPEoArLflrSisxWthKFPsfWvSZd6AkNaMiHFlOq82xzRlKO0OJMe++IJ
+         PnwOJnVe+Qybl69QDekdBjuPLEUcure3CysXE4h0LWUdHwj0Mmgm12cw3WXx76dVktQs
+         SlTE6IdOjAoXXkGz/zlg9BBpmdg0gC/46WhLeXK0DoU2+Fofxhm4O9Koy23kBrH2WFxR
+         XK3Cj6xDQBJJC1FzNAaDpfBzR0nXXc9N6bZ5hytZ8gPRQFZmLpgB5zt4mQBeJ54jdpzP
+         cGhp8B2V2AzIJ57L8ViRU1ZcGqkkvmP51a9LnPRvmTvTtc3iwG1obwfHoeoMWur/ZtfE
+         PBaA==
+X-Gm-Message-State: AC+VfDwJdzWdtKJUN4Cpz/1O7LQs0048CVR5kcH7GAomVHq8ao/WW1Ic
+        hzENFqHlMa3qgUdGthVF+CVSIMvQMeqg0uwfr9LmNZ/yEfEx9bPMs9U7p6+13CD0lHc+JODL7zN
+        TE+YCoDfMcoPxovdKpMPU
+X-Received: by 2002:a17:906:478f:b0:96f:aadb:bf81 with SMTP id cw15-20020a170906478f00b0096faadbbf81mr20890711ejc.45.1686847162685;
+        Thu, 15 Jun 2023 09:39:22 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4HFzj8oji+QgifVAS8W5rrkeLVzDVniPUlQYTVJZN7par6lelAUrI2LEXLSV910896GtiXog==
+X-Received: by 2002:a17:906:478f:b0:96f:aadb:bf81 with SMTP id cw15-20020a170906478f00b0096faadbbf81mr20890694ejc.45.1686847162404;
+        Thu, 15 Jun 2023 09:39:22 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id l13-20020a17090612cd00b0096f7cf96525sm9642613ejb.146.2023.06.15.09.31.56
+        by smtp.gmail.com with ESMTPSA id a13-20020a170906684d00b0096f7500502csm9582514ejs.199.2023.06.15.09.39.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jun 2023 09:31:58 -0700 (PDT)
-Message-ID: <27b46c9e-0ebb-74d2-c22e-3f7fc7addbdc@redhat.com>
-Date:   Thu, 15 Jun 2023 18:31:56 +0200
+        Thu, 15 Jun 2023 09:39:22 -0700 (PDT)
+Message-ID: <68cd25de-e767-725e-2e7b-703217230bb0@redhat.com>
+Date:   Thu, 15 Jun 2023 18:39:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
 Subject: Re: [PATCH drm-next v4 00/14] [RFC] DRM GPUVA Manager & Nouveau
  VM_BIND UAPI
 Content-Language: en-US
-To:     Donald Robson <Donald.Robson@imgtec.com>
-Cc:     "matthew.brost@intel.com" <matthew.brost@intel.com>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
-        "mripard@kernel.org" <mripard@kernel.org>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "jason@jlekstrand.net" <jason@jlekstrand.net>,
-        "bskeggs@redhat.com" <bskeggs@redhat.com>
+To:     Liam.Howlett@oracle.com
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
 References: <20230606223130.6132-1-dakr@redhat.com>
- <f5723444623b41d58f93c3f0ab662e9b37105765.camel@imgtec.com>
- <67ffef18-fae4-cb84-ff75-c4eed92a8755@redhat.com>
- <1cee380fb31e1a2f499e50e6b8771d86a68c1b16.camel@imgtec.com>
 From:   Danilo Krummrich <dakr@redhat.com>
 Organization: RedHat
-In-Reply-To: <1cee380fb31e1a2f499e50e6b8771d86a68c1b16.camel@imgtec.com>
+In-Reply-To: <20230606223130.6132-1-dakr@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/14/23 09:58, Donald Robson wrote:
-> On Tue, 2023-06-13 at 16:20 +0200, Danilo Krummrich wrote:
-> 
->> I'm definitely up improving the existing documentation. Anything in
->> particular you think should be described in more detail?
->>
->> - Danilo
-> 
-> Hi Danilo,
-> 
-> As I said, with inexperience it's possible I missed what I was
-> looking for in the existing documentation, which is highly detailed
-> in regard to how it deals with operations, but usage was where I fell
-> down.
-> 
-> If I understand there are three ways to use this, which are:
-> 1) Using drm_gpuva_insert() and drm_gpuva_remove() directly using
->     stack va objects.
+On 6/7/23 00:31, Danilo Krummrich wrote:
 
-What do you mean with stack va objects?
+>    Maple Tree:
+>      - Maple tree uses the 'unsinged long' type for node entries. While this
+>        works for 64bit, it's incompatible with the DRM GPUVA Manager on 32bit,
+>        since the DRM GPUVA Manager uses the u64 type and so do drivers using it.
+>        While it's questionable whether a 32bit kernel and a > 32bit GPU address
+>        space make any sense, it creates tons of compiler warnings when compiling
+>        for 32bit. Maybe it makes sense to expand the maple tree API to let users
+>        decide which size to pick - other ideas / proposals are welcome.
 
-> 2) Using drm_gpuva_insert() and drm_gpuva_remove() in a callback
->     context, after having created ops lists using
->     drm_gpuva_sm_[un]map_ops_create().
-> 3) Using drm_gpuva_[un]map() in callback context after having
->     prealloced a node and va objects for map/remap function use,
->     which must be forwarded in as the 'priv' argument to
->     drm_gpuva_sm_[un]map().
+I remember you told me that the filesystem folks had some interest in a 
+64-bit maple tree for a 32-bit kernel as well. Are there any news or 
+plans for such a feature?
 
-Right, and I think it might be worth concretely mentioning this in the 
-documentation.
+For the short term I'd probably add a feature flag to the GPUVA manager, 
+where drivers explicitly need to promise not to pass in addresses 
+exceeding 32-bit on a 32-bit kernel, and if they don't refuse to 
+initialize the GPUVA manager on 32-bit kernels - or something similar...
 
-> 
-> The first of these is pretty self-explanatory.  The second was also
-> fairly easy to understand, it has an example in your own driver, and
-> since it takes care of allocs in drm_gpuva_sm_map_ops_create() it
-> leads to pretty clean code too.
-> 
-> The third case, which I am using in the new PowerVR driver did not
-> have an example of usage and the approach is quite different to 2)
-> in that you have to prealloc everything explicitly.  I didn't realise
-> this, so it led to a fair amount of frustration.
-
-Yeah, I think this is not entirely obvious why this is the case. I 
-should maybe add a comment on how the callback way of using this 
-interface is motivated.
-
-The requirement of pre-allocation arises out of two circumstances.
-First, having a single callback for every drm_gpuva_op on the GPUVA 
-space implies that we're not allowed to fail the operation, because 
-processing the drm_gpuva_ops directly implies that we can't unwind them 
-on failure.
-
-I know that the API functions the documentation guides you to use in 
-this case actually can return error codes, but those are just range 
-checks. If they fail, it's clearly a bug. However, I did not use WARN() 
-for those cases, since the driver could still decide to use the 
-callbacks to keep track of the operations in a driver specific way, 
-although I would not recommend doing this and rather like to try to 
-cover the drivers use case within the regular way of creating a list of 
-operations.
-
-Second, most (other) drivers when using the callback way of this 
-interface would need to execute the GPUVA space updates asynchronously 
-in a dma_fence signalling critical path, where no memory allocations are 
-permitted.
-
-> 
-> I think if you're willing, it would help inexperienced implementers a
-> lot if there were some brief 'how to' snippets for each of the three
-> use cases.
-
-Yes, I can definitely add some.
-
-> 
-> Thanks,
-> Donald
 
