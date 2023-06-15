@@ -2,230 +2,2880 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0996DEB64D9
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 13:45:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80C53EB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 14:29:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244229AbjFONom (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 09:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53992 "EHLO
+        id S1345070AbjFOO3L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jun 2023 10:29:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240217AbjFONol (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 09:44:41 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE8E0199D;
-        Thu, 15 Jun 2023 06:44:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686836680; x=1718372680;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=U7vYimpWWg9rKovSPdQKO8rjWXCizyWsm99EPMhTrQ4=;
-  b=KYVGJHd4wqLZFMvPmUi402bXM/6jYaXdwT7R8Cu3v9mg64C5Fa+BMW2p
-   xk1hdYivjRWqPbZgsxGgGEjDErUkE/mejz/xJ4/1CZ6KNq9Kuzy4lAMBX
-   dv64Tiut4b+9xMorSrXeP/G3QZg7JSUspAA1Y4gjiMU8h3oeNBnS25U2W
-   3E81DhtMtHUldep1A82ZJXJZUAVi89O50pAFkrlupnzjYvOh56/4kGCVn
-   1ZXt9hC7ipwf7xa5/xuCQkw33pFLET0EhuQmAtQN5DvWtuoLhdltiNj2c
-   hHS8pBb91y4uXZAFygAF/zjlrO1bpCJhW8B+3hJJ9ytLIi0C3j5I7DjWO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="356409189"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="356409189"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 06:44:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="782523687"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="782523687"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga004.fm.intel.com with ESMTP; 15 Jun 2023 06:44:37 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 15 Jun 2023 06:44:36 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 15 Jun 2023 06:44:36 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 15 Jun 2023 06:44:36 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 15 Jun 2023 06:44:35 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RILp4RTC9vNZZosLtcppXunwQzdy3Kl4oWDAyXBLpZrFXM0Evrlw7gKsP+p+sM3NJiDsc1HJZuhPeK10x1hs9EGyKXAssG8FB904ghXBTJbmCjofnS2PVchuXoOfusPtvLn1yZOR1rxeedWmDgivBTFgoz/iZ0nP1dirQAHb4Osn9hgpe0tzQXN2U5aIJAVIYYnpq6UpxqirAgWObaF2wg+X/l1n3QcYV0tHaau7U67lQNRVUkhbqX6p3AZJ6gHok5m7XTsnckJLeiK0uA8ru/J3UisNaz5LtaKZECVCNkWqOjoNXamEs4cI8m5fOMNve5rNbEW4tlrTGDLJvmg7DA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8qmOW6flucvPcUSZ7/+d90wxbYQ5XchkCyOXU7daG1Y=;
- b=N6B+0Wr0lsFvWs9/DqhealzcFoAdfmRYvZH5HDnkNjwqkFRnaRH79fVyx4ulOeq89wW8V3LMJYhrHsal8wjR5U31iHQh4fjgK2JvJy8+EKzgzVDhz9E5jzZSynAp1/VuhsO7R4C5UdfrsAcrvG4p3oqcw2nM6JJ2EwJS3foh5HGwpDz+wZcs9SiW4DnP81Fw43A5B/615iuXJs+P006o2OBBkn4fQB3/DOHUh3/xfQqEhgIGAHxjfefo0I649DDG9RlQ+LEOUAs/U1qiIufq3PJRLfn+m2xkRKBbHXwlksimNr6HuH+qyL3FQHKotx2bv1Rg/4ufc5YhvjaXwuisZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
- DS0PR11MB6352.namprd11.prod.outlook.com (2603:10b6:8:cb::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6455.39; Thu, 15 Jun 2023 13:44:31 +0000
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::24bd:974b:5c01:83d6]) by DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::24bd:974b:5c01:83d6%3]) with mapi id 15.20.6500.025; Thu, 15 Jun 2023
- 13:44:31 +0000
-From:   "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-To:     Jiri Pirko <jiri@resnulli.us>, Jakub Kicinski <kuba@kernel.org>
-CC:     "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: RE: [RFC PATCH v8 01/10] dpll: documentation on DPLL subsystem
- interface
-Thread-Topic: [RFC PATCH v8 01/10] dpll: documentation on DPLL subsystem
- interface
-Thread-Index: AQHZmszoYeH83BxaW02EVqODRhjpgq+HyQOAgAC7rICAAHCNgIABGgiAgAAa0HCAAIlpAIAAAmUAgAD5+ACAADldwA==
-Date:   Thu, 15 Jun 2023 13:44:31 +0000
-Message-ID: <DM6PR11MB465768D2B3C4F1E6F2DD1B219B5BA@DM6PR11MB4657.namprd11.prod.outlook.com>
-References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
- <20230609121853.3607724-2-arkadiusz.kubalewski@intel.com>
- <20230612154329.7bd2d52f@kernel.org> <ZIg8/0UJB9Lbyx2D@nanopsycho>
- <20230613093801.735cd341@kernel.org> <ZImH/6GzGdydC3U3@nanopsycho>
- <DM6PR11MB465799A5A9BB0B8E73A073449B5AA@DM6PR11MB4657.namprd11.prod.outlook.com>
- <20230614121514.0d038aa3@kernel.org> <20230614122348.3e9b7e42@kernel.org>
- <ZIrldB4ic3zt9nIk@nanopsycho>
-In-Reply-To: <ZIrldB4ic3zt9nIk@nanopsycho>
-Accept-Language: pl-PL, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|DS0PR11MB6352:EE_
-x-ms-office365-filtering-correlation-id: 224dc520-915c-4a61-86cc-08db6da6a580
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: FgVWjyAavzHESc8rmOoSnZeEBnR4RnlgrBlYMqScl0aZUppLD+a88dg1xaUeCtlKOSji7YsktLSyQybeMYcFssRAQ8Gb0sOYobFhKdHm94Ed5zrI5rZr13kRbqWhAE205YaU6dhuJ9NUet64dsPf8Uctlo2oPWga+DN89oeIB6/7nfx+8z8s9TW5zXvBLkCsDXpKBl6Ufbzm5tZPCMLxWIwQ9R/2DK/MxrpqzYonvRGn1VhTZRTVcnE0zUa5EA50Wn6jS/SoawW1Jbdsyr6bwLm/2NBt+4c9f/9x4jpie+3mAwM5qgwxJEdp9mnMBN8fMSCh/dxQNG/wqr+MLq+Uu0DsV3v8QRnDLyQsqNqFAR69es4bTs+5SJ3Gc2nBRxYnsOmUGlhp3++krPaxVy1nt5ZsU30J6PkzLbgZ2BTcxAqk9eg7zd+mvR9IOgaxP35w2ym7DDvPgfBK5YvXjN/gBn49RyFOVD5vpIQm2vrZx4m51ZA1MBpNm8pmbd8yW2cd4oMxwmB2sLQSvBly69P8nlA/HG7qSu49AKa4Xqm5XIP5T1zRUEvlec1giRiJiDPCIPZWike+/rIQy+7BWplmGROyWDYhVM0KsufQEt0ujWe0Zg/OZqgVQXAia40S5TGG
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(39860400002)(366004)(136003)(396003)(346002)(451199021)(66446008)(66946007)(66556008)(66476007)(76116006)(478600001)(54906003)(110136005)(8676002)(5660300002)(52536014)(71200400001)(64756008)(4326008)(8936002)(7696005)(55016003)(41300700001)(316002)(9686003)(38100700002)(122000001)(82960400001)(6506007)(38070700005)(86362001)(7406005)(26005)(186003)(7416002)(4744005)(33656002)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zYlKXSIEOY7xKwW5q2wd+ovRKD/k7OFzlXcjX+PZT49mZ7CTNgjG2wHiOQcJ?=
- =?us-ascii?Q?x8ustZ8oHMqvZXwmQnLQqd1LA2VV2NfQfk5l4SUT0lVmn5gm2D8dWQ05/Lny?=
- =?us-ascii?Q?N81+L23NrZCZ8CW013YbxkDShvplmPSNF4fdp/4MXEOs1aNbscBQ8Suuaamx?=
- =?us-ascii?Q?Bwve8GzpecNfKnhv8sH/ZLi/Ch6aogSqhCZMemMmT6XlNXYPk0dSq6MFtkMs?=
- =?us-ascii?Q?oDY99+H+GUpZAkahjlZXbz+Fjb9Eiuts2k7/w1a4EvI9xQNSuCDholVl472Z?=
- =?us-ascii?Q?C9r6ur8tqMKLg5e2y7xoEu7NWRAaCaiC21jVmiw7sSwKV6OuzqPNvEOo5DrJ?=
- =?us-ascii?Q?X+32PT+vZFAAsrPIJNEBAy8+UlZMD/m+oNGOV5oOVs7dz3ynRvZPGTOTwqYJ?=
- =?us-ascii?Q?7TNCMnWNnydTWZDF4JV9VBAPbk4Ys6h6sd0j5O0PfZ1MxwKX+VHff6GRXgcU?=
- =?us-ascii?Q?lxh4C+TvGvbyWvMzz63JMN1R68H75/xnVyysSdUDnKm3Vj4A7xlEwNgagJrx?=
- =?us-ascii?Q?r5EfQOHhdl5OxnYjl9EJ+hx8bhBx9tE3QcXW3RHkSIM6kZBb7D6znAXgDe3z?=
- =?us-ascii?Q?npTDSAwGteLDkiZWOeC98Y1LJ54XZ9cCeLDcum0FI8ojsSf9YD818O1l+sO9?=
- =?us-ascii?Q?cQLfyhiLjWQLiLvqVB0CRpzFJ3joa169mx7Fy9Pe5l6jZSjy+EWyVWtLs5yG?=
- =?us-ascii?Q?cYmwcVA4PZbvfR+Kry6q4Q7AY8EDCzXXPqjelusI01gllhJiYviBp8kjEhTo?=
- =?us-ascii?Q?jaEpKglVYRo/EQOnFVdp511AUbmUdscpH3cRw+TfPrwEkryQTPTKPHl7n50o?=
- =?us-ascii?Q?CNOmyJhNClu/bzgd7ihxcD+ru+svgsj1wLLrUIAcj2QSqldY4tsPGZPyA/5y?=
- =?us-ascii?Q?mui7TnMGX0eG2Uw8hiKG1S8poo+V5CN9GUjIvOm1ftHNoCGoxOoMIVWdVw8z?=
- =?us-ascii?Q?W49UxxnESq64aDS+iPAH0KKXHTeFIF3SLrKQyFBqdg73+doV9y8p+2GNl1Xx?=
- =?us-ascii?Q?TPQ2zAAC9UGF5PikTfe8bShDWvTGXjL0ix9wk6Zu21C4ewEg/zR3nn/f0qlP?=
- =?us-ascii?Q?p8OVZL5DGBq6ERYmLPPOyRT2cYqRUdQyvOys1/UTxMIZl6ObjXtPY0GOGdWA?=
- =?us-ascii?Q?v7IvEL5JJCflgKuacRLzVlXmH0hx9Lz1/A+4kFkcQBQvAhbSnMnKFET2/yXo?=
- =?us-ascii?Q?oXU5n1aG+L8WKEV2r6KV3CfeEz8xRifTqMS8eUnIApNjipeN5y+7vRFId+IQ?=
- =?us-ascii?Q?D3vFPLZEwqXhjJcuzhfZ7Kn6zTMQ9sUuuUXpPvLtQhm/zt/wHJp5nKtWv7Cv?=
- =?us-ascii?Q?PvpSpBZB7kSQhuqCUb2mdoAtvkfTgYHyl1ZsKLIBj2pw17xCvET9/8qHuqJd?=
- =?us-ascii?Q?YQi8pavAoc5AHMDBWwve8eODKP/XBcTij/AO1Z5pftDuLkSDgnUGUH7mcUXy?=
- =?us-ascii?Q?BNMRAGEI/XY61PS+kvIPBEzZEnjYktrabeRLIj1qmObsTbgxBrb+zNTOeX1E?=
- =?us-ascii?Q?74p7EDsZmEIaJoq+R88PfknFXHOql3gpukwLatp+cgc9BDckzVkqgYs5R/fg?=
- =?us-ascii?Q?iQyQ8u4RdJN0+zxYWprvQR4AUCPSJFodOs6r9dHFyXnuDQbyMId7HBKuoiW/?=
- =?us-ascii?Q?eA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S1345053AbjFOO3C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 10:29:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7A512704
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 07:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686839296;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2AppGI609JbEPwHraZbtSwMpZ0sEabRHse5zg46RZUI=;
+        b=XalnuscwXXPcngC6F9WSsG6IgefA0yZ72gwzlB9Ku0/66SyiW8OUpSetkJyJGRozDkGppl
+        ByqMPsh8TjO2mfYP2vqQ3Je9jPkJJxCBCKMCu+8U+UOO3b5BwQ9xTgKRcjhLjPOWxOrCz0
+        62NBcDWdGAzDuiAsZ6RgjaUy3Yfbvjo=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-480-qAd_TlcqNkyB9VseCyNtRw-1; Thu, 15 Jun 2023 10:28:07 -0400
+X-MC-Unique: qAd_TlcqNkyB9VseCyNtRw-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-94f7a2b21fdso183069866b.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 07:28:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686839285; x=1689431285;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2AppGI609JbEPwHraZbtSwMpZ0sEabRHse5zg46RZUI=;
+        b=O3XCyqfe+Tiwz6CS8TsxMzP7vxQfEf8D4zEW/B+/nxAt14iiGeC1l5n9HU0vE87Wjg
+         L5NiyqrBYSeVWjoYAAyWdo3IO7KjpA18sHLKwir3A8SBnE/DL2T1d/sUxMh3jBW8gIpM
+         izc6jTAzs/RNXm2o6z/FL9GKaMniX+tY/V3+gux/Z0hbdbLc5CHSsl9/K7Gg8zrv6qNH
+         zlY7rkudn1cYuhKx/XmjCF3DA6emYR/qDCV2JAtUGHqf+JcY5T28io8N2Sf1ENoPwcaw
+         7KuJSZO3o1luLcUWp71wYUAffqzZdwamvxVxDJ15uRdl8/kUR+XzAfYy5id8h4Yl+mY7
+         9nNA==
+X-Gm-Message-State: AC+VfDz8a5aPu4VyfwcOoZoby4KMtNRW4HopH3mVKsd3EJhpkiecaYh0
+        HN3fz9HrpA49H/oti084x4o7/IlYJgyb9KBlfS5KlhBO5sbu0DzVb9PT2SGW04Rb91/XnHtJiZ0
+        eMq9RFo19914gq+W2Vt4Q
+X-Received: by 2002:a17:907:3e1a:b0:982:69cd:7362 with SMTP id hp26-20020a1709073e1a00b0098269cd7362mr5099956ejc.38.1686839283937;
+        Thu, 15 Jun 2023 07:28:03 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ627TVnUTdIhGpVoGmLjI6eKeJ48dYdPBzEFnoCIsBwuV6DZCVt8MqyUKBpVvMufMsolotTiQ==
+X-Received: by 2002:a17:907:3e1a:b0:982:69cd:7362 with SMTP id hp26-20020a1709073e1a00b0098269cd7362mr5099899ejc.38.1686839282738;
+        Thu, 15 Jun 2023 07:28:02 -0700 (PDT)
+Received: from pollux ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id v26-20020a170906489a00b0097d7924b4edsm7875737ejq.168.2023.06.15.07.28.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jun 2023 07:28:02 -0700 (PDT)
+Date:   Thu, 15 Jun 2023 16:27:58 +0200
+From:   Danilo Krummrich <dakr@redhat.com>
+To:     "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH drm-next v4 03/14] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <ZIsf7jAWNrStIZt7@pollux>
+References: <20230606223130.6132-1-dakr@redhat.com>
+ <20230606223130.6132-4-dakr@redhat.com>
+ <20230614002935.rwbbys7bbxuaoxod@revolver>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 224dc520-915c-4a61-86cc-08db6da6a580
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2023 13:44:31.1232
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +PRQ6HoGyIvKGrdG1fa6kt0OY5DkRQxIbVYbuDobUng+hDCont5z7n0PfszqItKGsiynv0vlOOlYyTR67Q6Mln/Fq51zV1+wKetnvH4sTfg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6352
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230614002935.rwbbys7bbxuaoxod@revolver>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->From: Jiri Pirko <jiri@resnulli.us>
->Sent: Thursday, June 15, 2023 12:18 PM
->
->Wed, Jun 14, 2023 at 09:23:48PM CEST, kuba@kernel.org wrote:
->>On Wed, 14 Jun 2023 12:15:14 -0700 Jakub Kicinski wrote:
->>> On Wed, 14 Jun 2023 12:21:29 +0000 Kubalewski, Arkadiusz wrote:
->>> > Surely, we can skip this discussion and split the nest attr into
->something like:
->>> > - PIN_A_PIN_PARENT_DEVICE,
->>> > - PIN_A_PIN_PARENT_PIN.
->>>
->>> Yup, exactly. Should a fairly change code wise, if I'm looking right.
->>                               ^ small
->
->Yeah, that is what we had originally. This just pushes out the
->different attr selection from the nest one level up to the actualy
->nesting attribute.
->
->One downside of this is you will have 2 arrays of parent objects,
->one per parent type. Current code neatly groups them into a single array.
->
->I guess this is a matter of personal preference, I'm fine either way.
+On Tue, Jun 13, 2023 at 08:29:35PM -0400, Liam R. Howlett wrote:
+> * Danilo Krummrich <dakr@redhat.com> [230606 18:32]:
+> > Add infrastructure to keep track of GPU virtual address (VA) mappings
+> > with a decicated VA space manager implementation.
+> > 
+> > New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
+> > start implementing, allow userspace applications to request multiple and
+> > arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
+> > intended to serve the following purposes in this context.
+> > 
+> > 1) Provide infrastructure to track GPU VA allocations and mappings,
+> >    making use of the maple_tree.
+> > 
+> > 2) Generically connect GPU VA mappings to their backing buffers, in
+> >    particular DRM GEM objects.
+> > 
+> > 3) Provide a common implementation to perform more complex mapping
+> >    operations on the GPU VA space. In particular splitting and merging
+> >    of GPU VA mappings, e.g. for intersecting mapping requests or partial
+> >    unmap requests.
+> > 
+> > Suggested-by: Dave Airlie <airlied@redhat.com>
+> > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> > ---
+> >  Documentation/gpu/drm-mm.rst    |   31 +
+> >  drivers/gpu/drm/Makefile        |    1 +
+> >  drivers/gpu/drm/drm_gem.c       |    3 +
+> >  drivers/gpu/drm/drm_gpuva_mgr.c | 1687 +++++++++++++++++++++++++++++++
+> >  include/drm/drm_drv.h           |    6 +
+> >  include/drm/drm_gem.h           |   75 ++
+> >  include/drm/drm_gpuva_mgr.h     |  681 +++++++++++++
+> >  7 files changed, 2484 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+> >  create mode 100644 include/drm/drm_gpuva_mgr.h
+> > 
+> > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> > index a52e6f4117d6..c9f120cfe730 100644
+> > --- a/Documentation/gpu/drm-mm.rst
+> > +++ b/Documentation/gpu/drm-mm.rst
+> > @@ -466,6 +466,37 @@ DRM MM Range Allocator Function References
+> >  .. kernel-doc:: drivers/gpu/drm/drm_mm.c
+> >     :export:
+> >  
+> > +DRM GPU VA Manager
+> > +==================
+> > +
+> > +Overview
+> > +--------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+> > +   :doc: Overview
+> > +
+> > +Split and Merge
+> > +---------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+> > +   :doc: Split and Merge
+> > +
+> > +Locking
+> > +-------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+> > +   :doc: Locking
+> > +
+> > +
+> > +DRM GPU VA Manager Function References
+> > +--------------------------------------
+> > +
+> > +.. kernel-doc:: include/drm/drm_gpuva_mgr.h
+> > +   :internal:
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+> > +   :export:
+> > +
+> >  DRM Buddy Allocator
+> >  ===================
+> >  
+> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> > index 9c6446eb3c83..8eeed446a078 100644
+> > --- a/drivers/gpu/drm/Makefile
+> > +++ b/drivers/gpu/drm/Makefile
+> > @@ -45,6 +45,7 @@ drm-y := \
+> >  	drm_vblank.o \
+> >  	drm_vblank_work.o \
+> >  	drm_vma_manager.o \
+> > +	drm_gpuva_mgr.o \
+> >  	drm_writeback.o
+> >  drm-$(CONFIG_DRM_LEGACY) += \
+> >  	drm_agpsupport.o \
+> > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > index 1a5a2cd0d4ec..cd878ebddbd0 100644
+> > --- a/drivers/gpu/drm/drm_gem.c
+> > +++ b/drivers/gpu/drm/drm_gem.c
+> > @@ -164,6 +164,9 @@ void drm_gem_private_object_init(struct drm_device *dev,
+> >  	if (!obj->resv)
+> >  		obj->resv = &obj->_resv;
+> >  
+> > +	if (drm_core_check_feature(dev, DRIVER_GEM_GPUVA))
+> > +		drm_gem_gpuva_init(obj);
+> > +
+> >  	drm_vma_node_reset(&obj->vma_node);
+> >  	INIT_LIST_HEAD(&obj->lru_node);
+> >  }
+> > diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mgr.c
+> > new file mode 100644
+> > index 000000000000..dd8dd7fef14b
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/drm_gpuva_mgr.c
+> > @@ -0,0 +1,1687 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (c) 2022 Red Hat.
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person obtaining a
+> > + * copy of this software and associated documentation files (the "Software"),
+> > + * to deal in the Software without restriction, including without limitation
+> > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> > + * and/or sell copies of the Software, and to permit persons to whom the
+> > + * Software is furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be included in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> > + * OTHER DEALINGS IN THE SOFTWARE.
+> > + *
+> > + * Authors:
+> > + *     Danilo Krummrich <dakr@redhat.com>
+> > + *
+> > + */
+> > +
+> > +#include <drm/drm_gem.h>
+> > +#include <drm/drm_gpuva_mgr.h>
+> > +
+> > +/**
+> > + * DOC: Overview
+> > + *
+> > + * The DRM GPU VA Manager, represented by struct drm_gpuva_manager keeps track
+> > + * of a GPU's virtual address (VA) space and manages the corresponding virtual
+> > + * mappings represented by &drm_gpuva objects. It also keeps track of the
+> > + * mapping's backing &drm_gem_object buffers.
+> > + *
+> > + * &drm_gem_object buffers maintain a list (and a corresponding list lock) of
+> > + * &drm_gpuva objects representing all existent GPU VA mappings using this
+> > + * &drm_gem_object as backing buffer.
+> > + *
+> > + * GPU VAs can be flagged as sparse, such that drivers may use GPU VAs to also
+> > + * keep track of sparse PTEs in order to support Vulkan 'Sparse Resources'.
+> > + *
+> > + * The GPU VA manager internally uses a &maple_tree to manage the
+> > + * &drm_gpuva mappings within a GPU's virtual address space.
+> > + *
+> > + * The &drm_gpuva_manager contains a special &drm_gpuva representing the
+> > + * portion of VA space reserved by the kernel. This node is initialized together
+> > + * with the GPU VA manager instance and removed when the GPU VA manager is
+> > + * destroyed.
+> > + *
+> > + * In a typical application drivers would embed struct drm_gpuva_manager and
+> > + * struct drm_gpuva within their own driver specific structures, there won't be
+> > + * any memory allocations of it's own nor memory allocations of &drm_gpuva
+> > + * entries.
+> > + *
+> > + * However, the &drm_gpuva_manager needs to allocate nodes for it's internal
+> > + * tree structures when &drm_gpuva entries are inserted. In order to support
+> > + * inserting &drm_gpuva entries from dma-fence signalling critical sections the
+> > + * &drm_gpuva_manager provides struct drm_gpuva_prealloc. Drivers may create
+> > + * pre-allocated nodes which drm_gpuva_prealloc_create() and subsequently insert
+> > + * a new &drm_gpuva entry with drm_gpuva_insert_prealloc().
+> > + */
+> > +
+> > +/**
+> > + * DOC: Split and Merge
+> > + *
+> > + * The DRM GPU VA manager also provides an algorithm implementing splitting and
+> > + * merging of existent GPU VA mappings with the ones that are requested to be
+> > + * mapped or unmapped. This feature is required by the Vulkan API to implement
+> > + * Vulkan 'Sparse Memory Bindings' - drivers UAPIs often refer to this as
+> > + * VM BIND.
+> > + *
+> > + * Drivers can call drm_gpuva_sm_map() to receive a sequence of callbacks
+> > + * containing map, unmap and remap operations for a given newly requested
+> > + * mapping. The sequence of callbacks represents the set of operations to
+> > + * execute in order to integrate the new mapping cleanly into the current state
+> > + * of the GPU VA space.
+> > + *
+> > + * Depending on how the new GPU VA mapping intersects with the existent mappings
+> > + * of the GPU VA space the &drm_gpuva_fn_ops callbacks contain an arbitrary
+> > + * amount of unmap operations, a maximum of two remap operations and a single
+> > + * map operation. The caller might receive no callback at all if no operation is
+> > + * required, e.g. if the requested mapping already exists in the exact same way.
+> > + *
+> > + * The single map operation represents the original map operation requested by
+> > + * the caller.
+> > + *
+> > + * &drm_gpuva_op_unmap contains a 'keep' field, which indicates whether the
+> > + * &drm_gpuva to unmap is physically contiguous with the original mapping
+> > + * request. Optionally, if 'keep' is set, drivers may keep the actual page table
+> > + * entries for this &drm_gpuva, adding the missing page table entries only and
+> > + * update the &drm_gpuva_manager's view of things accordingly.
+> > + *
+> > + * Drivers may do the same optimization, namely delta page table updates, also
+> > + * for remap operations. This is possible since &drm_gpuva_op_remap consists of
+> > + * one unmap operation and one or two map operations, such that drivers can
+> > + * derive the page table update delta accordingly.
+> > + *
+> > + * Note that there can't be more than two existent mappings to split up, one at
+> > + * the beginning and one at the end of the new mapping, hence there is a
+> > + * maximum of two remap operations.
+> > + *
+> > + * Analogous to drm_gpuva_sm_map() drm_gpuva_sm_unmap() uses &drm_gpuva_fn_ops
+> > + * to call back into the driver in order to unmap a range of GPU VA space. The
+> > + * logic behind this function is way simpler though: For all existent mappings
+> > + * enclosed by the given range unmap operations are created. For mappings which
+> > + * are only partically located within the given range, remap operations are
+> > + * created such that those mappings are split up and re-mapped partically.
+> > + *
+> > + * To update the &drm_gpuva_manager's view of the GPU VA space
+> > + * drm_gpuva_insert(), drm_gpuva_insert_prealloc(), and drm_gpuva_remove() may
+> > + * be used. Please note that these functions are not safe to be called from a
+> > + * &drm_gpuva_fn_ops callback originating from drm_gpuva_sm_map() or
+> > + * drm_gpuva_sm_unmap(). The drm_gpuva_map(), drm_gpuva_remap() and
+> > + * drm_gpuva_unmap() helpers should be used instead.
+> > + *
+> > + * The following diagram depicts the basic relationships of existent GPU VA
+> > + * mappings, a newly requested mapping and the resulting mappings as implemented
+> > + * by drm_gpuva_sm_map() - it doesn't cover any arbitrary combinations of these.
+> > + *
+> > + * 1) Requested mapping is identical. Replace it, but indicate the backing PTEs
+> > + *    could be kept.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     1
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     a     1
+> > + *	req: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     a     1
+> > + *	new: |-----------| (bo_offset=n)
+> > + *
+> > + *
+> > + * 2) Requested mapping is identical, except for the BO offset, hence replace
+> > + *    the mapping.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     1
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     a     1
+> > + *	req: |-----------| (bo_offset=m)
+> > + *
+> > + *	     0     a     1
+> > + *	new: |-----------| (bo_offset=m)
+> > + *
+> > + *
+> > + * 3) Requested mapping is identical, except for the backing BO, hence replace
+> > + *    the mapping.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     1
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     b     1
+> > + *	req: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     b     1
+> > + *	new: |-----------| (bo_offset=n)
+> > + *
+> > + *
+> > + * 4) Existent mapping is a left aligned subset of the requested one, hence
+> > + *    replace the existent one.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0  a  1
+> > + *	old: |-----|       (bo_offset=n)
+> > + *
+> > + *	     0     a     2
+> > + *	req: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     a     2
+> > + *	new: |-----------| (bo_offset=n)
+> > + *
+> > + *    .. note::
+> > + *       We expect to see the same result for a request with a different BO
+> > + *       and/or non-contiguous BO offset.
+> > + *
+> > + *
+> > + * 5) Requested mapping's range is a left aligned subset of the existent one,
+> > + *    but backed by a different BO. Hence, map the requested mapping and split
+> > + *    the existent one adjusting it's BO offset.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     2
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0  b  1
+> > + *	req: |-----|       (bo_offset=n)
+> > + *
+> > + *	     0  b  1  a' 2
+> > + *	new: |-----|-----| (b.bo_offset=n, a.bo_offset=n+1)
+> > + *
+> > + *    .. note::
+> > + *       We expect to see the same result for a request with a different BO
+> > + *       and/or non-contiguous BO offset.
+> > + *
+> > + *
+> > + * 6) Existent mapping is a superset of the requested mapping. Split it up, but
+> > + *    indicate that the backing PTEs could be kept.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     2
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0  a  1
+> > + *	req: |-----|       (bo_offset=n)
+> > + *
+> > + *	     0  a  1  a' 2
+> > + *	new: |-----|-----| (a.bo_offset=n, a'.bo_offset=n+1)
+> > + *
+> > + *
+> > + * 7) Requested mapping's range is a right aligned subset of the existent one,
+> > + *    but backed by a different BO. Hence, map the requested mapping and split
+> > + *    the existent one, without adjusting the BO offset.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     2
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	           1  b  2
+> > + *	req:       |-----| (bo_offset=m)
+> > + *
+> > + *	     0  a  1  b  2
+> > + *	new: |-----|-----| (a.bo_offset=n,b.bo_offset=m)
+> > + *
+> > + *
+> > + * 8) Existent mapping is a superset of the requested mapping. Split it up, but
+> > + *    indicate that the backing PTEs could be kept.
+> > + *
+> > + *    ::
+> > + *
+> > + *	      0     a     2
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	           1  a  2
+> > + *	req:       |-----| (bo_offset=n+1)
+> > + *
+> > + *	     0  a' 1  a  2
+> > + *	new: |-----|-----| (a'.bo_offset=n, a.bo_offset=n+1)
+> > + *
+> > + *
+> > + * 9) Existent mapping is overlapped at the end by the requested mapping backed
+> > + *    by a different BO. Hence, map the requested mapping and split up the
+> > + *    existent one, without adjusting the BO offset.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     2
+> > + *	old: |-----------|       (bo_offset=n)
+> > + *
+> > + *	           1     b     3
+> > + *	req:       |-----------| (bo_offset=m)
+> > + *
+> > + *	     0  a  1     b     3
+> > + *	new: |-----|-----------| (a.bo_offset=n,b.bo_offset=m)
+> > + *
+> > + *
+> > + * 10) Existent mapping is overlapped by the requested mapping, both having the
+> > + *     same backing BO with a contiguous offset. Indicate the backing PTEs of
+> > + *     the old mapping could be kept.
+> > + *
+> > + *     ::
+> > + *
+> > + *	      0     a     2
+> > + *	 old: |-----------|       (bo_offset=n)
+> > + *
+> > + *	            1     a     3
+> > + *	 req:       |-----------| (bo_offset=n+1)
+> > + *
+> > + *	      0  a' 1     a     3
+> > + *	 new: |-----|-----------| (a'.bo_offset=n, a.bo_offset=n+1)
+> > + *
+> > + *
+> > + * 11) Requested mapping's range is a centered subset of the existent one
+> > + *     having a different backing BO. Hence, map the requested mapping and split
+> > + *     up the existent one in two mappings, adjusting the BO offset of the right
+> > + *     one accordingly.
+> > + *
+> > + *     ::
+> > + *
+> > + *	      0        a        3
+> > + *	 old: |-----------------| (bo_offset=n)
+> > + *
+> > + *	            1  b  2
+> > + *	 req:       |-----|       (bo_offset=m)
+> > + *
+> > + *	      0  a  1  b  2  a' 3
+> > + *	 new: |-----|-----|-----| (a.bo_offset=n,b.bo_offset=m,a'.bo_offset=n+2)
+> > + *
+> > + *
+> > + * 12) Requested mapping is a contiguous subset of the existent one. Split it
+> > + *     up, but indicate that the backing PTEs could be kept.
+> > + *
+> > + *     ::
+> > + *
+> > + *	      0        a        3
+> > + *	 old: |-----------------| (bo_offset=n)
+> > + *
+> > + *	            1  a  2
+> > + *	 req:       |-----|       (bo_offset=n+1)
+> > + *
+> > + *	      0  a' 1  a  2 a'' 3
+> > + *	 old: |-----|-----|-----| (a'.bo_offset=n, a.bo_offset=n+1, a''.bo_offset=n+2)
+> > + *
+> > + *
+> > + * 13) Existent mapping is a right aligned subset of the requested one, hence
+> > + *     replace the existent one.
+> > + *
+> > + *     ::
+> > + *
+> > + *	            1  a  2
+> > + *	 old:       |-----| (bo_offset=n+1)
+> > + *
+> > + *	      0     a     2
+> > + *	 req: |-----------| (bo_offset=n)
+> > + *
+> > + *	      0     a     2
+> > + *	 new: |-----------| (bo_offset=n)
+> > + *
+> > + *     .. note::
+> > + *        We expect to see the same result for a request with a different bo
+> > + *        and/or non-contiguous bo_offset.
+> > + *
+> > + *
+> > + * 14) Existent mapping is a centered subset of the requested one, hence
+> > + *     replace the existent one.
+> > + *
+> > + *     ::
+> > + *
+> > + *	            1  a  2
+> > + *	 old:       |-----| (bo_offset=n+1)
+> > + *
+> > + *	      0        a       3
+> > + *	 req: |----------------| (bo_offset=n)
+> > + *
+> > + *	      0        a       3
+> > + *	 new: |----------------| (bo_offset=n)
+> > + *
+> > + *     .. note::
+> > + *        We expect to see the same result for a request with a different bo
+> > + *        and/or non-contiguous bo_offset.
+> > + *
+> > + *
+> > + * 15) Existent mappings is overlapped at the beginning by the requested mapping
+> > + *     backed by a different BO. Hence, map the requested mapping and split up
+> > + *     the existent one, adjusting it's BO offset accordingly.
+> > + *
+> > + *     ::
+> > + *
+> > + *	            1     a     3
+> > + *	 old:       |-----------| (bo_offset=n)
+> > + *
+> > + *	      0     b     2
+> > + *	 req: |-----------|       (bo_offset=m)
+> > + *
+> > + *	      0     b     2  a' 3
+> > + *	 new: |-----------|-----| (b.bo_offset=m,a.bo_offset=n+2)
+> > + */
+> > +
+> > +/**
+> > + * DOC: Locking
+> > + *
+> > + * Generally, the GPU VA manager does not take care of locking itself, it is
+> > + * the drivers responsibility to take care about locking. Drivers might want to
+> > + * protect the following operations: inserting, removing and iterating
+> > + * &drm_gpuva objects as well as generating all kinds of operations, such as
+> > + * split / merge or prefetch.
+> > + *
+> > + * The GPU VA manager also does not take care of the locking of the backing
+> > + * &drm_gem_object buffers GPU VA lists by itself; drivers are responsible to
+> > + * enforce mutual exclusion.
+> > + */
+> > +
+> > + /*
+> > +  * Maple Tree Locking
+> > +  *
+> > +  * The maple tree's advanced API requires the user of the API to protect
+> > +  * certain tree operations with a lock (either the external or internal tree
+> > +  * lock) for tree internal reasons.
+> > +  *
+> > +  * The actual rules (when to aquire/release the lock) are enforced by lockdep
+> > +  * through the maple tree implementation.
+> > +  *
+> > +  * For this reason the DRM GPUVA manager takes the maple tree's internal
+> > +  * spinlock according to the lockdep enforced rules.
+> > +  *
+> > +  * Please note, that this lock is *only* meant to fulfill the maple trees
+> > +  * requirements and does not intentionally protect the DRM GPUVA manager
+> > +  * against concurrent access.
+> > +  *
+> > +  * The following mail thread provides more details on why the maple tree
+> > +  * has this requirement.
+> > +  *
+> > +  * https://lore.kernel.org/lkml/20230217134422.14116-5-dakr@redhat.com/
+> > +  */
+> > +
+> > +static int __drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+> > +			      struct drm_gpuva *va);
+> > +static void __drm_gpuva_remove(struct drm_gpuva *va);
+> > +
+> > +/**
+> > + * drm_gpuva_manager_init - initialize a &drm_gpuva_manager
+> > + * @mgr: pointer to the &drm_gpuva_manager to initialize
+> > + * @name: the name of the GPU VA space
+> > + * @start_offset: the start offset of the GPU VA space
+> > + * @range: the size of the GPU VA space
+> > + * @reserve_offset: the start of the kernel reserved GPU VA area
+> > + * @reserve_range: the size of the kernel reserved GPU VA area
+> > + * @ops: &drm_gpuva_fn_ops called on &drm_gpuva_sm_map / &drm_gpuva_sm_unmap
+> > + *
+> > + * The &drm_gpuva_manager must be initialized with this function before use.
+> > + *
+> > + * Note that @mgr must be cleared to 0 before calling this function. The given
+> > + * &name is expected to be managed by the surrounding driver structures.
+> > + */
+> > +void
+> > +drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+> > +		       const char *name,
+> > +		       u64 start_offset, u64 range,
+> > +		       u64 reserve_offset, u64 reserve_range,
+> > +		       const struct drm_gpuva_fn_ops *ops)
+> > +{
+> > +	mt_init(&mgr->mtree);
+> > +
+> > +	mgr->mm_start = start_offset;
+> > +	mgr->mm_range = range;
+> > +
+> > +	mgr->name = name ? name : "unknown";
+> > +	mgr->ops = ops;
+> > +
+> > +	memset(&mgr->kernel_alloc_node, 0, sizeof(struct drm_gpuva));
+> > +
+> > +	if (reserve_range) {
+> > +		mgr->kernel_alloc_node.va.addr = reserve_offset;
+> > +		mgr->kernel_alloc_node.va.range = reserve_range;
+> > +
+> > +		__drm_gpuva_insert(mgr, &mgr->kernel_alloc_node);
+> > +	}
+> > +
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_manager_init);
+> > +
+> > +/**
+> > + * drm_gpuva_manager_destroy - cleanup a &drm_gpuva_manager
+> > + * @mgr: pointer to the &drm_gpuva_manager to clean up
+> > + *
+> > + * Note that it is a bug to call this function on a manager that still
+> > + * holds GPU VA mappings.
+> > + */
+> > +void
+> > +drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr)
+> > +{
+> > +	mgr->name = NULL;
+> > +
+> > +	if (mgr->kernel_alloc_node.va.range)
+> > +		__drm_gpuva_remove(&mgr->kernel_alloc_node);
+> > +
+> > +	mtree_lock(&mgr->mtree);
+> > +	WARN(!mtree_empty(&mgr->mtree),
+> > +	     "GPUVA tree is not empty, potentially leaking memory.");
+> > +	__mt_destroy(&mgr->mtree);
+> > +	mtree_unlock(&mgr->mtree);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_manager_destroy);
+> > +
+> > +static inline bool
+> > +drm_gpuva_in_mm_range(struct drm_gpuva_manager *mgr, u64 addr, u64 range)
+> > +{
+> > +	u64 end = addr + range;
+> > +	u64 mm_start = mgr->mm_start;
+> > +	u64 mm_end = mm_start + mgr->mm_range;
+> > +
+> > +	return addr < mm_end && mm_start < end;
+> > +}
+> > +
+> > +static inline bool
+> > +drm_gpuva_in_kernel_node(struct drm_gpuva_manager *mgr, u64 addr, u64 range)
+> > +{
+> > +	u64 end = addr + range;
+> > +	u64 kstart = mgr->kernel_alloc_node.va.addr;
+> > +	u64 krange = mgr->kernel_alloc_node.va.range;
+> > +	u64 kend = kstart + krange;
+> > +
+> > +	return krange && addr < kend && kstart < end;
+> > +}
+> > +
+> > +static inline bool
+> > +drm_gpuva_range_valid(struct drm_gpuva_manager *mgr,
+> > +		      u64 addr, u64 range)
+> > +{
+> > +	return drm_gpuva_in_mm_range(mgr, addr, range) &&
+> > +	       !drm_gpuva_in_kernel_node(mgr, addr, range);
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_iter_remove - removes the iterators current element
+> > + * @it: the &drm_gpuva_iterator
+> > + *
+> > + * This removes the element the iterator currently points to.
+> > + */
+> > +void
+> > +drm_gpuva_iter_remove(struct drm_gpuva_iterator *it)
+> > +{
+> > +	mas_lock(&it->mas);
+> > +	mas_erase(&it->mas);
+> > +	mas_unlock(&it->mas);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_iter_remove);
+> > +
+> > +/**
+> > + * drm_gpuva_prealloc_create - creates a preallocated node to store a
+> > + * &drm_gpuva entry.
+> > + *
+> > + * Returns: the &drm_gpuva_prealloc object on success, NULL on failure
+> > + */
+> > +struct drm_gpuva_prealloc *
+> > +drm_gpuva_prealloc_create(struct drm_gpuva_manager *mgr)
+> > +{
+> > +	struct drm_gpuva_prealloc *pa;
+> > +
+> > +	pa = kzalloc(sizeof(*pa), GFP_KERNEL);
+> > +	if (!pa)
+> > +		return NULL;
+> > +
+> > +	mas_init(&pa->mas, &mgr->mtree, 0);
+> 
+> I've broken this interface on you too, with the mas_preallocate()
+> change - See below.
+> 
+> > +	if (mas_preallocate(&pa->mas, GFP_KERNEL)) {
+> > +		kfree(pa);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	return pa;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_prealloc_create);
+> > +
+> > +/**
+> > + * drm_gpuva_prealloc_destroy - destroyes a preallocated node and frees the
+> > + * &drm_gpuva_prealloc
+> 
+> I tend to think of it as destroying a maple state by freeing the
+> preallocated nodes, but I guess the state isn't destroyed.
+> 
 
-Ok, I will split it.
+While writing 'preallocated node' I think I did not think of the maple tree
+implementation behind it. I intended to tell the user of the API that the 'node'
+(meaning an arbitrary place to store a GPUVA entry) internally is destroyed with
+this function.
 
-Thank you!
-Arkadiusz
+> > + *
+> > + * @pa: the &drm_gpuva_prealloc to destroy
+> > + */
+> > +void
+> > +drm_gpuva_prealloc_destroy(struct drm_gpuva_prealloc *pa)
+> > +{
+> > +	mas_destroy(&pa->mas);
+> > +	kfree(pa);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_prealloc_destroy);
+> > +
+> > +static int
+> > +drm_gpuva_insert_state(struct drm_gpuva_manager *mgr,
+> > +		       struct ma_state *mas,
+> > +		       struct drm_gpuva *va)
+> 
+> Couldn't these arguments could be on one line?
+> 
+
+Yep, gonna change that.
+
+> > +{
+> > +	u64 addr = va->va.addr;
+> > +	u64 range = va->va.range;
+> > +	u64 last = addr + range - 1;
+> > +
+> > +	mas_set(mas, addr);
+> > +
+> > +	mas_lock(mas);
+> > +	if (unlikely(mas_walk(mas))) {
+> > +		mas_unlock(mas);
+> > +		return -EEXIST;
+> > +	}
+> > +
+> > +	if (unlikely(mas->last < last)) {
+> > +		mas_unlock(mas);
+> > +		return -EEXIST;
+> > +	}
+> > +
+> > +	mas->index = addr;
+> > +	mas->last = last;
+> > +
+> > +	mas_store_prealloc(mas, va);
+> > +	mas_unlock(mas);
+> > +
+> > +	va->mgr = mgr;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int
+> > +__drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+> > +		   struct drm_gpuva *va)
+> > +{
+> > +	MA_STATE(mas, &mgr->mtree, 0, 0);
+> > +	int ret;
+> > +
+> > +	ret = mas_preallocate(&mas, GFP_KERNEL);
+> 
+> mas_preallocate() is in the process of being updated to reduce the
+> allocations, so this will eventually fail to compile [1].
+> 
+> mas_preallocate(&mas, va, GFP_KERNEL) will work in the future.
+
+This is perfectly fine for __drm_gpuva_insert(). In fact, I could also just
+use mas_store_gfp() right away in this function. The reason for this
+mas_preallocate() is just to produce a common code path for __drm_gpuva_insert()
+and drm_gpuva_insert_prealloc() with drm_gpuva_insert_state(). I already
+considered to abstain from that and just implement __drm_gpuva_insert() with
+mas_store_gfp() noticing the overhead of mas_preallocate() in this case.
+
+However, considering your explanation below, I tend to think that this change
+could be a showstopper for another use case. Please see the comment on
+drm_gpuva_insert_prealloc().
+
+> 
+> The calculated allocations depend on the area being written and if there
+> is a value or NULL being written.
+> 
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return drm_gpuva_insert_state(mgr, &mas, va);
+> 
+> This has the added effect that the mas_preallocate() examines the tree
+> by walking it, so you need to hold the lock during that work.  It is
+> also possible, since you are not holding the lock here, that you could
+> have a writer come in and change what you preallocated to store and may
+> cause the write to not have enough memory.  IIRC you have another
+> locking strategy that negates this, but you will still need to hold the
+> lock and have the maple state pointing at the correct range now (or,
+> well, soon) to keep lockdep happy.
+> 
+> Change this:
+> 	MA_STATE(mas, &mgr->mtree, 0, 0);
+> 
+> to something like this (but hopefully less ugly..)
+> 	MA_STATE(mas, &mgr->mtree, va->va.addr, va->va.addr + va->va.range - 1);
+> 
+> ...maybe use mas_init() instead.
+> 
+> This strictly does not need to preallocate since you don't have complex
+> locking in this case, but I suspect you are preallocating for external
+> driver use as documented in this patch?  This can still work if the
+> preallocation call sets up the maple state and the driver doesn't mess
+> things up on you.  You could check that by verifying mas.index and
+> mas.last are what you expect, but I think you'll want to move your
+> mas_walk() checks to before preallocating.
+> 
+> [1] https://lore.kernel.org/all/20230612203953.2093911-1-Liam.Howlett@oracle.com/
+> 
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_insert - insert a &drm_gpuva
+> > + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
+> > + * @va: the &drm_gpuva to insert
+> > + *
+> > + * Insert a &drm_gpuva with a given address and range into a
+> > + * &drm_gpuva_manager.
+> > + *
+> > + * It is not allowed to use this function while iterating this GPU VA space,
+> > + * e.g via drm_gpuva_iter_for_each().
+> > + *
+> > + * Returns: 0 on success, negative error code on failure.
+> > + */
+> > +int
+> > +drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+> > +		 struct drm_gpuva *va)
+> > +{
+> > +	u64 addr = va->va.addr;
+> > +	u64 range = va->va.range;
+> > +
+> > +	if (unlikely(!drm_gpuva_range_valid(mgr, addr, range)))
+> > +		return -EINVAL;
+> > +
+> > +	return __drm_gpuva_insert(mgr, va);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_insert);
+> > +
+> > +/**
+> > + * drm_gpuva_insert_prealloc - insert a &drm_gpuva with a preallocated node
+> > + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
+> > + * @va: the &drm_gpuva to insert
+> > + * @pa: the &drm_gpuva_prealloc node
+> > + *
+> > + * Insert a &drm_gpuva with a given address and range into a
+> > + * &drm_gpuva_manager.
+> > + *
+> > + * It is not allowed to use this function while iterating this GPU VA space,
+> > + * e.g via drm_gpuva_iter_for_each().
+> > + *
+> > + * Returns: 0 on success, negative error code on failure.
+> > + */
+> > +int
+> > +drm_gpuva_insert_prealloc(struct drm_gpuva_manager *mgr,
+> > +			  struct drm_gpuva_prealloc *pa,
+> > +			  struct drm_gpuva *va)
+> > +{
+> > +	struct ma_state *mas = &pa->mas;
+> > +	u64 addr = va->va.addr;
+> > +	u64 range = va->va.range;
+> > +
+> > +	if (unlikely(!drm_gpuva_range_valid(mgr, addr, range)))
+> > +		return -EINVAL;
+> > +
+> > +	mas->tree = &mgr->mtree;
+> 
+> Are you trying to take the allocated nodes for a write to a different
+> tree?  You may not have enough nodes..
+> 
+
+They're not going to a different tree. I guess your're confused why I set
+mas->tree (again). And so am I - I think it is just a leftover. The tree is
+already set in drm_gpuva_prealloc_create() through mas_init().
+
+However, if I understand your changes to mas_preallocate() you explained above
+correctly, your point "you may not have enough nodes" might still hold. Let me
+explain:
+
+When talking about locking I mentioned earlier that there are two cases.
+In the first case users of the GPUVA manager need to hold a mutex (anyway) while
+applying changes to the GPUVA space and hence the maple tree, not just to
+protect the tree, but also to make sure that multiple changes to the GPUVA space
+appear atomically.
+In the second case, any accesses to GPUVA space are serialized and hence
+technically don't require any locking at all.
+
+In the latter, serialized, case we basically have two stages.
+In the first one jobs to create / remove mappings are submitted to the driver,
+which pre-allocates the required resources and puts the job into a job queue.
+In a second stage the actual updates to the GPUVA space are performed
+asynchronously running within a dma_fence signalling critical path and hence
+no memory allocations are permitted. One single job entering the serialized path
+can usually contain an arbitrary amount of map / unmap / remap operations and
+hence an arbitrary amount of GPUVAs to add or remove from the maple tree.
+
+Therefore at the time of pre-allocation we can't predict the state of the maple
+tree at the time the pre-allocated nodes are actually used to insert an entry,
+nor can we ensure that the maple tree doesn't change until the pre-allocated
+nodes were actually used to insert an entry.
+
+If I understand it correctly, until now mas_preallocate() allocates the
+worst-case amount of nodes, which seems to be exactly what we need for this use
+case. While with your change you walk the tree calculate how many nodes you need
+at this time and hence require to not have the tree changed until the nodes were
+used to store the indicated entry.
+
+Would it be possible to just have both paths, your new mas_preallocate() and
+something like mas_preallocate_worst_case() (hopefully with a better name)?
+
+> > +	return drm_gpuva_insert_state(mgr, mas, va);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_insert_prealloc);
+> > +
+> > +static void
+> > +__drm_gpuva_remove(struct drm_gpuva *va)
+> > +{
+> > +	MA_STATE(mas, &va->mgr->mtree, va->va.addr, 0);
+> > +
+> > +	mas_lock(&mas);
+> > +	mas_erase(&mas);
+> > +	mas_unlock(&mas);
+> 
+> This should be the same as: mtree_erase(&va->mgr->mtree, va->va.addr);
+> 
+
+Yeah, I think there are a few cases where I could do something similar as well.
+I think in a follow up patch I already covered those, seems like I missed
+them here.
+
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_remove - remove a &drm_gpuva
+> > + * @va: the &drm_gpuva to remove
+> > + *
+> > + * This removes the given &va from the underlaying tree.
+> > + *
+> > + * It is not allowed to use this function while iterating this GPU VA space,
+> > + * e.g via drm_gpuva_iter_for_each(). Please use drm_gpuva_iter_remove()
+> > + * instead.
+> > + */
+> > +void
+> > +drm_gpuva_remove(struct drm_gpuva *va)
+> > +{
+> > +	struct drm_gpuva_manager *mgr = va->mgr;
+> > +
+> > +	if (unlikely(va == &mgr->kernel_alloc_node)) {
+> > +		WARN(1, "Can't destroy kernel reserved node.\n");
+> > +		return;
+> > +	}
+> > +
+> > +	__drm_gpuva_remove(va);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_remove);
+> > +
+> > +/**
+> > + * drm_gpuva_link - link a &drm_gpuva
+> > + * @va: the &drm_gpuva to link
+> > + *
+> > + * This adds the given &va to the GPU VA list of the &drm_gem_object it is
+> > + * associated with.
+> > + *
+> > + * This function expects the caller to protect the GEM's GPUVA list against
+> > + * concurrent access.
+> > + */
+> > +void
+> > +drm_gpuva_link(struct drm_gpuva *va)
+> > +{
+> > +	if (likely(va->gem.obj))
+> > +		list_add_tail(&va->gem.entry, &va->gem.obj->gpuva.list);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_link);
+> > +
+> > +/**
+> > + * drm_gpuva_unlink - unlink a &drm_gpuva
+> > + * @va: the &drm_gpuva to unlink
+> > + *
+> > + * This removes the given &va from the GPU VA list of the &drm_gem_object it is
+> > + * associated with.
+> > + *
+> > + * This function expects the caller to protect the GEM's GPUVA list against
+> > + * concurrent access.
+> > + */
+> > +void
+> > +drm_gpuva_unlink(struct drm_gpuva *va)
+> > +{
+> > +	if (likely(va->gem.obj))
+> > +		list_del_init(&va->gem.entry);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_unlink);
+> > +
+> > +/**
+> > + * drm_gpuva_find_first - find the first &drm_gpuva in the given range
+> > + * @mgr: the &drm_gpuva_manager to search in
+> > + * @addr: the &drm_gpuvas address
+> > + * @range: the &drm_gpuvas range
+> > + *
+> > + * Returns: the first &drm_gpuva within the given range
+> > + */
+> > +struct drm_gpuva *
+> > +drm_gpuva_find_first(struct drm_gpuva_manager *mgr,
+> > +		     u64 addr, u64 range)
+> > +{
+> > +	MA_STATE(mas, &mgr->mtree, addr, 0);
+> > +	struct drm_gpuva *va;
+> > +
+> 
+> Again, this can be an rcu_read_lock()
+> 
+
+Same as below.
+
+> > +	mas_lock(&mas);
+> > +	va = mas_find(&mas, addr + range - 1);
+> > +	mas_unlock(&mas);
+> > +
+> > +	return va;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_find_first);
+> > +
+> > +/**
+> > + * drm_gpuva_find - find a &drm_gpuva
+> > + * @mgr: the &drm_gpuva_manager to search in
+> > + * @addr: the &drm_gpuvas address
+> > + * @range: the &drm_gpuvas range
+> > + *
+> > + * Returns: the &drm_gpuva at a given &addr and with a given &range
+> > + */
+> > +struct drm_gpuva *
+> > +drm_gpuva_find(struct drm_gpuva_manager *mgr,
+> > +	       u64 addr, u64 range)
+> > +{
+> > +	struct drm_gpuva *va;
+> > +
+> > +	va = drm_gpuva_find_first(mgr, addr, range);
+> > +	if (!va)
+> > +		goto out;
+> > +
+> > +	if (va->va.addr != addr ||
+> > +	    va->va.range != range)
+> > +		goto out;
+> > +
+> > +	return va;
+> > +
+> > +out:
+> > +	return NULL;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_find);
+> > +
+> > +/**
+> > + * drm_gpuva_find_prev - find the &drm_gpuva before the given address
+> > + * @mgr: the &drm_gpuva_manager to search in
+> > + * @start: the given GPU VA's start address
+> > + *
+> > + * Find the adjacent &drm_gpuva before the GPU VA with given &start address.
+> > + *
+> > + * Note that if there is any free space between the GPU VA mappings no mapping
+> > + * is returned.
+> > + *
+> > + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+> > + */
+> > +struct drm_gpuva *
+> > +drm_gpuva_find_prev(struct drm_gpuva_manager *mgr, u64 start)
+> > +{
+> > +	MA_STATE(mas, &mgr->mtree, start - 1, 0);
+> > +	struct drm_gpuva *va;
+> > +
+> > +	if (start <= mgr->mm_start ||
+> > +	    start > (mgr->mm_start + mgr->mm_range))
+> > +		return NULL;
+> > +
+> 
+> And here as well.  Maybe mtree_load() would be easier?
+> 
+> > +	mas_lock(&mas);
+> > +	va = mas_walk(&mas);
+> > +	mas_unlock(&mas);
+> > +
+> > +	return va;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_find_prev);
+> > +
+> > +/**
+> > + * drm_gpuva_find_next - find the &drm_gpuva after the given address
+> > + * @mgr: the &drm_gpuva_manager to search in
+> > + * @end: the given GPU VA's end address
+> > + *
+> > + * Find the adjacent &drm_gpuva after the GPU VA with given &end address.
+> > + *
+> > + * Note that if there is any free space between the GPU VA mappings no mapping
+> > + * is returned.
+> > + *
+> > + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+> > + */
+> > +struct drm_gpuva *
+> > +drm_gpuva_find_next(struct drm_gpuva_manager *mgr, u64 end)
+> > +{
+> > +	MA_STATE(mas, &mgr->mtree, end, 0);
+> > +	struct drm_gpuva *va;
+> > +
+> > +	if (end < mgr->mm_start ||
+> > +	    end >= (mgr->mm_start + mgr->mm_range))
+> > +		return NULL;
+> > +
+> 
+> Here too, you can use the mtree_load() function.
+> 
+> A note though that when I store my VMAs in the mm code, the VMAs are
+> [start, end) and the tree is [start, end], so I always take one away.
+> Not sure if your VMAs are the same way.
+> 
+> > +	mas_lock(&mas);
+> > +	va = mas_walk(&mas);
+> > +	mas_unlock(&mas);
+> > +
+> > +	return va;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_find_next);
+> > +
+> > +/**
+> > + * drm_gpuva_interval_empty - indicate whether a given interval of the VA space
+> > + * is empty
+> > + * @mgr: the &drm_gpuva_manager to check the range for
+> > + * @addr: the start address of the range
+> > + * @range: the range of the interval
+> > + *
+> > + * Returns: true if the interval is empty, false otherwise
+> > + */
+> > +bool
+> > +drm_gpuva_interval_empty(struct drm_gpuva_manager *mgr, u64 addr, u64 range)
+> > +{
+> > +	DRM_GPUVA_ITER(it, mgr, addr);
+> > +	struct drm_gpuva *va;
+> > +
+> > +	drm_gpuva_iter_for_each_range(va, it, addr + range)
+> > +		return false;
+> > +
+> > +	return true;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_interval_empty);
+> > +
+> > +/**
+> > + * drm_gpuva_map - helper to insert a &drm_gpuva from &drm_gpuva_fn_ops
+> > + * callbacks
+> > + *
+> > + * @mgr: the &drm_gpuva_manager
+> > + * @pa: the &drm_gpuva_prealloc
+> > + * @va: the &drm_gpuva to inser
+> > + */
+> > +int
+> > +drm_gpuva_map(struct drm_gpuva_manager *mgr,
+> > +	      struct drm_gpuva_prealloc *pa,
+> > +	      struct drm_gpuva *va)
+> > +{
+> > +	return drm_gpuva_insert_prealloc(mgr, pa, va);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_map);
+> > +
+> > +/**
+> > + * drm_gpuva_remap - helper to insert a &drm_gpuva from &drm_gpuva_fn_ops
+> > + * callbacks
+> > + *
+> > + * @state: the current &drm_gpuva_state
+> > + * @prev: the &drm_gpuva to remap when keeping the start of a mapping,
+> > + * may be NULL
+> > + * @next: the &drm_gpuva to remap when keeping the end of a mapping,
+> > + * may be NULL
+> > + */
+> > +int
+> > +drm_gpuva_remap(drm_gpuva_state_t state,
+> > +		struct drm_gpuva *prev,
+> > +		struct drm_gpuva *next)
+> > +{
+> > +	struct ma_state *mas = &state->mas;
+> > +	u64 max = mas->last;
+> > +
+> > +	if (unlikely(!prev && !next))
+> > +		return -EINVAL;
+> > +
+> > +	if (prev) {
+> > +		u64 addr = prev->va.addr;
+> > +		u64 last = addr + prev->va.range - 1;
+> > +
+> > +		if (unlikely(addr != mas->index))
+> > +			return -EINVAL;
+> > +
+> > +		if (unlikely(last >= mas->last))
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	if (next) {
+> > +		u64 addr = next->va.addr;
+> > +		u64 last = addr + next->va.range - 1;
+> > +
+> > +		if (unlikely(last != mas->last))
+> > +			return -EINVAL;
+> > +
+> > +		if (unlikely(addr <= mas->index))
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	if (prev && next) {
+> > +		u64 p_last = prev->va.addr + prev->va.range - 1;
+> > +		u64 n_addr = next->va.addr;
+> > +
+> > +		if (unlikely(p_last > n_addr))
+> > +			return -EINVAL;
+> > +
+> > +		if (unlikely(n_addr - p_last <= 1))
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	mas_lock(mas);
+> > +	if (prev) {
+> > +		mas_store(mas, prev);
+> > +		mas_next(mas, max);
+> 
+> This will advance to the next entry, is that what you want to do?  I
+> think you want mas_next_range(), which is in a recent patch set [2].  I
+> believe, what you have here is a large range which is NULL and you are
+> either inserting something at the start, at the end, or both?
+
+drm_gpuva_remap() is called from a callback while walking the tree in
+__drm_gpuva_sm_map() or __drm_gpuva_sm_unmap() with
+drm_gpuva_iter_for_each_range() to insert a new mapping or unmap a given range.
+
+It is called whenever the new mapping to insert or the given range to unmap
+intersects with the entry at the iterators current position. For example:
+
+     0        a        3
+old: |-----------------| (bo_offset=n)
+
+           1  b  2
+req:       |-----|       (bo_offset=m)
+
+     0  a' 1  b  2 a'' 3
+new: |-----|-----|-----| (a.bo_offset=n,b.bo_offset=m,a'.bo_offset=n+2)
+
+In this example the current iterators entry would be a. prev would be a' and
+next would be a''. When this function returns I expect to have a hole where b
+should go. b would be inserted in the last iteration of
+drm_gpuva_iter_for_each_range() in __drm_gpuva_sm_map from another callback,
+which is drm_gpuva_map(). drm_gpuva_map() gets a struct drm_gpuva_prealloc
+passed by the caller such that it got the pre-allocated nodes for inserting the
+entry into the hole we left in this function.
+
+Taking this example the maple tree should look like this right before the call
+to mas_next():
+
+0  a' 1     a     3
+|-----|-----------|
+
+So, what I expect from mas_next() is that it brings me to offset '1'.
+Afterwards, we enter the 'if (next)' path and create the hole with
+'mas->last = next->va.addr - 1' and 'mas_store(mas, NULL)'. Again calling
+mas_next() to jump to offset '2' inserting a''.
+
+Hopefully, now you can tell me whether I want mas_next() or mas_next_range()
+here. :-)
+
+> 
+> [2] https://lore.kernel.org/lkml/20230518145544.1722059-29-Liam.Howlett@oracle.com/
+> 
+> > +		if (!next)
+> > +			mas_store(mas, NULL);
+> > +	}
+> > +
+> > +	if (next) {
+> > +		mas->last = next->va.addr - 1;
+> > +		mas_store(mas, NULL);
+> > +		mas_next(mas, max);
+> > +		mas_store(mas, next);
+> > +	}
+> > +	mas_unlock(mas);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_remap);
+> > +
+> > +/**
+> > + * drm_gpuva_unmap - helper to remove a &drm_gpuva from &drm_gpuva_fn_ops
+> > + * callbacks
+> > + *
+> > + * @state: the current &drm_gpuva_state
+> > + *
+> > + * The entry associated with the current state is removed.
+> > + */
+> > +void
+> > +drm_gpuva_unmap(drm_gpuva_state_t state)
+> > +{
+> > +	drm_gpuva_iter_remove(state);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_unmap);
+> > +
+> > +static int
+> > +op_map_cb(const struct drm_gpuva_fn_ops *fn, void *priv,
+> > +	  u64 addr, u64 range,
+> > +	  struct drm_gem_object *obj, u64 offset)
+> > +{
+> > +	struct drm_gpuva_op op = {};
+> > +
+> > +	op.op = DRM_GPUVA_OP_MAP;
+> > +	op.map.va.addr = addr;
+> > +	op.map.va.range = range;
+> > +	op.map.gem.obj = obj;
+> > +	op.map.gem.offset = offset;
+> > +
+> > +	return fn->sm_step_map(&op, priv);
+> > +}
+> > +
+> > +static int
+> > +op_remap_cb(const struct drm_gpuva_fn_ops *fn,
+> > +	    drm_gpuva_state_t state, void *priv,
+> > +	    struct drm_gpuva_op_map *prev,
+> > +	    struct drm_gpuva_op_map *next,
+> > +	    struct drm_gpuva_op_unmap *unmap)
+> > +{
+> > +	struct drm_gpuva_op op = {};
+> > +	struct drm_gpuva_op_remap *r;
+> > +
+> > +	op.op = DRM_GPUVA_OP_REMAP;
+> > +	r = &op.remap;
+> > +	r->prev = prev;
+> > +	r->next = next;
+> > +	r->unmap = unmap;
+> > +
+> > +	return fn->sm_step_remap(&op, state, priv);
+> > +}
+> > +
+> > +static int
+> > +op_unmap_cb(const struct drm_gpuva_fn_ops *fn,
+> > +	    drm_gpuva_state_t state, void *priv,
+> > +	    struct drm_gpuva *va, bool merge)
+> > +{
+> > +	struct drm_gpuva_op op = {};
+> > +
+> > +	op.op = DRM_GPUVA_OP_UNMAP;
+> > +	op.unmap.va = va;
+> > +	op.unmap.keep = merge;
+> > +
+> > +	return fn->sm_step_unmap(&op, state, priv);
+> > +}
+> > +
+> > +static int
+> > +__drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
+> > +		   const struct drm_gpuva_fn_ops *ops, void *priv,
+> > +		   u64 req_addr, u64 req_range,
+> > +		   struct drm_gem_object *req_obj, u64 req_offset)
+> > +{
+> > +	DRM_GPUVA_ITER(it, mgr, req_addr);
+> > +	struct drm_gpuva *va, *prev = NULL;
+> > +	u64 req_end = req_addr + req_range;
+> > +	int ret;
+> > +
+> > +	if (unlikely(!drm_gpuva_in_mm_range(mgr, req_addr, req_range)))
+> > +		return -EINVAL;
+> > +
+> > +	if (unlikely(drm_gpuva_in_kernel_node(mgr, req_addr, req_range)))
+> > +		return -EINVAL;
+> > +
+> > +	drm_gpuva_iter_for_each_range(va, it, req_end) {
+> > +		struct drm_gem_object *obj = va->gem.obj;
+> > +		u64 offset = va->gem.offset;
+> > +		u64 addr = va->va.addr;
+> > +		u64 range = va->va.range;
+> > +		u64 end = addr + range;
+> > +		bool merge = !!va->gem.obj;
+> > +
+> > +		if (addr == req_addr) {
+> > +			merge &= obj == req_obj &&
+> > +				 offset == req_offset;
+> > +
+> > +			if (end == req_end) {
+> > +				ret = op_unmap_cb(ops, &it, priv, va, merge);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +
+> > +			if (end < req_end) {
+> > +				ret = op_unmap_cb(ops, &it, priv, va, merge);
+> > +				if (ret)
+> > +					return ret;
+> > +				goto next;
+> > +			}
+> > +
+> > +			if (end > req_end) {
+> > +				struct drm_gpuva_op_map n = {
+> > +					.va.addr = req_end,
+> > +					.va.range = range - req_range,
+> > +					.gem.obj = obj,
+> > +					.gem.offset = offset + req_range,
+> > +				};
+> > +				struct drm_gpuva_op_unmap u = {
+> > +					.va = va,
+> > +					.keep = merge,
+> > +				};
+> > +
+> > +				ret = op_remap_cb(ops, &it, priv, NULL, &n, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +		} else if (addr < req_addr) {
+> > +			u64 ls_range = req_addr - addr;
+> > +			struct drm_gpuva_op_map p = {
+> > +				.va.addr = addr,
+> > +				.va.range = ls_range,
+> > +				.gem.obj = obj,
+> > +				.gem.offset = offset,
+> > +			};
+> > +			struct drm_gpuva_op_unmap u = { .va = va };
+> > +
+> > +			merge &= obj == req_obj &&
+> > +				 offset + ls_range == req_offset;
+> > +			u.keep = merge;
+> > +
+> > +			if (end == req_end) {
+> > +				ret = op_remap_cb(ops, &it, priv, &p, NULL, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +
+> > +			if (end < req_end) {
+> > +				ret = op_remap_cb(ops, &it, priv, &p, NULL, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				goto next;
+> > +			}
+> > +
+> > +			if (end > req_end) {
+> > +				struct drm_gpuva_op_map n = {
+> > +					.va.addr = req_end,
+> > +					.va.range = end - req_end,
+> > +					.gem.obj = obj,
+> > +					.gem.offset = offset + ls_range +
+> > +						      req_range,
+> > +				};
+> > +
+> > +				ret = op_remap_cb(ops, &it, priv, &p, &n, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +		} else if (addr > req_addr) {
+> > +			merge &= obj == req_obj &&
+> > +				 offset == req_offset +
+> > +					   (addr - req_addr);
+> > +
+> > +			if (end == req_end) {
+> > +				ret = op_unmap_cb(ops, &it, priv, va, merge);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +
+> > +			if (end < req_end) {
+> > +				ret = op_unmap_cb(ops, &it, priv, va, merge);
+> > +				if (ret)
+> > +					return ret;
+> > +				goto next;
+> > +			}
+> > +
+> > +			if (end > req_end) {
+> > +				struct drm_gpuva_op_map n = {
+> > +					.va.addr = req_end,
+> > +					.va.range = end - req_end,
+> > +					.gem.obj = obj,
+> > +					.gem.offset = offset + req_end - addr,
+> > +				};
+> > +				struct drm_gpuva_op_unmap u = {
+> > +					.va = va,
+> > +					.keep = merge,
+> > +				};
+> > +
+> > +				ret = op_remap_cb(ops, &it, priv, NULL, &n, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +		}
+> > +next:
+> > +		prev = va;
+> > +	}
+> > +
+> > +	return op_map_cb(ops, priv,
+> > +			 req_addr, req_range,
+> > +			 req_obj, req_offset);
+> > +}
+> > +
+> > +static int
+> > +__drm_gpuva_sm_unmap(struct drm_gpuva_manager *mgr,
+> > +		     const struct drm_gpuva_fn_ops *ops, void *priv,
+> > +		     u64 req_addr, u64 req_range)
+> > +{
+> > +	DRM_GPUVA_ITER(it, mgr, req_addr);
+> > +	struct drm_gpuva *va;
+> > +	u64 req_end = req_addr + req_range;
+> > +	int ret;
+> > +
+> > +	if (unlikely(drm_gpuva_in_kernel_node(mgr, req_addr, req_range)))
+> > +		return -EINVAL;
+> > +
+> > +	drm_gpuva_iter_for_each_range(va, it, req_end) {
+> > +		struct drm_gpuva_op_map prev = {}, next = {};
+> > +		bool prev_split = false, next_split = false;
+> > +		struct drm_gem_object *obj = va->gem.obj;
+> > +		u64 offset = va->gem.offset;
+> > +		u64 addr = va->va.addr;
+> > +		u64 range = va->va.range;
+> > +		u64 end = addr + range;
+> > +
+> > +		if (addr < req_addr) {
+> > +			prev.va.addr = addr;
+> > +			prev.va.range = req_addr - addr;
+> > +			prev.gem.obj = obj;
+> > +			prev.gem.offset = offset;
+> > +
+> > +			prev_split = true;
+> > +		}
+> > +
+> > +		if (end > req_end) {
+> > +			next.va.addr = req_end;
+> > +			next.va.range = end - req_end;
+> > +			next.gem.obj = obj;
+> > +			next.gem.offset = offset + (req_end - addr);
+> > +
+> > +			next_split = true;
+> > +		}
+> > +
+> > +		if (prev_split || next_split) {
+> > +			struct drm_gpuva_op_unmap unmap = { .va = va };
+> > +
+> > +			ret = op_remap_cb(ops, &it, priv,
+> > +					  prev_split ? &prev : NULL,
+> > +					  next_split ? &next : NULL,
+> > +					  &unmap);
+> > +			if (ret)
+> > +				return ret;
+> > +		} else {
+> > +			ret = op_unmap_cb(ops, &it, priv, va, false);
+> > +			if (ret)
+> > +				return ret;
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_sm_map - creates the &drm_gpuva_op split/merge steps
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @req_addr: the start address of the new mapping
+> > + * @req_range: the range of the new mapping
+> > + * @req_obj: the &drm_gem_object to map
+> > + * @req_offset: the offset within the &drm_gem_object
+> > + * @priv: pointer to a driver private data structure
+> > + *
+> > + * This function iterates the given range of the GPU VA space. It utilizes the
+> > + * &drm_gpuva_fn_ops to call back into the driver providing the split and merge
+> > + * steps.
+> > + *
+> > + * Drivers may use these callbacks to update the GPU VA space right away within
+> > + * the callback. In case the driver decides to copy and store the operations for
+> > + * later processing neither this function nor &drm_gpuva_sm_unmap is allowed to
+> > + * be called before the &drm_gpuva_manager's view of the GPU VA space was
+> > + * updated with the previous set of operations. To update the
+> > + * &drm_gpuva_manager's view of the GPU VA space drm_gpuva_insert(),
+> > + * drm_gpuva_destroy_locked() and/or drm_gpuva_destroy_unlocked() should be
+> > + * used.
+> > + *
+> > + * A sequence of callbacks can contain map, unmap and remap operations, but
+> > + * the sequence of callbacks might also be empty if no operation is required,
+> > + * e.g. if the requested mapping already exists in the exact same way.
+> > + *
+> > + * There can be an arbitrary amount of unmap operations, a maximum of two remap
+> > + * operations and a single map operation. The latter one represents the original
+> > + * map operation requested by the caller.
+> > + *
+> > + * Returns: 0 on success or a negative error code
+> > + */
+> > +int
+> > +drm_gpuva_sm_map(struct drm_gpuva_manager *mgr, void *priv,
+> > +		 u64 req_addr, u64 req_range,
+> > +		 struct drm_gem_object *req_obj, u64 req_offset)
+> > +{
+> > +	const struct drm_gpuva_fn_ops *ops = mgr->ops;
+> > +
+> > +	if (unlikely(!(ops && ops->sm_step_map &&
+> > +		       ops->sm_step_remap &&
+> > +		       ops->sm_step_unmap)))
+> > +		return -EINVAL;
+> > +
+> > +	return __drm_gpuva_sm_map(mgr, ops, priv,
+> > +				  req_addr, req_range,
+> > +				  req_obj, req_offset);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_sm_map);
+> > +
+> > +/**
+> > + * drm_gpuva_sm_unmap - creates the &drm_gpuva_ops to split on unmap
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @priv: pointer to a driver private data structure
+> > + * @req_addr: the start address of the range to unmap
+> > + * @req_range: the range of the mappings to unmap
+> > + *
+> > + * This function iterates the given range of the GPU VA space. It utilizes the
+> > + * &drm_gpuva_fn_ops to call back into the driver providing the operations to
+> > + * unmap and, if required, split existent mappings.
+> > + *
+> > + * Drivers may use these callbacks to update the GPU VA space right away within
+> > + * the callback. In case the driver decides to copy and store the operations for
+> > + * later processing neither this function nor &drm_gpuva_sm_map is allowed to be
+> > + * called before the &drm_gpuva_manager's view of the GPU VA space was updated
+> > + * with the previous set of operations. To update the &drm_gpuva_manager's view
+> > + * of the GPU VA space drm_gpuva_insert(), drm_gpuva_destroy_locked() and/or
+> > + * drm_gpuva_destroy_unlocked() should be used.
+> > + *
+> > + * A sequence of callbacks can contain unmap and remap operations, depending on
+> > + * whether there are actual overlapping mappings to split.
+> > + *
+> > + * There can be an arbitrary amount of unmap operations and a maximum of two
+> > + * remap operations.
+> > + *
+> > + * Returns: 0 on success or a negative error code
+> > + */
+> > +int
+> > +drm_gpuva_sm_unmap(struct drm_gpuva_manager *mgr, void *priv,
+> > +		   u64 req_addr, u64 req_range)
+> > +{
+> > +	const struct drm_gpuva_fn_ops *ops = mgr->ops;
+> > +
+> > +	if (unlikely(!(ops && ops->sm_step_remap &&
+> > +		       ops->sm_step_unmap)))
+> > +		return -EINVAL;
+> > +
+> > +	return __drm_gpuva_sm_unmap(mgr, ops, priv,
+> > +				    req_addr, req_range);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_sm_unmap);
+> > +
+> > +static struct drm_gpuva_op *
+> > +gpuva_op_alloc(struct drm_gpuva_manager *mgr)
+> > +{
+> > +	const struct drm_gpuva_fn_ops *fn = mgr->ops;
+> > +	struct drm_gpuva_op *op;
+> > +
+> > +	if (fn && fn->op_alloc)
+> > +		op = fn->op_alloc();
+> > +	else
+> > +		op = kzalloc(sizeof(*op), GFP_KERNEL);
+> > +
+> > +	if (unlikely(!op))
+> > +		return NULL;
+> > +
+> > +	return op;
+> > +}
+> > +
+> > +static void
+> > +gpuva_op_free(struct drm_gpuva_manager *mgr,
+> > +	      struct drm_gpuva_op *op)
+> > +{
+> > +	const struct drm_gpuva_fn_ops *fn = mgr->ops;
+> > +
+> > +	if (fn && fn->op_free)
+> > +		fn->op_free(op);
+> > +	else
+> > +		kfree(op);
+> > +}
+> > +
+> > +static int
+> > +drm_gpuva_sm_step(struct drm_gpuva_op *__op,
+> > +		  drm_gpuva_state_t state,
+> > +		  void *priv)
+> > +{
+> > +	struct {
+> > +		struct drm_gpuva_manager *mgr;
+> > +		struct drm_gpuva_ops *ops;
+> > +	} *args = priv;
+> > +	struct drm_gpuva_manager *mgr = args->mgr;
+> > +	struct drm_gpuva_ops *ops = args->ops;
+> > +	struct drm_gpuva_op *op;
+> > +
+> > +	op = gpuva_op_alloc(mgr);
+> > +	if (unlikely(!op))
+> > +		goto err;
+> > +
+> > +	memcpy(op, __op, sizeof(*op));
+> > +
+> > +	if (op->op == DRM_GPUVA_OP_REMAP) {
+> > +		struct drm_gpuva_op_remap *__r = &__op->remap;
+> > +		struct drm_gpuva_op_remap *r = &op->remap;
+> > +
+> > +		r->unmap = kmemdup(__r->unmap, sizeof(*r->unmap),
+> > +				   GFP_KERNEL);
+> > +		if (unlikely(!r->unmap))
+> > +			goto err_free_op;
+> > +
+> > +		if (__r->prev) {
+> > +			r->prev = kmemdup(__r->prev, sizeof(*r->prev),
+> > +					  GFP_KERNEL);
+> > +			if (unlikely(!r->prev))
+> > +				goto err_free_unmap;
+> > +		}
+> > +
+> > +		if (__r->next) {
+> > +			r->next = kmemdup(__r->next, sizeof(*r->next),
+> > +					  GFP_KERNEL);
+> > +			if (unlikely(!r->next))
+> > +				goto err_free_prev;
+> > +		}
+> > +	}
+> > +
+> > +	list_add_tail(&op->entry, &ops->list);
+> > +
+> > +	return 0;
+> > +
+> > +err_free_unmap:
+> > +	kfree(op->remap.unmap);
+> > +err_free_prev:
+> > +	kfree(op->remap.prev);
+> > +err_free_op:
+> > +	gpuva_op_free(mgr, op);
+> > +err:
+> > +	return -ENOMEM;
+> > +}
+> > +
+> > +static int
+> > +drm_gpuva_sm_step_map(struct drm_gpuva_op *__op, void *priv)
+> > +{
+> > +	return drm_gpuva_sm_step(__op, NULL, priv);
+> > +}
+> > +
+> > +static const struct drm_gpuva_fn_ops gpuva_list_ops = {
+> > +	.sm_step_map = drm_gpuva_sm_step_map,
+> > +	.sm_step_remap = drm_gpuva_sm_step,
+> > +	.sm_step_unmap = drm_gpuva_sm_step,
+> > +};
+> > +
+> > +/**
+> > + * drm_gpuva_sm_map_ops_create - creates the &drm_gpuva_ops to split and merge
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @req_addr: the start address of the new mapping
+> > + * @req_range: the range of the new mapping
+> > + * @req_obj: the &drm_gem_object to map
+> > + * @req_offset: the offset within the &drm_gem_object
+> > + *
+> > + * This function creates a list of operations to perform splitting and merging
+> > + * of existent mapping(s) with the newly requested one.
+> > + *
+> > + * The list can be iterated with &drm_gpuva_for_each_op and must be processed
+> > + * in the given order. It can contain map, unmap and remap operations, but it
+> > + * also can be empty if no operation is required, e.g. if the requested mapping
+> > + * already exists is the exact same way.
+> > + *
+> > + * There can be an arbitrary amount of unmap operations, a maximum of two remap
+> > + * operations and a single map operation. The latter one represents the original
+> > + * map operation requested by the caller.
+> > + *
+> > + * Note that before calling this function again with another mapping request it
+> > + * is necessary to update the &drm_gpuva_manager's view of the GPU VA space. The
+> > + * previously obtained operations must be either processed or abandoned. To
+> > + * update the &drm_gpuva_manager's view of the GPU VA space drm_gpuva_insert(),
+> > + * drm_gpuva_destroy_locked() and/or drm_gpuva_destroy_unlocked() should be
+> > + * used.
+> > + *
+> > + * After the caller finished processing the returned &drm_gpuva_ops, they must
+> > + * be freed with &drm_gpuva_ops_free.
+> > + *
+> > + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+> > + */
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_sm_map_ops_create(struct drm_gpuva_manager *mgr,
+> > +			    u64 req_addr, u64 req_range,
+> > +			    struct drm_gem_object *req_obj, u64 req_offset)
+> > +{
+> > +	struct drm_gpuva_ops *ops;
+> > +	struct {
+> > +		struct drm_gpuva_manager *mgr;
+> > +		struct drm_gpuva_ops *ops;
+> > +	} args;
+> > +	int ret;
+> > +
+> > +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+> > +	if (unlikely(!ops))
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	INIT_LIST_HEAD(&ops->list);
+> > +
+> > +	args.mgr = mgr;
+> > +	args.ops = ops;
+> > +
+> > +	ret = __drm_gpuva_sm_map(mgr, &gpuva_list_ops, &args,
+> > +				 req_addr, req_range,
+> > +				 req_obj, req_offset);
+> > +	if (ret)
+> > +		goto err_free_ops;
+> > +
+> > +	return ops;
+> > +
+> > +err_free_ops:
+> > +	drm_gpuva_ops_free(mgr, ops);
+> > +	return ERR_PTR(ret);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_sm_map_ops_create);
+> > +
+> > +/**
+> > + * drm_gpuva_sm_unmap_ops_create - creates the &drm_gpuva_ops to split on unmap
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @req_addr: the start address of the range to unmap
+> > + * @req_range: the range of the mappings to unmap
+> > + *
+> > + * This function creates a list of operations to perform unmapping and, if
+> > + * required, splitting of the mappings overlapping the unmap range.
+> > + *
+> > + * The list can be iterated with &drm_gpuva_for_each_op and must be processed
+> > + * in the given order. It can contain unmap and remap operations, depending on
+> > + * whether there are actual overlapping mappings to split.
+> > + *
+> > + * There can be an arbitrary amount of unmap operations and a maximum of two
+> > + * remap operations.
+> > + *
+> > + * Note that before calling this function again with another range to unmap it
+> > + * is necessary to update the &drm_gpuva_manager's view of the GPU VA space. The
+> > + * previously obtained operations must be processed or abandoned. To update the
+> > + * &drm_gpuva_manager's view of the GPU VA space drm_gpuva_insert(),
+> > + * drm_gpuva_destroy_locked() and/or drm_gpuva_destroy_unlocked() should be
+> > + * used.
+> > + *
+> > + * After the caller finished processing the returned &drm_gpuva_ops, they must
+> > + * be freed with &drm_gpuva_ops_free.
+> > + *
+> > + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+> > + */
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_sm_unmap_ops_create(struct drm_gpuva_manager *mgr,
+> > +			      u64 req_addr, u64 req_range)
+> > +{
+> > +	struct drm_gpuva_ops *ops;
+> > +	struct {
+> > +		struct drm_gpuva_manager *mgr;
+> > +		struct drm_gpuva_ops *ops;
+> > +	} args;
+> > +	int ret;
+> > +
+> > +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+> > +	if (unlikely(!ops))
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	INIT_LIST_HEAD(&ops->list);
+> > +
+> > +	args.mgr = mgr;
+> > +	args.ops = ops;
+> > +
+> > +	ret = __drm_gpuva_sm_unmap(mgr, &gpuva_list_ops, &args,
+> > +				   req_addr, req_range);
+> > +	if (ret)
+> > +		goto err_free_ops;
+> > +
+> > +	return ops;
+> > +
+> > +err_free_ops:
+> > +	drm_gpuva_ops_free(mgr, ops);
+> > +	return ERR_PTR(ret);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_sm_unmap_ops_create);
+> > +
+> > +/**
+> > + * drm_gpuva_prefetch_ops_create - creates the &drm_gpuva_ops to prefetch
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @addr: the start address of the range to prefetch
+> > + * @range: the range of the mappings to prefetch
+> > + *
+> > + * This function creates a list of operations to perform prefetching.
+> > + *
+> > + * The list can be iterated with &drm_gpuva_for_each_op and must be processed
+> > + * in the given order. It can contain prefetch operations.
+> > + *
+> > + * There can be an arbitrary amount of prefetch operations.
+> > + *
+> > + * After the caller finished processing the returned &drm_gpuva_ops, they must
+> > + * be freed with &drm_gpuva_ops_free.
+> > + *
+> > + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+> > + */
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_prefetch_ops_create(struct drm_gpuva_manager *mgr,
+> > +			      u64 addr, u64 range)
+> > +{
+> > +	DRM_GPUVA_ITER(it, mgr, addr);
+> > +	struct drm_gpuva_ops *ops;
+> > +	struct drm_gpuva_op *op;
+> > +	struct drm_gpuva *va;
+> > +	int ret;
+> > +
+> > +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+> > +	if (!ops)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	INIT_LIST_HEAD(&ops->list);
+> > +
+> > +	drm_gpuva_iter_for_each_range(va, it, addr + range) {
+> > +		op = gpuva_op_alloc(mgr);
+> > +		if (!op) {
+> > +			ret = -ENOMEM;
+> > +			goto err_free_ops;
+> > +		}
+> > +
+> > +		op->op = DRM_GPUVA_OP_PREFETCH;
+> > +		op->prefetch.va = va;
+> > +		list_add_tail(&op->entry, &ops->list);
+> > +	}
+> > +
+> > +	return ops;
+> > +
+> > +err_free_ops:
+> > +	drm_gpuva_ops_free(mgr, ops);
+> > +	return ERR_PTR(ret);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_prefetch_ops_create);
+> > +
+> > +/**
+> > + * drm_gpuva_gem_unmap_ops_create - creates the &drm_gpuva_ops to unmap a GEM
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @obj: the &drm_gem_object to unmap
+> > + *
+> > + * This function creates a list of operations to perform unmapping for every
+> > + * GPUVA attached to a GEM.
+> > + *
+> > + * The list can be iterated with &drm_gpuva_for_each_op and consists out of an
+> > + * arbitrary amount of unmap operations.
+> > + *
+> > + * After the caller finished processing the returned &drm_gpuva_ops, they must
+> > + * be freed with &drm_gpuva_ops_free.
+> > + *
+> > + * It is the callers responsibility to protect the GEMs GPUVA list against
+> > + * concurrent access.
+> > + *
+> > + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+> > + */
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_gem_unmap_ops_create(struct drm_gpuva_manager *mgr,
+> > +			       struct drm_gem_object *obj)
+> > +{
+> > +	struct drm_gpuva_ops *ops;
+> > +	struct drm_gpuva_op *op;
+> > +	struct drm_gpuva *va;
+> > +	int ret;
+> > +
+> > +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+> > +	if (!ops)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	INIT_LIST_HEAD(&ops->list);
+> > +
+> > +	drm_gem_for_each_gpuva(va, obj) {
+> > +		op = gpuva_op_alloc(mgr);
+> > +		if (!op) {
+> > +			ret = -ENOMEM;
+> > +			goto err_free_ops;
+> > +		}
+> > +
+> > +		op->op = DRM_GPUVA_OP_UNMAP;
+> > +		op->unmap.va = va;
+> > +		list_add_tail(&op->entry, &ops->list);
+> > +	}
+> > +
+> > +	return ops;
+> > +
+> > +err_free_ops:
+> > +	drm_gpuva_ops_free(mgr, ops);
+> > +	return ERR_PTR(ret);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_gem_unmap_ops_create);
+> > +
+> > +
+> > +/**
+> > + * drm_gpuva_ops_free - free the given &drm_gpuva_ops
+> > + * @mgr: the &drm_gpuva_manager the ops were created for
+> > + * @ops: the &drm_gpuva_ops to free
+> > + *
+> > + * Frees the given &drm_gpuva_ops structure including all the ops associated
+> > + * with it.
+> > + */
+> > +void
+> > +drm_gpuva_ops_free(struct drm_gpuva_manager *mgr,
+> > +		   struct drm_gpuva_ops *ops)
+> > +{
+> > +	struct drm_gpuva_op *op, *next;
+> > +
+> > +	drm_gpuva_for_each_op_safe(op, next, ops) {
+> > +		list_del(&op->entry);
+> > +
+> > +		if (op->op == DRM_GPUVA_OP_REMAP) {
+> > +			kfree(op->remap.prev);
+> > +			kfree(op->remap.next);
+> > +			kfree(op->remap.unmap);
+> > +		}
+> > +
+> > +		gpuva_op_free(mgr, op);
+> > +	}
+> > +
+> > +	kfree(ops);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_ops_free);
+> > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> > index b419c59c4bef..b6e22f66c3fd 100644
+> > --- a/include/drm/drm_drv.h
+> > +++ b/include/drm/drm_drv.h
+> > @@ -104,6 +104,12 @@ enum drm_driver_feature {
+> >  	 * acceleration should be handled by two drivers that are connected using auxiliary bus.
+> >  	 */
+> >  	DRIVER_COMPUTE_ACCEL            = BIT(7),
+> > +	/**
+> > +	 * @DRIVER_GEM_GPUVA:
+> > +	 *
+> > +	 * Driver supports user defined GPU VA bindings for GEM objects.
+> > +	 */
+> > +	DRIVER_GEM_GPUVA		= BIT(8),
+> >  
+> >  	/* IMPORTANT: Below are all the legacy flags, add new ones above. */
+> >  
+> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > index b8efd836edef..f2782f55b7e7 100644
+> > --- a/include/drm/drm_gem.h
+> > +++ b/include/drm/drm_gem.h
+> > @@ -36,6 +36,8 @@
+> >  
+> >  #include <linux/kref.h>
+> >  #include <linux/dma-resv.h>
+> > +#include <linux/list.h>
+> > +#include <linux/mutex.h>
+> >  
+> >  #include <drm/drm_vma_manager.h>
+> >  
+> > @@ -347,6 +349,17 @@ struct drm_gem_object {
+> >  	 */
+> >  	struct dma_resv _resv;
+> >  
+> > +	/**
+> > +	 * @gpuva:
+> > +	 *
+> > +	 * Provides the list and list mutex of GPU VAs attached to this
+> > +	 * GEM object.
+> > +	 */
+> > +	struct {
+> > +		struct list_head list;
+> > +		struct mutex mutex;
+> > +	} gpuva;
+> > +
+> >  	/**
+> >  	 * @funcs:
+> >  	 *
+> > @@ -494,4 +507,66 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
+> >  
+> >  int drm_gem_evict(struct drm_gem_object *obj);
+> >  
+> > +/**
+> > + * drm_gem_gpuva_init - initialize the gpuva list of a GEM object
+> > + * @obj: the &drm_gem_object
+> > + *
+> > + * This initializes the &drm_gem_object's &drm_gpuva list and the mutex
+> > + * protecting it.
+> > + *
+> > + * Calling this function is only necessary for drivers intending to support the
+> > + * &drm_driver_feature DRIVER_GEM_GPUVA.
+> > + */
+> > +static inline void drm_gem_gpuva_init(struct drm_gem_object *obj)
+> > +{
+> > +	INIT_LIST_HEAD(&obj->gpuva.list);
+> > +	mutex_init(&obj->gpuva.mutex);
+> > +}
+> > +
+> > +/**
+> > + * drm_gem_gpuva_lock - lock the GEM's gpuva list mutex
+> > + * @obj: the &drm_gem_object
+> > + *
+> > + * This unlocks the mutex protecting the &drm_gem_object's &drm_gpuva list.
+> > + */
+> > +static inline void drm_gem_gpuva_lock(struct drm_gem_object *obj)
+> > +{
+> > +	mutex_lock(&obj->gpuva.mutex);
+> > +}
+> > +
+> > +/**
+> > + * drm_gem_gpuva_unlock - unlock the GEM's gpuva list mutex
+> > + * @obj: the &drm_gem_object
+> > + *
+> > + * This unlocks the mutex protecting the &drm_gem_object's &drm_gpuva list.
+> > + */
+> > +static inline void drm_gem_gpuva_unlock(struct drm_gem_object *obj)
+> > +{
+> > +	mutex_unlock(&obj->gpuva.mutex);
+> > +}
+> > +
+> > +/**
+> > + * drm_gem_for_each_gpuva - iternator to walk over a list of gpuvas
+> > + * @entry: &drm_gpuva structure to assign to in each iteration step
+> > + * @obj: the &drm_gem_object the &drm_gpuvas to walk are associated with
+> > + *
+> > + * This iterator walks over all &drm_gpuva structures associated with the
+> > + * &drm_gpuva_manager.
+> > + */
+> > +#define drm_gem_for_each_gpuva(entry__, obj__) \
+> > +	list_for_each_entry(entry__, &(obj__)->gpuva.list, gem.entry)
+> > +
+> > +/**
+> > + * drm_gem_for_each_gpuva_safe - iternator to safely walk over a list of gpuvas
+> > + * @entry: &drm_gpuva structure to assign to in each iteration step
+> > + * @next: &next &drm_gpuva to store the next step
+> > + * @obj: the &drm_gem_object the &drm_gpuvas to walk are associated with
+> > + *
+> > + * This iterator walks over all &drm_gpuva structures associated with the
+> > + * &drm_gem_object. It is implemented with list_for_each_entry_safe(), hence
+> > + * it is save against removal of elements.
+> > + */
+> > +#define drm_gem_for_each_gpuva_safe(entry__, next__, obj__) \
+> > +	list_for_each_entry_safe(entry__, next__, &(obj__)->gpuva.list, gem.entry)
+> > +
+> >  #endif /* __DRM_GEM_H__ */
+> > diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
+> > new file mode 100644
+> > index 000000000000..b52ac2d00d12
+> > --- /dev/null
+> > +++ b/include/drm/drm_gpuva_mgr.h
+> > @@ -0,0 +1,681 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +
+> > +#ifndef __DRM_GPUVA_MGR_H__
+> > +#define __DRM_GPUVA_MGR_H__
+> > +
+> > +/*
+> > + * Copyright (c) 2022 Red Hat.
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person obtaining a
+> > + * copy of this software and associated documentation files (the "Software"),
+> > + * to deal in the Software without restriction, including without limitation
+> > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> > + * and/or sell copies of the Software, and to permit persons to whom the
+> > + * Software is furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be included in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> > + * OTHER DEALINGS IN THE SOFTWARE.
+> > + */
+> > +
+> > +#include <linux/maple_tree.h>
+> > +#include <linux/mm.h>
+> > +#include <linux/rbtree.h>
+> > +#include <linux/spinlock.h>
+> > +#include <linux/types.h>
+> > +
+> > +struct drm_gpuva_manager;
+> > +struct drm_gpuva_fn_ops;
+> > +struct drm_gpuva_prealloc;
+> > +
+> > +/**
+> > + * enum drm_gpuva_flags - flags for struct drm_gpuva
+> > + */
+> > +enum drm_gpuva_flags {
+> > +	/**
+> > +	 * @DRM_GPUVA_EVICTED:
+> > +	 *
+> > +	 * Flag indicating that the &drm_gpuva's backing GEM is evicted.
+> > +	 */
+> > +	DRM_GPUVA_EVICTED = (1 << 0),
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_SPARSE:
+> > +	 *
+> > +	 * Flag indicating that the &drm_gpuva is a sparse mapping.
+> > +	 */
+> > +	DRM_GPUVA_SPARSE = (1 << 1),
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_USERBITS: user defined bits
+> > +	 */
+> > +	DRM_GPUVA_USERBITS = (1 << 2),
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva - structure to track a GPU VA mapping
+> > + *
+> > + * This structure represents a GPU VA mapping and is associated with a
+> > + * &drm_gpuva_manager.
+> > + *
+> > + * Typically, this structure is embedded in bigger driver structures.
+> > + */
+> > +struct drm_gpuva {
+> > +	/**
+> > +	 * @mgr: the &drm_gpuva_manager this object is associated with
+> > +	 */
+> > +	struct drm_gpuva_manager *mgr;
+> > +
+> > +	/**
+> > +	 * @flags: the &drm_gpuva_flags for this mapping
+> > +	 */
+> > +	enum drm_gpuva_flags flags;
+> > +
+> > +	/**
+> > +	 * @va: structure containing the address and range of the &drm_gpuva
+> > +	 */
+> > +	struct {
+> > +		/**
+> > +		 * @addr: the start address
+> > +		 */
+> > +		u64 addr;
+> > +
+> > +		/*
+> > +		 * @range: the range
+> > +		 */
+> > +		u64 range;
+> > +	} va;
+> > +
+> > +	/**
+> > +	 * @gem: structure containing the &drm_gem_object and it's offset
+> > +	 */
+> > +	struct {
+> > +		/**
+> > +		 * @offset: the offset within the &drm_gem_object
+> > +		 */
+> > +		u64 offset;
+> > +
+> > +		/**
+> > +		 * @obj: the mapped &drm_gem_object
+> > +		 */
+> > +		struct drm_gem_object *obj;
+> > +
+> > +		/**
+> > +		 * @entry: the &list_head to attach this object to a &drm_gem_object
+> > +		 */
+> > +		struct list_head entry;
+> > +	} gem;
+> > +};
+> > +
+> > +void drm_gpuva_link(struct drm_gpuva *va);
+> > +void drm_gpuva_unlink(struct drm_gpuva *va);
+> > +
+> > +int drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+> > +		     struct drm_gpuva *va);
+> > +int drm_gpuva_insert_prealloc(struct drm_gpuva_manager *mgr,
+> > +			      struct drm_gpuva_prealloc *pa,
+> > +			      struct drm_gpuva *va);
+> > +void drm_gpuva_remove(struct drm_gpuva *va);
+> > +
+> > +struct drm_gpuva *drm_gpuva_find(struct drm_gpuva_manager *mgr,
+> > +				 u64 addr, u64 range);
+> > +struct drm_gpuva *drm_gpuva_find_first(struct drm_gpuva_manager *mgr,
+> > +				       u64 addr, u64 range);
+> > +struct drm_gpuva *drm_gpuva_find_prev(struct drm_gpuva_manager *mgr, u64 start);
+> > +struct drm_gpuva *drm_gpuva_find_next(struct drm_gpuva_manager *mgr, u64 end);
+> > +
+> > +bool drm_gpuva_interval_empty(struct drm_gpuva_manager *mgr, u64 addr, u64 range);
+> > +
+> > +/**
+> > + * drm_gpuva_evict - sets whether the backing GEM of this &drm_gpuva is evicted
+> > + * @va: the &drm_gpuva to set the evict flag for
+> > + * @evict: indicates whether the &drm_gpuva is evicted
+> > + */
+> > +static inline void drm_gpuva_evict(struct drm_gpuva *va, bool evict)
+> > +{
+> > +	if (evict)
+> > +		va->flags |= DRM_GPUVA_EVICTED;
+> > +	else
+> > +		va->flags &= ~DRM_GPUVA_EVICTED;
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_evicted - indicates whether the backing BO of this &drm_gpuva
+> > + * is evicted
+> > + * @va: the &drm_gpuva to check
+> > + */
+> > +static inline bool drm_gpuva_evicted(struct drm_gpuva *va)
+> > +{
+> > +	return va->flags & DRM_GPUVA_EVICTED;
+> > +}
+> > +
+> > +/**
+> > + * struct drm_gpuva_manager - DRM GPU VA Manager
+> > + *
+> > + * The DRM GPU VA Manager keeps track of a GPU's virtual address space by using
+> > + * &maple_tree structures. Typically, this structure is embedded in bigger
+> > + * driver structures.
+> > + *
+> > + * Drivers can pass addresses and ranges in an arbitrary unit, e.g. bytes or
+> > + * pages.
+> > + *
+> > + * There should be one manager instance per GPU virtual address space.
+> > + */
+> > +struct drm_gpuva_manager {
+> > +	/**
+> > +	 * @name: the name of the DRM GPU VA space
+> > +	 */
+> > +	const char *name;
+> > +
+> > +	/**
+> > +	 * @mm_start: start of the VA space
+> > +	 */
+> > +	u64 mm_start;
+> > +
+> > +	/**
+> > +	 * @mm_range: length of the VA space
+> > +	 */
+> > +	u64 mm_range;
+> > +
+> > +	/**
+> > +	 * @mtree: the &maple_tree to track GPU VA mappings
+> > +	 */
+> > +	struct maple_tree mtree;
+> > +
+> > +	/**
+> > +	 * @kernel_alloc_node:
+> > +	 *
+> > +	 * &drm_gpuva representing the address space cutout reserved for
+> > +	 * the kernel
+> > +	 */
+> > +	struct drm_gpuva kernel_alloc_node;
+> > +
+> > +	/**
+> > +	 * @ops: &drm_gpuva_fn_ops providing the split/merge steps to drivers
+> > +	 */
+> > +	const struct drm_gpuva_fn_ops *ops;
+> > +};
+> > +
+> > +void drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+> > +			    const char *name,
+> > +			    u64 start_offset, u64 range,
+> > +			    u64 reserve_offset, u64 reserve_range,
+> > +			    const struct drm_gpuva_fn_ops *ops);
+> > +void drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr);
+> > +
+> > +/**
+> > + * struct drm_gpuva_prealloc - holds a preallocated node for the
+> > + * &drm_gpuva_manager to insert a single new entry
+> > + */
+> > +struct drm_gpuva_prealloc {
+> > +	/**
+> > +	 * @mas: the maple tree advanced state
+> > +	 */
+> > +	struct ma_state mas;
+> > +};
+> > +
+> > +struct drm_gpuva_prealloc * drm_gpuva_prealloc_create(struct drm_gpuva_manager *mgr);
+> > +void drm_gpuva_prealloc_destroy(struct drm_gpuva_prealloc *pa);
+> > +
+> > +/**
+> > + * struct drm_gpuva_iterator - iterator for walking the internal (maple) tree
+> > + */
+> > +struct drm_gpuva_iterator {
+> > +	/**
+> > +	 * @mas: the maple tree advanced state
+> > +	 */
+> > +	struct ma_state mas;
+> > +
+> > +	/**
+> > +	 * @mgr: the &drm_gpuva_manager to iterate
+> > +	 */
+> > +	struct drm_gpuva_manager *mgr;
+> > +};
+> > +typedef struct drm_gpuva_iterator * drm_gpuva_state_t;
+> > +
+> > +void drm_gpuva_iter_remove(struct drm_gpuva_iterator *it);
+> > +int drm_gpuva_iter_va_replace(struct drm_gpuva_iterator *it,
+> > +			      struct drm_gpuva *va);
+> > +
+> > +static inline struct drm_gpuva *
+> > +drm_gpuva_iter_find(struct drm_gpuva_iterator *it, unsigned long max)
+> > +{
+> > +	struct drm_gpuva *va;
+> > +
+> > +	mas_lock(&it->mas);
+> 
+> This is the write lock, if you can have more than one reader then use
+> rcu_read_lock() and friends.  You can also probably use mt_find() to
+> handle the locking here?
+> 
+
+Calls to this function should either be protected by an external lock or be
+serialized anyway. I only got those locks here to make lockdep happly. Hence,
+I think there should not be much of a difference. However, I will change read
+only sections to use rcu_read_lock(), even if it's just to be a better example.
+:-)
+
+> > +	va = mas_find(&it->mas, max);
+> > +	mas_unlock(&it->mas);
+> > +
+> > +	return va;
+> > +}
+> > +
+> > +/**
+> > + * DRM_GPUVA_ITER - create an iterator structure to iterate the &drm_gpuva tree
+> > + * @name: the name of the &drm_gpuva_iterator to create
+> > + * @mgr__: the &drm_gpuva_manager to iterate
+> > + * @start: starting offset, the first entry will overlap this
+> > + */
+> > +#define DRM_GPUVA_ITER(name, mgr__, start)				\
+> > +	struct drm_gpuva_iterator name = {				\
+> > +		.mas = MA_STATE_INIT(&(mgr__)->mtree, start, 0),	\
+> > +		.mgr = mgr__,						\
+> > +	}
+> > +
+> > +/**
+> > + * drm_gpuva_iter_for_each_range - iternator to walk over a range of entries
+> > + * @va__: the &drm_gpuva found for the current iteration
+> > + * @it__: &drm_gpuva_iterator structure to assign to in each iteration step
+> > + * @end__: ending offset, the last entry will start before this (but may overlap)
+> > + *
+> > + * This function can be used to iterate &drm_gpuva objects.
+> > + *
+> > + * It is safe against the removal of elements using &drm_gpuva_iter_remove,
+> > + * however it is not safe against the removal of elements using
+> > + * &drm_gpuva_remove.
+> > + */
+> > +#define drm_gpuva_iter_for_each_range(va__, it__, end__) \
+> > +	while (((va__) = drm_gpuva_iter_find(&(it__), (end__) - 1)))
+> > +
+> > +/**
+> > + * drm_gpuva_iter_for_each - iternator to walk over all existing entries
+> > + * @va__: the &drm_gpuva found for the current iteration
+> > + * @it__: &drm_gpuva_iterator structure to assign to in each iteration step
+> > + *
+> > + * This function can be used to iterate &drm_gpuva objects.
+> > + *
+> > + * In order to walk over all potentially existing entries, the
+> > + * &drm_gpuva_iterator must be initialized to start at
+> > + * &drm_gpuva_manager->mm_start or simply 0.
+> > + *
+> > + * It is safe against the removal of elements using &drm_gpuva_iter_remove,
+> > + * however it is not safe against the removal of elements using
+> > + * &drm_gpuva_remove.
+> > + */
+> > +#define drm_gpuva_iter_for_each(va__, it__) \
+> > +	drm_gpuva_iter_for_each_range(va__, it__, (it__).mgr->mm_start + (it__).mgr->mm_range)
+> > +
+> > +/**
+> > + * enum drm_gpuva_op_type - GPU VA operation type
+> > + *
+> > + * Operations to alter the GPU VA mappings tracked by the &drm_gpuva_manager.
+> > + */
+> > +enum drm_gpuva_op_type {
+> > +	/**
+> > +	 * @DRM_GPUVA_OP_MAP: the map op type
+> > +	 */
+> > +	DRM_GPUVA_OP_MAP,
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_OP_REMAP: the remap op type
+> > +	 */
+> > +	DRM_GPUVA_OP_REMAP,
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_OP_UNMAP: the unmap op type
+> > +	 */
+> > +	DRM_GPUVA_OP_UNMAP,
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_OP_PREFETCH: the prefetch op type
+> > +	 */
+> > +	DRM_GPUVA_OP_PREFETCH,
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op_map - GPU VA map operation
+> > + *
+> > + * This structure represents a single map operation generated by the
+> > + * DRM GPU VA manager.
+> > + */
+> > +struct drm_gpuva_op_map {
+> > +	/**
+> > +	 * @va: structure containing address and range of a map
+> > +	 * operation
+> > +	 */
+> > +	struct {
+> > +		/**
+> > +		 * @addr: the base address of the new mapping
+> > +		 */
+> > +		u64 addr;
+> > +
+> > +		/**
+> > +		 * @range: the range of the new mapping
+> > +		 */
+> > +		u64 range;
+> > +	} va;
+> > +
+> > +	/**
+> > +	 * @gem: structure containing the &drm_gem_object and it's offset
+> > +	 */
+> > +	struct {
+> > +		/**
+> > +		 * @offset: the offset within the &drm_gem_object
+> > +		 */
+> > +		u64 offset;
+> > +
+> > +		/**
+> > +		 * @obj: the &drm_gem_object to map
+> > +		 */
+> > +		struct drm_gem_object *obj;
+> > +	} gem;
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op_unmap - GPU VA unmap operation
+> > + *
+> > + * This structure represents a single unmap operation generated by the
+> > + * DRM GPU VA manager.
+> > + */
+> > +struct drm_gpuva_op_unmap {
+> > +	/**
+> > +	 * @va: the &drm_gpuva to unmap
+> > +	 */
+> > +	struct drm_gpuva *va;
+> > +
+> > +	/**
+> > +	 * @keep:
+> > +	 *
+> > +	 * Indicates whether this &drm_gpuva is physically contiguous with the
+> > +	 * original mapping request.
+> > +	 *
+> > +	 * Optionally, if &keep is set, drivers may keep the actual page table
+> > +	 * mappings for this &drm_gpuva, adding the missing page table entries
+> > +	 * only and update the &drm_gpuva_manager accordingly.
+> > +	 */
+> > +	bool keep;
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op_remap - GPU VA remap operation
+> > + *
+> > + * This represents a single remap operation generated by the DRM GPU VA manager.
+> > + *
+> > + * A remap operation is generated when an existing GPU VA mmapping is split up
+> > + * by inserting a new GPU VA mapping or by partially unmapping existent
+> > + * mapping(s), hence it consists of a maximum of two map and one unmap
+> > + * operation.
+> > + *
+> > + * The @unmap operation takes care of removing the original existing mapping.
+> > + * @prev is used to remap the preceding part, @next the subsequent part.
+> > + *
+> > + * If either a new mapping's start address is aligned with the start address
+> > + * of the old mapping or the new mapping's end address is aligned with the
+> > + * end address of the old mapping, either @prev or @next is NULL.
+> > + *
+> > + * Note, the reason for a dedicated remap operation, rather than arbitrary
+> > + * unmap and map operations, is to give drivers the chance of extracting driver
+> > + * specific data for creating the new mappings from the unmap operations's
+> > + * &drm_gpuva structure which typically is embedded in larger driver specific
+> > + * structures.
+> > + */
+> > +struct drm_gpuva_op_remap {
+> > +	/**
+> > +	 * @prev: the preceding part of a split mapping
+> > +	 */
+> > +	struct drm_gpuva_op_map *prev;
+> > +
+> > +	/**
+> > +	 * @next: the subsequent part of a split mapping
+> > +	 */
+> > +	struct drm_gpuva_op_map *next;
+> > +
+> > +	/**
+> > +	 * @unmap: the unmap operation for the original existing mapping
+> > +	 */
+> > +	struct drm_gpuva_op_unmap *unmap;
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op_prefetch - GPU VA prefetch operation
+> > + *
+> > + * This structure represents a single prefetch operation generated by the
+> > + * DRM GPU VA manager.
+> > + */
+> > +struct drm_gpuva_op_prefetch {
+> > +	/**
+> > +	 * @va: the &drm_gpuva to prefetch
+> > +	 */
+> > +	struct drm_gpuva *va;
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op - GPU VA operation
+> > + *
+> > + * This structure represents a single generic operation.
+> > + *
+> > + * The particular type of the operation is defined by @op.
+> > + */
+> > +struct drm_gpuva_op {
+> > +	/**
+> > +	 * @entry:
+> > +	 *
+> > +	 * The &list_head used to distribute instances of this struct within
+> > +	 * &drm_gpuva_ops.
+> > +	 */
+> > +	struct list_head entry;
+> > +
+> > +	/**
+> > +	 * @op: the type of the operation
+> > +	 */
+> > +	enum drm_gpuva_op_type op;
+> > +
+> > +	union {
+> > +		/**
+> > +		 * @map: the map operation
+> > +		 */
+> > +		struct drm_gpuva_op_map map;
+> > +
+> > +		/**
+> > +		 * @remap: the remap operation
+> > +		 */
+> > +		struct drm_gpuva_op_remap remap;
+> > +
+> > +		/**
+> > +		 * @unmap: the unmap operation
+> > +		 */
+> > +		struct drm_gpuva_op_unmap unmap;
+> > +
+> > +		/**
+> > +		 * @prefetch: the prefetch operation
+> > +		 */
+> > +		struct drm_gpuva_op_prefetch prefetch;
+> > +	};
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_ops - wraps a list of &drm_gpuva_op
+> > + */
+> > +struct drm_gpuva_ops {
+> > +	/**
+> > +	 * @list: the &list_head
+> > +	 */
+> > +	struct list_head list;
+> > +};
+> > +
+> > +/**
+> > + * drm_gpuva_for_each_op - iterator to walk over &drm_gpuva_ops
+> > + * @op: &drm_gpuva_op to assign in each iteration step
+> > + * @ops: &drm_gpuva_ops to walk
+> > + *
+> > + * This iterator walks over all ops within a given list of operations.
+> > + */
+> > +#define drm_gpuva_for_each_op(op, ops) list_for_each_entry(op, &(ops)->list, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_for_each_op_safe - iterator to safely walk over &drm_gpuva_ops
+> > + * @op: &drm_gpuva_op to assign in each iteration step
+> > + * @next: &next &drm_gpuva_op to store the next step
+> > + * @ops: &drm_gpuva_ops to walk
+> > + *
+> > + * This iterator walks over all ops within a given list of operations. It is
+> > + * implemented with list_for_each_safe(), so save against removal of elements.
+> > + */
+> > +#define drm_gpuva_for_each_op_safe(op, next, ops) \
+> > +	list_for_each_entry_safe(op, next, &(ops)->list, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_for_each_op_from_reverse - iterate backwards from the given point
+> > + * @op: &drm_gpuva_op to assign in each iteration step
+> > + * @ops: &drm_gpuva_ops to walk
+> > + *
+> > + * This iterator walks over all ops within a given list of operations beginning
+> > + * from the given operation in reverse order.
+> > + */
+> > +#define drm_gpuva_for_each_op_from_reverse(op, ops) \
+> > +	list_for_each_entry_from_reverse(op, &(ops)->list, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_first_op - returns the first &drm_gpuva_op from &drm_gpuva_ops
+> > + * @ops: the &drm_gpuva_ops to get the fist &drm_gpuva_op from
+> > + */
+> > +#define drm_gpuva_first_op(ops) \
+> > +	list_first_entry(&(ops)->list, struct drm_gpuva_op, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_last_op - returns the last &drm_gpuva_op from &drm_gpuva_ops
+> > + * @ops: the &drm_gpuva_ops to get the last &drm_gpuva_op from
+> > + */
+> > +#define drm_gpuva_last_op(ops) \
+> > +	list_last_entry(&(ops)->list, struct drm_gpuva_op, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_prev_op - previous &drm_gpuva_op in the list
+> > + * @op: the current &drm_gpuva_op
+> > + */
+> > +#define drm_gpuva_prev_op(op) list_prev_entry(op, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_next_op - next &drm_gpuva_op in the list
+> > + * @op: the current &drm_gpuva_op
+> > + */
+> > +#define drm_gpuva_next_op(op) list_next_entry(op, entry)
+> > +
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_sm_map_ops_create(struct drm_gpuva_manager *mgr,
+> > +			    u64 addr, u64 range,
+> > +			    struct drm_gem_object *obj, u64 offset);
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_sm_unmap_ops_create(struct drm_gpuva_manager *mgr,
+> > +			      u64 addr, u64 range);
+> > +
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_prefetch_ops_create(struct drm_gpuva_manager *mgr,
+> > +				 u64 addr, u64 range);
+> > +
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_gem_unmap_ops_create(struct drm_gpuva_manager *mgr,
+> > +			       struct drm_gem_object *obj);
+> > +
+> > +void drm_gpuva_ops_free(struct drm_gpuva_manager *mgr,
+> > +			struct drm_gpuva_ops *ops);
+> > +
+> > +/**
+> > + * struct drm_gpuva_fn_ops - callbacks for split/merge steps
+> > + *
+> > + * This structure defines the callbacks used by &drm_gpuva_sm_map and
+> > + * &drm_gpuva_sm_unmap to provide the split/merge steps for map and unmap
+> > + * operations to drivers.
+> > + */
+> > +struct drm_gpuva_fn_ops {
+> > +	/**
+> > +	 * @op_alloc: called when the &drm_gpuva_manager allocates
+> > +	 * a struct drm_gpuva_op
+> > +	 *
+> > +	 * Some drivers may want to embed struct drm_gpuva_op into driver
+> > +	 * specific structures. By implementing this callback drivers can
+> > +	 * allocate memory accordingly.
+> > +	 *
+> > +	 * This callback is optional.
+> > +	 */
+> > +	struct drm_gpuva_op *(*op_alloc)(void);
+> > +
+> > +	/**
+> > +	 * @op_free: called when the &drm_gpuva_manager frees a
+> > +	 * struct drm_gpuva_op
+> > +	 *
+> > +	 * Some drivers may want to embed struct drm_gpuva_op into driver
+> > +	 * specific structures. By implementing this callback drivers can
+> > +	 * free the previously allocated memory accordingly.
+> > +	 *
+> > +	 * This callback is optional.
+> > +	 */
+> > +	void (*op_free)(struct drm_gpuva_op *op);
+> > +
+> > +	/**
+> > +	 * @sm_step_map: called from &drm_gpuva_sm_map to finally insert the
+> > +	 * mapping once all previous steps were completed
+> > +	 *
+> > +	 * The &priv pointer matches the one the driver passed to
+> > +	 * &drm_gpuva_sm_map or &drm_gpuva_sm_unmap, respectively.
+> > +	 *
+> > +	 * Can be NULL if &drm_gpuva_sm_map is used.
+> > +	 */
+> > +	int (*sm_step_map)(struct drm_gpuva_op *op, void *priv);
+> > +
+> > +	/**
+> > +	 * @sm_step_remap: called from &drm_gpuva_sm_map and
+> > +	 * &drm_gpuva_sm_unmap to split up an existent mapping
+> > +	 *
+> > +	 * This callback is called when existent mapping needs to be split up.
+> > +	 * This is the case when either a newly requested mapping overlaps or
+> > +	 * is enclosed by an existent mapping or a partial unmap of an existent
+> > +	 * mapping is requested.
+> > +	 *
+> > +	 * Drivers must not modify the GPUVA space with accessors that do not
+> > +	 * take a &drm_gpuva_state as argument from this callback.
+> > +	 *
+> > +	 * The &priv pointer matches the one the driver passed to
+> > +	 * &drm_gpuva_sm_map or &drm_gpuva_sm_unmap, respectively.
+> > +	 *
+> > +	 * Can be NULL if neither &drm_gpuva_sm_map nor &drm_gpuva_sm_unmap is
+> > +	 * used.
+> > +	 */
+> > +	int (*sm_step_remap)(struct drm_gpuva_op *op,
+> > +			     drm_gpuva_state_t state,
+> > +			     void *priv);
+> > +
+> > +	/**
+> > +	 * @sm_step_unmap: called from &drm_gpuva_sm_map and
+> > +	 * &drm_gpuva_sm_unmap to unmap an existent mapping
+> > +	 *
+> > +	 * This callback is called when existent mapping needs to be unmapped.
+> > +	 * This is the case when either a newly requested mapping encloses an
+> > +	 * existent mapping or an unmap of an existent mapping is requested.
+> > +	 *
+> > +	 * Drivers must not modify the GPUVA space with accessors that do not
+> > +	 * take a &drm_gpuva_state as argument from this callback.
+> > +	 *
+> > +	 * The &priv pointer matches the one the driver passed to
+> > +	 * &drm_gpuva_sm_map or &drm_gpuva_sm_unmap, respectively.
+> > +	 *
+> > +	 * Can be NULL if neither &drm_gpuva_sm_map nor &drm_gpuva_sm_unmap is
+> > +	 * used.
+> > +	 */
+> > +	int (*sm_step_unmap)(struct drm_gpuva_op *op,
+> > +			     drm_gpuva_state_t state,
+> > +			     void *priv);
+> > +};
+> > +
+> > +int drm_gpuva_sm_map(struct drm_gpuva_manager *mgr, void *priv,
+> > +		     u64 addr, u64 range,
+> > +		     struct drm_gem_object *obj, u64 offset);
+> > +
+> > +int drm_gpuva_sm_unmap(struct drm_gpuva_manager *mgr, void *priv,
+> > +		       u64 addr, u64 range);
+> > +
+> > +int drm_gpuva_map(struct drm_gpuva_manager *mgr,
+> > +		  struct drm_gpuva_prealloc *pa,
+> > +		  struct drm_gpuva *va);
+> > +int drm_gpuva_remap(drm_gpuva_state_t state,
+> > +		    struct drm_gpuva *prev,
+> > +		    struct drm_gpuva *next);
+> > +void drm_gpuva_unmap(drm_gpuva_state_t state);
+> > +
+> > +#endif /* __DRM_GPUVA_MGR_H__ */
+> > -- 
+> > 2.40.1
+> > 
+> 
+
