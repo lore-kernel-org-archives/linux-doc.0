@@ -2,115 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E673CEB64DC
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Jun 2023 23:45:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F79EB64D8
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Jun 2023 00:08:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229944AbjFNXpj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Jun 2023 19:45:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38694 "EHLO
+        id S230301AbjFOAI2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Jun 2023 20:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjFNXpi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 19:45:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D5CC1BDB;
-        Wed, 14 Jun 2023 16:45:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 14C0361C5A;
-        Wed, 14 Jun 2023 23:45:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13283C433C8;
-        Wed, 14 Jun 2023 23:45:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686786336;
-        bh=trI7LLllq8UHlu5MUvTW0yx6ZikFRHPzHAgHZbe1sCY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qolUUlGyBmaE4PVkaBcn826DfA+jq8LdthVVgyE+MK5ComyO2u0o0nreuy83RjIy0
-         O34yQHfbN1r1Hq4jfsY+mqhBUIeIy+z17ePovDXBq+eOb5qQj378M5xaHm2OqbDaTs
-         m7/UQ7idkBD+ov7776ghxWcmhcJtxz49l7YzqcPeUKNJFAhOD9Wb/BhBz5+//s9mgw
-         U4CA+LnViWgoQ8UsmqmMW1vtrEIxvuwCcjrbd4AJlVQoSgwa4IeZoo4Ib2yfqwnke1
-         wHn6/0eOag6RKGtBPQxs2xrsN55pvpxPB/rGXxqt4JnX9976G3D6jmGO+jgp/2+1Cz
-         9tJreJzrRBOLA==
-Date:   Thu, 15 Jun 2023 00:45:24 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
-        torvalds@linux-foundation.org
-Subject: Re: [PATCH v9 00/42] Shadow stacks for userspace
-Message-ID: <d62b161f-58c4-495a-a5ab-08485df8e0b6@sirena.org.uk>
-References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+        with ESMTP id S229567AbjFOAI1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Jun 2023 20:08:27 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 350751BF0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jun 2023 17:08:24 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1b3ce6607cbso33000385ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jun 2023 17:08:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1686787703; x=1689379703;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z2+kH0s1munFi4XxoHaTia/Ij2UiOHjvg/T1/0hNqMc=;
+        b=Zng/IOokNIWKyi0vRvue6dXwqSrBmzan9gr5cB2suQ4UEfHK1ADQStkmaDO7rU/oka
+         NYd63ySP2OUp6tL4c19Sa+8sKejI//ieEE7f0ozKmUvfoLbnkcI9+KkSHQ8KL+WvnJBm
+         eHERA+runumexDhq1EKFS/0+kF6Impcq+gtIrqvy8LGMWamkV1bXs8LUvHeHtTE70wG5
+         KJpCMMVIxZnwKfrNKnxJDhd5SmMApoEmtxSWC7tXGKZPp8pWka6cN8j5pe0snAGImR4A
+         rJFv/kVjiPJTqT53QZOPkM+xqnSi4YtlXc25keJJFa8gv9QcEHNAyctxveWT4gOmBUPK
+         IVog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686787703; x=1689379703;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z2+kH0s1munFi4XxoHaTia/Ij2UiOHjvg/T1/0hNqMc=;
+        b=Iyb6QEqzQme64odJPFv+Bame+05ZKU1zODxF0uwmbA/AP2z+VL9oPusvaB8HjCKOxd
+         LwNaSq9+VyUmnoNm22oRloU4l5Qw58Ev53fs7ZVr297hsomvKC/wcQdQu0qTvOcQYEho
+         H6EmIafLCW8VLlg4TJmorpDQC75bauny0/PAVjMfLW3j6/b09KY3N82JOerfK6TOe1uh
+         9crirxIvzCp8tNnfSSmqVnFsFFyN/TKgQu34HDM+B27nLOlZh6CkSn596d1lmK1GiLnk
+         /Yb4ZWQTSttID+7f6b2YzGiAqt3VevYlIn+FEcUsgCKG5AAWcDXqjk3JwJecRjemqlVn
+         6zlg==
+X-Gm-Message-State: AC+VfDxGRa7010xV5byUVoSQuYlll+WuGazuXC2itLhnBaIkyzPBqdy5
+        NT7adeRcPp1lN1rlq0i8cNculIO0yFCvdyM55Ks=
+X-Google-Smtp-Source: ACHHUZ7Ye25QG4SYqhApZpBstZCJPXI5i6ojpI0XsxJqF0PxrT4mRz5+aVdkULcDqyMYFFQvL4DwjA==
+X-Received: by 2002:a17:903:50d:b0:1ae:14d:8d0a with SMTP id jn13-20020a170903050d00b001ae014d8d0amr14125505plb.29.1686787703650;
+        Wed, 14 Jun 2023 17:08:23 -0700 (PDT)
+Received: from dread.disaster.area (pa49-180-13-202.pa.nsw.optusnet.com.au. [49.180.13.202])
+        by smtp.gmail.com with ESMTPSA id a7-20020a170902ecc700b00198d7b52eefsm12682775plh.257.2023.06.14.17.08.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jun 2023 17:08:23 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+        (envelope-from <david@fromorbit.com>)
+        id 1q9aXE-00Brst-28;
+        Thu, 15 Jun 2023 10:08:20 +1000
+Date:   Thu, 15 Jun 2023 10:08:20 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        corbet@lwn.net, snitzer@kernel.org, viro@zeniv.linux.org.uk,
+        brauner@kernel.org, dchinner@redhat.com, willy@infradead.org,
+        dlemoal@kernel.org, linux@weissschuh.net, jack@suse.cz,
+        ming.lei@redhat.com, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Donald Buczek <buczek@molgen.mpg.de>
+Subject: Re: [PATCH v5 04/11] blksnap: header file of the module interface
+Message-ID: <ZIpWdIBPm4NKehLo@dread.disaster.area>
+References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
+ <20230612135228.10702-5-sergei.shtepa@veeam.com>
+ <ZIjsywOtHM5nIhSr@dread.disaster.area>
+ <ZIldkb1pwhNsSlfl@infradead.org>
+ <733f591e-0e8f-8668-8298-ddb11a74df81@veeam.com>
+ <ZInJlD70tMKoBi7T@infradead.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wtFxUl+7EWj84llw"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
-X-Cookie: You are false data.
+In-Reply-To: <ZInJlD70tMKoBi7T@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jun 14, 2023 at 07:07:16AM -0700, Christoph Hellwig wrote:
+> On Wed, Jun 14, 2023 at 11:26:20AM +0200, Sergei Shtepa wrote:
+> > This code worked quite successfully for the veeamsnap module, on the
+> > basis of which blksnap was created. Indeed, such an allocation of an
+> > area on a block device using a file does not look safe.
+> > 
+> > We've already discussed this with Donald Buczek <buczek@molgen.mpg.de>.
+> > Link: https://github.com/veeam/blksnap/issues/57#issuecomment-1576569075
+> > And I have planned work on moving to a more secure ioctl in the future.
+> > Link: https://github.com/veeam/blksnap/issues/61
+> > 
+> > Now, thanks to Dave, it becomes clear to me how to solve this problem best.
+> > swapfile is a good example of how to do it right.
+> 
+> I don't actually think swapfile is a very good idea, in fact the Linux
+> swap code in general is not a very good place to look for inspirations
+> :)
 
---wtFxUl+7EWj84llw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yeah, the swapfile implementation isn't very nice, I was really just
+using it as an example of how we can implement the requirements of
+block mapping delegation in a safe manner to a kernel subsystem.
 
-On Mon, Jun 12, 2023 at 05:10:26PM -0700, Rick Edgecombe wrote:
+I think the important part is the swapfile inode flag, because that
+is what keeps userspace from being able to screw with the file while
+the kernel is using it and allows us to do read/write IO to
+unwritten extents without converting them to written...
 
-> This series implements Shadow Stacks for userspace using x86's Control-fl=
-ow=20
-> Enforcement Technology (CET). CET consists of two related security
-> features: shadow stacks and indirect branch tracking. This series
-> implements just the  shadow stack part of this feature, and just for
-> userspace.
+> IFF the usage is always to have a whole file for the diff storage the
+> over all API is very simple - just pass a fd to the kernel for the area,
+> and then use in-kernel direct I/O on it.
 
-I've been using the generic changes here for the work I've been doing on
-arm64's similar GCS feature, while that is still very much WIP and
-hasn't been posted anywhere most of the common code here has been
-exercised.  I've been through the patches that I've specifically checked
-or used.  Thanks for all the work here.
+Yeah, I was thinking a fd is a better choice for the UAPI as it
+frees up the kernel implementation, and it doesn't need us to pass a
+separate bdev identifier in the ioctl. It also means we can pass a
+regular file or a block device and the kernel code doesn't need to
+care that they are different.
 
---wtFxUl+7EWj84llw
-Content-Type: application/pgp-signature; name="signature.asc"
+If you think direct IO is a better idea, then I have no objection to
+that - I haven't looked into the implementation that deeply at this
+point. I wanted to get an understanding of how all the pieces went
+together first, so all I've read is the documentation and looked at
+the UAPI.
 
------BEGIN PGP SIGNATURE-----
+I made a leap from that: the documentation keeps talking about using
+files a the filesystem for the difference storage, but the only UAPI
+for telling the kernel about storage regions it can use is this
+physical bdev LBA mapping ioctl. Hence if file storage is being
+used....
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSKURMACgkQJNaLcl1U
-h9BUrgf/RAj2KfSHxToCbw83STTQBY7ccQMMqYkrvbMuraS1YwoP+wzOdPReB+WU
-b4u9ed/MtMzOK4WGYHtAjS7cGgx/AV82OG0Sj7zsAdCOvWOwbPSakAPRPr1ZvKst
-uF4HFhRUSEmpkKfhHw4pDWGpgjNG6YcQOY6PPIPNGt8PRVf436pWu3VEiLidvCbq
-bCEpSuaFeOT7BMgmceMMmYDC7w79KvOvfeWXf8ByQdrBMmim29l/lQR08bqsDO1P
-SPU5a/fJ0jSj7CGi66aAUqFgKJr5/bpqt/hBrJGncCrQb82q3F0NRbI5+Lj2B/MZ
-r4ZUiis3OQnGouoGYCIforObS3/SmQ==
-=rReJ
------END PGP SIGNATURE-----
+> Now if that file should also
+> be able to reside on the same file system that the snapshot is taken
+> of things get a little more complicated, because writes to it also need
+> to automatically set the BIO_REFFED flag.  I have some ideas for that
+> and will share some draft code with you.
 
---wtFxUl+7EWj84llw--
+Cool, I look forward to the updates; I know of a couple of
+applications that could make use of this functionality right
+away....
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
