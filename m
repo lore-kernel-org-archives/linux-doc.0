@@ -2,124 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E372C001B1
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 18:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F437EB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 19:21:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232422AbjFPSyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 14:54:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34860 "EHLO
+        id S1346213AbjFPTVk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 15:21:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345421AbjFPSy1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 14:54:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09BFD3AA5;
-        Fri, 16 Jun 2023 11:54:15 -0700 (PDT)
+        with ESMTP id S1345460AbjFPTVY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 15:21:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882C7525C;
+        Fri, 16 Jun 2023 12:19:09 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B91163702;
-        Fri, 16 Jun 2023 18:54:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6337AC4339A;
-        Fri, 16 Jun 2023 18:54:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 17DCE63E91;
+        Fri, 16 Jun 2023 19:17:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00E20C433C0;
+        Fri, 16 Jun 2023 19:17:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686941654;
-        bh=nApWiSLLwWPLUkdMeB/M1atrM9iqgW2lKg+HjlxyPc4=;
+        s=k20201202; t=1686943069;
+        bh=LvC4YT4/e0KgspEdK+7PadxzOaV+ZKDN40FmhrIY1TE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kwabbwC4mvyWK/7j4PY4Zr4rJVtvU1GPKz+zf9pPFCmiw6QWOEPMVICo/RluUEt72
-         NtcXfqUdXZ1D59dUQa2TDK2C4PaYH0qfaP2MbmLeL/mYWWdLHx9t7GaZPeaVOwGFf8
-         IvlboVNbLceNS757JAtuE1z6mAXbksZYFEuofrhyTmYoKJ7F34VKhq4R5y0EAirGM+
-         7lEKVPQ0KkTVmbWcm782gMOkQ5dmxzB2SIiWcoIOgWv2implFXNwv3rayc/qfZNIN+
-         HVHML4CWujR8p8MF9r860/D5lYYtaIbjX14LpAZkGRj0Kzhe61nLSfPpnlh6X3Fw5d
-         Zhvd5P3Nm9VRQ==
+        b=pjRyPXBjPdmD/CCyo3c/TOJEl8Pc/wVwxfP/HY+a9sa6wUtE1ECgVtVOC0x4Dm/EZ
+         /FBoIRXKO64a0/wO29ZO4g1VWHNl4FtGc08wRZkiCOXa9vgfri7swZffPkGk1mlY4s
+         2bzaL1IeFZdWGH2AtwoG651fSafZC15/aa/H/OTI90JKO07q82eEgVXnqkwvIMkwyx
+         /n8msXEZh2z8+ptNjDMD5vJQRYUOEhjW93jFNuQbPZ9asQRgRXDBuSXDo5EaQsSGQ4
+         l2v9YABAJtr+MjpYWV0t4y8pIOqxzmot/AkRtdU2KHUxTWA3rIuQEx092Tlf8UZpY4
+         nRF+N3RE8K5Ww==
 From:   SeongJae Park <sj@kernel.org>
-To:     Alan Huang <mmpgouride@gmail.com>
-Cc:     SeongJae Park <sj@kernel.org>, paulmck@kernel.org,
-        Joel Fernandes <joel@joelfernandes.org>, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] Docs/RCU/rculist_nulls: Specify type of the object in examples
-Date:   Fri, 16 Jun 2023 18:54:11 +0000
-Message-Id: <20230616185411.85781-1-sj@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        damon@lists.linux.dev, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/7] Docs/admin-guide/mm/damon/start: update DAMOS example command
+Date:   Fri, 16 Jun 2023 19:17:37 +0000
+Message-Id: <20230616191742.87531-3-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <390935BF-9EC0-4D88-A277-7B37D68CC6C7@gmail.com>
-References: 
+In-Reply-To: <20230616191742.87531-1-sj@kernel.org>
+References: <20230616191742.87531-1-sj@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 17 Jun 2023 01:46:16 +0800 Alan Huang <mmpgouride@gmail.com> wrote:
+DAMON user-space tool, damo, has deprecated[1] its old DAMOS schemes
+specification format.  However, an example of DAMON documentation is
+still using it.  Update the example to use one of the alternative
+options.
 
-> 
-> > 2023年6月16日 02:10，SeongJae Park <sj@kernel.org> 写道：
-> > 
-> > The type of 'obj' in example code of rculist_nulls.rst is implicit.
-> > Provide the specific type of it before the example code.
-> > 
-> > Suggested-by: aul E. McKenney <paulmck@kernel.org>
-> 
-> Paul E. McKenney
+[1] https://github.com/awslabs/damo/commit/e9950ae68f6c
 
-Oops, thank you for finding, and sorry, Paul :)
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/admin-guide/mm/damon/start.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-> 
-> > Link: https://lore.kernel.org/rcu/43943609-f80c-4b6a-9844-994eef800757@paulmck-laptop/
-> > Signed-off-by: SeongJae Park <sj@kernel.org>
-> > ---
-> > Documentation/RCU/rculist_nulls.rst | 14 +++++++++++++-
-> > 1 file changed, 13 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-> > index 94a8bfe9f560..4b66e2fd2fb5 100644
-> > --- a/Documentation/RCU/rculist_nulls.rst
-> > +++ b/Documentation/RCU/rculist_nulls.rst
-> > @@ -18,7 +18,16 @@ to solve following problem.
-> > 
-> > Without 'nulls', a typical RCU linked list managing objects which are
-> > allocated with SLAB_TYPESAFE_BY_RCU kmem_cache can use the following
-> > -algorithms:
-> > +algorithms.  Following examples assume 'obj' is a pointer to such
-> > +objects, which is having below type.
-> > +
-> > +::
-> > +
-> > +  struct object {
-> > +    struct hlist_node obj_node;
-> > +    refcount_t refcnt;
-> 
-> atomic_t
+diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
+index 9f88afc734da..7aa0071ff1c3 100644
+--- a/Documentation/admin-guide/mm/damon/start.rst
++++ b/Documentation/admin-guide/mm/damon/start.rst
+@@ -119,9 +119,9 @@ set size has chronologically changed.::
+ Data Access Pattern Aware Memory Management
+ ===========================================
+ 
+-Below three commands make every memory region of size >=4K that doesn't
+-accessed for >=60 seconds in your workload to be swapped out. ::
++Below command makes every memory region of size >=4K that has not accessed for
++>=60 seconds in your workload to be swapped out. ::
+ 
+-    $ echo "#min-size max-size min-acc max-acc min-age max-age action" > test_scheme
+-    $ echo "4K        max      0       0       60s     max     pageout" >> test_scheme
+-    $ damo schemes -c test_scheme <pid of your workload>
++    $ sudo damo schemes --damos_access_rate 0 0 --damos_sz_region 4K max \
++                        --damos_age 60s max --damos_action pageout \
++                        <pid of your workload>
+-- 
+2.25.1
 
-I just recalled the example code uses atomic_set_release() for this field.
-
-Thank you, Alan!
-
-I will fix these in the next spin.
-
-
-Thanks,
-SJ
-
-> 
-> > +    unsigned int key;
-> > +  };
-> > 
-> > 1) Lookup algorithm
-> > -------------------
-> > @@ -142,6 +151,9 @@ the beginning. If the object was moved to the same chain,
-> > then the reader doesn't care: It might occasionally
-> > scan the list again without harm.
-> > 
-> > +Note that using hlist_nulls means the type of 'obj_node' field of
-> > +'struct object' becomes 'struct hlist_nulls_node'.
-> > +
-> > 
-> > 1) lookup algorithm
-> > -------------------
-> > -- 
-> > 2.25.1
-> > 
-> 
-> 
