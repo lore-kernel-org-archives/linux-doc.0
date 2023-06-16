@@ -2,165 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92EEAEB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 18:08:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C06EB64D8
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 18:22:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231681AbjFPSH7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 14:07:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46566 "EHLO
+        id S229658AbjFPSWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 14:22:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231144AbjFPSH6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 14:07:58 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60BFA30F8
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 11:07:57 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-bd69bb4507eso1008704276.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 11:07:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686938876; x=1689530876;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z/xcbkC1KM0iOBe2jwKeLHJYI8b7snTFL7pXba/BOVQ=;
-        b=erpa4DvJNDkn0MUrlPUdqcaWtRan5xUjwEoAKe3Ux6fnyZ+sXru7zVyCRxkgBcvmDO
-         HqNB7WYCGOAtZrKTbZmh8F+MeNIDf5ssYJVqJqdO4BmZSTAmFTjdZsItG8M9AzpxtG3R
-         cwxug9zPJS52gTTR9PZl/6QmnnYTJUrNzSnJ4CBRzqKDFOtdFmOQ8iZSbfBATCwsVdqG
-         8w/XlM3WeZ08IcA8l2NOo3oMoV28ATIpf+4/ZIA4kxFsJJX/yl4NtpsWyU0rQv3q5xFV
-         xVfxkF3ePUUkQdSbdHAnS2g0kwAUALpkqIrTInlRzLpor0v0xA3qKqoPsxRRyQjaxbBc
-         1UMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686938876; x=1689530876;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z/xcbkC1KM0iOBe2jwKeLHJYI8b7snTFL7pXba/BOVQ=;
-        b=Fy32VqJr2DU3AuVUyf4dVFaHvQND/9fCapZ3arr4+Mbo/e4RgIAxo6+feCGh6eFKZY
-         wS0CdkfeS1GLCoY3G35pF+037Jl6/oS54BjtW/oi89q1I9klU1UeWT671KenSERGsEg5
-         l+jP5JfJNFNERwsHs0MHDU/LyrSatBze257FKzAdMZT4DVr+TGlV6slSu3QyDlb/Ckwl
-         AsrAYpDJF1kY+AvaUcmGcE6SXDVWEAidNn3xCqyd4UC0asu95B3WX1FBe+r1JW5jb7IX
-         X/0dQqpQuqYQB9n7z1t9RkBywlaFsgvy+2KxNkhljufRq2VT8qtU++CoF99ssVf+kg5o
-         JIyw==
-X-Gm-Message-State: AC+VfDwAGhC2I5If09wSlRUgrPw+AI2r0BuZRWprue5IEu3LNC2lLrVU
-        bjkFHlMV0r0COge50sddw2AMKwVetwI=
-X-Google-Smtp-Source: ACHHUZ5Ac+LnyDm+15iA1sr6WqjRANVRfUVldMjYwcIj5br/nW2L2Y0dHH3VChFq2DxoRfAK6YN0s/3bANw=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:20d:0:b0:ba8:2e79:c193 with SMTP id
- 13-20020a25020d000000b00ba82e79c193mr286501ybc.12.1686938876277; Fri, 16 Jun
- 2023 11:07:56 -0700 (PDT)
-Date:   Fri, 16 Jun 2023 11:07:54 -0700
-In-Reply-To: <22438996-cea6-fcdc-530b-bf3f2477a81c@semihalf.com>
-Mime-Version: 1.0
-References: <20230612164727.3935657-1-carlos.bilbao@amd.com>
- <ZIihRqZljMaMRGcK@google.com> <DM8PR11MB5750D16B08B769173DCD740AE75AA@DM8PR11MB5750.namprd11.prod.outlook.com>
- <ZInLlkXsgnej9ZpT@google.com> <001aa2ed-2f78-4361-451d-e31a4d4abaa0@semihalf.com>
- <ZIxqAXhy1tCVpzz7@google.com> <22438996-cea6-fcdc-530b-bf3f2477a81c@semihalf.com>
-Message-ID: <ZIyk+qIBRD6ezlPo@google.com>
-Subject: Re: [PATCH v2] docs: security: Confidential computing intro and
- threat model for x86 virtualization
-From:   Sean Christopherson <seanjc@google.com>
-To:     Dmytro Maluka <dmy@semihalf.com>
-Cc:     Elena Reshetova <elena.reshetova@intel.com>,
-        Carlos Bilbao <carlos.bilbao@amd.com>,
-        Jason CJ Chen <jason.cj.chen@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "kraxel@redhat.com" <kraxel@redhat.com>,
-        "dovmurik@linux.ibm.com" <dovmurik@linux.ibm.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Dhaval.Giani@amd.com" <Dhaval.Giani@amd.com>,
-        "michael.day@amd.com" <michael.day@amd.com>,
-        "pavankumar.paluri@amd.com" <pavankumar.paluri@amd.com>,
-        "David.Kaplan@amd.com" <David.Kaplan@amd.com>,
-        "Reshma.Lal@amd.com" <Reshma.Lal@amd.com>,
-        "Jeremy.Powell@amd.com" <Jeremy.Powell@amd.com>,
-        "sathyanarayanan.kuppuswamy@linux.intel.com" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "dgilbert@redhat.com" <dgilbert@redhat.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        "mst@redhat.com" <mst@redhat.com>, "tytso@mit.edu" <tytso@mit.edu>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richard.weinberger@gmail.com" <richard.weinberger@gmail.com>,
-        "lukas@wunner.de" <lukas@wunner.de>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "cdupontd@redhat.com" <cdupontd@redhat.com>,
-        "jasowang@redhat.com" <jasowang@redhat.com>,
-        "sameo@rivosinc.com" <sameo@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "security@kernel.org" <security@kernel.org>,
-        Larry Dewey <larry.dewey@amd.com>, android-kvm@google.com,
-        Dmitry Torokhov <dtor@google.com>,
-        Allen Webb <allenwebb@google.com>,
-        Tomasz Nowicki <tn@semihalf.com>,
-        Grzegorz Jaszczyk <jaz@semihalf.com>,
-        Patryk Duda <pdk@semihalf.com>
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S229521AbjFPSWM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 14:22:12 -0400
+Received: from sender4-of-o50.zoho.com (sender4-of-o50.zoho.com [136.143.188.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27ABDCD;
+        Fri, 16 Jun 2023 11:22:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1686939697; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=ffvSiDruYhLVJJGBcz4tQWNlfs6d5bauH+Ej2CpFSmpsU2USUfadAkTf61XiTUkuV/fwd6T4eN044PQ+mqv+bW8oGdYrENxv9+ZNEy4ZAHVgoGs/St8s/04QrDjVsEqiXT6OBT+HVzn9m0ylLfxZvopPb0cDCH30F5iNu5Ks9Tk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1686939697; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=8enOf0amLtvBhNkLA/XPa3bwYhCfY01qhBgRzZsYp4k=; 
+        b=iWf2gamft5I1tQafDe+wzLXebNQzYgTsFca9wWHDHLlU6KpTO1qpzty8hZCqVyulR8PbWnlFxsQR8fJqa+E4Y+zRng39F8z0DpD35pHI66jgZ80xzygN7M8x2Pkuv75gqryEQ5wEkTUJy0yFlI6jKwZWMqj/W73Q/cmZIzFzfuo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=apertussolutions.com;
+        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+        dmarc=pass header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686939697;
+        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+        h=Message-ID:Date:Date:MIME-Version:To:To:Cc:Cc:References:From:From:Subject:Subject:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+        bh=8enOf0amLtvBhNkLA/XPa3bwYhCfY01qhBgRzZsYp4k=;
+        b=qHykneBd3W/uQb3DdBB6UMoKU5vU2hAHAgTWfpyu0VTnkeKUnav9pYS2Lv2cPAAr
+        bEdoQSblbIGf34Wi35ucomsH+lyGq/exEwlUfLIru8FCcg0jLUx552Uf3IYYQESeI0f
+        rstR4wkctcFvn8BMkk0jayWtDQUD04axkQJGtfZA=
+Received: from [10.10.1.138] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
+        with SMTPS id 1686939696166530.3719741366886; Fri, 16 Jun 2023 11:21:36 -0700 (PDT)
+Message-ID: <81a0a2f3-e7b2-23e8-5c95-91c9a52df18a@apertussolutions.com>
+Date:   Fri, 16 Jun 2023 14:21:33 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-US
+To:     Matthew Garrett <mjg59@srcf.ucam.org>
+Cc:     Ross Philipson <ross.philipson@oracle.com>,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        ardb@kernel.org, James.Bottomley@hansenpartnership.com,
+        luto@amacapital.net, nivedita@alum.mit.edu,
+        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-3-ross.philipson@oracle.com>
+ <20230512104753.GA14461@srcf.ucam.org>
+ <e7dcb85b-25bb-8d5a-3758-e4243bc6ffec@apertussolutions.com>
+ <20230616165415.GA28537@srcf.ucam.org>
+From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Subject: Re: [PATCH v6 02/14] Documentation/x86: Secure Launch kernel
+ documentation
+In-Reply-To: <20230616165415.GA28537@srcf.ucam.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 16, 2023, Dmytro Maluka wrote:
-> On 6/16/23 15:56, Sean Christopherson wrote:
-> > On Fri, Jun 16, 2023, Dmytro Maluka wrote:
-> >> On 6/14/23 16:15, Sean Christopherson wrote:
-> >>> On Wed, Jun 14, 2023, Elena Reshetova wrote:
-> >>>>>> +This new type of adversary may be viewed as a more powerful type
-> >>>>>> +of external attacker, as it resides locally on the same physical machine
-> >>>>>> +-in contrast to a remote network attacker- and has control over the guest
-> >>>>>> +kernel communication with most of the HW::
-> >>>>>
-> >>>>> IIUC, this last statement doesn't hold true for the pKVM on x86 use case, which
-> >>>>> specifically aims to give a "guest" exclusive access to hardware resources.
-> >>>>
-> >>>> Does it hold for *all* HW resources? If yes, indeed this would make pKVM on
-> >>>> x86 considerably different.
-> >>>
-> >>> Heh, the original says "most", so it doesn't have to hold for all hardware resources,
-> >>> just a simple majority.
-> >>
-> >> Again, pedantic mode on, I find it difficult to agree with the wording
-> >> that the guest owns "most of" the HW resources it uses. It controls the
-> >> data communication with its hardware device, but other resources (e.g.
-> >> CPU time, interrupts, timers, PCI config space, ACPI) are owned by the
-> >> host and virtualized by it for the guest.
-> > 
-> > I wasn't saying that the guest owns most resources, I was saying that the *untrusted*
-> > host does *not* own most resources that are exposed to the guest.  My understanding
-> > is that everything in your list is owned by the trusted hypervisor in the pKVM model.
+On 6/16/23 12:54, Matthew Garrett wrote:
+> On Fri, Jun 16, 2023 at 12:44:27PM -0400, Daniel P. Smith wrote:
+>>
+>> On 5/12/23 06:47, Matthew Garrett wrote:
+>>> On Thu, May 04, 2023 at 02:50:11PM +0000, Ross Philipson wrote:
+>>>> +Secure Launch does not interoperate with KASLR. If possible, the MLE should be
+>>>> +built with KASLR disabled::
+>>>
+>>> Why does Secure Launch not interoperate with KASLR?
+>>>
+>>> Re: IOMMUs
+>>
+>> Until the IOMMU driver comes online, memory is protected by the PMRs regions
+>> requested by the Preamble (pre-launch code) in accordance with Intel TXT
+>> specifications and configured by the ACM. The KASLR randomizer will run
+>> before the IOMMU driver is able to come online and ensure frames used by the
+>> kernel are protected as well as frames that a driver may registered in a BAR
+>> are not blocked.
 > 
-> Heh, no. Most of these resources are owned by the untrusted host, that's
-> the point.
+> This seems unfortunate. Presumably we're not able to modify the PMRs at
+> this point? This also seems like a potential issue for IOMMU config in
+> general - the presumption is that the firmware should be configuring the
+> IOMMU in such a way that DMA-capable devices can't attack the firmware
+> while we're in the boot environment, and if KASLR is leaving a window
+> there then it seems like we'd need to fix that?
 
-Ah, I was overloading "owned", probably wrongly.  What I'm trying to call out is
-that in pKVM, while the untrusted host can withold resources, it can't subvert
-most of those resources.  Taking scheduling as an example, a pKVM vCPU may be
-migrated to a different pCPU by the untrusted host, but pKVM ensures that it is
-safe to run on the new pCPU, e.g. on Intel, pKVM (presumably) does any necessary
-VMCLEAR, IBPB, INVEPT, etc. to ensure the vCPU doesn't consume stale data.
+While unfortunate, it is a bit of the nature of the problem KASLR is 
+attempting to address. If you know in advance where kernel pages are 
+going to live and the frames that will be used for DMA, then have you 
+not defeated the purpose of the randomization? As for the firmware use 
+of the IOMMU, I am fairly certain those tables will get invalidated by 
+the ACM when it is setting up the PMRs.
 
-> Basically for two reasons: 1. we want to keep the trusted hypervisor as
-> simple as possible. 2. we don't need availability guarantees.
+>>>> +It is recommended that no other command line options should be set to override
+>>>> +the defaults above.
+>>>
+>>> What happens if they are? Does doing so change the security posture of
+>>> the system? If so, will the measurements be different in a way that
+>>> demonstrates the system is in an insecure state?
+>>>
+>>
+>> In an early version of the patch series this was enforced when turning on
+>> Secure Launch, but concerns were raised over this approach and was asked to
+>> allow the user to be able to shoot themselves in the foot. Overriding these
+>> values could render either an insecure state and/or an unstable system.
 > 
-> The trusted hypervisor owns only: 2nd-stage MMU, IOMMU, VMCS (or its
-> counterparts on non-Intel), physical PCI config space (merely for
-> controlling a few critical registers like BARs and MSI address
-> registers), perhaps a few more things that don't come to my mind now.
+> If we're in an insecure state, is that something that would show up in
+> the form of different measurements?
 
-The "physical PCI config space" is a key difference, and is very relevant to this
-doc (see my response to Allen).
+Yes, you would get a different measurement for the commandline. If you 
+are thinking in terms of attestation, I would expect that the 
+attestation measurement db would have a record for an acceptable 
+commandline and would determine the system to be in an unknown state if 
+it did not match.
 
-> The untrusted host schedules its guests on physical CPUs (i.e. the
-> host's L1 vCPUs are 1:1 mapped onto pCPUs), while the trusted hypervisor
-> has no scheduling, it only handles vmexits from the host and guests. The
-> untrusted host fully controls the physical interrupt controllers (I
-> think we realize that is not perfectly fine, but here we are), etc.
-
-Yeah, IRQs are a tough nut to crack.
+While the idea could be explored to create measurements based on 
+configurations of kernel subsystems, this would likely entail 
+instrumentation in those subsystems to assert a measurement to their 
+configuration. Maybe IMA could cover something like this? It would 
+definitely enable the ability to make deeper assessments about the state 
+of a system, but I think this is out of the scope of what Secure Launch 
+is attempting to do.
