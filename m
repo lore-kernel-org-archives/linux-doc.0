@@ -2,343 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5C7EB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 16:35:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FBEFEB64D8
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 16:45:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345382AbjFPQfx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 12:35:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56770 "EHLO
+        id S232001AbjFPQpZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 12:45:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345668AbjFPQfl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 12:35:41 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AAE93AAF
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 09:35:19 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-57026f4bccaso10631487b3.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 09:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686933318; x=1689525318;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=95K85Wvdh9q9MCQWGezcUebBGPAYCwompOtePat6Pqc=;
-        b=CnArW6dWlMMd1C+foAPeWAYn5BHkaXmFyOnsHEmHjNxrL9H5Aql413nkP+ciNs1Cov
-         Xo9OkZjaOnGhrrihsuHKxbcwtqsTGTl2LI2Z3XjXj5nrlLg0QyAWt/jQl47G1Ms9xOgW
-         NEg32rvJSSVTKc16nsbBauLbXguCPEdDQS5ltrp6kudt3iF9IUkok+HAkC8wXJ9qbmo+
-         C8HRpNNdl49ZC/7MQaMdoGAdtYfoNvrvDUWKzkwyho/26eRkE/C10FR6SBO/xt4zGiNN
-         7Zfq19o0pVFXHqFUQyVG958q1uLfB7PYCNuxFyNymnJRULeGVUR2O0bMGIn367n/U8fC
-         2PLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686933318; x=1689525318;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=95K85Wvdh9q9MCQWGezcUebBGPAYCwompOtePat6Pqc=;
-        b=JOI8Jo3XmENMOIc4XIc3HqHMWsELlfy+omKe7UxQhL8Ss1HWlza9Sw9rW/lkxMJpB/
-         vnoKoumxlagwBI/mb36maRZdLseuQ1ova+f0hQIU/raLmpt3DRGinJY3S0pDwzBtSEbm
-         cmQTWiWPZt5/wAX5D+Gz8/QJO7mBuyWWNpTVeRB+tUmJH1G/m1w5hZdiNcjXyyL02kc3
-         5u/Yf8aaWD5LlBWdNXYOb0HLJHRPbzbUWRSajHho2Khx76lVHcL9NLBmfKMHnAN1PMip
-         NdRZAxUYOswNUN+kYMPSFOVmXdafgZQu9R8SMzqrwk5AZpPdm6kWxcTmgp1l2ShndZn8
-         M2dQ==
-X-Gm-Message-State: AC+VfDxXYIMLt8P+zNqPliObvnvDcDm+iZ+YOMDCwJqN7r37LnR+jBGK
-        DKN7cozQS6cKWTAKWULBY+hM6A==
-X-Google-Smtp-Source: ACHHUZ5DH5BHNW8jEYHCr+oiEMGCdzAYaBvnBhc/V9soij5JdmJIy22OP/T8+doDz9SxXJR16i7Vpw==
-X-Received: by 2002:a0d:c001:0:b0:570:6d74:21d5 with SMTP id b1-20020a0dc001000000b005706d7421d5mr1503676ywd.13.1686933318207;
-        Fri, 16 Jun 2023 09:35:18 -0700 (PDT)
-Received: from [172.22.22.28] ([98.61.227.136])
-        by smtp.gmail.com with ESMTPSA id u126-20020a814784000000b005708076b851sm38135ywa.43.2023.06.16.09.35.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jun 2023 09:35:17 -0700 (PDT)
-Message-ID: <92b81475-66c0-0d81-a9df-71b53fff2ac7@linaro.org>
-Date:   Fri, 16 Jun 2023 11:35:15 -0500
+        with ESMTP id S230327AbjFPQpY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 12:45:24 -0400
+Received: from sender4-of-o50.zoho.com (sender4-of-o50.zoho.com [136.143.188.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 206092D5D;
+        Fri, 16 Jun 2023 09:45:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1686933873; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=K2OqRJfe2GJeQkgK+NEfGjq73mCcLWdnFodkO4sXrmbaizIXLgu/HsyvpE4MNNgewC3PfqZc9YurYjtjUtpFwePrVKK/iuvjr6v+Juj5UNR0kZ+OyQzlYBclaXTR02bROnRL5QOsjEc3rULeLFL4rcL14f35RIjIQC0oQz/H5xg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1686933873; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=YFf4KgEPbWL7mvIIGoCh2dt81HyAXm/q6dL8q62QUqM=; 
+        b=kb9ONZdR3/WmMIh5NKTpkxb+0Jep9fQsD3Bvuhu7PXPgr+bmFTj7c0BpiAI8u0q+/CqrM9xchX3nosSThjR4vxl6hK+jOAMdlblqBaxbEl5VXL7ZtKqLvI/hV4K5g/KJfyApi2Qc6j+gtX9i9BG2priSe99Pqii8Iz34p0k8YEw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=apertussolutions.com;
+        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+        dmarc=pass header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686933873;
+        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+        h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+        bh=YFf4KgEPbWL7mvIIGoCh2dt81HyAXm/q6dL8q62QUqM=;
+        b=Zmm4hQ+1IB3Tmr3ET8PdXzI6pVC5ayUXdkDP6CGRW1kSJ6DFF7YlFkZ79uWonUGq
+        TAW8ZH1SzLEIAN52IyqhxVDi7IKcNCnpgsJYk+ciL7/T37ppygDLq0bCbIGxIQYa8FL
+        9koCYVDg8mzvMx2f1pm8JHdr/FiOBV9ex0qFx/YM=
+Received: from [10.10.1.133] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
+        with SMTPS id 1686933870911516.0622407770464; Fri, 16 Jun 2023 09:44:30 -0700 (PDT)
+Message-ID: <e7dcb85b-25bb-8d5a-3758-e4243bc6ffec@apertussolutions.com>
+Date:   Fri, 16 Jun 2023 12:44:27 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v14 00/25] Drivers for Gunyah hypervisor
+Subject: Re: [PATCH v6 02/14] Documentation/x86: Secure Launch kernel
+ documentation
 Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230613172054.3959700-1-quic_eberman@quicinc.com>
-From:   Alex Elder <elder@linaro.org>
-In-Reply-To: <20230613172054.3959700-1-quic_eberman@quicinc.com>
+To:     Matthew Garrett <mjg59@srcf.ucam.org>,
+        Ross Philipson <ross.philipson@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
+        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        ardb@kernel.org, James.Bottomley@hansenpartnership.com,
+        luto@amacapital.net, nivedita@alum.mit.edu,
+        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
+References: <20230504145023.835096-1-ross.philipson@oracle.com>
+ <20230504145023.835096-3-ross.philipson@oracle.com>
+ <20230512104753.GA14461@srcf.ucam.org>
+From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
+In-Reply-To: <20230512104753.GA14461@srcf.ucam.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/13/23 12:20 PM, Elliot Berman wrote:
-> Gunyah is a Type-1 hypervisor independent of any
-> high-level OS kernel, and runs in a higher CPU privilege level. It does
-> not depend on any lower-privileged OS kernel/code for its core
-> functionality. This increases its security and can support a much smaller
-> trusted computing base than a Type-2 hypervisor.
 
-I believe I have marked "Reviewed-by" on this entire series
-now.  If I'm mistaken about that, or if you make a change
-that you think warrants me taking another look, please call
-that to my attention.
+On 5/12/23 06:47, Matthew Garrett wrote:
+> On Thu, May 04, 2023 at 02:50:11PM +0000, Ross Philipson wrote:
+>> +Secure Launch does not interoperate with KASLR. If possible, the MLE should be
+>> +built with KASLR disabled::
+> 
+> Why does Secure Launch not interoperate with KASLR?
+> 
+> Re: IOMMUs
 
-Thanks for being very responsive to my review comments.  My
-greatest hope is that we've prevented some bugs from getting
-accepted, but I also hope you have found my feedback helpful.
+Until the IOMMU driver comes online, memory is protected by the PMRs 
+regions requested by the Preamble (pre-launch code) in accordance with 
+Intel TXT specifications and configured by the ACM. The KASLR randomizer 
+will run before the IOMMU driver is able to come online and ensure 
+frames used by the kernel are protected as well as frames that a driver 
+may registered in a BAR are not blocked.
 
-					-Alex
+>> +It is recommended that no other command line options should be set to override
+>> +the defaults above.
+> 
+> What happens if they are? Does doing so change the security posture of
+> the system? If so, will the measurements be different in a way that
+> demonstrates the system is in an insecure state?
+> 
 
-> Gunyah is an open source hypervisor. The source repo is available at
-> https://github.com/quic/gunyah-hypervisor.
-> 
-> The diagram below shows the architecture.
-> 
-> ::
-> 
->           VM A                    VM B
->       +-----+ +-----+  | +-----+ +-----+ +-----+
->       |     | |     |  | |     | |     | |     |
->   EL0 | APP | | APP |  | | APP | | APP | | APP |
->       |     | |     |  | |     | |     | |     |
->       +-----+ +-----+  | +-----+ +-----+ +-----+
->   ---------------------|-------------------------
->       +--------------+ | +----------------------+
->       |              | | |                      |
->   EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
->       |              | | |                      |
->       +--------------+ | +----------------------+
->   --------hvc/smc------|------hvc/smc------------
->       +----------------------------------------+
->       |                                        |
->   EL2 |            Gunyah Hypervisor           |
->       |                                        |
->       +----------------------------------------+
-> 
-> Gunyah provides these following features.
-> 
-> - Threads and Scheduling: The scheduler schedules virtual CPUs (VCPUs) on
-> physical CPUs and enables time-sharing of the CPUs.
-> - Memory Management: Gunyah tracks memory ownership and use of all memory
-> under its control. Memory partitioning between VMs is a fundamental
-> security feature.
-> - Interrupt Virtualization: All interrupts are handled in the hypervisor
-> and routed to the assigned VM.
-> - Inter-VM Communication: There are several different mechanisms provided
-> for communicating between VMs.
-> - Device Virtualization: Para-virtualization of devices is supported using
-> inter-VM communication. Low level system features and devices such as
-> interrupt controllers are supported with emulation where required.
-> 
-> This series adds the basic framework for detecting that Linux is running
-> under Gunyah as a virtual machine, communication with the Gunyah Resource
-> Manager, and a sample virtual machine manager capable of launching virtual machines.
-> 
-> The series relies on two other patches posted separately:
->   - https://lore.kernel.org/all/20230213181832.3489174-1-quic_eberman@quicinc.com/
->   - https://lore.kernel.org/all/20230213232537.2040976-2-quic_eberman@quicinc.com/
-> 
-> 
-> Changes in v14:
->   - Coding/cosmetic tweaks suggested by Alex
->   - Mark IRQs as wake-up capable
-> 
-> Changes in v13: https://lore.kernel.org/all/20230509204801.2824351-1-quic_eberman@quicinc.com/
->   - Tweaks to message queue driver to address race condition between IRQ and mailbox registration
->   - Allow removal of VM functions by function-specific comparison -- specifically to allow
->     removing irqfd by label only and not requiring original FD to be provided.
-> 
-> Changes in v12: https://lore.kernel.org/all/20230424231558.70911-1-quic_eberman@quicinc.com/
->   - Stylistic/cosmetic tweaks suggested by Alex
->   - Remove patch "virt: gunyah: Identify hypervisor version" and squash the
->     check that we're running under a reasonable Gunyah hypervisor into RM driver
->   - Refactor platform hooks into a separate module per suggestion from Srini
->   - GFP_KERNEL_ACCOUNT and account_locked_vm() for page pinning
->   - enum-ify related constants
-> 
-> Changes in v11: https://lore.kernel.org/all/20230304010632.2127470-1-quic_eberman@quicinc.com/
->   - Rename struct gh_vm_dtb_config:gpa -> guest_phys_addr & overflow checks for this
->   - More docstrings throughout
->   - Make resp_buf and resp_buf_size optional
->   - Replace deprecated idr with xarray
->   - Refconting on misc device instead of RM's platform device
->   - Renaming variables, structs, etc. from gunyah_ -> gh_
->   - Drop removal of user mem regions
->   - Drop mem_lend functionality; to converge with restricted_memfd later
-> 
-> Changes in v10: https://lore.kernel.org/all/20230214211229.3239350-1-quic_eberman@quicinc.com/
->   - Fix bisectability (end result of series is same, --fixups applied to wrong commits)
->   - Convert GH_ERROR_* and GH_RM_ERROR_* to enums
->   - Correct race condition between allocating/freeing user memory
->   - Replace offsetof with struct_size
->   - Series-wide renaming of functions to be more consistent
->   - VM shutdown & restart support added in vCPU and VM Manager patches
->   - Convert VM function name (string) to type (number)
->   - Convert VM function argument to value (which could be a pointer) to remove memory wastage for arguments
->   - Remove defensive checks of hypervisor correctness
->   - Clean ups to ioeventfd as suggested by Srivatsa
-> 
-> Changes in v9: https://lore.kernel.org/all/20230120224627.4053418-1-quic_eberman@quicinc.com/
->   - Refactor Gunyah API flags to be exposed as feature flags at kernel level
->   - Move mbox client cleanup into gunyah_msgq_remove()
->   - Simplify gh_rm_call return value and response payload
->   - Missing clean-up/error handling/little endian fixes as suggested by Srivatsa and Alex in v8 series
-> 
-> Changes in v8: https://lore.kernel.org/all/20221219225850.2397345-1-quic_eberman@quicinc.com/
->   - Treat VM manager as a library of RM
->   - Add patches 21-28 as RFC to support proxy-scheduled vCPUs and necessary bits to support virtio
->     from Gunyah userspace
-> 
-> Changes in v7: https://lore.kernel.org/all/20221121140009.2353512-1-quic_eberman@quicinc.com/
->   - Refactor to remove gunyah RM bus
->   - Refactor allow multiple RM device instances
->   - Bump UAPI to start at 0x0
->   - Refactor QCOM SCM's platform hooks to allow CONFIG_QCOM_SCM=Y/CONFIG_GUNYAH=M combinations
-> 
-> Changes in v6: https://lore.kernel.org/all/20221026185846.3983888-1-quic_eberman@quicinc.com/
->   - *Replace gunyah-console with gunyah VM Manager*
->   - Move include/asm-generic/gunyah.h into include/linux/gunyah.h
->   - s/gunyah_msgq/gh_msgq/
->   - Minor tweaks and documentation tidying based on comments from Jiri, Greg, Arnd, Dmitry, and Bagas.
-> 
-> Changes in v5: https://lore.kernel.org/all/20221011000840.289033-1-quic_eberman@quicinc.com/
->   - Dropped sysfs nodes
->   - Switch from aux bus to Gunyah RM bus for the subdevices
->   - Cleaning up RM console
-> 
-> Changes in v4: https://lore.kernel.org/all/20220928195633.2348848-1-quic_eberman@quicinc.com/
->   - Tidied up documentation throughout based on questions/feedback received
->   - Switched message queue implementation to use mailboxes
->   - Renamed "gunyah_device" as "gunyah_resource"
-> 
-> Changes in v3: https://lore.kernel.org/all/20220811214107.1074343-1-quic_eberman@quicinc.com/
->   - /Maintained/Supported/ in MAINTAINERS
->   - Tidied up documentation throughout based on questions/feedback received
->   - Moved hypercalls into arch/arm64/gunyah/; following hyper-v's implementation
->   - Drop opaque typedefs
->   - Move sysfs nodes under /sys/hypervisor/gunyah/
->   - Moved Gunyah console driver to drivers/tty/
->   - Reworked gh_device design to drop the Gunyah bus.
-> 
-> Changes in v2: https://lore.kernel.org/all/20220801211240.597859-1-quic_eberman@quicinc.com/
->   - DT bindings clean up
->   - Switch hypercalls to follow SMCCC
-> 
-> v1: https://lore.kernel.org/all/20220223233729.1571114-1-quic_eberman@quicinc.com/
-> 
-> Elliot Berman (25):
->    docs: gunyah: Introduce Gunyah Hypervisor
->    dt-bindings: Add binding for gunyah hypervisor
->    gunyah: Common types and error codes for Gunyah hypercalls
->    virt: gunyah: Add hypercalls to identify Gunyah
->    virt: gunyah: msgq: Add hypercalls to send and receive messages
->    mailbox: Add Gunyah message queue mailbox
->    gunyah: rsc_mgr: Add resource manager RPC core
->    gunyah: rsc_mgr: Add VM lifecycle RPC
->    gunyah: vm_mgr: Introduce basic VM Manager
->    gunyah: rsc_mgr: Add RPC for sharing memory
->    gunyah: vm_mgr: Add/remove user memory regions
->    gunyah: vm_mgr: Add ioctls to support basic non-proxy VM boot
->    samples: Add sample userspace Gunyah VM Manager
->    gunyah: rsc_mgr: Add platform ops on mem_lend/mem_reclaim
->    virt: gunyah: Add Qualcomm Gunyah platform ops
->    docs: gunyah: Document Gunyah VM Manager
->    virt: gunyah: Translate gh_rm_hyp_resource into gunyah_resource
->    gunyah: vm_mgr: Add framework for VM Functions
->    virt: gunyah: Add resource tickets
->    virt: gunyah: Add IO handlers
->    virt: gunyah: Add proxy-scheduled vCPUs
->    virt: gunyah: Add hypercalls for sending doorbell
->    virt: gunyah: Add irqfd interface
->    virt: gunyah: Add ioeventfd
->    MAINTAINERS: Add Gunyah hypervisor drivers section
-> 
->   .../bindings/firmware/gunyah-hypervisor.yaml  |  82 ++
->   .../userspace-api/ioctl/ioctl-number.rst      |   1 +
->   Documentation/virt/gunyah/index.rst           | 114 +++
->   Documentation/virt/gunyah/message-queue.rst   |  71 ++
->   Documentation/virt/gunyah/vm-manager.rst      | 143 +++
->   Documentation/virt/index.rst                  |   1 +
->   MAINTAINERS                                   |  13 +
->   arch/arm64/Kbuild                             |   1 +
->   arch/arm64/gunyah/Makefile                    |   3 +
->   arch/arm64/gunyah/gunyah_hypercall.c          | 142 +++
->   arch/arm64/include/asm/gunyah.h               |  24 +
->   drivers/mailbox/Makefile                      |   2 +
->   drivers/mailbox/gunyah-msgq.c                 | 219 +++++
->   drivers/virt/Kconfig                          |   2 +
->   drivers/virt/Makefile                         |   1 +
->   drivers/virt/gunyah/Kconfig                   |  59 ++
->   drivers/virt/gunyah/Makefile                  |  11 +
->   drivers/virt/gunyah/gunyah_ioeventfd.c        | 130 +++
->   drivers/virt/gunyah/gunyah_irqfd.c            | 180 ++++
->   drivers/virt/gunyah/gunyah_platform_hooks.c   |  80 ++
->   drivers/virt/gunyah/gunyah_qcom.c             | 153 +++
->   drivers/virt/gunyah/gunyah_vcpu.c             | 470 +++++++++
->   drivers/virt/gunyah/rsc_mgr.c                 | 909 ++++++++++++++++++
->   drivers/virt/gunyah/rsc_mgr.h                 |  19 +
->   drivers/virt/gunyah/rsc_mgr_rpc.c             | 500 ++++++++++
->   drivers/virt/gunyah/vm_mgr.c                  | 791 +++++++++++++++
->   drivers/virt/gunyah/vm_mgr.h                  |  70 ++
->   drivers/virt/gunyah/vm_mgr_mm.c               | 252 +++++
->   include/linux/gunyah.h                        | 207 ++++
->   include/linux/gunyah_rsc_mgr.h                | 162 ++++
->   include/linux/gunyah_vm_mgr.h                 | 153 +++
->   include/uapi/linux/gunyah.h                   | 293 ++++++
->   samples/Kconfig                               |  10 +
->   samples/Makefile                              |   1 +
->   samples/gunyah/.gitignore                     |   2 +
->   samples/gunyah/Makefile                       |   6 +
->   samples/gunyah/gunyah_vmm.c                   | 266 +++++
->   samples/gunyah/sample_vm.dts                  |  68 ++
->   38 files changed, 5611 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
->   create mode 100644 Documentation/virt/gunyah/index.rst
->   create mode 100644 Documentation/virt/gunyah/message-queue.rst
->   create mode 100644 Documentation/virt/gunyah/vm-manager.rst
->   create mode 100644 arch/arm64/gunyah/Makefile
->   create mode 100644 arch/arm64/gunyah/gunyah_hypercall.c
->   create mode 100644 arch/arm64/include/asm/gunyah.h
->   create mode 100644 drivers/mailbox/gunyah-msgq.c
->   create mode 100644 drivers/virt/gunyah/Kconfig
->   create mode 100644 drivers/virt/gunyah/Makefile
->   create mode 100644 drivers/virt/gunyah/gunyah_ioeventfd.c
->   create mode 100644 drivers/virt/gunyah/gunyah_irqfd.c
->   create mode 100644 drivers/virt/gunyah/gunyah_platform_hooks.c
->   create mode 100644 drivers/virt/gunyah/gunyah_qcom.c
->   create mode 100644 drivers/virt/gunyah/gunyah_vcpu.c
->   create mode 100644 drivers/virt/gunyah/rsc_mgr.c
->   create mode 100644 drivers/virt/gunyah/rsc_mgr.h
->   create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
->   create mode 100644 drivers/virt/gunyah/vm_mgr.c
->   create mode 100644 drivers/virt/gunyah/vm_mgr.h
->   create mode 100644 drivers/virt/gunyah/vm_mgr_mm.c
->   create mode 100644 include/linux/gunyah.h
->   create mode 100644 include/linux/gunyah_rsc_mgr.h
->   create mode 100644 include/linux/gunyah_vm_mgr.h
->   create mode 100644 include/uapi/linux/gunyah.h
->   create mode 100644 samples/gunyah/.gitignore
->   create mode 100644 samples/gunyah/Makefile
->   create mode 100644 samples/gunyah/gunyah_vmm.c
->   create mode 100644 samples/gunyah/sample_vm.dts
-> 
-> 
-> base-commit: 858fd168a95c5b9669aac8db6c14a9aeab446375
-
+In an early version of the patch series this was enforced when turning 
+on Secure Launch, but concerns were raised over this approach and was 
+asked to allow the user to be able to shoot themselves in the foot. 
+Overriding these values could render either an insecure state and/or an 
+unstable system.
