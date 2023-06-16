@@ -2,214 +2,329 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5385EEB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 09:33:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80305EB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 10:52:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344625AbjFPJdw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 05:33:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48170 "EHLO
+        id S1344907AbjFPKwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 06:52:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344425AbjFPJdd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 05:33:33 -0400
-Received: from frasgout13.his.huawei.com (unknown [14.137.139.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413D52D7B;
-        Fri, 16 Jun 2023 02:33:03 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.229])
-        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4QjDF023yCz9yMKd;
-        Fri, 16 Jun 2023 17:21:40 +0800 (CST)
-Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
-        by APP2 (Coremail) with SMTP id GxC2BwAHzlQALIxkAhhBAw--.16600S2;
-        Fri, 16 Jun 2023 10:31:55 +0100 (CET)
-Message-ID: <e213b58defcce0b49ee57cb27df591310eb09fd3.camel@huaweicloud.com>
-Subject: Re: [PATCH] fsverity: improve documentation for builtin signature
- support
-From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
-To:     Eric Biggers <ebiggers@kernel.org>,
-        Luca Boccassi <bluca@debian.org>
-Cc:     fsverity@lists.linux.dev, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>,
-        Alexander Larsson <alexl@redhat.com>,
-        Victor Hsieh <victorhsieh@google.com>
-Date:   Fri, 16 Jun 2023 11:31:38 +0200
-In-Reply-To: <20230616021707.GA87129@sol.localdomain>
-References: <20230615230537.30429-1-ebiggers@kernel.org>
-         <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
-         <20230616021707.GA87129@sol.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        with ESMTP id S1344887AbjFPKv5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 06:51:57 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E1BACAD08;
+        Fri, 16 Jun 2023 03:43:52 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A1F41FB;
+        Fri, 16 Jun 2023 03:44:01 -0700 (PDT)
+Received: from FVFF77S0Q05N (unknown [10.57.26.24])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7CCFF3F5A1;
+        Fri, 16 Jun 2023 03:43:15 -0700 (PDT)
+Date:   Fri, 16 Jun 2023 11:43:10 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Junhao He <hejunhao3@huawei.com>, will@kernel.org
+Cc:     jonathan.cameron@huawei.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linuxarm@huawei.com, yangyicong@huawei.com, shenyang39@huawei.com,
+        prime.zeng@hisilicon.com
+Subject: Re: [PATCH v5 1/3] drivers/perf: hisi: Add support for HiSilicon
+ H60PA and PAv3 PMU driver
+Message-ID: <ZIw8vvO/yJE6g0Ni@FVFF77S0Q05N>
+References: <20230615125926.29832-1-hejunhao3@huawei.com>
+ <20230615125926.29832-2-hejunhao3@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: GxC2BwAHzlQALIxkAhhBAw--.16600S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Wr17XFyxJF1rKFy7Ww1ftFb_yoW3ZF43pF
-        WSkF45Kwn5Jr18Arn2v3WI9rWFy3yrXw45Wrn8JrWFy3Z8urnFvr4I9F4rua98CrykGw4j
-        vrWaqFyq934DAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgKb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-        AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-        Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
-        6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
-        CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
-        0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr
-        1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
-        daVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAKBF1jj4rCAgACs1
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230615125926.29832-2-hejunhao3@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2023-06-15 at 19:17 -0700, Eric Biggers wrote:
-> Hi Luca,
+On Thu, Jun 15, 2023 at 08:59:24PM +0800, Junhao He wrote:
+> Compared to the original PA device, H60PA offers higher bandwidth.
+> The H60PA is a new device and we use HID to differentiate them.
 > 
-> On Fri, Jun 16, 2023 at 02:10:35AM +0100, Luca Boccassi wrote:
-> > On Fri, 16 Jun 2023 at 00:07, Eric Biggers <ebiggers@kernel.org> wrote:
-> > > From: Eric Biggers <ebiggers@google.com>
-> > > 
-> > > fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
-> > > the only way to do signatures with fsverity, and they have some major
-> > > limitations.  Yet, more users have tried to use them, e.g. recently by
-> > > https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
-> > > to be because users aren't sufficiently familiar with the limitations of
-> > > this feature and what the alternatives are.
-> > > 
-> > > Therefore, make some updates to the documentation to try to clarify the
-> > > properties of this feature and nudge users in the right direction.
-> > > 
-> > > Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
-> > > upstream, is planned to use the builtin signatures.  (This differs from
-> > > IMA, which uses its own signature mechanism.)  For that reason, my
-> > > earlier patch "fsverity: mark builtin signatures as deprecated"
-> > > (https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
-> > > which marked builtin signatures as "deprecated", was controversial.
-> > > 
-> > > This patch therefore stops short of marking the feature as deprecated.
-> > > I've also revised the language to focus on better explaining the feature
-> > > and what its alternatives are.
-> > > 
-> > > Signed-off-by: Eric Biggers <ebiggers@google.com>
-> > > ---
-> > > 
-> > > This patch applies to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
-> > > 
-> > >  Documentation/filesystems/fsverity.rst | 176 ++++++++++++++++---------
-> > >  fs/verity/Kconfig                      |  16 +--
-> > >  fs/verity/enable.c                     |   2 +-
-> > >  fs/verity/open.c                       |   8 +-
-> > >  fs/verity/read_metadata.c              |   4 +-
-> > >  fs/verity/signature.c                  |   8 ++
-> > >  6 files changed, 139 insertions(+), 75 deletions(-)
-> > > 
-> > > diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-> > > index ede672dedf110..e990149cfdf5c 100644
-> > > --- a/Documentation/filesystems/fsverity.rst
-> > > +++ b/Documentation/filesystems/fsverity.rst
-> > 
-> > Most of the patch looks fine, two notes:
-> > 
-> > > +- Trusted userspace code.  When the accesses to a file happen in a
-> > > +  well-defined way, userspace code can authenticate the file's
-> > > +  fs-verity digest before accessing the file.  This can be done by
-> > > +  verifying a signature of the fs-verity file digest using any
-> > > +  userspace cryptographic library that supports digital signatures.
-> > > +  Consider using `libsodium
-> > > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_
-> > > +  or `Tink <https://developers.google.com/tink/digitally-sign-data>`_.
-> > > +  Other options include OpenSSL, JCA, and libgcrypt.
-> > 
-> > This should at least mention something like "depending on whether the
-> > threat model allows trusting userspace with such tasks", because it is
-> > by no means guaranteed that it is the case.
+> The events supported by PAv3 and PAv2 are different. The PAv3 PMU
+> removed some events which are supported by PAv2 PMU. The older PA
+> PMU driver will probe v3 as v2. Therefore PA events displayed by
+> "perf list" cannot work properly. We add the HISI0275 HID for PAv3
+> PMU to distinguish different.
 > 
-> Sure, that's why it says "Trusted userspace code", but I can make it clearer.
+> For each H60PA PMU, except for the overflow interrupt register, other
+> functions of the H60PA PMU are the same as the original PA PMU module.
+> It has 8-programable counters and each counter is free-running.
+> Interrupt is supported to handle counter (64-bits) overflow.
 > 
-> > > +- fs-verity builtin signatures are in PKCS#7 format, and the public
-> > > +  keys are in X.509 format.  These data formats are complex and prone
-> > > +  to vulnerabilities, so parsing them is preferably done in userspace.
-> > > +  (fs-verity builtin signatures were made to use these formats because
-> > > +  other kernel subsystems, such as the module loader, unfortunately
-> > > +  used these formats already.)  Most cryptographic libraries also
-> > > +  support working with raw keys and signatures, which are much
-> > > +  simpler.  For example, consider using `libsodium
-> > > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_.
-> > > +
-> > > +  IMA appraisal, which supports fs-verity, does not use PKCS#7, so it
-> > > +  partially avoids this issue as well (though it does use X.509).
-> > 
-> > The kernel makes extensive use of PKCS7, it's the foundation of the
-> > trust chain with secure boot (and kernel modules as noted) after all,
-> > among other things, so this description looks very out of place as
-> > part of the same project. Readers might be led to believe that using
-> > secure boot or signed modules is useless, or worse, dangerous, and
-> > that it's better not to, and I'm quite sure that's not something we
-> > want.
-> > 
+> Signed-off-by: Junhao He <hejunhao3@huawei.com>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Reviewed-by: Yicong Yang <yangyicong@hisilicon.com>
+
+With the new HID and the struct hisi_pmu_dev_info, this looks much nicer!
+
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+Will, are you happy to pick this series? It all looks good to me.
+
+Thanks,
+Mark.
+
+> ---
+>  drivers/perf/hisilicon/hisi_uncore_pa_pmu.c | 127 +++++++++++++++++---
+>  drivers/perf/hisilicon/hisi_uncore_pmu.h    |   8 ++
+>  2 files changed, 120 insertions(+), 15 deletions(-)
 > 
-> Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
-> it is a good idea.  Have you read the kernel code that implements these formats?
-> A few years ago I went through some of it.  Here are some of the bugs I fixed:
+> diff --git a/drivers/perf/hisilicon/hisi_uncore_pa_pmu.c b/drivers/perf/hisilicon/hisi_uncore_pa_pmu.c
+> index 71b6687d6696..d941e746b424 100644
+> --- a/drivers/perf/hisilicon/hisi_uncore_pa_pmu.c
+> +++ b/drivers/perf/hisilicon/hisi_uncore_pa_pmu.c
+> @@ -22,9 +22,15 @@
+>  #define PA_TT_CTRL			0x1c08
+>  #define PA_TGTID_CTRL			0x1c14
+>  #define PA_SRCID_CTRL			0x1c18
+> +
+> +/* H32 PA interrupt registers */
+>  #define PA_INT_MASK			0x1c70
+>  #define PA_INT_STATUS			0x1c78
+>  #define PA_INT_CLEAR			0x1c7c
+> +
+> +#define H60PA_INT_STATUS		0x1c70
+> +#define H60PA_INT_MASK			0x1c74
+> +
+>  #define PA_EVENT_TYPE0			0x1c80
+>  #define PA_PMU_VERSION			0x1cf0
+>  #define PA_EVENT_CNT0_L			0x1d00
+> @@ -46,6 +52,12 @@ HISI_PMU_EVENT_ATTR_EXTRACTOR(srcid_cmd, config1, 32, 22);
+>  HISI_PMU_EVENT_ATTR_EXTRACTOR(srcid_msk, config1, 43, 33);
+>  HISI_PMU_EVENT_ATTR_EXTRACTOR(tracetag_en, config1, 44, 44);
+>  
+> +struct hisi_pa_pmu_int_regs {
+> +	u32 mask_offset;
+> +	u32 clear_offset;
+> +	u32 status_offset;
+> +};
+> +
+>  static void hisi_pa_pmu_enable_tracetag(struct perf_event *event)
+>  {
+>  	struct hisi_pmu *pa_pmu = to_hisi_pmu(event->pmu);
+> @@ -219,40 +231,40 @@ static void hisi_pa_pmu_disable_counter(struct hisi_pmu *pa_pmu,
+>  static void hisi_pa_pmu_enable_counter_int(struct hisi_pmu *pa_pmu,
+>  					   struct hw_perf_event *hwc)
+>  {
+> +	struct hisi_pa_pmu_int_regs *regs = pa_pmu->dev_info->private;
+>  	u32 val;
+>  
+>  	/* Write 0 to enable interrupt */
+> -	val = readl(pa_pmu->base + PA_INT_MASK);
+> +	val = readl(pa_pmu->base + regs->mask_offset);
+>  	val &= ~(1 << hwc->idx);
+> -	writel(val, pa_pmu->base + PA_INT_MASK);
+> +	writel(val, pa_pmu->base + regs->mask_offset);
+>  }
+>  
+>  static void hisi_pa_pmu_disable_counter_int(struct hisi_pmu *pa_pmu,
+>  					    struct hw_perf_event *hwc)
+>  {
+> +	struct hisi_pa_pmu_int_regs *regs = pa_pmu->dev_info->private;
+>  	u32 val;
+>  
+>  	/* Write 1 to mask interrupt */
+> -	val = readl(pa_pmu->base + PA_INT_MASK);
+> +	val = readl(pa_pmu->base + regs->mask_offset);
+>  	val |= 1 << hwc->idx;
+> -	writel(val, pa_pmu->base + PA_INT_MASK);
+> +	writel(val, pa_pmu->base + regs->mask_offset);
+>  }
+>  
+>  static u32 hisi_pa_pmu_get_int_status(struct hisi_pmu *pa_pmu)
+>  {
+> -	return readl(pa_pmu->base + PA_INT_STATUS);
+> +	struct hisi_pa_pmu_int_regs *regs = pa_pmu->dev_info->private;
+> +
+> +	return readl(pa_pmu->base + regs->status_offset);
+>  }
+>  
+>  static void hisi_pa_pmu_clear_int_status(struct hisi_pmu *pa_pmu, int idx)
+>  {
+> -	writel(1 << idx, pa_pmu->base + PA_INT_CLEAR);
+> -}
+> +	struct hisi_pa_pmu_int_regs *regs = pa_pmu->dev_info->private;
+>  
+> -static const struct acpi_device_id hisi_pa_pmu_acpi_match[] = {
+> -	{ "HISI0273", },
+> -	{}
+> -};
+> -MODULE_DEVICE_TABLE(acpi, hisi_pa_pmu_acpi_match);
+> +	writel(1 << idx, pa_pmu->base + regs->clear_offset);
+> +}
+>  
+>  static int hisi_pa_pmu_init_data(struct platform_device *pdev,
+>  				   struct hisi_pmu *pa_pmu)
+> @@ -276,6 +288,10 @@ static int hisi_pa_pmu_init_data(struct platform_device *pdev,
+>  	pa_pmu->ccl_id = -1;
+>  	pa_pmu->sccl_id = -1;
+>  
+> +	pa_pmu->dev_info = device_get_match_data(&pdev->dev);
+> +	if (!pa_pmu->dev_info)
+> +		return -ENODEV;
+> +
+>  	pa_pmu->base = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(pa_pmu->base)) {
+>  		dev_err(&pdev->dev, "ioremap failed for pa_pmu resource.\n");
+> @@ -314,6 +330,32 @@ static const struct attribute_group hisi_pa_pmu_v2_events_group = {
+>  	.attrs = hisi_pa_pmu_v2_events_attr,
+>  };
+>  
+> +static struct attribute *hisi_pa_pmu_v3_events_attr[] = {
+> +	HISI_PMU_EVENT_ATTR(tx_req,	0x0),
+> +	HISI_PMU_EVENT_ATTR(tx_dat,	0x1),
+> +	HISI_PMU_EVENT_ATTR(tx_snp,	0x2),
+> +	HISI_PMU_EVENT_ATTR(rx_req,	0x7),
+> +	HISI_PMU_EVENT_ATTR(rx_dat,	0x8),
+> +	HISI_PMU_EVENT_ATTR(rx_snp,	0x9),
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group hisi_pa_pmu_v3_events_group = {
+> +	.name = "events",
+> +	.attrs = hisi_pa_pmu_v3_events_attr,
+> +};
+> +
+> +static struct attribute *hisi_h60pa_pmu_events_attr[] = {
+> +	HISI_PMU_EVENT_ATTR(rx_flit,	0x50),
+> +	HISI_PMU_EVENT_ATTR(tx_flit,	0x65),
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group hisi_h60pa_pmu_events_group = {
+> +	.name = "events",
+> +	.attrs = hisi_h60pa_pmu_events_attr,
+> +};
+> +
+>  static DEVICE_ATTR(cpumask, 0444, hisi_cpumask_sysfs_show, NULL);
+>  
+>  static struct attribute *hisi_pa_pmu_cpumask_attrs[] = {
+> @@ -337,6 +379,12 @@ static const struct attribute_group hisi_pa_pmu_identifier_group = {
+>  	.attrs = hisi_pa_pmu_identifier_attrs,
+>  };
+>  
+> +static struct hisi_pa_pmu_int_regs hisi_pa_pmu_regs = {
+> +	.mask_offset = PA_INT_MASK,
+> +	.clear_offset = PA_INT_CLEAR,
+> +	.status_offset = PA_INT_STATUS,
+> +};
+> +
+>  static const struct attribute_group *hisi_pa_pmu_v2_attr_groups[] = {
+>  	&hisi_pa_pmu_v2_format_group,
+>  	&hisi_pa_pmu_v2_events_group,
+> @@ -345,6 +393,46 @@ static const struct attribute_group *hisi_pa_pmu_v2_attr_groups[] = {
+>  	NULL
+>  };
+>  
+> +static const struct hisi_pmu_dev_info hisi_h32pa_v2 = {
+> +	.name = "pa",
+> +	.attr_groups = hisi_pa_pmu_v2_attr_groups,
+> +	.private = &hisi_pa_pmu_regs,
+> +};
+> +
+> +static const struct attribute_group *hisi_pa_pmu_v3_attr_groups[] = {
+> +	&hisi_pa_pmu_v2_format_group,
+> +	&hisi_pa_pmu_v3_events_group,
+> +	&hisi_pa_pmu_cpumask_attr_group,
+> +	&hisi_pa_pmu_identifier_group,
+> +	NULL
+> +};
+> +
+> +static const struct hisi_pmu_dev_info hisi_h32pa_v3 = {
+> +	.name = "pa",
+> +	.attr_groups = hisi_pa_pmu_v3_attr_groups,
+> +	.private = &hisi_pa_pmu_regs,
+> +};
+> +
+> +static struct hisi_pa_pmu_int_regs hisi_h60pa_pmu_regs = {
+> +	.mask_offset = H60PA_INT_MASK,
+> +	.clear_offset = H60PA_INT_STATUS, /* Clear on write */
+> +	.status_offset = H60PA_INT_STATUS,
+> +};
+> +
+> +static const struct attribute_group *hisi_h60pa_pmu_attr_groups[] = {
+> +	&hisi_pa_pmu_v2_format_group,
+> +	&hisi_h60pa_pmu_events_group,
+> +	&hisi_pa_pmu_cpumask_attr_group,
+> +	&hisi_pa_pmu_identifier_group,
+> +	NULL
+> +};
+> +
+> +static const struct hisi_pmu_dev_info hisi_h60pa = {
+> +	.name = "h60pa",
+> +	.attr_groups = hisi_h60pa_pmu_attr_groups,
+> +	.private = &hisi_h60pa_pmu_regs,
+> +};
+> +
+>  static const struct hisi_uncore_ops hisi_uncore_pa_ops = {
+>  	.write_evtype		= hisi_pa_pmu_write_evtype,
+>  	.get_event_idx		= hisi_uncore_pmu_get_event_idx,
+> @@ -375,7 +463,7 @@ static int hisi_pa_pmu_dev_probe(struct platform_device *pdev,
+>  	if (ret)
+>  		return ret;
+>  
+> -	pa_pmu->pmu_events.attr_groups = hisi_pa_pmu_v2_attr_groups;
+> +	pa_pmu->pmu_events.attr_groups = pa_pmu->dev_info->attr_groups;
+>  	pa_pmu->num_counters = PA_NR_COUNTERS;
+>  	pa_pmu->ops = &hisi_uncore_pa_ops;
+>  	pa_pmu->check_event = 0xB0;
+> @@ -400,8 +488,9 @@ static int hisi_pa_pmu_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "hisi_sicl%u_pa%u",
+> -			      pa_pmu->sicl_id, pa_pmu->index_id);
+> +	name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "hisi_sicl%d_%s%u",
+> +			      pa_pmu->sicl_id, pa_pmu->dev_info->name,
+> +			      pa_pmu->index_id);
+>  	if (!name)
+>  		return -ENOMEM;
+>  
+> @@ -435,6 +524,14 @@ static int hisi_pa_pmu_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct acpi_device_id hisi_pa_pmu_acpi_match[] = {
+> +	{ "HISI0273", (kernel_ulong_t)&hisi_h32pa_v2 },
+> +	{ "HISI0275", (kernel_ulong_t)&hisi_h32pa_v3 },
+> +	{ "HISI0274", (kernel_ulong_t)&hisi_h60pa },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(acpi, hisi_pa_pmu_acpi_match);
+> +
+>  static struct platform_driver hisi_pa_pmu_driver = {
+>  	.driver = {
+>  		.name = "hisi_pa_pmu",
+> diff --git a/drivers/perf/hisilicon/hisi_uncore_pmu.h b/drivers/perf/hisilicon/hisi_uncore_pmu.h
+> index 07890a8e96ca..772857b99dc5 100644
+> --- a/drivers/perf/hisilicon/hisi_uncore_pmu.h
+> +++ b/drivers/perf/hisilicon/hisi_uncore_pmu.h
+> @@ -62,6 +62,13 @@ struct hisi_uncore_ops {
+>  	void (*disable_filter)(struct perf_event *event);
+>  };
+>  
+> +/* Describes the HISI PMU chip features information */
+> +struct hisi_pmu_dev_info {
+> +	const char *name;
+> +	const struct attribute_group **attr_groups;
+> +	void *private;
+> +};
+> +
+>  struct hisi_pmu_hwevents {
+>  	struct perf_event *hw_events[HISI_MAX_COUNTERS];
+>  	DECLARE_BITMAP(used_mask, HISI_MAX_COUNTERS);
+> @@ -72,6 +79,7 @@ struct hisi_pmu_hwevents {
+>  struct hisi_pmu {
+>  	struct pmu pmu;
+>  	const struct hisi_uncore_ops *ops;
+> +	const struct hisi_pmu_dev_info *dev_info;
+>  	struct hisi_pmu_hwevents pmu_events;
+>  	/* associated_cpus: All CPUs associated with the PMU */
+>  	cpumask_t associated_cpus;
+> -- 
+> 2.33.0
 > 
->     2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
->     624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
->     e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
->     81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
->     0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
->     54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
->     971b42c038dc ("PKCS#7: fix certificate chain verification")
->     29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
->     437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
->     4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig") 
-> 
-> 971b42c038dc is noteworthy; it turned out the kernel did not properly verify
-> certificate chains in PKCS#7 messages.  That was fundamentally a PKCS#7-specific
-> security bug that was directly caused by the complexity that is specific to
-> PKCS#7.  Simple signatures do not have certificate chains.
-> 
-> I hope the code is in slightly better shape now.  But I really haven't looked at
-> it in several years.  In any case, the fact is that these formats are complex,
-> which causes bugs.  I don't think we should be trying to pretend otherwise.
-
-That is a quite extensive explanation why is not a good idea to parse
-key/certificates in the kernel.
-
-Actually, I tried to address that with this patch set:
-
-https://lore.kernel.org/linux-kernel//20230425173557.724688-1-roberto.sassu@huaweicloud.com/
-
-The idea was to develop an asymmetric key parser to forward the key
-material from the kernel to a user space process for parsing, and get
-back a well formatted key (basically the same fields of struct
-public_key).
-
-Maybe that would not work for X.509 certificates, as they are
-extensively used in kernel code, but for simpler formats like PGP,
-maybe. And the mechanism is interchangeable. If you want to support
-another key format, you need to change only user space.
-
-The challenge is if the user space process makes some security
-decisions, like for key expiration, etc. I thought that we could
-enforce strong isolation of that process by denying ptrace on it, but
-it is still work in progress...
-
-Roberto
-
-> As for under what circumstances these risks are worth taking anyway, it's an
-> interesting question.  Part of my concern is actually about people who don't
-> actually use any of these integrity/authenticity oriented kernel features at
-> all.  They are getting no benefit from them, and we don't want to create
-> problems for them.  But, by CONFIG_FS_VERITY_BUILTIN_SIGNATURES being in their
-> kernel config, their system is potentially opened up to exploits by
-> FS_IOC_ENABLE_VERITY(malicious_pkcs7_signature).  Or just by
-> CONFIG_X509_CERTIFICATE_PARSER being in their kernel config, their system is
-> potentially opened up to exploits by sys_add_key(malicious_X509_certificate).
-> They could eliminate this risk by disabling these kernel config options.
-> 
-> So I think that mentioning the risks of processing these data formats in the
-> kernel is useful.  Though it maybe should be made clear that attack surface
-> mainly comes from these features being configured into the kernel, not whether
-> they're actually being used.
-> 
-> - Eric
-
