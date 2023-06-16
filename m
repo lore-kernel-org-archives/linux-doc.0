@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F437EB64DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 501C5EB64DB
 	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 19:21:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346213AbjFPTVk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 15:21:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50274 "EHLO
+        id S1345397AbjFPTVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 15:21:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345460AbjFPTVY (ORCPT
+        with ESMTP id S1345417AbjFPTVY (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 15:21:24 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882C7525C;
-        Fri, 16 Jun 2023 12:19:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 515235256;
+        Fri, 16 Jun 2023 12:19:07 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 17DCE63E91;
-        Fri, 16 Jun 2023 19:17:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00E20C433C0;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5B83E637D2;
+        Fri, 16 Jun 2023 19:17:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36B0FC433C8;
         Fri, 16 Jun 2023 19:17:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686943069;
-        bh=LvC4YT4/e0KgspEdK+7PadxzOaV+ZKDN40FmhrIY1TE=;
+        s=k20201202; t=1686943068;
+        bh=l86JWMdvVZwYcsvalUMuaAJbJetoG2ebBMyTen7o1Uk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pjRyPXBjPdmD/CCyo3c/TOJEl8Pc/wVwxfP/HY+a9sa6wUtE1ECgVtVOC0x4Dm/EZ
-         /FBoIRXKO64a0/wO29ZO4g1VWHNl4FtGc08wRZkiCOXa9vgfri7swZffPkGk1mlY4s
-         2bzaL1IeFZdWGH2AtwoG651fSafZC15/aa/H/OTI90JKO07q82eEgVXnqkwvIMkwyx
-         /n8msXEZh2z8+ptNjDMD5vJQRYUOEhjW93jFNuQbPZ9asQRgRXDBuSXDo5EaQsSGQ4
-         l2v9YABAJtr+MjpYWV0t4y8pIOqxzmot/AkRtdU2KHUxTWA3rIuQEx092Tlf8UZpY4
-         nRF+N3RE8K5Ww==
+        b=Qr2d0sNYjVXHU2h2cqGjllyRexevn0t+autu/4Fqlk1gSHpY9elRfUlnnfCb22CC/
+         RK82KqUj8pDaUCmh8ryWEwzBGIbYN/6c2k397K0rPqsiIJVrhl8bRsXwM+Q78JRv7U
+         269xagijYdqtqDx/F8VEPtQGJpO3G9VdcRPTHE7by+L7mas3ZcuFDLHQ/99JVsSxyz
+         1Kn6h1liPOopyFtjUysuO9LFXG0UUSTxBzLoEt+If/QMY8avmU1cTkUNdeHFmSfZeS
+         EpLAqipTwBQROZWN92bRjNy+hxtQe1Alu/SJN9XXXeudr8b93h5JkbgExk1uMLmDFB
+         MjbTIMb3ILl1g==
 From:   SeongJae Park <sj@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         damon@lists.linux.dev, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/7] Docs/admin-guide/mm/damon/start: update DAMOS example command
-Date:   Fri, 16 Jun 2023 19:17:37 +0000
-Message-Id: <20230616191742.87531-3-sj@kernel.org>
+Subject: [PATCH 1/7] Docs/mm/damon/design: document 'age' of region
+Date:   Fri, 16 Jun 2023 19:17:36 +0000
+Message-Id: <20230616191742.87531-2-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230616191742.87531-1-sj@kernel.org>
 References: <20230616191742.87531-1-sj@kernel.org>
@@ -49,37 +49,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DAMON user-space tool, damo, has deprecated[1] its old DAMOS schemes
-specification format.  However, an example of DAMON documentation is
-still using it.  Update the example to use one of the alternative
-options.
-
-[1] https://github.com/awslabs/damo/commit/e9950ae68f6c
+The 'age' of each region in DAMON monitoring results is an important
+concept for both monitoring part and DAMOS.  And DAMOS section of the
+design document is mentioning it.  However, the age itself is not
+explained in the document.  Add a section for that.
 
 Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- Documentation/admin-guide/mm/damon/start.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ Documentation/mm/damon/design.rst | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
-index 9f88afc734da..7aa0071ff1c3 100644
---- a/Documentation/admin-guide/mm/damon/start.rst
-+++ b/Documentation/admin-guide/mm/damon/start.rst
-@@ -119,9 +119,9 @@ set size has chronologically changed.::
- Data Access Pattern Aware Memory Management
- ===========================================
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index da110e89cab4..a98af99bb705 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -190,6 +190,20 @@ In this way, DAMON provides its best-effort quality and minimal overhead while
+ keeping the bounds users set for their trade-off.
  
--Below three commands make every memory region of size >=4K that doesn't
--accessed for >=60 seconds in your workload to be swapped out. ::
-+Below command makes every memory region of size >=4K that has not accessed for
-+>=60 seconds in your workload to be swapped out. ::
  
--    $ echo "#min-size max-size min-acc max-acc min-age max-age action" > test_scheme
--    $ echo "4K        max      0       0       60s     max     pageout" >> test_scheme
--    $ damo schemes -c test_scheme <pid of your workload>
-+    $ sudo damo schemes --damos_access_rate 0 0 --damos_sz_region 4K max \
-+                        --damos_age 60s max --damos_action pageout \
-+                        <pid of your workload>
++Age Tracking
++~~~~~~~~~~~~
++
++By analyzing the monitoring results, users can also find how long the current
++access pattern of a region has maintained.  That could be used for good
++understanding of the access pattern.  For example, page placement algorithm
++utilizing both the frequency and the recency could be implemented using that.
++To make such access pattern maintained period analysis easier, DAMON maintains
++yet another counter called ``age`` in each region.  For each ``aggregation
++interval``, DAMON checks if the region's size and access frequency
++(``nr_accesses``) has significantly changed.  If so, the counter is reset to
++zero.  Otherwise, the counter is increased.
++
++
+ Dynamic Target Space Updates Handling
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
 -- 
 2.25.1
 
