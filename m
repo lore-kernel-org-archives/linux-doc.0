@@ -2,143 +2,206 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FA5DEB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 01:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50646EB64DB
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 01:45:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230099AbjFPBKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 21:10:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51208 "EHLO
+        id S233641AbjFPBpb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Jun 2023 21:45:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229991AbjFPBKu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 21:10:50 -0400
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DA381FE2;
-        Thu, 15 Jun 2023 18:10:48 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-bc4e41b7bc9so98401276.2;
-        Thu, 15 Jun 2023 18:10:48 -0700 (PDT)
+        with ESMTP id S232317AbjFPBp2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 21:45:28 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD132D56
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 18:45:25 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9741caaf9d4so16666766b.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jun 2023 18:45:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686879923; x=1689471923;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TTYhjgjxFSXf3VV7TigycNG8AweXhCpfWjk/TzQLXHc=;
+        b=S3sEkwkMSll1Qn9sm5LHOkOGyqa9IWwEh1o6Y2R2ElKB5bZkFZpm65z7B/tJRybHER
+         yTY2PIEZH0eR3Po6ZzHc16OeGyVIkYmwtCdXTjriszEjXtNBantUF2Ozi0mpVcPOGbQR
+         VgvxxP+s36cJ6ooAMxS1X3+6p3goyhZP/H5vJrbNfsyKpR2M7tBc+v8IN6GtYfyfbbta
+         ICo8LaY+2xcwDkL7DVIETr6Y4ilhpY6Yewxp7bD4HTMOHcQrYq25VgUL9Z1BeZ7c2lQW
+         a+FSy7QJEBUbtpKMDq5KKPiz2RtmaJRgAFtsxBoSZ+nKhq+XI8wXK4yAB4bxQZC1j+qn
+         v45Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686877847; x=1689469847;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sfbNROs6Pgx0jh/QUciGEinEqOd0nb4vq/TV0kvqbQo=;
-        b=gTK8Cv6eFtbLgE/zfUwBjmGBzANbNJnULQkjdZsqzXJErvHwD1mwEfqfSaWX5gFv6Y
-         ejpixWdCKuqznhLc3HsDHGPPOBhRnSRZXltJ4VPvwSPYAbuqfraKVCVtWDH374ZR6bst
-         VRF21Cto11sjMNZ8DTHPChL9KDGaOahwjpln26jZK+SuwjfECyQvGkvaez09Cy9va0qm
-         IcifmMFSQbD2Am1mzrwTLTcrb0eJKf3mjO5CchRm/d9jab8OTDYJrgoKNIHuopzvi7CN
-         Bpvi0VwR0XjqfaYCoFrHk3KE190hff4PB4JK7m5/HikX62kWNCqv/Gs2/ATVNTSlXHxT
-         c5cQ==
-X-Gm-Message-State: AC+VfDxfHAaAkHA2gwko8y3FWWLOrxcpHFpEwIXBLSMsAoG+4x9yl0Jh
-        8PbZ3F7OK+Hcjqe8tH7rgNQfbHbxEJBvNuFU
-X-Google-Smtp-Source: ACHHUZ7wlaqhzDPGMQG3IuZzoJKV5t+NBTLjV00lzeEt9HEbmQBwstS0wmZiS8zX+OaZk0O5J5rHng==
-X-Received: by 2002:a25:c0c7:0:b0:ba8:6530:d561 with SMTP id c190-20020a25c0c7000000b00ba86530d561mr446899ybf.30.1686877847158;
-        Thu, 15 Jun 2023 18:10:47 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id l23-20020a25b317000000b00bc9588e9a05sm2580768ybj.37.2023.06.15.18.10.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jun 2023 18:10:46 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5700b15c12fso2790737b3.1;
-        Thu, 15 Jun 2023 18:10:46 -0700 (PDT)
-X-Received: by 2002:a0d:d5d5:0:b0:56d:4d7:4a45 with SMTP id
- x204-20020a0dd5d5000000b0056d04d74a45mr304478ywd.52.1686877846182; Thu, 15
- Jun 2023 18:10:46 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686879923; x=1689471923;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TTYhjgjxFSXf3VV7TigycNG8AweXhCpfWjk/TzQLXHc=;
+        b=ROTJRjvVHur4PwNXnvHvZba0SJtrGQlgPsfccdbN3r4tHQrSz++yoMyKC2I3+hzpLT
+         0YgwuNBwyRrpHGYGkod5Y+RFgAU13gCZGZkP7BADA4lK5oVEyDkk8f0uijceDXWBdZlX
+         3mCoIC8jOMwA+JCTcMW5x/tjSz2CW/VsN1CfO8sX15b6gSM9WuhTZuu84h3uvWUhQUis
+         q0TNlyyaOljV+Rz9n282KSj1YiCOJ/rZQK2BiUUDP8LNbrCWcK8L+ITeqwCv+iXrM9KE
+         KvNqvi/csEfRbLjAsVzHbT2CFxRuahE4eJxyzX57cBPVQLhwCa8dv1rl6ppJSDum3/64
+         bJHg==
+X-Gm-Message-State: AC+VfDx/ASl0uIZoYR/npqw2E53ovlhpr5XFrEl8fwqT9fqFOtAWFelJ
+        HBkRHKC7fEKsQoN6HkrOxoL8gsj2kKkoQa11nQnp0Q==
+X-Google-Smtp-Source: ACHHUZ76cAdEZK0llouR54CbD1icf6/E/UdAzOAQRemvApKZ4TRkyjsCJnLxVEcQpOzKFdNMdqwzNpJQNZ132gn3wXY=
+X-Received: by 2002:a17:906:730d:b0:974:b15:fcd9 with SMTP id
+ di13-20020a170906730d00b009740b15fcd9mr615087ejc.53.1686879923492; Thu, 15
+ Jun 2023 18:45:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230615230537.30429-1-ebiggers@kernel.org>
-In-Reply-To: <20230615230537.30429-1-ebiggers@kernel.org>
-From:   Luca Boccassi <bluca@debian.org>
-Date:   Fri, 16 Jun 2023 02:10:35 +0100
-X-Gmail-Original-Message-ID: <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
-Message-ID: <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
-Subject: Re: [PATCH] fsverity: improve documentation for builtin signature support
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     fsverity@lists.linux.dev, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>,
-        Alexander Larsson <alexl@redhat.com>,
-        Victor Hsieh <victorhsieh@google.com>
+References: <ZFd5bpfYc3nPEVie@dhcp22.suse.cz> <66F9BB37-3BE1-4B0F-8DE1-97085AF4BED2@didiglobal.com>
+ <ZFkEqhAs7FELUO3a@dhcp22.suse.cz> <CAJD7tkaw_7vYACsyzAtY9L0ZVC0B=XJEWgG=Ad_dOtL_pBDDvQ@mail.gmail.com>
+ <ZIgodGWoC/R07eak@dhcp22.suse.cz> <CAJD7tkawYZAWKYgttgtPjscnZTARj+QaGZLGiMiSadwC3oCELQ@mail.gmail.com>
+ <ZIhb1EwvrdKXpEMb@dhcp22.suse.cz> <CAJD7tka-w8-0G5hjr8MRAue0wct0UPh4-BrPEGkOa1eUycz5mQ@mail.gmail.com>
+ <ZIrqYX9olxbZJML2@dhcp22.suse.cz>
+In-Reply-To: <ZIrqYX9olxbZJML2@dhcp22.suse.cz>
+From:   Yosry Ahmed <yosryahmed@google.com>
+Date:   Thu, 15 Jun 2023 18:44:46 -0700
+Message-ID: <CAJD7tkYtJcC6zYqy5vWeaB=1Rv16gY=q+OG7vF_Oc=DmVk24GA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] memcontrol: support cgroup level OOM protection
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     =?UTF-8?B?56iL5Z6y5rabIENoZW5na2FpdGFvIENoZW5n?= 
+        <chengkaitao@didiglobal.com>, "tj@kernel.org" <tj@kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "roman.gushchin@linux.dev" <roman.gushchin@linux.dev>,
+        "shakeelb@google.com" <shakeelb@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "muchun.song@linux.dev" <muchun.song@linux.dev>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+        "pilgrimtao@gmail.com" <pilgrimtao@gmail.com>,
+        "haolee.swjtu@gmail.com" <haolee.swjtu@gmail.com>,
+        "yuzhao@google.com" <yuzhao@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "vasily.averin@linux.dev" <vasily.averin@linux.dev>,
+        "vbabka@suse.cz" <vbabka@suse.cz>,
+        "surenb@google.com" <surenb@google.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "sujiaxun@uniontech.com" <sujiaxun@uniontech.com>,
+        "feng.tang@intel.com" <feng.tang@intel.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        David Rientjes <rientjes@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 16 Jun 2023 at 00:07, Eric Biggers <ebiggers@kernel.org> wrote:
+On Thu, Jun 15, 2023 at 3:39=E2=80=AFAM Michal Hocko <mhocko@suse.com> wrot=
+e:
 >
-> From: Eric Biggers <ebiggers@google.com>
+> On Tue 13-06-23 13:24:24, Yosry Ahmed wrote:
+> > On Tue, Jun 13, 2023 at 5:06=E2=80=AFAM Michal Hocko <mhocko@suse.com> =
+wrote:
+> > >
+> > > On Tue 13-06-23 01:36:51, Yosry Ahmed wrote:
+> > > > +David Rientjes
+> > > >
+> > > > On Tue, Jun 13, 2023 at 1:27=E2=80=AFAM Michal Hocko <mhocko@suse.c=
+om> wrote:
+> > > > >
+> > > > > On Sun 04-06-23 01:25:42, Yosry Ahmed wrote:
+> > > > > [...]
+> > > > > > There has been a parallel discussion in the cover letter thread=
+ of v4
+> > > > > > [1]. To summarize, at Google, we have been using OOM scores to
+> > > > > > describe different job priorities in a more explicit way -- reg=
+ardless
+> > > > > > of memory usage. It is strictly priority-based OOM killing. Tie=
+s are
+> > > > > > broken based on memory usage.
+> > > > > >
+> > > > > > We understand that something like memory.oom.protect has an adv=
+antage
+> > > > > > in the sense that you can skip killing a process if you know th=
+at it
+> > > > > > won't free enough memory anyway, but for an environment where m=
+ultiple
+> > > > > > jobs of different priorities are running, we find it crucial to=
+ be
+> > > > > > able to define strict ordering. Some jobs are simply more impor=
+tant
+> > > > > > than others, regardless of their memory usage.
+> > > > >
+> > > > > I do remember that discussion. I am not a great fan of simple pri=
+ority
+> > > > > based interfaces TBH. It sounds as an easy interface but it hits
+> > > > > complications as soon as you try to define a proper/sensible
+> > > > > hierarchical semantic. I can see how they might work on leaf memc=
+gs with
+> > > > > statically assigned priorities but that sounds like a very narrow
+> > > > > usecase IMHO.
+> > > >
+> > > > Do you mind elaborating the problem with the hierarchical semantics=
+?
+> > >
+> > > Well, let me be more specific. If you have a simple hierarchical nume=
+ric
+> > > enforcement (assume higher priority more likely to be chosen and the
+> > > effective priority to be max(self, max(parents)) then the semantic
+> > > itslef is straightforward.
+> > >
+> > > I am not really sure about the practical manageability though. I have
+> > > hard time to imagine priority assignment on something like a shared
+> > > workload with a more complex hierarchy. For example:
+> > >             root
+> > >         /    |    \
+> > > cont_A    cont_B  cont_C
+> > >
+> > > each container running its workload with own hierarchy structures tha=
+t
+> > > might be rather dynamic during the lifetime. In order to have a
+> > > predictable OOM behavior you need to watch and reassign priorities al=
+l
+> > > the time, no?
+> >
+> > In our case we don't really manage the entire hierarchy in a
+> > centralized fashion. Each container gets a score based on their
+> > relative priority, and each container is free to set scores within its
+> > subcontainers if needed. Isn't this what the hierarchy is all about?
+> > Each parent only cares about its direct children. On the system level,
+> > we care about the priority ordering of containers. Ordering within
+> > containers can be deferred to containers.
 >
-> fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
-> the only way to do signatures with fsverity, and they have some major
-> limitations.  Yet, more users have tried to use them, e.g. recently by
-> https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
-> to be because users aren't sufficiently familiar with the limitations of
-> this feature and what the alternatives are.
->
-> Therefore, make some updates to the documentation to try to clarify the
-> properties of this feature and nudge users in the right direction.
->
-> Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
-> upstream, is planned to use the builtin signatures.  (This differs from
-> IMA, which uses its own signature mechanism.)  For that reason, my
-> earlier patch "fsverity: mark builtin signatures as deprecated"
-> (https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
-> which marked builtin signatures as "deprecated", was controversial.
->
-> This patch therefore stops short of marking the feature as deprecated.
-> I've also revised the language to focus on better explaining the feature
-> and what its alternatives are.
->
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
-> ---
->
-> This patch applies to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
->
->  Documentation/filesystems/fsverity.rst | 176 ++++++++++++++++---------
->  fs/verity/Kconfig                      |  16 +--
->  fs/verity/enable.c                     |   2 +-
->  fs/verity/open.c                       |   8 +-
->  fs/verity/read_metadata.c              |   4 +-
->  fs/verity/signature.c                  |   8 ++
->  6 files changed, 139 insertions(+), 75 deletions(-)
->
-> diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-> index ede672dedf110..e990149cfdf5c 100644
-> --- a/Documentation/filesystems/fsverity.rst
-> +++ b/Documentation/filesystems/fsverity.rst
+> This really depends on the workload. This might be working for your
+> setup but as I've said above, many workloads would be struggling with
+> re-prioritizing as soon as a new workload is started and oom priorities
+> would need to be reorganized as a result. The setup is just too static
+> to be generally useful IMHO.
+> You can avoid that by essentially making mid-layers no priority and only
+> rely on leaf memcgs when this would become more flexible. This is
+> something even more complicated with the top-down approach.
 
-Most of the patch looks fine, two notes:
+I agree that other setups may find it more difficult if one entity
+needs to manage the entire tree, although if the scores range is large
+enough, I don't really think it's that static. When a new workload is
+started you decide what its priority is compared to the existing
+workloads and set its score as such. We use a range of scores from 0
+to 10,000 (and it can easily be larger), so it's easy to assign new
+scores without reorganizing the existing scores.
 
-> +- Trusted userspace code.  When the accesses to a file happen in a
-> +  well-defined way, userspace code can authenticate the file's
-> +  fs-verity digest before accessing the file.  This can be done by
-> +  verifying a signature of the fs-verity file digest using any
-> +  userspace cryptographic library that supports digital signatures.
-> +  Consider using `libsodium
-> +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_
-> +  or `Tink <https://developers.google.com/tink/digitally-sign-data>`_.
-> +  Other options include OpenSSL, JCA, and libgcrypt.
+>
+> That being said, I can see workloads which could benefit from a
+> priority (essentially user spaced controlled oom pre-selection) based
+> policy. But there are many other policies like that that would be
+> usecase specific and not generic enough so I do not think this is worth
+> a generic interface and would fall into BPF or alike based policies.
 
-This should at least mention something like "depending on whether the
-threat model allows trusting userspace with such tasks", because it is
-by no means guaranteed that it is the case.
+That's reasonable. I can't speak for other folks. Perhaps no single
+policy will be generic enough, and we should focus on enabling
+customized policy. Perhaps other userspace OOM agents can benefit from
+this as well.
 
-> +- fs-verity builtin signatures are in PKCS#7 format, and the public
-> +  keys are in X.509 format.  These data formats are complex and prone
-> +  to vulnerabilities, so parsing them is preferably done in userspace.
-> +  (fs-verity builtin signatures were made to use these formats because
-> +  other kernel subsystems, such as the module loader, unfortunately
-> +  used these formats already.)  Most cryptographic libraries also
-> +  support working with raw keys and signatures, which are much
-> +  simpler.  For example, consider using `libsodium
-> +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_.
-> +
-> +  IMA appraisal, which supports fs-verity, does not use PKCS#7, so it
-> +  partially avoids this issue as well (though it does use X.509).
-
-The kernel makes extensive use of PKCS7, it's the foundation of the
-trust chain with secure boot (and kernel modules as noted) after all,
-among other things, so this description looks very out of place as
-part of the same project. Readers might be led to believe that using
-secure boot or signed modules is useless, or worse, dangerous, and
-that it's better not to, and I'm quite sure that's not something we
-want.
-
-Kind regards,
-Luca Boccassi
+>
+> --
+> Michal Hocko
+> SUSE Labs
