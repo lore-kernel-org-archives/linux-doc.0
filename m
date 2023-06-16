@@ -2,85 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70465EB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 16:56:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 234A8EB64D8
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 17:46:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346018AbjFPQ4R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 12:56:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38544 "EHLO
+        id S1344112AbjFPRqq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 13:46:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345736AbjFPQ4D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 12:56:03 -0400
-Received: from cavan.codon.org.uk (cavan.codon.org.uk [176.126.240.207])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D573590;
-        Fri, 16 Jun 2023 09:54:25 -0700 (PDT)
-Received: by cavan.codon.org.uk (Postfix, from userid 1000)
-        id 5E29440A72; Fri, 16 Jun 2023 17:54:15 +0100 (BST)
-Date:   Fri, 16 Jun 2023 17:54:15 +0100
-From:   Matthew Garrett <mjg59@srcf.ucam.org>
-To:     "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Cc:     Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        ardb@kernel.org, James.Bottomley@hansenpartnership.com,
-        luto@amacapital.net, nivedita@alum.mit.edu,
-        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v6 02/14] Documentation/x86: Secure Launch kernel
- documentation
-Message-ID: <20230616165415.GA28537@srcf.ucam.org>
-References: <20230504145023.835096-1-ross.philipson@oracle.com>
- <20230504145023.835096-3-ross.philipson@oracle.com>
- <20230512104753.GA14461@srcf.ucam.org>
- <e7dcb85b-25bb-8d5a-3758-e4243bc6ffec@apertussolutions.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e7dcb85b-25bb-8d5a-3758-e4243bc6ffec@apertussolutions.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        with ESMTP id S229471AbjFPRqp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 13:46:45 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B73722D50;
+        Fri, 16 Jun 2023 10:46:42 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-666eba6f3d6so187046b3a.3;
+        Fri, 16 Jun 2023 10:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686937602; x=1689529602;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qc5mcss5JysJBaV9ccwFaXAHdESboYdCtDsaOK3hEYE=;
+        b=SZATOSCOGgdIJkARUx83+P/197aE/7PgooTDajaWYJVQI03IX3rHpgECGS+V1aZZMQ
+         SebN4eOO7kd/3PS+pM3zBHCJ6GmCTZgruPue546oy22ZHhws1awpxuQcr663UbJuuQ9e
+         a9v85ZjvQ08NDOgt9sjy6PhWoueKnRJhYSFgjosDEvO9pNAY9K9Jv0bBmFgBK5LJNWVT
+         dWjtz1MRJRGYNYLihHOhSkNrIPbM8WxGayAFeyCj7TvJ+ohtcIn1yqokS+p07AmkKTyi
+         BS1xpMKub6eXAdXVJMBCV96H/ttVdUyZSd4U8lg2i/SmSzgqSq3qLoBcVNSzsnL9wiGB
+         ZL4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686937602; x=1689529602;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qc5mcss5JysJBaV9ccwFaXAHdESboYdCtDsaOK3hEYE=;
+        b=Q77ev/YoZz7Y5k3J4B+QliNbBy0Yj7M+Wyit8aQSbq4vmwOi1o9slX4NNu3varWrxF
+         cex2+gkVRFNLCFlQY2zqqnTEvx2888I5b+IRxS3Nn6xfnDJn1SXzvq3USKVO2nx9geEw
+         JFC6KsE8oWjcTlUJzr1VEObKOA3pHly5xL3FQrl3bL6ytl7eYGvk4KivUtiScxuCe0fM
+         NFX6svGf0BT+B4t4uQkmEYZ227bKRXYAs0llIbg8m1SPwOdGBpbYMGe/Txw/OgO2Xjdc
+         pESmI+cvs16NboK7SUkEMcnDk1+Yvw/nwedHVYEuXwezhIIUlviRnLV+VQi6jQvlpHHh
+         gR5w==
+X-Gm-Message-State: AC+VfDxZozZPBVKO48hcny7yenXnVsZ5owaRtMwflcxUYd8rdVPOkU1t
+        lnTzMYxW0IsjbshQ5sfNKJk=
+X-Google-Smtp-Source: ACHHUZ73wt3phJfWuHNDQLZmbwJSQOBqFPmzjpCfia8jzzIzR3DtmP0nYXQhQ6B+qGFc5U/2Nq8hjA==
+X-Received: by 2002:a05:6a00:198f:b0:65f:2fbd:370a with SMTP id d15-20020a056a00198f00b0065f2fbd370amr2941290pfl.30.1686937602062;
+        Fri, 16 Jun 2023 10:46:42 -0700 (PDT)
+Received: from smtpclient.apple ([2402:d0c0:2:a2a::1])
+        by smtp.gmail.com with ESMTPSA id m13-20020aa7900d000000b0064d2ad04cccsm1466778pfo.175.2023.06.16.10.46.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 16 Jun 2023 10:46:41 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
+Subject: Re: [PATCH v3 1/3] Docs/RCU/rculist_nulls: Specify type of the object
+ in examples
+From:   Alan Huang <mmpgouride@gmail.com>
+In-Reply-To: <20230615181004.86850-2-sj@kernel.org>
+Date:   Sat, 17 Jun 2023 01:46:16 +0800
+Cc:     paulmck@kernel.org, Joel Fernandes <joel@joelfernandes.org>,
+        corbet@lwn.net, rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <390935BF-9EC0-4D88-A277-7B37D68CC6C7@gmail.com>
+References: <20230615181004.86850-1-sj@kernel.org>
+ <20230615181004.86850-2-sj@kernel.org>
+To:     SeongJae Park <sj@kernel.org>
+X-Mailer: Apple Mail (2.3731.400.51.1.1)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 12:44:27PM -0400, Daniel P. Smith wrote:
-> 
-> On 5/12/23 06:47, Matthew Garrett wrote:
-> > On Thu, May 04, 2023 at 02:50:11PM +0000, Ross Philipson wrote:
-> > > +Secure Launch does not interoperate with KASLR. If possible, the MLE should be
-> > > +built with KASLR disabled::
-> > 
-> > Why does Secure Launch not interoperate with KASLR?
-> > 
-> > Re: IOMMUs
-> 
-> Until the IOMMU driver comes online, memory is protected by the PMRs regions
-> requested by the Preamble (pre-launch code) in accordance with Intel TXT
-> specifications and configured by the ACM. The KASLR randomizer will run
-> before the IOMMU driver is able to come online and ensure frames used by the
-> kernel are protected as well as frames that a driver may registered in a BAR
-> are not blocked.
 
-This seems unfortunate. Presumably we're not able to modify the PMRs at 
-this point? This also seems like a potential issue for IOMMU config in 
-general - the presumption is that the firmware should be configuring the 
-IOMMU in such a way that DMA-capable devices can't attack the firmware 
-while we're in the boot environment, and if KASLR is leaving a window 
-there then it seems like we'd need to fix that?
- 
-> > > +It is recommended that no other command line options should be set to override
-> > > +the defaults above.
-> > 
-> > What happens if they are? Does doing so change the security posture of
-> > the system? If so, will the measurements be different in a way that
-> > demonstrates the system is in an insecure state?
-> > 
-> 
-> In an early version of the patch series this was enforced when turning on
-> Secure Launch, but concerns were raised over this approach and was asked to
-> allow the user to be able to shoot themselves in the foot. Overriding these
-> values could render either an insecure state and/or an unstable system.
+> 2023=E5=B9=B46=E6=9C=8816=E6=97=A5 02:10=EF=BC=8CSeongJae Park =
+<sj@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> The type of 'obj' in example code of rculist_nulls.rst is implicit.
+> Provide the specific type of it before the example code.
+>=20
+> Suggested-by: aul E. McKenney <paulmck@kernel.org>
 
-If we're in an insecure state, is that something that would show up in 
-the form of different measurements?
+Paul E. McKenney
+
+> Link: =
+https://lore.kernel.org/rcu/43943609-f80c-4b6a-9844-994eef800757@paulmck-l=
+aptop/
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+> Documentation/RCU/rculist_nulls.rst | 14 +++++++++++++-
+> 1 file changed, 13 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/RCU/rculist_nulls.rst =
+b/Documentation/RCU/rculist_nulls.rst
+> index 94a8bfe9f560..4b66e2fd2fb5 100644
+> --- a/Documentation/RCU/rculist_nulls.rst
+> +++ b/Documentation/RCU/rculist_nulls.rst
+> @@ -18,7 +18,16 @@ to solve following problem.
+>=20
+> Without 'nulls', a typical RCU linked list managing objects which are
+> allocated with SLAB_TYPESAFE_BY_RCU kmem_cache can use the following
+> -algorithms:
+> +algorithms.  Following examples assume 'obj' is a pointer to such
+> +objects, which is having below type.
+> +
+> +::
+> +
+> +  struct object {
+> +    struct hlist_node obj_node;
+> +    refcount_t refcnt;
+
+atomic_t
+
+> +    unsigned int key;
+> +  };
+>=20
+> 1) Lookup algorithm
+> -------------------
+> @@ -142,6 +151,9 @@ the beginning. If the object was moved to the same =
+chain,
+> then the reader doesn't care: It might occasionally
+> scan the list again without harm.
+>=20
+> +Note that using hlist_nulls means the type of 'obj_node' field of
+> +'struct object' becomes 'struct hlist_nulls_node'.
+> +
+>=20
+> 1) lookup algorithm
+> -------------------
+> --=20
+> 2.25.1
+>=20
+
