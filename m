@@ -2,91 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF7DEB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 18:47:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E372C001B1
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 18:54:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232976AbjFPSrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 14:47:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58970 "EHLO
+        id S232422AbjFPSyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 14:54:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjFPSrN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 14:47:13 -0400
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007CF30FB
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 11:47:09 -0700 (PDT)
-Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-33b7f217dd0so25685ab.0
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 11:47:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686941229; x=1689533229;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p89jIZgCzbOnwHuA7sfuLhrqdvGB8exXX7N1OGRHHc8=;
-        b=kVCCF5WNPluWzu8HBD+SS0ENvanutUA7LAgB0DDKZis0as6cvzPNG21eq4joxcMPOH
-         p1uRVS10uMxxXuR14hePkC5wbtx72B5ayjFOU6jni+rZYmq8ZLOFw/spfV8zSQTmHfI2
-         TFSzWi5ng88b2ne0OSNYQRRdWsng0PA2yNrfzBVucYuDMzAdOivAqYajj0IACLZGpgQT
-         0hrFXJersIszLuhLo9l1poqSpyEozusaikRQU6eiXK+kif8E6FUh8+xfcdBlLRDqaicF
-         UDrdH5RkS5BSSW4Um2SfkTe0s4Otg/lrSIUFLhQinrZk08pCeFKfW7wTNQKrWuuo0EQR
-         oisA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686941229; x=1689533229;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p89jIZgCzbOnwHuA7sfuLhrqdvGB8exXX7N1OGRHHc8=;
-        b=c/9O+FvB9VS1qAjLs5SM8YRLDQoDmGQXt2adgaIRfaEaIDaf/TUsG1XmKYYMmPXY+Y
-         h0n1m5yb0G6C2AbWNspGSsZs9yymv+FvrLuTUDotMk+KaXe53z8h+D1eTsOBQQbg6iv2
-         d051LcjlzyohNKkn+8m/FlwWpcEHCuimg7l//HkIp0/gPfcvYqiiAfFnVPAUTzmN5niG
-         0wcM9oSWC8lzdPxgDx3cgyNPrVI+Wmdu/InGcpb9KLiQ2w3joFoJTeuVvJaBYJU7fTKo
-         cRskcVlWp9MGSa51rnionoSn/8CuRa7jQCE2o4G6V0x36eUy0svxvEVVIFKtzZZThqPp
-         0V5w==
-X-Gm-Message-State: AC+VfDyqBWvNubRGHT3DcjWjdmjZh6F1Q3x4Lb/4KSjpFIeZrwPrdDCo
-        VicNazg5Ke0j6lwbr5FCnRBwwelloT/5X7ZDBix6pr30wgNuCJoqur+1eA==
-X-Google-Smtp-Source: ACHHUZ7sLu99m2m3o0HYgC6yYuSCh+NZktjsyUozVgqTM3QiVParr/gnxeNExLcHeRocM6Suy4WOZ/VBp3OUmDBZTj0=
-X-Received: by 2002:a05:6e02:152b:b0:33d:79ea:9556 with SMTP id
- i11-20020a056e02152b00b0033d79ea9556mr77317ilu.18.1686941229293; Fri, 16 Jun
- 2023 11:47:09 -0700 (PDT)
+        with ESMTP id S1345421AbjFPSy1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 14:54:27 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09BFD3AA5;
+        Fri, 16 Jun 2023 11:54:15 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B91163702;
+        Fri, 16 Jun 2023 18:54:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6337AC4339A;
+        Fri, 16 Jun 2023 18:54:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686941654;
+        bh=nApWiSLLwWPLUkdMeB/M1atrM9iqgW2lKg+HjlxyPc4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kwabbwC4mvyWK/7j4PY4Zr4rJVtvU1GPKz+zf9pPFCmiw6QWOEPMVICo/RluUEt72
+         NtcXfqUdXZ1D59dUQa2TDK2C4PaYH0qfaP2MbmLeL/mYWWdLHx9t7GaZPeaVOwGFf8
+         IvlboVNbLceNS757JAtuE1z6mAXbksZYFEuofrhyTmYoKJ7F34VKhq4R5y0EAirGM+
+         7lEKVPQ0KkTVmbWcm782gMOkQ5dmxzB2SIiWcoIOgWv2implFXNwv3rayc/qfZNIN+
+         HVHML4CWujR8p8MF9r860/D5lYYtaIbjX14LpAZkGRj0Kzhe61nLSfPpnlh6X3Fw5d
+         Zhvd5P3Nm9VRQ==
+From:   SeongJae Park <sj@kernel.org>
+To:     Alan Huang <mmpgouride@gmail.com>
+Cc:     SeongJae Park <sj@kernel.org>, paulmck@kernel.org,
+        Joel Fernandes <joel@joelfernandes.org>, corbet@lwn.net,
+        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] Docs/RCU/rculist_nulls: Specify type of the object in examples
+Date:   Fri, 16 Jun 2023 18:54:11 +0000
+Message-Id: <20230616185411.85781-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <390935BF-9EC0-4D88-A277-7B37D68CC6C7@gmail.com>
+References: 
 MIME-Version: 1.0
-References: <20230616133735.351479-1-jordyzomer@google.com>
- <20230616133735.351479-2-jordyzomer@google.com> <ZIykXq2U5XVZ4aB+@casper.infradead.org>
-In-Reply-To: <ZIykXq2U5XVZ4aB+@casper.infradead.org>
-From:   Jordy Zomer <jordyzomer@google.com>
-Date:   Fri, 16 Jun 2023 20:46:58 +0200
-Message-ID: <CABjM8Zc8H22YVJcHvPS0rROowYC_fhAikJ_dcevA6pr1G7=mDA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] nospec: Add documentation for array_index_nospec
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, dave.hansen@linux.intel.com, daniel@iogearbox.net,
-        tglx@linutronix.de, rdunlap@infradead.org,
-        pawan.kumar.gupta@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks both, I was planning on doing some plumbing next week to fix the
-already affected calls and then add a BUILD_BUG_ON() in combination with
-__builtin_constant_p() to prevent misuse from happening in the future. In
-addition I'll send a V2 next week to fix the spelling/wording issue.
+On Sat, 17 Jun 2023 01:46:16 +0800 Alan Huang <mmpgouride@gmail.com> wrote:
 
-Cheers,
+> 
+> > 2023年6月16日 02:10，SeongJae Park <sj@kernel.org> 写道：
+> > 
+> > The type of 'obj' in example code of rculist_nulls.rst is implicit.
+> > Provide the specific type of it before the example code.
+> > 
+> > Suggested-by: aul E. McKenney <paulmck@kernel.org>
+> 
+> Paul E. McKenney
 
-Jordy
+Oops, thank you for finding, and sorry, Paul :)
 
-On Fri, Jun 16, 2023 at 8:05=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
-> wrote:
->
-> On Fri, Jun 16, 2023 at 01:37:35PM +0000, Jordy Zomer wrote:
-> > +Please note that this function should only be used if the upper
-> > +boundary is a built-time constant, otherwise this could be
-> > +speculated on as well. If this is not the case please refer to
-> > +barrier_nospec().
->
-> "build time", not "built time".  Also, "Please note that" doesn't
-> really add any value.  You can just write:
->
-> This function should only be used if the upper boundary is a build-time
-> constant, otherwise this could be speculated on as well.  If it is not
-> a constant, use barrier_nospec() instead.
->
+> 
+> > Link: https://lore.kernel.org/rcu/43943609-f80c-4b6a-9844-994eef800757@paulmck-laptop/
+> > Signed-off-by: SeongJae Park <sj@kernel.org>
+> > ---
+> > Documentation/RCU/rculist_nulls.rst | 14 +++++++++++++-
+> > 1 file changed, 13 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
+> > index 94a8bfe9f560..4b66e2fd2fb5 100644
+> > --- a/Documentation/RCU/rculist_nulls.rst
+> > +++ b/Documentation/RCU/rculist_nulls.rst
+> > @@ -18,7 +18,16 @@ to solve following problem.
+> > 
+> > Without 'nulls', a typical RCU linked list managing objects which are
+> > allocated with SLAB_TYPESAFE_BY_RCU kmem_cache can use the following
+> > -algorithms:
+> > +algorithms.  Following examples assume 'obj' is a pointer to such
+> > +objects, which is having below type.
+> > +
+> > +::
+> > +
+> > +  struct object {
+> > +    struct hlist_node obj_node;
+> > +    refcount_t refcnt;
+> 
+> atomic_t
+
+I just recalled the example code uses atomic_set_release() for this field.
+
+Thank you, Alan!
+
+I will fix these in the next spin.
+
+
+Thanks,
+SJ
+
+> 
+> > +    unsigned int key;
+> > +  };
+> > 
+> > 1) Lookup algorithm
+> > -------------------
+> > @@ -142,6 +151,9 @@ the beginning. If the object was moved to the same chain,
+> > then the reader doesn't care: It might occasionally
+> > scan the list again without harm.
+> > 
+> > +Note that using hlist_nulls means the type of 'obj_node' field of
+> > +'struct object' becomes 'struct hlist_nulls_node'.
+> > +
+> > 
+> > 1) lookup algorithm
+> > -------------------
+> > -- 
+> > 2.25.1
+> > 
+> 
+> 
