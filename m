@@ -2,181 +2,572 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A73A7EB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 02:17:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01CCDEB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 07:44:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240310AbjFPCRP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Jun 2023 22:17:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42240 "EHLO
+        id S245318AbjFPHon (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 03:44:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240288AbjFPCRM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Jun 2023 22:17:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC92C26B8;
-        Thu, 15 Jun 2023 19:17:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 740A461C9A;
-        Fri, 16 Jun 2023 02:17:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72FD6C433C8;
-        Fri, 16 Jun 2023 02:17:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686881829;
-        bh=RDwrAfGJKYQ/d8/J++9rOAJk7PbSqAYC4oQisvSDjFM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XN9cDPFbLi9xSKxUtYlQt5LjXyklInB4pmPy02CMgWaZ9JDeDhK++nU2nfJ+GnZRT
-         X4uhNO/LcQg+en8xpqmZPDQ9vLniLp7fGl+rqhbWcg4cETCgU3r0KLc72XG4NSxs7L
-         BDj59C1aUxZpuQALj3h9sI50LVfF0wmW2PGXq2EGHpe7EbfGlHx8hpIUC1uZMixbQS
-         nRWOi9qBBVfSc3AduK/w8r/A7Eo0HN2bb7LaYOQbIV+U4uTPjj/CXvYzisCAPaBEsk
-         JiCT9I1CBZGJvt+v7xLMnvQn1u5+XCKJXULk105w+cEMPddq+TzbbmEiFZ96L0zUf0
-         YQ8kRAuLW9qdw==
-Date:   Thu, 15 Jun 2023 19:17:07 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Luca Boccassi <bluca@debian.org>
-Cc:     fsverity@lists.linux.dev, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>,
-        Alexander Larsson <alexl@redhat.com>,
-        Victor Hsieh <victorhsieh@google.com>
-Subject: Re: [PATCH] fsverity: improve documentation for builtin signature
- support
-Message-ID: <20230616021707.GA87129@sol.localdomain>
-References: <20230615230537.30429-1-ebiggers@kernel.org>
- <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
+        with ESMTP id S244763AbjFPHok (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 03:44:40 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64FB4271E
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 00:44:36 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2b445512846so4335721fa.2
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 00:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=atishpatra.org; s=google; t=1686901474; x=1689493474;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KqJjTydeNQ6xHwz7rhAG8gbKBbpXypWM+eNk0wLEm+I=;
+        b=XS1eXa00qYv8tW0kq1T3I+eZ74czgVq3PMAZW9hrtybokJgM1suPZSzlZVz01pZ14h
+         /LdYTs6XBEuMW4SZDRvUHxDJso7bLth4GnlfSILiHNi+Mdi268kzyhO80PPcLRVeJ1cE
+         AFZy+0KaqMlEwI1eK4HC8rYg7tXNO5YPGyUHA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686901474; x=1689493474;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KqJjTydeNQ6xHwz7rhAG8gbKBbpXypWM+eNk0wLEm+I=;
+        b=hseTh3VG0fKUAkWeqFgD7cV9qzZ6UsJP10lj4KEggutLIjjLszsoPKwwVSA1rsIUj+
+         cRkihcxVCDoJMI3Nl5uTiyA+4+ZEdTZfkBW8FaXnOWQ5LMv3aABZql80Rrbpq3FGaTch
+         irrWgbei/7IBTN1Y2qugWGod47DX9zv+tFfvXLNJwV+iKpdVzdglA4XPMJPJPTTeuz/v
+         Xdm34jr/AP/AeCsaIdJ9TTb3CORUwKtp6xPQeVh8zdAKtA+6tiSMT6qGlQeQRJR+q2/i
+         8DIqSSoUYu8MTnqmGhEaTmF1SbtUN705h81pJa28z7wYSBGZLITTqlmn53GfxNmEmMAS
+         JmlQ==
+X-Gm-Message-State: AC+VfDwIG8qAsles7EscLDxRmSRwfPwaR+5nG5df74xSptXNW22F6peA
+        7X6c3lDvpL46UPsyc815rmsQJeyG2ZiVYREXX4qY
+X-Google-Smtp-Source: ACHHUZ7SqxOd0gbivLzizvHx1gaC2zHrkfHRAZ9bk9UAuapTv7PgIxKGmDksvrxFZwvyDF3fGEebVoUtaWTIBi5PmDU=
+X-Received: by 2002:a2e:9615:0:b0:2ac:7d3b:6312 with SMTP id
+ v21-20020a2e9615000000b002ac7d3b6312mr1226389ljh.22.1686901474411; Fri, 16
+ Jun 2023 00:44:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
+References: <20230512085321.13259-1-alexghiti@rivosinc.com>
+ <20230512085321.13259-8-alexghiti@rivosinc.com> <20230531-7e3740ca04a3fe6e2fd25a01@orel>
+ <CAOnJCULmOuP=EGuR7RXgkBU0LrQ9c++M43UXc1dy86kaLxOeVQ@mail.gmail.com> <51af30bd-9913-8ba6-fa5e-d38e4617a7ef@canonical.com>
+In-Reply-To: <51af30bd-9913-8ba6-fa5e-d38e4617a7ef@canonical.com>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Fri, 16 Jun 2023 00:44:22 -0700
+Message-ID: <CAOnJCUJwkQ9SK3P4+rarpU_sxoEtZ79AB-wUVYQ+o+V+8KAg+g@mail.gmail.com>
+Subject: Re: [PATCH v2 07/10] drivers: perf: Implement perf event mmap support
+ in the SBI backend
+To:     Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Aurelien Jarno <aurelien@aurel32.net>,
+        Andreas Schwab <schwab@suse.de>,
+        Andrew Jones <ajones@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Luca,
-
-On Fri, Jun 16, 2023 at 02:10:35AM +0100, Luca Boccassi wrote:
-> On Fri, 16 Jun 2023 at 00:07, Eric Biggers <ebiggers@kernel.org> wrote:
+On Thu, Jun 15, 2023 at 6:28=E2=80=AFAM Heinrich Schuchardt
+<heinrich.schuchardt@canonical.com> wrote:
+>
+> On 6/15/23 10:41, Atish Patra wrote:
+> > On Wed, May 31, 2023 at 8:02=E2=80=AFAM Andrew Jones <ajones@ventanamic=
+ro.com> wrote:
+> >>
+> >> On Fri, May 12, 2023 at 10:53:18AM +0200, Alexandre Ghiti wrote:
+> >>> We used to unconditionnally expose the cycle and instret csrs to
+> >>> userspace, which gives rise to security concerns.
+> >>>
+> >>> So now we only allow access to hw counters from userspace through the=
+ perf
+> >>> framework which will handle context switches, per-task events...etc. =
+But
+> >>> as we cannot break userspace, we give the user the choice to go back =
+to
+> >>> the previous behaviour by setting the sysctl perf_user_access.
+> >>>
+> >>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> >>> ---
+> >>>   arch/riscv/kernel/perf_event.c |  18 ++-
+> >>>   drivers/perf/riscv_pmu_sbi.c   | 194 ++++++++++++++++++++++++++++++=
+++-
+> >>>   2 files changed, 205 insertions(+), 7 deletions(-)
+> >>>
+> >>> diff --git a/arch/riscv/kernel/perf_event.c b/arch/riscv/kernel/perf_=
+event.c
+> >>> index 94174a0fc251..3af9ca45b43f 100644
+> >>> --- a/arch/riscv/kernel/perf_event.c
+> >>> +++ b/arch/riscv/kernel/perf_event.c
+> >>> @@ -1,9 +1,13 @@
+> >>>   // SPDX-License-Identifier: GPL-2.0-only
+> >>> +#include <linux/perf/riscv_pmu.h>
+> >>>   #include <linux/sched_clock.h>
+> >>>
+> >>>   void arch_perf_update_userpage(struct perf_event *event,
+> >>>                               struct perf_event_mmap_page *userpg, u6=
+4 now)
+> >>>   {
+> >>> +#ifdef CONFIG_RISCV_PMU_SBI
+> >>> +     struct riscv_pmu *rvpmu =3D to_riscv_pmu(event->pmu);
+> >>> +#endif
+> >>
+> >> Can avoid this pair of #ifdef/#endif's by just declaring rvpmu inside =
+the
+> >> if block below where it's needed. Or even just using to_riscv_pmu()
+> >> directly in place of rvpmu.
+> >>
+> >>>        struct clock_read_data *rd;
+> >>>        unsigned int seq;
+> >>>        u64 ns;
+> >>> @@ -14,7 +18,19 @@ void arch_perf_update_userpage(struct perf_event *=
+event,
+> >>>        userpg->cap_user_rdpmc =3D
+> >>>                !!(event->hw.flags & PERF_EVENT_FLAG_USER_READ_CNT);
+> >>>
+> >>> -     userpg->pmc_width =3D 64;
+> >>> +#ifdef CONFIG_RISCV_PMU_SBI
+> >>> +     /*
+> >>> +      * The counters are 64-bit but the priv spec doesn't mandate al=
+l the
+> >>> +      * bits to be implemented: that's why, counter width can vary b=
+ased on
+> >>> +      * the cpu vendor.
+> >>> +      */
+> >>> +     if (event->pmu->name &&
+> >>> +         !strncmp(event->pmu->name,
+> >>> +                  RISCV_PMU_PDEV_NAME, sizeof(RISCV_PMU_PDEV_NAME)))
+> >>> +             userpg->pmc_width =3D rvpmu->ctr_get_width(event->hw.id=
+x) + 1;
+> >>> +     else
+> >>> +#endif
+> >>> +             userpg->pmc_width =3D 64;
+> >>
+> >> Can leave the initialization to 64 above the #ifdef CONFIG_RISCV_PMU_S=
+BI
+> >> as is and drop the else.
+> >>
+> >>>
+> >>>        do {
+> >>>                rd =3D sched_clock_read_begin(&seq);
+> >>> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sb=
+i.c
+> >>> index 3b0ee2148054..d9bcc5cc6df5 100644
+> >>> --- a/drivers/perf/riscv_pmu_sbi.c
+> >>> +++ b/drivers/perf/riscv_pmu_sbi.c
+> >>> @@ -24,6 +24,14 @@
+> >>>   #include <asm/sbi.h>
+> >>>   #include <asm/hwcap.h>
+> >>>
+> >>> +#define SYSCTL_NO_USER_ACCESS        0
+> >>> +#define SYSCTL_USER_ACCESS   1
+> >>> +#define SYSCTL_LEGACY                2
+> >>> +
+> >>> +#define PERF_EVENT_FLAG_NO_USER_ACCESS       BIT(SYSCTL_NO_USER_ACCE=
+SS)
+> >>> +#define PERF_EVENT_FLAG_USER_ACCESS  BIT(SYSCTL_USER_ACCESS)
+> >>> +#define PERF_EVENT_FLAG_LEGACY               BIT(SYSCTL_LEGACY)
+> >>> +
+> >>>   PMU_FORMAT_ATTR(event, "config:0-47");
+> >>>   PMU_FORMAT_ATTR(firmware, "config:63");
+> >>>
+> >>> @@ -43,6 +51,9 @@ static const struct attribute_group *riscv_pmu_attr=
+_groups[] =3D {
+> >>>        NULL,
+> >>>   };
+> >>>
+> >>> +/* Allow legacy access by default */
+> >>> +static int sysctl_perf_user_access __read_mostly =3D SYSCTL_LEGACY;
+> >>> +
+> >>
+> >> I'm still not in favor of this. Hopefully the distro discussions resul=
+t in
+> >> it being changed.
+> >>
 > >
-> > From: Eric Biggers <ebiggers@google.com>
+> > I did not see any feedback from distro guys. I talked to David (fedora
+> > maintainer) and he is even okay with
+> > SYSCTL_NO_USER_ACCESS :). I would love to hear back from others (cc'd
+> > a few distro folks to this thread).
+>
+> In future we will have to support scenarios for confidential compute.
+> Here we have to avoid timing attacks against virtual machines. If access
+> to the cycle register is critical, this implies that hiding it behind a
+> sysctl setting is not good enough.
+>
+
+For virtualization, all counter usages are virtualized by KVM. Thus,
+the hypervisor
+remains in complete control.
+
+> If we keep this sysctl based access at all, it should be behind a
+> Kconfig setting that is disabled by default and were the help text
+> clearly indicates the security implications.
+>
+
+That would require rebuild/reinstallation of the kernel for users with
+root privileges
+to enable these. Distros can disable the access by setting
+the default to PERF_EVENT_FLAG_NO_USER_ACCESS or PERF_EVENT_FLAG_USER_ACCES=
+S
+based on use case. But root privileges users should have a way to opt in.
+
+As per my understanding, that's the intention behind x86/ARM64
+implementation as well.
+
+> Best regards
+>
+> Heinrich
+>
 > >
-> > fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
-> > the only way to do signatures with fsverity, and they have some major
-> > limitations.  Yet, more users have tried to use them, e.g. recently by
-> > https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
-> > to be because users aren't sufficiently familiar with the limitations of
-> > this feature and what the alternatives are.
+> >>>   /*
+> >>>    * RISC-V doesn't have heterogeneous harts yet. This need to be par=
+t of
+> >>>    * per_cpu in case of harts with different pmu counters
+> >>> @@ -301,6 +312,11 @@ int riscv_pmu_get_hpm_info(u32 *hw_ctr_width, u3=
+2 *num_hw_ctr)
+> >>>   }
+> >>>   EXPORT_SYMBOL_GPL(riscv_pmu_get_hpm_info);
+> >>>
+> >>> +static uint8_t pmu_sbi_csr_index(struct perf_event *event)
+> >>> +{
+> >>> +     return pmu_ctr_list[event->hw.idx].csr - CSR_CYCLE;
+> >>> +}
+> >>> +
+> >>>   static unsigned long pmu_sbi_get_filter_flags(struct perf_event *ev=
+ent)
+> >>>   {
+> >>>        unsigned long cflags =3D 0;
+> >>> @@ -329,18 +345,34 @@ static int pmu_sbi_ctr_get_idx(struct perf_even=
+t *event)
+> >>>        struct cpu_hw_events *cpuc =3D this_cpu_ptr(rvpmu->hw_events);
+> >>>        struct sbiret ret;
+> >>>        int idx;
+> >>> -     uint64_t cbase =3D 0;
+> >>> +     uint64_t cbase =3D 0, cmask =3D rvpmu->cmask;
+> >>>        unsigned long cflags =3D 0;
+> >>>
+> >>>        cflags =3D pmu_sbi_get_filter_flags(event);
+> >>> +
+> >>> +     /*
+> >>> +      * In legacy mode, we have to force the fixed counters for thos=
+e events
+> >>> +      * but not in the user access mode as we want to use the other =
+counters
+> >>> +      * that support sampling/filtering.
+> >>> +      */
+> >>> +     if (hwc->flags & PERF_EVENT_FLAG_LEGACY) {
+> >>> +             if (event->attr.config =3D=3D PERF_COUNT_HW_CPU_CYCLES)=
+ {
+> >>> +                     cflags |=3D SBI_PMU_CFG_FLAG_SKIP_MATCH;
+> >>> +                     cmask =3D 1;
+> >>> +             } else if (event->attr.config =3D=3D PERF_COUNT_HW_INST=
+RUCTIONS) {
+> >>> +                     cflags |=3D SBI_PMU_CFG_FLAG_SKIP_MATCH;
+> >>> +                     cmask =3D 1UL << (CSR_INSTRET - CSR_CYCLE);
+> >>> +             }
+> >>> +     }
+> >>> +
+> >>>        /* retrieve the available counter index */
+> >>>   #if defined(CONFIG_32BIT)
+> >>>        ret =3D sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_CFG_MATCH, =
+cbase,
+> >>> -                     rvpmu->cmask, cflags, hwc->event_base, hwc->con=
+fig,
+> >>> +                     cmask, cflags, hwc->event_base, hwc->config,
+> >>>                        hwc->config >> 32);
+> >>>   #else
+> >>>        ret =3D sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_CFG_MATCH, =
+cbase,
+> >>> -                     rvpmu->cmask, cflags, hwc->event_base, hwc->con=
+fig, 0);
+> >>> +                     cmask, cflags, hwc->event_base, hwc->config, 0)=
+;
+> >>>   #endif
+> >>>        if (ret.error) {
+> >>>                pr_debug("Not able to find a counter for event %lx con=
+fig %llx\n",
+> >>> @@ -474,6 +506,14 @@ static u64 pmu_sbi_ctr_read(struct perf_event *e=
+vent)
+> >>>        return val;
+> >>>   }
+> >>>
+> >>> +static void pmu_sbi_set_scounteren(void *arg)
+> >>> +{
+> >>> +     struct perf_event *event =3D (struct perf_event *)arg;
+> >>> +
+> >>> +     csr_write(CSR_SCOUNTEREN,
+> >>> +               csr_read(CSR_SCOUNTEREN) | (1 << pmu_sbi_csr_index(ev=
+ent)));
+> >>> +}
+> >>> +
+> >>>   static void pmu_sbi_ctr_start(struct perf_event *event, u64 ival)
+> >>>   {
+> >>>        struct sbiret ret;
+> >>> @@ -490,6 +530,18 @@ static void pmu_sbi_ctr_start(struct perf_event =
+*event, u64 ival)
+> >>>        if (ret.error && (ret.error !=3D SBI_ERR_ALREADY_STARTED))
+> >>>                pr_err("Starting counter idx %d failed with error %d\n=
+",
+> >>>                        hwc->idx, sbi_err_map_linux_errno(ret.error));
+> >>> +
+> >>> +     if (hwc->flags & PERF_EVENT_FLAG_USER_ACCESS &&
+> >>> +         hwc->flags & PERF_EVENT_FLAG_USER_READ_CNT)
+> >>> +             pmu_sbi_set_scounteren((void *)event);
+> >>> +}
+> >>> +
+> >>> +static void pmu_sbi_reset_scounteren(void *arg)
+> >>> +{
+> >>> +     struct perf_event *event =3D (struct perf_event *)arg;
+> >>> +
+> >>> +     csr_write(CSR_SCOUNTEREN,
+> >>> +               csr_read(CSR_SCOUNTEREN) & ~(1 << pmu_sbi_csr_index(e=
+vent)));
+> >>>   }
+> >>>
+> >>>   static void pmu_sbi_ctr_stop(struct perf_event *event, unsigned lon=
+g flag)
+> >>> @@ -497,6 +549,10 @@ static void pmu_sbi_ctr_stop(struct perf_event *=
+event, unsigned long flag)
+> >>>        struct sbiret ret;
+> >>>        struct hw_perf_event *hwc =3D &event->hw;
+> >>>
+> >>> +     if (hwc->flags & PERF_EVENT_FLAG_USER_ACCESS &&
+> >>> +         hwc->flags & PERF_EVENT_FLAG_USER_READ_CNT)
+> >>> +             pmu_sbi_reset_scounteren((void *)event);
+> >>> +
+> >>>        ret =3D sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_STOP, hwc->=
+idx, 1, flag, 0, 0, 0);
+> >>>        if (ret.error && (ret.error !=3D SBI_ERR_ALREADY_STOPPED) &&
+> >>>                flag !=3D SBI_PMU_STOP_FLAG_RESET)
+> >>> @@ -704,10 +760,13 @@ static int pmu_sbi_starting_cpu(unsigned int cp=
+u, struct hlist_node *node)
+> >>>        struct cpu_hw_events *cpu_hw_evt =3D this_cpu_ptr(pmu->hw_even=
+ts);
+> >>>
+> >>>        /*
+> >>> -      * Enable the access for CYCLE, TIME, and INSTRET CSRs from use=
+rspace,
+> >>> -      * as is necessary to maintain uABI compatibility.
+> >>> +      * We keep enabling userspace access to CYCLE, TIME and INSRET =
+via the
+> >>> +      * legacy option but that will be removed in the future.
+> >>>         */
+> >>> -     csr_write(CSR_SCOUNTEREN, 0x7);
+> >>> +     if (sysctl_perf_user_access =3D=3D SYSCTL_LEGACY)
+> >>> +             csr_write(CSR_SCOUNTEREN, 0x7);
+> >>> +     else
+> >>> +             csr_write(CSR_SCOUNTEREN, 0x2);
+> >>>
+> >>>        /* Stop all the counters so that they can be enabled from perf=
+ */
+> >>>        pmu_sbi_stop_all(pmu);
+> >>> @@ -851,6 +910,123 @@ static void riscv_pmu_destroy(struct riscv_pmu =
+*pmu)
+> >>>        cpuhp_state_remove_instance(CPUHP_AP_PERF_RISCV_STARTING, &pmu=
+->node);
+> >>>   }
+> >>>
+> >>> +static void pmu_sbi_event_init(struct perf_event *event)
+> >>> +{
+> >>> +     /*
+> >>> +      * The permissions are set at event_init so that we do not depe=
+nd
+> >>> +      * on the sysctl value that can change.
+> >>> +      */
+> >>> +     if (sysctl_perf_user_access =3D=3D SYSCTL_NO_USER_ACCESS)
+> >>> +             event->hw.flags |=3D PERF_EVENT_FLAG_NO_USER_ACCESS;
+> >>> +     else if (sysctl_perf_user_access =3D=3D SYSCTL_USER_ACCESS)
+> >>> +             event->hw.flags |=3D PERF_EVENT_FLAG_USER_ACCESS;
+> >>> +     else
+> >>> +             event->hw.flags |=3D PERF_EVENT_FLAG_LEGACY;
+> >>> +}
+> >>> +
+> >>> +static void pmu_sbi_event_mapped(struct perf_event *event, struct mm=
+_struct *mm)
+> >>> +{
+> >>> +     if (event->hw.flags & PERF_EVENT_FLAG_NO_USER_ACCESS)
+> >>> +             return;
+> >>> +
+> >>> +     /* In legacy mode, the first 3 CSRs are available. */
+> >>
+> >> first and third
+> >>
+> >>> +     if (event->hw.flags & PERF_EVENT_FLAG_LEGACY) {
+> >>> +             if (event->attr.config !=3D PERF_COUNT_HW_CPU_CYCLES &&
+> >>> +                 event->attr.config !=3D PERF_COUNT_HW_INSTRUCTIONS)=
+ {
+> >>> +                     return;
+> >>> +             }
+> >>> +     }
+> >>> +
+> >>> +     /*
+> >>> +      * The user mmapped the event to directly access it: this is wh=
+ere
+> >>> +      * we determine based on sysctl_perf_user_access if we grant us=
+erspace
+> >>> +      * the direct access to this event. That means that within the =
+same
+> >>> +      * task, some events may be directly accessible and some other =
+may not,
+> >>> +      * if the user changes the value of sysctl_perf_user_accesss in=
+ the
+> >>> +      * meantime.
+> >>> +      */
+> >>> +
+> >>> +     event->hw.flags |=3D PERF_EVENT_FLAG_USER_READ_CNT;
+> >>> +
+> >>> +     /*
+> >>> +      * We must enable userspace access *before* advertising in the =
+user page
+> >>> +      * that it is possible to do so to avoid any race.
+> >>> +      * And we must notify all cpus here because threads that curren=
+tly run
+> >>> +      * on other cpus will try to directly access the counter too wi=
+thout
+> >>> +      * calling pmu_sbi_ctr_start.
+> >>> +      */
+> >>> +     if (event->hw.flags & PERF_EVENT_FLAG_USER_ACCESS)
+> >>> +             on_each_cpu_mask(mm_cpumask(mm),
+> >>> +                              pmu_sbi_set_scounteren, (void *)event,=
+ 1);
+> >>> +}
+> >>> +
+> >>> +static void pmu_sbi_event_unmapped(struct perf_event *event, struct =
+mm_struct *mm)
+> >>> +{
+> >>> +     if (event->hw.flags & PERF_EVENT_FLAG_NO_USER_ACCESS)
+> >>> +             return;
+> >>> +
+> >>> +     /* In legacy mode, the first 3 CSRs are available. */
+> >>
+> >> first and third
+> >>
+> >>> +     if (event->hw.flags & PERF_EVENT_FLAG_LEGACY) {
+> >>> +             if (event->attr.config !=3D PERF_COUNT_HW_CPU_CYCLES &&
+> >>> +                 event->attr.config !=3D PERF_COUNT_HW_INSTRUCTIONS)=
+ {
+> >>> +                     return;
+> >>> +             }
+> >>> +     }
+> >>> +
+> >>> +     /*
+> >>> +      * Here we can directly remove user access since the user does =
+not have
+> >>> +      * access to the user page anymore so we avoid the racy window =
+where the
+> >>> +      * user could have read cap_user_rdpmc to true right before we =
+disable
+> >>> +      * it.
+> >>> +      */
+> >>> +     event->hw.flags &=3D ~PERF_EVENT_FLAG_USER_READ_CNT;
+> >>> +
+> >>> +     if (event->hw.flags & PERF_EVENT_FLAG_USER_ACCESS)
+> >>> +             on_each_cpu_mask(mm_cpumask(mm),
+> >>> +                              pmu_sbi_reset_scounteren, (void *)even=
+t, 1);
+> >>> +}
+> >>> +
+> >>> +static void riscv_pmu_update_counter_access(void *info)
+> >>> +{
+> >>> +     if (sysctl_perf_user_access =3D=3D SYSCTL_LEGACY)
+> >>> +             csr_write(CSR_SCOUNTEREN, 0x7);
+> >>> +     else
+> >>> +             csr_write(CSR_SCOUNTEREN, 0x2);
+> >>> +}
+> >>> +
+> >>> +static int riscv_pmu_proc_user_access_handler(struct ctl_table *tabl=
+e,
+> >>> +                                           int write, void *buffer,
+> >>> +                                           size_t *lenp, loff_t *ppo=
+s)
+> >>> +{
+> >>> +     int prev =3D sysctl_perf_user_access;
+> >>> +     int ret =3D proc_dointvec_minmax(table, write, buffer, lenp, pp=
+os);
+> >>> +
+> >>> +     /*
+> >>> +      * Test against the previous value since we clear SCOUNTEREN wh=
+en
+> >>> +      * sysctl_perf_user_access is set to SYSCTL_USER_ACCESS, but we=
+ should
+> >>> +      * not do that if that was already the case.
+> >>> +      */
+> >>> +     if (ret || !write || prev =3D=3D sysctl_perf_user_access)
+> >>> +             return ret;
+> >>> +
+> >>> +     on_each_cpu(riscv_pmu_update_counter_access, (void *)&prev, 1);
+> >>
+> >> Instead of passing prev shouldn't we pass NULL, as it's not used?
+> >>
+> >>> +
+> >>> +     return 0;
+> >>> +}
+> >>> +
+> >>> +static struct ctl_table sbi_pmu_sysctl_table[] =3D {
+> >>> +     {
+> >>> +             .procname       =3D "perf_user_access",
+> >>> +             .data           =3D &sysctl_perf_user_access,
+> >>> +             .maxlen         =3D sizeof(unsigned int),
+> >>> +             .mode           =3D 0644,
+> >>> +             .proc_handler   =3D riscv_pmu_proc_user_access_handler,
+> >>> +             .extra1         =3D SYSCTL_ZERO,
+> >>> +             .extra2         =3D SYSCTL_TWO,
+> >>> +     },
+> >>> +     { }
+> >>> +};
+> >>> +
+> >>>   static int pmu_sbi_device_probe(struct platform_device *pdev)
+> >>>   {
+> >>>        struct riscv_pmu *pmu =3D NULL;
+> >>> @@ -888,6 +1064,10 @@ static int pmu_sbi_device_probe(struct platform=
+_device *pdev)
+> >>>        pmu->ctr_get_width =3D pmu_sbi_ctr_get_width;
+> >>>        pmu->ctr_clear_idx =3D pmu_sbi_ctr_clear_idx;
+> >>>        pmu->ctr_read =3D pmu_sbi_ctr_read;
+> >>> +     pmu->event_init =3D pmu_sbi_event_init;
+> >>> +     pmu->event_mapped =3D pmu_sbi_event_mapped;
+> >>> +     pmu->event_unmapped =3D pmu_sbi_event_unmapped;
+> >>> +     pmu->csr_index =3D pmu_sbi_csr_index;
+> >>>
+> >>>        ret =3D cpuhp_state_add_instance(CPUHP_AP_PERF_RISCV_STARTING,=
+ &pmu->node);
+> >>>        if (ret)
+> >>> @@ -901,6 +1081,8 @@ static int pmu_sbi_device_probe(struct platform_=
+device *pdev)
+> >>>        if (ret)
+> >>>                goto out_unregister;
+> >>>
+> >>> +     register_sysctl("kernel", sbi_pmu_sysctl_table);
+> >>> +
+> >>>        return 0;
+> >>>
+> >>>   out_unregister:
+> >>> --
+> >>> 2.37.2
+> >>>
+> >>
+> >> Thanks,
+> >> drew
 > >
-> > Therefore, make some updates to the documentation to try to clarify the
-> > properties of this feature and nudge users in the right direction.
 > >
-> > Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
-> > upstream, is planned to use the builtin signatures.  (This differs from
-> > IMA, which uses its own signature mechanism.)  For that reason, my
-> > earlier patch "fsverity: mark builtin signatures as deprecated"
-> > (https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
-> > which marked builtin signatures as "deprecated", was controversial.
 > >
-> > This patch therefore stops short of marking the feature as deprecated.
-> > I've also revised the language to focus on better explaining the feature
-> > and what its alternatives are.
-> >
-> > Signed-off-by: Eric Biggers <ebiggers@google.com>
-> > ---
-> >
-> > This patch applies to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
-> >
-> >  Documentation/filesystems/fsverity.rst | 176 ++++++++++++++++---------
-> >  fs/verity/Kconfig                      |  16 +--
-> >  fs/verity/enable.c                     |   2 +-
-> >  fs/verity/open.c                       |   8 +-
-> >  fs/verity/read_metadata.c              |   4 +-
-> >  fs/verity/signature.c                  |   8 ++
-> >  6 files changed, 139 insertions(+), 75 deletions(-)
-> >
-> > diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-> > index ede672dedf110..e990149cfdf5c 100644
-> > --- a/Documentation/filesystems/fsverity.rst
-> > +++ b/Documentation/filesystems/fsverity.rst
-> 
-> Most of the patch looks fine, two notes:
-> 
-> > +- Trusted userspace code.  When the accesses to a file happen in a
-> > +  well-defined way, userspace code can authenticate the file's
-> > +  fs-verity digest before accessing the file.  This can be done by
-> > +  verifying a signature of the fs-verity file digest using any
-> > +  userspace cryptographic library that supports digital signatures.
-> > +  Consider using `libsodium
-> > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_
-> > +  or `Tink <https://developers.google.com/tink/digitally-sign-data>`_.
-> > +  Other options include OpenSSL, JCA, and libgcrypt.
-> 
-> This should at least mention something like "depending on whether the
-> threat model allows trusting userspace with such tasks", because it is
-> by no means guaranteed that it is the case.
+>
 
-Sure, that's why it says "Trusted userspace code", but I can make it clearer.
 
-> 
-> > +- fs-verity builtin signatures are in PKCS#7 format, and the public
-> > +  keys are in X.509 format.  These data formats are complex and prone
-> > +  to vulnerabilities, so parsing them is preferably done in userspace.
-> > +  (fs-verity builtin signatures were made to use these formats because
-> > +  other kernel subsystems, such as the module loader, unfortunately
-> > +  used these formats already.)  Most cryptographic libraries also
-> > +  support working with raw keys and signatures, which are much
-> > +  simpler.  For example, consider using `libsodium
-> > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_.
-> > +
-> > +  IMA appraisal, which supports fs-verity, does not use PKCS#7, so it
-> > +  partially avoids this issue as well (though it does use X.509).
-> 
-> The kernel makes extensive use of PKCS7, it's the foundation of the
-> trust chain with secure boot (and kernel modules as noted) after all,
-> among other things, so this description looks very out of place as
-> part of the same project. Readers might be led to believe that using
-> secure boot or signed modules is useless, or worse, dangerous, and
-> that it's better not to, and I'm quite sure that's not something we
-> want.
-> 
-
-Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
-it is a good idea.  Have you read the kernel code that implements these formats?
-A few years ago I went through some of it.  Here are some of the bugs I fixed:
-
-    2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
-    624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
-    e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
-    81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
-    0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
-    54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
-    971b42c038dc ("PKCS#7: fix certificate chain verification")
-    29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
-    437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
-    4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig") 
-
-971b42c038dc is noteworthy; it turned out the kernel did not properly verify
-certificate chains in PKCS#7 messages.  That was fundamentally a PKCS#7-specific
-security bug that was directly caused by the complexity that is specific to
-PKCS#7.  Simple signatures do not have certificate chains.
-
-I hope the code is in slightly better shape now.  But I really haven't looked at
-it in several years.  In any case, the fact is that these formats are complex,
-which causes bugs.  I don't think we should be trying to pretend otherwise.
-
-As for under what circumstances these risks are worth taking anyway, it's an
-interesting question.  Part of my concern is actually about people who don't
-actually use any of these integrity/authenticity oriented kernel features at
-all.  They are getting no benefit from them, and we don't want to create
-problems for them.  But, by CONFIG_FS_VERITY_BUILTIN_SIGNATURES being in their
-kernel config, their system is potentially opened up to exploits by
-FS_IOC_ENABLE_VERITY(malicious_pkcs7_signature).  Or just by
-CONFIG_X509_CERTIFICATE_PARSER being in their kernel config, their system is
-potentially opened up to exploits by sys_add_key(malicious_X509_certificate).
-They could eliminate this risk by disabling these kernel config options.
-
-So I think that mentioning the risks of processing these data formats in the
-kernel is useful.  Though it maybe should be made clear that attack surface
-mainly comes from these features being configured into the kernel, not whether
-they're actually being used.
-
-- Eric
+--=20
+Regards,
+Atish
