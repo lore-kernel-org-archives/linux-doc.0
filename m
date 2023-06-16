@@ -2,129 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C06EB64D8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 18:22:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF7DEB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 18:47:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbjFPSWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 14:22:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50488 "EHLO
+        id S232976AbjFPSrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 14:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjFPSWM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 14:22:12 -0400
-Received: from sender4-of-o50.zoho.com (sender4-of-o50.zoho.com [136.143.188.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27ABDCD;
-        Fri, 16 Jun 2023 11:22:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1686939697; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=ffvSiDruYhLVJJGBcz4tQWNlfs6d5bauH+Ej2CpFSmpsU2USUfadAkTf61XiTUkuV/fwd6T4eN044PQ+mqv+bW8oGdYrENxv9+ZNEy4ZAHVgoGs/St8s/04QrDjVsEqiXT6OBT+HVzn9m0ylLfxZvopPb0cDCH30F5iNu5Ks9Tk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1686939697; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=8enOf0amLtvBhNkLA/XPa3bwYhCfY01qhBgRzZsYp4k=; 
-        b=iWf2gamft5I1tQafDe+wzLXebNQzYgTsFca9wWHDHLlU6KpTO1qpzty8hZCqVyulR8PbWnlFxsQR8fJqa+E4Y+zRng39F8z0DpD35pHI66jgZ80xzygN7M8x2Pkuv75gqryEQ5wEkTUJy0yFlI6jKwZWMqj/W73Q/cmZIzFzfuo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=apertussolutions.com;
-        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-        dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1686939697;
-        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-        h=Message-ID:Date:Date:MIME-Version:To:To:Cc:Cc:References:From:From:Subject:Subject:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-        bh=8enOf0amLtvBhNkLA/XPa3bwYhCfY01qhBgRzZsYp4k=;
-        b=qHykneBd3W/uQb3DdBB6UMoKU5vU2hAHAgTWfpyu0VTnkeKUnav9pYS2Lv2cPAAr
-        bEdoQSblbIGf34Wi35ucomsH+lyGq/exEwlUfLIru8FCcg0jLUx552Uf3IYYQESeI0f
-        rstR4wkctcFvn8BMkk0jayWtDQUD04axkQJGtfZA=
-Received: from [10.10.1.138] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
-        with SMTPS id 1686939696166530.3719741366886; Fri, 16 Jun 2023 11:21:36 -0700 (PDT)
-Message-ID: <81a0a2f3-e7b2-23e8-5c95-91c9a52df18a@apertussolutions.com>
-Date:   Fri, 16 Jun 2023 14:21:33 -0400
+        with ESMTP id S229535AbjFPSrN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 14:47:13 -0400
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007CF30FB
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 11:47:09 -0700 (PDT)
+Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-33b7f217dd0so25685ab.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 11:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686941229; x=1689533229;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p89jIZgCzbOnwHuA7sfuLhrqdvGB8exXX7N1OGRHHc8=;
+        b=kVCCF5WNPluWzu8HBD+SS0ENvanutUA7LAgB0DDKZis0as6cvzPNG21eq4joxcMPOH
+         p1uRVS10uMxxXuR14hePkC5wbtx72B5ayjFOU6jni+rZYmq8ZLOFw/spfV8zSQTmHfI2
+         TFSzWi5ng88b2ne0OSNYQRRdWsng0PA2yNrfzBVucYuDMzAdOivAqYajj0IACLZGpgQT
+         0hrFXJersIszLuhLo9l1poqSpyEozusaikRQU6eiXK+kif8E6FUh8+xfcdBlLRDqaicF
+         UDrdH5RkS5BSSW4Um2SfkTe0s4Otg/lrSIUFLhQinrZk08pCeFKfW7wTNQKrWuuo0EQR
+         oisA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686941229; x=1689533229;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p89jIZgCzbOnwHuA7sfuLhrqdvGB8exXX7N1OGRHHc8=;
+        b=c/9O+FvB9VS1qAjLs5SM8YRLDQoDmGQXt2adgaIRfaEaIDaf/TUsG1XmKYYMmPXY+Y
+         h0n1m5yb0G6C2AbWNspGSsZs9yymv+FvrLuTUDotMk+KaXe53z8h+D1eTsOBQQbg6iv2
+         d051LcjlzyohNKkn+8m/FlwWpcEHCuimg7l//HkIp0/gPfcvYqiiAfFnVPAUTzmN5niG
+         0wcM9oSWC8lzdPxgDx3cgyNPrVI+Wmdu/InGcpb9KLiQ2w3joFoJTeuVvJaBYJU7fTKo
+         cRskcVlWp9MGSa51rnionoSn/8CuRa7jQCE2o4G6V0x36eUy0svxvEVVIFKtzZZThqPp
+         0V5w==
+X-Gm-Message-State: AC+VfDyqBWvNubRGHT3DcjWjdmjZh6F1Q3x4Lb/4KSjpFIeZrwPrdDCo
+        VicNazg5Ke0j6lwbr5FCnRBwwelloT/5X7ZDBix6pr30wgNuCJoqur+1eA==
+X-Google-Smtp-Source: ACHHUZ7sLu99m2m3o0HYgC6yYuSCh+NZktjsyUozVgqTM3QiVParr/gnxeNExLcHeRocM6Suy4WOZ/VBp3OUmDBZTj0=
+X-Received: by 2002:a05:6e02:152b:b0:33d:79ea:9556 with SMTP id
+ i11-20020a056e02152b00b0033d79ea9556mr77317ilu.18.1686941229293; Fri, 16 Jun
+ 2023 11:47:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Content-Language: en-US
-To:     Matthew Garrett <mjg59@srcf.ucam.org>
-Cc:     Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        ardb@kernel.org, James.Bottomley@hansenpartnership.com,
-        luto@amacapital.net, nivedita@alum.mit.edu,
-        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-References: <20230504145023.835096-1-ross.philipson@oracle.com>
- <20230504145023.835096-3-ross.philipson@oracle.com>
- <20230512104753.GA14461@srcf.ucam.org>
- <e7dcb85b-25bb-8d5a-3758-e4243bc6ffec@apertussolutions.com>
- <20230616165415.GA28537@srcf.ucam.org>
-From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Subject: Re: [PATCH v6 02/14] Documentation/x86: Secure Launch kernel
- documentation
-In-Reply-To: <20230616165415.GA28537@srcf.ucam.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+References: <20230616133735.351479-1-jordyzomer@google.com>
+ <20230616133735.351479-2-jordyzomer@google.com> <ZIykXq2U5XVZ4aB+@casper.infradead.org>
+In-Reply-To: <ZIykXq2U5XVZ4aB+@casper.infradead.org>
+From:   Jordy Zomer <jordyzomer@google.com>
+Date:   Fri, 16 Jun 2023 20:46:58 +0200
+Message-ID: <CABjM8Zc8H22YVJcHvPS0rROowYC_fhAikJ_dcevA6pr1G7=mDA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] nospec: Add documentation for array_index_nospec
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, dave.hansen@linux.intel.com, daniel@iogearbox.net,
+        tglx@linutronix.de, rdunlap@infradead.org,
+        pawan.kumar.gupta@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/16/23 12:54, Matthew Garrett wrote:
-> On Fri, Jun 16, 2023 at 12:44:27PM -0400, Daniel P. Smith wrote:
->>
->> On 5/12/23 06:47, Matthew Garrett wrote:
->>> On Thu, May 04, 2023 at 02:50:11PM +0000, Ross Philipson wrote:
->>>> +Secure Launch does not interoperate with KASLR. If possible, the MLE should be
->>>> +built with KASLR disabled::
->>>
->>> Why does Secure Launch not interoperate with KASLR?
->>>
->>> Re: IOMMUs
->>
->> Until the IOMMU driver comes online, memory is protected by the PMRs regions
->> requested by the Preamble (pre-launch code) in accordance with Intel TXT
->> specifications and configured by the ACM. The KASLR randomizer will run
->> before the IOMMU driver is able to come online and ensure frames used by the
->> kernel are protected as well as frames that a driver may registered in a BAR
->> are not blocked.
-> 
-> This seems unfortunate. Presumably we're not able to modify the PMRs at
-> this point? This also seems like a potential issue for IOMMU config in
-> general - the presumption is that the firmware should be configuring the
-> IOMMU in such a way that DMA-capable devices can't attack the firmware
-> while we're in the boot environment, and if KASLR is leaving a window
-> there then it seems like we'd need to fix that?
+Thanks both, I was planning on doing some plumbing next week to fix the
+already affected calls and then add a BUILD_BUG_ON() in combination with
+__builtin_constant_p() to prevent misuse from happening in the future. In
+addition I'll send a V2 next week to fix the spelling/wording issue.
 
-While unfortunate, it is a bit of the nature of the problem KASLR is 
-attempting to address. If you know in advance where kernel pages are 
-going to live and the frames that will be used for DMA, then have you 
-not defeated the purpose of the randomization? As for the firmware use 
-of the IOMMU, I am fairly certain those tables will get invalidated by 
-the ACM when it is setting up the PMRs.
+Cheers,
 
->>>> +It is recommended that no other command line options should be set to override
->>>> +the defaults above.
->>>
->>> What happens if they are? Does doing so change the security posture of
->>> the system? If so, will the measurements be different in a way that
->>> demonstrates the system is in an insecure state?
->>>
->>
->> In an early version of the patch series this was enforced when turning on
->> Secure Launch, but concerns were raised over this approach and was asked to
->> allow the user to be able to shoot themselves in the foot. Overriding these
->> values could render either an insecure state and/or an unstable system.
-> 
-> If we're in an insecure state, is that something that would show up in
-> the form of different measurements?
+Jordy
 
-Yes, you would get a different measurement for the commandline. If you 
-are thinking in terms of attestation, I would expect that the 
-attestation measurement db would have a record for an acceptable 
-commandline and would determine the system to be in an unknown state if 
-it did not match.
-
-While the idea could be explored to create measurements based on 
-configurations of kernel subsystems, this would likely entail 
-instrumentation in those subsystems to assert a measurement to their 
-configuration. Maybe IMA could cover something like this? It would 
-definitely enable the ability to make deeper assessments about the state 
-of a system, but I think this is out of the scope of what Secure Launch 
-is attempting to do.
+On Fri, Jun 16, 2023 at 8:05=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
+> wrote:
+>
+> On Fri, Jun 16, 2023 at 01:37:35PM +0000, Jordy Zomer wrote:
+> > +Please note that this function should only be used if the upper
+> > +boundary is a built-time constant, otherwise this could be
+> > +speculated on as well. If this is not the case please refer to
+> > +barrier_nospec().
+>
+> "build time", not "built time".  Also, "Please note that" doesn't
+> really add any value.  You can just write:
+>
+> This function should only be used if the upper boundary is a build-time
+> constant, otherwise this could be speculated on as well.  If it is not
+> a constant, use barrier_nospec() instead.
+>
