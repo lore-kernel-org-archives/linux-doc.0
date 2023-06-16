@@ -2,216 +2,208 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53CC0EB64D8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 12:36:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D1E3EB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 12:57:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344705AbjFPMgq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 08:36:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38666 "EHLO
+        id S1344570AbjFPM5X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Jun 2023 08:57:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343765AbjFPMgp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 08:36:45 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11DD52702
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 05:36:43 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4f764e9295dso844804e87.0
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jun 2023 05:36:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf.com; s=google; t=1686919001; x=1689511001;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yGOfdzs+A9lP2dR/JNkIwPkC68/3Vu2CqB4daNG5pwA=;
-        b=RSONdy/aWWf3Ur7h0nHkjZlPyEQ5dtlEtQbJzqtE0kE0zoZk3l/KxiCh0wAVCV2FMt
-         tUQmzFivhfbl7XpeU6YtyVpAc3xfsOEGC7jx3T0PwMUfZogyLy23EViZxL1QoIdUH+RF
-         VjVuK4nssJVah45tKqBZCEGUrCNZBwp9cvxXHQ0Qz1zTUr6yyG3pnufMSGwOw3MH6PGo
-         ktaa+mhX8G1JRhSdpXl/EMZWRT8D6q11B/ARHNxJC7gtgAuqKIJSIF3n3Y3sDm0VsMLW
-         4+aKB8LZeIfJQv+HkxLxa9/6/WEQpFxSa43gwGsT716d+EjoXtFg/tQX210XqR8nkr6j
-         TSFA==
+        with ESMTP id S245394AbjFPM5W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 08:57:22 -0400
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DADC2133;
+        Fri, 16 Jun 2023 05:57:21 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-56cf34a3c72so7506737b3.1;
+        Fri, 16 Jun 2023 05:57:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686919001; x=1689511001;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yGOfdzs+A9lP2dR/JNkIwPkC68/3Vu2CqB4daNG5pwA=;
-        b=ZD52GVg5tkDLdCXj+mlbOIJlCGQp3nSEf9zlYJ6S/8aQ9ub35papm6ViiRP6Z5bA1q
-         UEO6lT54KM0GvHGCzMKPRGokJS2B2Np/pHw5xUWp1lElfQ/0fM6s/6BTR1CFZVxuVaHz
-         +NHsQaZbRUHVIpFcfm9gagQUayCLhlNR0NmNI5qYHKjuPbhJY1uWk/jr1mqAy33rI2lR
-         7GkwmknLqH0/yZo0D2DVifbpyTGyValzoukp/6FZt0zSEmw+7+rBxSw5LBOD+0Yy5Rzt
-         d6H5BFLtrYBw8VLgTVhnR/cTMlsW6cI9Fv9jh0DtXnTpEkYerYHRMsNy61LnPE6yeRZi
-         /ing==
-X-Gm-Message-State: AC+VfDyb10+l0cIhlWDfoXw8+iEcGaQTmTr8H90gspoQMBO3LSBdGdmA
-        aYIEpVbAQekJhwnWraB1qusykA==
-X-Google-Smtp-Source: ACHHUZ4QjwKxl7vt9iFPySkHd1yALSaM/Z4FHfEyj3OrRTFl17s49Q7/27TY/h26lz6RYBEKa53/6w==
-X-Received: by 2002:ac2:4647:0:b0:4f0:af5:5560 with SMTP id s7-20020ac24647000000b004f00af55560mr1090291lfo.19.1686919000977;
-        Fri, 16 Jun 2023 05:36:40 -0700 (PDT)
-Received: from [10.43.1.253] ([83.142.187.84])
-        by smtp.gmail.com with ESMTPSA id r17-20020ac25a51000000b004f7618c67a7sm1238978lfn.76.2023.06.16.05.36.38
+        d=1e100.net; s=20221208; t=1686920240; x=1689512240;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hcbF9PBOH9151WOgd1icrip8DJq22U52YsMydTt0A4U=;
+        b=Pvf8fp22hUgQ+3K1mqdw/gkYrxyn38le7450C01d+haDJQ04U+AQjWUvHDFLAS1aot
+         I3X3opOxTQ8DIXjjbau/E98bNKuEieBrKfHwrrkfL3NR8liin0oK9M+//GPsd7fOj0u9
+         XU8066lt1l1/RlkDhOV7CoRqCWoCQfVmTzxu6Y2M0VRSmuuwvmMUFgKYWCWgygiOeocm
+         1a2MjKK2Ud8qNvPNFr97LmANRdsLmjti/TwXntaDahAPcyt4RDn4beeY6rZNm/RJF2ry
+         NX2dFKVbpR1EpWkDXCS9YTujBrTcHFbC4Xpyu6x8jDyDQrvhP+/Hg3TDQoFzS7fRZuZo
+         m9dg==
+X-Gm-Message-State: AC+VfDzZ572xBVyFxOX9iO1kOoykKI3dPtLkKQ63d3NaKZHW/l7WZMgO
+        yUeRY8Zus3bAp9Z6pWUbEbXc7QR4u8e81g==
+X-Google-Smtp-Source: ACHHUZ6yetTHg2YYYGWII0wCa7XO4KjSGbexrYandYGj3w73VCfQsbUD/DemYm2LkAaHvlj4kDlSPA==
+X-Received: by 2002:a0d:d808:0:b0:56d:2c9e:6148 with SMTP id a8-20020a0dd808000000b0056d2c9e6148mr1690762ywe.9.1686920240405;
+        Fri, 16 Jun 2023 05:57:20 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id t66-20020a0dd145000000b0056d2dd6c5bcsm3098636ywd.89.2023.06.16.05.57.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jun 2023 05:36:40 -0700 (PDT)
-Message-ID: <001aa2ed-2f78-4361-451d-e31a4d4abaa0@semihalf.com>
-Date:   Fri, 16 Jun 2023 14:36:37 +0200
+        Fri, 16 Jun 2023 05:57:19 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-57045429f76so7680587b3.0;
+        Fri, 16 Jun 2023 05:57:19 -0700 (PDT)
+X-Received: by 2002:a81:7206:0:b0:570:209a:a4fe with SMTP id
+ n6-20020a817206000000b00570209aa4femr1585508ywc.32.1686920239175; Fri, 16 Jun
+ 2023 05:57:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] docs: security: Confidential computing intro and
- threat model for x86 virtualization
-Content-Language: en-US
-To:     Sean Christopherson <seanjc@google.com>,
-        Elena Reshetova <elena.reshetova@intel.com>
-Cc:     Carlos Bilbao <carlos.bilbao@amd.com>,
-        Jason CJ Chen <jason.cj.chen@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "kraxel@redhat.com" <kraxel@redhat.com>,
-        "dovmurik@linux.ibm.com" <dovmurik@linux.ibm.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Dhaval.Giani@amd.com" <Dhaval.Giani@amd.com>,
-        "michael.day@amd.com" <michael.day@amd.com>,
-        "pavankumar.paluri@amd.com" <pavankumar.paluri@amd.com>,
-        "David.Kaplan@amd.com" <David.Kaplan@amd.com>,
-        "Reshma.Lal@amd.com" <Reshma.Lal@amd.com>,
-        "Jeremy.Powell@amd.com" <Jeremy.Powell@amd.com>,
-        "sathyanarayanan.kuppuswamy@linux.intel.com" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "alexander.shishkin@linux.intel.com" 
-        <alexander.shishkin@linux.intel.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "dgilbert@redhat.com" <dgilbert@redhat.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "dinechin@redhat.com" <dinechin@redhat.com>,
-        "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-        "berrange@redhat.com" <berrange@redhat.com>,
-        "mst@redhat.com" <mst@redhat.com>, "tytso@mit.edu" <tytso@mit.edu>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richard.weinberger@gmail.com" <richard.weinberger@gmail.com>,
-        "lukas@wunner.de" <lukas@wunner.de>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "cdupontd@redhat.com" <cdupontd@redhat.com>,
-        "jasowang@redhat.com" <jasowang@redhat.com>,
-        "sameo@rivosinc.com" <sameo@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "security@kernel.org" <security@kernel.org>,
-        Larry Dewey <larry.dewey@amd.com>, android-kvm@google.com,
-        Dmitry Torokhov <dtor@google.com>,
-        Allen Webb <allenwebb@google.com>,
-        Tomasz Nowicki <tn@semihalf.com>,
-        Grzegorz Jaszczyk <jaz@semihalf.com>,
-        Patryk Duda <pdk@semihalf.com>
-References: <20230612164727.3935657-1-carlos.bilbao@amd.com>
- <ZIihRqZljMaMRGcK@google.com>
- <DM8PR11MB5750D16B08B769173DCD740AE75AA@DM8PR11MB5750.namprd11.prod.outlook.com>
- <ZInLlkXsgnej9ZpT@google.com>
-From:   Dmytro Maluka <dmy@semihalf.com>
-In-Reply-To: <ZInLlkXsgnej9ZpT@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230615230537.30429-1-ebiggers@kernel.org> <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
+ <20230616021707.GA87129@sol.localdomain> <e213b58defcce0b49ee57cb27df591310eb09fd3.camel@huaweicloud.com>
+In-Reply-To: <e213b58defcce0b49ee57cb27df591310eb09fd3.camel@huaweicloud.com>
+From:   Luca Boccassi <bluca@debian.org>
+Date:   Fri, 16 Jun 2023 13:57:07 +0100
+X-Gmail-Original-Message-ID: <CAMw=ZnT_3ahFUL82iaJ+sA2DFuMtnLMui0qWi7U=BtEnW8bPyg@mail.gmail.com>
+Message-ID: <CAMw=ZnT_3ahFUL82iaJ+sA2DFuMtnLMui0qWi7U=BtEnW8bPyg@mail.gmail.com>
+Subject: Re: [PATCH] fsverity: improve documentation for builtin signature support
+To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc:     Eric Biggers <ebiggers@kernel.org>, fsverity@lists.linux.dev,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        Colin Walters <walters@verbum.org>,
+        Alexander Larsson <alexl@redhat.com>,
+        Victor Hsieh <victorhsieh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/14/23 16:15, Sean Christopherson wrote:
-> On Wed, Jun 14, 2023, Elena Reshetova wrote:
->>>> +The specific details of the CoCo security manager vastly diverge between
->>>> +technologies. For example, in some cases, it will be implemented in HW
->>>> +while in others it may be pure SW. In some cases, such as for the
->>>> +`Protected kernel-based virtual machine (pKVM) <https://github.com/intel-
->>> staging/pKVM-IA>`,
->>>> +the CoCo security manager is a small, isolated and highly privileged
->>>> +(compared to the rest of SW running on the host) part of a traditional
->>>> +VMM.
->>>
->>> I say that "virtualized environments" isn't a good description because
->>> while pKVM does utilize hardware virtualization, my understanding is that
->>> the primary use cases for pKVM don't have the same threat model as SNP/TDX,
->>> e.g. IIUC many (most?  all?) pKVM guests don't require network access.
->>
->> Not having a network access requirement doesn’t implicitly invalidate the 
->> separation guarantees between the host and guest, it just makes it easier
->> since you have one interface less between the host and guest.
-> 
-> My point is that if the protected guest doesn't need any I/O beyond the hardware
-> device that it accesses, then the threat model is different because many of the
-> new/novel attack surfaces that come with the TDX/SNP threat model don't exist.
-> E.g. the hardening that people want to do for VirtIO drivers may not be at all
-> relevant to pKVM.
+On Fri, 16 Jun 2023 at 10:51, Roberto Sassu
+<roberto.sassu@huaweicloud.com> wrote:
+>
+> On Thu, 2023-06-15 at 19:17 -0700, Eric Biggers wrote:
+> > Hi Luca,
+> >
+> > On Fri, Jun 16, 2023 at 02:10:35AM +0100, Luca Boccassi wrote:
+> > > On Fri, 16 Jun 2023 at 00:07, Eric Biggers <ebiggers@kernel.org> wrote:
+> > > > From: Eric Biggers <ebiggers@google.com>
+> > > >
+> > > > fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
+> > > > the only way to do signatures with fsverity, and they have some major
+> > > > limitations.  Yet, more users have tried to use them, e.g. recently by
+> > > > https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
+> > > > to be because users aren't sufficiently familiar with the limitations of
+> > > > this feature and what the alternatives are.
+> > > >
+> > > > Therefore, make some updates to the documentation to try to clarify the
+> > > > properties of this feature and nudge users in the right direction.
+> > > >
+> > > > Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
+> > > > upstream, is planned to use the builtin signatures.  (This differs from
+> > > > IMA, which uses its own signature mechanism.)  For that reason, my
+> > > > earlier patch "fsverity: mark builtin signatures as deprecated"
+> > > > (https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
+> > > > which marked builtin signatures as "deprecated", was controversial.
+> > > >
+> > > > This patch therefore stops short of marking the feature as deprecated.
+> > > > I've also revised the language to focus on better explaining the feature
+> > > > and what its alternatives are.
+> > > >
+> > > > Signed-off-by: Eric Biggers <ebiggers@google.com>
+> > > > ---
+> > > >
+> > > > This patch applies to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
+> > > >
+> > > >  Documentation/filesystems/fsverity.rst | 176 ++++++++++++++++---------
+> > > >  fs/verity/Kconfig                      |  16 +--
+> > > >  fs/verity/enable.c                     |   2 +-
+> > > >  fs/verity/open.c                       |   8 +-
+> > > >  fs/verity/read_metadata.c              |   4 +-
+> > > >  fs/verity/signature.c                  |   8 ++
+> > > >  6 files changed, 139 insertions(+), 75 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
+> > > > index ede672dedf110..e990149cfdf5c 100644
+> > > > --- a/Documentation/filesystems/fsverity.rst
+> > > > +++ b/Documentation/filesystems/fsverity.rst
+> > >
+> > > Most of the patch looks fine, two notes:
+> > >
+> > > > +- Trusted userspace code.  When the accesses to a file happen in a
+> > > > +  well-defined way, userspace code can authenticate the file's
+> > > > +  fs-verity digest before accessing the file.  This can be done by
+> > > > +  verifying a signature of the fs-verity file digest using any
+> > > > +  userspace cryptographic library that supports digital signatures.
+> > > > +  Consider using `libsodium
+> > > > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_
+> > > > +  or `Tink <https://developers.google.com/tink/digitally-sign-data>`_.
+> > > > +  Other options include OpenSSL, JCA, and libgcrypt.
+> > >
+> > > This should at least mention something like "depending on whether the
+> > > threat model allows trusting userspace with such tasks", because it is
+> > > by no means guaranteed that it is the case.
+> >
+> > Sure, that's why it says "Trusted userspace code", but I can make it clearer.
+> >
+> > > > +- fs-verity builtin signatures are in PKCS#7 format, and the public
+> > > > +  keys are in X.509 format.  These data formats are complex and prone
+> > > > +  to vulnerabilities, so parsing them is preferably done in userspace.
+> > > > +  (fs-verity builtin signatures were made to use these formats because
+> > > > +  other kernel subsystems, such as the module loader, unfortunately
+> > > > +  used these formats already.)  Most cryptographic libraries also
+> > > > +  support working with raw keys and signatures, which are much
+> > > > +  simpler.  For example, consider using `libsodium
+> > > > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_.
+> > > > +
+> > > > +  IMA appraisal, which supports fs-verity, does not use PKCS#7, so it
+> > > > +  partially avoids this issue as well (though it does use X.509).
+> > >
+> > > The kernel makes extensive use of PKCS7, it's the foundation of the
+> > > trust chain with secure boot (and kernel modules as noted) after all,
+> > > among other things, so this description looks very out of place as
+> > > part of the same project. Readers might be led to believe that using
+> > > secure boot or signed modules is useless, or worse, dangerous, and
+> > > that it's better not to, and I'm quite sure that's not something we
+> > > want.
+> > >
+> >
+> > Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
+> > it is a good idea.  Have you read the kernel code that implements these formats?
+> > A few years ago I went through some of it.  Here are some of the bugs I fixed:
+> >
+> >     2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
+> >     624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
+> >     e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
+> >     81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
+> >     0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
+> >     54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
+> >     971b42c038dc ("PKCS#7: fix certificate chain verification")
+> >     29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
+> >     437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
+> >     4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig")
+> >
+> > 971b42c038dc is noteworthy; it turned out the kernel did not properly verify
+> > certificate chains in PKCS#7 messages.  That was fundamentally a PKCS#7-specific
+> > security bug that was directly caused by the complexity that is specific to
+> > PKCS#7.  Simple signatures do not have certificate chains.
+> >
+> > I hope the code is in slightly better shape now.  But I really haven't looked at
+> > it in several years.  In any case, the fact is that these formats are complex,
+> > which causes bugs.  I don't think we should be trying to pretend otherwise.
+>
+> That is a quite extensive explanation why is not a good idea to parse
+> key/certificates in the kernel.
+>
+> Actually, I tried to address that with this patch set:
+>
+> https://lore.kernel.org/linux-kernel//20230425173557.724688-1-roberto.sassu@huaweicloud.com/
+>
+> The idea was to develop an asymmetric key parser to forward the key
+> material from the kernel to a user space process for parsing, and get
+> back a well formatted key (basically the same fields of struct
+> public_key).
+>
+> Maybe that would not work for X.509 certificates, as they are
+> extensively used in kernel code, but for simpler formats like PGP,
+> maybe. And the mechanism is interchangeable. If you want to support
+> another key format, you need to change only user space.
+>
+> The challenge is if the user space process makes some security
+> decisions, like for key expiration, etc. I thought that we could
+> enforce strong isolation of that process by denying ptrace on it, but
+> it is still work in progress...
 
-Strictly speaking, the protected pKVM guest does need some I/O beyond
-that, e.g. for some (limited and specialized) communication between the
-host and the guest, e.g. vsock-based. For example, in the fingerprint
-use case, the guest receives requests from the host to capture
-fingerprint data from the sensor, sends encrypted fingerprint templates
-to the host, and so on.
+Something like that makes sense on systems where userspace sits at a
+higher privilege level than the kernel, so to speak, in the threat
+model. While I'm sure there are such systems, it doesn't mean it's the
+best solution everywhere.
+So, having that as an option on equal footing: fine, no problem.
+Having that as the only option, or implying it's the only
+possible/sensible option everywhere: sorry, not fine.
 
-Additionally, speaking of the hardware device, the guest does not
-entirely own it. It has direct exclusive access to the data
-communication with the device (ensured by its exclusive access to MMIO
-and DMA buffers), but e.g. the device interrupts are forwarded to the
-guest by the host, and the PCI config space is virtualized by the host.
-
-But I think I get what you mean: there is no data transfer whereby the
-host is not an endpoint but an intermediary between the guest and some
-device. In simple words, things like virtio-net or virtio-blk are out of
-scope. Yes, I think that's correct for pKVM-on-x86 use cases (and I
-suppose it is correct for pKVM-on-ARM use cases as well). I guess it
-means that "guest data attacks" may not be relevant to pKVM, and perhaps
-this makes its threat model substantially different from cloud use
-cases.
-
-However, other kinds of threats described in the doc do seem to be
-relevant to pKVM. "Malformed/malicious runtime input" is relevant since
-communication channels between the host and the guest do exist, the host
-may arbitrarily inject interrupts into the guest, etc. "Guest malicious
-configuration" is relevant too, and guest attestation is required, as I
-wrote in [1].
-
-Cc'ing android-kvm and some ChromeOS folks to correct me if needed.
-
-> And I don't see any need to formally document pKVM's threat model right *now*.
-> pKVM on x86 is little more than a proposal at this point, and while I would love
-> to see documentation for pKVM on ARM's threat model, that obviously doesn't belong
-> in a doc that's x86 specific.
-
-Agree, and I don't think it makes sense to mention pKVM-on-x86 without
-mentioning pKVM-on-ARM, as if pKVM-on-x86 had more in common with cloud
-use cases than with pKVM-on-ARM, while quite the opposite is true.
-
-It seems there is no reason why pKVM-on-x86 threat model should be
-different from pKVM-on-ARM. The use cases on ARM (for Android) and on
-x86 (for ChromeOS) are somewhat different at this moment (in that in
-ChromeOS use cases the protected guest's sensitive data includes also
-data coming directly from a physical device), but IIUC they are
-converging now, i.e. Android is getting interested in use cases with
-physical devices too.
-
->>>> +potentially misbehaving host (which can also include some part of a
->>>> +traditional VMM or all of it), which is typically placed outside of the
->>>> +CoCo VM TCB due to its large SW attack surface. It is important to note
->>>> +that this doesn’t imply that the host or VMM are intentionally
->>>> +malicious, but that there exists a security value in having a small CoCo
->>>> +VM TCB. This new type of adversary may be viewed as a more powerful type
->>>> +of external attacker, as it resides locally on the same physical machine
->>>> +-in contrast to a remote network attacker- and has control over the guest
->>>> +kernel communication with most of the HW::
->>>
->>> IIUC, this last statement doesn't hold true for the pKVM on x86 use case, which
->>> specifically aims to give a "guest" exclusive access to hardware resources.
->>
->> Does it hold for *all* HW resources? If yes, indeed this would make pKVM on
->> x86 considerably different.
-> 
-> Heh, the original says "most", so it doesn't have to hold for all hardware resources,
-> just a simple majority.
-
-Again, pedantic mode on, I find it difficult to agree with the wording
-that the guest owns "most of" the HW resources it uses. It controls the
-data communication with its hardware device, but other resources (e.g.
-CPU time, interrupts, timers, PCI config space, ACPI) are owned by the
-host and virtualized by it for the guest.
-
-[1] https://lore.kernel.org/all/2cfa3122-6b54-aab5-8a61-41c08853286b@semihalf.com/
+Kind regards,
+Luca Boccassi
