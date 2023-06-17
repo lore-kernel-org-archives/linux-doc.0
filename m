@@ -2,87 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 976F2EB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Jun 2023 23:36:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30C8CEB64D9
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Jun 2023 04:51:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345770AbjFPXgm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Jun 2023 19:36:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49388 "EHLO
+        id S232106AbjFQEvI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Jun 2023 00:51:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345821AbjFPXgj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Jun 2023 19:36:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129B53599;
-        Fri, 16 Jun 2023 16:36:35 -0700 (PDT)
+        with ESMTP id S229739AbjFQEvH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Jun 2023 00:51:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A160D10C1;
+        Fri, 16 Jun 2023 21:51:06 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C6EF62EF0;
-        Fri, 16 Jun 2023 23:36:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FEB0C433D9;
-        Fri, 16 Jun 2023 23:36:33 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CFAD60CBA;
+        Sat, 17 Jun 2023 04:51:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F985C433C0;
+        Sat, 17 Jun 2023 04:51:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686958594;
-        bh=zT5gbB7rVoap1E8WJihukUSBZgfptu3BhHsTT2AdGt4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CVdz3loJKxKxjdEMlRpBM4tKvO2y4Jrovl353vdDDH2FFxpc98MD95I/mEwiT4ob2
-         8wZZX+QOiS3TLDzQbAAXJqtP541njXoNd8k68OJmrjPXZEkWbV2AVsOA275Fkv+jbC
-         Nu0CkrUx949fmWRdKZA/wrp5lVh6pEzrUFt0u6LChu1Rpxdn0pPkx5m7hxVGEYm7bK
-         0t1lAeWBRhZUomwU7zVRICIyyjyXXcOBdJ0H6fpjbv3BTHD8wN1/QW4l47DA66Oved
-         vC1Y0VRlM3B5inFxlLn1/QjPRpS68s1ZPO10+fDXtibFlvvppIt8xZAWN3B9Qb2FSC
-         if1YnUwwzSd7A==
-From:   SeongJae Park <sj@kernel.org>
-To:     paulmck@kernel.org
-Cc:     SeongJae Park <sj@kernel.org>, joel@joelfernandes.org,
-        mmpgouride@gmail.com, corbet@lwn.net, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 3/3] Docs/RCU/rculist_nulls: Fix text about atomic_set_release()
-Date:   Fri, 16 Jun 2023 23:36:26 +0000
-Message-Id: <20230616233626.83906-4-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230616233626.83906-1-sj@kernel.org>
-References: <20230616233626.83906-1-sj@kernel.org>
+        s=k20201202; t=1686977465;
+        bh=JkdQR20ShOJ/lF5M3KLtBhHDScXeHiAAFg7kkEihbjw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pbgTgTIH8yxmS4rQvDmgvjIyAGBxTAyR7SmaKBA3Wt6FYLCfBEQFl5wvb+E0sXjHA
+         6cAA+91A8TdakW6XOBDog7yJzG2/7iqt8Cbc7utzUY0eTEqHgjhXLM9hJpMmq42g9H
+         EOTLB1gus2HzJuUHoHrj+d8cZCFOJij+h9rsdu/DbM3uDEBBZWfawRJXAc4Sw1g7ZN
+         QeAk443csFAQApler1q7rahm62TNHwoIw2JWLRkMmVI7CGK/iD8lQf6D2U7MjIBLYN
+         bfVQeANh9qwtG/fmVEFudoXWPTf0pE08WUcBWBjyv3EXdbYXaUF/1zTZLCb0zHAIAz
+         sKvb8lOANepBQ==
+Date:   Fri, 16 Jun 2023 21:51:03 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Luca Boccassi <bluca@debian.org>
+Cc:     fsverity@lists.linux.dev, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>,
+        Alexander Larsson <alexl@redhat.com>,
+        Victor Hsieh <victorhsieh@google.com>
+Subject: Re: [PATCH] fsverity: improve documentation for builtin signature
+ support
+Message-ID: <20230617045103.GA1090@sol.localdomain>
+References: <20230615230537.30429-1-ebiggers@kernel.org>
+ <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
+ <20230616021707.GA87129@sol.localdomain>
+ <CAMw=ZnTEV=GuEE=wB0Z4E1x_uH5zzjyQkB1ycrYnWB2GCMaRTA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMw=ZnTEV=GuEE=wB0Z4E1x_uH5zzjyQkB1ycrYnWB2GCMaRTA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The document says we can avoid extra _release() in insert function when
-hlist_nulls is used, but that's not true[1].  Drop it.
+On Fri, Jun 16, 2023 at 02:27:28PM +0100, Luca Boccassi wrote:
+> > Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
+> > it is a good idea.  Have you read the kernel code that implements these formats?
+> > A few years ago I went through some of it.  Here are some of the bugs I fixed:
+> >
+> >     2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
+> >     624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
+> >     e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
+> >     81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
+> >     0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
+> >     54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
+> >     971b42c038dc ("PKCS#7: fix certificate chain verification")
+> >     29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
+> >     437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
+> >     4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig")
+> 
+> I have no doubt that there are bugs, as I have no doubts that there
+> are bugs in every other subsystem, including fsverity, once you start
+> looking hard enough.
 
-[1] https://lore.kernel.org/rcu/46440869-644a-4982-b790-b71b43976c66@paulmck-laptop/
+My point was not that there are bugs, but rather that there are *unnecessary*
+bugs (many with possible security impact) that are directly caused by the
+complexities of these formats versus the alternatives.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/RCU/rculist_nulls.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+> That's not the point. The point is that having
+> the documentation of one kernel subsystem disparaging the mechanisms
+> that are central to other kernel subsystems' functionality is weird
+> and out of place. Something like that is fine to post on social media
+> or a blog post or so. A user jumping from one page of kernel doc
+> saying, paraphrasing heavily for the sake of argument, "use pkcs7 to
+> ensure the security of your system via secure boot, measured boot and
+> signed kernel modules" and another saying "pkcs7 is bad and broken,
+> stay away from it" is just strange, confusing and incoherent from the
+> point of view of a reader.
 
-diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-index 4afa11f2c906..660cc3f0f1e5 100644
---- a/Documentation/RCU/rculist_nulls.rst
-+++ b/Documentation/RCU/rculist_nulls.rst
-@@ -138,8 +138,7 @@ very very fast (before the end of RCU grace period)
- Avoiding extra smp_rmb()
- ========================
- 
--With hlist_nulls we can avoid extra smp_rmb() in lockless_lookup()
--and extra _release() in insert function.
-+With hlist_nulls we can avoid extra smp_rmb() in lockless_lookup().
- 
- For example, if we choose to store the slot number as the 'nulls'
- end-of-list marker for each slot of the hash table, we can detect
-@@ -194,6 +193,9 @@ Note that using hlist_nulls means the type of 'obj_node' field of
- 2) Insert algorithm
- -------------------
- 
-+Same to the above one, but uses hlist_nulls_add_head_rcu() instead of
-+hlist_add_head_rcu().
-+
- ::
- 
-   /*
--- 
-2.25.1
+I'll add a note that PKCS#7 and X.509 should still be used in situations where
+they are the only option.  I think that would handle your main concern here,
+which is that people might misunderstand the paragraph as recommending using no
+signatures, instead of signatures using a PKCS#7 and X.509 based system.
 
+I don't think it would be appropriate to remove the paragraph entirely.  It
+provides useful information that helps users decide what type of signatures to
+use.  I understand that people who are invested greatly into PKCS#7 and X.509
+based systems might be resistant to learning about the problems with these
+formats, but that is to be expected.
+
+- Eric
