@@ -2,94 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C76EB64D9
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Jun 2023 10:59:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C88DEB64DB
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Jun 2023 11:07:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231128AbjFQK7e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Jun 2023 06:59:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36374 "EHLO
+        id S233712AbjFQLHP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Jun 2023 07:07:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229683AbjFQK7d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Jun 2023 06:59:33 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68ED61BD;
-        Sat, 17 Jun 2023 03:59:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686999572; x=1718535572;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vQxA8vkjHecmo3ite9rgz7G1flxBXK8uNjneOM1CpXE=;
-  b=Z89b5rSpC5mr9Kt/6gL5H7vRdFGf651UWM642tL4adQCxkaRuLq+kICN
-   D2Bs8GElUIOfv9j4674ttHdv99AnjxJDh2lv55NMBFJKJ0Ghbo/5Q+2Vo
-   YjwGcToIUPLU2OWuRIz4+YlZH8SEoQB1VSikHNEf9KezWgdzJy6uDVK8j
-   u1aVcVqHezkjy7i3jcQfpMEaltWI7FkXEOVwAmiXsk78stxZREwTTntRR
-   ueAi1XSJSr688gDoBIE9T5BLFvdg2Frc3hU5Dxuf1xowytKV/RgUL6FCr
-   4II6/ApBvF4OOIolibRZjpkBT1Z+ggkbYpnuZKwckRmPfh4/MTjloGpQ4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="388248447"
-X-IronPort-AV: E=Sophos;i="6.00,250,1681196400"; 
-   d="scan'208";a="388248447"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 03:59:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="1043377579"
-X-IronPort-AV: E=Sophos;i="6.00,250,1681196400"; 
-   d="scan'208";a="1043377579"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Jun 2023 03:59:30 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qATeT-0002gg-2w;
-        Sat, 17 Jun 2023 10:59:29 +0000
-Date:   Sat, 17 Jun 2023 18:58:36 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     David Arinzon <darinzon@amazon.com>
-Cc:     oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        Shay Agroskin <shayagr@amazon.com>, linux-doc@vger.kernel.org
-Subject: [net-next:main 3/11] htmldocs:
- Documentation/networking/device_drivers/ethernet/amazon/ena.rst:209:
- WARNING: Explicit markup ends without a blank line; unexpected unindent.
-Message-ID: <202306171804.U7E92zoE-lkp@intel.com>
+        with ESMTP id S229683AbjFQLHO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Jun 2023 07:07:14 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C62B010D;
+        Sat, 17 Jun 2023 04:07:12 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-666e97fcc60so506497b3a.3;
+        Sat, 17 Jun 2023 04:07:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687000032; x=1689592032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qhpY0RwqwHbZiwoJYp4Rqo6qZ2feyVpNaQrxVK7a/N0=;
+        b=IwygCn8giTzXhLQ87bisS6fBvSruFs1A/TuZ7cKl6CtQKBmwUXz8kttUmAuFG/qCKW
+         epK3DY0zD7Jh7kv6mTgGNVawIxA21KHkQvzO1nCBKupET1ZOoX7zpUdOaNsdW65epM5S
+         +C5t4MlU+cRcPPUo0YSG7/IECEH+i9WAEG43tXvci5CdkptJ8oFgjbdZeusHtkhz3vX1
+         J4MD4iB9EuLyfIaf/1xbSEaYp751THRUOHa4r0790PBMqNhTnY2SI8NjYORv9rApSwVT
+         +URcteoInj5SXiw9ljLqZPL5qd2z9F+3x4mFXUR8/8VyQNpi5eIlNRZHsxb9u0/0MhBP
+         12FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687000032; x=1689592032;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qhpY0RwqwHbZiwoJYp4Rqo6qZ2feyVpNaQrxVK7a/N0=;
+        b=aMZpJGNY/NKykpGP9FUnJfoNp6CZSupyM/DZCunIncUy2eqi9DDbIs71a6fKsJ95T2
+         tx672T/NqJtn/zR5eiYXeL3dbYpaAgHJ++A36+O1OIgQd+aFUGZrncLN3ztqRTaiOZZG
+         55DNQAMbCm5WJczOWBsHAV1MNQVh5+18VwbJkOydZW2zuw1pybb8KJ7qG+ybBFKe05MZ
+         ez3QDVn27tvwO/pPS/Cf4xwSgiuSJL+c7akaNUTDokXF5ZfH5xUak1ljkRBfjYArKZ9R
+         jjaKkAf/g6ZXOsb3QUwdIW8VYqM+MIKEIZDZ7war+xEJIL4kqGQ36+F+bmD569hylGPQ
+         l3jA==
+X-Gm-Message-State: AC+VfDyqeTWxBdIWExdkUxOkNw+bGoJU+I/I5XnKA9CXKkIX8mD5lacn
+        M0l6TN4Bgr7kDeUA/UymO2I=
+X-Google-Smtp-Source: ACHHUZ6wYJi/XN4fwYyCqPgqdm1gZEcxRI5zLxDY+iLcML4SILlCwH6KeLQXavnBDVPiosBa/92u2Q==
+X-Received: by 2002:a05:6a20:3d8f:b0:11d:235f:af93 with SMTP id s15-20020a056a203d8f00b0011d235faf93mr4017155pzi.44.1687000032108;
+        Sat, 17 Jun 2023 04:07:12 -0700 (PDT)
+Received: from localhost ([2402:d0c0:2:a2a::1])
+        by smtp.gmail.com with ESMTPSA id d7-20020a170903230700b001b526ec4a84sm3320101plh.279.2023.06.17.04.07.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Jun 2023 04:07:11 -0700 (PDT)
+From:   Alan Huang <mmpgouride@gmail.com>
+To:     paulmck@kernel.org
+Cc:     joel@joelfernandes.org, corbet@lwn.net, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, Alan Huang <mmpgouride@gmail.com>
+Subject: [PATCH] docs/RCU: Bring smp_wmb() back
+Date:   Sat, 17 Jun 2023 11:07:06 +0000
+Message-Id: <20230617110706.28941-1-mmpgouride@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-head:   f60ce8a48b97eb970bfbec1f26c914b9017c4a46
-commit: f7d625adeb7bc6a9ec83d32d9615889969d64484 [3/11] net: ena: Add dynamic recycling mechanism for rx buffers
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171804.U7E92zoE-lkp@intel.com/reproduce)
+There are two memory ordering required in the insertion algorithm,
+we need wo make obj->key is updated before obj->obj_node.next
+and obj->refcnt, atomic_set_release is not enough to provide the
+required memory barrier.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306171804.U7E92zoE-lkp@intel.com/
+Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+---
+ Documentation/RCU/rculist_nulls.rst | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/networking/device_drivers/ethernet/amazon/ena.rst:209: WARNING: Explicit markup ends without a blank line; unexpected unindent.
-
-vim +209 Documentation/networking/device_drivers/ethernet/amazon/ena.rst
-
-1738cd3ed34229 Documentation/networking/ena.txt                                Netanel Belgazal      2016-08-10  207  
-f7d625adeb7bc6 Documentation/networking/device_drivers/ethernet/amazon/ena.rst David Arinzon         2023-06-12  208  .. _`RX copybreak`:
-8d299c7e912bd8 Documentation/networking/device_drivers/amazon/ena.rst          Mauro Carvalho Chehab 2020-05-01 @209  RX copybreak
-8d299c7e912bd8 Documentation/networking/device_drivers/amazon/ena.rst          Mauro Carvalho Chehab 2020-05-01  210  ============
-1738cd3ed34229 Documentation/networking/ena.txt                                Netanel Belgazal      2016-08-10  211  The rx_copybreak is initialized by default to ENA_DEFAULT_RX_COPYBREAK
-1738cd3ed34229 Documentation/networking/ena.txt                                Netanel Belgazal      2016-08-10  212  and can be configured by the ETHTOOL_STUNABLE command of the
-1738cd3ed34229 Documentation/networking/ena.txt                                Netanel Belgazal      2016-08-10  213  SIOCETHTOOL ioctl.
-1738cd3ed34229 Documentation/networking/ena.txt                                Netanel Belgazal      2016-08-10  214  
-
-:::::: The code at line 209 was first introduced by commit
-:::::: 8d299c7e912bd8ebb88b9ac2b8e336c9878783aa docs: networking: device drivers: convert amazon/ena.txt to ReST
-
-:::::: TO: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
-
+diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
+index e06ed40bb6..77244adbdf 100644
+--- a/Documentation/RCU/rculist_nulls.rst
++++ b/Documentation/RCU/rculist_nulls.rst
+@@ -98,7 +98,7 @@ Quoting Corey Minyard::
+ ----------------------
+ 
+ We need to make sure a reader cannot read the new 'obj->obj_node.next' value
+-and previous value of 'obj->key'. Otherwise, an item could be deleted
++and previous value of 'obj->key' at the same time. Otherwise, an item could be deleted
+ from a chain, and inserted into another chain. If new chain was empty
+ before the move, 'next' pointer is NULL, and lockless reader can not
+ detect the fact that it missed following items in original chain.
+@@ -112,7 +112,12 @@ detect the fact that it missed following items in original chain.
+   obj = kmem_cache_alloc(...);
+   lock_chain(); // typically a spin_lock()
+   obj->key = key;
+-  atomic_set_release(&obj->refcnt, 1); // key before refcnt
++  /*
++  * we need to make sure obj->key is updated before obj->obj_node.next
++  * and obj->refcnt
++  */
++  smp_wmb();
++  atomic_set(&obj->refcnt, 1);
+   hlist_add_head_rcu(&obj->obj_node, list);
+   unlock_chain(); // typically a spin_unlock()
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
