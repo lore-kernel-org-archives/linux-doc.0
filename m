@@ -2,196 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37D1BEB64DA
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Jun 2023 18:22:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CA75EB64D9
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Jun 2023 19:37:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232070AbjFQSWL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Jun 2023 14:22:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45386 "EHLO
+        id S229675AbjFQThj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Jun 2023 15:37:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229821AbjFQSWK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Jun 2023 14:22:10 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FBB81988;
-        Sat, 17 Jun 2023 11:22:09 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-54fd6aa3b0dso953602a12.2;
-        Sat, 17 Jun 2023 11:22:09 -0700 (PDT)
+        with ESMTP id S229487AbjFQThi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Jun 2023 15:37:38 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50757B0
+        for <linux-doc@vger.kernel.org>; Sat, 17 Jun 2023 12:37:37 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-3fde5e37974so6946111cf.2
+        for <linux-doc@vger.kernel.org>; Sat, 17 Jun 2023 12:37:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687026129; x=1689618129;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1687030656; x=1689622656;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uNlaQjCzRCtj6+QVvj17zK7OgCx+s9oSz+rg6Gn0AI4=;
-        b=j9szqf4MrZg9YKmZJqAHmotGHzCvB6UOPMxITjyF3yO8pVLgRcfvRonOH8fxGXSega
-         3Z5GVFWt50HEfBVEVQEOaoE+ZRX/kpeXkDLmhxSyPvDtSYkTGkyJ+T3FzlcqAcdNfDeh
-         FJJqDmR2SnxJmMqDLRC/CyHnb6Nm44l9A9wI9PLkc6oTEFVeTZUWrqf4Bq3rm5j2N70x
-         JUdauPZz4igKCjxRRaOG9kQ3E2L6bg+ZffzIZeU2W7UPpM+7h1bLnaZi/DzeincUN3zM
-         35+jwm9xsW7zCFGC/dW92RJ7Qr53RmjfHwd6XcZpvHxBkXZKrcT9TjkWqzZ6BmKexZWK
-         E+Nw==
+        bh=kl4HsAfWCKb8ynFnpo6ruxSlGxogBQy+qHi+pBH3hog=;
+        b=CEStdG2KSuhN4jXG9kQWWabVcw4GkfHS5TpEt44Q54ryqwb9f0w5HI+BUP1UIa1aFS
+         gGALN7hKwk2npbWPFm1pGdwYJwy/jamn5M+uK3BF3QLzyDZJ7fnsmLWJwWsh+h3OEPlx
+         0HWzaa0XYP26/B2kXeQrqkS5HH++DNveGujQSgE4QdvYDhI9ftZsn5kk9bIZk9P6ys7p
+         3DVNI42KUHw0JEF2KuLLKJ1IeyczF5MxnXzUy178nN7Nh/VjiV1R5y32hlZmQ4CmMu03
+         yPX7NnjWQqBAvkm/IEUEO/ibDHfdUeng6a/gzO68aS3NUhpa5CFEUMqUeYq/9BJ/JIb1
+         XyJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687026129; x=1689618129;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1687030656; x=1689622656;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uNlaQjCzRCtj6+QVvj17zK7OgCx+s9oSz+rg6Gn0AI4=;
-        b=kwcGK8ULk/hfqyGZin9RG0Uh4InI9DFFOJjbiPzKmTCiz78GX1RhDeeCKtYdzvaMb3
-         VRADap1CSL3vZVZafeSSLOZbWnyRiOw2ENmz2FiDwihAzVgDEiW4kvDa+FXmtPsMBbAm
-         X97Xj4aJD5W9fMZfIbD5oiNP7AvEemEiMyzBsyjxrlINBPtphd/RQNdWFqYSIJvdp/7h
-         ZHnCLz9HQn9NDmKnkWxVqfw8UHjGve+iSQpHcDL1PE3VtjTgefKN3bu0FUNaYwil1nmO
-         D8cp9dPBrbkxPn4VDuaR/RE41Qdd+l+BkfewqgR+lkWd3DZ75Sh4tz1EPRgMiFgoTlLj
-         nPag==
-X-Gm-Message-State: AC+VfDycjHhsrmy/LvLZZAXzp8lGBmVcDGeM69VMXd1GK00EKoNzJGab
-        1kq9VzTnHfsNIuGyqaC+GD8=
-X-Google-Smtp-Source: ACHHUZ72cZG8ROFi6pNdpDT/Ac7bbKRd5sT05O/DYZtS31hLGwFh3CSzCqsR14x1TJOEhIPQxIOLIg==
-X-Received: by 2002:a05:6a21:78b:b0:10b:26b9:57c3 with SMTP id mg11-20020a056a21078b00b0010b26b957c3mr3927965pzb.14.1687026128901;
-        Sat, 17 Jun 2023 11:22:08 -0700 (PDT)
-Received: from smtpclient.apple ([2402:d0c0:2:a2a::1])
-        by smtp.gmail.com with ESMTPSA id n18-20020a170902d2d200b001aad4be4503sm17836427plc.2.2023.06.17.11.22.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 17 Jun 2023 11:22:08 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH v2] docs/RCU: Bring smp_wmb() back
-From:   Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <ZI32Zzxm/6m30L7g@casper.infradead.org>
-Date:   Sun, 18 Jun 2023 02:21:48 +0800
-Cc:     paulmck@kernel.org, Joel Fernandes <joel@joelfernandes.org>,
-        corbet@lwn.net, rcu@vger.kernel.org, linux-doc@vger.kernel.org
+        bh=kl4HsAfWCKb8ynFnpo6ruxSlGxogBQy+qHi+pBH3hog=;
+        b=cOIQy6z4XDHV+YaUaXljJvRNiqgGZq5qE+SfWF9oNhA+4tqYxxc6Mq1jwgo2sEaWNf
+         yTHHpcMZP3OuMUbQOt1Yc4U4GR3z9yJzzP05/PBoQXRWHy04xHxUdZ7phExkhwzqxR45
+         xB6P3uG15ECLsDUKFjxbu7SeCNeSSvaMHHCQbKNTRkHGO7W1CKMWFhAXUsS8TtI6kafS
+         Bk7pH5nOVk17ooK58yM0Tm3sAbzMARVIyQT9WA1BfUH83hY1mtg/mqappF8uRN18BcQC
+         160AoVK6I3XxlzxBUBNXKMo5eW4DH/OtGkuCONXjDxjK5j1GW8tjObr5/ltdLPDvnfKL
+         Macw==
+X-Gm-Message-State: AC+VfDx2sibqVRWzeXlakygEcufjXPmaA9+s+7MBU6FEUeH09I/JGSBp
+        coxwv0TAvwEwNgb8vOq+I8tMFbSm+b9HhUCrEow=
+X-Google-Smtp-Source: ACHHUZ5zKsw7XT8IyzJ4imq0bfVShGn6HETQgfcJDdPOSPTF/MH8EX00PBxCfURYMHyOJvOCmIk4aZK2UG7+UUNyPY0=
+X-Received: by 2002:a05:622a:491:b0:3eb:1512:91c5 with SMTP id
+ p17-20020a05622a049100b003eb151291c5mr7765845qtx.12.1687030656133; Sat, 17
+ Jun 2023 12:37:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230604190604.4800-1-eatnumber1@gmail.com> <20230605050853.6240-1-eatnumber1@gmail.com>
+ <20230605050853.6240-5-eatnumber1@gmail.com>
+In-Reply-To: <20230605050853.6240-5-eatnumber1@gmail.com>
+From:   Russell Harmon <eatnumber1@gmail.com>
+Date:   Sat, 17 Jun 2023 12:37:07 -0700
+Message-ID: <CA+zrezSppKhAyNDofTpm2Rx+L1FmULdGadUi+svLzV-k8E0=LQ@mail.gmail.com>
+Subject: Re: [PATCH v4 4/4] Documentation: dm-integrity: Document an example
+ of how the tunables relate.
+To:     bagasdotme@gmail.com
+Cc:     mpatocka@redhat.com, snitzer@redhat.com, dm-devel@redhat.com,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <747B154D-906B-4D3F-9E0B-40686BDF8B09@gmail.com>
-References: <20230617145346.29009-1-mmpgouride@gmail.com>
- <ZI3r9zH8+xlzGU1H@casper.infradead.org>
- <CC48F50F-0121-4E77-95CF-9E0DEE6991E4@gmail.com>
- <ZI32Zzxm/6m30L7g@casper.infradead.org>
-To:     Matthew Wilcox <willy@infradead.org>
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Friendly ping on this last patch. Was there additional changes needed
+for this one?
 
-> 2023=E5=B9=B46=E6=9C=8818=E6=97=A5 02:07=EF=BC=8CMatthew Wilcox =
-<willy@infradead.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Sun, Jun 18, 2023 at 01:55:10AM +0800, Alan Huang wrote:
->>=20
->>> 2023=E5=B9=B46=E6=9C=8818=E6=97=A5 01:23=EF=BC=8CMatthew Wilcox =
-<willy@infradead.org> =E5=86=99=E9=81=93=EF=BC=9A
->>>=20
->>> On Sat, Jun 17, 2023 at 02:53:46PM +0000, Alan Huang wrote:
->>>> There are two memory ordering required in the insertion algorithm,
->>>> we need to make sure obj->key is updated before obj->obj_node.next
->>>> and obj->refcnt, atomic_set_release is not enough to provide the
->>>> required memory barrier.
->>>>=20
->>>> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
->>>> ---
->>>> Documentation/RCU/rculist_nulls.rst | 9 +++++++--
->>>> 1 file changed, 7 insertions(+), 2 deletions(-)
->>>>=20
->>>> diff --git a/Documentation/RCU/rculist_nulls.rst =
-b/Documentation/RCU/rculist_nulls.rst
->>>> index e06ed40bb6..77244adbdf 100644
->>>> --- a/Documentation/RCU/rculist_nulls.rst
->>>> +++ b/Documentation/RCU/rculist_nulls.rst
->>>> @@ -98,7 +98,7 @@ Quoting Corey Minyard::
->>>> ----------------------
->>>>=20
->>>> We need to make sure a reader cannot read the new =
-'obj->obj_node.next' value
->>>> -and previous value of 'obj->key'. Otherwise, an item could be =
-deleted
->>>> +and previous value of 'obj->key' at the same time. Otherwise, an =
-item could be deleted
->>>=20
->>> "at the same time" doesn't make a lot of sense to me.  CPUs don't do
->>> anything "at the same time".  I think the way this is worded now is
->>> fine; I tried coming up with a few variants of this, but none are as
->>> clear and succinct as what is there now.
->>>=20
->>>> from a chain, and inserted into another chain. If new chain was =
-empty
->>>> before the move, 'next' pointer is NULL, and lockless reader can =
-not
->>>> detect the fact that it missed following items in original chain.
->>>> @@ -112,7 +112,12 @@ detect the fact that it missed following items =
-in original chain.
->>>>  obj =3D kmem_cache_alloc(...);
->>>>  lock_chain(); // typically a spin_lock()
->>>>  obj->key =3D key;
->>>> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
->>>> +  /*
->>>> +  * we need to make sure obj->key is updated before =
-obj->obj_node.next
->>>> +  * and obj->refcnt
->>>> +  */
->>>> +  smp_wmb();
->>>> +  atomic_set(&obj->refcnt, 1);
->>>=20
->>> Perhaps this could be a little clearer for those of us who aren't as
->>> deep into the memory model as others ... are you saying that the
->>> atomic_set_release() would only order references to obj->refcount =
-and
->>> would not order accesses to obj->key?  Because reading this:
->>>=20
->>>    The use of ACQUIRE and RELEASE operations generally precludes the =
-need
->>>    for other sorts of memory barrier.  In addition, a =
-RELEASE+ACQUIRE pair is
->>>    -not- guaranteed to act as a full memory barrier.  However, after =
-an
->>>    ACQUIRE on a given variable, all memory accesses preceding any =
-prior
->>>    RELEASE on that same variable are guaranteed to be visible.  In =
-other
->>>    words, within a given variable's critical section, all accesses =
-of all
->>>    previous critical sections for that variable are guaranteed to =
-have
->>>    completed.
->>>=20
->>> makes me think that this example is fine; anybody doing a =
-load-acquire
->>> on obj->refcount will see the update to obj->key that happened =
-before
->>> the store-release to obj->refcount.
->>=20
->> Two memory ordering required here, atomic_set_release only provides =
-one of them (the one you mentioned)
->>=20
->> The objects are allocated with SLAB_TYPESAFE_BY_RCU, and there is:
->>=20
->> n->next =3D first;
->>=20
->> in hlist_add_head_rcu, which modifies obj->obj_node.next.
->=20
-> But isn't that the bug?  ie this assignment should be WRITE_ONCE() or
-> smp_store_release() or rcu_assign_pointer() or whichever of these
-> similar functions is actually appropriate?
-
-Without SLAB_TYPESAFE_BY_RCU, it=E2=80=99s fine, because it only =
-modifies local data, which has not been published.
-
-But with SLAB_TYPESAFE_BY_RCU, it might be a bug, but I=E2=80=99m not =
-very sure.
-
->=20
->> So, we must make sure obj->key is updated before obj->obj_node.next, =
-without smp_wmb(), we can read
->> the new 'obj->obj_node.next=E2=80=99 value and previous value of =
-'obj->key=E2=80=99 at the same time, and in this case, we
->> can not detect the movement of the object.
->>=20
->> The following link might be helpful:
->>=20
->> =
-https://patchwork.ozlabs.org/project/netdev/patch/491C282A.5050802@cosmosb=
-ay.com/
->>=20
->>=20
->>>=20
->>> I am not an expert and would welcome the opportunity to learn more =
-here.
-
-
+On Sun, Jun 4, 2023 at 10:09=E2=80=AFPM Russell Harmon <eatnumber1@gmail.co=
+m> wrote:
+>
+> Signed-off-by: Russell Harmon <eatnumber1@gmail.com>
+> ---
+>  Documentation/admin-guide/device-mapper/dm-integrity.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/device-mapper/dm-integrity.rst b/D=
+ocumentation/admin-guide/device-mapper/dm-integrity.rst
+> index 0241457c0027..d8a5f14d0e3c 100644
+> --- a/Documentation/admin-guide/device-mapper/dm-integrity.rst
+> +++ b/Documentation/admin-guide/device-mapper/dm-integrity.rst
+> @@ -213,6 +213,12 @@ table and swap the tables with suspend and resume). =
+The other arguments
+>  should not be changed when reloading the target because the layout of di=
+sk
+>  data depend on them and the reloaded target would be non-functional.
+>
+> +For example, on a device using the default interleave_sectors of 32768, =
+a
+> +block_size of 512, and an internal_hash of crc32c with a tag size of 4
+> +bytes, it will take 128 KiB of tags to track a full data area, requiring
+> +256 sectors of metadata per data area. With the default buffer_sectors o=
+f
+> +128, that means there will be 2 buffers per metadata area, or 2 buffers
+> +per 16 MiB of data.
+>
+>  Status line:
+>
+> --
+> 2.34.1
+>
