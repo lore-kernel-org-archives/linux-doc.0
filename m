@@ -2,102 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30C8CEB64D9
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Jun 2023 04:51:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CAEEB64D9
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Jun 2023 10:38:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232106AbjFQEvI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Jun 2023 00:51:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44056 "EHLO
+        id S1346322AbjFQKiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Jun 2023 06:38:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229739AbjFQEvH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Jun 2023 00:51:07 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A160D10C1;
-        Fri, 16 Jun 2023 21:51:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CFAD60CBA;
-        Sat, 17 Jun 2023 04:51:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F985C433C0;
-        Sat, 17 Jun 2023 04:51:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686977465;
-        bh=JkdQR20ShOJ/lF5M3KLtBhHDScXeHiAAFg7kkEihbjw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pbgTgTIH8yxmS4rQvDmgvjIyAGBxTAyR7SmaKBA3Wt6FYLCfBEQFl5wvb+E0sXjHA
-         6cAA+91A8TdakW6XOBDog7yJzG2/7iqt8Cbc7utzUY0eTEqHgjhXLM9hJpMmq42g9H
-         EOTLB1gus2HzJuUHoHrj+d8cZCFOJij+h9rsdu/DbM3uDEBBZWfawRJXAc4Sw1g7ZN
-         QeAk443csFAQApler1q7rahm62TNHwoIw2JWLRkMmVI7CGK/iD8lQf6D2U7MjIBLYN
-         bfVQeANh9qwtG/fmVEFudoXWPTf0pE08WUcBWBjyv3EXdbYXaUF/1zTZLCb0zHAIAz
-         sKvb8lOANepBQ==
-Date:   Fri, 16 Jun 2023 21:51:03 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Luca Boccassi <bluca@debian.org>
-Cc:     fsverity@lists.linux.dev, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>,
-        Alexander Larsson <alexl@redhat.com>,
-        Victor Hsieh <victorhsieh@google.com>
-Subject: Re: [PATCH] fsverity: improve documentation for builtin signature
- support
-Message-ID: <20230617045103.GA1090@sol.localdomain>
-References: <20230615230537.30429-1-ebiggers@kernel.org>
- <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
- <20230616021707.GA87129@sol.localdomain>
- <CAMw=ZnTEV=GuEE=wB0Z4E1x_uH5zzjyQkB1ycrYnWB2GCMaRTA@mail.gmail.com>
+        with ESMTP id S234499AbjFQKiF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Jun 2023 06:38:05 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62EF92700
+        for <linux-doc@vger.kernel.org>; Sat, 17 Jun 2023 03:37:19 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-987f7045f9aso29180666b.1
+        for <linux-doc@vger.kernel.org>; Sat, 17 Jun 2023 03:37:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1686998172; x=1689590172;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/1x1TufhGga+vhofQhW3+rOkuF8WKt/IeOnnrmJtrog=;
+        b=BSLERsDAgGslIeEyq94ScS8bRLgPPRRRwT8Nf8n+6gest5CBJm7weH95XbHUWqLPrs
+         lMqAZ5YohISaainT6DoT5KRo+06ct7IyRAWJITH8QiX+CKXNRf7RTEbj4ehIcYJxYtHJ
+         S+tMFiI9UWNXT2a5hg0KLa/1NxteLO2ap4RvVkp9qGeFfK5FKir/7euwyrkgLckOtKmi
+         Xn2ZIAD96h2+mraRrWLl1sWZ/1oEO7vpCWKa7qJYU0VpWfYwdunjJkr7fjK6tTnVnk6L
+         LIWC6DFNj4ViFnScRoCYtPIpyJ2HWmk9OlLm6i3tklX7Kcc0HpSuhcjnvvvKwhWWp6Pq
+         o8mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686998172; x=1689590172;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/1x1TufhGga+vhofQhW3+rOkuF8WKt/IeOnnrmJtrog=;
+        b=h5cxOBhiUssbCG6MHelxxUdyvij0a8Js69057fxM6+qqoKFZqK7vJFeiy8c3q5ObFm
+         say3XhppYoMQAoifTNM0VF1Vi4u6asyJKTeZQdc8gUKxO8isrBAMRAw73XaCN0KMtzNf
+         mBpkaGATXvfrfJ3aM0lUeOsaNW8RYVA/qV3OSnfsD0PBC3AVZTcK+K1O/bfB1qfsr5HX
+         Cxv8eLYHk+8tHUYgHOcGkgaWn9t2M/9jvxaL3SRHNGhiGpdP12oQhPBTZt1qshn/ulC1
+         JPYtD/9nV7S0fxmq7dkBql0ONSOwgYwiHqLFVrAjB+CIngYawWP0+eR4azXNQRRjYIUm
+         L+QQ==
+X-Gm-Message-State: AC+VfDzT0PURtxPYQY3m6fRdl7qA8kE7tqkOJ340J9X0IFw7bIoWK0TT
+        Qg4+c4wKVQ1amV9uRlXL1QCZZA==
+X-Google-Smtp-Source: ACHHUZ7OhqQdwYiCXLWpW4pNAkdtQLu1xzSJt4dCibpw5uqj3GQ/nixFPiQmcTPdSiQpJVj0JEscIg==
+X-Received: by 2002:a17:907:7204:b0:94f:5847:8ac with SMTP id dr4-20020a170907720400b0094f584708acmr4832912ejc.51.1686998172291;
+        Sat, 17 Jun 2023 03:36:12 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id s22-20020a1709064d9600b00982881f1e2dsm4053734eju.84.2023.06.17.03.36.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Jun 2023 03:36:11 -0700 (PDT)
+Date:   Sat, 17 Jun 2023 12:36:09 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>,
+        "vadfed@meta.com" <vadfed@meta.com>,
+        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "vadfed@fb.com" <vadfed@fb.com>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "M, Saeed" <saeedm@nvidia.com>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "sj@kernel.org" <sj@kernel.org>,
+        "javierm@redhat.com" <javierm@redhat.com>,
+        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "Michalik, Michal" <michal.michalik@intel.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "jacek.lawrynowicz@linux.intel.com" 
+        <jacek.lawrynowicz@linux.intel.com>,
+        "airlied@redhat.com" <airlied@redhat.com>,
+        "ogabbay@kernel.org" <ogabbay@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "linux@zary.sk" <linux@zary.sk>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "Olech, Milena" <milena.olech@intel.com>,
+        "kuniyu@amazon.com" <kuniyu@amazon.com>,
+        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
+        "razor@blackwall.org" <razor@blackwall.org>,
+        "idosch@nvidia.com" <idosch@nvidia.com>,
+        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        "phil@nwl.cc" <phil@nwl.cc>,
+        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
+        mschmidt <mschmidt@redhat.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
+Subject: Re: [RFC PATCH v8 01/10] dpll: documentation on DPLL subsystem
+ interface
+Message-ID: <ZI2MmaQ1NAggT+l6@nanopsycho>
+References: <20230609121853.3607724-2-arkadiusz.kubalewski@intel.com>
+ <20230612154329.7bd2d52f@kernel.org>
+ <ZIg8/0UJB9Lbyx2D@nanopsycho>
+ <20230613093801.735cd341@kernel.org>
+ <ZImH/6GzGdydC3U3@nanopsycho>
+ <DM6PR11MB465799A5A9BB0B8E73A073449B5AA@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <20230614121514.0d038aa3@kernel.org>
+ <20230614122348.3e9b7e42@kernel.org>
+ <ZIrldB4ic3zt9nIk@nanopsycho>
+ <20230615093111.0ee762e4@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMw=ZnTEV=GuEE=wB0Z4E1x_uH5zzjyQkB1ycrYnWB2GCMaRTA@mail.gmail.com>
+In-Reply-To: <20230615093111.0ee762e4@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 02:27:28PM +0100, Luca Boccassi wrote:
-> > Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
-> > it is a good idea.  Have you read the kernel code that implements these formats?
-> > A few years ago I went through some of it.  Here are some of the bugs I fixed:
-> >
-> >     2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
-> >     624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
-> >     e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
-> >     81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
-> >     0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
-> >     54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
-> >     971b42c038dc ("PKCS#7: fix certificate chain verification")
-> >     29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
-> >     437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
-> >     4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig")
-> 
-> I have no doubt that there are bugs, as I have no doubts that there
-> are bugs in every other subsystem, including fsverity, once you start
-> looking hard enough.
+Thu, Jun 15, 2023 at 06:31:11PM CEST, kuba@kernel.org wrote:
+>On Thu, 15 Jun 2023 12:18:28 +0200 Jiri Pirko wrote:
+>> Yeah, that is what we had originally. This just pushes out the
+>> different attr selection from the nest one level up to the actualy
+>> nesting attribute.
+>
+>Oh no, no extra nesting. Let me try to fake up the output:
 
-My point was not that there are bugs, but rather that there are *unnecessary*
-bugs (many with possible security impact) that are directly caused by the
-complexities of these formats versus the alternatives.
+I wasn't implying any extra nesting.
 
-> That's not the point. The point is that having
-> the documentation of one kernel subsystem disparaging the mechanisms
-> that are central to other kernel subsystems' functionality is weird
-> and out of place. Something like that is fine to post on social media
-> or a blog post or so. A user jumping from one page of kernel doc
-> saying, paraphrasing heavily for the sake of argument, "use pkcs7 to
-> ensure the security of your system via secure boot, measured boot and
-> signed kernel modules" and another saying "pkcs7 is bad and broken,
-> stay away from it" is just strange, confusing and incoherent from the
-> point of view of a reader.
+>
+>'pin': [{
+> {'clock-id': 282574471561216,
+>  'module-name': 'ice',
+>  'pin-dpll-caps': 4,
+>  'pin-id': 13,
+>  'parent-device': [{'pin-id': 2, 'pin-state': 'connected'},
+>                    {'pin-id': 3, 'pin-state': 'disconnected'}],
+>  'parent-pin': [{'id': 0, 'pin-direction': 'input'},
+>                 {'id': 1, 'pin-direction': 'input'}],
+>  'pin-type': 'synce-eth-port'}
 
-I'll add a note that PKCS#7 and X.509 should still be used in situations where
-they are the only option.  I think that would handle your main concern here,
-which is that people might misunderstand the paragraph as recommending using no
-signatures, instead of signatures using a PKCS#7 and X.509 based system.
+You messed up a bit. Should be:
+parent-device : id
+parent-pin : pin-id
 
-I don't think it would be appropriate to remove the paragraph entirely.  It
-provides useful information that helps users decide what type of signatures to
-use.  I understand that people who are invested greatly into PKCS#7 and X.509
-based systems might be resistant to learning about the problems with these
-formats, but that is to be expected.
+That is basically my point. The fact if the parent is either device or
+pin is carried inside the nest by either providing "id" or "pin-id".
+So you add redundant info which could be source of mixups - as you
+already demonstrated :)
 
-- Eric
+
+>}]
+>
+>> One downside of this is you will have 2 arrays of parent objects,
+>> one per parent type. Current code neatly groups them into a single array.
+>> 
+>> I guess this is a matter of personal preference, I'm fine either way.
+>
+>Yeah, could be.
