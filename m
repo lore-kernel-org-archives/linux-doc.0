@@ -2,131 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E6A5EB64D7
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 15:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07AE0EB64D8
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 16:10:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbjFRPT7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Jun 2023 11:19:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58880 "EHLO
+        id S229504AbjFRQKG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Jun 2023 12:10:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbjFRPT6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jun 2023 11:19:58 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A44B4;
-        Sun, 18 Jun 2023 08:19:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=3HBZgG4qUmAQw7rnNcqZIFMEIP1Jfb39I+CcrLvxN8s=; b=L1vaeejODXSfzgPVkMZokxyZpZ
-        8VFW8hL5X3zLpqTLr8cIwEaAdV9awxwfQgOINigw/grRAxCtPRdvHiiGtZr2ZZR7iR0BlxxDUtJxW
-        t9H5BkVrr0SOQskE7UukU5tznTad0Bm9kI1SiGubKIGbsJzqmCskOW8YsYLFchnuRyF5nhhwgOKcK
-        0j/qF6dB9XcsYUngPkMQb93AtYqfGS2l+UwDiVGgtT65/80RP0YdYZ4LAE5tlMU1zaw5FwWkIlgQ1
-        9oZEpq49sCF0ciXkvWwosx5aS0HQT593OR99ehWKI23cC9HglBB5zAjSOQd8yhEK9bqzjpHMnTbZK
-        d14RgkTg==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qAuC0-0069Pb-0L;
-        Sun, 18 Jun 2023 15:19:52 +0000
-Message-ID: <c0c44b35-b55d-6965-7103-76d9a9bf5c0d@infradead.org>
-Date:   Sun, 18 Jun 2023 08:19:51 -0700
+        with ESMTP id S229446AbjFRQKF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jun 2023 12:10:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 112901AB
+        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 09:09:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687104558;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=w2INyO+y8xDXiMBhrjMvHN1J2A6ehB/rv2/0JiFPr5c=;
+        b=Ks7B6qBNZmTwgxvXf5OKeymBY+uGt4YZJi0fStO7GYyytWJUcG9dFf0oef/Jy/LxULzyES
+        RderjYsnfdBMxK1k4HlXKertoErEAtgJuoaygMOAmp5PwFTSoukEcx2QOlnndRnV0cVivT
+        1+fSfP+azJIu+S7PGyBVw4seRg7Mn+c=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-3-P6Xx-VHFNjymKFId7rafyQ-1; Sun, 18 Jun 2023 12:09:16 -0400
+X-MC-Unique: P6Xx-VHFNjymKFId7rafyQ-1
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-55e20391aadso1363102eaf.2
+        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 09:09:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687104556; x=1689696556;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w2INyO+y8xDXiMBhrjMvHN1J2A6ehB/rv2/0JiFPr5c=;
+        b=O5tEobuy+bnEtxJkqE1KbWSyn+yGkRXcDpqbCXtP012aIqoFB94c7NeYdbb7Vofif1
+         TQDXob1Fd+RSLuN7ASSVjCSUB13SHIaFmyCrury7nD1XWKiR6cdhf95b6mUGetWM60FL
+         5APjX/4G0QQ58y/8iwh10ENhyZIKygO6qvQJbv70OVFOUsSP+AK76kjxWk/HvSVhkhQX
+         aXZ38vZ7xnWhKJDpa9bIbXzcT+DBowGBuX2Ny+qGCz80OYz1BEctVnNapjD2Yi11QWF6
+         WaOkbrtOdLr8oe544RRIThSDn9NgyZPlPF/LZdSyAH3Ia6Lr1Y7C05aCxPR8lMjxZ3Aa
+         Eypw==
+X-Gm-Message-State: AC+VfDzWWuzsV3FljYup1Bhd5IN2gvjwPZz8HYzjACDEjoLU9MAnMxDh
+        JcvWtOb6UMFhBZqJzOh0o14FuFMW7BYWTP4+eniR0U8s1B6TuKKRKdqUViQ6tPPPJWHdUmQt63L
+        8xu4IV/GteC5biNEmEnTukIxJkjipXtcEonVATaZtF5Nf6bo=
+X-Received: by 2002:a4a:a551:0:b0:558:b386:7a78 with SMTP id s17-20020a4aa551000000b00558b3867a78mr5064724oom.5.1687104556049;
+        Sun, 18 Jun 2023 09:09:16 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4qdlYRunIz+0lrWIGBkf2nmP2roOaQDa3a49rkAc6u+/xrdNaMJmxnVwol++Y4Uk/TyDPCixp2Z7ft29OIHFw=
+X-Received: by 2002:a4a:a551:0:b0:558:b386:7a78 with SMTP id
+ s17-20020a4aa551000000b00558b3867a78mr5064714oom.5.1687104555727; Sun, 18 Jun
+ 2023 09:09:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
+References: <87h6rhoyag.fsf@meer.lwn.net> <20230618062937.481280-1-costa.shul@redhat.com>
+ <c0c44b35-b55d-6965-7103-76d9a9bf5c0d@infradead.org>
+In-Reply-To: <c0c44b35-b55d-6965-7103-76d9a9bf5c0d@infradead.org>
+From:   Costa Shulyupin <costa.shul@redhat.com>
+Date:   Sun, 18 Jun 2023 19:09:04 +0300
+Message-ID: <CADDUTFzBYtLbC5fGa7bA1LXXgNAEfHzueS9oO93r6WNtM2TYXw@mail.gmail.com>
 Subject: Re: [PATCH v4] docs: consolidate storage interfaces
-Content-Language: en-US
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     open list <linux-kernel@vger.kernel.org>
-References: <87h6rhoyag.fsf@meer.lwn.net>
- <20230618062937.481280-1-costa.shul@redhat.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230618062937.481280-1-costa.shul@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Costa,
+On Sun, 18 Jun 2023 at 18:20, Randy Dunlap <rdunlap@infradead.org> wrote:
+> What does the TCM Virtual Device comment refer to?
 
-On 6/17/23 23:29, Costa Shulyupin wrote:
-> to make the page more organized as requested
-> 
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-> 
-> ---
-> 
-> Changes:
->  v4. rollback to single Storage category, add 'TCM Virtual Device'
+TCM stands for Target Core Mod.
+It is configured by CONFIG_TARGET_CORE.
+The moved doc is https://docs.kernel.org/target/. Good example to not
+name directories.
+It says "TCM is another name for LIO, an in-kernel iSCSI target (server)."
+LIO stands for Linux-IO: https://en.wikipedia.org/wiki/LIO_(SCSI_target)
 
-What does the TCM Virtual Device comment refer to?
+Thank you.
 
-Otherwise LGTM.
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
->  v3. add Integrity, Virtualization and Miscellaneous per Bagas Sanjaya
->  v2. add Core subsystems, Networking, Peripherals and Embedded
->  v1. add Storage category
-> ---
->  Documentation/subsystem-apis.rst | 17 ++++++++++++-----
->  1 file changed, 12 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-> index 55c90d5383ef..b67a1b65855b 100644
-> --- a/Documentation/subsystem-apis.rst
-> +++ b/Documentation/subsystem-apis.rst
-> @@ -22,6 +22,18 @@ Human interfaces
->     gpu/index
->     fb/index
->  
-> +Storage interfaces
-> +------------------
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   filesystems/index
-> +   block/index
-> +   cdrom/index
-> +   scsi/index
-> +   target/index
-> +
->  **Fixme**: much more organizational work is needed here.
->  
->  .. toctree::
-> @@ -31,8 +43,6 @@ Human interfaces
->     core-api/index
->     locking/index
->     accounting/index
-> -   block/index
-> -   cdrom/index
->     cpu-freq/index
->     fpga/index
->     i2c/index
-> @@ -44,7 +54,6 @@ Human interfaces
->     networking/index
->     pcmcia/index
->     power/index
-> -   target/index
->     timers/index
->     spi/index
->     w1/index
-> @@ -54,12 +63,10 @@ Human interfaces
->     accel/index
->     security/index
->     crypto/index
-> -   filesystems/index
->     mm/index
->     bpf/index
->     usb/index
->     PCI/index
-> -   scsi/index
->     misc-devices/index
->     scheduler/index
->     mhi/index
-
--- 
-~Randy
