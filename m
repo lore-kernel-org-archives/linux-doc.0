@@ -2,84 +2,253 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C249EB64D7
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 18:55:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC98CEB64D8
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 19:19:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229542AbjFRSzA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Jun 2023 14:55:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36004 "EHLO
+        id S229459AbjFRTTy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Jun 2023 15:19:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjFRSy7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jun 2023 14:54:59 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C370D8
-        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 11:54:57 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A8840723;
-        Sun, 18 Jun 2023 18:54:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A8840723
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1687114496; bh=DzxsAMuZ7ZP4niSDsH+A8h51O/GHUccOcld3SSNEPbg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=P8upKCnYXiwUC1I9xTPaotzuvAsFRHfoWqPEWuwHjAcD22wIBTX/c0r0TqnoL+v19
-         kBOkBJ4AyQkikk7Xv6OvlqoUZP3d6wvXZU/9RwQSsjNqtSpuXQ8cp36HyccdfY99ha
-         qU4ZBUsWNSgrMEuQ7+wKepzvZUXgXgEdU3knr+AaqoBrXXkIz5i6N1bGuMHhxZWXdb
-         io246UmSzlGE/TSwedIvXkIcQrR50qOasnnYI/GK1tJ8B4D1QN1b1cmo1ACY6qgjHB
-         CiQqqD6NxrZmsZo0D1RHDMVA6efvjX8OSmTQmXFOwjHn0hmw91s7wgQ0+/fAly68zE
-         nG3jsdCdq9Qhw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v5] Documentation/mm: Initial page table documentation
-In-Reply-To: <3045029.CbtlEUcBR6@suse>
-References: <20230614072548.996940-1-linus.walleij@linaro.org>
- <3045029.CbtlEUcBR6@suse>
-Date:   Sun, 18 Jun 2023 12:54:55 -0600
-Message-ID: <87zg4wvbwg.fsf@meer.lwn.net>
+        with ESMTP id S229494AbjFRTTy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jun 2023 15:19:54 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 004FDFE
+        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 12:19:51 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-3fde9bfb3c8so111341cf.0
+        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 12:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687115991; x=1689707991;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JbR6FYiZlzxET1aZbxa1LnPa25BlJwTh4qhaLJ4bvzg=;
+        b=eeTeUO735vurVqYffUSvtO4InMdD7ecrFouGxTvZhYEKJAFj+iNmhaN9tu2ONEh2zq
+         89mW0ayvjTPwrfBsoKUi9fd5fr9ze0ICHF7BxV4woHO5JqvPZRPKLY2xrrn26G+NJH0x
+         DUxE98voVWezGuxg9OUVAFu8rupSLoeVL/QnMQxAmb/k40sScPQjWMg9w2/P2DgTkMb8
+         SHdvwblgqJJHWx+7iPLuQxgNy100g4QEuXp4/vYMvNUabSEKRH66I5WIJ93nZtC1CnKk
+         7RYEIUbSVvCf3kGwuVSB8mzNNo/aPYY38t591pX2WAN2fS9n4tJiTPSz8cqRXqfOVBu7
+         hOsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687115991; x=1689707991;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JbR6FYiZlzxET1aZbxa1LnPa25BlJwTh4qhaLJ4bvzg=;
+        b=Luw6unS6PQ+rH4NgXLs2fIc2W3mjcxo9Zrvgk9uw0iZC5GyfFKQHPfRBN6thIjYAwZ
+         DurVinniSjww8kyMh73P2Q7AFbHYn5OA4cFN4raNuofKcNefQTsGAt2m7sJJ3qH74ByS
+         TvK0CUE7e6qAwhvOK1Po+GL95nI/i+J86Lw2ErPQSnGjpflmsE9YbJGjIAgrtxRVzhgH
+         7tIgX7yMNOwi3VVLa0HV75Dpk5WdM9vvq5qsp+5joTzZ290SiSZzEfj6kXhSHMdiD/4E
+         Pgx90TOz7TQbArELYpo7L5xOUhLAQ4dmgssQKiP4UFF2lFQIUwu3a4kJxbgmY/xuVbGh
+         3B5A==
+X-Gm-Message-State: AC+VfDxUD4KjyQyjub+zYgZGAraneCWPiTpmosd1MgSulznmvrIvrBsi
+        alCF805vRanKWk6s4M9ZmbN2h9jSSlEEhhGcxwiRSQ==
+X-Google-Smtp-Source: ACHHUZ4amVIobuPycpFLC2fHeYKXTl1nn9tY9t3tZcZ8KQLrci6OwIYFpzYKhnwEJ6EGI3MQyCTT/zihLmvQ2yroRTk=
+X-Received: by 2002:a05:622a:589:b0:3ed:210b:e698 with SMTP id
+ c9-20020a05622a058900b003ed210be698mr754708qtb.7.1687115990926; Sun, 18 Jun
+ 2023 12:19:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20230526234435.662652-1-yuzhao@google.com> <20230609005943.43041-1-yuzhao@google.com>
+In-Reply-To: <20230609005943.43041-1-yuzhao@google.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Sun, 18 Jun 2023 13:19:14 -0600
+Message-ID: <CAOUHufZm9gDxRoVCc+hrZeyr=n9s-sa0i1DDGkWq2N_N9Sznmw@mail.gmail.com>
+Subject: Re: kvm/x86: multichase benchmark
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Alistair Popple <apopple@nvidia.com>,
+        Anup Patel <anup@brainfault.org>,
+        Ben Gardon <bgardon@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Fabiano Rosas <farosas@linux.ibm.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Gavin Shan <gshan@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Morse <james.morse@arm.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Larabel <michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Peter Xu <peterx@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Huth <thuth@redhat.com>, Will Deacon <will@kernel.org>,
+        Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
+        linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+        linux-mm@google.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Fabio M. De Francesco" <fmdefrancesco@gmail.com> writes:
+On Thu, Jun 8, 2023 at 6:59=E2=80=AFPM Yu Zhao <yuzhao@google.com> wrote:
+>
+> TLDR
+> =3D=3D=3D=3D
+> Multichase in 64 microVMs achieved 6% more total samples (in ~4 hours) af=
+ter this patchset [1].
+>
+> Hardware
+> =3D=3D=3D=3D=3D=3D=3D=3D
+> HOST $ lscpu
+> Architecture:            x86_64
+>   CPU op-mode(s):        32-bit, 64-bit
+>   Address sizes:         43 bits physical, 48 bits virtual
+>   Byte Order:            Little Endian
+> CPU(s):                  128
+>   On-line CPU(s) list:   0-127
+> Vendor ID:               AuthenticAMD
+>   Model name:            AMD Ryzen Threadripper PRO 3995WX 64-Cores
+>     CPU family:          23
+>     Model:               49
+>     Thread(s) per core:  2
+>     Core(s) per socket:  64
+>     Socket(s):           1
+>     Stepping:            0
+>     Frequency boost:     disabled
+>     CPU max MHz:         4308.3979
+>     CPU min MHz:         2200.0000
+>     BogoMIPS:            5390.20
+>     Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr=
+ pge mca cmov pat pse36 clflush mmx fxsr sse sse2
+>                          ...
+> Virtualization features:
+>   Virtualization:        AMD-V
+> Caches (sum of all):
+>   L1d:                   2 MiB (64 instances)
+>   L1i:                   2 MiB (64 instances)
+>   L2:                    32 MiB (64 instances)
+>   L3:                    256 MiB (16 instances)
+> NUMA:
+>   NUMA node(s):          1
+>   NUMA node0 CPU(s):     0-127
+> Vulnerabilities:
+>   Itlb multihit:         Not affected
+>   L1tf:                  Not affected
+>   Mds:                   Not affected
+>   Meltdown:              Not affected
+>   Mmio stale data:       Not affected
+>   Retbleed:              Mitigation; untrained return thunk; SMT enabled =
+with STIBP protection
+>   Spec store bypass:     Mitigation; Speculative Store Bypass disabled vi=
+a prctl
+>   Spectre v1:            Mitigation; usercopy/swapgs barriers and __user =
+pointer sanitization
+>   Spectre v2:            Mitigation; Retpolines, IBPB conditional, STIBP =
+always-on, RSB filling, PBRSB-eIBRS Not affected
+>   Srbds:                 Not affected
+>   Tsx async abort:       Not affected
+>
+> HOST $ numactl -H
+> available: 1 nodes (0)
+> node 0 cpus: 0-127
+> node 0 size: 257542 MB
+> node 0 free: 224855 MB
+> node distances:
+> node   0
+>   0:  10
+>
+> HOST $ cat /sys/class/nvme/nvme0/model
+> INTEL SSDPF21Q800GB
+>
+> HOST $ cat /sys/class/nvme/nvme0/numa_node
+> 0
+>
+> Software
+> =3D=3D=3D=3D=3D=3D=3D=3D
+> HOST $ cat /etc/lsb-release
+> DISTRIB_ID=3DUbuntu
+> DISTRIB_RELEASE=3D22.04
+> DISTRIB_CODENAME=3Djammy
+> DISTRIB_DESCRIPTION=3D"Ubuntu 22.04.1 LTS"
+>
+> HOST $ uname -a
+> Linux x86 6.4.0-rc5+ #1 SMP PREEMPT_DYNAMIC Wed Jun  7 22:17:47 UTC 2023 =
+x86_64 x86_64 x86_64 GNU/Linux
+>
+> HOST $ cat /proc/swaps
+> Filename          Type         Size         Used    Priority
+> /dev/nvme0n1p2    partition    466838356    0       -2
+>
+> HOST $ cat /sys/kernel/mm/lru_gen/enabled
+> 0x000f
+>
+> HOST $ cat /sys/kernel/mm/transparent_hugepage/enabled
+> always madvise [never]
+>
+> HOST $ cat /sys/kernel/mm/transparent_hugepage/defrag
+> always defer defer+madvise madvise [never]
+>
+> Procedure
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+> HOST $ git clone https://github.com/google/multichase
+>
+> HOST $ <Build multichase>
+> HOST $ <Unpack /boot/initrd.img into ./initrd/>
+>
+> HOST $ cp multichase/multichase ./initrd/bin/
+> HOST $ sed -i \
+>     "/^maybe_break top$/i multichase -t 2 -m 4g -n 28800; poweroff" \
 
-> I question the target audience of this documentation. How can we expect a=
-ny=20
-> developer working with Linux to be unaware of such basic concepts? Adding=
-=20
-> documentation about these foundational concepts would create a precedent,=
-=20
-> potentially leading to further documentation on other fundamental abstrac=
-tions=20
-> like "task," "multi-threading," and "scheduling" =E2=80=93 concepts that =
-are integral=20
-> to kernel management. The inclusion of such basic topics could quickly cl=
-utter=20
-> up the specialized Linux kernel documentation.
+I was reminded that I missed one parameter above, i.e.,
 
-Someday, if we find ourselves in the position of having too much
-documentation, we can entertain patches to clean out material that is
-deemed to be too elementary for kernel developers.  Before then, though,
-if we are worried about clutter, we may want to put more effort into
-addressing the large amount of duplicated and obsolete documentation in
-the kernel now.
+"/^maybe_break top$/i multichase -N -t 2 -m 4g -n 28800; poweroff" \
+                                 ^^
 
-Until then, I see no reason to oppose the addition of material that,
-even if you don't personally find it helpful, may indeed be helpful to
-developers trying to come up to speed on just what the kernel is doing.
+>     ./initrd/init
+>
+> HOST $ <Pack ./initrd/ into ./initrd.img>
+>
+> HOST $ cat run_microvms.sh
+> memcgs=3D64
+>
+> run() {
+>     path=3D/sys/fs/cgroup/memcg$1
+>
+>     mkdir $path
+>     echo $BASHPID >$path/cgroup.procs
 
-Thanks,
+And one line here:
 
-jon
+echo 4000m >$path/memory.min # or the largest size that doesn't cause OOM k=
+ills
+
+>     qemu-system-x86_64 -M microvm,accel=3Dkvm -cpu host -smp 2 -m 6g \
+>         -nographic -kernel /boot/vmlinuz -initrd ./initrd.img \
+>         -append "console=3DttyS0 loglevel=3D0"
+> }
+>
+> for ((memcg =3D 0; memcg < $memcgs; memcg++)); do
+>     run $memcg &
+> done
+>
+> wait
+>
+> Results
+> =3D=3D=3D=3D=3D=3D=3D
+>                  Before [1]    After    Change
+> ----------------------------------------------
+> Total samples    6824          7237     +6%
+>
+> Notes
+> =3D=3D=3D=3D=3D
+> [1] "mm: rmap: Don't flush TLB after checking PTE young for page
+>     reference" was included so that the comparison is apples to
+>     Apples.
+>     https://lore.kernel.org/r/20220706112041.3831-1-21cnbao@gmail.com/
