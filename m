@@ -2,60 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC98CEB64D8
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 19:19:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D856EB64D8
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 20:11:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbjFRTTy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Jun 2023 15:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39064 "EHLO
+        id S229513AbjFRULv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Jun 2023 16:11:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjFRTTy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jun 2023 15:19:54 -0400
+        with ESMTP id S229471AbjFRULu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jun 2023 16:11:50 -0400
 Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 004FDFE
-        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 12:19:51 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-3fde9bfb3c8so111341cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 12:19:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1CF6E45
+        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 13:11:48 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-3fde9bfb3c8so115271cf.0
+        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 13:11:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687115991; x=1689707991;
+        d=google.com; s=20221208; t=1687119108; x=1689711108;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JbR6FYiZlzxET1aZbxa1LnPa25BlJwTh4qhaLJ4bvzg=;
-        b=eeTeUO735vurVqYffUSvtO4InMdD7ecrFouGxTvZhYEKJAFj+iNmhaN9tu2ONEh2zq
-         89mW0ayvjTPwrfBsoKUi9fd5fr9ze0ICHF7BxV4woHO5JqvPZRPKLY2xrrn26G+NJH0x
-         DUxE98voVWezGuxg9OUVAFu8rupSLoeVL/QnMQxAmb/k40sScPQjWMg9w2/P2DgTkMb8
-         SHdvwblgqJJHWx+7iPLuQxgNy100g4QEuXp4/vYMvNUabSEKRH66I5WIJ93nZtC1CnKk
-         7RYEIUbSVvCf3kGwuVSB8mzNNo/aPYY38t591pX2WAN2fS9n4tJiTPSz8cqRXqfOVBu7
-         hOsg==
+        bh=mpfISiVhGBFvYu3AQzytJ9eyp0qWbNPzT0F/TqGcEF0=;
+        b=BI4IVSXI0OmI7HSHsHlrapOhxlYQr88irtqXtejFQDdwi0ENBjBoT+XLb8GlVX5ye2
+         2RKZIVa3SgmrzIbhLz9gPTVxEaHp2aLuGzJABn2V8qcyj1r5n7W74CILO0agM4yRBdqp
+         1RaptWkZvNHDOFx+VjmcCLiDP8C+KTiX8SbGmrEKzvHmrSeItS1P0Xmdw5h0oqtFiDy4
+         AOhW0Kb490uZt+xyTNM54SZyWZrBQ/OOSALJEaw5URHLWQ5/4/9LTWbU9KUB5nzr8SkC
+         EiNHGrA/DNhBI3N/ps22/XwwMptyPwh1WFUc37QSRtqZWWbsx8o8/qqFNZmnqhSquaII
+         BNYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687115991; x=1689707991;
+        d=1e100.net; s=20221208; t=1687119108; x=1689711108;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JbR6FYiZlzxET1aZbxa1LnPa25BlJwTh4qhaLJ4bvzg=;
-        b=Luw6unS6PQ+rH4NgXLs2fIc2W3mjcxo9Zrvgk9uw0iZC5GyfFKQHPfRBN6thIjYAwZ
-         DurVinniSjww8kyMh73P2Q7AFbHYn5OA4cFN4raNuofKcNefQTsGAt2m7sJJ3qH74ByS
-         TvK0CUE7e6qAwhvOK1Po+GL95nI/i+J86Lw2ErPQSnGjpflmsE9YbJGjIAgrtxRVzhgH
-         7tIgX7yMNOwi3VVLa0HV75Dpk5WdM9vvq5qsp+5joTzZ290SiSZzEfj6kXhSHMdiD/4E
-         Pgx90TOz7TQbArELYpo7L5xOUhLAQ4dmgssQKiP4UFF2lFQIUwu3a4kJxbgmY/xuVbGh
-         3B5A==
-X-Gm-Message-State: AC+VfDxUD4KjyQyjub+zYgZGAraneCWPiTpmosd1MgSulznmvrIvrBsi
-        alCF805vRanKWk6s4M9ZmbN2h9jSSlEEhhGcxwiRSQ==
-X-Google-Smtp-Source: ACHHUZ4amVIobuPycpFLC2fHeYKXTl1nn9tY9t3tZcZ8KQLrci6OwIYFpzYKhnwEJ6EGI3MQyCTT/zihLmvQ2yroRTk=
-X-Received: by 2002:a05:622a:589:b0:3ed:210b:e698 with SMTP id
- c9-20020a05622a058900b003ed210be698mr754708qtb.7.1687115990926; Sun, 18 Jun
- 2023 12:19:50 -0700 (PDT)
+        bh=mpfISiVhGBFvYu3AQzytJ9eyp0qWbNPzT0F/TqGcEF0=;
+        b=h0eA4+mTWCcT7gWo18WzIT71fCGij9h8yfZnRMDH3pYnhsev5n2+GzlIO5mdoXMknf
+         ElQOyzuxd9ctlzibXRsj3aEkt4Ck3MKc3bn4RNgRGcU/B70lH3c+WpPsJNQ9gOpvyUJi
+         IM9yhYC+w8ZDvFhcFq/jOJ+rGSge/OKLGdG4wMhdIDzeHhciLThFbEvshQUrAirJgAsx
+         Oq+xbajbWmpB4fx+JT74qSpf+N/LwPzm0czVvkyqCZxj3X8wTSoFGTkyKvcw51S2U9Wi
+         PINk5FNv1PPBfpOrlqm+RrO3XgWdwjVgzr9hvrkE+jYdpxRxAgYVJWm5r3DA0z5eyjR+
+         OVUQ==
+X-Gm-Message-State: AC+VfDxwju/s10vlamQPQr4hML8myEIMyn6uSbz2ulfFrhXIVbc/0+yL
+        mmNEhzaM4TPMEwPTAxEUmQt0OOSxvzn+4e3HqMg+ag==
+X-Google-Smtp-Source: ACHHUZ7+FzP5AfTCxoLANN0O1kovXzprxLRO2NDRfP+79+jkGgGwKBzMX+UybO5p4uMqphT40cGSU06Ta5mNNZ2MZbY=
+X-Received: by 2002:a05:622a:85:b0:3f8:5b2:aeed with SMTP id
+ o5-20020a05622a008500b003f805b2aeedmr773688qtw.21.1687119107794; Sun, 18 Jun
+ 2023 13:11:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230526234435.662652-1-yuzhao@google.com> <20230609005943.43041-1-yuzhao@google.com>
-In-Reply-To: <20230609005943.43041-1-yuzhao@google.com>
+References: <20230526234435.662652-1-yuzhao@google.com> <20230609005935.42390-1-yuzhao@google.com>
+ <873530okh0.wl-maz@kernel.org>
+In-Reply-To: <873530okh0.wl-maz@kernel.org>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Sun, 18 Jun 2023 13:19:14 -0600
-Message-ID: <CAOUHufZm9gDxRoVCc+hrZeyr=n9s-sa0i1DDGkWq2N_N9Sznmw@mail.gmail.com>
-Subject: Re: kvm/x86: multichase benchmark
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Alistair Popple <apopple@nvidia.com>,
+Date:   Sun, 18 Jun 2023 14:11:11 -0600
+Message-ID: <CAOUHufaWbWZ-q-PUJnjXD_jDk1s34mcg4vHU8CtAtmeAT-deRA@mail.gmail.com>
+Subject: Re: kvm/arm64: Spark benchmark
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Alistair Popple <apopple@nvidia.com>,
         Anup Patel <anup@brainfault.org>,
         Ben Gardon <bgardon@google.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -71,7 +73,6 @@ Cc:     Alistair Popple <apopple@nvidia.com>,
         "Jason A. Donenfeld" <Jason@zx2c4.com>,
         Jason Gunthorpe <jgg@ziepe.ca>,
         Jonathan Corbet <corbet@lwn.net>,
-        Marc Zyngier <maz@kernel.org>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Michael Larabel <michael@michaellarabel.com>,
@@ -97,158 +98,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 8, 2023 at 6:59=E2=80=AFPM Yu Zhao <yuzhao@google.com> wrote:
+On Fri, Jun 9, 2023 at 7:04=E2=80=AFAM Marc Zyngier <maz@kernel.org> wrote:
 >
-> TLDR
-> =3D=3D=3D=3D
-> Multichase in 64 microVMs achieved 6% more total samples (in ~4 hours) af=
-ter this patchset [1].
+> On Fri, 09 Jun 2023 01:59:35 +0100,
+> Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > TLDR
+> > =3D=3D=3D=3D
+> > Apache Spark spent 12% less time sorting four billion random integers t=
+wenty times (in ~4 hours) after this patchset [1].
 >
-> Hardware
-> =3D=3D=3D=3D=3D=3D=3D=3D
-> HOST $ lscpu
-> Architecture:            x86_64
->   CPU op-mode(s):        32-bit, 64-bit
->   Address sizes:         43 bits physical, 48 bits virtual
->   Byte Order:            Little Endian
-> CPU(s):                  128
->   On-line CPU(s) list:   0-127
-> Vendor ID:               AuthenticAMD
->   Model name:            AMD Ryzen Threadripper PRO 3995WX 64-Cores
->     CPU family:          23
->     Model:               49
->     Thread(s) per core:  2
->     Core(s) per socket:  64
->     Socket(s):           1
->     Stepping:            0
->     Frequency boost:     disabled
->     CPU max MHz:         4308.3979
->     CPU min MHz:         2200.0000
->     BogoMIPS:            5390.20
->     Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr=
- pge mca cmov pat pse36 clflush mmx fxsr sse sse2
->                          ...
-> Virtualization features:
->   Virtualization:        AMD-V
-> Caches (sum of all):
->   L1d:                   2 MiB (64 instances)
->   L1i:                   2 MiB (64 instances)
->   L2:                    32 MiB (64 instances)
->   L3:                    256 MiB (16 instances)
-> NUMA:
->   NUMA node(s):          1
->   NUMA node0 CPU(s):     0-127
-> Vulnerabilities:
->   Itlb multihit:         Not affected
->   L1tf:                  Not affected
->   Mds:                   Not affected
->   Meltdown:              Not affected
->   Mmio stale data:       Not affected
->   Retbleed:              Mitigation; untrained return thunk; SMT enabled =
-with STIBP protection
->   Spec store bypass:     Mitigation; Speculative Store Bypass disabled vi=
-a prctl
->   Spectre v1:            Mitigation; usercopy/swapgs barriers and __user =
-pointer sanitization
->   Spectre v2:            Mitigation; Retpolines, IBPB conditional, STIBP =
-always-on, RSB filling, PBRSB-eIBRS Not affected
->   Srbds:                 Not affected
->   Tsx async abort:       Not affected
->
-> HOST $ numactl -H
-> available: 1 nodes (0)
-> node 0 cpus: 0-127
-> node 0 size: 257542 MB
-> node 0 free: 224855 MB
-> node distances:
-> node   0
->   0:  10
->
-> HOST $ cat /sys/class/nvme/nvme0/model
-> INTEL SSDPF21Q800GB
->
-> HOST $ cat /sys/class/nvme/nvme0/numa_node
-> 0
->
-> Software
-> =3D=3D=3D=3D=3D=3D=3D=3D
-> HOST $ cat /etc/lsb-release
-> DISTRIB_ID=3DUbuntu
-> DISTRIB_RELEASE=3D22.04
-> DISTRIB_CODENAME=3Djammy
-> DISTRIB_DESCRIPTION=3D"Ubuntu 22.04.1 LTS"
->
-> HOST $ uname -a
-> Linux x86 6.4.0-rc5+ #1 SMP PREEMPT_DYNAMIC Wed Jun  7 22:17:47 UTC 2023 =
-x86_64 x86_64 x86_64 GNU/Linux
->
-> HOST $ cat /proc/swaps
-> Filename          Type         Size         Used    Priority
-> /dev/nvme0n1p2    partition    466838356    0       -2
->
-> HOST $ cat /sys/kernel/mm/lru_gen/enabled
-> 0x000f
->
-> HOST $ cat /sys/kernel/mm/transparent_hugepage/enabled
-> always madvise [never]
->
-> HOST $ cat /sys/kernel/mm/transparent_hugepage/defrag
-> always defer defer+madvise madvise [never]
->
-> Procedure
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> HOST $ git clone https://github.com/google/multichase
->
-> HOST $ <Build multichase>
-> HOST $ <Unpack /boot/initrd.img into ./initrd/>
->
-> HOST $ cp multichase/multichase ./initrd/bin/
-> HOST $ sed -i \
->     "/^maybe_break top$/i multichase -t 2 -m 4g -n 28800; poweroff" \
+> Why are the 3 architectures you have considered being evaluated with 3
+> different benchmarks?
 
-I was reminded that I missed one parameter above, i.e.,
+I was hoping people having special interests in different archs might
+try to reproduce the benchmarks that I didn't report (but did cover)
+and see what happens.
 
-"/^maybe_break top$/i multichase -N -t 2 -m 4g -n 28800; poweroff" \
-                                 ^^
+> I am not suspecting you to have cherry-picked
+> the best results
 
->     ./initrd/init
->
-> HOST $ <Pack ./initrd/ into ./initrd.img>
->
-> HOST $ cat run_microvms.sh
-> memcgs=3D64
->
-> run() {
->     path=3D/sys/fs/cgroup/memcg$1
->
->     mkdir $path
->     echo $BASHPID >$path/cgroup.procs
+I'm generally very conservative when reporting *synthetic* results.
+For example, the same memcached benchmark used on powerpc yielded >50%
+improvement on aarch64, because the default Ubuntu Kconfig uses 64KB
+base page size for powerpc but 4KB for aarch64. (Before the series,
+the reclaim (swap) path takes kvm->mmu_lock for *write* on O(nr of all
+pages to consider); after the series, it becomes O(actual nr of pages
+to swap), which is <10% given how the benchmark was set up.)
 
-And one line here:
+          Ops/sec  Avg. Latency  p50 Latency  p99 Latency  p99.9 Latency
+------------------------------------------------------------------------
+Before  639511.40       0.09940      0.04700      0.27100       22.52700
+After   974184.60       0.06471      0.04700      0.15900        3.75900
 
-echo 4000m >$path/memory.min # or the largest size that doesn't cause OOM k=
-ills
+> but I'd really like to see a variety of benchmarks
+> that exercise this stuff differently.
 
->     qemu-system-x86_64 -M microvm,accel=3Dkvm -cpu host -smp 2 -m 6g \
->         -nographic -kernel /boot/vmlinuz -initrd ./initrd.img \
->         -append "console=3DttyS0 loglevel=3D0"
-> }
->
-> for ((memcg =3D 0; memcg < $memcgs; memcg++)); do
->     run $memcg &
-> done
->
-> wait
->
-> Results
-> =3D=3D=3D=3D=3D=3D=3D
->                  Before [1]    After    Change
-> ----------------------------------------------
-> Total samples    6824          7237     +6%
->
-> Notes
-> =3D=3D=3D=3D=3D
-> [1] "mm: rmap: Don't flush TLB after checking PTE young for page
->     reference" was included so that the comparison is apples to
->     Apples.
->     https://lore.kernel.org/r/20220706112041.3831-1-21cnbao@gmail.com/
+I'd be happy to try other synthetic workloads that people think that
+are relatively representative. Also, I've backported the series and
+started an A/B experiment involving ~1 million devices (real-world
+workloads). We should have the preliminary results by the time I post
+the next version.
