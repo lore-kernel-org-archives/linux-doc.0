@@ -2,80 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07AE0EB64D8
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 16:10:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB4DEEB64D8
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 16:54:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjFRQKG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Jun 2023 12:10:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35892 "EHLO
+        id S229553AbjFRQyn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Jun 2023 12:54:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjFRQKF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jun 2023 12:10:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 112901AB
-        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 09:09:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687104558;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=w2INyO+y8xDXiMBhrjMvHN1J2A6ehB/rv2/0JiFPr5c=;
-        b=Ks7B6qBNZmTwgxvXf5OKeymBY+uGt4YZJi0fStO7GYyytWJUcG9dFf0oef/Jy/LxULzyES
-        RderjYsnfdBMxK1k4HlXKertoErEAtgJuoaygMOAmp5PwFTSoukEcx2QOlnndRnV0cVivT
-        1+fSfP+azJIu+S7PGyBVw4seRg7Mn+c=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-3-P6Xx-VHFNjymKFId7rafyQ-1; Sun, 18 Jun 2023 12:09:16 -0400
-X-MC-Unique: P6Xx-VHFNjymKFId7rafyQ-1
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-55e20391aadso1363102eaf.2
-        for <linux-doc@vger.kernel.org>; Sun, 18 Jun 2023 09:09:16 -0700 (PDT)
+        with ESMTP id S229470AbjFRQym (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jun 2023 12:54:42 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDD2610B;
+        Sun, 18 Jun 2023 09:54:41 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-76344f8140dso23198385a.3;
+        Sun, 18 Jun 2023 09:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687107281; x=1689699281;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4sK61SVjYCcgummf/cy7pNsLb9SbPBeqU0f1FYDFMyI=;
+        b=rY8QSvEl6p4fIeB+cNXrfBx3Qi8Q0oRZm5VoS2BoCgfjuYRQQUwrdFGEDdU23IrXo0
+         chGoGHKPwP0LXmrfTl3qHlcCmo1sRYapzINEnQSow+fzi+pFn5PGiApYOrJ50HKaB68T
+         utE+yg2GnzRQ30Bj8a8L69p3c374+UtcDkNfJR34GIn05f0b7+0AmEbyApvKm1DNJWT/
+         bJcRj7sz29ir/3TzVW+gzb/qTkz7VnAPSgi9enEEZ3+K74hSxYqhdeSEvqiAsjKKoCqT
+         OzoP6N5BMK7b0x2JfdgrfrTiD4DoK57jW0lPFco02d1KYyD6s/pMa/qc2P6IX40592qx
+         JtnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687104556; x=1689696556;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w2INyO+y8xDXiMBhrjMvHN1J2A6ehB/rv2/0JiFPr5c=;
-        b=O5tEobuy+bnEtxJkqE1KbWSyn+yGkRXcDpqbCXtP012aIqoFB94c7NeYdbb7Vofif1
-         TQDXob1Fd+RSLuN7ASSVjCSUB13SHIaFmyCrury7nD1XWKiR6cdhf95b6mUGetWM60FL
-         5APjX/4G0QQ58y/8iwh10ENhyZIKygO6qvQJbv70OVFOUsSP+AK76kjxWk/HvSVhkhQX
-         aXZ38vZ7xnWhKJDpa9bIbXzcT+DBowGBuX2Ny+qGCz80OYz1BEctVnNapjD2Yi11QWF6
-         WaOkbrtOdLr8oe544RRIThSDn9NgyZPlPF/LZdSyAH3Ia6Lr1Y7C05aCxPR8lMjxZ3Aa
-         Eypw==
-X-Gm-Message-State: AC+VfDzWWuzsV3FljYup1Bhd5IN2gvjwPZz8HYzjACDEjoLU9MAnMxDh
-        JcvWtOb6UMFhBZqJzOh0o14FuFMW7BYWTP4+eniR0U8s1B6TuKKRKdqUViQ6tPPPJWHdUmQt63L
-        8xu4IV/GteC5biNEmEnTukIxJkjipXtcEonVATaZtF5Nf6bo=
-X-Received: by 2002:a4a:a551:0:b0:558:b386:7a78 with SMTP id s17-20020a4aa551000000b00558b3867a78mr5064724oom.5.1687104556049;
-        Sun, 18 Jun 2023 09:09:16 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4qdlYRunIz+0lrWIGBkf2nmP2roOaQDa3a49rkAc6u+/xrdNaMJmxnVwol++Y4Uk/TyDPCixp2Z7ft29OIHFw=
-X-Received: by 2002:a4a:a551:0:b0:558:b386:7a78 with SMTP id
- s17-20020a4aa551000000b00558b3867a78mr5064714oom.5.1687104555727; Sun, 18 Jun
- 2023 09:09:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <87h6rhoyag.fsf@meer.lwn.net> <20230618062937.481280-1-costa.shul@redhat.com>
- <c0c44b35-b55d-6965-7103-76d9a9bf5c0d@infradead.org>
-In-Reply-To: <c0c44b35-b55d-6965-7103-76d9a9bf5c0d@infradead.org>
-From:   Costa Shulyupin <costa.shul@redhat.com>
-Date:   Sun, 18 Jun 2023 19:09:04 +0300
-Message-ID: <CADDUTFzBYtLbC5fGa7bA1LXXgNAEfHzueS9oO93r6WNtM2TYXw@mail.gmail.com>
-Subject: Re: [PATCH v4] docs: consolidate storage interfaces
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20221208; t=1687107281; x=1689699281;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4sK61SVjYCcgummf/cy7pNsLb9SbPBeqU0f1FYDFMyI=;
+        b=PvJr6nOajjEg6nBWopPUvyV3lClFlhSHKoj82QChhFMt5m0zUes7J2L5PDvWmtiU3f
+         Tkv7uvyfCLXXiQ9UPnBzG/c6gN5imTqXeq9eqnmsEbpxASViHl5pamiWZ0b7bpDy2N6Y
+         fcJUj1N5qzG+TiD8kZVzEMYgLTHHhkDjpw7BR1RZFfxEgoS8HpnUf10BLt0IUKVKR3G7
+         0kR/tp/e+qFdY9jwf4y2q2Pv5xkb6q7bwXujC6jzKuS7YBTEiz7t7roz6cNe1O24RMDL
+         +MaqHuMQhHqZqG7iQqUsM5DAz5ENn/nqB8rnM4cj0NgZp94pX3zzfjSfOmAJSRD0fvoE
+         wT8A==
+X-Gm-Message-State: AC+VfDwwVj5h13DIgF4ld/PJoPOX85Y7FxEt4vVz5VMfxDa5ThP1KLpo
+        AfAazsDXyLUe6K6DxIRLknI=
+X-Google-Smtp-Source: ACHHUZ7rD2n8b5vnYB/xOzS5BAQNWYuxXJrQo4BmBND6gWZP6jCAnPQahStFSM7LauZ1ZKr4AefxaQ==
+X-Received: by 2002:ad4:5be2:0:b0:626:33bb:3fd3 with SMTP id k2-20020ad45be2000000b0062633bb3fd3mr8290593qvc.19.1687107280821;
+        Sun, 18 Jun 2023 09:54:40 -0700 (PDT)
+Received: from localhost (172.174.245.35.bc.googleusercontent.com. [35.245.174.172])
+        by smtp.gmail.com with ESMTPSA id t3-20020ac85303000000b003f7a54fa72fsm1857340qtn.0.2023.06.18.09.54.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jun 2023 09:54:40 -0700 (PDT)
+Date:   Sun, 18 Jun 2023 12:54:40 -0400
+From:   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To:     David Howells <dhowells@redhat.com>, netdev@vger.kernel.org
+Cc:     David Howells <dhowells@redhat.com>,
+        Alexander Duyck <alexander.duyck@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        David Ahern <dsahern@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jens Axboe <axboe@kernel.dk>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        dccp@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-wpan@vger.kernel.org, linux-x25@vger.kernel.org,
+        mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
+        tipc-discussion@lists.sourceforge.net,
+        virtualization@lists.linux-foundation.org
+Message-ID: <648f36d02fe6e_33cfbc2944f@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20230617121146.716077-18-dhowells@redhat.com>
+References: <20230617121146.716077-1-dhowells@redhat.com>
+ <20230617121146.716077-18-dhowells@redhat.com>
+Subject: RE: [PATCH net-next v2 17/17] net: Kill MSG_SENDPAGE_NOTLAST
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 18 Jun 2023 at 18:20, Randy Dunlap <rdunlap@infradead.org> wrote:
-> What does the TCM Virtual Device comment refer to?
+David Howells wrote:
+> Now that ->sendpage() has been removed, MSG_SENDPAGE_NOTLAST can be cleaned
+> up.  Things were converted to use MSG_MORE instead, but the protocol
+> sendpage stubs still convert MSG_SENDPAGE_NOTLAST to MSG_MORE, which is now
+> unnecessary.
+> 
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> cc: "David S. Miller" <davem@davemloft.net>
+> cc: Eric Dumazet <edumazet@google.com>
+> cc: Jakub Kicinski <kuba@kernel.org>
+> cc: Paolo Abeni <pabeni@redhat.com>
+> cc: Jens Axboe <axboe@kernel.dk>
+> cc: Matthew Wilcox <willy@infradead.org>
+> cc: bpf@vger.kernel.org
+> cc: dccp@vger.kernel.org
+> cc: linux-afs@lists.infradead.org
+> cc: linux-arm-msm@vger.kernel.org
+> cc: linux-can@vger.kernel.org
+> cc: linux-crypto@vger.kernel.org
+> cc: linux-doc@vger.kernel.org
+> cc: linux-hams@vger.kernel.org
+> cc: linux-perf-users@vger.kernel.org
+> cc: linux-rdma@vger.kernel.org
+> cc: linux-sctp@vger.kernel.org
+> cc: linux-wpan@vger.kernel.org
+> cc: linux-x25@vger.kernel.org
+> cc: mptcp@lists.linux.dev
+> cc: netdev@vger.kernel.org
+> cc: rds-devel@oss.oracle.com
+> cc: tipc-discussion@lists.sourceforge.net
+> cc: virtualization@lists.linux-foundation.org
+> ---
+>  include/linux/socket.h                         | 4 +---
+>  net/ipv4/tcp_bpf.c                             | 4 +++-
+>  net/tls/tls_device.c                           | 3 +--
+>  net/tls/tls_main.c                             | 2 +-
+>  net/tls/tls_sw.c                               | 2 +-
+>  tools/perf/trace/beauty/include/linux/socket.h | 1 -
+>  tools/perf/trace/beauty/msg_flags.c            | 3 ---
+>  7 files changed, 7 insertions(+), 12 deletions(-)
+>
+ 
+> @@ -90,7 +90,9 @@ static int tcp_bpf_push(struct sock *sk, struct sk_msg *msg, u32 apply_bytes,
+>  {
+>  	bool apply = apply_bytes;
+>  	struct scatterlist *sge;
+> -	struct msghdr msghdr = { .msg_flags = flags | MSG_SPLICE_PAGES, };
+> +	struct msghdr msghdr = {
+> +		.msg_flags = flags | MSG_SPLICE_PAGES | MSG_MORE,
+> +	};
+>  	struct page *page;
+>  	int size, ret = 0;
+>  	u32 off;
 
-TCM stands for Target Core Mod.
-It is configured by CONFIG_TARGET_CORE.
-The moved doc is https://docs.kernel.org/target/. Good example to not
-name directories.
-It says "TCM is another name for LIO, an in-kernel iSCSI target (server)."
-LIO stands for Linux-IO: https://en.wikipedia.org/wiki/LIO_(SCSI_target)
+Is it intentional to add MSG_MORE here in this patch?
 
-Thank you.
+I do see that patch 3 removes this branch:
 
+@@ -111,9 +111,6 @@  static int tcp_bpf_push(struct sock *sk, struct sk_msg *msg, u32 apply_bytes,
+ 		if (has_tx_ulp)
+ 			msghdr.msg_flags |= MSG_SENDPAGE_NOPOLICY;
+ 
+-		if (flags & MSG_SENDPAGE_NOTLAST)
+-			msghdr.msg_flags |= MSG_MORE;
+-
