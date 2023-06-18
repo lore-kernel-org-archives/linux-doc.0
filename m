@@ -2,59 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF2CCEB64D9
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 00:09:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12677EB64DB
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Jun 2023 00:09:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232267AbjFRAJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Jun 2023 20:09:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38236 "EHLO
+        id S234670AbjFRAJa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Jun 2023 20:09:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232519AbjFRAJU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Jun 2023 20:09:20 -0400
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875EA170A
-        for <linux-doc@vger.kernel.org>; Sat, 17 Jun 2023 17:09:19 -0700 (PDT)
-Received: by mail-pg1-x54a.google.com with SMTP id 41be03b00d2f7-53b9eb7bda0so1045724a12.0
-        for <linux-doc@vger.kernel.org>; Sat, 17 Jun 2023 17:09:19 -0700 (PDT)
+        with ESMTP id S233746AbjFRAJZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Jun 2023 20:09:25 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 327861723
+        for <linux-doc@vger.kernel.org>; Sat, 17 Jun 2023 17:09:23 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id d9443c01a7336-1b04dbcf0dbso19084765ad.1
+        for <linux-doc@vger.kernel.org>; Sat, 17 Jun 2023 17:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687046959; x=1689638959;
+        d=google.com; s=20221208; t=1687046962; x=1689638962;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
-        bh=SZRhH39sdwsf6mf7jmU2xtyZAtu6JfAYC83IgKKrw3g=;
-        b=yKkIRX0QpeQIZE1DidVGEAYWTGzy1a7kdjPPYLn8eK2kTitM+zJT9u6VA55WaqmtV6
-         pWHjiKIuMZWbo2Pnap/dtOis3oRHJicAz7uD3wD5V/AnkB+f30edVXETNO//NaRsMPv0
-         k/E+3VFdUlcad6EjHg+NVkBMrG8YirRZjg8CNYDb5HsmaTFw8gxIHruDw+7xEj5a/N9b
-         s5WHerxEKQKPsUwVjAKK/8YaGjoM7Q8orVuDn+mfc8+Hw4YWUMIAnvwn2u9CkSdrJgFI
-         sI+/eW+ixsQaT0cz+EHG9Hcon8LeQaDmkuRhNbgFglelLp5mNWJKezlzTzT9vI5/yjsC
-         68sQ==
+        bh=1VCe6Te4dbtLGKgb4rOHMky/xQ+L+u4Ve7fRkEOuWfM=;
+        b=eM6eEMdeAdA3q12h/4zPiNDSyzDv6iURF6JeeAlS92vFN138+Ea57eUPBYKXB/1hSK
+         LO+sRsz7LswUmxtY2fR1MXtZ5ODEii85FISwNsl00srPgkpT+xOgRzsXGZenLTovEC4K
+         5bCdZnpVEh3xw/+QxJve/qwSzVD1fa3TqfhTUHfYi7y0bg4vv9JGAYAycx//ck2bTtEa
+         x0mjE8f8m8SfrfLilZa2KalRke5BniQVDR2ujyq/cZrSDYm/79+HVziX7w7RrRTnHlXw
+         fYE6FC2kIKP7Hw3VUVpp7d1JE/EkJAqrZYwsEiLJj6sx6zDZWhNU/Od3Bkmt9PNwwxke
+         +F7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687046959; x=1689638959;
+        d=1e100.net; s=20221208; t=1687046962; x=1689638962;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SZRhH39sdwsf6mf7jmU2xtyZAtu6JfAYC83IgKKrw3g=;
-        b=LeCBMosuKsW+fM/FdMREn3JawfJCpVhAGD6jh2HFCZWM0DcGyezp4vtNQxmBACFLsY
-         LXj5nhJTQE8PdpmAhfWe+Yb8ipCLBPUezTmbdvPr9DsnNVqqLxF9x9qPdZ7Z11JpFIEL
-         /2WvKkxslm04s1Uk2bqiyF4aSleFPDQ7R46tK9QQve42dslLUP2z28Uj3b4gaGnjk9Pt
-         brV3ypasZepf8cfsuIaoCszbcqMzLZQmApnvEfcmTl+wbAp3TCr7sSe7BTFboknEGogY
-         Qxk12bnjJ63rcKCjPGNQ4Dy4gub6XsTyYWgba79U8jeasODZSqVQbpxm9pVnD4Mkqk9t
-         jmYA==
-X-Gm-Message-State: AC+VfDzM8eQgaYnByi3u6js4ftedhjP2vKhitmfJyDctfEtwHCPv79Zd
-        7kVpIzJgH/twVdDznaZrg1sfP2oZGFeO
-X-Google-Smtp-Source: ACHHUZ6s/0SDgBjDHb7lnw7v17wR8UYblxJ4u12S9rHeLlYYijB1xGLNmU6+VDed2EOc0mlXhPDl+/6YPoZi
+        bh=1VCe6Te4dbtLGKgb4rOHMky/xQ+L+u4Ve7fRkEOuWfM=;
+        b=HkQ6BfA4SKiyLWbp2HgMuHBZP6Fp/+jqI7vkZ84zbvKJiOPv9EeZ2U5HjQmH3Q8CEj
+         MjkAsPM/MxWoYD+5IFOA+erFItBT7ZsRi2encak9bwQuAtz2PowGKGb5fVnLUSQCrvn7
+         R3/69ZgNP4o/1qsfvRU5N4BHAnm1vihhO2o2DS6wjCYcdZmPFrpZYMMhvVuZCKwsb7yF
+         Z2An9QRNaFuFRl6rUNWMuZZQU4/1rMgxI7V2tWvlWam+wdhkr9W5uy2aymHohkyDGoNW
+         6NX7hXRZnkbnM7zF9rDaS4X/a3hq9IsEfqhTQgAkBH0SUL37nNfaxL/Jq5uy/29Gga1N
+         wJYw==
+X-Gm-Message-State: AC+VfDzYnLnDQ9RAdsJm/0zlayUDcEjC/DZY3Vc2y3x7DKfOzSczgKnE
+        JalK16Yl19L6BqpSinHOhhDkTO8Ko9LS
+X-Google-Smtp-Source: ACHHUZ587n83fnu4WPNdcoRuCpjN8gdiXgApo0KsiKTF4x3Syc0S5oMmIS04y4PImd7mWuJ5Od9KbFTaOwBX
 X-Received: from mizhang-super.c.googlers.com ([35.247.89.60]) (user=mizhang
- job=sendgmr) by 2002:a63:782:0:b0:517:ce37:756e with SMTP id
- 124-20020a630782000000b00517ce37756emr406250pgh.7.1687046959115; Sat, 17 Jun
- 2023 17:09:19 -0700 (PDT)
+ job=sendgmr) by 2002:a17:902:e88b:b0:1a8:1f4:2d50 with SMTP id
+ w11-20020a170902e88b00b001a801f42d50mr1222628plg.4.1687046962586; Sat, 17 Jun
+ 2023 17:09:22 -0700 (PDT)
 Reply-To: Mingwei Zhang <mizhang@google.com>
-Date:   Sun, 18 Jun 2023 00:08:54 +0000
+Date:   Sun, 18 Jun 2023 00:08:56 +0000
 In-Reply-To: <20230618000856.1714902-1-mizhang@google.com>
 Mime-Version: 1.0
 References: <20230618000856.1714902-1-mizhang@google.com>
 X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
-Message-ID: <20230618000856.1714902-5-mizhang@google.com>
-Subject: [PATCH 4/6] KVM: Documentation: Add the missing tdp_mmu_root_count
- into kvm_mmu_page
+Message-ID: <20230618000856.1714902-7-mizhang@google.com>
+Subject: [PATCH 6/6] KVM: Documentation: Add the missing tdp_mmu_page into kvm_mmu_page
 From:   Mingwei Zhang <mizhang@google.com>
 To:     Sean Christopherson <seanjc@google.com>,
         Paolo Bonzini <pbonzini@redhat.com>
@@ -68,32 +67,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add tdp_mmu_root_count into kvm_mmu_page description. tdp_mmu_root_count is
-an atomic counter used only in TDP MMU. Its usage and meaning is slightly
-different with root_counter in shadow MMU. Update the doc.
+Add tdp_mmu_page into kvm_mmu_page description. tdp_mmu_page is a field to
+differentiate shadow pages from TDP MMU and non-TDP MMU. When TDP MMU is
+enabled, sp->tdp_mmu_page=1 indicates a shadow page for L1, while
+sp->tdp_mmu_page=0 indicates a shadow page for an L2. When TDP MMU is
+disabled, sp->tdp_mmu_page is always 0. So update the doc to reflect the
+information.
 
 Signed-off-by: Mingwei Zhang <mizhang@google.com>
 ---
- Documentation/virt/kvm/x86/mmu.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/virt/kvm/x86/mmu.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
-index 36bfe0fe02bb..3dce2426ad6d 100644
+index 0dbdb7fb8cc6..cbad49c37629 100644
 --- a/Documentation/virt/kvm/x86/mmu.rst
 +++ b/Documentation/virt/kvm/x86/mmu.rst
-@@ -230,6 +230,12 @@ Shadow pages contain the following information:
-     A counter keeping track of how many hardware registers (guest cr3 or
-     pdptrs) are now pointing at the page.  While this counter is nonzero, the
-     page cannot be destroyed.  See role.invalid.
-+  tdp_mmu_root_count:
-+    An atomic reference counter in TDP MMU that allows for parallel
-+    accesses.  Accessing the page requires lifting the counter value. The
-+    initial value is set as 2 indicating one reference from vCPU and one
-+    from TDP MMU itself. While this counter is nonzero, the page cannot be
-+    destroyed. Note this field is a union with root_count.
-   parent_ptes:
-     The reverse mapping for the pte/ptes pointing at this page's spt. If
-     parent_ptes bit 0 is zero, only one spte points at this page and
+@@ -277,6 +277,10 @@ Shadow pages contain the following information:
+     since the last time the page table was actually used; if emulation
+     is triggered too frequently on this page, KVM will unmap the page
+     to avoid emulation in the future.
++  tdp_mmu_page:
++    Is 1 if the shadow page is a TDP MMU page. When TDP MMU is disabled,
++    this field is always 0.
++
+ 
+ Reverse map
+ ===========
 -- 
 2.41.0.162.gfafddb0af9-goog
 
