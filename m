@@ -2,62 +2,94 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 420E3EB64DA
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 12:55:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6320C0015E
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 13:00:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbjFSMzr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 08:55:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39644 "EHLO
+        id S231372AbjFSNAT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 09:00:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbjFSMzq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 08:55:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 127F5E65;
-        Mon, 19 Jun 2023 05:55:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D7D660C07;
-        Mon, 19 Jun 2023 12:55:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A023C433C0;
-        Mon, 19 Jun 2023 12:55:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1687179342;
-        bh=CvG/yi73ci9rMW9Aszwmnno5IR66Huown+A2ZSwfS+I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c2HhJByQQjGWgcLt1+yITP9a99PlJ9zT3rzgw/IXTpUQNiSGcXRBqnUaNqzcyjIfM
-         R9zZk5roeV55zyuJ5dXFbKikPMLjiYkIgeNYQvD/Vvkluz8rJ3KBoi5bthG/5ogdo3
-         DcatcBf9wNbR6PNMNoXJAxT7UTI3Hshx09qYNhc0=
-Date:   Mon, 19 Jun 2023 14:55:39 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Johannes Berg <johannes@sipsolutions.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Johannes Berg <johannes.berg@intel.com>
-Subject: Re: [PATCH] Documentation: update git configuration for Link: tag
-Message-ID: <2023061925-savor-fetal-6c37@gregkh>
-References: <20230619115533.981f6abaca01.I1960c39b1d61e8514afcef4806a450a209133187@changeid>
+        with ESMTP id S231700AbjFSNAQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 09:00:16 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20D6A1AC;
+        Mon, 19 Jun 2023 06:00:15 -0700 (PDT)
+Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Ql8vY1DzzzLmnW;
+        Mon, 19 Jun 2023 20:58:17 +0800 (CST)
+Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
+ (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 19 Jun
+ 2023 21:00:12 +0800
+Subject: Re: [PATCH v4 4/5] hwtracing: hisi_ptt: Advertise
+ PERF_PMU_CAP_NO_EXCLUDE for PTT PMU
+To:     Yicong Yang <yangyicong@huawei.com>, <mathieu.poirier@linaro.org>,
+        <suzuki.poulose@arm.com>, <jonathan.cameron@huawei.com>,
+        <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20230606142244.10939-1-yangyicong@huawei.com>
+ <20230606142244.10939-5-yangyicong@huawei.com>
+CC:     <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
+        <linux-pci@vger.kernel.org>, <prime.zeng@huawei.com>,
+        <yangyicong@hisilicon.com>
+From:   hejunhao <hejunhao3@huawei.com>
+Message-ID: <01c39cb9-e56a-862b-2d99-024b7ba5a769@huawei.com>
+Date:   Mon, 19 Jun 2023 21:00:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230619115533.981f6abaca01.I1960c39b1d61e8514afcef4806a450a209133187@changeid>
+In-Reply-To: <20230606142244.10939-5-yangyicong@huawei.com>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.103.44]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500002.china.huawei.com (7.185.36.158)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 19, 2023 at 11:55:34AM +0200, Johannes Berg wrote:
-> From: Johannes Berg <johannes.berg@intel.com>
-> 
-> The latest version of git (2.41.0) changed the spelling
-> of Message-Id to Message-ID. Adjust the perl script here
-> to accept both spellings.
-> 
-> Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+Hi, Yicong
+
+
+On 2023/6/6 22:22, Yicong Yang wrote:
+> From: Yicong Yang <yangyicong@hisilicon.com>
+>
+> The PTT trace collects PCIe TLP headers from the PCIe link and don't
+> have the ability to exclude certain context. It doesn't support itrace
+> as well. So only advertise PERF_PMU_CAP_NO_EXCLUDE. This will greatly
+> save the storage of final data. Tested tracing idle link for ~15s,
+> without this patch we'll collect ~28.682MB data for context related
+> information and with this patch it reduced to ~0.226MB.
+>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 > ---
->  Documentation/maintainer/configure-git.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/hwtracing/ptt/hisi_ptt.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/hwtracing/ptt/hisi_ptt.c b/drivers/hwtracing/ptt/hisi_ptt.c
+> index 5c7e93e7705f..ff2c16efe5b1 100644
+> --- a/drivers/hwtracing/ptt/hisi_ptt.c
+> +++ b/drivers/hwtracing/ptt/hisi_ptt.c
+> @@ -1210,7 +1210,7 @@ static int hisi_ptt_register_pmu(struct hisi_ptt *hisi_ptt)
+>   
+>   	hisi_ptt->hisi_ptt_pmu = (struct pmu) {
+>   		.module		= THIS_MODULE,
+> -		.capabilities	= PERF_PMU_CAP_EXCLUSIVE | PERF_PMU_CAP_ITRACE,
+> +		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
 
-Thanks for figuring this out!
+According to the error prompt of function hisi_ptt_trace_start().
+https://elixir.bootlin.com/linux/v6.4-rc7/source/drivers/hwtracing/ptt/hisi_ptt.c#L197
 
-Tested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+You may be need to keep advertise PERF_PMU_CAP_EXCLUSIVE?
+Such pmus can only have one event scheduled at a time, if not the perf
+tool will report device busy.
+
+Best regards,
+Junhao.
+
+>   		.task_ctx_nr	= perf_sw_context,
+>   		.attr_groups	= hisi_ptt_pmu_groups,
+>   		.event_init	= hisi_ptt_pmu_event_init,
+
