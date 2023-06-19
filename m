@@ -2,139 +2,293 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A275BEB64D9
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 09:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 168D0EB64DA
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 09:47:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231469AbjFSJ32 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 05:29:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51174 "EHLO
+        id S230138AbjFSJrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 05:47:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231426AbjFSJ2y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 05:28:54 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A03771997
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 02:28:13 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f90bff0f27so8775835e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 02:28:13 -0700 (PDT)
+        with ESMTP id S231653AbjFSJrW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 05:47:22 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F272134
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 02:47:16 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-31129591288so1582943f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 02:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687166892; x=1689758892;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687168034; x=1689760034;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MA34cT4O/DXGv9/GJqnDQidBqlMmaRaNZTidmNryGbQ=;
-        b=w1lMpVnzGPEeaVoIe3PsoD5fTjDDyaHreFR7Forr8A4oYjlT1wyEkhpK++erSgJmsD
-         YwutxvLhitQEhSImbwzmKqIsux+0pLklHXfw3XNftBpEd+rbwb9MR26+tyEi9fFprn6v
-         Bwl0YL/nZIsYHPK5TzjhhoE98dYebqQ/s2pGujy5EjS1yFntMKKjonm/L8TOcdsdvNub
-         C77gCrjY4W9Gz/J/hVOK7JafXsgCaXImpSlW5SHGh8EmWsKEgnPR6gZd1ZKjGjU585e8
-         9udrPVPdIpwzslq8TPpDRh9c97VMMghUBVlezwYricz7zfG2u0sKoC9q5bQT3I5FCC2A
-         ggLQ==
+        bh=pm5bDO7dAW0U1/ZbP5zCHPn8yVTZ8TIF+oUNu//7tHw=;
+        b=eoKvIZdQXEl0s4AQsuIPqutj8dZ3pqg+m54vtxstzp6Q0Cl1fFmcVYBGLRaGahbRvw
+         4WTUnVOpcgg1uKzRkVqNkc0cTFSTeg99LuqB6iFfQdZ4lcwONnwloO9/Uh7KKy6yxRo0
+         ID3jZMT9Jm13te2HaRdlSP3bZ4ka+kz9eBSG7NfZ6aN/qXeRSrxhqCOuT/i9I1x6CLsf
+         ejknWxyg7oYUDdBmP2yQjBXnRKg+SxrNYPjgIpIXs1XK1kguhu0Xh36iOiKEHEFAjeBN
+         T/00S5O8FK7uHrHczAvt9ujM+Gt1C6GFyFqzc/l46kBEjEkUfeBCqhBnhHzTaGQkvDVr
+         AYbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687166892; x=1689758892;
+        d=1e100.net; s=20221208; t=1687168034; x=1689760034;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MA34cT4O/DXGv9/GJqnDQidBqlMmaRaNZTidmNryGbQ=;
-        b=FscoAshCk9RigopGQKgt4eJ2SMGwidLlrcJ40pi6sCr8aKM018LrZzYr0R2E5h8lVU
-         cfAowR2nNFr3MkNCpepYZngkbpp4ji0m0A0/BklABthPRbzEFy8e2CD66nE/Rv5k/t0r
-         W38boe7g0WEAR0FrYfgjE+ewBKKr+h+TE5JdqhzTuTMqnOM4DgDlMvlYDhavpyH9Ex+Z
-         dIdaEK2EIIWGKU+aMTRidb2+mERQiaMCovVhRjcLqNLP2/xgZKcc8KFsOEJPBGBUWUR/
-         km8pI+LzTH7bSY/chk1yea0Hlsoh4IJBzu8TT7IYtuMxNoSbXm2OeaaNwYJjbDFuz4fN
-         eM0w==
-X-Gm-Message-State: AC+VfDyeHISUjCX/ZRIrN+i5I3sxt7JGQfr/CzCbeyCEBqps77f8SM3F
-        bs4yWpVVutdIgvAkZbZj3ArpFQ==
-X-Google-Smtp-Source: ACHHUZ5PIbm8h7cKrZMFoFsbGK9F8BONiHNOCufZZkdH5bY/DzzunLcti36p+dvVlrUIB6I+pn8RAw==
-X-Received: by 2002:a7b:c449:0:b0:3f4:a09f:1877 with SMTP id l9-20020a7bc449000000b003f4a09f1877mr5725214wmi.23.1687166892067;
-        Mon, 19 Jun 2023 02:28:12 -0700 (PDT)
-Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id n22-20020a7bcbd6000000b003f908ee3091sm5453846wmi.3.2023.06.19.02.28.11
+        bh=pm5bDO7dAW0U1/ZbP5zCHPn8yVTZ8TIF+oUNu//7tHw=;
+        b=MhVD0WcRSsJdh2+T3p6wtZ80fZ8W5eq+KQpBWhHG9Qyo19ykCzvNdU3FqA9+HZ8rIs
+         ASvNntCbF4Kzi82WmeqCyLZ4kwrYV/wA8OSbSufDMBDzKdMZqHYWpJzmI4X6LmjUJ3SP
+         ylS9ep/06uJYRFKRgS3/PkIYqC18yHl4KaSnNLmI8UnI9v8nmytmI8SJHGchA2EGWK4P
+         2tlQBN1oN5Hn3steE8drPVtylap2cXmrF6BfVYpWn6nuuqKvPJ1+eyNvVj160cdh3ejK
+         BCtnBYEkXgQGqcZRWCtTrAWsiyoogCbFRHPHSXu/ovSCcRONRiOOSzhwFX88IUNyqxC1
+         85NA==
+X-Gm-Message-State: AC+VfDy44YAxrn1ptYyU2S41V5LyDwbKEiYgJtFWQEvJxt9caiPIL0/k
+        doTHMs3skFxLY3LjtsRicvEA8Q==
+X-Google-Smtp-Source: ACHHUZ4srevsoh92EwaOJ4I0058DKxrJQ5ezWwKSVZZI0bdfQ65hdj+8R6fMYDUvniAfJk44wWtanA==
+X-Received: by 2002:adf:f952:0:b0:311:162a:ce2a with SMTP id q18-20020adff952000000b00311162ace2amr5395662wrr.29.1687168034471;
+        Mon, 19 Jun 2023 02:47:14 -0700 (PDT)
+Received: from localhost.localdomain (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id c1-20020a5d5281000000b0030aded83385sm30971199wrv.27.2023.06.19.02.47.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jun 2023 02:28:11 -0700 (PDT)
-From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-To:     vkoul@kernel.org, broonie@kernel.org, tiwai@suse.com
-Cc:     corbet@lwn.net, alsa-devel@alsa-project.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_plai@quicinc.com, quic_mohs@quicinc.com,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Subject: [PATCH v3] ALSA: compress: allow setting codec params after next track
-Date:   Mon, 19 Jun 2023 10:28:05 +0100
-Message-Id: <20230619092805.21649-1-srinivas.kandagatla@linaro.org>
-X-Mailer: git-send-email 2.21.0
+        Mon, 19 Jun 2023 02:47:14 -0700 (PDT)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH 1/2] Documentation: riscv: Add early boot document
+Date:   Mon, 19 Jun 2023 11:47:04 +0200
+Message-Id: <20230619094705.51337-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For gapless playback it is possible that each track can have different
-codec profile with same decoder, for example we have WMA album,
-we may have different tracks as WMA v9, WMA v10 and so on
+This document describes the constraints and requirements of the early
+boot process in a RISC-V kernel.
 
-Or if DSP's like QDSP have abililty to switch decoders on single stream
-for each track, then this call could be used to set new codec parameters.
-
-Existing code does not allow to change this profile while doing gapless
-playback.
-
-Reuse existing SNDRV_COMPRESS_SET_PARAMS to set this new track params along
-some additional checks to enforce proper state machine.
-
-With this new changes now the user can call SNDRV_COMPRESS_SET_PARAMS
-anytime after setting next track and additional check in write should
-also ensure that params are set before writing new data.
-
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Szigned-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
-Changes since v2:
- simplified the logic to allow set_params and udated the documentation accordingly
+ Documentation/riscv/boot-image-header.rst |   3 -
+ Documentation/riscv/boot.rst              | 181 ++++++++++++++++++++++
+ Documentation/riscv/index.rst             |   1 +
+ 3 files changed, 182 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/riscv/boot.rst
 
- Documentation/sound/designs/compress-offload.rst | 11 ++++++-----
- sound/core/compress_offload.c                    |  5 ++++-
- 2 files changed, 10 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/sound/designs/compress-offload.rst b/Documentation/sound/designs/compress-offload.rst
-index 935f325dbc77..655624f77092 100644
---- a/Documentation/sound/designs/compress-offload.rst
-+++ b/Documentation/sound/designs/compress-offload.rst
-@@ -268,11 +268,12 @@ with setting of meta_data and signalling for next track ::
-               |                              |
-               |                              V
-               |                         +----------+
--              |                         |          |
--              |                         |NEXT_TRACK|
--              |                         |          |
--              |                         +----------+
--              |                              |
-+              |    compr_set_params()   |          |
-+              |             +-----------|NEXT_TRACK|
-+              |             |           |          |
-+              |             |           +--+-------+
-+              |             |              | |
-+              |             +--------------+ |
-               |                              |
-               |                              | compr_partial_drain()
-               |                              |
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index 243acad89fd3..30f73097447b 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -589,7 +589,7 @@ snd_compr_set_params(struct snd_compr_stream *stream, unsigned long arg)
- 	struct snd_compr_params *params;
- 	int retval;
+diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/riscv/boot-image-header.rst
+index d7752533865f..a4a45310c4c4 100644
+--- a/Documentation/riscv/boot-image-header.rst
++++ b/Documentation/riscv/boot-image-header.rst
+@@ -7,9 +7,6 @@ Boot image header in RISC-V Linux
  
--	if (stream->runtime->state == SNDRV_PCM_STATE_OPEN) {
-+	if (stream->runtime->state == SNDRV_PCM_STATE_OPEN || stream->next_track) {
- 		/*
- 		 * we should allow parameter change only when stream has been
- 		 * opened not in other cases
-@@ -612,6 +612,9 @@ snd_compr_set_params(struct snd_compr_stream *stream, unsigned long arg)
- 		if (retval)
- 			goto out;
+ This document only describes the boot image header details for RISC-V Linux.
  
-+		if (stream->next_track)
-+			goto out;
+-TODO:
+-  Write a complete booting guide.
+-
+ The following 64-byte header is present in decompressed Linux kernel image::
+ 
+ 	u32 code0;		  /* Executable code */
+diff --git a/Documentation/riscv/boot.rst b/Documentation/riscv/boot.rst
+new file mode 100644
+index 000000000000..b02230818b79
+--- /dev/null
++++ b/Documentation/riscv/boot.rst
+@@ -0,0 +1,181 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- 		stream->metadata_set = false;
- 		stream->next_track = false;
++=============================================
++Early boot requirements/constraints on RISC-V
++=============================================
++
++:Author: Alexandre Ghiti <alexghiti@rivosinc.com>
++:Date: 23 May 2023
++
++This document describes what the RISC-V kernel expects from the previous stages
++and the firmware, but also the constraints that any developer must have in mind
++when touching the early boot process, e.g. before the final virtual mapping is
++setup.
++
++Pre-kernel boot (Expectations from firmware)
++============================================
++
++Registers state
++---------------
++
++The RISC-V kernel expects:
++
++  * `$a0` to contain the hartid of the current core.
++  * `$a1` to contain the address of the device tree in memory.
++
++CSR state
++---------
++
++The RISC-V kernel expects:
++
++  * `$satp = 0`: the MMU must be disabled.
++
++Reserved memory for resident firmware
++-------------------------------------
++
++The RISC-V kernel expects the firmware to mark any resident memory with the
++`no-map` flag, thus the kernel won't map those regions in the direct mapping
++(avoiding issues with hibernation, speculative accesses and probably other
++subsystems).
++
++Kernel location
++---------------
++
++The RISC-V kernel expects to be placed at a PMD boundary (2MB for rv64 and 4MB
++for rv32). Note though that the EFI stub will physically relocate the kernel if
++that's not the case.
++
++Device-tree
++-----------
++
++The RISC-V kernel always expects a device tree, it is:
++
++- either passed directly to the kernel from the previous stage using the `$a1`
++  register,
++- or when booting with UEFI, the device tree will be retrieved by the EFI stub
++  using the EFI configuration table or it will be created.
++
++Bootflow
++--------
++
++There exist 2 methods to enter the kernel:
++
++- `RISCV_BOOT_SPINWAIT`: the firmware releases all harts in the kernel, one hart
++  wins a lottery and executes the early boot code while the other harts are
++  parked waiting for the initialization to finish. This method is now
++  **deprecated**.
++- Ordered booting: the firmware releases only one hart that will execute the
++  initialization phase and then will start all other harts using the SBI HSM
++  extension.
++
++UEFI
++----
++
++UEFI memory map
++~~~~~~~~~~~~~~~
++
++When booting with UEFI, the RISC-V kernel will use only the EFI memory map to
++populate the system memory.
++
++The UEFI firmware must parse the subnodes of the `/reserved-memory` device tree
++node and abide by the device tree specification to convert the attributes of
++those subnodes (`no-map` and `reusable`) into their correct EFI equivalent
++(refer to section "3.5.4 /reserved-memory and UEFI" of the device tree
++specification).
++
++RISCV_EFI_BOOT_PROTOCOL
++~~~~~~~~~~~~~~~~~~~~~~~
++
++When booting with UEFI, the EFI stub requires the boot hartid in order to pass
++it to the RISC-V kernel in `$a1`. The EFI stub retrieves the boot hartid using
++one of the following methods:
++
++- `RISCV_EFI_BOOT_PROTOCOL` (**preferred**).
++- `boot-hartid` device tree subnode (**deprecated**).
++
++Any new firmware must implement `RISCV_EFI_BOOT_PROTOCOL` as the device tree
++based approach is deprecated now.
++
++During kernel boot: (Kernel internals)
++======================================
++
++EFI stub and device tree
++------------------------
++
++When booting with UEFI, the device tree is supplemented by the EFI stub with the
++following parameters (largely shared with arm64 in Documentation/arm/uefi.rst):
++
++==========================  ======   ===========================================
++Name                        Size     Description
++==========================  ======   ===========================================
++linux,uefi-system-table     64-bit   Physical address of the UEFI System Table.
++
++linux,uefi-mmap-start       64-bit   Physical address of the UEFI memory map,
++                                     populated by the UEFI GetMemoryMap() call.
++
++linux,uefi-mmap-size        32-bit   Size in bytes of the UEFI memory map
++                                     pointed to in previous entry.
++
++linux,uefi-mmap-desc-size   32-bit   Size in bytes of each entry in the UEFI
++                                     memory map.
++
++linux,uefi-mmap-desc-ver    32-bit   Version of the mmap descriptor format.
++
++kaslr-seed                  64-bit   Entropy used to randomize the kernel image
++                                     base address location.
++
++bootargs                             Kernel command line
++==========================  ======   ===========================================
++
++Virtual mapping setup
++---------------------
++
++The installation of the virtual mapping is done in 2 steps in the RISC-V kernel:
++
++1. :c:func:`setup_vm` installs a temporary kernel mapping in
++   :c:var:`early_pg_dir` which allows to discover the system memory: only the
++   kernel text/data are mapped at this point. When establishing this mapping,
++   no allocation can be done (since the system memory is not known yet), so
++   :c:var:`early_pg_dir` page table is statically allocated (using only one
++   table for each level).
++
++2. :c:func:`setup_vm_final` creates the final kernel mapping in
++   :c:var:`swapper_pg_dir` and takes advantage of the discovered system memory
++   to create the linear mapping. When establishing this mapping, the kernel
++   can allocate memory but cannot access it directly (since the direct mapping
++   is not present yet), so it uses temporary mappings in the fixmap region to
++   be able to access the newly allocated page table levels.
++
++For :c:func:`virt_to_phys` and :c:func:`phys_to_virt` to be able to correctly
++convert direct mapping addresses to physical addresses, it needs to know the
++start of the DRAM: this happens after 1, right before 2 installs the direct
++mapping (see :c:func:`setup_bootmem` function in arch/riscv/mm/init.c). So
++any usage of those macros before the final virtual mapping is installed must be
++carefully examined.
++
++Device-tree mapping via fixmap
++------------------------------
++
++The RISC-V kernel uses the fixmap region to map the device tree because the
++device tree virtual mapping must remain the same between :c:func:`setup_vm` and
++:c:func:`setup_vm_final` calls since :c:var:`reserved_mem` array is initialized
++with virtual addresses established by :c:func:`setup_vm` and used with the
++mapping established by :c:func:`setup_vm_final`.
++
++Pre-MMU execution
++-----------------
++
++Any code that executes before even the first virtual mapping is established
++must be very carefully compiled as:
++
++- `-fno-pie`: This is needed for relocatable kernels which use `-fPIE`, since
++  otherwise, any access to a global symbol would go through the GOT which is
++  only relocated virtually.
++- `-mcmodel=medany`: Any access to a global symbol must be PC-relative to avoid
++  any relocations to happen before the MMU is setup.
++- Also note that *all* instrumentation must also be disabled (that includes
++  KASAN, ftrace and others).
++
++As using a symbol from a different compilation unit requires this unit to be
++compiled with those flags, we advise, as much as possible, not to use external
++symbols.
+diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
+index 175a91db0200..1f66062def6d 100644
+--- a/Documentation/riscv/index.rst
++++ b/Documentation/riscv/index.rst
+@@ -5,6 +5,7 @@ RISC-V architecture
+ .. toctree::
+     :maxdepth: 1
  
++    boot
+     boot-image-header
+     vm-layout
+     hwprobe
 -- 
-2.21.0
+2.39.2
 
