@@ -2,313 +2,509 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1244C0015E
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 12:22:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD098EB64DA
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 12:26:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230423AbjFSMW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 08:22:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44828 "EHLO
+        id S229550AbjFSM06 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 08:26:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230399AbjFSMW2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 08:22:28 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1EBDDB;
-        Mon, 19 Jun 2023 05:22:26 -0700 (PDT)
+        with ESMTP id S229507AbjFSM05 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 08:26:57 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE8D10DE;
+        Mon, 19 Jun 2023 05:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687177346; x=1718713346;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=N8Yr++W29UwgRGHD/oN38Pu/9f0vsFvP7BJICiyRhTc=;
-  b=LIUBsUSR7E2lNkLR7BS+vRPiB2p4Tza2azJXR1gr4sFcgux2PtmnWIxy
-   hi7q2sq9vC0gJSi1JRfVS/Cwz2+1KPI4WMTWNQqjrJCsY/aLBUTbP1FfP
-   jPkCVbV2ws6TUn4IOOTTIp23cm1SO6regaBLMX+cGEVTQGFj1/gWbUgxH
-   fsSgBfaI49DL/n7xa07Cy84zAwNXMRWx7CBNsO1NOxwCL14Fc8W667S6q
-   xTSFceZALiE5N53ice2rRpFdSoc/elWksehWdnUvKREEA8VQ4Kiw08zNj
-   9b6DnlsDaz7Yqvm6CVgamSTReAse33HQWSc6na7RKgxrf8+draU/ld9pJ
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1687177592; x=1718713592;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2dMPAEYH75en74GBwY9FUzB00jeJTw7JbQjAFqm65cI=;
+  b=y5y2lcYw7LO9x7vcm8uSKTnK/RW7xR10KNObobUChLSmjeiS+fHjdqq1
+   1/76DmX0EwuNCWz85MyL4FegG87soWXSgr34dUmaDn91a3xlWNtvGxCIx
+   37A5Ry8NDq6QrXXC8QvGVk9vRswWINqGShjbp2ewe2cr1LQTb0ixuS8Ft
+   b9+O9IUgetlWihkMDHMz4E+hLWVjcqgG+asrFEre6b6pQQhmwfuR9SqWU
+   qWumVdo41Cj1cQxXH31oSCP+KZY57QCxW7+YwK96GLdpAatn+hWuo2k4U
+   BCt+hTnup8kRTqgejCGoqVCDCJLIMKl/8Do0S47wexGcqLKGR5cXJG7Ei
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="423280376"
 X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
-   d="scan'208";a="423280376"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 05:22:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="713653818"
-X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
-   d="scan'208";a="713653818"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga002.jf.intel.com with ESMTP; 19 Jun 2023 05:22:23 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+   d="asc'?scan'208";a="218611642"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 19 Jun 2023 05:26:17 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 19 Jun 2023 05:22:23 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 19 Jun 2023 05:22:23 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.49) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 19 Jun 2023 05:22:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E4/kh1TzIlGjj1T/kk88wdNHVUzOAwHOLOx92YSAT2B6GW64egsRwemgLlOO4LPKRPScg28Te5xShWWypAolESykRNeEpEjuuQWNSrEjYqjedb1Gra9z0kBUUsW0AJVgWUTazsm1icUJozNIZlj0KFXvey5+GMG+07TYQEBhOUkkAzhzHZDz8qjKw+lkAIyTqzjuZih+X3IfcmZrx3slkb9wTegRALvuqh8CGGYmaiwlOlEaUj0GWOH+Gpt0+nL3KSpMAH1Jnotq+JlEsArOhuLaYOenQH4g0ZHM74QV7jD9WI27OQSkM9we9JbLtZSoT+8aziiA0+x+QYK3EjhzpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=as7OBjlpKUa/9aels74zYCrs6t9dYnq0bDTAX/nqmfM=;
- b=G4HZpdkwuVZEbXfPvNuIBiSXFpq10PVNsaJO4VE5038tiqO7qbSALovBd0oAxasuSL3D7J+WSQfbTbCoq7gyBiaihDlEQGj0sXGwp0XSjfKejXKs9gkM8vSrzDTTuyMOdl4YOL8kiQAjhhPEbfuYaMQZLjBPf5c05uFjlekhdk9fUlvKyEk0Xw5g1V8Xr722KCP9m+3A6f1oy+pjzLsEiBmTsHcQ9JMCrHMN9kH7d5RwC2Vmn/gqYW1+VDc8zqk035wtXg+xqs6pc/iLsnrFX3kHpXzqrz7A4adPA3kzbZpi1CAflKYkauxDYzOzysigpcsRBce0dPUHgpJI/VlbPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CO6PR11MB5603.namprd11.prod.outlook.com (2603:10b6:5:35c::12)
- by DM4PR11MB6287.namprd11.prod.outlook.com (2603:10b6:8:a6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.35; Mon, 19 Jun
- 2023 12:22:18 +0000
-Received: from CO6PR11MB5603.namprd11.prod.outlook.com
- ([fe80::4287:6d31:8c78:de92]) by CO6PR11MB5603.namprd11.prod.outlook.com
- ([fe80::4287:6d31:8c78:de92%6]) with mapi id 15.20.6500.036; Mon, 19 Jun 2023
- 12:22:18 +0000
-Message-ID: <c05323a8-5cda-5355-b701-e4acdae99f53@intel.com>
-Date:   Mon, 19 Jun 2023 14:22:10 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 1/3 v2] Documentation/arm64: Update ARM and arch reference
-Content-Language: en-US
-To:     Jose Marinho <jose.marinho@arm.com>
-CC:     Catalin Marinas <catalin.marinas@arm.com>,
-        Jeremy Linton <Jeremy.Linton@arm.com>,
-        James Morse <James.Morse@arm.com>,
-        Rob Herring <Rob.Herring@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-        Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
-References: <20230606093528.1494344-1-jose.marinho@arm.com>
- <20230606093528.1494344-2-jose.marinho@arm.com>
-From:   "Wilczynski, Michal" <michal.wilczynski@intel.com>
-In-Reply-To: <20230606093528.1494344-2-jose.marinho@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0104.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9c::11) To CO6PR11MB5603.namprd11.prod.outlook.com
- (2603:10b6:5:35c::12)
+ 15.1.2507.21; Mon, 19 Jun 2023 05:26:13 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Mon, 19 Jun 2023 05:26:11 -0700
+Date:   Mon, 19 Jun 2023 13:25:45 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, <linux-doc@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] Documentation: riscv: Add early boot document
+Message-ID: <20230619-kerchief-unmixed-cfdbeb1cf242@wendy>
+References: <20230619094705.51337-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5603:EE_|DM4PR11MB6287:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7bc4af48-2201-4f79-696e-08db70bfd303
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K3HsBK85Fq3wj9nR5P97qIhLkn50FC70jiDilHeufPGurszVdB/evdXSt1Twm/7x5UxJhtoSQBIzpJTMIBtoJ9YRpegA5FvSq39D7Gs3U54BZy7s7VlLdbV7C57tF2r2roJQ7x4Y3wNlQ3tfkOnbfghvclF0XKyT/jl80dyEWxUsKZTYp+6Klqf/eCIRNx5ODLhUEcbAB/nyjwOAt4w12/2nA1a/gICfhFvMoAOeuGrMxOxHqa4gEa6Ym8pLBrq1XgMuSbutfhd+wUHbIkoHg1zdDl3A1cNKZM9xySUfYsUDqKxtgZjmNABRhMeoYgh0qiVZ6PGz2t6ULMmGkuRgeNcoYGfhNgEAU5Osifnm+X35BczQP7WPX1k+NSWLgo9Esxc/Lx7WOvL/sLKOYgYv8ETpuV/BesiAuavP75JRJPDsjSYzL1mbBXiE0CuJbEFzPmTBySm9D2HPOR//Ls8bZTWIlgMWQB0H0jOhAp5xo76idOjpEjfuYoS24sWPJwAQuAJwogjPDdL9PUuZiZdy6E4yQh91QpR/WEqUpddUrvbAkijHZAfHNrCRxX6R/rYU28xx4qoyV7fyXf5IgP5sFXRpvrn/Gs4+1PYisi/YCitVAn6lgeZTSBVJonDRP5QZZZf7/VTUITRTUZWE5TwrRqKWfO63BeowaBoo5rH5p48ZzohWflvM85HHF309bAlj
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(366004)(346002)(396003)(39860400002)(136003)(451199021)(478600001)(31696002)(2906002)(966005)(54906003)(6666004)(6486002)(2616005)(86362001)(36756003)(26005)(186003)(6506007)(6512007)(53546011)(8936002)(8676002)(66476007)(66556008)(7416002)(66946007)(5660300002)(38100700002)(316002)(6916009)(4326008)(83380400001)(31686004)(82960400001)(41300700001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0F5SlBTVFN6Q1pWd3Q1TnhRRVlCUUdnTm9MK2t5NE9UOUx2ZHBoOThQczc5?=
- =?utf-8?B?Yll3M1Y0VEU0ZlV0UERPVlkrN0Z0ekNjU0Q3MW5YSkt3L01TcDI1cmVBcDRO?=
- =?utf-8?B?TDFIc0ZpdTdta0cyQjBnd1k1TnRUTDBwYXhZRVM1dTQvR0EwNXFTZzhnTTEy?=
- =?utf-8?B?dkducWFNY3VoREZRRTFtZEpFSnBGQVdUOTRqcndUZHcyZzh4eGE4by9pZzA2?=
- =?utf-8?B?RHp1QUJxL0pkQlo1U0szczZOa3I5WUw5UFdYcE9JU2pVRERUUko1VkNZNEZa?=
- =?utf-8?B?cTBRT1NTeTdTYTdnN0h4WUdnOThxUzh5STN2c3gzOFlPK2lJbldlb2FDTnVZ?=
- =?utf-8?B?cEdhVzVxb2hsaFNGRUM5R0pwVFQwSkNMYk92bXdPdXVJckxHY0NCYUI2N09L?=
- =?utf-8?B?bDh2UkFZVU5Od1g4Rng5VThyZlBWYTV3bUg0WU9oOG1sOVEwOFc2b01TN0Fs?=
- =?utf-8?B?b2lURFBrSHpLdTZSRmlXOHJxRGphQ1dDc3VyWkFuV3lLZTUxcEloZU9YTDY3?=
- =?utf-8?B?WXR2eURLLzdBNTZUbW10V3RUYTlJWDNnZ1dDNWxDa1h0Ylo4R00wQ25uN2hG?=
- =?utf-8?B?QWU3STR3Ujd1TEVMTk1hcWtqYnB0cDllbUVHencybGxnTkd0ZG5ySUpUaTdI?=
- =?utf-8?B?aUxDWlRmbXM0UnAvVWt1WVlhTkJlNU9NTVRJeWgwREttQVN2ejQwZktXTEs0?=
- =?utf-8?B?VUxVM2Z0TzRIeFM2dzEyR3NPYzdaNHc2Mjg5RE1pSHg5bVJUcmFPZ2hPS3dB?=
- =?utf-8?B?cDBYcG1YbXF2OUFLMWd1QUpHK1FMWGJKeCs4aUR5VUtvNEIzbnd1Mk9CTDRW?=
- =?utf-8?B?MytCd2pQaDlxSkFFUFVBQVk4bFpnTFlEWXh0c0c0elplWFRmb0lIdDdQSjRC?=
- =?utf-8?B?UFArRmsrV3RoekxkUGh0aVEvenpnYk10YWt5WmJ2T2Z3aWxjTEgvTEpEL2FC?=
- =?utf-8?B?bi9QSEYzSDVrdkF0Q1NzVjZqcUdIRjZETXhIaUFibnVodEQ1OTNvSHkwU3c0?=
- =?utf-8?B?ZzRaMkRIeWdkcmR3SE5vZlBzdXk0dk83TlExc3NDWWRDbk1Qc2sxNUZmc09N?=
- =?utf-8?B?Vjk0RGVmbm9oc3NWODUva1RGNHI0RUZTNURCVDUrY092dVYxc1pRYmdYTCtk?=
- =?utf-8?B?d0xNRU02Y1lBVkhzelE4N2dZdEJmNTl0cEpDTmQ5eVBOdFVQRUluRkgwTU1u?=
- =?utf-8?B?cXZIY0JvbTR2WjkxNi9XRDAvMzN3TXJGMFNpeTM5WjJyYU01ZmU1cThweU13?=
- =?utf-8?B?dXVHeXplKzdLbGFiZGRxTHRCckl1ZHJJamlWbkZUNG02T3Q4REhEMXdSSlho?=
- =?utf-8?B?NE1Sdm55ZmpZdnlIRTd3MlhUM2VlVzIxU2JFamt0NklVeWtNN0pPN2p2bisx?=
- =?utf-8?B?dEFyeVVDR0sxT3krbGZ6dTh2RUlud0YxUjlQdTBNMmpWRjVVVGFLbDZkLysr?=
- =?utf-8?B?M081TWlsTXp0VUhkdm1jbnFFY2tBaW9Va29pbUdqMStUWkZqanNYQ3FsdWFv?=
- =?utf-8?B?ZVFOUzJJa25lWWJUYklnaUJqQ1hDcTFhSzU1ZzdySEVtOEI0SXpJb2NBWW9o?=
- =?utf-8?B?MFpERzlhazFPUEdxMkxQcklOcDI2VjlXSmtXOGVaSnBqRW5oYUVNdGQ3M2hW?=
- =?utf-8?B?Lzc3L2xNQjBBdUp3ZGhNNE9mRGwwYzJIclJZK2xVMWxHNm9zWm56MGd6R2Zm?=
- =?utf-8?B?QU5wSmlLOGhRMC9NaUIrMS9iU04rZ0luM0J5bVJOR096dE9FSGFvazcrM3dX?=
- =?utf-8?B?UHVtdFBFSVc0NFNwOWp1QU9mWnRNZjVsNnR5RDMxazdtazFOTi9tQ2M0VGhU?=
- =?utf-8?B?dnU3cHQzVnM5OTNhUEZSN3NxbGJtL2lsUUtWNE90S1FnRDJMTk5oT2I0NEgz?=
- =?utf-8?B?SW5wSzZuczllSGZNNUs3andZdCt6M3ZQMWhsaURsdlc2b1dnVE9iWVIyd21h?=
- =?utf-8?B?dFp2Z2tXblk0bHU5UjdnQlhKbXRUL09mN0FSMGZIY0JHT2NyNmhNalRVRWl0?=
- =?utf-8?B?NTFjUHF4Q2FKbGxQTU1icFBLbFRlb0ptbmlGZFBKZUVSTFF4RExDa2RWbE54?=
- =?utf-8?B?SG9WbVcybkhIYXZFZFUvZ1BvZW1ucHlZaThSYkVUOFJWVlduMGRTVmNWWkha?=
- =?utf-8?B?VXBlWlQ3MXdNK0lHdkFvUndic1EwU1hKWjlENldaZzc5U2VIU1hFQ0NwcWxH?=
- =?utf-8?B?MHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bc4af48-2201-4f79-696e-08db70bfd303
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2023 12:22:18.7012
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5NiOuhGZw80TKwk3Jaq/dukysp05Bk/3F/HYo90unsndtF42PJdh8Vk7thWwkh3pc/DGuXJj9qXcyMED8LR4Cjxdt7HSrPLu9TJ5xkhD1kY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6287
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="JACaknZClFQ0c+Zo"
+Content-Disposition: inline
+In-Reply-To: <20230619094705.51337-1-alexghiti@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--JACaknZClFQ0c+Zo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hey Alex,
 
-On 6/6/2023 11:35 AM, Jose Marinho wrote:
-> This patch clarifies that both Armv8 and v9 are in scope, not
-> just Armv8 systems.
-> Also, ARM is re-written as Arm.
->
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Jeremy Linton <Jeremy.Linton@arm.com>
-> Cc: James Morse <James.Morse@arm.com>
-> Cc: Rob Herring <Rob.Herring@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Hanjun Guo <guohanjun@huawei.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-acpi@vger.kernel.org
->
-> Signed-off-by: Jose Marinho <jose.marinho@arm.com>
-> Reviewed-by: Samer El-Haj-Mahmoud <Samer.El-Haj-Mahmoud@arm.com>
+Thanks for working on this :) I've got a mix of suggestions and
+questions below. Hopefully it is not too disjoint, since I didn't write
+them in order.
+
+On Mon, Jun 19, 2023 at 11:47:04AM +0200, Alexandre Ghiti wrote:
+> This document describes the constraints and requirements of the early
+> boot process in a RISC-V kernel.
+>=20
+> Szigned-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 > ---
->  Documentation/arm64/arm-acpi.rst | 41 ++++++++++++++++----------------
->  1 file changed, 21 insertions(+), 20 deletions(-)
->
-> diff --git a/Documentation/arm64/arm-acpi.rst b/Documentation/arm64/arm-acpi.rst
-> index 47ecb9930dde..1cafe38fc7f9 100644
-> --- a/Documentation/arm64/arm-acpi.rst
-> +++ b/Documentation/arm64/arm-acpi.rst
-> @@ -1,40 +1,41 @@
-> -=====================
-> -ACPI on ARMv8 Servers
-> -=====================
-> +===================
-> +ACPI on Arm systems
-> +===================
->  
-> -ACPI can be used for ARMv8 general purpose servers designed to follow
-> -the ARM SBSA (Server Base System Architecture) [0] and SBBR (Server
-> +ACPI can be used for Armv8 and Armv9 systems designed to follow
-> +the Arm SBSA (Server Base System Architecture) [0] and SBBR (Server
->  Base Boot Requirements) [1] specifications.  Please note that the SBBR
->  can be retrieved simply by visiting [1], but the SBSA is currently only
->  available to those with an ARM login due to ARM IP licensing concerns.
->  
-> -The ARMv8 kernel implements the reduced hardware model of ACPI version
+>  Documentation/riscv/boot-image-header.rst |   3 -
+>  Documentation/riscv/boot.rst              | 181 ++++++++++++++++++++++
+>  Documentation/riscv/index.rst             |   1 +
+>  3 files changed, 182 insertions(+), 3 deletions(-)
+>  create mode 100644 Documentation/riscv/boot.rst
+>=20
+> diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/ri=
+scv/boot-image-header.rst
+> index d7752533865f..a4a45310c4c4 100644
+> --- a/Documentation/riscv/boot-image-header.rst
+> +++ b/Documentation/riscv/boot-image-header.rst
+> @@ -7,9 +7,6 @@ Boot image header in RISC-V Linux
+> =20
+>  This document only describes the boot image header details for RISC-V Li=
+nux.
+> =20
+> -TODO:
+> -  Write a complete booting guide.
+> -
+>  The following 64-byte header is present in decompressed Linux kernel ima=
+ge::
+> =20
+>  	u32 code0;		  /* Executable code */
+> diff --git a/Documentation/riscv/boot.rst b/Documentation/riscv/boot.rst
+> new file mode 100644
+> index 000000000000..b02230818b79
+> --- /dev/null
+> +++ b/Documentation/riscv/boot.rst
+> @@ -0,0 +1,181 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +The Arm kernel implements the reduced hardware model of ACPI version
->  5.1 or later.  Links to the specification and all external documents
->  it refers to are managed by the UEFI Forum.  The specification is
->  available at http://www.uefi.org/specifications and documents referenced
->  by the specification can be found via http://www.uefi.org/acpi.
->  
-> -If an ARMv8 system does not meet the requirements of the SBSA and SBBR,
-> +If an Arm system does not meet the requirements of the BSA and BBR,
->  or cannot be described using the mechanisms defined in the required ACPI
->  specifications, then ACPI may not be a good fit for the hardware.
->  
->  While the documents mentioned above set out the requirements for building
-> -industry-standard ARMv8 servers, they also apply to more than one operating
-> +industry-standard Arm systems, they also apply to more than one operating
->  system.  The purpose of this document is to describe the interaction between
-> -ACPI and Linux only, on an ARMv8 system -- that is, what Linux expects of
-> +ACPI and Linux only, on an Arm system -- that is, what Linux expects of
->  ACPI and what ACPI can expect of Linux.
->  
->  
-> -Why ACPI on ARM?
-> +Why ACPI on Arm?
->  ----------------
->  Before examining the details of the interface between ACPI and Linux, it is
->  useful to understand why ACPI is being used.  Several technologies already
->  exist in Linux for describing non-enumerable hardware, after all.  In this
->  section we summarize a blog post [2] from Grant Likely that outlines the
-> -reasoning behind ACPI on ARMv8 servers.  Actually, we snitch a good portion
-> +reasoning behind ACPI on Arm systems.  Actually, we snitch a good portion
->  of the summary text almost directly, to be honest.
->  
-> -The short form of the rationale for ACPI on ARM is:
-> +The short form of the rationale for ACPI on Arm is:
->  
->  -  ACPI’s byte code (AML) allows the platform to encode hardware behavior,
->     while DT explicitly does not support this.  For hardware vendors, being
-> @@ -47,7 +48,7 @@ The short form of the rationale for ACPI on ARM is:
->  
->  -  In the enterprise server environment, ACPI has established bindings (such
->     as for RAS) which are currently used in production systems.  DT does not.
-> -   Such bindings could be defined in DT at some point, but doing so means ARM
-> +   Such bindings could be defined in DT at some point, but doing so means Arm
->     and x86 would end up using completely different code paths in both firmware
->     and the kernel.
->  
-> @@ -108,7 +109,7 @@ recent version of the kernel.
->  
->  Relationship with Device Tree
->  -----------------------------
-> -ACPI support in drivers and subsystems for ARMv8 should never be mutually
-> +ACPI support in drivers and subsystems for Arm should never be mutually
->  exclusive with DT support at compile time.
->  
->  At boot time the kernel will only use one description method depending on
-> @@ -121,11 +122,11 @@ time).
->  
->  Booting using ACPI tables
->  -------------------------
-> -The only defined method for passing ACPI tables to the kernel on ARMv8
-> +The only defined method for passing ACPI tables to the kernel on Arm
->  is via the UEFI system configuration table.  Just so it is explicit, this
->  means that ACPI is only supported on platforms that boot via UEFI.
->  
-> -When an ARMv8 system boots, it can either have DT information, ACPI tables,
-> +When an Arm system boots, it can either have DT information, ACPI tables,
->  or in some very unusual cases, both.  If no command line parameters are used,
->  the kernel will try to use DT for device enumeration; if there is no DT
->  present, the kernel will try to use ACPI tables, but only if they are present.
-> @@ -448,7 +449,7 @@ ASWG
->  ----
->  The ACPI specification changes regularly.  During the year 2014, for instance,
->  version 5.1 was released and version 6.0 substantially completed, with most of
-> -the changes being driven by ARM-specific requirements.  Proposed changes are
-> +the changes being driven by Arm-specific requirements.  Proposed changes are
->  presented and discussed in the ASWG (ACPI Specification Working Group) which
->  is a part of the UEFI Forum.  The current version of the ACPI specification
->  is 6.1 release in January 2016.
-> @@ -456,7 +457,7 @@ is 6.1 release in January 2016.
->  Participation in this group is open to all UEFI members.  Please see
->  http://www.uefi.org/workinggroup for details on group membership.
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Early boot requirements/constraints on RISC-V
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Not part of this patch, but while at it maybe fix the  http://www.uefi.org/workinggroup
-that doesn't work - it returns 404.
+Please use "title case", here and elsewhere in the doc.
+I'd also be inclined to drop the "Early" from here, as it permits more
+natural section headings. Perhaps "RISC-V Kernel Boot Requirements and
+Constraints"?
 
+> +
+> +:Author: Alexandre Ghiti <alexghiti@rivosinc.com>
+> +:Date: 23 May 2023
+> +
+> +This document describes what the RISC-V kernel expects from the previous=
+ stages
 
->  
-> -It is the intent of the ARMv8 ACPI kernel code to follow the ACPI specification
-> +It is the intent of the Arm ACPI kernel code to follow the ACPI specification
->  as closely as possible, and to only implement functionality that complies with
->  the released standards from UEFI ASWG.  As a practical matter, there will be
->  vendors that provide bad ACPI tables or violate the standards in some way.
-> @@ -470,12 +471,12 @@ likely be willing to assist in submitting ECRs.
->  
->  Linux Code
->  ----------
-> -Individual items specific to Linux on ARM, contained in the Linux
-> +Individual items specific to Linux on Arm, contained in the Linux
->  source code, are in the list that follows:
->  
->  ACPI_OS_NAME
->                         This macro defines the string to be returned when
-> -                       an ACPI method invokes the _OS method.  On ARM64
-> +                       an ACPI method invokes the _OS method.  On Arm64
->                         systems, this macro will be "Linux" by default.
->                         The command line parameter acpi_os=<string>
->                         can be used to set it to some other value.  The
+"the previous stages" is a bit vague IMO. You mean bootloader stages I
+assume, but I think it should be explicit. Perhaps:
+"...what a RISC-V kernel expects from bootloaders and firmware, and the
+constraints..."
 
+> +and the firmware, but also the constraints that any developer must have =
+in mind
+> +when touching the early boot process, e.g. before the final virtual mapp=
+ing is
+> +setup.
+
+s/setup./set up./
+
+Do you mean to have "For example" here? Or is "before the final virtual
+mapping is set up" the definition or "early boot"? If the latter, I
+would reword this as something like:
+"...when modifying the early boot process. For the purposes of this
+document, the 'early boot process' refers to any code that runs before
+the final virtual mapping is set up."
+
+> +Pre-kernel boot (Expectations from firmware)
+
+Firmware or bootloaders? TBH, I would just drop the section in () and
+do something like:
+	Pre-kernel Requirements and Constraints
+	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=09
+	The RISC-V kernel expects the following of bootloaders and platform
+	firmware:
+
+> +
+> +Registers state
+
+s/Registers state/Register State/
+
+> +---------------
+> +
+> +The RISC-V kernel expects:
+> +
+> +  * `$a0` to contain the hartid of the current core.
+> +  * `$a1` to contain the address of the device tree in memory.
+> +
+> +CSR state
+> +---------
+> +
+> +The RISC-V kernel expects:
+> +
+> +  * `$satp =3D 0`: the MMU must be disabled.
+
+"the MMU, if present, must be disabled." ;)
+
+> +
+> +Reserved memory for resident firmware
+> +-------------------------------------
+> +
+> +The RISC-V kernel expects the firmware to mark any resident memory with =
+the
+
+Should this be
+"...resident memory, or memory it has protected with PMPs, with..."
+?
+
+> +`no-map` flag, thus the kernel won't map those regions in the direct map=
+ping
+
+"no-map" is a DT specific term, should this section be moved down under
+DT, as a sub-section of that?
+
+> +(avoiding issues with hibernation, speculative accesses and probably oth=
+er
+> +subsystems).
+
+I'm not sure that this () section is beneficial. To be honest, recent
+issues aside, this section here seems like a statement of the obvious...
+
+> +
+> +Kernel location
+> +---------------
+> +
+> +The RISC-V kernel expects to be placed at a PMD boundary (2MB for rv64 a=
+nd 4MB
+
+Would that be better worded as "(2 MB aligned for rv64 and 4 MB aligned
+for rv32)"? It might be overly explicit, but I figure there's no harm...
+
+> +for rv32). Note though that the EFI stub will physically relocate the ke=
+rnel if
+
+s/though//
+
+> +that's not the case.
+> +
+> +Device-tree
+
+s/Device-tree/Devicetree/ and...
+
+> +-----------
+> +
+> +The RISC-V kernel always expects a device tree, it is:
+
+=2E..s/device tree/devicetree/ to match elsewhere in the kernel docs.
+Same applies to the other instances of "device tree" in this patch,
+please.
+
+> +
+> +- either passed directly to the kernel from the previous stage using the=
+ `$a1`
+> +  register,
+> +- or when booting with UEFI, the device tree will be retrieved by the EF=
+I stub
+> +  using the EFI configuration table or it will be created.
+
+Can I suggest changing this around a little, pulling the "either" &
+dropping some boilerplate so that it reads (to me!) a little more
+naturally:
+	The RISC-V kernel always expects a devicetree, it is either:
+=09
+	- passed directly to the kernel from the previous stage using the `$a1`
+	  register,
+	- retrieved by the EFI stub when booting with UEFI, using the EFI
+	  configuration table or it will be created by ____.
+
+Also, please elaborate on what it will be created by.
+
+> +
+> +Bootflow
+
+"Boot Flow", no?
+I am not sure that this is the "correct" heading for the content it
+describes, but I have nothing better to offer :/
+
+> +--------
+> +
+> +There exist 2 methods to enter the kernel:
+> +
+> +- `RISCV_BOOT_SPINWAIT`: the firmware releases all harts in the kernel, =
+one hart
+> +  wins a lottery and executes the early boot code while the other harts =
+are
+> +  parked waiting for the initialization to finish. This method is now
+
+nit: s/now//
+
+What do you mean by deprecated? There's no requirement to implement the
+HSM extension, right?
+
+> +  **deprecated**.
+> +- Ordered booting: the firmware releases only one hart that will execute=
+ the
+> +  initialization phase and then will start all other harts using the SBI=
+ HSM
+> +  extension.
+> +
+> +UEFI
+> +----
+> +
+> +UEFI memory map
+> +~~~~~~~~~~~~~~~
+> +
+> +When booting with UEFI, the RISC-V kernel will use only the EFI memory m=
+ap to
+> +populate the system memory.
+> +
+> +The UEFI firmware must parse the subnodes of the `/reserved-memory` devi=
+ce tree
+> +node and abide by the device tree specification to convert the attribute=
+s of
+> +those subnodes (`no-map` and `reusable`) into their correct EFI equivale=
+nt
+> +(refer to section "3.5.4 /reserved-memory and UEFI" of the device tree
+> +specification).
+> +
+> +RISCV_EFI_BOOT_PROTOCOL
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +When booting with UEFI, the EFI stub requires the boot hartid in order t=
+o pass
+> +it to the RISC-V kernel in `$a1`. The EFI stub retrieves the boot hartid=
+ using
+> +one of the following methods:
+> +
+> +- `RISCV_EFI_BOOT_PROTOCOL` (**preferred**).
+> +- `boot-hartid` device tree subnode (**deprecated**).
+> +
+> +Any new firmware must implement `RISCV_EFI_BOOT_PROTOCOL` as the device =
+tree
+> +based approach is deprecated now.
+> +
+> +During kernel boot: (Kernel internals)
+
+With the other section titles changed, this could be:
+	Early Boot Requirements and Constraints
+	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=09
+	The RISC-V kernel's early boot process operates under the
+	following constraints:
+
+Thoughts?
+
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +EFI stub and device tree
+
+Same comments about "device tree" here etc.
+
+> +------------------------
+> +
+> +When booting with UEFI, the device tree is supplemented by the EFI stub =
+with the
+> +following parameters (largely shared with arm64 in Documentation/arm/uef=
+i.rst):
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D  =3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +Name                        Size     Description
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D  =3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +linux,uefi-system-table     64-bit   Physical address of the UEFI System=
+ Table.
+
+nit: Hmm, I think for all of these sizes s/-bit/ bits/.
+
+> +
+> +linux,uefi-mmap-start       64-bit   Physical address of the UEFI memory=
+ map,
+> +                                     populated by the UEFI GetMemoryMap(=
+) call.
+> +
+> +linux,uefi-mmap-size        32-bit   Size in bytes of the UEFI memory map
+> +                                     pointed to in previous entry.
+> +
+> +linux,uefi-mmap-desc-size   32-bit   Size in bytes of each entry in the =
+UEFI
+> +                                     memory map.
+> +
+> +linux,uefi-mmap-desc-ver    32-bit   Version of the mmap descriptor form=
+at.
+> +
+> +kaslr-seed                  64-bit   Entropy used to randomize the kerne=
+l image
+> +                                     base address location.
+> +
+> +bootargs                             Kernel command line
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D  =3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +
+> +Virtual mapping setup
+
+nit: s/setup/Installation/
+
+> +---------------------
+> +
+> +The installation of the virtual mapping is done in 2 steps in the RISC-V=
+ kernel:
+> +
+> +1. :c:func:`setup_vm` installs a temporary kernel mapping in
+> +   :c:var:`early_pg_dir` which allows to discover the system memory: onl=
+y the
+
+s/to discover/discovery of/
+s/: only/. Only/
+
+> +   kernel text/data are mapped at this point. When establishing this map=
+ping,
+> +   no allocation can be done (since the system memory is not known yet),=
+ so
+> +   :c:var:`early_pg_dir` page table is statically allocated (using only =
+one
+> +   table for each level).
+> +
+> +2. :c:func:`setup_vm_final` creates the final kernel mapping in
+> +   :c:var:`swapper_pg_dir` and takes advantage of the discovered system =
+memory
+> +   to create the linear mapping. When establishing this mapping, the ker=
+nel
+> +   can allocate memory but cannot access it directly (since the direct m=
+apping
+> +   is not present yet), so it uses temporary mappings in the fixmap regi=
+on to
+> +   be able to access the newly allocated page table levels.
+> +
+> +For :c:func:`virt_to_phys` and :c:func:`phys_to_virt` to be able to corr=
+ectly
+> +convert direct mapping addresses to physical addresses, it needs to know=
+ the
+
+nit: s/it/they/
+
+> +start of the DRAM: this happens after 1, right before 2 installs the dir=
+ect
+
+s/:/./
+Also how about s/1/step 1/ & s/2/step 2/?
+
+> +mapping (see :c:func:`setup_bootmem` function in arch/riscv/mm/init.c). =
+So
+
+s/So//
+
+> +any usage of those macros before the final virtual mapping is installed =
+must be
+> +carefully examined.
+> +
+> +Device-tree mapping via fixmap
+> +------------------------------
+> +
+> +The RISC-V kernel uses the fixmap region to map the device tree because =
+the
+> +device tree virtual mapping must remain the same between :c:func:`setup_=
+vm` and
+> +:c:func:`setup_vm_final` calls since :c:var:`reserved_mem` array is init=
+ialized
+
+Missing a "the" before reserved_mem.
+
+> +with virtual addresses established by :c:func:`setup_vm` and used with t=
+he
+> +mapping established by :c:func:`setup_vm_final`.
+> +
+> +Pre-MMU execution
+> +-----------------
+> +
+> +Any code that executes before even the first virtual mapping is establis=
+hed
+> +must be very carefully compiled as:
+
+Could you point out what the non-obvious examples of this code are?
+
+> +- `-fno-pie`: This is needed for relocatable kernels which use `-fPIE`, =
+since
+
+Is there a reason why the capitalisation is different for the two
+compiler flags?
+
+> +  otherwise, any access to a global symbol would go through the GOT whic=
+h is
+> +  only relocated virtually.
+> +- `-mcmodel=3Dmedany`: Any access to a global symbol must be PC-relative=
+ to avoid
+> +  any relocations to happen before the MMU is setup.
+> +- Also note that *all* instrumentation must also be disabled (that inclu=
+des
+
+nit: s/Also note that//
+
+> +  KASAN, ftrace and others).
+> +
+> +As using a symbol from a different compilation unit requires this unit t=
+o be
+> +compiled with those flags, we advise, as much as possible, not to use ex=
+ternal
+> +symbols.
+
+If the use of early alternatives grows, are we going to have to split
+the vendors early alternatives into a different compilation unit from
+their regular alternatives?
+
+Cheers,
+Conor.
+
+--JACaknZClFQ0c+Zo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJBJSQAKCRB4tDGHoIJi
+0oYDAQDGw2eP2kvR360enKpa4T0n4O3yeOMhIwpzOvH1jiZSkQD/T7rN9x2isuCG
+HO1sBS2rDZtQ0sf35qDBBUWb3h0fNQo=
+=pfM6
+-----END PGP SIGNATURE-----
+
+--JACaknZClFQ0c+Zo--
