@@ -2,101 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F9BEB64D9
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 11:33:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF8F3EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 12:07:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230151AbjFSLdF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 07:33:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51690 "EHLO
+        id S229963AbjFSMHJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 08:07:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbjFSLdF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 07:33:05 -0400
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CE2DBF;
-        Mon, 19 Jun 2023 04:33:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1687174373;
-        bh=zMoAd1INwZDS2apf3X9h/nweHdcswKoOiEd7Um0Mpas=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:From;
-        b=jG4JZDlGqPln7P729neCaqXEtsoQ44Mqfbz1/iHCwT6N64F4tSlVF41lRhEo597eS
-         ckAok2PDoo80hDgejjbSlBJ368Walt1AbkuhLPQHP0x5VE1m4OwLk06Nv7z8f/L8Hp
-         G9klX+5Ggu4tS8oc5p8mnSvsL5tgI3th52GOFEXU=
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id C2601128603A;
-        Mon, 19 Jun 2023 07:32:53 -0400 (EDT)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id Hj0QRTet-pRa; Mon, 19 Jun 2023 07:32:53 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1687174373;
-        bh=zMoAd1INwZDS2apf3X9h/nweHdcswKoOiEd7Um0Mpas=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:From;
-        b=jG4JZDlGqPln7P729neCaqXEtsoQ44Mqfbz1/iHCwT6N64F4tSlVF41lRhEo597eS
-         ckAok2PDoo80hDgejjbSlBJ368Walt1AbkuhLPQHP0x5VE1m4OwLk06Nv7z8f/L8Hp
-         G9klX+5Ggu4tS8oc5p8mnSvsL5tgI3th52GOFEXU=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::c14])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id BF7951286035;
-        Mon, 19 Jun 2023 07:32:52 -0400 (EDT)
-Message-ID: <e78eef83a50a558aae765baafcf9c571788a02a5.camel@HansenPartnership.com>
-Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
- the wider community
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     fthain@linux-m68k.org
-Cc:     corbet@lwn.net, dan.j.williams@intel.com,
-        gregkh@linuxfoundation.org, keescook@chromium.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tech-board-discuss@lists.linux-foundation.org, tytso@mit.edu
-Date:   Mon, 19 Jun 2023 07:32:50 -0400
-In-Reply-To: <cd1786eadd1ff05d9ca053b72eb5f06ceb0c470d.1687167717.git.fthain@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+        with ESMTP id S229765AbjFSMHJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 08:07:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 754A71A3
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 05:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687176342;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=flv0m9IzvhIUpKnDIyrInh56vnSxXK9hbzXv0isFig8=;
+        b=hnUetV29Dp1W/zpW3Yl5j5V1qiOL0PuvKfWbjW+/Y45dheY3YfE6x8eHoT5F07QrrWvRzQ
+        DaXdCLnO8Xwe9tvzxtXtpL9O0n4sLRvf/sqR1KkR/qQea5tAFRpiDS2oUKIznpFUcPs5Og
+        nWTlCXczkf/fPF88j/9jiSNVeRUj9TA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-98-6kJ1RmfDPwCBOHGN8dJYCQ-1; Mon, 19 Jun 2023 08:05:40 -0400
+X-MC-Unique: 6kJ1RmfDPwCBOHGN8dJYCQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FC9A1C06EC1;
+        Mon, 19 Jun 2023 12:05:38 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.4])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 88C75C1603B;
+        Mon, 19 Jun 2023 12:05:34 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <648f36d02fe6e_33cfbc2944f@willemb.c.googlers.com.notmuch>
+References: <648f36d02fe6e_33cfbc2944f@willemb.c.googlers.com.notmuch> <20230617121146.716077-1-dhowells@redhat.com> <20230617121146.716077-18-dhowells@redhat.com>
+To:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc:     dhowells@redhat.com, netdev@vger.kernel.org,
+        Alexander Duyck <alexander.duyck@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        David Ahern <dsahern@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jens Axboe <axboe@kernel.dk>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        dccp@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-wpan@vger.kernel.org, linux-x25@vger.kernel.org,
+        mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
+        tipc-discussion@lists.sourceforge.net,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH net-next v2 17/17] net: Kill MSG_SENDPAGE_NOTLAST
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <784657.1687176327.1@warthog.procyon.org.uk>
+Date:   Mon, 19 Jun 2023 13:05:27 +0100
+Message-ID: <784658.1687176327@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Willem de Bruijn <willemdebruijn.kernel@gmail.com> wrote:
 
-On Mon, Jun 19, 2023 at 07:41:57PM +1000, Finn Thain wrote:
-> The Linux Contribution Maturity Model methodology is notionally based
-> on the Open source Maturity Model (OMM) which was in turn based on
-> the Capability Maturity Model Integration (CMMI).
+> Is it intentional to add MSG_MORE here in this patch?
 > 
-> According to Petrinja et al., the goal of the OMM was to extend the
-> CMMI so as to be useful both for companies and for communities
-> [1][2].  However, the Linux Contribution Maturity Model considers
-> only companies and businesses.
+> I do see that patch 3 removes this branch:
 
-That's not a correct characterization.  The model is designed to
-measure and be useful to businesses, but it definitely considers the
-community because it's progress is built around being more useful to
-and working more effectively with the community.
+Yeah.  I think I may have tcp_bpf a bit wrong with regard to handling
+MSG_MORE.
 
-> This patch addresses this bias as it could hinder collaboration with
-> not-for-profit organisations and individuals, which would be a loss
-> to any stakeholder.
+How about the attached version of tcp_bpf_push()?
 
-I don't really think changing 'Businesses' to 'Organizations' entirely
-addresses what you claim is the bias because individuals would still be
-excluded from the term 'Organizations'.  I also don't really think it
-matters.  Part of the reason this whole thing doesn't matter is that
-sometimes people do know who a contributor they work with works for,
-but most of the time they don't.  If you really want this to be
-inclusive, you could change it to 'other contributors' but I'm still
-not sure it's worth it.
+I wonder if it's save to move the setting of MSG_SENDPAGE_NOPOLICY out of the
+loop as I've done here.  The caller holds the socket lock.
 
-> 
-> Level 5 is amended to remove the invitation to exercise the same bias
-> i.e. employees rewarded indirectly by other companies.
+Also, I'm not sure whether to take account of apply/apply_bytes when setting
+MSG_MORE mid-message, or whether to just go on whether we've reached
+sge->length yet.  (I'm not sure exactly how tcp_bpf works).
 
-I also wouldn't remove the bit about seeking upstream feedback on
-employees; I know from personal experience it happens a lot.
+David
+---
 
-Regards,
+static int tcp_bpf_push(struct sock *sk, struct sk_msg *msg, u32 apply_bytes,
+			int flags, bool uncharge)
+{
+	bool apply = apply_bytes;
+	struct scatterlist *sge;
+	struct page *page;
+	int size, ret = 0;
+	u32 off;
 
-James
+	flags |= MSG_SPLICE_PAGES;
+	if (tls_sw_has_ctx_tx(sk))
+		msghdr.msg_flags |= MSG_SENDPAGE_NOPOLICY;
 
+	while (1) {
+		struct msghdr msghdr = {};
+		struct bio_vec bvec;
+
+		sge = sk_msg_elem(msg, msg->sg.start);
+		size = (apply && apply_bytes < sge->length) ?
+			apply_bytes : sge->length;
+		off  = sge->offset;
+		page = sg_page(sge);
+
+		tcp_rate_check_app_limited(sk);
+retry:
+		msghdr.msg_flags = flags;
+
+		/* Determine if we need to set MSG_MORE. */
+		if (!(msghdr.msg_flags & MSG_MORE)) {
+			if (apply && size < apply_bytes)
+				msghdr.msg_flags |= MSG_MORE;
+			else if (!apply && size < sge->length &&
+				 msg->sg.start != msg->sg.end)
+				msghdr.msg_flags |= MSG_MORE;
+		}
+
+		bvec_set_page(&bvec, page, size, off);
+		iov_iter_bvec(&msghdr.msg_iter, ITER_SOURCE, &bvec, 1, size);
+		ret = tcp_sendmsg_locked(sk, &msghdr, size);
+		if (ret <= 0)
+			return ret;
+
+		if (apply)
+			apply_bytes -= ret;
+		msg->sg.size -= ret;
+		sge->offset += ret;
+		sge->length -= ret;
+		if (uncharge)
+			sk_mem_uncharge(sk, ret);
+		if (ret != size) {
+			size -= ret;
+			off  += ret;
+			goto retry;
+		}
+		if (!sge->length) {
+			put_page(page);
+			sk_msg_iter_next(msg, start);
+			sg_init_table(sge, 1);
+			if (msg->sg.start == msg->sg.end)
+				break;
+		}
+		if (apply && !apply_bytes)
+			break;
+	}
+
+	return 0;
+}
 
