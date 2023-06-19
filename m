@@ -2,65 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39B67EB64DD
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 11:02:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63D8BEB64DB
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 11:03:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232540AbjFSLCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 07:02:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34040 "EHLO
+        id S230271AbjFSLDZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 07:03:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231808AbjFSLBr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 07:01:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7104719BA;
-        Mon, 19 Jun 2023 04:00:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 010BA60BA2;
-        Mon, 19 Jun 2023 11:00:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8866C433CB;
-        Mon, 19 Jun 2023 11:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687172454;
-        bh=P18pbPD6vuPCbw9QzcSrESz215K6BSQTQUGHn6iOUK4=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Dwx8LFrJ7rLWMmUfb0tJSP7XvGxgFgEueH00zQOUnB8zJJeygOklU7wf0+ziYphoz
-         MKN/FCzS+maQ/DBPLAFgYUDJYRTDZTMNGjT09piDXz5sZz0dNwqkIdLbQwdV/R6eRp
-         7vjSv3vs8ucZPpx4aqmavUf4I6Nd29F4VNSStx7IptPnzDsEQA7cA/fh/snJRKpxej
-         BaVFamiK+0CPq4DVcbS5zC75QNR8wHO8+hI7YEWtunUOTUZJjZQQHOQ2gSKSY9e4HG
-         HoTS0hzmGCp0HEalcPO7VHsuAZEeopFZ59J/93qls9XXJpQr8m6fbPe2nZzJeaxGs6
-         w+pua1pdkaFXQ==
-From:   =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [PATCH 1/2] Documentation: riscv: Add early boot document
-In-Reply-To: <20230619094705.51337-1-alexghiti@rivosinc.com>
-References: <20230619094705.51337-1-alexghiti@rivosinc.com>
-Date:   Mon, 19 Jun 2023 13:00:51 +0200
-Message-ID: <87sfanbtss.fsf@all.your.base.are.belong.to.us>
+        with ESMTP id S232424AbjFSLC6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 07:02:58 -0400
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 207701BC3;
+        Mon, 19 Jun 2023 04:01:53 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VlV8FlL_1687172510;
+Received: from localhost(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0VlV8FlL_1687172510)
+          by smtp.aliyun-inc.com;
+          Mon, 19 Jun 2023 19:01:51 +0800
+From:   Jingbo Xu <jefflexu@linux.alibaba.com>
+To:     hsiangkao@linux.alibaba.com, chao@kernel.org,
+        linux-erofs@lists.ozlabs.org
+Cc:     huyue2@coolpad.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] erofs: add documentation for long xattr name prefixes feature
+Date:   Mon, 19 Jun 2023 19:01:50 +0800
+Message-Id: <20230619110150.107958-1-jefflexu@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.6.gb485710b
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexandre Ghiti <alexghiti@rivosinc.com> writes:
+Add documentation for the long xattr name prefixes feature, which has
+landed upstream since v6.4.
 
-> This document describes the constraints and requirements of the early
-> boot process in a RISC-V kernel.
->
-> Szigned-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Signed-off-by: Jingbo Xu <jefflexu@linux.alibaba.com>
+---
+ Documentation/filesystems/erofs.rst | 47 +++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-Additional 'z'; "Signed-off-by:"
+diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+index 4654ee57c1d5..d3408d25165e 100644
+--- a/Documentation/filesystems/erofs.rst
++++ b/Documentation/filesystems/erofs.rst
+@@ -328,3 +328,50 @@ but it's easy to know the size of such pcluster is 1 lcluster as well.
+ 
+ Since Linux v6.1, each pcluster can be used for multiple variable-sized extents,
+ therefore it can be used for compressed data deduplication.
++
++Long xattr name prefixes
++------------------------
++In use cases together with overlayfs like Composefs model, there are xattrs with
++diverse xattr values but only a few common xattr names (trusted.overlay.redirect,
++trusted.overlay.digest, and maybe more in the future).  The existing predefined
++prefixes mechanism, e.g. {.e_name_index = EROFS_XATTR_INDEX_TRUSTED,
++.e_name = "overlay.redirect"} for "trusted.overlay.redirect", works inefficiently
++in both image size and runtime performance in such scenarios.
++
++The long xattr name prefixes feature is introduced (since Linux v6.4) to address
++this issue.  The general idea is that, apart from the existing predefined
++prefixes, the xattr entry could also refer to user specified long xattr name
++prefixes, e.g. "trusted.overlay." in above described use cases.
++
++When referring to a long xattr name prefix, the highest bit (bit 7) of
++erofs_xattr_entry.e_name_index is set, while the lower bits (bit 0-6) as a whole
++represents the index of the referred long name prefix among all long xattr name
++prefixes.  Besides only the trailing part of the xattr name apart from the long
++xattr name prefix is stored in erofs_xattr_entry.e_name, which could be empty if
++the xattr name matches exactly as the long xattr name prefix.
++
++All long xattr prefixes are stored one by one in the packed inode as long as the
++packed inode exists, or meta inode otherwise.  The xattr_prefix_count (of
++on-disk superblock) represents the total number of the long xattr name prefixes,
++while (xattr_prefix_start * 4) indicates the start offset of long name prefixes
++in the packed/meta inode.  The long xattr name prefixes feature is not used when
++xattr_prefix_count is 0.
++
++Each long xattr name prefix (in packed/meta inode) is stored in the format:
++ALIGN({__le16 len, data}, 4), where len represents the total size of following
++data.  The data part, describing one long xattr name prefixes record, is
++represented by 'struct erofs_xattr_long_prefix', where base_index represents the
++index of the referred predefined short xattr name prefix, e.g.
++EROFS_XATTR_INDEX_TRUSTED for "trusted.overlay." long name prefix, while the
++infix string represents the string after stripping the short prefix, e.g.
++"overlay." for the above example.
++
++::
++
++         |-> aligned with 4 bytes               |-> aligned with 4 bytes
++     _________________________________________________________________________________
++    | .. | len | base_index | infix string | .. | len | base_index | infix string | ..
++    |____|_____|____________|______________|____|_____|____________|______________|___
++         ^     |<--  xattr_long_prefix  -->|          |<--  xattr_long_prefix  -->|
++	 .
++    + (xattr_prefix_start * 4) offset
+-- 
+2.19.1.6.gb485710b
 
-Nice writeup!
-
-Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn@rivosinc.com>
