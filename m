@@ -2,111 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB540EB64DA
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 08:17:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05363EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 08:42:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbjFSIRN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 04:17:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56582 "EHLO
+        id S230379AbjFSImf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 04:42:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229984AbjFSIRM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 04:17:12 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC22197
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 01:17:08 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-5700e993f37so64080527b3.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 01:17:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687162628; x=1689754628;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PzzIQhfefWaLN6EvMAN9v4/AfUqiFYRvj/9Q+Gca0Ro=;
-        b=fVV81/xl3VN8tmL1vUMt/N4TDLl/KYz8sUyxXU2+JHNSHx+FfpWen/d51/2Y/uMEu0
-         r8+mRgG61A2P8vTyS3cjiqW4Pe6bIx1GYS7ZhbSmb8x04O4yZXCuwtGNEaqzB4hOjBAD
-         BfvabVm6Nn2/4tCdNLQ9Lt6H/t7FUc3CuiR09ed93A0h0xRl0ltzr/ikGGuJJhJw1ULD
-         2rWxfsjWldm9V00JXadIpZfdEVW9Q7MvwNG2ZY3yz1Al4r/lagfr20mEtnkCKllb4zEV
-         5Zxg5CHoI7BLjzyGyK8+8UIXYVk1b10R5kD4bC0zsTh3dISPeM0xsnccm6GhasIwUSGk
-         OPbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687162628; x=1689754628;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PzzIQhfefWaLN6EvMAN9v4/AfUqiFYRvj/9Q+Gca0Ro=;
-        b=ZLCC8lrGnpEJP5sVvxCozbxTdlEX+/CeOq4N3gfsMm+EdQnBjpmOwC90G1aWZ56tNx
-         kjSX+psktc9B2C5/m9+E6jo/KNG1DTgDrdNu+EF6zjFGihxlZvffSMxE8OOBWfX5YWjb
-         hsc19+b/ucA1HFp1nldH0P28PUkDxGKg87O3EGvuj32uTY7oasFD69lNiWjKRaCdtrAU
-         DJfh+Sr3GS+0wDF7KxerCDHIYDTdKk5+irNnARe9u5qLgPaXF0HC3JyMe3VCmZqXJkv1
-         0Hboupjn3fE0BYRtfMaMjeCTY90Zqcfbt8fe91JYnuSU8pSAiwNpyxmkBVaAuKQO0LPx
-         kh9Q==
-X-Gm-Message-State: AC+VfDwGYhHBJGON2isyBy3FDkMLsSp+8RkVuC4I5PT8UhQt9QNJqVbB
-        TO4L8qwl9rsaOxhi1bJQQ19PNyluuiKTp7I8P+gg1A==
-X-Google-Smtp-Source: ACHHUZ4WeyMp4k2u7pIx5GX95zPzv+JyUpuZBSp3Ww8jNddxu8/o8ze779o2TUNdyQFH4hWZ5IdryAZ6IAnkiGPIZjo=
-X-Received: by 2002:a25:dc91:0:b0:bce:bed4:29f6 with SMTP id
- y139-20020a25dc91000000b00bcebed429f6mr5950202ybe.17.1687162628131; Mon, 19
- Jun 2023 01:17:08 -0700 (PDT)
+        with ESMTP id S229481AbjFSImR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 04:42:17 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9085126A1;
+        Mon, 19 Jun 2023 01:40:06 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DEF242F4;
+        Mon, 19 Jun 2023 01:39:27 -0700 (PDT)
+Received: from a077209.blr.arm.com (a077209.arm.com [10.162.43.124])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6C4B53F64C;
+        Mon, 19 Jun 2023 01:38:41 -0700 (PDT)
+From:   Chaitanya S Prakash <chaitanyas.prakash@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Anshuman.Khandual@arm.com,
+        Chaitanya S Prakash <chaitanyas.prakash@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH V2] Documentation/arm64: Add ptdump documentation
+Date:   Mon, 19 Jun 2023 14:08:02 +0530
+Message-Id: <20230619083802.76092-1-chaitanyas.prakash@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230614072548.996940-1-linus.walleij@linaro.org> <3045029.CbtlEUcBR6@suse>
-In-Reply-To: <3045029.CbtlEUcBR6@suse>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 19 Jun 2023 10:16:56 +0200
-Message-ID: <CACRpkdaDLuryeFwq0tKzDUoyWagRf_w7BfhOuC8K-o-mhk2g_g@mail.gmail.com>
-Subject: Re: [PATCH v5] Documentation/mm: Initial page table documentation
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jun 18, 2023 at 3:16=E2=80=AFPM Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
+ptdump is a debugfs interface used to dump the kernel page tables. It
+provides a comprehensive overview about the kernel's virtual memory
+layout, page table entries and associated page attributes. A document
+detailing how to enable ptdump in the kernel and analyse its output has
+been added.
 
-> I am writing to express my dissent regarding the proposal to add basic
-> information about the role of hierarchical (multi-level) page tables in
-> mapping virtual memory to physical page frames.
+Changes in V2:
 
-I have understood that some think this, perhaps the intro could use
-some dieting, what about sending a patch to make it look like you
-want it to?
+- Corrected command to cat /sys/kernel/debug/kernel_page_tables
 
-> The proposed addition appears to be a combination of trivia and a basic
-> Operating Systems I course that one might encounter during their second y=
-ear
-> as an undergraduate student studying Computer Science or Computer Enginee=
-ring.
->
-> AFAIK, these concepts are already taught extensively to individuals pursu=
-ing a
-> B.Sc. degree in Computer Science or a related field, both in Italy, where=
- I
-> live, and elsewhere.
+Changes in V1:
 
-Knowing the audience is always the hard part of wording technical
-documentation, not the contents per se. I might fail, I might be slight off=
-,
-my co-developers are there to help.
+https://lore.kernel.org/all/20230613064845.1882177-1-chaitanyas.prakash@arm.com/
 
-Assuming that newcomers to the Linux kernel have formal academic
-background or specifically operating system education is a bit thick
-IMO, suffice to read pages 108-111 of Glyn Moody's book
-"Rebel Code" about the background of the network maintainer.
-There are a whole bunch of random people attracted to Linux
-development.
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+CC: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Chaitanya S Prakash <chaitanyas.prakash@arm.com>
+---
+ Documentation/arm64/index.rst  |  1 +
+ Documentation/arm64/ptdump.rst | 94 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 95 insertions(+)
+ create mode 100644 Documentation/arm64/ptdump.rst
 
-Memory management may be different though? Mel having written
-his PhD thesis about the Linux VMM and all might set the bar higher
-for contributors. I don't know really. But the documentation is not there
-just for the MM contributors, as the MM primitives are found sprinkled
-all over the kernel.
+diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
+index ae21f8118830..e0bda3ec2090 100644
+--- a/Documentation/arm64/index.rst
++++ b/Documentation/arm64/index.rst
+@@ -15,6 +15,7 @@ ARM64 Architecture
+     cpu-feature-registers
+     elf_hwcaps
+     hugetlbpage
++    ptdump
+     legacy_instructions
+     memory
+     memory-tagging-extension
+diff --git a/Documentation/arm64/ptdump.rst b/Documentation/arm64/ptdump.rst
+new file mode 100644
+index 000000000000..c7689d14e744
+--- /dev/null
++++ b/Documentation/arm64/ptdump.rst
+@@ -0,0 +1,94 @@
++======================
++Kernel page table dump
++======================
++
++ptdump is a debugfs interface that provides a detailed dump of the kernel's
++page tables. It offers a comprehensive overview of the kernel’s virtual
++memory layout as well as the attributes associated with the various regions
++in a human-readable format. It is useful to dump the kernel page tables to
++verify permissions and memory types. Examining the page table entries and
++permissions helps identify potential security vulnerabilities such as
++mappings with overly permissive access rights or improper memory
++protections.
++
++Memory hotplug allows dynamic expansion or contraction of available memory
++without requiring a system reboot. To maintain consistency and integrity of
++memory management data structures, arm64 makes use of mem_hotplug_lock in
++write mode. Additionally, in read mode mem_hotplug_lock supports efficient
++implementation of get_online_mems and put_online_mems. This protects the
++offlining of memory being accessed by code.
++
++In order to dump the kernel page tables you will need to have the following
++configurations enabled and follow it up by mounting debugfs.::
++
++ CONFIG_GENERIC_PTDUMP=y
++ CONFIG_PTDUMP_CORE=y
++ CONFIG_PTDUMP_DEBUGFS=y
++
++ mount -t debugfs nodev /sys/kernel/debug
++ cat /sys/kernel/debug/kernel_page_tables
++
++On analysing the output of cat /sys/kernel/debug/kernel_page_tables you can
++derive information about the virtual address range of the entry, followed
++by size of the memory region covered by this entry, the hierarchical
++structure of the page tables and finally the attributes associated with
++each page. The page attributes provide information about access permissions,
++execution capability, type of mapping such as leaf level PTE or block level
++PGD, PMD and PUD, and access status of a page within the kernel memory.
++Assessing these attributes can assist in understanding the memory layout,
++access patterns, and security characteristics of the kernel pages.
++
++Kernel virtual memory layout::
++
++ start address        end address         size             attributes
++ +---------------------------------------------------------------------------------------+
++ | ---[ Linear Mapping start ]---------------------------------------------------------- |
++ | ..................                                                                    |
++ | 0xfff0000000000000-0xfff0000000210000  2112K PTE RW NX SHD AF  UXN  MEM/NORMAL-TAGGED |
++ | 0xfff0000000210000-0xfff0000001c00000 26560K PTE ro NX SHD AF  UXN  MEM/NORMAL        |
++ | ..................                                                                    |
++ | ---[ Linear Mapping end ]------------------------------------------------------------ |
++ +---------------------------------------------------------------------------------------+
++ | ---[ Modules start ]----------------------------------------------------------------- |
++ | ..................                                                                    |
++ | 0xffff800000000000-0xffff800008000000   128M PTE                                      |
++ | ..................                                                                    |
++ | ---[ Modules end ]------------------------------------------------------------------- |
++ +---------------------------------------------------------------------------------------+
++ | ---[ vmalloc() area ]---------------------------------------------------------------- |
++ | ..................                                                                    |
++ | 0xffff800008010000-0xffff800008200000  1984K PTE ro x  SHD AF       UXN  MEM/NORMAL   |
++ | 0xffff800008200000-0xffff800008e00000    12M PTE ro x  SHD AF  CON  UXN  MEM/NORMAL   |
++ | ..................                                                                    |
++ | ---[ vmalloc() end ]----------------------------------------------------------------- |
++ +---------------------------------------------------------------------------------------+
++ | ---[ Fixmap start ]------------------------------------------------------------------ |
++ | ..................                                                                    |
++ | 0xfffffbfffdb80000-0xfffffbfffdb90000    64K PTE ro x  SHD AF  UXN  MEM/NORMAL        |
++ | 0xfffffbfffdb90000-0xfffffbfffdba0000    64K PTE ro NX SHD AF  UXN  MEM/NORMAL        |
++ | ..................                                                                    |
++ | ---[ Fixmap end ]-------------------------------------------------------------------- |
++ +---------------------------------------------------------------------------------------+
++ | ---[ PCI I/O start ]----------------------------------------------------------------- |
++ | ..................                                                                    |
++ | 0xfffffbfffe800000-0xfffffbffff800000    16M PTE                                      |
++ | ..................                                                                    |
++ | ---[ PCI I/O end ]------------------------------------------------------------------- |
++ +---------------------------------------------------------------------------------------+
++ | ---[ vmemmap start ]----------------------------------------------------------------- |
++ | ..................                                                                    |
++ | 0xfffffc0002000000-0xfffffc0002200000     2M PTE RW NX SHD AF  UXN  MEM/NORMAL        |
++ | 0xfffffc0002200000-0xfffffc0020000000   478M PTE                                      |
++ | ..................                                                                    |
++ | ---[ vmemmap end ]------------------------------------------------------------------- |
++ +---------------------------------------------------------------------------------------+
++
++cat /sys/kernel/debug/kernel_page_tables::
++
++ 0xfff0000001c00000-0xfff0000080000000     2020M PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
++ 0xfff0000080000000-0xfff0000800000000       30G PMD
++ 0xfff0000800000000-0xfff0000800700000        7M PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
++ 0xfff0000800700000-0xfff0000800710000       64K PTE  ro NX SHD AF   UXN    MEM/NORMAL-TAGGED
++ 0xfff0000800710000-0xfff0000880000000  2089920K PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
++ 0xfff0000880000000-0xfff0040000000000     4062G PMD
++ 0xfff0040000000000-0xffff800000000000     3964T PGD
+-- 
+2.25.1
 
-Yours,
-Linus Walleij
