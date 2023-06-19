@@ -2,272 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47BC8EB64D9
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 19:27:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E30EB64DB
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 19:39:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232414AbjFST1a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 15:27:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42304 "EHLO
+        id S230220AbjFSTjX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 15:39:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbjFST12 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 15:27:28 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4377DE58;
-        Mon, 19 Jun 2023 12:27:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cvLneBXXljZB5WnGxGWIfC5bqdBpNMH3W5G5wF/MwSrvn9LXbYitr6eu7sdEW5eN1nNu58HAxxwh9cLUt+NP2Bw2XV4tNWf0XLBXrDohmPIr2h29GBZlJRkA/oYjSnp1OkZ+buPfp43RiLwLSza0Puh8q9MnDVpvJxFsfWk4xnKVX2i/Rd9eADWiAwl75yktRPPa+oFIPet9YNIdz7G5AsnVY4hSFnBtP4vzU6BLJ1fzeO8Ew0wsL/c/WaL0tRyAwVcyYuE82rnSz/Et/FlLRn6vh49ok4Dk2yz2+tVOWXqF7lTIIUtBfkJ2g9xFd+Xrlw1dgoVqbhBo+Gl7AbyjnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KNO5ydjKq+k2fxhmxGc1Uf3JWQWdhoA2h5EXvtqmDQM=;
- b=HuBZwg/TeAho3TLzoQbZ2ennW8jWlKOy1PY4DhP1f4uKRuYgfCUOfjomH2jt7FWSUD+7FJZg15b3KaLUCexSc5P4GgZIZM1yxb6UGZ1Ql5VYCRkm+R2EItn06nDuNiy/Mb1i+tAamWq2rFA66j5EYBGmwulIkYr17n5gNVX11pxBK4kSYou/s3h8FYUb8dMJJNWIuYNTARNt8JdQjvOFc/xk4kwuwdltHfvXeTV8i+Sj6hJ81aRDQxydz71UTSfcDWzcEs2GGf2LRMrDxKUDeAUl/2V76OdYjxJWHRXnQI2TcmFmTGB5bkthgIt6kZoFoiNolxVBrUjxExBIsST+5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KNO5ydjKq+k2fxhmxGc1Uf3JWQWdhoA2h5EXvtqmDQM=;
- b=LGgXaqOz6z6J5yLECEvtGDjb4Abit3EQ6/dXRnSPEb4PasG3O74XAKnEgsNdZG0MjvvnFJStoSAr5f+GPItiOv+JUgUf3lTAZpIv+ac5NV3RjweYWWXwPImjxjnfUsAqljYUjSJ5+yXq5mUs55H5KJJzviIQiNnrEpILopfs40A=
-Received: from MW4PR04CA0143.namprd04.prod.outlook.com (2603:10b6:303:84::28)
- by DM4PR12MB6135.namprd12.prod.outlook.com (2603:10b6:8:ac::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6500.37; Mon, 19 Jun 2023 19:27:24 +0000
-Received: from MWH0EPF000989E5.namprd02.prod.outlook.com
- (2603:10b6:303:84:cafe::11) by MW4PR04CA0143.outlook.office365.com
- (2603:10b6:303:84::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37 via Frontend
- Transport; Mon, 19 Jun 2023 19:27:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MWH0EPF000989E5.mail.protection.outlook.com (10.167.241.132) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6521.17 via Frontend Transport; Mon, 19 Jun 2023 19:27:23 +0000
-Received: from onyx-7400host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 19 Jun
- 2023 14:27:22 -0500
-From:   Avadhut Naik <avadhut.naik@amd.com>
-To:     <corbet@lwn.net>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <carlos.bilbao@amd.com>, <avadnaik@amd.com>
-Subject: [PATCH] docs/sp_SP: Add translation of process/researcher-guidelines
-Date:   Mon, 19 Jun 2023 19:27:16 +0000
-Message-ID: <20230619192716.21473-1-avadhut.naik@amd.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S230214AbjFSTjX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 15:39:23 -0400
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B319C106;
+        Mon, 19 Jun 2023 12:39:21 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-570284c7e61so44731867b3.1;
+        Mon, 19 Jun 2023 12:39:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687203561; x=1689795561;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PDcAVVMQ9o19+8vUm6LaUCIb17qoj1O3PntNqFtggj8=;
+        b=V4wQkuxlGWlMbMZ5R3R6iq5MC1OP7HiL7F6ZS26msUySM5SjVcUgrXynEUiOz5TEOF
+         GrvD7bX11eAj1TRBZ4x60MgamGO7gNnudphHrWRVvGFP89CI5YmW4lkkMrUtYw7qOETG
+         C/N540G2Parb550VQAB/M82dldDXidancgabksUsFBcOgU3QLjn590VlrfY890blm/g+
+         2F0HVWYUV1cKfABxFs7Rs8Gg2iINf2i6T4xRzDjGd3lPitHT/Dz6wSoCC2LcEUtqYAf0
+         wfZQNggjHmmyO9PZ/TiPDW2oD1x0XZ9/kkGn/gjsJdsfEbdOTMwKQWChvCmgCkTpQJQR
+         9DxQ==
+X-Gm-Message-State: AC+VfDy6TdXaflc3ZVvvba+XW+s3hNxwq9xCnoCy/FR2UfJ7QTHXkJG9
+        Xj7IIhm+Dz7oyyZE0zeVJG5TSAOqDdJdUQ==
+X-Google-Smtp-Source: ACHHUZ7jq6KET8QBNi/2kaJzTyeuKlwqF+DvksliOUm89PcEyEKFD/Xl8mVIGRb5ZITyhoZnMPKP/A==
+X-Received: by 2002:a81:6942:0:b0:55d:8cee:96e9 with SMTP id e63-20020a816942000000b0055d8cee96e9mr12679819ywc.5.1687203560649;
+        Mon, 19 Jun 2023 12:39:20 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id n66-20020a0dfd45000000b0056d5344b071sm113893ywf.84.2023.06.19.12.39.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jun 2023 12:39:20 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-56d304e5f83so44665837b3.2;
+        Mon, 19 Jun 2023 12:39:20 -0700 (PDT)
+X-Received: by 2002:a81:4984:0:b0:570:6a11:9795 with SMTP id
+ w126-20020a814984000000b005706a119795mr11174985ywa.40.1687203559860; Mon, 19
+ Jun 2023 12:39:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230615230537.30429-1-ebiggers@kernel.org> <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
+ <20230616021707.GA87129@sol.localdomain> <CAMw=ZnTEV=GuEE=wB0Z4E1x_uH5zzjyQkB1ycrYnWB2GCMaRTA@mail.gmail.com>
+ <20230617045103.GA1090@sol.localdomain>
+In-Reply-To: <20230617045103.GA1090@sol.localdomain>
+From:   Luca Boccassi <bluca@debian.org>
+Date:   Mon, 19 Jun 2023 20:39:08 +0100
+X-Gmail-Original-Message-ID: <CAMw=ZnQitwaR+oCKzxPxAZ1Ehs-86bfHbo0uPTeKe5a+5geV6A@mail.gmail.com>
+Message-ID: <CAMw=ZnQitwaR+oCKzxPxAZ1Ehs-86bfHbo0uPTeKe5a+5geV6A@mail.gmail.com>
+Subject: Re: [PATCH] fsverity: improve documentation for builtin signature support
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     fsverity@lists.linux.dev, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>,
+        Alexander Larsson <alexl@redhat.com>,
+        Victor Hsieh <victorhsieh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989E5:EE_|DM4PR12MB6135:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3ee5c9d-5326-49e9-ff9d-08db70fb356c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mrP4yUqjC49LLLMG6PDm5MjJNMciDGznrGopWMbfr8I+Y3hHwn8RdrJwYlpjGtM6OyB/pWhMRhEMjHq4BFAIiiS5RDJOIMtfnb8lw6rb7Acbwo1mUcMyI3GxaENEpj1GMMVyts9FZLtt/PysgdvulZIIiWkObSVfoTT0IiBuDEoQEkdXLeZ0RmtJyCn6ze3OUuq1AXP8DuPJ9R+5WKGJrDz8mbB5q9iLQG6qmbCz+iNtUk97OgywfoVWbKlyrGhVJnRuXUkuRooBj2KeJbp1DKmLw4VGdNX442XGe+1pMVIaeOVxtwHzF/ON364QSxBHXLhZEbtMIXl1nOfNzrKMPXSgjOmIpDOAuyjhZwf+DC6W/TCIRsuAgiOMl1vvA/AJ1OmrJ5ktS4eRKxzgBLdHAwtc3BxDMfZYh+Ql8fi7rsPlvEOVuDj4Wis557fRQXKQPpL/ZRWqfKOOaGjxs8b1rt2lzewYAQ88FkH3IhQz7g1+TERMi7jgKEMufZ5ykiM3g2Q6qoiXIOEP2t46qolNeOhX35+l+CvFIXW7E8hp4SV2vdHSBDIVVMkVtvBC39u1MoXe+w/SVoeW2QVUBnBj/zBbTCqEJ3hGu8UIti4HyL1b70Ab0wxzR5+wO8Igh5MQruSaTLv2u6tmvVGvgJWHwe/RfQmEVQOtH6R4cCGCw19+3jSP7B+Qr9+MFxO6jJJoxfdwDLGSkPJkhn2QktEbEP7mRdBC3AMcHNm8LFDQQi5tOAwuZbLzYzVWlre/eLWA
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:es;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(346002)(396003)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(966005)(356005)(81166007)(82740400003)(40460700003)(478600001)(36860700001)(2906002)(40480700001)(6666004)(7696005)(54906003)(316002)(83380400001)(66574015)(47076005)(82310400005)(2616005)(426003)(336012)(5660300002)(41300700001)(70206006)(44832011)(70586007)(6916009)(36756003)(1076003)(26005)(86362001)(8676002)(8936002)(186003)(16526019)(4326008)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2023 19:27:23.6932
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3ee5c9d-5326-49e9-ff9d-08db70fb356c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000989E5.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6135
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Avadhut Naik <Avadhut.Naik@amd.com>
+On Sat, 17 Jun 2023 at 05:51, Eric Biggers <ebiggers@kernel.org> wrote:
+>
+> On Fri, Jun 16, 2023 at 02:27:28PM +0100, Luca Boccassi wrote:
+> > > Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
+> > > it is a good idea.  Have you read the kernel code that implements these formats?
+> > > A few years ago I went through some of it.  Here are some of the bugs I fixed:
+> > >
+> > >     2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
+> > >     624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
+> > >     e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
+> > >     81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
+> > >     0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
+> > >     54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
+> > >     971b42c038dc ("PKCS#7: fix certificate chain verification")
+> > >     29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
+> > >     437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
+> > >     4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig")
+> >
+> > I have no doubt that there are bugs, as I have no doubts that there
+> > are bugs in every other subsystem, including fsverity, once you start
+> > looking hard enough.
+>
+> My point was not that there are bugs, but rather that there are *unnecessary*
+> bugs (many with possible security impact) that are directly caused by the
+> complexities of these formats versus the alternatives.
+>
+> > That's not the point. The point is that having
+> > the documentation of one kernel subsystem disparaging the mechanisms
+> > that are central to other kernel subsystems' functionality is weird
+> > and out of place. Something like that is fine to post on social media
+> > or a blog post or so. A user jumping from one page of kernel doc
+> > saying, paraphrasing heavily for the sake of argument, "use pkcs7 to
+> > ensure the security of your system via secure boot, measured boot and
+> > signed kernel modules" and another saying "pkcs7 is bad and broken,
+> > stay away from it" is just strange, confusing and incoherent from the
+> > point of view of a reader.
+>
+> I'll add a note that PKCS#7 and X.509 should still be used in situations where
+> they are the only option.  I think that would handle your main concern here,
+> which is that people might misunderstand the paragraph as recommending using no
+> signatures, instead of signatures using a PKCS#7 and X.509 based system.
+>
+> I don't think it would be appropriate to remove the paragraph entirely.  It
+> provides useful information that helps users decide what type of signatures to
+> use.  I understand that people who are invested greatly into PKCS#7 and X.509
+> based systems might be resistant to learning about the problems with these
+> formats, but that is to be expected.
 
-Translate Documentation/process/researcher-guidelines.rst into Spanish
+Given this is a kernel doc (as opposed to, say, fsverity-utils's
+readme), my concern is with having confusing and contradicting
+documentation. If you reword it to make it specific to fsverity or so,
+it would probably be fine.
 
-Signed-off-by: Avadhut Naik <avadhut.naik@amd.com>
-Reviewed-By: Carlos Bilbao <carlos.bilbao@amd.com>
----
- .../translations/sp_SP/process/index.rst      |   1 +
- .../sp_SP/process/researcher-guidelines.rst   | 152 ++++++++++++++++++
- 2 files changed, 153 insertions(+)
- create mode 100644 Documentation/translations/sp_SP/process/researcher-guidelines.rst
-
-diff --git a/Documentation/translations/sp_SP/process/index.rst b/Documentation/translations/sp_SP/process/index.rst
-index 0bdeb1eb4403..ed6851892661 100644
---- a/Documentation/translations/sp_SP/process/index.rst
-+++ b/Documentation/translations/sp_SP/process/index.rst
-@@ -20,3 +20,4 @@
-    programming-language
-    deprecated
-    adding-syscalls
-+   researcher-guidelines
-diff --git a/Documentation/translations/sp_SP/process/researcher-guidelines.rst b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-new file mode 100644
-index 000000000000..32d1810733e4
---- /dev/null
-+++ b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-@@ -0,0 +1,152 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:Original: :ref:`Documentation/process/researcher-guidelines.rst`
-+:Translator: Avadhut Naik <avadhut.naik@amd.com>
-+
-+.. _sp_researcher_guidelines:
-+
-+Directrices para Investigadores
-+++++++++++++++++++++++++++++++++
-+
-+La comunidad del kernel de Linux da la bienvenida a la investigación
-+transparente sobre el kernel de Linux, las actividades involucradas
-+en su producción, otros subproductos de su desarrollo. Linux se
-+beneficia mucho de este tipo de investigación, y la mayoría de los
-+aspectos de Linux son impulsados por investigación en una forma o otra.
-+
-+La comunidad agradece mucho si los investigadores pueden compartir
-+los hallazgos preliminares antes de hacer públicos sus resultados,
-+especialmente si tal investigación involucra seguridad. Involucrarse
-+temprano ayuda a mejorar la calidad de investigación y la capacidad
-+de Linux para mejorar a partir de ella. En cualquier caso, se recomienda
-+compartir copias de acceso abierto de la investigación publicada con
-+la comunidad.
-+
-+Este documento busca clarificar lo que la comunidad del kernel de Linux
-+considera practicas aceptables y no aceptables al llevar a cabo
-+investigación de este tipo. Por lo menos, dicha investigación y
-+actividades afines deben seguir las reglas estándar de ética de la
-+investigación. Para más información sobre la ética de la investigación
-+en general, ética en la tecnología y la investigación de las comunidades
-+de desarrolladores en particular, ver:
-+
-+
-+* `Historia de la Ética en la Investigación <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
-+* `Ética de la IEEE <https://www.ieee.org/about/ethics/index.html>`_
-+* `Perspectivas de Desarrolladores e Investigadores sobre la Ética de los Experimentos en Proyectos de Código Abierto <https://arxiv.org/pdf/2112.13217.pdf>`_
-+
-+La comunidad del kernel de Linux espera que todos los que interactúan con
-+el proyecto están participando en buena fe para mejorar Linux. La
-+investigación sobre cualquier artefacto disponible públicamente (incluido,
-+pero no limitado a código fuente) producido por la comunidad del kernel
-+de Linux es bienvenida, aunque la investigación sobre los desarrolladores
-+debe ser claramente opcional.
-+
-+La investigación pasiva que se basa completamente en fuentes disponibles
-+públicamente, incluidas las publicaciones en listas de correo públicas y
-+las contribuciones a los repositorios públicos, es claramente permitida.
-+Aunque, como con cualquier investigación, todavía se debe seguir la ética
-+estándar.
-+
-+La investigación activa sobre el comportamiento de los desarrolladores,
-+sin embargo, debe hacerse con el acuerdo explícito y la divulgación
-+completa a los desarrolladores individuales involucrados. No se puede
-+interactuar / experimentar con los desarrolladores sin consentimiento;
-+esto también es ética de investigación estándar.
-+
-+Para ayudar a aclarar: enviar parches a los desarrolladores es interactuar
-+con ellos, pero ya han dado su consentimiento para recibir contribuciones
-+en buena fe. No se ha dado consentimiento para enviar parches intencionalmente
-+defectuosos / vulnerables o contribuir con la información engañosa a las
-+discusiones. Dicha comunicación puede ser perjudicial al desarrollador (por
-+ejemplo, agotar el tiempo, el esfuerzo, y la moral) y perjudicial para el
-+proyecto al erosionar la confianza de toda la comunidad de desarrolladores en
-+el colaborador (y la organización del colaborador en conjunto), socavando
-+los esfuerzos para proporcionar reacciones constructivas a los colaboradores
-+y poniendo a los usuarios finales en riesgo de fallas de software.
-+
-+La participación en el desarrollo de Linux en sí mismo por parte de
-+investigadores, como con cualquiera, es bienvenida y alentada. La
-+investigación del código de Linux es una práctica común, especialmente
-+cuando se trata de desarrollar o ejecutar herramientas de análisis que
-+producen resultados procesables.
-+
-+Cuando se interactúa con la comunidad de desarrolladores, enviar un
-+parche ha sido tradicionalmente la mejor manera para hacer un impacto.
-+Linux ya tiene muchos errores conocidos – lo que es mucho más útil es
-+tener soluciones verificadas. Antes de contribuir, lea cuidadosamente
-+la documentación adecuada.
-+
-+* Documentation/process/development-process.rst
-+* Documentation/process/submitting-patches.rst
-+* Documentation/admin-guide/reporting-issues.rst
-+* Documentation/process/security-bugs.rst
-+
-+Entonces envíe un parche (incluyendo un registro de confirmación con
-+todos los detalles enumerados abajo) y haga un seguimiento de cualquier
-+comentario de otros desarrolladores.
-+
-+* ¿Cuál es el problema específico que se ha encontrado?
-+* ¿Como podría llegar al problema en un sistema en ejecución?
-+* ¿Qué efecto tendría encontrar el problema en el sistema?
-+* ¿Como se encontró el problema? Incluya específicamente detalles sobre
-+  cualquier prueba, programas de análisis estáticos o dinámicos, y cualquier
-+  otra herramienta o método utilizado para realizar el trabajo.
-+* ¿En qué versión de Linux se encontró el problema? Se prefiere usar la
-+  versión más reciente o una rama reciente de linux-next (ver
-+  Documentation/process/howto.rst).
-+* ¿Que se cambió para solucionar el problema y por qué se cree es correcto?
-+* ¿Como se probó el cambio para la complicación y el tiempo de ejecución?
-+* ¿Qué confirmación previa corrige este cambio? Esto debería ir en un “Fixes:”
-+  etiqueta como se describe en la documentación.
-+* ¿Quién más ha revisado este parche? Esto debería ir con la adecuada “Reviewed-by”
-+  etiqueta; Vea abajo.
-+
-+For example::
-+
-+  From: Author <author@email>
-+  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
-+
-+  The error path in foo_bar driver does not correctly free the allocated
-+  struct foo_bar_info. This can happen if the attached foo_bar device
-+  rejects the initialization packets sent during foo_bar_probe(). This
-+  would result in a 64 byte slab memory leak once per device attach,
-+  wasting memory resources over time.
-+
-+  This flaw was found using an experimental static analysis tool we are
-+  developing, LeakMagic[1], which reported the following warning when
-+  analyzing the v5.15 kernel release:
-+
-+   path/to/foo_bar.c:187: missing kfree() call?
-+
-+  Add the missing kfree() to the error path. No other references to
-+  this memory exist outside the probe function, so this is the only
-+  place it can be freed.
-+
-+  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
-+  11.2 show no new warnings, and LeakMagic no longer warns about this
-+  code path. As we don't have a FooBar device to test with, no runtime
-+  testing was able to be performed.
-+
-+  [1] https://url/to/leakmagic/details
-+
-+  Reported-by: Researcher <researcher@email>
-+  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
-+  Signed-off-by: Author <author@email>
-+  Reviewed-by: Reviewer <reviewer@email>
-+
-+Si usted es un colaborador por primera vez, se recomienda que el parche en
-+si sea examinado por otros en privado antes de ser publicado en listas
-+públicas. (Esto es necesario si se le ha dicho explícitamente que sus parches
-+necesitan una revisión interna más cuidadosa.) Se espera que estas personas
-+tengan su etiqueta “Reviewed-by” incluida en el parche resultante. Encontrar
-+otro desarrollador con conocimiento de las contribuciones a Linux, especialmente
-+dentro de su propia organización, y tener su ayuda con las revisiones antes de
-+enviarlas a las listas de correo publico tiende a mejorar significativamente la
-+calidad de los parches resultantes, y reduce así la carga de otros desarrolladores.
-+
-+Si no se puede encontrar a nadie para revisar internamente los parches y necesita
-+ayuda para encontrar a esa persona, o si tiene alguna otra pregunta relacionada
-+con este documento y las expectativas de la comunidad de desarrolladores, por
-+favor contacte con la lista de correo privada Technical Advisory Board:
-+<tech-board@lists.linux-foundation.org>.
--- 
-2.34.1
-
+Kind regards,
+Luca Boccassi
