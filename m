@@ -2,248 +2,309 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D784EEB64D7
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 03:18:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2381FEB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 05:38:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbjFSDSv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Jun 2023 23:18:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59212 "EHLO
+        id S229563AbjFSFiV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 01:38:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbjFSDSt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Jun 2023 23:18:49 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51FBC18F;
-        Sun, 18 Jun 2023 20:18:47 -0700 (PDT)
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35J36oU0026618;
-        Mon, 19 Jun 2023 03:18:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=HReniWAH2iwP4oo3WMdwOWfNB4Vu9FHcp9HQYG3jU+U=;
- b=EmjGstj8VMvXASKYtt8yCe/wzlx/+uS0Sm5GjtX+7Na2crhW9ZIOefXtxTshP1MvmGpz
- D77r4r4iZ1axs/Pn7MqzDhytPuHbPuMBqj8/OGoHX5esgjR25gbyK07gTdklWy4baF5V
- 49bP6RkC0kLUpYcHC4h1iChopCCQLlrd7sxwxY+JztgCD9uUQszYlkd/r2d5NOMym2iB
- uUGbS3kBicePEDOxwLwVY1OhxILB01j4VIZ0fYk0OZX0NbAIuzDkO1l1Mm5wSmKp2Fcx
- QJHV46/VpYXKvNq962Rrkn3DWy/EBEvHuU6mOCYwdSHkUxgEJI6XjPC7311Spq1WKd5t Fg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rae5v8x7n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 19 Jun 2023 03:18:39 +0000
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 35J36ldo026115;
-        Mon, 19 Jun 2023 03:18:39 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rae5v8x6t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 19 Jun 2023 03:18:39 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
-        by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 35J0ldtF028392;
-        Mon, 19 Jun 2023 03:18:36 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-        by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3r94f58u6p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 19 Jun 2023 03:18:36 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-        by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 35J3IYRs9568962
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 19 Jun 2023 03:18:34 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5F1D320043;
-        Mon, 19 Jun 2023 03:18:34 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B14EE20049;
-        Mon, 19 Jun 2023 03:18:31 +0000 (GMT)
-Received: from li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com (unknown [9.109.216.99])
-        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-        Mon, 19 Jun 2023 03:18:31 +0000 (GMT)
-Date:   Mon, 19 Jun 2023 08:48:28 +0530
-From:   Kautuk Consul <kconsul@linux.vnet.ibm.com>
-To:     Nicholas Piggin <npiggin@gmail.com>,
-        Fabiano Rosas <farosas@linux.ibm.com>, jpn@linux.vnet.ibm.com,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@ozlabs.org>,
-        Thomas Huth <thuth@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Gavin Shan <gshan@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] KVM: ppc64: Enable ring-based dirty memory tracking
-Message-ID: <ZI/JBOTFGKbg6MX4@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-References: <20230608123448.71861-1-kconsul@linux.vnet.ibm.com>
+        with ESMTP id S229481AbjFSFiU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 01:38:20 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7977E188;
+        Sun, 18 Jun 2023 22:38:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687153098; x=1718689098;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=VFXIR4yP7kC/1mRajI/wJIyImTXNAk1r8NgyhljcStI=;
+  b=oA8z641J2ukWeSERpTxHyoCgBngJehQQ3ySb3kldogXIAb36CxC1qdFV
+   wPOfEX/Uyw1hYtbW2XtQM/ziMJMsK9c5ZRJOknzNWr9LlNDTSUnKxB5Aj
+   y4oENtAq4w3Ix6JNeZ/CF7Q7qzZryB6k+lJuHxJ23Nbj9RQej/WbAW9eV
+   qV2W7FCJZJj2YdFrrE5cJvb/Xm8JK1e5ZDLYGvhra3mutrvCa1/ZuGrf/
+   D/3U/iYcgeSGVfddzoyGk05FswYi/44E79L6mB8dmQzz9ce+5SG2QxOBm
+   vmHBb6VCOTJ3ijSiAcI+vybepIs9vRfkpI9S8U9KlK6MPeRkxM9QfYHwA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="425499663"
+X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
+   d="scan'208";a="425499663"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2023 22:38:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="887788685"
+X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
+   d="scan'208";a="887788685"
+Received: from odamavan-mobl.amr.corp.intel.com (HELO [10.209.126.182]) ([10.209.126.182])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2023 22:38:17 -0700
+Message-ID: <fc4b3014-b592-8780-abf7-2e1ff670334e@linux.intel.com>
+Date:   Sun, 18 Jun 2023 22:38:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230608123448.71861-1-kconsul@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 5256Md3NTWgMLIODM4V6WuWJRcWfL8Qo
-X-Proofpoint-ORIG-GUID: 4WXmetJpppGfzyfDrRXdTLXEwjYhXKIi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-19_01,2023-06-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=737 phishscore=0 adultscore=0 bulkscore=0 suspectscore=0
- spamscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306190027
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.11.0
+Subject: Re: [PATCH v3 3/3] selftests/tdx: Test GetQuote TDX attestation
+ feature
+Content-Language: en-US
+To:     Dan Williams <dan.j.williams@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Erdem Aktas <erdemaktas@google.com>,
+        Dionna Amalie Glaze <dionnaglaze@google.com>,
+        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        dhowells@redhat.com, brijesh.singh@amd.com, atishp@rivosinc.com
+References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <972e1d5c5ec53e2757fb17a586558c5385e987dd.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <64876bf6c30e2_1433ac29415@dwillia2-xfh.jf.intel.com.notmuch>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <64876bf6c30e2_1433ac29415@dwillia2-xfh.jf.intel.com.notmuch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nick/Gavin/Everyone,
+Hi Dan,
 
-On 2023-06-08 08:34:48, Kautuk Consul wrote:
-> - Enable CONFIG_HAVE_KVM_DIRTY_RING_ACQ_REL as ppc64 is weakly
->   ordered.
-> - Enable CONFIG_NEED_KVM_DIRTY_RING_WITH_BITMAP because the
->   kvmppc_xive_native_set_attr is called in the context of an ioctl
->   syscall and will call kvmppc_xive_native_eq_sync for setting the
->   KVM_DEV_XIVE_EQ_SYNC attribute which will call mark_dirty_page()
->   when there isn't a running vcpu. Implemented the
->   kvm_arch_allow_write_without_running_vcpu to always return true
->   to allow mark_page_dirty_in_slot to mark the page dirty in the
->   memslot->dirty_bitmap in this case.
-> - Set KVM_DIRTY_LOG_PAGE_OFFSET for the ring buffer's physical page
->   offset.
-> - Implement the kvm_arch_mmu_enable_log_dirty_pt_masked function required
->   for the generic KVM code to call.
-> - Add a check to kvmppc_vcpu_run_hv for checking whether the dirty
->   ring is soft full.
-> - Implement the kvm_arch_flush_remote_tlbs_memslot function to support
->   the CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT config option.
+On 6/12/23 12:03 PM, Dan Williams wrote:
+> [ add David, Brijesh, and Atish]
 > 
-> On testing with live migration it was found that there is around
-> 150-180 ms improvment in overall migration time with this patch.
+> Kuppuswamy Sathyanarayanan wrote:
+>> In TDX guest, the second stage of the attestation process is Quote
+>> generation. This process is required to convert the locally generated
+>> TDREPORT into a remotely verifiable Quote. It involves sending the
+>> TDREPORT data to a Quoting Enclave (QE) which will verify the
+>> integrity of the TDREPORT and sign it with an attestation key.
+>>
+>> Intel's TDX attestation driver exposes TDX_CMD_GET_QUOTE IOCTL to
+>> allow the user agent to get the TD Quote.
+>>
+>> Add a kernel selftest module to verify the Quote generation feature.
+>>
+>> TD Quote generation involves following steps:
+>>
+>> * Get the TDREPORT data using TDX_CMD_GET_REPORT IOCTL.
+>> * Embed the TDREPORT data in quote buffer and request for quote
+>>   generation via TDX_CMD_GET_QUOTE IOCTL request.
+>> * Upon completion of the GetQuote request, check for non zero value
+>>   in the status field of Quote header to make sure the generated
+>>   quote is valid.
 > 
-> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-> ---
->  Documentation/virt/kvm/api.rst      |  2 +-
->  arch/powerpc/include/uapi/asm/kvm.h |  2 ++
->  arch/powerpc/kvm/Kconfig            |  2 ++
->  arch/powerpc/kvm/book3s_64_mmu_hv.c | 42 +++++++++++++++++++++++++++++
->  arch/powerpc/kvm/book3s_hv.c        |  3 +++
->  include/linux/kvm_dirty_ring.h      |  5 ++++
->  6 files changed, 55 insertions(+), 1 deletion(-)
+> What this cover letter does not say is that this is adding another
+> instance of the similar pattern as SNP_GET_REPORT.
 > 
-Any review comments on this ?
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index add067793b90..ce1ebc513bae 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -8114,7 +8114,7 @@ regardless of what has actually been exposed through the CPUID leaf.
->  8.29 KVM_CAP_DIRTY_LOG_RING/KVM_CAP_DIRTY_LOG_RING_ACQ_REL
->  ----------------------------------------------------------
+> Linux is best served when multiple vendors trying to do similar
+> operations are brought together behind a common ABI. We see this in the
+> history of wrangling SCSI vendors behind common interfaces. Now multiple
+> confidential computing vendors trying to develop similar flows with
+> differentiated formats where that differentiation need not leak over the
+> ABI boundary.
 > 
-> -:Architectures: x86, arm64
-> +:Architectures: x86, arm64, ppc64
->  :Parameters: args[0] - size of the dirty log ring
+> My observation of SNP_GET_REPORT and TDX_CMD_GET_REPORT is that they are
+> both passing blobs across the user/kernel and platform/kernel boundary
+> for the purposes of unlocking other resources. To me that is a flow that
+> the Keys subsystem has infrastructure to handle. It has the concept of
+> upcalls and asynchronous population of blobs by handles and mechanisms
+> to protect and cache those communications. Linux / the Keys subsystem
+> could benefit from the enhancements it would need to cover these 2
+> cases. Specifically, the benefit that when ARM and RISC-V arrive with
+> similar communications with platform TSMs (Trusted Security Module) they
+> can build upon the same infrastructure.
 > 
->  KVM is capable of tracking dirty memory using ring buffers that are
-> diff --git a/arch/powerpc/include/uapi/asm/kvm.h b/arch/powerpc/include/uapi/asm/kvm.h
-> index 9f18fa090f1f..f722309ed7fb 100644
-> --- a/arch/powerpc/include/uapi/asm/kvm.h
-> +++ b/arch/powerpc/include/uapi/asm/kvm.h
-> @@ -33,6 +33,8 @@
->  /* Not always available, but if it is, this is the correct offset.  */
->  #define KVM_COALESCED_MMIO_PAGE_OFFSET 1
+> David, am I reaching with that association? My strawman mapping of
+> TDX_CMD_GET_QUOTE to request_key() is something like:
 > 
-> +#define KVM_DIRTY_LOG_PAGE_OFFSET 64
-> +
->  struct kvm_regs {
->  	__u64 pc;
->  	__u64 cr;
-> diff --git a/arch/powerpc/kvm/Kconfig b/arch/powerpc/kvm/Kconfig
-> index 902611954200..c93354ec3bd5 100644
-> --- a/arch/powerpc/kvm/Kconfig
-> +++ b/arch/powerpc/kvm/Kconfig
-> @@ -26,6 +26,8 @@ config KVM
->  	select IRQ_BYPASS_MANAGER
->  	select HAVE_KVM_IRQ_BYPASS
->  	select INTERVAL_TREE
-> +	select HAVE_KVM_DIRTY_RING_ACQ_REL
-> +	select NEED_KVM_DIRTY_RING_WITH_BITMAP
+> request_key(coco_quote, "description", "<uuencoded tdreport>")
 > 
->  config KVM_BOOK3S_HANDLER
->  	bool
-> diff --git a/arch/powerpc/kvm/book3s_64_mmu_hv.c b/arch/powerpc/kvm/book3s_64_mmu_hv.c
-> index 7f765d5ad436..c92e8022e017 100644
-> --- a/arch/powerpc/kvm/book3s_64_mmu_hv.c
-> +++ b/arch/powerpc/kvm/book3s_64_mmu_hv.c
-> @@ -2147,3 +2147,45 @@ void kvmppc_mmu_book3s_hv_init(struct kvm_vcpu *vcpu)
+> Where this is a common key_type for all vendors, but the description and
+> arguments have room for vendor differentiation when doing the upcall to
+> the platform TSM, but userspace never needs to contend with the
+> different vendor formats, that is all handled internally to the kernel.
 > 
->  	vcpu->arch.hflags |= BOOK3S_HFLAG_SLB;
->  }
-> +
-> +/*
-> + * kvm_arch_mmu_enable_log_dirty_pt_masked - enable dirty logging for selected
-> + * dirty pages.
-> + *
-> + * It write protects selected pages to enable dirty logging for them.
-> + */
-> +void kvm_arch_mmu_enable_log_dirty_pt_masked(struct kvm *kvm,
-> +					     struct kvm_memory_slot *slot,
-> +					     gfn_t gfn_offset,
-> +					     unsigned long mask)
-> +{
-> +	phys_addr_t base_gfn = slot->base_gfn + gfn_offset;
-> +	phys_addr_t start = (base_gfn +  __ffs(mask)) << PAGE_SHIFT;
-> +	phys_addr_t end = (base_gfn + __fls(mask) + 1) << PAGE_SHIFT;
-> +
-> +	while (start < end) {
-> +		pte_t *ptep;
-> +		unsigned int shift;
-> +
-> +		ptep = find_kvm_secondary_pte(kvm, start, &shift);
-> +
-> +		*ptep = __pte(pte_val(*ptep) & ~(_PAGE_WRITE));
-> +
-> +		start += PAGE_SIZE;
-> +	}
-> +}
-> +
-> +#ifdef CONFIG_NEED_KVM_DIRTY_RING_WITH_BITMAP
-> +bool kvm_arch_allow_write_without_running_vcpu(struct kvm *kvm)
-> +{
-> +	return true;
-> +}
-> +#endif
-> +
-> +#ifdef CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT
-> +void kvm_arch_flush_remote_tlbs_memslot(struct kvm *kvm,
-> +					const struct kvm_memory_slot *memslot)
-> +{
-> +	kvm_flush_remote_tlbs(kvm);
-> +}
-> +#endif
-> diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
-> index 130bafdb1430..1d1264ea72c4 100644
-> --- a/arch/powerpc/kvm/book3s_hv.c
-> +++ b/arch/powerpc/kvm/book3s_hv.c
-> @@ -4804,6 +4804,9 @@ static int kvmppc_vcpu_run_hv(struct kvm_vcpu *vcpu)
->  		return -EINTR;
->  	}
-> 
-> +	if (kvm_dirty_ring_check_request(vcpu))
-> +		return 0;
-> +
->  #ifdef CONFIG_PPC_TRANSACTIONAL_MEM
->  	/*
->  	 * Don't allow entry with a suspended transaction, because
-> diff --git a/include/linux/kvm_dirty_ring.h b/include/linux/kvm_dirty_ring.h
-> index 4862c98d80d3..a00301059da5 100644
-> --- a/include/linux/kvm_dirty_ring.h
-> +++ b/include/linux/kvm_dirty_ring.h
-> @@ -69,6 +69,11 @@ static inline void kvm_dirty_ring_free(struct kvm_dirty_ring *ring)
->  {
->  }
-> 
-> +static inline bool kvm_dirty_ring_check_request(struct kvm_vcpu *vcpu)
-> +{
-> +	return false;
-> +}
-> +
->  #else /* CONFIG_HAVE_KVM_DIRTY_RING */
-> 
->  int kvm_cpu_dirty_log_size(void);
-> -- 
-> 2.39.2
-> 
+> At this point I am just looking for confirmation that the "every vendor
+> invent a new character device + ioctl" does not scale and a deeper
+> conversation is needed. Keys is a plausible solution to that ABI
+> proliferation problem.
+
+I agree that vendor-specific interfaces do not scale, and the ABI generalization
+will benefit future vendors who require similar feature support. However, such
+generalization, in my opinion, will make more sense if the requirements at the top
+level are also generalized. Currently, each vendor has their own attestation flow,
+and the user ABI they introduced includes a lot of vendor-specific information to
+support it. IMO, it is difficult to hide these vendor-specific information from the
+user without generalizing the high level attestation flow.
+
+I have included the attestation IOCTL interfaces used by S390, AMD SEV and TDX
+below for reference. As you can see, each of these ARCHs uses very different
+input and output data formats. It contains a lot of vendor-specific information
+(like the vmpl field in struct snp_report_req or the meas_addr, arcb_adr in struct
+uvio_attest). The only thing I see in common is the use of input and output blobs.
+
+Even if we just generalize the ABI now, I'm not sure if the unified ABI we create
+now will meet the requirements of RISC-v or ARM platforms when they introduce their
+own attestation flow in the future. My thinking is that without some sort of
+arch-agnostic high-level attestation workflow, ABI generalization has very little
+benefit.
+
+======================================================================
+// Following are S390 specific attestation struct
+drivers/s390/char/uvdevice.c
+
+struct uvio_ioctl_cb {
+        __u32 flags;
+        __u16 uv_rc;                    /* UV header rc value */
+        __u16 uv_rrc;                   /* UV header rrc value */
+        __u64 argument_addr;            /* Userspace address of uvio argument */
+        __u32 argument_len;
+        __u8  reserved14[0x40 - 0x14];  /* must be zero */
+};
+
+#define UVIO_ATT_USER_DATA_LEN          0x100
+#define UVIO_ATT_UID_LEN                0x10
+
+
+struct uvio_attest {
+        __u64 arcb_addr;                                /* 0x0000 */
+        __u64 meas_addr;                                /* 0x0008 */
+        __u64 add_data_addr;                            /* 0x0010 */
+        __u8  user_data[UVIO_ATT_USER_DATA_LEN];        /* 0x0018 */
+        __u8  config_uid[UVIO_ATT_UID_LEN];             /* 0x0118 */
+        __u32 arcb_len;                                 /* 0x0128 */
+        __u32 meas_len;                                 /* 0x012c */
+        __u32 add_data_len;                             /* 0x0130 */
+        __u16 user_data_len;                            /* 0x0134 */
+        __u16 reserved136;                              /* 0x0136 */
+};
+
+
+#define UVIO_DEVICE_NAME "uv"
+#define UVIO_TYPE_UVC 'u'
+
+#define UVIO_IOCTL_ATT _IOWR(UVIO_TYPE_UVC, 0x01, struct uvio_ioctl_cb)
+
+
+// Following are TDX specific interfaces
+drivers/virt/coco/tdx-guest/tdx-guest.c
+
+/**
+ * struct tdx_report_req - Request struct for TDX_CMD_GET_REPORT0 IOCTL.
+ *
+ * @reportdata: User buffer with REPORTDATA to be included into TDREPORT.
+ *              Typically it can be some nonce provided by attestation
+ *              service, so the generated TDREPORT can be uniquely verified.
+ * @tdreport: User buffer to store TDREPORT output from TDCALL[TDG.MR.REPORT].
+ */
+struct tdx_report_req {
+        __u8 reportdata[TDX_REPORTDATA_LEN];
+        __u8 tdreport[TDX_REPORT_LEN];
+};
+
+
+
+/* struct tdx_quote_buf: Format of Quote request buffer.
+ * @version: Quote format version, filled by TD.
+ * @status: Status code of Quote request, filled by VMM.
+ * @in_len: Length of TDREPORT, filled by TD.
+ * @out_len: Length of Quote data, filled by VMM.
+ * @data: Quote data on output or TDREPORT on input.
+ *
+ * More details of Quote request buffer can be found in TDX
+ * Guest-Host Communication Interface (GHCI) for Intel TDX 1.0,
+ * section titled "TDG.VP.VMCALL<GetQuote>"
+ */
+struct tdx_quote_buf {
+        __u64 version;
+        __u64 status;
+        __u32 in_len;
+        __u32 out_len;
+        __u64 data[];
+};
+
+/* struct tdx_quote_req: Request struct for TDX_CMD_GET_QUOTE IOCTL.
+ * @buf: Address of user buffer in the format of struct tdx_quote_buf.
+ *       Upon successful completion of IOCTL, output is copied back to
+ *       the same buffer (in struct tdx_quote_buf.data).
+ * @len: Length of the Quote buffer.
+ */
+struct tdx_quote_req {
+        __u64 buf;
+        __u64 len;
+};
+
+/*
+ * TDX_CMD_GET_REPORT0 - Get TDREPORT0 (a.k.a. TDREPORT subtype 0) using
+ *                       TDCALL[TDG.MR.REPORT]
+ *
+ * Return 0 on success, -EIO on TDCALL execution failure, and
+ * standard errno on other general error cases.
+ */
+#define TDX_CMD_GET_REPORT0              _IOWR('T', 1, struct tdx_report_req)
+
+/*
+ * TDX_CMD_GET_QUOTE - Get TD Guest Quote from QE/QGS using GetQuote
+ *                     TDVMCALL.
+ *
+ * Returns 0 on success or standard errno on other failures.
+ */
+#define TDX_CMD_GET_QUOTE               _IOWR('T', 2, struct tdx_quote_req)
+
+
+// Following are AMD SEV specific interfaces
+drivers/virt/coco/sev-guest/sev-guest.c
+
+struct snp_report_req {
+        /* user data that should be included in the report */
+        __u8 user_data[64];
+
+        /* The vmpl level to be included in the report */
+        __u32 vmpl;
+
+        /* Must be zero filled */
+        __u8 rsvd[28];
+};
+
+struct snp_report_resp {
+        /* response data, see SEV-SNP spec for the format */
+        __u8 data[4000];
+};
+
+struct snp_guest_request_ioctl {
+        /* message version number (must be non-zero) */
+        __u8 msg_version;
+
+        /* Request and response structure address */
+        __u64 req_data;
+        __u64 resp_data;
+
+        /* bits[63:32]: VMM error code, bits[31:0] firmware error code (see psp-sev.h) */
+        union {
+                __u64 exitinfo2;
+                struct {
+                        __u32 fw_error;
+                        __u32 vmm_error;
+                };
+        };
+};
+
+/* Get SNP attestation report */
+#define SNP_GET_REPORT _IOWR(SNP_GUEST_REQ_IOC_TYPE, 0x0, struct snp_guest_request_ioctl)
+======================================================================
+
+In addition to GetReport support, each of these guest attestation drivers includes
+IOCTLs to handle vendor-specific needs (such as Derived key support in the
+SEV driver or RTMR Extend support in the TDX guest driver). So we cannot
+completely unify all IOCTL interfaces in these drivers.
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
