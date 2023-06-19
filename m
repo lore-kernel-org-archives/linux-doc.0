@@ -2,240 +2,500 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E79EB64DB
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 20:34:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8961FEB64DB
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 22:11:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbjFSUeW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 16:34:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37984 "EHLO
+        id S229886AbjFSWLK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 18:11:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjFSUeV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 16:34:21 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C69CEE5;
-        Mon, 19 Jun 2023 13:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687206859; x=1718742859;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=XV6kBS3hbzOU8sgFvGurJkZKG2OKa574uDcmINQ4/5o=;
-  b=RQSAARpe//goHzg24udCPe1D2u7OVd2U9Xj64EuVN1MF65bcwj8o39Qy
-   rJazc+vmuXkZo4rbGRGWyQIvJLCQnNEMt6GkgSbytTqirf6ZLAKx+FHF3
-   FYPhFu+yY0mjNbHlHbJzfHXnfqsDziY/2Rx2b1S9K511Drk7ygPQkkwOn
-   CpXVynRYCrrr0A0Iw+U3151fsYxbyKF8ZJz+el4dZ4j8fjNAae3UUmW8j
-   IoUEJ8d6oKbQI1cNPFjgoQv8mriojsEL99LAQOzFYbJqQK/jSxi/UR+us
-   7zOGklywPhXiIHOGU5XenVVqtqwuEB5sEyk9UrcXXIv+JMrQnEDh6qG6K
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="357198804"
-X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="357198804"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 13:34:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="1043995905"
-X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="1043995905"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga005.fm.intel.com with ESMTP; 19 Jun 2023 13:34:17 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 19 Jun 2023 13:34:16 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 19 Jun 2023 13:34:16 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 19 Jun 2023 13:34:16 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.104)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 19 Jun 2023 13:34:16 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IwHyOQ8AeRYlQDtVl3aeCTg455r3RsRRAiy96l3NNGzF+JZsirIfyeMzWVSPPvW/NgHu5cJ/LBQfITOrLcHQhx0j2cyFuYvjNUxbiCgHBE/gyo9LX8kmnlQAjfA/zfCSVPidmKdPrZn6r5mKOL7/0VOxVTVyaLczILrXEeqXEtlTT12LikGdY3FEgSpuHH2nWtRVgIlKFTJUUFKw4kSC6OkqDhURXtMHw9UPHDy93vtFIv6QIXFmYFvsaKHcM26iAmKkD2GU0LzdFsuvCT0fe5L7KnzTPEka87zZoYkB6Wz4oEsQEKlDvJvPAbV6mW6CHXCL7jdyY5J2iR1eLoTY1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=goLyHlUZQOonFry8+cRjbyEpV1Dmn2PDW6OMstTIGHA=;
- b=eGUNL9nZ/UZQguu65wP21Z1txRgZb1YqvuwV9tow2iTxk9u21wBH9jG2ehuiu0xAWF5qCxypOSVlPUhxlBxbtUL/Tb1jazhUVVHDTRwLxvTFpaC2Hvup9HRgdQ82wjVvbTBD4LqBfaYiN1mQg4UIcdqoKlzhQADB+2zL3YOzjxothFvgPAQ1l+5PJurjpHDpVxzs5kJKcFqOB3sfnK+4/rv67TLDn/xwF95LARpvAreBHarItTdo2xaICWvfxX6Vu4avDDALV+KpqphIhvB+Yxb/T0ozzVGIzJXIvw0+dlGlaqt0HR1m9fgyCBPppJcobW3GYR9Cf3whQqF8Q8x5qQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
- PH0PR11MB4933.namprd11.prod.outlook.com (2603:10b6:510:33::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6500.36; Mon, 19 Jun 2023 20:34:13 +0000
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::24bd:974b:5c01:83d6]) by DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::24bd:974b:5c01:83d6%3]) with mapi id 15.20.6500.036; Mon, 19 Jun 2023
- 20:34:13 +0000
-From:   "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-To:     Jiri Pirko <jiri@resnulli.us>
-CC:     "kuba@kernel.org" <kuba@kernel.org>,
-        "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: RE: [RFC PATCH v8 08/10] ice: implement dpll interface to control cgu
-Thread-Topic: [RFC PATCH v8 08/10] ice: implement dpll interface to control
- cgu
-Thread-Index: AQHZms0YKn5zDyH6hUaEbqiMD+5Ufq+EPdwAgA5hq2A=
-Date:   Mon, 19 Jun 2023 20:34:12 +0000
-Message-ID: <DM6PR11MB4657161D2871747A7B404EDD9B5FA@DM6PR11MB4657.namprd11.prod.outlook.com>
-References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
- <20230609121853.3607724-9-arkadiusz.kubalewski@intel.com>
- <ZISmmH0jqxZRB4VX@nanopsycho>
-In-Reply-To: <ZISmmH0jqxZRB4VX@nanopsycho>
-Accept-Language: pl-PL, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|PH0PR11MB4933:EE_
-x-ms-office365-filtering-correlation-id: a18878c1-71bb-44fc-b926-08db71048b0f
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6rGg05lvazUsotEUZn3ZNW02AGNBb3kEhZc1jOyv2Hjvi3TUwxd9wETJ4iNKYJSv+HABbif8DgcQjZsgwP+RCOsa7091vpgbicqgzdIggVc2fZMh/HffeqzPEoxome1LqEmgYR4gYViT+wYflVMiIJwleCEBE0Zxa4bJ3KA46v6jn+zjnfciFlxafm4xVtPHYcFViCtc4KSg2Jep/daCtse4T0ogorbWM73+KycO9NoziOnL9IlnwSEhGMP+4PKJgIuBy9rw0+R4x36Y8MN1I1z5McdG3OEwrwiURxY4jWnUNQBYKqgEtsk/6vdwblI38PdZawGeQEFOwPGOgKjZ+ilBrsgrx/k0kWyAPMuG7flQ+XnWKsPkin+wUD1I2DhxKJZx1rNVOd2NJZgSJpB9pV+dDmv0Nw6l+nu1mFVbLlZZDZ8qxyjA7FeE+id6sxoo8EhacigFSE7Ko8tLPfuGm1JxfLAHfx2lROzvxnamUpO6uEkpiy70gH5xBjh1lK5lDDWlMRkTGvCNmIzep0SrjJVQSskYE12N83eVlc6pED4Qv0pGioCSeLdu2eX362Sg52LvMufoSlkVHwpb/qTIfmDijyYZcLdnHb6eMGoQtjATbhGGwZe6PdCJ2NCoTKQH
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(376002)(136003)(39860400002)(366004)(396003)(451199021)(76116006)(71200400001)(478600001)(4326008)(54906003)(26005)(9686003)(186003)(6506007)(7696005)(2906002)(55016003)(8936002)(38070700005)(8676002)(41300700001)(66946007)(66446008)(64756008)(66556008)(66476007)(316002)(6916009)(5660300002)(7406005)(7416002)(52536014)(86362001)(33656002)(83380400001)(38100700002)(122000001)(82960400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?jbB6S7i+zpXiL+nCQZCIipvOf7NnaqOC+jtK99ufCjcqivvTIbY76WFUbmRS?=
- =?us-ascii?Q?95b7cInbcm5ryk573HU5BN85gqui8xb35CKPUa8EJHNJM1NQ6uobHJrhJWv5?=
- =?us-ascii?Q?VJnL9YA3QLaM2+9+88GliQ0yLmiY9Hy3vbWME7oIDZFZGsCIJblXRW1QuvKP?=
- =?us-ascii?Q?R1D3TMvF0y3rVpuzCrQZT237WY7KrU2Ksf59N8TlZliOQEEtN+stC7UKHGUi?=
- =?us-ascii?Q?8HAlAm8okWhSkWalr4h2moKpIUEO1UqDFIbYOOpC81OiGY1uDHAXp0rZOn3O?=
- =?us-ascii?Q?jSe2ZNfTHE5CEdH3S4L7WZDXuiYF5mynrRP1gSlQjPjZQ6AuGR8aUGfz02Ss?=
- =?us-ascii?Q?ELwe5XD4bxWFBYBZz5DAijofjDJpt7YBmE7LaOrgRuW9Db9YUiwRH2/3Wcyh?=
- =?us-ascii?Q?dF5HtdJw9QNJu3VRwnTrKC9mT+QhVQkvZ/t0WBCZHjgtCtHb3x3uZLBwK/YM?=
- =?us-ascii?Q?KU7jkGO0kCfl/n1fcNiPJvsJvlaJ10SYdfu0h6wDP3ymKX26NuFu99CdcdNt?=
- =?us-ascii?Q?oe6ZgwGhhd2u0JXJfC7bZDCTtlcXlEeWAorzhw5NCNa/gMvTaCPcQ3wF7Kat?=
- =?us-ascii?Q?Mf3AkpvTfeaRRJTV01aEuEKOUIwfOSKzR+kgPQVyQS641+aRN0nEnwa58NVN?=
- =?us-ascii?Q?BsHZba2huRptuFB/jGQM0EmIjOMv/EBWgq8rrojUJqzX7T3bVBJ6jr05InPF?=
- =?us-ascii?Q?AW8map8XsZURMYmugg4EL9MdoyRjH9tWtstEwj51/t/4u8j8YopWguQ5FVPc?=
- =?us-ascii?Q?d3DHto//yuHHedEr4W6+rzuUOMISA72pjNrJyVUXfVUhb68f67AoZ98UFnIu?=
- =?us-ascii?Q?rmBawihofuYo3dtGTmaNRHyXL3GXL7H2LJtPgO9PlvjrWZQtCMsRyfgLwkw/?=
- =?us-ascii?Q?MylaRF1ZyGPbyrTL+J1pOE6Eb8qQIpEmubi6cI+kFjVuCVqfH8aiRw910AW6?=
- =?us-ascii?Q?ltmbVCuC1AzruEe6O16PQ7t4MPYg32fK6l/7eEYO38k5umWLsmt0cEY3+sPG?=
- =?us-ascii?Q?cGomlSuA5HY5C3zGSN4UEhegv7Ae6xQRjlv40+MLbMGQU3r5EpsMRPYIyISb?=
- =?us-ascii?Q?PtwAKo13uHlSF5EIPEvvcnMO77cPzTX1g9rvjwyPyhRuzgSxPvv/f2q8xbez?=
- =?us-ascii?Q?VqasFMMzXrWyVK09C0iTS3kgQR8HT5msS9j6UUEmZ1AwvOsh5QUZEm2i4/NP?=
- =?us-ascii?Q?z4/k/4eU3RUJAGcjo3jTqZOAKHQJm/70RCfm74HQbgh3iTiEKZBv9/+X9oaX?=
- =?us-ascii?Q?0nK07HAs8m0wzc+bnisWXVYVGbY1h8HkESz7E33eZB9NGcVi8DuUF9jez00a?=
- =?us-ascii?Q?BRhf+LrLVtwt973dEMkEWZv8qSfyzUpxGc3cByEz2lAkH1RMweSycDSlBWIf?=
- =?us-ascii?Q?qm/xz4mUEqjD/pXKAs17VYLzGXNxRSXQjjXjMWVvs2V1vvwgy++1vwcA2c3I?=
- =?us-ascii?Q?h6zSoXFc9M2mQJVGX/zhHd9BjpX2ybXNnrTKoHHim3tSYrsoGvjCYbPQpHYM?=
- =?us-ascii?Q?i5Tc2aSDEE1fy+5qdMS0tBeM5KpqEIWJd4n9bSRJceazmBtITepgmX52h5A7?=
- =?us-ascii?Q?z113V6QztvbeIWk+9FpmWnKbqW2m4Hvi+PLIbOXnRZOD3eB8p5y981rR+UyW?=
- =?us-ascii?Q?DA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229567AbjFSWLJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 18:11:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C2F134;
+        Mon, 19 Jun 2023 15:11:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C135560F02;
+        Mon, 19 Jun 2023 22:11:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7E37C433C0;
+        Mon, 19 Jun 2023 22:11:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687212666;
+        bh=V0p7OOOJsgnxMhRDePbjy5nyyiy1ziO8bCcD9o4MOYI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=r5LR4QJ83XzVNGrY0aCKeKPkNuWaqTUVGeA6ji+/haNebAWFId65YvQuyC4pBZmzD
+         NWF1r3pWAo4iQxKUXQt6z4T8Ugc7jqjtZZbHFm5VMd086J4oc+QDH+cTTdwO/YVnco
+         zn3Bvc321COSw+nhMriKQ4KyUMgl5k4FmfI2tH73pNg1345qaxBLg3Gmy2sfjyflpY
+         e/W/mn0U0Mkyw7lUktC5I1umrd7H8xreLMkzFVmpSfbq9AyPmIadxJKUhgV2O0fxEw
+         MTh0hs6kofouGQCgjCTlWCrWWimCbj3dHhFSmanLsYWjoZaVdDwp1TQ7bANcVifEfH
+         oJg1oopbj1vmg==
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     fsverity@lists.linux.dev
+Cc:     linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        Colin Walters <walters@verbum.org>,
+        Alexander Larsson <alexl@redhat.com>,
+        Luca Boccassi <bluca@debian.org>,
+        Victor Hsieh <victorhsieh@google.com>
+Subject: [PATCH v2] fsverity: improve documentation for builtin signature support
+Date:   Mon, 19 Jun 2023 15:10:48 -0700
+Message-ID: <20230619221048.10335-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a18878c1-71bb-44fc-b926-08db71048b0f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2023 20:34:12.9387
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aC7ykUk70PLJiDpk4ReanhTxrRNsAdh2HLz/+bX25eMTiq7YO8DNK6lwZj0auk/10Pzv9EdDCQGEM4L+ESH9bNz5jOU+yak3gqv9wKXaE24=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4933
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->From: Jiri Pirko <jiri@resnulli.us>
->Sent: Saturday, June 10, 2023 6:37 PM
->
->Fri, Jun 09, 2023 at 02:18:51PM CEST, arkadiusz.kubalewski@intel.com wrote=
-:
->
->[...]
->
->
->>+static int ice_dpll_mode_get(const struct dpll_device *dpll, void *priv,
->>+			     enum dpll_mode *mode,
->>+			     struct netlink_ext_ack *extack)
->>+{
->>+	*mode =3D DPLL_MODE_AUTOMATIC;
->
->I don't understand how the automatic mode could work with SyncE. The
->There is one pin exposed for one netdev. The SyncE daemon should select
->exacly one pin. How do you achieve that?
->Is is by setting DPLL_PIN_STATE_SELECTABLE on the pin-netdev you want to
->select and DPLL_PIN_STATE_DISCONNECTED on the rest?
->
->
->[...]
+From: Eric Biggers <ebiggers@google.com>
 
-AUTOMATIC mode autoselects highest priority valid signal.
-As you have pointed out, for SyncE selection, the user must be able to manu=
-ally
-select a pin state to enable recovery of signal from particular port.
+fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
+the only way to do signatures with fsverity, and they have some major
+limitations.  Yet, more users have tried to use them, e.g. recently by
+https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
+to be because users aren't sufficiently familiar with the limitations of
+this feature and what the alternatives are.
 
-In "ice" case there are 2 pins for network PHY clock signal recovery, and b=
-oth
-are parent pins (MUX-type). There are also 4 pins assigned to netdevs (one =
-per
-port). Thus passing a signal from PHY to the pin is done through the MUX-pi=
-n,
-by selecting proper state on pin-parent pair (where parent pins is highest =
-prio
-pin on dpll).
+Therefore, make some updates to the documentation to try to clarify the
+properties of this feature and nudge users in the right direction.
 
-Thank you!
-Arkadiusz
+Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
+upstream, is planned to use the builtin signatures.  (This differs from
+IMA, which uses its own signature mechanism.)  For that reason, my
+earlier patch "fsverity: mark builtin signatures as deprecated"
+(https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
+which marked builtin signatures as "deprecated", was controversial.
+
+This patch therefore stops short of marking the feature as deprecated.
+I've also revised the language to focus on better explaining the feature
+and what its alternatives are.
+
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+
+v2: updated two paragraphs of fsverity.rst to address Luca's comments
+
+ Documentation/filesystems/fsverity.rst | 190 ++++++++++++++++---------
+ fs/verity/Kconfig                      |  16 +--
+ fs/verity/enable.c                     |   2 +-
+ fs/verity/open.c                       |   8 +-
+ fs/verity/read_metadata.c              |   4 +-
+ fs/verity/signature.c                  |   8 ++
+ 6 files changed, 147 insertions(+), 81 deletions(-)
+
+diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
+index ede672dedf110..c33f783e74953 100644
+--- a/Documentation/filesystems/fsverity.rst
++++ b/Documentation/filesystems/fsverity.rst
+@@ -38,20 +38,14 @@ fail at runtime.
+ Use cases
+ =========
+ 
+-By itself, the base fs-verity feature only provides integrity
+-protection, i.e. detection of accidental (non-malicious) corruption.
++By itself, fs-verity only provides integrity protection, i.e.
++detection of accidental (non-malicious) corruption.
+ 
+ However, because fs-verity makes retrieving the file hash extremely
+ efficient, it's primarily meant to be used as a tool to support
+ authentication (detection of malicious modifications) or auditing
+ (logging file hashes before use).
+ 
+-Trusted userspace code (e.g. operating system code running on a
+-read-only partition that is itself authenticated by dm-verity) can
+-authenticate the contents of an fs-verity file by using the
+-`FS_IOC_MEASURE_VERITY`_ ioctl to retrieve its hash, then verifying a
+-digital signature of it.
+-
+ A standard file hash could be used instead of fs-verity.  However,
+ this is inefficient if the file is large and only a small portion may
+ be accessed.  This is often the case for Android application package
+@@ -69,24 +63,34 @@ still be used on read-only filesystems.  fs-verity is for files that
+ must live on a read-write filesystem because they are independently
+ updated and potentially user-installed, so dm-verity cannot be used.
+ 
+-The base fs-verity feature is a hashing mechanism only; actually
+-authenticating the files may be done by:
+-
+-* Userspace-only
+-
+-* Builtin signature verification + userspace policy
+-
+-  fs-verity optionally supports a simple signature verification
+-  mechanism where users can configure the kernel to require that
+-  all fs-verity files be signed by a key loaded into a keyring;
+-  see `Built-in signature verification`_.
+-
+-* Integrity Measurement Architecture (IMA)
+-
+-  IMA supports including fs-verity file digests and signatures in the
+-  IMA measurement list and verifying fs-verity based file signatures
+-  stored as security.ima xattrs, based on policy.
+-
++fs-verity does not mandate a particular scheme for authenticating its
++file hashes.  (Similarly, dm-verity does not mandate a particular
++scheme for authenticating its block device root hashes.)  Options for
++authenticating fs-verity file hashes include:
++
++- Trusted userspace code.  Often, the userspace code that accesses
++  files can be trusted to authenticate them.  Consider e.g. an
++  application that wants to authenticate data files before using them,
++  or an application loader that is part of the operating system (which
++  is already authenticated in a different way, such as by being loaded
++  from a read-only partition that uses dm-verity) and that wants to
++  authenticate applications before loading them.  In these cases, this
++  trusted userspace code can authenticate a file's contents by
++  retrieving its fs-verity digest using `FS_IOC_ENABLE_VERITY`_, then
++  verifying a signature of it using any userspace cryptographic
++  library that supports digital signatures.  Consider using `libsodium
++  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_
++  or `Tink <https://developers.google.com/tink/digitally-sign-data>`_.
++  Other options include OpenSSL, JCA, and libgcrypt.
++
++- Integrity Measurement Architecture (IMA).  IMA supports fs-verity
++  file digests as an alternative to its traditional full file digests.
++  "IMA appraisal" enforces that files contain a valid, matching
++  signature in their "security.ima" extended attribute, as controlled
++  by the IMA policy.  For more information, see the IMA documentation.
++
++- Trusted userspace code in combination with `Built-in signature
++  verification`_.  This approach should be used only with great care.
+ 
+ User API
+ ========
+@@ -111,8 +115,7 @@ follows::
+     };
+ 
+ This structure contains the parameters of the Merkle tree to build for
+-the file, and optionally contains a signature.  It must be initialized
+-as follows:
++the file.  It must be initialized as follows:
+ 
+ - ``version`` must be 1.
+ - ``hash_algorithm`` must be the identifier for the hash algorithm to
+@@ -129,12 +132,14 @@ as follows:
+   file or device.  Currently the maximum salt size is 32 bytes.
+ - ``salt_ptr`` is the pointer to the salt, or NULL if no salt is
+   provided.
+-- ``sig_size`` is the size of the signature in bytes, or 0 if no
+-  signature is provided.  Currently the signature is (somewhat
+-  arbitrarily) limited to 16128 bytes.  See `Built-in signature
+-  verification`_ for more information.
+-- ``sig_ptr``  is the pointer to the signature, or NULL if no
+-  signature is provided.
++- ``sig_size`` is the size of the builtin signature in bytes, or 0 if no
++  builtin signature is provided.  Currently the builtin signature is
++  (somewhat arbitrarily) limited to 16128 bytes.
++- ``sig_ptr``  is the pointer to the builtin signature, or NULL if no
++  builtin signature is provided.  A builtin signature is only needed
++  if the `Built-in signature verification`_ feature is being used.  It
++  is not needed for IMA appraisal, and it is not needed if the file
++  signature is being handled entirely in userspace.
+ - All reserved fields must be zeroed.
+ 
+ FS_IOC_ENABLE_VERITY causes the filesystem to build a Merkle tree for
+@@ -158,7 +163,7 @@ fatal signal), no changes are made to the file.
+ FS_IOC_ENABLE_VERITY can fail with the following errors:
+ 
+ - ``EACCES``: the process does not have write access to the file
+-- ``EBADMSG``: the signature is malformed
++- ``EBADMSG``: the builtin signature is malformed
+ - ``EBUSY``: this ioctl is already running on the file
+ - ``EEXIST``: the file already has verity enabled
+ - ``EFAULT``: the caller provided inaccessible memory
+@@ -168,10 +173,10 @@ FS_IOC_ENABLE_VERITY can fail with the following errors:
+   reserved bits are set; or the file descriptor refers to neither a
+   regular file nor a directory.
+ - ``EISDIR``: the file descriptor refers to a directory
+-- ``EKEYREJECTED``: the signature doesn't match the file
+-- ``EMSGSIZE``: the salt or signature is too long
+-- ``ENOKEY``: the fs-verity keyring doesn't contain the certificate
+-  needed to verify the signature
++- ``EKEYREJECTED``: the builtin signature doesn't match the file
++- ``EMSGSIZE``: the salt or builtin signature is too long
++- ``ENOKEY``: the ".fs-verity" keyring doesn't contain the certificate
++  needed to verify the builtin signature
+ - ``ENOPKG``: fs-verity recognizes the hash algorithm, but it's not
+   available in the kernel's crypto API as currently configured (e.g.
+   for SHA-512, missing CONFIG_CRYPTO_SHA512).
+@@ -180,8 +185,8 @@ FS_IOC_ENABLE_VERITY can fail with the following errors:
+   support; or the filesystem superblock has not had the 'verity'
+   feature enabled on it; or the filesystem does not support fs-verity
+   on this file.  (See `Filesystem support`_.)
+-- ``EPERM``: the file is append-only; or, a signature is required and
+-  one was not provided.
++- ``EPERM``: the file is append-only; or, a builtin signature is
++  required and one was not provided.
+ - ``EROFS``: the filesystem is read-only
+ - ``ETXTBSY``: someone has the file open for writing.  This can be the
+   caller's file descriptor, another open file descriptor, or the file
+@@ -270,9 +275,9 @@ This ioctl takes in a pointer to the following structure::
+ - ``FS_VERITY_METADATA_TYPE_DESCRIPTOR`` reads the fs-verity
+   descriptor.  See `fs-verity descriptor`_.
+ 
+-- ``FS_VERITY_METADATA_TYPE_SIGNATURE`` reads the signature which was
+-  passed to FS_IOC_ENABLE_VERITY, if any.  See `Built-in signature
+-  verification`_.
++- ``FS_VERITY_METADATA_TYPE_SIGNATURE`` reads the builtin signature
++  which was passed to FS_IOC_ENABLE_VERITY, if any.  See `Built-in
++  signature verification`_.
+ 
+ The semantics are similar to those of ``pread()``.  ``offset``
+ specifies the offset in bytes into the metadata item to read from, and
+@@ -299,7 +304,7 @@ FS_IOC_READ_VERITY_METADATA can fail with the following errors:
+   overflowed
+ - ``ENODATA``: the file is not a verity file, or
+   FS_VERITY_METADATA_TYPE_SIGNATURE was requested but the file doesn't
+-  have a built-in signature
++  have a builtin signature
+ - ``ENOTTY``: this type of filesystem does not implement fs-verity, or
+   this ioctl is not yet implemented on it
+ - ``EOPNOTSUPP``: the kernel was not configured with fs-verity
+@@ -347,8 +352,8 @@ non-verity one, with the following exceptions:
+   with EIO (for read()) or SIGBUS (for mmap() reads).
+ 
+ - If the sysctl "fs.verity.require_signatures" is set to 1 and the
+-  file is not signed by a key in the fs-verity keyring, then opening
+-  the file will fail.  See `Built-in signature verification`_.
++  file is not signed by a key in the ".fs-verity" keyring, then
++  opening the file will fail.  See `Built-in signature verification`_.
+ 
+ Direct access to the Merkle tree is not supported.  Therefore, if a
+ verity file is copied, or is backed up and restored, then it will lose
+@@ -433,20 +438,25 @@ root hash as well as other fields such as the file size::
+ Built-in signature verification
+ ===============================
+ 
+-With CONFIG_FS_VERITY_BUILTIN_SIGNATURES=y, fs-verity supports putting
+-a portion of an authentication policy (see `Use cases`_) in the
+-kernel.  Specifically, it adds support for:
++CONFIG_FS_VERITY_BUILTIN_SIGNATURES=y adds supports for in-kernel
++verification of fs-verity builtin signatures.
++
++**IMPORTANT**!  Please take great care before using this feature.
++It is not the only way to do signatures with fs-verity, and the
++alternatives (such as userspace signature verification, and IMA
++appraisal) can be much better.  It's also easy to fall into a trap
++of thinking this feature solves more problems than it actually does.
++
++Enabling this option adds the following:
+ 
+-1. At fs-verity module initialization time, a keyring ".fs-verity" is
+-   created.  The root user can add trusted X.509 certificates to this
+-   keyring using the add_key() system call, then (when done)
+-   optionally use keyctl_restrict_keyring() to prevent additional
+-   certificates from being added.
++1. At boot time, the kernel creates a keyring named ".fs-verity".  The
++   root user can add trusted X.509 certificates to this keyring using
++   the add_key() system call.
+ 
+ 2. `FS_IOC_ENABLE_VERITY`_ accepts a pointer to a PKCS#7 formatted
+    detached signature in DER format of the file's fs-verity digest.
+-   On success, this signature is persisted alongside the Merkle tree.
+-   Then, any time the file is opened, the kernel will verify the
++   On success, the ioctl persists the signature alongside the Merkle
++   tree.  Then, any time the file is opened, the kernel verifies the
+    file's actual digest against this signature, using the certificates
+    in the ".fs-verity" keyring.
+ 
+@@ -454,8 +464,8 @@ kernel.  Specifically, it adds support for:
+    When set to 1, the kernel requires that all verity files have a
+    correctly signed digest as described in (2).
+ 
+-fs-verity file digests must be signed in the following format, which
+-is similar to the structure used by `FS_IOC_MEASURE_VERITY`_::
++The data that the signature as described in (2) must be a signature of
++is the fs-verity file digest in the following format::
+ 
+     struct fsverity_formatted_digest {
+             char magic[8];                  /* must be "FSVerity" */
+@@ -464,13 +474,61 @@ is similar to the structure used by `FS_IOC_MEASURE_VERITY`_::
+             __u8 digest[];
+     };
+ 
+-fs-verity's built-in signature verification support is meant as a
+-relatively simple mechanism that can be used to provide some level of
+-authenticity protection for verity files, as an alternative to doing
+-the signature verification in userspace or using IMA-appraisal.
+-However, with this mechanism, userspace programs still need to check
+-that the verity bit is set, and there is no protection against verity
+-files being swapped around.
++That's it.  It should be emphasized again that fs-verity builtin
++signatures are not the only way to do signatures with fs-verity.  See
++`Use cases`_ for an overview of ways in which fs-verity can be used.
++fs-verity builtin signatures have some major limitations that should
++be carefully considered before using them:
++
++- Builtin signature verification does *not* make the kernel enforce
++  that any files actually have fs-verity enabled.  Thus, it is not a
++  complete authentication policy.  Currently, if it is used, the only
++  way to complete the authentication policy is for trusted userspace
++  code to explicitly check whether files have fs-verity enabled with a
++  signature before they are accessed.  (With
++  fs.verity.require_signatures=1, just checking whether fs-verity is
++  enabled suffices.)  But, in this case the trusted userspace code
++  could just store the signature alongside the file and verify it
++  itself using a cryptographic library, instead of using this feature.
++
++- Builtin signature verification uses the same set of public keys for
++  all fs-verity enabled files on the system.  Different keys cannot be
++  trusted for different files; each key is all or nothing.
++
++- The sysctl fs.verity.require_signatures applies system-wide.
++  Setting it to 1 only works when all users of fs-verity on the system
++  agree that it should be set to 1.  This limitation can prevent
++  fs-verity from being used in cases where it would be helpful.
++
++- Builtin signature verification can only use signature algorithms
++  that are supported by the kernel.  For example, the kernel does not
++  yet support Ed25519, even though this is often the signature
++  algorithm that is recommended for new cryptographic designs.
++
++- fs-verity builtin signatures are in PKCS#7 format, and the public
++  keys are in X.509 format.  These data formats are unnecessarily
++  complex and prone to vulnerabilities.  (fs-verity builtin signatures
++  were made to use these formats because other kernel subsystems, such
++  as the module loader, unfortunately used these formats already.
++  Note, these formats should still be used when they are the only
++  option to have signatures at all.)  Userspace signature verification
++  avoids having to enable CONFIG_FS_VERITY_BUILTIN_SIGNATURES and the
++  associated kernel attack surface.  Userspace also has the
++  flexibility to choose simpler formats.  For example, consider using
++  straightforward Ed25519 keys and signatures with `libsodium
++  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_.
++
++  IMA appraisal, which supports fs-verity, does not use PKCS#7, so it
++  partially avoids this issue as well (though it does use X.509).
++
++  If you are considering making use of "advanced" features of X.509
++  and/or PKCS#7, please also keep in mind that these "advanced"
++  features do not always work as intended with the kernel.  For
++  example, the kernel does not check X.509 certificate validity times.
++
++- A file's builtin signature can only be set at the same time that
++  fs-verity is being enabled on the file.  Changing or deleting the
++  builtin signature later requires re-creating the file.
+ 
+ Filesystem support
+ ==================
+diff --git a/fs/verity/Kconfig b/fs/verity/Kconfig
+index a7ffd718f1719..e1036e5353521 100644
+--- a/fs/verity/Kconfig
++++ b/fs/verity/Kconfig
+@@ -39,14 +39,14 @@ config FS_VERITY_BUILTIN_SIGNATURES
+ 	depends on FS_VERITY
+ 	select SYSTEM_DATA_VERIFICATION
+ 	help
+-	  Support verifying signatures of verity files against the X.509
+-	  certificates that have been loaded into the ".fs-verity"
+-	  kernel keyring.
++	  This option adds support for in-kernel verification of
++	  fs-verity builtin signatures.
+ 
+-	  This is meant as a relatively simple mechanism that can be
+-	  used to provide an authenticity guarantee for verity files, as
+-	  an alternative to IMA appraisal.  Userspace programs still
+-	  need to check that the verity bit is set in order to get an
+-	  authenticity guarantee.
++	  Please take great care before using this feature.  It is not
++	  the only way to do signatures with fs-verity, and the
++	  alternatives (such as userspace signature verification, and
++	  IMA appraisal) can be much better.  For details about the
++	  limitations of this feature, see
++	  Documentation/filesystems/fsverity.rst.
+ 
+ 	  If unsure, say N.
+diff --git a/fs/verity/enable.c b/fs/verity/enable.c
+index bd86b25ac084b..c284f46d1b535 100644
+--- a/fs/verity/enable.c
++++ b/fs/verity/enable.c
+@@ -208,7 +208,7 @@ static int enable_verity(struct file *filp,
+ 	}
+ 	desc->salt_size = arg->salt_size;
+ 
+-	/* Get the signature if the user provided one */
++	/* Get the builtin signature if the user provided one */
+ 	if (arg->sig_size &&
+ 	    copy_from_user(desc->signature, u64_to_user_ptr(arg->sig_ptr),
+ 			   arg->sig_size)) {
+diff --git a/fs/verity/open.c b/fs/verity/open.c
+index f0383bef86eaa..1db5106a9c385 100644
+--- a/fs/verity/open.c
++++ b/fs/verity/open.c
+@@ -156,7 +156,7 @@ int fsverity_init_merkle_tree_params(struct merkle_tree_params *params,
+ 
+ /*
+  * Compute the file digest by hashing the fsverity_descriptor excluding the
+- * signature and with the sig_size field set to 0.
++ * builtin signature and with the sig_size field set to 0.
+  */
+ static int compute_file_digest(const struct fsverity_hash_alg *hash_alg,
+ 			       struct fsverity_descriptor *desc,
+@@ -174,7 +174,7 @@ static int compute_file_digest(const struct fsverity_hash_alg *hash_alg,
+ 
+ /*
+  * Create a new fsverity_info from the given fsverity_descriptor (with optional
+- * appended signature), and check the signature if present.  The
++ * appended builtin signature), and check the signature if present.  The
+  * fsverity_descriptor must have already undergone basic validation.
+  */
+ struct fsverity_info *fsverity_create_info(const struct inode *inode,
+@@ -319,8 +319,8 @@ static bool validate_fsverity_descriptor(struct inode *inode,
+ }
+ 
+ /*
+- * Read the inode's fsverity_descriptor (with optional appended signature) from
+- * the filesystem, and do basic validation of it.
++ * Read the inode's fsverity_descriptor (with optional appended builtin
++ * signature) from the filesystem, and do basic validation of it.
+  */
+ int fsverity_get_descriptor(struct inode *inode,
+ 			    struct fsverity_descriptor **desc_ret)
+diff --git a/fs/verity/read_metadata.c b/fs/verity/read_metadata.c
+index 2aefc5565152a..f58432772d9ea 100644
+--- a/fs/verity/read_metadata.c
++++ b/fs/verity/read_metadata.c
+@@ -105,7 +105,7 @@ static int fsverity_read_descriptor(struct inode *inode,
+ 	if (res)
+ 		return res;
+ 
+-	/* don't include the signature */
++	/* don't include the builtin signature */
+ 	desc_size = offsetof(struct fsverity_descriptor, signature);
+ 	desc->sig_size = 0;
+ 
+@@ -131,7 +131,7 @@ static int fsverity_read_signature(struct inode *inode,
+ 	}
+ 
+ 	/*
+-	 * Include only the signature.  Note that fsverity_get_descriptor()
++	 * Include only the builtin signature.  fsverity_get_descriptor()
+ 	 * already verified that sig_size is in-bounds.
+ 	 */
+ 	res = fsverity_read_buffer(buf, offset, length, desc->signature,
+diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+index b8c51ad40d3a3..72034bc71c9d9 100644
+--- a/fs/verity/signature.c
++++ b/fs/verity/signature.c
+@@ -5,6 +5,14 @@
+  * Copyright 2019 Google LLC
+  */
+ 
++/*
++ * This file implements verification of fs-verity builtin signatures.  Please
++ * take great care before using this feature.  It is not the only way to do
++ * signatures with fs-verity, and the alternatives (such as userspace signature
++ * verification, and IMA appraisal) can be much better.  For details about the
++ * limitations of this feature, see Documentation/filesystems/fsverity.rst.
++ */
++
+ #include "fsverity_private.h"
+ 
+ #include <linux/cred.h>
+
+base-commit: 74836ecbc5c7565d24a770917644e96af3e98d25
+-- 
+2.41.0
+
