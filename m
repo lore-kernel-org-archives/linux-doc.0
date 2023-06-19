@@ -2,118 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E30EB64DB
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 19:39:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4650AEB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Jun 2023 19:42:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230220AbjFSTjX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 15:39:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45812 "EHLO
+        id S230491AbjFSTmk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 15:42:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230214AbjFSTjX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 15:39:23 -0400
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B319C106;
-        Mon, 19 Jun 2023 12:39:21 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-570284c7e61so44731867b3.1;
-        Mon, 19 Jun 2023 12:39:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687203561; x=1689795561;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PDcAVVMQ9o19+8vUm6LaUCIb17qoj1O3PntNqFtggj8=;
-        b=V4wQkuxlGWlMbMZ5R3R6iq5MC1OP7HiL7F6ZS26msUySM5SjVcUgrXynEUiOz5TEOF
-         GrvD7bX11eAj1TRBZ4x60MgamGO7gNnudphHrWRVvGFP89CI5YmW4lkkMrUtYw7qOETG
-         C/N540G2Parb550VQAB/M82dldDXidancgabksUsFBcOgU3QLjn590VlrfY890blm/g+
-         2F0HVWYUV1cKfABxFs7Rs8Gg2iINf2i6T4xRzDjGd3lPitHT/Dz6wSoCC2LcEUtqYAf0
-         wfZQNggjHmmyO9PZ/TiPDW2oD1x0XZ9/kkGn/gjsJdsfEbdOTMwKQWChvCmgCkTpQJQR
-         9DxQ==
-X-Gm-Message-State: AC+VfDy6TdXaflc3ZVvvba+XW+s3hNxwq9xCnoCy/FR2UfJ7QTHXkJG9
-        Xj7IIhm+Dz7oyyZE0zeVJG5TSAOqDdJdUQ==
-X-Google-Smtp-Source: ACHHUZ7jq6KET8QBNi/2kaJzTyeuKlwqF+DvksliOUm89PcEyEKFD/Xl8mVIGRb5ZITyhoZnMPKP/A==
-X-Received: by 2002:a81:6942:0:b0:55d:8cee:96e9 with SMTP id e63-20020a816942000000b0055d8cee96e9mr12679819ywc.5.1687203560649;
-        Mon, 19 Jun 2023 12:39:20 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id n66-20020a0dfd45000000b0056d5344b071sm113893ywf.84.2023.06.19.12.39.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jun 2023 12:39:20 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-56d304e5f83so44665837b3.2;
-        Mon, 19 Jun 2023 12:39:20 -0700 (PDT)
-X-Received: by 2002:a81:4984:0:b0:570:6a11:9795 with SMTP id
- w126-20020a814984000000b005706a119795mr11174985ywa.40.1687203559860; Mon, 19
- Jun 2023 12:39:19 -0700 (PDT)
+        with ESMTP id S229905AbjFSTmj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 15:42:39 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFDF0119
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 12:42:37 -0700 (PDT)
+Received: from cwcc.thunk.org (pool-173-48-111-196.bstnma.fios.verizon.net [173.48.111.196])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 35JJgGng028862
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 19 Jun 2023 15:42:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1687203739; bh=vPMi+7KO21XyZ0qnD0pDNPiOfUhhFZ7sZOqlW0yLHoo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=lwIGgdc/Wm4AAFS1JaBSskUg0GyRkC5aU4sicyBEnrBlDFEcSiPZxUco+wp4TtMnn
+         HuM/Iw2Vi8sCn1MX5edcZXssJahHn6jpxwSYPGOkd1e4Mxm5uVU3jhQXso8iQ5ih4y
+         d1yz3h8tH1j+hvqyHenVUP8PiPenQcr9fXWPoCpgaDvtbG4k6fsynCZ0+B5pyKoMcE
+         XII5VlFlXsR/USg/DSLs/Et0Zu4mqJR9X5EH/PfJjNCGByOrLQf4BVVkzYZlRNC8D2
+         RZYDKITkdxq+WZfDb2UuIQfrtyxkHZglJwSi1FB2P13Fg5mxw/BUUoZ3GkrATdnnPn
+         E05+7B7jW+F5g==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id B62D015C0266; Mon, 19 Jun 2023 15:42:16 -0400 (EDT)
+Date:   Mon, 19 Jun 2023 15:42:16 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Finn Thain <fthain@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        tech-board-discuss@lists.linux-foundation.org,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and the
+ wider community
+Message-ID: <20230619194216.GB286961@mit.edu>
+References: <cd1786eadd1ff05d9ca053b72eb5f06ceb0c470d.1687167717.git.fthain@linux-m68k.org>
 MIME-Version: 1.0
-References: <20230615230537.30429-1-ebiggers@kernel.org> <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
- <20230616021707.GA87129@sol.localdomain> <CAMw=ZnTEV=GuEE=wB0Z4E1x_uH5zzjyQkB1ycrYnWB2GCMaRTA@mail.gmail.com>
- <20230617045103.GA1090@sol.localdomain>
-In-Reply-To: <20230617045103.GA1090@sol.localdomain>
-From:   Luca Boccassi <bluca@debian.org>
-Date:   Mon, 19 Jun 2023 20:39:08 +0100
-X-Gmail-Original-Message-ID: <CAMw=ZnQitwaR+oCKzxPxAZ1Ehs-86bfHbo0uPTeKe5a+5geV6A@mail.gmail.com>
-Message-ID: <CAMw=ZnQitwaR+oCKzxPxAZ1Ehs-86bfHbo0uPTeKe5a+5geV6A@mail.gmail.com>
-Subject: Re: [PATCH] fsverity: improve documentation for builtin signature support
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     fsverity@lists.linux.dev, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>,
-        Alexander Larsson <alexl@redhat.com>,
-        Victor Hsieh <victorhsieh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd1786eadd1ff05d9ca053b72eb5f06ceb0c470d.1687167717.git.fthain@linux-m68k.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 17 Jun 2023 at 05:51, Eric Biggers <ebiggers@kernel.org> wrote:
->
-> On Fri, Jun 16, 2023 at 02:27:28PM +0100, Luca Boccassi wrote:
-> > > Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
-> > > it is a good idea.  Have you read the kernel code that implements these formats?
-> > > A few years ago I went through some of it.  Here are some of the bugs I fixed:
-> > >
-> > >     2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
-> > >     624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
-> > >     e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
-> > >     81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
-> > >     0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
-> > >     54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
-> > >     971b42c038dc ("PKCS#7: fix certificate chain verification")
-> > >     29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
-> > >     437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
-> > >     4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig")
-> >
-> > I have no doubt that there are bugs, as I have no doubts that there
-> > are bugs in every other subsystem, including fsverity, once you start
-> > looking hard enough.
->
-> My point was not that there are bugs, but rather that there are *unnecessary*
-> bugs (many with possible security impact) that are directly caused by the
-> complexities of these formats versus the alternatives.
->
-> > That's not the point. The point is that having
-> > the documentation of one kernel subsystem disparaging the mechanisms
-> > that are central to other kernel subsystems' functionality is weird
-> > and out of place. Something like that is fine to post on social media
-> > or a blog post or so. A user jumping from one page of kernel doc
-> > saying, paraphrasing heavily for the sake of argument, "use pkcs7 to
-> > ensure the security of your system via secure boot, measured boot and
-> > signed kernel modules" and another saying "pkcs7 is bad and broken,
-> > stay away from it" is just strange, confusing and incoherent from the
-> > point of view of a reader.
->
-> I'll add a note that PKCS#7 and X.509 should still be used in situations where
-> they are the only option.  I think that would handle your main concern here,
-> which is that people might misunderstand the paragraph as recommending using no
-> signatures, instead of signatures using a PKCS#7 and X.509 based system.
->
-> I don't think it would be appropriate to remove the paragraph entirely.  It
-> provides useful information that helps users decide what type of signatures to
-> use.  I understand that people who are invested greatly into PKCS#7 and X.509
-> based systems might be resistant to learning about the problems with these
-> formats, but that is to be expected.
+On Mon, Jun 19, 2023 at 07:41:57PM +1000, Finn Thain wrote:
+> The Linux Contribution Maturity Model methodology is notionally based on
+> the Open source Maturity Model (OMM) which was in turn based on the
+> Capability Maturity Model Integration (CMMI).
 
-Given this is a kernel doc (as opposed to, say, fsverity-utils's
-readme), my concern is with having confusing and contradicting
-documentation. If you reword it to make it specific to fsverity or so,
-it would probably be fine.
+So from a historical/factual basis, this is not true.  It was *not*
+based on the Open Source Maturity Model; in fact, as the principal
+author of this document, I wasn't even aware of the OMM when I wrote
+it.  The general framework of Maturity Models[1] is a very long one, and
+goes back well beyond Dececmber 2022, which is when the folks in the
+banking sector launched the OMM[2].
 
-Kind regards,
-Luca Boccassi
+[1] https://en.wikipedia.org/wiki/Maturity_model
+[2] https://www.finos.org/blog/open-source-maturity-model-launch
+
+The reason why the language in the Linux Contribution Maturity Model
+(LCMM) focused on companies was that was where the problem was
+perceived to be.  That is, the *vast* majority of Linux Kernel
+contributors work at companies, and because of many companys' focus on
+reducing costs and increasing profits of their products which are part
+of the Linux kernel ecosystem, some of them enagage in anti-patterns
+which are not healthy either for their own role in the Linux Kernel
+ecosystem, and for the Linux Kernel ecosystem at large.
+
+For example, if you look at the 6.3 contribution report[3], you'll see
+that by changesets (git commits), 85.4% of the contributions came from
+companies, 6.6% were unknown, 4.8% were "None" (e.g.,
+hobbists/students), and 1.1% were from the Linux Foundation.
+
+[3] https://lwn.net/Articles/929582/
+
+In actual practice, we get *very* few commits from non-profit
+organizations such as, say, the Mozilla Foundation, the Eclipse
+Foundation, or even community distributions such as Debian or Arch.
+And so the concerns around software engineers not getting the
+permission and encourage they need so they can contribute to the Linux
+kernel community at large, is primarily coming from companies.  The
+only non-profit organization that even shows up at the contribution
+reports is the Linux Foundation, and I'm pretty confident in how
+enlightened the LF management vis-a-vis kernel contribution.  :-)
+
+As far as individuals are concerned, things like performance reviews,
+the ability for overly paranoid corporate Corporate General Counsel
+not allowing their engineers from contributing to Open Source (in
+general) and the Linux Kernel (in particular), yes, those things
+aren't really applicable.  But again, there is a specific problem that
+we are trying to solve, and it's not with individual contriduals.
+
+> This patch addresses this bias as it could hinder collaboration with
+> not-for-profit organisations and individuals, which would be a loss to
+> any stakeholder.
+
+I'm not sure how this document would "hinder collaboration" with
+non-profit organizations and individuals.  Could you say more about
+your concern regarding how this undesireable outcome would happen in
+practice?
+
+I'm not against making using wording which is more general, such as
+perhaps "companies and organizations" instead of "companies", but it's
+important that we don't dilute the message the primary audience ---
+which is pointed-haired management types, who are familiar with the
+Maturity Model framework, who are *primarily* working at for-profit
+companies, and who could make it easier for those Linux developers
+whose day job involves Linux kernel development.
+
+Cheers,
+
+						- Ted
