@@ -2,139 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A33DEB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 03:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4278EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 03:49:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbjFTDsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 23:48:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33136 "EHLO
+        id S230115AbjFTDth (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 23:49:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbjFTDsT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 23:48:19 -0400
+        with ESMTP id S229655AbjFTDtg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 23:49:36 -0400
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC6610C2;
-        Mon, 19 Jun 2023 20:48:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11C0F10CF;
+        Mon, 19 Jun 2023 20:49:35 -0700 (PDT)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 77DF05C012E;
-        Mon, 19 Jun 2023 23:48:15 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id 7D9205C01B5;
+        Mon, 19 Jun 2023 23:49:34 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 19 Jun 2023 23:48:15 -0400
+  by compute5.internal (MEProxy); Mon, 19 Jun 2023 23:49:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-id:content-type
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1687232895; x=
-        1687319295; bh=xI+HWMRw7XVVtgixtdwauRUMQmYd0Nzo4WiW1Ge+RQw=; b=W
-        QjDDOrisyOq1KjmhI95oLLAwm8yWKfG63eZKVJHHEwbnz6ZcnRP21WiFsKu+hKiL
-        dBAHZiPs4FYNu6cbFKrCovGdTMNo58g/X6fX/AfCYYog28yjig8nJz/L8pum+BQy
-        dSTi9iAtmW1Wq2yJv1RNPc1iVkZuahvJwq7Py8MA8XF2yr97HeEuHXBTV19yLHpz
-        A5UGbOm9bnjRsmHcQibevWCDsMeoZTHJACRb+5jB1/tGHpNllM292hH3+4rutwJc
-        IJPVA5+izBZyTWJMSPlFLw7nCgrKDnHW7pUQA5+zTOGRqD7goWT6TZqbKsoGyMqv
-        u85jPPsFHumFxkKF7sXnQ==
-X-ME-Sender: <xms:fiGRZFqAB2H_osqEQGK7Kl-0thqY9R2NiWTr_WExr0ZoYjW--vQXKw>
-    <xme:fiGRZHqecLQbOyjYvZuAJAwdXRGlxBw2hoi1lk0_bbzIqqv0y9Ct8Y6wVm9GXv6_-
-    UfI5n4HTObGFyJWiDA>
-X-ME-Received: <xmr:fiGRZCNuLd6UDEwS1cwBbHmy9rMY1ikoWNIVIGkmb5UKPkT0dwXWzgX_5IniM3UAtASyMXUU94VwGnZKWzchnTjGsThg1jem-Ds>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefgedgfedvucetufdoteggodetrfdotf
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1687232974; x=1687319374; bh=uK8OHGMIlFmnJ
+        LvVW0a3pMKfDOHLUDIq6unP7lOwbaE=; b=K7k6z/7kBm+2XX8J5xZJpPOm4KUIY
+        SjAeNJLTn7VYVT0+Pma8pKRUP4DB5JRuqa0lsXpbHbNf6+7nrUmFksQhT6pyecn5
+        wonDg5tnuqwrR+bkEWOm3PljmjYXxMZTpapoHXI60Dkf5a9iMRjup6XyD2ZkCV11
+        OHBrNxCWFjH+c0vl49JtGPA1aXwbWb3GpfX/E3Wq8/60WJbng0jbgsSpflHOlUme
+        iH0sExaGX9/sx2pib3vsdhiK0JrQfMfSXXAoejGBaeaj0Wt30cS2pqcvZwpJNIKr
+        wI/Kv6LqxMlIxeCpgG4xQqW9KN+8VB9cp/QQwCDFVcMc8t/Di+wi+q+XA==
+X-ME-Sender: <xms:ziGRZE3zP6vDASt-3BK_geM4FJVeZNNXB4XGci1-rZeX9YWQEl9PlQ>
+    <xme:ziGRZPHhw7dHj160MLqHkkMg70aQOZB8Na-9oXsjUAXG67AO3RRb0hpEj_Ev86ecM
+    Pds21g22TWQfwyqQlc>
+X-ME-Received: <xmr:ziGRZM4R8nqJbvi7Tfqo8MXTdTmQK9kTRWWABy11LnKpefvz9i7FG0FCpcBXtED-Jjaj7X1s6y_l5Mt8yhlDbWTvNvCePBv59T0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefgedgfeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevufgjkfhfgggtsehmtderredttdejnecuhfhrohhmpefhihhnnhcu
+    cujfgurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
     vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeelfeeklefggfetkedukeevfffgvdeuheetffekledtfeejteelieejteeh
-    geelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    htthgvrhhnpeelueehleehkefgueevtdevteejkefhffekfeffffdtgfejveekgeefvdeu
+    heeuleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     hfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:fiGRZA7DcpEG7nSOGaGLRuqftwzk6V0lfxREBBATr8J1JwSSehT9vQ>
-    <xmx:fiGRZE5lRzou-Zxh6-4ng1uxxKVtfbeDHFkYO7GaVe8Gx0Zyyzndsg>
-    <xmx:fiGRZIjSOH6o6gpq4-flKW5q5QE1EeTd2IbaSCIETsErj_eUeXaFTA>
-    <xmx:fyGRZOQmGsoep7SnWtrqXnq3L8fYxg8rqztUeMcP1Qdsu8LuX8ckrg>
+X-ME-Proxy: <xmx:ziGRZN0U3CfXmvOhuzJG9fz88pkrWbA0Q-4MhRbUwRvhXpna_BSGSw>
+    <xmx:ziGRZHE0c9HO1A55ihoFQBejQ9EOyd5LsHMCSHFdSlW6OSASVOQJug>
+    <xmx:ziGRZG92PYbhWpOxOV7oP_qjPjOfNQZ2WJq-q4_7IEj0E1bNcbchpg>
+    <xmx:ziGRZM7FdMWob6PRPKrHg_fPYKWs79e2Jq2JzsdbB1m2Avg4JIEHPA>
 Feedback-ID: i58a146ae:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Jun 2023 23:48:11 -0400 (EDT)
-Date:   Tue, 20 Jun 2023 13:48:59 +1000 (AEST)
+ 19 Jun 2023 23:49:31 -0400 (EDT)
+Date:   Tue, 20 Jun 2023 13:50:21 +1000 (AEST)
 From:   Finn Thain <fthain@linux-m68k.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-cc:     Jonathan Corbet <corbet@lwn.net>,
-        tech-board-discuss@lists.linux-foundation.org,
-        Theodore Ts'o <tytso@mit.edu>,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     James Bottomley <James.Bottomley@HansenPartnership.com>
+cc:     corbet@lwn.net, dan.j.williams@intel.com,
+        gregkh@linuxfoundation.org, keescook@chromium.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tech-board-discuss@lists.linux-foundation.org, tytso@mit.edu
 Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
  the wider community
-In-Reply-To: <2023061946-latitude-negligent-e4ae@gregkh>
-Message-ID: <99b5fc04-798d-a235-c001-fb444e78ada9@linux-m68k.org>
-References: <cd1786eadd1ff05d9ca053b72eb5f06ceb0c470d.1687167717.git.fthain@linux-m68k.org> <2023061946-latitude-negligent-e4ae@gregkh>
+In-Reply-To: <e78eef83a50a558aae765baafcf9c571788a02a5.camel@HansenPartnership.com>
+Message-ID: <7fef2bbb-4c5a-52b8-8e85-400a8fbb8786@linux-m68k.org>
+References: <e78eef83a50a558aae765baafcf9c571788a02a5.camel@HansenPartnership.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="-1463811774-175744949-1687222626=:26354"
-Content-ID: <b2582ffe-b281-b640-07f7-4a96b2d11ccf@nippy.intranet>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
----1463811774-175744949-1687222626=:26354
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <9cbc14d3-d22d-85c2-f488-70e94b9d5dfd@nippy.intranet>
-
-
-On Mon, 19 Jun 2023, Greg Kroah-Hartman wrote:
+On Mon, 19 Jun 2023, James Bottomley wrote:
 
 > On Mon, Jun 19, 2023 at 07:41:57PM +1000, Finn Thain wrote:
+> > The Linux Contribution Maturity Model methodology is notionally based 
+> > on the Open source Maturity Model (OMM) which was in turn based on the 
+> > Capability Maturity Model Integration (CMMI).
+> > 
+> > According to Petrinja et al., the goal of the OMM was to extend the 
+> > CMMI so as to be useful both for companies and for communities [1][2].  
+> > However, the Linux Contribution Maturity Model considers only 
+> > companies and businesses.
+> 
+> That's not a correct characterization.  The model is designed to measure 
+> and be useful to businesses, but it definitely considers the community 
+> because it's progress is built around being more useful to and working 
+> more effectively with the community.
+> 
 
-> > @@ -103,7 +103,6 @@ Level 5
-> > =20
-> >  * Upstream kernel development is considered a formal job position, wit=
-h
-> >    at least a third of the engineer=E2=80=99s time spent doing Upstream=
- Work.
-> > -* Organizations will actively seek out community member feedback as a
-> > -  factor in official performance reviews.
->=20
-> Why are you removing this?  I write more performance reviews now than I=
-=20
-> have have in my life, all for companies that I do NOT work for.  That's=
-=20
-> a good thing as it shows these orginizations value the feedback of the=20
-> community as a reflection on how well those employees are doing at their=
-=20
-> assigned job.  Why are you removing that very valid thing?
->=20
+You're right, the characterization I gave does exaggerate the bias. I 
+shall moderate that if I resubmit the patch.
 
-I'm not preventing that. That's covered by level 4 and my patch only=20
-alters level 3 and level 5.
+> > This patch addresses this bias as it could hinder collaboration with 
+> > not-for-profit organisations and individuals, which would be a loss to 
+> > any stakeholder.
+> 
+> I don't really think changing 'Businesses' to 'Organizations' entirely 
+> addresses what you claim is the bias because individuals would still be 
+> excluded from the term 'Organizations'.  I also don't really think it 
+> matters.  Part of the reason this whole thing doesn't matter is that 
+> sometimes people do know who a contributor they work with works for, but 
+> most of the time they don't.
 
-Bonuses and salaries are tied to performance reviews so the hazard here=20
-are clear. Level 5 compels companies to seek feedback and naturally they=20
-will seek it from companies who share their goals. You ask too much of=20
-employees if you expect them to put aside the corporate agendas and pursue=
-=20
-the interests of the wider community.
+This is not just about patches, it's also about incentives and influence.
 
-Countless lawsuits over the last few decades made it abundantly clear that=
-=20
-the goals of companies often diverge from those of the wider FLOSS=20
-community.
+> If you really want this to be inclusive, you could change it to 'other 
+> contributors' but I'm still not sure it's worth it.
+> 
+> > 
+> > Level 5 is amended to remove the invitation to exercise the same bias
+> > i.e. employees rewarded indirectly by other companies.
+> 
+> I also wouldn't remove the bit about seeking upstream feedback on
+> employees; I know from personal experience it happens a lot.
+> 
 
-Consider all of the open source code thrown over the wall, the binary=20
-blobs, the binary modules, the built-in obsolescence, the devices shipped=
-=20
-with vulnerabilities now reduced to e-waste because they cannot be fixed,=
-=20
-the vendor lock-in strategies, the walled gardens, the surveillance etc.
+If it happens a lot already, why compel employers to seek it?
 
-To my jaded mind, it is obvious that such reprehensible strategies can be=
-=20
-advanced by co-operative employees given inducements from colluding=20
-companies. My patch won't prevent this sort of behaviour but it does=20
-remove a directive that would help facilitate it.
-
-Greg, if you want to see more performance reviews, the maturity model=20
-could compel companies to provide unsolicited feedback, instead of seek it=
-=20
-from an arbitrary source. Would you be amenable to a revised patch along=20
-those lines?
----1463811774-175744949-1687222626=:26354--
+It's worth noting that the model compels employers to seek "community 
+member feedback" which is not the same as the "upstream feedback" that you 
+describe.
