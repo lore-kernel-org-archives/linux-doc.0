@@ -2,129 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34052EB64D8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 10:00:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C03EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 10:06:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231253AbjFTKAa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 06:00:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34144 "EHLO
+        id S232047AbjFTKGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 06:06:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232661AbjFTJ77 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 05:59:59 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7B601FD4;
-        Tue, 20 Jun 2023 02:57:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1687255070; x=1718791070;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4oXu7FJQwjSx64LQSoiKpv9H6LNtuO8vmXzyXeUjBE8=;
-  b=BEdYxwC38DgLvNyYOeNsjJmdq31VOhlI1Kl2MqWAJftS/FHYehwrCctA
-   s4hstB+InU5cNYTGDTc6/4upU8Me2kyfKKfkzHbBnZEcfGp+q4hLpN6Dq
-   zipxaHKZxoH7hjMC+rJyzOCsc2VGn2ldhORnRlt/Hdr0im9WQgC81Ro5o
-   3WFuELz5GF+AKMVNVKyvYEmG/FBuO6oOPDzbifR3Wk5O1ycAxqGGaa9WP
-   x2d2GVzHIn23a+3plm1ZY2pamEYa+ZhpSbo5tPqhnSoUYU0dMxmyI0RPW
-   eQgj9Hv354sMLDFyzw32Akdouhi5lnEb0o15q1TWL2VgaeIcMLI167qKR
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="asc'?scan'208";a="221063445"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 20 Jun 2023 02:57:49 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 20 Jun 2023 02:57:48 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Tue, 20 Jun 2023 02:57:46 -0700
-Date:   Tue, 20 Jun 2023 10:57:20 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-CC:     Conor Dooley <conor@kernel.org>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Atish Kumar Patra <atishp@rivosinc.com>,
+        with ESMTP id S231575AbjFTKGS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 06:06:18 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA257DB;
+        Tue, 20 Jun 2023 03:06:15 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b4725e9917so35299241fa.2;
+        Tue, 20 Jun 2023 03:06:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687255571; x=1689847571;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wtXc4PCbTDlAHZAVqhvtwaRICGJ6lazGNb1ljaV+Ftw=;
+        b=ldW/ylsuWZH3AXZueyYlRT0nh9Gl/MhIKISAju1Ir5dsyEDOYv8I/dKPmBee/odzkK
+         SDbVl0f1M1Z+H7UtPcorlVsRZ1YEUg+5forY69CwXp/YyhIvg9aUPWStKrGV2gmYsZNf
+         NowMzGu9Th8C8x1f9CVWdoHwEa07JlDa8276RyVLTkeEuOuDgoqnuPXbaJN0RQp9CxTN
+         scEmXUBZ0g6uTFZ/EWqPVXJUnHpeqXlZJ82NBJRiFQfJgWE85T8UqdlMfqHEootOMNc4
+         iiLGC6mmOBawCmItBjo8MjcoUJOAgAXU+CIrdSEtjUQzRSJ6ljr4Z5qpcnpXOjSwCxRp
+         vlGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687255571; x=1689847571;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wtXc4PCbTDlAHZAVqhvtwaRICGJ6lazGNb1ljaV+Ftw=;
+        b=l8megoFlgHrfD+dmkWmrP0X4XgeljU/oDZAACQUnD1hWQFVAwLhcMjSmKxWwYW0tat
+         RfWzpopmsThIXT7rPGviDkVcFqUxyJbKkcC19beWPrJa4A3czVanWXMFMopdMTJlRy2c
+         JcyZ5fOKU1rUCd7l110iXKcKLWsskjlBYwEYauzN4cY9Jo0ifuQDUkb2o6Qx2iTMnRQy
+         YVtsjr6Z00Skky5HJOSboVKSamTwimkQmtpiDxxxsvaa55685c7uYYySuYQmq5ji14tR
+         NpxrE5Zc4iRUxbOeL46R/gFcEIML9JCKUkpYlN7jWmcqy6+QOEcXFHLnCQ7S8njNxTML
+         8/ng==
+X-Gm-Message-State: AC+VfDzx3bD56ERWNFI6k3dnH1ORgUu/guA4qfk0a8PZimBSqE75E6L/
+        MIS14a3Itq7QjkwL7f3ze3NmCNsZWVTx2vSuAbc=
+X-Google-Smtp-Source: ACHHUZ7b29WcQEpJBxPgynKh2dxcEjQKO63R0QvBncBcn4CVZjBKqj6DvExU9PFON2qlRV1iXePc6q0qi5nDf7A9U3Q=
+X-Received: by 2002:a2e:9b06:0:b0:2b1:dc7a:ebf2 with SMTP id
+ u6-20020a2e9b06000000b002b1dc7aebf2mr7647520lji.17.1687255570896; Tue, 20 Jun
+ 2023 03:06:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1686275310.git.haibo1.xu@intel.com> <8cd4ce50f5f4a639f4508085959aae222d4d4386.1686275310.git.haibo1.xu@intel.com>
+ <20230609-fba04b424a4d46574e04e587@orel>
+In-Reply-To: <20230609-fba04b424a4d46574e04e587@orel>
+From:   Haibo Xu <xiaobo55x@gmail.com>
+Date:   Tue, 20 Jun 2023 18:05:59 +0800
+Message-ID: <CAJve8okjRZEt6_6SB9EWm+6c7utpExzenfWo2T1N-J6G9w9czQ@mail.gmail.com>
+Subject: Re: [PATCH v3 10/10] KVM: riscv: selftests: Add get-reg-list test
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
+        oliver.upton@linux.dev, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, <linux-doc@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] Documentation: riscv: Add early boot document
-Message-ID: <20230620-slot-bobtail-4f41b59f4cf9@wendy>
-References: <20230619094705.51337-1-alexghiti@rivosinc.com>
- <20230619-kerchief-unmixed-cfdbeb1cf242@wendy>
- <CAHVXubjV=0HNyc0-UMAQRQfi4ZUnwH8dmghV-BGogZsJiumtZA@mail.gmail.com>
- <20230619-sponge-armful-6beeaf4a8624@spud>
- <87r0q7v1o9.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="HyYzIEwuf18tdy7k"
-Content-Disposition: inline
-In-Reply-To: <87r0q7v1o9.fsf@meer.lwn.net>
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Ben Gardon <bgardon@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---HyYzIEwuf18tdy7k
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 19, 2023 at 10:48:06AM -0600, Jonathan Corbet wrote:
-> Conor Dooley <conor@kernel.org> writes:
->=20
-> > On Mon, Jun 19, 2023 at 04:04:52PM +0200, Alexandre Ghiti wrote:
-> >> On Mon, Jun 19, 2023 at 2:26=E2=80=AFPM Conor Dooley <conor.dooley@mic=
-rochip.com> wrote:
-> >> > On Mon, Jun 19, 2023 at 11:47:04AM +0200, Alexandre Ghiti wrote:
+On Fri, Jun 9, 2023 at 9:35=E2=80=AFPM Andrew Jones <ajones@ventanamicro.co=
+m> wrote:
+>
+> On Fri, Jun 09, 2023 at 10:12:18AM +0800, Haibo Xu wrote:
+> > +static struct vcpu_reg_list aia_config =3D {
+> > +     .sublists =3D {
+> > +     BASE_SUBLIST,
+> > +     AIA_REGS_SUBLIST,
+> > +     {0},
+> > +     },
+> > +};
+> > +
+> > +static struct vcpu_reg_list fp_f_d_config =3D {
+> > +     .sublists =3D {
+> > +     BASE_SUBLIST,
+> > +     FP_F_REGS_SUBLIST,
+> > +     FP_D_REGS_SUBLIST,
+> > +     {0},
+> > +     },
+> > +};
+> > +
+> > +struct vcpu_reg_list *vcpu_configs[] =3D {
+> > +     &zicbo_config,
+> > +     &aia_config,
+> > +     &fp_f_d_config,
+> > +};
+> > +int vcpu_configs_n =3D ARRAY_SIZE(vcpu_configs);
+> > --
+> > 2.34.1
 > >
-> >> > > diff --git a/Documentation/riscv/boot.rst b/Documentation/riscv/bo=
-ot.rst
-> >> > > new file mode 100644
-> >> > > index 000000000000..b02230818b79
-> >> > > --- /dev/null
-> >> > > +++ b/Documentation/riscv/boot.rst
-> >> > > @@ -0,0 +1,181 @@
-> >> > > +.. SPDX-License-Identifier: GPL-2.0
-> >> > > +
-> >> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> > > +Early boot requirements/constraints on RISC-V
-> >> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> >
-> >> > Please use "title case", here and elsewhere in the doc.
-> >>=20
-> >> You mean using "title: " instead of "=3D=3D=3D=3D"? Or using uppercase=
- for the
-> >> first letter of each word? FYI I followed
-> >> https://docs.kernel.org/doc-guide/sphinx.html?highlight=3Dtitle#specif=
-ic-guidelines-for-the-kernel-documentation
-> >
-> > The latter. That's weird, I guess it would be nice to see what Jon
-> > thinks about that.
->=20
-> I have Never Been Fond of Excessive Use of Capital Letters, so my
-> preference would be capitalization as in a normal sentence.
->=20
-> That said, I don't really feel that something like this is important
-> enough that we need to define and enforce a policy around it.  If the
-> maintainers for specific subsystems feel differently, then I guess
-> that's up to them.
+>
+> I see we have a bit of a problem with the configs for riscv. Since we
+> don't disable anything we're not testing, then for any test that is
+> missing, for example, the f and d registers, we'll get output like
+> "There are 66 new registers. Consider adding them to the blessed reg
+> list with the following lines:" and then a dump of all the f and d
+> registers. The test doesn't fail, but it's messy and confusing. Ideally
+> we'd disable all registers of all sublists not in the config, probably
+> by starting by disabling everything and then only reenabling the ones
+> in the config.
+>
+> Anything that can't be disabled is either a KVM bug, i.e. we should
+> be able to disable it, because we can't expect every host to have it,
+> or it needs to be in the base register sublist (meaning every host
+> will always have it).
+>
 
-Okay, thanks.
+HI Andrew,
 
---HyYzIEwuf18tdy7k
-Content-Type: application/pgp-signature; name="signature.asc"
+I found several multi-letters ISA EXT(AIA/SSTC etc) were not allowed
+to be disabled.
+Is it a bug? shall we fix it=EF=BC=9F
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Haibo
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJF3/wAKCRB4tDGHoIJi
-0gG8AP9nAmYRkCd6aA3KqwDS5VO/mXdodl6DpCx3vgU2BjkDYgEAu1/lkHz2Ig9k
-R2kxyNWLJ055DoTuTXnCUGXDO043/Qs=
-=plo2
------END PGP SIGNATURE-----
+static bool kvm_riscv_vcpu_isa_disable_allowed(unsigned long ext)
+ {
+     switch (ext) {
+     case KVM_RISCV_ISA_EXT_A:
+     case KVM_RISCV_ISA_EXT_C:
+     case KVM_RISCV_ISA_EXT_I:
+     case KVM_RISCV_ISA_EXT_M:
+     case KVM_RISCV_ISA_EXT_SSAIA:
+     case KVM_RISCV_ISA_EXT_SSTC:
+     case KVM_RISCV_ISA_EXT_SVINVAL:
+     case KVM_RISCV_ISA_EXT_ZIHINTPAUSE:
+     case KVM_RISCV_ISA_EXT_ZBB:
+         return false;
+     default:
+         break;
+     }
 
---HyYzIEwuf18tdy7k--
+     return true;
+ }
+
+> Thanks,
+> drew
