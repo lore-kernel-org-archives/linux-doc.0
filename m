@@ -2,437 +2,503 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E7A6EB64DB
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 04:05:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 860F6EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 04:22:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230285AbjFTEFu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 00:05:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39984 "EHLO
+        id S229976AbjFTEWy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 00:22:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbjFTEFt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 00:05:49 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A0C1A8;
-        Mon, 19 Jun 2023 21:05:47 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-98934f000a5so15195066b.2;
-        Mon, 19 Jun 2023 21:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687233945; x=1689825945;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nm07gp91z67yPaALmSjYb88FFAKhVI+8hZk5Prh28Fs=;
-        b=kAgePDIpzh0aog05Un30bBD7p1QWD0FQeyvk0nloNgxLvqPrcy+e4UN4YAJQUq+zlF
-         K2FhBM5DT5HH22ViU038bM3deTX3elSbg4zxCP+yzFkcgAXVLuh33vGDST81htWe3m5T
-         iP5qlOHjuRCZ/itzw+y4yboQVZgcllboMddOAt98MB2CBBUNpdUMCdG/t8lSvmbzR8eL
-         kcUYbPzhJhTmLeZ0JTui9AxfsXMwcpp0apR9sOC3qpnNKKJRpWg7tnJC9ZqcGxxAM7xF
-         YilZPTPte+wVYbKnSGqehfInjVG63c3euT6nccL/J95mZGS48Mc2YnWTjmJhO5oC/Lz0
-         3DMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687233945; x=1689825945;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nm07gp91z67yPaALmSjYb88FFAKhVI+8hZk5Prh28Fs=;
-        b=b7xcTGQycqFJVPLQf2ZDEMoN0haLrUwqpcjgw1502avMsfqoVQ5fPCPQVmKX2lxaTh
-         cAaqIOUxkVkMdmfCBDHD5bItWS/II1ftLUTUtOvqkk38mVUfGXVVAdgI7bCcAW53BhH3
-         IwIZ5ZMNzuJGqA/tq4rp8eYtHxXbnz3nVWcbKBpDLLO+sTF+h4Qpcpe03GqO+JvoFtWf
-         JHgd5F1jmnPy5PC+24otRySfXKCkLhdga1/0CHn8IqiRqPd9Y8f4UaHJ9o4XS+mB3pMf
-         0d8QCW51pwMEml3StCpKE/sXoDdyw0XzV8rxVsp2AVcpbJPucCuG61h8unwTtM/fFUIj
-         D0Ow==
-X-Gm-Message-State: AC+VfDyD5E4OoDczz7Dgm6W60YGMPFYI5F4KVp2/4t8m1+X2CqAWbF47
-        gx/YrHWQb6XzK2Kz2IdlwtAqW6RJtH3cSGbpyjg=
-X-Google-Smtp-Source: ACHHUZ4cbELwdYCslrEvaIJg8Kf5eH+KI25uU+mc3xiEzFnDaXrsOCkCY+dAXOj9Y3spwUsAigTz+P7pAEpN26UcG2Q=
-X-Received: by 2002:a17:906:9748:b0:989:d9d:d8f7 with SMTP id
- o8-20020a170906974800b009890d9dd8f7mr1343689ejy.5.1687233945348; Mon, 19 Jun
- 2023 21:05:45 -0700 (PDT)
+        with ESMTP id S229713AbjFTEWy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 00:22:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B821910C8;
+        Mon, 19 Jun 2023 21:22:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 39F4360FA0;
+        Tue, 20 Jun 2023 04:22:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 643FCC433C0;
+        Tue, 20 Jun 2023 04:22:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687234970;
+        bh=BJRZ6edKmdCKOWbL8sTDwAjXfJ8LpW01FRD6+yPzTtw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DZJyeZuMdsFMsv5GdSHZUOlqTuPz6H68Rlq5rDtvngYO5xes1lxOLFU4mwTZWa5qT
+         xdr3hKQLg5RyMTUyXeZYNNL8mQ01G/pGBB44wPjQSwdFmNzoNCrD5hPrB2OalvoL16
+         mE24vkh+6fGRkqrb3j0rfO0CsydTUrtxGqTO75tTRPB8PdoRR8z/qNlA5nvC7H6dyj
+         9aFwqctggK9xmGl2snh7Ngk3xrNL9cHupZyFoqMDdY7V9yxQ1Ws3GRTrdbHtGPkRZq
+         ZnEot0dvTA/330TsL1SYP7ZgTS71xlfpo3kH+eY02NIozlGTwM60NpPdE/j+okqitG
+         3W3mebbF/EYxQ==
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     fsverity@lists.linux.dev
+Cc:     linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        Colin Walters <walters@verbum.org>,
+        Alexander Larsson <alexl@redhat.com>,
+        Luca Boccassi <bluca@debian.org>,
+        Victor Hsieh <victorhsieh@google.com>
+Subject: [PATCH v3] fsverity: improve documentation for builtin signature support
+Date:   Mon, 19 Jun 2023 21:19:37 -0700
+Message-ID: <20230620041937.5809-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230620004217.4700-1-dakr@redhat.com> <2c92bae3-0003-3c53-8ef1-6e12e5413995@redhat.com>
-In-Reply-To: <2c92bae3-0003-3c53-8ef1-6e12e5413995@redhat.com>
-From:   Dave Airlie <airlied@gmail.com>
-Date:   Tue, 20 Jun 2023 14:05:33 +1000
-Message-ID: <CAPM=9tzMzfuMN_iGD-97_o=QQEDT6Mbb9_u=z_o49TeT7=XUFA@mail.gmail.com>
-Subject: Re: [PATCH drm-next v5 00/14] [RFC] DRM GPUVA Manager & Nouveau
- VM_BIND UAPI
-To:     Danilo Krummrich <dakr@redhat.com>
-Cc:     Donald Robson <Donald.Robson@imgtec.com>, daniel@ffwll.ch,
-        tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
-        christian.koenig@amd.com, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since this is feature is nouveau only currently and doesn't disturb
-the current nouveau code paths, I'd like to try and get this work in
-tree so other drivers can work from it.
+From: Eric Biggers <ebiggers@google.com>
 
-If there are any major objections to this, I'm happy to pull it back
-out again, but I'd like to get some acks/rb in the next couple of days
-in order to land some of it.
+fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
+the only way to do signatures with fsverity, and they have some major
+limitations.  Yet, more users have tried to use them, e.g. recently by
+https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
+to be because users aren't sufficiently familiar with the limitations of
+this feature and what the alternatives are.
 
-Dave.
+Therefore, make some updates to the documentation to try to clarify the
+properties of this feature and nudge users in the right direction.
 
+Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
+upstream, is planned to use the builtin signatures.  (This differs from
+IMA, which uses its own signature mechanism.)  For that reason, my
+earlier patch "fsverity: mark builtin signatures as deprecated"
+(https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
+which marked builtin signatures as "deprecated", was controversial.
 
->
-> forgot to add your email address to the patch series - sorry about that.
->
-> This series (v5) contains the Documentation changes you requested.
->
-> - Danilo
->
-> On 6/20/23 02:42, Danilo Krummrich wrote:
-> > This patch series provides a new UAPI for the Nouveau driver in order t=
-o
-> > support Vulkan features, such as sparse bindings and sparse residency.
-> >
-> > Furthermore, with the DRM GPUVA manager it provides a new DRM core feat=
-ure to
-> > keep track of GPU virtual address (VA) mappings in a more generic way.
-> >
-> > The DRM GPUVA manager is indented to help drivers implement userspace-m=
-anageable
-> > GPU VA spaces in reference to the Vulkan API. In order to achieve this =
-goal it
-> > serves the following purposes in this context.
-> >
-> >      1) Provide infrastructure to track GPU VA allocations and mappings=
-,
-> >         making use of the maple_tree.
-> >
-> >      2) Generically connect GPU VA mappings to their backing buffers, i=
-n
-> >         particular DRM GEM objects.
-> >
-> >      3) Provide a common implementation to perform more complex mapping
-> >         operations on the GPU VA space. In particular splitting and mer=
-ging
-> >         of GPU VA mappings, e.g. for intersecting mapping requests or p=
-artial
-> >         unmap requests.
-> >
-> > The new VM_BIND Nouveau UAPI build on top of the DRM GPUVA manager, its=
-elf
-> > providing the following new interfaces.
-> >
-> >      1) Initialize a GPU VA space via the new DRM_IOCTL_NOUVEAU_VM_INIT=
- ioctl
-> >         for UMDs to specify the portion of VA space managed by the kern=
-el and
-> >         userspace, respectively.
-> >
-> >      2) Allocate and free a VA space region as well as bind and unbind =
-memory
-> >         to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND ioct=
-l.
-> >
-> >      3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
-> >
-> > Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, make use of=
- the DRM
-> > scheduler to queue jobs and support asynchronous processing with DRM sy=
-ncobjs
-> > as synchronization mechanism.
-> >
-> > By default DRM_IOCTL_NOUVEAU_VM_BIND does synchronous processing,
-> > DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
-> >
-> > The new VM_BIND UAPI for Nouveau makes also use of drm_exec (execution =
-context
-> > for GEM buffers) by Christian K=C3=B6nig. Since the patch implementing =
-drm_exec was
-> > not yet merged into drm-next it is part of this series, as well as a sm=
-all fix
-> > for this patch, which was found while testing this series.
-> >
-> > This patch series is also available at [1].
-> >
-> > There is a Mesa NVK merge request by Dave Airlie [2] implementing the
-> > corresponding userspace parts for this series.
-> >
-> > The Vulkan CTS test suite passes the sparse binding and sparse residenc=
-y test
-> > cases for the new UAPI together with Dave's Mesa work.
-> >
-> > There are also some test cases in the igt-gpu-tools project [3] for the=
- new UAPI
-> > and hence the DRM GPU VA manager. However, most of them are testing the=
- DRM GPU
-> > VA manager's logic through Nouveau's new UAPI and should be considered =
-just as
-> > helper for implementation.
-> >
-> > However, I absolutely intend to change those test cases to proper kunit=
- test
-> > cases for the DRM GPUVA manager, once and if we agree on it's usefulnes=
-s and
-> > design.
-> >
-> > [1] https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm=
--next /
-> >      https://gitlab.freedesktop.org/nouvelles/kernel/-/merge_requests/1
-> > [2] https://gitlab.freedesktop.org/nouveau/mesa/-/merge_requests/150/
-> > [3] https://gitlab.freedesktop.org/dakr/igt-gpu-tools/-/tree/wip_nouvea=
-u_vm_bind
-> >
-> > Changes in V2:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >    Nouveau:
-> >      - Reworked the Nouveau VM_BIND UAPI to avoid memory allocations in=
- fence
-> >        signalling critical sections. Updates to the VA space are split =
-up in three
-> >        separate stages, where only the 2. stage executes in a fence sig=
-nalling
-> >        critical section:
-> >
-> >          1. update the VA space, allocate new structures and page table=
-s
-> >          2. (un-)map the requested memory bindings
-> >          3. free structures and page tables
-> >
-> >      - Separated generic job scheduler code from specific job implement=
-ations.
-> >      - Separated the EXEC and VM_BIND implementation of the UAPI.
-> >      - Reworked the locking parts of the nvkm/vmm RAW interface, such t=
-hat
-> >        (un-)map operations can be executed in fence signalling critical=
- sections.
-> >
-> >    GPUVA Manager:
-> >      - made drm_gpuva_regions optional for users of the GPUVA manager
-> >      - allow NULL GEMs for drm_gpuva entries
-> >      - swichted from drm_mm to maple_tree for track drm_gpuva / drm_gpu=
-va_region
-> >        entries
-> >      - provide callbacks for users to allocate custom drm_gpuva_op stru=
-ctures to
-> >        allow inheritance
-> >      - added user bits to drm_gpuva_flags
-> >      - added a prefetch operation type in order to support generating p=
-refetch
-> >        operations in the same way other operations generated
-> >      - hand the responsibility for mutual exclusion for a GEM's
-> >        drm_gpuva list to the user; simplified corresponding (un-)link f=
-unctions
-> >
-> >    Maple Tree:
-> >      - I added two maple tree patches to the series, one to support cus=
-tom tree
-> >        walk macros and one to hand the locking responsibility to the us=
-er of the
-> >        GPUVA manager without pre-defined lockdep checks.
-> >
-> > Changes in V3:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >    Nouveau:
-> >      - Reworked the Nouveau VM_BIND UAPI to do the job cleanup (includi=
-ng page
-> >        table cleanup) within a workqueue rather than the job_free() cal=
-lback of
-> >        the scheduler itself. A job_free() callback can stall the execut=
-ion (run()
-> >        callback) of the next job in the queue. Since the page table cle=
-anup
-> >        requires to take the same locks as need to be taken for page tab=
-le
-> >        allocation, doing it directly in the job_free() callback would s=
-till
-> >        violate the fence signalling critical path.
-> >      - Separated Nouveau fence allocation and emit, such that we do not=
- violate
-> >        the fence signalling critical path in EXEC jobs.
-> >      - Implement "regions" (for handling sparse mappings through PDEs a=
-nd dual
-> >        page tables) within Nouveau.
-> >      - Drop the requirement for every mapping to be contained within a =
-region.
-> >      - Add necassary synchronization of VM_BIND job operation sequences=
- in order
-> >        to work around limitations in page table handling. This will be =
-addressed
-> >        in a future re-work of Nouveau's page table handling.
-> >      - Fixed a couple of race conditions found through more testing. Th=
-anks to
-> >        Dave for consitently trying to break it. :-)
-> >
-> >    GPUVA Manager:
-> >      - Implement pre-allocation capabilities for tree modifications wit=
-hin fence
-> >        signalling critical sections.
-> >      - Implement accessors to to apply tree modification while walking =
-the GPUVA
-> >        tree in order to actually support processing of drm_gpuva_ops th=
-rough
-> >        callbacks in fence signalling critical sections rather than thro=
-ugh
-> >        pre-allocated operation lists.
-> >      - Remove merging of GPUVAs; the kernel has limited to none knowleg=
-e about
-> >        the semantics of mapping sequences. Hence, merging is purely spe=
-culative.
-> >        It seems that gaining a significant (or at least a measurable) p=
-erformance
-> >        increase through merging is way more likely to happen when users=
-pace is
-> >        responsible for merging mappings up to the next larger page size=
- if
-> >        possible.
-> >      - Since merging was removed, regions pretty much loose their right=
- to exist.
-> >        They might still be useful for handling dual page tables or simi=
-lar
-> >        mechanisms, but since Nouveau seems to be the only driver having=
- a need
-> >        for this for now, regions were removed from the GPUVA manager.
-> >      - Fixed a couple of maple_tree related issues; thanks to Liam for =
-helping me
-> >        out.
-> >
-> > Changes in V4:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >    Nouveau:
-> >      - Refactored how specific VM_BIND and EXEC jobs are created and ho=
-w their
-> >        arguments are passed to the generic job implementation.
-> >      - Fixed a UAF race condition where bind job ops could have been fr=
-eed
-> >        already while still waiting for a job cleanup to finish. This is=
- due to
-> >        in certain cases we need to wait for mappings actually being unm=
-apped
-> >        before creating sparse regions in the same area.
-> >      - Re-based the code onto drm_exec v4 patch.
-> >
-> >    GPUVA Manager:
-> >      - Fixed a maple tree related bug when pre-allocating MA states.
-> >        (Boris Brezillion)
-> >      - Made struct drm_gpuva_fn_ops a const object in all occurrences.
-> >        (Boris Brezillion)
-> >
-> > Changes in V5:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >    Nouveau:
-> >      - Link and unlink GPUVAs outside the fence signalling critical pat=
-h in
-> >        nouveau_uvmm_bind_job_submit() holding the dma-resv lock. Mutual=
- exclusion
-> >        of BO evicts causing mapping invalidation and regular mapping op=
-erations
-> >        is ensured with dma-fences.
-> >
-> >    GPUVA Manager:
-> >      - Removed the separate GEMs GPUVA list lock. Link and unlink as we=
-ll as
-> >        iterating the GEM's GPUVA list should be protected with the GEM'=
-s dma-resv
-> >        lock instead.
-> >      - Renamed DRM_GPUVA_EVICTED flag to DRM_GPUVA_INVALIDATED. Mapping=
-s do not
-> >        get eviced, they might get invalidated due to eviction.
-> >      - Maple tree uses the 'unsinged long' type for node entries. While=
- this
-> >        works for GPU VA spaces larger than 32-bit on 64-bit kernel, the=
- GPU VA
-> >        space is limited to 32-bit on 32-bit kernels as well.
-> >        As long as we do not have a 64-bit capable maple tree for 32-bit=
- kernels,
-> >        the GPU VA manager contains checks to throw warnings when GPU VA=
- entries
-> >        exceed the maple tree's storage capabilities.
-> >      - Extended the Documentation and added example code as requested b=
-y Donald
-> >        Robson.
-> >
-> > Christian K=C3=B6nig (1):
-> >    drm: execution context for GEM buffers v4
-> >
-> > Danilo Krummrich (13):
-> >    maple_tree: split up MA_STATE() macro
-> >    drm: manager to keep track of GPUs VA mappings
-> >    drm: debugfs: provide infrastructure to dump a DRM GPU VA space
-> >    drm/nouveau: new VM_BIND uapi interfaces
-> >    drm/nouveau: get vmm via nouveau_cli_vmm()
-> >    drm/nouveau: bo: initialize GEM GPU VA interface
-> >    drm/nouveau: move usercopy helpers to nouveau_drv.h
-> >    drm/nouveau: fence: separate fence alloc and emit
-> >    drm/nouveau: fence: fail to emit when fence context is killed
-> >    drm/nouveau: chan: provide nouveau_channel_kill()
-> >    drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
-> >    drm/nouveau: implement new VM_BIND uAPI
-> >    drm/nouveau: debugfs: implement DRM GPU VA debugfs
-> >
-> >   Documentation/gpu/driver-uapi.rst             |   11 +
-> >   Documentation/gpu/drm-mm.rst                  |   54 +
-> >   drivers/gpu/drm/Kconfig                       |    6 +
-> >   drivers/gpu/drm/Makefile                      |    3 +
-> >   drivers/gpu/drm/drm_debugfs.c                 |   41 +
-> >   drivers/gpu/drm/drm_exec.c                    |  278 +++
-> >   drivers/gpu/drm/drm_gem.c                     |    3 +
-> >   drivers/gpu/drm/drm_gpuva_mgr.c               | 1971 ++++++++++++++++
-> >   drivers/gpu/drm/nouveau/Kbuild                |    3 +
-> >   drivers/gpu/drm/nouveau/Kconfig               |    2 +
-> >   drivers/gpu/drm/nouveau/dispnv04/crtc.c       |    9 +-
-> >   drivers/gpu/drm/nouveau/include/nvif/if000c.h |   26 +-
-> >   drivers/gpu/drm/nouveau/include/nvif/vmm.h    |   19 +-
-> >   .../gpu/drm/nouveau/include/nvkm/subdev/mmu.h |   20 +-
-> >   drivers/gpu/drm/nouveau/nouveau_abi16.c       |   24 +
-> >   drivers/gpu/drm/nouveau/nouveau_abi16.h       |    1 +
-> >   drivers/gpu/drm/nouveau/nouveau_bo.c          |  204 +-
-> >   drivers/gpu/drm/nouveau/nouveau_bo.h          |    2 +-
-> >   drivers/gpu/drm/nouveau/nouveau_chan.c        |   22 +-
-> >   drivers/gpu/drm/nouveau/nouveau_chan.h        |    1 +
-> >   drivers/gpu/drm/nouveau/nouveau_debugfs.c     |   39 +
-> >   drivers/gpu/drm/nouveau/nouveau_dmem.c        |    9 +-
-> >   drivers/gpu/drm/nouveau/nouveau_drm.c         |   27 +-
-> >   drivers/gpu/drm/nouveau/nouveau_drv.h         |   94 +-
-> >   drivers/gpu/drm/nouveau/nouveau_exec.c        |  418 ++++
-> >   drivers/gpu/drm/nouveau/nouveau_exec.h        |   54 +
-> >   drivers/gpu/drm/nouveau/nouveau_fence.c       |   23 +-
-> >   drivers/gpu/drm/nouveau/nouveau_fence.h       |    5 +-
-> >   drivers/gpu/drm/nouveau/nouveau_gem.c         |   62 +-
-> >   drivers/gpu/drm/nouveau/nouveau_mem.h         |    5 +
-> >   drivers/gpu/drm/nouveau/nouveau_prime.c       |    2 +-
-> >   drivers/gpu/drm/nouveau/nouveau_sched.c       |  461 ++++
-> >   drivers/gpu/drm/nouveau/nouveau_sched.h       |  123 +
-> >   drivers/gpu/drm/nouveau/nouveau_svm.c         |    2 +-
-> >   drivers/gpu/drm/nouveau/nouveau_uvmm.c        | 1979 ++++++++++++++++=
+This patch therefore stops short of marking the feature as deprecated.
+I've also revised the language to focus on better explaining the feature
+and what its alternatives are.
+
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+
+v3: fixed ioctl name, and more updates to address Luca's comments
+v2: updated two paragraphs of fsverity.rst to address Luca's comments
+
+ Documentation/filesystems/fsverity.rst | 192 ++++++++++++++++---------
+ fs/verity/Kconfig                      |  16 +--
+ fs/verity/enable.c                     |   2 +-
+ fs/verity/open.c                       |   8 +-
+ fs/verity/read_metadata.c              |   4 +-
+ fs/verity/signature.c                  |   8 ++
+ 6 files changed, 149 insertions(+), 81 deletions(-)
+
+diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
+index ede672dedf110..cb845e8e54353 100644
+--- a/Documentation/filesystems/fsverity.rst
++++ b/Documentation/filesystems/fsverity.rst
+@@ -38,20 +38,14 @@ fail at runtime.
+ Use cases
+ =========
+ 
+-By itself, the base fs-verity feature only provides integrity
+-protection, i.e. detection of accidental (non-malicious) corruption.
++By itself, fs-verity only provides integrity protection, i.e.
++detection of accidental (non-malicious) corruption.
+ 
+ However, because fs-verity makes retrieving the file hash extremely
+ efficient, it's primarily meant to be used as a tool to support
+ authentication (detection of malicious modifications) or auditing
+ (logging file hashes before use).
+ 
+-Trusted userspace code (e.g. operating system code running on a
+-read-only partition that is itself authenticated by dm-verity) can
+-authenticate the contents of an fs-verity file by using the
+-`FS_IOC_MEASURE_VERITY`_ ioctl to retrieve its hash, then verifying a
+-digital signature of it.
+-
+ A standard file hash could be used instead of fs-verity.  However,
+ this is inefficient if the file is large and only a small portion may
+ be accessed.  This is often the case for Android application package
+@@ -69,24 +63,31 @@ still be used on read-only filesystems.  fs-verity is for files that
+ must live on a read-write filesystem because they are independently
+ updated and potentially user-installed, so dm-verity cannot be used.
+ 
+-The base fs-verity feature is a hashing mechanism only; actually
+-authenticating the files may be done by:
+-
+-* Userspace-only
+-
+-* Builtin signature verification + userspace policy
+-
+-  fs-verity optionally supports a simple signature verification
+-  mechanism where users can configure the kernel to require that
+-  all fs-verity files be signed by a key loaded into a keyring;
+-  see `Built-in signature verification`_.
+-
+-* Integrity Measurement Architecture (IMA)
+-
+-  IMA supports including fs-verity file digests and signatures in the
+-  IMA measurement list and verifying fs-verity based file signatures
+-  stored as security.ima xattrs, based on policy.
+-
++fs-verity does not mandate a particular scheme for authenticating its
++file hashes.  (Similarly, dm-verity does not mandate a particular
++scheme for authenticating its block device root hashes.)  Options for
++authenticating fs-verity file hashes include:
 +
-> >   drivers/gpu/drm/nouveau/nouveau_uvmm.h        |  107 +
-> >   drivers/gpu/drm/nouveau/nouveau_vmm.c         |    4 +-
-> >   drivers/gpu/drm/nouveau/nvif/vmm.c            |  100 +-
-> >   .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  213 +-
-> >   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c |  197 +-
-> >   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   25 +
-> >   .../drm/nouveau/nvkm/subdev/mmu/vmmgf100.c    |   16 +-
-> >   .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   16 +-
-> >   .../gpu/drm/nouveau/nvkm/subdev/mmu/vmmnv50.c |   27 +-
-> >   include/drm/drm_debugfs.h                     |   25 +
-> >   include/drm/drm_drv.h                         |    6 +
-> >   include/drm/drm_exec.h                        |  119 +
-> >   include/drm/drm_gem.h                         |   52 +
-> >   include/drm/drm_gpuva_mgr.h                   |  682 ++++++
-> >   include/linux/maple_tree.h                    |    7 +-
-> >   include/uapi/drm/nouveau_drm.h                |  209 ++
-> >   51 files changed, 7566 insertions(+), 242 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/drm_exec.c
-> >   create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
-> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.c
-> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.h
-> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.c
-> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.h
-> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.h
-> >   create mode 100644 include/drm/drm_exec.h
-> >   create mode 100644 include/drm/drm_gpuva_mgr.h
-> >
-> >
-> > base-commit: 2222dcb0775d36de28992f56455ab3967b30d380
->
++- Trusted userspace code.  Often, the userspace code that accesses
++  files can be trusted to authenticate them.  Consider e.g. an
++  application that wants to authenticate data files before using them,
++  or an application loader that is part of the operating system (which
++  is already authenticated in a different way, such as by being loaded
++  from a read-only partition that uses dm-verity) and that wants to
++  authenticate applications before loading them.  In these cases, this
++  trusted userspace code can authenticate a file's contents by
++  retrieving its fs-verity digest using `FS_IOC_MEASURE_VERITY`_, then
++  verifying a signature of it using any userspace cryptographic
++  library that supports digital signatures.
++
++- Integrity Measurement Architecture (IMA).  IMA supports fs-verity
++  file digests as an alternative to its traditional full file digests.
++  "IMA appraisal" enforces that files contain a valid, matching
++  signature in their "security.ima" extended attribute, as controlled
++  by the IMA policy.  For more information, see the IMA documentation.
++
++- Trusted userspace code in combination with `Built-in signature
++  verification`_.  This approach should be used only with great care.
+ 
+ User API
+ ========
+@@ -111,8 +112,7 @@ follows::
+     };
+ 
+ This structure contains the parameters of the Merkle tree to build for
+-the file, and optionally contains a signature.  It must be initialized
+-as follows:
++the file.  It must be initialized as follows:
+ 
+ - ``version`` must be 1.
+ - ``hash_algorithm`` must be the identifier for the hash algorithm to
+@@ -129,12 +129,14 @@ as follows:
+   file or device.  Currently the maximum salt size is 32 bytes.
+ - ``salt_ptr`` is the pointer to the salt, or NULL if no salt is
+   provided.
+-- ``sig_size`` is the size of the signature in bytes, or 0 if no
+-  signature is provided.  Currently the signature is (somewhat
+-  arbitrarily) limited to 16128 bytes.  See `Built-in signature
+-  verification`_ for more information.
+-- ``sig_ptr``  is the pointer to the signature, or NULL if no
+-  signature is provided.
++- ``sig_size`` is the size of the builtin signature in bytes, or 0 if no
++  builtin signature is provided.  Currently the builtin signature is
++  (somewhat arbitrarily) limited to 16128 bytes.
++- ``sig_ptr``  is the pointer to the builtin signature, or NULL if no
++  builtin signature is provided.  A builtin signature is only needed
++  if the `Built-in signature verification`_ feature is being used.  It
++  is not needed for IMA appraisal, and it is not needed if the file
++  signature is being handled entirely in userspace.
+ - All reserved fields must be zeroed.
+ 
+ FS_IOC_ENABLE_VERITY causes the filesystem to build a Merkle tree for
+@@ -158,7 +160,7 @@ fatal signal), no changes are made to the file.
+ FS_IOC_ENABLE_VERITY can fail with the following errors:
+ 
+ - ``EACCES``: the process does not have write access to the file
+-- ``EBADMSG``: the signature is malformed
++- ``EBADMSG``: the builtin signature is malformed
+ - ``EBUSY``: this ioctl is already running on the file
+ - ``EEXIST``: the file already has verity enabled
+ - ``EFAULT``: the caller provided inaccessible memory
+@@ -168,10 +170,10 @@ FS_IOC_ENABLE_VERITY can fail with the following errors:
+   reserved bits are set; or the file descriptor refers to neither a
+   regular file nor a directory.
+ - ``EISDIR``: the file descriptor refers to a directory
+-- ``EKEYREJECTED``: the signature doesn't match the file
+-- ``EMSGSIZE``: the salt or signature is too long
+-- ``ENOKEY``: the fs-verity keyring doesn't contain the certificate
+-  needed to verify the signature
++- ``EKEYREJECTED``: the builtin signature doesn't match the file
++- ``EMSGSIZE``: the salt or builtin signature is too long
++- ``ENOKEY``: the ".fs-verity" keyring doesn't contain the certificate
++  needed to verify the builtin signature
+ - ``ENOPKG``: fs-verity recognizes the hash algorithm, but it's not
+   available in the kernel's crypto API as currently configured (e.g.
+   for SHA-512, missing CONFIG_CRYPTO_SHA512).
+@@ -180,8 +182,8 @@ FS_IOC_ENABLE_VERITY can fail with the following errors:
+   support; or the filesystem superblock has not had the 'verity'
+   feature enabled on it; or the filesystem does not support fs-verity
+   on this file.  (See `Filesystem support`_.)
+-- ``EPERM``: the file is append-only; or, a signature is required and
+-  one was not provided.
++- ``EPERM``: the file is append-only; or, a builtin signature is
++  required and one was not provided.
+ - ``EROFS``: the filesystem is read-only
+ - ``ETXTBSY``: someone has the file open for writing.  This can be the
+   caller's file descriptor, another open file descriptor, or the file
+@@ -270,9 +272,9 @@ This ioctl takes in a pointer to the following structure::
+ - ``FS_VERITY_METADATA_TYPE_DESCRIPTOR`` reads the fs-verity
+   descriptor.  See `fs-verity descriptor`_.
+ 
+-- ``FS_VERITY_METADATA_TYPE_SIGNATURE`` reads the signature which was
+-  passed to FS_IOC_ENABLE_VERITY, if any.  See `Built-in signature
+-  verification`_.
++- ``FS_VERITY_METADATA_TYPE_SIGNATURE`` reads the builtin signature
++  which was passed to FS_IOC_ENABLE_VERITY, if any.  See `Built-in
++  signature verification`_.
+ 
+ The semantics are similar to those of ``pread()``.  ``offset``
+ specifies the offset in bytes into the metadata item to read from, and
+@@ -299,7 +301,7 @@ FS_IOC_READ_VERITY_METADATA can fail with the following errors:
+   overflowed
+ - ``ENODATA``: the file is not a verity file, or
+   FS_VERITY_METADATA_TYPE_SIGNATURE was requested but the file doesn't
+-  have a built-in signature
++  have a builtin signature
+ - ``ENOTTY``: this type of filesystem does not implement fs-verity, or
+   this ioctl is not yet implemented on it
+ - ``EOPNOTSUPP``: the kernel was not configured with fs-verity
+@@ -347,8 +349,8 @@ non-verity one, with the following exceptions:
+   with EIO (for read()) or SIGBUS (for mmap() reads).
+ 
+ - If the sysctl "fs.verity.require_signatures" is set to 1 and the
+-  file is not signed by a key in the fs-verity keyring, then opening
+-  the file will fail.  See `Built-in signature verification`_.
++  file is not signed by a key in the ".fs-verity" keyring, then
++  opening the file will fail.  See `Built-in signature verification`_.
+ 
+ Direct access to the Merkle tree is not supported.  Therefore, if a
+ verity file is copied, or is backed up and restored, then it will lose
+@@ -433,20 +435,25 @@ root hash as well as other fields such as the file size::
+ Built-in signature verification
+ ===============================
+ 
+-With CONFIG_FS_VERITY_BUILTIN_SIGNATURES=y, fs-verity supports putting
+-a portion of an authentication policy (see `Use cases`_) in the
+-kernel.  Specifically, it adds support for:
++CONFIG_FS_VERITY_BUILTIN_SIGNATURES=y adds supports for in-kernel
++verification of fs-verity builtin signatures.
++
++**IMPORTANT**!  Please take great care before using this feature.
++It is not the only way to do signatures with fs-verity, and the
++alternatives (such as userspace signature verification, and IMA
++appraisal) can be much better.  It's also easy to fall into a trap
++of thinking this feature solves more problems than it actually does.
++
++Enabling this option adds the following:
+ 
+-1. At fs-verity module initialization time, a keyring ".fs-verity" is
+-   created.  The root user can add trusted X.509 certificates to this
+-   keyring using the add_key() system call, then (when done)
+-   optionally use keyctl_restrict_keyring() to prevent additional
+-   certificates from being added.
++1. At boot time, the kernel creates a keyring named ".fs-verity".  The
++   root user can add trusted X.509 certificates to this keyring using
++   the add_key() system call.
+ 
+ 2. `FS_IOC_ENABLE_VERITY`_ accepts a pointer to a PKCS#7 formatted
+    detached signature in DER format of the file's fs-verity digest.
+-   On success, this signature is persisted alongside the Merkle tree.
+-   Then, any time the file is opened, the kernel will verify the
++   On success, the ioctl persists the signature alongside the Merkle
++   tree.  Then, any time the file is opened, the kernel verifies the
+    file's actual digest against this signature, using the certificates
+    in the ".fs-verity" keyring.
+ 
+@@ -454,8 +461,8 @@ kernel.  Specifically, it adds support for:
+    When set to 1, the kernel requires that all verity files have a
+    correctly signed digest as described in (2).
+ 
+-fs-verity file digests must be signed in the following format, which
+-is similar to the structure used by `FS_IOC_MEASURE_VERITY`_::
++The data that the signature as described in (2) must be a signature of
++is the fs-verity file digest in the following format::
+ 
+     struct fsverity_formatted_digest {
+             char magic[8];                  /* must be "FSVerity" */
+@@ -464,13 +471,66 @@ is similar to the structure used by `FS_IOC_MEASURE_VERITY`_::
+             __u8 digest[];
+     };
+ 
+-fs-verity's built-in signature verification support is meant as a
+-relatively simple mechanism that can be used to provide some level of
+-authenticity protection for verity files, as an alternative to doing
+-the signature verification in userspace or using IMA-appraisal.
+-However, with this mechanism, userspace programs still need to check
+-that the verity bit is set, and there is no protection against verity
+-files being swapped around.
++That's it.  It should be emphasized again that fs-verity builtin
++signatures are not the only way to do signatures with fs-verity.  See
++`Use cases`_ for an overview of ways in which fs-verity can be used.
++fs-verity builtin signatures have some major limitations that should
++be carefully considered before using them:
++
++- Builtin signature verification does *not* make the kernel enforce
++  that any files actually have fs-verity enabled.  Thus, it is not a
++  complete authentication policy.  Currently, if it is used, the only
++  way to complete the authentication policy is for trusted userspace
++  code to explicitly check whether files have fs-verity enabled with a
++  signature before they are accessed.  (With
++  fs.verity.require_signatures=1, just checking whether fs-verity is
++  enabled suffices.)  But, in this case the trusted userspace code
++  could just store the signature alongside the file and verify it
++  itself using a cryptographic library, instead of using this feature.
++
++- A file's builtin signature can only be set at the same time that
++  fs-verity is being enabled on the file.  Changing or deleting the
++  builtin signature later requires re-creating the file.
++
++- Builtin signature verification uses the same set of public keys for
++  all fs-verity enabled files on the system.  Different keys cannot be
++  trusted for different files; each key is all or nothing.
++
++- The sysctl fs.verity.require_signatures applies system-wide.
++  Setting it to 1 only works when all users of fs-verity on the system
++  agree that it should be set to 1.  This limitation can prevent
++  fs-verity from being used in cases where it would be helpful.
++
++- Builtin signature verification can only use signature algorithms
++  that are supported by the kernel.  For example, the kernel does not
++  yet support Ed25519, even though this is often the signature
++  algorithm that is recommended for new cryptographic designs.
++
++- fs-verity builtin signatures are in PKCS#7 format, and the public
++  keys are in X.509 format.  These formats are commonly used,
++  including by some other kernel features (which is why the fs-verity
++  builtin signatures use them), and are very feature rich.
++  Unfortunately, history has shown that code that parses and handles
++  these formats (which are from the 1990s and are based on ASN.1)
++  often has vulnerabilities as a result of their complexity.  This
++  complexity is not inherent to the cryptography itself.
++
++  fs-verity users who do not need advanced features of X.509 and
++  PKCS#7 should strongly consider using simpler formats, such as plain
++  Ed25519 keys and signatures, and verifying signatures in userspace.
++
++  fs-verity users who choose to use X.509 and PKCS#7 anyway should
++  still consider that verifying those signatures in userspace is more
++  flexible (for other reasons mentioned earlier in this document) and
++  eliminates the need to enable CONFIG_FS_VERITY_BUILTIN_SIGNATURES
++  and its associated increase in kernel attack surface.  In some cases
++  it can even be necessary, since advanced X.509 and PKCS#7 features
++  do not always work as intended with the kernel.  For example, the
++  kernel does not check X.509 certificate validity times.
++
++  Note: IMA appraisal, which supports fs-verity, does not use PKCS#7
++  for its signatures, so it partially avoids the issues discussed
++  here.  IMA appraisal does use X.509.
+ 
+ Filesystem support
+ ==================
+diff --git a/fs/verity/Kconfig b/fs/verity/Kconfig
+index a7ffd718f1719..e1036e5353521 100644
+--- a/fs/verity/Kconfig
++++ b/fs/verity/Kconfig
+@@ -39,14 +39,14 @@ config FS_VERITY_BUILTIN_SIGNATURES
+ 	depends on FS_VERITY
+ 	select SYSTEM_DATA_VERIFICATION
+ 	help
+-	  Support verifying signatures of verity files against the X.509
+-	  certificates that have been loaded into the ".fs-verity"
+-	  kernel keyring.
++	  This option adds support for in-kernel verification of
++	  fs-verity builtin signatures.
+ 
+-	  This is meant as a relatively simple mechanism that can be
+-	  used to provide an authenticity guarantee for verity files, as
+-	  an alternative to IMA appraisal.  Userspace programs still
+-	  need to check that the verity bit is set in order to get an
+-	  authenticity guarantee.
++	  Please take great care before using this feature.  It is not
++	  the only way to do signatures with fs-verity, and the
++	  alternatives (such as userspace signature verification, and
++	  IMA appraisal) can be much better.  For details about the
++	  limitations of this feature, see
++	  Documentation/filesystems/fsverity.rst.
+ 
+ 	  If unsure, say N.
+diff --git a/fs/verity/enable.c b/fs/verity/enable.c
+index bd86b25ac084b..c284f46d1b535 100644
+--- a/fs/verity/enable.c
++++ b/fs/verity/enable.c
+@@ -208,7 +208,7 @@ static int enable_verity(struct file *filp,
+ 	}
+ 	desc->salt_size = arg->salt_size;
+ 
+-	/* Get the signature if the user provided one */
++	/* Get the builtin signature if the user provided one */
+ 	if (arg->sig_size &&
+ 	    copy_from_user(desc->signature, u64_to_user_ptr(arg->sig_ptr),
+ 			   arg->sig_size)) {
+diff --git a/fs/verity/open.c b/fs/verity/open.c
+index f0383bef86eaa..1db5106a9c385 100644
+--- a/fs/verity/open.c
++++ b/fs/verity/open.c
+@@ -156,7 +156,7 @@ int fsverity_init_merkle_tree_params(struct merkle_tree_params *params,
+ 
+ /*
+  * Compute the file digest by hashing the fsverity_descriptor excluding the
+- * signature and with the sig_size field set to 0.
++ * builtin signature and with the sig_size field set to 0.
+  */
+ static int compute_file_digest(const struct fsverity_hash_alg *hash_alg,
+ 			       struct fsverity_descriptor *desc,
+@@ -174,7 +174,7 @@ static int compute_file_digest(const struct fsverity_hash_alg *hash_alg,
+ 
+ /*
+  * Create a new fsverity_info from the given fsverity_descriptor (with optional
+- * appended signature), and check the signature if present.  The
++ * appended builtin signature), and check the signature if present.  The
+  * fsverity_descriptor must have already undergone basic validation.
+  */
+ struct fsverity_info *fsverity_create_info(const struct inode *inode,
+@@ -319,8 +319,8 @@ static bool validate_fsverity_descriptor(struct inode *inode,
+ }
+ 
+ /*
+- * Read the inode's fsverity_descriptor (with optional appended signature) from
+- * the filesystem, and do basic validation of it.
++ * Read the inode's fsverity_descriptor (with optional appended builtin
++ * signature) from the filesystem, and do basic validation of it.
+  */
+ int fsverity_get_descriptor(struct inode *inode,
+ 			    struct fsverity_descriptor **desc_ret)
+diff --git a/fs/verity/read_metadata.c b/fs/verity/read_metadata.c
+index 2aefc5565152a..f58432772d9ea 100644
+--- a/fs/verity/read_metadata.c
++++ b/fs/verity/read_metadata.c
+@@ -105,7 +105,7 @@ static int fsverity_read_descriptor(struct inode *inode,
+ 	if (res)
+ 		return res;
+ 
+-	/* don't include the signature */
++	/* don't include the builtin signature */
+ 	desc_size = offsetof(struct fsverity_descriptor, signature);
+ 	desc->sig_size = 0;
+ 
+@@ -131,7 +131,7 @@ static int fsverity_read_signature(struct inode *inode,
+ 	}
+ 
+ 	/*
+-	 * Include only the signature.  Note that fsverity_get_descriptor()
++	 * Include only the builtin signature.  fsverity_get_descriptor()
+ 	 * already verified that sig_size is in-bounds.
+ 	 */
+ 	res = fsverity_read_buffer(buf, offset, length, desc->signature,
+diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+index b8c51ad40d3a3..72034bc71c9d9 100644
+--- a/fs/verity/signature.c
++++ b/fs/verity/signature.c
+@@ -5,6 +5,14 @@
+  * Copyright 2019 Google LLC
+  */
+ 
++/*
++ * This file implements verification of fs-verity builtin signatures.  Please
++ * take great care before using this feature.  It is not the only way to do
++ * signatures with fs-verity, and the alternatives (such as userspace signature
++ * verification, and IMA appraisal) can be much better.  For details about the
++ * limitations of this feature, see Documentation/filesystems/fsverity.rst.
++ */
++
+ #include "fsverity_private.h"
+ 
+ #include <linux/cred.h>
+
+base-commit: 74836ecbc5c7565d24a770917644e96af3e98d25
+-- 
+2.41.0
+
