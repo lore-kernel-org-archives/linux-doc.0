@@ -2,133 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17010EB64D8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 12:59:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88246EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 13:00:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232051AbjFTM7X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 08:59:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40500 "EHLO
+        id S232428AbjFTNAR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 09:00:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231211AbjFTM7W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 08:59:22 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAF2810FF;
-        Tue, 20 Jun 2023 05:59:20 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-7624e8ceef7so346133885a.2;
-        Tue, 20 Jun 2023 05:59:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687265960; x=1689857960;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4RvNVFujZzQ9FH/nRDQhxgK8HOnuVe0ilksjI7/FigQ=;
-        b=V7CBqsvwa7HO9941Gx9rU48fbSNnkTARJq3hU0s4FJKqNq7uyQJvuWMi48BFYirjd9
-         Z+CSYTenkWtjPExrbuK55Lr4LajYIvMVcZS1i2H4hkmnnVf92/3eU5+256AdSIU7TTh1
-         xwVepNxy0+wSCXEIn2FLnq5fwolgWObqyrXGJD4a4dArZIDrRTCCQbOXeliLMdRNukOE
-         bfBqEL3D5v18ty2Fda4DTUDINVko/+/f9bRuKWlc9As/MXSXKCsqRSAvjLHgGSN+PYBz
-         OhKP930iRzIK8HICV0ZdtEG/GKM89Wb5av0m6K808diQPwrVMMP/ZUSrK2PjzRbzzuKs
-         Xiqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687265960; x=1689857960;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4RvNVFujZzQ9FH/nRDQhxgK8HOnuVe0ilksjI7/FigQ=;
-        b=TXgc61V4R/4/uHY2QZsPXgAX2Rf37It/aP8tEzZXkexa1Utxq2r8RE3sBLePmzTuoD
-         Dg/24MZVRUWEeB9qLSuWh9TxnBk3C9xAbLBjodnoCNHP4jSZs14NOCFeN5e5O5/OJJyU
-         9GE1yCOApc5CfQJxBmFnXVMD61xCjgHWd9RJT1do3WkwFPH0npMZTU3gKqWofrJdDGgu
-         qXndaATjAJrGxzyM2onxl5nsbdIT81r60FXCvnzC0rq/1EPneitwbOnIpJbj3rrubQw5
-         xJcJHr54Exltplonli1SVVhaeuevVfouQJAGylb1lVkNVADLArf5jY1csDryORRiJq3/
-         w1pg==
-X-Gm-Message-State: AC+VfDw+AvcpB+kzcrU2tO8dary8v4OzIEJ2EVlGXjUryXMHJcwWKhEV
-        ljMDIV+uw0uRJ28AUUbBK2o=
-X-Google-Smtp-Source: ACHHUZ5DO7ilI0HCjRl4Lbeq4UH3F7W+AS3gn0PcL1py6Hb93MUCpM1EgmXOFtEL5TVj5cEqHyVw6w==
-X-Received: by 2002:a05:6214:1306:b0:628:2e08:78b7 with SMTP id pn6-20020a056214130600b006282e0878b7mr5517848qvb.31.1687265959785;
-        Tue, 20 Jun 2023 05:59:19 -0700 (PDT)
-Received: from localhost (172.174.245.35.bc.googleusercontent.com. [35.245.174.172])
-        by smtp.gmail.com with ESMTPSA id m17-20020a0cf191000000b00631ecb1052esm1216204qvl.74.2023.06.20.05.59.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jun 2023 05:59:19 -0700 (PDT)
-Date:   Tue, 20 Jun 2023 08:59:18 -0400
-From:   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To:     David Howells <dhowells@redhat.com>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc:     dhowells@redhat.com, netdev@vger.kernel.org,
-        Alexander Duyck <alexander.duyck@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        David Ahern <dsahern@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        dccp@vger.kernel.org, linux-afs@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-wpan@vger.kernel.org, linux-x25@vger.kernel.org,
-        mptcp@lists.linux.dev, rds-devel@oss.oracle.com,
-        tipc-discussion@lists.sourceforge.net,
-        virtualization@lists.linux-foundation.org
-Message-ID: <6491a2a6f1488_3bcfec294d7@willemb.c.googlers.com.notmuch>
-In-Reply-To: <784658.1687176327@warthog.procyon.org.uk>
-References: <648f36d02fe6e_33cfbc2944f@willemb.c.googlers.com.notmuch>
- <20230617121146.716077-1-dhowells@redhat.com>
- <20230617121146.716077-18-dhowells@redhat.com>
- <784658.1687176327@warthog.procyon.org.uk>
-Subject: Re: [PATCH net-next v2 17/17] net: Kill MSG_SENDPAGE_NOTLAST
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S232447AbjFTNAQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 09:00:16 -0400
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FDA21738;
+        Tue, 20 Jun 2023 06:00:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1687266005;
+        bh=uPYhTQCNXIp5UWDBWeIHL9Rq9QjLp2jnc5crHZrG+NE=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=aaWhHr3TS2n6LlI8awjXE1EMw/lIEH/2cTqxh6LgJUQSwVuQKESZor7UEdsjhEWfD
+         N271fO69C3siNt5phIUkbukWOwLdrqqJQ/vosX+k8ilIeTZ+6irgrmC8ZgstsTr+ZH
+         h2KJ2FcyKZGhl96oJ92/HI2F3igtEfEBOmaUr5hE=
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 796721285D22;
+        Tue, 20 Jun 2023 09:00:05 -0400 (EDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id hu8tV1jzkdA6; Tue, 20 Jun 2023 09:00:05 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1687266004;
+        bh=uPYhTQCNXIp5UWDBWeIHL9Rq9QjLp2jnc5crHZrG+NE=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=kEJyMjUzKWi++WdyCSE7pG8RxCEB9AGp62nJ9PXdIlflzMIqejBI8Ft3CQfvPwIxI
+         5KdXkBLZt8nlXApDwotTcbofK/WY0N54xaG0tz1LzZLEtlLKevNBqaELLWf3P65tpV
+         +vB5iEHs96TwthbhA/Jsji/PWIQG9sR2vLnka66w=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 630301281F03;
+        Tue, 20 Jun 2023 09:00:04 -0400 (EDT)
+Message-ID: <408fd87a40c4957b2a8298e50db465fa2af43755.camel@HansenPartnership.com>
+Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
+ the wider community
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Finn Thain <fthain@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org,
+        tech-board-discuss@lists.linux-foundation.org,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 20 Jun 2023 09:00:00 -0400
+In-Reply-To: <99b5fc04-798d-a235-c001-fb444e78ada9@linux-m68k.org>
+References: <cd1786eadd1ff05d9ca053b72eb5f06ceb0c470d.1687167717.git.fthain@linux-m68k.org>
+         <2023061946-latitude-negligent-e4ae@gregkh>
+         <99b5fc04-798d-a235-c001-fb444e78ada9@linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-David Howells wrote:
-> Willem de Bruijn <willemdebruijn.kernel@gmail.com> wrote:
+On Tue, 2023-06-20 at 13:48 +1000, Finn Thain wrote:
 > 
-> > Is it intentional to add MSG_MORE here in this patch?
+> On Mon, 19 Jun 2023, Greg Kroah-Hartman wrote:
+> 
+> > On Mon, Jun 19, 2023 at 07:41:57PM +1000, Finn Thain wrote:
+> 
+> > > @@ -103,7 +103,6 @@ Level 5
+> > >  
+> > >  * Upstream kernel development is considered a formal job
+> > > position, with
+> > >    at least a third of the engineer’s time spent doing Upstream
+> > > Work.
+> > > -* Organizations will actively seek out community member feedback
+> > > as a
+> > > -  factor in official performance reviews.
 > > 
-> > I do see that patch 3 removes this branch:
+> > Why are you removing this?  I write more performance reviews now
+> > than I have have in my life, all for companies that I do NOT work
+> > for. That's a good thing as it shows these orginizations value the
+> > feedback of the  community as a reflection on how well those
+> > employees are doing at their assigned job.  Why are you removing
+> > that very valid thing?
+> > 
 > 
-> Yeah.  I think I may have tcp_bpf a bit wrong with regard to handling
-> MSG_MORE.
+> I'm not preventing that. That's covered by level 4 and my patch only 
+> alters level 3 and level 5.
 > 
-> How about the attached version of tcp_bpf_push()?
-> 
-> I wonder if it's save to move the setting of MSG_SENDPAGE_NOPOLICY out of the
-> loop as I've done here.  The caller holds the socket lock.
-> 
-> Also, I'm not sure whether to take account of apply/apply_bytes when setting
-> MSG_MORE mid-message, or whether to just go on whether we've reached
-> sge->length yet.  (I'm not sure exactly how tcp_bpf works).
+> Bonuses and salaries are tied to performance reviews so the hazard
+> here are clear. Level 5 compels companies to seek feedback and
+> naturally they will seek it from companies who share their goals. You
+> ask too much of  employees if you expect them to put aside the
+> corporate agendas and pursue the interests of the wider community.
 
-I'm not very familiar with it either.
+Actually, I don't think we are.  Part of the mechanical effects of the
+open source revolution was to empower employees over employers: it's
+the employees who submit the code and are part of the community, not
+the employer.  In many ways employees in Open Source become Ambassadors
+and Agents for their employers.  There's a big drive in Foundation
+driven Corporate Open Source to try to minimize this employee
+empowerement effect, but it's there non the less.  A good open source
+employee recognizes this, often moves employers keeping the same open
+source community roles and tries to find a synergy between corporate
+goals and community ones (the best actually alter the corporate goals
+to effect this).
 
-Instead of inferring whether MSG_MORE is safe to set, as below, sufficient to
-rely on the caller to pass it when appropriate?
+> Countless lawsuits over the last few decades made it abundantly clear
+> that the goals of companies often diverge from those of the wider
+> FLOSS community.
 
-size = min(apply_bytes, sge->length). I doubt that size < apply_bytes is
-ever intended.
+Yes, but with good employee guidance, convergence can be found.  In
+many ways community manager positions at companies are about managing
+the company goals rather than the community ...
 
-And instead of this former branch
+> Consider all of the open source code thrown over the wall, the binary
+> blobs, the binary modules, the built-in obsolescence, the devices
+> shipped with vulnerabilities now reduced to e-waste because they
+> cannot be fixed,  the vendor lock-in strategies, the walled gardens,
+> the surveillance etc.
 
-                if (flags & MSG_SENDPAGE_NOTLAST)
-                        msghdr.msg_flags |= MSG_MORE;
+It's employers' money and time if they want to waste it in this
+fashion.  Unfortunately theoretical education isn't always the answer
+and some entities need a burned hand as a teacher.
 
-update any caller to pass MSG_MORE instead of MSG_SENDPAGE_NOTLAST, if not yet
-done so.
+> To my jaded mind, it is obvious that such reprehensible strategies
+> can be advanced by co-operative employees given inducements from
+> colluding companies. My patch won't prevent this sort of behaviour
+> but it does remove a directive that would help facilitate it.
 
-> 		msghdr.msg_flags = flags;
-> 
-> 		/* Determine if we need to set MSG_MORE. */
-> 		if (!(msghdr.msg_flags & MSG_MORE)) {
-> 			if (apply && size < apply_bytes)
-> 				msghdr.msg_flags |= MSG_MORE;
-> 			else if (!apply && size < sge->length &&
-> 				 msg->sg.start != msg->sg.end)
-> 				msghdr.msg_flags |= MSG_MORE;
-> 		}
+Most things in life can be abused.  When stating something like this
+we're trying to encourage people to listen to their better angels even
+if it risks abuse.
+
+
+James
