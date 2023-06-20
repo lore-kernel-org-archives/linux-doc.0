@@ -2,64 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 063F3EB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 12:01:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7683EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 12:07:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232238AbjFTMBO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 08:01:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42016 "EHLO
+        id S232238AbjFTMHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 08:07:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231144AbjFTMBN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 08:01:13 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732EBE71
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 05:01:11 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4f86bc35f13so3589800e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 05:01:11 -0700 (PDT)
+        with ESMTP id S232144AbjFTMG5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 08:06:57 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9C91B7
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 05:06:55 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4f87592ecaeso2368588e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 05:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687262465; x=1689854465;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687262814; x=1689854814;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rFWQUb8YUAaWCnl1hQyep9GnOaoIB00JbWZuEOfrn1I=;
-        b=ANe57mwHgrzuH3cCHjRIzRBAPUm5J5bTPcEqUYFT3Q6gJHqWjBUV3DvGxCpEsBodda
-         2wHTFWlvV1wBHSCb5z+c+Lk0c2TjQchh548KB/0Ayio3nSx0fkiPBByA8bh6v3eBedmu
-         FLJdy8x3AeaDbZ2YDMVc/xwKtpErXSQmitVGTMtQdp8os8ffBogcw1w9RrnqcIna4aRP
-         7G9i1sv8lO4liOmiimWydz5G+pON4GIwLEC7q5TQfK0YlX63l7LYgLTu2i4JPFFZIYjx
-         cHGKvtgDS6oNLJCgyh3MTTTezmEr1InlYb6AvaEDOzR3aHjbARiPtm+yBFnTagPQWTV3
-         lClg==
+        bh=VLydGTIWW1L6p8nWmxO80K1g2yQP3Od4h4FMa6lJY3M=;
+        b=frhjQU6RFgXYzCkJcSmQ3d70Ob91iOSuMtk04T99p56QxQJ/VqciaRherElT7Ne/Pd
+         c61vwvkpTg62LzftNkeh1kXPeS3nIJZChl+w1N2XzafO7iKdHK3+Fns0k7lfDxfmeahg
+         TAF8GCKQPsiKuaVK5KXSFThX05ZkqebVyW5yqv/1EiUgUFl2Qmy3y3TnEk4dF/0R3WAh
+         sd7+E7/N6dAa11YoaSp8F+Eu7KiLgdqHe6k+dD7xHA8zD+opJLKNd5U9cAyAepoKJQMr
+         U4VHKqie1BZO5uH4Zb2qlfjvQ1LckAANb933XfYghiNfVz2BJc5e88XTsCbxArYbrJhI
+         n39Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687262465; x=1689854465;
+        d=1e100.net; s=20221208; t=1687262814; x=1689854814;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rFWQUb8YUAaWCnl1hQyep9GnOaoIB00JbWZuEOfrn1I=;
-        b=DgpcpxldR2GJiHk5izKawFaqjdeD8AS7CJCg+mydn5ufBOz2EhElyjmjliHFNLpz9l
-         yzOnA+xC9fpJ8DgvwIWe3pFBOKz5SJ2YMtA6tmRmuvnkZf9uK7m932rbKBwMXOMJ7lPW
-         gjo57qrax5Uqa/X4Nix7C8YUBEwUWNK6TT7kUIzV/zpE8yRZeiPeUURmQsU0SBDNrZzn
-         i5bjsDQce22luzEc3s6bp/VYIVKpYkys9S8qVe51aiCGw7BBlDSLnRfej0bHMb69rECg
-         9qHh2q45pWp8RJFqhjHtUEsnih8EpzMuPNQnGN846i1E2quEHsmGqO+kims7UdD0psk+
-         B6Hw==
-X-Gm-Message-State: AC+VfDyWRWWRRRagW2/WFHYBwc1Q+0j0j8+au7bo6dGT0LU23imSt5Rn
-        edhD2cYqerVwVZqn2IqTxqMWugDosDiHL5r6VMNPiA==
-X-Google-Smtp-Source: ACHHUZ6m6qAlPWlbn9FLMThfoWnqCrtX0nqoNL5PEOBMk2hqwmsq1Z24uhQOSAsNLMVTOrUGPwCAcWtO7SkZulDfBYw=
-X-Received: by 2002:a05:6512:3290:b0:4f7:5f9e:fc59 with SMTP id
- p16-20020a056512329000b004f75f9efc59mr6842825lfe.39.1687262464918; Tue, 20
- Jun 2023 05:01:04 -0700 (PDT)
+        bh=VLydGTIWW1L6p8nWmxO80K1g2yQP3Od4h4FMa6lJY3M=;
+        b=eo1G25SqEyzalKrzFNn6SJIFAAN5rGuFz6RYLW51Q/OXhCC3eiAgjJ0B93zkeAYXH4
+         edDDe7OJev6FhIc0ppXXKG9TmNd9sugYQ/f0K1/8EajuVgbUP/7w02hEvet2HmjhHqjk
+         waLDsKHqRb2lEVsXhe8dGNdpcnQCA05tf87MrQaggqDQTOFHjSOmG7ApYVa8MHq7GL0j
+         8yNqof+gDbKOv2wmHZPplunVKpar8ExmBjGNvR4xSxyKaXkCO/APKinm+C35NfffTqP7
+         cpv1C9W+/2wdx6RvH2hXPZGRSpOtJtRn8KVXVgGMJLjsQrOBs0cFr2anKGdJ1DxcVjJg
+         AsPg==
+X-Gm-Message-State: AC+VfDysIoPFte/np62ty4sBrZAZuQunwgDqZk2TnmVKszCHbz3hxQXc
+        oWgZ55PQFR9padA+CV3ww9a0JwvE8lvJxiECAVsdgQ==
+X-Google-Smtp-Source: ACHHUZ52j+KulP8+OQ3GMSobwdYytSflKlEVT8LhbO4JDHFvwvrmjO21e7ScGU5nx3XM4yVN6rZLExvwfWNnE0rmSoI=
+X-Received: by 2002:a19:791d:0:b0:4f8:6f40:4773 with SMTP id
+ u29-20020a19791d000000b004f86f404773mr3070743lfc.7.1687262813819; Tue, 20 Jun
+ 2023 05:06:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230619094705.51337-1-alexghiti@rivosinc.com>
- <20230619-kerchief-unmixed-cfdbeb1cf242@wendy> <CAHVXubjV=0HNyc0-UMAQRQfi4ZUnwH8dmghV-BGogZsJiumtZA@mail.gmail.com>
- <20230619-sponge-armful-6beeaf4a8624@spud> <CAHVXubjHpdRpgrywwm1UTxwV99uCYOp9qhKBui9Ghff65yGmsQ@mail.gmail.com>
- <20230620-limes-glaring-4831955f7250@wendy>
-In-Reply-To: <20230620-limes-glaring-4831955f7250@wendy>
+References: <20230619094705.51337-1-alexghiti@rivosinc.com> <6B5FC5C805CA568D+43d4ca18-deca-8d1a-394f-0cf69509ca53@tinylab.org>
+In-Reply-To: <6B5FC5C805CA568D+43d4ca18-deca-8d1a-394f-0cf69509ca53@tinylab.org>
 From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-Date:   Tue, 20 Jun 2023 14:00:53 +0200
-Message-ID: <CAHVXubgaJ7m88_nh-pNrNGPG43P18Qv+6DmGJ6Gcb2DORJxqAA@mail.gmail.com>
+Date:   Tue, 20 Jun 2023 14:06:43 +0200
+Message-ID: <CAHVXubiEvLFnQMWsUomoG3FJhQNGqoXC41dWDuGhXcUdCnL2ZQ@mail.gmail.com>
 Subject: Re: [PATCH 1/2] Documentation: riscv: Add early boot document
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     Conor Dooley <conor@kernel.org>,
-        Atish Kumar Patra <atishp@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     Song Shuai <songshuaishuai@tinylab.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
@@ -70,190 +65,325 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 20, 2023 at 12:33=E2=80=AFPM Conor Dooley
-<conor.dooley@microchip.com> wrote:
+On Tue, Jun 20, 2023 at 12:32=E2=80=AFPM Song Shuai <songshuaishuai@tinylab=
+.org> wrote:
 >
-> On Tue, Jun 20, 2023 at 11:09:47AM +0200, Alexandre Ghiti wrote:
-> > On Mon, Jun 19, 2023 at 6:00=E2=80=AFPM Conor Dooley <conor@kernel.org>=
- wrote:
-> > > On Mon, Jun 19, 2023 at 04:04:52PM +0200, Alexandre Ghiti wrote:
-> > > > On Mon, Jun 19, 2023 at 2:26=E2=80=AFPM Conor Dooley <conor.dooley@=
-microchip.com> wrote:
-> > > > > On Mon, Jun 19, 2023 at 11:47:04AM +0200, Alexandre Ghiti wrote:
 >
-> > > > > > +Bootflow
-> > > > >
-> > > > > "Boot Flow", no?
-> > > > > I am not sure that this is the "correct" heading for the content =
-it
-> > > > > describes, but I have nothing better to offer :/
-> > > >
-> > > > Yes you're right, what about simply "Kernel Entrance"? Not sure thi=
-s
-> > > > is easily understandable though.
-> > >
-> > > "Non-boot Hart Initialisation"?
+>
+> =E5=9C=A8 2023/6/19 17:47, Alexandre Ghiti =E5=86=99=E9=81=93:
+> > This document describes the constraints and requirements of the early
+> > boot process in a RISC-V kernel.
 > >
-> > Hmmm not that great either (sorry for being direct here)
->
-> lol, no need to apologise.
->
-> > > > > > +There exist 2 methods to enter the kernel:
-> > > > > > +
-> > > > > > +- `RISCV_BOOT_SPINWAIT`: the firmware releases all harts in th=
-e kernel, one hart
-> > > > > > +  wins a lottery and executes the early boot code while the ot=
-her harts are
-> > > > > > +  parked waiting for the initialization to finish. This method=
- is now
-> > > > >
-> > > > > nit: s/now//
-> > > >
-> > > > Ok
-> > > >
-> > > > >
-> > > > > What do you mean by deprecated? There's no requirement to impleme=
-nt the
-> > > > > HSM extension, right?
-> > > >
-> > > > I would say yes, you have to use a recent version of openSBI that
-> > > > supports the HSM extension. @Atish Kumar Patra WDYT?
-> > >
-> > > Uh, you don't need to use OpenSBI in the first place, let alone use a
-> > > recent version of it, right? What am I missing?
+> > Szigned-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > ---
+> >   Documentation/riscv/boot-image-header.rst |   3 -
+> >   Documentation/riscv/boot.rst              | 181 +++++++++++++++++++++=
++
+> >   Documentation/riscv/index.rst             |   1 +
+> >   3 files changed, 182 insertions(+), 3 deletions(-)
+> >   create mode 100644 Documentation/riscv/boot.rst
 > >
-> > You need a M-Mode firmware which follows the SBI specification and
-> > that implements the HSM extension.
->
-> Firstly, and maybe I am showing my ignorance here, but we do support
-> m-mode in Linux, and SMP is not disabled for m-mode kernels where it is
-> required to use the spinwait method.
-
-You're right.
-
-> Secondly, I don't think that we've actually noted that non-HSM booting
-> is deprecated before now - at least not somewhere obviously. Things like
-> the platform spec on github might require it & it may be deprecated in
-> SBI implementations etc, but in the Kconfig option it is not described
-> as deprecated. The Kconfig option only says that it "should be only
-> enabled for M-mode Linux or platforms relying on older firmware without
-> SBI HSM extension".
-> I think marking it as deprecated here is not accurate, and instead we
-> would be better off pointing out what the limitations of the method are
-> and noting the limited situations when it should be used.
-
-You're right again, before this is officially deprecated, I'll point
-out the limitations of this method only as follows:
-
-Kernel entrance
----------------
-
-On SMP systems, there are 2 methods to enter the kernel:
-
-- `RISCV_BOOT_SPINWAIT`: the firmware releases all harts in the kernel, one=
- hart
-  wins a lottery and executes the early boot code while the other
-harts are
-  parked waiting for the initialization to finish. This method is mostly us=
-ed to
-  support older firmwares without SBI HSM extension and M-mode RISC-V
-kernel.
-- `Ordered booting`: the firmware releases only one hart that will
-execute the
-  initialization phase and then will start all other harts using the SBI HS=
-M
-  extension. The ordered booting method is the preferred booting
-method for
-  booting the RISC-V kernel because it can support cpu hotplug and kexec.
-
->
-> > > Also, what about !SMP systems? Although my suggested new section titl=
-e
-> > > kinda addresses that!
+> > diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/=
+riscv/boot-image-header.rst
+> > index d7752533865f..a4a45310c4c4 100644
+> > --- a/Documentation/riscv/boot-image-header.rst
+> > +++ b/Documentation/riscv/boot-image-header.rst
+> > @@ -7,9 +7,6 @@ Boot image header in RISC-V Linux
 > >
-> > I'll add "On SMP systems, there exist 2 methods to enter the
->
-> nit: s/exist/are/
->
-> > kernel:....", I don't think we need to detail the !SMP case as it is
-> > obvious.
->
-> That's fine. Maybe I am just a pedant, but I think it is good to be a
-> bit over precise.
->
-> > > > > > +  **deprecated**.
-> > > > > > +- Ordered booting: the firmware releases only one hart that wi=
-ll execute the
-> > > > > > +  initialization phase and then will start all other harts usi=
-ng the SBI HSM
-> > > > > > +  extension.
->
-> > > > > > +---------------------
-> > > > > > +
-> > > > > > +The installation of the virtual mapping is done in 2 steps in =
-the RISC-V kernel:
-> > > > > > +
-> > > > > > +1. :c:func:`setup_vm` installs a temporary kernel mapping in
-> > > > > > +   :c:var:`early_pg_dir` which allows to discover the system m=
-emory: only the
-> > > > >
-> > > > > s/to discover/discovery of/
-> > > >
-> > > > You mean "the discovery of" right?
-> > >
-> > > No? The "the" there would not be required.
+> >   This document only describes the boot image header details for RISC-V=
+ Linux.
 > >
-> > That was a genuine question, thanks
->
-> Sorry if the "No?" came across as aggressive, I meant it inquisitively.
-> Adding the "the" changes the meaning slightly, but not in a way that
-> that is relevant here.
-
-No worries :)
-
->
-> > > > > > +Pre-MMU execution
-> > > > > > +-----------------
-> > > > > > +
-> > > > > > +Any code that executes before even the first virtual mapping i=
-s established
-> > > > > > +must be very carefully compiled as:
-> > > > >
-> > > > > Could you point out what the non-obvious examples of this code ar=
-e?
-> > > >
-> > > > I can do a list, yes
-> > >
-> > > Not even a list, just something like "...established, for example ear=
-ly
-> > > alternatives and foo, must be very..."
+> > -TODO:
+> > -  Write a complete booting guide.
+> > -
+> >   The following 64-byte header is present in decompressed Linux kernel =
+image::
 > >
-> > Done as follows:
+> >       u32 code0;                /* Executable code */
+> > diff --git a/Documentation/riscv/boot.rst b/Documentation/riscv/boot.rs=
+t
+> > new file mode 100644
+> > index 000000000000..b02230818b79
+> > --- /dev/null
+> > +++ b/Documentation/riscv/boot.rst
+> > @@ -0,0 +1,181 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Early boot requirements/constraints on RISC-V
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +:Author: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > +:Date: 23 May 2023
+> > +
+> > +This document describes what the RISC-V kernel expects from the previo=
+us stages
+> > +and the firmware, but also the constraints that any developer must hav=
+e in mind
+> > +when touching the early boot process, e.g. before the final virtual ma=
+pping is
+> > +setup.
+> > +
+> > +Pre-kernel boot (Expectations from firmware)
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Registers state
+> > +---------------
+> > +
+> > +The RISC-V kernel expects:
+> > +
+> > +  * `$a0` to contain the hartid of the current core.
+> > +  * `$a1` to contain the address of the device tree in memory.
+> > +
+> > +CSR state
+> > +---------
+> > +
+> > +The RISC-V kernel expects:
+> > +
+> > +  * `$satp =3D 0`: the MMU must be disabled.
+> > +
+> > +Reserved memory for resident firmware
+> > +-------------------------------------
+> > +
+> > +The RISC-V kernel expects the firmware to mark any resident memory wit=
+h the
+> > +`no-map` flag, thus the kernel won't map those regions in the direct m=
+apping
+> > +(avoiding issues with hibernation, speculative accesses and probably o=
+ther
+> > +subsystems).
+> > +
+> > +Kernel location
+> > +---------------
+> > +
+> > +The RISC-V kernel expects to be placed at a PMD boundary (2MB for rv64=
+ and 4MB
+> > +for rv32). Note though that the EFI stub will physically relocate the =
+kernel if
+> > +that's not the case.
+> > +
+> > +Device-tree
+> > +-----------
+> > +
+> > +The RISC-V kernel always expects a device tree, it is:
+> > +
+> > +- either passed directly to the kernel from the previous stage using t=
+he `$a1`
+> > +  register,
+> > +- or when booting with UEFI, the device tree will be retrieved by the =
+EFI stub
+> > +  using the EFI configuration table or it will be created.
+> > +
+> > +Bootflow
+> > +--------
+> > +
+> > +There exist 2 methods to enter the kernel:
+> > +
+> > +- `RISCV_BOOT_SPINWAIT`: the firmware releases all harts in the kernel=
+, one hart
+> > +  wins a lottery and executes the early boot code while the other hart=
+s are
+> > +  parked waiting for the initialization to finish. This method is now
+> > +  **deprecated**.
+> > +- Ordered booting: the firmware releases only one hart that will execu=
+te the
+> > +  initialization phase and then will start all other harts using the S=
+BI HSM
+> > +  extension.
+> > +
+> > +UEFI
+> > +----
+> > +
+> > +UEFI memory map
+> > +~~~~~~~~~~~~~~~
+> > +
+> > +When booting with UEFI, the RISC-V kernel will use only the EFI memory=
+ map to
+> > +populate the system memory.
+> > +
+> > +The UEFI firmware must parse the subnodes of the `/reserved-memory` de=
+vice tree
+> > +node and abide by the device tree specification to convert the attribu=
+tes of
+> > +those subnodes (`no-map` and `reusable`) into their correct EFI equiva=
+lent
+> > +(refer to section "3.5.4 /reserved-memory and UEFI" of the device tree
+> > +specification).
+> how about declare the version of Device Tree specification?
+> like the devicetree-specification-v0.4-rc1 we recently reference
+
+You're right, the section number refers to this version of the
+specification, so it should be noted.
+
+> > +
+> > +RISCV_EFI_BOOT_PROTOCOL
+> > +~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +When booting with UEFI, the EFI stub requires the boot hartid in order=
+ to pass
+> > +it to the RISC-V kernel in `$a1`. The EFI stub retrieves the boot hart=
+id using
+> > +one of the following methods:
+> > +
+> > +- `RISCV_EFI_BOOT_PROTOCOL` (**preferred**).
+> > +- `boot-hartid` device tree subnode (**deprecated**).
+> > +
+> > +Any new firmware must implement `RISCV_EFI_BOOT_PROTOCOL` as the devic=
+e tree
+> > +based approach is deprecated now.
+> > +
+> > +During kernel boot: (Kernel internals)
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +EFI stub and device tree
+> > +------------------------
+> > +
+> > +When booting with UEFI, the device tree is supplemented by the EFI stu=
+b with the
+> > +following parameters (largely shared with arm64 in Documentation/arm/u=
+efi.rst):
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > +Name                        Size     Description
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > +linux,uefi-system-table     64-bit   Physical address of the UEFI Syst=
+em Table.
+> > +
+> > +linux,uefi-mmap-start       64-bit   Physical address of the UEFI memo=
+ry map,
+> > +                                     populated by the UEFI GetMemoryMa=
+p() call.
+> > +
+> > +linux,uefi-mmap-size        32-bit   Size in bytes of the UEFI memory =
+map
+> > +                                     pointed to in previous entry.
+> > +
+> > +linux,uefi-mmap-desc-size   32-bit   Size in bytes of each entry in th=
+e UEFI
+> > +                                     memory map.
+> > +
+> > +linux,uefi-mmap-desc-ver    32-bit   Version of the mmap descriptor fo=
+rmat.
+> > +
+> > +kaslr-seed                  64-bit   Entropy used to randomize the ker=
+nel image
+> > +                                     base address location.
+> > +
+> > +bootargs                             Kernel command line
+> how about use "string" to declare the type of "bootargs"
+> and replace the "Size" in header with "Type"
+
+Why not, this will be more accurate.
+
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > +
+> > +Virtual mapping setup
+> > +---------------------
+> > +
+> > +The installation of the virtual mapping is done in 2 steps in the RISC=
+-V kernel:
+> > +
+> > +1. :c:func:`setup_vm` installs a temporary kernel mapping in
+> > +   :c:var:`early_pg_dir` which allows to discover the system memory: o=
+nly the
+> > +   kernel text/data are mapped at this point. When establishing this m=
+apping,
+> > +   no allocation can be done (since the system memory is not known yet=
+), so
+> > +   :c:var:`early_pg_dir` page table is statically allocated (using onl=
+y one
+> > +   table for each level).
+> > +
+> > +2. :c:func:`setup_vm_final` creates the final kernel mapping in
+> > +   :c:var:`swapper_pg_dir` and takes advantage of the discovered syste=
+m memory
+> > +   to create the linear mapping. When establishing this mapping, the k=
+ernel
+> > +   can allocate memory but cannot access it directly (since the direct=
+ mapping
+> > +   is not present yet), so it uses temporary mappings in the fixmap re=
+gion to
+> > +   be able to access the newly allocated page table levels.
+> > +
+> > +For :c:func:`virt_to_phys` and :c:func:`phys_to_virt` to be able to co=
+rrectly
+> > +convert direct mapping addresses to physical addresses, it needs to kn=
+ow the
+> > +start of the DRAM: this happens after 1, right before 2 installs the d=
+irect
+> > +mapping (see :c:func:`setup_bootmem` function in arch/riscv/mm/init.c)=
+. So
+> > +any usage of those macros before the final virtual mapping is installe=
+d must be
+> > +carefully examined.
+> > +
+> > +Device-tree mapping via fixmap
+> > +------------------------------
+> > +
+> > +The RISC-V kernel uses the fixmap region to map the device tree becaus=
+e the
+> > +device tree virtual mapping must remain the same between :c:func:`setu=
+p_vm` and
+> > +:c:func:`setup_vm_final` calls since :c:var:`reserved_mem` array is in=
+itialized
+> > +with virtual addresses established by :c:func:`setup_vm` and used with=
+ the
+> > +mapping established by :c:func:`setup_vm_final`.
+> > +
+> > +Pre-MMU execution
+> > +-----------------
+> > +
+> > +Any code that executes before even the first virtual mapping is establ=
+ished
+> > +must be very carefully compiled as:
+> > +
+> > +- `-fno-pie`: This is needed for relocatable kernels which use `-fPIE`=
+, since
+> > +  otherwise, any access to a global symbol would go through the GOT wh=
+ich is
+> > +  only relocated virtually.
+> > +- `-mcmodel=3Dmedany`: Any access to a global symbol must be PC-relati=
+ve to avoid
+> > +  any relocations to happen before the MMU is setup.
+> > +- Also note that *all* instrumentation must also be disabled (that inc=
+ludes
+> > +  KASAN, ftrace and others).
+> > +
+> > +As using a symbol from a different compilation unit requires this unit=
+ to be
+> > +compiled with those flags, we advise, as much as possible, not to use =
+external
+> > +symbols.
+> > diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.=
+rst
+> > index 175a91db0200..1f66062def6d 100644
+> > --- a/Documentation/riscv/index.rst
+> > +++ b/Documentation/riscv/index.rst
+> > @@ -5,6 +5,7 @@ RISC-V architecture
+> >   .. toctree::
+> >       :maxdepth: 1
 > >
-> > "A few pieces of code need to run before even the first virtual mapping=
- is
-> > established, that comprises the installation of the first virtual mappi=
-ng, the
-> > early alternatives and the early parsing of the kernel command line. Th=
-at code
-> > must be very carefully compiled as:..."
+> > +    boot
+> >       boot-image-header
+> >       vm-layout
+> >       hwprobe
 >
-> Changed slightly:
-> "A few pieces of code need to run before even the first virtual mapping i=
-s
-> established. These are the installation of the first virtual mapping itse=
-lf,
-> patching of early alternatives and the early parsing of the kernel comman=
-d line.
-> That code must be very carefully compiled as:..."
->
-> Two minor suggestions there, one to make the it more obvious what the fir=
-st
-> section inside commas refers to & one to note what it is that we do with
-> the alternatives.
+> --
+> Thanks
+> Song Shuai
 >
 
-Thanks
-
-> Cheers,
-> Conor.
+Thanks Song!
