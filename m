@@ -2,58 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D780DEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 10:58:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1186DEB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 11:33:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232480AbjFTK6I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 06:58:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39748 "EHLO
+        id S232693AbjFTLdp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 07:33:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232498AbjFTK6A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 06:58:00 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CE3610F9;
-        Tue, 20 Jun 2023 03:57:53 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-763a3b3949cso142240485a.3;
-        Tue, 20 Jun 2023 03:57:53 -0700 (PDT)
+        with ESMTP id S229746AbjFTLdl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 07:33:41 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0DA1FE
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 04:33:39 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4f866a3d8e4so4054030e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 04:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687258672; x=1689850672;
+        d=google.com; s=20221208; t=1687260814; x=1689852814;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=w/mp0Ngy4nsVmS7qXoq+Hpkgz3O371XCxZT/IH4msvY=;
-        b=qm7g+dhP5pFnsiqSiC+oUSMfPLiuKg0aWweYBu4VPvlvxIl1+G1OzBJHrlNAM0N/vv
-         FyRC1KnZixegGYMXxzQ9jwth5lm4+mPlY1zCMQi04qwipf00w2l8UOYW5EVECSEA4wpd
-         0Xol+MZMcGMy3r7QqFMMvppzB5z9q2kOCsg/KaFnF3Wkhgm1kpq+6mZnwfTmz9PN7NRZ
-         Oxi7lquds5TQaefpU8cyZpa7ORBgE/bEE0UObhuCQPUjtB2TtpcTGsOQ0oQWlMTPGNqS
-         M1hwoAG4jtXU5atnLabniPTiQ5P1+YOA2yI/joIwMZxjL2Mflt4LjbbvVxFoqOibLNp7
-         EPXw==
+        bh=XVsib4qKyB82Osq6CfMX+p3Eul3U7zE2OWUFnDtEhvo=;
+        b=PkVmSxkxBTKfOJoGCeY3MpFQDih6koxeOCQ14L+BpZCZ6kD0s2PK4WBKEjZ50gVvx9
+         tDm5MO2zh+vUPqQtUMqEard3YaukFyV9rTD8o9U6ek/JzB8fLufmF4HixGFiJnWZ/h6E
+         Lyx82E7hKSR0qnVKz+l7gF6f1sU15vY2D/C2vwiYp9kGbb+ge6YlzQQup20662JX3man
+         vRAiHnQSro7U2xy1x7mRUyrFcwTVjEcFg4DnUgrv8S4FODS46xb1h7BpQ+PIz0f6co0l
+         SCr41shFRago+35eQ234HzgUloxVacc+VWJEPu3EPp6zsdzuG7V+xVNBfazLkXQQdCuZ
+         3CDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687258672; x=1689850672;
+        d=1e100.net; s=20221208; t=1687260814; x=1689852814;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w/mp0Ngy4nsVmS7qXoq+Hpkgz3O371XCxZT/IH4msvY=;
-        b=HAmuoklky/GgG746F4T658ke8qdLw85xmzkteJvk1FHF/SD0PEkOYJtNiIFZK9g873
-         n9rBapaQSkeP3NeqOXZRZGallSpCj2phQRFbTNlK5tO1UIlanY4JpLHVaD5F26KyqKBw
-         ZpsPdh7/8Yo4IjPLG5UAEkDTdoMK4ZShB54x2QvcWUY/1EIZMa7yqqP2reh3aVD+r9lC
-         jEGiPQsuAsb4pYn61PTnKvlDrTNZa3YCP/D9AJMwUm0MR7dhUdIy1coJPEFZpcHMGUUq
-         vcHiMK+FEG0MAhtK45fuIg2Kdjgf7CuH5dblntAUWBcXRc9b78CE08IIy1B3uEUt2zrG
-         d5JA==
-X-Gm-Message-State: AC+VfDwLf2oSJPXp6xFdox8ckPm3QJ/N5ZSrqsyFHiQDLy/GrQ23M7fW
-        v4I8u6BYQ2xi6MTv3VPrEIm9luTmG2D+5nZJas0=
-X-Google-Smtp-Source: ACHHUZ522vTFV+46xTCfVymg53gHKyEaSka9joR80wLGiVJbJhJTPnzEi4F7tgJG7clfurjMp7dc59RtKwWsQ7sqviI=
-X-Received: by 2002:a05:620a:838a:b0:75d:5640:22e7 with SMTP id
- pb10-20020a05620a838a00b0075d564022e7mr11713898qkn.55.1687258672354; Tue, 20
- Jun 2023 03:57:52 -0700 (PDT)
+        bh=XVsib4qKyB82Osq6CfMX+p3Eul3U7zE2OWUFnDtEhvo=;
+        b=TVUyqqqsXoay6evzYm+mK6dq58IoGwga7rM80Lp8QcPVf13hs2Ez0n7noEbkjrEA4F
+         8oGiiC1+iw9qAZhvIpIWGwPvDOYDzaM9qmMVXbGUNeG34hHBzD3lP+5ogOCttFXUd+f6
+         s1Nsh6tomavpDyKyXAkcFvZNCARoJm69J7qzqqCEWTCPU7scN0f7lF8PEFWYmsp8HxgM
+         vSUehs6m0Kc5bIWuRvX3FzRicfF0LL147gTUunF0GofCujSWUILj1mslHVlKTLN5eEQb
+         pcFeB4BwL4V8dP0lAN3sbDJnGmC5wqqC6DFf2cnZz279aUNPjorh3WiD7uBZv/KQrwir
+         gz9w==
+X-Gm-Message-State: AC+VfDyxx5LCFu36xEzcU307KGDqON3H5p5kunGrASA2n8y/Ee42eN6v
+        7wwFxtYS9yBy82fyZseKddtY3euH/Fb1dDUdAvITLg==
+X-Google-Smtp-Source: ACHHUZ6i52O32LZigRCWsfh0agBf2LmLpUofUpFF51XMDq+fuNByYXQJL7Pt5SwRjcIXw5UxCzPhjHNhb3uSV71WwNo=
+X-Received: by 2002:ac2:5b0c:0:b0:4f8:666b:9de8 with SMTP id
+ v12-20020ac25b0c000000b004f8666b9de8mr5150573lfn.13.1687260814348; Tue, 20
+ Jun 2023 04:33:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230614095158.1133673-1-elver@google.com>
-In-Reply-To: <20230614095158.1133673-1-elver@google.com>
-From:   Andrey Konovalov <andreyknvl@gmail.com>
-Date:   Tue, 20 Jun 2023 12:57:39 +0200
-Message-ID: <CA+fCnZdy4TmMacvsPkoenCynUYsyKZ+kU1fx7cDpbh_6=cEPAQ@mail.gmail.com>
+References: <20230614095158.1133673-1-elver@google.com> <CA+fCnZdy4TmMacvsPkoenCynUYsyKZ+kU1fx7cDpbh_6=cEPAQ@mail.gmail.com>
+In-Reply-To: <CA+fCnZdy4TmMacvsPkoenCynUYsyKZ+kU1fx7cDpbh_6=cEPAQ@mail.gmail.com>
+From:   Marco Elver <elver@google.com>
+Date:   Tue, 20 Jun 2023 13:32:57 +0200
+Message-ID: <CANpmjNOSnVNy14xAVe6UHD0eHuMpxweg86+mYLQHpLM1k0H_cg@mail.gmail.com>
 Subject: Re: [PATCH] kasan: add support for kasan.fault=panic_on_write
-To:     Marco Elver <elver@google.com>
+To:     Andrey Konovalov <andreyknvl@gmail.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Potapenko <glider@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
@@ -63,40 +63,52 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Jonathan Corbet <corbet@lwn.net>, kasan-dev@googlegroups.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
+        linux-mm@kvack.org, Catalin Marinas <catalin.marinas@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 14, 2023 at 11:52=E2=80=AFAM Marco Elver <elver@google.com> wro=
-te:
+On Tue, 20 Jun 2023 at 12:57, Andrey Konovalov <andreyknvl@gmail.com> wrote=
+:
 >
-> @@ -597,7 +614,11 @@ void kasan_report_async(void)
->         pr_err("Asynchronous fault: no details available\n");
->         pr_err("\n");
->         dump_stack_lvl(KERN_ERR);
-> -       end_report(&flags, NULL);
-> +       /*
-> +        * Conservatively set is_write=3Dtrue, because no details are ava=
-ilable.
-> +        * In this mode, kasan.fault=3Dpanic_on_write is like kasan.fault=
-=3Dpanic.
-> +        */
-> +       end_report(&flags, NULL, true);
+> On Wed, Jun 14, 2023 at 11:52=E2=80=AFAM Marco Elver <elver@google.com> w=
+rote:
+> >
+> > @@ -597,7 +614,11 @@ void kasan_report_async(void)
+> >         pr_err("Asynchronous fault: no details available\n");
+> >         pr_err("\n");
+> >         dump_stack_lvl(KERN_ERR);
+> > -       end_report(&flags, NULL);
+> > +       /*
+> > +        * Conservatively set is_write=3Dtrue, because no details are a=
+vailable.
+> > +        * In this mode, kasan.fault=3Dpanic_on_write is like kasan.fau=
+lt=3Dpanic.
+> > +        */
+> > +       end_report(&flags, NULL, true);
+>
+> Hi Marco,
+>
+> When asymm mode is enabled, kasan_report_async should only be called
+> for read accesses. I think we could check the mode and panic
+> accordingly.
 
-Hi Marco,
+How do we check the mode, and how do we prove it's only called for
+read accesses?
 
-When asymm mode is enabled, kasan_report_async should only be called
-for read accesses. I think we could check the mode and panic
-accordingly.
+> Please also update the documentation to describe the flag behavior wrt
+> async/asymm modes.
 
-Please also update the documentation to describe the flag behavior wrt
-async/asymm modes.
+Will do.
 
-On a related note, it looks like we have a typo in KASAN
-documentation: it states that asymm mode detects reads synchronously,
-and writes - asynchronously. Should be the reverse.
+> On a related note, it looks like we have a typo in KASAN
+> documentation: it states that asymm mode detects reads synchronously,
+> and writes - asynchronously. Should be the reverse.
 
-Thanks!
+This says the documentation is correct, and it's actually called for
+writes: https://docs.kernel.org/arm64/memory-tagging-extension.html#tag-che=
+ck-faults
+
+Who is right?
