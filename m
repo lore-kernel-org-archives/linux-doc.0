@@ -2,76 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88C4FEB64DB
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 07:12:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AF0EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 07:14:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231264AbjFTHM4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 03:12:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56556 "EHLO
+        id S229854AbjFTHOT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 03:14:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231215AbjFTHMz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 03:12:55 -0400
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D691E7;
-        Tue, 20 Jun 2023 00:12:53 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R951e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0Vlamlc3_1687245167;
-Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vlamlc3_1687245167)
-          by smtp.aliyun-inc.com;
-          Tue, 20 Jun 2023 15:12:48 +0800
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-To:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        John Garry <john.g.garry@oracle.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>,
-        Ian Rogers <irogers@google.com>
-Cc:     Robin Murphy <robin.murphy@arm.com>,
-        James Clark <james.clark@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Jing Zhang <renyu.zj@linux.alibaba.com>
-Subject: [PATCH v4 4/4] docs: perf: Update metric usage for Alibaba's T-Head PMU driver
-Date:   Tue, 20 Jun 2023 15:12:36 +0800
-Message-Id: <1687245156-61215-5-git-send-email-renyu.zj@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1687245156-61215-1-git-send-email-renyu.zj@linux.alibaba.com>
-References: <1687245156-61215-1-git-send-email-renyu.zj@linux.alibaba.com>
+        with ESMTP id S230318AbjFTHOR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 03:14:17 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DED16119;
+        Tue, 20 Jun 2023 00:13:47 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-988689a5f44so264018866b.1;
+        Tue, 20 Jun 2023 00:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687245224; x=1689837224;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cHYZLznLEupvmNgdz85Wsrh9nTfIdkBiscUX255Az7M=;
+        b=KS2MlNlXd3y1nTza3BQfUQefl0hUFRyaHJjF0aNqen8fNC0xrWWq2Wqj4BXSO/TymI
+         7ZYHqb9Q0z2YI2jLz3j5V3n5Ti55PCYI2DNo0FHlYiLkbjgBrKE94yVJbYGGRKO2JNie
+         swEfgr00n17CznG0qqtGxiT9LXeKUpAqB8fL9K0Wiz5Fv4c9DZuG7zH27UlHU+IpIXwj
+         /74r3NxBxFV57roZ9AojpB2d+cobw2MJdSENRHLkn+1RSHeZreF8MTrO09njiqaaSNXW
+         jaqzeslntv7BXyd++oVljfTIIA2Inss/uW3+u+Ol8tO7biaME1caakBq2wFMkXEmVjx/
+         SE8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687245224; x=1689837224;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cHYZLznLEupvmNgdz85Wsrh9nTfIdkBiscUX255Az7M=;
+        b=Yk0oCVh5gZ2fJTX1aWMD+YoQKwivtwZRm0JUQ1S1gyAntqnSk3k7kLqRO+cz/ux6TK
+         TlRqECa41/n0R1cVagxF/Kyj2HhzXBmIjnI93osR+98NQAaXeuso67XxAe93ErUU3TTz
+         aags5qDR8hdh08653L80SHdaolHqpUP7zLnOtE07Lri4KxcTUV6smzXoPk/G9n6SvO6p
+         8FCoXWq9ZYtN8OFSIRRiVi3moLKdq3iZEoVHGeeBuMELYb6H2WOO6NCatsKKSJQvP2Dr
+         Gk6+YlXv+xHb5hZGvkdYuB6iPN4Jzn3NkhTnC0/YSXW1L/0j0UTP8ZHEsc4bfobJS/IH
+         860g==
+X-Gm-Message-State: AC+VfDwVFm/BSyFDEAhdpK+jZ2y5avUwmqCP3kN9RJYGD8H+8CfqLJ8f
+        N3tkD1Mt0G6Z9gddZbJj03Eq2etPDKrYFCyPYiM=
+X-Google-Smtp-Source: ACHHUZ6F96J1yKxnlaxPS5FMbR2w71s7opnQjEhCe3UpSiAY5D8Q7lBEBoaoOSJHfUY5/idqlvCgI9wkZMATl0p2xeQ=
+X-Received: by 2002:a17:907:a412:b0:989:d9d:d911 with SMTP id
+ sg18-20020a170907a41200b009890d9dd911mr1975412ejc.69.1687245224382; Tue, 20
+ Jun 2023 00:13:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230620004217.4700-1-dakr@redhat.com> <2c92bae3-0003-3c53-8ef1-6e12e5413995@redhat.com>
+ <CAPM=9tzMzfuMN_iGD-97_o=QQEDT6Mbb9_u=z_o49TeT7=XUFA@mail.gmail.com> <CAFCwf11OwnoxPWHuS_55OXKE7wfHH++1Bk_37DATeCiT07GtMQ@mail.gmail.com>
+In-Reply-To: <CAFCwf11OwnoxPWHuS_55OXKE7wfHH++1Bk_37DATeCiT07GtMQ@mail.gmail.com>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Tue, 20 Jun 2023 17:13:31 +1000
+Message-ID: <CAPM=9tyv5Fje0iL0-2oJQBKEsg-nc-YV9q4BSg5SwnBvGvrzDw@mail.gmail.com>
+Subject: Re: [PATCH drm-next v5 00/14] [RFC] DRM GPUVA Manager & Nouveau
+ VM_BIND UAPI
+To:     Oded Gabbay <ogabbay@kernel.org>
+Cc:     Danilo Krummrich <dakr@redhat.com>,
+        Donald Robson <Donald.Robson@imgtec.com>, daniel@ffwll.ch,
+        tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+        christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alibaba's T-Head ali_drw PMU supports DDR bandwidth metrics. Update
-its usage in the documentation.
+On Tue, 20 Jun 2023 at 17:06, Oded Gabbay <ogabbay@kernel.org> wrote:
+>
+> On Tue, Jun 20, 2023 at 7:05=E2=80=AFAM Dave Airlie <airlied@gmail.com> w=
+rote:
+> >
+> > Since this is feature is nouveau only currently and doesn't disturb
+> > the current nouveau code paths, I'd like to try and get this work in
+> > tree so other drivers can work from it.
+> >
+> > If there are any major objections to this, I'm happy to pull it back
+> > out again, but I'd like to get some acks/rb in the next couple of days
+> > in order to land some of it.
+> >
+> > Dave.
+> >
+> >
+> > >
+> > > forgot to add your email address to the patch series - sorry about th=
+at.
+> > >
+> > > This series (v5) contains the Documentation changes you requested.
+> > >
+> > > - Danilo
+> > >
+> > > On 6/20/23 02:42, Danilo Krummrich wrote:
+> > > > This patch series provides a new UAPI for the Nouveau driver in ord=
+er to
+> > > > support Vulkan features, such as sparse bindings and sparse residen=
+cy.
+> > > >
+> > > > Furthermore, with the DRM GPUVA manager it provides a new DRM core =
+feature to
+> > > > keep track of GPU virtual address (VA) mappings in a more generic w=
+ay.
+> > > >
+> > > > The DRM GPUVA manager is indented to help drivers implement userspa=
+ce-manageable
+> > > > GPU VA spaces in reference to the Vulkan API. In order to achieve t=
+his goal it
+> > > > serves the following purposes in this context.
+> > > >
+> > > >      1) Provide infrastructure to track GPU VA allocations and mapp=
+ings,
+> > > >         making use of the maple_tree.
+> > > >
+> > > >      2) Generically connect GPU VA mappings to their backing buffer=
+s, in
+> > > >         particular DRM GEM objects.
+> Will this manager be able to connect GPU VA mappings to host memory
+> allocations (aka user pointers) ?
+>
+> I only skimmed over the uapi definitions, but from that quick glance I
+> saw you can only pass a (gem) handle to the vm bind uapi.
+>
+> I think it is an important feature because you don't want to have two
+> GPU VA managers running in your driver (if that's even possible).
+> Maybe we should at least try to make sure the uapi is/will be
+> compatible with such an extension.
+>
 
-Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
-Acked-by: Ian Rogers <irogers@google.com>
----
- Documentation/admin-guide/perf/alibaba_pmu.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+I think that would have to be a new uAPI entry point anyways, since
+managing user ptrs is extra, but the uAPI is nouveau specific and
+nouveau has no hostptr support as of now.
 
-diff --git a/Documentation/admin-guide/perf/alibaba_pmu.rst b/Documentation/admin-guide/perf/alibaba_pmu.rst
-index 11de998..7d84002 100644
---- a/Documentation/admin-guide/perf/alibaba_pmu.rst
-+++ b/Documentation/admin-guide/perf/alibaba_pmu.rst
-@@ -88,6 +88,11 @@ data bandwidth::
-     -e ali_drw_27080/hif_rmw/ \
-     -e ali_drw_27080/cycle/ -- sleep 10
- 
-+Example usage of counting all memory read/write bandwidth by metric::
-+
-+  perf stat -M ddr_read_bandwidth.all -- sleep 10
-+  perf stat -M ddr_write_bandwidth.all -- sleep 10
-+
- The average DRAM bandwidth can be calculated as follows:
- 
- - Read Bandwidth =  perf_hif_rd * DDRC_WIDTH * DDRC_Freq / DDRC_Cycle
--- 
-1.8.3.1
+The gpuva manager is kernel internal, I think adding host ptr tracking
+is useful, but I don't think it's a blocker right now.
 
+One of the reasons I'd like to get this in the tree is to add things
+like that instead of overloading this initial patchset with feature
+creep.
+
+Dave.
