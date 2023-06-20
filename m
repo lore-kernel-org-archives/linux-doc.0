@@ -2,161 +2,333 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78C59EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 07:42:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B039EB64DB
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 07:49:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231453AbjFTHmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 03:42:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41616 "EHLO
+        id S231177AbjFTHtB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 03:49:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231468AbjFTHl7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 03:41:59 -0400
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2126.outbound.protection.outlook.com [40.107.255.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B779510E2;
-        Tue, 20 Jun 2023 00:41:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SdumK9c/0aDJwkbRAUaEqMRnN7Z7Hdiz6aoRhsMyGxz5LLxu5Q6+VVtryrJUUbKrBMT4RuB7ZPhyCL5QU1RA7us5ZxCHkI9Zkkow7FtZTRWSMz4BbpnS164ChjkDp8jFqbRCzP7GwzrXC79n+4JD9PCuwYcazfbEqAu6ngLIWIIxyTGZ75ltwnfoebYM+EHh++z9y4okPaHathlV9v06NE+4+6vjyHl3mgmRCU59KeN9nR19XxETYdQPUHQvBchuWBIRHqOqZ0mPLMAG+x1EUh912ksPufODs1C7bbyTFEstUBCTfcIpY+cy+bUn9DiMtSlIGm1I8xxhc2qbpjg6bA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UHr3xjszEkD6D4UBjPuFCwjvacPYHbZoQzEkZAteURk=;
- b=mKZAi13a1VuAHOZF0+NGg4MgH/wh6Wio1BI98N6/R8/ifPQvZhvS3h41Pmeb2eliOAYbRvq35rSi5u6lgJnHPHHTR9I2wPYOJfBrvIea8QF5yZp27BfjHkZwquef9HCGPAxOD5riSZYZoRorSIneh2xlzvm9f6SXI1vKCMRSMfuUYEKR0s/ZwoHXKUmGbccAjiex3xrUc6y2SoMqUJfapp0ASacSzpNkuK9QnKQ/5KE8zAWXmAJ+81lbItb4s0GvRlvWNa8YOwBCeyV4E6wucZITi94EgTSaFnpFxIRKy20yhgoikNLT5XAxCIOFycE/aoyRKbuUYBTOpeOK5dZhUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UHr3xjszEkD6D4UBjPuFCwjvacPYHbZoQzEkZAteURk=;
- b=aWquvRA7192Vxfv2dWAjhxWmqipCgTh11ObWNgLIXAdf8viO2JuAHoI7JLUqANGxrchZHEuWJLjVqC7USqxdNDDPYfiY13LZKO4AdmxXOqdelc/YIjCvodybd80I9ry9YV2kUZj6hThqMxh8SPdbBaihh2sSqqqUixB1d68eteo=
-Received: from PUZP153MB0749.APCP153.PROD.OUTLOOK.COM (2603:1096:301:e6::8) by
- SEYP153MB0779.APCP153.PROD.OUTLOOK.COM (2603:1096:101:b2::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6521.0; Tue, 20 Jun 2023 07:41:18 +0000
-Received: from PUZP153MB0749.APCP153.PROD.OUTLOOK.COM
- ([fe80::1cc2:aa38:1d02:9a11]) by PUZP153MB0749.APCP153.PROD.OUTLOOK.COM
- ([fe80::1cc2:aa38:1d02:9a11%2]) with mapi id 15.20.6521.013; Tue, 20 Jun 2023
- 07:41:18 +0000
-From:   Saurabh Singh Sengar <ssengar@microsoft.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     Saurabh Sengar <ssengar@linux.microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [EXTERNAL] Re: [PATCH v2 1/5] uio: Add hv_vmbus_client driver
-Thread-Topic: [EXTERNAL] Re: [PATCH v2 1/5] uio: Add hv_vmbus_client driver
-Thread-Index: AQHZnwURGv1AAiMyG0eDJttQESSN76+TLQsggAAghICAAAf+QA==
-Date:   Tue, 20 Jun 2023 07:41:18 +0000
-Message-ID: <PUZP153MB074979236806588A7D1B953DBE5CA@PUZP153MB0749.APCP153.PROD.OUTLOOK.COM>
-References: <1686766512-2589-1-git-send-email-ssengar@linux.microsoft.com>
- <1686766512-2589-2-git-send-email-ssengar@linux.microsoft.com>
- <2023061419-probe-velocity-b276@gregkh>
- <PUZP153MB07490FDBBB8CC3099CFF126BBE5CA@PUZP153MB0749.APCP153.PROD.OUTLOOK.COM>
- <2023062007-coral-nicotine-856c@gregkh>
-In-Reply-To: <2023062007-coral-nicotine-856c@gregkh>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=3b273513-75ba-4fbf-9905-2f2df98f427f;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-06-20T07:35:33Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PUZP153MB0749:EE_|SEYP153MB0779:EE_
-x-ms-office365-filtering-correlation-id: e5c2c79d-489f-4c3e-920a-08db7161bc1f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: T/FmQW7S9wtSWploayZsvbaIu2tOYHepBDkfZUFeagzoOb0tPKX/nySkmO1sh6fU1FYljZfIGAD0nyXFHViQD7jSfykftSjHeavQNR6h5VvuDjIrJDYjH4L0TsEi/AHfPYzGl14zebuGzm2yuIUPNlSy23AlWsTmVar0O4i60REb2F/rH1q3MW4kvn56HNbmRAxJv3bGcstiEW2uff9xsWgzpEJ6b0Qg22bqZxLzcXkv0pVIPCMvDk0BzDbQt2GYnKd0rTI8+mo5DlJd3iWNaJTA0SCup4T5X+PQoXpbqLbtmCpePSDZS4R5NDSJXQz/cySMsA14eIgsmig2UZ7PweCX+ds6hi8AIo9xaZ6XT/XYZhVTCEZlqHj82K8OuDiaLGKQ6NP0CWb+56aMF9gWx0lONCDTRIhCH7NIAkRglYSEt91BdMxmDEfHt0Fh5pkGqSGmENmLwceSiZCTywIpIDreXYz54X0D8r2G+ePwiY3FYoeABdzenU/Gzgg+ldpAA+pPurv2sbmJym3jtJTNOCg6TVpnGYYEOdgR3aHVvawns440Xwn9lEpOxyHzDYddHlDUbQ98qaORCp1lTAYPihOtlxfp6G1ACOJutzZYyxYYsXYSS+xkTxoV6TrHdBrNZyz77v3nDKtwqkVkivq26FS+G38ASBippAGxsDRfnQE=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZP153MB0749.APCP153.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(366004)(39860400002)(136003)(376002)(451199021)(10290500003)(41300700001)(316002)(7696005)(5660300002)(52536014)(76116006)(8676002)(6916009)(478600001)(71200400001)(66446008)(54906003)(8936002)(66946007)(64756008)(4326008)(66556008)(66476007)(38070700005)(86362001)(53546011)(186003)(9686003)(6506007)(38100700002)(33656002)(82960400001)(82950400001)(2906002)(8990500004)(122000001)(55016003)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?MG5lKLaZkqX4eCi5Fd09SWyY4XRJMtUOBIrpbRLyvBuL5onYnuvrVy6AYTVn?=
- =?us-ascii?Q?9IuSq+l3+hCU3GpHwwf9kzVKK/4bTGSDXQsk2KwwRXrC5G+HY/4RCtlbHgEb?=
- =?us-ascii?Q?GgQWKm5DAZxW+xfThzhmvuvOyChvOmvTjXNTI/qa9fw0i7sUdtx0F1jdCu7f?=
- =?us-ascii?Q?QdDTsAP0fyhWAuxNGbPW1JMB79DFDOzZ1o2RaLn8X2G1N65bDtioi5LJZfWw?=
- =?us-ascii?Q?22VZJkNGbXsNij4Qlxil8mRj4PhiA6DkMjtcQGFCI8N+kV5Fr9QYqdbCetGN?=
- =?us-ascii?Q?zlCRiSHt9mdef7o3Byb/xr+kd6CC4v+FyDT8sZbgT1mDEaacOjWV6kb03vuH?=
- =?us-ascii?Q?pncxHobQKlZsGOxL/4TTOuFBBKwDuSKwUdDMv+Mm5nV/qQ69zDytyJtt+urn?=
- =?us-ascii?Q?h2ofHJM+T6YzxO8psDIjMOYEKF5f4r4+XmEy1113tbge2lSmiKMMcYZ+DDO7?=
- =?us-ascii?Q?CoWxTgiUbd/m7Xep+/dEJVDr364bHzIglGbzj1Yw/GjcwtoaFkT7Efw89DmH?=
- =?us-ascii?Q?G7juRuMN8NHsLt4TJm+3eB/ipuJXvhQZVTw3htEsE8gI3ZThrdAlJDxLJaxR?=
- =?us-ascii?Q?p8tCaJkfIRDfC29b9BNS7QzSt980jx7ii5iVkAD3AYUOndn+RJwcBDSZUkY7?=
- =?us-ascii?Q?Dk3670rueoaLMVlxLRdSNpkZRDxIiGAHxl7biHFiBGd7c2GeR8yD3SWX6qwq?=
- =?us-ascii?Q?7Xc0jSQoj/uheuQSwi7ufeRJj6pXqkMFJNmi8wK9WD+LkWDwG3A8fUnNSMb+?=
- =?us-ascii?Q?dL670zHlnWR3Qm6FaPntPscQBGpMJlJtd6QME28+tXvvQKi16S0repfl5d1u?=
- =?us-ascii?Q?FBb5+2I96HKyAT1OuEZcglcapbnsa4rLKn2ZlL5fpJBLfWStoNdmPJw7UqOP?=
- =?us-ascii?Q?TBlao3YkLWnJivgoP/2wgK8vTxrQJ65xePUNlYBhW+5+MD63BKsNW6DioX6W?=
- =?us-ascii?Q?T6brf1zQXPCbjiXo7Q0l7NIV25A9IWYiMEL8B/eDYiFjIpkCth2i3CeySQ+j?=
- =?us-ascii?Q?d9UyBa8icIl0xzx0iijXbc/hdFY5tYvbGFPbceFL5H0LQ3LU5Xt5Uutur7GV?=
- =?us-ascii?Q?TYPIF7S4DG7SLkDz053wWpWxxq2SbdAMsQliiNXymnU7OuZv/mrhMgpcfQPV?=
- =?us-ascii?Q?ibADvJwalS4kfKeEZ4147B0WeBfyi9iKnnq9FoZYhoobOqgAgq0EZjbn2YSx?=
- =?us-ascii?Q?kD7lsDHkHftA5EHZmFWgtaKyGtuPFZ8WMU3XJNkwF8mQaa0vsggO72z+VNtI?=
- =?us-ascii?Q?BqUup+uFqQ/unKIiBATQpUerBtD+Qmvon3VRxzcXSLPGMnHhcPzfesvAJMEK?=
- =?us-ascii?Q?+BQlw7rwPUsdKznwX53VcEOyXvpwOTsfZKWU4fpNFa/8Dain03pacd6Sln5Z?=
- =?us-ascii?Q?qa87rtxhumuV96o6ukPk2fJeBA6LHbhQaARBbbCXN5xSDBZyEWPJ7tv7+ejh?=
- =?us-ascii?Q?ZSYhG0T9XIYIa8RXPPSPxzyHNGwa2x9+yVIE8fKLEHAeJ8lrPVhK5kUhtq0p?=
- =?us-ascii?Q?LnXwpsab6Er+Bn64p0xqUc2tqrwNvvR9U/LjNMkPxmYnICnPZ79Bt0RyYjCo?=
- =?us-ascii?Q?9v7lsAxWmeCXeUR2fCx6vCOtRC8sDsdGNrI0Muc/?=
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S231192AbjFTHsn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 03:48:43 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A5FE1712;
+        Tue, 20 Jun 2023 00:48:05 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-39eab4bcee8so2609371b6e.0;
+        Tue, 20 Jun 2023 00:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687247285; x=1689839285;
+        h=in-reply-to:references:message-id:to:from:subject:cc:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9/UfqACRIbp+KfcxB9xT42vufkCG9I6wiWPxaYnWI9o=;
+        b=YRkxkxfrSg9A9g1ooeKb1wazJtUjLoPERxhfKAH2GwD7qw69XbLPN1Ba1FtUAvm8FL
+         QdF4uXVuR3ymVv0p1G1ASryHTPSZYRDV2/AzOy1m/umugzTdoMz95o2l4WRUF4Iwghp3
+         GPXCl2dLw4v4bhe3AzveZyBYxyqQZ3++OqPtuynx+nNPaBvXUWbtmTiP8XxosVRGw3af
+         wiTb2HdEqZxd4zej9B8EQQMu678bU7zyk2fz4wu/zoqSNubkH3xaNhY9KOM9ajlVhA8T
+         ELkPzQLgIAx+Z+fAf5N0tP2dDEdJyROExBnsn+lxAbjQYu38/OlA9Py/ox4kdV59okLI
+         4Lbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687247285; x=1689839285;
+        h=in-reply-to:references:message-id:to:from:subject:cc:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9/UfqACRIbp+KfcxB9xT42vufkCG9I6wiWPxaYnWI9o=;
+        b=Gjate/U+s5lpv9Dh2x9Vh2hTXZGvReJGWN0bVEI4osf5qsQTM9MoOFdrNUhl6ihjZN
+         pex8M8x9LmTQQ7nevIETMztbxa5A/2OxO2jOG+kwKJ1XzHrS2zVcL86sjDromE1bwpav
+         aV6jUnNpV4/y7ODChfPfiW97i/1qoxCtpAwvsC0sDUtaq44tcoVcRFPCukgqDCrkovyc
+         5SYPtiDkedyxEQF7Jqq9/xdNGcgw7Ub6dUNycIm2sNnOS9hIypXouvQXZUCSCyHmMek9
+         7jWAvS0AQnjiqItrLFvIwEQXJij1jUv5Vw0qtNUxx3kLKWuA8F3t+zjMOtO6fvj/ssGm
+         /+8w==
+X-Gm-Message-State: AC+VfDySmEKSSi/2r7yP5jnXrKc9sxLCes+kV+Ut+QETwj5prkXIW1VD
+        N5lqvvGgCyQ/yOeaH4dsxJI=
+X-Google-Smtp-Source: ACHHUZ46XxwEUTpJsCjGTBnalzzt+j7MWruxVgUmQbM1nUv/3dXWVSuVX//QnCfJBuhR+6fpBvpozw==
+X-Received: by 2002:a05:6808:1a09:b0:39e:cb88:17f8 with SMTP id bk9-20020a0568081a0900b0039ecb8817f8mr9119278oib.7.1687247284740;
+        Tue, 20 Jun 2023 00:48:04 -0700 (PDT)
+Received: from localhost ([124.170.190.103])
+        by smtp.gmail.com with ESMTPSA id nr5-20020a17090b240500b0025dc5749b4csm6789071pjb.21.2023.06.20.00.47.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Jun 2023 00:48:04 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PUZP153MB0749.APCP153.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5c2c79d-489f-4c3e-920a-08db7161bc1f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2023 07:41:18.4606
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FL9JVXUz56FnRLFVIs3SQW3PnET/ES9UkjG5hSD3wPK4leB0X04dDY7K4GTkK/XHuMcbke6XcoY2L0T2jB0MRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYP153MB0779
+Content-Type: text/plain; charset=UTF-8
+Date:   Tue, 20 Jun 2023 17:47:47 +1000
+Cc:     "Alistair Popple" <apopple@nvidia.com>,
+        "Anup Patel" <anup@brainfault.org>,
+        "Ben Gardon" <bgardon@google.com>,
+        "Borislav Petkov" <bp@alien8.de>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Chao Peng" <chao.p.peng@linux.intel.com>,
+        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Fabiano Rosas" <farosas@linux.ibm.com>,
+        "Gaosheng Cui" <cuigaosheng1@huawei.com>,
+        "Gavin Shan" <gshan@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
+        "Ingo Molnar" <mingo@redhat.com>,
+        "James Morse" <james.morse@arm.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "Jason Gunthorpe" <jgg@ziepe.ca>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Marc Zyngier" <maz@kernel.org>,
+        "Masami Hiramatsu" <mhiramat@kernel.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        "Michael Larabel" <michael@michaellarabel.com>,
+        "Mike Rapoport" <rppt@kernel.org>,
+        "Oliver Upton" <oliver.upton@linux.dev>,
+        "Paul Mackerras" <paulus@ozlabs.org>,
+        "Peter Xu" <peterx@redhat.com>,
+        "Sean Christopherson" <seanjc@google.com>,
+        "Steven Rostedt" <rostedt@goodmis.org>,
+        "Suzuki K Poulose" <suzuki.poulose@arm.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Thomas Huth" <thuth@redhat.com>, "Will Deacon" <will@kernel.org>,
+        "Zenghui Yu" <yuzenghui@huawei.com>, <kvmarm@lists.linux.dev>,
+        <kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linuxppc-dev@lists.ozlabs.org>,
+        <linux-trace-kernel@vger.kernel.org>, <x86@kernel.org>,
+        <linux-mm@google.com>
+Subject: Re: [PATCH mm-unstable v2 07/10] kvm/powerpc: add
+ kvm_arch_test_clear_young()
+From:   "Nicholas Piggin" <npiggin@gmail.com>
+To:     "Yu Zhao" <yuzhao@google.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Paolo Bonzini" <pbonzini@redhat.com>
+Message-Id: <CTHB6A4EL3IH.3UJFAJ4LV85X6@wheely>
+X-Mailer: aerc 0.14.0
+References: <20230526234435.662652-1-yuzhao@google.com>
+ <20230526234435.662652-8-yuzhao@google.com>
+In-Reply-To: <20230526234435.662652-8-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat May 27, 2023 at 9:44 AM AEST, Yu Zhao wrote:
+> Implement kvm_arch_test_clear_young() to support the fast path in
+> mmu_notifier_ops->test_clear_young().
+>
+> It focuses on a simple case, i.e., radix MMU sets the accessed bit in
+> KVM PTEs and VMs are not nested, where it can rely on RCU and
+> pte_xchg() to safely clear the accessed bit without taking
+> kvm->mmu_lock. Complex cases fall back to the existing slow path
+> where kvm->mmu_lock is then taken.
+>
+> Signed-off-by: Yu Zhao <yuzhao@google.com>
+> ---
+>  arch/powerpc/include/asm/kvm_host.h    |  8 ++++
+>  arch/powerpc/include/asm/kvm_ppc.h     |  1 +
+>  arch/powerpc/kvm/book3s.c              |  6 +++
+>  arch/powerpc/kvm/book3s.h              |  1 +
+>  arch/powerpc/kvm/book3s_64_mmu_radix.c | 59 ++++++++++++++++++++++++++
+>  arch/powerpc/kvm/book3s_hv.c           |  5 +++
+>  6 files changed, 80 insertions(+)
+>
+> diff --git a/arch/powerpc/include/asm/kvm_host.h b/arch/powerpc/include/a=
+sm/kvm_host.h
+> index 14ee0dece853..75c260ea8a9e 100644
+> --- a/arch/powerpc/include/asm/kvm_host.h
+> +++ b/arch/powerpc/include/asm/kvm_host.h
+> @@ -883,4 +883,12 @@ static inline void kvm_arch_sched_in(struct kvm_vcpu=
+ *vcpu, int cpu) {}
+>  static inline void kvm_arch_vcpu_blocking(struct kvm_vcpu *vcpu) {}
+>  static inline void kvm_arch_vcpu_unblocking(struct kvm_vcpu *vcpu) {}
+> =20
+> +#define kvm_arch_has_test_clear_young kvm_arch_has_test_clear_young
+> +static inline bool kvm_arch_has_test_clear_young(void)
+> +{
+> +	return IS_ENABLED(CONFIG_KVM_BOOK3S_HV_POSSIBLE) &&
+> +	       cpu_has_feature(CPU_FTR_HVMODE) && cpu_has_feature(CPU_FTR_ARCH_=
+300) &&
+> +	       radix_enabled();
 
+This could probably be radix_enabled() && !kvmhv_on_pseries(). Although
+unclear why not nested hypervisor... I'd have to think about it a bit
+more. Do you have any idea what might go wrong, or just didn't have the
+time to consider it? (Not just powerpc nested but any others).
 
-> -----Original Message-----
-> From: Greg KH <gregkh@linuxfoundation.org>
-> Sent: Tuesday, June 20, 2023 12:37 PM
-> To: Saurabh Singh Sengar <ssengar@microsoft.com>
-> Cc: Saurabh Sengar <ssengar@linux.microsoft.com>; KY Srinivasan
-> <kys@microsoft.com>; Haiyang Zhang <haiyangz@microsoft.com>;
-> wei.liu@kernel.org; Dexuan Cui <decui@microsoft.com>; Michael Kelley
-> (LINUX) <mikelley@microsoft.com>; corbet@lwn.net; linux-
-> kernel@vger.kernel.org; linux-hyperv@vger.kernel.org; linux-
-> doc@vger.kernel.org
-> Subject: Re: [EXTERNAL] Re: [PATCH v2 1/5] uio: Add hv_vmbus_client drive=
-r
->=20
-> On Tue, Jun 20, 2023 at 05:19:14AM +0000, Saurabh Singh Sengar wrote:
-> > > And you are defining a "global" variable that can be modified by an
-> > > individual sysfs file for ANY device bound to this driver, messing
-> > > with the other device's ring buffer size, right?  This needs to be
-> > > per-device, or explain in huge detail here why not.
-> >
-> > The global variable is expected to be set by userspace per device
-> > before opening, the particular uio device. For a particular Hyper-v
-> > device this value be same, and once device is open the ring buffer is
-> > allocated and there won't be any impact afterwards changing it. I can
-> elaborate more of this in sysfs documentation.
->=20
-> That's totally confusing, please make this per-device properly, as you wi=
-ll find
-> out when you try to document it, what you are describing is unlike any ot=
-her
-> per-device interface we have.
+> +}
+> +
+>  #endif /* __POWERPC_KVM_HOST_H__ */
+> diff --git a/arch/powerpc/include/asm/kvm_ppc.h b/arch/powerpc/include/as=
+m/kvm_ppc.h
+> index 79a9c0bb8bba..ff1af6a7b44f 100644
+> --- a/arch/powerpc/include/asm/kvm_ppc.h
+> +++ b/arch/powerpc/include/asm/kvm_ppc.h
+> @@ -287,6 +287,7 @@ struct kvmppc_ops {
+>  	bool (*unmap_gfn_range)(struct kvm *kvm, struct kvm_gfn_range *range);
+>  	bool (*age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+>  	bool (*test_age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+> +	bool (*test_clear_young)(struct kvm *kvm, struct kvm_gfn_range *range);
+>  	bool (*set_spte_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
+>  	void (*free_memslot)(struct kvm_memory_slot *slot);
+>  	int (*init_vm)(struct kvm *kvm);
+> diff --git a/arch/powerpc/kvm/book3s.c b/arch/powerpc/kvm/book3s.c
+> index 686d8d9eda3e..37bf40b0c4ff 100644
+> --- a/arch/powerpc/kvm/book3s.c
+> +++ b/arch/powerpc/kvm/book3s.c
+> @@ -899,6 +899,12 @@ bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gf=
+n_range *range)
+>  	return kvm->arch.kvm_ops->test_age_gfn(kvm, range);
+>  }
+> =20
+> +bool kvm_arch_test_clear_young(struct kvm *kvm, struct kvm_gfn_range *ra=
+nge)
+> +{
+> +	return !kvm->arch.kvm_ops->test_clear_young ||
+> +	       kvm->arch.kvm_ops->test_clear_young(kvm, range);
+> +}
+> +
+>  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+>  {
+>  	return kvm->arch.kvm_ops->set_spte_gfn(kvm, range);
+> diff --git a/arch/powerpc/kvm/book3s.h b/arch/powerpc/kvm/book3s.h
+> index 58391b4b32ed..fa2659e21ccc 100644
+> --- a/arch/powerpc/kvm/book3s.h
+> +++ b/arch/powerpc/kvm/book3s.h
+> @@ -12,6 +12,7 @@ extern void kvmppc_core_flush_memslot_hv(struct kvm *kv=
+m,
+>  extern bool kvm_unmap_gfn_range_hv(struct kvm *kvm, struct kvm_gfn_range=
+ *range);
+>  extern bool kvm_age_gfn_hv(struct kvm *kvm, struct kvm_gfn_range *range)=
+;
+>  extern bool kvm_test_age_gfn_hv(struct kvm *kvm, struct kvm_gfn_range *r=
+ange);
+> +extern bool kvm_test_clear_young_hv(struct kvm *kvm, struct kvm_gfn_rang=
+e *range);
+>  extern bool kvm_set_spte_gfn_hv(struct kvm *kvm, struct kvm_gfn_range *r=
+ange);
+> =20
+>  extern int kvmppc_mmu_init_pr(struct kvm_vcpu *vcpu);
+> diff --git a/arch/powerpc/kvm/book3s_64_mmu_radix.c b/arch/powerpc/kvm/bo=
+ok3s_64_mmu_radix.c
+> index 3b65b3b11041..0a392e9a100a 100644
+> --- a/arch/powerpc/kvm/book3s_64_mmu_radix.c
+> +++ b/arch/powerpc/kvm/book3s_64_mmu_radix.c
+> @@ -1088,6 +1088,65 @@ bool kvm_test_age_radix(struct kvm *kvm, struct kv=
+m_memory_slot *memslot,
+>  	return ref;
+>  }
+> =20
+> +bool kvm_test_clear_young_hv(struct kvm *kvm, struct kvm_gfn_range *rang=
+e)
+> +{
+> +	bool err;
+> +	gfn_t gfn =3D range->start;
+> +
+> +	rcu_read_lock();
+> +
+> +	err =3D !kvm_is_radix(kvm);
+> +	if (err)
+> +		goto unlock;
+> +
+> +	/*
+> +	 * Case 1:  This function          kvmppc_switch_mmu_to_hpt()
+> +	 *
+> +	 *          rcu_read_lock()
+> +	 *          Test kvm_is_radix()    kvm->arch.radix =3D 0
+> +	 *          Use kvm->arch.pgtable  synchronize_rcu()
+> +	 *          rcu_read_unlock()
+> +	 *                                 kvmppc_free_radix()
+> +	 *
+> +	 *
+> +	 * Case 2:  This function          kvmppc_switch_mmu_to_radix()
+> +	 *
+> +	 *                                 kvmppc_init_vm_radix()
+> +	 *                                 smp_wmb()
+> +	 *          Test kvm_is_radix()    kvm->arch.radix =3D 1
+> +	 *          smp_rmb()
+> +	 *          Use kvm->arch.pgtable
+> +	 */
+> +	smp_rmb();
 
-Ok, will make this per device. Thanks.
+Comment could stand to expand slightly on what you are solving, in
+words.
 
-- Saurabh
+If you use synchronize_rcu() on both sides, you wouldn't need the
+barrier, right?
 
->=20
-> greg k-h
+> +	while (gfn < range->end) {
+> +		pte_t *ptep;
+> +		pte_t old, new;
+> +		unsigned int shift;
+> +
+> +		ptep =3D find_kvm_secondary_pte_unlocked(kvm, gfn * PAGE_SIZE, &shift)=
+;
+> +		if (!ptep)
+> +			goto next;
+> +
+> +		VM_WARN_ON_ONCE(!page_count(virt_to_page(ptep)));
+
+Not really appropriate at the KVM level. mm enforces this kind of
+thing (with notifiers).
+
+> +
+> +		old =3D READ_ONCE(*ptep);
+> +		if (!pte_present(old) || !pte_young(old))
+> +			goto next;
+> +
+> +		new =3D pte_mkold(old);
+> +
+> +		if (kvm_should_clear_young(range, gfn))
+> +			pte_xchg(ptep, old, new);
+
+*Probably* will work. I can't think of a reason why not at the
+moment anyway :)
+
+Thanks,
+Nick
+> +next:
+> +		gfn +=3D shift ? BIT(shift - PAGE_SHIFT) : 1;
+> +	}
+> +unlock:
+> +	rcu_read_unlock();
+> +
+> +	return err;
+> +}
+> +
+>  /* Returns the number of PAGE_SIZE pages that are dirty */
+>  static int kvm_radix_test_clear_dirty(struct kvm *kvm,
+>  				struct kvm_memory_slot *memslot, int pagenum)
+> diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
+> index 130bafdb1430..20a81ec9fde8 100644
+> --- a/arch/powerpc/kvm/book3s_hv.c
+> +++ b/arch/powerpc/kvm/book3s_hv.c
+> @@ -5262,6 +5262,8 @@ int kvmppc_switch_mmu_to_hpt(struct kvm *kvm)
+>  	spin_lock(&kvm->mmu_lock);
+>  	kvm->arch.radix =3D 0;
+>  	spin_unlock(&kvm->mmu_lock);
+> +	/* see the comments in kvm_test_clear_young_hv() */
+
+I'm guilty of such comments at times, but it wouldn't hurt to say
+	/* Finish concurrent kvm_test_clear_young_hv access to page tables */
+
+Then you know where to look for more info and you have a vague
+idea what it's for.
+
+> +	synchronize_rcu();
+
+>  	kvmppc_free_radix(kvm);
+> =20
+>  	lpcr =3D LPCR_VPM1;
+> @@ -5286,6 +5288,8 @@ int kvmppc_switch_mmu_to_radix(struct kvm *kvm)
+>  	if (err)
+>  		return err;
+>  	kvmppc_rmap_reset(kvm);
+> +	/* see the comments in kvm_test_clear_young_hv() */
+> +	smp_wmb();
+>  	/* Mutual exclusion with kvm_unmap_gfn_range etc. */
+>  	spin_lock(&kvm->mmu_lock);
+>  	kvm->arch.radix =3D 1;
+> @@ -6185,6 +6189,7 @@ static struct kvmppc_ops kvm_ops_hv =3D {
+>  	.unmap_gfn_range =3D kvm_unmap_gfn_range_hv,
+>  	.age_gfn =3D kvm_age_gfn_hv,
+>  	.test_age_gfn =3D kvm_test_age_gfn_hv,
+> +	.test_clear_young =3D kvm_test_clear_young_hv,
+>  	.set_spte_gfn =3D kvm_set_spte_gfn_hv,
+>  	.free_memslot =3D kvmppc_core_free_memslot_hv,
+>  	.init_vm =3D  kvmppc_core_init_vm_hv,
+
+Thanks for looking at the powerpc conversion!
+
+Thanks,
+Nick
