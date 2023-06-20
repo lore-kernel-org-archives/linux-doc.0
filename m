@@ -2,145 +2,187 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AF0EB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 07:14:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D9CDEB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 07:18:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbjFTHOT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 03:14:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57938 "EHLO
+        id S230452AbjFTHSz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 03:18:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230318AbjFTHOR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 03:14:17 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DED16119;
-        Tue, 20 Jun 2023 00:13:47 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-988689a5f44so264018866b.1;
-        Tue, 20 Jun 2023 00:13:47 -0700 (PDT)
+        with ESMTP id S230329AbjFTHSw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 03:18:52 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DCB5EA
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 00:18:51 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id 5614622812f47-39ed35dfa91so1406160b6e.3
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 00:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687245224; x=1689837224;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cHYZLznLEupvmNgdz85Wsrh9nTfIdkBiscUX255Az7M=;
-        b=KS2MlNlXd3y1nTza3BQfUQefl0hUFRyaHJjF0aNqen8fNC0xrWWq2Wqj4BXSO/TymI
-         7ZYHqb9Q0z2YI2jLz3j5V3n5Ti55PCYI2DNo0FHlYiLkbjgBrKE94yVJbYGGRKO2JNie
-         swEfgr00n17CznG0qqtGxiT9LXeKUpAqB8fL9K0Wiz5Fv4c9DZuG7zH27UlHU+IpIXwj
-         /74r3NxBxFV57roZ9AojpB2d+cobw2MJdSENRHLkn+1RSHeZreF8MTrO09njiqaaSNXW
-         jaqzeslntv7BXyd++oVljfTIIA2Inss/uW3+u+Ol8tO7biaME1caakBq2wFMkXEmVjx/
-         SE8w==
+        d=ventanamicro.com; s=google; t=1687245530; x=1689837530;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GUUYJwzB+/81t+QqwYXl7JaMezVbu3J4sAop8uSN7n0=;
+        b=T0y9hsPa+jPUTVxUkXz+0ICo2jn5rn+hiUsX/dFa5RadKbF1gzcyfUYWAY4aGTpxwD
+         ZBtdUA8plTc2UqbRyfn8cKPYRkFXH3QpVhToC9CYrn8Qujep8sW6frbR4txxejhcuBP1
+         HPUQpOLVuzbh4UW4ud9udMhBegliJITKwJGJwiHa5G+A0RH2yKt/hvNQG0BNiOgy49AH
+         XpQhCpkJdAC1agryyj1t17HiquhIDa0cYk+ew7WGs5YSSHGsl+FEkzclYtVt2fdHFtBd
+         SAf749Qj11D/dGIpJyZ7vJ8xFUg91jczUVZhYdzCneeXdXp4/OnT42igbld0EVHPEw3G
+         60xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687245224; x=1689837224;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cHYZLznLEupvmNgdz85Wsrh9nTfIdkBiscUX255Az7M=;
-        b=Yk0oCVh5gZ2fJTX1aWMD+YoQKwivtwZRm0JUQ1S1gyAntqnSk3k7kLqRO+cz/ux6TK
-         TlRqECa41/n0R1cVagxF/Kyj2HhzXBmIjnI93osR+98NQAaXeuso67XxAe93ErUU3TTz
-         aags5qDR8hdh08653L80SHdaolHqpUP7zLnOtE07Lri4KxcTUV6smzXoPk/G9n6SvO6p
-         8FCoXWq9ZYtN8OFSIRRiVi3moLKdq3iZEoVHGeeBuMELYb6H2WOO6NCatsKKSJQvP2Dr
-         Gk6+YlXv+xHb5hZGvkdYuB6iPN4Jzn3NkhTnC0/YSXW1L/0j0UTP8ZHEsc4bfobJS/IH
-         860g==
-X-Gm-Message-State: AC+VfDwVFm/BSyFDEAhdpK+jZ2y5avUwmqCP3kN9RJYGD8H+8CfqLJ8f
-        N3tkD1Mt0G6Z9gddZbJj03Eq2etPDKrYFCyPYiM=
-X-Google-Smtp-Source: ACHHUZ6F96J1yKxnlaxPS5FMbR2w71s7opnQjEhCe3UpSiAY5D8Q7lBEBoaoOSJHfUY5/idqlvCgI9wkZMATl0p2xeQ=
-X-Received: by 2002:a17:907:a412:b0:989:d9d:d911 with SMTP id
- sg18-20020a170907a41200b009890d9dd911mr1975412ejc.69.1687245224382; Tue, 20
- Jun 2023 00:13:44 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687245530; x=1689837530;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GUUYJwzB+/81t+QqwYXl7JaMezVbu3J4sAop8uSN7n0=;
+        b=Xl2/jrtCJIqDjMLX8OnNb7APkzs8K92ylSakta/TAv0sfFoBK40gu3gp2tIJdREXE2
+         x7GwaGSKCLkzPe9P7nKfSycdP3fdfvcvuO2fQvmKEy+mDcXXq10xOM8n8XEzwkW8UhQN
+         rAM2TNrWDEAk+ZLYizQcf7IgYRK0raxUX5CshFVhNuQ0IO+ezJP6D8TRfZf/o+qYkoNL
+         u7+zKqqNRuXD8lM040tV8JNLXE77AtgnQ/K0qvbrk2Kd0K6flpxatjr0vp4Cr7N5xhcT
+         DPw0vWr2nlfVIeOlUQcsK/cFbwUnOF6uew597J9m6ZjKPI4y02FEEXv6m//qlti5VNs3
+         ERNg==
+X-Gm-Message-State: AC+VfDyor6AaGGLT3j01DlFRqk4qMGnaFZEPI+V+nzXrscsQCxGhAQIJ
+        cZnvH6hJrr4Gj/7zsO2UJruGmQ==
+X-Google-Smtp-Source: ACHHUZ76mpc84tL5SCQDDRTPwRHiQaar30lEGbUyp8ywnhEF/JtZ8To/ByVviDLmfe4jc2+uod5cFA==
+X-Received: by 2002:a05:6808:200e:b0:39a:ab69:778e with SMTP id q14-20020a056808200e00b0039aab69778emr11361190oiw.23.1687245530444;
+        Tue, 20 Jun 2023 00:18:50 -0700 (PDT)
+Received: from sunil-laptop ([106.51.184.72])
+        by smtp.gmail.com with ESMTPSA id j10-20020a17090a2a8a00b0025e2358f146sm7168228pjd.13.2023.06.20.00.18.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jun 2023 00:18:50 -0700 (PDT)
+Date:   Tue, 20 Jun 2023 12:48:44 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Atish Kumar Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH 1/2] Documentation: riscv: Add early boot document
+Message-ID: <ZJFS1K/LltE57MJ4@sunil-laptop>
+References: <20230619094705.51337-1-alexghiti@rivosinc.com>
+ <CAHVXubjOUeEtnFnERjT2YOG+h5=2YX7kxeEBFSStO3WZvcv36A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230620004217.4700-1-dakr@redhat.com> <2c92bae3-0003-3c53-8ef1-6e12e5413995@redhat.com>
- <CAPM=9tzMzfuMN_iGD-97_o=QQEDT6Mbb9_u=z_o49TeT7=XUFA@mail.gmail.com> <CAFCwf11OwnoxPWHuS_55OXKE7wfHH++1Bk_37DATeCiT07GtMQ@mail.gmail.com>
-In-Reply-To: <CAFCwf11OwnoxPWHuS_55OXKE7wfHH++1Bk_37DATeCiT07GtMQ@mail.gmail.com>
-From:   Dave Airlie <airlied@gmail.com>
-Date:   Tue, 20 Jun 2023 17:13:31 +1000
-Message-ID: <CAPM=9tyv5Fje0iL0-2oJQBKEsg-nc-YV9q4BSg5SwnBvGvrzDw@mail.gmail.com>
-Subject: Re: [PATCH drm-next v5 00/14] [RFC] DRM GPUVA Manager & Nouveau
- VM_BIND UAPI
-To:     Oded Gabbay <ogabbay@kernel.org>
-Cc:     Danilo Krummrich <dakr@redhat.com>,
-        Donald Robson <Donald.Robson@imgtec.com>, daniel@ffwll.ch,
-        tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
-        christian.koenig@amd.com, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHVXubjOUeEtnFnERjT2YOG+h5=2YX7kxeEBFSStO3WZvcv36A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 20 Jun 2023 at 17:06, Oded Gabbay <ogabbay@kernel.org> wrote:
->
-> On Tue, Jun 20, 2023 at 7:05=E2=80=AFAM Dave Airlie <airlied@gmail.com> w=
-rote:
-> >
-> > Since this is feature is nouveau only currently and doesn't disturb
-> > the current nouveau code paths, I'd like to try and get this work in
-> > tree so other drivers can work from it.
-> >
-> > If there are any major objections to this, I'm happy to pull it back
-> > out again, but I'd like to get some acks/rb in the next couple of days
-> > in order to land some of it.
-> >
-> > Dave.
-> >
-> >
-> > >
-> > > forgot to add your email address to the patch series - sorry about th=
-at.
-> > >
-> > > This series (v5) contains the Documentation changes you requested.
-> > >
-> > > - Danilo
-> > >
-> > > On 6/20/23 02:42, Danilo Krummrich wrote:
-> > > > This patch series provides a new UAPI for the Nouveau driver in ord=
-er to
-> > > > support Vulkan features, such as sparse bindings and sparse residen=
-cy.
-> > > >
-> > > > Furthermore, with the DRM GPUVA manager it provides a new DRM core =
-feature to
-> > > > keep track of GPU virtual address (VA) mappings in a more generic w=
-ay.
-> > > >
-> > > > The DRM GPUVA manager is indented to help drivers implement userspa=
-ce-manageable
-> > > > GPU VA spaces in reference to the Vulkan API. In order to achieve t=
-his goal it
-> > > > serves the following purposes in this context.
-> > > >
-> > > >      1) Provide infrastructure to track GPU VA allocations and mapp=
-ings,
-> > > >         making use of the maple_tree.
-> > > >
-> > > >      2) Generically connect GPU VA mappings to their backing buffer=
-s, in
-> > > >         particular DRM GEM objects.
-> Will this manager be able to connect GPU VA mappings to host memory
-> allocations (aka user pointers) ?
->
-> I only skimmed over the uapi definitions, but from that quick glance I
-> saw you can only pass a (gem) handle to the vm bind uapi.
->
-> I think it is an important feature because you don't want to have two
-> GPU VA managers running in your driver (if that's even possible).
-> Maybe we should at least try to make sure the uapi is/will be
-> compatible with such an extension.
->
+Hey Alex,
 
-I think that would have to be a new uAPI entry point anyways, since
-managing user ptrs is extra, but the uAPI is nouveau specific and
-nouveau has no hostptr support as of now.
+Many thanks for writing this up!
 
-The gpuva manager is kernel internal, I think adding host ptr tracking
-is useful, but I don't think it's a blocker right now.
+On Mon, Jun 19, 2023 at 11:49:13AM +0200, Alexandre Ghiti wrote:
+> @Sunil V L Something about ACPI is more than welcome :)
+> 
+> And thanks to @Björn Töpel and @Atish Kumar Patra for helping in
+> writing this document!
+> 
+> On Mon, Jun 19, 2023 at 11:47 AM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+> >
+> > This document describes the constraints and requirements of the early
+> > boot process in a RISC-V kernel.
+> >
+> > Szigned-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > ---
+> >  Documentation/riscv/boot-image-header.rst |   3 -
+> >  Documentation/riscv/boot.rst              | 181 ++++++++++++++++++++++
+> >  Documentation/riscv/index.rst             |   1 +
+> >  3 files changed, 182 insertions(+), 3 deletions(-)
+> >  create mode 100644 Documentation/riscv/boot.rst
+> >
+> > diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/riscv/boot-image-header.rst
+> > index d7752533865f..a4a45310c4c4 100644
+> > --- a/Documentation/riscv/boot-image-header.rst
+> > +++ b/Documentation/riscv/boot-image-header.rst
+> > @@ -7,9 +7,6 @@ Boot image header in RISC-V Linux
+> >
+> >  This document only describes the boot image header details for RISC-V Linux.
+> >
+> > -TODO:
+> > -  Write a complete booting guide.
+> > -
+> >  The following 64-byte header is present in decompressed Linux kernel image::
+> >
+> >         u32 code0;                /* Executable code */
+> > diff --git a/Documentation/riscv/boot.rst b/Documentation/riscv/boot.rst
+> > new file mode 100644
+> > index 000000000000..b02230818b79
+> > --- /dev/null
+> > +++ b/Documentation/riscv/boot.rst
+> > @@ -0,0 +1,181 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=============================================
+> > +Early boot requirements/constraints on RISC-V
+> > +=============================================
+> > +
+> > +:Author: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > +:Date: 23 May 2023
+> > +
+> > +This document describes what the RISC-V kernel expects from the previous stages
+> > +and the firmware, but also the constraints that any developer must have in mind
+> > +when touching the early boot process, e.g. before the final virtual mapping is
+> > +setup.
+> > +
+> > +Pre-kernel boot (Expectations from firmware)
+> > +============================================
+> > +
+> > +Registers state
+> > +---------------
+> > +
+> > +The RISC-V kernel expects:
+> > +
+> > +  * `$a0` to contain the hartid of the current core.
+> > +  * `$a1` to contain the address of the device tree in memory.
+> > +
+> > +CSR state
+> > +---------
+> > +
+> > +The RISC-V kernel expects:
+> > +
+> > +  * `$satp = 0`: the MMU must be disabled.
+> > +
+> > +Reserved memory for resident firmware
+> > +-------------------------------------
+> > +
+> > +The RISC-V kernel expects the firmware to mark any resident memory with the
+> > +`no-map` flag, thus the kernel won't map those regions in the direct mapping
+> > +(avoiding issues with hibernation, speculative accesses and probably other
+> > +subsystems).
+> > +
+> > +Kernel location
+> > +---------------
+> > +
+> > +The RISC-V kernel expects to be placed at a PMD boundary (2MB for rv64 and 4MB
+> > +for rv32). Note though that the EFI stub will physically relocate the kernel if
+> > +that's not the case.
+> > +
+> > +Device-tree
+> > +-----------
+> > +
+> > +The RISC-V kernel always expects a device tree, it is:
+> > +
+In general, the firmware can pass either DT or ACPI (not both at the
+same time) to the OS. So, I think the statement that kernel always
+expects DT probably causes confusion. Can we mention some thing like
+below?
 
-One of the reasons I'd like to get this in the tree is to add things
-like that instead of overloading this initial patchset with feature
-creep.
+The firmware can pass either DeviceTree or ACPI tables to the RISC-V
+kernel.
 
-Dave.
+The DeviceTree is either passed directly to the kernel from the
+previous stage using the `$a1` register, or when booting with UEFI, it
+can be passed using the EFI configuration table.
+
+The ACPI tables are passed to the kernel using the EFI configuration
+table. In this case, a tiny DeviceTree is still created by the EFI
+stub. Please refer to "EFI stub and device" tree section below for
+details of the tiny DeviceTree.
+
+Thanks,
+Sunil
