@@ -2,59 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 686CEEB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 11:45:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 366C9EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 11:51:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232777AbjFTLp4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 07:45:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36982 "EHLO
+        id S231649AbjFTLvX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 07:51:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232774AbjFTLpp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 07:45:45 -0400
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC56198B;
-        Tue, 20 Jun 2023 04:45:36 -0700 (PDT)
-Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-55b3a245359so3096313eaf.2;
-        Tue, 20 Jun 2023 04:45:36 -0700 (PDT)
+        with ESMTP id S231958AbjFTLvU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 07:51:20 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D07ACE71
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 04:51:17 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4f7677a94d1so6094977e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 04:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687261536; x=1689853536;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tJCMKaRS9iIUjy75SMVgQ9VDcAREfFkBluEAU4z9ags=;
-        b=JafGBlk8XfHKEBCbR5tqF5YOtAo+NrGzEussgveHGWOlu8GHvnJB64cbGERaeyJGO3
-         m9yZ5SotMdegV+GuJJ89oQXjiQLb4KVJHDnoaskf4Cpsm4vW7HsDeFhgzZaL6ttHTaMK
-         1DPNgnwedQN+wGECrc3w75vbDa37J4OmNHdwRclNP+ZTxYCY//GBZ8BUKse5bA9fhH7Y
-         F3xjOPm2JdBCfgaoYhv1CMhTAEcGrA/zM25EIjnGGCSrqxyvkxOc3Rmw6UIewS+moM48
-         D/lZWaQ7ulPMq3zBD6WbFN4k33uOlSyAH+Cyd3Y5YaZ395q6VVXIQ9TNeNiLt2IgjBqt
-         BoZw==
+        d=google.com; s=20221208; t=1687261871; x=1689853871;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uk/ZJntyyMN1aW63L6PViu326GWnEG+0qzLApQJoBK4=;
+        b=3YLv+I26okscckStyGbHbFPskI4CeaFRPtd0R1imHtZnByNRNtKsZJUtovm1U7hvqT
+         xcEHrfYSFvItVu8CSeAm/hWoNkJT0NfSNZK1ij5MF9ONXLqKTktczWt0nE2CDHKHnHVv
+         ln2uYUSeoujHktL0nM+3kh0h9jtLXklNnKPDEpUlfyetAYRp0dIKF4kQ37y18iVdBiiQ
+         KqGd+1dyE3xc6mtfVbghTJUWiTyWIt2hpgwGcKxtS9VMO2qRqzEmOcwabHnEI0SkUr+R
+         pNwdK8Op6G90Y3Iu3qeQOywgsE0fiT3uhuf3iMiLu6cS3VREwCyuQAroGYo6GCA84my2
+         fIVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687261536; x=1689853536;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tJCMKaRS9iIUjy75SMVgQ9VDcAREfFkBluEAU4z9ags=;
-        b=aNafFtjnjJESOCl0xmA/c4L97Dne12gkCll6wwM/XfpnooksIfmsBPHMKkDGL3DmAM
-         nDEukj4KNMhD7tteAwzGDMQlDPnU0mODdSfZd4V65UxXVhTgk7RnbAVeyPJ9i07wx28c
-         F4qBGPYdbjwva26znaqNzYKBrE/+FkvV5/O8/jdnBqv+BDODEpqkfO7/5rT7VHnZATfU
-         2pX7lLRtDadYUjz6SMechNjrea3S1KnkKPfQkbkIPWBJaEURvFPJXblfhG9LODVgrZqV
-         JrWMW6IhzoBmQnFc5Hb6b/sbM1YU/P9alKNFoSAwgjSlu9/uZbc/vWhslEZuoSUm28Ms
-         bytQ==
-X-Gm-Message-State: AC+VfDxH4j52uFzd/3IYLidIVYpsq/udEm4hi2ZmkVkeJ1GbWhR4WQBe
-        MpLk8HuRnLblyCR/4u1RzDKOZg3WUHdR3pf8nAQ=
-X-Google-Smtp-Source: ACHHUZ54uF7mepaUweD5UBJo2z3ZyfBJ1SnIHZ/Wn3QYsgoqkmZdln9JMYd8qBzKPB6APDZFn1NEazVjfaI7UfPLMlY=
-X-Received: by 2002:a05:6808:2110:b0:39e:ce9d:1a92 with SMTP id
- r16-20020a056808211000b0039ece9d1a92mr7992873oiw.4.1687261536152; Tue, 20 Jun
- 2023 04:45:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230614095158.1133673-1-elver@google.com> <CA+fCnZdy4TmMacvsPkoenCynUYsyKZ+kU1fx7cDpbh_6=cEPAQ@mail.gmail.com>
- <CANpmjNOSnVNy14xAVe6UHD0eHuMpxweg86+mYLQHpLM1k0H_cg@mail.gmail.com>
-In-Reply-To: <CANpmjNOSnVNy14xAVe6UHD0eHuMpxweg86+mYLQHpLM1k0H_cg@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@gmail.com>
-Date:   Tue, 20 Jun 2023 13:45:25 +0200
-Message-ID: <CA+fCnZccdLNqtxubVVtGPTOXcSoYfpM9CHk-nrYsZK7csC77Eg@mail.gmail.com>
-Subject: Re: [PATCH] kasan: add support for kasan.fault=panic_on_write
-To:     Marco Elver <elver@google.com>
+        d=1e100.net; s=20221208; t=1687261871; x=1689853871;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Uk/ZJntyyMN1aW63L6PViu326GWnEG+0qzLApQJoBK4=;
+        b=M3H13zfra25eboy8BqSDrywy5PH2Hyx211GHKC7Jp8zzGfZs9Ni7KLlDWLYlTcEFVn
+         JPW0vypsvLIiyTCJhNXyF7iTH4TvwN0TS72Oeep6dOEd/+9QX76+w6KzJmk+146gHLvq
+         gANfPfKfG02YKWzeX6vpdzvRGUOlaZlWL+Bq+DYMTarwpc8Yje2JInSaE/2R+qcTKWJ8
+         zeyTQsUFb0BBOxEVQM3Asfspg+5GL0A+5OtqdXkq8NvlIm4ubX519qSm2HnSLXfPAfuq
+         P246ZfJWDgsaKwKUJzaOUx4kAeIg9k9JHlr2Sox1bHOahw2gHise5qorIB7ExfMEI3lD
+         xovA==
+X-Gm-Message-State: AC+VfDzQjRngvAH8s1Vs2oRUMqtMx6vZuErhzdRdeLJJro5dPnfK2Y+Y
+        oSvE80aMBSkIgEI2Bgh6fxH7oQ==
+X-Google-Smtp-Source: ACHHUZ4pfCj5B++gOGfsy2RGGFxWJ5sfAJBHcLIq86dWGb+bAbgXYoQZfPoAQear3HV2O4i/Woq9ng==
+X-Received: by 2002:a19:2d58:0:b0:4f8:5755:5b22 with SMTP id t24-20020a192d58000000b004f857555b22mr6731320lft.27.1687261871236;
+        Tue, 20 Jun 2023 04:51:11 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:9c:201:8530:a6a3:373f:683c])
+        by smtp.gmail.com with ESMTPSA id d22-20020a1c7316000000b003f80946116dsm13216151wmb.45.2023.06.20.04.51.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jun 2023 04:51:10 -0700 (PDT)
+Date:   Tue, 20 Jun 2023 13:51:05 +0200
+From:   Marco Elver <elver@google.com>
+To:     Andrey Konovalov <andreyknvl@gmail.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Potapenko <glider@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
@@ -65,31 +63,58 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>, kasan-dev@googlegroups.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, Catalin Marinas <catalin.marinas@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] kasan: add support for kasan.fault=panic_on_write
+Message-ID: <ZJGSqdDQPs0sRQTb@elver.google.com>
+References: <20230614095158.1133673-1-elver@google.com>
+ <CA+fCnZdy4TmMacvsPkoenCynUYsyKZ+kU1fx7cDpbh_6=cEPAQ@mail.gmail.com>
+ <CANpmjNOSnVNy14xAVe6UHD0eHuMpxweg86+mYLQHpLM1k0H_cg@mail.gmail.com>
+ <CA+fCnZccdLNqtxubVVtGPTOXcSoYfpM9CHk-nrYsZK7csC77Eg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+fCnZccdLNqtxubVVtGPTOXcSoYfpM9CHk-nrYsZK7csC77Eg@mail.gmail.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 20, 2023 at 1:33=E2=80=AFPM Marco Elver <elver@google.com> wrot=
-e:
->
-> > On a related note, it looks like we have a typo in KASAN
-> > documentation: it states that asymm mode detects reads synchronously,
-> > and writes - asynchronously. Should be the reverse.
->
-> This says the documentation is correct, and it's actually called for
-> writes: https://docs.kernel.org/arm64/memory-tagging-extension.html#tag-c=
-heck-faults
->
-> Who is right?
+On Tue, Jun 20, 2023 at 01:45PM +0200, Andrey Konovalov wrote:
+> On Tue, Jun 20, 2023 at 1:33 PM Marco Elver <elver@google.com> wrote:
+> >
+> > > On a related note, it looks like we have a typo in KASAN
+> > > documentation: it states that asymm mode detects reads synchronously,
+> > > and writes - asynchronously. Should be the reverse.
+> >
+> > This says the documentation is correct, and it's actually called for
+> > writes: https://docs.kernel.org/arm64/memory-tagging-extension.html#tag-check-faults
+> >
+> > Who is right?
+> 
+> Ah, right. I did a quick google to check when I was writing the
+> response and found this: https://lwn.net/Articles/882963/. But looks
+> like that cover letter is wrong and the documentation is right. I
+> wonder what the point of the asymmetric mode is then.
 
-Ah, right. I did a quick google to check when I was writing the
-response and found this: https://lwn.net/Articles/882963/. But looks
-like that cover letter is wrong and the documentation is right. I
-wonder what the point of the asymmetric mode is then.
+Maybe not as strong, but asymm mode makes sense from a microarch point
+of view, where writes are always committed into a store buffer, but
+reads can only commit when the data (incl. tag) is available.
 
-So the current code that you have should work perfectly. The only
-change I'd like to see is in the documentation.
+> So the current code that you have should work perfectly. The only
+> change I'd like to see is in the documentation.
 
-Thanks!
+Something like this (or more?)
+
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index 7f37a46af574..3c58392d931e 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -135,6 +135,8 @@ disabling KASAN altogether or controlling its features:
+   fault occurs, the information is stored in hardware (in the TFSR_EL1
+   register for arm64). The kernel periodically checks the hardware and
+   only reports tag faults during these checks.
++  Note that ``kasan.fault=panic_on_write`` results in panic for all
++  asynchronously checked accesses.
+   Asymmetric mode: a bad access is detected synchronously on reads and
+   asynchronously on writes.
+ 
