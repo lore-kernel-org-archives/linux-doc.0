@@ -2,131 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EBB1EB64D8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 03:33:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A33DEB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 03:48:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229915AbjFTDdB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 23:33:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57306 "EHLO
+        id S229677AbjFTDsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 23:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229901AbjFTDdA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 23:33:00 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7793139;
-        Mon, 19 Jun 2023 20:32:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687231977; x=1718767977;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vz9Elmf3UeS0RL3UTjU7uNXgCY47ti7fqCDYGrkHqhs=;
-  b=m9tobE2MoUEA6+xAN6tKuRg6pC29TlEust+Ya/vQLh8zFCy7h5Ov0a+k
-   dnK/cCILG9kowFVDJIsIJMVu126+qtzxGYWxeztBdhOsyPWUR1xzXVpWY
-   I4nevD/Ahas2SpikE0RihUsSgVayUbTOjj4Z038Yf6vkL3bYONatz3C3h
-   O/mTTSD+bkp5Ueod1obFWkRr/GWwEM/tNCSwlYv9HF9/hpFvnWE6OvAdd
-   iN6A1hUpDlb53yQ5CmtPD18ohDitiANmX25UBdqn3eD4E00/ZuHT4STCD
-   KnvA/i7/5wlo3wZg5fJoMAwoaFKxLVR1NKZS1l+c/tngcEBH1PjAaTawh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="359758202"
-X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="359758202"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 20:32:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="691279341"
-X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="691279341"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 Jun 2023 20:32:50 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qBS6s-0005RH-0F;
-        Tue, 20 Jun 2023 03:32:50 +0000
-Date:   Tue, 20 Jun 2023 11:32:33 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
-        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>,
-        Donald Robson <donald.robson@imgtec.com>,
-        Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <202306201123.4nvLB3cQ-lkp@intel.com>
-References: <20230620004217.4700-4-dakr@redhat.com>
+        with ESMTP id S229655AbjFTDsT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 23:48:19 -0400
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC6610C2;
+        Mon, 19 Jun 2023 20:48:17 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 77DF05C012E;
+        Mon, 19 Jun 2023 23:48:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 19 Jun 2023 23:48:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-id:content-type
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1687232895; x=
+        1687319295; bh=xI+HWMRw7XVVtgixtdwauRUMQmYd0Nzo4WiW1Ge+RQw=; b=W
+        QjDDOrisyOq1KjmhI95oLLAwm8yWKfG63eZKVJHHEwbnz6ZcnRP21WiFsKu+hKiL
+        dBAHZiPs4FYNu6cbFKrCovGdTMNo58g/X6fX/AfCYYog28yjig8nJz/L8pum+BQy
+        dSTi9iAtmW1Wq2yJv1RNPc1iVkZuahvJwq7Py8MA8XF2yr97HeEuHXBTV19yLHpz
+        A5UGbOm9bnjRsmHcQibevWCDsMeoZTHJACRb+5jB1/tGHpNllM292hH3+4rutwJc
+        IJPVA5+izBZyTWJMSPlFLw7nCgrKDnHW7pUQA5+zTOGRqD7goWT6TZqbKsoGyMqv
+        u85jPPsFHumFxkKF7sXnQ==
+X-ME-Sender: <xms:fiGRZFqAB2H_osqEQGK7Kl-0thqY9R2NiWTr_WExr0ZoYjW--vQXKw>
+    <xme:fiGRZHqecLQbOyjYvZuAJAwdXRGlxBw2hoi1lk0_bbzIqqv0y9Ct8Y6wVm9GXv6_-
+    UfI5n4HTObGFyJWiDA>
+X-ME-Received: <xmr:fiGRZCNuLd6UDEwS1cwBbHmy9rMY1ikoWNIVIGkmb5UKPkT0dwXWzgX_5IniM3UAtASyMXUU94VwGnZKWzchnTjGsThg1jem-Ds>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefgedgfedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevufgjkfhfgggtsehmtderredttdejnecuhfhrohhmpefhihhnnhcu
+    vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
+    htthgvrhhnpeelfeeklefggfetkedukeevfffgvdeuheetffekledtfeejteelieejteeh
+    geelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
+X-ME-Proxy: <xmx:fiGRZA7DcpEG7nSOGaGLRuqftwzk6V0lfxREBBATr8J1JwSSehT9vQ>
+    <xmx:fiGRZE5lRzou-Zxh6-4ng1uxxKVtfbeDHFkYO7GaVe8Gx0Zyyzndsg>
+    <xmx:fiGRZIjSOH6o6gpq4-flKW5q5QE1EeTd2IbaSCIETsErj_eUeXaFTA>
+    <xmx:fyGRZOQmGsoep7SnWtrqXnq3L8fYxg8rqztUeMcP1Qdsu8LuX8ckrg>
+Feedback-ID: i58a146ae:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Jun 2023 23:48:11 -0400 (EDT)
+Date:   Tue, 20 Jun 2023 13:48:59 +1000 (AEST)
+From:   Finn Thain <fthain@linux-m68k.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+cc:     Jonathan Corbet <corbet@lwn.net>,
+        tech-board-discuss@lists.linux-foundation.org,
+        Theodore Ts'o <tytso@mit.edu>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
+ the wider community
+In-Reply-To: <2023061946-latitude-negligent-e4ae@gregkh>
+Message-ID: <99b5fc04-798d-a235-c001-fb444e78ada9@linux-m68k.org>
+References: <cd1786eadd1ff05d9ca053b72eb5f06ceb0c470d.1687167717.git.fthain@linux-m68k.org> <2023061946-latitude-negligent-e4ae@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230620004217.4700-4-dakr@redhat.com>
+Content-Type: multipart/mixed; BOUNDARY="-1463811774-175744949-1687222626=:26354"
+Content-ID: <b2582ffe-b281-b640-07f7-4a96b2d11ccf@nippy.intranet>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Danilo,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2222dcb0775d36de28992f56455ab3967b30d380]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230620-084448
-base:   2222dcb0775d36de28992f56455ab3967b30d380
-patch link:    https://lore.kernel.org/r/20230620004217.4700-4-dakr%40redhat.com
-patch subject: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA mappings
-config: hexagon-randconfig-r041-20230620 (https://download.01.org/0day-ci/archive/20230620/202306201123.4nvLB3cQ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201123.4nvLB3cQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306201123.4nvLB3cQ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_gpuva_mgr.c:676:7: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-     676 |         return WARN(check_add_overflow(addr, range, &end),
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     677 |                     "GPUVA address limited to %lu bytes, see Documentation.\n",
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                               %u
-     678 |                     MTREE_INDEX_SIZE);
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_gpuva_mgr.c:663:26: note: expanded from macro 'MTREE_INDEX_SIZE'
-     663 | #define MTREE_INDEX_SIZE sizeof(MTREE_INDEX_TYPE)
-         |                          ^
-   include/asm-generic/bug.h:133:29: note: expanded from macro 'WARN'
-     133 |                 __WARN_printf(TAINT_WARN, format);                      \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/asm-generic/bug.h:97:48: note: expanded from macro '__WARN_printf'
-      97 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
-         |                                                              ^~~
-   drivers/gpu/drm/drm_gpuva_mgr.c:1314:25: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
-    1314 |         struct drm_gpuva *va, *prev = NULL;
-         |                                ^
-   2 warnings generated.
+---1463811774-175744949-1687222626=:26354
+Content-Type: text/plain; CHARSET=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <9cbc14d3-d22d-85c2-f488-70e94b9d5dfd@nippy.intranet>
 
 
-vim +676 drivers/gpu/drm/drm_gpuva_mgr.c
+On Mon, 19 Jun 2023, Greg Kroah-Hartman wrote:
 
-   668	
-   669	static inline bool
-   670	drm_gpuva_check_overflow(u64 addr, u64 range)
-   671	{
-   672		MTREE_INDEX_TYPE end;
-   673	
-   674		return WARN(check_add_overflow(addr, range, &end),
-   675			    "GPUVA address limited to %lu bytes, see Documentation.\n",
- > 676			    MTREE_INDEX_SIZE);
-   677	}
-   678	
+> On Mon, Jun 19, 2023 at 07:41:57PM +1000, Finn Thain wrote:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > @@ -103,7 +103,6 @@ Level 5
+> > =20
+> >  * Upstream kernel development is considered a formal job position, wit=
+h
+> >    at least a third of the engineer=E2=80=99s time spent doing Upstream=
+ Work.
+> > -* Organizations will actively seek out community member feedback as a
+> > -  factor in official performance reviews.
+>=20
+> Why are you removing this?  I write more performance reviews now than I=
+=20
+> have have in my life, all for companies that I do NOT work for.  That's=
+=20
+> a good thing as it shows these orginizations value the feedback of the=20
+> community as a reflection on how well those employees are doing at their=
+=20
+> assigned job.  Why are you removing that very valid thing?
+>=20
+
+I'm not preventing that. That's covered by level 4 and my patch only=20
+alters level 3 and level 5.
+
+Bonuses and salaries are tied to performance reviews so the hazard here=20
+are clear. Level 5 compels companies to seek feedback and naturally they=20
+will seek it from companies who share their goals. You ask too much of=20
+employees if you expect them to put aside the corporate agendas and pursue=
+=20
+the interests of the wider community.
+
+Countless lawsuits over the last few decades made it abundantly clear that=
+=20
+the goals of companies often diverge from those of the wider FLOSS=20
+community.
+
+Consider all of the open source code thrown over the wall, the binary=20
+blobs, the binary modules, the built-in obsolescence, the devices shipped=
+=20
+with vulnerabilities now reduced to e-waste because they cannot be fixed,=
+=20
+the vendor lock-in strategies, the walled gardens, the surveillance etc.
+
+To my jaded mind, it is obvious that such reprehensible strategies can be=
+=20
+advanced by co-operative employees given inducements from colluding=20
+companies. My patch won't prevent this sort of behaviour but it does=20
+remove a directive that would help facilitate it.
+
+Greg, if you want to see more performance reviews, the maturity model=20
+could compel companies to provide unsolicited feedback, instead of seek it=
+=20
+from an arbitrary source. Would you be amenable to a revised patch along=20
+those lines?
+---1463811774-175744949-1687222626=:26354--
