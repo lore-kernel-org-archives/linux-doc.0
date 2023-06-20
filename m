@@ -2,119 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4278EB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 03:49:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADFA6EB64D8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 03:53:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbjFTDth (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 23:49:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33514 "EHLO
+        id S230253AbjFTDxj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 23:53:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbjFTDtg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 23:49:36 -0400
+        with ESMTP id S230262AbjFTDxi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 23:53:38 -0400
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11C0F10CF;
-        Mon, 19 Jun 2023 20:49:35 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 7D9205C01B5;
-        Mon, 19 Jun 2023 23:49:34 -0400 (EDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3089E6C;
+        Mon, 19 Jun 2023 20:53:35 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 2E8955C011B;
+        Mon, 19 Jun 2023 23:53:35 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 19 Jun 2023 23:49:34 -0400
+  by compute2.internal (MEProxy); Mon, 19 Jun 2023 23:53:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:content-type:date:date
         :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
         :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1687232974; x=1687319374; bh=uK8OHGMIlFmnJ
-        LvVW0a3pMKfDOHLUDIq6unP7lOwbaE=; b=K7k6z/7kBm+2XX8J5xZJpPOm4KUIY
-        SjAeNJLTn7VYVT0+Pma8pKRUP4DB5JRuqa0lsXpbHbNf6+7nrUmFksQhT6pyecn5
-        wonDg5tnuqwrR+bkEWOm3PljmjYXxMZTpapoHXI60Dkf5a9iMRjup6XyD2ZkCV11
-        OHBrNxCWFjH+c0vl49JtGPA1aXwbWb3GpfX/E3Wq8/60WJbng0jbgsSpflHOlUme
-        iH0sExaGX9/sx2pib3vsdhiK0JrQfMfSXXAoejGBaeaj0Wt30cS2pqcvZwpJNIKr
-        wI/Kv6LqxMlIxeCpgG4xQqW9KN+8VB9cp/QQwCDFVcMc8t/Di+wi+q+XA==
-X-ME-Sender: <xms:ziGRZE3zP6vDASt-3BK_geM4FJVeZNNXB4XGci1-rZeX9YWQEl9PlQ>
-    <xme:ziGRZPHhw7dHj160MLqHkkMg70aQOZB8Na-9oXsjUAXG67AO3RRb0hpEj_Ev86ecM
-    Pds21g22TWQfwyqQlc>
-X-ME-Received: <xmr:ziGRZM4R8nqJbvi7Tfqo8MXTdTmQK9kTRWWABy11LnKpefvz9i7FG0FCpcBXtED-Jjaj7X1s6y_l5Mt8yhlDbWTvNvCePBv59T0>
+        :x-sasl-enc; s=fm2; t=1687233215; x=1687319615; bh=Mn19YQ7R3+iim
+        Mi/L2B59f0E2YcswbZeogtBkr71boI=; b=Idv6ckvZdPwpFDWeTp3yAegQHdieL
+        EE2gGsKcShBST7ZG0/ddoW9tRA8ylCYwGkjSu8g89jEkNqfw/8nOgbTqK7NdExZ7
+        1EQzbA3zt1m3z2G4BmytxAVTMb2U8KOr/kKzp2CLxvyEJak17o9Rs8F2GRXK8mw8
+        TUWMw36SiEN+x4lJnO677pNqesSm443i9LH2t17MLpXrW+jDxjXT2iQklpywDTtJ
+        AI6hvKChbmtpGnzrr2fE7oeujjawv1nkDMUe1H3hdQj+fV5yCFxbqIL8xpnAF5v1
+        71vtLy5GGNAVhUmlAJIIMD+duP8s7HGmoHTPeLnjvMpMBtIEm/TNoYc+Q==
+X-ME-Sender: <xms:viKRZFUHJNtLoii4I5XwpKHL3UM0DNoq7mHydHIkYkgLZLath-91DA>
+    <xme:viKRZFmZP23-jILUHw6T5-f-Pb2OF4tWBtaae3SBcnNxyBmPhJsgeNQ7KCdfw6nJC
+    iFJo1ICQQdqgku8hRQ>
+X-ME-Received: <xmr:viKRZBaZRisGJStT7-XecS_wjKW-VOxxXwEvd5YdsnAIlSJbC2FSo821QAn7ZxrToV0YN1rV-O_WdUM8dzhxT_b43P4KKpbV4-A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefgedgfeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
     vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeelueehleehkefgueevtdevteejkefhffekfeffffdtgfejveekgeefvdeu
-    heeuleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:ziGRZN0U3CfXmvOhuzJG9fz88pkrWbA0Q-4MhRbUwRvhXpna_BSGSw>
-    <xmx:ziGRZHE0c9HO1A55ihoFQBejQ9EOyd5LsHMCSHFdSlW6OSASVOQJug>
-    <xmx:ziGRZG92PYbhWpOxOV7oP_qjPjOfNQZ2WJq-q4_7IEj0E1bNcbchpg>
-    <xmx:ziGRZM7FdMWob6PRPKrHg_fPYKWs79e2Jq2JzsdbB1m2Avg4JIEHPA>
+    htthgvrhhnpeeklefhgeektefhtdfgvdeffeetudeutddufeelteeiffelkeegtdelfeev
+    ueefjeenucffohhmrghinhepfihikhhiphgvughirgdrohhrghdpfhhinhhoshdrohhrgh
+    dplhifnhdrnhgvthenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+    fhhrohhmpehfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
+X-ME-Proxy: <xmx:vyKRZIVexFOsVPC1B2CMF7MOtqV8xPgoGzvv4Z7asMY3c4lRx7ActQ>
+    <xmx:vyKRZPmAZ8xYfYT_t5DAgmhgtLz4B_r5OYVJfjaJFuThhmoegFKasA>
+    <xmx:vyKRZFc8ZFop3g9xSg4RFQS3HkewGT5pQb9DVRbhNVDqzsnglg60mA>
+    <xmx:vyKRZKuYEVT3x0kupb-2c2iXo44LgUvGW8-5j8MGbEzG-yxuuckg-Q>
 Feedback-ID: i58a146ae:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Jun 2023 23:49:31 -0400 (EDT)
-Date:   Tue, 20 Jun 2023 13:50:21 +1000 (AEST)
+ 19 Jun 2023 23:53:33 -0400 (EDT)
+Date:   Tue, 20 Jun 2023 13:54:23 +1000 (AEST)
 From:   Finn Thain <fthain@linux-m68k.org>
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>
-cc:     corbet@lwn.net, dan.j.williams@intel.com,
-        gregkh@linuxfoundation.org, keescook@chromium.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tech-board-discuss@lists.linux-foundation.org, tytso@mit.edu
+To:     Theodore Ts'o <tytso@mit.edu>
+cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        tech-board-discuss@lists.linux-foundation.org,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
  the wider community
-In-Reply-To: <e78eef83a50a558aae765baafcf9c571788a02a5.camel@HansenPartnership.com>
-Message-ID: <7fef2bbb-4c5a-52b8-8e85-400a8fbb8786@linux-m68k.org>
-References: <e78eef83a50a558aae765baafcf9c571788a02a5.camel@HansenPartnership.com>
+In-Reply-To: <20230619194216.GB286961@mit.edu>
+Message-ID: <1dca9f44-3716-19b2-efc6-03aef5c22d74@linux-m68k.org>
+References: <cd1786eadd1ff05d9ca053b72eb5f06ceb0c470d.1687167717.git.fthain@linux-m68k.org> <20230619194216.GB286961@mit.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 19 Jun 2023, James Bottomley wrote:
+On Mon, 19 Jun 2023, Theodore Ts'o wrote:
 
 > On Mon, Jun 19, 2023 at 07:41:57PM +1000, Finn Thain wrote:
 > > The Linux Contribution Maturity Model methodology is notionally based 
 > > on the Open source Maturity Model (OMM) which was in turn based on the 
 > > Capability Maturity Model Integration (CMMI).
-> > 
-> > According to Petrinja et al., the goal of the OMM was to extend the 
-> > CMMI so as to be useful both for companies and for communities [1][2].  
-> > However, the Linux Contribution Maturity Model considers only 
-> > companies and businesses.
 > 
-> That's not a correct characterization.  The model is designed to measure 
-> and be useful to businesses, but it definitely considers the community 
-> because it's progress is built around being more useful to and working 
-> more effectively with the community.
+> So from a historical/factual basis, this is not true.  It was *not* 
+> based on the Open Source Maturity Model; in fact, as the principal 
+> author of this document, I wasn't even aware of the OMM when I wrote it.  
+> The general framework of Maturity Models[1] is a very long one, and goes 
+> back well beyond Dececmber 2022, which is when the folks in the banking 
+> sector launched the OMM[2].
+> 
+> [1] https://en.wikipedia.org/wiki/Maturity_model
+> [2] https://www.finos.org/blog/open-source-maturity-model-launch
 > 
 
-You're right, the characterization I gave does exaggerate the bias. I 
-shall moderate that if I resubmit the patch.
+Thanks for that background, and thanks for your work on the Linux model. I 
+appreciate the basic aim of the Linux model though I am highly skeptical 
+of the relevance of a top-down goal-oriented methodology to a bottom-up 
+compromise-oriented collaborative effort.
 
+With regard to that mismatch, though somewhat off-topic, I'll note that 
+the Linux model has departed quite a distance from the CMMI. E.g. CMMI 
+level 5 is about continuous improvement, whereas Linux level 5 is 
+basically level 4 "only louder". In the CMMI, the elements that make up 
+the lower levels are strictly required by those of the upper levels; so 
+it's not a question of degree but necessity.
+
+> The reason why the language in the Linux Contribution Maturity Model 
+> (LCMM) focused on companies was that was where the problem was perceived 
+> to be.  That is, the *vast* majority of Linux Kernel contributors work 
+> at companies, and because of many companys' focus on reducing costs and 
+> increasing profits of their products which are part of the Linux kernel 
+> ecosystem, some of them enagage in anti-patterns which are not healthy 
+> either for their own role in the Linux Kernel ecosystem, and for the 
+> Linux Kernel ecosystem at large.
+> 
+> For example, if you look at the 6.3 contribution report[3], you'll see
+> that by changesets (git commits), 85.4% of the contributions came from
+> companies, 6.6% were unknown, 4.8% were "None" (e.g.,
+> hobbists/students), and 1.1% were from the Linux Foundation.
+> 
+> [3] https://lwn.net/Articles/929582/
+> 
+> In actual practice, we get *very* few commits from non-profit 
+> organizations such as, say, the Mozilla Foundation, the Eclipse 
+> Foundation, or even community distributions such as Debian or Arch. And 
+> so the concerns around software engineers not getting the permission and 
+> encourage they need so they can contribute to the Linux kernel community 
+> at large, is primarily coming from companies.  The only non-profit 
+> organization that even shows up at the contribution reports is the Linux 
+> Foundation, and I'm pretty confident in how enlightened the LF 
+> management vis-a-vis kernel contribution.  :-)
+> 
+
+I suspect that counting commits may be the wrong metric (I can think of 
+better ones). But if that's what we have, the lack of commits from 
+non-profit organizations is a situation that might actually be improved by 
+changes like the ones I'm advocating.
+
+> As far as individuals are concerned, things like performance reviews, 
+> the ability for overly paranoid corporate Corporate General Counsel not 
+> allowing their engineers from contributing to Open Source (in general) 
+> and the Linux Kernel (in particular), yes, those things aren't really 
+> applicable.  But again, there is a specific problem that we are trying 
+> to solve, and it's not with individual contriduals.
+> 
 > > This patch addresses this bias as it could hinder collaboration with 
 > > not-for-profit organisations and individuals, which would be a loss to 
 > > any stakeholder.
 > 
-> I don't really think changing 'Businesses' to 'Organizations' entirely 
-> addresses what you claim is the bias because individuals would still be 
-> excluded from the term 'Organizations'.  I also don't really think it 
-> matters.  Part of the reason this whole thing doesn't matter is that 
-> sometimes people do know who a contributor they work with works for, but 
-> most of the time they don't.
-
-This is not just about patches, it's also about incentives and influence.
-
-> If you really want this to be inclusive, you could change it to 'other 
-> contributors' but I'm still not sure it's worth it.
-> 
-> > 
-> > Level 5 is amended to remove the invitation to exercise the same bias
-> > i.e. employees rewarded indirectly by other companies.
-> 
-> I also wouldn't remove the bit about seeking upstream feedback on
-> employees; I know from personal experience it happens a lot.
+> I'm not sure how this document would "hinder collaboration" with 
+> non-profit organizations and individuals.  Could you say more about your 
+> concern regarding how this undesireable outcome would happen in 
+> practice?
 > 
 
-If it happens a lot already, why compel employers to seek it?
+I believe that I've now addressed this in my message to Greg.
 
-It's worth noting that the model compels employers to seek "community 
-member feedback" which is not the same as the "upstream feedback" that you 
-describe.
+> I'm not against making using wording which is more general, such as 
+> perhaps "companies and organizations" instead of "companies", but it's 
+> important that we don't dilute the message the primary audience --- 
+> which is pointed-haired management types, who are familiar with the 
+> Maturity Model framework, who are *primarily* working at for-profit 
+> companies, and who could make it easier for those Linux developers whose 
+> day job involves Linux kernel development.
+> 
+
+If employers are going to make those day jobs easier, IMHO it will be quid 
+pro quo or not at all. That's why I am wary of bias.
