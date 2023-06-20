@@ -2,113 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1186DEB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 11:33:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D48EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 11:44:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232693AbjFTLdp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 07:33:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58516 "EHLO
+        id S232116AbjFTLod (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 07:44:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbjFTLdl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 07:33:41 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0DA1FE
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 04:33:39 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4f866a3d8e4so4054030e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 04:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687260814; x=1689852814;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XVsib4qKyB82Osq6CfMX+p3Eul3U7zE2OWUFnDtEhvo=;
-        b=PkVmSxkxBTKfOJoGCeY3MpFQDih6koxeOCQ14L+BpZCZ6kD0s2PK4WBKEjZ50gVvx9
-         tDm5MO2zh+vUPqQtUMqEard3YaukFyV9rTD8o9U6ek/JzB8fLufmF4HixGFiJnWZ/h6E
-         Lyx82E7hKSR0qnVKz+l7gF6f1sU15vY2D/C2vwiYp9kGbb+ge6YlzQQup20662JX3man
-         vRAiHnQSro7U2xy1x7mRUyrFcwTVjEcFg4DnUgrv8S4FODS46xb1h7BpQ+PIz0f6co0l
-         SCr41shFRago+35eQ234HzgUloxVacc+VWJEPu3EPp6zsdzuG7V+xVNBfazLkXQQdCuZ
-         3CDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687260814; x=1689852814;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XVsib4qKyB82Osq6CfMX+p3Eul3U7zE2OWUFnDtEhvo=;
-        b=TVUyqqqsXoay6evzYm+mK6dq58IoGwga7rM80Lp8QcPVf13hs2Ez0n7noEbkjrEA4F
-         8oGiiC1+iw9qAZhvIpIWGwPvDOYDzaM9qmMVXbGUNeG34hHBzD3lP+5ogOCttFXUd+f6
-         s1Nsh6tomavpDyKyXAkcFvZNCARoJm69J7qzqqCEWTCPU7scN0f7lF8PEFWYmsp8HxgM
-         vSUehs6m0Kc5bIWuRvX3FzRicfF0LL147gTUunF0GofCujSWUILj1mslHVlKTLN5eEQb
-         pcFeB4BwL4V8dP0lAN3sbDJnGmC5wqqC6DFf2cnZz279aUNPjorh3WiD7uBZv/KQrwir
-         gz9w==
-X-Gm-Message-State: AC+VfDyxx5LCFu36xEzcU307KGDqON3H5p5kunGrASA2n8y/Ee42eN6v
-        7wwFxtYS9yBy82fyZseKddtY3euH/Fb1dDUdAvITLg==
-X-Google-Smtp-Source: ACHHUZ6i52O32LZigRCWsfh0agBf2LmLpUofUpFF51XMDq+fuNByYXQJL7Pt5SwRjcIXw5UxCzPhjHNhb3uSV71WwNo=
-X-Received: by 2002:ac2:5b0c:0:b0:4f8:666b:9de8 with SMTP id
- v12-20020ac25b0c000000b004f8666b9de8mr5150573lfn.13.1687260814348; Tue, 20
- Jun 2023 04:33:34 -0700 (PDT)
+        with ESMTP id S231890AbjFTLod (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 07:44:33 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DBC9D102;
+        Tue, 20 Jun 2023 04:44:31 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B3D741063;
+        Tue, 20 Jun 2023 04:45:14 -0700 (PDT)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD5E93F64C;
+        Tue, 20 Jun 2023 04:44:29 -0700 (PDT)
+Message-ID: <7a8c0ac8-4e5d-fd55-92bc-c42064d34a66@arm.com>
+Date:   Tue, 20 Jun 2023 12:44:24 +0100
 MIME-Version: 1.0
-References: <20230614095158.1133673-1-elver@google.com> <CA+fCnZdy4TmMacvsPkoenCynUYsyKZ+kU1fx7cDpbh_6=cEPAQ@mail.gmail.com>
-In-Reply-To: <CA+fCnZdy4TmMacvsPkoenCynUYsyKZ+kU1fx7cDpbh_6=cEPAQ@mail.gmail.com>
-From:   Marco Elver <elver@google.com>
-Date:   Tue, 20 Jun 2023 13:32:57 +0200
-Message-ID: <CANpmjNOSnVNy14xAVe6UHD0eHuMpxweg86+mYLQHpLM1k0H_cg@mail.gmail.com>
-Subject: Re: [PATCH] kasan: add support for kasan.fault=panic_on_write
-To:     Andrey Konovalov <andreyknvl@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Taras Madan <tarasmadan@google.com>,
-        Aleksandr Nogikh <nogikh@google.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, kasan-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Catalin Marinas <catalin.marinas@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 3/4] perf: arm_cspmu: Support implementation specific
+ validation
+Content-Language: en-GB
+To:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Besar Wicaksono <bwicaksono@nvidia.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230607083139.3498788-1-ilkka@os.amperecomputing.com>
+ <20230607083139.3498788-4-ilkka@os.amperecomputing.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230607083139.3498788-4-ilkka@os.amperecomputing.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 20 Jun 2023 at 12:57, Andrey Konovalov <andreyknvl@gmail.com> wrote=
-:
->
-> On Wed, Jun 14, 2023 at 11:52=E2=80=AFAM Marco Elver <elver@google.com> w=
-rote:
-> >
-> > @@ -597,7 +614,11 @@ void kasan_report_async(void)
-> >         pr_err("Asynchronous fault: no details available\n");
-> >         pr_err("\n");
-> >         dump_stack_lvl(KERN_ERR);
-> > -       end_report(&flags, NULL);
-> > +       /*
-> > +        * Conservatively set is_write=3Dtrue, because no details are a=
-vailable.
-> > +        * In this mode, kasan.fault=3Dpanic_on_write is like kasan.fau=
-lt=3Dpanic.
-> > +        */
-> > +       end_report(&flags, NULL, true);
->
-> Hi Marco,
->
-> When asymm mode is enabled, kasan_report_async should only be called
-> for read accesses. I think we could check the mode and panic
-> accordingly.
+On 07/06/2023 9:31 am, Ilkka Koskinen wrote:
+> Some platforms may use e.g. different filtering mechanism and, thus,
+> may need different way to validate the events and group.
+> 
+> Signed-off-by: Ilkka Koskinen <ilkka@os.amperecomputing.com>
+> ---
+>   drivers/perf/arm_cspmu/arm_cspmu.c | 13 ++++++++++++-
+>   drivers/perf/arm_cspmu/arm_cspmu.h |  4 ++++
+>   2 files changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c b/drivers/perf/arm_cspmu/arm_cspmu.c
+> index 72ca4f56347c..9021d1878250 100644
+> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
+> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
+> @@ -559,7 +559,7 @@ static void arm_cspmu_disable(struct pmu *pmu)
+>   static int arm_cspmu_get_event_idx(struct arm_cspmu_hw_events *hw_events,
+>   				struct perf_event *event)
+>   {
+> -	int idx;
+> +	int idx, ret;
+>   	struct arm_cspmu *cspmu = to_arm_cspmu(event->pmu);
+>   
+>   	if (supports_cycle_counter(cspmu)) {
+> @@ -593,6 +593,12 @@ static int arm_cspmu_get_event_idx(struct arm_cspmu_hw_events *hw_events,
+>   	if (idx >= cspmu->num_logical_ctrs)
+>   		return -EAGAIN;
+>   
+> +	if (cspmu->impl.ops.validate_event) {
+> +		ret = cspmu->impl.ops.validate_event(cspmu, event);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>   	set_bit(idx, hw_events->used_ctrs);
+>   
+>   	return idx;
+> @@ -618,6 +624,7 @@ static bool arm_cspmu_validate_event(struct pmu *pmu,
+>    */
+>   static bool arm_cspmu_validate_group(struct perf_event *event)
+>   {
+> +	struct arm_cspmu *cspmu = to_arm_cspmu(event->pmu);
+>   	struct perf_event *sibling, *leader = event->group_leader;
+>   	struct arm_cspmu_hw_events fake_hw_events;
+>   
+> @@ -635,6 +642,10 @@ static bool arm_cspmu_validate_group(struct perf_event *event)
+>   			return false;
+>   	}
+>   
+> +	if (cspmu->impl.ops.validate_group &&
+> +	    cspmu->impl.ops.validate_group(event))
+> +		return false;
 
-How do we check the mode, and how do we prove it's only called for
-read accesses?
+Hmm, this means that any driver wanting to use it has to duplicate all 
+the group iteration logic, which isn't ideal. More than that, though, 
+the way you've implemented it in patch #4 I'm not sure even does 
+anything, since it only appears to be repeating the same checks that 
+already happen in this path:
 
-> Please also update the documentation to describe the flag behavior wrt
-> async/asymm modes.
+   arm_csmpu_validate_group()
+     arm_cspmu_validate_event()
+       arm_cspmu_get_event_idx()
+         ops.validate_event() -> ampere_cspmu_validate_params()
 
-Will do.
+so there's no need for the ops.validate_group hook to just call 
+ampere_cspmu_validate_params() a second time when it's guaranteed to 
+succeed (because otherwise we'd have bailed out already).
 
-> On a related note, it looks like we have a typo in KASAN
-> documentation: it states that asymm mode detects reads synchronously,
-> and writes - asynchronously. Should be the reverse.
+I think what we want overall is an "is this event config valid at all" 
+hook from arm_cspmu_event_init() (which we don't really need to 
+implement yet unless you want to start sanity-checking your actual 
+rank/bank/threshold values), plus an "is this event schedulable in the 
+given PMU context" hook from arm_cspmu_get_event_idx(), which should 
+serve for both group validation via the fake context in event_init and 
+actual scheduling in the real context in add.
 
-This says the documentation is correct, and it's actually called for
-writes: https://docs.kernel.org/arm64/memory-tagging-extension.html#tag-che=
-ck-faults
+Thanks,
+Robin.
 
-Who is right?
+> +
+>   	return arm_cspmu_validate_event(event->pmu, &fake_hw_events, event);
+>   }
+>   
+> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.h b/drivers/perf/arm_cspmu/arm_cspmu.h
+> index f89ae2077164..291cedb196ea 100644
+> --- a/drivers/perf/arm_cspmu/arm_cspmu.h
+> +++ b/drivers/perf/arm_cspmu/arm_cspmu.h
+> @@ -106,6 +106,10 @@ struct arm_cspmu_impl_ops {
+>   	void (*set_ev_filter)(struct arm_cspmu *cspmu,
+>   			      struct hw_perf_event *hwc,
+>   			      u32 filter);
+> +	/* Implementation specific group validation */
+> +	int (*validate_group)(struct perf_event *event);
+> +	/* Implementation specific event validation */
+> +	int (*validate_event)(struct arm_cspmu *cspmu, struct perf_event *new);
+>   	/* Hide/show unsupported events */
+>   	umode_t (*event_attr_is_visible)(struct kobject *kobj,
+>   					 struct attribute *attr, int unused);
