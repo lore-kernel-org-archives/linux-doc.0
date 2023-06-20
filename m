@@ -2,119 +2,258 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 366C9EB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 11:51:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 063F3EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 12:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231649AbjFTLvX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 07:51:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39540 "EHLO
+        id S232238AbjFTMBO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 08:01:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231958AbjFTLvU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 07:51:20 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D07ACE71
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 04:51:17 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4f7677a94d1so6094977e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 04:51:17 -0700 (PDT)
+        with ESMTP id S231144AbjFTMBN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 08:01:13 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732EBE71
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 05:01:11 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4f86bc35f13so3589800e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 05:01:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687261871; x=1689853871;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uk/ZJntyyMN1aW63L6PViu326GWnEG+0qzLApQJoBK4=;
-        b=3YLv+I26okscckStyGbHbFPskI4CeaFRPtd0R1imHtZnByNRNtKsZJUtovm1U7hvqT
-         xcEHrfYSFvItVu8CSeAm/hWoNkJT0NfSNZK1ij5MF9ONXLqKTktczWt0nE2CDHKHnHVv
-         ln2uYUSeoujHktL0nM+3kh0h9jtLXklNnKPDEpUlfyetAYRp0dIKF4kQ37y18iVdBiiQ
-         KqGd+1dyE3xc6mtfVbghTJUWiTyWIt2hpgwGcKxtS9VMO2qRqzEmOcwabHnEI0SkUr+R
-         pNwdK8Op6G90Y3Iu3qeQOywgsE0fiT3uhuf3iMiLu6cS3VREwCyuQAroGYo6GCA84my2
-         fIVA==
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687262465; x=1689854465;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rFWQUb8YUAaWCnl1hQyep9GnOaoIB00JbWZuEOfrn1I=;
+        b=ANe57mwHgrzuH3cCHjRIzRBAPUm5J5bTPcEqUYFT3Q6gJHqWjBUV3DvGxCpEsBodda
+         2wHTFWlvV1wBHSCb5z+c+Lk0c2TjQchh548KB/0Ayio3nSx0fkiPBByA8bh6v3eBedmu
+         FLJdy8x3AeaDbZ2YDMVc/xwKtpErXSQmitVGTMtQdp8os8ffBogcw1w9RrnqcIna4aRP
+         7G9i1sv8lO4liOmiimWydz5G+pON4GIwLEC7q5TQfK0YlX63l7LYgLTu2i4JPFFZIYjx
+         cHGKvtgDS6oNLJCgyh3MTTTezmEr1InlYb6AvaEDOzR3aHjbARiPtm+yBFnTagPQWTV3
+         lClg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687261871; x=1689853871;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Uk/ZJntyyMN1aW63L6PViu326GWnEG+0qzLApQJoBK4=;
-        b=M3H13zfra25eboy8BqSDrywy5PH2Hyx211GHKC7Jp8zzGfZs9Ni7KLlDWLYlTcEFVn
-         JPW0vypsvLIiyTCJhNXyF7iTH4TvwN0TS72Oeep6dOEd/+9QX76+w6KzJmk+146gHLvq
-         gANfPfKfG02YKWzeX6vpdzvRGUOlaZlWL+Bq+DYMTarwpc8Yje2JInSaE/2R+qcTKWJ8
-         zeyTQsUFb0BBOxEVQM3Asfspg+5GL0A+5OtqdXkq8NvlIm4ubX519qSm2HnSLXfPAfuq
-         P246ZfJWDgsaKwKUJzaOUx4kAeIg9k9JHlr2Sox1bHOahw2gHise5qorIB7ExfMEI3lD
-         xovA==
-X-Gm-Message-State: AC+VfDzQjRngvAH8s1Vs2oRUMqtMx6vZuErhzdRdeLJJro5dPnfK2Y+Y
-        oSvE80aMBSkIgEI2Bgh6fxH7oQ==
-X-Google-Smtp-Source: ACHHUZ4pfCj5B++gOGfsy2RGGFxWJ5sfAJBHcLIq86dWGb+bAbgXYoQZfPoAQear3HV2O4i/Woq9ng==
-X-Received: by 2002:a19:2d58:0:b0:4f8:5755:5b22 with SMTP id t24-20020a192d58000000b004f857555b22mr6731320lft.27.1687261871236;
-        Tue, 20 Jun 2023 04:51:11 -0700 (PDT)
-Received: from elver.google.com ([2a00:79e0:9c:201:8530:a6a3:373f:683c])
-        by smtp.gmail.com with ESMTPSA id d22-20020a1c7316000000b003f80946116dsm13216151wmb.45.2023.06.20.04.51.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jun 2023 04:51:10 -0700 (PDT)
-Date:   Tue, 20 Jun 2023 13:51:05 +0200
-From:   Marco Elver <elver@google.com>
-To:     Andrey Konovalov <andreyknvl@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Taras Madan <tarasmadan@google.com>,
-        Aleksandr Nogikh <nogikh@google.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, kasan-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH] kasan: add support for kasan.fault=panic_on_write
-Message-ID: <ZJGSqdDQPs0sRQTb@elver.google.com>
-References: <20230614095158.1133673-1-elver@google.com>
- <CA+fCnZdy4TmMacvsPkoenCynUYsyKZ+kU1fx7cDpbh_6=cEPAQ@mail.gmail.com>
- <CANpmjNOSnVNy14xAVe6UHD0eHuMpxweg86+mYLQHpLM1k0H_cg@mail.gmail.com>
- <CA+fCnZccdLNqtxubVVtGPTOXcSoYfpM9CHk-nrYsZK7csC77Eg@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1687262465; x=1689854465;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rFWQUb8YUAaWCnl1hQyep9GnOaoIB00JbWZuEOfrn1I=;
+        b=DgpcpxldR2GJiHk5izKawFaqjdeD8AS7CJCg+mydn5ufBOz2EhElyjmjliHFNLpz9l
+         yzOnA+xC9fpJ8DgvwIWe3pFBOKz5SJ2YMtA6tmRmuvnkZf9uK7m932rbKBwMXOMJ7lPW
+         gjo57qrax5Uqa/X4Nix7C8YUBEwUWNK6TT7kUIzV/zpE8yRZeiPeUURmQsU0SBDNrZzn
+         i5bjsDQce22luzEc3s6bp/VYIVKpYkys9S8qVe51aiCGw7BBlDSLnRfej0bHMb69rECg
+         9qHh2q45pWp8RJFqhjHtUEsnih8EpzMuPNQnGN846i1E2quEHsmGqO+kims7UdD0psk+
+         B6Hw==
+X-Gm-Message-State: AC+VfDyWRWWRRRagW2/WFHYBwc1Q+0j0j8+au7bo6dGT0LU23imSt5Rn
+        edhD2cYqerVwVZqn2IqTxqMWugDosDiHL5r6VMNPiA==
+X-Google-Smtp-Source: ACHHUZ6m6qAlPWlbn9FLMThfoWnqCrtX0nqoNL5PEOBMk2hqwmsq1Z24uhQOSAsNLMVTOrUGPwCAcWtO7SkZulDfBYw=
+X-Received: by 2002:a05:6512:3290:b0:4f7:5f9e:fc59 with SMTP id
+ p16-20020a056512329000b004f75f9efc59mr6842825lfe.39.1687262464918; Tue, 20
+ Jun 2023 05:01:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+fCnZccdLNqtxubVVtGPTOXcSoYfpM9CHk-nrYsZK7csC77Eg@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+References: <20230619094705.51337-1-alexghiti@rivosinc.com>
+ <20230619-kerchief-unmixed-cfdbeb1cf242@wendy> <CAHVXubjV=0HNyc0-UMAQRQfi4ZUnwH8dmghV-BGogZsJiumtZA@mail.gmail.com>
+ <20230619-sponge-armful-6beeaf4a8624@spud> <CAHVXubjHpdRpgrywwm1UTxwV99uCYOp9qhKBui9Ghff65yGmsQ@mail.gmail.com>
+ <20230620-limes-glaring-4831955f7250@wendy>
+In-Reply-To: <20230620-limes-glaring-4831955f7250@wendy>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Tue, 20 Jun 2023 14:00:53 +0200
+Message-ID: <CAHVXubgaJ7m88_nh-pNrNGPG43P18Qv+6DmGJ6Gcb2DORJxqAA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Documentation: riscv: Add early boot document
+To:     Conor Dooley <conor.dooley@microchip.com>
+Cc:     Conor Dooley <conor@kernel.org>,
+        Atish Kumar Patra <atishp@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 20, 2023 at 01:45PM +0200, Andrey Konovalov wrote:
-> On Tue, Jun 20, 2023 at 1:33 PM Marco Elver <elver@google.com> wrote:
+On Tue, Jun 20, 2023 at 12:33=E2=80=AFPM Conor Dooley
+<conor.dooley@microchip.com> wrote:
+>
+> On Tue, Jun 20, 2023 at 11:09:47AM +0200, Alexandre Ghiti wrote:
+> > On Mon, Jun 19, 2023 at 6:00=E2=80=AFPM Conor Dooley <conor@kernel.org>=
+ wrote:
+> > > On Mon, Jun 19, 2023 at 04:04:52PM +0200, Alexandre Ghiti wrote:
+> > > > On Mon, Jun 19, 2023 at 2:26=E2=80=AFPM Conor Dooley <conor.dooley@=
+microchip.com> wrote:
+> > > > > On Mon, Jun 19, 2023 at 11:47:04AM +0200, Alexandre Ghiti wrote:
+>
+> > > > > > +Bootflow
+> > > > >
+> > > > > "Boot Flow", no?
+> > > > > I am not sure that this is the "correct" heading for the content =
+it
+> > > > > describes, but I have nothing better to offer :/
+> > > >
+> > > > Yes you're right, what about simply "Kernel Entrance"? Not sure thi=
+s
+> > > > is easily understandable though.
+> > >
+> > > "Non-boot Hart Initialisation"?
 > >
-> > > On a related note, it looks like we have a typo in KASAN
-> > > documentation: it states that asymm mode detects reads synchronously,
-> > > and writes - asynchronously. Should be the reverse.
+> > Hmmm not that great either (sorry for being direct here)
+>
+> lol, no need to apologise.
+>
+> > > > > > +There exist 2 methods to enter the kernel:
+> > > > > > +
+> > > > > > +- `RISCV_BOOT_SPINWAIT`: the firmware releases all harts in th=
+e kernel, one hart
+> > > > > > +  wins a lottery and executes the early boot code while the ot=
+her harts are
+> > > > > > +  parked waiting for the initialization to finish. This method=
+ is now
+> > > > >
+> > > > > nit: s/now//
+> > > >
+> > > > Ok
+> > > >
+> > > > >
+> > > > > What do you mean by deprecated? There's no requirement to impleme=
+nt the
+> > > > > HSM extension, right?
+> > > >
+> > > > I would say yes, you have to use a recent version of openSBI that
+> > > > supports the HSM extension. @Atish Kumar Patra WDYT?
+> > >
+> > > Uh, you don't need to use OpenSBI in the first place, let alone use a
+> > > recent version of it, right? What am I missing?
 > >
-> > This says the documentation is correct, and it's actually called for
-> > writes: https://docs.kernel.org/arm64/memory-tagging-extension.html#tag-check-faults
+> > You need a M-Mode firmware which follows the SBI specification and
+> > that implements the HSM extension.
+>
+> Firstly, and maybe I am showing my ignorance here, but we do support
+> m-mode in Linux, and SMP is not disabled for m-mode kernels where it is
+> required to use the spinwait method.
+
+You're right.
+
+> Secondly, I don't think that we've actually noted that non-HSM booting
+> is deprecated before now - at least not somewhere obviously. Things like
+> the platform spec on github might require it & it may be deprecated in
+> SBI implementations etc, but in the Kconfig option it is not described
+> as deprecated. The Kconfig option only says that it "should be only
+> enabled for M-mode Linux or platforms relying on older firmware without
+> SBI HSM extension".
+> I think marking it as deprecated here is not accurate, and instead we
+> would be better off pointing out what the limitations of the method are
+> and noting the limited situations when it should be used.
+
+You're right again, before this is officially deprecated, I'll point
+out the limitations of this method only as follows:
+
+Kernel entrance
+---------------
+
+On SMP systems, there are 2 methods to enter the kernel:
+
+- `RISCV_BOOT_SPINWAIT`: the firmware releases all harts in the kernel, one=
+ hart
+  wins a lottery and executes the early boot code while the other
+harts are
+  parked waiting for the initialization to finish. This method is mostly us=
+ed to
+  support older firmwares without SBI HSM extension and M-mode RISC-V
+kernel.
+- `Ordered booting`: the firmware releases only one hart that will
+execute the
+  initialization phase and then will start all other harts using the SBI HS=
+M
+  extension. The ordered booting method is the preferred booting
+method for
+  booting the RISC-V kernel because it can support cpu hotplug and kexec.
+
+>
+> > > Also, what about !SMP systems? Although my suggested new section titl=
+e
+> > > kinda addresses that!
 > >
-> > Who is right?
-> 
-> Ah, right. I did a quick google to check when I was writing the
-> response and found this: https://lwn.net/Articles/882963/. But looks
-> like that cover letter is wrong and the documentation is right. I
-> wonder what the point of the asymmetric mode is then.
+> > I'll add "On SMP systems, there exist 2 methods to enter the
+>
+> nit: s/exist/are/
+>
+> > kernel:....", I don't think we need to detail the !SMP case as it is
+> > obvious.
+>
+> That's fine. Maybe I am just a pedant, but I think it is good to be a
+> bit over precise.
+>
+> > > > > > +  **deprecated**.
+> > > > > > +- Ordered booting: the firmware releases only one hart that wi=
+ll execute the
+> > > > > > +  initialization phase and then will start all other harts usi=
+ng the SBI HSM
+> > > > > > +  extension.
+>
+> > > > > > +---------------------
+> > > > > > +
+> > > > > > +The installation of the virtual mapping is done in 2 steps in =
+the RISC-V kernel:
+> > > > > > +
+> > > > > > +1. :c:func:`setup_vm` installs a temporary kernel mapping in
+> > > > > > +   :c:var:`early_pg_dir` which allows to discover the system m=
+emory: only the
+> > > > >
+> > > > > s/to discover/discovery of/
+> > > >
+> > > > You mean "the discovery of" right?
+> > >
+> > > No? The "the" there would not be required.
+> >
+> > That was a genuine question, thanks
+>
+> Sorry if the "No?" came across as aggressive, I meant it inquisitively.
+> Adding the "the" changes the meaning slightly, but not in a way that
+> that is relevant here.
 
-Maybe not as strong, but asymm mode makes sense from a microarch point
-of view, where writes are always committed into a store buffer, but
-reads can only commit when the data (incl. tag) is available.
+No worries :)
 
-> So the current code that you have should work perfectly. The only
-> change I'd like to see is in the documentation.
+>
+> > > > > > +Pre-MMU execution
+> > > > > > +-----------------
+> > > > > > +
+> > > > > > +Any code that executes before even the first virtual mapping i=
+s established
+> > > > > > +must be very carefully compiled as:
+> > > > >
+> > > > > Could you point out what the non-obvious examples of this code ar=
+e?
+> > > >
+> > > > I can do a list, yes
+> > >
+> > > Not even a list, just something like "...established, for example ear=
+ly
+> > > alternatives and foo, must be very..."
+> >
+> > Done as follows:
+> >
+> > "A few pieces of code need to run before even the first virtual mapping=
+ is
+> > established, that comprises the installation of the first virtual mappi=
+ng, the
+> > early alternatives and the early parsing of the kernel command line. Th=
+at code
+> > must be very carefully compiled as:..."
+>
+> Changed slightly:
+> "A few pieces of code need to run before even the first virtual mapping i=
+s
+> established. These are the installation of the first virtual mapping itse=
+lf,
+> patching of early alternatives and the early parsing of the kernel comman=
+d line.
+> That code must be very carefully compiled as:..."
+>
+> Two minor suggestions there, one to make the it more obvious what the fir=
+st
+> section inside commas refers to & one to note what it is that we do with
+> the alternatives.
+>
 
-Something like this (or more?)
+Thanks
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index 7f37a46af574..3c58392d931e 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -135,6 +135,8 @@ disabling KASAN altogether or controlling its features:
-   fault occurs, the information is stored in hardware (in the TFSR_EL1
-   register for arm64). The kernel periodically checks the hardware and
-   only reports tag faults during these checks.
-+  Note that ``kasan.fault=panic_on_write`` results in panic for all
-+  asynchronously checked accesses.
-   Asymmetric mode: a bad access is detected synchronously on reads and
-   asynchronously on writes.
- 
+> Cheers,
+> Conor.
