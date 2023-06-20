@@ -2,101 +2,437 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF779EB64D7
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 03:54:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E7A6EB64DB
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 04:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbjFTDy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 23:54:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35934 "EHLO
+        id S230285AbjFTEFu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 00:05:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230262AbjFTDyX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 23:54:23 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0112710D2;
-        Mon, 19 Jun 2023 20:54:21 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 624D35C01BF;
-        Mon, 19 Jun 2023 23:54:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 19 Jun 2023 23:54:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-id:content-type
-        :content-type:date:date:feedback-id:feedback-id:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1687233261; x=
-        1687319661; bh=R9f3a1o9mdbc+HYYy6GLvEOqJb10bmncA9C0HjKJ42s=; b=B
-        S+tlmoB+GwsMwSq396SS8fRfAsjI0qmSAkvr/azBgDpPofSkvogMGqbPRyr6n+F+
-        eHcw+GBwrayo8FPEJb4MzGCPE2/wSuGPcFNZ2g6DrrkFGUfqPMBPXQ9CBflv0Ex3
-        L0DG3UibXmPWMutojuN3RWGFONaz57VMBYr1TRM9Bnp9vItEU6w3R2ju23kBledF
-        Z4yMXCjIbe1WLhsG9sUxOzzTFFEnPcEp5mvxsCHiTMJdbX/tkSmH5CDKVwgPMGTh
-        cNhENQe1k2gcAhGAV46mqFrWJj0v60dxqVwlxPXoTLAJUc+YcVeCS8nVdg8EZiRX
-        ZxGKiih9aUmAoxXQVKtVg==
-X-ME-Sender: <xms:7SKRZH1RBCtAMKdls3DWggc8R31oFrvhOoMpBFCpEE7MUrOggpJhTQ>
-    <xme:7SKRZGEcP_8pEIAEpvWzkGtmccPhvqU7zWYA3VK86m5-1VuUyqPh1EmU-3atbzofU
-    -vNWizzABxXM8wJF68>
-X-ME-Received: <xmr:7SKRZH6TKqCcUO1QDWOBeRnHtPJPLcVl6CRfzj3EH8oIz6tHiDdLUjZ5Xh5WaKZc7pyrYx_VlXwpDzZ3K9kGLBMVjgyd3FT41Wc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefgedgfeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevufgjkfhfgggtsehmtderredttdejnecuhfhrohhmpefhihhnnhcu
-    vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeelfeeklefggfetkedukeevfffgvdeuheetffekledtfeejteelieejteeh
-    geelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:7SKRZM1sr_OnX-UrUf_9lydv1iDuOULhFu3D7HbdFksINiT-UjGz8Q>
-    <xmx:7SKRZKFFsax4v2bjVyiLwkhTaSEYX61hycTsGMtqPGIjJqZlLzoMaw>
-    <xmx:7SKRZN_nWxtihZ26sxei_y_RAZONw02wnPToUNw-ffbeXi-A1e1Stw>
-    <xmx:7SKRZHPUacvy4ZhTwH97vH4f_YeDwx_du-RlSBLIHnjMrH5K7eW7BQ>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Jun 2023 23:54:18 -0400 (EDT)
-Date:   Tue, 20 Jun 2023 13:54:37 +1000 (AEST)
-From:   Finn Thain <fthain@linux-m68k.org>
-To:     Kees Cook <keescook@chromium.org>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        tech-board-discuss@lists.linux-foundation.org,
-        Theodore Ts'o <tytso@mit.edu>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
- the wider community
-In-Reply-To: <202306191247.3CA085BA64@keescook>
-Message-ID: <7f26d19e-2aed-c03f-e59c-c36164cdfb19@linux-m68k.org>
-References: <cd1786eadd1ff05d9ca053b72eb5f06ceb0c470d.1687167717.git.fthain@linux-m68k.org> <202306191247.3CA085BA64@keescook>
+        with ESMTP id S229680AbjFTEFt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 00:05:49 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A0C1A8;
+        Mon, 19 Jun 2023 21:05:47 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-98934f000a5so15195066b.2;
+        Mon, 19 Jun 2023 21:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687233945; x=1689825945;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nm07gp91z67yPaALmSjYb88FFAKhVI+8hZk5Prh28Fs=;
+        b=kAgePDIpzh0aog05Un30bBD7p1QWD0FQeyvk0nloNgxLvqPrcy+e4UN4YAJQUq+zlF
+         K2FhBM5DT5HH22ViU038bM3deTX3elSbg4zxCP+yzFkcgAXVLuh33vGDST81htWe3m5T
+         iP5qlOHjuRCZ/itzw+y4yboQVZgcllboMddOAt98MB2CBBUNpdUMCdG/t8lSvmbzR8eL
+         kcUYbPzhJhTmLeZ0JTui9AxfsXMwcpp0apR9sOC3qpnNKKJRpWg7tnJC9ZqcGxxAM7xF
+         YilZPTPte+wVYbKnSGqehfInjVG63c3euT6nccL/J95mZGS48Mc2YnWTjmJhO5oC/Lz0
+         3DMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687233945; x=1689825945;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nm07gp91z67yPaALmSjYb88FFAKhVI+8hZk5Prh28Fs=;
+        b=b7xcTGQycqFJVPLQf2ZDEMoN0haLrUwqpcjgw1502avMsfqoVQ5fPCPQVmKX2lxaTh
+         cAaqIOUxkVkMdmfCBDHD5bItWS/II1ftLUTUtOvqkk38mVUfGXVVAdgI7bCcAW53BhH3
+         IwIZ5ZMNzuJGqA/tq4rp8eYtHxXbnz3nVWcbKBpDLLO+sTF+h4Qpcpe03GqO+JvoFtWf
+         JHgd5F1jmnPy5PC+24otRySfXKCkLhdga1/0CHn8IqiRqPd9Y8f4UaHJ9o4XS+mB3pMf
+         0d8QCW51pwMEml3StCpKE/sXoDdyw0XzV8rxVsp2AVcpbJPucCuG61h8unwTtM/fFUIj
+         D0Ow==
+X-Gm-Message-State: AC+VfDyD5E4OoDczz7Dgm6W60YGMPFYI5F4KVp2/4t8m1+X2CqAWbF47
+        gx/YrHWQb6XzK2Kz2IdlwtAqW6RJtH3cSGbpyjg=
+X-Google-Smtp-Source: ACHHUZ4cbELwdYCslrEvaIJg8Kf5eH+KI25uU+mc3xiEzFnDaXrsOCkCY+dAXOj9Y3spwUsAigTz+P7pAEpN26UcG2Q=
+X-Received: by 2002:a17:906:9748:b0:989:d9d:d8f7 with SMTP id
+ o8-20020a170906974800b009890d9dd8f7mr1343689ejy.5.1687233945348; Mon, 19 Jun
+ 2023 21:05:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="-1463811774-526003913-1687231289=:26354"
-Content-ID: <f58cfba7-0db2-e714-a931-aa5b02c72b9e@nippy.intranet>
+References: <20230620004217.4700-1-dakr@redhat.com> <2c92bae3-0003-3c53-8ef1-6e12e5413995@redhat.com>
+In-Reply-To: <2c92bae3-0003-3c53-8ef1-6e12e5413995@redhat.com>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Tue, 20 Jun 2023 14:05:33 +1000
+Message-ID: <CAPM=9tzMzfuMN_iGD-97_o=QQEDT6Mbb9_u=z_o49TeT7=XUFA@mail.gmail.com>
+Subject: Re: [PATCH drm-next v5 00/14] [RFC] DRM GPUVA Manager & Nouveau
+ VM_BIND UAPI
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     Donald Robson <Donald.Robson@imgtec.com>, daniel@ffwll.ch,
+        tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+        christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Since this is feature is nouveau only currently and doesn't disturb
+the current nouveau code paths, I'd like to try and get this work in
+tree so other drivers can work from it.
 
----1463811774-526003913-1687231289=:26354
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <833f7255-6cf7-1760-8087-49cb24a6c819@nippy.intranet>
+If there are any major objections to this, I'm happy to pull it back
+out again, but I'd like to get some acks/rb in the next couple of days
+in order to land some of it.
 
-On Mon, 19 Jun 2023, Kees Cook wrote:
+Dave.
 
-> > @@ -103,7 +103,6 @@ Level 5
-> > =20
-> >  * Upstream kernel development is considered a formal job position, wit=
-h
-> >    at least a third of the engineer=E2=80=99s time spent doing Upstream=
- Work.
-> > -* Organizations will actively seek out community member feedback as a
-> > -  factor in official performance reviews.
->=20
-> This really cannot be dropped -- companies must factor upstream work=20
-> into performance reviews or it will continue to be seen as "free time"=20
-> work, and employees won't be recognized for their upstream=20
-> contributions. If an org has no perf reviews, this item is already=20
-> nullified, IMO.
->=20
 
-I believe that I've now addressed this in my reply to Greg.
----1463811774-526003913-1687231289=:26354--
+>
+> forgot to add your email address to the patch series - sorry about that.
+>
+> This series (v5) contains the Documentation changes you requested.
+>
+> - Danilo
+>
+> On 6/20/23 02:42, Danilo Krummrich wrote:
+> > This patch series provides a new UAPI for the Nouveau driver in order t=
+o
+> > support Vulkan features, such as sparse bindings and sparse residency.
+> >
+> > Furthermore, with the DRM GPUVA manager it provides a new DRM core feat=
+ure to
+> > keep track of GPU virtual address (VA) mappings in a more generic way.
+> >
+> > The DRM GPUVA manager is indented to help drivers implement userspace-m=
+anageable
+> > GPU VA spaces in reference to the Vulkan API. In order to achieve this =
+goal it
+> > serves the following purposes in this context.
+> >
+> >      1) Provide infrastructure to track GPU VA allocations and mappings=
+,
+> >         making use of the maple_tree.
+> >
+> >      2) Generically connect GPU VA mappings to their backing buffers, i=
+n
+> >         particular DRM GEM objects.
+> >
+> >      3) Provide a common implementation to perform more complex mapping
+> >         operations on the GPU VA space. In particular splitting and mer=
+ging
+> >         of GPU VA mappings, e.g. for intersecting mapping requests or p=
+artial
+> >         unmap requests.
+> >
+> > The new VM_BIND Nouveau UAPI build on top of the DRM GPUVA manager, its=
+elf
+> > providing the following new interfaces.
+> >
+> >      1) Initialize a GPU VA space via the new DRM_IOCTL_NOUVEAU_VM_INIT=
+ ioctl
+> >         for UMDs to specify the portion of VA space managed by the kern=
+el and
+> >         userspace, respectively.
+> >
+> >      2) Allocate and free a VA space region as well as bind and unbind =
+memory
+> >         to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND ioct=
+l.
+> >
+> >      3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
+> >
+> > Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, make use of=
+ the DRM
+> > scheduler to queue jobs and support asynchronous processing with DRM sy=
+ncobjs
+> > as synchronization mechanism.
+> >
+> > By default DRM_IOCTL_NOUVEAU_VM_BIND does synchronous processing,
+> > DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
+> >
+> > The new VM_BIND UAPI for Nouveau makes also use of drm_exec (execution =
+context
+> > for GEM buffers) by Christian K=C3=B6nig. Since the patch implementing =
+drm_exec was
+> > not yet merged into drm-next it is part of this series, as well as a sm=
+all fix
+> > for this patch, which was found while testing this series.
+> >
+> > This patch series is also available at [1].
+> >
+> > There is a Mesa NVK merge request by Dave Airlie [2] implementing the
+> > corresponding userspace parts for this series.
+> >
+> > The Vulkan CTS test suite passes the sparse binding and sparse residenc=
+y test
+> > cases for the new UAPI together with Dave's Mesa work.
+> >
+> > There are also some test cases in the igt-gpu-tools project [3] for the=
+ new UAPI
+> > and hence the DRM GPU VA manager. However, most of them are testing the=
+ DRM GPU
+> > VA manager's logic through Nouveau's new UAPI and should be considered =
+just as
+> > helper for implementation.
+> >
+> > However, I absolutely intend to change those test cases to proper kunit=
+ test
+> > cases for the DRM GPUVA manager, once and if we agree on it's usefulnes=
+s and
+> > design.
+> >
+> > [1] https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm=
+-next /
+> >      https://gitlab.freedesktop.org/nouvelles/kernel/-/merge_requests/1
+> > [2] https://gitlab.freedesktop.org/nouveau/mesa/-/merge_requests/150/
+> > [3] https://gitlab.freedesktop.org/dakr/igt-gpu-tools/-/tree/wip_nouvea=
+u_vm_bind
+> >
+> > Changes in V2:
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >    Nouveau:
+> >      - Reworked the Nouveau VM_BIND UAPI to avoid memory allocations in=
+ fence
+> >        signalling critical sections. Updates to the VA space are split =
+up in three
+> >        separate stages, where only the 2. stage executes in a fence sig=
+nalling
+> >        critical section:
+> >
+> >          1. update the VA space, allocate new structures and page table=
+s
+> >          2. (un-)map the requested memory bindings
+> >          3. free structures and page tables
+> >
+> >      - Separated generic job scheduler code from specific job implement=
+ations.
+> >      - Separated the EXEC and VM_BIND implementation of the UAPI.
+> >      - Reworked the locking parts of the nvkm/vmm RAW interface, such t=
+hat
+> >        (un-)map operations can be executed in fence signalling critical=
+ sections.
+> >
+> >    GPUVA Manager:
+> >      - made drm_gpuva_regions optional for users of the GPUVA manager
+> >      - allow NULL GEMs for drm_gpuva entries
+> >      - swichted from drm_mm to maple_tree for track drm_gpuva / drm_gpu=
+va_region
+> >        entries
+> >      - provide callbacks for users to allocate custom drm_gpuva_op stru=
+ctures to
+> >        allow inheritance
+> >      - added user bits to drm_gpuva_flags
+> >      - added a prefetch operation type in order to support generating p=
+refetch
+> >        operations in the same way other operations generated
+> >      - hand the responsibility for mutual exclusion for a GEM's
+> >        drm_gpuva list to the user; simplified corresponding (un-)link f=
+unctions
+> >
+> >    Maple Tree:
+> >      - I added two maple tree patches to the series, one to support cus=
+tom tree
+> >        walk macros and one to hand the locking responsibility to the us=
+er of the
+> >        GPUVA manager without pre-defined lockdep checks.
+> >
+> > Changes in V3:
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >    Nouveau:
+> >      - Reworked the Nouveau VM_BIND UAPI to do the job cleanup (includi=
+ng page
+> >        table cleanup) within a workqueue rather than the job_free() cal=
+lback of
+> >        the scheduler itself. A job_free() callback can stall the execut=
+ion (run()
+> >        callback) of the next job in the queue. Since the page table cle=
+anup
+> >        requires to take the same locks as need to be taken for page tab=
+le
+> >        allocation, doing it directly in the job_free() callback would s=
+till
+> >        violate the fence signalling critical path.
+> >      - Separated Nouveau fence allocation and emit, such that we do not=
+ violate
+> >        the fence signalling critical path in EXEC jobs.
+> >      - Implement "regions" (for handling sparse mappings through PDEs a=
+nd dual
+> >        page tables) within Nouveau.
+> >      - Drop the requirement for every mapping to be contained within a =
+region.
+> >      - Add necassary synchronization of VM_BIND job operation sequences=
+ in order
+> >        to work around limitations in page table handling. This will be =
+addressed
+> >        in a future re-work of Nouveau's page table handling.
+> >      - Fixed a couple of race conditions found through more testing. Th=
+anks to
+> >        Dave for consitently trying to break it. :-)
+> >
+> >    GPUVA Manager:
+> >      - Implement pre-allocation capabilities for tree modifications wit=
+hin fence
+> >        signalling critical sections.
+> >      - Implement accessors to to apply tree modification while walking =
+the GPUVA
+> >        tree in order to actually support processing of drm_gpuva_ops th=
+rough
+> >        callbacks in fence signalling critical sections rather than thro=
+ugh
+> >        pre-allocated operation lists.
+> >      - Remove merging of GPUVAs; the kernel has limited to none knowleg=
+e about
+> >        the semantics of mapping sequences. Hence, merging is purely spe=
+culative.
+> >        It seems that gaining a significant (or at least a measurable) p=
+erformance
+> >        increase through merging is way more likely to happen when users=
+pace is
+> >        responsible for merging mappings up to the next larger page size=
+ if
+> >        possible.
+> >      - Since merging was removed, regions pretty much loose their right=
+ to exist.
+> >        They might still be useful for handling dual page tables or simi=
+lar
+> >        mechanisms, but since Nouveau seems to be the only driver having=
+ a need
+> >        for this for now, regions were removed from the GPUVA manager.
+> >      - Fixed a couple of maple_tree related issues; thanks to Liam for =
+helping me
+> >        out.
+> >
+> > Changes in V4:
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >    Nouveau:
+> >      - Refactored how specific VM_BIND and EXEC jobs are created and ho=
+w their
+> >        arguments are passed to the generic job implementation.
+> >      - Fixed a UAF race condition where bind job ops could have been fr=
+eed
+> >        already while still waiting for a job cleanup to finish. This is=
+ due to
+> >        in certain cases we need to wait for mappings actually being unm=
+apped
+> >        before creating sparse regions in the same area.
+> >      - Re-based the code onto drm_exec v4 patch.
+> >
+> >    GPUVA Manager:
+> >      - Fixed a maple tree related bug when pre-allocating MA states.
+> >        (Boris Brezillion)
+> >      - Made struct drm_gpuva_fn_ops a const object in all occurrences.
+> >        (Boris Brezillion)
+> >
+> > Changes in V5:
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >    Nouveau:
+> >      - Link and unlink GPUVAs outside the fence signalling critical pat=
+h in
+> >        nouveau_uvmm_bind_job_submit() holding the dma-resv lock. Mutual=
+ exclusion
+> >        of BO evicts causing mapping invalidation and regular mapping op=
+erations
+> >        is ensured with dma-fences.
+> >
+> >    GPUVA Manager:
+> >      - Removed the separate GEMs GPUVA list lock. Link and unlink as we=
+ll as
+> >        iterating the GEM's GPUVA list should be protected with the GEM'=
+s dma-resv
+> >        lock instead.
+> >      - Renamed DRM_GPUVA_EVICTED flag to DRM_GPUVA_INVALIDATED. Mapping=
+s do not
+> >        get eviced, they might get invalidated due to eviction.
+> >      - Maple tree uses the 'unsinged long' type for node entries. While=
+ this
+> >        works for GPU VA spaces larger than 32-bit on 64-bit kernel, the=
+ GPU VA
+> >        space is limited to 32-bit on 32-bit kernels as well.
+> >        As long as we do not have a 64-bit capable maple tree for 32-bit=
+ kernels,
+> >        the GPU VA manager contains checks to throw warnings when GPU VA=
+ entries
+> >        exceed the maple tree's storage capabilities.
+> >      - Extended the Documentation and added example code as requested b=
+y Donald
+> >        Robson.
+> >
+> > Christian K=C3=B6nig (1):
+> >    drm: execution context for GEM buffers v4
+> >
+> > Danilo Krummrich (13):
+> >    maple_tree: split up MA_STATE() macro
+> >    drm: manager to keep track of GPUs VA mappings
+> >    drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+> >    drm/nouveau: new VM_BIND uapi interfaces
+> >    drm/nouveau: get vmm via nouveau_cli_vmm()
+> >    drm/nouveau: bo: initialize GEM GPU VA interface
+> >    drm/nouveau: move usercopy helpers to nouveau_drv.h
+> >    drm/nouveau: fence: separate fence alloc and emit
+> >    drm/nouveau: fence: fail to emit when fence context is killed
+> >    drm/nouveau: chan: provide nouveau_channel_kill()
+> >    drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
+> >    drm/nouveau: implement new VM_BIND uAPI
+> >    drm/nouveau: debugfs: implement DRM GPU VA debugfs
+> >
+> >   Documentation/gpu/driver-uapi.rst             |   11 +
+> >   Documentation/gpu/drm-mm.rst                  |   54 +
+> >   drivers/gpu/drm/Kconfig                       |    6 +
+> >   drivers/gpu/drm/Makefile                      |    3 +
+> >   drivers/gpu/drm/drm_debugfs.c                 |   41 +
+> >   drivers/gpu/drm/drm_exec.c                    |  278 +++
+> >   drivers/gpu/drm/drm_gem.c                     |    3 +
+> >   drivers/gpu/drm/drm_gpuva_mgr.c               | 1971 ++++++++++++++++
+> >   drivers/gpu/drm/nouveau/Kbuild                |    3 +
+> >   drivers/gpu/drm/nouveau/Kconfig               |    2 +
+> >   drivers/gpu/drm/nouveau/dispnv04/crtc.c       |    9 +-
+> >   drivers/gpu/drm/nouveau/include/nvif/if000c.h |   26 +-
+> >   drivers/gpu/drm/nouveau/include/nvif/vmm.h    |   19 +-
+> >   .../gpu/drm/nouveau/include/nvkm/subdev/mmu.h |   20 +-
+> >   drivers/gpu/drm/nouveau/nouveau_abi16.c       |   24 +
+> >   drivers/gpu/drm/nouveau/nouveau_abi16.h       |    1 +
+> >   drivers/gpu/drm/nouveau/nouveau_bo.c          |  204 +-
+> >   drivers/gpu/drm/nouveau/nouveau_bo.h          |    2 +-
+> >   drivers/gpu/drm/nouveau/nouveau_chan.c        |   22 +-
+> >   drivers/gpu/drm/nouveau/nouveau_chan.h        |    1 +
+> >   drivers/gpu/drm/nouveau/nouveau_debugfs.c     |   39 +
+> >   drivers/gpu/drm/nouveau/nouveau_dmem.c        |    9 +-
+> >   drivers/gpu/drm/nouveau/nouveau_drm.c         |   27 +-
+> >   drivers/gpu/drm/nouveau/nouveau_drv.h         |   94 +-
+> >   drivers/gpu/drm/nouveau/nouveau_exec.c        |  418 ++++
+> >   drivers/gpu/drm/nouveau/nouveau_exec.h        |   54 +
+> >   drivers/gpu/drm/nouveau/nouveau_fence.c       |   23 +-
+> >   drivers/gpu/drm/nouveau/nouveau_fence.h       |    5 +-
+> >   drivers/gpu/drm/nouveau/nouveau_gem.c         |   62 +-
+> >   drivers/gpu/drm/nouveau/nouveau_mem.h         |    5 +
+> >   drivers/gpu/drm/nouveau/nouveau_prime.c       |    2 +-
+> >   drivers/gpu/drm/nouveau/nouveau_sched.c       |  461 ++++
+> >   drivers/gpu/drm/nouveau/nouveau_sched.h       |  123 +
+> >   drivers/gpu/drm/nouveau/nouveau_svm.c         |    2 +-
+> >   drivers/gpu/drm/nouveau/nouveau_uvmm.c        | 1979 ++++++++++++++++=
++
+> >   drivers/gpu/drm/nouveau/nouveau_uvmm.h        |  107 +
+> >   drivers/gpu/drm/nouveau/nouveau_vmm.c         |    4 +-
+> >   drivers/gpu/drm/nouveau/nvif/vmm.c            |  100 +-
+> >   .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  213 +-
+> >   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c |  197 +-
+> >   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   25 +
+> >   .../drm/nouveau/nvkm/subdev/mmu/vmmgf100.c    |   16 +-
+> >   .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   16 +-
+> >   .../gpu/drm/nouveau/nvkm/subdev/mmu/vmmnv50.c |   27 +-
+> >   include/drm/drm_debugfs.h                     |   25 +
+> >   include/drm/drm_drv.h                         |    6 +
+> >   include/drm/drm_exec.h                        |  119 +
+> >   include/drm/drm_gem.h                         |   52 +
+> >   include/drm/drm_gpuva_mgr.h                   |  682 ++++++
+> >   include/linux/maple_tree.h                    |    7 +-
+> >   include/uapi/drm/nouveau_drm.h                |  209 ++
+> >   51 files changed, 7566 insertions(+), 242 deletions(-)
+> >   create mode 100644 drivers/gpu/drm/drm_exec.c
+> >   create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.c
+> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.h
+> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.c
+> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.h
+> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> >   create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.h
+> >   create mode 100644 include/drm/drm_exec.h
+> >   create mode 100644 include/drm/drm_gpuva_mgr.h
+> >
+> >
+> > base-commit: 2222dcb0775d36de28992f56455ab3967b30d380
+>
