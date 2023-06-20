@@ -2,90 +2,203 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 562C5EB64D8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 21:12:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90481EB64D8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 21:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbjFTVMG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 17:12:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46480 "EHLO
+        id S229655AbjFTV0E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 17:26:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjFTVMF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 17:12:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B52D7;
-        Tue, 20 Jun 2023 14:12:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5423B61042;
-        Tue, 20 Jun 2023 21:12:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA97BC433C8;
-        Tue, 20 Jun 2023 21:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687295522;
-        bh=dGKpkqnJnVdfufwSQkdHUCe8nxQNTJDDP/cMBgRtCJk=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=K6J8H0yh7WwE/eCMoCNyz9fFo+FXSV7sMumrFJMl5yXarxfDz1Uw/o47GBh+8EXPx
-         0eiJbdia6qZ2p91DrkTp+lsWMTd/GC7FJLiTmcFaAkbddR2OySlWviFFaSV1M6VOYz
-         /P2orr792c8QBgnqEAy/Xili8zaZklwF15dCS4dW41/b9W3aMPRoI499IVsUNDR4Z8
-         WAdpfGkYlnx1DWVrjPPv8K20oeNAdo2jxfJlsjXgGJoq5bI1BolpXsVKhtk40VY9rd
-         6XMa6MmLP9MeazZL2aDzVde9s7jPowLq6KqRj+OTjUwKH2ZAk9n+vAYGN3aEwhvpwZ
-         Ai5kLs2rsIzqQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 5C1BFCE17BC; Tue, 20 Jun 2023 14:12:02 -0700 (PDT)
-Date:   Tue, 20 Jun 2023 14:12:02 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     SeongJae Park <sj@kernel.org>
-Cc:     joel@joelfernandes.org, mmpgouride@gmail.com, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] Docs/RCU/rculist_nulls: Minor fixup
-Message-ID: <2df7d40d-2e80-46f7-9193-5e116fd0f265@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230616233626.83906-1-sj@kernel.org>
+        with ESMTP id S229538AbjFTV0E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 17:26:04 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1763193
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 14:26:01 -0700 (PDT)
+Received: from cwcc.thunk.org (pool-173-48-111-196.bstnma.fios.verizon.net [173.48.111.196])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 35KLP26b007777
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 20 Jun 2023 17:25:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1687296305; bh=gu6F3ADo9YAAJZbgYrVOdkcOYoC76xihkwxLpT1QfZI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To;
+        b=R1Tt+cBumwWkuJ5VQkV+qkjUEheuQ/9p4KrkRonWpoypMTz707y+mxTzezpP5h3c6
+         gBANVJxkgKFtv8y+4fo2D4kKIt0/AVKJ951pcTsnprjqG2njb1iA3QzwOER5IAJpdH
+         nVMsDaGfN02Uw6dJWSdmnNnw4ZrlgC0LuFvd6ACMSKosRmXCwRDrZ6O7urs9c8aLWq
+         VFdTt/2DBqA64A/iHpsDdLslpiR9fyYhfSDbjnqxw6mQ2Zil1Q80tmxVA0Iu6BlEVP
+         bvEKj+uIIKe72G9gpbRnYV9lm+Dr1Xyv6o6YY6URWJu0DcquZMEyAQ1kqqCjfOYL4A
+         BTevSekksslGw==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id D7FDA15C0266; Tue, 20 Jun 2023 17:25:02 -0400 (EDT)
+Date:   Tue, 20 Jun 2023 17:25:02 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Finn Thain <fthain@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        tech-board-discuss@lists.linux-foundation.org,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and the
+ wider community
+Message-ID: <20230620212502.GI286961@mit.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230616233626.83906-1-sj@kernel.org>
+In-Reply-To: <99b5fc04-798d-a235-c001-fb444e78ada9@linux-m68k.org>
+ <1dca9f44-3716-19b2-efc6-03aef5c22d74@linux-m68k.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 11:36:23PM +0000, SeongJae Park wrote:
-> Changes from v3
-> (https://lore.kernel.org/rcu/20230615181004.86850-1-sj@kernel.org/)
-> - Fix Paul's name on 'Suggested-by:' tag
-> - Use 'atomic_t' for refcnt field of 'struct object'
+On Tue, Jun 20, 2023 at 01:54:23PM +1000, Finn Thain wrote:
 > 
-> Changes from v2
-> (https://lore.kernel.org/rcu/20230613182434.88317-1-sj@kernel.org/)
-> - Drop first two patches that merged to Paul's tree
-> - Add definition of 'obj' (Paul E. McKenney)
-> - Fix more wrong hlist_[nulls]_head field name mentions
-> 
-> Changes from v1
-> (https://lore.kernel.org/rcu/20230518224008.2468-1-sj@kernel.org/)
-> - Add Reviewed-by tags from Joel Fernandes for first three patches
-> - Fix the text for wrong extra _release()
-> 
-> ---
-> 
-> Fix minor problems in example code snippets and the text of
-> rculist_nulls.rst file.
+> I suspect that counting commits may be the wrong metric (I can think of 
+> better ones).
 
-I am replacing the earlier versions with this version, thank you!!!
+As far as whether counting commits is the wrong metric, it doesn't
+matter if you look at lines of code changes, attendance at conferences
+such as the Linux Plumbers Conference, or participation on weekly
+subsystem calls or video conferences, it's fair to say that that the
+vast majority of those current developers work for companies. 
 
-						Thanx, Paul
+> But if that's what we have, the lack of commits from 
+> non-profit organizations is a situation that might actually be improved by 
+> changes like the ones I'm advocating.
 
-> SeongJae Park (3):
->   Docs/RCU/rculist_nulls: Specify type of the object in examples
->   Docs/RCU/rculist_nulls: Fix hlist_[nulls]_head field names of 'obj'
->   Docs/RCU/rculist_nulls: Fix text about atomic_set_release()
+Not only have you not provided any evidence for your thesis (which to
+be fair is hard since what you are positing is a hypothetical), but
+you haven't even provided a theory why you believe that to be true!
+
+I *do* have a theory for what we've observed, which is that developers
+like to have food with their meals, and the amount of time and effort
+to do serious kernel work is significant.  And so companies are the
+ones who can fund the engineers which are spending a good proportion
+of their time working on Linux kerenl development.  These is why we
+see a huge amount of work from people who work for Linaro, Intel, Red
+Hat, Google, IBM, Nvidia, Facebook, Oracle, etc. both in terms of code
+contributed to the kernel, code reviews of other people's code
+submission, design discussions on LKML and in various "hallway track
+conversations" at the verious Linux conferences/workshops, etc.
+
+As far as non-profit organizations are concerned, most of them have
+very tightly defined mission.  That mission might be mostly unrelated
+to the kernel, except as a customer of the kernel --- for example, the
+Mozilla and Eclipse Foundation --- or it might be Linux adjacent, such
+as "make a good distributions ala Debian, Arch, Fedora, etc."  The
+people at these non-profits might be volunteers (this is mostly the
+case for Debian), or they might be paid engineers based on the
+corporate sponsoprs of the non-profits (for example) or engineers who
+are paid by a company, but who are "on loan" to the non-profit
+organization (for example, in the Apache Software Foundation this is a
+common pattern).  Either way, though, those non-profits tend to have a
+very tightly focused mission, and it tends not to be one which
+requires a large amount of kernel development.
+
+You appear to have a very different model of how non-profits might
+approach the Linux kernel --- could you go into more detail about why
+they might want to contribute to the Linux kernel, and how we might
+encourage them to contribute more engineering effort?
+
+> > I'm not sure how this document would "hinder collaboration" with 
+> > non-profit organizations and individuals.  Could you say more about your 
+> > concern regarding how this undesireable outcome would happen in 
+> > practice?
 > 
->  Documentation/RCU/rculist_nulls.rst | 28 +++++++++++++++++++++-------
->  1 file changed, 21 insertions(+), 7 deletions(-)
+> I believe that I've now addressed this in my message to Greg.
+
+Well, no, you haven't.   More below....
+
+On Tue, Jun 20, 2023 at 01:48:59PM +1000, Finn Thain wrote: (in reply to Greg)
 > 
-> -- 
-> 2.25.1
+> Bonuses and salaries are tied to performance reviews so the hazard here 
+> are clear. Level 5 compels companies to seek feedback and naturally they 
+> will seek it from companies who share their goals. You ask too much of 
+> employees if you expect them to put aside the corporate agendas and pursue 
+> the interests of the wider community.
+
+I was a hobbyist from 1991 to 1999 (I was the first North American
+linux kernel developer, and at the time my day job was tech lead for
+the MIT KerBeros Team and I also served on the IETF Security Area
+Directorate and was one of the IPSEC working group chairs), and then
+from 1999 until present, I've worked for companies (first VA Linux
+Systems, then the IBM Linux Technology Cetner, and now at Google).  So
+I think I know something about how employees balance the needs of the
+Linux Kernel community and the needs of their employer.
+
+> Countless lawsuits over the last few decades made it abundantly clear that 
+> the goals of companies often diverge from those of the wider FLOSS 
+> community.
 > 
+> Consider all of the open source code thrown over the wall, the binary 
+> blobs, the binary modules, the built-in obsolescence, the devices shipped 
+> with vulnerabilities now reduced to e-waste because they cannot be fixed, 
+> the vendor lock-in strategies, the walled gardens, the surveillance etc.
+
+There haven't been *that* many lawsuits, and while there have been
+some bad actors, there have also been many, MANY examples of companies
+that have contributed in highly positive ways.  For example, well over
+a decade ago, IBM started requiring that their peripheral card
+suppliers (e.g., network cards, SCSI host bus adapters, etc.) that it
+would be a requirement that thosse companies providing those
+peripherals MUST have upstream Linux device drivers as a condition of
+the procurement contract.
+
+And the more enlightened companies *do* understood that out-of-tree
+patches are technical debt, and to get drivers, patches, etc.,
+upstream in the long run would save them huge amounts of effort.  So
+there are plenty of ways in which the meeting the goals of the FLOSS
+comunity is ultimately, good towards achieving the goals of for-profit
+companies.
+
+> To my jaded mind, it is obvious that such reprehensible strategies can be 
+> advanced by co-operative employees given inducements from colluding 
+> companies. My patch won't prevent this sort of behaviour but it does 
+> remove a directive that would help facilitate it.
+> 
+> Greg, if you want to see more performance reviews, the maturity model 
+> could compel companies to provide unsolicited feedback, instead of seek it 
+> from an arbitrary source. Would you be amenable to a revised patch along 
+> those lines?
+
+It was never about *companies* providing unsolicited feedback, but
+rather the upstream Linux kerenl development community:
+
+Level 4
+=======
+
+* Organizations will consider community member feedback in official
+  performance reviews.
+
+Level 5
+=======
+
+* Organizations will actively seek out community member feedback as a
+  factor in official performance reviews.
+
+I could see making this be more explicit by spelling out "upstream
+development community" and "regarding their upstream contributions".
+But I'm not sure where you thought it was about "getting *from*
+companies".
+
+The reality is that many, if not most of the key Linux kernel
+developer leaders are employed by companies.  And so we are quite well
+practiced at being able to put on our "open source leader hat" --- and
+explicitly telling people that this is what we are doing --- as well
+as being able to explain when we are relying the requirements from a
+particular company, usually when we are explianing what motiviated a
+particular code contribution.
+
+So if I were asked to give a recommendation for an employee working at
+Company I, and I'm working at Company G, I'm perfectly capable of
+saying, this is what this person has done as an upstream developer,
+and based on her upstream contributions, you should definitely promote
+her.  And this has actually happened, BTW.  If we could encourage more
+companies to sek out or accept more feedback from community members,
+that would certainly be a good thing.
+
+Cheers,
+
+						- Ted
+
