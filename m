@@ -2,91 +2,137 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 089FFEB64D9
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 01:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D6A2EB64D9
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 02:19:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230003AbjFTBA1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Jun 2023 21:00:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47400 "EHLO
+        id S229925AbjFTCTu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Jun 2023 22:19:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229917AbjFTBA0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 21:00:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 467D6E7E;
-        Mon, 19 Jun 2023 18:00:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A949860F32;
-        Tue, 20 Jun 2023 01:00:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 045F6C433CA;
-        Tue, 20 Jun 2023 01:00:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687222824;
-        bh=wKn3JK30iCELZzAybdtpR5nHk34wWPJ1QywkzzhvQ0k=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=F7Ydm/tK+13fLP9A9NcnuVJC950Qz765+hxiBCCuSw5NBR9HnXzPpKf3yEfKt2luk
-         WjLNeteyf8hshL0a7b16KTCEYWQ0F7VA/LMGbFCfgtIZV+WQ/cfWhE4V/p9MoF70dT
-         Ou27prk09vZr8p+pw46UArC39zsniH5bBw/9abVr05D3oodZQ/yaxDyNhGDEss45uN
-         T2wbxNKh95UufklR8PagZNoPYcLFyppjMZLMw8vnYcVsyabkqLLYVa2U8ULu512N00
-         eWM+Bw6MJp1MM1/MPLmsUWo6a9RemcSR5QErv0iKp65RtD7N4Uh58k4l9lu7iyKMBy
-         A6qQViXvRbiqw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D6011C561EE;
-        Tue, 20 Jun 2023 01:00:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229453AbjFTCTu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Jun 2023 22:19:50 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980C8E7C
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 19:19:48 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-3f9d619103dso454221cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jun 2023 19:19:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687227587; x=1689819587;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3EPXA9p2JzuvzKzWgCYYXlon3hk90pdnuUAk2cg5+oQ=;
+        b=jSijuw7X4DVOl/gcJeGmpxPfObtZeHzM/kRouNnow3lf3toxpNV1RRCp3JeAUXAEL+
+         iI70y/J5y5xneoxSH6lE1u2JjNb0sxP+WH/AcOV6J04IM66xuGr7kVVJvlJSVYl2nzdw
+         GpO9zFbTU/Jt9P+AzXUBhThLJZOMv2S6GysxYZc9QRsartfZ/Ng1pFrBF4i1QYEA0ja5
+         v+DJgaciPtBrnG+fF3nFrq1OXvndAf9QJ9iH3cDovlvik+Boqnlxq+8ktld9BK552lGf
+         9SQiMGWZ6yfz+SN6OYZeEIGzY2Jw4LCJPZ9hxA2TtbBcyZj9yfzbfjehAIRUIUV41fPH
+         6wuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687227587; x=1689819587;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3EPXA9p2JzuvzKzWgCYYXlon3hk90pdnuUAk2cg5+oQ=;
+        b=bM19mr8KwMXAADxFd2djGfIgxDgwIHJQ/m8Ru1IFubFa1OBtGqeQ0KOy3vInapfuab
+         mfBxhZk9StO9K1EI1smPAftIf5S/V/dJG9qxVBkOxBz2jvSGmC49Om/6bY83tRjrkApQ
+         GeVv5xUTzxVOMT/s39vKiqlGjw3v7BF8Zx2be59wjrN2kOpMFt3rhH3RHEToYEeDu5/d
+         Tt/UOHqbnAqqEW8vBWEQfE92o6bmEUhfpRwINb3zSUc1X2xhb4e+rB8Du0feecqrcsqD
+         heieb2btfklo5IgIJbBYlo8C9OfUb7R/Vxdx4zcA/CtidV6pElmIhpnmUle+HP8lLnAl
+         Ei5A==
+X-Gm-Message-State: AC+VfDxfRoJcC0gliXDu/ZB3ze7JcwVui4qAiM8O3uANUJaP4VSs7q+i
+        3VvUax/O7peIee0DV4x+6xtfBbs7Q/caQLnGkF8ZUA==
+X-Google-Smtp-Source: ACHHUZ4X3CzpwwHdrmJnCxXIBAk6HQXykSsn31iNLJMOP1aC/6DP8FnJZ+MTQ6AdfTjiGdmwOfd3hduXZamO7zy5qTQ=
+X-Received: by 2002:ac8:7f93:0:b0:3ef:404a:b291 with SMTP id
+ z19-20020ac87f93000000b003ef404ab291mr104628qtj.7.1687227587619; Mon, 19 Jun
+ 2023 19:19:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/3] RISC-V: Export Zba, Zbb to usermode via hwprobe
-From:   patchwork-bot+linux-riscv@kernel.org
-Message-Id: <168722282387.22807.6974446089239901729.git-patchwork-notify@kernel.org>
-Date:   Tue, 20 Jun 2023 01:00:23 +0000
-References: <20230509182504.2997252-1-evan@rivosinc.com>
-In-Reply-To: <20230509182504.2997252-1-evan@rivosinc.com>
-To:     Evan Green <evan@rivosinc.com>
-Cc:     linux-riscv@lists.infradead.org, palmer@rivosinc.com,
-        apatel@ventanamicro.com, aou@eecs.berkeley.edu, corbet@lwn.net,
-        abrestic@rivosinc.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, conor.dooley@microchip.com,
-        coelacanthus@outlook.com, jszhang@kernel.org,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        heiko.stuebner@vrull.eu, ajones@ventanamicro.com
+References: <20230526234435.662652-1-yuzhao@google.com> <26cf0b0a-cda5-08a9-a669-6966f9e626b1@redhat.com>
+In-Reply-To: <26cf0b0a-cda5-08a9-a669-6966f9e626b1@redhat.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Mon, 19 Jun 2023 20:19:11 -0600
+Message-ID: <CAOUHufagkd2Jk3_HrVoFFptRXM=hX2CV8f+M-dka-hJU4bP8kw@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v2 00/10] mm/kvm: locklessly clear the
+ accessed bit
+To:     Paolo Bonzini <pbonzini@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Alistair Popple <apopple@nvidia.com>,
+        Anup Patel <anup@brainfault.org>,
+        Ben Gardon <bgardon@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Fabiano Rosas <farosas@linux.ibm.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Gavin Shan <gshan@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        James Morse <james.morse@arm.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Larabel <michael@michaellarabel.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Peter Xu <peterx@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Huth <thuth@redhat.com>, Will Deacon <will@kernel.org>,
+        Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
+        kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
+        linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+        linux-mm@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Fri, Jun 9, 2023 at 3:08=E2=80=AFAM Paolo Bonzini <pbonzini@redhat.com> =
+wrote:
+>
+> On 5/27/23 01:44, Yu Zhao wrote:
+> > TLDR
+> > =3D=3D=3D=3D
+> > This patchset adds a fast path to clear the accessed bit without
+> > taking kvm->mmu_lock. It can significantly improve the performance of
+> > guests when the host is under heavy memory pressure.
+> >
+> > ChromeOS has been using a similar approach [1] since mid 2021 and it
+> > was proven successful on tens of millions devices.
+> >
+> > This v2 addressed previous requests [2] on refactoring code, removing
+> > inaccurate/redundant texts, etc.
+> >
+> > [1]https://crrev.com/c/2987928
+> > [2]https://lore.kernel.org/r/20230217041230.2417228-1-yuzhao@google.com=
+/
+>
+>  From the KVM point of view the patches look good (though I wouldn't
+> mind if Nicholas took a look at the ppc part).  Jason's comment on the
+> MMU notifier side are promising as well.  Can you send v3 with Oliver's
+> comments addressed?
 
-This series was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+Thanks. I'll address all the comments in v3 and post it asap.
 
-On Tue,  9 May 2023 11:25:00 -0700 you wrote:
-> This change detects the presence of Zba, Zbb, and Zbs extensions and exports
-> them per-hart to userspace via the hwprobe mechanism. Glibc can then use
-> these in setting up hwcaps-based library search paths.
-> 
-> There's a little bit of extra housekeeping here: the first change adds
-> Zba and Zbs to the set of extensions the kernel recognizes, and the second
-> change starts tracking ISA features per-hart (in addition to the ANDed
-> mask of features across all harts which the kernel uses to make
-> decisions). Now that we track the ISA information per-hart, we could
-> even fix up /proc/cpuinfo to accurately report extension per-hart,
-> though I've left that out of this series for now.
-> 
-> [...]
-
-Here is the summary with links:
-  - [v2,1/3] RISC-V: Add Zba, Zbs extension probing
-    https://git.kernel.org/riscv/c/c6699baf1064
-  - [v2,2/3] RISC-V: Track ISA extensions per hart
-    https://git.kernel.org/riscv/c/82e9c66e81c8
-  - [v2,3/3] RISC-V: hwprobe: Expose Zba, Zbb, and Zbs
-    https://git.kernel.org/riscv/c/c0baf321038d
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Meanwhile, some updates on the recent progress from my side:
+1. I've asked some downstream kernels to pick up v2 for testing, the
+Archlinux Zen kernel did. I don't really expect its enthusiastic
+testers to find this series relevant to their use cases. But who
+knows.
+2. I've also asked openbenchmarking.org to run their popular highmem
+benchmark suites with v2. Hopefully they'll have some independent
+results soon.
+3. I've backported v2 to v5.15 and v6.1 and started an A/B experiment
+involving ~1 million devices, as I mentioned in another email in this
+thread. I should have some results to share when posting v3.
