@@ -2,365 +2,402 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1EE1EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 09:18:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10210EB64D8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 09:25:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232147AbjFTJSH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 05:18:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42646 "EHLO
+        id S231561AbjFTJZt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 05:25:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232255AbjFTJSC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 05:18:02 -0400
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2089.outbound.protection.outlook.com [40.107.241.89])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F20551711;
-        Tue, 20 Jun 2023 02:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ba04VqryGuy+tqXQdUvmvxgxRNRefAVnUB4a/VFb0yM=;
- b=vstRLOoI4ORg/i/DSfCaRY/rZ0A27Rg/9lM67xFcrWQpq5Xg67MwCqkxevEexk+pAy78xH2W4C1kM3fkd76uBJudSNATwNPI/3I3hFlobwu/9y4O6w+tm6LVCQfFPKKygs6ydxUdDBrkVqvZ7s+2SmO/qpgSjSlr5iE4B3vvQPs=
-Received: from AS9PR04CA0116.eurprd04.prod.outlook.com (2603:10a6:20b:531::17)
- by AM7PR08MB5349.eurprd08.prod.outlook.com (2603:10a6:20b:107::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37; Tue, 20 Jun
- 2023 09:17:47 +0000
-Received: from AM7EUR03FT003.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:531:cafe::83) by AS9PR04CA0116.outlook.office365.com
- (2603:10a6:20b:531::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37 via Frontend
- Transport; Tue, 20 Jun 2023 09:17:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT003.mail.protection.outlook.com (100.127.140.227) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6521.21 via Frontend Transport; Tue, 20 Jun 2023 09:17:47 +0000
-Received: ("Tessian outbound e13c2446394c:v136"); Tue, 20 Jun 2023 09:17:46 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: aaa0583481bf17ed
-X-CR-MTA-TID: 64aa7808
-Received: from b7a8ad7b66eb.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 32C5965C-E491-44A3-AB4D-FD5FE9F89C0F.1;
-        Tue, 20 Jun 2023 09:17:40 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id b7a8ad7b66eb.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 20 Jun 2023 09:17:40 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NJ1eDon7Aob86Bo1WnWUhgPbcryFGEvSFjmigdmgT2sWI6dv4qaCBslEee3zOJDS0PCJ9um2c5HSNVRHxHs2M6I8TMCK44pl22b7QCQl8HN/O1ACrWSu2eDWp6h2NyCu6Dy8f9R/zdkrKJPbnOKpYz5/dkUkt4XgeTq0D9Dmg17dVvfPcPHuxpvHXUJfol7twF6eWPawFlVNVWF/2rK+MdU7lcBdAw8xE2xzR7HUIjtF3/9RumYnuvP5I0yg2c9leblcPvRtBxfJ2RonW/x9UiBAMuLuCeoevUaUCEnQ92LsaQnhlsXci6SspcbQ06wzeGZ8YtKKpNbMdurccQk4YQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ba04VqryGuy+tqXQdUvmvxgxRNRefAVnUB4a/VFb0yM=;
- b=J55wxYHjTmTbV1vvlz3jJlk94R1XW+EI8qnuVdHGjnSh7mZLD9fp3AEzG75vsEjc1JsfBnZbaP7ON02eWRX4tpkQ7RcIpOXdxT/EekuULSmF53qLHWJ1HlYioDv92sczhMG/R8tSisoT1ve4ZTsP8N1ZylkP3IO7+iUfHNMzgZVSuamqCP7+PoV1xwDB1xLeiXM6J/GaVFp1u3hGQah6/CQWVEy8hbsYjjlH68PZvBMaGXtJqu2A03y8I6P6Y8sTQPlGphFPk1JXkVbBUC41RDZ2F4+PjGKb9bRhawvW0dlRpfC5Zhi0rKDXxMJ6m3g+J51tnSoJC2BaSseTnrxLgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ba04VqryGuy+tqXQdUvmvxgxRNRefAVnUB4a/VFb0yM=;
- b=vstRLOoI4ORg/i/DSfCaRY/rZ0A27Rg/9lM67xFcrWQpq5Xg67MwCqkxevEexk+pAy78xH2W4C1kM3fkd76uBJudSNATwNPI/3I3hFlobwu/9y4O6w+tm6LVCQfFPKKygs6ydxUdDBrkVqvZ7s+2SmO/qpgSjSlr5iE4B3vvQPs=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
- by AS1PR08MB7562.eurprd08.prod.outlook.com (2603:10a6:20b:471::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37; Tue, 20 Jun
- 2023 09:17:35 +0000
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::43b7:3a83:5cbe:4559]) by DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::43b7:3a83:5cbe:4559%4]) with mapi id 15.20.6500.036; Tue, 20 Jun 2023
- 09:17:34 +0000
-Date:   Tue, 20 Jun 2023 10:17:05 +0100
-From:   "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "broonie@kernel.org" <broonie@kernel.org>
-Cc:     "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "nd@arm.com" <nd@arm.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "x86@kernel.org" <x86@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
-        "Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
- description
-Message-ID: <ZJFukYxRbU1MZlQn@arm.com>
-References: <0b7cae2a-ae5b-40d8-9ae7-10aea5a57fd6@sirena.org.uk>
- <87y1knh729.fsf@oldenburg.str.redhat.com>
- <1f04fa59-6ca9-4f18-b138-6c33e164b6c2@sirena.org.uk>
- <49eabafa97032dec8ace7361bccae72c6ecf3860.camel@intel.com>
- <fc2ebfcf-8d91-4f07-a119-2aaec3aa099f@sirena.org.uk>
- <a0f1da840ad21fae99479288f5d74c7ab9095bb6.camel@intel.com>
- <ZImZ6eUxf5DdLYpe@arm.com>
- <64837d2af3ae39bafd025b3141a04f04f4323205.camel@intel.com>
- <ZJAWMSLfSaHOD1+X@arm.com>
- <5794e4024a01e9c25f0951a7386cac69310dbd0f.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5794e4024a01e9c25f0951a7386cac69310dbd0f.camel@intel.com>
-X-ClientProxiedBy: SA1PR02CA0017.namprd02.prod.outlook.com
- (2603:10b6:806:2cf::23) To DB9PR08MB7179.eurprd08.prod.outlook.com
- (2603:10a6:10:2cc::19)
+        with ESMTP id S232271AbjFTJZr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 05:25:47 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B6FC118;
+        Tue, 20 Jun 2023 02:25:45 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 1D2406606F8A;
+        Tue, 20 Jun 2023 10:25:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687253143;
+        bh=po+0w7hH7d94WQNfAnbrVCp8PuY7vjS5JdjWgMLN04A=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=IakTQrgPnE6U17ByX38rn6kOLSna7kaud66wBQKOr+Rgw9zNnxUg7zNn0S0ZB31B8
+         B881y1t0TTidWNK3zjbxG9ACKZtvaq34xKAQIm3EokGQwG61L2qrCqBB46O0B1aNQg
+         OiD5xwlyFNxoMkCI2RyJDV71MRMVUepyBiexohngvZRqWlMQQTrNpTPJvRccVK8huS
+         2/FNyM4tvLsjuFDNELaU6eBFz3TyoN0DU8FvyYM43GDCtjQEqCXqHd45yFL50NvnGa
+         rkvMQxK1LAsF6PhCo14WW2ZfpyenAEONtPJs0rpxHFygPyL+eqY6ckdUOuirIHh1Cl
+         r4yDGxj8Pq7hA==
+Date:   Tue, 20 Jun 2023 11:25:40 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH drm-next v5 00/14] [RFC] DRM GPUVA Manager & Nouveau
+ VM_BIND UAPI
+Message-ID: <20230620112540.19142ef3@collabora.com>
+In-Reply-To: <20230620004217.4700-1-dakr@redhat.com>
+References: <20230620004217.4700-1-dakr@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|AS1PR08MB7562:EE_|AM7EUR03FT003:EE_|AM7PR08MB5349:EE_
-X-MS-Office365-Filtering-Correlation-Id: 509811bf-85bb-4320-ae8d-08db716f367b
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: epyqe+8nYSG5PScShfxO+iomwrmdR8tDL74QHB/vmqVAXvAm+LHd5OMPmLI211ySnLUoMu+5MlIlUW2fat7dav2YREOEeSSKvslw6+B8Jci7Ih6wiFbStxB9IXxrl69AmJ3M0i1F5cL2zkUXU0DzB1ZZsG19614vXQujHZljwXIUEvZ8+A4RqNnT6si8pqb+Z8n0tsjWP5CCU/Eqtmau+RSGdu6ihZfh+aoN0WcF2q7EbNvzYV0nRxs1Zv09mdp/AUoN67GIpTjZW4tJyYDKv7XIr98vPpZ13Wg++hGNYRkNLXpXzkZ9vTgsKde329mirj5sNGfQlgsCJBfbCnETRV1exGfXPUV/RQZgJZUwzdofsY3RcSho7swQywU0+b50lTzqpKE4zlqdKxQOs4XgUPE5Afc+hkbrBMKKeVPhS17kwItUVRNFg87Dh1xxTAoGz2YZLZ44BUn2Bza4OCcLM+b9KQ2hU26B+vOi2K1A1rWesjtI3Cn1eMBk+f4ZHov+AajuCyT8ksqgeee6hoaYaRintDefj24Eko1cYC3eTIhWnSg1ntcNeGWZTwMk5Eoo
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(346002)(376002)(136003)(396003)(451199021)(7416002)(7406005)(66556008)(4326008)(66476007)(66946007)(36756003)(316002)(5660300002)(66899021)(2906002)(8676002)(8936002)(41300700001)(6486002)(54906003)(110136005)(86362001)(478600001)(38100700002)(6506007)(6512007)(26005)(186003)(6666004)(83380400001)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR08MB7562
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT003.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 149c9a64-87f7-44f7-10d2-08db716f2e55
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SPaG1NsSVfX2/LOyrRAZhNrvuQX0ASDn49Phddl/5taQqnLxA4iddbBtkUzrtb222DnkarAAN2UpD8ggJEUSv6FKrkXV0xumtkV8+LA9oxmWRDlWn71CJelgVBJSd7XCTzsUVL9+CtGQthEvsAG0Kt4Wvsq9HDQsQvyCJ8T0Bg2LtbLaUgG7xQ/VtoNmCOdV9pmbrRCf0OKXv/vpPQRerHy43ZYU6c+FTwg1khY35fD3iczoG0Rj1rOo4umLvNzXm6T6f0c9FEfiX3EPLSwC4bHOenNs9XPU+cMmj0YZfGkeanVixpMkZ+ek3xLT4UXh7eCw/R4fe6AjCc7pm18WRnH+wkOhKTQVRFUKDvGFen3R4uGTjJVL3LzJJWk9qs71REq0ppdQTGmOSjdRkeWiBH8uKX5ZKGNv2tuNu21SFRlEfx3Fj/QoR+NzY8ZHwrbd73ymH9JJ9BVRFO6SQ3N+K9tz6mNsMhR3w5oGknZPhGl/U6Za7PQcMLd0U/dIf5tp0utxoBYtWM2lMDiqRwiLddg7LVUf4u3IMjTIhuA0zLtkg6vXb6tboCAIW+0+rKEQJdK5W9qEcHexYCF7zMyUChdPHLt+824OIjvj3lUVZPkkOQBKxLws6oAZeEySnuoOfn69NEhBxgSsxd9SOyWqZgczqaGLP6P6p1jQ17i7Jlpr101njpe25zsJQYtcDDoIbNvAbDUr9r4F7OiRoIcU5EQ5AFxwBEUNDRWOeE0Zi68V/SRIpZtVI9/bPVPGIbOZ
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(39860400002)(136003)(376002)(396003)(451199021)(40470700004)(46966006)(36840700001)(5660300002)(70586007)(70206006)(316002)(450100002)(4326008)(36756003)(66899021)(2906002)(8936002)(8676002)(41300700001)(40460700003)(40480700001)(110136005)(6486002)(47076005)(54906003)(86362001)(82310400005)(478600001)(6506007)(107886003)(6512007)(26005)(186003)(36860700001)(6666004)(81166007)(356005)(82740400003)(83380400001)(336012)(2616005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2023 09:17:47.1034
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 509811bf-85bb-4320-ae8d-08db716f367b
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT003.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5349
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 06/19/2023 16:44, Edgecombe, Rick P wrote:
-> On Mon, 2023-06-19 at 09:47 +0100, szabolcs.nagy@arm.com wrote:
-> > The 06/14/2023 16:57, Edgecombe, Rick P wrote:
-> > > On Wed, 2023-06-14 at 11:43 +0100, szabolcs.nagy@arm.com wrote:
-> > > > i dont think you can add sigaltshstk later.
-> > > > 
-> > > > libgcc already has unwinder code for shstk and that cannot handle
-> > > > discontinous shadow stack.
-> > > 
-> > > Are you referring to the existing C++ exception unwinding code that
-> > > expects a different signal frame format? Yea this is a problem, but
-> > > I
-> > > don't see how it's a problem with any solutions now that will be
-> > > harder
-> > > later. I mentioned it when I brought up all the app compatibility
-> > > problems.[0]
-> > 
-> > there is old unwinder code incompatible with the current patches,
-> > but that was fixed. however the new unwind code assumes signal
-> > entry pushes one extra token that just have to be popped from the
-> > shstk. this abi cannot be expanded which means
-> > 
-> > 1) kernel cannot push more tokens for more integrity checks
-> >    (or to add whatever other features)
-> > 
-> > 2) sigaltshstk cannot work.
-> > 
-> > if the unwinder instead interprets the token to be the old ssp and
-> > either incssp or switch to that ssp (depending on continous or
-> > discontinous shstk, which the unwinder can detect), then 1) and 2)
-> > are fixed.
-> > 
-> > but currently the distributed unwinder binary is incompatible with
-> > 1) and 2) so sigaltshstk cannot be added later. breaking the unwind
-> > abi is not acceptable.
-> 
-> Can you point me to what you are talking about? I tested adding fields
-> to the shadow stack on top of these changes. It worked with HJ's new
-> (unposted I think) C++ changes for gcc. Adding fields doesn't work with
-> the existing gcc because it assumes a fixed size.
+Hi Danilo,
 
-if there is a fix that's good, i haven't seen it.
+On Tue, 20 Jun 2023 02:42:03 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-my point was that the current unwinder works with current kernel
-patches, but does not allow future extensions which prevents
-sigaltshstk to work. the unwinder is not versioned so this cannot
-be fixed later. it only works if distros ensure shstk is disabled
-until the unwinder is fixed. (however there is no way to detect
-old unwinder if somebody builds gcc from source.)
+> This patch series provides a new UAPI for the Nouveau driver in order to
+> support Vulkan features, such as sparse bindings and sparse residency.
+>=20
+> Furthermore, with the DRM GPUVA manager it provides a new DRM core featur=
+e to
+> keep track of GPU virtual address (VA) mappings in a more generic way.
+>=20
+> The DRM GPUVA manager is indented to help drivers implement userspace-man=
+ageable
+> GPU VA spaces in reference to the Vulkan API. In order to achieve this go=
+al it
+> serves the following purposes in this context.
+>=20
+>     1) Provide infrastructure to track GPU VA allocations and mappings,
+>        making use of the maple_tree.
+>=20
+>     2) Generically connect GPU VA mappings to their backing buffers, in
+>        particular DRM GEM objects.
+>=20
+>     3) Provide a common implementation to perform more complex mapping
+>        operations on the GPU VA space. In particular splitting and merging
+>        of GPU VA mappings, e.g. for intersecting mapping requests or part=
+ial
+>        unmap requests.
+>=20
+> The new VM_BIND Nouveau UAPI build on top of the DRM GPUVA manager, itself
+> providing the following new interfaces.
+>=20
+>     1) Initialize a GPU VA space via the new DRM_IOCTL_NOUVEAU_VM_INIT io=
+ctl
+>        for UMDs to specify the portion of VA space managed by the kernel =
+and
+>        userspace, respectively.
+>=20
+>     2) Allocate and free a VA space region as well as bind and unbind mem=
+ory
+>        to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
+>=20
+>     3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
+>=20
+> Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, make use of t=
+he DRM
+> scheduler to queue jobs and support asynchronous processing with DRM sync=
+objs
+> as synchronization mechanism.
+>=20
+> By default DRM_IOCTL_NOUVEAU_VM_BIND does synchronous processing,
+> DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
+>=20
+> The new VM_BIND UAPI for Nouveau makes also use of drm_exec (execution co=
+ntext
+> for GEM buffers) by Christian K=C3=B6nig. Since the patch implementing dr=
+m_exec was
+> not yet merged into drm-next it is part of this series, as well as a smal=
+l fix
+> for this patch, which was found while testing this series.
+>=20
+> This patch series is also available at [1].
+>=20
+> There is a Mesa NVK merge request by Dave Airlie [2] implementing the
+> corresponding userspace parts for this series.
+>=20
+> The Vulkan CTS test suite passes the sparse binding and sparse residency =
+test
+> cases for the new UAPI together with Dave's Mesa work.
+>=20
+> There are also some test cases in the igt-gpu-tools project [3] for the n=
+ew UAPI
+> and hence the DRM GPU VA manager. However, most of them are testing the D=
+RM GPU
+> VA manager's logic through Nouveau's new UAPI and should be considered ju=
+st as
+> helper for implementation.
+>=20
+> However, I absolutely intend to change those test cases to proper kunit t=
+est
+> cases for the DRM GPUVA manager, once and if we agree on it's usefulness =
+and
+> design.
+>=20
+> [1] https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-n=
+ext /
+>     https://gitlab.freedesktop.org/nouvelles/kernel/-/merge_requests/1
+> [2] https://gitlab.freedesktop.org/nouveau/mesa/-/merge_requests/150/
+> [3] https://gitlab.freedesktop.org/dakr/igt-gpu-tools/-/tree/wip_nouveau_=
+vm_bind
+>=20
+> Changes in V2:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>   Nouveau:
+>     - Reworked the Nouveau VM_BIND UAPI to avoid memory allocations in fe=
+nce
+>       signalling critical sections. Updates to the VA space are split up =
+in three
+>       separate stages, where only the 2. stage executes in a fence signal=
+ling
+>       critical section:
+>=20
+>         1. update the VA space, allocate new structures and page tables
+>         2. (un-)map the requested memory bindings
+>         3. free structures and page tables
+>=20
+>     - Separated generic job scheduler code from specific job implementati=
+ons.
+>     - Separated the EXEC and VM_BIND implementation of the UAPI.
+>     - Reworked the locking parts of the nvkm/vmm RAW interface, such that
+>       (un-)map operations can be executed in fence signalling critical se=
+ctions.
+>=20
+>   GPUVA Manager:
+>     - made drm_gpuva_regions optional for users of the GPUVA manager
+>     - allow NULL GEMs for drm_gpuva entries
+>     - swichted from drm_mm to maple_tree for track drm_gpuva / drm_gpuva_=
+region
+>       entries
+>     - provide callbacks for users to allocate custom drm_gpuva_op structu=
+res to
+>       allow inheritance
+>     - added user bits to drm_gpuva_flags
+>     - added a prefetch operation type in order to support generating pref=
+etch
+>       operations in the same way other operations generated
+>     - hand the responsibility for mutual exclusion for a GEM's
+>       drm_gpuva list to the user; simplified corresponding (un-)link func=
+tions
+>=20
+>   Maple Tree:
+>     - I added two maple tree patches to the series, one to support custom=
+ tree
+>       walk macros and one to hand the locking responsibility to the user =
+of the
+>       GPUVA manager without pre-defined lockdep checks.
+>=20
+> Changes in V3:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>   Nouveau:
+>     - Reworked the Nouveau VM_BIND UAPI to do the job cleanup (including =
+page
+>       table cleanup) within a workqueue rather than the job_free() callba=
+ck of
+>       the scheduler itself. A job_free() callback can stall the execution=
+ (run()
+>       callback) of the next job in the queue. Since the page table cleanup
+>       requires to take the same locks as need to be taken for page table
+>       allocation, doing it directly in the job_free() callback would still
+>       violate the fence signalling critical path.
+>     - Separated Nouveau fence allocation and emit, such that we do not vi=
+olate
+>       the fence signalling critical path in EXEC jobs.
+>     - Implement "regions" (for handling sparse mappings through PDEs and =
+dual
+>       page tables) within Nouveau.
+>     - Drop the requirement for every mapping to be contained within a reg=
+ion.
+>     - Add necassary synchronization of VM_BIND job operation sequences in=
+ order
+>       to work around limitations in page table handling. This will be add=
+ressed
+>       in a future re-work of Nouveau's page table handling.
+>     - Fixed a couple of race conditions found through more testing. Thank=
+s to
+>       Dave for consitently trying to break it. :-)
+>=20
+>   GPUVA Manager:
+>     - Implement pre-allocation capabilities for tree modifications within=
+ fence
+>       signalling critical sections.
+>     - Implement accessors to to apply tree modification while walking the=
+ GPUVA
+>       tree in order to actually support processing of drm_gpuva_ops throu=
+gh
+>       callbacks in fence signalling critical sections rather than through
+>       pre-allocated operation lists.
+>     - Remove merging of GPUVAs; the kernel has limited to none knowlege a=
+bout
+>       the semantics of mapping sequences. Hence, merging is purely specul=
+ative.
+>       It seems that gaining a significant (or at least a measurable) perf=
+ormance
+>       increase through merging is way more likely to happen when userspac=
+e is
+>       responsible for merging mappings up to the next larger page size if
+>       possible.
+>     - Since merging was removed, regions pretty much loose their right to=
+ exist.
+>       They might still be useful for handling dual page tables or similar
+>       mechanisms, but since Nouveau seems to be the only driver having a =
+need
+>       for this for now, regions were removed from the GPUVA manager.
+>     - Fixed a couple of maple_tree related issues; thanks to Liam for hel=
+ping me
+>       out.
+>=20
+> Changes in V4:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>   Nouveau:
+>     - Refactored how specific VM_BIND and EXEC jobs are created and how t=
+heir
+>       arguments are passed to the generic job implementation.
+>     - Fixed a UAF race condition where bind job ops could have been freed
+>       already while still waiting for a job cleanup to finish. This is du=
+e to
+>       in certain cases we need to wait for mappings actually being unmapp=
+ed
+>       before creating sparse regions in the same area.
+>     - Re-based the code onto drm_exec v4 patch.
+>=20
+>   GPUVA Manager:
+>     - Fixed a maple tree related bug when pre-allocating MA states.
+>       (Boris Brezillion)
+>     - Made struct drm_gpuva_fn_ops a const object in all occurrences.
+>       (Boris Brezillion)
+>=20
+> Changes in V5:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>   Nouveau:
+>     - Link and unlink GPUVAs outside the fence signalling critical path in
+>       nouveau_uvmm_bind_job_submit() holding the dma-resv lock. Mutual ex=
+clusion
+>       of BO evicts causing mapping invalidation and regular mapping opera=
+tions
+>       is ensured with dma-fences.
+>=20
+>   GPUVA Manager:
+>     - Removed the separate GEMs GPUVA list lock. Link and unlink as well =
+as
+>       iterating the GEM's GPUVA list should be protected with the GEM's d=
+ma-resv
+>       lock instead.
+>     - Renamed DRM_GPUVA_EVICTED flag to DRM_GPUVA_INVALIDATED. Mappings d=
+o not
+>       get eviced, they might get invalidated due to eviction.
+>     - Maple tree uses the 'unsinged long' type for node entries. While th=
+is
+>       works for GPU VA spaces larger than 32-bit on 64-bit kernel, the GP=
+U VA
+>       space is limited to 32-bit on 32-bit kernels as well.
+>       As long as we do not have a 64-bit capable maple tree for 32-bit ke=
+rnels,
+>       the GPU VA manager contains checks to throw warnings when GPU VA en=
+tries
+>       exceed the maple tree's storage capabilities.
+>     - Extended the Documentation and added example code as requested by D=
+onald
+>       Robson.
+>=20
+> Christian K=C3=B6nig (1):
+>   drm: execution context for GEM buffers v4
+>=20
+> Danilo Krummrich (13):
+>   maple_tree: split up MA_STATE() macro
+>   drm: manager to keep track of GPUs VA mappings
+>   drm: debugfs: provide infrastructure to dump a DRM GPU VA space
 
-also note that there is generic code in the unwinder that will
-deal with this and likely the x86 patches will conflict with
-arm and riscv etc patches that try to fix the same issue..
-so posting patches on the tools side of the abi would be useful
-at this point.
+Core drm patches are=20
 
-> > > The problem is that gcc expects a fixed 8 byte sized shadow stack
-> > > signal frame. The format in these patches is such that it can be
-> > > expanded for the sake of supporting alt shadow stack later, but it
-> > > happens to be a fixed 8 bytes for now, so it will work seamlessly
-> > > with
-> > > these old gcc's. HJ has some patches to fix GCC to jump over a
-> > > dynamically sized shadow stack signal frame, but this of course
-> > > won't
-> > > stop old gcc's from generating binaries that won't work with an
-> > > expanded frame.
-> > > 
-> > > I was waffling on whether it would be better to pad the shadow
-> > > stack
-> > > [1] signal frame to start, this would break compatibility with any
-> > > binaries that use this -fnon-call-exceptions feature (if there are
-> > > any), but would set us up better for the future if we got away with
-> > > it.
-> > 
-> > i don't see how -fnon-call-exceptions is relevant.
-> 
-> It uses unwinder code that does assume a fixed shadow stack signal
-> frame size. Since gcc 8.5 I think. So these compilers will continue to
-> generate code that assumes a fixed frame size. This is one of the
-> limitations we have for not moving to a new elf bit.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-how does "fixed shadow stack signal frame size" relates to
-"-fnon-call-exceptions"?
+The only thing I'm worried about is the 'sync mapping requests have to
+go through the async path and wait for all previous async requests to
+be processed' problem I mentioned in one of your previous submission,
+but I'm happy leave that for later.
 
-if there were instruction boundaries within a function where the
-ret addr is not yet pushed or already poped from the shstk then
-the flag would be relevant, but since push/pop happens atomically
-at function entry/return -fnon-call-exceptions makes no
-difference as far as shstk unwinding is concerned.
+>   drm/nouveau: new VM_BIND uapi interfaces
+>   drm/nouveau: get vmm via nouveau_cli_vmm()
+>   drm/nouveau: bo: initialize GEM GPU VA interface
+>   drm/nouveau: move usercopy helpers to nouveau_drv.h
+>   drm/nouveau: fence: separate fence alloc and emit
+>   drm/nouveau: fence: fail to emit when fence context is killed
+>   drm/nouveau: chan: provide nouveau_channel_kill()
+>   drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
+>   drm/nouveau: implement new VM_BIND uAPI
+>   drm/nouveau: debugfs: implement DRM GPU VA debugfs
+>=20
+>  Documentation/gpu/driver-uapi.rst             |   11 +
+>  Documentation/gpu/drm-mm.rst                  |   54 +
+>  drivers/gpu/drm/Kconfig                       |    6 +
+>  drivers/gpu/drm/Makefile                      |    3 +
+>  drivers/gpu/drm/drm_debugfs.c                 |   41 +
+>  drivers/gpu/drm/drm_exec.c                    |  278 +++
+>  drivers/gpu/drm/drm_gem.c                     |    3 +
+>  drivers/gpu/drm/drm_gpuva_mgr.c               | 1971 ++++++++++++++++
+>  drivers/gpu/drm/nouveau/Kbuild                |    3 +
+>  drivers/gpu/drm/nouveau/Kconfig               |    2 +
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c       |    9 +-
+>  drivers/gpu/drm/nouveau/include/nvif/if000c.h |   26 +-
+>  drivers/gpu/drm/nouveau/include/nvif/vmm.h    |   19 +-
+>  .../gpu/drm/nouveau/include/nvkm/subdev/mmu.h |   20 +-
+>  drivers/gpu/drm/nouveau/nouveau_abi16.c       |   24 +
+>  drivers/gpu/drm/nouveau/nouveau_abi16.h       |    1 +
+>  drivers/gpu/drm/nouveau/nouveau_bo.c          |  204 +-
+>  drivers/gpu/drm/nouveau/nouveau_bo.h          |    2 +-
+>  drivers/gpu/drm/nouveau/nouveau_chan.c        |   22 +-
+>  drivers/gpu/drm/nouveau/nouveau_chan.h        |    1 +
+>  drivers/gpu/drm/nouveau/nouveau_debugfs.c     |   39 +
+>  drivers/gpu/drm/nouveau/nouveau_dmem.c        |    9 +-
+>  drivers/gpu/drm/nouveau/nouveau_drm.c         |   27 +-
+>  drivers/gpu/drm/nouveau/nouveau_drv.h         |   94 +-
+>  drivers/gpu/drm/nouveau/nouveau_exec.c        |  418 ++++
+>  drivers/gpu/drm/nouveau/nouveau_exec.h        |   54 +
+>  drivers/gpu/drm/nouveau/nouveau_fence.c       |   23 +-
+>  drivers/gpu/drm/nouveau/nouveau_fence.h       |    5 +-
+>  drivers/gpu/drm/nouveau/nouveau_gem.c         |   62 +-
+>  drivers/gpu/drm/nouveau/nouveau_mem.h         |    5 +
+>  drivers/gpu/drm/nouveau/nouveau_prime.c       |    2 +-
+>  drivers/gpu/drm/nouveau/nouveau_sched.c       |  461 ++++
+>  drivers/gpu/drm/nouveau/nouveau_sched.h       |  123 +
+>  drivers/gpu/drm/nouveau/nouveau_svm.c         |    2 +-
+>  drivers/gpu/drm/nouveau/nouveau_uvmm.c        | 1979 +++++++++++++++++
+>  drivers/gpu/drm/nouveau/nouveau_uvmm.h        |  107 +
+>  drivers/gpu/drm/nouveau/nouveau_vmm.c         |    4 +-
+>  drivers/gpu/drm/nouveau/nvif/vmm.c            |  100 +-
+>  .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  213 +-
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c |  197 +-
+>  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   25 +
+>  .../drm/nouveau/nvkm/subdev/mmu/vmmgf100.c    |   16 +-
+>  .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   16 +-
+>  .../gpu/drm/nouveau/nvkm/subdev/mmu/vmmnv50.c |   27 +-
+>  include/drm/drm_debugfs.h                     |   25 +
+>  include/drm/drm_drv.h                         |    6 +
+>  include/drm/drm_exec.h                        |  119 +
+>  include/drm/drm_gem.h                         |   52 +
+>  include/drm/drm_gpuva_mgr.h                   |  682 ++++++
+>  include/linux/maple_tree.h                    |    7 +-
+>  include/uapi/drm/nouveau_drm.h                |  209 ++
+>  51 files changed, 7566 insertions(+), 242 deletions(-)
+>  create mode 100644 drivers/gpu/drm/drm_exec.c
+>  create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+>  create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.c
+>  create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.h
+>  create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.c
+>  create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.h
+>  create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.c
+>  create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.h
+>  create mode 100644 include/drm/drm_exec.h
+>  create mode 100644 include/drm/drm_gpuva_mgr.h
+>=20
+>=20
+> base-commit: 2222dcb0775d36de28992f56455ab3967b30d380
 
-> > you can unwind from a signal handler (this is not a c++ question
-> > but unwind abi question) and in practice eh works e.g. if the
-> > signal is raised (sync or async) in a frame where there are no
-> > cleanup handlers registered. in practice code rarely relies on
-> > this (because it's not valid in c++). the main user of this i
-> > know of is the glibc cancellation implmentation. (that is special
-> > in that it never catches the exception so ssp does not have to be
-> > updated for things to work, but in principle the unwinder should
-> > still verify the entries on shstk, otherwise the security
-> > guarantees are broken and the cleanup handlers can be hijacked.
-> > there are glibc abi issues that prevent fixing this, but in other
-> > libcs this may be still relevant).
-> 
-> I'm not fully sure what you are trying to say here. The glibc shadow
-
-you mentioned -fnon-call-exceptions and i'm saying even without that
-unwinding from signal handler is relevant and has to track shstk and
-ideally even update it for eh control transfer (i.e. properly switch
-to a different shstk in case of discontinous shstk).
-
-> stack stuff that is there today supports unwinding through a signal
-> handler. The longjmp code (unlike fnon-call-exections) doesn't look at
-> the shstk signal frame. It just does INCSSP until it reaches its
-> desired SSP, not caring what it is INCSSPing over.
-
-x86 longjmp has differnet problems (cannot handle discontinous
-shstk now).
-
-glibc cancellation is a mix of unwinding and special longjmp and
-it is currently broken in that the unwind bit cannot verify the
-return addresses. the unwinder does control transfer to cleanup
-handlers so control flow hijack is possible in principle on a
-corrupt stack (though i don't think cancellation is a practical
-attack surface).
-
-> > longjmp can support discontinous shadow stack without wrss.
-> > the current code proposed to glibc does not, which is wrong
-> > (it breaks altshstk and green thread users like qemu for no
-> > good reason).
-> > 
-> > declaring things unsupported means you have to go around to
-> > audit and mark binaries accordingly.
-> 
-> The idea that all apps can be supported without auditing has been
-> assumed to be impossible by everyone I've talked to, including the
-> GLIBC developers deeply versed in the architectural limitations of this
-> feature. So if you have a magic solution, then that is a notable claim
-> and I think you should propose it instead of just alluding to the fact
-> that there is one.
-
-there is no magic, longjmp should be implemented as:
-
-	target_ssp = read from jmpbuf;
-	current_ssp = read ssp;
-	for (p = target_ssp; p != current_ssp; p--) {
-		if (*p == restore-token) {
-			// target_ssp is on a different shstk.
-			switch_shstk_to(p);
-			break;
-		}
-	}
-	for (; p != target_ssp; p++)
-		// ssp is now on the same shstk as target.
-		inc_ssp();
-
-this is what setcontext is doing and longjmp can do the same:
-for programs that always longjmp within the same shstk the first
-loop is just p = current_ssp, but it also works when longjmp
-target is on a different shstk assuming nothing is running on
-that shstk, which is only possible if there is a restore token
-on top.
-
-this implies if the kernel switches shstk on signal entry it has
-to add a restore-token on the switched away shstk.
-
-> The only non-WRSS "longjmp from an alt shadow stack solution" that I
-> can think of would have something like a new syscall performing some
-> limited shadow stack actions normally prohibited in userspace by the
-
-there is setcontext and swapcontext already doing an shstk
-switch, i don't see why you think longjmp is different and
-needs magic syscalls or wrss.
-
-> architecture. We'd have to think through how this would impact the
-> security. There are a lot of security/compatibility tradeoffs to parse
-> in this. So also, just because something can be done, doesn't mean we
-> should do it. I think the philosophy at this point is, lets get the
-> basics working that can support most apps, and learn more about stuff
-> like where this bar is in the real world.
-
-i think longjmp should really be discussed with libc devs,
-not on the kernel list, since they know the practical
-constraints and trade-offs better. however longjmp is
-relevant for the signal abi design so it's not ideal to
-push a linux abi and then have the libc side discussion
-later..
