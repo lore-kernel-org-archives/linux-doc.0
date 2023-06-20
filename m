@@ -2,106 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC3A1EB64DB
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 22:33:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DF7EB64D8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 22:52:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbjFTWdf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 18:33:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44030 "EHLO
+        id S229923AbjFTWw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 18:52:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjFTWde (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 18:33:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B341DD;
-        Tue, 20 Jun 2023 15:33:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229941AbjFTWw4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 18:52:56 -0400
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32491703;
+        Tue, 20 Jun 2023 15:52:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1687301566;
+        bh=zs2PR8BnoBNeCG8m9yaBb0c55LdBttZyLue3jnCjvnE=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=hhLTYSLaQEJJCXbKmfhm2W7yZCBqjWGxOLPHfogIMLaiGGv/1HWr8raKXtQGFs44u
+         a1XFq2fBt0husKXHQ3h02yuWf1lcQI9NwfvERQiUGeFmqn5nTQZy+rJe5BHf9Yn/jg
+         qN5ruyXMrGGm8umyS6G1cZilpmn+anIyrO10oqaU=
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id A543B12819DC;
+        Tue, 20 Jun 2023 18:52:46 -0400 (EDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id IfQ-VT9XKtPc; Tue, 20 Jun 2023 18:52:46 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1687301564;
+        bh=zs2PR8BnoBNeCG8m9yaBb0c55LdBttZyLue3jnCjvnE=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=r3LnEOvh0IY2cCDJNP2XrVdZXinOFnWOgYKM/bn3fmW4jCk6H5t44RjS+KksZRnlZ
+         zjD0dxc882ViaeFLh5v9SDjlOUWxzFOJMFVplCvHHXbQPXb0n0R4cfrLSpv1fAGDwG
+         qoVbc/T2mD9qpIUqwik4dm22dqZCWLEZ59aLAieY=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::c14])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CAF35611CE;
-        Tue, 20 Jun 2023 22:33:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B1D7C433C8;
-        Tue, 20 Jun 2023 22:33:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687300413;
-        bh=gnqt6oUEhTYDpiDsL1m8G0459lKOTwcjaU1jKkLKKaQ=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=kD+4bMzdZJUD8k8DrJSI2rb9QzIPVQkWR3yF38p9X7h8ri8ugqKTHVs0nOiwTREmV
-         wXQWtMT/UUPEJ1vMv5o4u0UnkEjvhVKpQMwGG1ExvlD3DfQhFinInDKTjA3eytVEIX
-         /KT/D1hGMkfKvPXtUJ7IrkxeeZbMohPlzBrD7sFnL8n3z4xfEPySMCmLlq7ykKt+Y/
-         To+gqvyJVN7zPgEFhNfSf6jjstSc+TNCj26y4Of+mOSRG3IUt7PCEG6tcNpvQY02o+
-         8ZiT1paQTRTua5DtNSg5uNsfzqOK5rhvnts4Uy12zW/Uy1CUEu20+Pm2Nh+eA0Q2it
-         xHKVk8berYIzg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id D01A9CE1CC5; Tue, 20 Jun 2023 15:33:32 -0700 (PDT)
-Date:   Tue, 20 Jun 2023 15:33:32 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Alan Huang <mmpgouride@gmail.com>
-Cc:     joel@joelfernandes.org, corbet@lwn.net, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/RCU: Bring smp_wmb() back
-Message-ID: <002d991c-4064-4219-a4a1-ef98bba88a65@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230617145346.29009-1-mmpgouride@gmail.com>
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 563271281446;
+        Tue, 20 Jun 2023 18:52:44 -0400 (EDT)
+Message-ID: <1a631328115eaecbfebf8e435b9224bf2ff248af.camel@HansenPartnership.com>
+Subject: Re: [Tech-board-discuss] [PATCH] Documentation: Linux Contribution
+ Maturity Model and the wider community
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Finn Thain <fthain@linux-m68k.org>
+Cc:     linux-doc@vger.kernel.org,
+        tech-board-discuss@lists.linux-foundation.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Date:   Tue, 20 Jun 2023 18:52:42 -0400
+In-Reply-To: <7fef2bbb-4c5a-52b8-8e85-400a8fbb8786@linux-m68k.org>
+References: <e78eef83a50a558aae765baafcf9c571788a02a5.camel@HansenPartnership.com>
+         <7fef2bbb-4c5a-52b8-8e85-400a8fbb8786@linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230617145346.29009-1-mmpgouride@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 17, 2023 at 02:53:46PM +0000, Alan Huang wrote:
-> There are two memory ordering required in the insertion algorithm,
-> we need to make sure obj->key is updated before obj->obj_node.next
-> and obj->refcnt, atomic_set_release is not enough to provide the
-> required memory barrier.
+On Tue, 2023-06-20 at 13:50 +1000, Finn Thain wrote:
+> On Mon, 19 Jun 2023, James Bottomley wrote:
 > 
-> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-> ---
->  Documentation/RCU/rculist_nulls.rst | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+> > On Mon, Jun 19, 2023 at 07:41:57PM +1000, Finn Thain wrote:
+> > > The Linux Contribution Maturity Model methodology is notionally
+> > > based on the Open source Maturity Model (OMM) which was in turn
+> > > based on the Capability Maturity Model Integration (CMMI).
+> > > 
+> > > According to Petrinja et al., the goal of the OMM was to extend
+> > > the  CMMI so as to be useful both for companies and for
+> > > communities [1][2].   However, the Linux Contribution Maturity
+> > > Model considers only companies and businesses.
+> > 
+> > That's not a correct characterization.  The model is designed to
+> > measure and be useful to businesses, but it definitely considers
+> > the community because it's progress is built around being more
+> > useful to and working more effectively with the community.
+> > 
 > 
-> diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-> index e06ed40bb6..77244adbdf 100644
-> --- a/Documentation/RCU/rculist_nulls.rst
-> +++ b/Documentation/RCU/rculist_nulls.rst
-> @@ -98,7 +98,7 @@ Quoting Corey Minyard::
->  ----------------------
->  
->  We need to make sure a reader cannot read the new 'obj->obj_node.next' value
-> -and previous value of 'obj->key'. Otherwise, an item could be deleted
-> +and previous value of 'obj->key' at the same time. Otherwise, an item could be deleted
->  from a chain, and inserted into another chain. If new chain was empty
->  before the move, 'next' pointer is NULL, and lockless reader can not
->  detect the fact that it missed following items in original chain.
-> @@ -112,7 +112,12 @@ detect the fact that it missed following items in original chain.
->    obj = kmem_cache_alloc(...);
->    lock_chain(); // typically a spin_lock()
->    obj->key = key;
-> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> +  /*
-> +  * we need to make sure obj->key is updated before obj->obj_node.next
-> +  * and obj->refcnt
-> +  */
-> +  smp_wmb();
-> +  atomic_set(&obj->refcnt, 1);
-
-You lost me on this one.
-
-From what I can see, in the original the atomic_set_release() provided
-ordering between the ->key assignment and the ->refcnt assignment,
-and then the rcu_assign_pointer() within hlist_add_head_rcu() provided
-ordering between both the ->key and the ->refcnt assignments on the one
-hand and the list insertion on the other.
-
-What am I missing here?
-
-							Thanx, Paul
-
->    hlist_add_head_rcu(&obj->obj_node, list);
->    unlock_chain(); // typically a spin_unlock()
->  
-> -- 
-> 2.34.1
+> You're right, the characterization I gave does exaggerate the bias. I
+> shall moderate that if I resubmit the patch.
 > 
+> > > This patch addresses this bias as it could hinder collaboration
+> > > with  not-for-profit organisations and individuals, which would
+> > > be a loss to  any stakeholder.
+> > 
+> > I don't really think changing 'Businesses' to 'Organizations'
+> > entirely addresses what you claim is the bias because individuals
+> > would still be excluded from the term 'Organizations'.  I also
+> > don't really think it matters.  Part of the reason this whole thing
+> > doesn't matter is that sometimes people do know who a contributor
+> > they work with works for, but most of the time they don't.
+> 
+> This is not just about patches, it's also about incentives and
+> influence.
+
+I mentioned contributor interaction, which covers influence.  I'm not
+sure what you mean by incentives or how it is covered by changing
+Businesses -> Organizations.
+
+> 
+> > If you really want this to be inclusive, you could change it to
+> > 'other contributors' but I'm still not sure it's worth it.
+> > 
+> > > 
+> > > Level 5 is amended to remove the invitation to exercise the same
+> > > bias i.e. employees rewarded indirectly by other companies.
+> > 
+> > I also wouldn't remove the bit about seeking upstream feedback on
+> > employees; I know from personal experience it happens a lot.
+> > 
+> 
+> If it happens a lot already, why compel employers to seek it?
+
+Because it's a sign of open source maturity on behalf of a company. 
+Lots do it, but lots don't.  By putting it in the maturity model we
+want to encourage it.
+
+> It's worth noting that the model compels employers to seek "community
+> member feedback" which is not the same as the "upstream feedback"
+> that you describe.
+
+It isn't?  How else does a community express itself except by its
+agents which are ipso facto community members?  Not all community
+members have identical opinions, but if you talk to several you'll get
+a good sense of community feedback.
+
+James
+
