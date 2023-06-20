@@ -2,311 +2,431 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F15EB64D8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 13:40:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C35F6EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 13:43:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231144AbjFTNkq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 09:40:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40490 "EHLO
+        id S233093AbjFTNnz convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 09:43:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229966AbjFTNko (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 09:40:44 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2062f.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaa::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA8AA9B;
-        Tue, 20 Jun 2023 06:40:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gp+6mxOVnSqPTLMz6wnEc81/W5c98pxEDN1fFcU3RYA5DL7xOrXLsKdoloa+4KWgRxyvqJEQ+ePzmBxs2J6Vil56C0T0CvWq79QVu+QKRedbkdUzj0aMrh7ypesjkgANnXBxkUOvfQP0HJxqBWS066/+1Hc+557BeNASgabIXLgDnibIAliaM18mRTxTUb3DsyDVMp51MeuGCLsYYaF6VINtgprFonJFdvx2MQFGlMkkvMxzYLj1+1hvUfUbCnWa72kB4Ky283hJLMZBrzhmN2mDlTtrxgfWLMbM4vSlKGv7HTkRbvvK2lS6lEzvZsJ2XdKFcDM3lqGbGr61+LjAKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DGOtumjiaGMsyG5PG9ayixa1/1ufy/MGoKeOqouylVE=;
- b=icHXXvLc9AiBEPnxmLssL14WVjF2bnglqkAkJtlStPu2Z9qF+0+jDFZd1lmLHtJkETuEJujxRV6v9KwkQ+znkv+vqcXwwp4SCAuML+Eed5kvguBfBOZsEL43lqNVkjrZF8q5WYF6Owt3w2ybt2tLhmQWiZ5X5/kR2D5WIA549XGUjAWx1TRrEDvhHI5d9yd6ut+V/bD7cCK4BKT+dcxNcjvUE6DZ1gleV4TGdD2MCnvXbOGZ+q0Tnlb5jxn67KlYF7eRUlfHrMiDqVJU28LzjBlQ4cXG09xLMHWO1PlGvDJGgOPOANRbREtV4m8VKjDe+VuFi/M7BL3MTqKS6mNoPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DGOtumjiaGMsyG5PG9ayixa1/1ufy/MGoKeOqouylVE=;
- b=tGSXEqwMkV0c6R1GP7UPknwi/9LSkbUdkovIWgxCjWILHrvjdG2pJZAH+ONx2eh22ji8Q7wGSezKXZ7Vg0ARiqKtRFKVuOpfZIeUP1C6zLgRJOVhzKIQ8hSuGvwWPTkmPEvhh7zOOzPUDTLvE8hmCTJmuo2ntMDFji4MzZKUeHE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5891.namprd12.prod.outlook.com (2603:10b6:8:67::19) by
- PH7PR12MB5855.namprd12.prod.outlook.com (2603:10b6:510:1d6::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.21; Tue, 20 Jun
- 2023 13:40:37 +0000
-Received: from DM4PR12MB5891.namprd12.prod.outlook.com
- ([fe80::64c1:f67c:2ca4:1be1]) by DM4PR12MB5891.namprd12.prod.outlook.com
- ([fe80::64c1:f67c:2ca4:1be1%6]) with mapi id 15.20.6500.036; Tue, 20 Jun 2023
- 13:40:37 +0000
-Message-ID: <9a00b133-2cc4-2600-c19c-761869b9e40e@amd.com>
-Date:   Tue, 20 Jun 2023 08:40:34 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.11.2
-Subject: Re: [PATCH] docs/sp_SP: Add translation of
- process/researcher-guidelines
-Content-Language: en-US
-To:     Avadhut Naik <avadhut.naik@amd.com>, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        avadnaik@amd.com
-References: <20230619192716.21473-1-avadhut.naik@amd.com>
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <20230619192716.21473-1-avadhut.naik@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9PR03CA0008.namprd03.prod.outlook.com
- (2603:10b6:806:20::13) To DM4PR12MB5891.namprd12.prod.outlook.com
- (2603:10b6:8:67::19)
+        with ESMTP id S233070AbjFTNnw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 09:43:52 -0400
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF1EB1703;
+        Tue, 20 Jun 2023 06:43:48 -0700 (PDT)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-51a519843c8so553857a12.0;
+        Tue, 20 Jun 2023 06:43:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687268627; x=1689860627;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uVp5pstIXGggt7mxpnMI6k+vZptERvNDTg9t7gTgbzM=;
+        b=OrJ376uLykT9u6FZHGe6XTMbLqRwczY9TNUqovwUsboxHIsYTlbJAx7s1t4Nv2xmKb
+         wa/S7d4VrpN808pqR90W//OHtUSYpJQ7NAlfPzLLL5XSePD3txdPUQob3dslWZsZyOvt
+         rTub4tBsdHayvJsxqep6ZhgM8GBuf/xV5YFTk+TELziaQ0m2cWMoBXicX00IYayg/3Lu
+         qN++nN2uz/b2XWuUuQoKj4JYQA197j9Ldb51BEkxX7gGytiGZOKWcvk2tdBYOdGoepZX
+         Ku8NS/RhNZh723CSGPuiWIBIYorFSf052hB45MuG+pfcQbIUkcijKiNONlS7w6GhduQU
+         t/xQ==
+X-Gm-Message-State: AC+VfDzaVr/GsWGxDW+5lZHo47sPU09XdNZQMrOUg37IcIAWr4N/ref6
+        63yXHoP4JHZSBgOiv54KBOr03tK1jPoKo1PK3/1N4U/I
+X-Google-Smtp-Source: ACHHUZ77z1p5CSny6QkjJnU4C94TtXha+TA+OW0CuRCPl1NwPUwKGTyNlx4KcXit2I/LBOtPlJcNsmKUhfVgbR6f2rs=
+X-Received: by 2002:a17:906:244:b0:974:ae1d:ad0b with SMTP id
+ 4-20020a170906024400b00974ae1dad0bmr8837802ejl.3.1687268627206; Tue, 20 Jun
+ 2023 06:43:47 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5891:EE_|PH7PR12MB5855:EE_
-X-MS-Office365-Filtering-Correlation-Id: 37f1fc1c-1c71-4a00-7b94-08db7193edec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XjSMhks+YdSlt+c5Q1Ujfc0xNW/exxtdSzdGJHQ4xciaiRDbY54gNpckOjA8k+00sQoZ1MbpHwYEM7jCHaV62VZzf5O0v0JTeXzpglzClRz2pUXR9Cy4ZNJioU6MXJyujxlT6NiHje6vxUhlec6PtUQswPJimieYYiOlOYOWhYquaC78m2tsTK25rsQnNKVQ29nR4o1KjoZ0vOWgJ7ajVJ3loAUftrTdclTq73GviMsA2Muyur/FXSs79yzBFSkll7sBKGLjdbvBLLb5UDU5Ao5KPf7g6Vou/dPn/OlWJTFeoFsXFblJyMxW8dItYk1WL9AzTx3Mwrloz2BexQNtec8woNyUicjr7AAnpqnZW1bjdS2hQMw9sfYa/wmHEQYmUJYkiCW17cK3xRC/nTPrbCiqfkXmkgH8K7rqc++pjhSZRV1jX09snd05foiRqsNPbBk6dEMCy4M/kNmGiEkBeYrD6dsZdWVIJBJs9kTjtxie/TIn0eTsLjYmzq6JJFh3bzzmhcwjxXDkzgY3uEmlgTJdQngLW3a3bkEe3VhOEqWQrxYKuJIu1ze+XY/AcyYqZrBZZLstcXrW5nG4Lk10mLeGnYsGeUKr4SeaA23Fb4JVsAsTxpJFip8GYn2PN2Tt3vUKhY/Hvm3N6Qezvsrqkw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:es;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5891.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(136003)(376002)(346002)(366004)(451199021)(31686004)(36756003)(44832011)(5660300002)(8936002)(8676002)(41300700001)(66556008)(66476007)(4326008)(38100700002)(31696002)(316002)(86362001)(66946007)(6486002)(966005)(66574015)(6506007)(6512007)(53546011)(186003)(2906002)(478600001)(2616005)(83380400001)(6666004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NDFxcjYxS3p2Q2pZRVAyRGFLc3pUNGFid3R2MVdsaDNTVjZXTmNMcElYdGty?=
- =?utf-8?B?YlRUY042REh5UFptNWJ4L2FYTGx5aGdvemtyQndBdU5ORWgyVXZRa2hKQUl0?=
- =?utf-8?B?eFdsYmhIY3JtcFJ3WlgzbGdSblBUM25RVHY5VURNWjJ2SnNjZmgzQ0hXdTE3?=
- =?utf-8?B?ZkVJY1cyVkppRG5YSzRQcjkxd2VUWlh2MTVERGtOZjVXS214QldnZTJCRDlC?=
- =?utf-8?B?MHdsQldyKzUveDhJa3UrbmRkQmNFa3F0M0Rrc2U1MklFd0dOeXRLK1IyQ3hV?=
- =?utf-8?B?UEZIMm1sOEUyMm1JUTh1NjF6d3N5dGtia3ptVnJKSWNIM1JoTElyOFJBMWl4?=
- =?utf-8?B?cThhYWF0R3p3bGxCTUYvNG1RaTN1NGF3SVNLTWY5VERHdlQrVzgvVHhDZ3hD?=
- =?utf-8?B?Z21WbkR1bkVMTnY4SEErNk81end6OXgzRzZiRWF5L3RjemJpN1UvQWhtWmEr?=
- =?utf-8?B?UVZNTFdFaE9KNzVWaVNCR00vYjJaQkJDelNrOGZ5dnMrRXJJSjlTbXRVM0RP?=
- =?utf-8?B?b3daSTZDZHlKNnhsQjhGYzNLT2VQM290ZTlUVzJCRVVZa1RoQ2lzRXdJZlpR?=
- =?utf-8?B?RFNtZ1lla290aHZnMEdBMTQ5aS9pYktzSWRKaFd5L0xlYUJRVVZKcEFVL21H?=
- =?utf-8?B?RjFCcFRMQUsyTmgyNmNVKzlFYXZOOXRlU3lNdjIrUWhnU3o4b2oyZXRvbXc4?=
- =?utf-8?B?VWFxdzhSWWpsZXhGVTNYTnZDUU9Qak5kcEkvYmgzN1VST08zRGkrT0NrbnlF?=
- =?utf-8?B?bkowbVZVd0UxWU1sSjNrcVpHOU9GQ1BnMU13ZytONFd4cWU0OXFwV1gxck1x?=
- =?utf-8?B?cyt5VE5icDVia3ZBdUszOStTeTlBYWF2Q24vN2Y2Vy9tdkd2RllZK2pESTJU?=
- =?utf-8?B?ZWNhQ2ZsWVk5SUtrVm9GZjl4M2hMSm9iNExOMllFWFZKTm1PcVVZN0ZSUHVB?=
- =?utf-8?B?RHVqaXUyYnZOSFJJbDdadXFRSC96UytWVUZLNmErdllRNXBhS3RBUWpGblI4?=
- =?utf-8?B?S0VmcE5qNG01ajhnNW9BMVVvV254aU51Z0x2YzJsSFZkdEFOdGZKUkdKWGRT?=
- =?utf-8?B?Z0lTWDhyWDUyTFhCQjdMU0pUQzFZUWJZb1ZWSXBOU0R4R1I2ZC9qaVovUFNF?=
- =?utf-8?B?T0l0TGtHR1l0OHRjZWt5UkZVWlJzQ1MwM3QybnN6ZHNEd0lKdDRlZUNzeXFx?=
- =?utf-8?B?cUpxK0psd3VYczJuS0p2VlFLeEIxWmdnUCt2NllLbWdGWG9zMFp5eWJYRGZX?=
- =?utf-8?B?Vk8wcDhuTVFhdWJMNWZQQm1acDM5Rkc3WlJTWDFmaEZPRjVQT1htbjJiczhm?=
- =?utf-8?B?SU1OMFczcmlUVithM3NHZWxqREJYcHVjQXFqbnY4QzE1ZWFwbm42UUxxaWcz?=
- =?utf-8?B?Y3RQZTloZi9PV29IRkg0eWVEbFYwQ2dkZzJqbUZzTy9Wdmg1Vi9idlVXQnFu?=
- =?utf-8?B?RHRGTXF4OHRHSytKNVNaUEV5eVdxVmdNQlljMDBNY0Z3T0RveTJTWDlaaitp?=
- =?utf-8?B?dGlCM3RJWDdHZnpCcCsvdlVYemlQZWIwNHNLOTk3TWNPNCtHb0pyNU5tVkxD?=
- =?utf-8?B?c2VUclc1Zmc3ZG10L3FKa0lJZjloSnVyVUs2UkZhT2ZRRFNuREFIc1djS1BQ?=
- =?utf-8?B?cTlaWWgzZWVwSzFUVFNXcS8xRUZZY2doRjdTcDd2b01NNVJYMmVvaTF6OUVT?=
- =?utf-8?B?d1FuZHJSTmd2Q0FmZTlBVjlQeFVva1VYU1h5UUF6cEVFcThjLzNQQlM4Y0x6?=
- =?utf-8?B?aEdYSDhwOG1sOFZSNzBlRmExaHBpbFY1R2RidVJJYWZPNS9EOXNjM29MSk1v?=
- =?utf-8?B?QUwrbmhvY1g5dVc0WTRzSlllbGdlcmR1emdoc091cFAxUS9LcE5tUFhYWXpa?=
- =?utf-8?B?ZEN3M2dWQUhlMzlpK2Jycm5rVUZxM1hXWUMzcGhKbHlKd2tsTTlJTnd2TEM5?=
- =?utf-8?B?eHhUclhGcjhVOXRIYklMWUJuTExYZzkrNlJzcUJuK3V0bGhmcUF5NEVraDBG?=
- =?utf-8?B?Z0NOUDJ4UzZleCttU08rdFVYdG5JNmdQMDR4cUgxQmRYWkUzc2xEaXNocTg3?=
- =?utf-8?B?WnNveE5DMGFnck43WGl4NTlIWGlMVXVaaTJ1SkN6eDF1YUtPK3hGb2oyc3I4?=
- =?utf-8?B?bkRPRENJMU8zQ1N5Z3NTVmtkV3AxRFdRNUVCZDZDdUZLTlMwK2JoREpnRyt1?=
- =?utf-8?Q?uAOQw3VREncQDywX5WIu5WSlv2g9E4lzX2hS8xOOY5/V?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37f1fc1c-1c71-4a00-7b94-08db7193edec
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5891.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2023 13:40:37.0148
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S8d0CyhUe+ZS3rp+GUxuxtw6tld4BBGqevHip5GhT/Y7Ag3DeOq4LmOJ3HpV/O9il22PJQkRXprae8g+PJ5KQw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5855
+References: <20230519032719.2581689-1-evalenti@kernel.org> <20230519032719.2581689-2-evalenti@kernel.org>
+In-Reply-To: <20230519032719.2581689-2-evalenti@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 20 Jun 2023 15:43:35 +0200
+Message-ID: <CAJZ5v0j6-c5Jb1E+ZvFTasoTrUThaq_mxdm44sGnA5XdsJTBsQ@mail.gmail.com>
+Subject: Re: [PATCH 1/7] thermal: stats: track time each dev changes due to tz
+To:     Eduardo Valentin <evalenti@kernel.org>
+Cc:     eduval@amazon.com, linux-pm@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/19/23 2:27 PM, Avadhut Naik wrote:
-> From: Avadhut Naik <Avadhut.Naik@amd.com>
-> 
-> Translate Documentation/process/researcher-guidelines.rst into Spanish
-> 
-> Signed-off-by: Avadhut Naik <avadhut.naik@amd.com>
-> Reviewed-By: Carlos Bilbao <carlos.bilbao@amd.com>
+On Fri, May 19, 2023 at 5:27 AM Eduardo Valentin <evalenti@kernel.org> wrote:
+>
+> From: Eduardo Valentin <eduval@amazon.com>
+>
+> This patch improves the current cooling device
+> statistics by adding a new file under
+> cdev/stats/time_in_thermal_zone_ms
+> to represent the time in milliseconds
+> that the cooling device was driven by each
+> associated thermal zone.
+
+Can you please explain the use case addressed by this?
+
+>
+> The file format is:
+> thermal_zone: <type> <time_in_ms>
+
+So there is the "one value per sysfs attribute" rule ...
+
+> Samples:
+> $ cat /sys/class/thermal/cooling_device0/stats/time_in_thermal_zone_ms
+> thermal_zone: amb0      117496
+>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org> (supporter:THERMAL)
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org> (supporter:THERMAL)
+> Cc: Amit Kucheria <amitk@kernel.org> (reviewer:THERMAL)
+> Cc: Zhang Rui <rui.zhang@intel.com> (reviewer:THERMAL)
+> Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+> Cc: linux-pm@vger.kernel.org (open list:THERMAL)
+> Cc: linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+> Cc: linux-kernel@vger.kernel.org (open list)
+>
+> Signed-off-by: Eduardo Valentin <eduval@amazon.com>
 > ---
->  .../translations/sp_SP/process/index.rst      |   1 +
->  .../sp_SP/process/researcher-guidelines.rst   | 152 ++++++++++++++++++
->  2 files changed, 153 insertions(+)
->  create mode 100644 Documentation/translations/sp_SP/process/researcher-guidelines.rst
-> 
-> diff --git a/Documentation/translations/sp_SP/process/index.rst b/Documentation/translations/sp_SP/process/index.rst
-> index 0bdeb1eb4403..ed6851892661 100644
-> --- a/Documentation/translations/sp_SP/process/index.rst
-> +++ b/Documentation/translations/sp_SP/process/index.rst
-> @@ -20,3 +20,4 @@
->     programming-language
->     deprecated
->     adding-syscalls
-> +   researcher-guidelines
-> diff --git a/Documentation/translations/sp_SP/process/researcher-guidelines.rst b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-> new file mode 100644
-> index 000000000000..32d1810733e4
-> --- /dev/null
-> +++ b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-> @@ -0,0 +1,152 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: :ref:`Documentation/process/researcher-guidelines.rst`
-> +:Translator: Avadhut Naik <avadhut.naik@amd.com>
-> +
-> +.. _sp_researcher_guidelines:
-> +
-> +Directrices para Investigadores
-> +++++++++++++++++++++++++++++++++
-> +
-> +La comunidad del kernel de Linux da la bienvenida a la investigación
-> +transparente sobre el kernel de Linux, las actividades involucradas
-> +en su producción, otros subproductos de su desarrollo. Linux se
-> +beneficia mucho de este tipo de investigación, y la mayoría de los
-> +aspectos de Linux son impulsados por investigación en una forma o otra.
+>  .../driver-api/thermal/sysfs-api.rst          |   2 +
+>  drivers/thermal/thermal_core.c                |   2 +-
+>  drivers/thermal/thermal_core.h                |   5 +
+>  drivers/thermal/thermal_helpers.c             |  11 +-
+>  drivers/thermal/thermal_sysfs.c               | 128 +++++++++++++++++-
+>  5 files changed, 139 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+> index 6c1175c6afba..caa50d61a5bc 100644
+> --- a/Documentation/driver-api/thermal/sysfs-api.rst
+> +++ b/Documentation/driver-api/thermal/sysfs-api.rst
+> @@ -367,6 +367,8 @@ Thermal cooling device sys I/F, created once it's registered::
+>      |---stats/time_in_state_ms:        Time (msec) spent in various cooling states
+>      |---stats/total_trans:     Total number of times cooling state is changed
+>      |---stats/trans_table:     Cooling state transition table
+> +    |---stats/time_in_thermal_zone_ms: Time that this cooling device was driven
+> +                                each associated thermal zone.
 
-s/una forma o otra/una forma u otra
+I think that "by" is missing from the above description, but in any
+case I'm not quite sure what exactly it means.
+
+A cooling device may be shared by multiple thermal zones which is what
+instances are for IIUC, so is this going to measure how much time the
+given thermal zone was that caused the cdev to stay in the given
+state?  Like say there are two thermal zone sharing a cdev and one of
+them says "don't care" and the other says "turn on", so the second one
+causes the cdev to enter the "on" state?
+
+But what if both thermal zones in this example say "turn on"?
+
+>  Then next two dynamic attributes are created/removed in pairs. They represent
+> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
+> index 842f678c1c3e..4bb77af6a6f4 100644
+> --- a/drivers/thermal/thermal_core.c
+> +++ b/drivers/thermal/thermal_core.c
+> @@ -1078,7 +1078,7 @@ void thermal_cooling_device_update(struct thermal_cooling_device *cdev)
+>         if (cdev->ops->get_cur_state(cdev, &state) || state > cdev->max_state)
+>                 goto unlock;
+>
+> -       thermal_cooling_device_stats_update(cdev, state);
+> +       thermal_cooling_device_stats_update(cdev, NULL, state);
+>
+>  unlock:
+>         mutex_unlock(&cdev->lock);
+> diff --git a/drivers/thermal/thermal_core.h b/drivers/thermal/thermal_core.h
+> index 3d4a787c6b28..3cce60c6e065 100644
+> --- a/drivers/thermal/thermal_core.h
+> +++ b/drivers/thermal/thermal_core.h
+> @@ -102,6 +102,9 @@ struct thermal_instance {
+>         struct list_head cdev_node; /* node in cdev->thermal_instances */
+>         unsigned int weight; /* The weight of the cooling device */
+>         bool upper_no_limit;
+> +#if IS_ENABLED(CONFIG_THERMAL_STATISTICS)
+> +       ktime_t time_in; /* time spent in this instance */
+> +#endif
+>  };
+>
+>  #define to_thermal_zone(_dev) \
+> @@ -137,10 +140,12 @@ ssize_t weight_store(struct device *, struct device_attribute *, const char *,
+>
+>  #ifdef CONFIG_THERMAL_STATISTICS
+>  void thermal_cooling_device_stats_update(struct thermal_cooling_device *cdev,
+> +                                        struct thermal_instance *instance,
+>                                          unsigned long new_state);
+>  #else
+>  static inline void
+>  thermal_cooling_device_stats_update(struct thermal_cooling_device *cdev,
+> +                                   struct thermal_instance *instance,
+>                                     unsigned long new_state) {}
+>  #endif /* CONFIG_THERMAL_STATISTICS */
+>
+> diff --git a/drivers/thermal/thermal_helpers.c b/drivers/thermal/thermal_helpers.c
+> index cfba0965a22d..ec8e86394977 100644
+> --- a/drivers/thermal/thermal_helpers.c
+> +++ b/drivers/thermal/thermal_helpers.c
+> @@ -149,18 +149,19 @@ int thermal_zone_get_temp(struct thermal_zone_device *tz, int *temp)
+>  EXPORT_SYMBOL_GPL(thermal_zone_get_temp);
+>
+>  static void thermal_cdev_set_cur_state(struct thermal_cooling_device *cdev,
+> +                                      struct thermal_instance *target_instance,
+>                                        int target)
+>  {
+>         if (cdev->ops->set_cur_state(cdev, target))
+>                 return;
+>
+>         thermal_notify_cdev_state_update(cdev->id, target);
+> -       thermal_cooling_device_stats_update(cdev, target);
+> +       thermal_cooling_device_stats_update(cdev, target_instance, target);
+>  }
+>
+>  void __thermal_cdev_update(struct thermal_cooling_device *cdev)
+>  {
+> -       struct thermal_instance *instance;
+> +       struct thermal_instance *instance, *target_instance = NULL;
+>         unsigned long target = 0;
+>
+>         /* Make sure cdev enters the deepest cooling state */
+> @@ -169,11 +170,13 @@ void __thermal_cdev_update(struct thermal_cooling_device *cdev)
+>                         instance->tz->id, instance->target);
+>                 if (instance->target == THERMAL_NO_TARGET)
+>                         continue;
+> -               if (instance->target > target)
+> +               if (instance->target > target) {
+>                         target = instance->target;
+> +                       target_instance = instance;
+> +               }
+>         }
+>
+> -       thermal_cdev_set_cur_state(cdev, target);
+> +       thermal_cdev_set_cur_state(cdev, target_instance, target);
+>
+>         trace_cdev_update(cdev, target);
+>         dev_dbg(&cdev->device, "set to state %lu\n", target);
+> diff --git a/drivers/thermal/thermal_sysfs.c b/drivers/thermal/thermal_sysfs.c
+> index 6c20c9f90a05..a3b71f03db75 100644
+> --- a/drivers/thermal/thermal_sysfs.c
+> +++ b/drivers/thermal/thermal_sysfs.c
+> @@ -632,7 +632,7 @@ cur_state_store(struct device *dev, struct device_attribute *attr,
+>
+>         result = cdev->ops->set_cur_state(cdev, state);
+>         if (!result)
+> -               thermal_cooling_device_stats_update(cdev, state);
+> +               thermal_cooling_device_stats_update(cdev, NULL, state);
+>
+>         mutex_unlock(&cdev->lock);
+>         return result ? result : count;
+> @@ -661,6 +661,7 @@ static const struct attribute_group *cooling_device_attr_groups[] = {
+>  };
+>
+>  #ifdef CONFIG_THERMAL_STATISTICS
+> +/* thermal cooling device statistics handling */
+>  struct cooling_dev_stats {
+>         spinlock_t lock;
+>         unsigned int total_trans;
+> @@ -668,9 +669,29 @@ struct cooling_dev_stats {
+>         ktime_t last_time;
+>         ktime_t *time_in_state;
+>         unsigned int *trans_table;
+> +       struct thermal_instance *last_instance;
+> +       struct thermal_instance *curr_instance;
+>  };
+>
+> -static void update_time_in_state(struct cooling_dev_stats *stats)
+> +static void update_time_in_instance(struct cooling_dev_stats *stats,
+> +                                   struct thermal_instance *instance,
+> +                                   ktime_t now, ktime_t delta)
+> +{
+> +       if (!instance)
+> +               return;
+> +
+> +       stats->last_instance = stats->curr_instance;
+> +       stats->curr_instance = instance;
+> +
+> +       if (!stats->last_instance)
+> +               stats->last_instance = instance;
+> +
+> +       stats->last_instance->time_in =
+> +                       ktime_add(stats->last_instance->time_in, delta);
+> +}
+> +
+> +static void update_time_in_state(struct cooling_dev_stats *stats,
+> +                                struct thermal_instance *instance)
+>  {
+>         ktime_t now = ktime_get(), delta;
+>
+> @@ -678,9 +699,12 @@ static void update_time_in_state(struct cooling_dev_stats *stats)
+>         stats->time_in_state[stats->state] =
+>                 ktime_add(stats->time_in_state[stats->state], delta);
+>         stats->last_time = now;
+> +
+> +       update_time_in_instance(stats, instance, now, delta);
+>  }
+>
+>  void thermal_cooling_device_stats_update(struct thermal_cooling_device *cdev,
+> +                                        struct thermal_instance *instance,
+>                                          unsigned long new_state)
+>  {
+>         struct cooling_dev_stats *stats = cdev->stats;
+> @@ -695,7 +719,7 @@ void thermal_cooling_device_stats_update(struct thermal_cooling_device *cdev,
+>         if (stats->state == new_state)
+>                 goto unlock;
+>
+> -       update_time_in_state(stats);
+> +       update_time_in_state(stats, instance);
+>         stats->trans_table[stats->state * (cdev->max_state + 1) + new_state]++;
+>         stats->state = new_state;
+>         stats->total_trans++;
+> @@ -744,7 +768,7 @@ time_in_state_ms_show(struct device *dev, struct device_attribute *attr,
+>
+>         spin_lock(&stats->lock);
+>
+> -       update_time_in_state(stats);
+> +       update_time_in_state(stats, stats->curr_instance);
+>
+>         for (i = 0; i <= cdev->max_state; i++) {
+>                 len += sprintf(buf + len, "state%u\t%llu\n", i,
+> @@ -758,12 +782,98 @@ time_in_state_ms_show(struct device *dev, struct device_attribute *attr,
+>         return len;
+>  }
+>
+> +struct cdev_thermal_zone_residency {
+> +       char thermal_zone[THERMAL_NAME_LENGTH];
+> +       ktime_t time_in;
+> +       unsigned long counter;
+> +       struct list_head node; /* we build this as we go */
+> +};
+
+What is represented by this structure?
 
 > +
-> +La comunidad agradece mucho si los investigadores pueden compartir
-> +los hallazgos preliminares antes de hacer públicos sus resultados,
-> +especialmente si tal investigación involucra seguridad. Involucrarse
-> +temprano ayuda a mejorar la calidad de investigación y la capacidad
-> +de Linux para mejorar a partir de ella. En cualquier caso, se recomienda
-> +compartir copias de acceso abierto de la investigación publicada con
-> +la comunidad.
+> +static void
+> +build_cdev_thermal_zone_residency(struct list_head *list,
+> +                                 struct thermal_cooling_device *cdev)
+> +{
+> +       struct cdev_thermal_zone_residency *res, *update_res;
+> +       struct thermal_instance *instance;
 > +
-> +Este documento busca clarificar lo que la comunidad del kernel de Linux
-> +considera practicas aceptables y no aceptables al llevar a cabo
-> +investigación de este tipo. Por lo menos, dicha investigación y
-> +actividades afines deben seguir las reglas estándar de ética de la
-> +investigación. Para más información sobre la ética de la investigación
-> +en general, ética en la tecnología y la investigación de las comunidades
-> +de desarrolladores en particular, ver:
+> +       /*
+> +        * Build an array of pairs <thermal zone, time> to represent
+> +        * how this cooling device was driven by each thermal zone
+> +        */
+> +       list_for_each_entry(instance, &cdev->thermal_instances, cdev_node) {
+> +               update_res = NULL;
 > +
+> +               list_for_each_entry(res, list, node) {
+> +                       if (strncmp(res->thermal_zone, instance->tz->type,
+> +                                   THERMAL_NAME_LENGTH) == 0)
+> +                               update_res = res;
+> +               }
+> +               if (!update_res) {
+> +                       update_res = kzalloc(sizeof(*update_res), GFP_KERNEL);
+> +                       strscpy(update_res->thermal_zone,
+> +                               instance->tz->type, THERMAL_NAME_LENGTH);
+> +                       list_add_tail(&update_res->node, list);
+> +               }
+> +       }
+> +}
 > +
-> +* `Historia de la Ética en la Investigación <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
-> +* `Ética de la IEEE <https://www.ieee.org/about/ethics/index.html>`_
-> +* `Perspectivas de Desarrolladores e Investigadores sobre la Ética de los Experimentos en Proyectos de Código Abierto <https://arxiv.org/pdf/2112.13217.pdf>`_
+> +static ssize_t
+> +time_in_thermal_zone_ms_show(struct device *dev, struct device_attribute *attr,
+> +                            char *buf)
+> +{
+> +       LIST_HEAD(cdev_thermal_zone_list);
+> +       struct thermal_cooling_device *cdev = to_cooling_device(dev);
+> +       struct cooling_dev_stats *stats = cdev->stats;
+> +       struct cdev_thermal_zone_residency *res, *next;
+> +       struct thermal_instance *instance;
+> +       ssize_t len = 0, ret = 0;
 > +
-> +La comunidad del kernel de Linux espera que todos los que interactúan con
-> +el proyecto están participando en buena fe para mejorar Linux. La
-> +investigación sobre cualquier artefacto disponible públicamente (incluido,
-> +pero no limitado a código fuente) producido por la comunidad del kernel
-> +de Linux es bienvenida, aunque la investigación sobre los desarrolladores
-> +debe ser claramente opcional.
+> +       mutex_lock(&cdev->lock);
 > +
-> +La investigación pasiva que se basa completamente en fuentes disponibles
-> +públicamente, incluidas las publicaciones en listas de correo públicas y
-> +las contribuciones a los repositorios públicos, es claramente permitida.
-> +Aunque, como con cualquier investigación, todavía se debe seguir la ética
-> +estándar.
+> +       spin_lock(&stats->lock);
+> +       update_time_in_state(stats, stats->curr_instance);
+> +       spin_unlock(&stats->lock);
 > +
-> +La investigación activa sobre el comportamiento de los desarrolladores,
-> +sin embargo, debe hacerse con el acuerdo explícito y la divulgación
-> +completa a los desarrolladores individuales involucrados. No se puede
-> +interactuar / experimentar con los desarrolladores sin consentimiento;
-> +esto también es ética de investigación estándar.
+> +       build_cdev_thermal_zone_residency(&cdev_thermal_zone_list, cdev);
 > +
-> +Para ayudar a aclarar: enviar parches a los desarrolladores es interactuar
-> +con ellos, pero ya han dado su consentimiento para recibir contribuciones
-> +en buena fe. No se ha dado consentimiento para enviar parches intencionalmente
-> +defectuosos / vulnerables o contribuir con la información engañosa a las
-> +discusiones. Dicha comunicación puede ser perjudicial al desarrollador (por
-> +ejemplo, agotar el tiempo, el esfuerzo, y la moral) y perjudicial para el
-> +proyecto al erosionar la confianza de toda la comunidad de desarrolladores en
-> +el colaborador (y la organización del colaborador en conjunto), socavando
-> +los esfuerzos para proporcionar reacciones constructivas a los colaboradores
-> +y poniendo a los usuarios finales en riesgo de fallas de software.
+> +       list_for_each_entry(instance, &cdev->thermal_instances, cdev_node)
+> +               list_for_each_entry(res, &cdev_thermal_zone_list, node)
+> +                       if (strncmp(res->thermal_zone, instance->tz->type,
+> +                                   THERMAL_NAME_LENGTH) == 0)
+> +                               res->time_in = ktime_add(res->time_in,
+> +                                                        instance->time_in);
 > +
-> +La participación en el desarrollo de Linux en sí mismo por parte de
-> +investigadores, como con cualquiera, es bienvenida y alentada. La
-> +investigación del código de Linux es una práctica común, especialmente
-> +cuando se trata de desarrollar o ejecutar herramientas de análisis que
-> +producen resultados procesables.
+> +       mutex_unlock(&cdev->lock);
 > +
-> +Cuando se interactúa con la comunidad de desarrolladores, enviar un
-> +parche ha sido tradicionalmente la mejor manera para hacer un impacto.
-> +Linux ya tiene muchos errores conocidos – lo que es mucho más útil es
-> +tener soluciones verificadas. Antes de contribuir, lea cuidadosamente
-> +la documentación adecuada.
+> +       list_for_each_entry_safe(res, next, &cdev_thermal_zone_list, node) {
+> +               ret = snprintf(buf + len, PAGE_SIZE - len,
+> +                              "thermal_zone: %s\t%llu\n",
+> +                              res->thermal_zone, ktime_to_ms(res->time_in));
 > +
-> +* Documentation/process/development-process.rst
-> +* Documentation/process/submitting-patches.rst
-> +* Documentation/admin-guide/reporting-issues.rst
-> +* Documentation/process/security-bugs.rst
+> +               if (ret == 0)
+> +                       ret = -EOVERFLOW;
 > +
-> +Entonces envíe un parche (incluyendo un registro de confirmación con
-> +todos los detalles enumerados abajo) y haga un seguimiento de cualquier
-> +comentario de otros desarrolladores.
+> +               if (ret < 0)
+> +                       break;
 > +
-> +* ¿Cuál es el problema específico que se ha encontrado?
-> +* ¿Como podría llegar al problema en un sistema en ejecución?
-> +* ¿Qué efecto tendría encontrar el problema en el sistema?
-> +* ¿Como se encontró el problema? Incluya específicamente detalles sobre
-> +  cualquier prueba, programas de análisis estáticos o dinámicos, y cualquier
-> +  otra herramienta o método utilizado para realizar el trabajo.
-> +* ¿En qué versión de Linux se encontró el problema? Se prefiere usar la
-> +  versión más reciente o una rama reciente de linux-next (ver
-> +  Documentation/process/howto.rst).
-> +* ¿Que se cambió para solucionar el problema y por qué se cree es correcto?
-> +* ¿Como se probó el cambio para la complicación y el tiempo de ejecución?
-> +* ¿Qué confirmación previa corrige este cambio? Esto debería ir en un “Fixes:”
-> +  etiqueta como se describe en la documentación.
-> +* ¿Quién más ha revisado este parche? Esto debería ir con la adecuada “Reviewed-by”
-> +  etiqueta; Vea abajo.
-> +
-> +For example::
+> +               len += ret;
+> +       }
 
-s/For example/Por ejemplo (en inglés, pues es en las listas):
+Why does the above loop need to use the _safe variant?
 
 > +
-> +  From: Author <author@email>
-> +  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
+> +       list_for_each_entry_safe(res, next, &cdev_thermal_zone_list, node) {
+> +               list_del(&res->node);
+> +               kfree(res);
+> +       }
 > +
-> +  The error path in foo_bar driver does not correctly free the allocated
-> +  struct foo_bar_info. This can happen if the attached foo_bar device
-> +  rejects the initialization packets sent during foo_bar_probe(). This
-> +  would result in a 64 byte slab memory leak once per device attach,
-> +  wasting memory resources over time.
+> +       return ret < 0 ? ret : len;
+> +}
 > +
-> +  This flaw was found using an experimental static analysis tool we are
-> +  developing, LeakMagic[1], which reported the following warning when
-> +  analyzing the v5.15 kernel release:
+>  static ssize_t
+>  reset_store(struct device *dev, struct device_attribute *attr, const char *buf,
+>             size_t count)
+>  {
+>         struct thermal_cooling_device *cdev = to_cooling_device(dev);
+>         struct cooling_dev_stats *stats;
+> +       struct thermal_instance *instance;
+>         int i, states;
+>
+>         mutex_lock(&cdev->lock);
+> @@ -774,6 +884,7 @@ reset_store(struct device *dev, struct device_attribute *attr, const char *buf,
+>
+>         states = cdev->max_state + 1;
+>
+> +       mutex_lock(&cdev->lock);
+>         spin_lock(&stats->lock);
+>
+>         stats->total_trans = 0;
+> @@ -784,7 +895,14 @@ reset_store(struct device *dev, struct device_attribute *attr, const char *buf,
+>         for (i = 0; i < states; i++)
+>                 stats->time_in_state[i] = ktime_set(0, 0);
+>
+> +       /* Make sure we reset all counters per instance */
+> +       list_for_each_entry(instance, &cdev->thermal_instances, cdev_node) {
+> +               instance->time_in = ktime_set(0, 0);
+> +       }
 > +
-> +   path/to/foo_bar.c:187: missing kfree() call?
+>         spin_unlock(&stats->lock);
+> +       mutex_unlock(&cdev->lock);
 > +
-> +  Add the missing kfree() to the error path. No other references to
-> +  this memory exist outside the probe function, so this is the only
-> +  place it can be freed.
-> +
-> +  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
-> +  11.2 show no new warnings, and LeakMagic no longer warns about this
-> +  code path. As we don't have a FooBar device to test with, no runtime
-> +  testing was able to be performed.
-> +
-> +  [1] https://url/to/leakmagic/details
-> +
-> +  Reported-by: Researcher <researcher@email>
-> +  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
-> +  Signed-off-by: Author <author@email>
-> +  Reviewed-by: Reviewer <reviewer@email>
-> +
-> +Si usted es un colaborador por primera vez, se recomienda que el parche en
-> +si sea examinado por otros en privado antes de ser publicado en listas
-> +públicas. (Esto es necesario si se le ha dicho explícitamente que sus parches
-> +necesitan una revisión interna más cuidadosa.) Se espera que estas personas
-> +tengan su etiqueta “Reviewed-by” incluida en el parche resultante. Encontrar
-> +otro desarrollador con conocimiento de las contribuciones a Linux, especialmente
-> +dentro de su propia organización, y tener su ayuda con las revisiones antes de
-> +enviarlas a las listas de correo publico tiende a mejorar significativamente la
-> +calidad de los parches resultantes, y reduce así la carga de otros desarrolladores.
-> +
-> +Si no se puede encontrar a nadie para revisar internamente los parches y necesita
-> +ayuda para encontrar a esa persona, o si tiene alguna otra pregunta relacionada
-> +con este documento y las expectativas de la comunidad de desarrolladores, por
-> +favor contacte con la lista de correo privada Technical Advisory Board:
-> +<tech-board@lists.linux-foundation.org>.
-
-Other than that, my Reviewed-By stays :) thanks Avadhut!
-
-Best,
-Carlos
+>
+>  unlock:
+>         mutex_unlock(&cdev->lock);
+> @@ -852,12 +970,14 @@ static ssize_t trans_table_show(struct device *dev,
+>
+>  static DEVICE_ATTR_RO(total_trans);
+>  static DEVICE_ATTR_RO(time_in_state_ms);
+> +static DEVICE_ATTR_RO(time_in_thermal_zone_ms);
+>  static DEVICE_ATTR_WO(reset);
+>  static DEVICE_ATTR_RO(trans_table);
+>
+>  static struct attribute *cooling_device_stats_attrs[] = {
+>         &dev_attr_total_trans.attr,
+>         &dev_attr_time_in_state_ms.attr,
+> +       &dev_attr_time_in_thermal_zone_ms.attr,
+>         &dev_attr_reset.attr,
+>         &dev_attr_trans_table.attr,
+>         NULL
+> --
