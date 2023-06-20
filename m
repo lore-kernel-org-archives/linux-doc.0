@@ -2,278 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52E71EB64D8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 08:25:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D520EB64D7
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Jun 2023 08:29:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231883AbjFTIZE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 04:25:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41208 "EHLO
+        id S231911AbjFTI33 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 04:29:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231357AbjFTIZD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 04:25:03 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E23DACC
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 01:25:01 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3112d202363so2783313f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 01:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687249500; x=1689841500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3evY5tN6qzgdFsrfqIXUpcoFzb3IStfjYrKcL0qrqdw=;
-        b=ivDz+WrTZTztk9Hn4W1CcvPZJxZcZTemxrC0UQ4ymMFfLVisimBS1DynRpr6KUAf16
-         jXCuYD5cPRMP6uUm+RTj13Y4/o0xrIvbbhdD7Slt+29ye7bhoAQddcyuCP8qSzbQZQUH
-         kUN+xh63LiHxrPky7aPHYHS7QsRdqwTNiSy83IvPf8rM7kIKcJoYoSRM3A7YeWclugKw
-         bMRy8aHUjM/vl7b9enIR/T+jMNdH6Oc+UzYaRjl8+b2YS1Yd6WUMMHB5HQl0FloC1Y20
-         5MJ3ldMawWHeBXZkwL5d3ZzEqNPebSpDLkXO3Whm2hbZjmwieYGXGuDCcm6U0DKW6C1D
-         MFww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687249500; x=1689841500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3evY5tN6qzgdFsrfqIXUpcoFzb3IStfjYrKcL0qrqdw=;
-        b=JhD5o1c23pi/KrPjYeNE6lmYeGnDmsDmsWtY8j1B/rL5Uu663OFXpksxu2QrdFd0FK
-         d6RnmC9sQphUHMtWsgB+xF5t0ponWN6UzAeqTVSICVuLZRvGyN8aQFqOWPGjlllh1azd
-         cqCGMoFHHvOps1zxxmFVcsGte3judGO33s9YIq7SHUG4bA2pKpGpR3gdWL/XzUVulG0p
-         l4gVm8ZexIlZmTiFO/DcowzWiZ4acGOAaFw0CNqLc0hlksAZGIYTEefocv8EUK4Ne5oe
-         KwAvUk+QP8W/c8iyQgQ7KEz3xSC7P/tl7Yf+mDKOLKhEfMDml93EIV/dxHzSv54OikXS
-         2EEA==
-X-Gm-Message-State: AC+VfDxQBtCfZpBj/yQBeJ7keadLiHlvYbCyHRmi82/cEMDnIv+d+48+
-        d1ha3janf6bXpAtZ4OUkUu014AfT18LhicmQS3gz+w==
-X-Google-Smtp-Source: ACHHUZ6fEAAE+PddtHZkYCJKGXLQzqQWugmbMrdnZ+rUOZ3Xiut5GzkNY1WIVBRLi221yjqaYsWvNhTixpIWiEMgsDE=
-X-Received: by 2002:adf:df0b:0:b0:311:1009:10c9 with SMTP id
- y11-20020adfdf0b000000b00311100910c9mr9231916wrl.5.1687249500404; Tue, 20 Jun
- 2023 01:25:00 -0700 (PDT)
+        with ESMTP id S231175AbjFTI3S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 04:29:18 -0400
+Received: from xry111.site (xry111.site [89.208.246.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A7619B
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jun 2023 01:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+        s=default; t=1687249754;
+        bh=ws2mVaKpjnU8ybLqDA7SxP6lWwW5L1Aqe3T5RaUjTYQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Z6JSPufcZ6m8j/Fd9aDDBU0tesdF6Mm7fT44oxzhQLpCljPsXLXxknbKyN7Bw0IdO
+         77YqNlOrewxG+vhAHEVEEEBIPPGUNgxDy4X6WO9hD0wV755EAllpPnJB+0qR29/3Ko
+         I/l1XgCQSbyUvE2MCPBFG6UeXgMN67BAKqkzYYBs=
+Received: from stargazer.. (unknown [113.140.11.4])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-384) server-digest SHA384)
+        (Client did not present a certificate)
+        (Authenticated sender: xry111@xry111.site)
+        by xry111.site (Postfix) with ESMTPSA id 6BA9B66426;
+        Tue, 20 Jun 2023 04:29:12 -0400 (EDT)
+From:   Xi Ruoyao <xry111@xry111.site>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     linux-doc@vger.kernel.org, loongarch@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Xi Ruoyao <xry111@xry111.site>
+Subject: [PATCH] Documentation/features: LoongArch supports ARCH_HAS_ELF_RANDOMIZE
+Date:   Tue, 20 Jun 2023 16:28:37 +0800
+Message-ID: <20230620082837.10006-1-xry111@xry111.site>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230619094705.51337-1-alexghiti@rivosinc.com>
- <20230619-kerchief-unmixed-cfdbeb1cf242@wendy> <CAHVXubjV=0HNyc0-UMAQRQfi4ZUnwH8dmghV-BGogZsJiumtZA@mail.gmail.com>
- <ZJFYE+Ss/OgMIjda@sunil-laptop>
-In-Reply-To: <ZJFYE+Ss/OgMIjda@sunil-laptop>
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-Date:   Tue, 20 Jun 2023 10:24:49 +0200
-Message-ID: <CAHVXubjNHS1goZx=hiAC0Y5n2Ox_-6=+9wb+qphgn_AV0+hAHw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Documentation: riscv: Add early boot document
-To:     Sunil V L <sunilvl@ventanamicro.com>
-Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        Atish Kumar Patra <atishp@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 20, 2023 at 9:41=E2=80=AFAM Sunil V L <sunilvl@ventanamicro.com=
-> wrote:
->
-> On Mon, Jun 19, 2023 at 04:04:52PM +0200, Alexandre Ghiti wrote:
-> > On Mon, Jun 19, 2023 at 2:26=E2=80=AFPM Conor Dooley <conor.dooley@micr=
-ochip.com> wrote:
-> > >
-> > > Hey Alex,
-> > >
-> > > Thanks for working on this :) I've got a mix of suggestions and
-> > > questions below. Hopefully it is not too disjoint, since I didn't wri=
-te
-> > > them in order.
-> > >
-> > > On Mon, Jun 19, 2023 at 11:47:04AM +0200, Alexandre Ghiti wrote:
-> > > > This document describes the constraints and requirements of the ear=
-ly
-> > > > boot process in a RISC-V kernel.
-> > > >
-> > > > Szigned-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > > > ---
-> > > >  Documentation/riscv/boot-image-header.rst |   3 -
-> > > >  Documentation/riscv/boot.rst              | 181 ++++++++++++++++++=
-++++
-> > > >  Documentation/riscv/index.rst             |   1 +
-> > > >  3 files changed, 182 insertions(+), 3 deletions(-)
-> > > >  create mode 100644 Documentation/riscv/boot.rst
-> > > >
-> > > > diff --git a/Documentation/riscv/boot-image-header.rst b/Documentat=
-ion/riscv/boot-image-header.rst
-> > > > index d7752533865f..a4a45310c4c4 100644
-> > > > --- a/Documentation/riscv/boot-image-header.rst
-> > > > +++ b/Documentation/riscv/boot-image-header.rst
-> > > > @@ -7,9 +7,6 @@ Boot image header in RISC-V Linux
-> > > >
-> > > >  This document only describes the boot image header details for RIS=
-C-V Linux.
-> > > >
-> > > > -TODO:
-> > > > -  Write a complete booting guide.
-> > > > -
-> > > >  The following 64-byte header is present in decompressed Linux kern=
-el image::
-> > > >
-> > > >       u32 code0;                /* Executable code */
-> > > > diff --git a/Documentation/riscv/boot.rst b/Documentation/riscv/boo=
-t.rst
-> > > > new file mode 100644
-> > > > index 000000000000..b02230818b79
-> > > > --- /dev/null
-> > > > +++ b/Documentation/riscv/boot.rst
-> > > > @@ -0,0 +1,181 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > +Early boot requirements/constraints on RISC-V
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >
-> > > Please use "title case", here and elsewhere in the doc.
-> >
-> > You mean using "title: " instead of "=3D=3D=3D=3D"? Or using uppercase =
-for the
-> > first letter of each word? FYI I followed
-> > https://docs.kernel.org/doc-guide/sphinx.html?highlight=3Dtitle#specifi=
-c-guidelines-for-the-kernel-documentation
-> >
-> > > I'd also be inclined to drop the "Early" from here, as it permits mor=
-e
-> > > natural section headings. Perhaps "RISC-V Kernel Boot Requirements an=
-d
-> > > Constraints"?
-> >
-> > Good suggestion, I'll go with that, thanks
-> >
-> > >
-> > > > +
-> > > > +:Author: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > > > +:Date: 23 May 2023
-> > > > +
-> > > > +This document describes what the RISC-V kernel expects from the pr=
-evious stages
-> > >
-> > > "the previous stages" is a bit vague IMO. You mean bootloader stages =
-I
-> > > assume, but I think it should be explicit. Perhaps:
-> > > "...what a RISC-V kernel expects from bootloaders and firmware, and t=
-he
-> > > constraints..."
-> > >
-> > > > +and the firmware, but also the constraints that any developer must=
- have in mind
-> > > > +when touching the early boot process, e.g. before the final virtua=
-l mapping is
-> > > > +setup.
-> > >
-> > > s/setup./set up./
-> > >
-> > > Do you mean to have "For example" here? Or is "before the final virtu=
-al
-> > > mapping is set up" the definition or "early boot"? If the latter, I
-> > > would reword this as something like:
-> > > "...when modifying the early boot process. For the purposes of this
-> > > document, the 'early boot process' refers to any code that runs befor=
-e
-> > > the final virtual mapping is set up."
-> >
-> > Thanks, that's what I meant.
-> >
-> > >
-> > > > +Pre-kernel boot (Expectations from firmware)
-> > >
-> > > Firmware or bootloaders? TBH, I would just drop the section in () and
-> > > do something like:
-> > >         Pre-kernel Requirements and Constraints
-> > >         =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >
-> > >         The RISC-V kernel expects the following of bootloaders and pl=
-atform
-> > >         firmware:
-> > >
-> >
-> > Ok
-> >
-> > > > +
-> > > > +Registers state
-> > >
-> > > s/Registers state/Register State/
-> >
-> > Ok
-> >
-> > >
-> > > > +---------------
-> > > > +
-> > > > +The RISC-V kernel expects:
-> > > > +
-> > > > +  * `$a0` to contain the hartid of the current core.
-> > > > +  * `$a1` to contain the address of the device tree in memory.
-> > > > +
-> > > > +CSR state
-> > > > +---------
-> > > > +
-> > > > +The RISC-V kernel expects:
-> > > > +
-> > > > +  * `$satp =3D 0`: the MMU must be disabled.
-> > >
-> > > "the MMU, if present, must be disabled." ;)
-> >
-> > Ahah forgot the !mmu case, thanks :)
-> >
-> > >
-> > > > +
-> > > > +Reserved memory for resident firmware
-> > > > +-------------------------------------
-> > > > +
-> > > > +The RISC-V kernel expects the firmware to mark any resident memory=
- with the
-> > >
-> > > Should this be
-> > > "...resident memory, or memory it has protected with PMPs, with..."
-> > > ?
-> >
-> > I used "resident" memory instead of "PMP" memory because it was more
-> > general. I mean you can have a region that is resident but not
-> > protected by PMP, and I don't think the kernel should ask for this
-> > resident memory to be protected with PMP right?
-> >
-> > >
-> > > > +`no-map` flag, thus the kernel won't map those regions in the dire=
-ct mapping
-> > >
-> > > "no-map" is a DT specific term, should this section be moved down und=
-er
-> > > DT, as a sub-section of that?
-> >
-> > Maybe I can rephrase with something like that:
-> >
-> > "The RISC-V kernel must not map any resident memory in the direct
-> > mapping, so the firmware must correctly mark those regions as follows:
-> > - when using a devicetree, using the `no-map` flag,
-> > - when booting with UEFI without devicetree, either as
-> > `EfiRuntimeServicesData/Code` or `EfiReserved`."
-> >
-> Hi Alex,
->
-> I am not sure about the idea behind mentioning only UEFI boot without
-> DT since UEFI boot is supported with DT also. Should we just mention
-> that "when booting with UEFI, resident firmware ranges must be marked as
-> per UEFI specification" ? Converting reserved-memory node in DT to UEFI
-> memory map is anyway mentioned separately under UEFI memory map section
-> right?
+LoongArch selects ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT, and the latter
+selects ARCH_HAS_ELF_RANDOMIZE.
 
-Right, let's make it simple:
+Signed-off-by: Xi Ruoyao <xry111@xry111.site>
+---
+ Documentation/features/vm/ELF-ASLR/arch-support.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-"The RISC-V kernel must not map any resident memory in the direct
-mapping, so the
-firmware must correctly mark those regions as per the devicetree
-specification and/or the UEFI specification."
+diff --git a/Documentation/features/vm/ELF-ASLR/arch-support.txt b/Documentation/features/vm/ELF-ASLR/arch-support.txt
+index 15164f36f224..21f3bbef5ef0 100644
+--- a/Documentation/features/vm/ELF-ASLR/arch-support.txt
++++ b/Documentation/features/vm/ELF-ASLR/arch-support.txt
+@@ -13,7 +13,7 @@
+     |        csky: | TODO |
+     |     hexagon: | TODO |
+     |        ia64: | TODO |
+-    |   loongarch: | TODO |
++    |   loongarch: |  ok  |
+     |        m68k: | TODO |
+     |  microblaze: | TODO |
+     |        mips: |  ok  |
+-- 
+2.41.0
 
-Feel free to comment if that's still not right to you,
-
-Thanks,
-
->
-> Thanks,
-> Sunil
