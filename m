@@ -2,77 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36FEAEB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 22:35:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4691CEB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 22:43:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbjFUWfh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 18:35:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43726 "EHLO
+        id S229694AbjFUWnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 18:43:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbjFUWfe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 18:35:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E435173F
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 15:35:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 12AE5616FB
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 22:35:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A247C433C0;
-        Wed, 21 Jun 2023 22:35:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687386927;
-        bh=EWnSd7bjG7PilttbL5ZZpTzcZo8e3vUQoklthxd0EVc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=IKHFCF5e2D0cFFU4Tg/JNKd+613yz0i7qT+vcb6XRp1cNDYKcBpNVmCQcCCFy0iry
-         cuU9ee1Pzqo6/i/PF4WEdVsxYGxb7WTLvA7ZYotJoZxuH3I+WGlQKXozTfcgYwki88
-         LLOugFruXBP2E2r15PlBMzWTUaizFWJ8F2+qn3NjN7JiSuTu70htbTy2OdM+Dez7fU
-         4Hx5ZZ4Bs3pM6ANyac8pGO8GIvO/HjUd3cuFthjdguT3esRZweqJcWX9nOnJPS5eUW
-         v2noU+NcQapPNwuvDGjWdVzqgcKGqzdrSg2ptXkBMYc6A5/bm2xGjkUdmGSt1ZchcF
-         Sh9Wfvwqbqw6g==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, arkadiusz.kubalewski@intel.com,
-        netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH docs] scripts: kernel-doc: support private / public marking for enums
-Date:   Wed, 21 Jun 2023 15:35:25 -0700
-Message-Id: <20230621223525.2722703-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.40.1
+        with ESMTP id S229514AbjFUWne (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 18:43:34 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62142173F;
+        Wed, 21 Jun 2023 15:43:33 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id F40D85C0083;
+        Wed, 21 Jun 2023 18:43:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 21 Jun 2023 18:43:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1687387409; x=1687473809; bh=1CfwJNcZ9ExTk
+        aHBALnXwf9D4LiJBitSPaLMtzcAid4=; b=AcHXmWMbZZx9QwNb4c44Lg1chaJ8B
+        Fizjaek5kMP54fIQze62PtHho1dPLnj8xoOJWm7Uwzh9sXPTfS7vzt9RREZbF7/6
+        KcZedAO9pzD550q26Py3O5ACyMU/2M7GDUYCZflnss3T9rgfjfG8dl2sHA0/rPvv
+        xUcX40tfMgniPTz/dppYLe/M2dgCf5IN/P4nP3p1EnBTB4vrhhlLrrBRXMTadQ0M
+        xsbCPNyczDp2GsCnXdpImEFiCC0WOfyxW/A1zPgEuUUlh880RgdfeFh3/aK8KwGl
+        nMF3WZObT43GcRYgF0HzFKIHSkOMDKFuCade7HcRboUiIzcnTLQ9MjCgw==
+X-ME-Sender: <xms:EX2TZORG2ByZnoRyJL7GQFd5zaQshcdXJwoAQutMTeSCY_a8_kd3uA>
+    <xme:EX2TZDwj7fHDq532tYiXasIzlc_04phpcw0YYWVGNU8Xf9Jg9-0HxfEOuSuHX3KI6
+    XuMz9GqzS6_pk38hg8>
+X-ME-Received: <xmr:EX2TZL1AUIoSZjV04FMID_zcjBk2MnTXHUXotYg75EeGh0v3wNI8-AI1wmsKbbkbB2KavViFZT-vvnwngK4lEMJ3TPDkeXHVbj0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeegtddgtdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
+    vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
+    htthgvrhhnpeelueehleehkefgueevtdevteejkefhffekfeffffdtgfejveekgeefvdeu
+    heeuleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
+X-ME-Proxy: <xmx:EX2TZKDKdNf9EjDHbdLPr_iui-7_z4A2QhoC7Or5bKO0aqEdggmf_Q>
+    <xmx:EX2TZHjKiXLnE8up1qBwIXhVfb6B34Ne1oWJFcSh2N2w34RBCziqVA>
+    <xmx:EX2TZGqhGciDyaNCdRM6tqy2SSn68Ofw1SKaPYzJXgqjDzzA6jTJ4g>
+    <xmx:EX2TZNY5lG5j_z4h7eA2-qXvkyWzgTYn67xTNVhQCYZG9JEr5mrC0w>
+Feedback-ID: i58a146ae:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Jun 2023 18:43:27 -0400 (EDT)
+Date:   Thu, 22 Jun 2023 08:44:18 +1000 (AEST)
+From:   Finn Thain <fthain@linux-m68k.org>
+To:     Theodore Ts'o <tytso@mit.edu>
+cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        tech-board-discuss@lists.linux-foundation.org,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
+ the wider community
+In-Reply-To: <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
+Message-ID: <d69b0814-4a74-ebd0-7e08-3765f0acab1a@linux-m68k.org>
+References: <20230620212502.GI286961@mit.edu> <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Enums benefit from private markings, too. For netlink attribute
-name enums always end with a pair of __$n_MAX and $n_MAX members.
-Documenting them feels a bit tedious.
+On Wed, 21 Jun 2023, Finn Thain wrote:
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-Hi Jon, we've CCed you recently on a related discussion
-but it appears that the fix is simple enough so posting
-it before you had a chance to reply.
----
- scripts/kernel-doc | 3 +++
- 1 file changed, 3 insertions(+)
+> The technical projects under the purview of FINOS require a contributor 
+> license agreement. This has historically been a difficult pill for some 
+> contributors to swallow, so it's hard to imagine widespread adoption of 
+> the entire FINOS methodolgy
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 2486689ffc7b..66b554897899 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1301,6 +1301,9 @@ sub dump_enum($$) {
-     my $file = shift;
-     my $members;
- 
-+    # ignore members marked private:
-+    $x =~ s/\/\*\s*private:.*?\/\*\s*public:.*?\*\///gosi;
-+    $x =~ s/\/\*\s*private:.*}/}/gosi;
- 
-     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
-     # strip #define macros inside enums
--- 
-2.40.1
-
+I'm afraid I may have mixed up CLA and copyright assignment. I can't seem 
+to find the relevant CLA text. Sorry if I've mislead anyone.
