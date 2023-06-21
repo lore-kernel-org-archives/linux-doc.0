@@ -2,55 +2,54 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32543EB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 07:40:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17C5BEB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 07:50:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231382AbjFUHkq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 03:40:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35066 "EHLO
+        id S229769AbjFUHud (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 03:50:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231386AbjFUHkK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 03:40:10 -0400
-Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 442B1210B;
-        Wed, 21 Jun 2023 00:39:43 -0700 (PDT)
+        with ESMTP id S230415AbjFUHub (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 03:50:31 -0400
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A6EC83;
+        Wed, 21 Jun 2023 00:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1687333181;
-        bh=UqApaAasoEBoMc0dxYV4OnhSyfSEoo7sl5sXBYzYfds=;
+        s=s201512; t=1687333825;
+        bh=6S232VMjC7wbziWgrkeXXOdDe+/491iWQmYYurhqPhY=;
         h=From:To:Cc:Subject:Date;
-        b=WCV6uW5r4UcO67rokvNvBOtVGkznnBl2vKOKD9816+y1dwNO3igJQAVEdGBlMlbKF
-         l53y1EK3mIeXTpQ1slXy9NczFBlxBw75rn1KGTmbGZaFCLNz9ZGQG9yeA77Q1rvYUm
-         9QMkudbFYgWKpqqUm4PvWPo4LJxs6JrFT+OhCs3s=
+        b=zRpgKOSqxCP/4i9St0ozdufw2PbdrHBwGtd7F3XQTp/3YHXPV9dBZWC/oHyccmffd
+         WrrhCg1mZl4p9ls9JYRwdMKUNRnbUi9rmHUWsn9Wh0yEfg/72t5h2/3RG/l7wKDoBz
+         ttnwDJgFQKTWstQUAVeP2hiB5JHCnP+3zT2je/Hc=
 Received: from localhost.localdomain ([39.156.73.12])
-        by newxmesmtplogicsvrszc2-1.qq.com (NewEsmtp) with SMTP
-        id 8603282D; Wed, 21 Jun 2023 15:33:32 +0800
-X-QQ-mid: xmsmtpt1687332812t2jwfvdiw
-Message-ID: <tencent_F3895D0EA868BCCE8C56221619BC093D660A@qq.com>
-X-QQ-XMAILINFO: MQ+wLuVvI2LQjtOqTDlIV94yDrHmkwsY56bVPolYhQ89M8b1VZfbz8XhMultN9
-         2xBjYkXEzUFu76fKZNAsQOlL8OhtaDzw/sK9uvnSIVwTtg7Dx8NUosziNzoyaOw8gYYaOlIqX/HB
-         tSmmvm6MTN8NPtbcvZjVPFcU92BQhq7snXgooRbpUTtFy/9JrV9bBMjb/dehvF0b1fY1sQ2Mgp9b
-         Uoza7fQFr4kIVOgrXEJbl65uLjvZLSf1jtisvIeuNw18mt1Pbxj1OdU0hUSRh0JRwN5z5x1ISnAU
-         mjQTNrLTl+kaWF0v+Oev4SmZM8m+0A1pMVAK3TuaL3AfVfRT/XE0eHyiqChpkaUNji0I7u7wsF4T
-         GCGOsQ4C5Dhvl2bM3Troc+JHMoVNfhZNxM4tS5RkUgS/6jAy9p3xiSuEG5QMTvsSIeC3pSCgL3pL
-         RRDjpJrjfcx4/KXow7luA4Kz3QOIjTDw8GGanLwNP9t3oDYD+MynjOO/JAMX5QqTiBPpK8o6InZO
-         vkgrqv/i44HBKJ3Z03sPIk40UDLpV2kgEI4zII1343ldpMK7N4nYM9J1PMVxnxqeUnF2l/ZraqE1
-         FfjUUrk/fz3vXOnj1LR4tSIQ6pv3kedIh701tWYZxf4dKygkL9ecnUjBKmrPccHJQS19K52AYdnF
-         4lubXf+EvnSV6dGyMSp22EYwYrij7lrDPTHbfAbSuECnyf3HBOFiMyvBFvK1cDPWXzFFnsz1a2UR
-         rMh511MudjQlHnMu28jI1Cpt/OYCh+iPRMR1Erpl81OYcJtT7ip7oKPJ3ABvf6zyhkovuFi+KcCb
-         xNXEre3wX+paOww/KokfN1XlNf+8Jl+xXvWCDnNhxzno6xIYTQnU16GdTN2385vWCkmXbKf7LX6/
-         viViVS3f1ergI3BwpSx6vvyoWw5JengErO1EG+GnZTwaC7TvNTwtIWuaSvlt1/WOwTktiLE6TGMR
-         oOwBY5rQc8eJ8Z6EXc/bk0uJ/AA3S/NcbwKdI6mq16FaXsKBdvtw==
-X-QQ-XMRINFO: NjIWXnpjOUTzjNa+72IgnqZv1lPwKoxBEg==
+        by newxmesmtplogicsvrsza7-0.qq.com (NewEsmtp) with SMTP
+        id B0E042AA; Wed, 21 Jun 2023 15:44:14 +0800
+X-QQ-mid: xmsmtpt1687333454tfjy6s68a
+Message-ID: <tencent_6142CF595B97172A46AF02A34D885D060108@qq.com>
+X-QQ-XMAILINFO: OZsapEVPoiO6eY0DWtcWpjTtkqvDLES3BnTBVKNv3l0ZaoH54gYPz06I+g/oKg
+         lp5WLi9U9wSKT/2itYOdWzsdQwny/nVUVQH9Abg4Jx3B/e9RRMK3oHraS/uiH/jVvygzOTsWhWET
+         qXa0uwT2TCNgv1mlvJ2UgRKRsDTSfA7o8sbv0OGxhdWCfqmj8+MFB/oVGeS2Nq/okfkQ5T8iU4gj
+         Ywt6AB5YXzWgNqeBNv+ueD+VAEyyoWy4sFsBGY5PDg+mHiV9VV7+yEZGwjFjHtScy4Kv3lJMg76B
+         AOPi8pMYrYZZARbV27YRmScKekrVgNXSuLM4iJnM/IqxFcf+xTd/PyvV/LSDUKTry5M3U+eHUyB4
+         7+xEupHa2S4IeLdUvOtl2hlOrc8ar0CbCHk36bIBxmt0n94Be6OnmdjCXQuZw7UBOLEL4jI4hBCQ
+         WnRxEdKOfzO68Sa/8EhqlcI1xI87uvwaPPTMxitNfMOkFZYQO1QSZfUE1VUK0LcQpSFZgL/0zM8Y
+         65bseXdx0N8kju/Yh/koiODifdukB48B8eGl+jpzz1s1VUbv82NjvYRPAvnEupoWuTT6cXodK9yq
+         FwoTCmKHTX7slCCqz5IGyjRfjyQymOwA5jOEIAiHIt80SP8GrRhRcgIwQnWZeIg6T8mWxGMNJWFm
+         3UCiZ3KJSvySL5KaIHfXu8xoQD9vWhXnLMBONIwZ/xk73HAQ/RW4TDnuIImqI3bi5JReev9UYz35
+         91hjGKcr8ucM1eLbFbzjMygSlxBm2lf4vsNpAnFDDKYpBviGMzzk/6l0U5pPvREgi4F3V42vj3mt
+         WJ1PdRj7ZARY0lxskg6r7XVNmNAKCQ1zobNl8QLFWhTnS049DyAA3tf1DVvBjqEI3riBkIv8ZKfZ
+         LW/PRp544bySZner/x8iNDq29652cleWYaXUd8u6NxWnRpAjnMI4IVRph1nMi2ZbSeyncpqnd4+Z
+         LhmMySxek9gvbJsgOJFc5S2vFZHGbPgmezlNfNyGpBXSCIfTWi+Ftp/6shlVU+Z2wnEHCLAiym65
+         TxayS1qQ==
+X-QQ-XMRINFO: OaHeJnMbHdYJoNPX7mruotAPXHzc5BrOrw==
 From:   Rong Tao <rtoax@foxmail.com>
-To:     martin.petersen@oracle.com
-Cc:     rongtao@cestc.cn, Jonathan Corbet <corbet@lwn.net>,
-        linux-scsi@vger.kernel.org (open list:SCSI TARGET SUBSYSTEM),
-        target-devel@vger.kernel.org (open list:SCSI TARGET SUBSYSTEM),
+To:     corbet@lwn.net
+Cc:     rongtao@cestc.cn,
         linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] docs: target: Convert tcm_mod_builder.py print syntax to python3
-Date:   Wed, 21 Jun 2023 15:33:30 +0800
-X-OQ-MSGID: <20230621073331.85873-1-rtoax@foxmail.com>
+Subject: [PATCH] docs: trace: Convert decode_msr.py print syntax to python3
+Date:   Wed, 21 Jun 2023 15:44:12 +0800
+X-OQ-MSGID: <20230621074413.88019-1-rtoax@foxmail.com>
 X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -60,179 +59,31 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Rong Tao <rongtao@cestc.cn>
 
-Convert the tcm_mod_builder.py file to python3 and fix indentation.
+Convert the decode_msr.py file to python3 to solve the following running
+errors:
 
-Error:
-
-    $ ./tcm_mod_builder.py
-    File "/home/sda/git-repos/linux/Documentation/target/./tcm_mod_builder.py", line 23
-        print msg
-            ^
-    SyntaxError: Missing parentheses in call to 'print'. Did you mean print(msg)?
-
-    $ ./tcm_mod_builder.py
-    File "/home/sda/git-repos/linux/Documentation/target/./tcm_mod_builder.py", line 186
-        p = open(f, 'w');
-    TabError: inconsistent use of tabs and spaces in indentation
+    File "Documentation/trace/postprocess/decode_msr.py", line 35
+        print j,
+             ^
+    SyntaxError: Missing parentheses in call to 'print'. Did you mean
+    print(j, end=" ")?
 
 Signed-off-by: Rong Tao <rongtao@cestc.cn>
 ---
- Documentation/target/tcm_mod_builder.py | 44 ++++++++++++-------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+ Documentation/trace/postprocess/decode_msr.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/target/tcm_mod_builder.py b/Documentation/target/tcm_mod_builder.py
-index 54492aa813b9..e2ef72925de3 100755
---- a/Documentation/target/tcm_mod_builder.py
-+++ b/Documentation/target/tcm_mod_builder.py
-@@ -20,7 +20,7 @@ fabric_mod_port = ""
- fabric_mod_init_port = ""
+diff --git a/Documentation/trace/postprocess/decode_msr.py b/Documentation/trace/postprocess/decode_msr.py
+index aa9cc7abd5c2..2d45d6c14987 100644
+--- a/Documentation/trace/postprocess/decode_msr.py
++++ b/Documentation/trace/postprocess/decode_msr.py
+@@ -32,6 +32,6 @@ for j in sys.stdin:
+ 					break
+ 		if r:
+ 			j = j.replace(" " + m.group(2), " " + r + "(" + m.group(2) + ")")
+-	print j,
++	print(j + ",")
  
- def tcm_mod_err(msg):
--	print msg
-+	print(msg)
- 	sys.exit(1)
- 
- def tcm_mod_create_module_subdir(fabric_mod_dir_var):
-@@ -28,7 +28,7 @@ def tcm_mod_create_module_subdir(fabric_mod_dir_var):
- 	if os.path.isdir(fabric_mod_dir_var) == True:
- 		return 1
- 
--	print "Creating fabric_mod_dir: " + fabric_mod_dir_var
-+	print("Creating fabric_mod_dir: " + fabric_mod_dir_var)
- 	ret = os.mkdir(fabric_mod_dir_var)
- 	if ret:
- 		tcm_mod_err("Unable to mkdir " + fabric_mod_dir_var)
-@@ -41,7 +41,7 @@ def tcm_mod_build_FC_include(fabric_mod_dir_var, fabric_mod_name):
- 	buf = ""
- 
- 	f = fabric_mod_dir_var + "/" + fabric_mod_name + "_base.h"
--	print "Writing file: " + f
-+	print("Writing file: " + f)
- 
- 	p = open(f, 'w');
- 	if not p:
-@@ -85,7 +85,7 @@ def tcm_mod_build_SAS_include(fabric_mod_dir_var, fabric_mod_name):
- 	buf = ""
- 
- 	f = fabric_mod_dir_var + "/" + fabric_mod_name + "_base.h"
--	print "Writing file: " + f
-+	print("Writing file: " + f)
- 
- 	p = open(f, 'w');
- 	if not p:
-@@ -128,7 +128,7 @@ def tcm_mod_build_iSCSI_include(fabric_mod_dir_var, fabric_mod_name):
- 	buf = ""
- 
- 	f = fabric_mod_dir_var + "/" + fabric_mod_name + "_base.h"
--	print "Writing file: " + f
-+	print("Writing file: " + f)
- 
- 	p = open(f, 'w');
- 	if not p:
-@@ -172,7 +172,7 @@ def tcm_mod_build_base_includes(proto_ident, fabric_mod_dir_val, fabric_mod_name
- 	elif proto_ident == "iSCSI":
- 		tcm_mod_build_iSCSI_include(fabric_mod_dir_val, fabric_mod_name)
- 	else:
--		print "Unsupported proto_ident: " + proto_ident
-+		print("Unsupported proto_ident: " + proto_ident)
- 		sys.exit(1)
- 
- 	return
-@@ -181,11 +181,11 @@ def tcm_mod_build_configfs(proto_ident, fabric_mod_dir_var, fabric_mod_name):
- 	buf = ""
- 
- 	f = fabric_mod_dir_var + "/" + fabric_mod_name + "_configfs.c"
--	print "Writing file: " + f
-+	print("Writing file: " + f)
- 
--        p = open(f, 'w');
--        if not p:
--                tcm_mod_err("Unable to open file: " + f)
-+	p = open(f, 'w');
-+	if not p:
-+		tcm_mod_err("Unable to open file: " + f)
- 
- 	buf = "#include <linux/module.h>\n"
- 	buf += "#include <linux/moduleparam.h>\n"
-@@ -339,7 +339,7 @@ def tcm_mod_scan_fabric_ops(tcm_dir):
- 
- 	fabric_ops_api = tcm_dir + "include/target/target_core_fabric.h"
- 
--	print "Using tcm_mod_scan_fabric_ops: " + fabric_ops_api
-+	print("Using tcm_mod_scan_fabric_ops: " + fabric_ops_api)
- 	process_fo = 0;
- 
- 	p = open(fabric_ops_api, 'r')
-@@ -375,14 +375,14 @@ def tcm_mod_dump_fabric_ops(proto_ident, fabric_mod_dir_var, fabric_mod_name):
- 	bufi = ""
- 
- 	f = fabric_mod_dir_var + "/" + fabric_mod_name + "_fabric.c"
--	print "Writing file: " + f
-+	print("Writing file: " + f)
- 
- 	p = open(f, 'w')
- 	if not p:
- 		tcm_mod_err("Unable to open file: " + f)
- 
- 	fi = fabric_mod_dir_var + "/" + fabric_mod_name + "_fabric.h"
--	print "Writing file: " + fi
-+	print("Writing file: " + fi)
- 
- 	pi = open(fi, 'w')
- 	if not pi:
-@@ -537,7 +537,7 @@ def tcm_mod_build_kbuild(fabric_mod_dir_var, fabric_mod_name):
- 
- 	buf = ""
- 	f = fabric_mod_dir_var + "/Makefile"
--	print "Writing file: " + f
-+	print("Writing file: " + f)
- 
- 	p = open(f, 'w')
- 	if not p:
-@@ -558,7 +558,7 @@ def tcm_mod_build_kconfig(fabric_mod_dir_var, fabric_mod_name):
- 
- 	buf = ""
- 	f = fabric_mod_dir_var + "/Kconfig"
--	print "Writing file: " + f
-+	print("Writing file: " + f)
- 
- 	p = open(f, 'w')
- 	if not p:
-@@ -603,20 +603,20 @@ def main(modname, proto_ident):
- 
- 	tcm_dir = os.getcwd();
- 	tcm_dir += "/../../"
--	print "tcm_dir: " + tcm_dir
-+	print("tcm_dir: " + tcm_dir)
- 	fabric_mod_name = modname
- 	fabric_mod_dir = tcm_dir + "drivers/target/" + fabric_mod_name
--	print "Set fabric_mod_name: " + fabric_mod_name
--	print "Set fabric_mod_dir: " + fabric_mod_dir
--	print "Using proto_ident: " + proto_ident
-+	print("Set fabric_mod_name: " + fabric_mod_name)
-+	print("Set fabric_mod_dir: " + fabric_mod_dir)
-+	print("Using proto_ident: " + proto_ident)
- 
- 	if proto_ident != "FC" and proto_ident != "SAS" and proto_ident != "iSCSI":
--		print "Unsupported proto_ident: " + proto_ident
-+		print("Unsupported proto_ident: " + proto_ident)
- 		sys.exit(1)
- 
- 	ret = tcm_mod_create_module_subdir(fabric_mod_dir)
- 	if ret:
--		print "tcm_mod_create_module_subdir() failed because module already exists!"
-+		print("tcm_mod_create_module_subdir() failed because module already exists!")
- 		sys.exit(1)
- 
- 	tcm_mod_build_base_includes(proto_ident, fabric_mod_dir, fabric_mod_name)
-@@ -647,7 +647,7 @@ parser.add_option('-p', '--protoident', help='Protocol Ident', dest='protoident'
- mandatories = ['modname', 'protoident']
- for m in mandatories:
- 	if not opts.__dict__[m]:
--		print "mandatory option is missing\n"
-+		print("mandatory option is missing\n")
- 		parser.print_help()
- 		exit(-1)
  
 -- 
 2.39.3
