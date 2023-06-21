@@ -2,158 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D8FDEB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 12:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA6CEB64D8
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 12:41:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231734AbjFUMaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 08:30:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51878 "EHLO
+        id S230076AbjFUMlL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 08:41:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230011AbjFUMaE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 08:30:04 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D75DD
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 05:30:03 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-4f849a0e371so7835595e87.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 05:30:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687350601; x=1689942601;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R9RGfJqgepIeBvJ1OfKk1XmicseQJBOqqkZjFv/Sa90=;
-        b=EkqoBWjMr87RPy89et6BGhuw9VAPZh7M+VK6jbsmEABD22QZZD6QcVmEmD0YKxTD3i
-         NFifzn2AbhccQE8IS2d4oMw6SbNGIvnDgO3+FnbrVyacR7rd3gQ33x9OKxIFKXHFgQxU
-         Bv7htOjEJeg2jVHoz1cAzYz1FCO+UYTGSokSdXVKZJ8oWzrEjoc6oosLLIGauk35oxeB
-         fcRL7THnuGMfucqzTYbmGsnzDX2XCIVoqReAHk3Uu0S52nmlVnY90+BNjuqKXwsIKpxr
-         xS6Q2JQnfzg+Hegrb/1bzxj5Tzo1AKsS3qAAnNufUJ1JsCy6SOsxkScjyFjut5bGuZF1
-         Omtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687350601; x=1689942601;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R9RGfJqgepIeBvJ1OfKk1XmicseQJBOqqkZjFv/Sa90=;
-        b=KYP/aHwhSPz1WJqroliXfS4F2oQ1qsxEtoZ7Bedvn62Nm0WmH4+pLWBFYJPHRA5twJ
-         fLjVGZeDE0Yac6cTJLPP4pr2qly1806QA9zIg2IJNCbN35eD1k3Z4N2lIYC035AspZTC
-         7bEWfsgvFCjHY8V5ZXGY2ZvQ6RjwRaqtJAJmCVlWnkCqz/XV+EwVYY8W8ZXoJKYU47y0
-         MfWirWpAN/xXXrNy/ekjjIhCbdzOIcv3/RU8nEV8Sb0p45EV5G2c1f+WmehYxfHgQpeV
-         BSdmMWXJfjIZWvUjda66nMPG9DVkRdtspNkS9nOc80fl3tWFp/C0VapqE3os7C5EkDf+
-         Bp/g==
-X-Gm-Message-State: AC+VfDzL+TQkPrQy5nS1ubg+tfpdS68C91CEbVMUs3b6LOeLUVYbbrxi
-        fTA5vUUQ2hHI09xA5021/pjUrQ==
-X-Google-Smtp-Source: ACHHUZ5n1us+Bo/SpNyVjWkH9hnrHLxyGkJ086GdwXI8vcD2bjT3FD19WznXfwbxPjwjeY65NzV9QQ==
-X-Received: by 2002:a19:7715:0:b0:4f9:5a87:1028 with SMTP id s21-20020a197715000000b004f95a871028mr998668lfc.30.1687350601263;
-        Wed, 21 Jun 2023 05:30:01 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id x1-20020a5d4441000000b00311d8c2561bsm4376924wrr.60.2023.06.21.05.30.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 05:30:00 -0700 (PDT)
-Date:   Wed, 21 Jun 2023 14:29:59 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     "kuba@kernel.org" <kuba@kernel.org>,
-        "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: Re: [RFC PATCH v8 08/10] ice: implement dpll interface to control cgu
-Message-ID: <ZJLtR0c+tvCbUgri@nanopsycho>
-References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
- <20230609121853.3607724-9-arkadiusz.kubalewski@intel.com>
- <ZISmmH0jqxZRB4VX@nanopsycho>
- <DM6PR11MB4657161D2871747A7B404EDD9B5FA@DM6PR11MB4657.namprd11.prod.outlook.com>
+        with ESMTP id S229871AbjFUMlK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 08:41:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7529B;
+        Wed, 21 Jun 2023 05:41:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D206961565;
+        Wed, 21 Jun 2023 12:41:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C71C433C0;
+        Wed, 21 Jun 2023 12:41:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1687351268;
+        bh=DZSExkiX6hNfOHTfdDuzGK8ZdCX4lnUUnK2J7dMOUyg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MP6ON4LX5x1YO+jm9xe37M2+BR0KvVuOFIetp+vJFmVGqCmlGqCSC2ECcGFcMPpeH
+         UCe95/ErbIS0rbfNZGWuouXPuzHTGHFAv/Y+b95SsJYv+wUfV6j+g0nKsNQ8+WfYHj
+         O1gsGvmN88YOgxyq7cTUrTlmJa3Ey0ChiqEY6t9Q=
+Date:   Wed, 21 Jun 2023 14:41:03 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Finn Thain <fthain@linux-m68k.org>
+Cc:     Theodore Ts'o <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>,
+        tech-board-discuss@lists.linux-foundation.org,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and the
+ wider community
+Message-ID: <2023062144-hefty-why-305d@gregkh>
+References: <20230620212502.GI286961@mit.edu>
+ <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM6PR11MB4657161D2871747A7B404EDD9B5FA@DM6PR11MB4657.namprd11.prod.outlook.com>
+In-Reply-To: <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mon, Jun 19, 2023 at 10:34:12PM CEST, arkadiusz.kubalewski@intel.com wrote:
->>From: Jiri Pirko <jiri@resnulli.us>
->>Sent: Saturday, June 10, 2023 6:37 PM
->>
->>Fri, Jun 09, 2023 at 02:18:51PM CEST, arkadiusz.kubalewski@intel.com wrote:
->>
->>[...]
->>
->>
->>>+static int ice_dpll_mode_get(const struct dpll_device *dpll, void *priv,
->>>+			     enum dpll_mode *mode,
->>>+			     struct netlink_ext_ack *extack)
->>>+{
->>>+	*mode = DPLL_MODE_AUTOMATIC;
->>
->>I don't understand how the automatic mode could work with SyncE. The
->>There is one pin exposed for one netdev. The SyncE daemon should select
->>exacly one pin. How do you achieve that?
->>Is is by setting DPLL_PIN_STATE_SELECTABLE on the pin-netdev you want to
->>select and DPLL_PIN_STATE_DISCONNECTED on the rest?
->>
->>
->>[...]
->
->AUTOMATIC mode autoselects highest priority valid signal.
->As you have pointed out, for SyncE selection, the user must be able to manually
->select a pin state to enable recovery of signal from particular port.
->
->In "ice" case there are 2 pins for network PHY clock signal recovery, and both
->are parent pins (MUX-type). There are also 4 pins assigned to netdevs (one per
->port). Thus passing a signal from PHY to the pin is done through the MUX-pin,
->by selecting proper state on pin-parent pair (where parent pins is highest prio
->pin on dpll).
+On Wed, Jun 21, 2023 at 11:51:19AM +1000, Finn Thain wrote:
+> > You appear to have a very different model of how non-profits might 
+> > approach the Linux kernel --- could you go into more detail about why 
+> > they might want to contribute to the Linux kernel, and how we might 
+> > encourage them to contribute more engineering effort?
+> > 
+> 
+> Sure. Here's a recent example, in which a not-for-profit volunteer might 
+> have been granted an opportunity to work upstream: 
+> https://lore.kernel.org/all/129c9d5e-213a-80c9-092e-dc1dcf38ae3e@linux-m68k.org/
+> 
+> The driver in question may may not be commercially viable, but that 
+> doesn't matter, if the intention is to foster new maintainers and increase 
+> the talent pool. And the problem ostensibly being addressed in the Linux 
+> Contributor Maturity Model is a shortage of maintainers.
 
-Could you show me some examples please?
+I would NEVER recommend ANYONE picking up obsolete hardware and trying
+to get it to work to maintain the driver if NO ONE is actually using the
+stuff.  That should not be for a not-for-profit to maintain as
+obviously, no one uses it.
 
+It's up to those that need/use the code to help maintain it, don't ask
+not-for-profit groups to maintain and support code that no one uses,
+that's a sure way to waste resources all around.
 
->
->Thank you!
->Arkadiusz
+So that's a good example of how our ecosystem works properly, if no one
+needs the code, it gets dropped.  Don't ask for it to come back without
+real users who are invested in it please.
+
+thanks,
+
+greg k-h
