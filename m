@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4691CEB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 22:43:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72DE9EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 22:47:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbjFUWnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 18:43:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45788 "EHLO
+        id S229530AbjFUWrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 18:47:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjFUWne (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 18:43:34 -0400
+        with ESMTP id S229692AbjFUWrX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 18:47:23 -0400
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62142173F;
-        Wed, 21 Jun 2023 15:43:33 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id F40D85C0083;
-        Wed, 21 Jun 2023 18:43:29 -0400 (EDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9087719AE;
+        Wed, 21 Jun 2023 15:47:22 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 0CCAF5C0140;
+        Wed, 21 Jun 2023 18:47:22 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 21 Jun 2023 18:43:30 -0400
+  by compute4.internal (MEProxy); Wed, 21 Jun 2023 18:47:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:content-type:date:date
         :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
         :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1687387409; x=1687473809; bh=1CfwJNcZ9ExTk
-        aHBALnXwf9D4LiJBitSPaLMtzcAid4=; b=AcHXmWMbZZx9QwNb4c44Lg1chaJ8B
-        Fizjaek5kMP54fIQze62PtHho1dPLnj8xoOJWm7Uwzh9sXPTfS7vzt9RREZbF7/6
-        KcZedAO9pzD550q26Py3O5ACyMU/2M7GDUYCZflnss3T9rgfjfG8dl2sHA0/rPvv
-        xUcX40tfMgniPTz/dppYLe/M2dgCf5IN/P4nP3p1EnBTB4vrhhlLrrBRXMTadQ0M
-        xsbCPNyczDp2GsCnXdpImEFiCC0WOfyxW/A1zPgEuUUlh880RgdfeFh3/aK8KwGl
-        nMF3WZObT43GcRYgF0HzFKIHSkOMDKFuCade7HcRboUiIzcnTLQ9MjCgw==
-X-ME-Sender: <xms:EX2TZORG2ByZnoRyJL7GQFd5zaQshcdXJwoAQutMTeSCY_a8_kd3uA>
-    <xme:EX2TZDwj7fHDq532tYiXasIzlc_04phpcw0YYWVGNU8Xf9Jg9-0HxfEOuSuHX3KI6
-    XuMz9GqzS6_pk38hg8>
-X-ME-Received: <xmr:EX2TZL1AUIoSZjV04FMID_zcjBk2MnTXHUXotYg75EeGh0v3wNI8-AI1wmsKbbkbB2KavViFZT-vvnwngK4lEMJ3TPDkeXHVbj0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeegtddgtdelucetufdoteggodetrfdotf
+        :x-sasl-enc; s=fm2; t=1687387642; x=1687474042; bh=odM0ROmmXZz2l
+        qnANu3LwALHTxJMn1T0y9hAQX6H2Go=; b=Sg9BMqRxJUnOPiv9y19+LPVZVaK/q
+        Z3Og1CSvcCuXsqewxRvOtPZ8alrojCSuBhYKJuHGYw8LUPYQa6Z906BQ/8YrnMju
+        C+Ee1h0RDkyQVLzSOkfGqzYNMMlhdbb1AO4zA0gXt63qJRE7aSYFszAWGlyExDRa
+        AnQrcggVSmg9mzb/REkGtJbEd498p0oPW3AwBpL3isMkf/3tF5Ct9T87eIQwT1dp
+        7Iyho13g6PLs+ed+zqJ26BXsmOe0+8fEf4h3sgw/oY2zHqQI+EWneDqfRaRGNbXv
+        qtsNfbUqsOELzz6YuXe6QPxGvRq4peEFGAtnciuRALb4lyLKGPHYWz3Iw==
+X-ME-Sender: <xms:-X2TZPvKXx6GdqUas6473REtdUEw6hbJpIIGPGvZVbLO_1taQDL8ow>
+    <xme:-X2TZAcLgRBLyX1ybxfpn1ZUY3raZRYjtlFuwSLMOL8qeIlTX39rC_mjKd_gpVCV4
+    JQo83_xXlCvCK1zDdA>
+X-ME-Received: <xmr:-X2TZCxUriqwAKsWFAHYdO7k_82YGisgJ2q8DRgEeheX-b5-yn3bv8ILY2U57cbC_naaWRTrMfLTfQ4reZOBevbXr8-4-DRqEgY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeegtddguddtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
@@ -43,39 +43,44 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeegtddgtdelucetufdoteggod
     htthgvrhhnpeelueehleehkefgueevtdevteejkefhffekfeffffdtgfejveekgeefvdeu
     heeuleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     hfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:EX2TZKDKdNf9EjDHbdLPr_iui-7_z4A2QhoC7Or5bKO0aqEdggmf_Q>
-    <xmx:EX2TZHjKiXLnE8up1qBwIXhVfb6B34Ne1oWJFcSh2N2w34RBCziqVA>
-    <xmx:EX2TZGqhGciDyaNCdRM6tqy2SSn68Ofw1SKaPYzJXgqjDzzA6jTJ4g>
-    <xmx:EX2TZNY5lG5j_z4h7eA2-qXvkyWzgTYn67xTNVhQCYZG9JEr5mrC0w>
+X-ME-Proxy: <xmx:-X2TZOPKTNF0Qj87W-0pIjqB5k_HmgWJkzNsMjL1SAK4lW7Ayp-scA>
+    <xmx:-X2TZP8YgjuTVRErgTQ5xNO-A6_KM9p5wubsfJDkuH5rxiRlwbe3Qg>
+    <xmx:-X2TZOVa1ObslMSxcbwzejss75f_zDo3ZIhwHimHKt8Dd5-xp-zB6A>
+    <xmx:-n2TZCZYlemx_nNz0y0BI7JcxD4RDfx1RZI4ls5aciiQm8vl4klXlg>
 Feedback-ID: i58a146ae:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 21 Jun 2023 18:43:27 -0400 (EDT)
-Date:   Thu, 22 Jun 2023 08:44:18 +1000 (AEST)
+ 21 Jun 2023 18:47:20 -0400 (EDT)
+Date:   Thu, 22 Jun 2023 08:48:12 +1000 (AEST)
 From:   Finn Thain <fthain@linux-m68k.org>
-To:     Theodore Ts'o <tytso@mit.edu>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     Steven Rostedt <rostedt@goodmis.org>
+cc:     Theodore Ts'o <tytso@mit.edu>, linux-doc@vger.kernel.org,
         tech-board-discuss@lists.linux-foundation.org,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
- the wider community
-In-Reply-To: <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
-Message-ID: <d69b0814-4a74-ebd0-7e08-3765f0acab1a@linux-m68k.org>
-References: <20230620212502.GI286961@mit.edu> <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Tech-board-discuss] [PATCH] Documentation: Linux Contribution
+ Maturity Model and the wider community
+In-Reply-To: <20230621100845.12588f48@gandalf.local.home>
+Message-ID: <1c3b8e4f-ac8f-1c79-387d-7b68b64ca645@linux-m68k.org>
+References: <20230620212502.GI286961@mit.edu> <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org> <20230621100845.12588f48@gandalf.local.home>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 21 Jun 2023, Finn Thain wrote:
+On Wed, 21 Jun 2023, Steven Rostedt wrote:
 
-> The technical projects under the purview of FINOS require a contributor 
-> license agreement. This has historically been a difficult pill for some 
-> contributors to swallow, so it's hard to imagine widespread adoption of 
-> the entire FINOS methodolgy
+> 
+> > 
+> >   Making the maintainer role more lucrative will provide a 
+> >   disincentive for more automation (with or without level 5 
+> >   performance reviews) unless remuneration is tied to metrics that 
+> >   reflect maintainer effectiveness.
+> 
+> I'm not sure I totally understand your point above. I do not think that 
+> making the maintainer role more lucrative provides a disincentive for 
+> more automation. 
 
-I'm afraid I may have mixed up CLA and copyright assignment. I can't seem 
-to find the relevant CLA text. Sorry if I've mislead anyone.
+You're right -- it's a moot point (whether paying people more will reward 
+underperformers) since it all depends on the performance metric. I was 
+assuming a metric that reflects my own bias.
