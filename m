@@ -2,338 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE5CEB64DC
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 02:51:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEE86EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 03:08:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbjFUCvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 22:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53188 "EHLO
+        id S230047AbjFUDIr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 23:08:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbjFUCvv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 22:51:51 -0400
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A0E71B4;
-        Tue, 20 Jun 2023 19:51:50 -0700 (PDT)
-Received: by mail-ot1-x330.google.com with SMTP id 46e09a7af769-6b470ebd670so2607799a34.0;
-        Tue, 20 Jun 2023 19:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687315909; x=1689907909;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qJNr1vyPvHbMEk8O8XldE8NbrEXH2idSMvV3eZDgIT4=;
-        b=J9rhQVz1R8lKDLiKwNIPca+zvG5Tv3NsIAj1Ji/wwJWZ5NGPo67uNji7TMbGfymVWO
-         GMr37w69IFJ1a/xO2A5DmceFjN0O32RpzdAIssyO44XqTHGckAF25peyXSxvQDN3Hon3
-         nm7yK6UQvcoGWP40qbNg1er6nj4r5UQsT0ym99rNBvogtZMf2i5gafTMS+lgcgzNQGKq
-         aoUmdiGQ3/vjF0fTi0Y3GwgVLDETdD79PdEDbQpGXiviLmWKyCtsFqxqvYfIKO+j7cmH
-         1dwMi6f30X6ti1+jJ2sfUBHAIRnjtvhicwwWnFeGYhp7QveaAM4i9Fm9K8L5dJwflH0T
-         aPMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687315909; x=1689907909;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qJNr1vyPvHbMEk8O8XldE8NbrEXH2idSMvV3eZDgIT4=;
-        b=Cvs8PH9gXi5I5TbvEm6ueuUXfr4+MzUBGnZsj2anRhFeqsMeb68yjyAHEOjfFU8s4v
-         VXBiwh95vcPcDhe3BmyGWVvBY9OItxL0M0KSE18VzppnO1vvcJ2PlxoDQDSqNvFMSwJg
-         L6JnlscCqqw2og4/k4hmW9Wu5799g3corNzPHE4hYYIX+xL/3eRcvT8eVg2djie7Xl/C
-         dAGItrlaC9AWUvsMgBbswlQxJWe/dAdwobkGZv77e+6WrgthYQaebnucq4UNkoJvWcYW
-         MCQsB/Lxs1I7WNuYt6kNPJpkX6CQgqbyL59lvLTWaQj6lRdx47z+hq4PQGYj/VUzMkrg
-         88bA==
-X-Gm-Message-State: AC+VfDyiYbN5KLQbblO6vQ/QNWBMZcLJpiPTgCb5c+yIhXc1TaSmL9dE
-        pFwSPTKWDnwy0634pBABP7nOGid4Xvs=
-X-Google-Smtp-Source: ACHHUZ4vmFcBnDcvLrBXtT15BOX4k0uY1EIRYfrVxGT80rydywp/6szlGIEPs7lB1lYg1S65G5/lLQ==
-X-Received: by 2002:a05:6359:a26:b0:12c:9960:ec1e with SMTP id el38-20020a0563590a2600b0012c9960ec1emr8123207rwb.19.1687315909090;
-        Tue, 20 Jun 2023 19:51:49 -0700 (PDT)
-Received: from localhost (193-116-203-37.tpgi.com.au. [193.116.203.37])
-        by smtp.gmail.com with ESMTPSA id q15-20020a170902bd8f00b001a5fccab02dsm2246983pls.177.2023.06.20.19.51.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jun 2023 19:51:48 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S230012AbjFUDIn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 23:08:43 -0400
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72B511703;
+        Tue, 20 Jun 2023 20:08:40 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0Vle8pmP_1687316914;
+Received: from 30.221.149.25(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vle8pmP_1687316914)
+          by smtp.aliyun-inc.com;
+          Wed, 21 Jun 2023 11:08:35 +0800
+Message-ID: <a5486c58-32b6-2d5e-e623-d7844c51474c@linux.alibaba.com>
+Date:   Wed, 21 Jun 2023 11:08:31 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.11.2
+Subject: Re: [PATCH v4 0/4] Add JSON metrics for Yitian710 DDR
+To:     Namhyung Kim <namhyung@kernel.org>
+Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        John Garry <john.g.garry@oracle.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Ian Rogers <irogers@google.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        James Clark <james.clark@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>
+References: <1687245156-61215-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <CAM9d7cj3v58m8NcsEK4sYsk_dbQDAq71hYo7DV=xaQa_rZyPYg@mail.gmail.com>
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+In-Reply-To: <CAM9d7cj3v58m8NcsEK4sYsk_dbQDAq71hYo7DV=xaQa_rZyPYg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Date:   Wed, 21 Jun 2023 12:51:31 +1000
-Message-Id: <CTHZKBJCQRHR.11CFMPICJ8XQP@wheely>
-From:   "Nicholas Piggin" <npiggin@gmail.com>
-To:     "Yu Zhao" <yuzhao@google.com>
-Cc:     "Andrew Morton" <akpm@linux-foundation.org>,
-        "Paolo Bonzini" <pbonzini@redhat.com>,
-        "Alistair Popple" <apopple@nvidia.com>,
-        "Anup Patel" <anup@brainfault.org>,
-        "Ben Gardon" <bgardon@google.com>,
-        "Borislav Petkov" <bp@alien8.de>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Chao Peng" <chao.p.peng@linux.intel.com>,
-        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "Fabiano Rosas" <farosas@linux.ibm.com>,
-        "Gaosheng Cui" <cuigaosheng1@huawei.com>,
-        "Gavin Shan" <gshan@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
-        "Ingo Molnar" <mingo@redhat.com>,
-        "James Morse" <james.morse@arm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Jason Gunthorpe" <jgg@ziepe.ca>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Marc Zyngier" <maz@kernel.org>,
-        "Masami Hiramatsu" <mhiramat@kernel.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        "Michael Larabel" <michael@michaellarabel.com>,
-        "Mike Rapoport" <rppt@kernel.org>,
-        "Oliver Upton" <oliver.upton@linux.dev>,
-        "Paul Mackerras" <paulus@ozlabs.org>,
-        "Peter Xu" <peterx@redhat.com>,
-        "Sean Christopherson" <seanjc@google.com>,
-        "Steven Rostedt" <rostedt@goodmis.org>,
-        "Suzuki K Poulose" <suzuki.poulose@arm.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Thomas Huth" <thuth@redhat.com>, "Will Deacon" <will@kernel.org>,
-        "Zenghui Yu" <yuzenghui@huawei.com>, <kvmarm@lists.linux.dev>,
-        <kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linuxppc-dev@lists.ozlabs.org>,
-        <linux-trace-kernel@vger.kernel.org>, <x86@kernel.org>,
-        <linux-mm@google.com>
-Subject: Re: [PATCH mm-unstable v2 07/10] kvm/powerpc: add
- kvm_arch_test_clear_young()
-X-Mailer: aerc 0.14.0
-References: <20230526234435.662652-1-yuzhao@google.com>
- <20230526234435.662652-8-yuzhao@google.com>
- <CTHB6A4EL3IH.3UJFAJ4LV85X6@wheely>
- <CAOUHufaEpyXjr-zPRXRsGdiJV9ZDo2qxA32swcJ30=7Nmyg3vQ@mail.gmail.com>
-In-Reply-To: <CAOUHufaEpyXjr-zPRXRsGdiJV9ZDo2qxA32swcJ30=7Nmyg3vQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed Jun 21, 2023 at 10:38 AM AEST, Yu Zhao wrote:
-> On Tue, Jun 20, 2023 at 1:48=E2=80=AFAM Nicholas Piggin <npiggin@gmail.co=
-m> wrote:
-> >
-> > On Sat May 27, 2023 at 9:44 AM AEST, Yu Zhao wrote:
-> > > Implement kvm_arch_test_clear_young() to support the fast path in
-> > > mmu_notifier_ops->test_clear_young().
-> > >
-> > > It focuses on a simple case, i.e., radix MMU sets the accessed bit in
-> > > KVM PTEs and VMs are not nested, where it can rely on RCU and
-> > > pte_xchg() to safely clear the accessed bit without taking
-> > > kvm->mmu_lock. Complex cases fall back to the existing slow path
-> > > where kvm->mmu_lock is then taken.
-> > >
-> > > Signed-off-by: Yu Zhao <yuzhao@google.com>
-> > > ---
-> > >  arch/powerpc/include/asm/kvm_host.h    |  8 ++++
-> > >  arch/powerpc/include/asm/kvm_ppc.h     |  1 +
-> > >  arch/powerpc/kvm/book3s.c              |  6 +++
-> > >  arch/powerpc/kvm/book3s.h              |  1 +
-> > >  arch/powerpc/kvm/book3s_64_mmu_radix.c | 59 ++++++++++++++++++++++++=
-++
-> > >  arch/powerpc/kvm/book3s_hv.c           |  5 +++
-> > >  6 files changed, 80 insertions(+)
-> > >
-> > > diff --git a/arch/powerpc/include/asm/kvm_host.h b/arch/powerpc/inclu=
-de/asm/kvm_host.h
-> > > index 14ee0dece853..75c260ea8a9e 100644
-> > > --- a/arch/powerpc/include/asm/kvm_host.h
-> > > +++ b/arch/powerpc/include/asm/kvm_host.h
-> > > @@ -883,4 +883,12 @@ static inline void kvm_arch_sched_in(struct kvm_=
-vcpu *vcpu, int cpu) {}
-> > >  static inline void kvm_arch_vcpu_blocking(struct kvm_vcpu *vcpu) {}
-> > >  static inline void kvm_arch_vcpu_unblocking(struct kvm_vcpu *vcpu) {=
-}
-> > >
-> > > +#define kvm_arch_has_test_clear_young kvm_arch_has_test_clear_young
-> > > +static inline bool kvm_arch_has_test_clear_young(void)
-> > > +{
-> > > +     return IS_ENABLED(CONFIG_KVM_BOOK3S_HV_POSSIBLE) &&
-> > > +            cpu_has_feature(CPU_FTR_HVMODE) && cpu_has_feature(CPU_F=
-TR_ARCH_300) &&
-> > > +            radix_enabled();
-> >
-> > This could probably be radix_enabled() && !kvmhv_on_pseries().
->
-> Will do. (I used !kvmhv_on_pseries() in v1 but had second thoughts on
-> moving kvmhv_on_pseries() into this file.)
 
-That should be okay. kvmhv_on_pseries is a property of the host so it
-seems reasonable to move it here if needed.
 
-> > Although unclear why not nested hypervisor... I'd have to think about i=
-t a bit
-> > more. Do you have any idea what might go wrong, or just didn't have the
-> > time to consider it? (Not just powerpc nested but any others).
->
-> Yes, this series excludes nested KVM support on all architures. The
-> common reason for such a decision on powerpc and x86 (aarch64 doesn't
-> support nested yet) is that it's quite challenging to make the rmap, a
-> complex data structure that maps one PFN to multiple GFNs, lockless.
-> (See kvmhv_insert_nest_rmap().) It might be possible, however, the
-> potential ROI would be in question.
+在 2023/6/21 上午3:04, Namhyung Kim 写道:
+> Hello,
+> 
+> On Tue, Jun 20, 2023 at 12:17 AM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
+>>
+>> Hi all,
+>>
+>> I add an identifier sysfs file for the yitian710 SoC DDR to allow
+>> userspace to identify the specific implementation of the device,
+>> so that the perf tool can match the corresponding uncore events and
+>> metrics through the identifier. Then added yitian710 SoC DDR
+>> metrics and events alias.
+>>
+>> Change since v3:
+>> - Split the CMN and ali_drw patches. This patchset only contains
+>>   ali_drw PMU related patches. The CMN metric related patches will
+>>   be in another patchset.
+>> - Link: https://lore.kernel.org/all/1685438374-33287-1-git-send-email-renyu.zj@linux.alibaba.com/
+>>
+>> $perf list:
+>> ...
+>> ali_drw:
+>>   chi_rxdat
+>>        [A packet at CHI RXDAT interface (write data). Unit: ali_drw]
+>>   chi_rxrsp
+>>        [A packet at CHI RXRSP interface. Unit: ali_drw]
+>>   chi_txdat
+>>        [A packet at CHI TXDAT interface (read data). Unit: ali_drw]
+>>   chi_txreq
+>>        [A packet at CHI TXREQ interface (request). Unit: ali_drw]
+>>   cycle
+>>        [The ddr cycle. Unit: ali_drw]
+>> ...
+>> ali_drw:
+>>   ddr_read_bandwidth.all
+>>        [The ddr read bandwidth(MB/s). Unit: ali_drw ]
+>>   ddr_write_bandwidth.all
+>>        [The ddr write bandwidth(MB/s). Unit: ali_drw ]
+>> ...
+>>
+>> $perf stat -M ddr_read_bandwidth.all ./test
+>>
+>> Performance counter stats for 'system wide':
+>>
+>>             38,150      hif_rd        #  2.4 MB/s  ddr_read_bandwidth.all
+>>      1,000,957,941 ns   duration_time
+>>
+>>        1.000957941 seconds time elapsed
+>>
+>> Jing Zhang (4):
+>>   driver/perf: Add identifier sysfs file for Yitian 710 DDR
+>>   perf jevents: Add support for Yitian 710 DDR PMU aliasing
+>>   perf vendor events: Add JSON metrics for Yitian 710 DDR
+>>   docs: perf: Update metric usage for Alibaba's T-Head PMU driver
+> 
+> So patch 1 is for the kernel, and patch 2-4 depend on it, right?
+> 
 
-Okay just wondering. rmap (at least the powerpc one) is just a list
-I think, with a few details. If that is all it is, it might not be
-so hard to make that lock-free or a fine-grained lock on the rmap
-chains maybe. But fine to ignore it to start with.
+Hi Namhyung,
 
-> > > +}
-> > > +
-> > >  #endif /* __POWERPC_KVM_HOST_H__ */
-> > > diff --git a/arch/powerpc/include/asm/kvm_ppc.h b/arch/powerpc/includ=
-e/asm/kvm_ppc.h
-> > > index 79a9c0bb8bba..ff1af6a7b44f 100644
-> > > --- a/arch/powerpc/include/asm/kvm_ppc.h
-> > > +++ b/arch/powerpc/include/asm/kvm_ppc.h
-> > > @@ -287,6 +287,7 @@ struct kvmppc_ops {
-> > >       bool (*unmap_gfn_range)(struct kvm *kvm, struct kvm_gfn_range *=
-range);
-> > >       bool (*age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
-> > >       bool (*test_age_gfn)(struct kvm *kvm, struct kvm_gfn_range *ran=
-ge);
-> > > +     bool (*test_clear_young)(struct kvm *kvm, struct kvm_gfn_range =
-*range);
-> > >       bool (*set_spte_gfn)(struct kvm *kvm, struct kvm_gfn_range *ran=
-ge);
-> > >       void (*free_memslot)(struct kvm_memory_slot *slot);
-> > >       int (*init_vm)(struct kvm *kvm);
-> > > diff --git a/arch/powerpc/kvm/book3s.c b/arch/powerpc/kvm/book3s.c
-> > > index 686d8d9eda3e..37bf40b0c4ff 100644
-> > > --- a/arch/powerpc/kvm/book3s.c
-> > > +++ b/arch/powerpc/kvm/book3s.c
-> > > @@ -899,6 +899,12 @@ bool kvm_test_age_gfn(struct kvm *kvm, struct kv=
-m_gfn_range *range)
-> > >       return kvm->arch.kvm_ops->test_age_gfn(kvm, range);
-> > >  }
-> > >
-> > > +bool kvm_arch_test_clear_young(struct kvm *kvm, struct kvm_gfn_range=
- *range)
-> > > +{
-> > > +     return !kvm->arch.kvm_ops->test_clear_young ||
-> > > +            kvm->arch.kvm_ops->test_clear_young(kvm, range);
-> > > +}
-> > > +
-> > >  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
-> > >  {
-> > >       return kvm->arch.kvm_ops->set_spte_gfn(kvm, range);
-> > > diff --git a/arch/powerpc/kvm/book3s.h b/arch/powerpc/kvm/book3s.h
-> > > index 58391b4b32ed..fa2659e21ccc 100644
-> > > --- a/arch/powerpc/kvm/book3s.h
-> > > +++ b/arch/powerpc/kvm/book3s.h
-> > > @@ -12,6 +12,7 @@ extern void kvmppc_core_flush_memslot_hv(struct kvm=
- *kvm,
-> > >  extern bool kvm_unmap_gfn_range_hv(struct kvm *kvm, struct kvm_gfn_r=
-ange *range);
-> > >  extern bool kvm_age_gfn_hv(struct kvm *kvm, struct kvm_gfn_range *ra=
-nge);
-> > >  extern bool kvm_test_age_gfn_hv(struct kvm *kvm, struct kvm_gfn_rang=
-e *range);
-> > > +extern bool kvm_test_clear_young_hv(struct kvm *kvm, struct kvm_gfn_=
-range *range);
-> > >  extern bool kvm_set_spte_gfn_hv(struct kvm *kvm, struct kvm_gfn_rang=
-e *range);
-> > >
-> > >  extern int kvmppc_mmu_init_pr(struct kvm_vcpu *vcpu);
-> > > diff --git a/arch/powerpc/kvm/book3s_64_mmu_radix.c b/arch/powerpc/kv=
-m/book3s_64_mmu_radix.c
-> > > index 3b65b3b11041..0a392e9a100a 100644
-> > > --- a/arch/powerpc/kvm/book3s_64_mmu_radix.c
-> > > +++ b/arch/powerpc/kvm/book3s_64_mmu_radix.c
-> > > @@ -1088,6 +1088,65 @@ bool kvm_test_age_radix(struct kvm *kvm, struc=
-t kvm_memory_slot *memslot,
-> > >       return ref;
-> > >  }
-> > >
-> > > +bool kvm_test_clear_young_hv(struct kvm *kvm, struct kvm_gfn_range *=
-range)
-> > > +{
-> > > +     bool err;
-> > > +     gfn_t gfn =3D range->start;
-> > > +
-> > > +     rcu_read_lock();
-> > > +
-> > > +     err =3D !kvm_is_radix(kvm);
-> > > +     if (err)
-> > > +             goto unlock;
-> > > +
-> > > +     /*
-> > > +      * Case 1:  This function          kvmppc_switch_mmu_to_hpt()
-> > > +      *
-> > > +      *          rcu_read_lock()
-> > > +      *          Test kvm_is_radix()    kvm->arch.radix =3D 0
-> > > +      *          Use kvm->arch.pgtable  synchronize_rcu()
-> > > +      *          rcu_read_unlock()
-> > > +      *                                 kvmppc_free_radix()
-> > > +      *
-> > > +      *
-> > > +      * Case 2:  This function          kvmppc_switch_mmu_to_radix()
-> > > +      *
-> > > +      *                                 kvmppc_init_vm_radix()
-> > > +      *                                 smp_wmb()
-> > > +      *          Test kvm_is_radix()    kvm->arch.radix =3D 1
-> > > +      *          smp_rmb()
-> > > +      *          Use kvm->arch.pgtable
-> > > +      */
-> > > +     smp_rmb();
-> >
-> > Comment could stand to expand slightly on what you are solving, in
-> > words.
->
-> Will do.
->
-> > If you use synchronize_rcu() on both sides, you wouldn't need the
-> > barrier, right?
->
-> Case 2 is about memory ordering, which is orthogonal to case 1 (RCU
-> freeing). So we need the r/w barrier regardless.
+Yes, patch 2-4 depend on patch 1.
 
-RCU can take care of memory ordering too though. If you had
-synchronize_rcu() where smp_wmb() is, then no smp_rmb() neeed here.
+> I'm curious why the first patch is needed, presumably the PMU
+> should have 'ali_drw' in the name already.  Do we use substring
+> match for the compat name in the JSON metric?
+> 
 
->
-> > > +     while (gfn < range->end) {
-> > > +             pte_t *ptep;
-> > > +             pte_t old, new;
-> > > +             unsigned int shift;
-> > > +
-> > > +             ptep =3D find_kvm_secondary_pte_unlocked(kvm, gfn * PAG=
-E_SIZE, &shift);
-> > > +             if (!ptep)
-> > > +                     goto next;
-> > > +
-> > > +             VM_WARN_ON_ONCE(!page_count(virt_to_page(ptep)));
-> >
-> > Not really appropriate at the KVM level. mm enforces this kind of
-> > thing (with notifiers).
->
-> Will remove this.
->
-> > > +
-> > > +             old =3D READ_ONCE(*ptep);
-> > > +             if (!pte_present(old) || !pte_young(old))
-> > > +                     goto next;
-> > > +
-> > > +             new =3D pte_mkold(old);
-> > > +
-> > > +             if (kvm_should_clear_young(range, gfn))
-> > > +                     pte_xchg(ptep, old, new);
-> >
-> > *Probably* will work. I can't think of a reason why not at the
-> > moment anyway :)
->
-> My reasoning:
-> * It should work if we only change the dedicated A bit, i.e., not
-> shared for other purposes, because races are safe (the case here).
-> * It may not work for x86 EPT without the A bit (excluded in this
-> series) where accesses are trapped by the R/X bits, because races in
-> changing the R/X bits can be unsafe.
+The main purpose of patch 1 is to add an identifier so that the Compat
+field can match the corresponding event when defining aliases or metrics
+for events.
 
-(For the benefit of others reading, it works because powerpc's pte_xchg
-is actually a cmpxchg, for some reason which we really should fix).
-Although it can fail to clear the bit if the cmpxchg fails.
-
-I think pte_xchg is only used on with hash MMU in Linux before this
-change. I think we may want to keep it that way and use something
-like kvmppc_radix_update_pte() here to clear out the bit. But don't
-worry too much about fine details so much before sorting out the
-core changes I will have a better look after that.
+For example, "Unit" can match "ali_drw" in the name and different SoCs may
+be able to match ali_drw, but they may have different events, and even if
+the events are the same, the meanings may be different. Therefore, the
+Compat field is needed to match the Identifier to confirm which type and
+revision of PMU the current SoC has. Therefore, both "Unit" and "Compat"
+need to be matched at the same time. Although it seems that ali_drw is
+redundantly matched currently, it is meaningful for future expansion.
 
 Thanks,
-Nick
+Jing
+
+> Thanks,
+> Namhyung
+> 
+>>
+>>  Documentation/admin-guide/perf/alibaba_pmu.rst     |   5 +
+>>  drivers/perf/alibaba_uncore_drw_pmu.c              |  27 ++
+>>  .../arm64/freescale/yitian710/sys/ali_drw.json     | 373 +++++++++++++++++++++
+>>  .../arm64/freescale/yitian710/sys/metrics.json     |  20 ++
+>>  tools/perf/pmu-events/jevents.py                   |   1 +
+>>  5 files changed, 426 insertions(+)
+>>  create mode 100644 tools/perf/pmu-events/arch/arm64/freescale/yitian710/sys/ali_drw.json
+>>  create mode 100644 tools/perf/pmu-events/arch/arm64/freescale/yitian710/sys/metrics.json
+>>
+>> --
+>> 1.8.3.1
+>>
