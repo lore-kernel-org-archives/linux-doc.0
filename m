@@ -2,110 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA605EB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 09:41:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34C68EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 10:01:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232022AbjFUJlx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 05:41:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43908 "EHLO
+        id S231952AbjFUKBC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 06:01:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232008AbjFUJlO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 05:41:14 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 959031BF0
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 02:40:33 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-5702415be17so49875777b3.2
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 02:40:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687340433; x=1689932433;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gybbZJh87t3Qbe/MI3uBbaP9SdOn3CjaNUEl9acnWiU=;
-        b=LMsWpjK/zwBZNA1C5SJA9i5BdNGjDeTVa2OgQLr/7lE4liaOh5aUKAM7KRFsGokN8A
-         dm8Zr0tt2azGKtuRNawsivTN9vPbiUN9S4IHK7njdo7Kut7rp9jW7k2fntYJ1XCXFUNE
-         B9RGljUqsGrDN2R+e43B6gpPxoySxfiXM6dQI=
+        with ESMTP id S232164AbjFUKAg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 06:00:36 -0400
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30EEFA3
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 03:00:32 -0700 (PDT)
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 045DF413A7
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 10:00:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1687341631;
+        bh=AWRzGH6ZSf0xboDPPn0o1FV8eJ+EiIwoZtGC1w36Sx4=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=nqu1JkirYUkOEdGHVEhH/aR0NNjp1f1qbE/AEXuI2JVp0Kn0OU6gJQh2NjUNqVOwg
+         wYKXfkFLrezQcc2P2DUQvghcBeZ6xutsm4ivyP/d5rdQDt/vhk+0SDU8fTvIFDiFai
+         L7E5SptSUmUemuEwrZ7lOTgx00s0lLTmmo7ObKyaVcPGzN6EMwSVvXfdJaCYTzIbQZ
+         c2LBrvKmrhWpxryAI+UelJhUPc0CKANWfQO3MPIU+PhB6OdwFsdZdxrt0pz7iBk3KJ
+         Z/asdnlM08lbG7IoQR2aoqVY0lvJd6vGyApocjXOMMrMMO/lY4Ggb9ALv6wbkKmAuV
+         x2Sltm+2heCDg==
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-31275d62506so1117283f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 03:00:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687340433; x=1689932433;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gybbZJh87t3Qbe/MI3uBbaP9SdOn3CjaNUEl9acnWiU=;
-        b=fruhTftpsstK1Mieb1Pfgyj6KuiVm5N6KMo994qZjOPrZ0uIB7dBGK2p3j2Ifb2zch
-         gT4ktuHuo1XSXEXZ8zdAAamhjaD0VNjaPGKLk0GMSOD4FOXZ9CfgHmIPXLeFFEavZ7js
-         RXFayBY4qMp3HgJY2hbGr7oER9LovAV4E2Ff4loPphQw4FMSeN/hg3IsTTqHtm/DZ2HH
-         xiRWALvevN5n87aNYtVJL6+lzho9vuRv38LtNCso1+7+Q+vyjuYhnzztCyy/1k45yhzt
-         B7G+waCusgfvAx0AKexaZCOrer6hMDnGXZfNpVGDwBRmqseuzhlFXnXvi9bLwRvN4ljV
-         qeQQ==
-X-Gm-Message-State: AC+VfDzK63BAEHX1Kk3Jdku5tOy9AmGr51PWAPPw7ysOCdapqXod/lvk
-        Xbj1/Xbzm1gu6EUfIJ/l34pXXGWhsvHXg5sujdzISQ==
-X-Google-Smtp-Source: ACHHUZ6Xo6f+HdwrjmUZ92VYxxeamu+uiO1MAEKtWfZVchSbMrG/0dyJ7p/uTcOURmMpfhQ1An4kwnDTzD4qwozqoag=
-X-Received: by 2002:a0d:eb89:0:b0:56d:3d83:15cb with SMTP id
- u131-20020a0deb89000000b0056d3d8315cbmr13588007ywe.44.1687340432773; Wed, 21
- Jun 2023 02:40:32 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687341630; x=1689933630;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AWRzGH6ZSf0xboDPPn0o1FV8eJ+EiIwoZtGC1w36Sx4=;
+        b=ZQO4eR77Cw1sr2eSiBL8Qyy2+ilM9VtSb/0tshZRtJE9/lQ2yBGiD7qNuivJdnLv9m
+         icocpXIHCWmsljOcRL4V99ueUU5AqNhK9+ZrjBKnSxApqB637+AjpjCOT1yrMIB7EPYT
+         YXJOUI7Ozg3oj49Upw0Nn3+/PA3FoiDE+9j8+LNGyQybjTxEVnsTCgJDBfrdsslrNfDJ
+         WhKMuCqXAcjWzCGB29HwaWJswRiqdZQCHp+p9dnRZMgWSCov+Auicr94SF8CHgZa2dmH
+         vnXI7dbEXmRPbeXvBF1WQP3lPLTwC6xBJKtthgytx5dm9bPCr44cDEwRKEY00edlY5kG
+         aeBg==
+X-Gm-Message-State: AC+VfDwFEwdcNB1WzyS/+oajsnI4B125hbfwoCVCev7c9tUUbdhJGoaW
+        IYrFlx5byiOMVDWU76CFyKNDune8rwBr/c+8+vI8/YuLhWjok/oP19596U7ZwdZl6T1cjA01x0E
+        GooYFyGv+0rGAArwtZp6w/8oFbSUKJiXkH/VGDw==
+X-Received: by 2002:a5d:6ad1:0:b0:311:18ce:152b with SMTP id u17-20020a5d6ad1000000b0031118ce152bmr9508845wrw.61.1687341630631;
+        Wed, 21 Jun 2023 03:00:30 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6oq+fIPGFA+sWLn7jvMuxe5Lvalcwkqv7UzsK6f+Iq0Y+CIzxjFvRPS+Xk+lXhEcKckC55vw==
+X-Received: by 2002:a5d:6ad1:0:b0:311:18ce:152b with SMTP id u17-20020a5d6ad1000000b0031118ce152bmr9508830wrw.61.1687341630348;
+        Wed, 21 Jun 2023 03:00:30 -0700 (PDT)
+Received: from amikhalitsyn.local (dslb-002-205-064-187.002.205.pools.vodafone-ip.de. [2.205.64.187])
+        by smtp.gmail.com with ESMTPSA id o10-20020a5d58ca000000b003111fd2e33dsm4024427wrf.30.2023.06.21.03.00.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 03:00:29 -0700 (PDT)
+From:   Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+To:     brauner@kernel.org
+Cc:     linux-fsdevel@vger.kernel.org,
+        Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Seth Forshee <sforshee@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: filesystems: idmappings: clarify from where idmappings are taken
+Date:   Wed, 21 Jun 2023 11:59:05 +0200
+Message-Id: <20230621095905.31346-1-aleksandr.mikhalitsyn@canonical.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230620151328.1637569-1-keiichiw@chromium.org>
- <20230620151328.1637569-3-keiichiw@chromium.org> <CAJfpegton83boLEL7n-Tf6ON4Nq_g2=mTus7vhX2n0C+yuUC4w@mail.gmail.com>
- <CADgJSGGDeu_dPduBuK7N324oJ9641VKv2+fAVAbDY=-itsFjEQ@mail.gmail.com> <CAJfpegtNjAELur_AtqiGdO6LJRDyT+WQ1UKtG-o=Em0rAhOKMg@mail.gmail.com>
-In-Reply-To: <CAJfpegtNjAELur_AtqiGdO6LJRDyT+WQ1UKtG-o=Em0rAhOKMg@mail.gmail.com>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Wed, 21 Jun 2023 18:40:21 +0900
-Message-ID: <CAD90VcZeoagh7a-0qA1SudJ3v53fvyr7t2iwGx_+dnAL7M=jnw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] fuse: Add negative_dentry_timeout option
-To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     =?UTF-8?B?SnVuaWNoaSBVZWthd2EgKOS4iuW3nee0lOS4gCk=?= 
-        <uekawa@google.com>, LKML <linux-kernel@vger.kernel.org>,
-        mhiramat@google.com, takayas@chromium.org, drosen@google.com,
-        sarthakkukreti@google.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 1:07=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu> =
-wrote:
->
-> On Wed, 21 Jun 2023 at 00:53, Junichi Uekawa (=E4=B8=8A=E5=B7=9D=E7=B4=94=
-=E4=B8=80) <uekawa@google.com> wrote:
-> >
-> > Hi
-> >
-> >
-> >
-> > 2023=E5=B9=B46=E6=9C=8821=E6=97=A5(=E6=B0=B4) 4:28 Miklos Szeredi <mikl=
-os@szeredi.hu>:
-> >>
-> >> On Tue, 20 Jun 2023 at 17:14, Keiichi Watanabe <keiichiw@chromium.org>=
- wrote:
-> >> >
-> >> > Add `negative_dentry_timeout` mount option for FUSE to cache negativ=
-e
-> >> > dentries for the specified duration.
-> >>
-> >> This is already possible, no kernel changes needed.  See e.g.
-> >> xmp_init() in libfuse/example/passthrough.c.
-> >>
-> >
-> > Thank you for the pointer!
-> >
-> > So reading libfuse/fuse.c, fuse_lib_lookup does a reply with e.ino=3D0 =
-err=3D0 (instead of ENOENT) with e.entry_timeout=3Dnegative_timeout,
-> > for each lookup (and there's no global configuration but that's okay) ?
->
-> Yes.
+Let's clarify from where we take idmapping of each type:
+- caller
+- filesystem
+- mount
 
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+---
+ Documentation/filesystems/idmappings.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Oh, good to know!
-I could make it work in our VMM (crosvm) without any kernel changes.
-https://crrev.com/c/4630879
-Thanks a lot!
+diff --git a/Documentation/filesystems/idmappings.rst b/Documentation/filesystems/idmappings.rst
+index ad6d21640576..c20382f8bbb0 100644
+--- a/Documentation/filesystems/idmappings.rst
++++ b/Documentation/filesystems/idmappings.rst
+@@ -373,6 +373,12 @@ kernel maps the caller's userspace id down into a kernel id according to the
+ caller's idmapping and then maps that kernel id up according to the
+ filesystem's idmapping.
+ 
++From the implementation point it's worth mentioning how idmappings are represented.
++All idmappings are taken from the corresponding user namespace.
++    - caller's idmapping (usually taken from ``current_user_ns()``)
++    - filesystem's idmapping (``sb->s_user_ns``)
++    - mount's idmapping (``mnt_idmap(vfsmnt)``)
++
+ Let's see some examples with caller/filesystem idmapping but without mount
+ idmappings. This will exhibit some problems we can hit. After that we will
+ revisit/reconsider these examples, this time using mount idmappings, to see how
+-- 
+2.34.1
 
-Keiichi
-
-
->
->
-> Thanks,
-> Miklos
