@@ -2,87 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB66EB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 13:24:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29994EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 14:08:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbjFUNYF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 09:24:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53542 "EHLO
+        id S231698AbjFUOIv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 10:08:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232454AbjFUNYF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 09:24:05 -0400
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C296A1998
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 06:24:02 -0700 (PDT)
-Received: by mail-oi1-x22e.google.com with SMTP id 5614622812f47-394c7ba4cb5so3875364b6e.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 06:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1687353842; x=1689945842;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=77CFlz9TwTlFk4rL1YgfbwtxFKs8v8egG44k3ujctUA=;
-        b=nS+b/5jq1z/kJRNoTiGqfITeO9WumeN0/hxEkI3nJmhBtVGi7RrqXd38ZpzgTxueCa
-         lbMAVL2eOyH9YyV2kmMGsoA8xQvaZgzzk/DpMzoFiS9UF/29fnC5iBa7XuRvByH3uzsG
-         PZZgCqoKOJ9Hm1sbwvk+Y9GmnK3Ky0/acfzVlMci13auc9cel0QMWuNg6Fb/45DkPwCS
-         pMij/4KxN1fqQMUReWO4g9YowdUsD1vaP8wZPPto12tCemohGPgVJNrUdsCz8vQ9bXqm
-         JEsuqVsZKYtFTZfqRrCE12MI0pOyc5v1fEJC6YHBfxJpRZnPLEVCzDtqMfjbaISe7Dvl
-         uxHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687353842; x=1689945842;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=77CFlz9TwTlFk4rL1YgfbwtxFKs8v8egG44k3ujctUA=;
-        b=OKEMRpgBtp58WcBJri8xZ33m6IuMUEFxeowXvoYiiAYV/UCbdqQUbJJeD2f5yenu4W
-         n83SSqXB2O1PURWFYUMP8jgDIXHfT0Bxs0Et/IZYmV4l9dxQV2IuKY7D87epjTjMmBlX
-         sce/O/MJ6iTIm3sk8rViTxSMwWPxNW4wNXVOI8XUGmDSbIZ+19fdvGZraRe8pJImIkEW
-         PETGvazLc/k4mxw5Y2dM9YT2dJEDEG8EgN1JO0vJgAG46Yb0UbEpBUZTl1wRvCPEa7X9
-         Lqk/wKB1LTVScY3whQH408QWPhEns+jOrkpW0ICLC3xcKlIrtEEsEEtHKOHGDT/xbGQA
-         Sr8w==
-X-Gm-Message-State: AC+VfDw/1ChtR3p6zGAAXP5S2aA1Xmb7i1dI5pi3RuOxL1Izv/QDKSiW
-        Xlr9POz+8mscmt4bUHaNGkdxBA==
-X-Google-Smtp-Source: ACHHUZ5EvsYYC1aM28L+BhJdSyRInfskfoYHS088kDZqSOW9v6mvhxzADB2/cRIPZkyCiRr0Tv+QTA==
-X-Received: by 2002:a05:6808:2088:b0:39e:dfd7:162 with SMTP id s8-20020a056808208800b0039edfd70162mr9144606oiw.31.1687353842147;
-        Wed, 21 Jun 2023 06:24:02 -0700 (PDT)
-Received: from sunil-laptop ([106.51.184.72])
-        by smtp.gmail.com with ESMTPSA id y19-20020a63b513000000b0053423447a12sm3091162pge.73.2023.06.21.06.23.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jun 2023 06:24:01 -0700 (PDT)
-Date:   Wed, 21 Jun 2023 18:53:54 +0530
-From:   Sunil V L <sunilvl@ventanamicro.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Song Shuai <songshuaishuai@tinylab.org>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>
-Subject: Re: [PATCH v2 2/3] Documentation: riscv: Add early boot document
-Message-ID: <ZJL56kehoYJm1g2q@sunil-laptop>
-References: <20230621072234.9900-1-alexghiti@rivosinc.com>
- <20230621072234.9900-2-alexghiti@rivosinc.com>
+        with ESMTP id S230416AbjFUOIu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 10:08:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE5C718C;
+        Wed, 21 Jun 2023 07:08:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 507E76153B;
+        Wed, 21 Jun 2023 14:08:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06C49C433CB;
+        Wed, 21 Jun 2023 14:08:47 +0000 (UTC)
+Date:   Wed, 21 Jun 2023 10:08:45 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Finn Thain <fthain@linux-m68k.org>
+Cc:     Theodore Ts'o <tytso@mit.edu>, linux-doc@vger.kernel.org,
+        tech-board-discuss@lists.linux-foundation.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Tech-board-discuss] [PATCH] Documentation: Linux Contribution
+ Maturity Model and the wider community
+Message-ID: <20230621100845.12588f48@gandalf.local.home>
+In-Reply-To: <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
+References: <20230620212502.GI286961@mit.edu>
+        <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230621072234.9900-2-alexghiti@rivosinc.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 09:22:33AM +0200, Alexandre Ghiti wrote:
-> This document describes the constraints and requirements of the early
-> boot process in a RISC-V kernel.
+On Wed, 21 Jun 2023 11:51:19 +1000 (AEST)
+Finn Thain <fthain@linux-m68k.org> wrote:
+
+> - Maintainers should be "automating themselves out of a job" to whatever 
+>   extent this is possible.  git is a good example of this, as is all of 
+>   the tooling and workflow automation that grew out of that (e.g. gitlab).
+
+I agree with the above statement.
+
 > 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
-> ---
+>   Because the Linux project is structured as a heirarchy, I think Linus 
+>   and senior maintainers have a crucial role here. I don't think it's a 
+>   co-incidence that git was the brainchild of the top maintainer.
 
-Reviewed-by: Sunil V L <sunilvl@ventanamicro.com>
+True.
 
-Thanks!
-Sunil
+> 
+>   Making the maintainer role more lucrative will provide a disincentive 
+>   for more automation (with or without level 5 performance reviews) unless 
+>   remuneration is tied to metrics that reflect maintainer effectiveness.
+
+I'm not sure I totally understand your point above. I do not think that
+making the maintainer role more lucrative provides a disincentive for more
+automation. I'm constantly trying to add more automation to my process.
+That's why I created ktest.pl, and constantly fiddling with patchwork to
+get patch state automatically updated when things move from different
+branches and git trees.
+
+If your point is mainly the second part of that paragraph, which is to tie
+in metrics to reflect maintainer effectiveness, then I think I agree with
+you there. One metric is simply the time a patch is ignored by a
+maintainer on a mailing list (where the maintainer is Cc'd and it is
+obvious the patch belongs to their subsystem). I know I fail at that,
+especially when my work is pushing me to focus on other things.
+
+-- Steve
