@@ -2,157 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F3C6EB64D8
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 01:55:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFBCEB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 02:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbjFUBz3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 21:55:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37466 "EHLO
+        id S229690AbjFUC07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 22:26:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjFUBz2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 21:55:28 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4938D1989;
-        Tue, 20 Jun 2023 18:55:27 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2b44eddb52dso78037141fa.3;
-        Tue, 20 Jun 2023 18:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687312525; x=1689904525;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wz+JcRD5iqUFNC0O0Ru60ZgS8tD+DjfgbMM6b7JgDDE=;
-        b=I4Xks4H0f9hjuiTto0xGg2qYpfM1NZn0dyFE3RFSgjOTxwdHLkw2aJFM6SQ4UPOBl2
-         dNK6TDWAZALS3CRzxzO+dpAo1U9mCItEUs562QTVmbmesDW2NSyCOoPgJOgoYQAz7I81
-         HLw63JGcQ4kMncWwX/yetxeXc4t9tZnic1kQbgvD1AUCJKn28T1HFnucS8Q2s7Nx+DQZ
-         f8U5MS+CPM3LZ1R10maFt1FXao1Rfu9UuLwRlmRiKcyG4Eu87O2mrDltGfJ0J9bBeZ4/
-         piitDPizcx0RsJDQqHWespeaFg6I0iuKgvJ4MSz6hINYPHYT0FU7ayv5Ygm+4xicdr1J
-         wVig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687312525; x=1689904525;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wz+JcRD5iqUFNC0O0Ru60ZgS8tD+DjfgbMM6b7JgDDE=;
-        b=W129HB9FhH5JNVs2scLt/rhx90qKLPViGO6DBe41xDon9XwqS8mec8sPsB6uDq0hyg
-         SRFM4Cw/gk/lVF2yrFCbuO4jod/A2WvJ9HZpCvsO+VsJGwa3ox4Qvmp2vHH2vcfWSuru
-         oXw8xoBBRIpF4Af5sogZ2A1LCPnyMXO40R6Bu3e817SR8OIGORaiQc9QqQ5JsdZbXAt0
-         edCKuUZRRzqYLxU/rjBfRhqNw73p8W0Zv+EVn+oamrloET8d34bPJ+9FO1U0jD92dEFU
-         GlnPPApK6NIeQqi53/B6uLBA2X058FW0pdti1d04306KCKivqt4Eov3cqOIGWvZ52SjA
-         vJ0g==
-X-Gm-Message-State: AC+VfDzKfRRcYEh9t4LA5zxCJZ2boj+NtFSZdjRzcvY6k4/wuNU38Sr+
-        pev1OvekFBHF+XbPkDZ1kLu/NsndCiVsFsSvYmA=
-X-Google-Smtp-Source: ACHHUZ6wY9wkDAsQKF4/pJB6A70/338sp9DCerB/qo1fiLgVSLjXYq0d7uPy8bn+2oY5S0+fhyThzcL/uGhJOGcqvb4=
-X-Received: by 2002:a05:6512:1cd:b0:4f9:573a:689d with SMTP id
- f13-20020a05651201cd00b004f9573a689dmr610014lfp.37.1687312525203; Tue, 20 Jun
- 2023 18:55:25 -0700 (PDT)
+        with ESMTP id S229490AbjFUC06 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 22:26:58 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 759C4B4;
+        Tue, 20 Jun 2023 19:26:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687314417; x=1718850417;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EoAhUS47E9izYuucHbuu0d9aZFBnVw73UJlUamg3hvE=;
+  b=fjj6ndaV2lMaW+rySiUGJ0MJRLJABKhwJgWcwd+Zcf39pxv9UUvX3gA+
+   3INuHgIIeeAmHfkDMIMx5MF31dd+3qzaR3MCnZD6C8lX7dK2KPIOQsnKg
+   HP+dT9qxLhUD8KqkIca8iqOA0Qt3tJabWZqBZ+JDS7Rg/qEwkf6LbE4IR
+   qCxdaHHIsw13g6F1YReo9lWeYQNtDOexA1UCUYV3wK7fyneNTAW6ytsPo
+   GF2g2yXhXBaqXgcyI4xQ5TDv1KhbHVNMIWxVZH2xn7J4SRkJnBFecMoU+
+   T5iZhnm8Qll8lD+sZTTTtdYkaWa0ibdrahxtGOyOCY0G2Duf+hiLnL26z
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="362584507"
+X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
+   d="scan'208";a="362584507"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 19:26:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="779670492"
+X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
+   d="scan'208";a="779670492"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 20 Jun 2023 19:26:52 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qBnYZ-0006Sg-1R;
+        Wed, 21 Jun 2023 02:26:51 +0000
+Date:   Wed, 21 Jun 2023 10:26:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
+        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
+        corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+        nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+        Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v5 09/14] drm/nouveau: fence: separate fence
+ alloc and emit
+Message-ID: <202306211017.r9G5NqSc-lkp@intel.com>
+References: <20230620004217.4700-10-dakr@redhat.com>
 MIME-Version: 1.0
-References: <cover.1686275310.git.haibo1.xu@intel.com> <8cd4ce50f5f4a639f4508085959aae222d4d4386.1686275310.git.haibo1.xu@intel.com>
- <20230609-fba04b424a4d46574e04e587@orel> <CAJve8okjRZEt6_6SB9EWm+6c7utpExzenfWo2T1N-J6G9w9czQ@mail.gmail.com>
- <20230620-95ce8ab70956a72b9da3a31a@orel>
-In-Reply-To: <20230620-95ce8ab70956a72b9da3a31a@orel>
-From:   Haibo Xu <xiaobo55x@gmail.com>
-Date:   Wed, 21 Jun 2023 09:55:13 +0800
-Message-ID: <CAJve8onNFfHFcvAGkbtnxjzqgfq4geL1zOwJEc8Xzc=NHVDrFg@mail.gmail.com>
-Subject: Re: [PATCH v3 10/10] KVM: riscv: selftests: Add get-reg-list test
-To:     Andrew Jones <ajones@ventanamicro.com>
-Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
-        oliver.upton@linux.dev, seanjc@google.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Ben Gardon <bgardon@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230620004217.4700-10-dakr@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 20, 2023 at 6:44=E2=80=AFPM Andrew Jones <ajones@ventanamicro.c=
-om> wrote:
->
-> On Tue, Jun 20, 2023 at 06:05:59PM +0800, Haibo Xu wrote:
-> > On Fri, Jun 9, 2023 at 9:35=E2=80=AFPM Andrew Jones <ajones@ventanamicr=
-o.com> wrote:
-> > >
-> > > On Fri, Jun 09, 2023 at 10:12:18AM +0800, Haibo Xu wrote:
-> > > > +static struct vcpu_reg_list aia_config =3D {
-> > > > +     .sublists =3D {
-> > > > +     BASE_SUBLIST,
-> > > > +     AIA_REGS_SUBLIST,
-> > > > +     {0},
-> > > > +     },
-> > > > +};
-> > > > +
-> > > > +static struct vcpu_reg_list fp_f_d_config =3D {
-> > > > +     .sublists =3D {
-> > > > +     BASE_SUBLIST,
-> > > > +     FP_F_REGS_SUBLIST,
-> > > > +     FP_D_REGS_SUBLIST,
-> > > > +     {0},
-> > > > +     },
-> > > > +};
-> > > > +
-> > > > +struct vcpu_reg_list *vcpu_configs[] =3D {
-> > > > +     &zicbo_config,
-> > > > +     &aia_config,
-> > > > +     &fp_f_d_config,
-> > > > +};
-> > > > +int vcpu_configs_n =3D ARRAY_SIZE(vcpu_configs);
-> > > > --
-> > > > 2.34.1
-> > > >
-> > >
-> > > I see we have a bit of a problem with the configs for riscv. Since we
-> > > don't disable anything we're not testing, then for any test that is
-> > > missing, for example, the f and d registers, we'll get output like
-> > > "There are 66 new registers. Consider adding them to the blessed reg
-> > > list with the following lines:" and then a dump of all the f and d
-> > > registers. The test doesn't fail, but it's messy and confusing. Ideal=
-ly
-> > > we'd disable all registers of all sublists not in the config, probabl=
-y
-> > > by starting by disabling everything and then only reenabling the ones
-> > > in the config.
-> > >
-> > > Anything that can't be disabled is either a KVM bug, i.e. we should
-> > > be able to disable it, because we can't expect every host to have it,
-> > > or it needs to be in the base register sublist (meaning every host
-> > > will always have it).
-> > >
-> >
-> > HI Andrew,
-> >
-> > I found several multi-letters ISA EXT(AIA/SSTC etc) were not allowed
-> > to be disabled.
-> > Is it a bug? shall we fix it=EF=BC=9F
->
-> Extensions that a guest could use (regardless of whether or not the host
-> described it in the guest's isa string), because the instructions or CSR
-> accesses don't trap, can't truly be disabled. So, it's not a bug to
-> prohibit disabling them and indeed the test cases should actually ensure
-> disabling them fails.
->
+Hi Danilo,
 
-So these kinds of ISA_EXT_* regs should be in the base reg list, right?
+kernel test robot noticed the following build errors:
 
-Thanks,
-Haibo
+[auto build test ERROR on 2222dcb0775d36de28992f56455ab3967b30d380]
 
-> Thanks,
-> drew
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230620-084448
+base:   2222dcb0775d36de28992f56455ab3967b30d380
+patch link:    https://lore.kernel.org/r/20230620004217.4700-10-dakr%40redhat.com
+patch subject: [PATCH drm-next v5 09/14] drm/nouveau: fence: separate fence alloc and emit
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230621/202306211017.r9G5NqSc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211017.r9G5NqSc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306211017.r9G5NqSc-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_chunk':
+>> drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: error: 'chunk' undeclared (first use in this function)
+     681 |                 nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+         |                                           ^~~~~
+   drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/chunk +681 drivers/gpu/drm/nouveau/nouveau_dmem.c
+
+   664	
+   665	static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
+   666			struct nouveau_svmm *svmm, struct migrate_vma *args,
+   667			dma_addr_t *dma_addrs, u64 *pfns)
+   668	{
+   669		struct nouveau_fence *fence;
+   670		unsigned long addr = args->start, nr_dma = 0, i;
+   671	
+   672		for (i = 0; addr < args->end; i++) {
+   673			args->dst[i] = nouveau_dmem_migrate_copy_one(drm, svmm,
+   674					args->src[i], dma_addrs + nr_dma, pfns + i);
+   675			if (!dma_mapping_error(drm->dev->dev, dma_addrs[nr_dma]))
+   676				nr_dma++;
+   677			addr += PAGE_SIZE;
+   678		}
+   679	
+   680		if (!nouveau_fence_new(&fence))
+ > 681			nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+   682		migrate_vma_pages(args);
+   683		nouveau_dmem_fence_done(&fence);
+   684		nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
+   685	
+   686		while (nr_dma--) {
+   687			dma_unmap_page(drm->dev->dev, dma_addrs[nr_dma], PAGE_SIZE,
+   688					DMA_BIDIRECTIONAL);
+   689		}
+   690		migrate_vma_finalize(args);
+   691	}
+   692	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
