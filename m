@@ -2,80 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29994EB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 14:08:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D308AEB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 15:18:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231698AbjFUOIv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 10:08:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55872 "EHLO
+        id S232855AbjFUPSf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 11:18:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230416AbjFUOIu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 10:08:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE5C718C;
-        Wed, 21 Jun 2023 07:08:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S231262AbjFUPSR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 11:18:17 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C62782D74;
+        Wed, 21 Jun 2023 08:14:35 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 507E76153B;
-        Wed, 21 Jun 2023 14:08:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06C49C433CB;
-        Wed, 21 Jun 2023 14:08:47 +0000 (UTC)
-Date:   Wed, 21 Jun 2023 10:08:45 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Finn Thain <fthain@linux-m68k.org>
-Cc:     Theodore Ts'o <tytso@mit.edu>, linux-doc@vger.kernel.org,
-        tech-board-discuss@lists.linux-foundation.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Tech-board-discuss] [PATCH] Documentation: Linux Contribution
- Maturity Model and the wider community
-Message-ID: <20230621100845.12588f48@gandalf.local.home>
-In-Reply-To: <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
-References: <20230620212502.GI286961@mit.edu>
-        <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        by ms.lwn.net (Postfix) with ESMTPSA id 4C0C72AE;
+        Wed, 21 Jun 2023 15:14:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4C0C72AE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1687360475; bh=PFxuX8mago3vl0Qcs3OhzDNVkxupOWWwKCpDkAT9oYo=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=krXsQ9dug4yuevYapGka33Nal5zBrnrDkqPNvU96V638wP5Ike8YE4fgjp2HxulQs
+         jtor4PV1fPxkx4qQe5IBYZ72MmrzZiPSqHhGgOFousdOjshqrehri5h/amiU+V/Hvd
+         i3R+1vnmQLtvFjyX4BadDuuH/raElYCIG6KgNZfTrsOwItr4Y1DcVq8bOsb8Ms9eNc
+         +JAb8f5pC49IhxCEMLwNaKAdF7mPDWjWYlotYq21WvP/9qKAKVsBhOJeNqhsWloTUE
+         StRM8X5Wzo+nr4SjueMe62VOkQvadWfwEi7DlhNY/wU5QX09wdLvfqOOwbX4/Vz/d8
+         P7NkfRb2/60kg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Rong Tao <rtoax@foxmail.com>
+Cc:     rongtao@cestc.cn,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Andi Kleen <ak@linux.intel.com>
+Subject: Re: [PATCH] docs: trace: Convert decode_msr.py print syntax to python3
+In-Reply-To: <tencent_6142CF595B97172A46AF02A34D885D060108@qq.com>
+References: <tencent_6142CF595B97172A46AF02A34D885D060108@qq.com>
+Date:   Wed, 21 Jun 2023 09:14:34 -0600
+Message-ID: <877crwrgo5.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 21 Jun 2023 11:51:19 +1000 (AEST)
-Finn Thain <fthain@linux-m68k.org> wrote:
+[Adding Andi]
 
-> - Maintainers should be "automating themselves out of a job" to whatever 
->   extent this is possible.  git is a good example of this, as is all of 
->   the tooling and workflow automation that grew out of that (e.g. gitlab).
+Rong Tao <rtoax@foxmail.com> writes:
 
-I agree with the above statement.
+> From: Rong Tao <rongtao@cestc.cn>
+>
+> Convert the decode_msr.py file to python3 to solve the following running
+> errors:
+>
+>     File "Documentation/trace/postprocess/decode_msr.py", line 35
+>         print j,
+>              ^
+>     SyntaxError: Missing parentheses in call to 'print'. Did you mean
+>     print(j, end=" ")?
+>
+> Signed-off-by: Rong Tao <rongtao@cestc.cn>
+> ---
+>  Documentation/trace/postprocess/decode_msr.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/trace/postprocess/decode_msr.py b/Documentation/trace/postprocess/decode_msr.py
+> index aa9cc7abd5c2..2d45d6c14987 100644
+> --- a/Documentation/trace/postprocess/decode_msr.py
+> +++ b/Documentation/trace/postprocess/decode_msr.py
+> @@ -32,6 +32,6 @@ for j in sys.stdin:
+>  					break
+>  		if r:
+>  			j = j.replace(" " + m.group(2), " " + r + "(" + m.group(2) + ")")
+> -	print j,
+> +	print(j + ",")
 
-> 
->   Because the Linux project is structured as a heirarchy, I think Linus 
->   and senior maintainers have a crucial role here. I don't think it's a 
->   co-incidence that git was the brainchild of the top maintainer.
+So I certainly have no problem applying this.  But it occurs to me that
+this file hasn't been touched since it was added in 2015, and nobody has
+complained that it doesn't work with modern Python.  That leads me to
+wonder if it's being used at all.
 
-True.
+Assuming that there is value in keeping it, I wonder if a move to
+samples/ might make sense?
 
-> 
->   Making the maintainer role more lucrative will provide a disincentive 
->   for more automation (with or without level 5 performance reviews) unless 
->   remuneration is tied to metrics that reflect maintainer effectiveness.
+Thanks,
 
-I'm not sure I totally understand your point above. I do not think that
-making the maintainer role more lucrative provides a disincentive for more
-automation. I'm constantly trying to add more automation to my process.
-That's why I created ktest.pl, and constantly fiddling with patchwork to
-get patch state automatically updated when things move from different
-branches and git trees.
-
-If your point is mainly the second part of that paragraph, which is to tie
-in metrics to reflect maintainer effectiveness, then I think I agree with
-you there. One metric is simply the time a patch is ignored by a
-maintainer on a mailing list (where the maintainer is Cc'd and it is
-obvious the patch belongs to their subsystem). I know I fail at that,
-especially when my work is pushing me to focus on other things.
-
--- Steve
+jon
