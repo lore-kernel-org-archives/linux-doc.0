@@ -2,83 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA6CEB64D8
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 12:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28285EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 13:07:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbjFUMlL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 08:41:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57352 "EHLO
+        id S232244AbjFUNHs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 09:07:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbjFUMlK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 08:41:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7529B;
-        Wed, 21 Jun 2023 05:41:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D206961565;
-        Wed, 21 Jun 2023 12:41:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C71C433C0;
-        Wed, 21 Jun 2023 12:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1687351268;
-        bh=DZSExkiX6hNfOHTfdDuzGK8ZdCX4lnUUnK2J7dMOUyg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MP6ON4LX5x1YO+jm9xe37M2+BR0KvVuOFIetp+vJFmVGqCmlGqCSC2ECcGFcMPpeH
-         UCe95/ErbIS0rbfNZGWuouXPuzHTGHFAv/Y+b95SsJYv+wUfV6j+g0nKsNQ8+WfYHj
-         O1gsGvmN88YOgxyq7cTUrTlmJa3Ey0ChiqEY6t9Q=
-Date:   Wed, 21 Jun 2023 14:41:03 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Finn Thain <fthain@linux-m68k.org>
-Cc:     Theodore Ts'o <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>,
-        tech-board-discuss@lists.linux-foundation.org,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and the
- wider community
-Message-ID: <2023062144-hefty-why-305d@gregkh>
-References: <20230620212502.GI286961@mit.edu>
- <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
+        with ESMTP id S232102AbjFUNHr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 09:07:47 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 287271997
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 06:07:45 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3094910b150so5975554f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 06:07:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687352863; x=1689944863;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TU5pe+asCSSBXdxRD62Pc73zx7uMR0rLSJrHUbp5re0=;
+        b=CkUcMHVR+Z8yWrVCs3aa+R3jQV4jFsz4M5P2+9ftWZgzt/db2V9KrQOJMxJ11GhMwT
+         hAUWMvFrEi/d7CfH6HI+KC5ld9dLAWsTabouLLOzs9dkdlrE7FpQ4f2msqpavhbA422u
+         Cuix2KNbn4SkOv7AgpXv5F+qCn68JKCtGu+8+yEDR5xIpJogQEKUIBdi70OV5u40ETay
+         PH4+qljOaIEG09l2kO/O5FKZplJPDhwdInH3YBc7tz5gLDA/1FS6JieSn676ZDAHvUVq
+         9/0iAliOIzsBAlDf0OM3844UB/cUR0YMJAZTe+YI30MfMoVxhr94NC9haKVShpVdLDCu
+         ng4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687352863; x=1689944863;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TU5pe+asCSSBXdxRD62Pc73zx7uMR0rLSJrHUbp5re0=;
+        b=cLmJ1UMRoYkhyqvQ+RCKohKfKWw3LhyCuvA0pJbYhFWiJqGnE536hOMVmaR2Xvh0DM
+         4hUI6GAfqVrE/bE2dSb4QTNKFZ6bje7oAEh5Kqrt7Xf2sqe9YfmhF+X+Ro1rioePbkOg
+         SPHK1pyGg7sV6jkd8cdQLIc2tqdJtMUv0UgXLia6THfHiAqDa5suROooDKtNEN7RDOrA
+         UNJPCONR6umD96n4UMQXN9kF/owlMozIDeQU7Nfnco8uPiLPduXR1FnfVd6hFrhufNl9
+         0hTT+6ED1uIUCDQ80SgbImQZruVEJQV5BqA5mywN+KZYSwhnb5VMqNOdRXWEpE/xq0or
+         ReYw==
+X-Gm-Message-State: AC+VfDxB/sa4SLD/lLl+yVLO8ih4Tn8V8McCUpI0vqD/p2p5TpZcRCcG
+        mnc44KIR9m5dXKwF6oDIAyEfiA==
+X-Google-Smtp-Source: ACHHUZ4DJdasIxxt0P5VQ3mJXiKww1/aS5p50nS9gK+lncj65MULR6+GXjSyIdfexJKVJjvw3OKC9Q==
+X-Received: by 2002:adf:fe48:0:b0:311:10c0:85f0 with SMTP id m8-20020adffe48000000b0031110c085f0mr12540283wrs.14.1687352863404;
+        Wed, 21 Jun 2023 06:07:43 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id f7-20020adff8c7000000b0030e6096afb6sm4453467wrq.12.2023.06.21.06.07.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 06:07:42 -0700 (PDT)
+Date:   Wed, 21 Jun 2023 15:07:41 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Petr Oros <poros@redhat.com>
+Cc:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+        kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
+        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
+        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, mschmidt@redhat.com,
+        linux-clk@vger.kernel.org, vadim.fedorenko@linux.dev
+Subject: Re: [RFC PATCH v8 04/10] dpll: netlink: Add DPLL framework base
+ functions
+Message-ID: <ZJL2HUkAtHEw5rq+@nanopsycho>
+References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+ <20230609121853.3607724-5-arkadiusz.kubalewski@intel.com>
+ <c7480d0a71fb8d62108624878f549c0d91d4c9e6.camel@redhat.com>
+ <ZJLktA6RJaVo3BdH@nanopsycho>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZJLktA6RJaVo3BdH@nanopsycho>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 11:51:19AM +1000, Finn Thain wrote:
-> > You appear to have a very different model of how non-profits might 
-> > approach the Linux kernel --- could you go into more detail about why 
-> > they might want to contribute to the Linux kernel, and how we might 
-> > encourage them to contribute more engineering effort?
-> > 
-> 
-> Sure. Here's a recent example, in which a not-for-profit volunteer might 
-> have been granted an opportunity to work upstream: 
-> https://lore.kernel.org/all/129c9d5e-213a-80c9-092e-dc1dcf38ae3e@linux-m68k.org/
-> 
-> The driver in question may may not be commercially viable, but that 
-> doesn't matter, if the intention is to foster new maintainers and increase 
-> the talent pool. And the problem ostensibly being addressed in the Linux 
-> Contributor Maturity Model is a shortage of maintainers.
+Wed, Jun 21, 2023 at 01:53:24PM CEST, jiri@resnulli.us wrote:
+>Wed, Jun 21, 2023 at 01:18:59PM CEST, poros@redhat.com wrote:
+>>Arkadiusz Kubalewski píše v Pá 09. 06. 2023 v 14:18 +0200:
+>>> From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+>
+>[...]
+>
+>Could you perhaps cut out the text you don't comment? Saves some time
+>finding your reply.
+>
+>
+>>> +static int
+>>> +dpll_set_from_nlattr(struct dpll_device *dpll, struct genl_info
+>>> *info)
+>>> +{
+>>> +       const struct dpll_device_ops *ops = dpll_device_ops(dpll);
+>>> +       struct nlattr *tb[DPLL_A_MAX + 1];
+>>> +       int ret = 0;
+>>> +
+>>> +       nla_parse(tb, DPLL_A_MAX, genlmsg_data(info->genlhdr),
+>>> +                 genlmsg_len(info->genlhdr), NULL, info->extack);
+>>> +       if (tb[DPLL_A_MODE]) {
+>>Hi,
+>>
+>>Here should be something like:
+>>               if (!ops->mode_set)
+>>                       return -EOPNOTSUPP;
+>
+>Why? All drivers implement that.
+>I believe that it's actullaly better that way. For a called setting up
+>the same mode it is the dpll in, there should be 0 return by the driver.
+>Note that driver holds this value. I'd like to keep this code as it is.
 
-I would NEVER recommend ANYONE picking up obsolete hardware and trying
-to get it to work to maintain the driver if NO ONE is actually using the
-stuff.  That should not be for a not-for-profit to maintain as
-obviously, no one uses it.
+Actually, you are correct Petr, my mistake. Actually, no driver
+implements this. Arkadiusz, could you please remove this op and
+possibly any other unused  op? It will be added when needed.
 
-It's up to those that need/use the code to help maintain it, don't ask
-not-for-profit groups to maintain and support code that no one uses,
-that's a sure way to waste resources all around.
+Thanks!
 
-So that's a good example of how our ecosystem works properly, if no one
-needs the code, it gets dropped.  Don't ask for it to come back without
-real users who are invested in it please.
 
-thanks,
-
-greg k-h
+>
+>[...]
