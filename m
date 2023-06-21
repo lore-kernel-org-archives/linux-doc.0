@@ -2,199 +2,205 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6562DEB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 08:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAABEB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 09:18:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231305AbjFUIpd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 04:45:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37878 "EHLO
+        id S229864AbjFUJSp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 05:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231272AbjFUIpd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 04:45:33 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B85110FB;
-        Wed, 21 Jun 2023 01:45:31 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b46f5f4d79so46838161fa.1;
-        Wed, 21 Jun 2023 01:45:31 -0700 (PDT)
+        with ESMTP id S229758AbjFUJSo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 05:18:44 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A764D1B4
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 02:18:43 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1b51488ad67so29317725ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jun 2023 02:18:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687337130; x=1689929130;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lYIw9zUPZWZ2o+QN5fG2PRt2gO03dubW8fyBAMQKZLE=;
-        b=qCW19/pbsOnWIPKRDK74psGxSYvuSBgLbZKbYaLkXRj8HGXRWFkCqN6ysyA2wMI1sJ
-         M6Hu+XCvThIRolfER9vvD7qSoYNTz3tVirW3vUlmab7wwpnKgtxoVWzjEA1w75vgmdaC
-         zPZiauwtpHfapncsJTrYOmxGzcTKOZaIAI7qf6hWfpPBVAjNDBCSVIswVtTQsbrFTdUl
-         vFZJP+LgHa3YlMETckvBWqL7D/wG/w+eIHVRbEMh11gqKkTNQiU0QhPhQP0VVbyp7fAf
-         nZLmNVSvaQsw2l3vcfsWOUqoXgQ083lQn7APLu//1YLpw8Mb+mOvlFL8bvKE3ftwMG16
-         VEhQ==
+        d=ventanamicro.com; s=google; t=1687339123; x=1689931123;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=pB2kKOyXmNJk2e2QsKOkbUZlQ9krtQWymG1tqTKND7M=;
+        b=JEl+WD8TxC8kp5VqXUE8dKNh2/i7vnWvgiUcocUBtcvkMYbkJ/3i/v1xwcQI/dnAYD
+         OocJ0aboXF1NcZDeOK+0y/eEiy2dSnUKH8qOOzAKez+JCw7tFekIKtwqCFhRfiNAKlLt
+         q5+gV8VlyclcWMQHTWua5wpsF/9nEXJZj/nZagINJw6yXeij1vuicd7+vVmeUoHRt4If
+         bnBpQ8XUnXOkoLSp2bYEahv6V/k4PyCu7yOSZCqc7nu5EzRWafvELH50E9xAkYQwv7Jn
+         SJe9vOVGMBBXv8+yJMdaxMtks4idFDRhUSiJN05C/KeQ6BdmEBhTcbqL7PropsMzaMpq
+         pqbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687337130; x=1689929130;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lYIw9zUPZWZ2o+QN5fG2PRt2gO03dubW8fyBAMQKZLE=;
-        b=QqcytLAYl9EFFd2/hevw5HWtgV+zHVK/AQgN9muL4ZINVGwKY9slPNotM2M+GysoIg
-         emP+CcwDgIKpacgNatH7rZ2G2U8hDoS4LrgQzySp5cSsClXKPd//GEiq2ehEMzudH16t
-         127K5bE6dEODZJwOUvKfTQpjjXIocaFeMhRj6SF/xj4hs61VNWczN0+CgOsCO3QGmWog
-         0zI2ZbNJDVqPYnolkRKCBFtyk25jXWc6GBy+H5oWopOoDJ/jfmuFtKNp9x6Kv2A41CSj
-         AxtfuIhtz6Cj9G0ZWqkqDl61IuXfuxvk3d2cALkLIUFblvhdoyxH8fypeO7E4qy/SiDm
-         7c2A==
-X-Gm-Message-State: AC+VfDwuicd/jg6woSKWWAY07A2xuo19P1L+qsCs8t/nRMe8xOAOG/gl
-        xjlnQNev6rzAGxCJhGTE5ZevarruYc8ThST/L78=
-X-Google-Smtp-Source: ACHHUZ4BrKigQscUYyAgK2m2X7YOR2aGI6Htk1A+97xpwtjx/lbr6R6ahZTgONsoUBJEA53I5JDdW30GyqH39ENS4FU=
-X-Received: by 2002:a05:651c:10b0:b0:2b4:7910:36a3 with SMTP id
- k16-20020a05651c10b000b002b4791036a3mr3026730ljn.0.1687337129513; Wed, 21 Jun
- 2023 01:45:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1686275310.git.haibo1.xu@intel.com> <8cd4ce50f5f4a639f4508085959aae222d4d4386.1686275310.git.haibo1.xu@intel.com>
- <20230609-fba04b424a4d46574e04e587@orel> <CAJve8okjRZEt6_6SB9EWm+6c7utpExzenfWo2T1N-J6G9w9czQ@mail.gmail.com>
- <20230620-95ce8ab70956a72b9da3a31a@orel> <CAJve8onNFfHFcvAGkbtnxjzqgfq4geL1zOwJEc8Xzc=NHVDrFg@mail.gmail.com>
- <20230621-37ea9461250036cc2ec8c544@orel>
-In-Reply-To: <20230621-37ea9461250036cc2ec8c544@orel>
-From:   Haibo Xu <xiaobo55x@gmail.com>
-Date:   Wed, 21 Jun 2023 16:45:18 +0800
-Message-ID: <CAJve8omtMhHvH1huOanu+UfsJLZxGnFs6=pnuZzGvm1O1wbw+g@mail.gmail.com>
-Subject: Re: [PATCH v3 10/10] KVM: riscv: selftests: Add get-reg-list test
-To:     Andrew Jones <ajones@ventanamicro.com>
-Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
-        oliver.upton@linux.dev, seanjc@google.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        d=1e100.net; s=20221208; t=1687339123; x=1689931123;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pB2kKOyXmNJk2e2QsKOkbUZlQ9krtQWymG1tqTKND7M=;
+        b=MRl1jjDuW7c3rtsbtAUotS4v5m1rZyp4Epw5meqrgN0mrJScfPHfwklD/Jr3zCjURR
+         HH5Twn2+V1oBtsyXV9VFy+HSQQLo++A2zLzLgvtUElA01SmQ3L6U3suuFmbPOz7yb10e
+         K6axykvGtq63lN/9UCYwr5VSr81d0E7XYtWNODG7MIlcO/4S4ZF7Nd8Xf03or2sO3xN5
+         4el1sg8HvZbDUK5E0pZ8RaW2Mrwybg/P0MIgVf8OEsA2s8Rgvo39Xz4uk4eSRBkUWBSW
+         oNzIXnx61ncCl5Am2lN6Gu3hwK3I3V+Axl2EJOW9Yyd2+5hx4Mv/y8koYTP0h2mQR8nY
+         gbgw==
+X-Gm-Message-State: AC+VfDzZqhD3O1M+AejWN+hmg1J2Rj5Vi+QECIzlmJqP5HeB6fHnrAKO
+        68DE+tmGsXbZ0VtQjFfjbSnsMQ==
+X-Google-Smtp-Source: ACHHUZ7Lr9AUWR6pAzVAfNdiplGzzD94FoKQ4yBkZgab3ADs+Jo6JR2/ENdEGi0ao1yboNbI01pSuQ==
+X-Received: by 2002:a17:902:ce91:b0:1b6:8f1f:fc8d with SMTP id f17-20020a170902ce9100b001b68f1ffc8dmr2804577plg.0.1687339123052;
+        Wed, 21 Jun 2023 02:18:43 -0700 (PDT)
+Received: from sunil-laptop ([106.51.184.72])
+        by smtp.gmail.com with ESMTPSA id n21-20020a170902969500b001ab1b7bae5asm3007337plp.184.2023.06.21.02.18.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 02:18:42 -0700 (PDT)
+Date:   Wed, 21 Jun 2023 14:48:35 +0530
+From:   Sunil V L <sunilvl@ventanamicro.com>
+To:     Song Shuai <songshuaishuai@tinylab.org>
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Ben Gardon <bgardon@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Conor Dooley <conor.dooley@microchip.com>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>
+Subject: Re: [PATCH v2 2/3] Documentation: riscv: Add early boot document
+Message-ID: <ZJLAa5AdJfHNJyPv@sunil-laptop>
+References: <20230621072234.9900-1-alexghiti@rivosinc.com>
+ <20230621072234.9900-2-alexghiti@rivosinc.com>
+ <131BBACE35371733+d5902eda-c4ea-b74d-a17c-70fd1a166b6f@tinylab.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <131BBACE35371733+d5902eda-c4ea-b74d-a17c-70fd1a166b6f@tinylab.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 3:30=E2=80=AFPM Andrew Jones <ajones@ventanamicro.c=
-om> wrote:
->
-> On Wed, Jun 21, 2023 at 09:55:13AM +0800, Haibo Xu wrote:
-> > On Tue, Jun 20, 2023 at 6:44=E2=80=AFPM Andrew Jones <ajones@ventanamic=
-ro.com> wrote:
-> > >
-> > > On Tue, Jun 20, 2023 at 06:05:59PM +0800, Haibo Xu wrote:
-> > > > On Fri, Jun 9, 2023 at 9:35=E2=80=AFPM Andrew Jones <ajones@ventana=
-micro.com> wrote:
-> > > > >
-> > > > > On Fri, Jun 09, 2023 at 10:12:18AM +0800, Haibo Xu wrote:
-> > > > > > +static struct vcpu_reg_list aia_config =3D {
-> > > > > > +     .sublists =3D {
-> > > > > > +     BASE_SUBLIST,
-> > > > > > +     AIA_REGS_SUBLIST,
-> > > > > > +     {0},
-> > > > > > +     },
-> > > > > > +};
-> > > > > > +
-> > > > > > +static struct vcpu_reg_list fp_f_d_config =3D {
-> > > > > > +     .sublists =3D {
-> > > > > > +     BASE_SUBLIST,
-> > > > > > +     FP_F_REGS_SUBLIST,
-> > > > > > +     FP_D_REGS_SUBLIST,
-> > > > > > +     {0},
-> > > > > > +     },
-> > > > > > +};
-> > > > > > +
-> > > > > > +struct vcpu_reg_list *vcpu_configs[] =3D {
-> > > > > > +     &zicbo_config,
-> > > > > > +     &aia_config,
-> > > > > > +     &fp_f_d_config,
-> > > > > > +};
-> > > > > > +int vcpu_configs_n =3D ARRAY_SIZE(vcpu_configs);
-> > > > > > --
-> > > > > > 2.34.1
-> > > > > >
-> > > > >
-> > > > > I see we have a bit of a problem with the configs for riscv. Sinc=
-e we
-> > > > > don't disable anything we're not testing, then for any test that =
-is
-> > > > > missing, for example, the f and d registers, we'll get output lik=
-e
-> > > > > "There are 66 new registers. Consider adding them to the blessed =
-reg
-> > > > > list with the following lines:" and then a dump of all the f and =
-d
-> > > > > registers. The test doesn't fail, but it's messy and confusing. I=
-deally
-> > > > > we'd disable all registers of all sublists not in the config, pro=
-bably
-> > > > > by starting by disabling everything and then only reenabling the =
-ones
-> > > > > in the config.
-> > > > >
-> > > > > Anything that can't be disabled is either a KVM bug, i.e. we shou=
-ld
-> > > > > be able to disable it, because we can't expect every host to have=
- it,
-> > > > > or it needs to be in the base register sublist (meaning every hos=
-t
-> > > > > will always have it).
-> > > > >
-> > > >
-> > > > HI Andrew,
-> > > >
-> > > > I found several multi-letters ISA EXT(AIA/SSTC etc) were not allowe=
-d
-> > > > to be disabled.
-> > > > Is it a bug? shall we fix it=EF=BC=9F
-> > >
-> > > Extensions that a guest could use (regardless of whether or not the h=
-ost
-> > > described it in the guest's isa string), because the instructions or =
-CSR
-> > > accesses don't trap, can't truly be disabled. So, it's not a bug to
-> > > prohibit disabling them and indeed the test cases should actually ens=
-ure
-> > > disabling them fails.
-> > >
-> >
-> > So these kinds of ISA_EXT_* regs should be in the base reg list, right?
-> >
->
-> Ah, this is getting a bit messy. We don't want all these extensions in a
-> "base", which represents extensions for all possible hosts, because the
-> extensions are optional, but, we can't remove them from get-reg-list
-> output by disabling them, since they can't be disabled. It seems we
-> need the concept of "base", which is the common set expected on all hosts=
-,
-> and also the concept of "this host's base". I'm struggling to think of
-> a nice way to deal with that. A first thought is to both add these types
-> of registers to their own extension-specific sublists and to filter_reg()=
-.
-> I think that will keep them from being reported as new registers in every
-> test, but also allow detection of them going missing when they're
-> extension is present.
->
-
-Yes, I was also stuck with the mess!
-
-I was trying one way to only include `disable not allowed` regs to the
-base reg list and
-only check errno for disable(set 0) operation.
-
-I will also try your suggestion and let you know the results soon!
-
-Thanks,
-Haibo
-
-> Thanks,
-> drew
+On Wed, Jun 21, 2023 at 04:15:07PM +0800, Song Shuai wrote:
+> 
+> 
+> 在 2023/6/21 15:22, Alexandre Ghiti 写道:
+> > This document describes the constraints and requirements of the early
+> > boot process in a RISC-V kernel.
+> > 
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
+> > ---
+> >   Documentation/riscv/boot-image-header.rst |   3 -
+> >   Documentation/riscv/boot.rst              | 170 ++++++++++++++++++++++
+> >   Documentation/riscv/index.rst             |   1 +
+> >   3 files changed, 171 insertions(+), 3 deletions(-)
+> >   create mode 100644 Documentation/riscv/boot.rst
+> > 
+> > diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/riscv/boot-image-header.rst
+> > index d7752533865f..a4a45310c4c4 100644
+> > --- a/Documentation/riscv/boot-image-header.rst
+> > +++ b/Documentation/riscv/boot-image-header.rst
+> > @@ -7,9 +7,6 @@ Boot image header in RISC-V Linux
+> >   This document only describes the boot image header details for RISC-V Linux.
+> > -TODO:
+> > -  Write a complete booting guide.
+> > -
+> >   The following 64-byte header is present in decompressed Linux kernel image::
+> >   	u32 code0;		  /* Executable code */
+> > diff --git a/Documentation/riscv/boot.rst b/Documentation/riscv/boot.rst
+> > new file mode 100644
+> > index 000000000000..019ee818686d
+> > --- /dev/null
+> > +++ b/Documentation/riscv/boot.rst
+> > @@ -0,0 +1,170 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +===============================================
+> > +RISC-V Kernel Boot Requirements and Constraints
+> > +===============================================
+> > +
+> > +:Author: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > +:Date: 23 May 2023
+> > +
+> > +This document describes what the RISC-V kernel expects from bootloaders and
+> > +firmware, but also the constraints that any developer must have in mind when
+> > +touching the early boot process. For the purposes of this document, the
+> > +'early boot process' refers to any code that runs before the final virtual
+> > +mapping is set up.
+> > +
+> > +Pre-kernel Requirements and Constraints
+> > +=======================================
+> > +
+> > +The RISC-V kernel expects the following of bootloaders and platform firmware:
+> > +
+> > +Register state
+> > +--------------
+> > +
+> > +The RISC-V kernel expects:
+> > +
+> > +  * `$a0` to contain the hartid of the current core.
+> > +  * `$a1` to contain the address of the devicetree in memory.
+> > +
+> > +CSR state
+> > +---------
+> > +
+> > +The RISC-V kernel expects:
+> > +
+> > +  * `$satp = 0`: the MMU, if present, must be disabled.
+> > +
+> > +Reserved memory for resident firmware
+> > +-------------------------------------
+> > +
+> > +The RISC-V kernel must not map any resident memory, or memory protected with
+> > +PMPs, in the direct mapping, so the firmware must correctly mark those regions
+> > +as per the devicetree specification and/or the UEFI specification.
+> > +
+> > +Kernel location
+> > +---------------
+> > +
+> > +The RISC-V kernel expects to be placed at a PMD boundary (2MB aligned for rv64
+> > +and 4MB aligned for rv32). Note that the EFI stub will physically relocate the
+> > +kernel if that's not the case.
+> > +
+> > +Hardware description
+> > +--------------------
+> > +
+> > +The firmware can pass either a devicetree or ACPI tables to the RISC-V kernel.
+> > +
+> > +The devicetree is either passed directly to the kernel from the previous stage
+> > +using the `$a1` register, or when booting with UEFI, it can be passed using the
+> > +EFI configuration table.
+> > +
+> > +The ACPI tables are passed to the kernel using the EFI configuration table. In
+> > +this case, a tiny devicetree is still created by the EFI stub. Please refer to
+> > +"EFI stub and devicetree" tree section below for details about this devicetree.
+> > +
+> > +Kernel entrance
+> > +---------------
+> > +
+> > +On SMP systems, there are 2 methods to enter the kernel:
+> > +
+> > +- `RISCV_BOOT_SPINWAIT`: the firmware releases all harts in the kernel, one hart
+> > +  wins a lottery and executes the early boot code while the other harts are
+> > +  parked waiting for the initialization to finish. This method is mostly used to
+> > +  support older firmwares without SBI HSM extension and M-mode RISC-V kernel.
+> > +- `Ordered booting`: the firmware releases only one hart that will execute the
+> > +  initialization phase and then will start all other harts using the SBI HSM
+> > +  extension. The ordered booting method is the preferred booting method for
+> > +  booting the RISC-V kernel because it can support cpu hotplug and kexec.
+> > +
+> > +UEFI
+> > +----
+> > +
+> > +UEFI memory map
+> > +~~~~~~~~~~~~~~~
+> > +
+> > +When booting with UEFI, the RISC-V kernel will use only the EFI memory map to
+> > +populate the system memory.
+> > +
+> > +The UEFI firmware must parse the subnodes of the `/reserved-memory` devicetree
+> > +node and abide by the devicetree specification to convert the attributes of
+> > +those subnodes (`no-map` and `reusable`) into their correct EFI equivalent
+> > +(refer to section "3.5.4 /reserved-memory and UEFI" of the devicetree
+> > +specification v0.4-rc1).
+> append this note ?
+> 
+> Note that RISC-V edk2 diverges from the devicetree specification to declare
+> the !no-map regions as EfiReservedMemoryType instead of EfiBootServicesData.
+> > +
+Not required. It will be fixed in EDK2.
