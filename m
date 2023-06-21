@@ -2,316 +2,157 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA0BEB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 01:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F3C6EB64D8
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 01:55:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229522AbjFUBuk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Jun 2023 21:50:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36352 "EHLO
+        id S229516AbjFUBz3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Jun 2023 21:55:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbjFUBuj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 21:50:39 -0400
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C3A31728;
-        Tue, 20 Jun 2023 18:50:37 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 97CF9320096B;
-        Tue, 20 Jun 2023 21:50:33 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 20 Jun 2023 21:50:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1687312233; x=1687398633; bh=ZgGZAZR8pcors
-        v0NqKTzq6EIHsrDfCA+LpCyLAbokVE=; b=qL8iQ7mhyc5OPbgvRtO+ouPf+8S1C
-        jVDC1m02274zvr+TfF0noquCwSK3hK2B6Qrdy4FGoYaIJ8ZuquPQTLatemmGuybo
-        xHVYnz2slTvyfn/UZG9WsCNLRuEUFWgLCci92OPtsq4Dzer5TXOznxFfCd5Nu6d9
-        b1vxUV8l0BXIdKWM2tAaXB9cA2FLSwB27j82ifWQBZucO/akgrlquKFcmDSH6q3X
-        h5ezwrD9O5mrXQ6dO/b0igGoYrDPtNHjwdM/VzN7UNdE4ed8KZgc+aqSYzOoAxLq
-        HSMptL29brzZL61+Ck4wjglYBtyYOeWtx6sj2gu56eVlwnMDufvcDOZLA==
-X-ME-Sender: <xms:aFeSZIMGtfIvvtz_39Sg7um8Dxe1Q2ZpckWdaueN4Q4YWRKxYI4g_A>
-    <xme:aFeSZO-Tp90H9bEip33X9dnRV01zfgg-gG1-avO6HZYWOu0_BRSp6nxcQwPjo5AW5
-    k9x7moubvaMS6ZwwYY>
-X-ME-Received: <xmr:aFeSZPQO94jhAAZc87A63hdodu8I1ZIZmos0jBlSsAi5WqGOpn5_TxO-0A2sf8_ii_yL5JCnXzlGqv6Cxjsm3Y-m1e3oSrf-JCA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefiedghedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
-    vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
-    htthgvrhhnpefggeeilefhlefhheejjefhjeefudeujefhffetfeeivdduieeltdeludef
-    geethfenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhoshhmmhdqvgigphhlrghnrg
-    htihhonhhsrdhmugdpkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomhepfhhthhgrihhnsehlihhnuhigqdhmieekkhdroh
-    hrgh
-X-ME-Proxy: <xmx:aFeSZAsCdO7GwDcgZ7B7Sca74Dof9auMQ6FXk_JYYqrU36Kc0WP-mg>
-    <xmx:aFeSZAeFommVLDAnEMNCBLlD7eEklHHDzitdtUuCGg4SMJj7juOwEA>
-    <xmx:aFeSZE2KETMGNN8-Q50pteq2LoEzXcONcg_nb9p7F-tyH26tOTlQ4A>
-    <xmx:aVeSZFHF3Ll8qkPHqhe70In4V_WvmeT0v1GKUV_3h9exXc7vanjEng>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 20 Jun 2023 21:50:29 -0400 (EDT)
-Date:   Wed, 21 Jun 2023 11:51:19 +1000 (AEST)
-From:   Finn Thain <fthain@linux-m68k.org>
-To:     Theodore Ts'o <tytso@mit.edu>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        tech-board-discuss@lists.linux-foundation.org,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
- the wider community
-In-Reply-To: <20230620212502.GI286961@mit.edu>
-Message-ID: <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
-References: <20230620212502.GI286961@mit.edu>
+        with ESMTP id S229482AbjFUBz2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Jun 2023 21:55:28 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4938D1989;
+        Tue, 20 Jun 2023 18:55:27 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2b44eddb52dso78037141fa.3;
+        Tue, 20 Jun 2023 18:55:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687312525; x=1689904525;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wz+JcRD5iqUFNC0O0Ru60ZgS8tD+DjfgbMM6b7JgDDE=;
+        b=I4Xks4H0f9hjuiTto0xGg2qYpfM1NZn0dyFE3RFSgjOTxwdHLkw2aJFM6SQ4UPOBl2
+         dNK6TDWAZALS3CRzxzO+dpAo1U9mCItEUs562QTVmbmesDW2NSyCOoPgJOgoYQAz7I81
+         HLw63JGcQ4kMncWwX/yetxeXc4t9tZnic1kQbgvD1AUCJKn28T1HFnucS8Q2s7Nx+DQZ
+         f8U5MS+CPM3LZ1R10maFt1FXao1Rfu9UuLwRlmRiKcyG4Eu87O2mrDltGfJ0J9bBeZ4/
+         piitDPizcx0RsJDQqHWespeaFg6I0iuKgvJ4MSz6hINYPHYT0FU7ayv5Ygm+4xicdr1J
+         wVig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687312525; x=1689904525;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Wz+JcRD5iqUFNC0O0Ru60ZgS8tD+DjfgbMM6b7JgDDE=;
+        b=W129HB9FhH5JNVs2scLt/rhx90qKLPViGO6DBe41xDon9XwqS8mec8sPsB6uDq0hyg
+         SRFM4Cw/gk/lVF2yrFCbuO4jod/A2WvJ9HZpCvsO+VsJGwa3ox4Qvmp2vHH2vcfWSuru
+         oXw8xoBBRIpF4Af5sogZ2A1LCPnyMXO40R6Bu3e817SR8OIGORaiQc9QqQ5JsdZbXAt0
+         edCKuUZRRzqYLxU/rjBfRhqNw73p8W0Zv+EVn+oamrloET8d34bPJ+9FO1U0jD92dEFU
+         GlnPPApK6NIeQqi53/B6uLBA2X058FW0pdti1d04306KCKivqt4Eov3cqOIGWvZ52SjA
+         vJ0g==
+X-Gm-Message-State: AC+VfDzKfRRcYEh9t4LA5zxCJZ2boj+NtFSZdjRzcvY6k4/wuNU38Sr+
+        pev1OvekFBHF+XbPkDZ1kLu/NsndCiVsFsSvYmA=
+X-Google-Smtp-Source: ACHHUZ6wY9wkDAsQKF4/pJB6A70/338sp9DCerB/qo1fiLgVSLjXYq0d7uPy8bn+2oY5S0+fhyThzcL/uGhJOGcqvb4=
+X-Received: by 2002:a05:6512:1cd:b0:4f9:573a:689d with SMTP id
+ f13-20020a05651201cd00b004f9573a689dmr610014lfp.37.1687312525203; Tue, 20 Jun
+ 2023 18:55:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <cover.1686275310.git.haibo1.xu@intel.com> <8cd4ce50f5f4a639f4508085959aae222d4d4386.1686275310.git.haibo1.xu@intel.com>
+ <20230609-fba04b424a4d46574e04e587@orel> <CAJve8okjRZEt6_6SB9EWm+6c7utpExzenfWo2T1N-J6G9w9czQ@mail.gmail.com>
+ <20230620-95ce8ab70956a72b9da3a31a@orel>
+In-Reply-To: <20230620-95ce8ab70956a72b9da3a31a@orel>
+From:   Haibo Xu <xiaobo55x@gmail.com>
+Date:   Wed, 21 Jun 2023 09:55:13 +0800
+Message-ID: <CAJve8onNFfHFcvAGkbtnxjzqgfq4geL1zOwJEc8Xzc=NHVDrFg@mail.gmail.com>
+Subject: Re: [PATCH v3 10/10] KVM: riscv: selftests: Add get-reg-list test
+To:     Andrew Jones <ajones@ventanamicro.com>
+Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
+        oliver.upton@linux.dev, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Ben Gardon <bgardon@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 20 Jun 2023, Theodore Ts'o wrote:
+On Tue, Jun 20, 2023 at 6:44=E2=80=AFPM Andrew Jones <ajones@ventanamicro.c=
+om> wrote:
+>
+> On Tue, Jun 20, 2023 at 06:05:59PM +0800, Haibo Xu wrote:
+> > On Fri, Jun 9, 2023 at 9:35=E2=80=AFPM Andrew Jones <ajones@ventanamicr=
+o.com> wrote:
+> > >
+> > > On Fri, Jun 09, 2023 at 10:12:18AM +0800, Haibo Xu wrote:
+> > > > +static struct vcpu_reg_list aia_config =3D {
+> > > > +     .sublists =3D {
+> > > > +     BASE_SUBLIST,
+> > > > +     AIA_REGS_SUBLIST,
+> > > > +     {0},
+> > > > +     },
+> > > > +};
+> > > > +
+> > > > +static struct vcpu_reg_list fp_f_d_config =3D {
+> > > > +     .sublists =3D {
+> > > > +     BASE_SUBLIST,
+> > > > +     FP_F_REGS_SUBLIST,
+> > > > +     FP_D_REGS_SUBLIST,
+> > > > +     {0},
+> > > > +     },
+> > > > +};
+> > > > +
+> > > > +struct vcpu_reg_list *vcpu_configs[] =3D {
+> > > > +     &zicbo_config,
+> > > > +     &aia_config,
+> > > > +     &fp_f_d_config,
+> > > > +};
+> > > > +int vcpu_configs_n =3D ARRAY_SIZE(vcpu_configs);
+> > > > --
+> > > > 2.34.1
+> > > >
+> > >
+> > > I see we have a bit of a problem with the configs for riscv. Since we
+> > > don't disable anything we're not testing, then for any test that is
+> > > missing, for example, the f and d registers, we'll get output like
+> > > "There are 66 new registers. Consider adding them to the blessed reg
+> > > list with the following lines:" and then a dump of all the f and d
+> > > registers. The test doesn't fail, but it's messy and confusing. Ideal=
+ly
+> > > we'd disable all registers of all sublists not in the config, probabl=
+y
+> > > by starting by disabling everything and then only reenabling the ones
+> > > in the config.
+> > >
+> > > Anything that can't be disabled is either a KVM bug, i.e. we should
+> > > be able to disable it, because we can't expect every host to have it,
+> > > or it needs to be in the base register sublist (meaning every host
+> > > will always have it).
+> > >
+> >
+> > HI Andrew,
+> >
+> > I found several multi-letters ISA EXT(AIA/SSTC etc) were not allowed
+> > to be disabled.
+> > Is it a bug? shall we fix it=EF=BC=9F
+>
+> Extensions that a guest could use (regardless of whether or not the host
+> described it in the guest's isa string), because the instructions or CSR
+> accesses don't trap, can't truly be disabled. So, it's not a bug to
+> prohibit disabling them and indeed the test cases should actually ensure
+> disabling them fails.
+>
 
-> On Tue, Jun 20, 2023 at 01:54:23PM +1000, Finn Thain wrote:
-> > 
-> > I suspect that counting commits may be the wrong metric (I can think 
-> > of better ones).
-> 
-> As far as whether counting commits is the wrong metric, it doesn't 
-> matter if you look at lines of code changes, attendance at conferences 
-> such as the Linux Plumbers Conference, or participation on weekly 
-> subsystem calls or video conferences, it's fair to say that that the 
-> vast majority of those current developers work for companies.
-> 
+So these kinds of ISA_EXT_* regs should be in the base reg list, right?
 
-The metric I'd use would be one that considers the benefit to the wider 
-community. The proportion of developers who are on a payroll is relevant 
-to that -- inasmuchas users are customers.
+Thanks,
+Haibo
 
-In general, FLOSS users are not customers because if they could buy what 
-they wanted, they would not have to build, modify, integrate or support 
-it.
-
-> > But if that's what we have, the lack of commits from non-profit 
-> > organizations is a situation that might actually be improved by 
-> > changes like the ones I'm advocating.
-> 
-> Not only have you not provided any evidence for your thesis (which to be 
-> fair is hard since what you are positing is a hypothetical), but you 
-> haven't even provided a theory why you believe that to be true!
-> 
-
-Well, evidence is good. The literature has evidence to support the 
-effectiveness of other maturity models when put into practice in an open 
-source setting.
-
-Is there evidence to support the notion that your Linux Contributor 
-Maturity Model (in its present, unpatched form) will bring the anticipated 
-benefits, should companies choose to embrace it (and perhaps replace 
-whatever methodologies they presently use)?
-
-The technical projects under the purview of FINOS require a contributor 
-license agreement. This has historically been a difficult pill for some 
-contributors to swallow, so it's hard to imagine widespread adoption of 
-the entire FINOS methodolgy (absent some kind of leverage).
-
-AFAICT, non-profit organizations are not considered by the FINOS 
-formulation of an open source maturity model, whereas, the other open 
-source maturity models I came across when skimming the literature do 
-indeed consider those organizations.
-
-The FINOS OSMM is designed to "ensure maximum profitability" while 
-minimizing risk. 
-https://github.com/finos-labs/osmm/blob/main/docs/user/OSMM-Explanations.md
-
-> I *do* have a theory for what we've observed, which is that developers 
-> like to have food with their meals, and the amount of time and effort to 
-> do serious kernel work is significant.  And so companies are the ones 
-> who can fund the engineers which are spending a good proportion of their 
-> time working on Linux kerenl development.  These is why we see a huge 
-> amount of work from people who work for Linaro, Intel, Red Hat, Google, 
-> IBM, Nvidia, Facebook, Oracle, etc. both in terms of code contributed to 
-> the kernel, code reviews of other people's code submission, design 
-> discussions on LKML and in various "hallway track conversations" at the 
-> verious Linux conferences/workshops, etc.
-> 
-> As far as non-profit organizations are concerned, most of them have very 
-> tightly defined mission.  That mission might be mostly unrelated to the 
-> kernel, except as a customer of the kernel --- for example, the Mozilla 
-> and Eclipse Foundation --- or it might be Linux adjacent, such as "make 
-> a good distributions ala Debian, Arch, Fedora, etc."  The people at 
-> these non-profits might be volunteers (this is mostly the case for 
-> Debian), or they might be paid engineers based on the corporate 
-> sponsoprs of the non-profits (for example) or engineers who are paid by 
-> a company, but who are "on loan" to the non-profit organization (for 
-> example, in the Apache Software Foundation this is a common pattern).  
-> Either way, though, those non-profits tend to have a very tightly 
-> focused mission, and it tends not to be one which requires a large 
-> amount of kernel development.
-> 
-> You appear to have a very different model of how non-profits might 
-> approach the Linux kernel --- could you go into more detail about why 
-> they might want to contribute to the Linux kernel, and how we might 
-> encourage them to contribute more engineering effort?
-> 
-
-Sure. Here's a recent example, in which a not-for-profit volunteer might 
-have been granted an opportunity to work upstream: 
-https://lore.kernel.org/all/129c9d5e-213a-80c9-092e-dc1dcf38ae3e@linux-m68k.org/
-
-The driver in question may may not be commercially viable, but that 
-doesn't matter, if the intention is to foster new maintainers and increase 
-the talent pool. And the problem ostensibly being addressed in the Linux 
-Contributor Maturity Model is a shortage of maintainers.
-
-I don't have a magic bullet to solve that problem (which is not just a 
-Linux problem) but I'll make a few observations.
-
-- Maintainers should be "automating themselves out of a job" to whatever 
-  extent this is possible.  git is a good example of this, as is all of 
-  the tooling and workflow automation that grew out of that (e.g. gitlab).
-
-  Because the Linux project is structured as a heirarchy, I think Linus 
-  and senior maintainers have a crucial role here. I don't think it's a 
-  co-incidence that git was the brainchild of the top maintainer.
-
-  Making the maintainer role more lucrative will provide a disincentive 
-  for more automation (with or without level 5 performance reviews) unless 
-  remuneration is tied to metrics that reflect maintainer effectiveness.
-
-- The roles of maintainer and reviewer should be taught in universities at 
-  a post-graduate level to increase the talent pool.
-
-- On the whole, I don't think remuneration or training can solve the 
-  problem. I do think automation and tooling can do it.
-
-  To develop that technology, subsystem maintainers must collaborate on 
-  process, automation and tooling. That means they must remedy the 
-  balkanization that presently exists across subsystems.
-
-  I realize that experimentation and risk-taking are part of the reason 
-  why Linux is the success that it is. However, at some point, senior 
-  maintainers have to decide, for example, "the model used by subsystem A 
-  is _measurably_ better than the process used by subsystem B, so the 
-  former technique will become mandatory and then collaboratively improved 
-  upon."
-
-  So, we come back to metrics again. (As you would know, "you can't 
-  improve what you can't measure.)
-
-> > > I'm not sure how this document would "hinder collaboration" with 
-> > > non-profit organizations and individuals.  Could you say more about 
-> > > your concern regarding how this undesireable outcome would happen in 
-> > > practice?
-> > 
-> > I believe that I've now addressed this in my message to Greg.
-> 
-> Well, no, you haven't.  More below....
-> 
-> On Tue, Jun 20, 2023 at 01:48:59PM +1000, Finn Thain wrote: (in reply to 
-> Greg)
-> > 
-> > Bonuses and salaries are tied to performance reviews so the hazard 
-> > here are clear. Level 5 compels companies to seek feedback and 
-> > naturally they will seek it from companies who share their goals. You 
-> > ask too much of employees if you expect them to put aside the 
-> > corporate agendas and pursue the interests of the wider community.
-> 
-> I was a hobbyist from 1991 to 1999 (I was the first North American linux 
-> kernel developer, and at the time my day job was tech lead for the MIT 
-> KerBeros Team and I also served on the IETF Security Area Directorate 
-> and was one of the IPSEC working group chairs), and then from 1999 until 
-> present, I've worked for companies (first VA Linux Systems, then the IBM 
-> Linux Technology Cetner, and now at Google).  So I think I know 
-> something about how employees balance the needs of the Linux Kernel 
-> community and the needs of their employer.
-> 
-
-I don't mean to lecture you, Ted. I have great admiration for your 
-considerable contributions and insight. Also, I benefit from extfs every 
-day and for that I'm grateful.
-
-> > Countless lawsuits over the last few decades made it abundantly clear 
-> > that the goals of companies often diverge from those of the wider 
-> > FLOSS community.
-> > 
-> > Consider all of the open source code thrown over the wall, the binary 
-> > blobs, the binary modules, the built-in obsolescence, the devices 
-> > shipped with vulnerabilities now reduced to e-waste because they 
-> > cannot be fixed, the vendor lock-in strategies, the walled gardens, 
-> > the surveillance etc.
-> 
-> There haven't been *that* many lawsuits, and while there have been some 
-> bad actors, there have also been many, MANY examples of companies that 
-> have contributed in highly positive ways.  For example, well over a 
-> decade ago, IBM started requiring that their peripheral card suppliers 
-> (e.g., network cards, SCSI host bus adapters, etc.) that it would be a 
-> requirement that thosse companies providing those peripherals MUST have 
-> upstream Linux device drivers as a condition of the procurement 
-> contract.
-> 
-> And the more enlightened companies *do* understood that out-of-tree 
-> patches are technical debt, and to get drivers, patches, etc., upstream 
-> in the long run would save them huge amounts of effort.  So there are 
-> plenty of ways in which the meeting the goals of the FLOSS comunity is 
-> ultimately, good towards achieving the goals of for-profit companies.
-> 
-
-Indeed.
-
-> > To my jaded mind, it is obvious that such reprehensible strategies can 
-> > be advanced by co-operative employees given inducements from colluding 
-> > companies. My patch won't prevent this sort of behaviour but it does 
-> > remove a directive that would help facilitate it.
-> > 
-> > Greg, if you want to see more performance reviews, the maturity model 
-> > could compel companies to provide unsolicited feedback, instead of 
-> > seek it from an arbitrary source. Would you be amenable to a revised 
-> > patch along those lines?
-> 
-> It was never about *companies* providing unsolicited feedback, but 
-> rather the upstream Linux kerenl development community:
-> 
-> Level 4
-> =======
-> 
-> * Organizations will consider community member feedback in official 
->   performance reviews.
-> 
-> Level 5
-> =======
-> 
-> * Organizations will actively seek out community member feedback as a 
->   factor in official performance reviews.
-> 
-> I could see making this be more explicit by spelling out "upstream 
-> development community" and "regarding their upstream contributions". But 
-> I'm not sure where you thought it was about "getting *from* companies".
-> 
-
-I know that was not the intention, but I think that the incentives work 
-against the intention, and it need not be so.
-
-> The reality is that many, if not most of the key Linux kernel developer 
-> leaders are employed by companies.  And so we are quite well practiced 
-> at being able to put on our "open source leader hat" --- and explicitly 
-> telling people that this is what we are doing --- as well as being able 
-> to explain when we are relying the requirements from a particular 
-> company, usually when we are explianing what motiviated a particular 
-> code contribution.
-> 
-> So if I were asked to give a recommendation for an employee working at 
-> Company I, and I'm working at Company G, I'm perfectly capable of 
-> saying, this is what this person has done as an upstream developer, and 
-> based on her upstream contributions, you should definitely promote her.  
-> And this has actually happened, BTW.  If we could encourage more 
-> companies to sek out or accept more feedback from community members, 
-> that would certainly be a good thing.
-> 
-> Cheers,
-> 
-> 						- Ted
-> 
-> 
+> Thanks,
+> drew
