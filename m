@@ -2,275 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB0EEB64D8
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 17:15:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2272DEB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Jun 2023 17:40:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230364AbjFURPZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 13:15:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56040 "EHLO
+        id S229530AbjFURkj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Jun 2023 13:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbjFURPY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 13:15:24 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2071.outbound.protection.outlook.com [40.107.93.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAE9519A8;
-        Wed, 21 Jun 2023 10:15:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gW7jp2XbMYW9vSP2vRDd4O1rMrQlCLP8r+iDlpn4ST/FDk/nAET+1kS2PCC/xgGZhw2oFRdsl/gT44qoqzMtTaMzp6Cu1LWEtjXaC8X2mJmd727HBGYxqsJc3+4vfrk7CaCw0p0AivThQC0/Mh6mH4O/CqEAo/cDQ6d76efpKjahIr5S3J46uPN/UzL9InCKHypG/mDrpLfeDiP/b1mo9Ov/sKV4mtDodA23AuTB/NHqSsI9Gsq44LZO4LMusTDsEgG/D9kriDDEamecMrIuPdMjvEbsZg2VACM0VRLhYyZIQHj84MUnJW9WylCSyYXS4s9N6el8Eoj+AFBzwPoCGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NZBm+M0bggolSwv3g73pGj/yLC3Z9KkSu42VIVxt2tQ=;
- b=bWF+RXn8yHIsCKCCQeCeIiV2RHk5ohnmCAI2oeZHjRdhp8UDapkMgRyV5sRXi7jkr4JCGt5pxKuY5xgKj+eB9QvPGMg2TIOjtIDiBbFGuT1+RMIifZL9Dvxcb5laklomP7POvrdGuCQO+vNoF6O+UdO1/ToxLbyZMdW/+mgl95hX+1mhQjifKIaFrHr6A460bGmSzUwi3DQx6O2TEhv1stFyQIryzPmlf/4cy15L7BpDKDUXHBLVkCOHVyEW1H3NYZzzQ4byPwz1rRUNMNlKZvekUfjnKkp+BvKX0OL6ps7tHRQ713GhuZC7mn2IwvGr7AUeHvzlil6hmf8pl6eUaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NZBm+M0bggolSwv3g73pGj/yLC3Z9KkSu42VIVxt2tQ=;
- b=pSBfsmuy7P4qvqK2D7yOCNKMM9ooUYo3zyLJuOFPsmAlDrOYBnuA4WKbmXQy7GhJOlD2NScenK0jp+5G9RqL8j6FCCFRK3MtmQHNy+6YtE5UOm8QjeoqkOjUm3tBObiS8YZiavmVWg3Z86hpUW5JCdInDjDjvclDFqxP1jD08so=
-Received: from CY8PR22CA0003.namprd22.prod.outlook.com (2603:10b6:930:45::8)
- by IA0PR12MB8893.namprd12.prod.outlook.com (2603:10b6:208:484::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37; Wed, 21 Jun
- 2023 17:15:19 +0000
-Received: from CY4PEPF0000E9D1.namprd03.prod.outlook.com
- (2603:10b6:930:45:cafe::b8) by CY8PR22CA0003.outlook.office365.com
- (2603:10b6:930:45::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23 via Frontend
- Transport; Wed, 21 Jun 2023 17:15:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000E9D1.mail.protection.outlook.com (10.167.241.144) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6521.23 via Frontend Transport; Wed, 21 Jun 2023 17:15:18 +0000
-Received: from onyx-7400host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 21 Jun
- 2023 12:15:17 -0500
-From:   Avadhut Naik <avadhut.naik@amd.com>
-To:     <corbet@lwn.net>
-CC:     <linux-doc@vger.kernel.org>, <carlos.bilbao@amd.com>,
-        <linux-kernel@vger.kernel.org>, <avadnaik@amd.com>
-Subject: [PATCH v2 1/1] docs/sp_SP: Add translation of process/researcher-guidelines
-Date:   Wed, 21 Jun 2023 17:14:57 +0000
-Message-ID: <20230621171457.443362-2-avadhut.naik@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230621171457.443362-1-avadhut.naik@amd.com>
-References: <20230621171457.443362-1-avadhut.naik@amd.com>
+        with ESMTP id S229527AbjFURki (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 13:40:38 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 576A8193;
+        Wed, 21 Jun 2023 10:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687369237; x=1718905237;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zscfrxdAKvIMfClhhYxsHjBzQxOHA2lu7MZycfa8Ovc=;
+  b=f2P61yGfx7g1EHBMt8vPLEAelNTGqtjUp9uSEhbXOqkddFd+O7dE7xck
+   j6Rm57knvfoGAAD86MCxHmSDkjD6nmq5nILNkRIt78KsW2D22mjFXAivi
+   0xzcRvtxT7DvizSWD4gK8YJJ1YlqAEE2xMiVlukkAvvMgsuaQmjQfgwBN
+   MD+xyP+bK0lKPKTh1Rq4Ak1gJnemVeSoYoGI708edD22gKcmVMQmz2gX0
+   hFvMDTYoUZN540Er4piLuWQf8FoLRpfyCyoZDYL5ZhdElRSRYB5srO5+H
+   znctQ7qtR3GhmhtCtkWpz+AWXzkcr5WYo8WyX9IV8MpY3jC/J3ST8/p5L
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="359120493"
+X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
+   d="scan'208";a="359120493"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 10:40:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="779921554"
+X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
+   d="scan'208";a="779921554"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.74])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 10:40:15 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Peter Newman <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org
+Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, patches@lists.linux.dev,
+        Tony Luck <tony.luck@intel.com>
+Subject: [PATCH v2 0/7] x86/resctrl: Add support for Sub-NUMA cluster (SNC) systems
+Date:   Wed, 21 Jun 2023 10:39:59 -0700
+Message-Id: <20230621174006.42533-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D1:EE_|IA0PR12MB8893:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87a5b5c6-0761-4988-21e0-08db727b169f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4ePGOXHfjGBNEUyR4JMi4PsGok58JiMhXLwBiN+QhKctR3jnuucwmT0ZpbvKQHta37wVBp+LEFtXw2OOaJrGmuw5r2IBNYxa67Vf+ezAplYHyWudXsta4YCxFnh/IHmRUcmiaMhNbGBBmCw/sxOtNE+PCQUTX02n4/hCfX7oAqR5Rr6b9ogiH18biI3KRXtKiG83GYA83vjrU9mj8/iXt/zE+rrPsqi8WhpULTvqBx0ISd0fgVgnsLVogVkMAVVUi4tvv95Y+A6ZFfORJI0UwYZ61q3/MD3nR+Ux5xyr/IHMpKNvaEuhwj0vjxgIp7iTcxI3B5tA3i5qc7Dx1cGUBkshotxPXofKpXkHxSs++euqJBrpay3Y4m0c5vomRxjt+Y3JL4cOFnSRq4vex8vXI1YLMiGY+QZzL5IhS1seMUworEdwzkCLwPiUD7ZKHrBN99n2HsZ47xD/YrDMjdyKb/87yCxzZFb5ZjSQb6QjSKpNrfsTZjhX8F1eTwSYtByLRfw7kRTj/IkHi3OkKHee4KuqRsgSZmuzCcKO4pU9RCl+wF6uknkNyYwfdsK7wrvh7Go6GNfCl/B5AK3Gi4g/Zcd4HcahTxT1I9l2JQ9W/sTnRVmtsuG7k/pbwmvUYdk/ZpMJKcqImjxsaMtN3Y2l0QeYRk3AZRPv88EthWjZR45LtA+oF6fHROi49hz3JPmJUd6mzKy2AcSji23KepEPYDVGdMFAe6Va6u0AVxV8T6j5SdtK6PBehA0RY/hFUGmBoeUTJaUsD2PAc39wT478n8qL+QhbzC9uSGvsNE/Xrx0=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:es;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(39860400002)(396003)(346002)(451199021)(36840700001)(46966006)(40470700004)(82310400005)(6916009)(47076005)(356005)(86362001)(44832011)(70206006)(8676002)(41300700001)(70586007)(8936002)(5660300002)(316002)(81166007)(2616005)(426003)(336012)(83380400001)(36860700001)(82740400003)(66574015)(16526019)(26005)(478600001)(1076003)(6666004)(40460700003)(4326008)(966005)(54906003)(36756003)(186003)(7696005)(2906002)(40480700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2023 17:15:18.8034
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87a5b5c6-0761-4988-21e0-08db727b169f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9D1.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8893
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Avadhut Naik <Avadhut.Naik@amd.com>
+There isn't a simple hardware enumeration to indicate to software that
+a system is running with Sub-NUMA Clustering enabled.
 
-Translate Documentation/process/researcher-guidelines.rst into Spanish
+Compare the number of NUMA nodes with the number of L3 caches to calculate
+the number of Sub-NUMA nodes per L3 cache.
 
-Signed-off-by: Avadhut Naik <avadhut.naik@amd.com>
-Reviewed-By: Carlos Bilbao <carlos.bilbao@amd.com>
+When Sub-NUMA clustering mode is enabled in BIOS setup, the RMID counters
+are distributed equally between the SNC nodes within each socket.
+
+E.g. if there are 400 RMID counters, and the system is configured with
+two SNC nodes per socket, then RMID counter 0..199 are used on SNC node
+0 on the socket, and RMID counter 200..399 on SNC node 1.
+
+A model specific MSR (0xca0) can change the configuration of the RMIDs
+when SNC mode is enabled.
+
+The MSR controls the interpretation of the RMID field in the
+IA32_PQR_ASSOC MSR so that the appropriate hardware counters
+within the SNC node are updated. If reconfigured from default, RMIDs
+ are divided evenly across clusters.
+.  
+
+Also initialize a per-cpu RMID offset value. Use this
+to calculate the value to write to the IA32_QM_EVTSEL MSR when
+reading RMID event values.
+
+N.B. this works well for well-behaved NUMA applications that access
+memory predominantly from the local memory node. For applications that
+access memory across multiple nodes it may be necessary for the user
+to read counters for all SNC nodes on a socket and add the values to
+get the actual LLC occupancy or memory bandwidth. Perhaps this isn't
+all that different from applications that span across multiple sockets
+in a legacy system.
+
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+
 ---
- .../translations/sp_SP/process/index.rst      |   1 +
- .../sp_SP/process/researcher-guidelines.rst   | 152 ++++++++++++++++++
- 2 files changed, 153 insertions(+)
- create mode 100644 Documentation/translations/sp_SP/process/researcher-guidelines.rst
 
-diff --git a/Documentation/translations/sp_SP/process/index.rst b/Documentation/translations/sp_SP/process/index.rst
-index 0bdeb1eb4403..ed6851892661 100644
---- a/Documentation/translations/sp_SP/process/index.rst
-+++ b/Documentation/translations/sp_SP/process/index.rst
-@@ -20,3 +20,4 @@
-    programming-language
-    deprecated
-    adding-syscalls
-+   researcher-guidelines
-diff --git a/Documentation/translations/sp_SP/process/researcher-guidelines.rst b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-new file mode 100644
-index 000000000000..9d374c70348c
---- /dev/null
-+++ b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-@@ -0,0 +1,152 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:Original: :ref:`Documentation/process/researcher-guidelines.rst`
-+:Translator: Avadhut Naik <avadhut.naik@amd.com>
-+
-+.. _sp_researcher_guidelines:
-+
-+Directrices para Investigadores
-+++++++++++++++++++++++++++++++++
-+
-+La comunidad del kernel de Linux da la bienvenida a la investigación
-+transparente sobre el kernel de Linux, las actividades involucradas
-+en su producción, otros subproductos de su desarrollo. Linux se
-+beneficia mucho de este tipo de investigación, y la mayoría de los
-+aspectos de Linux son impulsados por investigación en una forma u otra.
-+
-+La comunidad agradece mucho si los investigadores pueden compartir
-+los hallazgos preliminares antes de hacer públicos sus resultados,
-+especialmente si tal investigación involucra seguridad. Involucrarse
-+temprano ayuda a mejorar la calidad de investigación y la capacidad
-+de Linux para mejorar a partir de ella. En cualquier caso, se recomienda
-+compartir copias de acceso abierto de la investigación publicada con
-+la comunidad.
-+
-+Este documento busca clarificar lo que la comunidad del kernel de Linux
-+considera practicas aceptables y no aceptables al llevar a cabo
-+investigación de este tipo. Por lo menos, dicha investigación y
-+actividades afines deben seguir las reglas estándar de ética de la
-+investigación. Para más información sobre la ética de la investigación
-+en general, ética en la tecnología y la investigación de las comunidades
-+de desarrolladores en particular, ver:
-+
-+
-+* `Historia de la Ética en la Investigación <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
-+* `Ética de la IEEE <https://www.ieee.org/about/ethics/index.html>`_
-+* `Perspectivas de Desarrolladores e Investigadores sobre la Ética de los Experimentos en Proyectos de Código Abierto <https://arxiv.org/pdf/2112.13217.pdf>`_
-+
-+La comunidad del kernel de Linux espera que todos los que interactúan con
-+el proyecto están participando en buena fe para mejorar Linux. La
-+investigación sobre cualquier artefacto disponible públicamente (incluido,
-+pero no limitado a código fuente) producido por la comunidad del kernel
-+de Linux es bienvenida, aunque la investigación sobre los desarrolladores
-+debe ser claramente opcional.
-+
-+La investigación pasiva que se basa completamente en fuentes disponibles
-+públicamente, incluidas las publicaciones en listas de correo públicas y
-+las contribuciones a los repositorios públicos, es claramente permitida.
-+Aunque, como con cualquier investigación, todavía se debe seguir la ética
-+estándar.
-+
-+La investigación activa sobre el comportamiento de los desarrolladores,
-+sin embargo, debe hacerse con el acuerdo explícito y la divulgación
-+completa a los desarrolladores individuales involucrados. No se puede
-+interactuar / experimentar con los desarrolladores sin consentimiento;
-+esto también es ética de investigación estándar.
-+
-+Para ayudar a aclarar: enviar parches a los desarrolladores es interactuar
-+con ellos, pero ya han dado su consentimiento para recibir contribuciones
-+en buena fe. No se ha dado consentimiento para enviar parches intencionalmente
-+defectuosos / vulnerables o contribuir con la información engañosa a las
-+discusiones. Dicha comunicación puede ser perjudicial al desarrollador (por
-+ejemplo, agotar el tiempo, el esfuerzo, y la moral) y perjudicial para el
-+proyecto al erosionar la confianza de toda la comunidad de desarrolladores en
-+el colaborador (y la organización del colaborador en conjunto), socavando
-+los esfuerzos para proporcionar reacciones constructivas a los colaboradores
-+y poniendo a los usuarios finales en riesgo de fallas de software.
-+
-+La participación en el desarrollo de Linux en sí mismo por parte de
-+investigadores, como con cualquiera, es bienvenida y alentada. La
-+investigación del código de Linux es una práctica común, especialmente
-+cuando se trata de desarrollar o ejecutar herramientas de análisis que
-+producen resultados procesables.
-+
-+Cuando se interactúa con la comunidad de desarrolladores, enviar un
-+parche ha sido tradicionalmente la mejor manera para hacer un impacto.
-+Linux ya tiene muchos errores conocidos – lo que es mucho más útil es
-+tener soluciones verificadas. Antes de contribuir, lea cuidadosamente
-+la documentación adecuada.
-+
-+* Documentation/process/development-process.rst
-+* Documentation/process/submitting-patches.rst
-+* Documentation/admin-guide/reporting-issues.rst
-+* Documentation/process/security-bugs.rst
-+
-+Entonces envíe un parche (incluyendo un registro de confirmación con
-+todos los detalles enumerados abajo) y haga un seguimiento de cualquier
-+comentario de otros desarrolladores.
-+
-+* ¿Cuál es el problema específico que se ha encontrado?
-+* ¿Como podría llegar al problema en un sistema en ejecución?
-+* ¿Qué efecto tendría encontrar el problema en el sistema?
-+* ¿Como se encontró el problema? Incluya específicamente detalles sobre
-+  cualquier prueba, programas de análisis estáticos o dinámicos, y cualquier
-+  otra herramienta o método utilizado para realizar el trabajo.
-+* ¿En qué versión de Linux se encontró el problema? Se prefiere usar la
-+  versión más reciente o una rama reciente de linux-next (ver
-+  Documentation/process/howto.rst).
-+* ¿Que se cambió para solucionar el problema y por qué se cree es correcto?
-+* ¿Como se probó el cambio para la complicación y el tiempo de ejecución?
-+* ¿Qué confirmación previa corrige este cambio? Esto debería ir en un “Fixes:”
-+  etiqueta como se describe en la documentación.
-+* ¿Quién más ha revisado este parche? Esto debería ir con la adecuada “Reviewed-by”
-+  etiqueta; Vea abajo.
-+
-+Por ejemplo (en inglés, pues es en las listas)::
-+
-+  From: Author <author@email>
-+  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
-+
-+  The error path in foo_bar driver does not correctly free the allocated
-+  struct foo_bar_info. This can happen if the attached foo_bar device
-+  rejects the initialization packets sent during foo_bar_probe(). This
-+  would result in a 64 byte slab memory leak once per device attach,
-+  wasting memory resources over time.
-+
-+  This flaw was found using an experimental static analysis tool we are
-+  developing, LeakMagic[1], which reported the following warning when
-+  analyzing the v5.15 kernel release:
-+
-+   path/to/foo_bar.c:187: missing kfree() call?
-+
-+  Add the missing kfree() to the error path. No other references to
-+  this memory exist outside the probe function, so this is the only
-+  place it can be freed.
-+
-+  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
-+  11.2 show no new warnings, and LeakMagic no longer warns about this
-+  code path. As we don't have a FooBar device to test with, no runtime
-+  testing was able to be performed.
-+
-+  [1] https://url/to/leakmagic/details
-+
-+  Reported-by: Researcher <researcher@email>
-+  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
-+  Signed-off-by: Author <author@email>
-+  Reviewed-by: Reviewer <reviewer@email>
-+
-+Si usted es un colaborador por primera vez, se recomienda que el parche en
-+si sea examinado por otros en privado antes de ser publicado en listas
-+públicas. (Esto es necesario si se le ha dicho explícitamente que sus parches
-+necesitan una revisión interna más cuidadosa.) Se espera que estas personas
-+tengan su etiqueta “Reviewed-by” incluida en el parche resultante. Encontrar
-+otro desarrollador con conocimiento de las contribuciones a Linux, especialmente
-+dentro de su propia organización, y tener su ayuda con las revisiones antes de
-+enviarlas a las listas de correo publico tiende a mejorar significativamente la
-+calidad de los parches resultantes, y reduce así la carga de otros desarrolladores.
-+
-+Si no se puede encontrar a nadie para revisar internamente los parches y necesita
-+ayuda para encontrar a esa persona, o si tiene alguna otra pregunta relacionada
-+con este documento y las expectativas de la comunidad de desarrolladores, por
-+favor contacte con la lista de correo privada Technical Advisory Board:
-+<tech-board@lists.linux-foundation.org>.
+Changes since v1:
+
+Re-based to tip/master (on June 21, 2023)
+
+Fenghua:
++ Better comment for l3_mon_evt_init()
++ Don't need .fflags = RFTYPE_RES_MB for node resource. Use .fflags = 0
+
+James:
++ Add helper function to choose resource based on snc_ways
++ Drop the info/snc_ways file. No current justification for it.
++ Typos s/Suffices/Suffixes/, s/Sun-NUMA/Sub-NUMA/
++ Expand SNC acronym on first use in Documentation/x86/resctrl.rst
+
+Peter:
++ Add checks for cpu-less nodes.
+
+Tony Luck (7):
+  x86/resctrl: Refactor in preparation for node-scoped resources
+  x86/resctrl: Remove hard code of RDT_RESOURCE_L3 in monitor.c
+  x86/resctrl: Add a new node-scoped resource to rdt_resources_all[]
+  x86/resctrl: Add code to setup monitoring at L3 or NODE scope.
+  x86/resctrl: Add package scoped resource
+  x86/resctrl: Update documentation with Sub-NUMA cluster changes
+  x86/resctrl: Determine if Sub-NUMA Cluster is enabled and initialize.
+
+ Documentation/arch/x86/resctrl.rst        |  10 +-
+ include/linux/resctrl.h                   |   5 +-
+ arch/x86/include/asm/resctrl.h            |   2 +
+ arch/x86/kernel/cpu/resctrl/internal.h    |  20 +++
+ arch/x86/kernel/cpu/resctrl/core.c        | 154 ++++++++++++++++++++--
+ arch/x86/kernel/cpu/resctrl/monitor.c     |  24 ++--
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c |   2 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c    |   4 +-
+ 8 files changed, 191 insertions(+), 30 deletions(-)
+
+
+base-commit: 746d03317c1175666aad909ecc45384da42218aa
 -- 
-2.34.1
+2.40.1
 
