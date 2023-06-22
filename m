@@ -2,225 +2,274 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88701EB64DB
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 15:27:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28A63EB64D8
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 15:31:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232484AbjFVP1G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 11:27:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57942 "EHLO
+        id S232558AbjFVPb3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 11:31:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232461AbjFVP06 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 11:26:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4AB21FEF
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 08:26:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2112B618C2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 15:26:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B476C433B7
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 15:26:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687447591;
-        bh=B+Z7cw05eGhQpRQ1oXi2HuFt1eCXDFTqYg6Ryju6Ww0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LZ7tEs4ZWYJsScvqQfOI0MJqNvT+rdMvPcTAIE4UwZNSeObjDDI5y4riNP6maJnnQ
-         UJZZi/wpNjEXn1rrUM5aRrFpj64Ro85AR6U/PxjJow1JoM/wV3nsovzQcDLkPt6eix
-         WBClZ7XlXh1RX6sJBx8PzBgar4nKV9TDmeDjjpXqdMR7aCXoMdN6EQkQ3FTbxjB0px
-         tFhZtrdQ8U9TthS3luQGmPy1SSwXULmSn0g5k6CJghBmZxMKL7O6VYSzNOea0dqDOC
-         jhVU18+EX5TXx41+uS8n0EURM23EYITY6QT17BM4xkNNQDuZrP1WXbjURukviJke2W
-         dUBDT5ZLY9SyA==
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-51a324beca6so9268091a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 08:26:31 -0700 (PDT)
-X-Gm-Message-State: AC+VfDw5ezfCyxC6L2MWxkXJMy9lI2RjAWVizMKOH0dshKBZi1k+PVqI
-        Csl6/H3sRVxcA/8q9C1pROdQaPj58rr/Wby68p7m1g==
-X-Google-Smtp-Source: ACHHUZ7ewJB4p0OlgjL9jrGWucQ4lnAZcdwnRyYRE2RVvAZbSPiRVU6sOkh+C0Lymc07Bd7gWh87WrIEBULLZsT4gxA=
-X-Received: by 2002:aa7:c594:0:b0:51a:44b7:14c2 with SMTP id
- g20-20020aa7c594000000b0051a44b714c2mr9734462edq.40.1687447589330; Thu, 22
- Jun 2023 08:26:29 -0700 (PDT)
+        with ESMTP id S232570AbjFVPbP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 11:31:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 727CE30E0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 08:28:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687447683;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LFIsSMz1YrVeTt7yDPVdtnp2v+t72OcBanmN5WVCEzY=;
+        b=WqoyWtAkAxFasEcMr/TnpG5OgrYiooPaIKSQ4uVFPd6omdCKIk722IpS0szfenL8AKrPED
+        J+zXL158Fx/Ivq07hnx4YY5/InNHHtFPTHGfju4E61O4E74WUUZo9h/ePm/ZlOns6T8Pwy
+        j80F58TgGdIn5pGjzdudST7gE9Xr2jk=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-107-UDucqTD3ODKm9UZnDam4eA-1; Thu, 22 Jun 2023 11:27:59 -0400
+X-MC-Unique: UDucqTD3ODKm9UZnDam4eA-1
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-1b52fd9bf64so5795175ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 08:27:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687447677; x=1690039677;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LFIsSMz1YrVeTt7yDPVdtnp2v+t72OcBanmN5WVCEzY=;
+        b=LW/5OStD5QkTEwttaBZ7vbTTXvX4uyZM9xoKJpObj6Kle7b5MKiAzjbyA3boiV/T2q
+         lCxr8iDD3jdAi8qCdwb3VPuA8sOUB2lZDfNbVhquNlye5grXB2BUS0L47HaEfXdCdeqX
+         G11l6pwZBWMgfOJZq87+T2Z8NE94fTkKPRwg6fvbnS7k3hypQ9eHYLWm2ivS9byZ3cxE
+         64FDkt9o3OorYK3LQEiOE9bqjK3TnsYiWObyYiPtK+/oXPPX/aWcqDPj3UlC1cvjp1gP
+         fa8SS1qVnFfcst6Gku8jW+kBnYfANDy87GW9ufLfeeCPukUKrvUfJ+upduWagrFqBZUP
+         /Bkw==
+X-Gm-Message-State: AC+VfDx0aYed5HeYWP6EwhfJjv2FKwlAOd83ZWI5KMZLvXWvj39rdAWS
+        vnEMMEzPkyIIaae3/RhqVCgKF2DpA5wbACOnLcYykA8f7Shj27PZj0RIgL9w1YQZcLaqOqPi/EK
+        5GiWi3vmbaB3UK6exdKTe
+X-Received: by 2002:a17:902:db04:b0:1b6:4bc2:74bc with SMTP id m4-20020a170902db0400b001b64bc274bcmr17127858plx.2.1687447676719;
+        Thu, 22 Jun 2023 08:27:56 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5PkQD22nPF+PfRaRoeULgNWsV6z57goWT8b9vZTIr4iVPlbcuRSq0potrkLL5dqoW80YN4ig==
+X-Received: by 2002:a17:902:db04:b0:1b6:4bc2:74bc with SMTP id m4-20020a170902db0400b001b64bc274bcmr17127817plx.2.1687447676288;
+        Thu, 22 Jun 2023 08:27:56 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id l10-20020a170902eb0a00b001b6a241b671sm2713367plb.271.2023.06.22.08.27.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Jun 2023 08:27:55 -0700 (PDT)
+Message-ID: <fb1e5234-b9a5-ba45-1706-81f4cee45274@redhat.com>
+Date:   Thu, 22 Jun 2023 17:27:44 +0200
 MIME-Version: 1.0
-References: <fc2ebfcf-8d91-4f07-a119-2aaec3aa099f@sirena.org.uk>
- <a0f1da840ad21fae99479288f5d74c7ab9095bb6.camel@intel.com>
- <ZImZ6eUxf5DdLYpe@arm.com> <64837d2af3ae39bafd025b3141a04f04f4323205.camel@intel.com>
- <ZJAWMSLfSaHOD1+X@arm.com> <5794e4024a01e9c25f0951a7386cac69310dbd0f.camel@intel.com>
- <ZJFukYxRbU1MZlQn@arm.com> <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
- <ZJLgp29mM3BLb3xa@arm.com> <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
- <ZJQR7slVHvjeCQG8@arm.com>
-In-Reply-To: <ZJQR7slVHvjeCQG8@arm.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 22 Jun 2023 08:26:17 -0700
-X-Gmail-Original-Message-ID: <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
-Message-ID: <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack description
-To:     "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
-Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "bp@alien8.de" <bp@alien8.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH drm-next v5 00/14] [RFC] DRM GPUVA Manager & Nouveau
+ VM_BIND UAPI
+Content-Language: en-US
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     matthew.brost@intel.com, airlied@gmail.com, daniel@ffwll.ch,
+        tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+        christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+References: <20230620004217.4700-1-dakr@redhat.com>
+ <20230620112540.19142ef3@collabora.com>
+ <94adfd82-e77d-f99c-1d94-8b6397d39310@redhat.com>
+ <20230622150101.229391e5@collabora.com>
+ <b04b3dbb-0509-fec1-4e8e-90f724443836@redhat.com>
+ <20230622171931.1c46f745@collabora.com>
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230622171931.1c46f745@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 22, 2023 at 2:28=E2=80=AFAM szabolcs.nagy@arm.com
-<szabolcs.nagy@arm.com> wrote:
->
-> The 06/21/2023 18:54, Edgecombe, Rick P wrote:
-> > On Wed, 2023-06-21 at 12:36 +0100, szabolcs.nagy@arm.com wrote:
-> > > > The 06/20/2023 19:34, Edgecombe, Rick P wrote:
-> > > > > > I actually did a POC for this, but rejected it. The problem is,
-> > > > > > if
-> > > > > > there is a shadow stack overflow at that point then the kernel
-> > > > > > > > can't
-> > > > > > push the shadow stack token to the old stack. And shadow stack
-> > > > > > > > overflow
-> > > > > > is exactly the alt shadow stack use case. So it doesn't really
-> > > > > > > > solve
-> > > > > > the problem.
-> > > >
-> > > > the restore token in the alt shstk case does not regress anything
-> > > > but
-> > > > makes some use-cases work.
-> > > >
-> > > > alt shadow stack is important if code tries to jump in and out of
-> > > > signal handlers (dosemu does this with swapcontext) and for that a
-> > > > restore token is needed.
-> > > >
-> > > > alt shadow stack is important if the original shstk did not
-> > > > overflow
-> > > > but the signal handler would overflow it (small thread stack, huge
-> > > > sigaltstack case).
-> > > >
-> > > > alt shadow stack is also important for crash reporting on shstk
-> > > > overflow even if longjmp does not work then. longjmp to a
-> > > > makecontext
-> > > > stack would still work and longjmp back to the original stack can
-> > > > be
-> > > > made to mostly work by an altshstk option to overwrite the top
-> > > > entry
-> > > > with a restore token on overflow (this can break unwinding though).
-> > > >
-> >
-> > There was previously a request to create an alt shadow stack for the
-> > purpose of handling shadow stack overflow. So you are now suggesting to
-> > to exclude that and instead target a different use case for alt shadow
-> > stack?
->
-> that is not what i said.
->
-> > But I'm not sure how much we should change the ABI at this point since
-> > we are constrained by existing userspace. If you read the history, we
-> > may end up needing to deprecate the whole elf bit for this and other
-> > reasons.
->
-> i'm not against deprecating the elf bit, but i think binary
-> marking will be difficult for this kind of feature no matter what
-> (code may be incompatible for complex runtime dependent reasons).
->
-> > So should we struggle to find a way to grow the existing ABI without
-> > disturbing the existing userspace? Or should we start with something,
-> > finally, and see where we need to grow and maybe get a chance at a
-> > fresh start to grow it?
-> >
-> > Like, maybe 3 people will show up saying "hey, I *really* need to use
-> > shadow stack and longjmp from a ucontext stack", and no one says
-> > anything about shadow stack overflow. Then we know what to do. And
-> > maybe dosemu decides it doesn't need to implement shadow stack (highly
-> > likely I would think). Now that I think about it, AFAIU SS_AUTODISARM
-> > was created for dosemu, and the alt shadow stack patch adopted this
-> > behavior. So it's speculation that there is even a problem in that
-> > scenario.
-> >
-> > Or maybe people just enable WRSS for longjmp() and directly jump back
-> > to the setjmp() point. Do most people want fast setjmp/longjmp() at the
-> > cost of a little security?
-> >
-> > Even if, with enough discussion, we could optimize for all
-> > hypotheticals without real user feedback, I don't see how it helps
-> > users to hold shadow stack. So I think we should move forward with the
-> > current ABI.
->
-> you may not get a second chance to fix a security feature.
-> it will be just disabled if it causes problems.
+On 6/22/23 17:19, Boris Brezillon wrote:
+> Hi Danilo,
+> 
+> On Thu, 22 Jun 2023 15:58:23 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
+> 
+>> Hi Boris,
+>>
+>> On 6/22/23 15:01, Boris Brezillon wrote:
+>>> Hi Danilo,
+>>>
+>>> On Tue, 20 Jun 2023 14:46:07 +0200
+>>> Danilo Krummrich <dakr@redhat.com> wrote:
+>>>    
+>>>>> The only thing I'm worried about is the 'sync mapping requests have to
+>>>>> go through the async path and wait for all previous async requests to
+>>>>> be processed' problem I mentioned in one of your previous submission,
+>>>>> but I'm happy leave that for later.
+>>>>
+>>>> Yes, I'm aware of this limitation.
+>>>>
+>>>> Let me quickly try to explain where this limitation comes from and how I
+>>>> intend to address it.
+>>>>
+>>>> In order to be able to allocate the required page tables for a mapping
+>>>> request and in order to free corresponding page tables once the (async)
+>>>> job finished I need to know the corresponding sequence of operations
+>>>> (drm_gpuva_ops) to fulfill the mapping request.
+>>>>
+>>>> This requires me to update the GPUVA space in the ioctl() rather than in
+>>>> the async stage, because otherwise I would need to wait for previous
+>>>> jobs to finish before being able to submit subsequent jobs to the job
+>>>> queue, since I need an up to date view of the GPUVA space in order to
+>>>> calculate the sequence of operations to fulfill a mapping request.
+>>>>
+>>>> As a consequence all jobs need to be processed in the order they were
+>>>> submitted, including synchronous jobs.
+>>>>
+>>>> @Matt: I think you will have the same limitation with synchronous jobs
+>>>> as your implementation in XE should be similar?
+>>>>
+>>>> In order to address it I want to switch to using callbacks rather than
+>>>> 'pre-allocated' drm_gpuva_ops and update the GPUVA space within the
+>>>> asynchronous stage.
+>>>> This would allow me to 'fit' synchronous jobs
+>>>> between jobs waiting in the async job queue. However, to do this I have
+>>>> to re-work how the page table handling in Nouveau is implemented, since
+>>>> this would require me to be able to manage the page tables without
+>>>> knowing the exact sequence of operations to fulfill a mapping request.
+>>>
+>>> Ok, so I think that's more or less what we're trying to do right
+>>> now in PowerVR.
+>>>
+>>> - First, we make sure we reserve enough MMU page tables for a given map
+>>>     operation to succeed no matter the VM state in the VM_BIND job
+>>>     submission path (our VM_BIND ioctl). That means we're always
+>>>     over-provisioning and returning unused memory back when the operation
+>>>     is done if we end up using less memory.
+>>> - We pre-allocate for the mapple-tree insertions.
+>>> - Then we map using drm_gpuva_sm_map() and the callbacks we provided in
+>>>     the drm_sched::run_job() path. We guarantee that no memory is
+>>>     allocated in that path thanks to the pre-allocation/reservation we've
+>>>     done at VM_BIND job submission time.
+>>>
+>>> The problem I see with this v5 is that:
+>>>
+>>> 1/ We now have a dma_resv_lock_held() in drm_gpuva_{link,unlink}(),
+>>>      which, in our case, is called in the async drm_sched::run_job() path,
+>>>      and we don't hold the lock in that path (it's been released just
+>>>      after the job submission).
+>>
+>> My solution to this, as by now, is to - in the same way we pre-allocate
+>> - to just pre-link and pre-unlink. And then fix things up in the cleanup
+>> path.
+>>
+>> However, depending on the driver, this might require you to set a flag
+>> in the driver specific structure (embedding struct drm_gpuva) whether
+>> the gpuva is actually mapped (as in has active page table entries).
+>> Maybe we could also just add such a flag to struct drm_gpuva. But yeah,
+>> doesn't sound too nice to be honest...
+>>
+>>> 2/ I'm worried that Liam's plan to only reserve what's actually needed
+>>>      based on the mapple tree state is going to play against us, because
+>>>      the mapple-tree is only modified at job exec time, and we might have
+>>>      several unmaps happening between the moment we created and queued the
+>>>      jobs, and the moment they actually get executed, meaning the
+>>>      mapple-tree reservation might no longer fit the bill.
+>>
+>> Yes, I'm aware and I explained to Liam in detail why we need the
+>> mas_preallocate_worst_case() way of doing it.
+>>
+>> See this mail:
+>> https://lore.kernel.org/nouveau/68cd25de-e767-725e-2e7b-703217230bb0@redhat.com/T/#ma326e200b1de1e3c9df4e9fcb3bf243061fee8b5
+>>
+>> He hasn't answered yet, but I hope we can just get (or actually keep)
+>> such a function (hopefully with better naming), since it shouldn't
+>> interfere with anything else.
+> 
+> My bad, I started reading your reply and got interrupted. Never got
+> back to it, which I should definitely have done before posting my
+> questions. Anyway, glad to hear we're on the same page regarding the
+> mas_preallocate_worst_case() thing.
 
-*I* would use altshadowstack.
+No worries, I should probably also reply to Liams patch introducing the 
+change. I will do that in a minute.
 
-I run a production system (that cares about correctness *and*
-performance, but that's not really relevant here -- SHSTK ought to be
-fast).  And, if it crashes, I want to know why.  So I handle SIGSEGV,
-etc so I have good logs if it crashes.  And I want those same logs if
-I overflow the stack.
+> 
+>>
+>>>
+>>> For issue #1, it shouldn't be to problematic if we use a regular lock to
+>>> insert to/remove from the GEM gpuva list.
+>>
+>> Yes, that's why I had a separate GEM gpuva list lock in the first place.
+>> However, this doesn't really work when generating ops rather than using
+>> the callback interface.
+>>
+>> Have a look at drm_gpuva_gem_unmap_ops_create() requested by Matt for
+>> XE. This function generates drm_gpuva_ops to unmap all mappings of a
+>> given GEM. In order to do that the function must iterate the GEM's gpuva
+>> list and allocate operations for each mapping. As a consequence the
+>> gpuva list lock wouldn't be allowed to be taken in the fence signalling
+>> path (run_job()) any longer. Hence, we can just protect the list with
+>> the GEM's dma-resv lock.
+> 
+> Yeah, I see why using dma_resv when pre-inserting the mapping is
+> useful, it just didn't really work with late mapping insertion.
+> 
+>>
+>> However, I can understand that it might be inconvenient for the callback
+>> interface and admittedly my solution to that isn't that nice as well.
+>> Hence the following idea:
+>>
+>> For drivers to be able to use their own lock for that it would be enough
+>> to get rid of the lockdep checks. We could just add a flag to the GPUVA
+>> manager to let the driver indicate it wants to do it's own locking for
+>> the GPUVA list and skip the lockdep checks for the dma-resv lock in that
+>> case.
+> 
+> Sounds good to me.
 
-That being said, I have no need for longjmp or siglongjmp for this.  I
-use exit(2) to escape.
+I think it's way better than the pre-link / pre-unlink mess. I will add 
+this to v6.
 
-For what it's worth, setjmp/longjmp is a bad API.  The actual pattern
-that ought to work well (and that could be supported well by fancy
-compilers and non-C languages, as I understand it) is more like a
-function call that has two ways out.  Like this (pseudo-C):
+> 
+>>
+>>>
+>>> For issue #2, I can see a way out if, instead of freeing gpuva nodes,
+>>> we flag those as unused when we see that something happening later in
+>>> the queue is going to map a section being unmapped. All of this implies
+>>> keeping access to already queued VM_BIND jobs (using the spsc queue at
+>>> the entity level is not practical), and iterating over them every time
+>>> a new sync or async job is queued to flag what needs to be retained. It
+>>> would obviously be easier if we could tell the mapple-tree API
+>>> 'provision as if the tree was empty', so all we have to do is just
+>>> over-provision for both the page tables and mapple-tree insertion, and
+>>> free the unused mem when the operation is done.
+>>>
+>>> Don't know if you already thought about that and/or have solutions to
+>>> solve these issues.
+>>
+>> As already mentioned above, I'd just expect we can keep it the
+>> over-provision way, as you say. I think it's a legit use case to not
+>> know the state of the maple tree at the time the pre-allocated nodes
+>> will be used and keeping that should not interfere with Liams plan to
+>> (hopefully separately) optimize for the pre-allocation use case they
+>> have within -mm.
+>>
+>> But let's wait for his take on that.
+> 
+> Sure. As I said, I'm fine getting this version merged, we can sort out
+> the changes needed for PowerVR later. Just thought I'd mention those
+> issues early, so you're not surprised when we come back with crazy
+> requests (which apparently are not that crazy ;-)).
 
-void function(struct better_jmp_buf &buf, args...)
-{
-   ...
-       if (condition)
-          better_long_jump(buf);  // long jumps out!
-       // could also pass buf to another function
-   ...
-       // could also return normally
-}
+They're not crazy at all, in fact they entirely represent what the 
+callback interface was designed for. :-)
 
-better_call_with_jmp_buf(function, args);
+- Danilo
 
-*This* could support altshadowstack just fine.  And many users might
-be okay with the understanding that, if altshadowstack is on, you have
-to use a better long jump to get out (or a normal sigreturn or _exit).
-No one is getting an altshadowstack signal handler without code
-changes.
+> 
+> Regards,
+> 
+> Boris
+> 
 
-siglongjmp() could support altshadowstack with help from the kernel,
-but we probably don't want to go there.
-
---Andy
