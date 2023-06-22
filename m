@@ -2,56 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F9CEB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 09:56:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 555A6EB64D8
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 09:56:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231247AbjFVJ4S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 05:56:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53120 "EHLO
+        id S229894AbjFVJ4d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 05:56:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbjFVJ4C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 05:56:02 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08F101FF6
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 02:53:08 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-988689a5f44so557275266b.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 02:53:07 -0700 (PDT)
+        with ESMTP id S230125AbjFVJ4K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 05:56:10 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 189982690
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 02:53:22 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9887ebe16d0so623938866b.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 02:53:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent.com; s=google; t=1687427586; x=1690019586;
+        d=isovalent.com; s=google; t=1687427600; x=1690019600;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EhQ9CqocU+8B1FTKuVrFOom9z3TwFt0c6zonqMwkBp8=;
-        b=KlZ+K4WlalqLiF1Kl21CaecrmdwMWgZpWH4b5O8pu5Yyn6Amfd92gkjAjLf2TFrk8E
-         6KRShC75HVzEXmAdVwkAO2u+6lhw2DLBGrbGPMWi2MVrkO7g7dvYwvqnziPqc8kJryOi
-         /qdV35bHyIxvfU2EIJXlEB+UXLM4QCr2xfQX0qjPqg+f0C+gtM/3Pv++glC/bgPQn5Ud
-         Iv8nDA5Bf9UE88W+jtAso7bUPpu5yb7C6zHwFTAHs3Kx90AFZ949OjQXaD8vG9IlkDWN
-         lkuMM8uLd1opAPzGQ5S1kxpO2AI7gWDUOChylUK//r9E3b10TXEhVhxwpibY6bXtc+Sd
-         SQ9Q==
+        bh=31alUebk/ciyOeOfe0Ga+rH2I3KmjnSBY8Zf5b0Gyzc=;
+        b=QJeuHmARmrdOa+uEuCmXkQ6bvCQUMljTS9ijUL9P8Kcs0U6h9wEi3mKgOqjQpWeBwp
+         rULeP1a1Jg53+ShOpw3RMEu/SJ9zikZiQBjAxnEUkIlRtLlEmEvoyk6KJiI6rFSLTW2G
+         tX0mFn5cRHkunIpZWP6U/hJYowwetp8MTa36vlu4exEok4VcTVxY48d0uyV//GycVu3q
+         GyoYVljyhmh4nKJKWL7mPdAQIQL3ZAkeagY430qE1iWZ4vkqIovoKxu1XrQG6Vc0BOL/
+         V8Jz3AntsbpOLLrSUV7ZCjui0gJmjhH6J62wdjQj2bxXqYThQoM1j/QzXi6eFFXiAzUO
+         HJDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687427586; x=1690019586;
+        d=1e100.net; s=20221208; t=1687427600; x=1690019600;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EhQ9CqocU+8B1FTKuVrFOom9z3TwFt0c6zonqMwkBp8=;
-        b=BZ86eefhD6wmXH6ZWRTiHGQ/25JvWZccrDrzO4QbQgtzT7fmYvnI4k3Wt+kRAmboZp
-         ydzYmkHGEOhPHqlFq2I8I6WOeea6Ykcmqrv0NRJVVDQhgUy8rjc5Jym4OEF5kI6jELCQ
-         q15kKNhGcYzN4zDYRmjQtcC7grDXHSm6uMgnEdfRiFhWmdLozhDsjdLbo5MjBeqjIiI6
-         A1vKct/TrVqgrWcnh1fdU8M8NpJLr0RDmr2IXzpP1o7e+6y3rbpprC2cPuzMYSo/R1Op
-         Y/rF5s1nYXavuV44xlVc3XN9KD0yi6Fd1+j/ikZBt5Ag0BUIhaaOs0NdXRdlyvzOS8ny
-         u/UA==
-X-Gm-Message-State: AC+VfDxB+M+Sm0jxHxzoe7QXp6rBPMdj9/4m/C/GzYAt0ba40+xibn/M
-        OAU0PPCtoua/I8k6SsH4PprRbA==
-X-Google-Smtp-Source: ACHHUZ7KTpwGSMB9y8NSNZp1VjzesnVul+cQSbXtEA0bRQ5afQrLa1IZTCgFfUQ0UPJswLbiccnXTg==
-X-Received: by 2002:a17:906:9b88:b0:988:91cb:afd1 with SMTP id dd8-20020a1709069b8800b0098891cbafd1mr11983840ejc.29.1687427586575;
-        Thu, 22 Jun 2023 02:53:06 -0700 (PDT)
+        bh=31alUebk/ciyOeOfe0Ga+rH2I3KmjnSBY8Zf5b0Gyzc=;
+        b=hcaAgsXM/0EMeueCAyU6FPmrbg4HFIot8G4fDYJx41FDdt8abuTEBNW8bboVhJ0ceV
+         +LN9AkIpyREh/PzbMirh16lkKvQoyT3wShCJI+9QS+pvoDAocYKrHuNT1Jz189q3MqPg
+         lTAM5egIY8MEbvNwK6tFxPFzUzM9Mssn9rhZnShYV5/eXnssND6MyryTjoeZgPy2W/vI
+         f0dKoaC/lHoFz8ojUAOd1PbhZwUXNJ5o6qmUdDh9hC0fZ5dwaaE9CoQiOIPWxzZajbLV
+         VubpMJMHGxiNx7ARAOR9fdy+vZg7+paxKUuKLo37d3GL2gJoKuCatgQwCDWMRyhy76+d
+         4T7g==
+X-Gm-Message-State: AC+VfDwPy8oV60ooF9KTY6ypWgtuOwztw4eVumDjaZV4xHI4P287wh6w
+        zjxp8+l5fNHgrNACqbVZ2WsqtA==
+X-Google-Smtp-Source: ACHHUZ58boCUF8nU9mqADahfTdIZzJGoIdxaJvO19qR7crWs+PYHRjkY1QH7AILYHBRDwc7faaTX2A==
+X-Received: by 2002:a17:907:5c8:b0:94f:3980:bf91 with SMTP id wg8-20020a17090705c800b0094f3980bf91mr16725775ejb.19.1687427600660;
+        Thu, 22 Jun 2023 02:53:20 -0700 (PDT)
 Received: from zh-lab-node-5.home ([2a02:168:f656:0:1ac0:4dff:fe0f:3782])
-        by smtp.gmail.com with ESMTPSA id x12-20020a1709060a4c00b009737b8d47b6sm4360805ejf.203.2023.06.22.02.53.05
+        by smtp.gmail.com with ESMTPSA id u17-20020a1709064ad100b0098cd2814a2esm2193557ejt.70.2023.06.22.02.53.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 02:53:06 -0700 (PDT)
+        Thu, 22 Jun 2023 02:53:20 -0700 (PDT)
 From:   Anton Protopopov <aspsk@isovalent.com>
 To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, David Vernet <void@manifault.com>,
-        Sreevani Sreejith <psreep@gmail.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Andrii Nakryiko <andrii@kernel.org>,
@@ -63,9 +62,9 @@ To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
         Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Anton Protopopov <aspsk@isovalent.com>
-Subject: [PATCH bpf-next] bpf, docs: BPF Iterator Document
-Date:   Thu, 22 Jun 2023 09:54:07 +0000
-Message-Id: <20230622095407.1024053-1-aspsk@isovalent.com>
+Subject: [PATCH bpf-next] bpf, docs: document existing macros instead of deprecated
+Date:   Thu, 22 Jun 2023 09:54:24 +0000
+Message-Id: <20230622095424.1024244-1-aspsk@isovalent.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -73,33 +72,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix the description of the seq_info field of the bpf_iter_reg structure which
-was wrong due to an accidental copy/paste of the previous field's description.
+The BTF_TYPE_SAFE_NESTED macro was replaced by the BTF_TYPE_SAFE_TRUSTED,
+BTF_TYPE_SAFE_RCU, and BTF_TYPE_SAFE_RCU_OR_NULL macros. Fix the docs
+correspondingly.
 
-Fixes: 8972e18a439d ("bpf, docs: BPF Iterator Document")
+Fixes: 6fcd486b3a0a ("bpf: Refactor RCU enforcement in the verifier.")
 Signed-off-by: Anton Protopopov <aspsk@isovalent.com>
 ---
- Documentation/bpf/bpf_iterators.rst | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ Documentation/bpf/kfuncs.rst | 38 ++++++++++++++++++++++++++++++------
+ 1 file changed, 32 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/bpf/bpf_iterators.rst b/Documentation/bpf/bpf_iterators.rst
-index 6d7770793fab..07433915aa41 100644
---- a/Documentation/bpf/bpf_iterators.rst
-+++ b/Documentation/bpf/bpf_iterators.rst
-@@ -238,11 +238,8 @@ The following is the breakdown for each field in struct ``bpf_iter_reg``.
-        that the kernel function cond_resched() is called to avoid other kernel
-        subsystem (e.g., rcu) misbehaving.
-    * - seq_info
--     - Specifies certain action requests in the kernel BPF iterator
--       infrastructure. Currently, only BPF_ITER_RESCHED is supported. This means
--       that the kernel function cond_resched() is called to avoid other kernel
--       subsystem (e.g., rcu) misbehaving.
--
-+     - Specifies the set of seq operations for the BPF iterator and helpers to
-+       initialize/free the private data for the corresponding ``seq_file``.
+diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
+index 7a3d9de5f315..0d2647fb358d 100644
+--- a/Documentation/bpf/kfuncs.rst
++++ b/Documentation/bpf/kfuncs.rst
+@@ -227,23 +227,49 @@ absolutely no ABI stability guarantees.
  
- `Click here
- <https://lore.kernel.org/bpf/20210212183107.50963-2-songliubraving@fb.com/>`_
+ As mentioned above, a nested pointer obtained from walking a trusted pointer is
+ no longer trusted, with one exception. If a struct type has a field that is
+-guaranteed to be valid as long as its parent pointer is trusted, the
+-``BTF_TYPE_SAFE_NESTED`` macro can be used to express that to the verifier as
+-follows:
++guaranteed to be valid (trusted or rcu, as in KF_RCU description below) as long
++as its parent pointer is valid, the following macros can be used to express
++that to the verifier:
++
++* ``BTF_TYPE_SAFE_TRUSTED``
++* ``BTF_TYPE_SAFE_RCU``
++* ``BTF_TYPE_SAFE_RCU_OR_NULL``
++
++For example,
++
++.. code-block:: c
++
++	BTF_TYPE_SAFE_TRUSTED(struct socket) {
++		struct sock *sk;
++	};
++
++or
+ 
+ .. code-block:: c
+ 
+-	BTF_TYPE_SAFE_NESTED(struct task_struct) {
++	BTF_TYPE_SAFE_RCU(struct task_struct) {
+ 		const cpumask_t *cpus_ptr;
++		struct css_set __rcu *cgroups;
++		struct task_struct __rcu *real_parent;
++		struct task_struct *group_leader;
+ 	};
+ 
+ In other words, you must:
+ 
+-1. Wrap the trusted pointer type in the ``BTF_TYPE_SAFE_NESTED`` macro.
++1. Wrap the valid pointer type in a ``BTF_TYPE_SAFE_*`` macro.
+ 
+-2. Specify the type and name of the trusted nested field. This field must match
++2. Specify the type and name of the valid nested field. This field must match
+    the field in the original type definition exactly.
+ 
++A new type declared by a ``BTF_TYPE_SAFE_*`` macro also needs to be emitted so
++that it appears in BTF. For example, ``BTF_TYPE_SAFE_TRUSTED(struct socket)``
++is emitted in the ``type_is_trusted()`` function as follows:
++
++.. code-block:: c
++
++	BTF_TYPE_EMIT(BTF_TYPE_SAFE_TRUSTED(struct socket));
++
++
+ 2.4.5 KF_SLEEPABLE flag
+ -----------------------
+ 
 -- 
 2.34.1
 
