@@ -2,247 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8BFFEB64D8
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 14:23:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5402CEB64D8
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 14:26:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229840AbjFVOXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 10:23:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36532 "EHLO
+        id S230229AbjFVO0C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 10:26:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229813AbjFVOXt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 10:23:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35750E2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 07:23:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687443781;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0q7rImqCfSTwUHverUYJSMCU6piKOXc2WChZXUdmxQE=;
-        b=eAmM1kMNdNgxRvDlvMK17qIr+tUIIAQgcAT/+hjPZ0EAzetq3vSEw+3PDoYdmtNPjZnyK1
-        GCwpQuPy/5K12ICoEyVvp1g6R3InK/j6t3o9yW69tudzXFVlVBGYoU8k9h5weTT8xwWjFI
-        W9F0Lrq+qMp8Ub3D/iJWdW1tbaA+sZ4=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-NgFSAgsRPiO4alstxCsG2w-1; Thu, 22 Jun 2023 10:22:58 -0400
-X-MC-Unique: NgFSAgsRPiO4alstxCsG2w-1
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-543a89d0387so3347056a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 07:22:50 -0700 (PDT)
+        with ESMTP id S229873AbjFVO0B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 10:26:01 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F54E2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 07:26:00 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-4007b5bafceso69691cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 07:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687443959; x=1690035959;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3OvkU8UisH4BuGnYm+XG1wAvh/7S0gay7JPC/9n8Vw4=;
+        b=495aCHMsXONb/7fk1o4BWI0cJufNsm6mSfC0X0UydCS7YJ40z6x4y1oFq4O73WAv2/
+         PivI1PeQ6BvsG/OHG81s7Coc0vWWsZr4x9AW4lveNrWCBzR+RRC5J2jR0/ROhvTLskKh
+         d+MoXFylY8oe3cij7GSXwnTQ4A2DOtWO/enmlxXIjyKsMk+WrfJc0WRZXJ7FdgDR07uF
+         dLVCYV44b8onYroGILw3bTZhQCw/clwNlOfOPr4Kn3V9n5q4bxbblymddZeRTMr4ae0l
+         RorrcI45qpKerreWFVfU9QZV5V9Q0VeSXBEjGzOWH+wRAK4dNdmZFBYCWeaVqvBDS58+
+         Oc6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687443769; x=1690035769;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0q7rImqCfSTwUHverUYJSMCU6piKOXc2WChZXUdmxQE=;
-        b=VxYTPnbN2OOVwzib6GgeaC5Av+GadPf4a8kslLeatc4+thzNuTl2xtpi949wuZlf6b
-         h339GKaEq4umEP54f6FvxYC7+bAJllfdlJ+HZ8ygS71tifPP1t7C/k5eJAvaEHqsbTdw
-         MqBOR6Q9JYi1k7r1kVikiauA0euWSYzG7IIVDZ551hDVViEaW0h0rDx8Pbidseu8EqMo
-         ogSATAQ8+gDt+keVGVt9WEApLg0NfaU++Kz1qpp1HFIeA4XrQvobMt9gLppYF9qAPbU9
-         XGmz9bw7VwXGoq18CLeQln/R4fwGrajV2SokHB67BjBGIaMaUzLq0v44gHmbvdz7KwFa
-         YN3w==
-X-Gm-Message-State: AC+VfDwmL7p7fOiOQPrCOhSq0ieB/a1+tscEMwm6sDo/Mbg6GyFet/TT
-        bYRdFH15FeMuFYb2B6pIePEn9G71NZgJhlxbO3ZNhkkhnlDDrePu9LV9bwhWBm9kyfSz1HPYx2S
-        fFGjbYCYttAvfbCXzStHN
-X-Received: by 2002:a17:903:280e:b0:1b0:48e9:cddd with SMTP id kp14-20020a170903280e00b001b048e9cdddmr11003955plb.69.1687443769268;
-        Thu, 22 Jun 2023 07:22:49 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7WGrYMwwejrJnH7T2C3FaNBaY1FPeFkjKFjutN5VdhnvN4RMKBQk6mBNw0Aj/+8BttIDl5ZA==
-X-Received: by 2002:a17:903:280e:b0:1b0:48e9:cddd with SMTP id kp14-20020a170903280e00b001b048e9cdddmr11003932plb.69.1687443768933;
-        Thu, 22 Jun 2023 07:22:48 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id l5-20020a170902d34500b001b5640a8874sm5438809plk.293.2023.06.22.07.22.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Jun 2023 07:22:48 -0700 (PDT)
-Message-ID: <bcde7ea3-fbab-3a18-e810-64b6589ddb18@redhat.com>
-Date:   Thu, 22 Jun 2023 16:22:36 +0200
+        d=1e100.net; s=20221208; t=1687443959; x=1690035959;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3OvkU8UisH4BuGnYm+XG1wAvh/7S0gay7JPC/9n8Vw4=;
+        b=NBvrQzVEhwdgRmE7wr9rFQiz1ea7ZneoawmLF/6X/rJbft1KgWnNI4FKvnhwphO1Wi
+         JnPeeBy0INwbbewsXFi4Pil4/OiO0A5mdL66XNlaXr0telzNhP6F32lU9SakrxloETnw
+         7yl6mARGnXNITQd7Hbe3sDGDgv3/9Cjos3oXeW7ejFPB0G7RPCduhptQrPdCFRTypI0F
+         +oR36L3vBjUNSqxGiOSCFvkj5YNPx4QRf6EzVTfuRNpkTcz9OBbm3ClH6qr2xThJ2qgY
+         7shNxZhFOKKxGkLaH8tkkxccRQTxd1uL9QEfKJ/87yYAkiNLG/Bqr12M9NtSXytEy75c
+         Xcew==
+X-Gm-Message-State: AC+VfDwZ1ijxgt5dhji5rYK/24JMlx3ExW4RRI4LQs/fj5wg2XUDdGdD
+        PAB9ooleKimbipprXY9LIuok9n+jbRgpxGFotw1uZKdXp6mJqk8gn8WxEg==
+X-Google-Smtp-Source: ACHHUZ7uUs4bnPr21LwAzMF128NWxNRIN5dXaoxu+IPGm/xXmIMIi2Rhx50YN8/p1xyv+58+Bcl5JwW0NuXrO0euY4E=
+X-Received: by 2002:ac8:5954:0:b0:3ef:3083:a437 with SMTP id
+ 20-20020ac85954000000b003ef3083a437mr448649qtz.18.1687443959520; Thu, 22 Jun
+ 2023 07:25:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA
- mappings
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, matthew.brost@intel.com,
-        boris.brezillon@collabora.com, alexdeucher@gmail.com,
-        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-        jason@jlekstrand.net
-Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org,
-        Donald Robson <donald.robson@imgtec.com>,
-        Dave Airlie <airlied@redhat.com>
-References: <20230620004217.4700-1-dakr@redhat.com>
- <20230620004217.4700-4-dakr@redhat.com>
- <cf6846ea-5bd0-0b41-b7e6-901c70701751@amd.com>
- <a8edf75b-e0f7-a6c7-7d29-f0d39923549b@redhat.com>
- <41aecd10-9956-0752-2838-34c97834f0c8@amd.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <41aecd10-9956-0752-2838-34c97834f0c8@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230621174006.42533-1-tony.luck@intel.com> <20230621174006.42533-8-tony.luck@intel.com>
+In-Reply-To: <20230621174006.42533-8-tony.luck@intel.com>
+From:   Peter Newman <peternewman@google.com>
+Date:   Thu, 22 Jun 2023 16:25:48 +0200
+Message-ID: <CALPaoCgF04M0Jc-c4VmbKkRSFo677SBGoPHzNCSeQ4S6Bqb60w@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is
+ enabled and initialize.
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, patches@lists.linux.dev,
+        Stephane Eranian <eranian@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/22/23 15:54, Christian König wrote:
-> Am 20.06.23 um 14:23 schrieb Danilo Krummrich:
->> Hi Christian,
->>
->> On 6/20/23 08:45, Christian König wrote:
->>> Hi Danilo,
->>>
->>> sorry for the delayed reply. I've trying to dig myself out of a hole 
->>> at the moment.
->>
->> No worries, thank you for taking a look anyway!
->>
->>>
->>> Am 20.06.23 um 02:42 schrieb Danilo Krummrich:
->>>> [SNIP]
->>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->>>> index bbc721870c13..5ec8148a30ee 100644
->>>> --- a/include/drm/drm_gem.h
->>>> +++ b/include/drm/drm_gem.h
->>>> @@ -36,6 +36,8 @@
->>>>   #include <linux/kref.h>
->>>>   #include <linux/dma-resv.h>
->>>> +#include <linux/list.h>
->>>> +#include <linux/mutex.h>
->>>>   #include <drm/drm_vma_manager.h>
->>>> @@ -379,6 +381,18 @@ struct drm_gem_object {
->>>>        */
->>>>       struct dma_resv _resv;
->>>> +    /**
->>>> +     * @gpuva:
->>>> +     *
->>>> +     * Provides the list of GPU VAs attached to this GEM object.
->>>> +     *
->>>> +     * Drivers should lock list accesses with the GEMs &dma_resv lock
->>>> +     * (&drm_gem_object.resv).
->>>> +     */
->>>> +    struct {
->>>> +        struct list_head list;
->>>> +    } gpuva;
->>>> +
->>>>       /**
->>>>        * @funcs:
->>>>        *
->>>
->>> I'm pretty sure that it's not a good idea to attach this directly to 
->>> the GEM object.
->>
->> Why do you think so? IMHO having a common way to connect mappings to 
->> their backing buffers is a good thing, since every driver needs this 
->> connection anyway.
->>
->> E.g. when a BO gets evicted, drivers can just iterate the list of 
->> mappings and, as the circumstances require, invalidate the 
->> corresponding mappings or to unmap all existing mappings of a given 
->> buffer.
->>
->> What would be the advantage to let every driver implement a driver 
->> specific way of keeping this connection?
-> 
-> Flexibility. For example on amdgpu the mappings of a BO are groups by VM 
-> address spaces.
-> 
-> E.g. the BO points to multiple bo_vm structures which in turn have lists 
-> of their mappings.
+Hi Tony,
 
-Isn't this (almost) the same relationship I introduce with the GPUVA 
-manager?
+On Wed, Jun 21, 2023 at 7:40=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
+te:
+>
+> There isn't a simple hardware enumeration to indicate to software that
+> a system is running with Sub-NUMA Cluster enabled.
+>
+> Compare the number of NUMA nodes with the number of L3 caches to calculat=
+e
+> the number of Sub-NUMA nodes per L3 cache.
+>
+> When Sub-NUMA cluster mode is enabled in BIOS setup the RMID counters
+> are distributed equally between the SNC nodes within each socket.
+>
+> E.g. if there are 400 RMID counters, and the system is configured with
+> two SNC nodes per socket, then RMID counter 0..199 are used on SNC node
+> 0 on the socket, and RMID counter 200..399 on SNC node 1.
+>
+> A model specific MSR (0xca0) can change the configuration of the RMIDs
+> when SNC mode is enabled.
+>
+> The MSR controls the interpretation of the RMID field in the
+> IA32_PQR_ASSOC MSR so that the appropriate hardware counters
+> within the SNC node are updated.
+>
+> Also initialize a per-cpu RMID offset value. Use this
+> to calculate the value to write to the IA32_QM_EVTSEL MSR when
+> reading RMID event values.
+>
+> N.B. this works well for well-behaved NUMA applications that access
+> memory predominantly from the local memory node. For applications that
+> access memory across multiple nodes it may be necessary for the user
+> to read counters for all SNC nodes on a socket and add the values to
+> get the actual LLC occupancy or memory bandwidth. Perhaps this isn't
+> all that different from applications that span across multiple sockets
+> in a legacy system.
 
-If you would switch over to the GPUVA manager right now, it would be 
-that every GEM has a list of it's mappings (the gpuva list). The mapping 
-is represented by struct drm_gpuva (of course embedded in driver 
-specific structure(s)) which has a pointer to the VM address space it is 
-part of, namely the GPUVA manager instance. And the GPUVA manager keeps 
-a maple tree of it's mappings as well.
+Unfortunately I'm not getting as good of results with the new series.
+The main difference seems to be updating the 0xca0 MSR instead of
+applying the offset to PQR_ASSOC.
 
-If you still would like to *directly* (indirectly you already have that 
-relationship) keep a list of GPUVA managers (VM address spaces) per GEM, 
-you could still do that in a driver specific way.
+In my test case of generating bandwidth on 20 random CPUs in 20 random
+RMIDs, I'm only getting correct counts from CPUs in node 0. Node 1
+CPUs are showing counts which are too small, and nodes 2 and 3 are
+seeing no bandwidth at all:
 
-Do I miss something?
+(expected bandwidth is around 30 GB, value in first parenthesis is L3 cache=
+ id)
 
-> 
-> Additional to that there is a state maschine associated with the 
-> mappings, e.g. if the page tables are up to date or need to be updated 
-> etc....
-> 
->> Do you see cases where this kind of connection between mappings and 
->> backing buffers wouldn't be good enough? If so, which cases do you 
->> have in mind? Maybe we can cover them in a common way as well?
-> 
-> Yeah, we have tons of cases like that. But I have no idea how to 
-> generalize them.
+cpu: 134 (0), rmid: 30 (g29):   0 -> 30640791552 (30640791552)
+cpu: 138 (0), rmid: 103 (g101): 0 -> 28196962304 (28196962304)
 
-They could still remain to be driver specific then, right?
+cpu: 35 (0), rmid: 211 (g209):  0 -> 3039232 (3039232)
+cpu: 55 (0), rmid: 113 (g111):  0 -> 4874240 (4874240)
+cpu: 41 (0), rmid: 83 (g81):    0 -> 2637824 (2637824)
+cpu: 42 (0), rmid: 218 (g216):  0 -> 2408448 (2408448)
+cpu: 161 (0), rmid: 8 (g7):     0 -> 7856128 (7856128)
 
-> 
->>
->>>
->>> As you wrote in the commit message it's highly driver specific what 
->>> to map and where to map it.
->>
->> In the end the common case should be that in a VA space at least every 
->> mapping being backed by a BO is represented by a struct drm_gpuva.
-> 
-> Oh, no! We also have mappings not backed by a BO at all! For example for 
-> partial resident textures or data routing to internal hw etc...
-> 
-> You can't be sure that a mapping is backed by a BO at all.
+cpu: 86 (1), rmid: 171 (g169):  0 -> 0 (0)
+cpu: 86 (1), rmid: 121 (g119):  0 -> 0 (0)
+cpu: 212 (1), rmid: 163 (g161): 0 -> 0 (0)
+cpu: 180 (1), rmid: 129 (g127): 0 -> 0 (0)
+cpu: 205 (1), rmid: 186 (g184): 0 -> 0 (0)
+cpu: 194 (1), rmid: 160 (g158): 0 -> 0 (0)
+cpu: 186 (1), rmid: 196 (g194): 0 -> 0 (0)
+cpu: 106 (1), rmid: 93 (g91):   0 -> 0 (0)
+cpu: 84 (1), rmid: 168 (g166):  0 -> 0 (0)
+cpu: 197 (1), rmid: 104 (g102): 0 -> 0 (0)
+cpu: 64 (1), rmid: 103 (g101):  0 -> 0 (0)
+cpu: 71 (1), rmid: 81 (g79):    0 -> 0 (0)
+cpu: 60 (1), rmid: 221 (g219):  0 -> 0 (0)
 
-I fully agree, that's why I wrote "the common case should be that in a 
-VA space at least every mapping *being backed by a BO* is represented by 
-a struct drm_gpuva".
+Here's the output of `cat /sys/devices/system/node/node*/cpulist` on
+this machine for reference:
 
-Mappings not being backed by an actual BO would not be linked to a GEM 
-of course.
+0-27,112-139
+28-55,140-167
+56-83,168-195
+84-111,196-223
 
-> 
->>
->>>
->>> Instead I suggest to have a separate structure for mappings in a VA 
->>> space which driver can then add to their GEM objects or whatever they 
->>> want to map into their VMs.
->>
->> Which kind of separate structure for mappings? Another one analogous 
->> to struct drm_gpuva?
-> 
-> Well similar to what amdgpu uses BO -> one structure for each 
-> combination of BO and VM -> mappings inside that VM
-
-As explained above, I think that's exactly what the GPUVA manager does, 
-just in another order:
-
-BO has list of mappings, mappings have pointer to VM, VM has list (or 
-actually a maple tree) of mappings.
-
-You see any advantages or disadvantages of either order of 
-relationships? For me it looks like it doesn't really matter which one 
-to pick.
-
-- Danilo
-
-> 
-> Regards,
-> Christian.
-> 
->>
->> - Danilo
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>
->>
-> 
-
+-Peter
