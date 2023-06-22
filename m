@@ -2,193 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11FB3EB64DB
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 05:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4AA8EB64D8
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 07:01:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230046AbjFVFUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 01:20:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54666 "EHLO
+        id S229854AbjFVHBa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 03:01:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbjFVFUy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 01:20:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2E60E9;
-        Wed, 21 Jun 2023 22:20:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 463ED61724;
-        Thu, 22 Jun 2023 05:20:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27178C433C0;
-        Thu, 22 Jun 2023 05:20:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1687411251;
-        bh=eGLXi+uLksYHHBlslNR0JrkdmKSXNfPy+zdjEsn8oDk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Lqd5vzo92XkWQozOq8THy9F79ZZK2SH1MUWBLiCUkEZ/AIYHqQJj72S6F5IJs/xGb
-         cZBlbHIdi3KeL13Y9f02+PQ786Jog6Evg5Kc6nqVcpjRvf9E08ua9XAgFEs7erbeRO
-         CK++HIJlGMruS9JaFkW0lycQeHg3+GILARbQb9eM=
-Date:   Thu, 22 Jun 2023 07:20:48 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Breno Leitao <leitao@debian.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, leit@meta.com,
-        Arnd Bergmann <arnd@arndb.de>,
-        Steve French <stfrench@microsoft.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Simon Ser <contact@emersion.fr>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:IO_URING" <io-uring@vger.kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
-Subject: Re: [PATCH] io_uring: Add io_uring command support for sockets
-Message-ID: <2023062231-tasting-stranger-8882@gregkh>
-References: <20230621232129.3776944-1-leitao@debian.org>
+        with ESMTP id S229780AbjFVHB3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 03:01:29 -0400
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 765AF10F8;
+        Thu, 22 Jun 2023 00:01:27 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 3454F5C006E;
+        Thu, 22 Jun 2023 03:01:24 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 22 Jun 2023 03:01:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1687417284; x=1687503684; bh=XuIRhzWY9Y3nU
+        ys0sFqucjCSGmg4/nWPkpQ4qhtrDFA=; b=LnfiqT1mNH+G8dW2zx9DPayKghTuu
+        XItKBkqTyuT+pgcLksCbNvMXX8s3ZNY+XWSulbYhL2wxFepUUIK4QAx9JIqQrGT1
+        XJMXENJwQQFa+qSWZ9uIiEjCnJX7y11Koi4+Sy4rWvIEXr6OexYccBYpwK22I2rN
+        laXt6q7C1HlYwQLn4HleW6ruzR+HALq80AjHAoorru557BD6z6ScDXhG+2vEHaUX
+        0fcFABYVQq4DInnJwSg7DZCQ5d+UcqCwLyb+11jf2Zny8PRRais5ntm1uLfERvoc
+        ED08Zuo6jq8CUtUvBsPwIO9pXtHjUj00Fcur/JrJ/AWwVIbbG3DqHhRzg==
+X-ME-Sender: <xms:w_GTZBCf0ygrvp68_rbW_paUYiVEuumBweOh-rfbXqIS8AiCgSAnZw>
+    <xme:w_GTZPg1uU29_ayGWkjg2prYmRcGf3m18a9EwQKLBr7pI343ylQHa9hDsK-wTqaoo
+    8ULY22hUQsdj8hrxDU>
+X-ME-Received: <xmr:w_GTZMkiWUYeFBoovLAfrX6N7PtjtR096Eqv5NZYoYUOB48NxV-XzcaMM_EBr0bcCSJXux1v_NPts2WYQ2QM1SPQalgGehyxlyU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeegtddguddtjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhn
+    ucfvhhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrf
+    grthhtvghrnhepfeeiheejvdetgfeitddutefhkeeilefhveehgfdvtdekkedvkeehffdt
+    keevvdeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfthhhrghinheslhhinhhugidqmhei
+    kehkrdhorhhg
+X-ME-Proxy: <xmx:w_GTZLzRY63t83cwMeCrxhJPyPdDJYs7tlzz8twLjBDWdhrM_N87yA>
+    <xmx:w_GTZGT5gh8QrZZccrVah0Kvu66n1ziHeRpURLfPLcadCesFtbKIgA>
+    <xmx:w_GTZOaj6jfFtTGDePwQufYvEdmoR8PDhr0q3XaeXqXAEgG7qFQF5w>
+    <xmx:xPGTZDJWO0WdIK2ylmI6Ke6hMymCFqnjbZJUoswIcYVJagKrjDJKgw>
+Feedback-ID: i58a146ae:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Jun 2023 03:01:20 -0400 (EDT)
+Date:   Thu, 22 Jun 2023 17:02:10 +1000 (AEST)
+From:   Finn Thain <fthain@linux-m68k.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+cc:     Theodore Ts'o <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>,
+        tech-board-discuss@lists.linux-foundation.org,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
+ the wider community
+In-Reply-To: <2023062144-hefty-why-305d@gregkh>
+Message-ID: <04cd7204-cdee-c333-8815-57acbab82721@linux-m68k.org>
+References: <20230620212502.GI286961@mit.edu> <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org> <2023062144-hefty-why-305d@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230621232129.3776944-1-leitao@debian.org>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 04:21:26PM -0700, Breno Leitao wrote:
-> Enable io_uring commands on network sockets. Create two new
-> SOCKET_URING_OP commands that will operate on sockets. Since these
-> commands are similar to ioctl, uses the _IO{R,W} helpers to embedded the
-> argument size and operation direction. Also allocates a unused ioctl
-> chunk for uring command usage.
+On Wed, 21 Jun 2023, Greg Kroah-Hartman wrote:
+
+> On Wed, Jun 21, 2023 at 11:51:19AM +1000, Finn Thain wrote:
+> > > You appear to have a very different model of how non-profits might 
+> > > approach the Linux kernel --- could you go into more detail about 
+> > > why they might want to contribute to the Linux kernel, and how we 
+> > > might encourage them to contribute more engineering effort?
+> > > 
+> > 
+> > Sure. Here's a recent example, in which a not-for-profit volunteer 
+> > might have been granted an opportunity to work upstream: 
+> > https://lore.kernel.org/all/129c9d5e-213a-80c9-092e-dc1dcf38ae3e@linux-m68k.org/
+> > 
+> > The driver in question may may not be commercially viable, but that 
+> > doesn't matter, if the intention is to foster new maintainers and 
+> > increase the talent pool. And the problem ostensibly being addressed 
+> > in the Linux Contributor Maturity Model is a shortage of maintainers.
 > 
-> In order to call ioctl on sockets, use the file_operations->uring_cmd
-> callbacks, and map it to a uring socket function, which handles the
-> SOCKET_URING_OP accordingly, and calls socket ioctls.
+> I would NEVER recommend ANYONE picking up obsolete hardware and trying 
+> to get it to work to maintain the driver if NO ONE is actually using the 
+> stuff.  That should not be for a not-for-profit to maintain as 
+> obviously, no one uses it.
 > 
-> This patches was tested by creating a new test case in liburing.
-> Link: https://github.com/leitao/liburing/commit/3340908b742c6a26f662a0679c4ddf9df84ef431
+> It's up to those that need/use the code to help maintain it, don't ask 
+> not-for-profit groups to maintain and support code that no one uses, 
+> that's a sure way to waste resources all around.
 > 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
 
-Isn't this a new version of an older patch?
+Actually, that patch was offered without any prompting from me. But you're 
+quite right -- I would have prompted it, had I had the oppportunity.
 
->  .../userspace-api/ioctl/ioctl-number.rst      |  1 +
->  include/linux/io_uring.h                      |  6 +++++
->  include/uapi/linux/io_uring.h                 |  6 +++++
->  io_uring/uring_cmd.c                          | 27 +++++++++++++++++++
->  net/socket.c                                  |  2 ++
->  5 files changed, 42 insertions(+)
+> So that's a good example of how our ecosystem works properly, if no one 
+> needs the code, it gets dropped.  Don't ask for it to come back without 
+> real users who are invested in it please.
 > 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 4f7b23faebb9..23348636f2ef 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -361,6 +361,7 @@ Code  Seq#    Include File                                           Comments
->  0xCB  00-1F                                                          CBM serial IEC bus in development:
->                                                                       <mailto:michael.klein@puffin.lb.shuttle.de>
->  0xCC  00-0F  drivers/misc/ibmvmc.h                                   pseries VMC driver
-> +0xCC  A0-BF  uapi/linux/io_uring.h                                   io_uring cmd subsystem
 
-This change is nice, but not totally related to this specific one,
-shouldn't it be separate?
+You mentioned wasted resources. If you want to generate e-waste, remove 
+drivers from the kernel. If you want to prevent e-waste, add drivers for 
+obsolete hardware and then watch the user count climb from zero as devices 
+get pulled from drawers and dusted off.
 
+Anyway, your reaction is an interesting example of strong feelings in the 
+community as to how contributed code should or should not be used. E.g. 
+some get upset if their code runs on weapons systems, others get upset if 
+the latest release might not run on suitable hardware in the immediate 
+future. Some add or remove licence terms according to their convictions.
 
->  0xCD  01     linux/reiserfs_fs.h
->  0xCE  01-02  uapi/linux/cxl_mem.h                                    Compute Express Link Memory Devices
->  0xCF  02     fs/smb/client/cifs_ioctl.h
-> diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
-> index 7fe31b2cd02f..d1b20e2a9fb0 100644
-> --- a/include/linux/io_uring.h
-> +++ b/include/linux/io_uring.h
-> @@ -71,6 +71,7 @@ static inline void io_uring_free(struct task_struct *tsk)
->  	if (tsk->io_uring)
->  		__io_uring_free(tsk);
->  }
-> +int uring_sock_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags);
->  #else
->  static inline int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
->  			      struct iov_iter *iter, void *ioucmd)
-> @@ -102,6 +103,11 @@ static inline const char *io_uring_get_opcode(u8 opcode)
->  {
->  	return "";
->  }
-> +static inline int uring_sock_cmd(struct io_uring_cmd *cmd,
-> +				 unsigned int issue_flags)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
->  #endif
->  
->  #endif
-> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
-> index 0716cb17e436..e20ba410859d 100644
-> --- a/include/uapi/linux/io_uring.h
-> +++ b/include/uapi/linux/io_uring.h
-> @@ -703,6 +703,12 @@ struct io_uring_recvmsg_out {
->  	__u32 flags;
->  };
->  
-> +/*
-> + * Argument for IORING_OP_URING_CMD when file is a socket
-> + */
-> +#define SOCKET_URING_OP_SIOCINQ _IOR(0xcc, 0xa0, int)
-> +#define SOCKET_URING_OP_SIOCOUTQ _IOR(0xcc, 0xa1, int)
-> +
->  #ifdef __cplusplus
->  }
->  #endif
-> diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
-> index 5e32db48696d..dcbe6493b03f 100644
-> --- a/io_uring/uring_cmd.c
-> +++ b/io_uring/uring_cmd.c
-> @@ -7,6 +7,7 @@
->  #include <linux/nospec.h>
->  
->  #include <uapi/linux/io_uring.h>
-> +#include <uapi/asm-generic/ioctls.h>
->  
->  #include "io_uring.h"
->  #include "rsrc.h"
-> @@ -156,3 +157,29 @@ int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
->  	return io_import_fixed(rw, iter, req->imu, ubuf, len);
->  }
->  EXPORT_SYMBOL_GPL(io_uring_cmd_import_fixed);
-> +
-> +int uring_sock_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
-> +{
-> +	struct socket *sock = cmd->file->private_data;
-> +	struct sock *sk = sock->sk;
-> +	int ret, arg = 0;
-> +
-> +	if (!sk->sk_prot || !sk->sk_prot->ioctl)
-> +		return -EOPNOTSUPP;
-> +
-> +	switch (cmd->sqe->cmd_op) {
-> +	case SOCKET_URING_OP_SIOCINQ:
-> +		ret = sk->sk_prot->ioctl(sk, SIOCINQ, &arg);
-> +		if (ret)
-> +			return ret;
-> +		return arg;
-> +	case SOCKET_URING_OP_SIOCOUTQ:
-> +		ret = sk->sk_prot->ioctl(sk, SIOCOUTQ, &arg);
-> +		if (ret)
-> +			return ret;
-> +		return arg;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(uring_sock_cmd);
-
-Did you forget the "io_" prefix?
-
-thanks,
-
-greg k-h
+If there was consensus, it might be feasible to give a formula for 
+"recognized usage" which could be quantified. From there we could create a 
+kind of heat map to show which commits, maintainers, processes, models, 
+modules etc. were the most "useful" within some time interval.
