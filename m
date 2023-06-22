@@ -2,79 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E0EEB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 16:58:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F19BEB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 17:03:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229743AbjFVQ6t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 12:58:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45074 "EHLO
+        id S229873AbjFVRDK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 13:03:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjFVQ6s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 12:58:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D72C110F0
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 09:57:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687453079;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=gAWxNjxnJA5QCZuC21KgBhCKxi4eQ+4jpeKcX1+CbJE=;
-        b=FIVYDFaTyRNXYoRQz21KLaap7EEybzwha2+qtk4h6xSvypJH0ngg8/wy4Ds4HR+GAyx1KB
-        2vccQQhr37yXQPbZfnVgOVNRPxHfDeLRxQXiit30WlVqGSmYHYiuVaQgYJMV6Fyq1tQFzT
-        WrBgGa1zcmUhWqpucQqUl4enbBZWvSE=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-314-b00uXniLNJ-DHwqz0X3d2A-1; Thu, 22 Jun 2023 12:57:54 -0400
-X-MC-Unique: b00uXniLNJ-DHwqz0X3d2A-1
-Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-1a7e3a83f06so6685302fac.2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 09:57:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687453073; x=1690045073;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gAWxNjxnJA5QCZuC21KgBhCKxi4eQ+4jpeKcX1+CbJE=;
-        b=hr6fSDpKzpNXtPpviwO4D18blVbiYAmG4EXxR8091xwFjnLIhdYggXgHrELhkNoaJy
-         g/ON1y6GlhBbKsM6wr3Gn6QvPvrUn+TW6JG3c92zlSOGp8jXEKZOl17z/R8t3MPZwzRh
-         1aHRi9ym2b768kKDe9XnMsFBJv9a8XMSP2ZpULRxLCEjuJvf6EBxrWuXZtwfV1KRD5Rr
-         ys80mlBzA7YUlJ2oVnH5lkuGBplPrmMVnFYqcALGeLx8hk6SDtD1yM5k6u/RvcBe/nnM
-         XdAh6jPyFBH63PxQpHC+NoS44Rbc2LG3La/6+fDms6KzhG5TzWCdCLnwzRHnOamiaUYz
-         2Xkg==
-X-Gm-Message-State: AC+VfDwG3a310vaTUgyyn+8WrvzQBwz2gzFuvZKb6cEtpEmhzpExAngt
-        jXYvivAOa0a6IMft4YLeJEdFMzdGGnJsx/9rhqcahD3i7+H3Vsak2on8iMv/VxCYMXP3R+QQqfs
-        7VlMyGJtRvZaFM87Gb/tkDVCI+kdwNKVG+bmG
-X-Received: by 2002:a05:6870:9202:b0:1a2:a6e8:9832 with SMTP id e2-20020a056870920200b001a2a6e89832mr14821067oaf.42.1687453073603;
-        Thu, 22 Jun 2023 09:57:53 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7qMzXwVZhsP3YURXvCdNBdCdVaT/83FElq+TxTMvTCIeN2GPAsQiFS/opK9wjGO8ykDYr9ONOA8/x+vU7B/Bk=
-X-Received: by 2002:a05:6870:9202:b0:1a2:a6e8:9832 with SMTP id
- e2-20020a056870920200b001a2a6e89832mr14821059oaf.42.1687453073421; Thu, 22
- Jun 2023 09:57:53 -0700 (PDT)
+        with ESMTP id S229830AbjFVRDJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 13:03:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45094171C;
+        Thu, 22 Jun 2023 10:03:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D5DF36189D;
+        Thu, 22 Jun 2023 17:03:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFC32C433C0;
+        Thu, 22 Jun 2023 17:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1687453387;
+        bh=bTPWSed6ATavN9U5OfmHvXOmtlfLENbeNFQ2nEWL28k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cqgTLammDQGkc9nRI3L+FPR4xD/n/+LA+BC7NUMTKssxHlmUTQkbZn3zzlij2wg8K
+         q8rKPbqVl34LFlKDbmsSubW9/ucihWzklC8Sq6rRs2p0Jx8TZMcYD65vEma9W0I3ip
+         t9h1OX2xT/Ngwu+fvgTjdThlK0T3lqetXfJ71rr8=
+Date:   Thu, 22 Jun 2023 19:03:04 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Breno Leitao <leitao@debian.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Pavel Begunkov <asml.silence@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, leit@meta.com,
+        Arnd Bergmann <arnd@arndb.de>,
+        Steve French <stfrench@microsoft.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Simon Ser <contact@emersion.fr>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:IO_URING" <io-uring@vger.kernel.org>,
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
+Subject: Re: [PATCH] io_uring: Add io_uring command support for sockets
+Message-ID: <2023062228-cloak-wish-ec12@gregkh>
+References: <20230621232129.3776944-1-leitao@debian.org>
+ <2023062231-tasting-stranger-8882@gregkh>
+ <ZJRijTDv5lUsVo+j@gmail.com>
+ <2023062208-animosity-squabble-c1ba@gregkh>
+ <ZJR49xji1zmISlTs@gmail.com>
 MIME-Version: 1.0
-References: <20230622071004.2934698-1-costa.shul@redhat.com> <a0e8aba6-b28f-c460-9bab-5695000727fb@infradead.org>
-In-Reply-To: <a0e8aba6-b28f-c460-9bab-5695000727fb@infradead.org>
-From:   Costa Shulyupin <costa.shul@redhat.com>
-Date:   Thu, 22 Jun 2023 19:57:42 +0300
-Message-ID: <CADDUTFy_e61TfMkxE0f7Lnt5QXA09YKi-0rx6ULmw+9LQ00FbA@mail.gmail.com>
-Subject: Re: [PATCH] docs: consolidate core subsystems
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZJR49xji1zmISlTs@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 22 Jun 2023 at 18:36, Randy Dunlap <rdunlap@infradead.org> wrote:
-> a. I'm not sure that locking is a subsystem (it's a core API IMO).
-Actually https://docs.kernel.org/locking/index.html describes more
-than just API.
+On Thu, Jun 22, 2023 at 09:38:15AM -0700, Breno Leitao wrote:
+> On Thu, Jun 22, 2023 at 06:10:00PM +0200, Greg Kroah-Hartman wrote:
+> > On Thu, Jun 22, 2023 at 08:02:37AM -0700, Breno Leitao wrote:
+> > > On Thu, Jun 22, 2023 at 07:20:48AM +0200, Greg Kroah-Hartman wrote:
+> > > > On Wed, Jun 21, 2023 at 04:21:26PM -0700, Breno Leitao wrote:
+> > > > > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > > > > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> > > > > @@ -361,6 +361,7 @@ Code  Seq#    Include File                                           Comments
+> > > > >  0xCB  00-1F                                                          CBM serial IEC bus in development:
+> > > > >                                                                       <mailto:michael.klein@puffin.lb.shuttle.de>
+> > > > >  0xCC  00-0F  drivers/misc/ibmvmc.h                                   pseries VMC driver
+> > > > > +0xCC  A0-BF  uapi/linux/io_uring.h                                   io_uring cmd subsystem
+> > > > 
+> > > > This change is nice, but not totally related to this specific one,
+> > > > shouldn't it be separate?
+> > > 
+> > > This is related to this patch, since I am using it below, in the
+> > > following part:
+> > > 
+> > > 	+#define SOCKET_URING_OP_SIOCINQ _IOR(0xcc, 0xa0, int)
+> > > 	+#define SOCKET_URING_OP_SIOCOUTQ _IOR(0xcc, 0xa1, int)
+> > > 
+> > > Should I have a different patch, even if they are related?
+> > 
+> > Yes, as you are not using the 0xa2-0xbf range that you just carved out
+> > here, right?  Where did those numbers come from?
+> 
+> Correct. For now we are just using 0xa0 and 0xa1, and eventually we
+> might need more ioctls numbers.
+> 
+> I got these numbers finding a unused block and having some room for
+> expansion, as suggested by Documentation/userspace-api/ioctl/ioctl-number.rst,
+> that says:
+> 
+> 	If you are writing a driver for a new device and need a letter, pick an
+> 	unused block with enough room for expansion: 32 to 256 ioctl commands.
 
-> b. I often have trouble finding "filesystems" and I think that it should be
->    given a higher location in the TOC (somehow).
-I plan to put "filesystems" under "Storage subsystems" in the next patch.
+So is this the first io_uring ioctl?  If so, why is this an ioctl and
+not just a "normal" io_uring call?
 
-Thanks
-Costa
+thanks,
 
+greg k-h
