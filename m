@@ -2,103 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C34EB64D8
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 18:12:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBF8BEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 18:21:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230257AbjFVSMH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 14:12:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51394 "EHLO
+        id S229721AbjFVSV2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 14:21:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbjFVSMG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 14:12:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B821BF6;
-        Thu, 22 Jun 2023 11:12:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F08E618CF;
-        Thu, 22 Jun 2023 18:12:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56859C433C0;
-        Thu, 22 Jun 2023 18:12:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1687457524;
-        bh=sbgN011gcBN7s2BCAlLe1ljxtv7/CztCExKzSZ2O7j4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c5o1PUNASBKoAIeJ1NYb0kD6UC4BmgTam/VUlDTb9tYzKIk+gGwYKL1R59n7TVXEm
-         kyQeX6DmUfyXZlhAFRAklTgI7w+UMtdpG51gsgVQiVBPw2vSzZQPD88Jo0J1Nag+38
-         8NMslLP/MHw5MIR6Emn8fsot/4bDiPNRUkZoT81s=
-Date:   Thu, 22 Jun 2023 20:12:01 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Saurabh Singh Sengar <ssengar@microsoft.com>
-Cc:     Saurabh Sengar <ssengar@linux.microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [EXTERNAL] Re: [PATCH v2 2/5] tools: hv: Add vmbus_bufring
-Message-ID: <2023062243-dazzling-patio-3ef9@gregkh>
-References: <1686766512-2589-1-git-send-email-ssengar@linux.microsoft.com>
- <1686766512-2589-3-git-send-email-ssengar@linux.microsoft.com>
- <2023061430-facedown-getting-d9f7@gregkh>
- <PUZP153MB07492FF43240CFD055CF268ABE5CA@PUZP153MB0749.APCP153.PROD.OUTLOOK.COM>
- <2023062020-swung-sensitive-4866@gregkh>
- <SEZP153MB0742B43EC4E490E2FEACDA4ABE22A@SEZP153MB0742.APCP153.PROD.OUTLOOK.COM>
+        with ESMTP id S229522AbjFVSV1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 14:21:27 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7601E2105;
+        Thu, 22 Jun 2023 11:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=t02GqixU93hABDtM3rcPTM2ZhN4nb0XzBqI30VoyYtE=; b=JkDrdCiYPmkRNJ5i6MKcglC3hd
+        NNkrYcDa/j7MYLLBgA00ey9vHiYeBuzgjsqsikSND7EtUysmHbzGMxKW0AP+vk5H3dVHHqBiPIweh
+        gG2XM09tag/4gG9lm6S6WKfYBzWVKUyZt/0vBnCFVNR1F1vtv4X47yTkGAYwS/GvQmPjPaCVg5bKB
+        IO7lNl1cJezXl2O0/b4/TM5Vy3oc/85fzjOG3U4XQLNicGnZsWshEqYIHbXFJ7iNj5G4E9LVEQsKi
+        o0Cj/wcmvdiOOJIBDh7OrM2p52ajZQP5/2+eZPYS5Xl62VvDjLXmLPfcwtk0+94x48hYBrJqteI14
+        4sqgR3VA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qCOvX-00ForJ-LK; Thu, 22 Jun 2023 18:21:03 +0000
+Date:   Thu, 22 Jun 2023 19:21:03 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
+        torvalds@linux-foundation.org, broonie@kernel.org,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v9 16/42] mm: Add guard pages around a shadow stack.
+Message-ID: <ZJSRD1xZauOW3jFO@casper.infradead.org>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-17-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SEZP153MB0742B43EC4E490E2FEACDA4ABE22A@SEZP153MB0742.APCP153.PROD.OUTLOOK.COM>
+In-Reply-To: <20230613001108.3040476-17-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 22, 2023 at 05:47:58PM +0000, Saurabh Singh Sengar wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Greg KH <gregkh@linuxfoundation.org>
-> > Sent: Tuesday, June 20, 2023 12:36 PM
-> > To: Saurabh Singh Sengar <ssengar@microsoft.com>
-> > Cc: Saurabh Sengar <ssengar@linux.microsoft.com>; KY Srinivasan
-> > <kys@microsoft.com>; Haiyang Zhang <haiyangz@microsoft.com>;
-> > wei.liu@kernel.org; Dexuan Cui <decui@microsoft.com>; Michael Kelley
-> > (LINUX) <mikelley@microsoft.com>; corbet@lwn.net; linux-
-> > kernel@vger.kernel.org; linux-hyperv@vger.kernel.org; linux-
-> > doc@vger.kernel.org
-> > Subject: Re: [EXTERNAL] Re: [PATCH v2 2/5] tools: hv: Add vmbus_bufring
-> > 
-> > On Tue, Jun 20, 2023 at 05:25:06AM +0000, Saurabh Singh Sengar wrote:
-> > > > > diff --git a/tools/hv/vmbus_bufring.c b/tools/hv/vmbus_bufring.c
-> > > > > new file mode 100644 index 000000000000..d44a06d45b03
-> > > > > --- /dev/null
-> > > > > +++ b/tools/hv/vmbus_bufring.c
-> > > > > @@ -0,0 +1,322 @@
-> > > > > +// SPDX-License-Identifier: BSD-3-Clause
-> > > > > +/*
-> > > > > + * Copyright (c) 2009-2012,2016,2023 Microsoft Corp.
-> > > > > + * Copyright (c) 2012 NetApp Inc.
-> > > > > + * Copyright (c) 2012 Citrix Inc.
-> > > > > + * All rights reserved.
-> > > >
-> > > > No copyright for the work you did?
-> > >
-> > > I have added 2023 Microsoft Corp. Please let me know if I need to add
-> > > anything more.
-> > 
-> > Please contact your lawyers about EXACTLY what you need to do here, that's
-> > up to them, not me!
-> 
-> I have cross verified this with our legal team and they are fine with it.
+On Mon, Jun 12, 2023 at 05:10:42PM -0700, Rick Edgecombe wrote:
+> +++ b/include/linux/mm.h
+> @@ -342,7 +342,36 @@ extern unsigned int kobjsize(const void *objp);
+>  #endif /* CONFIG_ARCH_HAS_PKEYS */
+>  
+>  #ifdef CONFIG_X86_USER_SHADOW_STACK
+> -# define VM_SHADOW_STACK	VM_HIGH_ARCH_5 /* Should not be set with VM_SHARED */
+> +/*
+> + * This flag should not be set with VM_SHARED because of lack of support
+> + * core mm. It will also get a guard page. This helps userspace protect
+> + * itself from attacks. The reasoning is as follows:
+> + *
+> + * The shadow stack pointer(SSP) is moved by CALL, RET, and INCSSPQ. The
+> + * INCSSP instruction can increment the shadow stack pointer. It is the
+> + * shadow stack analog of an instruction like:
+> + *
+> + *   addq $0x80, %rsp
+> + *
+> + * However, there is one important difference between an ADD on %rsp
+> + * and INCSSP. In addition to modifying SSP, INCSSP also reads from the
+> + * memory of the first and last elements that were "popped". It can be
+> + * thought of as acting like this:
+> + *
+> + * READ_ONCE(ssp);       // read+discard top element on stack
+> + * ssp += nr_to_pop * 8; // move the shadow stack
+> + * READ_ONCE(ssp-8);     // read+discard last popped stack element
+> + *
+> + * The maximum distance INCSSP can move the SSP is 2040 bytes, before
+> + * it would read the memory. Therefore a single page gap will be enough
+> + * to prevent any operation from shifting the SSP to an adjacent stack,
+> + * since it would have to land in the gap at least once, causing a
+> + * fault.
+> + *
+> + * Prevent using INCSSP to move the SSP between shadow stacks by
+> + * having a PAGE_SIZE guard gap.
+> + */
+> +# define VM_SHADOW_STACK	VM_HIGH_ARCH_5
+>  #else
+>  # define VM_SHADOW_STACK	VM_NONE
+>  #endif
 
-Wonderful, please have them sign-off on the patch as well when you
-resubmit it.
-
-thanks,
-
-greg k-h
+This is a lot of very x86-specific language in a generic header file.
+I'm sure there's a better place for all this text.
