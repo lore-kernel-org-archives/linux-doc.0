@@ -2,87 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB335EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 17:40:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2278EB64D8
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 17:41:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231286AbjFVRj7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 13:39:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35368 "EHLO
+        id S229645AbjFVRlV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 13:41:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231418AbjFVRjy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 13:39:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CCD31FD2;
-        Thu, 22 Jun 2023 10:39:51 -0700 (PDT)
+        with ESMTP id S229483AbjFVRlU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 13:41:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38CC31BE1;
+        Thu, 22 Jun 2023 10:41:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8C65C618CA;
-        Thu, 22 Jun 2023 17:39:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52726C433C8;
-        Thu, 22 Jun 2023 17:39:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BF633618CD;
+        Thu, 22 Jun 2023 17:41:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9155BC433C0;
+        Thu, 22 Jun 2023 17:41:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687455589;
-        bh=6Mcce3nF6YdsClruQbW80qlgIDWGMFESghPF7l7JYTM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=c/wGJVyyFBHOwRk677FOXLxKHfOpmo7aYhn8TXoCyysBSD9UN0HRCi/VIEy4fVtc3
-         d1Gtwc4Tlz0ZMOG6N2t6zeJCnCq0Ac3UfKvnIvE5ZZRksc5XHdNUCO3ys3TEVyYqB9
-         O5aTb6ejHzcie2Y3dxe6TFO3Tx54mwjqIDfllxxT2yeNQkcittmTYy4ty+rg7d5x/5
-         gYUetO9mpIHBZhBPcQIevv1XEy0sHwQScl/zfyoUZDduBaQ4FV+wexEVRBjKC+uN3K
-         nVASNPf6jJeZE8DcXCk8LoxzJA9L3gYZjf9cqV9w6ceYkEMCGPZirph5X8Wsb8TCwX
-         wosPPNlFHhh3g==
-Date:   Thu, 22 Jun 2023 10:39:48 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Breno Leitao <leitao@debian.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>, leit@meta.com,
-        Arnd Bergmann <arnd@arndb.de>,
-        Steve French <stfrench@microsoft.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Simon Ser <contact@emersion.fr>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:IO_URING" <io-uring@vger.kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
-Subject: Re: [PATCH] io_uring: Add io_uring command support for sockets
-Message-ID: <20230622103948.33cbb0dd@kernel.org>
-In-Reply-To: <2023062228-cloak-wish-ec12@gregkh>
-References: <20230621232129.3776944-1-leitao@debian.org>
-        <2023062231-tasting-stranger-8882@gregkh>
-        <ZJRijTDv5lUsVo+j@gmail.com>
-        <2023062208-animosity-squabble-c1ba@gregkh>
-        <ZJR49xji1zmISlTs@gmail.com>
-        <2023062228-cloak-wish-ec12@gregkh>
+        s=k20201202; t=1687455678;
+        bh=YAOh3PltHuv3oiVdQk7pp6PuM5ji7zkTeX46kRr9GsA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SLLthQNjRf6xNoc1hI5BkPHrZjL1FjjBmrbUNEM7rLK76EaHjMAwPGMaYsnG4NMgH
+         XGl317enxqEC0vOWOlZvBoLZsOWU/iRi5WgOywc+9VRbTpGs3AADnq1ioaStdEZULn
+         0HAPYCYsBsc9BKf9d6GgyK3cMYVsk880L0Vqq/mBFtHlJj4j77qVUZ7ubZ9nD9jRqt
+         QC9TzCb3fGYYmv4/H0GUCLyuQQtuSiS89PSvYT7FG5ZbS1BXGec+ZFc9g3YIBzqiHd
+         VgOByMiNMzIjJOht5jGLtLICV6qfbNvt4eVgOOwF1YxZQY77Xp9U3vrZcnz7yWg+s2
+         Q5mskb8E5DMfg==
+Date:   Thu, 22 Jun 2023 18:41:13 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Andrew Jones <ajones@ventanamicro.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Song Shuai <songshuaishuai@tinylab.org>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>
+Subject: Re: [PATCH v2 2/3] Documentation: riscv: Add early boot document
+Message-ID: <20230622-clone-overfed-21ec0886e904@spud>
+References: <20230621072234.9900-1-alexghiti@rivosinc.com>
+ <20230621072234.9900-2-alexghiti@rivosinc.com>
+ <20230621-d6da578719f8af903d6746ef@orel>
+ <20230622-4af59422f118ea634836d351@orel>
+ <CAHVXubgJQhShbOfaQeOTxM61g_tUnLBxa-0JK+WE+YQRGkYRQA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="kh9jAV9zzKnGH3pC"
+Content-Disposition: inline
+In-Reply-To: <CAHVXubgJQhShbOfaQeOTxM61g_tUnLBxa-0JK+WE+YQRGkYRQA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 22 Jun 2023 19:03:04 +0200 Greg Kroah-Hartman wrote:
-> > Correct. For now we are just using 0xa0 and 0xa1, and eventually we
-> > might need more ioctls numbers.
-> > 
-> > I got these numbers finding a unused block and having some room for
-> > expansion, as suggested by Documentation/userspace-api/ioctl/ioctl-number.rst,
-> > that says:
-> > 
-> > 	If you are writing a driver for a new device and need a letter, pick an
-> > 	unused block with enough room for expansion: 32 to 256 ioctl commands.  
-> 
-> So is this the first io_uring ioctl?  If so, why is this an ioctl and
-> not just a "normal" io_uring call?
 
-+1, the mixing with classic ioctl seems confusing and I'm not sure 
-if it buys us anything.
--- 
-pw-bot: cr
+--kh9jAV9zzKnGH3pC
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jun 22, 2023 at 07:32:23PM +0200, Alexandre Ghiti wrote:
+> On Thu, Jun 22, 2023 at 7:24=E2=80=AFPM Andrew Jones <ajones@ventanamicro=
+=2Ecom> wrote:
+> >
+> > On Wed, Jun 21, 2023 at 02:19:50PM +0200, Andrew Jones wrote:
+> > > On Wed, Jun 21, 2023 at 09:22:33AM +0200, Alexandre Ghiti wrote:
+> > ...
+> > > > +Hardware description
+> > > > +--------------------
+> > > > +
+> > > > +The firmware can pass either a devicetree or ACPI tables to the RI=
+SC-V kernel.
+> > > > +
+> > > > +The devicetree is either passed directly to the kernel from the pr=
+evious stage
+> > > > +using the `$a1` register, or when booting with UEFI, it can be pas=
+sed using the
+> > > > +EFI configuration table.
+> > > > +
+> > > > +The ACPI tables are passed to the kernel using the EFI configurati=
+on table. In
+> > > > +this case, a tiny devicetree is still created by the EFI stub. Ple=
+ase refer to
+> > > > +"EFI stub and devicetree" tree section below for details about thi=
+s devicetree.
+> > >                              ^ redundant 'tree' here
+> > >
+> >
+> > Can whoever applies this drop this 'tree' I pointed while applying?
+>=20
+> Yes, sorry: @Conor Dooley give me the overly long lines you wanted me
+> to break and I'll send a v3, it won't take much time and I'll fix this
+> too!
+
+Look, I said it was pure pedantry on my part, and not something that
+helps with understanding. You've been warned!
+
+diff --git a/Documentation/riscv/boot.rst b/Documentation/riscv/boot.rst
+index 019ee818686d..a52793fd9f6c 100644
+--- a/Documentation/riscv/boot.rst
++++ b/Documentation/riscv/boot.rst
+@@ -143,11 +143,12 @@ be carefully examined.
+ Device-tree mapping via fixmap
+ ------------------------------
+=20
+-The RISC-V kernel uses the fixmap region to map the devicetree because the
+-devicetree virtual mapping must remain the same between :c:func:`setup_vm`=
+ and
+-:c:func:`setup_vm_final` calls since the :c:var:`reserved_mem` array is
+-initialized with virtual addresses established by :c:func:`setup_vm` and u=
+sed
+-with the mapping established by :c:func:`setup_vm_final`.
++
++As the :c:var:`reserved_mem` array is initialized with virtual addresses
++established by :c:func:`setup_vm`, and used with the mapping established by
++:c:func:`setup_vm_final`, the RISC-V kernel uses the fixmap region to map =
+the
++devicetree. This ensures that the same virtual mapping is used by both
++functions.
+=20
+ Pre-MMU execution
+ -----------------
+
+--kh9jAV9zzKnGH3pC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJSHuQAKCRB4tDGHoIJi
+0jsVAQDEXMV48OW7eoZ1+j6mFXAUoK4gEfiDynMorze08Q3uqgEA6tiHd5oOT7Lt
+VRIIRuWAwkwl7eEczS4ibrV8mm0sAAo=
+=BX7b
+-----END PGP SIGNATURE-----
+
+--kh9jAV9zzKnGH3pC--
