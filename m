@@ -2,189 +2,193 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AED0EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 03:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11FB3EB64DB
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 05:20:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbjFVDY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Jun 2023 23:24:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50254 "EHLO
+        id S230046AbjFVFUz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 01:20:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjFVDYY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Jun 2023 23:24:24 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C59861A4;
-        Wed, 21 Jun 2023 20:24:23 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-57015b368c3so59245677b3.3;
-        Wed, 21 Jun 2023 20:24:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687404263; x=1689996263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l4O28N8FGaP9hA4+6ahHxAcfwQx7IU5FkHKln14GG3Y=;
-        b=NNzIU7JYQjWLGByJ0BDfsfQXPqUrK8MTUXGyV2D7lW4Bm2q/Ik9xu4/R9FF6nlsBJ3
-         TIHN8+qx+P5YQSu3BRXBrADFh6Rqc82tvQV2NucSTLEHqjw2x5J/wx8T/UxoG6g+6W41
-         BXCJp8iHfs3Q5LrKoKhMijiFDtHv6grmRkjMveBM6SShEnRHOCRtOEygGCX27SS1yLxo
-         yCwfd8Z1Em0R8BJNkMXT+T61pRnBAPPWzTnB/pCpF+guhA/9FHrDf0XOl3iXXx8dLsJY
-         J/mabNfXG0tb1BXV8NzPSOyBFOSkyMDAhwf7P9X4WVIF7ZbCsrUu+YD4LVDl+9W/VRku
-         WJlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687404263; x=1689996263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l4O28N8FGaP9hA4+6ahHxAcfwQx7IU5FkHKln14GG3Y=;
-        b=PNQ70k29dV02skC3Ig6Pc8rkGyuMquNPl2fr4QreWhDpeyKP3BdNJfOuztKvq+4KUl
-         Yv97u465xqbqQMWh22IG7LfPkTqwbpbKKD/AkgunaDLYJrGh3qyppsX5zlBPbfD+Di1T
-         9Lta8aT584VUBaEOrakIn4nst6AI/Qe8XcPo0GEgt/xNMxnc/15eFeifeqObViMxeX1m
-         j5PpPfhilkDZlP8xxyYrIhOpMRbtsBhujKI9NZ5ncYxHs+jZ5awYYcl+UZXnC/tQUJgt
-         yz2PIbvnlAsjq7iJ+Ex+baIHLHSXp9VNWKasfRCMYDZRnDLWkpN9GnjIueobbU4fvkz5
-         Ed9g==
-X-Gm-Message-State: AC+VfDwcwA/4jT5WGocW+TJ+X3jdlalCNtTlOY4ZUSdunqIXWXdkanjz
-        4VfypchKJ10iT+egE4LPVqmdcYGCNz8y2nCz7eE=
-X-Google-Smtp-Source: ACHHUZ59kfPGrSfKxuh324V37hD7nPSrroGRA6spekBztu808vKYMl2ssvTY0BHJNvqM8Z1gQTVEnHiRioEMUW3M1y4=
-X-Received: by 2002:a81:48d0:0:b0:56d:1521:4f6c with SMTP id
- v199-20020a8148d0000000b0056d15214f6cmr16992828ywa.16.1687404263010; Wed, 21
- Jun 2023 20:24:23 -0700 (PDT)
+        with ESMTP id S229921AbjFVFUy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 01:20:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2E60E9;
+        Wed, 21 Jun 2023 22:20:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 463ED61724;
+        Thu, 22 Jun 2023 05:20:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27178C433C0;
+        Thu, 22 Jun 2023 05:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1687411251;
+        bh=eGLXi+uLksYHHBlslNR0JrkdmKSXNfPy+zdjEsn8oDk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Lqd5vzo92XkWQozOq8THy9F79ZZK2SH1MUWBLiCUkEZ/AIYHqQJj72S6F5IJs/xGb
+         cZBlbHIdi3KeL13Y9f02+PQ786Jog6Evg5Kc6nqVcpjRvf9E08ua9XAgFEs7erbeRO
+         CK++HIJlGMruS9JaFkW0lycQeHg3+GILARbQb9eM=
+Date:   Thu, 22 Jun 2023 07:20:48 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Breno Leitao <leitao@debian.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Pavel Begunkov <asml.silence@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, leit@meta.com,
+        Arnd Bergmann <arnd@arndb.de>,
+        Steve French <stfrench@microsoft.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Simon Ser <contact@emersion.fr>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:IO_URING" <io-uring@vger.kernel.org>,
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
+Subject: Re: [PATCH] io_uring: Add io_uring command support for sockets
+Message-ID: <2023062231-tasting-stranger-8882@gregkh>
+References: <20230621232129.3776944-1-leitao@debian.org>
 MIME-Version: 1.0
-References: <1f04fa59-6ca9-4f18-b138-6c33e164b6c2@sirena.org.uk>
- <49eabafa97032dec8ace7361bccae72c6ecf3860.camel@intel.com>
- <fc2ebfcf-8d91-4f07-a119-2aaec3aa099f@sirena.org.uk> <a0f1da840ad21fae99479288f5d74c7ab9095bb6.camel@intel.com>
- <ZImZ6eUxf5DdLYpe@arm.com> <64837d2af3ae39bafd025b3141a04f04f4323205.camel@intel.com>
- <ZJAWMSLfSaHOD1+X@arm.com> <5794e4024a01e9c25f0951a7386cac69310dbd0f.camel@intel.com>
- <ZJFukYxRbU1MZlQn@arm.com> <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
- <ZJLgp29mM3BLb3xa@arm.com> <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
- <5ae619e03ab5bd3189e606e844648f66bfc03b8f.camel@intel.com>
- <CAMe9rOpZYwD=v0vcseBrjNvMy4J3Kgy2i8hCcBsU+1gNUcR9qA@mail.gmail.com>
- <c7df57a7489ff555fc531d19a5a4a689f6f99a7c.camel@intel.com> <66042cf07ed596d33f714ef152153361c77567d7.camel@intel.com>
-In-Reply-To: <66042cf07ed596d33f714ef152153361c77567d7.camel@intel.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Wed, 21 Jun 2023 20:23:46 -0700
-Message-ID: <CAMe9rOohfEbCEiaP=DO2StzkwTncdudwZ9DOC87Vz+Q03rQ9Qw@mail.gmail.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack description
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "bp@alien8.de" <bp@alien8.de>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Eranian, Stephane" <eranian@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230621232129.3776944-1-leitao@debian.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 6:07=E2=80=AFPM Edgecombe, Rick P
-<rick.p.edgecombe@intel.com> wrote:
->
-> On Wed, 2023-06-21 at 16:15 -0700, Rick Edgecombe wrote:
-> > On Wed, 2023-06-21 at 16:05 -0700, H.J. Lu wrote:
-> > > > Which makes me think if we did want to make a more compatible
-> > > > longjmp()
-> > > > a better the way to do it might be an arch_prctl that emits a
-> > > > token
-> > > > at
-> > > > the current SSP. This would be loosening up the security somewhat
-> > > > (have
-> > > > to be an opt-in), but less so then enabling WRSS. But it would
-> > > > also
-> > > > be
-> > > > way simpler, work for all cases (I think), and be faster (maybe?)
-> > > > than
-> > > > INCSSPing through a bunch of stacks.
-> > >
-> > > Since longjmp isn't required to be called after setjmp, leaving a
-> > > restore
-> > > token doesn't work when longjmp isn't called.
-> >
-> > Oh good point. Hmm.
->
-> Just had a quick chat with HJ on this. It seems like it *might* be able
-> to made to work. How it would go is setjmp() could act as a wrapper by
-> calling it's own return address (the function that called setjmp()).
-> This would mean in the case of longjmp() not being called, control flow
-> would return through setjmp() before returning from the calling method.
+On Wed, Jun 21, 2023 at 04:21:26PM -0700, Breno Leitao wrote:
+> Enable io_uring commands on network sockets. Create two new
+> SOCKET_URING_OP commands that will operate on sockets. Since these
+> commands are similar to ioctl, uses the _IO{R,W} helpers to embedded the
+> argument size and operation direction. Also allocates a unused ioctl
+> chunk for uring command usage.
+> 
+> In order to call ioctl on sockets, use the file_operations->uring_cmd
+> callbacks, and map it to a uring socket function, which handles the
+> SOCKET_URING_OP accordingly, and calls socket ioctls.
+> 
+> This patches was tested by creating a new test case in liburing.
+> Link: https://github.com/leitao/liburing/commit/3340908b742c6a26f662a0679c4ddf9df84ef431
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
 
-It may not work since we can't tell if RAX (return value) is set by longjmp
-or function return.
+Isn't this a new version of an older patch?
 
-> This would allow libc to do a RSTORSSP when returning though setjmp()
-> in the non-shadow stack case, and essentially skip over the kernel
-> placed restore token, and then return from setjmp() like normal. In the
-> case of longjmp() being called, it could RSTORSSP directly to the
-> token, and then return from setjmp().
->
-> Another option could be getting the compilers help to do the RSTORSSP
-> in the case of longjmp() not being called. Apparently compilers are
-> aware of setjmp() and already do special things around it (makes sense
-> I guess, but news to me).
->
-> And also, this all would actually work with IBT, because the compiler
-> knows already to add an endbr at that point right after setjmp().
->
-> I think neither of us were ready to bet on it, but thought maybe it
-> could work. And even if it works it's much more complicated than I
-> first thought, so I don't like it as much. It's also unclear what a
-> change like that would mean for security.
->
-> As for unwinding through the existing swapcontext() placed restore
-> tokens, the problem was as assumed - that it's difficult to find them.
-> Even considering brute force options like doing manual searches for a
-> nearby token to use turned up edge cases pretty quick. So I think that
-> kind of leaves us where we were originally, with no known solutions
-> that would require breaking kernel ABI changes.
->
->
-> Are you interested in helping get longjmp() from a ucontext stack
-> working for shadow stack? One other thing that came up in the
-> conversation was that while it is known that some apps are doing this,
-> there are no tests for mixing longjmp and ucontext in glibc. So we may
-> not know which combinations of mixing them together even work in the
-> non-shadow stack case.
->
-> It could be useful to add some tests for this to glibc and we could get
-> some clarity on what behaviors shadow stack would actually need to
-> support.
+>  .../userspace-api/ioctl/ioctl-number.rst      |  1 +
+>  include/linux/io_uring.h                      |  6 +++++
+>  include/uapi/linux/io_uring.h                 |  6 +++++
+>  io_uring/uring_cmd.c                          | 27 +++++++++++++++++++
+>  net/socket.c                                  |  2 ++
+>  5 files changed, 42 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 4f7b23faebb9..23348636f2ef 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -361,6 +361,7 @@ Code  Seq#    Include File                                           Comments
+>  0xCB  00-1F                                                          CBM serial IEC bus in development:
+>                                                                       <mailto:michael.klein@puffin.lb.shuttle.de>
+>  0xCC  00-0F  drivers/misc/ibmvmc.h                                   pseries VMC driver
+> +0xCC  A0-BF  uapi/linux/io_uring.h                                   io_uring cmd subsystem
+
+This change is nice, but not totally related to this specific one,
+shouldn't it be separate?
 
 
+>  0xCD  01     linux/reiserfs_fs.h
+>  0xCE  01-02  uapi/linux/cxl_mem.h                                    Compute Express Link Memory Devices
+>  0xCF  02     fs/smb/client/cifs_ioctl.h
+> diff --git a/include/linux/io_uring.h b/include/linux/io_uring.h
+> index 7fe31b2cd02f..d1b20e2a9fb0 100644
+> --- a/include/linux/io_uring.h
+> +++ b/include/linux/io_uring.h
+> @@ -71,6 +71,7 @@ static inline void io_uring_free(struct task_struct *tsk)
+>  	if (tsk->io_uring)
+>  		__io_uring_free(tsk);
+>  }
+> +int uring_sock_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags);
+>  #else
+>  static inline int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+>  			      struct iov_iter *iter, void *ioucmd)
+> @@ -102,6 +103,11 @@ static inline const char *io_uring_get_opcode(u8 opcode)
+>  {
+>  	return "";
+>  }
+> +static inline int uring_sock_cmd(struct io_uring_cmd *cmd,
+> +				 unsigned int issue_flags)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+>  #endif
+>  
+>  #endif
+> diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+> index 0716cb17e436..e20ba410859d 100644
+> --- a/include/uapi/linux/io_uring.h
+> +++ b/include/uapi/linux/io_uring.h
+> @@ -703,6 +703,12 @@ struct io_uring_recvmsg_out {
+>  	__u32 flags;
+>  };
+>  
+> +/*
+> + * Argument for IORING_OP_URING_CMD when file is a socket
+> + */
+> +#define SOCKET_URING_OP_SIOCINQ _IOR(0xcc, 0xa0, int)
+> +#define SOCKET_URING_OP_SIOCOUTQ _IOR(0xcc, 0xa1, int)
+> +
+>  #ifdef __cplusplus
+>  }
+>  #endif
+> diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
+> index 5e32db48696d..dcbe6493b03f 100644
+> --- a/io_uring/uring_cmd.c
+> +++ b/io_uring/uring_cmd.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/nospec.h>
+>  
+>  #include <uapi/linux/io_uring.h>
+> +#include <uapi/asm-generic/ioctls.h>
+>  
+>  #include "io_uring.h"
+>  #include "rsrc.h"
+> @@ -156,3 +157,29 @@ int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+>  	return io_import_fixed(rw, iter, req->imu, ubuf, len);
+>  }
+>  EXPORT_SYMBOL_GPL(io_uring_cmd_import_fixed);
+> +
+> +int uring_sock_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
+> +{
+> +	struct socket *sock = cmd->file->private_data;
+> +	struct sock *sk = sock->sk;
+> +	int ret, arg = 0;
+> +
+> +	if (!sk->sk_prot || !sk->sk_prot->ioctl)
+> +		return -EOPNOTSUPP;
+> +
+> +	switch (cmd->sqe->cmd_op) {
+> +	case SOCKET_URING_OP_SIOCINQ:
+> +		ret = sk->sk_prot->ioctl(sk, SIOCINQ, &arg);
+> +		if (ret)
+> +			return ret;
+> +		return arg;
+> +	case SOCKET_URING_OP_SIOCOUTQ:
+> +		ret = sk->sk_prot->ioctl(sk, SIOCOUTQ, &arg);
+> +		if (ret)
+> +			return ret;
+> +		return arg;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(uring_sock_cmd);
 
---=20
-H.J.
+Did you forget the "io_" prefix?
+
+thanks,
+
+greg k-h
