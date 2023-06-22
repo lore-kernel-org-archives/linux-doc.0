@@ -2,120 +2,294 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C56EB64D8
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 15:03:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAA42EB64D8
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 15:06:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231172AbjFVPDi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 11:03:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40516 "EHLO
+        id S232339AbjFVPGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 11:06:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232095AbjFVPDg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 11:03:36 -0400
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29C26268F;
-        Thu, 22 Jun 2023 08:03:17 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-311099fac92so8393016f8f.0;
-        Thu, 22 Jun 2023 08:03:17 -0700 (PDT)
+        with ESMTP id S232371AbjFVPGS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 11:06:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA91EB4
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 08:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687446328;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ALwAb4xXprAB+9F/dS+KPiS3Lq1AVB4XEyImG9brJGs=;
+        b=AzXUdGWLJ++A4Ta2RZYeLLcgd9+e6NkKk1K5zsuBi2j4VyxYx59Xpec7jxrfBJXkru5EGe
+        nwtFeNL3botUNq62Gu2Jfn5IAJWh2ZG/2Knc9phLB465FINfpnHBG0ptdu7lJMiUnRxGgO
+        kTdp0i0c815BF+ER7isIKBi2PMmqfM0=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-307-5mz5TCrpPMKJp4bho29TIg-1; Thu, 22 Jun 2023 11:05:17 -0400
+X-MC-Unique: 5mz5TCrpPMKJp4bho29TIg-1
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-260a18f1b43so2124140a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 08:05:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687446160; x=1690038160;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t/n7cyBQWBJrKRj8jxj2QgN2B2DXg9ROG/UR9O3ggiI=;
-        b=a4j/5BRe6ikbuTRZI5Ze/gfo7/DAUTTt/Asv4VPS1uMJMnPhnmuh7vFI2flJapVr4c
-         UC+yvK8fb+aDyyZvCRQqGDk+z6C2DKUUyx3wBFeXmEI9B0wmB5U9DE2jqY5GiagcJfrP
-         L8dbVkdFYlUXouFhKkFgQHP98vaipyQbb6tfM+JyUloqgfELr3LX9nXtijiuJAKg4IUy
-         bGq8hnjoDEAGee1IoRlEYtX8GaYpNcyfn+3JaDGggBdTUd/YydevihI5Qxys3woJHATZ
-         XJt4sFYP7WCONzGr3yDRDr7jzQStv5iZj3SNvu2G8J9O9dIuzKIOIs/NTwXlcElan5hc
-         NuOw==
-X-Gm-Message-State: AC+VfDyPcTNW4Dm1Yd08cbR4TKzHn8kKo3+YFCQJsXm9gb0Kn6EbXh3a
-        iWdghonOgUchIPWqbhymzMs=
-X-Google-Smtp-Source: ACHHUZ4+rOnjnE4sQgtZcmXX9Fey6w9aB4HaOV5Uy8o85WMhvf0KHxeyaE5uZbAjbZTWnWK8B5SjBw==
-X-Received: by 2002:adf:f34f:0:b0:30f:b1ee:5cd0 with SMTP id e15-20020adff34f000000b0030fb1ee5cd0mr16382265wrp.50.1687446159714;
-        Thu, 22 Jun 2023 08:02:39 -0700 (PDT)
-Received: from gmail.com (fwdproxy-cln-021.fbsv.net. [2a03:2880:31ff:15::face:b00c])
-        by smtp.gmail.com with ESMTPSA id n15-20020a5d4c4f000000b003111025ec67sm7266818wrt.25.2023.06.22.08.02.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 08:02:39 -0700 (PDT)
-Date:   Thu, 22 Jun 2023 08:02:37 -0700
-From:   Breno Leitao <leitao@debian.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, leit@meta.com,
-        Arnd Bergmann <arnd@arndb.de>,
-        Steve French <stfrench@microsoft.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Simon Ser <contact@emersion.fr>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:IO_URING" <io-uring@vger.kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
-Subject: Re: [PATCH] io_uring: Add io_uring command support for sockets
-Message-ID: <ZJRijTDv5lUsVo+j@gmail.com>
-References: <20230621232129.3776944-1-leitao@debian.org>
- <2023062231-tasting-stranger-8882@gregkh>
+        d=1e100.net; s=20221208; t=1687446306; x=1690038306;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ALwAb4xXprAB+9F/dS+KPiS3Lq1AVB4XEyImG9brJGs=;
+        b=Kw9gCtrD8mXONcZ6BRsSwCKWcr010V1s6PTnUtm0TfTDuYBv4NbBeO1rHzUuEW74N/
+         rQUUJkz5RS2t9CbixPOFoSWzFt9mbc6LpbKDNes98gN5E0YmSa2Ki5CpxMEwkH9AhZmh
+         gc7WIgUa8LXCPVEROyobysxwbb4JAqWzJOhad3lQ8qW3BzqE13df1RgdpJT07U8J6zzp
+         I0eE5LiJ3+iAoHq0zAAvDJyb+lF7ivMZ5FXA6SpQQnT2vTjvUyqwWukujDgT82C9k54z
+         ei4IXYJtFpRGsCE04jW9Abx1dD+H5frt9tj0jjGS5LNoejNJsFmX0sS9eQzQLpw10R/f
+         55Cg==
+X-Gm-Message-State: AC+VfDxdpjaTbWFHk0KvkxGn/Ti/R4bZL1RdJIi/aLLi2Flz9LfTdOup
+        in9h1kAWgo2mb4evCUnhVtCWFvBfA6MWZz4kIVsqiFa7jBUCqX2fbNWHLFnP+C/D52Z3Op/jn2Y
+        pW7hQ1nf7J8tjXg1N9l/e
+X-Received: by 2002:a17:90a:598b:b0:25e:21fd:d0ee with SMTP id l11-20020a17090a598b00b0025e21fdd0eemr12382071pji.4.1687446305619;
+        Thu, 22 Jun 2023 08:05:05 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6VAF41Yl6PWm1TlVPyMZOWckognMLULfXo3Puhxxwa0Hm6Wvk9Q83FUo/5ecv5BWxRadodTQ==
+X-Received: by 2002:a17:90a:598b:b0:25e:21fd:d0ee with SMTP id l11-20020a17090a598b00b0025e21fdd0eemr12382031pji.4.1687446305092;
+        Thu, 22 Jun 2023 08:05:05 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id gz10-20020a17090b0eca00b00256b67208b1sm10867488pjb.56.2023.06.22.08.04.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Jun 2023 08:05:04 -0700 (PDT)
+Message-ID: <c1f05169-dec0-22ee-52fa-c8070678394e@redhat.com>
+Date:   Thu, 22 Jun 2023 17:04:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023062231-tasting-stranger-8882@gregkh>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA
+ mappings
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net
+Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org,
+        Donald Robson <donald.robson@imgtec.com>,
+        Dave Airlie <airlied@redhat.com>
+References: <20230620004217.4700-1-dakr@redhat.com>
+ <20230620004217.4700-4-dakr@redhat.com>
+ <cf6846ea-5bd0-0b41-b7e6-901c70701751@amd.com>
+ <a8edf75b-e0f7-a6c7-7d29-f0d39923549b@redhat.com>
+ <41aecd10-9956-0752-2838-34c97834f0c8@amd.com>
+ <bcde7ea3-fbab-3a18-e810-64b6589ddb18@redhat.com>
+ <86ef9898-c4b6-f4c0-7ad3-3ffe5358365a@amd.com>
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <86ef9898-c4b6-f4c0-7ad3-3ffe5358365a@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 22, 2023 at 07:20:48AM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Jun 21, 2023 at 04:21:26PM -0700, Breno Leitao wrote:
-> > Enable io_uring commands on network sockets. Create two new
-> > SOCKET_URING_OP commands that will operate on sockets. Since these
-> > commands are similar to ioctl, uses the _IO{R,W} helpers to embedded the
-> > argument size and operation direction. Also allocates a unused ioctl
-> > chunk for uring command usage.
-> > 
-> > In order to call ioctl on sockets, use the file_operations->uring_cmd
-> > callbacks, and map it to a uring socket function, which handles the
-> > SOCKET_URING_OP accordingly, and calls socket ioctls.
-> > 
-> > This patches was tested by creating a new test case in liburing.
-> > Link: https://github.com/leitao/liburing/commit/3340908b742c6a26f662a0679c4ddf9df84ef431
-> > 
-> > Signed-off-by: Breno Leitao <leitao@debian.org>
-> > ---
+On 6/22/23 16:42, Christian König wrote:
+> Am 22.06.23 um 16:22 schrieb Danilo Krummrich:
+>> On 6/22/23 15:54, Christian König wrote:
+>>> Am 20.06.23 um 14:23 schrieb Danilo Krummrich:
+>>>> Hi Christian,
+>>>>
+>>>> On 6/20/23 08:45, Christian König wrote:
+>>>>> Hi Danilo,
+>>>>>
+>>>>> sorry for the delayed reply. I've trying to dig myself out of a 
+>>>>> hole at the moment.
+>>>>
+>>>> No worries, thank you for taking a look anyway!
+>>>>
+>>>>>
+>>>>> Am 20.06.23 um 02:42 schrieb Danilo Krummrich:
+>>>>>> [SNIP]
+>>>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+>>>>>> index bbc721870c13..5ec8148a30ee 100644
+>>>>>> --- a/include/drm/drm_gem.h
+>>>>>> +++ b/include/drm/drm_gem.h
+>>>>>> @@ -36,6 +36,8 @@
+>>>>>>   #include <linux/kref.h>
+>>>>>>   #include <linux/dma-resv.h>
+>>>>>> +#include <linux/list.h>
+>>>>>> +#include <linux/mutex.h>
+>>>>>>   #include <drm/drm_vma_manager.h>
+>>>>>> @@ -379,6 +381,18 @@ struct drm_gem_object {
+>>>>>>        */
+>>>>>>       struct dma_resv _resv;
+>>>>>> +    /**
+>>>>>> +     * @gpuva:
+>>>>>> +     *
+>>>>>> +     * Provides the list of GPU VAs attached to this GEM object.
+>>>>>> +     *
+>>>>>> +     * Drivers should lock list accesses with the GEMs &dma_resv 
+>>>>>> lock
+>>>>>> +     * (&drm_gem_object.resv).
+>>>>>> +     */
+>>>>>> +    struct {
+>>>>>> +        struct list_head list;
+>>>>>> +    } gpuva;
+>>>>>> +
+>>>>>>       /**
+>>>>>>        * @funcs:
+>>>>>>        *
+>>>>>
+>>>>> I'm pretty sure that it's not a good idea to attach this directly 
+>>>>> to the GEM object.
+>>>>
+>>>> Why do you think so? IMHO having a common way to connect mappings to 
+>>>> their backing buffers is a good thing, since every driver needs this 
+>>>> connection anyway.
+>>>>
+>>>> E.g. when a BO gets evicted, drivers can just iterate the list of 
+>>>> mappings and, as the circumstances require, invalidate the 
+>>>> corresponding mappings or to unmap all existing mappings of a given 
+>>>> buffer.
+>>>>
+>>>> What would be the advantage to let every driver implement a driver 
+>>>> specific way of keeping this connection?
+>>>
+>>> Flexibility. For example on amdgpu the mappings of a BO are groups by 
+>>> VM address spaces.
+>>>
+>>> E.g. the BO points to multiple bo_vm structures which in turn have 
+>>> lists of their mappings.
+>>
+>> Isn't this (almost) the same relationship I introduce with the GPUVA 
+>> manager?
+>>
+>> If you would switch over to the GPUVA manager right now, it would be 
+>> that every GEM has a list of it's mappings (the gpuva list). The 
+>> mapping is represented by struct drm_gpuva (of course embedded in 
+>> driver specific structure(s)) which has a pointer to the VM address 
+>> space it is part of, namely the GPUVA manager instance. And the GPUVA 
+>> manager keeps a maple tree of it's mappings as well.
+>>
+>> If you still would like to *directly* (indirectly you already have 
+>> that relationship) keep a list of GPUVA managers (VM address spaces) 
+>> per GEM, you could still do that in a driver specific way.
+>>
+>> Do I miss something?
 > 
-> Isn't this a new version of an older patch?
+> How do you efficiently find only the mappings of a BO in one VM?
 
-Yes, this should have tagged as V2.
+Actually, I think this case should even be more efficient than with a BO 
+having a list of GPUVAs (or mappings):
 
-[1] https://lore.kernel.org/lkml/20230406144330.1932798-1-leitao@debian.org/#r
+Having a list of GPUVAs per GEM, each GPUVA has a pointer to it's VM. 
+Hence, you'd only need to iterate the list of mappings for a given BO 
+and check the mappings VM pointer.
 
-> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > @@ -361,6 +361,7 @@ Code  Seq#    Include File                                           Comments
-> >  0xCB  00-1F                                                          CBM serial IEC bus in development:
-> >                                                                       <mailto:michael.klein@puffin.lb.shuttle.de>
-> >  0xCC  00-0F  drivers/misc/ibmvmc.h                                   pseries VMC driver
-> > +0xCC  A0-BF  uapi/linux/io_uring.h                                   io_uring cmd subsystem
+Having a list of VMs per BO, you'd have to iterate the whole VM to find 
+the mappings having a pointer to the given BO, right?
+
+I'd think that a single VM potentially has more mapping entries than a 
+single BO was mapped in multiple VMs.
+
+Another case to consider is the case I originally had in mind choosing 
+this relationship: finding all mappings for a given BO, which I guess 
+all drivers need to do in order to invalidate mappings on BO eviction.
+
+Having a list of VMs per BO, wouldn't you need to iterate all of the VMs 
+entirely?
+
 > 
-> This change is nice, but not totally related to this specific one,
-> shouldn't it be separate?
-
-This is related to this patch, since I am using it below, in the
-following part:
-
-	+#define SOCKET_URING_OP_SIOCINQ _IOR(0xcc, 0xa0, int)
-	+#define SOCKET_URING_OP_SIOCOUTQ _IOR(0xcc, 0xa1, int)
-
-Should I have a different patch, even if they are related?
-
-> > +EXPORT_SYMBOL_GPL(uring_sock_cmd);
+> Keep in mind that we have cases where one BO is shared with hundreds of 
+> different VMs as well as potentially the number of mappings can be >10k.
 > 
-> Did you forget the "io_" prefix?
+>>
+>>>
+>>> Additional to that there is a state maschine associated with the 
+>>> mappings, e.g. if the page tables are up to date or need to be 
+>>> updated etc....
+>>>
+>>>> Do you see cases where this kind of connection between mappings and 
+>>>> backing buffers wouldn't be good enough? If so, which cases do you 
+>>>> have in mind? Maybe we can cover them in a common way as well?
+>>>
+>>> Yeah, we have tons of cases like that. But I have no idea how to 
+>>> generalize them.
+>>
+>> They could still remain to be driver specific then, right?
+> 
+> Well does the mapping has a back pointer to the BO? And can that be 
+> optional NULL if there is no BO?
 
-Yes, I will rename the function.
+Yes to both.
 
-Thanks for the review.
+- Danilo
+
+> 
+> Regards,
+> Christian.
+> 
+>>
+>>>
+>>>>
+>>>>>
+>>>>> As you wrote in the commit message it's highly driver specific what 
+>>>>> to map and where to map it.
+>>>>
+>>>> In the end the common case should be that in a VA space at least 
+>>>> every mapping being backed by a BO is represented by a struct 
+>>>> drm_gpuva.
+>>>
+>>> Oh, no! We also have mappings not backed by a BO at all! For example 
+>>> for partial resident textures or data routing to internal hw etc...
+>>>
+>>> You can't be sure that a mapping is backed by a BO at all.
+>>
+>> I fully agree, that's why I wrote "the common case should be that in a 
+>> VA space at least every mapping *being backed by a BO* is represented 
+>> by a struct drm_gpuva".
+>>
+>> Mappings not being backed by an actual BO would not be linked to a GEM 
+>> of course.
+>>
+>>>
+>>>>
+>>>>>
+>>>>> Instead I suggest to have a separate structure for mappings in a VA 
+>>>>> space which driver can then add to their GEM objects or whatever 
+>>>>> they want to map into their VMs.
+>>>>
+>>>> Which kind of separate structure for mappings? Another one analogous 
+>>>> to struct drm_gpuva?
+>>>
+>>> Well similar to what amdgpu uses BO -> one structure for each 
+>>> combination of BO and VM -> mappings inside that VM
+>>
+>> As explained above, I think that's exactly what the GPUVA manager 
+>> does, just in another order:
+>>
+>> BO has list of mappings, mappings have pointer to VM, VM has list (or 
+>> actually a maple tree) of mappings.
+>>
+>> You see any advantages or disadvantages of either order of 
+>> relationships? For me it looks like it doesn't really matter which one 
+>> to pick.
+>>
+>> - Danilo
+>>
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>>
+>>>> - Danilo
+>>>>
+>>>>>
+>>>>> Regards,
+>>>>> Christian.
+>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
