@@ -2,229 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8FD2EB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 07:10:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EA04EB64D8
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 07:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229732AbjFVHKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 03:10:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35168 "EHLO
+        id S229853AbjFVHKW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 03:10:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229756AbjFVHKA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 03:10:00 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B1721BD8
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 00:09:58 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3110ab7110aso6942660f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 00:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687417796; x=1690009796;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mPyXOzxLtxEjY9cBPcsaRIns0EAEb4Nt/6W8EsU3ga8=;
-        b=3iouDSVugUMNcys+i697SLnTvuKCQCDU18RQuMxLJV54x1bnilfa2bLr1aadMiQh1g
-         UItDYY8rMfETP4FeqIVWSeabeT9AuFOTAO2aUWdKuLg84/CdT7qzIiwweS4Gx3GVX1P8
-         4bBATic4ICWKlQpgqYwOyZIg4yeumq7IFyMtmwFoUFt4NXiXBCo3DNhJZkMc01ZTBRaW
-         ek+bbOOoFMHEBQqk1J0jBtWot+LCXVC45zM6x5Dl0Kk8ybD9Cafa8DoJ6GiSDoMY3ro7
-         6A1iZr2yMlshPSuQUwe9k+ophGjpUKdwBA35Aey0t6Ccp+bFNAOoqgp2gLV3leZxIgP/
-         d1Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687417796; x=1690009796;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mPyXOzxLtxEjY9cBPcsaRIns0EAEb4Nt/6W8EsU3ga8=;
-        b=PVirGkG7dUP9xvbBl2+A2FOIsqRBDNoCiAE4khl09ARoYr1YR6QJVR1x5VO+wrX/iG
-         3F9517HYfyhMJNTHjirq8tLQK/lJ6vMprQ7yA45209qKJts6O2cmy2dphsbP+lTNqcjb
-         n/VJJaZAScO2Sn9bIwag18l60fjKxAcreThz1D/HiPwY4xxilpxa9c1RbAfQPLmXy1vW
-         wkaLCrtPTm+ayzh4kfMf5GjOFVUk85oxrw29nw2JjEGNMfqW/OYBRFeDsBkUoVnKel/m
-         xKSvZ3pFG4gXPEv2taU6mEsEXZhx5OlCyW815wivEJrV1LajTLDfl18lbT6X7w3OOHCS
-         EJVg==
-X-Gm-Message-State: AC+VfDxjkIewkZW6+iiwbavLPyAYHAHzOmvy69y9SMQ2qYQ4g111WiRa
-        tNcdDigr0m6xrmDphzZXHaQCGg==
-X-Google-Smtp-Source: ACHHUZ7BfDfYg8tVKSO/1MGIhgM7knp4bxE9BjLvWPQmvpgYpkpg9XkXMIy4VKk2fcxV+HKp1ykuJA==
-X-Received: by 2002:a5d:468d:0:b0:30a:f2a0:64fa with SMTP id u13-20020a5d468d000000b0030af2a064famr15527240wrq.10.1687417796496;
-        Thu, 22 Jun 2023 00:09:56 -0700 (PDT)
-Received: from localhost ([86.61.181.4])
-        by smtp.gmail.com with ESMTPSA id f12-20020a5d58ec000000b00309382eb047sm6207885wrd.112.2023.06.22.00.09.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 00:09:55 -0700 (PDT)
-Date:   Thu, 22 Jun 2023 09:09:54 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: Re: [RFC PATCH v8 03/10] dpll: core: Add DPLL framework base
- functions
-Message-ID: <ZJPzwj1odaC8fFzO@nanopsycho>
-References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
- <20230609121853.3607724-4-arkadiusz.kubalewski@intel.com>
- <20230612164515.6eacefb1@kernel.org>
- <DM6PR11MB4657FED589F5922BBAC5D9059B5DA@DM6PR11MB4657.namprd11.prod.outlook.com>
+        with ESMTP id S230129AbjFVHKV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 03:10:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B38891BD5;
+        Thu, 22 Jun 2023 00:10:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 161B161777;
+        Thu, 22 Jun 2023 07:10:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23007C433C0;
+        Thu, 22 Jun 2023 07:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1687417816;
+        bh=jJ9/1h8Jv56y/AA0CGfCYljz3gMni9xKw48AEwgthYc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ToTrTUz1nz11K9iDk9LIgOMV4VpTgYxe0YBWLZrjy2aIaDWQH2LamHZmZlKiiDFz8
+         g0YCpxG9BQGq6DFR4HoRawTjdllmaKN7gSIdxc+00iVHhiabpt4BAERs2fGOd/m71u
+         BC0a+30O5DmQmhWMIrdKLzEtsFiIgzYXjBHblu+k=
+Date:   Thu, 22 Jun 2023 09:10:13 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Finn Thain <fthain@linux-m68k.org>
+Cc:     Theodore Ts'o <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>,
+        tech-board-discuss@lists.linux-foundation.org,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and the
+ wider community
+Message-ID: <2023062245-engraver-antsy-005c@gregkh>
+References: <20230620212502.GI286961@mit.edu>
+ <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
+ <2023062144-hefty-why-305d@gregkh>
+ <04cd7204-cdee-c333-8815-57acbab82721@linux-m68k.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM6PR11MB4657FED589F5922BBAC5D9059B5DA@DM6PR11MB4657.namprd11.prod.outlook.com>
+In-Reply-To: <04cd7204-cdee-c333-8815-57acbab82721@linux-m68k.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wed, Jun 21, 2023 at 11:17:26PM CEST, arkadiusz.kubalewski@intel.com wrote:
->>From: Jakub Kicinski <kuba@kernel.org>
->>Sent: Tuesday, June 13, 2023 1:45 AM
->>
->>On Fri,  9 Jun 2023 14:18:46 +0200 Arkadiusz Kubalewski wrote:
->>> +	xa_for_each(xa_pins, i, ref) {
->>> +		if (ref->pin != pin)
->>> +			continue;
->>> +		reg = dpll_pin_registration_find(ref, ops, priv);
->>> +		if (reg) {
->>> +			refcount_inc(&ref->refcount);
->>> +			return 0;
->>> +		}
->>> +		ref_exists = true;
->>> +		break;
->>> +	}
->>> +
->>> +	if (!ref_exists) {
->>> +		ref = kzalloc(sizeof(*ref), GFP_KERNEL);
->>> +		if (!ref)
->>> +			return -ENOMEM;
->>> +		ref->pin = pin;
->>> +		INIT_LIST_HEAD(&ref->registration_list);
->>> +		ret = xa_insert(xa_pins, pin->pin_idx, ref, GFP_KERNEL);
->>> +		if (ret) {
->>> +			kfree(ref);
->>> +			return ret;
->>> +		}
->>> +		refcount_set(&ref->refcount, 1);
->>> +	}
->>> +
->>> +	reg = kzalloc(sizeof(*reg), GFP_KERNEL);
->>
->>Why do we have two structures - ref and reg?
->>
->
->Thank to Jiri and reg struct we solved a pin/dpll association
->with multiple device drivers..
+On Thu, Jun 22, 2023 at 05:02:10PM +1000, Finn Thain wrote:
+> On Wed, 21 Jun 2023, Greg Kroah-Hartman wrote:
+> 
+> > On Wed, Jun 21, 2023 at 11:51:19AM +1000, Finn Thain wrote:
+> > > > You appear to have a very different model of how non-profits might 
+> > > > approach the Linux kernel --- could you go into more detail about 
+> > > > why they might want to contribute to the Linux kernel, and how we 
+> > > > might encourage them to contribute more engineering effort?
+> > > > 
+> > > 
+> > > Sure. Here's a recent example, in which a not-for-profit volunteer 
+> > > might have been granted an opportunity to work upstream: 
+> > > https://lore.kernel.org/all/129c9d5e-213a-80c9-092e-dc1dcf38ae3e@linux-m68k.org/
+> > > 
+> > > The driver in question may may not be commercially viable, but that 
+> > > doesn't matter, if the intention is to foster new maintainers and 
+> > > increase the talent pool. And the problem ostensibly being addressed 
+> > > in the Linux Contributor Maturity Model is a shortage of maintainers.
+> > 
+> > I would NEVER recommend ANYONE picking up obsolete hardware and trying 
+> > to get it to work to maintain the driver if NO ONE is actually using the 
+> > stuff.  That should not be for a not-for-profit to maintain as 
+> > obviously, no one uses it.
+> > 
+> > It's up to those that need/use the code to help maintain it, don't ask 
+> > not-for-profit groups to maintain and support code that no one uses, 
+> > that's a sure way to waste resources all around.
+> > 
+> 
+> Actually, that patch was offered without any prompting from me. But you're 
+> quite right -- I would have prompted it, had I had the oppportunity.
+> 
+> > So that's a good example of how our ecosystem works properly, if no one 
+> > needs the code, it gets dropped.  Don't ask for it to come back without 
+> > real users who are invested in it please.
+> > 
+> 
+> You mentioned wasted resources. If you want to generate e-waste, remove 
+> drivers from the kernel. If you want to prevent e-waste, add drivers for 
+> obsolete hardware and then watch the user count climb from zero as devices 
+> get pulled from drawers and dusted off.
 
-Multiple instances of the same driver.
+Based on our experience, opld devices are not being pulled from
+anywhere, and if they were being used, they almost always take more
+power than existing devices, so it's hard to justify the use of them at
+times given energy prices in many parts of the world.
 
+> Anyway, your reaction is an interesting example of strong feelings in the 
+> community as to how contributed code should or should not be used.
 
->I.e. for pin:
->
->struct dpll_pin_registration {
->	struct list_head list;
->	const struct dpll_pin_ops *ops;
->	void *priv;
->};
->
->struct dpll_pin_ref {
->	union {
->		struct dpll_device *dpll;
->		struct dpll_pin *pin;
->	};
->	struct list_head registration_list;
->	refcount_t refcount;
->};
->
->struct dpll_pin {
->	u32 id;
->	u32 pin_idx;
->	u64 clock_id;
->	struct module *module;
->	struct xarray dpll_refs;
->	struct xarray parent_refs;
->	const struct dpll_pin_properties *prop;
->	char *rclk_dev_name;
->	refcount_t refcount;
->};
->
->Basically, a pin or a device can be registered from multiple drivers,
+I did not pass any judgement on how the code should or should not be
+used.  All I am saying is that this code is not being used at all.
 
-Again, multiple instances of the same driver.
+> If there was consensus, it might be feasible to give a formula for 
+> "recognized usage" which could be quantified. From there we could create a 
+> kind of heat map to show which commits, maintainers, processes, models, 
+> modules etc. were the most "useful" within some time interval.
 
+Determining code use is difficult given that we are not going to add
+tracking to the kernel source for obvious reasons, so this is a
+non-starter, as you know.
 
->where each driver has own priv and ops.
-
-Each instance/device.
-
-
->A single dpll_pin has references to dplls or pins (dpll_refs/parent_refs)
->it is connected with, and thanks to registration list single reference can
->have multiple drivers being attached with a particular dpll/pin.
-
-Multiple instances/devices.
-
-
-In case of mlx5, the same dpll device and same dpll pin could be shared
-among two PFs but also among multiple VFs and SFs. They all share the
-same clock, same dpll device.
-
-
->
->The same scheme is for a dpll_device struct and associated pins.
->
->
->>> +	if (!reg) {
->>> +		if (!ref_exists)
->>> +			kfree(ref);
->>
->>ref has already been inserted into xa_pins
->>
->
->True, seems like a bug, will fix it.
->
->Thank you,
->Arkadiusz
->
->>> +		return -ENOMEM;
+greg k-h
