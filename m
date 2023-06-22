@@ -2,230 +2,190 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAEDAC0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 23:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7483AEB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 23:32:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231734AbjFVXT7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 19:19:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47022 "EHLO
+        id S231349AbjFVXb7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 19:31:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231700AbjFVXTm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 19:19:42 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC301FC6;
-        Thu, 22 Jun 2023 16:19:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687475948; x=1719011948;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=LVp/PGPDwXqjYDy7Zz7ZBu4brIclCSMkpeEyunKrpVc=;
-  b=gjMyMa2L8EW03ZMjHgcr4Xw0jDgFixeWkp1s1rs03xaK/FrztTqMrGRM
-   VNZo/7XwhETzE9AdKjb3UkduPimWpMoCiu77EoqDN0Gghtbq5ypZuYmlr
-   F2vj4on+gzQ60W0VyNx/sOIk0iYoeuRM4vrauvUAQehgymiFQmE1k+Hxv
-   HDfg0pnYk7+jZ/inRL5RRK7Qynh8T4B8J0Dr0hjBBDPZwALdc8XEHYEbW
-   R1Pda8WZlZBo9obNB0lKxTlhjN8po9tYZZs1rwqZZqXQrzIhQV4F4t5ZH
-   eZ+GVscM/KBqVt9OyLZzcLerb1Okmo82HzW8qQVraVRNQytTxmGt+WAlB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="340238640"
-X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="340238640"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 16:18:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="715117758"
-X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="715117758"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga002.jf.intel.com with ESMTP; 22 Jun 2023 16:18:30 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 22 Jun 2023 16:18:30 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 22 Jun 2023 16:18:29 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 22 Jun 2023 16:18:29 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 22 Jun 2023 16:18:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eaUAU8qs4SdoIPXB+Oh1Edzw53MXtz0KwHljO7Gll9bEHKaa5IrYMMUgMStxKRyy7lr4YNFd8rQusrBK5KrkmDbDb94waUyaDq93tB+GVI/G8aTGyRr3GcMvX7QvlSrALWf0/Rn7X0tyFHwDoE+9vbPGqdpEReVvIj6uuMckQGqlRjX3/XivIWLNnPFTQCMI0xJ/vMz++jjaZXw2w3mJnjFxRklZDqaqC3O8UmuKGJSMVCp65QfeSB0cJbF66X70Kbur32wQjkQ7r9YZpS5y3Xerna2wpB7SN1s4LK9pfvtmUNfqJIH4miSj+8xblTeAtdry4N2QbagW5zwi4gSHlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LVp/PGPDwXqjYDy7Zz7ZBu4brIclCSMkpeEyunKrpVc=;
- b=KPiU6LUVEnoVgeAhUy1ZKyyiChrJNH0Lfgp8aCK1BX4G2s4hJ4BBaQZ6/u/BvPt3SbyjxxseBqIeg9FmD1DPBco32MI+IxgxD7muOF52nAl/IsCm+6m9DmMVPcEaCvMpN2aHvHqu1oFCCwrvmxxD2jPV0g8Pi0e0nntxa9VXzl2KLYTqxAcIb73eYpUn1/zSfj3MI8V/QpTuushwTSpjQcJzxG9gNuyyd1VY33DD5xfGgGZqHujcnItfKcaqS4Ke7YimYXlByr8mu8wIZe8CCcHKEgJ/gvLUwRkPIxE9qmKE5Fnbn8w63WtMKORW8AzAtX81hiHavS9ztNRnkmVsUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
- by MW5PR11MB5762.namprd11.prod.outlook.com (2603:10b6:303:196::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Thu, 22 Jun
- 2023 23:18:27 +0000
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::6984:19a5:fe1c:dfec]) by MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::6984:19a5:fe1c:dfec%7]) with mapi id 15.20.6521.023; Thu, 22 Jun 2023
- 23:18:27 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
-        "Lutomirski, Andy" <luto@kernel.org>
-CC:     "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
- description
-Thread-Topic: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
- description
-Thread-Index: AQHZnYvD++9jHqJtDEOZ5j0eN4/f+6+IoOQAgAALyMOAACwFgIAAIG6AgAAMtoCAACGsAIAA96CAgABofQCAB1K5gIAAhUGAgAEVRoCAAKx+AIABDK+AgAB6bICAAPF/AIAAZrmAgAAVNICAAG62AA==
-Date:   Thu, 22 Jun 2023 23:18:27 +0000
-Message-ID: <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
-References: <ZImZ6eUxf5DdLYpe@arm.com>
-         <64837d2af3ae39bafd025b3141a04f04f4323205.camel@intel.com>
-         <ZJAWMSLfSaHOD1+X@arm.com>
-         <5794e4024a01e9c25f0951a7386cac69310dbd0f.camel@intel.com>
-         <ZJFukYxRbU1MZlQn@arm.com>
-         <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
-         <ZJLgp29mM3BLb3xa@arm.com>
-         <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
-         <ZJQR7slVHvjeCQG8@arm.com>
-         <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
-         <ZJR545en+dYx399c@arm.com>
-In-Reply-To: <ZJR545en+dYx399c@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|MW5PR11MB5762:EE_
-x-ms-office365-filtering-correlation-id: ec78a810-d51a-4d00-68d3-08db7376fc05
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gnZB3BkyIUBSfBNY5KLcyGDayXEm69PgiMioyXdxn7nxnNPbA56WwTOKPxB1Lxj5f/u7B0Znk4vU6TyIYtjG1PLXQiVfwc9jUWArehN/O+rjYRYxsBmUZMCqBFpFhnqIx+F4jhz5Jd0XL5JJcwHRc7L9l+J3LidokxuRuRjMUKKaNjVheZJiLMCfM603hz2D5djCxeDHLZbamudKizcA3seWrzhkSqHuJQ9OD1pZ0lFKC6wmRFNY3QTXqa13iIQ7piWX4IJtUgOU2kMyHdYry0XxdvhDF/K+e0qB6Iq+NCX61RW/zVbCHg77E46ojgRP2VxzzyNoQUVkAIUtYlPnziAbNs9zMg2o5iigiRCOJ1sGuj4BrKkPxG2Io77s/mkg8kRwJoW2Dx/NKn3ZqIiO161eg5uv4KqWY4U9/ecmcl8JWiUIb6Q/ZhSwwK3BfVFvSSW+BrQ4jszE9z/WaC7qATokxahwF9l8Glq3RgTDlzjNQ2sxFjTOY5dTu448Yh8tCPwUrXYDCdWzjmwolM2YTZZflVAnXZQsNNsSqePt70yr2Iv0QGU3offKhisnU7K9fFOYsVEb/k88PBV0o3VvOmuSeeAkFLukPOYuVnfoMNR7yT6XR51dY3WsBK8fs8+W
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(376002)(396003)(366004)(136003)(39860400002)(451199021)(6486002)(71200400001)(478600001)(110136005)(54906003)(76116006)(91956017)(83380400001)(2616005)(36756003)(86362001)(38070700005)(4744005)(2906002)(66946007)(6512007)(6506007)(26005)(38100700002)(82960400001)(122000001)(41300700001)(186003)(316002)(66446008)(7416002)(7406005)(66556008)(66476007)(8936002)(8676002)(64756008)(4326008)(5660300002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VVF3aVdqS2lvME8xTXZCd2d2RWdmY1hOUEpxQ0NRNFY2ZGtMSmRXNEdNbHEw?=
- =?utf-8?B?L2p5bUd2ZE9WSURxTWNjaWM3b0JqTHExTzdmR01VYWpNenI2OHRiN0YweFZW?=
- =?utf-8?B?Q0VadnF0cXowRmhQaHE3KytFcHFncVFnK1hTUjgwZXdmaWhIVUszUWNQYkQ5?=
- =?utf-8?B?Smx1NkdTU2ZpczJjZXpkSUxrQURFTDlOb2ZHbURONDZMVGZvQzIrNy9JNkZK?=
- =?utf-8?B?YTMvTTg0NUg5aDlnVXlsM3NOem5YVXBJNTNvVmM4aUF1RjdmVnc5OTZvUXJB?=
- =?utf-8?B?RDlwVzhPKzduWUhSNGhVUmtzR3haZ0ZyZDZWRFNocTlWcXhEZnVrU1o4WTg2?=
- =?utf-8?B?OTl4U2ZJT0t1R0lvZlUzbEM1ekJMcmQwL3lkSU1qbDVleWtMU01mZ1U1aXdG?=
- =?utf-8?B?V2pPeFp1cEVWKzV0YjdTeGZOdHEwdDBRYVFkajdldkhrMXcrL0dPVlZJTjdp?=
- =?utf-8?B?c3NuTHBBS3E4ZGRxWFpLaXArMkNEWDd5Mk9aaFNlTTZ0ckFWQTVjMVdEU1Nx?=
- =?utf-8?B?b2NJTGI5TENKeXlCSmxWUXN6OStHSWh6N1prbzNkK3Zmd3ZudW85SnNSVXFq?=
- =?utf-8?B?YWNZT203MEs2Q05seWx4Z3BwTnJ0REl4eXpqWHE4MnNnNlFlRkc4a1ZFQ1NX?=
- =?utf-8?B?RjdtY1NEZHlFR0p2WnR3dUxPSWJJQVVjYWQycDBXSUllVjBXV2N6ZEZ4dnVQ?=
- =?utf-8?B?TjNidTZkcXI5MVEvRnBFWUtDU1IyaTB2ZW96TGNPTVBkbVFIQjh5WElWQ0dP?=
- =?utf-8?B?aFQrZEYwWmNTelVsRUFSbE1pU25lTHFWRUErSGFsRjE4MXd2WnVrY2V6RTZn?=
- =?utf-8?B?K1dQVE0wYUJyN2pLS2MzbmxIaDE5cys3NVlZcjRheU5UWURHeFMzRm8xWTN2?=
- =?utf-8?B?Q1dXOW9sUW5EQjJhN3FpLzJ6UGpKYlFLS0lWSGJzUkRtUHh3cVgzOUJpSjJZ?=
- =?utf-8?B?emtZT05JM3k4TjZGOVhoRGZmeEJuNGJRS3VWN3o3cHZJdWR6S1hvUllhM3Bt?=
- =?utf-8?B?MUw1N0JmS3VTUFJDRDA1V01QSTNrMnFjQW9lK0NKbGJFYndaYzlmMjVDOUJx?=
- =?utf-8?B?K2xSYlgyNTluMCtvbEJBY0Fjdk5INHZQOCtJZXMxQTVMVkpxZnRLdEE1L0dk?=
- =?utf-8?B?cW5pQkhOOHlTM3FmbmpGNzlFNkJrQ2xwLzJQR204OVkzOVpOMGRGMHRjWlg0?=
- =?utf-8?B?UTdmZTh4c1VpSzU2RXBIUHFLZHlqZTJndHQxWlBZNGp3K3pkNnJHeHBmQUJy?=
- =?utf-8?B?UGQ2QzY0U0pWL3E5SndFczlzUnhScklreW02YmVEcUVobW8wTzNYZnhYOE9q?=
- =?utf-8?B?UkF3ZXlQckFsZTZuU3FQdk03NDc0L3JBY3lmSlg3TityRXpQVm80R2pqeUNk?=
- =?utf-8?B?dHd2TWJnMUtJOGxXK1ZtSEE3ZXRqVGR1SUFNWFBOWGl6cFQ1TDRlNEJDTjZL?=
- =?utf-8?B?UGFvbit0cWtQV2w3aFc0VXl5akFna1BleVY4WElQT3k5bFFURWJVdlV1aXJG?=
- =?utf-8?B?Qkd2c2JmQlYvTjhIWWQvUSswQU81Sm0rREx1QXA2bEdhWHFoL1dIL3VwYytB?=
- =?utf-8?B?WWg1TzNxbmt3aW9QOVpnWml4MTJ4OFJBN0lTdk44V3ErRVZqeTB2MFF2Tnhz?=
- =?utf-8?B?SmVMU1NvbW1yWWs1MGJHYWgvVzZJdTZjZzR5RU9JbDM5aXpSUjgwb2VneVNI?=
- =?utf-8?B?ZDlYbVBkYkVlako4eWVCZDFVL09iL0tKa1Mzc25hcjNobjFWem9Dd1FQKzEz?=
- =?utf-8?B?ZFg4a09GaG1RREF2R3ZJNzFCL2Jvc1FqV0NtTnpwMHRNeEJVc1dHd1RPK1hj?=
- =?utf-8?B?V1dzY25ISEpOTlRiNVdjMjFRb2x6RWVPVldRM2pZWmdxc25WREEvWS9RODBI?=
- =?utf-8?B?Ukx6aEgzTVJKQk1YMWdteHp6R3hpZWcvL3paSVdHS0JiNFBOY3hGUlE0Y2xL?=
- =?utf-8?B?c2xzQzI3dWMwMW8rbTZTbEJIYVczczBXQlltdjdoMVUvU0VuejMwSEJkamxh?=
- =?utf-8?B?SGp6QUt5eGhjdmIyM0ZicnJ5SVpkVG5rMVVPQzd3MzJPVkkvUTNyRlV1aytY?=
- =?utf-8?B?dkFQZlBWdnY3ZU1SakZqWkR4VE5jdGkrWjA0eitGajJyeEkwZ0lxdnpNVDNo?=
- =?utf-8?B?QzBoMUUwM1dlM2xXMWV1ek5OZE0yVUd3VmkzdnlPancrZ2lYWE1YSWx3L0ly?=
- =?utf-8?B?b3c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <01D8CCAC3D16B04DB1C61B0F3632CE4E@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S230503AbjFVXb6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 19:31:58 -0400
+Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com [IPv6:2607:f8b0:4864:20::a2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32289210B
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 16:31:57 -0700 (PDT)
+Received: by mail-vk1-xa2d.google.com with SMTP id 71dfb90a1353d-4717a29e19bso28111e0c.3
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 16:31:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687476716; x=1690068716;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=67piO5m5kwhgkGZRSCs+P2mt8JZPTPY6ZNmz3uFEERw=;
+        b=Go9OPZrCjyYQrsGYmeyjij/CYhyZz00UzA7dWA9yE65QecRbdBxLjHb3CHXsjMLhgE
+         cHOBEJyeVN5chDlUh00cwig04AbPvMnUmLiS7c9iR1pFC2dRjvhIpHnbmq112EW1f9th
+         WR2cmAM8Al8Q/WbPfSwc0vJl4NkTl7vLJYvpqHo7KYa3tyErj29HOJ4HsFNergrI31U2
+         MJVW/Czc3AdfmGXsRk2YmM+QXV9rh5kaUf0eNvt6cqbat9Y92TT4V6CKZQLD3s6s5B4n
+         Le0KRFp7o6I6fiA26eSskq/Vr+AvyD7atFVXYPMv1bm+lDSdRpl0sVOnNORrJSb1C1um
+         QB4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687476716; x=1690068716;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=67piO5m5kwhgkGZRSCs+P2mt8JZPTPY6ZNmz3uFEERw=;
+        b=DQrs4MCYkIB3QEqawpA8nbb0sjQrt+vlHh+JOSKEFhE7gnkLleyFXqZobbkHBOhfr1
+         MPPFvfWR6ig3cdVVAWb08Cjd7xgHHLRip0xE46+UfICO0VPnwqZ+TVNkpXlSaoWI+rW2
+         ZShrVFJkbemT38PbFDKg1mL0BQYn0MZIdL3Gl8FqfclnofKCwdrVWo7zDAvZV+lXm1CM
+         rhS7pIqv+9IeY/u9OcGEqZwWq4v0ZJThp7ZUCJxkwV9e0ED1Lnh7UklapuyiCRQ5zZAh
+         ea2V2OMtY4c0pBy7LQnpQEwFZgsKDtXTZcVO/ShqXsBnHdjEoxCHmTXUQ9jt9Vw4C8U7
+         NQyQ==
+X-Gm-Message-State: AC+VfDzr4bJNU8Of2kT1R5FWBxPgmSgoLS8RyzbAfkip82VRr4TyFWMV
+        x8dSnMbfbbMSEZHOh1uW2Kbf5a7m8BzuE8uvJ0C37g==
+X-Google-Smtp-Source: ACHHUZ4yBGctwXzyOZ7e9UbJK1NZq9tQ5XS38jtR9N8MJn8TxhDelZEf+HQlQgnvEqQ9UsmFPsgR3BRng60Q7TltBmI=
+X-Received: by 2002:a1f:5744:0:b0:471:5110:49e8 with SMTP id
+ l65-20020a1f5744000000b00471511049e8mr9920922vkb.4.1687476714680; Thu, 22 Jun
+ 2023 16:31:54 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec78a810-d51a-4d00-68d3-08db7376fc05
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2023 23:18:27.4211
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jwmGdgZGkivdiGLOegoKukkcAoRhaQJ3Lxwb83Gq23Ugm/RfYiAJWFXpgpCEWjJ2sVmILyAFWddZnpjCWtksFkGGzEfTBZvsY2ozUh6bpb0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5762
-X-OriginatorOrg: intel.com
+References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <972e1d5c5ec53e2757fb17a586558c5385e987dd.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <64876bf6c30e2_1433ac29415@dwillia2-xfh.jf.intel.com.notmuch>
+In-Reply-To: <64876bf6c30e2_1433ac29415@dwillia2-xfh.jf.intel.com.notmuch>
+From:   Erdem Aktas <erdemaktas@google.com>
+Date:   Thu, 22 Jun 2023 16:31:43 -0700
+Message-ID: <CAAYXXYzOUQC0G7yoh1i2+SW-FodCABwhD6TgArLf28iG=i65zw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] selftests/tdx: Test GetQuote TDX attestation feature
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Dionna Amalie Glaze <dionnaglaze@google.com>,
+        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        dhowells@redhat.com, brijesh.singh@amd.com, atishp@rivosinc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVGh1LCAyMDIzLTA2LTIyIGF0IDE3OjQyICswMTAwLCBzemFib2xjcy5uYWd5QGFybS5jb20g
-d3JvdGU6DQo+IHRoZSBkb3duc2lkZSBpcyB0aGF0IGxvbmdqbXAgYWNyb3NzIG1ha2Vjb250ZXh0
-IG5lZWRzIGENCj4gc2VwYXJhdGUgc29sdXRpb24gdGhlbiB3aGljaCBpbXBsaWVzIHRoYXQgYWxs
-IHNoc3RrIG5lZWRzDQo+IGEgZGV0ZWN0YWJsZSB0b2tlbiBhdCB0aGUgZW5kIG9mIHRoZSBzaHN0
-ay4uIHNvIGFnYWluDQo+IHNvbWV0aGluZyB0aGF0IHdlIGhhdmUgdG8gZ2V0IHJpZ2h0IG5vdyBh
-bmQgY2Fubm90IGFkZA0KPiBsYXRlci4pDQoNClRoaXMgc291bmRzIGxpa2Ugc29tZSBzY2hlbWUg
-dG8gc2VhcmNoIGZvciBhIHRva2VuIG9uIGFub3RoZXIgc3RhY2ssDQp3aGljaCBpZiBzbywgeW91
-IGhhdmVuJ3QgZWxhYm9yYXRlZCBvbi4NCg0KSSdtIG5vdCBnb2luZyB0byBiZSBhYmxlIHRvIGNv
-bnRyaWJ1dGUgb24gdGhpcyB0aHJlYWQgbXVjaCBvdmVyIHRoZQ0KbmV4dCB3ZWVrLCBidXQgaWYg
-eW91IHRoaW5rIHlvdSBrbm93IHRvIHNvbHZlIHByb2JsZW1zIHdoaWNoIGhhdmUNCnJlbWFpbmVk
-IHVuc29sdmVkIGZvciB5ZWFycywgcGxlYXNlIHNwZWxsIG91dCB0aGUgc29sdXRpb25zLg0KDQpJ
-J2QgYWxzbyBhcHByZWNpYXRlIGlmIHlvdSBjb3VsZCBzcGVsbCBvdXQgZXhhY3RseSB3aGljaDoN
-CiAtIHVjb250ZXh0DQogLSBzaWduYWwNCiAtIGxvbmdqbXANCiAtIGN1c3RvbSBsaWJyYXJ5IHN0
-YWNrIHN3aXRjaGluZw0KDQpwYXR0ZXJucyB5b3UgdGhpbmsgc2hhZG93IHN0YWNrIHNob3VsZCBz
-dXBwb3J0IHdvcmtpbmcgdG9nZXRoZXIuDQpCZWNhdXNlIGV2ZW4gYWZ0ZXIgYWxsIHRoZXNlIG1h
-aWxzLCBJJ20gc3RpbGwgbm90IHN1cmUgZXhhY3RseSB3aGF0IHlvdQ0KYXJlIHRyeWluZyB0byBh
-Y2hpZXZlLg0K
+On Mon, Jun 12, 2023 at 12:03=E2=80=AFPM Dan Williams <dan.j.williams@intel=
+.com> wrote:
+>
+> [ add David, Brijesh, and Atish]
+>
+> Kuppuswamy Sathyanarayanan wrote:
+> > In TDX guest, the second stage of the attestation process is Quote
+> > generation. This process is required to convert the locally generated
+> > TDREPORT into a remotely verifiable Quote. It involves sending the
+> > TDREPORT data to a Quoting Enclave (QE) which will verify the
+> > integrity of the TDREPORT and sign it with an attestation key.
+> >
+> > Intel's TDX attestation driver exposes TDX_CMD_GET_QUOTE IOCTL to
+> > allow the user agent to get the TD Quote.
+> >
+> > Add a kernel selftest module to verify the Quote generation feature.
+> >
+> > TD Quote generation involves following steps:
+> >
+> > * Get the TDREPORT data using TDX_CMD_GET_REPORT IOCTL.
+> > * Embed the TDREPORT data in quote buffer and request for quote
+> >   generation via TDX_CMD_GET_QUOTE IOCTL request.
+> > * Upon completion of the GetQuote request, check for non zero value
+> >   in the status field of Quote header to make sure the generated
+> >   quote is valid.
+>
+> What this cover letter does not say is that this is adding another
+> instance of the similar pattern as SNP_GET_REPORT.
+>
+> Linux is best served when multiple vendors trying to do similar
+> operations are brought together behind a common ABI. We see this in the
+> history of wrangling SCSI vendors behind common interfaces. Now multiple
+
+Compared to the number of SCSI vendors, I think the number of CPU
+vendors for confidential computing seems manageable to me. Is this
+really a good comparison?
+
+> confidential computing vendors trying to develop similar flows with
+> differentiated formats where that differentiation need not leak over the
+> ABI boundary.
+
+<Just my personal opinion below>
+I agree with this statement in the high level but it is also somehow
+surprising for me after all the discussion happened around this topic.
+Honestly, I feel like there are multiple versions of "Intel"  working
+in different directions.
+
+If we want multiple vendors trying to do the similar things behind a
+common ABI, it should start with the spec. Since this comment is
+coming from Intel, I wonder if there is any plan to combine the GHCB
+and GHCI interfaces under common ABI in the future or why it did not
+even happen in the first place.
+
+What I see is that Intel has GETQUOTE TDVMCALL interface in its spec
+and again Intel does not really want to provide support for it in
+linux. It feels really frustrating.
+
+>
+> My observation of SNP_GET_REPORT and TDX_CMD_GET_REPORT is that they are
+> both passing blobs across the user/kernel and platform/kernel boundary
+> for the purposes of unlocking other resources. To me that is a flow that
+> the Keys subsystem has infrastructure to handle. It has the concept of
+> upcalls and asynchronous population of blobs by handles and mechanisms
+> to protect and cache those communications. Linux / the Keys subsystem
+> could benefit from the enhancements it would need to cover these 2
+> cases. Specifically, the benefit that when ARM and RISC-V arrive with
+> similar communications with platform TSMs (Trusted Security Module) they
+> can build upon the same infrastructure.
+>
+> David, am I reaching with that association? My strawman mapping of
+> TDX_CMD_GET_QUOTE to request_key() is something like:
+>
+> request_key(coco_quote, "description", "<uuencoded tdreport>")
+>
+> Where this is a common key_type for all vendors, but the description and
+> arguments have room for vendor differentiation when doing the upcall to
+> the platform TSM, but userspace never needs to contend with the
+> different vendor formats, that is all handled internally to the kernel.
+
+I think the problem definition here is not accurate. With AMD SNP,
+guests need to do a hypercall to KVM and KVM needs to issue a
+SNP_GUEST_REQUEST(MSG_REPORT_REQ) to the SP firmware. In TDX, guests
+need to do a TDCALL to TDXMODULE to get the TDREPORT and then it needs
+to get that report delivered to the host userspace to get the TDQUOTE
+generated by the SGX quoting enclave. Also TDQUOTE is designed to work
+async while the SNP_GUEST_REQUESTS are blocking vmcalls.
+
+Those are completely different flows. Are you suggesting that intel
+should also come down to a single call to get the TDQUOTE like AMD
+SNP?
+
+The TDCALL interface asking for the TDREPORT is already there. AMD
+does not need to ask the report and the quote separately.
+
+Here, the problem was that Intel (or "upstream community") did not
+want to implement/accept hypercall for TDQUOTE which would be handled
+by the user space VMM. The alternative implementation (using vsock)
+does not work for many use cases including ours. I do not see how your
+suggestion addresses the problem that this patch was trying to solve.
+
+So while I like the suggested direction, I am not sure how much it is
+possible to come up with a common ABI even with just only for 2
+vendors (AMD and Intel) without doing spec changes which is a multi
+year effort imho.
+
+>
+> At this point I am just looking for confirmation that the "every vendor
+> invent a new character device + ioctl" does not scale and a deeper
+> conversation is needed. Keys is a plausible solution to that ABI
+> proliferation problem.
