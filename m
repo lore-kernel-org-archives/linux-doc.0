@@ -2,237 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DC1EB64D8
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 13:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D5C9EB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 14:19:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230490AbjFVN7W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 09:59:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51864 "EHLO
+        id S231608AbjFVOTs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 10:19:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbjFVN7V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 09:59:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF7F1FC1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 06:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687442320;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xmrp2+R/YSlNtPXPFq4CC7laS0O+SSky8eXBb+0i20U=;
-        b=BE036bFND9akoFaJ8IE7luiZ25Es9Td5bhU889pLGPoAuutsECJ+vhLBrD5Ik+XYuw1SLI
-        dp13oX5TzM1SWBoEjxX7dVdqsd3DbWioJoaUYVEjQmaOpdjJlmvO9DboNWdTzw6rTAdDZK
-        hfbcaHKjFZjF6/ShfN7o05GmlWgPIN4=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-449-5WMmYDpUOcSeTS8GO7uvjQ-1; Thu, 22 Jun 2023 09:58:38 -0400
-X-MC-Unique: 5WMmYDpUOcSeTS8GO7uvjQ-1
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-1b520c77d37so33467905ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 06:58:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687442317; x=1690034317;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xmrp2+R/YSlNtPXPFq4CC7laS0O+SSky8eXBb+0i20U=;
-        b=NpFG111utz2M0BOrlDeQ78GL9qCsYdOv8zqq4PJum9IOxaO/V9XFBfAws+CPH97FrX
-         VZ/4QKXclCprR7hfmDARrSyHfbuNy8e8cy5BhRfV7whTlYfbId8skHAPMTAwHXcCrOsv
-         hWC1LMfmm45QFvqnpcDauWOEKBg5BVWHHwrEty4VE9ZNQD733OkweUJlt1FPAi1/Xgxu
-         X4Etr+ycC4OwX1nQ+SMpkw29s1F9b2tZKKAifZVTi8+olVNlFqYX0jJCZyz7v/V7lWcB
-         GJWM2Ab+2phL3dKKIDuJ3gP4sZ9Yzl/Y/rAggmp34uM7+sDI4T7TllpiR46FE6JpJOkT
-         e8yQ==
-X-Gm-Message-State: AC+VfDzRrNLGwRBIKigc893gy0Iux6JdccrQyYaRq0BxfV26LqsLkpeY
-        W6OR92QAu3vKfOf12g2Fu4Rc7p52/c3dDCHzynHqtyACbg+c2KhdGMs66K1IujKzaIlgEQQ5InD
-        oSGTqgxYNhk9wFSU9JArouUL8wBuD
-X-Received: by 2002:a17:902:e983:b0:1a6:46f2:4365 with SMTP id f3-20020a170902e98300b001a646f24365mr6878577plb.30.1687442317193;
-        Thu, 22 Jun 2023 06:58:37 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ49cluWH3dVZuP3Bwilh0/kQUI5fGHQmpaunmvr3kg2QdL/KggPL3GI65Zje51yOkrW9v7XaQ==
-X-Received: by 2002:a17:902:e983:b0:1a6:46f2:4365 with SMTP id f3-20020a170902e98300b001a646f24365mr6878555plb.30.1687442316827;
-        Thu, 22 Jun 2023 06:58:36 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id iy14-20020a170903130e00b001b6771ad27bsm5399027plb.265.2023.06.22.06.58.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Jun 2023 06:58:36 -0700 (PDT)
-Message-ID: <b04b3dbb-0509-fec1-4e8e-90f724443836@redhat.com>
-Date:   Thu, 22 Jun 2023 15:58:23 +0200
+        with ESMTP id S231547AbjFVOTq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 10:19:46 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75BDB10F0;
+        Thu, 22 Jun 2023 07:19:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1687443585; x=1718979585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NeSR1vNwipiW/2D8gk01qgwm4EJAmEnPTQtu9D6YhEY=;
+  b=AkNlk7M6TN0V++xS+dsz3glPmVwUA8Qnu9J96GnxcG6mgZLMUPEFnzIX
+   O2EEsPe0BxpZaGzXJ+22BAzdt4zAHHD9zcd4urlpKy0zMos0XG3oyZbP6
+   EpT9uMIr9j7zs6nWRIthSh4TOcbbz/UTXqLGFGSpVlfUf33CD+DODKWpa
+   7NrK7McLsYR53SYjc2ZfXw4MeACMyVjmOrVkxseVfyJEJQc/XWsDKdf+M
+   EGAB4audbhRE/TX1qZ0/8sETXBGkEcekLO60yQqnxIJulTzoT/TgWRYJz
+   oWRV0J2bwxprUxecVkLYBUxEp1yE+GCR7K67zWin7guLVYKQ7hyEq3Qcr
+   w==;
+X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
+   d="asc'?scan'208";a="231605811"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 22 Jun 2023 07:19:44 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 22 Jun 2023 07:19:44 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Thu, 22 Jun 2023 07:19:42 -0700
+Date:   Thu, 22 Jun 2023 15:19:14 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Song Shuai <songshuaishuai@tinylab.org>,
+        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>
+Subject: Re: [PATCH v2 2/3] Documentation: riscv: Add early boot document
+Message-ID: <20230622-ensnare-catnap-1d1183111387@wendy>
+References: <20230621072234.9900-1-alexghiti@rivosinc.com>
+ <20230621072234.9900-2-alexghiti@rivosinc.com>
+ <20230621-attempt-unstirred-567b0352176a@wendy>
+ <CAHVXubhJXUODDnfRJAzAKcutMvz_amP3wAf+4QBKxXzcd_r7Yg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH drm-next v5 00/14] [RFC] DRM GPUVA Manager & Nouveau
- VM_BIND UAPI
-Content-Language: en-US
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     matthew.brost@intel.com, airlied@gmail.com, daniel@ffwll.ch,
-        tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
-        christian.koenig@amd.com, bskeggs@redhat.com,
-        Liam.Howlett@oracle.com, alexdeucher@gmail.com, ogabbay@kernel.org,
-        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-References: <20230620004217.4700-1-dakr@redhat.com>
- <20230620112540.19142ef3@collabora.com>
- <94adfd82-e77d-f99c-1d94-8b6397d39310@redhat.com>
- <20230622150101.229391e5@collabora.com>
-From:   Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230622150101.229391e5@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="9ZbHIYccJ4yhuuFy"
+Content-Disposition: inline
+In-Reply-To: <CAHVXubhJXUODDnfRJAzAKcutMvz_amP3wAf+4QBKxXzcd_r7Yg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris,
+--9ZbHIYccJ4yhuuFy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 6/22/23 15:01, Boris Brezillon wrote:
-> Hi Danilo,
-> 
-> On Tue, 20 Jun 2023 14:46:07 +0200
-> Danilo Krummrich <dakr@redhat.com> wrote:
-> 
->>> The only thing I'm worried about is the 'sync mapping requests have to
->>> go through the async path and wait for all previous async requests to
->>> be processed' problem I mentioned in one of your previous submission,
->>> but I'm happy leave that for later.
->>
->> Yes, I'm aware of this limitation.
->>
->> Let me quickly try to explain where this limitation comes from and how I
->> intend to address it.
->>
->> In order to be able to allocate the required page tables for a mapping
->> request and in order to free corresponding page tables once the (async)
->> job finished I need to know the corresponding sequence of operations
->> (drm_gpuva_ops) to fulfill the mapping request.
->>
->> This requires me to update the GPUVA space in the ioctl() rather than in
->> the async stage, because otherwise I would need to wait for previous
->> jobs to finish before being able to submit subsequent jobs to the job
->> queue, since I need an up to date view of the GPUVA space in order to
->> calculate the sequence of operations to fulfill a mapping request.
->>
->> As a consequence all jobs need to be processed in the order they were
->> submitted, including synchronous jobs.
->>
->> @Matt: I think you will have the same limitation with synchronous jobs
->> as your implementation in XE should be similar?
->>
->> In order to address it I want to switch to using callbacks rather than
->> 'pre-allocated' drm_gpuva_ops and update the GPUVA space within the
->> asynchronous stage.
->> This would allow me to 'fit' synchronous jobs
->> between jobs waiting in the async job queue. However, to do this I have
->> to re-work how the page table handling in Nouveau is implemented, since
->> this would require me to be able to manage the page tables without
->> knowing the exact sequence of operations to fulfill a mapping request.
-> 
-> Ok, so I think that's more or less what we're trying to do right
-> now in PowerVR.
-> 
-> - First, we make sure we reserve enough MMU page tables for a given map
->    operation to succeed no matter the VM state in the VM_BIND job
->    submission path (our VM_BIND ioctl). That means we're always
->    over-provisioning and returning unused memory back when the operation
->    is done if we end up using less memory.
-> - We pre-allocate for the mapple-tree insertions.
-> - Then we map using drm_gpuva_sm_map() and the callbacks we provided in
->    the drm_sched::run_job() path. We guarantee that no memory is
->    allocated in that path thanks to the pre-allocation/reservation we've
->    done at VM_BIND job submission time.
-> 
-> The problem I see with this v5 is that:
-> 
-> 1/ We now have a dma_resv_lock_held() in drm_gpuva_{link,unlink}(),
->     which, in our case, is called in the async drm_sched::run_job() path,
->     and we don't hold the lock in that path (it's been released just
->     after the job submission).
+On Wed, Jun 21, 2023 at 02:26:02PM +0200, Alexandre Ghiti wrote:
+> On Wed, Jun 21, 2023 at 2:15=E2=80=AFPM Conor Dooley <conor.dooley@microc=
+hip.com> wrote:
+> >
+> > Hey Alex,
+> >
+> > On Wed, Jun 21, 2023 at 09:22:33AM +0200, Alexandre Ghiti wrote:
+> > > This document describes the constraints and requirements of the early
+> > > boot process in a RISC-V kernel.
+> >
+> > Thanks a lot for writing this & implementing the feedback :)
+> > I had one or two minor comments about rather long sentences, but there's
+>=20
+> Arf, sorry, which one? So that I can fix that in case of a v3.
 
-My solution to this, as by now, is to - in the same way we pre-allocate 
-- to just pre-link and pre-unlink. And then fix things up in the cleanup 
-path.
+> > little point I think in respinning for that, so I have ignored them.
 
-However, depending on the driver, this might require you to set a flag 
-in the driver specific structure (embedding struct drm_gpuva) whether 
-the gpuva is actually mapped (as in has active page table entries). 
-Maybe we could also just add such a flag to struct drm_gpuva. But yeah, 
-doesn't sound too nice to be honest...
+Nah, not worth the effort ;)
 
-> 2/ I'm worried that Liam's plan to only reserve what's actually needed
->     based on the mapple tree state is going to play against us, because
->     the mapple-tree is only modified at job exec time, and we might have
->     several unmaps happening between the moment we created and queued the
->     jobs, and the moment they actually get executed, meaning the
->     mapple-tree reservation might no longer fit the bill.
+> > Other than that, didn't spot anything new on this second reading.
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> >
+> > Cheers,
+> > Conor.
 
-Yes, I'm aware and I explained to Liam in detail why we need the 
-mas_preallocate_worst_case() way of doing it.
+--9ZbHIYccJ4yhuuFy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-See this mail: 
-https://lore.kernel.org/nouveau/68cd25de-e767-725e-2e7b-703217230bb0@redhat.com/T/#ma326e200b1de1e3c9df4e9fcb3bf243061fee8b5
+-----BEGIN PGP SIGNATURE-----
 
-He hasn't answered yet, but I hope we can just get (or actually keep) 
-such a function (hopefully with better naming), since it shouldn't 
-interfere with anything else.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJRYYgAKCRB4tDGHoIJi
+0sOtAP4pFW6UOJGC/EkvVCkSSQbfq8gdLRnDTGVDOZ4wEJhvjAD/bXQ665m1ulNR
+kjSwM6etTh4yJbDKoTALymORyEIu+w4=
+=c0MV
+-----END PGP SIGNATURE-----
 
-> 
-> For issue #1, it shouldn't be to problematic if we use a regular lock to
-> insert to/remove from the GEM gpuva list.
-
-Yes, that's why I had a separate GEM gpuva list lock in the first place. 
-However, this doesn't really work when generating ops rather than using 
-the callback interface.
-
-Have a look at drm_gpuva_gem_unmap_ops_create() requested by Matt for 
-XE. This function generates drm_gpuva_ops to unmap all mappings of a 
-given GEM. In order to do that the function must iterate the GEM's gpuva 
-list and allocate operations for each mapping. As a consequence the 
-gpuva list lock wouldn't be allowed to be taken in the fence signalling 
-path (run_job()) any longer. Hence, we can just protect the list with 
-the GEM's dma-resv lock.
-
-However, I can understand that it might be inconvenient for the callback 
-interface and admittedly my solution to that isn't that nice as well. 
-Hence the following idea:
-
-For drivers to be able to use their own lock for that it would be enough 
-to get rid of the lockdep checks. We could just add a flag to the GPUVA 
-manager to let the driver indicate it wants to do it's own locking for 
-the GPUVA list and skip the lockdep checks for the dma-resv lock in that 
-case.
-
-> 
-> For issue #2, I can see a way out if, instead of freeing gpuva nodes,
-> we flag those as unused when we see that something happening later in
-> the queue is going to map a section being unmapped. All of this implies
-> keeping access to already queued VM_BIND jobs (using the spsc queue at
-> the entity level is not practical), and iterating over them every time
-> a new sync or async job is queued to flag what needs to be retained. It
-> would obviously be easier if we could tell the mapple-tree API
-> 'provision as if the tree was empty', so all we have to do is just
-> over-provision for both the page tables and mapple-tree insertion, and
-> free the unused mem when the operation is done.
-> 
-> Don't know if you already thought about that and/or have solutions to
-> solve these issues.
-
-As already mentioned above, I'd just expect we can keep it the 
-over-provision way, as you say. I think it's a legit use case to not 
-know the state of the maple tree at the time the pre-allocated nodes 
-will be used and keeping that should not interfere with Liams plan to 
-(hopefully separately) optimize for the pre-allocation use case they 
-have within -mm.
-
-But let's wait for his take on that.
-
-- Danilo
-
-> 
-> Regards,
-> 
-> Boris
-> 
-
+--9ZbHIYccJ4yhuuFy--
