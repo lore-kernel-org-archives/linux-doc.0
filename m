@@ -2,156 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42ADEEB64D8
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 09:33:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64F9CEB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 09:56:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232320AbjFVJdp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 05:33:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38532 "EHLO
+        id S231247AbjFVJ4S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 05:56:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232380AbjFVJdM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 05:33:12 -0400
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05EEA1BEA;
-        Thu, 22 Jun 2023 02:26:37 -0700 (PDT)
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35M5mTLI020479;
-        Thu, 22 Jun 2023 01:57:00 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0220; bh=Rder2OAzgtZd3D78Lyy1oE9ERfYSQk2vWQvPHgIJsIA=;
- b=T27vHxiXglUV5sCW/F8XgqFkW2mnSQWBRaemy5Qw9LehmNuP+5tEH+xiD0sTMr3keW2t
- vMXkv9XeW7d7k3+Ui4Nztszt2iGSfYY30HwZbOeI9fd1ZegcnYlhWwHyuWyJ7va9jUCj
- 6eCeDEuCgHvjShwjHRYgSSPNEC8m6IJy+Aprt32m9HjjuA13JBfSKD5hK0bCVaQcWX6y
- aCWHWADmcVAI6+UghPSc+pYKCBq3tYCbRW3gWyrIJfGhEbcBdEIDn+Rl4U11b2I0UXJa
- GkuddFTD1GgfJ0yo11k6WTYKLSIr4HLxZOCHBZ0Z1gD66wC1MWSWPZsC38onOMQmUwfF og== 
-Received: from dc5-exch01.marvell.com ([199.233.59.181])
-        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3rc97dhe4w-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 22 Jun 2023 01:57:00 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Thu, 22 Jun
- 2023 01:56:58 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
- Transport; Thu, 22 Jun 2023 01:56:58 -0700
-Received: from hyd1soter3.marvell.com (unknown [10.29.37.12])
-        by maili.marvell.com (Postfix) with ESMTP id 8F2273F7073;
-        Thu, 22 Jun 2023 01:56:52 -0700 (PDT)
-From:   Hariprasad Kelam <hkelam@marvell.com>
-To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <kuba@kernel.org>, <davem@davemloft.net>,
-        <willemdebruijn.kernel@gmail.com>, <andrew@lunn.ch>,
-        <sgoutham@marvell.com>, <lcherian@marvell.com>,
-        <gakula@marvell.com>, <jerinj@marvell.com>, <sbhatta@marvell.com>,
-        <hkelam@marvell.com>, <naveenm@marvell.com>, <edumazet@google.com>,
-        <pabeni@redhat.com>, <jhs@mojatatu.com>,
-        <xiyou.wangcong@gmail.com>, <jiri@resnulli.us>,
-        <maxtram95@gmail.com>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-Subject: [net-next Patch 2/3] sch_htb: Allow HTB quantum parameter in offload mode
-Date:   Thu, 22 Jun 2023 14:26:37 +0530
-Message-ID: <20230622085638.3509-3-hkelam@marvell.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230622085638.3509-1-hkelam@marvell.com>
-References: <20230622085638.3509-1-hkelam@marvell.com>
+        with ESMTP id S229628AbjFVJ4C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 05:56:02 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08F101FF6
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 02:53:08 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-988689a5f44so557275266b.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jun 2023 02:53:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isovalent.com; s=google; t=1687427586; x=1690019586;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EhQ9CqocU+8B1FTKuVrFOom9z3TwFt0c6zonqMwkBp8=;
+        b=KlZ+K4WlalqLiF1Kl21CaecrmdwMWgZpWH4b5O8pu5Yyn6Amfd92gkjAjLf2TFrk8E
+         6KRShC75HVzEXmAdVwkAO2u+6lhw2DLBGrbGPMWi2MVrkO7g7dvYwvqnziPqc8kJryOi
+         /qdV35bHyIxvfU2EIJXlEB+UXLM4QCr2xfQX0qjPqg+f0C+gtM/3Pv++glC/bgPQn5Ud
+         Iv8nDA5Bf9UE88W+jtAso7bUPpu5yb7C6zHwFTAHs3Kx90AFZ949OjQXaD8vG9IlkDWN
+         lkuMM8uLd1opAPzGQ5S1kxpO2AI7gWDUOChylUK//r9E3b10TXEhVhxwpibY6bXtc+Sd
+         SQ9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687427586; x=1690019586;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EhQ9CqocU+8B1FTKuVrFOom9z3TwFt0c6zonqMwkBp8=;
+        b=BZ86eefhD6wmXH6ZWRTiHGQ/25JvWZccrDrzO4QbQgtzT7fmYvnI4k3Wt+kRAmboZp
+         ydzYmkHGEOhPHqlFq2I8I6WOeea6Ykcmqrv0NRJVVDQhgUy8rjc5Jym4OEF5kI6jELCQ
+         q15kKNhGcYzN4zDYRmjQtcC7grDXHSm6uMgnEdfRiFhWmdLozhDsjdLbo5MjBeqjIiI6
+         A1vKct/TrVqgrWcnh1fdU8M8NpJLr0RDmr2IXzpP1o7e+6y3rbpprC2cPuzMYSo/R1Op
+         Y/rF5s1nYXavuV44xlVc3XN9KD0yi6Fd1+j/ikZBt5Ag0BUIhaaOs0NdXRdlyvzOS8ny
+         u/UA==
+X-Gm-Message-State: AC+VfDxB+M+Sm0jxHxzoe7QXp6rBPMdj9/4m/C/GzYAt0ba40+xibn/M
+        OAU0PPCtoua/I8k6SsH4PprRbA==
+X-Google-Smtp-Source: ACHHUZ7KTpwGSMB9y8NSNZp1VjzesnVul+cQSbXtEA0bRQ5afQrLa1IZTCgFfUQ0UPJswLbiccnXTg==
+X-Received: by 2002:a17:906:9b88:b0:988:91cb:afd1 with SMTP id dd8-20020a1709069b8800b0098891cbafd1mr11983840ejc.29.1687427586575;
+        Thu, 22 Jun 2023 02:53:06 -0700 (PDT)
+Received: from zh-lab-node-5.home ([2a02:168:f656:0:1ac0:4dff:fe0f:3782])
+        by smtp.gmail.com with ESMTPSA id x12-20020a1709060a4c00b009737b8d47b6sm4360805ejf.203.2023.06.22.02.53.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jun 2023 02:53:06 -0700 (PDT)
+From:   Anton Protopopov <aspsk@isovalent.com>
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, David Vernet <void@manifault.com>,
+        Sreevani Sreejith <psreep@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Anton Protopopov <aspsk@isovalent.com>
+Subject: [PATCH bpf-next] bpf, docs: BPF Iterator Document
+Date:   Thu, 22 Jun 2023 09:54:07 +0000
+Message-Id: <20230622095407.1024053-1-aspsk@isovalent.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-GUID: nbSKvtba8b_3rdl7zEhh-8t3BADEWlPE
-X-Proofpoint-ORIG-GUID: nbSKvtba8b_3rdl7zEhh-8t3BADEWlPE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-22_05,2023-06-16_01,2023-05-22_02
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Naveen Mamindlapalli <naveenm@marvell.com>
+Fix the description of the seq_info field of the bpf_iter_reg structure which
+was wrong due to an accidental copy/paste of the previous field's description.
 
-The current implementation of HTB offload returns the EINVAL error for
-quantum parameter. This patch removes the error returning checks for
-'quantum' parameter and populates its value to tc_htb_qopt_offload
-structure such that driver can use the same.
-
-Add quantum parameter check in mlx5 driver, as mlx5 devices are not capable
-of supporting the quantum parameter when htb offload is used. Report error
-if quantum parameter is set to a non-default value.
-
-Signed-off-by: Naveen Mamindlapalli <naveenm@marvell.com>
-Signed-off-by: Hariprasad Kelam <hkelam@marvell.com>
+Fixes: 8972e18a439d ("bpf, docs: BPF Iterator Document")
+Signed-off-by: Anton Protopopov <aspsk@isovalent.com>
 ---
- drivers/net/ethernet/mellanox/mlx5/core/en/qos.c | 4 ++--
- include/net/pkt_cls.h                            | 1 +
- net/sched/sch_htb.c                              | 7 +++----
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ Documentation/bpf/bpf_iterators.rst | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/qos.c b/drivers/net/ethernet/mellanox/mlx5/core/en/qos.c
-index 1874c2f0587f..244bc15a42ab 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/qos.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/qos.c
-@@ -379,9 +379,9 @@ int mlx5e_htb_setup_tc(struct mlx5e_priv *priv, struct tc_htb_qopt_offload *htb_
- 	if (!htb && htb_qopt->command != TC_HTB_CREATE)
- 		return -EINVAL;
+diff --git a/Documentation/bpf/bpf_iterators.rst b/Documentation/bpf/bpf_iterators.rst
+index 6d7770793fab..07433915aa41 100644
+--- a/Documentation/bpf/bpf_iterators.rst
++++ b/Documentation/bpf/bpf_iterators.rst
+@@ -238,11 +238,8 @@ The following is the breakdown for each field in struct ``bpf_iter_reg``.
+        that the kernel function cond_resched() is called to avoid other kernel
+        subsystem (e.g., rcu) misbehaving.
+    * - seq_info
+-     - Specifies certain action requests in the kernel BPF iterator
+-       infrastructure. Currently, only BPF_ITER_RESCHED is supported. This means
+-       that the kernel function cond_resched() is called to avoid other kernel
+-       subsystem (e.g., rcu) misbehaving.
+-
++     - Specifies the set of seq operations for the BPF iterator and helpers to
++       initialize/free the private data for the corresponding ``seq_file``.
  
--	if (htb_qopt->prio) {
-+	if (htb_qopt->prio || htb_qopt->quantum) {
- 		NL_SET_ERR_MSG_MOD(htb_qopt->extack,
--				   "prio parameter is not supported by device with HTB offload enabled.");
-+				   "prio and quantum parameters are not supported by device with HTB offload enabled.");
- 		return -EOPNOTSUPP;
- 	}
- 
-diff --git a/include/net/pkt_cls.h b/include/net/pkt_cls.h
-index a2ea45c7b53e..139cd09828af 100644
---- a/include/net/pkt_cls.h
-+++ b/include/net/pkt_cls.h
-@@ -866,6 +866,7 @@ struct tc_htb_qopt_offload {
- 	u32 parent_classid;
- 	u16 classid;
- 	u16 qid;
-+	u32 quantum;
- 	u64 rate;
- 	u64 ceil;
- 	u8 prio;
-diff --git a/net/sched/sch_htb.c b/net/sched/sch_htb.c
-index 325c29041c7d..333800a7d4eb 100644
---- a/net/sched/sch_htb.c
-+++ b/net/sched/sch_htb.c
-@@ -1810,10 +1810,6 @@ static int htb_change_class(struct Qdisc *sch, u32 classid,
- 			NL_SET_ERR_MSG(extack, "HTB offload doesn't support the mpu parameter");
- 			goto failure;
- 		}
--		if (hopt->quantum) {
--			NL_SET_ERR_MSG(extack, "HTB offload doesn't support the quantum parameter");
--			goto failure;
--		}
- 	}
- 
- 	/* Keeping backward compatible with rate_table based iproute2 tc */
-@@ -1910,6 +1906,7 @@ static int htb_change_class(struct Qdisc *sch, u32 classid,
- 				.rate = max_t(u64, hopt->rate.rate, rate64),
- 				.ceil = max_t(u64, hopt->ceil.rate, ceil64),
- 				.prio = hopt->prio,
-+				.quantum = hopt->quantum,
- 				.extack = extack,
- 			};
- 			err = htb_offload(dev, &offload_opt);
-@@ -1931,6 +1928,7 @@ static int htb_change_class(struct Qdisc *sch, u32 classid,
- 				.rate = max_t(u64, hopt->rate.rate, rate64),
- 				.ceil = max_t(u64, hopt->ceil.rate, ceil64),
- 				.prio = hopt->prio,
-+				.quantum = hopt->quantum,
- 				.extack = extack,
- 			};
- 			err = htb_offload(dev, &offload_opt);
-@@ -2017,6 +2015,7 @@ static int htb_change_class(struct Qdisc *sch, u32 classid,
- 				.rate = max_t(u64, hopt->rate.rate, rate64),
- 				.ceil = max_t(u64, hopt->ceil.rate, ceil64),
- 				.prio = hopt->prio,
-+				.quantum = hopt->quantum,
- 				.extack = extack,
- 			};
- 			err = htb_offload(dev, &offload_opt);
+ `Click here
+ <https://lore.kernel.org/bpf/20210212183107.50963-2-songliubraving@fb.com/>`_
 -- 
-2.17.1
+2.34.1
 
