@@ -2,112 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E48CEB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 09:57:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A535C0015E
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 10:34:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231336AbjFWJ54 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jun 2023 05:57:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41726 "EHLO
+        id S232041AbjFWKe0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jun 2023 06:34:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231165AbjFWJ5z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 05:57:55 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C362F189
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 02:57:53 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3f9c532f9e3so5943575e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 02:57:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687514272; x=1690106272;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/pQzPxsmpV8ILmUDokZDt4x2j1OZGQdakvLzX04+Ejg=;
-        b=DRlPNLsK/mZ3irMEYdZmnmDdlPds7DvI5au6/NXLEmObZ0q2j+riTTvnF4pnaba5Eb
-         DH2TXjFL5OFBSrzNE1j4a5aGqGz48UHjYrVhZd3wVtPnW2C22JGEuGjsrq+JpfMRJV2k
-         MkWPC6wPxJC27j2xRo0NYQY4kjlkcSDEwr9JRvSSwtmlCEF3IowczoAHbtWW345VGYQr
-         DLQu/ZwtBg6Q81ga1VMS7w7OdSttnxx7sF4T278R3LjJ8THYdUsFWjekXwF9VxCxViVY
-         kF8/QayqIlynx9XhIUmUIXrLU/LQ5y0rz+dMU2qOPVvjSn5y1zTvusx3LzoxEB2uMWUr
-         2K6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687514272; x=1690106272;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/pQzPxsmpV8ILmUDokZDt4x2j1OZGQdakvLzX04+Ejg=;
-        b=MC9g9DukUUcoXnib/T7cOk1NgaFly0Qf0J+lV/PA93dmK4iCWrMoG8tAzXfxJrco82
-         sPPATMVcZOp+y2IzCIaRe147OH43IpY1dgQBK6D23LEDE4x1I98D09EYXUuEyF5W5v6y
-         /Z7PVgWL8Ar7WGVmLkMlow+p+R+fce9LR7VZeab6re5Ygw4lfY25J42L3UhAIB3loZE5
-         TjHhkh5xvOK9G13NP+xDxGrX3RMPENgSzF9K2qTHBPLNrePqwZWwhq61WIFF378/zTwk
-         87e8uCm1Rioq8Tb1VkTKY/bJeO/uSHkJJfJ+d2TdS37XP+80MhhFW1KPtCdEiQaq4i2U
-         Ajzw==
-X-Gm-Message-State: AC+VfDxUk2B9fM6aXV3R2D45722c6dsD2KXa17XzU6s2+iuY+PipgBt4
-        23bsMe75y/jut9Q0XSFcv9lQCg==
-X-Google-Smtp-Source: ACHHUZ7JjYmbOrvMcpUGZTC3uEGAoLXqDRseSay3/vHcvG0f5A9N3KF1iNgjt3GTjbTfRCaqYSCqCQ==
-X-Received: by 2002:a05:600c:230b:b0:3f1:6fb3:ffcc with SMTP id 11-20020a05600c230b00b003f16fb3ffccmr17377352wmo.22.1687514272211;
-        Fri, 23 Jun 2023 02:57:52 -0700 (PDT)
-Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id s9-20020a7bc389000000b003fa745f3264sm1824671wmj.43.2023.06.23.02.57.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jun 2023 02:57:52 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S231769AbjFWKeZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 06:34:25 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 062B3E6D;
+        Fri, 23 Jun 2023 03:34:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687516465; x=1719052465;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Ug0tb+KIthtcBNlWZulbUMsIP+un6qpERH8Wcsp0QfQ=;
+  b=RMwaB1jYY1ppCly5Sx/9YiZAKiOLjNc0nwLw4vp/jJ+Ue3ugpXRPbI4I
+   keWwNrVx60loOl4TWulSV88lfMOyT2iYDz9lhNbOQjdan4jiKSI5XtF+j
+   VD92M4aJxVNBRLRFWo4hEJ/tOhTxOe02Ee39o4P3edGdfOllTqpJjLHZQ
+   NRz4sWwOo4NjHRF9NR9j7gw9KRDICFOs8xQ3DZM3K38TsTGd5C2lvnFu2
+   pkPnDrVKGZU2ICydfrBPznUfRUqgkKQE5HPyUEC8RoMEK7KppXljyPKY7
+   EJkjo6tAdWOLj5spxND8BqXuvAoTrUCMfAccYTlJZ8x4fICzGveop4Aoy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="447112225"
+X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; 
+   d="scan'208";a="447112225"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 03:34:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="715275624"
+X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; 
+   d="scan'208";a="715275624"
+Received: from haibo-optiplex-7090.sh.intel.com ([10.239.159.132])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 03:34:17 -0700
+From:   Haibo Xu <haibo1.xu@intel.com>
+Cc:     xiaobo55x@gmail.com, haibo1.xu@intel.com, ajones@ventanamicro.com,
+        maz@kernel.org, oliver.upton@linux.dev, seanjc@google.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Song Shuai <songshuaishuai@tinylab.org>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v3 3/3] Documentation: riscv: Update boot image header since EFI stub is supported
-Date:   Fri, 23 Jun 2023 11:55:47 +0200
-Message-Id: <20230623095547.51881-3-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230623095547.51881-1-alexghiti@rivosinc.com>
-References: <20230623095547.51881-1-alexghiti@rivosinc.com>
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>,
+        Ricardo Koller <ricarkol@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: [PATCH v4 00/12] RISCV: Add KVM_GET_REG_LIST API
+Date:   Fri, 23 Jun 2023 18:40:02 +0800
+Message-Id: <cover.1687515463.git.haibo1.xu@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The EFI stub is supported on RISC-V so update the documentation that
-explains how the boot image header was reused to support it.
+KVM_GET_REG_LIST will dump all register IDs that are available to
+KVM_GET/SET_ONE_REG and It's very useful to identify some platform
+regression issue during VM migration.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
-Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+Patch 1-7 re-structured the get-reg-list test in aarch64 to make some
+of the code as common test framework that can be shared by riscv.
+
+Patch 8 move reject_set check logic to a function so as to check for
+different errno for different registers.
+Patch 9 change to do the get/set operation only on present-blessed list.
+Patch 10 enabled the KVM_GET_REG_LIST API in riscv.
+patch 11-12 added the corresponding kselftest for checking possible
+register regressions.
+
+The get-reg-list kvm selftest was ported from aarch64 and tested with
+Linux 6.4-rc6 on a Qemu riscv64 virt machine.
+
 ---
- Documentation/riscv/boot-image-header.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Changed since v3:
+  * Rebase to Linux 6.4-rc6
+  * Address Andrew's suggestions and comments:
+  *   Move reject_set check logic to a function 
+  *   Only do get/set tests on present blessed list 
+  *   Only enable ISA extension for the specified config
+  *   For disable-not-allowed registers, move them to the filter-reg-list 
 
-diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/riscv/boot-image-header.rst
-index a4a45310c4c4..df2ffc173e80 100644
---- a/Documentation/riscv/boot-image-header.rst
-+++ b/Documentation/riscv/boot-image-header.rst
-@@ -28,11 +28,11 @@ header in future.
- Notes
- =====
- 
--- This header can also be reused to support EFI stub for RISC-V in future. EFI
--  specification needs PE/COFF image header in the beginning of the kernel image
--  in order to load it as an EFI application. In order to support EFI stub,
--  code0 should be replaced with "MZ" magic string and res3(at offset 0x3c) should
--  point to the rest of the PE/COFF header.
-+- This header is also reused to support EFI stub for RISC-V. EFI specification
-+  needs PE/COFF image header in the beginning of the kernel image in order to
-+  load it as an EFI application. In order to support EFI stub, code0 is replaced
-+  with "MZ" magic string and res3(at offset 0x3c) points to the rest of the
-+  PE/COFF header.
- 
- - version field indicate header version number
- 
+Andrew Jones (7):
+  KVM: arm64: selftests: Replace str_with_index with strdup_printf
+  KVM: arm64: selftests: Drop SVE cap check in print_reg
+  KVM: arm64: selftests: Remove print_reg's dependency on vcpu_config
+  KVM: arm64: selftests: Rename vcpu_config and add to kvm_util.h
+  KVM: arm64: selftests: Delete core_reg_fixup
+  KVM: arm64: selftests: Split get-reg-list test code
+  KVM: arm64: selftests: Finish generalizing get-reg-list
+
+Haibo Xu (5):
+  KVM: arm64: selftests: Move reject_set check logic to a function
+  KVM: selftests: Only do get/set tests on present blessed list
+  KVM: riscv: Add KVM_GET_REG_LIST API support
+  KVM: riscv: selftests: Add finalize_vcpu check in run_test
+  KVM: riscv: selftests: Add get-reg-list test
+
+ Documentation/virt/kvm/api.rst                |   2 +-
+ arch/riscv/kvm/vcpu.c                         | 375 +++++++++
+ tools/testing/selftests/kvm/Makefile          |  11 +-
+ .../selftests/kvm/aarch64/get-reg-list.c      | 538 ++-----------
+ tools/testing/selftests/kvm/get-reg-list.c    | 439 ++++++++++
+ .../selftests/kvm/include/kvm_util_base.h     |  16 +
+ .../selftests/kvm/include/riscv/processor.h   |   3 +
+ .../testing/selftests/kvm/include/test_util.h |   2 +
+ tools/testing/selftests/kvm/lib/test_util.c   |  15 +
+ .../selftests/kvm/riscv/get-reg-list.c        | 752 ++++++++++++++++++
+ 10 files changed, 1658 insertions(+), 495 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/get-reg-list.c
+ create mode 100644 tools/testing/selftests/kvm/riscv/get-reg-list.c
+
 -- 
-2.39.2
+2.34.1
 
