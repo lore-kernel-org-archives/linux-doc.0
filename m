@@ -2,182 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26D83C0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 07:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5DA0EB64DD
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 08:33:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231383AbjFWHsH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jun 2023 03:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42526 "EHLO
+        id S231567AbjFWIdL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jun 2023 04:33:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231571AbjFWHsG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 03:48:06 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E0901995
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 00:48:04 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b4745834f3so5506961fa.2
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 00:48:04 -0700 (PDT)
+        with ESMTP id S231476AbjFWIdK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 04:33:10 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF94118
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 01:33:08 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-311099fac92so481781f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 01:33:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687506482; x=1690098482;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=afzpoupdHBz4t80yeY68UW7BcSr6J0mUzcvK1xv8c1M=;
-        b=y839S9kxd09ThLEfxmxC6oII3nMiQTOEHF9PojI9kiub9AcAU9VwNCWsdUi79zoGrL
-         I53edaB4DcMZQQ0qflpJAUkvrrMC34ACSDUt0ujxI5pBdzcViBCk6n9FKsQqZhEr33/O
-         VvEBWTcxrI6FtHpJuHeokazRCXKF4vksYk5o+OAae6lurukOLI6tXHVLSfb+Q+V7FEV/
-         sf8imt+RlLt6Lat5yCvrtngprbPt26rUBnApAtbvCEbqlIgaWoDJC9mFHQOn0JbF41dG
-         AZbWjTZ98aLp9MgUn+gURDvYq4bO/7X5+p/tQDFnf5y1CNMOL2mMEGQ/vOQjVcpXlF7u
-         UTbQ==
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687509187; x=1690101187;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eKQLqzJpGFVYRDo5Vr6CozDDTDNgiseuOdVj/pwVfV8=;
+        b=AddP9aW7AEbqndqwe1COoa1xwBCdAhuUqIV4D8voaogXPxJWXDDSrlT26ibX8/6O39
+         GYiDhX8/Ci0Dd2A1JTA9ikD1C/RX8NCjXT1jETZbNX2mqEym9PsMWCcn8jfpR+5Jph7C
+         QLKLihc6oBdjM/2XN2yi1OBxhUchwcQBV3QRodNvZaaJhX/deW0LBrDwlHmRyWe2jaZc
+         PU/inDp4CJMC23GRQ1Pn2BiKnO/QeyksqkeClbFjG4SZpo22fE6H/I4O4A4ZWCw/BvRk
+         rx6wBX7EdMGt1K2OxUXZcH0tEdzJis4cRzYoAxZ4iGuUX08GolnYnNGgHI7+ZrXKkZQR
+         oVoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687506482; x=1690098482;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=afzpoupdHBz4t80yeY68UW7BcSr6J0mUzcvK1xv8c1M=;
-        b=N6YaaKLsufkIEZDJ7AjX/jjvaO7kJu4xWV1h9J1U8tVr4qQo7x+xIrchn0x/m35KoM
-         Gwt+2E9g2u1cCZxIUXkFjLdFR1BWXYtxn0Ru8VI5zycD1O3HpiTPvpdJCN7LGkouU5CW
-         m11J9HEJeHgIhtY4oifJw8AoEZ4qDzhV6kbiAQ/FZ1ygZiMuyKfUqqLiq0ECPd1M23p8
-         qlatkl4kE4tGPPVPXbXRY5N3VhYXhZxZBm9z+PDy/R9Xrv7oOtD9QIoBfMBd2zNZZkEi
-         7ZyMn1lmdRu4d3Q364Uuc7v4mNSIZcEfNi9UNzn0Qnowt9yPjLRiTca3pM72C5DB6lZR
-         dPgg==
-X-Gm-Message-State: AC+VfDx9fpNkyx4LfxGd8CMlyHRaUgPpFN9wgjYR6AYQAcoWfMjvjieG
-        GZO/7km30Q0GQOjVBPNN5MoNfw==
-X-Google-Smtp-Source: ACHHUZ60rNJlS88ekBpJsTiP/YnYc408Z0GlUIj/k7KV/RQOAUp7f7ExOF4ZyFZ2IcPQ5FADHxaxYg==
-X-Received: by 2002:a2e:9944:0:b0:2b4:6a20:f12b with SMTP id r4-20020a2e9944000000b002b46a20f12bmr13920987ljj.22.1687506482431;
-        Fri, 23 Jun 2023 00:48:02 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id b18-20020aa7cd12000000b0051bf49e258bsm666413edw.22.2023.06.23.00.48.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jun 2023 00:48:01 -0700 (PDT)
-Date:   Fri, 23 Jun 2023 09:48:00 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     poros <poros@redhat.com>, "kuba@kernel.org" <kuba@kernel.org>,
-        "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: Re: [RFC PATCH v8 04/10] dpll: netlink: Add DPLL framework base
- functions
-Message-ID: <ZJVOMPQ1RHx5mapG@nanopsycho>
-References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
- <20230609121853.3607724-5-arkadiusz.kubalewski@intel.com>
- <c7480d0a71fb8d62108624878f549c0d91d4c9e6.camel@redhat.com>
- <ZJLktA6RJaVo3BdH@nanopsycho>
- <ZJL2HUkAtHEw5rq+@nanopsycho>
- <DM6PR11MB46578CD80F96AB11AF2F81F49B23A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        d=1e100.net; s=20221208; t=1687509187; x=1690101187;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eKQLqzJpGFVYRDo5Vr6CozDDTDNgiseuOdVj/pwVfV8=;
+        b=Pvf5jZiVqq1ysPkkE0mNzjLAO3N8LwFmhXfyjSGUlBYct00hc8syqgBerN3PkCnaQX
+         L4wDxCQ7bHNEk9ZFohRs4ZaCR9IoKJi9cXt9VgwZNhezuqOl4Y+SrkpCyUrvDBqBQhJe
+         avlmYEzki/TZtmz4IWbY9hgVSK7qkHzk3rMpqxsB2m+Qu2h14WUfiy+QweRaSqLBkXXh
+         ZjQq3DnWZ/2T7pC9+Nzp0r9kWgVi0+oNptXteVqonsbTIt+e/8Y1lUXuY6bSQMmrpwp4
+         FG2v9hAnKB8P0EwIVzsRkj2ERn9VeReY3H1GhhNuaVXTLvwZPPtB/FXOyHbakP44rkiW
+         arIQ==
+X-Gm-Message-State: AC+VfDxB3sNtY6yMWUCaeKReQsTOZXwIc1yeukk5NYN7lvypQvUn83Js
+        RAkNzLReBNV4YQ91NMbMcpObRcdOC8WVHXs7oTVnfw==
+X-Google-Smtp-Source: ACHHUZ4WGdBKq4UxGZuZxTybdXrRMaFiJZBAcDlnLcCtF3LnRXSu1s3keBL1C4sworZTbVFtLRsjJ/tTe+wazDAS4uY=
+X-Received: by 2002:a5d:45c4:0:b0:311:822:9c51 with SMTP id
+ b4-20020a5d45c4000000b0031108229c51mr17887775wrs.43.1687509187023; Fri, 23
+ Jun 2023 01:33:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DM6PR11MB46578CD80F96AB11AF2F81F49B23A@DM6PR11MB4657.namprd11.prod.outlook.com>
+References: <20230621072234.9900-1-alexghiti@rivosinc.com> <20230621072234.9900-2-alexghiti@rivosinc.com>
+ <20230621-d6da578719f8af903d6746ef@orel> <20230622-4af59422f118ea634836d351@orel>
+ <CAHVXubgJQhShbOfaQeOTxM61g_tUnLBxa-0JK+WE+YQRGkYRQA@mail.gmail.com> <20230622-clone-overfed-21ec0886e904@spud>
+In-Reply-To: <20230622-clone-overfed-21ec0886e904@spud>
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+Date:   Fri, 23 Jun 2023 10:32:56 +0200
+Message-ID: <CAHVXubi786NBEg=Wp=7uy5gAA7zkmMTofX4XPdgWRzWJpq6opg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] Documentation: riscv: Add early boot document
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Andrew Jones <ajones@ventanamicro.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Song Shuai <songshuaishuai@tinylab.org>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fri, Jun 23, 2023 at 02:56:24AM CEST, arkadiusz.kubalewski@intel.com wrote:
->>From: Jiri Pirko <jiri@resnulli.us>
->>Sent: Wednesday, June 21, 2023 3:08 PM
->>
->>Wed, Jun 21, 2023 at 01:53:24PM CEST, jiri@resnulli.us wrote:
->>>Wed, Jun 21, 2023 at 01:18:59PM CEST, poros@redhat.com wrote:
->>>>Arkadiusz Kubalewski píše v Pá 09. 06. 2023 v 14:18 +0200:
->>>>> From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
->>>
->>>[...]
->>>
->>>Could you perhaps cut out the text you don't comment? Saves some time
->>>finding your reply.
->>>
->>>
->>>>> +static int
->>>>> +dpll_set_from_nlattr(struct dpll_device *dpll, struct genl_info
->>>>> *info)
->>>>> +{
->>>>> +       const struct dpll_device_ops *ops = dpll_device_ops(dpll);
->>>>> +       struct nlattr *tb[DPLL_A_MAX + 1];
->>>>> +       int ret = 0;
->>>>> +
->>>>> +       nla_parse(tb, DPLL_A_MAX, genlmsg_data(info->genlhdr),
->>>>> +                 genlmsg_len(info->genlhdr), NULL, info->extack);
->>>>> +       if (tb[DPLL_A_MODE]) {
->>>>Hi,
->>>>
->>>>Here should be something like:
->>>>               if (!ops->mode_set)
->>>>                       return -EOPNOTSUPP;
->>>
->>>Why? All drivers implement that.
->>>I believe that it's actullaly better that way. For a called setting up
->>>the same mode it is the dpll in, there should be 0 return by the driver.
->>>Note that driver holds this value. I'd like to keep this code as it is.
->>
->>Actually, you are correct Petr, my mistake. Actually, no driver
->>implements this. Arkadiusz, could you please remove this op and
->>possibly any other unused  op? It will be added when needed.
->>
->>Thanks!
->>
+On Thu, Jun 22, 2023 at 7:41=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
 >
->Sorry, didn't have time for such change, added only check as suggested by
->Petr.
->If you think this is a big issue, we could change it for next version.
-
-It's odd to carry on ops which are unused. I would prefer that to be
-removed now and only introduced when they are actually needed.
-
-
+> On Thu, Jun 22, 2023 at 07:32:23PM +0200, Alexandre Ghiti wrote:
+> > On Thu, Jun 22, 2023 at 7:24=E2=80=AFPM Andrew Jones <ajones@ventanamic=
+ro.com> wrote:
+> > >
+> > > On Wed, Jun 21, 2023 at 02:19:50PM +0200, Andrew Jones wrote:
+> > > > On Wed, Jun 21, 2023 at 09:22:33AM +0200, Alexandre Ghiti wrote:
+> > > ...
+> > > > > +Hardware description
+> > > > > +--------------------
+> > > > > +
+> > > > > +The firmware can pass either a devicetree or ACPI tables to the =
+RISC-V kernel.
+> > > > > +
+> > > > > +The devicetree is either passed directly to the kernel from the =
+previous stage
+> > > > > +using the `$a1` register, or when booting with UEFI, it can be p=
+assed using the
+> > > > > +EFI configuration table.
+> > > > > +
+> > > > > +The ACPI tables are passed to the kernel using the EFI configura=
+tion table. In
+> > > > > +this case, a tiny devicetree is still created by the EFI stub. P=
+lease refer to
+> > > > > +"EFI stub and devicetree" tree section below for details about t=
+his devicetree.
+> > > >                              ^ redundant 'tree' here
+> > > >
+> > >
+> > > Can whoever applies this drop this 'tree' I pointed while applying?
+> >
+> > Yes, sorry: @Conor Dooley give me the overly long lines you wanted me
+> > to break and I'll send a v3, it won't take much time and I'll fix this
+> > too!
 >
->Thank you!
->Arkadiusz
+> Look, I said it was pure pedantry on my part, and not something that
+> helps with understanding. You've been warned!
 >
->>
->>>
->>>[...]
+> diff --git a/Documentation/riscv/boot.rst b/Documentation/riscv/boot.rst
+> index 019ee818686d..a52793fd9f6c 100644
+> --- a/Documentation/riscv/boot.rst
+> +++ b/Documentation/riscv/boot.rst
+> @@ -143,11 +143,12 @@ be carefully examined.
+>  Device-tree mapping via fixmap
+>  ------------------------------
+>
+> -The RISC-V kernel uses the fixmap region to map the devicetree because t=
+he
+> -devicetree virtual mapping must remain the same between :c:func:`setup_v=
+m` and
+> -:c:func:`setup_vm_final` calls since the :c:var:`reserved_mem` array is
+> -initialized with virtual addresses established by :c:func:`setup_vm` and=
+ used
+> -with the mapping established by :c:func:`setup_vm_final`.
+> +
+> +As the :c:var:`reserved_mem` array is initialized with virtual addresses
+> +established by :c:func:`setup_vm`, and used with the mapping established=
+ by
+> +:c:func:`setup_vm_final`, the RISC-V kernel uses the fixmap region to ma=
+p the
+> +devicetree. This ensures that the same virtual mapping is used by both
+> +functions.
+>
+
+Oh my, so pedantic...:) I don't like the last sentence though, I'll
+change it for:
+
+"This ensures that the devicetree remains accessible by both virtual mappin=
+gs."
+
+Thanks!
+
+>  Pre-MMU execution
+>  -----------------
