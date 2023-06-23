@@ -2,210 +2,173 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1490CEB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 23:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C718FEB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 00:51:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230120AbjFVX4p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 19:56:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34182 "EHLO
+        id S230120AbjFWAv0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 20:51:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbjFVX4o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 19:56:44 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2337DE2;
-        Thu, 22 Jun 2023 16:56:42 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35MNgbS5029631;
-        Thu, 22 Jun 2023 23:56:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=5NZFfx4l5dqawCysO4yk9lFz/3mwWnZoAoVSw/Fj0VY=;
- b=hKK+9Fa157vTt3ci2RQMdiqZO0XHEd0+eiVEo0mybVmlSHp6Farc5+v3DZLih44cKK/s
- M95jdm1kuPi+DiKsD1KM1F1yN2o2QeUI5PBApAe3buHdFvGEWS1AZomW2G2BQrzuwLoK
- +kDkl3QTHVwb3ZCDmqK9MfPV7JoIZA5jdtv65TjRNGO6HmAhYpOuzlQ7B1ZZgLjwvUjn
- M/4N7sj/VMM8U021F6dQt0cIk44p3pStbzofDSxMTkxo2xECGgaNtGFOJiusUcHppuQD
- 6u76B2oE1EA3YUvjrXpZWC3gUsyt+i5UbnO4VXuqxQFNIIdsJuhbU1Ur1681fOB6m/vt tg== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rcurrghc9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 22 Jun 2023 23:56:24 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35MNuN0h010726
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 22 Jun 2023 23:56:23 GMT
-Received: from [10.71.111.76] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 22 Jun
- 2023 16:56:21 -0700
-Message-ID: <eae302ab-b508-cdc6-847f-dff6a6b82798@quicinc.com>
-Date:   Thu, 22 Jun 2023 16:56:20 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v13 10/24] gunyah: vm_mgr: Add/remove user memory regions
-Content-Language: en-US
-From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Will Deacon <will@kernel.org>
-CC:     Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        with ESMTP id S229902AbjFWAvZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 20:51:25 -0400
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2FE02107;
+        Thu, 22 Jun 2023 17:51:23 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id E42CD3200932;
+        Thu, 22 Jun 2023 20:51:21 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Thu, 22 Jun 2023 20:51:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1687481481; x=1687567881; bh=0Q/gP+COjG4Go
+        WKY4HaA9nt8py5Rh2ey5cbB5lWAv3U=; b=XPD377TVN8SB0YtwM68dFTwOH91D/
+        oz/BW650ynDMf3lV8+/n3UxZPVQC6aqEaVs2DMUXnCEPUBEYhdume9vUrXJxTxCv
+        BZVIggFQINpeO8Tel2Wsq6k+qjjknJAr314S2xkDTLK7W/Ji+PgRsM8JIKLmk8JU
+        6eQg231UcNzK0xlw2+9IFsRp+umTZKMt0UhNf7lDTT1/ofrg7WWZ5UvxoCe8/erw
+        UBQnFCvQyUZYFTsYHW/78NCeobpsFcDnDIF9sxdwmDGqQkSQB1BqFfyCeqZqzRZJ
+        qbQBvbkPF7FGUXB9GEbEwlp+VFRkvWidqMU5Gdmp/fLMlwCjhPJMeRkLA==
+X-ME-Sender: <xms:ieyUZK6acEzn9YyEXmN7N6GfOpMtraYTFF3672nGqcDVVP3dQewYjA>
+    <xme:ieyUZD5MSHuQBSiYAIMfRq1xMWhHxqDZzc7g1r1ee_bBfoHfHyGKXr-1dl2iXZjgo
+    MSvpiBJF1NrXGJrfk0>
+X-ME-Received: <xmr:ieyUZJeC0HbXk31M2nNTmacZ1PU91DKnyrob9_afMJieDII1JIC-Z6J7X6RR9guyCgmN6K1EBUyH-ibpxsTo05f9bHUX6fSHMnw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeegvddgfedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcu
+    vfhhrghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrg
+    htthgvrhhnpeefieehjedvtefgiedtudethfekieelhfevhefgvddtkeekvdekhefftdek
+    vedvueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepfhhthhgrihhnsehlihhnuhigqdhmieek
+    khdrohhrgh
+X-ME-Proxy: <xmx:ieyUZHKwMoapk1sOrB6t1QwRIGW5evy2d3NdJv-rkN7knoXt6G4uaQ>
+    <xmx:ieyUZOJQd2-rx46V_LRfCBMIu7lursjJw0T2n1gCikcfNKPb2iXtnA>
+    <xmx:ieyUZIwYt7UEqR7swRzXGSEJ6vcxJ0_Kuf-upUnU6Z-DsY65h6iQpA>
+    <xmx:ieyUZAjXl2HU64dSv3Huca7p2WNyz28zkQUm1TK4QriK_HoBPLUYjA>
+Feedback-ID: i58a146ae:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 22 Jun 2023 20:51:19 -0400 (EDT)
+Date:   Fri, 23 Jun 2023 10:52:08 +1000 (AEST)
+From:   Finn Thain <fthain@linux-m68k.org>
+To:     Theodore Ts'o <tytso@mit.edu>
+cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Bagas Sanjaya" <bagasdotme@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <qperret@google.com>
-References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
- <20230509204801.2824351-11-quic_eberman@quicinc.com>
- <20230519115948.GB2637@willie-the-truck>
- <e22c31bd-10ed-f242-3e72-debf40e01e3c@quicinc.com>
- <20230605141839.GD21212@willie-the-truck>
- <3bd86221-ee2e-d157-009b-11f6ada98537@quicinc.com>
-In-Reply-To: <3bd86221-ee2e-d157-009b-11f6ada98537@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: PD7O_AwW6snAmWVqgBTYVEXKXNnV1-AV
-X-Proofpoint-ORIG-GUID: PD7O_AwW6snAmWVqgBTYVEXKXNnV1-AV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-22_17,2023-06-22_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 malwarescore=0 mlxlogscore=830 suspectscore=0 spamscore=0
- adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306220205
+        tech-board-discuss@lists.linux-foundation.org,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Linux Contribution Maturity Model and
+ the wider community
+In-Reply-To: <20230622173913.GA34229@mit.edu>
+Message-ID: <f54e2fc8-0aba-3b62-7870-023f25e11e8f@linux-m68k.org>
+References: <20230620212502.GI286961@mit.edu> <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org> <2023062144-hefty-why-305d@gregkh> <04cd7204-cdee-c333-8815-57acbab82721@linux-m68k.org> <20230622173913.GA34229@mit.edu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 22 Jun 2023, Theodore Ts'o wrote:
 
-
-On 6/7/2023 8:54 AM, Elliot Berman wrote:
+> On Thu, Jun 22, 2023 at 05:02:10PM +1000, Finn Thain wrote:
+> > 
+> > You mentioned wasted resources. If you want to generate e-waste, 
+> > remove drivers from the kernel. If you want to prevent e-waste, add 
+> > drivers for obsolete hardware and then watch the user count climb from 
+> > zero as devices get pulled from drawers and dusted off.
 > 
+> You seem to making a lot of assumptions here, with no evidence to back 
+> up your assertions.  The driver question is from twenty years ago, and 
+> talks to SCSI cards using LVD (low-voltage diferential) SCSI 3 cables 
+> (for 160 MB/s).  SCSI Disks from that era are typically 20GB to 30GB. 
+> Compare that to modern SATA disks today that are 10-18 TB in size, and 
+> SATA-3 transfers data at 600 MB/s.
 > 
-> On 6/5/2023 7:18 AM, Will Deacon wrote:
->> Hi Elliot,
->>
->> [+Quentin since he's looked at the MMU notifiers]
->>
->> Sorry for the slow response, I got buried in email during a week away.
->>
->> On Fri, May 19, 2023 at 10:02:29AM -0700, Elliot Berman wrote:
->>> On 5/19/2023 4:59 AM, Will Deacon wrote:
->>>> On Tue, May 09, 2023 at 01:47:47PM -0700, Elliot Berman wrote:
->>>>> +    ret = account_locked_vm(ghvm->mm, mapping->npages, true);
->>>>> +    if (ret)
->>>>> +        goto free_mapping;
->>>>> +
->>>>> +    mapping->pages = kcalloc(mapping->npages, 
->>>>> sizeof(*mapping->pages), GFP_KERNEL_ACCOUNT);
->>>>> +    if (!mapping->pages) {
->>>>> +        ret = -ENOMEM;
->>>>> +        mapping->npages = 0; /* update npages for reclaim */
->>>>> +        goto unlock_pages;
->>>>> +    }
->>>>> +
->>>>> +    gup_flags = FOLL_LONGTERM;
->>>>> +    if (region->flags & GH_MEM_ALLOW_WRITE)
->>>>> +        gup_flags |= FOLL_WRITE;
->>>>> +
->>>>> +    pinned = pin_user_pages_fast(region->userspace_addr, 
->>>>> mapping->npages,
->>>>> +                    gup_flags, mapping->pages);
->>>>> +    if (pinned < 0) {
->>>>> +        ret = pinned;
->>>>> +        goto free_pages;
->>>>> +    } else if (pinned != mapping->npages) {
->>>>> +        ret = -EFAULT;
->>>>> +        mapping->npages = pinned; /* update npages for reclaim */
->>>>> +        goto unpin_pages;
->>>>> +    }
->>>>
->>>> Sorry if I missed it, but I still don't see where you reject file 
->>>> mappings
->>>> here.
->>>>
->>>
->>> Sure, I can reject file mappings. I didn't catch that was the ask 
->>> previously
->>> and thought it was only a comment about behavior of file mappings.
->>
->> I thought the mention of filesystem corruption was clear enough! It's
->> definitely something we shouldn't allow.
->>
->>>> This is also the wrong interface for upstream. Please get involved with
->>>> the fd-based guest memory discussions [1] and port your series to that.
->>>>
->>>
->>> The user interface design for *shared* memory aligns with
->>> KVM_SET_USER_MEMORY_REGION.
->>
->> I don't think it does. For example, file mappings don't work (as above),
->> you're placing additional rlimit requirements on the caller, read-only
->> memslots are not functional, the memory cannot be swapped or migrated,
->> dirty logging doesn't work etc. pKVM is in the same boat, but that's why
->> we're not upstreaming this part in its current form.
->>
-> 
-> I thought pKVM was only holding off on upstreaming changes related to 
-> guest-private memory?
-> 
->>> I understood we want to use restricted memfd for giving guest-private 
->>> memory
->>> (Gunyah calls this "lending memory"). When I went through the changes, I
->>> gathered KVM is using restricted memfd only for guest-private memory 
->>> and not
->>> for shared memory. Thus, I dropped support for lending memory to the 
->>> guest
->>> VM and only retained the shared memory support in this series. I'd 
->>> like to
->>> merge what we can today and introduce the guest-private memory 
->>> support in
->>> tandem with the restricted memfd; I don't see much reason to delay the
->>> series.
->>
->> Right, protected guests will use the new restricted memfd ("guest mem"
->> now, I think?), but non-protected guests should implement the existing
->> interface *without* the need for the GUP pin on guest memory pages. Yes,
->> that means full support for MMU notifiers so that these pages can be
->> managed properly by the host kernel. We're working on that for pKVM, but
->> it requires a more flexible form of memory sharing over what we currently
->> have so that e.g. the zero page can be shared between multiple entities.
-> 
-> Gunyah doesn't support swapping pages out while the guest is running and 
-> the design of Gunyah isn't made to give host kernel full control over 
-> the S2 page table for its guests. As best I can tell from reading the 
-> respective drivers, ACRN and Nitro Enclaves both GUP pin guest memory 
-> pages prior to giving them to the guest, so I don't think this 
-> requirement from Gunyah is particularly unusual.
+> So you are assuming (a) that people just "happen" to have ancient, 20 
+> year old cards justlying around in drawers, (b) they have 20 year old 
+> SCSI disks and SCSI cables that these cards would actually talk to, and 
+> (c) they would think it would make sense from a power, space, and 
+> cooling perspective to take this kind of antique storage solutions are 
+> use it for actually storing data.
 > 
 
-I read/dug into mmu notifiers more and I don't think it matches with 
-Gunyah's features today. We don't allow the host to freely manage VM's 
-pages because it requires the guest VM to have a level of trust on the 
-host. Once a page is given to the guest, it's done for the lifetime of 
-the VM. Allowing the host to replace pages in the guest memory map isn't 
-part of any VM's security model that we run in Gunyah. With that 
-requirement, longterm pinning looks like the correct approach to me.
+No, those are not my assumptions, those are my observations.
 
-Thanks,
-Elliot
+Also, you've incorrectly conflated my comment about "devices in drawers" 
+(which was a reference to old Android phones and the like) with an old 
+thread about an HBA driver. The former comment goes to the value of old 
+code. The latter goes to the size of the talent pool.
+
+> > Anyway, your reaction is an interesting example of strong feelings in 
+> > the community as to how contributed code should or should not be used. 
+> > E.g. some get upset if their code runs on weapons systems, others get 
+> > upset if the latest release might not run on suitable hardware in the 
+> > immediate future. Some add or remove licence terms according to their 
+> > convictions.
+> 
+> Um, I don't even know where this came from.
+
+I'll explain it.
+
+> In any case, the Linux Kernel is licensed under the GPL2, which, like 
+> all Open Source compliant licenses, does not distribute against fields 
+> of endeavor (such as weapons systems, etc.)
+> 
+
+As I understand it, supporting ancient hardware in certain sectors is 
+highly profitable, where red tape prevents those customers from upgrading.
+
+> As far as getting upset if the latest release doesn't run on "suitable 
+> hardware", if they are upset they can submit a bug report, or better 
+> yet, submit a patch to address the situation. 
+
+I think you've missed my point, which was that some maintainers require 
+that released code is executed promptly otherwise it should be deleted. 
+Please see also, 
+https://lore.kernel.org/all/7c2a6687-9c4e-efed-5e25-774b582e9a27@linux-m68k.org/
+
+> What people seem to forget is that free software does not mean that 
+> people will fix your software for your use case for free.  It means that 
+> *you* are free to fix the software, or to pay someone to fix the 
+> software in question.
+> 
+> > If there was consensus, it might be feasible to give a formula for 
+> > "recognized usage" which could be quantified. From there we could 
+> > create a kind of heat map to show which commits, maintainers, 
+> > processes, models, modules etc. were the most "useful" within some 
+> > time interval.
+> 
+> The best we have is we can see what users submit bug reports about 
+> (especially, for example, when we discover that some driver was 
+> accidentally broken a few years ago due to the need to upgrade code to 
+> use newer API's as we improve and refactor code, and no one has 
+> complained about the driver being used --- that's a good hint that no 
+> one cares), and what individuals and companies choose to spend time 
+> working to improve certain parts of the kernel.  If code is under active 
+> maintenance, then it's worth *someone's* time to keep maintained.
+> 
+> And of course, if remove a driver because it is unmaintained and is for 
+> obsolete hardware, if someone shows up saying (a) they care about that 
+> driver, and (b) they are willing to volunteer to maintain the driver, or 
+> are willing to pay someone to maintain the driver, and they have 
+> contracted with XYZ developer working for ABC company, then it's super 
+> simple to revert the driver removal.  It is, after all, only a "git 
+> revert" away.
+> 
+> I do have to concur with Greg that relying on this as way to get new 
+> people to be work on Linux kernel is a *terrible* idea.  The number of 
+> people who are interested in retro-computing is quite small, in my 
+> experience.
+> 
+
+Given that products like mobile phones etc. often get made obsolete within 
+a few years from launch, my guess is that billions of users are now 
+interested in retro-computing.
+
+> Cheers,
+> 
+> 					- Ted
+> 
