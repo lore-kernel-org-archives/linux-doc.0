@@ -2,104 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B18FC001B0
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 15:19:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CC1C001B0
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 15:20:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231415AbjFWPTb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jun 2023 11:19:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34838 "EHLO
+        id S230180AbjFWPUc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jun 2023 11:20:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231808AbjFWPTR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 11:19:17 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE482695
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 08:19:15 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-51bebdc4787so768053a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 08:19:15 -0700 (PDT)
+        with ESMTP id S231830AbjFWPTv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 11:19:51 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43AAF2116
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 08:19:49 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-40079620a83so267551cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 08:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687533554; x=1690125554;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h7eKK3NYw/OZosKXCLsiNWhf+zhDMnVZ3w9TgoZpnvM=;
-        b=pufECKMNhHNzLknHPIC3dP0Oi2kgtKveh/tvCIae1JBk8aEl2hgIxP6zVbMt2ojNNG
-         M6wOQJkOdAHyQGlOQprGiN7ZndNROlGcHr43PmS/VxAx83A25Njs0VjqIYbCtrHFiZLL
-         bbAgmPHAcnMJnBqZIc+/jThJV7657kRiif+YP1vqk+YsQig588X+/yevhli32B5Hpp0I
-         sugJRRFkIhM9n4wozD7pkxZzENYZwNlgHZIjzRyRx62ZgGU/XwpooKqqWTO1bjb9y1HO
-         dLI+EEkcs4q8FajFm5rZrPUz9iZ5OtAfmltUu0hBKyUCAmgcFAHsgRfAcEYmUOagcuCf
-         jxHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687533554; x=1690125554;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20221208; t=1687533588; x=1690125588;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h7eKK3NYw/OZosKXCLsiNWhf+zhDMnVZ3w9TgoZpnvM=;
-        b=lu2RxwGVPsh96y0iL1ivvJbpH4xJRCA+PpUVPlGX+TbadhL2WaRjY6BoGrZ37VT50V
-         SWETwys/uaUUYj7MZxuEtojMYiKtQXDKhYsS5hkCz7m5624PkaTcgr9rUvsHj/2RnBD6
-         lEZBDNM7CxPaJKhk33NnghKileMnvrY3L+B8al1ERkvTK2nQGKLtW9/Bdh3bebORuPD8
-         l1pQiFJf9I2d9C9ua4gucp8Y9l8NeMkJM0jVCf4FeBp2TW5d+V5NglSB9QwKMJKpOU3l
-         r3VdHVJreyonpKDF+VJIlgo61Z/MBeX8C4Bo6FH8i2CRe4Q+Hh0nT0Ynfrng2wI4ZVOP
-         LB0Q==
-X-Gm-Message-State: AC+VfDypjyIDIA84zveu1ZYIJ0uj7WcJ5GzijTHeTqNJXTP9q1prGCsz
-        OzWFPfaBEA+jilJPdkurTRmuMQ==
-X-Google-Smtp-Source: ACHHUZ6xDfyN1tOEN2NYIoQBlq6pUTkM/ulf1OBBxm30WI7jeWoGeDV0AOfPPrS7ih1GjfWzDkCK7g==
-X-Received: by 2002:a05:6402:3da:b0:51a:42b2:cb83 with SMTP id t26-20020a05640203da00b0051a42b2cb83mr10642649edw.42.1687533553669;
-        Fri, 23 Jun 2023 08:19:13 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id l24-20020a056402125800b0051a5177adeasm5305833edw.21.2023.06.23.08.19.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jun 2023 08:19:12 -0700 (PDT)
-Date:   Fri, 23 Jun 2023 17:19:11 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc:     kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
-        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
-        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
-        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
-        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
-        michal.michalik@intel.com, gregkh@linuxfoundation.org,
-        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
-        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
-        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
-        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
-        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
-        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
-        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
-        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
-        mschmidt@redhat.com, linux-clk@vger.kernel.org,
-        vadim.fedorenko@linux.dev
-Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Message-ID: <ZJW37ynDxJCwHscN@nanopsycho>
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+        bh=k9o7YVEzoV5lz+8vLzrqhGQ2D/1rlU+02uMgaoqMDIE=;
+        b=XOZa9v/7zkAy73pr3ZosKiB+YlVu1jh81K1h3okUGFyHrTz3LBIiwz9T7hZZYuYYoP
+         1eJXPInd8MxtXYaRsw3/KyCOmOCEOd4vH//EOjT3V1LeHr9MjT6UKbp9Wz7taUTe9er9
+         HvdSX2AdFgfPC1+iC8ASCipcxIuLrvmfGn7ikZ2wffnpoFwOXYpNpkkZeeeiTnHw8UEl
+         FuIKXZes0KemJ79vfVC7K8DTPCIJNd0cc8Ml8Ax7SgBqks232XTp2TBiapLSkhzGSvjK
+         gO0L5GkCvIadtQSpbolNbX4PFQAuIaaPbCJmPwv2afZ0sDJ+WKTKlaYYJyahHnJOvmAd
+         /xWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687533588; x=1690125588;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k9o7YVEzoV5lz+8vLzrqhGQ2D/1rlU+02uMgaoqMDIE=;
+        b=T3E8UcSlTSYQPlyBCG98JeNAUbZvWXMpWPqHaGfn8DFNQgxikqBigqs6/QIIgfFAXx
+         OJhPbgp7/T8A13lOJW6B7A0SB7eDGVt9eR9lz9Zqwx4Gh8EOTkZVnbA52Tsy8kS8vCGd
+         EavWM65jE/709M6uoMQPaQbgp5TZys2Z6y98CQ+12Dn7umShG6Ex+6fnx6XAav7eaMj8
+         xg+lq0T7LG9u8ijOJfvOAKh2BarNQsdvkFc949qnIUNdcY2cAwaWCwdv7Y6/673YqYn2
+         HoMsXsvTRxohEjFPrjsIez/tCL3QEadGC9yvb5qFl4iKv9Hc67DItqvKCgARpPRUUlil
+         GWfw==
+X-Gm-Message-State: AC+VfDx+li9Ijae1//xISgUs33YYGZPBpv1HV8qXwF5CAM05JK6r5J9j
+        nKAU3eh/yhkrlRQx0hdPecnmbxvTpihAcpoW4RtIHg==
+X-Google-Smtp-Source: ACHHUZ6CDS5pW+9OsHA6eKMXUWXt6u0FtfKRp+ZdZdMi3tmcJaNbZ2dNV8prqFcjyEwsBEWAfs/EzXe+4ASIB+DlLV8=
+X-Received: by 2002:ac8:5952:0:b0:3ef:5f97:258f with SMTP id
+ 18-20020ac85952000000b003ef5f97258fmr143411qtz.16.1687533588350; Fri, 23 Jun
+ 2023 08:19:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+References: <20230621174006.42533-1-tony.luck@intel.com> <20230621174006.42533-8-tony.luck@intel.com>
+ <CALPaoCgF04M0Jc-c4VmbKkRSFo677SBGoPHzNCSeQ4S6Bqb60w@mail.gmail.com> <SJ1PR11MB60836CD7493B0EAF0F687051FC22A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+In-Reply-To: <SJ1PR11MB60836CD7493B0EAF0F687051FC22A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+From:   Peter Newman <peternewman@google.com>
+Date:   Fri, 23 Jun 2023 17:19:37 +0200
+Message-ID: <CALPaoCiaknUMSU4CunSQrRP=WS8DAbToVo5jibh8TaWNZXGMbQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is
+ enabled and initialize.
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        "Eranian, Stephane" <eranian@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com wrote:
->Implement common API for clock/DPLL configuration and status reporting.
->The API utilises netlink interface as transport for commands and event
->notifications. This API aim to extend current pin configuration and
->make it flexible and easy to cover special configurations.
+Hi Tony,
+
+On Thu, Jun 22, 2023 at 6:02=E2=80=AFPM Luck, Tony <tony.luck@intel.com> wr=
+ote:
 >
->Netlink interface is based on ynl spec, it allows use of in-kernel
->tools/net/ynl/cli.py application to control the interface with properly
->formated command and json attribute strings. Here are few command
->examples of how it works with `ice` driver on supported NIC:
+> > Unfortunately I'm not getting as good of results with the new series.
+> > The main difference seems to be updating the 0xca0 MSR instead of
+> > applying the offset to PQR_ASSOC.
+>
+> I think I may have reversed the actions to update the MSR in one of
+> my refactor/rebase. The comment here is correct, but that's not
+> what the code is doing :-(
+>
+> Can you swap the bodies of these two functions and retest?
 
-I don't understand. The discussion in the RFCv8 thread is still going
-on. The things I mentioned there are ignored. Like for example:
-1) mode_set op removal
-2) odd ice dpll locking scheme (either fix or describe why it is ok -
-				that's the unfinished discussion)
-3) header file bits squash I suggested. Vadim wrote that it sounds
-   reasonable, yet nothing changed
+It's a small improvement, but still not great. Still only node 0
+giving believable results, but at least no more empty results from the
+second package.
 
-I thought we are past this. Why I have to point the same issues over and
-over?
+I poked around in /proc/kcore and noticed that my snc_ways is still 1, thou=
+gh.
+
+-Peter
