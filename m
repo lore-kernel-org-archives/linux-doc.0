@@ -2,85 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C090C0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 20:32:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D87AEB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 22:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231910AbjFWUcg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jun 2023 16:32:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50098 "EHLO
+        id S232361AbjFWWUt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jun 2023 18:20:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231911AbjFWUce (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 16:32:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A18E2268C;
-        Fri, 23 Jun 2023 13:32:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3977D61B0D;
-        Fri, 23 Jun 2023 20:32:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C2DBC433C8;
-        Fri, 23 Jun 2023 20:32:20 +0000 (UTC)
-Date:   Fri, 23 Jun 2023 21:32:17 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Chaitanya S Prakash <chaitanyas.prakash@arm.com>,
-        Will Deacon <will@kernel.org>, Anshuman.Khandual@arm.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH V2] Documentation/arm64: Add ptdump documentation
-Message-ID: <ZJYBUbRTo2cqCLQ5@arm.com>
-References: <20230619083802.76092-1-chaitanyas.prakash@arm.com>
- <168736253462.605140.8006082140297031307.b4-ty@arm.com>
- <87ttv0pzt8.fsf@meer.lwn.net>
- <ZJP9joL+QZiVM9Tg@arm.com>
- <87352im0yv.fsf@meer.lwn.net>
+        with ESMTP id S232358AbjFWWUq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 18:20:46 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F5EE273E
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 15:20:35 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1b55643507dso8578775ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 15:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687558835; x=1690150835;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sZx6+oVqWxI1dOKVQNClxhZWPvsRArizB5EStMZMnN8=;
+        b=f2c2+uJXWg2ggdJELahXkTmw8NS0Vlee1pomXdIE0kk8Lt8DJlKSY5iypXKPDDOs6K
+         wrDqPIXgzwx+nbXjr83KbOiy5FLoQVFGt+OG4ZVNqITEz/nDcEx5/hwJ2vNaf42EuDAm
+         K+n/0rjM6Ay9V7yM0s9JnvSM9slynHhVVZQAgiIqMW7vU3ap7cE5JOU74jEslDFRAqUM
+         XaPG2ToBREBysGAUDnSjCZ90N0u8/k2GCoupIDmn1EUyPgF3Aq0Vaz+D3WNuYnbe+n1p
+         TuU7AUCIfSXyAgDZPqgRQyjOgV2srBzC3pX/ZaYcMNi8bwn6/wIA7wojudNGkdcCF5YM
+         d8yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687558835; x=1690150835;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sZx6+oVqWxI1dOKVQNClxhZWPvsRArizB5EStMZMnN8=;
+        b=e8rxRiszhr/NqG2289vGUTnCSro2q/BYYZOMB4WoXXg4VE6u2CiU0pJiZVbaD5bckB
+         u5JcOFiG0HoQXG9l6l1XhtgXf9B1JsTPmQPkzMQtfcEdyya3a2z0mjlHjWNgHEF2JSaY
+         FkBRZyBL7m6jQ6cpWa9ffVJu5pdsMI4MLRr0xXe8iwrtnBvUq5T5tul68SHSIWEsLIGP
+         gk+vm/nBJF9ZlpS1Mdjt/RHHU2XbifsYp7UW+es7r9KJTCN8+xrlfTma4Xx+ZQop3kwG
+         dbKuvuiFZMlHDOH00adQD8j82EuTk33yb8lKb4vwyUSXN0r/UBIZ5oPjK9zCNGYI7pCV
+         qzMQ==
+X-Gm-Message-State: AC+VfDyUFZ18SJkiorFug164WoIf1agGNZHNrGM2ZUOgjlc9VnWT6BP4
+        9O0gEiTras4nswrciQi1dVzs2w==
+X-Google-Smtp-Source: ACHHUZ4KpR/ga06S8BRcXk1g7+jvLR7eSUaEmxlWlNWtwv8HuPbty6CowrJ27XQLeqFEsWiVPb8qDQ==
+X-Received: by 2002:a17:902:dac3:b0:1b6:8b70:328f with SMTP id q3-20020a170902dac300b001b68b70328fmr462343plx.6.1687558834840;
+        Fri, 23 Jun 2023 15:20:34 -0700 (PDT)
+Received: from evan.ba.rivosinc.com ([66.220.2.162])
+        by smtp.gmail.com with ESMTPSA id ju20-20020a170903429400b001a80ad9c599sm35535plb.294.2023.06.23.15.20.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jun 2023 15:20:34 -0700 (PDT)
+From:   Evan Green <evan@rivosinc.com>
+To:     Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     Simon Hosie <shosie@rivosinc.com>, Evan Green <evan@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Andy Chiu <andy.chiu@sifive.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@kernel.org>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Li Zhengyu <lizhengyu3@huawei.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Yangyu Chen <cyy@cyyself.name>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: [PATCH 0/2] RISC-V: Probe for misaligned access speed
+Date:   Fri, 23 Jun 2023 15:20:14 -0700
+Message-Id: <20230623222016.3742145-1-evan@rivosinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87352im0yv.fsf@meer.lwn.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 23, 2023 at 01:29:28PM -0600, Jonathan Corbet wrote:
-> Catalin Marinas <catalin.marinas@arm.com> writes:
-> > On Wed, Jun 21, 2023 at 10:04:03AM -0600, Jonathan Corbet wrote:
-> >> Catalin Marinas <catalin.marinas@arm.com> writes:
-> >> > On Mon, 19 Jun 2023 14:08:02 +0530, Chaitanya S Prakash wrote:
-> >> >> ptdump is a debugfs interface used to dump the kernel page tables. It
-> >> >> provides a comprehensive overview about the kernel's virtual memory
-> >> >> layout, page table entries and associated page attributes. A document
-> >> >> detailing how to enable ptdump in the kernel and analyse its output has
-> >> >> been added.
-> >> >> 
-> >> >> Changes in V2:
-> >> >> 
-> >> >> [...]
-> >> >
-> >> > Applied to arm64 (for-next/doc), thanks! I did some tidying up, minor
-> >> > fixes.
-> >> >
-> >> > [1/1] Documentation/arm64: Add ptdump documentation
-> >> >       https://git.kernel.org/arm64/c/a0238ada560f
-> >> 
-> >> Note that this will generate a conflict with the arm64 documentation
-> >> move, which I dropped into -next today.  It's easily enough fixed up
-> >> top, but if you'd rather carry the directory move in your tree just say
-> >> the word.
-> >
-> > Ah, I forgot about this move. Are you ok to pull the arm64 for-next/doc
-> > into your tree to avoid the conflict? There's also the arm64
-> > for-next/acpi-doc branch that you could also pull.
-> 
-> That sounds a bit like the sort of merge-to-avoid-a-conflict that Linus
-> gets annoyed about.  There's nothing too serious here, I can just warn
-> him in my pull request.
 
-Yeah, this should work as well.
+The current setting for the hwprobe bit indicating misaligned access
+speed is controlled by a vendor-specific feature probe function. This is
+essentially a per-SoC table we have to maintain on behalf of each vendor
+going forward. Let's convert that instead to something we detect at
+runtime.
 
-Thanks.
+We have two assembly routines at the heart of our probe: one that
+does a bunch of word-sized accesses (without aligning its input buffer),
+and the other that does byte accesses. If we can move a larger number of
+bytes using misaligned word accesses than we can with the same amount of
+time doing byte accesses, then we can declare misaligned accesses as
+"fast".
+
+The tradeoff of reducing this maintenance burden is boot time. We spend
+4-6 jiffies per core doing this measurement (0-2 on jiffie edge
+alignment, and 4 on measurement). The timing loop was based on
+raid6_choose_gen(), which uses (16+1)*N jiffies (where N is the number
+of algorithms). On my THead C906, I found measurements to be stable
+across several reboots, and looked like this:
+
+[    0.047582] cpu0: Unaligned word copy 1728 MB/s, byte copy 402 MB/s, misaligned accesses are fast
+
+I don't have a machine where misaligned accesses are slow, but I'd be
+interested to see the results of booting this series if someone did.
+
+
+
+Evan Green (2):
+  RISC-V: Probe for unaligned access speed
+  RISC-V: alternative: Remove feature_probe_func
+
+ Documentation/riscv/hwprobe.rst      |  8 +--
+ arch/riscv/errata/thead/errata.c     |  8 ---
+ arch/riscv/include/asm/alternative.h |  5 --
+ arch/riscv/include/asm/cpufeature.h  |  2 +
+ arch/riscv/kernel/Makefile           |  1 +
+ arch/riscv/kernel/alternative.c      | 19 -------
+ arch/riscv/kernel/copy-noalign.S     | 71 +++++++++++++++++++++++++
+ arch/riscv/kernel/copy-noalign.h     | 13 +++++
+ arch/riscv/kernel/cpufeature.c       | 78 ++++++++++++++++++++++++++++
+ arch/riscv/kernel/smpboot.c          |  3 +-
+ 10 files changed, 171 insertions(+), 37 deletions(-)
+ create mode 100644 arch/riscv/kernel/copy-noalign.S
+ create mode 100644 arch/riscv/kernel/copy-noalign.h
 
 -- 
-Catalin
+2.34.1
+
