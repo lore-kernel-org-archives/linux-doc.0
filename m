@@ -2,115 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96DAAEB64D8
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 16:10:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25CC6EB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Jun 2023 16:32:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230426AbjFVQKQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Jun 2023 12:10:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50430 "EHLO
+        id S230129AbjFVQcR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Jun 2023 12:32:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230459AbjFVQKP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 12:10:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD4271FC2;
-        Thu, 22 Jun 2023 09:10:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2103B618BB;
-        Thu, 22 Jun 2023 16:10:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8138C433C8;
-        Thu, 22 Jun 2023 16:10:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1687450204;
-        bh=xLyXvexgDPhNaQNSn+EFSDO6E/yJrPCxAprammFlvbQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BnXgHjpi2MOfptfmTAtE/YPjGIuBTYzlKRUp7fENW/t9oQhN2Xrrt73Twhx75Hn7C
-         gr4CxvjVQBjaREfgJZ5Nef/HZ4D3NIdLzoJf0HgA8jE1lsD3372UNRGhhtBy5ZqDvv
-         A7jW+W2Xlc2fbpFJvEfeBL4UEM8NxIgJSRpd7iGc=
-Date:   Thu, 22 Jun 2023 18:10:00 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Breno Leitao <leitao@debian.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, leit@meta.com,
-        Arnd Bergmann <arnd@arndb.de>,
-        Steve French <stfrench@microsoft.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Simon Ser <contact@emersion.fr>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:IO_URING" <io-uring@vger.kernel.org>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>
-Subject: Re: [PATCH] io_uring: Add io_uring command support for sockets
-Message-ID: <2023062208-animosity-squabble-c1ba@gregkh>
-References: <20230621232129.3776944-1-leitao@debian.org>
- <2023062231-tasting-stranger-8882@gregkh>
- <ZJRijTDv5lUsVo+j@gmail.com>
+        with ESMTP id S229628AbjFVQcQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Jun 2023 12:32:16 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 155AC1BD9;
+        Thu, 22 Jun 2023 09:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687451535; x=1718987535;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iP0/anX5cEsrg5k0eU+acU3r2Q4ClUJN8yRVCkyvgZ8=;
+  b=LPqR98QPWOdlXU9GbvuQkKGRJalO5V0EOqpUbXtY47UK+lm8dGJju8Dg
+   GPmOImwlMlm4YHOjDpiea/VyPzTd+V7l+3XrTzGxew4TDPPGm/2rfzZ9l
+   SzN8MMAdebNAWPDg63sTrxquA8LSzIhJZIj3WuI8aY/bHVDXcenhh1LMK
+   UC8Vwv37HMLwfDzolHINQHnq7RtZ3a6B4BukXK7YQCDEDE4Vz5kmEAfBP
+   Ah2YXZSY+du5Q5XbemepTBYucCHZsmOwuHUkmmpGDsZdtomBrArkSNId3
+   spy3BD3M3dna0hqBKU96gpcJjO9V/gPKwDNQJEnaoaG4l3TVURVVa46tW
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="345297890"
+X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
+   d="scan'208";a="345297890"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 09:31:53 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="749375192"
+X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
+   d="scan'208";a="749375192"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orsmga001.jf.intel.com with ESMTP; 22 Jun 2023 09:31:51 -0700
+Date:   Fri, 23 Jun 2023 08:30:54 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     Mingwei Zhang <mizhang@google.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jim Mattson <jmattson@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>
+Subject: Re: [PATCH 2/6] KVM: Documentation: Update the field name gfns in
+ kvm_mmu_page
+Message-ID: <ZJTnvuoVWLhv0H0f@yilunxu-OptiPlex-7050>
+References: <20230618000856.1714902-1-mizhang@google.com>
+ <20230618000856.1714902-3-mizhang@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZJRijTDv5lUsVo+j@gmail.com>
+In-Reply-To: <20230618000856.1714902-3-mizhang@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 22, 2023 at 08:02:37AM -0700, Breno Leitao wrote:
-> On Thu, Jun 22, 2023 at 07:20:48AM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Jun 21, 2023 at 04:21:26PM -0700, Breno Leitao wrote:
-> > > Enable io_uring commands on network sockets. Create two new
-> > > SOCKET_URING_OP commands that will operate on sockets. Since these
-> > > commands are similar to ioctl, uses the _IO{R,W} helpers to embedded the
-> > > argument size and operation direction. Also allocates a unused ioctl
-> > > chunk for uring command usage.
-> > > 
-> > > In order to call ioctl on sockets, use the file_operations->uring_cmd
-> > > callbacks, and map it to a uring socket function, which handles the
-> > > SOCKET_URING_OP accordingly, and calls socket ioctls.
-> > > 
-> > > This patches was tested by creating a new test case in liburing.
-> > > Link: https://github.com/leitao/liburing/commit/3340908b742c6a26f662a0679c4ddf9df84ef431
-> > > 
-> > > Signed-off-by: Breno Leitao <leitao@debian.org>
-> > > ---
-> > 
-> > Isn't this a new version of an older patch?
-> 
-> Yes, this should have tagged as V2.
-> 
-> [1] https://lore.kernel.org/lkml/20230406144330.1932798-1-leitao@debian.org/#r
+On 2023-06-18 at 00:08:52 +0000, Mingwei Zhang wrote:
+> Update the 'gfns' in kvm_mmu_page to 'shadowed_translation'to be consistent
+> with the code. The more detailed description of 'shadowed_translation' is
+> already inlined in the data structure definition, so no need to duplicate
+> the text but simply just update the name.
 
-Great, also add what changed below the --- line please.
+The definition of this field is changed, but apprently the description
+here is for gfns. It leaves some confusion if we just leave them
+unchanged.
 
-> > > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > @@ -361,6 +361,7 @@ Code  Seq#    Include File                                           Comments
-> > >  0xCB  00-1F                                                          CBM serial IEC bus in development:
-> > >                                                                       <mailto:michael.klein@puffin.lb.shuttle.de>
-> > >  0xCC  00-0F  drivers/misc/ibmvmc.h                                   pseries VMC driver
-> > > +0xCC  A0-BF  uapi/linux/io_uring.h                                   io_uring cmd subsystem
-> > 
-> > This change is nice, but not totally related to this specific one,
-> > shouldn't it be separate?
 > 
-> This is related to this patch, since I am using it below, in the
-> following part:
+> Signed-off-by: Mingwei Zhang <mizhang@google.com>
+> ---
+>  Documentation/virt/kvm/x86/mmu.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 	+#define SOCKET_URING_OP_SIOCINQ _IOR(0xcc, 0xa0, int)
-> 	+#define SOCKET_URING_OP_SIOCOUTQ _IOR(0xcc, 0xa1, int)
+> diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
+> index 561efa8ec7d7..149dd3cba48f 100644
+> --- a/Documentation/virt/kvm/x86/mmu.rst
+> +++ b/Documentation/virt/kvm/x86/mmu.rst
+> @@ -221,7 +221,7 @@ Shadow pages contain the following information:
+>      at __pa(sp2->spt).  sp2 will point back at sp1 through parent_pte.
+>      The spt array forms a DAG structure with the shadow page as a node, and
+>      guest pages as leaves.
+> -  gfns:
+> +  shadowed_translation:
+>      An array of 512 guest frame numbers, one for each present pte.  Used to
+
+guest frame numbers -> shadow translation info (gfn + access)
+
+>      perform a reverse map from a pte to a gfn. When role.direct is set, any
+
+Just "perform reverse mapping" is OK?
+
+>      element of this array can be calculated from the gfn field when used, in
+
+May remove the "of gfns"
+
+Thanks,
+Yilun
+
+> -- 
+> 2.41.0.162.gfafddb0af9-goog
 > 
-> Should I have a different patch, even if they are related?
-
-Yes, as you are not using the 0xa2-0xbf range that you just carved out
-here, right?  Where did those numbers come from?
-
-thanks,
-
-greg k-h
