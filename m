@@ -2,100 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1695EB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 14:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C306EEB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 15:17:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231608AbjFWOO4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jun 2023 10:14:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47802 "EHLO
+        id S232081AbjFWPRl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jun 2023 11:17:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230081AbjFWOOz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 10:14:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4FF92137;
-        Fri, 23 Jun 2023 07:14:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 42EE161A3D;
-        Fri, 23 Jun 2023 14:14:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0C69C433CB;
-        Fri, 23 Jun 2023 14:14:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687529682;
-        bh=Ntwqh09qmutd77sQNlmVOHd5bIfNAdcpB+jwd7Dvzlw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cIWGE/xYx6FhuOWo1rWD5adSy5SGN4jxMtKWmwu0imvbFbt3flRSYUdFL46YF5J7G
-         LkMJeQI06jlBE8PdeGrIXhr/g+grnRs7bKXXuc52XiTjI2BgUNTUpqtTlkjwHnFXVH
-         BMdaXs4E50oGmRWqwX+3euLV+3F4GwAa8+zkLVlTaV0BQ+0kyTZNfdGOQN5UXCgffu
-         zs4OdZqA/PY8KgSsI5MhZCfOQlo5Z4Hr04/f/dEND3djtJ8BCW7U87dEXll9Kkmd0o
-         fitS2ZiST0DHakHKjTxvg9xJjVDSQ6c4qE9Wo0TQ60nB5dNkgIYgtAnosQ4WNB5Mts
-         9kv6kIxfcEa/Q==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2b45e6e1b73so11950881fa.0;
-        Fri, 23 Jun 2023 07:14:42 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzwgBIlqGlfL8kJAFu+hJ6gSqloM6lFHgwjgS2Z1mWvN/BWU09e
-        8HeZIVQWI3g61XTkMmBo1k/F4LFccHgTqVHcEnk=
-X-Google-Smtp-Source: ACHHUZ6j121/uUmv9VZ02vStSifRCtqhkFuWl4bjIhDNZ4UprfeA0HkFrvWSABiPLW1nzksW5LkbbQkrhi9/Kv7Py1Y=
-X-Received: by 2002:a19:431e:0:b0:4f8:6dfd:faa0 with SMTP id
- q30-20020a19431e000000b004f86dfdfaa0mr9759749lfa.2.1687529680638; Fri, 23 Jun
- 2023 07:14:40 -0700 (PDT)
+        with ESMTP id S232153AbjFWPRY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 11:17:24 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A82C635BD;
+        Fri, 23 Jun 2023 08:16:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+        bh=N3smy6Zp96zb/56FOleD7t4iHGn3m5ujv35yRmbmja8=; b=AWAHdqhKgpBNeh1ReecXi/vhOV
+        1WwGGujDC1g8Xml0ppCQz4gJqANGq3FtnuI0hqTMRgpAOSixr4UCLdW07EfHlMFQJI+XElH34CUuB
+        A+MBTpdSTmxoUKIoQxqKl1RDvajc2fUp3g8lYP5JAhvlejRget3/5tugFA+pqg269n4Q3kFxQ9yGy
+        P1yTNtdtNvJYhtLiHYgmsEHqqkSkq2znDHYOiDomfP12A4YbpcRZlKLvlE2cdE9oknpZQZq49YgHF
+        rmLfJt1EzZqn0ZEZUsF5Mr8R1TrmkIzJuqgiDDQWMgBIvJNn8JslZKbzRS8YJNvORHWA72xjZDDjV
+        fkFiJgLw==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qCiWH-003uYG-1H;
+        Fri, 23 Jun 2023 15:16:17 +0000
+Message-ID: <f53e756f-7c81-1c79-23ea-b9009fdd2ef4@infradead.org>
+Date:   Fri, 23 Jun 2023 08:16:15 -0700
 MIME-Version: 1.0
-References: <20230621072234.9900-1-alexghiti@rivosinc.com> <mhng-8d50653b-2461-4020-be8c-be0b9afc6cfc@palmer-ri-x1c9a>
-In-Reply-To: <mhng-8d50653b-2461-4020-be8c-be0b9afc6cfc@palmer-ri-x1c9a>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Fri, 23 Jun 2023 16:14:29 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXFtJes-m78infhP9VDrHc9r=kFvLTsZ+NP5chxQwu5xqQ@mail.gmail.com>
-Message-ID: <CAMj1kXFtJes-m78infhP9VDrHc9r=kFvLTsZ+NP5chxQwu5xqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] Documentation: arm: Add bootargs to the table of
- added DT parameters
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     alexghiti@rivosinc.com, corbet@lwn.net,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, Conor Dooley <conor.dooley@microchip.com>,
-        sunilvl@ventanamicro.com, songshuaishuai@tinylab.org,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2] HID: Add introduction about HID for non-kernel
+ programmers
+Content-Language: en-US
+To:     Marco Morandini <marco.morandini@polimi.it>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+References: <70fdef05-d3b8-e24b-77be-901bd5be369e@polimi.it>
+ <d34eae36-0d43-6cd5-f8c0-57e1bd30f338@infradead.org>
+ <45d68dcb-7625-8592-fde6-60c9fbd5eaca@polimi.it>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <45d68dcb-7625-8592-fde6-60c9fbd5eaca@polimi.it>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 22 Jun 2023 at 16:39, Palmer Dabbelt <palmer@dabbelt.com> wrote:
->
-> On Wed, 21 Jun 2023 00:22:32 PDT (-0700), alexghiti@rivosinc.com wrote:
-> > The bootargs node is also added by the EFI stub in the function
-> > update_fdt(), so add it to the table.
-> >
-> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > ---
-> >  Documentation/arm/uefi.rst | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/arm/uefi.rst b/Documentation/arm/uefi.rst
-> > index baebe688a006..2b7ad9bd7cd2 100644
-> > --- a/Documentation/arm/uefi.rst
-> > +++ b/Documentation/arm/uefi.rst
-> > @@ -50,7 +50,7 @@ The stub populates the FDT /chosen node with (and the kernel scans for) the
-> >  following parameters:
-> >
-> >  ==========================  ======   ===========================================
-> > -Name                        Size     Description
-> > +Name                        Type     Description
-> >  ==========================  ======   ===========================================
-> >  linux,uefi-system-table     64-bit   Physical address of the UEFI System Table.
-> >
-> > @@ -67,4 +67,6 @@ linux,uefi-mmap-desc-ver    32-bit   Version of the mmap descriptor format.
-> >
-> >  kaslr-seed                  64-bit   Entropy used to randomize the kernel image
-> >                                       base address location.
-> > +
-> > +bootargs                    String   Kernel command line
-> >  ==========================  ======   ===========================================
->
-> +Ard, who looks like he's the last one who touched this.
->
-> I'm OK picking this up along with the RISC-V doc patches, but I don't
-> know the Arm bits.
+Hi Marco,
 
-No objections from me.
+On 6/23/23 03:45, Marco Morandini wrote:
+
+>>> +The format of HID report descriptors is described by two documents,
+>>> +available from the `USB Implementers Forum <https://www.usb.org/>`_
+>>> +at `this <https://www.usb.org/hid>`_ addresses:
+>>
+>>        these
+> 
+> Not sure about this.
+> "this" here was meant to be https://www.usb.org/hid , while the two documents are listed below.
+> 
+> Would 
+> 
+> The format of HID report descriptors is described by two documents,
+> available from the `USB Implementers Forum <https://www.usb.org/>`_
+> `HID web page <https://www.usb.org/hid>`_:
+> 
+> be ok?
+
+Yes, that's good.
+
+>>> +    # 0x81, 0x02, 		     //	Input (Data,Var,Abs)		   24
+>>> + it's actual Data (not constant padding), they represent 
+>>
+>>     its
+>> ?
+>> "its" is possessive. "it's" means "it is".
+>>
+> 
+> -> these bits are actual data 
+> 
+> ok?
+
+Yes.
+
+>>> + This time the data is Relative (Rel), i.e. it represent 
+>>
+>>                                                   represents
+>>
+>>> +An HID devices can have Input Reports, like
+>>
+>>    A HID device
+>>
+> 
+> -> HID devices that are not ....
+> 
+> as suggested by Peter
+> Ok?
+
+Sure.
+
+
+thanks.
+-- 
+~Randy
