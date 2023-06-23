@@ -2,111 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C306EEB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 15:17:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B18FC001B0
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 15:19:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232081AbjFWPRl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jun 2023 11:17:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
+        id S231415AbjFWPTb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jun 2023 11:19:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232153AbjFWPRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 11:17:24 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A82C635BD;
-        Fri, 23 Jun 2023 08:16:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=N3smy6Zp96zb/56FOleD7t4iHGn3m5ujv35yRmbmja8=; b=AWAHdqhKgpBNeh1ReecXi/vhOV
-        1WwGGujDC1g8Xml0ppCQz4gJqANGq3FtnuI0hqTMRgpAOSixr4UCLdW07EfHlMFQJI+XElH34CUuB
-        A+MBTpdSTmxoUKIoQxqKl1RDvajc2fUp3g8lYP5JAhvlejRget3/5tugFA+pqg269n4Q3kFxQ9yGy
-        P1yTNtdtNvJYhtLiHYgmsEHqqkSkq2znDHYOiDomfP12A4YbpcRZlKLvlE2cdE9oknpZQZq49YgHF
-        rmLfJt1EzZqn0ZEZUsF5Mr8R1TrmkIzJuqgiDDQWMgBIvJNn8JslZKbzRS8YJNvORHWA72xjZDDjV
-        fkFiJgLw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qCiWH-003uYG-1H;
-        Fri, 23 Jun 2023 15:16:17 +0000
-Message-ID: <f53e756f-7c81-1c79-23ea-b9009fdd2ef4@infradead.org>
-Date:   Fri, 23 Jun 2023 08:16:15 -0700
+        with ESMTP id S231808AbjFWPTR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 11:19:17 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE482695
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 08:19:15 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-51bebdc4787so768053a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jun 2023 08:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687533554; x=1690125554;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=h7eKK3NYw/OZosKXCLsiNWhf+zhDMnVZ3w9TgoZpnvM=;
+        b=pufECKMNhHNzLknHPIC3dP0Oi2kgtKveh/tvCIae1JBk8aEl2hgIxP6zVbMt2ojNNG
+         M6wOQJkOdAHyQGlOQprGiN7ZndNROlGcHr43PmS/VxAx83A25Njs0VjqIYbCtrHFiZLL
+         bbAgmPHAcnMJnBqZIc+/jThJV7657kRiif+YP1vqk+YsQig588X+/yevhli32B5Hpp0I
+         sugJRRFkIhM9n4wozD7pkxZzENYZwNlgHZIjzRyRx62ZgGU/XwpooKqqWTO1bjb9y1HO
+         dLI+EEkcs4q8FajFm5rZrPUz9iZ5OtAfmltUu0hBKyUCAmgcFAHsgRfAcEYmUOagcuCf
+         jxHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687533554; x=1690125554;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h7eKK3NYw/OZosKXCLsiNWhf+zhDMnVZ3w9TgoZpnvM=;
+        b=lu2RxwGVPsh96y0iL1ivvJbpH4xJRCA+PpUVPlGX+TbadhL2WaRjY6BoGrZ37VT50V
+         SWETwys/uaUUYj7MZxuEtojMYiKtQXDKhYsS5hkCz7m5624PkaTcgr9rUvsHj/2RnBD6
+         lEZBDNM7CxPaJKhk33NnghKileMnvrY3L+B8al1ERkvTK2nQGKLtW9/Bdh3bebORuPD8
+         l1pQiFJf9I2d9C9ua4gucp8Y9l8NeMkJM0jVCf4FeBp2TW5d+V5NglSB9QwKMJKpOU3l
+         r3VdHVJreyonpKDF+VJIlgo61Z/MBeX8C4Bo6FH8i2CRe4Q+Hh0nT0Ynfrng2wI4ZVOP
+         LB0Q==
+X-Gm-Message-State: AC+VfDypjyIDIA84zveu1ZYIJ0uj7WcJ5GzijTHeTqNJXTP9q1prGCsz
+        OzWFPfaBEA+jilJPdkurTRmuMQ==
+X-Google-Smtp-Source: ACHHUZ6xDfyN1tOEN2NYIoQBlq6pUTkM/ulf1OBBxm30WI7jeWoGeDV0AOfPPrS7ih1GjfWzDkCK7g==
+X-Received: by 2002:a05:6402:3da:b0:51a:42b2:cb83 with SMTP id t26-20020a05640203da00b0051a42b2cb83mr10642649edw.42.1687533553669;
+        Fri, 23 Jun 2023 08:19:13 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id l24-20020a056402125800b0051a5177adeasm5305833edw.21.2023.06.23.08.19.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jun 2023 08:19:12 -0700 (PDT)
+Date:   Fri, 23 Jun 2023 17:19:11 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc:     kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
+        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
+        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org,
+        vadim.fedorenko@linux.dev
+Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
+Message-ID: <ZJW37ynDxJCwHscN@nanopsycho>
+References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2] HID: Add introduction about HID for non-kernel
- programmers
-Content-Language: en-US
-To:     Marco Morandini <marco.morandini@polimi.it>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <70fdef05-d3b8-e24b-77be-901bd5be369e@polimi.it>
- <d34eae36-0d43-6cd5-f8c0-57e1bd30f338@infradead.org>
- <45d68dcb-7625-8592-fde6-60c9fbd5eaca@polimi.it>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <45d68dcb-7625-8592-fde6-60c9fbd5eaca@polimi.it>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Marco,
+Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com wrote:
+>Implement common API for clock/DPLL configuration and status reporting.
+>The API utilises netlink interface as transport for commands and event
+>notifications. This API aim to extend current pin configuration and
+>make it flexible and easy to cover special configurations.
+>
+>Netlink interface is based on ynl spec, it allows use of in-kernel
+>tools/net/ynl/cli.py application to control the interface with properly
+>formated command and json attribute strings. Here are few command
+>examples of how it works with `ice` driver on supported NIC:
 
-On 6/23/23 03:45, Marco Morandini wrote:
+I don't understand. The discussion in the RFCv8 thread is still going
+on. The things I mentioned there are ignored. Like for example:
+1) mode_set op removal
+2) odd ice dpll locking scheme (either fix or describe why it is ok -
+				that's the unfinished discussion)
+3) header file bits squash I suggested. Vadim wrote that it sounds
+   reasonable, yet nothing changed
 
->>> +The format of HID report descriptors is described by two documents,
->>> +available from the `USB Implementers Forum <https://www.usb.org/>`_
->>> +at `this <https://www.usb.org/hid>`_ addresses:
->>
->>        these
-> 
-> Not sure about this.
-> "this" here was meant to be https://www.usb.org/hid , while the two documents are listed below.
-> 
-> Would 
-> 
-> The format of HID report descriptors is described by two documents,
-> available from the `USB Implementers Forum <https://www.usb.org/>`_
-> `HID web page <https://www.usb.org/hid>`_:
-> 
-> be ok?
-
-Yes, that's good.
-
->>> +    # 0x81, 0x02, 		     //	Input (Data,Var,Abs)		   24
->>> + it's actual Data (not constant padding), they represent 
->>
->>     its
->> ?
->> "its" is possessive. "it's" means "it is".
->>
-> 
-> -> these bits are actual data 
-> 
-> ok?
-
-Yes.
-
->>> + This time the data is Relative (Rel), i.e. it represent 
->>
->>                                                   represents
->>
->>> +An HID devices can have Input Reports, like
->>
->>    A HID device
->>
-> 
-> -> HID devices that are not ....
-> 
-> as suggested by Peter
-> Ok?
-
-Sure.
-
-
-thanks.
--- 
-~Randy
+I thought we are past this. Why I have to point the same issues over and
+over?
