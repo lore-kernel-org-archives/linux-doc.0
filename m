@@ -2,268 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A55C3EB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 07:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA96BEB64DD
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Jun 2023 07:41:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230042AbjFWHQZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Jun 2023 03:16:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53534 "EHLO
+        id S230097AbjFWHlA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Jun 2023 03:41:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjFWHQY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 03:16:24 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2041.outbound.protection.outlook.com [40.107.223.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44F3F1B4;
-        Fri, 23 Jun 2023 00:16:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GbmPbOWd6poep/xWwo7IQoKtf5r2pq7SrRzOFtHMnc3cyQtvUhviaSa3qWuh7HKfizlo5HK3/VWGsbeTpr1fLDmIbuzF6Cjgjmax+pTj8aur7M7OoVF9KgPTvox1iHF35VOH8bE48Niceae8CRiv3C62Q/8/5HyiyxV/xPqLhY9x5tn3PEuwKTwSWOtp2nndOzXZrw+QQdRBocCebUCCDhW4yHwoQcjXhAnPlYQ10DEFUXL0X4YhmnjIXGeA4Fvz+LFGLH+84BMuparLGLx484D2GX9dOi3g3YKrJ8jT/2aZXQxRrlr9KrWiBp1agVZjNETw1aNgvkTLLK/HAkRCaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aqgeyka321mpZtu9ZJCBOB+yJsk2eLJkUAyCTVGJk5I=;
- b=kzuO6rmMfBjrNyqZ8i5angWP9rs7AGMZiQTUzOH2iCxVE727s0QeY6fl8JkfAV0mffbfe6yaFos20GiYFUxdBoLMmI7+co4PRnK4dgVi1qXVLtkuP5vgqy3tLHZL4BAFtlfoDTEEsqRz+KWSlnRaWvMyhbHfo8HPFh8yTGvwYavGyzGYsYnfovMwFlGOVNp/6r7ubIqQBKrMBwojPZgIINgVMr8N5zPwiL9FLjmX5z4zRBG3EACxHeIAurx9rzpVsDr9vlIH0gIsFrcYw/5wyE1lBU+wonWTB1tCrCE19u7V/n0B4eZsa3uT7v8CLJzg2OGb/zEw38hi7q6f81tc1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aqgeyka321mpZtu9ZJCBOB+yJsk2eLJkUAyCTVGJk5I=;
- b=F8ovIMIVwsuRq8tbw/DxX0oxXirIY+9yIhc4YSzZWb+5BlK61vC9q/KEDf6DztM1w/Lhtj9sCu8T/hqN9ya4pFPedOSFvH6SkQVAetNRFhua9NgxSZ+B7PtQ6H7foEi6M9nwbbUbnECmoTiH27oS906tSFXSYhYlEe1aRlGdA3o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS7PR12MB8347.namprd12.prod.outlook.com (2603:10b6:8:e5::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Fri, 23 Jun
- 2023 07:16:20 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::384a:95a4:8819:ee84]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::384a:95a4:8819:ee84%7]) with mapi id 15.20.6521.026; Fri, 23 Jun 2023
- 07:16:20 +0000
-Message-ID: <4a52ac7c-19ba-8906-5902-fbf75673bf59@amd.com>
-Date:   Fri, 23 Jun 2023 09:16:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA
- mappings
-Content-Language: en-US
-To:     Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com,
-        daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
-        corbet@lwn.net, bskeggs@redhat.com, Liam.Howlett@oracle.com,
-        matthew.brost@intel.com, boris.brezillon@collabora.com,
-        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
-        willy@infradead.org, jason@jlekstrand.net
-Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org,
-        Donald Robson <donald.robson@imgtec.com>,
-        Dave Airlie <airlied@redhat.com>
-References: <20230620004217.4700-1-dakr@redhat.com>
- <20230620004217.4700-4-dakr@redhat.com>
- <cf6846ea-5bd0-0b41-b7e6-901c70701751@amd.com>
- <a8edf75b-e0f7-a6c7-7d29-f0d39923549b@redhat.com>
- <41aecd10-9956-0752-2838-34c97834f0c8@amd.com>
- <bcde7ea3-fbab-3a18-e810-64b6589ddb18@redhat.com>
- <86ef9898-c4b6-f4c0-7ad3-3ffe5358365a@amd.com>
- <c1f05169-dec0-22ee-52fa-c8070678394e@redhat.com>
- <2f502150-c1f8-615c-66d9-c3fb59b8c409@redhat.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <2f502150-c1f8-615c-66d9-c3fb59b8c409@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0158.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b3::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S229726AbjFWHk7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Jun 2023 03:40:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C95281988;
+        Fri, 23 Jun 2023 00:40:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5ADF1617E8;
+        Fri, 23 Jun 2023 07:40:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1A5AC433C9;
+        Fri, 23 Jun 2023 07:40:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687506056;
+        bh=GzKdhhzyZ+iRj8RsJgARuHLY4EfLvN1z9hAE+ocFSf4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gVLTca81VyzmWJPHZ1XRM8wpGx91F1ehz6zWo5RgDcGgnNrGRYv7gwb4L8wSaGQy6
+         58p0kAqTEBX2B+ZhmkdkRtK4OvS0N3nBtO/44NvxnRTtG37M80tqbPxBCpuGVBVrYX
+         Lc19vX6RLlULkBWswy35J1yqets3vasDgQMBrgRL0Zn8iEhGuVJhxJ7pgB+M1uwTSc
+         DFIOaUc/RIZzLpDYhxqAvr1dmKC+B3faD6nBtFLTYETHitmbTxBp0g06mbo6hSa9eN
+         zfW1VF5vpbIaUC/aVJixw/BgmmMoectkQsyn5DDvCQHDrA4bEgMdkhqgO/a0SXycWj
+         q5TvSNFtlbpug==
+Date:   Fri, 23 Jun 2023 10:40:00 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "willy@infradead.org" <willy@infradead.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Xu, Pengfei" <pengfei.xu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "bp@alien8.de" <bp@alien8.de>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v9 16/42] mm: Add guard pages around a shadow stack.
+Message-ID: <20230623074000.GG52412@kernel.org>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-17-rick.p.edgecombe@intel.com>
+ <ZJSRD1xZauOW3jFO@casper.infradead.org>
+ <ba77d21492e2631072f51328413d227f31dd78ae.camel@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB8347:EE_
-X-MS-Office365-Filtering-Correlation-Id: af6da362-7c2e-45e8-d435-08db73b9be10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MI7SX9pkGSAlzN5r3nOjFehdz+9fzBua6UgQK/oJssSPwJ1isJ9mW5ADD78VnYzFwm9HeccJ/1k8Dte/fwOZUZwW2IHxk+5fKhFHo0X5iCNrEI3AL2HIBJ4aG44IB0LZ4CmK8oHPil/exzup1NXp5DU4i4FlXV3/6JM0TULqd8tjbbmya6TiAvYnm0TJRaT6NFLY3TV9043pxsZGn2BXfwdA3Zm9EczNmRAx6iW/2o6A+bxIP6mS6dDFQ3QeSwMkhV+IJZJ0e6q2CYlnnBpieu+hlzrsIBUE9GOM2iRuqRgKXf+h9yrgnofTj0tjFlMOyadY9aaRny8X1IGVRg0v2bCAI2PkkAvF7r8sXMByLWFfHednf7WIuFxYuPevMw3QTdncrHaLyIw3VO0JeztsIyFJZtnCuV7jKMavio8QvrpfkutPyyVv7RqzYem6RG9/J3ux7G/rg3Gy0IuhGNBBLR+g0uc4FcOmzWpoEq3bkIT7th7UL3aXGTzhcGwc85EatCii+AwRmioFybVZgRdefaEwd9nHvevMqW0yRDX3Z9IiY0kDu5cwkkJ9iFJ0P2TJTjofzZPldb9ml8jdpJqnJTIcJkqf+f+lqvOJh4hbq0MXPvt4C+Fsas5Es8TeR0qZ3QwIw0D9PfQ0D1bwJWj3rmpZZwwn23wSW6sJgucxKOU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(396003)(136003)(39860400002)(346002)(451199021)(53546011)(38100700002)(921005)(6506007)(83380400001)(66574015)(186003)(6512007)(2616005)(7416002)(41300700001)(8676002)(8936002)(5660300002)(36756003)(6666004)(66946007)(6486002)(478600001)(4326008)(66476007)(66556008)(31696002)(86362001)(316002)(54906003)(2906002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TUZEeC96L3RQTEVNSkRQZXZJY01IbWtDY0kxbFY5TUNxVVViNDNPQ1R4Wk05?=
- =?utf-8?B?clFXR2RFb3M3NU50TmV4d2ZNcWYyTnRlV3d6WWs2N0QzWXVIbzhTWi9wajBN?=
- =?utf-8?B?WTZEV1ZOSmVNRFFWVU9lQXJGMGFSM3A5WkdFcExWek1QbW93M2J2dDhwTVk3?=
- =?utf-8?B?VTQwV055S2Z1NHMyRWsyaGc2SFovalZjZU5BVGpzQmpSSTI0cVhhTEJMRHpr?=
- =?utf-8?B?L3ZvNmZGOGdCaFpIdXQrYlZsblRRalplVHkxczJLd3JSdEc1aDN3ZEsrdDlC?=
- =?utf-8?B?dEVzK2h2VlFsUERTQWgrR0NqaU1iME16bW1VcENYUGI2dzgwUHdDeThrbG1D?=
- =?utf-8?B?S1FLM0hlcVNueTJJZ054ckx1eDc0WityY3lQRCtjRlNXa1RFdVk3OWNDeW02?=
- =?utf-8?B?V0doaVRrTmdabnNFajlPeTJUamZHd003R3ZJbjRGT1lVM1NQUVFDZmNlSnM0?=
- =?utf-8?B?anFXZTdDdkE0WENQK1pDbkh0OGd2bUZGRU5jazVwMjBGc0d0a1BoUWVOdmJH?=
- =?utf-8?B?bFdrVE1xclUrSW1oSFFBZFdwVEw1MHFjcnVyU0VQTEdEUHV0eFZOUlFaeGx3?=
- =?utf-8?B?dWhTTjZ4cGNleVlRSjNHUjFzb3VsTHVFNE5uUkNHZlhwK0dKRGRpQTlOVzk4?=
- =?utf-8?B?dmVxNTRYREU5bEJ5VnY1eTRORTJWTVFIdDI4S25YTU9PcjQxSk9YSjhnUjB5?=
- =?utf-8?B?L2FkTXJQeVUwSXdqajhGYUlVdEVaaG5Pc0Y4cXNnTEkzajZBL25hTWd4b2Yw?=
- =?utf-8?B?cS94cHdYcTVzWE11T3c4aUpXZ3QwWVZCSjZzTWxTN2lFTGY4WnpDTDZ3UG9T?=
- =?utf-8?B?Z3J1alJhZllmNGpOYmRRdGlnTEZVaGpVWDBDUDU2dDRvME5mMkFQZlUrMEhK?=
- =?utf-8?B?RWYxNVAxMWNtUGRZZTRza3A1akYvazBDNUhUMEplVEtZNTArekJ5RlhMYzlt?=
- =?utf-8?B?Sk05QWwveVAxVVN2RmJjV0l2NVBZSGpkQUNUSXI2MlQyQUJWNER4b0JydzZS?=
- =?utf-8?B?UTJqdURPSStyVVVVdytKZlRuOWw0ZTFvWE1aL3F2MmxvU0dJTVZybnVlSnha?=
- =?utf-8?B?azhHcnhSaG5kWXF5b3RFSTdGcXMzaVN4dUpzOUFmZktBcWgvWWNITklmTGdr?=
- =?utf-8?B?d2J6L3NKQ1hNNHR5emtlUXNSVUV3SitoMFBudjJ0U0dyK3gvWXk5U2UzbXBV?=
- =?utf-8?B?MDZDL1ZyWk9zdlRPaml2Skg1b0NJSEpBY0pxanhEWUg2d2IvRGExdlB1ditk?=
- =?utf-8?B?dkZrZlJQNkVFTEl0d3A1YWZLN2ZNamR3NVlFWmNvMWdXR2lyNmRpY2lyNEs4?=
- =?utf-8?B?eTFIUUVIMzBrYnFQSTg0NHcyeStWeUVKamZzMUhhNzg2dnkra00rNDFFbHVD?=
- =?utf-8?B?RkgvNnpwVEFVSjFpTzlwVzZzVnZRVEpBc2RSTTRTMDF3bEVld1V2eEVkV0xi?=
- =?utf-8?B?REVxV0xqYktSWXlYaW5wV08rNGFaQjBkQzB1SjVNRkJTeWthZHlQQk9DeXlF?=
- =?utf-8?B?Uk1ya3hJOElCZ1d1ZUNDVndCRkcyUlZjbkhtZTFoeGIyWVRpYlFVOU9aTUdD?=
- =?utf-8?B?UGd4aXlEZ3B2b3VCbmp3ZHBpdERWMklnSnp0bWllemJ0YmhhTm1BVkpmK1lG?=
- =?utf-8?B?K0JGTmVwcDMwUXQrcjUrNGR4OXprQ1hyK1Z3ZVdJZmJCK0FGay9CT3VwQ01W?=
- =?utf-8?B?azNyL1hYZk94dnV1akIva3E3Z1VTdnNjV0NPTW9ITE1mR2UyWVhnN253UHhn?=
- =?utf-8?B?SVVUTElKelZxNnFmdndXS2NBRUZRMTFhN2lva1VKMHh2YTBqVHYrazJ3TXlS?=
- =?utf-8?B?dzI4R2h5TU9qRHpONGs0RTJmOEIwd2hpL3pjUkhxZEljY1FIU1FoRmJiN2Q3?=
- =?utf-8?B?TWNQV285RkRJZmEzaG91UHhSb2JIUEJqUWtaU2RBNnc1ZjhENDVCcmU5MXZ5?=
- =?utf-8?B?RmlucGJwbUZJUUdoSGcwdEZBOGE2akxTd1pLN2xVM3JLNjJJOTBTT2c0TVlw?=
- =?utf-8?B?cFc2MzlnWWVGeHZ2UUtVK2JtTEM1YUkzYnMvY0RhWTNFVncrajByMzMxWEg4?=
- =?utf-8?B?ZUUvMVBYZGg3R3Z3L3dZczJNYUIxSEU2RXhTUG5zaWsvNjkrdXVJZkVWTm0x?=
- =?utf-8?B?RnVTQ1BuS3A5TEZCU1FFbExwWG1PbGo5a2ZvUjFpMlduSGNUd3gycFo0Uk8v?=
- =?utf-8?Q?lMoZJkt4U3RivcJZJpD05AWJ3Mp3Rw6Lww+qz6/XYxWT?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af6da362-7c2e-45e8-d435-08db73b9be10
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2023 07:16:20.2254
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v2jl5JSjXaTnwP+zAporxzG8yiSJQEoLttJAvPL9IV9e8m5bk5moZesRJM+UHx0e
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8347
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ba77d21492e2631072f51328413d227f31dd78ae.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 22.06.23 um 17:07 schrieb Danilo Krummrich:
-> On 6/22/23 17:04, Danilo Krummrich wrote:
->> On 6/22/23 16:42, Christian König wrote:
->>> Am 22.06.23 um 16:22 schrieb Danilo Krummrich:
->>>> On 6/22/23 15:54, Christian König wrote:
->>>>> Am 20.06.23 um 14:23 schrieb Danilo Krummrich:
->>>>>> Hi Christian,
->>>>>>
->>>>>> On 6/20/23 08:45, Christian König wrote:
->>>>>>> Hi Danilo,
->>>>>>>
->>>>>>> sorry for the delayed reply. I've trying to dig myself out of a 
->>>>>>> hole at the moment.
->>>>>>
->>>>>> No worries, thank you for taking a look anyway!
->>>>>>
->>>>>>>
->>>>>>> Am 20.06.23 um 02:42 schrieb Danilo Krummrich:
->>>>>>>> [SNIP]
->>>>>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->>>>>>>> index bbc721870c13..5ec8148a30ee 100644
->>>>>>>> --- a/include/drm/drm_gem.h
->>>>>>>> +++ b/include/drm/drm_gem.h
->>>>>>>> @@ -36,6 +36,8 @@
->>>>>>>>   #include <linux/kref.h>
->>>>>>>>   #include <linux/dma-resv.h>
->>>>>>>> +#include <linux/list.h>
->>>>>>>> +#include <linux/mutex.h>
->>>>>>>>   #include <drm/drm_vma_manager.h>
->>>>>>>> @@ -379,6 +381,18 @@ struct drm_gem_object {
->>>>>>>>        */
->>>>>>>>       struct dma_resv _resv;
->>>>>>>> +    /**
->>>>>>>> +     * @gpuva:
->>>>>>>> +     *
->>>>>>>> +     * Provides the list of GPU VAs attached to this GEM object.
->>>>>>>> +     *
->>>>>>>> +     * Drivers should lock list accesses with the GEMs 
->>>>>>>> &dma_resv lock
->>>>>>>> +     * (&drm_gem_object.resv).
->>>>>>>> +     */
->>>>>>>> +    struct {
->>>>>>>> +        struct list_head list;
->>>>>>>> +    } gpuva;
->>>>>>>> +
->>>>>>>>       /**
->>>>>>>>        * @funcs:
->>>>>>>>        *
->>>>>>>
->>>>>>> I'm pretty sure that it's not a good idea to attach this 
->>>>>>> directly to the GEM object.
->>>>>>
->>>>>> Why do you think so? IMHO having a common way to connect mappings 
->>>>>> to their backing buffers is a good thing, since every driver 
->>>>>> needs this connection anyway.
->>>>>>
->>>>>> E.g. when a BO gets evicted, drivers can just iterate the list of 
->>>>>> mappings and, as the circumstances require, invalidate the 
->>>>>> corresponding mappings or to unmap all existing mappings of a 
->>>>>> given buffer.
->>>>>>
->>>>>> What would be the advantage to let every driver implement a 
->>>>>> driver specific way of keeping this connection?
->>>>>
->>>>> Flexibility. For example on amdgpu the mappings of a BO are groups 
->>>>> by VM address spaces.
->>>>>
->>>>> E.g. the BO points to multiple bo_vm structures which in turn have 
->>>>> lists of their mappings.
->>>>
->>>> Isn't this (almost) the same relationship I introduce with the 
->>>> GPUVA manager?
->>>>
->>>> If you would switch over to the GPUVA manager right now, it would 
->>>> be that every GEM has a list of it's mappings (the gpuva list). The 
->>>> mapping is represented by struct drm_gpuva (of course embedded in 
->>>> driver specific structure(s)) which has a pointer to the VM address 
->>>> space it is part of, namely the GPUVA manager instance. And the 
->>>> GPUVA manager keeps a maple tree of it's mappings as well.
->>>>
->>>> If you still would like to *directly* (indirectly you already have 
->>>> that relationship) keep a list of GPUVA managers (VM address 
->>>> spaces) per GEM, you could still do that in a driver specific way.
->>>>
->>>> Do I miss something?
->>>
->>> How do you efficiently find only the mappings of a BO in one VM?
->>
->> Actually, I think this case should even be more efficient than with a 
->> BO having a list of GPUVAs (or mappings):
->
-> *than with a BO having a list of VMs:
->
->>
->> Having a list of GPUVAs per GEM, each GPUVA has a pointer to it's VM. 
->> Hence, you'd only need to iterate the list of mappings for a given BO 
->> and check the mappings VM pointer.
+On Thu, Jun 22, 2023 at 06:27:40PM +0000, Edgecombe, Rick P wrote:
+> On Thu, 2023-06-22 at 19:21 +0100, Matthew Wilcox wrote:
+> > On Mon, Jun 12, 2023 at 05:10:42PM -0700, Rick Edgecombe wrote:
+> > > +++ b/include/linux/mm.h
+> > > @@ -342,7 +342,36 @@ extern unsigned int kobjsize(const void
+> > > *objp);
+> > > � #endif /* CONFIG_ARCH_HAS_PKEYS */
+> > > � 
+> > > � #ifdef CONFIG_X86_USER_SHADOW_STACK
+> > > -# define VM_SHADOW_STACK�������VM_HIGH_ARCH_5 /* Should not be set
+> > > with VM_SHARED */
+> > > +/*
+> > > + * This flag should not be set with VM_SHARED because of lack of
+> > > support
+> > > + * core mm. It will also get a guard page. This helps userspace
+> > > protect
+> > > + * itself from attacks. The reasoning is as follows:
+> > > + *
+> > > + * The shadow stack pointer(SSP) is moved by CALL, RET, and
+> > > INCSSPQ. The
+> > > + * INCSSP instruction can increment the shadow stack pointer. It
+> > > is the
+> > > + * shadow stack analog of an instruction like:
+> > > + *
+> > > + *�� addq $0x80, %rsp
+> > > + *
+> > > + * However, there is one important difference between an ADD on
+> > > %rsp
+> > > + * and INCSSP. In addition to modifying SSP, INCSSP also reads
+> > > from the
+> > > + * memory of the first and last elements that were "popped". It
+> > > can be
+> > > + * thought of as acting like this:
+> > > + *
+> > > + * READ_ONCE(ssp);������ // read+discard top element on stack
+> > > + * ssp += nr_to_pop * 8; // move the shadow stack
+> > > + * READ_ONCE(ssp-8);���� // read+discard last popped stack element
+> > > + *
+> > > + * The maximum distance INCSSP can move the SSP is 2040 bytes,
+> > > before
+> > > + * it would read the memory. Therefore a single page gap will be
+> > > enough
+> > > + * to prevent any operation from shifting the SSP to an adjacent
+> > > stack,
+> > > + * since it would have to land in the gap at least once, causing a
+> > > + * fault.
+> > > + *
+> > > + * Prevent using INCSSP to move the SSP between shadow stacks by
+> > > + * having a PAGE_SIZE guard gap.
+> > > + */
+> > > +# define VM_SHADOW_STACK�������VM_HIGH_ARCH_5
+> > > � #else
+> > > � # define VM_SHADOW_STACK������VM_NONE
+> > > � #endif
+> > 
+> > This is a lot of very x86-specific language in a generic header file.
+> > I'm sure there's a better place for all this text.
+> 
+> Yes, I couldn't find another place for it. This was the reasoning:
+> https://lore.kernel.org/lkml/07deaffc10b1b68721bbbce370e145d8fec2a494.camel@intel.com/
+> 
+> Did you have any particular place in mind?
 
-Yeah, and that is extremely time consuming if you have tons of mappings 
-in different VMs.
+Since it's near CONFIG_X86_USER_SHADOW_STACK the comment in mm.h could be 
 
->>
->> Having a list of VMs per BO, you'd have to iterate the whole VM to 
->> find the mappings having a pointer to the given BO, right?
+/*
+ * VMA is used for shadow stack and implies guard pages.
+ * See arch/x86/kernel/shstk.c for details
+ */
 
-No, you don't seem to understand what I'm suggesting.
+and the long reasoning comment can be moved near alloc_shstk in
+arch/x86/kernel/shstk.h
 
-Currently you have a list of mappings attached to the BO, so when you 
-need to make sure that a specific BO is up to date in a specific VM you 
-either need to iterate over the VM or the BO. Neither of that is a good 
-idea.
-
-What you need is a representation of the data used for each BO+VM 
-combination. In other words another indirection which allows you to 
-handle all the mappings of a BO inside a VM at once.
-
->>
->> I'd think that a single VM potentially has more mapping entries than 
->> a single BO was mapped in multiple VMs.
->>
->> Another case to consider is the case I originally had in mind 
->> choosing this relationship: finding all mappings for a given BO, 
->> which I guess all drivers need to do in order to invalidate mappings 
->> on BO eviction.
->>
->> Having a list of VMs per BO, wouldn't you need to iterate all of the 
->> VMs entirely?
-
-No, see how amdgpu works.
-
-Regards,
-Christian.
+-- 
+Sincerely yours,
+Mike.
