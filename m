@@ -2,115 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E2D8EB64DA
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Jun 2023 09:23:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1C2EB64DA
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Jun 2023 10:08:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232760AbjFXJXp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 24 Jun 2023 05:23:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51802 "EHLO
+        id S232574AbjFXKIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 24 Jun 2023 06:08:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231609AbjFXJXn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Jun 2023 05:23:43 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7346E10FD
-        for <linux-doc@vger.kernel.org>; Sat, 24 Jun 2023 02:23:40 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-988a076a7d3so196327166b.3
-        for <linux-doc@vger.kernel.org>; Sat, 24 Jun 2023 02:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687598619; x=1690190619;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EuyyoXYkLcFUjNW6aU0LWhkMHFG4qPaiZWIPRvxeeTA=;
-        b=g66y85pUmxbEk8gM1Z1/c1SSekEW4T1k4oAFY2odQs17Fe0i5NQtNAg8YfQ0y5PXDO
-         JQ0h5TKyFH8kEJexF4E5uUAYUUTvoLrtDbttalI/TpRRut0MeLBi39qT+qPR9h2crIJ4
-         twd4vI/Sgf2PrnmqyK4K7Wfk3B5izATUbxSr/5XJzNoy2H7OMyCEm4o7a+q8aRj8ALE4
-         dqMLqsB7Vh2D8EfuzTaNFD6MfGlIax3uCuCFL0a+TPqcfaqOdGNmhNNnmzTkV7GZQG27
-         WzW2S7rjCG8vBIjq8J0kwEv7E4teVB6wT4a9BZsQ0gYmst95bLhaIEBSGkJK5s+jxcOj
-         U1Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687598619; x=1690190619;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EuyyoXYkLcFUjNW6aU0LWhkMHFG4qPaiZWIPRvxeeTA=;
-        b=dT9bEfws4djnGk8hKiwUp+kUXHL2pw8+sV+UQlYgaUIsolNXQmrajGD49mevkqu7/0
-         JwD3EEZbCW7HdbTicKWeiIfu3B9FyU2GEGfRvwofcusHlb0FweJqqAgBx8ZYVJdbb2Ci
-         sFgEHX50b4UVn+JnH/FNuuNLj0wgY+kQ77ARlY93H7DO9uqPhiuN8Q5zliRYahLXg/Jh
-         IwZYr5Kz6lvntxejMbOmnPxtEAUpCB8YH7AkrrxhjLHIl6Rf0qO0MC1pIYnOG799OLXw
-         OC0Gtb5nq1nNGmNeUm4JRHt/S79ES7iSjCL5L6cu7k1ZAODkmcqnjAPIRn75009pTnTD
-         9XWA==
-X-Gm-Message-State: AC+VfDyEkFQFsDTII4HrT9v2YozydQU5tjgIUaoJWZ5qH2lKR5UomQu1
-        Inu+DOP5wGpqlgPkF7+WxAmJ0Q==
-X-Google-Smtp-Source: ACHHUZ7Hm22TLuZ2uNMqorvhvVqmtSRdvFVMVJyZ7P02nHMQr1v41Obhbu8aAZ5ky21fmiU2Y7E37A==
-X-Received: by 2002:a17:907:2bc8:b0:98d:758:75ed with SMTP id gv8-20020a1709072bc800b0098d075875edmr6033410ejc.75.1687598618680;
-        Sat, 24 Jun 2023 02:23:38 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id q22-20020a17090622d600b009895af2580asm671367eja.36.2023.06.24.02.23.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jun 2023 02:23:37 -0700 (PDT)
-Date:   Sat, 24 Jun 2023 11:23:36 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        vadfed@meta.com, jonathan.lemon@gmail.com, pabeni@redhat.com,
-        corbet@lwn.net, davem@davemloft.net, edumazet@google.com,
-        vadfed@fb.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
-        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
-        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
-        michal.michalik@intel.com, gregkh@linuxfoundation.org,
-        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
-        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
-        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
-        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
-        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
-        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
-        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
-        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
-        mschmidt@redhat.com, linux-clk@vger.kernel.org,
-        vadim.fedorenko@linux.dev
-Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Message-ID: <ZJa2GEr6frhHQrS0@nanopsycho>
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
- <ZJW37ynDxJCwHscN@nanopsycho>
- <20230623085336.1a486ca3@kernel.org>
+        with ESMTP id S230525AbjFXKIO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Jun 2023 06:08:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 060DB1736;
+        Sat, 24 Jun 2023 03:08:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3752160C79;
+        Sat, 24 Jun 2023 10:08:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30DBFC433C8;
+        Sat, 24 Jun 2023 10:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687601291;
+        bh=GdUhQ/g4lPVcmdlC7sNHfy+iEXwSg6y5+1Nd/kQQHps=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tWV3l3lqlD3rVQfTQrPUCyVfmA4U9rtFYdjB90hPr0H6Fdo9KOjJgf4UxXoNNn7ma
+         Q+GG50HuUlj+M70iF1Zy8TpfFvmS0TSssLPLnI4Kk0FgJ6kAFO6Mr2mLNrO9MK0Opu
+         L5d0ua6si1tf2ST3kll2MK5rT57vD/wf1J0WmBm+IHeXNpd67uxo6Vm8jpfTOnFWYK
+         +oSprWci/L6oWZb+Z5rHo3hPzfRgvTgGei06bxDf8ESyA0lE/V6t40YwYeyuisnWJX
+         6EIrXvw7zZbagvLDb8U1RQd6acpUvZ+dDhYu4LPq9qMlONHov1DTgxJgcKOk0jR0xO
+         0VWKlAbW23PpQ==
+Date:   Sat, 24 Jun 2023 11:08:03 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Evan Green <evan@rivosinc.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Simon Hosie <shosie@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Andy Chiu <andy.chiu@sifive.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@kernel.org>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Li Zhengyu <lizhengyu3@huawei.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Yangyu Chen <cyy@cyyself.name>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH 0/2] RISC-V: Probe for misaligned access speed
+Message-ID: <20230624-tycoon-pliable-325806e73a11@spud>
+References: <20230623222016.3742145-1-evan@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="03eh9c7zzQjeRTOG"
 Content-Disposition: inline
-In-Reply-To: <20230623085336.1a486ca3@kernel.org>
+In-Reply-To: <20230623222016.3742145-1-evan@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fri, Jun 23, 2023 at 05:53:36PM CEST, kuba@kernel.org wrote:
->On Fri, 23 Jun 2023 17:19:11 +0200 Jiri Pirko wrote:
->> I don't understand. The discussion in the RFCv8 thread is still going
->> on. The things I mentioned there are ignored. Like for example:
->> 1) mode_set op removal
->> 2) odd ice dpll locking scheme (either fix or describe why it is ok -
->> 				that's the unfinished discussion)
->> 3) header file bits squash I suggested. Vadim wrote that it sounds
->>    reasonable, yet nothing changed
->> 
->> I thought we are past this. Why I have to point the same issues over and
->> over?
->
->FWIW I'm lost in the previous thread, so for me there's value in
->refreshing the series.
->
->But you're right, at the very least there should be a summary of
->outstanding issues / open items / ongoing discussions in the cover
->letter.
 
-Well I would like to conclude discussion in one thread before sending
-the next one. What should I do? Should I start the same discussion
-pointing out the same issues in this thread again? This can't work.
+--03eh9c7zzQjeRTOG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Even concluded items are ignored, like 3)
+On Fri, Jun 23, 2023 at 03:20:14PM -0700, Evan Green wrote:
+>=20
+> The current setting for the hwprobe bit indicating misaligned access
+> speed is controlled by a vendor-specific feature probe function. This is
+> essentially a per-SoC table we have to maintain on behalf of each vendor
+> going forward. Let's convert that instead to something we detect at
+> runtime.
+>=20
+> We have two assembly routines at the heart of our probe: one that
+> does a bunch of word-sized accesses (without aligning its input buffer),
+> and the other that does byte accesses. If we can move a larger number of
+> bytes using misaligned word accesses than we can with the same amount of
+> time doing byte accesses, then we can declare misaligned accesses as
+> "fast".
+>=20
+> The tradeoff of reducing this maintenance burden is boot time. We spend
+> 4-6 jiffies per core doing this measurement (0-2 on jiffie edge
+> alignment, and 4 on measurement). The timing loop was based on
+> raid6_choose_gen(), which uses (16+1)*N jiffies (where N is the number
+> of algorithms). On my THead C906, I found measurements to be stable
+> across several reboots, and looked like this:
+>=20
+> [    0.047582] cpu0: Unaligned word copy 1728 MB/s, byte copy 402 MB/s, m=
+isaligned accesses are fast
+>=20
+> I don't have a machine where misaligned accesses are slow, but I'd be
+> interested to see the results of booting this series if someone did.
 
-IDK, this is very frustrating for me. I have to double check everything
-just in case it was not ignored. I don't understand this, there is no
-justification.
+Can you elaborate on "results" please? Otherwise,
+
+[    0.333110] smp: Bringing up secondary CPUs ...
+[    0.370794] cpu1: Unaligned word copy 2 MB/s, byte copy 231 MB/s, misali=
+gned accesses are slow
+[    0.411368] cpu2: Unaligned word copy 2 MB/s, byte copy 231 MB/s, misali=
+gned accesses are slow
+[    0.451947] cpu3: Unaligned word copy 2 MB/s, byte copy 231 MB/s, misali=
+gned accesses are slow
+[    0.462628] smp: Brought up 1 node, 4 CPUs
+
+[    0.631464] cpu0: Unaligned word copy 2 MB/s, byte copy 229 MB/s, misali=
+gned accesses are slow
+
+btw, why the mixed usage of "unaligned" and misaligned"?
+
+Cheers,
+Conor.
+
+--03eh9c7zzQjeRTOG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJbAgwAKCRB4tDGHoIJi
+0pUuAP9Oi0aUUS8IeaeAx0/UgKLo9vsBt3gvCL2XYFVBWKvb+AEAw7x52zBY7Urs
+R8n/7yymgPKxI6BEor3Iirixfy983w0=
+=VE2p
+-----END PGP SIGNATURE-----
+
+--03eh9c7zzQjeRTOG--
