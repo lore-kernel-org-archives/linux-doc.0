@@ -2,139 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1C2EB64DA
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Jun 2023 10:08:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D003EB64DA
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Jun 2023 10:22:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232574AbjFXKIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 24 Jun 2023 06:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34018 "EHLO
+        id S231966AbjFXKWj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 24 Jun 2023 06:22:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230525AbjFXKIO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Jun 2023 06:08:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 060DB1736;
-        Sat, 24 Jun 2023 03:08:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3752160C79;
-        Sat, 24 Jun 2023 10:08:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30DBFC433C8;
-        Sat, 24 Jun 2023 10:08:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687601291;
-        bh=GdUhQ/g4lPVcmdlC7sNHfy+iEXwSg6y5+1Nd/kQQHps=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tWV3l3lqlD3rVQfTQrPUCyVfmA4U9rtFYdjB90hPr0H6Fdo9KOjJgf4UxXoNNn7ma
-         Q+GG50HuUlj+M70iF1Zy8TpfFvmS0TSssLPLnI4Kk0FgJ6kAFO6Mr2mLNrO9MK0Opu
-         L5d0ua6si1tf2ST3kll2MK5rT57vD/wf1J0WmBm+IHeXNpd67uxo6Vm8jpfTOnFWYK
-         +oSprWci/L6oWZb+Z5rHo3hPzfRgvTgGei06bxDf8ESyA0lE/V6t40YwYeyuisnWJX
-         6EIrXvw7zZbagvLDb8U1RQd6acpUvZ+dDhYu4LPq9qMlONHov1DTgxJgcKOk0jR0xO
-         0VWKlAbW23PpQ==
-Date:   Sat, 24 Jun 2023 11:08:03 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Evan Green <evan@rivosinc.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Simon Hosie <shosie@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Andy Chiu <andy.chiu@sifive.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@kernel.org>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Li Zhengyu <lizhengyu3@huawei.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        Yangyu Chen <cyy@cyyself.name>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+        with ESMTP id S230145AbjFXKWi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Jun 2023 06:22:38 -0400
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6437193;
+        Sat, 24 Jun 2023 03:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+        t=1687602147; bh=ZPqsBRiD2qdKFt2nVlMfoA1SbLdu/T9qJmjOqN2CHAU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=JUArZ8ozT/rg2RDioIv2B1MhrjG1VXLBsgdHjvcOx+8AvHsqOUUS7CGmjkDzF4ALm
+         vObAPSRGGRViTAOw6ayaQCRVA9W/6ts8+MN8zZpjUKyWzPbVDiSk/HUgP4HSieR0TL
+         397Amj9J1D6evWKTrfJ92CclNM9oQ1rSzqcgsyhE=
+Received: from localhost.localdomain ([240a:42d8:2400:8e2:3982:c8ab:f689:6a24])
+        by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
+        id 5932A218; Sat, 24 Jun 2023 18:22:19 +0800
+X-QQ-mid: xmsmtpt1687602139tyiycog4l
+Message-ID: <tencent_817CE182DEDA938E03B848314821098D4408@qq.com>
+X-QQ-XMAILINFO: OEUhVsHQax4MuZAT+PUI+KMeFIffDAhIbn+ONyhtlPxiFnj+0X0WnygNB/pViY
+         kyrMZZ4DxzsDvNpI7jzo7iSw1LWSaUR1k2k6MEEhdkKM/7dPOJKqB17AAnR8nPyRSCSiDq8GiCEe
+         OkyS3oGCmwHGaiJdW3yPtT8EacU0GXoaXFmvXet7d0sPiTLNnelvZvXwxbECj1m5EXaulFOW9UYo
+         +0UB+AaicFX4ZWf6qK8bDseSI0ipJURoi+kQl4xEQHT2QNpNS9vTOxWyg94e/bioZVGrF60T4kt/
+         L7gbGJTN9CL+BauLT8MNDZvfHsunPxjUbeeF7sSALwE8vN6Oqe8gxhjNk1Cg5Zsv4Plany4JsYsf
+         VN6BegI8k2/98eZ/qP3l/w2Ieq3MPVfYPkcBD/oGvj4CZtfi443W0v23y6oLJ0i5qWsBi1qzvOZS
+         aAL8uw/TcmCboe7qDezeVsknQbE7AhJuW0OeplrCCWYmjZO548Y95lOA003uLyM981FzYOnUPWXJ
+         JAAb6r0CGATCZ8NkQxJlWbpECWzPNfKszs5hhrzHIgiyxdvY4pPero+Uyybwf1ybWKOGkuuKus9t
+         8u/6KFvDd9zOB3UEpFVU4MiMwUHJcyllspeX8RA2yHHjecqYmjvea9ArgjIlSc38R3dv87l1Be2u
+         DOwpH0d9RbSo5XuoRWMqiPplz/F0o95bEn7EE5TWmxyFWsag8JoxDI2BaHTxUMNQ9X89qRfyo6A6
+         pY7TdGGlYSjWRZFCYjETAqsAqI8dJfboMrtcIB6Vs/IQHALRmqUitn7PCAlWukm+GcDJJ3bSLgki
+         fFSn1URidlLVVDLHoIA9/IRLC1T5lypbGYiwIvtaem706XZ+ucbbGjlYK2A7SLc/cwDfYA4+3wUx
+         GyccTKi0O1uuYKwNy3eZULCw6RKNjO8g4hXPqmLC9tmQXBmji5GkFiAU63DNTEmeEc/MHidSc+A7
+         88iESTzoZSBg7nn/tG3cwjWocoAQSDIP8Y40H/PgWTmYc5tKGnTusPWS1fAPb8Jwmp3aKhR0U=
+X-QQ-XMRINFO: Mu10XATLq/IERfXGovp1cJndKWH8Kl+aSQ==
+From:   Yangyu Chen <cyy@cyyself.name>
+To:     evan@rivosinc.com
+Cc:     ajones@ventanamicro.com, alexghiti@rivosinc.com,
+        andy.chiu@sifive.com, aou@eecs.berkeley.edu,
+        apatel@ventanamicro.com, conor.dooley@microchip.com,
+        corbet@lwn.net, cyy@cyyself.name, greentime.hu@sifive.com,
+        guoren@kernel.org, heiko.stuebner@vrull.eu, heiko@sntech.de,
+        jeeheng.sia@starfivetech.com, jszhang@kernel.org,
+        leyfoon.tan@starfivetech.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        lizhengyu3@huawei.com, masahiroy@kernel.org, palmer@dabbelt.com,
+        palmer@rivosinc.com, paul.walmsley@sifive.com,
+        rdunlap@infradead.org, samuel@sholland.org, shosie@rivosinc.com,
+        sunilvl@ventanamicro.com, xianting.tian@linux.alibaba.com
 Subject: Re: [PATCH 0/2] RISC-V: Probe for misaligned access speed
-Message-ID: <20230624-tycoon-pliable-325806e73a11@spud>
+Date:   Sat, 24 Jun 2023 18:22:19 +0800
+X-OQ-MSGID: <20230624102219.3049-1-cyy@cyyself.name>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+In-Reply-To: <20230623222016.3742145-1-evan@rivosinc.com>
 References: <20230623222016.3742145-1-evan@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="03eh9c7zzQjeRTOG"
-Content-Disposition: inline
-In-Reply-To: <20230623222016.3742145-1-evan@rivosinc.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
---03eh9c7zzQjeRTOG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for doing this. 
 
-On Fri, Jun 23, 2023 at 03:20:14PM -0700, Evan Green wrote:
->=20
-> The current setting for the hwprobe bit indicating misaligned access
-> speed is controlled by a vendor-specific feature probe function. This is
-> essentially a per-SoC table we have to maintain on behalf of each vendor
-> going forward. Let's convert that instead to something we detect at
-> runtime.
->=20
-> We have two assembly routines at the heart of our probe: one that
-> does a bunch of word-sized accesses (without aligning its input buffer),
-> and the other that does byte accesses. If we can move a larger number of
-> bytes using misaligned word accesses than we can with the same amount of
-> time doing byte accesses, then we can declare misaligned accesses as
-> "fast".
->=20
-> The tradeoff of reducing this maintenance burden is boot time. We spend
-> 4-6 jiffies per core doing this measurement (0-2 on jiffie edge
-> alignment, and 4 on measurement). The timing loop was based on
-> raid6_choose_gen(), which uses (16+1)*N jiffies (where N is the number
-> of algorithms). On my THead C906, I found measurements to be stable
-> across several reboots, and looked like this:
->=20
-> [    0.047582] cpu0: Unaligned word copy 1728 MB/s, byte copy 402 MB/s, m=
-isaligned accesses are fast
->=20
+On 6/24/23 6:20 AM, Evan Green wrote:
 > I don't have a machine where misaligned accesses are slow, but I'd be
 > interested to see the results of booting this series if someone did.
 
-Can you elaborate on "results" please? Otherwise,
+I have tested your patches on a 100MHz BigCore rocket-chip with opensbi running on FPGA with 72bit(64bit+ECC) DDR3 1600MHz memory. As the rocket-chip did not support misaligned memory access, every misaligned memory access will trap and emulated by SBI.
 
-[    0.333110] smp: Bringing up secondary CPUs ...
-[    0.370794] cpu1: Unaligned word copy 2 MB/s, byte copy 231 MB/s, misali=
-gned accesses are slow
-[    0.411368] cpu2: Unaligned word copy 2 MB/s, byte copy 231 MB/s, misali=
-gned accesses are slow
-[    0.451947] cpu3: Unaligned word copy 2 MB/s, byte copy 231 MB/s, misali=
-gned accesses are slow
-[    0.462628] smp: Brought up 1 node, 4 CPUs
+Here is the result:
 
-[    0.631464] cpu0: Unaligned word copy 2 MB/s, byte copy 229 MB/s, misali=
-gned accesses are slow
+~ # cat /proc/cpuinfo
+processor       : 0
+hart            : 0
+isa             : rv64imafdc
+mmu             : sv39
+uarch           : sifive,rocket0
+mvendorid       : 0x0
+marchid         : 0x1
+mimpid          : 0x20181004
 
-btw, why the mixed usage of "unaligned" and misaligned"?
+processor       : 1
+hart            : 1
+isa             : rv64imafdc
+mmu             : sv39
+uarch           : sifive,rocket0
+mvendorid       : 0x0
+marchid         : 0x1
+mimpid          : 0x20181004
 
-Cheers,
-Conor.
+~ # dmesg | grep Unaligned
+[    0.210140] cpu1: Unaligned word copy 0 MB/s, byte copy 38 MB/s, misaligned accesses are slow
+[    0.410715] cpu0: Unaligned word copy 0 MB/s, byte copy 35 MB/s, misaligned accesses are slow
 
---03eh9c7zzQjeRTOG
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Yangyu Chen
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJbAgwAKCRB4tDGHoIJi
-0pUuAP9Oi0aUUS8IeaeAx0/UgKLo9vsBt3gvCL2XYFVBWKvb+AEAw7x52zBY7Urs
-R8n/7yymgPKxI6BEor3Iirixfy983w0=
-=VE2p
------END PGP SIGNATURE-----
-
---03eh9c7zzQjeRTOG--
