@@ -2,72 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F604EB64DC
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 20:39:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F09EB64DC
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 21:42:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbjFYUjM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 25 Jun 2023 16:39:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36886 "EHLO
+        id S229558AbjFYVmR convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 25 Jun 2023 17:42:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjFYUjL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 16:39:11 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 176F69B;
-        Sun, 25 Jun 2023 13:39:11 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 989DD6E3;
-        Sun, 25 Jun 2023 20:39:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 989DD6E3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1687725550; bh=91KDkRnMDMkm4N0w41LCfJDj2m5VI4NpTsLsFSLzOpg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=G+4t+1Ntam7xjexenOC304wsk0nBhdNKPM0FeXhBrDv/yRwEI1Mp9lS86YIt0z1Zy
-         AbBsfQKBdSlKUQWt+QVIivwX8KwTX2PYkspYW9F7wsOjB3coYYOwPaAFF3O046QSIe
-         59bwzZJu5r1jGmSP7mLCh2lhutjDphoywRQU9WJNjSLjnuBMRqrnBa7SxzvnZr5Z1x
-         g+jtbAh92YsnxBzX17F+x/zs6nvBVOZdNAa/80vFSfguUuS+o5kEdpHrH8rfsTGkUg
-         LMf2QWKxHzk0GzQuEilotmTQlsXVGovUM/NPfPEhkWmER7yqvLttu8nA6HSQNMw/HL
-         EWt7XHcNPIbmg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
+        with ESMTP id S229452AbjFYVmP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 17:42:15 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B25209E
+        for <linux-doc@vger.kernel.org>; Sun, 25 Jun 2023 14:42:13 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-264-__5NTeNUOTOunLze3S7Sqw-1; Sun, 25 Jun 2023 22:42:09 +0100
+X-MC-Unique: __5NTeNUOTOunLze3S7Sqw-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 25 Jun
+ 2023 22:42:08 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sun, 25 Jun 2023 22:42:08 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Evan Green' <evan@rivosinc.com>,
+        Palmer Dabbelt <palmer@rivosinc.com>
+CC:     Simon Hosie <shosie@rivosinc.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        =?utf-8?B?Qmo=?= =?utf-8?B?w7ZybiBUw7ZwZWw=?= 
-        <bjorn@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Andy Chiu <andy.chiu@sifive.com>,
+        Anup Patel <apatel@ventanamicro.com>,
         Conor Dooley <conor.dooley@microchip.com>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@kernel.org>,
+        "Heiko Stuebner" <heiko.stuebner@vrull.eu>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Li Zhengyu <lizhengyu3@huawei.com>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
+        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
-        Song Shuai <songshuaishuai@tinylab.org>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: [PATCH v3 2/3] Documentation: riscv: Add early boot document
-In-Reply-To: <CAHVXubhk2xf59XbNiRYKdr4J1yadpeX0KMgW1cFMR4GRN97MYA@mail.gmail.com>
-References: <20230623095547.51881-1-alexghiti@rivosinc.com>
- <20230623095547.51881-2-alexghiti@rivosinc.com>
- <87o7l6mgxg.fsf@meer.lwn.net>
- <CAHVXubhk2xf59XbNiRYKdr4J1yadpeX0KMgW1cFMR4GRN97MYA@mail.gmail.com>
-Date:   Sun, 25 Jun 2023 14:39:09 -0600
-Message-ID: <877crrl1jm.fsf@meer.lwn.net>
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Yangyu Chen <cyy@cyyself.name>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
+Subject: RE: [PATCH 1/2] RISC-V: Probe for unaligned access speed
+Thread-Topic: [PATCH 1/2] RISC-V: Probe for unaligned access speed
+Thread-Index: AQHZpiD8K74IXZi1x0Sk5pxi8WFXO6+cDCdw
+Date:   Sun, 25 Jun 2023 21:42:07 +0000
+Message-ID: <88d0b61ca01d4c1a87a17d3c34baa2a6@AcuMS.aculab.com>
+References: <20230623222016.3742145-1-evan@rivosinc.com>
+ <20230623222016.3742145-2-evan@rivosinc.com>
+In-Reply-To: <20230623222016.3742145-2-evan@rivosinc.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexandre Ghiti <alexghiti@rivosinc.com> writes:
+From: Evan Green
+> Sent: 23 June 2023 23:20
+> 
+> Rather than deferring misaligned access speed determinations to a vendor
+> function, let's probe them and find out how fast they are. If we
+> determine that a misaligned word access is faster than N byte accesses,
+> mark the hardware's misaligned access as "fast".
+> 
+> Fix the documentation as well to reflect this bar. Previously the only
+> SoC that returned "fast" was the THead C906. The change to the
+> documentation is more a clarification, since the C906 is fast in the
+> sense of the corrected documentation.
+> 
+> Signed-off-by: Evan Green <evan@rivosinc.com>
+> ---
+...
+> diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
+> index 19165ebd82ba..710325751766 100644
+> --- a/Documentation/riscv/hwprobe.rst
+> +++ b/Documentation/riscv/hwprobe.rst
+> @@ -88,12 +88,12 @@ The following keys are defined:
+>      always extremely slow.
+> 
+>    * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are supported
+> -    in hardware, but are slower than the cooresponding aligned accesses
+> -    sequences.
+> +    in hardware, but are slower than N byte accesses, where N is the native
+> +    word size.
+> 
+>    * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are supported
+> -    in hardware and are faster than the cooresponding aligned accesses
+> -    sequences.
+> +    in hardware and are faster than N byte accesses, where N is the native
+> +    word size.
 
->> Please don't use :c:func:.  If you just write setup_vm(), all the right
->> magic will happen.
->
-> The magic indeed happens with virt_to_phys()/phys_to_virt(), but not
-> with setup_vm(): is there something we should do when declaring those
-> functions?
+I think I'd just say 'faster/slower than using byte accesses' (ie no N).
 
-If the function in question has no kerneldoc comment, there will be
-nothing to make the magic link to.  In other words, if you want it to
-link to the documentation, the documentation needs to actually exist :)
+There are two obvious FAST cases:
+1) the misaligned access takes an extra clock - worth aligning copies.
+2) the misaligned access is pretty much as fast as an aligned one.
 
-Thanks,
+Even if you find it hard to distinguish them you should probably
+allow for them both.
 
-jon
+x86 (on Intel (non-atom) cpu) is definitely in the latter camp.
+Misaligned copies are measurable slower - but not enough to
+ever worry about.
+I think that misaligned transfers get spilt into 8 byte accesses
+(pretty irrelevant in the kernel) and then accesses that cross
+cache line boundaries are split on the boundary.
+With pipelined writes and two reads/clock it doesn't often
+make a measurable difference.
+That is definitely what I see for uncached accesses to PCIe space.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
