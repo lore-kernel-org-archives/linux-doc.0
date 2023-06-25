@@ -2,153 +2,65 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC56EB64DC
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 08:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 138CEEB64DC
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 10:43:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231362AbjFYI7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 25 Jun 2023 04:59:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38340 "EHLO
+        id S231138AbjFYKnK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 25 Jun 2023 06:43:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230362AbjFYI67 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 04:58:59 -0400
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01EE7103;
-        Sun, 25 Jun 2023 01:58:57 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0Vlrm5fd_1687683530;
-Received: from 30.120.140.216(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vlrm5fd_1687683530)
-          by smtp.aliyun-inc.com;
-          Sun, 25 Jun 2023 16:58:52 +0800
-Message-ID: <a33568fe-b461-6d8c-4c71-5f8dd2d3ef5b@linux.alibaba.com>
-Date:   Sun, 25 Jun 2023 16:58:48 +0800
+        with ESMTP id S230465AbjFYKnJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 06:43:09 -0400
+X-Greylist: delayed 571 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 25 Jun 2023 03:43:08 PDT
+Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93316E4F
+        for <linux-doc@vger.kernel.org>; Sun, 25 Jun 2023 03:43:08 -0700 (PDT)
+Received: from newone.lan (unknown [10.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by ixit.cz (Postfix) with ESMTPSA id F307D160F0D;
+        Sun, 25 Jun 2023 12:33:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+        t=1687689214;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=vURs0dN7pFAtc/1rIOXHSQy4w1XN8ufieVIUbmodPfw=;
+        b=yxge9f4ZK7Ht+yxKVbBuWKkSldUDdqgw9PHXsjHZCyMfpId5iad2mwKXTTisaUwbXaIcvJ
+        Gov68vuREA+bzH8zOrjKHihNAm+NeGqZ5QX8TxQwKTY99JHgYSlXU6VAKLkOqOQqZxevuN
+        YYUZovtX7CyOE5/GrPXRvfhnCHNL+RQ=
+From:   David Heidelberg <david@ixit.cz>
+To:     Jonathan Corbet <corbet@lwn.net>, David Heidelberg <david@ixit.cz>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: ACPI: fix typo in ssdt-overlays.rst
+Date:   Sun, 25 Jun 2023 12:33:04 +0200
+Message-Id: <20230625103305.115484-1-david@ixit.cz>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.11.2
-Subject: Re: [PATCH v4 0/4] Add JSON metrics for Yitian710 DDR
-To:     Namhyung Kim <namhyung@kernel.org>
-Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        John Garry <john.g.garry@oracle.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>,
-        Ian Rogers <irogers@google.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        James Clark <james.clark@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>
-References: <1687245156-61215-1-git-send-email-renyu.zj@linux.alibaba.com>
- <CAM9d7cj3v58m8NcsEK4sYsk_dbQDAq71hYo7DV=xaQa_rZyPYg@mail.gmail.com>
- <a5486c58-32b6-2d5e-e623-d7844c51474c@linux.alibaba.com>
- <CAM9d7chxMpUUouHsVTEvVEy8RyZ6tNzYbVD=a0Toao=n6cau-w@mail.gmail.com>
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-In-Reply-To: <CAM9d7chxMpUUouHsVTEvVEy8RyZ6tNzYbVD=a0Toao=n6cau-w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+ Documentation/admin-guide/acpi/ssdt-overlays.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/admin-guide/acpi/ssdt-overlays.rst b/Documentation/admin-guide/acpi/ssdt-overlays.rst
+index b5fbf54dca19..5ea9f4a3b76e 100644
+--- a/Documentation/admin-guide/acpi/ssdt-overlays.rst
++++ b/Documentation/admin-guide/acpi/ssdt-overlays.rst
+@@ -103,7 +103,7 @@ allows a persistent, OS independent way of storing the user defined SSDTs. There
+ is also work underway to implement EFI support for loading user defined SSDTs
+ and using this method will make it easier to convert to the EFI loading
+ mechanism when that will arrive. To enable it, the
+-CONFIG_EFI_CUSTOM_SSDT_OVERLAYS shoyld be chosen to y.
++CONFIG_EFI_CUSTOM_SSDT_OVERLAYS should be chosen to y.
+ 
+ In order to load SSDTs from an EFI variable the ``"efivar_ssdt=..."`` kernel
+ command line parameter can be used (the name has a limitation of 16 characters).
+-- 
+2.39.2
 
-在 2023/6/21 下午1:00, Namhyung Kim 写道:
-> On Tue, Jun 20, 2023 at 8:08 PM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->>
->>
->>
->> 在 2023/6/21 上午3:04, Namhyung Kim 写道:
->>> Hello,
->>>
->>> On Tue, Jun 20, 2023 at 12:17 AM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
->>>>
->>>> Hi all,
->>>>
->>>> I add an identifier sysfs file for the yitian710 SoC DDR to allow
->>>> userspace to identify the specific implementation of the device,
->>>> so that the perf tool can match the corresponding uncore events and
->>>> metrics through the identifier. Then added yitian710 SoC DDR
->>>> metrics and events alias.
->>>>
->>>> Change since v3:
->>>> - Split the CMN and ali_drw patches. This patchset only contains
->>>>   ali_drw PMU related patches. The CMN metric related patches will
->>>>   be in another patchset.
->>>> - Link: https://lore.kernel.org/all/1685438374-33287-1-git-send-email-renyu.zj@linux.alibaba.com/
->>>>
->>>> $perf list:
->>>> ...
->>>> ali_drw:
->>>>   chi_rxdat
->>>>        [A packet at CHI RXDAT interface (write data). Unit: ali_drw]
->>>>   chi_rxrsp
->>>>        [A packet at CHI RXRSP interface. Unit: ali_drw]
->>>>   chi_txdat
->>>>        [A packet at CHI TXDAT interface (read data). Unit: ali_drw]
->>>>   chi_txreq
->>>>        [A packet at CHI TXREQ interface (request). Unit: ali_drw]
->>>>   cycle
->>>>        [The ddr cycle. Unit: ali_drw]
->>>> ...
->>>> ali_drw:
->>>>   ddr_read_bandwidth.all
->>>>        [The ddr read bandwidth(MB/s). Unit: ali_drw ]
->>>>   ddr_write_bandwidth.all
->>>>        [The ddr write bandwidth(MB/s). Unit: ali_drw ]
->>>> ...
->>>>
->>>> $perf stat -M ddr_read_bandwidth.all ./test
->>>>
->>>> Performance counter stats for 'system wide':
->>>>
->>>>             38,150      hif_rd        #  2.4 MB/s  ddr_read_bandwidth.all
->>>>      1,000,957,941 ns   duration_time
->>>>
->>>>        1.000957941 seconds time elapsed
->>>>
->>>> Jing Zhang (4):
->>>>   driver/perf: Add identifier sysfs file for Yitian 710 DDR
->>>>   perf jevents: Add support for Yitian 710 DDR PMU aliasing
->>>>   perf vendor events: Add JSON metrics for Yitian 710 DDR
->>>>   docs: perf: Update metric usage for Alibaba's T-Head PMU driver
->>>
->>> So patch 1 is for the kernel, and patch 2-4 depend on it, right?
->>>
->>
->> Hi Namhyung,
->>
->> Yes, patch 2-4 depend on patch 1.
->>
->>> I'm curious why the first patch is needed, presumably the PMU
->>> should have 'ali_drw' in the name already.  Do we use substring
->>> match for the compat name in the JSON metric?
->>>
->>
->> The main purpose of patch 1 is to add an identifier so that the Compat
->> field can match the corresponding event when defining aliases or metrics
->> for events.
->>
->> For example, "Unit" can match "ali_drw" in the name and different SoCs may
->> be able to match ali_drw, but they may have different events, and even if
->> the events are the same, the meanings may be different. Therefore, the
->> Compat field is needed to match the Identifier to confirm which type and
->> revision of PMU the current SoC has. Therefore, both "Unit" and "Compat"
->> need to be matched at the same time. Although it seems that ali_drw is
->> redundantly matched currently, it is meaningful for future expansion.
-> 
-> I see, thanks for the explanation.
-> 
-> I think you need to route the kernel patch differently.  I can apply the tools
-> part once the kernel patch gets Acks from others.
-> 
-
-Ok, Thank you.
-
-Thanks,
-Jing
-
-> Thanks,
-> Namhyung
