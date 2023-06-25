@@ -2,136 +2,302 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F09EB64DC
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 21:42:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B4EFEB64DC
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 23:52:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbjFYVmR convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 25 Jun 2023 17:42:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50354 "EHLO
+        id S229641AbjFYXwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 25 Jun 2023 19:52:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjFYVmP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 17:42:15 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B25209E
-        for <linux-doc@vger.kernel.org>; Sun, 25 Jun 2023 14:42:13 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-264-__5NTeNUOTOunLze3S7Sqw-1; Sun, 25 Jun 2023 22:42:09 +0100
-X-MC-Unique: __5NTeNUOTOunLze3S7Sqw-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 25 Jun
- 2023 22:42:08 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sun, 25 Jun 2023 22:42:08 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Evan Green' <evan@rivosinc.com>,
-        Palmer Dabbelt <palmer@rivosinc.com>
-CC:     Simon Hosie <shosie@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Andy Chiu <andy.chiu@sifive.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@kernel.org>,
-        "Heiko Stuebner" <heiko.stuebner@vrull.eu>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Li Zhengyu <lizhengyu3@huawei.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        Yangyu Chen <cyy@cyyself.name>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
-Subject: RE: [PATCH 1/2] RISC-V: Probe for unaligned access speed
-Thread-Topic: [PATCH 1/2] RISC-V: Probe for unaligned access speed
-Thread-Index: AQHZpiD8K74IXZi1x0Sk5pxi8WFXO6+cDCdw
-Date:   Sun, 25 Jun 2023 21:42:07 +0000
-Message-ID: <88d0b61ca01d4c1a87a17d3c34baa2a6@AcuMS.aculab.com>
-References: <20230623222016.3742145-1-evan@rivosinc.com>
- <20230623222016.3742145-2-evan@rivosinc.com>
-In-Reply-To: <20230623222016.3742145-2-evan@rivosinc.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S229500AbjFYXwd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 19:52:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 260241BB
+        for <linux-doc@vger.kernel.org>; Sun, 25 Jun 2023 16:52:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9609A60C5A
+        for <linux-doc@vger.kernel.org>; Sun, 25 Jun 2023 23:52:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E92C433A9
+        for <linux-doc@vger.kernel.org>; Sun, 25 Jun 2023 23:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687737151;
+        bh=MarIaZK1/h6d3gcEiuGdnJtH9oNLc/Ovu23/aiJiCSM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hbqJNI1gUFnY6PFzJ9wzyiY63PNbBSWGH/MnkuKmSI7n3FiLgYwpY079Mf3Zt8+iF
+         vAgDP64cfvCIJtyf0cOklyayxAdgOgfmMtKIi9FxR4Di5bCz7VYMWIsScPUv0kxWke
+         c09JkzDwKY7C4TEIyUZxLJ0cWbfPUWWqH2UiSkrAwEtc8R01Kvlr4k6BezAbVgyHXX
+         OCG/+4SgCm+lZ5OuqJ8bk71yraz3gOFnvO+LWoExE2bZmBGzk3f6RCVpclnUaZbXg9
+         +du7KBS56umf6AIAD5xcbKIvwto0Zz4ZcgMr/526VEJ9jQPu17eS1u3FjGqfyEPyIA
+         JApO7bScUz7Gw==
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9875c2d949eso414568766b.0
+        for <linux-doc@vger.kernel.org>; Sun, 25 Jun 2023 16:52:30 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzFU7LuhPUjXQ9QLMpITLgQ+3v6kehKbqcYXbaJQ+VvJvrwSofb
+        oD9k3rJO4LOnP/ARNJl1AfnUWa2kyiyIiwc/aqz2SA==
+X-Google-Smtp-Source: ACHHUZ4SsLYGJn0dfSXxFKaC+b/PwcoJ8iANFo8WWh8nomaO+sSfLwffHOMAkFtQJoYhfIZGagMbWTVvbeBhHgGqx6c=
+X-Received: by 2002:a17:907:3ea3:b0:987:3f34:88ea with SMTP id
+ hs35-20020a1709073ea300b009873f3488eamr23437525ejc.58.1687737148936; Sun, 25
+ Jun 2023 16:52:28 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+References: <ZImZ6eUxf5DdLYpe@arm.com> <64837d2af3ae39bafd025b3141a04f04f4323205.camel@intel.com>
+ <ZJAWMSLfSaHOD1+X@arm.com> <5794e4024a01e9c25f0951a7386cac69310dbd0f.camel@intel.com>
+ <ZJFukYxRbU1MZlQn@arm.com> <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
+ <ZJLgp29mM3BLb3xa@arm.com> <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
+ <ZJQR7slVHvjeCQG8@arm.com> <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
+ <ZJR545en+dYx399c@arm.com>
+In-Reply-To: <ZJR545en+dYx399c@arm.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Sun, 25 Jun 2023 16:52:16 -0700
+X-Gmail-Original-Message-ID: <CALCETrWGQ+xZggnjqV4zGrj8LJa4iWLqfF9-VnyfHeWg7agv9w@mail.gmail.com>
+Message-ID: <CALCETrWGQ+xZggnjqV4zGrj8LJa4iWLqfF9-VnyfHeWg7agv9w@mail.gmail.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack description
+To:     "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "Xu, Pengfei" <pengfei.xu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "bp@alien8.de" <bp@alien8.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Eranian, Stephane" <eranian@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Evan Green
-> Sent: 23 June 2023 23:20
-> 
-> Rather than deferring misaligned access speed determinations to a vendor
-> function, let's probe them and find out how fast they are. If we
-> determine that a misaligned word access is faster than N byte accesses,
-> mark the hardware's misaligned access as "fast".
-> 
-> Fix the documentation as well to reflect this bar. Previously the only
-> SoC that returned "fast" was the THead C906. The change to the
-> documentation is more a clarification, since the C906 is fast in the
-> sense of the corrected documentation.
-> 
-> Signed-off-by: Evan Green <evan@rivosinc.com>
-> ---
-...
-> diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
-> index 19165ebd82ba..710325751766 100644
-> --- a/Documentation/riscv/hwprobe.rst
-> +++ b/Documentation/riscv/hwprobe.rst
-> @@ -88,12 +88,12 @@ The following keys are defined:
->      always extremely slow.
-> 
->    * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are supported
-> -    in hardware, but are slower than the cooresponding aligned accesses
-> -    sequences.
-> +    in hardware, but are slower than N byte accesses, where N is the native
-> +    word size.
-> 
->    * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are supported
-> -    in hardware and are faster than the cooresponding aligned accesses
-> -    sequences.
-> +    in hardware and are faster than N byte accesses, where N is the native
-> +    word size.
+On Thu, Jun 22, 2023 at 9:43=E2=80=AFAM szabolcs.nagy@arm.com
+<szabolcs.nagy@arm.com> wrote:
+>
+> The 06/22/2023 08:26, Andy Lutomirski wrote:
+> > On Thu, Jun 22, 2023 at 2:28=E2=80=AFAM szabolcs.nagy@arm.com
+> > <szabolcs.nagy@arm.com> wrote:
+> > >
+> > > The 06/21/2023 18:54, Edgecombe, Rick P wrote:
+> > > > On Wed, 2023-06-21 at 12:36 +0100, szabolcs.nagy@arm.com wrote:
+> > > > > > The 06/20/2023 19:34, Edgecombe, Rick P wrote:
+> > > > > > > > I actually did a POC for this, but rejected it. The problem=
+ is,
+> > > > > > > > if
+> > > > > > > > there is a shadow stack overflow at that point then the ker=
+nel
+> > > > > > > > > > can't
+> > > > > > > > push the shadow stack token to the old stack. And shadow st=
+ack
+> > > > > > > > > > overflow
+> > > > > > > > is exactly the alt shadow stack use case. So it doesn't rea=
+lly
+> > > > > > > > > > solve
+> > > > > > > > the problem.
+> > > > > >
+> > > > > > the restore token in the alt shstk case does not regress anythi=
+ng
+> > > > > > but
+> > > > > > makes some use-cases work.
+> > > > > >
+> > > > > > alt shadow stack is important if code tries to jump in and out =
+of
+> > > > > > signal handlers (dosemu does this with swapcontext) and for tha=
+t a
+> > > > > > restore token is needed.
+> > > > > >
+> > > > > > alt shadow stack is important if the original shstk did not
+> > > > > > overflow
+> > > > > > but the signal handler would overflow it (small thread stack, h=
+uge
+> > > > > > sigaltstack case).
+> > > > > >
+> > > > > > alt shadow stack is also important for crash reporting on shstk
+> > > > > > overflow even if longjmp does not work then. longjmp to a
+> > > > > > makecontext
+> > > > > > stack would still work and longjmp back to the original stack c=
+an
+> > > > > > be
+> > > > > > made to mostly work by an altshstk option to overwrite the top
+> > > > > > entry
+> > > > > > with a restore token on overflow (this can break unwinding thou=
+gh).
+> > > > > >
+> > > >
+> > > > There was previously a request to create an alt shadow stack for th=
+e
+> > > > purpose of handling shadow stack overflow. So you are now suggestin=
+g to
+> > > > to exclude that and instead target a different use case for alt sha=
+dow
+> > > > stack?
+> > >
+> > > that is not what i said.
+> > >
+> > > > But I'm not sure how much we should change the ABI at this point si=
+nce
+> > > > we are constrained by existing userspace. If you read the history, =
+we
+> > > > may end up needing to deprecate the whole elf bit for this and othe=
+r
+> > > > reasons.
+> > >
+> > > i'm not against deprecating the elf bit, but i think binary
+> > > marking will be difficult for this kind of feature no matter what
+> > > (code may be incompatible for complex runtime dependent reasons).
+> > >
+> > > > So should we struggle to find a way to grow the existing ABI withou=
+t
+> > > > disturbing the existing userspace? Or should we start with somethin=
+g,
+> > > > finally, and see where we need to grow and maybe get a chance at a
+> > > > fresh start to grow it?
+> > > >
+> > > > Like, maybe 3 people will show up saying "hey, I *really* need to u=
+se
+> > > > shadow stack and longjmp from a ucontext stack", and no one says
+> > > > anything about shadow stack overflow. Then we know what to do. And
+> > > > maybe dosemu decides it doesn't need to implement shadow stack (hig=
+hly
+> > > > likely I would think). Now that I think about it, AFAIU SS_AUTODISA=
+RM
+> > > > was created for dosemu, and the alt shadow stack patch adopted this
+> > > > behavior. So it's speculation that there is even a problem in that
+> > > > scenario.
+> > > >
+> > > > Or maybe people just enable WRSS for longjmp() and directly jump ba=
+ck
+> > > > to the setjmp() point. Do most people want fast setjmp/longjmp() at=
+ the
+> > > > cost of a little security?
+> > > >
+> > > > Even if, with enough discussion, we could optimize for all
+> > > > hypotheticals without real user feedback, I don't see how it helps
+> > > > users to hold shadow stack. So I think we should move forward with =
+the
+> > > > current ABI.
+> > >
+> > > you may not get a second chance to fix a security feature.
+> > > it will be just disabled if it causes problems.
+> >
+> > *I* would use altshadowstack.
+> >
+> > I run a production system (that cares about correctness *and*
+> > performance, but that's not really relevant here -- SHSTK ought to be
+> > fast).  And, if it crashes, I want to know why.  So I handle SIGSEGV,
+> > etc so I have good logs if it crashes.  And I want those same logs if
+> > I overflow the stack.
+> >
+> > That being said, I have no need for longjmp or siglongjmp for this.  I
+> > use exit(2) to escape.
+>
+> the same crash handler that prints a log on shstk overflow should
+> work when a different cause of SIGSEGV is recoverable via longjmp.
+> to me this means that alt shstk must work with longjmp at least in
+> the non-shstk overflow case (which can be declared non-recoverable).
 
-I think I'd just say 'faster/slower than using byte accesses' (ie no N).
+Sure, but how many SIGSEGV handlers would use altshadowstack and
+*also, in the same handler* ever resume?  Not mine.  Obviously I'm
+only one sample.
 
-There are two obvious FAST cases:
-1) the misaligned access takes an extra clock - worth aligning copies.
-2) the misaligned access is pretty much as fast as an aligned one.
+>
+> > For what it's worth, setjmp/longjmp is a bad API.  The actual pattern
+> > that ought to work well (and that could be supported well by fancy
+> > compilers and non-C languages, as I understand it) is more like a
+> > function call that has two ways out.  Like this (pseudo-C):
+> >
+> > void function(struct better_jmp_buf &buf, args...)
+> > {
+> >    ...
+> >        if (condition)
+> >           better_long_jump(buf);  // long jumps out!
+> >        // could also pass buf to another function
+> >    ...
+> >        // could also return normally
+> > }
+> >
+> > better_call_with_jmp_buf(function, args);
+> >
+> > *This* could support altshadowstack just fine.  And many users might
+> > be okay with the understanding that, if altshadowstack is on, you have
+> > to use a better long jump to get out (or a normal sigreturn or _exit).
+>
+> i don't understand why this would work fine when longjmp does not.
+> how does the shstk switch happen?
 
-Even if you find it hard to distinguish them you should probably
-allow for them both.
+Ugh, I think this may have some issues given how the ISA works.  Sigh.
 
-x86 (on Intel (non-atom) cpu) is definitely in the latter camp.
-Misaligned copies are measurable slower - but not enough to
-ever worry about.
-I think that misaligned transfers get spilt into 8 byte accesses
-(pretty irrelevant in the kernel) and then accesses that cross
-cache line boundaries are split on the boundary.
-With pipelined writes and two reads/clock it doesn't often
-make a measurable difference.
-That is definitely what I see for uncached accesses to PCIe space.
+I was imagining that better_call_with_jmp_buf would push a restore
+token on the shadow stack, then call the passed-in function, then, on
+a successful return, INCSSP over the token and continue on.
+better_long_jump() would RSTORSSP to the saved token.
 
-	David
+But I'm not sure how to write the token without WRUSS.
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+What *could* be done, which would be nasty and
+sigaltshadowstack-specific, is to have a jump out of a signal handler
+provide a pointer to the signal frame (siginfo_t or ucontext pointer),
+and the kernel would assist it in switching the shadow stack back.
+Eww.
 
+--Andy
+
+>
+> > No one is getting an altshadowstack signal handler without code
+> > changes.
+>
+> assuming the same component is doing the alt shstk setup as the
+> longjmp.
+>
+> > siglongjmp() could support altshadowstack with help from the kernel,
+> > but we probably don't want to go there.
+>
+> what kind of help? maybe we need that help..
+>
+> e.g. if the signal frame token is detected by longjmp on
+> the shstk then doing an rt_sigreturn with the right signal
+> frame context allows longjmp to continue unwinding the shstk.
+> however kernel sigcontext layout can change so userspace may
+> not know it so longjmp needs a helper, but only in the jump
+> across signal frame case.
+>
+> (this is a different design than what i proposed earlier,
+> it also makes longjmp from alt shstk work without wrss,
+> the downside is that longjmp across makecontext needs a
+> separate solution then which implies that all shstk needs
+> a detectable token at the end of the shstk.. so again
+> something that we have to get right now and cannot add
+> later.)
