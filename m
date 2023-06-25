@@ -2,102 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 484E7EB64DC
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 14:25:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFFBAEB64DC
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 14:57:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229471AbjFYOZt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 25 Jun 2023 10:25:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54426 "EHLO
+        id S229634AbjFYO52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 25 Jun 2023 10:57:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjFYOZr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 10:25:47 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F06C9E;
-        Sun, 25 Jun 2023 07:25:45 -0700 (PDT)
+        with ESMTP id S229611AbjFYO51 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 10:57:27 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EBC61A4;
+        Sun, 25 Jun 2023 07:57:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687703145; x=1719239145;
+  t=1687705046; x=1719241046;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tEXa7+daJWFICujQmk+hUpt7ny1BGIDcYKYZnvLrbks=;
-  b=P8aVHsa9tup3jKFKDe/1Xg3Ws207HHfiCVXkz6kZxiRKD7xcf1CSLKWL
-   0zMK+PHnSliyP0JYGjOq39YpdD6MNpTD5SPoTae2zYc6NYsE2nnXhTdbv
-   /iY2CMTAXOR2Db3MdQbO5YzjbwaEdWSnjQe6IufWc7GBZPBRXX/zVXGYc
-   BDcgJqXfGH12TUOdMhdznKkkau98f+Y6b9iO0JyDt8JdZwe2Qezg964+6
-   4EOx95t0113NVqg3JIRnbUKiQVm8I9Zgbx3QpNAfZlBDM1VGqrIVb9l7a
-   8+UioTl8NmUR9f7e0EYpIU+y65DYi6TqD9LLFVddoWnqVLa702DVWTcqE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="363621796"
+  bh=TGqgvaD+5Wnf9e9vSx/grT8jjpbyaA5KF68+R0VXUBM=;
+  b=hMoxNVkoU+je1K9rVN9zVMMbNmr3j+/lcj9EnZNNm5EmF7Tmz4e+tnFN
+   8EYDwZur9yRMUnD3NioGrQa0XH0AMtwIKK60gc/3fD5ksgPDtJW8eRD7F
+   wWTAw61Jd1/fmMLyUiwf5qeyhnQQR3580cfLR7uk8B/vA0Vdy/bP6/Oc8
+   PqqrGygzGxFuuuXQIBf1+YuIWjv1RFBtjhfUZuoMZnJRQ/qgl8xQAkQyp
+   XdCrrmL1JOe4M/bHEXS6o9Qnntct5CB6p5glZtpeVjRq+VkxsWDhh1EOJ
+   ApTi8ZVxW5QKR0XuJT8Mn7vA6sQOkiwF8lF0KaIJd54Fd+hzH6TdxYags
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="364521666"
 X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
-   d="scan'208";a="363621796"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 07:25:45 -0700
+   d="scan'208";a="364521666"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 07:57:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="962498173"
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="860412330"
 X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
-   d="scan'208";a="962498173"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Jun 2023 07:25:43 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qDQgQ-000A4T-1B;
-        Sun, 25 Jun 2023 14:25:42 +0000
-Date:   Sun, 25 Jun 2023 22:25:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
-        brauner@kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Seth Forshee <sforshee@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: filesystems: idmappings: clarify from where
- idmappings are taken
-Message-ID: <202306252253.qxHG1txo-lkp@intel.com>
-References: <20230621095905.31346-1-aleksandr.mikhalitsyn@canonical.com>
+   d="scan'208";a="860412330"
+Received: from tassilo.jf.intel.com (HELO tassilo) ([10.54.38.190])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 07:57:24 -0700
+Date:   Sun, 25 Jun 2023 07:57:22 -0700
+From:   Andi Kleen <ak@linux.intel.com>
+To:     Rong Tao <rtoax@foxmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rongtao@cestc.cn
+Subject: Re: [PATCH] docs: trace: Convert decode_msr.py print syntax to
+ python3
+Message-ID: <ZJhV0lQw59czLEGl@tassilo>
+References: <877crwrgo5.fsf@meer.lwn.net>
+ <tencent_69EBD5683EE28741BE906B56C8E59D8AE906@qq.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230621095905.31346-1-aleksandr.mikhalitsyn@canonical.com>
+In-Reply-To: <tencent_69EBD5683EE28741BE906B56C8E59D8AE906@qq.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexander,
+On Sun, Jun 25, 2023 at 09:03:57AM +0800, Rong Tao wrote:
+> Thanks for your reply, jon. How about i submit v2 to remove decode_msr.py
+> totally?
 
-kernel test robot noticed the following build warnings:
+Well only if you can explain how the MSR tracer should be used without
+it?
 
-[auto build test WARNING on vfs-idmapping/for-next]
-[also build test WARNING on linus/master v6.4-rc7 next-20230623]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Not sure I understand the whole discussion here.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Mikhalitsyn/docs-filesystems-idmappings-clarify-from-where-idmappings-are-taken/20230621-180345
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
-patch link:    https://lore.kernel.org/r/20230621095905.31346-1-aleksandr.mikhalitsyn%40canonical.com
-patch subject: [PATCH] docs: filesystems: idmappings: clarify from where idmappings are taken
-reproduce: (https://download.01.org/0day-ci/archive/20230625/202306252253.qxHG1txo-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306252253.qxHG1txo-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/filesystems/idmappings.rst:378: WARNING: Unexpected indentation.
-
-vim +378 Documentation/filesystems/idmappings.rst
-
-   375	
-   376	From the implementation point it's worth mentioning how idmappings are represented.
-   377	All idmappings are taken from the corresponding user namespace.
- > 378	    - caller's idmapping (usually taken from ``current_user_ns()``)
-   379	    - filesystem's idmapping (``sb->s_user_ns``)
-   380	    - mount's idmapping (``mnt_idmap(vfsmnt)``)
-   381	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-Andi
