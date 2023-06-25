@@ -2,95 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC47EB64DD
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 11:22:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 484E7EB64DC
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 14:25:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231770AbjFYLWo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 25 Jun 2023 07:22:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37180 "EHLO
+        id S229471AbjFYOZt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 25 Jun 2023 10:25:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230058AbjFYLWn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 07:22:43 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56BE2133;
-        Sun, 25 Jun 2023 04:22:42 -0700 (PDT)
+        with ESMTP id S229509AbjFYOZr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Jun 2023 10:25:47 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F06C9E;
+        Sun, 25 Jun 2023 07:25:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687692162; x=1719228162;
+  t=1687703145; x=1719239145;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=P5wq7VRknPIaKF+xK/Zcd6WKbaEpZYPaK3pHNCT0o2g=;
-  b=DtUpB2o62GQ5tyaYHMw8hwovgaCx5hbpQBIc9tZlGHHEO8mTLh19PEGH
-   CCLybsmiTCzY1ze8ahvNP+yNxEBgqRyeb8UAeOi0FqrgDCtcxL+sQjWCe
-   w9OO6IHQmdo0QehXpgiA/cgWJQkmz5KaZg2P2ymnXMaXm6dr1EM+tuH18
-   mvJrl9udBSCbjgr+RvfK4XOLwmG2hB3TIV+WMoHXQn1mUTLKeHf/pWds6
-   NIWtYbnxjCJ0Xsw5b8rIS0lVEELlPcS7Gt8xm0gmc7BcfxrKr9fE2Sd9z
-   b3OKyPUL3ILSGrTaZvo3/WQ81Hv6G1JFO87evZTb8AALFoUicgqPygzFx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="350822445"
+  bh=tEXa7+daJWFICujQmk+hUpt7ny1BGIDcYKYZnvLrbks=;
+  b=P8aVHsa9tup3jKFKDe/1Xg3Ws207HHfiCVXkz6kZxiRKD7xcf1CSLKWL
+   0zMK+PHnSliyP0JYGjOq39YpdD6MNpTD5SPoTae2zYc6NYsE2nnXhTdbv
+   /iY2CMTAXOR2Db3MdQbO5YzjbwaEdWSnjQe6IufWc7GBZPBRXX/zVXGYc
+   BDcgJqXfGH12TUOdMhdznKkkau98f+Y6b9iO0JyDt8JdZwe2Qezg964+6
+   4EOx95t0113NVqg3JIRnbUKiQVm8I9Zgbx3QpNAfZlBDM1VGqrIVb9l7a
+   8+UioTl8NmUR9f7e0EYpIU+y65DYi6TqD9LLFVddoWnqVLa702DVWTcqE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="363621796"
 X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
-   d="scan'208";a="350822445"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 04:22:41 -0700
+   d="scan'208";a="363621796"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 07:25:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="839964891"
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="962498173"
 X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
-   d="scan'208";a="839964891"
+   d="scan'208";a="962498173"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 25 Jun 2023 04:22:39 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 25 Jun 2023 07:25:43 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qDNpG-0009zN-2p;
-        Sun, 25 Jun 2023 11:22:38 +0000
-Date:   Sun, 25 Jun 2023 19:22:22 +0800
+        id 1qDQgQ-000A4T-1B;
+        Sun, 25 Jun 2023 14:25:42 +0000
+Date:   Sun, 25 Jun 2023 22:25:02 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Rong Tao <rtoax@foxmail.com>, martin.petersen@oracle.com
-Cc:     oe-kbuild-all@lists.linux.dev, rongtao@cestc.cn,
-        Jonathan Corbet <corbet@lwn.net>, linux-scsi@vger.kernel.org,
-        target-devel@vger.kernel.org, linux-doc@vger.kernel.org,
+To:     Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
+        brauner@kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Seth Forshee <sforshee@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: target: Remove useless tcm_mod_builder.py
-Message-ID: <202306251958.viSgFQIV-lkp@intel.com>
-References: <tencent_E3643D5F0AA8CCBEF28C6A233A18B808CD0A@qq.com>
+Subject: Re: [PATCH] docs: filesystems: idmappings: clarify from where
+ idmappings are taken
+Message-ID: <202306252253.qxHG1txo-lkp@intel.com>
+References: <20230621095905.31346-1-aleksandr.mikhalitsyn@canonical.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_E3643D5F0AA8CCBEF28C6A233A18B808CD0A@qq.com>
+In-Reply-To: <20230621095905.31346-1-aleksandr.mikhalitsyn@canonical.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rong,
+Hi Alexander,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on mkp-scsi/for-next]
+[auto build test WARNING on vfs-idmapping/for-next]
 [also build test WARNING on linus/master v6.4-rc7 next-20230623]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Tao/docs-target-Remove-useless-tcm_mod_builder-py/20230625-085229
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/tencent_E3643D5F0AA8CCBEF28C6A233A18B808CD0A%40qq.com
-patch subject: [PATCH v2] docs: target: Remove useless tcm_mod_builder.py
-reproduce: (https://download.01.org/0day-ci/archive/20230625/202306251958.viSgFQIV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Mikhalitsyn/docs-filesystems-idmappings-clarify-from-where-idmappings-are-taken/20230621-180345
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/idmapping.git for-next
+patch link:    https://lore.kernel.org/r/20230621095905.31346-1-aleksandr.mikhalitsyn%40canonical.com
+patch subject: [PATCH] docs: filesystems: idmappings: clarify from where idmappings are taken
+reproduce: (https://download.01.org/0day-ci/archive/20230625/202306252253.qxHG1txo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306251958.viSgFQIV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306252253.qxHG1txo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/target/scripts.rst:4: WARNING: Include file 'Documentation/target/tcm_mod_builder.py' not found or reading it failed
+>> Documentation/filesystems/idmappings.rst:378: WARNING: Unexpected indentation.
 
-vim +4 Documentation/target/scripts.rst
+vim +378 Documentation/filesystems/idmappings.rst
 
-4ca9bc225e46eb Mauro Carvalho Chehab 2019-06-12  3  
-4ca9bc225e46eb Mauro Carvalho Chehab 2019-06-12 @4  .. literalinclude:: tcm_mod_builder.py
-4ca9bc225e46eb Mauro Carvalho Chehab 2019-06-12  5      :language: perl
-4ca9bc225e46eb Mauro Carvalho Chehab 2019-06-12  6  
+   375	
+   376	From the implementation point it's worth mentioning how idmappings are represented.
+   377	All idmappings are taken from the corresponding user namespace.
+ > 378	    - caller's idmapping (usually taken from ``current_user_ns()``)
+   379	    - filesystem's idmapping (``sb->s_user_ns``)
+   380	    - mount's idmapping (``mnt_idmap(vfsmnt)``)
+   381	
 
 -- 
 0-DAY CI Kernel Test Service
