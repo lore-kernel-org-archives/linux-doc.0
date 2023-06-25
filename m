@@ -2,70 +2,65 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1095EB64DA
-	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 01:07:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CE4EB64DA
+	for <linux-doc@archiver.kernel.org>; Sun, 25 Jun 2023 01:36:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229646AbjFYBH2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 24 Jun 2023 21:07:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32904 "EHLO
+        id S229793AbjFYBgY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 24 Jun 2023 21:36:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjFYBH2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Jun 2023 21:07:28 -0400
-Received: from out203-205-221-149.mail.qq.com (out203-205-221-149.mail.qq.com [203.205.221.149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A998A9
-        for <linux-doc@vger.kernel.org>; Sat, 24 Jun 2023 18:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1687655243;
-        bh=8QAew9PvN3FAyrGvxn0lyqLV9TYoUXg8IKz8P7Yts6c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=b8M47B2YmcgS46ZCVNRc4lULef/QxWs4gJQhjVTunSEyc86ZxTu8WJmr3J3TM00Iz
-         wmlNr2OmFmewyyynvd4UtUCS7l8Br6LFuLUfUgwsjyaKTcr4FMbFeo7xjWoFRBsJkR
-         vH9TCPAVb56b3768yPZSHAcZMyWAxtW65yX2+mSc=
-Received: from localhost.localdomain ([39.156.73.12])
-        by newxmesmtplogicsvrsza12-0.qq.com (NewEsmtp) with SMTP
-        id FA36E5B; Sun, 25 Jun 2023 09:03:58 +0800
-X-QQ-mid: xmsmtpt1687655038tvpubeomg
-Message-ID: <tencent_69EBD5683EE28741BE906B56C8E59D8AE906@qq.com>
-X-QQ-XMAILINFO: OUyBsK7uGFiXGRCC1hgH1Gm9SSTc4ydP8FCE9M5fdhJAVicu/NWskUakW3N9b4
-         2fjez8Qf5PnXxhC7EegiIsxjcCTrkrlp17177ER+kTGpVvP6M746nqXEUgOCr9c55siNgmirOHnE
-         2ngCVi2Jmk8nSemS77+9PjSPKFbcmXpFKf7m8UF2L5pCKE9zZRztp3tOHzHs1XC1RNZB36qM+ftO
-         0Nadf9tCbwIlqFP2hvPkb7oTmSCviXyU+rBV2i1SCUcdxIR0512g0D0u+Md84SEPcP2yi7rYqdCi
-         0+ZUkvTnU86fPgmAI9gQxyPbE5ijtmwJ6K0I9qmpO7mpT0Vd8WPxXqJ4/kTfX1DpSq72lZMf/RNQ
-         KOTo+yHs2EVMz/Ntuj5+i14tRqqjCM0G3OmzOePnUaRZ+bbxej6MXE3VMQnC3P4faBFqdgvkUiEM
-         YoE1L5pvwrHryhBqLK16Y4AN3dUZwMrxaNo6d+9IGx0J2B2WmklNpMixoKLP6FHSTaaTgGGXMtVN
-         4joFhKIRbZKDyghrBe2j4rl9A2DTOXE0iBYRlQJ6RT/Q0MBkPvMdAWivUvD+oV2EABs/B+uPBVmL
-         fPMdXbbTNjn2viR3a2eY0Esp228xua7TZcQN4a5mUvHbtft6lka5tma4VkRHE3ue2BrhaYcvsOof
-         /YUqJUvJXAb6ydcz5wWfehx+U6rEXY234FWRQY0ZlQ8MNluh3tpwzOqq+Y6Ba+pCydZmt679GWKm
-         NlnMnTBTZ6BGmk2f+uSBGhoWAU++K3j+RNe5sSNY0BwIdSTwxVkadoMnJ6wDaxkryKfqRn4AXWbT
-         euedN97N5fYVl+xS5FOpAqyinjjuoobClbqYneGaha9QllgUh58RZ1Hdi9sPPm66Yam1/RivaUtV
-         TIjNj4JAfPkxaeWsSZUxKg0ygLCYHt2ZndtlCM8IhVgipgwKfn0Az1q01C/FSwMEhK3z0cSt7GGu
-         yMxrD+m+Fryi/wHCMWqT140HigSxkD0kWHadK1fL3/9wzhG+MsobF0nRJMd+z2
-X-QQ-XMRINFO: MMd9k4KOWfk4EI9u9DiMAPPHFKKkl9Wo5w==
-From:   Rong Tao <rtoax@foxmail.com>
-To:     corbet@lwn.net
-Cc:     ak@linux.intel.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rongtao@cestc.cn, rtoax@foxmail.com
-Subject: Re: [PATCH] docs: trace: Convert decode_msr.py print syntax to python3
-Date:   Sun, 25 Jun 2023 09:03:57 +0800
-X-OQ-MSGID: <20230625010357.6893-1-rtoax@foxmail.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <877crwrgo5.fsf@meer.lwn.net>
-References: <877crwrgo5.fsf@meer.lwn.net>
+        with ESMTP id S229537AbjFYBgX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Jun 2023 21:36:23 -0400
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE09BE5F;
+        Sat, 24 Jun 2023 18:36:22 -0700 (PDT)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-39ecf031271so1739778b6e.1;
+        Sat, 24 Jun 2023 18:36:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687656982; x=1690248982;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6QES8iPVEs5Vp3VQZYa61QQkFQNBLSrnWKF7w6PAZtA=;
+        b=QG6FKqHYaoaONGGum/fcu/e23BgVbvLri3Btc7WrsT4pzp6FaPk5kZuw4WiGbTFuyO
+         oAX7EcYng4AVlja/R20qngrLmr5QXYtfUPa4+djzwKJHJrREc221CTfeel8K/r6r1Bwf
+         UPwmeYsITKN/TwDnusHennjGR4z14ijhp0/7ak6u+Eq2EbiZwmHka+3/hhfvrtLPRFWN
+         didqUCOwKEj5V8ZQhmJupJ1ds3mq+qT2Mq0dAfr3pQhl4v699wyRP49Z0cifkDwWvFq7
+         sAAtZr72K08srKUER+29F6uoWzn8enTdLtQUUWCF4W51HJeN2UVzDGkyGxXC23tELPXX
+         AzYQ==
+X-Gm-Message-State: AC+VfDy3WZ8WPXGYZ+//jUSHtStl1YwaJMukD39M1W0I+Q/ZMDOY+rEF
+        h6AGf3kVdMg+brubOAEVpnlsdXtH5xc=
+X-Google-Smtp-Source: ACHHUZ4It5O46YdG9BmcmgbA5yUzsHMVPQoRSR1CkNrQcEXwpZtIfr57LBj3oN85Na3xYuxKaULfQg==
+X-Received: by 2002:a05:6808:ec3:b0:39e:b58c:13d5 with SMTP id q3-20020a0568080ec300b0039eb58c13d5mr28074938oiv.17.1687656982135;
+        Sat, 24 Jun 2023 18:36:22 -0700 (PDT)
+Received: from [192.168.3.219] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id x42-20020a056a000bea00b0066f37665a6asm690494pfu.117.2023.06.24.18.36.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 24 Jun 2023 18:36:21 -0700 (PDT)
+Message-ID: <83fcf19d-b9a1-5369-d8f0-d80e00ae8dfd@acm.org>
+Date:   Sat, 24 Jun 2023 18:36:19 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2] docs: target: Remove useless tcm_mod_builder.py
+Content-Language: en-US
+To:     Rong Tao <rtoax@foxmail.com>, martin.petersen@oracle.com
+Cc:     rongtao@cestc.cn, Jonathan Corbet <corbet@lwn.net>,
+        "open list:SCSI TARGET SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+        "open list:SCSI TARGET SUBSYSTEM" <target-devel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <tencent_E3643D5F0AA8CCBEF28C6A233A18B808CD0A@qq.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <tencent_E3643D5F0AA8CCBEF28C6A233A18B808CD0A@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for your reply, jon. How about i submit v2 to remove decode_msr.py
-totally?
+On 6/24/23 17:50, Rong Tao wrote:
+> This script is not used and requires additional development to sync with
+> the SCSI target code.
 
-Do the two remaining perl scripts need to be removed?
-
-    - Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
-    - Documentation/trace/postprocess/trace-vmscan-postprocess.pl
-
-Thanks,
-
-Rong Tao.
-
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
