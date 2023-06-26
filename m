@@ -2,90 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 723A6EB64D7
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 21:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48AC5EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 21:46:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbjFZVoz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 17:44:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37320 "EHLO
+        id S230002AbjFZVqp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 17:46:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjFZVoy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 17:44:54 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26FAEE6F;
-        Mon, 26 Jun 2023 14:44:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=EdgK0IHrzHwFNhFM3Sp8S6TGye1AJP5vyX4MGNNLE8c=; b=vnYPiZvsf3gk3whl4Re7bpeeIs
-        jpvevsVauYb3VlJxp9V4mE/NVKN57XH9jjzcYBkndLmQxeFzogqHcP3BZlN2BJsHekICQdg78vmfE
-        wqUSbheArEfSqVUUpR6M+FfegOjI/jIantl2IpIFec1f20/luP4UNAOEVFNNdMOGJULNt7HrdfHJh
-        sQdZz7hRnwaVkLdzSdFwajRBKerXhGiKCEIcKGV5Y1DOFiB3i7opU3GVc/HPC1mvhwqYusJLJNuTl
-        ebhnq3XIO+Gz3+eCL3P0f2xnYo31RYVQpN1okrb7l4a9cWiRt9zGn30AkrvcstTvkL9xpBGdayinu
-        jqyeB4pw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qDu0y-00B5Z2-0f;
-        Mon, 26 Jun 2023 21:44:52 +0000
-Message-ID: <a816c65d-1db2-9043-9e4c-bb0d3f318044@infradead.org>
-Date:   Mon, 26 Jun 2023 14:44:51 -0700
+        with ESMTP id S229459AbjFZVqo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 17:46:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A09610C9
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 14:46:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F28AD60F45
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 21:46:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 180B8C433C8;
+        Mon, 26 Jun 2023 21:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687816002;
+        bh=kNlt57kfoTRNbVJhKEJCmh7u/FMjIyTPyNK0rg+vYRc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PzPwHrcpH2zzuPnwKiU4HR2fidJpv9iORp5EHZi6fXsKAnxVm4GQoniL9qmvX3xie
+         fYofj+J5x0exu7OTZ9KoRxf6ostb+m6RZekZWqP0PR6T9yLhtpS1ORII+wqmwwds7W
+         JQHw06ocTbcD+m11I9m1dIAzknZZKiZhPOLHIuHaMOqGUE413ir3VDEobMhgu6yowl
+         TP/o//sODwmnTMKeZS0tH86pm8r1BmMBosBdtEn2+BurMVpVMWFlzt7GxFdR5BxZsY
+         suCNw6qZL+AocAbeVW7/nf8ZKRByI4BTpXPV9v7av688dc61SLH/aBUAyKG2WVT0aT
+         ydo27rMHey4MQ==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Russell King <linux@armlinux.org.uk>, linux-doc@vger.kernel.org
+Subject: [PATCH net-next] phylink: ReST-ify the phylink_pcs_neg_mode() kdoc
+Date:   Mon, 26 Jun 2023 14:46:40 -0700
+Message-ID: <20230626214640.3142252-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 3/6] KVM: Documentation: Add the missing description
- for ptep in kvm_mmu_page
-Content-Language: en-US
-To:     Mingwei Zhang <mizhang@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kai Huang <kai.huang@intel.com>,
-        Jim Mattson <jmattson@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
-        Zhi Wang <zhi.wang.linux@gmail.com>
-References: <20230626182016.4127366-1-mizhang@google.com>
- <20230626182016.4127366-4-mizhang@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230626182016.4127366-4-mizhang@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Stephen reports warnings when rendering phylink kdocs as HTML:
 
+  include/linux/phylink.h:110: ERROR: Unexpected indentation.
+  include/linux/phylink.h:111: WARNING: Block quote ends without a blank line; unexpected unindent.
+  include/linux/phylink.h:614: WARNING: Inline literal start-string without end-string.
+  include/linux/phylink.h:644: WARNING: Inline literal start-string without end-string.
 
-On 6/26/23 11:20, Mingwei Zhang wrote:
-> Add the missing description for ptep in kvm_mmu_page description. ptep is
-> used when TDP MMU is enabled and it shares the storage with parent_ptes.
-> Update the doc to help readers to get up-to-date info.
-> 
-> Signed-off-by: Mingwei Zhang <mizhang@google.com>
-> ---
->  Documentation/virt/kvm/x86/mmu.rst | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
-> index 4c9044b4dc6c..5cd6cd5e8926 100644
-> --- a/Documentation/virt/kvm/x86/mmu.rst
-> +++ b/Documentation/virt/kvm/x86/mmu.rst
-> @@ -237,6 +237,11 @@ Shadow pages contain the following information:
->      parent_ptes points at this single spte, otherwise, there exists multiple
->      sptes pointing at this page and (parent_ptes & ~0x1) points at a data
->      structure with a list of parent sptes.
-> +  ptep:
-> +    The reverse mapping for the pte pointing at this page's spt. This field is
-> +    used in replace of parent_ptes when TDP MMU is used. In TDP MMU, each
+Make phylink_pcs_neg_mode() use a proper list format to fix the first
+two warnings.
 
-            in replacement of
+The last two warnings, AFAICT, come from the use of shorthand like
+phylink_mode_*(). Perhaps those should be special-cased at the Sphinx
+level.
 
-> +    non-root shadow page will have one parent, while each root shadow page has
-> +    no parent. Note that this field is a union with parent_ptes.
->    unsync:
->      If true, then the translations in this page may not match the guest's
->      translation.  This is equivalent to the state of the tlb when a pte is
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Link: https://lore.kernel.org/all/20230626162908.2f149f98@canb.auug.org.au/
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: Russell King <linux@armlinux.org.uk>
+CC: linux-doc@vger.kernel.org
+---
+ include/linux/phylink.h | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
+diff --git a/include/linux/phylink.h b/include/linux/phylink.h
+index 516240f1e950..1817940a3418 100644
+--- a/include/linux/phylink.h
++++ b/include/linux/phylink.h
+@@ -105,11 +105,13 @@ static inline bool phylink_autoneg_inband(unsigned int mode)
+  *
+  * Determines the negotiation mode to be used by the PCS, and returns
+  * one of:
+- * %PHYLINK_PCS_NEG_NONE: interface mode does not support inband
+- * %PHYLINK_PCS_NEG_OUTBAND: an out of band mode (e.g. reading the PHY)
++ *
++ * - %PHYLINK_PCS_NEG_NONE: interface mode does not support inband
++ * - %PHYLINK_PCS_NEG_OUTBAND: an out of band mode (e.g. reading the PHY)
+  *   will be used.
+- * %PHYLINK_PCS_NEG_INBAND_DISABLED: inband mode selected but autoneg disabled
+- * %PHYLINK_PCS_NEG_INBAND_ENABLED: inband mode selected and autoneg enabled
++ * - %PHYLINK_PCS_NEG_INBAND_DISABLED: inband mode selected but autoneg
++ *   disabled
++ * - %PHYLINK_PCS_NEG_INBAND_ENABLED: inband mode selected and autoneg enabled
+  *
+  * Note: this is for cases where the PCS itself is involved in negotiation
+  * (e.g. Clause 37, SGMII and similar) not Clause 73.
 -- 
-~Randy
+2.41.0
+
