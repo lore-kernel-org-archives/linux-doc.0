@@ -2,252 +2,220 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF6F0EB64D7
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 13:50:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DDD7EB64DD
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 14:09:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229670AbjFZNuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 09:50:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48768 "EHLO
+        id S230501AbjFZOJV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 10:09:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjFZNup (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 09:50:45 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C45B710C9;
-        Mon, 26 Jun 2023 06:50:43 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id 3f1490d57ef6-c1aad78d5b2so2327109276.0;
-        Mon, 26 Jun 2023 06:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687787443; x=1690379443;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tgyqv8EYIym1+xnR4IokMMKVxRsw76bwo23lVBaAtjE=;
-        b=r+MLhxlZPkVLsRQO6HVrZ5AU0SoNM+fylAXfhYB3oF6k2zfCbKFeEMAU2dGvaeu3PY
-         eNIAy9eRzfDdqg12lMsYe0i6MHS+U7FRpEwbWvpW9qS/MAmZnG9RS/DaC4PeI24m8Kp0
-         FhatC8dCE/q8gn7Htf4r/R+exMF438GIMGiKEML6sIy2B7ulqGVMLiWE3gQaaXFe89Mb
-         CX/qnC35Ld1DlV53Bezso8u+36qZr2AYLbRzlu2nBrPGCZY6cLit/Lx6RG9X+QdwPp+5
-         FgxINPKpbuAUztak2FMwkeYLUh2dutMSri5pP4VjeUpyDBYnApiLMynuetZjcj84Yw1e
-         m73w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687787443; x=1690379443;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tgyqv8EYIym1+xnR4IokMMKVxRsw76bwo23lVBaAtjE=;
-        b=c7o+Ae3wq+4mAwJjIhTyTNkxHh6LedaRGXtCyB2p4X5++RyqWZf2wIH8APWMfA1Fv+
-         RVyct4kiyF32qqt+mkA0dvzQ9dZkfdH6gHXums1O36E5vfUz4xMHk8ARBtn1I6Prw3eL
-         bVpU3CLIto88WPe6Hf5pUBOSKvEB75bDbvuk4Rs7KY07OzFL/c8ziXUrh7U58ZppNkeG
-         jP0MELf/o6eC2qK0Fox1Wos9Iw+UxAgiLk+loZ1lu74o/oQ7a8+rkVpVZDSmWHjvxpiF
-         dB3BIxEIhrm6XLYtLhRh9DyUQ0DmF6Zs2gEuVxyEKnFL/3LrYyFLCH0u0dUd04qZ+B15
-         ovsg==
-X-Gm-Message-State: AC+VfDziYkrGKphRroNvw8oMcjb0AVi+9CExwXjViYarT7spMZRMD/aW
-        WaR8Gtmo6ZkAc2MX19SbUM9lj+S9qyBxbM+gBjE=
-X-Google-Smtp-Source: ACHHUZ65bRZ34LgfKJzbhpp8jgyY/NZMkCzMmydTAWLNYN0oDE7VQpt/cPo6RqYUPmTIExX2C81NR5iNDazYtXIwsa8=
-X-Received: by 2002:a25:418d:0:b0:bff:2a29:5981 with SMTP id
- o135-20020a25418d000000b00bff2a295981mr18450156yba.5.1687787442918; Mon, 26
- Jun 2023 06:50:42 -0700 (PDT)
+        with ESMTP id S230409AbjFZOJU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 10:09:20 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2053.outbound.protection.outlook.com [40.107.22.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC30210DD;
+        Mon, 26 Jun 2023 07:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NczVlE4rm1dmoAtNmI9sz0l5FsTEO2Q+XfOTXtAKj7E=;
+ b=eg+gpVVbqXH2McVF04EOdG0d+JUvbvVB1pOyZIoD5x4cPmsqKj0XzxoAPBF7Iuz7Foxm1GP/E0Dmc61ZN79hRqhOIyqsA9etXuwp2v1SreWSX0MGiiA5v0zJ+qCWH1wwXjH4EGU720vpYAYhRW7MV4uz8Jasdr5BXV250dDpNgs=
+Received: from AM0PR02CA0005.eurprd02.prod.outlook.com (2603:10a6:208:3e::18)
+ by AS8PR08MB7767.eurprd08.prod.outlook.com (2603:10a6:20b:527::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Mon, 26 Jun
+ 2023 14:09:15 +0000
+Received: from AM7EUR03FT042.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:208:3e:cafe::b6) by AM0PR02CA0005.outlook.office365.com
+ (2603:10a6:208:3e::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.33 via Frontend
+ Transport; Mon, 26 Jun 2023 14:09:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT042.mail.protection.outlook.com (100.127.140.209) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6544.15 via Frontend Transport; Mon, 26 Jun 2023 14:09:14 +0000
+Received: ("Tessian outbound e2424c13b707:v142"); Mon, 26 Jun 2023 14:09:14 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: e6fcde887157c6f0
+X-CR-MTA-TID: 64aa7808
+Received: from 6845ba131bef.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 70DE98DF-F72B-430A-80F1-E35EA9219AAB.1;
+        Mon, 26 Jun 2023 14:09:07 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 6845ba131bef.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Mon, 26 Jun 2023 14:09:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZTvAuttMm3RD3whg4fVCtLShyuIdmX9bsbor5Hukl5znEaGOhg6GDfZTV+nKlvVAtSYPukezIGtL2xlagvl1yK2Dy8C4eSJuky0gGGfjlZcHEyKJlIYJ2ctrwA21JzxLeXZHYa3t+tJfcbc/3PiF6aMJ3+hFycgUQ1Bl69nFsvuolgGfJnKw9uB+D7mYPypxJwTCYrfsIglmKqx57mXUbgI37o4kDV2XPzUwBkG0qpOC1dpNx+820wMA9nQ/lPjY0BsdTJzt4H2QfVyClKTkFLCwzDNM9ArRhZ3VXBceHjJVwqtXEwqlPKAFaFPEKWQA1pBkbdO7olTUHgNJlHjubA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NczVlE4rm1dmoAtNmI9sz0l5FsTEO2Q+XfOTXtAKj7E=;
+ b=fuH1umBFVufTjBZ66uuNI3SO7NipAEiNeQyJdLFu1iBOtIO2sUaqRiR45+T0zyGxb6lmuxO0kwB4OaGAZIg7GW847v3jSoW//6lJvg8dtLj9lkN5r02zx23yJSdDRWZFSqwqcz2k9xy8ZixyVMHmOFXGDr1AR7SjbuqYHx6BACXlqd17o7wbBb588r93whJ1QFNuz9Mb0fly/do/pYKDhiRmLrnBJ07tRw+xfHxWABe1BHgWbx7WNxReIWVuR3Qox6YCeET9ydf5z6ITvgJQISeRMcsQo0/9n2H3P+Cp969MW2bG/ETnRmF3oDzHGhKvygvzyBwPyubw3aHRnJpoRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NczVlE4rm1dmoAtNmI9sz0l5FsTEO2Q+XfOTXtAKj7E=;
+ b=eg+gpVVbqXH2McVF04EOdG0d+JUvbvVB1pOyZIoD5x4cPmsqKj0XzxoAPBF7Iuz7Foxm1GP/E0Dmc61ZN79hRqhOIyqsA9etXuwp2v1SreWSX0MGiiA5v0zJ+qCWH1wwXjH4EGU720vpYAYhRW7MV4uz8Jasdr5BXV250dDpNgs=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
+ by GV1PR08MB8353.eurprd08.prod.outlook.com (2603:10a6:150:a3::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Mon, 26 Jun
+ 2023 14:09:01 +0000
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::43b7:3a83:5cbe:4559]) by DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::43b7:3a83:5cbe:4559%4]) with mapi id 15.20.6521.026; Mon, 26 Jun 2023
+ 14:09:01 +0000
+Date:   Mon, 26 Jun 2023 15:08:27 +0100
+From:   "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>
+Cc:     "Xu, Pengfei" <pengfei.xu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <ZJmb24iHBQBXIpxB@arm.com>
+References: <64837d2af3ae39bafd025b3141a04f04f4323205.camel@intel.com>
+ <ZJAWMSLfSaHOD1+X@arm.com>
+ <5794e4024a01e9c25f0951a7386cac69310dbd0f.camel@intel.com>
+ <ZJFukYxRbU1MZlQn@arm.com>
+ <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
+ <ZJLgp29mM3BLb3xa@arm.com>
+ <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
+ <CAMe9rOrmgfmy-7QGhNtU+ApUJgG1rKAC-oUvmGMeEm0LHFM0hw@mail.gmail.com>
+ <ZJP664odSJC+tGzT@arm.com>
+ <39786e2e74013d3006cc6081e4f7faffadcab8f2.camel@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <39786e2e74013d3006cc6081e4f7faffadcab8f2.camel@intel.com>
+X-ClientProxiedBy: SA1P222CA0032.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:2d0::13) To DB9PR08MB7179.eurprd08.prod.outlook.com
+ (2603:10a6:10:2cc::19)
 MIME-Version: 1.0
-References: <20230626100107.4102329-1-imagedong@tencent.com> <CANn89iKHfAWj_e6aqWiNQJfe2LOeaX3-Grx3w0LpxoKH9i86Cg@mail.gmail.com>
-In-Reply-To: <CANn89iKHfAWj_e6aqWiNQJfe2LOeaX3-Grx3w0LpxoKH9i86Cg@mail.gmail.com>
-From:   Menglong Dong <menglong8.dong@gmail.com>
-Date:   Mon, 26 Jun 2023 21:50:31 +0800
-Message-ID: <CADxym3axi_eNtZyP_+6NbxgHaKinBr+=rGvn-LmXnuCxEaHNuA@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: tcp: support to probe tcp receiver OOM
-To:     Eric Dumazet <edumazet@google.com>
-Cc:     ncardwell@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, dsahern@kernel.org,
-        kuniyu@amazon.com, morleyd@google.com, imagedong@tencent.com,
-        mfreemon@cloudflare.com, mubashirq@google.com,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|GV1PR08MB8353:EE_|AM7EUR03FT042:EE_|AS8PR08MB7767:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6f598ae-234c-4387-080c-08db764eec7f
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: QwLzSmwu4Lqid3z21MShMSD6aRQtrQqqyICfRcJ3RlIX1/3WiE+pf4SaM2B/A7eV7wm0t0wovCFpmHuDcnIGau3/rcLXcaAw5zrojQ+J2a/r+et2JkwIiyoDg6U4heZgYLEuoRB+yqI6hhmEt2VujjXv9+gRArpHt15ZySpxdqnDwD0lNV1Jigdt0J1vuW7+0aKN5E4ZaV3//bd26XanN/OaXviP3eDMy7TJK5QSjzh52po60QSM9zQKMSyNLzu/3VO3WuBuuvTDTwyvjT8EdJhmPuyK9a29VWCbBRKGuh8nExKMsE7W9x4Y/UrM3QtBv/YDrPpSv92odhpbYfcK7IxklWJnxJqsqQjgt7Zk45MWw9nSXG50wiU5w64gxMN0ipVi+VSHmOzVGbw1zlLHKUkGMg1OrPMA3GvjpXnmWZoxLbhMyjbSVj4/44ILmJKWe6w3+4Z06KHjdnaWcK+EQZC+69HjcPI5/bfCEAq4tWwp5+ibFtWOZB1TUfTQCxAyV5/G1lyY4U5ODEHUUWr2MRwz+KdARK/zMxC1D7DckLk5S6vJoKNCQWElMpR0bJJc
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(136003)(396003)(376002)(366004)(451199021)(38100700002)(36756003)(86362001)(478600001)(54906003)(110136005)(2616005)(6486002)(6666004)(41300700001)(66476007)(66556008)(66946007)(316002)(8676002)(8936002)(26005)(4326008)(6506007)(6512007)(186003)(2906002)(66899021)(7406005)(7416002)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8353
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT042.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 4366f2c8-ab62-48d5-4c2d-08db764ee3d6
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Zs0YZyghd9jIySM+iDC9wqI4oIp/IHNGZD+wJhmKP1NMDjlkLnqrmsPKXqxkmvJcz7Vn5X6KMK+hOuOb2B6OGH6u+lAg48TpbeG8cLu0+QgrYV0eEhcPOfvYwyb9aWwxtBzoKklzFFx4pBVoAWuz5rSb7Vo/2gAyfhPJ20QSLpBowC+KvtjTJD5OhX9OS5tGNpOuSgcEAm4mYRxcM4t8ZC/eCbFJmONHE0x0z5VC6YvCz4BFEyP3wcEdtIz62gLYf3ADRiqq99zk8herucKQ8rRA5u+mwB2jcNzeGtDjoV+ZSWx8uSrv8Dx13eZLUODUqNuZgWHDVREUF6ABSKUHz83OPa3TqUo6++cybdcS/iicBv81OF7LULG27XV2MAPMagpr/7Bh7IrtrX79LBe3XCPJVrfo/6iOekWGIpnWUE3O88Q+d3O2XXE2TgEzIwxPn3Hd0URKA02Z3oxKEUBfSL0p/00cXDgQAGIr1Od3eLsY05ZfcOlqbX2uPcCUR/yLJhtqK75ToWBo5muzUX4OaeK6M3X9j46c+9iT11IqFKk0N9+2id7DoWtNr2MaOIUxa9sh5Rm7lr+5u1kL3c3L7h4E+3p3T3a/VLJUlZg1sbTWr795l4i3zbccZmBsqWQBvrYQh5OO5iJf5VxsTRqgiiV+bbIQunmkK7YkZyVS9JnGATGuhvcr86Leg4v/mXCseaGPjlVrZULqU1hUoFQzjvraX4qZZStikCqXWAhuJ2Q=
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(39860400002)(376002)(346002)(451199021)(46966006)(36840700001)(40470700004)(5660300002)(70586007)(70206006)(4326008)(450100002)(478600001)(36756003)(316002)(66899021)(8676002)(8936002)(2906002)(40460700003)(40480700001)(36860700001)(110136005)(54906003)(86362001)(41300700001)(6486002)(82310400005)(336012)(6512007)(6506007)(26005)(47076005)(186003)(356005)(2616005)(6666004)(107886003)(82740400003)(81166007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2023 14:09:14.9238
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6f598ae-234c-4387-080c-08db764eec7f
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT042.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB7767
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 26, 2023 at 9:27=E2=80=AFPM Eric Dumazet <edumazet@google.com> =
-wrote:
->
-> On Mon, Jun 26, 2023 at 12:01=E2=80=AFPM <menglong8.dong@gmail.com> wrote=
-:
-> >
-> > From: Menglong Dong <imagedong@tencent.com>
-> >
-> > For now, skb will be dropped directly if rmem schedule fails, which mea=
-ns
-> > tcp_try_rmem_schedule() returns an error. This can happen on following
-> > cases:
-> >
-> > 1. The total memory allocated for TCP protocol is up to tcp_mem[2], and
-> >    the receive queue of the tcp socket is not empty.
-> > 2. The receive buffer of the tcp socket is full, which can happen on sm=
-all
-> >    packet cases.
-> >
-> > If the user hangs and doesn't take away the packet in the receive queue
-> > with recv() or read() for a long time, the sender will keep
-> > retransmitting until timeout, and the tcp connection will break.
-> >
-> > In order to handle such case, we introduce the tcp protocol OOM detecti=
-on
-> > in following steps, as Neal Cardwell suggested:
->
-> net-next is closed.
->
-> I think I suggested something much simpler, and not intrusive like your p=
-atch.
-> (Your patch adds code in the fast path, and yet another sysctl)
->
-> If we can not queue an incoming packet because we are under memory stress=
-,
-> simply send an ACK with WIN 0
+The 06/22/2023 16:46, Edgecombe, Rick P wrote:
+> You previously said:
+> 
+> On Wed, 2023-06-21 at 12:36 +0100, szabolcs.nagy@arm.com wrote:
+> > as far as i can tell the current unwinder handles shstk unwinding
+> > correctly across signal handlers (sync or async and
+> > cleanup/exceptions
+> > handlers too), i see no issue with "fixed shadow stack signal frame
+> > size of 8 bytes" other than future extensions and discontinous shstk.
+> 
+> I took that to mean that you didn't see how the the existing unwinder
+> prevented alt shadow stacks. Hopefully we're all on the same page now. 
 
-I tested that simply sending an ACK with WIN 0 does not work.
-That's what the commit
-b650d953cd39("tcp: enforce receive buffer memory limits by allowing
-the tcp window to shrink")
-do.
+well alt shstk is discontinous.
 
-There are 2 reasons:
-1. The win in the ACK will be ignored. In the tcp_may_update_window(),
-it will check if this ACK can update the window. If the ACK doesn't
-acknowledge new data, and doesn't contain data, and doesn't
-expand the window, it will be ignored.
+there were two separate confusions:
 
-2. The window update can't work if the retransmission queue is
-not empty, as zero-window probe only happen when the rtx queue
-empty. So if the rtx queue is not empty, RTO retransmission can still
-happen and timeout.
+- your mention of fnon-call-exception threw me off since that is a
+very specific corner case.
 
-That commit is similar to the series I sent before:
-https://lore.kernel.org/netdev/20230517124201.441634-1-imagedong@tencent.co=
-m/
+- i was talking about an unwind design that can deal with altshstk
+which requires ssp switch. (current uwinder does not support this,
+but i assumed we can add that now and ignore old broken unwinders).
+you are saying that alt shstk support needs additional shstk tokens
+in the signal frame to maintain alt shstk state for the kernel.
 
-But it seems that it only handles the receiver of the window shrink,
-and the sender is not handled yet?
+i think now we are on the same page.
 
-As we already accepted the window shrink, maybe we
-handle the sender side and use the previous solution?
+> BTW, when alt shadow stack's were POCed, I hadn't encountered this GCC
+> behavior yet. So it was assumed it could be bolted on later without
+> disturbing anything. If Linus or someone wants to say we're ok with
+> breaking these old GCCs in this way, the first thing I would do would
+> be to pad the shadow stack signal frame with room for alt shadow stack
+> and more. I actually have a patch to do this, but alas we are already
+> pushing it regression wise.
 
-Thanks!
+sounds like it will be hard to add alt shstk later.
 
-Following is the script that I used to reproduce the problem.
-On the server side, run:
-
-echo '1024 1500 2048' > /proc/sys/net/ipv4/tcp_mem
-./proto-mem-exhaust.py -s -r 1024000
-
-and on the client, run:
-
-./proto-mem-exhaust.py -c -t server_ip -m 100 --data 128
-
--------------------------------------- proto-mem-exhaust.py
-----------------------
-
-#!/bin/python3
-
-import socket
-import argparse
-import time
-
-parser =3D argparse.ArgumentParser()
-parser.add_argument('-c', '--client', action=3D'store_true',
-                    help=3D'run as client')
-parser.add_argument('-s', '--server', action=3D'store_true',
-                    help=3D'run as server')
-parser.add_argument('-t', '--target', help=3D'host address')
-parser.add_argument('-m', '--max', type=3Dint, help=3D'max connect count')
-parser.add_argument('--data', type=3Dint, help=3D'data in kb a connect send=
-')
-parser.add_argument('-r', '--rbuff', type=3Dint, help=3D'receive buff size'=
-)
-args =3D parser.parse_args()
-
-
-def do_client():
-    clients =3D []
-    for i in range(0, args.max):
-        c =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        c.connect((args.target, 9999))
-        clients.append(c)
-        try:
-            data_len =3D args.data * 1024
-            print(f'send {data_len} data in {i} socket')
-            c.sendall(bytes(data_len))
-        except Exception as e:
-            print('error happened: %s' % e)
-            time.sleep(60*60*24)
-
-
-def do_server():
-    clients =3D []
-    s =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(('0.0.0.0', 9999))
-    s.listen()
-    while True:
-        (c, addr) =3D s.accept()
-        c.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, args.rbuff)
-        clients.append(c)
-
-
-if args.client:
-    do_client()
-elif args.server:
-    do_server()
-
-
-Following is another script to reproduce the problem. On the
-server side, run: ./tcp-small.py -s -r 2048
-client side, run: ./tcp-small.py -c -t server_ip --data 8
-
------------------------------------- tcp-small.py -------------------------=
---
-
-#!/bin/python3
-
-import socket
-import argparse
-import time
-
-parser =3D argparse.ArgumentParser()
-parser.add_argument('-c', '--client', action=3D'store_true',
-                    help=3D'run as client')
-parser.add_argument('-s', '--server', action=3D'store_true',
-                    help=3D'run as server')
-parser.add_argument('-t', '--target', help=3D'host address')
-parser.add_argument('--data', type=3Dint, help=3D'data in byte send once')
-parser.add_argument('-r', '--rbuff', type=3Dint, help=3D'receive buff size'=
-)
-args =3D parser.parse_args()
-
-
-def do_client():
-    c =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    c.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-    c.connect((args.target, 9999))
-    try:
-        while True:
-            data_len =3D args.data
-            c.sendall(bytes(data_len))
-            time.sleep(0.01)
-    except Exception as e:
-        print('error happened: %s' % e)
-        time.sleep(60*60*24)
-
-
-def do_server():
-    clients =3D []
-    s =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, args.rbuff)
-    s.bind(('0.0.0.0', 9999))
-    s.listen()
-    while True:
-        (c, addr) =3D s.accept()
-        clients.append(c)
-
-
-if args.client:
-    do_client()
-elif args.server:
-    do_server()
+(i think maintaining alt shstk state on the stack instead of
+shstk should work too. but if that does not work, then alt
+shstk will require another abi opt-in.)
