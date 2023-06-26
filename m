@@ -2,747 +2,182 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BADBEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 15:03:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0124EB64DA
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 15:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229573AbjFZPDz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 11:03:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33436 "EHLO
+        id S230010AbjFZPwJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 11:52:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229851AbjFZPDy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 11:03:54 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E71130;
-        Mon, 26 Jun 2023 08:03:52 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6686c74183cso3171811b3a.1;
-        Mon, 26 Jun 2023 08:03:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687791831; x=1690383831;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z5LrfGVd/PCi3tcNHR5GX7EOlr/r0pb0+B1UXQubGOU=;
-        b=MdmZhVOgyz8J9ZeLXgyM7KlEx7lmWrNEzEpWV3kSeT0TA2Faz/EPh88qxzc1KBJE0Z
-         vB+9vKBanMryQiSABTHpyppOiFQapj9bOBiZi+HG8IWQsd997v133I38KfpanI4Jrne3
-         OOUoSLn9RYcB6uqukgOhq4VZEBdRSIdB45gmpWrs2NkX5sw4HuCRERGxUBABJTpdu1KK
-         D+CUR00fN4jyhJjbV1n1Y6A5Q9+ByASy9Jrt6UuUH590QXYZiv5tx48x046C4tSK2v7H
-         WhmusH2ELsF+OchND5j3YUra1xGe7fy6VLVq6YYRZ1CTa46kFtmXHlhFQHwWU+bmt+Yf
-         zdjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687791831; x=1690383831;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z5LrfGVd/PCi3tcNHR5GX7EOlr/r0pb0+B1UXQubGOU=;
-        b=I8PW3OQxwGwJiZcFB6e9w2G1Tme3L+1n2pKq8isxM94O7IENz9ZQo15mf+/Whj0Mi7
-         VV0KgBbYQp78LJHXtYKqyVIG/MipJx05B6+Pg3KaTcRhPWQSIUPNbOOoqK0NcsmVF2GT
-         NDIEJ7b0w3o+wvDCUUZM/2MJU/aBhGKdKOnGp6Pn+DKvLud9NYsgdItV8IdF+OayM3Ly
-         BiZhu9T4h9P7JBydyfSqlrmjIj63zcwM8/5WGTN5HOSPPbIshppawYSYsMA4MuR0k3Un
-         VtS3VvIKADWLELrD/Pm/GvJEGJ+7kAQq3BlJwNq3FrAXdJADZw8uUh2fEWv4mDMTKJuy
-         uvkw==
-X-Gm-Message-State: AC+VfDyvmNpCRMfHbnxYkBhFXX/w5gerTPI46AvqemUqRp3J7OEffMkq
-        nKswoRSifnO3kH4Pbf0tnsk=
-X-Google-Smtp-Source: ACHHUZ4K35rpZSBPUbERIINb8kCm60xeVbD8SV5Te9TR6ycMOTT2j09tjeYqGj90hmwMRXcw4IoYYQ==
-X-Received: by 2002:a05:6a20:6a22:b0:122:b613:8b2 with SMTP id p34-20020a056a206a2200b00122b61308b2mr21913105pzk.0.1687791830937;
-        Mon, 26 Jun 2023 08:03:50 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id h18-20020a63f912000000b0051b36aee4f6sm4240692pgi.83.2023.06.26.08.03.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jun 2023 08:03:50 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <3928521f-9672-862b-fd26-647453717ecf@roeck-us.net>
-Date:   Mon, 26 Jun 2023 08:03:48 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
+        with ESMTP id S230146AbjFZPwI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 11:52:08 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0571CA8;
+        Mon, 26 Jun 2023 08:52:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687794728; x=1719330728;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=hLzMD4q85nirXzQD5+odj3pXrkL5deKAyhMvLutUICQ=;
+  b=hNzaBGj6V6pQqphi95279YHQ9dzP0FAc/XJeRnfAOw3yQIF4HLxxGtrO
+   nLVrtZwc+aNuSo0K9lpnFexBd0+5bskEPARwh0Fd3B2vC+smo1WF2+FIS
+   77o1hM/7Nd/XPC1FLLdtputieNIcihsr2wgPOGBplxylbQhiaiO3k8XKY
+   T/Cz1ESUzkvLlkweDUJxIPMnmmxvM3KgYKON8FiQQ3PfhggSaFbmtr75+
+   3ytmnrNWq8ljlW4IJ540VSUycCJSQze5xLeD0B9UJ+WHZAELQEquw0/DZ
+   97up6WYIEO2a7qcn4H8DVF92LI5g0p9AMOa4FErjt4teiMzmRzm76yL4H
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="363851433"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="363851433"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 08:52:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="829273339"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="829273339"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga002.fm.intel.com with ESMTP; 26 Jun 2023 08:52:06 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 26 Jun 2023 08:52:06 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 26 Jun 2023 08:52:06 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Mon, 26 Jun 2023 08:52:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lU5J+zzCsswaggZeRdF4KqY7JfIKPptbw0cMJ203txK5rZtRvjPatp+W2oXGaUzxZZrEuDQlcbnoZhczEMDGexvvudm53zvGJGbcIHBstDF5QHdAHVkfml6zR2qQZHxAKzMdAi72310SSgcMhx0FnJs5nZM9sqc45hi/U5Q0fsFPKMnJeQ5u9Q9HFZqQ6lMtZ2BZeSYiLA984aC8bNXiDgfS7LvWFvJVZr5c5oJtgJKOIsPfrWHwbs82CgLGnjs7/TGSsfO+k0PwahPtez2Ov6UD2x/XupUIqkHRzIejN6B7ouWyLge06IPpeoaOAi/9JomrzXu1Ek8DOEHm2hz8EQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hLzMD4q85nirXzQD5+odj3pXrkL5deKAyhMvLutUICQ=;
+ b=Ph6XEpBNvCUlC/FCB8YcTchlv4I4sYQ+Svub1YIE/pn/JCN3IZp/xBp2MD3eS2svlXxOAaILI2LP6a/U3PoONAYJFi6z673ephwskD14eTQJuL38JEQbtEnOn4sWz8TPuJE3IC1ri54HesVZhqxHYzg7/piS0EhSKkCnxE2H3IWBYR892yVU9hlMlnIOGlwZu5A3BXpj48juIu8nCAYL16CrU5G8nFuDY0dI5T3kQnxNuLoAST55HA2bctANxyoeFutUOMKLbyIFjIPdJycrTC6qRoFWFO9FTyouhBifxiHWmgZOroEzAF6jW1DbpgrkKQFeJ/1hDf9NV89SF7uUog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by CYYPR11MB8408.namprd11.prod.outlook.com (2603:10b6:930:b9::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Mon, 26 Jun
+ 2023 15:52:03 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::f232:e1a0:b936:2aed]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::f232:e1a0:b936:2aed%7]) with mapi id 15.20.6521.024; Mon, 26 Jun 2023
+ 15:52:03 +0000
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Peter Newman <peternewman@google.com>
+CC:     "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        "Babu Moger" <babu.moger@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: RE: [PATCH v2 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is
+ enabled and initialize.
+Thread-Topic: [PATCH v2 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is
+ enabled and initialize.
+Thread-Index: AQHZpGd48oRuL5v3EUiLea9/WFe4Sq+dD/cAgAAxwVA=
+Date:   Mon, 26 Jun 2023 15:52:03 +0000
+Message-ID: <SJ1PR11MB608334F6555F9CEF3F740DE8FC26A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20230621174006.42533-1-tony.luck@intel.com>
+ <20230621174006.42533-8-tony.luck@intel.com>
+ <CALPaoCi+A5TxoReh=HRMsRKYDWb4eQ-NOB75Lj9674L6aV0T=Q@mail.gmail.com>
+In-Reply-To: <CALPaoCi+A5TxoReh=HRMsRKYDWb4eQ-NOB75Lj9674L6aV0T=Q@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-To:     JuenKit_Yip@hotmail.com, jdelvare@suse.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        corbet@lwn.net
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <DB4PR10MB626103F3A3C361C9BD4988099226A@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v1 1/3] hwmon: (sht3x) convert some of sysfs interface to
- hwmon
-In-Reply-To: <DB4PR10MB626103F3A3C361C9BD4988099226A@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|CYYPR11MB8408:EE_
+x-ms-office365-filtering-correlation-id: f9d486df-4d1c-43ed-02a9-08db765d4921
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: QFFpH77vidJi6MFnQYCeftyFTRCHMjwlEPKT8OnwYpKk/vXb09P63+BPrLEssjenJJ1U83GABSoqJQVqbPk5iLmItEKfulHuWspAzJ//tvFxZsDd1hhGK3i2hNl2S35i0uPRFl9J36KDtjVPkGSAVxl1wzL1VLNB1PNVLaFyUCXbFuD1le8jaxB1K69qAu7rH5wjkGVxU4eBBenekquQuHcwX1q3ZSw4O7MboLHpZ4XcOINrA1wLdDF5NZnAKYtCqwVB2o5xRfbTzhyBfSu/6uIwfwX3vG7i1YxoZSQ/CJDFy2P9k9KH3qLdxgvwfS6/QteIv8TxYyPHBwJw7V0n32brYmWZtn8x85LuPNOza5qzdDFHBx36YncwR0vRrl2hplimJB/18Fhni1jkd+cud0KMAOh0i9nyMJqOtXnVeH2FDGMyY0p4Tm8Lg7NGWI8EDb8fc/76fdfv4OEwPnn+CylCkrhTGStVoUC2Z+kGXeNowTPLnVdlnwKcRmk06M28svEQx8WE7oB63Wm4AaAhfgaajqh4mR01P4bbXEXOn2E2NiL5z/1+Hn0XVaekBTQVdASqMgkMEEkONlliV7xGfgjGpLuFdjnLagSra8r01TARFYHTtHAqRj0XInVDZubH
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(366004)(376002)(39860400002)(346002)(396003)(451199021)(66946007)(71200400001)(66476007)(26005)(64756008)(54906003)(66556008)(66446008)(6916009)(478600001)(4326008)(76116006)(33656002)(186003)(83380400001)(9686003)(86362001)(8936002)(8676002)(4744005)(41300700001)(52536014)(2906002)(7416002)(5660300002)(7696005)(316002)(55016003)(38100700002)(38070700005)(6506007)(82960400001)(122000001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q01RbVFKaUVwZlM1bWQyenl5UW84UDY5cmRpM0ZQd3hxbEZGS2FBWWpUZmxC?=
+ =?utf-8?B?Rzc5MWJuek5RdUF1RHFETTFzQlQvQmZzNVBsVlVqWm9jemhibEVIdDc2WWgv?=
+ =?utf-8?B?NStSQ2lNM0h6YVpxNVdZZitpeG5nVXNXbU1oVHh3M0tMUnF4ajFZTzJneVhn?=
+ =?utf-8?B?OG5PaUtNdCtMSnBlNDRsR3llYmdtc210VkFyL1hWQ2pEODR6TFJXVFVhNFFQ?=
+ =?utf-8?B?bGhSeWRyRzJVVWRnNDJqb25nVTVoNU5GeC9xMTE2WEM1RkRpNVo5TEwzWkFl?=
+ =?utf-8?B?dVpVeENFancwdkRHYjUrT0ZBZFdSK1B6M3RrWHpCNm9RaThQN0NXd3RJOFR2?=
+ =?utf-8?B?cCtKMEQ0dy92RCtzWmdDMFAxV1dJbHhEWDZrVkgwckp4eklyemJFc3pWYnZa?=
+ =?utf-8?B?c2ZlSXMxZFRteFBmRWVEQi90V0FGWHRsQUV1bm9XTlN4dXFvbGxSQVpXUXFW?=
+ =?utf-8?B?Mk0wbXZKTjRLRk9NbUVLTkFuSU01YnZMUy9Rd2JRcm9yNkx4cUxsQnFURE9T?=
+ =?utf-8?B?dEJVRGRac3luaFl3Y016dkdmYmllcDY2ZVFHNkZ6MFlxWWVrWThNL2lkUGFj?=
+ =?utf-8?B?SE5FcFVYV0RTR3dhTXZNN1Z1SHhRUjJOTkprUDZ3TFJmcUthbXV2RE9KZHQx?=
+ =?utf-8?B?K201V3RyakVSVUFzVUtZNk4vL1hWVVQ1cXZCR3EzTDdtNDFTWkJBcTV4ZElq?=
+ =?utf-8?B?Ri9tTWtsVmp6MEtkOFhzSC9lbUJwTmhHY1QwVnhXOWVnWlpBbFRFUlZ0Ujd3?=
+ =?utf-8?B?UG1vOEMyem9pZU1ueXIxVDlHTklpZWNmZ1hVZjY3bVpaYXpuQ1Ixa0NRbDc5?=
+ =?utf-8?B?b1luUGM0M2kvckpSVUtkYTlYWFhTVzNTRWNmR2NaeGFtUFkzZXNUZkVaQWtP?=
+ =?utf-8?B?MWxFcWV1TnhOWUJNREg3M2RMcjVuMUpKNFAwQlRidk9NbWNWaElHaElnVUZ4?=
+ =?utf-8?B?WGlINFlTSnJZb0ZwZm1oanpPUVV6Y0NoM2RhemVkVktabjBIMm40WHE3d1dH?=
+ =?utf-8?B?dmIwYkhvb2kza3pBdEZob1hzaTVXS2c0Q2diaVkxQk5KUEk4d3NQbUtjd1RI?=
+ =?utf-8?B?M3NFb3NFdmR1emJJUjhwTjJ6MEZheDdhb0o2SjBVaEIzeTFOanJNdWViUU9Y?=
+ =?utf-8?B?QWZURm1EZEhBeDlVY2pGVUZYenczaTduZ1p4akJoQ3ZBMlNNb0UyL2dDdThy?=
+ =?utf-8?B?Skc2aENEWE95YlNjSm1nTGdJUktNSjFiZGN4bWNsTWZHWWpIL1NlMHEyMEJP?=
+ =?utf-8?B?VlFVUXFTR1UxZEdNOGxPMFh1VVhjNkpjczJkMFk4d3lZTEtxWENXKys3SVlO?=
+ =?utf-8?B?QUtUTW9hSU5ucDlaaEVqNGtyZ2JxRzBTWWZZN1k4Q1RmbCttWDhTMHQ4NzNP?=
+ =?utf-8?B?QUZuRjV1KzdocHhZdmhZZVFNZVFoZUNqU1VMNDhpZXhZbjVPemw4bXpSc3E5?=
+ =?utf-8?B?dEcxdVErazBiYk02a1I4b0xMQk5TeFNBV3JwUU5tQUxyR1MyZENDOEVFM1Z0?=
+ =?utf-8?B?V3BRZE1OTHJSK21WQTMwd29keE9QQXJBUzR6b1d5eFNnQlZpOWZEcnNpc3BF?=
+ =?utf-8?B?Mm9Ld3laK1BxT1Izelk1WDh5cXphbXlTaEQ5d2drR2ZsSmNqTTVqREFqZ0oy?=
+ =?utf-8?B?UUZqaVNKT0xacFZYMTNFYklkRDZnVjYyaU5FaXROQTY3WHFySkphdWNyVGtt?=
+ =?utf-8?B?SGhON0gzVi9vQXY4SzNNY0srRWhDRUZ1SEhWTEZwR2Z0MXUxTndFSVRBbEZu?=
+ =?utf-8?B?Nkh1RnNNRTdnT1IxLytRWmlWVWsxampkSWRlTEZDMHNCZzZ4S2dvbWVLWitR?=
+ =?utf-8?B?UDBKZWREYzFyaE5STWpLcWdGd215Mmgrd21HSUkyTnZCREhUak9KaGJIUGRX?=
+ =?utf-8?B?bVliNWlCaGZrNkRXYjNGaVNOQmlWeGs3VCtmVnhpYU5mTmkwNUM0NDhlTTZv?=
+ =?utf-8?B?d0NJVU1mUGYrU1dZekRCaW1iTk5sVkUyU1M4OFZHMUVWL3VMeHVmbjI5cFpp?=
+ =?utf-8?B?R1dXUDlkRk1FdERqa2x2aDVOZGYxclROdFhSQ3VDTEkxVzFJY2ZmQW5wd2tG?=
+ =?utf-8?B?cVBFMVBjS0Z1VUJLL3FySWwyOEhGcmo2WW4rdjQyY1E4YzFqZ0hGMVZBMkFD?=
+ =?utf-8?Q?uKhA=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9d486df-4d1c-43ed-02a9-08db765d4921
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2023 15:52:03.3961
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1iug2hdX3JIvYln89C+ZmayYZY1QV05F5R8RoIkerQRxQcZ1h5naianaRr9vrLw3pTcNqo5sOPQV9El0Fb1X6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8408
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/26/23 00:29, JuenKit_Yip@hotmail.com wrote:
-> From: JuenKit Yip <JuenKit_Yip@hotmail.com>
-> 
-> update_interval, temperature/humidity max/min and hyst
-> were moved to new hwmon interface, and only heater and
-> repeatability were reserved as non-stardard sysfs interface.
-> 
-> Signed-off-by: JuenKit Yip <JuenKit_Yip@hotmail.com>
-> ---
-> v1:
-
-This is v2.
-
->    - remove forward declearations
->    - fix switch statement about "return 0" and "break" for consistency
->    - convert type of "val" from string to numeric value
-
-- store chip type in struct sht3x_data
-
-> 
->   Documentation/hwmon/sht3x.rst |  21 +-
->   drivers/hwmon/sht3x.c         | 389 ++++++++++++++++++++++------------
->   2 files changed, 254 insertions(+), 156 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/sht3x.rst b/Documentation/hwmon/sht3x.rst
-> index 87864ffd1777..572df2be1689 100644
-> --- a/Documentation/hwmon/sht3x.rst
-> +++ b/Documentation/hwmon/sht3x.rst
-> @@ -52,32 +52,15 @@ When the temperature and humidity readings move back between the hysteresis
->   values, the alert bit is set to 0 and the alert pin on the sensor is set to
->   low.
->   
-> -sysfs-Interface
-> ----------------
-> +non-standard sysfs-Interface
-> +----------------------------
->   
->   =================== ============================================================
-> -temp1_input:        temperature input
-> -humidity1_input:    humidity input
-> -temp1_max:          temperature max value
-> -temp1_max_hyst:     temperature hysteresis value for max limit
-> -humidity1_max:      humidity max value
-> -humidity1_max_hyst: humidity hysteresis value for max limit
-> -temp1_min:          temperature min value
-> -temp1_min_hyst:     temperature hysteresis value for min limit
-> -humidity1_min:      humidity min value
-> -humidity1_min_hyst: humidity hysteresis value for min limit
-> -temp1_alarm:        alarm flag is set to 1 if the temperature is outside the
-> -		    configured limits. Alarm only works in periodic measure mode
-> -humidity1_alarm:    alarm flag is set to 1 if the humidity is outside the
-> -		    configured limits. Alarm only works in periodic measure mode
->   heater_enable:      heater enable, heating element removes excess humidity from
->   		    sensor:
->   
->   			- 0: turned off
->   			- 1: turned on
-> -update_interval:    update interval, 0 for single shot, interval in msec
-> -		    for periodic measurement. If the interval is not supported
-> -		    by the sensor, the next faster interval is chosen
->   repeatability:      write or read repeatability, higher repeatability means
->                       longer measurement duration, lower noise level and
->                       larger energy consumption:
-
-Sorry I did not notice this before. There is no reason to drop standard attributes
-from the documentation.
-
-> diff --git a/drivers/hwmon/sht3x.c b/drivers/hwmon/sht3x.c
-> index bf18630619e0..bd483af1c5ab 100644
-> --- a/drivers/hwmon/sht3x.c
-> +++ b/drivers/hwmon/sht3x.c
-> @@ -147,8 +147,20 @@ static const u16 mode_to_update_interval[] = {
->   	 100,
->   };
->   
-> +static const struct hwmon_channel_info * const sht3x_channel_info[] = {
-> +	HWMON_CHANNEL_INFO(chip, HWMON_C_UPDATE_INTERVAL),
-> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_MIN |
-> +				HWMON_T_MIN_HYST | HWMON_T_MAX |
-> +				HWMON_T_MAX_HYST | HWMON_T_ALARM),
-> +	HWMON_CHANNEL_INFO(humidity, HWMON_H_INPUT | HWMON_H_MIN |
-> +				HWMON_H_MIN_HYST | HWMON_H_MAX |
-> +				HWMON_H_MAX_HYST | HWMON_H_ALARM),
-> +	NULL,
-> +};
-> +
->   struct sht3x_data {
->   	struct i2c_client *client;
-> +	enum sht3x_chips chip_info;
->   	struct mutex i2c_lock; /* lock for sending i2c commands */
->   	struct mutex data_lock; /* lock for updating driver data */
->   
-> @@ -276,27 +288,24 @@ static struct sht3x_data *sht3x_update_client(struct device *dev)
->   	return data;
->   }
->   
-> -/* sysfs attributes */
-> -static ssize_t temp1_input_show(struct device *dev,
-> -				struct device_attribute *attr, char *buf)
-> +static int temp1_input_read(struct device *dev)
->   {
->   	struct sht3x_data *data = sht3x_update_client(dev);
->   
->   	if (IS_ERR(data))
->   		return PTR_ERR(data);
->   
-> -	return sprintf(buf, "%d\n", data->temperature);
-> +	return data->temperature;
-
-Another detail I just realized: The temperature can be negative.
-Therefore, you can not use the return value as error indicator.
-The same applies to temperature limits.
-
->   }
->   
-> -static ssize_t humidity1_input_show(struct device *dev,
-> -				    struct device_attribute *attr, char *buf)
-> +static int humidity1_input_read(struct device *dev)
->   {
->   	struct sht3x_data *data = sht3x_update_client(dev);
->   
->   	if (IS_ERR(data))
->   		return PTR_ERR(data);
->   
-> -	return sprintf(buf, "%u\n", data->humidity);
-> +	return data->humidity;
->   }
->   
->   /*
-> @@ -332,33 +341,24 @@ static int limits_update(struct sht3x_data *data)
->   	return ret;
->   }
->   
-> -static ssize_t temp1_limit_show(struct device *dev,
-> -				struct device_attribute *attr,
-> -				char *buf)
-> +static int temp1_limit_read(struct device *dev, int index)
->   {
->   	struct sht3x_data *data = dev_get_drvdata(dev);
-> -	u8 index = to_sensor_dev_attr(attr)->index;
-> -	int temperature_limit = data->temperature_limits[index];
->   
-> -	return sysfs_emit(buf, "%d\n", temperature_limit);
-> +	return data->temperature_limits[index];
->   }
->   
-> -static ssize_t humidity1_limit_show(struct device *dev,
-> -				    struct device_attribute *attr,
-> -				    char *buf)
-> +static int humidity1_limit_read(struct device *dev, int index)
->   {
->   	struct sht3x_data *data = dev_get_drvdata(dev);
-> -	u8 index = to_sensor_dev_attr(attr)->index;
-> -	u32 humidity_limit = data->humidity_limits[index];
->   
-> -	return sysfs_emit(buf, "%u\n", humidity_limit);
-> +	return data->humidity_limits[index];
->   }
->   
->   /*
-> - * limit_store must only be called with data_lock held
-> + * limit_write must only be called with data_lock held
->    */
-> -static size_t limit_store(struct device *dev,
-> -			  size_t count,
-> +static size_t limit_write(struct device *dev,
-
-This is still wrong. return value has to be int (and there
-should be a separate patch changing it first to ssize_t which
-can be applied to stable releases).
-
->   			  u8 index,
->   			  int temperature,
->   			  u32 humidity)
-> @@ -379,7 +379,7 @@ static size_t limit_store(struct device *dev,
->   	 * ST = (T + 45) / 175 * 2^16
->   	 * SRH = RH / 100 * 2^16
->   	 * adapted for fixed point arithmetic and packed the same as
-> -	 * in limit_show()
-> +	 * in limit_read()
->   	 */
->   	raw = ((u32)(temperature + 45000) * 24543) >> (16 + 7);
->   	raw |= ((humidity * 42950) >> 16) & 0xfe00;
-> @@ -400,50 +400,35 @@ static size_t limit_store(struct device *dev,
->   
->   	data->temperature_limits[index] = temperature;
->   	data->humidity_limits[index] = humidity;
-> -	return count;
-> +
-> +	return 0;
->   }
->   
-> -static ssize_t temp1_limit_store(struct device *dev,
-> -				 struct device_attribute *attr,
-> -				 const char *buf,
-> -				 size_t count)
-> +static int temp1_limit_write(struct device *dev, int index, int val)
->   {
->   	int temperature;
->   	int ret;
->   	struct sht3x_data *data = dev_get_drvdata(dev);
-> -	u8 index = to_sensor_dev_attr(attr)->index;
->   
-> -	ret = kstrtoint(buf, 0, &temperature);
-> -	if (ret)
-> -		return ret;
-> -
-> -	temperature = clamp_val(temperature, SHT3X_MIN_TEMPERATURE,
-> +	temperature = clamp_val(val, SHT3X_MIN_TEMPERATURE,
->   				SHT3X_MAX_TEMPERATURE);
->   	mutex_lock(&data->data_lock);
-> -	ret = limit_store(dev, count, index, temperature,
-> +	ret = limit_write(dev, index, temperature,
->   			  data->humidity_limits[index]);
->   	mutex_unlock(&data->data_lock);
->   
->   	return ret;
->   }
->    > -static ssize_t humidity1_limit_store(struct device *dev,
-> -				     struct device_attribute *attr,
-> -				     const char *buf,
-> -				     size_t count)
-> +static int humidity1_limit_write(struct device *dev, int index, int val)
-
-The value passed from the hwmon core is a long. If sizeof(long) != sizeof(int)
-this will result in overflow problems. This applies to all write functions.
-
->   {
-> -	u32 humidity;
-> +	int humidity;
->   	int ret;
->   	struct sht3x_data *data = dev_get_drvdata(dev);
-> -	u8 index = to_sensor_dev_attr(attr)->index;
->   
-> -	ret = kstrtou32(buf, 0, &humidity);
-> -	if (ret)
-> -		return ret;
-> -
-> -	humidity = clamp_val(humidity, SHT3X_MIN_HUMIDITY, SHT3X_MAX_HUMIDITY);
-> +	humidity = clamp_val(val, SHT3X_MIN_HUMIDITY, SHT3X_MAX_HUMIDITY);
->   	mutex_lock(&data->data_lock);
-> -	ret = limit_store(dev, count, index, data->temperature_limits[index],
-> +	ret = limit_write(dev, index, data->temperature_limits[index],
->   			  humidity);
->   	mutex_unlock(&data->data_lock);
->   
-> @@ -474,7 +459,6 @@ static void sht3x_select_command(struct sht3x_data *data)
->   }
->   
->   static int status_register_read(struct device *dev,
-> -				struct device_attribute *attr,
->   				char *buffer, int length)
->   {
->   	int ret;
-> @@ -487,34 +471,30 @@ static int status_register_read(struct device *dev,
->   	return ret;
->   }
->   
-> -static ssize_t temp1_alarm_show(struct device *dev,
-> -				struct device_attribute *attr,
-> -				char *buf)
-> +static int temp1_alarm_read(struct device *dev)
->   {
->   	char buffer[SHT3X_WORD_LEN + SHT3X_CRC8_LEN];
->   	int ret;
->   
-> -	ret = status_register_read(dev, attr, buffer,
-> +	ret = status_register_read(dev, buffer,
->   				   SHT3X_WORD_LEN + SHT3X_CRC8_LEN);
->   	if (ret)
->   		return ret;
->   
-> -	return sysfs_emit(buf, "%d\n", !!(buffer[0] & 0x04));
-> +	return !!(buffer[0] & 0x04);
->   }
->   
-> -static ssize_t humidity1_alarm_show(struct device *dev,
-> -				    struct device_attribute *attr,
-> -				    char *buf)
-> +static int humidity1_alarm_read(struct device *dev)
->   {
->   	char buffer[SHT3X_WORD_LEN + SHT3X_CRC8_LEN];
->   	int ret;
->   
-> -	ret = status_register_read(dev, attr, buffer,
-> +	ret = status_register_read(dev, buffer,
->   				   SHT3X_WORD_LEN + SHT3X_CRC8_LEN);
->   	if (ret)
->   		return ret;
->   
-> -	return sysfs_emit(buf, "%d\n", !!(buffer[0] & 0x08));
-> +	return !!(buffer[0] & 0x08);
->   }
->   
->   static ssize_t heater_enable_show(struct device *dev,
-> @@ -524,7 +504,7 @@ static ssize_t heater_enable_show(struct device *dev,
->   	char buffer[SHT3X_WORD_LEN + SHT3X_CRC8_LEN];
->   	int ret;
->   
-> -	ret = status_register_read(dev, attr, buffer,
-> +	ret = status_register_read(dev, buffer,
->   				   SHT3X_WORD_LEN + SHT3X_CRC8_LEN);
->   	if (ret)
->   		return ret;
-> @@ -560,39 +540,28 @@ static ssize_t heater_enable_store(struct device *dev,
->   	return ret;
->   }
->   
-> -static ssize_t update_interval_show(struct device *dev,
-> -				    struct device_attribute *attr,
-> -				    char *buf)
-> +static int update_interval_read(struct device *dev)
->   {
->   	struct sht3x_data *data = dev_get_drvdata(dev);
->   
-> -	return sysfs_emit(buf, "%u\n",
-> -			 mode_to_update_interval[data->mode]);
-> +	return mode_to_update_interval[data->mode];
->   }
->   
-> -static ssize_t update_interval_store(struct device *dev,
-> -				     struct device_attribute *attr,
-> -				     const char *buf,
-> -				     size_t count)
-> +static int update_interval_write(struct device *dev, u16 val)
->   {
-> -	u16 update_interval;
->   	u8 mode;
->   	int ret;
->   	const char *command;
->   	struct sht3x_data *data = dev_get_drvdata(dev);
->   	struct i2c_client *client = data->client;
->   
-> -	ret = kstrtou16(buf, 0, &update_interval);
-> -	if (ret)
-> -		return ret;
-> -
-> -	mode = get_mode_from_update_interval(update_interval);
-> +	mode = get_mode_from_update_interval(val);
->   
->   	mutex_lock(&data->data_lock);
->   	/* mode did not change */
->   	if (mode == data->mode) {
->   		mutex_unlock(&data->data_lock);
-> -		return count;
-> +		return 0;
->   	}
->   
->   	mutex_lock(&data->i2c_lock);
-> @@ -634,7 +603,7 @@ static ssize_t update_interval_store(struct device *dev,
->   	if (ret != SHT3X_CMD_LENGTH)
->   		return ret < 0 ? ret : -EIO;
->   
-> -	return count;
-> +	return 0;
->   }
->   
->   static ssize_t repeatability_show(struct device *dev,
-> @@ -668,60 +637,219 @@ static ssize_t repeatability_store(struct device *dev,
->   	return count;
->   }
->   
-> -static SENSOR_DEVICE_ATTR_RO(temp1_input, temp1_input, 0);
-> -static SENSOR_DEVICE_ATTR_RO(humidity1_input, humidity1_input, 0);
-> -static SENSOR_DEVICE_ATTR_RW(temp1_max, temp1_limit, limit_max);
-> -static SENSOR_DEVICE_ATTR_RW(humidity1_max, humidity1_limit, limit_max);
-> -static SENSOR_DEVICE_ATTR_RW(temp1_max_hyst, temp1_limit, limit_max_hyst);
-> -static SENSOR_DEVICE_ATTR_RW(humidity1_max_hyst, humidity1_limit,
-> -			     limit_max_hyst);
-> -static SENSOR_DEVICE_ATTR_RW(temp1_min, temp1_limit, limit_min);
-> -static SENSOR_DEVICE_ATTR_RW(humidity1_min, humidity1_limit, limit_min);
-> -static SENSOR_DEVICE_ATTR_RW(temp1_min_hyst, temp1_limit, limit_min_hyst);
-> -static SENSOR_DEVICE_ATTR_RW(humidity1_min_hyst, humidity1_limit,
-> -			     limit_min_hyst);
-> -static SENSOR_DEVICE_ATTR_RO(temp1_alarm, temp1_alarm, 0);
-> -static SENSOR_DEVICE_ATTR_RO(humidity1_alarm, humidity1_alarm, 0);
->   static SENSOR_DEVICE_ATTR_RW(heater_enable, heater_enable, 0);
-> -static SENSOR_DEVICE_ATTR_RW(update_interval, update_interval, 0);
->   static SENSOR_DEVICE_ATTR_RW(repeatability, repeatability, 0);
->   
->   static struct attribute *sht3x_attrs[] = {
-> -	&sensor_dev_attr_temp1_input.dev_attr.attr,
-> -	&sensor_dev_attr_humidity1_input.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_max.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_max_hyst.dev_attr.attr,
-> -	&sensor_dev_attr_humidity1_max.dev_attr.attr,
-> -	&sensor_dev_attr_humidity1_max_hyst.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_min.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_min_hyst.dev_attr.attr,
-> -	&sensor_dev_attr_humidity1_min.dev_attr.attr,
-> -	&sensor_dev_attr_humidity1_min_hyst.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_alarm.dev_attr.attr,
-> -	&sensor_dev_attr_humidity1_alarm.dev_attr.attr,
->   	&sensor_dev_attr_heater_enable.dev_attr.attr,
-> -	&sensor_dev_attr_update_interval.dev_attr.attr,
->   	&sensor_dev_attr_repeatability.dev_attr.attr,
->   	NULL
->   };
->   
-> -static struct attribute *sts3x_attrs[] = {
-> -	&sensor_dev_attr_temp1_input.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_max.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_max_hyst.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_min.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_min_hyst.dev_attr.attr,
-> -	&sensor_dev_attr_temp1_alarm.dev_attr.attr,
-> -	&sensor_dev_attr_heater_enable.dev_attr.attr,
-> -	&sensor_dev_attr_update_interval.dev_attr.attr,
-> -	&sensor_dev_attr_repeatability.dev_attr.attr,
-> -	NULL
-> +ATTRIBUTE_GROUPS(sht3x);
-> +
-> +static umode_t sht3x_is_visible(const void *data, enum hwmon_sensor_types type,
-> +				u32 attr, int channel)
-> +{
-> +	const struct sht3x_data *chip_data = data;
-> +
-> +	switch (type) {
-> +	case hwmon_chip:
-> +		switch (attr) {
-> +		case hwmon_chip_update_interval:
-> +			return 0644;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_input:
-> +		case hwmon_temp_alarm:
-> +			return 0444;
-> +		case hwmon_temp_max:
-> +		case hwmon_temp_max_hyst:
-> +		case hwmon_temp_min:
-> +		case hwmon_temp_min_hyst:
-> +			return 0644;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case hwmon_humidity:
-> +		if (chip_data->chip_info == sts3x)
-> +			break;
-> +		switch (attr) {
-> +		case hwmon_humidity_input:
-> +		case hwmon_humidity_alarm:
-> +			return 0444;
-> +		case hwmon_humidity_max:
-> +		case hwmon_humidity_max_hyst:
-> +		case hwmon_humidity_min:
-> +		case hwmon_humidity_min_hyst:
-> +			return 0644;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int sht3x_read(struct device *dev, enum hwmon_sensor_types type,
-> +		      u32 attr, int channel, long *val)
-> +{
-> +	enum sht3x_limits index;
-> +
-> +	switch (type) {
-> +	case hwmon_chip:
-> +		switch (attr) {
-> +		case hwmon_chip_update_interval:
-> +			*val = update_interval_read(dev);
-> +			break;
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +		break;
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_input:
-> +			*val = temp1_input_read(dev);
-> +			break;
-> +		case hwmon_temp_alarm:
-> +			*val = temp1_alarm_read(dev);
-> +			break;
-> +		case hwmon_temp_max:
-> +			index = limit_max;
-> +			*val = temp1_limit_read(dev, index);
-> +			break;
-> +		case hwmon_temp_max_hyst:
-> +			index = limit_max_hyst;
-> +			*val = temp1_limit_read(dev, index);
-> +			break;
-> +		case hwmon_temp_min:
-> +			index = limit_min;
-> +			*val = temp1_limit_read(dev, index);
-> +			break;
-> +		case hwmon_temp_min_hyst:
-> +			index = limit_min_hyst;
-> +			*val = temp1_limit_read(dev, index);
-> +			break;
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +		break;
-> +	case hwmon_humidity:
-> +		switch (attr) {
-> +		case hwmon_humidity_input:
-> +			*val = humidity1_input_read(dev);
-> +			break;
-> +		case hwmon_humidity_alarm:
-> +			*val = humidity1_alarm_read(dev);
-> +			break;
-> +		case hwmon_humidity_max:
-> +			index = limit_max;
-> +			*val = humidity1_limit_read(dev, index);
-> +			break;
-> +		case hwmon_humidity_max_hyst:
-> +			index = limit_max_hyst;
-> +			*val = humidity1_limit_read(dev, index);
-> +			break;
-> +		case hwmon_humidity_min:
-> +			index = limit_min;
-> +			*val = humidity1_limit_read(dev, index);
-> +			break;
-> +		case hwmon_humidity_min_hyst:
-> +			index = limit_min_hyst;
-> +			*val = humidity1_limit_read(dev, index);
-> +			break;
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int sht3x_write(struct device *dev, enum hwmon_sensor_types type,
-> +		       u32 attr, int channel, long val)
-> +{
-> +	enum sht3x_limits index;
-> +
-> +	switch (type) {
-> +	case hwmon_chip:
-> +		switch (attr) {
-> +		case hwmon_chip_update_interval:
-> +			return update_interval_write(dev, val);
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_max:
-> +			index = limit_max;
-> +			break;
-> +		case hwmon_temp_max_hyst:
-> +			index = limit_max_hyst;
-> +			break;
-> +		case hwmon_temp_min:
-> +			index = limit_min;
-> +			break;
-> +		case hwmon_temp_min_hyst:
-> +			index = limit_min_hyst;
-> +			break;
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +		return temp1_limit_write(dev, index, val);
-> +	case hwmon_humidity:
-> +		switch (attr) {
-> +		case hwmon_humidity_max:
-> +			index = limit_max;
-> +			break;
-> +		case hwmon_humidity_max_hyst:
-> +			index = limit_max_hyst;
-> +			break;
-> +		case hwmon_humidity_min:
-> +			index = limit_min;
-> +			break;
-> +		case hwmon_humidity_min_hyst:
-> +			index = limit_min_hyst;
-> +			break;
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +		return humidity1_limit_write(dev, index, val);
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static const struct hwmon_ops sht3x_ops = {
-> +	.is_visible = sht3x_is_visible,
-> +	.read = sht3x_read,
-> +	.write = sht3x_write,
->   };
->   
-> -ATTRIBUTE_GROUPS(sht3x);
-> -ATTRIBUTE_GROUPS(sts3x);
-> +static const struct hwmon_chip_info sht3x_chip_info = {
-> +	.ops = &sht3x_ops,
-> +	.info = sht3x_channel_info,
-> +};
-> +
-> +/* device ID table */
-> +static const struct i2c_device_id sht3x_ids[] = {
-> +	{"sht3x", sht3x},
-> +	{"sts3x", sts3x},
-> +	{}
-> +};
->   
-> -static const struct i2c_device_id sht3x_ids[];
-> +MODULE_DEVICE_TABLE(i2c, sht3x_ids);
->   
->   static int sht3x_probe(struct i2c_client *client)
->   {
-> @@ -730,7 +858,6 @@ static int sht3x_probe(struct i2c_client *client)
->   	struct device *hwmon_dev;
->   	struct i2c_adapter *adap = client->adapter;
->   	struct device *dev = &client->dev;
-> -	const struct attribute_group **attribute_groups;
->   
->   	/*
->   	 * we require full i2c support since the sht3x uses multi-byte read and
-> @@ -753,6 +880,7 @@ static int sht3x_probe(struct i2c_client *client)
->   	data->mode = 0;
->   	data->last_update = jiffies - msecs_to_jiffies(3000);
->   	data->client = client;
-> +	data->chip_info = i2c_match_id(sht3x_ids, client)->driver_data;
->   	crc8_populate_msb(sht3x_crc8_table, SHT3X_CRC8_POLYNOMIAL);
->   
->   	sht3x_select_command(data);
-> @@ -771,15 +899,11 @@ static int sht3x_probe(struct i2c_client *client)
->   	if (ret)
->   		return ret;
->   
-> -	if (i2c_match_id(sht3x_ids, client)->driver_data == sts3x)
-> -		attribute_groups = sts3x_groups;
-> -	else
-> -		attribute_groups = sht3x_groups;
-> -
-> -	hwmon_dev = devm_hwmon_device_register_with_groups(dev,
-> -							   client->name,
-> -							   data,
-> -							   attribute_groups);
-> +	hwmon_dev = devm_hwmon_device_register_with_info(dev,
-> +							 client->name,
-> +							 data,
-> +							 &sht3x_chip_info,
-> +							 sht3x_groups);
->   
->   	if (IS_ERR(hwmon_dev))
->   		dev_dbg(dev, "unable to register hwmon device\n");
-> @@ -787,15 +911,6 @@ static int sht3x_probe(struct i2c_client *client)
->   	return PTR_ERR_OR_ZERO(hwmon_dev);
->   }
->   
-> -/* device ID table */
-> -static const struct i2c_device_id sht3x_ids[] = {
-> -	{"sht3x", sht3x},
-> -	{"sts3x", sts3x},
-> -	{}
-> -};
-> -
-> -MODULE_DEVICE_TABLE(i2c, sht3x_ids);
-> -
->   static struct i2c_driver sht3x_i2c_driver = {
->   	.driver.name = "sht3x",
->   	.probe       = sht3x_probe,
-
+Pj4gKysrIGIvYXJjaC94ODYvaW5jbHVkZS9hc20vcmVzY3RybC5oDQo+PiBAQCAtMzUsNiArMzUs
+OCBAQCBERUNMQVJFX1NUQVRJQ19LRVlfRkFMU0UocmR0X2VuYWJsZV9rZXkpOw0KPj4gIERFQ0xB
+UkVfU1RBVElDX0tFWV9GQUxTRShyZHRfYWxsb2NfZW5hYmxlX2tleSk7DQo+PiAgREVDTEFSRV9T
+VEFUSUNfS0VZX0ZBTFNFKHJkdF9tb25fZW5hYmxlX2tleSk7DQo+Pg0KPj4gK0RFQ0xBUkVfUEVS
+X0NQVShpbnQsIHJtaWRfb2Zmc2V0KTsNCj4+ICsNCj4NCj4gSSBhc3N1bWVkIHRoYXQgZGVjbGFy
+YXRpb25zIGluIHRoaXMgZmlsZSB3ZXJlIHRob3NlIG5lZWRlZCBieQ0KPiBfX3Jlc2N0cmxfc2No
+ZWRfaW4oKS4gTm93IHRoYXQgcm1pZF9vZmZzZXQgaXMgdXNlZCB3aGVuIHNldHRpbmcNCj4gUFFS
+X0FTU09DLCB3b3VsZCB0aGlzIGdvIHNvbWV3aGVyZSBlbHNlPw0KDQpQUVJfQVNTT0Mgbm8gbG9u
+Z2VyIG5lZWRzIHJtaWRfb2Zmc2V0LiBCdXQgUU1fRVZUU0VMIHN0aWxsIGRvZXMuDQoNCkknbGwg
+dGFrZSBhIGxvb2sgdG8gc2VlIGlmIGFsbCB0aGUgU05DIGRldGVjdGlvbiBjb2RlIGNhbiBtb3Zl
+IGludG8NCm1vbml0b3IuYy4gVGhlbiBybWlkX29mZnNldCBjb3VsZCBiZSBzdGF0aWMgaW4gdGhh
+dCBmaWxlLiBCdXQgaWYgdGhhdCBnZXRzDQpjb21wbGljYXRlZCBJIG1heSBsZWF2ZSBpdCBhbG9u
+ZSAod2l0aCBybWlkX29mZnNldCBzZXQgaW4gY29yZS5jIGFuZCB1c2VkDQppbiBtb25pdG9yLmMp
+Lg0KDQo+IE90aGVyIHRoYW4gdGhpcyBhbmQgZml4aW5nIHRoZSBNU1IgdXBkYXRlLCB0aGUgc2Vy
+aWVzIGxvb2tzIGZpbmUgdG8gbWUuDQo+DQo+IFJldmlld2VkLUJ5OiBQZXRlciBOZXdtYW4gPHBl
+dGVybmV3bWFuQGdvb2dsZS5jb20+DQoNClBldGVyLA0KDQpUaGFua3MgZm9yIHRlc3RpbmcgYW5k
+IHJldmlldy4gRGlkIHlvdSBhbHNvIHRlc3Qgb24gb25lIG9mIHlvdXIgc3lzdGVtcw0Kd2l0aCBh
+IG1lbW9yeS1vbmx5IG5vZGU/IEkgcmVjYWxsIHRoYXQgd2FzIGFuIGlzc3VlIHdpdGggbXkgdmVy
+eSBmaXJzdA0KcGF0Y2ggc2VyaWVzLg0KDQotVG9ueQ0K
