@@ -2,98 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48AC5EB64D9
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 21:46:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 549CEC001B0
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 21:50:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230002AbjFZVqp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 17:46:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38544 "EHLO
+        id S230414AbjFZVuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 17:50:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjFZVqo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 17:46:44 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A09610C9
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 14:46:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F28AD60F45
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 21:46:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 180B8C433C8;
-        Mon, 26 Jun 2023 21:46:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687816002;
-        bh=kNlt57kfoTRNbVJhKEJCmh7u/FMjIyTPyNK0rg+vYRc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PzPwHrcpH2zzuPnwKiU4HR2fidJpv9iORp5EHZi6fXsKAnxVm4GQoniL9qmvX3xie
-         fYofj+J5x0exu7OTZ9KoRxf6ostb+m6RZekZWqP0PR6T9yLhtpS1ORII+wqmwwds7W
-         JQHw06ocTbcD+m11I9m1dIAzknZZKiZhPOLHIuHaMOqGUE413ir3VDEobMhgu6yowl
-         TP/o//sODwmnTMKeZS0tH86pm8r1BmMBosBdtEn2+BurMVpVMWFlzt7GxFdR5BxZsY
-         suCNw6qZL+AocAbeVW7/nf8ZKRByI4BTpXPV9v7av688dc61SLH/aBUAyKG2WVT0aT
-         ydo27rMHey4MQ==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Jakub Kicinski <kuba@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Russell King <linux@armlinux.org.uk>, linux-doc@vger.kernel.org
-Subject: [PATCH net-next] phylink: ReST-ify the phylink_pcs_neg_mode() kdoc
-Date:   Mon, 26 Jun 2023 14:46:40 -0700
-Message-ID: <20230626214640.3142252-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S229677AbjFZVuC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 17:50:02 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C3910D5;
+        Mon, 26 Jun 2023 14:50:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=Q/bpZdoiYyoU4Gkjmy8VvNxg9emqxR5ZyFFTQhyTkns=; b=ztKWY99lIx2Z02G7tiqjQFOhP2
+        HLlM4ZIC05BSoFGjl/lr/rXZmUKTOF9+brILZX3BKE0rPcLijQQZL8ynE6vCdIg2iMLO0DyBt6Qww
+        p+b3hB/qb/8W0YfrC1HBjzjfBGNpjEakY0TcRcWRGoIGfvAv3JGV7mxmx0Ch1AZBr/U+BYoWo4Zlh
+        BPC9Jeci7ePlT09ztE0h0usD8xUjEg0c/Lqmm14RW33nz9aMbbKh44gSkBOSmaywqT9WMwToJ7ZX7
+        vgU50R/LtZBDZz9KG3tyW7RCb7Eyb/IT4ayaJ68eOwR9hvuLRfTHvGk4cQCQ9Id1lafCXOExn5Obh
+        nUhPaVyg==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qDu5u-00B5ru-0A;
+        Mon, 26 Jun 2023 21:49:58 +0000
+Message-ID: <ec65c77a-3499-6278-f352-9bbe25a44b96@infradead.org>
+Date:   Mon, 26 Jun 2023 14:49:57 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 2/6] KVM: Documentation: Update the field name gfns and
+ its description in kvm_mmu_page
+Content-Language: en-US
+To:     Mingwei Zhang <mizhang@google.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>
+Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Kai Huang <kai.huang@intel.com>,
+        Jim Mattson <jmattson@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
+        Zhi Wang <zhi.wang.linux@gmail.com>
+References: <20230626182016.4127366-1-mizhang@google.com>
+ <20230626182016.4127366-3-mizhang@google.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230626182016.4127366-3-mizhang@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stephen reports warnings when rendering phylink kdocs as HTML:
+Hi--
 
-  include/linux/phylink.h:110: ERROR: Unexpected indentation.
-  include/linux/phylink.h:111: WARNING: Block quote ends without a blank line; unexpected unindent.
-  include/linux/phylink.h:614: WARNING: Inline literal start-string without end-string.
-  include/linux/phylink.h:644: WARNING: Inline literal start-string without end-string.
+On 6/26/23 11:20, Mingwei Zhang wrote:
+> Update the field 'gfns' in kvm_mmu_page to 'shadowed_translation' to be
+> consistent with the code. Also update the corresponding 'gfns' in the
+> comments. The more detailed description of 'shadowed_translation' is
+> already inlined in the data structure definition, so no need to duplicate
+> the text but simply just update the names.
+> 
+> Signed-off-by: Mingwei Zhang <mizhang@google.com>
+> Reviewed-by: Kai Huang <kai.huang@intel.com>
+> ---
+>  Documentation/virt/kvm/x86/mmu.rst | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
+> index 561efa8ec7d7..4c9044b4dc6c 100644
+> --- a/Documentation/virt/kvm/x86/mmu.rst
+> +++ b/Documentation/virt/kvm/x86/mmu.rst
+> @@ -221,11 +221,12 @@ Shadow pages contain the following information:
+>      at __pa(sp2->spt).  sp2 will point back at sp1 through parent_pte.
+>      The spt array forms a DAG structure with the shadow page as a node, and
+>      guest pages as leaves.
+> -  gfns:
+> -    An array of 512 guest frame numbers, one for each present pte.  Used to
+> -    perform a reverse map from a pte to a gfn. When role.direct is set, any
+> +  shadowed_translation:
+> +    An array of 512 shadow translation entries, one for each present pte. Used
+> +    to perform a reverse map from a pte to a gfn. When role.direct is set, any
+>      element of this array can be calculated from the gfn field when used, in
+> -    this case, the array of gfns is not allocated. See role.direct and gfn.
+> +    this case, the array of shadowed_translation is not allocated. See
 
-Make phylink_pcs_neg_mode() use a proper list format to fix the first
-two warnings.
+I cannot parse the before version nor the after version of this sentence (new version):
 
-The last two warnings, AFAICT, come from the use of shorthand like
-phylink_mode_*(). Perhaps those should be special-cased at the Sphinx
-level.
+                                                  When role.direct is set, any
+    element of this array can be calculated from the gfn field when used, in
+    this case, the array of shadowed_translation is not allocated.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Link: https://lore.kernel.org/all/20230626162908.2f149f98@canb.auug.org.au/
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: Russell King <linux@armlinux.org.uk>
-CC: linux-doc@vger.kernel.org
----
- include/linux/phylink.h | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/phylink.h b/include/linux/phylink.h
-index 516240f1e950..1817940a3418 100644
---- a/include/linux/phylink.h
-+++ b/include/linux/phylink.h
-@@ -105,11 +105,13 @@ static inline bool phylink_autoneg_inband(unsigned int mode)
-  *
-  * Determines the negotiation mode to be used by the PCS, and returns
-  * one of:
-- * %PHYLINK_PCS_NEG_NONE: interface mode does not support inband
-- * %PHYLINK_PCS_NEG_OUTBAND: an out of band mode (e.g. reading the PHY)
-+ *
-+ * - %PHYLINK_PCS_NEG_NONE: interface mode does not support inband
-+ * - %PHYLINK_PCS_NEG_OUTBAND: an out of band mode (e.g. reading the PHY)
-  *   will be used.
-- * %PHYLINK_PCS_NEG_INBAND_DISABLED: inband mode selected but autoneg disabled
-- * %PHYLINK_PCS_NEG_INBAND_ENABLED: inband mode selected and autoneg enabled
-+ * - %PHYLINK_PCS_NEG_INBAND_DISABLED: inband mode selected but autoneg
-+ *   disabled
-+ * - %PHYLINK_PCS_NEG_INBAND_ENABLED: inband mode selected and autoneg enabled
-  *
-  * Note: this is for cases where the PCS itself is involved in negotiation
-  * (e.g. Clause 37, SGMII and similar) not Clause 73.
+> +    role.direct and gfn.
+>    root_count:
+>      A counter keeping track of how many hardware registers (guest cr3 or
+>      pdptrs) are now pointing at the page.  While this counter is nonzero, the
+
 -- 
-2.41.0
-
+~Randy
