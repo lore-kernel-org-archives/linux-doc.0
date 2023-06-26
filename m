@@ -2,103 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 549CEC001B0
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 21:50:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B58B2EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 22:07:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230414AbjFZVuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 17:50:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40360 "EHLO
+        id S232039AbjFZWHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 18:07:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbjFZVuC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 17:50:02 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C3910D5;
-        Mon, 26 Jun 2023 14:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=Q/bpZdoiYyoU4Gkjmy8VvNxg9emqxR5ZyFFTQhyTkns=; b=ztKWY99lIx2Z02G7tiqjQFOhP2
-        HLlM4ZIC05BSoFGjl/lr/rXZmUKTOF9+brILZX3BKE0rPcLijQQZL8ynE6vCdIg2iMLO0DyBt6Qww
-        p+b3hB/qb/8W0YfrC1HBjzjfBGNpjEakY0TcRcWRGoIGfvAv3JGV7mxmx0Ch1AZBr/U+BYoWo4Zlh
-        BPC9Jeci7ePlT09ztE0h0usD8xUjEg0c/Lqmm14RW33nz9aMbbKh44gSkBOSmaywqT9WMwToJ7ZX7
-        vgU50R/LtZBDZz9KG3tyW7RCb7Eyb/IT4ayaJ68eOwR9hvuLRfTHvGk4cQCQ9Id1lafCXOExn5Obh
-        nUhPaVyg==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qDu5u-00B5ru-0A;
-        Mon, 26 Jun 2023 21:49:58 +0000
-Message-ID: <ec65c77a-3499-6278-f352-9bbe25a44b96@infradead.org>
-Date:   Mon, 26 Jun 2023 14:49:57 -0700
+        with ESMTP id S232051AbjFZWHE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 18:07:04 -0400
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA23D2120;
+        Mon, 26 Jun 2023 15:03:26 -0700 (PDT)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6682909acadso1810878b3a.3;
+        Mon, 26 Jun 2023 15:03:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687816975; x=1690408975;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PCoCOYjDLNke2rP949BWReOPXfmEB68n0cAwCJbJEkg=;
+        b=KpOAlT4H6P0NesfVSPb/pCXK3FQHBu8fe4XyiHR3qBx4Mqdl1e7XRi4Juy3C3LNxeR
+         Fi2FebYHqCU7X4BCxfXyifsrQGjP2fipd2DyPJZw6z0xkczGIZCJ/h8YXZDbqQH+z9rW
+         bR6ajyT077kQ5NLSP2heONC8XEr8mZX6naQIqnDcfVv6EAj3N+iZyuuGqiwwZ3YhWYnw
+         nAz+Wy7WiNuRbqHM7vxfORRICCN6CbZXiIwFxB+2Mlf3Xg+8QeoWsWvyQG1zErJZUdJT
+         igRNz3S3pGggNt7tUFFnGFtg89T2pHrdSp0nQ9/GuhUwIxnn5O8D/PMKcKah61rPQqh+
+         mkWw==
+X-Gm-Message-State: AC+VfDxFoYB5o5vT2zrk9yt4MFbfZnmLofaEixcQcBV1rBWbq2YSQEsF
+        QBaOjusIzHR/QTGLvULrUbE=
+X-Google-Smtp-Source: ACHHUZ6wh2CqCVGxZ1aIa20hYMpt2E7HkVeKdNjheVjuSlz5ylPO+mTQOT+GjYxkmu3HBge04PxP0Q==
+X-Received: by 2002:a05:6a00:2294:b0:66a:359f:6f6e with SMTP id f20-20020a056a00229400b0066a359f6f6emr15809560pfe.19.1687816975000;
+        Mon, 26 Jun 2023 15:02:55 -0700 (PDT)
+Received: from [192.168.3.219] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id g26-20020a62e31a000000b0065016fffc81sm4191122pfh.216.2023.06.26.15.02.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Jun 2023 15:02:54 -0700 (PDT)
+Message-ID: <3a330a82-6101-72af-197f-4ac0e5d2136f@acm.org>
+Date:   Mon, 26 Jun 2023 15:02:52 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 2/6] KVM: Documentation: Update the field name gfns and
- its description in kvm_mmu_page
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3] docs: target: Remove useless tcm_mod_builder.py
 Content-Language: en-US
-To:     Mingwei Zhang <mizhang@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kai Huang <kai.huang@intel.com>,
-        Jim Mattson <jmattson@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
-        Zhi Wang <zhi.wang.linux@gmail.com>
-References: <20230626182016.4127366-1-mizhang@google.com>
- <20230626182016.4127366-3-mizhang@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230626182016.4127366-3-mizhang@google.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Rong Tao <rtoax@foxmail.com>, martin.petersen@oracle.com,
+        corbet@lwn.net
+Cc:     rongtao@cestc.cn,
+        "open list:SCSI TARGET SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+        "open list:SCSI TARGET SUBSYSTEM" <target-devel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <tencent_58D7935159C421036421B42CD04B0A959207@qq.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <tencent_58D7935159C421036421B42CD04B0A959207@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+On 6/25/23 17:51, Rong Tao wrote:
+> This script is not used and requires additional development to sync with
+> the SCSI target code.
 
-On 6/26/23 11:20, Mingwei Zhang wrote:
-> Update the field 'gfns' in kvm_mmu_page to 'shadowed_translation' to be
-> consistent with the code. Also update the corresponding 'gfns' in the
-> comments. The more detailed description of 'shadowed_translation' is
-> already inlined in the data structure definition, so no need to duplicate
-> the text but simply just update the names.
-> 
-> Signed-off-by: Mingwei Zhang <mizhang@google.com>
-> Reviewed-by: Kai Huang <kai.huang@intel.com>
-> ---
->  Documentation/virt/kvm/x86/mmu.rst | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
-> index 561efa8ec7d7..4c9044b4dc6c 100644
-> --- a/Documentation/virt/kvm/x86/mmu.rst
-> +++ b/Documentation/virt/kvm/x86/mmu.rst
-> @@ -221,11 +221,12 @@ Shadow pages contain the following information:
->      at __pa(sp2->spt).  sp2 will point back at sp1 through parent_pte.
->      The spt array forms a DAG structure with the shadow page as a node, and
->      guest pages as leaves.
-> -  gfns:
-> -    An array of 512 guest frame numbers, one for each present pte.  Used to
-> -    perform a reverse map from a pte to a gfn. When role.direct is set, any
-> +  shadowed_translation:
-> +    An array of 512 shadow translation entries, one for each present pte. Used
-> +    to perform a reverse map from a pte to a gfn. When role.direct is set, any
->      element of this array can be calculated from the gfn field when used, in
-> -    this case, the array of gfns is not allocated. See role.direct and gfn.
-> +    this case, the array of shadowed_translation is not allocated. See
-
-I cannot parse the before version nor the after version of this sentence (new version):
-
-                                                  When role.direct is set, any
-    element of this array can be calculated from the gfn field when used, in
-    this case, the array of shadowed_translation is not allocated.
-
-
-> +    role.direct and gfn.
->    root_count:
->      A counter keeping track of how many hardware registers (guest cr3 or
->      pdptrs) are now pointing at the page.  While this counter is nonzero, the
-
--- 
-~Randy
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
