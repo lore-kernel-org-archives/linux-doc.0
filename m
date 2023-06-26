@@ -2,185 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4831EB64D7
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 05:32:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3864CC3DA40
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 06:56:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbjFZFc1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 01:32:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55802 "EHLO
+        id S229694AbjFZG4n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 02:56:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbjFZFcZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 01:32:25 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8764C9C;
-        Sun, 25 Jun 2023 22:32:24 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-5ed99ebe076so34301066d6.2;
-        Sun, 25 Jun 2023 22:32:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687757543; x=1690349543;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dXB+jTquqi7d4yxzf9mtpgvS8op2p5ZPrpvvnM7qWf8=;
-        b=B2cZPZlD9ur3DHMvgTy4QNiMTBrYwHySlfCUgWKgJ/vn3Ppl9iZLPJCiAWPEDnAmbh
-         sLu+CCBvQCKIRJJeL9NvyjlWYkh7WxmT21bMsuCUsOJ3AHzvL9LZay4PMTsrx+IQAwx4
-         sjoA2L0Wp/fnScDdU1VNwR3Z9dLOktWy58GQcAnVi5shVIjenGjAMtt8jDz0skxM0DOf
-         dzYfbWD1b9ncUR7UfRVxux7i/fVneR7IPVMB4QGaM1QvYZUUYyCamPSafAGQMmDz3d2B
-         HhMkZnyM7bKpKVigIm+tAVCZjA3eVqhMr8+AaLPduRTBp4YG/JT8jedu6KfevZVoS5lb
-         AsCw==
+        with ESMTP id S229647AbjFZG4m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 02:56:42 -0400
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173B9AC;
+        Sun, 25 Jun 2023 23:56:42 -0700 (PDT)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1b7fb1a82c4so3799195ad.1;
+        Sun, 25 Jun 2023 23:56:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687757543; x=1690349543;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dXB+jTquqi7d4yxzf9mtpgvS8op2p5ZPrpvvnM7qWf8=;
-        b=KncJ9gik9INpU2elYvesG8HjiMb4YQ74x7b19a98NvXxdvTUSHfY+ub15kI4X6nQ1V
-         VM6vwrrukQY0fVzF8YmXICZr9IxixdMn2/cXNo45o6JkY0jQkWS1tcLRUeyNMgdGh0V7
-         /5qH6hRRmrWniV1tqTgVl94QLKthKjCQUJiqYn90gRj+no84t8puFA4RTLCIKrEy5iaF
-         w44J3IV3Ezb97DWjEMFZM8vje9JjZds6XXKBNJvDUTpYQAb1B+4+b0+ZtKwQ4WSxER6A
-         y59PS/5qeJy7uUDv3HSiEfMQiwLO248NLQwoKO1Vpys8kg8jIgJECYwMNFMl/TGqMCky
-         A+9A==
-X-Gm-Message-State: AC+VfDzsq1YAWIF/Hm1ZlATKb+CASRhiNUwN6Jydf4yyVP7H0uy+LmMd
-        UwGAvWDzLKYI5wJJSW9CDaU5NzVMcbMsUo+aWNA=
-X-Google-Smtp-Source: ACHHUZ4dal3x3Kork/lvMSHzLlfs8I8kIYraLC3d1xmKc2SJcxw6PWmUfHM6Cp0x3Xv7pSHFmZ8DnQKL6CAR5TXwsx4=
-X-Received: by 2002:ad4:5cac:0:b0:5f7:a9e1:bbbf with SMTP id
- q12-20020ad45cac000000b005f7a9e1bbbfmr4961593qvh.44.1687757543623; Sun, 25
- Jun 2023 22:32:23 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687762601; x=1690354601;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u58j1CoFhNAAP0kPknc/GhPhE9N5OmJCD1ZWCCtRRgc=;
+        b=WDPKuhXalnGPckp2TpIKynsO8ZnokkfdhiarQXI1U9VrqORX/RqI+YQ6iOzudxuYfh
+         4q6XXJOoyqqR6QwbktPcLn3j/Hia6cNtm2Nrhm3yJiWc7JcKmjD3tVjEuADNSmK2GgDV
+         xk8ovnwV1ONicO1yc5JYu90NJCKD2g0I+aPJlJcB+YR5HHSFgftpBca8XhiVusEZTmu+
+         +qlUGGQiGJiMT1OVUk9z8yv0fpOv85eDrKiCyXaOhKgjcvScYC6P8FrVEMhdjE7n32Sn
+         iHlKwHWwvll89VW7GKPNxJvK15XueSQ8E1WR4TpisHG4FV0/OHjFbqUI8/raDxp23ahg
+         j18A==
+X-Gm-Message-State: AC+VfDzH7/LQdst87G9Hu9Qbm2z58jPxCzQv6It28ppNG805JMr6LwXE
+        0lNQtVHRiUvsINC/V/q86Hk=
+X-Google-Smtp-Source: ACHHUZ6OtbsuuY2aXoeHYGi4XSA3mdaoGOU6p/4pXML9TF8F1ADk58bPj18ptJOfaGu5YjoBFEMRig==
+X-Received: by 2002:a17:903:1250:b0:1b5:3c7f:1b3b with SMTP id u16-20020a170903125000b001b53c7f1b3bmr5150508plh.35.1687762601317;
+        Sun, 25 Jun 2023 23:56:41 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id jg3-20020a17090326c300b001a2104d706fsm2559571plb.225.2023.06.25.23.56.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Jun 2023 23:56:40 -0700 (PDT)
+Date:   Mon, 26 Jun 2023 15:56:39 +0900
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Jens Axboe <axboe@kernel.dk>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Karsten Keil <isdn@linux-pingi.de>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        David Howells <dhowells@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Paul Moore <paul@paul-moore.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Evgeniy Polyakov <zbr@ioremap.net>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>,
+        Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>, coresight@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, keyrings@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-sgx@vger.kernel.org, linux-trace-devel@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, live-patching@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-mm@kvack.org,
+        openrisc@lists.librecores.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org,
+        x86@kernel.org
+Subject: Re: [PATCH 00/24 v2] Documentation: correct lots of spelling errors
+ (series 1)
+Message-ID: <20230626065639.GA3403711@rocinante>
+References: <20230209071400.31476-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-References: <20230515094955.GB23880@lst.de> <20230512094210.141540-1-yajun.deng@linux.dev>
- <055f964384a2bb4ba51c64a0be6072c9@linux.dev> <20230515133821.769158bb@meshulam.tesarici.cz>
- <20230623174046.66ce934bcf5c1303003a5afc@linux-foundation.org> <a18b0cf466191b0d692e431fe33c7c80@linux.dev>
-In-Reply-To: <a18b0cf466191b0d692e431fe33c7c80@linux.dev>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Mon, 26 Jun 2023 17:32:12 +1200
-Message-ID: <CAGsJ_4xZp_1jLZnsZsUzaxvkkaOv=FDOiGKNgCmPN1gvJugSTg@mail.gmail.com>
-Subject: Re: [PATCH] dma-contiguous: support per-numa CMA for all architectures
-To:     Yajun Deng <yajun.deng@linux.dev>,
-        Yicong Yang <yangyicong@hisilicon.com>,
-        Tian Tao <tiantao6@hisilicon.com>
-Cc:     v-songbaohua@oppo.com, Christoph Hellwig <hch@lst.de>,
-        corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
-        m.szyprowski@samsung.com, robin.murphy@arm.com, paulmck@kernel.org,
-        bp@suse.de, peterz@infradead.org, rdunlap@infradead.org,
-        kim.phillips@amd.com, rostedt@goodmis.org,
-        thunder.leizhen@huawei.com, ardb@kernel.org, bhe@redhat.com,
-        anshuman.khandual@arm.com, song.bao.hua@hisilicon.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-        =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>,
-        Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jun 25, 2023 at 7:30=E2=80=AFPM Yajun Deng <yajun.deng@linux.dev> w=
-rote:
->
-> June 24, 2023 8:40 AM, "Andrew Morton" <akpm@linux-foundation.org> wrote:
->
-> > On Mon, 15 May 2023 13:38:21 +0200 Petr Tesa=C5=99=C3=ADk <petr@tesaric=
-i.cz> wrote:
-> >
-> >> On Mon, 15 May 2023 11:23:27 +0000
-> >> "Yajun Deng" <yajun.deng@linux.dev> wrote:
-> >>
-> >> May 15, 2023 5:49 PM, "Christoph Hellwig" <hch@lst.de> wrote:
-> >
-> > This looks fine to me. Can you please work with Barry to make sure
-> > the slight different place of the initcall doesn't break anything
-> > for his setup? I doubt it would, but I'd rather have a Tested-by:
-> > tag.
-> >> Barry's email is no longer in use. I can't reach him.
-> >>
-> >> Which one? I would hope that his Gmail account is still valid:
-> >>
-> >> Barry Song <21cnbao@gmail.com>
-> >
-> > Maybe his kernel.org address works...
-> >
-> > I have this patch stuck in limbo for 6.4. I guess I'll carry it over
-> > into the next -rc cycle, see what happens.
-> >
-> > fwiw, it has been in -next for six weeks, no known issues.
->
-> Hi, Barry, The slight different place of the initcall, does break anythin=
-g?
+Hello,
 
-i don't see a fundamental difference as anyway it is still after
-arch_numa_init()
-which is really what we depend on.
+> Correct many spelling errors in Documentation/ as reported by codespell.
+> 
+> Maintainers of specific kernel subsystems are only Cc-ed on their
+> respective patches, not the entire series.
+> 
+> These patches are based on linux-next-20230209.
+> 
+[...]
+>  [PATCH 13/24] Documentation: PCI: correct spelling
+[...]
 
-and i did a test on qemu with the command line:
-qemu-system-aarch64 -M virt,gic-version=3D3 -nographic \
- -smp cpus=3D8 \
- -numa node,cpus=3D0-1,nodeid=3D0 \
- -numa node,cpus=3D2-3,nodeid=3D1 \
- -numa node,cpus=3D4-5,nodeid=3D2 \
- -numa node,cpus=3D6-7,nodeid=3D3 \
- -numa dist,src=3D0,dst=3D1,val=3D12 \
- -numa dist,src=3D0,dst=3D2,val=3D20 \
- -numa dist,src=3D0,dst=3D3,val=3D22 \
- -numa dist,src=3D1,dst=3D2,val=3D22 \
- -numa dist,src=3D2,dst=3D3,val=3D12 \
- -numa dist,src=3D1,dst=3D3,val=3D24 \
- -m 4096M -cpu cortex-a57 -kernel arch/arm64/boot/Image \
- -nographic -append "cma_pernuma=3D32M root=3D/dev/vda2  rw ip=3Ddhcp
-sched_debug irqchip.gicv3_pseudo_nmi=3D1" \
- -drive if=3Dnone,file=3Dextra/ubuntu16.04-arm64.img,id=3Dhd0 -device
-virtio-blk-device,drive=3Dhd0 \
- -net nic -net user,hostfwd=3Dtcp::2222-:22
+Applied to misc, thank you!
 
-and in system, i can see all cma areas are correctly reserved:
-~# dmesg | grep cma
-[    0.000000] cma: cma_declare_contiguous_nid(size
-0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
-alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 32 MiB at 0x000000007ce00000
-[    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 0
-[    0.000000] cma: cma_declare_contiguous_nid(size
-0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
-alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 32 MiB at 0x00000000bce00000
-[    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 1
-[    0.000000] cma: cma_declare_contiguous_nid(size
-0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
-alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 32 MiB at 0x00000000fce00000
-[    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 2
-[    0.000000] cma: cma_declare_contiguous_nid(size
-0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
-alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 32 MiB at 0x0000000100000000
-[    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 3
-[    0.000000] cma: dma_contiguous_reserve(limit 100000000)
-[    0.000000] cma: dma_contiguous_reserve: reserving 32 MiB for global are=
-a
-[    0.000000] cma: cma_declare_contiguous_nid(size
-0x0000000002000000, base 0x0000000000000000, limit 0x0000000100000000
-alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 32 MiB at 0x00000000fae00000
-[    0.000000] Kernel command line: cma_pernuma=3D32M root=3D/dev/vda2  rw
-ip=3Ddhcp sched_debug irqchip.gicv3_pseudo_nmi=3D1
-[    0.000000] Memory: 3848784K/4194304K available (16128K kernel
-code, 4152K rwdata, 10244K rodata, 8512K init, 612K bss, 181680K
-reserved, 163840K cma-reserved)
-[    0.175309] cma: cma_alloc(cma (____ptrval____), count 128, align 7)
-[    0.179264] cma: cma_alloc(): returned (____ptrval____)
-[    0.179869] cma: cma_alloc(cma (____ptrval____), count 128, align 7)
-[    0.180027] cma: cma_alloc(): returned (____ptrval____)
-[    0.180187] cma: cma_alloc(cma (____ptrval____), count 128, align 7)
-[    0.180374] cma: cma_alloc(): returned (____ptrval____)
+[1/1] Documentation: PCI: correct spelling
+      https://git.kernel.org/pci/pci/c/b58d6d89ae02
 
-so my feeling is that this patch is fine. but I would prefer Yicong
-and Tiantao who have a real numa machine
-and we can get some real device drivers to call dma APIs to allocate
-memory from pernuma cma on arm64
-even though it is 99.9% OK.
-
-With their testing done, please feel free to add
-Acked-by: Barry Song <baohua@kernel.org>
-
-Thanks
-Barry
+	Krzysztof
