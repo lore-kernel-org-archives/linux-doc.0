@@ -2,156 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECBE6EB64DD
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 12:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 541A1EB64D7
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 12:49:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231216AbjFZMrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 08:47:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41020 "EHLO
+        id S230349AbjFZMtN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 08:49:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbjFZMrN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 08:47:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BA0E1FF3;
-        Mon, 26 Jun 2023 05:46:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1DCD060E00;
-        Mon, 26 Jun 2023 12:45:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9F70C433C0;
-        Mon, 26 Jun 2023 12:45:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687783544;
-        bh=ad7qXuxyTVm3Hup4TPrwUJSUzMHj6o5DDbnqUq5bBhE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nr+VZhRu1S8TdcgB1G3LwUYdS5Mevc1gEG6wluGez0PuFw8p/4IWpVNl6aqJ1TIxN
-         F1/LkWsR08SV4KNW5tSrRuJZt7z34scYrn27JUm9WtSj8gMjLja7ZndbPeUkbFvBgK
-         1GE5ZE40gU4zjajLs9XFuMXc9QVj7iXibAFLI08/a+NWNxkLulw1CB6n+0vhgCsx9h
-         13jHCc35DHf0VHZ186ZcCP1u1zY318iTOjEr6LgU4EA6z0nrS3N6DIUqli3Ero4CYr
-         GguqwF7vUjUX8TmvlOgjhvtzHM0QK68M/Hs52b9FyPFG97Eq+mPCwcXXf5e09fH3gP
-         k7KSDnuO7JCHA==
-Date:   Mon, 26 Jun 2023 13:45:32 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "rppt@kernel.org" <rppt@kernel.org>,
-        "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "bp@alien8.de" <bp@alien8.de>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v9 16/42] mm: Add guard pages around a shadow stack.
-Message-ID: <ad6df14b-1fbd-4136-abcd-314425c28306@sirena.org.uk>
-References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
- <20230613001108.3040476-17-rick.p.edgecombe@intel.com>
- <ZJSRD1xZauOW3jFO@casper.infradead.org>
- <ba77d21492e2631072f51328413d227f31dd78ae.camel@intel.com>
- <20230623074000.GG52412@kernel.org>
- <ZJWNWeqQ8ON9NNfs@finisterre.sirena.org.uk>
- <10673dd87c27ea9def60ff841ebd261d31b46568.camel@intel.com>
+        with ESMTP id S230364AbjFZMs5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 08:48:57 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76D2E10F4
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 05:47:53 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id d75a77b69052e-4007b5bafceso397731cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 05:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687783670; x=1690375670;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vyEDqjnLut49ARt31W5hpg3PmjCUAUxnPXi+41gN+q8=;
+        b=FRdAoSSh5TQTJl4OqCbbCHsE22mVG6Ok5OCrn5MKeK9kHtq19PJVM8DiZyrC3F9WR1
+         m+sAiS7q08Pg26fdbJNUqSUEvU4s7vs3CerZVVemANxcC2JLYHWTTPU9KKFyUOaP9Dhi
+         2RuzdRpWzOs57WG+Ych5/DQx5tsVNKd23Fzhgrqoc6UULqtnmt+RZ/DGUkN4Sx/rqLr8
+         LcB1VJjSnUFrmUQOx6Mze0kNLJnuoaruY7QRt52ABqThUO8APi9mfloEAh602SmPLt9M
+         TbSIGp5jx/iyXRjh+1QT75JKoBGehEg+mDrDwjLHPWke4MMOAWkb/K/0b0WVJQx7YLGu
+         +nVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687783670; x=1690375670;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vyEDqjnLut49ARt31W5hpg3PmjCUAUxnPXi+41gN+q8=;
+        b=DKI4fTL6vndXcnenUHFZGOqzbM0QGNS/DdudpbmNR51iKDDJR+1pyWRORYMoWRrpIi
+         P7p7BR+WF5tCqM8OV/hN1LP9F5AoZ1nPZzNAw4oqmu/Y7RKcFwgOtmxIv0kS2Ynydhiw
+         TE0v/RuWWj9pcsPDsGorWhtQsXk6joifMlq9DcP0yIxYr2CEDSUwhuLkY+kcppYYcb2O
+         hUk9szQoyDOTnb3nzgFJMwieMMCkfhRzvWzdv/bmqZ+6vdSe6lRJVeIc/XX8/8BB7bqO
+         reWQNiPc4TtLw1Ri5LcDCcW06BTiNbpWIDwpfeaB+ESrB7qHMKn01zsS9TBJj2KW1eC4
+         esHg==
+X-Gm-Message-State: AC+VfDwPV7Cyje9OSsL8OZg35duWDB4DBTYIsCOV4jHGyy3fs5qSd77k
+        As7xqnC1C3yeuH5EN8HfFBGAk+bPFhZnwyy67VANwA==
+X-Google-Smtp-Source: ACHHUZ491LjK2ZJ8DT1B1XEsv5vgGnY5irD3vwsmbd6T7VFu6qmyS/3Aybli2welLnSM5TpKJT1Voijj6VeAHGptqkU=
+X-Received: by 2002:a05:622a:134b:b0:3f3:75c2:7466 with SMTP id
+ w11-20020a05622a134b00b003f375c27466mr334768qtk.8.1687783669742; Mon, 26 Jun
+ 2023 05:47:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="FlQ2BtIHgZ0V+5nj"
-Content-Disposition: inline
-In-Reply-To: <10673dd87c27ea9def60ff841ebd261d31b46568.camel@intel.com>
-X-Cookie: Nihilism should commence with oneself.
+References: <20230621174006.42533-1-tony.luck@intel.com> <20230621174006.42533-8-tony.luck@intel.com>
+In-Reply-To: <20230621174006.42533-8-tony.luck@intel.com>
+From:   Peter Newman <peternewman@google.com>
+Date:   Mon, 26 Jun 2023 14:47:38 +0200
+Message-ID: <CALPaoCi+A5TxoReh=HRMsRKYDWb4eQ-NOB75Lj9674L6aV0T=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is
+ enabled and initialize.
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Tony,
 
---FlQ2BtIHgZ0V+5nj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jun 21, 2023 at 7:40=E2=80=AFPM Tony Luck <tony.luck@intel.com> wro=
+te:
 
-On Sun, Jun 25, 2023 at 04:44:32PM +0000, Edgecombe, Rick P wrote:
-> On Fri, 2023-06-23 at 13:17 +0100, Mark Brown wrote:
+> diff --git a/arch/x86/include/asm/resctrl.h b/arch/x86/include/asm/resctr=
+l.h
+> index 255a78d9d906..f95e69bacc65 100644
+> --- a/arch/x86/include/asm/resctrl.h
+> +++ b/arch/x86/include/asm/resctrl.h
+> @@ -35,6 +35,8 @@ DECLARE_STATIC_KEY_FALSE(rdt_enable_key);
+>  DECLARE_STATIC_KEY_FALSE(rdt_alloc_enable_key);
+>  DECLARE_STATIC_KEY_FALSE(rdt_mon_enable_key);
+>
+> +DECLARE_PER_CPU(int, rmid_offset);
+> +
 
-> > This isn't an x86 specific concept, arm64 has a very similar
-> > extension
-> > called Guarded Control Stack (which I should be publishing changes
-> > for
-> > in the not too distant future) and riscv also has something.=A0 For
-> > arm64
-> > I'm using the generic mm changes wholesale, we have a similar need
-> > for
-> > guard pages around the GCS and while the mechanics of accessing are
-> > different the requirement ends up being the same.=A0 Perhaps we could
-> > just
-> > rewrite the comment to say that guard pages prevent over/underflow of
-> > the stack by userspace and that a single page is sufficient for all
-> > current architectures, with the details of the working for x86 put in
-> > some x86 specific place?
+I assumed that declarations in this file were those needed by
+__resctrl_sched_in(). Now that rmid_offset is used when setting
+PQR_ASSOC, would this go somewhere else?
 
-> Something sort of similar came up in regards to the riscv series, about
-> adding something like an is_shadow_stack_vma() helper. The plan was to
-> not make too many assumptions about the final details of the other
-> shadow stack features and leave that for refactoring. I think some kind
-> of generic comment like you suggest makes sense, but I don't want to
-> try to assert any arch specifics for features that are not upstream. It
-> should be very easy to tweak the comment when the time comes.
+Other than this and fixing the MSR update, the series looks fine to me.
 
-> The points about x86 details not belonging in non-arch headers and
-> having some arch generic explanation in the file are well taken though.
+Reviewed-By: Peter Newman <peternewman@google.com>
 
-I think a statement to the effect that "this works for currently
-supported architectures" is fine, if something comes along with
-additional requirements then the comment can be adjusted as part of
-merging the new thing.
-
---FlQ2BtIHgZ0V+5nj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSZiGsACgkQJNaLcl1U
-h9B3DAf+LWSA4bx8fTIOePWjXu2L6LeG9YG2PswlY0EfvmEvZtaSKmIszPhtMDUb
-06vPe7GHKtgxB2gXQ0wUveNXqXUQRVDsuHmg7hAMEXzTGl+Ael3P1MSzNFV94LIQ
-Z3BXNKJk0egBAthRbZmyGcpj1sfp082RpsdI1a6dViRJwjd+ODTNI089CvNemY6b
-MJvmuMEJdjaRlrTGdfIBTdCKDNCqQQxqhMXBOcY5Hr7d9JLNa5JaWwfgyO0PbipH
-L20yRdqFhM5cEJ70RuHtQuyAJB/cDQlQZKUGJhTXwys+xbYjkZ9Dad1CvN4N1+SS
-E1ZXpzd5bzwITEKsBrkm9meQGQuK9A==
-=kRl4
------END PGP SIGNATURE-----
-
---FlQ2BtIHgZ0V+5nj--
+Thanks!
+-Peter
