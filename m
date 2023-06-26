@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 583E1EB64D9
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 18:41:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C80EB64DD
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 18:42:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232525AbjFZSlz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 14:41:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54458 "EHLO
+        id S231172AbjFZSmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 14:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232515AbjFZSly (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 14:41:54 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A378B9
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 11:41:52 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1b80ddce748so6182425ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 11:41:52 -0700 (PDT)
+        with ESMTP id S232300AbjFZSmK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 14:42:10 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4537797
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 11:42:07 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1b8062c1ee1so11015855ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 11:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687804912; x=1690396912;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mc8gTI3W4RW6dHKji0wpJv9Z8xook1q3V9GncqmxBNs=;
-        b=iOnzyINlILniQP2HRPivDFLMjVUVk2QQghS1NdKbwT8rRo+aVuMr+sfhItnycltrNm
-         +n6dJOvm68rZFp2EiiEnVADw/GZuH7oKvqN5Sq39xJfzgSMC4/5mT/TAx3BStqepAQXQ
-         Sg4Dn+fhfxgYQwc18AdfeP92dYRiA++NH4Fi85nAY0RVNSlIGXaoGVPilka2ylzoQiOL
-         QFv51RKurWg4uRW70Xv1lzgmSMw2Ip/+GK4UUgD+U9SZlbfDzwzEPmEvWFZ81IT+N/0w
-         PNWNpwtVOFrYPj4+2nZkY4bDzIDrdYhdHQSuBH1u4hj92twmPTY8PNZWxTnXDJ34Xi9t
-         MkkQ==
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687804927; x=1690396927;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0b1uVANehIH/+ZRkMH5+9QKYLvg0brFXglBZxj/Lb5k=;
+        b=bybKJLkY02mGgsEHB/G5huYNAjJ+Jax7ubFmyT/xSUWJapWYrReIBV/awAq2yPQwz1
+         LjHqQahv88eqfHOji66+8tfPFl2X3OukadEVM7rwzVWa7W71PJ3tsejRPYK8HD92XYpK
+         CEtbGwUpvVHYqe9q0qtEHxqJLLWSrsExtBqrh3SUsJTpokBfCvMOz0DBFqRSSB5EsbcT
+         IlmGArf+IWgJcsxOVMwVw7EzBLpyyhk8qSc0NOSAvY+9nWpUoJgW5HHI9wccQ8iYxmYX
+         wHVJCNO/fA9k47pR/QmmfBaTg/X4rTYX1LUtNSjVDb4jvoUD8U8b1o/11Pj4TdhKwedI
+         cKBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687804912; x=1690396912;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Mc8gTI3W4RW6dHKji0wpJv9Z8xook1q3V9GncqmxBNs=;
-        b=BTJrmuPT9iFw4yDkCCUwP0ArSaKfuT+hDhqObJlHXskOSJdM5QFsDX3P6OM/DB03M3
-         XUlnphUmPXNEBWm5BACIMirmXb9ok2hDHWK5QKjwIp7/kT4JIaPXd7jl9G1gfDJhGE8y
-         I6BWnzHzJMGwkUi+3p2U7BczES+l4b18TeuJZVMU/L6/MqUjtecS79bg6vQ2mHD+Rqf2
-         4On3vOnqruudYt6mWsIJehT33TCtQzMze9KGP9kApvG8l4vlZH2EAT+mzD2OGXr2PHUl
-         uKYReQ7lGtGvz13JGdTs0XiYuEGowlqSDR4wqlj9m16lKhCbdyPudI6QdxpuS9qI84kN
-         ki9Q==
-X-Gm-Message-State: AC+VfDxwPXUMpXVOgZPhHJjlNFgSX4r8t0nFHFNDLOxPp/I3DJCYzPOk
-        4uywgoLEx05168r24Wo9LALFJg==
-X-Google-Smtp-Source: ACHHUZ6kF7UCHGB/S7z47aVb3jHXMmBM7Gkc9O6kvyrBL6waC3X7eaZQjrosczNmx+jqkRnxb00mxg==
-X-Received: by 2002:a17:902:be09:b0:1b3:d6c8:7008 with SMTP id r9-20020a170902be0900b001b3d6c87008mr3314468pls.57.1687804912000;
-        Mon, 26 Jun 2023 11:41:52 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687804927; x=1690396927;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0b1uVANehIH/+ZRkMH5+9QKYLvg0brFXglBZxj/Lb5k=;
+        b=Gt94DoFSgTIsv3Oi9k+63Bfva4FH8Wn58yzX5YIzZVdl4Frp52oGXXAdrrx/mGbUt+
+         QzrV91OvY0hZhnVH9KGySFkSRr4rQdzKsgtu77TxNhwNj8XMIzHxCK2Dl2pm+NW0baYX
+         FcldAoIbLJ0xxwV0PanzUf/MIrs4fsq6QN+D/Kd9ETPWcAnlWtcI55PyB0upYUh4gGZp
+         0vQCMARoqysj2fBNPLCDATN7Ycg9Tbjcpa6sBGZELXeF6/cRZrFObOX3bTGgAsNQrTXc
+         KBHgNIuiNrOOnqQIDTKeS5LwykKlNnavtM9T9Ptib9VF0pP6HzKVaXL4IvE3ZBT0Pt6H
+         vDUg==
+X-Gm-Message-State: AC+VfDweIov9+wSTtZkDMYm4ACM4Lmi6dQAu+e5VPsGfKQ5uil99eaJ/
+        P9Zyw7+dDyxO318YEGIQGdCw3g==
+X-Google-Smtp-Source: ACHHUZ62/G8gBs8d6kAQdaMAXiShDB+yqOiLofZ8iajX1fHC5c1IefdBrnNt+qeRN+82Vda57HyAig==
+X-Received: by 2002:a17:902:e88e:b0:1b6:b40c:b022 with SMTP id w14-20020a170902e88e00b001b6b40cb022mr9499718plg.30.1687804926663;
+        Mon, 26 Jun 2023 11:42:06 -0700 (PDT)
 Received: from ghost.hq.rivosinc.com ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id y6-20020a1709029b8600b001b682336f66sm4499842plp.55.2023.06.26.11.41.50
+        by smtp.gmail.com with ESMTPSA id y6-20020a1709029b8600b001b682336f66sm4499842plp.55.2023.06.26.11.42.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jun 2023 11:41:51 -0700 (PDT)
+        Mon, 26 Jun 2023 11:42:06 -0700 (PDT)
 From:   Charlie Jenkins <charlie@rivosinc.com>
 To:     charlie@rivosinc.com
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -60,37 +61,35 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Alexandre Ghiti <alexghiti@rivosinc.com>,
         =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
         Conor Dooley <conor.dooley@microchip.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
         Zong Li <zong.li@sifive.com>,
+        Greentime Hu <greentime.hu@sifive.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Sergey Matyukevich <sergey.matyukevich@syntacore.com>,
         David Hildenbrand <david@redhat.com>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        Sergey Matyukevich <sergey.matyukevich@syntacore.com>,
+        Juergen Gross <jgross@suse.com>,
         Qinglin Pan <panqinglin2020@iscas.ac.cn>,
         Anshuman Khandual <anshuman.khandual@arm.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Brian Cain <bcain@quicinc.com>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Stafford Horne <shorne@gmail.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
         Anup Patel <anup@brainfault.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
         Sunil V L <sunilvl@ventanamicro.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
         Evan Green <evan@rivosinc.com>,
-        Guillaume Tucker <guillaume.tucker@collabora.com>,
         Mark Brown <broonie@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         linux-riscv@lists.infradead.org (open list:RISC-V ARCHITECTURE),
         linux-kernel@vger.kernel.org (open list),
         linux-mm@kvack.org (open list:EXEC & BINFMT API),
         linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
-Subject: [PATCH 0/2] Restrict address space for sv39,sv48,sv57
-Date:   Mon, 26 Jun 2023 11:36:02 -0700
-Message-Id: <20230626183611.40479-1-charlie@rivosinc.com>
+Subject: [PATCH 1/2] RISC-V: mm: Restrict address space for sv39,sv48,sv57
+Date:   Mon, 26 Jun 2023 11:36:03 -0700
+Message-Id: <20230626183611.40479-2-charlie@rivosinc.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230626183611.40479-1-charlie@rivosinc.com>
+References: <20230626183611.40479-1-charlie@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -106,26 +105,120 @@ space that fits entirely into the hint to be used. If the hint is less
 than or equal to 1<<38, a 39-bit address will be used. After an address
 space is completely full, the next smallest address space will be used.
 
-Documentation is also added to the RISC-V virtual memory section to explain
-these changes.
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+---
+ arch/riscv/include/asm/elf.h       |  2 +-
+ arch/riscv/include/asm/pgtable.h   | 13 +++++++++-
+ arch/riscv/include/asm/processor.h | 41 +++++++++++++++++++++++++-----
+ 3 files changed, 47 insertions(+), 9 deletions(-)
 
-Charlie Jenkins (2):
-  RISC-V: mm: Restrict address space for sv39,sv48,sv57
-  RISC-V: mm: Update documentation and include test
-
- Documentation/riscv/vm-layout.rst             | 20 ++++++++
- arch/riscv/include/asm/elf.h                  |  2 +-
- arch/riscv/include/asm/pgtable.h              | 21 ++++++--
- arch/riscv/include/asm/processor.h            | 41 +++++++++++++---
- tools/testing/selftests/riscv/Makefile        |  2 +-
- tools/testing/selftests/riscv/mm/Makefile     | 22 +++++++++
- .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++++
- 7 files changed, 144 insertions(+), 13 deletions(-)
- create mode 100644 tools/testing/selftests/riscv/mm/Makefile
- create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
-
-
-base-commit: eef509789cecdce895020682192d32e8bac790e8
+diff --git a/arch/riscv/include/asm/elf.h b/arch/riscv/include/asm/elf.h
+index 30e7d2455960..1b57f13a1afd 100644
+--- a/arch/riscv/include/asm/elf.h
++++ b/arch/riscv/include/asm/elf.h
+@@ -49,7 +49,7 @@ extern bool compat_elf_check_arch(Elf32_Ehdr *hdr);
+  * the loader.  We need to make sure that it is out of the way of the program
+  * that it will "exec", and that there is sufficient room for the brk.
+  */
+-#define ELF_ET_DYN_BASE		((TASK_SIZE / 3) * 2)
++#define ELF_ET_DYN_BASE		((DEFAULT_MAP_WINDOW / 3) * 2)
+ 
+ #ifdef CONFIG_64BIT
+ #ifdef CONFIG_COMPAT
+diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+index 75970ee2bda2..e83912e97870 100644
+--- a/arch/riscv/include/asm/pgtable.h
++++ b/arch/riscv/include/asm/pgtable.h
+@@ -57,18 +57,29 @@
+ #define MODULES_END		(PFN_ALIGN((unsigned long)&_start))
+ #endif
+ 
++
+ /*
+  * Roughly size the vmemmap space to be large enough to fit enough
+  * struct pages to map half the virtual address space. Then
+  * position vmemmap directly below the VMALLOC region.
+  */
+ #ifdef CONFIG_64BIT
++#define VA_BITS_SV39 39
++#define VA_BITS_SV48 48
++#define VA_BITS_SV57 57
++
++#define VA_USER_SV39 (UL(1) << (VA_BITS_SV39 - 1))
++#define VA_USER_SV48 (UL(1) << (VA_BITS_SV48 - 1))
++#define VA_USER_SV57 (UL(1) << (VA_BITS_SV57 - 1))
++
+ #define VA_BITS		(pgtable_l5_enabled ? \
+-				57 : (pgtable_l4_enabled ? 48 : 39))
++				VA_BITS_SV57 : (pgtable_l4_enabled ? VA_BITS_SV48 : VA_BITS_SV39))
+ #else
+ #define VA_BITS		32
+ #endif
+ 
++#define DEFAULT_VA_BITS ((VA_BITS >= VA_BITS_SV39) ? VA_BITS_SV39 : VA_BITS)
++
+ #define VMEMMAP_SHIFT \
+ 	(VA_BITS - PAGE_SHIFT - 1 + STRUCT_PAGE_MAX_SHIFT)
+ #define VMEMMAP_SIZE	BIT(VMEMMAP_SHIFT)
+diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
+index 6fb8bbec8459..019dcd4ecae4 100644
+--- a/arch/riscv/include/asm/processor.h
++++ b/arch/riscv/include/asm/processor.h
+@@ -12,20 +12,47 @@
+ 
+ #include <asm/ptrace.h>
+ 
+-/*
+- * This decides where the kernel will search for a free chunk of vm
+- * space during mmap's.
+- */
+-#define TASK_UNMAPPED_BASE	PAGE_ALIGN(TASK_SIZE / 3)
+-
+-#define STACK_TOP		TASK_SIZE
+ #ifdef CONFIG_64BIT
++#define DEFAULT_MAP_WINDOW	(UL(1) << (DEFAULT_VA_BITS - 1))
+ #define STACK_TOP_MAX		TASK_SIZE_64
++
++#define arch_get_mmap_end(addr, len, flags) \
++	((addr) == 0 || (addr) >= VA_USER_SV57 ? STACK_TOP_MAX :   \
++	 (((addr) >= VA_USER_SV48) && (VA_BITS >= VA_BITS_SV48)) ? \
++						 VA_USER_SV48 : \
++						 VA_USER_SV39)
++
++#define arch_get_mmap_base(addr, base) \
++	(((addr >= VA_USER_SV57) && (VA_BITS >= VA_BITS_SV57)) ?   \
++		 base + STACK_TOP_MAX - DEFAULT_MAP_WINDOW : \
++	 (((addr) >= VA_USER_SV48) && (VA_BITS >= VA_BITS_SV48)) ? \
++		 base + VA_USER_SV48 - DEFAULT_MAP_WINDOW : \
++		 base)
++
+ #else
++#define DEFAULT_MAP_WINDOW	TASK_SIZE
+ #define STACK_TOP_MAX		TASK_SIZE
++
++#define arch_get_mmap_end(addr, len, flags) \
++	((addr) > DEFAULT_MAP_WINDOW ? STACK_TOP_MAX : DEFAULT_MAP_WINDOW)
++
++#define arch_get_mmap_base(addr, base) \
++	((addr > DEFAULT_MAP_WINDOW) ? \
++		base + STACK_TOP_MAX - DEFAULT_MAP_WINDOW : \
++		base)
++
+ #endif
+ #define STACK_ALIGN		16
+ 
++
++#define STACK_TOP		DEFAULT_MAP_WINDOW
++
++/*
++ * This decides where the kernel will search for a free chunk of vm
++ * space during mmap's.
++ */
++#define TASK_UNMAPPED_BASE	PAGE_ALIGN(DEFAULT_MAP_WINDOW / 3)
++
+ #ifndef __ASSEMBLY__
+ 
+ struct task_struct;
 -- 
 2.34.1
 
