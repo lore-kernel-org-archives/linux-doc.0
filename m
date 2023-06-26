@@ -2,100 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 334A3EB64D9
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 18:20:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 583E1EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 18:41:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231807AbjFZSUs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 14:20:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
+        id S232525AbjFZSlz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 14:41:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231678AbjFZSUe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 14:20:34 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89AE410D5
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 11:20:28 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-c108dd0d9deso3679440276.3
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 11:20:28 -0700 (PDT)
+        with ESMTP id S232515AbjFZSly (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 14:41:54 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A378B9
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 11:41:52 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1b80ddce748so6182425ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 11:41:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687803627; x=1690395627;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
-        bh=DC1JUUoeIHOkdglYQmr1DfzfpGQE2uWlWtSL5MUhKa8=;
-        b=xYtXcmWxk0P1fCDcWTRmRHQ213fqB4rQuiXjexvxKc69fWrbx+jG1hAwG0llCkpycZ
-         vIxsx2SNm225hbYaBdJVqoTck9XSOJKHlXh8DXvyqKg1GDw5gd8l+hSpY9QBLAiV12RY
-         rv75429GaSsLG1+mV89FXylyGQezn4c2bMvPj3UN87MBkxdRUBLLYdkdL6DAdn3RGg72
-         VAUFRTosn8/60fdz9qwFv3TJRj28bLsYQui4hfKh76McyD8vBN0+at6FZ+BkOw316Td+
-         oESmYoDPXCHZZNA1rzDVevcOJ+5+8ZFPleApgNlncNDFxrTYp6OUsyfuI65KKgKe+AdK
-         ayrA==
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687804912; x=1690396912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mc8gTI3W4RW6dHKji0wpJv9Z8xook1q3V9GncqmxBNs=;
+        b=iOnzyINlILniQP2HRPivDFLMjVUVk2QQghS1NdKbwT8rRo+aVuMr+sfhItnycltrNm
+         +n6dJOvm68rZFp2EiiEnVADw/GZuH7oKvqN5Sq39xJfzgSMC4/5mT/TAx3BStqepAQXQ
+         Sg4Dn+fhfxgYQwc18AdfeP92dYRiA++NH4Fi85nAY0RVNSlIGXaoGVPilka2ylzoQiOL
+         QFv51RKurWg4uRW70Xv1lzgmSMw2Ip/+GK4UUgD+U9SZlbfDzwzEPmEvWFZ81IT+N/0w
+         PNWNpwtVOFrYPj4+2nZkY4bDzIDrdYhdHQSuBH1u4hj92twmPTY8PNZWxTnXDJ34Xi9t
+         MkkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687803627; x=1690395627;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1687804912; x=1690396912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DC1JUUoeIHOkdglYQmr1DfzfpGQE2uWlWtSL5MUhKa8=;
-        b=lAXIijO9wzDEh8dLEqpB3TH7uYx22XvARhlaGvpYWt6D3EUKAZg0xPPspwnFNPFTbk
-         UW6sZt5dbv0H7DLV0qf4TcrAfxhNplJNtPiwdkuEITaEn1hYV8Ch6aGnHHUriHiSardZ
-         oo5xaZJI4zSw6Xir4Z13qYpb62wv1niy4vVhT0SPgNNHp5ZePJR3uvO30J78SRzf3orv
-         W9th5yJBd/C+1GsF6VN1/yeVwmHsu1V7s3b0p1pOSs3RAabYzqyFmEPNJRm7AaWR+jYY
-         9bG1tXo3HMsqDo2aiMd/8OnE061i4Fv+68QONfoxEuIVwd/rXoWoW807yvcm8//c/hmT
-         9sBw==
-X-Gm-Message-State: AC+VfDz88AIiwSU32eCGx0HYp33Ij1tOkDT+F8Xv3clRh8MxAwqv4JWe
-        AWcYVHnM/HOEvr9kx4gsfVTmKmw6Wz1N
-X-Google-Smtp-Source: ACHHUZ488Z5RLeNgsxoRg10Vnlrts0vwlnMOG3/l4w4TY2cIGhoT7SAOtLcxmF27YNT6IpiCb3oib0lZxORJ
-X-Received: from mizhang-super.c.googlers.com ([35.247.89.60]) (user=mizhang
- job=sendgmr) by 2002:a05:6902:18c4:b0:c1c:e037:136c with SMTP id
- ck4-20020a05690218c400b00c1ce037136cmr3172718ybb.0.1687803627815; Mon, 26 Jun
- 2023 11:20:27 -0700 (PDT)
-Reply-To: Mingwei Zhang <mizhang@google.com>
-Date:   Mon, 26 Jun 2023 18:20:14 +0000
-In-Reply-To: <20230626182016.4127366-1-mizhang@google.com>
-Mime-Version: 1.0
-References: <20230626182016.4127366-1-mizhang@google.com>
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
-Message-ID: <20230626182016.4127366-5-mizhang@google.com>
-Subject: [PATCH v2 4/6] KVM: Documentation: Add the missing description for
- tdp_mmu_root_count into kvm_mmu_page
-From:   Mingwei Zhang <mizhang@google.com>
-To:     Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mingwei Zhang <mizhang@google.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Jim Mattson <jmattson@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
-        Zhi Wang <zhi.wang.linux@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        bh=Mc8gTI3W4RW6dHKji0wpJv9Z8xook1q3V9GncqmxBNs=;
+        b=BTJrmuPT9iFw4yDkCCUwP0ArSaKfuT+hDhqObJlHXskOSJdM5QFsDX3P6OM/DB03M3
+         XUlnphUmPXNEBWm5BACIMirmXb9ok2hDHWK5QKjwIp7/kT4JIaPXd7jl9G1gfDJhGE8y
+         I6BWnzHzJMGwkUi+3p2U7BczES+l4b18TeuJZVMU/L6/MqUjtecS79bg6vQ2mHD+Rqf2
+         4On3vOnqruudYt6mWsIJehT33TCtQzMze9KGP9kApvG8l4vlZH2EAT+mzD2OGXr2PHUl
+         uKYReQ7lGtGvz13JGdTs0XiYuEGowlqSDR4wqlj9m16lKhCbdyPudI6QdxpuS9qI84kN
+         ki9Q==
+X-Gm-Message-State: AC+VfDxwPXUMpXVOgZPhHJjlNFgSX4r8t0nFHFNDLOxPp/I3DJCYzPOk
+        4uywgoLEx05168r24Wo9LALFJg==
+X-Google-Smtp-Source: ACHHUZ6kF7UCHGB/S7z47aVb3jHXMmBM7Gkc9O6kvyrBL6waC3X7eaZQjrosczNmx+jqkRnxb00mxg==
+X-Received: by 2002:a17:902:be09:b0:1b3:d6c8:7008 with SMTP id r9-20020a170902be0900b001b3d6c87008mr3314468pls.57.1687804912000;
+        Mon, 26 Jun 2023 11:41:52 -0700 (PDT)
+Received: from ghost.hq.rivosinc.com ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id y6-20020a1709029b8600b001b682336f66sm4499842plp.55.2023.06.26.11.41.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jun 2023 11:41:51 -0700 (PDT)
+From:   Charlie Jenkins <charlie@rivosinc.com>
+To:     charlie@rivosinc.com
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Zong Li <zong.li@sifive.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Guo Ren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Sergey Matyukevich <sergey.matyukevich@syntacore.com>,
+        David Hildenbrand <david@redhat.com>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        Qinglin Pan <panqinglin2020@iscas.ac.cn>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Brian Cain <bcain@quicinc.com>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Stafford Horne <shorne@gmail.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Anup Patel <anup@brainfault.org>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Evan Green <evan@rivosinc.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Mark Brown <broonie@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-riscv@lists.infradead.org (open list:RISC-V ARCHITECTURE),
+        linux-kernel@vger.kernel.org (open list),
+        linux-mm@kvack.org (open list:EXEC & BINFMT API),
+        linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
+Subject: [PATCH 0/2] Restrict address space for sv39,sv48,sv57
+Date:   Mon, 26 Jun 2023 11:36:02 -0700
+Message-Id: <20230626183611.40479-1-charlie@rivosinc.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the description of tdp_mmu_root_count into kvm_mmu_page description.
-tdp_mmu_root_count is an atomic counter used only in TDP MMU. Its usage and
-meaning is slightly different with root_counter in shadow MMU. Update the
-doc.
+Make sv39 the default address space for mmap as some applications
+currently depend on this assumption. The RISC-V specification enforces
+that bits outside of the virtual address range are not used, so
+restricting the size of the default address space as such should be
+temporary. A hint address passed to mmap will cause the largest address
+space that fits entirely into the hint to be used. If the hint is less
+than or equal to 1<<38, a 39-bit address will be used. After an address
+space is completely full, the next smallest address space will be used.
 
-Signed-off-by: Mingwei Zhang <mizhang@google.com>
----
- Documentation/virt/kvm/x86/mmu.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+Documentation is also added to the RISC-V virtual memory section to explain
+these changes.
 
-diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
-index 5cd6cd5e8926..97d695207e11 100644
---- a/Documentation/virt/kvm/x86/mmu.rst
-+++ b/Documentation/virt/kvm/x86/mmu.rst
-@@ -231,6 +231,11 @@ Shadow pages contain the following information:
-     A counter keeping track of how many hardware registers (guest cr3 or
-     pdptrs) are now pointing at the page.  While this counter is nonzero, the
-     page cannot be destroyed.  See role.invalid.
-+  tdp_mmu_root_count:
-+    An atomic reference counter in TDP MMU root page that allows for parallel
-+    accesses.  Accessing the page requires lifting the counter value. The
-+    initial value is set to 2 indicating one reference from vCPU and one
-+    from TDP MMU itself. Note this field is a union with root_count.
-   parent_ptes:
-     The reverse mapping for the pte/ptes pointing at this page's spt. If
-     parent_ptes bit 0 is zero, only one spte points at this page and
+Charlie Jenkins (2):
+  RISC-V: mm: Restrict address space for sv39,sv48,sv57
+  RISC-V: mm: Update documentation and include test
+
+ Documentation/riscv/vm-layout.rst             | 20 ++++++++
+ arch/riscv/include/asm/elf.h                  |  2 +-
+ arch/riscv/include/asm/pgtable.h              | 21 ++++++--
+ arch/riscv/include/asm/processor.h            | 41 +++++++++++++---
+ tools/testing/selftests/riscv/Makefile        |  2 +-
+ tools/testing/selftests/riscv/mm/Makefile     | 22 +++++++++
+ .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++++
+ 7 files changed, 144 insertions(+), 13 deletions(-)
+ create mode 100644 tools/testing/selftests/riscv/mm/Makefile
+ create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
+
+
+base-commit: eef509789cecdce895020682192d32e8bac790e8
 -- 
-2.41.0.162.gfafddb0af9-goog
+2.34.1
 
