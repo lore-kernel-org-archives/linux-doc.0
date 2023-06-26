@@ -2,58 +2,58 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E691AEB64DD
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 13:27:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF6F0EB64D7
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Jun 2023 13:50:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230240AbjFZN1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Jun 2023 09:27:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38540 "EHLO
+        id S229670AbjFZNuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Jun 2023 09:50:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbjFZN1K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 09:27:10 -0400
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F0841AD
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 06:27:09 -0700 (PDT)
-Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-34570b2d069so243365ab.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jun 2023 06:27:09 -0700 (PDT)
+        with ESMTP id S229803AbjFZNup (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Jun 2023 09:50:45 -0400
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C45B710C9;
+        Mon, 26 Jun 2023 06:50:43 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id 3f1490d57ef6-c1aad78d5b2so2327109276.0;
+        Mon, 26 Jun 2023 06:50:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687786028; x=1690378028;
+        d=gmail.com; s=20221208; t=1687787443; x=1690379443;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kSZHpIGj9wwkIa9hVVPRK76zK+0CMnJhqGyhyWSAmH0=;
-        b=QU4ktPnXPtrQ92+3m0NNpOS4TkW9tT8cF2/6OaqIvDumeqYRw1chYYeWj+qFv3ZZic
-         633YwIC/xGZ8YUufw/n14aRWQHKHl9mv8zsizHuo3QKfoOoDmXOGHcXb8b6eC1G88uT5
-         R2EzLBjalpwcH5/4zbymHE2aGsJ5LYu+3bi4xERIwMYTIUK/Hr4aork0TQtEMa/cEGan
-         GUjoYvLBntTEZhNhpTE5PrSHQw87xRk4mOpCg83icdiafcTfKR2eH9XxJc+Nv71hiWr3
-         /cnTZkQqepl1NzAjv6ze7VVWzWiZfV+kECbHO+K6OJtLlUlCfIlOOgwXn9rKxIQzAL7J
-         3RHA==
+        bh=Tgyqv8EYIym1+xnR4IokMMKVxRsw76bwo23lVBaAtjE=;
+        b=r+MLhxlZPkVLsRQO6HVrZ5AU0SoNM+fylAXfhYB3oF6k2zfCbKFeEMAU2dGvaeu3PY
+         eNIAy9eRzfDdqg12lMsYe0i6MHS+U7FRpEwbWvpW9qS/MAmZnG9RS/DaC4PeI24m8Kp0
+         FhatC8dCE/q8gn7Htf4r/R+exMF438GIMGiKEML6sIy2B7ulqGVMLiWE3gQaaXFe89Mb
+         CX/qnC35Ld1DlV53Bezso8u+36qZr2AYLbRzlu2nBrPGCZY6cLit/Lx6RG9X+QdwPp+5
+         FgxINPKpbuAUztak2FMwkeYLUh2dutMSri5pP4VjeUpyDBYnApiLMynuetZjcj84Yw1e
+         m73w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687786028; x=1690378028;
+        d=1e100.net; s=20221208; t=1687787443; x=1690379443;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kSZHpIGj9wwkIa9hVVPRK76zK+0CMnJhqGyhyWSAmH0=;
-        b=hkjQ42s4edw5wDL3Tpm4vZStqp8y+l1nW9NLRLw9qTdewS2WNsKZQjsOONyi0UqK5j
-         1yGjxUQm3WIxgw9VW6jqvgHmjpRrIU5tokj3pk3ww7db9sDMSLnafDf/3hCWyL9DHl8F
-         RvESeVih3rMnGJ71GxDEkilMHTD6CRAMfzoYE282KnmvS573P15DmuhDqk7g3G8aYqZH
-         JIX/hXMtKC+lI5TlCRKxKv8rws1KnerdkHwcTqqJwZTeRM2bagNUjV4P688qI4Lk/Hd5
-         xNopGslvWL0KKH227OUXCsP9j1NAKlB3ikac3Gre709J4DE9Rp0rm2uF3nRH9SeX1Cfe
-         ol0g==
-X-Gm-Message-State: AC+VfDz0nPhZsXKkA0Fn2CFn6wfP7EgTnRaHnctq5eUmkBn5H3JK0GOp
-        PnoZ5wXzLYE3GUGDlph7v6R58I9qH7K5WLVI2QWg6g==
-X-Google-Smtp-Source: ACHHUZ7tqs35ui6sqUKq3bHPizstRYS1nwRSk/Hqeqy7U1a2le2mFRC6yXGJ+/38BAUVTwK+xygXVymA05bBPBNXUHI=
-X-Received: by 2002:a05:6e02:1b09:b0:33b:5343:c1d6 with SMTP id
- i9-20020a056e021b0900b0033b5343c1d6mr346378ilv.21.1687786028373; Mon, 26 Jun
- 2023 06:27:08 -0700 (PDT)
+        bh=Tgyqv8EYIym1+xnR4IokMMKVxRsw76bwo23lVBaAtjE=;
+        b=c7o+Ae3wq+4mAwJjIhTyTNkxHh6LedaRGXtCyB2p4X5++RyqWZf2wIH8APWMfA1Fv+
+         RVyct4kiyF32qqt+mkA0dvzQ9dZkfdH6gHXums1O36E5vfUz4xMHk8ARBtn1I6Prw3eL
+         bVpU3CLIto88WPe6Hf5pUBOSKvEB75bDbvuk4Rs7KY07OzFL/c8ziXUrh7U58ZppNkeG
+         jP0MELf/o6eC2qK0Fox1Wos9Iw+UxAgiLk+loZ1lu74o/oQ7a8+rkVpVZDSmWHjvxpiF
+         dB3BIxEIhrm6XLYtLhRh9DyUQ0DmF6Zs2gEuVxyEKnFL/3LrYyFLCH0u0dUd04qZ+B15
+         ovsg==
+X-Gm-Message-State: AC+VfDziYkrGKphRroNvw8oMcjb0AVi+9CExwXjViYarT7spMZRMD/aW
+        WaR8Gtmo6ZkAc2MX19SbUM9lj+S9qyBxbM+gBjE=
+X-Google-Smtp-Source: ACHHUZ65bRZ34LgfKJzbhpp8jgyY/NZMkCzMmydTAWLNYN0oDE7VQpt/cPo6RqYUPmTIExX2C81NR5iNDazYtXIwsa8=
+X-Received: by 2002:a25:418d:0:b0:bff:2a29:5981 with SMTP id
+ o135-20020a25418d000000b00bff2a295981mr18450156yba.5.1687787442918; Mon, 26
+ Jun 2023 06:50:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230626100107.4102329-1-imagedong@tencent.com>
-In-Reply-To: <20230626100107.4102329-1-imagedong@tencent.com>
-From:   Eric Dumazet <edumazet@google.com>
-Date:   Mon, 26 Jun 2023 15:26:57 +0200
-Message-ID: <CANn89iKHfAWj_e6aqWiNQJfe2LOeaX3-Grx3w0LpxoKH9i86Cg@mail.gmail.com>
+References: <20230626100107.4102329-1-imagedong@tencent.com> <CANn89iKHfAWj_e6aqWiNQJfe2LOeaX3-Grx3w0LpxoKH9i86Cg@mail.gmail.com>
+In-Reply-To: <CANn89iKHfAWj_e6aqWiNQJfe2LOeaX3-Grx3w0LpxoKH9i86Cg@mail.gmail.com>
+From:   Menglong Dong <menglong8.dong@gmail.com>
+Date:   Mon, 26 Jun 2023 21:50:31 +0800
+Message-ID: <CADxym3axi_eNtZyP_+6NbxgHaKinBr+=rGvn-LmXnuCxEaHNuA@mail.gmail.com>
 Subject: Re: [PATCH net-next] net: tcp: support to probe tcp receiver OOM
-To:     menglong8.dong@gmail.com
+To:     Eric Dumazet <edumazet@google.com>
 Cc:     ncardwell@google.com, davem@davemloft.net, kuba@kernel.org,
         pabeni@redhat.com, corbet@lwn.net, dsahern@kernel.org,
         kuniyu@amazon.com, morleyd@google.com, imagedong@tencent.com,
@@ -66,32 +66,188 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 26, 2023 at 12:01=E2=80=AFPM <menglong8.dong@gmail.com> wrote:
+On Mon, Jun 26, 2023 at 9:27=E2=80=AFPM Eric Dumazet <edumazet@google.com> =
+wrote:
 >
-> From: Menglong Dong <imagedong@tencent.com>
+> On Mon, Jun 26, 2023 at 12:01=E2=80=AFPM <menglong8.dong@gmail.com> wrote=
+:
+> >
+> > From: Menglong Dong <imagedong@tencent.com>
+> >
+> > For now, skb will be dropped directly if rmem schedule fails, which mea=
+ns
+> > tcp_try_rmem_schedule() returns an error. This can happen on following
+> > cases:
+> >
+> > 1. The total memory allocated for TCP protocol is up to tcp_mem[2], and
+> >    the receive queue of the tcp socket is not empty.
+> > 2. The receive buffer of the tcp socket is full, which can happen on sm=
+all
+> >    packet cases.
+> >
+> > If the user hangs and doesn't take away the packet in the receive queue
+> > with recv() or read() for a long time, the sender will keep
+> > retransmitting until timeout, and the tcp connection will break.
+> >
+> > In order to handle such case, we introduce the tcp protocol OOM detecti=
+on
+> > in following steps, as Neal Cardwell suggested:
 >
-> For now, skb will be dropped directly if rmem schedule fails, which means
-> tcp_try_rmem_schedule() returns an error. This can happen on following
-> cases:
+> net-next is closed.
 >
-> 1. The total memory allocated for TCP protocol is up to tcp_mem[2], and
->    the receive queue of the tcp socket is not empty.
-> 2. The receive buffer of the tcp socket is full, which can happen on smal=
-l
->    packet cases.
+> I think I suggested something much simpler, and not intrusive like your p=
+atch.
+> (Your patch adds code in the fast path, and yet another sysctl)
 >
-> If the user hangs and doesn't take away the packet in the receive queue
-> with recv() or read() for a long time, the sender will keep
-> retransmitting until timeout, and the tcp connection will break.
->
-> In order to handle such case, we introduce the tcp protocol OOM detection
-> in following steps, as Neal Cardwell suggested:
+> If we can not queue an incoming packet because we are under memory stress=
+,
+> simply send an ACK with WIN 0
 
-net-next is closed.
+I tested that simply sending an ACK with WIN 0 does not work.
+That's what the commit
+b650d953cd39("tcp: enforce receive buffer memory limits by allowing
+the tcp window to shrink")
+do.
 
-I think I suggested something much simpler, and not intrusive like your pat=
-ch.
-(Your patch adds code in the fast path, and yet another sysctl)
+There are 2 reasons:
+1. The win in the ACK will be ignored. In the tcp_may_update_window(),
+it will check if this ACK can update the window. If the ACK doesn't
+acknowledge new data, and doesn't contain data, and doesn't
+expand the window, it will be ignored.
 
-If we can not queue an incoming packet because we are under memory stress,
-simply send an ACK with WIN 0
+2. The window update can't work if the retransmission queue is
+not empty, as zero-window probe only happen when the rtx queue
+empty. So if the rtx queue is not empty, RTO retransmission can still
+happen and timeout.
+
+That commit is similar to the series I sent before:
+https://lore.kernel.org/netdev/20230517124201.441634-1-imagedong@tencent.co=
+m/
+
+But it seems that it only handles the receiver of the window shrink,
+and the sender is not handled yet?
+
+As we already accepted the window shrink, maybe we
+handle the sender side and use the previous solution?
+
+Thanks!
+
+Following is the script that I used to reproduce the problem.
+On the server side, run:
+
+echo '1024 1500 2048' > /proc/sys/net/ipv4/tcp_mem
+./proto-mem-exhaust.py -s -r 1024000
+
+and on the client, run:
+
+./proto-mem-exhaust.py -c -t server_ip -m 100 --data 128
+
+-------------------------------------- proto-mem-exhaust.py
+----------------------
+
+#!/bin/python3
+
+import socket
+import argparse
+import time
+
+parser =3D argparse.ArgumentParser()
+parser.add_argument('-c', '--client', action=3D'store_true',
+                    help=3D'run as client')
+parser.add_argument('-s', '--server', action=3D'store_true',
+                    help=3D'run as server')
+parser.add_argument('-t', '--target', help=3D'host address')
+parser.add_argument('-m', '--max', type=3Dint, help=3D'max connect count')
+parser.add_argument('--data', type=3Dint, help=3D'data in kb a connect send=
+')
+parser.add_argument('-r', '--rbuff', type=3Dint, help=3D'receive buff size'=
+)
+args =3D parser.parse_args()
+
+
+def do_client():
+    clients =3D []
+    for i in range(0, args.max):
+        c =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        c.connect((args.target, 9999))
+        clients.append(c)
+        try:
+            data_len =3D args.data * 1024
+            print(f'send {data_len} data in {i} socket')
+            c.sendall(bytes(data_len))
+        except Exception as e:
+            print('error happened: %s' % e)
+            time.sleep(60*60*24)
+
+
+def do_server():
+    clients =3D []
+    s =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('0.0.0.0', 9999))
+    s.listen()
+    while True:
+        (c, addr) =3D s.accept()
+        c.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, args.rbuff)
+        clients.append(c)
+
+
+if args.client:
+    do_client()
+elif args.server:
+    do_server()
+
+
+Following is another script to reproduce the problem. On the
+server side, run: ./tcp-small.py -s -r 2048
+client side, run: ./tcp-small.py -c -t server_ip --data 8
+
+------------------------------------ tcp-small.py -------------------------=
+--
+
+#!/bin/python3
+
+import socket
+import argparse
+import time
+
+parser =3D argparse.ArgumentParser()
+parser.add_argument('-c', '--client', action=3D'store_true',
+                    help=3D'run as client')
+parser.add_argument('-s', '--server', action=3D'store_true',
+                    help=3D'run as server')
+parser.add_argument('-t', '--target', help=3D'host address')
+parser.add_argument('--data', type=3Dint, help=3D'data in byte send once')
+parser.add_argument('-r', '--rbuff', type=3Dint, help=3D'receive buff size'=
+)
+args =3D parser.parse_args()
+
+
+def do_client():
+    c =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    c.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    c.connect((args.target, 9999))
+    try:
+        while True:
+            data_len =3D args.data
+            c.sendall(bytes(data_len))
+            time.sleep(0.01)
+    except Exception as e:
+        print('error happened: %s' % e)
+        time.sleep(60*60*24)
+
+
+def do_server():
+    clients =3D []
+    s =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, args.rbuff)
+    s.bind(('0.0.0.0', 9999))
+    s.listen()
+    while True:
+        (c, addr) =3D s.accept()
+        clients.append(c)
+
+
+if args.client:
+    do_client()
+elif args.server:
+    do_server()
