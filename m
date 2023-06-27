@@ -2,86 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E685EEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 16:24:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3581EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 16:40:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231881AbjF0QYD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 12:24:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45602 "EHLO
+        id S231204AbjF0Qk0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 12:40:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231723AbjF0QX6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 12:23:58 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32EF430EC;
-        Tue, 27 Jun 2023 09:23:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=/4TlpfcV9w6VY9Wp7NMoSSjTCcDuCDvKDEUtb/e8aoY=; b=TSd0mxAFGlDcWEi9yXYnWluOUs
-        NldrvE0DKu1dHstL1JbzHINhrsfGcxz5LnCr5JS37ath2Ad9iVy/m5muvX4guNZ16jtoNWrtqGOvm
-        eZNQ0U5lHgWJEqRiExXBRaN4r4JqxAgc4fz4GxJRRzhYMANh4SKueIOWGtsUCxKZ9LZZvGMIH7UaU
-        rJrK4a/x13v4sAa1AzeEEaVg/JpWQiw2vMqt1bfX8/oVxivdyPzX8FJqYXFvybb301UzLa5hZ+dvi
-        Wx85YNW9fxLnRzdLddyCmbgWFNF237gROBrD6jAGbmmz0Yu7TyVXiD+HESVQMEO8JVpoTZ1i33uTj
-        U6IqmO6g==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qEBTt-00DdCA-01;
-        Tue, 27 Jun 2023 16:23:53 +0000
-Message-ID: <0d8f8e2b-166b-14bc-6879-a2521ea5b23d@infradead.org>
-Date:   Tue, 27 Jun 2023 09:23:51 -0700
+        with ESMTP id S229923AbjF0QkZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 12:40:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB70FE5
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 09:40:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4DF05611E9
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 16:40:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8C4DC433D9;
+        Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687884023;
+        bh=9sAKz/w99GQ7YaxV0Q2pQyQWA0CCuy4epW7pYlNrcJ4=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=qdOdNu5v7lgA2oM3N7WmUAdKduOrp9BBV4LJInL/tHXk8wPWLixQnTxL/jCBPt8Q9
+         3NOUKul8flcOJHlmHQMbmaygOykHV18tiDFnZjLznTVQmN28gSkOBlqh0NuZ7rsBLh
+         in8a2nOY4OtQOm1gfSVY9vr6g7cA1AaRM1WidGuarKNVyFbyZ0T4SSlzU9pLl1DHs9
+         Oecf6UdlR/S32u29GQ05JrUcLq89r4LLqEh57bYl//+m94NjP2RgeCs7YqFYCmhNjq
+         Kwl501DbU01Tlx1vEjgokVmpszknMuObmkz+8zAVtRJe0glVzPKF1lWEXomnnZ3W2W
+         gtJVz+f73GQ6g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8BE10C64457;
+        Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
-Content-Language: en-US
-To:     Matteo Rizzo <matteorizzo@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org
-Cc:     jordyzomer@google.com, evn@google.com, poprdi@google.com,
-        corbet@lwn.net, axboe@kernel.dk, asml.silence@gmail.com,
-        akpm@linux-foundation.org, keescook@chromium.org,
-        rostedt@goodmis.org, dave.hansen@linux.intel.com,
-        ribalda@chromium.org, chenhuacai@kernel.org, steve@sk2.org,
-        gpiccoli@igalia.com, ldufour@linux.ibm.com
-References: <20230627120058.2214509-1-matteorizzo@google.com>
- <20230627120058.2214509-2-matteorizzo@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230627120058.2214509-2-matteorizzo@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] phylink: ReST-ify the phylink_pcs_neg_mode() kdoc
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <168788402356.21860.7572149702440920426.git-patchwork-notify@kernel.org>
+Date:   Tue, 27 Jun 2023 16:40:23 +0000
+References: <20230626214640.3142252-1-kuba@kernel.org>
+In-Reply-To: <20230626214640.3142252-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, sfr@canb.auug.org.au, linux@armlinux.org.uk,
+        linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+Hello:
 
-On 6/27/23 05:00, Matteo Rizzo wrote:
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index d85d90f5d000..3c53a238332a 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -450,6 +450,20 @@ this allows system administrators to override the
->  ``IA64_THREAD_UAC_NOPRINT`` ``prctl`` and avoid logs being flooded.
->  
->  
-> +io_uring_disabled
-> +=========================
-> +
-> +Prevents all processes from creating new io_uring instances. Enabling this
-> +shrinks the kernel's attack surface.
-> +
-> += =============================================================
-> +0 All processes can create io_uring instances as normal. This is the default
-> +  setting.
-> +1 io_uring is disabled. io_uring_setup always fails with -EPERM. Existing
-> +  io_uring instances can still be used.
-> += =============================================================
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-These table lines should be extended at least as far as the text that they
-enclose. I.e., the top and bottom lines should be like:
+On Mon, 26 Jun 2023 14:46:40 -0700 you wrote:
+> Stephen reports warnings when rendering phylink kdocs as HTML:
+> 
+>   include/linux/phylink.h:110: ERROR: Unexpected indentation.
+>   include/linux/phylink.h:111: WARNING: Block quote ends without a blank line; unexpected unindent.
+>   include/linux/phylink.h:614: WARNING: Inline literal start-string without end-string.
+>   include/linux/phylink.h:644: WARNING: Inline literal start-string without end-string.
+> 
+> [...]
 
-> += ==========================================================================
+Here is the summary with links:
+  - [net-next] phylink: ReST-ify the phylink_pcs_neg_mode() kdoc
+    https://git.kernel.org/netdev/net-next/c/1a3f6fc430ed
 
-thanks.
+You are awesome, thank you!
 -- 
-~Randy
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
