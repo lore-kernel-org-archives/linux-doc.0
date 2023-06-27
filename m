@@ -2,141 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7207AEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 14:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AAC1EB64D9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 14:51:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231944AbjF0OnF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 10:43:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43158 "EHLO
+        id S231968AbjF0OvY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 10:51:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230336AbjF0Oms (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 10:42:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A93C1359F
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 07:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687876854;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HxXXRG19n9JIA9MH1iFO6LWghYV5obKh5ig/aXiH0Xo=;
-        b=Nr91JhniCyJ5YnFJ0lxxd/vDwd4cMfXxD+am4efr/LW3a4PB/2YNZLwLflPExxHYkNvVNu
-        zybfnIKJ4oHhQNmxATH76xEIvV9sWIVcc/5Gjuk1D8q7A4uA8jdCUbhK1xR9EuwJb6XFf+
-        wafraWg8UuaBJQbbF97af7eY5lTGQn0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-LmQfQh6XPPu43T56nk_XGA-1; Tue, 27 Jun 2023 10:40:51 -0400
-X-MC-Unique: LmQfQh6XPPu43T56nk_XGA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S232041AbjF0OvJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 10:51:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B78EB5586;
+        Tue, 27 Jun 2023 07:48:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1A458C810A;
-        Tue, 27 Jun 2023 14:35:32 +0000 (UTC)
-Received: from llong.com (unknown [10.22.10.32])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DDBCE40C2063;
-        Tue, 27 Jun 2023 14:35:31 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Ryan Phillips <rphillips@redhat.com>,
-        Brent Rowsell <browsell@redhat.com>,
-        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v4 1/9] cgroup/cpuset: Inherit parent's load balance state in v2
-Date:   Tue, 27 Jun 2023 10:35:00 -0400
-Message-Id: <20230627143508.1576882-2-longman@redhat.com>
-In-Reply-To: <20230627143508.1576882-1-longman@redhat.com>
-References: <20230627143508.1576882-1-longman@redhat.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AE8B7611BE;
+        Tue, 27 Jun 2023 14:47:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95FE3C433C0;
+        Tue, 27 Jun 2023 14:47:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1687877249;
+        bh=iVGFFoHvyeH3UjpVLHehT6HeqAjfNK5+/oIAYbj6sYM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DxgW8zZNEFgWzeDh0EGb2mCF33KDAhnUL8/bHoHC3NxwO7mXQcpC4JZAzPtlJFyTG
+         re7IU5oxjryZhXjwgn4TN5K8qX54QkaNdno+9s+HpfTKp49eR81FjXOH4jldV2szEo
+         ftuRtnWCwlo6uHeCxhvkjfGkNuxCgRme6RAjSpnM=
+Date:   Tue, 27 Jun 2023 16:47:26 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Jim Cromie <jim.cromie@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/3] dyndbg: add source file name to prefix
+Message-ID: <2023062759-backspin-disperser-cd54@gregkh>
+References: <20221223-dyndbg-filename-v1-0-cbf8543009a1@weissschuh.net>
+ <896d52bd-20b5-4507-99c6-de4b86f9141c@t-8ch.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+In-Reply-To: <896d52bd-20b5-4507-99c6-de4b86f9141c@t-8ch.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit f28e22441f35 ("cgroup/cpuset: Add a new isolated
-cpus.partition type"), the CS_SCHED_LOAD_BALANCE bit of a v2 cpuset
-can be on or off. The child cpusets of a partition root must have the
-same setting as its parent or it may screw up the rebuilding of sched
-domains. Fix this problem by making sure the a child v2 cpuset will
-follows its parent cpuset load balance state unless the child cpuset
-is a new partition root itself.
+On Tue, Jun 27, 2023 at 04:30:56PM +0200, Thomas Weißschuh wrote:
+> Hi Luis and Greg,
+> 
+> it seems you are the ones picking up patches for dyndbg.
+> 
+> Could you take a look at this series?
+> It has Acks from both Jason and Jim.
 
-Fixes: f28e22441f35 ("cgroup/cpuset: Add a new isolated cpus.partition type")
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- kernel/cgroup/cpuset.c | 33 ++++++++++++++++++++++++++++++---
- 1 file changed, 30 insertions(+), 3 deletions(-)
+It's the middle of the merge window, we can't take anything new, sorry.
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 58e6f18f01c1..170e342b07e3 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -1588,11 +1588,16 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
- 		}
- 
- 		/*
--		 * Skip the whole subtree if the cpumask remains the same
--		 * and has no partition root state and force flag not set.
-+		 * Skip the whole subtree if
-+		 * 1) the cpumask remains the same,
-+		 * 2) has no partition root state,
-+		 * 3) force flag not set, and
-+		 * 4) for v2 load balance state same as its parent.
- 		 */
- 		if (!cp->partition_root_state && !force &&
--		    cpumask_equal(tmp->new_cpus, cp->effective_cpus)) {
-+		    cpumask_equal(tmp->new_cpus, cp->effective_cpus) &&
-+		    (!cgroup_subsys_on_dfl(cpuset_cgrp_subsys) ||
-+		    (is_sched_load_balance(parent) == is_sched_load_balance(cp)))) {
- 			pos_css = css_rightmost_descendant(pos_css);
- 			continue;
- 		}
-@@ -1675,6 +1680,20 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
- 
- 		update_tasks_cpumask(cp, tmp->new_cpus);
- 
-+		/*
-+		 * On default hierarchy, inherit the CS_SCHED_LOAD_BALANCE
-+		 * from parent if current cpuset isn't a valid partition root
-+		 * and their load balance states differ.
-+		 */
-+		if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys) &&
-+		    !is_partition_valid(cp) &&
-+		    (is_sched_load_balance(parent) != is_sched_load_balance(cp))) {
-+			if (is_sched_load_balance(parent))
-+				set_bit(CS_SCHED_LOAD_BALANCE, &cp->flags);
-+			else
-+				clear_bit(CS_SCHED_LOAD_BALANCE, &cp->flags);
-+		}
-+
- 		/*
- 		 * On legacy hierarchy, if the effective cpumask of any non-
- 		 * empty cpuset is changed, we need to rebuild sched domains.
-@@ -3222,6 +3241,14 @@ static int cpuset_css_online(struct cgroup_subsys_state *css)
- 		cs->use_parent_ecpus = true;
- 		parent->child_ecpus_count++;
- 	}
-+
-+	/*
-+	 * For v2, clear CS_SCHED_LOAD_BALANCE if parent is isolated
-+	 */
-+	if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys) &&
-+	    !is_sched_load_balance(parent))
-+		clear_bit(CS_SCHED_LOAD_BALANCE, &cs->flags);
-+
- 	spin_unlock_irq(&callback_lock);
- 
- 	if (!test_bit(CGRP_CPUSET_CLONE_CHILDREN, &css->cgroup->flags))
--- 
-2.31.1
+Care to submit it after 6.5-rc1 is out?
 
+thanks,
+
+greg k-h
