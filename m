@@ -2,41 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BADDC001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 14:36:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E6DEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 14:37:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231271AbjF0Og6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 10:36:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37978 "EHLO
+        id S231467AbjF0OhW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 10:37:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231379AbjF0Og5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 10:36:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BB9430DD
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 07:36:04 -0700 (PDT)
+        with ESMTP id S231569AbjF0OhK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 10:37:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6352F35A5
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 07:36:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687876563;
+        s=mimecast20190719; t=1687876571;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=T1/GI0DN/l36YNRdQUEP56Qh0Q1HrifFn5e4yBEgTec=;
-        b=PretV90GYCiJ26209JJsR2T1omJavopguN3dh6jLmthnL5O4dRhPYMthebUAwUO/c9tAfF
-        LLf6OxOh5JOVmJi/CGD5ZffQEgLBnpKQgC7/386xi3Px2FV/N9y2S73OFXySfKges5VjHa
-        pC2K+FuXQA7yz55PQoeeKz5R24jr7Eg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Vt7eR5Warck2Ap0bmlsSY+DSBbefbEPsBcMz8g8y+lE=;
+        b=TePE6k0GtFW9aPQSNkaDciZn+rHKCEffrc1BdNri1yCULOQYwTHL8PCTAXdUsW0xa+r2wG
+        BfElZUXEHzt2AZ7W8b+2NQlrxm6nYy5+3K5GcITAq2ldWm5gLBFfjFDpPVT5lNclyZNuNj
+        zd9/iU+Zu5/SlDIvMAA/cDhn5SvrmkY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-Wp4Ew9xSP4CUljkjzPLvUg-1; Tue, 27 Jun 2023 10:36:00 -0400
-X-MC-Unique: Wp4Ew9xSP4CUljkjzPLvUg-1
+ us-mta-649-80VyoFvJNiu59IAEKwFGwA-1; Tue, 27 Jun 2023 10:36:08 -0400
+X-MC-Unique: 80VyoFvJNiu59IAEKwFGwA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B52D8E2D58;
-        Tue, 27 Jun 2023 14:35:35 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF69E280AA50;
+        Tue, 27 Jun 2023 14:35:31 +0000 (UTC)
 Received: from llong.com (unknown [10.22.10.32])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6B80540C2063;
-        Tue, 27 Jun 2023 14:35:34 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CBED140C2063;
+        Tue, 27 Jun 2023 14:35:30 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -51,11 +50,9 @@ Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
         Brent Rowsell <browsell@redhat.com>,
         Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v4 4/9] cgroup/cpuset: Allow suppression of sched domain rebuild in update_cpumasks_hier()
-Date:   Tue, 27 Jun 2023 10:35:03 -0400
-Message-Id: <20230627143508.1576882-5-longman@redhat.com>
-In-Reply-To: <20230627143508.1576882-1-longman@redhat.com>
-References: <20230627143508.1576882-1-longman@redhat.com>
+Subject: [PATCH v4 0/9] cgroup/cpuset: Support remote partitions
+Date:   Tue, 27 Jun 2023 10:34:59 -0400
+Message-Id: <20230627143508.1576882-1-longman@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
@@ -63,108 +60,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A single partition setup and tear-down operation can lead to
-multiple rebuild_sched_domains_locked() calls which is a waste of
-effort. This can partly be mitigated by adding a flag to suppress the
-rebuild_sched_domains_locked() call in update_cpumasks_hier(). Since
-a Boolean flag has already been passed as the 3rd argument to
-update_cpumasks_hier(), we can extend that to a full flag word.
+ v4:
+  - [v3] https://lore.kernel.org/lkml/20230627005529.1564984-1-longman@redhat.com/
+  - Fix compilation problem reported by kernel test robot.
 
-The sched domain rebuild suppression is now enabled in
-update_sibling_cpumasks() as all it callers will do the sched domain
-rebuild after its return later on anyway.
+ v3:
+  - [v2] https://lore.kernel.org/lkml/20230531163405.2200292-1-longman@redhat.com/
+  - Change the new control file from root-only "cpuset.cpus.reserve" to
+    non-root "cpuset.cpus.exclusive" which lists the set of exclusive
+    CPUs distributed down the hierarchy.
+  - Add a patch to restrict boot-time isolated CPUs to isolated
+    partitions only.
+  - Update the test_cpuset_prs.sh test script and documentation
+    accordingly.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- kernel/cgroup/cpuset.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+This patch series introduces a new cpuset control file
+"cpuset.cpus.exclusive" which must be a subset of "cpuset.cpus"
+and the parent's "cpuset.cpus.exclusive". This control file lists
+the exclusive CPUs to be distributed down the hierarchy. Any one
+of the exclusive CPUs can only be distributed to at most one child
+cpuset. Unlike "cpuset.cpus", invalid input to "cpuset.cpus.exclusive"
+will be rejected with an error. This new control file has no effect on
+the behavior of the cpuset until it turns into a partition root. At that
+point, its effective CPUs will be set to its exclusive CPUs unless some
+of them are offline.
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index b8ccc1be7bde..64f9e305b3ab 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -1590,6 +1590,12 @@ static int update_parent_subparts_cpumask(struct cpuset *cs, int cmd,
- 	return 0;
- }
- 
-+/*
-+ * update_cpumasks_hier() flags
-+ */
-+#define HIER_CHECKALL		0x01	/* Check all cpusets with no skipping */
-+#define HIER_NO_SD_REBUILD	0x02	/* Don't rebuild sched domains */
-+
- /*
-  * update_cpumasks_hier - Update effective cpumasks and tasks in the subtree
-  * @cs:  the cpuset to consider
-@@ -1604,7 +1610,7 @@ static int update_parent_subparts_cpumask(struct cpuset *cs, int cmd,
-  * Called with cpuset_mutex held
-  */
- static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
--				 bool force)
-+				 int flags)
- {
- 	struct cpuset *cp;
- 	struct cgroup_subsys_state *pos_css;
-@@ -1644,10 +1650,10 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
- 		 * Skip the whole subtree if
- 		 * 1) the cpumask remains the same,
- 		 * 2) has no partition root state,
--		 * 3) force flag not set, and
-+		 * 3) HIER_CHECKALL flag not set, and
- 		 * 4) for v2 load balance state same as its parent.
- 		 */
--		if (!cp->partition_root_state && !force &&
-+		if (!cp->partition_root_state && !(flags & HIER_CHECKALL) &&
- 		    cpumask_equal(tmp->new_cpus, cp->effective_cpus) &&
- 		    (!cgroup_subsys_on_dfl(cpuset_cgrp_subsys) ||
- 		    (is_sched_load_balance(parent) == is_sched_load_balance(cp)))) {
-@@ -1764,7 +1770,7 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
- 	}
- 	rcu_read_unlock();
- 
--	if (need_rebuild_sched_domains)
-+	if (need_rebuild_sched_domains && !(flags & HIER_NO_SD_REBUILD))
- 		rebuild_sched_domains_locked();
- }
- 
-@@ -1788,7 +1794,9 @@ static void update_sibling_cpumasks(struct cpuset *parent, struct cpuset *cs,
- 	 * to use the right effective_cpus value.
- 	 *
- 	 * The update_cpumasks_hier() function may sleep. So we have to
--	 * release the RCU read lock before calling it.
-+	 * release the RCU read lock before calling it. HIER_NO_SD_REBUILD
-+	 * flag is used to suppress rebuild of sched domains as the callers
-+	 * will take care of that.
- 	 */
- 	rcu_read_lock();
- 	cpuset_for_each_child(sibling, pos_css, parent) {
-@@ -1800,7 +1808,7 @@ static void update_sibling_cpumasks(struct cpuset *parent, struct cpuset *cs,
- 			continue;
- 
- 		rcu_read_unlock();
--		update_cpumasks_hier(sibling, tmp, false);
-+		update_cpumasks_hier(sibling, tmp, HIER_NO_SD_REBUILD);
- 		rcu_read_lock();
- 		css_put(&sibling->css);
- 	}
-@@ -1913,7 +1921,7 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
- 	spin_unlock_irq(&callback_lock);
- 
- 	/* effective_cpus will be updated here */
--	update_cpumasks_hier(cs, &tmp, false);
-+	update_cpumasks_hier(cs, &tmp, 0);
- 
- 	if (cs->partition_root_state) {
- 		struct cpuset *parent = parent_cs(cs);
-@@ -2382,7 +2390,7 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 	 * Force update if switching back to member.
- 	 */
- 	if (!list_empty(&cs->css.children))
--		update_cpumasks_hier(cs, &tmpmask, !new_prs);
-+		update_cpumasks_hier(cs, &tmpmask, !new_prs ? HIER_CHECKALL : 0);
- 
- 	/* Update sched domains and load balance flag */
- 	update_partition_sd_lb(cs, old_prs);
+This patch series also introduces a new category of cpuset partition
+called remote partitions. The existing partition category where the
+partition roots have to be clustered around the root cgroup in a
+hierarchical way is now referred to as local partitions.
+
+A remote partition can be formed far from the root cgroup
+with no partition root parent. While local partitions can be
+created without touching "cpuset.cpus.exclusive" as it can be set
+automatically if a cpuset becomes a local partition root. Properly set
+"cpuset.cpus.exclusive" values down the hierarchy are required to create
+a remote partition.
+
+Both scheduling and isolated partitions can be formed in a remote
+partition. A local partition can be created under a remote partition.
+A remote partition, however, cannot be formed under a local partition
+for now.
+
+Modern container orchestration tools like Kubernetes use the cgroup
+hierarchy to manage different containers. And it is relying on other
+middleware like systemd to help managing it. If a container needs to
+use isolated CPUs, it is hard to get those with the local partitions
+as it will require the administrative parent cgroup to be a partition
+root too which tool like systemd may not be ready to manage.
+
+With this patch series, we allow the creation of remote partition
+far from the root. The container management tool can manage the
+"cpuset.cpus.exclusive" file without impacting the other cpuset
+files that are managed by other middlewares. Of course, invalid
+"cpuset.cpus.exclusive" values will be rejected and changes to
+"cpuset.cpus" can affect the value of "cpuset.cpus.exclusive" due to
+the requirement that it has to be a subset of the former control file.
+
+Waiman Long (9):
+  cgroup/cpuset: Inherit parent's load balance state in v2
+  cgroup/cpuset: Extract out CS_CPU_EXCLUSIVE & CS_SCHED_LOAD_BALANCE
+    handling
+  cgroup/cpuset: Improve temporary cpumasks handling
+  cgroup/cpuset: Allow suppression of sched domain rebuild in
+    update_cpumasks_hier()
+  cgroup/cpuset: Add cpuset.cpus.exclusive for v2
+  cgroup/cpuset: Introduce remote partition
+  cgroup/cpuset: Check partition conflict with housekeeping setup
+  cgroup/cpuset: Documentation update for partition
+  cgroup/cpuset: Extend test_cpuset_prs.sh to test remote partition
+
+ Documentation/admin-guide/cgroup-v2.rst       |  100 +-
+ kernel/cgroup/cpuset.c                        | 1347 ++++++++++++-----
+ .../selftests/cgroup/test_cpuset_prs.sh       |  398 +++--
+ 3 files changed, 1291 insertions(+), 554 deletions(-)
+
 -- 
 2.31.1
 
