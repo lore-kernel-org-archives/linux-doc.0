@@ -2,76 +2,159 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D455EB64D9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 14:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA38EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 14:36:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229495AbjF0ObB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 10:31:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35374 "EHLO
+        id S230299AbjF0Ogz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 10:36:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbjF0ObB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 10:31:01 -0400
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0DAC2D57;
-        Tue, 27 Jun 2023 07:30:59 -0700 (PDT)
-Date:   Tue, 27 Jun 2023 16:30:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
-        t=1687876257; bh=u/styuiwKTHBLIwlbUAHCI3m1sh/IGIn2gHEu3WfiH4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YVJevOzlIrqr6uSV2IAWBd7W3hxR+7qjq7byiJJmD9pWJz4ASZnvks+O9RIAYJNRQ
-         LeJOLwxYuyIsIaLLve6Gnp92GF46Aepokcl1LcfFlD+440qEWxQZCw5gOcIFMi5SHH
-         W7UUfkx5uegtnUtPHJkFZaErCLZs1wtB/wjb25YY=
-From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-To:     Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/3] dyndbg: add source file name to prefix
-Message-ID: <896d52bd-20b5-4507-99c6-de4b86f9141c@t-8ch.de>
-References: <20221223-dyndbg-filename-v1-0-cbf8543009a1@weissschuh.net>
+        with ESMTP id S231172AbjF0Ogy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 10:36:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BDB4359F
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 07:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687876563;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vmQ47yrk6oi4cwmpXV9NlSGFJ5Yq05aPKaX6AWXHzFg=;
+        b=UN21Mqra9VuzAjK4Oq9vSEUtX9R4K61p2qSfpiw0AXVxYXPojVTcyA/6e7y5+f19X82IkB
+        xIZWogAsiSO34MeXc32glZvZGEhcpOoEDY8Ia2ksSR6j7/YVVFz7EAmR4jZ/968pHqTyKq
+        /rJt9NElVZOF+IdF5W0I2Vu2zd0IPk4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-185-Ay3jFgDAP7uyNdF6Hx5YQw-1; Tue, 27 Jun 2023 10:35:56 -0400
+X-MC-Unique: Ay3jFgDAP7uyNdF6Hx5YQw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D62893819AE2;
+        Tue, 27 Jun 2023 14:35:37 +0000 (UTC)
+Received: from llong.com (unknown [10.22.10.32])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 12F0E40C2063;
+        Tue, 27 Jun 2023 14:35:37 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Mrunal Patel <mpatel@redhat.com>,
+        Ryan Phillips <rphillips@redhat.com>,
+        Brent Rowsell <browsell@redhat.com>,
+        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v4 7/9] cgroup/cpuset: Check partition conflict with housekeeping setup
+Date:   Tue, 27 Jun 2023 10:35:06 -0400
+Message-Id: <20230627143508.1576882-8-longman@redhat.com>
+In-Reply-To: <20230627143508.1576882-1-longman@redhat.com>
+References: <20230627143508.1576882-1-longman@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221223-dyndbg-filename-v1-0-cbf8543009a1@weissschuh.net>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Luis and Greg,
+A user can pre-configure certain CPUs in an isolated state at boot time
+with the "isolcpus" kernel boot command line option. Those CPUs will
+not be in the housekeeping_cpumask(HK_TYPE_DOMAIN) and so will not
+be in any sched domains. This may conflict with the partition setup
+at runtime. Those boot time isolated CPUs should only be used in an
+isolated partition.
 
-it seems you are the ones picking up patches for dyndbg.
+This patch adds the necessary check and disallows partition setup if the
+check fails.
 
-Could you take a look at this series?
-It has Acks from both Jason and Jim.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ kernel/cgroup/cpuset.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-Thanks,
-Thomas
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 56aa7b4f213c..3b0805eacb6b 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -75,6 +75,7 @@ enum prs_errcode {
+ 	PERR_NOCPUS,
+ 	PERR_HOTPLUG,
+ 	PERR_CPUSEMPTY,
++	PERR_HKEEPING,
+ };
+ 
+ static const char * const perr_strings[] = {
+@@ -85,6 +86,7 @@ static const char * const perr_strings[] = {
+ 	[PERR_NOCPUS]    = "Parent unable to distribute cpu downstream",
+ 	[PERR_HOTPLUG]   = "No cpu available due to hotplug",
+ 	[PERR_CPUSEMPTY] = "cpuset.cpus is empty",
++	[PERR_HKEEPING]  = "partition config conflicts with housekeeping setup",
+ };
+ 
+ struct cpuset {
+@@ -1574,6 +1576,26 @@ static int remote_cpus_update(struct cpuset *cs, struct cpumask *newmask,
+ 	return 0;
+ }
+ 
++/*
++ * prstate_housekeeping_conflict - check for partition & housekeeping conflicts
++ * @prstate: partition root state to be checked
++ * @new_cpus: cpu mask
++ * Return: true if there is conflict, false otherwise
++ *
++ * CPUs outside of housekeeping_cpumask(HK_TYPE_DOMAIN) can only be used in
++ * an isolated partition.
++ */
++static bool prstate_housekeeping_conflict(int prstate, struct cpumask *new_cpus)
++{
++	const struct cpumask *hk_domain = housekeeping_cpumask(HK_TYPE_DOMAIN);
++	bool all_in_hk = cpumask_subset(new_cpus, hk_domain);
++
++	if (!all_in_hk && (prstate != PRS_ISOLATED))
++		return true;
++
++	return false;
++}
++
+ /**
+  * update_parent_effective_cpumask - update effective_cpus mask of parent cpuset
+  * @cs:      The cpuset that requests change in partition root state
+@@ -1674,6 +1696,9 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
+ 		if (!cpumask_intersects(xcpus, parent->exclusive_cpus))
+ 			return PERR_INVCPUS;
+ 
++		if (prstate_housekeeping_conflict(new_prs, xcpus))
++			return PERR_HKEEPING;
++
+ 		/*
+ 		 * A parent can be left with no CPU as long as there is no
+ 		 * task directly associated with the parent partition.
+@@ -2249,6 +2274,9 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
+ 		if (cpumask_empty(trialcs->exclusive_cpus)) {
+ 			invalidate = true;
+ 			cs->prs_err = PERR_INVCPUS;
++		} else if (prstate_housekeeping_conflict(old_prs, trialcs->exclusive_cpus)) {
++			invalidate = true;
++			cs->prs_err = PERR_HKEEPING;
+ 		} else if (tasks_nocpu_error(parent, cs, trialcs->exclusive_cpus)) {
+ 			invalidate = true;
+ 			cs->prs_err = PERR_NOCPUS;
+@@ -2381,6 +2409,9 @@ static int update_exclusive_cpumask(struct cpuset *cs, struct cpuset *trialcs,
+ 		if (cpumask_empty(trialcs->exclusive_cpus)) {
+ 			invalidate = true;
+ 			cs->prs_err = PERR_INVCPUS;
++		} else if (prstate_housekeeping_conflict(old_prs, trialcs->exclusive_cpus)) {
++			invalidate = true;
++			cs->prs_err = PERR_HKEEPING;
+ 		} else if (tasks_nocpu_error(parent, cs, trialcs->exclusive_cpus)) {
+ 			invalidate = true;
+ 			cs->prs_err = PERR_NOCPUS;
+-- 
+2.31.1
 
-On 2023-01-30 02:01:17+0000, Thomas Weißschuh wrote:
-> Currently dyndbg has no facility to print the source file name of a
-> debug statement.
-> Without the source file the line number is of limited use.
-> Also the dyndbg control file uses the filename as the primary index, so
-> having it in the logmessage makes the relation clearer.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> ---
-> Thomas Weißschuh (3):
->       dyndbg: constify opt_array
->       dyndbg: increase PREFIX_SIZE to 128
->       dyndbg: add source filename to prefix
-> 
->  Documentation/admin-guide/dynamic-debug-howto.rst | 5 +++--
->  include/linux/dynamic_debug.h                     | 4 +++-
->  lib/dynamic_debug.c                               | 8 ++++++--
->  3 files changed, 12 insertions(+), 5 deletions(-)
-> ---
-> base-commit: 6d796c50f84ca79f1722bb131799e5a5710c4700
-> change-id: 20221223-dyndbg-filename-02e0879dae4b
-> 
-> Best regards,
-> -- 
-> Thomas Weißschuh <linux@weissschuh.net>
-> 
