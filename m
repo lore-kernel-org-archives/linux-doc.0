@@ -2,125 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4272DEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 17:20:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E48EB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 18:16:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231210AbjF0RUh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 13:20:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
+        id S229733AbjF0SQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 14:16:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231146AbjF0RUg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 13:20:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D249198;
-        Tue, 27 Jun 2023 10:20:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 85125611EE;
-        Tue, 27 Jun 2023 17:20:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E19DC433C9;
-        Tue, 27 Jun 2023 17:20:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687886433;
-        bh=yG+a22abZ9SzUNQMe+8vtxSHNs6hg3hQ7bJmtKEfq6g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hyU4+sm92oSYzUVPRTJlX+Fe8+ttP3U+br5Qu6kTbNbf5lZfR+LqFTbGiYEKIV8Q+
-         5RtK9Vqc8+8DspI54cUVWQ4w14eVSy2+Rv5XCiYaU6R+cA3pp+bjTUBvPBsuxG8/R+
-         5XDChTIqMS7+mQbhSiOPUMCfEr82Rp5khktKM6IqzLhSB7J7tunqkGu8E55EYQkF3+
-         mRES0K7flwKd7TMmFAgchyy7qWWCZpdIVYnU15tNXlY1LFxI8enQ8GdFiHvchx76Fp
-         B6X9WIMAwaBYF4kJZrpLfqjsBEN5q10onKUXCktEh8nnAM3zv8+2mKEcK5AetxE/4j
-         uk99KdZ6KzwgA==
-Date:   Tue, 27 Jun 2023 18:20:21 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
-        torvalds@linux-foundation.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v9 28/42] x86/shstk: Add user-mode shadow stack support
-Message-ID: <76a87cdf-4d4f-4b3f-b01f-0540eab71ac7@sirena.org.uk>
-References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
- <20230613001108.3040476-29-rick.p.edgecombe@intel.com>
+        with ESMTP id S231186AbjF0SPt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 14:15:49 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B662510D7
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 11:15:46 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-991aac97802so370196066b.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 11:15:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687889745; x=1690481745;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ndCPpqDgwou489KjC0kIekAZ9rKZJd9NKLRwxqa3kWo=;
+        b=ixA0x2iljcmjaL4fSY7co3wMQ1r+EcKo28vas1Oo0TPGMSLfOyNZHZ7Kz4Mu5+UQm+
+         rkB5Xj7WJJ/8/up5pGueSbFBIUHcEqYhUZuJW18ZhNWzD8QW4h7+Pt4s20nEUDeSRODj
+         Ck8XcFg71kWOkxPboWcMoMIbIZRvYHQvd9m8rxyp1wGO1BroJO0VcWofO9rcT2uV9698
+         IuQ7sBRVAiZj2dXeG6nqLmT22K3n/qXtYGVbK3wOjkLdyzt/8IkMTPj+yIa7WZcPhTng
+         eu/wphKjcdTKt47a4CYvSNkK0SrwSIq+k1ioBdVc6wt8/JhtDV6vJAs4xKClUl/fgmpE
+         L/Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687889745; x=1690481745;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ndCPpqDgwou489KjC0kIekAZ9rKZJd9NKLRwxqa3kWo=;
+        b=AkqvPBAqmp0rnfN50F7kg0pGCEVEjie11+duyje1oo7ByzaAMvtnRlxAQpWSz8HO9+
+         L0KjEbVHz33Ws2kXAqYcevObk0lngIKSPj/MRhEH9o8bX5mTFXDa6Hw/1hC9i94JsBUN
+         3GF8XNFU18yvlRWXNn9NaEZ4wVoYAAjuXCchlwq0AFbckTxz5ZgoGRan8W4DSPZD/cGk
+         GYg3fjOvgfds4XROCCwnqSHBCjE/nZBqJlN5mebjA99TEeXawNfO+ystHAwyc81N1Izj
+         CbRoMgGWIVlUTv+bzf4aCOawMJoQL2lJxa0uxTcYwnsT5boo5zDVOLS/JgNDIlIYCj2F
+         wdnw==
+X-Gm-Message-State: AC+VfDzlftxRz81Ik5k95b+gO7gnDD1u2mMxo8+IomCqMlqvi7NlHOHe
+        wyiAGswkjhpOJ/Egmm81iw2aamtTsjDxckhkEEU0vw==
+X-Google-Smtp-Source: ACHHUZ5mDR3zHCNEIaXf+4bc2+481wuGeRiTY9bqKnQ2FgfAM2kBtsZ4ibLCMT4pX+mRBbPPZnG6v6jNKX9b241X0pM=
+X-Received: by 2002:a17:907:26ca:b0:98d:fc51:b3dd with SMTP id
+ bp10-20020a17090726ca00b0098dfc51b3ddmr9919666ejc.41.1687889744959; Tue, 27
+ Jun 2023 11:15:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5kInKYAEl4EdyhTr"
-Content-Disposition: inline
-In-Reply-To: <20230613001108.3040476-29-rick.p.edgecombe@intel.com>
-X-Cookie: Money is the root of all wealth.
+References: <20230627120058.2214509-1-matteorizzo@google.com>
+ <20230627120058.2214509-2-matteorizzo@google.com> <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
+In-Reply-To: <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
+From:   Matteo Rizzo <matteorizzo@google.com>
+Date:   Tue, 27 Jun 2023 20:15:33 +0200
+Message-ID: <CAHKB1wJANtT27WM6hrhDy_x9H9Lsn4qRjPDmXdKosoL93TJRYg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        io-uring@vger.kernel.org, jordyzomer@google.com, evn@google.com,
+        poprdi@google.com, corbet@lwn.net, axboe@kernel.dk,
+        asml.silence@gmail.com, akpm@linux-foundation.org,
+        keescook@chromium.org, rostedt@goodmis.org,
+        dave.hansen@linux.intel.com, ribalda@chromium.org,
+        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
+        ldufour@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 27 Jun 2023 at 19:10, Bart Van Assche <bvanassche@acm.org> wrote:
+> I'm using fio + io_uring all the time on Android devices. I think we need a
+> better solution than disabling io_uring system-wide, e.g. a mechanism based
+> on SELinux that disables io_uring for apps and that keeps io_uring enabled
+> for processes started via 'adb root && adb shell ...'
 
---5kInKYAEl4EdyhTr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Android already uses seccomp to prevent untrusted applications from using
+io_uring. This patch is aimed at server/desktop environments where there is
+no easy way to set a system-wide seccomp policy and right now the only way
+to disable io_uring system-wide is to compile it out of the kernel entirely
+(not really feasible for e.g. a general-purpose distro).
 
-On Mon, Jun 12, 2023 at 05:10:54PM -0700, Rick Edgecombe wrote:
-
-> +static void unmap_shadow_stack(u64 base, u64 size)
-> +{
-> +	while (1) {
-> +		int r;
-> +
-> +		r = vm_munmap(base, size);
-> +
-> +		/*
-> +		 * vm_munmap() returns -EINTR when mmap_lock is held by
-> +		 * something else, and that lock should not be held for a
-> +		 * long time.  Retry it for the case.
-> +		 */
-> +		if (r == -EINTR) {
-> +			cond_resched();
-> +			continue;
-> +		}
-
-This looks generic, not even shadow stack specific - was there any
-discussion of making it a vm_munmap_retry() (that's not a great name...)
-or similar?  I didn't see any in old versions of the thread but I
-might've missed something.
-
---5kInKYAEl4EdyhTr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSbGlUACgkQJNaLcl1U
-h9BqNQf9HqQNIAUg29S+cA0RcGv/d0uACrgRR/Ug+8CHXDUGAdslLvPRGSp8km6O
-OA3sMI3JNRbsr4+QP5B8PduPbTiiePjlyNOfMrxz2oSChLugzh8gH+q7a4GtFc+T
-1AsfYswcEu8GMSy7zWw//Wq8JPfNX51jxYggMohGwEtFjgZmvT1RZAaKyZwf3UKd
-kYYChaAWrKWCe9lREGDuscGs1Udhg5nbpLJMgcKNDuBTJRn5UUZoMNY84TvuvNqm
-hy/IpJZ8m7d/utTLzzbJS3nPy6oQoFIo2riYi2hCRNZPtDvjko8UJ9uNJCbZOp3i
-gswqwIVtf/sJIXp0+Zi+a0WuiSOwdg==
-=nPJT
------END PGP SIGNATURE-----
-
---5kInKYAEl4EdyhTr--
+I thought about adding a capability check that lets privileged processes
+bypass this sysctl, but it wasn't clear to me which capability I should use.
+For userfaultfd the kernel uses CAP_SYS_PTRACE, but I wasn't sure that's
+the best choice here since io_uring has nothing to do with ptrace.
+If anyone has any suggestions please let me know. A LSM hook also sounds
+like an option but it would be more complicated to implement and use.
