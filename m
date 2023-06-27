@@ -2,94 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4451EEB64D9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 16:16:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D86DEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 16:20:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbjF0QQ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 12:16:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40588 "EHLO
+        id S229720AbjF0QUJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 12:20:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230029AbjF0QQ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 12:16:27 -0400
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F30422D6A
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 09:16:25 -0700 (PDT)
-Received: by mail-pj1-x1049.google.com with SMTP id 98e67ed59e1d1-260cb94f585so11096a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 09:16:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687882585; x=1690474585;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wKCZPhCEoRc2hrFofo6TcR+e3uVxroaKugj4hSasIz4=;
-        b=wv+by0SriSajzT+2XIqEDT28zSYRBBs8Rp8uYg4K9k6Wsu5XMFBv5O9AIQshwERDEQ
-         XarL7vAonCfVPlfC1Mk+S6fy9hlYIXK3f+Ae81yBlrd1/UywHwE8g/4NboAAuGcGGNMa
-         giDTBkXtdf8lEsf7vbZHl+4rlXJKRDfLbwbMNpLYePcfGaPZoeyog4YMoI6dafdp+hdu
-         pCWhZvDh4poO45mGI1q8GE+upySHw8y44rtIPAYLNK4hifTNv2E7G4akHIbgJRWATNuf
-         1Q4o2x3ZcLyn99p32Yd6MAJuumzKPh8Lw89MTnTFzlxDKtu2h4+8jjkDLl1ynCRVpWnJ
-         cusg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687882585; x=1690474585;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wKCZPhCEoRc2hrFofo6TcR+e3uVxroaKugj4hSasIz4=;
-        b=kaFALN+8ol8fIcNRKayb+NUFVmN9FyOlrFr9fowx7R8pgG4J7uEp7zn55MKdwRWx3y
-         1jUCCOrzVSiXyu9lO0h+BLSWbF5Y0qnPOTh8e7C88NaizdPx2y1mAlM3wf8PnwILJO5s
-         Xvgg74kVmmpW9A/mpkrHAqFpmaXAGLHCx1RiQJVtnAqGGItM+lxIksB2IZuvYxkrmMD7
-         6O2qsnbL0oNyqd9qShZhAOvcd6TPygZ8SvwGol13GHAJz0pmdTl43M0Lcauwt9RFzVKp
-         vx7TsXe34zCXamWgZtEITVQ6pOblLO8MyWp5o6RgH1CYPUdU2w5ZKlwOmmjXzKEnmPEx
-         mOuA==
-X-Gm-Message-State: AC+VfDwRs9CrXNDgux65Z8jCxZjzopqrdwx0C7dfa8D44tNzzzpTz+XX
-        KRoth5nxYx1kmZTHEYgZ0PvsSI/3/xs=
-X-Google-Smtp-Source: ACHHUZ62vvfMawNXLc5hGBJfx6LqoonyWGDMSdygAGWq2/PldG1BPMO2N03oq360iSWTrVdUlKxr/i08jsE=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90a:e281:b0:263:25f9:6588 with SMTP id
- d1-20020a17090ae28100b0026325f96588mr256696pjz.1.1687882585393; Tue, 27 Jun
- 2023 09:16:25 -0700 (PDT)
-Date:   Tue, 27 Jun 2023 09:16:23 -0700
-In-Reply-To: <20230626182016.4127366-7-mizhang@google.com>
-Mime-Version: 1.0
-References: <20230626182016.4127366-1-mizhang@google.com> <20230626182016.4127366-7-mizhang@google.com>
-Message-ID: <ZJsLV+urA0Yrw6Wn@google.com>
-Subject: Re: [PATCH v2 6/6] KVM: Documentation: Add the missing description
- for tdp_mmu_page into kvm_mmu_page
-From:   Sean Christopherson <seanjc@google.com>
-To:     Mingwei Zhang <mizhang@google.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kai Huang <kai.huang@intel.com>,
-        Jim Mattson <jmattson@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>, Xu Yilun <yilun.xu@intel.com>,
-        Zhi Wang <zhi.wang.linux@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S232106AbjF0QTg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 12:19:36 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C1F30EE;
+        Tue, 27 Jun 2023 09:19:32 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E84B055A;
+        Tue, 27 Jun 2023 16:19:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E84B055A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1687882772; bh=NHwPKxL+x5snvxpcGltS1di1yS+9ZamOSPRd0uqGUNo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=chluDPMkr47yB3ZCHuYIp4vBhf8QJ6T1QHl9fKpxjg/9poLBVwLYDNpNBIrB0GXdy
+         6mKlIWTexqdLIAMglnjIq7bxA/NY1KI5/JxejP+0NChkDgjCn3krgrz41WRDgwuyKo
+         GZwtIGQUpFkIqLnrxlDQruWvOSynsRZEZ2Z+O1Xw5+7Z/BhY4ZG4liaOk1JKjFbSsu
+         29x4mZe5IrJdcbw/1RIsQbh4aTDjY7/YTr9oZ2/LmiTSeF3R9yYJ6dp7Chqsv4PlXV
+         UEIlK0DAlNvi8Ij52cpSZY0F06X9mg8pwh2fs6ptErHBR1E+Gb+xKWKVed6HHuMOmy
+         IjRQrD6gOuuxQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation for 6.5
+Date:   Tue, 27 Jun 2023 10:19:31 -0600
+Message-ID: <87h6qsev3g.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 26, 2023, Mingwei Zhang wrote:
-> Add the description for tdp_mmu_page into kvm_mmu_page description.
-> tdp_mmu_page is a field to differentiate shadow pages from TDP MMU and
-> non-TDP MMU. When TDP MMU is enabled, sp->tdp_mmu_page=1 indicates a shadow
-> page for L1, while sp->tdp_mmu_page=0 indicates a shadow page for an L2.
-> When TDP MMU is disabled, sp->tdp_mmu_page is always 0. So update the doc
-> to reflect the information.
-> 
-> Signed-off-by: Mingwei Zhang <mizhang@google.com>
-> ---
->  Documentation/virt/kvm/x86/mmu.rst | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
-> index cc4bd190c93d..678dc0260a54 100644
-> --- a/Documentation/virt/kvm/x86/mmu.rst
-> +++ b/Documentation/virt/kvm/x86/mmu.rst
-> @@ -278,6 +278,8 @@ Shadow pages contain the following information:
->      since the last time the page table was actually used; if emulation
->      is triggered too frequently on this page, KVM will unmap the page
->      to avoid emulation in the future.
-> +  tdp_mmu_page:
-> +    Is 1 if the shadow page is a TDP MMU page.
+The following changes since commit bd415b5c9552d44069d4e7c1e018b6d42f25af9e:
 
-Maybe add a short blurb explaining that it's used for control flow when starting
-from a common entry point?  E.g. walking page tables given a root, and walking
-lists that can hold both shadow MMU and TDP MMU pages.
+  Documentation/filesystems: ramfs-rootfs-initramfs: use :Author: (2023-05-16 12:55:35 -0600)
+
+are available in the Git repository at:
+
+  git://git.lwn.net/linux.git tags/docs-6.5
+
+for you to fetch changes up to a1e72bb00a48687a1dc1c2e549eaf4ba09e802be:
+
+  docs: consolidate storage interfaces (2023-06-21 09:18:06 -0600)
+
+----------------------------------------------------------------
+It's been a relatively calm cycle in docsland.  We do have:
+
+- Some initial page-table documentation from Linus (the other Linus)
+
+- Regression-handling documentation improvements from Thorsten
+
+- Addition of kerneldoc documentation for the ERR_PTR() and related
+  macros from James Seo
+
+...and the usual collection of fixes and updates.
+
+----------------------------------------------------------------
+Baruch Siach (1):
+      docs: crypto: async-tx-api: fix typo in struct name
+
+Costa Shulyupin (2):
+      docs: consolidate human interface subsystems
+      docs: consolidate storage interfaces
+
+Jakub Kicinski (1):
+      MAINTAINERS: direct process doc changes to a dedicated ML
+
+James Seo (3):
+      Documentation: conf.py: Add __force to c_id_attributes
+      err.h: Add missing kerneldocs for error pointer functions
+      Documentation: core-api: Add error pointer functions to kernel-api
+
+Joe Stringer (1):
+      docs/doc-guide: Clarify how to write tables
+
+Johannes Berg (1):
+      Documentation: update git configuration for Link: tag
+
+Jonathan Corbet (1):
+      docs: process: fix a typoed cross-reference
+
+Kees Cook (1):
+      docs: submitting-patches: Discuss interleaved replies
+
+Linus Walleij (1):
+      Documentation/mm: Initial page table documentation
+
+Natesh Sharma (1):
+      docs: admin-guide: Add information about intel_pstate active mode
+
+Randy Dunlap (5):
+      Documentation: virt: correct location of haltpoll module params
+      Documentation: KVM: make corrections to halt-polling.rst
+      Documentation: KVM: make corrections to locking.rst
+      Documentation: KVM: make corrections to ppc-pv.rst
+      Documentation: KVM: make corrections to vcpu-requests.rst
+
+Thorsten Leemhuis (1):
+      docs: handling-regressions: rework section about fixing procedures
+
+Yan-Jie Wang (1):
+      docs: clarify KVM related kernel parameters' descriptions
+
+ Documentation/admin-guide/kernel-parameters.txt |  63 ++++---
+ Documentation/conf.py                           |   1 +
+ Documentation/core-api/kernel-api.rst           |   6 +
+ Documentation/crypto/async-tx-api.rst           |   2 +-
+ Documentation/doc-guide/sphinx.rst              |  11 +-
+ Documentation/maintainer/configure-git.rst      |   2 +-
+ Documentation/mm/page_tables.rst                | 149 +++++++++++++++++
+ Documentation/process/2.Process.rst             |   7 +-
+ Documentation/process/handling-regressions.rst  | 208 ++++++++++++++----------
+ Documentation/process/submitting-patches.rst    |  25 +++
+ Documentation/subsystem-apis.rst                |  34 ++--
+ Documentation/virt/guest-halt-polling.rst       |   2 +-
+ Documentation/virt/kvm/halt-polling.rst         |  10 +-
+ Documentation/virt/kvm/locking.rst              |  18 +-
+ Documentation/virt/kvm/ppc-pv.rst               |   8 +-
+ Documentation/virt/kvm/vcpu-requests.rst        |   6 +-
+ MAINTAINERS                                     |   6 +
+ include/linux/err.h                             |  48 ++++++
+ 18 files changed, 462 insertions(+), 144 deletions(-)
