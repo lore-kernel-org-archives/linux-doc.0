@@ -2,167 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52710C001B3
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 21:07:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 257F9EB64D9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 22:23:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbjF0VHW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 17:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60834 "EHLO
+        id S229629AbjF0WXP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 18:23:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229763AbjF0VHV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 17:07:21 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BA7F1FD7
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 14:07:20 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-26339ef4212so207559a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 14:07:20 -0700 (PDT)
+        with ESMTP id S229522AbjF0WXP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 18:23:15 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05BAF1FD7
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 15:23:14 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1b80b514fb7so16172795ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 15:23:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687900039; x=1690492039;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sirRvSov4RuE6Flh2RoZE9PzcNIKlryblf5nf7NWajA=;
-        b=I7oLfq4KpGkW6eVaiiOLhvIZWSmjmi1emjZklKf+bs+mVe2Y/rBp86DxEkDUzFbYWB
-         rB7Hsc6H3S3zI90tVgW7XSWyAOOCNjhtXeLBd/OKrrfmZw4/bwADF7DALuDS2bBkHL6w
-         PMi+U/jAUXGMHJ9Q4B/k3RGkKrHOtqOd/JwKAf4vWOJnJJcCj8lF8OyvIl1+dEjBbRLX
-         y1aDrBXI8eG0gsholAKLTe+oQ38sMzmZb5SPwNzVWZqHrzRHkYmlM0tRBSxhV6oN/lzq
-         cJHJRzCMmqHJATkHwsNmlxp/m+CWI38VwV/l3KBrgH6zRmfzvIlwn7ObbbdCrt9dIWQE
-         pcKg==
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687904593; x=1690496593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mc8gTI3W4RW6dHKji0wpJv9Z8xook1q3V9GncqmxBNs=;
+        b=LAT8nPi6+wPrYAAarEcLR//bannYKxM8K2dl8ard+Y2T6mC9jXOCXNcLymbItILWIH
+         /+H7q2vAEnLRtuwthXmhTqhSVBpIHecv+WxeBEQVTiJ2w7paLH2FctuZjJ5duvgdkbcj
+         AIqTdsBNVUzyOEnJREJTHReyK2k34ws/RMgINpSix9QKQDuWwZroz0aVAGIQWhtjZTRh
+         fp6hWKMyp1zNuJEbEwFRzTbaAjWOAKUX6oavJwTLtXzpB1jrw+5jdM/GHgFGmHvzLA/B
+         BS16AMVlhBO4yMR5F3Q73dbS991hIP9AK3JozP+KoWMnN9yakmMjccjrKTeo7hZPEwUM
+         Yu4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687900039; x=1690492039;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sirRvSov4RuE6Flh2RoZE9PzcNIKlryblf5nf7NWajA=;
-        b=WyF/EwPsXMqtnUjdiCI5mBd8Yl2tqdKxvbqWZ7Wb+2m0ERfy7O9qoiS3xmhbgbujxG
-         +lds/qWdU1sP74mC47eoDl9nhiXpzjqK9ZCUst6W5qKBQmvn7AlS/cg+CUrb2/mXXhWu
-         ViU7LHGWE6DWvYWpnsXK3xIroSZ7ikgX3zJYABlfhGklTy0oisKkn6RWduqRuhIn4h+g
-         xVUT+KmxJAh9gEFxOSAxAWgqMwjibBKcxRFENZra5Ng3tiPTBmQ1t1wKKvLsD3gwmmFq
-         Rp9/NVAb6vDZBh6syoW4GvwwPMHIe6JOzabnFZl6wvzPw2fYcZsOY/7CnuemJdgx3fQI
-         2KZg==
-X-Gm-Message-State: AC+VfDwgnqC6dQdSI41wS8WrmWN9FFXfPFGgRgwRuLy/OiLZ82Hbp2ms
-        Pzkr+n+RXIYEbAqMZEgKRk7ZEaxM2575GlXOeflOuw==
-X-Google-Smtp-Source: ACHHUZ5Q51IS/tAaF6PaipIVHaMH4/ZWm7RCaYeKfDNSDheaQLI1oupE8xj/yAqDJWqRYjjyAgKlsbVIw4XiC8NsIKM=
-X-Received: by 2002:a17:90b:1648:b0:262:d661:75e4 with SMTP id
- il8-20020a17090b164800b00262d66175e4mr9330028pjb.0.1687900039345; Tue, 27 Jun
- 2023 14:07:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230626183611.40479-1-charlie@rivosinc.com> <20230627-eternity-mulberry-e1f4babf06a1@spud>
- <CA+7dDtKARX35pcgdKopuM6c8oj+TKLRhXcF0+d4MZE51V7Bifg@mail.gmail.com>
-In-Reply-To: <CA+7dDtKARX35pcgdKopuM6c8oj+TKLRhXcF0+d4MZE51V7Bifg@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1687904593; x=1690496593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mc8gTI3W4RW6dHKji0wpJv9Z8xook1q3V9GncqmxBNs=;
+        b=TCQdtXr9n1F1EyYCys/FzfmULDosupvEVsyNyItn9Dtch7wdlfPnosAq5BHEIIMQa4
+         vV0USVJR+gQemDvRYiwXx6AoucmwsftGY5o/oGHV0dkVWsREVb6hJAp9Tm4f0dG78MfT
+         rWC6EL/YyFq/5tVvSqSLkO0fgg+eIs0TiQ6kJSLcteXzYEcduLJqX5/ksYV71KKSZ0OD
+         QiW/SWCJ2Z/EOuq8wkFctaDb3FEV2BEO4qVZsuK6oxMybK4t6sn3J+PcK3NBpwZAchjP
+         ex8ys8EepxXiGZvP0Tn7x797nMbfCRuIS/ecv31Cb7usEr4v+0ckUGLcadPaJgP8LIF6
+         Yh9Q==
+X-Gm-Message-State: AC+VfDy8J07q2HkRMr+t5pL19I4Tt8nEO6vvzC3dK20l376AY4ETdu0q
+        cwVx53/HA22rNsSud5FMZ3D2Pw==
+X-Google-Smtp-Source: ACHHUZ5dzHKMQEs5WRpPvm7HuTITuvtAXHdpkIka0TGrn0KnIqw30wJDTznkQRgHRkjUNqcdLIe4ag==
+X-Received: by 2002:a17:902:c403:b0:1b3:fafd:11c5 with SMTP id k3-20020a170902c40300b001b3fafd11c5mr10089706plk.44.1687904593551;
+        Tue, 27 Jun 2023 15:23:13 -0700 (PDT)
+Received: from ghost.hq.rivosinc.com ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id 4-20020a170902c24400b001ac94b33ab1sm5108271plg.304.2023.06.27.15.23.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 15:23:12 -0700 (PDT)
 From:   Charlie Jenkins <charlie@rivosinc.com>
-Date:   Tue, 27 Jun 2023 14:07:08 -0700
-Message-ID: <CA+7dDtL=bNCSWOTet8NLqOaceaNKQaPaw-cKEFbW2gh6wFeb7g@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Restrict address space for sv39,sv48,sv57
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Zong Li <zong.li@sifive.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Guo Ren <guoren@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Sergey Matyukevich <sergey.matyukevich@syntacore.com>,
-        David Hildenbrand <david@redhat.com>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>,
-        Qinglin Pan <panqinglin2020@iscas.ac.cn>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Brian Cain <bcain@quicinc.com>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Stafford Horne <shorne@gmail.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Anup Patel <anup@brainfault.org>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Evan Green <evan@rivosinc.com>,
-        Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Mark Brown <broonie@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:EXEC & BINFMT API" <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Atish Kumar Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     alexghiti@rivosinc.com
+Cc:     charlie@rivosinc.com, atishp@rivosinc.com, conor@kernel.org,
+        paul.walmsley@sifive.com, palmer@rivosinc.com,
+        aou@eecs.berkeley.edu, bjorn@rivosinc.com, anup@brainfault.org,
+        evan@rivosinc.com, linux-riscv@lists.infradead.org,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Subject: [PATCH 0/2] Make SV39 the default address space
+Date:   Tue, 27 Jun 2023 15:21:50 -0700
+Message-Id: <20230627222152.177716-1-charlie@rivosinc.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I see it in patchwork here:
-https://patchwork.kernel.org/project/linux-mm/cover/20230626183611.40479-1-=
-charlie@rivosinc.com/.
+Make sv39 the default address space for mmap as some applications
+currently depend on this assumption. The RISC-V specification enforces
+that bits outside of the virtual address range are not used, so
+restricting the size of the default address space as such should be
+temporary. A hint address passed to mmap will cause the largest address
+space that fits entirely into the hint to be used. If the hint is less
+than or equal to 1<<38, a 39-bit address will be used. After an address
+space is completely full, the next smallest address space will be used.
 
-On Tue, Jun 27, 2023 at 1:44=E2=80=AFPM Charles Jenkins <charlie@rivosinc.c=
-om> wrote:
->
-> I talked to Atish, he's not sure what's going on here either. I am going
-> to add him to the CC list.
->
-> On Tue, Jun 27, 2023 at 11:24=E2=80=AFAM Conor Dooley <conor@kernel.org> =
-wrote:
->
-> > Hey Charlie,
-> >
-> > On Mon, Jun 26, 2023 at 11:36:02AM -0700, Charlie Jenkins wrote:
-> > > Make sv39 the default address space for mmap as some applications
-> > > currently depend on this assumption. The RISC-V specification enforce=
-s
-> > > that bits outside of the virtual address range are not used, so
-> > > restricting the size of the default address space as such should be
-> > > temporary. A hint address passed to mmap will cause the largest addre=
-ss
-> > > space that fits entirely into the hint to be used. If the hint is les=
-s
-> > > than or equal to 1<<38, a 39-bit address will be used. After an addre=
-ss
-> > > space is completely full, the next smallest address space will be use=
-d.
-> > >
-> > > Documentation is also added to the RISC-V virtual memory section to
-> > explain
-> > > these changes.
-> >
-> > I don't know what went wrong here, but this never ended up in patchwork
-> > for some reason, although it has appeared on lore. That seems to be via
-> > the docs mailing list, rather than linux-riscv. Could you speak to Atis=
-h
-> > and see if he knows what went wrong?
-> >
-> > Cheers,
-> > Conor.
-> >
-> > >
-> > > Charlie Jenkins (2):
-> > >   RISC-V: mm: Restrict address space for sv39,sv48,sv57
-> > >   RISC-V: mm: Update documentation and include test
-> > >
-> > >  Documentation/riscv/vm-layout.rst             | 20 ++++++++
-> > >  arch/riscv/include/asm/elf.h                  |  2 +-
-> > >  arch/riscv/include/asm/pgtable.h              | 21 ++++++--
-> > >  arch/riscv/include/asm/processor.h            | 41 +++++++++++++---
-> > >  tools/testing/selftests/riscv/Makefile        |  2 +-
-> > >  tools/testing/selftests/riscv/mm/Makefile     | 22 +++++++++
-> > >  .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++=
-++
-> > >  7 files changed, 144 insertions(+), 13 deletions(-)
-> > >  create mode 100644 tools/testing/selftests/riscv/mm/Makefile
-> > >  create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
-> > >
-> > >
-> > > base-commit: eef509789cecdce895020682192d32e8bac790e8
-> > > --
-> > > 2.34.1
-> > >
-> >
+Documentation is also added to the RISC-V virtual memory section to explain
+these changes.
+
+Charlie Jenkins (2):
+  RISC-V: mm: Restrict address space for sv39,sv48,sv57
+  RISC-V: mm: Update documentation and include test
+
+ Documentation/riscv/vm-layout.rst             | 20 ++++++++
+ arch/riscv/include/asm/elf.h                  |  2 +-
+ arch/riscv/include/asm/pgtable.h              | 21 ++++++--
+ arch/riscv/include/asm/processor.h            | 41 +++++++++++++---
+ tools/testing/selftests/riscv/Makefile        |  2 +-
+ tools/testing/selftests/riscv/mm/Makefile     | 22 +++++++++
+ .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++++
+ 7 files changed, 144 insertions(+), 13 deletions(-)
+ create mode 100644 tools/testing/selftests/riscv/mm/Makefile
+ create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
+
+
+base-commit: eef509789cecdce895020682192d32e8bac790e8
+-- 
+2.34.1
+
