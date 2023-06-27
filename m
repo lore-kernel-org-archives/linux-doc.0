@@ -2,106 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C61E2EB64D9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 06:47:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7E8EB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 07:21:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229702AbjF0Grw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 02:47:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44696 "EHLO
+        id S231236AbjF0HVx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 03:21:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230350AbjF0GrF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 02:47:05 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0E492944;
-        Mon, 26 Jun 2023 23:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=7zoVn6pt8mC/XFCWob4MAbf9NS9Enf9msdxXChlUhcs=; b=C/TUoCi3PofYR8dOAZKRmNZcOM
-        ub+da7rv73DezRSsq2wYZAlFl8pkKtqzHvlhBrY6sGWCT5C3TIB+bsgAquiuaSSo3cswWgcwQ+k4W
-        LuyfWiohu2PQ747t630wX/FM8CWqGz0yRDwlEov8EymQVb+wBZDLO4PhEzvXmMA89MxjvBeZBj/RQ
-        qxmWDUZf00+uoUALelorMAcEKdQc+meM3mrSrYbwxy22oKJv+zGb+wnQuTvhKcpO/V5DLBKhZjWlu
-        uhYqRJuGsZvvTj1BYf9qdy/RQjjdfvGL9pLz7/xO7kquI8lDEQ8oPDENIZVLmOub1YBobUiKO/kMv
-        xei42+JQ==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qE2S4-00CD8x-2h;
-        Tue, 27 Jun 2023 06:45:24 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH] docs: add more driver-model infrastructure interfaces
-Date:   Mon, 26 Jun 2023 23:45:23 -0700
-Message-ID: <20230627064523.16618-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S231235AbjF0HVk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 03:21:40 -0400
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECE6C2D65;
+        Tue, 27 Jun 2023 00:20:59 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0Vm4sP4I_1687850391;
+Received: from 30.221.150.4(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vm4sP4I_1687850391)
+          by smtp.aliyun-inc.com;
+          Tue, 27 Jun 2023 15:19:53 +0800
+Message-ID: <e125258f-559e-ae0a-8eb3-f119b0e7c87c@linux.alibaba.com>
+Date:   Tue, 27 Jun 2023 15:19:48 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.11.2
+Subject: Re: [PATCH v4 0/4] Add JSON metrics for Yitian710 DDR
+To:     Will Deacon <will@kernel.org>, Namhyung Kim <namhyung@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        John Garry <john.g.garry@oracle.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Ian Rogers <irogers@google.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        James Clark <james.clark@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>
+References: <1687245156-61215-1-git-send-email-renyu.zj@linux.alibaba.com>
+ <CAM9d7cj3v58m8NcsEK4sYsk_dbQDAq71hYo7DV=xaQa_rZyPYg@mail.gmail.com>
+ <a5486c58-32b6-2d5e-e623-d7844c51474c@linux.alibaba.com>
+ <CAM9d7chxMpUUouHsVTEvVEy8RyZ6tNzYbVD=a0Toao=n6cau-w@mail.gmail.com>
+ <20230626124431.GB20045@willie-the-truck>
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+In-Reply-To: <20230626124431.GB20045@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add bus, class, and device data structures and enum constants to the
-Driver-Model Structures section and add function interfaces to the
-Device Drivers Base section of the Device drivers infrastructure chapter.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
----
- Documentation/driver-api/infrastructure.rst |   18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
 
-diff -- a/Documentation/driver-api/infrastructure.rst b/Documentation/driver-api/infrastructure.rst
---- a/Documentation/driver-api/infrastructure.rst
-+++ b/Documentation/driver-api/infrastructure.rst
-@@ -8,12 +8,24 @@ The Basic Device Driver-Model Structures
-    :internal:
-    :no-identifiers: device_link_state
- 
-+.. kernel-doc:: include/linux/device/bus.h
-+   :identifiers: bus_type bus_notifier_event
-+
-+.. kernel-doc:: include/linux/device/class.h
-+   :identifiers: class
-+
-+.. kernel-doc:: include/linux/device/driver.h
-+   :identifiers: probe_type device_driver
-+
- Device Drivers Base
- -------------------
- 
- .. kernel-doc:: drivers/base/init.c
-    :internal:
- 
-+.. kernel-doc:: include/linux/device/driver.h
-+   :no-identifiers: probe_type device_driver
-+
- .. kernel-doc:: drivers/base/driver.c
-    :export:
- 
-@@ -23,6 +35,9 @@ Device Drivers Base
- .. kernel-doc:: drivers/base/syscore.c
-    :export:
- 
-+.. kernel-doc:: include/linux/device/class.h
-+   :no-identifiers: class
-+
- .. kernel-doc:: drivers/base/class.c
-    :export:
- 
-@@ -41,6 +56,9 @@ Device Drivers Base
- .. kernel-doc:: drivers/base/platform.c
-    :export:
- 
-+.. kernel-doc:: include/linux/device/bus.h
-+   :no-identifiers: bus_type bus_notifier_event
-+
- .. kernel-doc:: drivers/base/bus.c
-    :export:
- 
+在 2023/6/26 下午8:44, Will Deacon 写道:
+> On Tue, Jun 20, 2023 at 10:00:46PM -0700, Namhyung Kim wrote:
+>> On Tue, Jun 20, 2023 at 8:08 PM Jing Zhang <renyu.zj@linux.alibaba.com> wrote:
+>>> 在 2023/6/21 上午3:04, Namhyung Kim 写道:
+>>>> I'm curious why the first patch is needed, presumably the PMU
+>>>> should have 'ali_drw' in the name already.  Do we use substring
+>>>> match for the compat name in the JSON metric?
+>>>>
+>>>
+>>> The main purpose of patch 1 is to add an identifier so that the Compat
+>>> field can match the corresponding event when defining aliases or metrics
+>>> for events.
+>>>
+>>> For example, "Unit" can match "ali_drw" in the name and different SoCs may
+>>> be able to match ali_drw, but they may have different events, and even if
+>>> the events are the same, the meanings may be different. Therefore, the
+>>> Compat field is needed to match the Identifier to confirm which type and
+>>> revision of PMU the current SoC has. Therefore, both "Unit" and "Compat"
+>>> need to be matched at the same time. Although it seems that ali_drw is
+>>> redundantly matched currently, it is meaningful for future expansion.
+>>
+>> I see, thanks for the explanation.
+>>
+>> I think you need to route the kernel patch differently.  I can apply the tools
+>> part once the kernel patch gets Acks from others.
+> 
+> Sorry, I missed this initially as I didn't realise there were kernel changes
+> hidden in this series (I saw "JSON" and ignored it...). Given that the 6.5
+> merge window is now open, I'll pick the kernel change up for 6.6 when I
+> start queueing patches in a few weeks.
+> 
+> Will
+
+Thank you will, maybe it is because I did not describe this series well, and
+it is easy to cause the patch to be ignored. I will pay attention to this
+problem in the future.
+
+Thanks,
+Jing
