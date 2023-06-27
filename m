@@ -2,136 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE34EB64D9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 09:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3620AEB64D9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 10:22:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbjF0JaQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 05:30:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45066 "EHLO
+        id S231246AbjF0KWR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 06:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230238AbjF0JaP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 05:30:15 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E05FC1987;
-        Tue, 27 Jun 2023 02:30:14 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0B6C65C01D5;
-        Tue, 27 Jun 2023 05:30:14 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Tue, 27 Jun 2023 05:30:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1687858214; x=1687944614; bh=d/
-        8PAsCjbmMqsAZVfulXX8NLMmKaUcPEmXDNbRBP/iY=; b=r1/VlKLwjWRKxQKnr7
-        EeN5vuWsH4K5/M6jVqZVzAX8NjH3CgUzYePswdMd4UHACyZ6z8wdcg3YNz4Ffh5D
-        0T3XhcLN7bzWS8GtCL2kTxtY7s1YooHQ6ecW7RflD0T1TxJ1gi44wpVlRmI59dM7
-        2+/OSFs0BJ+RNkf+nbQ/Qa7WsYSCopCzYKPN2fnBbcCZO5kzmWt6EqBSrdYyl9LT
-        IDwSkH5LpjAzAzIj9KbMye2XTf/J9cKSz362tawBRK3z3kRZXFzTBXuxPBXKjPT5
-        UFxnpAJ4wttOZ90/adZrMDwV5d3z/C4IHHpq/URcUthI7ADS93ElS1UPXmV7Jirq
-        Fb5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1687858214; x=1687944614; bh=d/8PAsCjbmMqs
-        AZVfulXX8NLMmKaUcPEmXDNbRBP/iY=; b=rCwudNcaAgAQJUVmw90VYxVfNvqm7
-        fy9DLhi/W77KBRwMHSFoxQXqU5fshBRCW3xOsT4GMGeWdb99ohRMzLpPyDhEQ06S
-        GFZZOrcdu0lJz3PFTKbqMkuYwyiYPso5m7o0Ja+66aNM+r9TAk3wHvgPNq/a8gR2
-        xd0t4kkOqPvXTlubXsYycTioiz50fnlqftXe6owfCdnWyTZYOgq5Ye2RnwoG/9JF
-        tW9ASyerDLMkCZ8hShqfgWoqbPs7VzvEyK4sio5jPFHWnBFMpCXttyQnHaDFC76H
-        mOnmYK6q43iVruVYfva6NXn1XGnnUveYyYewtcVCNQsaXun9FJsaN/Alg==
-X-ME-Sender: <xms:JayaZBitbYQs-Nbz28YFL0hH-f0e91zEr79uEZ1IirHIFTpGCjBsPA>
-    <xme:JayaZGBfTJaZktWQBIp1RUSjIN5yKIGrJm4THO0JeCCOpqZRSPrFGn8hfnT8TUcct
-    FDjcdDzbHv8a2_4hIA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeehhedgudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:JayaZBE0FcAdCnr77YYyC4hha2Hm-2JikOM2MHIazIgLtw6DXchElg>
-    <xmx:JayaZGTdXdg0D5cq1tbQYM304eIeHx8lNL_d9G-BpuLbYqjr7gOAsw>
-    <xmx:JayaZOzfUoFjL_pt_6oCsyRCWL5__Cj3BSwdnysopAOk-ai5cDh0OA>
-    <xmx:JqyaZLhyZFgVQY0ouFIpf6Ake8BSf-89DyB_m7aWKn-7mfbBV0Rbiw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 7CBBCB60083; Tue, 27 Jun 2023 05:30:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
-Mime-Version: 1.0
-Message-Id: <8c50cf74-fd21-4b86-8ac8-1445ff242d48@app.fastmail.com>
-In-Reply-To: <20230609085214.31071-6-yi-de.wu@mediatek.com>
-References: <20230609085214.31071-1-yi-de.wu@mediatek.com>
- <20230609085214.31071-6-yi-de.wu@mediatek.com>
-Date:   Tue, 27 Jun 2023 11:29:52 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     =?UTF-8?Q?Yi-De_Wu_=28=E5=90=B3=E4=B8=80=E5=BE=B7=29?= 
-        <yi-de.wu@mediatek.com>,
-        =?UTF-8?Q?Yingshiuan_Pan_=28=E6=BD=98=E7=A9=8E=E8=BB=92=29?= 
-        <yingshiuan.pan@mediatek.com>,
-        =?UTF-8?Q?Ze-yu_Wang_=28=E7=8E=8B=E6=BE=A4=E5=AE=87=29?= 
-        <ze-yu.wang@mediatek.com>, "Jonathan Corbet" <corbet@lwn.net>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Matthias Brugger" <matthias.bgg@gmail.com>,
-        "AngeloGioacchino Del Regno" 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-mediatek@lists.infradead.org,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Conor.Dooley" <conor.dooley@microchip.com>,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        "Trilok Soni" <quic_tsoni@quicinc.com>,
-        "dbrazdil@google.com" <dbrazdil@google.com>,
-        =?UTF-8?Q?Jades_Shih_=28=E6=96=BD=E5=90=91=E7=8E=A8=29?= 
-        <jades.shih@mediatek.com>, "Miles Chen" <miles.chen@mediatek.com>,
-        =?UTF-8?Q?Ivan_Tseng_=28=E6=9B=BE=E5=BF=97=E8=BB=92=29?= 
-        <ivan.tseng@mediatek.com>,
-        =?UTF-8?Q?MY_Chuang_=28=E8=8E=8A=E6=98=8E=E8=BA=8D=29?= 
-        <my.chuang@mediatek.com>,
-        =?UTF-8?Q?Shawn_Hsiao_=28=E8=95=AD=E5=BF=97=E7=A5=A5=29?= 
-        <shawn.hsiao@mediatek.com>,
-        =?UTF-8?Q?PeiLun_Suei_=28=E9=9A=8B=E5=9F=B9=E5=80=AB=29?= 
-        <peilun.suei@mediatek.com>,
-        =?UTF-8?Q?Liju-clr_Chen_=28=E9=99=B3=E9=BA=97=E5=A6=82=29?= 
-        <liju-clr.chen@mediatek.com>,
-        =?UTF-8?Q?Chi-shen_Yeh_=28=E8=91=89=E5=A5=87=E8=BB=92=29?= 
-        <chi-shen.yeh@mediatek.com>
-Subject: Re: [PATCH v4 5/9] virt: geniezone: Add irqfd support
-Content-Type: text/plain
+        with ESMTP id S230486AbjF0KVc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 06:21:32 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E243C0C
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 03:18:22 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-312863a983fso4871292f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 03:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687861101; x=1690453101;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gT7GboGGDk7AitS54Ow1poGL7UR1gfZLBCd0QKdV4C0=;
+        b=C5OXmNsX0m80OIL6Emr3JWyhtE0S88G7Rwlsr6ZmfJU130SsETmmm6+Ce6D9TL1Gz8
+         nDoBo+bvQGs6hMHJoPMI3jmFchyOb5ggBoDyzMzwB3l/DFkSZVi8LIqb99E7t0K7IiWh
+         6uNrq1/A/CUTpd7fCD/3Kvpfd0Cqs2VWR6zUajX6+4UiDtM84yFga/qi2QD5GNSb6yZI
+         OZEY8BdqDtB3AjzNVqO9QSby+3KFiKFHnFMY7wdtW4B+V54Gbbk1wPnSRIlNU68+niLX
+         rkP/hxL4xyd7j1h27zQw0raPbp3oAHhgriG7W5v5BHo71+8tBHHQ0UEwjElbpVakhs8m
+         XyAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687861101; x=1690453101;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gT7GboGGDk7AitS54Ow1poGL7UR1gfZLBCd0QKdV4C0=;
+        b=THNwwNhARNxAMJBg6GIXgB01eTu+nI1kBf71PqlnErUBWtDlJrbhsK09TnFoOwM3ld
+         F3OWNIagXUJZtkevyHP7rRnx4i3eiCPCMhqPx2xbO6+qTHGEZ7jFAtyz/Z157Zut/w4c
+         LaKKzdia1+Jwnfaz24bxW7VWKifkNIuWkB/q9c64EoHmE4pMk2g+k3V2hgy6S08UlPOo
+         2v+WF+VfS46t/w5AoehW8gTE/QAcik4+ZU9CaL7KRNbKjh+VGarwPCK2BAONueo/UNY+
+         hUs6v6V7DX1nDUQTkatHwYLfs/qy92O3XOatGzyRVI0DX3Kah/yRycE1xwRabb7SIEgY
+         zZLg==
+X-Gm-Message-State: AC+VfDz8kN7zbki8345JztOd++VW0NO/FsuWtZrNDzKp1OYeoJ7glK/g
+        qJy1qD8wSXw2vxMNC0ECsvo0aw==
+X-Google-Smtp-Source: ACHHUZ6IABQj80YZlbwlRcPCQeFmBfCPH/Nv02/YbE4SHjy4A9ioFacLP6XEwynurT1i4MOWCkpn+w==
+X-Received: by 2002:a5d:5009:0:b0:313:e146:1816 with SMTP id e9-20020a5d5009000000b00313e1461816mr7669279wrt.24.1687861101257;
+        Tue, 27 Jun 2023 03:18:21 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id cx16-20020a056000093000b00301a351a8d6sm10065190wrb.84.2023.06.27.03.18.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 03:18:20 -0700 (PDT)
+Date:   Tue, 27 Jun 2023 12:18:19 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc:     kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
+        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
+        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org,
+        vadim.fedorenko@linux.dev
+Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
+Message-ID: <ZJq3a6rl6dnPMV17@nanopsycho>
+References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 9, 2023, at 10:52, Yi-De Wu wrote:
-> 
->  /**
->   * gzvm_hypercall_wrapper()
-> @@ -72,6 +73,11 @@ static inline gzvm_vcpu_id_t 
-> get_vcpuid_from_tuple(unsigned int tuple)
->  	return (gzvm_vcpu_id_t)(tuple & 0xffff);
->  }
-> 
-> +struct gzvm_vcpu_hwstate {
-> +	__u32 nr_lrs;
-> +	__u64 lr[GIC_V3_NR_LRS];
-> +};
+Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com wrote:
 
-This is not a good definition for a hardware data structure, as there
-is architecture specific implicit padding between the two members.
+>v8 -> v9:
 
-Better add an explicit '__u32 __pad;' in the middle to make it clear
-what the actual layout is and make it portable.
+Could you please address all the unresolved issues from v8 and send v10?
+I'm not reviewing this one.
 
-If this is an interface to the hypervisor, it should probably also
-use explicit endianess, using __le32 and __le64 instead of __u32
-and __u64, along with the corresponding accessors.
-
-      Arnd
+Thanks!
