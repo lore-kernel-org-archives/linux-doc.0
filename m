@@ -2,233 +2,175 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E1A3C001DD
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 08:22:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ACEBEB64D9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 09:09:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231750AbjF0IWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 04:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59538 "EHLO
+        id S230052AbjF0JJo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 05:09:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231655AbjF0IWY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 04:22:24 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 675232130;
-        Tue, 27 Jun 2023 01:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687854127; x=1719390127;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sfuE8q/3lqwwL754PtpWUP9ndf3pvT8nlm8myNt2UcU=;
-  b=IUhuKSa+ktk3meY6MlKDFfvWyctZWlscs0xrI46ykRfR+A/pSEfm7I80
-   pR2ldQ7BjBYGfvClcZJJscPJ46zGvHg8GEct4KGUJSg96AXMIOoOi1p5f
-   8E7Zn0XbdZiKvoixBTjRaQWKLqqmpXW8Fl/LISCZBFhsZ07FklOF65f/v
-   yAYTGjfbyBafJzbBqD+FqBG0bEC+S1IJAMqjTyVRd5QFD+H52R9AU81Hs
-   fgbkJ00XOhA73nXogQmhp5yoF+rkqFsn49wUkGY8l98/YBniaMitKuvw8
-   LoFBdmXbV2WVY9QaitjxraBZx71CnHchQ9BldEgajyF0hPTGb8Zxi/E5i
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="392005618"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="392005618"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 01:22:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="861022715"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="861022715"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2023 01:22:01 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qE3xZ-000BoL-0T;
-        Tue, 27 Jun 2023 08:22:01 +0000
-Date:   Tue, 27 Jun 2023 16:21:49 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S231752AbjF0JJd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 05:09:33 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25E5B19AC
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 02:09:32 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-98d25cbbb43so648984566b.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 02:09:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1687856970; x=1690448970;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R0dPPN6kCxjJ5erU6C8GI2QpZR2Odnb/ktBK6lqyvdY=;
+        b=eZMzvYYkDo8EfR7GYZC2UEnZSGriHw1BzLCiOfGra3b2gqub9gEyeftBpgrsE1Us2o
+         6JFZLDMOSh92+JS5MZ8TD+vn5oJrWDH9kD7RhVcSTc6pdjTmRzo/XgWxOHvGQ1NE1lbk
+         jj1kvNlyxa+p46PiIy/BuVrkH2bfc9U3Xil7zkB2GQ93+HVIkPsktCI+rx8rlNQ1hDrs
+         l946asInJqI5DBhG9fmf0hvBTKRlMttnOpX2bZ7N0+OIzUcF4Voh365nwihT8sINjk9D
+         XYiSnoYfIaGsCm8wmUxhO/obTZwOD/O99AOzfjGeeM9upJVj16dWxdKE1bixlQt8yXsG
+         kl5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687856970; x=1690448970;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R0dPPN6kCxjJ5erU6C8GI2QpZR2Odnb/ktBK6lqyvdY=;
+        b=YqYUaTU9PslvAehZhctwAmShBwZcCAhpKvw/tabSz3OCTSqW6/PB8TQwTkWkzVRmJJ
+         6hYB4n2Sd68Y8I5pdHoZUDrIV/irDi/WWAW6Q+VV0XUxSi15yBk3+/MYp8oey8tMN6SL
+         p3Ywut0nuQ9CT91/KnjOkwhjMA8m6Rf3R5MmKTbibgmz243eMvtYiXaPVXSVDBjeHcOU
+         mJOnefLIUYYkBZ4ZSMPG6aUUnCwCDY7nCSAkOFziVAum+upZ9pxdKk5mspW2PfwZL8hk
+         2RrKH7hAUoZUnSlgPbqtA5W5Rk5TRIr9hYgwQDqyKtWVpU6sjYaCyKTYVHIsq4e/yhbN
+         C8OA==
+X-Gm-Message-State: AC+VfDw0ZjOkw3CYvrSKq4ju6515taZOWG/zPqBV4o+aQWKVFG0AcOeH
+        Mlg6uMG+ejND5zFXzL0ZptDAIQ==
+X-Google-Smtp-Source: ACHHUZ4JTx2HNgMrDX8zs9F7AE78EPk6RMDfso94B/r0ax0vwcVieNX1DoGrYahuA+FJpIr1APh3ag==
+X-Received: by 2002:aa7:d784:0:b0:51b:d49c:8c36 with SMTP id s4-20020aa7d784000000b0051bd49c8c36mr15262930edq.16.1687856970460;
+        Tue, 27 Jun 2023 02:09:30 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id y19-20020aa7d513000000b0051d8a512472sm3133032edq.51.2023.06.27.02.09.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 02:09:29 -0700 (PDT)
+Date:   Tue, 27 Jun 2023 11:09:28 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Haibo Xu <haibo1.xu@intel.com>
+Cc:     xiaobo55x@gmail.com, maz@kernel.org, oliver.upton@linux.dev,
+        seanjc@google.com, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Ryan Phillips <rphillips@redhat.com>,
-        Brent Rowsell <browsell@redhat.com>,
-        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>,
-        Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH v3 5/9] cgroup/cpuset: Add cpuset.cpus.exclusive for v2
-Message-ID: <202306271649.1FoknGfO-lkp@intel.com>
-References: <20230627005529.1564984-6-longman@redhat.com>
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>,
+        Ricardo Koller <ricarkol@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v4 08/12] KVM: arm64: selftests: Move reject_set check
+ logic to a function
+Message-ID: <20230627-4d207186c4ef81be43c9d874@orel>
+References: <cover.1687515463.git.haibo1.xu@intel.com>
+ <341feff384c9f8a20ed4aac6e2dda0440d6b84f2.1687515463.git.haibo1.xu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230627005529.1564984-6-longman@redhat.com>
+In-Reply-To: <341feff384c9f8a20ed4aac6e2dda0440d6b84f2.1687515463.git.haibo1.xu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Waiman,
+On Fri, Jun 23, 2023 at 06:40:10PM +0800, Haibo Xu wrote:
+> No functional changes. Just move the reject_set check logic to a
+> function so we can check for specific errno for specific register.
+> This is a preparation for support reject_set in riscv.
+> 
+> Suggested-by: Andrew Jones <ajones@ventanamicro.com>
+> Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
+> ---
+>  tools/testing/selftests/kvm/aarch64/get-reg-list.c | 8 ++++++++
+>  tools/testing/selftests/kvm/get-reg-list.c         | 7 ++++++-
+>  2 files changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tools/testing/selftests/kvm/aarch64/get-reg-list.c b/tools/testing/selftests/kvm/aarch64/get-reg-list.c
+> index aaf035c969ec..4e2e1fe833eb 100644
+> --- a/tools/testing/selftests/kvm/aarch64/get-reg-list.c
+> +++ b/tools/testing/selftests/kvm/aarch64/get-reg-list.c
+> @@ -27,6 +27,14 @@ bool filter_reg(__u64 reg)
+>  	return false;
+>  }
+>  
+> +bool reject_set_fail(__u64 reg)
+> +{
+> +	if (reg == KVM_REG_ARM64_SVE_VLS)
+> +		return (errno != EPERM);
+> +
+> +	return false;
+> +}
 
-kernel test robot noticed the following build errors:
+I think we should pass errno in as a parameter and I prefer positive
+predicate functions, so I'd name this check_reject_set() and reverse
+the logic. Also, we don't want to check for KVM_REG_ARM64_SVE_VLS,
+because that duplicates the rejects set. I see in a later patch
+that riscv needs to check reg because different errors are used
+for different registers, but that's because KVM_REG_RISCV_TIMER_REG(state)
+was erroneously added to the rejects set. KVM_REG_RISCV_TIMER_REG(state)
+doesn't belong there. That register can be set, but it only supports
+certain input, otherwise, it correctly, results in EINVAL. We'll need
+the concept of a "skip set" to avoid tripping over that one.
 
-[auto build test ERROR on next-20230626]
-[also build test ERROR on v6.4]
-[cannot apply to tj-cgroup/for-next linus/master v6.4 v6.4-rc7 v6.4-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+So, I think arm's function should be
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/cgroup-cpuset-Inherit-parent-s-load-balance-state-in-v2/20230627-090025
-base:   next-20230626
-patch link:    https://lore.kernel.org/r/20230627005529.1564984-6-longman%40redhat.com
-patch subject: [PATCH v3 5/9] cgroup/cpuset: Add cpuset.cpus.exclusive for v2
-config: riscv-randconfig-r015-20230627 (https://download.01.org/0day-ci/archive/20230627/202306271649.1FoknGfO-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271649.1FoknGfO-lkp@intel.com/reproduce)
+ bool check_reject_set(int errno)
+ {
+     return errno == EPERM;
+ }
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306271649.1FoknGfO-lkp@intel.com/
+and riscv's should be
 
-All errors (new ones prefixed by >>):
+ bool check_reject_set(int errno)
+ {
+     return errno == EOPNOTSUPP;
+ }
 
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     743 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     751 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     759 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     768 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     777 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     786 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> kernel/cgroup/cpuset.c:699:8: error: array type 'cpumask_var_t' (aka 'struct cpumask[1]') is not assignable
-     699 |         cpus1 = cpumask_empty(cs1->exclusive_cpus)
-         |         ~~~~~ ^
-   kernel/cgroup/cpuset.c:701:8: error: array type 'cpumask_var_t' (aka 'struct cpumask[1]') is not assignable
-     701 |         cpus2 = cpumask_empty(cs2->exclusive_cpus)
-         |         ~~~~~ ^
-   13 warnings and 2 errors generated.
+> +
+>  #define REG_MASK (KVM_REG_ARCH_MASK | KVM_REG_SIZE_MASK | KVM_REG_ARM_COPROC_MASK)
+>  
+>  #define CORE_REGS_XX_NR_WORDS	2
+> diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing/selftests/kvm/get-reg-list.c
+> index f6ad7991a812..b956ee410996 100644
+> --- a/tools/testing/selftests/kvm/get-reg-list.c
+> +++ b/tools/testing/selftests/kvm/get-reg-list.c
+> @@ -98,6 +98,11 @@ void __weak print_reg(const char *prefix, __u64 id)
+>  	printf("\t0x%llx,\n", id);
+>  }
+>  
+> +bool __weak reject_set_fail(__u64 reg)
+> +{
+> +	return false;
+> +}
+> +
+>  #ifdef __aarch64__
+>  static void prepare_vcpu_init(struct vcpu_reg_list *c, struct kvm_vcpu_init *init)
+>  {
+> @@ -216,7 +221,7 @@ static void run_test(struct vcpu_reg_list *c)
+>  			if (s->rejects_set && find_reg(s->rejects_set, s->rejects_set_n, reg.id)) {
+>  				reject_reg = true;
+>  				ret = __vcpu_ioctl(vcpu, KVM_SET_ONE_REG, &reg);
+> -				if (ret != -1 || errno != EPERM) {
+> +				if (ret != -1 || reject_set_fail(reg.id)) {
+>  					printf("%s: Failed to reject (ret=%d, errno=%d) ", config_name(c), ret, errno);
+>  					print_reg(config_name(c), reg.id);
+>  					putchar('\n');
+> -- 
+> 2.34.1
+>
 
-
-vim +699 kernel/cgroup/cpuset.c
-
-   689	
-   690	/*
-   691	 * cpu_exclusive_check() - check if two cpusets are exclusive
-   692	 *
-   693	 * Return 0 if exclusive, -EINVAL if not
-   694	 */
-   695	static inline bool cpu_exclusive_check(struct cpuset *cs1, struct cpuset *cs2)
-   696	{
-   697		cpumask_var_t cpus1, cpus2;
-   698	
- > 699		cpus1 = cpumask_empty(cs1->exclusive_cpus)
-   700			? cs1->cpus_allowed : cs1->exclusive_cpus;
-   701		cpus2 = cpumask_empty(cs2->exclusive_cpus)
-   702			? cs2->cpus_allowed : cs2->exclusive_cpus;
-   703	
-   704		if (cpumask_intersects(cpus1, cpus2))
-   705			return -EINVAL;
-   706		return 0;
-   707	}
-   708	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+drew
