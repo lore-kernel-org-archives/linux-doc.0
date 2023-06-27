@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70776C001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 14:38:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7207AEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 14:43:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231761AbjF0OiN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 10:38:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38318 "EHLO
+        id S231944AbjF0OnF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 10:43:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231670AbjF0Ohj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 10:37:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B00B3A9B
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 07:36:31 -0700 (PDT)
+        with ESMTP id S230336AbjF0Oms (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 10:42:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A93C1359F
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 07:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687876591;
+        s=mimecast20190719; t=1687876854;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=5WrK5WBWoc32LURr2EuT+ipNK/yro3aBjT13t4QPtY8=;
-        b=KDh3lhn6bHXCtGsg+yB1K/L8HBNy5qvMjoDV1UjPrL1JaRO6gMm3F1F+eVaCv3OEWa1o/a
-        BiTjJSd+ToZXX7jlw/0KcjubGZhSuSLMCXjzpzo7yhCYSlBFN3wJ2V/521Wl260x2eb2IB
-        qw40ASyMdZyfgZaZTZsuBYLDpm+nMpc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=HxXXRG19n9JIA9MH1iFO6LWghYV5obKh5ig/aXiH0Xo=;
+        b=Nr91JhniCyJ5YnFJ0lxxd/vDwd4cMfXxD+am4efr/LW3a4PB/2YNZLwLflPExxHYkNvVNu
+        zybfnIKJ4oHhQNmxATH76xEIvV9sWIVcc/5Gjuk1D8q7A4uA8jdCUbhK1xR9EuwJb6XFf+
+        wafraWg8UuaBJQbbF97af7eY5lTGQn0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-69eAfE6xOc2X-J3g1gNtrA-1; Tue, 27 Jun 2023 10:36:20 -0400
-X-MC-Unique: 69eAfE6xOc2X-J3g1gNtrA-1
+ us-mta-433-LmQfQh6XPPu43T56nk_XGA-1; Tue, 27 Jun 2023 10:40:51 -0400
+X-MC-Unique: LmQfQh6XPPu43T56nk_XGA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1C0B3C11CE6;
-        Tue, 27 Jun 2023 14:35:38 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1A458C810A;
+        Tue, 27 Jun 2023 14:35:32 +0000 (UTC)
 Received: from llong.com (unknown [10.22.10.32])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E718F40C2063;
-        Tue, 27 Jun 2023 14:35:37 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DDBCE40C2063;
+        Tue, 27 Jun 2023 14:35:31 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -51,9 +51,9 @@ Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
         Brent Rowsell <browsell@redhat.com>,
         Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v4 8/9] cgroup/cpuset: Documentation update for partition
-Date:   Tue, 27 Jun 2023 10:35:07 -0400
-Message-Id: <20230627143508.1576882-9-longman@redhat.com>
+Subject: [PATCH v4 1/9] cgroup/cpuset: Inherit parent's load balance state in v2
+Date:   Tue, 27 Jun 2023 10:35:00 -0400
+Message-Id: <20230627143508.1576882-2-longman@redhat.com>
 In-Reply-To: <20230627143508.1576882-1-longman@redhat.com>
 References: <20230627143508.1576882-1-longman@redhat.com>
 MIME-Version: 1.0
@@ -63,168 +63,80 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch updates the cgroup-v2.rst file to include information about
-the new "cpuset.cpus.exclusive" control file as well as the new remote
-partition.
+Since commit f28e22441f35 ("cgroup/cpuset: Add a new isolated
+cpus.partition type"), the CS_SCHED_LOAD_BALANCE bit of a v2 cpuset
+can be on or off. The child cpusets of a partition root must have the
+same setting as its parent or it may screw up the rebuilding of sched
+domains. Fix this problem by making sure the a child v2 cpuset will
+follows its parent cpuset load balance state unless the child cpuset
+is a new partition root itself.
 
+Fixes: f28e22441f35 ("cgroup/cpuset: Add a new isolated cpus.partition type")
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 100 ++++++++++++++++++------
- 1 file changed, 74 insertions(+), 26 deletions(-)
+ kernel/cgroup/cpuset.c | 33 ++++++++++++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index d9f3768a10db..8dd7464f93dc 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2215,6 +2215,27 @@ Cpuset Interface Files
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 58e6f18f01c1..170e342b07e3 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -1588,11 +1588,16 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
+ 		}
  
- 	Its value will be affected by memory nodes hotplug events.
+ 		/*
+-		 * Skip the whole subtree if the cpumask remains the same
+-		 * and has no partition root state and force flag not set.
++		 * Skip the whole subtree if
++		 * 1) the cpumask remains the same,
++		 * 2) has no partition root state,
++		 * 3) force flag not set, and
++		 * 4) for v2 load balance state same as its parent.
+ 		 */
+ 		if (!cp->partition_root_state && !force &&
+-		    cpumask_equal(tmp->new_cpus, cp->effective_cpus)) {
++		    cpumask_equal(tmp->new_cpus, cp->effective_cpus) &&
++		    (!cgroup_subsys_on_dfl(cpuset_cgrp_subsys) ||
++		    (is_sched_load_balance(parent) == is_sched_load_balance(cp)))) {
+ 			pos_css = css_rightmost_descendant(pos_css);
+ 			continue;
+ 		}
+@@ -1675,6 +1680,20 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
  
-+  cpuset.cpus.exclusive
-+	A read-write multiple values file which exists on non-root
-+	cpuset-enabled cgroups.
+ 		update_tasks_cpumask(cp, tmp->new_cpus);
+ 
++		/*
++		 * On default hierarchy, inherit the CS_SCHED_LOAD_BALANCE
++		 * from parent if current cpuset isn't a valid partition root
++		 * and their load balance states differ.
++		 */
++		if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys) &&
++		    !is_partition_valid(cp) &&
++		    (is_sched_load_balance(parent) != is_sched_load_balance(cp))) {
++			if (is_sched_load_balance(parent))
++				set_bit(CS_SCHED_LOAD_BALANCE, &cp->flags);
++			else
++				clear_bit(CS_SCHED_LOAD_BALANCE, &cp->flags);
++		}
 +
-+	It lists all the exclusive CPUs that can be used to create a
-+	new cpuset partition.  Its value is not used unless the cgroup
-+	becomes a valid partition root.  See the next section below
-+	for a description of what a cpuset partition is.
+ 		/*
+ 		 * On legacy hierarchy, if the effective cpumask of any non-
+ 		 * empty cpuset is changed, we need to rebuild sched domains.
+@@ -3222,6 +3241,14 @@ static int cpuset_css_online(struct cgroup_subsys_state *css)
+ 		cs->use_parent_ecpus = true;
+ 		parent->child_ecpus_count++;
+ 	}
 +
-+	The root cgroup is a partition root and all its available CPUs
-+	are in its exclusive CPU set.
++	/*
++	 * For v2, clear CS_SCHED_LOAD_BALANCE if parent is isolated
++	 */
++	if (cgroup_subsys_on_dfl(cpuset_cgrp_subsys) &&
++	    !is_sched_load_balance(parent))
++		clear_bit(CS_SCHED_LOAD_BALANCE, &cs->flags);
 +
-+	There are constraints on what values are acceptable
-+	to this control file.  Its value must be a subset of
-+	the cgroup's "cpuset.cpus" value and the parent cgroup's
-+	"cpuset.cpus.exclusive" value.	For a parent cgroup, any one
-+	its exclusive CPUs can only be distributed to at most one of
-+	its child cgroups.  Having an exclusive CPU appearing in two or
-+	more of its child cgroups is not allowed (the exclusivity rule).
-+	An invalid value will be rejected with a write error.
-+
-   cpuset.cpus.partition
- 	A read-write single value file which exists on non-root
- 	cpuset-enabled cgroups.  This flag is owned by the parent cgroup
-@@ -2228,26 +2249,41 @@ Cpuset Interface Files
- 	  "isolated"	Partition root without load balancing
- 	  ==========	=====================================
+ 	spin_unlock_irq(&callback_lock);
  
--	The root cgroup is always a partition root and its state
--	cannot be changed.  All other non-root cgroups start out as
--	"member".
-+	A cpuset partition is a collection of cpuset-enabled cgroups with
-+	a partition root at the top of the hierarchy and its descendants
-+	except those that are separate partition roots themselves and
-+	their descendants.  A partition has exclusive access to the
-+	set of exclusive CPUs allocated to it.	Other cgroups outside
-+	of that partition cannot use any CPUs in that set.
-+
-+	There are two types of partitions - local and remote.  A local
-+	partition is one whose parent cgroup is also a valid partition
-+	root.  A remote partition is one whose parent cgroup is not a
-+	valid partition root itself.  Writing to "cpuset.cpus.exclusive"
-+	is not mandatory for the creation of a local partition as its
-+	"cpuset.cpus.exclusive" file will be filled in automatically if
-+	it is not set.	The automaticaly set value will be based on its
-+	"cpuset.cpus" value.  Writing the proper "cpuset.cpus.exclusive"
-+	values down the cgroup hierarchy is mandatory for the creation
-+	of a remote partition.
-+
-+	Currently, a remote partition cannot be created under a local
-+	partition.  All the ancestors of a remote partition root except
-+	the root cgroup cannot be partition root.
-+
-+	The root cgroup is always a partition root and its state cannot
-+	be changed.  All other non-root cgroups start out as "member".
- 
- 	When set to "root", the current cgroup is the root of a new
--	partition or scheduling domain that comprises itself and all
--	its descendants except those that are separate partition roots
--	themselves and their descendants.
-+	partition or scheduling domain.  The set of exclusive CPUs is
-+	determined by the value of its "cpuset.cpus.exclusive".
- 
--	When set to "isolated", the CPUs in that partition root will
-+	When set to "isolated", the CPUs in that partition will
- 	be in an isolated state without any load balancing from the
- 	scheduler.  Tasks placed in such a partition with multiple
- 	CPUs should be carefully distributed and bound to each of the
- 	individual CPUs for optimal performance.
- 
--	The value shown in "cpuset.cpus.effective" of a partition root
--	is the CPUs that the partition root can dedicate to a potential
--	new child partition root. The new child subtracts available
--	CPUs from its parent "cpuset.cpus.effective".
--
- 	A partition root ("root" or "isolated") can be in one of the
- 	two possible states - valid or invalid.  An invalid partition
- 	root is in a degraded state where some state information may
-@@ -2270,33 +2306,40 @@ Cpuset Interface Files
- 	In the case of an invalid partition root, a descriptive string on
- 	why the partition is invalid is included within parentheses.
- 
--	For a partition root to become valid, the following conditions
-+	For a local partition root to be valid, the following conditions
- 	must be met.
- 
--	1) The "cpuset.cpus" is exclusive with its siblings , i.e. they
--	   are not shared by any of its siblings (exclusivity rule).
--	2) The parent cgroup is a valid partition root.
--	3) The "cpuset.cpus" is not empty and must contain at least
--	   one of the CPUs from parent's "cpuset.cpus", i.e. they overlap.
-+	1) The parent cgroup is a valid partition root.
-+	2) The "cpuset.cpus.exclusive" is exclusive with its siblings ,
-+	   i.e. they are not shared by any of its siblings (exclusivity
-+	   rule).
-+	3) The "cpuset.cpus.exclusive" is not empty, but it may contain
-+	   offline CPUs.
- 	4) The "cpuset.cpus.effective" cannot be empty unless there is
- 	   no task associated with this partition.
- 
--	External events like hotplug or changes to "cpuset.cpus" can
--	cause a valid partition root to become invalid and vice versa.
--	Note that a task cannot be moved to a cgroup with empty
--	"cpuset.cpus.effective".
-+	For a remote partition root to be valid, all the above conditions
-+	except the first one must be met.
-+
-+	External events like hotplug or changes to "cpuset.cpus" or
-+	"cpuset.cpus.exclusive" can cause a valid partition root to
-+	become invalid and vice versa.	Note that a task cannot be
-+	moved to a cgroup with empty "cpuset.cpus.effective".
- 
- 	For a valid partition root with the sibling cpu exclusivity
- 	rule enabled, changes made to "cpuset.cpus" that violate the
- 	exclusivity rule will invalidate the partition as well as its
- 	sibling partitions with conflicting cpuset.cpus values. So
--	care must be taking in changing "cpuset.cpus".
-+	care must be taking in changing "cpuset.cpus".	Changes to
-+	"cpuset.cpus.exclusive" that violates the exclusivity rule will
-+	not be allowed.
- 
- 	A valid non-root parent partition may distribute out all its CPUs
--	to its child partitions when there is no task associated with it.
-+	to its child local partitions when there is no task associated
-+	with it.
- 
--	Care must be taken to change a valid partition root to
--	"member" as all its child partitions, if present, will become
-+	Care must be taken to change a valid partition root to "member"
-+	as all its child local partitions, if present, will become
- 	invalid causing disruption to tasks running in those child
- 	partitions. These inactivated partitions could be recovered if
- 	their parent is switched back to a partition root with a proper
-@@ -2310,6 +2353,11 @@ Cpuset Interface Files
- 	to "cpuset.cpus.partition" without the need to do continuous
- 	polling.
- 
-+	A user can pre-configure certain CPUs to an isolated state at
-+	boot time with the "isolcpus" kernel boot command line option.
-+	If those CPUs are to be put into a partition, they have to
-+	be used in an isolated partition.
-+
- 
- Device controller
- -----------------
+ 	if (!test_bit(CGRP_CPUSET_CLONE_CHILDREN, &css->cgroup->flags))
 -- 
 2.31.1
 
