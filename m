@@ -2,86 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E48EB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 18:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74A9DC001B3
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 18:24:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbjF0SQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 14:16:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47728 "EHLO
+        id S230444AbjF0SYz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 14:24:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231186AbjF0SPt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 14:15:49 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B662510D7
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 11:15:46 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-991aac97802so370196066b.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 11:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687889745; x=1690481745;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ndCPpqDgwou489KjC0kIekAZ9rKZJd9NKLRwxqa3kWo=;
-        b=ixA0x2iljcmjaL4fSY7co3wMQ1r+EcKo28vas1Oo0TPGMSLfOyNZHZ7Kz4Mu5+UQm+
-         rkB5Xj7WJJ/8/up5pGueSbFBIUHcEqYhUZuJW18ZhNWzD8QW4h7+Pt4s20nEUDeSRODj
-         Ck8XcFg71kWOkxPboWcMoMIbIZRvYHQvd9m8rxyp1wGO1BroJO0VcWofO9rcT2uV9698
-         IuQ7sBRVAiZj2dXeG6nqLmT22K3n/qXtYGVbK3wOjkLdyzt/8IkMTPj+yIa7WZcPhTng
-         eu/wphKjcdTKt47a4CYvSNkK0SrwSIq+k1ioBdVc6wt8/JhtDV6vJAs4xKClUl/fgmpE
-         L/Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687889745; x=1690481745;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ndCPpqDgwou489KjC0kIekAZ9rKZJd9NKLRwxqa3kWo=;
-        b=AkqvPBAqmp0rnfN50F7kg0pGCEVEjie11+duyje1oo7ByzaAMvtnRlxAQpWSz8HO9+
-         L0KjEbVHz33Ws2kXAqYcevObk0lngIKSPj/MRhEH9o8bX5mTFXDa6Hw/1hC9i94JsBUN
-         3GF8XNFU18yvlRWXNn9NaEZ4wVoYAAjuXCchlwq0AFbckTxz5ZgoGRan8W4DSPZD/cGk
-         GYg3fjOvgfds4XROCCwnqSHBCjE/nZBqJlN5mebjA99TEeXawNfO+ystHAwyc81N1Izj
-         CbRoMgGWIVlUTv+bzf4aCOawMJoQL2lJxa0uxTcYwnsT5boo5zDVOLS/JgNDIlIYCj2F
-         wdnw==
-X-Gm-Message-State: AC+VfDzlftxRz81Ik5k95b+gO7gnDD1u2mMxo8+IomCqMlqvi7NlHOHe
-        wyiAGswkjhpOJ/Egmm81iw2aamtTsjDxckhkEEU0vw==
-X-Google-Smtp-Source: ACHHUZ5mDR3zHCNEIaXf+4bc2+481wuGeRiTY9bqKnQ2FgfAM2kBtsZ4ibLCMT4pX+mRBbPPZnG6v6jNKX9b241X0pM=
-X-Received: by 2002:a17:907:26ca:b0:98d:fc51:b3dd with SMTP id
- bp10-20020a17090726ca00b0098dfc51b3ddmr9919666ejc.41.1687889744959; Tue, 27
- Jun 2023 11:15:44 -0700 (PDT)
+        with ESMTP id S231131AbjF0SYu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 14:24:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CDECB8;
+        Tue, 27 Jun 2023 11:24:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CF1E7611F1;
+        Tue, 27 Jun 2023 18:24:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CB0C433C0;
+        Tue, 27 Jun 2023 18:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687890288;
+        bh=U0Ae3RQ4h+5yMS5yiPM4dAg4Cs5OyI4YsmDbSn9P54M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iBWhHyi7OhQxiwwl1PoY0idtgffmlQUHdUCFfMJgHk+cdg8J3eNys3Slb4cxWnCof
+         X/6NljQ13ZORuOfC5mtqQF6jL5eECEGZWYoycQr3WgWNv4WKTY8mD2Lm/vj5hB2H3U
+         SH3tZN3MLf7ggPvxZ3/YEqEn+B4jcwq4n8Aav6fw81+NT39/M4dfBgxAqymEN+EYaE
+         jqCtAr/PSn/OrT6HJSKM9PK8lixaCmT8U1O3zPdtth3oe3DQRC++0U9f92PFAFLpuV
+         vfR4QLL1J5OWOYZkPMCc1oK33pI/kTdwJEhdoK4B7AseSVcECzgV7/0UJ9rtaRsiat
+         Mk3Z0hx1E77QA==
+Date:   Tue, 27 Jun 2023 19:24:39 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Charlie Jenkins <charlie@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Zong Li <zong.li@sifive.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Guo Ren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Sergey Matyukevich <sergey.matyukevich@syntacore.com>,
+        David Hildenbrand <david@redhat.com>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        Qinglin Pan <panqinglin2020@iscas.ac.cn>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Brian Cain <bcain@quicinc.com>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Stafford Horne <shorne@gmail.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Anup Patel <anup@brainfault.org>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Evan Green <evan@rivosinc.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Mark Brown <broonie@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:EXEC & BINFMT API" <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH 0/2] Restrict address space for sv39,sv48,sv57
+Message-ID: <20230627-eternity-mulberry-e1f4babf06a1@spud>
+References: <20230626183611.40479-1-charlie@rivosinc.com>
 MIME-Version: 1.0
-References: <20230627120058.2214509-1-matteorizzo@google.com>
- <20230627120058.2214509-2-matteorizzo@google.com> <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
-In-Reply-To: <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
-From:   Matteo Rizzo <matteorizzo@google.com>
-Date:   Tue, 27 Jun 2023 20:15:33 +0200
-Message-ID: <CAHKB1wJANtT27WM6hrhDy_x9H9Lsn4qRjPDmXdKosoL93TJRYg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
-To:     Bart Van Assche <bvanassche@acm.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        io-uring@vger.kernel.org, jordyzomer@google.com, evn@google.com,
-        poprdi@google.com, corbet@lwn.net, axboe@kernel.dk,
-        asml.silence@gmail.com, akpm@linux-foundation.org,
-        keescook@chromium.org, rostedt@goodmis.org,
-        dave.hansen@linux.intel.com, ribalda@chromium.org,
-        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
-        ldufour@linux.ibm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ZFVJLaa7EzBd/kk7"
+Content-Disposition: inline
+In-Reply-To: <20230626183611.40479-1-charlie@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 27 Jun 2023 at 19:10, Bart Van Assche <bvanassche@acm.org> wrote:
-> I'm using fio + io_uring all the time on Android devices. I think we need a
-> better solution than disabling io_uring system-wide, e.g. a mechanism based
-> on SELinux that disables io_uring for apps and that keeps io_uring enabled
-> for processes started via 'adb root && adb shell ...'
 
-Android already uses seccomp to prevent untrusted applications from using
-io_uring. This patch is aimed at server/desktop environments where there is
-no easy way to set a system-wide seccomp policy and right now the only way
-to disable io_uring system-wide is to compile it out of the kernel entirely
-(not really feasible for e.g. a general-purpose distro).
+--ZFVJLaa7EzBd/kk7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I thought about adding a capability check that lets privileged processes
-bypass this sysctl, but it wasn't clear to me which capability I should use.
-For userfaultfd the kernel uses CAP_SYS_PTRACE, but I wasn't sure that's
-the best choice here since io_uring has nothing to do with ptrace.
-If anyone has any suggestions please let me know. A LSM hook also sounds
-like an option but it would be more complicated to implement and use.
+Hey Charlie,
+
+On Mon, Jun 26, 2023 at 11:36:02AM -0700, Charlie Jenkins wrote:
+> Make sv39 the default address space for mmap as some applications
+> currently depend on this assumption. The RISC-V specification enforces
+> that bits outside of the virtual address range are not used, so
+> restricting the size of the default address space as such should be
+> temporary. A hint address passed to mmap will cause the largest address
+> space that fits entirely into the hint to be used. If the hint is less
+> than or equal to 1<<38, a 39-bit address will be used. After an address
+> space is completely full, the next smallest address space will be used.
+>=20
+> Documentation is also added to the RISC-V virtual memory section to expla=
+in
+> these changes.
+
+I don't know what went wrong here, but this never ended up in patchwork
+for some reason, although it has appeared on lore. That seems to be via
+the docs mailing list, rather than linux-riscv. Could you speak to Atish
+and see if he knows what went wrong?
+
+Cheers,
+Conor.
+
+>=20
+> Charlie Jenkins (2):
+>   RISC-V: mm: Restrict address space for sv39,sv48,sv57
+>   RISC-V: mm: Update documentation and include test
+>=20
+>  Documentation/riscv/vm-layout.rst             | 20 ++++++++
+>  arch/riscv/include/asm/elf.h                  |  2 +-
+>  arch/riscv/include/asm/pgtable.h              | 21 ++++++--
+>  arch/riscv/include/asm/processor.h            | 41 +++++++++++++---
+>  tools/testing/selftests/riscv/Makefile        |  2 +-
+>  tools/testing/selftests/riscv/mm/Makefile     | 22 +++++++++
+>  .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++++
+>  7 files changed, 144 insertions(+), 13 deletions(-)
+>  create mode 100644 tools/testing/selftests/riscv/mm/Makefile
+>  create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
+>=20
+>=20
+> base-commit: eef509789cecdce895020682192d32e8bac790e8
+> --=20
+> 2.34.1
+>=20
+
+--ZFVJLaa7EzBd/kk7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJspZgAKCRB4tDGHoIJi
+0ilsAQC1hx/GF+DR3SpYjaRTOUhL/owNo2aM6O7rh8R9fc3o4QD7Bln7maXQOnuM
+AlYliIy/ysDkNeLNH5z4t4XUqM/PLgI=
+=za3L
+-----END PGP SIGNATURE-----
+
+--ZFVJLaa7EzBd/kk7--
