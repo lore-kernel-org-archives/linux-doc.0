@@ -2,223 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62814EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 19:32:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C100AEB64D9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 20:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbjF0TcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 15:32:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49590 "EHLO
+        id S230019AbjF0UoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 16:44:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbjF0TcU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 15:32:20 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE8ED19B5
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 12:32:17 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b82afd519fso31235ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 12:32:17 -0700 (PDT)
+        with ESMTP id S229454AbjF0UoX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 16:44:23 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E97FF19A9
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 13:44:21 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-666e97fcc60so2729577b3a.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 13:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687894337; x=1690486337;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ck21h6YvUFdrodIGjj6YsU+OWYBVIflql5oiEYBppsM=;
-        b=SLlivscbvsR1PVQf5GVSNkbJ2yyQ76xW2h8F30oXjhTUb4nMDmTr7nvn0j9cDaRm0r
-         DhW92Y68Ihi9JRL8OJ1OG0HY/EwZjhPPUicsv4v7vsW4/BV38ukoNsM5XcclyqoYQZD7
-         Va67Z7ErZMtA2svIeftPoqkaPmQ6Vn7Y+kAXnricFTcFNAM119XeFqEETW9uJ/czqSai
-         iuupc+e+x8ZLEbNLbxrxsX6vGXvwLiKoEoG9l4v5qWc2+pwYppsPVvsxACNDuPe8jhGu
-         l9bSrQh2JzUdXPV71x3+YHM7N4DTRL8RJ/VTaGMeFQYsHP6y48oj3fyyEWKUfFxBfJtW
-         viNw==
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687898661; x=1690490661;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=U6H5cDFr1dyx2lCsy2AJPNTJs3FzaFbYaxaijcdCN6c=;
+        b=HnUnP0vwso/w9ndQv/pgq0gNpsaF7bZzRGOM3mn/GAVklFx34b8NPAaL7sUyHk6qP8
+         TscFXAhsCRRRCjMXxq4JtP67y8CIDf/nsGEfyRTfL68tyxoXM5JjeRZVQSpJevIrjXzQ
+         VJ5zf1a1qZPrc1Esj+4IolnS3L3jzjFcCBLA2MGTe3rDQO7WWm3M//XqBvXsxXVYm6ng
+         Hg8/UR1Zn1BwBmpfGVWa5CTfCYGbL2453fVUHPbZYlZP1pRzbhOSf1PmEc09JniHtujp
+         WQEXzfnygKQV8nLVvSI5/36pi8KJScrN3YK3lkUXteD1d7obO6u8OR5PXCFiH0IxPR90
+         ZMaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687894337; x=1690486337;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ck21h6YvUFdrodIGjj6YsU+OWYBVIflql5oiEYBppsM=;
-        b=ARbN/1cDqIU14+RJn+SiTPuqwOYbJXAHqVbYgIIVsbjHXk1uAuLfLrO+FfdZlo8CMB
-         dwvriSp4QbYsow36aAZ6anaaYoqzoW4zl5C6rgtniQFrlOMMxkhfKy7AkQfkbHUJ85Fq
-         mD8fg4ajDxwBC1GyTchRdlp9YtS+3q/mmZXb3yw/eUDsGmmSjamdLSKBJNAqrlD+x0vK
-         +3BtMhhSGRvMXrDlWoQ1nMpqYxZrssvqizd91rQVm7cqo4PWwAF9rurXorb7+/kwZ7SA
-         fXrL7IC9wrxuJmKoIGUFvEwrsmNvUussjTkATSUFAqgZciOiIpJWGdJ1zan3cqm/lzUg
-         0ITQ==
-X-Gm-Message-State: AC+VfDzeRVqn9qHHSrtjMj9769Yj9zv/XDyZTYMHsl1euz1hh8OPtEIW
-        jlfdE2CsSY0KLUVzQdkAw9VsRg==
-X-Google-Smtp-Source: ACHHUZ6arFC51dXDUj/BzIkIsYYKV1kMOuQaZX0aowuibpY/Cz1H30KX128wSJWTPXqV6huFvB/TDw==
-X-Received: by 2002:a17:902:ec91:b0:1b0:ceb:d67f with SMTP id x17-20020a170902ec9100b001b00cebd67fmr33959plg.8.1687894337073;
-        Tue, 27 Jun 2023 12:32:17 -0700 (PDT)
-Received: from [2620:0:1008:15:ab4c:7287:2273:1bd0] ([2620:0:1008:15:ab4c:7287:2273:1bd0])
-        by smtp.gmail.com with ESMTPSA id iw4-20020a170903044400b001b80104446fsm4192320plb.20.2023.06.27.12.32.16
+        d=1e100.net; s=20221208; t=1687898661; x=1690490661;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U6H5cDFr1dyx2lCsy2AJPNTJs3FzaFbYaxaijcdCN6c=;
+        b=ejfLXMJGZLByw7lqDUaoopqCo7qN+raccgp9tlJa6gptdELw0HbzQfxpGcILb2CqFu
+         0VIvrM2u2MiM4D6zPTyw3KImJWAWaGw2ObD8hAmBDeSIh6+rwuM0vtk0rVkLMzF/Pub0
+         tY3BfSUFnJ5n4NOPtQqlhWkzES5KVNtsU2VxAp4JgalHxpIx7mHzrglSn+nF2ozZgQ/2
+         Dq3nsIAxGE0R+TKoaxiftLXNW/RO2mBFifd7yswqG8LNyCsB78y+GCm6/VP3y/uNfO2E
+         Dfpr6Fb1ytUUvXpeup/yYemM4mfFiARYpnZCA39n+NJb9Yo1hvVbejNWfKEcSdQiMdCS
+         WVmQ==
+X-Gm-Message-State: AC+VfDy7Cgft47oWGoSnC8vzEcWoRSxeBUtSVzphKQgI3I3Gm2UMej6E
+        z6vL3WEgs1kqMvhI9vZT0UHh7A==
+X-Google-Smtp-Source: ACHHUZ6yr8dixKzuikEVp36MwS6CX2PzvlrNDk/YH/WpQYExSF1m6bblfriT2qtqDBzbeyosRgtKBA==
+X-Received: by 2002:a05:6a00:190a:b0:66c:9e97:aece with SMTP id y10-20020a056a00190a00b0066c9e97aecemr7488833pfi.10.1687898661261;
+        Tue, 27 Jun 2023 13:44:21 -0700 (PDT)
+Received: from ghost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id g6-20020aa78746000000b00666b6dc10desm5238976pfo.56.2023.06.27.13.44.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 12:32:16 -0700 (PDT)
-Date:   Tue, 27 Jun 2023 12:32:15 -0700 (PDT)
-From:   David Rientjes <rientjes@google.com>
-To:     Julian Pidancet <julian.pidancet@oracle.com>
-cc:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Tue, 27 Jun 2023 13:44:20 -0700 (PDT)
+Date:   Tue, 27 Jun 2023 13:44:18 -0700
+From:   Charles Jenkins <charlie@rivosinc.com>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Eric Biederman <ebiederm@xmission.com>,
         Kees Cook <keescook@chromium.org>,
-        Rafael Aquini <aquini@redhat.com>
-Subject: Re: [PATCH] mm/slub: disable slab merging in the default
- configuration
-In-Reply-To: <20230627132131.214475-1-julian.pidancet@oracle.com>
-Message-ID: <48bd9819-3571-6b53-f1ad-ec013be742c0@google.com>
-References: <20230627132131.214475-1-julian.pidancet@oracle.com>
+        Shuah Khan <shuah@kernel.org>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Zong Li <zong.li@sifive.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Guo Ren <guoren@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Sergey Matyukevich <sergey.matyukevich@syntacore.com>,
+        David Hildenbrand <david@redhat.com>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        Qinglin Pan <panqinglin2020@iscas.ac.cn>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Brian Cain <bcain@quicinc.com>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Stafford Horne <shorne@gmail.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Anup Patel <anup@brainfault.org>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Evan Green <evan@rivosinc.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Mark Brown <broonie@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:EXEC & BINFMT API" <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Atish Kumar Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH 0/2] Restrict address space for sv39,sv48,sv57
+Message-ID: <CA+7dDtKARX35pcgdKopuM6c8oj+TKLRhXcF0+d4MZE51V7Bifg@mail.gmail.com>
+References: <20230626183611.40479-1-charlie@rivosinc.com>
+ <20230627-eternity-mulberry-e1f4babf06a1@spud>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="2003067076-1055337799-1687894336=:2486373"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230627-eternity-mulberry-e1f4babf06a1@spud>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+I talked to Atish, he's not sure what's going on here either. I am going
+to add him to the CC list.
 
---2003067076-1055337799-1687894336=:2486373
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+On Tue, Jun 27, 2023 at 11:24 AM Conor Dooley <conor@kernel.org> wrote:
 
-On Tue, 27 Jun 2023, Julian Pidancet wrote:
-
-> Make CONFIG_SLAB_MERGE_DEFAULT default to n unless CONFIG_SLUB_TINY is
-> enabled. Benefits of slab merging is limited on systems that are not
-> memory constrained: the overhead is negligible and evidence of its
-> effect on cache hotness is hard to come by.
-> 
-
-I don't have an objection to this, I think it makes sense.
-
-When you say overhead here, I assume you're referring to memory footprint?  
-Did you happen to have some system-wide numbers for what that looks like 
-when running some benchmarks, or even what the slab usage looks like after 
-a fresh boot?
-
-> On the other hand, distinguishing allocations into different slabs will
-> make attacks that rely on "heap spraying" more difficult to carry out
-> with success.
-> 
-> Take sides with security in the default kernel configuration over
-> questionnable performance benefits/memory efficiency.
-> 
-> Signed-off-by: Julian Pidancet <julian.pidancet@oracle.com>
-> ---
-> In an attempt to assess the performance impact of disabling slab
-> merging, a timed linux kernel compilation test has been conducted first
-> using slab_merge, then using slab_nomerge. Both tests started in an
-> identical state.  Commodity hardware was used: a laptop with an AMD Ryzen
-> 5 3500U CPU, and 16GiB of RAM. The kernel source files were placed on
-> an XFS partition because of the extensive use of slab caches in XFS.
-> 
-> The results are as follows:
-> 
->       | slab_merge       | slab_nomerge     |
-> ------+------------------+------------------|
-> Time  | 489.074 ± 10.334 | 489.975 ± 10.350 |
-> Min   |          459.688 |          460.554 |
-> Max   |          493.126 |          494.282 |
-> 
-> The benchmark favors the configuration where merging is disabled, but the
-> difference is only ~0.18%, well under statistical significance.
-> 
-
-I think this data should be in the changelog itself, as well as any 
-numbers to share on the memory footprint differences.
-
->  .../admin-guide/kernel-parameters.txt         | 29 ++++++++++---------
->  Documentation/mm/slub.rst                     |  5 ++--
->  mm/Kconfig                                    |  6 ++--
->  3 files changed, 21 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 9e5bab29685f..5fbf6ed3c62e 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5652,21 +5652,22 @@
->  
->  	slram=		[HW,MTD]
->  
-> -	slab_merge	[MM]
-> -			Enable merging of slabs with similar size when the
-> -			kernel is built without CONFIG_SLAB_MERGE_DEFAULT.
-> -
->  	slab_nomerge	[MM]
-> -			Disable merging of slabs with similar size. May be
-> -			necessary if there is some reason to distinguish
-> -			allocs to different slabs, especially in hardened
-> -			environments where the risk of heap overflows and
-> -			layout control by attackers can usually be
-> -			frustrated by disabling merging. This will reduce
-> -			most of the exposure of a heap attack to a single
-> -			cache (risks via metadata attacks are mostly
-> -			unchanged). Debug options disable merging on their
-> -			own.
-> +			Disable merging of slabs with similar size when
-> +			the kernel is built with CONFIG_SLAB_MERGE_DEFAULT.
-> +			Allocations of the same size made in distinct
-> +			caches will be placed in separate slabs. In
-> +			hardened environment, the risk of heap overflows
-> +			and layout control by attackers can usually be
-> +			frustrated by disabling merging.
-> +
-> +	slab_merge	[MM]
-> +			Enable merging of slabs with similar size. May be
-> +			necessary to reduce overhead or increase cache
-> +			hotness of objects, at the cost of increased
-> +			exposure in case of a heap attack to a single
-> +			cache. (risks via metadata attacks are mostly
-> +			unchanged).
->  			For more information see Documentation/mm/slub.rst.
->  
->  	slab_max_order=	[MM, SLAB]
-> diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
-> index be75971532f5..e2549f4a98dd 100644
-> --- a/Documentation/mm/slub.rst
-> +++ b/Documentation/mm/slub.rst
-> @@ -122,8 +122,9 @@ used on the wrong slab.
->  Slab merging
->  ============
->  
-> -If no debug options are specified then SLUB may merge similar slabs together
-> -in order to reduce overhead and increase cache hotness of objects.
-> +If the kernel is built with ``CONFIG_SLAB_MEGE_DEFAULT`` or if ``slab_merge``
-
-s/MEGE/MERGE/
-
-> +is specified on the kernel command line, then SLUB may merge similar slabs
-> +together in order to reduce overhead and increase cache hotness of objects.
-
-Specify that this is memory overhead?
-
->  ``slabinfo -a`` displays which slabs were merged together.
->  
->  Slab validation
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 7672a22647b4..05b0304302d4 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -255,7 +255,7 @@ config SLUB_TINY
->  
->  config SLAB_MERGE_DEFAULT
->  	bool "Allow slab caches to be merged"
-> -	default y
-> +	default n
->  	depends on SLAB || SLUB
->  	help
->  	  For reduced kernel memory fragmentation, slab caches can be
-> @@ -264,8 +264,8 @@ config SLAB_MERGE_DEFAULT
->  	  overwrite objects from merged caches (and more easily control
->  	  cache layout), which makes such heap attacks easier to exploit
->  	  by attackers. By keeping caches unmerged, these kinds of exploits
-> -	  can usually only damage objects in the same cache. To disable
-> -	  merging at runtime, "slab_nomerge" can be passed on the kernel
-> +	  can usually only damage objects in the same cache. To enable
-> +	  merging at runtime, "slab_merge" can be passed on the kernel
->  	  command line.
->  
->  config SLAB_FREELIST_RANDOM
-> -- 
-> 2.40.1
-> 
-> 
---2003067076-1055337799-1687894336=:2486373--
+> Hey Charlie,
+>
+> On Mon, Jun 26, 2023 at 11:36:02AM -0700, Charlie Jenkins wrote:
+> > Make sv39 the default address space for mmap as some applications
+> > currently depend on this assumption. The RISC-V specification enforces
+> > that bits outside of the virtual address range are not used, so
+> > restricting the size of the default address space as such should be
+> > temporary. A hint address passed to mmap will cause the largest address
+> > space that fits entirely into the hint to be used. If the hint is less
+> > than or equal to 1<<38, a 39-bit address will be used. After an address
+> > space is completely full, the next smallest address space will be used.
+> > 
+> > Documentation is also added to the RISC-V virtual memory section to 
+> explain
+> > these changes.
+>
+> I don't know what went wrong here, but this never ended up in patchwork
+> for some reason, although it has appeared on lore. That seems to be via
+> the docs mailing list, rather than linux-riscv. Could you speak to Atish
+> and see if he knows what went wrong?
+>
+> Cheers,
+> Conor.
+>
+> > 
+> > Charlie Jenkins (2):
+> >   RISC-V: mm: Restrict address space for sv39,sv48,sv57
+> >   RISC-V: mm: Update documentation and include test
+> > 
+> >  Documentation/riscv/vm-layout.rst             | 20 ++++++++
+> >  arch/riscv/include/asm/elf.h                  |  2 +-
+> >  arch/riscv/include/asm/pgtable.h              | 21 ++++++--
+> >  arch/riscv/include/asm/processor.h            | 41 +++++++++++++---
+> >  tools/testing/selftests/riscv/Makefile        |  2 +-
+> >  tools/testing/selftests/riscv/mm/Makefile     | 22 +++++++++
+> >  .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++++
+> >  7 files changed, 144 insertions(+), 13 deletions(-)
+> >  create mode 100644 tools/testing/selftests/riscv/mm/Makefile
+> >  create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
+> > 
+> > 
+> > base-commit: eef509789cecdce895020682192d32e8bac790e8
+> > -- 
+> > 2.34.1
+> > 
+>
