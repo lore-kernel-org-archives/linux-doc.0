@@ -2,169 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5628FC001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 07:50:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 583A4EB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 08:03:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231620AbjF0Hu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 03:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43458 "EHLO
+        id S229647AbjF0ID2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 04:03:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231518AbjF0Hus (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 03:50:48 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 654F5297B
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 00:50:31 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-51d93425853so2916048a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 00:50:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687852230; x=1690444230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6/PlesO2yc7J0M0ez9vNMmpy4Sw/yrJpXbgL5YEpqPo=;
-        b=bQwAZxoWB6E2WY7I4fXXrTkwiGW8Q+FBD0Mnb4fTXoziEoQ5gByHx/4vebns6dNpk5
-         WuojIMrZzyD/DnuBWVTpStVv9gClUVaJ6JjT7ZAAvtJvyRdGiabkl/rvg+VhCVakj0fw
-         ZLeF7iHxxt3qMhhlUrS2JzHrd/BLFOWsayPmeietJ+SpprSmY3HoYK353sq2HelWPvu0
-         ssRvv418pXfKhpH3+Q2qc7mFlq7clRY19EZJd1fPJh34GjxQTHqwSGJjfL8rV4/ajb3g
-         w3muIzK2awRbDHZZ0zQmB5qS3cKulXE9QdvSfc3uEbQBgEUKaEy5aBJm/M7U/3Yn644l
-         kDwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687852230; x=1690444230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6/PlesO2yc7J0M0ez9vNMmpy4Sw/yrJpXbgL5YEpqPo=;
-        b=iBRvp0DFwKV6na+kL34IIJCiOreVGTDTXgr0MIJ7uXWTAhvCKN6sbxA9+Uo0mKpRPC
-         vjTAunvoe5LIKLmHJxC/c0Cp5uaLN4ZxzUQn19cI873InNtLDvBMEZ/DubqI/D5m4evI
-         BVN0GRuXHNh6YBGcsz41YiAmXxFir6yh7ELoX3VqsobQYlnl2xRPnwhPrnNbRqnHWLuV
-         n1/auj68UEWwAqeZ457ifD73HPhavzIWCGOXS6CPc6Upg+scoMdSDZXEpqJ/N+egxgSm
-         ShPM7Vlpa2UJ2tfJwJv9KnT/B6n8djrj6BGRlPKlSd8ckn2l3rcvMcIymuIxwGofLXo3
-         /Gjw==
-X-Gm-Message-State: AC+VfDzSldsHJ25UT/QNJmhEg0ZURXl3lPmi3aBqmLi9hze7xK20DYyK
-        Y7SH0vZZMfSt+YyryEGiYP7AbyyJzMcn72vhql2LUQ==
-X-Google-Smtp-Source: ACHHUZ6agsn+BeceXhNtzplectJNaNMpkfYDD4sUR+SS3O74iUfYKtJvbDjdKFmOwS7FN4RvZ0O0zWpbX+Kgc5FB4F8=
-X-Received: by 2002:a17:907:7f04:b0:991:f6d0:9bc1 with SMTP id
- qf4-20020a1709077f0400b00991f6d09bc1mr2598779ejc.66.1687852229607; Tue, 27
- Jun 2023 00:50:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
- <64966b842becf_142af8294a5@dwillia2-xfh.jf.intel.com.notmuch>
- <cdd04046-4bcb-d6fd-1688-0a85546e7b91@linux.intel.com> <649914ab3de4d_8e17829490@dwillia2-xfh.jf.intel.com.notmuch>
-In-Reply-To: <649914ab3de4d_8e17829490@dwillia2-xfh.jf.intel.com.notmuch>
-From:   Chong Cai <chongc@google.com>
-Date:   Tue, 27 Jun 2023 00:50:16 -0700
-Message-ID: <CALRH0CiHjNeaHS88Oa_57hS_WGXY3-x2_aHco14nQpo-5e9seA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] TDX Guest Quote generation support
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
+        with ESMTP id S230144AbjF0ID0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 04:03:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A10BE71
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 01:03:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8E6B261046
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 08:03:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED31CC433C0;
+        Tue, 27 Jun 2023 08:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687853004;
+        bh=CEaWLJzQks100urjohG2ZqxOALcUA1Rwzag471pm9Mo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=plpL/fzQgO/s2dC4jFT69z95l7hWC/BTHYm21jFIQTJGUXWuULztYJZCcRnwiD4yn
+         MOsL22k9FdxTgveE/w8MSaGVgRu3s3EOSEuWSlLpTxex5/N4q3aOTw165ok81u/p8o
+         NwVnCyVSxJAwW/Vwa8PI+vP5L4YOOlgjhsgZNljr7vy034cP2HFNwJubghxgTaGsmw
+         /NlEXx7VYlFvGoeVQbaOtgz/KP3UzypNGPPz23YAE3zVfIg7GBPkLYMTds8IwIvpXx
+         kgi/8ivXHxAfQtaSxAFpx546raZodaowrUN7QO5dSGMVREBClyKQORDZnZt19htZtB
+         LnqkhPGHfk1PQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1qE3eL-008j6Z-QP;
+        Tue, 27 Jun 2023 09:03:21 +0100
+Date:   Tue, 27 Jun 2023 09:02:09 +0100
+Message-ID: <86fs6dbaf2.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     "Lameter, Christopher" <cl@os.amperecomputing.com>
+Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Quentin Perret <qperret@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Erdem Aktas <erdemaktas@google.com>,
-        Dionna Amalie Glaze <dionnaglaze@google.com>,
-        Qinkun Bao <qinkun@apache.org>,
-        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
-        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 00/17] arm64 kernel text replication
+In-Reply-To: <7ddd3c78-5392-9f8d-8f9-d898795c89@os.amperecomputing.com>
+References: <ZHYCUVa8fzmB4XZV@shell.armlinux.org.uk>
+        <ZH2lUj0zDWFppdJI@shell.armlinux.org.uk>
+        <CAMj1kXHn0oho_CZMSc5N1updfdZDq+3VAfzw8kZqzzpTSgkXew@mail.gmail.com>
+        <ZJW7kvWqLVZV4KVr@shell.armlinux.org.uk>
+        <d18208d1ae12c81edd2830ac7ca7116a@kernel.org>
+        <7ddd3c78-5392-9f8d-8f9-d898795c89@os.amperecomputing.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: cl@os.amperecomputing.com, linux@armlinux.org.uk, ardb@kernel.org, qperret@google.com, mark.rutland@arm.com, catalin.marinas@arm.com, corbet@lwn.net, will@kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jun 25, 2023 at 9:32=E2=80=AFPM Dan Williams <dan.j.williams@intel.=
-com> wrote:
->
-> Sathyanarayanan Kuppuswamy wrote:
-> >
-> >
-> > On 6/23/23 9:05 PM, Dan Williams wrote:
-> > > Kuppuswamy Sathyanarayanan wrote:
-> > >> Hi All,
-> > >>
-> > >> In TDX guest, the attestation process is used to verify the TDX gues=
-t
-> > >> trustworthiness to other entities before provisioning secrets to the
-> > >> guest.
-> > >>
-> > >> The TDX guest attestation process consists of two steps:
-> > >>
-> > >> 1. TDREPORT generation
-> > >> 2. Quote generation.
-> > >>
-> > >> The First step (TDREPORT generation) involves getting the TDX guest
-> > >> measurement data in the format of TDREPORT which is further used to
-> > >> validate the authenticity of the TDX guest. The second step involves
-> > >> sending the TDREPORT to a Quoting Enclave (QE) server to generate a
-> > >> remotely verifiable Quote. TDREPORT by design can only be verified o=
-n
-> > >> the local platform. To support remote verification of the TDREPORT,
-> > >> TDX leverages Intel SGX Quoting Enclave to verify the TDREPORT
-> > >> locally and convert it to a remotely verifiable Quote. Although
-> > >> attestation software can use communication methods like TCP/IP or
-> > >> vsock to send the TDREPORT to QE, not all platforms support these
-> > >> communication models. So TDX GHCI specification [1] defines a method
-> > >> for Quote generation via hypercalls. Please check the discussion fro=
-m
-> > >> Google [2] and Alibaba [3] which clarifies the need for hypercall ba=
-sed
-> > >> Quote generation support. This patch set adds this support.
-> > >>
-> > >> Support for TDREPORT generation already exists in the TDX guest driv=
-er.
-> > >> This patchset extends the same driver to add the Quote generation
-> > >> support.
-> > >
-> > > I missed that the TDREPORT ioctl() and this character device are alre=
-ady
-> > > upstream. The TDREPORT ioctl() if it is only needed for quote generat=
-ion
-> > > seems a waste because it just retrieves a blob that needs to be turne=
-d
-> > > around and injected back into the kernel to generate a quote.
-> >
-> > Although the end goal is to generate the quote, the method the user cho=
-oses to
-> > achieve it may differ for a variety of reasons. In this case, we're try=
-ing to
-> > support the use case where the user will use methods like TCP/IP or vso=
-ck to
-> > generate the Quote. They can use the GET_REPORT IOCTL to get the TDREPO=
-RT and
-> > send it to the quoting enclave via the above-mentioned methods.  TDVMCA=
-LL-based
-> > quote generation is intended for users who, for a variety of security r=
-easons, do
-> > not wish to use the methods described above.
->
-> This flexibility could be supported with keys if necessary, although I
-> would want to hear strong reasons not a "variety of reasons" why
-> everyone cannot use a unified approach. ABI proliferation has a
-> maintenance cost and a collaboration cost. It is within the kernel
-> community's right to judge the cost of ABI flexibility and opt for a
-> constrained implementation if that cost is too high.
->
-> What I would ask of those who absolutely cannot support the TDVMCALL
-> method is to contribute a solution that intercepts the "upcall" to the
-> platform "guest_attest_ops" and turn it into a typical keys upcall to
-> userspace that can use the report data with a vsock tunnel.
->
-> That way the end result is still the same, a key established with the
-> TDX Quote evidence contained within a Linux-defined envelope.
+On Tue, 27 Jun 2023 00:42:53 +0100,
+"Lameter, Christopher" <cl@os.amperecomputing.com> wrote:
+> 
+> On Fri, 23 Jun 2023, Marc Zyngier wrote:
+> 
+> >> That sounds great, but my initial question would be whether, with such a
+> >> setup, one could then run VMs under such a kernel without hardware that
+> >> supports nested virtualisation? I suspect the answer would be no.
+> > 
+> > The answer is yes. All you need to do is to switch between the host
+> > and guest stage-2s in the hypervisor, which is what KVM running in
+> > protected mode does.
+> 
+> Well I think his point was that there are machines running without a
+> hypervisor and kernel replication needs to work on that. We certainly
+> benefit a lot from kernel replication and our customers may elect to
+> run ARM64 kernels without hypervisors on bare metal.
 
-I agree a unified ABI across vendors would be ideal in the long term.
-However, it sounds like a non-trivial task and could take quite some
-time to achieve.
-Given there's already an AMD equivalent approach upstreamed, can we
-also allow this TDVMCALL patch as an intermediate step to unblock
-various TDX attestation user cases while targeting unified ABI? The
-TDVMCALL here is quite isolated and serves a very specific purpose, it
-should be very low risk to other kernel features and easy to be
-reverted in the future.
+These are not incompatible goals.
+
+The hypervisor is a function that the user may want to enable or not.
+Irrespective of that, the HW that underpins the virtualisation
+functionality is available and allows you to solve this particular
+problem in a different way. This doesn't preclude from running
+bare-metal at all.
+
+There is even precedent in using stage-2 to work around critical bugs
+(the Socionext PCIe fiasco springs to mind).
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
