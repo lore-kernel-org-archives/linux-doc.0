@@ -2,81 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9C5AEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 17:10:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4272DEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 17:20:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230503AbjF0RKn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 13:10:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43728 "EHLO
+        id S231210AbjF0RUh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 13:20:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbjF0RKm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 13:10:42 -0400
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EB871708;
-        Tue, 27 Jun 2023 10:10:41 -0700 (PDT)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6689430d803so2715724b3a.0;
-        Tue, 27 Jun 2023 10:10:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687885841; x=1690477841;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QCwreXgAeapFWNeRBQ+PIDdq1pcxDkY0t7LqXpgTL40=;
-        b=Jpm7sVu9mTIi9yW+4WcKRT72q+gwbNkg+u+zWHhO8PtzBLIYS6MQNd5zk2yzgv8obK
-         zRN6zYtkdWOiGGSKx8zL99yX8w1s3Gf/Gd58ABW+J3hjEZ0M2HPOAgw51nVhLQ5uZen8
-         bStQWyjRjUwfTUknzv6hPBrU6LbWwWBC8ATE4isgXHOWYB0zaJIvr+bbSqCm1/5EvlyH
-         l7rIvVEEIVP4iWB23EKTXtCv0zB/dbEZpTtO1Kb0pvL+aMFgWYBHlZF9SVAVcKZ4+2O1
-         lGJBQMZPCIoSlFL8irTiPFBaXEsltqCVf63Tz/711YYezawmjBre3IwzrjdwtORGVIH0
-         NRLg==
-X-Gm-Message-State: AC+VfDx8nDq1rjQng4QrdhVJJAcnm198MWljH/WeuYXQ46u6u7Dr0Duq
-        emKdTGZigOpt3tx5o8vU2OM=
-X-Google-Smtp-Source: ACHHUZ5WBVWb24zJ8B+PGseJCvivZdeiOCS3o/HCt1+PPio2kpc7GKG41VcUoceRKshrgljk89ecbQ==
-X-Received: by 2002:a05:6a00:1356:b0:67f:e74a:d309 with SMTP id k22-20020a056a00135600b0067fe74ad309mr615067pfu.30.1687885840698;
-        Tue, 27 Jun 2023 10:10:40 -0700 (PDT)
-Received: from ?IPV6:2620:15c:211:201:5a8b:4bea:e452:f031? ([2620:15c:211:201:5a8b:4bea:e452:f031])
-        by smtp.gmail.com with ESMTPSA id t17-20020a62ea11000000b0066355064acbsm5644002pfh.104.2023.06.27.10.10.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jun 2023 10:10:40 -0700 (PDT)
-Message-ID: <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
-Date:   Tue, 27 Jun 2023 10:10:36 -0700
+        with ESMTP id S231146AbjF0RUg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 13:20:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D249198;
+        Tue, 27 Jun 2023 10:20:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 85125611EE;
+        Tue, 27 Jun 2023 17:20:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E19DC433C9;
+        Tue, 27 Jun 2023 17:20:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687886433;
+        bh=yG+a22abZ9SzUNQMe+8vtxSHNs6hg3hQ7bJmtKEfq6g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hyU4+sm92oSYzUVPRTJlX+Fe8+ttP3U+br5Qu6kTbNbf5lZfR+LqFTbGiYEKIV8Q+
+         5RtK9Vqc8+8DspI54cUVWQ4w14eVSy2+Rv5XCiYaU6R+cA3pp+bjTUBvPBsuxG8/R+
+         5XDChTIqMS7+mQbhSiOPUMCfEr82Rp5khktKM6IqzLhSB7J7tunqkGu8E55EYQkF3+
+         mRES0K7flwKd7TMmFAgchyy7qWWCZpdIVYnU15tNXlY1LFxI8enQ8GdFiHvchx76Fp
+         B6X9WIMAwaBYF4kJZrpLfqjsBEN5q10onKUXCktEh8nnAM3zv8+2mKEcK5AetxE/4j
+         uk99KdZ6KzwgA==
+Date:   Tue, 27 Jun 2023 18:20:21 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
+        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
+        torvalds@linux-foundation.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v9 28/42] x86/shstk: Add user-mode shadow stack support
+Message-ID: <76a87cdf-4d4f-4b3f-b01f-0540eab71ac7@sirena.org.uk>
+References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
+ <20230613001108.3040476-29-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
-Content-Language: en-US
-To:     Matteo Rizzo <matteorizzo@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org
-Cc:     jordyzomer@google.com, evn@google.com, poprdi@google.com,
-        corbet@lwn.net, axboe@kernel.dk, asml.silence@gmail.com,
-        akpm@linux-foundation.org, keescook@chromium.org,
-        rostedt@goodmis.org, dave.hansen@linux.intel.com,
-        ribalda@chromium.org, chenhuacai@kernel.org, steve@sk2.org,
-        gpiccoli@igalia.com, ldufour@linux.ibm.com
-References: <20230627120058.2214509-1-matteorizzo@google.com>
- <20230627120058.2214509-2-matteorizzo@google.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20230627120058.2214509-2-matteorizzo@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5kInKYAEl4EdyhTr"
+Content-Disposition: inline
+In-Reply-To: <20230613001108.3040476-29-rick.p.edgecombe@intel.com>
+X-Cookie: Money is the root of all wealth.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/27/23 05:00, Matteo Rizzo wrote:
-> +Prevents all processes from creating new io_uring instances. Enabling this
-> +shrinks the kernel's attack surface.
+
+--5kInKYAEl4EdyhTr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Jun 12, 2023 at 05:10:54PM -0700, Rick Edgecombe wrote:
+
+> +static void unmap_shadow_stack(u64 base, u64 size)
+> +{
+> +	while (1) {
+> +		int r;
 > +
-> += =============================================================
-> +0 All processes can create io_uring instances as normal. This is the default
-> +  setting.
-> +1 io_uring is disabled. io_uring_setup always fails with -EPERM. Existing
-> +  io_uring instances can still be used.
-> += =============================================================
+> +		r = vm_munmap(base, size);
+> +
+> +		/*
+> +		 * vm_munmap() returns -EINTR when mmap_lock is held by
+> +		 * something else, and that lock should not be held for a
+> +		 * long time.  Retry it for the case.
+> +		 */
+> +		if (r == -EINTR) {
+> +			cond_resched();
+> +			continue;
+> +		}
 
-I'm using fio + io_uring all the time on Android devices. I think we need a
-better solution than disabling io_uring system-wide, e.g. a mechanism based
-on SELinux that disables io_uring for apps and that keeps io_uring enabled
-for processes started via 'adb root && adb shell ...'
+This looks generic, not even shadow stack specific - was there any
+discussion of making it a vm_munmap_retry() (that's not a great name...)
+or similar?  I didn't see any in old versions of the thread but I
+might've missed something.
 
-Bart.
+--5kInKYAEl4EdyhTr
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSbGlUACgkQJNaLcl1U
+h9BqNQf9HqQNIAUg29S+cA0RcGv/d0uACrgRR/Ug+8CHXDUGAdslLvPRGSp8km6O
+OA3sMI3JNRbsr4+QP5B8PduPbTiiePjlyNOfMrxz2oSChLugzh8gH+q7a4GtFc+T
+1AsfYswcEu8GMSy7zWw//Wq8JPfNX51jxYggMohGwEtFjgZmvT1RZAaKyZwf3UKd
+kYYChaAWrKWCe9lREGDuscGs1Udhg5nbpLJMgcKNDuBTJRn5UUZoMNY84TvuvNqm
+hy/IpJZ8m7d/utTLzzbJS3nPy6oQoFIo2riYi2hCRNZPtDvjko8UJ9uNJCbZOp3i
+gswqwIVtf/sJIXp0+Zi+a0WuiSOwdg==
+=nPJT
+-----END PGP SIGNATURE-----
+
+--5kInKYAEl4EdyhTr--
