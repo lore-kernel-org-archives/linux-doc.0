@@ -2,92 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1327EEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 11:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FEE9EB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 12:01:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbjF0L07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 07:26:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43404 "EHLO
+        id S231533AbjF0MBU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 08:01:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjF0L06 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 07:26:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BCC726AF;
-        Tue, 27 Jun 2023 04:26:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C47F16103A;
-        Tue, 27 Jun 2023 11:26:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D4AC433C8;
-        Tue, 27 Jun 2023 11:26:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1687865216;
-        bh=V9hfY3Q2c1rouujy72WRW9+fMopSLOZw2yXlhO7+N70=;
-        h=From:To:Cc:Subject:Date:From;
-        b=RL4O0iAzU35SM5pUzggf9EVWIHU6G+KbUo+REZrd1Aufg6z2PVUq5vF9oMPpZUlAn
-         yxuQ6a2fdFwWS5zmFhNdF86KwLBT7H2Ii5tG+/nt/XpHMhgpEWeK3OeI+OgJnWe2ZA
-         rV78hgp4WlGp+8m2wDI58FWIRDwKxW7wXsyFcMbI=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>
-Subject: [PATCH] Documentation: embargoed-hardware-issues.rst: clean out empty and unused entries
-Date:   Tue, 27 Jun 2023 13:26:43 +0200
-Message-ID: <2023062742-mouse-appease-7917@gregkh>
-X-Mailer: git-send-email 2.41.0
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1847; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=V9hfY3Q2c1rouujy72WRW9+fMopSLOZw2yXlhO7+N70=; b=owGbwMvMwCRo6H6F97bub03G02pJDCmzjhexTtEybAyf/fl+mPMO66Xy7C/WnVjiVuid3P2ke uFcMd2ojlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZhI83KGeSrtr17/1byYdI8r VpxFVVf69M4YH4b5ZUvS15Q/eS/+Mqh/69+Hy3LXmZs8BAA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S231670AbjF0MBU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 08:01:20 -0400
+Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com [IPv6:2a00:1450:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 373FC1722
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 05:01:18 -0700 (PDT)
+Received: by mail-ej1-x64a.google.com with SMTP id a640c23a62f3a-9879d2fc970so330666166b.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 05:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687867276; x=1690459276;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=omb5WPHKjIF19VjpQzIDwr44TOan0N70O5D7yB8S/xM=;
+        b=sgTrVNvkO/s7GNIOFrnUhXqW1ZkkCVKfF86rogYZARyOrKzP19DbviI5F9if8TsIc1
+         oDAzqFfa0s+F+ZLOLwhOz9Ylgrn+qF+ZDOhYkhBrpIwJAtjYX+D1MpkAAlJVgDPVMf/X
+         nQKI2fiAi0K0r3dAzJJgVFk0AV7Z+ztC2zFQG9b9TqEm6Tfn53XxL1uPWsxF2oVvzCXu
+         Ea5AmggmgkwD1lrpV/t561g1NZgwHD47jQlB5B+EorEbaVeftVWW2m5I6WE3BaT7lOvm
+         VE1McLhJxq2AIGHqsMjBZ1P0TSVEMVp/xH3nDyM+3l0+L/pTzzitphIOqaRQ4jY7Cx45
+         c4rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687867276; x=1690459276;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=omb5WPHKjIF19VjpQzIDwr44TOan0N70O5D7yB8S/xM=;
+        b=XCRXZKHltYo798gehSCQ/DFbZVLaQ2yNvUA/sgfDlgzhoW+/6IuwOwM+WmLhtbbufr
+         sIRi38tuGTYU+6e+yMHLOQ66bIMlwTeyE1c6Y3CCtpczPQZ+Oxzg3FRpkJaH4lhrbz+l
+         Tev0mlvSpt7RXoLT6tUTkLhA3SpZXe+AHpicpYxZ0sGScFuJ5A+xaAw0uj3oDnCl2BGI
+         sl7uXMpP6rbuCUY4ogCGx808yFNrx4JJf6e1lQXWFdGFKhrZm9URUdA3OeQ5E3yCi4yz
+         XtV/j8HOcGDsig1S0LgstUUYBPY9CF0gO51uUHnArS4TbsFm624egcjEUS+e0+1fkmP0
+         170Q==
+X-Gm-Message-State: AC+VfDxVKeASvtefhLk/OafXBvRRCP1ltdCTgHzGKr6C1rm1jUvaYMhU
+        qeKZKx4ccVDAUnGOO8GHLcRT+kbLajnAvlSPnC86TaT7eqE8yUNYpBrSvY1eOFKPmJl3jWSZloG
+        Ro3A/8G1C7oaj8JrfsLXYU+4um7LPXXxr5t2m6EBREropFlxU1NkOUFEaH941y7ETznxVkrZqh+
+        TjM4Y=
+X-Google-Smtp-Source: ACHHUZ4faU0jd491ttdu3U7/+irU9LewuFv5uSs2YWVwT91VEDSASmrVuXMZ44PNC8mLOdLMnU67aKlrpkg1Yrk2Ug==
+X-Received: from mr-cloudtop2.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:fb5])
+ (user=matteorizzo job=sendgmr) by 2002:a17:907:75d9:b0:98e:413a:477b with
+ SMTP id jl25-20020a17090775d900b0098e413a477bmr1131845ejc.10.1687867276551;
+ Tue, 27 Jun 2023 05:01:16 -0700 (PDT)
+Date:   Tue, 27 Jun 2023 12:00:57 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
+Message-ID: <20230627120058.2214509-1-matteorizzo@google.com>
+Subject: [PATCH 0/1] Add a sysctl to disable io_uring system-wide
+From:   Matteo Rizzo <matteorizzo@google.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        io-uring@vger.kernel.org
+Cc:     matteorizzo@google.com, jordyzomer@google.com, evn@google.com,
+        poprdi@google.com, corbet@lwn.net, axboe@kernel.dk,
+        asml.silence@gmail.com, akpm@linux-foundation.org,
+        keescook@chromium.org, rostedt@goodmis.org,
+        dave.hansen@linux.intel.com, ribalda@chromium.org,
+        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
+        ldufour@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are a few empty entries in the company/project list, which
-confuses people as to why they are there, so remove them entirely, and
-also remove an entry that doesn't wish to participate in this process.
+Over the last few years we've seen many critical vulnerabilities in
+io_uring (https://goo.gle/limit-iouring) which could be exploited by
+an unprivileged process. There is currently no way to disable io_uring
+system-wide except by compiling it out of the kernel entirely. The only
+way to prevent a process from accessing io_uring is to use a seccomp
+filter, but seccomp cannot be applied system-wide. This patch introduces a
+new sysctl which disables the creation of new io_uring instances
+system-wide. This gives system admins a way to reduce the kernel's attack
+surface on systems where io_uring is not used.
 
-Cc: Tom Lendacky <thomas.lendacky@amd.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/process/embargoed-hardware-issues.rst | 4 ----
- 1 file changed, 4 deletions(-)
 
-diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-index df978127f2d7..81a8fb0862a4 100644
---- a/Documentation/process/embargoed-hardware-issues.rst
-+++ b/Documentation/process/embargoed-hardware-issues.rst
-@@ -244,7 +244,6 @@ disclosure of a particular issue, unless requested by a response team or by
- an involved disclosed party. The current ambassadors list:
- 
-   ============= ========================================================
--  AMD		Tom Lendacky <thomas.lendacky@amd.com>
-   Ampere	Darren Hart <darren@os.amperecomputing.com>
-   ARM		Catalin Marinas <catalin.marinas@arm.com>
-   IBM Power	Anton Blanchard <anton@linux.ibm.com>
-@@ -254,7 +253,6 @@ an involved disclosed party. The current ambassadors list:
-   Samsung	Javier González <javier.gonz@samsung.com>
- 
-   Microsoft	James Morris <jamorris@linux.microsoft.com>
--  VMware
-   Xen		Andrew Cooper <andrew.cooper3@citrix.com>
- 
-   Canonical	John Johansen <john.johansen@canonical.com>
-@@ -263,10 +261,8 @@ an involved disclosed party. The current ambassadors list:
-   Red Hat	Josh Poimboeuf <jpoimboe@redhat.com>
-   SUSE		Jiri Kosina <jkosina@suse.cz>
- 
--  Amazon
-   Google	Kees Cook <keescook@chromium.org>
- 
--  GCC
-   LLVM		Nick Desaulniers <ndesaulniers@google.com>
-   ============= ========================================================
- 
+Matteo Rizzo (1):
+  Add a new sysctl to disable io_uring system-wide
+
+ Documentation/admin-guide/sysctl/kernel.rst | 14 ++++++++++++
+ io_uring/io_uring.c                         | 24 +++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+
 -- 
-2.41.0
+2.41.0.162.gfafddb0af9-goog
 
