@@ -2,91 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3620AEB64D9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 10:22:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1327EEB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Jun 2023 11:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231246AbjF0KWR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 06:22:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41896 "EHLO
+        id S229562AbjF0L07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 07:26:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230486AbjF0KVc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 06:21:32 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E243C0C
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 03:18:22 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-312863a983fso4871292f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jun 2023 03:18:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687861101; x=1690453101;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gT7GboGGDk7AitS54Ow1poGL7UR1gfZLBCd0QKdV4C0=;
-        b=C5OXmNsX0m80OIL6Emr3JWyhtE0S88G7Rwlsr6ZmfJU130SsETmmm6+Ce6D9TL1Gz8
-         nDoBo+bvQGs6hMHJoPMI3jmFchyOb5ggBoDyzMzwB3l/DFkSZVi8LIqb99E7t0K7IiWh
-         6uNrq1/A/CUTpd7fCD/3Kvpfd0Cqs2VWR6zUajX6+4UiDtM84yFga/qi2QD5GNSb6yZI
-         OZEY8BdqDtB3AjzNVqO9QSby+3KFiKFHnFMY7wdtW4B+V54Gbbk1wPnSRIlNU68+niLX
-         rkP/hxL4xyd7j1h27zQw0raPbp3oAHhgriG7W5v5BHo71+8tBHHQ0UEwjElbpVakhs8m
-         XyAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687861101; x=1690453101;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gT7GboGGDk7AitS54Ow1poGL7UR1gfZLBCd0QKdV4C0=;
-        b=THNwwNhARNxAMJBg6GIXgB01eTu+nI1kBf71PqlnErUBWtDlJrbhsK09TnFoOwM3ld
-         F3OWNIagXUJZtkevyHP7rRnx4i3eiCPCMhqPx2xbO6+qTHGEZ7jFAtyz/Z157Zut/w4c
-         LaKKzdia1+Jwnfaz24bxW7VWKifkNIuWkB/q9c64EoHmE4pMk2g+k3V2hgy6S08UlPOo
-         2v+WF+VfS46t/w5AoehW8gTE/QAcik4+ZU9CaL7KRNbKjh+VGarwPCK2BAONueo/UNY+
-         hUs6v6V7DX1nDUQTkatHwYLfs/qy92O3XOatGzyRVI0DX3Kah/yRycE1xwRabb7SIEgY
-         zZLg==
-X-Gm-Message-State: AC+VfDz8kN7zbki8345JztOd++VW0NO/FsuWtZrNDzKp1OYeoJ7glK/g
-        qJy1qD8wSXw2vxMNC0ECsvo0aw==
-X-Google-Smtp-Source: ACHHUZ6IABQj80YZlbwlRcPCQeFmBfCPH/Nv02/YbE4SHjy4A9ioFacLP6XEwynurT1i4MOWCkpn+w==
-X-Received: by 2002:a5d:5009:0:b0:313:e146:1816 with SMTP id e9-20020a5d5009000000b00313e1461816mr7669279wrt.24.1687861101257;
-        Tue, 27 Jun 2023 03:18:21 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id cx16-20020a056000093000b00301a351a8d6sm10065190wrb.84.2023.06.27.03.18.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 03:18:20 -0700 (PDT)
-Date:   Tue, 27 Jun 2023 12:18:19 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc:     kuba@kernel.org, vadfed@meta.com, jonathan.lemon@gmail.com,
-        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
-        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
-        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
-        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
-        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
-        michal.michalik@intel.com, gregkh@linuxfoundation.org,
-        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
-        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
-        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
-        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
-        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
-        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
-        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
-        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
-        mschmidt@redhat.com, linux-clk@vger.kernel.org,
-        vadim.fedorenko@linux.dev
-Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Message-ID: <ZJq3a6rl6dnPMV17@nanopsycho>
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+        with ESMTP id S229501AbjF0L06 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 07:26:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BCC726AF;
+        Tue, 27 Jun 2023 04:26:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C47F16103A;
+        Tue, 27 Jun 2023 11:26:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D4AC433C8;
+        Tue, 27 Jun 2023 11:26:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1687865216;
+        bh=V9hfY3Q2c1rouujy72WRW9+fMopSLOZw2yXlhO7+N70=;
+        h=From:To:Cc:Subject:Date:From;
+        b=RL4O0iAzU35SM5pUzggf9EVWIHU6G+KbUo+REZrd1Aufg6z2PVUq5vF9oMPpZUlAn
+         yxuQ6a2fdFwWS5zmFhNdF86KwLBT7H2Ii5tG+/nt/XpHMhgpEWeK3OeI+OgJnWe2ZA
+         rV78hgp4WlGp+8m2wDI58FWIRDwKxW7wXsyFcMbI=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>
+Subject: [PATCH] Documentation: embargoed-hardware-issues.rst: clean out empty and unused entries
+Date:   Tue, 27 Jun 2023 13:26:43 +0200
+Message-ID: <2023062742-mouse-appease-7917@gregkh>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1847; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=V9hfY3Q2c1rouujy72WRW9+fMopSLOZw2yXlhO7+N70=; b=owGbwMvMwCRo6H6F97bub03G02pJDCmzjhexTtEybAyf/fl+mPMO66Xy7C/WnVjiVuid3P2ke uFcMd2ojlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZhI83KGeSrtr17/1byYdI8r VpxFVVf69M4YH4b5ZUvS15Q/eS/+Mqh/69+Hy3LXmZs8BAA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com wrote:
+There are a few empty entries in the company/project list, which
+confuses people as to why they are there, so remove them entirely, and
+also remove an entry that doesn't wish to participate in this process.
 
->v8 -> v9:
+Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/process/embargoed-hardware-issues.rst | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Could you please address all the unresolved issues from v8 and send v10?
-I'm not reviewing this one.
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index df978127f2d7..81a8fb0862a4 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -244,7 +244,6 @@ disclosure of a particular issue, unless requested by a response team or by
+ an involved disclosed party. The current ambassadors list:
+ 
+   ============= ========================================================
+-  AMD		Tom Lendacky <thomas.lendacky@amd.com>
+   Ampere	Darren Hart <darren@os.amperecomputing.com>
+   ARM		Catalin Marinas <catalin.marinas@arm.com>
+   IBM Power	Anton Blanchard <anton@linux.ibm.com>
+@@ -254,7 +253,6 @@ an involved disclosed party. The current ambassadors list:
+   Samsung	Javier González <javier.gonz@samsung.com>
+ 
+   Microsoft	James Morris <jamorris@linux.microsoft.com>
+-  VMware
+   Xen		Andrew Cooper <andrew.cooper3@citrix.com>
+ 
+   Canonical	John Johansen <john.johansen@canonical.com>
+@@ -263,10 +261,8 @@ an involved disclosed party. The current ambassadors list:
+   Red Hat	Josh Poimboeuf <jpoimboe@redhat.com>
+   SUSE		Jiri Kosina <jkosina@suse.cz>
+ 
+-  Amazon
+   Google	Kees Cook <keescook@chromium.org>
+ 
+-  GCC
+   LLVM		Nick Desaulniers <ndesaulniers@google.com>
+   ============= ========================================================
+ 
+-- 
+2.41.0
 
-Thanks!
