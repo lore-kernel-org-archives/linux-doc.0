@@ -2,152 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5642DEB64DC
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 13:22:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE1FEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 13:27:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjF1NWG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 09:22:06 -0400
-Received: from out-12.mta1.migadu.com ([95.215.58.12]:32491 "EHLO
-        out-12.mta1.migadu.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231126AbjF1NWF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 09:22:05 -0400
-Message-ID: <4ebfa74e-8998-a1af-e6b9-3701008900ec@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1687958523;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9IKeJEG13+S2kDeEbfPQ0kmL8pMxMzPSNBLN+Rhu64E=;
-        b=s4/5XXRAqixfYxME1snH8BsG2Z7AryY6nW2SdeK1xdJofEZ820+LsfkrcTTWs7C2wuXkom
-        Y0met+OzoOxBOXg0w5XNaz3pYCVnDSfoXJXQ3lMqxfca004uCQZtnxLn4k6m6r70HOHABz
-        JhGbp+SJh/7I+nZUN0UikTRtf8ZNxzU=
-Date:   Wed, 28 Jun 2023 14:22:00 +0100
+        id S231948AbjF1N1e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 09:27:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46592 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232115AbjF1N1B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 09:27:01 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B82EF2D63;
+        Wed, 28 Jun 2023 06:25:26 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4fb7769f15aso5061963e87.0;
+        Wed, 28 Jun 2023 06:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687958725; x=1690550725;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TWEQbN86A0uWHo7Mv0YHpWVtQH6MiF6zeRclnXOWRDQ=;
+        b=kIuz59to4JmWAP9SmF2819Scpgqe3vPA0S58LqpT08Mtg8b6YqDSMolY3qlaLqzBRq
+         gvLG7j6wRtDaAGBAHklKjZfH+0J+blLP/jkXFS8QsVCGJ1e0I/EACXFmi0JjXVPj4XzA
+         OPaqOFcgsMKK2HBjrUyRbPYvn0XuhJ5ZayHs2y95XwNMYjftFL3DzCflo4AZNKKYFOzJ
+         fVrJdfivRuDYoBZDeelb6yefdxuk25JHI5RxObWZrculOrPrfkV+mO8H11jnmOQhaHcz
+         AsYF8lIA5sf8Wq0+yopLJKmqrnsFltl8+5T7P6+IvlX7gY7Fk/+GgZ4q3YGgA6Ebns8Y
+         A6Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687958725; x=1690550725;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TWEQbN86A0uWHo7Mv0YHpWVtQH6MiF6zeRclnXOWRDQ=;
+        b=J2LDG84st+wBKPxCB+MVDf4uLQqUo0F/eftevKNznG9GEsJl4HFtBYF2XlZdJP3fjs
+         0IUkUvkiQ8C5OD2l0k95+wErHYLo9LF51+OemV8RU1MbsIgZAL34Ntj2hCfqlaI0UC7n
+         xdknrGUxxVGQUCuicS7jw7OPebisdYL5hf2r2hIUKM0f1Pmj4mapi/jUk0IyzCcdt1qN
+         FTtQK/GIg/pLs+vuyTrueXU0JN1IrwRCvA4v79fY4+BsB+ckNtVyKeQq4pIPGZ67XBTD
+         dx7duUs79PHWeYr7dRABCdyCIiwF2Vg38iSAF/xzdk1lawtKOKEDqI34NrqtKiqGrW+G
+         +FNg==
+X-Gm-Message-State: AC+VfDzcz0tt2uMhXol1W4E77On/6u99xn/nqLqH5h42fGBa4QwkD/6l
+        nG/y0h6lgxKLn8dNxzSEdnzK4Nx2nf3BYaFKIwU=
+X-Google-Smtp-Source: ACHHUZ5hjUSVG5IQFaE93brCgNksZL03omVGBIEEyvY3Gusi6WFzibws1HkoznD+ij1D6/MEVxklMwZ9hULE7BQ8Bzo=
+X-Received: by 2002:ac2:5b83:0:b0:4f8:5472:7307 with SMTP id
+ o3-20020ac25b83000000b004f854727307mr16840436lfn.31.1687958724653; Wed, 28
+ Jun 2023 06:25:24 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Content-Language: en-US
-To:     Jiri Pirko <jiri@resnulli.us>
-Cc:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
- <ZJq3a6rl6dnPMV17@nanopsycho>
- <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
- <DM6PR11MB4657A1ACB586AD9B45C7996E9B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
- <2e9ce197-2732-d061-b11d-4f4513af6abc@linux.dev>
- <ZJwxHucKMwCQMMVM@nanopsycho>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <ZJwxHucKMwCQMMVM@nanopsycho>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com> <1687955688-20809-3-git-send-email-quic_mojha@quicinc.com>
+In-Reply-To: <1687955688-20809-3-git-send-email-quic_mojha@quicinc.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 28 Jun 2023 16:24:48 +0300
+Message-ID: <CAHp75Vcu6_Gr6Y8ThzOZdC34-sxOx9esYhpS2p22rAWjwv5Bkg@mail.gmail.com>
+Subject: Re: [PATCH v4 02/21] kallsyms: Export kallsyms_lookup_name
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, linus.walleij@linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/06/2023 14:09, Jiri Pirko wrote:
-> Wed, Jun 28, 2023 at 01:11:19PM CEST, vadim.fedorenko@linux.dev wrote:
->> On 28/06/2023 10:27, Kubalewski, Arkadiusz wrote:
->>>> From: Kubalewski, Arkadiusz
->>>> Sent: Wednesday, June 28, 2023 11:15 AM
->>>>
->>>>> From: Jiri Pirko <jiri@resnulli.us>
->>>>> Sent: Tuesday, June 27, 2023 12:18 PM
->>>>>
->>>>> Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com
->>>> wrote:
->>>>>
->>>>>> v8 -> v9:
->>>>>
->>>>> Could you please address all the unresolved issues from v8 and send v10?
->>>>> I'm not reviewing this one.
->>>>>
->>>>> Thanks!
->>>>
->>>> Sure, will do, but first missing to-do/discuss list:
->>>> 1) remove mode_set as not used by any driver
->>>> 2) remove "no-added-value" static functions descriptions in
->>>>     dpll_core/dpll_netlink
->>>> 3) merge patches [ 03/10, 04/10, 05/10 ] into patches that are compiling
->>>>     after each patch apply
->>>> 4) remove function return values descriptions/lists
->>>> 5) Fix patch [05/10]:
->>>>     - status Supported
->>>>     - additional maintainers
->>>>     - remove callback:
->>>>       int (*source_pin_idx_get)(...) from `struct dpll_device_ops`
->>>> 6) Fix patch [08/10]: rethink ice mutex locking scheme
->>>> 7) Fix patch [09/10]: multiple comments on
->>>> https://lore.kernel.org/netdev/ZIQu+%2Fo4J0ZBspVg@nanopsycho/#t
->>>> 8) add PPS DPLL phase offset to the netlink get-device API
->>>>
->>>> Thank you!
->>>> Arkadiusz
->>>
->>> If someone has any objections please state them now, I will work on
->>> all above except 5) and 7).
->>> Vadim, could you take care of those 2 points?
->>>
->> Yeah, sure, I'll update 5 and 7.
->> I'm not sure about 8) - do we really need this info, I believe every
->> supported DPLL device exports PTP device as well. But I'm Ok to add this
->> feature too.
-> 
-> Could you add the notification work while you are at it? I don't want
-> that to be forgotten. Thanks!
+On Wed, Jun 28, 2023 at 3:35=E2=80=AFPM Mukesh Ojha <quic_mojha@quicinc.com=
+> wrote:
+>
+> Module like minidump providing debugging support will need to
+> get the symbol information from the core kernel e.g to get
+> the linux_banner, kernel section addresses bss, data, ro etc.
+>
+> commit 0bd476e6c671 ("kallsyms: unexport kallsyms_lookup_name()
 
-Sure, Jiri, I'm working on it for ptp_ocp.
+Commit
 
->>
->>> Thank you!
->>> Arkadiusz
->>
+>  and kallsyms_on_each_symbol()") unexports kallsyms_lookup_name
+> due to lack of in-tree user of the symbol. Now, that minidump
+> will one of its user, export it.
 
+users
+
+...
+
+Is it a direct revert? Then make it visible by leaving pieces from `git rev=
+ert`.
+
+...
+
+> -
+
+If not, drop this stray change.
+
+> +EXPORT_SYMBOL_GPL(kallsyms_lookup_name);
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
