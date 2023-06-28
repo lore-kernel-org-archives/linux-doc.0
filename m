@@ -2,92 +2,281 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85508EB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 13:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD1EEB64DC
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 13:44:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230432AbjF1Nnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 09:43:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49298 "EHLO
+        id S232064AbjF1NoP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 09:44:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232059AbjF1Nnl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 09:43:41 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52828268F
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 06:43:39 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-4007b5bafceso241131cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 06:43:39 -0700 (PDT)
+        with ESMTP id S231659AbjF1NoO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 09:44:14 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E744710D5;
+        Wed, 28 Jun 2023 06:44:12 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-51d80d81d6eso5255931a12.1;
+        Wed, 28 Jun 2023 06:44:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687959818; x=1690551818;
+        d=gmail.com; s=20221208; t=1687959851; x=1690551851;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O+iaMZwyBIh+11qrQSGLnV1Wu07chjDvH/4Aamfu59w=;
-        b=HiMTruj17NQKh3aQ7JiBVNXSofLwSd76IwEZQnN9fPPiO0AR5W77NsPh8Xp1x/8WmJ
-         X3jvWoRsB+ACfV3nd/3X/vxoF2kX4W46iMNnUjdCN6GLAPNcZ5Q/t/g9ds7XOI/QLI95
-         i+FNnGNonBF+yaBMUPSFiNn9ec3Z59ujQhWG9iuHFSIZ3jn+/3y69xRMNtTFzkZeHDST
-         PX5pgi9ER1J84aZ8NfvUV6uEEaU8JHRIuyPPsL9bxQnZBpD2kC9izUum41N3fwJNgAEa
-         NL7PysDCTgPWOp5mgE/VOaRpiWsrKWJc6hP7c4QOnflz86dSOyjneePhQEFJYmCdi209
-         PgpQ==
+        bh=DBv8cSvMkvEF1DkMG98bpwrqP7g4vFh1aUZStsMNl9c=;
+        b=Zlc1pZYlLshNBMDIZeLIFmudEhsNNxdVueSsNAVMmfG4YxQ5KunHGM745IFd7VoEgK
+         1K8lzl+LKzAx7oVBL2Z7/riAJsBCfX3z3JxqCM4NYJqigC6ie/9DZodlWiN4vLRfqoLw
+         1w9HzZ/FUWEOhXXRUYOAcvypkfOtRyWXrFq71+rU9WgAaTDPYPzPVtiQwi+bjxrZQs6q
+         CwbheXFyDke1BS+YBQ1eNbNQ8fqaq0DHMCGULn+sq+9tIlD/9B5uqQtkyIUiHQQXvL7y
+         Jlq3IPRIL6OEaKSq/QPsSV81eMiY0be/JYlz3qWw5dZLOkUkewIVXrBJo/eGFE8IDVBa
+         mtDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687959818; x=1690551818;
+        d=1e100.net; s=20221208; t=1687959851; x=1690551851;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O+iaMZwyBIh+11qrQSGLnV1Wu07chjDvH/4Aamfu59w=;
-        b=OhQO+902OtM55Del9SHn5uawiRcVUJmupunRf0P/pILU2tSLnxK53RBfumHwnPOVwk
-         TvirjaB/jDLfxCLyWl2l+q0W34QtYva5HRhsAtqnV7fIKELsk6o8/Nhft6yQV7BQI/BH
-         m1PPH8rzE3tdwk14duSYaw8G6gW3WfLHga9Zo+n3kfe5rwCCuVwOnMcAign9OKVK59kq
-         Pw5s2GtQ/z22u28UMxUcocdycesTE1OSCg/68xoMpXeqD5QHupSOf3CsApt9D8hpDvvF
-         G+TK9UX3bKSsdIDz7w3Z3YTWxk7HhFSLy0xoEbgjbdtS3ACX2aEXBaSp9QdGYoyjQmlR
-         jLhQ==
-X-Gm-Message-State: AC+VfDzosGLutvmlXK1y1tb4d7eAfJD1l4DAcS8dhq8hh949ln9I7xao
-        L3TCSlUzNM7sOIvnBgBtrP5yS0DPRIPR+6wOafiajQ==
-X-Google-Smtp-Source: ACHHUZ4WogTNREVg5u/95oFGa4sWXVU+6iCyc2kWX1TQbQZvq1XwK8rb+EFydSpQWW4vJUCNttfcK9GjATSMfRgTQDI=
-X-Received: by 2002:a05:622a:1b9f:b0:3fa:3c8f:3435 with SMTP id
- bp31-20020a05622a1b9f00b003fa3c8f3435mr134285qtb.27.1687959818387; Wed, 28
- Jun 2023 06:43:38 -0700 (PDT)
+        bh=DBv8cSvMkvEF1DkMG98bpwrqP7g4vFh1aUZStsMNl9c=;
+        b=PwY9Sh99HC8hU6/o3Krt7uXt8VJw+5sRWbTqP0qmwws11T2h8C2E73ofBfThrxc14K
+         ed7H1d14AYyM+oU3vsYYm+nsiKAF12Rr33S4mNCUU4bXo1lGRorlbJz4M2H6+JJTsN1D
+         P6essoZ5GXDOxnqlB6zQDPu8iwmXA86HaONm6pZI2tiWMb4lcPMjTUY2UC6YRfINP7L2
+         AtWV/SN/eYg4+sGYgOs08nSpJ3c0qEdFWWoEfvNaxrtxE+uSvg2YZc06lp1c7XH9qf56
+         quyAm199xZwIBItMY1YcFTxBY45yn0XFnKaVplufuFqXAqROYGmtfjs9WVSHzHpSyib9
+         K1Eg==
+X-Gm-Message-State: AC+VfDx/SP7geF29/hJ61kp2ASMNN4b6TzYchKFclYIZihbVP2Rr1qUx
+        W8ma6LLzZ8ihrYtaCGNv3/TTLFcOzkEkY8HGDvY=
+X-Google-Smtp-Source: ACHHUZ7oXZBHs6NMhkxsGsw96wOEqS7BEMbTZjUoi8ySOd5bxD2bpIiiZDa91fCITCubHFaPraFG5y3NUElfmp3zhrc=
+X-Received: by 2002:aa7:c593:0:b0:51d:93c8:99ff with SMTP id
+ g19-20020aa7c593000000b0051d93c899ffmr8089366edq.36.1687959851110; Wed, 28
+ Jun 2023 06:44:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230621174006.42533-1-tony.luck@intel.com> <20230621174006.42533-8-tony.luck@intel.com>
- <CALPaoCi+A5TxoReh=HRMsRKYDWb4eQ-NOB75Lj9674L6aV0T=Q@mail.gmail.com> <SJ1PR11MB608334F6555F9CEF3F740DE8FC26A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-In-Reply-To: <SJ1PR11MB608334F6555F9CEF3F740DE8FC26A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-From:   Peter Newman <peternewman@google.com>
-Date:   Wed, 28 Jun 2023 15:43:27 +0200
-Message-ID: <CALPaoChuVYpv2aEycaT85mf_2kyEpHcsKbaeZSEVP94i1QHTRw@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is
- enabled and initialize.
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com> <1687955688-20809-5-git-send-email-quic_mojha@quicinc.com>
+In-Reply-To: <1687955688-20809-5-git-send-email-quic_mojha@quicinc.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 28 Jun 2023 16:43:34 +0300
+Message-ID: <CAHp75VfF=TVBiTBGeDuGdROPFbS=zbc4ABjPL1cCfWe0rTxhQA@mail.gmail.com>
+Subject: Re: [PATCH v4 04/21] soc: qcom: Add Qualcomm APSS minidump (frontend)
+ feature support
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, linus.walleij@linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Tony,
+On Wed, Jun 28, 2023 at 3:35=E2=80=AFPM Mukesh Ojha <quic_mojha@quicinc.com=
+> wrote:
+>
+> Minidump is a best effort mechanism to collect useful and predefined
+> data for first level of debugging on end user devices running on
+> Qualcomm SoCs. It is built on the premise that System on Chip (SoC)
+> or subsystem part of SoC crashes, due to a range of hardware and
+> software bugs. Hence, the ability to collect accurate data is only
+> a best-effort. The data collected could be invalid or corrupted,
+> data collection itself could fail, and so on.
+>
+> Qualcomm devices in engineering mode provides a mechanism for
+> generating full system ramdumps for post mortem debugging. But in some
+> cases it's however not feasible to capture the entire content of RAM.
+> The minidump mechanism provides the means for selecting region should
+> be included in the ramdump. The solution supports extracting the
+> ramdump/minidump produced either over USB or stored to an attached
+> storage device.
+>
+> Minidump kernel driver implementation is divided into two parts for
+> simplicity, one is minidump core which can also be called minidump
+> frontend(As API gets exported from this driver for registration with
+> backend) and the other part is minidump backend i.e, where the underlying
+> implementation of minidump will be there. There could be different way
+> how the backend is implemented like Shared memory, Memory mapped IO
+> or Resource manager based where the guest region information is passed
+> to hypervisor via hypercalls.
+>
+> Minidump Client-1     Client-2      Client-5    Client-n
+>          |               |              |             |
+>          |               |    ...       |   ...       |
+>          |               |              |             |
+>          |               |              |             |
+>          |               |              |             |
+>          |               |              |             |
+>          |               |              |             |
+>          |               |              |             |
+>          |           +---+--------------+----+        |
+>          +-----------+  qcom_minidump(core)  +--------+
+>                      |                       |
+>                      +------+-----+------+---+
+>                             |     |      |
+>                             |     |      |
+>             +---------------+     |      +--------------------+
+>             |                     |                           |
+>             |                     |                           |
+>             |                     |                           |
+>             v                     v                           v
+>  +-------------------+      +-------------------+     +------------------=
++
+>  |qcom_minidump_smem |      |qcom_minidump_mmio |     | qcom_minidump_rm =
+|
+>  |                   |      |                   |     |                  =
+|
+>  +-------------------+      +-------------------+     +------------------=
++
+>    Shared memory              Memory mapped IO           Resource manager
+>     (backend)                   (backend)                   (backend)
+>
+> Here, we will be giving all analogy of backend with SMEM as it is the
+> only implemented backend at present but general idea remains the same.
 
-On Mon, Jun 26, 2023 at 5:52=E2=80=AFPM Luck, Tony <tony.luck@intel.com> wr=
-ote:
+the general
 
-> Thanks for testing and review. Did you also test on one of your systems
-> with a memory-only node? I recall that was an issue with my very first
-> patch series.
+>
+> The core of minidump feature is part of Qualcomm's boot firmware code.
+> It initializes shared memory (SMEM), which is a part of DDR and
+> allocates a small section of it to minidump table i.e also called
 
-It turns out the people who reported the crash to me were running an
-experiment, but they were able to find one machine they hadn't yanked
-the AEP DIMMs out of yet.
+the minidump
 
-It was a cascade lake, so I had to yank the CPU family match check to
-ensure that your fix was actually exercised. I can confirm now that it
-booted successfully.
+> global table of content (G-ToC). Each subsystem (APSS, ADSP, ...) has
+> their own table of segments to be included in the minidump, all
+> references from a descriptor in SMEM (G-ToC). Each segment/region has
+> some details like name, physical address and it's size etc. and it
+> could be anywhere scattered in the DDR.
+>
+> qcom_minidump(core or frontend) driver adds the capability to add APSS
+> region to be dumped as part of ram dump collection. It provides
+> appropriate symbol register/unregister client regions.
+>
+> To simplify post mortem debugging, it creates and maintain an ELF
+> header as first region that gets updated upon registration
+> of a new region.
 
--Peter
+...
+
+> +#include <linux/device.h>
+> +#include <linux/export.h>
+> +#include <linux/kallsyms.h>
+
+> +#include <linux/kernel.h>
+
+Why?
+
+And again a lot of missing headers, like
+
+bug.h
+dev_printk.h
+errno.h
+export.h
+mutex.h
+slab.h
+
+> +#include <linux/module.h>
+> +#include <linux/printk.h>
+> +#include <linux/string.h>
+
+...
+
+> +/*
+> + * In some of the Old Qualcomm devices, boot firmware statically allocat=
+es 300
+> + * as total number of supported region (including all co-processors) in
+
+regions
+
+> + * minidump table out of which linux was using 201. In future, this limi=
+tation
+> + * from boot firmware might get removed by allocating the region dynamic=
+ally.
+> + * So, keep it compatible with older devices, we can keep the current li=
+mit for
+
+So, to keep...
+
+> + * Linux to 201.
+> + */
+
+...
+
+> +static struct elf_shdr *elf_shdr_entry_addr(struct elfhdr *ehdr, int idx=
+)
+> +{
+> +       struct elf_shdr *eshdr =3D (struct elf_shdr *)((size_t)ehdr + ehd=
+r->e_shoff);
+
+Interesting casting pointer to a size_t. Perhaps void * would work
+more explicitly?
+Ditto for all other cases like this.
+
+> +       return &eshdr[idx];
+> +}
+
+...
+
+> +       old_idx +=3D strscpy((strtab + old_idx), name, MAX_REGION_NAME_LE=
+NGTH);
+
+(Parentheses are not needed)
+
+strscpy() might return a very big number in this case. Is it a problem?
+
+...
+
+> +unlock:
+
+out_unlock: ?
+
+Ditto for other similar cases.
+
+> +       mutex_unlock(&md_lock);
+> +       return ret;
+
+...
+
+> +       /*
+> +        * Above are some prdefined sections/program header used
+
+predefined
+
+> +        * for debug, update their count here.
+> +        */
+
+...
+
+> +#ifndef _QCOM_MINIDUMP_INTERNAL_H_
+> +#define _QCOM_MINIDUMP_INTERNAL_H_
+
+> +#include <linux/elf.h>
+
+Not sure I see how it's used. You may provide forward declarations for
+the pointers.
+
+> +#include <soc/qcom/qcom_minidump.h>
+
++ kconfig.h for IS_ENABLED() ?
+
+MIssing forward declaration:
+struct device;
+
+...
+
+>  #ifndef _QCOM_MINIDUMP_H_
+>  #define _QCOM_MINIDUMP_H_
+
++ types.h for phys_addr_t.
+
+...
+
+> + * @size:      Number of byte to dump from @address location,
+
+bytes
+
+> + *             and it should be 4 byte aligned.
+
+--=20
+With Best Regards,
+Andy Shevchenko
