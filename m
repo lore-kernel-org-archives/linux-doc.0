@@ -2,95 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 090A9EB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 19:16:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC1EEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 20:00:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231614AbjF1TQc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 15:16:32 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131]:37622 "EHLO
-        mx0b-0031df01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229622AbjF1TQc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 15:16:32 -0400
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35SIWEEx005881;
-        Wed, 28 Jun 2023 19:16:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=FQwzeHmbIM0Euxm6oEsZxszzIMDVVE6jcsQBFWvDU8s=;
- b=C/135k2Y6pKLmmNhUc5Oi9I95FAYMd3ReWtv+Iw86I+TYjRGrNVrN5IAAPi9It5JTSxh
- KYU9O+G9qGCKT6iZ7mN2OZ1g/smeS0rAFubf/+ktNsJUiNm4Okpri3Mbll116v4imJf6
- i40r8GrqDFf9V89PsFQF6UC1ATkh0T4sLC7DX6cfOQ+fZgOmrc4qRL6ABVL5/H+8U1FI
- 6r83Ozs3N8l0eq/Sv71BG2XRi7gGEJrQ1F8BqT5CJWp+j4j254sEJYNyIFp33H2+wVPo
- gUuSI9QedoEaYx8vTyXTdVmhjfEFduhLUoNsMcb6Gv+ivUfj7fVNUVi/aIEFEdUw2HOo OA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rg7x3tf9c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Jun 2023 19:16:22 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35SJGLIg016766
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Jun 2023 19:16:21 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.7; Wed, 28 Jun 2023 12:16:19 -0700
-From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
-To:     <quic_subashab@quicinc.com>, <quic_stranche@quicinc.com>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <corbet@lwn.net>, <andersson@kernel.org>
-CC:     <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH] docs: networking: Update codeaurora references for rmnet
-Date:   Wed, 28 Jun 2023 13:16:06 -0600
-Message-ID: <20230628191606.25483-1-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.40.1
+        id S231712AbjF1UAK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 16:00:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230496AbjF1UAG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 16:00:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 613B31FE7;
+        Wed, 28 Jun 2023 13:00:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CD54D61464;
+        Wed, 28 Jun 2023 20:00:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF7D6C433C8;
+        Wed, 28 Jun 2023 20:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687982404;
+        bh=B+RSyNVteRzKXRsWojAaoBAvx3nzmKOepDBCgrWk75Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Z3DAS+DhjSBSF9kLBE56DRoAnHxqMycCSGE90TM5K/zrbttcJ0PGjGYru+7zttFug
+         SiEsAu/eGbGk87tJa6MbuC+4T6HZPPX6H9LsZ3O+JhVTD8jEYeNYdS1/fsm3a1Kc/7
+         m4Ov1P0PCeIr7Ml2rVcX1J8bHYjjXYZ6KnwGejaruvL4cghEvDC0/W2KgSdq25y0mU
+         VwXE5W2suIGkTVwtlP9WYGagF9KxO/mqmfLMx8OpDoZAJY1X1wjz46lqpXWBKGWubM
+         2TWNJSmvbpFWbG4HoimhGCvT6CxwGWTRSqdLIT5NWqnnDlQDWGvmibpuh2Aw2nEpJF
+         gAqCqtEDvDT2A==
+Date:   Wed, 28 Jun 2023 13:00:02 -0700
+From:   Eduardo Valentin <evalenti@kernel.org>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Eduardo Valentin <evalenti@kernel.org>, eduval@amazon.com,
+        linux-pm@vger.kernel.org,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 5/7] thermal: stats: introduce tz time in trip
+Message-ID: <ZJyRQhLURUrIHP1z@uf8f119305bce5e.ant.amazon.com>
+References: <20230519032719.2581689-1-evalenti@kernel.org>
+ <20230519032719.2581689-6-evalenti@kernel.org>
+ <CAJZ5v0hho1B6TiwshT4kYhs+Z4Q6xvnbgf8aoEZop=owkJHqxg@mail.gmail.com>
+ <ZJKAYAx5768atJa8@uf8f119305bce5e.ant.amazon.com>
+ <CAJZ5v0jVL69QYpUFCMBeZ9eACca4XoeR6Js_qoDd2K5PfU9BwA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: JdkZxa_cpm4G8N6Qmh1659DTuz0zTIEv
-X-Proofpoint-GUID: JdkZxa_cpm4G8N6Qmh1659DTuz0zTIEv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-28_13,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 impostorscore=0
- spamscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 mlxscore=0
- adultscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306280168
+In-Reply-To: <CAJZ5v0jVL69QYpUFCMBeZ9eACca4XoeR6Js_qoDd2K5PfU9BwA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-source.codeaurora.org is no longer accessible and so the reference link
-in the documentation is not useful.  The content was mirrored over to
-Code Linaro so lets update the references to point there instead.
+On Fri, Jun 23, 2023 at 06:40:20PM +0200, Rafael J. Wysocki wrote:
+> 
+> 
+> 
+> On Wed, Jun 21, 2023 at 6:45 AM Eduardo Valentin <evalenti@kernel.org> wrote:
+> >
+> > On Tue, Jun 20, 2023 at 07:27:57PM +0200, Rafael J. Wysocki wrote:
+> > >
+> > >
+> > >
+> > > On Fri, May 19, 2023 at 5:27 AM Eduardo Valentin <evalenti@kernel.org> wrote:
+> > > >
+> > > > From: Eduardo Valentin <eduval@amazon.com>
+> > > >
+> > > > This patch adds a statistic to report how long
+> > > > the thermal zone spent on temperature intervals
+> > > > created by each trip point. The first interval
+> > > > is the range below the first trip point. All
+> > > > subsequent intervals are accounted when temperature
+> > > > is above the trip point temperature value.
+> > > >
+> > > > Samples:
+> > > > $ cat /sys//class/thermal/thermal_zone0/stats/time_in_trip_ms
+> > > > trip-1  0       0
+> > >
+> > > The above line is confusing.
+> > >
+> > > > trip0   -10000  35188
+> > > > trip1   25000   0
+> > >
+> > > And the format violates the "one value per attribute" sysfs rule.
+> > >
+> > > > $ cat /sys//class/thermal/thermal_zone0/stats/time_in_trip_ms
+> > > > trip-1  0       0
+> > > > trip0   -10000  36901
+> > > > trip1   25000   0
+> > > > $ echo 25001 > /sys//class/thermal/thermal_zone0/emul_temp
+> > > > $ cat /sys//class/thermal/thermal_zone0/stats/time_in_trip_ms
+> > > > trip-1  0       0
+> > > > trip0   -10000  47810
+> > > > trip1   25000   2259
+> > > > $ cat /sys//class/thermal/thermal_zone0/stats/time_in_trip_ms
+> > > > trip-1  0       0
+> > > > trip0   -10000  47810
+> > > > trip1   25000   3224
+> > > > $ echo 24001 > /sys//class/thermal/thermal_zone0/emul_temp
+> > > > $ cat /sys//class/thermal/thermal_zone0/stats/time_in_trip_ms
+> > > > trip-1  0       0
+> > > > trip0   -10000  48960
+> > > > trip1   25000   10080
+> > > > $ cat /sys//class/thermal/thermal_zone0/stats/time_in_trip_ms
+> > > > trip-1  0       0
+> > > > trip0   -10000  49844
+> > > > trip1   25000   10080
+> > > >
+> > > > Cc: "Rafael J. Wysocki" <rafael@kernel.org> (supporter:THERMAL)
+> > > > Cc: Daniel Lezcano <daniel.lezcano@linaro.org> (supporter:THERMAL)
+> > > > Cc: Amit Kucheria <amitk@kernel.org> (reviewer:THERMAL)
+> > > > Cc: Zhang Rui <rui.zhang@intel.com> (reviewer:THERMAL)
+> > > > Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+> > > > Cc: linux-pm@vger.kernel.org (open list:THERMAL)
+> > > > Cc: linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+> > > > Cc: linux-kernel@vger.kernel.org (open list)
+> > > >
+> > > > Signed-off-by: Eduardo Valentin <eduval@amazon.com>
+> > > > ---
+> > > >  .../driver-api/thermal/sysfs-api.rst          |  2 +
+> > > >  drivers/thermal/thermal_sysfs.c               | 86 +++++++++++++++++++
+> > > >  2 files changed, 88 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+> > > > index ed5e6ba4e0d7..4a2b92a7488c 100644
+> > > > --- a/Documentation/driver-api/thermal/sysfs-api.rst
+> > > > +++ b/Documentation/driver-api/thermal/sysfs-api.rst
+> > > > @@ -359,6 +359,8 @@ Thermal zone device sys I/F, created once it's registered::
+> > > >      |---stats/reset_tz_stats:  Writes to this file resets the statistics.
+> > > >      |---stats/max_gradient:    The maximum recorded dT/dt in uC/ms.
+> > > >      |---stats/min_gradient:    The minimum recorded dT/dt in uC/ms.
+> > > > +    |---stats/time_in_trip_ms: Time spent on each temperature interval of
+> > > > +                               trip points.
+> > >
+> > > I would write "in each temperature interval between consecutive trip points".
+> >
+> > Ok
+> >
+> > >
+> > > Doesn't this assume a specific temperature ordering of trip points?
+> > > And so what if they are not ordered?
+> >
+> > It does. I believe other things will break if they are not ordered.
+> 
+> But there's no guarantee that they will be ordered, so it looks like
+> those other things are already broken.
 
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
----
- .../networking/device_drivers/cellular/qualcomm/rmnet.rst     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Correct. (1) there is no guarantee, it works by construction, and (2) current
+code does assume ascending order, so yes, if they come unsorted, the core
+code will not properly work.
 
-diff --git a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-index 4118384cf8eb..a3d91034ef30 100644
---- a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-+++ b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-@@ -191,7 +191,7 @@ MAP header|IP Packet|Optional padding|MAP header|Command Packet|Optional pad...
- ==========================
- 
- rmnet userspace configuration is done through netlink library librmnetctl
--and command line utility rmnetcli. Utility is hosted in codeaurora forum git.
-+and command line utility rmnetcli. Utility is hosted in Code Linaro git.
- The driver uses rtnl_link_ops for communication.
- 
--https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/dataservices/tree/rmnetctl
-+https://git.codelinaro.org/clo/la/platform/vendor/qcom-opensource/dataservices/
+Ensuring the order is likely beyond the original intention of this patch, but
+we do need to improve there, for sure.
+
 -- 
-2.40.1
-
+All the best,
+Eduardo Valentin
