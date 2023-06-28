@@ -2,107 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BF7EB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 11:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EF0DEB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 11:42:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbjF1LgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 07:36:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231613AbjF1LgS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 07:36:18 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65E902D62
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 04:36:17 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-635ee3baa14so13594816d6.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 04:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687952176; x=1690544176;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=skyq5jJecX8gUzH/HELKhPjfwUeihuLQSPsIi6eg0Xg=;
-        b=nIS0UlARyFAuCW2qzN87wbOXLlUXoB5UUaCDASFT2QFcOUJ5dAClbAzVKhizUmxCjy
-         mhVB/WHlMOZrDwgO0nOyfXLYxhb8Y6E3RT7IBLLMojQ7nsxzAdiOs95KTO1EuPEklMxR
-         N21rifgjXEp9ZhY2ZwTzV9GjGBDmlVapq99mY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687952176; x=1690544176;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=skyq5jJecX8gUzH/HELKhPjfwUeihuLQSPsIi6eg0Xg=;
-        b=WavtPOzVRWfuclO1REWGNHNSUyAUJpsvfV7VfHGRcheSWw95m2eg9svvC0ObwXTCpG
-         FxvwUfyru+QnTfslNXuFFt6ZV1J0I21Pfr0Jof7YzTIIaGDBon42Kc2mGQpmMnNrkyaF
-         jSYuZvRQfEboikxvBRjaoV/3AfdqZYgxv9ZFqJKlMuiQJcUR72JV7sOcYSzqxTv9NdLr
-         T3D7a5vTNHHBXQrnax9uoisOTo2SFcO0YbsWEpr7sk7uJ8uPNe0v6L+3f3MGZGhnydOs
-         d+hc3WxMcB8Censwe8cWQhyvrFjejsoLJRMMPXvQhtnBMK0mOzImgRC5coCpt+NCx8sv
-         ttQA==
-X-Gm-Message-State: AC+VfDy/8YAVjSF8J5of42jg+OdEE4VlAxhTS5nUYfDfGr0JWCUWPXd6
-        Ux8jOBPoe5bo6/PzcTOzZkKKWrODMuaROwj8FSpTRg==
-X-Google-Smtp-Source: ACHHUZ4IEzaRbQ/s3KwUKBHlhNHcU2oq4JyVEiZ76CtPV3USf6RyD9Ofkc9Bwn5vmNG4dXhigMYn2A==
-X-Received: by 2002:a05:6214:1cc5:b0:62d:e8a2:4d36 with SMTP id g5-20020a0562141cc500b0062de8a24d36mr39930277qvd.61.1687952176250;
-        Wed, 28 Jun 2023 04:36:16 -0700 (PDT)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com. [209.85.222.171])
-        by smtp.gmail.com with ESMTPSA id ne5-20020a056214424500b0062df126ca11sm2744749qvb.21.2023.06.28.04.36.15
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jun 2023 04:36:15 -0700 (PDT)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-76547539775so449138985a.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 04:36:15 -0700 (PDT)
-X-Received: by 2002:a05:6214:c63:b0:62b:6999:ab7b with SMTP id
- t3-20020a0562140c6300b0062b6999ab7bmr36306952qvj.16.1687952174945; Wed, 28
- Jun 2023 04:36:14 -0700 (PDT)
+        id S230281AbjF1Lmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 07:42:49 -0400
+Received: from foss.arm.com ([217.140.110.172]:54076 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231578AbjF1Lmj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Jun 2023 07:42:39 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 84BC9C14;
+        Wed, 28 Jun 2023 04:43:21 -0700 (PDT)
+Received: from FVFF77S0Q05N (unknown [10.57.29.147])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9EED83F663;
+        Wed, 28 Jun 2023 04:42:35 -0700 (PDT)
+Date:   Wed, 28 Jun 2023 12:42:32 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-kernel@vger.kernel.org, akiyks@gmail.com,
+        boqun.feng@gmail.com, corbet@lwn.net, keescook@chromium.org,
+        linux@armlinux.org.uk, linux-doc@vger.kernel.org,
+        mchehab@kernel.org, paulmck@kernel.org, peterz@infradead.org,
+        rdunlap@infradead.org, sstabellini@kernel.org, will@kernel.org
+Subject: Re: [PATCH v2 04/27] locking/atomic: make atomic*_{cmp,}xchg optional
+Message-ID: <ZJwcqCLlKcCWmlDF@FVFF77S0Q05N>
+References: <20230605070124.3741859-1-mark.rutland@arm.com>
+ <20230605070124.3741859-5-mark.rutland@arm.com>
+ <32395f1f-19e4-41da-9f67-68c7d21cf9b2@roeck-us.net>
 MIME-Version: 1.0
-References: <20230627120058.2214509-1-matteorizzo@google.com>
- <20230627120058.2214509-2-matteorizzo@google.com> <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
- <CAHKB1wJANtT27WM6hrhDy_x9H9Lsn4qRjPDmXdKosoL93TJRYg@mail.gmail.com>
-In-Reply-To: <CAHKB1wJANtT27WM6hrhDy_x9H9Lsn4qRjPDmXdKosoL93TJRYg@mail.gmail.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 28 Jun 2023 13:36:04 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvjCoj3Q3phbmdhdG-veHNRrfD-gBu=FuZkmrgJ2uxiJg@mail.gmail.com>
-Message-ID: <CANiDSCvjCoj3Q3phbmdhdG-veHNRrfD-gBu=FuZkmrgJ2uxiJg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
-To:     Matteo Rizzo <matteorizzo@google.com>
-Cc:     Bart Van Assche <bvanassche@acm.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
-        jordyzomer@google.com, evn@google.com, poprdi@google.com,
-        corbet@lwn.net, axboe@kernel.dk, asml.silence@gmail.com,
-        akpm@linux-foundation.org, keescook@chromium.org,
-        rostedt@goodmis.org, dave.hansen@linux.intel.com,
-        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
-        ldufour@linux.ibm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <32395f1f-19e4-41da-9f67-68c7d21cf9b2@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Matteo
+On Tue, Jun 27, 2023 at 10:07:07AM -0700, Guenter Roeck wrote:
+> Hi,
 
-On Tue, 27 Jun 2023 at 20:15, Matteo Rizzo <matteorizzo@google.com> wrote:
->
-> On Tue, 27 Jun 2023 at 19:10, Bart Van Assche <bvanassche@acm.org> wrote:
-> > I'm using fio + io_uring all the time on Android devices. I think we need a
-> > better solution than disabling io_uring system-wide, e.g. a mechanism based
-> > on SELinux that disables io_uring for apps and that keeps io_uring enabled
-> > for processes started via 'adb root && adb shell ...'
->
-> Android already uses seccomp to prevent untrusted applications from using
-> io_uring. This patch is aimed at server/desktop environments where there is
-> no easy way to set a system-wide seccomp policy and right now the only way
-> to disable io_uring system-wide is to compile it out of the kernel entirely
-> (not really feasible for e.g. a general-purpose distro).
->
-> I thought about adding a capability check that lets privileged processes
-> bypass this sysctl, but it wasn't clear to me which capability I should use.
-> For userfaultfd the kernel uses CAP_SYS_PTRACE, but I wasn't sure that's
-> the best choice here since io_uring has nothing to do with ptrace.
-> If anyone has any suggestions please let me know. A LSM hook also sounds
-> like an option but it would be more complicated to implement and use.
+Hi Guenter,
 
-Have you considered that the new sysctl is "sticky like kexec_load_disabled.
-When the user disables it there is no way to turn it back on until the
-system is rebooted.
+> On Mon, Jun 05, 2023 at 08:01:01AM +0100, Mark Rutland wrote:
+> > Most architectures define the atomic/atomic64 xchg and cmpxchg
+> > operations in terms of arch_xchg and arch_cmpxchg respectfully.
+> > 
+> > Add fallbacks for these cases and remove the trivial cases from arch
+> > code. On some architectures the existing definitions are kept as these
+> > are used to build other arch_atomic*() operations.
+> > 
+> > Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > Cc: Boqun Feng <boqun.feng@gmail.com>
+> > Cc: Paul E. McKenney <paulmck@kernel.org>
+> > Cc: Peter Zijlstra <peterz@infradead.org>
+> > Cc: Will Deacon <will@kernel.org>
+> 
+> This patch results in:
+> 
+> ERROR: modpost: "__xchg_called_with_bad_pointer" [lib/atomic64_test.ko] undefined!
+> 
+> when trying to build sparc64:allmodconfig.
 
-Best regards!
+Hmm... it seems that in that configuration, the compiler decides to place
+__arch_xchg() out-of-line, and hence can't remove the call to
+__xchg_called_with_bad_pointer() via dead code elimination.
 
--- 
-Ricardo Ribalda
+So this is due to tickling the compiler into making a different inlining
+decision rather than due to a semantic issue in the patch.
+
+Marking __arch_xchg() as __always_inline solves that in local testing, and we
+should do likewise for the other bits used under the arch_ atomics.
+
+I'll try to spin a patch for that soon, unless someone beats me to it.
+
+Thanks,
+Mark.
+
+> 
+> Guenter
+> 
+> ---
+> bisect log:
+> 
+> # bad: [60e7c4a25da68cd826719b685babbd23e73b85b0] Add linux-next specific files for 20230626
+> # good: [45a3e24f65e90a047bef86f927ebdc4c710edaa1] Linux 6.4-rc7
+> git bisect start 'HEAD' 'v6.4-rc7'
+> # good: [1fc7b1b3c9c3211898874f51919fcb1cf6f1cc79] Merge branch 'main' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
+> git bisect good 1fc7b1b3c9c3211898874f51919fcb1cf6f1cc79
+> # good: [4fce1fc9cf89412590fb681fa480cde0b23b3381] Merge branch 'for-next' of git://git.kernel.dk/linux-block.git
+> git bisect good 4fce1fc9cf89412590fb681fa480cde0b23b3381
+> # bad: [cf1a0283badf6d0bfb91876583c24ef535a3c04c] Merge branch 'driver-core-next' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
+> git bisect bad cf1a0283badf6d0bfb91876583c24ef535a3c04c
+> # bad: [3c5388e722ea98022b4d557ab33acca2eb16c4f0] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+> git bisect bad 3c5388e722ea98022b4d557ab33acca2eb16c4f0
+> # good: [997730bdbf14f352ab03e42461f500aafdabc03e] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git
+> git bisect good 997730bdbf14f352ab03e42461f500aafdabc03e
+> # bad: [6fd8266556af196763b9f876ed682873e605469b] Merge branch into tip/master: 'ras/core'
+> git bisect bad 6fd8266556af196763b9f876ed682873e605469b
+> # good: [37380ea71463658934c2d3167d559d4034ea1c5b] Merge branch into tip/master: 'irq/core'
+> git bisect good 37380ea71463658934c2d3167d559d4034ea1c5b
+> # bad: [a967852939f864c35f155a2f431292ad6fc3fed9] Merge branch into tip/master: 'locking/core'
+> git bisect bad a967852939f864c35f155a2f431292ad6fc3fed9
+> # bad: [e50f06ce2d876c740993b5e3d01e203520391ccd] locking/atomic: m68k: add preprocessor symbols
+> git bisect bad e50f06ce2d876c740993b5e3d01e203520391ccd
+> # good: [b1fe7f2cda2a003afe316ce8dfe8d3645694a67e] x86,intel_iommu: Replace cmpxchg_double()
+> git bisect good b1fe7f2cda2a003afe316ce8dfe8d3645694a67e
+> # good: [14d72d4b6f0e88b5f683c1a5b7a876a55055852d] locking/atomic: remove fallback comments
+> git bisect good 14d72d4b6f0e88b5f683c1a5b7a876a55055852d
+> # bad: [f739287ef57bc01155e556033462e9a6ff020c97] locking/atomic: arc: add preprocessor symbols
+> git bisect bad f739287ef57bc01155e556033462e9a6ff020c97
+> # bad: [d12157efc8e083c77d054675fcdd594f54cc7e2b] locking/atomic: make atomic*_{cmp,}xchg optional
+> git bisect bad d12157efc8e083c77d054675fcdd594f54cc7e2b
+> # good: [a7bafa7969da1c0e9c342c792d8224078d1c491c] locking/atomic: hexagon: remove redundant arch_atomic_cmpxchg
+> git bisect good a7bafa7969da1c0e9c342c792d8224078d1c491c
+> # first bad commit: [d12157efc8e083c77d054675fcdd594f54cc7e2b] locking/atomic: make atomic*_{cmp,}xchg optional
+> 
