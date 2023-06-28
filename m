@@ -2,72 +2,142 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76498EB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 16:45:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAC05C001B0
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 16:53:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230188AbjF1QpK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 12:45:10 -0400
-Received: from out-2.mta0.migadu.com ([91.218.175.2]:31750 "EHLO
-        out-2.mta0.migadu.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230081AbjF1QpJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 12:45:09 -0400
-Date:   Wed, 28 Jun 2023 09:44:51 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1687970708;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=be6Km9iULXCw10IaJhTWcFxq+2/V3fGhnk/J8/la0pk=;
-        b=jqSGDyTe+WJU1j9J91rqQE8qyZB7PDS3relCxloVTnDWqQvqWWIoapbC/1f4TAgUA0pdCG
-        +C/WsndvHQZU87/1RYoUa1ofvytnjRRQOLAjULzMD2enO531Gbvo/TZmv3CjpX+7MwXy/7
-        I9lebYnkO7amCvVyPi/qUDvKYQvzNlo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Roman Gushchin <roman.gushchin@linux.dev>
-To:     David Rientjes <rientjes@google.com>
-Cc:     Julian Pidancet <julian.pidancet@oracle.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Rafael Aquini <aquini@redhat.com>
-Subject: Re: [PATCH] mm/slub: disable slab merging in the default
- configuration
-Message-ID: <ZJxjgy/Mkh20WpXv@P9FQF9L96D.corp.robot.car>
-References: <20230627132131.214475-1-julian.pidancet@oracle.com>
- <48bd9819-3571-6b53-f1ad-ec013be742c0@google.com>
+        id S231213AbjF1QxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 12:53:24 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:46110 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230059AbjF1QxW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 12:53:22 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F100E6129B;
+        Wed, 28 Jun 2023 16:53:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFC8EC433C8;
+        Wed, 28 Jun 2023 16:53:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1687971201;
+        bh=gozokXz2eVh6fctzR506kgwTFWCpOKR95WNjlihKjp0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XSAZJUru2/LERqubKZhN960vjbBGOsstoqQchktqgk2eAmAtD04A8rchUv6KtMPCO
+         bluJTB4rl9FsREuSLLbvkM+kuLVOwWaqtIpM5FPIWWt2zmRAH96RiEjex7HjZ2P52U
+         90KKlCAHvvTURFden0f0Wv5p/9azoOifGjIJdo/I=
+Date:   Wed, 28 Jun 2023 18:53:18 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
+        will@kernel.org, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
+ support
+Message-ID: <2023062812-exporter-facing-aaf9@gregkh>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <2023062814-chance-flounder-f002@gregkh>
+ <10dd2ead-758a-89f0-cda4-70ae927269eb@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <48bd9819-3571-6b53-f1ad-ec013be742c0@google.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <10dd2ead-758a-89f0-cda4-70ae927269eb@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 12:32:15PM -0700, David Rientjes wrote:
-> On Tue, 27 Jun 2023, Julian Pidancet wrote:
+On Wed, Jun 28, 2023 at 09:50:00PM +0530, Mukesh Ojha wrote:
 > 
-> > Make CONFIG_SLAB_MERGE_DEFAULT default to n unless CONFIG_SLUB_TINY is
-> > enabled. Benefits of slab merging is limited on systems that are not
-> > memory constrained: the overhead is negligible and evidence of its
-> > effect on cache hotness is hard to come by.
+> 
+> On 6/28/2023 9:15 PM, Greg KH wrote:
+> > On Wed, Jun 28, 2023 at 06:04:27PM +0530, Mukesh Ojha wrote:
+> > > Minidump is a best effort mechanism to collect useful and predefined data
+> > > for first level of debugging on end user devices running on Qualcomm SoCs.
+> > > It is built on the premise that System on Chip (SoC) or subsystem part of
+> > > SoC crashes, due to a range of hardware and software bugs. Hence, the
+> > > ability to collect accurate data is only a best-effort. The data collected
+> > > could be invalid or corrupted, data collection itself could fail, and so on.
+> > > 
+> > > Qualcomm devices in engineering mode provides a mechanism for generating
+> > > full system ramdumps for post mortem debugging. But in some cases it's
+> > > however not feasible to capture the entire content of RAM. The minidump
+> > > mechanism provides the means for selecting which snippets should be
+> > > included in the ramdump.
+> > > 
+> > > Minidump kernel driver implementation is divided into two parts for
+> > > simplicity, one is minidump core which can also be called minidump
+> > > frontend(As API gets exported from this driver for registration with
+> > > backend) and the other part is minidump backend i.e, where the underlying
+> > > implementation of minidump will be there. There could be different way
+> > > how the backend is implemented like Shared memory, Memory mapped IO
+> > > or Resource manager(gunyah) based where the guest region information is
+> > > passed to hypervisor via hypercalls.
+> > > 
+> > >      Minidump Client-1     Client-2      Client-5    Client-n
+> > >               |               |              |             |
+> > >               |               |    ...       |   ...       |
+> > >               |               |              |             |
+> > >               |               |              |             |
+> > >               |               |              |             |
+> > >               |               |              |             |
+> > >               |               |              |             |
+> > >               |               |              |             |
+> > >               |           +---+--------------+----+        |
+> > >               +-----------+  qcom_minidump(core)  +--------+
+> > >                           |                       |
+> > >                           +------+-----+------+---+
+> > >                                  |     |      |
+> > >                                  |     |      |
+> > >                  +---------------+     |      +--------------------+
+> > >                  |                     |                           |
+> > >                  |                     |                           |
+> > >                  |                     |                           |
+> > >                  v                     v                           v
+> > >       +-------------------+      +-------------------+     +------------------+
+> > >       |qcom_minidump_smem |      |qcom_minidump_mmio |     | qcom_minidump_rm |
+> > >       |                   |      |                   |     |                  |
+> > >       +-------------------+      +-------------------+     +------------------+
+> > >         Shared memory              Memory mapped IO           Resource manager
+> > >          (backend)                   (backend)                   (backend)
+> > > 
+> > > 
+> > > Here, we will be giving all analogy of backend with SMEM as it is the
+> > > only implemented backend at present but general idea remains the same.
 > > 
+> > If you only have one "backend" then you don't need the extra compexity
+> > here at all, just remove that whole middle layer please and make this
+> > much simpler and smaller and easier to review and possibly accept.
+> > 
+> > We don't add layers when they are not needed, and never when there is no
+> > actual user.  If you need the extra "complexity" later, then add it
+> > later when it is needed as who knows when that will ever be.
+> > 
+> > Please redo this series based on that, thanks.
 > 
-> I don't have an objection to this, I think it makes sense.
+> I already followed without this middle layer till v3 since without
+> the middle layer it will be end up with lot of code duplication if there
+> is another backend.
 
-+1
+But as this series does not have such a thing, only add it when needed
+please.  Don't make us review a whole bunch of stuff that is not
+actually used here.
 
-I believe the overhead was much larger when we had per-memcg slab caches,
-but now it should be fairly small on most systems.
+Would you want to review such a thing?
 
-But I wonder if we need a new flag (SLAB_MERGE?) to explicitly force merging
-on per-slab cache basis. I believe there are some cases when slab caches can
-be created in noticeable numbers and in those cases the memory footprint might
-be noticeable.
+> We already have other backend implementation in the downstream, if you
+> want to see them, i will try to post them in upcoming series..
 
-Thanks!
+Ok, so if you already have it, yes, post it as part of the series,
+otherwise such a layer makes no sense.
+
+thanks,
+
+greg k-h
