@@ -2,113 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1D3CEB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 09:08:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FD57EB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 09:08:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236969AbjF1JIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 05:08:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44732 "EHLO
+        id S237008AbjF1JIU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 05:08:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232663AbjF1IvV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 04:51:21 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC184129
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 01:51:19 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id d2e1a72fcca58-6687466137bso3171169b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 01:51:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=saviah-com.20221208.gappssmtp.com; s=20221208; t=1687942279; x=1690534279;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/vZJ9KZ0nORDwUa8rVOPplQDUftdsKPRXoJD7pWWR6w=;
-        b=ZOr18CgDS7iAPXjfKCD67Vd6O0PRJdvitrvl6bv2E6OPbSWSPfkpB8RjenKKMW3YaE
-         OPaqIY68K4uurf/0ymdUsafRkohJGtySAizEuFBzl9ncZ4EDUpi8sXlS9NQspqTk8vYD
-         69xt4u1xbIEU/Pktj/oxLY6Qg9uwa1fvKWRRNb5dEusy02xqbcXZhH+2Ar4oN+yrZhqX
-         Zi3XFRUTxdN3w+fVhzPl//0aexBxB9nJJB45+LWUNAi7KDY0D5/6H1CPKUdvx9U3EazA
-         gfebVRKc9fCsfRRqfnrNlfs4WXDYMGWf9rJnnF/Q7n4ZIEFXXTMOqfS0qyR0chicbW8a
-         hnwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687942279; x=1690534279;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/vZJ9KZ0nORDwUa8rVOPplQDUftdsKPRXoJD7pWWR6w=;
-        b=d4Mc1+mxUv2++vg8n6uddrH7nE9qx8NiYT12WNFG01j2v2WxATwhniAtcKyRajumA4
-         beAGQ4//B57rvNLkZV3W9BoMOAUhSRTadsVAYcH9CHGoFpGlAskm2wrEdFPPbb9FM2mr
-         1QUlkG1T5Tk2539JP31gHqx6zq5X/y6DRT5IU0/EZ6aN8k8S8zMOVVY/4JJ7Zn80d0Oz
-         ZrpbP8FSULCHvm2xPMgGJwf6u7dpkURyKIIdWd4vdWaJAO3bznQhsjxUUD/Vxog3eF1A
-         jsRE6/dgsj4zaNxUj3vMIeQnwHNHr1sVUIyukdFmZjpGLX9SANrl5QMJQUXBZYiRPvBk
-         dqzw==
-X-Gm-Message-State: AC+VfDymNa66SumUmlvCq7b7T5rXt0/57EP9by/OM4jQ4WZGkGogbn+N
-        2+VmtZODB8aRCIft7t9lxiwRdQ==
-X-Google-Smtp-Source: ACHHUZ5XIlLdxi7pC8cJXFTN1+imiG3XKOQHdumh9hhxiPOzklzqNxuEyCBs6PfPRxTMRrODCAqglw==
-X-Received: by 2002:a05:6a20:914a:b0:10b:8e96:561 with SMTP id x10-20020a056a20914a00b0010b8e960561mr26391135pzc.62.1687942279331;
-        Wed, 28 Jun 2023 01:51:19 -0700 (PDT)
-Received: from localhost.localdomain (NCTU-Wireless-NAT220.nctu.edu.tw. [140.113.136.220])
-        by smtp.gmail.com with ESMTPSA id jj11-20020a170903048b00b001b80e07989csm4244899plb.200.2023.06.28.01.51.16
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 28 Jun 2023 01:51:18 -0700 (PDT)
-From:   Ian Chen <yi.chen@saviah.com>
-To:     davem@davemloft.net
-Cc:     edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ian Chen <yi.chen@saviah.com>
-Subject: [PATCH] Documentation: networking: add UPF (User Plane Function in 5GC) description
-Date:   Wed, 28 Jun 2023 16:50:49 +0800
-Message-Id: <20230628085049.83803-1-yi.chen@saviah.com>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S233922AbjF1IuF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 04:50:05 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDDB0EC;
+        Wed, 28 Jun 2023 01:48:28 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 9CA0E2186F;
+        Wed, 28 Jun 2023 08:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1687942107; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=lWHKJY9jffhTkOc71UZZjYPpecflPAFjJhiDX76mBCI=;
+        b=Odo+MtmsCKi/zv71EzJmMtM03h1wgg5Ay19qcJaqjBmMEbKsCsCdI1dMZ8JlVRA4pvEI52
+        YztE/J4qrRHiG2fMagOpCdrAGKZbsxkZtbStE28OqM4UzMHs1I/Cf2iMWqDLvbiTxd52fc
+        TRD4x8AVJOrlIG1L4NombdD77LeXtdg=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DEBF5138E8;
+        Wed, 28 Jun 2023 08:48:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id BUgnMtrzm2TXYwAAMHmgww
+        (envelope-from <ailiop@suse.com>); Wed, 28 Jun 2023 08:48:26 +0000
+Date:   Wed, 28 Jun 2023 10:48:26 +0200
+From:   Anthony Iliopoulos <ailiop@suse.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+        Joseph Qi <joseph.qi@linux.alibaba.com>,
+        ocfs2-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] MAINTAINERS: Update ocfs2-devel mailing list address
+Message-ID: <ZJvz2umev6Jjgx47@technoir>
+References: <20230628013437.47030-1-ailiop@suse.com>
+ <20230628013437.47030-2-ailiop@suse.com>
+ <c8976472-ab01-de64-ff1d-9224b6c65633@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c8976472-ab01-de64-ff1d-9224b6c65633@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the content of User Plnae Function (UPF),
-which was defined in 3GPP specifications since release 15.
+On Tue, Jun 27, 2023 at 07:44:58PM -0700, Randy Dunlap wrote:
+> Hi,
+> 
+> 
+> On 6/27/23 18:34, Anthony Iliopoulos wrote:
+> > The ocfs2-devel mailing list has been migrated to the kernel.org
+> > infrastructure, update the related entry to reflect the change.
+> > 
+> > Signed-off-by: Anthony Iliopoulos <ailiop@suse.com>
+> > ---
+> >  MAINTAINERS | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 4545d4287305..2e95a8eb924e 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -15969,7 +15969,7 @@ ORACLE CLUSTER FILESYSTEM 2 (OCFS2)
+> >  M:	Mark Fasheh <mark@fasheh.com>
+> >  M:	Joel Becker <jlbec@evilplan.org>
+> >  M:	Joseph Qi <joseph.qi@linux.alibaba.com>
+> > -L:	ocfs2-devel@oss.oracle.com (moderated for non-subscribers)
+> > +L:	ocfs2-devel@lists.linux.dev
+> 
+> So the kernel.org admins know about this and have updated
+> lore.kernel.org for the new mailing list, right eh?
 
-Signed-off-by: Ian Chen <yi.chen@saviah.com>
----
- Documentation/networking/gtp.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Yes this is in coordination with Konstantin who made this possible, and
+I'll soon ask him to switch lore over to the new list, once the old one
+is fully disabled.
 
-diff --git a/Documentation/networking/gtp.rst b/Documentation/networking/gtp.rst
-index 9a7835cc1..c02aa34c4 100644
---- a/Documentation/networking/gtp.rst
-+++ b/Documentation/networking/gtp.rst
-@@ -31,12 +31,12 @@ payload, such as LLC/SNDCP/RLC/MAC.
- 
- At some network element inside the cellular operator infrastructure
- (SGSN in case of GPRS/EGPRS or classic UMTS, hNodeB in case of a 3G
--femtocell, eNodeB in case of 4G/LTE), the cellular protocol stacking
-+femtocell, eNodeB in case of 4G/LTE, gNobeB in case of 5G), the cellular protocol stacking
- is translated into GTP *without breaking the end-to-end tunnel*.  So
- intermediate nodes just perform some specific relay function.
- 
--At some point the GTP packet ends up on the so-called GGSN (GSM/UMTS)
--or P-GW (LTE), which terminates the tunnel, decapsulates the packet
-+At some point the GTP packet ends up on the so-called GGSN (GSM/UMTS),
-+P-GW (LTE), or UPF (5G), which terminates the tunnel, decapsulates the packet
- and forwards it onto an external packet data network.  This can be
- public internet, but can also be any private IP network (or even
- theoretically some non-IP network like X.25).
-@@ -60,7 +60,7 @@ payload, called GTP-U.  It does not implement the 'control plane',
- which is a signaling protocol used for establishment and teardown of
- GTP tunnels (GTP-C).
- 
--So in order to have a working GGSN/P-GW setup, you will need a
-+So in order to have a working GGSN/P-GW/UPF setup, you will need a
- userspace program that implements the GTP-C protocol and which then
- uses the netlink interface provided by the GTP-U module in the kernel
- to configure the kernel module.
-@@ -162,7 +162,7 @@ Local GTP-U entity and tunnel identification
- GTP-U uses UDP for transporting PDU's. The receiving UDP port is 2152
- for GTPv1-U and 3386 for GTPv0-U.
- 
--There is only one GTP-U entity (and therefore SGSN/GGSN/S-GW/PDN-GW
-+There is only one GTP-U entity (and therefore SGSN/GGSN/S-GW/PDN-GW/UPF
- instance) per IP address. Tunnel Endpoint Identifier (TEID) are unique
- per GTP-U entity.
- 
--- 
-2.38.1
-
+Regards,
+Anthony
