@@ -2,197 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13E1BEB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 15:52:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37111EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 15:55:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbjF1Pwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 11:52:54 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:56324 "EHLO
-        mx0a-0031df01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230038AbjF1Pwx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 11:52:53 -0400
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35SCfvsm031492;
-        Wed, 28 Jun 2023 15:51:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=mM/crjBuJsdgjSMJGD01XqtrFQ+ghm/v2ibK3En1ebw=;
- b=CtBItgC4v3LavzcTPGecFuF9lmgrh8+n+yDxqKxNIglJczlH8g901XepekBF051nazjy
- jbYPFOP9d5OcduOXTnbbsDfJqrowueyINouj5IQ9BlqNbAteFGIzoc+nbdpESvIiSqC8
- hpozP/J3yt5GT5yN/Zv+fvKapm1JkAt3hzclz8Z6zV50VY74sjGfGSmwtKspJevE8N+R
- k8Pwt9AcEBdpJF5PoFyhlOkXUzaRFT2FG0QJQFnQygwfxmEbZcjU8GqVMcOk1p/bledK
- PN70XU5bpb+T1XnQdFbeYNIr6FSgpitm0mShQ3FkFbirrFO9sRkyc5GmBU1IomuciD2X EA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rg21taxyc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Jun 2023 15:51:56 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35SFptJR030238
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Jun 2023 15:51:55 GMT
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.7; Wed, 28 Jun 2023 08:51:47 -0700
-Date:   Wed, 28 Jun 2023 21:21:44 +0530
-From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH v4 13/21] remoterproc: qcom: refactor to leverage
- exported minidump symbol
-Message-ID: <f1581356-97ba-4faa-8e1c-0d5c7ba994e3@quicinc.com>
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <1687955688-20809-14-git-send-email-quic_mojha@quicinc.com>
+        id S231154AbjF1Pzf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 11:55:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52303 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231248AbjF1PzS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 11:55:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687967668;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=H9XkIQPUhWJqpcos5yICyN5nXtK7ObPVOfjAyLG61Jw=;
+        b=RbX+TyfrDh2TvW/QpxeEWufGOQIG8C/E1djKsGONdIfMfxFkOuM0j1fX+di4H2Ddz1U4ap
+        M1hawxRaD700oPCHQpadqLd+WeWZo5v606CC/HmsusbSLfr1hxyXnB9UWWWJTR3cMvA3OI
+        LL2c1cuS63+GqFDpbL56wc7f1b+OkWc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-108-w473wJGPPy6hhyW6F0PIRw-1; Wed, 28 Jun 2023 11:54:20 -0400
+X-MC-Unique: w473wJGPPy6hhyW6F0PIRw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DECE18DBAEE;
+        Wed, 28 Jun 2023 15:53:34 +0000 (UTC)
+Received: from segfault.boston.devel.redhat.com (segfault.boston.devel.redhat.com [10.19.60.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 074D5154D8A1;
+        Wed, 28 Jun 2023 15:53:34 +0000 (UTC)
+From:   Jeff Moyer <jmoyer@redhat.com>
+To:     Gabriel Krisman Bertazi <krisman@suse.de>
+Cc:     Matteo Rizzo <matteorizzo@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
+        jordyzomer@google.com, evn@google.com, poprdi@google.com,
+        corbet@lwn.net, axboe@kernel.dk, asml.silence@gmail.com,
+        akpm@linux-foundation.org, keescook@chromium.org,
+        rostedt@goodmis.org, dave.hansen@linux.intel.com,
+        ribalda@chromium.org, chenhuacai@kernel.org, steve@sk2.org,
+        gpiccoli@igalia.com, ldufour@linux.ibm.com
+Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
+References: <20230627120058.2214509-1-matteorizzo@google.com>
+        <20230627120058.2214509-2-matteorizzo@google.com>
+        <87ilb7ofv6.fsf@suse.de>
+X-PGP-KeyID: 1F78E1B4
+X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
+Date:   Wed, 28 Jun 2023 11:59:25 -0400
+In-Reply-To: <87ilb7ofv6.fsf@suse.de> (Gabriel Krisman Bertazi's message of
+        "Wed, 28 Jun 2023 09:50:37 -0400")
+Message-ID: <x49bkgzefxe.fsf@segfault.boston.devel.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1687955688-20809-14-git-send-email-quic_mojha@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Pu4d_6xM3tTmi2m1FvajyDnk7XcT6zwO
-X-Proofpoint-GUID: Pu4d_6xM3tTmi2m1FvajyDnk7XcT6zwO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-28_10,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=973 phishscore=0
- adultscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
- bulkscore=0 malwarescore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306280141
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 06:04:40PM +0530, Mukesh Ojha wrote:
-> -static int qcom_add_minidump_segments(struct rproc *rproc, struct minidump_subsystem *subsystem,
-> -			void (*rproc_dumpfn_t)(struct rproc *rproc, struct rproc_dump_segment *segment,
-> -				void *dest, size_t offset, size_t size))
-> +void qcom_minidump(struct rproc *rproc, unsigned int minidump_id,
-> +		void (*rproc_dumpfn_t)(struct rproc *rproc,
-> +		struct rproc_dump_segment *segment, void *dest, size_t offset,
-> +		size_t size))
->  {
-> -	struct minidump_region __iomem *ptr;
-> -	struct minidump_region region;
-> -	int seg_cnt, i;
->  	dma_addr_t da;
->  	size_t size;
-> +	int seg_cnt;
->  	char *name;
-> +	void *ptr;
-> +	int ret;
-> +	int i;
->  
->  	if (WARN_ON(!list_empty(&rproc->dump_segments))) {
->  		dev_err(&rproc->dev, "dump segment list already populated\n");
-> -		return -EUCLEAN;
-> +		return;
->  	}
->  
-> -	seg_cnt = le32_to_cpu(subsystem->region_count);
-> -	ptr = ioremap((unsigned long)le64_to_cpu(subsystem->regions_baseptr),
-> -		      seg_cnt * sizeof(struct minidump_region));
-> +	ptr = qcom_ss_md_mapped_base(minidump_id, &seg_cnt);
->  	if (!ptr)
-> -		return -EFAULT;
-> +		return;
->  
->  	for (i = 0; i < seg_cnt; i++) {
-> -		memcpy_fromio(&region, ptr + i, sizeof(region));
-> -		if (le32_to_cpu(region.valid) == MINIDUMP_REGION_VALID) {
-> -			name = kstrndup(region.name, MAX_REGION_NAME_LENGTH - 1, GFP_KERNEL);
-> -			if (!name) {
-> -				iounmap(ptr);
-> -				return -ENOMEM;
-> -			}
-> -			da = le64_to_cpu(region.address);
-> -			size = le64_to_cpu(region.size);
-> -			rproc_coredump_add_custom_segment(rproc, da, size, rproc_dumpfn_t, name);
-> +		ret = qcom_ss_valid_segment_info(ptr, i, &name, &da, &size);
-> +		if (ret < 0) {
-> +			iounmap(ptr);
-> +			dev_err(&rproc->dev,
-> +				"Failed with error: %d while adding minidump entries\n",
-> +				ret);
-> +			goto clean_minidump;
->  		}
-> -	}
-> -
-> -	iounmap(ptr);
-> -	return 0;
-> -}
-> -
-> -void qcom_minidump(struct rproc *rproc, unsigned int minidump_id,
-> -		void (*rproc_dumpfn_t)(struct rproc *rproc,
-> -		struct rproc_dump_segment *segment, void *dest, size_t offset,
-> -		size_t size))
-> -{
-> -	int ret;
-> -	struct minidump_subsystem *subsystem;
-> -	struct minidump_global_toc *toc;
-> -
-> -	/* Get Global minidump ToC*/
-> -	toc = qcom_smem_get(QCOM_SMEM_HOST_ANY, SBL_MINIDUMP_SMEM_ID, NULL);
-> -
-> -	/* check if global table pointer exists and init is set */
-> -	if (IS_ERR(toc) || !toc->status) {
-> -		dev_err(&rproc->dev, "Minidump TOC not found in SMEM\n");
-> -		return;
-> -	}
->  
-> -	/* Get subsystem table of contents using the minidump id */
-> -	subsystem = &toc->subsystems[minidump_id];
-> -
-> -	/**
-> -	 * Collect minidump if SS ToC is valid and segment table
-> -	 * is initialized in memory and encryption status is set.
-> -	 */
-> -	if (subsystem->regions_baseptr == 0 ||
-> -	    le32_to_cpu(subsystem->status) != 1 ||
-> -	    le32_to_cpu(subsystem->enabled) != MINIDUMP_SS_ENABLED ||
-> -	    le32_to_cpu(subsystem->encryption_status) != MINIDUMP_SS_ENCR_DONE) {
-> -		dev_err(&rproc->dev, "Minidump not ready, skipping\n");
-> -		return;
-> +		/* if it is a valid segment */
-> +		if (!ret)
-> +			rproc_coredump_add_custom_segment(rproc, da, size,
-> +							  rproc_dumpfn_t, name);
->  	}
->  
-> -	ret = qcom_add_minidump_segments(rproc, subsystem, rproc_dumpfn_t);
-> -	if (ret) {
-> -		dev_err(&rproc->dev, "Failed with error: %d while adding minidump entries\n", ret);
-> -		goto clean_minidump;
-> -	}
-> +	iounmap(ptr);
->  	rproc_coredump_using_sections(rproc);
-> +
->  clean_minidump:
->  	qcom_minidump_cleanup(rproc);
->  }
+Gabriel Krisman Bertazi <krisman@suse.de> writes:
 
-I like the idea of moving minidump pieces to drivers/soc/qcom/*minidump*.
+> Matteo Rizzo <matteorizzo@google.com> writes:
+>
+>> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+>> index d85d90f5d000..3c53a238332a 100644
+>> --- a/Documentation/admin-guide/sysctl/kernel.rst
+>> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+>> @@ -450,6 +450,20 @@ this allows system administrators to override the
+>>  ``IA64_THREAD_UAC_NOPRINT`` ``prctl`` and avoid logs being flooded.
+>>  
+>>  
+>> +io_uring_disabled
+>> +=========================
+>> +
+>> +Prevents all processes from creating new io_uring instances. Enabling this
+>> +shrinks the kernel's attack surface.
+>> +
+>> += =============================================================
+>> +0 All processes can create io_uring instances as normal. This is the default
+>> +  setting.
+>> +1 io_uring is disabled. io_uring_setup always fails with -EPERM. Existing
+>> +  io_uring instances can still be used.
+>> += =============================================================
+>
+> I had an internal request for something like this recently.  If we go
+> this route, we could use a intermediary option that limits io_uring
+> to root processes only.
 
-Is it possible to accept one function callback from remoteproc and do
-all of this in one function exported by minidump? 
+This is all regrettable, but this option makes the most sense to me.
+Testing for CAP_SYS_ADMIN or CAP_SYS_RAW_IO would work for that third
+option, I think.
 
-qcom_ss_valid_segment_info() seems a low level function to be exported..
-
-Thanks,
-Pavan
+-Jeff
 
