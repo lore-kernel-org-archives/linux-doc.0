@@ -2,154 +2,107 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 972E5EB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 11:16:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BF7EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 11:36:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbjF1LQT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 07:16:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34252 "EHLO
+        id S229456AbjF1LgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 07:36:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231351AbjF1LPt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 07:15:49 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C3FE5B
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 04:15:45 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-311099fac92so7015501f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 04:15:45 -0700 (PDT)
+        with ESMTP id S231613AbjF1LgS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 07:36:18 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65E902D62
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 04:36:17 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-635ee3baa14so13594816d6.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 04:36:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687950944; x=1690542944;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vYX8/ePECLgfWoMNpv2uZz3s+XofYXzTKNlcug8MZ0c=;
-        b=fqqAWDgaS+bOqIJSzLWZRezOltTA++pw4kHhHgds2mzu/vkKTntgTtpCB6A6nB4cX6
-         hpWgvj+S5sTJWYH0Kr+F1cT48fn2V/s+cwGaHSC58PY3OGaapWhbc+j1oQ6r2ZK9+pDU
-         L44UyEgV5MeVhwUmZF/skaDGm5Bnn4ierQ3cDH9PGgKgd7ZzXFpkdqK1cvdP/P/UGO23
-         7skNSyQMTluY4nBiLnhNfXUahZMNEBjKCRxR6um4/8HNQIF399N5KWDlvMMABmjfmhMD
-         snPh3SdISJZmZJLu9mq2okO59gqWj1+uL+N5T2cryvuANcfRdh2roIRSES3h8TprrkEd
-         /9tw==
+        d=chromium.org; s=google; t=1687952176; x=1690544176;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=skyq5jJecX8gUzH/HELKhPjfwUeihuLQSPsIi6eg0Xg=;
+        b=nIS0UlARyFAuCW2qzN87wbOXLlUXoB5UUaCDASFT2QFcOUJ5dAClbAzVKhizUmxCjy
+         mhVB/WHlMOZrDwgO0nOyfXLYxhb8Y6E3RT7IBLLMojQ7nsxzAdiOs95KTO1EuPEklMxR
+         N21rifgjXEp9ZhY2ZwTzV9GjGBDmlVapq99mY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687950944; x=1690542944;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vYX8/ePECLgfWoMNpv2uZz3s+XofYXzTKNlcug8MZ0c=;
-        b=TI9rkQjWIzbRrp3Y8C1gHp920LATBsX3OGOB8iNcChK+gwYYPTLGezmRSovIIxoltM
-         OI+jnSYdKI7afArLCUSVB3wQFk5MfMYRXFWsH9d49X+wCSFJMNLCV4YovEyx02w6hjH0
-         9YMhX9jH0xqB/cDgy9gc4UhG98vHuH5SUZaw6lWA8W+ICPhrDvpB3kxyhEooBGMacgKX
-         lpZcBRIJ1FKXWyyHCkUJ0uMP03OsUyLeulK4gHSwUXTK7U/5MWidt0vICc77gOvr6FXK
-         YH+Tvq8IcSCTiQWWkak7jhbuf/fAlHz+KSxdZjma3kmwkmH53O9h25CQ10Ap7HnKbsCW
-         fFmA==
-X-Gm-Message-State: AC+VfDy9dl2WuU4Zu5yt6o+7QdQwEDf+i7EVIx6qc2Rdh9cyiGqhC0Ul
-        WY5iotvg/P8k5FmDuUNntITf3A==
-X-Google-Smtp-Source: ACHHUZ45owiPf7elrn+8tOw5ryHFm6Cke05JKdz0dMQUlVmsn5e6N8Sh+GX5X2BWx3ut2u/1kvQkxQ==
-X-Received: by 2002:adf:f70c:0:b0:313:f07a:af3e with SMTP id r12-20020adff70c000000b00313f07aaf3emr7222410wrp.46.1687950943971;
-        Wed, 28 Jun 2023 04:15:43 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id g9-20020a5d5549000000b00307acec258esm13205270wrw.3.2023.06.28.04.15.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 04:15:43 -0700 (PDT)
-Date:   Wed, 28 Jun 2023 13:15:41 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     "kuba@kernel.org" <kuba@kernel.org>,
-        "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Message-ID: <ZJwWXZmZe4lQ04iK@nanopsycho>
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
- <ZJq3a6rl6dnPMV17@nanopsycho>
- <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        d=1e100.net; s=20221208; t=1687952176; x=1690544176;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=skyq5jJecX8gUzH/HELKhPjfwUeihuLQSPsIi6eg0Xg=;
+        b=WavtPOzVRWfuclO1REWGNHNSUyAUJpsvfV7VfHGRcheSWw95m2eg9svvC0ObwXTCpG
+         FxvwUfyru+QnTfslNXuFFt6ZV1J0I21Pfr0Jof7YzTIIaGDBon42Kc2mGQpmMnNrkyaF
+         jSYuZvRQfEboikxvBRjaoV/3AfdqZYgxv9ZFqJKlMuiQJcUR72JV7sOcYSzqxTv9NdLr
+         T3D7a5vTNHHBXQrnax9uoisOTo2SFcO0YbsWEpr7sk7uJ8uPNe0v6L+3f3MGZGhnydOs
+         d+hc3WxMcB8Censwe8cWQhyvrFjejsoLJRMMPXvQhtnBMK0mOzImgRC5coCpt+NCx8sv
+         ttQA==
+X-Gm-Message-State: AC+VfDy/8YAVjSF8J5of42jg+OdEE4VlAxhTS5nUYfDfGr0JWCUWPXd6
+        Ux8jOBPoe5bo6/PzcTOzZkKKWrODMuaROwj8FSpTRg==
+X-Google-Smtp-Source: ACHHUZ4IEzaRbQ/s3KwUKBHlhNHcU2oq4JyVEiZ76CtPV3USf6RyD9Ofkc9Bwn5vmNG4dXhigMYn2A==
+X-Received: by 2002:a05:6214:1cc5:b0:62d:e8a2:4d36 with SMTP id g5-20020a0562141cc500b0062de8a24d36mr39930277qvd.61.1687952176250;
+        Wed, 28 Jun 2023 04:36:16 -0700 (PDT)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com. [209.85.222.171])
+        by smtp.gmail.com with ESMTPSA id ne5-20020a056214424500b0062df126ca11sm2744749qvb.21.2023.06.28.04.36.15
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Jun 2023 04:36:15 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-76547539775so449138985a.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 04:36:15 -0700 (PDT)
+X-Received: by 2002:a05:6214:c63:b0:62b:6999:ab7b with SMTP id
+ t3-20020a0562140c6300b0062b6999ab7bmr36306952qvj.16.1687952174945; Wed, 28
+ Jun 2023 04:36:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
+References: <20230627120058.2214509-1-matteorizzo@google.com>
+ <20230627120058.2214509-2-matteorizzo@google.com> <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
+ <CAHKB1wJANtT27WM6hrhDy_x9H9Lsn4qRjPDmXdKosoL93TJRYg@mail.gmail.com>
+In-Reply-To: <CAHKB1wJANtT27WM6hrhDy_x9H9Lsn4qRjPDmXdKosoL93TJRYg@mail.gmail.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 28 Jun 2023 13:36:04 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvjCoj3Q3phbmdhdG-veHNRrfD-gBu=FuZkmrgJ2uxiJg@mail.gmail.com>
+Message-ID: <CANiDSCvjCoj3Q3phbmdhdG-veHNRrfD-gBu=FuZkmrgJ2uxiJg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
+To:     Matteo Rizzo <matteorizzo@google.com>
+Cc:     Bart Van Assche <bvanassche@acm.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
+        jordyzomer@google.com, evn@google.com, poprdi@google.com,
+        corbet@lwn.net, axboe@kernel.dk, asml.silence@gmail.com,
+        akpm@linux-foundation.org, keescook@chromium.org,
+        rostedt@goodmis.org, dave.hansen@linux.intel.com,
+        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
+        ldufour@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wed, Jun 28, 2023 at 11:15:11AM CEST, arkadiusz.kubalewski@intel.com wrote:
->>From: Jiri Pirko <jiri@resnulli.us>
->>Sent: Tuesday, June 27, 2023 12:18 PM
->>
->>Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com wrote:
->>
->>>v8 -> v9:
->>
->>Could you please address all the unresolved issues from v8 and send v10?
->>I'm not reviewing this one.
->>
->>Thanks!
+Hi Matteo
+
+On Tue, 27 Jun 2023 at 20:15, Matteo Rizzo <matteorizzo@google.com> wrote:
 >
->Sure, will do, but first missing to-do/discuss list:
->1) remove mode_set as not used by any driver
->2) remove "no-added-value" static functions descriptions in
->   dpll_core/dpll_netlink
->3) merge patches [ 03/10, 04/10, 05/10 ] into patches that are compiling
->   after each patch apply
->4) remove function return values descriptions/lists
->5) Fix patch [05/10]:
->   - status Supported
->   - additional maintainers
->   - remove callback:
->     int (*source_pin_idx_get)(...) from `struct dpll_device_ops`
->6) Fix patch [08/10]: rethink ice mutex locking scheme
->7) Fix patch [09/10]: multiple comments on
->https://lore.kernel.org/netdev/ZIQu+%2Fo4J0ZBspVg@nanopsycho/#t
->8) add PPS DPLL phase offset to the netlink get-device API
+> On Tue, 27 Jun 2023 at 19:10, Bart Van Assche <bvanassche@acm.org> wrote:
+> > I'm using fio + io_uring all the time on Android devices. I think we need a
+> > better solution than disabling io_uring system-wide, e.g. a mechanism based
+> > on SELinux that disables io_uring for apps and that keeps io_uring enabled
+> > for processes started via 'adb root && adb shell ...'
 >
+> Android already uses seccomp to prevent untrusted applications from using
+> io_uring. This patch is aimed at server/desktop environments where there is
+> no easy way to set a system-wide seccomp policy and right now the only way
+> to disable io_uring system-wide is to compile it out of the kernel entirely
+> (not really feasible for e.g. a general-purpose distro).
+>
+> I thought about adding a capability check that lets privileged processes
+> bypass this sysctl, but it wasn't clear to me which capability I should use.
+> For userfaultfd the kernel uses CAP_SYS_PTRACE, but I wasn't sure that's
+> the best choice here since io_uring has nothing to do with ptrace.
+> If anyone has any suggestions please let me know. A LSM hook also sounds
+> like an option but it would be more complicated to implement and use.
 
-You are missing removal of pin->prop.package_label = dev_name(dev); in
-ice.
+Have you considered that the new sysctl is "sticky like kexec_load_disabled.
+When the user disables it there is no way to turn it back on until the
+system is rebooted.
 
+Best regards!
 
->Thank you!
->Arkadiusz
+-- 
+Ricardo Ribalda
