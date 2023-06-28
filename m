@@ -2,189 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B667EEB64D7
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 10:31:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F055CEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 11:11:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231610AbjF1Kb3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 06:31:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57566 "EHLO
+        id S230303AbjF1LLd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 07:11:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232083AbjF1K30 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 06:29:26 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11ADF1B0;
-        Wed, 28 Jun 2023 03:29:23 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4fb863edcb6so2691472e87.0;
-        Wed, 28 Jun 2023 03:29:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687948161; x=1690540161;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/9+dB0uPjR6dzec0l9qeLYrn0RkeAmaPi6wiBE0Rz0s=;
-        b=b2Rs2cSK28LUBmSPPPXn1tL6IRsmSP2tJgPSfQSx4O5vycvWrA8kXiiRZLuf47VqNQ
-         3T5FosiCwHUqAqiWFHaG1ckoLAJZE8HaG1zHw5D8T0V+TrINR2QnL3/PH2dd8VbGR0O/
-         A/bGKjFPDpYY/4XE571aMQ29SutOrFhUowFPKjCXEV8NJSbkp1tNbP4Vhgu8hW7zlCY9
-         LIkALG9i847X5HSNaM32b94V+lrtjI9t6xRUthyF3e8TsPSeoRv5f8s0GX/aMf89bYrC
-         cp+awk1KsU8+n8daJmyM+z1eW9ItpBDv93fq6bcTCW6DP4TZAhyDJkSjmYdWiR6uPH2q
-         dKdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687948161; x=1690540161;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/9+dB0uPjR6dzec0l9qeLYrn0RkeAmaPi6wiBE0Rz0s=;
-        b=bSNcs6fmCJ56Ik1LT/Xszm1qJL6PqFSsld1YuSqKheBGSaqoq0en/++bNCffWVT2bI
-         VYv1N856lubnc4mcXpPNiE2W1kPPoHwtjPrshY6E+MO3BYGN1bFC3+/nPm9hmb9tUNJw
-         +JxEUGxVM/fCzZMbSAqxUdMCt7ixtzl77s4wPUZDFykmpCvnfWMQ7BpP3jY30+pBLghq
-         pEdJfE84jYWWQRCZ6hCbefmdCYXycN+c0mhj9PyvO2QhDz4KfSS5bB9I9I0ojLE9Szpb
-         4DF8Fe7LciaSoXxv7MDFDg8KIUEi4TBVIf9z8qoMnXUy0BPYVO7IRITWFRZrkof9bDzk
-         eXsw==
-X-Gm-Message-State: AC+VfDxbXpkvfwybdRmqFjE1cE4CZlLaPJsAVFK5Opz5LgkbtexhwSvM
-        YegCqexpo3vXrVgN+q9JQxjyKdQGdaw1RfLdBVw=
-X-Google-Smtp-Source: ACHHUZ4h09V3wI1azpJqOp/sAeZVBD2vtw10dniqbPA1C8M7x23FpqEn0BF2WO5Dy4bGcYG4R5lh8sQuVPSUE5aJ9aE=
-X-Received: by 2002:a2e:9183:0:b0:2b4:6e21:637e with SMTP id
- f3-20020a2e9183000000b002b46e21637emr17706195ljg.16.1687948161020; Wed, 28
- Jun 2023 03:29:21 -0700 (PDT)
+        with ESMTP id S231439AbjF1LLa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 07:11:30 -0400
+Received: from out-30.mta0.migadu.com (out-30.mta0.migadu.com [IPv6:2001:41d0:1004:224b::1e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27771FF0
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 04:11:28 -0700 (PDT)
+Message-ID: <2e9ce197-2732-d061-b11d-4f4513af6abc@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1687950686;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=L1I/ER/w6jNuNeN1IzKuVARZ7DzIC62fE15mQqKlcKA=;
+        b=Rdepi0ljPQ2cZvn1YYGKUl4KHpRN6kkf2yTS5VgyROLqP19w683nmg9jAPJUuhyTK9RD+n
+        FSSEs43rfghN6NEQu0DbynAEjUXM97SW+nvtSu/fbL7My/4ovr5DZ3UhNU+6rL+OkX6hIT
+        Qa7packtPMeaAcIYXpWRq1A4sWVQwyc=
+Date:   Wed, 28 Jun 2023 12:11:19 +0100
 MIME-Version: 1.0
-References: <cover.1687515463.git.haibo1.xu@intel.com> <fa6b80b578553e561ccacaeb24091e0716975593.1687515463.git.haibo1.xu@intel.com>
- <20230627-feb5bf584a3fd16d2c0ffe66@orel>
-In-Reply-To: <20230627-feb5bf584a3fd16d2c0ffe66@orel>
-From:   Haibo Xu <xiaobo55x@gmail.com>
-Date:   Wed, 28 Jun 2023 18:29:09 +0800
-Message-ID: <CAJve8o=CN4TJz5R9+zne_mA9L_doNTwg+w39OgU5HKXPzb4hmg@mail.gmail.com>
-Subject: Re: [PATCH v4 11/12] KVM: riscv: selftests: Add finalize_vcpu check
- in run_test
-To:     Andrew Jones <ajones@ventanamicro.com>
-Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
-        oliver.upton@linux.dev, seanjc@google.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>,
-        Ricardo Koller <ricarkol@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
+To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>,
+        Jiri Pirko <jiri@resnulli.us>
+Cc:     "kuba@kernel.org" <kuba@kernel.org>,
+        "vadfed@meta.com" <vadfed@meta.com>,
+        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "vadfed@fb.com" <vadfed@fb.com>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "M, Saeed" <saeedm@nvidia.com>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "sj@kernel.org" <sj@kernel.org>,
+        "javierm@redhat.com" <javierm@redhat.com>,
+        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "Michalik, Michal" <michal.michalik@intel.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "jacek.lawrynowicz@linux.intel.com" 
+        <jacek.lawrynowicz@linux.intel.com>,
+        "airlied@redhat.com" <airlied@redhat.com>,
+        "ogabbay@kernel.org" <ogabbay@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "linux@zary.sk" <linux@zary.sk>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "Olech, Milena" <milena.olech@intel.com>,
+        "kuniyu@amazon.com" <kuniyu@amazon.com>,
+        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
+        "razor@blackwall.org" <razor@blackwall.org>,
+        "idosch@nvidia.com" <idosch@nvidia.com>,
+        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        "phil@nwl.cc" <phil@nwl.cc>,
+        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
+        mschmidt <mschmidt@redhat.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+ <ZJq3a6rl6dnPMV17@nanopsycho>
+ <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <DM6PR11MB4657A1ACB586AD9B45C7996E9B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <DM6PR11MB4657A1ACB586AD9B45C7996E9B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks a lot!
+On 28/06/2023 10:27, Kubalewski, Arkadiusz wrote:
+>> From: Kubalewski, Arkadiusz
+>> Sent: Wednesday, June 28, 2023 11:15 AM
+>>
+>>> From: Jiri Pirko <jiri@resnulli.us>
+>>> Sent: Tuesday, June 27, 2023 12:18 PM
+>>>
+>>> Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com
+>> wrote:
+>>>
+>>>> v8 -> v9:
+>>>
+>>> Could you please address all the unresolved issues from v8 and send v10?
+>>> I'm not reviewing this one.
+>>>
+>>> Thanks!
+>>
+>> Sure, will do, but first missing to-do/discuss list:
+>> 1) remove mode_set as not used by any driver
+>> 2) remove "no-added-value" static functions descriptions in
+>>    dpll_core/dpll_netlink
+>> 3) merge patches [ 03/10, 04/10, 05/10 ] into patches that are compiling
+>>    after each patch apply
+>> 4) remove function return values descriptions/lists
+>> 5) Fix patch [05/10]:
+>>    - status Supported
+>>    - additional maintainers
+>>    - remove callback:
+>>      int (*source_pin_idx_get)(...) from `struct dpll_device_ops`
+>> 6) Fix patch [08/10]: rethink ice mutex locking scheme
+>> 7) Fix patch [09/10]: multiple comments on
+>> https://lore.kernel.org/netdev/ZIQu+%2Fo4J0ZBspVg@nanopsycho/#t
+>> 8) add PPS DPLL phase offset to the netlink get-device API
+>>
+>> Thank you!
+>> Arkadiusz
+> 
+> If someone has any objections please state them now, I will work on
+> all above except 5) and 7).
+> Vadim, could you take care of those 2 points?
+> 
+Yeah, sure, I'll update 5 and 7.
+I'm not sure about 8) - do we really need this info, I believe every 
+supported DPLL device exports PTP device as well. But I'm Ok to add this 
+feature too.
 
-On Tue, Jun 27, 2023 at 5:16=E2=80=AFPM Andrew Jones <ajones@ventanamicro.c=
-om> wrote:
->
-> On Fri, Jun 23, 2023 at 06:40:13PM +0800, Haibo Xu wrote:
-> > Disable all vcpu extensions which were enabled by default
-> > if they were available in the risc-v host, and only enable
-> > the desired one for a vcpu_config.
-> >
-> > Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-> > Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
-> > ---
-> >  tools/testing/selftests/kvm/get-reg-list.c | 42 +++++++++++++++++++++-
-> >  1 file changed, 41 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing=
-/selftests/kvm/get-reg-list.c
-> > index 3beb6b62de0a..612dabc61137 100644
-> > --- a/tools/testing/selftests/kvm/get-reg-list.c
-> > +++ b/tools/testing/selftests/kvm/get-reg-list.c
-> > @@ -138,11 +138,50 @@ static struct kvm_vcpu *vcpu_config_get_vcpu(stru=
-ct vcpu_reg_list *c, struct kvm
-> >       prepare_vcpu_init(c, &init);
-> >       vcpu =3D __vm_vcpu_add(vm, 0);
-> >       aarch64_vcpu_setup(vcpu, &init);
-> > -     finalize_vcpu(vcpu, c);
-> >
-> >       return vcpu;
-> >  }
-> >  #else
-> > +static inline bool vcpu_has_ext(struct kvm_vcpu *vcpu, int ext)
-> > +{
-> > +     int ret;
-> > +     unsigned long value;
-> > +
-> > +     ret =3D __vcpu_get_reg(vcpu, RISCV_ISA_EXT_REG(ext), &value);
-> > +     if (ret) {
-> > +             printf("Failed to get ext %d", ext);
-> > +             return false;
-> > +     }
-> > +
-> > +     return !!value;
-> > +}
-> > +
-> > +static void finalize_vcpu(struct kvm_vcpu *vcpu, struct vcpu_reg_list =
-*c)
-> > +{
-> > +     struct vcpu_reg_sublist *s;
-> > +
-> > +     /*
-> > +      * Disable all extensions which were enabled by default
-> > +      * if they were available in the risc-v host.
-> > +      */
-> > +     for (int i =3D 0; i < KVM_RISCV_ISA_EXT_MAX; i++) {
-> > +             __vcpu_set_reg(vcpu, RISCV_ISA_EXT_REG(i), 0);
-> > +     }
->
-> nit: can drop the {}
->
-> > +
-> > +     for_each_sublist(c, s) {
-> > +             if (!s->feature)
-> > +                     continue;
-> > +
-> > +             /* Try to enable the desired extension */
-> > +             __vcpu_set_reg(vcpu, RISCV_ISA_EXT_REG(s->feature), 1);
-> > +
-> > +             /* Double check whether the desired extension was enabled=
- */
-> > +             __TEST_REQUIRE(vcpu_has_ext(vcpu, s->feature),
-> > +                            "%s: %s not available, skipping tests\n",
-> > +                            config_name(c), s->name);
-> > +     }
-> > +}
-> > +
-> >  static struct kvm_vcpu *vcpu_config_get_vcpu(struct vcpu_reg_list *c, =
-struct kvm_vm *vm)
-> >  {
-> >       return __vm_vcpu_add(vm, 0);
-> > @@ -178,6 +217,7 @@ static void run_test(struct vcpu_reg_list *c)
-> >
-> >       vm =3D vm_create_barebones();
-> >       vcpu =3D vcpu_config_get_vcpu(c, vm);
-> > +     finalize_vcpu(vcpu, c);
->
-> Now that both arm and riscv call finalize_vcpu() we could do the weak
-> function trick for it and move the arch-specific implementations to
-> their own arch-specific files.
->
-> >
-> >       reg_list =3D vcpu_get_reg_list(vcpu);
-> >
-> > --
-> > 2.34.1
-> >
->
-> Otherwise,
->
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
->
-> Thanks,
-> drew
+> Thank you!
+> Arkadiusz
+
