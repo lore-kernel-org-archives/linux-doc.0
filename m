@@ -2,109 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E49FEB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 16:08:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C8DEB64DC
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 16:20:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231345AbjF1QI0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 12:08:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36756 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230073AbjF1QIT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 12:08:19 -0400
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054DB198D
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 09:08:19 -0700 (PDT)
-Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-3ff24a193dbso60631cf.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 09:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687968498; x=1690560498;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GPpb/2tnOaLvPcmNVC1FnQTKYAdbc3TLfcGD1phxugk=;
-        b=c/v2TL/3f9Y6eB2vZAd4sMe0hQAYl3q/BOVJltpcJxfDKLnmZLSgNzNic4MaPFv0Q2
-         c0wprO3nfhZn3EMjKu3JkpqDR+LCcLeDevVPEivlFkDb5fbKi+L8HoOF83r0R5xfD5CT
-         fvldo1C4WfpBcQmVMFXemCg/O9WlJCuW6gTko=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687968498; x=1690560498;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GPpb/2tnOaLvPcmNVC1FnQTKYAdbc3TLfcGD1phxugk=;
-        b=VN0Vi5/a4SF1l+A1wzQwvctFabcegnQ9iQFBaT4XGebTNbtV3TIDsWoLCFgVRHhRuB
-         Fny4u48QIHtU3IN6vKYUlI/jVlcKRyKttDfxCUCr9+W+rcVOEsjw5XXdxP/XfpS9AkFl
-         HobAPqtKBwWWlNzWmOl7kL9qxS9n2v7xuEnZ4cOU8DdvUmucWfWMfLtHNICb1oMqL4MB
-         91Q3MmUJNJdIUwlbcDFc/OkgilrhiTCBMgRLja6S7AVHkPMgS9r3tFFtcefYp/mhCyLi
-         yMDuBPXLQweLxvIhD+K8NgCM4+wE1dnBgvZ06zR0bQJdWPHg4wV4oz+aQXOhR2uwpWoT
-         Rffw==
-X-Gm-Message-State: AC+VfDziFE671pmqtEbDB+q/4gbWktQRAd7CbG6DW10uTnqcnPvHXHX1
-        EkkN12Y8rrQni10EC8/4PsQ+r2FI3wPWGrJuZAN8cQ==
-X-Google-Smtp-Source: ACHHUZ555XP1uIpN296h86vTbk70RPCZ1V68Sq9Ajrh7wX0MHXorbDCrhDe/+XBnndE97f+xQcTgWw==
-X-Received: by 2002:ac8:5954:0:b0:402:9cff:4573 with SMTP id 20-20020ac85954000000b004029cff4573mr6005377qtz.39.1687968497930;
-        Wed, 28 Jun 2023 09:08:17 -0700 (PDT)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com. [209.85.222.181])
-        by smtp.gmail.com with ESMTPSA id f7-20020a05622a1a0700b004008286c1casm3203873qtb.88.2023.06.28.09.08.17
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jun 2023 09:08:17 -0700 (PDT)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-765a5d31d0aso309836885a.2
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 09:08:17 -0700 (PDT)
-X-Received: by 2002:a67:f998:0:b0:443:6ad6:7915 with SMTP id
- b24-20020a67f998000000b004436ad67915mr5063977vsq.27.1687968010482; Wed, 28
- Jun 2023 09:00:10 -0700 (PDT)
+        id S231718AbjF1QUo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 12:20:44 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:17472 "EHLO
+        mx0a-0031df01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231652AbjF1QUl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 12:20:41 -0400
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35SDtUVW018875;
+        Wed, 28 Jun 2023 16:20:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=EwVDj7xAWxMaQin2z34o8A2NmK4g7lRRidATpk7p6xA=;
+ b=S9Ni0/QzzFh/cejWqPDW+NzQo7AgGrCBD+7x91tqrmPayMunWSJY91L9dMDYQlwpWwhY
+ S4bLiFjFe9U0BnxbA7BEzhrgxPBWfn8MM9QKsMiJdVuQgvu+xNie06YXYNZ+EHbwvaIf
+ ZfPX2rETz1dtQ9zPJ58B5FgSsi9GFgTIkeC0IzbVUEgsjG0UmGmTkMitVfW37HX7OWVp
+ Lo4n3fq6/c+GO1eHGtFS0K+rzcglDvwhaC/kf8BasEx/MNWQ1gjDFCOq6fsWjbZa8i62
+ CknK4g4h5YnSWcShVYT0gYeuu1/FN7eYPX/SYZE8PI3iLJDMKpYWTfUv9C7nTzBsN7qV eg== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rg21tb128-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 28 Jun 2023 16:20:17 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35SGKH3B021301
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 28 Jun 2023 16:20:17 GMT
+Received: from [10.216.26.159] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 28 Jun
+ 2023 09:20:05 -0700
+Message-ID: <10dd2ead-758a-89f0-cda4-70ae927269eb@quicinc.com>
+Date:   Wed, 28 Jun 2023 21:50:00 +0530
 MIME-Version: 1.0
-References: <20230627120058.2214509-1-matteorizzo@google.com>
- <20230627120058.2214509-2-matteorizzo@google.com> <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
- <CAHKB1wJANtT27WM6hrhDy_x9H9Lsn4qRjPDmXdKosoL93TJRYg@mail.gmail.com>
- <CANiDSCvjCoj3Q3phbmdhdG-veHNRrfD-gBu=FuZkmrgJ2uxiJg@mail.gmail.com> <CAHKB1w+UyOnC_rOBABVhmzG+XeePaWYgPJWxX9NUeqnAi9WcgA@mail.gmail.com>
-In-Reply-To: <CAHKB1w+UyOnC_rOBABVhmzG+XeePaWYgPJWxX9NUeqnAi9WcgA@mail.gmail.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 28 Jun 2023 17:59:59 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtu1OvoRe0ReqBVctzd8euZDt-h7dyx+xACWzdQeHkxBA@mail.gmail.com>
-Message-ID: <CANiDSCtu1OvoRe0ReqBVctzd8euZDt-h7dyx+xACWzdQeHkxBA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
-To:     Matteo Rizzo <matteorizzo@google.com>
-Cc:     Bart Van Assche <bvanassche@acm.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
-        jordyzomer@google.com, evn@google.com, poprdi@google.com,
-        corbet@lwn.net, axboe@kernel.dk, asml.silence@gmail.com,
-        akpm@linux-foundation.org, keescook@chromium.org,
-        rostedt@goodmis.org, dave.hansen@linux.intel.com,
-        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
-        ldufour@linux.ibm.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
+ support
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <2023062814-chance-flounder-f002@gregkh>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <2023062814-chance-flounder-f002@gregkh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 4bKvRVyoEnkrTkaXXrIlB4hO_M8fRGoE
+X-Proofpoint-GUID: 4bKvRVyoEnkrTkaXXrIlB4hO_M8fRGoE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-28_11,2023-06-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=728 phishscore=0
+ adultscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
+ bulkscore=0 malwarescore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306280145
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-HI Matteo
-
-On Wed, 28 Jun 2023 at 17:12, Matteo Rizzo <matteorizzo@google.com> wrote:
->
-> On Wed, 28 Jun 2023 at 13:44, Ricardo Ribalda <ribalda@chromium.org> wrote:
-> >
-> > Have you considered that the new sysctl is "sticky like kexec_load_disabled.
-> > When the user disables it there is no way to turn it back on until the
-> > system is rebooted.
->
-> Are you suggesting making this sysctl sticky? Are there any examples of how to
-> implement a sticky sysctl that can take more than 2 values in case we want to
-> add an intermediate level that still allows privileged processes to use
-> io_uring? Also, what would be the use case? Preventing privileged processes
-> from re-enabling io_uring?
-
-Yes, if this sysctl is accepted, I think it would make sense to make it sticky.
-
-For more than one value take a look to  kexec_load_limit_reboot and
-kexec_load_limit_panic
-
-Thanks!
-
->
-> Thanks!
-> --
-> Matteo
 
 
+On 6/28/2023 9:15 PM, Greg KH wrote:
+> On Wed, Jun 28, 2023 at 06:04:27PM +0530, Mukesh Ojha wrote:
+>> Minidump is a best effort mechanism to collect useful and predefined data
+>> for first level of debugging on end user devices running on Qualcomm SoCs.
+>> It is built on the premise that System on Chip (SoC) or subsystem part of
+>> SoC crashes, due to a range of hardware and software bugs. Hence, the
+>> ability to collect accurate data is only a best-effort. The data collected
+>> could be invalid or corrupted, data collection itself could fail, and so on.
+>>
+>> Qualcomm devices in engineering mode provides a mechanism for generating
+>> full system ramdumps for post mortem debugging. But in some cases it's
+>> however not feasible to capture the entire content of RAM. The minidump
+>> mechanism provides the means for selecting which snippets should be
+>> included in the ramdump.
+>>
+>> Minidump kernel driver implementation is divided into two parts for
+>> simplicity, one is minidump core which can also be called minidump
+>> frontend(As API gets exported from this driver for registration with
+>> backend) and the other part is minidump backend i.e, where the underlying
+>> implementation of minidump will be there. There could be different way
+>> how the backend is implemented like Shared memory, Memory mapped IO
+>> or Resource manager(gunyah) based where the guest region information is
+>> passed to hypervisor via hypercalls.
+>>
+>>      Minidump Client-1     Client-2      Client-5    Client-n
+>>               |               |              |             |
+>>               |               |    ...       |   ...       |
+>>               |               |              |             |
+>>               |               |              |             |
+>>               |               |              |             |
+>>               |               |              |             |
+>>               |               |              |             |
+>>               |               |              |             |
+>>               |           +---+--------------+----+        |
+>>               +-----------+  qcom_minidump(core)  +--------+
+>>                           |                       |
+>>                           +------+-----+------+---+
+>>                                  |     |      |
+>>                                  |     |      |
+>>                  +---------------+     |      +--------------------+
+>>                  |                     |                           |
+>>                  |                     |                           |
+>>                  |                     |                           |
+>>                  v                     v                           v
+>>       +-------------------+      +-------------------+     +------------------+
+>>       |qcom_minidump_smem |      |qcom_minidump_mmio |     | qcom_minidump_rm |
+>>       |                   |      |                   |     |                  |
+>>       +-------------------+      +-------------------+     +------------------+
+>>         Shared memory              Memory mapped IO           Resource manager
+>>          (backend)                   (backend)                   (backend)
+>>
+>>
+>> Here, we will be giving all analogy of backend with SMEM as it is the
+>> only implemented backend at present but general idea remains the same.
+> 
+> If you only have one "backend" then you don't need the extra compexity
+> here at all, just remove that whole middle layer please and make this
+> much simpler and smaller and easier to review and possibly accept.
+> 
+> We don't add layers when they are not needed, and never when there is no
+> actual user.  If you need the extra "complexity" later, then add it
+> later when it is needed as who knows when that will ever be.
+> 
+> Please redo this series based on that, thanks.
 
--- 
-Ricardo Ribalda
+I already followed without this middle layer till v3 since without
+the middle layer it will be end up with lot of code duplication if there
+is another backend.
+
+We already have other backend implementation in the downstream, if you
+want to see them, i will try to post them in upcoming series..
+
+-Mukesh
+
+> 
+> greg k-h
