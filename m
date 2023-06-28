@@ -2,174 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0446EB64DC
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 15:31:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67956EB64DD
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 15:33:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232033AbjF1PbO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 11:31:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232156AbjF1PbJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 11:31:09 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 728952728
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 08:31:06 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-313e09a5b19so1069263f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 08:31:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1687966265; x=1690558265;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IfioyVtT4msXKVwBRY8hJRreQinRlAOTnCUWvwDS1Aw=;
-        b=nry6CZib6BV+AVd9Jk+pSwezqKgJEVfCuLR1JPZqElVBafAbkTyVeLi23REdJ6UEpg
-         9stYvq8YgzwEPCHN9NTab2eV+iVMOW0i1JtZckyoqUkOqAK/pllmiGFsiJyi/bGGmj0g
-         uY8ae0D2A0kbhPeOit3SFGY/QpNNcJRa7uQ1BDpqgpoEJczZvtp89ssBJzKc/kawnUOB
-         atCKfE7Yoaxl9aqs3r2EGFKpxM5ILitcnFo+bBsy8auSHXE+0PmyupdqfDGMEBwziN/7
-         qAele+pj645BeJJh0/y4NqCqgdPy/Do3S/HEYa/GMX60Lj1lLqJlHYjmmAP0XDdGf4y/
-         bZzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687966265; x=1690558265;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IfioyVtT4msXKVwBRY8hJRreQinRlAOTnCUWvwDS1Aw=;
-        b=ATYW+rkp+68gMgJLVKhChfswHt894aCxvaS3viubXoNh1WACbUi5aM1kPgoxD2AhKE
-         1EF+Jfm0i/22qXxowlV8gpORr5IEfyKA7mbDPz0fGH8AYewedRpd+SmiNvQP7SCtkIwd
-         t1K6pe/5CTTemtuzdBs/PQbbbGPiH2c0UY4ljV8/awQSzXK1BezDVwqHnYEA2CQF8mYm
-         QZ8r/iKncr6jyFEuNPrphk210Zv96EpaX4Ee6KsGn9C2yv9oL5jAg70Qe0Df/RZF15MN
-         0lbZ2oG4j7MC+q5gyvUOXMyQirSnseENsl+BN+jciku5Cdd8RDQMqh0LQT2qbQpCK0Ck
-         bDAg==
-X-Gm-Message-State: ABy/qLYxNouDvnojOGIAOCGKrAwPAZ1K6E0ND40r20XpE4YBBk3QagxC
-        ziiflPk+OLAgJQI+yLKdEEnnmg==
-X-Google-Smtp-Source: APBJJlEDnF97Eu/Q7rpDbn1H8DAMbx62dWdqkjaN8NPN/NE+nlQmuCQLftLd2qSWd/ZkLyHAStV++Q==
-X-Received: by 2002:a5d:544d:0:b0:314:1096:6437 with SMTP id w13-20020a5d544d000000b0031410966437mr1329640wrv.19.1687966264829;
-        Wed, 28 Jun 2023 08:31:04 -0700 (PDT)
-Received: from vermeer ([2a01:cb1d:81a9:dd00:b570:b34c:ffd4:c805])
-        by smtp.gmail.com with ESMTPSA id w11-20020a5d608b000000b00313f7fc35e9sm6703755wrt.63.2023.06.28.08.31.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 08:31:04 -0700 (PDT)
-Date:   Wed, 28 Jun 2023 17:31:01 +0200
-From:   Samuel Ortiz <sameo@rivosinc.com>
-To:     Dionna Amalie Glaze <dionnaglaze@google.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Erdem Aktas <erdemaktas@google.com>,
-        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
-        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
-        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        dhowells@redhat.com, brijesh.singh@amd.com, atishp@rivosinc.com,
-        gregkh@linuxfoundation.org, linux-coco@lists.linux.dev,
-        joey.gouly@arm.com
-Subject: Re: [PATCH v3 3/3] selftests/tdx: Test GetQuote TDX attestation
- feature
-Message-ID: <ZJxSNboEUbv4/4yF@vermeer>
-References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
- <972e1d5c5ec53e2757fb17a586558c5385e987dd.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
- <64876bf6c30e2_1433ac29415@dwillia2-xfh.jf.intel.com.notmuch>
- <64961c3baf8ce_142af829436@dwillia2-xfh.jf.intel.com.notmuch>
- <9437b176-e15a-3cec-e5cb-68ff57dbc25c@linux.intel.com>
- <CAAH4kHa85hCz0GhQM3f1OQ3wM+=-SfF77ShFAse0-eYGBHvO_A@mail.gmail.com>
- <649b7a9b69cb6_11e68529473@dwillia2-xfh.jf.intel.com.notmuch>
- <CAAH4kHY1-N+HOxPON6SuXE3QPowAGnwTjc5H=ZnNZwh7a+msnQ@mail.gmail.com>
+        id S232452AbjF1Pd3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 11:33:29 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:46086 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232404AbjF1Pc5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 11:32:57 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4BF8C6137B;
+        Wed, 28 Jun 2023 15:32:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E266C433C0;
+        Wed, 28 Jun 2023 15:32:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687966374;
+        bh=5BCkT+FanlGIy02RrZESfVtbkxz2az/nnPp2C2DcBRs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Pno1tIF9znhx4k/HGXHlsU2+bHMzN34sQk2R2qTh5D3byvPa5JoDziFmAJLIJSGSU
+         oNIiLtOYIQdRAXfqPWG30pnGbadLIV+kweJXIXvszpB0C5uQXz0X1b0noy5zNTtOI+
+         ZBlg1rc0s9A8E8YlqowvKRJVoRNbotCYLcu0sZ1DLSert7+VzIqtqRmobtKIr6ltn/
+         INKDWfDZbRCE4/AGRBEV0SwawkGxxwZJf+ca5G6+itVNGSe0zbc90M99E+SqXwEQw+
+         RaFjYn5Ni1Y3p/LWXmpqfMWkWTwkIwxdwenIi7264cc2AsIE5yPIVlMbPRvy0Z4IK7
+         CzB3k+c5+BKAA==
+Date:   Wed, 28 Jun 2023 16:32:47 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     Pavan Kondeti <quic_pkondeti@quicinc.com>, corbet@lwn.net,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
+        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
+        catalin.marinas@arm.com, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 02/21] kallsyms: Export kallsyms_lookup_name
+Message-ID: <20230628153246.GA22090@willie-the-truck>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <1687955688-20809-3-git-send-email-quic_mojha@quicinc.com>
+ <a26f22d2-95a7-4143-bff5-45ef0b53b30b@quicinc.com>
+ <86c104a6-a685-4d05-08f4-e1be595f9d31@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAH4kHY1-N+HOxPON6SuXE3QPowAGnwTjc5H=ZnNZwh7a+msnQ@mail.gmail.com>
+In-Reply-To: <86c104a6-a685-4d05-08f4-e1be595f9d31@quicinc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 06:36:07PM -0700, Dionna Amalie Glaze wrote:
-> On Tue, Jun 27, 2023 at 5:13 PM Dan Williams <dan.j.williams@intel.com> wrote:
-> > [..]
-> > >
-> > > The VMPL-based separation that will house the supervisor module known
-> > > as SVSM can have protocols that implement a TPM command interface, or
-> > > an RTMR-extension interface, and will also need to have an
-> > > SVSM-specific protocol attestation report format to keep the secure
-> > > chain of custody apparent. We'd have different formats and protocols
-> > > in the kernel, at least, to speak to each technology.
-> >
-> > That's where I hope the line can be drawn, i.e. that all of this vendor
-> > differentiation really only matters inside the kernel in the end.
-> >
-> > > I'm not sure it's worth the trouble of papering over all the... 3-4
-> > > technologies with similar but still weirdly different formats and ways
-> > > of doing things with an abstracted attestation ABI, especially since
-> > > the output all has to be interpreted in an architecture-specific way
-> > > anyway.
-> >
-> > This is where I need help. Can you identify where the following
-> > assertion falls over:
-> >
-> > "The minimum viable key-server is one that can generically validate a
-> > blob with an ECDSA signature".
-> >
-> > I.e. the fact that SEV and TDX send different length blobs is less
-> > important than validating that signature.
-> >
-> > If it is always the case that specific fields in the blob need to be
-> > decoded then yes, that weakens the assertion. However, maybe that means
-> > that kernel code parses the blob and conveys that parsed info along with
-> > vendor attestation payload all signed by a Linux key. I.e. still allow
-> > for a unified output format + signed vendor blob and provide a path to
-> > keep all the vendor specific handling internal to the kernel.
-> >
+On Wed, Jun 28, 2023 at 08:52:57PM +0530, Mukesh Ojha wrote:
 > 
-> All the specific fields of the blob have to be decoded and subjected
-> to an acceptance policy. That policy will most always be different
-> across different platforms and VM owners. I wrote all of
-> github.com/google/go-sev-guest, including the verification and
-> validation logic, and it's going to get more complicated, and the
-> sources of the data that provide validators with notions of what
-> values can be trusted will be varied. The formats are not
-> standardized. The Confidential Computing Consortium should be working
-> toward that, but it's a slow process. There's IETF RATS. There's
-> in-toto.io attestations. There's Azure's JWT thing. There's a signed
-> serialized protocol buffer that I've decided is what Google is going
-> to produce while we figure out all the "right" formats to use. There
-> will be factions and absolute gridlock for multiple years if we
-> require solidifying an abstraction for the kernel to manage all this
-> logic before passing a report on to user space.
-
-I agree with most of the above, but all that nightmate^Wcomplexity is
-handled on the remote attestation side. If I understand the current
-discussion, it's about how to abstract a guest attestation evidence
-generation request in a vendor agnostic way. And I think what's proposed
-here is simply to pass a binary payload (The evidence request from the
-guest userspace) to the kernel key subsystem, hook it into vendor
-specific handler and get userspace an attestation evidence (a platform
-key signed blob) back to the guest app. The guest app can then give that
-to an attestation service, and that's when all the above described
-complexity takes place. Am I missing something?
-
-> Now, not only are the field contents important, the certificates of
-> the keys that signed the report are important. Each platform has its
-> own special x509v3 extensions and key hierarchy to express what parts
-> of the report should be what value if signed by this key, and in TDX's
-> case there are extra endpoints that you need to query to determine if
-> there's an active CVE on the associated TCB version. This is how they
-> avoid adding every cpu's key to the leaf certificate's CRL.
 > 
-> You really shouldn't be putting attestation validation logic in the
-> kernel. 
+> On 6/28/2023 7:23 PM, Pavan Kondeti wrote:
+> > On Wed, Jun 28, 2023 at 06:04:29PM +0530, Mukesh Ojha wrote:
+> > > Module like minidump providing debugging support will need to
+> > > get the symbol information from the core kernel e.g to get
+> > > the linux_banner, kernel section addresses bss, data, ro etc.
+> > > 
+> > One might ask why we would need such a debug driver to
+> > be compiled as module? What would you do if we need to capture more
+> > kernel data structures later? Do you plan to continue use
+> > kallsyms_lookup_name() to query all the symbols?
+> 
+> You are on point, i needed this driver to be static but i don't have
+> any example at present to collect more than just _linux_banner_ from
+> my existing set of patches..
+> 
+> Agree, it will be easier to make this driver as static instead of
+> opening up the doors for modules to abuse via exporting
+> kallsyms_lookup_name() and also it will be very slow for production
+> kernel uses.
 
-AFAIU, that's not part of the proposal/PoC/mockup. It's all about
-funneling an attestation evidence request down to the TSM/PSP/firmware
-for it to generate an actually verifiable attestation evidence.
+Right, I unexported that symbol deliberately in 0bd476e6c671 ("kallsyms:
+unexport kallsyms_lookup_name() and kallsyms_on_each_symbol()") and I
+don't think we should add it back for this driver.
 
-Cheers,
-Samuel.
+Will
