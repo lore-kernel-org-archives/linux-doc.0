@@ -2,105 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4287AEB64D9
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 02:58:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E460EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 03:58:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229690AbjF1C6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Jun 2023 22:58:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50118 "EHLO
+        id S230219AbjF1D6N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Jun 2023 23:58:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbjF1C6e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 22:58:34 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13C55171A;
-        Tue, 27 Jun 2023 19:58:34 -0700 (PDT)
+        with ESMTP id S229892AbjF1D6L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Jun 2023 23:58:11 -0400
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 421A32D7D;
+        Tue, 27 Jun 2023 20:58:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=MsaI243O9PZkSjKSry7NpW1aTGFmRyGy2dSgztR5u+g=; b=RFU69fkkeTJYbx6VUb59ELLKf5
-        lIlzoiR1mZGIeDllX0sQtJib/di/rpB4r9qiJovIJfgK4co/BmiC6WffTtn0DlLryDGRANeybHTrI
-        aM74623gxlE+/t1lJG0JbHcCXSjWUGnJgKX1Vl5766sptv7x5Duqw8jJN+S0D8ZKaAFGvz+GOJ6I7
-        0mmXGg3ZzTflHnYzCPS4uuej+GnLenLUo4tkaNDPhj1GsSIyznvU4NHirTSTw/YSsDsJI+EmcXaUa
-        FJDgJmKzh/RrMZ0oLA70WBC9zs7ZJ33pkh4UMCcJuI0JMopdYpTZbntiggbKdTd9mmDyOzrAwFUJO
-        WcOteIQw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qELNp-00EdzB-0C;
-        Wed, 28 Jun 2023 02:58:17 +0000
-Message-ID: <24b34b27-d2eb-e287-ffbb-29ffde66790d@infradead.org>
-Date:   Tue, 27 Jun 2023 19:58:15 -0700
+        d=infradead.org; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=MUXhoKmuZ1A/7U83BdMHC6l86XOAppMGGNlVJYVgIdI=; b=FPcVLapHiYti43T21UgqJy1Oe+
+        BoJDCKJ6MwSyegnBvf0EUAGAh4YXeEcaIHNpPovln791WdOMk8tslF0klSgI362yRSF+YpKSo0/NM
+        K8jgBamTr0XB2sE/wQ/ATLmrtU9g5Gr7hwkw1bhKY0mBb3MPSaVpHoL19SlSHulZBbAdACkFEU55v
+        V/Cw3hdbrtnEwuC/gWwRgFQNT8VaL7mWvsqruAHZSIEkLo0CqSQ7Kh/jsBO24zmelssUkBkYPgoTG
+        jUKXn+ipIbNMu9vxWLJj/EsVrzMV461mq8G5uZ5Ch+R1KimAnAOOxtkndGA0nqRoDG1v53ERpcqlg
+        dCvHG2dw==;
+Received: from jlbec by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1qEMJZ-000oXj-2S;
+        Wed, 28 Jun 2023 03:57:57 +0000
+Date:   Wed, 28 Jun 2023 04:57:57 +0100
+From:   Joel Becker <jlbec@evilplan.org>
+To:     Joseph Qi <joseph.qi@linux.alibaba.com>
+Cc:     Anthony Iliopoulos <ailiop@suse.com>,
+        Mark Fasheh <mark@fasheh.com>,
+        akpm <akpm@linux-foundation.org>, ocfs2-devel@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/2] update ocfs2-devel mailing list addresses
+Message-ID: <ZJuvxQF4epheLig8@ZenIV>
+Mail-Followup-To: Joseph Qi <joseph.qi@linux.alibaba.com>,
+        Anthony Iliopoulos <ailiop@suse.com>, Mark Fasheh <mark@fasheh.com>,
+        akpm <akpm@linux-foundation.org>, ocfs2-devel@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20230628013437.47030-1-ailiop@suse.com>
+ <6d59ab08-070f-1562-2eaa-16b083f1a732@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v4 4/4] intel_idle: Add ibrs_off module parameter to force
- disable IBRS
-Content-Language: en-US
-To:     Waiman Long <longman@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-pm@vger.kernel.org,
-        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>
-References: <20230628022554.1638318-1-longman@redhat.com>
- <20230628022554.1638318-5-longman@redhat.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230628022554.1638318-5-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6d59ab08-070f-1562-2eaa-16b083f1a732@linux.alibaba.com>
+X-Burt-Line: Trees are cool.
+X-Red-Smith: Ninety feet between bases is perhaps as close as man has ever
+ come to perfection.
+Sender: Joel Becker <jlbec@ftp.linux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Yes, thank you.
 
-On 6/27/23 19:25, Waiman Long wrote:
->  Documentation/admin-guide/pm/intel_idle.rst | 17 ++++++++++++++++-
->  drivers/idle/intel_idle.c                   | 14 ++++++++++++--
->  2 files changed, 28 insertions(+), 3 deletions(-)
+Acked-by: Joel Becker <jlbec@evilplan.org>
+
+On Wed, Jun 28, 2023 at 10:30:33AM +0800, Joseph Qi wrote:
+> Thanks for this work.
 > 
-> diff --git a/Documentation/admin-guide/pm/intel_idle.rst b/Documentation/admin-guide/pm/intel_idle.rst
-> index b799a43da62e..8604e6d1fe2c 100644
-> --- a/Documentation/admin-guide/pm/intel_idle.rst
-> +++ b/Documentation/admin-guide/pm/intel_idle.rst
+> Acked-by: Joseph Qi <joseph.qi@linux.alibaba.com>
+> 
+> On 6/28/23 9:34 AM, Anthony Iliopoulos wrote:
+> > The ocfs2-devel mailing list has been migrated to kernel.org, update all
+> > related kernel documentation pointers to reflect the change.
+> > 
+> > Anthony Iliopoulos (2):
+> >   MAINTAINERS: Update ocfs2-devel mailing list address
+> >   docs: update ocfs2-devel mailing list address
+> > 
+> >  Documentation/ABI/obsolete/o2cb       |  4 ++--
+> >  Documentation/ABI/removed/o2cb        |  4 ++--
+> >  Documentation/ABI/stable/o2cb         |  4 ++--
+> >  Documentation/ABI/testing/sysfs-ocfs2 | 12 ++++++------
+> >  Documentation/filesystems/dlmfs.rst   |  2 +-
+> >  Documentation/filesystems/ocfs2.rst   |  2 +-
+> >  MAINTAINERS                           |  2 +-
+> >  fs/ocfs2/Kconfig                      |  6 +++---
+> >  8 files changed, 18 insertions(+), 18 deletions(-)
+> > 
 
-You may take or leave these comments as you choose.
-
-> @@ -216,6 +216,21 @@ are ignored).
->  The idle states disabled this way can be enabled (on a per-CPU basis) from user
->  space via ``sysfs``.
->  
-> +The ``ibrs_off`` module parameter is a boolean flag (default to false). It is
-
-                                                       (default false).
-or
-                                                       (defaults to false).
-
-Then I think it reads better if the next sentence begins with: "If set,"
-instead of having it in the middle of the sentence.
-
-> +used to control if IBRS (Indirect Branch Restricted Speculation) should be
-> +turned off, if set, when the CPU enters an idle state.  This flag will not
-> +affect CPUs that are using Enhanced IBRS which can remain on with little
-> +performance impact.
-> +
-> +For some CPUs, IBRS will be selected as mitigation for Spectre v2 and Retbleed
-> +security vulnerabilities by default.  Leaving the IBRS mode on while idling may
-> +have a performance impact on its sibling CPU.  The IBRS mode will be turned off
-> +by default when the CPU enters into a deep idle state, but not in some
-> +shallower ones.  Setting the ``ibrs_off`` module parameter will force the IBRS
-> +mode to off when the CPU is in any one of the available idle states.  This may
-> +help performance of a sibling CPU at the expense of a slightly higher wakeup
-> +latency for the idle CPU.
-
-thanks.
 -- 
-~Randy
