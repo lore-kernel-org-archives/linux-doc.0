@@ -2,238 +2,225 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6138EB64DD
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 09:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B84D6EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 10:21:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231363AbjF1Juj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 05:50:39 -0400
-Received: from mga03.intel.com ([134.134.136.65]:27601 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235793AbjF1JgZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Jun 2023 05:36:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687944985; x=1719480985;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=CDA7GFzy+kd2TEeu1M5kuE59OhxVg1VSQtYPcUCMZXw=;
-  b=KFIa7aQTvERnaU9wgFbA7Gd8LzbtGIHTLpblYOlamAFG6zPry5KfzcsM
-   9R7okIq3cJ/48wt2iCRagM/OGe/JnGTEqwUYgwwSbyWbN/IVIjVC5t/1S
-   TJqNzn1AhSRdAwczISjjJBzCWTz8hl9AHyfxA33sZwhnlGBNSCXLSoRZm
-   5P1APZeCMagD2fH8HWXBjmIfcF6iTlyUoX3cdNLdA/YEvFU/iHxzcIwwo
-   /nBdFLvLsBk+hrOn4m2/bQlfu8UDl4zEP7B+Z4tDmTXVXOkhHE0xz7RbS
-   byjC32BhGGRjV6aNqPgcONoztWLU0goVzmMUx0S1GoSsuW/WyrEN3FxB6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="365255725"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="365255725"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 02:27:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="716874914"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="716874914"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga002.jf.intel.com with ESMTP; 28 Jun 2023 02:27:15 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 28 Jun 2023 02:27:14 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 28 Jun 2023 02:27:13 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Wed, 28 Jun 2023 02:27:13 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Wed, 28 Jun 2023 02:27:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AWEJ/tA4ZQQzOAofLgmDtfTUDeF2gVa7DI2nlIle+3nMGXjzCTNNfJNhpD1D7CHjv0Bd6V/JSvU8ZTnG7x0GzjbeyVKN3iqruzFlkLxT7LDidS1MbPUPBfy/KrvYp00MSVpAkQlew3ogOgz1Q0OdSBB5V0iy3Aas73weFN3jhiNTNjsQA0XMG33qqe4PUq01A0b9PylfB72ooL9Sw/tAxZJJjB3MkOWpZK+16gp7SFzHbncNfGaiY33aLpxXVhBnRAGDXB9tlRbEI3L6pSwLvLNMCMKk6E0QCzV/o+MlDwVfr1ocxiPvhOv66VQtUHFcAkvw/bzIU7Jf/50T5yrRHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fdzrLfeX4pmY7a1iEAwe9ktLInbVH7YJ+D75gUkDjwg=;
- b=SQ4OwXmGV7R2kB1QsMidEbL4YZFE0cGLCNnpDjs5Gf2/ULjArhZMZfPq+CbGxnUKyslqgZIa3x7iLCEq9E8TxvzoPhtc4KXaDHOmXj0+gdArRaibo1Kt33i9SE1JNS1vPz4mAndeTpinvAXIqUPCRw2WXfOyyyKuqGRT6/S69keL/01U/z5UJCRofIx4p2lg+za+1SAD0CwF2w7VcPMaoTI7HF4O/eNKHBRJANzEUryLGLzejeYEWkLfFP+rUIhpJwwgdUA0Co+F6K3Fb1XXv64yL90k+wBHcovMq3f36JCKqlWONsnk2iHObdxmuhMPoafEnaQwIFgCZml1izRQmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com (2603:10b6:5:2a6::7) by
- IA0PR11MB7281.namprd11.prod.outlook.com (2603:10b6:208:43b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Wed, 28 Jun
- 2023 09:27:11 +0000
-Received: from DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::24bd:974b:5c01:83d6]) by DM6PR11MB4657.namprd11.prod.outlook.com
- ([fe80::24bd:974b:5c01:83d6%3]) with mapi id 15.20.6521.026; Wed, 28 Jun 2023
- 09:27:10 +0000
-From:   "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-To:     Jiri Pirko <jiri@resnulli.us>
-CC:     "kuba@kernel.org" <kuba@kernel.org>,
-        "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: RE: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Thread-Topic: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Thread-Index: AQHZpc/u2XBvfmJQckCFu+3HjTH4RK+edcOAgAF/xCCAAAJWMA==
-Date:   Wed, 28 Jun 2023 09:27:10 +0000
-Message-ID: <DM6PR11MB4657A1ACB586AD9B45C7996E9B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
- <ZJq3a6rl6dnPMV17@nanopsycho>
- <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
-In-Reply-To: <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
-Accept-Language: pl-PL, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB4657:EE_|IA0PR11MB7281:EE_
-x-ms-office365-filtering-correlation-id: c89e42ce-f0a8-4763-3a0d-08db77b9d960
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: aec9IrTrX4aPMpEKCsOHXXlJo0hNBR2VAh4fUxg2v4dwfWGXFXV63FaT/WXjYhcuUf5MjCWQenc8eL3TwpNPs0aKf3gCHmGFfv8///+Jxh7YfdpmCyJRTXfICPXiwd0g6jBm13sulx8zepWdxd/fLh4BIqxnrtnBtJncl7T74WujljI1tj6jY72AHVMvCJQvahhHpb1ytR8JzkqAym2HcX2qSNDw8YY0jf8ns5ZlQLfwfXovcNmFTNv1aaDQBWaQpaPMMRGAZobU4OGsZZekFYargm0FbdiJw/toPjOehElC2L9ukdsnHU1UB3OYZILK3tidud8O7rUv57+m3Tu4jkD2z3sChrii+jUSQbQFOdGjUm84UJYpkX0ts+qD57sR4HcjOTnDwleyxG+9ajJXIYYE68gLGxElEMhhpBmrsJNxfnW5cShOwOWI41W6Xp/5x/L57RwHX21Zx1tDcy27sNoqWqjYT98zuozY3qjjqtVxXjSJCNS9uiMsRxXzytq22mfDwEpH5lhkFxR6b5//CQ8f51k610nfEuN/vsdZhjq9Bm3SpPr8QkYsdfN3lNUxcYiNOMaR78T3C6D51HaRbALrzxPbw7cHlEh1ImWPF2s=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(39860400002)(136003)(376002)(366004)(346002)(451199021)(7416002)(7406005)(5660300002)(52536014)(66946007)(76116006)(33656002)(66556008)(64756008)(66446008)(4326008)(66476007)(6916009)(478600001)(316002)(8936002)(8676002)(2906002)(55016003)(54906003)(38070700005)(41300700001)(71200400001)(186003)(7696005)(86362001)(26005)(6506007)(9686003)(2940100002)(122000001)(38100700002)(82960400001)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PE7PCzHeFtiKQewZbf5b1E+IyXcRsQ8QuV5mCQ468MUIm5e6RPE4o9+AaN/z?=
- =?us-ascii?Q?fg4nS+MmOoCH1KeYWQuyXlQRQ2Vbg1rNdmyAoyseF6uXqIINyfWv2h4C7Ydi?=
- =?us-ascii?Q?y/66OmqbocOoImpfcCd/Q5LzB+VxwjG7yQG2UxycwXRj2vvVspTko0Gni/Xr?=
- =?us-ascii?Q?fBYn6tsBb/+Xwyv40t4J4Ez2vjGMfmRKWQrf8BzstxIWcCX+Sx9ugSkPtx+d?=
- =?us-ascii?Q?A9jJCeqtnvddwOTZLq7vzXAhTAr5B7G068jQtVkjbm2ATw+cL//nqUmMKFXI?=
- =?us-ascii?Q?2AESDyD2sYkYNLt3D+5Ut3zl/htMjdT9CFcr5iRn2Ypyz+XhPG/FjHgWXZrd?=
- =?us-ascii?Q?XuicmpysHwvzcgMZD8LgIfrF0Cxx9Sc51SkEXoVMq2CnTSMyeejauUc76grk?=
- =?us-ascii?Q?pLu7ls9XMwrU4oSh4bDoSUO0KLCn/0ii57Rb02OaJ2/SO3bo6+ycW156XN80?=
- =?us-ascii?Q?zrGGqS1/o4febH6Jdkxf877Ai1Oefqp7uTR9Zd2AwGAoTdXBOLKUkztxsJxR?=
- =?us-ascii?Q?soHdGvzgCBjOPxEBYF7b05BGgYK7nxsynCTVaYkGZsWPq3WJIW8IwGp8YjPK?=
- =?us-ascii?Q?vGrGkJV/INalh9LLqN9I8TB2LOZi5aPkyK3vcnaSM7yBG72ZyATOSUffEBc2?=
- =?us-ascii?Q?nUOGV2/chieKGRLO6C9bpNf5n8WuvTABoFYhT5PDnSZbxEvYvqhIe5rrIS04?=
- =?us-ascii?Q?ieGM9jRxTj/RzC/c3vntWdCS9lQ7JQzvcVXplJVtPhGpMnYlvtaRjso5D9zz?=
- =?us-ascii?Q?eF2QYb+xmz31sAHoZYwFamuwRUaxos6r0Xg63s1bOCVal7XTMoyJhrqPEYFp?=
- =?us-ascii?Q?EOIOPl1txFMAFx7CChnnA0xm9lcJhxMNCSYvFgpkblAWM9Ntf+HCMGEP7IjQ?=
- =?us-ascii?Q?/hPPCJfPAHXjSJBS7SZ9Ux9jvAVD2ravooHuzX+f7+4z5z4kKap7B96J7hNX?=
- =?us-ascii?Q?2kpThdbI+GZDFwsQso6qkHW33ilAUq4j2SmO32agrp20ifCNUI3Knyfqr7OB?=
- =?us-ascii?Q?cBY5EBNbWkWBHy2vXLEbjnyGvjQDlpxdkUOl5CK1CF8a2T/4tmLrDMfKH987?=
- =?us-ascii?Q?/H2ODJ26R6TCAOxhvjhyk8FGMdxOAomZr7/ttGR8UHxVIufFWjv2r7376vJl?=
- =?us-ascii?Q?j0yLH9EDAJMax6Vb19gn48hih9r1c/Dhn4RKcZrwoDz1ydmL0nPD9cp/dwlj?=
- =?us-ascii?Q?T8C7Q1NpeI/sSUTs98U9tZBC+gfHNqSkUTtS1adajQYWWvC8UP/d/bvc10sp?=
- =?us-ascii?Q?VStc85g+lLNUPdf+Zpb4a/amYasTsRXj4Km8DGw9mqp0BdypBzUCVfOO2mV8?=
- =?us-ascii?Q?r/DNKWiB6CyARlxzg6b1UAqA3dVUky/qMO3ZQ1gQsOnn3oZ/4IdI8pst2LzE?=
- =?us-ascii?Q?3P1496HDTvs3/92hb+cnNleu1SrudHeMIwtuR+kDdk+sLAohJNzGcLlwJpYv?=
- =?us-ascii?Q?agWCWeWkU9V/ShvWgdoM3xQUy+eWlh+P4Apv4Cy21iLhg8CiA42xO4gTdq1J?=
- =?us-ascii?Q?EpiNnVEviKSuMoNyxiEZzMVJARzNzI3drOgc0bhFFU8WgVu4O0yrkWwDMDys?=
- =?us-ascii?Q?b+X35Ju9z05Awil5tNoItqvEGIge5KZb+u2I6SgWtcrJZh//nsuiTmGoaqcR?=
- =?us-ascii?Q?zQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S231270AbjF1KU7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 06:20:59 -0400
+Received: from madras.collabora.co.uk ([46.235.227.172]:50674 "EHLO
+        madras.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231616AbjF1KS5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 06:18:57 -0400
+Received: from [192.168.10.54] (unknown [182.179.162.32])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D58A266070F6;
+        Wed, 28 Jun 2023 11:18:52 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687947536;
+        bh=wjXfrVAEdgRtJih00XQKOmdI4zz3e9GGF55OJ8aSRzw=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=oHQVqn/3iKApHfD34tTWmZYFMMBrTnxwReaSl8LBOQ3XQjDw5efuXstg6bcE3wiZS
+         VGvXS+qM4TGZ0/n3NV2wJPJVArHf3sUz4YwzciTX2WJxXS4F+E2xQoPsWhb4Opl0i3
+         e8dFSAngv0AoxnQwuTQtkdHEc0M8O1Wu7bJ6YLUS5irdjAfr9WxsA8qaHgdGeqLHh/
+         C4zN65aX7A467Ycz6z+LJg5xmcBwgJrtFnTPtOAtjGL39Zlem0rx0VOU8qKM0nKAJA
+         BGAPxuwE9YbbReZV+VPGEi8oJ4aPpBSfx8jfQiv69DngzNLXK7YnVe36oIXkT1AZMR
+         z3q/gYI8RWQEQ==
+Message-ID: <89dbc532-f8cc-5bfd-3dc0-d793fa1bde26@collabora.com>
+Date:   Wed, 28 Jun 2023 15:18:49 +0500
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4657.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c89e42ce-f0a8-4763-3a0d-08db77b9d960
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2023 09:27:10.2640
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UppCb700ZNILxZqIdToW5Y4zZHEnFPQSEZhFy2/UrNBZwBqidqlIBuzdINXXFq6UKBmjcS347vJ+VDcYm4977I9y7AAFoq5LWVuElheupmc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7281
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        atishp@rivosinc.com, conor@kernel.org, paul.walmsley@sifive.com,
+        palmer@rivosinc.com, aou@eecs.berkeley.edu, bjorn@rivosinc.com,
+        anup@brainfault.org, evan@rivosinc.com,
+        linux-riscv@lists.infradead.org, konstantin@linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH 2/2] RISC-V: mm: Update documentation and include test
+Content-Language: en-US
+To:     Charlie Jenkins <charlie@rivosinc.com>, alexghiti@rivosinc.com
+References: <20230627222152.177716-1-charlie@rivosinc.com>
+ <20230627222152.177716-3-charlie@rivosinc.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20230627222152.177716-3-charlie@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->From: Kubalewski, Arkadiusz
->Sent: Wednesday, June 28, 2023 11:15 AM
->
->>From: Jiri Pirko <jiri@resnulli.us>
->>Sent: Tuesday, June 27, 2023 12:18 PM
->>
->>Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com
->wrote:
->>
->>>v8 -> v9:
->>
->>Could you please address all the unresolved issues from v8 and send v10?
->>I'm not reviewing this one.
->>
->>Thanks!
->
->Sure, will do, but first missing to-do/discuss list:
->1) remove mode_set as not used by any driver
->2) remove "no-added-value" static functions descriptions in
->   dpll_core/dpll_netlink
->3) merge patches [ 03/10, 04/10, 05/10 ] into patches that are compiling
->   after each patch apply
->4) remove function return values descriptions/lists
->5) Fix patch [05/10]:
->   - status Supported
->   - additional maintainers
->   - remove callback:
->     int (*source_pin_idx_get)(...) from `struct dpll_device_ops`
->6) Fix patch [08/10]: rethink ice mutex locking scheme
->7) Fix patch [09/10]: multiple comments on
->https://lore.kernel.org/netdev/ZIQu+%2Fo4J0ZBspVg@nanopsycho/#t
->8) add PPS DPLL phase offset to the netlink get-device API
->
->Thank you!
->Arkadiusz
+On 6/28/23 3:21 AM, Charlie Jenkins wrote:
+> Add documentation explaining the behavior of mmap. Include
+> a simple test that ensures that mmap returns an address less
+> than the hint address while there are still addresses available.
+> 
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  Documentation/riscv/vm-layout.rst             | 20 ++++++++
+>  arch/riscv/include/asm/pgtable.h              |  8 +--
+>  tools/testing/selftests/riscv/Makefile        |  2 +-
+>  tools/testing/selftests/riscv/mm/Makefile     | 22 +++++++++
+>  .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++++
+Please add a .gitignore file and specify the artifacts there i.e., mmap.
 
-If someone has any objections please state them now, I will work on
-all above except 5) and 7).
-Vadim, could you take care of those 2 points?
+>  5 files changed, 97 insertions(+), 4 deletions(-)
+>  create mode 100644 tools/testing/selftests/riscv/mm/Makefile
+>  create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
+> 
+> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+> index 5462c84f4723..365a481be90b 100644
+> --- a/Documentation/riscv/vm-layout.rst
+> +++ b/Documentation/riscv/vm-layout.rst
+> @@ -133,3 +133,23 @@ RISC-V Linux Kernel SV57
+>     ffffffff00000000 |  -4     GB | ffffffff7fffffff |    2 GB | modules, BPF
+>     ffffffff80000000 |  -2     GB | ffffffffffffffff |    2 GB | kernel
+>    __________________|____________|__________________|_________|____________________________________________________________
+> +
+> +
+> +Userspace VAs
+> +--------------------
+> +To maintain compatibility with software that relies on the VA space
+> +with a maximum of 39-bits, the kernel will, by default, return virtual
+> +return virtual addresses to userspace from a 39-bit range.
+> +
+> +Software can "opt-in" to receiving VAs from other VA space by providing
+> +a hint address to mmap. A call to mmap is guaranteed to return an address
+> +that will not override the unset left-aligned bits in the hint address,
+> +unless there is no space left in the address space. If there is no space
+> +available in the requested address space, an address in the next smallest
+> +available address space will be returned.
+> +
+> +For example, in order to obtain 48-bit VA space, a hint address greater than
+> +:code:`1 << 38` must be provided. Note that this is 38 due to sv39 userspace
+> +ending at :code:`1 << 38` with the addresses beyond this and up to :code:`1 << 39`
+> +being reserved for the kernel. Similarly, to obtain 57-bit VA space addresses, a
+> +hint address greater than or equal to :code:`1 << 47` must be provided.
+> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+> index e83912e97870..93e7233d5d2a 100644
+> --- a/arch/riscv/include/asm/pgtable.h
+> +++ b/arch/riscv/include/asm/pgtable.h
+> @@ -841,14 +841,16 @@ static inline pte_t pte_swp_clear_exclusive(pte_t pte)
+>   * Task size is 0x4000000000 for RV64 or 0x9fc00000 for RV32.
+>   * Note that PGDIR_SIZE must evenly divide TASK_SIZE.
+>   * Task size is:
+> - * -     0x9fc00000 (~2.5GB) for RV32.
+> - * -   0x4000000000 ( 256GB) for RV64 using SV39 mmu
+> - * - 0x800000000000 ( 128TB) for RV64 using SV48 mmu
+> + * -        0x9fc00000	(~2.5GB) for RV32.
+> + * -      0x4000000000	( 256GB) for RV64 using SV39 mmu
+> + * -    0x800000000000	( 128TB) for RV64 using SV48 mmu
+> + * - 0x100000000000000	(  64PB) for RV64 using SV57 mmu
+>   *
+>   * Note that PGDIR_SIZE must evenly divide TASK_SIZE since "RISC-V
+>   * Instruction Set Manual Volume II: Privileged Architecture" states that
+>   * "load and store effective addresses, which are 64bits, must have bits
+>   * 63–48 all equal to bit 47, or else a page-fault exception will occur."
+> + * Similarly for SV57, bits 63–57 must be equal to bit 56.
+>   */
+>  #ifdef CONFIG_64BIT
+>  #define TASK_SIZE_64	(PGDIR_SIZE * PTRS_PER_PGD / 2)
+> diff --git a/tools/testing/selftests/riscv/Makefile b/tools/testing/selftests/riscv/Makefile
+> index 32a72902d045..0fee58f990ae 100644
+> --- a/tools/testing/selftests/riscv/Makefile
+> +++ b/tools/testing/selftests/riscv/Makefile
+> @@ -5,7 +5,7 @@
+>  ARCH ?= $(shell uname -m 2>/dev/null || echo not)
+>  
+>  ifneq (,$(filter $(ARCH),riscv))
+> -RISCV_SUBTARGETS ?= hwprobe
+> +RISCV_SUBTARGETS ?= hwprobe mm
+>  else
+>  RISCV_SUBTARGETS :=
+>  endif
+> diff --git a/tools/testing/selftests/riscv/mm/Makefile b/tools/testing/selftests/riscv/mm/Makefile
+> new file mode 100644
+> index 000000000000..4aadf04401db
+> --- /dev/null
+> +++ b/tools/testing/selftests/riscv/mm/Makefile
+> @@ -0,0 +1,22 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Copyright (C) 2019 ARM Limited
+> +# Originally tools/testing/selftests/arm64/signal
+> +
+> +# Additional include paths needed by kselftest.h and local headers
+> +CFLAGS += -D_GNU_SOURCE -std=gnu99 -I.
+> +
+> +SRCS := $(filter-out testcases/testcases.c,$(wildcard testcases/*.c))
+> +PROGS := $(patsubst %.c,%,$(SRCS))
+> +
+> +# Generated binaries to be installed by top KSFT script
+> +TEST_GEN_PROGS := $(notdir $(PROGS))
+> +
+> +# Get Kernel headers installed and use them.
+> +
+> +# Including KSFT lib.mk here will also mangle the TEST_GEN_PROGS list
+> +# to account for any OUTPUT target-dirs optionally provided by
+> +# the toplevel makefile
+> +include ../../lib.mk
+> +
+> +$(TEST_GEN_PROGS): $(PROGS)
+> +	cp $(PROGS) $(OUTPUT)/
+> \ No newline at end of file
+> diff --git a/tools/testing/selftests/riscv/mm/testcases/mmap.c b/tools/testing/selftests/riscv/mm/testcases/mmap.c
+> new file mode 100644
+> index 000000000000..aa37a623b93f
+> --- /dev/null
+> +++ b/tools/testing/selftests/riscv/mm/testcases/mmap.c
+> @@ -0,0 +1,49 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +#include <sys/mman.h>
+> +#include "../../kselftest_harness.h"
+> +
+> +TEST(sv57_test)
+> +{
+> +		// Only works on 64 bit
+> +		#if __riscv_xlen == 64
+> +		// Place all of the hint addresses on the boundaries of mmap
+> +		// sv39, sv48, sv57
+> +		// User addresses end at 1<<38, 1<<47, 1<<56 respectively
+> +		void *on_37_bits = (void *) (1UL << 37);
+> +		void *on_38_bits = (void *) (1UL << 38);
+> +		void *on_46_bits = (void *) (1UL << 46);
+> +		void *on_47_bits = (void *) (1UL << 47);
+> +		void *on_55_bits = (void *) (1UL << 55);
+> +		void *on_56_bits = (void *) (1UL << 56);
+> +
+> +		int prot = PROT_READ | PROT_WRITE;
+> +		int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+> +
+> +		int *no_hint = mmap(NULL, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_37_addr = mmap(on_37_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_38_addr = mmap(on_38_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_46_addr = mmap(on_46_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_47_addr = mmap(on_47_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_55_addr = mmap(on_55_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_56_addr = mmap(on_56_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +
+> +		EXPECT_NE(no_hint, MAP_FAILED);
+> +		EXPECT_NE(on_37_addr, MAP_FAILED);
+> +		EXPECT_NE(on_38_addr, MAP_FAILED);
+> +		EXPECT_NE(on_46_addr, MAP_FAILED);
+> +		EXPECT_NE(on_47_addr, MAP_FAILED);
+> +		EXPECT_NE(on_55_addr, MAP_FAILED);
+> +		EXPECT_NE(on_56_addr, MAP_FAILED);
+> +
+> +		EXPECT_LT((unsigned long) no_hint, 1UL << 38);
+> +		EXPECT_LT((unsigned long) on_37_addr, 1UL << 38);
+> +		EXPECT_LT((unsigned long) on_38_addr, 1UL << 38);
+> +		EXPECT_LT((unsigned long) on_46_addr, 1UL << 38);
+> +		EXPECT_LT((unsigned long) on_47_addr, 1UL << 47);
+> +		EXPECT_LT((unsigned long) on_55_addr, 1UL << 47);
+> +		EXPECT_LT((unsigned long) on_56_addr, 1UL << 57);
+> +		#else
+> +		#endif
+> +}
+> +
+> +TEST_HARNESS_MAIN
 
-Thank you!
-Arkadiusz
+-- 
+BR,
+Muhammad Usama Anjum
