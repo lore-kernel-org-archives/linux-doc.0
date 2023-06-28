@@ -2,102 +2,181 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85357EB64DC
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 13:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95EC2C0015E
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 14:05:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231425AbjF1Ny2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 09:54:28 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131]:49886 "EHLO
-        mx0b-0031df01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231542AbjF1Ny1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 09:54:27 -0400
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35S8JjLR002642;
-        Wed, 28 Jun 2023 13:53:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=9UCz4yEaBLsI1zCNNQCA7tKcSTDUIMBNJmFkNTE0KRI=;
- b=C4uWvpJHh2bV9CyOLmpfN9wuIXe4M4r/Q/4Amu4o0hqwq6DUgKQkuvS4FsM1TZM8FseZ
- vYV6o7Faur6wwj8csVoQgJFh+1cEMxMF66pewWfDDmH0O8cRCEKZfJwtE8V1BdO3/uP9
- IIu7Kh9ijP0a1pDcBpP7+Se2TRd5dIRBU7kgABWL4FRE7cr1MN6dbiwMdhteR1q7CqV1
- +roWNAZUpQzRYAxiUUMQkNSw3EDVkwM5ZH56Kd9/MARz4y2kq2UpE/8sxwRnf+srqtx0
- fxb6UeR0oRtpNhDTBvcagpwvnpTz2XlJ8OA6dDda7zh3or6P6mmTdwQShZ9av64noMv3 pQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rgetph1u6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Jun 2023 13:53:26 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35SDrOaL019508
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Jun 2023 13:53:24 GMT
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.7; Wed, 28 Jun 2023 06:53:16 -0700
-Date:   Wed, 28 Jun 2023 19:23:12 +0530
-From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH v4 02/21] kallsyms: Export kallsyms_lookup_name
-Message-ID: <a26f22d2-95a7-4143-bff5-45ef0b53b30b@quicinc.com>
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <1687955688-20809-3-git-send-email-quic_mojha@quicinc.com>
+        id S232339AbjF1OFh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 10:05:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232545AbjF1OEO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 10:04:14 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 628973A95
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 07:02:27 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-4faaaa476a9so6165452e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 07:02:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1687960945; x=1690552945;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NeJJDtPNApCUCSNLbnRFD2Juhjv5XOx3haoMLR3t3E0=;
+        b=ZK23Wz5Z8GgdygT07do/GeGr7NCgPtbZJrbEsqK+sYNbzD9dq931xi8plPBr2KO/YC
+         c2ElDHPq2AXJLH8RWwZpB9knsmuQiwkA75793nzLpisqpqvUa59/U20kPPeRdhQAkFFo
+         EcsePNHr4CjPy3GTkqp1HQZS4o+ge1jZitdNMcjjH282ksos55LbhmkEg5xKNUQUAHkW
+         6elrjwozhdUiF5BEcoPrNlp7uOlNgyP51atS4qs5XQofDSmEJm98Sjm1IBUOaK7EQWtK
+         w84yxmQahBhA3t//6ifI1+JN4mdssr5CTku4Y6hA7S2ImLAYmYaBhDJ+IlVLNrGKFrhO
+         3CqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687960945; x=1690552945;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NeJJDtPNApCUCSNLbnRFD2Juhjv5XOx3haoMLR3t3E0=;
+        b=GVSL1rgUynwOjB28Yk1rrzDra20G9bDG8iAe6LFAyIfLxG8Q6brzQ6/NcPHzJsPKXt
+         y5eLokNzJ0gS8QA7dxNFXuLMIIV4CjJipwqoZglQaHxalWQQ5E27Qi0BpayJfuZuDby8
+         8b8zM8zpdCFlyw8a7kQ5LP8T1OgfgOcmsLxmTumrq6msreTDiq+Zy/+uALe2SasCf5DI
+         4rDkybRm8LS8nMYhEcbv/kJCISWzR4UhFokPwi/moCdIpG9FyC0fm6ZaR4Dnp3y/0AbH
+         FJ5kfjwEq3oc7Z15AOSR73CNK6UrovWuTzj9fXHw05mEjPfQDA4cBeV8Ix+GEkm1QXIs
+         +2HA==
+X-Gm-Message-State: AC+VfDzpqJZuMOrJm5TQx1hj5PjpgrtIb69ub/i5QiBf1uiWnovUTr+E
+        94N/gcPKrQNB6c0A5gex0G2VqA==
+X-Google-Smtp-Source: ACHHUZ5ZxgNTxIxoQXOSx9k7rDEhnxIvqJQLYYOVQL1GcheSfi0K/9HAYhI29JpjcdxZaZ1hTbJv2w==
+X-Received: by 2002:a05:6512:3412:b0:4fb:242:6e00 with SMTP id i18-20020a056512341200b004fb02426e00mr7754216lfr.41.1687960945439;
+        Wed, 28 Jun 2023 07:02:25 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id k8-20020a7bc408000000b003fba87298cesm4354984wmi.45.2023.06.28.07.02.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jun 2023 07:02:24 -0700 (PDT)
+Date:   Wed, 28 Jun 2023 16:02:23 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "vadfed@meta.com" <vadfed@meta.com>,
+        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "M, Saeed" <saeedm@nvidia.com>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "sj@kernel.org" <sj@kernel.org>,
+        "javierm@redhat.com" <javierm@redhat.com>,
+        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "Michalik, Michal" <michal.michalik@intel.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "jacek.lawrynowicz@linux.intel.com" 
+        <jacek.lawrynowicz@linux.intel.com>,
+        "airlied@redhat.com" <airlied@redhat.com>,
+        "ogabbay@kernel.org" <ogabbay@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "linux@zary.sk" <linux@zary.sk>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "Olech, Milena" <milena.olech@intel.com>,
+        "kuniyu@amazon.com" <kuniyu@amazon.com>,
+        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "razor@blackwall.org" <razor@blackwall.org>,
+        "idosch@nvidia.com" <idosch@nvidia.com>,
+        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        "phil@nwl.cc" <phil@nwl.cc>,
+        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
+        mschmidt <mschmidt@redhat.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
+Message-ID: <ZJw9b9RQamu0cLN+@nanopsycho>
+References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+ <ZJq3a6rl6dnPMV17@nanopsycho>
+ <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <DM6PR11MB4657A1ACB586AD9B45C7996E9B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <2e9ce197-2732-d061-b11d-4f4513af6abc@linux.dev>
+ <ZJwxHucKMwCQMMVM@nanopsycho>
+ <4ebfa74e-8998-a1af-e6b9-3701008900ec@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1687955688-20809-3-git-send-email-quic_mojha@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: dvP17vLT4h84mAiuU6uJVhi4iE_WqiWm
-X-Proofpoint-GUID: dvP17vLT4h84mAiuU6uJVhi4iE_WqiWm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-28_09,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- mlxlogscore=869 spamscore=0 priorityscore=1501 suspectscore=0
- clxscore=1011 bulkscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306280123
+In-Reply-To: <4ebfa74e-8998-a1af-e6b9-3701008900ec@linux.dev>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 06:04:29PM +0530, Mukesh Ojha wrote:
-> Module like minidump providing debugging support will need to
-> get the symbol information from the core kernel e.g to get
-> the linux_banner, kernel section addresses bss, data, ro etc.
-> 
-One might ask why we would need such a debug driver to
-be compiled as module? What would you do if we need to capture more
-kernel data structures later? Do you plan to continue use
-kallsyms_lookup_name() to query all the symbols?
+Wed, Jun 28, 2023 at 03:22:00PM CEST, vadim.fedorenko@linux.dev wrote:
+>On 28/06/2023 14:09, Jiri Pirko wrote:
+>> Wed, Jun 28, 2023 at 01:11:19PM CEST, vadim.fedorenko@linux.dev wrote:
+>> > On 28/06/2023 10:27, Kubalewski, Arkadiusz wrote:
+>> > > > From: Kubalewski, Arkadiusz
+>> > > > Sent: Wednesday, June 28, 2023 11:15 AM
+>> > > > 
+>> > > > > From: Jiri Pirko <jiri@resnulli.us>
+>> > > > > Sent: Tuesday, June 27, 2023 12:18 PM
+>> > > > > 
+>> > > > > Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com
+>> > > > wrote:
+>> > > > > 
+>> > > > > > v8 -> v9:
+>> > > > > 
+>> > > > > Could you please address all the unresolved issues from v8 and send v10?
+>> > > > > I'm not reviewing this one.
+>> > > > > 
+>> > > > > Thanks!
+>> > > > 
+>> > > > Sure, will do, but first missing to-do/discuss list:
+>> > > > 1) remove mode_set as not used by any driver
+>> > > > 2) remove "no-added-value" static functions descriptions in
+>> > > >     dpll_core/dpll_netlink
+>> > > > 3) merge patches [ 03/10, 04/10, 05/10 ] into patches that are compiling
+>> > > >     after each patch apply
+>> > > > 4) remove function return values descriptions/lists
+>> > > > 5) Fix patch [05/10]:
+>> > > >     - status Supported
+>> > > >     - additional maintainers
+>> > > >     - remove callback:
+>> > > >       int (*source_pin_idx_get)(...) from `struct dpll_device_ops`
+>> > > > 6) Fix patch [08/10]: rethink ice mutex locking scheme
+>> > > > 7) Fix patch [09/10]: multiple comments on
+>> > > > https://lore.kernel.org/netdev/ZIQu+%2Fo4J0ZBspVg@nanopsycho/#t
+>> > > > 8) add PPS DPLL phase offset to the netlink get-device API
+>> > > > 
+>> > > > Thank you!
+>> > > > Arkadiusz
+>> > > 
+>> > > If someone has any objections please state them now, I will work on
+>> > > all above except 5) and 7).
+>> > > Vadim, could you take care of those 2 points?
+>> > > 
+>> > Yeah, sure, I'll update 5 and 7.
+>> > I'm not sure about 8) - do we really need this info, I believe every
+>> > supported DPLL device exports PTP device as well. But I'm Ok to add this
+>> > feature too.
+>> 
+>> Could you add the notification work while you are at it? I don't want
+>> that to be forgotten. Thanks!
+>
+>Sure, Jiri, I'm working on it for ptp_ocp.
 
-I have seen v3 discussion where you are asked to compile this driver
-as module but that time there was no reason why your driver needs to
-be compiled as statically, now you have a reason (linux_banner) for
-it.
+Yep, cool!
 
-> commit 0bd476e6c671 ("kallsyms: unexport kallsyms_lookup_name()
->  and kallsyms_on_each_symbol()") unexports kallsyms_lookup_name
-> due to lack of in-tree user of the symbol. Now, that minidump
-> will one of its user, export it.
-> 
-> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-
-Thanks,
-Pavan
+>
+>> > 
+>> > > Thank you!
+>> > > Arkadiusz
+>> > 
+>
