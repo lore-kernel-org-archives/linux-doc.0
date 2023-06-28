@@ -2,122 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE4FEB64DC
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 17:13:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 005EFEB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 18:51:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231404AbjF1RNY convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 13:13:24 -0400
-Received: from mail-ed1-f49.google.com ([209.85.208.49]:40133 "EHLO
-        mail-ed1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231143AbjF1RNX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 13:13:23 -0400
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-51d889ab483so1205535a12.0;
-        Wed, 28 Jun 2023 10:13:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687972402; x=1690564402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G99E3NhNw3Ywt8OuJDU2trKkI6Sf2iKVkXnbFT0xBig=;
-        b=U9Pl0DklCZQ2o4+aDJtz/SsbLW/mXWthDel8besJl6y+JVzUw3Yqi63m56wv1wjA3+
-         F62SXmHo7PupDX0hcF2OFsUBYT/zmaQ2h/7dtMw/DvKggONzVHbKdTKlZqTgH9c9lD3k
-         nH8A2XKKPesxpJO7cpkbAHDgYFJxnE9Rqrom+H4gFlb1JRzLQHKgncizFGYlGKWXj3OE
-         uPm7m1zQeY4VUkRoCpnpXBoeg9BRZOgL00VMOJGhVNgBhttBcu6w9HoQtCOb2/gop63v
-         LAvgzXumoyLB2nSWiodI3ZTn0mCYRni5F7ziF7WQs3MnlGzqapulv6Mcka2VY1aqlY+8
-         byyQ==
-X-Gm-Message-State: AC+VfDz/+tkwG59wVWRffwJIdQX5O9uz04djA/cjwpL0maTpLZZ37VjQ
-        OSXDl0e2+UijDqkj7N1/A8RncFH86o+3nR5HOZpeQzMl
-X-Google-Smtp-Source: ACHHUZ7fvDyx5OxtA73shkQ22iONBeIWirAFOTQRml8sRdje24uENVBv3zdtBjDU+b+DQCF+Ja93uTk+cCpq82dKMkA=
-X-Received: by 2002:a17:906:73cc:b0:98d:b10f:f3cd with SMTP id
- n12-20020a17090673cc00b0098db10ff3cdmr9040491ejl.7.1687972401752; Wed, 28 Jun
- 2023 10:13:21 -0700 (PDT)
+        id S232036AbjF1SvF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 14:51:05 -0400
+Received: from mail-bn8nam12on2121.outbound.protection.outlook.com ([40.107.237.121]:32769
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232006AbjF1Sur (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 28 Jun 2023 14:50:47 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CaQIK5dL5djFbOL/RQc/cjELDCF6kPTXA8dCh+mN2ZMb02CLd++7HLx0scThsV/irgCv5PmSYcII5p+cP/jxhmLVf4tVf5C9wsGqOrx0K2ezo7GfXBsOiFTjupA16jXxgEmSZIZvViDb4n7FC0YGRI+v/S1kWYuASbIcomFqZPr6BbEN42MMZJ09WMIBCKeuygzObuizYoD639cQxHb+RxkFpNiJDRvlkSORXGmb9YXVLZXc6G0nyMdn8udPnYjF8pXv+P29AL3jqMOoO6QjVFWzrRI+5AtreI0i51TUysbCEuXOfbLXWcE8TzU4PQg8pnFvjY0w+tfjQbtD9HiICg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WK3p0WnfOi+GXDgJuW19dgP0J9qpuP5UEY7RQ9+K2CY=;
+ b=SWuIIIYTfkM4VO8zkcgAoNFGrnUzYYy7YI+2XdayNz+i938e/iWNktJuJBrnV7+3almKs5ZhNMWyQdCH73md9/RKsBoP+RVEE/r35QzmNKZQDG28t+fvjCZ9y4lJfC+tDcXY0yaU34/fx2PvKMKxSB/rnLBEcPQ5UUHMCRKoH7DW2a1wO2URNyHe+X+8JGhDnx1AQgo7B/3fF3l6odW/QiM8ayvIXbi0Uw7gn3uQxknycrt4dn7hITgrUgUlebF4qsXaQoKgZgC+cR+4Fdh6+gybdWGwlTk/NyKYM+97vRPfjOougoSBB45gWJXDdy9R7XK6TMZO0vqen9iJpvaTTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WK3p0WnfOi+GXDgJuW19dgP0J9qpuP5UEY7RQ9+K2CY=;
+ b=vI1CaqqSoJREje/6Ergj4kM7/u9S+nLfxUIQCbW21xw9LJ9iRhwEoDCtBMzKT9SN7AFDEEChpXHcZ2m0xPp2Jh4uN/BPzOPaOkEK2zrVddGQOb48YslDxfE5AReuFW2qLm4YqzMngCjLqYo+KFKsDkQxU56pAlc+0zw/CkB34O4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from DM6PR01MB5259.prod.exchangelabs.com (2603:10b6:5:68::27) by
+ BL3PR01MB6914.prod.exchangelabs.com (2603:10b6:208:355::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6521.26; Wed, 28 Jun 2023 18:50:43 +0000
+Received: from DM6PR01MB5259.prod.exchangelabs.com
+ ([fe80::54e5:4e1d:aaf6:7c87]) by DM6PR01MB5259.prod.exchangelabs.com
+ ([fe80::54e5:4e1d:aaf6:7c87%4]) with mapi id 15.20.6521.023; Wed, 28 Jun 2023
+ 18:50:42 +0000
+Date:   Wed, 28 Jun 2023 11:50:36 -0700 (PDT)
+From:   "Lameter, Christopher" <cl@os.amperecomputing.com>
+To:     Roman Gushchin <roman.gushchin@linux.dev>
+cc:     David Rientjes <rientjes@google.com>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Rafael Aquini <aquini@redhat.com>
+Subject: Re: [PATCH] mm/slub: disable slab merging in the default
+ configuration
+In-Reply-To: <ZJxjgy/Mkh20WpXv@P9FQF9L96D.corp.robot.car>
+Message-ID: <2df9debe-cbdc-abf7-4db1-1628b29df801@os.amperecomputing.com>
+References: <20230627132131.214475-1-julian.pidancet@oracle.com> <48bd9819-3571-6b53-f1ad-ec013be742c0@google.com> <ZJxjgy/Mkh20WpXv@P9FQF9L96D.corp.robot.car>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-ClientProxiedBy: CH0PR04CA0008.namprd04.prod.outlook.com
+ (2603:10b6:610:76::13) To DM6PR01MB5259.prod.exchangelabs.com
+ (2603:10b6:5:68::27)
 MIME-Version: 1.0
-References: <20230628022554.1638318-1-longman@redhat.com>
-In-Reply-To: <20230628022554.1638318-1-longman@redhat.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 28 Jun 2023 19:13:08 +0200
-Message-ID: <CAJZ5v0gL9eMY+rvRByp-ZSnhHXjbZWBd4a8Ny6ZLZ7OvmtRQ1Q@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] x86/speculation: Disable IBRS when idle
-To:     Waiman Long <longman@redhat.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-pm@vger.kernel.org,
-        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR01MB5259:EE_|BL3PR01MB6914:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05865e48-82db-438a-2587-08db7808931c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eITMolkTg2Dcua3e5sGCwJ+REY7+KZzzBRNx/vk+HcXWykuQzKaVtf4J3eARonit76z2ffX/v7NdFtgFf5WBQI9gaK660CrcFa1+0C6LHd6Bz73wsHJVhGNzX5Hf2c2e+5bwsboWnx2mCvQ0NPhMQGiAbaRDNoliNvUlbnwKNTXdiS8Rphh6iUSxBn1x3ptEQjUYKzKBVuukCbgOFqKMbMxM2QhgnvZTXgtGsxfyWjhRQSRqL1Bio3jZA6a5V6AUw+J7hIqea8MXQHRTtWi3Mjdky8bVyiPpxUuDwDrSNUHJoGU7U4CVd2zqxeJOM59f575mbfU4PRov+T9KcFPCDvJEh6QBBzwfAwREz8zkERORLHO1a1Yd8cic1yyPstxe+r/FCVdfmpyjFfdYPRw/Wa4OmTevL0VlvG0uoeSzK7dycpsmKhatCDUqetiFNnZKWRfwC53PYe3tR36tFIE9b0l1Ndggk6N7RO3L9IkTj1/2PvLdBh/6HK/GZu/J8AoCWp1yTLhXw5eZR/WcaJAlny4rsIcE0tSGc4+Qnrpe9jVqHqSQNDJ+v04nNDC1oSRU
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR01MB5259.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(396003)(136003)(39850400004)(366004)(451199021)(478600001)(6486002)(2906002)(54906003)(26005)(6666004)(2616005)(83380400001)(186003)(6512007)(6506007)(86362001)(41300700001)(7416002)(38100700002)(5660300002)(31696002)(4326008)(66946007)(66556008)(316002)(8936002)(66476007)(6916009)(8676002)(31686004);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ILAUI7UOL2zifxdetgjNQqrxVLfX55z/Ye2GRPLwL0+Wzgge1+xdhpbjp3ZE?=
+ =?us-ascii?Q?UtvlCNGZV2GhbJPm1JtiFLssMnW4cP3bJPNv/v33+t58CoC89gwpAPp8jmNZ?=
+ =?us-ascii?Q?ETyqJnAlsknn7RoHc93fXbOJZfFHABRyDazvYFrYaiPqF3qXfeO328Nosohj?=
+ =?us-ascii?Q?n0U9btPBIBb2EBNUN9CuCyLsxO/RFJfHwVeDeDm0CMzHvvYZ2PNHVXetwcVw?=
+ =?us-ascii?Q?zyV+HyQ6JRMFWuw29BXlgc7E92qrGIlJO99DgFnOuUSSOXn7LtTs5A693bNE?=
+ =?us-ascii?Q?dreHzwx4gla+4+71WY8Vqtml5c5LRaz3+eoANmi+7dpCuec1rFrZLtx2F9Lu?=
+ =?us-ascii?Q?pBbcoB2Lqq40j75ghJFzMn8sd7AAeoAMvVlMt8khHgQv52W4kwbUJRBZfvqV?=
+ =?us-ascii?Q?XxbNb5SbpTsZ2F2EvkVzYAqWWV0YUrO9Zbq3NIo18jze3BnrpfnHV+Qa0MpN?=
+ =?us-ascii?Q?9rFpzHSdTkDrPYbRx6dpbrGv7G9nYnZtyxqVIvQ/GoQ5xQEVniHmQ1JVauWW?=
+ =?us-ascii?Q?az5PXcXZ0QJ4uj2quvDcAo5OCkMyJiE/qiEhHwoC19iqQ1Xv8prvGkmVJFbQ?=
+ =?us-ascii?Q?j+e7E++20dFeczRqmbXkjFKn+Svi1To6DgdylkNbzIlKlS6mfsBSC4q0MKaP?=
+ =?us-ascii?Q?hoRU45BUluwq5c0zYfvx31aXYFTxkpsruV3UoGEr4nv3qHWGToy4/DYfi/Q2?=
+ =?us-ascii?Q?S1kRxApeiieyhJhbelDOLllzTjqFqcKHc2dRw1C1sTAb7ABmtthOEXa1M2qa?=
+ =?us-ascii?Q?B2d8o1cTQ70gLFJjq2mk5z59GmrZaSfnD+u41YqcTgnYThzdQ24/6dtlgWs3?=
+ =?us-ascii?Q?ifWA2U0lXze2V7RvirOm6oe3ddrAvUowOLveHN2yfZzPPT2//XLgqF439fWT?=
+ =?us-ascii?Q?4ESc5Sj0GDPVj4e3BSRgIaz4LOS2c7cBcmusofSkJJcJXe4L7BcDfHLU20JJ?=
+ =?us-ascii?Q?1N+nLtSlwrlfo1PS3nw8n6H4N/qt2hfGwAi3/HDKXAz0o2JyTWRq258WtUfe?=
+ =?us-ascii?Q?Edp8z3l5F09fVaTMd67TV/+NWQgrHP2qY2yXTf3IcS0fKLJlGM1qaRNytolo?=
+ =?us-ascii?Q?1exdMf3Qrw1B6Dc44yXfwEFE6aF6laOvDnGsSjW4hKHtk7IqjaDVz+RR/ylh?=
+ =?us-ascii?Q?xnGRbED8MUBg0d98a403BQ7vdbPErUWW1bUGvAIo9fUHEshZxbPXxmceR5bI?=
+ =?us-ascii?Q?E2pPQL+eG4Wp7S7mnQ4cETT+9E1HpjZW5BjYa/naUCDpjyh3s5ECJ8gfBZbq?=
+ =?us-ascii?Q?Lpr60kDWpv272UzRoATPv3hzuoLTE4RLPAV/0vnR0SERCtFM5Tlpfb4XL/xu?=
+ =?us-ascii?Q?ZqDrvjGxL4/0B8gdUUmrQxqkb4iZkTXU7nIM9Nh9Mp1zVdwQDSe+ls6FhESe?=
+ =?us-ascii?Q?0T67uVAVeKKcBAQB1LUrTEh+DHIALGRP+/SKNnS3GcvctSGOrg0zU0sMh5Vu?=
+ =?us-ascii?Q?ScvJcsI9aDMc9yzIw2HQCGKiPKF+Y3y+/NMLRzPF4A4mbOUa2ZlWhg65Seq5?=
+ =?us-ascii?Q?HLn0am5VsDQJ+aZ9Fg+IwatDJXqQ3PjXv02wI7j8h5E+qw/W5Zjljms16Uto?=
+ =?us-ascii?Q?Vas0zOoGpMpobnOFsOYE7ium9UASl8ak5VgO9yIyOB+EsEVCL0wmAI2gwWsk?=
+ =?us-ascii?Q?dQ=3D=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05865e48-82db-438a-2587-08db7808931c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR01MB5259.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2023 18:50:42.7865
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jE/1tpSdATXqLcqHWc5Hbqrl+HiKpgpveJOoyxRNBKrJvwD3fLScTie2beWfoMpQwnUEb7xg3IWBa9rpNev6nq7Rh9UGa66q34rq/u8NGcA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR01MB6914
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 4:27 AM Waiman Long <longman@redhat.com> wrote:
->
->  v4:
->   - Add a new __update_spec_ctrl() helper in patch 1.
->   - Rebased to the latest linux kernel.
->
->  v3:
->   - Drop patches 1 ("x86/speculation: Provide a debugfs file to dump
->     SPEC_CTRL MSRs") and 5 ("x86/idle: Disable IBRS entering mwait idle
->     and enable it on wakeup") for now.
->   - Drop the MSR restoration code in ("x86/idle: Disable IBRS when cpu
->     is offline") as native_play_dead() does not return.
->   - For patch ("intel_idle: Add ibrs_off module parameter to force
->     disable IBRS"), change the name from "no_ibrs" to "ibrs_off" and
->     document the new parameter in intel_idle.rst.
->
-> For Intel processors that need to turn on IBRS to protect against
-> Spectre v2 and Retbleed, the IBRS bit in the SPEC_CTRL MSR affects
-> the performance of the whole core even if only one thread is turning
-> it on when running in the kernel. For user space heavy applications,
-> the performance impact of occasionally turning IBRS on during syscalls
-> shouldn't be significant. Unfortunately, that is not the case when the
-> sibling thread is idling in the kernel. In that case, the performance
-> impact can be significant.
->
-> When DPDK is running on an isolated CPU thread processing network packets
-> in user space while its sibling thread is idle. The performance of the
-> busy DPDK thread with IBRS on and off in the sibling idle thread are:
->
->                                 IBRS on         IBRS off
->                                 -------         --------
->   packets/second:                  7.8M           10.4M
->   avg tsc cycles/packet:         282.26          209.86
->
-> This is a 25% performance degradation. The test system is a Intel Xeon
-> 4114 CPU @ 2.20GHz.
->
-> Commit bf5835bcdb96 ("intel_idle: Disable IBRS during long idle")
-> disables IBRS when the CPU enters long idle (C6 or below). However, there
-> are existing users out there who have set "intel_idle.max_cstate=1"
-> to decrease latency. Those users won't be able to benefit from this
-> commit. This patch series extends this commit by providing a new
-> "intel_idle.ibrs_off" module parameter to force disable IBRS even when
-> "intel_idle.max_cstate=1" at the expense of increased IRQ response
-> latency. It also includes a commit to allow the disabling of IBRS when
-> a CPU becomes offline.
->
->
-> Waiman Long (4):
->   x86/speculation: Add __update_spec_ctrl() helper
->   x86/idle: Disable IBRS when cpu is offline
->   intel_idle: Use __update_spec_ctrl() in intel_idle_ibrs()
->   intel_idle: Add ibrs_off module parameter to force disable IBRS
+On Wed, 28 Jun 2023, Roman Gushchin wrote:
 
-x86 maintainers, if you want to take care of this series, please feel
-free to add
+> But I wonder if we need a new flag (SLAB_MERGE?) to explicitly force merging
+> on per-slab cache basis. I believe there are some cases when slab caches can
+> be created in noticeable numbers and in those cases the memory footprint might
+> be noticeable.
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+One of the uses for merging are the kmalloc like slab cache arrays 
+created by various subsystem for their allocations. This is particularly 
+useful for small frequently used caches that seem to have similar 
+configurations. See slabinfo output below.
 
-to all of the patches in it.
+Also you are doing the tests on a 4k page systems. We prefer 64k page 
+sized systems here where the waste due to duplication of structures is 
+higher. Also the move on x86 is to go to higher page sizes (see the 
+folio approach by Matthew Wilcox) and this approach would increase the 
+memory footprint if large folio sizes are used.
 
-Thanks!
+Moreover our system here is sensitive to cpu cache pressure given our high 
+core count which will  be caused by the increased cache footprint due to 
+not merging caches if this patch is accepted.
+
+
+Here are the aliases on my Ampere Altra system:
+
+root@eng08sys-r113:/home/cl/linux/tools/mm# ./slabinfo -a
+
+:0000024     <- audit_buffer lsm_file_cache
+:0000032     <- sd_ext_cdb ext4_io_end_vec fsnotify_mark_connector lsm_inode_cache xfs_refc_intent numa_policy
+:0000040     <- xfs_extfree_intent ext4_system_zone
+:0000048     <- Acpi-Namespace shared_policy_node xfs_log_ticket xfs_ifork ext4_bio_post_read_ctx ksm_mm_slot
+:0000056     <- ftrace_event_field Acpi-Parse xfs_defer_pending file_lock_ctx
+:0000064     <- fanotify_path_event ksm_stable_node xfs_rmap_intent jbd2_inode ksm_rmap_item io dmaengine-unmap-2 zswap_entry xfs_bmap_intent iommu_iova vmap_area
+:0000072     <- fanotify_perm_event fanotify_fid_event Acpi-Operand
+:0000080     <- Acpi-ParseExt Acpi-State audit_tree_mark
+:0000088     <- xfs_attr_intent trace_event_file configfs_dir_cache kernfs_iattrs_cache blkdev_ioc
+:0000128     <- kernfs_node_cache btree_node
+:0000176     <- xfs_iul_item xfs_attrd_item xfs_cud_item xfs_bud_item xfs_rud_item
+:0000184     <- xfs_icr ip6-frags
+:0000192     <- ip6_mrt_cache ip_dst_cache aio_kiocb uid_cache inet_peer_cache bio_integrity_payload ip_mrt_cache dmaengine-unmap-16 skbuff_ext_cache
+:0000200     <- xfs_inobt_cur xfs_refcbt_cur ip4-frags
+
