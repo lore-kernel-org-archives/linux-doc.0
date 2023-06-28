@@ -2,76 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56EFBEB64DC
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 15:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E49FEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 16:08:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbjF1P4L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 11:56:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32181 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231993AbjF1Pz5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 11:55:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687967707;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9qZSFuxG0IoUAkOzLqBAsv4mqf5Nr+aL9HVwyHW9Zro=;
-        b=DxOFOSJqq84C8hm7yhF6UOi9ZOGKhEu7teUvid9mLm5gfbpZBHV2hq/BDZw4ZqGZNYnce+
-        /vAUhLvq98JSBceFccX5nKv6cMhbONP1FWAceMqxTgGh8wX0aC2YgRqjIVQPofd/ihabK+
-        JIRgM7L4A+6ewn9ZB1AhuF9zqFtbPJs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-375-zxQD8_t6NrCMSLSlLOuOGA-1; Wed, 28 Jun 2023 11:54:53 -0400
-X-MC-Unique: zxQD8_t6NrCMSLSlLOuOGA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3320280D21A;
-        Wed, 28 Jun 2023 15:54:05 +0000 (UTC)
-Received: from segfault.boston.devel.redhat.com (segfault.boston.devel.redhat.com [10.19.60.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5CC97111F3B6;
-        Wed, 28 Jun 2023 15:54:05 +0000 (UTC)
-From:   Jeff Moyer <jmoyer@redhat.com>
-To:     Matteo Rizzo <matteorizzo@google.com>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        io-uring@vger.kernel.org, jordyzomer@google.com, evn@google.com,
-        poprdi@google.com, corbet@lwn.net, axboe@kernel.dk,
-        asml.silence@gmail.com, akpm@linux-foundation.org,
-        keescook@chromium.org, rostedt@goodmis.org,
-        dave.hansen@linux.intel.com, chenhuacai@kernel.org, steve@sk2.org,
-        gpiccoli@igalia.com, ldufour@linux.ibm.com
-Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
-References: <20230627120058.2214509-1-matteorizzo@google.com>
-        <20230627120058.2214509-2-matteorizzo@google.com>
-        <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
-        <CAHKB1wJANtT27WM6hrhDy_x9H9Lsn4qRjPDmXdKosoL93TJRYg@mail.gmail.com>
-        <CANiDSCvjCoj3Q3phbmdhdG-veHNRrfD-gBu=FuZkmrgJ2uxiJg@mail.gmail.com>
-        <CAHKB1w+UyOnC_rOBABVhmzG+XeePaWYgPJWxX9NUeqnAi9WcgA@mail.gmail.com>
-X-PGP-KeyID: 1F78E1B4
-X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
-Date:   Wed, 28 Jun 2023 11:59:56 -0400
-In-Reply-To: <CAHKB1w+UyOnC_rOBABVhmzG+XeePaWYgPJWxX9NUeqnAi9WcgA@mail.gmail.com>
-        (Matteo Rizzo's message of "Wed, 28 Jun 2023 17:12:42 +0200")
-Message-ID: <x497crnefwj.fsf@segfault.boston.devel.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S231345AbjF1QI0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 12:08:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230073AbjF1QIT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 12:08:19 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054DB198D
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 09:08:19 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-3ff24a193dbso60631cf.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 09:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1687968498; x=1690560498;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GPpb/2tnOaLvPcmNVC1FnQTKYAdbc3TLfcGD1phxugk=;
+        b=c/v2TL/3f9Y6eB2vZAd4sMe0hQAYl3q/BOVJltpcJxfDKLnmZLSgNzNic4MaPFv0Q2
+         c0wprO3nfhZn3EMjKu3JkpqDR+LCcLeDevVPEivlFkDb5fbKi+L8HoOF83r0R5xfD5CT
+         fvldo1C4WfpBcQmVMFXemCg/O9WlJCuW6gTko=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687968498; x=1690560498;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GPpb/2tnOaLvPcmNVC1FnQTKYAdbc3TLfcGD1phxugk=;
+        b=VN0Vi5/a4SF1l+A1wzQwvctFabcegnQ9iQFBaT4XGebTNbtV3TIDsWoLCFgVRHhRuB
+         Fny4u48QIHtU3IN6vKYUlI/jVlcKRyKttDfxCUCr9+W+rcVOEsjw5XXdxP/XfpS9AkFl
+         HobAPqtKBwWWlNzWmOl7kL9qxS9n2v7xuEnZ4cOU8DdvUmucWfWMfLtHNICb1oMqL4MB
+         91Q3MmUJNJdIUwlbcDFc/OkgilrhiTCBMgRLja6S7AVHkPMgS9r3tFFtcefYp/mhCyLi
+         yMDuBPXLQweLxvIhD+K8NgCM4+wE1dnBgvZ06zR0bQJdWPHg4wV4oz+aQXOhR2uwpWoT
+         Rffw==
+X-Gm-Message-State: AC+VfDziFE671pmqtEbDB+q/4gbWktQRAd7CbG6DW10uTnqcnPvHXHX1
+        EkkN12Y8rrQni10EC8/4PsQ+r2FI3wPWGrJuZAN8cQ==
+X-Google-Smtp-Source: ACHHUZ555XP1uIpN296h86vTbk70RPCZ1V68Sq9Ajrh7wX0MHXorbDCrhDe/+XBnndE97f+xQcTgWw==
+X-Received: by 2002:ac8:5954:0:b0:402:9cff:4573 with SMTP id 20-20020ac85954000000b004029cff4573mr6005377qtz.39.1687968497930;
+        Wed, 28 Jun 2023 09:08:17 -0700 (PDT)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com. [209.85.222.181])
+        by smtp.gmail.com with ESMTPSA id f7-20020a05622a1a0700b004008286c1casm3203873qtb.88.2023.06.28.09.08.17
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Jun 2023 09:08:17 -0700 (PDT)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-765a5d31d0aso309836885a.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 09:08:17 -0700 (PDT)
+X-Received: by 2002:a67:f998:0:b0:443:6ad6:7915 with SMTP id
+ b24-20020a67f998000000b004436ad67915mr5063977vsq.27.1687968010482; Wed, 28
+ Jun 2023 09:00:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+References: <20230627120058.2214509-1-matteorizzo@google.com>
+ <20230627120058.2214509-2-matteorizzo@google.com> <e8924389-985a-42ad-9daf-eca2bf12fa57@acm.org>
+ <CAHKB1wJANtT27WM6hrhDy_x9H9Lsn4qRjPDmXdKosoL93TJRYg@mail.gmail.com>
+ <CANiDSCvjCoj3Q3phbmdhdG-veHNRrfD-gBu=FuZkmrgJ2uxiJg@mail.gmail.com> <CAHKB1w+UyOnC_rOBABVhmzG+XeePaWYgPJWxX9NUeqnAi9WcgA@mail.gmail.com>
+In-Reply-To: <CAHKB1w+UyOnC_rOBABVhmzG+XeePaWYgPJWxX9NUeqnAi9WcgA@mail.gmail.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 28 Jun 2023 17:59:59 +0200
+X-Gmail-Original-Message-ID: <CANiDSCtu1OvoRe0ReqBVctzd8euZDt-h7dyx+xACWzdQeHkxBA@mail.gmail.com>
+Message-ID: <CANiDSCtu1OvoRe0ReqBVctzd8euZDt-h7dyx+xACWzdQeHkxBA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
+To:     Matteo Rizzo <matteorizzo@google.com>
+Cc:     Bart Van Assche <bvanassche@acm.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
+        jordyzomer@google.com, evn@google.com, poprdi@google.com,
+        corbet@lwn.net, axboe@kernel.dk, asml.silence@gmail.com,
+        akpm@linux-foundation.org, keescook@chromium.org,
+        rostedt@goodmis.org, dave.hansen@linux.intel.com,
+        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
+        ldufour@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matteo Rizzo <matteorizzo@google.com> writes:
+HI Matteo
 
+On Wed, 28 Jun 2023 at 17:12, Matteo Rizzo <matteorizzo@google.com> wrote:
+>
 > On Wed, 28 Jun 2023 at 13:44, Ricardo Ribalda <ribalda@chromium.org> wrote:
->>
->> Have you considered that the new sysctl is "sticky like kexec_load_disabled.
->> When the user disables it there is no way to turn it back on until the
->> system is rebooted.
+> >
+> > Have you considered that the new sysctl is "sticky like kexec_load_disabled.
+> > When the user disables it there is no way to turn it back on until the
+> > system is rebooted.
 >
 > Are you suggesting making this sysctl sticky? Are there any examples of how to
 > implement a sticky sysctl that can take more than 2 values in case we want to
@@ -79,8 +92,19 @@ Matteo Rizzo <matteorizzo@google.com> writes:
 > io_uring? Also, what would be the use case? Preventing privileged processes
 > from re-enabling io_uring?
 
-See unprivileged_bpf_disabled for an example.  I can't speak to the use
-case for a sticky value.
+Yes, if this sysctl is accepted, I think it would make sense to make it sticky.
 
--Jeff
+For more than one value take a look to  kexec_load_limit_reboot and
+kexec_load_limit_panic
 
+Thanks!
+
+>
+> Thanks!
+> --
+> Matteo
+
+
+
+-- 
+Ricardo Ribalda
