@@ -2,305 +2,327 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB57EB64D9
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 07:41:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03CE5EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 07:48:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231949AbjF2HlF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 03:41:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55796 "EHLO
+        id S232381AbjF2HsI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 03:48:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231848AbjF2Hk3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 03:40:29 -0400
-Received: from esa17.fujitsucc.c3s2.iphmx.com (esa17.fujitsucc.c3s2.iphmx.com [216.71.158.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1563235A1;
-        Thu, 29 Jun 2023 00:39:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1688024348; x=1719560348;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=4MmuWEnfORkrmkF3q0pT/AwZmJeN1quDpxxqMtsMdGY=;
-  b=ANBdCEAJyYF9NT4p9COUvmqICD7ic3XdBLu0MjDrMhdAJMIM+DM0Ddrc
-   ssREzgOpfhHvvpBV9bvHBaJ+ZYu5rAarKzis41FWyBqLXOVrJWFWCeRzT
-   VX7YgRAPyyA3VlHf7bn6C8li8k8vlcm7GrH//Pol/rZjKKqoeyzfkt4zO
-   21hmmxmR2oHqrYl7zt2gEy9Yab5JFNNo5q1y1tbBxWIlSemGOerQ9JNJR
-   no8cZCeR1rSlBU+PKZ7VO5yaMScg5HtkUV/cpMiCuAjP0RjnySVYlCbv+
-   BmnEUokpZ2K7o5zAwtPAkpsgwBpCYgKvFjkDS03qXiO9EKWxw5zaR0Etn
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="88293702"
-X-IronPort-AV: E=Sophos;i="6.01,167,1684767600"; 
-   d="scan'208";a="88293702"
-Received: from mail-os0jpn01lp2110.outbound.protection.outlook.com (HELO JPN01-OS0-obe.outbound.protection.outlook.com) ([104.47.23.110])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 16:39:02 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YTtAE0V7OvnYoOg3WkS4rXOx9BMT5kvB3gvNug7idN9Ca86LGsNBmCflja5+e2VaWWOwEiakATvZM4ptLXNdfws9MpTUkfxpE0Iq+vC70UuMKNai3/CUaZx+k9cU7e00HWVtgOMzIk9eR9oFn4M29MiBXYA41wyuQ5wwxUg8sKk8UvX6cqlqg/dGj3J8kdp+YOpywjZqM1nqTllHI36GPNTdX8wn5Kk+OHhpFy4tmtgDPgpQ/syIjfZ0wlZtHD+hcyig0nnAPdL30ZEi4TLcRzER5TpyZ+uxG4VfdwLcXtDRUsSnR+ulFxR+hYDvRIxWCBrKPpd7ypLoEJZLoVyhaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EKsA6jorout9CFOdDMBhuDA944PvnKcj1GN9zQ/q2o0=;
- b=nGUD9htxQFtExK8SGHrL2+BhFpVsF0y00A/7wuTXs4uThksGUqtCzk2YPatom4G8W103NsTeOKm+gV1bV6+wrEVxlegeyRTEA9Qkk+xYikwyjy0CV+GpfU2KgtkbZ3b4O2GrB3yLa6ABIz0EfLrxkakjWVBziBE5CrUcrenF8W4tINA/noOu6dc1FJZOFp9N1t7tkyCMtNhzYz+MUIX4frXo0UJB58nx3hHhE3eFayFhJu8DIuh5Ej/pExwLRH5nBwebuiLm8FW0RR4VVrB0/FdWHBtAfCe1Dh0AEBBtFf/P0+gRve8LeTEWETbZVFF88HHi+R9NUT10evcn8A9YIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-Received: from TYAPR01MB6330.jpnprd01.prod.outlook.com (2603:1096:402:3e::12)
- by OS3PR01MB6210.jpnprd01.prod.outlook.com (2603:1096:604:f5::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Thu, 29 Jun
- 2023 07:38:59 +0000
-Received: from TYAPR01MB6330.jpnprd01.prod.outlook.com
- ([fe80::8fa6:7b20:a48:5400]) by TYAPR01MB6330.jpnprd01.prod.outlook.com
- ([fe80::8fa6:7b20:a48:5400%5]) with mapi id 15.20.6521.026; Thu, 29 Jun 2023
- 07:38:59 +0000
-From:   "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>
-To:     'Tony Luck' <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "x86@kernel.org" <x86@kernel.org>
-CC:     James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH v2 5/7] x86/resctrl: Add package scoped resource
-Thread-Topic: [PATCH v2 5/7] x86/resctrl: Add package scoped resource
-Thread-Index: AQHZpGeD2GY+fKkTx0a8T9Xl0XMEVa+hb62Q
-Date:   Thu, 29 Jun 2023 07:38:58 +0000
-Message-ID: <TYAPR01MB63303189EC7C6F78549727028B25A@TYAPR01MB6330.jpnprd01.prod.outlook.com>
-References: <20230621174006.42533-1-tony.luck@intel.com>
- <20230621174006.42533-6-tony.luck@intel.com>
-In-Reply-To: <20230621174006.42533-6-tony.luck@intel.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=true;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2023-06-29T07:35:14Z;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED?;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ActionId=a595040a-6a37-407e-ae9c-a7b5a2f8d1c6;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=0
-x-shieldmailcheckerpolicyversion: FJ-ISEC-20181130-VDI-enc
-x-shieldmailcheckermailid: dc4ace1e20594b45a2a8d195f4ea49fa
-x-securitypolicycheck: OK by SHieldMailChecker v2.6.2
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYAPR01MB6330:EE_|OS3PR01MB6210:EE_
-x-ms-office365-filtering-correlation-id: c1ad0dfc-e4e9-4e8f-7889-08db7873e6af
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nNAX2YqPjfigJytX+448XW6VcFzFAY/Oyxp59zlj8rhzu7Tws8yN8lo43qsbYgEPWOxW+nOTI/uKbBdlUZgmWJSXMnJjDfkY4B4cMQkL/Shf3qdG//uKms/lCJUTlyBdP8nT1CTbsxi+AxpHG+F0Oat0r9NpSj5EqFGU8EWevJ5vaJLQvg3ztt7XQKNd6C5TOmyHXaU2Ry92b3gacM1CU5a0eI/uElZmCiHFLSOfgo27gaJl5+7Ie6DoTAA2uSRFMaThH2GM4kI3vlGGQGKYA32KzXYfDWW4p1pd0dGHbOEqCIA88ZnTY2fnhrKz/fK71TPUSuLhgxJO8RJseEzbZ63S7nzRjlIyW1IQLXKSOGba12Aias3vkD3M6AcETZHYJBQj0p2vCf+8xtdGxcB/kNrDqSIKTUSSb2wVnvGKA4fLVBLu70Dx6o6Ux5tBw/7FR4W7SUGH6OrxMN4TZqVcjji4DeZeVBfI31OMlBHf1QTV7u9ZOlFijRGb/CL/KDgxrUs2AIqWV2GWZtJtlLbzB5EjztNtuczkYsIqUr1tlmqQdooVK8AdMHT5vDHRjigd8NunQwpdrajpN7Y+o3ksywNUddM7B2f2NJVrCCClJtPikN9WlO0Oky3gI8qMKBrn7mtDcLlWdmK2+7VKelLtdQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYAPR01MB6330.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(136003)(376002)(366004)(39860400002)(451199021)(1590799018)(316002)(33656002)(66946007)(76116006)(66556008)(64756008)(66446008)(66476007)(5660300002)(4326008)(38070700005)(478600001)(85182001)(52536014)(8676002)(8936002)(7416002)(1580799015)(55016003)(86362001)(54906003)(41300700001)(110136005)(2906002)(9686003)(7696005)(6506007)(186003)(83380400001)(38100700002)(82960400001)(71200400001)(26005)(122000001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-2022-jp?B?NmhZZmd3bis2KzM2VUJRNSs2T3k2V0pNd0JhNzBXSTF3K3dSSk9lNlJG?=
- =?iso-2022-jp?B?bFhXOTRhc1pvYWFFeS8xSkUzMmlZMnV4QkR1VnczQXhnQjllVXYrY3Y2?=
- =?iso-2022-jp?B?ZGt4SE5ocExvblhHQU0yWWR2eFFRZWVjKytaeVNPQ2U5RnRRZW0wamwy?=
- =?iso-2022-jp?B?Qk5TU0RobDhIQ1lVdlY4RDJzZXhHQjExOXhNOUZXWnlPQ1U4YmFzdHJj?=
- =?iso-2022-jp?B?Y0ZFejBQeXFxUng0VzJWZmtTWWthRVNJQXpJRUw4aFNuNXdUY0dOYVVa?=
- =?iso-2022-jp?B?WE9pZ09LR2ZLU1lHakRuRzdRaldZOWNZQzZxdjFRTzA2RjdjSDEvd1B2?=
- =?iso-2022-jp?B?dVdRdnV2V2JwbXQyazd6YWxlNmxkSUJwQ216WWYrTHQyNUtVcEtDZU8z?=
- =?iso-2022-jp?B?WkZxSEpwUFM4cUZlejZraHJBVk0rNGNLVGQyTkRmeXNCS0RXZjFnNnJa?=
- =?iso-2022-jp?B?UVZqenBSY05Vd0F4VVV5RkxaSGJvTXluQTd1KytNYUREcnR0bng4dGpk?=
- =?iso-2022-jp?B?YnBDYzZraEkxbkl4a0lyNE10SmhqRzlxd05INGJQZXZaUUNZSHoxS3BV?=
- =?iso-2022-jp?B?cmhuTE9kYkJianVvQlFYV056SEVmcE9vK3VYdWRJUWFYdHBRQS96NHds?=
- =?iso-2022-jp?B?YmZSWFREWVQzZlp1eFNuTjIxOVdmR0hLQmxXdzE1M3VwS09jMnBsT1Vu?=
- =?iso-2022-jp?B?SVRZYzFidVFEbGVuVkVJUy9hU3hkWXlhb1cyUUJtbXNYTWFkSW5za25D?=
- =?iso-2022-jp?B?dEFTdVdVU0lGZGlRRHJNT3RVNGpFenRETDRNWFRCSVkxcnhsbjN0YzhN?=
- =?iso-2022-jp?B?WTA5OVpXczA1dVk2RWJORXpHTEljVUs2SmpFQ3dwZ0VVTjNzOWFoMWlK?=
- =?iso-2022-jp?B?Um1wblIyeGVqT1RIWnd1U3ExZVgzUTJmU0Y4VWdrK3dKSWp5eENoZWcz?=
- =?iso-2022-jp?B?Z1VTMEpvRi82b2ZUNlF1VFJsQ2hkWStFaHFzUmVQSzRwRFUxenJTemg1?=
- =?iso-2022-jp?B?dXlyNGYzSmJkbktKRmU0MXA0YTU0QTVweFVHd2pVZGpBQndhYVNWUnJk?=
- =?iso-2022-jp?B?S0NEZDJrcDdlMThyRHYzMW9rbXpEbnNYdTFJd0tDcUZkaVhoOXREbHZw?=
- =?iso-2022-jp?B?b0dDajBXQTVDRzQrS1h0bFNoQ2xyZGQzakFWemFBRjltckRYN2ZRbTJn?=
- =?iso-2022-jp?B?NTJWNjNDVkpCVWE3blY5V0R4VDVHRDJYaEc2cWZXaERZNHZ3K3Q0WUVw?=
- =?iso-2022-jp?B?Q1FOZm5EMjd1ZXlDZVJxNlR5VVliTTB0cE55Z2hqSW83ZWFxSzR0bElC?=
- =?iso-2022-jp?B?b1cxbHVQM3I1RUpvYXNMQTV2Mi9wZ2p1eE9KdEkvRXdZNitkWW9LNkFF?=
- =?iso-2022-jp?B?STROTktpMEZZQzlXampZUURKeFc0Nk9Iazcyd3JwTld2VzhUOGlSQkVk?=
- =?iso-2022-jp?B?VElDSGNVUnpBMmRiZ0RDM2xwM1FuVVhMeEVYR2hLWUFyVVNtRXNkRUV5?=
- =?iso-2022-jp?B?THdraG82NUFxaGxlN3JLYkV0YnRoV0J1SS80MnpuNXRjakIxdW0rTlp1?=
- =?iso-2022-jp?B?WkJjTTl0Rm5ZdTVja3lrYzZtbC9qL2dKZW1uLy8yTWVkUEJhanJPekZR?=
- =?iso-2022-jp?B?dFJDaTRqYUJPSFJQZElNeVJtSmJYbmRjNGhIbElaQW1HNTRmcWh0bHdV?=
- =?iso-2022-jp?B?MHZCYkkyTlNXd2hhd2o1b3hYKzFGdlN6WndhSytESkpkbCs4MWVYUFo2?=
- =?iso-2022-jp?B?dG9DeVhQeFpoZkVIM1Q0eGx6Vlp5djNIZndiOWxDVDdXb0YvWE9sYWEy?=
- =?iso-2022-jp?B?YnUzVmhDRTZSZDlPODQwQ1V4Y3c5NXhnL0Zxa3dObTRHOUZJb01iWUI4?=
- =?iso-2022-jp?B?M3M2bjlTdzlzYVQ4VDZwQlJLYy9vbVVWSy8ybC9ZRUNoZDZnd1o0ZDRP?=
- =?iso-2022-jp?B?NnJDdGI2SUVIVWxiUGV2MllnVFJiR2NaUjlTaC9zZ0t4WDJoWkUrMGJ2?=
- =?iso-2022-jp?B?WXg3NmlhZWNzTFk4WHh4WlU5OVV2QmhuS3F5Q2piQWpQV3NIL2dNV1pF?=
- =?iso-2022-jp?B?M1VLTUt1VDFEdS9hMWVzaEJZQ2dVQ25HMVZDNHRyVUF6NzRFTjlyMmlk?=
- =?iso-2022-jp?B?NVNpUjE4UmJodW1mclhOcWVtYVR2U2ZFQk1zY21BT2ozM2VtTkpvRTE2?=
- =?iso-2022-jp?B?K0VhOGlwNEE1cEpVWUg5QUVzVTh0RndKTXZ2OUZJdzlkWjdrNjlSQzE2?=
- =?iso-2022-jp?B?NnNKdE5weHYwTStidzF0SmFkV3NMRUZGSHdNVUdFaTRyam5oK1BPejVG?=
- =?iso-2022-jp?B?elVkbEVSRFBub3pvUzhOY29Hbnl6QmM5RUE9PQ==?=
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S232274AbjF2Hrc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 03:47:32 -0400
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B91C295D
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 00:47:25 -0700 (PDT)
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230629074721epoutp03dca528ac5ae8442826b267d5a479e32e~tEaZmkfOl1696816968epoutp03b
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 07:47:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230629074721epoutp03dca528ac5ae8442826b267d5a479e32e~tEaZmkfOl1696816968epoutp03b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1688024841;
+        bh=ecHy5mpaKwu/dDnOFhMSg7MbXAuIm61+aXpQtHg2abk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jH8sOLi+KcXnhWBJW1SDWdhF9GflkyvgEO4xZ1hc05walVYkxSc8qGpQkNmHXh51P
+         TDcOgwlVUxFiRfAT+JlSBCiP3UsyMlZW9JqnR8sSwoYBbxLmfL0IbutEApLLURKpD5
+         NKlar2yUdpi4EXdG0zdoH/E7kObs19aVSj6XcfeI=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+        20230629074720epcas5p232417c589dd39baaf9197af4aeffd5ee~tEaY1u7Zy0281902819epcas5p2C;
+        Thu, 29 Jun 2023 07:47:20 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+        epsnrtp3.localdomain (Postfix) with ESMTP id 4Qs9X71yKkz4x9Pt; Thu, 29 Jun
+        2023 07:47:19 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+        epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        FB.7C.55522.7073D946; Thu, 29 Jun 2023 16:47:19 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+        20230628153833epcas5p1fb3e3b663e0c6bfa3c27c29eba58da2f~s3MhNtqOk1574915749epcas5p15;
+        Wed, 28 Jun 2023 15:38:33 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20230628153833epsmtrp2313aba390ce5d0f56027041718a42f10~s3MhMR0012480824808epsmtrp2e;
+        Wed, 28 Jun 2023 15:38:33 +0000 (GMT)
+X-AuditID: b6c32a49-419ff7000000d8e2-b8-649d3707f2f7
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        4D.81.30535.8F35C946; Thu, 29 Jun 2023 00:38:32 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20230628153828epsmtip2f0361a34b48a05a789ba3d1f0c5c9c24~s3MdD-p9q1086610866epsmtip20;
+        Wed, 28 Jun 2023 15:38:28 +0000 (GMT)
+Date:   Wed, 28 Jun 2023 21:05:18 +0530
+From:   Nitesh Shetty <nj.shetty@samsung.com>
+To:     Damien Le Moal <dlemoal@kernel.org>
+Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+        willy@infradead.org, hare@suse.de, djwong@kernel.org,
+        bvanassche@acm.org, ming.lei@redhat.com, nitheshshetty@gmail.com,
+        gost.dev@samsung.com, Kanchan Joshi <joshi.k@samsung.com>,
+        Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v13 1/9] block: Introduce queue limits for copy-offload
+ support
+Message-ID: <20230628153518.xquaulfmevdaa6d4@green245>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?iso-2022-jp?B?WVF6TjVrM1RaQWlBRG5qRGVMRTNjeGpXRGR5U01Fb0dkMno5QitrWGM3?=
- =?iso-2022-jp?B?SjFLTkhuQk1mbHNmcy9abEdrZDFIUEhjeCtsYnRDMTAyODI0S3BSbE5u?=
- =?iso-2022-jp?B?N2x5Y3hJWGdnSGxPZGJ2aTYvUFliYUZ4SStMVEl6Sm9JdGN4MnZwRDY0?=
- =?iso-2022-jp?B?OG9FYk41MEs1WTdXVlBvdWdhdTRsb3lFTGlPb2Z3M0QyR2k0U0xYNXRi?=
- =?iso-2022-jp?B?LzZEdTRWU1RhbndTNW1haUZhTVVoMGVrRTFuNExCKzIyZXVyejIzVzFC?=
- =?iso-2022-jp?B?WCs1MjhpSGZrSUljSW5HN0VuN0hrR3pRVUJKZEZ0azIzcm12bXdwS3JQ?=
- =?iso-2022-jp?B?VEMvcDhPZDBOLzBsZmhMV0FqM01GZzlLeWZFNWYzVXJ4dmlCaG43RmY2?=
- =?iso-2022-jp?B?OVdhL2RuSGM2SkFpQzlqdXNlNmZFZkNiWW5NcXFrNGhxSFI4L3dqMS9T?=
- =?iso-2022-jp?B?dUVtYWpRQnZPci9uTlNBUlFyZVVEenMwTkVTUkNMeTViUmNIUDUzQ1Vv?=
- =?iso-2022-jp?B?WXBUQ25ZRjJtNkREOVB4SG1VNkdUdVUveldvUWsxZGFvTDZrWXdsSVpO?=
- =?iso-2022-jp?B?N2NhSGxTQW5BYlVGV01rTDdBY0VHZU45STZEbmRFV1V0L0N3SlRNNnR3?=
- =?iso-2022-jp?B?VzJpdmk5T3RBQ2dCQm9xc2VoZGJ0d21SR05YRlF3QUVqa0xMemlYR3Fi?=
- =?iso-2022-jp?B?WU1RTm0xandVaUVFUklaM1l4SUdTVkVPM1ViemlGQU5hL2dBNFVNcHlL?=
- =?iso-2022-jp?B?cldVak52d2g4OTA0bnRsdmtXRG1XMExQU2RMWHdWenNlVE1LNFpDWFJx?=
- =?iso-2022-jp?B?S0F4VmVZaHg4ZjVWU3doR0RBZTMrVDB5VnBSWVZSVkpvN0VSWmxLUVFo?=
- =?iso-2022-jp?B?S2k2WHA1SnlXRjV1ZVQxc1c3RnpFQnc5UmNkWjZkc3pFc3dUZW4veVFV?=
- =?iso-2022-jp?B?RDJGa2JKTTJSclNBQWo4V0lGQTlZbWs4ckNEQnJubHNUVjhhYklmaWhL?=
- =?iso-2022-jp?B?ZUNESjhTc2MzWHlXYUhuczdlOE9Ta1E5SFZqZm1BZEVmVkVaT3FlLzhM?=
- =?iso-2022-jp?B?MVdTb1hRNk1IdEdtVGZJNjlyUG5pTWN3azZNTTZVUUNBNlhQUXNhQzJF?=
- =?iso-2022-jp?B?NTZPc1NGN1lEaUpyM0hOT1FoN05VK0xaVHEzVUttRGNRZUw2WmNIU2JS?=
- =?iso-2022-jp?B?VE9aaXBnamVYTXd3M3BYTTJaVjI5UkNJcFpWQzNRK3pKRXdFWjRMMHMx?=
- =?iso-2022-jp?B?ZDQ3MGVUV1g3R3dPMU9hS0g0OUhhV2cyZm5PS1pyOE0vWXY3UUx5d3hE?=
- =?iso-2022-jp?B?cjE1Q21BelVhV1I3RmlOOHk3KzFJeFpoRTZWUnB2TWdjWGxYTndwMDJN?=
- =?iso-2022-jp?B?dVJjUUllNXcyOVdSUmV2Uzg3SDROL29EOUJTaEI0Z0Nld3NrSkJnK1hv?=
- =?iso-2022-jp?B?NXU4U0lFZXVBZEUyYkdXRQ==?=
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYAPR01MB6330.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1ad0dfc-e4e9-4e8f-7889-08db7873e6af
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2023 07:38:58.9720
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UpWX6i1GZoEEs1zceU8cpOXBhaAt9Lg3pbdiI2R1YWHkiaetPKX+L5QSzuzWzVoWam7hzEMCqsd3w7I7mf6JlsnsddEunOmL67A25aN0Cfk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6210
+In-Reply-To: <0d05d74e-48c5-2b99-dc28-482dc717e508@kernel.org>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te1BUZRSfb+/u5eLM0mWF+nhkdMtA3puwfBCIJdFNCnEamkYzXNgrMOwu
+        2+4SkhPxUhHkzRYsWooUCIzIIg5PQ0gQsKh47EC8xpYCQSBIEA2IZaH673d+53d+53znzEdg
+        PI2RJREpVTJyqVBM4TvYN9v22DkZeVwUuU52EKiqqx1DSdmrGKoYycLRdNsCQF/Mr2BI13IW
+        oF6dCRr/zhc1zxZx0GBLPQs1Feey0NWKOyx0Z/0hjnJbBwCa6FezUPOQA7p8poSNmpo72ai3
+        4QKOvv52wgila+twVNqxxkKtecksVKdLBOja9Bwb3R2yQj2rHRz09PEFfL813dsXQNerR4zo
+        ntFqNl1TZk/3/hBDa8rP4XRNyed042ACTl/JzOPQGcmzOP3nxBCbnrvVj9OZN8oBXdN9il7U
+        7KI1uoesIPJIlHcEIxQxchtGGhYtipSG+1AB74UcCHEXuPKd+J7Ig7KRCiWMD+X3TpCTf6R4
+        YzuUzSdCccwGFSRUKCiXfd7y6BglYxMRrVD6UIxMJJa5yZwVQokiRhruLGWUXnxX11fdN4TH
+        oyLa8xc4skLByZ4zKjwBlDqmAWMCkm5wbj2NkwZ2EDyyEcDpn6pZhmABwNXys5ghWAJwJrOL
+        s13Sd7dxS9UM4Fh67ZbqdwA7tKu4XsUmd8OWicWNBEHgpAPsXif0tBlpC1V5TUCvx8hqHN6e
+        WsX0iZ1kMFTVl7H1mEsKYHZ6EseATWFnoY6t9zEm98HKFKmeNietYcE3jzb7QnLIGDapkjDD
+        dH5wrCGTZcA74YOOG0YGbAkXZ5txA46FV/PLcENxCoBqrRoYEr7wdFfW5tAYGQEzVk4Z6Oeh
+        quvapidGmsCMp7otfy6s+2obvwQrqy5t+VvAgeXELUzDv/oKt7a1CGCxKgdkgxfU/3ub+r92
+        6s0WXvDcfBLHQFvB0jXCAPfAqgaXS4BTDiwYmUISzijcZXwpE/vvwcOiJRqw+Xns364DI+Pz
+        zq2ARYBWAAmMMuP+OlMk4nFFwrhPGXl0iDxGzChagfvGqXIwS/Ow6I3fJ1WG8N08Xd0EAoGb
+        514Bn3qO23YvQ8Qjw4VKJophZIx8u45FGFsmsByIojaFT9xRds7B2fd/0fofZnJuVixovK7f
+        fuVep6cLgY2s1o4uX979jDzLcTzx1tyhxi7dwQOP6+yGT6c/sIqv5R6dLX0rV272Qfz5JdsS
+        E+pKaLyo+MezjhW+h3RvxKRmBR4efjddMrbfejB5kG9S4eKXNZCmph0klIYntlCUeVefPxIf
+        XOc12d/96I8n3nu7ecF2K4kNvqn0TOhQcEH2MXv/2AAf3nWLTtf8OZSb+NuT8JPWg2/GTUpa
+        KnneKTYc09eZD0dDp4o8prRf3n/2hGn9xUC2UUvwinaIY4vpfl5+7aO/qeMnhtNe/F6U+tmS
+        h67g/tIx1VrgOM/85Y9nYPsuiq2IEPLtMblC+A+NzTluxQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMIsWRmVeSWpSXmKPExsWy7bCSvO6P4DkpButbbCzWnzrGbNE04S+z
+        xeq7/WwWrw9/YrSY9uEns8WTA+2MFpef8Fk82G9vsffdbFaLmwd2MlnsWTSJyWLl6qNMFkf/
+        v2WzmHToGqPF06uzmCz23tK2WNi2hMViz96TLBaXd81hs5i/7Cm7Rff1HWwWy4//Y7I4NLmZ
+        yWLHk0ZGi3Wv37NYnLglbXH+73FWi98/5rA5yHhcvuLtsXPWXXaP8/c2snhsXqHlcflsqcem
+        VZ1sHpuX1HvsvtnA5rG4bzKrR2/zOzaPj09vsXi833eVzaNvyypGj82nqz0+b5Lz2PTkLVOA
+        QBSXTUpqTmZZapG+XQJXxtV5LgWnjStmn//F2sD4WbOLkZNDQsBE4sqJ3UxdjFwcQgK7GSW2
+        L/3EBpGQlFj29wgzhC0ssfLfc3aIoieMEgveTWUBSbAIqEocePoZqIiDg01AW+L0fw6QsIiA
+        usTUyXsYQeqZBTazSdx/tgWsXlggVGLqzhVgNq+AmcSE7iZWiKGfGSW+XbzEBJEQlDg58wlY
+        ETNQ0bzND8EWMAtISyz/xwFicgrYSaxpyQOpEBWQkZix9CvzBEbBWUiaZyFpnoXQvICReRWj
+        ZGpBcW56brFhgVFearlecWJucWleul5yfu4mRnC60NLawbhn1Qe9Q4xMHIyHGCU4mJVEeG+/
+        mZ0ixJuSWFmVWpQfX1Sak1p8iFGag0VJnPfb694UIYH0xJLU7NTUgtQimCwTB6dUA5NUeWb2
+        pweHlmheYgz48TwpvF3eVbCHs+RJrv8Pla2mv631vE/3TdT54nuaZab4rp9uHW2X5EwrRX8s
+        uFS56rg5I+O9a25ZT97pvWlwOjfRkvVbid+v+MopxkURl1n50kXbPbOzFc449M9XuVu7K9rO
+        5PqkpnPBizd0sTevmiNxmJPhnULju8IfWtH83n8vunf1BPTvYjz3pvmnx/8YvVfbik8qmZqn
+        7N+6JZSZ6/Ssz2cY2LReFOSplVXu5Pqkv17hHFvJtDNfBJK276s+1xAhe6Pz4fpXzyae/XC3
+        Xz7k0n6X2/eNL/0TV5f9eSb+gixvEafTk+YtW4vS9fdGma3t2/9stbHQTDvRnnlr1ZRYijMS
+        DbWYi4oTAX+XRdOGAwAA
+X-CMS-MailID: 20230628153833epcas5p1fb3e3b663e0c6bfa3c27c29eba58da2f
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+        boundary="----RbnLpepSOhDWt1JmDV6HMUWO9Dmn-C3OOrycHY1seGoKI43i=_95eb8_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230627184000epcas5p1c7cb01eb1c70bc5a19f76ce21f2ec3f8
+References: <20230627183629.26571-1-nj.shetty@samsung.com>
+        <CGME20230627184000epcas5p1c7cb01eb1c70bc5a19f76ce21f2ec3f8@epcas5p1.samsung.com>
+        <20230627183629.26571-2-nj.shetty@samsung.com>
+        <0d05d74e-48c5-2b99-dc28-482dc717e508@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Tony,
+------RbnLpepSOhDWt1JmDV6HMUWO9Dmn-C3OOrycHY1seGoKI43i=_95eb8_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-> Some Intel features require setting a package scoped model specific regis=
-ter.
->=20
-> Add a new resource that builds domains for each package.
->=20
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> ---
->  include/linux/resctrl.h                |  1 +
->  arch/x86/kernel/cpu/resctrl/internal.h |  6 ++++++
->  arch/x86/kernel/cpu/resctrl/core.c     | 23
-> +++++++++++++++++++----
->  3 files changed, 26 insertions(+), 4 deletions(-)
->=20
-> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h index
-> 25051daa6655..f504f6263fec 100644
-> --- a/include/linux/resctrl.h
-> +++ b/include/linux/resctrl.h
-> @@ -167,6 +167,7 @@ struct rdt_resource {
->  	int			rid;
->  	bool			alloc_capable;
->  	bool			mon_capable;
-> +	bool			pkg_actions;
->  	int			num_rmid;
->  	int			scope;
->  	struct resctrl_cache	cache;
-> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h
-> b/arch/x86/kernel/cpu/resctrl/internal.h
-> index 38bac0062c82..e51a5004be77 100644
-> --- a/arch/x86/kernel/cpu/resctrl/internal.h
-> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-> @@ -438,6 +438,7 @@ enum resctrl_res_level {
->  	RDT_RESOURCE_MBA,
->  	RDT_RESOURCE_SMBA,
->  	RDT_RESOURCE_NODE,
-> +	RDT_RESOURCE_PKG,
->=20
->  	/* Must be the last */
->  	RDT_NUM_RESOURCES,
-> @@ -447,6 +448,7 @@ enum resctrl_scope {
->  	SCOPE_L2_CACHE =3D 2,
->  	SCOPE_L3_CACHE =3D 3,
->  	SCOPE_NODE,
-> +	SCOPE_PKG,
->  };
->=20
->  static inline int get_mbm_res_level(void) @@ -482,6 +484,10 @@ int
-> resctrl_arch_set_cdp_enabled(enum resctrl_res_level l, bool enable);
->  	for_each_rdt_resource(r)					      \
->  		if (r->alloc_capable || r->mon_capable)
->=20
-> +#define for_each_domain_needed_rdt_resource(r)
-> 	      \
-> +	for_each_rdt_resource(r)					      \
-> +		if (r->alloc_capable || r->mon_capable || r->pkg_actions)
-> +
->  #define for_each_alloc_capable_rdt_resource(r)
-> \
->  	for_each_rdt_resource(r)					      \
->  		if (r->alloc_capable)
-> diff --git a/arch/x86/kernel/cpu/resctrl/core.c
-> b/arch/x86/kernel/cpu/resctrl/core.c
-> index 6fe9f87d4403..af3be3c2db96 100644
-> --- a/arch/x86/kernel/cpu/resctrl/core.c
-> +++ b/arch/x86/kernel/cpu/resctrl/core.c
-> @@ -127,6 +127,16 @@ struct rdt_hw_resource rdt_resources_all[] =3D {
->  			.fflags			=3D 0,
->  		},
->  	},
-> +	[RDT_RESOURCE_PKG] =3D
-> +	{
-> +		.r_resctrl =3D {
-> +			.rid			=3D RDT_RESOURCE_PKG,
-> +			.name			=3D "PKG",
-> +			.scope			=3D SCOPE_PKG,
-> +			.domains		=3D
-> domain_init(RDT_RESOURCE_PKG),
-> +			.fflags			=3D 0,
-> +		},
-> +	},
->  };
->=20
->  /*
-> @@ -504,9 +514,14 @@ static int arch_domain_mbm_alloc(u32 num_rmid,
-> struct rdt_hw_domain *hw_dom)
->=20
->  static int get_domain_id(int cpu, enum resctrl_scope scope)  {
-> -	if (scope =3D=3D SCOPE_NODE)
-> +	switch (scope) {
-> +	case SCOPE_NODE:
->  		return cpu_to_node(cpu);
-> -	return get_cpu_cacheinfo_id(cpu, scope);
-> +	case SCOPE_PKG:
-> +		return topology_physical_package_id(cpu);
-> +	default:
-> +		return get_cpu_cacheinfo_id(cpu, scope);
-> +	}
->  }
->=20
->  /*
-> @@ -630,7 +645,7 @@ static int resctrl_online_cpu(unsigned int cpu)
->  	struct rdt_resource *r;
->=20
->  	mutex_lock(&rdtgroup_mutex);
-> -	for_each_capable_rdt_resource(r)
-> +	for_each_domain_needed_rdt_resource(r)
->  		domain_add_cpu(cpu, r);
->  	/* The cpu is set in default rdtgroup after online. */
->  	cpumask_set_cpu(cpu, &rdtgroup_default.cpu_mask); @@ -657,7
-> +672,7 @@ static int resctrl_offline_cpu(unsigned int cpu)
->  	struct rdt_resource *r;
->=20
->  	mutex_lock(&rdtgroup_mutex);
-> -	for_each_capable_rdt_resource(r)
-> +	for_each_domain_needed_rdt_resource(r)
+On 23/06/28 03:40PM, Damien Le Moal wrote:
+>On 6/28/23 03:36, Nitesh Shetty wrote:
+>> Add device limits as sysfs entries,
+>>         - copy_offload (RW)
+>>         - copy_max_bytes (RW)
+>>         - copy_max_bytes_hw (RO)
+>>
+>> Above limits help to split the copy payload in block layer.
+>> copy_offload: used for setting copy offload(1) or emulation(0).
+>> copy_max_bytes: maximum total length of copy in single payload.
+>> copy_max_bytes_hw: Reflects the device supported maximum limit.
+>>
+>> Reviewed-by: Hannes Reinecke <hare@suse.de>
+>> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+>> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+>> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+>> ---
+>>  Documentation/ABI/stable/sysfs-block | 33 +++++++++++++++
+>>  block/blk-settings.c                 | 24 +++++++++++
+>>  block/blk-sysfs.c                    | 63 ++++++++++++++++++++++++++++
+>>  include/linux/blkdev.h               | 12 ++++++
+>>  include/uapi/linux/fs.h              |  3 ++
+>>  5 files changed, 135 insertions(+)
+>>
+>> diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/stable/sysfs-block
+>> index c57e5b7cb532..3c97303f658b 100644
+>> --- a/Documentation/ABI/stable/sysfs-block
+>> +++ b/Documentation/ABI/stable/sysfs-block
+>> @@ -155,6 +155,39 @@ Description:
+>>  		last zone of the device which may be smaller.
+>>
+>>
+>> +What:		/sys/block/<disk>/queue/copy_offload
+>> +Date:		June 2023
+>> +Contact:	linux-block@vger.kernel.org
+>> +Description:
+>> +		[RW] When read, this file shows whether offloading copy to a
+>> +		device is enabled (1) or disabled (0). Writing '0' to this
+>> +		file will disable offloading copies for this device.
+>> +		Writing any '1' value will enable this feature. If the device
+>> +		does not support offloading, then writing 1, will result in an
+>> +		error.
+>
+>I am still not convinced that this one is really necessary. copy_max_bytes_hw !=
+>0 indicates that the devices supports copy offload. And setting copy_max_bytes
+>to 0 can be used to disable copy offload (which probably should be the default
+>for now).
+>
 
-Function for_each_capable_rdt_resource(r) is no longer used in anywhere,
-I think it is better to remove "#define for_each_capable_rdt_resource(r)" t=
-ogether.
+Agreed, we will do this in next iteration.
 
-Best regards,
-Shaopeng TAN
+>> +
+>> +
+>> +What:		/sys/block/<disk>/queue/copy_max_bytes
+>> +Date:		June 2023
+>> +Contact:	linux-block@vger.kernel.org
+>> +Description:
+>> +		[RW] This is the maximum number of bytes that the block layer
+>> +		will allow for a copy request. This will is always smaller or
+>
+>will is -> is
+>
 
+acked
+
+>> +		equal to the maximum size allowed by the hardware, indicated by
+>> +		'copy_max_bytes_hw'. An attempt to set a value higher than
+>> +		'copy_max_bytes_hw' will truncate this to 'copy_max_bytes_hw'.
+>> +
+>> +
+>> +What:		/sys/block/<disk>/queue/copy_max_bytes_hw
+>
+>Nit: In keeping with the spirit of attributes like
+>max_hw_sectors_kb/max_sectors_kb, I would call this one copy_max_hw_bytes.
+>
+
+acked, will update in next iteration.
+
+>> +Date:		June 2023
+>> +Contact:	linux-block@vger.kernel.org
+>> +Description:
+>> +		[RO] This is the maximum number of bytes that the hardware
+>> +		will allow for single data copy request.
+>> +		A value of 0 means that the device does not support
+>> +		copy offload.
+>> +
+>> +
+>>  What:		/sys/block/<disk>/queue/crypto/
+>>  Date:		February 2022
+>>  Contact:	linux-block@vger.kernel.org
+>> diff --git a/block/blk-settings.c b/block/blk-settings.c
+>> index 4dd59059b788..738cd3f21259 100644
+>> --- a/block/blk-settings.c
+>> +++ b/block/blk-settings.c
+>> @@ -59,6 +59,8 @@ void blk_set_default_limits(struct queue_limits *lim)
+>>  	lim->zoned = BLK_ZONED_NONE;
+>>  	lim->zone_write_granularity = 0;
+>>  	lim->dma_alignment = 511;
+>> +	lim->max_copy_sectors_hw = 0;
+>> +	lim->max_copy_sectors = 0;
+>>  }
+>>
+>>  /**
+>> @@ -82,6 +84,8 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+>>  	lim->max_dev_sectors = UINT_MAX;
+>>  	lim->max_write_zeroes_sectors = UINT_MAX;
+>>  	lim->max_zone_append_sectors = UINT_MAX;
+>> +	lim->max_copy_sectors_hw = UINT_MAX;
+>> +	lim->max_copy_sectors = UINT_MAX;
+>>  }
+>>  EXPORT_SYMBOL(blk_set_stacking_limits);
+>>
+>> @@ -183,6 +187,22 @@ void blk_queue_max_discard_sectors(struct request_queue *q,
+>>  }
+>>  EXPORT_SYMBOL(blk_queue_max_discard_sectors);
+>>
+>> +/**
+>> + * blk_queue_max_copy_sectors_hw - set max sectors for a single copy payload
+>> + * @q:  the request queue for the device
+>> + * @max_copy_sectors: maximum number of sectors to copy
+>> + **/
+>> +void blk_queue_max_copy_sectors_hw(struct request_queue *q,
+>> +		unsigned int max_copy_sectors)
+>> +{
+>> +	if (max_copy_sectors > (COPY_MAX_BYTES >> SECTOR_SHIFT))
+>> +		max_copy_sectors = COPY_MAX_BYTES >> SECTOR_SHIFT;
+>> +
+>> +	q->limits.max_copy_sectors_hw = max_copy_sectors;
+>> +	q->limits.max_copy_sectors = max_copy_sectors;
+>> +}
+>> +EXPORT_SYMBOL_GPL(blk_queue_max_copy_sectors_hw);
+>> +
+>>  /**
+>>   * blk_queue_max_secure_erase_sectors - set max sectors for a secure erase
+>>   * @q:  the request queue for the device
+>> @@ -578,6 +598,10 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+>>  	t->max_segment_size = min_not_zero(t->max_segment_size,
+>>  					   b->max_segment_size);
+>>
+>> +	t->max_copy_sectors = min(t->max_copy_sectors, b->max_copy_sectors);
+>> +	t->max_copy_sectors_hw = min(t->max_copy_sectors_hw,
+>> +						b->max_copy_sectors_hw);
+>> +
+>>  	t->misaligned |= b->misaligned;
+>>
+>>  	alignment = queue_limit_alignment_offset(b, start);
+>> diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+>> index afc797fb0dfc..43551778d035 100644
+>> --- a/block/blk-sysfs.c
+>> +++ b/block/blk-sysfs.c
+>> @@ -199,6 +199,62 @@ static ssize_t queue_discard_zeroes_data_show(struct request_queue *q, char *pag
+>>  	return queue_var_show(0, page);
+>>  }
+>>
+>> +static ssize_t queue_copy_offload_show(struct request_queue *q, char *page)
+>> +{
+>> +	return queue_var_show(blk_queue_copy(q), page);
+>> +}
+>> +
+>> +static ssize_t queue_copy_offload_store(struct request_queue *q,
+>> +				       const char *page, size_t count)
+>> +{
+>> +	unsigned long copy_offload;
+>> +	ssize_t ret = queue_var_store(&copy_offload, page, count);
+>> +
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	if (copy_offload && !q->limits.max_copy_sectors_hw)
+>> +		return -EINVAL;
+>> +
+>> +	if (copy_offload)
+>> +		blk_queue_flag_set(QUEUE_FLAG_COPY, q);
+>> +	else
+>> +		blk_queue_flag_clear(QUEUE_FLAG_COPY, q);
+>> +
+>> +	return count;
+>> +}
+>
+>See above. I think we can drop this attribute.
+>
+acked
+
+Thank you, 
+Nitesh Shetty
+
+------RbnLpepSOhDWt1JmDV6HMUWO9Dmn-C3OOrycHY1seGoKI43i=_95eb8_
+Content-Type: text/plain; charset="utf-8"
+
+
+------RbnLpepSOhDWt1JmDV6HMUWO9Dmn-C3OOrycHY1seGoKI43i=_95eb8_--
