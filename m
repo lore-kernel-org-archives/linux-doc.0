@@ -2,248 +2,76 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCCC4C0502B
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 21:10:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88FC6EB64DC
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 21:18:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232626AbjF1VKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 17:10:15 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:39252 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232297AbjF1VJt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 17:09:49 -0400
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id 2A50F20C08F5; Wed, 28 Jun 2023 14:09:48 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2A50F20C08F5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1687986588;
-        bh=F0uJ5eyJo3LYOyg4D0HXxOlZcJrEKyyXfBbdQHvI218=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eip8RjzP2VR+U/Tj0mijiWJqhp3Ef7m1mmdjIC6JfSkwi5O837SrouCnr/F1mdvMl
-         jOT4pVM6MZIdqsV3MXfMQ4MSl64xLbewCtc+JMzRiM8brDAop9FEu/vYMhVn/RGdbr
-         Hjuvbl/G6OzWmvW7l0lc+aTdXl53RF8GtAW5RZM4=
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, paul@paul-moore.com
-Cc:     linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>,
-        Fan Wu <wufan@linux.microsoft.com>
-Subject: [RFC PATCH v10 03/17] ipe: add evaluation loop
-Date:   Wed, 28 Jun 2023 14:09:17 -0700
-Message-Id: <1687986571-16823-4-git-send-email-wufan@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1687986571-16823-1-git-send-email-wufan@linux.microsoft.com>
-References: <1687986571-16823-1-git-send-email-wufan@linux.microsoft.com>
+        id S230219AbjF1VSN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 17:18:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54102 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231142AbjF1VRz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 17:17:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47CE549C3;
+        Wed, 28 Jun 2023 14:12:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 873C861493;
+        Wed, 28 Jun 2023 21:11:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 441FDC433C8;
+        Wed, 28 Jun 2023 21:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687986716;
+        bh=koy1OSVClFvab/lF2oDpHJ8TmCs3jlviG8/MsiVo+Go=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=rvmuZcGln587JyJuaJDrT+al7I2gKijxRz621UF4LqnsGqSeDrahvWqCqKroQFFhq
+         ApOTUfy0a8iGFpGGntTJg1TBl3dd9VVM8kUAudJeLfkoLsujBbbfd4JPiP8Ht87M2m
+         pZARl4XrdTylp3oTBYox5IqPadcRQ0OVbZKdqen7tQ25qtu5Em2rNL24xj+t1EhEIk
+         p/qPwnfXtf3QwA6x4qizYyRkXUyEoPKUnCGRsvQKH8qIE+aA1FP8WB4m/VFCP3Wwla
+         I6YJMAa9btFARFeIQxjsHsoBB9z/pa1AIHRNMGTj4+TSQGkzmtCk9p/+Kq9gov7Yiv
+         q5jljPvmNR1nA==
+Date:   Wed, 28 Jun 2023 14:11:53 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+Cc:     jiri@resnulli.us, vadfed@meta.com, jonathan.lemon@gmail.com,
+        pabeni@redhat.com, corbet@lwn.net, davem@davemloft.net,
+        edumazet@google.com, vadfed@fb.com, jesse.brandeburg@intel.com,
+        anthony.l.nguyen@intel.com, saeedm@nvidia.com, leon@kernel.org,
+        richardcochran@gmail.com, sj@kernel.org, javierm@redhat.com,
+        ricardo.canuelo@collabora.com, mst@redhat.com, tzimmermann@suse.de,
+        michal.michalik@intel.com, gregkh@linuxfoundation.org,
+        jacek.lawrynowicz@linux.intel.com, airlied@redhat.com,
+        ogabbay@kernel.org, arnd@arndb.de, nipun.gupta@amd.com,
+        axboe@kernel.dk, linux@zary.sk, masahiroy@kernel.org,
+        benjamin.tissoires@redhat.com, geert+renesas@glider.be,
+        milena.olech@intel.com, kuniyu@amazon.com, liuhangbin@gmail.com,
+        hkallweit1@gmail.com, andy.ren@getcruise.com, razor@blackwall.org,
+        idosch@nvidia.com, lucien.xin@gmail.com, nicolas.dichtel@6wind.com,
+        phil@nwl.cc, claudiajkang@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, poros@redhat.com,
+        mschmidt@redhat.com, linux-clk@vger.kernel.org,
+        vadim.fedorenko@linux.dev, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [RFC PATCH v9 01/10] dpll: documentation on DPLL subsystem
+ interface
+Message-ID: <20230628141153.15709d97@kernel.org>
+In-Reply-To: <20230623123820.42850-2-arkadiusz.kubalewski@intel.com>
+References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+        <20230623123820.42850-2-arkadiusz.kubalewski@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Deven Bowers <deven.desai@linux.microsoft.com>
+On Fri, 23 Jun 2023 14:38:11 +0200 Arkadiusz Kubalewski wrote:
+> +    'pin-parent': [{'pin-id': 2, 'pin-state': 'connected'},
+> +                   {'pin-id': 3, 'pin-state': 'disconnected'},
+> +                   {'id': 0, 'pin-direction': 'input'},
+> +                   {'id': 1, 'pin-direction': 'input'}],
 
-IPE must have a centralized function to evaluate incoming callers
-against IPE's policy. This iteration of the policy for against the rules
-for that specific caller is known as the evaluation loop.
-
-Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-
----
-v2:
-+ Split evaluation loop, access control hooks, and evaluation loop from policy parser and userspace interface to pass mailing list character limit
-
-v3:
-+ Move ipe_load_properties to patch 04.
-+ Remove useless 0-initializations Prefix extern variables with ipe_
-+ Remove kernel module parameters, as these are exposed through sysctls.
-+ Add more prose to the IPE base config option help text.
-+ Use GFP_KERNEL for audit_log_start.
-+ Remove unnecessary caching system.
-+ Remove comments from headers
-+ Use rcu_access_pointer for rcu-pointer null check
-+ Remove usage of reqprot; use prot only.
-+Move policy load and activation audit event to 03/12
-
-v4:
-+ Remove sysctls in favor of securityfs nodes
-+ Re-add kernel module parameters, as these are now exposed through securityfs.
-+ Refactor property audit loop to a separate function.
-
-v5:
-+ fix minor grammatical errors
-+ do not group rule by curly-brace in audit record,
-+ reconstruct the exact rule.
-
-v6:
-+ No changes
-
-v7:
-+ Further split lsm creation into a separate commit from the evaluation loop and audit system, for easier review.
-+ Propagating changes to support the new ipe_context structure in the evaluation loop.
-
-v8:
-+ Remove ipe_hook enumeration; hooks can be correlated via syscall record.
-
-v9:
-+ Remove ipe_context related code and simplify the evaluation loop.
-
-v10:
-+ Split eval part and boot_verified part
----
- security/ipe/Makefile |  1 +
- security/ipe/eval.c   | 94 +++++++++++++++++++++++++++++++++++++++++++
- security/ipe/eval.h   | 25 ++++++++++++
- 3 files changed, 120 insertions(+)
- create mode 100644 security/ipe/eval.c
- create mode 100644 security/ipe/eval.h
-
-diff --git a/security/ipe/Makefile b/security/ipe/Makefile
-index 16bbe80991f1..d7f2870d7c09 100644
---- a/security/ipe/Makefile
-+++ b/security/ipe/Makefile
-@@ -6,6 +6,7 @@
- #
- 
- obj-$(CONFIG_SECURITY_IPE) += \
-+	eval.o \
- 	hooks.o \
- 	ipe.o \
- 	policy.o \
-diff --git a/security/ipe/eval.c b/security/ipe/eval.c
-new file mode 100644
-index 000000000000..59144b2ecdda
---- /dev/null
-+++ b/security/ipe/eval.c
-@@ -0,0 +1,94 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
-+ */
-+
-+#include <linux/fs.h>
-+#include <linux/types.h>
-+#include <linux/slab.h>
-+#include <linux/file.h>
-+#include <linux/sched.h>
-+#include <linux/rcupdate.h>
-+
-+#include "ipe.h"
-+#include "eval.h"
-+#include "hooks.h"
-+#include "policy.h"
-+
-+struct ipe_policy __rcu *ipe_active_policy;
-+
-+/**
-+ * evaluate_property - Analyze @ctx against a property.
-+ * @ctx: Supplies a pointer to the context to be evaluated.
-+ * @p: Supplies a pointer to the property to be evaluated.
-+ *
-+ * Return:
-+ * * true	- The current @ctx match the @p
-+ * * false	- The current @ctx doesn't match the @p
-+ */
-+static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
-+			      struct ipe_prop *p)
-+{
-+	return false;
-+}
-+
-+/**
-+ * ipe_evaluate_event - Analyze @ctx against the current active policy.
-+ * @ctx: Supplies a pointer to the context to be evaluated.
-+ *
-+ * This is the loop where all policy evaluation happens against IPE policy.
-+ *
-+ * Return:
-+ * * 0		- OK
-+ * * -EACCES	- @ctx did not pass evaluation.
-+ * * !0		- Error
-+ */
-+int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
-+{
-+	int rc = 0;
-+	bool match = false;
-+	enum ipe_action_type action;
-+	struct ipe_policy *pol = NULL;
-+	const struct ipe_rule *rule = NULL;
-+	const struct ipe_op_table *rules = NULL;
-+	struct ipe_prop *prop = NULL;
-+
-+	rcu_read_lock();
-+
-+	pol = rcu_dereference(ipe_active_policy);
-+	if (!pol) {
-+		rcu_read_unlock();
-+		return 0;
-+	}
-+
-+	if (ctx->op == __IPE_OP_INVALID) {
-+		action = pol->parsed->global_default_action;
-+		goto eval;
-+	}
-+
-+	rules = &pol->parsed->rules[ctx->op];
-+
-+	list_for_each_entry(rule, &rules->rules, next) {
-+		match = true;
-+
-+		list_for_each_entry(prop, &rule->props, next)
-+			match = match && evaluate_property(ctx, prop);
-+
-+		if (match)
-+			break;
-+	}
-+
-+	if (match)
-+		action = rule->action;
-+	else if (rules->default_action != __IPE_ACTION_INVALID)
-+		action = rules->default_action;
-+	else
-+		action = pol->parsed->global_default_action;
-+
-+	rcu_read_unlock();
-+eval:
-+	if (action == __IPE_ACTION_DENY)
-+		rc = -EACCES;
-+
-+	return rc;
-+}
-diff --git a/security/ipe/eval.h b/security/ipe/eval.h
-new file mode 100644
-index 000000000000..972580dfec15
---- /dev/null
-+++ b/security/ipe/eval.h
-@@ -0,0 +1,25 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
-+ */
-+
-+#ifndef _IPE_EVAL_H
-+#define _IPE_EVAL_H
-+
-+#include <linux/file.h>
-+#include <linux/types.h>
-+
-+#include "hooks.h"
-+#include "policy.h"
-+
-+extern struct ipe_policy __rcu *ipe_active_policy;
-+
-+struct ipe_eval_ctx {
-+	enum ipe_op_type op;
-+
-+	const struct file *file;
-+};
-+
-+int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx);
-+
-+#endif /* _IPE_EVAL_H */
--- 
-2.25.1
-
+This bit of documentation is out of date now, right?
