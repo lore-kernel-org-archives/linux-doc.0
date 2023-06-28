@@ -2,90 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D3F2EB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 13:45:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3A07EB64D7
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Jun 2023 13:50:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232241AbjF1Npv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 09:45:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232518AbjF1NpY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 09:45:24 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 828102690;
-        Wed, 28 Jun 2023 06:45:23 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-51dd1e5a621so645400a12.0;
-        Wed, 28 Jun 2023 06:45:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687959922; x=1690551922;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IgTCzvxOkTw07Gl+wh/Ts/Fs3pfQYOVhwNsd1TgQxTk=;
-        b=AyZboz77juBumkeSGUBufF5M7xReqM5K1e6umcbHsb30l0feX0KIGY7XOyzeDGz0MX
-         93VotL9LUWsBInyoQED7dC6XYWhBxBXN2baosppawNIW3yyUae/LDENB+x4XPb0NngEi
-         5KLJWzWJDrpQGDx3oWBwW9uZO36/3lWid4iG04gmYReBtx/o3s6RW6tCVsDuhVzABF0O
-         ejL0mvnrNcDvs/5sc6yDBCqb9Q/8il/Ysi5/Xn3nd7PvQGn8YGHFAceZ6Fa3H1XaggDz
-         mqwUvQF0Rs4MltSMeS1sh0pm1sQulLjQgac1I0fELDgjeUDeAfQbuDk4+qmKozj0byaz
-         fP4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687959922; x=1690551922;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IgTCzvxOkTw07Gl+wh/Ts/Fs3pfQYOVhwNsd1TgQxTk=;
-        b=QXY3+e+8xAp/TwQXwAeeUFtp/mGqaZ+pqismeryIo/m4vypNY/BhqX1fkeTiAr4TXE
-         /Thawbpy1r+Tur4HYqnsBtEvePMlkyxs82p9X7ZpAt1PsBPwn3r/PkBREs9a9fYX7/CF
-         ElQIgSUjL72xlypLp85GY3MVhZSMYCGOpQ8IV+6jJy689bMnfzt5kdbREHrclO1vXtiO
-         uVDcwWBjc7oCEBwOA6XrF1APHeZyy2oaqvDCjynf/KsDJTb3QliSWwnKzrYqgo4BiW+O
-         rMC1THrD+KiNvSOKMvkfiCw34M80EjEUoBVfVaVodq1u3+FUMU7JiQuncAlvHaeGoIiK
-         iufQ==
-X-Gm-Message-State: AC+VfDy/aoa1u0iBWcEk4Zfw/M6mDNmsZl4cfIfHPLrIYcN2ZAOYV5I9
-        R0ncK0dabpJlocET4b9hFygzfJ4FMbovMU/P33U=
-X-Google-Smtp-Source: ACHHUZ5MTuKYGAjxJZua1thUQH3QTSIJIOYTEK6u5aBrVw88MhlZAVxC50UCD3vZ7gpDI+DLGUCHn7piUud70oEwPx0=
-X-Received: by 2002:aa7:c98d:0:b0:51d:d280:6c51 with SMTP id
- c13-20020aa7c98d000000b0051dd2806c51mr1028444edt.1.1687959921903; Wed, 28 Jun
- 2023 06:45:21 -0700 (PDT)
+        id S231731AbjF1Nuo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 09:50:44 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:58426 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229845AbjF1Nuk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 09:50:40 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id C56542189A;
+        Wed, 28 Jun 2023 13:50:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1687960238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VkBXGlD0oggkcayYs7pBu1iDrnzl5z5B5f3CsfkM3Qk=;
+        b=vmxpqRGHSrIk0MJ6BIwhVcjDHN0kyaV/LpTIdBczjKL+pdL5PQUEN48KMitsw+o1GEb/J2
+        lW/ghisQa6LkuOEA8ULyHfIRoWy0zTPpIkNhokT4bn9a8qnLCCgoUQMm2NbaEBZvyeI6NG
+        mZX8D69IhFSSTCybMcSXDW0yNpbbmZQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1687960238;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VkBXGlD0oggkcayYs7pBu1iDrnzl5z5B5f3CsfkM3Qk=;
+        b=E3b6HytdPIOXwgM/OFchWEnEhNlTxHFVElAkORBeleDLqTurnRzWlloGvN1Z9EZDazaupL
+        m8ES9d3VFhNV+QBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 85150138E8;
+        Wed, 28 Jun 2023 13:50:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id CsbhGq46nGQgDAAAMHmgww
+        (envelope-from <krisman@suse.de>); Wed, 28 Jun 2023 13:50:38 +0000
+From:   Gabriel Krisman Bertazi <krisman@suse.de>
+To:     Matteo Rizzo <matteorizzo@google.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        io-uring@vger.kernel.org, jordyzomer@google.com, evn@google.com,
+        poprdi@google.com, corbet@lwn.net, axboe@kernel.dk,
+        asml.silence@gmail.com, akpm@linux-foundation.org,
+        keescook@chromium.org, rostedt@goodmis.org,
+        dave.hansen@linux.intel.com, ribalda@chromium.org,
+        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
+        ldufour@linux.ibm.com
+Subject: Re: [PATCH 1/1] Add a new sysctl to disable io_uring system-wide
+References: <20230627120058.2214509-1-matteorizzo@google.com>
+        <20230627120058.2214509-2-matteorizzo@google.com>
+Date:   Wed, 28 Jun 2023 09:50:37 -0400
+In-Reply-To: <20230627120058.2214509-2-matteorizzo@google.com> (Matteo Rizzo's
+        message of "Tue, 27 Jun 2023 12:00:58 +0000")
+Message-ID: <87ilb7ofv6.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com> <1687955688-20809-19-git-send-email-quic_mojha@quicinc.com>
-In-Reply-To: <1687955688-20809-19-git-send-email-quic_mojha@quicinc.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 28 Jun 2023 16:44:45 +0300
-Message-ID: <CAHp75VcUgC+TATXp2c+VCNbfYTPYANrAcYftYqLsj+wg+e=12A@mail.gmail.com>
-Subject: Re: [PATCH v4 18/21] pinctrl: qcom: Use qcom_scm_io_update_field()
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-        mathieu.poirier@linaro.org, catalin.marinas@arm.com,
-        will@kernel.org, linus.walleij@linaro.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 3:37=E2=80=AFPM Mukesh Ojha <quic_mojha@quicinc.com=
-> wrote:
->
-> Use qcom_scm_io_update_field() exported function introduced
-> in last commit.
+Matteo Rizzo <matteorizzo@google.com> writes:
 
-the last
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index d85d90f5d000..3c53a238332a 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -450,6 +450,20 @@ this allows system administrators to override the
+>  ``IA64_THREAD_UAC_NOPRINT`` ``prctl`` and avoid logs being flooded.
+>  
+>  
+> +io_uring_disabled
+> +=========================
+> +
+> +Prevents all processes from creating new io_uring instances. Enabling this
+> +shrinks the kernel's attack surface.
+> +
+> += =============================================================
+> +0 All processes can create io_uring instances as normal. This is the default
+> +  setting.
+> +1 io_uring is disabled. io_uring_setup always fails with -EPERM. Existing
+> +  io_uring instances can still be used.
+> += =============================================================
 
-But what is that? Be more specific.
+I had an internal request for something like this recently.  If we go
+this route, we could use a intermediary option that limits io_uring
+to root processes only.
 
-...
-
-> +       mask =3D (GENMASK(2, 0) << g->intr_target_bit);
-
-Outer parentheses are not needed.
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+Gabriel Krisman Bertazi
