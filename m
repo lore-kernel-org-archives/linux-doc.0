@@ -2,119 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67735EB64D7
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 03:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E312EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 06:14:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231496AbjF2DFH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 23:05:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34036 "EHLO
+        id S231169AbjF2GOd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 02:14:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231303AbjF2DFD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 23:05:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3E0426AD
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 20:04:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688007850;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=36xMCYTl0fRQ3bokXhwMdx0i+ytJIVoK5bZ80UNZk2k=;
-        b=V9OXza7DIGg/KyOrbSBeQKC5Is3b5KqX3mgUBdHzkOiBJgez3B7fLrES6J0IlB548Kn0Fq
-        de5Q7OGcohQfL60nF+iR63sDrjP4QsrjnrNxVRQ83izsjhh4pN/L0B4JB46uaZ4JnihBLC
-        v4vOLdod/UnT/ikZd9KWE9aFquBrNuM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-xfzANjggN-2sXftPaTIhUg-1; Wed, 28 Jun 2023 23:04:06 -0400
-X-MC-Unique: xfzANjggN-2sXftPaTIhUg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42F60185A7AF;
-        Thu, 29 Jun 2023 03:03:46 +0000 (UTC)
-Received: from [10.22.34.177] (unknown [10.22.34.177])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 05A6A200C0F2;
-        Thu, 29 Jun 2023 03:03:44 +0000 (UTC)
-Message-ID: <9ab9d8ef-36c1-82e9-125f-1f8e6ba5a228@redhat.com>
-Date:   Wed, 28 Jun 2023 23:03:44 -0400
+        with ESMTP id S230476AbjF2GOb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 02:14:31 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CCC12693
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 23:14:29 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-314172bb818so317625f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 23:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1688019267; x=1690611267;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BxPmChzKXR1dj/ko+9tzcHvICaNxDCij9PscVU1CwGY=;
+        b=g4spu/YTypGbdobXCPpsNMEE7fZgSTh6dwO8ck/RlyJzKG32ec8qbcH4voInoYNI6o
+         nG6/zJ1n82WItH1lu3qQCRFI8uw3L8ph8dhnODO74Jobt9mAAC6aVPmcAOEeHa3CijaY
+         GQ0EQQTgLWtAzMyQV8sZkz9pP1Q5sB+jGzX0IRtVzmIH7vRZDqd7kAqk/QYf3QTa8aEJ
+         QSuo/h0rl0fcrDEeomgjT4HhlbHIS1Bzm651nwZXtQyAM08WdVMOLO0uppwo8McOoT1j
+         8CGh366oXSh0q2wYy6HTFoOLtXKgeVtSm3qpnqhqbheagjwO+/UJVS4tnevaSr7XLabv
+         Rrig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688019267; x=1690611267;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BxPmChzKXR1dj/ko+9tzcHvICaNxDCij9PscVU1CwGY=;
+        b=Sn0oaQ452k80ZoKKnszO4HZhiW4kc6EiLQXWV+sKceGHQYgLR9tBSqu6CmQhn9kVrd
+         c2zvFGOI6GsBrx2sbClS9helry9vKfNzhVPmbfPx4fFZarPMmdatQ90VLeDcWiB9jFow
+         MCJ71gqAj0tlZL4DQDXfKW5DH4WnlWqjuXieeiPiXhbJB4pOPw0yW0VvgRoKhx4wBVk4
+         WDBFt6o0kAz5dgVgcM5tOquxtcX1bJvmOjRoKWNXmQskTzFZ0iwLTqnLpddggt9xnntP
+         Pj+Rf1Tlo/SA447oxwNH//axEtO7jo+sMZ9dE2jbIvMuGxNHl5FCtaHvibH8MU2ZV4d+
+         U0xQ==
+X-Gm-Message-State: AC+VfDzk+AGlLZ2DtQGWXD0d2uhmIY5wLusJmckNHKiUpxJN+QoC7RxN
+        4jQ5MOqlA0S3oePIUv8cACINnw==
+X-Google-Smtp-Source: ACHHUZ7KKCQek3b9yJkpoCmAdgzst9lXvnl9IF1wrn2teksRP3fkGVdr25X0T5kABFTNqxM9KgVooQ==
+X-Received: by 2002:a05:6000:181:b0:30f:d218:584a with SMTP id p1-20020a056000018100b0030fd218584amr32939868wrx.23.1688019267545;
+        Wed, 28 Jun 2023 23:14:27 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id b7-20020a5d45c7000000b003141a3c4353sm460558wrs.30.2023.06.28.23.14.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jun 2023 23:14:26 -0700 (PDT)
+Date:   Thu, 29 Jun 2023 08:14:25 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+Cc:     "kuba@kernel.org" <kuba@kernel.org>,
+        "vadfed@meta.com" <vadfed@meta.com>,
+        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "vadfed@fb.com" <vadfed@fb.com>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "M, Saeed" <saeedm@nvidia.com>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "sj@kernel.org" <sj@kernel.org>,
+        "javierm@redhat.com" <javierm@redhat.com>,
+        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "Michalik, Michal" <michal.michalik@intel.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "jacek.lawrynowicz@linux.intel.com" 
+        <jacek.lawrynowicz@linux.intel.com>,
+        "airlied@redhat.com" <airlied@redhat.com>,
+        "ogabbay@kernel.org" <ogabbay@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "linux@zary.sk" <linux@zary.sk>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "Olech, Milena" <milena.olech@intel.com>,
+        "kuniyu@amazon.com" <kuniyu@amazon.com>,
+        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
+        "razor@blackwall.org" <razor@blackwall.org>,
+        "idosch@nvidia.com" <idosch@nvidia.com>,
+        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        "phil@nwl.cc" <phil@nwl.cc>,
+        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
+        mschmidt <mschmidt@redhat.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
+Subject: Re: [RFC PATCH v8 08/10] ice: implement dpll interface to control cgu
+Message-ID: <ZJ0hQRcm6S05r8VE@nanopsycho>
+References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
+ <20230609121853.3607724-9-arkadiusz.kubalewski@intel.com>
+ <ZISmmH0jqxZRB4VX@nanopsycho>
+ <DM6PR11MB4657161D2871747A7B404EDD9B5FA@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <ZJLtR0c+tvCbUgri@nanopsycho>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4 4/4] intel_idle: Add ibrs_off module parameter to force
- disable IBRS
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-pm@vger.kernel.org,
-        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>
-References: <20230628022554.1638318-1-longman@redhat.com>
- <20230628022554.1638318-5-longman@redhat.com>
- <24b34b27-d2eb-e287-ffbb-29ffde66790d@infradead.org>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <24b34b27-d2eb-e287-ffbb-29ffde66790d@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZJLtR0c+tvCbUgri@nanopsycho>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/27/23 22:58, Randy Dunlap wrote:
-> Hi,
->
-> On 6/27/23 19:25, Waiman Long wrote:
->>   Documentation/admin-guide/pm/intel_idle.rst | 17 ++++++++++++++++-
->>   drivers/idle/intel_idle.c                   | 14 ++++++++++++--
->>   2 files changed, 28 insertions(+), 3 deletions(-)
+Wed, Jun 21, 2023 at 02:29:59PM CEST, jiri@resnulli.us wrote:
+>Mon, Jun 19, 2023 at 10:34:12PM CEST, arkadiusz.kubalewski@intel.com wrote:
+>>>From: Jiri Pirko <jiri@resnulli.us>
+>>>Sent: Saturday, June 10, 2023 6:37 PM
+>>>
+>>>Fri, Jun 09, 2023 at 02:18:51PM CEST, arkadiusz.kubalewski@intel.com wrote:
+>>>
+>>>[...]
+>>>
+>>>
+>>>>+static int ice_dpll_mode_get(const struct dpll_device *dpll, void *priv,
+>>>>+			     enum dpll_mode *mode,
+>>>>+			     struct netlink_ext_ack *extack)
+>>>>+{
+>>>>+	*mode = DPLL_MODE_AUTOMATIC;
+>>>
+>>>I don't understand how the automatic mode could work with SyncE. The
+>>>There is one pin exposed for one netdev. The SyncE daemon should select
+>>>exacly one pin. How do you achieve that?
+>>>Is is by setting DPLL_PIN_STATE_SELECTABLE on the pin-netdev you want to
+>>>select and DPLL_PIN_STATE_DISCONNECTED on the rest?
+>>>
+>>>
+>>>[...]
 >>
->> diff --git a/Documentation/admin-guide/pm/intel_idle.rst b/Documentation/admin-guide/pm/intel_idle.rst
->> index b799a43da62e..8604e6d1fe2c 100644
->> --- a/Documentation/admin-guide/pm/intel_idle.rst
->> +++ b/Documentation/admin-guide/pm/intel_idle.rst
-> You may take or leave these comments as you choose.
+>>AUTOMATIC mode autoselects highest priority valid signal.
+>>As you have pointed out, for SyncE selection, the user must be able to manually
+>>select a pin state to enable recovery of signal from particular port.
+>>
+>>In "ice" case there are 2 pins for network PHY clock signal recovery, and both
+>>are parent pins (MUX-type). There are also 4 pins assigned to netdevs (one per
+>>port). Thus passing a signal from PHY to the pin is done through the MUX-pin,
+>>by selecting proper state on pin-parent pair (where parent pins is highest prio
+>>pin on dpll).
 >
->> @@ -216,6 +216,21 @@ are ignored).
->>   The idle states disabled this way can be enabled (on a per-CPU basis) from user
->>   space via ``sysfs``.
->>   
->> +The ``ibrs_off`` module parameter is a boolean flag (default to false). It is
->                                                         (default false).
-> or
->                                                         (defaults to false).
+>Could you show me some examples please?
+
+Arkadiusz, could you please reply to this?
+Thanks!
+
 >
-> Then I think it reads better if the next sentence begins with: "If set,"
-> instead of having it in the middle of the sentence.
 >
->> +used to control if IBRS (Indirect Branch Restricted Speculation) should be
->> +turned off, if set, when the CPU enters an idle state.  This flag will not
->> +affect CPUs that are using Enhanced IBRS which can remain on with little
->> +performance impact.
->> +
->> +For some CPUs, IBRS will be selected as mitigation for Spectre v2 and Retbleed
->> +security vulnerabilities by default.  Leaving the IBRS mode on while idling may
->> +have a performance impact on its sibling CPU.  The IBRS mode will be turned off
->> +by default when the CPU enters into a deep idle state, but not in some
->> +shallower ones.  Setting the ``ibrs_off`` module parameter will force the IBRS
->> +mode to off when the CPU is in any one of the available idle states.  This may
->> +help performance of a sibling CPU at the expense of a slightly higher wakeup
->> +latency for the idle CPU.
-> thanks.
-
-Thanks for the suggestion. I will make the change if I have to revise 
-the patch again for any reason.
-
-Cheers,
-Longman
-
+>>
+>>Thank you!
+>>Arkadiusz
