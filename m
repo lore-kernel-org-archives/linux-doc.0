@@ -2,182 +2,278 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0DB1EB64D9
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 15:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F020BC3DA40
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 16:08:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232308AbjF2P5V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 11:57:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60262 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232568AbjF2P4z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 11:56:55 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF0410FB;
-        Thu, 29 Jun 2023 08:56:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688054213; x=1719590213;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=81iMmDKNPrDFlMN/ZrqVGDxKGZz676Ql8hQuqi89uYQ=;
-  b=kSrZT3NnUZdZ+0q0XPuTEhjWLnBfMDpdvcjFXokj+u7B1WpgI+9lUEPN
-   xggL4gvgcp/5brrcm4Ji5xwLuKDcUt64wKxxO4BHs11BVD9ohK1AnIIqU
-   tE4Zmt5S0O900Ud143xb2vG+M7K8gi4fgVwivY8wV+O+axqzh8bxHcdj5
-   tUSE/pU6thJUzxMdzqe2TTq5AG1DxsZGuBA0bpjB6hWvPrtFY1cVBr5FH
-   T/dsB2Xgm2C5qXJrZtkGTnNVDZ023HkjgZ24yuwVFhhWKi4ksxYy4dPAG
-   ziF3OlmUEkcqPaNO52DCi3MDZ//1Edht53LCXqCISCQeKwWkK1d8qGhYi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="342486316"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="342486316"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 08:56:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="711479876"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="711479876"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga007.jf.intel.com with ESMTP; 29 Jun 2023 08:56:31 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 29 Jun 2023 08:56:30 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 29 Jun 2023 08:56:30 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Thu, 29 Jun 2023 08:56:30 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.174)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Thu, 29 Jun 2023 08:56:30 -0700
+        id S232083AbjF2QIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 12:08:15 -0400
+Received: from mail-db8eur05on2088.outbound.protection.outlook.com ([40.107.20.88]:61472
+        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232035AbjF2QIK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Jun 2023 12:08:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=htpwCZPSKbFK/lAh6xoU7JNipvvRjPsm+GUSNR3AFq8=;
+ b=U+f/6QxfqNq8akJ0U9oyw5cg7UFNTPcb4r5DK301oTbF6ga5oSTGpTQ4F9mhqEC/B225ZHcrwnsX1BTgLfNfdCEyjW6dV6t0ZFlJgB7dUSvLBuohQGwS7GHByLc8TaL2qeHpC3mfdAESI263W3P9mJBkvninbvz8qNkBNgKbAx0=
+Received: from DB7PR05CA0067.eurprd05.prod.outlook.com (2603:10a6:10:2e::44)
+ by AS8PR08MB10077.eurprd08.prod.outlook.com (2603:10a6:20b:63e::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 29 Jun
+ 2023 16:08:07 +0000
+Received: from DBAEUR03FT004.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:2e:cafe::e1) by DB7PR05CA0067.outlook.office365.com
+ (2603:10a6:10:2e::44) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.20 via Frontend
+ Transport; Thu, 29 Jun 2023 16:08:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT004.mail.protection.outlook.com (100.127.142.103) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6544.20 via Frontend Transport; Thu, 29 Jun 2023 16:08:07 +0000
+Received: ("Tessian outbound c08fa2e31830:v142"); Thu, 29 Jun 2023 16:08:07 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 18bc51183e159456
+X-CR-MTA-TID: 64aa7808
+Received: from 7277d59e5d02.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id F086B373-8C7E-46A5-BCBC-57607F88F16F.1;
+        Thu, 29 Jun 2023 16:08:00 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 7277d59e5d02.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 29 Jun 2023 16:08:00 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HIIhBqSQ8VETEb9q+0MKR8DO4wBhbdXH5/y5GZ6lv8Ka6SfKZJkia/ado+W8W5XrJHmx0mrsx6Zz7vcZhh30U6CyGA+s1ou9zOLijT3a269vNOIDowWDcvFvuFilQ30yKR44K8Ov27CHUoqi9Fxg2njvb3FXRtvdc7XRDBtmEOswA7t7H0MPiU53BZFRI3oLj98tMYi8DwKMqg/b1dxJ6b4Cd448tk/7078LmmV4XI/xnt8WzMPcx1uwuAcuMPZptpPpoeCPmCBMJrQNbA767Xq9Pzx/0e5PFR/YtXLAcMqGcYDUZzOExWbu9tOwTc+0Xm8OeCQeFgZ7QeydNJo8yA==
+ b=HOoVEqTG8I5SvC8AK/Km+IUevE1Oxr4XHMlcqrALzlbTc3Ts0M0KJJf3iLhDg97mEtychYl7dCUPR5DqWUzF210Jwna7jxxPNUgshIwlbaBDKcLP0f0jNWEeWLKX26e3VpihBsJBk0PHNtOZ/J7+4fP3zvk76ZAGYdZy+KvItbFXRNIggoICGiLo1HI+ToennIL6m896HhgsM/mZNT6IiAcYFLvi4CUikWWDLgnPI4TZw/+Y3c2xenbwST+1yVJum5nwCvnVdFHy62/eEx0fDmyXre5XIFvKxLDWmYCTh6jWTS7kctMVmdqXbWQgw8MbTpJD5giP3vbnj/LKOoFuHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pHpW8uYoanQ5DEIfOdpgbRO6/+8fDaI4ZLYjo1+5OOE=;
- b=nj8C5JdEKhp8cQJr0VJe4H0Qgr+h4kydkhdSIbb9LOuudnDy7445dsAruZfadt9X1Wt/MZe/QxD0ynrS8/lQnhhsSo5Qo4iMtrNyLrgIEidchR55rLveewFw3KsBZtBWm9KkgrVju/IsJsbko6TJoqVlGOCPnlGymV2NfITLfzZjxNcG6Jc6iDNYawhHMDiP8nezeBn6EgPdIVGmArV201Ckaykn05ULzg6p9nbH2lmx/KSrhlsK2JWJui42CuSykRydllrR8qexO85RMmCVHFZ9BpJh9TogaYF1M0mv9qUYatTUfjeLBDYIF+uHxG6Jmnt6SfG3S5fE1TUDm8DcnA==
+ bh=htpwCZPSKbFK/lAh6xoU7JNipvvRjPsm+GUSNR3AFq8=;
+ b=lDm1LnbpTlVslGnEWPYh+s/8imwRBohlM8XCm1iP0Tqqq+WluX0XYh0N9fj/di9iK/ZbCvpBcRH/Qfm7acmwInd3cJqVyHuCcgePFXz/XiTh8cVnxg7IYQnCojr63aBx+tSiAWD/fOlGQTg2hNEjnh7iMcaG0q+PpbkKX7Zeww1TL12klityabgwG+T3t9J3jlaPSX/VIMqVKkjsHJhFaGTT0ip11V88m9Y5/K6QylWPt0pYQE0rBTnVFZ5nomrJN+xJGouMRH7pu8J9JSCeCo9HW50SAMTgboidIsthqWvWSsUxChXXNoDyMvo78kfHjGHpxcyzi4KtU1cvUC3hTA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by PH7PR11MB5818.namprd11.prod.outlook.com (2603:10b6:510:132::11) with
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=htpwCZPSKbFK/lAh6xoU7JNipvvRjPsm+GUSNR3AFq8=;
+ b=U+f/6QxfqNq8akJ0U9oyw5cg7UFNTPcb4r5DK301oTbF6ga5oSTGpTQ4F9mhqEC/B225ZHcrwnsX1BTgLfNfdCEyjW6dV6t0ZFlJgB7dUSvLBuohQGwS7GHByLc8TaL2qeHpC3mfdAESI263W3P9mJBkvninbvz8qNkBNgKbAx0=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
+ by AS8PR08MB8442.eurprd08.prod.outlook.com (2603:10a6:20b:568::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37; Thu, 29 Jun
- 2023 15:56:28 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::f232:e1a0:b936:2aed]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::f232:e1a0:b936:2aed%7]) with mapi id 15.20.6521.024; Thu, 29 Jun 2023
- 15:56:28 +0000
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        "Peter Newman" <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "x86@kernel.org" <x86@kernel.org>
-CC:     James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.46; Thu, 29 Jun
+ 2023 16:07:57 +0000
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::43b7:3a83:5cbe:4559]) by DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::43b7:3a83:5cbe:4559%4]) with mapi id 15.20.6521.026; Thu, 29 Jun 2023
+ 16:07:57 +0000
+Date:   Thu, 29 Jun 2023 17:07:42 +0100
+From:   "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>
+Cc:     "Xu, Pengfei" <pengfei.xu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH v2 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is
- enabled and initialize.
-Thread-Topic: [PATCH v2 7/7] x86/resctrl: Determine if Sub-NUMA Cluster is
- enabled and initialize.
-Thread-Index: AQHZpGd48oRuL5v3EUiLea9/WFe4Sq+hb2oAgACLkBA=
-Date:   Thu, 29 Jun 2023 15:56:28 +0000
-Message-ID: <SJ1PR11MB60839D1A523095BAF855C8B7FC25A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <20230621174006.42533-1-tony.luck@intel.com>
- <20230621174006.42533-8-tony.luck@intel.com>
- <TYAPR01MB633095B17B82098E65D3B4238B25A@TYAPR01MB6330.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB633095B17B82098E65D3B4238B25A@TYAPR01MB6330.jpnprd01.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=true;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2023-06-29T07:32:07Z;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED?;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ActionId=cd5a3d33-f56e-4471-a554-9d26d979798e;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|PH7PR11MB5818:EE_
-x-ms-office365-filtering-correlation-id: f3fcd634-2c8c-4ea5-394f-08db78b96678
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CpsPOCI7XLbhXvLlqXEfg0DyEgZEkvNquOolcX20kVhQSzJz7jXUdl2fkSnmdgxRMwZGJqTj9dSl32eI3iv0FF22vhu/9KkvgdoCmJG2ePtnGqtLq4J13mRX+Mjyhsv9BJnamQvTu1rvLpWXWAurf5LpStR6QmgZ60rfUNyfoPImNCb3foPvLujzQk1mkYG7j8LgbaZtA9l2+FmPUiyHch8H4bjt6BllPPiRf8QdDswcp1Jwnef4OzuJwZUj3Hf4qs85kwoPdSHLH7XRY/+BqNiHgghshBnkaiPGkagJ6idvkPxLXX/BCWIHkM3RFZIwJGYBlvoJ3OgG+grkxvQT+UFTAIGWdhcksVgE+6kfXvjYxr28SLbWy1Su6Gg8ZLs4zLFZFISw9QIRKASGDvgQLF0H7qYupd9ANNz7cAS3xVDPPhYYfi30tlBcvtlka0m7/6AHfQYXwrQW2Q4AJ7tUoyJB7cxHlQ7irVuL6u4n7yrqIaSvXGDKe1iHq//VUegjWyWhfRlQU+ROTHiS4+WQc+nwFYNx5SqH5yl++pE+drJN8dBU9oiqYO5zwxSoZNep8gc+5v5R7D2lb7mBmbKHjJU2Uwemk/cP61bKftQ49k3JViiKenXaZxVQiEBl9Kcl
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(136003)(366004)(346002)(376002)(39860400002)(451199021)(7416002)(5660300002)(52536014)(66946007)(76116006)(66556008)(66446008)(4326008)(33656002)(64756008)(66476007)(478600001)(316002)(8936002)(8676002)(2906002)(110136005)(41300700001)(54906003)(38070700005)(71200400001)(55016003)(7696005)(186003)(6506007)(26005)(4744005)(86362001)(9686003)(122000001)(82960400001)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?3xF6ekg25EpHxznM08HzJewbYyI1urUDuePr6qFxY6KxWWY53SJUmM4+x6te?=
- =?us-ascii?Q?EXpw2eSX6YCkSaeiEstcRY/oP6Tw3p0HNorHuCS3pzGHBYPKAkL8AA1h9VGV?=
- =?us-ascii?Q?vgoR/tZ8F3TbjJpYR1PniAcelqLx/VPvfiptSVHLKjeSfCckaDrTV9QFEdgy?=
- =?us-ascii?Q?v72fNfprdC2GlwmqkfRS7DzpAUCuLiGDvubAOm/zQD6cbbCHBkQar5TqdVpj?=
- =?us-ascii?Q?xYQs4UvxegCNQ/9Zfw4t3Ww2a9wxcabYlQULtCI5aQdPMDwkr0vuCQHC3qLM?=
- =?us-ascii?Q?lhXPfv5VSqx2QJAvGVvxhJlNm3ijLdnJuKzodPvzDSs3Lyd/G6K0OHwekEdj?=
- =?us-ascii?Q?LguZBD5M+ToFY9AP581TX8/8xVFJwdjkZ5hTJtQuwHtF3ZtDBpI9sgIDVnP2?=
- =?us-ascii?Q?vSd9R3RxJiAlMGoEqyFBMch73p1umRHvM0UtsFSH3H7Jd+I5Kfu5GEdc3+wY?=
- =?us-ascii?Q?33Rl0QHy3NsvD5rSEB69iIfWK+N9qh+nBYhWXIUOnWRN3H6FFMPyJInj2Tbg?=
- =?us-ascii?Q?pKmlzs9jGBV0y8spupRRH9qXsg7YUn05/tKpJcsmUNwC+KHNwJVUzFlGxaqK?=
- =?us-ascii?Q?rfUJc3RuQxScMuBzi+m1MJJvwJrJMbMGAGZJsKVnQiUPwG8U30+fiaJP33Ee?=
- =?us-ascii?Q?wMKHcxFDG6enzoAOkA51zeZGhdiatwXuiTtf2oWhdZvX/vkXOt4lfox6RjO5?=
- =?us-ascii?Q?1SvSp6/HFsvg86gAOcjIKs44B5udPPTjtH6hHx7rr6C37qZ+R6ZZHu1baWEZ?=
- =?us-ascii?Q?ewSnfCdwRLXFh4RfFUnXPvmS2pGLmTdikQeeMvXGwAM0myQkFEPglKwWxJwI?=
- =?us-ascii?Q?edT+eCGOUvBangCwB/kS1wHmKQ2PUfsXF0ca6zVQjgBUg2XCzB7O5s2Yz87c?=
- =?us-ascii?Q?VukE68Hpx1zJLhi3KaH4I9mb7y8OS1EvwItfCEpyl6af+8Vg8Nl1KwTANofs?=
- =?us-ascii?Q?Ics6oKdgyGglgD3ftDL7lUbJ5mr4mJk7FkcDP3BYrWEsNb9C5es/ZcjfFs4E?=
- =?us-ascii?Q?sn8bymJba4emJlgCkt5kEE1zM1Ry2MzZ2VANc1yc1NKoqb6WAyKRDDMG2pc5?=
- =?us-ascii?Q?RZC0YZaq4Lgz1BvHMhBp4uLYd48ogbUUOclRXgqus6hdxerFsCkZBHe94Nh+?=
- =?us-ascii?Q?a7DH1PJ/uAO2ECnAcy8ZcttBKSyh3pL+1NXVwwaDIrPBNDfd+9R4DsKzdnxI?=
- =?us-ascii?Q?asH8UsuVb/sWKNVILZD595mJnvF7xWJHOcMBuaAavdShGNkEhvNuVBRM8Y46?=
- =?us-ascii?Q?z0yhQoo+/HPOxJxBmXhzVsYottkupZEUfeHG322ueL7+f47az4Eclhlhn8Ft?=
- =?us-ascii?Q?IwVkIoVQ/cj6biBpOAtPekbiljQFrf7erx3UdslvTvKmNG9Rz8Lf/wnjGBvu?=
- =?us-ascii?Q?yLzNvRCHamEfjYdt5M0wJzvDWNnnj/r954svgQZbV0l1OcnAyLhNEq60FnuT?=
- =?us-ascii?Q?+8ZPDQc0i+3pfdLVsPI6tvMkFdGOmQipJeaOUganWZeO8tEPFFq/uT8QpvrQ?=
- =?us-ascii?Q?+c75R7caDsQ857xHrnBf/FqP1ynLyQc4efxM16fHQOljfLbNIG3ehyiFGHO4?=
- =?us-ascii?Q?wJ9KjMB25eDiBXeRRMs=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <ZJ2sTu9QRmiWNISy@arm.com>
+References: <ZJAWMSLfSaHOD1+X@arm.com>
+ <5794e4024a01e9c25f0951a7386cac69310dbd0f.camel@intel.com>
+ <ZJFukYxRbU1MZlQn@arm.com>
+ <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
+ <ZJLgp29mM3BLb3xa@arm.com>
+ <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
+ <ZJQR7slVHvjeCQG8@arm.com>
+ <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
+ <ZJR545en+dYx399c@arm.com>
+ <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
+X-ClientProxiedBy: LO4P123CA0316.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:197::15) To DB9PR08MB7179.eurprd08.prod.outlook.com
+ (2603:10a6:10:2cc::19)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3fcd634-2c8c-4ea5-394f-08db78b96678
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2023 15:56:28.6079
+X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|AS8PR08MB8442:EE_|DBAEUR03FT004:EE_|AS8PR08MB10077:EE_
+X-MS-Office365-Filtering-Correlation-Id: 761ebab7-18bb-49c8-0740-08db78bb072d
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: SuAiMI4pwQJkFTtkSCnZjVMeg2wIwzlDOnjwHCZJkUR9Jie4C0atK5k85Oh3r4ldi+oVJiCmqAQA0Ffp2OQ3rKvXLs/kgTv0OBSxJy0cT0zvUPFcGjg6QdrVu7VRojCmsj3rY2e/JWXSVzDqHfTLf6usIfMnH/zT9j8D205SpIBolfW2iY33/JnlGMgq/loR6ukjvEkpeYU1nT3PN+RQRYX4xzN0FYgXMzN1PCNkTxqDowiUq8UgGVfcUpcU66M1JCTy2ZGPinzbB7asnuEqW96QNj2Fvr6dnVEi6sGv2VveXwsvwlYGgn0luzE71J9geVELpNtzhRxKOpDf+nG9QxTOJXxdBl1VkE7Re/B9W4x6+GEVvmG45mZV5we+BZ9n5JBW77UoWD0yUTSAkkf9H2v9Ong6fJtUn1xPTyzo5qnRyr53+G0Tnl5TDEPgRfJLvYZolIf7gsOgg1r+KdzjF71V6aCuGuejwNJ8nyeNLR90cgSzaf220CqwtSFM4uSIu9+FE1G4J3KUtT1cQ8l+p/PppLXLMJXKEzW1GtBlST0RGqcNOLOZJzgamqystSqv
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(366004)(346002)(396003)(39860400002)(451199021)(66899021)(66476007)(6666004)(66946007)(66556008)(36756003)(4326008)(478600001)(54906003)(110136005)(86362001)(26005)(186003)(2616005)(83380400001)(7406005)(5660300002)(7416002)(2906002)(41300700001)(316002)(6486002)(38100700002)(6506007)(8936002)(8676002)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8442
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT004.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: b1adbf0b-af17-406f-05d1-08db78bb00ac
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qHyxqSVub8Y68ty/WIEsTI7+tmeRwd1nSXWw0AVF3NfiO9TNXxy/mXQEn+UQRbq4KHL6xNdS5GIwtDxeNDFl1uCY0H5HXN4qiChPP4HXNUPAtF/65ljHmhLH7xnOWZbPcvN0nMQvbV8AdmpORFncnfLCIaIa3emcQSSelL5g6RNWHbRU0ktxxCoomksEUOd3mKCnn1knNAaIL111kxGWjC2tFS9gCMFrVb2kfMRdQw5QpxKWJIApLxtYqboFh6lsI5mZ+U8ypb06tQ1Fc+l/B+VWBSYGZ5HCLz29p5tcuFCfuU46poKwWPszIi9xoubIn8+uODwvXv5IGuU2M29J0/DLCRNNSTVWQReiRe2PVQzy1sSlthwL6kZ8v+jZ1WCF9HeUnJwqU4EPn8xJBBQs04lMujrILszmxWBxv5bAkveYcvpKRlsTI19KwxW6bbBOb8pjmxc/Tlxtu6h9YgpYLmtWj4adNfrUii+ULyephXWWIwNGDo2p3IxfuhRU5eIT+aHPviKk6HKzHrnXqVumEjQKwsk1SsoVUgrbHKLubPs+5EphzARAf7sJ39WfRLwrfBH2x6FTjbqKJw/Q+EpDFA+D8V3TDCUwul9vZgg9xDY6UKlS8ZldnkcoHluOVvPMFtl5mMRU8r4B9xsoZzXo6dmbAX7FKVME1zpjh+/3/dDrnvGXYbc+SflDpTLfD9WZtNJDhUaKWgI3guqy85YVeljJ7Nbt0M8R5B1p3tMGbVUvCvqIlXJlfywQDQb5tyWw
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(376002)(136003)(346002)(451199021)(46966006)(40470700004)(36840700001)(5660300002)(450100002)(70586007)(316002)(478600001)(36756003)(4326008)(70206006)(6506007)(66899021)(8936002)(8676002)(86362001)(2906002)(6512007)(26005)(110136005)(54906003)(36860700001)(40460700003)(40480700001)(41300700001)(6666004)(6486002)(82310400005)(356005)(186003)(336012)(82740400003)(47076005)(107886003)(83380400001)(2616005)(81166007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 16:08:07.7509
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2e0rhXUlAx3OTFYHwrVCWYkFqbI0idFY6iE0oobfntyNAsq1lHAaKN0A5Kg7eSaz9YfXbs08yCqXhwvWbnGxvw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5818
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 761ebab7-18bb-49c8-0740-08db78bb072d
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT004.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10077
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> +static const struct x86_cpu_id snc_cpu_ids[] __initconst =3D {
->> +	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_X, 0),
->> +	X86_MATCH_INTEL_FAM6_MODEL(SAPPHIRERAPIDS_X, 0),
->> +	X86_MATCH_INTEL_FAM6_MODEL(EMERALDRAPIDS_X, 0),
->> +	{}
->> +};
->
-> Cascade Lake and Skylake also seem to support Sub-NUMA cluster.
-> At least in my environment(Intel(R) Xeon(R) Gold 6254 CPU @ 3.10GHz),
-> Sub-NUMA cluster is supported.
+The 06/22/2023 23:18, Edgecombe, Rick P wrote:
+> I'd also appreciate if you could spell out exactly which:
+>  - ucontext
+>  - signal
+>  - longjmp
+>  - custom library stack switching
+> 
+> patterns you think shadow stack should support working together.
+> Because even after all these mails, I'm still not sure exactly what you
+> are trying to achieve.
 
-Shaopeng TAN,
+i'm trying to support two operations (in any combination):
 
-This is true. But MSR_RMID_SNC_CONFIG  (0xCA0) is not implemented
-for CPUs before ICELAKE.
+(1) jump up the current (active) stack.
 
--Tony
+(2) jump to a live frame in a different inactive but live stack.
+    the old stack becomes inactive (= no task executes on it)
+    and live (= has valid frames to jump to).
+
+with
+
+(3) the runtime must manage the shadow stacks transparently.
+    (= portable c code does not need modifications)
+
+mapping this to c apis:
+
+- swapcontext, setcontext, longjmp, custom stack switching are jump
+  operations. (there are conditions under which (1) and (2) must work,
+  further details don't matter.)
+
+- makecontext creates an inactive live stack.
+
+- signal is only special if it executes on an alt stack: on signal
+  entry the alt stack becomes active and the interrupted stack
+  inactive but live. (nested signals execute on the alt stack until
+  that is left either via a jump or signal return.)
+
+- unwinding can be implemented with jump operations (it needs some
+  other things but that's out of scope here).
+
+the patterns that shadow stack should support falls out of this model.
+(e.g. posix does not allow jumping from one thread to the stack of a
+different thread, but the model does not care about that, it only
+cares if the target stack is inactive and live then jump should work.)
+
+some observations:
+
+- it is necessary for jump to detect case (2) and then switch to the
+  target shadow stack. this is also sufficient to implement it. (note:
+  the restore token can be used for detection since that is guaranteed
+  to be present when user code creates an inactive live stack and is
+  not present anywhere else by design. a different marking can be used
+  if the inactive live stack is created by the kernel, but then the
+  kernel has to provide a switch method, e.g. syscall. this should not
+  be controversial.)
+
+- in this model two live stacks cannot use the same shadow stack since
+  jumping between the two stacks is allowed in both directions, but
+  jumping within a shadow stack only works in one direction. (also two
+  tasks could execute on the same shadow stack then. and it makes
+  shadow stack size accounting problematic.)
+
+- so sharing shadow stack with alt stack is broken. (the model is
+  right in the sense that valid posix code can trigger the issue. we
+  can ignore that corner case and adjust the model so the shared
+  shadow stack works for alt stack, but it likely does not change the
+  jump design: eventually we want alt shadow stack.)
+
+- shadow stack cannot always be managed by the runtime transparently:
+  it has to be allocated for makecontext and alt stack in situations
+  where allocation failure cannot be handled. more alarmingly the
+  destruction of stacks may not be visible to the runtime so the
+  corresponding shadow stacks leak. my preferred way to fix this is
+  new apis that are shadow stack compatible (e.g. shadow_makecontext
+  with shadow_freecontext) and marking the incompatible apis as such.
+  portable code then can decide to update to new apis, run with shstk
+  disabled or accept the leaks and OOM failures. the current approach
+  needs ifdef __CET__ in user code for makecontext and sigaltstack
+  has many issues.
+
+- i'm still not happy with the shadow stack sizing. and would like to
+  have a token at the end of the shadow stack to allow scanning. and
+  it would be nice to deal with shadow stack overflow. and there is
+  async disable on dlopen. so there are things to work on.
+
+i understand that the proposed linux abi makes most existing binaries
+with shstk marking work, which is relevant for x86.
+
+for a while i thought we can fix the remaining issues even if that
+means breaking existing shstk binaries (just bump the abi marking).
+now it seems the issues can only be addressed in a future abi break.
+
+which means x86 linux will likely end up maintaining two incompatible
+abis and the future one will need user code and build system changes,
+not just runtime changes. it is not a small incremental change to add
+alt shadow stack support for example.
+
+i don't think the maintenance burden of two shadow stack abis is the
+right path for arm64 to follow, so the shadow stack semantics will
+likely become divergent not common across targets.
+
+i hope my position is now clearer.
