@@ -2,175 +2,74 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9562BEB64D9
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 14:03:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA96EB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 15:16:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230119AbjF2ODw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 10:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52160 "EHLO
+        id S232183AbjF2PP7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 11:15:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231899AbjF2ODw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 10:03:52 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E40A1FE4;
-        Thu, 29 Jun 2023 07:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1688047430; x=1719583430;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0LCje66TrgfndvZbz38XLfCZaJE3/THeERjOD2/AstY=;
-  b=pD6y9J85HsERg0DbTeB+Smy7meSqEtSGZ4p/P1hKZyMynCPzJcABaf4o
-   Y9d44jBCBqbcEM3Pk3mtOLQ5xDoL2KXJ6HGJ+1Se0r7L1SBfYKNa8DAQ/
-   kga3hBZsaiT3ltp1E+IuaqG/B+CZt6Didq8VEpjXCFL8MoCeZveNPgttV
-   d1LBNN2+pqFQzWfL7oAmh59xaMxhTHJXMaGuAMoaX0UwOB+ZXYqjX2+Q/
-   O1OoywQpq7UYo/3Xx2kV6QozNmHVAxHaEJ63D9qr+cx51L6zkDzBfB7bE
-   pjJF+tcunFfGoJ5ISQBFn6sQ7Nw+eL2RUpc6JbzMkNrhu6J25TZ9rjSNh
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="asc'?scan'208";a="232893173"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 29 Jun 2023 07:03:40 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 29 Jun 2023 07:03:40 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Thu, 29 Jun 2023 07:03:37 -0700
-Date:   Thu, 29 Jun 2023 15:03:08 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Evan Green <evan@rivosinc.com>
-CC:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Simon Hosie <shosie@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Andy Chiu <andy.chiu@sifive.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@kernel.org>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Li Zhengyu <lizhengyu3@huawei.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        Yangyu Chen <cyy@cyyself.name>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH 1/2] RISC-V: Probe for unaligned access speed
-Message-ID: <20230629-untaxed-tripping-6000bc8c1873@wendy>
-References: <20230623222016.3742145-1-evan@rivosinc.com>
- <20230623222016.3742145-2-evan@rivosinc.com>
- <20230626-veneering-superglue-751719bd967c@wendy>
- <CALs-HsskE1-OkZxFzH9bM6bR9NBW5R4mh5AJScVtnvHbv+Pi6A@mail.gmail.com>
+        with ESMTP id S231638AbjF2PP6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 11:15:58 -0400
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 474C31BD1;
+        Thu, 29 Jun 2023 08:15:57 -0700 (PDT)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-66767d628e2so703150b3a.2;
+        Thu, 29 Jun 2023 08:15:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688051757; x=1690643757;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qccKYp1AYuLT7GaG2xqJdVkZtWkl4Hon6oeAGOJVG9o=;
+        b=FPirHep/dRCRIRtVtWB4zEdOwQyomPy/bVmo5toyA8ErJNR0lH6yTYM4wQ5j1kl8HO
+         G2f7JNPyK7IehoR33djsmqQEMPiHjUhwKYPkYcqHWFdYrwk6vWljDFHS17pU06qyarwR
+         bQVT1XYJAEFyC+K+zxVno5Z9Ar7AnFs0KJwkrOf6ZFPCpkQIpjmS1r3xoIZ1HHChsoGp
+         dUX32UCqJVLawzaUxkuz/c125oosU18rLixHPVRZv5bLnYWJ0X9dMhTAfIRtXtKGIVVH
+         QRTJnRm5kCM8IQUJtY8LbkaSN05s/7trn8kn0WdgH4wgOnSoFTH2PQxV94xYsan+lZgL
+         qXEw==
+X-Gm-Message-State: ABy/qLZ2vlk417tnJTaOJC/qfOhU3SBx+Dt02tBNeJWKcT8O8lpmYXhD
+        3P8lYN/Z3BNvccN/Skbl7vQ=
+X-Google-Smtp-Source: APBJJlGyZ1UKPPOKrKHSQ6VdlmgU0fE9xg8EakgcqFmnS7khGAVYo81mwX7BkeKiQ9Kpxr+S9FcqSA==
+X-Received: by 2002:a05:6a00:150c:b0:64f:7a9c:cb15 with SMTP id q12-20020a056a00150c00b0064f7a9ccb15mr273446pfu.11.1688051756513;
+        Thu, 29 Jun 2023 08:15:56 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:9df8:7301:777:30db? ([2620:15c:211:201:9df8:7301:777:30db])
+        by smtp.gmail.com with ESMTPSA id a19-20020a62e213000000b0063f0c9eadc7sm3191514pfi.200.2023.06.29.08.15.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Jun 2023 08:15:55 -0700 (PDT)
+Message-ID: <a0c8d74a-dcfe-78a7-74bd-4447ed6944dc@acm.org>
+Date:   Thu, 29 Jun 2023 08:15:52 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="H5dFwnc5H1LxQund"
-Content-Disposition: inline
-In-Reply-To: <CALs-HsskE1-OkZxFzH9bM6bR9NBW5R4mh5AJScVtnvHbv+Pi6A@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 1/1] Add a new sysctl to disable io_uring system-wide
+Content-Language: en-US
+To:     Matteo Rizzo <matteorizzo@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org
+Cc:     jordyzomer@google.com, evn@google.com, poprdi@google.com,
+        corbet@lwn.net, axboe@kernel.dk, asml.silence@gmail.com,
+        akpm@linux-foundation.org, keescook@chromium.org,
+        rostedt@goodmis.org, dave.hansen@linux.intel.com,
+        ribalda@chromium.org, chenhuacai@kernel.org, steve@sk2.org,
+        gpiccoli@igalia.com, ldufour@linux.ibm.com, bhe@redhat.com,
+        oleksandr@natalenko.name
+References: <20230629132711.1712536-1-matteorizzo@google.com>
+ <20230629132711.1712536-2-matteorizzo@google.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20230629132711.1712536-2-matteorizzo@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---H5dFwnc5H1LxQund
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6/29/23 06:27, Matteo Rizzo wrote:
+> +static int __read_mostly sysctl_io_uring_disabled;
 
-On Tue, Jun 27, 2023 at 12:11:25PM -0700, Evan Green wrote:
-> On Mon, Jun 26, 2023 at 7:15=E2=80=AFAM Conor Dooley <conor.dooley@microc=
-hip.com> wrote:
-> > > +void check_misaligned_access(int cpu)
-> > > +{
-> > > +     unsigned long j0, j1;
-> > > +     struct page *page;
-> > > +     void *dst;
-> > > +     void *src;
-> > > +     long word_copies =3D 0;
-> > > +     long byte_copies =3D 0;
-> > > +     long speed =3D RISCV_HWPROBE_MISALIGNED_SLOW;
-> >
-> > Is this not a change from current behaviour, that may actually lead to
-> > incorrect reporting. Presently, only T-Head stuff sets a speed, so
-> > hwprobe falls back to UNKNOWN for everything else. With this, we will
-> > get slow set, for anything failing the test.
-> > Slow is defined as "Misaligned accesses are supported in hardware, but
-> > are slower than the cooresponding aligned accesses sequences (sic)", but
-> > you have no way of knowing, based on the test you are performing, wheth=
-er
-> > the hardware supports it or if it is emulated by firmware.
-> > Perhaps that is not relevant to userspace, but wanted to know your
-> > thoughts.
-> >
->=20
-> Hm, that's true. EMULATED was an easy one when we were planning to get
-> this info from the DT. It also might be an easy one in the future, if
-> we get an SBI call that allows the kernel to take over misaligned trap
-> handling. We'd then be able to do a misaligned access and see if our
-> trap handler got called.
->=20
-> One option is to leave the value alone if we fail the FAST test
-> (rather than changing it from UNKNOWN to SLOW). This isn't great
-> though, as it effectively makes UNKNOWN synonymous with SLOW, but in a
-> way where usermode can't tell the difference between "I truly don't
-> know" and "I tried the fast test and it failed".
->=20
-> The alternative, as it is now, may mislabel some emulated systems as
-> slow until the new SBI call shows up.
+Shouldn't this be a static key instead of an int in order to minimize the
+performance impact on the io_uring_setup() system call? See also
+Documentation/staging/static-keys.rst.
 
-Make that "mislabel some emulated systems forever", existing systems
-don't magically grow support for new extensions unfortunately.
+Thanks,
 
-Realistically though, does it matter to userspace if it is slow because
-the hardware is slow, or if the emulation is slow, since there's not
-really a way for userspace to tell from the syscall by how much it is
-slower.
-It can probably guess that emulation is worse, given how crap the
-speed I see on mpfs is.
-
-I'd rather we did say slow, rather than people start to interpret
-UNKNOWN as slow.
-
-> I'm not sure how bad this is in
-> practice. We could add a subsequent performance bar below which we
-> guess "emulated".
-
-Nah, I don't really think that that is required.
-
-> This probably matches what usermode will use that
-> value for anyway (a synonym for "very slow"), but it's basically the
-> same problem with reversed polarity (we mislabel some slow systems as
-> emulated). I'm open to suggestions!
-
-I think I just agreed with you, give or take. If it is fast, say fast.
-If it is slow, we say it is slow. If we know it is emulated, then we can
-report it being emulated. Is it too late to remove the "hardware" from
-the syscall documentation, IOW s/supported in hardware/supported/?
-
-Please actually describe the assumptions/subtleties in the commit
-message though, so that the rationale for stuff is in the history :)
-
-Cheers,
-Conor.
-
---H5dFwnc5H1LxQund
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJ2PHAAKCRB4tDGHoIJi
-0u12AP9Y4hnYqRbH89CmxyncXU2SpQInIjF2gv52xpsfjjHjSgD+Kupcyjx9JdXL
-IXyCwSeqVgJgGgNYQaIGXrmI/E/Biwo=
-=2Coz
------END PGP SIGNATURE-----
-
---H5dFwnc5H1LxQund--
+Bart.
