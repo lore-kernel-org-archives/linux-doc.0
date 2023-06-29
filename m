@@ -2,142 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73103C001B0
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 21:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C617DC001B0
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 21:04:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230189AbjF2U7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 16:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49630 "EHLO
+        id S230453AbjF2VEd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 17:04:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231778AbjF2U7M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 16:59:12 -0400
+        with ESMTP id S229727AbjF2VEc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 17:04:32 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46752194;
-        Thu, 29 Jun 2023 13:59:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 530791BC6;
+        Thu, 29 Jun 2023 14:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
         Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=71PV5aDwVtaV5fStzwHqmQJIJQPeReGlo36D/hVKmtE=; b=Jy12NeGE/o5x85OdUwJQdskavi
-        wtIjLdGJ2u5VC7DaMEQycOW7YpZpqLGbeX4R2MbVAWilTyTj8TOBn0Zkg+cnfFDTmLeyxbiEcwgKO
-        kNAwO/9cI0b/BJBg6V7coiRB7uPie/Pmp7/C+AeQ1quBuE3BAmQvmqj63mffkFK7qcejMasYkEyLu
-        xjEsRTQYdw+zJOgV6gKwwkHdtJpoRjAI1cVASrkRxevC7mbpGmCsN5TnmNRgV9yN4jvcUHTi3FTDC
-        joZPT9V9RRJex3ow7X2g8DKMCwb6LCX/XOnnwVyhvWQEnr+GA1qRSdWY3t6nw7EyGPaViHRKZ/Awx
-        mkdWekWA==;
+        bh=J/Le96Hd+j13NdY/bbUKc97A6Qhb9OOEKINA5FlMdBc=; b=LAqUkWtZd0VW1y8npxGmiGyUTa
+        9dDtUf/A+7L/tlqLJHfjtdSEPxEJlPDpIyPBhYqg19uZcsfLFjOc8twD1U01P2danEgyfygbhyaZL
+        ia3N3kO6fcyvYbSiI4PjbKyhYR0g7YTfiNIjMWEGpGbdigtikSyXVSbM/PaDMYq22qIyFsYEVWWkQ
+        r91INYFie1dEFLqBtswXaA9MW47K81cIpkVyKkTcHIhAlU9Fb9bhsjkpSdVkS+vbr/0VW5oZJNOvx
+        bhg5cDkf54CCHr/WKD151rlnIuIgQl2Y4z1/NRfFDRfedUeeKeNvj4fTqDCl6F5ItPW6M8oLPQ0Q6
+        vniqQR2w==;
 Received: from [2601:1c2:980:9ec0::2764]
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qEyjL-002AFE-2A;
-        Thu, 29 Jun 2023 20:59:07 +0000
-Message-ID: <c9d4e623-5c8c-885f-4343-980798647a0a@infradead.org>
-Date:   Thu, 29 Jun 2023 13:59:05 -0700
+        id 1qEyoE-002AzK-1P;
+        Thu, 29 Jun 2023 21:04:10 +0000
+Message-ID: <3cc9f07a-3105-27f9-176d-9deea975ce3c@infradead.org>
+Date:   Thu, 29 Jun 2023 14:04:08 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-Subject: Re: [PATCH v25 06/10] crash: memory and CPU hotplug sysfs attributes
+Subject: Re: [PATCH v2 6/6] mm: userfaultfd: add basic documentation for
+ UFFDIO_POISON
 Content-Language: en-US
-To:     Eric DeVolder <eric.devolder@oracle.com>,
-        linux-kernel@vger.kernel.org, david@redhat.com, osalvador@suse.de,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, bhe@redhat.com,
-        ebiederm@xmission.com, kexec@lists.infradead.org
-Cc:     hpa@zytor.com, gregkh@linuxfoundation.org, rafael@kernel.org,
-        vgoyal@redhat.com, dyoung@redhat.com, lf32.dev@gmail.com,
-        akpm@linux-foundation.org, naveen.n.rao@linux.vnet.ibm.com,
-        zohar@linux.ibm.com, bhelgaas@google.com, vbabka@suse.cz,
-        tiwai@suse.de, seanjc@google.com, linux@weissschuh.net,
-        vschneid@redhat.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        sourabhjain@linux.ibm.com, konrad.wilk@oracle.com,
-        boris.ostrovsky@oracle.com
-References: <20230629192119.6613-1-eric.devolder@oracle.com>
- <20230629192119.6613-7-eric.devolder@oracle.com>
+To:     Axel Rasmussen <axelrasmussen@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Nadav Amit <namit@vmware.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        ZhangPeng <zhangpeng362@huawei.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org
+References: <20230629205040.665834-1-axelrasmussen@google.com>
+ <20230629205040.665834-6-axelrasmussen@google.com>
 From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230629192119.6613-7-eric.devolder@oracle.com>
+In-Reply-To: <20230629205040.665834-6-axelrasmussen@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+typo below.
 
-On 6/29/23 12:21, Eric DeVolder wrote:
+On 6/29/23 13:50, Axel Rasmussen wrote:
+> Just describe the feature at a really basic level.
 > 
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-> Acked-by: Hari Bathini <hbathini@linux.ibm.com>
-> Acked-by: Baoquan He <bhe@redhat.com>
+> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 > ---
->  Documentation/ABI/testing/sysfs-devices-memory |  8 ++++++++
->  .../ABI/testing/sysfs-devices-system-cpu       |  8 ++++++++
->  .../admin-guide/mm/memory-hotplug.rst          |  8 ++++++++
->  Documentation/core-api/cpu_hotplug.rst         | 18 ++++++++++++++++++
->  drivers/base/cpu.c                             | 16 ++++++++++++++--
->  drivers/base/memory.c                          | 13 +++++++++++++
->  include/linux/kexec.h                          |  8 ++++++++
->  7 files changed, 77 insertions(+), 2 deletions(-)
+>  Documentation/admin-guide/mm/userfaultfd.rst | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
-
-> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> index 1b02fe5807cc..eb99d79223a3 100644
-> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> @@ -291,6 +291,14 @@ The following files are currently defined:
->  		       Availability depends on the CONFIG_ARCH_MEMORY_PROBE
->  		       kernel configuration option.
->  ``uevent``	       read-write: generic udev file for device subsystems.
-> +``crash_hotplug``      read-only: when changes to the system memory map
-> +		       occur due to hot un/plug of memory, this file contains
-> +		       '1' if the kernel updates the kdump capture kernel memory
-> +		       map itself (via elfcorehdr), or '0' if userspace must update
-> +		       the kdump capture kernel memory map.
-> +
-> +		       Availability depends on the CONFIG_MEMORY_HOTPLUG kernel
-> +		       configuration option.
->  ====================== =========================================================
-
-Did you test build the documentation?
-It looks to me like the end-of-table '=' signs line needs 3 more === to be long
-enough for the text above it.
-
+> diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
+> index 7c304e432205..b19053436369 100644
+> --- a/Documentation/admin-guide/mm/userfaultfd.rst
+> +++ b/Documentation/admin-guide/mm/userfaultfd.rst
+> @@ -244,6 +244,21 @@ write-protected (so future writes will also result in a WP fault). These ioctls
+>  support a mode flag (``UFFDIO_COPY_MODE_WP`` or ``UFFDIO_CONTINUE_MODE_WP``
+>  respectively) to configure the mapping this way.
 >  
->  .. note::
-> diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
-> index e6f5bc39cf5c..54581c501562 100644
-> --- a/Documentation/core-api/cpu_hotplug.rst
-> +++ b/Documentation/core-api/cpu_hotplug.rst
-> @@ -741,6 +741,24 @@ will receive all events. A script like::
->  
->  can process the event further.
->  
-> +When changes to the CPUs in the system occur, the sysfs file
-> +/sys/devices/system/cpu/crash_hotplug contains '1' if the kernel
-> +updates the kdump capture kernel list of CPUs itself (via elfcorehdr),
-> +or '0' if userspace must update the kdump capture kernel list of CPUs.
+> +Memory Poisioning Emulation
+> +---------------------------
 > +
-> +The availability depends on the CONFIG_HOTPLUG_CPU kernel configuration
-> +option.
+> +In response to a fault (either missing or minor), an action userspace can
+> +take to "resolve" it is to issue a ``UFFDIO_POISON``. This will cause any
+> +future faulters to either get a SIGBUS, or in KVM's case the guest will
+> +receive an MCE as if there were hardware memory poisoning.
 > +
-> +To skip userspace processing of CPU hot un/plug events for kdump
-> +(ie the unload-then-reload to obtain a current list of CPUs), this sysfs
+> +This is used to emulate hardware memory poisoning. Imagine a VM running on a
+> +machine which experiences a real hardware memory error. Later, we live migrate
+> +the VM to another physical machine. Since we want the migration to be
+> +transparent to the guest, we want that same address range to act as if it was
+> +still poisoned, even though it's on a new physical host which ostentisbly
 
-    i.e.
+                                                                 ostensibly
 
-> +file can be used in a udev rule as follows:
+> +doesn't have a memory error in the exact same spot.
 > +
-> + SUBSYSTEM=="cpu", ATTRS{crash_hotplug}=="1", GOTO="kdump_reload_end"
-> +
-> +For a cpu hot un/plug event, if the architecture supports kernel updates
-
-         CPU
-for consistency
-
-> +of the elfcorehdr (which contains the list of CPUs), then the rule skips
-> +the unload-then-reload of the kdump capture kernel.
-> +
->  Kernel Inline Documentations Reference
->  ======================================
+>  QEMU/KVM
+>  ========
 >  
 
-Thanks.
 -- 
 ~Randy
