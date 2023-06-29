@@ -2,176 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF38EB64D9
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 23:10:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87EA5EB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 23:20:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230361AbjF2XKv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 19:10:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56404 "EHLO
+        id S229522AbjF2XUl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 19:20:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjF2XKu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 19:10:50 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0D5130C4
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 16:10:48 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4fb960b7c9dso2020291e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 16:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688080247; x=1690672247;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UOurnaMZUdb/k4kFNvbu1tJhgntbSJLOIlDNG1veMtc=;
-        b=fRvpjUyIzWosp4wJZ9+CgVdvvl+cSgO0d9f4px0w9swQ5qz9TN5Sp2CHyAOqco6PCi
-         0G7/8pE+tDu+++XoUtR7P+tnfsdvo2tXbwpbpSBvCbH8jr8Hm7UG4HF5sWPbuVtNZapv
-         XOUZe+6Rlw4RDGKfqaB7crYWWG9AeD8xxdm9MytaL9GB5XYSlwc8PW2h/pAOdQiGKKoH
-         eAtdrLW60XDOWld398pHoNySi1Y1uuGOgcs01gF48qlXMNZy61zGiS7Rb5nf6ZzaxzBX
-         f6PvRexNJupNK5jRs1nyf8d/DnlGh8HzQB1vTch2WCK7I5Y3rUHUQAU00j1U+rDx1WsY
-         UgCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688080247; x=1690672247;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UOurnaMZUdb/k4kFNvbu1tJhgntbSJLOIlDNG1veMtc=;
-        b=O3cfN29HBAy7/xVVN8wf571n2tAsohhMiHyiabLacCmLY9x5PQvy7Ud32q9PqHFHZF
-         cnUat9z1A0nDJyiJtdD036QakoB/mvCIVWbW3Roi0yVix9QrPykeCuxjPdrDTywXwygA
-         Rfc0UjijZsqC/aspm4BF2xBDC+/SRZVe2EDHhI6NKkFki+I9fS1ZY4OGtwbI38tSuR3U
-         BDQGE2SIQx1JluvTJGSwx9Bf/5UNZEZ9gThOBQf5qQoAYSds3itqQk9VLkcwjFa8LuO/
-         /x+80DsDiAybnhXtglU4s/gL9kQ68H7lOjrVtjYLC7QPEtulZFvAg6VQiq8164w8YuSP
-         is1w==
-X-Gm-Message-State: ABy/qLZJeIJAw29Ffgpu0543+z72riZmLQACNG1hWcrRkJEwxzIkTApa
-        F+nUa/C8mPwv9LgpG1wBnxQ89+/a85ni8/jPICaCiw==
-X-Google-Smtp-Source: APBJJlGjycSr7eiVtsYdR8UO8c7yL6rvjBfztXjuRS86wMWH1lovN1IhFs/b0VgwmKIxlYDpwEDhcHF13Dot6nWJINo=
-X-Received: by 2002:a05:6512:348e:b0:4f8:6aa4:17ec with SMTP id
- v14-20020a056512348e00b004f86aa417ecmr771881lfr.43.1688080247044; Thu, 29 Jun
- 2023 16:10:47 -0700 (PDT)
+        with ESMTP id S229483AbjF2XUk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 19:20:40 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07A7D11F;
+        Thu, 29 Jun 2023 16:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=jK2yIsW4r1gDHXlMqYKPZXOCEW8BMnll+kWpXMp/vls=; b=Vo3RBGyRjdpY7V3NsOz8z5hVIH
+        hLX5uQ4ws4il38w7vKSpMutyd0oC432Pn4E9mq/Cu8PrMTZbjjAY4PAx+l9DMUjOF+t8BSgY8fzZe
+        dm5zsxnaYX4yJr8BuIiGoVpRqgcUzFXSFvCVKNo5hKAn4WueSo22bQkW2Csd+k1Ds+t4PcshENcU+
+        eOMFlIsr0MNFVotbg78pscD1DoRTIrdLNykIlfg+2GVXo39lFxbXP6hrYiawM81pyOgFieuvTYEJS
+        OM+rgtqhiSwHtU4QcNe3QPxhL0FLvBXA/QWbeAh20oSJD+GNIMILs+fwlIrVu+m9mWcUYbIUvgqJN
+        PX4s7WjQ==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qF0wG-002SBW-16;
+        Thu, 29 Jun 2023 23:20:36 +0000
+Message-ID: <f907d71b-bd00-5649-d577-bf9f53fc2f83@infradead.org>
+Date:   Thu, 29 Jun 2023 16:20:34 -0700
 MIME-Version: 1.0
-References: <20230623222016.3742145-1-evan@rivosinc.com> <20230623222016.3742145-2-evan@rivosinc.com>
- <20230626-veneering-superglue-751719bd967c@wendy> <CALs-HsskE1-OkZxFzH9bM6bR9NBW5R4mh5AJScVtnvHbv+Pi6A@mail.gmail.com>
- <20230629-untaxed-tripping-6000bc8c1873@wendy>
-In-Reply-To: <20230629-untaxed-tripping-6000bc8c1873@wendy>
-From:   Evan Green <evan@rivosinc.com>
-Date:   Thu, 29 Jun 2023 16:10:11 -0700
-Message-ID: <CALs-HstWNYD7HW3kNKjSHF9gd5+DB6ByH-Ay5xboh6dwBxv+-A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] RISC-V: Probe for unaligned access speed
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
-        Simon Hosie <shosie@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Andy Chiu <andy.chiu@sifive.com>,
-        Anup Patel <apatel@ventanamicro.com>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@kernel.org>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        Li Zhengyu <lizhengyu3@huawei.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Xianting Tian <xianting.tian@linux.alibaba.com>,
-        Yangyu Chen <cyy@cyyself.name>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v25 06/10] crash: memory and CPU hotplug sysfs attributes
+To:     Eric DeVolder <eric.devolder@oracle.com>,
+        linux-kernel@vger.kernel.org, david@redhat.com, osalvador@suse.de,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, bhe@redhat.com,
+        ebiederm@xmission.com, kexec@lists.infradead.org
+Cc:     hpa@zytor.com, gregkh@linuxfoundation.org, rafael@kernel.org,
+        vgoyal@redhat.com, dyoung@redhat.com, lf32.dev@gmail.com,
+        akpm@linux-foundation.org, naveen.n.rao@linux.vnet.ibm.com,
+        zohar@linux.ibm.com, bhelgaas@google.com, vbabka@suse.cz,
+        tiwai@suse.de, seanjc@google.com, linux@weissschuh.net,
+        vschneid@redhat.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        sourabhjain@linux.ibm.com, konrad.wilk@oracle.com,
+        boris.ostrovsky@oracle.com
+References: <20230629192119.6613-1-eric.devolder@oracle.com>
+ <20230629192119.6613-7-eric.devolder@oracle.com>
+ <c9d4e623-5c8c-885f-4343-980798647a0a@infradead.org>
+ <e0f5adf6-4f47-75c7-5697-5e928bee14b7@oracle.com>
+Content-Language: en-US
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <e0f5adf6-4f47-75c7-5697-5e928bee14b7@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 29, 2023 at 7:03=E2=80=AFAM Conor Dooley <conor.dooley@microchi=
-p.com> wrote:
->
-> On Tue, Jun 27, 2023 at 12:11:25PM -0700, Evan Green wrote:
-> > On Mon, Jun 26, 2023 at 7:15=E2=80=AFAM Conor Dooley <conor.dooley@micr=
-ochip.com> wrote:
-> > > > +void check_misaligned_access(int cpu)
-> > > > +{
-> > > > +     unsigned long j0, j1;
-> > > > +     struct page *page;
-> > > > +     void *dst;
-> > > > +     void *src;
-> > > > +     long word_copies =3D 0;
-> > > > +     long byte_copies =3D 0;
-> > > > +     long speed =3D RISCV_HWPROBE_MISALIGNED_SLOW;
-> > >
-> > > Is this not a change from current behaviour, that may actually lead t=
-o
-> > > incorrect reporting. Presently, only T-Head stuff sets a speed, so
-> > > hwprobe falls back to UNKNOWN for everything else. With this, we will
-> > > get slow set, for anything failing the test.
-> > > Slow is defined as "Misaligned accesses are supported in hardware, bu=
-t
-> > > are slower than the cooresponding aligned accesses sequences (sic)", =
-but
-> > > you have no way of knowing, based on the test you are performing, whe=
-ther
-> > > the hardware supports it or if it is emulated by firmware.
-> > > Perhaps that is not relevant to userspace, but wanted to know your
-> > > thoughts.
-> > >
-> >
-> > Hm, that's true. EMULATED was an easy one when we were planning to get
-> > this info from the DT. It also might be an easy one in the future, if
-> > we get an SBI call that allows the kernel to take over misaligned trap
-> > handling. We'd then be able to do a misaligned access and see if our
-> > trap handler got called.
-> >
-> > One option is to leave the value alone if we fail the FAST test
-> > (rather than changing it from UNKNOWN to SLOW). This isn't great
-> > though, as it effectively makes UNKNOWN synonymous with SLOW, but in a
-> > way where usermode can't tell the difference between "I truly don't
-> > know" and "I tried the fast test and it failed".
-> >
-> > The alternative, as it is now, may mislabel some emulated systems as
-> > slow until the new SBI call shows up.
->
-> Make that "mislabel some emulated systems forever", existing systems
-> don't magically grow support for new extensions unfortunately.
 
-Right.
 
->
-> Realistically though, does it matter to userspace if it is slow because
-> the hardware is slow, or if the emulation is slow, since there's not
-> really a way for userspace to tell from the syscall by how much it is
-> slower.
-> It can probably guess that emulation is worse, given how crap the
-> speed I see on mpfs is.
->
-> I'd rather we did say slow, rather than people start to interpret
-> UNKNOWN as slow.
+On 6/29/23 15:31, Eric DeVolder wrote:
+>> Did you test build the documentation?
+>> It looks to me like the end-of-table '=' signs line needs 3 more === to be long
+>> enough for the text above it.
+> 
+> Hmm, the 'make htmldocs' renders and views ok. Is there perhaps another method I should use?
 
-I think I agree.
+No, that's it.
+Sorry about the noise.
 
->
-> > I'm not sure how bad this is in
-> > practice. We could add a subsequent performance bar below which we
-> > guess "emulated".
->
-> Nah, I don't really think that that is required.
->
-> > This probably matches what usermode will use that
-> > value for anyway (a synonym for "very slow"), but it's basically the
-> > same problem with reversed polarity (we mislabel some slow systems as
-> > emulated). I'm open to suggestions!
->
-> I think I just agreed with you, give or take. If it is fast, say fast.
-> If it is slow, we say it is slow. If we know it is emulated, then we can
-> report it being emulated. Is it too late to remove the "hardware" from
-> the syscall documentation, IOW s/supported in hardware/supported/?
->
-> Please actually describe the assumptions/subtleties in the commit
-> message though, so that the rationale for stuff is in the history :)
-
-Will do. I pondered an alternative of creating a "gray zone" where if
-misaligned words and bytes come out close to each other (which I don't
-expect them to), we leave the setting of UNKNOWN alone. But I'm not
-sure this really solves anything, it just moves the "waffle point"
-around, so I couldn't convince myself it was valuable.
--Evan
+-- 
+~Randy
