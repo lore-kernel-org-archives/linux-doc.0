@@ -2,57 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4968EC0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 20:50:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9869C001DD
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 20:51:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232259AbjF2Uu4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 16:50:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45902 "EHLO
+        id S232242AbjF2UvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 16:51:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232003AbjF2Uuw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 16:50:52 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C921A10F7
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 13:50:50 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-bb0d11a56abso920596276.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 13:50:50 -0700 (PDT)
+        with ESMTP id S232154AbjF2Uuz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 16:50:55 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CE63593
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 13:50:52 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-57704aa6c69so9777987b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 13:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1688071850; x=1690663850;
+        d=google.com; s=20221208; t=1688071852; x=1690663852;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R8jkAmCGbYNygAZgSop/zKP0BAnGYhZIuFEhOa1in5M=;
-        b=a8O0wagyUtUHav4dJ+0FTU4BfULv1hqXducKGWGQFuo+G+tIPjHy7DS1ADLv5ngmlB
-         RSngMc0CnR4cfT4Dl1/3ekbmm7f4jkeC6RGHf37xUtQNDImjBtBI9DhIP8Z9AdXeugxu
-         EEIqVXFJE09pcCYmkIu4KbepOYvezPBB0mUQ8g4biI54D+MfCLg+3QhsHFv6yxYBACnS
-         hW5iDv/qv08V0YHMgwph0e9b+5pGUlXVr84spJ6yslQMHWase0Q3RfrmBefxTbxnzdJF
-         i1oPLS3gMTFjIwMQZ2twKVJdYWAw+m3Lbi649+iUQ0hPFKbJ4IuR/hqznd3O1UEd0bUk
-         66bA==
+        bh=oot+BFijmfKZ0KO/nJIrIU5HcDe1IwfMU2NYWHhWcUA=;
+        b=dv8waobWVaNSUsOT47GOsDx8vV/iRkGODf8zThZKK4JKq0ZSnTrMWy7R3IAiX1fM4t
+         tegdL5nlYEw74WxJbU4ciZTSnZwOVQYCywDP/6JAHDEF3YVNRNQoSLNsxO+X0jE8+WLZ
+         4ib0DDeM9eP9xJoybwRbj9HMMqb5rE/qTj6br4mOJWTUvJsbEgikpTHZ4BkIpODJP7uS
+         FeOaZbb/LsG8QdVorLcYBayDjEa0cgjzLqqSuGqP5etuMwIPhztE5czIvy2CmabhCZfJ
+         vnsHoy7ITFctcEgQKTEC1tg/xVWWYMTZvhXULy5xYz0ZzCxTiOdKZ00s3BGxSv+HUqqN
+         HmAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688071850; x=1690663850;
+        d=1e100.net; s=20221208; t=1688071852; x=1690663852;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R8jkAmCGbYNygAZgSop/zKP0BAnGYhZIuFEhOa1in5M=;
-        b=ihZRweWXJ/UnTtzTE6SJycCT4y+cM6YSsUs8f/6KifDZaYwI7ivbvJ6oScscbatVT3
-         zzhIwnqTJBuaJTCxjqij1hFBOFyE4DM79PU5oFAMG3ypUn6tuLf/wgpwwo9rwaUf8/Zd
-         LgSBf6yNRiZA+W4r62VKIoUI4q5wLJJgI4NvHxaKp/XsnZwJlqkf1O6BZpVuqJPYZtDF
-         ByxMvVKcbb0cOE8PPhbQyeptQHJ4OappY+BNOelKmkR9pEn97gq3l6QKJLNsNxXNC4C0
-         9BMSwfLtZ1V+almWLU5HtMojPF9AQWg3H5qIsB4KGejmtoIItrcjR3RK0h8gz8uaxhP8
-         GWaw==
-X-Gm-Message-State: ABy/qLYiOElkP6ksufAGFKo2mCcmkrQ7fVyoMn50L8QBdkmCrvOkDi3A
-        dqr/MbwzTpiIcRkJLbcUhWK/UZjt7QlxJ+gz6pD+
-X-Google-Smtp-Source: APBJJlEqqtwXeQ2F+CB5P4eAYTWY2GLrYOnygDGt3hdnYMvy8/GPfEVbxlgghXg+IFwNtZpThqff4X0A++LKH4Bo56yy
+        bh=oot+BFijmfKZ0KO/nJIrIU5HcDe1IwfMU2NYWHhWcUA=;
+        b=DpeTWDGILm54Hb9yPCPIB6dzFwpAOm8gLXdsJZ4xENiKZv0QPfo7IUlvXb9W+zQHQC
+         Q7NYphfb9R7BDa+StAtRIhQAMrxSaNYcxPhVFEIiz3aRTYuIGyZDpGDpRMAzWweB+rIF
+         aKG4+CUmjquxBxokPvY6Xi8V+JvNuVKdFFbEHrvZ9PvyaEycgNfnoekbxD5O0N6GJ1RL
+         L9V103faueJvfS/P+lzRUvy8ktaymqcpa9+2pc9Ei8w0Nf8cgOXYbPFxUQ6Ap0K2jcfW
+         F+hSkOcVcrd0Lmup43S3lzCCBdUNW7nqqFN0bVbRbajlx/TjeEE7iF8QTSqtiXVkh+Ql
+         g6vw==
+X-Gm-Message-State: ABy/qLbZY/Qz13O2F+B7cqnjESjvpDXq2VBa1/wKuiy8B1Eiyv614aF8
+        YAjFAme1exjFXSaGFKJiCZHmVmNU/fS2oDslSCwN
+X-Google-Smtp-Source: APBJJlG01gugR5pBeLSzgr9QaRAnN1lelWD28Wisa41iTTVqrwvQyIgcQU0WMKN/qYg/ivXFlgsOpx2irKkAZegi36c2
 X-Received: from axel.svl.corp.google.com ([2620:15c:2a3:200:e20f:5917:3efa:d4bb])
- (user=axelrasmussen job=sendgmr) by 2002:a25:738e:0:b0:bcc:285c:66ea with
- SMTP id o136-20020a25738e000000b00bcc285c66eamr5716ybc.3.1688071850044; Thu,
- 29 Jun 2023 13:50:50 -0700 (PDT)
-Date:   Thu, 29 Jun 2023 13:50:36 -0700
+ (user=axelrasmussen job=sendgmr) by 2002:a25:f621:0:b0:bc7:f6af:8cff with
+ SMTP id t33-20020a25f621000000b00bc7f6af8cffmr5650ybd.2.1688071852014; Thu,
+ 29 Jun 2023 13:50:52 -0700 (PDT)
+Date:   Thu, 29 Jun 2023 13:50:37 -0700
 In-Reply-To: <20230629205040.665834-1-axelrasmussen@google.com>
 Mime-Version: 1.0
 References: <20230629205040.665834-1-axelrasmussen@google.com>
 X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
-Message-ID: <20230629205040.665834-2-axelrasmussen@google.com>
-Subject: [PATCH v2 2/6] mm: userfaultfd: refactor hugetlb folio allocation /
- lookup code
+Message-ID: <20230629205040.665834-3-axelrasmussen@google.com>
+Subject: [PATCH v2 3/6] mm: userfaultfd: support UFFDIO_POISON for hugetlbfs
 From:   Axel Rasmussen <axelrasmussen@google.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -81,111 +80,90 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-At the top of `hugetlb_mfill_atomic_pte`, we need to get the folio we're
-going to be mapping. There are three basic cases we're dealing with
-here:
-
-1. We're doing a UFFDIO_CONTINUE, in which case we lookup an existing
-   folio in the pagecache, instead of allocating a new one.
-2. We need to allocate a new folio.
-3. We previously failed while populating our new folio, so we "returned"
-   a temporary folio using `foliop` and had our caller retry.
-
-In a future commit I'm going to add a fourth case for UFFDIO_POISON,
-where we aren't going to map a folio at all (newly allocated or
-otherwise). This end state will be simpler, and we can re-use a bit more
-code, if we stop using `if (...)` to distinguish the cases.
-
-So, refactor the cases so they share most of the same code, and instead
-switch to `goto` to skip some parts depending on the case at hand.
+The behavior here is the same as it is for anon/shmem. This is done
+separately because hugetlb pte marker handling is a bit different.
 
 Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 ---
- mm/hugetlb.c | 53 +++++++++++++++++++++++++---------------------------
- 1 file changed, 25 insertions(+), 28 deletions(-)
+ mm/hugetlb.c     | 33 +++++++++++++++++++++++++++++++--
+ mm/userfaultfd.c |  6 +-----
+ 2 files changed, 32 insertions(+), 7 deletions(-)
 
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index bce28cca73a1..38711d49e4db 100644
+index 38711d49e4db..05abe88986b6 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -6259,22 +6259,32 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
- 		if (IS_ERR(folio))
- 			goto out;
- 		folio_in_pagecache = true;
--	} else if (!*foliop) {
--		/* If a folio already exists, then it's UFFDIO_COPY for
--		 * a non-missing case. Return -EEXIST.
--		 */
--		if (vm_shared &&
--		    hugetlbfs_pagecache_present(h, dst_vma, dst_addr)) {
--			ret = -EEXIST;
--			goto out;
-+		goto ready;
-+	}
-+
-+	/* If a folio already exists, then it's UFFDIO_COPY for
-+	 * a non-missing case. Return -EEXIST.
-+	 */
-+	if (vm_shared && hugetlbfs_pagecache_present(h, dst_vma, dst_addr)) {
-+		ret = -EEXIST;
-+		if (*foliop) {
-+			folio_put(*foliop);
-+			*foliop = NULL;
- 		}
-+		goto out;
-+	}
- 
--		folio = alloc_hugetlb_folio(dst_vma, dst_addr, 0);
--		if (IS_ERR(folio)) {
--			ret = -ENOMEM;
--			goto out;
-+	folio = alloc_hugetlb_folio(dst_vma, dst_addr, 0);
-+	if (IS_ERR(folio)) {
-+		ret = -ENOMEM;
-+		if (*foliop) {
-+			folio_put(*foliop);
-+			*foliop = NULL;
- 		}
-+		goto out;
-+	}
- 
-+	if (!*foliop) {
- 		ret = copy_folio_from_user(folio, (const void __user *) src_addr,
- 					   false);
- 
-@@ -6302,22 +6312,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
- 			 */
- 			goto out;
- 		}
--	} else {
--		if (vm_shared &&
--		    hugetlbfs_pagecache_present(h, dst_vma, dst_addr)) {
--			folio_put(*foliop);
--			ret = -EEXIST;
--			*foliop = NULL;
--			goto out;
--		}
--
--		folio = alloc_hugetlb_folio(dst_vma, dst_addr, 0);
--		if (IS_ERR(folio)) {
--			folio_put(*foliop);
--			ret = -ENOMEM;
--			*foliop = NULL;
--			goto out;
--		}
-+	} else { /* Caller retried because we set *foliop previously */
- 		ret = copy_user_large_folio(folio, *foliop, dst_addr, dst_vma);
- 		folio_put(*foliop);
- 		*foliop = NULL;
-@@ -6327,6 +6322,8 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
- 		}
+@@ -6090,14 +6090,24 @@ vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
  	}
  
-+ready: /* `folio` ready to map (non-NULL, populated) */
+ 	entry = huge_ptep_get(ptep);
+-	/* PTE markers should be handled the same way as none pte */
+-	if (huge_pte_none_mostly(entry))
++	if (huge_pte_none_mostly(entry)) {
++		if (is_pte_marker(entry)) {
++			unsigned long marker = pte_marker_get(pte_to_swp_entry(entry));
 +
- 	/*
- 	 * The memory barrier inside __folio_mark_uptodate makes sure that
- 	 * preceding stores to the page contents become visible before
++			if (marker & PTE_MARKER_UFFD_POISON) {
++				ret = VM_FAULT_HWPOISON_LARGE;
++				goto out_mutex;
++			}
++		}
+ 		/*
++		 * Other PTE markers should be handled the same way as none PTE.
++		 *
+ 		 * hugetlb_no_page will drop vma lock and hugetlb fault
+ 		 * mutex internally, which make us return immediately.
+ 		 */
+ 		return hugetlb_no_page(mm, vma, mapping, idx, address, ptep,
+ 				      entry, flags);
++	}
+ 
+ 	ret = 0;
+ 
+@@ -6253,6 +6263,25 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+ 	int writable;
+ 	bool folio_in_pagecache = false;
+ 
++	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON)) {
++		ptl = huge_pte_lock(h, dst_mm, dst_pte);
++
++		/* Don't overwrite any existing PTEs (even markers) */
++		if (!huge_pte_none(huge_ptep_get(dst_pte))) {
++			spin_unlock(ptl);
++			return -EEXIST;
++		}
++
++		_dst_pte = make_pte_marker(PTE_MARKER_UFFD_POISON);
++		set_huge_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
++
++		/* No need to invalidate - it was non-present before */
++		update_mmu_cache(dst_vma, dst_addr, dst_pte);
++
++		spin_unlock(ptl);
++		return 0;
++	}
++
+ 	if (is_continue) {
+ 		ret = -EFAULT;
+ 		folio = filemap_lock_folio(mapping, idx);
+diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+index 87b62ca1e09e..4436cae1c7a8 100644
+--- a/mm/userfaultfd.c
++++ b/mm/userfaultfd.c
+@@ -381,12 +381,8 @@ static __always_inline ssize_t mfill_atomic_hugetlb(
+ 	 * supported by hugetlb.  A PMD_SIZE huge pages may exist as used
+ 	 * by THP.  Since we can not reliably insert a zero page, this
+ 	 * feature is not supported.
+-	 *
+-	 * PTE marker handling for hugetlb is a bit special, so for now
+-	 * UFFDIO_POISON is not supported.
+ 	 */
+-	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE) ||
+-	    uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON)) {
++	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE)) {
+ 		mmap_read_unlock(dst_mm);
+ 		return -EINVAL;
+ 	}
 -- 
 2.41.0.255.g8b1d071c50-goog
 
