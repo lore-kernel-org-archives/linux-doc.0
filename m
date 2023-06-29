@@ -2,175 +2,222 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7DF6C001B0
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 16:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C972EC001B0
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 16:25:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232132AbjF2QM2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 12:12:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37598 "EHLO
+        id S230446AbjF2QZn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 12:25:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232082AbjF2QM2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 12:12:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76340359B
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 09:11:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688055098;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hXzn/T+eskwyoHAIYDRxcHdpwP2+My4amFKoi/35Pwg=;
-        b=Jrop25t44pt8ak1zy5li9Rg8AlYa4AwK6tSY6cFjyXGFeYYLpOXfwE4UXnFAGzWec/3j0z
-        HuK5R3vQXldfjyrCKTXiJfzwVhuOB/wX+S8oa0/GOJ0yl5VXfOTzw80jwSnKZOeJyPWTAx
-        mPfbbotZMBpxWPjcFYenx1zcx++7X4k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-569-Wpeqv30fOWmfcZrSHaZ9ug-1; Thu, 29 Jun 2023 12:11:32 -0400
-X-MC-Unique: Wpeqv30fOWmfcZrSHaZ9ug-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF2C81C31C4B;
-        Thu, 29 Jun 2023 16:11:30 +0000 (UTC)
-Received: from segfault.boston.devel.redhat.com (segfault.boston.devel.redhat.com [10.19.60.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 05AF2492B02;
-        Thu, 29 Jun 2023 16:11:29 +0000 (UTC)
-From:   Jeff Moyer <jmoyer@redhat.com>
-To:     Matteo Rizzo <matteorizzo@google.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        io-uring@vger.kernel.org, jordyzomer@google.com, evn@google.com,
-        poprdi@google.com, corbet@lwn.net, axboe@kernel.dk,
-        asml.silence@gmail.com, akpm@linux-foundation.org,
-        keescook@chromium.org, rostedt@goodmis.org,
-        dave.hansen@linux.intel.com, ribalda@chromium.org,
-        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
-        ldufour@linux.ibm.com, bhe@redhat.com, oleksandr@natalenko.name
-Subject: Re: [PATCH v2 1/1] Add a new sysctl to disable io_uring system-wide
-References: <20230629132711.1712536-1-matteorizzo@google.com>
-        <20230629132711.1712536-2-matteorizzo@google.com>
-X-PGP-KeyID: 1F78E1B4
-X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
-Date:   Thu, 29 Jun 2023 12:17:20 -0400
-In-Reply-To: <20230629132711.1712536-2-matteorizzo@google.com> (Matteo Rizzo's
-        message of "Thu, 29 Jun 2023 13:27:11 +0000")
-Message-ID: <x49mt0i5jlb.fsf@segfault.boston.devel.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        with ESMTP id S231831AbjF2QZm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 12:25:42 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD79C1FC6
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 09:25:33 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-40079620a83so369161cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 09:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688055933; x=1690647933;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0i+VclhX9JPA4GYKeZEUom4kBRpZ1KIdf8SKnr6Czlk=;
+        b=lYYVQ83POTy6/9CC8ArxHOFEL2r2JwFNPyDWX+P2beZLfK82lg/k/QqEiUVFBWPCgo
+         VmeFAKZKkCzoVlfdqlFTWDVXzNRikIvKionHxYyx1RSL88UsmNo8BH8U5k4Ylma7/sDh
+         fFxg/9wDt+eK/72umGrPtF/2wN9RReAjVAYHDHF+jMx84TJyhn8POoLRKrvz4TWF4ue2
+         xConQRz9n8xU9Z1SHa8AjD9LE8dgnrIp5+7GRd7o73hkXnik5wnoetttJyzpknEMpT7k
+         2xQaj+QRos+VqCRitgTeAx6UoB6HGVgOG0bXdQSF6Hb1YkYFFLJr83x3QjwHOLu8PcZg
+         hSGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688055933; x=1690647933;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0i+VclhX9JPA4GYKeZEUom4kBRpZ1KIdf8SKnr6Czlk=;
+        b=Iom36Qvr0mNGkaV73chwr5mLHFOz/otnCc4MRvFs/FcPsJ4g7wOy7oDthvkdMjF2QZ
+         81I6gvDIg7T3gWiQ+yMSUfMySU/Bfb0qwhyCh3UqgDmeYP7gPxvScUZ7G0/2WTeC4F+p
+         sKuc0uxIafTgzxDxRs7js5H2gzIJTwsu412pNO2A8lpcOAoMwbKxy2G035X1A5pUIZ5E
+         XtwcpgItpnu2mVISHOlb28tFk11uuOZ72kR7AGxvKfVfOFokALTG/7VvSPgK0+kQWMnu
+         K5gELmRndc0YZb/Ts0IgrYwrUFrcLP6Eu5Ir84RWcUp5t4jLzmRP35AYlg20K3S2zDaP
+         xOZA==
+X-Gm-Message-State: AC+VfDzLv3qRnQtw8MLh/KpFi+99lNWtZANP0PNq2GAPnqcm0dVbZJYe
+        9wc+V6YscHE2Q24jVqXYxberpvWpROV0dE9Z+8bJtg==
+X-Google-Smtp-Source: ACHHUZ4GlcdhSG6HvWkFXq7A7do/fjnsIN9VLRkINS6bTK3+6Z8sQeiMBbqJ2leEce8ozWN8saz37CEHTk7PdmgSBCQ=
+X-Received: by 2002:ac8:5b46:0:b0:3f7:ffc8:2f6f with SMTP id
+ n6-20020ac85b46000000b003f7ffc82f6fmr703437qtw.28.1688055932634; Thu, 29 Jun
+ 2023 09:25:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+References: <cover.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <972e1d5c5ec53e2757fb17a586558c5385e987dd.1684048511.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <64876bf6c30e2_1433ac29415@dwillia2-xfh.jf.intel.com.notmuch>
+ <64961c3baf8ce_142af829436@dwillia2-xfh.jf.intel.com.notmuch>
+ <9437b176-e15a-3cec-e5cb-68ff57dbc25c@linux.intel.com> <CAAH4kHa85hCz0GhQM3f1OQ3wM+=-SfF77ShFAse0-eYGBHvO_A@mail.gmail.com>
+ <649b7a9b69cb6_11e68529473@dwillia2-xfh.jf.intel.com.notmuch>
+ <CAAH4kHY1-N+HOxPON6SuXE3QPowAGnwTjc5H=ZnNZwh7a+msnQ@mail.gmail.com> <649ba059a086_11e68529458@dwillia2-xfh.jf.intel.com.notmuch>
+In-Reply-To: <649ba059a086_11e68529458@dwillia2-xfh.jf.intel.com.notmuch>
+From:   Dionna Amalie Glaze <dionnaglaze@google.com>
+Date:   Thu, 29 Jun 2023 09:25:21 -0700
+Message-ID: <CAAH4kHYLETfPk-sMD-QSJd0fJ7Qnt04FBwFuEkpnehB5U7D_yw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] selftests/tdx: Test GetQuote TDX attestation feature
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Erdem Aktas <erdemaktas@google.com>,
+        Chong Cai <chongc@google.com>, Qinkun Bao <qinkun@apache.org>,
+        Guorui Yu <GuoRui.Yu@linux.alibaba.com>,
+        Du Fan <fan.du@intel.com>, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        dhowells@redhat.com, brijesh.singh@amd.com, atishp@rivosinc.com,
+        gregkh@linuxfoundation.org, linux-coco@lists.linux.dev,
+        joey.gouly@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matteo Rizzo <matteorizzo@google.com> writes:
-
-> Introduce a new sysctl (io_uring_disabled) which can be either 0, 1,
-> or 2. When 0 (the default), all processes are allowed to create io_uring
-> instances, which is the current behavior. When 1, all calls to
-> io_uring_setup fail with -EPERM unless the calling process has
-> CAP_SYS_ADMIN. When 2, calls to io_uring_setup fail with -EPERM
-> regardless of privilege.
 >
-> Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
-
-This looks good to me.  You may also consider updating the
-io_uring_setup(2) man page (part of liburing) to reflect this new
-meaning for -EPERM.
-
-Reviewed-by: Jeff Moyer <jmoyer@redhat.com>
-
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 19 +++++++++++++
->  io_uring/io_uring.c                         | 30 +++++++++++++++++++++
->  2 files changed, 49 insertions(+)
+> First, thank you for engaging, it speeds up the iteration. This
+> confirmed my worry that the secondary goal of this proposal, a common
+> verification implementation, is indeed unachievable in the near term. A
+> few clarifying questions below, but I will let this go.
 >
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 3800fab1619b..ee65f7aeb0cf 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -450,6 +450,25 @@ this allows system administrators to override the
->  ``IA64_THREAD_UAC_NOPRINT`` ``prctl`` and avoid logs being flooded.
->  
->  
-> +io_uring_disabled
-> +=================
-> +
-> +Prevents all processes from creating new io_uring instances. Enabling this
-> +shrinks the kernel's attack surface.
-> +
-> += ==================================================================
-> +0 All processes can create io_uring instances as normal. This is the
-> +  default setting.
-> +1 io_uring creation is disabled for unprivileged processes.
-> +  io_uring_setup fails with -EPERM unless the calling process is
-> +  privileged (CAP_SYS_ADMIN). Existing io_uring instances can
-> +  still be used.
-> +2 io_uring creation is disabled for all processes. io_uring_setup
-> +  always fails with -EPERM. Existing io_uring instances can still be
-> +  used.
-> += ==================================================================
-> +
-> +
->  kexec_load_disabled
->  ===================
->  
-> diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-> index 1b53a2ab0a27..2343ae518546 100644
-> --- a/io_uring/io_uring.c
-> +++ b/io_uring/io_uring.c
-> @@ -153,6 +153,22 @@ static __cold void io_fallback_tw(struct io_uring_task *tctx);
->  
->  struct kmem_cache *req_cachep;
->  
-> +static int __read_mostly sysctl_io_uring_disabled;
-> +#ifdef CONFIG_SYSCTL
-> +static struct ctl_table kernel_io_uring_disabled_table[] = {
-> +	{
-> +		.procname	= "io_uring_disabled",
-> +		.data		= &sysctl_io_uring_disabled,
-> +		.maxlen		= sizeof(sysctl_io_uring_disabled),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= SYSCTL_TWO,
-> +	},
-> +	{},
-> +};
-> +#endif
-> +
->  struct sock *io_uring_get_socket(struct file *file)
->  {
->  #if defined(CONFIG_UNIX)
-> @@ -4000,9 +4016,18 @@ static long io_uring_setup(u32 entries, struct io_uring_params __user *params)
->  	return io_uring_create(entries, &p, params);
->  }
->  
-> +static inline bool io_uring_allowed(void)
-> +{
-> +	return sysctl_io_uring_disabled == 0 ||
-> +		(sysctl_io_uring_disabled == 1 && capable(CAP_SYS_ADMIN));
-> +}
-> +
->  SYSCALL_DEFINE2(io_uring_setup, u32, entries,
->  		struct io_uring_params __user *, params)
->  {
-> +	if (!io_uring_allowed())
-> +		return -EPERM;
-> +
->  	return io_uring_setup(entries, params);
->  }
->  
-> @@ -4577,6 +4602,11 @@ static int __init io_uring_init(void)
->  
->  	req_cachep = KMEM_CACHE(io_kiocb, SLAB_HWCACHE_ALIGN | SLAB_PANIC |
->  				SLAB_ACCOUNT | SLAB_TYPESAFE_BY_RCU);
-> +
-> +#ifdef CONFIG_SYSCTL
-> +	register_sysctl_init("kernel", kernel_io_uring_disabled_table);
-> +#endif
-> +
->  	return 0;
->  };
->  __initcall(io_uring_init);
+> The primary goal, achievable on a short runway, is more for kernel
+> developers. It is to have a common infrastructure for marshaling vendor
+> payloads, provide a mechanism to facilitate kernel initiated requests to
+> a key-server, and to deploy a common frontend for concepts like runtime
+> measurement (likely as another backend to what Keys already understands
+> for various TPM PCR implementations).
+>
 
+That sounds good, though the devil is in the details. The TPM
+situation will be exacerbated by a lower root of trust. The TPM itself
+doesn't have a specification for its own attested firmware.
+
+> > All the specific fields of the blob have to be decoded and subjected
+> > to an acceptance policy. That policy will most always be different
+> > across different platforms and VM owners. I wrote all of
+> > github.com/google/go-sev-guest, including the verification and
+> > validation logic, and it's going to get more complicated, and the
+> > sources of the data that provide validators with notions of what
+> > values can be trusted will be varied.
+>
+> Can you provide an example? I ask only to include it in the kernel
+> commit log for a crisp explanation why this proposed Keys format will
+> continue to convey a raw vendor blob with no kernel abstraction as part
+> of its payload for the foreseeable future.
+>
+
+An example is that while there is a common notion that each report
+will have some attestation key whose certificate needs to be verified,
+there is additional collateral that must be downloaded to
+
+* verify a TDX key certificate against updates to known weaknesses of
+the key's details
+* verify the measurement in the report against a vendor's signed
+golden measurement
+* [usually offline and signed by the analyzing principal that the
+analysis was done] fully verify the measurement given a build
+provenance document like SLSA. The complexity of this analysis could
+even engage in static analysis of every commit since a certain date,
+or from a developer of low repute... whatever the verifier wants to
+do.
+
+These are all in the realm of interpreting the blob for acceptance, so
+it's best to keep uninterpreted.
+
+> > The formats are not standardized. The Confidential Computing
+> > Consortium should be working toward that, but it's a slow process.
+> > There's IETF RATS. There's in-toto.io attestations. There's Azure's
+> > JWT thing. There's a signed serialized protocol buffer that I've
+> > decided is what Google is going to produce while we figure out all the
+> > "right" formats to use. There will be factions and absolute gridlock
+> > for multiple years if we require solidifying an abstraction for the
+> > kernel to manage all this logic before passing a report on to user
+> > space.
+>
+> Understood. When that standardization process completes my expectation
+> is that it slots into the common conveyance method and no need to go
+> rewrite code that already knows how to interface with Keys to get
+> attestation evidence.
+>
+
+I can get on board with that. I don't think there will be much cause
+for more than a handful of attestation requests with different report
+data, so it shouldn't overwhelm the key subsystem.
+
+> >
+> > You really shouldn't be putting attestation validation logic in the
+> > kernel.
+>
+> It was less putting validation logic in the kernel, and more hoping for
+> a way to abstract some common parsing in advance of a true standard
+> attestation format, but point taken.
+>
+
+I think we'll have hardware-provided blobs and host-provided cached
+collateral. The caching could be achieved with a hosted proxy server,
+but given SEV-SNP already has GET_EXT_GUEST_REQUEST to simplify
+delivery, I think it's fair to offer other technologies the chance at
+supporting a similar simple solution.
+
+Everything else will have to come from the network or the workload itself.
+
+
+> > It belongs outside of the VM entirely with the party that will
+> > only release access keys to the VM if it can prove it's running the
+> > software it claims, on the platform it claims. I think Windows puts a
+> > remote procedure call in their guest attestation driver to the Azure
+> > attestation service, and that is an anti-pattern in my mind.
+>
+> I can not speak to the Windows implementation, but the Linux Keys
+> subsystem is there to handle Key construction that may be requested by
+> userspace or the kernel and may be serviced by built-in keys,
+> device/platform instantiated keys, or keys retrieved via an upcall to
+> userspace.
+>
+> The observation is that existing calls to request_key() in the kernel
+> likely have reason to be serviced by a confidential computing key server
+> somewhere in the chain. So, might as well enlighten the Keys subsystem
+> to retrieve this information and skip round trips to userspace run
+> vendor specific ioctls. Make the kernel as self sufficient as possible,
+> and make SEV, TDX, etc. developers talk more to each other about their
+> needs.
+
+That sounds reasonable. I think one wrinkle in the current design is
+that SGX and SEV-SNP provide derived keys as a thing separate from
+attestation but still based on firmware measurement, and TDX doesn't
+yet. It may in the future come with a TDX module update that gets
+derived keys through an SGX enclave=E2=80=93who knows. The MSG_KEY_REQ gues=
+t
+request for a SEV-SNP derived key has some bits and bobs to select
+different VM material to mix into the key derivation, so that would
+need to be in the API as well. It makes request_key a little weird to
+use for both. I don't even think there's a sufficient abstraction for
+the guest-attest device to provide, since there isn't a common
+REPORT_DATA + attestation level pair of inputs that drive it. If we're
+fine with a technology-tagged uninterpreted input blob for key
+derivation, and the device returns an error if the real hardware
+doesn't match the technology tag, then that could be an okay enough
+interface.
+
+I could be convinced to leave MSG_KEY_REQ out of Linux entirely, but
+only for selfish reasons. The alternative is to set up a sealing key
+escrow service that releases sealing keys when a VM's attestation
+matches a pre-registered policy, which is extremely heavy-handed when
+you can enforce workload identity at VM launch time and have a safe
+derived key with this technology. I think there's a Decentriq blog
+post about setting that whole supply chain up ("swiss cheese to
+cheddar"), so they'd likely have some words about that.
+
+--=20
+-Dionna Glaze, PhD (she/her)
