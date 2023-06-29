@@ -2,154 +2,422 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B5F2EB64D7
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 02:02:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4505EB64DC
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 02:34:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230432AbjF2CCJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 22:02:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47594 "EHLO
+        id S231189AbjF2Cep (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 22:34:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230060AbjF2CCJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 22:02:09 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F607132;
-        Wed, 28 Jun 2023 19:02:08 -0700 (PDT)
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35T1qv6e011062;
-        Thu, 29 Jun 2023 02:01:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : message-id : references : date : in-reply-to : content-type :
- mime-version; s=corp-2023-03-30;
- bh=jpDE7j7pilxY76JYIN4qCae3gDnlVece4K64qrJOirw=;
- b=uWjcAhjffjjj91prUaC7pLhyHgZaEaVJT9QjmweGpk0gRaGX+7N7YyN5ybcjfaV77E3p
- 2e/GP1xXRsy5v2Ekh7cAY97Iy5K0zor+tqh+PXxjskoE09lnJ0Z/rpWjMP3wQ4l6rJaQ
- S9yyG4MjmUlJ15Sua9zhXarqYj5vDp6IYsRrruSYtSwqFdin4ZsIRPGDrzM+Vbf4WFY2
- bJei1k4J/eabiUIR9WUM6/q7jw5zA+YIq5viH6J3u5+CyA3KTvFZ3iM2lfdSOOTABn03
- 6ojROpBD45tEndqPNC6S5zWZkLp/7dDCCnYseuYAOwgMja98Nrvjw33Qn8zMFxluL7Ik GQ== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3rdqdtt17h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 29 Jun 2023 02:01:57 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 35SNPbxR013249;
-        Thu, 29 Jun 2023 02:01:56 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3rdpx727pj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 29 Jun 2023 02:01:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xmxd3iG/O6V/jXYz7xgHQuIdCbTDQmahlwVDN7Yo/BI2BoSa4TZaOX6gCIl/QMU1SnvPqyIr6cD+BTw8rxsXuyaYMfkV8eg2jPdFX2raL9nCljfc0ltSHWb2CknV5KvMaR1PGAvee5RYrAplHiBcN2zu7l7XpYM/1x7Qu8oMWMKfIcgzm9buTDWQhS5w0cHvRfe9vrAHaRs3Svp/Yx12gbXtTogpz93DdqAiuYBxZ9Rs+GP5iGIkVpfbGk/6+sGmViBkCYHSypgfiR5t28HYMAC8pKJ01Jgy6RCW9E7NqdZiivVg5nGJ63uIKKQR0hkwIeJNYZ8DPsyW+B6PdHha6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jpDE7j7pilxY76JYIN4qCae3gDnlVece4K64qrJOirw=;
- b=g2+4PPR7m2i57SVmfcKyHW7lPqYIU8g8dUYabAgjZBk0gP/7NEtLat2ewLnBVNB75V3xlhkUj+guTxLcUn9r4ZcbW3fRMAe0TMTVMQX9iMokJduLNVV0MVh8S1UBiltTJdUAYBHFDfn//DZB4j8yqKnhVcV8fY6A1pfpwzzMOCLxqJO/0jGGsFyX1lKRAPJ+XKYS1ZdX7bQ6Yzxf4IsDQVnWJ7i5hbAshUhOOF7/lwgn/JCXxmcdToFft0bdABKWZJV+C3dlAKIM+SJFZZUoxshI/NfRb3xQDngtbbj9XNHnOSocBz32g5m4op9Qy0P2BgJqDexP/BXpRVnKbYsntg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jpDE7j7pilxY76JYIN4qCae3gDnlVece4K64qrJOirw=;
- b=XC2TSvZ8zhey8i6mNHAZGWwBCnyBaRDSw8rG2TOCF4DVG0RY52LIRtkfPc9bim/YlDXEMLuViGMNHUjFTPaHYOu4BP7eiJ6+A1+KrnxpqqRruwwNwsR5anZDlGttOGXNAea2LVoTEdPr+7hPQIRd0AVKuUkCo8uTFDAl0Jro6mM=
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
- by SA1PR10MB5736.namprd10.prod.outlook.com (2603:10b6:806:232::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 29 Jun
- 2023 02:01:54 +0000
-Received: from PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::b77c:5f48:7b34:39c0]) by PH0PR10MB4759.namprd10.prod.outlook.com
- ([fe80::b77c:5f48:7b34:39c0%7]) with mapi id 15.20.6521.026; Thu, 29 Jun 2023
- 02:01:54 +0000
-To:     Rong Tao <rtoax@foxmail.com>
-Cc:     martin.petersen@oracle.com, corbet@lwn.net, rongtao@cestc.cn,
-        linux-scsi@vger.kernel.org (open list:SCSI TARGET SUBSYSTEM),
-        target-devel@vger.kernel.org (open list:SCSI TARGET SUBSYSTEM),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH v3] docs: target: Remove useless tcm_mod_builder.py
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <yq1y1k3ni0s.fsf@ca-mkp.ca.oracle.com>
-References: <tencent_58D7935159C421036421B42CD04B0A959207@qq.com>
-Date:   Wed, 28 Jun 2023 22:01:52 -0400
-In-Reply-To: <tencent_58D7935159C421036421B42CD04B0A959207@qq.com> (Rong Tao's
-        message of "Mon, 26 Jun 2023 08:51:47 +0800")
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0132.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::17) To PH0PR10MB4759.namprd10.prod.outlook.com
- (2603:10b6:510:3d::12)
+        with ESMTP id S229647AbjF2Cep (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 22:34:45 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AFC6213D;
+        Wed, 28 Jun 2023 19:34:43 -0700 (PDT)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35T1peCM003075;
+        Thu, 29 Jun 2023 02:34:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=d1xxjDKKxjYzsTNuy7Mx3AfwCH5hklFJ313CSEx4CDc=;
+ b=UrL4p8AxZNvIkpoZ8lDGC/EXh2IB4JSGFiUlscNhRpy5tgpPRepBr1tnPjnmMyQwgTdH
+ ZFL8C21xW9wy/yX1BB5ZZmLpc4bUdUAVWW91ar1DXwqRJjVdHj4HpXwEkv6xtFsJm68m
+ 4ya0mtsfmGpBdZpMLL0BOZa/XfLKZ5Xvoxoii0qvEZMSBJNyqeFU5IJBOv+hiEn1BMVF
+ 0xN36nzxugD1u7IQd4vg32HLJwgKnJ1J3Ij6QxmEwLstU5gDvG/i/TT31QI1P43VOh3S
+ NcJAMXnZ0sMGUbS2MvQDsOMB76Vr5+BNhnHLKty4ENNF+JHrSBaxkLoKgjfJj2hMD47S 5g== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rgextjcvk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Jun 2023 02:34:17 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35T2Xr8m004431
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Jun 2023 02:33:53 GMT
+Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.7; Wed, 28 Jun 2023 19:33:45 -0700
+Date:   Thu, 29 Jun 2023 08:03:42 +0530
+From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <keescook@chromium.org>, <tony.luck@intel.com>,
+        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v4 04/21] soc: qcom: Add Qualcomm APSS minidump
+ (frontend) feature support
+Message-ID: <8f00beed-f07b-43b6-820e-87af719598c6@quicinc.com>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <1687955688-20809-5-git-send-email-quic_mojha@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|SA1PR10MB5736:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e86edf7-64ee-4071-a483-08db7844cff8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ziMc1APU6A+fPvJoG5+d/liydrOqmeJagQTwtKXQaBswUpKYwkjyshq5u79b6J8HTqjr+poyyswSgvsro9s7qhDEXDQWMzcoIMa56X4Ylop5oYWwch3s3VprV8M5RgP5nckpXy2IQjGBAWrZiw/4TnG3ODkIeH3qx5VSQylWgqwsAWC16s3HUiqEgQveu38TZpwt14Do4eaJ9hIrAptf9vTz1n/kFc516bt6xuRMTILxeCT+tn2v96uwir9mVa/JuaY2vG/xro0h82kDeaGoUsw1kzqF9zPDm8epM0imu9F4n1o+dxTlJsn0bcZPyBCeXSTbsAW1DdVubRMZK1gyT6DTLDryCj4e9yiJxLC8A325Thm/4oalZVCXiVADi3kNCJYN6avODomXrW43OLlfhk02z5d6Yyha0lqHQUKLGDSwDd8G+RV3fFo7Y4xh8MIW5Kcb115HDpgtNySZQyiXmHMq59sW1N9K2V3F1TcDGrkBs6wsDVRJAq+GYVaLQhPwrcKa2JCiTNDsKuBz6m+mWUzN9/V503JumZvWblFBJRPZ8ZzWDNr6/BqTfC9Tvqmr
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(136003)(366004)(396003)(39860400002)(376002)(451199021)(66476007)(8676002)(41300700001)(66556008)(316002)(8936002)(66946007)(6506007)(6916009)(26005)(186003)(6512007)(478600001)(36916002)(6486002)(2906002)(5660300002)(38100700002)(558084003)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hWuEC784BUxhlgk3wTCOBpP6nEdzf4WpExu0ElaDCrcvaoX7N90qEyZRuR3w?=
- =?us-ascii?Q?gwHa+aiQ1Uyf6Xi9+RJ6cDxJaKy8EaCnag4NTltD5Ux5j0V7iYDblu+ovIrR?=
- =?us-ascii?Q?I9dPD0ElMIQDWXhW81e7Lyz72Sy7P6qi6XmHMvVw5XPUg3WZFwsjowL6tkq9?=
- =?us-ascii?Q?u24PJypyykSLzYTQp64TIekD4/ff572y/qohvsR9hlucFQvo8meBnXv8gyvr?=
- =?us-ascii?Q?fNoQPTq7LBGplh5EaX6vqQsroPCHcv1NMh0D6ZyQxS7pZNiPSqNw9KVaxF7q?=
- =?us-ascii?Q?ykQBA/tZ3rls1pszDh54B6/nRlwZ+Aj91n30HJ67HDr++347w5knlnZtx7Uo?=
- =?us-ascii?Q?XyKbjHwWVPT1tNytVOlN15Z+nktKQChC9Ug8XXX6MOTCeKnwvHJ8XO4eCoCw?=
- =?us-ascii?Q?eSINJcbEMzb6AINRzJ264BFCqmRVa5x2I72a5BM6pFzQL/Xwphf8POeFCTeB?=
- =?us-ascii?Q?v4eMKHrAjxornIyIfbA5ykWjqrQG2M66PnrQ6amT2U2nhse8RbNASp1uoKeF?=
- =?us-ascii?Q?V1CDlYN6cIDLQEcoOGcjDt87JY5EOPQFXIavWVumtyrZq2Z0oLeHP1/Xojjb?=
- =?us-ascii?Q?5EWTJ5JokucYtyaiXX+lDTlVrjw+ixhQctia79IAyFyEWCv974yxiNHLmAUt?=
- =?us-ascii?Q?W+ODb16rC/0pn9+slJqDxVWIgbu9T+1Lic6cblXHa/8zTWu0CyicLDu5aHDJ?=
- =?us-ascii?Q?/WZBYyUftkj0fHsLDMLly0U7aHczHyvCoPoss6wufzCpPv4rdp0O576q6QyU?=
- =?us-ascii?Q?xGzPrdPAX5I/4o08Q3iF4qtVQVYzzENwbWV2L+at4m3/Od9DOmYloYkb8vxx?=
- =?us-ascii?Q?RAmV7VMMs/Q5dbaQQoSGVoQyih2hk8hEF36LGl1H8OrFmskCRhdW+9G7ORJD?=
- =?us-ascii?Q?+oVKb3PPL71dQUxN4mSoTqmsu8tQeviYXLwZxDFdKwhZOnJ5iF+ftLhKlGLn?=
- =?us-ascii?Q?NRLls8nq/j3kN/Fh6st8UUp0/VrqmM1n6ZiZbB7TeB5DzBloC11yktVl2Lta?=
- =?us-ascii?Q?s+Wx2jjUZKhP7fcG7Ko8K17TFehjvD2+9J/VTM2oUSiP/Gq8Vlu12tHZZXQl?=
- =?us-ascii?Q?L/1itihtd5+KT5CWOmJDsgZ0XilKOZB5iFrINxRJ6JhRq6eS+YtLlJCJhuSn?=
- =?us-ascii?Q?OD4kec1GdGUeE2B251tCRjTGnpy+9VQrJeCWpKojTUjPmhmuFHpt+OYMsaU3?=
- =?us-ascii?Q?bPT9DNkgtQGXa3aA6qkJOKW8MBlJPeNUdJPdeKbwtcxuGOjOv5nk3aykVFI3?=
- =?us-ascii?Q?OT+3NXAp+fMLhhV17X4M1MkIxSP8CHoHYE+w4PAwzj3nKBhjM/L20QvO4RBx?=
- =?us-ascii?Q?oTQWCibnZhovWFO+44lSmbDUjljM1cT0VxkJhe9wGRRRCP1l47aQY6kmJY7k?=
- =?us-ascii?Q?4PkT+kNIO5SBkJdIM/JpvdSfoq+RPPSViVpgojYvPDBCbmLQnIRu/TGOVnYb?=
- =?us-ascii?Q?u9CaZR9JH4INeEROqCWt5p8dKvBOMw59e/iO+jh2GOqfqXc6mlHv2hb+7+Ii?=
- =?us-ascii?Q?lYUUWJQ6AFbfGxhFleAGpgSlgjEwTuRZUxPvdVjXS1BFDhbpxgq+AsDvs4VE?=
- =?us-ascii?Q?kPGl1pNGvMhYiH2U/sg3wwZhhqSDyZPGlre9SwlWt8lD5s7KmI6lJtCI95zv?=
- =?us-ascii?Q?RQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: e+CezlmgP/UCvHz5U1lO8Cgi0Z0w8Oh9N0knjG6Fy/8cIh986v1KFht+LDJUDmXUBSbazGaZ8N9yWdqdt89h2bn1aW3AU/kBzsJ5wqpHpdlkHWnFMoBBiNY0wSaGNgkdo1haM8XDCQyZMX8/WZRmkDK/q/EAp2eiolm7lp6QjD3tXMPvXT2pwn0fhHflUw+2ek4HzQ9QCLJSTMjFkDwCpGJAM7/FmauUw4+X81713d4ucPqMI1IqAcFwj6ECnAjyN1bA13s4k1qb4eEEheGiMHwCjGxTcnm1IrXE1st0aBo9bIiKkbxnrS03iSOQJ7jVpQh+ewnuDLRBH2UAB7CZSwaxU/JWS53Ypfnzbr9TLBERx/QhlOewsUllvtZmkGa7U6TS4GIjYBtQLav3EO99tCPBTHG1SYz1RpIHp98lMFu685+Ivwi3YP2sEXkblUSP10T3EuBUHvS7jxrKj7qIBsxMiWHIrk4Cn0ddQ90hOtdhDA0IZSZT8CN1Ul37LsHv/07zXD2J+jEiVdXZ7kVXYAAsquligHp79Cepk41z7IwUEE5ivedWKwcl5GombPeWAxpOzwBFfdOhf3tfL7djcNcCM63mH/r1excm/U5jRZMF2jwu4kM6HDhfMc9GlkhSRvNRIi+WkyVr0dAZZNq0Y9cchhdyqKjsDEOXLl/A/yEgopxFL72hJ4BQ+EdxQINbIeAd+oVGtEYSRaxi2taXy3QEVIY//TrJo6qfIgMZO432XHRfswKeWWEg64L/MsGwJ3Gz6fPtc9ENGKQELGhTh7Qq2Ngcvw+7e8NW8eFxqHCnP3emOpuH2XxtIYxLUO0+Igx7ldjLQptBQLP5UEZndw==
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e86edf7-64ee-4071-a483-08db7844cff8
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 02:01:54.6248
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /5r3h3cu8B+iwJprzexpKV5dHxCzbo5yEgpJEQQvdjhaKnjUy+melgpvM5RnR6++hE+e4/F1R5sJA1y0k/YE7rR4KANXw9Bnj+cuOz2HU1o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB5736
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <1687955688-20809-5-git-send-email-quic_mojha@quicinc.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: _PtAZJKIv8wUIJtY7Dr0KaYF-ZLooNex
+X-Proofpoint-GUID: _PtAZJKIv8wUIJtY7Dr0KaYF-ZLooNex
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-06-28_14,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 bulkscore=0
- suspectscore=0 mlxscore=0 phishscore=0 malwarescore=0 mlxlogscore=618
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306290017
-X-Proofpoint-GUID: vlTWXUi9VfhKVMcdCrgJopCN--Euslxi
-X-Proofpoint-ORIG-GUID: vlTWXUi9VfhKVMcdCrgJopCN--Euslxi
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 mlxscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
+ bulkscore=0 clxscore=1015 adultscore=0 suspectscore=0 lowpriorityscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306290021
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jun 28, 2023 at 06:04:31PM +0530, Mukesh Ojha wrote:
+> Minidump is a best effort mechanism to collect useful and predefined
+> data for first level of debugging on end user devices running on
+> Qualcomm SoCs. It is built on the premise that System on Chip (SoC)
+> or subsystem part of SoC crashes, due to a range of hardware and
+> software bugs. Hence, the ability to collect accurate data is only
+> a best-effort. The data collected could be invalid or corrupted,
+> data collection itself could fail, and so on.
+> 
+> Qualcomm devices in engineering mode provides a mechanism for
+> generating full system ramdumps for post mortem debugging. But in some
+> cases it's however not feasible to capture the entire content of RAM.
+> The minidump mechanism provides the means for selecting region should
+> be included in the ramdump. The solution supports extracting the
+> ramdump/minidump produced either over USB or stored to an attached
+> storage device.
+> 
+> Minidump kernel driver implementation is divided into two parts for
+> simplicity, one is minidump core which can also be called minidump
+> frontend(As API gets exported from this driver for registration with
+> backend) and the other part is minidump backend i.e, where the underlying
+> implementation of minidump will be there. There could be different way
+> how the backend is implemented like Shared memory, Memory mapped IO
+> or Resource manager based where the guest region information is passed
+> to hypervisor via hypercalls.
+> 
+> Minidump Client-1     Client-2      Client-5    Client-n
+>          |               |              |             |
+>          |               |    ...       |   ...       |
+>          |               |              |             |
+>          |               |              |             |
+>          |               |              |             |
+>          |               |              |             |
+>          |               |              |             |
+>          |               |              |             |
+>          |           +---+--------------+----+        |
+>          +-----------+  qcom_minidump(core)  +--------+
+>                      |                       |
+>                      +------+-----+------+---+
+>                             |     |      |
+>                             |     |      |
+>             +---------------+     |      +--------------------+
+>             |                     |                           |
+>             |                     |                           |
+>             |                     |                           |
+>             v                     v                           v
+>  +-------------------+      +-------------------+     +------------------+
+>  |qcom_minidump_smem |      |qcom_minidump_mmio |     | qcom_minidump_rm |
+>  |                   |      |                   |     |                  |
+>  +-------------------+      +-------------------+     +------------------+
+>    Shared memory              Memory mapped IO           Resource manager
+>     (backend)                   (backend)                   (backend)
+> 
+> Here, we will be giving all analogy of backend with SMEM as it is the
+> only implemented backend at present but general idea remains the same.
+> 
+> The core of minidump feature is part of Qualcomm's boot firmware code.
+> It initializes shared memory (SMEM), which is a part of DDR and
+> allocates a small section of it to minidump table i.e also called
+> global table of content (G-ToC). Each subsystem (APSS, ADSP, ...) has
+> their own table of segments to be included in the minidump, all
+> references from a descriptor in SMEM (G-ToC). Each segment/region has
+> some details like name, physical address and it's size etc. and it
+> could be anywhere scattered in the DDR.
+> 
+> qcom_minidump(core or frontend) driver adds the capability to add APSS
+> region to be dumped as part of ram dump collection. It provides
+> appropriate symbol register/unregister client regions.
+> 
+> To simplify post mortem debugging, it creates and maintain an ELF
+> header as first region that gets updated upon registration
+> of a new region.
+> 
+> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> ---
+>  drivers/soc/qcom/Kconfig                  |  15 +
+>  drivers/soc/qcom/Makefile                 |   2 +
+>  drivers/soc/qcom/qcom_minidump.c          | 456 ++++++++++++++++++++++++++++++
+>  drivers/soc/qcom/qcom_minidump_internal.h |  75 +++++
+>  include/soc/qcom/qcom_minidump.h          |  35 +++
+>  5 files changed, 583 insertions(+)
+>  create mode 100644 drivers/soc/qcom/qcom_minidump.c
+>  create mode 100644 drivers/soc/qcom/qcom_minidump_internal.h
+> 
+> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
+> index 982310b5a1cb..874ee8c3efe0 100644
+> --- a/drivers/soc/qcom/Kconfig
+> +++ b/drivers/soc/qcom/Kconfig
+> @@ -279,6 +279,21 @@ config QCOM_INLINE_CRYPTO_ENGINE
+>  	tristate
+>  	select QCOM_SCM
+>  
+> +config QCOM_MINIDUMP
+> +	tristate "QCOM Minidump APSS Core Infrastructure"
+> +	depends on ARCH_QCOM
+> +	help
+> +	  This config allow linux core infrastructure for APSS minidump for
+> +	  underlying backend(smem etc.) which can hook themselves to this and
+> +	  work as one unit. So, this config should be selected in combination
+> +	  with its backend.
+> +
+> +	  After this Linux clients driver can register their internal data
+> +	  structures and debug messages as part of the apss minidump region
+> +	  and when the SoC is crashed, and these selective regions will be
+> +	  dumped instead of the entire DDR. This saves significant amount
+> +	  of time and/or storage space.
+> +
+>  config QCOM_MINIDUMP_SMEM
+>  	tristate "QCOM Minidump SMEM (as backend) Support"
+>  	depends on ARCH_QCOM
+> diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
+> index 89b775512bef..737d868757ac 100644
+> --- a/drivers/soc/qcom/Makefile
+> +++ b/drivers/soc/qcom/Makefile
+> @@ -34,3 +34,5 @@ obj-$(CONFIG_QCOM_KRYO_L2_ACCESSORS) +=	kryo-l2-accessors.o
+>  obj-$(CONFIG_QCOM_ICC_BWMON)	+= icc-bwmon.o
+>  qcom_ice-objs			+= ice.o
+>  obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)	+= qcom_ice.o
+> +obj-$(CONFIG_QCOM_MINIDUMP) += qcom_minidump.o
+> +obj-$(CONFIG_QCOM_MINIDUMP_SMEM) += qcom_minidump_smem.o
+> diff --git a/drivers/soc/qcom/qcom_minidump.c b/drivers/soc/qcom/qcom_minidump.c
+> new file mode 100644
+> index 000000000000..7744e57843ab
+> --- /dev/null
+> +++ b/drivers/soc/qcom/qcom_minidump.c
+> @@ -0,0 +1,456 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+> +#include <linux/device.h>
+> +#include <linux/export.h>
+> +#include <linux/kallsyms.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/printk.h>
+> +#include <linux/string.h>
+> +
+> +#include "qcom_minidump_internal.h"
+> +
+> +/*
+> + * In some of the Old Qualcomm devices, boot firmware statically allocates 300
+> + * as total number of supported region (including all co-processors) in
+> + * minidump table out of which linux was using 201. In future, this limitation
+> + * from boot firmware might get removed by allocating the region dynamically.
+> + * So, keep it compatible with older devices, we can keep the current limit for
+> + * Linux to 201.
+> + */
+> +#define MAX_NUM_ENTRIES	  201
+> +#define MAX_STRTBL_SIZE	  (MAX_NUM_ENTRIES * MAX_REGION_NAME_LENGTH)
+> +
 
-Rong,
+Should not we receive these constraints from backend?
 
-> This script is not used and requires additional development to sync
-> with the SCSI target code.
+> +/*
+> + * md_lock protects "md" during calls to qcom_minidump_backend_register(),
+> + * qcom_minidump_backend_unregister().
+> + */
+> +static DEFINE_MUTEX(md_lock);
+> +
+> +/* Only one front end will be attached to one back-end */
+> +static struct minidump *md;
+> +static char *md_backend;
+> +
 
-Applied to 6.5/scsi-staging, thanks!
+Can you explain this a bit more? There is just one fronend, correct?
+Multiple possibilites of backend.
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Is it a limitation at the moment that we support only one backend or
+plan to support more backends later for the same frontend. Pls clarify.
+
+> +static struct elf_shdr *elf_shdr_entry_addr(struct elfhdr *ehdr, int idx)
+> +{
+> +	struct elf_shdr *eshdr = (struct elf_shdr *)((size_t)ehdr + ehdr->e_shoff);
+> +
+> +	return &eshdr[idx];
+> +}
+> +
+
+[...]
+
+> +/**
+> + * qcom_minidump_region_register() - Register region in APSS Minidump table.
+> + * @region: minidump region.
+> + *
+> + * Return: On success, it returns 0 and negative error value on failure.
+> + */
+
+Are we not going to return any cookie upon success which can be passed
+to us during unregistration?
+
+> +int qcom_minidump_region_register(const struct qcom_minidump_region *region)
+> +{
+> +	int ret;
+> +
+> +	if (!qcom_minidump_valid_region(region))
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&md_lock);
+> +	if (!md) {
+> +		mutex_unlock(&md_lock);
+> +		pr_err("No backend registered yet, try again..");
+> +		return -EPROBE_DEFER;
+> +	}
+> +
+> +	ret = md->ops->md_region_register(md, region);
+> +	if (ret)
+> +		goto unlock;
+> +
+
+The md_lock description in the beginning does not seems to be correct.
+It is not limited to backend registration. It has much wider usage.
+
+You are holding the lock while calling into backend. Basically the
+synchronization is done in the front end.
+
+> +	qcom_md_update_elf_header(region);
+> +unlock:
+> +	mutex_unlock(&md_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(qcom_minidump_region_register);
+> +
+> +/**
+> + * qcom_minidump_region_unregister() - Unregister region from APSS Minidump table.
+> + * @region: minidump region.
+> + *
+> + * Return: On success, it returns 0 and negative error value on failure.
+> + */
+> +int qcom_minidump_region_unregister(const struct qcom_minidump_region *region)
+> +{
+> +	int ret;
+> +
+> +	if (!qcom_minidump_valid_region(region))
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&md_lock);
+> +	if (!md) {
+> +		mutex_unlock(&md_lock);
+> +		pr_err("No backend registered yet, try again..");
+> +		return -EPROBE_DEFER;
+> +	}
+> +
+> +	ret = md->ops->md_region_unregister(md, region);
+> +	if (ret)
+> +		goto unlock;
+> +
+
+The frontend is not validing that it is actually a registered client, it
+is left to backend. Seems that is more duplication in the backend(s).
+
+> +	ret = qcom_minidump_clear_header(region);
+> +unlock:
+> +	mutex_unlock(&md_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(qcom_minidump_region_unregister);
+
+can we create a namespace for exporting these symbols?
+
+> +
+> +static int qcom_minidump_add_elf_header(struct minidump *md_data)
+> +{
+
+[...]
+
+> +
+> +/**
+> + * qcom_minidump_backend_register() - Register backend minidump device.
+> + * @md_data: minidump backend driver data
+> + *
+> + * Return: On success, it returns 0 and negative error value on failure.
+> + */
+> +int qcom_minidump_backend_register(struct minidump *md_data)
+> +{
+> +	int ret;
+> +
+> +	if (!md_data->name || !md_data->dev ||
+> +	    !md_data->ops ||
+> +	    !md_data->ops->md_table_init ||
+> +	    !md_data->ops->md_region_register ||
+> +	    !md_data->ops->md_region_unregister ||
+> +	    !md_data->ops->md_table_exit) {
+> +		pr_warn("backend '%s' must fill/implement necessary fields\n", md->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (md_backend && strcmp(md_backend, md_data->name)) {
+> +		pr_warn("backend '%s' already in use: ignoring '%s'\n",
+> +			 md_backend, md_data->name);
+> +		return -EBUSY;
+> +	}
+> +
+> +	mutex_lock(&md_lock);
+> +	if (md) {
+> +		dev_warn(md->dev, "backend '%s' already loaded: ignoring '%s'\n",
+> +			 md->name, md_data->name);
+> +		ret = -EBUSY;
+> +		goto unlock;
+> +	}
+> +
+> +	if (!md_data->max_region_limit || md_data->max_region_limit > MAX_NUM_ENTRIES)
+> +		md_data->max_region_limit = MAX_NUM_ENTRIES;
+> +
+> +	ret = md_data->ops->md_table_init(md_data);
+> +	if (ret) {
+> +		dev_err(md_data->dev, "minidump backend initialization failed: %d\n", ret);
+> +		goto unlock;
+> +	}
+> +
+> +	/* First entry would be ELF header */
+> +	ret = qcom_minidump_add_elf_header(md_data);
+> +	if (ret) {
+> +		dev_err(md_data->dev, "Failed to add elf header: %d\n", ret);
+> +		md_data->ops->md_table_exit(md_data);
+> +		goto unlock;
+> +	}
+> +
+> +	md = md_data;
+> +	md_backend = kstrdup(md->name, GFP_KERNEL);
+> +	dev_info(md->dev, "Registered minidump backend : %s\n", md->name);
+> +
+
+What is the need for keeping md_backend separately? md::name is already
+present.
+
+Also, how do we prevent backend module unloading while it is inuse? or
+we don't need that constraint?
+
+> +unlock:
+> +	mutex_unlock(&md_lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(qcom_minidump_backend_register);
+
+Thanks,
+Pavan
