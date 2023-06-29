@@ -2,205 +2,261 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A988EB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 01:41:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC67EB64D7
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 01:45:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231821AbjF2Bld (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 21:41:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43726 "EHLO
+        id S229543AbjF2Bpk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 21:45:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231879AbjF2Bl2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 21:41:28 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0889F2D54;
-        Wed, 28 Jun 2023 18:41:23 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Qs1PV5cglzqTNR;
-        Thu, 29 Jun 2023 09:41:02 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 29 Jun 2023 09:41:20 +0800
-CC:     <v-songbaohua@oppo.com>, Christoph Hellwig <hch@lst.de>,
-        <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
-        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>,
-        <paulmck@kernel.org>, <bp@suse.de>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <kim.phillips@amd.com>,
-        <rostedt@goodmis.org>, <thunder.leizhen@huawei.com>,
-        <ardb@kernel.org>, <bhe@redhat.com>, <anshuman.khandual@arm.com>,
-        <song.bao.hua@hisilicon.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <iommu@lists.linux.dev>,
-        =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] dma-contiguous: support per-numa CMA for all
- architectures
-To:     Barry Song <21cnbao@gmail.com>, Yajun Deng <yajun.deng@linux.dev>,
-        Yicong Yang <yangyicong@hisilicon.com>,
-        Tian Tao <tiantao6@hisilicon.com>
-References: <20230515094955.GB23880@lst.de>
- <20230512094210.141540-1-yajun.deng@linux.dev>
- <055f964384a2bb4ba51c64a0be6072c9@linux.dev>
- <20230515133821.769158bb@meshulam.tesarici.cz>
- <20230623174046.66ce934bcf5c1303003a5afc@linux-foundation.org>
- <a18b0cf466191b0d692e431fe33c7c80@linux.dev>
- <CAGsJ_4xZp_1jLZnsZsUzaxvkkaOv=FDOiGKNgCmPN1gvJugSTg@mail.gmail.com>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <78c3ebc1-c235-0b2c-b740-76141f886bfd@huawei.com>
-Date:   Thu, 29 Jun 2023 09:41:19 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        with ESMTP id S229469AbjF2Bpj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 21:45:39 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB4781FCB;
+        Wed, 28 Jun 2023 18:45:37 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35T0CrFQ029409;
+        Thu, 29 Jun 2023 01:45:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=qcppdkim1;
+ bh=ZYWynEvEKNe8VfOw/p/gTYwzAY7ckXkgyE3yqJuE0T0=;
+ b=MJA9ev2Hkxjx5p10t12BffBjoMcDAiGG2uua9kd2bo1QIn9+IMwwap3Gs5CMnbWzZ2HK
+ PCxYfg2M5Xs5vkGPJdyxpjK9trQ5yVfGDT3K+SOf1hhtRbMVdE1HyKQ8UewJ8IEEJdyf
+ k4RKtyrVOo+PsTmDAoF+JQV23BcN/JcvYGAVXDjW5zGfDfJJGmJrDwD44XhrXf7Ycivt
+ zEwNqjYeL7fWDg95JHWzsQAh7USekFhzTKtpLeXnfmLyDhWJaqgfxYZWFyBOVjKiYlUi
+ 3u/hy2R3J3J1HziDGZcAzXkGg9SZVSWVS3oP+QKsuPrC0fkbIlEP9qSsSMHyenUqhE8H dg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rgetpj99c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Jun 2023 01:45:14 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35T1jCmm022921
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Jun 2023 01:45:13 GMT
+Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.7; Wed, 28 Jun 2023 18:45:05 -0700
+Date:   Thu, 29 Jun 2023 07:15:01 +0530
+From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
+To:     Rob Herring <robh+dt@kernel.org>
+CC:     Pavan Kondeti <quic_pkondeti@quicinc.com>,
+        Mukesh Ojha <quic_mojha@quicinc.com>, <corbet@lwn.net>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <keescook@chromium.org>,
+        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
+        <mathieu.poirier@linaro.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <linus.walleij@linaro.org>,
+        <andy.shevchenko@gmail.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v4 08/21] dt-bindings: reserved-memory: Add qcom,ramoops
+ binding
+Message-ID: <07e3a4ce-d1fd-4af7-a288-a88e8fb1c954@quicinc.com>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <1687955688-20809-9-git-send-email-quic_mojha@quicinc.com>
+ <87ba1c2d-fa0b-4ac5-ba79-b3556101b612@quicinc.com>
+ <CAL_Jsq+_G4wBR7tm+DvN-yYSaoAX6OgxHa0AToJYucDdhD=Dtg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAGsJ_4xZp_1jLZnsZsUzaxvkkaOv=FDOiGKNgCmPN1gvJugSTg@mail.gmail.com>
 Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+In-Reply-To: <CAL_Jsq+_G4wBR7tm+DvN-yYSaoAX6OgxHa0AToJYucDdhD=Dtg@mail.gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 9kp9rIKzyYn_Az1wGtxsEwfzcKAeNG4n
+X-Proofpoint-GUID: 9kp9rIKzyYn_Az1wGtxsEwfzcKAeNG4n
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-28_14,2023-06-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ mlxlogscore=999 spamscore=0 priorityscore=1501 suspectscore=0
+ clxscore=1015 bulkscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306290014
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/6/26 13:32, Barry Song wrote:
-> On Sun, Jun 25, 2023 at 7:30 PM Yajun Deng <yajun.deng@linux.dev> wrote:
->>
->> June 24, 2023 8:40 AM, "Andrew Morton" <akpm@linux-foundation.org> wrote:
->>
->>> On Mon, 15 May 2023 13:38:21 +0200 Petr Tesařík <petr@tesarici.cz> wrote:
->>>
->>>> On Mon, 15 May 2023 11:23:27 +0000
->>>> "Yajun Deng" <yajun.deng@linux.dev> wrote:
->>>>
->>>> May 15, 2023 5:49 PM, "Christoph Hellwig" <hch@lst.de> wrote:
->>>
->>> This looks fine to me. Can you please work with Barry to make sure
->>> the slight different place of the initcall doesn't break anything
->>> for his setup? I doubt it would, but I'd rather have a Tested-by:
->>> tag.
->>>> Barry's email is no longer in use. I can't reach him.
->>>>
->>>> Which one? I would hope that his Gmail account is still valid:
->>>>
->>>> Barry Song <21cnbao@gmail.com>
->>>
->>> Maybe his kernel.org address works...
->>>
->>> I have this patch stuck in limbo for 6.4. I guess I'll carry it over
->>> into the next -rc cycle, see what happens.
->>>
->>> fwiw, it has been in -next for six weeks, no known issues.
->>
->> Hi, Barry, The slight different place of the initcall, does break anything?
+On Wed, Jun 28, 2023 at 05:17:13PM -0600, Rob Herring wrote:
+> On Wed, Jun 28, 2023 at 8:11 AM Pavan Kondeti <quic_pkondeti@quicinc.com> wrote:
+> >
+> > On Wed, Jun 28, 2023 at 06:04:35PM +0530, Mukesh Ojha wrote:
+> > > Qualcomm ramoops minidump logger provide a means of storing
+> > > the ramoops data to some dynamically reserved memory instead
+> > > of traditionally implemented ramoops where the region should
+> > > be statically fixed ram region. Its device tree binding
+> > > would be exactly same as ramoops device tree binding and is
+> > > going to contain traditional ramoops frontend data and this
+> > > content will be collected via Qualcomm minidump infrastructure
+> > > provided from the boot firmware.
+> > >
+> > > Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> > > ---
+> > >  .../devicetree/bindings/soc/qcom/qcom,ramoops.yaml | 126 +++++++++++++++++++++
+> > >  1 file changed, 126 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/soc/qcom/qcom,ramoops.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,ramoops.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,ramoops.yaml
+> > > new file mode 100644
+> > > index 000000000000..b1fdcf3f8ad4
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/soc/qcom/qcom,ramoops.yaml
+> > > @@ -0,0 +1,126 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: "http://devicetree.org/schemas/soc/qcom/qcom,ramoops.yaml#"
+> > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > > +
+> > > +title: Qualcomm Ramoops minidump logger
+> > > +
+> > > +description: |
+> > > +  Qualcomm ramoops minidump logger provide a means of storing the ramoops
+> > > +  data to some dynamically reserved memory instead of traditionally
+> > > +  implemented ramoops where the region should be statically fixed ram
+> > > +  region. Because of its similarity with ramoops it will also have same
+> > > +  set of property what ramoops have it in its schema and is going to
+> > > +  contain traditional ramoops frontend data and this region will be
+> > > +  collected via Qualcomm minidump infrastructure provided from the
+> > > +  boot firmware.
+> > > +
+> > > +maintainers:
+> > > +  - Mukesh Ojha <quic_mojha@quicinc.com>
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          - qcom,sm8450-ramoops
+> > > +      - const: qcom,ramoops
+> > > +
+> > > +  memory-region:
+> > > +    maxItems: 1
+> > > +    description: handle to memory reservation for qcom,ramoops region.
+> > > +
+> > > +  ecc-size:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description: enables ECC support and specifies ECC buffer size in bytes
+> > > +    default: 0 # no ECC
+> > > +
+> > > +  record-size:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description: maximum size in bytes of each kmsg dump
+> > > +    default: 0
+> > > +
+> > > +  console-size:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description: size in bytes of log buffer reserved for kernel messages
+> > > +    default: 0
+> > > +
+> > > +  ftrace-size:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description: size in bytes of log buffer reserved for function tracing and profiling
+> > > +    default: 0
+> > > +
+> > > +  pmsg-size:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description: size in bytes of log buffer reserved for userspace messages
+> > > +    default: 0
+> > > +
+> > > +  mem-type:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description: if present, sets the type of mapping is to be used to map the reserved region.
+> > > +    default: 0
+> > > +    oneOf:
+> > > +      - const: 0
+> > > +        description: write-combined
+> > > +      - const: 1
+> > > +        description: unbuffered
+> > > +      - const: 2
+> > > +        description: cached
+> > > +
+> > > +  max-reason:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    default: 2 # log oopses and panics
+> > > +    maximum: 0x7fffffff
+> > > +    description: |
+> > > +      If present, sets maximum type of kmsg dump reasons to store.
+> > > +      This can be set to INT_MAX to store all kmsg dumps.
+> > > +      See include/linux/kmsg_dump.h KMSG_DUMP_* for other kmsg dump reason values.
+> > > +      Setting this to 0 (KMSG_DUMP_UNDEF), means the reason filtering will be
+> > > +      controlled by the printk.always_kmsg_dump boot param.
+> > > +      If unset, it will be 2 (KMSG_DUMP_OOPS), otherwise 5 (KMSG_DUMP_MAX).
+> > > +
+> > > +  flags:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    default: 0
+> > > +    description: |
+> > > +      If present, pass ramoops behavioral flags
+> > > +      (see include/linux/pstore_ram.h RAMOOPS_FLAG_* for flag values).
+> > > +
+> > > +  no-dump-oops:
+> > > +    deprecated: true
+> > > +    type: boolean
+> > > +    description: |
+> > > +      Use max_reason instead. If present, and max_reason is not specified,
+> > > +      it is equivalent to max_reason = 1 (KMSG_DUMP_PANIC).
+> > > +
+> > > +  unbuffered:
+> > > +    deprecated: true
+> > > +    type: boolean
+> > > +    description: |
+> > > +      Use mem_type instead. If present, and mem_type is not specified,
+> > > +      it is equivalent to mem_type = 1 and uses unbuffered mappings to map
+> > > +      the reserved region (defaults to buffered mappings mem_type = 0).
+> > > +      If both are specified -- "mem_type" overrides "unbuffered".
+> > > +
+> >
+> > Most of the properties you added here are already documented at
+> > Documentation/devicetree/bindings/reserved-memory/ramoops.yaml
 > 
-> i don't see a fundamental difference as anyway it is still after
-> arch_numa_init()
-> which is really what we depend on.
+> That is certainly a problem. Don't define the same property more than
+> once. Not yet checked and enforced by the tools, but it will be.
 > 
-> and i did a test on qemu with the command line:
-> qemu-system-aarch64 -M virt,gic-version=3 -nographic \
->  -smp cpus=8 \
->  -numa node,cpus=0-1,nodeid=0 \
->  -numa node,cpus=2-3,nodeid=1 \
->  -numa node,cpus=4-5,nodeid=2 \
->  -numa node,cpus=6-7,nodeid=3 \
->  -numa dist,src=0,dst=1,val=12 \
->  -numa dist,src=0,dst=2,val=20 \
->  -numa dist,src=0,dst=3,val=22 \
->  -numa dist,src=1,dst=2,val=22 \
->  -numa dist,src=2,dst=3,val=12 \
->  -numa dist,src=1,dst=3,val=24 \
->  -m 4096M -cpu cortex-a57 -kernel arch/arm64/boot/Image \
->  -nographic -append "cma_pernuma=32M root=/dev/vda2  rw ip=dhcp
-> sched_debug irqchip.gicv3_pseudo_nmi=1" \
->  -drive if=none,file=extra/ubuntu16.04-arm64.img,id=hd0 -device
-> virtio-blk-device,drive=hd0 \
->  -net nic -net user,hostfwd=tcp::2222-:22
+> > Can't we just reference them here? would something like work?
+> >
+> > max-reason:
+> >   $ref: "../../reserved-memory/ramoops.yaml#/properties/max-reason
 > 
-> and in system, i can see all cma areas are correctly reserved:
-> ~# dmesg | grep cma
-> [    0.000000] cma: cma_declare_contiguous_nid(size
-> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
-> alignment 0x0000000000000000)
-> [    0.000000] cma: Reserved 32 MiB at 0x000000007ce00000
-> [    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 0
-> [    0.000000] cma: cma_declare_contiguous_nid(size
-> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
-> alignment 0x0000000000000000)
-> [    0.000000] cma: Reserved 32 MiB at 0x00000000bce00000
-> [    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 1
-> [    0.000000] cma: cma_declare_contiguous_nid(size
-> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
-> alignment 0x0000000000000000)
-> [    0.000000] cma: Reserved 32 MiB at 0x00000000fce00000
-> [    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 2
-> [    0.000000] cma: cma_declare_contiguous_nid(size
-> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
-> alignment 0x0000000000000000)
-> [    0.000000] cma: Reserved 32 MiB at 0x0000000100000000
-> [    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 3
-> [    0.000000] cma: dma_contiguous_reserve(limit 100000000)
-> [    0.000000] cma: dma_contiguous_reserve: reserving 32 MiB for global area
-> [    0.000000] cma: cma_declare_contiguous_nid(size
-> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000100000000
-> alignment 0x0000000000000000)
-> [    0.000000] cma: Reserved 32 MiB at 0x00000000fae00000
-> [    0.000000] Kernel command line: cma_pernuma=32M root=/dev/vda2  rw
-> ip=dhcp sched_debug irqchip.gicv3_pseudo_nmi=1
-> [    0.000000] Memory: 3848784K/4194304K available (16128K kernel
-> code, 4152K rwdata, 10244K rodata, 8512K init, 612K bss, 181680K
-> reserved, 163840K cma-reserved)
-> [    0.175309] cma: cma_alloc(cma (____ptrval____), count 128, align 7)
-> [    0.179264] cma: cma_alloc(): returned (____ptrval____)
-> [    0.179869] cma: cma_alloc(cma (____ptrval____), count 128, align 7)
-> [    0.180027] cma: cma_alloc(): returned (____ptrval____)
-> [    0.180187] cma: cma_alloc(cma (____ptrval____), count 128, align 7)
-> [    0.180374] cma: cma_alloc(): returned (____ptrval____)
-> 
-> so my feeling is that this patch is fine. but I would prefer Yicong
-> and Tiantao who have a real numa machine
-> and we can get some real device drivers to call dma APIs to allocate
-> memory from pernuma cma on arm64
-> even though it is 99.9% OK.
+> Can work, but no. Common properties need to go into a schema of common
+> properties which the device specific schemas reference.
 > 
 
-Tested on our 4 NUMA arm64 server based on mainline commit 1ef6663a587b,
-this patch works well, so:
+Thanks for the clarification. We need to define the common properties
+and make it available under /schemas/<>.yaml and add a reference to it
+in these bindings. Is my understanding correct?
 
-Tested-by: Yicong Yang <yangyicong@hisilicon.com>
+> >
+> > > +unevaluatedProperties: false
+> > > +
+> >
+> > will there be any additional properties be added dynamically? if not,
+> > should not we use "additionalProperties: false" here?
+> 
+> I don't know what you mean by dynamically, but that's not the criteria
+> for which to use.
+> 
+ok, I was wrong in saying dynamically. I should say "are there any other
+properties that will be included that are not documented here".
 
-For pernuma cma reservation:
-[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000040000000, base 0x0000000000000000, limit 0x0000000000000000 alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 1024 MiB at 0x0000002081800000
-[    0.000000] cma: dma_pernuma_cma_reserve: reserved 1024 MiB on node 0
-[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000040000000, base 0x0000000000000000, limit 0x0000000000000000 alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 1024 MiB at 0x0000004000000000
-[    0.000000] cma: dma_pernuma_cma_reserve: reserved 1024 MiB on node 1
-[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000040000000, base 0x0000000000000000, limit 0x0000000000000000 alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 1024 MiB at 0x0000202000000000
-[    0.000000] cma: dma_pernuma_cma_reserve: reserved 1024 MiB on node 2
-[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000040000000, base 0x0000000000000000, limit 0x0000000000000000 alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 1024 MiB at 0x0000204000000000
-[    0.000000] cma: dma_pernuma_cma_reserve: reserved 1024 MiB on node 3
-[    0.000000] cma: dma_contiguous_reserve(limit 100000000)
-[    0.000000] cma: dma_contiguous_reserve: reserving 384 MiB for global area
-[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000018000000, base 0x0000000000000000, limit 0x0000000100000000 alignment 0x0000000000000000)
-[    0.000000] cma: Reserved 384 MiB at 0x0000000068000000
+is below my understanding correct?
 
-For allocation from pernuma cma, no failure recorded:
-[root@localhost cma]# pwd
-/sys/kernel/mm/cma
-[root@localhost cma]# ls
-pernuma0  pernuma1  pernuma2  pernuma3  reserved
-[root@localhost cma]# cat pernuma*/alloc_pages_fail
-0
-0
-0
-0
-[root@localhost cma]# cat pernuma*/alloc_pages_success
-2144
-0
-2132
-0
+additionalProperties needs to be set to false if at all this binding
+defines all the possible properties (including child nodes) and not
+referring to any other schemas.
 
-Thanks.
+If that is not the case and this binding references to other schemas,
+then unevaluatedProperties could be used since additionalProperties
+can't support combining schemas.
+
+Thanks,
+Pavan
