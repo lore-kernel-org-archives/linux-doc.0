@@ -2,117 +2,205 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B7BEB64D7
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 01:38:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A988EB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 01:41:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231566AbjF2BiZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Jun 2023 21:38:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43336 "EHLO
+        id S231821AbjF2Bld (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Jun 2023 21:41:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230468AbjF2BiY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 21:38:24 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9DEB1BD4
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 18:38:22 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso118445a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 18:38:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688002702; x=1690594702;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=oTkD0d6a9ryiTvtazmiArPDTMy644oSqj+e8VQliv+Y=;
-        b=KpJvJ8jTi0MYXdSPmYdS2cWuT55tn80Cox9G2xRB90uAn5H8xsr6sSgb2Jo1YcreBT
-         lPxMFbCj5knzwuvCX4HsvoU27uF8PumefIrT7pgGEc7TuZmDZthy8YejthW5JotaZ8j1
-         YIJ+m7XpeHokGhV/X8hi4HCVO38ZFYbLHr3aCYcrWcvq+lv+//ZUp4jnoZgJITetIuf/
-         5KtwK8enoBIZNPm80Rozgwc91uqpnR7whP+cppW8ZGEt6rH7egLHPp56RShF1aPkiBS/
-         xrcv6xhcH6TOnOOrBWQr1GBrII1Z9qItEF9ajAQpmaIQP74D5uQDTj6gcTPYZyAs15te
-         7MgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688002702; x=1690594702;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oTkD0d6a9ryiTvtazmiArPDTMy644oSqj+e8VQliv+Y=;
-        b=ZEL/vXqKIjZ4e2/zypbpvLP23ANMue8nrcYv+rVXUv2bedQ4kxY0UFfsJmvfIQ6A6O
-         eQhJSO8h0pwdeF35+cEbyud0FF5cbVxzSnL8MEcBCwzS79V0hNhQwBNnYir1Fhoimky7
-         ounibOkSnJgjSVRq50h+CWZh5uMJF8yojH5E6bYG3FdWBMJ7EtKOXCgJavryV1eZghd3
-         PC1D9DwoPeJzcXv+vOJCD1mgSTm/JmgXoFh1E0oyqXtnc2HAv0bK0RziYsMk9DeAGtpf
-         Utf0nXwKDzL5REdqCVAvXFITnafthinriLQCaITA5kCQX6Yu5bTxVcLomo6QipLHBRra
-         7p9Q==
-X-Gm-Message-State: AC+VfDxLJ+aPYN/4pbeKSXtNZN2LHgpp79E260VZYYAFbde3SGmPDcDn
-        hPqooGLztj46xfT/KvUmDOt5hA==
-X-Google-Smtp-Source: ACHHUZ4vNfduTE+k0DVsS2q3rr0HoQZvJdXf5nxbxIoAWfAIpvWokoxLXXHfyfVQ9d7RUkGEoHJiPQ==
-X-Received: by 2002:a17:903:22cf:b0:1b8:16c7:a786 with SMTP id y15-20020a17090322cf00b001b816c7a786mr9241423plg.4.1688002702392;
-        Wed, 28 Jun 2023 18:38:22 -0700 (PDT)
-Received: from ghost ([50.221.140.188])
-        by smtp.gmail.com with ESMTPSA id f4-20020a170902e98400b001b53029fef1sm2145668plb.172.2023.06.28.18.38.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 18:38:21 -0700 (PDT)
-Date:   Wed, 28 Jun 2023 18:38:19 -0700
-From:   Charlie Jenkins <charlie@rivosinc.com>
-To:     Anup Patel <anup@brainfault.org>
-Cc:     Jessica Clarke <jrtc27@jrtc27.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Conor Dooley <conor@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, bjorn@rivosinc.com,
-        Evan Green <evan@rivosinc.com>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 1/2] RISC-V: mm: Restrict address space for sv39,sv48,sv57
-Message-ID: <ZJzgi8RyqG3Mjt0R@ghost>
-References: <20230627222152.177716-1-charlie@rivosinc.com>
- <20230627222152.177716-2-charlie@rivosinc.com>
- <473F7474-D7AA-4C9F-95A3-320F1741EC50@jrtc27.com>
- <ZJtzEn9Yut3nPuw8@ghost>
- <CAAhSdy2MVu986VUUVTaY6K+s75-MpDoQvsi_jOVZWrCZq8WE2g@mail.gmail.com>
+        with ESMTP id S231879AbjF2Bl2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Jun 2023 21:41:28 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0889F2D54;
+        Wed, 28 Jun 2023 18:41:23 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Qs1PV5cglzqTNR;
+        Thu, 29 Jun 2023 09:41:02 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 29 Jun 2023 09:41:20 +0800
+CC:     <v-songbaohua@oppo.com>, Christoph Hellwig <hch@lst.de>,
+        <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>,
+        <paulmck@kernel.org>, <bp@suse.de>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <kim.phillips@amd.com>,
+        <rostedt@goodmis.org>, <thunder.leizhen@huawei.com>,
+        <ardb@kernel.org>, <bhe@redhat.com>, <anshuman.khandual@arm.com>,
+        <song.bao.hua@hisilicon.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <iommu@lists.linux.dev>,
+        =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] dma-contiguous: support per-numa CMA for all
+ architectures
+To:     Barry Song <21cnbao@gmail.com>, Yajun Deng <yajun.deng@linux.dev>,
+        Yicong Yang <yangyicong@hisilicon.com>,
+        Tian Tao <tiantao6@hisilicon.com>
+References: <20230515094955.GB23880@lst.de>
+ <20230512094210.141540-1-yajun.deng@linux.dev>
+ <055f964384a2bb4ba51c64a0be6072c9@linux.dev>
+ <20230515133821.769158bb@meshulam.tesarici.cz>
+ <20230623174046.66ce934bcf5c1303003a5afc@linux-foundation.org>
+ <a18b0cf466191b0d692e431fe33c7c80@linux.dev>
+ <CAGsJ_4xZp_1jLZnsZsUzaxvkkaOv=FDOiGKNgCmPN1gvJugSTg@mail.gmail.com>
+From:   Yicong Yang <yangyicong@huawei.com>
+Message-ID: <78c3ebc1-c235-0b2c-b740-76141f886bfd@huawei.com>
+Date:   Thu, 29 Jun 2023 09:41:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <CAGsJ_4xZp_1jLZnsZsUzaxvkkaOv=FDOiGKNgCmPN1gvJugSTg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAhSdy2MVu986VUUVTaY6K+s75-MpDoQvsi_jOVZWrCZq8WE2g@mail.gmail.com>
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 06:04:41PM +0530, Anup Patel wrote:
-> On Wed, Jun 28, 2023 at 5:09 AM Charlie Jenkins <charlie@rivosinc.com> wrote:
-> >
-> > Yes it is small to have a default of 38-bits of userspace. I would be
-> > interesting in the opinions of other people on whether it would be
-> > acceptable to have the default be sv48 and require applications that
-> > prefer fewer bits to specify so with the given mmap hinting.
+On 2023/6/26 13:32, Barry Song wrote:
+> On Sun, Jun 25, 2023 at 7:30 PM Yajun Deng <yajun.deng@linux.dev> wrote:
+>>
+>> June 24, 2023 8:40 AM, "Andrew Morton" <akpm@linux-foundation.org> wrote:
+>>
+>>> On Mon, 15 May 2023 13:38:21 +0200 Petr Tesařík <petr@tesarici.cz> wrote:
+>>>
+>>>> On Mon, 15 May 2023 11:23:27 +0000
+>>>> "Yajun Deng" <yajun.deng@linux.dev> wrote:
+>>>>
+>>>> May 15, 2023 5:49 PM, "Christoph Hellwig" <hch@lst.de> wrote:
+>>>
+>>> This looks fine to me. Can you please work with Barry to make sure
+>>> the slight different place of the initcall doesn't break anything
+>>> for his setup? I doubt it would, but I'd rather have a Tested-by:
+>>> tag.
+>>>> Barry's email is no longer in use. I can't reach him.
+>>>>
+>>>> Which one? I would hope that his Gmail account is still valid:
+>>>>
+>>>> Barry Song <21cnbao@gmail.com>
+>>>
+>>> Maybe his kernel.org address works...
+>>>
+>>> I have this patch stuck in limbo for 6.4. I guess I'll carry it over
+>>> into the next -rc cycle, see what happens.
+>>>
+>>> fwiw, it has been in -next for six weeks, no known issues.
+>>
+>> Hi, Barry, The slight different place of the initcall, does break anything?
 > 
-> I think sv48 is a reasonable default instead of sv39. We should fallback
-> to sv39 only if the underlying host does not support sv48.
+> i don't see a fundamental difference as anyway it is still after
+> arch_numa_init()
+> which is really what we depend on.
 > 
-> Regards,
-> Anup
+> and i did a test on qemu with the command line:
+> qemu-system-aarch64 -M virt,gic-version=3 -nographic \
+>  -smp cpus=8 \
+>  -numa node,cpus=0-1,nodeid=0 \
+>  -numa node,cpus=2-3,nodeid=1 \
+>  -numa node,cpus=4-5,nodeid=2 \
+>  -numa node,cpus=6-7,nodeid=3 \
+>  -numa dist,src=0,dst=1,val=12 \
+>  -numa dist,src=0,dst=2,val=20 \
+>  -numa dist,src=0,dst=3,val=22 \
+>  -numa dist,src=1,dst=2,val=22 \
+>  -numa dist,src=2,dst=3,val=12 \
+>  -numa dist,src=1,dst=3,val=24 \
+>  -m 4096M -cpu cortex-a57 -kernel arch/arm64/boot/Image \
+>  -nographic -append "cma_pernuma=32M root=/dev/vda2  rw ip=dhcp
+> sched_debug irqchip.gicv3_pseudo_nmi=1" \
+>  -drive if=none,file=extra/ubuntu16.04-arm64.img,id=hd0 -device
+> virtio-blk-device,drive=hd0 \
+>  -net nic -net user,hostfwd=tcp::2222-:22
+> 
+> and in system, i can see all cma areas are correctly reserved:
+> ~# dmesg | grep cma
+> [    0.000000] cma: cma_declare_contiguous_nid(size
+> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
+> alignment 0x0000000000000000)
+> [    0.000000] cma: Reserved 32 MiB at 0x000000007ce00000
+> [    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 0
+> [    0.000000] cma: cma_declare_contiguous_nid(size
+> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
+> alignment 0x0000000000000000)
+> [    0.000000] cma: Reserved 32 MiB at 0x00000000bce00000
+> [    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 1
+> [    0.000000] cma: cma_declare_contiguous_nid(size
+> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
+> alignment 0x0000000000000000)
+> [    0.000000] cma: Reserved 32 MiB at 0x00000000fce00000
+> [    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 2
+> [    0.000000] cma: cma_declare_contiguous_nid(size
+> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000000000000
+> alignment 0x0000000000000000)
+> [    0.000000] cma: Reserved 32 MiB at 0x0000000100000000
+> [    0.000000] cma: dma_pernuma_cma_reserve: reserved 32 MiB on node 3
+> [    0.000000] cma: dma_contiguous_reserve(limit 100000000)
+> [    0.000000] cma: dma_contiguous_reserve: reserving 32 MiB for global area
+> [    0.000000] cma: cma_declare_contiguous_nid(size
+> 0x0000000002000000, base 0x0000000000000000, limit 0x0000000100000000
+> alignment 0x0000000000000000)
+> [    0.000000] cma: Reserved 32 MiB at 0x00000000fae00000
+> [    0.000000] Kernel command line: cma_pernuma=32M root=/dev/vda2  rw
+> ip=dhcp sched_debug irqchip.gicv3_pseudo_nmi=1
+> [    0.000000] Memory: 3848784K/4194304K available (16128K kernel
+> code, 4152K rwdata, 10244K rodata, 8512K init, 612K bss, 181680K
+> reserved, 163840K cma-reserved)
+> [    0.175309] cma: cma_alloc(cma (____ptrval____), count 128, align 7)
+> [    0.179264] cma: cma_alloc(): returned (____ptrval____)
+> [    0.179869] cma: cma_alloc(cma (____ptrval____), count 128, align 7)
+> [    0.180027] cma: cma_alloc(): returned (____ptrval____)
+> [    0.180187] cma: cma_alloc(cma (____ptrval____), count 128, align 7)
+> [    0.180374] cma: cma_alloc(): returned (____ptrval____)
+> 
+> so my feeling is that this patch is fine. but I would prefer Yicong
+> and Tiantao who have a real numa machine
+> and we can get some real device drivers to call dma APIs to allocate
+> memory from pernuma cma on arm64
+> even though it is 99.9% OK.
+> 
 
-I did some research and it appears that Java does work on sv48, but not
-on sv57. Using the v6.4 kernel I was able to successfully run OpenJDK on
-both sv38 and sv48, but on sv57 there is a SIGSEGV error on QEMU.
-Relevant JDK discussion can be seen here 
-https://mail.openjdk.org/pipermail/hotspot-dev/2022-November/067298.html.
-Go similarly appears to work even on sv57 according to https://go-review.googlesource.com/c/go/+/409055.
-I have not tried Go myself. 
+Tested on our 4 NUMA arm64 server based on mainline commit 1ef6663a587b,
+this patch works well, so:
 
-The point of contention here I believe is that in v6.4, the highest
-address space available will be used, causing all of these applications
-that do not work properly in sv57 to fail when testing in sv57
-environments. Given that these applications seem to work in sv48, it
-seems reasonable to default to sv48, unless there are an abundance of
-additional applications that are unhappy with this.
+Tested-by: Yicong Yang <yangyicong@hisilicon.com>
 
-Using the hint mechanism to mmap will then allow users to change the
-address space to sv57 if required. It should be possible to allow users
-to use sv38 if they need it using the same mechanism, but reducing the
-address space instead of growing it will require more thought from me to
-implement.
+For pernuma cma reservation:
+[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000040000000, base 0x0000000000000000, limit 0x0000000000000000 alignment 0x0000000000000000)
+[    0.000000] cma: Reserved 1024 MiB at 0x0000002081800000
+[    0.000000] cma: dma_pernuma_cma_reserve: reserved 1024 MiB on node 0
+[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000040000000, base 0x0000000000000000, limit 0x0000000000000000 alignment 0x0000000000000000)
+[    0.000000] cma: Reserved 1024 MiB at 0x0000004000000000
+[    0.000000] cma: dma_pernuma_cma_reserve: reserved 1024 MiB on node 1
+[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000040000000, base 0x0000000000000000, limit 0x0000000000000000 alignment 0x0000000000000000)
+[    0.000000] cma: Reserved 1024 MiB at 0x0000202000000000
+[    0.000000] cma: dma_pernuma_cma_reserve: reserved 1024 MiB on node 2
+[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000040000000, base 0x0000000000000000, limit 0x0000000000000000 alignment 0x0000000000000000)
+[    0.000000] cma: Reserved 1024 MiB at 0x0000204000000000
+[    0.000000] cma: dma_pernuma_cma_reserve: reserved 1024 MiB on node 3
+[    0.000000] cma: dma_contiguous_reserve(limit 100000000)
+[    0.000000] cma: dma_contiguous_reserve: reserving 384 MiB for global area
+[    0.000000] cma: cma_declare_contiguous_nid(size 0x0000000018000000, base 0x0000000000000000, limit 0x0000000100000000 alignment 0x0000000000000000)
+[    0.000000] cma: Reserved 384 MiB at 0x0000000068000000
 
-Thanks,
-Charlie
+For allocation from pernuma cma, no failure recorded:
+[root@localhost cma]# pwd
+/sys/kernel/mm/cma
+[root@localhost cma]# ls
+pernuma0  pernuma1  pernuma2  pernuma3  reserved
+[root@localhost cma]# cat pernuma*/alloc_pages_fail
+0
+0
+0
+0
+[root@localhost cma]# cat pernuma*/alloc_pages_success
+2144
+0
+2132
+0
+
+Thanks.
