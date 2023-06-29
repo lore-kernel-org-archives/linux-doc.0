@@ -2,56 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9869C001DD
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 20:51:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EBC4EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 20:51:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232242AbjF2UvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 16:51:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45988 "EHLO
+        id S232195AbjF2UvI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 16:51:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232154AbjF2Uuz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 16:50:55 -0400
+        with ESMTP id S232260AbjF2Uu4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 16:50:56 -0400
 Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CE63593
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 13:50:52 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-57704aa6c69so9777987b3.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 13:50:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8792635A6
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 13:50:54 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5734d919156so9275517b3.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 13:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1688071852; x=1690663852;
+        d=google.com; s=20221208; t=1688071853; x=1690663853;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oot+BFijmfKZ0KO/nJIrIU5HcDe1IwfMU2NYWHhWcUA=;
-        b=dv8waobWVaNSUsOT47GOsDx8vV/iRkGODf8zThZKK4JKq0ZSnTrMWy7R3IAiX1fM4t
-         tegdL5nlYEw74WxJbU4ciZTSnZwOVQYCywDP/6JAHDEF3YVNRNQoSLNsxO+X0jE8+WLZ
-         4ib0DDeM9eP9xJoybwRbj9HMMqb5rE/qTj6br4mOJWTUvJsbEgikpTHZ4BkIpODJP7uS
-         FeOaZbb/LsG8QdVorLcYBayDjEa0cgjzLqqSuGqP5etuMwIPhztE5czIvy2CmabhCZfJ
-         vnsHoy7ITFctcEgQKTEC1tg/xVWWYMTZvhXULy5xYz0ZzCxTiOdKZ00s3BGxSv+HUqqN
-         HmAw==
+        bh=0eR1m0YpsGhZ6GlqZ9XuYhhV42VymJr50nJOc8nZiNo=;
+        b=3cQsv9mPUr/J47bNoSUJhw0yv5GwYe9VZP9mYSYio932WB5S45QeiLp3sUUgqKWWVH
+         dSxCe5jkZQeEy91/Za56iq/BaKt7D2eO5CKC5tFRQYXavX5XUCleRaiiLN/LYOpTc3Q5
+         TlyJDS6v9N9nUKx4AeHRICAHwHnZXdJB2EprVzPDgrV+x6B+GNNBpU5V0gfMamqVpbki
+         nvs6vizS27HjxtsanHmKiVM1v+306yk8JhmYhHT5HisNsno4bY2z/AyQxRY5mcHLj0/S
+         73GQMk4SEbiPfcHxLnui5ipf505zkiJKpuRvNi5XJnjd8ujS1kh0z5BvTGrPJHuMpVHk
+         xgHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688071852; x=1690663852;
+        d=1e100.net; s=20221208; t=1688071853; x=1690663853;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oot+BFijmfKZ0KO/nJIrIU5HcDe1IwfMU2NYWHhWcUA=;
-        b=DpeTWDGILm54Hb9yPCPIB6dzFwpAOm8gLXdsJZ4xENiKZv0QPfo7IUlvXb9W+zQHQC
-         Q7NYphfb9R7BDa+StAtRIhQAMrxSaNYcxPhVFEIiz3aRTYuIGyZDpGDpRMAzWweB+rIF
-         aKG4+CUmjquxBxokPvY6Xi8V+JvNuVKdFFbEHrvZ9PvyaEycgNfnoekbxD5O0N6GJ1RL
-         L9V103faueJvfS/P+lzRUvy8ktaymqcpa9+2pc9Ei8w0Nf8cgOXYbPFxUQ6Ap0K2jcfW
-         F+hSkOcVcrd0Lmup43S3lzCCBdUNW7nqqFN0bVbRbajlx/TjeEE7iF8QTSqtiXVkh+Ql
-         g6vw==
-X-Gm-Message-State: ABy/qLbZY/Qz13O2F+B7cqnjESjvpDXq2VBa1/wKuiy8B1Eiyv614aF8
-        YAjFAme1exjFXSaGFKJiCZHmVmNU/fS2oDslSCwN
-X-Google-Smtp-Source: APBJJlG01gugR5pBeLSzgr9QaRAnN1lelWD28Wisa41iTTVqrwvQyIgcQU0WMKN/qYg/ivXFlgsOpx2irKkAZegi36c2
+        bh=0eR1m0YpsGhZ6GlqZ9XuYhhV42VymJr50nJOc8nZiNo=;
+        b=dK6ngr+DxWOnlt2vK5JF/58m2baSsA3TsrRx3z+88lUdBtHmFAapOn3ESZ/zxws8dz
+         /SiFcsEDUmVWA4b+4njRpz95ZmmlLjJPMoKmxXzi7/WwI66SYgEcYaGqfJWWyM+n+r2q
+         45qudY4NVeYajWaaJjuwp12H1hEHmF/7BqnRUw17yiKNll6nAOmdpMv7qqgGU58P+waS
+         SE9tvP+/yZI2n/ynGYfS8qJ/cNHzKd25lCcORE1qJAEjIGl602keRO3JbO5DMX2PPk8K
+         /Ld/dXAgtUs7X61VNV2d3xzf9j8Adumvj+lrVgGi6/0qP44hKxAsM7LBK1Agh/74i/L9
+         j6ig==
+X-Gm-Message-State: ABy/qLaz14TbMfqasIkxw7bxtQp5fTS7F/W0u8ugnvkssSFopxxW8ztZ
+        FkMv7ns7Fp/zSx3+gi9unZXL9tG1qAcqT8gPRmbe
+X-Google-Smtp-Source: APBJJlGMR6Hew5dlxFm7tULAhbAWqjtH0IRMMwzkK9vijNpv3CfU43JDb01xtUzDErorDPisxqOLpILC+1eZPblYAKLk
 X-Received: from axel.svl.corp.google.com ([2620:15c:2a3:200:e20f:5917:3efa:d4bb])
- (user=axelrasmussen job=sendgmr) by 2002:a25:f621:0:b0:bc7:f6af:8cff with
- SMTP id t33-20020a25f621000000b00bc7f6af8cffmr5650ybd.2.1688071852014; Thu,
- 29 Jun 2023 13:50:52 -0700 (PDT)
-Date:   Thu, 29 Jun 2023 13:50:37 -0700
+ (user=axelrasmussen job=sendgmr) by 2002:a0d:dfd0:0:b0:56c:e2da:f440 with
+ SMTP id i199-20020a0ddfd0000000b0056ce2daf440mr4758ywe.0.1688071853655; Thu,
+ 29 Jun 2023 13:50:53 -0700 (PDT)
+Date:   Thu, 29 Jun 2023 13:50:38 -0700
 In-Reply-To: <20230629205040.665834-1-axelrasmussen@google.com>
 Mime-Version: 1.0
 References: <20230629205040.665834-1-axelrasmussen@google.com>
 X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
-Message-ID: <20230629205040.665834-3-axelrasmussen@google.com>
-Subject: [PATCH v2 3/6] mm: userfaultfd: support UFFDIO_POISON for hugetlbfs
+Message-ID: <20230629205040.665834-4-axelrasmussen@google.com>
+Subject: [PATCH v2 4/6] selftests/mm: refactor uffd_poll_thread to allow
+ custom fault handlers
 From:   Axel Rasmussen <axelrasmussen@google.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -80,90 +81,91 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The behavior here is the same as it is for anon/shmem. This is done
-separately because hugetlb pte marker handling is a bit different.
+Previously, we had "one fault handler to rule them all", which used
+several branches to deal with all of the scenarios required by all of
+the various tests.
+
+In upcoming patches, I plan to add a new test, which has its own
+slightly different fault handling logic. Instead of continuing to add
+cruft to the existing fault handler, let's allow tests to define custom
+ones, separate from other tests.
 
 Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 ---
- mm/hugetlb.c     | 33 +++++++++++++++++++++++++++++++--
- mm/userfaultfd.c |  6 +-----
- 2 files changed, 32 insertions(+), 7 deletions(-)
+ tools/testing/selftests/mm/uffd-common.c |  5 ++++-
+ tools/testing/selftests/mm/uffd-common.h |  3 +++
+ tools/testing/selftests/mm/uffd-stress.c | 12 +++++++-----
+ 3 files changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 38711d49e4db..05abe88986b6 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -6090,14 +6090,24 @@ vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
- 	}
+diff --git a/tools/testing/selftests/mm/uffd-common.c b/tools/testing/selftests/mm/uffd-common.c
+index ba20d7504022..02b89860e193 100644
+--- a/tools/testing/selftests/mm/uffd-common.c
++++ b/tools/testing/selftests/mm/uffd-common.c
+@@ -499,6 +499,9 @@ void *uffd_poll_thread(void *arg)
+ 	int ret;
+ 	char tmp_chr;
  
- 	entry = huge_ptep_get(ptep);
--	/* PTE markers should be handled the same way as none pte */
--	if (huge_pte_none_mostly(entry))
-+	if (huge_pte_none_mostly(entry)) {
-+		if (is_pte_marker(entry)) {
-+			unsigned long marker = pte_marker_get(pte_to_swp_entry(entry));
++	if (!args->handle_fault)
++		args->handle_fault = uffd_handle_page_fault;
 +
-+			if (marker & PTE_MARKER_UFFD_POISON) {
-+				ret = VM_FAULT_HWPOISON_LARGE;
-+				goto out_mutex;
-+			}
-+		}
- 		/*
-+		 * Other PTE markers should be handled the same way as none PTE.
-+		 *
- 		 * hugetlb_no_page will drop vma lock and hugetlb fault
- 		 * mutex internally, which make us return immediately.
- 		 */
- 		return hugetlb_no_page(mm, vma, mapping, idx, address, ptep,
- 				      entry, flags);
-+	}
+ 	pollfd[0].fd = uffd;
+ 	pollfd[0].events = POLLIN;
+ 	pollfd[1].fd = pipefd[cpu*2];
+@@ -527,7 +530,7 @@ void *uffd_poll_thread(void *arg)
+ 			err("unexpected msg event %u\n", msg.event);
+ 			break;
+ 		case UFFD_EVENT_PAGEFAULT:
+-			uffd_handle_page_fault(&msg, args);
++			args->handle_fault(&msg, args);
+ 			break;
+ 		case UFFD_EVENT_FORK:
+ 			close(uffd);
+diff --git a/tools/testing/selftests/mm/uffd-common.h b/tools/testing/selftests/mm/uffd-common.h
+index 197f5262fe0d..7c4fa964c3b0 100644
+--- a/tools/testing/selftests/mm/uffd-common.h
++++ b/tools/testing/selftests/mm/uffd-common.h
+@@ -77,6 +77,9 @@ struct uffd_args {
+ 	unsigned long missing_faults;
+ 	unsigned long wp_faults;
+ 	unsigned long minor_faults;
++
++	/* A custom fault handler; defaults to uffd_handle_page_fault. */
++	void (*handle_fault)(struct uffd_msg *msg, struct uffd_args *args);
+ };
  
- 	ret = 0;
+ struct uffd_test_ops {
+diff --git a/tools/testing/selftests/mm/uffd-stress.c b/tools/testing/selftests/mm/uffd-stress.c
+index 995ff13e74c7..50b1224d72c7 100644
+--- a/tools/testing/selftests/mm/uffd-stress.c
++++ b/tools/testing/selftests/mm/uffd-stress.c
+@@ -189,10 +189,8 @@ static int stress(struct uffd_args *args)
+ 				   locking_thread, (void *)cpu))
+ 			return 1;
+ 		if (bounces & BOUNCE_POLL) {
+-			if (pthread_create(&uffd_threads[cpu], &attr,
+-					   uffd_poll_thread,
+-					   (void *)&args[cpu]))
+-				return 1;
++			if (pthread_create(&uffd_threads[cpu], &attr, uffd_poll_thread, &args[cpu]))
++				err("uffd_poll_thread create");
+ 		} else {
+ 			if (pthread_create(&uffd_threads[cpu], &attr,
+ 					   uffd_read_thread,
+@@ -247,9 +245,13 @@ static int userfaultfd_stress(void)
+ {
+ 	void *area;
+ 	unsigned long nr;
+-	struct uffd_args args[nr_cpus];
++	struct uffd_args *args;
+ 	uint64_t mem_size = nr_pages * page_size;
  
-@@ -6253,6 +6263,25 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
- 	int writable;
- 	bool folio_in_pagecache = false;
++	args = calloc(nr_cpus, sizeof(struct uffd_args));
++	if (!args)
++		err("allocating args array failed");
++
+ 	if (uffd_test_ctx_init(UFFD_FEATURE_WP_UNPOPULATED, NULL))
+ 		err("context init failed");
  
-+	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON)) {
-+		ptl = huge_pte_lock(h, dst_mm, dst_pte);
-+
-+		/* Don't overwrite any existing PTEs (even markers) */
-+		if (!huge_pte_none(huge_ptep_get(dst_pte))) {
-+			spin_unlock(ptl);
-+			return -EEXIST;
-+		}
-+
-+		_dst_pte = make_pte_marker(PTE_MARKER_UFFD_POISON);
-+		set_huge_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
-+
-+		/* No need to invalidate - it was non-present before */
-+		update_mmu_cache(dst_vma, dst_addr, dst_pte);
-+
-+		spin_unlock(ptl);
-+		return 0;
-+	}
-+
- 	if (is_continue) {
- 		ret = -EFAULT;
- 		folio = filemap_lock_folio(mapping, idx);
-diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-index 87b62ca1e09e..4436cae1c7a8 100644
---- a/mm/userfaultfd.c
-+++ b/mm/userfaultfd.c
-@@ -381,12 +381,8 @@ static __always_inline ssize_t mfill_atomic_hugetlb(
- 	 * supported by hugetlb.  A PMD_SIZE huge pages may exist as used
- 	 * by THP.  Since we can not reliably insert a zero page, this
- 	 * feature is not supported.
--	 *
--	 * PTE marker handling for hugetlb is a bit special, so for now
--	 * UFFDIO_POISON is not supported.
- 	 */
--	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE) ||
--	    uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON)) {
-+	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE)) {
- 		mmap_read_unlock(dst_mm);
- 		return -EINVAL;
- 	}
 -- 
 2.41.0.255.g8b1d071c50-goog
 
