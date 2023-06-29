@@ -2,174 +2,175 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC626EB64D9
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 13:27:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9562BEB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 14:03:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231550AbjF2N1u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 09:27:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43606 "EHLO
+        id S230119AbjF2ODw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 10:03:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232022AbjF2N1t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 09:27:49 -0400
-Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com [IPv6:2a00:1450:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16D3CA
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 06:27:47 -0700 (PDT)
-Received: by mail-ed1-x549.google.com with SMTP id 4fb4d7f45d1cf-51daef984f5so500228a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 06:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1688045266; x=1690637266;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kY7/aamj2EYJQ18ZqzDDw0qtsWDVxqm6PPibtWgkSrk=;
-        b=JCTZZvCiBVSUwY/VlOx6zbqdMgQ8vDXSYLPyW51p0SzRVnKdolQReI6SJCJ5vCJQkI
-         m6z3kLVUXRfoEy4ST9FRMGwRZ0LOUAsuQ3QUT2uZyIm+z20kRfnO0L/k2pEiKKfnhioe
-         zlGZQQH5njPlya0jsgBopxygTxKMhnUaV/AxCKZdlfMEKO+IeFjrBuhi74rHneSf3IUx
-         Rmu4B+vK7Ty0HmmhD4zU5q/ULFCW/yDPJIUGaztpIXYM35urnp5FMWLaYg9l9vu8jPkZ
-         vwQVGrR+8gKRKvK4tywtkM1IsCxqrFmtJum9cyU+UAaiKCUirO9zfZfuSr04D6cXK4ke
-         00aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688045266; x=1690637266;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kY7/aamj2EYJQ18ZqzDDw0qtsWDVxqm6PPibtWgkSrk=;
-        b=QmEl+WAnZljARNyeuvnx6GIgYR63Sck/ymNI0JTbCHvJucpchs9AnmLiWhgdiTiI8H
-         8nZ9dy6uKUsjiA1HrvCoBTRa5aXaAv/yErWMSHSa1mHReMc/Zba64wv/Im9OWHAPARSD
-         Qti+T/aGkPsF9bJVfPeKz7LVkguK8/K2094tbIhH/EEmJiOq3WUDg/tQ32tOgMDxiUgx
-         nfvzE+fZPy59pU9znexk7EZGt9oDOQcXYa8SYW0Bs5aw2CdLq3r1tTsp2yRhlYiJjKZu
-         y1vPphWOdo/r7a18zsCV3jpYPAjHGDSJP2gkPsKBymra4Rxmd65ktUbnfNO1Kgr58WEI
-         RnWg==
-X-Gm-Message-State: AC+VfDyJiB3pMG8LJdXIMfHPJaBbAGvZtqY0tI+J4B+R8DnK/YzJPtCi
-        YPxjIX6M1dvWQupTntE8q+Mlswe5ak+g/Dc3LiAESCB2f2OF0MQGewRv1mLZavBwD43GdQ4WdIw
-        gEQDODSIpOOABYuyGHxm5L5GHWYz7HEQN4ph/8OVTNDVzFw455xtBIWyUhBHmuAvX9m+Ea7PBXl
-        FJwi8=
-X-Google-Smtp-Source: ACHHUZ4Z1JPrtb+B8F/xAtxs24V0Tz1SdqWlwA36W8Imxf2YTr59tVZmNrQf6uEf1YGFSzBZ24dfMO6dorroRhl/Sg==
-X-Received: from mr-cloudtop2.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:fb5])
- (user=matteorizzo job=sendgmr) by 2002:a50:9f8e:0:b0:51b:df2d:60c5 with SMTP
- id c14-20020a509f8e000000b0051bdf2d60c5mr3202943edf.5.1688045265970; Thu, 29
- Jun 2023 06:27:45 -0700 (PDT)
-Date:   Thu, 29 Jun 2023 13:27:11 +0000
-In-Reply-To: <20230629132711.1712536-1-matteorizzo@google.com>
-Mime-Version: 1.0
-References: <20230629132711.1712536-1-matteorizzo@google.com>
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
-Message-ID: <20230629132711.1712536-2-matteorizzo@google.com>
-Subject: [PATCH v2 1/1] Add a new sysctl to disable io_uring system-wide
-From:   Matteo Rizzo <matteorizzo@google.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        io-uring@vger.kernel.org
-Cc:     matteorizzo@google.com, jordyzomer@google.com, evn@google.com,
-        poprdi@google.com, corbet@lwn.net, axboe@kernel.dk,
-        asml.silence@gmail.com, akpm@linux-foundation.org,
-        keescook@chromium.org, rostedt@goodmis.org,
-        dave.hansen@linux.intel.com, ribalda@chromium.org,
-        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
-        ldufour@linux.ibm.com, bhe@redhat.com, oleksandr@natalenko.name
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S231899AbjF2ODw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 10:03:52 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E40A1FE4;
+        Thu, 29 Jun 2023 07:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1688047430; x=1719583430;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0LCje66TrgfndvZbz38XLfCZaJE3/THeERjOD2/AstY=;
+  b=pD6y9J85HsERg0DbTeB+Smy7meSqEtSGZ4p/P1hKZyMynCPzJcABaf4o
+   Y9d44jBCBqbcEM3Pk3mtOLQ5xDoL2KXJ6HGJ+1Se0r7L1SBfYKNa8DAQ/
+   kga3hBZsaiT3ltp1E+IuaqG/B+CZt6Didq8VEpjXCFL8MoCeZveNPgttV
+   d1LBNN2+pqFQzWfL7oAmh59xaMxhTHJXMaGuAMoaX0UwOB+ZXYqjX2+Q/
+   O1OoywQpq7UYo/3Xx2kV6QozNmHVAxHaEJ63D9qr+cx51L6zkDzBfB7bE
+   pjJF+tcunFfGoJ5ISQBFn6sQ7Nw+eL2RUpc6JbzMkNrhu6J25TZ9rjSNh
+   Q==;
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="asc'?scan'208";a="232893173"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 29 Jun 2023 07:03:40 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 29 Jun 2023 07:03:40 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Thu, 29 Jun 2023 07:03:37 -0700
+Date:   Thu, 29 Jun 2023 15:03:08 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     Evan Green <evan@rivosinc.com>
+CC:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Simon Hosie <shosie@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Andy Chiu <andy.chiu@sifive.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@kernel.org>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Li Zhengyu <lizhengyu3@huawei.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Yangyu Chen <cyy@cyyself.name>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH 1/2] RISC-V: Probe for unaligned access speed
+Message-ID: <20230629-untaxed-tripping-6000bc8c1873@wendy>
+References: <20230623222016.3742145-1-evan@rivosinc.com>
+ <20230623222016.3742145-2-evan@rivosinc.com>
+ <20230626-veneering-superglue-751719bd967c@wendy>
+ <CALs-HsskE1-OkZxFzH9bM6bR9NBW5R4mh5AJScVtnvHbv+Pi6A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="H5dFwnc5H1LxQund"
+Content-Disposition: inline
+In-Reply-To: <CALs-HsskE1-OkZxFzH9bM6bR9NBW5R4mh5AJScVtnvHbv+Pi6A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce a new sysctl (io_uring_disabled) which can be either 0, 1,
-or 2. When 0 (the default), all processes are allowed to create io_uring
-instances, which is the current behavior. When 1, all calls to
-io_uring_setup fail with -EPERM unless the calling process has
-CAP_SYS_ADMIN. When 2, calls to io_uring_setup fail with -EPERM
-regardless of privilege.
+--H5dFwnc5H1LxQund
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Matteo Rizzo <matteorizzo@google.com>
----
- Documentation/admin-guide/sysctl/kernel.rst | 19 +++++++++++++
- io_uring/io_uring.c                         | 30 +++++++++++++++++++++
- 2 files changed, 49 insertions(+)
+On Tue, Jun 27, 2023 at 12:11:25PM -0700, Evan Green wrote:
+> On Mon, Jun 26, 2023 at 7:15=E2=80=AFAM Conor Dooley <conor.dooley@microc=
+hip.com> wrote:
+> > > +void check_misaligned_access(int cpu)
+> > > +{
+> > > +     unsigned long j0, j1;
+> > > +     struct page *page;
+> > > +     void *dst;
+> > > +     void *src;
+> > > +     long word_copies =3D 0;
+> > > +     long byte_copies =3D 0;
+> > > +     long speed =3D RISCV_HWPROBE_MISALIGNED_SLOW;
+> >
+> > Is this not a change from current behaviour, that may actually lead to
+> > incorrect reporting. Presently, only T-Head stuff sets a speed, so
+> > hwprobe falls back to UNKNOWN for everything else. With this, we will
+> > get slow set, for anything failing the test.
+> > Slow is defined as "Misaligned accesses are supported in hardware, but
+> > are slower than the cooresponding aligned accesses sequences (sic)", but
+> > you have no way of knowing, based on the test you are performing, wheth=
+er
+> > the hardware supports it or if it is emulated by firmware.
+> > Perhaps that is not relevant to userspace, but wanted to know your
+> > thoughts.
+> >
+>=20
+> Hm, that's true. EMULATED was an easy one when we were planning to get
+> this info from the DT. It also might be an easy one in the future, if
+> we get an SBI call that allows the kernel to take over misaligned trap
+> handling. We'd then be able to do a misaligned access and see if our
+> trap handler got called.
+>=20
+> One option is to leave the value alone if we fail the FAST test
+> (rather than changing it from UNKNOWN to SLOW). This isn't great
+> though, as it effectively makes UNKNOWN synonymous with SLOW, but in a
+> way where usermode can't tell the difference between "I truly don't
+> know" and "I tried the fast test and it failed".
+>=20
+> The alternative, as it is now, may mislabel some emulated systems as
+> slow until the new SBI call shows up.
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index 3800fab1619b..ee65f7aeb0cf 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -450,6 +450,25 @@ this allows system administrators to override the
- ``IA64_THREAD_UAC_NOPRINT`` ``prctl`` and avoid logs being flooded.
- 
- 
-+io_uring_disabled
-+=================
-+
-+Prevents all processes from creating new io_uring instances. Enabling this
-+shrinks the kernel's attack surface.
-+
-+= ==================================================================
-+0 All processes can create io_uring instances as normal. This is the
-+  default setting.
-+1 io_uring creation is disabled for unprivileged processes.
-+  io_uring_setup fails with -EPERM unless the calling process is
-+  privileged (CAP_SYS_ADMIN). Existing io_uring instances can
-+  still be used.
-+2 io_uring creation is disabled for all processes. io_uring_setup
-+  always fails with -EPERM. Existing io_uring instances can still be
-+  used.
-+= ==================================================================
-+
-+
- kexec_load_disabled
- ===================
- 
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index 1b53a2ab0a27..2343ae518546 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -153,6 +153,22 @@ static __cold void io_fallback_tw(struct io_uring_task *tctx);
- 
- struct kmem_cache *req_cachep;
- 
-+static int __read_mostly sysctl_io_uring_disabled;
-+#ifdef CONFIG_SYSCTL
-+static struct ctl_table kernel_io_uring_disabled_table[] = {
-+	{
-+		.procname	= "io_uring_disabled",
-+		.data		= &sysctl_io_uring_disabled,
-+		.maxlen		= sizeof(sysctl_io_uring_disabled),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_TWO,
-+	},
-+	{},
-+};
-+#endif
-+
- struct sock *io_uring_get_socket(struct file *file)
- {
- #if defined(CONFIG_UNIX)
-@@ -4000,9 +4016,18 @@ static long io_uring_setup(u32 entries, struct io_uring_params __user *params)
- 	return io_uring_create(entries, &p, params);
- }
- 
-+static inline bool io_uring_allowed(void)
-+{
-+	return sysctl_io_uring_disabled == 0 ||
-+		(sysctl_io_uring_disabled == 1 && capable(CAP_SYS_ADMIN));
-+}
-+
- SYSCALL_DEFINE2(io_uring_setup, u32, entries,
- 		struct io_uring_params __user *, params)
- {
-+	if (!io_uring_allowed())
-+		return -EPERM;
-+
- 	return io_uring_setup(entries, params);
- }
- 
-@@ -4577,6 +4602,11 @@ static int __init io_uring_init(void)
- 
- 	req_cachep = KMEM_CACHE(io_kiocb, SLAB_HWCACHE_ALIGN | SLAB_PANIC |
- 				SLAB_ACCOUNT | SLAB_TYPESAFE_BY_RCU);
-+
-+#ifdef CONFIG_SYSCTL
-+	register_sysctl_init("kernel", kernel_io_uring_disabled_table);
-+#endif
-+
- 	return 0;
- };
- __initcall(io_uring_init);
--- 
-2.41.0.162.gfafddb0af9-goog
+Make that "mislabel some emulated systems forever", existing systems
+don't magically grow support for new extensions unfortunately.
 
+Realistically though, does it matter to userspace if it is slow because
+the hardware is slow, or if the emulation is slow, since there's not
+really a way for userspace to tell from the syscall by how much it is
+slower.
+It can probably guess that emulation is worse, given how crap the
+speed I see on mpfs is.
+
+I'd rather we did say slow, rather than people start to interpret
+UNKNOWN as slow.
+
+> I'm not sure how bad this is in
+> practice. We could add a subsequent performance bar below which we
+> guess "emulated".
+
+Nah, I don't really think that that is required.
+
+> This probably matches what usermode will use that
+> value for anyway (a synonym for "very slow"), but it's basically the
+> same problem with reversed polarity (we mislabel some slow systems as
+> emulated). I'm open to suggestions!
+
+I think I just agreed with you, give or take. If it is fast, say fast.
+If it is slow, we say it is slow. If we know it is emulated, then we can
+report it being emulated. Is it too late to remove the "hardware" from
+the syscall documentation, IOW s/supported in hardware/supported/?
+
+Please actually describe the assumptions/subtleties in the commit
+message though, so that the rationale for stuff is in the history :)
+
+Cheers,
+Conor.
+
+--H5dFwnc5H1LxQund
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJ2PHAAKCRB4tDGHoIJi
+0u12AP9Y4hnYqRbH89CmxyncXU2SpQInIjF2gv52xpsfjjHjSgD+Kupcyjx9JdXL
+IXyCwSeqVgJgGgNYQaIGXrmI/E/Biwo=
+=2Coz
+-----END PGP SIGNATURE-----
+
+--H5dFwnc5H1LxQund--
