@@ -2,164 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E312EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 06:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A832EB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 07:21:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231169AbjF2GOd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 02:14:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38100 "EHLO
+        id S231269AbjF2HVT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 03:21:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230476AbjF2GOb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 02:14:31 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CCC12693
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 23:14:29 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-314172bb818so317625f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jun 2023 23:14:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1688019267; x=1690611267;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BxPmChzKXR1dj/ko+9tzcHvICaNxDCij9PscVU1CwGY=;
-        b=g4spu/YTypGbdobXCPpsNMEE7fZgSTh6dwO8ck/RlyJzKG32ec8qbcH4voInoYNI6o
-         nG6/zJ1n82WItH1lu3qQCRFI8uw3L8ph8dhnODO74Jobt9mAAC6aVPmcAOEeHa3CijaY
-         GQ0EQQTgLWtAzMyQV8sZkz9pP1Q5sB+jGzX0IRtVzmIH7vRZDqd7kAqk/QYf3QTa8aEJ
-         QSuo/h0rl0fcrDEeomgjT4HhlbHIS1Bzm651nwZXtQyAM08WdVMOLO0uppwo8McOoT1j
-         8CGh366oXSh0q2wYy6HTFoOLtXKgeVtSm3qpnqhqbheagjwO+/UJVS4tnevaSr7XLabv
-         Rrig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688019267; x=1690611267;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BxPmChzKXR1dj/ko+9tzcHvICaNxDCij9PscVU1CwGY=;
-        b=Sn0oaQ452k80ZoKKnszO4HZhiW4kc6EiLQXWV+sKceGHQYgLR9tBSqu6CmQhn9kVrd
-         c2zvFGOI6GsBrx2sbClS9helry9vKfNzhVPmbfPx4fFZarPMmdatQ90VLeDcWiB9jFow
-         MCJ71gqAj0tlZL4DQDXfKW5DH4WnlWqjuXieeiPiXhbJB4pOPw0yW0VvgRoKhx4wBVk4
-         WDBFt6o0kAz5dgVgcM5tOquxtcX1bJvmOjRoKWNXmQskTzFZ0iwLTqnLpddggt9xnntP
-         Pj+Rf1Tlo/SA447oxwNH//axEtO7jo+sMZ9dE2jbIvMuGxNHl5FCtaHvibH8MU2ZV4d+
-         U0xQ==
-X-Gm-Message-State: AC+VfDzk+AGlLZ2DtQGWXD0d2uhmIY5wLusJmckNHKiUpxJN+QoC7RxN
-        4jQ5MOqlA0S3oePIUv8cACINnw==
-X-Google-Smtp-Source: ACHHUZ7KKCQek3b9yJkpoCmAdgzst9lXvnl9IF1wrn2teksRP3fkGVdr25X0T5kABFTNqxM9KgVooQ==
-X-Received: by 2002:a05:6000:181:b0:30f:d218:584a with SMTP id p1-20020a056000018100b0030fd218584amr32939868wrx.23.1688019267545;
-        Wed, 28 Jun 2023 23:14:27 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id b7-20020a5d45c7000000b003141a3c4353sm460558wrs.30.2023.06.28.23.14.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 23:14:26 -0700 (PDT)
-Date:   Thu, 29 Jun 2023 08:14:25 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     "kuba@kernel.org" <kuba@kernel.org>,
-        "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: Re: [RFC PATCH v8 08/10] ice: implement dpll interface to control cgu
-Message-ID: <ZJ0hQRcm6S05r8VE@nanopsycho>
-References: <20230609121853.3607724-1-arkadiusz.kubalewski@intel.com>
- <20230609121853.3607724-9-arkadiusz.kubalewski@intel.com>
- <ZISmmH0jqxZRB4VX@nanopsycho>
- <DM6PR11MB4657161D2871747A7B404EDD9B5FA@DM6PR11MB4657.namprd11.prod.outlook.com>
- <ZJLtR0c+tvCbUgri@nanopsycho>
+        with ESMTP id S231191AbjF2HVR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 03:21:17 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C1EB2122;
+        Thu, 29 Jun 2023 00:21:16 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id DF8A52187E;
+        Thu, 29 Jun 2023 07:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1688023274; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TQot3+/6L06MLnSwVM0U5KvPeO/RHKvhkYlJ8UsXvjs=;
+        b=iaHOV9fKaasVMdc1oQTFtH99k6W1EIldNrjg6M6CAchZIiu6hRzsoyP93QXQPvnjmYCcRE
+        d31Gvn5PraCXocbem8bQ39fmlGjiS8wn7X5/hPDjdu/TY+FXsWLb97iLDTrYxa3P01ZtLF
+        NRHyjCCrijsV/filxnPnK5ISFK9/heg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1688023274;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TQot3+/6L06MLnSwVM0U5KvPeO/RHKvhkYlJ8UsXvjs=;
+        b=gsKyyXeK693hOMAh8n+hnyyFNfuKx0+E6AJH8y0MmgnZn8NifxTHkRVWzbhHd9PT6g40a+
+        plFRu3+d0l0ciKDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A689C13905;
+        Thu, 29 Jun 2023 07:21:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 3gfyJ+ownWT9PAAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Thu, 29 Jun 2023 07:21:14 +0000
+Message-ID: <d7962a66-12e9-6225-1e74-ccdfc9891da9@suse.cz>
+Date:   Thu, 29 Jun 2023 09:21:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZJLtR0c+tvCbUgri@nanopsycho>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] mm/slub: disable slab merging in the default
+ configuration
+To:     Roman Gushchin <roman.gushchin@linux.dev>,
+        David Rientjes <rientjes@google.com>
+Cc:     Julian Pidancet <julian.pidancet@oracle.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Rafael Aquini <aquini@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+References: <20230627132131.214475-1-julian.pidancet@oracle.com>
+ <48bd9819-3571-6b53-f1ad-ec013be742c0@google.com>
+ <ZJxjgy/Mkh20WpXv@P9FQF9L96D.corp.robot.car>
+Content-Language: en-US
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <ZJxjgy/Mkh20WpXv@P9FQF9L96D.corp.robot.car>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wed, Jun 21, 2023 at 02:29:59PM CEST, jiri@resnulli.us wrote:
->Mon, Jun 19, 2023 at 10:34:12PM CEST, arkadiusz.kubalewski@intel.com wrote:
->>>From: Jiri Pirko <jiri@resnulli.us>
->>>Sent: Saturday, June 10, 2023 6:37 PM
->>>
->>>Fri, Jun 09, 2023 at 02:18:51PM CEST, arkadiusz.kubalewski@intel.com wrote:
->>>
->>>[...]
->>>
->>>
->>>>+static int ice_dpll_mode_get(const struct dpll_device *dpll, void *priv,
->>>>+			     enum dpll_mode *mode,
->>>>+			     struct netlink_ext_ack *extack)
->>>>+{
->>>>+	*mode = DPLL_MODE_AUTOMATIC;
->>>
->>>I don't understand how the automatic mode could work with SyncE. The
->>>There is one pin exposed for one netdev. The SyncE daemon should select
->>>exacly one pin. How do you achieve that?
->>>Is is by setting DPLL_PIN_STATE_SELECTABLE on the pin-netdev you want to
->>>select and DPLL_PIN_STATE_DISCONNECTED on the rest?
->>>
->>>
->>>[...]
->>
->>AUTOMATIC mode autoselects highest priority valid signal.
->>As you have pointed out, for SyncE selection, the user must be able to manually
->>select a pin state to enable recovery of signal from particular port.
->>
->>In "ice" case there are 2 pins for network PHY clock signal recovery, and both
->>are parent pins (MUX-type). There are also 4 pins assigned to netdevs (one per
->>port). Thus passing a signal from PHY to the pin is done through the MUX-pin,
->>by selecting proper state on pin-parent pair (where parent pins is highest prio
->>pin on dpll).
->
->Could you show me some examples please?
+On 6/28/23 18:44, Roman Gushchin wrote:
+> On Tue, Jun 27, 2023 at 12:32:15PM -0700, David Rientjes wrote:
+>> On Tue, 27 Jun 2023, Julian Pidancet wrote:
+>> 
+>> > Make CONFIG_SLAB_MERGE_DEFAULT default to n unless CONFIG_SLUB_TINY is
+>> > enabled. Benefits of slab merging is limited on systems that are not
+>> > memory constrained: the overhead is negligible and evidence of its
+>> > effect on cache hotness is hard to come by.
+>> > 
+>> 
+>> I don't have an objection to this, I think it makes sense.
+> 
+> +1
+> 
+> I believe the overhead was much larger when we had per-memcg slab caches,
+> but now it should be fairly small on most systems.
+> 
+> But I wonder if we need a new flag (SLAB_MERGE?) to explicitly force merging
+> on per-slab cache basis.
 
-Arkadiusz, could you please reply to this?
-Thanks!
+Damn, we just tried to add SLAB_NO_MERGE, that is if Linus pulls the PR, as
+I've just found out that the last time he hated the idea [1] :) (but at the
+same time I think the current attempt is very different in that it's not
+coming via a random tree, and the comments make it clear that it's not for
+everyone to enable in production configs just because they think they are
+special).
 
->
->
->>
->>Thank you!
->>Arkadiusz
+But SLAB_MERGE, I doubt it would get many users being opt-in. People would
+have to consciously opt-in to not being special.
+
+As for changing the default, we definitely need to see the memory usage
+results first, as was mentioned. It's not expected that disabling merging
+would decrease performance, so no wonder the test didn't find such decrease,
+but the expected downside is really increased memory overhead.
+
+But then again it's just a default and most people would use a distro config
+anyway, and neither option seems to be an obvious winner to me? As for the
+"security by default" argument, AFAIK we don't enable freelist
+hardening/randomization by default, and I thought (not being the expert on
+this) the heap spraying attacks concerned mainly generic kmalloc cache users
+(see also [2]) and not some specific named caches being merged?
+
+[1]
+https://lore.kernel.org/all/CA+55aFyepmdpbg9U2Pvp+aHjKmmGCrTK2ywzqfmaOTMXQasYNw@mail.gmail.com/
+[2]
+https://lore.kernel.org/all/20230626031835.2279738-1-gongruiqi@huaweicloud.com/
+
+> I believe there are some cases when slab caches can
+> be created in noticeable numbers and in those cases the memory footprint might
+> be noticeable.
+> 
+> Thanks!
+
