@@ -2,113 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B44C0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 08:27:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B50EB64DC
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 08:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231835AbjF2I1j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 04:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47200 "EHLO
+        id S232054AbjF2Iln (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 04:41:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231882AbjF2I1b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 04:27:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50EEE2D56
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 01:26:43 -0700 (PDT)
+        with ESMTP id S232097AbjF2Ikx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 04:40:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0EA15598
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 01:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688027202;
+        s=mimecast20190719; t=1688027652;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=2X/9hjh4GCRep3Yr5A88t6/9ZJUgY/QuDsFgqFDxHcg=;
-        b=UalajFWSBy0qITeImnTR8Yh+pO5iHnOpdgx7eKPuyYugE3YwonarzuAn6iBBMJUdJpFw3g
-        Ptf+ggvnF23HcYQjKgKxSbKu/kBo772JrysoXAj4KCr+ciz0sgpkJlDExITHYHfQJ1WdX3
-        WWR105kFr1OzgbgINMKWJ/WD47hSuQo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-344-UHJ4wdicPsidx8V-RvRh3A-1; Thu, 29 Jun 2023 04:26:40 -0400
-X-MC-Unique: UHJ4wdicPsidx8V-RvRh3A-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3128319d532so266661f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 01:26:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688027199; x=1690619199;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2X/9hjh4GCRep3Yr5A88t6/9ZJUgY/QuDsFgqFDxHcg=;
-        b=CIos7c+MbWPo2sQLX4+PpDl1a65s9J2U/TiBk0cSqquJn0Y/FrlAbX4HIXvr1XWv6y
-         l3O9AFZdpGJVe8Yb6PJwS6kKW6+cRQ5GG/Uw941naPTF21r+Obo2LLKIksbKRBj2jEWr
-         US0Ya1iGjY///ISRZN22A282nv25mevzFfP9muwcVUngAiUSTPHg8uZlVizhrDqiGhJ9
-         2ZV3UCRxXtxqUcGI1SLvi0b93MxOENV/Bkk72re0jozPJZOKOUwcxANCzYWMMVqr2a2y
-         Mjzy9ktRoClyzxjgjH+5H4p+ku2bw4NqEiYqMCMXfAEuEy8z90P2QDaOwwRBwINVzsZG
-         zNYw==
-X-Gm-Message-State: AC+VfDwXWfVurCM8Ssl9/jAiob78NzQ39hiaG4Hh6MyEi/beKYSaOcrH
-        yPWXYdUXaQicwU6B4yy9Pqudk2b9jby6ofBQz5v5zSkgFp+0BDe1Zm0PAETBspEYVuWdEhQd599
-        HDb2iNGjb9JPxzHEjbZrO6T0gFoK8qRIyHHhQ
-X-Received: by 2002:a5d:4c49:0:b0:307:9702:dfc8 with SMTP id n9-20020a5d4c49000000b003079702dfc8mr32317043wrt.48.1688027199777;
-        Thu, 29 Jun 2023 01:26:39 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7omIpTgTvWmp/XA4qHqIcJGGRJMHLQApXBTxOevoUf3FMPyDoPRMaq5jK0ngggDraIqFDpoXXUgwpysfyG+3w=
-X-Received: by 2002:a5d:4c49:0:b0:307:9702:dfc8 with SMTP id
- n9-20020a5d4c49000000b003079702dfc8mr32317009wrt.48.1688027199420; Thu, 29
- Jun 2023 01:26:39 -0700 (PDT)
+        bh=lcFzJ0h/r4o640kKx9oD5oKaAf0iz+R8cp1bGbk+mhI=;
+        b=IWWkcnka8UBVpGOY3+IXCm4tmHenEJO0/ZRgquc4HWM0yk809N+sk6az05hlGkp1K1jVcr
+        XMf7e2utBMR/Jz4zxMDiZDrQOp0SYwqOR8fNptQiGhd2dLB/WOd/j0O94z+FcSTEso4aL8
+        SYTN/T0dSN5T2st0MI7KyHxxvW6ldEM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-483-P89DQgOTMauKEphGgInR0w-1; Thu, 29 Jun 2023 04:34:04 -0400
+X-MC-Unique: P89DQgOTMauKEphGgInR0w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF498104458F;
+        Thu, 29 Jun 2023 08:34:02 +0000 (UTC)
+Received: from ovpn-8-26.pek2.redhat.com (ovpn-8-26.pek2.redhat.com [10.72.8.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F8C5492C13;
+        Thu, 29 Jun 2023 08:33:32 +0000 (UTC)
+Date:   Thu, 29 Jun 2023 16:33:26 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Nitesh Shetty <nj.shetty@samsung.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+        willy@infradead.org, hare@suse.de, djwong@kernel.org,
+        bvanassche@acm.org, dlemoal@kernel.org, nitheshshetty@gmail.com,
+        gost.dev@samsung.com, Vincent Fu <vincent.fu@samsung.com>,
+        Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+        ming.lei@redhat.com
+Subject: Re: [PATCH v13 3/9] block: add emulation for copy
+Message-ID: <ZJ1B1k0KifZrGRIp@ovpn-8-26.pek2.redhat.com>
+References: <20230627183629.26571-1-nj.shetty@samsung.com>
+ <CGME20230627184020epcas5p13fdcea52edead5ffa3fae444f923439e@epcas5p1.samsung.com>
+ <20230627183629.26571-4-nj.shetty@samsung.com>
 MIME-Version: 1.0
-References: <CACLnSDhkUA=19905RKk=f1WBkd3jTEDcvytJCgavi90FroXb5w@mail.gmail.com>
- <ZJ0/StDYFANB1COA@nanopsycho>
-In-Reply-To: <ZJ0/StDYFANB1COA@nanopsycho>
-From:   Vitaly Grinberg <vgrinber@redhat.com>
-Date:   Thu, 29 Jun 2023 11:26:28 +0300
-Message-ID: <CACLnSDgudK155J8myg99Q+sr18sUy5nJOQsBWtgsFBPGRVhDCQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v8 00/10] Create common DPLL configuration API
-To:     Jiri Pirko <jiri@resnulli.us>
-Cc:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>,
-        David Airlie <airlied@redhat.com>, andy.ren@getcruise.com,
-        anthony.l.nguyen@intel.com, arnd@arndb.de, axboe@kernel.dk,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        claudiajkang@gmail.com, corbet@lwn.net, davem@davemloft.net,
-        edumazet@google.com, geert+renesas@glider.be,
-        gregkh@linuxfoundation.org, hkallweit1@gmail.com,
-        idosch@nvidia.com, intel-wired-lan@lists.osuosl.org,
-        jacek.lawrynowicz@linux.intel.com,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        jesse.brandeburg@intel.com, jonathan.lemon@gmail.com,
-        kuba@kernel.org, kuniyu@amazon.com, leon@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux@zary.sk, liuhangbin@gmail.com,
-        lucien.xin@gmail.com, masahiroy@kernel.org,
-        michal.michalik@intel.com, milena.olech@intel.com,
-        Michal Schmidt <mschmidt@redhat.com>,
-        Michael Tsirkin <mst@redhat.com>, netdev@vger.kernel.org,
-        nicolas.dichtel@6wind.com, nipun.gupta@amd.com, ogabbay@kernel.org,
-        Paolo Abeni <pabeni@redhat.com>, phil@nwl.cc,
-        Petr Oros <poros@redhat.com>, razor@blackwall.org,
-        ricardo.canuelo@collabora.com, richardcochran@gmail.com,
-        saeedm@nvidia.com, sj@kernel.org, tzimmermann@suse.de,
-        vadfed@fb.com, vadfed@meta.com, vadim.fedorenko@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230627183629.26571-4-nj.shetty@samsung.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jiri,
-We are pushing for it to be implemented in Intel Ice driver.
-Thanks,
-Vitaly
+Hi Nitesh,
 
-On Thu, Jun 29, 2023 at 11:22=E2=80=AFAM Jiri Pirko <jiri@resnulli.us> wrot=
-e:
->
-> Thu, Jun 22, 2023 at 09:44:19AM CEST, vgrinber@redhat.com wrote:
-> >Hi,
-> >Could it be possible to add PPS DPLL phase offset to the netlink API? We
-> >are relying on it in the E810-based grandmaster implementation.
->
-> In which driver you need to implement this?
->
->
-> >Thanks,
-> >Vitaly
->
+On Wed, Jun 28, 2023 at 12:06:17AM +0530, Nitesh Shetty wrote:
+> For the devices which does not support copy, copy emulation is added.
+> It is required for in-kernel users like fabrics, where file descriptor is
+
+I can understand copy command does help for FS GC and fabrics storages,
+but still not very clear why copy emulation is needed for kernel users,
+is it just for covering both copy command and emulation in single
+interface? Or other purposes?
+
+I'd suggest to add more words about in-kernel users of copy emulation.
+
+> not available and hence they can't use copy_file_range.
+> Copy-emulation is implemented by reading from source into memory and
+> writing to the corresponding destination asynchronously.
+> Also emulation is used, if copy offload fails or partially completes.
+
+Per my understanding, this kind of emulation may not be as efficient
+as doing it in userspace(two linked io_uring SQEs, read & write with
+shared buffer). But it is fine if there are real in-kernel such users.
+
+
+Thanks,
+Ming
 
