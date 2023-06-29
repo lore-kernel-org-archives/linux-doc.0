@@ -2,161 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53FC0EB64D9
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 12:05:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9001EB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 12:06:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231393AbjF2MFA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 08:05:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46968 "EHLO
+        id S232082AbjF2MGF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 08:06:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232048AbjF2ME6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 08:04:58 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAD1430E5;
-        Thu, 29 Jun 2023 05:04:56 -0700 (PDT)
-Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.55])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4QsHBw62q1zLnNr;
-        Thu, 29 Jun 2023 20:02:48 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 29 Jun 2023 20:04:55 +0800
-From:   Yunsheng Lin <linyunsheng@huawei.com>
-To:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Yunsheng Lin <linyunsheng@huawei.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Alexander Duyck <alexander.duyck@gmail.com>,
-        Liang Chen <liangchen.linux@gmail.com>,
-        Alexander Lobakin <aleksander.lobakin@intel.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        <linux-doc@vger.kernel.org>, <bpf@vger.kernel.org>
-Subject: [PATCH v5 RFC 5/6] page_pool: update document about frag API
-Date:   Thu, 29 Jun 2023 20:02:25 +0800
-Message-ID: <20230629120226.14854-6-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20230629120226.14854-1-linyunsheng@huawei.com>
-References: <20230629120226.14854-1-linyunsheng@huawei.com>
+        with ESMTP id S232321AbjF2MFu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 08:05:50 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAFD23C14
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 05:05:19 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-15--5xlMR_NMheo5ckPJhB_mw-1; Thu, 29 Jun 2023 13:05:16 +0100
+X-MC-Unique: -5xlMR_NMheo5ckPJhB_mw-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Thu, 29 Jun
+ 2023 13:05:14 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Thu, 29 Jun 2023 13:05:14 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Evan Green' <evan@rivosinc.com>,
+        Jessica Clarke <jrtc27@jrtc27.com>
+CC:     Palmer Dabbelt <palmer@rivosinc.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Yangyu Chen <cyy@cyyself.name>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Simon Hosie <shosie@rivosinc.com>,
+        Li Zhengyu <lizhengyu3@huawei.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        "Ley Foon Tan" <leyfoon.tan@starfivetech.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Anup Patel <apatel@ventanamicro.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Andy Chiu <andy.chiu@sifive.com>
+Subject: RE: [PATCH 1/2] RISC-V: Probe for unaligned access speed
+Thread-Topic: [PATCH 1/2] RISC-V: Probe for unaligned access speed
+Thread-Index: AQHZqSszK74IXZi1x0Sk5pxi8WFXO6+hr6jw
+Date:   Thu, 29 Jun 2023 12:05:14 +0000
+Message-ID: <53dc6959cc8849d6b66676ad48c1376a@AcuMS.aculab.com>
+References: <20230623222016.3742145-1-evan@rivosinc.com>
+ <20230623222016.3742145-2-evan@rivosinc.com>
+ <64F2D853-61E5-49CF-BAB5-AAFB8697683E@jrtc27.com>
+ <CALs-HssZG8daTJaRK8JPT0VRk=23CtO6B_5kq4Xa_DdLELjaZw@mail.gmail.com>
+In-Reply-To: <CALs-HssZG8daTJaRK8JPT0VRk=23CtO6B_5kq4Xa_DdLELjaZw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.69.192.56]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500005.china.huawei.com (7.185.36.74)
-X-CFilter-Loop: Reflected
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As more drivers begin to use the frag API, update the
-document about how to decide which API to use for the
-driver author.
-
-Also it seems there is a similar document in page_pool.h,
-so remove it to avoid the duplication.
-
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
-CC: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Alexander Duyck <alexander.duyck@gmail.com>
-CC: Liang Chen <liangchen.linux@gmail.com>
-CC: Alexander Lobakin <aleksander.lobakin@intel.com>
----
- Documentation/networking/page_pool.rst | 34 ++++++++++++++++++++++----
- include/net/page_pool.h                | 22 -----------------
- 2 files changed, 29 insertions(+), 27 deletions(-)
-
-diff --git a/Documentation/networking/page_pool.rst b/Documentation/networking/page_pool.rst
-index 873efd97f822..18b13d659c98 100644
---- a/Documentation/networking/page_pool.rst
-+++ b/Documentation/networking/page_pool.rst
-@@ -4,12 +4,27 @@
- Page Pool API
- =============
- 
--The page_pool allocator is optimized for the XDP mode that uses one frame
--per-page, but it can fallback on the regular page allocator APIs.
-+The page_pool allocator is optimized for recycling page or page frag used by skb
-+packet and xdp frame.
- 
--Basic use involves replacing alloc_pages() calls with the
--page_pool_alloc_pages() call.  Drivers should use page_pool_dev_alloc_pages()
--replacing dev_alloc_pages().
-+Basic use involves replacing napi_alloc_frag() and alloc_pages() calls with
-+page_pool_cache_alloc() and page_pool_alloc(), which allocate memory with or
-+without page splitting depending on the requested memory size.
-+
-+If the driver knows that it always requires full pages or its allocates are
-+always smaller than half a page, it can use one of the more specific API calls:
-+
-+1. page_pool_alloc_pages(): allocate memory without page splitting when driver
-+   knows that the memory it need is always bigger than half of the page
-+   allocated from page pool. There is no cache line dirtying for 'struct page'
-+   when a page is recycled back to the page pool.
-+
-+2. page_pool_alloc_frag(): allocate memory with page splitting when driver knows
-+   that the memory it need is always smaller than or equal to half of the page
-+   allocated from page pool. Page splitting enables memory saving and thus avoid
-+   TLB/cache miss for data access, but there also is some cost to implement page
-+   splitting, mainly some cache line dirtying/bouncing for 'struct page' and
-+   atomic operation for page->pp_frag_count.
- 
- API keeps track of in-flight pages, in order to let API user know
- when it is safe to free a page_pool object.  Thus, API users
-@@ -93,6 +108,15 @@ a page will cause no race conditions is enough.
- * page_pool_dev_alloc_pages(): Get a page from the page allocator or page_pool
-   caches.
- 
-+* page_pool_dev_alloc_frag(): Get a page frag from the page allocator or
-+  page_pool caches.
-+
-+* page_pool_dev_alloc(): Get a page or page frag from the page allocator or
-+  page_pool caches.
-+
-+* page_pool_dev_cache_alloc(): Get a cache from the page allocator or page_pool
-+  caches.
-+
- * page_pool_get_dma_addr(): Retrieve the stored DMA address.
- 
- * page_pool_get_dma_dir(): Retrieve the stored DMA direction.
-diff --git a/include/net/page_pool.h b/include/net/page_pool.h
-index e9fb95d62ed5..2b7db9992fc0 100644
---- a/include/net/page_pool.h
-+++ b/include/net/page_pool.h
-@@ -5,28 +5,6 @@
-  *	Copyright (C) 2016 Red Hat, Inc.
-  */
- 
--/**
-- * DOC: page_pool allocator
-- *
-- * This page_pool allocator is optimized for the XDP mode that
-- * uses one-frame-per-page, but have fallbacks that act like the
-- * regular page allocator APIs.
-- *
-- * Basic use involve replacing alloc_pages() calls with the
-- * page_pool_alloc_pages() call.  Drivers should likely use
-- * page_pool_dev_alloc_pages() replacing dev_alloc_pages().
-- *
-- * API keeps track of in-flight pages, in-order to let API user know
-- * when it is safe to dealloactor page_pool object.  Thus, API users
-- * must make sure to call page_pool_release_page() when a page is
-- * "leaving" the page_pool.  Or call page_pool_put_page() where
-- * appropiate.  For maintaining correct accounting.
-- *
-- * API user must only call page_pool_put_page() once on a page, as it
-- * will either recycle the page, or in case of elevated refcnt, it
-- * will release the DMA mapping and in-flight state accounting.  We
-- * hope to lift this requirement in the future.
-- */
- #ifndef _NET_PAGE_POOL_H
- #define _NET_PAGE_POOL_H
- 
--- 
-2.33.0
+RnJvbTogRXZhbiBHcmVlbg0KPiBTZW50OiAyNyBKdW5lIDIwMjMgMjA6MTINCj4gDQo+IE9uIE1v
+biwgSnVuIDI2LCAyMDIzIGF0IDI6NDLigK9QTSBKZXNzaWNhIENsYXJrZSA8anJ0YzI3QGpydGMy
+Ny5jb20+IHdyb3RlOg0KPiA+DQo+ID4gT24gMjMgSnVuIDIwMjMsIGF0IDIzOjIwLCBFdmFuIEdy
+ZWVuIDxldmFuQHJpdm9zaW5jLmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gUmF0aGVyIHRoYW4g
+ZGVmZXJyaW5nIG1pc2FsaWduZWQgYWNjZXNzIHNwZWVkIGRldGVybWluYXRpb25zIHRvIGEgdmVu
+ZG9yDQo+ID4gPiBmdW5jdGlvbiwgbGV0J3MgcHJvYmUgdGhlbSBhbmQgZmluZCBvdXQgaG93IGZh
+c3QgdGhleSBhcmUuIElmIHdlDQo+ID4gPiBkZXRlcm1pbmUgdGhhdCBhIG1pc2FsaWduZWQgd29y
+ZCBhY2Nlc3MgaXMgZmFzdGVyIHRoYW4gTiBieXRlIGFjY2Vzc2VzLA0KPiA+ID4gbWFyayB0aGUg
+aGFyZHdhcmUncyBtaXNhbGlnbmVkIGFjY2VzcyBhcyAiZmFzdCIuDQo+ID4NCj4gPiBIb3cgc3Vy
+ZSBhcmUgeW91IHRoYXQgeW91ciBtZWFzdXJlbWVudHMgY2FuIGJlIGV4dHJhcG9sYXRlZCBhbmQg
+YXJlbuKAmXQNCj4gPiBhbiBhcnRlZmFjdCBvZiB0aGUgdGVzdGluZyBwcm9jZXNzPyBGb3IgZXhh
+bXBsZSwgb2ZmIHRoZSB0b3Agb2YgbXkgaGVhZDoNCj4gPg0KPiA+ICogVGhlIGZpcnN0IHJ1biB3
+aWxsIHBvdGVudGlhbGx5IGJlIHBlbmFsaXNlZCBieSBkYXRhIGNhY2hlIG1pc3NlcywNCj4gPiAg
+IHVudHJhaW5lZCBwcmVmZXRjaGVycywgVExCIG1pc3NlcywgYnJhbmNoIHByZWRpY3RvcnMsIGV0
+Yy4gY29tcGFyZWQNCj4gPiAgIHdpdGggbGF0ZXIgcnVucy4gWW91IGhhdmUgb25lIHdhcm11cCwg
+YnV0IHdobyBrbm93cyBob3cgbWFueQ0KPiA+ICAgaXRlcmF0aW9ucyBpdCB3aWxsIHRha2UgdG8g
+Y29udmVyZ2U/DQo+IA0KPiBJJ2QgZXhwZWN0IHRoZSBjYWNoZSBwZW5hbHRpZXMgdG8gYmUgcmVh
+c29uYWJseSBjb3ZlcmVkIGJ5IGEgc2luZ2xlDQo+IHdhcm11cC4gWW91J3JlIHJpZ2h0IGFib3V0
+IGJyYW5jaCBwcmVkaWN0aW9uLCB3aGljaCBpcyB3aHkgSSB0cmllZCB0bw0KPiB1c2UgYSBsYXJn
+ZS1pc2ggYnVmZmVyIHNpemUsIG1pbmltaXplIHRoZSByYXRpbyBvZiBjb25kaXRpb25hbHMgdG8N
+Cj4gbG9hZHMvc3RvcmVzLCBhbmQgZG8gdGhlIHRlc3QgZm9yIGEgZGVjZW50IG51bWJlciBvZiBp
+dGVyYXRpb25zIChvbiBteQ0KPiBUSGVhZCwgYWJvdXQgMTgwMCBhbmQgNDAwIGZvciB3b3JkcyBh
+bmQgYnl0ZXMpLg0KPiANCj4gV2hlbiBJIHJhbiB0aGUgdGVzdCBhIGhhbmRmdWwgb2YgdGltZXMs
+IEkgZGlkIHNlZSB2YXJpYXRpb24gb24gdGhlDQo+IG9yZGVyIG9mIH41JS4gQnV0IHRoZSBjb21w
+YXJpc29uIG9mIHRoZSB0d28gbnVtYmVycyBkb2Vzbid0IHNlZW0gdG8gYmUNCj4gYW55d2hlcmUg
+bmVhciB0aGF0IG1hcmdpbiAoVEhlYWQgQzkwNiB3YXMgfjR4IGZhc3RlciBkb2luZyBtaXNhbGln
+bmVkDQo+IHdvcmQgYWNjZXNzZXMsIG90aGVycyB3aXRoIHNsb3cgbWlzYWxpZ25lZCBhY2Nlc3Nl
+cyBhbHNvIHJlcG9ydGluZw0KPiBudW1iZXJzIG5vdCBhbnl3aGVyZSBjbG9zZSB0byBlYWNoIG90
+aGVyKS4NCg0KSXNuJ3QgdGhlIEVNVUxBVEVEIGNhc2Ugc28gbXVjaCBzbG93ZXIgdGhhbiBhbnl0
+aGluZyBlbHNlIHRoYXQNCml0IGlzIGV2ZW4gcHJldHR5IG9idmlvdXMgZnJvbSBhIHNpbmdsZSBh
+Y2Nlc3M/DQooUG9zc2libHkgdGhlIDJuZCBhY2Nlc3MgdG8gYXZvaWQgJ2NvbGQgY2FjaGUnLikN
+Cg0KT25lIG9mIHRoZSB0aGluZ3MgdGhhdCBjYW4gcGVydHVyYiBtZWFzdXJlbWVudHMgaXMgaGFy
+ZHdhcmUNCmludGVycnVwdHMuIFRoYXQgY2FuIGJlIG1pdGlnYXRlZCBieSBjb3VudGluZyBjbG9j
+a3MgZm9yIGEgZmV3DQooMTAgaXMgcGxlbnR5KSBpdGVyYXRpb25zIG9mIGEgc2hvcnQgcmVxdWVz
+dCBhbmQgdGFraW5nIHRoZQ0KZmFzdGVzdCB2YWx1ZS4NCkZvciBzaG9ydCBob3QtY2FjaGUgY29k
+ZSBzZXF1ZW5jZXMgeW91IGNhbiBhY3R1YWxseSBjb21wYXJlIHRoZQ0KYWN0dWFsIGNsb2NrIGNv
+dW50cyB3aXRoIHRoZW9yZXRpY2FsIG1pbmltdW0gdmFsdWVzLg0KDQoJRGF2aWQNCg0KLQ0KUmVn
+aXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRv
+biBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
