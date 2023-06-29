@@ -2,105 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFC8CC001B1
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 17:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 542A1EB64D9
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 17:37:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232209AbjF2R1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 13:27:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55372 "EHLO
+        id S232103AbjF2Rhn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 13:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230460AbjF2R1X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 13:27:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A903AAE;
-        Thu, 29 Jun 2023 10:27:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D65D0615C4;
-        Thu, 29 Jun 2023 17:27:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABA6FC433C0;
-        Thu, 29 Jun 2023 17:26:58 +0000 (UTC)
-Date:   Thu, 29 Jun 2023 18:26:55 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Yicong Yang <yangyicong@huawei.com>
-Cc:     akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-        mark.rutland@arm.com, ryan.roberts@arm.com, will@kernel.org,
-        anshuman.khandual@arm.com, linux-doc@vger.kernel.org,
-        corbet@lwn.net, peterz@infradead.org, arnd@arndb.de,
-        punit.agrawal@bytedance.com, linux-kernel@vger.kernel.org,
-        darren@os.amperecomputing.com, yangyicong@hisilicon.com,
-        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
-        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        Barry Song <21cnbao@gmail.com>, wangkefeng.wang@huawei.com,
-        xhao@linux.alibaba.com, prime.zeng@hisilicon.com,
-        Jonathan.Cameron@huawei.com, Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-Subject: Re: [RESEND PATCH v9 2/2] arm64: support batched/deferred tlb
- shootdown during page reclamation/migration
-Message-ID: <ZJ2+37Q7v4odMmEd@arm.com>
-References: <20230518065934.12877-1-yangyicong@huawei.com>
- <20230518065934.12877-3-yangyicong@huawei.com>
- <ZJ2x6DlmyA3kVh1n@arm.com>
+        with ESMTP id S232054AbjF2Rhm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 13:37:42 -0400
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB15A1;
+        Thu, 29 Jun 2023 10:37:41 -0700 (PDT)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-666e97fcc60so873806b3a.3;
+        Thu, 29 Jun 2023 10:37:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688060261; x=1690652261;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x9y4omLSTUEBUieUvzd6rekQFuwG36HDtIqDRR92oWw=;
+        b=L8xZmek1h/x0rva9tU69miFoE5MULXsaod2VSWvMe+5kS0ejIxkD8iBSALs6/BVDQS
+         OhsBhCuW1h+PzNeeYFXYSB8pPf7jBK9YsMmWlcWNy0e0u6ctA6Y/2hod5STItXIYHihm
+         exMBPDhcyeGOZJfryjgB4V6G11q2JARkDqdhvVUjLwsR+45yZ2dIIZ6xyoKnLkwM49uI
+         NTPbWRrJ/BJelK0xLjah0hX94u/FaHX5zgk2QToMw2usw6v7zPQI6SVVQE2PI9IL1iIB
+         OuNVLRDsIEKEMTEgELe6RDBcnsxOboRtN4p4vn+EB5AYYns+yAbtHpyGsxL1/mpdBtvS
+         QqdA==
+X-Gm-Message-State: ABy/qLaLIrbRj2gZrqJUvoTqIBzKBg2jq5kdVYuXVtB5ZsRy0NmTxPpI
+        JUXLuM8iw255Du19BpaaT+I=
+X-Google-Smtp-Source: APBJJlFTlk8wIDskGAI9zd2Hj0xnmbIxFkWni+tt21MHkFoarpjEPMCqwJmv4CcuTN/y1U6kJMmJFg==
+X-Received: by 2002:a05:6a00:1402:b0:681:6169:e403 with SMTP id l2-20020a056a00140200b006816169e403mr587306pfu.8.1688060260830;
+        Thu, 29 Jun 2023 10:37:40 -0700 (PDT)
+Received: from ?IPV6:2620:15c:211:201:a601:6da1:e847:d4b1? ([2620:15c:211:201:a601:6da1:e847:d4b1])
+        by smtp.gmail.com with ESMTPSA id i26-20020aa7909a000000b006661562429fsm8847746pfa.97.2023.06.29.10.37.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Jun 2023 10:37:40 -0700 (PDT)
+Message-ID: <6b7f5603-8ac1-6f29-798c-02d0b9a5543e@acm.org>
+Date:   Thu, 29 Jun 2023 10:37:36 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZJ2x6DlmyA3kVh1n@arm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 1/1] Add a new sysctl to disable io_uring system-wide
+Content-Language: en-US
+To:     Matteo Rizzo <matteorizzo@google.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        io-uring@vger.kernel.org, jordyzomer@google.com, evn@google.com,
+        poprdi@google.com, corbet@lwn.net, axboe@kernel.dk,
+        asml.silence@gmail.com, akpm@linux-foundation.org,
+        keescook@chromium.org, rostedt@goodmis.org,
+        dave.hansen@linux.intel.com, ribalda@chromium.org,
+        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
+        ldufour@linux.ibm.com, bhe@redhat.com, oleksandr@natalenko.name
+References: <20230629132711.1712536-1-matteorizzo@google.com>
+ <20230629132711.1712536-2-matteorizzo@google.com>
+ <a0c8d74a-dcfe-78a7-74bd-4447ed6944dc@acm.org>
+ <CAHKB1wKbSoK+=ceM_WLgBConNaua=0UPQv9ZmDp6LNXh3QNr=Q@mail.gmail.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <CAHKB1wKbSoK+=ceM_WLgBConNaua=0UPQv9ZmDp6LNXh3QNr=Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 29, 2023 at 05:31:36PM +0100, Catalin Marinas wrote:
-> On Thu, May 18, 2023 at 02:59:34PM +0800, Yicong Yang wrote:
-> > From: Barry Song <v-songbaohua@oppo.com>
-> > 
-> > on x86, batched and deferred tlb shootdown has lead to 90%
-> > performance increase on tlb shootdown. on arm64, HW can do
-> > tlb shootdown without software IPI. But sync tlbi is still
-> > quite expensive.
-> [...]
-> >  .../features/vm/TLB/arch-support.txt          |  2 +-
-> >  arch/arm64/Kconfig                            |  1 +
-> >  arch/arm64/include/asm/tlbbatch.h             | 12 ++++
-> >  arch/arm64/include/asm/tlbflush.h             | 33 ++++++++-
-> >  arch/arm64/mm/flush.c                         | 69 +++++++++++++++++++
-> >  arch/x86/include/asm/tlbflush.h               |  5 +-
-> >  include/linux/mm_types_task.h                 |  4 +-
-> >  mm/rmap.c                                     | 12 ++--
-> 
-> First of all, this patch needs to be split in some preparatory patches
-> introducing/renaming functions with no functional change for x86. Once
-> done, you can add the arm64-only changes.
-> 
-> Now, on the implementation, I had some comments on v7 but we didn't get
-> to a conclusion and the thread eventually died:
-> 
-> https://lore.kernel.org/linux-mm/Y7cToj5mWd1ZbMyQ@arm.com/
-> 
-> I know I said a command line argument is better than Kconfig or some
-> random number of CPUs heuristics but it would be even better if we don't
-> bother with any, just make this always on. Barry had some comments
-> around mprotect() being racy and that's why we have
-> flush_tlb_batched_pending() but I don't think it's needed (or, for
-> arm64, it can be a DSB since this patch issues the TLBIs but without the
-> DVM Sync). So we need to clarify this (see Barry's last email on the
-> above thread) and before attempting new versions of this patchset. With
-> flush_tlb_batched_pending() removed (or DSB), I have a suspicion such
-> implementation would be faster on any SoC irrespective of the number of
-> CPUs.
+On 6/29/23 08:28, Matteo Rizzo wrote:
+> On Thu, 29 Jun 2023 at 17:16, Bart Van Assche <bvanassche@acm.org> wrote:
+>>
+>> On 6/29/23 06:27, Matteo Rizzo wrote:
+>>> +static int __read_mostly sysctl_io_uring_disabled;
+>>
+>> Shouldn't this be a static key instead of an int in order to minimize the
+>> performance impact on the io_uring_setup() system call? See also
+>> Documentation/staging/static-keys.rst.
+>>
+> Is io_uring_setup in any hot path? io_uring_create is marked as __cold.
 
-I think I got the need for flush_tlb_batched_pending(). If
-try_to_unmap() marks the pte !present and we have a pending TLBI,
-change_pte_range() will skip the TLB maintenance altogether since it did
-not change the pte. So we could be left with stale TLB entries after
-mprotect() before TTU does the batch flushing.
+I confused io_uring_setup() with io_uring_enter() so please ignore my comment.
 
-We can have an arch-specific flush_tlb_batched_pending() that can be a
-DSB only on arm64 and a full mm flush on x86.
-
--- 
-Catalin
+Bart.
