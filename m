@@ -2,97 +2,284 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B50EB64DC
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 08:41:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DED12C001B1
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Jun 2023 09:17:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232054AbjF2Iln (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Jun 2023 04:41:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52480 "EHLO
+        id S232420AbjF2JRg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Jun 2023 05:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232097AbjF2Ikx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 04:40:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0EA15598
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jun 2023 01:34:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688027652;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lcFzJ0h/r4o640kKx9oD5oKaAf0iz+R8cp1bGbk+mhI=;
-        b=IWWkcnka8UBVpGOY3+IXCm4tmHenEJO0/ZRgquc4HWM0yk809N+sk6az05hlGkp1K1jVcr
-        XMf7e2utBMR/Jz4zxMDiZDrQOp0SYwqOR8fNptQiGhd2dLB/WOd/j0O94z+FcSTEso4aL8
-        SYTN/T0dSN5T2st0MI7KyHxxvW6ldEM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-P89DQgOTMauKEphGgInR0w-1; Thu, 29 Jun 2023 04:34:04 -0400
-X-MC-Unique: P89DQgOTMauKEphGgInR0w-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF498104458F;
-        Thu, 29 Jun 2023 08:34:02 +0000 (UTC)
-Received: from ovpn-8-26.pek2.redhat.com (ovpn-8-26.pek2.redhat.com [10.72.8.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F8C5492C13;
-        Thu, 29 Jun 2023 08:33:32 +0000 (UTC)
-Date:   Thu, 29 Jun 2023 16:33:26 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Nitesh Shetty <nj.shetty@samsung.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
-        Keith Busch <kbusch@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-        willy@infradead.org, hare@suse.de, djwong@kernel.org,
-        bvanassche@acm.org, dlemoal@kernel.org, nitheshshetty@gmail.com,
-        gost.dev@samsung.com, Vincent Fu <vincent.fu@samsung.com>,
-        Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-        ming.lei@redhat.com
-Subject: Re: [PATCH v13 3/9] block: add emulation for copy
-Message-ID: <ZJ1B1k0KifZrGRIp@ovpn-8-26.pek2.redhat.com>
-References: <20230627183629.26571-1-nj.shetty@samsung.com>
- <CGME20230627184020epcas5p13fdcea52edead5ffa3fae444f923439e@epcas5p1.samsung.com>
- <20230627183629.26571-4-nj.shetty@samsung.com>
+        with ESMTP id S232464AbjF2JRS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Jun 2023 05:17:18 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D28B12134;
+        Thu, 29 Jun 2023 02:17:05 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35T8mXOb031688;
+        Thu, 29 Jun 2023 09:16:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ejgo9Ha3IFB/uURLTL7ikLrQKDml9uYD+lWUNGD1J8Y=;
+ b=Q5HZqz2n2kb+NTEAkAMXSIizloKVYik7ju104y8OZn96yjHMUHE2r8UejPxDjrhEh+ps
+ cWd+wSjFgdc14K+PKEi3qq1azBZ4u8pIdlYimOLDmiz94hYg8zELLvYJKoMvoj5qSUlm
+ xiUF5h+AVna9EN8O6xmE+kS2MqM4CdpARbaD3NQkgbC4GLfavjf/FtljharaTs7g7lti
+ W5er+AR707Ti/P+vUgWcLn+r0mbJLrLF6PCLPJLahm3sSTqxYU6TXLloEYqyRTq0dHdq
+ vQaCRNeFWUgrW34kv5/90nBcHlAXjnLhsXVO/11Eb0P2sw0E9ZHOoCkdGvjaL0iDILnZ Pg== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rgnxr9w8g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Jun 2023 09:16:37 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35T9GZf5010847
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Jun 2023 09:16:35 GMT
+Received: from [10.216.42.4] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 29 Jun
+ 2023 02:16:28 -0700
+Message-ID: <e0fef1b0-3fa1-08c1-3c0e-aca30c9da266@quicinc.com>
+Date:   Thu, 29 Jun 2023 14:46:18 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230627183629.26571-4-nj.shetty@samsung.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 10/21] soc: qcom: Add qcom's pstore minidump driver
+ support
+Content-Language: en-US
+To:     Rob Herring <robh+dt@kernel.org>
+CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <keescook@chromium.org>,
+        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
+        <mathieu.poirier@linaro.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <linus.walleij@linaro.org>,
+        <andy.shevchenko@gmail.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <1687955688-20809-11-git-send-email-quic_mojha@quicinc.com>
+ <CAL_Jsq+O70mnreuS1m54RKM+uZu_z1L87RT8sKBYEw5uvowGJg@mail.gmail.com>
+From:   Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <CAL_Jsq+O70mnreuS1m54RKM+uZu_z1L87RT8sKBYEw5uvowGJg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Ao0JE0wQQz6nMX3r1Yj7CGXQWb2hQpyl
+X-Proofpoint-GUID: Ao0JE0wQQz6nMX3r1Yj7CGXQWb2hQpyl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-29_01,2023-06-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1015 impostorscore=0 mlxscore=0 spamscore=0 adultscore=0
+ bulkscore=0 suspectscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306290082
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nitesh,
-
-On Wed, Jun 28, 2023 at 12:06:17AM +0530, Nitesh Shetty wrote:
-> For the devices which does not support copy, copy emulation is added.
-> It is required for in-kernel users like fabrics, where file descriptor is
-
-I can understand copy command does help for FS GC and fabrics storages,
-but still not very clear why copy emulation is needed for kernel users,
-is it just for covering both copy command and emulation in single
-interface? Or other purposes?
-
-I'd suggest to add more words about in-kernel users of copy emulation.
-
-> not available and hence they can't use copy_file_range.
-> Copy-emulation is implemented by reading from source into memory and
-> writing to the corresponding destination asynchronously.
-> Also emulation is used, if copy offload fails or partially completes.
-
-Per my understanding, this kind of emulation may not be as efficient
-as doing it in userspace(two linked io_uring SQEs, read & write with
-shared buffer). But it is fine if there are real in-kernel such users.
 
 
-Thanks,
-Ming
+On 6/29/2023 4:27 AM, Rob Herring wrote:
+> On Wed, Jun 28, 2023 at 6:37 AM Mukesh Ojha <quic_mojha@quicinc.com> wrote:
+>>
+>> This driver was inspired from the fact pstore ram region should be
+>> fixed and boot firmware need to have awarness about this region,
+>> so that it will be persistent across boot. But, there are many
+>> QCOM SoC which does not support warm boot from hardware but they
+>> have minidump support from the software, and for them, there is
+>> no need of this pstore ram region to be fixed, but at the same
+>> time have interest in the pstore frontends data. So, this driver
+>> get the dynamic reserved region from the ram and register the
+>> ramoops platform device.
+>>
+>>   +---------+     +---------+   +--------+     +---------+
+>>   | console |     | pmsg    |   | ftrace |     | dmesg   |
+>>   +---------+     +---------+   +--------+     +---------+
+>>         |             |             |              |
+>>         |             |             |              |
+>>         +------------------------------------------+
+>>                            |
+>>                           \ /
+>>                    +----------------+
+>>              (1)   |pstore frontends|
+>>                    +----------------+
+>>                            |
+>>                           \ /
+>>                   +------------------- +
+>>              (2)  | pstore backend(ram)|
+>>                   +--------------------+
+>>                            |
+>>                           \ /
+>>                   +--------------------+
+>>              (3)  |qcom_pstore_minidump|
+>>                   +--------------------+
+>>                            |
+>>                           \ /
+>>                     +---------------+
+>>              (4)    | qcom_minidump |
+>>                     +---------------+
+>>
+>> This driver will route all the pstore front data to the stored
+>> in qcom pstore reserved region and the reason of showing an
+>> arrow from (3) to (4) as qcom_pstore_minidump driver will register
+>> all the available frontends region with qcom minidump driver
+>> in upcoming patch.
+>>
+>> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+>> ---
+>>   drivers/soc/qcom/Kconfig                | 12 +++++
+>>   drivers/soc/qcom/Makefile               |  1 +
+>>   drivers/soc/qcom/qcom_pstore_minidump.c | 85 +++++++++++++++++++++++++++++++++
+> 
+> drivers/soc/ is the dumping ground for things with no other place. As
+> this is a pstore driver, it belongs with pstore.
 
+The inspiration of this driver was taken from 
+drivers/platform/chrome/chromeos_pstore.c, do you think that is misplaced ?
+
+> 
+>>   3 files changed, 98 insertions(+)
+>>   create mode 100644 drivers/soc/qcom/qcom_pstore_minidump.c
+>>
+>> diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
+>> index 1834213fd652..fbf08e30feda 100644
+>> --- a/drivers/soc/qcom/Kconfig
+>> +++ b/drivers/soc/qcom/Kconfig
+>> @@ -306,4 +306,16 @@ config QCOM_MINIDUMP_SMEM
+>>
+>>            This config should be enabled if the low level minidump is implemented
+>>            as part of SMEM.
+>> +
+>> +config QCOM_PSTORE_MINIDUMP
+>> +       tristate "Pstore support for QCOM Minidump"
+>> +       depends on ARCH_QCOM
+>> +       depends on PSTORE_RAM
+>> +       depends on QCOM_MINIDUMP
+>> +       help
+>> +         Enablement of this driver ensures that ramoops region can be anywhere
+>> +         reserved in ram instead of being fixed address which needs boot firmware
+>> +         awareness. So, this driver creates plaform device and registers available
+>> +         frontend region with the Qualcomm's minidump driver.
+>> +
+>>   endmenu
+>> diff --git a/drivers/soc/qcom/Makefile b/drivers/soc/qcom/Makefile
+>> index 737d868757ac..1ab59c1b364d 100644
+>> --- a/drivers/soc/qcom/Makefile
+>> +++ b/drivers/soc/qcom/Makefile
+>> @@ -36,3 +36,4 @@ qcom_ice-objs                 += ice.o
+>>   obj-$(CONFIG_QCOM_INLINE_CRYPTO_ENGINE)        += qcom_ice.o
+>>   obj-$(CONFIG_QCOM_MINIDUMP) += qcom_minidump.o
+>>   obj-$(CONFIG_QCOM_MINIDUMP_SMEM) += qcom_minidump_smem.o
+>> +obj-$(CONFIG_QCOM_PSTORE_MINIDUMP) += qcom_pstore_minidump.o
+>> diff --git a/drivers/soc/qcom/qcom_pstore_minidump.c b/drivers/soc/qcom/qcom_pstore_minidump.c
+>> new file mode 100644
+>> index 000000000000..b07cd10340df
+>> --- /dev/null
+>> +++ b/drivers/soc/qcom/qcom_pstore_minidump.c
+>> @@ -0,0 +1,85 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +
+>> +/*
+>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#include <linux/module.h>
+>> +#include <linux/of_device.h>
+> 
+> You probably don't need this include. Use the actual includes you need
+> and don't rely on implicit includes (because I'm trying to remove
+> those).
+
+Ok, will try to check..
+
+- Mukesh
+
+> 
+>> +#include <linux/of_reserved_mem.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/pstore_ram.h>
+>> +
+>> +struct qcom_ramoops_dd {
+>> +       struct ramoops_platform_data qcom_ramoops_pdata;
+>> +       struct platform_device *ramoops_pdev;
+>> +};
+>> +
+>> +static int qcom_ramoops_probe(struct platform_device *pdev)
+>> +{
+>> +       struct device_node *of_node = pdev->dev.of_node;
+>> +       struct qcom_ramoops_dd *qcom_rdd;
+>> +       struct ramoops_platform_data *pdata;
+>> +       struct reserved_mem *rmem;
+>> +       struct device_node *node;
+>> +       long ret;
+>> +
+>> +       node = of_parse_phandle(of_node, "memory-region", 0);
+>> +       if (!node)
+>> +               return -ENODEV;
+>> +
+>> +       rmem = of_reserved_mem_lookup(node);
+>> +       of_node_put(node);
+>> +       if (!rmem) {
+>> +               dev_err(&pdev->dev, "failed to locate DT /reserved-memory resource\n");
+>> +               return -EINVAL;
+>> +       }
+>> +
+>> +       qcom_rdd = devm_kzalloc(&pdev->dev, sizeof(*qcom_rdd), GFP_KERNEL);
+>> +       if (!qcom_rdd)
+>> +               return -ENOMEM;
+>> +
+>> +       pdata = &qcom_rdd->qcom_ramoops_pdata;
+>> +       pdata->mem_size = rmem->size;
+>> +       pdata->mem_address = rmem->base;
+>> +       ramoops_parse_dt(pdev, pdata);
+>> +
+>> +       qcom_rdd->ramoops_pdev = platform_device_register_data(NULL, "ramoops", -1,
+>> +                                                              pdata, sizeof(*pdata));
+>> +       if (IS_ERR(qcom_rdd->ramoops_pdev)) {
+>> +               ret = PTR_ERR(qcom_rdd->ramoops_pdev);
+>> +               dev_err(&pdev->dev, "could not create platform device: %ld\n", ret);
+>> +               qcom_rdd->ramoops_pdev = NULL;
+>> +       }
+>> +       platform_set_drvdata(pdev, qcom_rdd);
+>> +
+>> +       return ret;
+>> +}
+>> +
+>> +static void qcom_ramoops_remove(struct platform_device *pdev)
+>> +{
+>> +       struct qcom_ramoops_dd *qcom_rdd = platform_get_drvdata(pdev);
+>> +
+>> +       platform_device_unregister(qcom_rdd->ramoops_pdev);
+>> +       qcom_rdd->ramoops_pdev = NULL;
+>> +}
+>> +
+>> +static const struct of_device_id qcom_ramoops_of_match[] = {
+>> +       { .compatible = "qcom,ramoops"},
+>> +       {}
+>> +};
+>> +MODULE_DEVICE_TABLE(of, qcom_ramoops_of_match);
+>> +
+>> +static struct platform_driver qcom_ramoops_drv = {
+>> +       .driver         = {
+>> +               .name   = "qcom,ramoops",
+>> +               .of_match_table = qcom_ramoops_of_match,
+>> +       },
+>> +       .probe = qcom_ramoops_probe,
+>> +       .remove_new = qcom_ramoops_remove,
+>> +};
+>> +
+>> +module_platform_driver(qcom_ramoops_drv);
+>> +
+>> +MODULE_DESCRIPTION("Qualcomm ramoops minidump driver");
+>> +MODULE_LICENSE("GPL");
+>> --
+>> 2.7.4
+>>
