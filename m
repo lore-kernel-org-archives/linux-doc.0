@@ -2,126 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 965A5EB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 15:06:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29480EB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 15:10:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229945AbjF3PGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 11:06:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59030 "EHLO
+        id S232929AbjF3PKi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 11:10:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232931AbjF3PG3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 11:06:29 -0400
-Received: from mo4-p01-ob.smtp.rzone.de (unknown [81.169.146.166])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C04E3C14;
-        Fri, 30 Jun 2023 08:06:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1688136804; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=ktQWRloAJVcbtfzrwy7QVJMfZYy4BWWVjmUnPf5NL47XUIoo2h2XF5m496FyVmK59f
-    Jure2X4x2FXITqAPDvytbcGH/plEu0Ir1NS59iS6xm4CYzAFLvY0YXxXdAXgEMD5juCK
-    PLrfx5/wpjEajxzFuEbmd4FnaVdyI4OXDrDqgSQtV1VHeJrqpvhPEvjHvwegTlcG+674
-    cZCcEQJwWuqowQPaiatkm1mIpkqkt67MQGuKt8XDSNOebpyK2CokqgzJ+47LAGskQlZl
-    Ap3eT1iZ/63HV+Kd/I0ZgMMiDRSuU5eLUlLzn5XlUp44nvseCfYudELwf60T6YMFJFR3
-    hlag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1688136804;
-    s=strato-dkim-0002; d=strato.com;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=3v9FwKwabXm3VhIGPqHolyELPsxinvnAmxZlzv2LbiI=;
-    b=sMGy9vkeo4NgzYHgfB0DQFmQqVMbUEs7H2EoBi9KokQIPmhvbogESQxzHlzvV7Yyat
-    z4LNi/ZuvybenLmXsXId/aow0xq4QPXIm8ctX9/ClEOjy0568svuJVZ6uAtHMpZuft+J
-    oHWTfEMG5TyvNd5Qg5X8UG8agVi7PJpphXhdR0N/2g2jeQHn3HhItS6UruFB3zGQeV5a
-    FqNgBj9bVl5GMxWovb3iBcteo9LHcJv890aeg/ZCie0IjJxgO6W9oUH2iW2yDNIW0dbM
-    lh7s6ECZCvhJVSf2p4qRJXk2vKH0+jII4LXuKDffzq1fGmf3Dy70waa93ljo9z3VfNzJ
-    K0/A==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1688136804;
-    s=strato-dkim-0002; d=aepfle.de;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=3v9FwKwabXm3VhIGPqHolyELPsxinvnAmxZlzv2LbiI=;
-    b=XSuY7hhtLS79JwyA0oJpta5/cIWvSuU1nviL381DYHGxEyGJ4WIsKEm6wF14LU0aIW
-    o33SoVm5T19ssaE+7fXvXsY2ZgSW+HyNN/yEl01exvzsD4myOYzaY7mwJQzMctROmuUz
-    VJrD7vZCJdgR8gN+9Jutem9t1zM/LqqNX6sFQykL+qmVDbxW898b8dx1j82xBxScZr+7
-    IqV0sbEJt2q3ponqcHiknFIk8Fk99xvfkDldewrTB1ahTWDhJNy0yLK0qNEWiymny60M
-    BzeR0FJNCWhtmqcWeaXb8WgLZ63zxXWZztfG9vqCKTxKKRzpUAbmucPeOQdgPdxjzd98
-    EJ4w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1688136804;
-    s=strato-dkim-0003; d=aepfle.de;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=3v9FwKwabXm3VhIGPqHolyELPsxinvnAmxZlzv2LbiI=;
-    b=F7Gp3a1EBO67LR5zgQEvd/wQ/xgdvjrUUG7VhAM/OOv6ZMCH6AdEZs9KlNJ3YQvGVi
-    6eCAwGpbjiBJbIExRaCA==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzpIG0mv9coXAg4x+1/7Qcst+v+6egNSCv2nSejLpXdlt4RWwKmQOQ=="
-Received: from sender
-    by smtp.strato.de (RZmta 49.6.0 AUTH)
-    with ESMTPSA id y5401az5UErNzMj
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Fri, 30 Jun 2023 16:53:23 +0200 (CEST)
-From:   Olaf Hering <olaf@aepfle.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Kim Phillips <kim.phillips@amd.com>,
-        Wyes Karny <wyes.karny@amd.com>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Prarit Bhargava <prarit@redhat.com>,
-        Yasuaki Ishimatsu <isimatu.yasuaki@jp.fujitsu.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rcu@vger.kernel.org, linux-kselftest@vger.kernel.org
-Cc:     Josh Triplett <josh@joshtriplett.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Shuah Khan <shuah@kernel.org>
-Subject: [PATCH v1] Fix documentation of panic_on_warn
-Date:   Fri, 30 Jun 2023 16:53:02 +0200
-Message-Id: <20230630145307.25865-1-olaf@aepfle.de>
-X-Mailer: git-send-email 2.35.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
+        with ESMTP id S232953AbjF3PKh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 11:10:37 -0400
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com [IPv6:2a00:1450:4864:20::54a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5050F35A6
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 08:10:35 -0700 (PDT)
+Received: by mail-ed1-x54a.google.com with SMTP id 4fb4d7f45d1cf-51ded16f8efso676206a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 08:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688137834; x=1690729834;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=loQnDSW9i5LQhmfPoJ46XCIWUTUs998PhfaFmb8iPCg=;
+        b=HV6V8IfJDj/sAditxrq8ZsQKZs9YSmHV4vZonl6dd/Y4Q9TtF4nGtgd3DbZhKKbXI9
+         I3Chrs9cVJcrJAYOAl/lSc//DCn32tuK5+nDhNKhByEsBqeUVYi9wzVtzq8+bFFgeNfV
+         id+w7FX30eBokh8QRNHMgDaCXoq8aAYJkBscQ8d8oHAvfSs5cAwXHv0j6MO1bzd4e6Wy
+         tPdDgjJQAm5tR1dZfC+nDI7dVQs5YlZEYaHCUhZzcfxxOvrFmpt9BlFrlF5IaGQi2OEH
+         AHplWAmDkkBpvt+SPdeesLan9z42zRop0F1kecEvpa7MZtYhJiyLZI51d5M3+CNpVCLJ
+         jT+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688137834; x=1690729834;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=loQnDSW9i5LQhmfPoJ46XCIWUTUs998PhfaFmb8iPCg=;
+        b=kR5JYXPl3Mgv5izJbnJOEtiUFnlH2NmQC8KNqNvNh5Gnn0tIVQ3Dln4Kse1GZL4H6W
+         Vz+a9zmbDREJ3T8lpiEPiSf4b6WYuZSlGdlHKRnEYZgai11ijnSH2jdhmG8i9wnq4YEU
+         FX/VEX+gi9uwxFDfBVabtx9Gpe0WsFcUNNXZBRvvCJxgGsz8neH15vZuVykOxPKxfNlX
+         e/iN50/Pk3fyhMfpbIQJkw0p/viFBspsFG40tgPaGitBXrvdjBZ0coNnCIr5QyGBIO2e
+         oZAfEHvsZ3u6TtBiSozhX6gNleQ0OHei2caQk7HmQ9P5K8RPznfOdth0eM38FvkD+2sp
+         01Kw==
+X-Gm-Message-State: ABy/qLaYGpbJypL2VgIbi3x/Wg2/EjXd4C1JLZ8DaR8UwcmpNxIvwCiJ
+        1I3+kcIBRrqtyE6+iSbJKbY1e6/j4Vi/q5bnM1dUuBcLxDtjeZw7++euusiJEq7qMOaidlTlUWE
+        ZmS+RDVN2AMx5moSbDW9wdRyGKP+N2u+mFYngAnNnF8pxFd2iUwfeST1ECZ3Jt6TL+fNOeu4c/t
+        byExE=
+X-Google-Smtp-Source: APBJJlEv85eOlT2Ou52uqPZuUTuFK0QDmKuWT4jlAo1G5h8cw8X8JntUMAG5b8OBfMI5o+Wy5gdplV1s7bH9+wFHMA==
+X-Received: from mr-cloudtop2.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:fb5])
+ (user=matteorizzo job=sendgmr) by 2002:a50:a6dd:0:b0:51d:9659:4dae with SMTP
+ id f29-20020a50a6dd000000b0051d96594daemr11259edc.5.1688137833489; Fri, 30
+ Jun 2023 08:10:33 -0700 (PDT)
+Date:   Fri, 30 Jun 2023 15:10:02 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230630151003.3622786-1-matteorizzo@google.com>
+Subject: [PATCH v3 0/1] Add a sysctl to disable io_uring system-wide
+From:   Matteo Rizzo <matteorizzo@google.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        io-uring@vger.kernel.org, axboe@kernel.dk, asml.silence@gmail.com
+Cc:     matteorizzo@google.com, corbet@lwn.net, akpm@linux-foundation.org,
+        keescook@chromium.org, ribalda@chromium.org, rostedt@goodmis.org,
+        jannh@google.com, chenhuacai@kernel.org, gpiccoli@igalia.com,
+        ldufour@linux.ibm.com, evn@google.com, poprdi@google.com,
+        jordyzomer@google.com, jmoyer@redhat.com, krisman@suse.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel cmdline option panic_on_warn expects an integer, it is not a
-plain option as documented. A number of uses in the tree figured this
-already, and use panic_on_warn=1 for their purpose.
+Over the last few years we've seen many critical vulnerabilities in
+io_uring[1] which could be exploited by an unprivileged process to gain
+control over the kernel. This patch introduces a new sysctl which disables
+the creation of new io_uring instances system-wide.
 
-Adjust a comment which otherwise may mislead people in the future.
+The goal of this patch is to give distros, system admins, and cloud
+providers a way to reduce the risk of privilege escalation through io_uring
+where disabling it with seccomp or at compile time is not practical. For
+example a distro or cloud provider might want to disable io_uring by
+default and have users enable it again if they need to run a program that
+requires it. The new sysctl is designed to let a user with root on the
+machine enable and disable io_uring systemwide at runtime without requiring
+a kernel recompilation or a reboot.
 
-Fixes: 9e3961a097 ("kernel: add panic_on_warn")
+[1] Link: https://goo.gle/limit-iouring
 
-Signed-off-by: Olaf Hering <olaf@aepfle.de>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- tools/testing/selftests/rcutorture/bin/kvm.sh   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+v3:
+	* Fix the commit message
+	* Use READ_ONCE in io_uring_allowed to avoid races
+	* Add reviews
+v2:
+	* Documentation style fixes
+	* Add a third level that only disables io_uring for unprivileged
+	  processes
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9e5bab29685f..15196f84df49 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4049,7 +4049,7 @@
- 			extra details on the taint flags that users can pick
- 			to compose the bitmask to assign to panic_on_taint.
- 
--	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
-+	panic_on_warn=1	panic() instead of WARN().  Useful to cause kdump
- 			on a WARN().
- 
- 	parkbd.port=	[HW] Parallel port number the keyboard adapter is
-diff --git a/tools/testing/selftests/rcutorture/bin/kvm.sh b/tools/testing/selftests/rcutorture/bin/kvm.sh
-index 62f3b0f56e4d..d3cdc2d33d4b 100755
---- a/tools/testing/selftests/rcutorture/bin/kvm.sh
-+++ b/tools/testing/selftests/rcutorture/bin/kvm.sh
-@@ -655,4 +655,4 @@ fi
- # Control buffer size: --bootargs trace_buf_size=3k
- # Get trace-buffer dumps on all oopses: --bootargs ftrace_dump_on_oops
- # Ditto, but dump only the oopsing CPU: --bootargs ftrace_dump_on_oops=orig_cpu
--# Heavy-handed way to also dump on warnings: --bootargs panic_on_warn
-+# Heavy-handed way to also dump on warnings: --bootargs panic_on_warn=1
+
+Matteo Rizzo (1):
+  io_uring: add a sysctl to disable io_uring system-wide
+
+ Documentation/admin-guide/sysctl/kernel.rst | 19 +++++++++++++
+ io_uring/io_uring.c                         | 31 +++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+
+
+base-commit: 1601fb26b26758668533bdb211fdfbb5234367ee
+-- 
+2.41.0.255.g8b1d071c50-goog
+
