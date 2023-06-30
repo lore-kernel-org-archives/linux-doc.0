@@ -2,109 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA00EB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 09:28:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D37EB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 09:40:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232841AbjF3J2r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 05:28:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36090 "EHLO
+        id S232788AbjF3Jk4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 05:40:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232810AbjF3J2p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 05:28:45 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11FE23585;
-        Fri, 30 Jun 2023 02:28:43 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-51d9695ec29so1685569a12.1;
-        Fri, 30 Jun 2023 02:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688117321; x=1690709321;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fZCBSgni0sr8gGqL9uMypHbMvj7usQCYMwxdwYXW+jA=;
-        b=QRJY4EEw4g4/61MzEr/J5K3QI0OJoUCA5DROKENJS/ku/aNTGEPqXdfTm0SMgoekR5
-         XC6xdT9A46C8ytjZyw27lTco5+zkYCQ6Sx+E8Qw/rwCZjwhBSvzNkjjR9FT/uEL1LO/Q
-         UHfiqD9hqOYgoaZ+6OSLomuOJFJvmiwpEtClVR3s0nzaw1Qo4h4XcXcrwDJNNxlvPj/n
-         NTMLJtUpoq0XFRK5ck4PqsWC7eKdKCCyRaw4w3F5vDQA/uwNgauOdYVhrKLqe7KztF1Z
-         RTzyVc2NZ0vIR2KPiHL670A6QcN0Q8aNgNpbU0Y9y65QJlNq4g4IzpSyo3vDR9Vh+1jV
-         dbjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688117321; x=1690709321;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fZCBSgni0sr8gGqL9uMypHbMvj7usQCYMwxdwYXW+jA=;
-        b=QIZ0mz+Ddq5qMUCTmjVo2yMi9z6Akwtx5pALBoSJeh5C4PS+cGOZsPF8bwQ6jHYRaY
-         BUh6rB1RmhK+rWVIqbbb1RNUgoIYlenbBh5fyVi0iYbgQ3kgwQaAx/rARqD4ZQTeYdfi
-         kPr8svqV2y475sL0jeZO/1fIP/PTb8wEkjYA4SF3uQMIrMqAaVX+b48TcWOxCOeaJ2A6
-         3ZY5xCLv6zxm7ZvPSmQ/XtxeDAfiaDjfYbkrsqWseuf96443W8M/eoCfxtWbUSuLzm4N
-         Yb0gINuoI5Kr1HNAfs5gHbwra9ilimkJux0sK6KkoA8t1XtYPnVQHAkdgtbzYQYoVSgq
-         TMPg==
-X-Gm-Message-State: ABy/qLZmTXSAJfTlFnVnIudlsmBX4Vqjz9N7ohjZjnhYZ4Cow6NBOU/+
-        ITaiQpRNbr7MwaVKHl6Vr/eyX9oY4+B2LiANg/8=
-X-Google-Smtp-Source: APBJJlFMq2w/PbJ55327XebcvTTEwXkX993DxpgiQLo04cpZ/EAYzg2QeasZ9plssJgPvzLr9TsHaiWzwcGwfTIgqXA=
-X-Received: by 2002:aa7:c256:0:b0:51d:9ddf:f0f3 with SMTP id
- y22-20020aa7c256000000b0051d9ddff0f3mr1120614edo.31.1688117321377; Fri, 30
- Jun 2023 02:28:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <1687955688-20809-21-git-send-email-quic_mojha@quicinc.com> <0ac3e4cd-485e-43a4-ae76-4c462a8145ed@quicinc.com>
-In-Reply-To: <0ac3e4cd-485e-43a4-ae76-4c462a8145ed@quicinc.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 30 Jun 2023 12:28:05 +0300
-Message-ID: <CAHp75Vdpg8R0FtECk_bqdVMQW7Nz_EY0pacaL8PA+0Xcfkyt3Q@mail.gmail.com>
-Subject: Re: [PATCH v4 20/21] firmware: qcom_scm: Refactor code to support
- multiple download mode
-To:     Pavan Kondeti <quic_pkondeti@quicinc.com>
-Cc:     Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
-        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
+        with ESMTP id S232791AbjF3Jkw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 05:40:52 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 601502122;
+        Fri, 30 Jun 2023 02:40:50 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 319B76606FDE;
+        Fri, 30 Jun 2023 10:40:48 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1688118048;
+        bh=4mCSpl5TSwRT4QEzUD6onxpjF3nWlrpqcwjcv/v8rH4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ZdKVvs79F3YjxE7/n3BeI4Q4lUGR3mv0/B1Lv5RcZpK6+KHeh44X9pp4kgFNvHFkP
+         wH8tS94eQ1gR2CO5/oBwTRsLZK7TcYgg5dy+yFbaku81oVaTH/DFpWyINrP2ChJnEC
+         zGV02D6dLnBlGnbG1X9PEjXGyjH1cLD6KjhzFrZyYlNc+4n62qA8Ntn0NE8TVpZGgq
+         uz629+ehC3eVEeomJCDvuPrBcHUBjs7xqEv7fW22vXQZoW3DdouEya2PUYc/bvgz3h
+         Hy2iLVofyC05g1lQcouz1NvOcs5uIN9BeqA2roVNQBhm3b2bphG8UpS2zJC20Ia48k
+         F4GMg7rhMWOVQ==
+Date:   Fri, 30 Jun 2023 11:40:45 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Donald Robson <donald.robson@imgtec.com>,
+        Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH drm-next v6 02/13] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <20230630114045.20743fab@collabora.com>
+In-Reply-To: <20230630100252.7ff6421d@collabora.com>
+References: <20230629222651.3196-1-dakr@redhat.com>
+        <20230629222651.3196-3-dakr@redhat.com>
+        <20230630100252.7ff6421d@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 8:25=E2=80=AFAM Pavan Kondeti <quic_pkondeti@quicin=
-c.com> wrote:
-> On Wed, Jun 28, 2023 at 06:04:47PM +0530, Mukesh Ojha wrote:
+On Fri, 30 Jun 2023 10:02:52 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-...
+> In practice, I don't expect things to deadlock, because the VM resv is
+> not supposed to be taken outside the VM context and the locking order
+> is always the same (VM lock first, and then each shared BO
+> taken/released independently), but I'm not super thrilled by this
+> nested lock, and I'm wondering if we shouldn't have a pass collecting
+> locks in a drm_exec context first, and then have
+> the operations executed. IOW, something like that:
+> 
+> 	drm_exec_init(exec, DRM_EXEC_IGNORE_DUPLICATES)
+> 	drm_exec_until_all_locked(exec) {
+> 		// Dummy GEM is the dummy GEM object I use to make the VM
+> 		// participate in the locking without having to teach
+> 		// drm_exec how to deal with raw dma_resv objects.
+> 		ret = drm_exec_lock_obj(exec, vm->dummy_gem);
+> 		drm_exec_retry_on_contention(exec);
+> 		if (ret)
+> 			return ret;
+> 
+> 		// Could take the form of drm_gpuva_sm_[un]map_acquire_locks()
+> 		// helpers
 
-> > +static int set_download_mode(const char *val, const struct kernel_para=
-m *kp)
-> > +{
-> > +     u32 old =3D download_mode;
-> > +     int ret;
-> > +
-> > +     ret =3D sysfs_match_string(download_mode_name, val);
-> > +     if (ret < 0) {
-
-> > +             download_mode =3D old;
-
-Why is this old variable needed at all?
-
-> > +             pr_err("qcom_scm: unknown download mode: %s\n", val);
-> > +             return -EINVAL;
-> > +     }
->
-> minor nit: %s/-EINVAL/ret
->
-> > +     download_mode =3D ret;
-> > +     if (__scm)
-> > +             qcom_scm_set_download_mode(download_mode);
-> > +
-> > +     return 0;
-> > +}
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+Nevermind, I implemented a driver specific acquire_op_locks(), and it's
+fairly simple with the gpuva iter (we just have to iterate over all VAs
+covered by the operation range and call drm_exec_lock_obj() on the GEM
+attached to these VAs), so it's probably not worth providing a generic
+helper for that.
