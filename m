@@ -2,93 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7E4DEB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 07:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C13FEB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 07:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232240AbjF3HUv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 03:20:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48068 "EHLO
+        id S229890AbjF3HWC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 03:22:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231979AbjF3HUv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 03:20:51 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0C3E10EC;
-        Fri, 30 Jun 2023 00:20:49 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35U3dYwD007863;
-        Fri, 30 Jun 2023 07:20:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=j+11ZVorPPMQW3+7fsK9veT9qpQLADFNDkaBhW+l4PM=;
- b=DEBTrPQ2VFtFrrwG/phyZ16KK6WYPoZ8PC/rFX/+27VdcWFxiMM8ia//wJNJMLEttw8E
- 2CoCcqYhL/zcMn+1cIWPlrqJul0jimCpaRd0TKkVqF29JQuQ0lFuFPjUfMRMrNZEcV9L
- KLezs/eqxZTmH0clbX4XGzDkCcZvFKDlwPhuXivUBk6fqRGOW2fkpKM4lNZnaIQQIFpD
- 81nOjcglB/NLZ6ZeqNOl5cWYu7PvAUOLiB1LD8toxezV+hEES9h5p3ktzp+Q3MyvQ293
- R31sKPZYwlijtoVfzQxVxSoWj+wGHMI765rxlEW7/7HANF8i6UNAOht8RTUFL5qBa4U8 Vw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rh7aetdj6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jun 2023 07:20:41 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35U7KeXe025907
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jun 2023 07:20:40 GMT
-Received: from subashab-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.7; Fri, 30 Jun 2023 00:20:39 -0700
-From:   Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com>
-To:     <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
-        <quic_jhugo@quicinc.com>, <dnlplm@gmail.com>
-CC:     Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com>
-Subject: [PATCH net] Documentation: ABI: sysfs-class-net-qmi: pass_through contact update
-Date:   Fri, 30 Jun 2023 01:20:20 -0600
-Message-ID: <1688109620-23833-1-git-send-email-quic_subashab@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S229945AbjF3HV7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 03:21:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CF91737;
+        Fri, 30 Jun 2023 00:21:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C36D1616E3;
+        Fri, 30 Jun 2023 07:21:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A24B0C433C0;
+        Fri, 30 Jun 2023 07:21:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1688109717;
+        bh=BDmWeEiyVyhxO4weCChminjG1iwLGB4gkzlpA3fDucw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ro8cibij/8i00PC+hOje/CTUUrjN3z3u3p0ROrgVjOyKMTDntZK8Yek4OmjRyDDet
+         /B6t+RA1bpLjpmGgUnqyh3smkbpxi01Y+NpezwcTxHDWzfgsouNajhdXmScre6N1Kk
+         pNbYFk1lj+pEcramVH47Fbkr7aAI7Ua1A+yVCS94=
+Date:   Fri, 30 Jun 2023 09:21:54 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
+        workflows@vger.kernel.org
+Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
+ handling
+Message-ID: <2023063030-onshore-ambiance-887c@gregkh>
+References: <2023063020-throat-pantyhose-f110@gregkh>
+ <2023063022-retouch-kerosene-7e4a@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: SpQ8BI12-ULABDrXcu5AZTshNNkDFh8I
-X-Proofpoint-ORIG-GUID: SpQ8BI12-ULABDrXcu5AZTshNNkDFh8I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-30_04,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
- clxscore=1011 suspectscore=0 priorityscore=1501 impostorscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306300061
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023063022-retouch-kerosene-7e4a@gregkh>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Switch to the quicinc.com id.
+On Fri, Jun 30, 2023 at 09:14:21AM +0200, Greg Kroah-Hartman wrote:
+> The kernel security team does NOT assign CVEs, so document that properly
+> and provide the "if you want one, ask MITRE for it" response that we
+> give on a weekly basis in the document, so we don't have to constantly
+> say it to everyone who asks.
+> 
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  Documentation/process/security-bugs.rst | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+> index f12ac2316ce7..8b80e1eb7d79 100644
+> --- a/Documentation/process/security-bugs.rst
+> +++ b/Documentation/process/security-bugs.rst
+> @@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
+>  CVE assignment
+>  --------------
+>  
+> -The security team does not normally assign CVEs, nor do we require them
+> -for reports or fixes, as this can needlessly complicate the process and
+> -may delay the bug handling. If a reporter wishes to have a CVE identifier
+> -assigned ahead of public disclosure, they will need to contact the private
+> -linux-distros list, described above. When such a CVE identifier is known
+> -before a patch is provided, it is desirable to mention it in the commit
+> -message if the reporter agrees.
+> +The security team does not assign CVEs, nor do we require them for
+> +reports or fixes, as this can needlessly complicate the process and may
+> +delay the bug handling.  If a reporter wishes to have a CVE identifier
+> +assigned, they should contact MITRE directly.
+>  
+>  Non-disclosure agreements
+>  -------------------------
+> -- 
+> 2.41.0
+> 
 
-Fixes: bd1af6b5fffd ("Documentation: ABI: sysfs-class-net-qmi: document pass-through file")
-Signed-off-by: Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com>
----
- Documentation/ABI/testing/sysfs-class-net-qmi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If there are no objections to these, I'll take them in my tree after
+6.5-rc1 is out to make it simpler.
 
-diff --git a/Documentation/ABI/testing/sysfs-class-net-qmi b/Documentation/ABI/testing/sysfs-class-net-qmi
-index 47e6b97..b028f5b 100644
---- a/Documentation/ABI/testing/sysfs-class-net-qmi
-+++ b/Documentation/ABI/testing/sysfs-class-net-qmi
-@@ -62,7 +62,7 @@ Description:
- What:		/sys/class/net/<iface>/qmi/pass_through
- Date:		January 2021
- KernelVersion:	5.12
--Contact:	Subash Abhinov Kasiviswanathan <subashab@codeaurora.org>
-+Contact:	Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com>
- Description:
- 		Boolean.  Default: 'N'
- 
--- 
-2.7.4
+thanks,
 
+greg k-h
