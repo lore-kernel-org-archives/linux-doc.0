@@ -2,103 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 023F8EB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 07:05:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C433EEB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 07:14:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230046AbjF3HFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 03:05:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43770 "EHLO
+        id S231979AbjF3HOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 03:14:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229850AbjF3HFF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 03:05:05 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9326199;
-        Fri, 30 Jun 2023 00:05:04 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35U5NoO8025221;
-        Fri, 30 Jun 2023 07:04:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=hO70dtYycyj8IH+hGPaXkhXqgZFeD1p7q7GVmUQFj0Q=;
- b=eAtguKOJv/FmeU0p+YDGhV4UKvVRG+9q0D42aghQMHmT7z4RuNa9ubnMYTmoGC/KI63y
- 0i92GPK+4bKCWN3TTKWQHFA/eDTkaiePCyquoED/FDgNxkclJMwHNtyCtTzNeTXnhHlM
- POS5D+ASyoTMnfuXv+bzPd2QJCfusmdcQmJEGFwAS1mvCry5dx3SzCAd66m7mIRKsknP
- bFBDy2QT6LpAIbrW7+JLWBcOgnLK0gNJ5YtWhsWiPuXteH2l3opXUvjvC+skUjRfuj+v
- YSMOEMdrqcpFhlgoTWCmnGHxrkKoHG3QzuOEO4yFcRUByoYtbzf5pciTo6apFXkmPoNI /w== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rgy1tk3vq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jun 2023 07:04:58 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35U74v8u019393
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jun 2023 07:04:57 GMT
-Received: from subashab-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.7; Fri, 30 Jun 2023 00:04:56 -0700
-From:   Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com>
-To:     <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <corbet@lwn.net>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <andersson@kernel.org>,
-        <quic_jhugo@quicinc.com>
-CC:     Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com>,
-        "Sean Tranchetti" <quic_stranche@quicinc.com>
-Subject: [PATCH net v2] docs: networking: Update codeaurora references for rmnet
-Date:   Fri, 30 Jun 2023 01:04:46 -0600
-Message-ID: <1688108686-16363-1-git-send-email-quic_subashab@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S231617AbjF3HO2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 03:14:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E37B61FFA;
+        Fri, 30 Jun 2023 00:14:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7263F616D4;
+        Fri, 30 Jun 2023 07:14:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B117C433C0;
+        Fri, 30 Jun 2023 07:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1688109266;
+        bh=PYqCnWF7IAzpYnZdeaPArwQn6IWMC08ErzlI9oBfh4o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hwAyH0cMXXytdhps+l+CZl8PsJ798gPS4pZvhgJ4u+vAZUoMt/ZKxX+EVJ7hSKAqf
+         awolAd9LBvw+CZTVTNA5vb1Jczb+DNMAzV1pafEZ5x6HFBLCi+b2691QrrDta+BDEt
+         2iJfpqDVugdnI8sZKiU2znS9a98WzWt0oPf81/NY=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
+        workflows@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE handling
+Date:   Fri, 30 Jun 2023 09:14:21 +0200
+Message-ID: <2023063022-retouch-kerosene-7e4a@gregkh>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <2023063020-throat-pantyhose-f110@gregkh>
+References: <2023063020-throat-pantyhose-f110@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: tEPgUU37-ExO5mihlfZshBBEa_sDlama
-X-Proofpoint-GUID: tEPgUU37-ExO5mihlfZshBBEa_sDlama
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-30_04,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- impostorscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 priorityscore=1501
- bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306300060
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1604; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=PYqCnWF7IAzpYnZdeaPArwQn6IWMC08ErzlI9oBfh4o=; b=owGbwMvMwCRo6H6F97bub03G02pJDCnzGs7J7u3/x9SV/eDmvwqfk3NervP2496welGr/iX11 0/YCqbe6ohlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJPHJjmKf68PZKBpcOQ9s7 dVWrJWQTkk2StRkWbDdVEYt+WCh0bpussqXr7ap4Bwt2AA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-source.codeaurora.org is no longer accessible and so the reference link
-in the documentation is not useful. Use iproute2 instead as it has a
-rmnet module for configuration.
+The kernel security team does NOT assign CVEs, so document that properly
+and provide the "if you want one, ask MITRE for it" response that we
+give on a weekly basis in the document, so we don't have to constantly
+say it to everyone who asks.
 
-Fixes: ceed73a2cf4a ("drivers: net: ethernet: qualcomm: rmnet: Initial implementation")
-Signed-off-by: Sean Tranchetti <quic_stranche@quicinc.com>
-Signed-off-by: Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-v1->v2: Use iproute2 link instead of codelinaro
+ Documentation/process/security-bugs.rst | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
- .../networking/device_drivers/cellular/qualcomm/rmnet.rst          | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-index 4118384..1f1034e 100644
---- a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-+++ b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-@@ -190,8 +190,7 @@ MAP header|IP Packet|Optional padding|MAP header|Command Packet|Optional pad...
- 3. Userspace configuration
- ==========================
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index f12ac2316ce7..8b80e1eb7d79 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
+ CVE assignment
+ --------------
  
--rmnet userspace configuration is done through netlink library librmnetctl
--and command line utility rmnetcli. Utility is hosted in codeaurora forum git.
--The driver uses rtnl_link_ops for communication.
-+rmnet userspace configuration is done through netlink using iproute2
-+https://git.kernel.org/pub/scm/network/iproute2/iproute2.git/
+-The security team does not normally assign CVEs, nor do we require them
+-for reports or fixes, as this can needlessly complicate the process and
+-may delay the bug handling. If a reporter wishes to have a CVE identifier
+-assigned ahead of public disclosure, they will need to contact the private
+-linux-distros list, described above. When such a CVE identifier is known
+-before a patch is provided, it is desirable to mention it in the commit
+-message if the reporter agrees.
++The security team does not assign CVEs, nor do we require them for
++reports or fixes, as this can needlessly complicate the process and may
++delay the bug handling.  If a reporter wishes to have a CVE identifier
++assigned, they should contact MITRE directly.
  
--https://source.codeaurora.org/quic/la/platform/vendor/qcom-opensource/dataservices/tree/rmnetctl
-+The driver uses rtnl_link_ops for communication.
-\ No newline at end of file
+ Non-disclosure agreements
+ -------------------------
 -- 
-2.7.4
+2.41.0
 
