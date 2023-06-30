@@ -2,160 +2,179 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2790EB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 11:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6231CEB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 12:02:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232910AbjF3LQ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 07:16:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59680 "EHLO
+        id S231528AbjF3MCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 08:02:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232512AbjF3LQu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 07:16:50 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5F9D19BA
-        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 04:16:43 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-992dcae74e0so81031666b.3
-        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 04:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1688123802; x=1690715802;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=G8RwKyWjQ7rl3Ppk6BKT6e69k8Me0Zd0vefhl7KFO/s=;
-        b=alSd83XbCIZVP078BLSQM0l4zqXAmX9RA3KGRnaY0VhC8hH2Q7YphCMDU6ie3QuThk
-         O1RYBXNwBlv24hRu/r78aorS08LRpDAnGkPJ6pLRkxMN9wYzGXmWGO53nTSShJxsjJM4
-         lWAK6bN478iwmKDc4K6TB6+s/aQQWDu4nEpNzbieMCgZlZO6+K+5u6k86+dWD14sPWUh
-         JICl5qx/D6iS0mtvfgjli1Cv0Gg+GVVdP3E8PZznNgza08lE2OoqtJKQps5qiO6Ysr2M
-         0+/spiNhqfevxHk8EEBDMRP326Z+3vUIOk6Ca0WwHpBhg2jcwDXW7hSsFJM/qQEvnjlC
-         7rOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688123802; x=1690715802;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G8RwKyWjQ7rl3Ppk6BKT6e69k8Me0Zd0vefhl7KFO/s=;
-        b=IHliMPEzMHgyMQR0OxUnSEpzhACcNWI2/6vfMH1BXxjcr0NHkDbCYmhIe3xH2E37/B
-         /kvS9VtbRpRu4e8SSbInVNaTFAKMcEuPFKspjc5nSSwVLmX3iuCKhjyLuvrU8jGNiP6a
-         EPfBHojyv4DX0RNrCH57Wj1YRzcXnfYg83zg+XBmHRg1m2M5HDa7wJifNnHohyc9YGsZ
-         qA3+WKqF2ucU+8YVlE6ZFOv/GdCfcja6Dr/OpEgQM5RruJNGT9kEMRG811VtkPGZLuCM
-         T2LWEFd+c2rsNvjl/+JVObCWtn7H0TP9Rlocit7uSP6TxuoHzt/Q3jB6EsrjmastQcd9
-         YFGQ==
-X-Gm-Message-State: ABy/qLbADovgcyDrHsWOzIQXQOLA8Zgg8am1r5KmNkdIDMhdwHJrElO2
-        hnTOpHLDzsDH0GH7lnazgU8e+A==
-X-Google-Smtp-Source: APBJJlGSh9pnM2wyCvB7H8i4x229ME/Bu1b+gqOsS0eyPxPuv9wkd6hm541bA82OQ/1dlmptKbQXrA==
-X-Received: by 2002:a17:906:d961:b0:990:8807:8f88 with SMTP id rp1-20020a170906d96100b0099088078f88mr1741080ejb.55.1688123802399;
-        Fri, 30 Jun 2023 04:16:42 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id u12-20020a1709064acc00b009930308425csm22356ejt.31.2023.06.30.04.16.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jun 2023 04:16:42 -0700 (PDT)
-Date:   Fri, 30 Jun 2023 13:16:41 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 08/10] Documentation: admin-guide: Add riscv
- sysctl_perf_user_access
-Message-ID: <20230630-f714cc46ee65cc65318f2ada@orel>
-References: <20230630083013.102334-1-alexghiti@rivosinc.com>
- <20230630083013.102334-9-alexghiti@rivosinc.com>
+        with ESMTP id S232926AbjF3MCs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 08:02:48 -0400
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB841BE9
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 05:02:44 -0700 (PDT)
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230630120241epoutp01188384deb3f61c6a2a3acc03eb380c34~tbin7lWbi2342523425epoutp018
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 12:02:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230630120241epoutp01188384deb3f61c6a2a3acc03eb380c34~tbin7lWbi2342523425epoutp018
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1688126561;
+        bh=zZubjPAKe4tJnP79rh7RaaQDYvtmoDCtXsGDKlJ0uFY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mfshBycpvotrExq2m0BfCgxTNRVu78AGdZbgkTTKze+GZKQOwRURXGW1hTGfKUrZe
+         zm2oJZqdd/yTj4QLaCbp+j7ZDivfd3I/TcqCAcRAxDI2Pqkk069kLOF0ncu3zjqEXA
+         4hfB2hIz4tFIAr7mfvYYzrMWKwanER58x5e+432M=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+        20230630120240epcas5p3d08ca980d5065aa551daa2fd10006566~tbim_nHMD0126501265epcas5p3B;
+        Fri, 30 Jun 2023 12:02:40 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
+        epsnrtp3.localdomain (Postfix) with ESMTP id 4Qsv8H1L2xz4x9Pt; Fri, 30 Jun
+        2023 12:02:39 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        4F.E6.06099.F54CE946; Fri, 30 Jun 2023 21:02:39 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+        20230630112545epcas5p1746ef2fc966c04b3a8163e0dff21fb4b~tbCXgpz0S0278302783epcas5p18;
+        Fri, 30 Jun 2023 11:25:45 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20230630112545epsmtrp100ac18072070bde82f83c688a8d35218~tbCXeO08n3247532475epsmtrp1R;
+        Fri, 30 Jun 2023 11:25:45 +0000 (GMT)
+X-AuditID: b6c32a4b-cafff700000017d3-cb-649ec45f75e7
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        01.DC.34491.9BBBE946; Fri, 30 Jun 2023 20:25:45 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20230630112540epsmtip25264414e861bfa35bbcaec8407f2f7ff~tbCTNRWsE1020410204epsmtip2Y;
+        Fri, 30 Jun 2023 11:25:40 +0000 (GMT)
+Date:   Fri, 30 Jun 2023 16:52:27 +0530
+From:   Nitesh Shetty <nj.shetty@samsung.com>
+To:     Ming Lei <ming.lei@redhat.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+        willy@infradead.org, hare@suse.de, djwong@kernel.org,
+        bvanassche@acm.org, dlemoal@kernel.org, nitheshshetty@gmail.com,
+        gost.dev@samsung.com, Vincent Fu <vincent.fu@samsung.com>,
+        Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v13 3/9] block: add emulation for copy
+Message-ID: <20230630112227.6ctls2vt4cy7vbxo@green245>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230630083013.102334-9-alexghiti@rivosinc.com>
+In-Reply-To: <ZJ1B1k0KifZrGRIp@ovpn-8-26.pek2.redhat.com>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TbUxTZxTHee69vS3EumuR+PCikOKyAQGpQPdAYAo6d5fuAwl+GQnild5R
+        BNqmLbJhIqDAFAaoDDIrVFQcbwoIbOF1smIFMYwZBgisDLWgkw0QAnbjZWspLH77nZf/eZ5z
+        Tg4PFzRxXXgJcg2rkjNJQtKB+KHby8s39r5O6n+nioPq+x7g6OzFNRzVGgtJNNO9AFDJ/N84
+        MnV9BdCgaTuavHcAdc5e5aDRrlYMddy4jKHqWgOGLuuHAZoa0mKoc8wHXc+pIFBH50MCDbaV
+        kujad1NclDfSQqLKnnUM6YvOYajFlAlQ3cwcgXrHXNHzvPMADaz1cNCKuZQ86EYP/iqhW7VG
+        Lj0wcZegm6q86cH+FLqx5gJJN1Wk0+2jGSR9s6CIQ+efmyXp11NjBD334xBJFzTXALrp0Wl6
+        sXEP3Wj6C4ukohNDZSwjZVUerDxOIU2Qx4cJJVGxh2KDxP4iX1Ew+kDoIWeS2TDh4U8jfY8k
+        JFmmI/Q4xSSlWFyRjFot3PdhqEqRomE9ZAq1JkzIKqVJykCln5pJVqfI4/3krCZE5O+/P8iS
+        eDxRtpRXzlW2v/NF5YtpbgaY3pYL7HmQCoTmxwOcXODAE1DtAPYuPN40FgBcLMzg2oxlAK/U
+        FHC2JOONGYQt0AngvZf6jYCAmgbQ3MO3MkG9CyuHG7BcwOORlA989C/P6t5JCaHRWLtRFKca
+        SGhu1QFrwJEKgf0tTzeYT4mh4Y6JtPEO+PCKibCyPRUMl1oLNnKcKDf47a0l3FoIUhP2cNE4
+        RNp+dxhWzHUDGzvCVz3NXBu7wD8KczY5FVZ/U0XaxFkAake0m4IDMLuvELcyTslgaVfOZtHd
+        sLivDrP5t8P8FRNm8/Nhi26LPeHt+vLNfGc4/CaTtHYPKRr+PHjINq1ZAMuyzOAicNe+1Zz2
+        redsHAIvzJ/laC1ynHKFles8G3rB+rZ95YBTA5xZpTo5nlUHKQPkbOr/G49TJDeCjevxlrSA
+        Z5PzfnqA8YAeQB4u3Mkf//OqVMCXMl+msSpFrColiVXrQZBlWZdwF6c4heX85JpYUWCwf6BY
+        LA4MDhCLhLv4M9llUgEVz2jYRJZVsqotHcazd8nANA4nRj0V2n9eP2HuS4fpQ8y17OcnigPS
+        QrcB2ctaQ0Xd57WrU8fOdBuIVrl+Ojy8Yeyzto71sdB6CbM3Ji0r3e6ozAeMjTwZdwrnJEDt
+        s5xbxE9NveHQdfrosEi3WMyPaCgZmpw9VimOOZ3/0asju93PVHut+N3NNK7Z0+k6Ea7LFGZH
+        /fbidqFZEfsLmHVE73F6eKsRhvdvzpRN1msT4DixMEDWudn9nvwxJ0CSejI6Ke+kU9GNXMpw
+        3TPMrrtr//n2Zuc9gqf9S4IYgelg+C6qaHnCveT74xE7HpDmiYBTfsuhzXtDRJ9wJZdWdctz
+        jYOi6PT5KMPMG8HXzgNCQi1jRN64Ss38B0n6FerGBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKIsWRmVeSWpSXmKPExsWy7bCSvO7O3fNSDC7d4bBYf+oYs0XThL/M
+        Fqvv9rNZvD78idFi2oefzBZPDrQzWlx+wmfxYL+9xd53s1ktbh7YyWSxZ9EkJouVq48yWUw6
+        dI3R4unVWUwWe29pWyxsW8JisWfvSRaLy7vmsFnMX/aU3aL7+g42i+XH/zFZHJrczGSx40kj
+        o8W61+9ZLE7ckrZ43N3BaHH+73FWi98/5rA5yHhcvuLtsXPWXXaP8/c2snhsXqHlcflsqcem
+        VZ1sHpuX1HvsvtnA5rG4bzKrR2/zOzaPj09vsXi833eVzaNvyypGj82nqz0+b5Lz2PTkLVOA
+        QBSXTUpqTmZZapG+XQJXxvr+e2wFb3kqZu16ztrAuImri5GTQ0LAROL2pgaWLkYuDiGB3YwS
+        Ddu+skEkJCWW/T3CDGELS6z895wdougJo0THuTlgRSwCqhLLr21g6mLk4GAT0JY4/Z8DJCwi
+        oCRx9+5qsHpmgU1sEn/PvWQESQgLWEmc3fEQzOYVMJM4uvYJG8TQd4wSVy41MEEkBCVOznzC
+        AmIzAxXN2/yQGWQBs4C0xPJ/YAs4BSwlvu7sA5sjKiAjMWPpV+YJjIKzkHTPQtI9C6F7ASPz
+        KkbJ1ILi3PTcYsMCw7zUcr3ixNzi0rx0veT83E2M4JShpbmDcfuqD3qHGJk4GA8xSnAwK4nw
+        3n4zO0WINyWxsiq1KD++qDQntfgQozQHi5I4r/iL3hQhgfTEktTs1NSC1CKYLBMHp1QDk7rf
+        o41LXDk7Q6xd7wi3M/Qv4tP0F2fSWcqmyn15Q7P23BkLLn7RWj5p447Ne5/fudDZ+Oxcy8wO
+        g9WNRcznxJeKHvFuuJj113Ll+tIviwL8Vdv3h2+6Wx4S3tAQt/Oq9GUR48nXfjy7sU/deMNN
+        NiWXGl+uqTIT4v5vW8QcrTaxJ4UvvLL5+i1+PqWNhkEzlXfdE/T98ohLVHaGx+xzpnOb5Mv4
+        1Bh2q1YdUgv6/+bXxJPHuW9PE3j/QfKft/JjbW3Fh4G8TtyPFgT1KX4SdJHuEGvhMhLT0/l0
+        ZydPvNA1tetW96z8Z6jUa6fmH3Sc/mcpy+ntC1xqvR7t+Op+1Obws8wE1luBaq//lU6yV2Ip
+        zkg01GIuKk4EAIi1iPiIAwAA
+X-CMS-MailID: 20230630112545epcas5p1746ef2fc966c04b3a8163e0dff21fb4b
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+        boundary="----zUAFM1k0MeHfMyR4CoO9aTysOnQiUYGsRe6BfqD0GhfqR3ws=_26e0b_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230627184020epcas5p13fdcea52edead5ffa3fae444f923439e
+References: <20230627183629.26571-1-nj.shetty@samsung.com>
+        <CGME20230627184020epcas5p13fdcea52edead5ffa3fae444f923439e@epcas5p1.samsung.com>
+        <20230627183629.26571-4-nj.shetty@samsung.com>
+        <ZJ1B1k0KifZrGRIp@ovpn-8-26.pek2.redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 10:30:11AM +0200, Alexandre Ghiti wrote:
-> riscv now uses this sysctl so document its usage for this architecture.
-> 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 26 +++++++++++++++++----
->  1 file changed, 22 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index d85d90f5d000..c376692b372b 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -941,16 +941,34 @@ enabled, otherwise writing to this file will return ``-EBUSY``.
->  The default value is 8.
->  
->  
-> -perf_user_access (arm64 only)
-> -=================================
-> +perf_user_access (arm64 and riscv only)
-> +=======================================
-> +
-> +Controls user space access for reading perf event counters.
->  
-> -Controls user space access for reading perf event counters. When set to 1,
-> -user space can read performance monitor counter registers directly.
-> +arm64
-> +=====
->  
->  The default value is 0 (access disabled).
+------zUAFM1k0MeHfMyR4CoO9aTysOnQiUYGsRe6BfqD0GhfqR3ws=_26e0b_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Should add a blank line here.
+On 23/06/29 04:33PM, Ming Lei wrote:
+>Hi Nitesh,
+>
+>On Wed, Jun 28, 2023 at 12:06:17AM +0530, Nitesh Shetty wrote:
+>> For the devices which does not support copy, copy emulation is added.
+>> It is required for in-kernel users like fabrics, where file descriptor is
+>
+>I can understand copy command does help for FS GC and fabrics storages,
+>but still not very clear why copy emulation is needed for kernel users,
+>is it just for covering both copy command and emulation in single
+>interface? Or other purposes?
+>
+>I'd suggest to add more words about in-kernel users of copy emulation.
+>
 
-> +When set to 1, user space can read performance monitor counter registers
-> +directly.
->  
->  See Documentation/arm64/perf.rst for more information.
->  
-> +riscv
-> +=====
-> +
-> +When set to 0, user access is disabled.
-> +
-> +When set to 1, user space can read performance monitor counter registers
-> +directly only through perf, any direct access without perf intervention will
+As you mentioned above, we need a single interface for covering both
+copy command and emulation.
+This is needed in fabrics cases, as we expose any non copy command
+supported target device also as copy capable, so we fallback to emulation
+once we recieve copy from host/initator.
+Agreed, we will add more description to covey the same info.
 
-Remove 'directly only'
+>> not available and hence they can't use copy_file_range.
+>> Copy-emulation is implemented by reading from source into memory and
+>> writing to the corresponding destination asynchronously.
+>> Also emulation is used, if copy offload fails or partially completes.
+>
+>Per my understanding, this kind of emulation may not be as efficient
+>as doing it in userspace(two linked io_uring SQEs, read & write with
+>shared buffer). But it is fine if there are real in-kernel such users.
+>
 
-(It can't be both "direct" and "through" at the same time.)
+We do have plans for uring based copy interface in next phase,
+once curent series is merged.
+With current design we really see the advantage of emulation in fabrics case.
 
-> +trigger an illegal instruction.
-> +
-> +The default value is 2,
+Thank you,
+Nitesh Shetty
 
-This is no longer true.
+------zUAFM1k0MeHfMyR4CoO9aTysOnQiUYGsRe6BfqD0GhfqR3ws=_26e0b_
+Content-Type: text/plain; charset="utf-8"
 
-> which enables legacy mode (user space has direct
-> +access to cycle and insret CSRs only). Note that this legacy value
-> +is deprecated and will be removed once all userspace applications are fixed.
-> +
-> +Note that the time CSR is for now always accessible to all modes.
 
-s/always accessible/always directly accessible/
-
-Also, remove 'for now'. While we may change this in the future, I'm not
-sure if the 'for now' helps much. Maybe a "This may change in the future."
-type of sentence? Or, just nothing (for now :-) and we'll modify this
-document if it changes later.
-
-Thanks,
-drew
-
->  
->  pid_max
->  =======
-> -- 
-> 2.39.2
-> 
+------zUAFM1k0MeHfMyR4CoO9aTysOnQiUYGsRe6BfqD0GhfqR3ws=_26e0b_--
