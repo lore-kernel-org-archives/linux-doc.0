@@ -2,117 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2635FEB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 08:42:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B691AEB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 09:00:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232708AbjF3Ims (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 04:42:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47496 "EHLO
+        id S232515AbjF3JAi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 05:00:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232449AbjF3ImU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 04:42:20 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FFE33C0E
-        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 01:41:55 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4faaaa476a9so2625482e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 01:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688114513; x=1690706513;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uDd0P6Z6Y37kRPaqqHaNAC3kQrjxk6Pu8HaK2zooeKg=;
-        b=Y41VrW8/WSTU5UZ0jha3wwL0Ej0Tqd3A2qkgrwAyZodUC/Uz8mWxFXPieMXCL9Qgkc
-         aCxnf9L5pPkNT/eeVpj05gNJZy/aSu0i+l4K1alIFaVSt15uuOkO1E6tqT2Jw85snBkt
-         eBMVD67kXwSAZmYJxN6xoMJp0H+pOyoW3QN4+hUahcRJSus8PGYrRNm9+d7On6kDNC7b
-         g3jjB7S7COhraUHuWtlOaXR0UlBpzLL2bWINQ2J4KfkEAXDJXOOk2OggifnX6rcvyHeG
-         nXSybsUY3tIMMztv3/UeobmrRZ0vqFQvg+NAjIoAuQfRago5a4TDxH3y3gIH4MfF24+s
-         PliA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688114513; x=1690706513;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uDd0P6Z6Y37kRPaqqHaNAC3kQrjxk6Pu8HaK2zooeKg=;
-        b=FuVyj5NiuNRmM3K/7+m8a7lWnjOlEd/vL8UfT7OdKd0xVXS1D5sYfgTgDHrFzm1bu2
-         1aSsfOYVfYX/uvbrdH+g9forVvrmHIr3kuX1Lmhrxl8Ew3jKIW7IL/+DrMrWcWimPUKE
-         wCrzl7XOcHRzkwHH+JRiobnAhkDjBoEiKZgrpLV/QO696CuJW/X2SWJentQojS0O+bL1
-         Q+sXTRCHAJqliCZiwQChJM+KPt14J2MYMRSlbYBhG6aab40pQUQE9WfCR7DtNpwJBPYT
-         KjbeLyp/KHNHHBfHBu/ttTqYHRE8ueCQob6KSJN6ZLwb1NHtMoPFCZ0bMaw0RqJYQMQs
-         nODQ==
-X-Gm-Message-State: ABy/qLaH2bgOZIpmvqQV08EHq6VEId0+RS7b+TwnUiNOHXRIHacun7gE
-        UKHyoi/3D5JY1Z+jlfH5ZMQyrA==
-X-Google-Smtp-Source: APBJJlH7485mFBkMkfiINnyjXjrffdesyhHF/v8B35gqPVeTtnbEfcY+mPVgYOVbdZDlPoNQQNysmg==
-X-Received: by 2002:a19:8c19:0:b0:4f1:4cdc:ec03 with SMTP id o25-20020a198c19000000b004f14cdcec03mr1476845lfd.18.1688114513557;
-        Fri, 30 Jun 2023 01:41:53 -0700 (PDT)
-Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id v11-20020adff68b000000b0031424950a99sm649850wrp.81.2023.06.30.01.41.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jun 2023 01:41:53 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v3 10/10] perf: tests: Adapt mmap-basic.c for riscv
-Date:   Fri, 30 Jun 2023 10:30:13 +0200
-Message-Id: <20230630083013.102334-11-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230630083013.102334-1-alexghiti@rivosinc.com>
-References: <20230630083013.102334-1-alexghiti@rivosinc.com>
+        with ESMTP id S232733AbjF3JAh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 05:00:37 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48D1335AF;
+        Fri, 30 Jun 2023 02:00:30 -0700 (PDT)
+Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 551941EC0501;
+        Fri, 30 Jun 2023 11:00:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1688115628;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=hZMHH8pu7rhqnk3PLU2+GsJL8/Mpq9/OnjuGLflZf1w=;
+        b=QsDm3nErQmugfmCsy5k2B4iutiY5SN1hbJPQx5PADcly28eAVUo7k3bDPSeB/oMPyqbtKN
+        C/Gi6kG4WeQBRCvqDFVWxoQTn6GoOkO4oXwzz7ZpwogooOYC9r0bDMk/nuTxOEgA4CgR8n
+        PtqvoVUsH4b5tFEIKnqKKgqAxOlttQg=
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+        header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id NRv18FGgyF0D; Fri, 30 Jun 2023 09:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+        t=1688115625; bh=hZMHH8pu7rhqnk3PLU2+GsJL8/Mpq9/OnjuGLflZf1w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hO3Gq70B0PN0rfcfhEqyeweecEVfEYj9MSX0MXIEMA1j3sPZ9zJs6f3bI+nTAsiW0
+         WffYcGWMtbkenbmMhsVPG4uuAZH87QVfdnjwV59knvOisToZUyK0xvUntdw96dI26k
+         jLPiB4ML/nv/hm4wd2Duow+uO2Ck9OFpvV1kZdQUDUujc60Bt8VccYkbewTTUgR8pp
+         VOEBHc6+24MuvfeFkxaooZqXJdSRSkir46rHX84vgKmWB0PlrhhegjRZDKYD2djZ81
+         +0bGh8imo6hwWpe65UDC6LlOPHRp/9E704NnqTFJmBUqaabZkwZL9S7DXQzJVQNNgK
+         X05V/4Kg95m9clvPS5RtrEcKwAvT9hRiq+tcUmqYBu/aa9BqG1yceorm66W6N1e6Xy
+         aSy9885RuwT5CqKKcubBI5UbkSYh09ACBL/TVn+ykErWemI+bN/oC9lfkpQGOK0Z/K
+         WPWONgMiw+MXoaEccwr1VyXtAX3tb82hkZTvmqnaJAFx0OnW0aMVgdkO0gFQU+qBZH
+         6ojtyxfvsiB2diYJj0d1pXw0ozzLxtkS61C+kakNs+n586lS6EFIYsAyxbH/muT+t4
+         8X+Mxr3+tWpQmMEZGLlw9dfnHAnlhnHTs5EQ7OIImFhjyBcFHoZga7RChany84dhGu
+         JQ65SOdA1y89x4GQndEIKvtQ=
+Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+        (No client certificate requested)
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0845D40E0034;
+        Fri, 30 Jun 2023 09:00:20 +0000 (UTC)
+Date:   Fri, 30 Jun 2023 11:00:14 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tom Lendacky <thomas.lendacky@amd.com>
+Subject: Re: [PATCH] Documentation: embargoed-hardware-issues.rst: clean out
+ empty and unused entries
+Message-ID: <20230630090014.GAZJ6ZnrWJUfPOB53N@fat_crate.local>
+References: <2023062742-mouse-appease-7917@gregkh>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2023062742-mouse-appease-7917@gregkh>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-riscv now supports mmaping hardware counters to userspace so adapt the test
-to run on this architecture.
+On Tue, Jun 27, 2023 at 01:26:43PM +0200, Greg Kroah-Hartman wrote:
+> There are a few empty entries in the company/project list, which
+> confuses people as to why they are there, so remove them entirely, and
+> also remove an entry that doesn't wish to participate in this process.
+> 
+> Cc: Tom Lendacky <thomas.lendacky@amd.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  Documentation/process/embargoed-hardware-issues.rst | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+> index df978127f2d7..81a8fb0862a4 100644
+> --- a/Documentation/process/embargoed-hardware-issues.rst
+> +++ b/Documentation/process/embargoed-hardware-issues.rst
+> @@ -244,7 +244,6 @@ disclosure of a particular issue, unless requested by a response team or by
+>  an involved disclosed party. The current ambassadors list:
+>  
+>    ============= ========================================================
+> -  AMD		Tom Lendacky <thomas.lendacky@amd.com>
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
----
- tools/perf/tests/mmap-basic.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Can we please not remove Tom?
 
-diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.c
-index e68ca6229756..f5075ca774f8 100644
---- a/tools/perf/tests/mmap-basic.c
-+++ b/tools/perf/tests/mmap-basic.c
-@@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] = {
- 			 "permissions"),
- 	TEST_CASE_REASON("User space counter reading of instructions",
- 			 mmap_user_read_instr,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
- 			 "permissions"
- #else
- 			 "unsupported"
-@@ -292,7 +292,7 @@ static struct test_case tests__basic_mmap[] = {
- 		),
- 	TEST_CASE_REASON("User space counter reading of cycles",
- 			 mmap_user_read_cycles,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
- 			 "permissions"
- #else
- 			 "unsupported"
+We are clarifying the process offlist as both Greg and Thomas know and
+AMD is very much interested in participating in and adhering to the
+embargoed process.
+
+Thx.
+
 -- 
-2.39.2
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
