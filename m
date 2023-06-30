@@ -2,79 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1889FEB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 22:14:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4020DEB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 23:33:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230480AbjF3WOw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 18:14:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49574 "EHLO
+        id S229560AbjF3Xdb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 19:33:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232420AbjF3WOv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 18:14:51 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BBAE3C22;
-        Fri, 30 Jun 2023 15:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=bBmF8PoAQEZMJlbfm9Trh4AS+Z1wbpxDhtVNF9ChCns=; b=Tj4EmHA2DdYSG8yLlZQhDVazSm
-        YZ4qyO7cSH+9Vm+yCARCF4qVw6Kx1Ocw/dTKPJnmfX0KJVQg1gzq7RzzT72L0pMOL0wmk7T8N/hwl
-        8cbOFUHFTibFu7IrlK5bVHKC8ime/wckAqPLwFa2BSTRYYcyQh5/BGGGUWWtpCu9xG3McLjnh7csU
-        nHhf+XysQ39d75F5N/BEAuWfwrDHsPCY98nxhAM+09PW2nwZBFCfRMGFPWey25u0kDsQmfb5duz45
-        +iv01UZam/guOSjcezd9gjPslMY6lsCSk6EFdUt/4vu5IuteP0l5PUAkIfiaMlExL8pbT0vXmfS5H
-        AJA9jt9g==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qFMOA-004ezY-04;
-        Fri, 30 Jun 2023 22:14:50 +0000
-Message-ID: <4b9937d8-59b5-5a9a-df72-e7fa33728e41@infradead.org>
-Date:   Fri, 30 Jun 2023 15:14:48 -0700
+        with ESMTP id S229518AbjF3Xda (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 19:33:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE1DB2683;
+        Fri, 30 Jun 2023 16:33:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 28BAA617A2;
+        Fri, 30 Jun 2023 23:33:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B52CC433C8;
+        Fri, 30 Jun 2023 23:33:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688168008;
+        bh=wdXvIBgn1eGmE8h6DFbUHlgk1I7I6DDYfxIPFTNXd3A=;
+        h=Date:From:To:Cc:Subject:Reply-To:From;
+        b=YU7Eg+Ga36QQjMRUaRU8a3Vw337utJjr48orn4ggxTHq2CG+59LHfEQDV9Z9rOanN
+         xsaI2ZtkWvfXaw2tXWqLVQT7gEfAinwl7nMHk/8n/TMYoEY/5G97RoFcTYkKQ4IuJ9
+         a1CD2tmAXeMMQu9aYOmRCihBeU4oQ8xAR//I39toUW1OImgar63fvenF5MxmxurCkm
+         sUI+jw7l34dHH7samaWjC1xskVFgo+EJ7XjyqpHibVQ4Ry2myCXoBv5F7aqsKNhCmP
+         TTAoRTixcHpy5gefgWZjalfUah839YWLhYRnpeN3rsG4N5Gx8m5HWyR7PERoqF9HNn
+         Ydzh72Ua5hIgA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 2AE91CE0DEA; Fri, 30 Jun 2023 16:33:28 -0700 (PDT)
+Date:   Fri, 30 Jun 2023 16:33:28 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     mtk.manpages@gmail.com
+Cc:     mhiramat@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
+        ndesaulniers@google.com, vbabka@suse.cz, hannes@cmpxchg.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] proc.5: Clarify that boot arguments can be embedded in image
+Message-ID: <433d742b-743b-4335-878f-1ca0f45698f7@paulmck-laptop>
+Reply-To: paulmck@kernel.org
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH docs] docs: remove the tips on how to submit patches from
- MAINTAINERS
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, workflows@vger.kernel.org
-References: <20230630171550.128296-1-kuba@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230630171550.128296-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+With the advent of the CONFIG_BOOT_CONFIG Kconfig option, kernel boot
+arguments can now be embedded in the kernel image, either attached
+to the end of initramfs or embedded in the kernel itself.  Document
+this possibility in the /proc/cmdline entry of proc.5.
 
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
 
-On 6/30/23 10:15, Jakub Kicinski wrote:
-> Having "how to submit patches" in MAINTAINTERS seems out of place.
-> We have a whole section of documentation about it, duplication
-> is harmful and a lot of the text looks really out of date.
-> 
-> Sections 1, 2 and 4 look really, really old and not applicable
-> to the modern process.
-> 
-> Section 3 is obvious but also we have build bots now.
-> 
-> Section 5 is a bit outdated (diff -u?!). But I like the part
-> about factoring out shared code, so add that to process docs.
-> 
-> Section 6 is unnecessary?
-> 
-> Section 7 is covered by more appropriate docs.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  Documentation/process/6.Followthrough.rst |  7 ++
->  MAINTAINERS                               | 80 +----------------------
->  2 files changed, 9 insertions(+), 78 deletions(-)
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
--- 
-~Randy
+diff --git a/man5/proc.5 b/man5/proc.5
+index c6684620e..141a2983c 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -3100,6 +3100,9 @@ Often done via a boot manager such as
+ .BR lilo (8)
+ or
+ .BR grub (8).
++Any arguments embedded in the kernel image or initramfs via 
++.B CONFIG_BOOT_CONFIG
++will also be displayed.
+ .TP
+ .IR /proc/config.gz " (since Linux 2.6)"
+ This file exposes the configuration options that were used
