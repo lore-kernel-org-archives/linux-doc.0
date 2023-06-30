@@ -2,106 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B691AEB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 09:00:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB8E3EB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 09:26:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232515AbjF3JAi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 05:00:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53774 "EHLO
+        id S232781AbjF3J0C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 05:26:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232733AbjF3JAh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 05:00:37 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48D1335AF;
-        Fri, 30 Jun 2023 02:00:30 -0700 (PDT)
-Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 551941EC0501;
-        Fri, 30 Jun 2023 11:00:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1688115628;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=hZMHH8pu7rhqnk3PLU2+GsJL8/Mpq9/OnjuGLflZf1w=;
-        b=QsDm3nErQmugfmCsy5k2B4iutiY5SN1hbJPQx5PADcly28eAVUo7k3bDPSeB/oMPyqbtKN
-        C/Gi6kG4WeQBRCvqDFVWxoQTn6GoOkO4oXwzz7ZpwogooOYC9r0bDMk/nuTxOEgA4CgR8n
-        PtqvoVUsH4b5tFEIKnqKKgqAxOlttQg=
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-        header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id NRv18FGgyF0D; Fri, 30 Jun 2023 09:00:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-        t=1688115625; bh=hZMHH8pu7rhqnk3PLU2+GsJL8/Mpq9/OnjuGLflZf1w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hO3Gq70B0PN0rfcfhEqyeweecEVfEYj9MSX0MXIEMA1j3sPZ9zJs6f3bI+nTAsiW0
-         WffYcGWMtbkenbmMhsVPG4uuAZH87QVfdnjwV59knvOisToZUyK0xvUntdw96dI26k
-         jLPiB4ML/nv/hm4wd2Duow+uO2Ck9OFpvV1kZdQUDUujc60Bt8VccYkbewTTUgR8pp
-         VOEBHc6+24MuvfeFkxaooZqXJdSRSkir46rHX84vgKmWB0PlrhhegjRZDKYD2djZ81
-         +0bGh8imo6hwWpe65UDC6LlOPHRp/9E704NnqTFJmBUqaabZkwZL9S7DXQzJVQNNgK
-         X05V/4Kg95m9clvPS5RtrEcKwAvT9hRiq+tcUmqYBu/aa9BqG1yceorm66W6N1e6Xy
-         aSy9885RuwT5CqKKcubBI5UbkSYh09ACBL/TVn+ykErWemI+bN/oC9lfkpQGOK0Z/K
-         WPWONgMiw+MXoaEccwr1VyXtAX3tb82hkZTvmqnaJAFx0OnW0aMVgdkO0gFQU+qBZH
-         6ojtyxfvsiB2diYJj0d1pXw0ozzLxtkS61C+kakNs+n586lS6EFIYsAyxbH/muT+t4
-         8X+Mxr3+tWpQmMEZGLlw9dfnHAnlhnHTs5EQ7OIImFhjyBcFHoZga7RChany84dhGu
-         JQ65SOdA1y89x4GQndEIKvtQ=
-Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-        (No client certificate requested)
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0845D40E0034;
-        Fri, 30 Jun 2023 09:00:20 +0000 (UTC)
-Date:   Fri, 30 Jun 2023 11:00:14 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tom Lendacky <thomas.lendacky@amd.com>
-Subject: Re: [PATCH] Documentation: embargoed-hardware-issues.rst: clean out
- empty and unused entries
-Message-ID: <20230630090014.GAZJ6ZnrWJUfPOB53N@fat_crate.local>
-References: <2023062742-mouse-appease-7917@gregkh>
+        with ESMTP id S232700AbjF3J0A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 05:26:00 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6D62680;
+        Fri, 30 Jun 2023 02:25:59 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-51bece5d935so1992656a12.1;
+        Fri, 30 Jun 2023 02:25:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688117158; x=1690709158;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zQ5a2srxoFiXek9tQGwsUQjYNhzdfJ4/8ulGPIP670A=;
+        b=GOyZ/dMB/Pef4H+8d2viuxbPuaivfGZE1h3LH5ciaBA7lIbBYgmTwlOSaOAPpJmY21
+         zFqVn/AI/v05Cuy5cKu47aNJlK+2/t9mJ/HisYy4Lf8XJ+fWgY9v6XO8qZa4+YQ0mse5
+         vuj5i1byARMQT59AAaurl0nWFJuPwtrANrZlRsBhnv4gPIuw0FdEQukYw7WOsFfcl9CY
+         ErWUzU6t739/rbvzGOTkrpBGqDMksiPk6egMJogplE9dRz/GBml4OSdX+lo9oesL2hGU
+         Maw3WLNtVqz5vj4Clhx9RH+D2Bh5+hrvyY+/v6R+Wt0+Tz5KYRafJpwO6wb+7xscv+fx
+         4YJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688117158; x=1690709158;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zQ5a2srxoFiXek9tQGwsUQjYNhzdfJ4/8ulGPIP670A=;
+        b=CWQCiIF+NOs0+5PINUPMLccKZzaD1k1DLopiIt3WJasT0D/9sw69/tEMg4C1H67ccJ
+         XkmzM5bYdtQAyRjPiqeCe/xxw1/UTPINC0RdCW1xlm/pgk1cXNXVUppE05Lybc1kOnUU
+         9Ef5db344XoV9bIT10fi673Gl0EJ1YDTmIsoMxWCckffy8d+wefMwBuigjB5XZJIQlpI
+         h/5n177sp/HGcJ0x59xOpMkcc7s8p9/XyVROhyud4ZdtecVfyuQgOEQ/Uu50Pe4sxptQ
+         R4XKLeuQJ4vDx8wG3fjtMK4MizaqPpv4iuhxmtW0X0o4pArgZOFM33KleynuRTFbin1m
+         JrTA==
+X-Gm-Message-State: ABy/qLYhoXdPo2925odicaO9wNcCl/niGMkxTNdRbU839cHRA4hFou05
+        JqFY60JHPz0ekxT2faeD38bKBpBLAUkMcVP/N4w=
+X-Google-Smtp-Source: APBJJlHZDcnzgrM/KBAzpI5U/RnXGz1hcEUwDSkYxFa1zNyV+9yHmM+XzpADCCHE8/o4Elsqw9waYh7UG2tuvB7WO1Y=
+X-Received: by 2002:a05:6402:3456:b0:51a:50f2:4e7a with SMTP id
+ l22-20020a056402345600b0051a50f24e7amr1224188edc.13.1688117158223; Fri, 30
+ Jun 2023 02:25:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2023062742-mouse-appease-7917@gregkh>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <1687955688-20809-12-git-send-email-quic_mojha@quicinc.com> <99c98f22-69f7-4a6a-acc9-6a6a6bdb2031@quicinc.com>
+In-Reply-To: <99c98f22-69f7-4a6a-acc9-6a6a6bdb2031@quicinc.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 30 Jun 2023 12:25:22 +0300
+Message-ID: <CAHp75Vd9+YHbExOQwK6bVHD016kB599yxUrj1PYFb__zENDi8g@mail.gmail.com>
+Subject: Re: [PATCH v4 11/21] soc: qcom: Register pstore frontend region with minidump
+To:     Pavan Kondeti <quic_pkondeti@quicinc.com>
+Cc:     Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
+        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 01:26:43PM +0200, Greg Kroah-Hartman wrote:
-> There are a few empty entries in the company/project list, which
-> confuses people as to why they are there, so remove them entirely, and
-> also remove an entry that doesn't wish to participate in this process.
-> 
-> Cc: Tom Lendacky <thomas.lendacky@amd.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  Documentation/process/embargoed-hardware-issues.rst | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-> index df978127f2d7..81a8fb0862a4 100644
-> --- a/Documentation/process/embargoed-hardware-issues.rst
-> +++ b/Documentation/process/embargoed-hardware-issues.rst
-> @@ -244,7 +244,6 @@ disclosure of a particular issue, unless requested by a response team or by
->  an involved disclosed party. The current ambassadors list:
->  
->    ============= ========================================================
-> -  AMD		Tom Lendacky <thomas.lendacky@amd.com>
+On Fri, Jun 30, 2023 at 7:55=E2=80=AFAM Pavan Kondeti <quic_pkondeti@quicin=
+c.com> wrote:
+> On Wed, Jun 28, 2023 at 06:04:38PM +0530, Mukesh Ojha wrote:
 
-Can we please not remove Tom?
+...
 
-We are clarifying the process offlist as both Greg and Thomas know and
-AMD is very much interested in participating in and adhering to the
-embargoed process.
+> > +             scnprintf(name, sizeof(name), "KDMSG%d", i);
 
-Thx.
+Also a side note: here you use the 'c' variant of sprintf(),why bother
+with it if you don't even check the returned value?
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+--=20
+With Best Regards,
+Andy Shevchenko
