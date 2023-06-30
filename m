@@ -2,108 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6254EB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 08:30:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 034DFEB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 08:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231431AbjF3IaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 04:30:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40208 "EHLO
+        id S232578AbjF3Ibz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 04:31:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232588AbjF3I3t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 04:29:49 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8068535A0
-        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 01:29:46 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-272-sTh1UJeJMDO3OsTYjnjZSA-1; Fri, 30 Jun 2023 09:29:43 +0100
-X-MC-Unique: sTh1UJeJMDO3OsTYjnjZSA-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 30 Jun
- 2023 09:29:42 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Fri, 30 Jun 2023 09:29:42 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Evan Green' <evan@rivosinc.com>
-CC:     Jessica Clarke <jrtc27@jrtc27.com>,
-        Palmer Dabbelt <palmer@rivosinc.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Yangyu Chen <cyy@cyyself.name>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Guo Ren <guoren@kernel.org>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Xianting Tian" <xianting.tian@linux.alibaba.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Simon Hosie <shosie@rivosinc.com>,
-        Li Zhengyu <lizhengyu3@huawei.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Anup Patel <apatel@ventanamicro.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Sia Jee Heng <jeeheng.sia@starfivetech.com>,
+        with ESMTP id S232549AbjF3Ibt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 04:31:49 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F55358A
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 01:31:40 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-31409e8c145so1812103f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 01:31:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688113899; x=1690705899;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I7xu9e/8zpZngb/8IehgWdJUCcpoeDVm3vpzs3Qy7mo=;
+        b=H865ZtJHjbuc6MuFVYa6SgB+ccoXiHGJQIfADr+zwMK/j+TvVpF9r811O5KdXbAu5+
+         8rnETbuyrAMsXoADgBZsmqyWAJr2v0SEQYshs1SJYhCXKgyoO6o3PJr4ldpS8G81FyDD
+         5pJH5cSvZ1+TDWcK6vDQAbBn+F15tFvNuOhYAQrzT4I29Y6oNdLKn4cLGQ+ogAC/S4FO
+         VTT6g+Rr36ezXTugl0LhtdCY68hxlgD8P8RQc//MOZj5goxL8G/fFJl97Hi8BBomykLL
+         ifR/3V7HCfdYcA93pumIwoaa/E8SI7eQ7OroZqiDb/jdJyXWhiTW+FiT0P9QtP8R7EOe
+         vpZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688113899; x=1690705899;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I7xu9e/8zpZngb/8IehgWdJUCcpoeDVm3vpzs3Qy7mo=;
+        b=auTlJKRHnmI/S1i//SqbgTOl6ujgIDEt7uZZts6gxrzkB5g1mIkMT0EnZp3Et+YeVJ
+         Kbbi+8aY0/GAlEAb1tbMBnaHRQGxSbw5o1lEoOsu3C8HAGPay32og17dHSZkcTXGUuTk
+         WX43JDXM0l/K/9jbFqLS/Mpd/CRRQNmiQ31/caf7guDqhnhj+uWkSEQpE5v26qc+DXIg
+         ymLmkjF2kRls7oJ/ecPTRNM5Q70k+t2ikXrk20lykyihJ3JcpiQf/0lGjHEZZCRLhZz5
+         83Md+ZYlOri9jCh615miP5QRU8x2tq0hbLsocokWovreQ0g8DanqIIMIJAHPkT2dhtSh
+         vRhw==
+X-Gm-Message-State: ABy/qLY2/hxAz7yl9Ml9Wb7KZ+MCDOJ+7tMKvqXiXZDbnVuTCwS1t8eR
+        PO1uPWsHgO5cATnLSrI1skIdig==
+X-Google-Smtp-Source: APBJJlF2cVmZSXyEpZo5Wr+x3JPdjgQAG++Uz1dQG5lH+T/9n8SPtY5CQ+JHQXWfIJwLUbsOsOGQcg==
+X-Received: by 2002:adf:f60c:0:b0:313:e741:1caa with SMTP id t12-20020adff60c000000b00313e7411caamr1823926wrp.25.1688113898731;
+        Fri, 30 Jun 2023 01:31:38 -0700 (PDT)
+Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id h15-20020a05600004cf00b0030e52d4c1bcsm17976111wri.71.2023.06.30.01.31.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jun 2023 01:31:38 -0700 (PDT)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
-        "Andy Chiu" <andy.chiu@sifive.com>
-Subject: RE: [PATCH 1/2] RISC-V: Probe for unaligned access speed
-Thread-Topic: [PATCH 1/2] RISC-V: Probe for unaligned access speed
-Thread-Index: AQHZqSszK74IXZi1x0Sk5pxi8WFXO6+hr6jwgACq1QCAAKe+MA==
-Date:   Fri, 30 Jun 2023 08:29:42 +0000
-Message-ID: <b9a23f8947014fdbb625d67134ed796d@AcuMS.aculab.com>
-References: <20230623222016.3742145-1-evan@rivosinc.com>
- <20230623222016.3742145-2-evan@rivosinc.com>
- <64F2D853-61E5-49CF-BAB5-AAFB8697683E@jrtc27.com>
- <CALs-HssZG8daTJaRK8JPT0VRk=23CtO6B_5kq4Xa_DdLELjaZw@mail.gmail.com>
- <53dc6959cc8849d6b66676ad48c1376a@AcuMS.aculab.com>
- <CALs-HstgcnK=prSHm9D7bqWc05q52ObA5kozmxzr-euR=CFfKw@mail.gmail.com>
-In-Reply-To: <CALs-HstgcnK=prSHm9D7bqWc05q52ObA5kozmxzr-euR=CFfKw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Atish Patra <atishp@atishpatra.org>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v3 00/10] riscv: Allow userspace to directly access perf counters
+Date:   Fri, 30 Jun 2023 10:30:03 +0200
+Message-Id: <20230630083013.102334-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Li4uDQo+IFllYWgsIG9uZSB0aGluZyBJIGNvdWxkIGRvIGlzIGRpc2FibGUgaW50ZXJydXB0cywg
-bWVhc3VyZSB0aGUgY3ljbGUNCj4gY291bnQgb2YgZG9pbmcgYW4gaW5kaXZpZHVhbCBpdGVyYXRp
-b24sIGRvIHRoaXMgTiB0aW1lcywgYW5kIHRha2UgdGhlDQo+IG1pbmltdW0gdmFsdWUgYXMgdGhl
-IHRpbWUgdG8gY29tcGFyZS4gSW4gdGhlIGVuZCBJJ2xsIHRoZW4gaGF2ZSB0d28NCj4gbnVtYmVy
-cyB0byBjb21wYXJlLCBsaWtlIEkgZG8gaW4gdGhpcyBwYXRjaC4gSW4gdGhlb3J5IHRoZSB2YXJp
-YW5jZSBvbg0KPiB0aGF0IHNob3VsZCBiZSByZWFsbHkgdGlnaHQuIE4gd2lsbCBoYXZlIHRvIGRl
-cGVuZCBvbiB0aGUgb3ZlcmFsbA0KPiBhbW91bnQgb2YgdGltZSBJJ20gdGFraW5nIHNvIGFzIG5v
-dCB0byBzaHV0IGludGVycnVwdHMgb2ZmIGZvciB2ZXJ5DQo+IGxvbmcuIExldCBtZSBleHBlcmlt
-ZW50IHdpdGggdGhpcyBhbmQgc2VlIGhvdyB0aGUgcmVzdWx0cyBsb29rLg0KPiAtRXZhbg0KDQpJ
-IGRvdWJ0IHlvdSdsbCBuZWVkIG1hbnkgaXRlcmF0aW9ucyBvciBhIGxvbmcgdGVzdC4NCg0KWW91
-IGNhbiBkbyB0ZXN0cyBpbiB1c2Vyc3BhY2Ugd2l0aG91dCBkaXNhYmxpbmcgcHJlLWVtcHRpb24N
-Cm9yIGludGVycnVwdHMgLSB0aGUgbGFyZ2Uvc2lsbHkgdmFsdWVzIHRoZXkgZ2VuZXJhdGUgYXJl
-DQplYXNpbHkgaWdub3JlZC4NCg0KSSBzdXNwZWN0IHlvdSdsbCBnZXQgZW5vdWdoIGluZm8gZnJv
-bSBzb21ldGhpbmcgbGlrZToNCgl1bnNpZ25lZCBsb25nIHhbMl07DQoJdm9sYXRpbGUgdW5zaWdu
-ZWQgbG9uZyAqcCA9ICh2b2lkICopKCh1bnNpZ25lZCBjaGFyICopeCArIDEpOw0KCWZ1bGxfY3B1
-X2JhcnJpZXIoKQ0KCXN0YXJ0ID0gcmR0c2MoKTsNCglmdWxsX2NwdV9iYXJyaWVyKCk7DQoJKnA7
-ICpwOyAqcDsgKnA7ICpwOyAqcDsgKnA7ICpwOw0KCSpwOyAqcDsgKnA7ICpwOyAqcDsgKnA7ICpw
-OyAqcDsNCglmdWxsX2NwdV9iYXJyaWVyKCkNCgllbGFwc2VkID0gcmR0c2MoKSAtIHN0YXJ0Ow0K
-T25jZSB0aGUgaS1jYWNoZSBpcyBsb2FkZWQgaXQgc2hvdWxkIGJlIHByZXR0eSBjb25zdGFudC4N
-CkZvciBhbGlnbmVkIGFkZHJlc3NlcyBJJ2QgZXhwZWN0IGVhY2ggZXh0cmEgJypwJyB0byBiZQ0K
-b25lIG1vcmUgY2xvY2suDQpXaXRoIGhhcmR3YXJlIHN1cHBvcnQgZm9yIG1pc2FsaWduZWQgdHJh
-bnNmZXJzIGF0IG1vc3QNCjIgY2xvY2tzICh0ZXN0IG9uIHg4NiBhbmQgaXQgd2lsbCBiZSAxIGNs
-b2NrKS4NClRoZSBlbXVsYXRlZCB2ZXJzaW9uIHdpbGwgYmUgMTAwcyBvciAxMDAwcy4NCgkNCkkn
-bSBub3Qgc3VyZSBob3cgbXVjaCBvZiBhIGNwdSBiYXJyaWVyIHlvdSBuZWVkLg0KRGVmaW5pdGVs
-eSBuZWVkcyB0byB3YWl0IGZvciBhbGwgbWVtb3J5IGFjY2Vzc2VzDQphbmQgdGhlIHJkdHNjKCku
-DQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9h
-ZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBO
-bzogMTM5NzM4NiAoV2FsZXMpDQo=
+riscv used to allow direct access to cycle/time/instret counters,
+bypassing the perf framework, this patchset intends to allow the user to
+mmap any counter when accessed through perf. But we can't break the
+existing behaviour so we introduce a sysctl perf_user_access like arm64
+does, which defaults to the legacy mode described above.
+
+This version needs openSBI v1.3 *and* a fix that went upstream lately
+(https://lore.kernel.org/lkml/20230616114831.3186980-1-maz@kernel.org/T/).
+
+**Important**: In this version, the default mode is now user access, not
+the legacy so some applications will break.
+
+base-commit-tag: v6.4-rc6
+
+Changes in v3:
+v3:
+- patch 1 now contains the ref to the faulty commit (no Fixes tag as it is only a comment), as Andrew suggested
+- Removed RISCV_PMU_LEGACY_TIME from patch 3, as Andrew suggested
+- Rename RISCV_PMU_PDEV_NAME to "riscv-pmu-sbi", patch4 is just cosmetic now, as Andrew suggested
+- Removed a few useless (and wrong) comments, as Andrew suggested
+- Simplify arch_perf_update_userpage code, as Andrew suggested
+- Documentation now mentions that time CSR is *always* accessible, whatever the mode, as suggested by Andrew
+- Removed CYCLEH reference and add TODO for rv32 support, as suggested by Atish
+- Do not rename the pmu instance as Atish suggested
+- Set pmc_width only if rdpmc is enabled and CONFIG_RISCV_PMU is set and the event is a hw event
+- Move arch_perf_update_userpage https://lore.kernel.org/lkml/20230616114831.3186980-1-maz@kernel.org/T/
+- **Switch to user mode access by default**
+
+Changes in v2:
+- Split into smaller patches, way better!
+- Add RB from Conor
+- Simplify the way we checked riscv architecture
+- Fix race mmap and other thread running on other cpus
+- Use hwc when available
+- Set all userspace access flags in event_init, too cumbersome to handle sysctl changes
+- Fix arch_perf_update_userpage for pmu other than riscv-pmu by renaming pmu driver
+- Fixed kernel test robot build error
+- Fixed documentation (Andrew and Bagas)
+- perf testsuite passes mmap tests in all 3 modes
+
+Alexandre Ghiti (10):
+  perf: Fix wrong comment about default event_idx
+  include: riscv: Fix wrong include guard in riscv_pmu.h
+  riscv: Make legacy counter enum match the HW numbering
+  drivers: perf: Rename riscv pmu sbi driver
+  riscv: Prepare for user-space perf event mmap support
+  drivers: perf: Implement perf event mmap support in the legacy backend
+  drivers: perf: Implement perf event mmap support in the SBI backend
+  Documentation: admin-guide: Add riscv sysctl_perf_user_access
+  tools: lib: perf: Implement riscv mmap support
+  perf: tests: Adapt mmap-basic.c for riscv
+
+ Documentation/admin-guide/sysctl/kernel.rst |  26 ++-
+ drivers/perf/riscv_pmu.c                    | 113 +++++++++++
+ drivers/perf/riscv_pmu_legacy.c             |  28 ++-
+ drivers/perf/riscv_pmu_sbi.c                | 196 +++++++++++++++++++-
+ include/linux/perf/riscv_pmu.h              |  12 +-
+ include/linux/perf_event.h                  |   3 +-
+ tools/lib/perf/mmap.c                       |  65 +++++++
+ tools/perf/tests/mmap-basic.c               |   4 +-
+ 8 files changed, 427 insertions(+), 20 deletions(-)
+
+-- 
+2.39.2
 
