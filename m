@@ -2,108 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB88C001B0
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 14:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6E4CEB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 15:04:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232828AbjF3O7K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 10:59:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54958 "EHLO
+        id S232588AbjF3PEk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 11:04:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232823AbjF3O7J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 10:59:09 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C427F35AF;
-        Fri, 30 Jun 2023 07:59:07 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35UB5F8N004978;
-        Fri, 30 Jun 2023 14:58:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=O+7N+RpWhjjER73lgAnJg3/KuwNUZLf32hCpl/lcCjg=;
- b=CsYVivMP5Nj7p2YiMGPoPcpkczwwmtjqXGhlvznK+KxysAZYAX5ghlNf//DJKf/RZlRp
- iyluJhYakWVZuVKnaOyz2SZvIe3vycn8qsX2zaubzeO+TiH5IeLgUGueEa5K7niuZEnc
- woSN5ejP7VOyrMBNCz38bTkmy6zdecZqyZ1rvlVOhh3abJXSEOEz2XfdyyYnAZPuTD3g
- udxyTIuMWecivD6gPEsyBoMIUBNBWPDH7H5NtEWc+Ms9et5ibstDFivVezFJ/tSLElHr
- UaEK175lmIwJc8d79jM9ogKclzSfib6IMMdNeNrAfON3U4NCNNvcUwKKbIuRWS9KOFZY Bw== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rhfewa7qs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jun 2023 14:58:47 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35UEwlbS007764
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Jun 2023 14:58:47 GMT
-Received: from [10.216.37.216] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 30 Jun
- 2023 07:58:37 -0700
-Message-ID: <69f8c351-9654-2b4b-b95c-cd1b26b28057@quicinc.com>
-Date:   Fri, 30 Jun 2023 20:28:33 +0530
+        with ESMTP id S230308AbjF3PEh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 11:04:37 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AFFB171E
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 08:04:36 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-992f6d7c7fbso57126366b.3
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 08:04:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688137475; x=1690729475;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/dVLLykZP6WKd+6flq1FWTnG0laFtJyV7E0+T2ohxVg=;
+        b=kIrWa0+hYI0FcC7ix0CNBMKmB9xK1fMznCXnzKSiJhDYobHbnTleEgtCTDTgs2VF4W
+         mntb35Y8yrLec+xWh8vra3xEesOGbTJtgFXqK1I6blcOohIwFGe96uvZhFnK2vRjfP4p
+         PfVt+XRvTDrS08UocxGk8VEg3daMPR+nwkLLD7f4uGV1pf4IARO0O3bZdAvmM3U/wufV
+         o+I8dQFv6tiycn97AWClfzTwc1rWUa19dBiVIV2JheREI1kuVHNPmzCaFuCW64N1ltKq
+         11AgB6GfhRO/EOCVacZF+B9BOLeoO0RHrv1jOrUcxTJ+E0c8xk4FpTG9wc6eb8pnUhlH
+         8hRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688137475; x=1690729475;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/dVLLykZP6WKd+6flq1FWTnG0laFtJyV7E0+T2ohxVg=;
+        b=O/DOvGMzyAJ3pxfmYxI6V3KhkwL4L7LRWTGCJEwzDptUt74zIhu2FyDPquo8xk8Onw
+         B4AgYZskX1AH59r8ziCsh6sLaNgxUAgjv/lxLMLrmVrWNNmPzGC6ZmhxU/eBJLKDK0pF
+         bOkhTuyD64xD6lLoOp4Vtp27dURke9GslFA5YH2+Z+PSEc20XoFuZt2j93IH/0udKi+G
+         zxNJuOZm+/wAFTe8dDH6MQRULPfuf39jT6o3YjLD0BTK3BG9bcXSmLyHBw4B5ouN6B0a
+         S0tuKHtzaudBJMksvlhqAKJpdiT2aRnsG9gHDGhKjv7LhqC3+0v2afktfTTTGRu5zwCY
+         46mA==
+X-Gm-Message-State: ABy/qLaJddQXXZ2XEKzXAZpfsMJ8V+eLVLx448kdop2eVp/CwRIYBocG
+        8nX2F0LybI0AwBI/ab5ryQaya903w1aoS63yE4Cxpg==
+X-Google-Smtp-Source: APBJJlG9kOTBWqQJF3GG7lr98IJMS+YWNbQoJhPlnRsvrOFTNxORvcHSK3F7P7JfUN97vIcVVrfwUKYL4FjGrasKsDU=
+X-Received: by 2002:a17:906:3453:b0:98d:cd3e:c193 with SMTP id
+ d19-20020a170906345300b0098dcd3ec193mr1979573ejb.46.1688137474742; Fri, 30
+ Jun 2023 08:04:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 18/21] pinctrl: qcom: Use qcom_scm_io_update_field()
-Content-Language: en-US
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <robh+dt@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <keescook@chromium.org>, <tony.luck@intel.com>,
-        <gpiccoli@igalia.com>, <mathieu.poirier@linaro.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linus.walleij@linaro.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <1687955688-20809-19-git-send-email-quic_mojha@quicinc.com>
- <CAHp75VcUgC+TATXp2c+VCNbfYTPYANrAcYftYqLsj+wg+e=12A@mail.gmail.com>
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <CAHp75VcUgC+TATXp2c+VCNbfYTPYANrAcYftYqLsj+wg+e=12A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: NDy_K3d84hReuGKT4_iTMuOBUX4jA1ys
-X-Proofpoint-GUID: NDy_K3d84hReuGKT4_iTMuOBUX4jA1ys
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-30_05,2023-06-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
- clxscore=1015 spamscore=0 mlxlogscore=877 adultscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306300126
+References: <20230629132711.1712536-1-matteorizzo@google.com>
+ <20230629132711.1712536-2-matteorizzo@google.com> <87bkgyt8sq.fsf@suse.de>
+In-Reply-To: <87bkgyt8sq.fsf@suse.de>
+From:   Matteo Rizzo <matteorizzo@google.com>
+Date:   Fri, 30 Jun 2023 17:04:23 +0200
+Message-ID: <CAHKB1w+DgbZYNL83XFUCPuPvvP6YdgjAZqPc_uG_eHAj71a=6Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] Add a new sysctl to disable io_uring system-wide
+To:     Gabriel Krisman Bertazi <krisman@suse.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        io-uring@vger.kernel.org, jordyzomer@google.com, evn@google.com,
+        poprdi@google.com, corbet@lwn.net, axboe@kernel.dk,
+        asml.silence@gmail.com, akpm@linux-foundation.org,
+        keescook@chromium.org, rostedt@goodmis.org,
+        dave.hansen@linux.intel.com, ribalda@chromium.org,
+        chenhuacai@kernel.org, steve@sk2.org, gpiccoli@igalia.com,
+        ldufour@linux.ibm.com, bhe@redhat.com, oleksandr@natalenko.name,
+        Bart Van Assche <bvanassche@acm.org>, jmoyer@redhat.com,
+        Jann Horn <jannh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for your time and suggestion.
+On Thu, 29 Jun 2023 at 20:36, Gabriel Krisman Bertazi <krisman@suse.de> wrote:
+>
+> Thanks for adding the extra level for root-only rings.
+>
+> The patch looks good to me.
+>
+> Reviewed-by: Gabriel Krisman Bertazi <krisman@suse.de>
 
-On 6/28/2023 7:14 PM, Andy Shevchenko wrote:
-> On Wed, Jun 28, 2023 at 3:37 PM Mukesh Ojha <quic_mojha@quicinc.com> wrote:
->>
->> Use qcom_scm_io_update_field() exported function introduced
->> in last commit.
-> 
-> the last
-> 
-> But what is that? Be more specific.
-> 
-> ...
-> 
->> +       mask = (GENMASK(2, 0) << g->intr_target_bit);
-> 
-> Outer parentheses are not needed.
+Thanks everyone for the reviews! Unfortunately I forgot the subsystem name
+in the commit message. Jann also pointed out to me internally that the
+check in io_uring_allowed could race with another process that is trying to
+change the sysctl. I will send a v3 that fixes both issues.
 
-Will apply the changes.
-
--Mukesh
-
-> 
+Thanks,
+--
+Matteo
