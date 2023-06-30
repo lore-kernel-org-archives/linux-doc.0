@@ -2,91 +2,160 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C13FEB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 07:22:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 631F6EB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 08:03:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbjF3HWC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 03:22:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48452 "EHLO
+        id S232094AbjF3IDA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 04:03:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbjF3HV7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 03:21:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CF91737;
-        Fri, 30 Jun 2023 00:21:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S230308AbjF3IC7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 04:02:59 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 967E42D70;
+        Fri, 30 Jun 2023 01:02:57 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C36D1616E3;
-        Fri, 30 Jun 2023 07:21:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A24B0C433C0;
-        Fri, 30 Jun 2023 07:21:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1688109717;
-        bh=BDmWeEiyVyhxO4weCChminjG1iwLGB4gkzlpA3fDucw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ro8cibij/8i00PC+hOje/CTUUrjN3z3u3p0ROrgVjOyKMTDntZK8Yek4OmjRyDDet
-         /B6t+RA1bpLjpmGgUnqyh3smkbpxi01Y+NpezwcTxHDWzfgsouNajhdXmScre6N1Kk
-         pNbYFk1lj+pEcramVH47Fbkr7aAI7Ua1A+yVCS94=
-Date:   Fri, 30 Jun 2023 09:21:54 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
-        workflows@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
- handling
-Message-ID: <2023063030-onshore-ambiance-887c@gregkh>
-References: <2023063020-throat-pantyhose-f110@gregkh>
- <2023063022-retouch-kerosene-7e4a@gregkh>
+        (Authenticated sender: bbrezillon)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id EA0A66606FDE;
+        Fri, 30 Jun 2023 09:02:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1688112175;
+        bh=AZ8TNuVM1gieOIi8tQeOA/DmOnzpPZU4mn9mx4MyD4Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=oDlrCeuTgLPl2QzJpS1vsno/RMHtI/H/HL1oScNeYUexrIbQm8ibBk8hwib4S7p7O
+         //xJ1qfGJ6x8hRs9SawXTDJ+8QmISHpyUGxYpLXJOPIteRcM5AYBcnuiZDuY+sCkzb
+         V9M15Lurltg9sEVYGaodChSzoFoKxO7Fr5eC6nK15snuNppKxwAxgprehJVA6pTZ/c
+         IilIoHqUZU5/rvSAQt3NWZwNobOTxLik9Ht7cqOfd13bFIjzY0GW6kQgxXZAN8tNmd
+         zFaX8bwAUoWJ/LZcBBWeHbWG+8IjHuriFjqN8pugoot4ntvBgodJuw2DvJzXhDIZ/k
+         rXBQr+yfL9h7A==
+Date:   Fri, 30 Jun 2023 10:02:52 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Danilo Krummrich <dakr@redhat.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Donald Robson <donald.robson@imgtec.com>,
+        Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH drm-next v6 02/13] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <20230630100252.7ff6421d@collabora.com>
+In-Reply-To: <20230629222651.3196-3-dakr@redhat.com>
+References: <20230629222651.3196-1-dakr@redhat.com>
+        <20230629222651.3196-3-dakr@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023063022-retouch-kerosene-7e4a@gregkh>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 09:14:21AM +0200, Greg Kroah-Hartman wrote:
-> The kernel security team does NOT assign CVEs, so document that properly
-> and provide the "if you want one, ask MITRE for it" response that we
-> give on a weekly basis in the document, so we don't have to constantly
-> say it to everyone who asks.
-> 
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  Documentation/process/security-bugs.rst | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-> index f12ac2316ce7..8b80e1eb7d79 100644
-> --- a/Documentation/process/security-bugs.rst
-> +++ b/Documentation/process/security-bugs.rst
-> @@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
->  CVE assignment
->  --------------
->  
-> -The security team does not normally assign CVEs, nor do we require them
-> -for reports or fixes, as this can needlessly complicate the process and
-> -may delay the bug handling. If a reporter wishes to have a CVE identifier
-> -assigned ahead of public disclosure, they will need to contact the private
-> -linux-distros list, described above. When such a CVE identifier is known
-> -before a patch is provided, it is desirable to mention it in the commit
-> -message if the reporter agrees.
-> +The security team does not assign CVEs, nor do we require them for
-> +reports or fixes, as this can needlessly complicate the process and may
-> +delay the bug handling.  If a reporter wishes to have a CVE identifier
-> +assigned, they should contact MITRE directly.
->  
->  Non-disclosure agreements
->  -------------------------
-> -- 
-> 2.41.0
-> 
+Hi Danilo,
 
-If there are no objections to these, I'll take them in my tree after
-6.5-rc1 is out to make it simpler.
+On Fri, 30 Jun 2023 00:25:18 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-thanks,
+> + *	int driver_gpuva_remap(struct drm_gpuva_op *op, void *__ctx)
+> + *	{
+> + *		struct driver_context *ctx = __ctx;
+> + *
+> + *		drm_gpuva_remap(ctx->prev_va, ctx->next_va, &op->remap);
+> + *
+> + *		drm_gpuva_unlink(op->remap.unmap->va);
+> + *		kfree(op->remap.unmap->va);
+> + *
+> + *		if (op->remap.prev) {
+> + *			drm_gpuva_link(ctx->prev_va);
 
-greg k-h
+I ended up switching to dma_resv-based locking for the GEMs and I
+wonder what the locking is supposed to look like in the async-mapping
+case, where we insert/remove the VA nodes in the drm_sched::run_job()
+path.
+
+What I have right now is something like:
+
+	dma_resv_lock(vm->resv);
+
+	// split done in drm_gpuva_sm_map(), each iteration
+	// of the loop is a call to the driver ->[re,un]map()
+	// hook
+	for_each_sub_op() {
+		
+		// Private BOs have their resv field pointing to the
+		// VM resv and we take the VM resv lock before calling
+		// drm_gpuva_sm_map()
+		if (vm->resv != gem->resv)
+			dma_resv_lock(gem->resv);
+
+		drm_gpuva_[un]link(va);
+		gem_[un]pin(gem);
+
+		if (vm->resv != gem->resv)
+			dma_resv_unlock(gem->resv);
+	}
+
+	dma_resv_unlock(vm->resv);
+
+In practice, I don't expect things to deadlock, because the VM resv is
+not supposed to be taken outside the VM context and the locking order
+is always the same (VM lock first, and then each shared BO
+taken/released independently), but I'm not super thrilled by this
+nested lock, and I'm wondering if we shouldn't have a pass collecting
+locks in a drm_exec context first, and then have
+the operations executed. IOW, something like that:
+
+	drm_exec_init(exec, DRM_EXEC_IGNORE_DUPLICATES)
+	drm_exec_until_all_locked(exec) {
+		// Dummy GEM is the dummy GEM object I use to make the VM
+		// participate in the locking without having to teach
+		// drm_exec how to deal with raw dma_resv objects.
+		ret = drm_exec_lock_obj(exec, vm->dummy_gem);
+		drm_exec_retry_on_contention(exec);
+		if (ret)
+			return ret;
+
+		// Could take the form of drm_gpuva_sm_[un]map_acquire_locks()
+		// helpers
+		for_each_sub_op() {
+			ret = drm_exec_lock_obj(exec, gem);
+			if (ret)
+				return ret;
+		}
+	}
+
+	// each iteration of the loop is a call to the driver
+	// ->[re,un]map() hook
+	for_each_sub_op() {
+		...
+		gem_[un]pin_locked(gem);
+		drm_gpuva_[un]link(va);
+		...
+	}
+
+	drm_exec_fini(exec);
+
+Don't know if I got this right, or if I'm just confused again by how
+the drm_gpuva API is supposed to be used.
+
+Regards,
+
+Boris
+
+> + *			ctx->prev_va = NULL;
+> + *		}
+> + *
+> + *		if (op->remap.next) {
+> + *			drm_gpuva_link(ctx->next_va);
+> + *			ctx->next_va = NULL;
+> + *		}
+> + *
+> + *		return 0;
+> + *	}
