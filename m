@@ -2,165 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB2D0EB64D7
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 12:37:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ABC9EB64D7
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Jun 2023 13:50:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231794AbjF3Mhc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 08:37:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34650 "EHLO
+        id S231617AbjF3NuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Jun 2023 09:50:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230506AbjF3Mhb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 08:37:31 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2073.outbound.protection.outlook.com [40.107.223.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 281501B4;
-        Fri, 30 Jun 2023 05:37:29 -0700 (PDT)
+        with ESMTP id S229522AbjF3NuS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 09:50:18 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2133.outbound.protection.outlook.com [40.107.94.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA94F30C5;
+        Fri, 30 Jun 2023 06:50:17 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bt245ibCfjZqVop8VQNlf2yxYf/vplLGuYeM+hMxt5a1V1UFkxBSfZGzNdBtBbmVf95ssURSK2YkLOgTjkpDxt+nh5mPTMaq83jDm/ZrxMc3djpSF0Q43sgJKpsOWlC3L8cvpuLOGzR5Yv9j9nAhHLN2PlLX3l7GTvlLL0p0vcSkbPimkUU+AAycz8Q4WW5mK1yl9WL7kvehn0+cCamH7b2wA+pDkYZ9K9lat914bJNsV7iMRRcIHxjpClTdWid/4GiW5y4g483jdDU+hOr6FqOhZwgUoEcrmlY+3BDaHl6Q7SOjN4S8Yq1KLoTfAF3xxMjwXoJfMEv4TjpMmmpqFw==
+ b=hx+kzsZNHJTMgUBGoFVO3aG0clNYSJru+RMzvPLBS1vq5OAKwPzZyFNZPJGqVWfIBFGnu0DdnRH7hgXPvMsEuhEusp268d05iYqF8I4F87nfcveWpZ4WckYHQJoqgxlnq419s9RR5EEgjRPy9n5heMBvHR8RJVHhEsasmEZDZMMMI92y3Tyi4PbIEZFf9M163oqdLv+5HHcSrFzTWm7Umz3SfrAl/pt8+OktbvZorrPR9hwxHIkHu01xN2dedUREPDsnb6mabpv93smuNXO2G+j4h2rjdm5KYFdLA0u487KtjTRRFfmcv8xu/OAOEYCHDk6UO5zvZyxD8eBmotRpAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fvU+4emVaOWoXWU/Y5gen1tfKdOurL2XUOUgchr6ZYY=;
- b=oEVI1moCp8w0w5O2VYt5Pze5hz11coe3Xdytl4zDR8m2cFQ0g4Kk3ggg7hkJI6j+i/yAHURGGKmFnN1M59HeLm2YMVnzJ+GF0bWwBFsHwbwUxR6/TD4Jy9EGpnrsHwwZAUa1ufb/dWMQrjP5976vuyLh7jYKte/LKeTTrTZx/A3Xua6/PY2i8MIggp7y+Cpc+cvzEaojvfg82PONoi1YwcUK6cCGA9CGIvPogwy+3C5cmOZbZhEcBleHA4XMpEjtQgaX1xJMqvZdubhHJjZ+sv7OU0WoFxDN7EZdIm112LT6HqUf2cOFb9lhmOVymuCyULb7Z351kONx+qFgGatprQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=Am4wSfgaSMibiFBpj4ClLlfhlxQ3cK4gIn7w+f5wx3M=;
+ b=McnrfrMK+M7Ixt0haC4faD+My/KpM2sK+EXGRENMldXyd2+enq2LJ2Jb8SNLXdaKmQUCLEeYiyOp6X/v7tPE5hRSmdMGn8cRPHva3FDqM3yBbGHmH9OkJClOApupQ+eHIkQcipoPu3IhyqRzUojyVzEhF83vYWlGAXVWMPFpHKRrBf5kTsaPb/f+DfTOMvjh/OcF2t+wX51EAquzr1xRzBGLHE6iGjnasu0uC9FlmglZMWr6aPENSaJtRyWnfEHziVO1yWmtEX4SJZjfgFq0mtC2ga9cN/u3f9DXQG3vrHTH34z+BKkF2N/1RAt+vVPI54V6fffTlFo1aEQGihYpiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fvU+4emVaOWoXWU/Y5gen1tfKdOurL2XUOUgchr6ZYY=;
- b=cuWXpxBd/6m0DlzfDFt3R8Q/BwvXs/XyqKhfmfcU3k58SCkFLhU2dNICXEHbJs+nMIudQWPwaJkM4pBfJ9fLSzS5atKDXIDLX7kJqP/t9YFQZR6C8RECOExKQpqq/A48taMlGvMOoCEUIMHlmqtSBngMa8mjHff0LEN7AMxfS6g=
-Received: from BN8PR03CA0030.namprd03.prod.outlook.com (2603:10b6:408:94::43)
- by PH7PR12MB7187.namprd12.prod.outlook.com (2603:10b6:510:203::22) with
+ bh=Am4wSfgaSMibiFBpj4ClLlfhlxQ3cK4gIn7w+f5wx3M=;
+ b=QaNZRLadMofefdwmvWrqsqD2l5VsCcLhqG0eWuiecq/UVwfxdNHT9GFa6/pG1iBq2HuzRZ2xUsJ46cpiiYuT15zf05eIBAtf/Foj7c+BmnGXuVoNKhVJwNJs1eG2eN3hy/X/O8s7zlYOBBiAvaZofwMehWiKLTQjMXK9M2nP1Nc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by SA1PR13MB4928.namprd13.prod.outlook.com (2603:10b6:806:1a8::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Fri, 30 Jun
- 2023 12:37:26 +0000
-Received: from BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:94:cafe::3b) by BN8PR03CA0030.outlook.office365.com
- (2603:10b6:408:94::43) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.22 via Frontend
- Transport; Fri, 30 Jun 2023 12:37:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT016.mail.protection.outlook.com (10.13.176.97) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6500.49 via Frontend Transport; Fri, 30 Jun 2023 12:37:24 +0000
-Received: from SITE-L-T34-2.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 30 Jun
- 2023 07:37:23 -0500
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     <ray.huang@amd.com>, <rafael@kernel.org>
-CC:     <linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Wyes Karny <wyes.karny@amd.com>,
-        Perry Yuan <perry.yuan@amd.com>
-Subject: [PATCH] cpufreq: amd-pstate: Add sysfs file for base frequency
-Date:   Thu, 29 Jun 2023 08:54:54 -0500
-Message-ID: <20230629135454.177421-1-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.34.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.19; Fri, 30 Jun
+ 2023 13:50:15 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::eb8f:e482:76e0:fe6e]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::eb8f:e482:76e0:fe6e%5]) with mapi id 15.20.6544.019; Fri, 30 Jun 2023
+ 13:50:15 +0000
+Date:   Fri, 30 Jun 2023 15:50:09 +0200
+From:   Simon Horman <simon.horman@corigine.com>
+To:     Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, andersson@kernel.org,
+        quic_jhugo@quicinc.com, Sean Tranchetti <quic_stranche@quicinc.com>
+Subject: Re: [PATCH net v2] docs: networking: Update codeaurora references
+ for rmnet
+Message-ID: <ZJ7dkT6UpVmNR/vC@corigine.com>
+References: <1688108686-16363-1-git-send-email-quic_subashab@quicinc.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1688108686-16363-1-git-send-email-quic_subashab@quicinc.com>
+X-ClientProxiedBy: AS4P190CA0047.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:656::11) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT016:EE_|PH7PR12MB7187:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7a3fc03-5868-4ba4-411d-08db7966c1e8
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|SA1PR13MB4928:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3fe11a3a-e98b-4b5c-3204-08db7970eed3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HLYF5Mu2mlXM3IA/uVSV/sySXKywfTgnek9V4goeaf6r9GBt3jNGuIGRbMig2GP5ulnLuktHs9lJo368pd5VxU3TrMXtFAUHlpjrUksiG4iLa2JIwCxT0sme2/OvMVI5zawCGTTD1jSXW+oUslvD1BolTLQIiJF8HWpNue6rmsJAO6R9yLj4uapFurQKaTqX/K84+DZeq7C0y+tcbgaq8pHejj3Kl6m9sR/5PGLs8me4LYAE50E9b8mZZt3o1yRGLjnHIkHhxD/+O1BUSxj8afXzUjRoGji5LY8CZ5MC8hfl9nxYvBTNF1vwuL2dCCeUl+5Ys/dMQL8TzI28kOyl1y/1oLjTi7l1lZehFJ16KY4x7KpqGYJyqAkjLIYs4Rdwl0ljdQ9RuwytIOgT96zawc1CGy4/3BLoy3VIiLMytpje09ETN9H6nVr9q72U79bjv5ODoezOWFtx09hVO5QzMbpFo7oulX6Wgih500JtEExGq58Wz46Mi8eppI9GL+fSl1rV5jvCte+WbOsKFJLnbDLTJLtkwgq7uxJPpjBzTJ6A2ySVbM0uPgfmv5HnOvG8cxjggNi4z/UNSG4ChXBYV2uRNtEjvtKfHN6D0UFVB2eLDhglyS8vaDfHOjNo6PlCHPnBdG97+Iklc8zdVkGHIud9rLywXdANNZNnprWFUSNbaIng+HS2SqTlcpETAfMO+QyMjfPa3v9geeAzvxv5vMregPO538IGt9fQhV1l8ZIUAwKsYZeq+fDaWouGS4s2XYSVmxRxJjt6DPkA+I/p1dRRMoZllrhGyiwZckLowss=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(136003)(346002)(39860400002)(451199021)(36840700001)(46966006)(40470700004)(82310400005)(1076003)(36860700001)(36756003)(5660300002)(44832011)(356005)(86362001)(47076005)(41300700001)(8676002)(316002)(81166007)(4326008)(70586007)(8936002)(40480700001)(82740400003)(40460700003)(70206006)(2906002)(478600001)(186003)(26005)(16526019)(2616005)(7696005)(336012)(6666004)(426003)(83380400001)(110136005)(54906003)(2101003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2023 12:37:24.9437
+X-Microsoft-Antispam-Message-Info: QAeUHZuAPmB6TcxmrSwwShh+spjfFAS9hnWFxuMTIwOxauX7CUG2s8RF0/MfGtQo5W1Q1Xs1h61pl0htEX9laAYGP+ZN/m5bI0SGps93RT0nhcEjm8ireIUboWv+F4uLTRjU7okar5PwckguVSYa6X5FptCompHCPuS5qeCbINxZCAaedDGmkgP73eDltn1CCTmbz0CHdMHZgwdvWwfBmxnL42LgVQQ/fJAstNiTTWZ/vEOSe6nhZdDyHyZt2msWjebPTADtvPbXLjIAfRyfEff//pzozw2X0gTEfzj8cQm5HN4xV0r3IH6qPJY5JAzdMC7gZ4ewp9Zz2nB+tchfRXSilX2iDwyqC744Qr1iz34WPE9TEd25B4EbFjc0zrr7XS9tRpSwsILNXwzAk6vqYwcnrr0XDZWmHnj73d9tUmuY4Vdt/gUfPdaj3i5p5Cgvp6bhmaucfLHzelOqkjjYcjbb3E1/bgCKnLVQRTdLfFlQGBFgaPttKybqBIaumtqFuhVibgdg3ocNmBictj8m7pHySA8m5FmCKpRLz0ZyigEScuXhlzlZVDRbwYLk6RXWWj9Q8STKMPD4QrZdrV4Sr9DZ0+xVP653hgc4tIC7tsI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(366004)(39840400004)(136003)(451199021)(86362001)(8936002)(8676002)(5660300002)(7416002)(6506007)(44832011)(6486002)(478600001)(66946007)(66556008)(66476007)(6916009)(4326008)(6512007)(41300700001)(316002)(6666004)(186003)(2616005)(2906002)(4744005)(83380400001)(36756003)(38100700002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FHLxizUK6ZKHCbiXXiOy7UBvWLuthTni4vw1QW8J3ptAhxoqRoceNho6jCtU?=
+ =?us-ascii?Q?Ygwpd+yAXPN1NUeZqMJF5c36JMi7twFMqzvvxjsTP1qq4ilSg6zGUn6ZEAiV?=
+ =?us-ascii?Q?AvkYl2BD2Uc/9bsIgu5Cot5K6iMt39EM/9m+F2wOpAD5QX3sl6nOiKLumWFB?=
+ =?us-ascii?Q?qat6ldcOgJ904NEJNXQ8yChscgOa1Rivkj2YoqbZbfEUnBJVZAWsj1ndfK55?=
+ =?us-ascii?Q?ZVkFrVE8FCeh6D+FkJuLcyg9TfXU+iAnVLsPP+0W5x6taCSyZ9oLUa7wPrG8?=
+ =?us-ascii?Q?hpot2zl9m5rfbFMUPWbYNgRlAftcYaAWcufoDW9XteFHq5f9pikwbKPK4NOq?=
+ =?us-ascii?Q?CiVcBCk079DKd61aUW5RGhXsPYt98jF31fYSX4tQSNB6LlS1FaY5t0zw6VtU?=
+ =?us-ascii?Q?AotasmQL43egflKh0U01+gV1lxO21il1lRn4RjPeS/Rum7R93oNX+1MLfVUx?=
+ =?us-ascii?Q?lmaRBwVA0tGHHeHLsYUmpUEKqisFM6RJIoIgIdEdpXMYahIhCSO8X+z5vQUg?=
+ =?us-ascii?Q?Ga8eL+qZiNnMaanWO1FkicW86Qv5aNEMn4cQ4mg+Wuk0dPmGoooBwRG8AUEe?=
+ =?us-ascii?Q?Osw2HfEXhkwuYwYeF1piBXRGLjNz8x6L067tzixyxJ9iIcd3qtdCsk1l4MsN?=
+ =?us-ascii?Q?XzfJeEmuoHe1ey6JC/hs82CGsIGdaTL8flBTorsLGobq7u9YlUfbo8hXd6ho?=
+ =?us-ascii?Q?iaCOG2o92gyXxAYBCZYBOeXshY4bBF9yMP7fXwktrQIwzlOss1tHSdEJ27tR?=
+ =?us-ascii?Q?6py8iVFv0WHP1AmnShWCiLnVXrZqzHdoAiUWqmfRNIkGMoHb3kk+Ic8ki4/Y?=
+ =?us-ascii?Q?OK08ZZyR+2ZJuy4u/2kb7b1qzscA/YZVZHhg8JyCsKTw5HnRxItgWGN9bVpL?=
+ =?us-ascii?Q?vfaTusOb0iVvU81VrlqgM3o1+dRt8wmXwtM8nLpZ94zPPn3Y1moemNpN2dj5?=
+ =?us-ascii?Q?XsUY5w0U3dc16h094VkQZ42BrgL7J8mvxWsJyIKQtX8owq/wYrbKzv5Q7aHg?=
+ =?us-ascii?Q?VPZIdxSU/why7JnAfF4yZ5uY/giRGxvFpExhOX+/HXqB+utpxgTTS5Ms/nFJ?=
+ =?us-ascii?Q?N0cMxMucyq5kr2tlLdgmK3LVZO00spNc3adtVPfqW7XwGCB0Lmy/nXHSc2j7?=
+ =?us-ascii?Q?uta/7xm/T6bPvew2cQ3dMqIdENlGXKVAiFYxAooelXQIRi+rjW0jDUUxGsMh?=
+ =?us-ascii?Q?Cxgrt0v9YosCI9G2dJuKRRhPQy1TXKcsT3OMgE/zhZZteK9V7wMfqqZrj6cD?=
+ =?us-ascii?Q?gNpqqu+99xfK3qoTYJbRXL/b8ZpSvvSeKVYqKsCoKgL2LDOOI60Zuq4KFlqs?=
+ =?us-ascii?Q?FcSijPfwZ5WeB+3FDB7l7iTnYPu1c3Q64uZlOD3QJ3oebyX9Y96sGaWnxYNW?=
+ =?us-ascii?Q?QVm73oEO+6BRIqD1gaMlWhtzIsWA2x0aCRiuJQWOK7slyxyIY+cDAPZDe+tE?=
+ =?us-ascii?Q?38rqK2E2c5Saf242bM162N2LXuOuVEHPRSOOUfmZ9Kc6GpICdaRBYe6HcQWS?=
+ =?us-ascii?Q?eTo1M/uA15cqlc3seSnTyQcjHz5cLGghAdXZXALjX2ZTl1QwfwiC2rN7dozm?=
+ =?us-ascii?Q?y3Tzby+Q9IlbsYTiIFoD4bGNyf/Y6WwJit9H34ijIsSYbL56TfBzWRWEdjeh?=
+ =?us-ascii?Q?Aub756B09HiAhvHWu+Utb95mOBYxwzbWGGTZNze3kb7fuKxN23zTldm8UDFf?=
+ =?us-ascii?Q?dNYAGg=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fe11a3a-e98b-4b5c-3204-08db7970eed3
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2023 13:50:15.4643
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7a3fc03-5868-4ba4-411d-08db7966c1e8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7187
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9CRuMoNQzjserLsLbJdUUg3OgdqTVbh9sG9M3b5oPnCnsWnLcMBrCE9KjjRjZVhIsTMNgC3YW0W1v6gBHeVbEPDQjiwBvOFJ5v4mJ/C8Zgo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR13MB4928
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some applications may want to query the base frequency to tell when
-a processor is operating in boost.
+On Fri, Jun 30, 2023 at 01:04:46AM -0600, Subash Abhinov Kasiviswanathan wrote:
+> source.codeaurora.org is no longer accessible and so the reference link
+> in the documentation is not useful. Use iproute2 instead as it has a
+> rmnet module for configuration.
+> 
+> Fixes: ceed73a2cf4a ("drivers: net: ethernet: qualcomm: rmnet: Initial implementation")
+> Signed-off-by: Sean Tranchetti <quic_stranche@quicinc.com>
+> Signed-off-by: Subash Abhinov Kasiviswanathan <quic_subashab@quicinc.com>
 
-Tested-by: Wyes Karny <wyes.karny@amd.com>
-Reviewed-by: Wyes Karny <wyes.karny@amd.com>
-Co-developed-by: Perry Yuan <perry.yuan@amd.com>
-Signed-off-by: Perry Yuan <perry.yuan@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- Documentation/admin-guide/pm/amd-pstate.rst |  4 ++++
- drivers/cpufreq/amd-pstate.c                | 15 +++++++++++++++
- 2 files changed, 19 insertions(+)
-
-diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-index 1cf40f69278cd..e68267857e859 100644
---- a/Documentation/admin-guide/pm/amd-pstate.rst
-+++ b/Documentation/admin-guide/pm/amd-pstate.rst
-@@ -281,6 +281,10 @@ integer values defined between 0 to 255 when EPP feature is enabled by platform
- firmware, if EPP feature is disabled, driver will ignore the written value
- This attribute is read-write.
- 
-+``base_frequency``
-+	Shows the base frequency of the CPU. Frequencies above this will be in the
-+  ``boost`` range. This attribute is read-only.
-+
- Other performance and frequency values can be read back from
- ``/sys/devices/system/cpu/cpuX/acpi_cppc/``, see :ref:`cppc_sysfs`.
- 
-diff --git a/drivers/cpufreq/amd-pstate.c b/drivers/cpufreq/amd-pstate.c
-index 81fba0dcbee99..0fec66b3f7241 100644
---- a/drivers/cpufreq/amd-pstate.c
-+++ b/drivers/cpufreq/amd-pstate.c
-@@ -1037,6 +1037,19 @@ static ssize_t store_status(struct kobject *a, struct kobj_attribute *b,
- 	return ret < 0 ? ret : count;
- }
- 
-+static ssize_t show_base_frequency(struct cpufreq_policy *policy, char *buf)
-+{
-+	struct amd_cpudata *cpudata = policy->driver_data;
-+	u32 nominal_freq;
-+
-+	nominal_freq = amd_get_nominal_freq(cpudata);
-+	if (nominal_freq < 0)
-+		return nominal_freq;
-+
-+	return sysfs_emit(buf, "%d\n", nominal_freq);
-+}
-+
-+cpufreq_freq_attr_ro(base_frequency);
- cpufreq_freq_attr_ro(amd_pstate_max_freq);
- cpufreq_freq_attr_ro(amd_pstate_lowest_nonlinear_freq);
- 
-@@ -1049,6 +1062,7 @@ static struct freq_attr *amd_pstate_attr[] = {
- 	&amd_pstate_max_freq,
- 	&amd_pstate_lowest_nonlinear_freq,
- 	&amd_pstate_highest_perf,
-+	&base_frequency,
- 	NULL,
- };
- 
-@@ -1058,6 +1072,7 @@ static struct freq_attr *amd_pstate_epp_attr[] = {
- 	&amd_pstate_highest_perf,
- 	&energy_performance_preference,
- 	&energy_performance_available_preferences,
-+	&base_frequency,
- 	NULL,
- };
- 
--- 
-2.34.1
+Reviewed-by: Simon Horman <simon.horman@corigine.com>
 
