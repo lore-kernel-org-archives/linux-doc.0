@@ -2,106 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 461A3EB64DA
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Jul 2023 01:45:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98D2CC0015E
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Jul 2023 05:51:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229503AbjGABp2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Jun 2023 21:45:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35192 "EHLO
+        id S229618AbjGAFvE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Jul 2023 01:51:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjGABp2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Jun 2023 21:45:28 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3A414201;
-        Fri, 30 Jun 2023 18:45:25 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 7E6E45C0175;
-        Fri, 30 Jun 2023 21:45:22 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 30 Jun 2023 21:45:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1688175922; x=1688262322; bh=0032OLr1UDIHP
-        BMzcHue27WJgCny0p4WJDgbUYNu8EA=; b=dJey4+Zm9gZf8ekEbrM21L90x3SOo
-        pfIiLfBqJvJmY2Yw99ZFQEEqRCodmowN41Ml5cHDf43SMJ8JEzrP7Z4jgWEgRNAl
-        DPkN6U9UUnnpxIGDuTeafOrVOo1GOplOon+nuOX9YAgPeVmpozOP2bxPN5hSZWmr
-        kFYHKl1pDuDAiRvmmBumHESN5CsOzWkBAPXykV4U4KtJVXUQ+F6Zs6V36oiyrzXC
-        ZmK9DQgYeEE2FRgMN6xQpYQcQaQnRWzF2jotz3sLhd21hamoZgMN4/CSwSZQDiLf
-        xCrKPaBwaXS7CCvP+hIilKoT2jak54LF9vn+W4fUx/Zw6gUGZa/Mlz8WQ==
-X-ME-Sender: <xms:MoWfZPnM_D5ojVAQGN34ZYOk3qBwTmlXFmTd797j1kpb_6FXPJvOig>
-    <xme:MoWfZC0YTR3PIe9KvxupWY0szeYpqryFdil4dyWyvHN46826XOpu76lkMehTFsCy9
-    fMFkz_yDu6byWykMpU>
-X-ME-Received: <xmr:MoWfZFoRaAQdGfXbJ6563uLVcIMwb5dnFc-q-iMSOofseHtJq5o0xbVHlcQ71iJlovT-W-A51wFG5Tl42qcuaXSNcLet1ltAkLw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrtdejgdeglecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfv
-    hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
-    htvghrnhepleeuheelheekgfeuvedtveetjeekhfffkeeffffftdfgjeevkeegfedvueeh
-    ueelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfh
-    hthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgh
-X-ME-Proxy: <xmx:MoWfZHmrwa-UkczVSH1DSvclkIqRXBrzlbPlt7C84zJ24putfJRNNA>
-    <xmx:MoWfZN18VBOxvpJAnCxA2f3RKmR4vt51qgYEufEWIIkEigV4tS0rEA>
-    <xmx:MoWfZGtUymWOII8pPighZAnz21xbJve4S24pTQAvmnBa79ssnDWfbA>
-    <xmx:MoWfZGy8oldewttf8hlSKxbZQErvVZSthBUBnLQsMw8lc6y4HTId5Q>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 30 Jun 2023 21:45:19 -0400 (EDT)
-Date:   Sat, 1 Jul 2023 11:46:18 +1000 (AEST)
-From:   Finn Thain <fthain@linux-m68k.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-cc:     Theodore Ts'o <tytso@mit.edu>, linux-doc@vger.kernel.org,
-        tech-board-discuss@lists.linux-foundation.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Measurement, was Re: [Tech-board-discuss] [PATCH] Documentation:
- Linux Contribution Maturity Model and the wider community
-In-Reply-To: <20230621100845.12588f48@gandalf.local.home>
-Message-ID: <1f5b0227-dbf6-4294-8532-525b3e405dc2@linux-m68k.org>
-References: <20230620212502.GI286961@mit.edu> <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org> <20230621100845.12588f48@gandalf.local.home>
+        with ESMTP id S229486AbjGAFvD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Jul 2023 01:51:03 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600FF1FE8
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jun 2023 22:51:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688190661; x=1719726661;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=I5c4dz/QtDGrrFERiX2xTgeTFieB+46FLcHxcYqJnu4=;
+  b=Hxw4ckCMsZCfl4PeVgbHBvs9licWmi+UHPGtL5nxWnFg0iCqvijhU3om
+   ur/DLnF9jO5tg4M1PvYs61asXu3X8pVxLKC9dytCP74fbB6UIE3W2uMc+
+   iuqzfumxaHb9odstEw1bbdLcM7su8C0ny1MOoDSo7kpCh1fMnO6V0jFDf
+   lc5Ts37RNuNE4HvXqBQ4kxyvu6zuWQOPx3+T7INxUsyvi2LZI7VyGz5Tr
+   +Rn6sIuCp9V9y83+vgLpy1OBJWL/SepxmfHumdVOYZW5Q+z96EpVAm+Q1
+   cM9NCYyD4fEODKW6pPAcOod2RXoApZS1N4ZslMsbqFJMh1Y0kWvmuoNMU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="342142718"
+X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
+   d="scan'208";a="342142718"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 22:51:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="721189923"
+X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
+   d="scan'208";a="721189923"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 30 Jun 2023 22:50:59 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qFTVa-000FkT-1S;
+        Sat, 01 Jul 2023 05:50:58 +0000
+Date:   Sat, 1 Jul 2023 13:49:58 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org,
+        Luca Coelho <luciano.coelho@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: [drm-intel:drm-intel-next 1/2] htmldocs:
+ Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING: Unknown directive
+ type "c:namespace-push".
+Message-ID: <202307011340.vny1abul-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+tree:   git://anongit.freedesktop.org/drm-intel drm-intel-next
+head:   0c4f52bac4401dfd6f82984040bc0e163b0ccb9c
+commit: f6757dfcfde722fdeaee371b66f63d7eb61dd7e4 [1/2] drm/doc: fix duplicate declaration warning
+reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011340.vny1abul-lkp@intel.com/reproduce)
 
-On Wed, 21 Jun 2023, Steven Rostedt wrote:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307011340.vny1abul-lkp@intel.com/
 
-> 
-> If your point is mainly the second part of that paragraph, which is to 
-> tie in metrics to reflect maintainer effectiveness, then I think I agree 
-> with you there. One metric is simply the time a patch is ignored by a 
-> maintainer on a mailing list (where the maintainer is Cc'd and it is 
-> obvious the patch belongs to their subsystem). I know I fail at that, 
-> especially when my work is pushing me to focus on other things.
-> 
+All warnings (new ones prefixed by >>):
 
-A useful metric when pushing for a higher patch rate is the rework rate.
+>> Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING: Unknown directive type "c:namespace-push".
+>> Documentation/gpu/rfc/i915_scheduler.rst:143: WARNING: Unknown directive type "c:namespace-pop".
 
-I have found that 'Fixes' tags can be used to quantify this. I don't have 
-scripts to do so but others probably do. (My purpose at the time was to 
-quantify my own rework rate by counting my own commit hashes when they 
-appeared in subsequent 'Fixes' tags.) Note that a low 'Fixes' count could 
-indicate inadequate bug reporting processes so additional metrics may be 
-needed.
+vim +138 Documentation/gpu/rfc/i915_scheduler.rst
 
-Where the practices relating to 'Fixes' tagging and bug reporting are 
-uniform across subsystems, it might be possible to compare the diverse 
-processes and methodologies presently in use.
+   137	
+ > 138	.. c:namespace-push:: rfc
+   139	
+   140	.. kernel-doc:: include/uapi/drm/i915_drm.h
+   141	        :functions: i915_context_engines_parallel_submit
+   142	
+ > 143	.. c:namespace-pop::
+   144	
 
-BTW. I assume that 'Fixes' tags are already being used to train AI models 
-to locate bugs in existing code. If this could be used to evaluate new 
-patches when posted, it might make the code review process more efficient.
-
-The same approach could probably be generalized somewhat. For example, a 
-'Modernizes' tag might be used to train an AI model to target design 
-patterns that are being actively replaced anywhere in the code base.
-
-The real pay-off from this kind of automation is that an improvement made 
-by any reviewer gets amplified so as to reach across many subsystems and 
-mailing lists -- but only when the automation gets scaled up and widely 
-deployed. We already see this effect with Coccinelle semantic patches.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
