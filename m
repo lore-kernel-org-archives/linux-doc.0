@@ -2,41 +2,50 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F7E4C001DD
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Jul 2023 09:12:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E12E3EB64DC
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Jul 2023 09:51:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229515AbjGAJMI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Jul 2023 05:12:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45230 "EHLO
+        id S229515AbjGAJvd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Jul 2023 05:51:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229618AbjGAJMH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Jul 2023 05:12:07 -0400
+        with ESMTP id S229506AbjGAJvc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Jul 2023 05:51:32 -0400
 Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E179CBB;
-        Sat,  1 Jul 2023 02:12:04 -0700 (PDT)
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QtRFD2wsdzMn1v;
-        Sat,  1 Jul 2023 17:08:48 +0800 (CST)
-Received: from huawei.com (10.67.174.205) by dggpemm500016.china.huawei.com
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9135B1FE7;
+        Sat,  1 Jul 2023 02:51:29 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QtS6k6rqTzMpVC;
+        Sat,  1 Jul 2023 17:48:14 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
  (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Sat, 1 Jul
- 2023 17:12:00 +0800
-From:   Chen Jiahao <chenjiahao16@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
-CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+ 2023 17:51:27 +0800
+Message-ID: <5c80666c-e6e2-8fa6-50b6-89536315925e@huawei.com>
+Date:   Sat, 1 Jul 2023 17:51:26 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next v5 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+Content-Language: en-US
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+To:     Baoquan He <bhe@redhat.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
         <conor.dooley@microchip.com>, <guoren@kernel.org>,
         <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
         <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
-        <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
-Subject: [PATCH -next v6 0/2] support allocating crashkernel above 4G explicitly on riscv
-Date:   Sat, 1 Jul 2023 17:11:36 +0000
-Message-ID: <20230701171138.1491206-1-chenjiahao16@huawei.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.67.174.205]
+        <thunder.leizhen@huawei.com>, <horms@kernel.org>
+References: <20230511085139.1039088-1-chenjiahao16@huawei.com>
+ <20230511085139.1039088-2-chenjiahao16@huawei.com>
+ <ZHwKFADVXyNYJBCp@MiWiFi-R3L-srv>
+ <852b8777-3c6e-f76b-0413-1c66629f33cd@huawei.com>
+In-Reply-To: <852b8777-3c6e-f76b-0413-1c66629f33cd@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.108.26]
 X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpemm500016.china.huawei.com (7.185.36.25)
 X-CFilter-Loop: Reflected
@@ -44,77 +53,162 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On riscv, the current crash kernel allocation logic is trying to
-allocate within 32bit addressible memory region by default, if
-failed, try to allocate without 4G restriction.
 
-In need of saving DMA zone memory while allocating a relatively large
-crash kernel region, allocating the reserved memory top down in
-high memory, without overlapping the DMA zone, is a mature solution.
-Hence this patchset introduces the parameter option crashkernel=X,[high,low].
+On 2023/6/15 17:49, chenjiahao (C) wrote:
+>
+> On 2023/6/4 11:50, Baoquan He wrote:
+>> Hi Jiahao,
+>>
+>> On 05/11/23 at 04:51pm, Chen Jiahao wrote:
+>> ......
+>>> @@ -1300,14 +1325,34 @@ static void __init reserve_crashkernel(void)
+>>>           return;
+>>>       }
+>>>   -    ret = parse_crashkernel(boot_command_line, 
+>>> memblock_phys_mem_size(),
+>>> +    ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
+>>>                   &crash_size, &crash_base);
+>>> -    if (ret || !crash_size)
+>>> +    if (ret == -ENOENT) {
+>>> +        /* Fallback to crashkernel=X,[high,low] */
+>>> +        ret = parse_crashkernel_high(cmdline, 0, &crash_size, 
+>>> &crash_base);
+>>> +        if (ret || !crash_size)
+>>> +            return;
+>>> +
+>>> +        /*
+>>> +         * crashkernel=Y,low is valid only when crashkernel=X,high
+>>> +         * is passed.
+>>> +         */
+>>> +        ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, 
+>>> &crash_base);
+>>> +        if (ret == -ENOENT)
+>>> +            crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>> +        else if (ret)
+>>> +            return;
+>>> +
+>>> +        search_end = memblock_end_of_DRAM();
+>>> +    } else if (ret || !crash_size) {
+>>> +        /* Invalid argument value specified */
+>>>           return;
+>>> +    }
+>> The parsing part looks great, while you didn't mark if it's specified
+>> high reservation, please see later comment why it's needed.
+>>
+>>>         crash_size = PAGE_ALIGN(crash_size);
+>>>         if (crash_base) {
+>>> +        fixed_base = true;
+>>>           search_start = crash_base;
+>>>           search_end = crash_base + crash_size;
+>>>       }
+>>> @@ -1320,17 +1365,31 @@ static void __init reserve_crashkernel(void)
+>>>        * swiotlb can work on the crash kernel.
+>>>        */
+>>>       crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>>> -                           search_start,
+>>> -                           min(search_end, (unsigned long) SZ_4G));
+>>> +                           search_start, search_end);
+>> If it's a specified high reservation, you have
+>> search_start = memblock_start_of_DRAM();
+>> search_end = memblock_end_of_DRAM();
+>>
+>> Then it attempts to search top down first time here.
+>>
+>>>       if (crash_base == 0) {
+>>> -        /* Try again without restricting region to 32bit 
+>>> addressible memory */
+>>> +        if (fixed_base) {
+>>> +            pr_warn("crashkernel: allocating failed with given 
+>>> size@offset\n");
+>>> +            return;
+>>> +        }
+>>> +        search_end = memblock_end_of_DRAM();
+>>> +
+>>> +        /* Try again above the region of 32bit addressible memory */
+>>>           crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
+>>> -                        search_start, search_end);
+>>> +                               search_start, search_end);
+>> If crashkernel=,high case, the first attempt failed, here it assigns
+>> search_end with memblock_end_of_DRAM(). It's the exactly the same
+>> attempt, why is that needed? Why don't you use a local variable 'high'
+>> to mark the crashkernel=,hig, then judge when deciding how to adjsut the
+>> reservation range.
+>>
+>> Do I misunderstand the code?
+>>
+>> Thanks
+>> Baoquan
+>
+> You are right. Here I use search_end = memblock_end_of_DRAM() for the
+> first attempt on "crashkernel=,high" case, but it will not distinct from
+> other cases if the first attempt fails.
+>
+> I have read your latest refactor on Arm64, introducing the "high" flag
+> is a good choice, the logic gets more straightforward when handling
+> crashkernel=,high case and retrying.
+>
+> Following that logic, here introducing and set "high" flag when parsing
+> cmdline, when the first attempt failed:
+>
+> if fixed_base:
+>     failed and return;
+>
+> if set high:
+>     search_start = memblock_start_of_DRAM();
+>     search_end = (unsigned long)dma32_phys_limit;
+> else:
+>     search_start = (unsigned long)dma32_phys_limit;
+>     search_end = memblock_end_of_DRAM();
+>
+> second attempt with new {search_start, search_end}
+> ...
+>
+> This should handle "crashkernel=,high" case correctly and avoid cross
+> 4G reservation.
+>
+> Is that logic correct, or is any other problem missed?
+>
+> Thanks,
+> Jiahao
 
-One can reserve the crash kernel from high memory above DMA zone range
-by explicitly passing "crashkernel=X,high"; or reserve a memory range
-below 4G with "crashkernel=X,low". Besides, there are few rules need
-to take notice:
-1. "crashkernel=X,[high,low]" will be ignored if "crashkernel=size"
-   is specified.
-2. "crashkernel=X,low" is valid only when "crashkernel=X,high" is passed
-   and there is enough memory to be allocated under 4G.
-3. When allocating crashkernel above 4G and no "crashkernel=X,low" is
-   specified, a 128M low memory will be allocated automatically for
-   swiotlb bounce buffer.
-See Documentation/admin-guide/kernel-parameters.txt for more information.
+I have sent v6 patches, implementing the logic above. That fixes the 
+retrying
 
-To verify loading the crashkernel, adapted kexec-tools is attached below:
-https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
+logic and should be aligned with Arm64 code.
 
-Following test cases have been performed as expected:
-1) crashkernel=256M                          //low=256M
-2) crashkernel=1G                            //low=1G
-3) crashkernel=4G                            //high=4G, low=128M(default)
-4) crashkernel=4G crashkernel=256M,high      //high=4G, low=128M(default), high is ignored
-5) crashkernel=4G crashkernel=256M,low       //high=4G, low=128M(default), low is ignored
-6) crashkernel=4G,high                       //high=4G, low=128M(default)
-7) crashkernel=256M,low                      //low=0M, invalid
-8) crashkernel=4G,high crashkernel=256M,low  //high=4G, low=256M
-9) crashkernel=4G,high crashkernel=4G,low    //high=0M, low=0M, invalid
-10) crashkernel=512M@0xd0000000              //low=512M
 
-Changes since [v6]:
-1. Introduce the "high" flag to mark whether "crashkernel=X,high"
-   is passed. Fix the retrying logic between "crashkernel=X,high"
-   case and others when the first allocation attempt fails.
+Please let me know if there is any problem remains.
 
-Changes since [v5]:
-1. Update the crashkernel allocation logic when crashkernel=X,high
-   is specified. In this case, region above 4G will directly get
-   reserved as crashkernel, rather than trying lower 32bit allocation
-   first.
 
-Changes since [v4]:
-1. Update some imprecise code comments for cmdline parsing.
+Thanks,
 
-Changes since [v3]:
-1. Update to print warning and return explicitly on failure when
-   crashkernel=size@offset is specified. Not changing the result
-   in this case but making the logic more straightforward.
-2. Some minor cleanup.
+Jiahao
 
-Changes since [v2]:
-1. Update the allocation logic to ensure the high crashkernel
-   region is reserved strictly above dma32_phys_limit.
-2. Clean up some minor format problems.
 
-Chen Jiahao (2):
-  riscv: kdump: Implement crashkernel=X,[high,low]
-  docs: kdump: Update the crashkernel description for riscv
-
- .../admin-guide/kernel-parameters.txt         | 15 ++--
- arch/riscv/kernel/setup.c                     |  5 ++
- arch/riscv/mm/init.c                          | 84 +++++++++++++++++--
- 3 files changed, 90 insertions(+), 14 deletions(-)
-
--- 
-2.34.1
-
+>
+>>
+>>>           if (crash_base == 0) {
+>>>               pr_warn("crashkernel: couldn't allocate %lldKB\n",
+>>>                   crash_size >> 10);
+>>>               return;
+>>>           }
+>>> +
+>>> +        if (!crash_low_size)
+>>> +            crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>> +    }
+>>> +
+>>> +    if ((crash_base > dma32_phys_limit - crash_low_size) &&
+>>> +        crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+>>> +        memblock_phys_free(crash_base, crash_size);
+>>> +        return;
+>>>       }
+>>>         pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld 
+>>> MB)\n",
+>>> -- 
+>>> 2.31.1
+>>>
+>
+> _______________________________________________
+> kexec mailing list
+> kexec@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/kexec
