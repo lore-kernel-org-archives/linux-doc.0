@@ -2,78 +2,64 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 687D2EB64DC
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Jul 2023 07:09:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93FEBEB64DC
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Jul 2023 07:10:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbjGAHJW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Jul 2023 03:09:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56190 "EHLO
+        id S229786AbjGAHKi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Jul 2023 03:10:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjGAHIr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Jul 2023 03:08:47 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480066EA1;
-        Sat,  1 Jul 2023 00:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688194999; x=1719730999;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b2tdZDijpkNbhOaoKT4z5wlvbzHwp1PIa7BELo0bGqo=;
-  b=arv7jGevgPjUvK6DAIWBDHDJw7Po3JJWEgYN6hOITuiOr5DgutyqJ9t+
-   3NKN4Pfjw5U/owjAtpDhj9tdmKfeGP0aBZE4yeLqGr4nl6V+G16d3GYq4
-   /Lvp/fcvb2WtCfHUHwelPNmInaSzOWlSIwgg2G0DF4ZIj3KHlafKdbmfN
-   SiFidcH8i5iOvoeSj/xngvnICU4crCyR5gLVZjOHphw2FJB9FNWv/NZYY
-   uOeLFRMiTW4v86soHnVkGl1IhoLbPIkReImSWMQGlWp/3h8vb3vdKiWfa
-   W78BvUZdTcoYBuBRCNe/O1YyJxVKWQ+FsWTFlyNGp3ivaAVO9Z8QlCZAj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="360040594"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="360040594"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 00:02:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="783313192"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="783313192"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Jul 2023 00:02:01 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qFUcJ-000Fn3-31;
-        Sat, 01 Jul 2023 07:01:59 +0000
-Date:   Sat, 1 Jul 2023 15:01:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [sailus-media-tree:metadata 7/7] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-fmt-flag-meta-line-based (if the link has no caption the label must
- precede a section header)
-Message-ID: <202307011445.xI9djX6d-lkp@intel.com>
+        with ESMTP id S229917AbjGAHJq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Jul 2023 03:09:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D2772B8;
+        Sat,  1 Jul 2023 00:04:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EB66460B8C;
+        Sat,  1 Jul 2023 07:04:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3438C433C8;
+        Sat,  1 Jul 2023 07:04:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1688195074;
+        bh=hES+L8o5GSGup4HsXuiU8V2YWoehW//V/bJAjRMl0Xk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=h2rv4gO6HOz3tcWoIlZF3wExZZ01Ycns514hrAGE25RSsiM5SSPVaZUM1+/7A6vZd
+         DUtOsj0d0sTe//cvf/03/dlLT4+50VFJzDhOZ4GJuuhEN3z5IxgSfh5ObyH4PCyXa6
+         0TEKdEOPhhuN98tImFUnnNR/V3392drQiE6psSqg=
+Date:   Sat, 1 Jul 2023 09:04:31 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Finn Thain <fthain@linux-m68k.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        tech-board-discuss@lists.linux-foundation.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [Tech-board-discuss] Measurement, was Re: [PATCH] Documentation:
+ Linux Contribution Maturity Model and the wider community
+Message-ID: <2023070113-trimming-undecided-4923@gregkh>
+References: <20230620212502.GI286961@mit.edu>
+ <5490402b-8b9f-f52d-3896-41090e639e51@linux-m68k.org>
+ <20230621100845.12588f48@gandalf.local.home>
+ <1f5b0227-dbf6-4294-8532-525b3e405dc2@linux-m68k.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1f5b0227-dbf6-4294-8532-525b3e405dc2@linux-m68k.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   acd95717f9d98767ad03e91b1b171352f9bcbaf9
-commit: 028cb656529e4cd7e40b21b97b078d5fb7809eed [7/7] media: v4l: Support line-based metadata capture
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011445.xI9djX6d-lkp@intel.com/reproduce)
+On Sat, Jul 01, 2023 at 11:46:18AM +1000, Finn Thain wrote:
+> BTW. I assume that 'Fixes' tags are already being used to train AI models 
+> to locate bugs in existing code. If this could be used to evaluate new 
+> patches when posted, it might make the code review process more efficient.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307011445.xI9djX6d-lkp@intel.com/
+That has been happening for many many years now with papers being
+published about it and many conference presentations.  It shouldn't be a
+secret it's been happening and directly helping with stable kernel
+maintenance for a long time.
 
-All warnings (new ones prefixed by >>):
+thanks,
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-fmt-flag-meta-line-based (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
