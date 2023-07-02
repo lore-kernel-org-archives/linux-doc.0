@@ -2,134 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76CE2EB64D9
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Jul 2023 12:40:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A77A1EB64D9
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Jul 2023 13:05:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229908AbjGBMkA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Jul 2023 08:40:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34910 "EHLO
+        id S229849AbjGBNFP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Jul 2023 09:05:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjGBMj7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Jul 2023 08:39:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E20812A;
-        Sun,  2 Jul 2023 05:39:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1E60660BD8;
-        Sun,  2 Jul 2023 12:39:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C0FC433C8;
-        Sun,  2 Jul 2023 12:39:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1688301597;
-        bh=Gs10fttTgnhj5fhjLDWFZ0nrwMhadhZS6+ukxYV05Bw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jyxA0qYizBtdPmWrk2kjuW65B0CjVfIE8CbaJzq8Km7bcrnlErGRNRnEwesmL9cIf
-         gwFhHQokKhnVJYn9t/qYRVj7c55uJlu7pjrdZBCZJRwqCLlYDK3rsIowy9krOr3gvY
-         8VtLI43tqlGvp/Ard9XCx9MM8Fq5KuzjRMH7dQZg=
-Date:   Sun, 2 Jul 2023 14:39:49 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
- handling
-Message-ID: <2023070213-capacity-moneybags-3668@gregkh>
-References: <2023063020-throat-pantyhose-f110@gregkh>
- <2023063022-retouch-kerosene-7e4a@gregkh>
- <202306301114.E199B136@keescook>
+        with ESMTP id S229579AbjGBNFP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Jul 2023 09:05:15 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB15A1AC;
+        Sun,  2 Jul 2023 06:05:13 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso51132685e9.0;
+        Sun, 02 Jul 2023 06:05:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688303112; x=1690895112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dgdbr/HmtEQw8fSZt1jOsGt71w5fzM6AVixcIzI7qJk=;
+        b=BuPmVteApu1zcDJhkUW6FT4U4hP+BmZp0AG67WPeohkAkUaRSYIPGHMQywBPlsSJ0P
+         h5qj/+r+48xaHfmRiiNH5c0Gf+3xVPtZpIGeYBRcrq1XmkGHl5mO7hEWe/7sWhgIbD1s
+         bHzPJQwPlAs4p4VLR4rYJUJngP9OEFdF6wQKvjyaV+B0pTK2sJqPptr1rr9D41tv8yWU
+         SYHetBT2ppr6gclkuXPAH6FZsoAl7QyVI+3G4qC6R2JSzOPZ+73MkU7anseCunQEOTry
+         r2JFe6Bo9DHxcrCmZYFQzBbm3DlZ2bARdpO2yS+5IjrzXKjyoIXJeMExt7WRGV8kXhRZ
+         UqmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688303112; x=1690895112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dgdbr/HmtEQw8fSZt1jOsGt71w5fzM6AVixcIzI7qJk=;
+        b=LZZ42FNNYDmK2E3kvH+6xFWVozLqgSQhKbWfZKM0k/zbS1TlSoMkb2cDkz4lIIhhJv
+         vc/cTM0RBkO8Mgv6OHb3bOUs05x6hOIf45SUKhYA0MXmVE9yrGBqjl8doQGnbLuI3niY
+         Ot5QceYnNLo3nsPRt9zhUWnGmnCfbbqQITSagpNqoq7cf/EpMoCucjfdKprWDsUy+dQ2
+         N0HrNpTp+Pu6/XJKhkTdVIPzRDwNz+58GBOYwtFrnlXhxZBdp9uo+SZbwv/djKQRRK9l
+         lJ/E08M7z9s358MCfdQXRSR0BZl3dk7qIxLk1X/l2WueVKNw8gPznrdavDeOH4hOQxMy
+         HnUQ==
+X-Gm-Message-State: AC+VfDy/9fPdy9+Yg2YIV6qURZKT9qrdy3D2zy94slVZzf7RPIjFZlJG
+        2mLuv/5SHMTiaFi01gYV4J0=
+X-Google-Smtp-Source: ACHHUZ6x9muc0ceSGU0/UqnBfVnTakbxWSM5xC6YsLa4F04Hq/9xgiIO0ebupNDInRMKFkZRBtuxQw==
+X-Received: by 2002:a7b:c445:0:b0:3fb:adc0:c37d with SMTP id l5-20020a7bc445000000b003fbadc0c37dmr9207057wmi.38.1688303112007;
+        Sun, 02 Jul 2023 06:05:12 -0700 (PDT)
+Received: from suse.localnet (host-82-49-237-33.retail.telecomitalia.it. [82.49.237.33])
+        by smtp.gmail.com with ESMTPSA id k16-20020a05600c0b5000b003fba6709c68sm15014903wmr.47.2023.07.02.06.05.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Jul 2023 06:05:11 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Deming Wang <wangdeming@inspur.com>,
+        Ira Weiny <ira.weiny@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2] Documentation/mm: Add information about kmap_local_folio()
+Date:   Sun, 02 Jul 2023 15:05:09 +0200
+Message-ID: <2238844.iZASKD2KPV@suse>
+In-Reply-To: <970a881a-cdaf-2568-657a-3b93b0273338@infradead.org>
+References: <20230701142041.9992-1-fmdefrancesco@gmail.com>
+ <ZKC8uE9fE57PuL91@casper.infradead.org>
+ <970a881a-cdaf-2568-657a-3b93b0273338@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202306301114.E199B136@keescook>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 11:18:37AM -0700, Kees Cook wrote:
-> On Fri, Jun 30, 2023 at 09:14:21AM +0200, Greg Kroah-Hartman wrote:
-> > The kernel security team does NOT assign CVEs, so document that properly
-> > and provide the "if you want one, ask MITRE for it" response that we
-> > give on a weekly basis in the document, so we don't have to constantly
-> > say it to everyone who asks.
+On domenica 2 luglio 2023 01:59:04 CEST Randy Dunlap wrote:
+> On 7/1/23 16:54, Matthew Wilcox wrote:
+> > On Sat, Jul 01, 2023 at 08:21:20AM -0700, Randy Dunlap wrote:
+> >>> -* kmap_local_page().  This function is used to require short term
+> >>> mappings.
+> >>> -  It can be invoked from any context (including interrupts) but the
+> >>> mappings
+> >>> -  can only be used in the context which acquired them.
+> >>> -
+> >>> -  This function should always be used, whereas kmap_atomic() and kmap()
+> >>> have
+> >>> +* kmap_local_page(), kmap_local_folio() - These functions are used to
+> >>> require
+> >>>  
+> >> acquire?
 > > 
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> >  Documentation/process/security-bugs.rst | 11 ++++-------
-> >  1 file changed, 4 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-> > index f12ac2316ce7..8b80e1eb7d79 100644
-> > --- a/Documentation/process/security-bugs.rst
-> > +++ b/Documentation/process/security-bugs.rst
-> > @@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
-> >  CVE assignment
-> >  --------------
-> >  
-> > -The security team does not normally assign CVEs, nor do we require them
-> > -for reports or fixes, as this can needlessly complicate the process and
-> > -may delay the bug handling. If a reporter wishes to have a CVE identifier
-> > -assigned ahead of public disclosure, they will need to contact the private
-> > -linux-distros list, described above. When such a CVE identifier is known
-> > -before a patch is provided, it is desirable to mention it in the commit
-> > -message if the reporter agrees.
-> > +The security team does not assign CVEs, nor do we require them for
-> > +reports or fixes, as this can needlessly complicate the process and may
-> > +delay the bug handling.  If a reporter wishes to have a CVE identifier
-> > +assigned, they should contact MITRE directly.
+> > "create" might be better?
 > 
-> Hmm. The language about "assigned ahead of public disclosure" was added
-> intentionally due to trouble we'd had with coordination when a CVE was
-> needed, etc. Additionally, it IS preferred to have a CVE in a patch when
-> it IS known ahead of time, so I think that should be kept. How about
-> this:
+> Yes, that's good.
+
+Agreed.
+However, I can send next version only by week 28th.
+
+Thanks,
+
+Fabio
+
+P.S.: Actually I meant "to request". Unfortunately, "to request" and "to 
+require" may have the same translation in Italian, my native language.
+
+I preferred to not use "acquire" because it is re-used few lines below. So I 
+thought that "to request short term mappings" was good (although I wrongly 
+confused the different meanings between "to require" and "to request").
+
+Matthew's suggestion to use "create" avoids repetition of "acquire(d)".  
+
+> >>> +  short term mappings. They can be invoked from any context (including
+> >>> +  interrupts) but the mappings can only be used in the context which
+> >>> acquired +  them. The only differences between them consist in the first
+> >>> taking a pointer +  to a struct page and the second taking a pointer to
+> >>> struct folio and the byte +  offset within the folio which identifies 
+the
+> >>> page.
+> >> 
+> >> --
+> >> ~Randy
 > 
-> 
-> diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-> index 82e29837d589..2f4060d49b31 100644
-> --- a/Documentation/process/security-bugs.rst
-> +++ b/Documentation/process/security-bugs.rst
-> @@ -81,13 +81,12 @@ the email Subject line with "[vs]" as described in the linux-distros wiki:
->  CVE assignment
->  --------------
->  
-> -The security team does not normally assign CVEs, nor do we require them
-> -for reports or fixes, as this can needlessly complicate the process and
-> -may delay the bug handling. If a reporter wishes to have a CVE identifier
-> -assigned ahead of public disclosure, they will need to contact the private
-> -linux-distros list, described above. When such a CVE identifier is known
-> -before a patch is provided, it is desirable to mention it in the commit
-> -message if the reporter agrees.
-> +The security team does not assign CVEs, nor do we require them for reports
-> +or fixes, as this can needlessly complicate the process and may delay
-> +the bug handling. If a reporter wishes to have a CVE identifier assigned
-> +ahead of public disclosure, they will need to contact MITRE directly.
-> +When such a CVE identifier is known before a patch is provided, it is
-> +desirable to mention it in the commit message if the reporter agrees.
+> --
+> ~Randy
 
-I can not, in good faith, with the current mess that MITRE is going
-through, tell anyone that they should contact MITRE ahead of public
-disclosure, sorry.
 
-All I can say is "if you really want one, go ask them for one", as
-everyone keeps asking us for one to pad their resume/CV.
 
-Also note that many non-US-based companies are not allowed to contact a
-US-government-backed entity for potential security issues for obvious
-reasons.
 
-So I don't want to even give a hint that we support or request this at
-all, or that it is something that changelog texts should contain for
-security issues (for the obvious reason of them being a "hint" one way
-or another.)
-
-External groups may wish to play the CVE "game" as it facilitates their
-engineering procedures to get changes past managers, but that's not
-anything that we should be encouraging at all for all of the various
-geopolitical and corporate reasons involved in that mess.
-
-thanks,
-
-greg k-h
