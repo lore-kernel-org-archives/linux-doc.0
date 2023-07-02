@@ -2,133 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A77A1EB64D9
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Jul 2023 13:05:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F0CDEB64DA
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Jul 2023 17:55:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbjGBNFP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Jul 2023 09:05:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38274 "EHLO
+        id S229707AbjGBRz0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Jul 2023 13:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbjGBNFP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Jul 2023 09:05:15 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB15A1AC;
-        Sun,  2 Jul 2023 06:05:13 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso51132685e9.0;
-        Sun, 02 Jul 2023 06:05:13 -0700 (PDT)
+        with ESMTP id S229679AbjGBRz0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Jul 2023 13:55:26 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1808E5E;
+        Sun,  2 Jul 2023 10:55:24 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-c13cb2cb428so622377276.0;
+        Sun, 02 Jul 2023 10:55:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688303112; x=1690895112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dgdbr/HmtEQw8fSZt1jOsGt71w5fzM6AVixcIzI7qJk=;
-        b=BuPmVteApu1zcDJhkUW6FT4U4hP+BmZp0AG67WPeohkAkUaRSYIPGHMQywBPlsSJ0P
-         h5qj/+r+48xaHfmRiiNH5c0Gf+3xVPtZpIGeYBRcrq1XmkGHl5mO7hEWe/7sWhgIbD1s
-         bHzPJQwPlAs4p4VLR4rYJUJngP9OEFdF6wQKvjyaV+B0pTK2sJqPptr1rr9D41tv8yWU
-         SYHetBT2ppr6gclkuXPAH6FZsoAl7QyVI+3G4qC6R2JSzOPZ+73MkU7anseCunQEOTry
-         r2JFe6Bo9DHxcrCmZYFQzBbm3DlZ2bARdpO2yS+5IjrzXKjyoIXJeMExt7WRGV8kXhRZ
-         UqmA==
+        d=gmail.com; s=20221208; t=1688320524; x=1690912524;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=B/346nUIZErMaap4Xzifysw7agxmNBKblpAJllVen+8=;
+        b=HS1Xpu8RutGjzNf2cNefIvO40PuyEyyWN1lXpuUm3Zm6tYXGDXwbDrBzDuJeX7KOHr
+         q1UGGgd94SVTRefQw+1rgl1gQ50uEoBHL2OdSUILUjvF+1ATH9gvheGUN++hFOwLNLid
+         1XMjRZLU+9Ge2en4fJbD50bjnQdqOwyoXZfvhIPbUVY/sq6Vm6BAvUYZPRqmTRzyIG2n
+         JWXOYS2flIDtpE0mu19bw1MyMQp5M6uow+iO1HWzOXqc6Z90+aO2nBs6Bf+FGR5IBS25
+         laBmv/H9uClBFT1isqMjJFlPY+WcanwzxZg1N8ZxZIN6sqfmOEIBN1yT1YF0buNY5Ya/
+         4xig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688303112; x=1690895112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dgdbr/HmtEQw8fSZt1jOsGt71w5fzM6AVixcIzI7qJk=;
-        b=LZZ42FNNYDmK2E3kvH+6xFWVozLqgSQhKbWfZKM0k/zbS1TlSoMkb2cDkz4lIIhhJv
-         vc/cTM0RBkO8Mgv6OHb3bOUs05x6hOIf45SUKhYA0MXmVE9yrGBqjl8doQGnbLuI3niY
-         Ot5QceYnNLo3nsPRt9zhUWnGmnCfbbqQITSagpNqoq7cf/EpMoCucjfdKprWDsUy+dQ2
-         N0HrNpTp+Pu6/XJKhkTdVIPzRDwNz+58GBOYwtFrnlXhxZBdp9uo+SZbwv/djKQRRK9l
-         lJ/E08M7z9s358MCfdQXRSR0BZl3dk7qIxLk1X/l2WueVKNw8gPznrdavDeOH4hOQxMy
-         HnUQ==
-X-Gm-Message-State: AC+VfDy/9fPdy9+Yg2YIV6qURZKT9qrdy3D2zy94slVZzf7RPIjFZlJG
-        2mLuv/5SHMTiaFi01gYV4J0=
-X-Google-Smtp-Source: ACHHUZ6x9muc0ceSGU0/UqnBfVnTakbxWSM5xC6YsLa4F04Hq/9xgiIO0ebupNDInRMKFkZRBtuxQw==
-X-Received: by 2002:a7b:c445:0:b0:3fb:adc0:c37d with SMTP id l5-20020a7bc445000000b003fbadc0c37dmr9207057wmi.38.1688303112007;
-        Sun, 02 Jul 2023 06:05:12 -0700 (PDT)
-Received: from suse.localnet (host-82-49-237-33.retail.telecomitalia.it. [82.49.237.33])
-        by smtp.gmail.com with ESMTPSA id k16-20020a05600c0b5000b003fba6709c68sm15014903wmr.47.2023.07.02.06.05.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jul 2023 06:05:11 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Deming Wang <wangdeming@inspur.com>,
-        Ira Weiny <ira.weiny@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2] Documentation/mm: Add information about kmap_local_folio()
-Date:   Sun, 02 Jul 2023 15:05:09 +0200
-Message-ID: <2238844.iZASKD2KPV@suse>
-In-Reply-To: <970a881a-cdaf-2568-657a-3b93b0273338@infradead.org>
-References: <20230701142041.9992-1-fmdefrancesco@gmail.com>
- <ZKC8uE9fE57PuL91@casper.infradead.org>
- <970a881a-cdaf-2568-657a-3b93b0273338@infradead.org>
+        d=1e100.net; s=20221208; t=1688320524; x=1690912524;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=B/346nUIZErMaap4Xzifysw7agxmNBKblpAJllVen+8=;
+        b=jXMzier0L+uA9uqJKLdm5TIwgOAhgiAZeSAf6CZ7pSDwvbckdaLE4/JtIdDJA73YLg
+         M1yROHqCUDtrY/d6QM/kLYRfUMkUW39C0xSaijLtk7V/6zkIUKaSdF0bTK5xqzYUOJ21
+         XdMwBdozbMKoKy2GJxu60H09R/zh+jyWANP2/OE6fKdooaiTPggHcKUuaA3MLv/3Jdhv
+         xMdFlk1Uq/jTYzBbOIYSGt4uTRVsHD+zsMsyHJ8qfP+m6a89VPqNNafySDtenOEE0PPW
+         z4AOUwPm5Bd/e0kORptURQp1sAqAxIRYTkl4iPL8RY0mSaU+4n/TgsVND+Kb7gqbxopG
+         V32Q==
+X-Gm-Message-State: ABy/qLbXBRFGQ9vXsWtEkPvP85QWn0z0iO+Pv2E4bf3Lh+XyNrNrqZim
+        170QS63XFk2rmFh6OnNwDK/RIGMcXish1f07JoJTnJKPmcUzgQ==
+X-Google-Smtp-Source: APBJJlGKLhOT4Bu7qJ+9PV6J1mFibevhHpEsj9SgVNCYM6WTAos06S2LRQMzHrHXF1fE6Av0kYh7XbCZNh0JTIxm3q8=
+X-Received: by 2002:a25:2b88:0:b0:bd6:6e3e:3af3 with SMTP id
+ r130-20020a252b88000000b00bd66e3e3af3mr4285143ybr.3.1688320523798; Sun, 02
+ Jul 2023 10:55:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+From:   Askar Safin <safinaskar@gmail.com>
+Date:   Sun, 2 Jul 2023 20:54:47 +0300
+Message-ID: <CAPnZJGB6gk47Hw-OE2_9eSKJ0DwOzEiL+tncMJyiOD6arw6xag@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 17/18] sock: Remove ->sendpage*() in favour of sendmsg(MSG_SPLICE_PAGES)
+To:     David Howells <dhowells@redhat.com>
+Cc:     netdev@vger.kernel.org,
+        Alexander Duyck <alexander.duyck@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        David Ahern <dsahern@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jens Axboe <axboe@kernel.dk>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org,
+        Marc Kleine-Budde <mkl@pengutronix.de>, bpf@vger.kernel.org,
+        dccp@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-sctp@vger.kernel.org, linux-wpan@vger.kernel.org,
+        linux-x25@vger.kernel.org, mptcp@lists.linux.dev,
+        rds-devel@oss.oracle.com, tipc-discussion@lists.sourceforge.net,
+        virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On domenica 2 luglio 2023 01:59:04 CEST Randy Dunlap wrote:
-> On 7/1/23 16:54, Matthew Wilcox wrote:
-> > On Sat, Jul 01, 2023 at 08:21:20AM -0700, Randy Dunlap wrote:
-> >>> -* kmap_local_page().  This function is used to require short term
-> >>> mappings.
-> >>> -  It can be invoked from any context (including interrupts) but the
-> >>> mappings
-> >>> -  can only be used in the context which acquired them.
-> >>> -
-> >>> -  This function should always be used, whereas kmap_atomic() and kmap()
-> >>> have
-> >>> +* kmap_local_page(), kmap_local_folio() - These functions are used to
-> >>> require
-> >>>  
-> >> acquire?
-> > 
-> > "create" might be better?
-> 
-> Yes, that's good.
+> -/* In some cases, both sendpage() and sendmsg() could have added
+> - * an skb to the write queue, but failed adding payload on it.
+> - * We need to remove it to consume less memory, but more
+> - * importantly be able to generate EPOLLOUT for Edge Trigger epoll()
+> - * users.
+> +/* In some cases, both sendmsg() could have added an skb to the write queue,
+> + * but failed adding payload on it.  We need to remove it to consume less
+> + * memory, but more importantly be able to generate EPOLLOUT for Edge Trigger
+> + * epoll() users.
+>   */
 
-Agreed.
-However, I can send next version only by week 28th.
+There is a typo here. "Both" is redundant now
 
-Thanks,
-
-Fabio
-
-P.S.: Actually I meant "to request". Unfortunately, "to request" and "to 
-require" may have the same translation in Italian, my native language.
-
-I preferred to not use "acquire" because it is re-used few lines below. So I 
-thought that "to request short term mappings" was good (although I wrongly 
-confused the different meanings between "to require" and "to request").
-
-Matthew's suggestion to use "create" avoids repetition of "acquire(d)".  
-
-> >>> +  short term mappings. They can be invoked from any context (including
-> >>> +  interrupts) but the mappings can only be used in the context which
-> >>> acquired +  them. The only differences between them consist in the first
-> >>> taking a pointer +  to a struct page and the second taking a pointer to
-> >>> struct folio and the byte +  offset within the folio which identifies 
-the
-> >>> page.
-> >> 
-> >> --
-> >> ~Randy
-> 
-> --
-> ~Randy
-
-
-
-
+-- 
+Askar Safin
