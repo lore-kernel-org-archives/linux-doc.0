@@ -2,221 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65E74EB64DD
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Jul 2023 07:23:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C743AEB64D9
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Jul 2023 08:08:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229523AbjGBHXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Jul 2023 03:23:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58996 "EHLO
+        id S229704AbjGBIIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Jul 2023 04:08:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbjGBHXR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Jul 2023 03:23:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C1D10E7;
-        Sun,  2 Jul 2023 00:23:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 93EE560A71;
-        Sun,  2 Jul 2023 07:23:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA8F5C433C7;
-        Sun,  2 Jul 2023 07:23:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688282595;
-        bh=U9ipIdPx01QtKgrcjm3ZPFh42uxgLxY6TX/dpLch/LE=;
-        h=Date:From:To:Cc:Subject:From;
-        b=QXzM9IPF/TCEZZ5Nv2RmGIQP0mdcrGv1Qeo/HjK4yKj49meTCZhg6/9UzwOH4puRn
-         2qhtNUE/VwmeQqywop3OSNBwLAmTJwIrwr3Z7OvoJ5jf60wqSCFdiODgHuPZnN51ms
-         MAdj6QUse+jNfPPU3lIpgYo7I+p03iJDvG+TgfiNAsTkKB8/N4vD0i3I3VFA94hvMN
-         jQy91rasWbcvQfsuxslom+oOXA9pNbbya2rrZlvdNwzT9BGogsIsyiszukzJ2k5sNa
-         olr0k5bFrAq/B5TeO1INSKz0NgmS9dz1iqSTRF/1trjnCOJamHilRWGQuqGZaol9WI
-         LSZdT+LWOUvgQ==
-Date:   Sun, 2 Jul 2023 09:23:08 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Nikolai Kondrashov <spbnick@gmail.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        mauro.chehab@intel.com, linux-doc@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        David Gow <davidgow@google.com>
-Subject: Tests documentation
-Message-ID: <20230702092308.4a022336@sal.lan>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        with ESMTP id S229653AbjGBIId (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Jul 2023 04:08:33 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D5FD10E9
+        for <linux-doc@vger.kernel.org>; Sun,  2 Jul 2023 01:08:31 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-51d7f350758so4280689a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 02 Jul 2023 01:08:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688285309; x=1690877309;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yiK+2U/avbBAV4omOI54stBTDSJ/EAt/1elJuMeHDBs=;
+        b=D27UANjuA9z6gLhLpwAe48KhiEYD4n5pXWQ7+9ojjv8yilwmsUdPdVuqPO4uqYzD3J
+         iimWh2D/nRnPv6A9lMOnUH/rb9RagafErmURJTDOfeF0RAGV1MLXlc3bXWfPjt6doBnt
+         mS9kNXFGT/w1mhUDK2zuKzFLGKgKG0McLTMc1swIrRIlNDAHU0uMMfoCU0TblbyY7taJ
+         J6MCDrvwviDWxkYpgjxsAk0jcftFlCffJeVfKfS98fbX3oGlxPTBXXGaMSiLv3BuiFpC
+         ane1tLbuD0VThkJkNnj61o6cuZTBShdpqVJfjaSEMETcKA+aUAS+bWT1K8GXCt/Vuf74
+         lZ5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688285310; x=1690877310;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yiK+2U/avbBAV4omOI54stBTDSJ/EAt/1elJuMeHDBs=;
+        b=Y/XVkRLGuBwNkNf4fVAm0/69g+Tme8kmnKSJEftEI5YfSnRkcZoNLCTJAGoRtRSGXl
+         r6WsBic7OEjkzwGrPIN6H1EwH3qxd6D9qded5NLJfGj9G2Le535rGz8SmLjrq0r7hb4H
+         L3OzBJvozxeC/lHwofwvnesK8g37TUbCVTP0/4570bmnSN9h8RjwPiOAACLPufzvpaCk
+         F5QtJGDML8qxYDYkVyR6oAShJ4wjNf/mtEZH9SEdgwOir8SBeMBwhoUW6KAj1/cqiobP
+         ehgvMyUvkjA0MEpbfXCBbXUgDh8uQ5E393BQfcs1B4YjBJIRPdZTb4MUzJqxgQxbsCHv
+         v/fg==
+X-Gm-Message-State: ABy/qLaZAapcQz8wGmpyiUGOjAMxdXa997cztfPDnO/OMGmVsf8pAeAH
+        neyW0T5Z8Zy8r6Mm+jgrarKZMw==
+X-Google-Smtp-Source: APBJJlGWpB4p3HPFjgY/jo67bYOd3wrJxfJT99DmTEqvpdH/XPSeieNy/NxOiaIgYpFFRTESnRHoaA==
+X-Received: by 2002:aa7:d911:0:b0:51e:677:603f with SMTP id a17-20020aa7d911000000b0051e0677603fmr1212016edr.38.1688285309609;
+        Sun, 02 Jul 2023 01:08:29 -0700 (PDT)
+Received: from [192.168.10.214] ([217.169.179.6])
+        by smtp.gmail.com with ESMTPSA id z2-20020a50eb42000000b0051bf17d7710sm8772590edp.57.2023.07.02.01.08.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Jul 2023 01:08:28 -0700 (PDT)
+Message-ID: <6c5879dc-bc5c-0b02-0f1a-39b5b5cd5c20@linaro.org>
+Date:   Sun, 2 Jul 2023 10:08:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
+ support
+Content-Language: en-US
+To:     Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
+        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon, Shuah & others,
+On 28/06/2023 14:34, Mukesh Ojha wrote:
+> Minidump is a best effort mechanism to collect useful and predefined data
+> for first level of debugging on end user devices running on Qualcomm SoCs.
+> It is built on the premise that System on Chip (SoC) or subsystem part of
+> SoC crashes, due to a range of hardware and software bugs. Hence, the
+> ability to collect accurate data is only a best-effort. The data collected
+> could be invalid or corrupted, data collection itself could fail, and so on.
+> 
 
-I'd like to discuss with you with regards to test documentation.
+...hundred of unrelated lines...
 
-I had some preliminary discussions with people interested on improving 
-tests during EOSS last week in Prague, as we're working to improve media
-test coverage as well. During such discussions, I talked with developers
-from several companies that have been collaboration and/or using Kernel
-CI. I also talked with Nikolai from Red Hat, who gave a presentation about
-Kernel CI, which points that one of the areas to be improved there is
-documentation.
+>  #define PANIC_PRINT_TASK_INFO          0x00000001
+>  #define PANIC_PRINT_MEM_INFO           0x00000002
+> @@ -261,6 +263,7 @@ void panic(const char *fmt, ...)
+>         int old_cpu, this_cpu;
+>         bool _crash_kexec_post_notifiers = crash_kexec_post_notifiers;
+> 
+> +       in_panic = true;
+>         if (panic_on_warn) {
+>                 /*
+>                  * This thread may hit another WARN() in the panic path.
+> --------------------------------------------------------------------------
+> 
+> Changes in v4:
 
-So, it seems it is worth having some discussions about how to improve 
-Kernel test documentation.
+Putting changelog at the end of very long cover letter does no help us
+to find it.
 
-While kernel_doc does a pretty decent job documenting functions and data
-structures, for tests, the most important things to be documented are:
+>  - Redesigned the driver and divided the driver into front end and backend (smem) so
+>    that any new backend can be attached easily to avoid code duplication.
+>  - Patch reordering as per the driver and subsystem to easier review of the code.
+>  - Removed minidump specific code from remoteproc to minidump smem based driver.
+>  - Enabled the all the driver as modules.
+>  - Address comments made on documentation and yaml and Device tree file [Krzysztof/Konrad]
 
-	a. what the tests do;
-	b. what functionalities they are testing.
+That's not enough. Your binding changed a lot and I doubt we proposed
+such changes. You need to be specific.
 
-This is a lot more important than documenting functions - and the used
-data structures on tests are typically the ones that are part of the
-driver's kAPI or uAPI, so they should be documented somewhere else.
+>  - Address comments made qcom_pstore_minidump driver and given its Device tree
+>    same set of properties as ramoops. [Luca/Kees]
+>  - Added patch for MAINTAINER file.
+>  - Include defconfig change as one patch as per [Krzysztof] suggestion.
+>  - Tried to remove the redundant file scope variables from the module as per [Krzysztof] suggestion.
+>  - Addressed comments made on dload mode patch v6 version 
+>    https://lore.kernel.org/lkml/1680076012-10785-1-git-send-email-quic_mojha@quicinc.com/
+> 
+> 
 
-Usually, (b) is not so simple, as, at least for complex hardware,
-the tested features are grouped on an hierarchical way, like:
+Best regards,
+Krzysztof
 
-	1. hardware
-	1.1 DMA engine
-	1.2 output ports
-	...
-	2. firmware
-	2.1 firmware load
-	2.2 firmware DMA actions
-	...
-	3. kernel features
-	3.1 memory allocation
-	3.2 mmap
-	3.3 bind/unbind
-	...
-
-CI engines running the test sets usually want to produce a report that will
-be providing pass rates for the tested features and functionalites that
-are available at the driver's and their respective hardware and firmware.
-
-I've doing some work at the tool we use to test DRM code [1] in order to 
-have a decent documentation of the tests we have hosted there, focusing 
-mostly on tests for i915 and Xe Intel drivers, also covering documentation
-for DRM core tests - while providing support for other vendors to also
-improve their test documentation for IGT - IGT GPU tools and tests.
-
-The documentation tool I developed is generic enough to be used for other
-test sets and I believe it could be useful as well to document Kselftest 
-and KUnit.
-
-The core of the tool (at test_list.py) is a Python class, with some callers
-(igt_doc.py, xls_to_doc.py, doc_to_xls.py), being extensible enough to
-also have other callers to integrate with external tools. We are 
-developing internally one to integrate with our internal Grafana reports
-to report the pass rate per documented feature, in an hierarchical way.
-
-Something similar to:
-
-	1. hardware        pass rate:  98% (98 tests passed of 100)
-	1.1 DMA engine     pass rate:  80% (8  tests passed of  10)
-	1.2 output ports   pass rate: 100% (10 tests passed of  10)
-	...
-
-It is based on the concept that test documentation should be placed as
-close as possible to the actual code implementing the test sets. It was
-also be developed in a way that the documentation grouping is flexible.
-The code was written from the scratch in Python and was implemented 
-inside a class that can also be re-used to do do other nice things,
-like importing/exporting test documentation to spreadsheets and
-integration with other tools (like Grafana).
-
-The actual documentation tags look like this:
-
-        /**
-         * TEST: Check if new IGT test documentation logic functionality is working
-         * Category: Software build block
-         * Sub-category: documentation
-         * Functionality: test documentation
-         * Issue: none
-         * Description: Complete description of this test
-         *
-         * SUBTEST: foo
-         * Description: do foo things
-         * 	description continuing on another line
-         *
-         * SUBTEST: bar
-         * Description: do bar things
-         * 	description continuing on another line
-         * Functionality: bar test doc
-         */
-
-And it has support for wildcards.
-
-There, "TEST" is associated to the contents of the file, while "SUBTEST"
-refers to each specific subtest inside it. The valid fields are imported
-from JSON config files, and can be placed into an hierarchical way, in
-order to produce an hierarchical documentation. Fields defined at the
-"TEST" level are imported on "SUBTEST", but can be overriden. 
-
-The JSON config file looks like this:
-	https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/158feaa20fa2b9424ee544efd2e0e0892562f8f0/tests/xe/xe_test_config.json
-
-The output is in ReST, which can be generated in hierarchical or per-file
-way. The hierarchical output looks like this:
-
-	$ ./scripts/igt_doc.py --config tests/xe/xe_test_config.json --file fubar_tests.c
-
-	===============================
-	Implemented Tests for Xe Driver
-	===============================
-	
-	Category: Software build block
-	==============================
-	
-	Sub-category: documentation
-	---------------------------
-	
-	Functionality: bar test doc
-	^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	
-	
-	``igt@fubar_tests@bar``
-	
-	:Description: do bar things description continuing on another line
-	:Issue: none
-	
-	Functionality: test documentation
-	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	
-	
-	``igt@fubar_tests@foo``
-	
-	:Description: do foo things description continuing on another line
-	:Issue: none
-
-(if --file is not used, it will use all C files specified at the
-configuration)
-
-The tool already skips tags like the ones used by kernel-doc[1], so one
-could have both function documentation and per-test documentation on
-the same file, if needed.
-
-While such tool was conceived to be part of IGT, it doesn't have anything
-specific for it [2], and I do believe it would be a great contribution to
-the Kernel to have such tool upstreamed, and integrated as a Sphinx
-extension.
-
-If we decide to go ahead adding it, I can work on a patchset to apply
-it to the Kernel, modifying the scripts to better fit at the Kernel
-needs and start with some documentation examples for i915,
-DRM core and upcoming Xe KUnit tests.
-
-Comments?
-
-Regards,
-Mauro
-
-[1] It should be trivial to patch kernel-doc for it to skip TEST and 
-    SUBTEST tags if we decide to integrate it to the kernel.
-
-[2] except that tests there are named after IGT, as
-    <igt <test>@<subtest>@<dynamic_subtest>, but a change to a 
-    Kernel-specific namespace would be trivial
