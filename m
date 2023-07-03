@@ -2,34 +2,34 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 582ADEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 13:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 174ECEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 13:09:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbjGCNIn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 09:08:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40528 "EHLO
+        id S231180AbjGCNJ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 09:09:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbjGCNIn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 09:08:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FBB4DD;
-        Mon,  3 Jul 2023 06:08:42 -0700 (PDT)
+        with ESMTP id S230385AbjGCNJ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 09:09:27 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40EDB94;
+        Mon,  3 Jul 2023 06:09:25 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D237160F2A;
-        Mon,  3 Jul 2023 13:08:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 795CDC433C8;
-        Mon,  3 Jul 2023 13:08:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AA80B60F06;
+        Mon,  3 Jul 2023 13:09:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83BCBC433C8;
+        Mon,  3 Jul 2023 13:09:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1688389721;
-        bh=ypbcj87dPUAw9tzLtO/umPTpb2y3vCv6n+L9rNnzz58=;
+        s=korg; t=1688389764;
+        bh=T7Ufr/yUXiAraO8aEPf0fd3IynmqDCJjXf6AnGN17u4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xLr+Vuydj3zwqtXJDbof6qt1egJsCwGG7z1JqapZix5T/n6ja+Kwo8KTGK/Y2hItD
-         6KKa493JijPBeliZnn61IYNmRt9cFvJej2Vrmki4L6PeJItT/MixQmRQzIeTPVpLDl
-         fAvq9kslDMfoChfvyLMM2g2U7ug/P0An5+tF9UYc=
-Date:   Mon, 3 Jul 2023 15:05:28 +0200
+        b=FstFVqiOOub0QPkzlTWmoa1ngU2Y+dI3ygdxBmCXB7XXduSXAruOW4Gq/vlTZMAU/
+         5xExvyfrJN7N+2ZKKjTxU/83uaQ7BBhhboo59yTT/Sv4cOZkAP+P3iA38ftBNgTEoJ
+         NOogCkM7yMaevmyWa0boAN22Gx6dQUoJm1DETK4c=
+Date:   Mon, 3 Jul 2023 15:07:29 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Eric DeVolder <eric.devolder@oracle.com>
 Cc:     linux-kernel@vger.kernel.org, david@redhat.com, osalvador@suse.de,
@@ -44,30 +44,27 @@ Cc:     linux-kernel@vger.kernel.org, david@redhat.com, osalvador@suse.de,
         linux-mm@kvack.org, linux-doc@vger.kernel.org,
         sourabhjain@linux.ibm.com, konrad.wilk@oracle.com,
         boris.ostrovsky@oracle.com
-Subject: Re: [PATCH v25 01/10] drivers/base: refactor cpu.c to use
- .is_visible()
-Message-ID: <2023070342-human-spill-a62c@gregkh>
+Subject: Re: [PATCH v25 06/10] crash: memory and CPU hotplug sysfs attributes
+Message-ID: <2023070359-saline-unsolved-3a99@gregkh>
 References: <20230629192119.6613-1-eric.devolder@oracle.com>
- <20230629192119.6613-2-eric.devolder@oracle.com>
+ <20230629192119.6613-7-eric.devolder@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230629192119.6613-2-eric.devolder@oracle.com>
+In-Reply-To: <20230629192119.6613-7-eric.devolder@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 29, 2023 at 03:21:10PM -0400, Eric DeVolder wrote:
->  - the function body of the callback functions are now wrapped with
->    IS_ENABLED(); as the callback function must exist now that the
->    attribute is always compiled-in (though not necessarily visible).
+On Thu, Jun 29, 2023 at 03:21:15PM -0400, Eric DeVolder wrote:
+> +What:		/sys/devices/system/cpu/crash_hotplug
+> +Date:		Jun 2023
 
-Why do you need to do this last thing?  Is it a code savings goal?  Or
-something else?  The file will not be present in the system if the
-option is not enabled, so it should be safe to not do this unless you
-feel it's necessary for some reason?
+It's not "Jun" anymore :(
 
-Not doing this would make the diff easier to read :)
+> +Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
+
+Why are you not going to maintain this?  Why is this up to me?
 
 thanks,
 
