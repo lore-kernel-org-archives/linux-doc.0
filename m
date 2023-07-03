@@ -2,55 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE34EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 12:57:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD19EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 13:03:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbjGCM5E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 08:57:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33930 "EHLO
+        id S230114AbjGCNDz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 09:03:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjGCM5E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 08:57:04 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7977C7
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 05:57:02 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3fbc0981733so42265985e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 05:57:02 -0700 (PDT)
+        with ESMTP id S231266AbjGCNDy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 09:03:54 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7803BE67
+        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 06:03:50 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fbc244d3a8so45108345e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 06:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688389021; x=1690981021;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uDd0P6Z6Y37kRPaqqHaNAC3kQrjxk6Pu8HaK2zooeKg=;
-        b=Sphcz5qq3+buhzDZsZI3W4+b4HigOS5WU6NMwnUZs/kQbxA9PrbT3K+5o0p+1ABhil
-         HZO2QoS68J/YmOLK5ud3i4DoQp3AMTM6ENbWuC5bwUi/1iBU4Y7Thgw0OpAcSzia3XxW
-         7ItXaRtwC4HMKc98rtOe9L0V9SB0/dx1QQxnKIUPI8IngESdeojydIjryy66+xXmuhzc
-         ipRs+hTSO4xt7oghX+frCZ6A4RWNmu6JY+Hu8WATZZCJX9xr7YrtzPbTUOzLthmSKHpS
-         ZCGbCIxrnPm7pyUceyeOfFItc/CioLz+WWoy7ghuQL0R8TiNKRjrg+yuNZ8zvmejwvLm
-         Efow==
+        d=ventanamicro.com; s=google; t=1688389429; x=1690981429;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cPBpk9U/09/3mwSB5bUrvUTAuq++fuN/NRKxbA7bKNo=;
+        b=hAy+BEYKnzd4+DmBw0GRbDQ1l88L7pEEpB2kO9554H/4kn61UlVe/JewCteAPvuSVE
+         tmHSfhdRmq/m2BO8bQ1qgGndwlyxlrIsSXXAYBEnR430VaszhPz+2tggA1hjNRjby+KP
+         EwZvL8n3NZO0qqnUXPAMkMhCXoP512GXkLhHr5OTUny1/ERP8Ex26t5hv3LYOMc2yO1B
+         S7C4C5WAY9ZROLBQBX+q17uc27P0Wl1l9w5z8s4vvVYM6INBw8kEhCI1dCJSaftfbi/J
+         r2JAepRR1Kn0tXpI/2p2zc657H8zKm4N8YnyIvL0PSLZ2vEx0WPq2hRN/TFVmAtKQheW
+         atnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688389021; x=1690981021;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uDd0P6Z6Y37kRPaqqHaNAC3kQrjxk6Pu8HaK2zooeKg=;
-        b=KSELqA5P0svxBw3O495ugCN6NG7uuEJIQz7dbWNmM3iOgP8a1wKih011HFUPbSJ11n
-         jXKdNTRhXVfQGn+zgFIdf3/A5q/irWNsR/LWqFS3C9v/6tFj+sPF1ll/TCE2lzlkZL3n
-         DgXn9NbfScI3P5dCZ3EfHQhk6dD+gxAyNe185odIsKHNKJwbNStLk/Ds/ZBMWcj1L+nq
-         rrbfI3MAqDf76EkwlNduWaY4hr/ZQyCJdivJp4sF/71vqlLnktJu97M1tpJjm08nw7MN
-         /LJhF7KkjgMxpyCFZeA5KACH1w4ryiK/rUEp2b5GRESn9Ph5NiuZoNCTEOWX/Gj1r4Bc
-         Fakw==
-X-Gm-Message-State: AC+VfDxhtkfZy3r3jMtM1sAQ0DnKzeVASoQPE0xBRtNFUsAVruoE6rBL
-        Ede3FFTmWK+vLjT3y8Ytvv21AQ==
-X-Google-Smtp-Source: ACHHUZ6/fBeiAWwj87e60iBk0jsshSg/HXNuUNYk789KVMfnmQErAN4M02VvuTIO86TKRIqfowM8+g==
-X-Received: by 2002:a05:600c:2049:b0:3f9:b31d:5689 with SMTP id p9-20020a05600c204900b003f9b31d5689mr7826755wmg.36.1688389021142;
-        Mon, 03 Jul 2023 05:57:01 -0700 (PDT)
-Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id n20-20020a7bcbd4000000b003fb739d27aesm18799546wmi.35.2023.07.03.05.57.00
+        d=1e100.net; s=20221208; t=1688389429; x=1690981429;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cPBpk9U/09/3mwSB5bUrvUTAuq++fuN/NRKxbA7bKNo=;
+        b=HbR1+TJ/ATKeprsUS5EnECW3KQiotfmlv+65+NW4P5U/+RbY57lKTbq/AZGiCUF/B6
+         wypTyBaHB4pb7Y1EJPCSjM064yeqYTBysklHY2fXio6CZ9hwiGZiTa8iVBpxYQ3okVla
+         z6gekelsA93Y/nYbjzehBkUg2USsIBMb57K8YnYTEsK8pwNHCu0/QK1yi3dr+0Cd/DVh
+         NIDj28pLrBEZTY+1SFM9f0Ew7e6SVLuBaUnHbYAQ1t5DbQWxIk1zwQfJvbCSsYcLsrHa
+         /0vPb9bi1zJzfznTMcawH3LyilRr627eWIZrgpeg+ZItoT6QDCV44YO6/Zw5uOA0m8Xp
+         FZUA==
+X-Gm-Message-State: ABy/qLYcrohI9ol1pmuCZEB75v8ClqQkkhaK9Q64lXICwVko2chPcCES
+        3CY3ZC8eNsnnppZKbYWi6/atkw==
+X-Google-Smtp-Source: APBJJlFzwWsag5H3B4fJAbl6Ppsd6Y16qbcXnimVTA19W+2BGHYWOjsyQihmyCv5gjCQoJYwvqbZ2w==
+X-Received: by 2002:a5d:5542:0:b0:314:3aa5:d285 with SMTP id g2-20020a5d5542000000b003143aa5d285mr1272124wrw.11.1688389428832;
+        Mon, 03 Jul 2023 06:03:48 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id d5-20020adff845000000b003141b9ddab3sm10587287wrq.114.2023.07.03.06.03.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 05:57:00 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
+        Mon, 03 Jul 2023 06:03:48 -0700 (PDT)
+Date:   Mon, 3 Jul 2023 15:03:47 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
@@ -65,54 +66,76 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         Atish Patra <atishp@atishpatra.org>,
         Anup Patel <anup@brainfault.org>,
         Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v4 10/10] perf: tests: Adapt mmap-basic.c for riscv
-Date:   Mon,  3 Jul 2023 14:46:47 +0200
-Message-Id: <20230703124647.215952-11-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230703124647.215952-1-alexghiti@rivosinc.com>
+Subject: Re: [PATCH v4 08/10] Documentation: admin-guide: Add riscv
+ sysctl_perf_user_access
+Message-ID: <20230703-c7f3e773f50ed6c934662f3f@orel>
 References: <20230703124647.215952-1-alexghiti@rivosinc.com>
+ <20230703124647.215952-9-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230703124647.215952-9-alexghiti@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-riscv now supports mmaping hardware counters to userspace so adapt the test
-to run on this architecture.
+On Mon, Jul 03, 2023 at 02:46:45PM +0200, Alexandre Ghiti wrote:
+> riscv now uses this sysctl so document its usage for this architecture.
+> 
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst | 27 ++++++++++++++++++---
+>  1 file changed, 23 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index d85d90f5d000..19b627883313 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -941,16 +941,35 @@ enabled, otherwise writing to this file will return ``-EBUSY``.
+>  The default value is 8.
+>  
+>  
+> -perf_user_access (arm64 only)
+> -=================================
+> +perf_user_access (arm64 and riscv only)
+> +=======================================
+> +
+> +Controls user space access for reading perf event counters.
+>  
+> -Controls user space access for reading perf event counters. When set to 1,
+> -user space can read performance monitor counter registers directly.
+> +arm64
+> +=====
+>  
+>  The default value is 0 (access disabled).
+>  
+> +When set to 1, user space can read performance monitor counter registers
+> +directly.
+> +
+>  See Documentation/arm64/perf.rst for more information.
+>  
+> +riscv
+> +=====
+> +
+> +When set to 0, user space access is disabled.
+> +
+> +The default value is 1, user space can read performance monitor counter
+> +registers through perf, any direct access without perf intervention will trigger
+> +an illegal instruction.
+> +
+> +When set to 2, which enables legacy mode (user space has direct access to cycle
+> +and insret CSRs only). Note that this legacy value is deprecated and will be
+> +removed once all user space applications are fixed.
+> +
+> +Note that the time CSR is always directly accessible to all modes.
+>  
+>  pid_max
+>  =======
+> -- 
+> 2.39.2
+>
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
----
- tools/perf/tests/mmap-basic.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.c
-index e68ca6229756..f5075ca774f8 100644
---- a/tools/perf/tests/mmap-basic.c
-+++ b/tools/perf/tests/mmap-basic.c
-@@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] = {
- 			 "permissions"),
- 	TEST_CASE_REASON("User space counter reading of instructions",
- 			 mmap_user_read_instr,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
- 			 "permissions"
- #else
- 			 "unsupported"
-@@ -292,7 +292,7 @@ static struct test_case tests__basic_mmap[] = {
- 		),
- 	TEST_CASE_REASON("User space counter reading of cycles",
- 			 mmap_user_read_cycles,
--#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-+#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || __riscv_xlen == 64
- 			 "permissions"
- #else
- 			 "unsupported"
--- 
-2.39.2
-
