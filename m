@@ -2,130 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59648C001DD
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 07:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6DCFC001B0
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 08:18:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230246AbjGCHUv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 03:20:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57130 "EHLO
+        id S229591AbjGCISm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 04:18:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230011AbjGCHUu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 03:20:50 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 592E8E4C
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 00:20:48 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-1b3a8635d80so394658fac.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 00:20:48 -0700 (PDT)
+        with ESMTP id S230483AbjGCISk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 04:18:40 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 989D3E44
+        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 01:18:38 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-51de841a727so4116475a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 01:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688368847; x=1690960847;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5wOEeEqZxs/53QPFBAeYmLrF3X4waeqXDqE1Qr5s1oo=;
-        b=K4Fk0wgl41urJ973GedutT6AJySQVRpM7IEAeH1DL3A0K5cftuzCamKRTB9DPS99mD
-         nA2nj+JvCX7ToqPkiXrqneN0AFk6tdTwfutFdtsVKkSIPottw7M/tR3AATLz4IgyfIl5
-         3uIT+BmwDiCixsnU59nodSwDjHwYO1qhwePVV9/5uIAGIE8HgjGzSORacDRfTQN9o+A4
-         RK189ThZg7KIFV/i1sqW4r2TYZBTb/6fmGM/KM32273ABzhuloTOaX+mqNyy/elVoy8H
-         x0NV4f9dVSDnPrOCSmBeOuSYdtx92ccMK5jyz2fExYMyn5NXHnQPrd9uQwVYLUOJFjPO
-         p98w==
+        d=ventanamicro.com; s=google; t=1688372317; x=1690964317;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f0AIPmQjwEPFU9S6QPuv3kXAJyYa7R0ahvO9uqbNsw0=;
+        b=CTXm0Evd7f9xNERgFGe8Kgf2dIrXOUMZPOBGhEgXQdvIjRhhrv5Qh3s5ENWJ09z7ev
+         5wm7FiXz+iF/TvW0dDpczV2RwoT7ClRWoiG7fSddWKzNyBagcc/r7pNw84OiXN04lL4z
+         wC0LmC5S4SY3KJKOoKwf0war+sU1MsM9XTZc+Scp7fmMYsS9QJtvuv34rKr0yMZAysn8
+         D2fh7In8mMCQM9+yNYsq6aVEQIOZzk4aw7h/eGK/mN535gJJ9Vny0AUFRXYlZM0dEbQr
+         O8A0Ma5CFWhzbHzM3joBe8qmF4w64d0CQLFSC5gbL99qho7IZPwuRlOOued1WUV58MLW
+         eK2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688368847; x=1690960847;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5wOEeEqZxs/53QPFBAeYmLrF3X4waeqXDqE1Qr5s1oo=;
-        b=ECgsm63rt/npP1D0WKKTlwVhG1z1/jq+p4GbIFysh4Pd/2xahx6ezoWpXTkfipU75s
-         COi0+anYNZxB3tJRLiXFSbik5YZ3dC1xvNC2t1vbniWOh+JWtJ9iZpXcXUbfd+zfZQ9Z
-         uATJ+30vSt0XwftLbOhhVjuCLguHcTNVv6DIer+19pmrzmiRjiSZeBauBh3BWq693z/V
-         8iiQmFrpUwcgQQqu8eo7Lxq3wv2PVSH9qazzayG+O7bbJEp9yAjPYLDrLfXeiK437afW
-         G+TtTK6PDzNTv6XrbKLpwd9cilvb7PNVTRTQ9xGEEwrrMliZ1M5MGanC/23b3vYHC5ve
-         Kpog==
-X-Gm-Message-State: ABy/qLafMv0fPcEA9zTPBdbjg7yt1pEixgU1GdwBaVZCundfYQuH5G+M
-        ReucDGdL9KQgz7hryTl5sIJKV6yVG6guLaY924BE9Q==
-X-Google-Smtp-Source: APBJJlEb+AJ0CavHV/EY5o02uXm03FgkhsSGBahp5rgVjQwn4oDUf2oZLdvfrUiaO5BwJCpHYi9SurP9PwIS6yl4hW0=
-X-Received: by 2002:a05:6870:f150:b0:1b0:3771:736c with SMTP id
- l16-20020a056870f15000b001b03771736cmr12943732oac.41.1688368847232; Mon, 03
- Jul 2023 00:20:47 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688372317; x=1690964317;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f0AIPmQjwEPFU9S6QPuv3kXAJyYa7R0ahvO9uqbNsw0=;
+        b=HOpdAIy1smLTqBRJOLMLlYrW5acymg+5iprxQkEo5LeV7DNxZ/XfZKmoqvjReKcIJ8
+         5qYixQzAGch7bdzAObz53IcRdqlKa6vAAYNeDv5OPNrwr4af9UIRUJGiDSKNSHddzmLX
+         S4l6DTS3/gdJv14IMvOjnxlT+5JlBgyD8KVRpsCHb7ODpFXwGpUW3TABZw/bRfMKw7XN
+         DAMgnxS20mfBlzDgTFJhZat5uBqDhqr9sH8+c0V55xCIbnWxqbmTYYNKd3sPLaiCrl+7
+         /h2VnxH/M7Qy3V8E42YihPUcOgmEgYhuQPwzaBIvYtj8e2DKqrEUO8NY6MB3+uYL727V
+         zTkw==
+X-Gm-Message-State: ABy/qLblyLHN/NrFvj5aCiLQjsIzpQ20jLcheCqDwnLNhGA4MuC53QvO
+        Vkh45irBVhzucKisAP3r53xzYw==
+X-Google-Smtp-Source: APBJJlFjFKFq1EVk2plu+5SIDoHMMxjYDFXuQ8UHkU0hLQGKGPcjw2PacRkzpqFIW8QfcigNzutaAw==
+X-Received: by 2002:a05:6402:4497:b0:51a:200b:d8ff with SMTP id er23-20020a056402449700b0051a200bd8ffmr6795812edb.13.1688372316835;
+        Mon, 03 Jul 2023 01:18:36 -0700 (PDT)
+Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
+        by smtp.gmail.com with ESMTPSA id n22-20020a056402515600b0051e0f100c48sm1171605edd.22.2023.07.03.01.18.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jul 2023 01:18:36 -0700 (PDT)
+Date:   Mon, 3 Jul 2023 10:18:35 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Haibo Xu <haibo1.xu@intel.com>
+Cc:     xiaobo55x@gmail.com, maz@kernel.org, oliver.upton@linux.dev,
+        seanjc@google.com, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Anup Patel <anup@brainfault.org>,
+        Atish Patra <atishp@atishpatra.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Shuah Khan <shuah@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Ricardo Koller <ricarkol@google.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Vipin Sharma <vipinsh@google.com>,
+        David Matlack <dmatlack@google.com>,
+        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kselftest@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v5 10/13] KVM: selftests: Only do get/set tests on
+ present blessed list
+Message-ID: <20230702-49c5545eb1ae2d0cf11c7b95@orel>
+References: <cover.1688010022.git.haibo1.xu@intel.com>
+ <f44c3aa46971d524319c6340f9ce1b00c0182fd2.1688010022.git.haibo1.xu@intel.com>
 MIME-Version: 1.0
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <1687955688-20809-9-git-send-email-quic_mojha@quicinc.com>
- <CAL_JsqJ_TTnGjjB2d8_FKHpWBRG5GHLoWnabCKjsdeZ4QFdNEg@mail.gmail.com>
- <cacbbb02-732e-076e-50bf-292d20a4d722@quicinc.com> <58a26b9e-a48d-d567-c310-193a2c52521e@linaro.org>
- <5447f9f8-55b4-8bed-66a6-1c9d62b02c79@quicinc.com>
-In-Reply-To: <5447f9f8-55b4-8bed-66a6-1c9d62b02c79@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date:   Mon, 3 Jul 2023 09:20:35 +0200
-Message-ID: <CAGE=qrq0CuO4J-6yC=YZ4xjL67o9QTqpei0ovX-X_8MLVeEH6g@mail.gmail.com>
-Subject: Re: [PATCH v4 08/21] dt-bindings: reserved-memory: Add qcom,ramoops binding
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, corbet@lwn.net,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
-        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
-        andy.shevchenko@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f44c3aa46971d524319c6340f9ce1b00c0182fd2.1688010022.git.haibo1.xu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 3 Jul 2023 at 08:22, Mukesh Ojha <quic_mojha@quicinc.com> wrote:
-> On 7/2/2023 1:42 PM, Krzysztof Kozlowski wrote:
-> >>> The big difference is if firmware is not deciding where this log
-> >>> lives, then it doesn't need to be in DT. How does anything except the
-> >>> kernel that allocates the log find the logs?
-> >>
-> >> Yes, you are correct, firmware is not deciding where the logs lives
-> >> instead here, Kernel has reserved the region where the ramoops region
-> >> lives and later with the minidump registration where, physical
-> >> address/size/virtual address(for parsing) are passed and that is how
-> >> firmware is able to know and dump those region before triggering system
-> >> reset.
-> >
-> > Your explanation does not justify storing all this in DT. Kernel can
-> > allocate any memory it wishes, store there logs and pass the address to
-> > the firmware. That's it, no need for DT.
->
-> If you go through the driver, you will know that what it does, is
+On Sat, Jul 01, 2023 at 09:42:58PM +0800, Haibo Xu wrote:
+> Only do the get/set tests on present and blessed registers
+> since we don't know the capabilities of any new ones.
+> 
+> Suggested-by: Andrew Jones <ajones@ventanamicro.com>
+> Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> ---
+>  tools/testing/selftests/kvm/get-reg-list.c | 29 ++++++++++++++--------
+>  1 file changed, 18 insertions(+), 11 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing/selftests/kvm/get-reg-list.c
+> index c61090806007..74fb6f6fdd09 100644
+> --- a/tools/testing/selftests/kvm/get-reg-list.c
+> +++ b/tools/testing/selftests/kvm/get-reg-list.c
+> @@ -49,6 +49,10 @@ extern int vcpu_configs_n;
+>  	for_each_reg_filtered(i)						\
+>  		if (!find_reg(blessed_reg, blessed_n, reg_list->reg[i]))
+>  
+> +#define for_each_present_blessed_reg(i)			\
+> +	for ((i) = 0; (i) < blessed_n; ++(i))		\
+> +		if (find_reg(reg_list->reg, reg_list->n, blessed_reg[i]))
 
-We talk about bindings and I should not be forced to look at the
-driver to be able to understand them. Bindings should stand on their
-own.
+I just realized this is backwards. We need 'i' to index reg_list->reg in
+the body of the loop. That means we need to write this as
 
-> just create platform device for actual ramoops driver to probe and to
+#define for_each_present_blessed_reg(i)                                         \
+        for_each_reg(i)                                                         \
+                if (find_reg(blessed_reg, blessed_n, reg_list->reg[i]))
 
-Not really justification for Devicetree anyway. Whatever your driver
-is doing, is driver's business, not bindings.
+(Which, in hindsight, makes sense since we're replacing a for_each_reg()
+loop.)
 
-> provide this it needs exact set of parameters of input what original
-> ramoops DT provides, we need to keep it in DT as maintaining this in
-> driver will not scale well with different size/parameter size
-> requirement for different targets.
-
-Really? Why? I don't see a problem in scaling. At all.
-
->
-> >
-> >>
-> >> A part of this registration code you can find in 11/21
-> >>
-> >>> I'm pretty sure I already said all this before.
-> >>
-> >> Yes, you said this before but that's the reason i came up with vendor
-> >> ramoops instead of changing traditional ramoops binding.
-> >
-> > That's unexpected conclusion. Adding more bindings is not the answer to
-> > comment that it should not be in the DTS in the first place.
->
-> Please suggest, what is the other way being above text as requirement..
-
-I do not see any requirement for us there. Forcing me to figure out
-how to add non-hardware property to DT is not the way to convince
-reviewers. But if you insist - we have ABI for this, called sysfs. If
-it is debugging feature, then debugfs.
-
-Best regards,
-Krzysztof
+Thanks,
+drew
