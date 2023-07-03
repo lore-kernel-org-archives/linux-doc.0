@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 254BCC0015E
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:30:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A075DC0015E
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:30:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231637AbjGCKae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 06:30:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48152 "EHLO
+        id S230176AbjGCKas (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 06:30:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229791AbjGCKaT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:30:19 -0400
+        with ESMTP id S231700AbjGCKaX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:30:23 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28E2BC2;
-        Mon,  3 Jul 2023 03:29:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96CBF1BC;
+        Mon,  3 Jul 2023 03:29:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1688380182; x=1719916182;
+  t=1688380189; x=1719916189;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=HPRtOyIqm/BcHFGgw0cl0PQB3rNvTkemYLiSjsKMtC8=;
-  b=lgQcLcxXS6tm08dcYjRk4ZvAK0jB5DcP3tf0eYLFioo5husdgQzGw9UD
-   GBdnWvEWPd/t8tTZ+12euwKXm8mA+MXtZR760SAL0+FAoBLsdKm9Sc40N
-   VRISpfxRA9OewqRBpmZTJ/WWe82h4LcbSGYnSVh2CQf+lKNec7cY7e9KN
-   cB0gfvSBI1SSFmZtweXaQwaDQG4eah0b6Wd3A80mZhQYM9gHP+kCgduUa
-   rUKsUqTijOHQ24/bYh6a/J5p/xhNL3yp2JJvylADoAPeMx3Z+C2cCy7Jb
-   GztVaqCcdOZP8aSHFl3bl5rdbK3x8GdRb2JtStw15a0KT5/FpRzqa55xI
+  bh=6+4fXO0Mgsbn0oR0/2jnJO0XttLzGYmDlCcJv+2evZU=;
+  b=ATjwGeEIoXc2N0UPeCWuTd7bdd/DaPaitdchFzlAEkDUZ+/rNIBL299s
+   MsPy8S/3HtCe2C451vwy8M3nGxKT+Flk68fLQXbdBB71VTiHH4y3a2745
+   UmlV1lz8mtfAohq6+tZcUSQsuzoUajr4sgSr1RacBUibUkrNPPaKLR334
+   WoslxfbGtMNqlp+F5lgGZ28EVTjToJfj1sVyeWJqGpn2OW3HRJ6/t+81y
+   j6kYoEuotOoB5aLb6k5e/uupRmA2p/MrlcLv/qo2cb1HC6B5PnfNN8L03
+   sA5Fhkrj12muXIHRCk3U/aqvLiHkvDVr3ybrlV9Jw7vdQhnhW+WZ81cVD
    Q==;
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="222963013"
+   d="scan'208";a="218684000"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 03 Jul 2023 03:29:33 -0700
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 03 Jul 2023 03:29:30 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 3 Jul 2023 03:29:15 -0700
+ 15.1.2507.21; Mon, 3 Jul 2023 03:29:26 -0700
 Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex03.mchp-main.com
  (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 3 Jul 2023 03:29:12 -0700
+ Transport; Mon, 3 Jul 2023 03:29:24 -0700
 From:   Conor Dooley <conor.dooley@microchip.com>
 To:     <palmer@dabbelt.com>
 CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
@@ -53,14 +53,14 @@ CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
         <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 06/11] RISC-V: add missing single letter extension definitions
-Date:   Mon, 3 Jul 2023 11:27:58 +0100
-Message-ID: <20230703-unlocking-straining-5c814e99642b@wendy>
+Subject: [PATCH v3 10/11] RISC-V: try new extension properties in of_early_processor_hartid()
+Date:   Mon, 3 Jul 2023 11:28:02 +0100
+Message-ID: <20230703-reroute-glacier-86c7befb1a13@wendy>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
 References: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1204; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=HPRtOyIqm/BcHFGgw0cl0PQB3rNvTkemYLiSjsKMtC8=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmLFq2OYbpqeyguNVtBVfCDrszyTnumf3Wt4c9vmhndmfJq 4iOGjlIWBjEOBlkxRZbE230tUuv/uOxw7nkLM4eVCWQIAxenAExkRhUjw+Rrx1P3PZiWeORP1PbA5U 1VeZMWzZhuYfJ9y34dHvkbO3gYGU6tF/o1Jfnay2e5p43/n9xduypM8YrpwczNvfuMMxZGs/IBAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1977; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=6+4fXO0Mgsbn0oR0/2jnJO0XttLzGYmDlCcJv+2evZU=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmLFq3ZlDpFRt/L9nzj/hem8ytrnk/12TVfwGZVT9/etXnK e/htOkpZGMQ4GGTFFFkSb/e1SK3/47LDuectzBxWJpAhDFycAjCRKD1Ghkf2XxJm7r3CPfeQ7JTtnx MTHvDffs49L6CGhcVn4pZTP0sY/tcsS6q8YVxSeEeM70KLxQ/zJ+d2n7TfyVBo0HLozC07E14A
 X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -68,38 +68,62 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To facilitate adding single letter extensions to riscv_isa_ext, add
-definitions for the extensions present in base_riscv_exts that do not
-already have them.
+To fully deprecate the kernel's use of "riscv,isa",
+of_early_processor_hartid() needs to first try using the new properties,
+before falling back to "riscv,isa".
 
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/riscv/include/asm/hwcap.h | 5 +++++
- 1 file changed, 5 insertions(+)
+Changes in v3:
+- Add some printouts to explain what went wrong while parsing harts,
+  so that if none are found there's at least a hint before we hit a
+  BUG()
+---
+ arch/riscv/kernel/cpu.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-index 2460ac2fc7ed..a20e4ade1b53 100644
---- a/arch/riscv/include/asm/hwcap.h
-+++ b/arch/riscv/include/asm/hwcap.h
-@@ -14,12 +14,17 @@
- #include <uapi/asm/hwcap.h>
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 4f1f12f34b63..28d5af21f544 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -61,8 +61,35 @@ int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *har
+ 		return -ENODEV;
+ 	}
  
- #define RISCV_ISA_EXT_a		('a' - 'a')
-+#define RISCV_ISA_EXT_b		('b' - 'a')
- #define RISCV_ISA_EXT_c		('c' - 'a')
- #define RISCV_ISA_EXT_d		('d' - 'a')
- #define RISCV_ISA_EXT_f		('f' - 'a')
- #define RISCV_ISA_EXT_h		('h' - 'a')
- #define RISCV_ISA_EXT_i		('i' - 'a')
-+#define RISCV_ISA_EXT_j		('j' - 'a')
-+#define RISCV_ISA_EXT_k		('k' - 'a')
- #define RISCV_ISA_EXT_m		('m' - 'a')
-+#define RISCV_ISA_EXT_p		('p' - 'a')
-+#define RISCV_ISA_EXT_q		('q' - 'a')
- #define RISCV_ISA_EXT_s		('s' - 'a')
- #define RISCV_ISA_EXT_u		('u' - 'a')
- #define RISCV_ISA_EXT_v		('v' - 'a')
++	if (of_property_read_string(node, "riscv,isa-base", &isa))
++		goto old_interface;
++
++	if (IS_ENABLED(CONFIG_32BIT) && strncasecmp(isa, "rv32i", 5)) {
++		pr_warn("CPU with hartid=%lu does not support rv32i", *hart);
++		return -ENODEV;
++	}
++
++	if (IS_ENABLED(CONFIG_64BIT) && strncasecmp(isa, "rv64i", 5)) {
++		pr_warn("CPU with hartid=%lu does not support rv64i", *hart);
++		return -ENODEV;
++	}
++
++	if (!of_property_present(node, "riscv,isa-extensions"))
++		return -ENODEV;
++
++	if (of_property_match_string(node, "riscv,isa-extensions", "i") < 0 ||
++	    of_property_match_string(node, "riscv,isa-extensions", "m") < 0 ||
++	    of_property_match_string(node, "riscv,isa-extensions", "a") < 0) {
++		pr_warn("CPU with hartid=%lu does not support ima", *hart);
++		return -ENODEV;
++	}
++
++	return 0;
++
++old_interface:
+ 	if (of_property_read_string(node, "riscv,isa", &isa)) {
+-		pr_warn("CPU with hartid=%lu has no \"riscv,isa\" property\n", *hart);
++		pr_warn("CPU with hartid=%lu has no \"riscv,isa-base\" or \"riscv,isa\" property\n",
++			*hart);
+ 		return -ENODEV;
+ 	}
+ 
 -- 
 2.40.1
 
