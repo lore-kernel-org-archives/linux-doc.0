@@ -2,85 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E4BEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 15:08:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C2EEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 15:08:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbjGCPIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 11:08:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48270 "EHLO
+        id S231696AbjGCPIy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 11:08:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbjGCPIj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 11:08:39 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BBDFBC;
-        Mon,  3 Jul 2023 08:08:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688396918; x=1719932918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6iC3YuHe8rC5QwgP5+XpkMFQ2vyYYdvadondVp+quNw=;
-  b=eAu9v1cxR3+EOtv1W7PXDc+txBXgde67b5iQCzvBc1bri9swGmDq7Tq+
-   eSxNQxV1+xf00X9bTpd1ON13Z2nmVyRK0+DJ3ZXt+sdGl/SzhSWBOMmoA
-   GXHx81acuWZdslQHMdbPBCv4RoWKzmWq/Q1dCQGp/LGBJeKQ4pPxANhip
-   i2ER7aBOQBAlPZfXqf6BiNWbSKIT7iyGZNq9tBgENHJe/nzhGtWbY48FR
-   N5oVKkaNxWEsKhPcZVZ61lAJHcDbEz//EctgNNoZgJWLJpTjoQxuDcQtl
-   QUTSDSwWr4ub0irze+avalqpdXSqhGdDpy+LY5O3X+tpYl2LdVITluyyT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="393645900"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="393645900"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 08:08:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="721809950"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="721809950"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Jul 2023 08:08:35 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qGLAH-001tW4-2e;
-        Mon, 03 Jul 2023 18:08:33 +0300
-Date:   Mon, 3 Jul 2023 18:08:33 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1 1/2] docs: printk-formats: Fix hex printing of signed
- values
-Message-ID: <ZKLkcWyY35OK/ZTw@smile.fi.intel.com>
-References: <20230703145839.14248-1-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S231694AbjGCPIw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 11:08:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BFC9E6E
+        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 08:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688396887;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=AUHibEWJur7T9M8HkspJ2AIEO95dTbGY2F8uwaeIXwk=;
+        b=Xgv0QnKs6YU9EC6xxTZ5a42Ogf5Oj2CD9eLbXxfXTb5ldLcO5JpyowT68JU6pBeqKQcktU
+        owkb00Ie3jFcWUf48VKoSxIhA/nM35AxddvCxkyz0rkcTTiEz8QgqEloA0rxq2sb/Zu7tC
+        rLC02UFBF9PN7IiBTtKj0pTvFpMU/5I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-9-NFofb2wYMNu_ZVe_IxIOIA-1; Mon, 03 Jul 2023 11:08:02 -0400
+X-MC-Unique: NFofb2wYMNu_ZVe_IxIOIA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7F891C08DA7;
+        Mon,  3 Jul 2023 15:08:01 +0000 (UTC)
+Received: from [10.22.17.92] (unknown [10.22.17.92])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 752C3492B01;
+        Mon,  3 Jul 2023 15:08:00 +0000 (UTC)
+Message-ID: <5727a163-c72a-9632-b497-1011689aaa75@redhat.com>
+Date:   Mon, 3 Jul 2023 11:08:00 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230703145839.14248-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v4 1/4] x86/speculation: Add __update_spec_ctrl() helper
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        x86@kernel.org, linux-pm@vger.kernel.org,
+        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>
+References: <20230628022554.1638318-1-longman@redhat.com>
+ <20230628022554.1638318-2-longman@redhat.com>
+ <20230703102815.GD4253@hirez.programming.kicks-ass.net>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20230703102815.GD4253@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 05:58:38PM +0300, Andy Shevchenko wrote:
-> The commit cbacb5ab0aa0 ("docs: printk-formats: Stop encouraging use of
-> unnecessary %h[xudi] and %hh[xudi]") obviously missed the point of sign
-> promotion for the signed values lesser than int. In such case %x prints
-> not the same as %h[h]x. Restore back those specifiers for the signed hex
-> cases.
 
-FWIW, currently we luckily have only one ABI case
-drivers/power/supply/bq24190_charger.c:466
-which luckily uses unsigned value for that specifier.
+On 7/3/23 06:28, Peter Zijlstra wrote:
+> On Tue, Jun 27, 2023 at 10:25:51PM -0400, Waiman Long wrote:
+>> Add a new __update_spec_ctrl() helper which is a variant of
+>> update_spec_ctrl() that can be used in a noinstr function.
+>>
+>> Suggested-by: Peter Zijlstra <peterz@infradead.org>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>   arch/x86/include/asm/nospec-branch.h | 11 ++++++++++-
+>>   1 file changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
+>> index 55388c9f7601..1d363fcea207 100644
+>> --- a/arch/x86/include/asm/nospec-branch.h
+>> +++ b/arch/x86/include/asm/nospec-branch.h
+>> @@ -9,7 +9,7 @@
+>>   
+>>   #include <asm/alternative.h>
+>>   #include <asm/cpufeatures.h>
+>> -#include <asm/msr-index.h>
+>> +#include <asm/msr.h>
+>>   #include <asm/unwind_hints.h>
+>>   #include <asm/percpu.h>
+>>   #include <asm/current.h>
+>> @@ -488,6 +488,15 @@ DECLARE_PER_CPU(u64, x86_spec_ctrl_current);
+>>   extern void update_spec_ctrl_cond(u64 val);
+>>   extern u64 spec_ctrl_current(void);
+>>   
+>> +/*
+>> + * This can be used in noinstr function.
+>> + */
+>> +static __always_inline void __update_spec_ctrl(u64 val)
+>> +{
+>> +	__this_cpu_write(x86_spec_ctrl_current, val);
+>> +	native_wrmsrl(MSR_IA32_SPEC_CTRL, val);
+>> +}
+> Should we also use this to implement update_spec_ctrl() ?
 
-The rest is debug and error messages along with tracepoints.
-The tracepoints might have an undesired, but not critical,
-deviation. Nevertheless, promoting sign for hex values seems
-to me the wrong suggestion.
+I also thought about that. However, I am a bit worry about losing some 
+additional check done in this_cpu_write() and the paravirt support in 
+wrmsrl(). I have no problem making update_spec_ctrl() an instrument-able 
+wrapper on __update_spec_ctrl() if you think these are not valid concerns.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+Cheers,
+Longman
 
