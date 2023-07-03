@@ -2,140 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD19EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 13:03:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF826EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 13:07:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230114AbjGCNDz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 09:03:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37890 "EHLO
+        id S231258AbjGCNHX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 09:07:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231266AbjGCNDy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 09:03:54 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7803BE67
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 06:03:50 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fbc244d3a8so45108345e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 06:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1688389429; x=1690981429;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cPBpk9U/09/3mwSB5bUrvUTAuq++fuN/NRKxbA7bKNo=;
-        b=hAy+BEYKnzd4+DmBw0GRbDQ1l88L7pEEpB2kO9554H/4kn61UlVe/JewCteAPvuSVE
-         tmHSfhdRmq/m2BO8bQ1qgGndwlyxlrIsSXXAYBEnR430VaszhPz+2tggA1hjNRjby+KP
-         EwZvL8n3NZO0qqnUXPAMkMhCXoP512GXkLhHr5OTUny1/ERP8Ex26t5hv3LYOMc2yO1B
-         S7C4C5WAY9ZROLBQBX+q17uc27P0Wl1l9w5z8s4vvVYM6INBw8kEhCI1dCJSaftfbi/J
-         r2JAepRR1Kn0tXpI/2p2zc657H8zKm4N8YnyIvL0PSLZ2vEx0WPq2hRN/TFVmAtKQheW
-         atnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688389429; x=1690981429;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cPBpk9U/09/3mwSB5bUrvUTAuq++fuN/NRKxbA7bKNo=;
-        b=HbR1+TJ/ATKeprsUS5EnECW3KQiotfmlv+65+NW4P5U/+RbY57lKTbq/AZGiCUF/B6
-         wypTyBaHB4pb7Y1EJPCSjM064yeqYTBysklHY2fXio6CZ9hwiGZiTa8iVBpxYQ3okVla
-         z6gekelsA93Y/nYbjzehBkUg2USsIBMb57K8YnYTEsK8pwNHCu0/QK1yi3dr+0Cd/DVh
-         NIDj28pLrBEZTY+1SFM9f0Ew7e6SVLuBaUnHbYAQ1t5DbQWxIk1zwQfJvbCSsYcLsrHa
-         /0vPb9bi1zJzfznTMcawH3LyilRr627eWIZrgpeg+ZItoT6QDCV44YO6/Zw5uOA0m8Xp
-         FZUA==
-X-Gm-Message-State: ABy/qLYcrohI9ol1pmuCZEB75v8ClqQkkhaK9Q64lXICwVko2chPcCES
-        3CY3ZC8eNsnnppZKbYWi6/atkw==
-X-Google-Smtp-Source: APBJJlFzwWsag5H3B4fJAbl6Ppsd6Y16qbcXnimVTA19W+2BGHYWOjsyQihmyCv5gjCQoJYwvqbZ2w==
-X-Received: by 2002:a5d:5542:0:b0:314:3aa5:d285 with SMTP id g2-20020a5d5542000000b003143aa5d285mr1272124wrw.11.1688389428832;
-        Mon, 03 Jul 2023 06:03:48 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id d5-20020adff845000000b003141b9ddab3sm10587287wrq.114.2023.07.03.06.03.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 06:03:48 -0700 (PDT)
-Date:   Mon, 3 Jul 2023 15:03:47 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 08/10] Documentation: admin-guide: Add riscv
- sysctl_perf_user_access
-Message-ID: <20230703-c7f3e773f50ed6c934662f3f@orel>
-References: <20230703124647.215952-1-alexghiti@rivosinc.com>
- <20230703124647.215952-9-alexghiti@rivosinc.com>
+        with ESMTP id S230452AbjGCNHW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 09:07:22 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 966DF94;
+        Mon,  3 Jul 2023 06:07:20 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.56])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4QvmNx0gbvzLnfN;
+        Mon,  3 Jul 2023 21:05:05 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 3 Jul
+ 2023 21:07:15 +0800
+Message-ID: <b338a366-2cc3-870e-aee6-d55999ab14b5@huawei.com>
+Date:   Mon, 3 Jul 2023 21:07:15 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230703124647.215952-9-alexghiti@rivosinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next v6 0/2] support allocating crashkernel above 4G
+ explicitly on riscv
+Content-Language: en-US
+To:     Guo Ren <guoren@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <heiko@sntech.de>,
+        <bjorn@rivosinc.com>, <alex@ghiti.fr>, <akpm@linux-foundation.org>,
+        <atishp@rivosinc.com>, <bhe@redhat.com>,
+        <thunder.leizhen@huawei.com>, <horms@kernel.org>
+References: <20230701171138.1491206-1-chenjiahao16@huawei.com>
+ <CAJF2gTSPaBvB_CsmN5m91AVXwXB37j2qvyCP3VqALxHwNcGeTg@mail.gmail.com>
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+In-Reply-To: <CAJF2gTSPaBvB_CsmN5m91AVXwXB37j2qvyCP3VqALxHwNcGeTg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.108.26]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 02:46:45PM +0200, Alexandre Ghiti wrote:
-> riscv now uses this sysctl so document its usage for this architecture.
-> 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst | 27 ++++++++++++++++++---
->  1 file changed, 23 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index d85d90f5d000..19b627883313 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -941,16 +941,35 @@ enabled, otherwise writing to this file will return ``-EBUSY``.
->  The default value is 8.
->  
->  
-> -perf_user_access (arm64 only)
-> -=================================
-> +perf_user_access (arm64 and riscv only)
-> +=======================================
-> +
-> +Controls user space access for reading perf event counters.
->  
-> -Controls user space access for reading perf event counters. When set to 1,
-> -user space can read performance monitor counter registers directly.
-> +arm64
-> +=====
->  
->  The default value is 0 (access disabled).
->  
-> +When set to 1, user space can read performance monitor counter registers
-> +directly.
-> +
->  See Documentation/arm64/perf.rst for more information.
->  
-> +riscv
-> +=====
-> +
-> +When set to 0, user space access is disabled.
-> +
-> +The default value is 1, user space can read performance monitor counter
-> +registers through perf, any direct access without perf intervention will trigger
-> +an illegal instruction.
-> +
-> +When set to 2, which enables legacy mode (user space has direct access to cycle
-> +and insret CSRs only). Note that this legacy value is deprecated and will be
-> +removed once all user space applications are fixed.
-> +
-> +Note that the time CSR is always directly accessible to all modes.
->  
->  pid_max
->  =======
-> -- 
-> 2.39.2
->
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+On 2023/7/1 21:45, Guo Ren wrote:
+> On Sat, Jul 1, 2023 at 5:12 PM Chen Jiahao <chenjiahao16@huawei.com> wrote:
+>> On riscv, the current crash kernel allocation logic is trying to
+>> allocate within 32bit addressible memory region by default, if
+>> failed, try to allocate without 4G restriction.
+>>
+>> In need of saving DMA zone memory while allocating a relatively large
+>> crash kernel region, allocating the reserved memory top down in
+>> high memory, without overlapping the DMA zone, is a mature solution.
+>> Hence this patchset introduces the parameter option crashkernel=X,[high,low].
+>>
+>> One can reserve the crash kernel from high memory above DMA zone range
+>> by explicitly passing "crashkernel=X,high"; or reserve a memory range
+>> below 4G with "crashkernel=X,low". Besides, there are few rules need
+>> to take notice:
+>> 1. "crashkernel=X,[high,low]" will be ignored if "crashkernel=size"
+>>     is specified.
+>> 2. "crashkernel=X,low" is valid only when "crashkernel=X,high" is passed
+>>     and there is enough memory to be allocated under 4G.
+>> 3. When allocating crashkernel above 4G and no "crashkernel=X,low" is
+>>     specified, a 128M low memory will be allocated automatically for
+>>     swiotlb bounce buffer.
+>> See Documentation/admin-guide/kernel-parameters.txt for more information.
+>>
+>> To verify loading the crashkernel, adapted kexec-tools is attached below:
+>> https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
+>>
+>> Following test cases have been performed as expected:
+>> 1) crashkernel=256M                          //low=256M
+>> 2) crashkernel=1G                            //low=1G
+> Have you tried 1GB memory? we found a pud mapping problem on Sv39 of kexec, See:
+> https://lore.kernel.org/linux-riscv/20230629082032.3481237-1-guoren@kernel.org/
+
+I have tested on QEMU with sv57 mmu, so it seems the synchronization problem
+was not reproduce when reserving 1G memory and loading the capture kernel.
+
+
+Thanks,
+Jiahao
+
+>
+>> 3) crashkernel=4G                            //high=4G, low=128M(default)
+>> 4) crashkernel=4G crashkernel=256M,high      //high=4G, low=128M(default), high is ignored
+>> 5) crashkernel=4G crashkernel=256M,low       //high=4G, low=128M(default), low is ignored
+>> 6) crashkernel=4G,high                       //high=4G, low=128M(default)
+>> 7) crashkernel=256M,low                      //low=0M, invalid
+>> 8) crashkernel=4G,high crashkernel=256M,low  //high=4G, low=256M
+>> 9) crashkernel=4G,high crashkernel=4G,low    //high=0M, low=0M, invalid
+>> 10) crashkernel=512M@0xd0000000              //low=512M
+>>
+>> Changes since [v6]:
+>> 1. Introduce the "high" flag to mark whether "crashkernel=X,high"
+>>     is passed. Fix the retrying logic between "crashkernel=X,high"
+>>     case and others when the first allocation attempt fails.
+>>
+>> Changes since [v5]:
+>> 1. Update the crashkernel allocation logic when crashkernel=X,high
+>>     is specified. In this case, region above 4G will directly get
+>>     reserved as crashkernel, rather than trying lower 32bit allocation
+>>     first.
+>>
+>> Changes since [v4]:
+>> 1. Update some imprecise code comments for cmdline parsing.
+>>
+>> Changes since [v3]:
+>> 1. Update to print warning and return explicitly on failure when
+>>     crashkernel=size@offset is specified. Not changing the result
+>>     in this case but making the logic more straightforward.
+>> 2. Some minor cleanup.
+>>
+>> Changes since [v2]:
+>> 1. Update the allocation logic to ensure the high crashkernel
+>>     region is reserved strictly above dma32_phys_limit.
+>> 2. Clean up some minor format problems.
+>>
+>> Chen Jiahao (2):
+>>    riscv: kdump: Implement crashkernel=X,[high,low]
+>>    docs: kdump: Update the crashkernel description for riscv
+>>
+>>   .../admin-guide/kernel-parameters.txt         | 15 ++--
+>>   arch/riscv/kernel/setup.c                     |  5 ++
+>>   arch/riscv/mm/init.c                          | 84 +++++++++++++++++--
+>>   3 files changed, 90 insertions(+), 14 deletions(-)
+>>
+>> --
+>> 2.34.1
+>>
+>
