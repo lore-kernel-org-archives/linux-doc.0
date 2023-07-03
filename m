@@ -2,73 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A825C001B1
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 15:01:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E4BEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 15:08:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230335AbjGCPBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 11:01:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44314 "EHLO
+        id S230131AbjGCPIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 11:08:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231309AbjGCPBq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 11:01:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DF1E43;
-        Mon,  3 Jul 2023 08:01:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DA42C60DDE;
-        Mon,  3 Jul 2023 15:01:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99AF2C433C7;
-        Mon,  3 Jul 2023 15:01:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1688396504;
-        bh=0LlMTP/ss0qe/BwBBjUV7dxASlPdSFAkRzzV0NudEmY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oPGV3awB3NhNVOFw8hQI2a/tdVua3RI6YifZsvgfbQml+EYIEpQeJyO/mnnSRPQOR
-         BDl+TsJAth0Qy8SuUrnYgWI0cQ4cYU6I5OLnDfrUkqvvQoqFLrXTDejxiJ4Xua1QEe
-         NMRdbH2zzlFylgfGXWUNBAJA+H9qWVehApJcM074=
-Date:   Mon, 3 Jul 2023 17:01:40 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        security@kernel.org, corbet@lwn.net, workflows@vger.kernel.org
-Subject: Re: [PATCH 1/2] Documentation: security-bugs.rst: update preferences
- when dealing with the linux-distros group
-Message-ID: <2023070320-nutty-elitism-0e6c@gregkh>
-References: <2023063020-throat-pantyhose-f110@gregkh>
- <202306301113.FA8FD533@keescook>
- <2023070323-sloppy-panama-4868@gregkh>
+        with ESMTP id S229853AbjGCPIj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 11:08:39 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BBDFBC;
+        Mon,  3 Jul 2023 08:08:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688396918; x=1719932918;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6iC3YuHe8rC5QwgP5+XpkMFQ2vyYYdvadondVp+quNw=;
+  b=eAu9v1cxR3+EOtv1W7PXDc+txBXgde67b5iQCzvBc1bri9swGmDq7Tq+
+   eSxNQxV1+xf00X9bTpd1ON13Z2nmVyRK0+DJ3ZXt+sdGl/SzhSWBOMmoA
+   GXHx81acuWZdslQHMdbPBCv4RoWKzmWq/Q1dCQGp/LGBJeKQ4pPxANhip
+   i2ER7aBOQBAlPZfXqf6BiNWbSKIT7iyGZNq9tBgENHJe/nzhGtWbY48FR
+   N5oVKkaNxWEsKhPcZVZ61lAJHcDbEz//EctgNNoZgJWLJpTjoQxuDcQtl
+   QUTSDSwWr4ub0irze+avalqpdXSqhGdDpy+LY5O3X+tpYl2LdVITluyyT
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="393645900"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="393645900"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 08:08:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="721809950"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="721809950"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Jul 2023 08:08:35 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qGLAH-001tW4-2e;
+        Mon, 03 Jul 2023 18:08:33 +0300
+Date:   Mon, 3 Jul 2023 18:08:33 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1 1/2] docs: printk-formats: Fix hex printing of signed
+ values
+Message-ID: <ZKLkcWyY35OK/ZTw@smile.fi.intel.com>
+References: <20230703145839.14248-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023070323-sloppy-panama-4868@gregkh>
+In-Reply-To: <20230703145839.14248-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 05:00:51PM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Jun 30, 2023 at 11:14:05AM -0700, Kees Cook wrote:
-> > On Fri, Jun 30, 2023 at 09:14:20AM +0200, Greg Kroah-Hartman wrote:
-> > > Because the linux-distros group forces reporters to release information
-> > > about reported bugs, and they impose arbitrary deadlines in having those
-> > > bugs fixed despite not actually being kernel developers, the kernel
-> > > security team recommends not interacting with them at all as this just
-> > > causes confusion and the early-release of reported security problems.
-> > > 
-> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> > Yeah, this is good. It might make sense to explicitly detail the
-> > rationale in security-bugs.rst (as you have in the commit log), but
-> > perhaps that's too much detail.
-> > 
-> > Reviewed-by: Kees Cook <keescook@chromium.org>
-> 
-> Thanks for the review.  I'll keep this as-is as it's the content of the
-> file that matters in the end.
+On Mon, Jul 03, 2023 at 05:58:38PM +0300, Andy Shevchenko wrote:
+> The commit cbacb5ab0aa0 ("docs: printk-formats: Stop encouraging use of
+> unnecessary %h[xudi] and %hh[xudi]") obviously missed the point of sign
+> promotion for the signed values lesser than int. In such case %x prints
+> not the same as %h[h]x. Restore back those specifiers for the signed hex
+> cases.
 
-Ok, that didn't come out well, let me try again.  Let's leave the text
-as-is for now, thanks.
+FWIW, currently we luckily have only one ABI case
+drivers/power/supply/bq24190_charger.c:466
+which luckily uses unsigned value for that specifier.
 
-greg k-h
+The rest is debug and error messages along with tracepoints.
+The tracepoints might have an undesired, but not critical,
+deviation. Nevertheless, promoting sign for hex values seems
+to me the wrong suggestion.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
