@@ -2,114 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50627C30654
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 18:39:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEAC6C001B3
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 18:50:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231479AbjGCSjG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 14:39:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54510 "EHLO
+        id S229977AbjGCSuR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 14:50:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231469AbjGCSjF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 14:39:05 -0400
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C92B10C2
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 11:39:02 -0700 (PDT)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-1b05d63080cso4884229fac.2
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 11:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1688409541; x=1691001541;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sQGLILnEm5o54v5mjoZuL1G4hwG+jcIWjoHZArQ7sfk=;
-        b=TjYUycTB4yuvx5ehjMW5FUH2ojidBdmp5i/WiVqXu+7LfXtLH9WYMJfpxHuBo3pWMD
-         WY6uw+rpIJyWJqXuqv5pPjrgnMvsxBc8QD/twEyWAKNCSJsEHh27WAqC6ireChp6/cxz
-         8AaKaWKpyMjoWxbAXuDtkYLDH6Quef8XphzXY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688409541; x=1691001541;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sQGLILnEm5o54v5mjoZuL1G4hwG+jcIWjoHZArQ7sfk=;
-        b=XoZjo+PBGekHMDZ5hB5q9HJEmw3ltdnSW+PaxjQ7YXpcwSUptaO0dtR2RArvjJQ/MK
-         ykqtmg6dZpH2T5eeeXmyslismVDn8NAiG6VSMHcQ0pJiWhxYHCpi53TYtqYx7WrQiEVX
-         ouOVrFCvhp46lts+WlIlA3p07caJtfGysQ8KTSg7t+5TJepA69JMLgUsmBTFWHGLVXiV
-         iiBuDTuwBgfq2RSi9Wcbcqo66yMUhY1QvtwsQNMfHGiaf7i+GbwSTo1eBPgkh9iC7Kld
-         5OO4qklv/XJvz1z8vL67yPrnjUXyAoYR3LhzRSkwrqPPUNe0YSJyorsYaz6Yh/m/yziW
-         1AMA==
-X-Gm-Message-State: ABy/qLaiZjgoNL4zvb/6pP+B8h95kPNbv6WuppIdcmT/GQ9mJsuR1q5+
-        OxbHJEmFEjV9xQBNNBzVAMFYQg==
-X-Google-Smtp-Source: APBJJlGzQQ+aH4qGk5swZiGJO2jJp4bAEzIR9cOZM+LgHCchTn/+W51ZdhmJ8ULaSS4QVRHPIt49OQ==
-X-Received: by 2002:a05:6870:ac0c:b0:1b0:6e5b:21d6 with SMTP id kw12-20020a056870ac0c00b001b06e5b21d6mr14898753oab.38.1688409540823;
-        Mon, 03 Jul 2023 11:39:00 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id m17-20020a17090ade1100b00263987a50fcsm4614022pjv.22.2023.07.03.11.39.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 11:39:00 -0700 (PDT)
-Date:   Mon, 3 Jul 2023 11:38:59 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Julian Pidancet <julian.pidancet@oracle.com>
-Cc:     David Rientjes <rientjes@google.com>,
-        Christoph Lameter <cl@linux.com>,
-        "Lameter, Christopher" <cl@os.amperecomputing.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Rafael Aquini <aquini@redhat.com>
-Subject: Re: [PATCH v2] mm/slub: disable slab merging in the default
- configuration
-Message-ID: <202307031137.87508EB@keescook>
-References: <20230629221910.359711-1-julian.pidancet@oracle.com>
- <38083ed2-333b-e245-44e4-2f355e4f9249@google.com>
- <CTSGWINSM18Q.3HQ1DN27GNA1R@imme>
+        with ESMTP id S229853AbjGCSuQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 14:50:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFB8DAF
+        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 11:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688410174;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=fGW3b/q8l7CXKgcfZ4b/QVlRua/Of3iP83P5k+7J+8o=;
+        b=IufCBadW7U6u8gAHPObuycXaNwG8SABl9X1obZP+HbnNq8DE73N9ViSQzJ4JA6gxjqgpfG
+        vwv8RpTC4nPWaqOxVeoHJgddvO5XvBpsfMVVReu86T0XSdbQ1d+erlFc+sdsKBpPNPVtU7
+        J2bETYMk0BTprB0ise96J6Ly4UY6qAM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-205-P1gDR9jLN9GbuzEdR1I4Vw-1; Mon, 03 Jul 2023 14:49:30 -0400
+X-MC-Unique: P1gDR9jLN9GbuzEdR1I4Vw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB61F185A791;
+        Mon,  3 Jul 2023 18:49:28 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.9])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AD7DC00049;
+        Mon,  3 Jul 2023 18:49:19 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     szabolcs.nagy@arm.com
+Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "Xu, Pengfei" <pengfei.xu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        "Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+References: <ZJFukYxRbU1MZlQn@arm.com>
+        <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
+        <ZJLgp29mM3BLb3xa@arm.com>
+        <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
+        <ZJQR7slVHvjeCQG8@arm.com>
+        <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
+        <ZJR545en+dYx399c@arm.com>
+        <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
+        <ZJ2sTu9QRmiWNISy@arm.com>
+        <e057de9dd9e9fe48981afb4ded4b337e8a83fabf.camel@intel.com>
+        <ZKMRFNSYQBC6S+ga@arm.com>
+Date:   Mon, 03 Jul 2023 20:49:17 +0200
+In-Reply-To: <ZKMRFNSYQBC6S+ga@arm.com> (szabolcs's message of "Mon, 3 Jul
+        2023 19:19:00 +0100")
+Message-ID: <87r0pox236.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CTSGWINSM18Q.3HQ1DN27GNA1R@imme>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 12:33:25PM +0200, Julian Pidancet wrote:
-> On Mon Jul 3, 2023 at 02:09, David Rientjes wrote:
-> > I think we need more data beyond just kernbench.  Christoph's point about 
-> > different page sizes is interesting.  In the above results, I don't know 
-> > the page orders for the various slab caches that this workload will 
-> > stress.  I think the memory overhead data may be different depending on 
-> > how slab_max_order is being used, if at all.
-> >
-> > We should be able to run this through a variety of different benchmarks 
-> > and measure peak slab usage at the same time for due diligence.  I support 
-> > the change in the default, I would just prefer to know what the 
-> > implications of it is.
-> >
-> > Is it possible to collect data for other microbenchmarks and real-world 
-> > workloads?  And perhaps also with different page sizes where this will 
-> > impact memory overhead more?  I can help running more workloads once we 
-> > have the next set of data.
-> >
-> 
-> David,
-> 
-> I agree about the need to perform those tests on hardware using larger
-> pages. I will collect data if I have the chance to get my hands on one
-> of these systems.
-> 
-> Do you have specific tests or workload in mind ? Compiling the kernel
-> with files sitting on an XFS partition is not exhaustive but it is the
-> only test I could think of that is both easy to set up and can be 
-> reproduced while keeping external interferences as little as possible.
+* szabolcs:
 
-I think it is a sufficiently complicated heap allocation workload (and
-real-world). I'd prefer we get this change landed in -next after -rc1 so
-we can see if there are any regressions reported by the 0day and other
-CI performance tests.
+>> alt shadow stack cannot be transparent to existing software anyway, it
+>
+> maybe not in glibc, but a libc can internally use alt shadow stack
+> in sigaltstack instead of exposing a separate sigaltshadowstack api.
+> (this is what a strict posix conform implementation has to do to
+> support shadow stacks), leaking shadow stacks is not a correctness
+> issue unless it prevents the program working (the shadow stack for
+> the main thread likely wastes more memory than all the alt stack
+> leaks. if the leaks become dominant in a thread the sigaltstack
+> libc api can just fail).
 
--Kees
+It should be possible in theory to carve out pages from sigaltstack and
+push a shadow stack page and a guard page as part of the signal frame.
+As far as I understand it, the signal frame layout is not ABI, so it's
+possible to hide arbitrary stuff in it.  I'm just saying that it looks
+possible, not that it's a good idea.
 
--- 
-Kees Cook
+Perhaps that's not realistic with 64K pages, though.
+
+Thanks,
+Florian
+
