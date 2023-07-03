@@ -2,72 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3ECEB64DD
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 14:35:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3F8FC001B1
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 14:36:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230162AbjGCOfq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 10:35:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52940 "EHLO
+        id S230335AbjGCOgc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 10:36:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjGCOfp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 10:35:45 -0400
+        with ESMTP id S229591AbjGCOga (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 10:36:30 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AB1594;
-        Mon,  3 Jul 2023 07:35:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4993794;
+        Mon,  3 Jul 2023 07:36:28 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E059A380;
-        Mon,  3 Jul 2023 14:35:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E059A380
+        by ms.lwn.net (Postfix) with ESMTPSA id AEC2C31A;
+        Mon,  3 Jul 2023 14:36:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AEC2C31A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1688394945; bh=DK/Zjt0X/wkpOiqYyIxSo3gzv9UFdeyywGWFaQyeNRc=;
+        t=1688394987; bh=RhCEIGtxJGVeV91EVDUY0yOhsp0I7Oxy2bLYCQ2RLRs=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=gWgWeHOKiKkWU/1iTqTOWhcI+uo1108Dt8uwKRIjYigVW1CTVuHKch/7dJ+jbkxMa
-         +5gMZ1b19JZ2O0RJD0URsCKA15w4N7gRSSLtj/jNDM8Uh8I668P4Zb9gfkJojINrZP
-         +FjPMB2oxnaBAEoqCCMHwxmFl3R/G2KCfj9inIBlmaO15fTQIDbTC7BJVNd0aI8JTd
-         ppvMwNbcNE3p1O/UV8u5sTT/7Zomh86IcGUBDeSRF0IJIU2gXrcdaJLodwk8cGL6ja
-         +/IoQ6ZfNRw4bFYk8H946RC+d+tLGxigJP6DqIO26L9yXOXHO1mDTqpE7p51TdeuOh
-         BPzXvzYQ1WxlA==
+        b=i8En8lM+1Y6yKeeV2T7+Cf25m0U1/2TX4sskHWsT08HjQSaB7IKSbJzPq4RP6qf8M
+         pUfthZR6CBMFOazfPm4Niv0ZnLz5wrp1AR9519CEvBPg0Fk/Ytxl4rF4pEb3ITcgZ0
+         lCAwUQtFcckZGWEMKnrUOmVWgXwHqd1VqSK4jGUA2QKjKMtrAk3K03zGl2DcIM2FoZ
+         FLvHnP5rIPYBUpydER5JJoVEJHulntKYNlDj0Yw68hhAZA+S5dhjeGBjaLirzXV+sW
+         g6fGO5sND7+ECIzodWiUFmug2slV0W1fKlr7AkkrvZVzOSXkgJPUaE2RNGSmH3skCZ
+         hshplsxiqQ77g==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH docs] docs: remove the tips on how to submit patches
- from MAINTAINERS
-In-Reply-To: <20230630171550.128296-1-kuba@kernel.org>
-References: <20230630171550.128296-1-kuba@kernel.org>
-Date:   Mon, 03 Jul 2023 08:35:44 -0600
-Message-ID: <87mt0djc5b.fsf@meer.lwn.net>
+To:     Olaf Hering <olaf@aepfle.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Wyes Karny <wyes.karny@amd.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Prarit Bhargava <prarit@redhat.com>,
+        Yasuaki Ishimatsu <isimatu.yasuaki@jp.fujitsu.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rcu@vger.kernel.org, linux-kselftest@vger.kernel.org
+Cc:     Josh Triplett <josh@joshtriplett.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH v1] Fix documentation of panic_on_warn
+In-Reply-To: <20230630145307.25865-1-olaf@aepfle.de>
+References: <20230630145307.25865-1-olaf@aepfle.de>
+Date:   Mon, 03 Jul 2023 08:36:27 -0600
+Message-ID: <87ilb1jc44.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Olaf Hering <olaf@aepfle.de> writes:
 
-> Having "how to submit patches" in MAINTAINTERS seems out of place.
-> We have a whole section of documentation about it, duplication
-> is harmful and a lot of the text looks really out of date.
+> The kernel cmdline option panic_on_warn expects an integer, it is not a
+> plain option as documented. A number of uses in the tree figured this
+> already, and use panic_on_warn=1 for their purpose.
 >
-> Sections 1, 2 and 4 look really, really old and not applicable
-> to the modern process.
+> Adjust a comment which otherwise may mislead people in the future.
 >
-> Section 3 is obvious but also we have build bots now.
+> Fixes: 9e3961a097 ("kernel: add panic_on_warn")
 >
-> Section 5 is a bit outdated (diff -u?!). But I like the part
-> about factoring out shared code, so add that to process docs.
->
-> Section 6 is unnecessary?
->
-> Section 7 is covered by more appropriate docs.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Olaf Hering <olaf@aepfle.de>
 > ---
->  Documentation/process/6.Followthrough.rst |  7 ++
->  MAINTAINERS                               | 80 +----------------------
->  2 files changed, 9 insertions(+), 78 deletions(-)
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  tools/testing/selftests/rcutorture/bin/kvm.sh   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 9e5bab29685f..15196f84df49 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4049,7 +4049,7 @@
+>  			extra details on the taint flags that users can pick
+>  			to compose the bitmask to assign to panic_on_taint.
+>  
+> -	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
+> +	panic_on_warn=1	panic() instead of WARN().  Useful to cause kdump
+>  			on a WARN().
 
 Applied, thanks.
 
