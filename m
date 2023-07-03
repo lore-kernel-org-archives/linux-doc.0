@@ -2,232 +2,207 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E12D3EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F499EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 11:17:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230337AbjGCKoz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 06:44:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59446 "EHLO
+        id S229977AbjGCLRD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 07:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230299AbjGCKox (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:44:53 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C069C2
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 03:44:51 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-4fa16c6a85cso6613497e87.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 03:44:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1688381089; x=1690973089;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/z+WW5kwnxhCfLcQaJmH1xNEQf/PAh/QQcNu6U1wyek=;
-        b=N+N/pXD6XQ24ilAe7T36rjHC/kWdO5IdIka8Ch7o4paXsRfixvo4trlwDMllISRt85
-         a3+VwQk2dGZrVCJdwKgg+HVppR3UKrY4HBNJrHeTSytI+iOLXzoLda9vU066Y/SFVkDu
-         m8f52hOiPvQDpqBrXaKK2Nfa0CNllfHxCjqTXKPeaeAPHCltP2mqeONZ6sTJkKKG1mGR
-         mBKveunaZ4YSU+7hY87RwUkvwshjMWXQI7ZyswvDwoNgIDiyY62c/FmwL18KTzRUnxkV
-         S1STKcf6JjQn3BR9EaMLVoMqi36Gw9lkJVSsSWdFdbF93Iw/yX56RXvJgq5GpX7n2RQ1
-         41fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688381089; x=1690973089;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/z+WW5kwnxhCfLcQaJmH1xNEQf/PAh/QQcNu6U1wyek=;
-        b=YGqH3WryJCMtKglnnVGV1wX+grsZ0P7ziCNMJ4eRhoHFaAwZfE52zrwVQ3+e6y2vIj
-         V99SfrmDGlLrU7p9WOltV63tgOrRZYTVSpz/X4wxet7TDg5Qldfe9Y5x2FfblKV0ulvz
-         LeXUXxcjYJjWnpe0SSaSBPSKX7Tt91OfIZ/LB8Mmd2OILTTlKrQRQLgQtiNgxDMHJqUs
-         YZiiI0GwBLpufmsRrpZPfstlx1vxxKFWPbkuzmZGzD4GGdtZ/gQRwd1y3Fm3zJycB9yk
-         N6DXHDa3H+YtLCzB8gjADit0vV8nQjAI+1HQPBIDVW4DwTd4WOX6hQNeMt6dChSLpMHy
-         Xqdg==
-X-Gm-Message-State: ABy/qLZJX2YqJnaLXdVPnw2Y2ybhA0wiX1wnIUF1aTq8gLKNgXEp6OQ2
-        Pl9WdlaVvbjTObMlZJfE2oVZiw==
-X-Google-Smtp-Source: APBJJlF1w7RoN0Uq19CNfqTlvPYcMoyTNYeuTkFT+ge+QXXoqsRGY+amLSuEfhQDxxk/a9Ld1x5OGw==
-X-Received: by 2002:a05:6512:3b0c:b0:4fb:8981:f08 with SMTP id f12-20020a0565123b0c00b004fb89810f08mr8023840lfv.43.1688381089517;
-        Mon, 03 Jul 2023 03:44:49 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id e5-20020a05600c218500b003fbcdba1a52sm6996330wme.3.2023.07.03.03.44.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 03:44:48 -0700 (PDT)
-Date:   Mon, 3 Jul 2023 12:44:48 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     palmer@dabbelt.com, conor@kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Evan Green <evan@rivosinc.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: [PATCH v3 11/11] RISC-V: provide Kconfig & commandline options
- to control parsing "riscv,isa"
-Message-ID: <20230703-57fe19b069fdacd4d9a82cf1@orel>
-References: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
- <20230703-greedy-dividable-251fa2b809ac@wendy>
+        with ESMTP id S229816AbjGCLRD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 07:17:03 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D1199D;
+        Mon,  3 Jul 2023 04:16:57 -0700 (PDT)
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0F6DEFF802;
+        Mon,  3 Jul 2023 11:16:49 +0000 (UTC)
+Message-ID: <297fdd01-f1c6-6733-534c-8ed50b74c3ae@ovn.org>
+Date:   Mon, 3 Jul 2023 13:17:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230703-greedy-dividable-251fa2b809ac@wendy>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Cc:     i.maximets@ovn.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC bpf-next] xsk: honor SO_BINDTODEVICE on bind
+Content-Language: en-US
+To:     Magnus Karlsson <magnus.karlsson@gmail.com>
+References: <20230630145831.2988845-1-i.maximets@ovn.org>
+ <CAJ8uoz1TGjWuJKkZ8C9ZrQB0CDasik3A=qJs=xwdQP8cbn97VQ@mail.gmail.com>
+ <04ed302e-067e-d372-370b-3fef1cf8c7f2@ovn.org>
+ <c6944b25-7ac4-0b75-75b1-465c8a705d02@ovn.org>
+ <CAJ8uoz0ChXfavPKAkjsj8URKp3sJPPcd_dqiHsxP0iG6NjiVzg@mail.gmail.com>
+From:   Ilya Maximets <i.maximets@ovn.org>
+In-Reply-To: <CAJ8uoz0ChXfavPKAkjsj8URKp3sJPPcd_dqiHsxP0iG6NjiVzg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 11:28:03AM +0100, Conor Dooley wrote:
-> As it says on the tin, provide Kconfig option to control parsing the
-> "riscv,isa" devicetree property. If either option is used, the kernel
-> will fall back to parsing "riscv,isa", where "riscv,isa-base" and
-> "riscv,isa-extensions" are not present.
-> The Kconfig options are set up so that the default kernel configuration
-> will enable the fallback path, without needing the commandline option.
+On 7/3/23 12:24, Magnus Karlsson wrote:
+> On Mon, 3 Jul 2023 at 12:13, Ilya Maximets <i.maximets@ovn.org> wrote:
+>>
+>> On 7/3/23 12:06, Ilya Maximets wrote:
+>>> On 7/3/23 11:48, Magnus Karlsson wrote:
+>>>> On Fri, 30 Jun 2023 at 16:58, Ilya Maximets <i.maximets@ovn.org> wrote:
+>>>>>
+>>>>> Initial creation of an AF_XDP socket requires CAP_NET_RAW capability.
+>>>>> A privileged process might create the socket and pass it to a
+>>>>> non-privileged process for later use.  However, that process will be
+>>>>> able to bind the socket to any network interface.  Even though it will
+>>>>> not be able to receive any traffic without modification of the BPF map,
+>>>>> the situation is not ideal.
+>>>>>
+>>>>> Sockets already have a mechanism that can be used to restrict what
+>>>>> interface they can be attached to.  That is SO_BINDTODEVICE.
+>>>>>
+>>>>> To change the binding the process will need CAP_NET_RAW.
+>>>>>
+>>>>> Make xsk_bind() honor the SO_BINDTODEVICE in order to allow safer
+>>>>> workflow when non-privileged process is using AF_XDP.
+>>>>
+>>>> Rebinding an AF_XDP socket is not allowed today. Any such attempt will
+>>>> return an error from bind. So if I understand the purpose of
+>>>> SO_BINDTODEVICE correctly, you could say that this option is always
+>>>> set for an AF_XDP socket and it is not possible to toggle it. The only
+>>>> way to "rebind" an AF_XDP socket is to close it and open a new one.
+>>>> This was a conscious design decision from day one as it would be very
+>>>> hard to support this, especially in zero-copy mode.
+>>>
+>>> Hi, Magnus.
+>>>
+>>> The purpose of this patch is not to allow re-binding.  The use case is
+>>> following:
+>>>
+>>> 1. First process creates a bare socket with socket(AF_XDP, ...).
+>>> 2. First process loads the XSK program to the interface.
+>>> 3. First process adds the socket fd to a BPF map.
+>>> 4. First process sends socket fd to a second process.
+>>> 5. Second process allocates UMEM.
+>>> 6. Second process binds socket to the interface.
+>>
+>> 7. Second process sends/receives the traffic. :)
+>>
+>>>
+>>> The idea is that the first process will call SO_BINDTODEVICE before
+>>> sending socket fd to a second process, so the second process is limited
+>>> in to which interface it can bind the socket.
+>>>
+>>> Does that make sense?
 > 
-> Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-> Suggested-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
-> Changes in v3:
-> - Invert the Kconfig entry. It's now default y & not hidden by
->   NONPORTABLE, but its entablement will now activate the fallback
-> - Add a commandline option to enable the fallback on kernels that do not
->   enable it in Kconfig, as Drew suggested
-> - Default the global var to the Kconfig option & override it with the
->   commandline one, rather than have checks for IS_ENABLED() and for the
->   commandline option in riscv_fill_hwcap() &
->   riscv_early_of_processor_hartid()
-> ---
->  .../admin-guide/kernel-parameters.txt          |  7 +++++++
->  arch/riscv/Kconfig                             | 18 ++++++++++++++++++
->  arch/riscv/include/asm/hwcap.h                 |  1 +
->  arch/riscv/kernel/cpu.c                        |  6 ++++++
->  arch/riscv/kernel/cpufeature.c                 | 14 +++++++++++++-
->  5 files changed, 45 insertions(+), 1 deletion(-)
+> Thanks for explaining this to me. Yes, that makes sense and seems
+> useful. Could you please send a v2 and include the flow (1-7) above in
+> your commit message? Would be good to add one step with the setsockopt
+> SO_BINDTODEVICE before step #4 just to be clear. With those changes
+> please feel free to include my ack:
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index d910fba25f2c..1bd435f60055 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5437,6 +5437,13 @@
->  			[KNL] Disable ring 3 MONITOR/MWAIT feature on supported
->  			CPUs.
->  
-> +	riscv_isa_fallback [RISCV]
-> +			When CONFIG_RISCV_ISA_FALLBACK is not enabled, permit
-> +			falling back to detecting extension support by parsing
-> +			"riscv,isa" property on devicetree systems when the
-> +			replacement properties are not found. See the Kconfig
-> +			entry for RISCV_ISA_FALLBACK.
-> +
->  	ro		[KNL] Mount root device read-only on boot
->  
->  	rodata=		[KNL]
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index 1d39efe2b940..a9a473b67182 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -841,6 +841,24 @@ config XIP_PHYS_ADDR
->  	  be linked for and stored to.  This address is dependent on your
->  	  own flash usage.
->  
-> +config RISCV_ISA_FALLBACK
-> +	bool "Permit falling back to parsing riscv,isa for extension support by default"
-> +	default y
-> +	help
-> +	  Parsing the "riscv,isa" devicetree property has been deprecated and
-> +	  replaced by a list of explicitly defined strings. For compatibility
-> +	  with existing platforms, the kernel will fall back to parsing the
-> +	  "riscv,isa" property if the replacements are not found.
-> +
-> +	  Selecting N here will result in a kernel that does not use the
-> +	  fallback, unless the commandline "riscv_isa_fallback" parameter is
-> +	  present.
-> +
-> +	  Please see the dt-binding, located at
-> +	  Documentation/devicetree/bindings/riscv/extensions.yaml for details
-> +	  on the replacement properties of "riscv,isa-base" and
+>  Acked-by: Magnus Karlsson <magnus.karlsson@intel.com>
 
-nit: It's probably just me, but 'of' twists my brain a bit here. I
-think
+Thanks!  I'll update the commit message with the steps above to make it
+more clear.
 
-...the replacement properties, "riscv,isa-base" and "riscv,isa-extensions".
+I was planning to send a non-RFC version of this patch once the tree is
+open (in a week).  Or are the rules for bpf-next different?
 
-works better (for me).
+> 
+> Thank you!
+> 
+>>> This workflow allows the second process to have no capabilities
+>>> as long as it has sufficient RLIMIT_MEMLOCK.
+>>
+>> Note that steps 1-7 are working just fine today.  i.e. the umem
+>> registration, bind, ring mapping and traffic send/receive do not
+>> require any extra capabilities.
+>>
+>> We may restrict the bind() call to require CAP_NET_RAW and then
+>> allow it for sockets that had SO_BINDTODEVICE as an alternative.
+>> But restriction will break the current uAPI.
+>>
+>>>
+>>> Best regards, Ilya Maximets.
+>>>
+>>>>
+>>>>> Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
+>>>>> ---
+>>>>>
+>>>>> Posting as an RFC for now to probably get some feedback.
+>>>>> Will re-post once the tree is open.
+>>>>>
+>>>>>  Documentation/networking/af_xdp.rst | 9 +++++++++
+>>>>>  net/xdp/xsk.c                       | 6 ++++++
+>>>>>  2 files changed, 15 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
+>>>>> index 247c6c4127e9..1cc35de336a4 100644
+>>>>> --- a/Documentation/networking/af_xdp.rst
+>>>>> +++ b/Documentation/networking/af_xdp.rst
+>>>>> @@ -433,6 +433,15 @@ start N bytes into the buffer leaving the first N bytes for the
+>>>>>  application to use. The final option is the flags field, but it will
+>>>>>  be dealt with in separate sections for each UMEM flag.
+>>>>>
+>>>>> +SO_BINDTODEVICE setsockopt
+>>>>> +--------------------------
+>>>>> +
+>>>>> +This is a generic SOL_SOCKET option that can be used to tie AF_XDP
+>>>>> +socket to a particular network interface.  It is useful when a socket
+>>>>> +is created by a privileged process and passed to a non-privileged one.
+>>>>> +Once the option is set, kernel will refuse attempts to bind that socket
+>>>>> +to a different interface.  Updating the value requires CAP_NET_RAW.
+>>>>> +
+>>>>>  XDP_STATISTICS getsockopt
+>>>>>  -------------------------
+>>>>>
+>>>>> diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
+>>>>> index 5a8c0dd250af..386ff641db0f 100644
+>>>>> --- a/net/xdp/xsk.c
+>>>>> +++ b/net/xdp/xsk.c
+>>>>> @@ -886,6 +886,7 @@ static int xsk_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
+>>>>>         struct sock *sk = sock->sk;
+>>>>>         struct xdp_sock *xs = xdp_sk(sk);
+>>>>>         struct net_device *dev;
+>>>>> +       int bound_dev_if;
+>>>>>         u32 flags, qid;
+>>>>>         int err = 0;
+>>>>>
+>>>>> @@ -899,6 +900,11 @@ static int xsk_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
+>>>>>                       XDP_USE_NEED_WAKEUP))
+>>>>>                 return -EINVAL;
+>>>>>
+>>>>> +       bound_dev_if = READ_ONCE(sk->sk_bound_dev_if);
+>>>>> +
+>>>>> +       if (bound_dev_if && bound_dev_if != sxdp->sxdp_ifindex)
+>>>>> +               return -EINVAL;
+>>>>> +
+>>>>>         rtnl_lock();
+>>>>>         mutex_lock(&xs->mutex);
+>>>>>         if (xs->state != XSK_READY) {
+>>>>> --
+>>>>> 2.40.1
+>>>>>
+>>>>>
+>>>
+>>
 
-> +	  "riscv,isa-extensions".
-> +
->  endmenu # "Boot options"
->  
->  config BUILTIN_DTB
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-> index e3cda14a486b..b7b58258f6c7 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -81,6 +81,7 @@ struct riscv_isa_ext_data {
->  
->  extern const struct riscv_isa_ext_data riscv_isa_ext[];
->  extern const size_t riscv_isa_ext_count;
-> +extern bool riscv_isa_fallback;
->  
->  unsigned long riscv_isa_extension_base(const unsigned long *isa_bitmap);
->  
-> diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-> index 28d5af21f544..1acf3679600d 100644
-> --- a/arch/riscv/kernel/cpu.c
-> +++ b/arch/riscv/kernel/cpu.c
-> @@ -87,6 +87,12 @@ int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *har
->  	return 0;
->  
->  old_interface:
-> +	if (!riscv_isa_fallback) {
-> +		pr_warn("CPU with hartid=%lu is invalid: this kernel does not parse \"riscv,isa\"",
-> +			*hart);
-> +		return -ENODEV;
-> +	}
-> +
->  	if (of_property_read_string(node, "riscv,isa", &isa)) {
->  		pr_warn("CPU with hartid=%lu has no \"riscv,isa-base\" or \"riscv,isa\" property\n",
->  			*hart);
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index 2c4503fa984f..5945dfc5f806 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -471,6 +471,18 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
->  	return 0;
->  }
->  
-> +#ifdef CONFIG_RISCV_ISA_FALLBACK
-> +bool __initdata riscv_isa_fallback = true;
-> +#else
-> +bool __initdata riscv_isa_fallback;
-> +static int __init riscv_isa_fallback_setup(char *__unused)
-> +{
-> +	riscv_isa_fallback = true;
-> +	return 1;
-> +}
-> +early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
-> +#endif
-> +
->  void __init riscv_fill_hwcap(void)
->  {
->  	char print_str[NUM_ALPHA_EXTS + 1];
-> @@ -490,7 +502,7 @@ void __init riscv_fill_hwcap(void)
->  	} else {
->  		int ret = riscv_fill_hwcap_from_ext_list(isa2hwcap);
->  
-> -		if (ret) {
-> +		if (ret && riscv_isa_fallback) {
->  			pr_info("Falling back to deprecated \"riscv,isa\"\n");
->  			riscv_fill_hwcap_from_isa_string(isa2hwcap);
->  		}
-> -- 
-> 2.40.1
->
-
-Otherwise,
-
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-
-Thanks,
-drew
