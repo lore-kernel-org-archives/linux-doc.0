@@ -2,127 +2,138 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5297EEB64DD
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 02:53:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4204DEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 04:08:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjGCCxa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Jul 2023 22:53:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54942 "EHLO
+        id S229908AbjGCEIT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 00:08:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjGCCx3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Jul 2023 22:53:29 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9235218F;
-        Sun,  2 Jul 2023 19:53:28 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2b6c3921c8bso61859691fa.3;
-        Sun, 02 Jul 2023 19:53:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688352807; x=1690944807;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fhyBGVQ1gaH5Dq33+rfxBQOlHqFL4drvkmIj6aJ3EDI=;
-        b=O1hWsfHy6op+iJK7RchZka3HezdQVlH4vq5oZ4Ax4HtYBJHdp7SiTUlOd/0MeGRlXW
-         qD/ZIYJ7S7K1mp3qOnr6kToxa76JlnRwNUBFg8F1baXgmRqJNnWHdQllc+zNQ/KDquxA
-         7ErHevq/QuYL5AcR4Ql1h5QzNaJ9QIQcafCqt4dGXfaEkOM3HL++icZX1GE7OHuqT4Je
-         cvxgKsI/a5C0cZWpASXrd1T8JMo5yoIoj74Zs2ka04Rmp+6QnFbys2scKj3azEQXgQ2p
-         1SDy5h+KL7Ty3XPYq179EooH/TEpDroawrvKxJ2iJS0i2N+UJhV225NmXPpDfy0Ly7ur
-         MwBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688352807; x=1690944807;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fhyBGVQ1gaH5Dq33+rfxBQOlHqFL4drvkmIj6aJ3EDI=;
-        b=IM3Gs7DaIM4xwZMU9A1O9itQhG30KTZobBn0AR+a+u8sllFva9Ed/rN8dlYq5UUUJe
-         mqwOfWPDos11UnFLWa7Nn5mfXckUMRh1QV3XTswGu63bNyalMTzxX1KHo3aPSsw3oOua
-         XIL3+R/C4WpqzAv8C4DOZv8v1+3zsrZJYx+R0G/gCseFgOwU/h9Cn9TSYaBZ7He9BAq+
-         zJ9rk4ksxSPbBgduEwbWjMrSeWsAQjp7BHt/Qg5UkEi0A3XzkwMrOloiGasgMQQY8IJY
-         8FxwnxaMAT3b14LIzC15p/cokJysVJkS/jm+Fc1v8mYZx9jdZcclue8109N0gVAI9zhk
-         5TDw==
-X-Gm-Message-State: ABy/qLYEjZYszfkDLSeNnhovWb8bYYM7Qay0+YwH315a4nouOHDmol2N
-        qs4FV/4EWddpejUYov3plOZl1DZKhVzaDHnTKhg=
-X-Google-Smtp-Source: APBJJlFfL2px5Y6Cyr17rNDrNo5fJ8sdzYko47a6W75rx7foKvBUjbZJAB2cC/NyOavCuc3SoyWVNmryeUVMgdKDyso=
-X-Received: by 2002:a2e:9205:0:b0:2b6:e128:e7a3 with SMTP id
- k5-20020a2e9205000000b002b6e128e7a3mr2116081ljg.33.1688352806560; Sun, 02 Jul
- 2023 19:53:26 -0700 (PDT)
+        with ESMTP id S229564AbjGCEIS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 00:08:18 -0400
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E4C71180;
+        Sun,  2 Jul 2023 21:08:15 -0700 (PDT)
+Received: (from willy@localhost)
+        by mail.home.local (8.17.1/8.17.1/Submit) id 363480Or021269;
+        Mon, 3 Jul 2023 06:08:00 +0200
+Date:   Mon, 3 Jul 2023 06:08:00 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
+        workflows@vger.kernel.org
+Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
+ handling
+Message-ID: <ZKJJoK4kyOCEYcOR@1wt.eu>
+References: <2023063020-throat-pantyhose-f110@gregkh>
+ <2023063022-retouch-kerosene-7e4a@gregkh>
+ <202306301114.E199B136@keescook>
+ <2023070213-capacity-moneybags-3668@gregkh>
 MIME-Version: 1.0
-References: <cover.1688010022.git.haibo1.xu@intel.com> <20230701-e1bff47a0ed38ec3ab6ca252@orel>
-In-Reply-To: <20230701-e1bff47a0ed38ec3ab6ca252@orel>
-From:   Haibo Xu <xiaobo55x@gmail.com>
-Date:   Mon, 3 Jul 2023 10:53:15 +0800
-Message-ID: <CAJve8on_SRbPmQ4U16imMUjrqs_abLsW64xJotBxRSv65WJa-w@mail.gmail.com>
-Subject: Re: [PATCH v5 00/13] RISCV: Add KVM_GET_REG_LIST API
-To:     Andrew Jones <ajones@ventanamicro.com>
-Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
-        oliver.upton@linux.dev, seanjc@google.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Ricardo Koller <ricarkol@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023070213-capacity-moneybags-3668@gregkh>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 1, 2023 at 10:53=E2=80=AFPM Andrew Jones <ajones@ventanamicro.c=
-om> wrote:
->
-> On Sat, Jul 01, 2023 at 09:42:48PM +0800, Haibo Xu wrote:
-> > KVM_GET_REG_LIST will dump all register IDs that are available to
-> > KVM_GET/SET_ONE_REG and It's very useful to identify some platform
-> > regression issue during VM migration.
-> >
-> > Patch 1-7 re-structured the get-reg-list test in aarch64 to make some
-> > of the code as common test framework that can be shared by riscv.
-> >
-> > Patch 8 move reject_set check logic to a function so as to check for
-> > different errno for different registers.
-> > Patch 9 move finalize_vcpu back to run_test so that riscv can implement
-> > its specific operation.
-> > Patch 10 change to do the get/set operation only on present-blessed lis=
-t.
-> > Patch 11 add the skip_set facilities so that riscv can skip set operati=
-on
-> > on some registers.
-> > Patch 12 enabled the KVM_GET_REG_LIST API in riscv.
-> > patch 13 added the corresponding kselftest for checking possible
-> > register regressions.
-> >
-> > The get-reg-list kvm selftest was ported from aarch64 and tested with
-> > Linux v6.4 on a Qemu riscv64 virt machine.
->
-> Hi Haibo,
->
-> This series needs a rebase on top of these recent patches
->
->  commit ee053e03b08e ("KVM: selftests: get-reg-list: support ID register =
-features")
->  commit 5f0419a0083b ("KVM: selftests: get-reg-list: add Permission Indir=
-ection registers")
->
-> The conflicts will be in my patches, which do the splitting of the test.
-> I'll do the rebase and push it to a branch for you to pick up.
->
+On Sun, Jul 02, 2023 at 02:39:49PM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Jun 30, 2023 at 11:18:37AM -0700, Kees Cook wrote:
+> > On Fri, Jun 30, 2023 at 09:14:21AM +0200, Greg Kroah-Hartman wrote:
+> > > The kernel security team does NOT assign CVEs, so document that properly
+> > > and provide the "if you want one, ask MITRE for it" response that we
+> > > give on a weekly basis in the document, so we don't have to constantly
+> > > say it to everyone who asks.
+> > > 
+> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > ---
+> > >  Documentation/process/security-bugs.rst | 11 ++++-------
+> > >  1 file changed, 4 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+> > > index f12ac2316ce7..8b80e1eb7d79 100644
+> > > --- a/Documentation/process/security-bugs.rst
+> > > +++ b/Documentation/process/security-bugs.rst
+> > > @@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
+> > >  CVE assignment
+> > >  --------------
+> > >  
+> > > -The security team does not normally assign CVEs, nor do we require them
+> > > -for reports or fixes, as this can needlessly complicate the process and
+> > > -may delay the bug handling. If a reporter wishes to have a CVE identifier
+> > > -assigned ahead of public disclosure, they will need to contact the private
+> > > -linux-distros list, described above. When such a CVE identifier is known
+> > > -before a patch is provided, it is desirable to mention it in the commit
+> > > -message if the reporter agrees.
+> > > +The security team does not assign CVEs, nor do we require them for
+> > > +reports or fixes, as this can needlessly complicate the process and may
+> > > +delay the bug handling.  If a reporter wishes to have a CVE identifier
+> > > +assigned, they should contact MITRE directly.
+> > 
+> > Hmm. The language about "assigned ahead of public disclosure" was added
+> > intentionally due to trouble we'd had with coordination when a CVE was
+> > needed, etc. Additionally, it IS preferred to have a CVE in a patch when
+> > it IS known ahead of time, so I think that should be kept. How about
+> > this:
+> > 
+> > 
+> > diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+> > index 82e29837d589..2f4060d49b31 100644
+> > --- a/Documentation/process/security-bugs.rst
+> > +++ b/Documentation/process/security-bugs.rst
+> > @@ -81,13 +81,12 @@ the email Subject line with "[vs]" as described in the linux-distros wiki:
+> >  CVE assignment
+> >  --------------
+> >  
+> > -The security team does not normally assign CVEs, nor do we require them
+> > -for reports or fixes, as this can needlessly complicate the process and
+> > -may delay the bug handling. If a reporter wishes to have a CVE identifier
+> > -assigned ahead of public disclosure, they will need to contact the private
+> > -linux-distros list, described above. When such a CVE identifier is known
+> > -before a patch is provided, it is desirable to mention it in the commit
+> > -message if the reporter agrees.
+> > +The security team does not assign CVEs, nor do we require them for reports
+> > +or fixes, as this can needlessly complicate the process and may delay
+> > +the bug handling. If a reporter wishes to have a CVE identifier assigned
+> > +ahead of public disclosure, they will need to contact MITRE directly.
+> > +When such a CVE identifier is known before a patch is provided, it is
+> > +desirable to mention it in the commit message if the reporter agrees.
+> 
+> I can not, in good faith, with the current mess that MITRE is going
+> through, tell anyone that they should contact MITRE ahead of public
+> disclosure, sorry.
+> 
+> All I can say is "if you really want one, go ask them for one", as
+> everyone keeps asking us for one to pad their resume/CV.
+> 
+> Also note that many non-US-based companies are not allowed to contact a
+> US-government-backed entity for potential security issues for obvious
+> reasons.
+> 
+> So I don't want to even give a hint that we support or request this at
+> all, or that it is something that changelog texts should contain for
+> security issues (for the obvious reason of them being a "hint" one way
+> or another.)
+> 
+> External groups may wish to play the CVE "game" as it facilitates their
+> engineering procedures to get changes past managers, but that's not
+> anything that we should be encouraging at all for all of the various
+> geopolitical and corporate reasons involved in that mess.
 
-Thanks for the heads up. I will include your changes in v6.
+I generally agree with your points above, and these can be easily
+summarized by indicating that the patch will not wait for this, and
+suggesting that MITRE is not the only possible source:
 
-> Thanks,
-> drew
+  The security team does not assign CVEs, nor do we require them for
+  reports or fixes, as this can needlessly complicate the process and may
+  delay the bug handling.  If a reporter wishes to have a CVE identifier
+  assigned, they should find one by themselves, for example by contacting
+  MITRE directly.  However under no circumstances will a patch inclusion
+  be delayed to wait for a CVE identifier to arrive.
+
+This puts the responsibility for finding one in time on the reporter
+depending on what they expect, and if they want it in the commit
+message, they'd rather have one before reporting the problem.
+
+Willy
