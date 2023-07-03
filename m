@@ -2,128 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A075DC0015E
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:30:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 755AAEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:33:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230176AbjGCKas (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 06:30:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48440 "EHLO
+        id S230348AbjGCKdT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 06:33:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231700AbjGCKaX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:30:23 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96CBF1BC;
-        Mon,  3 Jul 2023 03:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1688380189; x=1719916189;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6+4fXO0Mgsbn0oR0/2jnJO0XttLzGYmDlCcJv+2evZU=;
-  b=ATjwGeEIoXc2N0UPeCWuTd7bdd/DaPaitdchFzlAEkDUZ+/rNIBL299s
-   MsPy8S/3HtCe2C451vwy8M3nGxKT+Flk68fLQXbdBB71VTiHH4y3a2745
-   UmlV1lz8mtfAohq6+tZcUSQsuzoUajr4sgSr1RacBUibUkrNPPaKLR334
-   WoslxfbGtMNqlp+F5lgGZ28EVTjToJfj1sVyeWJqGpn2OW3HRJ6/t+81y
-   j6kYoEuotOoB5aLb6k5e/uupRmA2p/MrlcLv/qo2cb1HC6B5PnfNN8L03
-   sA5Fhkrj12muXIHRCk3U/aqvLiHkvDVr3ybrlV9Jw7vdQhnhW+WZ81cVD
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="218684000"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 03 Jul 2023 03:29:30 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 3 Jul 2023 03:29:26 -0700
-Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 3 Jul 2023 03:29:24 -0700
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     <palmer@dabbelt.com>
-CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        "Heiko Stuebner" <heiko.stuebner@vrull.eu>,
-        Evan Green <evan@rivosinc.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 10/11] RISC-V: try new extension properties in of_early_processor_hartid()
-Date:   Mon, 3 Jul 2023 11:28:02 +0100
-Message-ID: <20230703-reroute-glacier-86c7befb1a13@wendy>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
-References: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
+        with ESMTP id S230027AbjGCKdQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:33:16 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF99EE;
+        Mon,  3 Jul 2023 03:33:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=jUUST+pTV/4ng8wB0em4I/zFSWFIzrwruNy94bYcubQ=; b=bZgglhjrJ9YzLn+sG4WglTktGF
+        8iD39nRKO6vYiN18s57xpXy8ME8jpneRQ0CQfnyuxwtVdOGclfdRXbL9xP4PczkHSrOSMxa1xIQqE
+        e7kZHTcGzsajOCD42RZrrlDDMrQzLkhtWEMvpeh/eOkt8E04HDdygN/2Khzux068xzCMeTPwp5nNo
+        QID/rvjDCHnwEX45sW6agBYfeu/cev378Sn3V1bJP4RV3L/HzTyIlvEcEqbT3fhoA135y1TJtU8zS
+        90D8fp+MjYAMvhoxleMVeBzeVfCtrRmZcNU8+X21wp9BagLWJ6bo/XklHUGzd0pteOH6vgFW4VqzP
+        T+kPvzyw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qGGrY-00A3wH-1j;
+        Mon, 03 Jul 2023 10:32:56 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2A32630012F;
+        Mon,  3 Jul 2023 12:32:56 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 11721202A2A17; Mon,  3 Jul 2023 12:32:56 +0200 (CEST)
+Date:   Mon, 3 Jul 2023 12:32:55 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        x86@kernel.org, linux-pm@vger.kernel.org,
+        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>
+Subject: Re: [PATCH v4 4/4] intel_idle: Add ibrs_off module parameter to
+ force disable IBRS
+Message-ID: <20230703103255.GE4253@hirez.programming.kicks-ass.net>
+References: <20230628022554.1638318-1-longman@redhat.com>
+ <20230628022554.1638318-5-longman@redhat.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1977; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=6+4fXO0Mgsbn0oR0/2jnJO0XttLzGYmDlCcJv+2evZU=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmLFq3ZlDpFRt/L9nzj/hem8ytrnk/12TVfwGZVT9/etXnK e/htOkpZGMQ4GGTFFFkSb/e1SK3/47LDuectzBxWJpAhDFycAjCRKD1Ghkf2XxJm7r3CPfeQ7JTtnx MTHvDffs49L6CGhcVn4pZTP0sY/tcsS6q8YVxSeEeM70KLxQ/zJ+d2n7TfyVBo0HLozC07E14A
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230628022554.1638318-5-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To fully deprecate the kernel's use of "riscv,isa",
-of_early_processor_hartid() needs to first try using the new properties,
-before falling back to "riscv,isa".
+On Tue, Jun 27, 2023 at 10:25:54PM -0400, Waiman Long wrote:
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-Changes in v3:
-- Add some printouts to explain what went wrong while parsing harts,
-  so that if none are found there's at least a hint before we hit a
-  BUG()
----
- arch/riscv/kernel/cpu.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+> @@ -69,6 +69,7 @@ static int max_cstate = CPUIDLE_STATE_MAX - 1;
+>  static unsigned int disabled_states_mask __read_mostly;
+>  static unsigned int preferred_states_mask __read_mostly;
+>  static bool force_irq_on __read_mostly;
+> +static bool ibrs_off __read_mostly;
+>  
+>  static struct cpuidle_device __percpu *intel_idle_cpuidle_devices;
+>  
+> @@ -1919,12 +1920,15 @@ static void state_update_enter_method(struct cpuidle_state *state, int cstate)
+>  	}
+>  
+>  	if (cpu_feature_enabled(X86_FEATURE_KERNEL_IBRS) &&
+> -			   state->flags & CPUIDLE_FLAG_IBRS) {
+> +			((state->flags & CPUIDLE_FLAG_IBRS) || ibrs_off)) {
+>  		/*
+>  		 * IBRS mitigation requires that C-states are entered
+>  		 * with interrupts disabled.
+>  		 */
+> -		WARN_ON_ONCE(state->flags & CPUIDLE_FLAG_IRQ_ENABLE);
+> +		if (ibrs_off && (state->flags & CPUIDLE_FLAG_IRQ_ENABLE))
+> +			state->flags &= ~CPUIDLE_FLAG_IRQ_ENABLE;
+> +		else
+> +			WARN_ON_ONCE(state->flags & CPUIDLE_FLAG_IRQ_ENABLE);
 
-diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-index 4f1f12f34b63..28d5af21f544 100644
---- a/arch/riscv/kernel/cpu.c
-+++ b/arch/riscv/kernel/cpu.c
-@@ -61,8 +61,35 @@ int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *har
- 		return -ENODEV;
- 	}
- 
-+	if (of_property_read_string(node, "riscv,isa-base", &isa))
-+		goto old_interface;
-+
-+	if (IS_ENABLED(CONFIG_32BIT) && strncasecmp(isa, "rv32i", 5)) {
-+		pr_warn("CPU with hartid=%lu does not support rv32i", *hart);
-+		return -ENODEV;
-+	}
-+
-+	if (IS_ENABLED(CONFIG_64BIT) && strncasecmp(isa, "rv64i", 5)) {
-+		pr_warn("CPU with hartid=%lu does not support rv64i", *hart);
-+		return -ENODEV;
-+	}
-+
-+	if (!of_property_present(node, "riscv,isa-extensions"))
-+		return -ENODEV;
-+
-+	if (of_property_match_string(node, "riscv,isa-extensions", "i") < 0 ||
-+	    of_property_match_string(node, "riscv,isa-extensions", "m") < 0 ||
-+	    of_property_match_string(node, "riscv,isa-extensions", "a") < 0) {
-+		pr_warn("CPU with hartid=%lu does not support ima", *hart);
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+
-+old_interface:
- 	if (of_property_read_string(node, "riscv,isa", &isa)) {
--		pr_warn("CPU with hartid=%lu has no \"riscv,isa\" property\n", *hart);
-+		pr_warn("CPU with hartid=%lu has no \"riscv,isa-base\" or \"riscv,isa\" property\n",
-+			*hart);
- 		return -ENODEV;
- 	}
- 
--- 
-2.40.1
+If you're respinning this, you can leave out the else and avoid the
+indent on the WARN:
 
++		if (ibrs_off && (state->flags & CPUIDLE_FLAG_IRQ_ENABLE))
++			state->flags &= ~CPUIDLE_FLAG_IRQ_ENABLE;
+		WARN_ON_ONCE(state->flags & CPUIDLE_FLAG_IRQ_ENABLE);
+
+Same effect, simpler code and all that.
+
+>  		state->enter = intel_idle_ibrs;
+>  		return;
+>  	}
