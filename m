@@ -2,205 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5756FEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:24:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92109EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:28:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230323AbjGCKYa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 06:24:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46142 "EHLO
+        id S230003AbjGCK2n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 06:28:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjGCKYa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:24:30 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F389B;
-        Mon,  3 Jul 2023 03:24:29 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-5e5b5da22b8so8701986d6.0;
-        Mon, 03 Jul 2023 03:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688379868; x=1690971868;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2cki6QWqpAbrbrnV4IjvHuqleiOcUiHi1jJzvSuXEVw=;
-        b=ewRqGNVScCYnU8Aq/g7Pf95eMJJMf4qDBGh2SlMsVy35KnB1RqZnhdJIYM0uWJlKXm
-         kS1YSOZ0dhNQmueHhhPInOWzPXUhmA0AYbCX4a4Z+VpdktFABcdQwnammCTvSl7x6ZbQ
-         ICXaQhwpCuWOOQhkeDh8LIJL/2iaji3HwvS25m1874X8xcr1AXcFjB1U8bIr+HQ/Y1lG
-         WzV0HW/coIqGvYlBhRgSXvKb/Mg7WAec0k2/JGPqP6OBbQ2YY4l0LyouQTiki4II4ZU0
-         mRbOSf22GQfz0NJ1z469El+CsLAw71O0m9G2xKxBRRSSMIJssa+fvy2aGSCpgr1gp0dZ
-         uGaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688379868; x=1690971868;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2cki6QWqpAbrbrnV4IjvHuqleiOcUiHi1jJzvSuXEVw=;
-        b=HNp3xVyNv0tv2QGpYOebSUZrSmZ9b1GR4zq30xHWN4MHO/Ap4GeHRck/NY6eYeasS9
-         g4Ne+O3jdslEOdwi5zZQ0rmwTl79cBSbN+mXQPRH4PW+WjC62UTIQP9wfV8fXH1W2zYg
-         CmdPln1PHprETfrtwp3x1LpvqzrXifNWUGL9aX81s5RBiBHXoRmV3fSPG6rxz8IW1zsm
-         0CiR9m2Qsu1FaBe0xN2qrsLrJnab4KoSuAjSzkK8ZKNsNIpiTWOcWOmzbhqxDkdH8IgC
-         qvVP/ztuquxULhDZ9m9vBA2DXZuLqLlylsCfxcXzEs+grHJ9RIIH+LJEIu8pnWZbtKma
-         2xpA==
-X-Gm-Message-State: ABy/qLakDKYdRxgIkLgMdumgwAPC8Xfs6WItD7rxDufju/3Fq7dTzLMR
-        gARBk/gCX6v0iNA4EsDsAA+eeWMhFlflpXaPEEHr79anvc+ThtpH
-X-Google-Smtp-Source: APBJJlGNpOiEwgHJlSYT0hkdI6b1Ql5FVBXYyJMiRNknYcWYjbwzIugXlOG2zzqxCT9KNu+erkXgb+x7iwWXBUMVrMQ=
-X-Received: by 2002:a05:6214:410d:b0:625:aa49:c182 with SMTP id
- kc13-20020a056214410d00b00625aa49c182mr12130438qvb.6.1688379868039; Mon, 03
- Jul 2023 03:24:28 -0700 (PDT)
+        with ESMTP id S229534AbjGCK2l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:28:41 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5889FBE;
+        Mon,  3 Jul 2023 03:28:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=RdvSBzylMqzcgeZCbeq2y3LzSr6cTTZfwrxa9S1F0VI=; b=l1r8nJk/ekxSCVihjSWivo5+i8
+        e9fu4b+qujtiOO1HcA00eg2WW2XD4aR9SsRCwszuEFh+NJUx9cpjiZOWVqhJ08TJEk3HnPAATKTSW
+        XctUeu+cTQ4/5hb4aTCqSeQSLKvwWNIh+PqzWqs4PPjZ1wBVxd1LuuyEIYs2+08ZvxE1tMvYJHL0u
+        jBKhkkCTuNZotMTh4xvdWLUHnvkvreZJmAIvLPzb47UvVuHuGTQWNa2GmZ7UM7QQkBETekTt2qqwM
+        89TsDVd7OxqRPPiqrN23edONltxI3jFNWEsAOn7rp6k5Q62w50xdSr++vS8kMsRbyQnRaYbVdh730
+        DAmIroQQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qGGn2-00A3td-36;
+        Mon, 03 Jul 2023 10:28:17 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5A36630023F;
+        Mon,  3 Jul 2023 12:28:15 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 35189202A2A17; Mon,  3 Jul 2023 12:28:15 +0200 (CEST)
+Date:   Mon, 3 Jul 2023 12:28:15 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        x86@kernel.org, linux-pm@vger.kernel.org,
+        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>
+Subject: Re: [PATCH v4 1/4] x86/speculation: Add __update_spec_ctrl() helper
+Message-ID: <20230703102815.GD4253@hirez.programming.kicks-ass.net>
+References: <20230628022554.1638318-1-longman@redhat.com>
+ <20230628022554.1638318-2-longman@redhat.com>
 MIME-Version: 1.0
-References: <20230630145831.2988845-1-i.maximets@ovn.org> <CAJ8uoz1TGjWuJKkZ8C9ZrQB0CDasik3A=qJs=xwdQP8cbn97VQ@mail.gmail.com>
- <04ed302e-067e-d372-370b-3fef1cf8c7f2@ovn.org> <c6944b25-7ac4-0b75-75b1-465c8a705d02@ovn.org>
-In-Reply-To: <c6944b25-7ac4-0b75-75b1-465c8a705d02@ovn.org>
-From:   Magnus Karlsson <magnus.karlsson@gmail.com>
-Date:   Mon, 3 Jul 2023 12:24:17 +0200
-Message-ID: <CAJ8uoz0ChXfavPKAkjsj8URKp3sJPPcd_dqiHsxP0iG6NjiVzg@mail.gmail.com>
-Subject: Re: [RFC bpf-next] xsk: honor SO_BINDTODEVICE on bind
-To:     Ilya Maximets <i.maximets@ovn.org>
-Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230628022554.1638318-2-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 3 Jul 2023 at 12:13, Ilya Maximets <i.maximets@ovn.org> wrote:
->
-> On 7/3/23 12:06, Ilya Maximets wrote:
-> > On 7/3/23 11:48, Magnus Karlsson wrote:
-> >> On Fri, 30 Jun 2023 at 16:58, Ilya Maximets <i.maximets@ovn.org> wrote:
-> >>>
-> >>> Initial creation of an AF_XDP socket requires CAP_NET_RAW capability.
-> >>> A privileged process might create the socket and pass it to a
-> >>> non-privileged process for later use.  However, that process will be
-> >>> able to bind the socket to any network interface.  Even though it will
-> >>> not be able to receive any traffic without modification of the BPF map,
-> >>> the situation is not ideal.
-> >>>
-> >>> Sockets already have a mechanism that can be used to restrict what
-> >>> interface they can be attached to.  That is SO_BINDTODEVICE.
-> >>>
-> >>> To change the binding the process will need CAP_NET_RAW.
-> >>>
-> >>> Make xsk_bind() honor the SO_BINDTODEVICE in order to allow safer
-> >>> workflow when non-privileged process is using AF_XDP.
-> >>
-> >> Rebinding an AF_XDP socket is not allowed today. Any such attempt will
-> >> return an error from bind. So if I understand the purpose of
-> >> SO_BINDTODEVICE correctly, you could say that this option is always
-> >> set for an AF_XDP socket and it is not possible to toggle it. The only
-> >> way to "rebind" an AF_XDP socket is to close it and open a new one.
-> >> This was a conscious design decision from day one as it would be very
-> >> hard to support this, especially in zero-copy mode.
-> >
-> > Hi, Magnus.
-> >
-> > The purpose of this patch is not to allow re-binding.  The use case is
-> > following:
-> >
-> > 1. First process creates a bare socket with socket(AF_XDP, ...).
-> > 2. First process loads the XSK program to the interface.
-> > 3. First process adds the socket fd to a BPF map.
-> > 4. First process sends socket fd to a second process.
-> > 5. Second process allocates UMEM.
-> > 6. Second process binds socket to the interface.
->
-> 7. Second process sends/receives the traffic. :)
->
-> >
-> > The idea is that the first process will call SO_BINDTODEVICE before
-> > sending socket fd to a second process, so the second process is limited
-> > in to which interface it can bind the socket.
-> >
-> > Does that make sense?
+On Tue, Jun 27, 2023 at 10:25:51PM -0400, Waiman Long wrote:
+> Add a new __update_spec_ctrl() helper which is a variant of
+> update_spec_ctrl() that can be used in a noinstr function.
+> 
+> Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  arch/x86/include/asm/nospec-branch.h | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
+> index 55388c9f7601..1d363fcea207 100644
+> --- a/arch/x86/include/asm/nospec-branch.h
+> +++ b/arch/x86/include/asm/nospec-branch.h
+> @@ -9,7 +9,7 @@
+>  
+>  #include <asm/alternative.h>
+>  #include <asm/cpufeatures.h>
+> -#include <asm/msr-index.h>
+> +#include <asm/msr.h>
+>  #include <asm/unwind_hints.h>
+>  #include <asm/percpu.h>
+>  #include <asm/current.h>
+> @@ -488,6 +488,15 @@ DECLARE_PER_CPU(u64, x86_spec_ctrl_current);
+>  extern void update_spec_ctrl_cond(u64 val);
+>  extern u64 spec_ctrl_current(void);
+>  
+> +/*
+> + * This can be used in noinstr function.
+> + */
+> +static __always_inline void __update_spec_ctrl(u64 val)
+> +{
+> +	__this_cpu_write(x86_spec_ctrl_current, val);
+> +	native_wrmsrl(MSR_IA32_SPEC_CTRL, val);
+> +}
 
-Thanks for explaining this to me. Yes, that makes sense and seems
-useful. Could you please send a v2 and include the flow (1-7) above in
-your commit message? Would be good to add one step with the setsockopt
-SO_BINDTODEVICE before step #4 just to be clear. With those changes
-please feel free to include my ack:
-
- Acked-by: Magnus Karlsson <magnus.karlsson@intel.com>
-
-Thank you!
-
-> > This workflow allows the second process to have no capabilities
-> > as long as it has sufficient RLIMIT_MEMLOCK.
->
-> Note that steps 1-7 are working just fine today.  i.e. the umem
-> registration, bind, ring mapping and traffic send/receive do not
-> require any extra capabilities.
->
-> We may restrict the bind() call to require CAP_NET_RAW and then
-> allow it for sockets that had SO_BINDTODEVICE as an alternative.
-> But restriction will break the current uAPI.
->
-> >
-> > Best regards, Ilya Maximets.
-> >
-> >>
-> >>> Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
-> >>> ---
-> >>>
-> >>> Posting as an RFC for now to probably get some feedback.
-> >>> Will re-post once the tree is open.
-> >>>
-> >>>  Documentation/networking/af_xdp.rst | 9 +++++++++
-> >>>  net/xdp/xsk.c                       | 6 ++++++
-> >>>  2 files changed, 15 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
-> >>> index 247c6c4127e9..1cc35de336a4 100644
-> >>> --- a/Documentation/networking/af_xdp.rst
-> >>> +++ b/Documentation/networking/af_xdp.rst
-> >>> @@ -433,6 +433,15 @@ start N bytes into the buffer leaving the first N bytes for the
-> >>>  application to use. The final option is the flags field, but it will
-> >>>  be dealt with in separate sections for each UMEM flag.
-> >>>
-> >>> +SO_BINDTODEVICE setsockopt
-> >>> +--------------------------
-> >>> +
-> >>> +This is a generic SOL_SOCKET option that can be used to tie AF_XDP
-> >>> +socket to a particular network interface.  It is useful when a socket
-> >>> +is created by a privileged process and passed to a non-privileged one.
-> >>> +Once the option is set, kernel will refuse attempts to bind that socket
-> >>> +to a different interface.  Updating the value requires CAP_NET_RAW.
-> >>> +
-> >>>  XDP_STATISTICS getsockopt
-> >>>  -------------------------
-> >>>
-> >>> diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
-> >>> index 5a8c0dd250af..386ff641db0f 100644
-> >>> --- a/net/xdp/xsk.c
-> >>> +++ b/net/xdp/xsk.c
-> >>> @@ -886,6 +886,7 @@ static int xsk_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
-> >>>         struct sock *sk = sock->sk;
-> >>>         struct xdp_sock *xs = xdp_sk(sk);
-> >>>         struct net_device *dev;
-> >>> +       int bound_dev_if;
-> >>>         u32 flags, qid;
-> >>>         int err = 0;
-> >>>
-> >>> @@ -899,6 +900,11 @@ static int xsk_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
-> >>>                       XDP_USE_NEED_WAKEUP))
-> >>>                 return -EINVAL;
-> >>>
-> >>> +       bound_dev_if = READ_ONCE(sk->sk_bound_dev_if);
-> >>> +
-> >>> +       if (bound_dev_if && bound_dev_if != sxdp->sxdp_ifindex)
-> >>> +               return -EINVAL;
-> >>> +
-> >>>         rtnl_lock();
-> >>>         mutex_lock(&xs->mutex);
-> >>>         if (xs->state != XSK_READY) {
-> >>> --
-> >>> 2.40.1
-> >>>
-> >>>
-> >
->
+Should we also use this to implement update_spec_ctrl() ?
