@@ -2,120 +2,119 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A374C30657
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 21:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B762C001B0
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 21:19:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbjGCVG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 17:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47022 "EHLO
+        id S229844AbjGCVTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 17:19:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjGCVG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 17:06:27 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C28FAE59;
-        Mon,  3 Jul 2023 14:06:26 -0700 (PDT)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 363KkklH015899;
-        Mon, 3 Jul 2023 21:06:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Kf6a8f2zayKx9LTfaLSkoGTGTiIxgMuV5IPvELMWJQ4=;
- b=Y32lhCdsHualNtkQYtskbVgQ8iR34tiZd70U/wTcVT15B6fbh+jzd/7FdEP63oLabR9s
- RTIUm8NjzabsOQP7Hp2SgiQkLuH43Y91sx5PhaASmCImp3OYtjC2CfTf15Z2aqguH/s2
- NpQeR4i0p+YJ5xzqFviKXBht4UNWd1zv6nUL/tY4IUDFIpoMtx/vGje0f2FdH6NTfj4k
- YH0j5ilYCVcvp0YEcs1I3Sx5iplHPRln3Fia3HB1PwKtzGN5NcWzU5UaB5YtCy3zVsS/
- YEDyJ/o/ypB+smeQJh3BKywwshPmUkoyLwppD/AXw2gfDPq9pl/ixzgBj90/sDe8kHFG xw== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rkwyfh0ss-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 03 Jul 2023 21:06:00 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 363L5xAY020569
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 3 Jul 2023 21:05:59 GMT
-Received: from [10.110.23.29] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Mon, 3 Jul 2023
- 14:05:58 -0700
-Message-ID: <957a3cdb-6091-8679-ddb0-296db2347291@quicinc.com>
-Date:   Mon, 3 Jul 2023 14:05:58 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
- support
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Mukesh Ojha <quic_mojha@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-CC:     <corbet@lwn.net>, <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <keescook@chromium.org>,
-        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
-        <mathieu.poirier@linaro.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <linus.walleij@linaro.org>,
-        <andy.shevchenko@gmail.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>, Alex Elder <elder@linaro.org>
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <2023062814-chance-flounder-f002@gregkh>
- <CAL_JsqLO9yey2-4FcWsaGxijiS6hGL0SH9VoMuiyei-u9=Cv=w@mail.gmail.com>
- <cc30660f-dd72-aade-6346-a93c6ad4b695@quicinc.com>
- <29af84dc-7db8-0c43-07b6-eb743cf25e57@linaro.org>
-From:   Trilok Soni <quic_tsoni@quicinc.com>
-In-Reply-To: <29af84dc-7db8-0c43-07b6-eb743cf25e57@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+        with ESMTP id S229653AbjGCVTP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 17:19:15 -0400
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0745E59;
+        Mon,  3 Jul 2023 14:19:13 -0700 (PDT)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-1b056276889so4118788fac.2;
+        Mon, 03 Jul 2023 14:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688419153; x=1691011153;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UpqEkaNg2J+Bvai1eAr5gemxKMDFvKrtFaY0+RQFT44=;
+        b=YNfVyPMrtM+l//4e83mxX3p1YK5+82O1BU/hVANnM1N6jc2ntbgmhK363IxtXgmU6i
+         MYkq24ujV1XDGM3ORTWfQJuonRidDMWsFFoFT9PbCFnPe47VGDgnYE8YkrWzfJm8E6np
+         0lYNyASVemcM8upnFdliO0US3UZ5OtaoyWjtSAAE+pizyQ6y+52TKFOd9ZsNvr7n+Vdc
+         ukSX+Q68u/XydWPUMP8OLc5pkSOcOUmtZJIIZowifISrhJiMxSOZF19Lb4x3E67EoV19
+         zoHO1tXWBrkMN7oK4axUj4yzx+X+XE5x3SqaO9FjkU3VN+vb3f15JZtH2AgTd/8lO2NY
+         J35w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688419153; x=1691011153;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UpqEkaNg2J+Bvai1eAr5gemxKMDFvKrtFaY0+RQFT44=;
+        b=MsXIesY6dc89Csu4Fq3dlQ9cJGm+IhgbTc8MEXd+NwwoQHcwh0p4MJZNsxcRG5kgyn
+         F0WRRnraHkqjNh2kGyUq4ZdMYyx2HzliQk7f3hhLoKW0w3odrKkw+F7EHPUG73v5gNXd
+         hxsxhB2TNmcvoqI/Pn2nMVQbbqkFVAzPnppVuA8gJJI23g9E4VVurXStIe1JU23J21uS
+         gCIk/EKVgwtHwQp744xZ1+Lgcy370ktm4980bZ3ATMxgCuG50d8ogoJcrxm8Z/PWR+KW
+         A1dLciq2NDp/lKWG9TGKlCRhGIVszxkPT7T0yCNGf2eL5Xy7fqZ1WuIiMTEEXIx585JI
+         xUcw==
+X-Gm-Message-State: ABy/qLYwFyxzeRWXkEn7grLql7DRmXXq3cqOEHbGLnbXZ2ZddmppJQAB
+        YtjZlwAoZYemGOMpfWVQlig=
+X-Google-Smtp-Source: APBJJlHqATpdJTKWq1iDMSIA3foxuxaBzMCf8d8gvgidQSrf4T1i9ibLte2VnDPbJLdegXQwptEYMg==
+X-Received: by 2002:a05:6870:7d8e:b0:1ad:2e18:7090 with SMTP id oq14-20020a0568707d8e00b001ad2e187090mr12419826oab.32.1688419152950;
+        Mon, 03 Jul 2023 14:19:12 -0700 (PDT)
+Received: from localhost ([2605:59c8:148:ba10::41f])
+        by smtp.gmail.com with ESMTPSA id gm4-20020a17090b100400b0025023726fc4sm14271294pjb.26.2023.07.03.14.19.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jul 2023 14:19:12 -0700 (PDT)
+Date:   Mon, 03 Jul 2023 14:19:11 -0700
+From:   John Fastabend <john.fastabend@gmail.com>
+To:     Ilya Maximets <i.maximets@ovn.org>, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Cc:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Ilya Maximets <i.maximets@ovn.org>
+Message-ID: <64a33b4fcccc_6520520825@john.notmuch>
+In-Reply-To: <20230703175329.3259672-1-i.maximets@ovn.org>
+References: <20230703175329.3259672-1-i.maximets@ovn.org>
+Subject: RE: [PATCH bpf-next] xsk: honor SO_BINDTODEVICE on bind
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: xPPByBNK4qpXUqaj3eMFPyXF3yEyeyp0
-X-Proofpoint-GUID: xPPByBNK4qpXUqaj3eMFPyXF3yEyeyp0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-03_15,2023-06-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=802
- lowpriorityscore=0 clxscore=1011 priorityscore=1501 impostorscore=0
- spamscore=0 phishscore=0 malwarescore=0 mlxscore=0 adultscore=0
- bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307030193
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/2/2023 1:29 AM, Krzysztof Kozlowski wrote:
-> On 30/06/2023 18:04, Mukesh Ojha wrote:
->>>
->>>> We don't add layers when they are not needed, and never when there is no
->>>> actual user.  If you need the extra "complexity" later, then add it
->>>> later when it is needed as who knows when that will ever be.
->>>>
->>>> Please redo this series based on that, thanks.
->>>
->>> My bigger issue with this whole series is what would this all look
->>> like if every SoC vendor upstreamed their own custom dumping
->>> mechanism. That would be a mess. (I have similar opinions on the
->>> $soc-vendor hypervisors.)
+Ilya Maximets wrote:
+> Initial creation of an AF_XDP socket requires CAP_NET_RAW capability.
+> A privileged process might create the socket and pass it to a
+> non-privileged process for later use.  However, that process will be
+> able to bind the socket to any network interface.  Even though it will
+> not be able to receive any traffic without modification of the BPF map,
+> the situation is not ideal.
 > 
-> Mukesh,
+> Sockets already have a mechanism that can be used to restrict what
+> interface they can be attached to.  That is SO_BINDTODEVICE.
 > 
-> LPC CFP is still open. There will be also Android and Kernel Debugging
-> LPC microconference tracks. Coming with a unified solution could be a
-> great topic for LPC. Solutions targeting only one user are quite often
-> frowned upon.
+> To change the SO_BINDTODEVICE binding the process will need CAP_NET_RAW.
+> 
+> Make xsk_bind() honor the SO_BINDTODEVICE in order to allow safer
+> workflow when non-privileged process is using AF_XDP.
+> 
+> The intended workflow is following:
+> 
+>   1. First process creates a bare socket with socket(AF_XDP, ...).
+>   2. First process loads the XSK program to the interface.
+>   3. First process adds the socket fd to a BPF map.
+>   4. First process ties socket fd to a particular interface using
+>      SO_BINDTODEVICE.
+>   5. First process sends socket fd to a second process.
+>   6. Second process allocates UMEM.
+>   7. Second process binds socket to the interface with bind(...).
+>   8. Second process sends/receives the traffic.
+> 
+> All the steps above are possible today if the first process is
+> privileged and the second one has sufficient RLIMIT_MEMLOCK and no
+> capabilities.  However, the second process will be able to bind the
+> socket to any interface it wants on step 7 and send traffic from it.
+> With the proposed change, the second process will be able to bind
+> the socket only to a specific interface chosen by the first process
+> at step 4.
+> 
+> Acked-by: Magnus Karlsson <magnus.karlsson@intel.com>
+> Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
+> ---
 
-LPC is far out and in November. Can we not have others speak up if they 
-have the similar solution now? We can expand this to linux-kernel and 
-ask for the other SOC vendors to chime in. I am sure that we may have 
-existing solutions which came in for the one user first like Intel RDT 
-if I remember. I am sure ARM MPAM usecase was present at that time but 
-Intel RDT based solution which was x86 specific but accepted.
+LGTM.
 
----Trilok Soni
+Acked-by: John Fastabend <john.fastabend@gmail.com>
