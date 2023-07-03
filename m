@@ -2,192 +2,205 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F4BEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:21:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5756FEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:24:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229922AbjGCKVA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 06:21:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45018 "EHLO
+        id S230323AbjGCKYa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 06:24:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231268AbjGCKUv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:20:51 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A7209B
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 03:20:50 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so3044731a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 03:20:50 -0700 (PDT)
+        with ESMTP id S229585AbjGCKYa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:24:30 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F389B;
+        Mon,  3 Jul 2023 03:24:29 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-5e5b5da22b8so8701986d6.0;
+        Mon, 03 Jul 2023 03:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smartx-com.20221208.gappssmtp.com; s=20221208; t=1688379649; x=1690971649;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uttaj7fD1QROn5xro4kg4noQ/QQj30Wzw/+30u9oR8E=;
-        b=mQk/z50IrFlvNwr05KULooFjsdJQAdS6SpQxHPcoQ+KllV09zZjN95y7ABrsMzCdrz
-         98NEiwvnquSeSE2k4VJlkUxYMFmk8vLsGcHDEM83tLWcbmJmsY3et4Ljbkh9+Uu17U9F
-         zzhncLM/hQ32Im8+g29usqALYetk+YscSkVnrtXRLfY5sUQ6kho90Tl1MDeNhF7cqfUT
-         qVa4mEgRyHhnS2onxHTc7DogDc3v+BAei+gF4qUtNSWYaLvbgOcG4TxL80UzVKyjHDQs
-         D5nXJJJj/GfuAh0HBqY/Wfgm+XT8cIDla+Li+78UPMu49tIh2viRo7SKMjoqGziKyhIy
-         j7iQ==
+        d=gmail.com; s=20221208; t=1688379868; x=1690971868;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2cki6QWqpAbrbrnV4IjvHuqleiOcUiHi1jJzvSuXEVw=;
+        b=ewRqGNVScCYnU8Aq/g7Pf95eMJJMf4qDBGh2SlMsVy35KnB1RqZnhdJIYM0uWJlKXm
+         kS1YSOZ0dhNQmueHhhPInOWzPXUhmA0AYbCX4a4Z+VpdktFABcdQwnammCTvSl7x6ZbQ
+         ICXaQhwpCuWOOQhkeDh8LIJL/2iaji3HwvS25m1874X8xcr1AXcFjB1U8bIr+HQ/Y1lG
+         WzV0HW/coIqGvYlBhRgSXvKb/Mg7WAec0k2/JGPqP6OBbQ2YY4l0LyouQTiki4II4ZU0
+         mRbOSf22GQfz0NJ1z469El+CsLAw71O0m9G2xKxBRRSSMIJssa+fvy2aGSCpgr1gp0dZ
+         uGaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688379649; x=1690971649;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Uttaj7fD1QROn5xro4kg4noQ/QQj30Wzw/+30u9oR8E=;
-        b=ImY9GaoGcAAn3G7CoFMMj3QVas+iVl4WcFemMKcv+NExIvTsVoRnX47gH4dyzLpIEU
-         34VqNI67fv5cLLN6Ujrie8dQOoUDLXZNhXj0OTEMj4WVkfO8jfQBDREYrKvUsYNqcW7+
-         t8C/26DJx4xUTeKCCThJm7sESCi2QuTil01voLT7NWjlyDNFM5EX07XYFjOnC2d1N1yw
-         IHjhmcZml7Nwe90MIGWpXkTACAiWbrH7WM00A9HdjIHNOzkGnfMdqmbO9YiqawfYNHur
-         sy5vOK68vINNehY8cO9QsgbsGM+MeFUALGm7Z3Q/3IyaFC+zrW/ReuOd3k1Q3CJwyDVx
-         B3ZQ==
-X-Gm-Message-State: ABy/qLYv0MUwaTBJt6jWESj6hbh5hZuL+W2Tf5PBHConlw4PtJeTn1wp
-        93A3pv8EQ0ZDA1Kuu4kf9HUyPzR3sYCtKsQ9hhWcA24w7Zw=
-X-Google-Smtp-Source: APBJJlEqlVljPGXKJN/fBbPoRxrP5P5thubA4Bhxn4XFqPfgxqTc734dcZH79U8HebS80mXZOrOmhA==
-X-Received: by 2002:a05:6a20:4406:b0:12d:675a:21ce with SMTP id ce6-20020a056a20440600b0012d675a21cemr13552698pzb.42.1688379649077;
-        Mon, 03 Jul 2023 03:20:49 -0700 (PDT)
-Received: from nixos (61-221-155-12.hinet-ip.hinet.net. [61.221.155.12])
-        by smtp.gmail.com with ESMTPSA id k6-20020aa78206000000b0064aea45b040sm13692438pfi.168.2023.07.03.03.20.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 03:20:48 -0700 (PDT)
-Date:   Mon, 3 Jul 2023 18:20:44 +0800
-From:   Xueshi Hu <xueshi.hu@smartx.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Hu Haowen <src.res@email.cn>
-Subject: [PATCH] docs: fix typo in zh_TW and zh_CN translation
-Message-ID: <mr4mjneo2eghtpm2z6envih3kzjdjpptqcot2fm2wp5crljxag@oianggqjllbl>
+        d=1e100.net; s=20221208; t=1688379868; x=1690971868;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2cki6QWqpAbrbrnV4IjvHuqleiOcUiHi1jJzvSuXEVw=;
+        b=HNp3xVyNv0tv2QGpYOebSUZrSmZ9b1GR4zq30xHWN4MHO/Ap4GeHRck/NY6eYeasS9
+         g4Ne+O3jdslEOdwi5zZQ0rmwTl79cBSbN+mXQPRH4PW+WjC62UTIQP9wfV8fXH1W2zYg
+         CmdPln1PHprETfrtwp3x1LpvqzrXifNWUGL9aX81s5RBiBHXoRmV3fSPG6rxz8IW1zsm
+         0CiR9m2Qsu1FaBe0xN2qrsLrJnab4KoSuAjSzkK8ZKNsNIpiTWOcWOmzbhqxDkdH8IgC
+         qvVP/ztuquxULhDZ9m9vBA2DXZuLqLlylsCfxcXzEs+grHJ9RIIH+LJEIu8pnWZbtKma
+         2xpA==
+X-Gm-Message-State: ABy/qLakDKYdRxgIkLgMdumgwAPC8Xfs6WItD7rxDufju/3Fq7dTzLMR
+        gARBk/gCX6v0iNA4EsDsAA+eeWMhFlflpXaPEEHr79anvc+ThtpH
+X-Google-Smtp-Source: APBJJlGNpOiEwgHJlSYT0hkdI6b1Ql5FVBXYyJMiRNknYcWYjbwzIugXlOG2zzqxCT9KNu+erkXgb+x7iwWXBUMVrMQ=
+X-Received: by 2002:a05:6214:410d:b0:625:aa49:c182 with SMTP id
+ kc13-20020a056214410d00b00625aa49c182mr12130438qvb.6.1688379868039; Mon, 03
+ Jul 2023 03:24:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20230630145831.2988845-1-i.maximets@ovn.org> <CAJ8uoz1TGjWuJKkZ8C9ZrQB0CDasik3A=qJs=xwdQP8cbn97VQ@mail.gmail.com>
+ <04ed302e-067e-d372-370b-3fef1cf8c7f2@ovn.org> <c6944b25-7ac4-0b75-75b1-465c8a705d02@ovn.org>
+In-Reply-To: <c6944b25-7ac4-0b75-75b1-465c8a705d02@ovn.org>
+From:   Magnus Karlsson <magnus.karlsson@gmail.com>
+Date:   Mon, 3 Jul 2023 12:24:17 +0200
+Message-ID: <CAJ8uoz0ChXfavPKAkjsj8URKp3sJPPcd_dqiHsxP0iG6NjiVzg@mail.gmail.com>
+Subject: Re: [RFC bpf-next] xsk: honor SO_BINDTODEVICE on bind
+To:     Ilya Maximets <i.maximets@ovn.org>
+Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In zh_TW and zh_CN translation, "http://lwn.net/Articles" is incorrectly
-written as "http://lwn.net/Articles".
+On Mon, 3 Jul 2023 at 12:13, Ilya Maximets <i.maximets@ovn.org> wrote:
+>
+> On 7/3/23 12:06, Ilya Maximets wrote:
+> > On 7/3/23 11:48, Magnus Karlsson wrote:
+> >> On Fri, 30 Jun 2023 at 16:58, Ilya Maximets <i.maximets@ovn.org> wrote:
+> >>>
+> >>> Initial creation of an AF_XDP socket requires CAP_NET_RAW capability.
+> >>> A privileged process might create the socket and pass it to a
+> >>> non-privileged process for later use.  However, that process will be
+> >>> able to bind the socket to any network interface.  Even though it will
+> >>> not be able to receive any traffic without modification of the BPF map,
+> >>> the situation is not ideal.
+> >>>
+> >>> Sockets already have a mechanism that can be used to restrict what
+> >>> interface they can be attached to.  That is SO_BINDTODEVICE.
+> >>>
+> >>> To change the binding the process will need CAP_NET_RAW.
+> >>>
+> >>> Make xsk_bind() honor the SO_BINDTODEVICE in order to allow safer
+> >>> workflow when non-privileged process is using AF_XDP.
+> >>
+> >> Rebinding an AF_XDP socket is not allowed today. Any such attempt will
+> >> return an error from bind. So if I understand the purpose of
+> >> SO_BINDTODEVICE correctly, you could say that this option is always
+> >> set for an AF_XDP socket and it is not possible to toggle it. The only
+> >> way to "rebind" an AF_XDP socket is to close it and open a new one.
+> >> This was a conscious design decision from day one as it would be very
+> >> hard to support this, especially in zero-copy mode.
+> >
+> > Hi, Magnus.
+> >
+> > The purpose of this patch is not to allow re-binding.  The use case is
+> > following:
+> >
+> > 1. First process creates a bare socket with socket(AF_XDP, ...).
+> > 2. First process loads the XSK program to the interface.
+> > 3. First process adds the socket fd to a BPF map.
+> > 4. First process sends socket fd to a second process.
+> > 5. Second process allocates UMEM.
+> > 6. Second process binds socket to the interface.
+>
+> 7. Second process sends/receives the traffic. :)
+>
+> >
+> > The idea is that the first process will call SO_BINDTODEVICE before
+> > sending socket fd to a second process, so the second process is limited
+> > in to which interface it can bind the socket.
+> >
+> > Does that make sense?
 
-This patch is generated by the following script:
+Thanks for explaining this to me. Yes, that makes sense and seems
+useful. Could you please send a v2 and include the flow (1-7) above in
+your commit message? Would be good to add one step with the setsockopt
+SO_BINDTODEVICE before step #4 just to be clear. With those changes
+please feel free to include my ack:
 
-rg -l "lwn.net/Articles" |
-	xargs sed -i  's/lwn.net\/articles/lwn.net\/Articles/g'
+ Acked-by: Magnus Karlsson <magnus.karlsson@intel.com>
 
-Signed-off-by: Xueshi Hu <xueshi.hu@smartx.com>
----
- Documentation/translations/zh_CN/process/2.Process.rst        | 2 +-
- Documentation/translations/zh_CN/process/3.Early-stage.rst    | 2 +-
- Documentation/translations/zh_CN/process/4.Coding.rst         | 2 +-
- Documentation/translations/zh_CN/process/7.AdvancedTopics.rst | 2 +-
- Documentation/translations/zh_TW/process/2.Process.rst        | 2 +-
- Documentation/translations/zh_TW/process/3.Early-stage.rst    | 2 +-
- Documentation/translations/zh_TW/process/4.Coding.rst         | 2 +-
- Documentation/translations/zh_TW/process/7.AdvancedTopics.rst | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
+Thank you!
 
-diff --git a/Documentation/translations/zh_CN/process/2.Process.rst b/Documentation/translations/zh_CN/process/2.Process.rst
-index 4a6ed0219494..e68c9de0f7f8 100644
---- a/Documentation/translations/zh_CN/process/2.Process.rst
-+++ b/Documentation/translations/zh_CN/process/2.Process.rst
-@@ -358,7 +358,7 @@ Andrew Morton 为有抱负的内核开发人员提供了如下建议
- 	机器上始终完美运行”。通常的方法是和其他人一起解决问题（这可能需
- 	要坚持！），但就是如此——这是内核开发的一部分。
- 
--(http://lwn.net/articles/283982/)
-+(http://lwn.net/Articles/283982/)
- 
- 在没有明显问题需要解决的情况下，通常建议开发人员查看当前的回归和开放缺陷
- 列表。从来都不缺少需要解决的问题；通过解决这些问题，开发人员将从该过程获得
-diff --git a/Documentation/translations/zh_CN/process/3.Early-stage.rst b/Documentation/translations/zh_CN/process/3.Early-stage.rst
-index de53dd12e911..2caba4753b75 100644
---- a/Documentation/translations/zh_CN/process/3.Early-stage.rst
-+++ b/Documentation/translations/zh_CN/process/3.Early-stage.rst
-@@ -44,7 +44,7 @@
- 	试图向这些人传达用户需求是浪费时间。他们太“聪明”了，根本听不到少数
- 	人的话。
- 
--（http://lwn.net/articles/131776/）
-+（http://lwn.net/Articles/131776/）
- 
- 实际情况却是不同的；与特定模块相比，内核开发人员更关心系统稳定性、长期维护
- 以及找到问题的正确解决方案。这个故事的寓意是把重点放在问题上——而不是具体的
-diff --git a/Documentation/translations/zh_CN/process/4.Coding.rst b/Documentation/translations/zh_CN/process/4.Coding.rst
-index 94f7f866f103..7cac9424f5d5 100644
---- a/Documentation/translations/zh_CN/process/4.Coding.rst
-+++ b/Documentation/translations/zh_CN/process/4.Coding.rst
-@@ -149,7 +149,7 @@ Linus对这个问题给出了最佳答案:
- 	所以我们不会通过引入新问题来修复错误。这种方式是靠不住的，没人知道
- 	是否真的有进展。是前进两步、后退一步，还是前进一步、后退两步？
- 
--（http://lwn.net/articles/243460/）
-+（http://lwn.net/Articles/243460/）
- 
- 特别不受欢迎的一种回归类型是用户空间ABI的任何变化。一旦接口被导出到用户空间，
- 就必须无限期地支持它。这一事实使得用户空间接口的创建特别具有挑战性：因为它们
-diff --git a/Documentation/translations/zh_CN/process/7.AdvancedTopics.rst b/Documentation/translations/zh_CN/process/7.AdvancedTopics.rst
-index 6d0dadae13b1..57beca02181c 100644
---- a/Documentation/translations/zh_CN/process/7.AdvancedTopics.rst
-+++ b/Documentation/translations/zh_CN/process/7.AdvancedTopics.rst
-@@ -98,7 +98,7 @@ Git提供了一些强大的工具，可以让您重写开发历史。一个不
-    你可以给我发补丁，但当我从你那里拉取一个Git补丁时，我需要知道你清楚
-    自己在做什么，我需要能够相信事情而 *无需* 手动检查每个单独的更改。
- 
--（http://lwn.net/articles/224135/）。
-+（http://lwn.net/Articles/224135/）。
- 
- 为了避免这种情况，请确保给定分支中的所有补丁都与相关主题紧密相关；“驱动程序
- 修复”分支不应更改核心内存管理代码。而且，最重要的是，不要使用Git树来绕过
-diff --git a/Documentation/translations/zh_TW/process/2.Process.rst b/Documentation/translations/zh_TW/process/2.Process.rst
-index b01cdd3a39ae..9d465df1f6c3 100644
---- a/Documentation/translations/zh_TW/process/2.Process.rst
-+++ b/Documentation/translations/zh_TW/process/2.Process.rst
-@@ -361,7 +361,7 @@ Andrew Morton 爲有抱負的內核開發人員提供了如下建議
- 	機器上始終完美運行」。通常的方法是和其他人一起解決問題（這可能需
- 	要堅持！），但就是如此——這是內核開發的一部分。
- 
--(http://lwn.net/articles/283982/)
-+(http://lwn.net/Articles/283982/)
- 
- 在沒有明顯問題需要解決的情況下，通常建議開發人員查看當前的回歸和開放缺陷
- 列表。從來都不缺少需要解決的問題；通過解決這些問題，開發人員將從該過程獲得
-diff --git a/Documentation/translations/zh_TW/process/3.Early-stage.rst b/Documentation/translations/zh_TW/process/3.Early-stage.rst
-index ab2a45fd65a4..076873ca0905 100644
---- a/Documentation/translations/zh_TW/process/3.Early-stage.rst
-+++ b/Documentation/translations/zh_TW/process/3.Early-stage.rst
-@@ -47,7 +47,7 @@
- 	試圖向這些人傳達用戶需求是浪費時間。他們太「聰明」了，根本聽不到少數
- 	人的話。
- 
--（http://lwn.net/articles/131776/）
-+（http://lwn.net/Articles/131776/）
- 
- 實際情況卻是不同的；與特定模塊相比，內核開發人員更關心系統穩定性、長期維護
- 以及找到問題的正確解決方案。這個故事的寓意是把重點放在問題上——而不是具體的
-diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
-index ccc3946227a0..7fc0344ed16b 100644
---- a/Documentation/translations/zh_TW/process/4.Coding.rst
-+++ b/Documentation/translations/zh_TW/process/4.Coding.rst
-@@ -152,7 +152,7 @@ Linus對這個問題給出了最佳答案:
- 	所以我們不會通過引入新問題來修復錯誤。這種方式是靠不住的，沒人知道
- 	是否真的有進展。是前進兩步、後退一步，還是前進一步、後退兩步？
- 
--（http://lwn.net/articles/243460/）
-+（http://lwn.net/Articles/243460/）
- 
- 特別不受歡迎的一種回歸類型是用戶空間ABI的任何變化。一旦接口被導出到用戶空間，
- 就必須無限期地支持它。這一事實使得用戶空間接口的創建特別具有挑戰性：因爲它們
-diff --git a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
-index 3de093d0f170..4fbc104a37ca 100644
---- a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
-+++ b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
-@@ -101,7 +101,7 @@ Git提供了一些強大的工具，可以讓您重寫開發歷史。一個不
-    你可以給我發補丁，但當我從你那裡拉取一個Git補丁時，我需要知道你清楚
-    自己在做什麼，我需要能夠相信事情而 *無需* 手動檢查每個單獨的更改。
- 
--（http://lwn.net/articles/224135/）。
-+（http://lwn.net/Articles/224135/）。
- 
- 爲了避免這種情況，請確保給定分支中的所有補丁都與相關主題緊密相關；「驅動程序
- 修復」分支不應更改核心內存管理代碼。而且，最重要的是，不要使用Git樹來繞過
--- 
-2.40.1
-
+> > This workflow allows the second process to have no capabilities
+> > as long as it has sufficient RLIMIT_MEMLOCK.
+>
+> Note that steps 1-7 are working just fine today.  i.e. the umem
+> registration, bind, ring mapping and traffic send/receive do not
+> require any extra capabilities.
+>
+> We may restrict the bind() call to require CAP_NET_RAW and then
+> allow it for sockets that had SO_BINDTODEVICE as an alternative.
+> But restriction will break the current uAPI.
+>
+> >
+> > Best regards, Ilya Maximets.
+> >
+> >>
+> >>> Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
+> >>> ---
+> >>>
+> >>> Posting as an RFC for now to probably get some feedback.
+> >>> Will re-post once the tree is open.
+> >>>
+> >>>  Documentation/networking/af_xdp.rst | 9 +++++++++
+> >>>  net/xdp/xsk.c                       | 6 ++++++
+> >>>  2 files changed, 15 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
+> >>> index 247c6c4127e9..1cc35de336a4 100644
+> >>> --- a/Documentation/networking/af_xdp.rst
+> >>> +++ b/Documentation/networking/af_xdp.rst
+> >>> @@ -433,6 +433,15 @@ start N bytes into the buffer leaving the first N bytes for the
+> >>>  application to use. The final option is the flags field, but it will
+> >>>  be dealt with in separate sections for each UMEM flag.
+> >>>
+> >>> +SO_BINDTODEVICE setsockopt
+> >>> +--------------------------
+> >>> +
+> >>> +This is a generic SOL_SOCKET option that can be used to tie AF_XDP
+> >>> +socket to a particular network interface.  It is useful when a socket
+> >>> +is created by a privileged process and passed to a non-privileged one.
+> >>> +Once the option is set, kernel will refuse attempts to bind that socket
+> >>> +to a different interface.  Updating the value requires CAP_NET_RAW.
+> >>> +
+> >>>  XDP_STATISTICS getsockopt
+> >>>  -------------------------
+> >>>
+> >>> diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
+> >>> index 5a8c0dd250af..386ff641db0f 100644
+> >>> --- a/net/xdp/xsk.c
+> >>> +++ b/net/xdp/xsk.c
+> >>> @@ -886,6 +886,7 @@ static int xsk_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
+> >>>         struct sock *sk = sock->sk;
+> >>>         struct xdp_sock *xs = xdp_sk(sk);
+> >>>         struct net_device *dev;
+> >>> +       int bound_dev_if;
+> >>>         u32 flags, qid;
+> >>>         int err = 0;
+> >>>
+> >>> @@ -899,6 +900,11 @@ static int xsk_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
+> >>>                       XDP_USE_NEED_WAKEUP))
+> >>>                 return -EINVAL;
+> >>>
+> >>> +       bound_dev_if = READ_ONCE(sk->sk_bound_dev_if);
+> >>> +
+> >>> +       if (bound_dev_if && bound_dev_if != sxdp->sxdp_ifindex)
+> >>> +               return -EINVAL;
+> >>> +
+> >>>         rtnl_lock();
+> >>>         mutex_lock(&xs->mutex);
+> >>>         if (xs->state != XSK_READY) {
+> >>> --
+> >>> 2.40.1
+> >>>
+> >>>
+> >
+>
