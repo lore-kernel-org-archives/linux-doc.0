@@ -2,148 +2,218 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9736C3063F
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 17:24:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D735C001B3
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 17:29:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229932AbjGCRYZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 13:24:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45610 "EHLO
+        id S229897AbjGCR3i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 13:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230252AbjGCRYY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 13:24:24 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEEECE64
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 10:24:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688405060; x=1719941060;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RbNZuhrsmTA4NWpNazrBmfp8/RAtCZC5n/bjRSe3lEI=;
-  b=C/gQdiSCyDR/nTpwkuTlJbIQhGYgzXrxfHVJIt21y24QkZzTSL47+z9s
-   adEU59BDsVjZwjS3cE24SWy1u8nb9HmGJDPS1xMLS5a+HCxw1aXW1q/sf
-   GxS57yJF7asSCT4/VPHuRA3f1VOk5rLlmKDYQ6/U7wsemNipPnrzMyjOP
-   r+XIlcNRgq6mijhHh7zQ/GwaCVcFASJJWKH734rfClK9sobq2WBZ1XR4U
-   j6SiOJU5xfa1oRhzFoKHYVSvq4RIO3T//PTfTREDV5Fp4JU6Qm0NavpDi
-   ODkai9CROWOeQ+bYmiKFRWlQoNaIh/EoiBgeKjoUIjFBgD7cDBtNzC61h
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="347722225"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="347722225"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 10:24:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="1049148769"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="1049148769"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Jul 2023 10:24:17 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qGNHc-000HW9-20;
-        Mon, 03 Jul 2023 17:24:16 +0000
-Date:   Tue, 4 Jul 2023 01:24:09 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Chuck Lever <chuck.lever@oracle.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org
-Subject: [akpm-mm:mm-unstable 34/89] htmldocs:
- Documentation/filesystems/locking.rst:119: WARNING: Malformed table.
-Message-ID: <202307040106.IrPEpc3T-lkp@intel.com>
+        with ESMTP id S229888AbjGCR3h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 13:29:37 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28974E59;
+        Mon,  3 Jul 2023 10:29:34 -0700 (PDT)
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+X-GND-Sasl: i.maximets@ovn.org
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7C1BC1BF204;
+        Mon,  3 Jul 2023 17:29:30 +0000 (UTC)
+Message-ID: <bfd22ddd-797f-f05c-157d-9f64078efb1b@ovn.org>
+Date:   Mon, 3 Jul 2023 19:30:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Cc:     i.maximets@ovn.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC bpf-next] xsk: honor SO_BINDTODEVICE on bind
+Content-Language: en-US
+To:     Magnus Karlsson <magnus.karlsson@gmail.com>
+References: <20230630145831.2988845-1-i.maximets@ovn.org>
+ <CAJ8uoz1TGjWuJKkZ8C9ZrQB0CDasik3A=qJs=xwdQP8cbn97VQ@mail.gmail.com>
+ <04ed302e-067e-d372-370b-3fef1cf8c7f2@ovn.org>
+ <c6944b25-7ac4-0b75-75b1-465c8a705d02@ovn.org>
+ <CAJ8uoz0ChXfavPKAkjsj8URKp3sJPPcd_dqiHsxP0iG6NjiVzg@mail.gmail.com>
+ <297fdd01-f1c6-6733-534c-8ed50b74c3ae@ovn.org>
+ <CAJ8uoz1zNs0JAD9MmStY_s=w5n_6Ea1iu8ebihAn99RpBAEcvg@mail.gmail.com>
+From:   Ilya Maximets <i.maximets@ovn.org>
+In-Reply-To: <CAJ8uoz1zNs0JAD9MmStY_s=w5n_6Ea1iu8ebihAn99RpBAEcvg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   f30ee81787a5abee6c7c72b0fcc30d428319c449
-commit: 8ce96a1a798d4e4234f00573df405ad0fd4625d6 [34/89] libfs: add directory operations for stable offsets
-reproduce: (https://download.01.org/0day-ci/archive/20230704/202307040106.IrPEpc3T-lkp@intel.com/reproduce)
+On 7/3/23 13:19, Magnus Karlsson wrote:
+> On Mon, 3 Jul 2023 at 13:16, Ilya Maximets <i.maximets@ovn.org> wrote:
+>>
+>> On 7/3/23 12:24, Magnus Karlsson wrote:
+>>> On Mon, 3 Jul 2023 at 12:13, Ilya Maximets <i.maximets@ovn.org> wrote:
+>>>>
+>>>> On 7/3/23 12:06, Ilya Maximets wrote:
+>>>>> On 7/3/23 11:48, Magnus Karlsson wrote:
+>>>>>> On Fri, 30 Jun 2023 at 16:58, Ilya Maximets <i.maximets@ovn.org> wrote:
+>>>>>>>
+>>>>>>> Initial creation of an AF_XDP socket requires CAP_NET_RAW capability.
+>>>>>>> A privileged process might create the socket and pass it to a
+>>>>>>> non-privileged process for later use.  However, that process will be
+>>>>>>> able to bind the socket to any network interface.  Even though it will
+>>>>>>> not be able to receive any traffic without modification of the BPF map,
+>>>>>>> the situation is not ideal.
+>>>>>>>
+>>>>>>> Sockets already have a mechanism that can be used to restrict what
+>>>>>>> interface they can be attached to.  That is SO_BINDTODEVICE.
+>>>>>>>
+>>>>>>> To change the binding the process will need CAP_NET_RAW.
+>>>>>>>
+>>>>>>> Make xsk_bind() honor the SO_BINDTODEVICE in order to allow safer
+>>>>>>> workflow when non-privileged process is using AF_XDP.
+>>>>>>
+>>>>>> Rebinding an AF_XDP socket is not allowed today. Any such attempt will
+>>>>>> return an error from bind. So if I understand the purpose of
+>>>>>> SO_BINDTODEVICE correctly, you could say that this option is always
+>>>>>> set for an AF_XDP socket and it is not possible to toggle it. The only
+>>>>>> way to "rebind" an AF_XDP socket is to close it and open a new one.
+>>>>>> This was a conscious design decision from day one as it would be very
+>>>>>> hard to support this, especially in zero-copy mode.
+>>>>>
+>>>>> Hi, Magnus.
+>>>>>
+>>>>> The purpose of this patch is not to allow re-binding.  The use case is
+>>>>> following:
+>>>>>
+>>>>> 1. First process creates a bare socket with socket(AF_XDP, ...).
+>>>>> 2. First process loads the XSK program to the interface.
+>>>>> 3. First process adds the socket fd to a BPF map.
+>>>>> 4. First process sends socket fd to a second process.
+>>>>> 5. Second process allocates UMEM.
+>>>>> 6. Second process binds socket to the interface.
+>>>>
+>>>> 7. Second process sends/receives the traffic. :)
+>>>>
+>>>>>
+>>>>> The idea is that the first process will call SO_BINDTODEVICE before
+>>>>> sending socket fd to a second process, so the second process is limited
+>>>>> in to which interface it can bind the socket.
+>>>>>
+>>>>> Does that make sense?
+>>>
+>>> Thanks for explaining this to me. Yes, that makes sense and seems
+>>> useful. Could you please send a v2 and include the flow (1-7) above in
+>>> your commit message? Would be good to add one step with the setsockopt
+>>> SO_BINDTODEVICE before step #4 just to be clear. With those changes
+>>> please feel free to include my ack:
+>>>
+>>>  Acked-by: Magnus Karlsson <magnus.karlsson@intel.com>
+>>
+>> Thanks!  I'll update the commit message with the steps above to make it
+>> more clear.
+>>
+>> I was planning to send a non-RFC version of this patch once the tree is
+>> open (in a week).  Or are the rules for bpf-next different?
+> 
+> Bpf-next is always open I believe.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307040106.IrPEpc3T-lkp@intel.com/
+OK.  I'll update the commit message and send a formal patch then.  Thanks!
 
-All warnings (new ones prefixed by >>):
+> 
+>>>
+>>> Thank you!
+>>>
+>>>>> This workflow allows the second process to have no capabilities
+>>>>> as long as it has sufficient RLIMIT_MEMLOCK.
+>>>>
+>>>> Note that steps 1-7 are working just fine today.  i.e. the umem
+>>>> registration, bind, ring mapping and traffic send/receive do not
+>>>> require any extra capabilities.
+>>>>
+>>>> We may restrict the bind() call to require CAP_NET_RAW and then
+>>>> allow it for sockets that had SO_BINDTODEVICE as an alternative.
+>>>> But restriction will break the current uAPI.
+>>>>
+>>>>>
+>>>>> Best regards, Ilya Maximets.
+>>>>>
+>>>>>>
+>>>>>>> Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
+>>>>>>> ---
+>>>>>>>
+>>>>>>> Posting as an RFC for now to probably get some feedback.
+>>>>>>> Will re-post once the tree is open.
+>>>>>>>
+>>>>>>>  Documentation/networking/af_xdp.rst | 9 +++++++++
+>>>>>>>  net/xdp/xsk.c                       | 6 ++++++
+>>>>>>>  2 files changed, 15 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
+>>>>>>> index 247c6c4127e9..1cc35de336a4 100644
+>>>>>>> --- a/Documentation/networking/af_xdp.rst
+>>>>>>> +++ b/Documentation/networking/af_xdp.rst
+>>>>>>> @@ -433,6 +433,15 @@ start N bytes into the buffer leaving the first N bytes for the
+>>>>>>>  application to use. The final option is the flags field, but it will
+>>>>>>>  be dealt with in separate sections for each UMEM flag.
+>>>>>>>
+>>>>>>> +SO_BINDTODEVICE setsockopt
+>>>>>>> +--------------------------
+>>>>>>> +
+>>>>>>> +This is a generic SOL_SOCKET option that can be used to tie AF_XDP
+>>>>>>> +socket to a particular network interface.  It is useful when a socket
+>>>>>>> +is created by a privileged process and passed to a non-privileged one.
+>>>>>>> +Once the option is set, kernel will refuse attempts to bind that socket
+>>>>>>> +to a different interface.  Updating the value requires CAP_NET_RAW.
+>>>>>>> +
+>>>>>>>  XDP_STATISTICS getsockopt
+>>>>>>>  -------------------------
+>>>>>>>
+>>>>>>> diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
+>>>>>>> index 5a8c0dd250af..386ff641db0f 100644
+>>>>>>> --- a/net/xdp/xsk.c
+>>>>>>> +++ b/net/xdp/xsk.c
+>>>>>>> @@ -886,6 +886,7 @@ static int xsk_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
+>>>>>>>         struct sock *sk = sock->sk;
+>>>>>>>         struct xdp_sock *xs = xdp_sk(sk);
+>>>>>>>         struct net_device *dev;
+>>>>>>> +       int bound_dev_if;
+>>>>>>>         u32 flags, qid;
+>>>>>>>         int err = 0;
+>>>>>>>
+>>>>>>> @@ -899,6 +900,11 @@ static int xsk_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
+>>>>>>>                       XDP_USE_NEED_WAKEUP))
+>>>>>>>                 return -EINVAL;
+>>>>>>>
+>>>>>>> +       bound_dev_if = READ_ONCE(sk->sk_bound_dev_if);
+>>>>>>> +
+>>>>>>> +       if (bound_dev_if && bound_dev_if != sxdp->sxdp_ifindex)
+>>>>>>> +               return -EINVAL;
+>>>>>>> +
+>>>>>>>         rtnl_lock();
+>>>>>>>         mutex_lock(&xs->mutex);
+>>>>>>>         if (xs->state != XSK_READY) {
+>>>>>>> --
+>>>>>>> 2.40.1
+>>>>>>>
+>>>>>>>
+>>>>>
+>>>>
+>>
 
->> Documentation/filesystems/locking.rst:119: WARNING: Malformed table.
-
-vim +119 Documentation/filesystems/locking.rst
-
-    58	
-    59		int (*create) (struct mnt_idmap *, struct inode *,struct dentry *,umode_t, bool);
-    60		struct dentry * (*lookup) (struct inode *,struct dentry *, unsigned int);
-    61		int (*link) (struct dentry *,struct inode *,struct dentry *);
-    62		int (*unlink) (struct inode *,struct dentry *);
-    63		int (*symlink) (struct mnt_idmap *, struct inode *,struct dentry *,const char *);
-    64		int (*mkdir) (struct mnt_idmap *, struct inode *,struct dentry *,umode_t);
-    65		int (*rmdir) (struct inode *,struct dentry *);
-    66		int (*mknod) (struct mnt_idmap *, struct inode *,struct dentry *,umode_t,dev_t);
-    67		int (*rename) (struct mnt_idmap *, struct inode *, struct dentry *,
-    68				struct inode *, struct dentry *, unsigned int);
-    69		int (*readlink) (struct dentry *, char __user *,int);
-    70		const char *(*get_link) (struct dentry *, struct inode *, struct delayed_call *);
-    71		void (*truncate) (struct inode *);
-    72		int (*permission) (struct mnt_idmap *, struct inode *, int, unsigned int);
-    73		struct posix_acl * (*get_inode_acl)(struct inode *, int, bool);
-    74		int (*setattr) (struct mnt_idmap *, struct dentry *, struct iattr *);
-    75		int (*getattr) (struct mnt_idmap *, const struct path *, struct kstat *, u32, unsigned int);
-    76		ssize_t (*listxattr) (struct dentry *, char *, size_t);
-    77		int (*fiemap)(struct inode *, struct fiemap_extent_info *, u64 start, u64 len);
-    78		void (*update_time)(struct inode *, struct timespec *, int);
-    79		int (*atomic_open)(struct inode *, struct dentry *,
-    80					struct file *, unsigned open_flag,
-    81					umode_t create_mode);
-    82		int (*tmpfile) (struct mnt_idmap *, struct inode *,
-    83				struct file *, umode_t);
-    84		int (*fileattr_set)(struct mnt_idmap *idmap,
-    85				    struct dentry *dentry, struct fileattr *fa);
-    86		int (*fileattr_get)(struct dentry *dentry, struct fileattr *fa);
-    87		struct posix_acl * (*get_acl)(struct mnt_idmap *, struct dentry *, int);
-    88		struct offset_ctx *(*get_offset_ctx)(struct inode *inode);
-    89	
-    90	locking rules:
-    91		all may block
-    92	
-    93	==============	=============================================
-    94	ops		i_rwsem(inode)
-    95	==============	=============================================
-    96	lookup:		shared
-    97	create:		exclusive
-    98	link:		exclusive (both)
-    99	mknod:		exclusive
-   100	symlink:	exclusive
-   101	mkdir:		exclusive
-   102	unlink:		exclusive (both)
-   103	rmdir:		exclusive (both)(see below)
-   104	rename:		exclusive (all)	(see below)
-   105	readlink:	no
-   106	get_link:	no
-   107	setattr:	exclusive
-   108	permission:	no (may not block if called in rcu-walk mode)
-   109	get_inode_acl:	no
-   110	get_acl:	no
-   111	getattr:	no
-   112	listxattr:	no
-   113	fiemap:		no
-   114	update_time:	no
-   115	atomic_open:	shared (exclusive if O_CREAT is set in open flags)
-   116	tmpfile:	no
-   117	fileattr_get:	no or exclusive
-   118	fileattr_set:	exclusive
- > 119	get_offset_ctx: no
-   120	==============	=============================================
-   121	
-   122	
-   123		Additionally, ->rmdir(), ->unlink() and ->rename() have ->i_rwsem
-   124		exclusive on victim.
-   125		cross-directory ->rename() has (per-superblock) ->s_vfs_rename_sem.
-   126	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
