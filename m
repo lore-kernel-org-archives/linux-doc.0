@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A77C0015E
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:29:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD051C001DE
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 10:29:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231243AbjGCK3O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 06:29:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47546 "EHLO
+        id S231290AbjGCK3P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 06:29:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231287AbjGCK3L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:29:11 -0400
+        with ESMTP id S231297AbjGCK3N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 06:29:13 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B242C7;
-        Mon,  3 Jul 2023 03:29:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50234C4;
+        Mon,  3 Jul 2023 03:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1688380150; x=1719916150;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1i34KSawlUL8WNjNkmTiVglWiYjIqUpNKEWr7RWMan4=;
-  b=kNTKKDCLGjdW4qO5lUKCPucWl8UbsxiEAx7WgtZHZgzC4s2bWtdsaRvA
-   pdJ0IqqMPZEYAnoNwzIDMwOKpPPkiwkSV2KmQSlGi3ovgyKhX48iS0bQ4
-   iaQsIvV3IFxvtjL0MTWO57vf180K6e6vAwVMFtj1YDGDkWhuPFoGbuinI
-   UauUHlXPIcjcqV/74Bg3N4JKXH9TXabSePQwURxzYMAtZRda1pRKHlstN
-   /fr3qZMGtxAX0aBHwg0YpJmSMopS1rFiEk/EK0Xuts6xKFNJTst50UUEJ
-   MTktJrtx41wC/qDIrlKaHvQr1JYFPupe3DRpXTVMsht6F+qP2sljfX2i8
+  t=1688380152; x=1719916152;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9gC2ucQs56hznJJn3CZLdBAIp3rcInl7wiNCLwEz1B4=;
+  b=gFGleEuhNogWM0mPa6vxjVkBxC29P0vpWtu5tZgTh0K1AAw4TuBNFMU6
+   PTunUp87HcinLGrmYIBPVhK4DcSvSUK3WfUAP4w3my4Cd4JMUi//HxXLr
+   tj1UtYQVuwyLtWKrmfBWEnLcZksfNeaidc9zX67HlmxU1Db8+XaMbgCps
+   9l3ydfwwDDe91gGQbjYOv5Y5uwtaXlOSnLqDRcc4ZNuRP8qFKdGP4jjuG
+   NBVmaQ16DWgbjrQLyUpvtUbB4pF9LdP7cQTmjdW7Rrg6nKVmLafHW5jOU
+   v0LVz8iFjLqLjvQD1gUvdvQP+mAp/QOilYwNdt+DciFX5xe9q0mVsoYcj
    A==;
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="233446742"
+   d="scan'208";a="221754598"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 03 Jul 2023 03:29:09 -0700
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 03 Jul 2023 03:29:11 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 3 Jul 2023 03:29:06 -0700
+ 15.1.2507.21; Mon, 3 Jul 2023 03:28:57 -0700
 Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex03.mchp-main.com
  (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 3 Jul 2023 03:29:03 -0700
+ Transport; Mon, 3 Jul 2023 03:28:54 -0700
 From:   Conor Dooley <conor.dooley@microchip.com>
 To:     <palmer@dabbelt.com>
 CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
@@ -53,14 +53,12 @@ CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
         <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 03/11] RISC-V: drop a needless check in print_isa_ext()
-Date:   Mon, 3 Jul 2023 11:27:55 +0100
-Message-ID: <20230703-driver-draw-034bd62ec119@wendy>
+Subject: [PATCH v3 00/11] RISC-V: Probe DT extension support using riscv,isa-extensions & riscv,isa-base
+Date:   Mon, 3 Jul 2023 11:27:52 +0100
+Message-ID: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
-References: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1275; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=1i34KSawlUL8WNjNkmTiVglWiYjIqUpNKEWr7RWMan4=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmLFq36zeG3+Kh/GHuWk/TypQLCmwoeb2ubrK+zd/415dBJ Z9XWdJSyMIhxMMiKKbIk3u5rkVr/x2WHc89bmDmsTCBDGLg4BWAiUYmMDD//OcYYXEqd/CBS9xhP8N 4/1/jnTctiC5Uq2a6YoxfR/ZXhf4WrRzebp47s+l0Jv55kmT3rMbgcxO5TaMFwZ//W+rP9LAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2944; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=9gC2ucQs56hznJJn3CZLdBAIp3rcInl7wiNCLwEz1B4=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmLFq3c6XLDgcsgL1aUrfGD5vL/W466rspkq/9zR4tna+QZ DpOYjlIWBjEOBlkxRZbE230tUuv/uOxw7nkLM4eVCWQIAxenAExk2x1Ghu8+n1RN27+92X9uocHiE8 6tyyyy+3WtDfe0SiZzPO00KWZkmBIyVe4o6/f1bWeWsrbdyNysnzvNTX42u1DbhL2zj1Q+YQYA
 X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -68,40 +66,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-isa_ext_arr cannot be empty, as some of the extensions within it are
-always built into the kernel. When this code was first added, back in
-commit a9b202606c69 ("RISC-V: Improve /proc/cpuinfo output for ISA
-extensions"), the array was empty and needed a dummy item & thus there
-could be no extensions present. When the first multi-letter ones did
-get added, it was Sscofpmf - which didn't have a Kconfig symbol to
-disable it.
+Hey,
 
-Remove this check, as it has been redundant since Sscofpmf was added.
+Based on my latest iteration of deprecating riscv,isa [1], here's an
+implementation of the new properties for Linux. The first few patches,
+up to "RISC-V: split riscv_fill_hwcap() in 3", are all prep work that
+further tames some of the extension related code, on top of my already
+applied series that cleans up the ISA string parser.
+Perhaps "RISC-V: shunt isa_ext_arr to cpufeature.c" is a bit gratuitous,
+but I figured a bit of coalescing of extension related data structures
+would be a good idea. Note that riscv,isa will still be used in the
+absence of the new properties. Palmer suggested adding a Kconfig option
+to turn off the fallback for DT, which I have gone and done. It's locked
+behind the NONPORTABLE option for good reason.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-Changes in v2:
-- Reword commit message to explain why this can be dropped
----
- arch/riscv/kernel/cpu.c | 4 ----
- 1 file changed, 4 deletions(-)
+In v2, I've also come up with a more reasonable name for the new
+function I added & fixed up various comments from Drew and Evan.
 
-diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-index f808b67f5a27..e721f15fdf17 100644
---- a/arch/riscv/kernel/cpu.c
-+++ b/arch/riscv/kernel/cpu.c
-@@ -237,10 +237,6 @@ static void print_isa_ext(struct seq_file *f)
- 
- 	arr_sz = ARRAY_SIZE(isa_ext_arr) - 1;
- 
--	/* No extension support available */
--	if (arr_sz <= 0)
--		return;
--
- 	for (i = 0; i <= arr_sz; i++) {
- 		edata = &isa_ext_arr[i];
- 		if (!__riscv_isa_extension_available(NULL, edata->isa_ext_id))
+In v3, there's the new commandline option that Drew suggested. I have
+Also picked up a patch from Palmer that adds more helpful prints where
+harts fail the checks in riscv_early_of_processor_id(), and I've
+sprinkled a few more of those prints in my new additions to the
+function.
+
+Cheers,
+Conor.
+
+[1] https://lore.kernel.org/all/20230702-eats-scorebook-c951f170d29f@spud
+
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+CC: Paul Walmsley <paul.walmsley@sifive.com>
+CC: Palmer Dabbelt <palmer@dabbelt.com>
+CC: Albert Ou <aou@eecs.berkeley.edu>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Andrew Jones <ajones@ventanamicro.com>
+CC: Heiko Stuebner <heiko.stuebner@vrull.eu>
+CC: Evan Green <evan@rivosinc.com>
+CC: Sunil V L <sunilvl@ventanamicro.com>
+CC: linux-doc@vger.kernel.org
+CC: linux-riscv@lists.infradead.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+
+Conor Dooley (9):
+  RISC-V: drop a needless check in print_isa_ext()
+  RISC-V: shunt isa_ext_arr to cpufeature.c
+  RISC-V: repurpose riscv_isa_ext array in riscv_fill_hwcap()
+  RISC-V: add missing single letter extension definitions
+  RISC-V: add single letter extensions to riscv_isa_ext
+  RISC-V: split riscv_fill_hwcap() in 3
+  RISC-V: enable extension detection from new properties
+  RISC-V: try new extension properties in of_early_processor_hartid()
+  RISC-V: provide Kconfig & commandline options to control parsing
+    "riscv,isa"
+
+Heiko Stuebner (1):
+  RISC-V: don't parse dt/acpi isa string to get rv32/rv64
+
+Palmer Dabbelt (1):
+  RISC-V: Provide a more helpful error message on invalid ISA strings
+
+ .../admin-guide/kernel-parameters.txt         |   7 +
+ arch/riscv/Kconfig                            |  18 +
+ arch/riscv/include/asm/hwcap.h                |  17 +-
+ arch/riscv/kernel/cpu.c                       | 177 ++----
+ arch/riscv/kernel/cpufeature.c                | 519 ++++++++++++------
+ 5 files changed, 436 insertions(+), 302 deletions(-)
+
 -- 
 2.40.1
 
