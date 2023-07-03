@@ -2,151 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C913FC0015E
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 13:33:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74E9AEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 13:52:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230016AbjGCNdQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 09:33:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55316 "EHLO
+        id S229791AbjGCNw1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 09:52:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231757AbjGCNdF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 09:33:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B804310D4;
-        Mon,  3 Jul 2023 06:32:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D38D60F3C;
-        Mon,  3 Jul 2023 13:32:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88351C433C7;
-        Mon,  3 Jul 2023 13:32:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688391151;
-        bh=7qlSX9Nell5J7ysbWiOfRWUhTOykTgPNeRvu7kTYWFI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z+7keICwZsDZYvzIbUYbAjua4wVC7WpRTZjY+p0UqCOPQWrv55HZV17LbtFu8q55z
-         w7+nnoVSS94ACBMalD0MKTnRFPFU8Lo8gOJYLxh/7fFg8lK8+z+7ucOmuceABT2LbP
-         OXt0TLl2OgWesEtsAtwwdogHYkJAqX6uxcjqLNOnN4FJ/q4GQ94xo2jHCEL0RlmBjG
-         3HH9mfElWZu57e7nhMbgJKjDoRJ7NCGaeytE3WK+/Oau36Zx6m+PH6EyMFWK9dN/+P
-         O5o5DDMYh20KrcIyUUvLmMh9lCta8zIFQh0t07Nl5P0Z5JSBTdsqs9+tHNT3DtqWGF
-         BFhK3s1ZBvHeQ==
-Date:   Mon, 3 Jul 2023 14:32:19 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
-        "Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
- description
-Message-ID: <d8ade3c0-f256-48dd-9969-d5e55dadd0e4@sirena.org.uk>
-References: <ZJFukYxRbU1MZlQn@arm.com>
- <e676c4878c51ab4b6018c9426b5edacdb95f2168.camel@intel.com>
- <ZJLgp29mM3BLb3xa@arm.com>
- <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
- <ZJQR7slVHvjeCQG8@arm.com>
- <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
- <ZJR545en+dYx399c@arm.com>
- <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
- <ZJ2sTu9QRmiWNISy@arm.com>
- <e057de9dd9e9fe48981afb4ded4b337e8a83fabf.camel@intel.com>
+        with ESMTP id S231147AbjGCNw0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 09:52:26 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E638E58;
+        Mon,  3 Jul 2023 06:52:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688392345; x=1719928345;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=d7GySrGTjr8ZNAoiest4xrB1TTCUEMZaaC1CRETXOOo=;
+  b=FBb5wQWs6EIBby+7ju/n0GLWoXmdi5adiPfzkecNuRPgtUtSN0Z9XIts
+   kHTG2OYlPpbp1uvXfIjJ4ehndOZKNiE3Yym/UFgoPt0mTVZ5a477jBgbr
+   AMoxDAaWgkFRMq9VFwMEe8YFYLeVmAkTioo5J/IH0T15bCDx8HtKaYbOP
+   m+PQT46fZ96V92inKQvIfeyaQ+oWhzAQNsr7Uk86OGoSWyejI9FCQvnyZ
+   OmFi720uLUBEkjBji7+rN0EpBrHw21t7kW+I+1/t8X0Bx1GNXTyZdkTBE
+   ow1TXFe4hN+glO+ZsiPpNFxiT8PqjttzTzoZwbDjCuG4EgULCENE/BpdW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="365457290"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="365457290"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 06:52:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="721773868"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="721773868"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Jul 2023 06:52:19 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id ADCC9170; Mon,  3 Jul 2023 16:52:22 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+        David Lin <CTLIN0@nuvoton.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Antti Palosaari <crope@iki.fi>,
+        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Matthias Schwarzott <zzam@gentoo.org>,
+        Akihiro Tsukada <tskd08@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH v2 0/4] ASoC: remove copy of intlog10()
+Date:   Mon,  3 Jul 2023 16:52:07 +0300
+Message-Id: <20230703135211.87416-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3loSgCLP1vFHrOSe"
-Content-Disposition: inline
-In-Reply-To: <e057de9dd9e9fe48981afb4ded4b337e8a83fabf.camel@intel.com>
-X-Cookie: Please go away.
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The first three patches moves intlog10() to be available in entire
+kernel. The last one removes copy of it in one driver. Besides already
+good Lines of Code (LoC) statistics the upcoming users, if any, can
+utilize the exported functions.
 
---3loSgCLP1vFHrOSe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The series can be routed via ASoC tree (as Mauro suggested).
 
-On Sun, Jul 02, 2023 at 06:03:42PM +0000, Edgecombe, Rick P wrote:
-> On Thu, 2023-06-29 at 17:07 +0100, szabolcs.nagy@arm.com wrote:
+Note, int_log.h is separated from math.h due to licensing.
+I dunno if we can mix two in a single header file. In any
+case we may do it later on.
 
-> > which means x86 linux will likely end up maintaining two incompatible
-> > abis and the future one will need user code and build system changes,
-> > not just runtime changes. it is not a small incremental change to add
-> > alt shadow stack support for example.
+Changelog v2:
+- moved kernel doc inclusion to the generic place (Mauro)
+- added tags (Mauro, Mark)
 
-> > i don't think the maintenance burden of two shadow stack abis is the
-> > right path for arm64 to follow, so the shadow stack semantics will
-> > likely become divergent not common across targets.
+Andy Shevchenko (4):
+  lib/math: Move dvb_math.c into lib/math/int_log.c
+  lib/math/int_log: Use ARRAY_SIZE(logtable) where makes sense
+  lib/math/int_log: Replace LGPL-2.1-or-later boilerplate with SPDX
+    identifier
+  ASoC: nau8825: Replace copied'n'pasted intlog10()
 
-> Unfortunately we are at a bit of an information asymmetry here because
-> the ARM spec and patches are not public. It may be part of the cause of
-> the confusion.
+ Documentation/core-api/kernel-api.rst         |  7 +-
+ Documentation/driver-api/media/dtv-common.rst |  9 --
+ drivers/media/dvb-core/Makefile               |  2 +-
+ drivers/media/dvb-frontends/af9013_priv.h     |  2 +-
+ drivers/media/dvb-frontends/af9033_priv.h     |  2 +-
+ drivers/media/dvb-frontends/cxd2820r_priv.h   |  2 +-
+ drivers/media/dvb-frontends/cxd2841er.c       |  2 +-
+ .../cxd2880/cxd2880_tnrdmd_dvbt2_mon.c        |  2 +-
+ .../cxd2880/cxd2880_tnrdmd_dvbt_mon.c         |  2 +-
+ .../media/dvb-frontends/cxd2880/cxd2880_top.c |  2 +-
+ drivers/media/dvb-frontends/dib7000p.c        |  2 +-
+ drivers/media/dvb-frontends/dib8000.c         |  2 +-
+ drivers/media/dvb-frontends/dib9000.c         |  2 +-
+ drivers/media/dvb-frontends/drxk_hard.c       |  2 +-
+ drivers/media/dvb-frontends/lgdt3305.c        |  2 +-
+ drivers/media/dvb-frontends/lgdt3306a.c       |  2 +-
+ drivers/media/dvb-frontends/lgdt330x.c        |  2 +-
+ drivers/media/dvb-frontends/m88ds3103_priv.h  |  2 +-
+ drivers/media/dvb-frontends/mn88443x.c        |  2 +-
+ drivers/media/dvb-frontends/mn88472_priv.h    |  2 +-
+ drivers/media/dvb-frontends/mn88473_priv.h    |  2 +-
+ drivers/media/dvb-frontends/or51132.c         |  2 +-
+ drivers/media/dvb-frontends/or51211.c         |  2 +-
+ drivers/media/dvb-frontends/rtl2830_priv.h    |  2 +-
+ drivers/media/dvb-frontends/rtl2832_priv.h    |  2 +-
+ drivers/media/dvb-frontends/si2165.c          |  2 +-
+ drivers/media/dvb-frontends/stv0367.c         |  2 +-
+ drivers/media/dvb-frontends/tc90522.c         |  2 +-
+ drivers/media/dvb-frontends/tda10048.c        |  2 +-
+ include/{media/dvb_math.h => linux/int_log.h} | 18 +---
+ lib/math/Makefile                             |  2 +-
+ .../dvb-core/dvb_math.c => lib/math/int_log.c | 26 ++----
+ sound/soc/codecs/nau8825.c                    | 93 +------------------
+ 33 files changed, 49 insertions(+), 160 deletions(-)
+ rename include/{media/dvb_math.h => linux/int_log.h} (63%)
+ rename drivers/media/dvb-core/dvb_math.c => lib/math/int_log.c (84%)
 
-While the descriptive text bit of the spec is not yet integrated into
-the ARM the architecture XML describing the instructions and system
-registers is there, the document is numbered DDI0601:
+-- 
+2.40.0.1.gaa8946217a0b
 
-    https://developer.arm.com/documentation/ddi0601/
-
-The GCS specific instructions and system registers are all named
-beginning with GCS, it's aarch64 only.
-
-Hopefully I should have something out next week for the kernel.
-
---3loSgCLP1vFHrOSe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSizeIACgkQJNaLcl1U
-h9D3Wwf/baVnu4r+oxpjrck31M4SQYopy428bSNBHaGoVHcoFSNJEIBylX2Zcrp+
-c+z0gkJRAjSvAfpT1mqWkw96gSlqLrDzUS6VClhMu0JZwkfmoNiqXwO2iK1jV5w9
-9ZMxbCYtfA6pSN8DHwhVkEJO1+9sI6iUJrWsXXcQBRFEeWwkeKpR8CeYL4F8hpdl
-4sOC1f2UeEJ82Rm6WPJ/ZNY/pTaGF3CWRP2WfoewkBwzMw9TevsYXdQAIOooFCOT
-5ukjmiLiGw2IuYux8Y0Gb1ZaOiOI/W95yow0cPBDS9YGj7y6ZbZqIa5PVfK1Smwf
-1QRf+xHUlAz6eiCCxHK2lZZqEP4vOw==
-=6QcV
------END PGP SIGNATURE-----
-
---3loSgCLP1vFHrOSe--
