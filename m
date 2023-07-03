@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A65AEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 16:17:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B9E0EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 16:18:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbjGCQRt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 12:17:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48714 "EHLO
+        id S231296AbjGCQSi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 12:18:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231260AbjGCQRs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 12:17:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6842E42;
-        Mon,  3 Jul 2023 09:17:47 -0700 (PDT)
+        with ESMTP id S231281AbjGCQSh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 12:18:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7366DE5A;
+        Mon,  3 Jul 2023 09:18:36 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 44DF560FB3;
-        Mon,  3 Jul 2023 16:17:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8564C433C7;
-        Mon,  3 Jul 2023 16:17:43 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D45E060FBD;
+        Mon,  3 Jul 2023 16:18:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B815C433C8;
+        Mon,  3 Jul 2023 16:18:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688401066;
-        bh=+Bq3JLFaUMp7p3qi8SQ1dlGHIw95+wCB4rs20s4VRW8=;
+        s=k20201202; t=1688401115;
+        bh=4LhULQvBv3u4TCWPmGK8mdbqMghJy+yfsY9e+Vry9r4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hE8PSV7vCPY1sRrahmYRcyhHUDComDD9WUhrexjV8B+2CEmoIVgHKUtxgjOT0t+cB
-         X2D5ZJ/N6dcVdlFQc1fHvftckHKLU6+NgQFSIXwXXlM0EnTbxKOyLwAZu5eC4EDEVC
-         fjkk88htp6kmNvEFUJAT+fdMBSiZr2y2uZBsi+S5eknytQJMPx6MoyVznJtqJCeO3h
-         z6i+3x7civpHfTe52ogtRMod0BGAWsnw0cwuhTcPZ1MKbvC7aO9dc9dozGBWpuaKOe
-         2bXp/InTEwdnNqYk9YFgfdGgkD2hJc6M1SS9RIGgNsAKdzq7p5COjmriXueN1cztLA
-         jYUHI3mt0YlKw==
-Date:   Mon, 3 Jul 2023 17:17:41 +0100
+        b=pD65x7xEqcsiKaRYzuibCnVI2RU/JWnnAlXfqoiFXtZXXcUVq16PIE5wAx5iJBPHj
+         0dolgSwU29ZLQokGMwlIZ1+ltwiebNOhLPmsuP4yGk2QMRQbZ7K7QJVDxg2GWeQLFp
+         VukerBXPlmiMTHHXXOFIt2+4DGI2p65lyIoHyg1Y1es0GYH+HDgjfzr3o44NYZSvIs
+         N3//X+9Ce1i4LRPEyERVeKfHjNvlj25PiyzZqdegD7uA90QEaPQZDXlR/DeP5Vk0cK
+         gW+Nk7kG8Rpk/BeITJO/ODJSZ4EQHJogvmb/Atr/wcev/99Qi1xwNUgrW3CLUsd3AA
+         u6tgoVtgqr9DQ==
+Date:   Mon, 3 Jul 2023 17:18:30 +0100
 From:   Conor Dooley <conor@kernel.org>
 To:     Conor Dooley <conor.dooley@microchip.com>
 Cc:     palmer@dabbelt.com, Rob Herring <robh+dt@kernel.org>,
@@ -46,53 +46,48 @@ Cc:     palmer@dabbelt.com, Rob Herring <robh+dt@kernel.org>,
         Sunil V L <sunilvl@ventanamicro.com>,
         linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/11] RISC-V: shunt isa_ext_arr to cpufeature.c
-Message-ID: <20230703-bronzing-declared-5d568cb47339@spud>
+Subject: Re: [PATCH v3 06/11] RISC-V: add missing single letter extension
+ definitions
+Message-ID: <20230703-gusto-stout-c5b8bd537885@spud>
 References: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
- <20230703-steadying-skintight-d5b7c108551c@wendy>
+ <20230703-unlocking-straining-5c814e99642b@wendy>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Lh8iUyMcp5focI2k"
+        protocol="application/pgp-signature"; boundary="tNKCvW7BqQMvbnRb"
 Content-Disposition: inline
-In-Reply-To: <20230703-steadying-skintight-d5b7c108551c@wendy>
+In-Reply-To: <20230703-unlocking-straining-5c814e99642b@wendy>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---Lh8iUyMcp5focI2k
+--tNKCvW7BqQMvbnRb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 03, 2023 at 11:27:56AM +0100, Conor Dooley wrote:
-> To facilitate using one struct to define extensions, rather than having
-> several, shunt isa_ext_arr to cpufeature.c, where it will be used for
-> probing extension presence also.
-> As that scope of the array as widened, prefix it with riscv & drop the
-> type from the variable name.
->=20
-> Since the new array is const, print_isa() needs a wee bit of cleanup to
-> avoid complaints about losing the const qualifier.
+On Mon, Jul 03, 2023 at 11:27:58AM +0100, Conor Dooley wrote:
+> To facilitate adding single letter extensions to riscv_isa_ext, add
+> definitions for the extensions present in base_riscv_exts that do not
+> already have them.
 >=20
 > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 
-=46rom v(n-1) that I forgot:
+=46rom v2 that I forgot:
 Reviewed-by: Evan Green <evan@rivosinc.com>
-https://lore.kernel.org/all/CALs-Hsu5yA7eBPOFQkmd94GR+15wuFkbYbYSg4RubmkdQD=
-yi8g@mail.gmail.com/
+https://lore.kernel.org/all/CALs-Hstveza+RF0EP2XArXv1Xy5jQWv1VxjsgFbFZDn_9M=
+03fA@mail.gmail.com/
 
-
---Lh8iUyMcp5focI2k
+--tNKCvW7BqQMvbnRb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKL0pQAKCRB4tDGHoIJi
-0qgWAQCn/gTJHGIdLaZp94S5M6Qofeq/lQTJIbQxgUdoPPehwwEA7w1NKhjBffQw
-RcGneVD3M9Hz23g411ZhT0AEAUM9ewY=
-=h4pX
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKL01gAKCRB4tDGHoIJi
+0trlAPwMGJBMxUzESKutNZVGGuYbypLVcToW2OIneFcfCB67RwD6Ag1NrRn8cYUv
+9H8ePHqMBaHQ11sajyfC15+udAfC+wE=
+=9hWq
 -----END PGP SIGNATURE-----
 
---Lh8iUyMcp5focI2k--
+--tNKCvW7BqQMvbnRb--
