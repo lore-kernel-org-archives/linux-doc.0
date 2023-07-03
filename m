@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A625FEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 12:55:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E369EEB64DD
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 12:56:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231168AbjGCMzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 08:55:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60830 "EHLO
+        id S231180AbjGCM4E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 08:56:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbjGCMzE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 08:55:04 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 457ABE5A
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 05:55:00 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3fbca8935bfso28644045e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 05:55:00 -0700 (PDT)
+        with ESMTP id S230427AbjGCM4D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 08:56:03 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C4AEC7
+        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 05:56:01 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3fbc1218262so53878265e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 05:56:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688388899; x=1690980899;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688388960; x=1690980960;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9uE3ed+qOC+4qK7E+eZU16MY7i1Q8gwASW1BIqAmC4Q=;
-        b=KXfBA4dwyaWINqWobrlqgGljAokB7lB0w4uxKHe+MjjhJ6MU6drG+dBCfGaLaKLMUT
-         Wuytx+JAlaoQoMvARJFQzofU8Q5GBknJKHveI809sfOuLtsVEKpdVJE2YzY/h8fMbDeF
-         X6Tl/vA21Rd6JLXgTd6vaeIrbZDpg680h+Bw5+mbbRRTw2bNWu7Fp6cNVTvL38Eus2oW
-         SyDqueEo4VrEMYAsl2wC+zdSntnd0NLsRddgn8kGRGloRI+BAT89n4APNVJhd19yL7ow
-         EbPJTQGKjjx4izcl8A4E/hsI7NjpQnr0KXB5ztqN1MWItg44Tr5R4FDFGEBBDCY7re2w
-         jWMA==
+        bh=xmbgD3BkRBunB0DFWSt+ANLkIPsXQvCtttyk0nyN3eI=;
+        b=eLmweVJxmYuCpU0xTEX8xQe8dXtl4NU9y8Z36gyTnC+x+35WcTyfHdalG9MCKUsu7m
+         SK8rT6ypZU8FEnt97O4TEwMf1EqZQQkYo1m6RmlP0+tnfGf2weBma4YZCRs0CfiKnZz2
+         +ubfC4pwFoIsfqNb3AJb5j6Ke3HLSBiFKX5RFFMP/tYLHJtE0AmMDjB3enS5Mjy2W7Mm
+         QbBM/YCkGh1JtMDjG5jczzIR/ny7XDAgZSJZzpOzSym3hXIHonYwp6dz3B5MJ1PixvDd
+         1XXv+prSPFEz7MYyWdia5wRFo99FG6oNRN+oDBfPaID0KdORvAZGLclf/xQXJjvUrDDO
+         Jh/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688388899; x=1690980899;
+        d=1e100.net; s=20221208; t=1688388960; x=1690980960;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9uE3ed+qOC+4qK7E+eZU16MY7i1Q8gwASW1BIqAmC4Q=;
-        b=VdCZrHthqjhE5J8i2ti8uzd4H4dxseCtsRAAJsrDAW8pCj5opiIJI0CLXTbMbiKZr7
-         1gLPpFD0DKyTl7euV0iZjKA0Ww3R7+9pIV6m4Bj/8/pje51DWgrO3TjphsxuwuP2KX0Y
-         Ri2Cv6VORoQ/jHdxvrIr8cFDgccU0MVlSgNS/LHQsfS9Utf8QZyRKvhsRLIv86/FWaCM
-         vTL1oHmay0b95Vu/hzewoXVqWdCLhz1paAMAUZrWkDyDtGugJC/IBWvMxsvWHirmnIAp
-         ZUoYkWvUQc8W+IJp1EbKvUoqTWC6mO2TsQGifVuxqhJztjg7UfCE0P5LkXndtGPPKTYX
-         Eyug==
-X-Gm-Message-State: AC+VfDzm29hhsQCAm2axoFH8iSRaG5Clz/qvZC0Y6FBrao/37UF3gZiV
-        u8XqGt5coHZWgn1BRmdEyjUQ0A==
-X-Google-Smtp-Source: ACHHUZ5VUOGaM9JlKwN3HlVqTZGme530byxX95CP51zvYyoKEqerS7qsgoXHhQmTbUYoVAnfzKsSQg==
-X-Received: by 2002:a1c:6a0c:0:b0:3fb:bc4a:46ad with SMTP id f12-20020a1c6a0c000000b003fbbc4a46admr7766337wmc.9.1688388898687;
-        Mon, 03 Jul 2023 05:54:58 -0700 (PDT)
+        bh=xmbgD3BkRBunB0DFWSt+ANLkIPsXQvCtttyk0nyN3eI=;
+        b=crScT0+p9n+nilyzX9u52lSyMRQx8fSnCAO6D3+ygUFExjYBo2Mz/cWYRINQSjpqFQ
+         Hw+xeSkl4fADWbr9n1/1nCMbFVFmF5PjWwJ3t/ZJqC654s/QtVl3un62nNF85A5TM5vp
+         jBnrlubOt3YmfOm9ovASEvfdpK8fIMZnLZfG1euSFAyjz+tRuwoLMEDzkNruxLKNtiEb
+         pEzPEYw/u1GZSFjVLdTxRrhY7b3v6OK72eqHb1jkxiy5t8/Cd5P6+u9O+10JwmqxwlwB
+         UKfAS2D0dNpeApgALVBpCc+ABSNtipBFqjwuMvPGV3ipEjC6k+0C+qaWhLKwDpFbe7DP
+         5AfQ==
+X-Gm-Message-State: AC+VfDyo1HkgNdbC9flqoRUhQy2GYjF7nH/KGwz1DmsYHJpcuy5dLnnV
+        lAFCC80bM28x4f2RLujJ9+IJHQ==
+X-Google-Smtp-Source: ACHHUZ5r2zHeZnE4xTJno42SI98R4Rva3fSu57wRx4nAzx4+PctoVQ0KZuh/SfE8h4cUz3ULu/fpqA==
+X-Received: by 2002:a1c:7414:0:b0:3fb:9ea6:7a73 with SMTP id p20-20020a1c7414000000b003fb9ea67a73mr9421552wmc.23.1688388960102;
+        Mon, 03 Jul 2023 05:56:00 -0700 (PDT)
 Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id y5-20020a05600c364500b003fbc9d178a8sm8488190wmq.4.2023.07.03.05.54.57
+        by smtp.gmail.com with ESMTPSA id m5-20020a7bce05000000b003fbaade0735sm16347372wmc.19.2023.07.03.05.55.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 05:54:58 -0700 (PDT)
+        Mon, 03 Jul 2023 05:55:59 -0700 (PDT)
 From:   Alexandre Ghiti <alexghiti@rivosinc.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -70,9 +70,9 @@ To:     Jonathan Corbet <corbet@lwn.net>,
         linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org
 Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v4 08/10] Documentation: admin-guide: Add riscv sysctl_perf_user_access
-Date:   Mon,  3 Jul 2023 14:46:45 +0200
-Message-Id: <20230703124647.215952-9-alexghiti@rivosinc.com>
+Subject: [PATCH v4 09/10] tools: lib: perf: Implement riscv mmap support
+Date:   Mon,  3 Jul 2023 14:46:46 +0200
+Message-Id: <20230703124647.215952-10-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230703124647.215952-1-alexghiti@rivosinc.com>
 References: <20230703124647.215952-1-alexghiti@rivosinc.com>
@@ -82,57 +82,91 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-riscv now uses this sysctl so document its usage for this architecture.
+riscv now supports mmaping hardware counters so add what's needed to
+take advantage of that in libperf.
 
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 ---
- Documentation/admin-guide/sysctl/kernel.rst | 27 ++++++++++++++++++---
- 1 file changed, 23 insertions(+), 4 deletions(-)
+ tools/lib/perf/mmap.c | 65 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index d85d90f5d000..19b627883313 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -941,16 +941,35 @@ enabled, otherwise writing to this file will return ``-EBUSY``.
- The default value is 8.
+diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
+index 0d1634cedf44..378a163f0554 100644
+--- a/tools/lib/perf/mmap.c
++++ b/tools/lib/perf/mmap.c
+@@ -392,6 +392,71 @@ static u64 read_perf_counter(unsigned int counter)
  
+ static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); }
  
--perf_user_access (arm64 only)
--=================================
-+perf_user_access (arm64 and riscv only)
-+=======================================
++#elif __riscv_xlen == 64
 +
-+Controls user space access for reading perf event counters.
- 
--Controls user space access for reading perf event counters. When set to 1,
--user space can read performance monitor counter registers directly.
-+arm64
-+=====
- 
- The default value is 0 (access disabled).
- 
-+When set to 1, user space can read performance monitor counter registers
-+directly.
++/* TODO: implement rv32 support */
 +
- See Documentation/arm64/perf.rst for more information.
- 
-+riscv
-+=====
++#define CSR_CYCLE	0xc00
++#define CSR_TIME	0xc01
 +
-+When set to 0, user space access is disabled.
++#define csr_read(csr)						\
++({								\
++	register unsigned long __v;				\
++		__asm__ __volatile__ ("csrr %0, " #csr		\
++		 : "=r" (__v) :					\
++		 : "memory");					\
++		 __v;						\
++})
 +
-+The default value is 1, user space can read performance monitor counter
-+registers through perf, any direct access without perf intervention will trigger
-+an illegal instruction.
++static unsigned long csr_read_num(int csr_num)
++{
++#define switchcase_csr_read(__csr_num, __val)           {\
++	case __csr_num:                                 \
++		__val = csr_read(__csr_num);            \
++		break; }
++#define switchcase_csr_read_2(__csr_num, __val)         {\
++	switchcase_csr_read(__csr_num + 0, __val)        \
++	switchcase_csr_read(__csr_num + 1, __val)}
++#define switchcase_csr_read_4(__csr_num, __val)         {\
++	switchcase_csr_read_2(__csr_num + 0, __val)      \
++	switchcase_csr_read_2(__csr_num + 2, __val)}
++#define switchcase_csr_read_8(__csr_num, __val)         {\
++	switchcase_csr_read_4(__csr_num + 0, __val)      \
++	switchcase_csr_read_4(__csr_num + 4, __val)}
++#define switchcase_csr_read_16(__csr_num, __val)        {\
++	switchcase_csr_read_8(__csr_num + 0, __val)      \
++	switchcase_csr_read_8(__csr_num + 8, __val)}
++#define switchcase_csr_read_32(__csr_num, __val)        {\
++	switchcase_csr_read_16(__csr_num + 0, __val)     \
++	switchcase_csr_read_16(__csr_num + 16, __val)}
 +
-+When set to 2, which enables legacy mode (user space has direct access to cycle
-+and insret CSRs only). Note that this legacy value is deprecated and will be
-+removed once all user space applications are fixed.
++	unsigned long ret = 0;
 +
-+Note that the time CSR is always directly accessible to all modes.
- 
- pid_max
- =======
++	switch (csr_num) {
++	switchcase_csr_read_32(CSR_CYCLE, ret)
++	default:
++		break;
++	}
++
++	return ret;
++#undef switchcase_csr_read_32
++#undef switchcase_csr_read_16
++#undef switchcase_csr_read_8
++#undef switchcase_csr_read_4
++#undef switchcase_csr_read_2
++#undef switchcase_csr_read
++}
++
++static u64 read_perf_counter(unsigned int counter)
++{
++	return csr_read_num(CSR_CYCLE + counter);
++}
++
++static u64 read_timestamp(void)
++{
++	return csr_read_num(CSR_TIME);
++}
++
+ #else
+ static u64 read_perf_counter(unsigned int counter __maybe_unused) { return 0; }
+ static u64 read_timestamp(void) { return 0; }
 -- 
 2.39.2
 
