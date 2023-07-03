@@ -2,138 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4204DEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 04:08:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B070FEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jul 2023 05:31:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229908AbjGCEIT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 00:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40862 "EHLO
+        id S229820AbjGCFbu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 01:31:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbjGCEIS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 00:08:18 -0400
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E4C71180;
-        Sun,  2 Jul 2023 21:08:15 -0700 (PDT)
-Received: (from willy@localhost)
-        by mail.home.local (8.17.1/8.17.1/Submit) id 363480Or021269;
-        Mon, 3 Jul 2023 06:08:00 +0200
-Date:   Mon, 3 Jul 2023 06:08:00 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, security@kernel.org, corbet@lwn.net,
-        workflows@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation: security-bugs.rst: clarify CVE
- handling
-Message-ID: <ZKJJoK4kyOCEYcOR@1wt.eu>
-References: <2023063020-throat-pantyhose-f110@gregkh>
- <2023063022-retouch-kerosene-7e4a@gregkh>
- <202306301114.E199B136@keescook>
- <2023070213-capacity-moneybags-3668@gregkh>
+        with ESMTP id S229504AbjGCFbt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 01:31:49 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA313180;
+        Sun,  2 Jul 2023 22:31:48 -0700 (PDT)
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3635Hm28023285;
+        Mon, 3 Jul 2023 05:31:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=xsCU60YmzX3PTFCsu3PcmHa94j57YZLwRjKbNWeEISk=;
+ b=kSfXrDyl0RfoolDBLvAYEpenph9s/bhur5OBWk0wYv3Pq/1UZkfTI5gyDABjjcQbouf5
+ 9m4CNE26+ZD+SMmyQildh9S82IfFJV7XTdoWpp0jWGl/JBOqH06WvHRH+/JqrG+yIE0J
+ Cj42mO7t6Wyj8L3ydUjUEQttBSvHETSWZBWiE4eMouFsD+S6dV7y29DnytPs0w/yeAYX
+ QK9yov3I16Mj6lI1wkoDiRKrdM2N2Hb+bn5d2Lc1gfzJHE2MSxlqsEGQDvR7W5m+dszg
+ c2iuyVquoCFjr9aOWtsNGmHzuA3mVGlmxbPrmQE2BDTuexbwpNGUNsHzMLo3g96eKopn hA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rkr27g808-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Jul 2023 05:31:38 +0000
+Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3635JJ3m027725;
+        Mon, 3 Jul 2023 05:31:37 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rkr27g7ys-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Jul 2023 05:31:37 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3621fMnC031324;
+        Mon, 3 Jul 2023 05:31:35 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+        by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3rjbs4s4fk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 03 Jul 2023 05:31:35 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+        by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3635VXYK36438482
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 3 Jul 2023 05:31:33 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 300462004E;
+        Mon,  3 Jul 2023 05:31:33 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AE8DE20043;
+        Mon,  3 Jul 2023 05:31:30 +0000 (GMT)
+Received: from li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com (unknown [9.109.216.99])
+        by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+        Mon,  3 Jul 2023 05:31:30 +0000 (GMT)
+Date:   Mon, 3 Jul 2023 11:01:28 +0530
+From:   Kautuk Consul <kconsul@linux.vnet.ibm.com>
+To:     Nicholas Piggin <npiggin@gmail.com>,
+        Fabiano Rosas <farosas@linux.ibm.com>, jpn@linux.vnet.ibm.com,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Thomas Huth <thuth@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>, gshan@redhat.com
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] KVM: ppc64: Enable ring-based dirty memory tracking
+Message-ID: <ZKJdMEnu14MxZ1NV@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+References: <20230608123448.71861-1-kconsul@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023070213-capacity-moneybags-3668@gregkh>
+In-Reply-To: <20230608123448.71861-1-kconsul@linux.vnet.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: eSlrFMC61zYwXxa0zM3sKRzOLECO6uWi
+X-Proofpoint-GUID: 3NkeYMLezpaKytG2r7LMjBBJEDG7k8P8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-03_04,2023-06-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=542
+ suspectscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ clxscore=1011 bulkscore=0 mlxscore=0 adultscore=0 phishscore=0
+ malwarescore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2307030047
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 02, 2023 at 02:39:49PM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Jun 30, 2023 at 11:18:37AM -0700, Kees Cook wrote:
-> > On Fri, Jun 30, 2023 at 09:14:21AM +0200, Greg Kroah-Hartman wrote:
-> > > The kernel security team does NOT assign CVEs, so document that properly
-> > > and provide the "if you want one, ask MITRE for it" response that we
-> > > give on a weekly basis in the document, so we don't have to constantly
-> > > say it to everyone who asks.
-> > > 
-> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > ---
-> > >  Documentation/process/security-bugs.rst | 11 ++++-------
-> > >  1 file changed, 4 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-> > > index f12ac2316ce7..8b80e1eb7d79 100644
-> > > --- a/Documentation/process/security-bugs.rst
-> > > +++ b/Documentation/process/security-bugs.rst
-> > > @@ -79,13 +79,10 @@ not contribute to actually fixing any potential security problems.
-> > >  CVE assignment
-> > >  --------------
-> > >  
-> > > -The security team does not normally assign CVEs, nor do we require them
-> > > -for reports or fixes, as this can needlessly complicate the process and
-> > > -may delay the bug handling. If a reporter wishes to have a CVE identifier
-> > > -assigned ahead of public disclosure, they will need to contact the private
-> > > -linux-distros list, described above. When such a CVE identifier is known
-> > > -before a patch is provided, it is desirable to mention it in the commit
-> > > -message if the reporter agrees.
-> > > +The security team does not assign CVEs, nor do we require them for
-> > > +reports or fixes, as this can needlessly complicate the process and may
-> > > +delay the bug handling.  If a reporter wishes to have a CVE identifier
-> > > +assigned, they should contact MITRE directly.
-> > 
-> > Hmm. The language about "assigned ahead of public disclosure" was added
-> > intentionally due to trouble we'd had with coordination when a CVE was
-> > needed, etc. Additionally, it IS preferred to have a CVE in a patch when
-> > it IS known ahead of time, so I think that should be kept. How about
-> > this:
-> > 
-> > 
-> > diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-> > index 82e29837d589..2f4060d49b31 100644
-> > --- a/Documentation/process/security-bugs.rst
-> > +++ b/Documentation/process/security-bugs.rst
-> > @@ -81,13 +81,12 @@ the email Subject line with "[vs]" as described in the linux-distros wiki:
-> >  CVE assignment
-> >  --------------
-> >  
-> > -The security team does not normally assign CVEs, nor do we require them
-> > -for reports or fixes, as this can needlessly complicate the process and
-> > -may delay the bug handling. If a reporter wishes to have a CVE identifier
-> > -assigned ahead of public disclosure, they will need to contact the private
-> > -linux-distros list, described above. When such a CVE identifier is known
-> > -before a patch is provided, it is desirable to mention it in the commit
-> > -message if the reporter agrees.
-> > +The security team does not assign CVEs, nor do we require them for reports
-> > +or fixes, as this can needlessly complicate the process and may delay
-> > +the bug handling. If a reporter wishes to have a CVE identifier assigned
-> > +ahead of public disclosure, they will need to contact MITRE directly.
-> > +When such a CVE identifier is known before a patch is provided, it is
-> > +desirable to mention it in the commit message if the reporter agrees.
-> 
-> I can not, in good faith, with the current mess that MITRE is going
-> through, tell anyone that they should contact MITRE ahead of public
-> disclosure, sorry.
-> 
-> All I can say is "if you really want one, go ask them for one", as
-> everyone keeps asking us for one to pad their resume/CV.
-> 
-> Also note that many non-US-based companies are not allowed to contact a
-> US-government-backed entity for potential security issues for obvious
-> reasons.
-> 
-> So I don't want to even give a hint that we support or request this at
-> all, or that it is something that changelog texts should contain for
-> security issues (for the obvious reason of them being a "hint" one way
-> or another.)
-> 
-> External groups may wish to play the CVE "game" as it facilitates their
-> engineering procedures to get changes past managers, but that's not
-> anything that we should be encouraging at all for all of the various
-> geopolitical and corporate reasons involved in that mess.
+Hi Everyone,
 
-I generally agree with your points above, and these can be easily
-summarized by indicating that the patch will not wait for this, and
-suggesting that MITRE is not the only possible source:
-
-  The security team does not assign CVEs, nor do we require them for
-  reports or fixes, as this can needlessly complicate the process and may
-  delay the bug handling.  If a reporter wishes to have a CVE identifier
-  assigned, they should find one by themselves, for example by contacting
-  MITRE directly.  However under no circumstances will a patch inclusion
-  be delayed to wait for a CVE identifier to arrive.
-
-This puts the responsibility for finding one in time on the reporter
-depending on what they expect, and if they want it in the commit
-message, they'd rather have one before reporting the problem.
-
-Willy
+On 2023-06-08 08:34:48, Kautuk Consul wrote:
+> - Enable CONFIG_HAVE_KVM_DIRTY_RING_ACQ_REL as ppc64 is weakly
+>   ordered.
+> - Enable CONFIG_NEED_KVM_DIRTY_RING_WITH_BITMAP because the
+>   kvmppc_xive_native_set_attr is called in the context of an ioctl
+>   syscall and will call kvmppc_xive_native_eq_sync for setting the
+>   KVM_DEV_XIVE_EQ_SYNC attribute which will call mark_dirty_page()
+>   when there isn't a running vcpu. Implemented the
+>   kvm_arch_allow_write_without_running_vcpu to always return true
+>   to allow mark_page_dirty_in_slot to mark the page dirty in the
+>   memslot->dirty_bitmap in this case.
+> - Set KVM_DIRTY_LOG_PAGE_OFFSET for the ring buffer's physical page
+>   offset.
+> - Implement the kvm_arch_mmu_enable_log_dirty_pt_masked function required
+>   for the generic KVM code to call.
+> - Add a check to kvmppc_vcpu_run_hv for checking whether the dirty
+>   ring is soft full.
+> - Implement the kvm_arch_flush_remote_tlbs_memslot function to support
+>   the CONFIG_KVM_GENERIC_DIRTYLOG_READ_PROTECT config option.
+> 
+> On testing with live migration it was found that there is around
+> 150-180 ms improvment in overall migration time with this patch.
+> 
+> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Can someone review this ?
