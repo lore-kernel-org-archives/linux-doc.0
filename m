@@ -2,113 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AE5FEB64D9
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 09:16:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B04C001DE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 09:28:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231722AbjGDJQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 05:16:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43164 "EHLO
+        id S231127AbjGDJ2G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 05:28:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbjGDJQV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 05:16:21 -0400
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4DECB3;
-        Tue,  4 Jul 2023 02:16:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-        bh=V3G3llqyqDYpZVEogHvFY85hMe7xLSqrYXDqBNV0Ifs=; b=YOEZTrYis9yeXxQwXE2+AuiBuP
-        nsYIAeD+Z5uLOr8jOdbUCC12XGdcCNWm0bhk2TXTByQbEsVpeyiIp2HkrbB1AaQonEc38tfAQWXE2
-        zqtUJqOwxb2ec0nkn34x41V/qyiYJecWXcOGW6HbSdy0mtvNqk63x0kdVbnGMQ20vuiXh3rYLwEpf
-        5UoO5w52Pd5CEV0FtZLLnr4rwqF0MM+xxDvqAyvvYutxjdP2vrLl+DtLC+adgECInJPD9SndYT/cZ
-        1UtUDwI7kZkLydcOHTepdLLDwZk24wWCaQq4fJLOvCv1pt+YzH3YS8GUhZknh0pNiVH4vyaUOwNtv
-        9ZC+lZMw==;
-Received: from sslproxy05.your-server.de ([78.46.172.2])
-        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1qGc8o-000MaJ-Oi; Tue, 04 Jul 2023 11:16:10 +0200
-Received: from [81.6.34.132] (helo=localhost.localdomain)
-        by sslproxy05.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1qGc8o-0003b8-5f; Tue, 04 Jul 2023 11:16:10 +0200
-Subject: Re: [PATCH bpf-next] xsk: honor SO_BINDTODEVICE on bind
-To:     Jason Wang <jasowang@redhat.com>,
-        Ilya Maximets <i.maximets@ovn.org>
-Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>
-References: <20230703175329.3259672-1-i.maximets@ovn.org>
- <CACGkMEs1WyKwSuE2H0bkYigjhqHYJy6pPGnQLjWgOFt9+89hJA@mail.gmail.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <94b00e51-aaac-5e7c-d447-f45af408e389@iogearbox.net>
-Date:   Tue, 4 Jul 2023 11:16:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        with ESMTP id S231542AbjGDJ2D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 05:28:03 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0BA1AA
+        for <linux-doc@vger.kernel.org>; Tue,  4 Jul 2023 02:28:00 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-bc379e4c1cbso6282514276.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jul 2023 02:28:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688462880; x=1691054880;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e3TXes7w/Rmbj1DkXFlIvKaLc8Xq0FgJi7YMpllWJrA=;
+        b=OoCw2qkjIS9uiDScfmNBkgBtmk4wM2nR69ViCcOw5vgDxOdTw0w90Ian78v4vjjtl0
+         jOEeYH5dAB9l2vu6zowl1gNS4Knq4xtgos/5Krc4brqkt87G6myHuET4b5h9T4eRTzAH
+         jtjIZTpHCpo1bz/be4ypmzT8DzCk4IrLebNiL7On5eSxPZEiLK9zBhExqgVQRAikyZji
+         wGZzLQKaAdUQ3HS8xgMYwa6pZnr3n4D+awAFX88m9wK7eYgFZGHia9ZLhD8kyCBUxQv+
+         sIJsAV8/whbNvJkxelVWjyf9mWZbmCgDDFMaHHF36MAqJDWkM46Xh0+bZPrBIdRrc6bx
+         PIEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688462880; x=1691054880;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e3TXes7w/Rmbj1DkXFlIvKaLc8Xq0FgJi7YMpllWJrA=;
+        b=X7R5VMDs8+s5w/BU6L9Lpmgp/0nKRuE5G2kmkGH8jFlGXby2mUbAEw118MtF8vpI+d
+         rVldRvI0PXWGuJPWCRJtHRp3UJI5244P+zyx94bHbKnvmzxYp9/1Gsg4cWWmtPTSnvXd
+         TG7b8Kp85qcJdMOiuiBGVCEm3f9x36+GADWlauZJ4QC6CfmyEmoWd1d+9YBjdXLi4hVp
+         qgNVIn3g0kF8KMkjyUKk8Z07Cex8+4x7uNLyT22R/YmwovSNo0yabAM/piKncV22I12w
+         sY02wpwPQpZFyQpar/o9oYyfg1WOEFIjnhQsGPW1t83JdJbL0BT7RzUFvMJVam0IxDwU
+         w2OQ==
+X-Gm-Message-State: ABy/qLZnO8YinqcTP2cii0lIs/lmbpJaYQoWQJLL60yMjpEYwjFuCZga
+        4cwRBnLiW+wp4JX1PBrHyhEY0vJchYz67oD+uSEMgA==
+X-Google-Smtp-Source: APBJJlGjlh3CvPVpKROT51T36lYrYgCT70VTb+HBZrybLXHHEs7NrC37lmVz+67sLTPrYH9vI8gYMaFOi6LN15jfFD0=
+X-Received: by 2002:a25:1d7:0:b0:c4d:96a2:5d96 with SMTP id
+ 206-20020a2501d7000000b00c4d96a25d96mr7651767ybb.34.1688462880018; Tue, 04
+ Jul 2023 02:28:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEs1WyKwSuE2H0bkYigjhqHYJy6pPGnQLjWgOFt9+89hJA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.8/26959/Tue Jul  4 09:29:23 2023)
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <2023062814-chance-flounder-f002@gregkh> <CAL_JsqLO9yey2-4FcWsaGxijiS6hGL0SH9VoMuiyei-u9=Cv=w@mail.gmail.com>
+In-Reply-To: <CAL_JsqLO9yey2-4FcWsaGxijiS6hGL0SH9VoMuiyei-u9=Cv=w@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 4 Jul 2023 11:27:48 +0200
+Message-ID: <CACRpkda3CJ7G4-wDPkWmzg6nyCoEfG+u2cQH6KXWNjbftd90ow@mail.gmail.com>
+Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related support
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Mukesh Ojha <quic_mojha@quicinc.com>, corbet@lwn.net,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        andy.shevchenko@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/4/23 4:31 AM, Jason Wang wrote:
-> On Tue, Jul 4, 2023 at 1:53 AM Ilya Maximets <i.maximets@ovn.org> wrote:
->>
->> Initial creation of an AF_XDP socket requires CAP_NET_RAW capability.
->> A privileged process might create the socket and pass it to a
->> non-privileged process for later use.  However, that process will be
->> able to bind the socket to any network interface.  Even though it will
->> not be able to receive any traffic without modification of the BPF map,
->> the situation is not ideal.
->>
->> Sockets already have a mechanism that can be used to restrict what
->> interface they can be attached to.  That is SO_BINDTODEVICE.
->>
->> To change the SO_BINDTODEVICE binding the process will need CAP_NET_RAW.
->>
->> Make xsk_bind() honor the SO_BINDTODEVICE in order to allow safer
->> workflow when non-privileged process is using AF_XDP.
->>
->> The intended workflow is following:
->>
->>    1. First process creates a bare socket with socket(AF_XDP, ...).
->>    2. First process loads the XSK program to the interface.
->>    3. First process adds the socket fd to a BPF map.
->>    4. First process ties socket fd to a particular interface using
->>       SO_BINDTODEVICE.
->>    5. First process sends socket fd to a second process.
->>    6. Second process allocates UMEM.
->>    7. Second process binds socket to the interface with bind(...).
->>    8. Second process sends/receives the traffic.
->>
->> All the steps above are possible today if the first process is
->> privileged and the second one has sufficient RLIMIT_MEMLOCK and no
->> capabilities.  However, the second process will be able to bind the
->> socket to any interface it wants on step 7 and send traffic from it.
->> With the proposed change, the second process will be able to bind
->> the socket only to a specific interface chosen by the first process
->> at step 4.
->>
->> Acked-by: Magnus Karlsson <magnus.karlsson@intel.com>
->> Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
-> 
-> Acked-by: Jason Wang <jasowang@redhat.com>
-> 
-> Is this a stable material or not?
+On Thu, Jun 29, 2023 at 1:12=E2=80=AFAM Rob Herring <robh+dt@kernel.org> wr=
+ote:
 
-To me this is a bug rather than 'feature', so I applied it to bpf tree and
-also added Fixes tag. Thanks everyone!
+> My bigger issue with this whole series is what would this all look
+> like if every SoC vendor upstreamed their own custom dumping
+> mechanism. That would be a mess. (I have similar opinions on the
+> $soc-vendor hypervisors.)
+
+I agree with Rob's stance.
+
+I think it would be useful to get input from the hwtracing developers
+(Alexander and Mathieu) who faced this "necessarily different" issue
+with all the hwtrace mechanisms and found a way out of it. I suspect
+they can have an idea of how this should be abstracted.
+
+Yours,
+Linus Walleij
