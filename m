@@ -2,393 +2,191 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0692EB64DA
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 05:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FFFDC0015E
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 05:57:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230214AbjGDFYK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 01:24:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33094 "EHLO
+        id S230300AbjGDF5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 01:57:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230081AbjGDFYI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 01:24:08 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F65E49;
-        Mon,  3 Jul 2023 22:24:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=ATUS35pTWGGIbN1gecgRrYg2fY7uuWWpFqHk1R/svhg=; b=dEmavBcxYytSqqvsUB+4lX3vj8
-        dys2oB3OfSBO7JL7C3FaIoH3Ymz/0G7TuJuDTs0Olzn6sXQdINzf1aOZlVbriKSPretJeuvrQKViT
-        JBQVUooozAgfMdeMaKHUTaaU34evLZgucZWobYuHP0MLiVcApzBGjNZzypMPJXDZjIvCnnWILRYwE
-        nURzxdHMvL39Q7mrMzTn24mNXOQwkQEgQe1hkTZT/lP+SKsd2MCIOKcZ/DohuC7axk1TVkoU0kdh5
-        JBTjp0YkEEYbfAam6Z7zlZ44Cz5YBaRz0+0ldAc7NpZGvVonkpbQY2b9Iw3qGHLJ4PyfRLKQPswOK
-        uLdQHywQ==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qGYWE-00CCEU-1L;
-        Tue, 04 Jul 2023 05:24:06 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        John Stultz <jstultz@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 2/3] jiffies: add kernel-doc for all APIs
-Date:   Mon,  3 Jul 2023 22:24:04 -0700
-Message-ID: <20230704052405.5089-2-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230704052405.5089-1-rdunlap@infradead.org>
-References: <20230704052405.5089-1-rdunlap@infradead.org>
+        with ESMTP id S230259AbjGDF53 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 01:57:29 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9263EE64
+        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 22:57:27 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-51d80d81d6eso6150966a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 22:57:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688450245; x=1691042245;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ArafajhkK4cFBXCxi4x8GmLW6nX9wjFH15qR/2p7CyM=;
+        b=NtZsucGnDSuql+9fvbmGD0BxyvMogak6Y5smEqXX8YVtwaMtHZZ1C/TGlyDDoMak1a
+         haGaMkG1VU2aV8G9ouvmhF2bUT4R7l4z7IpK6rWEsQOIASdpe/ETlyxhdNMHA1K0IAXI
+         nuqu7D3vk1N5XXGoxqp97McDiFeIx/d2WDA8EXrw/d4mjEHvqQ9Xm/NQoidg4jGB/4tn
+         LQyQINMHJ0B6gUmy6EKdTmk9v8aoK/SbhVsxA7v90azH6n7VT5YSeuUuoLCFlvH9R0G4
+         ovqIMFrBmkbIyBLF5UOq/9OGMltcQdmd2K73ozPB/ooxRpFAkVe78oy5UYKqy/j5tswu
+         V7wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688450245; x=1691042245;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ArafajhkK4cFBXCxi4x8GmLW6nX9wjFH15qR/2p7CyM=;
+        b=L9zWKEiEjY+WquqmoBloguZubAWGangtHHvi8911kyRLvBMrYzXnwjiD9nRl95aAT/
+         zXJufyqfS65uNvi7jVallE50bTM+7zSgb/cKwhPbxgNo8kcut90atuMoinE0f4O09ytb
+         00Fqax7rrhf+olVXi9p/sQWDvo/AkB1/jQEz9YZHC2pSUowJS9MpGeyi+OJi1lktSQqS
+         afvYfbjNtmAUweXxntiNtecGeDziRxhS8B61iLxmeBNn3H37PY+XiV5sl1JFwF6vU4sB
+         OKDb3pXlQn7TppVjj4i/SAVE29mWeGkKgaInQW4wfmDBQrkusY3N6oxegXpNQ3/HNJE7
+         EqGA==
+X-Gm-Message-State: ABy/qLa+mgauVkOKU9XssAPvuG1743+e7Qs7uAi3xEga0K5WG05ig37q
+        ZdGThlJpvNxNmp/isLxeS+O3JA==
+X-Google-Smtp-Source: APBJJlGLdz4OnkPHg9QESQPK4xkTqc+rD1zI9xMSBTVlJ3pUKrE8wYmXdm39x7xyr77A57uxd3eyPg==
+X-Received: by 2002:a05:6402:5149:b0:51d:9bf3:40c5 with SMTP id n9-20020a056402514900b0051d9bf340c5mr8832051edd.20.1688450245125;
+        Mon, 03 Jul 2023 22:57:25 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id i21-20020a05640200d500b0051bfc7763c2sm11462697edu.25.2023.07.03.22.57.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jul 2023 22:57:24 -0700 (PDT)
+Message-ID: <f0609361-6fb6-a446-4e23-646201943923@linaro.org>
+Date:   Tue, 4 Jul 2023 07:57:21 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v4 08/21] dt-bindings: reserved-memory: Add qcom,ramoops
+ binding
+Content-Language: en-US
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, corbet@lwn.net,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
+        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <1687955688-20809-9-git-send-email-quic_mojha@quicinc.com>
+ <CAL_JsqJ_TTnGjjB2d8_FKHpWBRG5GHLoWnabCKjsdeZ4QFdNEg@mail.gmail.com>
+ <cacbbb02-732e-076e-50bf-292d20a4d722@quicinc.com>
+ <58a26b9e-a48d-d567-c310-193a2c52521e@linaro.org>
+ <5447f9f8-55b4-8bed-66a6-1c9d62b02c79@quicinc.com>
+ <CAGE=qrq0CuO4J-6yC=YZ4xjL67o9QTqpei0ovX-X_8MLVeEH6g@mail.gmail.com>
+ <ba04bb7b-6599-6f41-09a8-834ee280830d@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <ba04bb7b-6599-6f41-09a8-834ee280830d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add kernel-doc notation in <linux/jiffies.h> for interfaces that
-don't already have it (i.e. most interfaces).
+On 03/07/2023 17:55, Mukesh Ojha wrote:
+> 
+> 
+> On 7/3/2023 12:50 PM, Krzysztof Kozlowski wrote:
+>> On Mon, 3 Jul 2023 at 08:22, Mukesh Ojha <quic_mojha@quicinc.com> wrote:
+>>> On 7/2/2023 1:42 PM, Krzysztof Kozlowski wrote:
+>>>>>> The big difference is if firmware is not deciding where this log
+>>>>>> lives, then it doesn't need to be in DT. How does anything except the
+>>>>>> kernel that allocates the log find the logs?
+>>>>>
+>>>>> Yes, you are correct, firmware is not deciding where the logs lives
+>>>>> instead here, Kernel has reserved the region where the ramoops region
+>>>>> lives and later with the minidump registration where, physical
+>>>>> address/size/virtual address(for parsing) are passed and that is how
+>>>>> firmware is able to know and dump those region before triggering system
+>>>>> reset.
+>>>>
+>>>> Your explanation does not justify storing all this in DT. Kernel can
+>>>> allocate any memory it wishes, store there logs and pass the address to
+>>>> the firmware. That's it, no need for DT.
+>>>
+>>> If you go through the driver, you will know that what it does, is
+>>
+>> We talk about bindings and I should not be forced to look at the
+>> driver to be able to understand them. Bindings should stand on their
+>> own.
+> 
+> Why can't ramoops binding have one more feature where it can add a flag 
+> *dynamic* to indicate the regions are dynamic and it is for platforms
+> where there is another entity 'minidump' who is interested in these
+> regions.
 
-Fix some formatting and typos in other comments.
+Because we do not define dynamic stuff in Devicetree. Dynamic means
+defined by SW or runtime configurable. It is against the entire idea of
+Devicetree which is for non-discoverable hardware.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: John Stultz <jstultz@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- include/linux/jiffies.h |  197 +++++++++++++++++++++++++++++++++-----
- 1 file changed, 176 insertions(+), 21 deletions(-)
+> 
+>>
+>>> just create platform device for actual ramoops driver to probe and to
+>>
+>> Not really justification for Devicetree anyway. Whatever your driver
+>> is doing, is driver's business, not bindings.
+>>
+>>> provide this it needs exact set of parameters of input what original
+>>> ramoops DT provides, we need to keep it in DT as maintaining this in
+>>> driver will not scale well with different size/parameter size
+>>> requirement for different targets.
+>>
+>> Really? Why? I don't see a problem in scaling. At all.
+> 
+> I had attempted it here,
+> 
+> https://lore.kernel.org/lkml/1683133352-10046-10-git-send-email-quic_mojha@quicinc.com/
+> 
+> but got comments related to hard coding and some in favor of having
+> the same set of properties what ramoops has/provides
+> 
+> https://lore.kernel.org/lkml/e25723bf-be85-b458-a84c-1a45392683bb@gmail.com/
+> 
+> https://lore.kernel.org/lkml/202305161347.80204C1A0E@keescook/
 
-diff -- a/include/linux/jiffies.h b/include/linux/jiffies.h
---- a/include/linux/jiffies.h
-+++ b/include/linux/jiffies.h
-@@ -72,9 +72,15 @@ extern int register_refined_jiffies(long
- #endif
- 
- /*
-- * The 64-bit value is not atomic - you MUST NOT read it
-+ * The 64-bit value is not atomic on 32-bit systems - you MUST NOT read it
-  * without sampling the sequence number in jiffies_lock.
-  * get_jiffies_64() will do this for you as appropriate.
-+ *
-+ * jiffies and jiffies_64 are at the same address for little-endian systems
-+ * and for 64-bit big-endian systems.
-+ * On 32-bit big-endian systems, jiffies is the lower 32 bits of jiffies_64
-+ * (i.e., at address @jiffies_64 + 4).
-+ * See arch/ARCH/kernel/vmlinux.lds.S
-  */
- extern u64 __cacheline_aligned_in_smp jiffies_64;
- extern unsigned long volatile __cacheline_aligned_in_smp __jiffy_arch_data jiffies;
-@@ -82,6 +88,14 @@ extern unsigned long volatile __cachelin
- #if (BITS_PER_LONG < 64)
- u64 get_jiffies_64(void);
- #else
-+/**
-+ * get_jiffies_64 - read the 64-bit non-atomic jiffies_64 value
-+ *
-+ * When BITS_PER_LONG < 64, this uses sequence number sampling using
-+ * jiffies_lock to protect the 64-bit read.
-+ *
-+ * Return: current 64-bit jiffies value
-+ */
- static inline u64 get_jiffies_64(void)
- {
- 	return (u64)jiffies;
-@@ -89,39 +103,76 @@ static inline u64 get_jiffies_64(void)
- #endif
- 
- /*
-- *	These inlines deal with timer wrapping correctly. You are 
-- *	strongly encouraged to use them
-+ *	These inlines deal with timer wrapping correctly. You are
-+ *	strongly encouraged to use them:
-  *	1. Because people otherwise forget
-  *	2. Because if the timer wrap changes in future you won't have to
-  *	   alter your driver code.
-- *
-- * time_after(a,b) returns true if the time a is after time b.
-+ */
-+
-+/**
-+ * time_after - returns true if the time a is after time b.
-+ * @a: first comparable as unsigned long
-+ * @b: second comparable as unsigned long
-  *
-  * Do this with "<0" and ">=0" to only test the sign of the result. A
-  * good compiler would generate better code (and a really good compiler
-  * wouldn't care). Gcc is currently neither.
-+ *
-+ * Return: %true is time a is after time b, otherwise %false.
-  */
- #define time_after(a,b)		\
- 	(typecheck(unsigned long, a) && \
- 	 typecheck(unsigned long, b) && \
- 	 ((long)((b) - (a)) < 0))
-+/**
-+ * time_before - returns true if the time a is before time b.
-+ * @a: first comparable as unsigned long
-+ * @b: second comparable as unsigned long
-+ *
-+ * Return: %true is time a is before time b, otherwise %false.
-+ */
- #define time_before(a,b)	time_after(b,a)
- 
-+/**
-+ * time_after_eq - returns true if the time a is after or the same as time b.
-+ * @a: first comparable as unsigned long
-+ * @b: second comparable as unsigned long
-+ *
-+ * Return: %true is time a is after or the same as time b, otherwise %false.
-+ */
- #define time_after_eq(a,b)	\
- 	(typecheck(unsigned long, a) && \
- 	 typecheck(unsigned long, b) && \
- 	 ((long)((a) - (b)) >= 0))
-+/**
-+ * time_before_eq - returns true if the time a is before or the same as time b.
-+ * @a: first comparable as unsigned long
-+ * @b: second comparable as unsigned long
-+ *
-+ * Return: %true is time a is before or the same as time b, otherwise %false.
-+ */
- #define time_before_eq(a,b)	time_after_eq(b,a)
- 
--/*
-- * Calculate whether a is in the range of [b, c].
-+/**
-+ * time_in_range - Calculate whether a is in the range of [b, c].
-+ * @a: time to test
-+ * @b: beginning of the range
-+ * @c: end of the range
-+ *
-+ * Return: %true is time a is in the range [b, c], otherwise %false.
-  */
- #define time_in_range(a,b,c) \
- 	(time_after_eq(a,b) && \
- 	 time_before_eq(a,c))
- 
--/*
-- * Calculate whether a is in the range of [b, c).
-+/**
-+ * time_in_range_open - Calculate whether a is in the range of [b, c).
-+ * @a: time to test
-+ * @b: beginning of the range
-+ * @c: end of the range
-+ *
-+ * Return: %true is time a is in the range [b, c), otherwise %false.
-  */
- #define time_in_range_open(a,b,c) \
- 	(time_after_eq(a,b) && \
-@@ -129,45 +180,138 @@ static inline u64 get_jiffies_64(void)
- 
- /* Same as above, but does so with platform independent 64bit types.
-  * These must be used when utilizing jiffies_64 (i.e. return value of
-- * get_jiffies_64() */
-+ * get_jiffies_64()). */
-+
-+/**
-+ * time_after64 - returns true if the time a is after time b.
-+ * @a: first comparable as __u64
-+ * @b: second comparable as __u64
-+ *
-+ * This must be used when utilizing jiffies_64 (i.e. return value of
-+ * get_jiffies_64()).
-+ *
-+ * Return: %true is time a is after time b, otherwise %false.
-+ */
- #define time_after64(a,b)	\
- 	(typecheck(__u64, a) &&	\
- 	 typecheck(__u64, b) && \
- 	 ((__s64)((b) - (a)) < 0))
-+/**
-+ * time_before64 - returns true if the time a is before time b.
-+ * @a: first comparable as __u64
-+ * @b: second comparable as __u64
-+ *
-+ * This must be used when utilizing jiffies_64 (i.e. return value of
-+ * get_jiffies_64()).
-+ *
-+ * Return: %true is time a is before time b, otherwise %false.
-+ */
- #define time_before64(a,b)	time_after64(b,a)
- 
-+/**
-+ * time_after_eq64 - returns true if the time a is after or the same as time b.
-+ * @a: first comparable as __u64
-+ * @b: second comparable as __u64
-+ *
-+ * This must be used when utilizing jiffies_64 (i.e. return value of
-+ * get_jiffies_64()).
-+ *
-+ * Return: %true is time a is after or the same as time b, otherwise %false.
-+ */
- #define time_after_eq64(a,b)	\
- 	(typecheck(__u64, a) && \
- 	 typecheck(__u64, b) && \
- 	 ((__s64)((a) - (b)) >= 0))
-+/**
-+ * time_before_eq64 - returns true if the time a is before or the same as time b.
-+ * @a: first comparable as __u64
-+ * @b: second comparable as __u64
-+ *
-+ * This must be used when utilizing jiffies_64 (i.e. return value of
-+ * get_jiffies_64()).
-+ *
-+ * Return: %true is time a is before or the same as time b, otherwise %false.
-+ */
- #define time_before_eq64(a,b)	time_after_eq64(b,a)
- 
-+/**
-+ * time_in_range64 - Calculate whether a is in the range of [b, c].
-+ * @a: time to test
-+ * @b: beginning of the range
-+ * @c: end of the range
-+ *
-+ * Return: %true is time a is in the range [b, c], otherwise %false.
-+ */
- #define time_in_range64(a, b, c) \
- 	(time_after_eq64(a, b) && \
- 	 time_before_eq64(a, c))
- 
- /*
-- * These four macros compare jiffies and 'a' for convenience.
-+ * These eight macros compare jiffies[_64] and 'a' for convenience.
-  */
- 
--/* time_is_before_jiffies(a) return true if a is before jiffies */
-+/**
-+ * time_is_before_jiffies - return true if a is before jiffies
-+ * @a: time (unsigned long) to compare to jiffies
-+ *
-+ * Return: %true is time a is before jiffies, otherwise %false.
-+ */
- #define time_is_before_jiffies(a) time_after(jiffies, a)
-+/**
-+ * time_is_before_jiffies64 - return true if a is before jiffies_64
-+ * @a: time (__u64) to compare to jiffies_64
-+ *
-+ * Return: %true is time a is before jiffies_64, otherwise %false.
-+ */
- #define time_is_before_jiffies64(a) time_after64(get_jiffies_64(), a)
- 
--/* time_is_after_jiffies(a) return true if a is after jiffies */
-+/**
-+ * time_is_after_jiffies - return true if a is after jiffies
-+ * @a: time (unsigned long) to compare to jiffies
-+ *
-+ * Return: %true is time a is after jiffies, otherwise %false.
-+ */
- #define time_is_after_jiffies(a) time_before(jiffies, a)
-+/**
-+ * time_is_after_jiffies64 - return true if a is after jiffies_64
-+ * @a: time (__u64) to compare to jiffies_64
-+ *
-+ * Return: %true is time a is after jiffies_64, otherwise %false.
-+ */
- #define time_is_after_jiffies64(a) time_before64(get_jiffies_64(), a)
- 
--/* time_is_before_eq_jiffies(a) return true if a is before or equal to jiffies*/
-+/**
-+ * time_is_before_eq_jiffies - return true if a is before or equal to jiffies
-+ * @a: time (unsigned long) to compare to jiffies
-+ *
-+ * Return: %true is time a is before or the same as jiffies, otherwise %false.
-+ */
- #define time_is_before_eq_jiffies(a) time_after_eq(jiffies, a)
-+/**
-+ * time_is_before_eq_jiffies64 - return true if a is before or equal to jiffies_64
-+ * @a: time (__u64) to compare to jiffies_64
-+ *
-+ * Return: %true is time a is before or the same jiffies_64, otherwise %false.
-+ */
- #define time_is_before_eq_jiffies64(a) time_after_eq64(get_jiffies_64(), a)
- 
--/* time_is_after_eq_jiffies(a) return true if a is after or equal to jiffies*/
-+/**
-+ * time_is_after_eq_jiffies - return true if a is after or equal to jiffies
-+ * @a: time (unsigned long) to compare to jiffies
-+ *
-+ * Return: %true is time a is after or the same as jiffies, otherwise %false.
-+ */
- #define time_is_after_eq_jiffies(a) time_before_eq(jiffies, a)
-+/**
-+ * time_is_after_eq_jiffies64 - return true if a is after or equal to jiffies_64
-+ * @a: time (__u64) to compare to jiffies_64
-+ *
-+ * Return: %true is time a is after or the same as jiffies_64, otherwise %false.
-+ */
- #define time_is_after_eq_jiffies64(a) time_before_eq64(get_jiffies_64(), a)
- 
- /*
-- * Have the 32 bit jiffies value wrap 5 minutes after boot
-+ * Have the 32-bit jiffies value wrap 5 minutes after boot
-  * so jiffies wrap bugs show up earlier.
-  */
- #define INITIAL_JIFFIES ((unsigned long)(unsigned int) (-300*HZ))
-@@ -278,7 +422,7 @@ extern unsigned long preset_lpj;
- #if BITS_PER_LONG < 64
- # define MAX_SEC_IN_JIFFIES \
- 	(long)((u64)((u64)MAX_JIFFY_OFFSET * TICK_NSEC) / NSEC_PER_SEC)
--#else	/* take care of overflow on 64 bits machines */
-+#else	/* take care of overflow on 64-bit machines */
- # define MAX_SEC_IN_JIFFIES \
- 	(SH_DIV((MAX_JIFFY_OFFSET >> SEC_JIFFIE_SC) * TICK_NSEC, NSEC_PER_SEC, 1) - 1)
- 
-@@ -290,6 +434,12 @@ extern unsigned long preset_lpj;
- extern unsigned int jiffies_to_msecs(const unsigned long j);
- extern unsigned int jiffies_to_usecs(const unsigned long j);
- 
-+/**
-+ * jiffies_to_nsecs - Convert jiffies to nanoseconds
-+ * @j: jiffies value
-+ *
-+ * Return: nanoseconds value
-+ */
- static inline u64 jiffies_to_nsecs(const unsigned long j)
- {
- 	return (u64)jiffies_to_usecs(j) * NSEC_PER_USEC;
-@@ -353,12 +503,14 @@ static inline unsigned long _msecs_to_ji
-  *
-  * msecs_to_jiffies() checks for the passed in value being a constant
-  * via __builtin_constant_p() allowing gcc to eliminate most of the
-- * code, __msecs_to_jiffies() is called if the value passed does not
-+ * code. __msecs_to_jiffies() is called if the value passed does not
-  * allow constant folding and the actual conversion must be done at
-  * runtime.
-- * the HZ range specific helpers _msecs_to_jiffies() are called both
-+ * The HZ range specific helpers _msecs_to_jiffies() are called both
-  * directly here and from __msecs_to_jiffies() in the case where
-  * constant folding is not possible.
-+ *
-+ * Return: jiffies value
-  */
- static __always_inline unsigned long msecs_to_jiffies(const unsigned int m)
- {
-@@ -400,12 +552,14 @@ static inline unsigned long _usecs_to_ji
-  *
-  * usecs_to_jiffies() checks for the passed in value being a constant
-  * via __builtin_constant_p() allowing gcc to eliminate most of the
-- * code, __usecs_to_jiffies() is called if the value passed does not
-+ * code. __usecs_to_jiffies() is called if the value passed does not
-  * allow constant folding and the actual conversion must be done at
-  * runtime.
-- * the HZ range specific helpers _usecs_to_jiffies() are called both
-+ * The HZ range specific helpers _usecs_to_jiffies() are called both
-  * directly here and from __msecs_to_jiffies() in the case where
-  * constant folding is not possible.
-+ *
-+ * Return: jiffies value
-  */
- static __always_inline unsigned long usecs_to_jiffies(const unsigned int u)
- {
-@@ -422,6 +576,7 @@ extern unsigned long timespec64_to_jiffi
- extern void jiffies_to_timespec64(const unsigned long jiffies,
- 				  struct timespec64 *value);
- extern clock_t jiffies_to_clock_t(unsigned long x);
-+
- static inline clock_t jiffies_delta_to_clock_t(long delta)
- {
- 	return jiffies_to_clock_t(max(0L, delta));
+Then you were tricked. I don't get why someone else suggests that
+non-hardware property should be part of Devicetree, but anyway it's the
+call of Devicetree binding maintainers, not someone else. DT is not
+dumping ground for all the system configuration variables.
+
+
+>>
+>>>
+>>>>
+>>>>>
+>>>>> A part of this registration code you can find in 11/21
+>>>>>
+>>>>>> I'm pretty sure I already said all this before.
+>>>>>
+>>>>> Yes, you said this before but that's the reason i came up with vendor
+>>>>> ramoops instead of changing traditional ramoops binding.
+>>>>
+>>>> That's unexpected conclusion. Adding more bindings is not the answer to
+>>>> comment that it should not be in the DTS in the first place.
+>>>
+>>> Please suggest, what is the other way being above text as requirement..
+>>
+>> I do not see any requirement for us there. Forcing me to figure out
+>> how to add non-hardware property to DT is not the way to convince
+>> reviewers. But if you insist - we have ABI for this, called sysfs. If
+>> it is debugging feature, then debugfs.
+> 
+> ramoops already support module params and a way to pass these parameters
+> from bootargs but it also need to know the hard-codes addresses, so, 
+> doing something in sysfs will be again duplication with ramoops driver..
+
+Why do you need hard-coded addresses?
+
+> 
+> If this can be accommodated under ramoops, this will be very small 
+> change, like this
+> 
+> https://lore.kernel.org/lkml/20230622005213.458236-1-isaacmanjarres@google.com/
+
+That's also funny patch - missing bindings updated, missing CC DT
+maintainers.
+
+Best regards,
+Krzysztof
+
