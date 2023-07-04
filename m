@@ -2,43 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AB9BEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 04:46:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB5FEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 05:24:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230425AbjGDEq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 00:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55458 "EHLO
+        id S229667AbjGDFYI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 01:24:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230406AbjGDEqu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 00:46:50 -0400
+        with ESMTP id S229441AbjGDFYH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 01:24:07 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE498E7A;
-        Mon,  3 Jul 2023 21:46:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07DE9BD;
+        Mon,  3 Jul 2023 22:24:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
         Content-ID:Content-Description:In-Reply-To:References;
-        bh=B4nvX/EnYj+edoXbvhTgiPbMRbiJCRZ7KDWEebyGAWg=; b=zsaxWMEx9PdbhQ+BdmET2A32r2
-        rykIJlIQ/2csXBUMiXFlQgVDV/mLf6UQfDnsiOd2fljwzSD8dR6dbiLvcEDT8Vsl28Q+z0OUZOSwm
-        qkicqsB5G8buxX5OTnkXhVsD/jFKt8DoDZghbZ7NUWWHR1FT0dFtVXcDuSd4CPevLc9wNuyjkPzx8
-        4a5Of9aokHO68U4xTv7yF3Ahii9hrAv33ve/bUifK9UXzPqLD9dbyk/YdUKBTCamTOk+0ZwdcWras
-        nzCaM/JIn0Mw7otjuu8r++9vJz8xRJeXDjROWoJebb/TDqvWT7CN16IKuJaSkjc42p8VkWzRjTCqi
-        cWUS0KTg==;
+        bh=fiR1+lFkN2QVNdbkR0zd5B6McX2iHjjNhF7dWolHvAY=; b=od2wZMvbbm+a53f1gqi9uGaZ7D
+        A14n+3uWiMVP/UqCNg8bHm39l054jjJdJT/iod1S9+2mCrBwlDAuzUARuJ4fp8UiMRoqMzkf8plsi
+        +6Bw2JZDgRXGnDjQG9MVT7IKyk8fFkXsq7raPYW+jH4FMWp17ThqD9nkwn6yMu2Y4WgkR47ToiAEr
+        HsHo6kWdzsxixrS1k9f4DZXRge7Gfqqc9Uqme1WxTeNlkm2GIC4LvVxh++UMYQR1wue7FIb0r71Jg
+        v4TnMuqXw6SgOeQpv2wUfgHa49GiOmnP4wS4vG7R851Guu9E67UfipygyLTf8dBVhCoyTcGjAppLw
+        ADjrG16A==;
 Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qGXw6-00C9DI-0x;
-        Tue, 04 Jul 2023 04:46:46 +0000
+        id 1qGYWE-00CCEU-0C;
+        Tue, 04 Jul 2023 05:24:06 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Christian Brauner <brauner@kernel.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] libfs: fix table format warning
-Date:   Mon,  3 Jul 2023 21:46:43 -0700
-Message-ID: <20230704044643.8622-1-rdunlap@infradead.org>
+        John Stultz <jstultz@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH 1/3] docs: time: make separate section for time and timers
+Date:   Mon,  3 Jul 2023 22:24:03 -0700
+Message-ID: <20230704052405.5089-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -46,49 +45,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Drop the unnecessary colon to make the table formatting correct.
-The colons are not needed and this file uses them sometimes and
-doesn't at other times. Generally they are not preferred in
-documentation tables IMO.
+Give time & timer APIs their own section and begin adding
+entries to that section. Move hrtimers immediately after
+this new section so that they are all together.
 
-Also extend the table line widths to match the table text.
-
-Fixes: 7a3472ae9614 ("libfs: Add directory operations for stable offsets")
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Link: https://lore.kernel.org/linux-next/20230704135149.014516c7@canb.auug.org.au/T/#u
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-fsdevel@vger.kernel.org
+Cc: John Stultz <jstultz@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Stephen Boyd <sboyd@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 ---
- Documentation/filesystems/locking.rst |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/driver-api/basics.rst |   27 +++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
-diff -- a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
---- a/Documentation/filesystems/locking.rst
-+++ b/Documentation/filesystems/locking.rst
-@@ -90,9 +90,9 @@ prototypes::
- locking rules:
- 	all may block
- 
--==============	=============================================
-+==============	==================================================
- ops		i_rwsem(inode)
--==============	=============================================
-+==============	==================================================
- lookup:		shared
- create:		exclusive
- link:		exclusive (both)
-@@ -116,8 +116,8 @@ atomic_open:	shared (exclusive if O_CREA
- tmpfile:	no
- fileattr_get:	no or exclusive
- fileattr_set:	exclusive
--get_offset_ctx: no
--==============	=============================================
-+get_offset_ctx  no
-+==============	==================================================
+diff -- a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+--- a/Documentation/driver-api/basics.rst
++++ b/Documentation/driver-api/basics.rst
+@@ -15,8 +15,8 @@ Driver device table
+    :no-identifiers: pci_device_id
  
  
- 	Additionally, ->rmdir(), ->unlink() and ->rename() have ->i_rwsem
+-Delaying, scheduling, and timer routines
+-----------------------------------------
++Delaying and scheduling routines
++--------------------------------
+ 
+ .. kernel-doc:: include/linux/sched.h
+    :internal:
+@@ -33,16 +33,16 @@ Delaying, scheduling, and timer routines
+ .. kernel-doc:: include/linux/completion.h
+    :internal:
+ 
+-.. kernel-doc:: kernel/time/timer.c
+-   :export:
+-
+-Wait queues and Wake events
+----------------------------
++Time and timer routines
++-----------------------
+ 
+-.. kernel-doc:: include/linux/wait.h
++.. kernel-doc:: include/linux/jiffies.h
+    :internal:
+ 
+-.. kernel-doc:: kernel/sched/wait.c
++.. kernel-doc:: kernel/time/time.c
++   :export:
++
++.. kernel-doc:: kernel/time/timer.c
+    :export:
+ 
+ High-resolution timers
+@@ -57,6 +57,15 @@ High-resolution timers
+ .. kernel-doc:: kernel/time/hrtimer.c
+    :export:
+ 
++Wait queues and Wake events
++---------------------------
++
++.. kernel-doc:: include/linux/wait.h
++   :internal:
++
++.. kernel-doc:: kernel/sched/wait.c
++   :export:
++
+ Internal Functions
+ ------------------
+ 
