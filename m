@@ -2,346 +2,223 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9526CEB64DA
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 11:28:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3788AEB64D9
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 11:34:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230300AbjGDL2V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 07:28:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44358 "EHLO
+        id S230490AbjGDLea (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 07:34:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231174AbjGDL2V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 07:28:21 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 149429D;
-        Tue,  4 Jul 2023 04:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688470099; x=1720006099;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=SLH9BsfOqltAc7sUdtQbt5H7vdYrLnD89rq6FQ8+RPE=;
-  b=HLAhSjDKfBogcyolvtc3siPy49HhgYhSeJ48kJnZ79UMoqnbPs1SZvWz
-   JUK5BBX30PW0+GG4aVOiYgV20pEbZ4QtrGz0F/jvFiEzttYf0uDskce3T
-   A6K6p5VBxAL9kSEKgASDYZyoapae2rV7rGFK0zOVIuKZP1igwVuyF5tEM
-   kKa7p9eElPavne8eu5z7xvgAjB2vZKsY90ZPnNDAkS96YuyIXpEnRfjCy
-   5fs0Ob5/cFH/eoY3iQcDE9/oyS0UOGulvVc3sW3H+xPOahAcPsArMEbLW
-   FvHx0IseTmVGpurQAsjEt7L5iBkhxKPkAOCAppktopO8MxFw3f8x74PJK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="426784535"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="426784535"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 04:28:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="669069624"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="669069624"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga003.jf.intel.com with ESMTP; 04 Jul 2023 04:28:18 -0700
-Received: from maurocar-mobl2 (maurocar-mobl2.ger.corp.intel.com [10.252.26.17])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by linux.intel.com (Postfix) with ESMTPS id 7169C580BB8;
-        Tue,  4 Jul 2023 04:28:15 -0700 (PDT)
-Date:   Tue, 4 Jul 2023 13:28:12 +0200
-From:   Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To:     David Gow <davidgow@google.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        mauro.chehab@intel.com, linux-doc@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Rae Moar <rmoar@google.com>
-Subject: Re: Tests documentation
-Message-ID: <20230704132812.02ba97ba@maurocar-mobl2>
-In-Reply-To: <CABVgOSk2uW6DN8682om3Mxn9O3oF4mDYY1vdG-R9z6YC0B+Ndw@mail.gmail.com>
-References: <20230702092308.4a022336@sal.lan>
-        <CABVgOSk2uW6DN8682om3Mxn9O3oF4mDYY1vdG-R9z6YC0B+Ndw@mail.gmail.com>
+        with ESMTP id S230329AbjGDLe3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 07:34:29 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2083.outbound.protection.outlook.com [40.107.7.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2928C10C1;
+        Tue,  4 Jul 2023 04:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nIfnUgvnL7AJDCGu42BP6KxU0+paF86x5RF6VikbUJM=;
+ b=FgWJ9wkwxv8ul4qSsgcFZ1FBIao+fmm+H7T6wS+DGwJ86nDesi/YCQhwykWeW/KYP22Cz4p8VQCWN2qjQ/PWsxD+JQ42B+I329yutkzf3fKXu9B8tYbHeS0QpPgU8A8pCk5cVhzQ32CKsOrJjXbMFOnFxtF9Ks8lVSa8BQ2PHdM=
+Received: from FR3P281CA0138.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:95::17)
+ by DU0PR08MB10365.eurprd08.prod.outlook.com (2603:10a6:10:40b::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Tue, 4 Jul
+ 2023 11:34:24 +0000
+Received: from VI1EUR03FT054.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:d10:95:cafe::d0) by FR3P281CA0138.outlook.office365.com
+ (2603:10a6:d10:95::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.18 via Frontend
+ Transport; Tue, 4 Jul 2023 11:34:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VI1EUR03FT054.mail.protection.outlook.com (100.127.144.193) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6565.18 via Frontend Transport; Tue, 4 Jul 2023 11:34:24 +0000
+Received: ("Tessian outbound e2424c13b707:v142"); Tue, 04 Jul 2023 11:34:23 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: dbc53054c0979844
+X-CR-MTA-TID: 64aa7808
+Received: from 6cabc2462c2a.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 03E7BAA6-8E7A-4AD8-B309-93357F5228B1.1;
+        Tue, 04 Jul 2023 11:34:16 +0000
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 6cabc2462c2a.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 04 Jul 2023 11:34:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YUzi61KHV45aiF3LMxUK3Z2AyfGh4xlkRFb+Ligu8hToOaObuHB0DzHpfrGya1jTbV4HJ5DJf5eK7lMBDaDjdaHf53bbUBTLZpRXSR1Mwx8MwOmLjtDhiDX9ANxnf5tDlFLr34OKUfjlUG3Eg8jyxmiA4LFUvFBShbb5YF0rlq1q/qs/qc9BG1UuQoJ2E69cy3ZmMZZdo2VwNRuoNh2q6p7ft1bqjlngl5jPDoDWnAvdSJVrh0MN+FuiQZeR47CKBBOnLk+wTw19wb7iv3GxL6fdM9sjWkO0/eaZ0N+ycduB9eSanuqC8JLA6iVcRnVZI2d5O8hJLtUChJRtJp4ZNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nIfnUgvnL7AJDCGu42BP6KxU0+paF86x5RF6VikbUJM=;
+ b=WOV7T9IgH2/gSwo/gDgOlGMmyXQ3nWYIZ9ZPCHRE5X13A7T/2COqJwFYE45QCPPDguMqtBh2IO1XKph7EqTFlIqm0w5Z3lu8iPpiLmsz2p+9Enmq1QHCQseFhDff4ywwHeVyZ/zUHa+282AWbUqRrJ/DSoVRE7WG6fbG9yj4voSvZiOdINK/vSoyivHvWKb6IXWvOYzNZvOec6bJEuBIr6OJ1LO5J4upJARd59djLdngMR342CBm9bZKdeMycGJi7zJt1XmPodusNbI4fzAlJ17L9OE5kf7/Iym9/9/xzf00HcI19MwHbZP+I60kFxGCy6wJwKpCoPETWIkFJclBDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nIfnUgvnL7AJDCGu42BP6KxU0+paF86x5RF6VikbUJM=;
+ b=FgWJ9wkwxv8ul4qSsgcFZ1FBIao+fmm+H7T6wS+DGwJ86nDesi/YCQhwykWeW/KYP22Cz4p8VQCWN2qjQ/PWsxD+JQ42B+I329yutkzf3fKXu9B8tYbHeS0QpPgU8A8pCk5cVhzQ32CKsOrJjXbMFOnFxtF9Ks8lVSa8BQ2PHdM=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
+ by GV2PR08MB10382.eurprd08.prod.outlook.com (2603:10a6:150:b9::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Tue, 4 Jul
+ 2023 11:34:12 +0000
+Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::43b7:3a83:5cbe:4559]) by DB9PR08MB7179.eurprd08.prod.outlook.com
+ ([fe80::43b7:3a83:5cbe:4559%4]) with mapi id 15.20.6544.024; Tue, 4 Jul 2023
+ 11:34:12 +0000
+Date:   Tue, 4 Jul 2023 12:33:44 +0100
+From:   Szabolcs Nagy <szabolcs.nagy@arm.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "Xu, Pengfei" <pengfei.xu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "Schimpe, Christina" <christina.schimpe@intel.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "Torvalds, Linus" <torvalds@linux-foundation.org>,
+        "Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
+ description
+Message-ID: <ZKQDmK5nfa8xV9JM@arm.com>
+References: <ZJLgp29mM3BLb3xa@arm.com>
+ <c5ae83588a7e107beaf858ab04961e70d16fe32c.camel@intel.com>
+ <ZJQR7slVHvjeCQG8@arm.com>
+ <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
+ <ZJR545en+dYx399c@arm.com>
+ <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
+ <ZJ2sTu9QRmiWNISy@arm.com>
+ <e057de9dd9e9fe48981afb4ded4b337e8a83fabf.camel@intel.com>
+ <ZKMRFNSYQBC6S+ga@arm.com>
+ <87r0pox236.fsf@oldenburg.str.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87r0pox236.fsf@oldenburg.str.redhat.com>
+X-ClientProxiedBy: SN7PR04CA0152.namprd04.prod.outlook.com
+ (2603:10b6:806:125::7) To DB9PR08MB7179.eurprd08.prod.outlook.com
+ (2603:10a6:10:2cc::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|GV2PR08MB10382:EE_|VI1EUR03FT054:EE_|DU0PR08MB10365:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2575e2bf-3517-4122-7548-08db7c829e41
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: nBvPP1pD1a8nO3X6DnV0/UbTmQ66F3xL1qLQpj0RiCXc9ujA6Zdw9I05ChWRDJJe+gy5WokAuwTVs2+vXjehqONuW8KQtpgo8ASfWxNnIspdDCzbNECyqnl65Em3VaOCRvKiB85n+1z40/TDfH8x4NcSdkqPQzSxduMJVb0Lf37K/tCzoAU2SXd+Arbsde25kWaogi0Qdbm6luaev10BMw+1IR5uvem7VXFgEac5PFybd/AatKYupgrFOfpWwb5Id52eKz3FkKq1c2Tnvcks59EPpQHohwg8J7vwILnagXsCtbbkwRPJbobuW8i2h2dEcpA6nMDt2Y6gZls9EqBx7aKrXPCPsSrVooiFLM8yvUWW6sLNIN9HiPhakiwTvXKPxtdPyfXHurhRT7QBQbH6TPFlF5q2Sl76YIEaDGa7eMoTiMy3gcxrw1DEYEeSj6lyCSzEq4isigh0tCfrcVlmpRFLzb0zQOO0yuLhGkMXxqFxTeLKtELz3TtKQ/EOeFkvh1n5jhPL102CEJEGeU7gZVo+Is776XponzKbk0oqKsNYDT/dzQ0shzbFfyBbUB55
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(396003)(376002)(346002)(39860400002)(136003)(451199021)(66476007)(316002)(66946007)(2906002)(6916009)(66556008)(4326008)(38100700002)(6512007)(26005)(186003)(6506007)(6486002)(6666004)(478600001)(54906003)(2616005)(83380400001)(8936002)(7416002)(7406005)(5660300002)(86362001)(36756003)(44832011)(8676002)(41300700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB10382
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: VI1EUR03FT054.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 44b814ea-d6b5-412f-22f9-08db7c8296e1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9ME3poT1IClXY3U5KrxeIgTRbmlAEPnlejBwEvpab8WGUp9NjlPR+dTv4q27FQymaW3wYnBc/rfocZ0sQPVV0erCPHSGsZS5I/oyRQPD9ZL8QzETBcEhrbdJHujbVsERLbwC3Ilaf3I9jKxl5ALrOzDXxyUjqzlZ0dzoUANO4Rz3Kt9t+ADUV+tVdsBwh4eXXuBNIAxUFqh7bKn+2JNGsk2FJxO1wTUZAf21h3eP8K+KX3haj8PLdFe8hh61x2dvmQTjBiBFgwEL3Tei85NM4vfcSuFL/GA3S835K22Ua9X6y1TvxlJp59e2Gh+mzgfvN93UJqGe2GbHpXvOmQXQE1TrmwYbQWUYdD2cxmCxd1kdGG8YoZaFmIhQyFwfv5sVGOk14ll9f+g/DYV7T/Ne87JAVTnpO13gU+9AKnNfk8wvFcvutbFFIGCIiG+Xomq0Jc42OleeWPRMzZimEGNPhBWj3Pcn8YFq0UnNPMWAv0tkbio2POe9VbB7QDQSBfAwC5n6Ui5Q3f9SyauhtEXliBiq+6btB5TwFmD7mMmbcGLT80YMTW0uxR0uS1jxlaCT2dPkfBq4wVeHSoAUuuBn1djEh5MjRb1KVtOhAi1txQ/Amr9yq0f0HDkrhJLMjJZvq+YRhoA4eBtwONBR6gqnPKlQ3qgh4wgxsLhq6kelN3XdzTPILd3olhBL1EoNyXgSgHhIvp8vS+u6S8D4fs6Vad/lJ9gfLLMP1xgwoBIeEyaMJS8Nzy2oIjG6BSWfZtM5
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(39860400002)(346002)(376002)(451199021)(36840700001)(46966006)(40470700004)(44832011)(70206006)(4326008)(36756003)(450100002)(70586007)(478600001)(316002)(2906002)(8676002)(8936002)(6862004)(5660300002)(336012)(41300700001)(40460700003)(54906003)(86362001)(40480700001)(6486002)(36860700001)(6512007)(82310400005)(6666004)(6506007)(26005)(186003)(2616005)(82740400003)(83380400001)(356005)(47076005)(81166007)(107886003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2023 11:34:24.3396
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2575e2bf-3517-4122-7548-08db7c829e41
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: VI1EUR03FT054.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB10365
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 4 Jul 2023 17:45:54 +0800
-David Gow <davidgow@google.com> wrote:
-
-> (+CC Rae, for attributes/fields)
+The 07/03/2023 20:49, Florian Weimer wrote:
+> * szabolcs:
 > 
-> On Sun, 2 Jul 2023 at 15:23, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
+> >> alt shadow stack cannot be transparent to existing software anyway, it
 > >
-> > Hi Jon, Shuah & others,
-> >
-> > I'd like to discuss with you with regards to test documentation.
-> >
-> > I had some preliminary discussions with people interested on improving
-> > tests during EOSS last week in Prague, as we're working to improve media
-> > test coverage as well. During such discussions, I talked with developers
-> > from several companies that have been collaboration and/or using Kernel
-> > CI. I also talked with Nikolai from Red Hat, who gave a presentation about
-> > Kernel CI, which points that one of the areas to be improved there is
-> > documentation.
-> >
-> > So, it seems it is worth having some discussions about how to improve
-> > Kernel test documentation.
-> >  
+> > maybe not in glibc, but a libc can internally use alt shadow stack
+> > in sigaltstack instead of exposing a separate sigaltshadowstack api.
+> > (this is what a strict posix conform implementation has to do to
+> > support shadow stacks), leaking shadow stacks is not a correctness
+> > issue unless it prevents the program working (the shadow stack for
+> > the main thread likely wastes more memory than all the alt stack
+> > leaks. if the leaks become dominant in a thread the sigaltstack
+> > libc api can just fail).
 > 
-> Awesome: it'd definitely be nice to have some better documentation for
-> specific tests. While the documentation for test systems as a whole
-> seems okay (though could always do with improvement), I agree that
-> documentation for individual test suites seems to mostly be either
-> nonexistent, or exists only as unstructured text somewhere in the
-> subsystem docs (or worse, a random wiki).
-
-Yeah, we had the same problem on IGT. There are even internal
-spreadsheets with documentation. That's why I ended writing scripts
-to import from/to xls files.
-
-> I've left a few first impressions / notes below:
+> It should be possible in theory to carve out pages from sigaltstack and
+> push a shadow stack page and a guard page as part of the signal frame.
+> As far as I understand it, the signal frame layout is not ABI, so it's
+> possible to hide arbitrary stuff in it.  I'm just saying that it looks
+> possible, not that it's a good idea.
 > 
-> > While kernel_doc does a pretty decent job documenting functions and data
-> > structures, for tests, the most important things to be documented are:
-> >
-> >         a. what the tests do;
-> >         b. what functionalities they are testing.
-> >
-> > This is a lot more important than documenting functions - and the used
-> > data structures on tests are typically the ones that are part of the
-> > driver's kAPI or uAPI, so they should be documented somewhere else.
-> >
-> > Usually, (b) is not so simple, as, at least for complex hardware,
-> > the tested features are grouped on an hierarchical way, like:
-> >
-> >         1. hardware
-> >         1.1 DMA engine
-> >         1.2 output ports
-> >         ...
-> >         2. firmware
-> >         2.1 firmware load
-> >         2.2 firmware DMA actions
-> >         ...
-> >         3. kernel features
-> >         3.1 memory allocation
-> >         3.2 mmap
-> >         3.3 bind/unbind
-> >         ...
-> >
-> > CI engines running the test sets usually want to produce a report that will
-> > be providing pass rates for the tested features and functionalites that
-> > are available at the driver's and their respective hardware and firmware.
-> >
-> > I've doing some work at the tool we use to test DRM code [1] in order to
-> > have a decent documentation of the tests we have hosted there, focusing
-> > mostly on tests for i915 and Xe Intel drivers, also covering documentation
-> > for DRM core tests - while providing support for other vendors to also
-> > improve their test documentation for IGT - IGT GPU tools and tests.
-> >
-> > The documentation tool I developed is generic enough to be used for other
-> > test sets and I believe it could be useful as well to document Kselftest
-> > and KUnit.
-> >
-> > The core of the tool (at test_list.py) is a Python class, with some callers
-> > (igt_doc.py, xls_to_doc.py, doc_to_xls.py), being extensible enough to
-> > also have other callers to integrate with external tools. We are
-> > developing internally one to integrate with our internal Grafana reports
-> > to report the pass rate per documented feature, in an hierarchical way.  
-> 
-> A lot of tests/test frameworks already have some sort of hierarchy: I
-> suspect there'll be some cases where it makes sense to either
-> duplicate that, or deviate from it, but it'd be nice to reuse it where
-> it makes sense.
+> Perhaps that's not realistic with 64K pages, though.
 
-Agreed. 
+interesting idea, but it would not work transparently:
 
-> I imagine this gets more interesting as we have tests which span
-> different frameworks, or if we have tests which need to show up
-> multiple times.
+the user expects the alt stack memory to be usable as normal
+memory after longjmping out of a signal handler.
 
-Heh, true. I guess we'll need to play with it for a while to identify
-the actual issues when this happens, if any.
+this would break code in practice e.g. when a malloced alt
+stack is passed to free(), the contract there is to not
+allow changes to the underlying mapping (affects malloc
+interposition so not possible to paper over inside the
+libc malloc).
 
-> > Something similar to:
-> >
-> >         1. hardware        pass rate:  98% (98 tests passed of 100)
-> >         1.1 DMA engine     pass rate:  80% (8  tests passed of  10)
-> >         1.2 output ports   pass rate: 100% (10 tests passed of  10)
-> >         ...
-> >
-> > It is based on the concept that test documentation should be placed as
-> > close as possible to the actual code implementing the test sets. It was
-> > also be developed in a way that the documentation grouping is flexible.
-> > The code was written from the scratch in Python and was implemented
-> > inside a class that can also be re-used to do do other nice things,
-> > like importing/exporting test documentation to spreadsheets and
-> > integration with other tools (like Grafana).
-> >
-> > The actual documentation tags look like this:
-> >
-> >         /**
-> >          * TEST: Check if new IGT test documentation logic functionality is working
-> >          * Category: Software build block
-> >          * Sub-category: documentation
-> >          * Functionality: test documentation
-> >          * Issue: none
-> >          * Description: Complete description of this test
-> >          *
-> >          * SUBTEST: foo
-> >          * Description: do foo things
-> >          *      description continuing on another line
-> >          *
-> >          * SUBTEST: bar
-> >          * Description: do bar things
-> >          *      description continuing on another line
-> >          * Functionality: bar test doc
-> >          */  
-> 
-> How would these test/subtest names fit with, e.g., KUnit test/suite
-> names? Would we want to require them to be the same, in which case can
-> we parse them from the actual test declarations? Or would tests end up
-> with multiple names?
+so signal entry cannot change the mappings of alt stack.
 
-It probably makes sense to rename the above tags to match KUnit 
-test/suite. 
-
-On IGT, we actually have a third level. There, we're using "@" to
-go down to the third level, so we have things like:
-
-	SUBTEST: perf@blt
-	SUBTEST: perf@engine_cs
-
-For the extra level. From my side, I'm not a big fan of using "@",
-as it can be problematic with some GUIs (like git??b), as this
-can be used as "@someone".
-
-Perhaps we could use "/" or some other separator when upstreaming it.
-> 
-> >
-> > And it has support for wildcards.
-> >
-> > There, "TEST" is associated to the contents of the file, while "SUBTEST"
-> > refers to each specific subtest inside it. The valid fields are imported
-> > from JSON config files, and can be placed into an hierarchical way, in
-> > order to produce an hierarchical documentation. Fields defined at the
-> > "TEST" level are imported on "SUBTEST", but can be overriden.  
-> 
-> If we assume that for KUnit, TEST == suite and SUBTEST == test, we hit
-> the small issue that there can be multiple test suites per file.
-> Ideally, we'd support a more arbitrary hierarchy here.
-
-The tool actually allows multiple TEST tags at the same file. On
-IGT, the convention was to use just one per file to make things
-simpler.
-
-For KUnit, we should probably name the tags as "SUITE" and "TEST".
-
-> >
-> > The JSON config file looks like this:
-> >         https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/158feaa20fa2b9424ee544efd2e0e0892562f8f0/tests/xe/xe_test_config.json  
-> 
-> We're looking into having support for some level of test metadata in
-> both KTAPv2[1] and KUnit[2], which might be an interesting point of
-> comparison. (Things like inheritence work similarly.)
-
-Interesting. IMO, IGT's past experiences of having test metadata placed
-at the code was not great, as people often forgets about it when
-writing, modifying or reviewing the code.
-
-For IGT, the code has some logic to validate that everything is
-documented. This is specific to IGT, but we could come up with
-something similar for KUnit.
-
-> The advantages of having some of these fields being stored as a part
-> of the test itself include having more self-descriptive results (being
-> more readable without the source code / docs open) and the ability to
-> filter test runs based on these fields.
-
-Yes. The tool already has some logic to filter tests based at the
-fields and/or to order them based on one field.
-
-> I'd be really interested in working out what sorts of
-> fields/attributes would be useful, too. I'm sure there'd be a lot of
-> "general" ones, which it'd be nice to keep consistent across different
-> subsystems. Though per-subsystem attributes are also really
-> interesting: it'd be great if we could easily have tooling filter
-> tests by "needs this GPU" or similar.
-
-Heh, we do have a field on IGT for such purpose :-)
-
-On our TODO list is to have a way to check for consistency. It shouldn't
-be hard to add, but maintaining a list of acceptable values is a different
-history.
-
-> >
-> > The output is in ReST, which can be generated in hierarchical or per-file
-> > way. The hierarchical output looks like this:
-> >
-> >         $ ./scripts/igt_doc.py --config tests/xe/xe_test_config.json --file fubar_tests.c
-> >
-> >         ===============================
-> >         Implemented Tests for Xe Driver
-> >         ===============================
-> >
-> >         Category: Software build block
-> >         ==============================
-> >
-> >         Sub-category: documentation
-> >         ---------------------------
-> >
-> >         Functionality: bar test doc
-> >         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >
-> >
-> >         ``igt@fubar_tests@bar``
-> >
-> >         :Description: do bar things description continuing on another line
-> >         :Issue: none
-> >
-> >         Functionality: test documentation
-> >         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >
-> >
-> >         ``igt@fubar_tests@foo``
-> >
-> >         :Description: do foo things description continuing on another line
-> >         :Issue: none
-> >
-> > (if --file is not used, it will use all C files specified at the
-> > configuration)
-> >
-> > The tool already skips tags like the ones used by kernel-doc[1], so one
-> > could have both function documentation and per-test documentation on
-> > the same file, if needed.
-> >
-> > While such tool was conceived to be part of IGT, it doesn't have anything
-> > specific for it [2], and I do believe it would be a great contribution to
-> > the Kernel to have such tool upstreamed, and integrated as a Sphinx
-> > extension.
-> >
-> > If we decide to go ahead adding it, I can work on a patchset to apply
-> > it to the Kernel, modifying the scripts to better fit at the Kernel
-> > needs and start with some documentation examples for i915,
-> > DRM core and upcoming Xe KUnit tests.
-> >
-> > Comments?  
-> 
-> I like the idea overall, but do feel it'd be nice to integrate enough
-> with the various test systems to avoid any rough edges where things
-> like test layout crash, or we end up with too much duplication of
-> features.
-
-Agreed.
-
-> That being said, I'd rather have a bit of redundancy and a few
-> mismatches if it keeps this simple and more easily used with arbitrary
-> test systems.
-
-Yeah, I'd like to keep the tool generic enough to be used with different
-test tools. Perhaps we could have a "basic" class with common features,
-and then move things that are specific to integration with test suites 
-(so, inherited classes for IGT, Kernel, Kernel CI, ...).
-
-Regards,
-Mauro
+i think kernel internal alt shadow stack allocation works
+in practice where their lifetime is the same as the thread
+lifetime. it is sketchy as os interface but doing it in
+userspace should be fine i think (it's policy what kind of
+sigaltstack usage is allowed). the kernel is easier in the
+sense that if there is actual sigreturn then the alt shadow
+stack can be freed, while libc cannot catch this case (at
+least not easily). leaked shadow stack can also have
+security implication but reuse of old alt shadow stack
+sounds like a minor issue in practice.
