@@ -2,131 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C3BEB64D9
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 07:13:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F167BEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 07:48:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjGDHNY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 03:13:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
+        id S231546AbjGDHsd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 03:48:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbjGDHNX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 03:13:23 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF543130;
-        Tue,  4 Jul 2023 00:13:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1688454802; x=1719990802;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3R780gSrSJ9nAhXyLdyPKWWj43EVLHOBBiNKAgvxGrU=;
-  b=xPW1IBOORPmY3AuH7XsIYwZRSENfZZUi9dRsE800lejI+z7DiDjMLfx9
-   IUTXAiVKfSHQ+7NV3wMjOhePoG4OlcxXtqhTHytbLsaXWakwQrlkIS3Q4
-   uxYBBAmS/gWYJwZq8DTIMYkuq+NWolEcbTmb8vQIqHqI4ABzAz8aNOBNb
-   sMi04JZHGfR4xram/dOvPB1EP2Ph8yOv8j2zmquNSyYcScqJw5LuX4KsH
-   CMQzSRzfWgiqlR8EJv73wJdKnHhq+Bl79ezYm1l52yuEoVpg5QYXwpuLr
-   BtGicCDG5FUBb1+RNfzDFID7tAmgb7l06I1Zxe8yAu4oKIFouB2LmhwYE
-   g==;
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="asc'?scan'208";a="221180429"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 04 Jul 2023 00:13:21 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 4 Jul 2023 00:13:21 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Tue, 4 Jul 2023 00:13:18 -0700
-Date:   Tue, 4 Jul 2023 08:12:49 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     <palmer@dabbelt.com>
-CC:     <conor@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Evan Green <evan@rivosinc.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: [PATCH v3 11/11] RISC-V: provide Kconfig & commandline options
- to control parsing "riscv,isa"
-Message-ID: <20230704-surely-defective-c55f6341127c@wendy>
-References: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
- <20230703-greedy-dividable-251fa2b809ac@wendy>
+        with ESMTP id S231649AbjGDHsQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 03:48:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FB8310C1;
+        Tue,  4 Jul 2023 00:47:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 31AC86116F;
+        Tue,  4 Jul 2023 07:47:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C39BEC433C8;
+        Tue,  4 Jul 2023 07:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688456878;
+        bh=BCxbBhFB2fnEQ3pj32Jfe5AEZv8PluDo4D3PXB5YwjU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VSAy8yxR/eorq8EuqoYe3jaj5zC5NTbuXA6V0wUvh6CfyRJJt0Q+oyZfhzuTrfoOP
+         IhlNLxx8OgQlQoVb/fVdj/wU69AO1MOWzX/bCE7wwXuIYAglABM313BEjR8rgETE/R
+         7RkYl7gOVumDLTWGKCqLDJSPz5q9NkYGh928ZJpU2jvRs63BnYvqOp/E9RtyxgRwPs
+         9Ky5QxZRDOzfN/Rn95QtJnGZmFHKIIDTXMATMzTCDNncSk1ZnoUIJE4hLD9ppfce5x
+         56UegCwBrFiMsaLphC7UhNPUiCRCmFCHtf9UIQCM5neTda3wpulhxCKVVL6cYhllBO
+         gCVSMlHlbvejQ==
+From:   Christian Brauner <brauner@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Christian Brauner <brauner@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] libfs: fix table format warning
+Date:   Tue,  4 Jul 2023 09:47:51 +0200
+Message-Id: <20230704-yacht-pfeffer-567bbd67d7f7@brauner>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230704044643.8622-1-rdunlap@infradead.org>
+References: <20230704044643.8622-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="M4y9ClbXh4dwVo7F"
-Content-Disposition: inline
-In-Reply-To: <20230703-greedy-dividable-251fa2b809ac@wendy>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1194; i=brauner@kernel.org; h=from:subject:message-id; bh=BCxbBhFB2fnEQ3pj32Jfe5AEZv8PluDo4D3PXB5YwjU=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQsPjdvSWlg+3/psg7d0KhEhbXq1/guaPrESu1ncCvMebny nMyUjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkcs2dkuMRa82TOaeYa/yv2CTqZ7C HJUgf2PP70/Wcx70flrOnhHAz/a7hdftkW+NxbsfW4kLZZfuWPeZ0i84ttd/+atNfq1/mHfAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---M4y9ClbXh4dwVo7F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 03 Jul 2023 21:46:43 -0700, Randy Dunlap wrote:
+> Drop the unnecessary colon to make the table formatting correct.
+> The colons are not needed and this file uses them sometimes and
+> doesn't at other times. Generally they are not preferred in
+> documentation tables IMO.
+> 
+> Also extend the table line widths to match the table text.
+> 
+> [...]
 
-On Mon, Jul 03, 2023 at 11:28:03AM +0100, Conor Dooley wrote:
-> As it says on the tin, provide Kconfig option to control parsing the
-> "riscv,isa" devicetree property. If either option is used, the kernel
-> will fall back to parsing "riscv,isa", where "riscv,isa-base" and
-> "riscv,isa-extensions" are not present.
-> The Kconfig options are set up so that the default kernel configuration
-> will enable the fallback path, without needing the commandline option.
->=20
-> Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-> Suggested-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
-> Changes in v3:
-> - Invert the Kconfig entry. It's now default y & not hidden by
->   NONPORTABLE, but its entablement will now activate the fallback
-> - Add a commandline option to enable the fallback on kernels that do not
->   enable it in Kconfig, as Drew suggested
-> - Default the global var to the Kconfig option & override it with the
->   commandline one, rather than have checks for IS_ENABLED() and for the
->   commandline option in riscv_fill_hwcap() &
->   riscv_early_of_processor_hartid()
+I've folded this fix into Chuck's series. Thanks!
 
-My own bot reports a build failure for nommu, because of section
-mismatches. riscv_early_of_processor_hartid() needs a dose of __init:
+---
 
-diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-index 1acf3679600d..208f1a700121 100644
---- a/arch/riscv/kernel/cpu.c
-+++ b/arch/riscv/kernel/cpu.c
-@@ -41,7 +41,7 @@ int riscv_of_processor_hartid(struct device_node *node, u=
-nsigned long *hart)
- 	return 0;
- }
-=20
--int riscv_early_of_processor_hartid(struct device_node *node, unsigned lon=
-g *hart)
-+int __init riscv_early_of_processor_hartid(struct device_node *node, unsig=
-ned long *hart)
- {
- 	const char *isa;
-=20
-Good aul nommu build, always the one that catches stuff :)
+Applied to the vfs.readdir branch of the vfs/vfs.git tree.
+Patches in the vfs.readdir branch should appear in linux-next soon.
 
---M4y9ClbXh4dwVo7F
-Content-Type: application/pgp-signature; name="signature.asc"
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
------BEGIN PGP SIGNATURE-----
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKPGXQAKCRB4tDGHoIJi
-0rg5AP9PY2fBP1Bcb1QnerRLwimjm13N3bl6EFsys6XQFXHKGgEA1IWYAyQyJYZo
-ePxSXe208Sl91eEjos5oE0IwX0ipbgQ=
-=YbUb
------END PGP SIGNATURE-----
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
---M4y9ClbXh4dwVo7F--
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.readdir
+
+[1/1] libfs: Add directory operations for stable offsets
+      https://git.kernel.org/vfs/vfs/c/2b1732fc0a7c
