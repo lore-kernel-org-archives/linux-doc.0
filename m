@@ -2,183 +2,229 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F71CEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 02:39:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E2FEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 02:55:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230287AbjGDCjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 22:39:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37416 "EHLO
+        id S230129AbjGDCzE convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 22:55:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjGDCjl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 22:39:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F39C3196;
-        Mon,  3 Jul 2023 19:39:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S229621AbjGDCzD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 22:55:03 -0400
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC87EE47
+        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 19:55:01 -0700 (PDT)
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-550-wHWhqlMSPwm3HmExVeIYhQ-1; Mon, 03 Jul 2023 22:53:33 -0400
+X-MC-Unique: wHWhqlMSPwm3HmExVeIYhQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8933161121;
-        Tue,  4 Jul 2023 02:39:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC85EC433C8;
-        Tue,  4 Jul 2023 02:39:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688438380;
-        bh=tXZp+ReqzLA3RemNoEBo2LjLWj/e/XELTtoc5i/BBic=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=R2EeYhz6t0R+bVU1qrbDTq/R3OYi5EPzXEM/loAnBrwmzojywsmNdLCZvvR9TlQ/e
-         GUaxFkqwhLTMr4sTJ9BcwP0Vfo2z/JnghXvpheQf4upJMJVEqJNUEd16FKaghhoxK2
-         ccVQEtzcm2C9S9hNPV7lNeXbJJGQoLKNX+pM2TDw32b8gTKgMEwB6u1oYcYj6lUDd6
-         EbMWoz+xQmoz5IkMRMwgfP6PuarxSIhvsym7c2XnD3lXy2T0/dyWAcSTW1f5BgHPYt
-         Kt5EB6nO3maJTOD9NSVCQY5hmpZfDykpFNcZ9/HK48r8Ve4KssIPubgSNOz/5uuIQR
-         +xPMoZJ0WZPAg==
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fb4146e8fcso43712175e9.0;
-        Mon, 03 Jul 2023 19:39:39 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzCFU9nhfz9JYa48p0VfInhJ2UO6Y0r7ObLticmnFWxsipY7JVK
-        lheN6PIspzuubPB7mqhF1yoPnCDtgPPNztDVt28=
-X-Google-Smtp-Source: ACHHUZ7Sgf2kFqoO4n7yD8cxYDyMwazc0GyX/ssIDgmJNp6qshBxWDrkQ8kh6xbzdlEVHkpMho95UtHTksFMkene+rk=
-X-Received: by 2002:a05:600c:ad4:b0:3fb:a506:5626 with SMTP id
- c20-20020a05600c0ad400b003fba5065626mr10492684wmr.1.1688438378265; Mon, 03
- Jul 2023 19:39:38 -0700 (PDT)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F4241C29AE0;
+        Tue,  4 Jul 2023 02:53:32 +0000 (UTC)
+Received: from nomad.redhat.com (vpn2-54-59.bne.redhat.com [10.64.54.59])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 467D740C6CD0;
+        Tue,  4 Jul 2023 02:53:30 +0000 (UTC)
+From:   Dave Airlie <airlied@gmail.com>
+To:     dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org
+Cc:     Dave Airlie <airlied@redhat.com>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Subject: [PATCH 1/2] docs: module: start adding some docs for MODULE_ macros.
+Date:   Tue,  4 Jul 2023 12:50:49 +1000
+Message-ID: <20230704025322.2623556-2-airlied@gmail.com>
+In-Reply-To: <20230704025322.2623556-1-airlied@gmail.com>
+References: <20230704025322.2623556-1-airlied@gmail.com>
 MIME-Version: 1.0
-References: <20230701171138.1491206-1-chenjiahao16@huawei.com>
- <CAJF2gTSPaBvB_CsmN5m91AVXwXB37j2qvyCP3VqALxHwNcGeTg@mail.gmail.com> <b338a366-2cc3-870e-aee6-d55999ab14b5@huawei.com>
-In-Reply-To: <b338a366-2cc3-870e-aee6-d55999ab14b5@huawei.com>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Tue, 4 Jul 2023 10:39:26 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRu8EQR-E1C4_gAj9JFDh2hd3WpprzVssGf+KzTZc5qOw@mail.gmail.com>
-Message-ID: <CAJF2gTRu8EQR-E1C4_gAj9JFDh2hd3WpprzVssGf+KzTZc5qOw@mail.gmail.com>
-Subject: Re: [PATCH -next v6 0/2] support allocating crashkernel above 4G
- explicitly on riscv
-To:     "chenjiahao (C)" <chenjiahao16@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        conor.dooley@microchip.com, heiko@sntech.de, bjorn@rivosinc.com,
-        alex@ghiti.fr, akpm@linux-foundation.org, atishp@rivosinc.com,
-        bhe@redhat.com, thunder.leizhen@huawei.com, horms@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 3, 2023 at 9:07=E2=80=AFPM chenjiahao (C) <chenjiahao16@huawei.=
-com> wrote:
->
->
-> On 2023/7/1 21:45, Guo Ren wrote:
-> > On Sat, Jul 1, 2023 at 5:12=E2=80=AFPM Chen Jiahao <chenjiahao16@huawei=
-.com> wrote:
-> >> On riscv, the current crash kernel allocation logic is trying to
-> >> allocate within 32bit addressible memory region by default, if
-> >> failed, try to allocate without 4G restriction.
-> >>
-> >> In need of saving DMA zone memory while allocating a relatively large
-> >> crash kernel region, allocating the reserved memory top down in
-> >> high memory, without overlapping the DMA zone, is a mature solution.
-> >> Hence this patchset introduces the parameter option crashkernel=3DX,[h=
-igh,low].
-> >>
-> >> One can reserve the crash kernel from high memory above DMA zone range
-> >> by explicitly passing "crashkernel=3DX,high"; or reserve a memory rang=
-e
-> >> below 4G with "crashkernel=3DX,low". Besides, there are few rules need
-> >> to take notice:
-> >> 1. "crashkernel=3DX,[high,low]" will be ignored if "crashkernel=3Dsize=
-"
-> >>     is specified.
-> >> 2. "crashkernel=3DX,low" is valid only when "crashkernel=3DX,high" is =
-passed
-> >>     and there is enough memory to be allocated under 4G.
-> >> 3. When allocating crashkernel above 4G and no "crashkernel=3DX,low" i=
-s
-> >>     specified, a 128M low memory will be allocated automatically for
-> >>     swiotlb bounce buffer.
-> >> See Documentation/admin-guide/kernel-parameters.txt for more informati=
-on.
-> >>
-> >> To verify loading the crashkernel, adapted kexec-tools is attached bel=
-ow:
-> >> https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
-> >>
-> >> Following test cases have been performed as expected:
-> >> 1) crashkernel=3D256M                          //low=3D256M
-> >> 2) crashkernel=3D1G                            //low=3D1G
-> > Have you tried 1GB memory? we found a pud mapping problem on Sv39 of ke=
-xec, See:
-> > https://lore.kernel.org/linux-riscv/20230629082032.3481237-1-guoren@ker=
-nel.org/
->
-> I have tested on QEMU with sv57 mmu, so it seems the synchronization prob=
-lem
-> was not reproduce when reserving 1G memory and loading the capture kernel=
-.
-Yes, the pud of sv57 is not the pgd entries, so you didn't get problem.
+From: Dave Airlie <airlied@redhat.com>
 
->
->
-> Thanks,
-> Jiahao
->
-> >
-> >> 3) crashkernel=3D4G                            //high=3D4G, low=3D128M=
-(default)
-> >> 4) crashkernel=3D4G crashkernel=3D256M,high      //high=3D4G, low=3D12=
-8M(default), high is ignored
-> >> 5) crashkernel=3D4G crashkernel=3D256M,low       //high=3D4G, low=3D12=
-8M(default), low is ignored
-> >> 6) crashkernel=3D4G,high                       //high=3D4G, low=3D128M=
-(default)
-> >> 7) crashkernel=3D256M,low                      //low=3D0M, invalid
-> >> 8) crashkernel=3D4G,high crashkernel=3D256M,low  //high=3D4G, low=3D25=
-6M
-> >> 9) crashkernel=3D4G,high crashkernel=3D4G,low    //high=3D0M, low=3D0M=
-, invalid
-> >> 10) crashkernel=3D512M@0xd0000000              //low=3D512M
-> >>
-> >> Changes since [v6]:
-> >> 1. Introduce the "high" flag to mark whether "crashkernel=3DX,high"
-> >>     is passed. Fix the retrying logic between "crashkernel=3DX,high"
-> >>     case and others when the first allocation attempt fails.
-> >>
-> >> Changes since [v5]:
-> >> 1. Update the crashkernel allocation logic when crashkernel=3DX,high
-> >>     is specified. In this case, region above 4G will directly get
-> >>     reserved as crashkernel, rather than trying lower 32bit allocation
-> >>     first.
-> >>
-> >> Changes since [v4]:
-> >> 1. Update some imprecise code comments for cmdline parsing.
-> >>
-> >> Changes since [v3]:
-> >> 1. Update to print warning and return explicitly on failure when
-> >>     crashkernel=3Dsize@offset is specified. Not changing the result
-> >>     in this case but making the logic more straightforward.
-> >> 2. Some minor cleanup.
-> >>
-> >> Changes since [v2]:
-> >> 1. Update the allocation logic to ensure the high crashkernel
-> >>     region is reserved strictly above dma32_phys_limit.
-> >> 2. Clean up some minor format problems.
-> >>
-> >> Chen Jiahao (2):
-> >>    riscv: kdump: Implement crashkernel=3DX,[high,low]
-> >>    docs: kdump: Update the crashkernel description for riscv
-> >>
-> >>   .../admin-guide/kernel-parameters.txt         | 15 ++--
-> >>   arch/riscv/kernel/setup.c                     |  5 ++
-> >>   arch/riscv/mm/init.c                          | 84 +++++++++++++++++=
---
-> >>   3 files changed, 90 insertions(+), 14 deletions(-)
-> >>
-> >> --
-> >> 2.34.1
-> >>
-> >
+In order to add a new macro, Luis suggested converting some docs
+for the new ones.
 
+This tries to keep exisiting module_init, module_exit where they are,
+and adds the new docs to the module section.
 
+Cc: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Luis Chamberlain <mcgrof@kernel.org>
+Cc: linux-modules@vger.kernel.org
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ Documentation/core-api/kernel-api.rst |  3 ++
+ Documentation/driver-api/basics.rst   |  2 +-
+ include/linux/module.h                | 76 ++++++++++++++++++---------
+ 3 files changed, 54 insertions(+), 27 deletions(-)
 
---=20
-Best Regards
- Guo Ren
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+index 9b3f3e5f5a95..5079e48dd58c 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -226,6 +226,9 @@ Kernel module auto-loading
+ .. kernel-doc:: kernel/module/kmod.c
+    :export:
+ 
++.. kernel-doc:: include/linux/module.h
++   :no-identifiers: module_init module_exit klp_modinfo
++
+ Module debugging
+ ----------------
+ 
+diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+index 4b4d8e28d3be..fea42d6cad80 100644
+--- a/Documentation/driver-api/basics.rst
++++ b/Documentation/driver-api/basics.rst
+@@ -5,7 +5,7 @@ Driver Entry and Exit points
+ ----------------------------
+ 
+ .. kernel-doc:: include/linux/module.h
+-   :internal:
++   :identifiers: module_init module_exit
+ 
+ Driver device table
+ -------------------
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 9e56763dff81..b255db33b40f 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -183,23 +183,27 @@ extern void cleanup_module(void);
+ #define MODULE_FILE	MODULE_INFO(file, KBUILD_MODFILE);
+ #endif
+ 
+-/*
++/**
++ * MODULE_LICENSE - module license
++ * @_license: license covering this module.
++ *
+  * The following license idents are currently accepted as indicating free
+  * software modules
+  *
+- *	"GPL"				[GNU Public License v2]
+- *	"GPL v2"			[GNU Public License v2]
+- *	"GPL and additional rights"	[GNU Public License v2 rights and more]
+- *	"Dual BSD/GPL"			[GNU Public License v2
+- *					 or BSD license choice]
+- *	"Dual MIT/GPL"			[GNU Public License v2
+- *					 or MIT license choice]
+- *	"Dual MPL/GPL"			[GNU Public License v2
+- *					 or Mozilla license choice]
++ *    "GPL"                        [GNU Public License v2]
+  *
+- * The following other idents are available
++ *    "GPL v2"                     [GNU Public License v2]
+  *
+- *	"Proprietary"			[Non free products]
++ *    "GPL and additional rights"  [GNU Public License v2 rights and more]
++ *
++ *    "Dual BSD/GPL"               [GNU Public License v2 or BSD license choice]
++ *
++ *    "Dual MIT/GPL"               [GNU Public License v2 or MIT license choice]
++ *
++ *    "Dual MPL/GPL"               [GNU Public License v2 or Mozilla license choice]
++ *
++ * The following other idents are available
++ *    "Proprietary"                [Non free products]
+  *
+  * Both "GPL v2" and "GPL" (the latter also in dual licensed strings) are
+  * merely stating that the module is licensed under the GPL v2, but are not
+@@ -222,20 +226,26 @@ extern void cleanup_module(void);
+  * is a GPL combined work.
+  *
+  * This exists for several reasons
+- * 1.	So modinfo can show license info for users wanting to vet their setup
+- *	is free
++ *
++ * 1.	So modinfo can show license info for users wanting to vet their setup is free
++ *
+  * 2.	So the community can ignore bug reports including proprietary modules
++ *
+  * 3.	So vendors can do likewise based on their own policies
+  */
+ #define MODULE_LICENSE(_license) MODULE_FILE MODULE_INFO(license, _license)
+ 
+-/*
+- * Author(s), use "Name <email>" or just "Name", for multiple
+- * authors use multiple MODULE_AUTHOR() statements/lines.
++/**
++ * MODULE_AUTHOR - Module author
++ * @_author: Author(s), use "Name <email>" or just "Name", for multiple
++ *           authors use multiple MODULE_AUTHOR() statements/lines.
+  */
+ #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
+ 
+-/* What your module does. */
++/**
++ * MODULE_DESCRIPTION - Module description
++ * @_description: What your module does.
++ */
+ #define MODULE_DESCRIPTION(_description) MODULE_INFO(description, _description)
+ 
+ #ifdef MODULE
+@@ -247,19 +257,23 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
+ #define MODULE_DEVICE_TABLE(type, name)
+ #endif
+ 
+-/* Version of form [<epoch>:]<version>[-<extra-version>].
++/**
++ * MODULE_VERSION: version of module
++ * @_version: version in the form below
++ *
++ * Version of form [<epoch>:]<version>[-<extra-version>].
+  * Or for CVS/RCS ID version, everything but the number is stripped.
+  * <epoch>: A (small) unsigned integer which allows you to start versions
+  * anew. If not mentioned, it's zero.  eg. "2:1.0" is after
+  * "1:2.0".
+-
++ *
+  * <version>: The <version> may contain only alphanumerics and the
+- * character `.'.  Ordered by numeric sort for numeric parts,
++ * character '.'.  Ordered by numeric sort for numeric parts,
+  * ascii sort for ascii parts (as per RPM or DEB algorithm).
+-
++ *
+  * <extraversion>: Like <version>, but inserted for local
+  * customizations, eg "rh3" or "rusty1".
+-
++ *
+  * Using this automatically adds a checksum of the .c files and the
+  * local headers in "srcversion".
+  */
+@@ -285,11 +299,21 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
+ 		}
+ #endif
+ 
+-/* Optional firmware file (or files) needed by the module
+- * format is simply firmware file name.  Multiple firmware
+- * files require multiple MODULE_FIRMWARE() specifiers */
++/**
++ * MODULE_FIRMWARE - Optional firmware files needed by the module
++ * @_firmware: firmware file name
++ *
++ * Multiple firmware files require multiple MODULE_FIRMWARE() specifiers.
++ */
+ #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
+ 
++/**
++ * MODULE_IMPORT_NS - Set the symbol namespace for the module.
++ * @ns: symbol namespace to import the module into.
++ *
++ * This adds a modinfo tag 'import_ns' to the module. This is observed
++ * by userspace at module loading time.
++ */
+ #define MODULE_IMPORT_NS(ns)	MODULE_INFO(import_ns, __stringify(ns))
+ 
+ struct notifier_block;
+-- 
+2.41.0
+
