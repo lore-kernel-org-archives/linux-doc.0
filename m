@@ -2,185 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9218EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 02:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F71CEB64DC
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 02:39:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbjGDCck (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 22:32:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35842 "EHLO
+        id S230287AbjGDCjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 22:39:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230137AbjGDCcj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 22:32:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09C9184
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 19:31:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688437917;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9ted07POMAjXkCxr60JUuoQPLiHenYB1eh+ROZj9qTg=;
-        b=eEA2ovIZXrTjmcEuZJ9C1Do/pJVCrjNROJpEtplOnvWx7WpEfatVoEjeIILmTkfu+G+JJU
-        WsMoXUU7njZjXRPKwc4AWUzAoDNnAWQ/znfsasCQFQTDzTF4cWURcA44LlHJ/1ajjKv+cz
-        TF/l/LDx2tmUcUbgxMHUmZDIGC2n7PY=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-361-JTVF2xCIPgW3zsE0dJZ6yQ-1; Mon, 03 Jul 2023 22:31:55 -0400
-X-MC-Unique: JTVF2xCIPgW3zsE0dJZ6yQ-1
-Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2b6f51e170fso1646121fa.2
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 19:31:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688437911; x=1691029911;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9ted07POMAjXkCxr60JUuoQPLiHenYB1eh+ROZj9qTg=;
-        b=OUwFn+YWYJF//hxXXO0n8eI0HsKOL2Z7GiGYR8UJG/BDbZ4q0qwofJt+L0YunvJp8u
-         GyHH2EajeyA+VlVjCLbxrcZGVOa4tvoVnIiIstQmeULyxcS9E+SBc7tmGES4wA6D9EUJ
-         BF73a8KPpR9g6tdD7Mkt79zXiiheU/2kEYIxbBTT8ILi5zdpYIRhakZLjhwWqqyPeUVX
-         JlhVG2HTncyCi/kQ8ScZ0OC4sy5VtDto7ach8HFd3cvNjJ62AEijoVHhfDVPOytEOpGs
-         gDCfwNDj0lu46KjCkJAYF1XwHqPsHRCxu70jKPqIdps/vAKC0xGcbC9h+H9IMDfXNBDz
-         hDYA==
-X-Gm-Message-State: ABy/qLZt3CGFvqOhqbyflg+OEMH0LIQ7n8pCPnpQ3gv08AlEnhDUhQMF
-        fPNpwsDDKZUZgFE1tYmSdmRSqZ61VAzRKFdZrc2Mj6bnqH6+5THEEXX+m8dA7gSZF1zWSjou9w/
-        1ZR3bD49Qk0L2rD2Eix2TQGJ84ZaNWrYJfey1
-X-Received: by 2002:a2e:b165:0:b0:2b6:de59:1ba4 with SMTP id a5-20020a2eb165000000b002b6de591ba4mr5146446ljm.20.1688437911780;
-        Mon, 03 Jul 2023 19:31:51 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEankywN0m0pyVhlEKLjGH/ScUvE8FF66a/JMtbnyvq6ch5zE2f6KfMC9jixVttfTAnoEWdGkjeni0rrC1He1g=
-X-Received: by 2002:a2e:b165:0:b0:2b6:de59:1ba4 with SMTP id
- a5-20020a2eb165000000b002b6de591ba4mr5146438ljm.20.1688437911506; Mon, 03 Jul
- 2023 19:31:51 -0700 (PDT)
+        with ESMTP id S229591AbjGDCjl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 22:39:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F39C3196;
+        Mon,  3 Jul 2023 19:39:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8933161121;
+        Tue,  4 Jul 2023 02:39:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC85EC433C8;
+        Tue,  4 Jul 2023 02:39:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688438380;
+        bh=tXZp+ReqzLA3RemNoEBo2LjLWj/e/XELTtoc5i/BBic=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=R2EeYhz6t0R+bVU1qrbDTq/R3OYi5EPzXEM/loAnBrwmzojywsmNdLCZvvR9TlQ/e
+         GUaxFkqwhLTMr4sTJ9BcwP0Vfo2z/JnghXvpheQf4upJMJVEqJNUEd16FKaghhoxK2
+         ccVQEtzcm2C9S9hNPV7lNeXbJJGQoLKNX+pM2TDw32b8gTKgMEwB6u1oYcYj6lUDd6
+         EbMWoz+xQmoz5IkMRMwgfP6PuarxSIhvsym7c2XnD3lXy2T0/dyWAcSTW1f5BgHPYt
+         Kt5EB6nO3maJTOD9NSVCQY5hmpZfDykpFNcZ9/HK48r8Ve4KssIPubgSNOz/5uuIQR
+         +xPMoZJ0WZPAg==
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fb4146e8fcso43712175e9.0;
+        Mon, 03 Jul 2023 19:39:39 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzCFU9nhfz9JYa48p0VfInhJ2UO6Y0r7ObLticmnFWxsipY7JVK
+        lheN6PIspzuubPB7mqhF1yoPnCDtgPPNztDVt28=
+X-Google-Smtp-Source: ACHHUZ7Sgf2kFqoO4n7yD8cxYDyMwazc0GyX/ssIDgmJNp6qshBxWDrkQ8kh6xbzdlEVHkpMho95UtHTksFMkene+rk=
+X-Received: by 2002:a05:600c:ad4:b0:3fb:a506:5626 with SMTP id
+ c20-20020a05600c0ad400b003fba5065626mr10492684wmr.1.1688438378265; Mon, 03
+ Jul 2023 19:39:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230703175329.3259672-1-i.maximets@ovn.org>
-In-Reply-To: <20230703175329.3259672-1-i.maximets@ovn.org>
-From:   Jason Wang <jasowang@redhat.com>
-Date:   Tue, 4 Jul 2023 10:31:39 +0800
-Message-ID: <CACGkMEs1WyKwSuE2H0bkYigjhqHYJy6pPGnQLjWgOFt9+89hJA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next] xsk: honor SO_BINDTODEVICE on bind
-To:     Ilya Maximets <i.maximets@ovn.org>
-Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20230701171138.1491206-1-chenjiahao16@huawei.com>
+ <CAJF2gTSPaBvB_CsmN5m91AVXwXB37j2qvyCP3VqALxHwNcGeTg@mail.gmail.com> <b338a366-2cc3-870e-aee6-d55999ab14b5@huawei.com>
+In-Reply-To: <b338a366-2cc3-870e-aee6-d55999ab14b5@huawei.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Tue, 4 Jul 2023 10:39:26 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTRu8EQR-E1C4_gAj9JFDh2hd3WpprzVssGf+KzTZc5qOw@mail.gmail.com>
+Message-ID: <CAJF2gTRu8EQR-E1C4_gAj9JFDh2hd3WpprzVssGf+KzTZc5qOw@mail.gmail.com>
+Subject: Re: [PATCH -next v6 0/2] support allocating crashkernel above 4G
+ explicitly on riscv
+To:     "chenjiahao (C)" <chenjiahao16@huawei.com>
+Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        conor.dooley@microchip.com, heiko@sntech.de, bjorn@rivosinc.com,
+        alex@ghiti.fr, akpm@linux-foundation.org, atishp@rivosinc.com,
+        bhe@redhat.com, thunder.leizhen@huawei.com, horms@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 4, 2023 at 1:53=E2=80=AFAM Ilya Maximets <i.maximets@ovn.org> w=
-rote:
+On Mon, Jul 3, 2023 at 9:07=E2=80=AFPM chenjiahao (C) <chenjiahao16@huawei.=
+com> wrote:
 >
-> Initial creation of an AF_XDP socket requires CAP_NET_RAW capability.
-> A privileged process might create the socket and pass it to a
-> non-privileged process for later use.  However, that process will be
-> able to bind the socket to any network interface.  Even though it will
-> not be able to receive any traffic without modification of the BPF map,
-> the situation is not ideal.
 >
-> Sockets already have a mechanism that can be used to restrict what
-> interface they can be attached to.  That is SO_BINDTODEVICE.
+> On 2023/7/1 21:45, Guo Ren wrote:
+> > On Sat, Jul 1, 2023 at 5:12=E2=80=AFPM Chen Jiahao <chenjiahao16@huawei=
+.com> wrote:
+> >> On riscv, the current crash kernel allocation logic is trying to
+> >> allocate within 32bit addressible memory region by default, if
+> >> failed, try to allocate without 4G restriction.
+> >>
+> >> In need of saving DMA zone memory while allocating a relatively large
+> >> crash kernel region, allocating the reserved memory top down in
+> >> high memory, without overlapping the DMA zone, is a mature solution.
+> >> Hence this patchset introduces the parameter option crashkernel=3DX,[h=
+igh,low].
+> >>
+> >> One can reserve the crash kernel from high memory above DMA zone range
+> >> by explicitly passing "crashkernel=3DX,high"; or reserve a memory rang=
+e
+> >> below 4G with "crashkernel=3DX,low". Besides, there are few rules need
+> >> to take notice:
+> >> 1. "crashkernel=3DX,[high,low]" will be ignored if "crashkernel=3Dsize=
+"
+> >>     is specified.
+> >> 2. "crashkernel=3DX,low" is valid only when "crashkernel=3DX,high" is =
+passed
+> >>     and there is enough memory to be allocated under 4G.
+> >> 3. When allocating crashkernel above 4G and no "crashkernel=3DX,low" i=
+s
+> >>     specified, a 128M low memory will be allocated automatically for
+> >>     swiotlb bounce buffer.
+> >> See Documentation/admin-guide/kernel-parameters.txt for more informati=
+on.
+> >>
+> >> To verify loading the crashkernel, adapted kexec-tools is attached bel=
+ow:
+> >> https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
+> >>
+> >> Following test cases have been performed as expected:
+> >> 1) crashkernel=3D256M                          //low=3D256M
+> >> 2) crashkernel=3D1G                            //low=3D1G
+> > Have you tried 1GB memory? we found a pud mapping problem on Sv39 of ke=
+xec, See:
+> > https://lore.kernel.org/linux-riscv/20230629082032.3481237-1-guoren@ker=
+nel.org/
 >
-> To change the SO_BINDTODEVICE binding the process will need CAP_NET_RAW.
->
-> Make xsk_bind() honor the SO_BINDTODEVICE in order to allow safer
-> workflow when non-privileged process is using AF_XDP.
->
-> The intended workflow is following:
->
->   1. First process creates a bare socket with socket(AF_XDP, ...).
->   2. First process loads the XSK program to the interface.
->   3. First process adds the socket fd to a BPF map.
->   4. First process ties socket fd to a particular interface using
->      SO_BINDTODEVICE.
->   5. First process sends socket fd to a second process.
->   6. Second process allocates UMEM.
->   7. Second process binds socket to the interface with bind(...).
->   8. Second process sends/receives the traffic.
->
-> All the steps above are possible today if the first process is
-> privileged and the second one has sufficient RLIMIT_MEMLOCK and no
-> capabilities.  However, the second process will be able to bind the
-> socket to any interface it wants on step 7 and send traffic from it.
-> With the proposed change, the second process will be able to bind
-> the socket only to a specific interface chosen by the first process
-> at step 4.
->
-> Acked-by: Magnus Karlsson <magnus.karlsson@intel.com>
-> Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
+> I have tested on QEMU with sv57 mmu, so it seems the synchronization prob=
+lem
+> was not reproduce when reserving 1G memory and loading the capture kernel=
+.
+Yes, the pud of sv57 is not the pgd entries, so you didn't get problem.
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+>
+>
+> Thanks,
+> Jiahao
+>
+> >
+> >> 3) crashkernel=3D4G                            //high=3D4G, low=3D128M=
+(default)
+> >> 4) crashkernel=3D4G crashkernel=3D256M,high      //high=3D4G, low=3D12=
+8M(default), high is ignored
+> >> 5) crashkernel=3D4G crashkernel=3D256M,low       //high=3D4G, low=3D12=
+8M(default), low is ignored
+> >> 6) crashkernel=3D4G,high                       //high=3D4G, low=3D128M=
+(default)
+> >> 7) crashkernel=3D256M,low                      //low=3D0M, invalid
+> >> 8) crashkernel=3D4G,high crashkernel=3D256M,low  //high=3D4G, low=3D25=
+6M
+> >> 9) crashkernel=3D4G,high crashkernel=3D4G,low    //high=3D0M, low=3D0M=
+, invalid
+> >> 10) crashkernel=3D512M@0xd0000000              //low=3D512M
+> >>
+> >> Changes since [v6]:
+> >> 1. Introduce the "high" flag to mark whether "crashkernel=3DX,high"
+> >>     is passed. Fix the retrying logic between "crashkernel=3DX,high"
+> >>     case and others when the first allocation attempt fails.
+> >>
+> >> Changes since [v5]:
+> >> 1. Update the crashkernel allocation logic when crashkernel=3DX,high
+> >>     is specified. In this case, region above 4G will directly get
+> >>     reserved as crashkernel, rather than trying lower 32bit allocation
+> >>     first.
+> >>
+> >> Changes since [v4]:
+> >> 1. Update some imprecise code comments for cmdline parsing.
+> >>
+> >> Changes since [v3]:
+> >> 1. Update to print warning and return explicitly on failure when
+> >>     crashkernel=3Dsize@offset is specified. Not changing the result
+> >>     in this case but making the logic more straightforward.
+> >> 2. Some minor cleanup.
+> >>
+> >> Changes since [v2]:
+> >> 1. Update the allocation logic to ensure the high crashkernel
+> >>     region is reserved strictly above dma32_phys_limit.
+> >> 2. Clean up some minor format problems.
+> >>
+> >> Chen Jiahao (2):
+> >>    riscv: kdump: Implement crashkernel=3DX,[high,low]
+> >>    docs: kdump: Update the crashkernel description for riscv
+> >>
+> >>   .../admin-guide/kernel-parameters.txt         | 15 ++--
+> >>   arch/riscv/kernel/setup.c                     |  5 ++
+> >>   arch/riscv/mm/init.c                          | 84 +++++++++++++++++=
+--
+> >>   3 files changed, 90 insertions(+), 14 deletions(-)
+> >>
+> >> --
+> >> 2.34.1
+> >>
+> >
 
-Is this a stable material or not?
 
-Thanks
 
-> ---
->
-> RFC --> PATCH:
->   * Better explained intended workflow in a commit message.
->   * Added ACK from Magnus.
->
->  Documentation/networking/af_xdp.rst | 9 +++++++++
->  net/xdp/xsk.c                       | 6 ++++++
->  2 files changed, 15 insertions(+)
->
-> diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networki=
-ng/af_xdp.rst
-> index 247c6c4127e9..1cc35de336a4 100644
-> --- a/Documentation/networking/af_xdp.rst
-> +++ b/Documentation/networking/af_xdp.rst
-> @@ -433,6 +433,15 @@ start N bytes into the buffer leaving the first N by=
-tes for the
->  application to use. The final option is the flags field, but it will
->  be dealt with in separate sections for each UMEM flag.
->
-> +SO_BINDTODEVICE setsockopt
-> +--------------------------
-> +
-> +This is a generic SOL_SOCKET option that can be used to tie AF_XDP
-> +socket to a particular network interface.  It is useful when a socket
-> +is created by a privileged process and passed to a non-privileged one.
-> +Once the option is set, kernel will refuse attempts to bind that socket
-> +to a different interface.  Updating the value requires CAP_NET_RAW.
-> +
->  XDP_STATISTICS getsockopt
->  -------------------------
->
-> diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
-> index 5a8c0dd250af..386ff641db0f 100644
-> --- a/net/xdp/xsk.c
-> +++ b/net/xdp/xsk.c
-> @@ -886,6 +886,7 @@ static int xsk_bind(struct socket *sock, struct socka=
-ddr *addr, int addr_len)
->         struct sock *sk =3D sock->sk;
->         struct xdp_sock *xs =3D xdp_sk(sk);
->         struct net_device *dev;
-> +       int bound_dev_if;
->         u32 flags, qid;
->         int err =3D 0;
->
-> @@ -899,6 +900,11 @@ static int xsk_bind(struct socket *sock, struct sock=
-addr *addr, int addr_len)
->                       XDP_USE_NEED_WAKEUP))
->                 return -EINVAL;
->
-> +       bound_dev_if =3D READ_ONCE(sk->sk_bound_dev_if);
-> +
-> +       if (bound_dev_if && bound_dev_if !=3D sxdp->sxdp_ifindex)
-> +               return -EINVAL;
-> +
->         rtnl_lock();
->         mutex_lock(&xs->mutex);
->         if (xs->state !=3D XSK_READY) {
-> --
-> 2.40.1
->
-
+--=20
+Best Regards
+ Guo Ren
