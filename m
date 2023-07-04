@@ -2,274 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A80EB64D9
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 08:12:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AE5FEB64D9
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 09:16:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231356AbjGDIMp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 04:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43684 "EHLO
+        id S231722AbjGDJQX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 05:16:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230374AbjGDIMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 04:12:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32978BD
-        for <linux-doc@vger.kernel.org>; Tue,  4 Jul 2023 01:11:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688458314;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=P/mJg6OCwsNURikAN+36DVOOXzUfGZWJJ1yGnijjdxE=;
-        b=Jfj//F4v72H30zNU52lhy07doVIAJjIEMOoUGvqEYepPal995KNYG2/jqys9o8AcH4lUpH
-        RZx3D7OnjwJJBbITLbD9pEqF3JIzMxxJPzQV+OzMA2poTwUTFDsPQEnJWAB6m7nAomhNlM
-        s7R8KhSof+K9Ci+Pvgz6GYUhiQMrO0k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-b-bAzCV3N_a23obPUt54ng-1; Tue, 04 Jul 2023 04:11:50 -0400
-X-MC-Unique: b-bAzCV3N_a23obPUt54ng-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41E5028237CA;
-        Tue,  4 Jul 2023 08:11:49 +0000 (UTC)
-Received: from localhost (ovpn-12-87.pek2.redhat.com [10.72.12.87])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B48F492B01;
-        Tue,  4 Jul 2023 08:11:47 +0000 (UTC)
-Date:   Tue, 4 Jul 2023 16:11:44 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     "chenjiahao (C)" <chenjiahao16@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        conor.dooley@microchip.com, guoren@kernel.org, heiko@sntech.de,
-        bjorn@rivosinc.com, alex@ghiti.fr, akpm@linux-foundation.org,
-        atishp@rivosinc.com, thunder.leizhen@huawei.com, horms@kernel.org
-Subject: Re: [PATCH -next v6 1/2] riscv: kdump: Implement
- crashkernel=X,[high,low]
-Message-ID: <ZKPUQFMoDQFrFr2d@MiWiFi-R3L-srv>
-References: <20230701171138.1491206-1-chenjiahao16@huawei.com>
- <20230701171138.1491206-2-chenjiahao16@huawei.com>
- <ZKD5N+e5DjgyJ5rw@MiWiFi-R3L-srv>
- <6f4c80ba-ec61-2ce8-3034-08162f0ee9fd@huawei.com>
+        with ESMTP id S229598AbjGDJQV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 05:16:21 -0400
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4DECB3;
+        Tue,  4 Jul 2023 02:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+        bh=V3G3llqyqDYpZVEogHvFY85hMe7xLSqrYXDqBNV0Ifs=; b=YOEZTrYis9yeXxQwXE2+AuiBuP
+        nsYIAeD+Z5uLOr8jOdbUCC12XGdcCNWm0bhk2TXTByQbEsVpeyiIp2HkrbB1AaQonEc38tfAQWXE2
+        zqtUJqOwxb2ec0nkn34x41V/qyiYJecWXcOGW6HbSdy0mtvNqk63x0kdVbnGMQ20vuiXh3rYLwEpf
+        5UoO5w52Pd5CEV0FtZLLnr4rwqF0MM+xxDvqAyvvYutxjdP2vrLl+DtLC+adgECInJPD9SndYT/cZ
+        1UtUDwI7kZkLydcOHTepdLLDwZk24wWCaQq4fJLOvCv1pt+YzH3YS8GUhZknh0pNiVH4vyaUOwNtv
+        9ZC+lZMw==;
+Received: from sslproxy05.your-server.de ([78.46.172.2])
+        by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1qGc8o-000MaJ-Oi; Tue, 04 Jul 2023 11:16:10 +0200
+Received: from [81.6.34.132] (helo=localhost.localdomain)
+        by sslproxy05.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1qGc8o-0003b8-5f; Tue, 04 Jul 2023 11:16:10 +0200
+Subject: Re: [PATCH bpf-next] xsk: honor SO_BINDTODEVICE on bind
+To:     Jason Wang <jasowang@redhat.com>,
+        Ilya Maximets <i.maximets@ovn.org>
+Cc:     netdev@vger.kernel.org, bpf@vger.kernel.org,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20230703175329.3259672-1-i.maximets@ovn.org>
+ <CACGkMEs1WyKwSuE2H0bkYigjhqHYJy6pPGnQLjWgOFt9+89hJA@mail.gmail.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <94b00e51-aaac-5e7c-d447-f45af408e389@iogearbox.net>
+Date:   Tue, 4 Jul 2023 11:16:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f4c80ba-ec61-2ce8-3034-08162f0ee9fd@huawei.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+In-Reply-To: <CACGkMEs1WyKwSuE2H0bkYigjhqHYJy6pPGnQLjWgOFt9+89hJA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.103.8/26959/Tue Jul  4 09:29:23 2023)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/04/23 at 10:18am, chenjiahao (C) wrote:
+On 7/4/23 4:31 AM, Jason Wang wrote:
+> On Tue, Jul 4, 2023 at 1:53 AM Ilya Maximets <i.maximets@ovn.org> wrote:
+>>
+>> Initial creation of an AF_XDP socket requires CAP_NET_RAW capability.
+>> A privileged process might create the socket and pass it to a
+>> non-privileged process for later use.  However, that process will be
+>> able to bind the socket to any network interface.  Even though it will
+>> not be able to receive any traffic without modification of the BPF map,
+>> the situation is not ideal.
+>>
+>> Sockets already have a mechanism that can be used to restrict what
+>> interface they can be attached to.  That is SO_BINDTODEVICE.
+>>
+>> To change the SO_BINDTODEVICE binding the process will need CAP_NET_RAW.
+>>
+>> Make xsk_bind() honor the SO_BINDTODEVICE in order to allow safer
+>> workflow when non-privileged process is using AF_XDP.
+>>
+>> The intended workflow is following:
+>>
+>>    1. First process creates a bare socket with socket(AF_XDP, ...).
+>>    2. First process loads the XSK program to the interface.
+>>    3. First process adds the socket fd to a BPF map.
+>>    4. First process ties socket fd to a particular interface using
+>>       SO_BINDTODEVICE.
+>>    5. First process sends socket fd to a second process.
+>>    6. Second process allocates UMEM.
+>>    7. Second process binds socket to the interface with bind(...).
+>>    8. Second process sends/receives the traffic.
+>>
+>> All the steps above are possible today if the first process is
+>> privileged and the second one has sufficient RLIMIT_MEMLOCK and no
+>> capabilities.  However, the second process will be able to bind the
+>> socket to any interface it wants on step 7 and send traffic from it.
+>> With the proposed change, the second process will be able to bind
+>> the socket only to a specific interface chosen by the first process
+>> at step 4.
+>>
+>> Acked-by: Magnus Karlsson <magnus.karlsson@intel.com>
+>> Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
 > 
-> On 2023/7/2 12:12, Baoquan He wrote:
-> > On 07/01/23 at 05:11pm, Chen Jiahao wrote:
-> > > On riscv, the current crash kernel allocation logic is trying to
-> > > allocate within 32bit addressible memory region by default, if
-> > > failed, try to allocate without 4G restriction.
-> > > 
-> > > In need of saving DMA zone memory while allocating a relatively large
-> > > crash kernel region, allocating the reserved memory top down in
-> > > high memory, without overlapping the DMA zone, is a mature solution.
-> > > Here introduce the parameter option crashkernel=X,[high,low].
-> > > 
-> > > One can reserve the crash kernel from high memory above DMA zone range
-> > > by explicitly passing "crashkernel=X,high"; or reserve a memory range
-> > > below 4G with "crashkernel=X,low".
-> > > 
-> > > Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
-> > > Acked-by: Guo Ren <guoren@kernel.org>
-> > > ---
-> > >   arch/riscv/kernel/setup.c |  5 +++
-> > >   arch/riscv/mm/init.c      | 84 +++++++++++++++++++++++++++++++++++----
-> > >   2 files changed, 82 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > > index 971fe776e2f8..376f5d49ce85 100644
-> > > --- a/arch/riscv/kernel/setup.c
-> > > +++ b/arch/riscv/kernel/setup.c
-> > > @@ -178,6 +178,11 @@ static void __init init_resources(void)
-> > >   		if (ret < 0)
-> > >   			goto error;
-> > >   	}
-> > > +	if (crashk_low_res.start != crashk_low_res.end) {
-> > > +		ret = add_resource(&iomem_resource, &crashk_low_res);
-> > > +		if (ret < 0)
-> > > +			goto error;
-> > > +	}
-> > >   #endif
-> > >   #ifdef CONFIG_CRASH_DUMP
-> > > diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-> > > index 4b95d8999120..eeb31c2cc843 100644
-> > > --- a/arch/riscv/mm/init.c
-> > > +++ b/arch/riscv/mm/init.c
-> > > @@ -1298,6 +1298,28 @@ static inline void setup_vm_final(void)
-> > >   }
-> > >   #endif /* CONFIG_MMU */
-> > > +/* Reserve 128M low memory by default for swiotlb buffer */
-> > > +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
-> > > +
-> > > +static int __init reserve_crashkernel_low(unsigned long long low_size)
-> > > +{
-> > > +	unsigned long long low_base;
-> > > +
-> > > +	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
-> > > +	if (!low_base) {
-> > > +		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
-> > > +		return -ENOMEM;
-> > > +	}
-> > > +
-> > > +	pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-> > > +		low_base, low_base + low_size, low_size >> 20);
-> > > +
-> > > +	crashk_low_res.start = low_base;
-> > > +	crashk_low_res.end = low_base + low_size - 1;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > >   /*
-> > >    * reserve_crashkernel() - reserves memory for crash kernel
-> > >    *
-> > > @@ -1309,8 +1331,12 @@ static void __init reserve_crashkernel(void)
-> > >   {
-> > >   	unsigned long long crash_base = 0;
-> > >   	unsigned long long crash_size = 0;
-> > > +	unsigned long long crash_low_size = 0;
-> > >   	unsigned long search_start = memblock_start_of_DRAM();
-> > > -	unsigned long search_end = memblock_end_of_DRAM();
-> > > +	unsigned long search_end = (unsigned long)dma32_phys_limit;
-> > > +	char *cmdline = boot_command_line;
-> > > +	bool fixed_base = false;
-> > > +	bool high = false;
-> > >   	int ret = 0;
-> > > @@ -1326,14 +1352,36 @@ static void __init reserve_crashkernel(void)
-> > >   		return;
-> > >   	}
-> > > -	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
-> > > +	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
-> > >   				&crash_size, &crash_base);
-> > > -	if (ret || !crash_size)
-> > > +	if (ret == -ENOENT) {
-> > > +		/* Fallback to crashkernel=X,[high,low] */
-> > > +		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
-> > > +		if (ret || !crash_size)
-> > > +			return;
-> > > +
-> > > +		/*
-> > > +		 * crashkernel=Y,low is valid only when crashkernel=X,high
-> > > +		 * is passed.
-> > > +		 */
-> > > +		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
-> > > +		if (ret == -ENOENT)
-> > > +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> > > +		else if (ret)
-> > > +			return;
-> > > +
-> > > +		search_start = (unsigned long)dma32_phys_limit;
-> > > +		search_end = memblock_end_of_DRAM();
-> > > +		high = true;
-> > > +	} else if (ret || !crash_size) {
-> > > +		/* Invalid argument value specified */
-> > >   		return;
-> > > +	}
-> > >   	crash_size = PAGE_ALIGN(crash_size);
-> > >   	if (crash_base) {
-> > > +		fixed_base = true;
-> > >   		search_start = crash_base;
-> > >   		search_end = crash_base + crash_size;
-> > >   	}
-> > > @@ -1346,17 +1394,39 @@ static void __init reserve_crashkernel(void)
-> > >   	 * swiotlb can work on the crash kernel.
-> > >   	 */
-> > >   	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
-> > > -					       search_start,
-> > > -					       min(search_end, (unsigned long) SZ_4G));
-> > > +					       search_start, search_end);
-> > >   	if (crash_base == 0) {
-> > > -		/* Try again without restricting region to 32bit addressible memory */
-> > > +		if (fixed_base) {
-> > > +			pr_warn("crashkernel: allocating failed with given size@offset\n");
-> > > +			return;
-> > > +		}
-> > > +
-> > > +		if (high) {
-> > > +			/* Fall back to lower 32G reservation */
-> > > +			search_start = memblock_start_of_DRAM();
-> > > +			search_end = (unsigned long)dma32_phys_limit;
-> > > +		} else {
-> > > +			/* Try again above the region of 32bit addressible memory */
-> > > +			search_start = (unsigned long)dma32_phys_limit;
-> > > +			search_end = memblock_end_of_DRAM();
-> > > +		}
-> > > +
-> > >   		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
-> > > -						search_start, search_end);
-> > > +						       search_start, search_end);
-> > >   		if (crash_base == 0) {
-> > >   			pr_warn("crashkernel: couldn't allocate %lldKB\n",
-> > >   				crash_size >> 10);
-> > >   			return;
-> > >   		}
-> > > +
-> > > +		if (!crash_low_size)
-> > > +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> > How do you differentiate the case user specifies crashkernel=0M,low
-> > explicitly with the case that user doesn't specify crashkernel=,low, but
-> > only specify crsahkernel=xM,high? I saw you don't have the test case
-> > crashkernel=xM,high crashkernel=0M,low listed in your cover letter.
+> Acked-by: Jason Wang <jasowang@redhat.com>
 > 
-> Yes, here is indeed a point not exactly aligned with Arm64 code.
-> But testcases below seem to have the same result with Arm64:
-> 
-> crashkernel=512M,high	//high=512M, low=128M (default)
-> crashkernel=512M,high crashkernel=0M,low   //high=512M, low=0M
-> crashkernel=512M,high crashkernel=256M,low   //high=512M, low=256M
-> 
-> 
-> When the first allocation succeed, it will not fallback into
-> the if (crash_base == 0) case, the allocation result is the same
-> as Arm64, both for explicitly given "crashkernel=0M,low" or not.
-> 
-> The problem you mentioned might occurs when the first allocation
-> failed.
-> 
-> My logic here is when crashkernel=xM,high is specified, no matter
-> crashkernel=0M,low is explicitly given or not, "high" flag is set.
-> It will fallback to lower 4G allocation, additional lower 4G region
-> with "crash_low_size" will never get reserved.
+> Is this a stable material or not?
 
-Ah, you are right. I was mistaken. crashkernel=xM,high crashkernel=0,low
-works correctly with your v6 patch. I am fine if you want to take a
-different code flow to implement, as long as the actual result is the
-same. I personally would make the code logic the same as arm64. So this
-patches looks good to me.
-
-> 
-> So the results between Arm64 and riscv when crashkernel=,low is
-> specified or not are the same. Is there any problem with my logic,
-> or have I misunderstood your comment above?
-> 
-> > 
-> > > +	}
-> > > +
-> > > +	if ((crash_base >= dma32_phys_limit) && crash_low_size &&
-> > > +	     reserve_crashkernel_low(crash_low_size)) {
-> 
-> Here, additional lower memory region will not reserve when
-> crashkernel=xM,high is given
-> 
-> > > +		memblock_phys_free(crash_base, crash_size);
-> > > +		return;
-> > >   	}
-> > >   	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
-> > > -- 
-> > > 2.34.1
-> > > 
-> Thanks,
-> 
-> Jiahao
-> 
-> 
-
+To me this is a bug rather than 'feature', so I applied it to bpf tree and
+also added Fixes tag. Thanks everyone!
