@@ -2,229 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E2FEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 02:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE59EB64D9
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 03:51:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230129AbjGDCzE convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 22:55:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39850 "EHLO
+        id S229591AbjGDDvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jul 2023 23:51:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbjGDCzD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 22:55:03 -0400
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC87EE47
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 19:55:01 -0700 (PDT)
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-wHWhqlMSPwm3HmExVeIYhQ-1; Mon, 03 Jul 2023 22:53:33 -0400
-X-MC-Unique: wHWhqlMSPwm3HmExVeIYhQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F4241C29AE0;
-        Tue,  4 Jul 2023 02:53:32 +0000 (UTC)
-Received: from nomad.redhat.com (vpn2-54-59.bne.redhat.com [10.64.54.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 467D740C6CD0;
-        Tue,  4 Jul 2023 02:53:30 +0000 (UTC)
-From:   Dave Airlie <airlied@gmail.com>
-To:     dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org
-Cc:     Dave Airlie <airlied@redhat.com>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 1/2] docs: module: start adding some docs for MODULE_ macros.
-Date:   Tue,  4 Jul 2023 12:50:49 +1000
-Message-ID: <20230704025322.2623556-2-airlied@gmail.com>
-In-Reply-To: <20230704025322.2623556-1-airlied@gmail.com>
-References: <20230704025322.2623556-1-airlied@gmail.com>
+        with ESMTP id S229579AbjGDDvP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 23:51:15 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A771B6;
+        Mon,  3 Jul 2023 20:51:12 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.54])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Qw82s464lz1HCqB;
+        Tue,  4 Jul 2023 11:50:45 +0800 (CST)
+Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 4 Jul
+ 2023 11:51:09 +0800
+Message-ID: <f6764156-ec85-ad0a-f0b7-030f24f4dee4@huawei.com>
+Date:   Tue, 4 Jul 2023 11:51:08 +0800
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH -next v5 1/2] riscv: kdump: Implement
+ crashkernel=X,[high,low]
+Content-Language: en-US
+To:     Baoquan He <bhe@redhat.com>
+CC:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <thunder.leizhen@huawei.com>, <horms@kernel.org>
+References: <20230511085139.1039088-1-chenjiahao16@huawei.com>
+ <20230511085139.1039088-2-chenjiahao16@huawei.com>
+ <ZHwKFADVXyNYJBCp@MiWiFi-R3L-srv>
+ <852b8777-3c6e-f76b-0413-1c66629f33cd@huawei.com>
+ <5c80666c-e6e2-8fa6-50b6-89536315925e@huawei.com>
+ <ZKD3tEBknEiF4PZK@MiWiFi-R3L-srv>
+From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
+In-Reply-To: <ZKD3tEBknEiF4PZK@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.108.26]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dave Airlie <airlied@redhat.com>
 
-In order to add a new macro, Luis suggested converting some docs
-for the new ones.
+On 2023/7/2 12:06, Baoquan He wrote:
+> On 07/01/23 at 05:51pm, chenjiahao (C) wrote:
+> ......
+>> I have sent v6 patches, implementing the logic above. That fixes the
+>> retrying
+>>
+>> logic and should be aligned with Arm64 code.
+> Hmm, it has improved much, while there's still issue which need be
+> fixed. You missed the case that crsahkernel low is specified as zero
+> explicitly. Obviously your v6 is not able to handle that well. Means
+> your v6 is not aligned with the current arm64 code completely.
+>
+> crashkernel=xM,high crashkernel=0M,low
+>
+>>
+>> Please let me know if there is any problem remains.
+> Earlier, I posted below RFC patchset to try to unify the
+> crashkernel=,high support on x86, arm64 and risc-v, the generic arch.
+> Wondering what you think about it. risc-v can be added in with very few
+> change to get the crahskernel=,high support.
+>
+> [RFC PATCH 0/4] kdump: add generic functions to simplify crashkernel crashkernel in architecture
+>
+> Surely, the crashkernel=,high support can be added independently in
+> advance. Later my patchset can unify them and remove the duplicated code
+> in risc-v. It's up to you and risc-v maintainers/reivewers to take one.
+> Anyway, I will add comment to your v6 to point out the issue.
 
-This tries to keep exisiting module_init, module_exit where they are,
-and adds the new docs to the module section.
+It would be great if crashkernel parsing and reserving logic could be
+unified on multiple architectures, the code would be more straightforward
+and easy to use. I will have a more in-depth review of your RFC patchset
+later.
 
-Cc: linux-doc@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Luis Chamberlain <mcgrof@kernel.org>
-Cc: linux-modules@vger.kernel.org
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- Documentation/core-api/kernel-api.rst |  3 ++
- Documentation/driver-api/basics.rst   |  2 +-
- include/linux/module.h                | 76 ++++++++++++++++++---------
- 3 files changed, 54 insertions(+), 27 deletions(-)
+Meanwhile, I will continue to update my patchset on risc-v, just wishing
+to complement this feature earlier. When your unify solution get applied,
+simply remove the duplicate part is OK. Before that, I will update my
+risc-v code and further align with the Arm64 logic.
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 9b3f3e5f5a95..5079e48dd58c 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -226,6 +226,9 @@ Kernel module auto-loading
- .. kernel-doc:: kernel/module/kmod.c
-    :export:
- 
-+.. kernel-doc:: include/linux/module.h
-+   :no-identifiers: module_init module_exit klp_modinfo
-+
- Module debugging
- ----------------
- 
-diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
-index 4b4d8e28d3be..fea42d6cad80 100644
---- a/Documentation/driver-api/basics.rst
-+++ b/Documentation/driver-api/basics.rst
-@@ -5,7 +5,7 @@ Driver Entry and Exit points
- ----------------------------
- 
- .. kernel-doc:: include/linux/module.h
--   :internal:
-+   :identifiers: module_init module_exit
- 
- Driver device table
- -------------------
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 9e56763dff81..b255db33b40f 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -183,23 +183,27 @@ extern void cleanup_module(void);
- #define MODULE_FILE	MODULE_INFO(file, KBUILD_MODFILE);
- #endif
- 
--/*
-+/**
-+ * MODULE_LICENSE - module license
-+ * @_license: license covering this module.
-+ *
-  * The following license idents are currently accepted as indicating free
-  * software modules
-  *
-- *	"GPL"				[GNU Public License v2]
-- *	"GPL v2"			[GNU Public License v2]
-- *	"GPL and additional rights"	[GNU Public License v2 rights and more]
-- *	"Dual BSD/GPL"			[GNU Public License v2
-- *					 or BSD license choice]
-- *	"Dual MIT/GPL"			[GNU Public License v2
-- *					 or MIT license choice]
-- *	"Dual MPL/GPL"			[GNU Public License v2
-- *					 or Mozilla license choice]
-+ *    "GPL"                        [GNU Public License v2]
-  *
-- * The following other idents are available
-+ *    "GPL v2"                     [GNU Public License v2]
-  *
-- *	"Proprietary"			[Non free products]
-+ *    "GPL and additional rights"  [GNU Public License v2 rights and more]
-+ *
-+ *    "Dual BSD/GPL"               [GNU Public License v2 or BSD license choice]
-+ *
-+ *    "Dual MIT/GPL"               [GNU Public License v2 or MIT license choice]
-+ *
-+ *    "Dual MPL/GPL"               [GNU Public License v2 or Mozilla license choice]
-+ *
-+ * The following other idents are available
-+ *    "Proprietary"                [Non free products]
-  *
-  * Both "GPL v2" and "GPL" (the latter also in dual licensed strings) are
-  * merely stating that the module is licensed under the GPL v2, but are not
-@@ -222,20 +226,26 @@ extern void cleanup_module(void);
-  * is a GPL combined work.
-  *
-  * This exists for several reasons
-- * 1.	So modinfo can show license info for users wanting to vet their setup
-- *	is free
-+ *
-+ * 1.	So modinfo can show license info for users wanting to vet their setup is free
-+ *
-  * 2.	So the community can ignore bug reports including proprietary modules
-+ *
-  * 3.	So vendors can do likewise based on their own policies
-  */
- #define MODULE_LICENSE(_license) MODULE_FILE MODULE_INFO(license, _license)
- 
--/*
-- * Author(s), use "Name <email>" or just "Name", for multiple
-- * authors use multiple MODULE_AUTHOR() statements/lines.
-+/**
-+ * MODULE_AUTHOR - Module author
-+ * @_author: Author(s), use "Name <email>" or just "Name", for multiple
-+ *           authors use multiple MODULE_AUTHOR() statements/lines.
-  */
- #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
- 
--/* What your module does. */
-+/**
-+ * MODULE_DESCRIPTION - Module description
-+ * @_description: What your module does.
-+ */
- #define MODULE_DESCRIPTION(_description) MODULE_INFO(description, _description)
- 
- #ifdef MODULE
-@@ -247,19 +257,23 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
- #define MODULE_DEVICE_TABLE(type, name)
- #endif
- 
--/* Version of form [<epoch>:]<version>[-<extra-version>].
-+/**
-+ * MODULE_VERSION: version of module
-+ * @_version: version in the form below
-+ *
-+ * Version of form [<epoch>:]<version>[-<extra-version>].
-  * Or for CVS/RCS ID version, everything but the number is stripped.
-  * <epoch>: A (small) unsigned integer which allows you to start versions
-  * anew. If not mentioned, it's zero.  eg. "2:1.0" is after
-  * "1:2.0".
--
-+ *
-  * <version>: The <version> may contain only alphanumerics and the
-- * character `.'.  Ordered by numeric sort for numeric parts,
-+ * character '.'.  Ordered by numeric sort for numeric parts,
-  * ascii sort for ascii parts (as per RPM or DEB algorithm).
--
-+ *
-  * <extraversion>: Like <version>, but inserted for local
-  * customizations, eg "rh3" or "rusty1".
--
-+ *
-  * Using this automatically adds a checksum of the .c files and the
-  * local headers in "srcversion".
-  */
-@@ -285,11 +299,21 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
- 		}
- #endif
- 
--/* Optional firmware file (or files) needed by the module
-- * format is simply firmware file name.  Multiple firmware
-- * files require multiple MODULE_FIRMWARE() specifiers */
-+/**
-+ * MODULE_FIRMWARE - Optional firmware files needed by the module
-+ * @_firmware: firmware file name
-+ *
-+ * Multiple firmware files require multiple MODULE_FIRMWARE() specifiers.
-+ */
- #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
- 
-+/**
-+ * MODULE_IMPORT_NS - Set the symbol namespace for the module.
-+ * @ns: symbol namespace to import the module into.
-+ *
-+ * This adds a modinfo tag 'import_ns' to the module. This is observed
-+ * by userspace at module loading time.
-+ */
- #define MODULE_IMPORT_NS(ns)	MODULE_INFO(import_ns, __stringify(ns))
- 
- struct notifier_block;
--- 
-2.41.0
+Thanks for your carefully review, I will fix the issue above and send
+v7 patchset soon.
 
+Thanks,
+Jiahao
+
+>
+> Thanks
+> Baoquan
+>
