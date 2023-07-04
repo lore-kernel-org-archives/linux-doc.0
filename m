@@ -2,93 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A95DEB64D9
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 12:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A97D8EB64DA
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 13:24:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbjGDM7m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 08:59:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57716 "EHLO
+        id S231446AbjGDNYB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 09:24:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjGDM7m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 08:59:42 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3FF12E;
-        Tue,  4 Jul 2023 05:59:41 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D73556123C;
-        Tue,  4 Jul 2023 12:59:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DE6AC433C7;
-        Tue,  4 Jul 2023 12:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688475578;
-        bh=gdXfAe6zNFUWfjfbNMvNFg9rBY6S+Ics8BpCv867pFI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=VaHQK3rzaDBrU5kW2Rxv4QvphNneg88u1Wm43hq2n6qrQevAjyhZybEnpAINkfEP/
-         YFASjpW2VcHt/EQPIOa2iPQf1/xnCny4JJq+KG6A+hLCYO+BhIaIUysPDncXOVCfOB
-         bDUZ/Vjsb4U5FWEKnQUrg+NQvmsPruMduOqxS3RqynaA/USpUOjY1q6sxYn7YqlLNl
-         Qes5JcYuYm+nyQMZZeg9Cs5Lyp1dQ9NGhbOBXFtyV1tWqDeOSwEDJYuau8TlBCY+gE
-         veNA3yJQZmMEFqlaCHmppfOoUCj14WK//qSU4psDDUyy+Rgcb2t9JrqT2dEdEyFmbg
-         fyz8lPKniLRBw==
-Date:   Tue, 4 Jul 2023 21:59:32 +0900
-From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To:     paulmck@kernel.org
-Cc:     mtk.manpages@gmail.com, mhiramat@kernel.org, corbet@lwn.net,
-        akpm@linux-foundation.org, ndesaulniers@google.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] proc.5: Clarify that boot arguments can be embedded in
- image
-Message-Id: <20230704215932.c9cab0af086528e52ca0bfbb@kernel.org>
-In-Reply-To: <433d742b-743b-4335-878f-1ca0f45698f7@paulmck-laptop>
-References: <433d742b-743b-4335-878f-1ca0f45698f7@paulmck-laptop>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S231463AbjGDNX7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 09:23:59 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC55F3;
+        Tue,  4 Jul 2023 06:23:56 -0700 (PDT)
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4QwNjg14d2zLnfG;
+        Tue,  4 Jul 2023 21:21:43 +0800 (CST)
+Received: from huawei.com (10.67.174.205) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 4 Jul
+ 2023 21:23:54 +0800
+From:   Chen Jiahao <chenjiahao16@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>
+CC:     <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
+        <conor.dooley@microchip.com>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
+        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
+        <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
+Subject: [PATCH -next v7 0/2] support allocating crashkernel above 4G explicitly on riscv
+Date:   Tue, 4 Jul 2023 21:23:25 +0000
+Message-ID: <20230704212327.1687310-1-chenjiahao16@huawei.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.67.174.205]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 30 Jun 2023 16:33:28 -0700
-"Paul E. McKenney" <paulmck@kernel.org> wrote:
+On riscv, the current crash kernel allocation logic is trying to
+allocate within 32bit addressible memory region by default, if
+failed, try to allocate without 4G restriction.
 
-> With the advent of the CONFIG_BOOT_CONFIG Kconfig option, kernel boot
-> arguments can now be embedded in the kernel image, either attached
-> to the end of initramfs or embedded in the kernel itself.  Document
-> this possibility in the /proc/cmdline entry of proc.5.
+In need of saving DMA zone memory while allocating a relatively large
+crash kernel region, allocating the reserved memory top down in
+high memory, without overlapping the DMA zone, is a mature solution.
+Hence this patchset introduces the parameter option crashkernel=X,[high,low].
 
-Thanks for update!
+One can reserve the crash kernel from high memory above DMA zone range
+by explicitly passing "crashkernel=X,high"; or reserve a memory range
+below 4G with "crashkernel=X,low". Besides, there are few rules need
+to take notice:
+1. "crashkernel=X,[high,low]" will be ignored if "crashkernel=size"
+   is specified.
+2. "crashkernel=X,low" is valid only when "crashkernel=X,high" is passed
+   and there is enough memory to be allocated under 4G.
+3. When allocating crashkernel above 4G and no "crashkernel=X,low" is
+   specified, a 128M low memory will be allocated automatically for
+   swiotlb bounce buffer.
+See Documentation/admin-guide/kernel-parameters.txt for more information.
 
-Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To verify loading the crashkernel, adapted kexec-tools is attached below:
+https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
 
-> 
-> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> Cc: Masami Hiramatsu <mhiramat@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index c6684620e..141a2983c 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -3100,6 +3100,9 @@ Often done via a boot manager such as
->  .BR lilo (8)
->  or
->  .BR grub (8).
-> +Any arguments embedded in the kernel image or initramfs via 
-> +.B CONFIG_BOOT_CONFIG
-> +will also be displayed.
->  .TP
->  .IR /proc/config.gz " (since Linux 2.6)"
->  This file exposes the configuration options that were used
+Following test cases have been performed as expected:
+1) crashkernel=256M                          //low=256M
+2) crashkernel=1G                            //low=1G
+3) crashkernel=4G                            //high=4G, low=128M(default)
+4) crashkernel=4G crashkernel=256M,high      //high=4G, low=128M(default), high is ignored
+5) crashkernel=4G crashkernel=256M,low       //high=4G, low=128M(default), low is ignored
+6) crashkernel=4G,high                       //high=4G, low=128M(default)
+7) crashkernel=256M,low                      //low=0M, invalid
+8) crashkernel=4G,high crashkernel=256M,low  //high=4G, low=256M
+9) crashkernel=4G,high crashkernel=4G,low    //high=0M, low=0M, invalid
+10) crashkernel=512M@0xd0000000              //low=512M
+11) crashkernel=1G,high crashkernel=0M,low   //high=1G, low=0M
 
+Changes since [v7]:
+1. Minor refactor: move crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE
+   into the !high branch when the first allocation fails. Not changing
+   the result but further align with Arm64 logic, refer to Baoquan's
+   comment.
+2. Add test case "crashkernel=1G,high crashkernel=0M,low", the result
+   also matches out expectation.
+
+Changes since [v6]:
+1. Introduce the "high" flag to mark whether "crashkernel=X,high"
+   is passed. Fix the retrying logic between "crashkernel=X,high"
+   case and others when the first allocation attempt fails.
+
+Changes since [v5]:
+1. Update the crashkernel allocation logic when crashkernel=X,high
+   is specified. In this case, region above 4G will directly get
+   reserved as crashkernel, rather than trying lower 32bit allocation
+   first.
+
+Changes since [v4]:
+1. Update some imprecise code comments for cmdline parsing.
+
+Changes since [v3]:
+1. Update to print warning and return explicitly on failure when
+   crashkernel=size@offset is specified. Not changing the result
+   in this case but making the logic more straightforward.
+2. Some minor cleanup.
+
+Changes since [v2]:
+1. Update the allocation logic to ensure the high crashkernel
+   region is reserved strictly above dma32_phys_limit.
+2. Clean up some minor format problems.
+
+Chen Jiahao (2):
+  riscv: kdump: Implement crashkernel=X,[high,low]
+  docs: kdump: Update the crashkernel description for riscv
+
+ .../admin-guide/kernel-parameters.txt         | 15 +--
+ arch/riscv/kernel/setup.c                     |  5 +
+ arch/riscv/mm/init.c                          | 93 +++++++++++++++++--
+ 3 files changed, 99 insertions(+), 14 deletions(-)
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+2.34.1
+
