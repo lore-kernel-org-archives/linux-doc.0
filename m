@@ -2,191 +2,131 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FFFDC0015E
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 05:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C3BEB64D9
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 07:13:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230300AbjGDF5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 01:57:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42226 "EHLO
+        id S230014AbjGDHNY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 03:13:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230259AbjGDF53 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 01:57:29 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9263EE64
-        for <linux-doc@vger.kernel.org>; Mon,  3 Jul 2023 22:57:27 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-51d80d81d6eso6150966a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jul 2023 22:57:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688450245; x=1691042245;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ArafajhkK4cFBXCxi4x8GmLW6nX9wjFH15qR/2p7CyM=;
-        b=NtZsucGnDSuql+9fvbmGD0BxyvMogak6Y5smEqXX8YVtwaMtHZZ1C/TGlyDDoMak1a
-         haGaMkG1VU2aV8G9ouvmhF2bUT4R7l4z7IpK6rWEsQOIASdpe/ETlyxhdNMHA1K0IAXI
-         nuqu7D3vk1N5XXGoxqp97McDiFeIx/d2WDA8EXrw/d4mjEHvqQ9Xm/NQoidg4jGB/4tn
-         LQyQINMHJ0B6gUmy6EKdTmk9v8aoK/SbhVsxA7v90azH6n7VT5YSeuUuoLCFlvH9R0G4
-         ovqIMFrBmkbIyBLF5UOq/9OGMltcQdmd2K73ozPB/ooxRpFAkVe78oy5UYKqy/j5tswu
-         V7wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688450245; x=1691042245;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ArafajhkK4cFBXCxi4x8GmLW6nX9wjFH15qR/2p7CyM=;
-        b=L9zWKEiEjY+WquqmoBloguZubAWGangtHHvi8911kyRLvBMrYzXnwjiD9nRl95aAT/
-         zXJufyqfS65uNvi7jVallE50bTM+7zSgb/cKwhPbxgNo8kcut90atuMoinE0f4O09ytb
-         00Fqax7rrhf+olVXi9p/sQWDvo/AkB1/jQEz9YZHC2pSUowJS9MpGeyi+OJi1lktSQqS
-         afvYfbjNtmAUweXxntiNtecGeDziRxhS8B61iLxmeBNn3H37PY+XiV5sl1JFwF6vU4sB
-         OKDb3pXlQn7TppVjj4i/SAVE29mWeGkKgaInQW4wfmDBQrkusY3N6oxegXpNQ3/HNJE7
-         EqGA==
-X-Gm-Message-State: ABy/qLa+mgauVkOKU9XssAPvuG1743+e7Qs7uAi3xEga0K5WG05ig37q
-        ZdGThlJpvNxNmp/isLxeS+O3JA==
-X-Google-Smtp-Source: APBJJlGLdz4OnkPHg9QESQPK4xkTqc+rD1zI9xMSBTVlJ3pUKrE8wYmXdm39x7xyr77A57uxd3eyPg==
-X-Received: by 2002:a05:6402:5149:b0:51d:9bf3:40c5 with SMTP id n9-20020a056402514900b0051d9bf340c5mr8832051edd.20.1688450245125;
-        Mon, 03 Jul 2023 22:57:25 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id i21-20020a05640200d500b0051bfc7763c2sm11462697edu.25.2023.07.03.22.57.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jul 2023 22:57:24 -0700 (PDT)
-Message-ID: <f0609361-6fb6-a446-4e23-646201943923@linaro.org>
-Date:   Tue, 4 Jul 2023 07:57:21 +0200
+        with ESMTP id S229804AbjGDHNX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 03:13:23 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF543130;
+        Tue,  4 Jul 2023 00:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1688454802; x=1719990802;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3R780gSrSJ9nAhXyLdyPKWWj43EVLHOBBiNKAgvxGrU=;
+  b=xPW1IBOORPmY3AuH7XsIYwZRSENfZZUi9dRsE800lejI+z7DiDjMLfx9
+   IUTXAiVKfSHQ+7NV3wMjOhePoG4OlcxXtqhTHytbLsaXWakwQrlkIS3Q4
+   uxYBBAmS/gWYJwZq8DTIMYkuq+NWolEcbTmb8vQIqHqI4ABzAz8aNOBNb
+   sMi04JZHGfR4xram/dOvPB1EP2Ph8yOv8j2zmquNSyYcScqJw5LuX4KsH
+   CMQzSRzfWgiqlR8EJv73wJdKnHhq+Bl79ezYm1l52yuEoVpg5QYXwpuLr
+   BtGicCDG5FUBb1+RNfzDFID7tAmgb7l06I1Zxe8yAu4oKIFouB2LmhwYE
+   g==;
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
+   d="asc'?scan'208";a="221180429"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 04 Jul 2023 00:13:21 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 4 Jul 2023 00:13:21 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Tue, 4 Jul 2023 00:13:18 -0700
+Date:   Tue, 4 Jul 2023 08:12:49 +0100
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     <palmer@dabbelt.com>
+CC:     <conor@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Evan Green <evan@rivosinc.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: [PATCH v3 11/11] RISC-V: provide Kconfig & commandline options
+ to control parsing "riscv,isa"
+Message-ID: <20230704-surely-defective-c55f6341127c@wendy>
+References: <20230703-repayment-vocalist-e4f3eeac2b2a@wendy>
+ <20230703-greedy-dividable-251fa2b809ac@wendy>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v4 08/21] dt-bindings: reserved-memory: Add qcom,ramoops
- binding
-Content-Language: en-US
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, corbet@lwn.net,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
-        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
-        andy.shevchenko@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <1687955688-20809-9-git-send-email-quic_mojha@quicinc.com>
- <CAL_JsqJ_TTnGjjB2d8_FKHpWBRG5GHLoWnabCKjsdeZ4QFdNEg@mail.gmail.com>
- <cacbbb02-732e-076e-50bf-292d20a4d722@quicinc.com>
- <58a26b9e-a48d-d567-c310-193a2c52521e@linaro.org>
- <5447f9f8-55b4-8bed-66a6-1c9d62b02c79@quicinc.com>
- <CAGE=qrq0CuO4J-6yC=YZ4xjL67o9QTqpei0ovX-X_8MLVeEH6g@mail.gmail.com>
- <ba04bb7b-6599-6f41-09a8-834ee280830d@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <ba04bb7b-6599-6f41-09a8-834ee280830d@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="M4y9ClbXh4dwVo7F"
+Content-Disposition: inline
+In-Reply-To: <20230703-greedy-dividable-251fa2b809ac@wendy>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/07/2023 17:55, Mukesh Ojha wrote:
-> 
-> 
-> On 7/3/2023 12:50 PM, Krzysztof Kozlowski wrote:
->> On Mon, 3 Jul 2023 at 08:22, Mukesh Ojha <quic_mojha@quicinc.com> wrote:
->>> On 7/2/2023 1:42 PM, Krzysztof Kozlowski wrote:
->>>>>> The big difference is if firmware is not deciding where this log
->>>>>> lives, then it doesn't need to be in DT. How does anything except the
->>>>>> kernel that allocates the log find the logs?
->>>>>
->>>>> Yes, you are correct, firmware is not deciding where the logs lives
->>>>> instead here, Kernel has reserved the region where the ramoops region
->>>>> lives and later with the minidump registration where, physical
->>>>> address/size/virtual address(for parsing) are passed and that is how
->>>>> firmware is able to know and dump those region before triggering system
->>>>> reset.
->>>>
->>>> Your explanation does not justify storing all this in DT. Kernel can
->>>> allocate any memory it wishes, store there logs and pass the address to
->>>> the firmware. That's it, no need for DT.
->>>
->>> If you go through the driver, you will know that what it does, is
->>
->> We talk about bindings and I should not be forced to look at the
->> driver to be able to understand them. Bindings should stand on their
->> own.
-> 
-> Why can't ramoops binding have one more feature where it can add a flag 
-> *dynamic* to indicate the regions are dynamic and it is for platforms
-> where there is another entity 'minidump' who is interested in these
-> regions.
+--M4y9ClbXh4dwVo7F
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Because we do not define dynamic stuff in Devicetree. Dynamic means
-defined by SW or runtime configurable. It is against the entire idea of
-Devicetree which is for non-discoverable hardware.
+On Mon, Jul 03, 2023 at 11:28:03AM +0100, Conor Dooley wrote:
+> As it says on the tin, provide Kconfig option to control parsing the
+> "riscv,isa" devicetree property. If either option is used, the kernel
+> will fall back to parsing "riscv,isa", where "riscv,isa-base" and
+> "riscv,isa-extensions" are not present.
+> The Kconfig options are set up so that the default kernel configuration
+> will enable the fallback path, without needing the commandline option.
+>=20
+> Suggested-by: Andrew Jones <ajones@ventanamicro.com>
+> Suggested-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> Changes in v3:
+> - Invert the Kconfig entry. It's now default y & not hidden by
+>   NONPORTABLE, but its entablement will now activate the fallback
+> - Add a commandline option to enable the fallback on kernels that do not
+>   enable it in Kconfig, as Drew suggested
+> - Default the global var to the Kconfig option & override it with the
+>   commandline one, rather than have checks for IS_ENABLED() and for the
+>   commandline option in riscv_fill_hwcap() &
+>   riscv_early_of_processor_hartid()
 
-> 
->>
->>> just create platform device for actual ramoops driver to probe and to
->>
->> Not really justification for Devicetree anyway. Whatever your driver
->> is doing, is driver's business, not bindings.
->>
->>> provide this it needs exact set of parameters of input what original
->>> ramoops DT provides, we need to keep it in DT as maintaining this in
->>> driver will not scale well with different size/parameter size
->>> requirement for different targets.
->>
->> Really? Why? I don't see a problem in scaling. At all.
-> 
-> I had attempted it here,
-> 
-> https://lore.kernel.org/lkml/1683133352-10046-10-git-send-email-quic_mojha@quicinc.com/
-> 
-> but got comments related to hard coding and some in favor of having
-> the same set of properties what ramoops has/provides
-> 
-> https://lore.kernel.org/lkml/e25723bf-be85-b458-a84c-1a45392683bb@gmail.com/
-> 
-> https://lore.kernel.org/lkml/202305161347.80204C1A0E@keescook/
+My own bot reports a build failure for nommu, because of section
+mismatches. riscv_early_of_processor_hartid() needs a dose of __init:
 
-Then you were tricked. I don't get why someone else suggests that
-non-hardware property should be part of Devicetree, but anyway it's the
-call of Devicetree binding maintainers, not someone else. DT is not
-dumping ground for all the system configuration variables.
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 1acf3679600d..208f1a700121 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -41,7 +41,7 @@ int riscv_of_processor_hartid(struct device_node *node, u=
+nsigned long *hart)
+ 	return 0;
+ }
+=20
+-int riscv_early_of_processor_hartid(struct device_node *node, unsigned lon=
+g *hart)
++int __init riscv_early_of_processor_hartid(struct device_node *node, unsig=
+ned long *hart)
+ {
+ 	const char *isa;
+=20
+Good aul nommu build, always the one that catches stuff :)
 
+--M4y9ClbXh4dwVo7F
+Content-Type: application/pgp-signature; name="signature.asc"
 
->>
->>>
->>>>
->>>>>
->>>>> A part of this registration code you can find in 11/21
->>>>>
->>>>>> I'm pretty sure I already said all this before.
->>>>>
->>>>> Yes, you said this before but that's the reason i came up with vendor
->>>>> ramoops instead of changing traditional ramoops binding.
->>>>
->>>> That's unexpected conclusion. Adding more bindings is not the answer to
->>>> comment that it should not be in the DTS in the first place.
->>>
->>> Please suggest, what is the other way being above text as requirement..
->>
->> I do not see any requirement for us there. Forcing me to figure out
->> how to add non-hardware property to DT is not the way to convince
->> reviewers. But if you insist - we have ABI for this, called sysfs. If
->> it is debugging feature, then debugfs.
-> 
-> ramoops already support module params and a way to pass these parameters
-> from bootargs but it also need to know the hard-codes addresses, so, 
-> doing something in sysfs will be again duplication with ramoops driver..
+-----BEGIN PGP SIGNATURE-----
 
-Why do you need hard-coded addresses?
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKPGXQAKCRB4tDGHoIJi
+0rg5AP9PY2fBP1Bcb1QnerRLwimjm13N3bl6EFsys6XQFXHKGgEA1IWYAyQyJYZo
+ePxSXe208Sl91eEjos5oE0IwX0ipbgQ=
+=YbUb
+-----END PGP SIGNATURE-----
 
-> 
-> If this can be accommodated under ramoops, this will be very small 
-> change, like this
-> 
-> https://lore.kernel.org/lkml/20230622005213.458236-1-isaacmanjarres@google.com/
-
-That's also funny patch - missing bindings updated, missing CC DT
-maintainers.
-
-Best regards,
-Krzysztof
-
+--M4y9ClbXh4dwVo7F--
