@@ -2,99 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8E3EEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 12:28:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A95DEB64D9
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 12:59:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231650AbjGDM2Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 08:28:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43538 "EHLO
+        id S230238AbjGDM7m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 08:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231618AbjGDM2W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 08:28:22 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C58C10CF
-        for <linux-doc@vger.kernel.org>; Tue,  4 Jul 2023 05:28:20 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-63588812c7aso23787956d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jul 2023 05:28:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=maine.edu; s=google; t=1688473699; x=1691065699;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l5YpNQ9k3FxEI6NyEQ6O/c948FLcVDYur8dACWC8IMo=;
-        b=MKbpxpd3h33Jur04KbPUrCLTlVIAAu5iv7+InZ2Ld/h7aQEoYZjAV/1l7GNlBXhBs/
-         SBy7ElK8A3XM0+bIPwHaC+MmN5ZHDIgtcMt0tbcTmJ/TCFBrs4T9BMNP4X7XwieicLlM
-         3Uf0jz/gYRqoPW9beXrjMAL/7Ilt9EiZwz9MQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688473699; x=1691065699;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l5YpNQ9k3FxEI6NyEQ6O/c948FLcVDYur8dACWC8IMo=;
-        b=fYGbFccjB1GoZ33lHVuOKOWKRXm2psgEnuafvsNKST8EsnoPD2RCqRFE4QTGyuyNok
-         bavKr+mVbl6Ubp3sRidker0GcQLkp8YaCk6mvqdpHp6jivzTIUSBzPmnUjynUrAhgh5W
-         Fh1ilf6lofZ1a9pNCEkuI3ikyOzTt1MdGWzeRPcJlGtDDM5OVkn6e2i5HeLbeuOJxCe4
-         p5v2+RfOO6g9aHwtGWyw4aDIHpSHLaGUqzKCWnUQ0J8EV6+Y9JAI74sygLveIl5zM4wW
-         BEWU5JBsWxDwcC1BfeRy6/JDtdvxzbvYK1Ouuc2L05o3/pW7FZTKypuQTZa7Y2E7GdFc
-         eOlw==
-X-Gm-Message-State: AC+VfDy45VOOjdqkzAdDjGtZoXrCDnft2wmK1awKJR2IiDaylaaV1xgh
-        rRGCw19h7DlR16H+GXBLWdvMcw==
-X-Google-Smtp-Source: ACHHUZ6ytBJOoBgDRsxovcaKyYEdk2QBLDw+FxvVzCXKV9CmY3KSb9amNV59gJ8MDByp7CHlrPVdRA==
-X-Received: by 2002:ad4:5ba6:0:b0:623:5c93:77eb with SMTP id 6-20020ad45ba6000000b006235c9377ebmr22037706qvq.13.1688473699061;
-        Tue, 04 Jul 2023 05:28:19 -0700 (PDT)
-Received: from macbook-air.local (weaver.eece.maine.edu. [130.111.218.23])
-        by smtp.gmail.com with ESMTPSA id oj2-20020a056214440200b00631fc149a19sm1667137qvb.110.2023.07.04.05.28.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 05:28:18 -0700 (PDT)
-From:   Vince Weaver <vincent.weaver@maine.edu>
-X-Google-Original-From: Vince Weaver <vince@maine.edu>
-Date:   Tue, 4 Jul 2023 08:28:08 -0400 (EDT)
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Atish Patra <atishp@atishpatra.org>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 08/10] Documentation: admin-guide: Add riscv
- sysctl_perf_user_access
-In-Reply-To: <20230703124647.215952-9-alexghiti@rivosinc.com>
-Message-ID: <72d2ad7a-601a-a06a-5587-3843971dddf3@maine.edu>
-References: <20230703124647.215952-1-alexghiti@rivosinc.com> <20230703124647.215952-9-alexghiti@rivosinc.com>
-MIME-Version: 1.0
+        with ESMTP id S229610AbjGDM7m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 08:59:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3FF12E;
+        Tue,  4 Jul 2023 05:59:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D73556123C;
+        Tue,  4 Jul 2023 12:59:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DE6AC433C7;
+        Tue,  4 Jul 2023 12:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688475578;
+        bh=gdXfAe6zNFUWfjfbNMvNFg9rBY6S+Ics8BpCv867pFI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=VaHQK3rzaDBrU5kW2Rxv4QvphNneg88u1Wm43hq2n6qrQevAjyhZybEnpAINkfEP/
+         YFASjpW2VcHt/EQPIOa2iPQf1/xnCny4JJq+KG6A+hLCYO+BhIaIUysPDncXOVCfOB
+         bDUZ/Vjsb4U5FWEKnQUrg+NQvmsPruMduOqxS3RqynaA/USpUOjY1q6sxYn7YqlLNl
+         Qes5JcYuYm+nyQMZZeg9Cs5Lyp1dQ9NGhbOBXFtyV1tWqDeOSwEDJYuau8TlBCY+gE
+         veNA3yJQZmMEFqlaCHmppfOoUCj14WK//qSU4psDDUyy+Rgcb2t9JrqT2dEdEyFmbg
+         fyz8lPKniLRBw==
+Date:   Tue, 4 Jul 2023 21:59:32 +0900
+From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To:     paulmck@kernel.org
+Cc:     mtk.manpages@gmail.com, mhiramat@kernel.org, corbet@lwn.net,
+        akpm@linux-foundation.org, ndesaulniers@google.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] proc.5: Clarify that boot arguments can be embedded in
+ image
+Message-Id: <20230704215932.c9cab0af086528e52ca0bfbb@kernel.org>
+In-Reply-To: <433d742b-743b-4335-878f-1ca0f45698f7@paulmck-laptop>
+References: <433d742b-743b-4335-878f-1ca0f45698f7@paulmck-laptop>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 30 Jun 2023 16:33:28 -0700
+"Paul E. McKenney" <paulmck@kernel.org> wrote:
+
+> With the advent of the CONFIG_BOOT_CONFIG Kconfig option, kernel boot
+> arguments can now be embedded in the kernel image, either attached
+> to the end of initramfs or embedded in the kernel itself.  Document
+> this possibility in the /proc/cmdline entry of proc.5.
+
+Thanks for update!
+
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+> 
+> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> 
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index c6684620e..141a2983c 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -3100,6 +3100,9 @@ Often done via a boot manager such as
+>  .BR lilo (8)
+>  or
+>  .BR grub (8).
+> +Any arguments embedded in the kernel image or initramfs via 
+> +.B CONFIG_BOOT_CONFIG
+> +will also be displayed.
+>  .TP
+>  .IR /proc/config.gz " (since Linux 2.6)"
+>  This file exposes the configuration options that were used
 
 
-On Mon, 3 Jul 2023, Alexandre Ghiti wrote:
-
-> -=================================
-> +perf_user_access (arm64 and riscv only)
-> +=======================================
-
-so I complained about this when support for this went in for arm64.
-
-Why do we have two separate ways of getting this info, one for x86 and one 
-for arm64/riscv?
-
-Could we get x86 patched to use the same interface?
-
-It's a pain for tool users to have to maintain multiple code paths because 
-the various architectures can't agree on how to export this info to 
-userspace.
-
-Vince
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
