@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC87EB64D9
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 21:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7371EC0015E
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 21:17:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230255AbjGDVQh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 17:16:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59610 "EHLO
+        id S230048AbjGDVRl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 17:17:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjGDVQg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 17:16:36 -0400
+        with ESMTP id S230458AbjGDVRl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 17:17:41 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FBDC10CF
-        for <linux-doc@vger.kernel.org>; Tue,  4 Jul 2023 14:15:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C752187
+        for <linux-doc@vger.kernel.org>; Tue,  4 Jul 2023 14:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688505354;
+        s=mimecast20190719; t=1688505412;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=Y8bJxR2hg9jZOo9xJJwily7Z9DBcJ34R5Ty+xrrHVZo=;
-        b=cq1sTclzrKy5GRRZ6BowhtHGn2GJSmXuR003H402e6szEhHzB8GOxTfXWEu0/45G2ZgGwP
-        bsc9eNiS2MsGn7aNaxIXHd6NUuqLaLJxnbmBGxdPCunMFqMirUAxiKA240UjBGZ9/VXb8q
-        FLnsBhx48NpdZy2Ep9jhGpKszoPvr3E=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=VV04n37U8nBXKx7jlfEZg7R8H9gfvZ1yfEmW1FTRWAc=;
+        b=LDOmEEyxrmHT8Ccjq6ljx8l6JikH5iba0NFkW4DXzZm2iwyDN7r9WzkvQMDyYZV9Fp18tO
+        pJYKNwL8T6oxnJv8CVJ7uN19vYt1ttOLA4F+Pejvqlv7K9bfo1DVeTby0lnjt7h0RlTGDA
+        jkd2hfi4iLP2Gv2YBbarurcI+aFD33s=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-PNK3zHm5MkWybenTXwt8LA-1; Tue, 04 Jul 2023 17:15:53 -0400
-X-MC-Unique: PNK3zHm5MkWybenTXwt8LA-1
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-62dd79f63e0so13514936d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jul 2023 14:15:53 -0700 (PDT)
+ us-mta-605-ZopPRVeANzKatSxxGDcIrQ-1; Tue, 04 Jul 2023 17:16:51 -0400
+X-MC-Unique: ZopPRVeANzKatSxxGDcIrQ-1
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-76716078e78so107821685a.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jul 2023 14:16:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688505352; x=1691097352;
+        d=1e100.net; s=20221208; t=1688505410; x=1691097410;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y8bJxR2hg9jZOo9xJJwily7Z9DBcJ34R5Ty+xrrHVZo=;
-        b=Wyu0ZzQKvfMJlFoHJc5cHDNtegBGl/V4hJpXLAz+qA7FBkJf06Q2Z5bWxdsWj5tLVF
-         WJU1hWXYkqNmihW5mrJkHB51JqLMohxro3Aopo1iXb3xJj+H2fBdzFTnucxlMo0b2VOI
-         Yt/xHWR/GSVHwoXZ7+DuVBBhXqm8oPrrmT8lRNOr7lztp3za9DKF5z/HqvaWrPB4NcYd
-         3t4GwRW/g560YpLRLxmJVQ9zHjUwnFVxULvFtladPVptRTrsaMEXJ8/Dng5cZdKi3lxc
-         0Tkz4SP5RxtOVJRcr87cO5TJxtAsLML40wsqV1Gu9SyJOeyS3tN3Orcmffaf2OkyhT8Q
-         ST6A==
-X-Gm-Message-State: ABy/qLYZkuatLEaBpXTvwfq8Hb7XEx3DKHrFKHCwYzvlYJsWSwf8yO21
-        aBFcWC9nbE5SjShsOGoKPfm/hPariYYpE8LmNj9vL0T1McT5QcaFq05D7GICWrmcGl53gM03mBK
-        n5/28SELW7PoUv3VTe53W
-X-Received: by 2002:a05:6214:2685:b0:635:d9d0:cccf with SMTP id gm5-20020a056214268500b00635d9d0cccfmr15299205qvb.4.1688505352760;
-        Tue, 04 Jul 2023 14:15:52 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGplsPlE6k/Ac9I4olk/6Quorme09kXiBKYGVccc9DwPZ/ze9ZJey/GJMFKHSw2A+5sGFeDSQ==
-X-Received: by 2002:a05:6214:2685:b0:635:d9d0:cccf with SMTP id gm5-20020a056214268500b00635d9d0cccfmr15299183qvb.4.1688505352469;
-        Tue, 04 Jul 2023 14:15:52 -0700 (PDT)
+        bh=VV04n37U8nBXKx7jlfEZg7R8H9gfvZ1yfEmW1FTRWAc=;
+        b=HAsDqi5z+yzl+PjkXChjD1UoYxaArp5rFim2etlIugEt3ADQ7MPnchkeAzhw/SxqZ2
+         DyMSMLgWqEdjI4bJ9p9bZXSLU2sIUlyO0iRhoXR02BsQCZ947P8NiAq83YKjUsHK+Ur+
+         78ReDpdR5uuHKUVTr/sHon2+4jC/9dL5XwdrkUNL7Dww8lUP3RbIfIv7+jpyiDRW/DTd
+         eWOXwy1hbzolPFJGe7Skl/tSI2hnzWpN37bZPAvWc50SuP2k7GP1CxJKmR0Ocbbhx6Jg
+         Jgl+At+RTfobGso9KlcRuzrtRlKaXf+Bm8Og4zNfh9Oo+VFRe/a+v5S/dwfXcw1HBF8j
+         O4hw==
+X-Gm-Message-State: AC+VfDw3m50mDpWtHVelkI9dQ1SAciC/4RJaOIBt+kCE1nVvJvW3ZMsT
+        lOe0ZH9TniEShlWY0uI07JeLaFkhKAo3O7wkAOi0CGzMr6q4+PuDZTik3yDMqlK6NLMjXFK69wE
+        ODWiJXsQoBd46dSPFbLol
+X-Received: by 2002:a05:620a:4487:b0:765:435c:a4fa with SMTP id x7-20020a05620a448700b00765435ca4famr20273163qkp.0.1688505410591;
+        Tue, 04 Jul 2023 14:16:50 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4h9qxm2qr2McyrSm55+RKE46g3KUdAtCtYdQn6fLq1MJrI38m4oaSBNE07KxZKvdH+XrvoEw==
+X-Received: by 2002:a05:620a:4487:b0:765:435c:a4fa with SMTP id x7-20020a05620a448700b00765435ca4famr20273141qkp.0.1688505410353;
+        Tue, 04 Jul 2023 14:16:50 -0700 (PDT)
 Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com. [99.254.144.39])
-        by smtp.gmail.com with ESMTPSA id px11-20020a056214050b00b006238f82cde4sm12696617qvb.108.2023.07.04.14.15.50
+        by smtp.gmail.com with ESMTPSA id i4-20020a05620a144400b0076728319575sm6994582qkl.27.2023.07.04.14.16.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 14:15:52 -0700 (PDT)
-Date:   Tue, 4 Jul 2023 17:15:50 -0400
+        Tue, 04 Jul 2023 14:16:50 -0700 (PDT)
+Date:   Tue, 4 Jul 2023 17:16:48 -0400
 From:   Peter Xu <peterx@redhat.com>
 To:     Axel Rasmussen <axelrasmussen@google.com>
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -77,34 +77,62 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] selftests/mm: add uffd unit test for UFFDIO_POISON
-Message-ID: <ZKSMBnLkGXhlcwWs@x1n>
+Subject: Re: [PATCH v2 6/6] mm: userfaultfd: add basic documentation for
+ UFFDIO_POISON
+Message-ID: <ZKSMQOUB99HjlUN5@x1n>
 References: <20230629205040.665834-1-axelrasmussen@google.com>
- <20230629205040.665834-5-axelrasmussen@google.com>
+ <20230629205040.665834-6-axelrasmussen@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230629205040.665834-5-axelrasmussen@google.com>
+In-Reply-To: <20230629205040.665834-6-axelrasmussen@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 29, 2023 at 01:50:39PM -0700, Axel Rasmussen wrote:
-> The test is pretty basic, and exercises UFFDIO_POISON straightforwardly.
-> We register a region with userfaultfd, in missing fault mode. For each
-> fault, we either UFFDIO_COPY a zeroed page (odd pages) or UFFDIO_POISON
-> (even pages). We do this mix to test "something like a real use case",
-> where guest memory would be some mix of poisoned and non-poisoned pages.
-> 
-> We read each page in the region, and assert that the odd pages are
-> zeroed as expected, and the even pages yield a SIGBUS as expected.
-> 
-> Why UFFDIO_COPY instead of UFFDIO_ZEROPAGE? Because hugetlb doesn't
-> support UFFDIO_ZEROPAGE, and we don't want to have special case code.
+On Thu, Jun 29, 2023 at 01:50:40PM -0700, Axel Rasmussen wrote:
+> Just describe the feature at a really basic level.
 > 
 > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 
+The final enablement of the feature can be squashed into this doc update
+patch too.
+
 Acked-by: Peter Xu <peterx@redhat.com>
+
+> ---
+>  Documentation/admin-guide/mm/userfaultfd.rst | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
+> index 7c304e432205..b19053436369 100644
+> --- a/Documentation/admin-guide/mm/userfaultfd.rst
+> +++ b/Documentation/admin-guide/mm/userfaultfd.rst
+> @@ -244,6 +244,21 @@ write-protected (so future writes will also result in a WP fault). These ioctls
+>  support a mode flag (``UFFDIO_COPY_MODE_WP`` or ``UFFDIO_CONTINUE_MODE_WP``
+>  respectively) to configure the mapping this way.
+>  
+> +Memory Poisioning Emulation
+> +---------------------------
+> +
+> +In response to a fault (either missing or minor), an action userspace can
+> +take to "resolve" it is to issue a ``UFFDIO_POISON``. This will cause any
+> +future faulters to either get a SIGBUS, or in KVM's case the guest will
+> +receive an MCE as if there were hardware memory poisoning.
+> +
+> +This is used to emulate hardware memory poisoning. Imagine a VM running on a
+> +machine which experiences a real hardware memory error. Later, we live migrate
+> +the VM to another physical machine. Since we want the migration to be
+> +transparent to the guest, we want that same address range to act as if it was
+> +still poisoned, even though it's on a new physical host which ostentisbly
+> +doesn't have a memory error in the exact same spot.
+> +
+>  QEMU/KVM
+>  ========
+>  
+> -- 
+> 2.41.0.255.g8b1d071c50-goog
+> 
 
 -- 
 Peter Xu
