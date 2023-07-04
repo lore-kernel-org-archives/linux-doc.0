@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B7ACEB64D9
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 20:58:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE2CCEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 21:00:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230374AbjGDU6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 16:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55480 "EHLO
+        id S231140AbjGDVAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 17:00:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230242AbjGDU6q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 16:58:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 703F110C9
-        for <linux-doc@vger.kernel.org>; Tue,  4 Jul 2023 13:57:59 -0700 (PDT)
+        with ESMTP id S230504AbjGDVAo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 17:00:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31635E7B
+        for <linux-doc@vger.kernel.org>; Tue,  4 Jul 2023 13:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688504278;
+        s=mimecast20190719; t=1688504395;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=1xoQAy1k59UO+UqvJlN8ZZmc0nx2ezBp5tE6xHVc6K0=;
-        b=iV0DQRDEKDPBv/p0zk6qlr0fByaf8SI6loNCI52i/SzdLXp0FRuASHiuEcV/1kXukdS4Im
-        NAOVJN+4EdN59LvPr9wweSG6427YSQ74NVNPtWq0alVl0v8fOFC0iGmH0TwiDQez3cyjth
-        V2X+dwaO6Fu/TYJI1eyJn+f9X74W9Fw=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=GI5b35dMc1KdLtRTJt9n7EYcXqIPCpvszX0gw0M88kM=;
+        b=BRz9WfHpJptwM4RUDm0STDUbAlgfACtDIfuWfBrF90uu88q1rPaVdc5FiJ4Y8UdBCNmphB
+        5AD5nuXG8/jJaGeGfY8nIfL45SGdEwAXy37D45AG7Rx0MHldhhPa73X+SEcOEE6YHDZ7bP
+        foCoWeOibk7LZemGq/0PRhsRYU0ln0c=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-172-IUvl_FGhOHOYGFjOYT1nog-1; Tue, 04 Jul 2023 16:57:57 -0400
-X-MC-Unique: IUvl_FGhOHOYGFjOYT1nog-1
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7673887b2cfso163868085a.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jul 2023 13:57:57 -0700 (PDT)
+ us-mta-575-5O0JAKWCOoShl6hW1gwoyw-1; Tue, 04 Jul 2023 16:59:54 -0400
+X-MC-Unique: 5O0JAKWCOoShl6hW1gwoyw-1
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-62ffa1214edso11600616d6.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jul 2023 13:59:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688504277; x=1691096277;
+        d=1e100.net; s=20221208; t=1688504394; x=1691096394;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1xoQAy1k59UO+UqvJlN8ZZmc0nx2ezBp5tE6xHVc6K0=;
-        b=XEjXKxA5VaIb06XRzfl/x5b/SX1qnBPAUEbY4yI1nfOreJ99sXkv6H/JI2X8+OBTY6
-         Qk3PNUjx+GUmV0r0RXCSG1xo3/c8KmfhWHna3LVEjafgT7UufDRNEF3tC0Zjdq3JMAvF
-         GNr6ceqfayYxqK3NFODAxklqhKrmnDNZwtlOQOqpT6VB0EFW0M+hTlDzknieT0lRoC5f
-         RELwzxOCTuWdsSkFMiVAgEJGG1wGKvKvdVStG6vWY3/DpKvXswSm2TroHERPv6MNvNJ1
-         UiJG+3A0KHKJdb5QYqCp/q+JQuvq8g/rN34IlXJvewi36ZBG5N25ZDTwVyAai35/o7Qg
-         oEsg==
-X-Gm-Message-State: AC+VfDwRU+ozbekSza3mS/IWz/tnw2BsDh+qCKK9XVsRjA9JD8k5C7aA
-        gYu911DJUh5dKBy6+90UiymduuFzE9lt0m52G0Q0Vm4zQU3CVE5OXc4MUwxZ7UhjaIEKRTu0JJy
-        ztUhn66KrCoLnJpaDPPDg
-X-Received: by 2002:a05:620a:4010:b0:766:3190:8052 with SMTP id h16-20020a05620a401000b0076631908052mr19696460qko.0.1688504277091;
-        Tue, 04 Jul 2023 13:57:57 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7xb/vKX4Rf7OqmF2BqOllmu9tYbp/Y6WuIpnjmyfb54972lZs3nKCcbwYgzWdfzXNLzOF8cQ==
-X-Received: by 2002:a05:620a:4010:b0:766:3190:8052 with SMTP id h16-20020a05620a401000b0076631908052mr19696444qko.0.1688504276815;
-        Tue, 04 Jul 2023 13:57:56 -0700 (PDT)
+        bh=GI5b35dMc1KdLtRTJt9n7EYcXqIPCpvszX0gw0M88kM=;
+        b=Wgt8ZHvBDI0KWmhwM9hvg3IaueAaMU3/iVrryffKV6EDAY3sjhwZmENtuILd4hD/xD
+         Hz6Fsi33LzgS06Ubp9GjF7C2MexEM6Dk22bDWbTfWy0+JCkRuOMmtFFJhtq2JxXDBI3P
+         UYMOioO+2uBh1QhQ4K1yiTIVmwvZXSea0X0Uu0EnvFh5cBmBHzBvDGxHQvbNVzrxcRqk
+         L3J+4gy2qxPVn15fGZlqw+pLX9O0fiPSS76ykJCvZ/isfD+SiL9an/BtB4uKHZAuucNa
+         1Fney87BNPaC6JZ0hbqIK2QAEVcUMFriPRDFf57PL1a4ZpdszWekZ5bzw60GriJpQy3N
+         7WbQ==
+X-Gm-Message-State: ABy/qLbcFx+ZNG8siSta0lcU3Ig9uVrUfnJSGrtyGCRfY/M7NmFyS+6b
+        wIbJFhs9fKm9kI5UfRMWjmoFXed+ix9InPQ9tOkqb00z7/SLoUnEAjTYZlB6Ny3RiCIVZYqWIZC
+        BfiNbz5/7qIQOcm3kul1m
+X-Received: by 2002:a05:6214:3018:b0:635:e528:521a with SMTP id ke24-20020a056214301800b00635e528521amr6683204qvb.5.1688504393769;
+        Tue, 04 Jul 2023 13:59:53 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHVt52JWZzoWFGQHmqymAXvJZN3G9/+QeDJK1PcLD/x3FT2CCtjq5RKSQlTptL8VfnXgNioEg==
+X-Received: by 2002:a05:6214:3018:b0:635:e528:521a with SMTP id ke24-20020a056214301800b00635e528521amr6683169qvb.5.1688504393448;
+        Tue, 04 Jul 2023 13:59:53 -0700 (PDT)
 Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com. [99.254.144.39])
-        by smtp.gmail.com with ESMTPSA id 19-20020a05620a06d300b007621bdc9d98sm91846qky.87.2023.07.04.13.57.55
+        by smtp.gmail.com with ESMTPSA id y11-20020ad457cb000000b00631eb444e6esm12777291qvx.51.2023.07.04.13.59.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 13:57:56 -0700 (PDT)
-Date:   Tue, 4 Jul 2023 16:57:54 -0400
+        Tue, 04 Jul 2023 13:59:53 -0700 (PDT)
+Date:   Tue, 4 Jul 2023 16:59:51 -0400
 From:   Peter Xu <peterx@redhat.com>
 To:     Axel Rasmussen <axelrasmussen@google.com>
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -77,132 +77,110 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] mm: userfaultfd: refactor hugetlb folio
- allocation / lookup code
-Message-ID: <ZKSH0pb+asKZ4+s/@x1n>
+Subject: Re: [PATCH v2 3/6] mm: userfaultfd: support UFFDIO_POISON for
+ hugetlbfs
+Message-ID: <ZKSIR4zga2A+fdcv@x1n>
 References: <20230629205040.665834-1-axelrasmussen@google.com>
- <20230629205040.665834-2-axelrasmussen@google.com>
+ <20230629205040.665834-3-axelrasmussen@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230629205040.665834-2-axelrasmussen@google.com>
+In-Reply-To: <20230629205040.665834-3-axelrasmussen@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 29, 2023 at 01:50:36PM -0700, Axel Rasmussen wrote:
-> At the top of `hugetlb_mfill_atomic_pte`, we need to get the folio we're
-> going to be mapping. There are three basic cases we're dealing with
-> here:
-> 
-> 1. We're doing a UFFDIO_CONTINUE, in which case we lookup an existing
->    folio in the pagecache, instead of allocating a new one.
-> 2. We need to allocate a new folio.
-> 3. We previously failed while populating our new folio, so we "returned"
->    a temporary folio using `foliop` and had our caller retry.
-> 
-> In a future commit I'm going to add a fourth case for UFFDIO_POISON,
-> where we aren't going to map a folio at all (newly allocated or
-> otherwise). This end state will be simpler, and we can re-use a bit more
-> code, if we stop using `if (...)` to distinguish the cases.
-> 
-> So, refactor the cases so they share most of the same code, and instead
-> switch to `goto` to skip some parts depending on the case at hand.
+On Thu, Jun 29, 2023 at 01:50:37PM -0700, Axel Rasmussen wrote:
+> The behavior here is the same as it is for anon/shmem. This is done
+> separately because hugetlb pte marker handling is a bit different.
 > 
 > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-
-I didn't get why this patch is needed..
-
-IIUC you added MFILL_ATOMIC_POISON handling at the entry of
-hugetlb_mfill_atomic_pte() anyway.  Maybe it can even have its own
-hugetlb_mfill_atomic_poison()?  Did I miss something?
-
 > ---
->  mm/hugetlb.c | 53 +++++++++++++++++++++++++---------------------------
->  1 file changed, 25 insertions(+), 28 deletions(-)
+>  mm/hugetlb.c     | 33 +++++++++++++++++++++++++++++++--
+>  mm/userfaultfd.c |  6 +-----
+>  2 files changed, 32 insertions(+), 7 deletions(-)
 > 
 > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index bce28cca73a1..38711d49e4db 100644
+> index 38711d49e4db..05abe88986b6 100644
 > --- a/mm/hugetlb.c
 > +++ b/mm/hugetlb.c
-> @@ -6259,22 +6259,32 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
->  		if (IS_ERR(folio))
->  			goto out;
->  		folio_in_pagecache = true;
-> -	} else if (!*foliop) {
-> -		/* If a folio already exists, then it's UFFDIO_COPY for
-> -		 * a non-missing case. Return -EEXIST.
-> -		 */
-> -		if (vm_shared &&
-> -		    hugetlbfs_pagecache_present(h, dst_vma, dst_addr)) {
-> -			ret = -EEXIST;
-> -			goto out;
-> +		goto ready;
-> +	}
-> +
-> +	/* If a folio already exists, then it's UFFDIO_COPY for
-> +	 * a non-missing case. Return -EEXIST.
-> +	 */
-> +	if (vm_shared && hugetlbfs_pagecache_present(h, dst_vma, dst_addr)) {
-> +		ret = -EEXIST;
-> +		if (*foliop) {
-> +			folio_put(*foliop);
-> +			*foliop = NULL;
->  		}
-> +		goto out;
-> +	}
->  
-> -		folio = alloc_hugetlb_folio(dst_vma, dst_addr, 0);
-> -		if (IS_ERR(folio)) {
-> -			ret = -ENOMEM;
-> -			goto out;
-> +	folio = alloc_hugetlb_folio(dst_vma, dst_addr, 0);
-> +	if (IS_ERR(folio)) {
-> +		ret = -ENOMEM;
-> +		if (*foliop) {
-> +			folio_put(*foliop);
-> +			*foliop = NULL;
->  		}
-> +		goto out;
-> +	}
->  
-> +	if (!*foliop) {
->  		ret = copy_folio_from_user(folio, (const void __user *) src_addr,
->  					   false);
->  
-> @@ -6302,22 +6312,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
->  			 */
->  			goto out;
->  		}
-> -	} else {
-> -		if (vm_shared &&
-> -		    hugetlbfs_pagecache_present(h, dst_vma, dst_addr)) {
-> -			folio_put(*foliop);
-> -			ret = -EEXIST;
-> -			*foliop = NULL;
-> -			goto out;
-> -		}
-> -
-> -		folio = alloc_hugetlb_folio(dst_vma, dst_addr, 0);
-> -		if (IS_ERR(folio)) {
-> -			folio_put(*foliop);
-> -			ret = -ENOMEM;
-> -			*foliop = NULL;
-> -			goto out;
-> -		}
-> +	} else { /* Caller retried because we set *foliop previously */
->  		ret = copy_user_large_folio(folio, *foliop, dst_addr, dst_vma);
->  		folio_put(*foliop);
->  		*foliop = NULL;
-> @@ -6327,6 +6322,8 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
->  		}
+> @@ -6090,14 +6090,24 @@ vm_fault_t hugetlb_fault(struct mm_struct *mm, struct vm_area_struct *vma,
 >  	}
 >  
-> +ready: /* `folio` ready to map (non-NULL, populated) */
+>  	entry = huge_ptep_get(ptep);
+> -	/* PTE markers should be handled the same way as none pte */
+> -	if (huge_pte_none_mostly(entry))
+> +	if (huge_pte_none_mostly(entry)) {
+> +		if (is_pte_marker(entry)) {
+> +			unsigned long marker = pte_marker_get(pte_to_swp_entry(entry));
 > +
->  	/*
->  	 * The memory barrier inside __folio_mark_uptodate makes sure that
->  	 * preceding stores to the page contents become visible before
+> +			if (marker & PTE_MARKER_UFFD_POISON) {
+> +				ret = VM_FAULT_HWPOISON_LARGE;
+> +				goto out_mutex;
+> +			}
+> +		}
+>  		/*
+> +		 * Other PTE markers should be handled the same way as none PTE.
+> +		 *
+>  		 * hugetlb_no_page will drop vma lock and hugetlb fault
+>  		 * mutex internally, which make us return immediately.
+>  		 */
+>  		return hugetlb_no_page(mm, vma, mapping, idx, address, ptep,
+>  				      entry, flags);
+> +	}
+>  
+>  	ret = 0;
+>  
+> @@ -6253,6 +6263,25 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+>  	int writable;
+>  	bool folio_in_pagecache = false;
+>  
+> +	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON)) {
+> +		ptl = huge_pte_lock(h, dst_mm, dst_pte);
+> +
+> +		/* Don't overwrite any existing PTEs (even markers) */
+> +		if (!huge_pte_none(huge_ptep_get(dst_pte))) {
+> +			spin_unlock(ptl);
+> +			return -EEXIST;
+> +		}
+> +
+> +		_dst_pte = make_pte_marker(PTE_MARKER_UFFD_POISON);
+> +		set_huge_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
+> +
+> +		/* No need to invalidate - it was non-present before */
+> +		update_mmu_cache(dst_vma, dst_addr, dst_pte);
+> +
+> +		spin_unlock(ptl);
+> +		return 0;
+> +	}
+> +
+>  	if (is_continue) {
+>  		ret = -EFAULT;
+>  		folio = filemap_lock_folio(mapping, idx);
+> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> index 87b62ca1e09e..4436cae1c7a8 100644
+> --- a/mm/userfaultfd.c
+> +++ b/mm/userfaultfd.c
+> @@ -381,12 +381,8 @@ static __always_inline ssize_t mfill_atomic_hugetlb(
+>  	 * supported by hugetlb.  A PMD_SIZE huge pages may exist as used
+>  	 * by THP.  Since we can not reliably insert a zero page, this
+>  	 * feature is not supported.
+> -	 *
+> -	 * PTE marker handling for hugetlb is a bit special, so for now
+> -	 * UFFDIO_POISON is not supported.
+>  	 */
+> -	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE) ||
+> -	    uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON)) {
+> +	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE)) {
+>  		mmap_read_unlock(dst_mm);
+>  		return -EINVAL;
+
+If we have the last patch declaring the feature bits and so on, IIUC we
+don'tt need this change back and forth.  Other than that looks good.
+
+Thanks,
+
+>  	}
 > -- 
 > 2.41.0.255.g8b1d071c50-goog
 > 
