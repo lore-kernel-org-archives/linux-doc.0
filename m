@@ -2,105 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE59EB64D9
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 03:51:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77985EB64D9
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 04:03:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbjGDDvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jul 2023 23:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47526 "EHLO
+        id S230010AbjGDEDg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jul 2023 00:03:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbjGDDvP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jul 2023 23:51:15 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A771B6;
-        Mon,  3 Jul 2023 20:51:12 -0700 (PDT)
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Qw82s464lz1HCqB;
-        Tue,  4 Jul 2023 11:50:45 +0800 (CST)
-Received: from [10.67.108.26] (10.67.108.26) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 4 Jul
- 2023 11:51:09 +0800
-Message-ID: <f6764156-ec85-ad0a-f0b7-030f24f4dee4@huawei.com>
-Date:   Tue, 4 Jul 2023 11:51:08 +0800
+        with ESMTP id S229793AbjGDEDZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 00:03:25 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557FBE6A;
+        Mon,  3 Jul 2023 21:03:23 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id F1E245C0150;
+        Tue,  4 Jul 2023 00:03:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Tue, 04 Jul 2023 00:03:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1688443402; x=1688529802; bh=Tz
+        UkfM7huciW8VhwVnvRMErywl26g+hJgmqbirycXGU=; b=ne+fpr4AVhD/+FKE63
+        UrtipHBq0d1HcxMhAA6nefestnCLmrLT/x7PCiuTVykZDPXLer9jySUn+qUcnWAI
+        V0dhZ3gYY5Y9TWPovI888v9+J4t1hxsSkQFHGEI3TM2ou4q0MsCCYlriJ558sCNA
+        Z5bDmEHHzzJ0mJ9I/4alXJ9k1hmRBLAUO4FqAke55nR89MXAv9ggO7AGzTTbfgS+
+        RcBz/0ngc5GsxrF2S8nt7d1lPKyjvmLpNFSwYz3GrZHqLczx5gBxlFyha6i3fKll
+        XnMykv1GJ3arBBVukzxkPmo+RwBxLwgGeVNBSWGRZlhTNvK+4KaHc7n+2ZQZB5/f
+        vNSQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1688443402; x=1688529802; bh=TzUkfM7huciW8
+        VhwVnvRMErywl26g+hJgmqbirycXGU=; b=L8qRvW81svHbpGZGLlN+FlbSRKlXN
+        bz97WYtpRzUWjL5KjSxNyI8Swaht5bchq+n+HQn9DMwzRRg8wYL2+T510TwhTTFB
+        +OTJFNj3zi20pAEYtJ40xlnhkAhHWmXKIhbHH2tQcYzK/u6KX5OdT5/HWXIlW+wD
+        YDE6vFJrI/ojhMBAHHtVBoozIl1uSqCiE5NLbAopLG1kSrMLlwKG73nKpy+FAy9/
+        ziqWpI7MkHYWVYsOxuaw1FGOcvtL9UfnCu5xOmkAa3zcfHcVVlzMjPRiR21BFAGB
+        MR1GkKJY51bj92mrCLrQrFl0zz7fTvbg861S9jQQGX6kJXeX06pRuXWRA==
+X-ME-Sender: <xms:CpqjZOcR3hdRs1X-2I13bOKfMr2AlqLUR_g-KtgPkWfqqfSa8notTg>
+    <xme:CpqjZINFjcjmDbT5ri8vXgf15SveQSBGJOrXJ4JQLWabCg6xnVEVw-Kdf6UrmJvbp
+    GDssU83NwJFdc8_kCQ>
+X-ME-Received: <xmr:CpqjZPiivvYLAr4TmQEiCkgDi7AZsWyZUOTY0rVHUbtOoZydEEHl9GnOQ5FnaHwYcu336LWtcuDpxkYG-bp8j4jLpIs7b_S04reI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudefgdejkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
+    fuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpeffhffvvefukfhfgggtuggj
+    sehttdertddttddvnecuhfhrohhmpefrvghtvghrucfjuhhtthgvrhgvrhcuoehpvghtvg
+    hrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvtheqnecuggftrfgrthhtvghrnhepueef
+    geefvdefudeulefgjefgvdeifeekuefgjeffueehiedtiefhkefhtdefjeelnecuffhomh
+    grihhnpegslhhoghhsphhothdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnh
+    gvth
+X-ME-Proxy: <xmx:CpqjZL-fGeecXS51zY0cs2OrGcLdbF25MWbsNr3KZqVR8Ogl19ZdxA>
+    <xmx:CpqjZKtixo2m4r7_8bY2updA7Q2y8mF8he6RkB-GQQobYjzZmpO9_g>
+    <xmx:CpqjZCFBqFq1iQNprivx4hNkJMynCulF-BkvmjGHr440kqa6xMsYxQ>
+    <xmx:CpqjZMIgKd2C2h0BcFhSxOEvraWxjcJJHvrSVV4_4ygagUAjUK90Jg>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 4 Jul 2023 00:03:19 -0400 (EDT)
+Date:   Tue, 4 Jul 2023 14:03:13 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Marco Morandini <marco.morandini@polimi.it>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/1] HID: Add introduction about HID for non-kernel
+ programmers
+Message-ID: <20230704040313.GA181170@quokka>
+References: <d6d16821-2592-8210-475a-5388d7a79e82@polimi.it>
+ <99a679e8-6b01-6805-1e33-ce02485e0063@polimi.it>
+ <20230622075905.GA35108@quokka>
+ <fcb47559-dac0-963b-8798-dab0d6b0b636@polimi.it>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH -next v5 1/2] riscv: kdump: Implement
- crashkernel=X,[high,low]
-Content-Language: en-US
-To:     Baoquan He <bhe@redhat.com>
-CC:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
-        <conor.dooley@microchip.com>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
-        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
-        <thunder.leizhen@huawei.com>, <horms@kernel.org>
-References: <20230511085139.1039088-1-chenjiahao16@huawei.com>
- <20230511085139.1039088-2-chenjiahao16@huawei.com>
- <ZHwKFADVXyNYJBCp@MiWiFi-R3L-srv>
- <852b8777-3c6e-f76b-0413-1c66629f33cd@huawei.com>
- <5c80666c-e6e2-8fa6-50b6-89536315925e@huawei.com>
- <ZKD3tEBknEiF4PZK@MiWiFi-R3L-srv>
-From:   "chenjiahao (C)" <chenjiahao16@huawei.com>
-In-Reply-To: <ZKD3tEBknEiF4PZK@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.108.26]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fcb47559-dac0-963b-8798-dab0d6b0b636@polimi.it>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jun 22, 2023 at 10:37:29PM +0200, Marco Morandini wrote:
+> 
+> > 
+> > shameless plug! :) I wrote this post a few years ago, feel free to
+> > incorporate bits from there into here
+> > https://who-t.blogspot.com/2018/12/understanding-hid-report-descriptors.html
+> 
+> 
+> Damn! This is much better than all the tutorials 
+> I found while trying to orient 
+> myself, and I managed to miss it :(
+> 
+> Would it be ok to link to it from the doc?
 
-On 2023/7/2 12:06, Baoquan He wrote:
-> On 07/01/23 at 05:51pm, chenjiahao (C) wrote:
-> ......
->> I have sent v6 patches, implementing the logic above. That fixes the
->> retrying
->>
->> logic and should be aligned with Arm64 code.
-> Hmm, it has improved much, while there's still issue which need be
-> fixed. You missed the case that crsahkernel low is specified as zero
-> explicitly. Obviously your v6 is not able to handle that well. Means
-> your v6 is not aligned with the current arm64 code completely.
->
-> crashkernel=xM,high crashkernel=0M,low
->
->>
->> Please let me know if there is any problem remains.
-> Earlier, I posted below RFC patchset to try to unify the
-> crashkernel=,high support on x86, arm64 and risc-v, the generic arch.
-> Wondering what you think about it. risc-v can be added in with very few
-> change to get the crahskernel=,high support.
->
-> [RFC PATCH 0/4] kdump: add generic functions to simplify crashkernel crashkernel in architecture
->
-> Surely, the crashkernel=,high support can be added independently in
-> advance. Later my patchset can unify them and remove the duplicated code
-> in risc-v. It's up to you and risc-v maintainers/reivewers to take one.
-> Anyway, I will add comment to your v6 to point out the issue.
+missed this one sorry - yes, feel free to link to it, extract parts of
+it without attribution, etc.
 
-It would be great if crashkernel parsing and reserving logic could be
-unified on multiple architectures, the code would be more straightforward
-and easy to use. I will have a more in-depth review of your RFC patchset
-later.
+[...]
 
-Meanwhile, I will continue to update my patchset on risc-v, just wishing
-to complement this feature earlier. When your unify solution get applied,
-simply remove the duplicate part is OK. Before that, I will update my
-risc-v code and further align with the Arm64 logic.
+> > Also: you now already have 2 tools to look at hid and then you use two
+> > more later (hidrrd and hid-tools). I'd say it's best to just stick to
+> > one tool to reduce the mental load of having to map different tool
+> > outputs to what is the same base data.
+> 
+> I'm not sure about this: I think that hidraw needs to be introduced somewhere,
+> if for nothing because it's what gets consumed by hid-record .
+> Furthermore, looking at samples/hidraw/hid-example.c one can learn something, if not a lot.
+> For the time being I'm leaving the paragraph, moving most of it into a footnote;
+> of course we can drop it if you have a strong opinion about this. 
 
-Thanks for your carefully review, I will fix the issue above and send
-v7 patchset soon.
+I don't :) The main question is (and I can't answer this for you)
+is how much of an in-depth introduction you want to provide and at what
+point prospective readers will have to go to search for more
+information. At some point there has to be a cut-off but you get to
+decide where that one is.
 
-Thanks,
-Jiahao
+> >> +in the mouse example, and outputs.
+> >> +"Output" means that the information is fed
+> >> +from the device to the human; for examples,
+> >> +a joystick with force feedback will have
+> >> +some output.
+> >> +
+> >> +
+> >> +Report IDs and Evdev events
+> >> +===========================
+> >> +
+> >> +A single device can logically group
+> >> +data into different, independent sets.
+> >> +It is *as if* the HID presents
+> >> +itself as different devices, each exchanging
+> >> +its own data. The HID report descriptor is unique,
+> >> +but the different reports are identified by means
+> >> +of different ``Report ID`` fields. Whenever a ``Report ID``
+> >> +is needed it is transmitted as the first byte of any report.
+> > 
+> > This is a bit ambiguous since it's the collections and applications that
+> > split the device into different sets, the reports are just different
+> > ways of reporting data that belongs to one (or more? not 100% sure) of
+> > those sets then.
+> > 
+> > And the example below works because you have different collections on
+> > your device here but that's largely orthogonal to the use of reports.
+> 
+> I think this came from my misunderstanding of the role of Report IDs
+> and Application Collections (not that I'm sure to have undertsood everything).
+> The paragraph has been rewritte, please double check.
+> I'm glossing on the fact that the same Collection can have different Report IDs
+> inside (btw: is this correct? And if yes, is this something that is done, in practice?).
 
->
-> Thanks
-> Baoquan
->
+afaik it is permitted but I'm not sure how common it is. But it's not
+hard to imagine that a device out there that sends button events through
+one report and motion through another.
+
+Cheers,
+  Peter
