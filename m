@@ -2,104 +2,140 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25224EB64DA
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 22:42:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0951BEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 23:27:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231950AbjGEWmS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jul 2023 18:42:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57854 "EHLO
+        id S232426AbjGEX1o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jul 2023 19:27:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231288AbjGEWmR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 18:42:17 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882C01BCA;
-        Wed,  5 Jul 2023 15:41:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=whnA/OVznVWcFaFcIYC0diM7lv6z3lBMMqb7ePGz5mQ=; b=SBYa5ul/YojgJayNbL5nIgSWxk
-        aLsZEyN7JhOnzgsI0qiXJJ61u9NAVnSCtpm09RRNT//C5ozJlP3kromq72aejTynICWnQUsbi+v/b
-        ZA9YiSJLZgUq4Gu8DYTHyUusLqa9T1u/To45CTISHPjsHU5ysYVBXMm+ZGPNXkLaL5RK8E/bPn62a
-        Qcf5CMYS8dUJG+gJKXAcUhALxllaS/c2ve73SDpmle6i7hkoighnAlWn1Alj61QPXL7RC+QGGwHQo
-        hxtNuq5H+tdpiWAay00KrOhF6OzyqmIvC+b2RO/WW1PIagkMuIXHVbAzOLW5mxM7r5211VHXGP66G
-        ncygjUFg==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qHBBI-00AUxf-Rx; Wed, 05 Jul 2023 22:41:04 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        with ESMTP id S231608AbjGEX1n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 19:27:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE47A171A;
+        Wed,  5 Jul 2023 16:27:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 61B6E3002B1;
-        Thu,  6 Jul 2023 00:41:04 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 54454284C9973; Thu,  6 Jul 2023 00:41:04 +0200 (CEST)
-Date:   Thu, 6 Jul 2023 00:41:04 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Frederic Weisbecker <frederic@kernel.org>
-Cc:     Valentin Schneider <vschneid@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org,
-        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: Re: [RFC PATCH 11/14] context-tracking: Introduce work deferral
- infrastructure
-Message-ID: <20230705224104.GE2813335@hirez.programming.kicks-ass.net>
-References: <20230705181256.3539027-1-vschneid@redhat.com>
- <20230705181256.3539027-12-vschneid@redhat.com>
- <ZKXtfWZiM66dK5xC@localhost.localdomain>
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B2DF6187C;
+        Wed,  5 Jul 2023 23:27:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FE9CC433CA;
+        Wed,  5 Jul 2023 23:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688599661;
+        bh=71ABv5/JwaJZ55URTzD8vGgqeEszc1MgI9Tgv+MINjE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZONJDYYI4DfLy7Qsq2iruWU/TAy+MfhN8a+13GK2IWPkDZqio7bRNxa5SQs05lP4P
+         cwPUPxti1OHDRjna7RLvlHvYzjGzNzbIQj3qP3y/Bn+msmAYu9HbnUfdOB0mW+oJ0Y
+         xXd9KYSiaVMbhH8iXxtVbsReICsvqSFCZ93UbTBDH2SxezF1CiOXVRCeK6+eL9LKGf
+         lv5Tdq9By8SoiBvDGs8LHavKem9Wb+MzUqre5RXfWHiAchuT+L/DCozo3/BlyhktAW
+         7OLkwTDgnazo9mvhKgyHb/J//J+68K3lIP4d0Lf8VbQ7BmWtxd0vaabSh0ecr/t8zz
+         aclhgVyMhnn3Q==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2b6ef64342aso231811fa.3;
+        Wed, 05 Jul 2023 16:27:41 -0700 (PDT)
+X-Gm-Message-State: ABy/qLZ15zN9i0RK29N24/YPEZcU9AmIcYDkhPFpv4CaynvygCJuwO56
+        xE1BiyzvzmSOMJMehNsGnW17NxHUoZ1nVel/ew==
+X-Google-Smtp-Source: APBJJlEpNIPlBGdtVBVr58J7X3ky87DEhp6DbA9itW5/VGUcmhmKpi6TWJGAkGRnBuBFSJRhMLcgVJySm3N6emm2tmc=
+X-Received: by 2002:a2e:a170:0:b0:2b6:e958:d03 with SMTP id
+ u16-20020a2ea170000000b002b6e9580d03mr124735ljl.30.1688599659474; Wed, 05 Jul
+ 2023 16:27:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZKXtfWZiM66dK5xC@localhost.localdomain>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <1687955688-20809-11-git-send-email-quic_mojha@quicinc.com>
+ <CAL_Jsq+O70mnreuS1m54RKM+uZu_z1L87RT8sKBYEw5uvowGJg@mail.gmail.com> <e0fef1b0-3fa1-08c1-3c0e-aca30c9da266@quicinc.com>
+In-Reply-To: <e0fef1b0-3fa1-08c1-3c0e-aca30c9da266@quicinc.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 5 Jul 2023 17:27:27 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+FEAYXJTfMKQ6nOKzZLJH49x=XroNCYnkqa=RHuQ99qg@mail.gmail.com>
+Message-ID: <CAL_Jsq+FEAYXJTfMKQ6nOKzZLJH49x=XroNCYnkqa=RHuQ99qg@mail.gmail.com>
+Subject: Re: [PATCH v4 10/21] soc: qcom: Add qcom's pstore minidump driver support
+To:     Mukesh Ojha <quic_mojha@quicinc.com>
+Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
+        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
+        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 06, 2023 at 12:23:57AM +0200, Frederic Weisbecker wrote:
-> If this is just about a dozen, can we stuff them in the state like in the
-> following? We can potentially add more of them especially on 64 bits we could
-> afford 30 different works, this is just shrinking the RCU extended quiescent
-> state counter space. Worst case that can happen is that RCU misses 65535
-> idle/user <-> kernel transitions and delays a grace period...
+On Thu, Jun 29, 2023 at 3:16=E2=80=AFAM Mukesh Ojha <quic_mojha@quicinc.com=
+> wrote:
+>
+>
+>
+> On 6/29/2023 4:27 AM, Rob Herring wrote:
+> > On Wed, Jun 28, 2023 at 6:37=E2=80=AFAM Mukesh Ojha <quic_mojha@quicinc=
+.com> wrote:
+> >>
+> >> This driver was inspired from the fact pstore ram region should be
+> >> fixed and boot firmware need to have awarness about this region,
+> >> so that it will be persistent across boot. But, there are many
+> >> QCOM SoC which does not support warm boot from hardware but they
+> >> have minidump support from the software, and for them, there is
+> >> no need of this pstore ram region to be fixed, but at the same
+> >> time have interest in the pstore frontends data. So, this driver
+> >> get the dynamic reserved region from the ram and register the
+> >> ramoops platform device.
+> >>
+> >>   +---------+     +---------+   +--------+     +---------+
+> >>   | console |     | pmsg    |   | ftrace |     | dmesg   |
+> >>   +---------+     +---------+   +--------+     +---------+
+> >>         |             |             |              |
+> >>         |             |             |              |
+> >>         +------------------------------------------+
+> >>                            |
+> >>                           \ /
+> >>                    +----------------+
+> >>              (1)   |pstore frontends|
+> >>                    +----------------+
+> >>                            |
+> >>                           \ /
+> >>                   +------------------- +
+> >>              (2)  | pstore backend(ram)|
+> >>                   +--------------------+
+> >>                            |
+> >>                           \ /
+> >>                   +--------------------+
+> >>              (3)  |qcom_pstore_minidump|
+> >>                   +--------------------+
+> >>                            |
+> >>                           \ /
+> >>                     +---------------+
+> >>              (4)    | qcom_minidump |
+> >>                     +---------------+
+> >>
+> >> This driver will route all the pstore front data to the stored
+> >> in qcom pstore reserved region and the reason of showing an
+> >> arrow from (3) to (4) as qcom_pstore_minidump driver will register
+> >> all the available frontends region with qcom minidump driver
+> >> in upcoming patch.
+> >>
+> >> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
+> >> ---
+> >>   drivers/soc/qcom/Kconfig                | 12 +++++
+> >>   drivers/soc/qcom/Makefile               |  1 +
+> >>   drivers/soc/qcom/qcom_pstore_minidump.c | 85 +++++++++++++++++++++++=
+++++++++++
+> >
+> > drivers/soc/ is the dumping ground for things with no other place. As
+> > this is a pstore driver, it belongs with pstore.
+>
+> The inspiration of this driver was taken from
+> drivers/platform/chrome/chromeos_pstore.c, do you think that is misplaced=
+ ?
 
-We can make all this a 64bit only feature and use atomic_long_t :-)
+The difference is really that's nothing more than platform specific
+logic to instantiate a normal ramoops device. It's kind of ugly, yes,
+but it's still just a normal ramoops device in the end. Your case is
+that plus all the extra parts for minidump.
+
+Rob
