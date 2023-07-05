@@ -2,148 +2,147 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E49F3EB64DA
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 16:39:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A80CAEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 16:48:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231741AbjGEQjT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jul 2023 12:39:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53840 "EHLO
+        id S232321AbjGEQsq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jul 2023 12:48:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232047AbjGEQjO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 12:39:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81869171B
-        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 09:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688575108;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qtdlmeuUvVV5AoG6i2ieA0Vy+QvgXsh2syFJ86sdKyc=;
-        b=Y0e6AiZ/c+MsCLGcSjlJStGzpWQyzBAHbpTcihLAussMioXbDB7KsFi5ATHvGtRsr0sF6I
-        VP4TSDDgxMY9JHHK4UZZhGsmq+JLp5eM/3wSYqH4WUICsJarPQhN6ZFcdK5TEag5hRNVQD
-        mFfOM0flpB5AlJBJiq7ijK9tvdNZFsw=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-322-nj21xdzjO8mRKXpk-ygKyA-1; Wed, 05 Jul 2023 12:38:27 -0400
-X-MC-Unique: nj21xdzjO8mRKXpk-ygKyA-1
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-403838e9f4dso707911cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 09:38:27 -0700 (PDT)
+        with ESMTP id S232027AbjGEQso (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 12:48:44 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C80E10C3
+        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 09:48:41 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-262ec7b261bso5139722a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 09:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688575721; x=1691167721;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3hP9DbBA1q7ePE4MjE20bv2ZQsjinvRoBDENG1RHrkc=;
+        b=dN16GTJyFnx0CAdebrX0ihc9B+hOMoFybI8IewfRhaLSmnhpMkKjk+9jMWpnYCH2nO
+         abZ8bieLyGIv/gBw547X4lutvAnIFkaEJOxHjM7sLCugaoYj1sNtX0sQiPttz9zUtEF4
+         CjDCCW4autZVoak/I0EriHUxIgDGxz1avBoIhCt2QwLwUPcWABSd61YiMXFhhv6qgVuH
+         D+mpSlhVmLZCk0iGIjRlFGBxcqXh6KlLn9P2lBSvYVEOl8eP9pFD+/Q/qGMFU78VD25T
+         KzdJYFBbOvoWl+GnGsp0LKG4zRhoiTz1MD9oiijr7Q3Fzoo8Ti3Nj3VgDwxn2lTk7iVy
+         shJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688575107; x=1691167107;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qtdlmeuUvVV5AoG6i2ieA0Vy+QvgXsh2syFJ86sdKyc=;
-        b=jRCxkdqFJ379nbGoX4U0bqLZHnTQPJiF5ei5FmYgvshn+1WAuhyVUuFIfn9TBxzS/P
-         17IW2FWATCHFq0ArQwnOvOdM9GMoCTR9ORKx+CEwwrkS3cJpVhSGjtPHKu/a9P1Yv+Ly
-         yO+WKeqh+KI1/JRfaIR+rL0zP5NyH+vAzRJyHsL0bS1ykixIaNngke32oLKS6qdcquJZ
-         qhUBaODV3m2RSRC5irEOV+qGLZfvZSX4ipQvUIDgCHG3h9B5bxsVqtrJxR6MHybykxGh
-         f3saxt2XIZv1c/uAyJddDe0Q76FFxApmSrkrju5ObJTNBM1lGEFP42Qk7DICmHstVpw2
-         SELQ==
-X-Gm-Message-State: AC+VfDxcfM9njG2JBSu5a843LQRAVlnAu9WaLC+rVs4M46O6BrEBxqKJ
-        0QZAN9nMfmUp7Dh/Z7+2nCMZltiNmhpgdMFBSG8wGxPnySxC5NpSVS2xTTKw+fL5Gh+T5TzO5ny
-        +9ZD0YV781cnwgez6l4POsuFTd657
-X-Received: by 2002:a05:622a:1649:b0:3fd:e953:74ee with SMTP id y9-20020a05622a164900b003fde95374eemr23330947qtj.2.1688575106959;
-        Wed, 05 Jul 2023 09:38:26 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7ihy+ZtuZ+x6vBvXVoM3TZ2NbZyY/aD/dUpJ9fV+DBZTHo+GqAbnJh/h9W5pIXBTG6F2oj7A==
-X-Received: by 2002:a05:622a:1649:b0:3fd:e953:74ee with SMTP id y9-20020a05622a164900b003fde95374eemr23330935qtj.2.1688575106709;
-        Wed, 05 Jul 2023 09:38:26 -0700 (PDT)
-Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com. [99.254.144.39])
-        by smtp.gmail.com with ESMTPSA id ew5-20020a05622a514500b00400a760cbfdsm12611511qtb.17.2023.07.05.09.38.25
+        d=1e100.net; s=20221208; t=1688575721; x=1691167721;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3hP9DbBA1q7ePE4MjE20bv2ZQsjinvRoBDENG1RHrkc=;
+        b=BehroPzWESkPcHDsjQ+tHiBwurZ4WNu/eaXc+CaMG1FROZEX51mHSYnaLeeg8pFMwW
+         XRzJERASzLvV15Wbx+LSGpZPxEmvFFLKk3FLyPiJGsw9kip2/Oa45GIZ9FMS3wRcrGbn
+         /8eiC3VspikgPoAc13stQzubt8pNkkB9rqFWtWHRL6eKU4lLEEpsyviuh8MoZiQ29GgM
+         Owc/iOfi62032Tt7KCGQ7vjt702Tcja3zAXB8hrPby7Y0pOWxe4wJOcyL6O9NzsxANKs
+         CchQZta5dAwd1YLDXnHcRJIMPId2TvauYLIB3CuS0GWBggzuWGkRpwXnVdd1rPubP3wv
+         aUuQ==
+X-Gm-Message-State: ABy/qLbqtTistu3TvFtf4zMOubzJKU5i4VgVnLymNBzaR+55W9syOfzV
+        0MHKqu5gfAunCP2cLsajN63fsA==
+X-Google-Smtp-Source: APBJJlG4f3hzZqWilYuZ0BZOZWFUVy3ilbVJW12BSxOtJhU9JDflowuFeO6SvAVOY85YSbOMHbJLJw==
+X-Received: by 2002:a17:90b:156:b0:262:ea30:2cc3 with SMTP id em22-20020a17090b015600b00262ea302cc3mr16732080pjb.2.1688575720894;
+        Wed, 05 Jul 2023 09:48:40 -0700 (PDT)
+Received: from evan.ba.rivosinc.com ([66.220.2.162])
+        by smtp.gmail.com with ESMTPSA id f21-20020a17090ace1500b00263f85b6a35sm1311431pju.29.2023.07.05.09.48.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jul 2023 09:38:26 -0700 (PDT)
-Date:   Wed, 5 Jul 2023 12:38:24 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     James Houghton <jthoughton@google.com>
-Cc:     Axel Rasmussen <axelrasmussen@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jiaqi Yan <jiaqiyan@google.com>,
+        Wed, 05 Jul 2023 09:48:40 -0700 (PDT)
+From:   Evan Green <evan@rivosinc.com>
+To:     Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     Simon Hosie <shosie@rivosinc.com>,
+        David Laight <David.Laight@aculab.com>,
+        Evan Green <evan@rivosinc.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Andy Chiu <andy.chiu@sifive.com>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@kernel.org>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jisheng Zhang <jszhang@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Nadav Amit <namit@vmware.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Shuah Khan <shuah@kernel.org>,
-        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] mm: userfaultfd: add new UFFDIO_POISON ioctl
-Message-ID: <ZKWcgD1hFFUxeQHg@x1n>
-References: <20230629205040.665834-1-axelrasmussen@google.com>
- <ZKSDLogLASaZgKCP@x1n>
- <CADrL8HXp-P44VxTXdJMkzSgPC8r_b0T21_cuPCTNy6Ub2PFBKA@mail.gmail.com>
- <ZKWXGnSKcOdnaeJw@x1n>
- <CADrL8HWO8g2-YdUtyLM6e+f1VJq6YV-b1_rj-beEh2C84kAgEw@mail.gmail.com>
+        Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+        Li Zhengyu <lizhengyu3@huawei.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Yangyu Chen <cyy@cyyself.name>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: [PATCH v2 0/2] RISC-V: Probe for misaligned access speed
+Date:   Wed,  5 Jul 2023 09:48:31 -0700
+Message-Id: <20230705164833.995516-1-evan@rivosinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADrL8HWO8g2-YdUtyLM6e+f1VJq6YV-b1_rj-beEh2C84kAgEw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 05, 2023 at 09:27:15AM -0700, James Houghton wrote:
-> On Wed, Jul 5, 2023 at 9:15 AM Peter Xu <peterx@redhat.com> wrote:
-> >
-> > On Wed, Jul 05, 2023 at 09:09:19AM -0700, James Houghton wrote:
-> > > > > diff --git a/include/linux/swapops.h b/include/linux/swapops.h
-> > > > > index 4c932cb45e0b..8259fee32421 100644
-> > > > > --- a/include/linux/swapops.h
-> > > > > +++ b/include/linux/swapops.h
-> > > > > @@ -394,7 +394,8 @@ typedef unsigned long pte_marker;
-> > > > >
-> > > > >  #define  PTE_MARKER_UFFD_WP                  BIT(0)
-> > > > >  #define  PTE_MARKER_SWAPIN_ERROR             BIT(1)
-> > > > > -#define  PTE_MARKER_MASK                     (BIT(2) - 1)
-> > > > > +#define  PTE_MARKER_UFFD_POISON                      BIT(2)
-> > > >
-> > > > One more tab.
-> > > >
-> > > > Though I remembered the last time we discussed IIRC we plan to rename
-> > > > SWAPIN_ERROR and reuse it, could you explain why a new bit is still needed?
-> > > >
-> > > > I think I commented this but I'll do it again: IIUC any existing host
-> > > > swapin errors for guest pages should be reported as MCE too, afaict,
-> > > > happened in kvm context.
-> > >
-> > > I think swapin errors are treated differently than poison. Swapin
-> > > errors get VM_FAULT_SIGBUS, and poison gets VM_FAULT_HWPOISON, so
-> > > UFFDIO_POISON should also get VM_FAULT_HWPOISON (so that's what Axel
-> > > has implemented). And I think that needs a separate PTE marker.
-> >
-> > My question was, should we also make SWAPIN_ERROR return VM_FAULT_HWPOISON
-> > always?
-> >
-> > Just to recap from what I already commented above - if a guest page got
-> > error in swapin due to block sector failures, it should be treated as
-> > VM_FAULT_HWPOISON too, IMHO.  IOW, I think current SWAPIN_ERROR is wrong
-> > when in kvm context and we should fix it first.
-> 
-> Oh! Yes, I agree, though I'm not familiar enough with the users of
-> SWAPIN_ERROR to know if we can actually make this change.
 
-Miaohe initially proposed this swapin error facility, let's see whether he
-can comment; he's already in the cc list.
+The current setting for the hwprobe bit indicating misaligned access
+speed is controlled by a vendor-specific feature probe function. This is
+essentially a per-SoC table we have to maintain on behalf of each vendor
+going forward. Let's convert that instead to something we detect at
+runtime.
 
-AFAICT that's the right thing to do, and it shouldn't affect any existing
-user of swapin error if there is.
+We have two assembly routines at the heart of our probe: one that
+does a bunch of word-sized accesses (without aligning its input buffer),
+and the other that does byte accesses. If we can move a larger number of
+bytes using misaligned word accesses than we can with the same amount of
+time doing byte accesses, then we can declare misaligned accesses as
+"fast".
 
-Or say, VM_FAULT_HWPOISON should be the same as VM_FAULT_SIGBUS when not in
-kvm context, so shouldn't change a thing in !kvm, while changing that
-should fix kvm from crashing a guest where we shouldn't need to.
+The tradeoff of reducing this maintenance burden is boot time. We spend
+4-6 jiffies per core doing this measurement (0-2 on jiffie edge
+alignment, and 4 on measurement). The timing loop was based on
+raid6_choose_gen(), which uses (16+1)*N jiffies (where N is the number
+of algorithms). By taking only the fastest iteration out of all
+attempts for use in the comparison, variance between runs is very low.
+On my THead C906, it looks like this:
+
+[    0.047563] cpu0: Ratio of byte access time to unaligned word access is 4.34, unaligned accesses are fast
+
+Several others have chimed in with results on slow machines with the
+older algorithm, which took all runs into account, including noise like
+interrupts. Even with this variation, results indicate that in all cases
+(fast, slow, and emulated) the measured numbers are nowhere near each
+other (always multiple factors away).
+
+
+Changes in v2:
+ - Explain more in the commit message (Conor)
+ - Use a new algorithm that looks for the fastest run (David)
+ - Clarify documentatin further (David and Conor)
+ - Unify around a single word, "unaligned" (Conor)
+ - Align asm operands, and other misc whitespace changes (Conor)
+
+Evan Green (2):
+  RISC-V: Probe for unaligned access speed
+  RISC-V: alternative: Remove feature_probe_func
+
+ Documentation/riscv/hwprobe.rst      |  11 ++-
+ arch/riscv/errata/thead/errata.c     |   8 ---
+ arch/riscv/include/asm/alternative.h |   5 --
+ arch/riscv/include/asm/cpufeature.h  |   2 +
+ arch/riscv/kernel/Makefile           |   1 +
+ arch/riscv/kernel/alternative.c      |  19 -----
+ arch/riscv/kernel/copy-unaligned.S   |  71 ++++++++++++++++++
+ arch/riscv/kernel/copy-unaligned.h   |  13 ++++
+ arch/riscv/kernel/cpufeature.c       | 104 +++++++++++++++++++++++++++
+ arch/riscv/kernel/smpboot.c          |   3 +-
+ 10 files changed, 198 insertions(+), 39 deletions(-)
+ create mode 100644 arch/riscv/kernel/copy-unaligned.S
+ create mode 100644 arch/riscv/kernel/copy-unaligned.h
 
 -- 
-Peter Xu
+2.34.1
 
