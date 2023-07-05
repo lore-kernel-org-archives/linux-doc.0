@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE91C0015E
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 18:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63643EB64DA
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 18:17:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233390AbjGESRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jul 2023 14:17:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43664 "EHLO
+        id S233404AbjGESRg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jul 2023 14:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233391AbjGESRZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 14:17:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A069198C
-        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 11:16:36 -0700 (PDT)
+        with ESMTP id S233406AbjGESR3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 14:17:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCC7719B3
+        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 11:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688580995;
+        s=mimecast20190719; t=1688581001;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=snCuxFAiT0B/bnlHGtaiRqsJwVD+zCZujmUlSZJWpwM=;
-        b=Z1jTelatJTng0QP9aEsDrBdZBYR6jnZY5Q//auuyFGS2vPtIGTWdstxeKCuhRjCV4L9eDf
-        6H5W38GhFh3Fnrls0xacfIdTykeb0lGOKVB60/vOG2s0cTjdZPyddkKvzq/xPbuWaIJ0Cs
-        Kv6TRGYGF8a3O0W2Tu7237svS7JQtmk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=touy8a7//BeI9DXwQuTy3DIG1jDKoaRDRv3dbDYYd7A=;
+        b=bRf0/gE2Af75MWSNZa6GZtLmlRk10CBo3aTBBwDMg+36xwGoqleWJ21QUOgO4G/vqMyUPv
+        UGQrPQzp06C56zVhhuBl2lHQpx7rWd4L3DUIyQYyY/P8CJ7GXLIPZuu45X5Usm6cOLCIAb
+        Po/q/AyzuRQNuk0us1FXSYe87qmaRAI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-hNYP9ME2PT2zK_PDEefSuQ-1; Wed, 05 Jul 2023 14:16:33 -0400
-X-MC-Unique: hNYP9ME2PT2zK_PDEefSuQ-1
+ us-mta-281-rTU3Fnz6O_mjXhT8Or3jrg-1; Wed, 05 Jul 2023 14:16:38 -0400
+X-MC-Unique: rTU3Fnz6O_mjXhT8Or3jrg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D8FE3815EF2;
-        Wed,  5 Jul 2023 18:16:31 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BA218037BA;
+        Wed,  5 Jul 2023 18:16:36 +0000 (UTC)
 Received: from vschneid.remote.csb (unknown [10.42.28.164])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id CDDF218EB4;
-        Wed,  5 Jul 2023 18:16:24 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 508F218EB4;
+        Wed,  5 Jul 2023 18:16:31 +0000 (UTC)
 From:   Valentin Schneider <vschneid@redhat.com>
 To:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
@@ -81,9 +81,9 @@ Cc:     Steven Rostedt <rostedt@goodmis.org>,
         Daniel Bristot de Oliveira <bristot@redhat.com>,
         Marcelo Tosatti <mtosatti@redhat.com>,
         Yair Podemsky <ypodemsk@redhat.com>
-Subject: [RFC PATCH 05/14] tracing/filters: Document cpumask filtering
-Date:   Wed,  5 Jul 2023 19:12:47 +0100
-Message-Id: <20230705181256.3539027-6-vschneid@redhat.com>
+Subject: [RFC PATCH 06/14] objtool: Flesh out warning related to pv_ops[] calls
+Date:   Wed,  5 Jul 2023 19:12:48 +0100
+Message-Id: <20230705181256.3539027-7-vschneid@redhat.com>
 In-Reply-To: <20230705181256.3539027-1-vschneid@redhat.com>
 References: <20230705181256.3539027-1-vschneid@redhat.com>
 MIME-Version: 1.0
@@ -93,39 +93,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cpumask, scalar and CPU fields can now be filtered by a user-provided
-cpumask, document the syntax.
+I had to look into objtool itself to understand what this warning was
+about; make it more explicit.
 
 Signed-off-by: Valentin Schneider <vschneid@redhat.com>
 ---
- Documentation/trace/events.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ tools/objtool/check.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-index f5fcb8e1218f6..e9bc9f23891a0 100644
---- a/Documentation/trace/events.rst
-+++ b/Documentation/trace/events.rst
-@@ -219,6 +219,20 @@ the function "security_prepare_creds" and less than the end of that function.
- The ".function" postfix can only be attached to values of size long, and can only
- be compared with "==" or "!=".
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index 0fcf99c914000..fe62232f218f9 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -3404,7 +3404,7 @@ static bool pv_call_dest(struct objtool_file *file, struct instruction *insn)
  
-+Cpumask fields or scalar fields that encode a CPU number can be filtered using
-+a user-provided cpumask in cpulist format. The format is as follows::
-+
-+  MASK{$cpulist}
-+
-+Operators available to cpumask filtering are:
-+
-+& (intersection), ==, !=
-+
-+For example, this will filter events that have their .target_cpu field present
-+in the given cpumask::
-+
-+  target_cpu & MASK{17-42}
-+
- 5.2 Setting filters
- -------------------
- 
+ 	list_for_each_entry(target, &file->pv_ops[idx].targets, pv_target) {
+ 		if (!target->sec->noinstr) {
+-			WARN("pv_ops[%d]: %s", idx, target->name);
++			WARN("pv_ops[%d]: indirect call to %s() leaves .noinstr.text section", idx, target->name);
+ 			file->pv_ops[idx].clean = false;
+ 		}
+ 	}
 -- 
 2.31.1
 
