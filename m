@@ -2,165 +2,166 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D3AC001DD
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 10:24:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7499EEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 11:17:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231693AbjGEKYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jul 2023 06:24:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46824 "EHLO
+        id S231734AbjGELRK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jul 2023 07:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjGEKYT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 06:24:19 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A4AE47;
-        Wed,  5 Jul 2023 03:24:16 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QwwjC0D2yzTkkg;
-        Wed,  5 Jul 2023 18:23:11 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 5 Jul 2023 18:24:13 +0800
-CC:     <yangyicong@hisilicon.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <akpm@linux-foundation.org>, <linux-mm@kvack.org>,
-        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
-        <mark.rutland@arm.com>, <ryan.roberts@arm.com>, <will@kernel.org>,
-        <anshuman.khandual@arm.com>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
-        <punit.agrawal@bytedance.com>, <linux-kernel@vger.kernel.org>,
-        <darren@os.amperecomputing.com>, <huzhanyuan@oppo.com>,
-        <lipeifeng@oppo.com>, <zhangshiming@oppo.com>, <guojian@oppo.com>,
-        <realmz6@gmail.com>, <linux-mips@vger.kernel.org>,
-        <openrisc@lists.librecores.org>, <linuxppc-dev@lists.ozlabs.org>,
-        <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-        <wangkefeng.wang@huawei.com>, <xhao@linux.alibaba.com>,
-        <prime.zeng@hisilicon.com>, <Jonathan.Cameron@huawei.com>,
-        Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-Subject: Re: [RESEND PATCH v9 2/2] arm64: support batched/deferred tlb
- shootdown during page reclamation/migration
-To:     Barry Song <21cnbao@gmail.com>
-References: <20230518065934.12877-1-yangyicong@huawei.com>
- <20230518065934.12877-3-yangyicong@huawei.com> <ZJ2x6DlmyA3kVh1n@arm.com>
- <ZJ2+37Q7v4odMmEd@arm.com> <2f593850-797c-5422-2c80-ce214fac02bb@huawei.com>
- <CAGsJ_4zG=DT0gwC+5uN51rQKT=UudNDZ4t1BgRNoFb_3NNLOtQ@mail.gmail.com>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <124b7798-94ae-ebfc-bbe5-21ebaaa02760@huawei.com>
-Date:   Wed, 5 Jul 2023 18:24:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        with ESMTP id S229772AbjGELRJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 07:17:09 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62118F2
+        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 04:17:08 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-635eedf073eso45412186d6.2
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 04:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1688555826; x=1691147826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gLYbyyTNl2Zb/qjIIe6Qi+9jxk/pFwwBytcz2lbXZbY=;
+        b=n9q+aZJ92FmViihc3PgbYyXboMxqgX5yjUrMehgL2YkOKQS8Q124VGBlFT6SrvnHQ+
+         FablCQ64bt4FPIsq+6T+zM1U2uSZk+mykldx4YDRN4HB7hyl7mrTutmoG2joPgBVdX6S
+         LqgbcrUJ30u/txmD+jETyZSSFXwImstD/opJ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688555826; x=1691147826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gLYbyyTNl2Zb/qjIIe6Qi+9jxk/pFwwBytcz2lbXZbY=;
+        b=HJ3YIAYISnTDMyqwbED5mwKVL7Ww0uuLEU3zBs9QFNsqdVLGyLLbtZe6Yhxmw1a3ov
+         BG3kWmTzgxnax8tbXz9NrE7oSqVH07g8blLmsSQfH6O0CxXQga+7FkAs1l6yt5qZ/0Ti
+         g4rBTTF1qtAvZr+F+Vw0Tv8HIzuIrVe5OVBrqVOCxie2exeejQJKUPs5oWoD58CTXqI/
+         OsmmQM/0+JGC06xPfoQcbuQjtFu8UTP2X0mL+RMvW8vHOku0fE/Ir+B/ET+bPvCx7YaO
+         9mXf7dxdO/QrpKuMAqLar+MxnBKziDVUx7sjBE2ds58ClC48DO2LDzuf/24qtjRuPqNI
+         ZaUw==
+X-Gm-Message-State: ABy/qLYrAv4jssaU3hl/QCflGTzzf+Oi4CjOT6iOMh23k4SxDNBaug8m
+        9XgE5D+4mIcA1rKz9yBf5N9m/n9TIHoHeLpH3TjGYg==
+X-Google-Smtp-Source: APBJJlFHTD35mbKc10V3FfQvXUgzS8kkYf2yMSnh8VDu4jBTc+YfXNVTWnx4auQI7kOST0tI244I8Q==
+X-Received: by 2002:a0c:f94a:0:b0:636:4f74:6e46 with SMTP id i10-20020a0cf94a000000b006364f746e46mr15012056qvo.56.1688555825811;
+        Wed, 05 Jul 2023 04:17:05 -0700 (PDT)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com. [209.85.219.48])
+        by smtp.gmail.com with ESMTPSA id l15-20020ad4444f000000b0062439f05b87sm13553814qvt.45.2023.07.05.04.17.04
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Jul 2023 04:17:05 -0700 (PDT)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6348a8045a2so45407936d6.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 04:17:04 -0700 (PDT)
+X-Received: by 2002:a05:6214:15ce:b0:626:2e65:cb2b with SMTP id
+ p14-20020a05621415ce00b006262e65cb2bmr15434310qvz.4.1688555824535; Wed, 05
+ Jul 2023 04:17:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAGsJ_4zG=DT0gwC+5uN51rQKT=UudNDZ4t1BgRNoFb_3NNLOtQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+References: <20210301085236.947011-1-hch@lst.de> <20210301085236.947011-4-hch@lst.de>
+ <94d4b082-7b08-82e0-bb42-6ac36821ea61@arm.com>
+In-Reply-To: <94d4b082-7b08-82e0-bb42-6ac36821ea61@arm.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 5 Jul 2023 20:16:54 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AeoRwuXo9j0=AK-eBhUQx-S8qvJVHDoOf0=B+20FAn9g@mail.gmail.com>
+Message-ID: <CAAFQd5AeoRwuXo9j0=AK-eBhUQx-S8qvJVHDoOf0=B+20FAn9g@mail.gmail.com>
+Subject: Re: [PATCH 3/6] dma-mapping: add a dma_alloc_noncontiguous API
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2023/7/5 16:43, Barry Song wrote:
-> On Tue, Jul 4, 2023 at 10:36 PM Yicong Yang <yangyicong@huawei.com> wrote:
->>
->> On 2023/6/30 1:26, Catalin Marinas wrote:
->>> On Thu, Jun 29, 2023 at 05:31:36PM +0100, Catalin Marinas wrote:
->>>> On Thu, May 18, 2023 at 02:59:34PM +0800, Yicong Yang wrote:
->>>>> From: Barry Song <v-songbaohua@oppo.com>
->>>>>
->>>>> on x86, batched and deferred tlb shootdown has lead to 90%
->>>>> performance increase on tlb shootdown. on arm64, HW can do
->>>>> tlb shootdown without software IPI. But sync tlbi is still
->>>>> quite expensive.
->>>> [...]
->>>>>  .../features/vm/TLB/arch-support.txt          |  2 +-
->>>>>  arch/arm64/Kconfig                            |  1 +
->>>>>  arch/arm64/include/asm/tlbbatch.h             | 12 ++++
->>>>>  arch/arm64/include/asm/tlbflush.h             | 33 ++++++++-
->>>>>  arch/arm64/mm/flush.c                         | 69 +++++++++++++++++++
->>>>>  arch/x86/include/asm/tlbflush.h               |  5 +-
->>>>>  include/linux/mm_types_task.h                 |  4 +-
->>>>>  mm/rmap.c                                     | 12 ++--
->>>>
->>>> First of all, this patch needs to be split in some preparatory patches
->>>> introducing/renaming functions with no functional change for x86. Once
->>>> done, you can add the arm64-only changes.
->>>>
->>
->> got it. will try to split this patch as suggested.
->>
->>>> Now, on the implementation, I had some comments on v7 but we didn't get
->>>> to a conclusion and the thread eventually died:
->>>>
->>>> https://lore.kernel.org/linux-mm/Y7cToj5mWd1ZbMyQ@arm.com/
->>>>
->>>> I know I said a command line argument is better than Kconfig or some
->>>> random number of CPUs heuristics but it would be even better if we don't
->>>> bother with any, just make this always on.
->>
->> ok, will make this always on.
->>
->>>> Barry had some comments
->>>> around mprotect() being racy and that's why we have
->>>> flush_tlb_batched_pending() but I don't think it's needed (or, for
->>>> arm64, it can be a DSB since this patch issues the TLBIs but without the
->>>> DVM Sync). So we need to clarify this (see Barry's last email on the
->>>> above thread) and before attempting new versions of this patchset. With
->>>> flush_tlb_batched_pending() removed (or DSB), I have a suspicion such
->>>> implementation would be faster on any SoC irrespective of the number of
->>>> CPUs.
->>>
->>> I think I got the need for flush_tlb_batched_pending(). If
->>> try_to_unmap() marks the pte !present and we have a pending TLBI,
->>> change_pte_range() will skip the TLB maintenance altogether since it did
->>> not change the pte. So we could be left with stale TLB entries after
->>> mprotect() before TTU does the batch flushing.
->>>
-> 
-> Good catch.
-> This could be also true for MADV_DONTNEED. after try_to_unmap, we run
-> MADV_DONTNEED on this area, as pte is not present, we don't do anything
-> on this PTE in zap_pte_range afterwards.
-> 
->>> We can have an arch-specific flush_tlb_batched_pending() that can be a
->>> DSB only on arm64 and a full mm flush on x86.
->>>
->>
->> We need to do a flush/dsb in flush_tlb_batched_pending() only in a race
->> condition so we first check whether there's a pended batched flush and
->> if so do the tlb flush. The pending checking is common and the differences
->> among the archs is how to flush the TLB here within the flush_tlb_batched_pending(),
->> on arm64 it should only be a dsb.
->>
->> As we only needs to maintain the TLBs already pended in batched flush,
->> does it make sense to only handle those TLBs in flush_tlb_batched_pending()?
->> Then we can use the arch_tlbbatch_flush() rather than flush_tlb_mm() in
->> flush_tlb_batched_pending() and no arch specific function needed.
-> 
-> as we have issued no-sync tlbi on those pending addresses , that means
-> our hardware
-> has already "recorded" what should be flushed in the specific mm. so
-> DSB only will flush
-> them correctly. right?
-> 
+On Fri, Jun 30, 2023 at 2:21=E2=80=AFAM Robin Murphy <robin.murphy@arm.com>=
+ wrote:
+>
+> [Archaeology ensues...]
+>
+> On 2021-03-01 08:52, Christoph Hellwig wrote:
+> [...]
+> > +static struct sg_table *alloc_single_sgt(struct device *dev, size_t si=
+ze,
+> > +             enum dma_data_direction dir, gfp_t gfp)
+> > +{
+> > +     struct sg_table *sgt;
+> > +     struct page *page;
+> > +
+> > +     sgt =3D kmalloc(sizeof(*sgt), gfp);
+> > +     if (!sgt)
+> > +             return NULL;
+> > +     if (sg_alloc_table(sgt, 1, gfp))
+> > +             goto out_free_sgt;
+> > +     page =3D __dma_alloc_pages(dev, size, &sgt->sgl->dma_address, dir=
+, gfp);
+> > +     if (!page)
+> > +             goto out_free_table;
+> > +     sg_set_page(sgt->sgl, page, PAGE_ALIGN(size), 0);
+> > +     sg_dma_len(sgt->sgl) =3D sgt->sgl->length;
+> > +     return sgt;
+> > +out_free_table:
+> > +     sg_free_table(sgt);
+> > +out_free_sgt:
+> > +     kfree(sgt);
+> > +     return NULL;
+> > +}
+> > +
+> > +struct sg_table *dma_alloc_noncontiguous(struct device *dev, size_t si=
+ze,
+> > +             enum dma_data_direction dir, gfp_t gfp, unsigned long att=
+rs)
+> > +{
+> > +     const struct dma_map_ops *ops =3D get_dma_ops(dev);
+> > +     struct sg_table *sgt;
+> > +
+> > +     if (WARN_ON_ONCE(attrs & ~DMA_ATTR_ALLOC_SINGLE_PAGES))
+> > +             return NULL;
+> > +
+> > +     if (ops && ops->alloc_noncontiguous)
+> > +             sgt =3D ops->alloc_noncontiguous(dev, size, dir, gfp, att=
+rs);
+> > +     else
+> > +             sgt =3D alloc_single_sgt(dev, size, dir, gfp);
+> > +
+> > +     if (sgt) {
+> > +             sgt->nents =3D 1;
+> > +             debug_dma_map_sg(dev, sgt->sgl, sgt->orig_nents, 1, dir);
+>
+> It turns out this is liable to trip up DMA_API_DEBUG_SG (potentially
+> even in the alloc_single_sgt() case), since we've filled in sgt without
+> paying attention to the device's segment boundary/size parameters.
+>
+> Now, it would be entirely possible to make the allocators "properly"
+> partition the pages into multiple segments per those constraints, but
+> given that there's no actual dma_map_sg() operation involved, and AFAIR
+> the intent here is really only to describe a single DMA-contiguous
+> buffer as pages, rather than represent a true scatter-gather operation,
 
-yes it's right. I was just thought something like below. arch_tlbbatch_flush()
-will only be a dsb on arm64 so this will match what Catalin wants. But as you
-told that this maybe incorrect on x86 so we'd better have arch specific
-implementation for flush_tlb_batched_pending() as suggested.
+Yeah, the name noncontiguous comes from potentially allocating
+non-contiguous physical pages, which based on a few people I talked
+with, ended up being quite confusing, but I can't really think of a
+better name either.
 
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 9699c6011b0e..afa3571503a0 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -717,7 +717,7 @@ void flush_tlb_batched_pending(struct mm_struct *mm)
-        int flushed = batch >> TLB_FLUSH_BATCH_FLUSHED_SHIFT;
+Do we know how common devices with segment boundary/size constraints
+are and how likely they are to use this API?
 
-        if (pending != flushed) {
--               flush_tlb_mm(mm);
-+               arch_tlbbatch_flush(&current->tlb_ubc.arch);
-                /*
-                 * If the new TLB flushing is pending during flushing, leave
-                 * mm->tlb_flush_batched as is, to avoid losing flushing.
+> I'm now wondering whether it makes more sense to just make dma-debug a
+> bit cleverer instead. Any other opinions?
+
+If we could assume that drivers for those devices shouldn't use this
+API, we could just fail if the segment boundary/size are set to
+something other than unlimited.
+
+Best regards,
+Tomasz
+
+>
+> Thanks,
+> Robin.
+>
+> > +     }
+> > +     return sgt;
+> > +}
