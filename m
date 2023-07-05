@@ -2,138 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7371EC0015E
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jul 2023 21:17:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F2F8C001B1
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 08:43:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230048AbjGDVRl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jul 2023 17:17:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59922 "EHLO
+        id S231948AbjGEInv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jul 2023 04:43:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230458AbjGDVRl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jul 2023 17:17:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C752187
-        for <linux-doc@vger.kernel.org>; Tue,  4 Jul 2023 14:16:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688505412;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VV04n37U8nBXKx7jlfEZg7R8H9gfvZ1yfEmW1FTRWAc=;
-        b=LDOmEEyxrmHT8Ccjq6ljx8l6JikH5iba0NFkW4DXzZm2iwyDN7r9WzkvQMDyYZV9Fp18tO
-        pJYKNwL8T6oxnJv8CVJ7uN19vYt1ttOLA4F+Pejvqlv7K9bfo1DVeTby0lnjt7h0RlTGDA
-        jkd2hfi4iLP2Gv2YBbarurcI+aFD33s=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-ZopPRVeANzKatSxxGDcIrQ-1; Tue, 04 Jul 2023 17:16:51 -0400
-X-MC-Unique: ZopPRVeANzKatSxxGDcIrQ-1
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-76716078e78so107821685a.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jul 2023 14:16:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688505410; x=1691097410;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        with ESMTP id S231853AbjGEInr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 04:43:47 -0400
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 266A51A2;
+        Wed,  5 Jul 2023 01:43:46 -0700 (PDT)
+Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-444c42f608aso1814491137.1;
+        Wed, 05 Jul 2023 01:43:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688546625; x=1691138625;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VV04n37U8nBXKx7jlfEZg7R8H9gfvZ1yfEmW1FTRWAc=;
-        b=HAsDqi5z+yzl+PjkXChjD1UoYxaArp5rFim2etlIugEt3ADQ7MPnchkeAzhw/SxqZ2
-         DyMSMLgWqEdjI4bJ9p9bZXSLU2sIUlyO0iRhoXR02BsQCZ947P8NiAq83YKjUsHK+Ur+
-         78ReDpdR5uuHKUVTr/sHon2+4jC/9dL5XwdrkUNL7Dww8lUP3RbIfIv7+jpyiDRW/DTd
-         eWOXwy1hbzolPFJGe7Skl/tSI2hnzWpN37bZPAvWc50SuP2k7GP1CxJKmR0Ocbbhx6Jg
-         Jgl+At+RTfobGso9KlcRuzrtRlKaXf+Bm8Og4zNfh9Oo+VFRe/a+v5S/dwfXcw1HBF8j
-         O4hw==
-X-Gm-Message-State: AC+VfDw3m50mDpWtHVelkI9dQ1SAciC/4RJaOIBt+kCE1nVvJvW3ZMsT
-        lOe0ZH9TniEShlWY0uI07JeLaFkhKAo3O7wkAOi0CGzMr6q4+PuDZTik3yDMqlK6NLMjXFK69wE
-        ODWiJXsQoBd46dSPFbLol
-X-Received: by 2002:a05:620a:4487:b0:765:435c:a4fa with SMTP id x7-20020a05620a448700b00765435ca4famr20273163qkp.0.1688505410591;
-        Tue, 04 Jul 2023 14:16:50 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4h9qxm2qr2McyrSm55+RKE46g3KUdAtCtYdQn6fLq1MJrI38m4oaSBNE07KxZKvdH+XrvoEw==
-X-Received: by 2002:a05:620a:4487:b0:765:435c:a4fa with SMTP id x7-20020a05620a448700b00765435ca4famr20273141qkp.0.1688505410353;
-        Tue, 04 Jul 2023 14:16:50 -0700 (PDT)
-Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com. [99.254.144.39])
-        by smtp.gmail.com with ESMTPSA id i4-20020a05620a144400b0076728319575sm6994582qkl.27.2023.07.04.14.16.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 14:16:50 -0700 (PDT)
-Date:   Tue, 4 Jul 2023 17:16:48 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        James Houghton <jthoughton@google.com>,
-        Jiaqi Yan <jiaqiyan@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Nadav Amit <namit@vmware.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Shuah Khan <shuah@kernel.org>,
-        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] mm: userfaultfd: add basic documentation for
- UFFDIO_POISON
-Message-ID: <ZKSMQOUB99HjlUN5@x1n>
-References: <20230629205040.665834-1-axelrasmussen@google.com>
- <20230629205040.665834-6-axelrasmussen@google.com>
+        bh=OfLzlu2hCuH/qNgHtEqj71Fn9ZBy4uE0Z7kkhh4XPaU=;
+        b=EcSDcbMFLlaEKCnAfTNq6ncklG6G9aICkpdmAnIqeybUq25h0n04X5AdQKHA7ie10B
+         lNc/Wu9uxR7DSqJdKi4ZR4CO7aC60Was+59WEFygIao4OxzvM3ExJtlmMRSRSITZ3jbP
+         qfJ5gWKACUFlABiAC3a9IKngo5vX/7G8Ge9CL2IQIMPWHD7oMIQLr33gNaWWRbzVsiSx
+         na0BZny08KFWuPAM5Sfwwc2WMDxLARuH9UdUm0JKzhKrs5ZsuSsMdxQBN9TLHg/jfoN/
+         bPmaYtawgUtRk99LL/nUxuk0QbU5QFV0LuLfeZTEUU9O9xTjggAvb3iW/nKfE0wnT34F
+         eFYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688546625; x=1691138625;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OfLzlu2hCuH/qNgHtEqj71Fn9ZBy4uE0Z7kkhh4XPaU=;
+        b=XntvPxff2Iw/aj65WGpVvwXGH5pTtpLg6IuMaBMpN6d03g+sxYwu1sP7OYov7u9sI3
+         kKmQZmYs54Q6VYhVv31bckVXTc9rq+ttPqMBcs9btdqVgRrQrYVCCKEbxjWMg/3Y29Ye
+         POatQIGZJffMgZE5S9cp97AAXND0v+JCejZ7u8yOc3rqsyIqZqSiYJ+BwOXDOLbbCtTl
+         cqE+1iG4WD8MbL78/NXi3QFak0ZRmjANpJc/H828tMJrTA9uhmHD1CmwVmcWFefZEOkY
+         Fqyr/aC/pxzFi38a8NVSg0oYFusUpG4tuSoeMZvk+AZHAICa8eRJGwUHWjP0wOrdqNQL
+         4fOA==
+X-Gm-Message-State: ABy/qLagFs+IL+GalymBHJVGbs3y5cS0vnxixJOfgNc9hQozGPKu22lW
+        kOQYb7Kv6lmEbsVobqelyRsNHcGg+T7omMzk2M4=
+X-Google-Smtp-Source: APBJJlFLUnJaRW83dmmmrNBi+Pcq3+yZ/Or6M1SrtK+X+fK4Yl/i1JA0jGSQfbLmKOpA+aNZfqIRanR69NKYC7JoALc=
+X-Received: by 2002:a67:fd82:0:b0:443:7516:450b with SMTP id
+ k2-20020a67fd82000000b004437516450bmr4352254vsq.35.1688546625075; Wed, 05 Jul
+ 2023 01:43:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230629205040.665834-6-axelrasmussen@google.com>
+References: <20230518065934.12877-1-yangyicong@huawei.com> <20230518065934.12877-3-yangyicong@huawei.com>
+ <ZJ2x6DlmyA3kVh1n@arm.com> <ZJ2+37Q7v4odMmEd@arm.com> <2f593850-797c-5422-2c80-ce214fac02bb@huawei.com>
+In-Reply-To: <2f593850-797c-5422-2c80-ce214fac02bb@huawei.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Wed, 5 Jul 2023 16:43:29 +0800
+Message-ID: <CAGsJ_4zG=DT0gwC+5uN51rQKT=UudNDZ4t1BgRNoFb_3NNLOtQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH v9 2/2] arm64: support batched/deferred tlb
+ shootdown during page reclamation/migration
+To:     Yicong Yang <yangyicong@huawei.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        yangyicong@hisilicon.com, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        x86@kernel.org, mark.rutland@arm.com, ryan.roberts@arm.com,
+        will@kernel.org, anshuman.khandual@arm.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net, peterz@infradead.org,
+        arnd@arndb.de, punit.agrawal@bytedance.com,
+        linux-kernel@vger.kernel.org, darren@os.amperecomputing.com,
+        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
+        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
+        prime.zeng@hisilicon.com, Jonathan.Cameron@huawei.com,
+        Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 29, 2023 at 01:50:40PM -0700, Axel Rasmussen wrote:
-> Just describe the feature at a really basic level.
-> 
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+On Tue, Jul 4, 2023 at 10:36=E2=80=AFPM Yicong Yang <yangyicong@huawei.com>=
+ wrote:
+>
+> On 2023/6/30 1:26, Catalin Marinas wrote:
+> > On Thu, Jun 29, 2023 at 05:31:36PM +0100, Catalin Marinas wrote:
+> >> On Thu, May 18, 2023 at 02:59:34PM +0800, Yicong Yang wrote:
+> >>> From: Barry Song <v-songbaohua@oppo.com>
+> >>>
+> >>> on x86, batched and deferred tlb shootdown has lead to 90%
+> >>> performance increase on tlb shootdown. on arm64, HW can do
+> >>> tlb shootdown without software IPI. But sync tlbi is still
+> >>> quite expensive.
+> >> [...]
+> >>>  .../features/vm/TLB/arch-support.txt          |  2 +-
+> >>>  arch/arm64/Kconfig                            |  1 +
+> >>>  arch/arm64/include/asm/tlbbatch.h             | 12 ++++
+> >>>  arch/arm64/include/asm/tlbflush.h             | 33 ++++++++-
+> >>>  arch/arm64/mm/flush.c                         | 69 +++++++++++++++++=
+++
+> >>>  arch/x86/include/asm/tlbflush.h               |  5 +-
+> >>>  include/linux/mm_types_task.h                 |  4 +-
+> >>>  mm/rmap.c                                     | 12 ++--
+> >>
+> >> First of all, this patch needs to be split in some preparatory patches
+> >> introducing/renaming functions with no functional change for x86. Once
+> >> done, you can add the arm64-only changes.
+> >>
+>
+> got it. will try to split this patch as suggested.
+>
+> >> Now, on the implementation, I had some comments on v7 but we didn't ge=
+t
+> >> to a conclusion and the thread eventually died:
+> >>
+> >> https://lore.kernel.org/linux-mm/Y7cToj5mWd1ZbMyQ@arm.com/
+> >>
+> >> I know I said a command line argument is better than Kconfig or some
+> >> random number of CPUs heuristics but it would be even better if we don=
+'t
+> >> bother with any, just make this always on.
+>
+> ok, will make this always on.
+>
+> >> Barry had some comments
+> >> around mprotect() being racy and that's why we have
+> >> flush_tlb_batched_pending() but I don't think it's needed (or, for
+> >> arm64, it can be a DSB since this patch issues the TLBIs but without t=
+he
+> >> DVM Sync). So we need to clarify this (see Barry's last email on the
+> >> above thread) and before attempting new versions of this patchset. Wit=
+h
+> >> flush_tlb_batched_pending() removed (or DSB), I have a suspicion such
+> >> implementation would be faster on any SoC irrespective of the number o=
+f
+> >> CPUs.
+> >
+> > I think I got the need for flush_tlb_batched_pending(). If
+> > try_to_unmap() marks the pte !present and we have a pending TLBI,
+> > change_pte_range() will skip the TLB maintenance altogether since it di=
+d
+> > not change the pte. So we could be left with stale TLB entries after
+> > mprotect() before TTU does the batch flushing.
+> >
 
-The final enablement of the feature can be squashed into this doc update
-patch too.
+Good catch.
+This could be also true for MADV_DONTNEED. after try_to_unmap, we run
+MADV_DONTNEED on this area, as pte is not present, we don't do anything
+on this PTE in zap_pte_range afterwards.
 
-Acked-by: Peter Xu <peterx@redhat.com>
+> > We can have an arch-specific flush_tlb_batched_pending() that can be a
+> > DSB only on arm64 and a full mm flush on x86.
+> >
+>
+> We need to do a flush/dsb in flush_tlb_batched_pending() only in a race
+> condition so we first check whether there's a pended batched flush and
+> if so do the tlb flush. The pending checking is common and the difference=
+s
+> among the archs is how to flush the TLB here within the flush_tlb_batched=
+_pending(),
+> on arm64 it should only be a dsb.
+>
+> As we only needs to maintain the TLBs already pended in batched flush,
+> does it make sense to only handle those TLBs in flush_tlb_batched_pending=
+()?
+> Then we can use the arch_tlbbatch_flush() rather than flush_tlb_mm() in
+> flush_tlb_batched_pending() and no arch specific function needed.
 
-> ---
->  Documentation/admin-guide/mm/userfaultfd.rst | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
-> index 7c304e432205..b19053436369 100644
-> --- a/Documentation/admin-guide/mm/userfaultfd.rst
-> +++ b/Documentation/admin-guide/mm/userfaultfd.rst
-> @@ -244,6 +244,21 @@ write-protected (so future writes will also result in a WP fault). These ioctls
->  support a mode flag (``UFFDIO_COPY_MODE_WP`` or ``UFFDIO_CONTINUE_MODE_WP``
->  respectively) to configure the mapping this way.
->  
-> +Memory Poisioning Emulation
-> +---------------------------
-> +
-> +In response to a fault (either missing or minor), an action userspace can
-> +take to "resolve" it is to issue a ``UFFDIO_POISON``. This will cause any
-> +future faulters to either get a SIGBUS, or in KVM's case the guest will
-> +receive an MCE as if there were hardware memory poisoning.
-> +
-> +This is used to emulate hardware memory poisoning. Imagine a VM running on a
-> +machine which experiences a real hardware memory error. Later, we live migrate
-> +the VM to another physical machine. Since we want the migration to be
-> +transparent to the guest, we want that same address range to act as if it was
-> +still poisoned, even though it's on a new physical host which ostentisbly
-> +doesn't have a memory error in the exact same spot.
-> +
->  QEMU/KVM
->  ========
->  
-> -- 
-> 2.41.0.255.g8b1d071c50-goog
-> 
+as we have issued no-sync tlbi on those pending addresses , that means
+our hardware
+has already "recorded" what should be flushed in the specific mm. so
+DSB only will flush
+them correctly. right?
 
--- 
-Peter Xu
+>
+> Thanks.
+>
 
+Barry
