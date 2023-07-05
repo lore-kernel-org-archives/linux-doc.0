@@ -2,115 +2,207 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2274EC04FE1
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 17:32:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2FCCEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 17:51:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232845AbjGERcI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jul 2023 13:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49346 "EHLO
+        id S231269AbjGERvO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jul 2023 13:51:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232757AbjGERcG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 13:32:06 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A25D4199D;
-        Wed,  5 Jul 2023 10:31:29 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3658VZdo020618;
-        Wed, 5 Jul 2023 17:29:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=MlX/UZ0ZXE/72U2AV0V88Yyf3NKh+5tvQkq5oSMpx9E=;
- b=oEsYD/vvDJx9I16U5GmklPgKbnTHKeZMkb2tJer354sH217R0zTqquJ53M+OqPzsf2JZ
- 26hjQhgAyVBxQ+kkGociceDG2sxd+2HdTMFPf3apSBaqmmHMRnaikxoYD58y/QY0byrt
- rr2dPVHfrckS93szwrh9M0av/93juQes52/Liqj6XVTFZAMt0+Pb0WR5kaeJaNJglwJK
- DdOa6n07F73z9fH2EeRNH0o0yeUIWOdtQnp1KIzaiQlPFSR9VmjvZOD6UDECrACP896y
- e2Fypy4iSXxGMA6sPbidN8TOJjpYVtXUqFulpihlHX7qiExvdB50F/hNAjwUCgMw8PLZ lw== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rmhf13myy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Jul 2023 17:29:57 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 365HTu6b015191
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 5 Jul 2023 17:29:56 GMT
-Received: from [10.110.49.233] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 5 Jul
- 2023 10:29:55 -0700
-Message-ID: <355de4c7-180d-4edd-b6fd-9c8e29e40e42@quicinc.com>
-Date:   Wed, 5 Jul 2023 10:29:54 -0700
+        with ESMTP id S230009AbjGERvN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 13:51:13 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB70118E
+        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 10:51:11 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-992ace062f3so836913666b.2
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 10:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688579470; x=1691171470;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aEI4v+2KKn+EkDZzdrBmikEj6qMvmv1XLjDpHecmTZc=;
+        b=f5HN0rW/zmfb6pFzjhlVkLATVIc8CO9MM9qNTqXTMEchOXn4fIxtcz3Bx9eyCqCr2Z
+         M5Z0iUelv4vCsc15ld58d/0zM9UUJWAwN+XIleuO4uVXGFuUytLSMFn2mcLd7qm+OYZ1
+         txF0HDVGO4e0+Hr8h5AqLUey2XXij6T+Mts2sUaS2d97sVSzm9XURFST97gRUCjUd6ZN
+         +Knu2ZIlBqLLoX3vOXvgJPO7sE0U6CsNwW92Su3zO87HD6GAacOyAX02RaADnRwZ3+j2
+         m4p1oaf9lM/wlHWC1mrl0h9YdVrFcv8uLiTLvIrPNPSZf2hUt7l/wo4cEKxx+wobVv0G
+         MoXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688579470; x=1691171470;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aEI4v+2KKn+EkDZzdrBmikEj6qMvmv1XLjDpHecmTZc=;
+        b=k0p4RXppTfQ0CuTHQSITB2v7qxZgPmFbq0VqrqrQRFsx0BcdVr5m67EG/8hr8gYMqb
+         50ctxPVYMzy+ukj+9RjDeUlrk2rtFuSLQp5n39CVx6Iv9CLlaNah0Ax5dUuG93OQ1/mn
+         u+gp4K6uMD2ktfkg0Dvgs5g0owgUOr+MgxQDK2dRFCLzAPzwCgVNBjC6ImlSDl7BBvoa
+         zyJgv5SdiHWeIQZLavPiDH/2VLVMGw+VHsjnnjTgct6f9bv9QMFfv6+iGxjofBattaXJ
+         Pk1LSHuzcra4/4yqx1E1znTn5Fuk2tZnyImJjYpEc/reUlH62MFUpeDrdz8Bte41Lw1C
+         X7ag==
+X-Gm-Message-State: AC+VfDzGVqqhM6TRUWJf9gFajC0wdPxxPUurTliDvpF0rzDZq7dj7m5P
+        GK1In+qC3uWS+4gFKmstQvKzCBEmYQHD6qSItSYCFg==
+X-Google-Smtp-Source: APBJJlFTojzQ/aPODd2ghbLHceO/hDIk0cF+cNlCPev56yuRvsdr91pXNO6nCvO7/y6BChiKczWX+RHhutgcASJd0c4=
+X-Received: by 2002:a17:906:f1d3:b0:978:6a95:512d with SMTP id
+ gx19-20020a170906f1d300b009786a95512dmr11603991ejb.11.1688579470177; Wed, 05
+ Jul 2023 10:51:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
- support
-Content-Language: en-US
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        "Alexander Shishkin" <alexander.shishkin@linux.intel.com>
-CC:     Greg KH <gregkh@linuxfoundation.org>,
-        Mukesh Ojha <quic_mojha@quicinc.com>, <corbet@lwn.net>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <keescook@chromium.org>,
-        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <andy.shevchenko@gmail.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <2023062814-chance-flounder-f002@gregkh>
- <CAL_JsqLO9yey2-4FcWsaGxijiS6hGL0SH9VoMuiyei-u9=Cv=w@mail.gmail.com>
- <CACRpkda3CJ7G4-wDPkWmzg6nyCoEfG+u2cQH6KXWNjbftd90ow@mail.gmail.com>
-From:   Trilok Soni <quic_tsoni@quicinc.com>
-In-Reply-To: <CACRpkda3CJ7G4-wDPkWmzg6nyCoEfG+u2cQH6KXWNjbftd90ow@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: VZW6qNveH1EguEh4PjOv0RhaMztUvQ2V
-X-Proofpoint-ORIG-GUID: VZW6qNveH1EguEh4PjOv0RhaMztUvQ2V
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-05_09,2023-07-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- lowpriorityscore=0 clxscore=1011 impostorscore=0 adultscore=0
- suspectscore=0 mlxscore=0 phishscore=0 mlxlogscore=999 spamscore=0
- bulkscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2307050159
+References: <20230629205040.665834-1-axelrasmussen@google.com>
+ <20230629205040.665834-4-axelrasmussen@google.com> <ZKSJNB3BbCiPxcdD@x1n>
+In-Reply-To: <ZKSJNB3BbCiPxcdD@x1n>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Wed, 5 Jul 2023 10:50:34 -0700
+Message-ID: <CAJHvVcjfrOU5PoSoh4n1O0tmr-2bsPzinHDW5OwhCh=egk=-uQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] selftests/mm: refactor uffd_poll_thread to allow
+ custom fault handlers
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Nadav Amit <namit@vmware.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Shuah Khan <shuah@kernel.org>,
+        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/4/2023 2:27 AM, Linus Walleij wrote:
-> On Thu, Jun 29, 2023 at 1:12 AM Rob Herring <robh+dt@kernel.org> wrote:
-> 
->> My bigger issue with this whole series is what would this all look
->> like if every SoC vendor upstreamed their own custom dumping
->> mechanism. That would be a mess. (I have similar opinions on the
->> $soc-vendor hypervisors.)
-> 
-> I agree with Rob's stance.
-> 
-> I think it would be useful to get input from the hwtracing developers
-> (Alexander and Mathieu) who faced this "necessarily different" issue
-> with all the hwtrace mechanisms and found a way out of it. I suspect
-> they can have an idea of how this should be abstracted.
+On Tue, Jul 4, 2023 at 2:03=E2=80=AFPM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Thu, Jun 29, 2023 at 01:50:38PM -0700, Axel Rasmussen wrote:
+> > Previously, we had "one fault handler to rule them all", which used
+> > several branches to deal with all of the scenarios required by all of
+> > the various tests.
+> >
+> > In upcoming patches, I plan to add a new test, which has its own
+> > slightly different fault handling logic. Instead of continuing to add
+> > cruft to the existing fault handler, let's allow tests to define custom
+> > ones, separate from other tests.
+> >
+> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> > ---
+> >  tools/testing/selftests/mm/uffd-common.c |  5 ++++-
+> >  tools/testing/selftests/mm/uffd-common.h |  3 +++
+> >  tools/testing/selftests/mm/uffd-stress.c | 12 +++++++-----
+> >  3 files changed, 14 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/tools/testing/selftests/mm/uffd-common.c b/tools/testing/s=
+elftests/mm/uffd-common.c
+> > index ba20d7504022..02b89860e193 100644
+> > --- a/tools/testing/selftests/mm/uffd-common.c
+> > +++ b/tools/testing/selftests/mm/uffd-common.c
+> > @@ -499,6 +499,9 @@ void *uffd_poll_thread(void *arg)
+> >       int ret;
+> >       char tmp_chr;
+> >
+> > +     if (!args->handle_fault)
+> > +             args->handle_fault =3D uffd_handle_page_fault;
+> > +
+> >       pollfd[0].fd =3D uffd;
+> >       pollfd[0].events =3D POLLIN;
+> >       pollfd[1].fd =3D pipefd[cpu*2];
+> > @@ -527,7 +530,7 @@ void *uffd_poll_thread(void *arg)
+> >                       err("unexpected msg event %u\n", msg.event);
+> >                       break;
+> >               case UFFD_EVENT_PAGEFAULT:
+> > -                     uffd_handle_page_fault(&msg, args);
+> > +                     args->handle_fault(&msg, args);
+> >                       break;
+> >               case UFFD_EVENT_FORK:
+> >                       close(uffd);
+> > diff --git a/tools/testing/selftests/mm/uffd-common.h b/tools/testing/s=
+elftests/mm/uffd-common.h
+> > index 197f5262fe0d..7c4fa964c3b0 100644
+> > --- a/tools/testing/selftests/mm/uffd-common.h
+> > +++ b/tools/testing/selftests/mm/uffd-common.h
+> > @@ -77,6 +77,9 @@ struct uffd_args {
+> >       unsigned long missing_faults;
+> >       unsigned long wp_faults;
+> >       unsigned long minor_faults;
+> > +
+> > +     /* A custom fault handler; defaults to uffd_handle_page_fault. */
+> > +     void (*handle_fault)(struct uffd_msg *msg, struct uffd_args *args=
+);
+> >  };
+> >
+> >  struct uffd_test_ops {
+> > diff --git a/tools/testing/selftests/mm/uffd-stress.c b/tools/testing/s=
+elftests/mm/uffd-stress.c
+> > index 995ff13e74c7..50b1224d72c7 100644
+> > --- a/tools/testing/selftests/mm/uffd-stress.c
+> > +++ b/tools/testing/selftests/mm/uffd-stress.c
+> > @@ -189,10 +189,8 @@ static int stress(struct uffd_args *args)
+> >                                  locking_thread, (void *)cpu))
+> >                       return 1;
+> >               if (bounces & BOUNCE_POLL) {
+> > -                     if (pthread_create(&uffd_threads[cpu], &attr,
+> > -                                        uffd_poll_thread,
+> > -                                        (void *)&args[cpu]))
+> > -                             return 1;
+> > +                     if (pthread_create(&uffd_threads[cpu], &attr, uff=
+d_poll_thread, &args[cpu]))
+> > +                             err("uffd_poll_thread create");
+>
+> irrelevant change?
 
-Any mailing list you suggest we expand to so that we get inputs from the 
-hwtracing developers and maintainers or just look into the MAINTAINERS 
-file and start an email thread?
+Right, I'll revert this. In an earlier version I had a more
+substantial change here, and just didn't fully revert it.
 
-We are fine to submit the abstract for the LPC in next two weeks, but 
-prefer to have lot of good discussion before it on the mailing list, so 
-that we have code to talk about in LPC.
+>
+> >               } else {
+> >                       if (pthread_create(&uffd_threads[cpu], &attr,
+> >                                          uffd_read_thread,
+> > @@ -247,9 +245,13 @@ static int userfaultfd_stress(void)
+> >  {
+> >       void *area;
+> >       unsigned long nr;
+> > -     struct uffd_args args[nr_cpus];
+> > +     struct uffd_args *args;
+> >       uint64_t mem_size =3D nr_pages * page_size;
+> >
+> > +     args =3D calloc(nr_cpus, sizeof(struct uffd_args));
+> > +     if (!args)
+> > +             err("allocating args array failed");
+> > +
+>
+> It's leaked?
+>
+> Isn't "args[] =3D { 0 }" already working?
 
----Trilok Soni
+That works, but GCC can warn in this case (-Wmissing-braces) depending
+on the definition of struct uffd_args. I liked switching to calloc
+because it avoids any possibility of that even as we add/remove things
+to struct uffd_args in the future.
+
+Since it's a selftest and this function is only called exactly once,
+it didn't seem worth the code making certain we free it, instead just
+leaving it to be cleaned up when the process exits.
+
+>
+> Thanks,
+>
+> >       if (uffd_test_ctx_init(UFFD_FEATURE_WP_UNPOPULATED, NULL))
+> >               err("context init failed");
+> >
+> > --
+> > 2.41.0.255.g8b1d071c50-goog
+> >
+>
+> --
+> Peter Xu
+>
