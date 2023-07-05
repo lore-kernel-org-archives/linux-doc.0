@@ -2,122 +2,216 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0091C001DF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 18:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF6EEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 18:18:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232674AbjGESSQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jul 2023 14:18:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44610 "EHLO
+        id S232820AbjGESSc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jul 2023 14:18:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233463AbjGESSH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 14:18:07 -0400
+        with ESMTP id S233468AbjGESST (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 14:18:19 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E52B133
-        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 11:16:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F8E1BD6
+        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 11:17:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688581018;
+        s=mimecast20190719; t=1688581026;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=izi9UHkrSeZ4AHa49u6aA8W9HneeYs8L2V/Y70LmMpM=;
-        b=aK8mmgOZbP2nnH9iHE0N2/mOuS2xZWRC8g4jlmqb4m4D+Jm60Or+2a2FTt5HTB+imuEQvh
-        zAso7CV3piJEPUqBnZVjP1Yzuxw2y6tAp0TUv0xyB3Q4IKzPOXvzb74tPX2kCeEcZ4H4pQ
-        0vHl5ZNTdoTSW0/xVjV8I2J44mYVuoU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-197-m-BHSRQXMT2rSYl1-eA5hQ-1; Wed, 05 Jul 2023 14:16:54 -0400
-X-MC-Unique: m-BHSRQXMT2rSYl1-eA5hQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7B9F3815EF2;
-        Wed,  5 Jul 2023 18:16:52 +0000 (UTC)
-Received: from vschneid.remote.csb (unknown [10.42.28.164])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D1D60F5CFA;
-        Wed,  5 Jul 2023 18:16:46 +0000 (UTC)
-From:   Valentin Schneider <vschneid@redhat.com>
-To:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
+        bh=PzsylmtcmFNsmgGBg8Pm9OUDSeIGp5f091Q7tc9LleI=;
+        b=FQCcfGMSwfio0DEKrK2F+p3v9hGkECf+KERidfWR6h8qMpBtS3eefq4QvLw6AQkRJOfcJE
+        B9b7bCOH0dnoetwxsYFpHVRMw3XrjQ4yaVD/C2/3Mw3cRZfAWTAIk/5jwVOvslC7eHdsyi
+        0q3O3bkFI4lM34J+Lhj/lK7JQqGfeio=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-313-KalZG7esPSSEY_S3ysT4EQ-1; Wed, 05 Jul 2023 14:17:05 -0400
+X-MC-Unique: KalZG7esPSSEY_S3ysT4EQ-1
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-62dd79f63e0so15359736d6.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 11:17:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688581024; x=1689185824;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PzsylmtcmFNsmgGBg8Pm9OUDSeIGp5f091Q7tc9LleI=;
+        b=W7Wa8zNQAHqrvnAPRSOPoBu0fJqaEmrb0UskaXjfmqQ7R2vSE1LY2aQ4H0nTySejqn
+         +aJVlQtvk0yMHAbIfTo5SwoibXbKvSPfhCFABMn9uCXpjoTQLPHqoEcf8JjPBr19w7Uz
+         Qk8zd6yzzdgjFMfqZ+IN7JuvVo9tkLZH5Zfs2NlXZimyKlc/OswRzQYdCvrLGtoFcXdj
+         M6LLGcdpUe2LXdoNU4j/Tt0aYFz2S+9GJBDsTA+iM8eP6YvIcTtXxaaXBZmT3v8xswtE
+         iQeSaSLZ/cgT1q/bFCFQHDFcmMLcN5amGlCxwayyeX0sy3ocyxpw8AaiT3iXPtYHtUDy
+         MSGQ==
+X-Gm-Message-State: ABy/qLbAJ7SGhsDkQNLS/zVqcvm8t94r0CncMy1dNYNVxAbWIaT2D/SP
+        mfGe4YKUX7GEmKziIaVRAFSeE6p1jm9onDbJy7N+8bdutvu9ubjnkSBvnRhWi1dWRa9/JOgc4bT
+        oPsjTWurD4PxJ+D4KNVTB
+X-Received: by 2002:a0c:ea2b:0:b0:635:dfe1:c1f2 with SMTP id t11-20020a0cea2b000000b00635dfe1c1f2mr17717933qvp.0.1688581024474;
+        Wed, 05 Jul 2023 11:17:04 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEl96/J1yNKCHluvfZQOMJkmNFqvRJ5M9uxuly3x1gZ1FBowCv3rY84RzXq6qWZEIAdEnHPdg==
+X-Received: by 2002:a0c:ea2b:0:b0:635:dfe1:c1f2 with SMTP id t11-20020a0cea2b000000b00635dfe1c1f2mr17717904qvp.0.1688581024161;
+        Wed, 05 Jul 2023 11:17:04 -0700 (PDT)
+Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com. [99.254.144.39])
+        by smtp.gmail.com with ESMTPSA id l15-20020ad4444f000000b0062439f05b87sm13920874qvt.45.2023.07.05.11.17.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jul 2023 11:17:03 -0700 (PDT)
+Date:   Wed, 5 Jul 2023 14:17:02 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Axel Rasmussen <axelrasmussen@google.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
         Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: [RFC PATCH 09/14] x86/kvm: Make kvm_async_pf_enabled __ro_after_init
-Date:   Wed,  5 Jul 2023 19:12:51 +0100
-Message-Id: <20230705181256.3539027-10-vschneid@redhat.com>
-In-Reply-To: <20230705181256.3539027-1-vschneid@redhat.com>
-References: <20230705181256.3539027-1-vschneid@redhat.com>
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Shuah Khan <shuah@kernel.org>,
+        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] selftests/mm: refactor uffd_poll_thread to allow
+ custom fault handlers
+Message-ID: <ZKWznk3+Ry96kZ1w@x1n>
+References: <20230629205040.665834-1-axelrasmussen@google.com>
+ <20230629205040.665834-4-axelrasmussen@google.com>
+ <ZKSJNB3BbCiPxcdD@x1n>
+ <CAJHvVcjfrOU5PoSoh4n1O0tmr-2bsPzinHDW5OwhCh=egk=-uQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+In-Reply-To: <CAJHvVcjfrOU5PoSoh4n1O0tmr-2bsPzinHDW5OwhCh=egk=-uQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-objtool now warns about it:
+On Wed, Jul 05, 2023 at 10:50:34AM -0700, Axel Rasmussen wrote:
+> On Tue, Jul 4, 2023 at 2:03 PM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > On Thu, Jun 29, 2023 at 01:50:38PM -0700, Axel Rasmussen wrote:
+> > > Previously, we had "one fault handler to rule them all", which used
+> > > several branches to deal with all of the scenarios required by all of
+> > > the various tests.
+> > >
+> > > In upcoming patches, I plan to add a new test, which has its own
+> > > slightly different fault handling logic. Instead of continuing to add
+> > > cruft to the existing fault handler, let's allow tests to define custom
+> > > ones, separate from other tests.
+> > >
+> > > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> > > ---
+> > >  tools/testing/selftests/mm/uffd-common.c |  5 ++++-
+> > >  tools/testing/selftests/mm/uffd-common.h |  3 +++
+> > >  tools/testing/selftests/mm/uffd-stress.c | 12 +++++++-----
+> > >  3 files changed, 14 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/tools/testing/selftests/mm/uffd-common.c b/tools/testing/selftests/mm/uffd-common.c
+> > > index ba20d7504022..02b89860e193 100644
+> > > --- a/tools/testing/selftests/mm/uffd-common.c
+> > > +++ b/tools/testing/selftests/mm/uffd-common.c
+> > > @@ -499,6 +499,9 @@ void *uffd_poll_thread(void *arg)
+> > >       int ret;
+> > >       char tmp_chr;
+> > >
+> > > +     if (!args->handle_fault)
+> > > +             args->handle_fault = uffd_handle_page_fault;
+> > > +
+> > >       pollfd[0].fd = uffd;
+> > >       pollfd[0].events = POLLIN;
+> > >       pollfd[1].fd = pipefd[cpu*2];
+> > > @@ -527,7 +530,7 @@ void *uffd_poll_thread(void *arg)
+> > >                       err("unexpected msg event %u\n", msg.event);
+> > >                       break;
+> > >               case UFFD_EVENT_PAGEFAULT:
+> > > -                     uffd_handle_page_fault(&msg, args);
+> > > +                     args->handle_fault(&msg, args);
+> > >                       break;
+> > >               case UFFD_EVENT_FORK:
+> > >                       close(uffd);
+> > > diff --git a/tools/testing/selftests/mm/uffd-common.h b/tools/testing/selftests/mm/uffd-common.h
+> > > index 197f5262fe0d..7c4fa964c3b0 100644
+> > > --- a/tools/testing/selftests/mm/uffd-common.h
+> > > +++ b/tools/testing/selftests/mm/uffd-common.h
+> > > @@ -77,6 +77,9 @@ struct uffd_args {
+> > >       unsigned long missing_faults;
+> > >       unsigned long wp_faults;
+> > >       unsigned long minor_faults;
+> > > +
+> > > +     /* A custom fault handler; defaults to uffd_handle_page_fault. */
+> > > +     void (*handle_fault)(struct uffd_msg *msg, struct uffd_args *args);
+> > >  };
+> > >
+> > >  struct uffd_test_ops {
+> > > diff --git a/tools/testing/selftests/mm/uffd-stress.c b/tools/testing/selftests/mm/uffd-stress.c
+> > > index 995ff13e74c7..50b1224d72c7 100644
+> > > --- a/tools/testing/selftests/mm/uffd-stress.c
+> > > +++ b/tools/testing/selftests/mm/uffd-stress.c
+> > > @@ -189,10 +189,8 @@ static int stress(struct uffd_args *args)
+> > >                                  locking_thread, (void *)cpu))
+> > >                       return 1;
+> > >               if (bounces & BOUNCE_POLL) {
+> > > -                     if (pthread_create(&uffd_threads[cpu], &attr,
+> > > -                                        uffd_poll_thread,
+> > > -                                        (void *)&args[cpu]))
+> > > -                             return 1;
+> > > +                     if (pthread_create(&uffd_threads[cpu], &attr, uffd_poll_thread, &args[cpu]))
+> > > +                             err("uffd_poll_thread create");
+> >
+> > irrelevant change?
+> 
+> Right, I'll revert this. In an earlier version I had a more
+> substantial change here, and just didn't fully revert it.
+> 
+> >
+> > >               } else {
+> > >                       if (pthread_create(&uffd_threads[cpu], &attr,
+> > >                                          uffd_read_thread,
+> > > @@ -247,9 +245,13 @@ static int userfaultfd_stress(void)
+> > >  {
+> > >       void *area;
+> > >       unsigned long nr;
+> > > -     struct uffd_args args[nr_cpus];
+> > > +     struct uffd_args *args;
+> > >       uint64_t mem_size = nr_pages * page_size;
+> > >
+> > > +     args = calloc(nr_cpus, sizeof(struct uffd_args));
+> > > +     if (!args)
+> > > +             err("allocating args array failed");
+> > > +
+> >
+> > It's leaked?
+> >
+> > Isn't "args[] = { 0 }" already working?
+> 
+> That works, but GCC can warn in this case (-Wmissing-braces) depending
+> on the definition of struct uffd_args. I liked switching to calloc
+> because it avoids any possibility of that even as we add/remove things
+> to struct uffd_args in the future.
 
-  vmlinux.o: warning: objtool: exc_page_fault+0x2a: Non __ro_after_init static key "kvm_async_pf_enabled" in .noinstr section
+But afaict we also have other places using the static way, I hope we can
+still keep them the same.
 
-The key can only be enabled (and not disabled) in the __init function
-kvm_guest_init(), so mark it as __ro_after_init.
+> 
+> Since it's a selftest and this function is only called exactly once,
+> it didn't seem worth the code making certain we free it, instead just
+> leaving it to be cleaned up when the process exits.
 
-Signed-off-by: Valentin Schneider <vschneid@redhat.com>
----
- arch/x86/kernel/kvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm also fine if you like to allocate it, but in that case please free it
+even if used only once - we're already at it, no good reason to explicitly
+leak it.  Let's just assume if userfaultfd_stress() can succeed it can be
+called 100000.. times without leaking anything.
 
-diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index 1cceac5984daa..319460090a836 100644
---- a/arch/x86/kernel/kvm.c
-+++ b/arch/x86/kernel/kvm.c
-@@ -44,7 +44,7 @@
- #include <asm/svm.h>
- #include <asm/e820/api.h>
- 
--DEFINE_STATIC_KEY_FALSE(kvm_async_pf_enabled);
-+DEFINE_STATIC_KEY_FALSE_RO(kvm_async_pf_enabled);
- 
- static int kvmapf = 1;
- 
+Thanks,
+
 -- 
-2.31.1
+Peter Xu
 
