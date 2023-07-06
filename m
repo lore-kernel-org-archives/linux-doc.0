@@ -2,143 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C475C0015E
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 05:30:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70250EB64DC
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 07:38:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233160AbjGFFaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jul 2023 01:30:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56584 "EHLO
+        id S233864AbjGFHiy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jul 2023 03:38:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233158AbjGFFaK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 01:30:10 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B121A1BD6;
-        Wed,  5 Jul 2023 22:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=tdQdAo2qFTj9DGBuoLP2bbCYlpn9+aYrsvBc/jj9Rf8=; b=u4VkgAOorIJnIks7BeD4quSFTl
-        ISGBFW6rKQ/t2PCT2iUGMw5XoZCSTI73o0HG1Ow7DLVUlRSCNP7NCrva+xHeUJJGlR9047v4XLOCt
-        M5wzogth/xpQ1WAooFH5OIc7wIK07fz/D6pjjx0Pvqfb7b5envA4VuM+v6535aMJEVQ2AVchMopCN
-        ohURXs3HMho+WOF79xj3MTLacTTEzUGzpZsXuCid00fuZRV4PtUYa2MfQJ+dbum+RcHG83Jsrit9M
-        Itt8fANfH8AO2G3tI9Fa7XRmsuLj51T+B1qoIMueE1HzKCg6IyVwblWb1ZoSrLLzQk3eK6ekuHJ8e
-        5XCzkzjA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qHHZ5-000UqT-21;
-        Thu, 06 Jul 2023 05:30:03 +0000
-Message-ID: <fc9ebfc8-87cd-9488-20cd-85ed2a164bc9@infradead.org>
-Date:   Wed, 5 Jul 2023 22:30:02 -0700
+        with ESMTP id S233900AbjGFHis (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 03:38:48 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B6B1BD8
+        for <linux-doc@vger.kernel.org>; Thu,  6 Jul 2023 00:38:34 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-3460770afe2so78355ab.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jul 2023 00:38:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688629113; x=1691221113;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3wp3nIROV9TflcSxrE2jgJnjD70KAFiAFAmondYIM9o=;
+        b=pi0wFpf6X/VZ+08PP1Q0vtFiGT/HRzAcVttvm+YOm1EQJGnmEd9pzlrDboY9mitk87
+         SPrhjB6f4PmNUY6SmToKx9lmhkM6+jGz/Cxdcl93ITxBZzHXLEDBlpQtqI1wZpQ0hBW6
+         wc62RTY6r03WMVr0OLvcbrX2o0VABOb6JLw6Trc30mnvMEo6/SmcTsoy7d0RyZokuhqV
+         8NPCjQ6PSobgFIHwqV1zkvFFcR8deNH7SQgi4uPG68T8mIWQvz1mvjbtbMn+pDAIDCim
+         nCo9Ywbkd4Ye1HSLU8tKdVyjc1SS5MaxlOzR4KPMy8M+g34AIxyJme0IKQAzgjPjJqa+
+         xyrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688629113; x=1691221113;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3wp3nIROV9TflcSxrE2jgJnjD70KAFiAFAmondYIM9o=;
+        b=lNAMwm0PCeug51HqR5phqgQQ9aguYIWvsugUAgM0/jyOafZyRSdL19j5mQ4+uCxiN4
+         iskDr6tGWxn1m8gL7JePFP1Q+t15TNzZmuj/MyNtAzQsBD1RfBTvAjDDV5843BY5ECRC
+         Q1ocfyulALYmZxTXl3/d+pfR9o1rd+MKzon0tdjdFWjP8qSxNJGayitPPG6CB5FDofjy
+         SZhISSxSifir3C7+eKLE9X+GZYjhYBucrUKfvOKTk87FI8QnQJTJxlv2WIWDtNAXdESC
+         MozUg516bgOmOq4eAa0fXyFrL7p0JpLvzmUofh+bA4WTcSghbIty3h7vsWwyZijhnjaf
+         spMg==
+X-Gm-Message-State: ABy/qLZdGzCeNz5zZ/HXDXmbmH7rqEQAJlXo/XUCVFXqFXX3hq8tLpGM
+        hwTnE5umT+CkDEeVXmhTaJEQSA==
+X-Google-Smtp-Source: APBJJlGuOq8c1qAySXCbXUJ4wcUjJsKRJcSRgxSb9ccHR7tXNLCcwrUTKQ9BheOlDBW7sHnn8hr8Ag==
+X-Received: by 2002:a05:6e02:12c9:b0:346:8c2:5f92 with SMTP id i9-20020a056e0212c900b0034608c25f92mr70825ilm.19.1688629112865;
+        Thu, 06 Jul 2023 00:38:32 -0700 (PDT)
+Received: from [2620:0:1008:15:4e6c:6fcc:6706:5cc] ([2620:0:1008:15:4e6c:6fcc:6706:5cc])
+        by smtp.gmail.com with ESMTPSA id fe7-20020a056a002f0700b0063f0c9eadc7sm657569pfb.200.2023.07.06.00.38.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jul 2023 00:38:32 -0700 (PDT)
+Date:   Thu, 6 Jul 2023 00:38:31 -0700 (PDT)
+From:   David Rientjes <rientjes@google.com>
+To:     Julian Pidancet <julian.pidancet@oracle.com>
+cc:     Christoph Lameter <cl@linux.com>,
+        "Lameter, Christopher" <cl@os.amperecomputing.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Rafael Aquini <aquini@redhat.com>
+Subject: Re: [PATCH v2] mm/slub: disable slab merging in the default
+ configuration
+In-Reply-To: <8813897d-4a52-37a0-fe44-a9157716be9b@google.com>
+Message-ID: <17349901-df3a-494e-fa71-2584d92526b5@google.com>
+References: <20230629221910.359711-1-julian.pidancet@oracle.com> <38083ed2-333b-e245-44e4-2f355e4f9249@google.com> <CTSGWINSM18Q.3HQ1DN27GNA1R@imme> <8813897d-4a52-37a0-fe44-a9157716be9b@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [RESEND PATCH v3 2/2] RISC-V: mm: Update documentation and
- include test
-To:     Charlie Jenkins <charlie@rivosinc.com>,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     conor@kernel.org, paul.walmsley@sifive.com, palmer@rivosinc.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org,
-        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        mick@ics.forth.gr, jrtc27@jrtc27.com
-References: <20230705190002.384799-1-charlie@rivosinc.com>
- <20230705190002.384799-3-charlie@rivosinc.com>
-Content-Language: en-US
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230705190002.384799-3-charlie@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+On Mon, 3 Jul 2023, David Rientjes wrote:
 
-On 7/5/23 11:59, Charlie Jenkins wrote:
-> Add documentation explaining the behavior of mmap. Include
-> a simple test that ensures that mmap returns an address less
-> than the hint address while there are still addresses available.
-> 
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> ---
->  Documentation/riscv/vm-layout.rst             | 22 +++++++++
->  arch/riscv/include/asm/pgtable.h              |  8 +--
->  tools/testing/selftests/riscv/Makefile        |  2 +-
->  tools/testing/selftests/riscv/mm/.gitignore   |  1 +
->  tools/testing/selftests/riscv/mm/Makefile     | 21 ++++++++
->  .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++++
->  6 files changed, 99 insertions(+), 4 deletions(-)
->  create mode 100644 tools/testing/selftests/riscv/mm/.gitignore
->  create mode 100644 tools/testing/selftests/riscv/mm/Makefile
->  create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
-> 
-> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
-> index 5462c84f4723..a610c68c9f3f 100644
-> --- a/Documentation/riscv/vm-layout.rst
-> +++ b/Documentation/riscv/vm-layout.rst
-> @@ -133,3 +133,25 @@ RISC-V Linux Kernel SV57
->     ffffffff00000000 |  -4     GB | ffffffff7fffffff |    2 GB | modules, BPF
->     ffffffff80000000 |  -2     GB | ffffffffffffffff |    2 GB | kernel
->    __________________|____________|__________________|_________|____________________________________________________________
-> +
-> +
-> +Userspace VAs
-> +--------------------
-> +To maintain compatibility with software that relies on the VA space
-> +with a maximum of 39-bits, the kernel will, by default, return virtual
+> hackbench
 
-                     39 bits,
+Running hackbench on Skylake with v6.1.30 (A) and v6.1.30 + your patch 
+(B), for example:
 
-> +return virtual addresses to userspace from a 48-bit range (sv48). This
+              LABEL             | COUNT |    MIN     |    MAX     |    MEAN    |   MEDIAN   |  STDDEV   |   DIRECTION    
+--------------------------------+-------+------------+------------+------------+------------+-----------+----------------
+  SReclaimable                  |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 11    | 129480.000 | 233208.000 | 189936.364 | 204316.000 | 31465.625 |                
+  (B) <same sha>                | 11    | 139084.000 | 236772.000 | 198931.273 | 213672.000 | 30013.204 |                
+                                |       | +7.42%     | +1.53%     | +4.74%     | +4.58%     | -4.62%    | <not defined>  
+  SUnreclaim                    |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 11    | 305400.000 | 538744.000 | 422148.000 | 449344.000 | 65005.045 |                
+  (B) <same sha>                | 11    | 305780.000 | 518300.000 | 422219.636 | 450252.000 | 61245.137 |                
+                                |       | +0.12%     | -3.79%     | +0.02%     | +0.20%     | -5.78%    | <not defined>  
 
-^^ duplicate "return virtual"
+Amount of reclaimable slab significantly increases which is likely not a 
+problem because, well, it's reclaimable.  But I suspect we'll find other 
+interesting data points with the other suggested benchmarks.
 
-> +default behavior is achieved by passing 0 into the hint address parameter
-> +of mmap.
-> +
+And benchmark results:
 
-> diff --git a/tools/testing/selftests/riscv/mm/.gitignore b/tools/testing/selftests/riscv/mm/.gitignore
-> new file mode 100644
-> index 000000000000..022ea0a3f7df
-> --- /dev/null
-> +++ b/tools/testing/selftests/riscv/mm/.gitignore
-> @@ -0,0 +1 @@
-> +mmap
-> \ No newline at end of file
-
-add a newline, please.
-
-> diff --git a/tools/testing/selftests/riscv/mm/Makefile b/tools/testing/selftests/riscv/mm/Makefile
-> new file mode 100644
-> index 000000000000..d41a0b3d2ca2
-> --- /dev/null
-> +++ b/tools/testing/selftests/riscv/mm/Makefile
-> @@ -0,0 +1,21 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Originally tools/testing/selftests/arm64/signal
-> +
-> +# Additional include paths needed by kselftest.h and local headers
-> +CFLAGS += -D_GNU_SOURCE -std=gnu99 -I.
-> +
-> +SRCS := $(filter-out testcases/testcases.c,$(wildcard testcases/*.c))
-> +PROGS := $(patsubst %.c,%,$(SRCS))
-> +
-> +# Generated binaries to be installed by top KSFT script
-> +TEST_GEN_PROGS := $(notdir $(PROGS))
-> +
-> +# Get Kernel headers installed and use them.
-> +
-> +# Including KSFT lib.mk here will also mangle the TEST_GEN_PROGS list
-> +# to account for any OUTPUT target-dirs optionally provided by
-> +# the toplevel makefile
-> +include ../../lib.mk
-> +
-> +$(TEST_GEN_PROGS): $(PROGS)
-> +	cp $(PROGS) $(OUTPUT)/
-> \ No newline at end of file
-
-add a newline, please.
-
--- 
-~Randy
+              LABEL             | COUNT |    MIN     |    MAX     |    MEAN    |   MEDIAN   |  STDDEV   |   DIRECTION    
+--------------------------------+-------+------------+------------+------------+------------+-----------+----------------
+  hackbench_process_pipes_234   |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 7     | 1.735      | 1.979      | 1.831      | 1.835      | 0.086291  |                
+  (B) <same sha>                | 7     | 1.687      | 2.023      | 1.886      | 1.911      | 0.10276   |                
+                                |       | -2.77%     | +2.22%     | +3.00%     | +4.14%     | +19.09%   | <not defined>  
+  hackbench_process_pipes_max   |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 7     | 1.735      | 1.979      | 1.831      | 1.835      | 0.086291  |                
+  (B) <same sha>                | 7     | 1.687      | 2.023      | 1.886      | 1.911      | 0.10276   |                
+                                |       | -2.77%     | +2.22%     | +3.00%     | +4.14%     | +19.09%   | - is good      
+  hackbench_process_sockets_234 |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 7     | 7.883      | 7.909      | 7.899      | 7.899      | 0.0087808 |                
+  (B) <same sha>                | 7     | 7.872      | 7.961      | 7.907      | 7.904      | 0.028019  |                
+                                |       | -0.14%     | +0.66%     | +0.10%     | +0.06%     | +219.09%  | <not defined>  
+  hackbench_process_sockets_max |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 7     | 7.883      | 7.909      | 7.899      | 7.899      | 0.0087808 |                
+  (B) <same sha>                | 7     | 7.872      | 7.961      | 7.907      | 7.904      | 0.028019  |                
+                                |       | -0.14%     | +0.66%     | +0.10%     | +0.06%     | +219.09%  | - is good      
+  hackbench_thread_pipes_234    |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 7     | 2.146      | 2.677      | 2.410      | 2.418      | 0.18143   |                
+  (B) <same sha>                | 7     | 2.016      | 2.514      | 2.268      | 2.241      | 0.17474   |                
+                                |       | -6.06%     | -6.09%     | -5.88%     | -7.32%     | -3.69%    | <not defined>  
+  hackbench_thread_pipes_max    |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 7     | 2.146      | 2.677      | 2.410      | 2.418      | 0.18143   |               
+  (B) <same sha>                | 7     | 2.016      | 2.514      | 2.268      | 2.241      | 0.17474   |                
+                                |       | -6.06%     | -6.09%     | -5.88%     | -7.32%     | -3.69%    | - is good      
+  hackbench_thread_sockets_234  |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 7     | 8.025      | 8.127      | 8.084      | 8.085      | 0.029755  |                
+  (B) <same sha>                | 7     | 7.990      | 8.093      | 8.042      | 8.035      | 0.035152  |                
+                                |       | -0.44%     | -0.42%     | -0.53%     | -0.62%     | +18.14%   | <not defined>  
+  hackbench_thread_sockets_max  |       |            |            |            |            |           |                
+  (A) v6.1.30                   | 7     | 8.025      | 8.127      | 8.084      | 8.085      | 0.029755  |                
+  (B) <same sha>                | 7     | 7.990      | 8.093      | 8.042      | 8.035      | 0.035152  |                
+                                |       | -0.44%     | -0.42%     | -0.53%     | -0.62%     | +18.14%   | - is good    
