@@ -2,247 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D21DC001DD
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 22:51:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8FCEB64D9
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 23:04:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232159AbjGFWvz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jul 2023 18:51:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56740 "EHLO
+        id S229720AbjGFXEn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jul 2023 19:04:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232197AbjGFWvZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 18:51:25 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 038402128
-        for <linux-doc@vger.kernel.org>; Thu,  6 Jul 2023 15:51:07 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-57003dac4a8so34058527b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 06 Jul 2023 15:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1688683866; x=1691275866;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vNyM+7c0est1wcVkLGeYyWS2zFzaKr32nANrKlDiGpI=;
-        b=EK01mLypW26xwbB17tl+WVi77pgJ0OApJdOy0ZdOVv84/lYvfVuW7WowZ4rEK8f7WX
-         g4rTBFdn/gfopVFptl2AY7oR1MbOxcuKJ5NLlgJS4KZnwJQ/O9DYar58Cp6+LJtem2dz
-         7aV6c0xPB8rtx/DVLBBYyqqPk4Y5aP7bx24BzHZVQh7fjXNIuWh3WsjiPncdyuOWOy0f
-         szlc4nj/Zd3/Khbkib9ISdsge3HmKG+4el8u83yJEUvEUWR2sl14PZi/zm9NTrqicFDS
-         XKFqXwSRFH+ICd8i9r7ldw2FSna2YUHpUhgptiJGArRniVNPuiWl7n0jMNBuoRiJ6+di
-         6/Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688683866; x=1691275866;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vNyM+7c0est1wcVkLGeYyWS2zFzaKr32nANrKlDiGpI=;
-        b=PK4d3mYcfU0dJ7I4aO+pObD/zfmeVqmxdMkfgLiR/vkk4ZE8PIT0Fj1Pp38Vl5Q/6K
-         QFMiqXd7ScI9NacS2kt9sFQfyFDM5VkvQqsvAkcEmpr2VndKxio0VrIQxNu7Mf79YZYH
-         KMgo84qjlnSRGxYr35tkonl7u1weqDuhzphGBRSRJQXDIoBGOl7pINBfwwVvCzBy4Ugo
-         lHSBilg8daVef0U4RC9Gd7Z2b2kiYSf70sD5URrRF5GnWxyRYL3N69kkqjCnT7KQvRFc
-         n9sjVBaz5rap1SIcIlp/K8/tkz8pII67+zsIlY+sAr+debzVDmqyW0oUAHRUtMT1Lcvm
-         PKzw==
-X-Gm-Message-State: ABy/qLbF5sIlURza+du7awrrkG2NbUD41C0y2+ckxdnBmd664jcxqAr9
-        skR278gUxtegTLSUsguyBO54JIC2YUvQIGXKybtz
-X-Google-Smtp-Source: APBJJlHgoq6fX5m1+Roj1PD+nUlgNcdctSDPa98kXCzajWjYbfEt4nefdrt/24V9AOah7Hkvx+a3A+kIbPjrz61F6Iqg
-X-Received: from axel.svl.corp.google.com ([2620:15c:2a3:200:bec3:2b1c:87a:fca2])
- (user=axelrasmussen job=sendgmr) by 2002:a25:ab90:0:b0:bc4:a660:528f with
- SMTP id v16-20020a25ab90000000b00bc4a660528fmr39975ybi.5.1688683866544; Thu,
- 06 Jul 2023 15:51:06 -0700 (PDT)
-Date:   Thu,  6 Jul 2023 15:50:36 -0700
-In-Reply-To: <20230706225037.1164380-1-axelrasmussen@google.com>
-Mime-Version: 1.0
-References: <20230706225037.1164380-1-axelrasmussen@google.com>
-X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
-Message-ID: <20230706225037.1164380-9-axelrasmussen@google.com>
-Subject: [PATCH v3 8/8] selftests/mm: add uffd unit test for UFFDIO_POISON
-From:   Axel Rasmussen <axelrasmussen@google.com>
-To:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        James Houghton <jthoughton@google.com>,
-        "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
-        Jiaqi Yan <jiaqiyan@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Nadav Amit <namit@vmware.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Peter Xu <peterx@redhat.com>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "T.J. Alumbaugh" <talumbau@google.com>,
-        Yu Zhao <yuzhao@google.com>,
-        ZhangPeng <zhangpeng362@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Axel Rasmussen <axelrasmussen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229527AbjGFXEm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 19:04:42 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E9F81723;
+        Thu,  6 Jul 2023 16:04:37 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 65251734;
+        Thu,  6 Jul 2023 23:04:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 65251734
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1688684671; bh=3XoiQaoFKrIsLJsEKfTtCBzXCd+bzMaIdu4uwXks2kc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mdv2hCyIPcGA2pji6VqfG1YNixgZLnBCfDxrIzpmBQGWZ/7vS56X7iPTXYpgBGuyX
+         yvVbLqBBuV7VzR/fb7o4M3L/y13sWDrtnS5vdNsq6VzkewSCuLsd+8Uon3thexdGgj
+         kinY8lGb1tcYUNZYHnWUqFpR9gl3xAW8SMvwhfEDTx+lPwEA4D8u/MT5Hnpl8yFFV1
+         NkhFO05hl+7NYsA6fBFoQSjQxQ153clgE9sp17nKGeE9J2RV0zXioreWl5SF3eBc3a
+         v1Jx+AkC/sLNc0RmVzzA/LvAeo5XpyioUOpMT9skp0Gdm50siY5pywocmY+z0t6xJj
+         9uPZG3ZlsC7jA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] A few more documentation changes for 6.5
+Date:   Thu, 06 Jul 2023 17:04:30 -0600
+Message-ID: <87cz14d4ld.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The test is pretty basic, and exercises UFFDIO_POISON straightforwardly.
-We register a region with userfaultfd, in missing fault mode. For each
-fault, we either UFFDIO_COPY a zeroed page (odd pages) or UFFDIO_POISON
-(even pages). We do this mix to test "something like a real use case",
-where guest memory would be some mix of poisoned and non-poisoned pages.
+The following changes since commit a1e72bb00a48687a1dc1c2e549eaf4ba09e802be:
 
-We read each page in the region, and assert that the odd pages are
-zeroed as expected, and the even pages yield a SIGBUS as expected.
+  docs: consolidate storage interfaces (2023-06-21 09:18:06 -0600)
 
-Why UFFDIO_COPY instead of UFFDIO_ZEROPAGE? Because hugetlb doesn't
-support UFFDIO_ZEROPAGE, and we don't want to have special case code.
+are available in the Git repository at:
 
-Acked-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
----
- tools/testing/selftests/mm/uffd-unit-tests.c | 117 +++++++++++++++++++
- 1 file changed, 117 insertions(+)
+  git://git.lwn.net/linux.git tags/docs-6.5-2
 
-diff --git a/tools/testing/selftests/mm/uffd-unit-tests.c b/tools/testing/selftests/mm/uffd-unit-tests.c
-index 04d91f144d1c..2709a34a39c5 100644
---- a/tools/testing/selftests/mm/uffd-unit-tests.c
-+++ b/tools/testing/selftests/mm/uffd-unit-tests.c
-@@ -951,6 +951,117 @@ static void uffd_zeropage_test(uffd_test_args_t *args)
- 	uffd_test_pass();
- }
- 
-+static void uffd_register_poison(int uffd, void *addr, uint64_t len)
-+{
-+	uint64_t ioctls = 0;
-+	uint64_t expected = (1 << _UFFDIO_COPY) | (1 << _UFFDIO_POISON);
-+
-+	if (uffd_register_with_ioctls(uffd, addr, len, true,
-+				      false, false, &ioctls))
-+		err("poison register fail");
-+
-+	if ((ioctls & expected) != expected)
-+		err("registered area doesn't support COPY and POISON ioctls");
-+}
-+
-+static void do_uffdio_poison(int uffd, unsigned long offset)
-+{
-+	struct uffdio_poison uffdio_poison = { 0 };
-+	int ret;
-+	__s64 res;
-+
-+	uffdio_poison.range.start = (unsigned long) area_dst + offset;
-+	uffdio_poison.range.len = page_size;
-+	uffdio_poison.mode = 0;
-+	ret = ioctl(uffd, UFFDIO_POISON, &uffdio_poison);
-+	res = uffdio_poison.updated;
-+
-+	if (ret)
-+		err("UFFDIO_POISON error: %"PRId64, (int64_t)res);
-+	else if (res != page_size)
-+		err("UFFDIO_POISON unexpected size: %"PRId64, (int64_t)res);
-+}
-+
-+static void uffd_poison_handle_fault(
-+	struct uffd_msg *msg, struct uffd_args *args)
-+{
-+	unsigned long offset;
-+
-+	if (msg->event != UFFD_EVENT_PAGEFAULT)
-+		err("unexpected msg event %u", msg->event);
-+
-+	if (msg->arg.pagefault.flags &
-+	    (UFFD_PAGEFAULT_FLAG_WP | UFFD_PAGEFAULT_FLAG_MINOR))
-+		err("unexpected fault type %llu", msg->arg.pagefault.flags);
-+
-+	offset = (char *)(unsigned long)msg->arg.pagefault.address - area_dst;
-+	offset &= ~(page_size-1);
-+
-+	/* Odd pages -> copy zeroed page; even pages -> poison. */
-+	if (offset & page_size)
-+		copy_page(uffd, offset, false);
-+	else
-+		do_uffdio_poison(uffd, offset);
-+}
-+
-+static void uffd_poison_test(uffd_test_args_t *targs)
-+{
-+	pthread_t uffd_mon;
-+	char c;
-+	struct uffd_args args = { 0 };
-+	struct sigaction act = { 0 };
-+	unsigned long nr_sigbus = 0;
-+	unsigned long nr;
-+
-+	fcntl(uffd, F_SETFL, uffd_flags | O_NONBLOCK);
-+
-+	uffd_register_poison(uffd, area_dst, nr_pages * page_size);
-+	memset(area_src, 0, nr_pages * page_size);
-+
-+	args.handle_fault = uffd_poison_handle_fault;
-+	if (pthread_create(&uffd_mon, NULL, uffd_poll_thread, &args))
-+		err("uffd_poll_thread create");
-+
-+	sigbuf = &jbuf;
-+	act.sa_sigaction = sighndl;
-+	act.sa_flags = SA_SIGINFO;
-+	if (sigaction(SIGBUS, &act, 0))
-+		err("sigaction");
-+
-+	for (nr = 0; nr < nr_pages; ++nr) {
-+		unsigned long offset = nr * page_size;
-+		const char *bytes = (const char *) area_dst + offset;
-+		const char *i;
-+
-+		if (sigsetjmp(*sigbuf, 1)) {
-+			/*
-+			 * Access below triggered a SIGBUS, which was caught by
-+			 * sighndl, which then jumped here. Count this SIGBUS,
-+			 * and move on to next page.
-+			 */
-+			++nr_sigbus;
-+			continue;
-+		}
-+
-+		for (i = bytes; i < bytes + page_size; ++i) {
-+			if (*i)
-+				err("nonzero byte in area_dst (%p) at %p: %u",
-+				    area_dst, i, *i);
-+		}
-+	}
-+
-+	if (write(pipefd[1], &c, sizeof(c)) != sizeof(c))
-+		err("pipe write");
-+	if (pthread_join(uffd_mon, NULL))
-+		err("pthread_join()");
-+
-+	if (nr_sigbus != nr_pages / 2)
-+		err("expected to receive %lu SIGBUS, actually received %lu",
-+		    nr_pages / 2, nr_sigbus);
-+
-+	uffd_test_pass();
-+}
-+
- /*
-  * Test the returned uffdio_register.ioctls with different register modes.
-  * Note that _UFFDIO_ZEROPAGE is tested separately in the zeropage test.
-@@ -1126,6 +1237,12 @@ uffd_test_case_t uffd_tests[] = {
- 		UFFD_FEATURE_PAGEFAULT_FLAG_WP |
- 		UFFD_FEATURE_WP_HUGETLBFS_SHMEM,
- 	},
-+	{
-+		.name = "poison",
-+		.uffd_fn = uffd_poison_test,
-+		.mem_targets = MEM_ALL,
-+		.uffd_feature_required = UFFD_FEATURE_POISON,
-+	},
- };
- 
- static void usage(const char *prog)
--- 
-2.41.0.255.g8b1d071c50-goog
+for you to fetch changes up to e27cb89a22ada4e3e7bee1567a8daa1fb2260b78:
 
+  scripts: kernel-doc: support private / public marking for enums (2023-07-04 08:30:49 -0600)
+
+----------------------------------------------------------------
+A half-dozen late arriving docs patches.  They are mostly fixes, but we
+also have a kernel-doc tweak for enums and the long-overdue removal of the
+outdated and redundant patch-submission comments at the top of the
+MAINTAINERS file.
+
+----------------------------------------------------------------
+Changyuan Lyu (1):
+      Documentation: KVM: SEV: add a missing backtick
+
+David Heidelberg (1):
+      Documentation: ACPI: fix typo in ssdt-overlays.rst
+
+Jakub Kicinski (2):
+      docs: remove the tips on how to submit patches from MAINTAINERS
+      scripts: kernel-doc: support private / public marking for enums
+
+Olaf Hering (1):
+      Fix documentation of panic_on_warn
+
+Xueshi Hu (1):
+      docs: fix typo in zh_TW and zh_CN translation
+
+ Documentation/admin-guide/acpi/ssdt-overlays.rst   |  2 +-
+ Documentation/admin-guide/kernel-parameters.txt    |  2 +-
+ Documentation/process/6.Followthrough.rst          |  7 ++
+ .../translations/zh_CN/process/2.Process.rst       |  2 +-
+ .../translations/zh_CN/process/3.Early-stage.rst   |  2 +-
+ .../translations/zh_CN/process/4.Coding.rst        |  2 +-
+ .../zh_CN/process/7.AdvancedTopics.rst             |  2 +-
+ .../translations/zh_TW/process/2.Process.rst       |  2 +-
+ .../translations/zh_TW/process/3.Early-stage.rst   |  2 +-
+ .../translations/zh_TW/process/4.Coding.rst        |  2 +-
+ .../zh_TW/process/7.AdvancedTopics.rst             |  2 +-
+ .../virt/kvm/x86/amd-memory-encryption.rst         |  2 +-
+ MAINTAINERS                                        | 80 +---------------------
+ scripts/kernel-doc                                 |  3 +
+ tools/testing/selftests/rcutorture/bin/kvm.sh      |  2 +-
+ 15 files changed, 24 insertions(+), 90 deletions(-)
