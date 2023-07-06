@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37BABEB64DC
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 05:07:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDBFAEB64D9
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 05:12:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbjGFFHN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jul 2023 01:07:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49882 "EHLO
+        id S233022AbjGFFMt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jul 2023 01:12:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232730AbjGFFHK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 01:07:10 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C10811709
-        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 22:07:09 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-40371070eb7so136061cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 22:07:09 -0700 (PDT)
+        with ESMTP id S229589AbjGFFMr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 01:12:47 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 769301BDB
+        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 22:12:40 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-401f4408955so134341cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 22:12:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1688620029; x=1691212029;
+        d=google.com; s=20221208; t=1688620359; x=1691212359;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hffRxnSunklfp89DvzvKwrWLyrgvALeN7SrVEPvDGfM=;
-        b=P3c5Ah9qbElG18sj1GFPMyDiu/SS2+LTy7Ar2rnSPEBE1HJ//UgMlpZWTZ307UWpA0
-         UdSX5eWZMYwgGCA+lSGEyKwbGOluaLUhuOu8nIqgMmPfA5Zn3OoUdrvHO8kljaGXC+LG
-         wysq4DhNl9b5WHQkJMfvMH038IzSwuDyP5zT/8Gu0iox6x2tBGT+byKjC0Pxw0PW6Z5I
-         ss9XF1C+aTIq/YhDdfV59dyzOr0oi/t3qAfffIQ/mP+rzbSnVDw+46z+aj4PKB/4rP4A
-         ogLXbyrZI2bRePeUpP1FRLLIkItgP96LTrewH0MINhim4aQobRNUPn5+LsQ165pq45KP
-         z9Kg==
+        bh=ytLtdURE8ci1p8O07WRCYTemM1Z6XZ6vCUH5E5BlFNk=;
+        b=wdriVbGjW43OPJ6t+uBLbF8yBP9zVmCjpkWDsp/8C07ojo5tvNbeU/8KpY2peE3R6o
+         gBZEL4+YIWkd8t2MnPcVTjjG0AczP2KJJdTxb0zvlmq231NtE5mGgF4uk1EmmvQdpAIw
+         Z+NTkULhjtgZqkS8m67oOdCNmHmQyyVHrqY9aArYaxqChB2kxgL8G86RBofUUIIbQLMx
+         MoHvoFYv1p9GtPVVac0eCDahj/qrbdIgsrcUmyrLF6BPNNiyVn9MN2W2OaT7RKLVxNeM
+         JKPdTl5gQXzEbQ59r4B2fjFl9akz8KR5IjfQZAMNPiSnN79XU3NpA9rQ8fvMXjonXet4
+         dUXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688620029; x=1691212029;
+        d=1e100.net; s=20221208; t=1688620359; x=1691212359;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hffRxnSunklfp89DvzvKwrWLyrgvALeN7SrVEPvDGfM=;
-        b=hQw1U86YcyuMfOfrpfN3+yrJJ5/8lkmGydvwU6xwK/xMOnzPTml/MOLzdQrUvzundc
-         AAuj/tuVY3gwk2q3caMWryeHmYM6jbVpOGjAmLCuCCJYKpljlHv4yNEDadeYXPbDqqil
-         JPaDL1mRdGhRJK9QhRDc+kw/lazqTBJy16M/pJeDNw3/LVTnquBhEcqigvKpdI9dnXKb
-         Jc1FIOxI+0ThQRnDRy8JVitPlDnDSfqYgA84PZZp79yeT8KVme/rXX0f7PKLDsSfDqp3
-         B/pIbXek9ZTI92TletI4/ajDqjxl9MTQbrbZlnfTWSs3CUyGZLw62dtywxfPCi/dB3IC
-         Pobw==
-X-Gm-Message-State: ABy/qLbxZE7Qa0o1JMYnJUBLeA62tRuSUOxRiLFUwt500onHjjXKjB4R
-        sN3UnuX4NeJFt/kbqvJg6YM4yV3wsU3i+O+FrSja
-X-Google-Smtp-Source: APBJJlGGYKrR1oEbXVo41fG7AIqxtwNP5cFvFHu0YbwAbU9CriMrOnef4ZhaOJso815c6Zac+BtBRSCVqOzeXBALYTw=
-X-Received: by 2002:a05:622a:2c2:b0:3f0:af20:1a37 with SMTP id
- a2-20020a05622a02c200b003f0af201a37mr40610qtx.15.1688620028818; Wed, 05 Jul
- 2023 22:07:08 -0700 (PDT)
+        bh=ytLtdURE8ci1p8O07WRCYTemM1Z6XZ6vCUH5E5BlFNk=;
+        b=eMPpKsOvUlLyojSAatBsDJdTD4mofagVnWGx1TWxm/LVCzVlWf+n1CTFsf03mRl3At
+         aqm/4WJRvFNdV/IJ30UAAfm4c1mqBpYtC9G8um+DPxUKUi+DmjYZngm+rX9/aFScR/Bm
+         l7imZ2NbhijjtguQnKdUo5GSwdJZ5RbOO3oy5mV5YlUD2D6GpQFO6g3JZstjzu1svunq
+         QwS5vP7yDwMdpMQOFsivmHM6AhhdS0GARjMkBhOfEcyQTNpVR5OLzjRQx2vMupsfaYpH
+         vh/rKEcY4UlaMPBm3VWrwsnCDT819Urmnl2OdSUrxZrfax0j/VgtuiF0hf5ne91A44qC
+         8Uzw==
+X-Gm-Message-State: ABy/qLb9lVkJ4hrYNVA9H65tI+xBhlmO2FGUOn4E9270qUns0U0mG4LA
+        be9tK+Ac4gR91yg3IruwLmBjpPsRZ6JUeHdqAla5
+X-Google-Smtp-Source: APBJJlFC39UupwXY44uw6HCPSzb8ZZHacNRKC5iAYB0XEXyIDerGoosbNVBvV/EMY0jseiKcB596jxl2p048/OWEhPs=
+X-Received: by 2002:ac8:7d0a:0:b0:3ef:404a:b291 with SMTP id
+ g10-20020ac87d0a000000b003ef404ab291mr41859qtb.7.1688620359494; Wed, 05 Jul
+ 2023 22:12:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230704052405.5089-1-rdunlap@infradead.org> <20230704052405.5089-2-rdunlap@infradead.org>
-In-Reply-To: <20230704052405.5089-2-rdunlap@infradead.org>
+References: <20230704052405.5089-1-rdunlap@infradead.org> <20230704052405.5089-3-rdunlap@infradead.org>
+In-Reply-To: <20230704052405.5089-3-rdunlap@infradead.org>
 From:   John Stultz <jstultz@google.com>
-Date:   Wed, 5 Jul 2023 22:06:57 -0700
-Message-ID: <CANDhNCoicO=CRuDnWrs--XikWu=SwNPU46erntiCjWvSoWZv2A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] jiffies: add kernel-doc for all APIs
+Date:   Wed, 5 Jul 2023 22:12:28 -0700
+Message-ID: <CANDhNCpVznR-6-cf6dLYF30MPK3ktj4=DjDjku3OWU6p2hyzaw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] time: add kernel-doc in time.c
 To:     Randy Dunlap <rdunlap@infradead.org>
 Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -66,15 +66,16 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On Mon, Jul 3, 2023 at 10:24=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
 > wrote:
 >
-> Add kernel-doc notation in <linux/jiffies.h> for interfaces that
-> don't already have it (i.e. most interfaces).
+> Add kernel-doc for all APIs that do not already have it.
 >
-> Fix some formatting and typos in other comments.
->
-
-Looks ok to me. Thanks for sending this out!
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 
 Acked-by: John Stultz <jstultz@google.com>
 
-thanks
+Thanks again!
 -john
