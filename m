@@ -2,80 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDBFAEB64D9
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 05:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C475C0015E
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 05:30:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233022AbjGFFMt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jul 2023 01:12:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52758 "EHLO
+        id S233160AbjGFFaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jul 2023 01:30:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjGFFMr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 01:12:47 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 769301BDB
-        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 22:12:40 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-401f4408955so134341cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 22:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1688620359; x=1691212359;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ytLtdURE8ci1p8O07WRCYTemM1Z6XZ6vCUH5E5BlFNk=;
-        b=wdriVbGjW43OPJ6t+uBLbF8yBP9zVmCjpkWDsp/8C07ojo5tvNbeU/8KpY2peE3R6o
-         gBZEL4+YIWkd8t2MnPcVTjjG0AczP2KJJdTxb0zvlmq231NtE5mGgF4uk1EmmvQdpAIw
-         Z+NTkULhjtgZqkS8m67oOdCNmHmQyyVHrqY9aArYaxqChB2kxgL8G86RBofUUIIbQLMx
-         MoHvoFYv1p9GtPVVac0eCDahj/qrbdIgsrcUmyrLF6BPNNiyVn9MN2W2OaT7RKLVxNeM
-         JKPdTl5gQXzEbQ59r4B2fjFl9akz8KR5IjfQZAMNPiSnN79XU3NpA9rQ8fvMXjonXet4
-         dUXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688620359; x=1691212359;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ytLtdURE8ci1p8O07WRCYTemM1Z6XZ6vCUH5E5BlFNk=;
-        b=eMPpKsOvUlLyojSAatBsDJdTD4mofagVnWGx1TWxm/LVCzVlWf+n1CTFsf03mRl3At
-         aqm/4WJRvFNdV/IJ30UAAfm4c1mqBpYtC9G8um+DPxUKUi+DmjYZngm+rX9/aFScR/Bm
-         l7imZ2NbhijjtguQnKdUo5GSwdJZ5RbOO3oy5mV5YlUD2D6GpQFO6g3JZstjzu1svunq
-         QwS5vP7yDwMdpMQOFsivmHM6AhhdS0GARjMkBhOfEcyQTNpVR5OLzjRQx2vMupsfaYpH
-         vh/rKEcY4UlaMPBm3VWrwsnCDT819Urmnl2OdSUrxZrfax0j/VgtuiF0hf5ne91A44qC
-         8Uzw==
-X-Gm-Message-State: ABy/qLb9lVkJ4hrYNVA9H65tI+xBhlmO2FGUOn4E9270qUns0U0mG4LA
-        be9tK+Ac4gR91yg3IruwLmBjpPsRZ6JUeHdqAla5
-X-Google-Smtp-Source: APBJJlFC39UupwXY44uw6HCPSzb8ZZHacNRKC5iAYB0XEXyIDerGoosbNVBvV/EMY0jseiKcB596jxl2p048/OWEhPs=
-X-Received: by 2002:ac8:7d0a:0:b0:3ef:404a:b291 with SMTP id
- g10-20020ac87d0a000000b003ef404ab291mr41859qtb.7.1688620359494; Wed, 05 Jul
- 2023 22:12:39 -0700 (PDT)
+        with ESMTP id S233158AbjGFFaK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 01:30:10 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B121A1BD6;
+        Wed,  5 Jul 2023 22:30:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=tdQdAo2qFTj9DGBuoLP2bbCYlpn9+aYrsvBc/jj9Rf8=; b=u4VkgAOorIJnIks7BeD4quSFTl
+        ISGBFW6rKQ/t2PCT2iUGMw5XoZCSTI73o0HG1Ow7DLVUlRSCNP7NCrva+xHeUJJGlR9047v4XLOCt
+        M5wzogth/xpQ1WAooFH5OIc7wIK07fz/D6pjjx0Pvqfb7b5envA4VuM+v6535aMJEVQ2AVchMopCN
+        ohURXs3HMho+WOF79xj3MTLacTTEzUGzpZsXuCid00fuZRV4PtUYa2MfQJ+dbum+RcHG83Jsrit9M
+        Itt8fANfH8AO2G3tI9Fa7XRmsuLj51T+B1qoIMueE1HzKCg6IyVwblWb1ZoSrLLzQk3eK6ekuHJ8e
+        5XCzkzjA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qHHZ5-000UqT-21;
+        Thu, 06 Jul 2023 05:30:03 +0000
+Message-ID: <fc9ebfc8-87cd-9488-20cd-85ed2a164bc9@infradead.org>
+Date:   Wed, 5 Jul 2023 22:30:02 -0700
 MIME-Version: 1.0
-References: <20230704052405.5089-1-rdunlap@infradead.org> <20230704052405.5089-3-rdunlap@infradead.org>
-In-Reply-To: <20230704052405.5089-3-rdunlap@infradead.org>
-From:   John Stultz <jstultz@google.com>
-Date:   Wed, 5 Jul 2023 22:12:28 -0700
-Message-ID: <CANDhNCpVznR-6-cf6dLYF30MPK3ktj4=DjDjku3OWU6p2hyzaw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] time: add kernel-doc in time.c
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [RESEND PATCH v3 2/2] RISC-V: mm: Update documentation and
+ include test
+To:     Charlie Jenkins <charlie@rivosinc.com>,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     conor@kernel.org, paul.walmsley@sifive.com, palmer@rivosinc.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        mick@ics.forth.gr, jrtc27@jrtc27.com
+References: <20230705190002.384799-1-charlie@rivosinc.com>
+ <20230705190002.384799-3-charlie@rivosinc.com>
+Content-Language: en-US
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230705190002.384799-3-charlie@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 3, 2023 at 10:24=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
->
-> Add kernel-doc for all APIs that do not already have it.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: John Stultz <jstultz@google.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+Hi--
 
-Acked-by: John Stultz <jstultz@google.com>
+On 7/5/23 11:59, Charlie Jenkins wrote:
+> Add documentation explaining the behavior of mmap. Include
+> a simple test that ensures that mmap returns an address less
+> than the hint address while there are still addresses available.
+> 
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  Documentation/riscv/vm-layout.rst             | 22 +++++++++
+>  arch/riscv/include/asm/pgtable.h              |  8 +--
+>  tools/testing/selftests/riscv/Makefile        |  2 +-
+>  tools/testing/selftests/riscv/mm/.gitignore   |  1 +
+>  tools/testing/selftests/riscv/mm/Makefile     | 21 ++++++++
+>  .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++++
+>  6 files changed, 99 insertions(+), 4 deletions(-)
+>  create mode 100644 tools/testing/selftests/riscv/mm/.gitignore
+>  create mode 100644 tools/testing/selftests/riscv/mm/Makefile
+>  create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
+> 
+> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+> index 5462c84f4723..a610c68c9f3f 100644
+> --- a/Documentation/riscv/vm-layout.rst
+> +++ b/Documentation/riscv/vm-layout.rst
+> @@ -133,3 +133,25 @@ RISC-V Linux Kernel SV57
+>     ffffffff00000000 |  -4     GB | ffffffff7fffffff |    2 GB | modules, BPF
+>     ffffffff80000000 |  -2     GB | ffffffffffffffff |    2 GB | kernel
+>    __________________|____________|__________________|_________|____________________________________________________________
+> +
+> +
+> +Userspace VAs
+> +--------------------
+> +To maintain compatibility with software that relies on the VA space
+> +with a maximum of 39-bits, the kernel will, by default, return virtual
 
-Thanks again!
--john
+                     39 bits,
+
+> +return virtual addresses to userspace from a 48-bit range (sv48). This
+
+^^ duplicate "return virtual"
+
+> +default behavior is achieved by passing 0 into the hint address parameter
+> +of mmap.
+> +
+
+> diff --git a/tools/testing/selftests/riscv/mm/.gitignore b/tools/testing/selftests/riscv/mm/.gitignore
+> new file mode 100644
+> index 000000000000..022ea0a3f7df
+> --- /dev/null
+> +++ b/tools/testing/selftests/riscv/mm/.gitignore
+> @@ -0,0 +1 @@
+> +mmap
+> \ No newline at end of file
+
+add a newline, please.
+
+> diff --git a/tools/testing/selftests/riscv/mm/Makefile b/tools/testing/selftests/riscv/mm/Makefile
+> new file mode 100644
+> index 000000000000..d41a0b3d2ca2
+> --- /dev/null
+> +++ b/tools/testing/selftests/riscv/mm/Makefile
+> @@ -0,0 +1,21 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Originally tools/testing/selftests/arm64/signal
+> +
+> +# Additional include paths needed by kselftest.h and local headers
+> +CFLAGS += -D_GNU_SOURCE -std=gnu99 -I.
+> +
+> +SRCS := $(filter-out testcases/testcases.c,$(wildcard testcases/*.c))
+> +PROGS := $(patsubst %.c,%,$(SRCS))
+> +
+> +# Generated binaries to be installed by top KSFT script
+> +TEST_GEN_PROGS := $(notdir $(PROGS))
+> +
+> +# Get Kernel headers installed and use them.
+> +
+> +# Including KSFT lib.mk here will also mangle the TEST_GEN_PROGS list
+> +# to account for any OUTPUT target-dirs optionally provided by
+> +# the toplevel makefile
+> +include ../../lib.mk
+> +
+> +$(TEST_GEN_PROGS): $(PROGS)
+> +	cp $(PROGS) $(OUTPUT)/
+> \ No newline at end of file
+
+add a newline, please.
+
+-- 
+~Randy
