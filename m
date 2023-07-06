@@ -2,69 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1A09EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 11:30:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3537AEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 11:31:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232283AbjGFLaz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jul 2023 07:30:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35148 "EHLO
+        id S232298AbjGFLbF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jul 2023 07:31:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231546AbjGFLay (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 07:30:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6BD3170F
-        for <linux-doc@vger.kernel.org>; Thu,  6 Jul 2023 04:30:07 -0700 (PDT)
+        with ESMTP id S231546AbjGFLbE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 07:31:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE513199E
+        for <linux-doc@vger.kernel.org>; Thu,  6 Jul 2023 04:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688643006;
+        s=mimecast20190719; t=1688643018;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=LuiRGI269Np92lVN6nJmdyMw4xzKbo2Z74mCs1dTD80=;
-        b=Y4dSImJB1zfrvwl1WAs6S/aKXBRf8ADvKL1+JjO164NZmCWeCRZQIOvBKUdz9t9fJY4qKS
-        WsY3gWeFB7KAVadbiA13opsiDCmHIYH7ZF51CdpFWDh5b40ewMLO7dWVOW3LfQNgKNJTpV
-        XjdNrE/1thXrCXgDXWA/LpLHye7A4uA=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=IUyIouoC8ahxmdxehnDEnuXDxYXuSzzBD+vRAySsvH8=;
+        b=JppxA5gkv0z2zSIqNak0EcK/+02w/7t3NqeBBD4PaFhbFHZVleG6qiY+PlGOOO0jD8NtY0
+        VyFH20fYF7RggygsLhZ4FS8nGgQHvvZbQigZbyGNZxW2BtYLn5VOqcgnYGlkppFuxcn1VD
+        aOGOEB1hOa0/nHPrFxso/QgRscFZ9C4=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-176-HTTHiSSaN4KfZhHlzBzwtA-1; Thu, 06 Jul 2023 07:30:05 -0400
-X-MC-Unique: HTTHiSSaN4KfZhHlzBzwtA-1
-Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-47e134da1ecso72138e0c.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Jul 2023 04:30:05 -0700 (PDT)
+ us-mta-587-g2vJVO0kN-ieu1VEBVG9GA-1; Thu, 06 Jul 2023 07:30:17 -0400
+X-MC-Unique: g2vJVO0kN-ieu1VEBVG9GA-1
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-635e3871cf9so6547306d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jul 2023 04:30:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688643005; x=1691235005;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LuiRGI269Np92lVN6nJmdyMw4xzKbo2Z74mCs1dTD80=;
-        b=bqiyWZNj2wWD2WLCotw5lsVUZ5x0psg5TQ+fiSphOfQtsgztZguEyS5RrjRUFr/g/U
-         c3AZioz6lJw9QYPdMRo2qh5uIePTGqx5f27nBdkOnOL6yNGDFhnLG1/Ajs5FCW/CouWT
-         nywzLc8c1Dh/nOuyeyJAkCfblE1KwRfkEL4tbOyA9qInSjvYqlUPi1ceP2VO7w4K21Ql
-         8oxb4rzU7x3DybbvhfhqAyqnaMKgfwK0Yd8MT1PDUz2o59lsfAkfaopQqcqqOSvmFyyO
-         df0v7oEQ5R6gmIXCLYkwFdii4nPOBQDjHkPDqj0rvaiXGD7Z9syXX32KCT8qog9dI5/0
-         Jvpg==
-X-Gm-Message-State: ABy/qLY/TYbFWysVkxX29CHlzZbqwzYaj1wz/mAbPIGY8RYFZe9PZc9a
-        yF+K6FgS3Iz+AavUrt8VtPp2kAzO2qLf7c/eZq9ZIZb/QiRnv21FDOuBdsXRlDxKLhel+bsnLO2
-        IP2rjWoNMCekrB4NCguRU
-X-Received: by 2002:a67:ead2:0:b0:443:7599:d460 with SMTP id s18-20020a67ead2000000b004437599d460mr515029vso.1.1688643005213;
-        Thu, 06 Jul 2023 04:30:05 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEOiF8Wo8ldpNlkhzPot2vQELEDG+c71tqhQGpmzmO1eN6k2V6nMi6SJLmlPXMGtcsuw7emcA==
-X-Received: by 2002:a67:ead2:0:b0:443:7599:d460 with SMTP id s18-20020a67ead2000000b004437599d460mr514990vso.1.1688643004926;
-        Thu, 06 Jul 2023 04:30:04 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688643017; x=1691235017;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IUyIouoC8ahxmdxehnDEnuXDxYXuSzzBD+vRAySsvH8=;
+        b=BfCqkFgn8EjBSznk6Qbb5q32HG8swSTJMFclWGr3aquRDeVgJele0On3NXh5B1XnsQ
+         XcmOGRWarHjWDxW9ltVrEJegC8OuDNWAC1WCgCrI5+NCa7wl8kAO7YZ/gXb0CffPUfbg
+         gvWOqj5XlddLTAU35JfN2LpAkyBRenx4HKTb7n67HLqPx872EzBXIMgfsM5BgVgYAx7P
+         3Fd+NFPtYCf4eD4vDHHQfw6EvkTFSmtof5YpLbr3Ysvg/NaVgwZH3cAL2POkmvaIzZKh
+         8x1nTZec3IX6lF8xjo24/Is2av29OD6IMSxymMsC4zpToI1AmJcYE+nXZ8sTcZCuCAY5
+         exGw==
+X-Gm-Message-State: ABy/qLZ3SNYEa+WlcUKZ4TK/HY8Jf6b4ZLymw35bo8/q33mZEW392Llw
+        858kVPBD0jxQWZBUkPICdLQ2K7w/leKkLBIa5SIdxZhzUbBi86a3ItKps4V9JTxUMyJptHZnPmX
+        9sh30QeGSX0/h30obZtel
+X-Received: by 2002:a0c:db08:0:b0:625:aa49:19f1 with SMTP id d8-20020a0cdb08000000b00625aa4919f1mr1114217qvk.62.1688643017309;
+        Thu, 06 Jul 2023 04:30:17 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGGMC/kBtgH7sbrX8rD2ZgNOVsGU4yA48iFb2GJxy2p3hgBQJP/oIfvimw2fu1jmJDlCZa08A==
+X-Received: by 2002:a0c:db08:0:b0:625:aa49:19f1 with SMTP id d8-20020a0cdb08000000b00625aa4919f1mr1114196qvk.62.1688643017072;
+        Thu, 06 Jul 2023 04:30:17 -0700 (PDT)
 Received: from vschneid.remote.csb ([154.57.232.159])
-        by smtp.gmail.com with ESMTPSA id a25-20020a0ca999000000b0063645f62bdasm761336qvb.80.2023.07.06.04.29.59
+        by smtp.gmail.com with ESMTPSA id y12-20020a0c8ecc000000b006360778f314sm751558qvb.105.2023.07.06.04.30.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 04:30:04 -0700 (PDT)
+        Thu, 06 Jul 2023 04:30:16 -0700 (PDT)
 From:   Valentin Schneider <vschneid@redhat.com>
-To:     Nadav Amit <namit@vmware.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-trace-kernel@vger.kernel.org" 
-        <linux-trace-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, bpf <bpf@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, x86@kernel.org,
         Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -90,6 +83,7 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Juerg Haefliger <juerg.haefliger@canonical.com>,
         Nicolas Saenz Julienne <nsaenz@kernel.org>,
         "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
         Dan Carpenter <error27@gmail.com>,
         Chuang Wang <nashuiliang@gmail.com>,
         Yang Jihong <yangjihong1@huawei.com>,
@@ -105,80 +99,35 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Yair Podemsky <ypodemsk@redhat.com>
 Subject: Re: [RFC PATCH 00/14] context_tracking,x86: Defer some IPIs until a
  user->kernel transition
-In-Reply-To: <57D81DB6-2D96-4A12-9FD5-6F0702AC49F6@vmware.com>
+In-Reply-To: <20230705150328.16791f25@gandalf.local.home>
 References: <20230705181256.3539027-1-vschneid@redhat.com>
- <57D81DB6-2D96-4A12-9FD5-6F0702AC49F6@vmware.com>
-Date:   Thu, 06 Jul 2023 12:29:58 +0100
-Message-ID: <xhsmhwmzduvk9.mognet@vschneid.remote.csb>
+ <20230705150328.16791f25@gandalf.local.home>
+Date:   Thu, 06 Jul 2023 12:30:10 +0100
+Message-ID: <xhsmhv8exuvjx.mognet@vschneid.remote.csb>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/07/23 18:48, Nadav Amit wrote:
->> On Jul 5, 2023, at 11:12 AM, Valentin Schneider <vschneid@redhat.com> wr=
-ote:
->>
->> Deferral approach
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>
->> Storing each and every callback, like a secondary call_single_queue turn=
-ed out
->> to be a no-go: the whole point of deferral is to keep NOHZ_FULL CPUs in
->> userspace for as long as possible - no signal of any form would be sent =
-when
->> deferring an IPI. This means that any form of queuing for deferred callb=
-acks
->> would end up as a convoluted memory leak.
->>
->> Deferred IPIs must thus be coalesced, which this series achieves by assi=
-gning
->> IPIs a "type" and having a mapping of IPI type to callback, leveraged up=
-on
->> kernel entry.
+On 05/07/23 15:03, Steven Rostedt wrote:
+> On Wed,  5 Jul 2023 19:12:42 +0100
+> Valentin Schneider <vschneid@redhat.com> wrote:
 >
-> I have some experience with similar an optimization. Overall, it can make
-> sense and as you show, it can reduce the number of interrupts.
+>> o Patches 1-5 have been submitted previously and are included for the sake of
+>>   testing
 >
-> The main problem of such an approach might be in cases where a process
-> frequently enters and exits the kernel between deferred-IPIs, or even wor=
-se -
-> the IPI is sent while the remote CPU is inside the kernel. In such cases,=
- you
-> pay the extra cost of synchronization and cache traffic, and might not ev=
-en
-> get the benefit of reducing the number of IPIs.
->
-> In a sense, it's a more extreme case of the overhead that x86=E2=80=99s l=
-azy-TLB
-> mechanism introduces while tracking whether a process is running or not. =
-But
-> lazy-TLB would change is_lazy much less frequently than context tracking,
-> which means that the deferring the IPIs as done in this patch-set has a
-> greater potential to hurt performance than lazy-TLB.
->
-> tl;dr - it would be beneficial to show some performance number for both a
-> =E2=80=9Cgood=E2=80=9D case where a process spends most of the time in us=
-erspace, and =E2=80=9Cbad=E2=80=9D
-> one where a process enters and exits the kernel very frequently. Reducing
-> the number of IPIs is good but I don=E2=80=99t think it is a goal by its =
-own.
+> I should have commented on the previous set, but I did my review on this set ;-)
 >
 
-There already is a significant overhead incurred on kernel entry for
-nohz_full CPUs due to all of context_tracking faff; now I *am* making it
-worse with that extra atomic, but I get the feeling it's not going to stay
-:D
+Thanks for having a look!
 
-nohz_full CPUs that do context transitions very frequently are
-unfortunately in the realm of "you shouldn't do that". Due to what's out
-there I have to care about *occasional* transitions, but some folks
-consider even that to be broken usage, so I don't believe getting numbers
-for that to be much relevant.
+> Anyway, I'm all for the patches. Care to send a new version covering my input?
+>
 
-> [ BTW: I did not go over the patches in detail. Obviously, there are
->   various delicate points that need to be checked, as avoiding the
->   deferring of IPIs if page-tables are freed. ]
+Sure thing, I'll send a v2 of these patches soonish.
+
+> Thanks,
+>
+> -- Steve
 
