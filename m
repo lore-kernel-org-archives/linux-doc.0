@@ -2,140 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0951BEB64DA
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jul 2023 23:27:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E7D6EB64DA
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 03:32:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232426AbjGEX1o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jul 2023 19:27:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42690 "EHLO
+        id S230383AbjGFDco (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jul 2023 23:32:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231608AbjGEX1n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 19:27:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE47A171A;
-        Wed,  5 Jul 2023 16:27:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B2DF6187C;
-        Wed,  5 Jul 2023 23:27:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FE9CC433CA;
-        Wed,  5 Jul 2023 23:27:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688599661;
-        bh=71ABv5/JwaJZ55URTzD8vGgqeEszc1MgI9Tgv+MINjE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZONJDYYI4DfLy7Qsq2iruWU/TAy+MfhN8a+13GK2IWPkDZqio7bRNxa5SQs05lP4P
-         cwPUPxti1OHDRjna7RLvlHvYzjGzNzbIQj3qP3y/Bn+msmAYu9HbnUfdOB0mW+oJ0Y
-         xXd9KYSiaVMbhH8iXxtVbsReICsvqSFCZ93UbTBDH2SxezF1CiOXVRCeK6+eL9LKGf
-         lv5Tdq9By8SoiBvDGs8LHavKem9Wb+MzUqre5RXfWHiAchuT+L/DCozo3/BlyhktAW
-         7OLkwTDgnazo9mvhKgyHb/J//J+68K3lIP4d0Lf8VbQ7BmWtxd0vaabSh0ecr/t8zz
-         aclhgVyMhnn3Q==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2b6ef64342aso231811fa.3;
-        Wed, 05 Jul 2023 16:27:41 -0700 (PDT)
-X-Gm-Message-State: ABy/qLZ15zN9i0RK29N24/YPEZcU9AmIcYDkhPFpv4CaynvygCJuwO56
-        xE1BiyzvzmSOMJMehNsGnW17NxHUoZ1nVel/ew==
-X-Google-Smtp-Source: APBJJlEpNIPlBGdtVBVr58J7X3ky87DEhp6DbA9itW5/VGUcmhmKpi6TWJGAkGRnBuBFSJRhMLcgVJySm3N6emm2tmc=
-X-Received: by 2002:a2e:a170:0:b0:2b6:e958:d03 with SMTP id
- u16-20020a2ea170000000b002b6e9580d03mr124735ljl.30.1688599659474; Wed, 05 Jul
- 2023 16:27:39 -0700 (PDT)
+        with ESMTP id S229957AbjGFDcn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jul 2023 23:32:43 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC57198E
+        for <linux-doc@vger.kernel.org>; Wed,  5 Jul 2023 20:32:42 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-666edfc50deso163746b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jul 2023 20:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688614361; x=1691206361;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l5PFYuSIj52/sZJ3+8LDJADq0fIHUY/OVaPigx63RO0=;
+        b=cBEsKWkSoLlGv8wtC+WCyTN7xQd0yQaZDPTaTTvI1e1SPr+CZVNWRTVP/kACtk4gcE
+         8cU76UUbkrMR3f4q/Dv/Q7F8XBR6rutb4+NYT26XtT6p1rXsVLEn57gY2i86aIj77AkV
+         NOpp1bS3nOHcPqi4utmvGbQw8IMZjHtJ1aXq+Z0CKKluXT7HHuhxdXvOMii6DcEa/x5K
+         b1B+5oxWuWRXZxGFPA9GjbuvJUBGNEX1Lijhsa17/j0DR2hU6bwovqhyetS/ZMtg8wMJ
+         ie2uKyIdQEhUDlOMLjMn/NsmYaDLVNYJwDY2lRhnbQHbIwsr49m48mXsFW/wdX1QqToG
+         EAIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688614361; x=1691206361;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l5PFYuSIj52/sZJ3+8LDJADq0fIHUY/OVaPigx63RO0=;
+        b=LHZ01xSYpDNqYExOw6adW7rR7tHoIBbJFm/Uv/7ufwqta36danIHmgioZb+NtqyYT6
+         ZWw2wg7uOJW/0K602QzpB+eHf9cAdaKwbqoa0CniZVkttEZyB2idBkA7yEZMASFAlv37
+         Vq+75Oepu8JOlPVxJe+THJPEuda8M+vM86ElcXV+2sz2Nri2kPXKYdqfj5hbp7pdVSOo
+         cAQzqmP9eI1Uai7JZ242+SKyPI0OwdjmTY+rPa4tih9JEHabggIjX9Ju2HTO2F+BTNqo
+         IFKUHDM1PxJu1o+lXLoC8ZA+iuZpgFA1NUwm/sdheVg/DlHG/LKdjkQmIUObMEV95cWt
+         HalA==
+X-Gm-Message-State: ABy/qLahpZn8RFuR7b05FwfvLzQt5ShNjjNHol9unAQJNs5kg65HeP7L
+        Lg+c8vQaKc0MA3Lop85aF4f2SA==
+X-Google-Smtp-Source: APBJJlHBbv/XBNLZLg1kBXFLrwbRPGj/YLdy+ZtS9HAhqs+IxMadbHcjITFaQQ87f5sKJHxbPGeiow==
+X-Received: by 2002:a05:6a00:ad6:b0:67a:72d5:3365 with SMTP id c22-20020a056a000ad600b0067a72d53365mr6814701pfl.6.1688614361341;
+        Wed, 05 Jul 2023 20:32:41 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([66.220.2.162])
+        by smtp.gmail.com with ESMTPSA id fk13-20020a056a003a8d00b006589cf6d88bsm239785pfb.145.2023.07.05.20.32.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jul 2023 20:32:40 -0700 (PDT)
+From:   Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH 0/3] RISC-V: Support querying vendor extensions
+Date:   Wed, 05 Jul 2023 20:30:16 -0700
+Message-Id: <20230705-thead_vendor_extensions-v1-0-ad6915349c4d@rivosinc.com>
 MIME-Version: 1.0
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <1687955688-20809-11-git-send-email-quic_mojha@quicinc.com>
- <CAL_Jsq+O70mnreuS1m54RKM+uZu_z1L87RT8sKBYEw5uvowGJg@mail.gmail.com> <e0fef1b0-3fa1-08c1-3c0e-aca30c9da266@quicinc.com>
-In-Reply-To: <e0fef1b0-3fa1-08c1-3c0e-aca30c9da266@quicinc.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 5 Jul 2023 17:27:27 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+FEAYXJTfMKQ6nOKzZLJH49x=XroNCYnkqa=RHuQ99qg@mail.gmail.com>
-Message-ID: <CAL_Jsq+FEAYXJTfMKQ6nOKzZLJH49x=XroNCYnkqa=RHuQ99qg@mail.gmail.com>
-Subject: Re: [PATCH v4 10/21] soc: qcom: Add qcom's pstore minidump driver support
-To:     Mukesh Ojha <quic_mojha@quicinc.com>
-Cc:     corbet@lwn.net, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, keescook@chromium.org, tony.luck@intel.com,
-        gpiccoli@igalia.com, mathieu.poirier@linaro.org,
-        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
-        andy.shevchenko@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEk1pmQC/x3MSwqAIBRG4a3EHSf4gIK2EhGWv3knFhoRSHvPG
+ p7BdwplJEamoSmUcHHmPdZQbUNrsHGDYFebtNRGdroXZ4B184Xo9jTjPhE/koV0RktrlPLrQlU
+ fCZ7v/zxOz/MCZKB7+2kAAAA=
+To:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>, charlie@rivosinc.com,
+        evan@rivosinc.com, heiko@sntech.de, linux-doc@vger.kernel.org
+X-Mailer: b4 0.12.3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 29, 2023 at 3:16=E2=80=AFAM Mukesh Ojha <quic_mojha@quicinc.com=
-> wrote:
->
->
->
-> On 6/29/2023 4:27 AM, Rob Herring wrote:
-> > On Wed, Jun 28, 2023 at 6:37=E2=80=AFAM Mukesh Ojha <quic_mojha@quicinc=
-.com> wrote:
-> >>
-> >> This driver was inspired from the fact pstore ram region should be
-> >> fixed and boot firmware need to have awarness about this region,
-> >> so that it will be persistent across boot. But, there are many
-> >> QCOM SoC which does not support warm boot from hardware but they
-> >> have minidump support from the software, and for them, there is
-> >> no need of this pstore ram region to be fixed, but at the same
-> >> time have interest in the pstore frontends data. So, this driver
-> >> get the dynamic reserved region from the ram and register the
-> >> ramoops platform device.
-> >>
-> >>   +---------+     +---------+   +--------+     +---------+
-> >>   | console |     | pmsg    |   | ftrace |     | dmesg   |
-> >>   +---------+     +---------+   +--------+     +---------+
-> >>         |             |             |              |
-> >>         |             |             |              |
-> >>         +------------------------------------------+
-> >>                            |
-> >>                           \ /
-> >>                    +----------------+
-> >>              (1)   |pstore frontends|
-> >>                    +----------------+
-> >>                            |
-> >>                           \ /
-> >>                   +------------------- +
-> >>              (2)  | pstore backend(ram)|
-> >>                   +--------------------+
-> >>                            |
-> >>                           \ /
-> >>                   +--------------------+
-> >>              (3)  |qcom_pstore_minidump|
-> >>                   +--------------------+
-> >>                            |
-> >>                           \ /
-> >>                     +---------------+
-> >>              (4)    | qcom_minidump |
-> >>                     +---------------+
-> >>
-> >> This driver will route all the pstore front data to the stored
-> >> in qcom pstore reserved region and the reason of showing an
-> >> arrow from (3) to (4) as qcom_pstore_minidump driver will register
-> >> all the available frontends region with qcom minidump driver
-> >> in upcoming patch.
-> >>
-> >> Signed-off-by: Mukesh Ojha <quic_mojha@quicinc.com>
-> >> ---
-> >>   drivers/soc/qcom/Kconfig                | 12 +++++
-> >>   drivers/soc/qcom/Makefile               |  1 +
-> >>   drivers/soc/qcom/qcom_pstore_minidump.c | 85 +++++++++++++++++++++++=
-++++++++++
-> >
-> > drivers/soc/ is the dumping ground for things with no other place. As
-> > this is a pstore driver, it belongs with pstore.
->
-> The inspiration of this driver was taken from
-> drivers/platform/chrome/chromeos_pstore.c, do you think that is misplaced=
- ?
+Introduce extensible method of querying vendor extensions. Keys above
+1UL<<63 passed into the riscv_hwprobe syscall are reserved for vendor
+extensions. The appropriate vendor is resolved using the discovered
+mvendorid. Vendor specific code is then entered which determines how to
+respond to the input hwprobe key.
 
-The difference is really that's nothing more than platform specific
-logic to instantiate a normal ramoops device. It's kind of ugly, yes,
-but it's still just a normal ramoops device in the end. Your case is
-that plus all the extra parts for minidump.
+The T-Head 0.7.1 vector extension is used to complete this vendor
+extension framework. If vector support is compiled in and the cpu is
+T-Head c906, determined with (marchid == 0 && mimpid == 0), then the
+value of the hwprobe pair is set to 1 (defined as
+THEAD_ISA_EXT0_V0_7_1).
 
-Rob
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+---
+Charlie Jenkins (3):
+      RISC-V: Framework for vendor extensions
+      RISC-V: Add T-Head 0.7.1 vector extension to hwprobe
+      RISC-V: Include documentation for hwprobe vendor extensions
+
+ Documentation/riscv/hwprobe.rst                 | 17 +++++++
+ arch/riscv/Kbuild                               |  1 +
+ arch/riscv/Kconfig                              |  1 +
+ arch/riscv/Kconfig.vendor                       | 14 ++++++
+ arch/riscv/include/asm/extensions.h             | 16 +++++++
+ arch/riscv/include/asm/hwprobe.h                |  1 +
+ arch/riscv/kernel/sys_riscv.c                   | 60 +++++++++++++++++++++++--
+ arch/riscv/vendor_extensions/Makefile           |  5 +++
+ arch/riscv/vendor_extensions/thead/Makefile     |  8 ++++
+ arch/riscv/vendor_extensions/thead/extensions.c | 24 ++++++++++
+ 10 files changed, 144 insertions(+), 3 deletions(-)
+---
+base-commit: 53cdf865f90ba922a854c65ed05b519f9d728424
+change-id: 20230627-thead_vendor_extensions-0d320a311fcb
+-- 
+- Charlie
+
