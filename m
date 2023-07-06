@@ -2,140 +2,240 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D669EB64D9
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 23:39:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7DFCEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 23:56:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbjGFXjJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jul 2023 19:39:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44450 "EHLO
+        id S232113AbjGFX4a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jul 2023 19:56:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjGFXjI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 19:39:08 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295A41BE1;
-        Thu,  6 Jul 2023 16:39:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688686748; x=1720222748;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=AWBI/d5dHbzI1rw676ZmAwDSgJ5kC4AMyKlnIBoe408=;
-  b=S4yJlmH8zryaq1BNZ0y8/HcrdL6l99sFLev04ZUUQvp6LaNn/PHFXPjq
-   WB2hqH6ysapmY0LOIzH0YfxTOcjqRHinKmB/EOE180/dn2H7ILGtRjCtF
-   j1eOMAtpkdnhAQDt/05ckl92LIV+IIE/W32hcosQodb5DDXjqBbeL3tTb
-   LiGV0NNLg2qr4aPe3iz/cTOSpKwqKt6jh05sbHCp7ezN8tLytJLnaUnJB
-   fU0JXJwx4HgM2UWnilGkiz5/viRMwwr1YYRvHAK0OYyUntSyaDJZf5fwJ
-   Thp/L9H9SXKEnulpfHZU8WlKSp+Q7PENVaqKzu7fiX0sjXy4QNceyz3vh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="450110552"
-X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="450110552"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 16:39:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="713766518"
-X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="713766518"
-Received: from wangmei-mobl.amr.corp.intel.com (HELO rpedgeco-desk4.amr.corp.intel.com) ([10.212.211.11])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 16:39:06 -0700
-From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
-To:     rick.p.edgecombe@intel.com
-Cc:     akpm@linux-foundation.org, andrew.cooper3@citrix.com,
-        arnd@arndb.de, bp@alien8.de, broonie@kernel.org,
-        bsingharora@gmail.com, christina.schimpe@intel.com, corbet@lwn.net,
-        dave.hansen@intel.com, dave.hansen@linux.intel.com,
-        david@redhat.com, debug@rivosinc.com, dethoma@microsoft.com,
-        eranian@google.com, esyr@redhat.com, fweimer@redhat.com,
-        gorcunov@gmail.com, hjl.tools@gmail.com, hpa@zytor.com,
-        jamorris@linux.microsoft.com, jannh@google.com, john.allen@amd.com,
-        kcc@google.com, keescook@chromium.org,
-        kirill.shutemov@linux.intel.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org,
-        mike.kravetz@oracle.com, mingo@redhat.com, nadav.amit@gmail.com,
-        oleg@redhat.com, pavel@ucw.cz, pengfei.xu@intel.com,
-        peterz@infradead.org, rdunlap@infradead.org, rppt@kernel.org,
-        szabolcs.nagy@arm.com, tglx@linutronix.de,
-        torvalds@linux-foundation.org, weijiang.yang@intel.com,
-        x86@kernel.org, yu-cheng.yu@intel.com
-Subject: [PATCH] x86/shstk: Don't retry vm_munmap() on -EINTR
-Date:   Thu,  6 Jul 2023 16:38:58 -0700
-Message-Id: <20230706233858.446232-1-rick.p.edgecombe@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <6a2309340a17070fd39a1b049ce71188bfb5eba7.camel@intel.com>
-References: <6a2309340a17070fd39a1b049ce71188bfb5eba7.camel@intel.com>
+        with ESMTP id S231895AbjGFX43 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 19:56:29 -0400
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D5B91BF3
+        for <linux-doc@vger.kernel.org>; Thu,  6 Jul 2023 16:56:26 -0700 (PDT)
+Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1b06da65bdbso1234206fac.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jul 2023 16:56:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688687786; x=1691279786;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PnXWtVOLq2cNUHw/WdqqgS2x7oe3d4wm7IeGzzcAThk=;
+        b=27cUmVngr3rxnwZHmEULIXb7MtTzmPL3sECDNfTaMc0W8ANjxgmgp0wlGj7tASuwJs
+         4SAOYaar8Ng0s7P7jXWZh6KKvuGbIDcp0DAkqesL+URHgs4ukR5uijkcE5wEBFKiiJNm
+         xJUI8fCzwMWTU3n4XjZ8rwyKUQjIfouPj5mPH7+pcPK91vbdoVPgBZBO26Tz5SDjup0z
+         2YErxOskK7Iip2U+ktlSiMqU6cx+9ObZkrZWvrE5ptMi50Akye0MziWCOGjRJgMKaHNB
+         J7lFdKsMPz2FMB8J4SINFHMKDSbAuwlTrOaVbskcho++QRcyC6bFEAs5DqIlLkJsir09
+         JPIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688687786; x=1691279786;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PnXWtVOLq2cNUHw/WdqqgS2x7oe3d4wm7IeGzzcAThk=;
+        b=V/0ByuLBRImhnVpKvcir/dwoO7IeVDVFy3linNUTIqd4SSCMjBETn1QJaIaSOzvv2N
+         R1yLzrpeHV4/JcGgo73mX/s9Z54l8CWvSQNNgcj0UY+LL5qs797e8nAOY4x/pmfg/+KO
+         C4oWoA4fEq9WwGhUZ+y9p6WBNpzLMjPfAMj0wQBG32dVH6XzGjG3re4daZVfQLCLfKcg
+         /WOVTNOm4wQLfBt7O5XTfpJj2EIv8SN2BOCYiisyEPj6PlUjRzwICGakYAWmp2BDyLhc
+         /MnsWLRRq4SLLvzPtQJDfRamXHzn2DBvubuK0yNfhBiCGEYKUIjc6nk26fEs0Iyhv6o2
+         jg1Q==
+X-Gm-Message-State: ABy/qLb4XoUlva2IUOA34g05GfsSZ3QxXgV2eU3cjd4LzprEr3uER04V
+        otxZOX2wB6HmRz7o8L3w6NbZEw==
+X-Google-Smtp-Source: APBJJlFNRSchbur5eT8fqD4aKEhWFuO8ec2dvOejYvABwuGPLReD8I2FksZLB3206k2OhsKjtcQ08g==
+X-Received: by 2002:a05:6870:b625:b0:1b3:cd5c:d9ae with SMTP id cm37-20020a056870b62500b001b3cd5cd9aemr4165610oab.49.1688687785745;
+        Thu, 06 Jul 2023 16:56:25 -0700 (PDT)
+Received: from ghost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id 20-20020a17090a199400b002639c4f81cesm367963pji.3.2023.07.06.16.56.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jul 2023 16:56:25 -0700 (PDT)
+Date:   Thu, 6 Jul 2023 16:56:23 -0700
+From:   Charlie Jenkins <charlie@rivosinc.com>
+To:     Alexandre Ghiti <alex@ghiti.fr>
+Cc:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        conor@kernel.org, paul.walmsley@sifive.com, palmer@rivosinc.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        mick@ics.forth.gr, jrtc27@jrtc27.com
+Subject: Re: [RESEND PATCH v3 1/2] RISC-V: mm: Restrict address space for
+ sv39,sv48,sv57
+Message-ID: <ZKdUpzvyfy9f48MI@ghost>
+References: <20230705190002.384799-1-charlie@rivosinc.com>
+ <20230705190002.384799-2-charlie@rivosinc.com>
+ <2084462d-b11d-7a48-3049-6bafbe81e7b4@ghiti.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2084462d-b11d-7a48-3049-6bafbe81e7b4@ghiti.fr>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The existing comment around handling vm_munmap() failure when freeing a
-shadow stack is wrong. It asserts that vm_munmap() returns -EINTR when
-the mmap lock is only being held for a short time, and so the caller
-should retry. Based on this wrong understanding, unmap_shadow_stack() will
-loop retrying vm_munmap().
-
-What -EINTR actually means in this case is that the process is going
-away (see ae79878), and the whole MM will be torn down soon. In order
-to facilitate this, the task should not linger in the kernel, but
-actually do the opposite. So don't loop in this scenario, just abandon
-the operation and let exit_mmap() clean it up. Also, update the comment
-to reflect the actual meaning of the error code.
-
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
----
- arch/x86/kernel/shstk.c | 34 +++++++++++++++-------------------
- 1 file changed, 15 insertions(+), 19 deletions(-)
-
-diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
-index 47f5204b0fa9..cd10d074a444 100644
---- a/arch/x86/kernel/shstk.c
-+++ b/arch/x86/kernel/shstk.c
-@@ -134,28 +134,24 @@ static unsigned long adjust_shstk_size(unsigned long size)
- 
- static void unmap_shadow_stack(u64 base, u64 size)
- {
--	while (1) {
--		int r;
-+	int r;
- 
--		r = vm_munmap(base, size);
-+	r = vm_munmap(base, size);
- 
--		/*
--		 * vm_munmap() returns -EINTR when mmap_lock is held by
--		 * something else, and that lock should not be held for a
--		 * long time.  Retry it for the case.
--		 */
--		if (r == -EINTR) {
--			cond_resched();
--			continue;
--		}
-+	/*
-+	 * mmap_write_lock_killable() failed with -EINTR. This means
-+	 * the process is about to die and have it's MM cleaned up.
-+	 * This task shouldn't ever make it back to userspace. In this
-+	 * case it is ok to leak a shadow stack, so just exit out.
-+	 */
-+	if (r == -EINTR)
-+		return;
- 
--		/*
--		 * For all other types of vm_munmap() failure, either the
--		 * system is out of memory or there is bug.
--		 */
--		WARN_ON_ONCE(r);
--		break;
--	}
-+	/*
-+	 * For all other types of vm_munmap() failure, either the
-+	 * system is out of memory or there is bug.
-+	 */
-+	WARN_ON_ONCE(r);
- }
- 
- static int shstk_setup(void)
--- 
-2.34.1
-
+On Thu, Jul 06, 2023 at 11:11:37AM +0200, Alexandre Ghiti wrote:
+> Hi Charlie,
+> 
+> 
+> On 05/07/2023 20:59, Charlie Jenkins wrote:
+> > Make sv48 the default address space for mmap as some applications
+> > currently depend on this assumption. The RISC-V specification enforces
+> > that bits outside of the virtual address range are not used, so
+> > restricting the size of the default address space as such should be
+> > temporary.
+> 
+> 
+> What do you mean in the last sentence above?
+> 
+Applications like Java and Go broke when sv57 was implemented because
+they shove bits into the upper space of pointers. However riscv enforces
+that all of the upper bits in the virtual address are equal to the most 
+significant bit. "Temporary" may not have been the best word, but this change 
+would be irrelevant if application developers were following this rule, if I
+am understanding this requirement correctly. What this means to me is
+that riscv hardware is not guaranteed to not discard the bits in the virtual 
+address that are not used in paging.
+> 
+> >   A hint address passed to mmap will cause the largest address
+> > space that fits entirely into the hint to be used. If the hint is less
+> > than or equal to 1<<38, an sv39 address will be used. An exception is
+> > that if the hint address is 0, then a sv48 address will be used.After
+> > an address space is completely full, the next smallest address space
+> > will be used.
+> > 
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > ---
+> >   arch/riscv/include/asm/elf.h       |  2 +-
+> >   arch/riscv/include/asm/pgtable.h   | 13 +++++++++++-
+> >   arch/riscv/include/asm/processor.h | 34 ++++++++++++++++++++++++------
+> >   3 files changed, 40 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/arch/riscv/include/asm/elf.h b/arch/riscv/include/asm/elf.h
+> > index 30e7d2455960..1b57f13a1afd 100644
+> > --- a/arch/riscv/include/asm/elf.h
+> > +++ b/arch/riscv/include/asm/elf.h
+> > @@ -49,7 +49,7 @@ extern bool compat_elf_check_arch(Elf32_Ehdr *hdr);
+> >    * the loader.  We need to make sure that it is out of the way of the program
+> >    * that it will "exec", and that there is sufficient room for the brk.
+> >    */
+> > -#define ELF_ET_DYN_BASE		((TASK_SIZE / 3) * 2)
+> > +#define ELF_ET_DYN_BASE		((DEFAULT_MAP_WINDOW / 3) * 2)
+> >   #ifdef CONFIG_64BIT
+> >   #ifdef CONFIG_COMPAT
+> > diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+> > index 75970ee2bda2..752e210c7547 100644
+> > --- a/arch/riscv/include/asm/pgtable.h
+> > +++ b/arch/riscv/include/asm/pgtable.h
+> > @@ -57,18 +57,29 @@
+> >   #define MODULES_END		(PFN_ALIGN((unsigned long)&_start))
+> >   #endif
+> > +
+> >   /*
+> >    * Roughly size the vmemmap space to be large enough to fit enough
+> >    * struct pages to map half the virtual address space. Then
+> >    * position vmemmap directly below the VMALLOC region.
+> >    */
+> >   #ifdef CONFIG_64BIT
+> > +#define VA_BITS_SV39 39
+> > +#define VA_BITS_SV48 48
+> > +#define VA_BITS_SV57 57
+> > +
+> > +#define VA_USER_SV39 (UL(1) << (VA_BITS_SV39 - 1))
+> > +#define VA_USER_SV48 (UL(1) << (VA_BITS_SV48 - 1))
+> > +#define VA_USER_SV57 (UL(1) << (VA_BITS_SV57 - 1))
+> > +
+> >   #define VA_BITS		(pgtable_l5_enabled ? \
+> > -				57 : (pgtable_l4_enabled ? 48 : 39))
+> > +				VA_BITS_SV57 : (pgtable_l4_enabled ? VA_BITS_SV48 : VA_BITS_SV39))
+> >   #else
+> >   #define VA_BITS		32
+> >   #endif
+> > +#define DEFAULT_VA_BITS ((VA_BITS >= VA_BITS_SV48) ? VA_BITS_SV48 : VA_BITS)
+> 
+> 
+> Maybe rename DEFAULT_VA_BITS into MMAP_VA_BITS? Or something similar?
+> 
+> 
+> > +
+> >   #define VMEMMAP_SHIFT \
+> >   	(VA_BITS - PAGE_SHIFT - 1 + STRUCT_PAGE_MAX_SHIFT)
+> >   #define VMEMMAP_SIZE	BIT(VMEMMAP_SHIFT)
+> > diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
+> > index 94a0590c6971..468a1f4b9da4 100644
+> > --- a/arch/riscv/include/asm/processor.h
+> > +++ b/arch/riscv/include/asm/processor.h
+> > @@ -12,20 +12,40 @@
+> >   #include <asm/ptrace.h>
+> > -/*
+> > - * This decides where the kernel will search for a free chunk of vm
+> > - * space during mmap's.
+> > - */
+> > -#define TASK_UNMAPPED_BASE	PAGE_ALIGN(TASK_SIZE / 3)
+> > -
+> > -#define STACK_TOP		TASK_SIZE
+> >   #ifdef CONFIG_64BIT
+> > +#define DEFAULT_MAP_WINDOW	(UL(1) << (DEFAULT_VA_BITS - 1))
+> >   #define STACK_TOP_MAX		TASK_SIZE_64
+> > +
+> > +#define arch_get_mmap_end(addr, len, flags) \
+> > +	((addr) >= VA_USER_SV57 ? STACK_TOP_MAX :   \
+> > +	 ((((addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) ? \
+> > +						 VA_USER_SV48 : \
+> > +						 VA_USER_SV39)
+> > +
+> > +#define arch_get_mmap_base(addr, base) \
+> > +	(((addr >= VA_USER_SV57) && (VA_BITS >= VA_BITS_SV57)) ?   \
+> 
+> 
+> So IIUC, a user must pass a hint larger than the max address of the mode the
+> user wants right? Shouldn't the user rather pass an address that is larger
+> than the previous mode? I mean if the user wants a 56-bit address, he should
+> just pass an address above 1<<47 no?
+> 
+The rationale is that the hint address provided to mmap should signify
+all of the bits that the user is okay with being used for paging.
+Meaning that if they pass in 1<<50, they are okay with the first 51 bits
+being used in paging. The largest address space that fits within 51 bits
+is sv48, so that will be used. To use sv57, 1<<56 or larger will need to
+be used.
+> 
+> > +		 VA_USER_SV57 - (DEFAULT_MAP_WINDOW - base) : \
+> > +	 ((((addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) ? \
+> > +		 VA_USER_SV48 - (DEFAULT_MAP_WINDOW - base) : \
+> > +	  (addr == 0) ? \
+> > +		 base : \
+> > +		 VA_USER_SV39 - (DEFAULT_MAP_WINDOW - base))
+> > +
+> 
+> 
+> Can you turn that into a function or use if/else statement? It's very hard
+> to understand what happens there.
+> 
+Yes, I can use statement expressions.
+> And riscv selects ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT which means the base
+> is at the top of the address space (minus the stack IIRC). But if
+> rlimit_stack is set to infinity (see mmap_base()
+> https://elixir.bootlin.com/linux/latest/source/mm/util.c#L412), mmap_base is
+> equal to TASK_UNMAPPED_BASE. Does that work in that case? It seems like
+> this: VA_USER_SV39 - (DEFAULT_MAP_WINDOW - base)) would be negative right?
+> 
+> You should also add a rlimit test.
+> 
+That is a good point. I think a better alternative will be to do 
+base + (VA_USER_SV39 - DEFAULT_MAP_WINDOW). This will also work with the
+other address spaces by swapping out the 39 with 48 and 57.
+> 
+> >   #else
+> > +#define DEFAULT_MAP_WINDOW	TASK_SIZE
+> >   #define STACK_TOP_MAX		TASK_SIZE
+> >   #endif
+> >   #define STACK_ALIGN		16
+> > +
+> > +#define STACK_TOP		DEFAULT_MAP_WINDOW
+> > +
+> > +/*
+> > + * This decides where the kernel will search for a free chunk of vm
+> > + * space during mmap's.
+> > + */
+> > +#define TASK_UNMAPPED_BASE	PAGE_ALIGN(DEFAULT_MAP_WINDOW / 3)
+> > +
+> >   #ifndef __ASSEMBLY__
+> >   struct task_struct;
