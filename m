@@ -2,310 +2,159 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 294F6EB64DC
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 21:25:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83862EB64D9
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 22:50:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230235AbjGFVZE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jul 2023 17:25:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53956 "EHLO
+        id S229700AbjGFWuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jul 2023 18:50:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjGFVZD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 17:25:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400F4DD;
-        Thu,  6 Jul 2023 14:25:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C2CFA61052;
-        Thu,  6 Jul 2023 21:25:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11377C433C8;
-        Thu,  6 Jul 2023 21:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688678701;
-        bh=wFBJjL01JkwrFBXA69HbPyIA/y0xO2goAfgnFqefEiU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EO9SU7i/rFNLXCFTbe3iRJtZQyPn866KlmHbuT86Q/XmVh96IHhEkOwPL3kOfljAL
-         idGS56400oc8KFIoODdnAgYosIxMxCAd+Ss242bW3tCDkI5JgYI9s4kwkte9X8KLSH
-         8ND4vy0cDLl/8vFVJxAshq5hpSVi9ePJpbiHwJ07cKIr+Z1jCEfM0TQ+ppJ4aZZpN4
-         in6xL7eiBriTYiXiCeoD+jo7jPjew9SVHbKT8sQqohE1ZnaUhvSWCqG9LED4bjGnSi
-         LQoGS4nWas29Fn71/qOMtQDlUeHNSKrZL/KbxW7LsNvnLa8qN8E1jqv5yH3S6QJbOX
-         DD+JFQaYm/2gQ==
-Date:   Thu, 6 Jul 2023 22:24:56 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Charlie Jenkins <charlie@rivosinc.com>
-Cc:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>, evan@rivosinc.com,
-        heiko@sntech.de, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/3] RISC-V: Add T-Head 0.7.1 vector extension to hwprobe
-Message-ID: <20230706-endorphin-choice-bd9da1f0bf84@spud>
-References: <20230705-thead_vendor_extensions-v1-0-ad6915349c4d@rivosinc.com>
- <20230705-thead_vendor_extensions-v1-2-ad6915349c4d@rivosinc.com>
- <20230706-unwed-aeration-d8c7b71eac5e@spud>
- <ZKcddDAbpdCtRevP@ghost>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="R8TeG8muzB31dp1x"
-Content-Disposition: inline
-In-Reply-To: <ZKcddDAbpdCtRevP@ghost>
+        with ESMTP id S229449AbjGFWuv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 18:50:51 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A4EFF
+        for <linux-doc@vger.kernel.org>; Thu,  6 Jul 2023 15:50:49 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-564fb1018bcso13232407b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jul 2023 15:50:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688683849; x=1691275849;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=n8zmkhTUTSLpfAyl7/UNU2Do+ozC8p34im9h+iKQJzc=;
+        b=XNNbwIV//0t27QtIOlhCug+a1paGkIprej7/5tHl5NNn5KUEQh78vpB8hSgjpHgtml
+         SHVQw3iJV4o2JiJrhBDuJIcmXz3dhskaIu5jpZoYHvMoFHMN6dOyuK+gts/4KV47wAdF
+         AVwnH9YNrhfFTLUcC8hUifJ+Wg9tetdDYhfm0QOYMEa6yqrvPsN54eNgMW652Y9t7dsn
+         4bBAzinND5wZDeIb6WWSVMvGD/yFFBONlGlbJzg6Yw5yde8xFCyvT/xKxlAA9Dw84boG
+         X9157aATBdSKF3LfFE3ppzGxi+pKdgj65AAT3C9RqpCsGlIodHhiOdCG2Uk9JuBh9llq
+         LOxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688683849; x=1691275849;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n8zmkhTUTSLpfAyl7/UNU2Do+ozC8p34im9h+iKQJzc=;
+        b=Py9w4SmcnobpT/rW5BUWyYSybovCP4Rh3uL/2aPcmxenFQElTuUlMopGZlrX/GjDFt
+         mGyHcYKXtoa6w5eZp3Qr3ERBSBGPW/ut7NuXxFhOgBX4E8Kkjm7mEqSw0npEeGN+ReEH
+         z+k1XGAlDqL27UF0ImSBXgsF/l2MCvSQQ1jduXgumxnK/WYiZ07fd98gvYq2EYut0fOz
+         7JT39BS3vcJWyUWzwoDymh3k4fGVKhWB++R+LCPCGmPv9gL3VDY1Xs6CuHaOfWmkXNQD
+         f21jKJ5C3pioTBnqXDxrePWRYBRg4yDXNmDxRbfugJJjo20M5xbjzKetiGMnTsuOYCVs
+         4o/g==
+X-Gm-Message-State: ABy/qLZLT26uk5sJ/8bT1MgTInIgqANoPZI8tca1VeuoqUjWIJ30nvvy
+        2bnhxBtoQp4FHdjoe/q8BsZV16eYTFX/ZDt5ArZR
+X-Google-Smtp-Source: APBJJlFbLqWUavEdkD+jz9r/bjiqpKIWeClwQb49Ydc52jFFjwqSAI72wtmf2+hUlHqaQBcSWvtJMNcnMXeulK/4C2EZ
+X-Received: from axel.svl.corp.google.com ([2620:15c:2a3:200:bec3:2b1c:87a:fca2])
+ (user=axelrasmussen job=sendgmr) by 2002:a25:3189:0:b0:c4f:43d7:7dbd with
+ SMTP id x131-20020a253189000000b00c4f43d77dbdmr18242ybx.12.1688683849213;
+ Thu, 06 Jul 2023 15:50:49 -0700 (PDT)
+Date:   Thu,  6 Jul 2023 15:50:28 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230706225037.1164380-1-axelrasmussen@google.com>
+Subject: [PATCH v3 0/8] add UFFDIO_POISON to simulate memory poisoning with UFFD
+From:   Axel Rasmussen <axelrasmussen@google.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        James Houghton <jthoughton@google.com>,
+        "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Nadav Amit <namit@vmware.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Peter Xu <peterx@redhat.com>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "T.J. Alumbaugh" <talumbau@google.com>,
+        Yu Zhao <yuzhao@google.com>,
+        ZhangPeng <zhangpeng362@huawei.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Axel Rasmussen <axelrasmussen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This series adds a new userfaultfd feature, UFFDIO_POISON. See commit 4
+for a detailed description of the feature.
 
---R8TeG8muzB31dp1x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The series is based on Linus master (partial 6.5 merge window), and
+structured like this:
 
-Hey Charlie,
+- Patches 1-3 are preparation / refactoring
+- Patches 4-6 implement and advertise the new feature
+- Patches 7-8 implement a unit test for the new feature
 
-On Thu, Jul 06, 2023 at 01:00:52PM -0700, Charlie Jenkins wrote:
-> On Thu, Jul 06, 2023 at 06:38:17PM +0100, Conor Dooley wrote:
-> > On Wed, Jul 05, 2023 at 08:30:18PM -0700, Charlie Jenkins wrote:
-> > > Using vendor extensions in hwprobe, add the ability to query if the
-> > > 0.7.1 vector extension is available. It is determined to be available
-> > > only if the kernel is compiled with vector support,
-> >=20
-> > > and the user is
-> > > using the c906.
-> >=20
-> > Heh, unfortunately your patch doesn't apply this limitation.
-> >=20
-> > I'm not really sure where this series is intended to sit in relation to
-> > Heiko's series that adds support for the actual T-Head vector stuff:
-> > https://lore.kernel.org/linux-riscv/20230622231305.631331-1-heiko@sntec=
-h.de/
-> >=20
-> > Is this intended to complement that? If so, these patches don't really
-> > seem to integrate with it (and have some of the same flaws unfortunately
-> > as that series does).
-> >=20
-> > Firstly, to my knowledge, all T-Head cpu cores report 0 for impid &
-> > archid. Stefan pointed out:
-> > 	C906 supports t-head/0.7.1 vectors as a configuration option.  The C90=
-6 in
-> > 	the D1 and BL808 has vectors, the recently announced CV1800B has one C=
-906
-> > 	with vectors and one without, and I vaguely remember seeing a chip wit=
-h only
-> > 	a non-vector C906.
-> > =09
-> > 	C908 (announced, no manual yet) claims V 1.0 support.  Presumably it w=
-ill
-> > 	not support 0.7.1.
-> > =09
-> > 	C910 (exists on evaluation boards) lacks vector support.
-> > =09
-> > 	C920 (TH1520, SG2042, etc) has 0.7.1 support, at least superficially
-> > 	compatible with C906-with-vectors.  Hopefully we can share errata.
-> > =09
-> > 	This probably needs to be handled as an orthogonal "xtheadv" or "v0p7p=
-1"
-> > 	extension in whatever replaces riscv,isa.
-> >=20
-> > This makes an approach that does anything w/ their vector implementation
-> > not discernible based on the m*id CSRs. IMO, the only way to make this
-> > stuff work properly is to detect based on a DT or ACPI property whether
-> > this stuff is supported on a given core.
-> >=20
-> > Since the approach just cannot work, I don't have any detailed comments
-> > to make, just a few small ones below.
-> >
->=20
-> It would be beneficial to use Heiko's vector support patch. I can look
-> into using that. The main purpose of this patch is to propose a method
-> of vendor extension support and since T-Head has hardware I have used=20
-> their hardware as an example of how to implement vendor extensions.=20
-> That is the reason for the kind of awkward patch segmentation.
+Changelog:
 
-Just to be clear, you *need* to do something on top of Heiko's patches,
-but with an adaptation for how you actually get the information as to
-whether the device supports the extension. It makes no sense to tell
-userspace that this "flavour" of V is present, if using it is going to
-be problematic, as the kernel doesn't actually support it.
+v2 -> v3:
+ - Rebase onto current Linus master.
+ - Don't overwrite existing PTE markers for non-hugetlb UFFDIO_POISON.
+   Before, non-hugetlb would override them, but hugetlb would not. I don't
+   think there's a use case where we *want* to override a UFFD_WP marker
+   for example, so take the more conservative behavior for all kinds of
+   memory.
+ - [Peter] Drop hugetlb mfill atomic refactoring, since it isn't needed
+   for this series (we don't touch that code directly anyway).
+ - [Peter] Switch to re-using PTE_MARKER_SWAPIN_ERROR instead of defining
+   new PTE_MARKER_UFFD_POISON.
+ - [Peter] Extract start / len range overflow check into existing
+   validate_range helper; this fixes the style issue of unnecessary braces
+   in the UFFDIO_POISON implementation, because this code is just deleted.
+ - [Peter] Extract file size check out into a new helper.
+ - [Peter] Defer actually "enabling" the new feature until the last commit
+   in the series; combine this with adding the documentation. As a
+   consequence, move the selftest commits after this one.
+ - [Randy] Fix typo in documentation.
 
-As I have pointed out above, while you might have a D1 with a c906 that
-does have vector, other T-Head cores that respond identically to
-mvendorid/marchid/mimpid may not.
+v1 -> v2:
+ - [Peter] Return VM_FAULT_HWPOISON not VM_FAULT_SIGBUS, to yield the
+   correct behavior for KVM (guest MCE).
+ - [Peter] Rename UFFDIO_SIGBUS to UFFDIO_POISON.
+ - [Peter] Implement hugetlbfs support for UFFDIO_POISON.
 
-For anything you do, please do it on top of my series adding a new
-mechanism for parsing this information:
-https://lore.kernel.org/all/20230703-repayment-vocalist-e4f3eeac2b2a@wendy/
+Axel Rasmussen (8):
+  mm: make PTE_MARKER_SWAPIN_ERROR more general
+  mm: userfaultfd: check for start + len overflow in validate_range
+  mm: userfaultfd: extract file size check out into a helper
+  mm: userfaultfd: add new UFFDIO_POISON ioctl
+  mm: userfaultfd: support UFFDIO_POISON for hugetlbfs
+  mm: userfaultfd: document and enable new UFFDIO_POISON feature
+  selftests/mm: refactor uffd_poll_thread to allow custom fault handlers
+  selftests/mm: add uffd unit test for UFFDIO_POISON
 
-If you have not already, you should coordinate with Heiko about what to
-do here, before taking over the series he submitted.
+ Documentation/admin-guide/mm/userfaultfd.rst |  15 +++
+ fs/userfaultfd.c                             |  73 ++++++++++--
+ include/linux/mm_inline.h                    |  19 +++
+ include/linux/swapops.h                      |  10 +-
+ include/linux/userfaultfd_k.h                |   4 +
+ include/uapi/linux/userfaultfd.h             |  25 +++-
+ mm/hugetlb.c                                 |  51 ++++++--
+ mm/madvise.c                                 |   2 +-
+ mm/memory.c                                  |  15 ++-
+ mm/mprotect.c                                |   4 +-
+ mm/shmem.c                                   |   4 +-
+ mm/swapfile.c                                |   2 +-
+ mm/userfaultfd.c                             |  83 ++++++++++---
+ tools/testing/selftests/mm/uffd-common.c     |   5 +-
+ tools/testing/selftests/mm/uffd-common.h     |   3 +
+ tools/testing/selftests/mm/uffd-stress.c     |  12 +-
+ tools/testing/selftests/mm/uffd-unit-tests.c | 117 +++++++++++++++++++
+ 17 files changed, 377 insertions(+), 67 deletions(-)
 
-> > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > ---
-> > >  arch/riscv/Kconfig.vendor                       | 11 +++++++++++
-> > >  arch/riscv/include/asm/extensions.h             | 16 ++++++++++++++++
-> > >  arch/riscv/kernel/sys_riscv.c                   | 20 +++++++++++++++=
-+++++
-> > >  arch/riscv/vendor_extensions/Makefile           |  2 ++
-> > >  arch/riscv/vendor_extensions/thead/Makefile     |  8 ++++++++
-> > >  arch/riscv/vendor_extensions/thead/extensions.c | 24 +++++++++++++++=
-+++++++++
-> > >  6 files changed, 81 insertions(+)
-> > >=20
-> > > diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
-> > > index 213ac3e6fed5..b8b9d15153eb 100644
-> > > --- a/arch/riscv/Kconfig.vendor
-> > > +++ b/arch/riscv/Kconfig.vendor
-> > > @@ -1,3 +1,14 @@
-> > >  menu "Vendor extensions selection"
-> > > =20
-> > > +config VENDOR_EXTENSIONS_THEAD
-> > > +	bool "T-HEAD vendor extensions"
-> >=20
-> > > +	depends on RISCV_ALTERNATIVE
-> >=20
-> > Why do you need this?
-> >=20
-> Thanks for pointing that out, I meant to remove that.
-> > > +	default n
-> > > +	help
-> > > +	  All T-HEAD vendor extensions Kconfig depend on this Kconfig. Disa=
-bling
-> > > +	  this Kconfig will disable all T-HEAD vendor extensions. Please sa=
-y "Y"
-> > > +	  here if your platform uses T-HEAD vendor extensions.
-> >=20
-> > I don't really like this Kconfig entry. We should just use the one in
-> > Kconfig.errata that enables the actual vector stuff.
-> >=20
-> The purpose of this is to support more than just the T-Head vector
-> extension. The vector extension is just the vendor extension I selected
-> to support first. The purpose of this file is for all vendors to have
-> their own Kconfig entries to enable the vector extension which I didn't
-> feel that it properly fit into the errata.
+--
+2.41.0.255.g8b1d071c50-goog
 
-Hopefully there will be no other vendors that decide to implement
-v0.7.1! We probably do need to re-do how our menus look, although I
-question whether adding yet another file (we have Kconfig.socs...) is
-the right thing to do.
-
-
-> > > diff --git a/arch/riscv/vendor_extensions/Makefile b/arch/riscv/vendo=
-r_extensions/Makefile
-> > > index e815895e9372..38c3e80469fd 100644
-> > > --- a/arch/riscv/vendor_extensions/Makefile
-> > > +++ b/arch/riscv/vendor_extensions/Makefile
-> > > @@ -1,3 +1,5 @@
-> > >  ifdef CONFIG_RELOCATABLE
-> > >  KBUILD_CFLAGS +=3D -fno-pie
-> > >  endif
-> >=20
-> > Again, why do you need this, or...
-
-> This file is properly filled out in the next patch in the series but I
-> wanted to break it up. I saw this in the errata Makefiles so I assumed
-> it would be needed here.
-
-Ye, you shouldn't...
-
-> > > +
-> > > +obj-$(CONFIG_VENDOR_EXTENSIONS_THEAD) +=3D thead/
-> > > diff --git a/arch/riscv/vendor_extensions/thead/Makefile b/arch/riscv=
-/vendor_extensions/thead/Makefile
-> > > new file mode 100644
-> > > index 000000000000..7cf43c629b66
-> > > --- /dev/null
-> > > +++ b/arch/riscv/vendor_extensions/thead/Makefile
-> > > @@ -0,0 +1,8 @@
-> > > +ifdef CONFIG_FTRACE
-> > > +CFLAGS_REMOVE_extensions.o =3D $(CC_FLAGS_FTRACE)
-> > > +endif
-> > > +ifdef CONFIG_KASAN
-> > > +KASAN_SANITIZE_extensions.o :=3D n
-> > > +endif
-> >=20
-> > ...any of this? Not saying you don't, but I think it should be explaine=
-d.
-> >=20
-> Same reasoning as above, I can remove it if it's not needed.
-
-Ditto.
-
-> > > +
-> > > +obj-y +=3D extensions.o
-> > > diff --git a/arch/riscv/vendor_extensions/thead/extensions.c b/arch/r=
-iscv/vendor_extensions/thead/extensions.c
-> > > new file mode 100644
-> > > index 000000000000..a177501bc99c
-> > > --- /dev/null
-> > > +++ b/arch/riscv/vendor_extensions/thead/extensions.c
-> > > @@ -0,0 +1,24 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * Copyright (C) 2023 by Rivos Inc.
-> > > + */
-> > > +
-> > > +#include <asm/extensions.h>
-> > > +
-> > > +int hwprobe_thead(__u64 marchid, __u64 mimpid, struct riscv_hwprobe =
-*pair,
-> > > +		  const struct cpumask *cpus)
-> > > +{
-> > > +	pair->value =3D 0;
-> > > +	switch (pair->key) {
-> > > +	case THEAD_ISA_EXT0:
-> > > +#ifdef CONFIG_RISCV_ISA_V
-> >=20
-> > As pointed out by Remi, this doesn't work either.
-> > You should not claim this is supported, just because V is, you also need
-> > the support for their vector "flavour" from Heiko's series.
-
-> The thought process was that it should only matter if they care about
-> V. However since they are different versions of V I could see it being
-> better to not depend on the same config.=20
-
-Yeah, you unfortunately cannot use that kconfig symbol for this purpose,
-they are incompatible after all. You probably need to use some interface
-like riscv_isa_extension_available() that supports the vendor flavour of
-this stuff. I've given no more thought to how that should look though
-than the time it took to type this out. I'd be down to collaborate on
-something in that neck of the woods, once things settle down after -rc1
-& I've written a patch for dealing with extensions that have multiple
-subsets in the extension detection code.
-
-Perhaps Palmer or someone at Rivos could give you a rundown of the
-vector incompatibility stuff on a platform with a shorter response
-time than email ;)
-
-Cheers,
-Conor.
-
-> > > +		if (marchid =3D=3D 0 && mimpid =3D=3D 0)
-> > > +			pair->value |=3D THEAD_ISA_EXT0_V0_7_1;
-> > > +#endif
-> > > +		break;
-> > > +	default:
-> > > +		return -1;
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +}
-> > >=20
-> > > --=20
-> > > 2.41.0
-> > >=20
->=20
->=20
-
---R8TeG8muzB31dp1x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKcxKAAKCRB4tDGHoIJi
-0h0OAQD/oDMfPOi9zjoAb7OitXO8GNgak798YbqN4ieY1O5DhAD/bDpG2nt3nt0U
-XfYj4keJ5gh4oQw7A+fslm2uu872lQc=
-=+7XP
------END PGP SIGNATURE-----
-
---R8TeG8muzB31dp1x--
