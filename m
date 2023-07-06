@@ -2,248 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F265EEB64D9
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 17:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79DFFEB64D9
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 17:20:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbjGFRQF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jul 2023 13:16:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60186 "EHLO
+        id S232283AbjGFRUK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jul 2023 13:20:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbjGFRQE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 13:16:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70A141BE8;
-        Thu,  6 Jul 2023 10:16:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E71D060F27;
-        Thu,  6 Jul 2023 17:16:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED65C433C7;
-        Thu,  6 Jul 2023 17:16:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688663762;
-        bh=K525Re3smqCn8xHm4THDIij+h4crszZpgCUGoxZhhUk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lFuWcgNAb/ds/zSAxxFst4Of6NVK+cdwSo+uyehJ0y59mKZNWHitYZQgI1BcoZijb
-         6FtCerlX2kfXkz7OJiDDFq+Ykoalf4x4nIE/KHzquTVTRXehCWAxXvJatGmEiQ4jVa
-         GxCwRTJW4JhuP9pjoVT3AmuaV7/6WQ6X9t0vs3AFzRpI7fqIZmtb9tjYf5Z856g/+H
-         FZqA5h3WcLge2ZsbMl8F49WwYaT/SozDrUeeuQE4k1Fs+T3BNZ1YlO+fjHVUw8sHED
-         YFw05t1TrPUt9KJAlNGtToCTonwBcJ+kJpAimi4L90ni6sgFMh2HL/N7WVYhwgNUNy
-         XpHhxzrImIlFQ==
-Date:   Thu, 6 Jul 2023 18:15:57 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Charlie Jenkins <charlie@rivosinc.com>
-Cc:     linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>, evan@rivosinc.com,
-        heiko@sntech.de, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] RISC-V: Framework for vendor extensions
-Message-ID: <20230706-curly-swinging-afbf79a4cdb7@spud>
-References: <20230705-thead_vendor_extensions-v1-0-ad6915349c4d@rivosinc.com>
- <20230705-thead_vendor_extensions-v1-1-ad6915349c4d@rivosinc.com>
+        with ESMTP id S231867AbjGFRUJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 13:20:09 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCBB51BEC
+        for <linux-doc@vger.kernel.org>; Thu,  6 Jul 2023 10:20:07 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-262fa79e97fso560631a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jul 2023 10:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688664007; x=1691256007;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=k9ea0Od7Ss8KSCo0Ba6GtQFVksMPHnFvx3hnoqe8eeY=;
+        b=fQQ7hzusqcO2Mb5AQ960t54PR7FMZocWeAtbfCtyJZAV8i6B9OQAivVlHoDnpsFN2k
+         Qm1kdgueLRMJUOcbbfNh5RyCkx+scTiJF9FIL0O7an83YsYxsSTrbLNqkX+zGQom84FX
+         /cojomOG2sUxoe2p0zFMkAJIPsHSCKdsdkithdcPNeURi7RxIJBkg79qbywfJVZiuyNA
+         gNhKkyPv5XnliYrKT9IpuCN0GOj2XzFFZVpkj/kqWfUObmt7Y2qSlZNGLazWfyhr7Puk
+         1JsD4mwjtElm4HEK4vJ/PS3VV2CPQtjdj0Tui/QqCQS8H3gOGSjqnXec+bQZHK6nBCUw
+         ytPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688664007; x=1691256007;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k9ea0Od7Ss8KSCo0Ba6GtQFVksMPHnFvx3hnoqe8eeY=;
+        b=M9eBHGbxM/BFrT11a4EqsvnHCWAhcCup57+SntyhAk2F7nDP3fpOIH1ZzEj84GOiY0
+         tEnh8X9b3/bCuS3WxgtqcdWnRWQ+82zzkV3TtHSkxhib0U8vOQykh0kH0fqvN4R8n71w
+         SUZazIRekcs1LoHe0LTUmkJdT26tjB7Of3rjdPnFjebT+hz7oxcYnluhVN4n8+t2SKkW
+         4JqzWpzSgYgyVdXud//r2JWJfJwm2v0slVECzHUu96T6cz4yYNept3YEb9LONxfbkBGf
+         WCk3dhnO4AxDgd0m6hEeOCVDGZ2S4+fhgoxgkjH5F/XB7NVNt/sl1z4Smg7a+C70CvSX
+         3X2A==
+X-Gm-Message-State: ABy/qLa9v24V06smkXYUa9FKksX4B8Cdyc4wKBW9HfywM2H5GwUXiNgX
+        PCHeIQaNcBAa5u/oAkM3NKuJ9g==
+X-Google-Smtp-Source: APBJJlGIzD3wgfXmLqpF5j/wbpDQeS0eCZKqUWowt+GLYOi3W+0iK2Ooqw2rQRyVOs7PEhn81abgMw==
+X-Received: by 2002:a17:90a:c690:b0:262:c974:6057 with SMTP id n16-20020a17090ac69000b00262c9746057mr1931210pjt.32.1688664007220;
+        Thu, 06 Jul 2023 10:20:07 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:b0a5:7a22:4bcf:c911])
+        by smtp.gmail.com with ESMTPSA id az9-20020a056a02004900b00519c3475f21sm1431884pgb.46.2023.07.06.10.20.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jul 2023 10:20:06 -0700 (PDT)
+Date:   Thu, 6 Jul 2023 11:20:03 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Trilok Soni <quic_tsoni@quicinc.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Mukesh Ojha <quic_mojha@quicinc.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>, corbet@lwn.net,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        catalin.marinas@arm.com, will@kernel.org, linus.walleij@linaro.org,
+        andy.shevchenko@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+        Alex Elder <elder@linaro.org>
+Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
+ support
+Message-ID: <ZKb3wz2eXS6h1yIW@p14s>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <2023062814-chance-flounder-f002@gregkh>
+ <CAL_JsqLO9yey2-4FcWsaGxijiS6hGL0SH9VoMuiyei-u9=Cv=w@mail.gmail.com>
+ <cc30660f-dd72-aade-6346-a93c6ad4b695@quicinc.com>
+ <29af84dc-7db8-0c43-07b6-eb743cf25e57@linaro.org>
+ <957a3cdb-6091-8679-ddb0-296db2347291@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="UI60rudIHsqNxMLP"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230705-thead_vendor_extensions-v1-1-ad6915349c4d@rivosinc.com>
+In-Reply-To: <957a3cdb-6091-8679-ddb0-296db2347291@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jul 03, 2023 at 02:05:58PM -0700, Trilok Soni wrote:
+> On 7/2/2023 1:29 AM, Krzysztof Kozlowski wrote:
+> > On 30/06/2023 18:04, Mukesh Ojha wrote:
+> > > > 
+> > > > > We don't add layers when they are not needed, and never when there is no
+> > > > > actual user.  If you need the extra "complexity" later, then add it
+> > > > > later when it is needed as who knows when that will ever be.
+> > > > > 
+> > > > > Please redo this series based on that, thanks.
+> > > > 
+> > > > My bigger issue with this whole series is what would this all look
+> > > > like if every SoC vendor upstreamed their own custom dumping
+> > > > mechanism. That would be a mess. (I have similar opinions on the
+> > > > $soc-vendor hypervisors.)
+> > 
+> > Mukesh,
+> > 
+> > LPC CFP is still open. There will be also Android and Kernel Debugging
+> > LPC microconference tracks. Coming with a unified solution could be a
+> > great topic for LPC. Solutions targeting only one user are quite often
+> > frowned upon.
+> 
+> LPC is far out and in November. Can we not have others speak up if they have
+> the similar solution now? We can expand this to linux-kernel and ask for the
+> other SOC vendors to chime in. I am sure that we may have existing solutions
+> which came in for the one user first like Intel RDT if I remember. I am sure
+> ARM MPAM usecase was present at that time but Intel RDT based solution which
+> was x86 specific but accepted.
 
---UI60rudIHsqNxMLP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am not familiar with Intel RDT and Arm MPAM but the community is always
+improving on the way it does things.
 
-Hey Charlie,
+LPC is indeed far out in November but it is an opportunity to cover the
+groundwork needed to have this discussion.  It is always best to improve on
+something then introduce something new.  Even better if something specific such
+as Intel RDT and Arm MPAM can be made more generic.  A perfect example is
+hwtracing Linus referred to.  The perf framework wasn't a perfect fit but it was
+enhanced to accommodate our requirements.  I suggest to look at what is currently
+available and come up with a strategy to be presented at LPC - event better if
+you have a prototype.  If you can't find anything or the drawbacks inherent to
+each avenue outweigh the benefits then we can have that conversation at LPC.
 
-On Wed, Jul 05, 2023 at 08:30:17PM -0700, Charlie Jenkins wrote:
-> Create Kconfig files, Makefiles, and functions to enable vendors to
-> provide information via the riscv_hwprobe syscall about which vendor
-> extensions are available.
-
-This is all apparently from reading the diff, you don't need to tell us
-what files you have created etc. Please just stick with explaining the
-rationale for your changes (especially anything that might make someone
-reading it go "huh").
-
->=20
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> ---
->  arch/riscv/Kbuild                     |  1 +
->  arch/riscv/Kconfig                    |  1 +
->  arch/riscv/Kconfig.vendor             |  3 +++
->  arch/riscv/include/asm/hwprobe.h      |  1 +
->  arch/riscv/kernel/sys_riscv.c         | 40 +++++++++++++++++++++++++++++=
-+++---
->  arch/riscv/vendor_extensions/Makefile |  3 +++
->  6 files changed, 46 insertions(+), 3 deletions(-)
-
-> diff --git a/arch/riscv/Kbuild b/arch/riscv/Kbuild
-> index afa83e307a2e..bea38010d9db 100644
-> --- a/arch/riscv/Kbuild
-> +++ b/arch/riscv/Kbuild
-> @@ -3,6 +3,7 @@
->  obj-y +=3D kernel/ mm/ net/
->  obj-$(CONFIG_BUILTIN_DTB) +=3D boot/dts/
->  obj-y +=3D errata/
-> +obj-y +=3D vendor_extensions/
->  obj-$(CONFIG_KVM) +=3D kvm/
-> =20
->  obj-$(CONFIG_ARCH_HAS_KEXEC_PURGATORY) +=3D purgatory/
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index c1505c7729ec..19404ede0ee3 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -276,6 +276,7 @@ config AS_HAS_OPTION_ARCH
-> =20
->  source "arch/riscv/Kconfig.socs"
->  source "arch/riscv/Kconfig.errata"
-> +source "arch/riscv/Kconfig.vendor"
-> =20
->  menu "Platform type"
-> =20
-> diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
-> new file mode 100644
-> index 000000000000..213ac3e6fed5
-> --- /dev/null
-> +++ b/arch/riscv/Kconfig.vendor
-> @@ -0,0 +1,3 @@
-> +menu "Vendor extensions selection"
-> +
-> +endmenu # "Vendor extensions selection"
-
-These files don't do anything, don't add them until you need to.
-
-> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hw=
-probe.h
-> index 78936f4ff513..fadb38b83243 100644
-> --- a/arch/riscv/include/asm/hwprobe.h
-> +++ b/arch/riscv/include/asm/hwprobe.h
-> @@ -9,5 +9,6 @@
->  #include <uapi/asm/hwprobe.h>
-> =20
->  #define RISCV_HWPROBE_MAX_KEY 5
-> +#define RISCV_HWPROBE_VENDOR_EXTENSION_SPACE (UL(1)<<63)
-
-Should this not be BIT_ULL(63)? Although I am not sure that we can
-actually do this, more on that front later.
-
-> =20
->  #endif
-> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
-> index 26ef5526bfb4..2351a5f7b8b1 100644
-> --- a/arch/riscv/kernel/sys_riscv.c
-> +++ b/arch/riscv/kernel/sys_riscv.c
-> @@ -188,9 +188,35 @@ static u64 hwprobe_misaligned(const struct cpumask *=
-cpus)
->  	return perf;
->  }
-> =20
-> +static int hwprobe_vendor(__u64 mvendorid, struct riscv_hwprobe *pair,
-> +			 const struct cpumask *cpus)
-> +{
-> +	switch (mvendorid) {
-> +	default:
-> +		return -1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static void hwprobe_one_pair(struct riscv_hwprobe *pair,
->  			     const struct cpumask *cpus)
->  {
-> +	int err;
-> +
-> +	if (((unsigned long) pair->key) >=3D RISCV_HWPROBE_VENDOR_EXTENSION_SPA=
-CE) {
-
-Hopefully Bjorn or someone that actually knows a thing or two about uapi
-stuff can chime in here, but I think what you are doing here (where the
-vendor space sets the MSB) really muddies the api. These keys are defined
-as signed 64 bit numbers & -1 is the value set when a key is not valid.
-I'd much rather we kept the negative space off-limits, and used the 62nd
-bit instead, avoiding using negative numbers for valid keys.
-
-> +		struct riscv_hwprobe mvendorid =3D {
-> +			.key =3D RISCV_HWPROBE_KEY_MVENDORID,
-> +			.value =3D 0
-> +		};
-> +
-> +		hwprobe_arch_id(&mvendorid, cpus);
-
-I think this needs a comment explaining why you do this hwprobe call,=20
-> +		if (mvendorid.value !=3D -1ULL)
-> +			err =3D hwprobe_vendor(mvendorid.value, pair, cpus);
-> +		else
-> +			err =3D -1;
-> +	}
-
-I don't really understand the control flow here. Why are you continuing
-on to the switch statement, if you have either a) already ran
-hwprobe_vendor() or b) noticed that mvendorid.value is not valid?
-
->  	switch (pair->key) {
->  	case RISCV_HWPROBE_KEY_MVENDORID:
->  	case RISCV_HWPROBE_KEY_MARCHID:
-> @@ -217,13 +243,21 @@ static void hwprobe_one_pair(struct riscv_hwprobe *=
-pair,
-> =20
->  	/*
->  	 * For forward compatibility, unknown keys don't fail the whole
-> -	 * call, but get their element key set to -1 and value set to 0
-> -	 * indicating they're unrecognized.
-> +	 * call, instead an error is raised to indicate the element key
-> +	 * is unrecognized.
->  	 */
->  	default:
-> +		err =3D -1;
-> +		break;
-> +	}
-> +
-> +	/*
-> +	 * Setting the element key to -1 and value to 0 indicates that
-> +	 * hwprobe was unable to find the requested key.
-> +	 */
-> +	if (err !=3D 0) {
->  		pair->key =3D -1;
->  		pair->value =3D 0;
-> -		break;
->  	}
->  }
-> =20
-> diff --git a/arch/riscv/vendor_extensions/Makefile b/arch/riscv/vendor_ex=
-tensions/Makefile
-> new file mode 100644
-> index 000000000000..e815895e9372
-> --- /dev/null
-> +++ b/arch/riscv/vendor_extensions/Makefile
-> @@ -0,0 +1,3 @@
-> +ifdef CONFIG_RELOCATABLE
-> +KBUILD_CFLAGS +=3D -fno-pie
-> +endif
-
-There are no files in this directory, why do you need to do a dance
-about relocatable kernels?
-
-Cheers,
-Conor.
-
---UI60rudIHsqNxMLP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKb2zQAKCRB4tDGHoIJi
-0hTDAP0c/L2QKrlqwK8Vy+oQbp9A2yhfsGsSd2Vo7S6Cc6UFvAD/VxwxL+ezSwJP
-YptVnUsgEYOqE3Z7eZ2B14kRhmnkOQ8=
-=knz0
------END PGP SIGNATURE-----
-
---UI60rudIHsqNxMLP--
+> 
+> ---Trilok Soni
