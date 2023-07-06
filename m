@@ -2,18 +2,18 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0377BEB64DD
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 09:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8283DEB64DC
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jul 2023 09:17:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231953AbjGFJLv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jul 2023 05:11:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58716 "EHLO
+        id S229772AbjGFJRp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jul 2023 05:17:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231937AbjGFJLr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 05:11:47 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D74561BD2;
-        Thu,  6 Jul 2023 02:11:43 -0700 (PDT)
+        with ESMTP id S229476AbjGFJRo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jul 2023 05:17:44 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57881725;
+        Thu,  6 Jul 2023 02:17:41 -0700 (PDT)
 X-GND-Sasl: alex@ghiti.fr
 X-GND-Sasl: alex@ghiti.fr
 X-GND-Sasl: alex@ghiti.fr
@@ -28,15 +28,16 @@ X-GND-Sasl: alex@ghiti.fr
 X-GND-Sasl: alex@ghiti.fr
 X-GND-Sasl: alex@ghiti.fr
 X-GND-Sasl: alex@ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 237FEFF810;
-        Thu,  6 Jul 2023 09:11:37 +0000 (UTC)
-Message-ID: <2084462d-b11d-7a48-3049-6bafbe81e7b4@ghiti.fr>
-Date:   Thu, 6 Jul 2023 11:11:37 +0200
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E21D72000A;
+        Thu,  6 Jul 2023 09:17:34 +0000 (UTC)
+Message-ID: <b63134b3-f7dd-b880-1f2a-027d681b64ce@ghiti.fr>
+Date:   Thu, 6 Jul 2023 11:17:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [RESEND PATCH v3 1/2] RISC-V: mm: Restrict address space for
- sv39,sv48,sv57
+Subject: Re: [RESEND PATCH v3 2/2] RISC-V: mm: Update documentation and
+ include test
+Content-Language: en-US
 To:     Charlie Jenkins <charlie@rivosinc.com>,
         linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
 Cc:     conor@kernel.org, paul.walmsley@sifive.com, palmer@rivosinc.com,
@@ -45,170 +46,209 @@ Cc:     conor@kernel.org, paul.walmsley@sifive.com, palmer@rivosinc.com,
         linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
         mick@ics.forth.gr, jrtc27@jrtc27.com
 References: <20230705190002.384799-1-charlie@rivosinc.com>
- <20230705190002.384799-2-charlie@rivosinc.com>
-Content-Language: en-US
+ <20230705190002.384799-3-charlie@rivosinc.com>
 From:   Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20230705190002.384799-2-charlie@rivosinc.com>
+In-Reply-To: <20230705190002.384799-3-charlie@rivosinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Charlie,
-
 
 On 05/07/2023 20:59, Charlie Jenkins wrote:
-> Make sv48 the default address space for mmap as some applications
-> currently depend on this assumption. The RISC-V specification enforces
-> that bits outside of the virtual address range are not used, so
-> restricting the size of the default address space as such should be
-> temporary.
-
-
-What do you mean in the last sentence above?
-
-
->   A hint address passed to mmap will cause the largest address
-> space that fits entirely into the hint to be used. If the hint is less
-> than or equal to 1<<38, an sv39 address will be used. An exception is
-> that if the hint address is 0, then a sv48 address will be used.After
-> an address space is completely full, the next smallest address space
-> will be used.
+> Add documentation explaining the behavior of mmap. Include
+> a simple test that ensures that mmap returns an address less
+> than the hint address while there are still addresses available.
 >
 > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 > ---
->   arch/riscv/include/asm/elf.h       |  2 +-
->   arch/riscv/include/asm/pgtable.h   | 13 +++++++++++-
->   arch/riscv/include/asm/processor.h | 34 ++++++++++++++++++++++++------
->   3 files changed, 40 insertions(+), 9 deletions(-)
+>   Documentation/riscv/vm-layout.rst             | 22 +++++++++
+>   arch/riscv/include/asm/pgtable.h              |  8 +--
+>   tools/testing/selftests/riscv/Makefile        |  2 +-
+>   tools/testing/selftests/riscv/mm/.gitignore   |  1 +
+>   tools/testing/selftests/riscv/mm/Makefile     | 21 ++++++++
+>   .../selftests/riscv/mm/testcases/mmap.c       | 49 +++++++++++++++++++
+>   6 files changed, 99 insertions(+), 4 deletions(-)
+>   create mode 100644 tools/testing/selftests/riscv/mm/.gitignore
+>   create mode 100644 tools/testing/selftests/riscv/mm/Makefile
+>   create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
 >
-> diff --git a/arch/riscv/include/asm/elf.h b/arch/riscv/include/asm/elf.h
-> index 30e7d2455960..1b57f13a1afd 100644
-> --- a/arch/riscv/include/asm/elf.h
-> +++ b/arch/riscv/include/asm/elf.h
-> @@ -49,7 +49,7 @@ extern bool compat_elf_check_arch(Elf32_Ehdr *hdr);
->    * the loader.  We need to make sure that it is out of the way of the program
->    * that it will "exec", and that there is sufficient room for the brk.
->    */
-> -#define ELF_ET_DYN_BASE		((TASK_SIZE / 3) * 2)
-> +#define ELF_ET_DYN_BASE		((DEFAULT_MAP_WINDOW / 3) * 2)
->   
->   #ifdef CONFIG_64BIT
->   #ifdef CONFIG_COMPAT
+> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+> index 5462c84f4723..a610c68c9f3f 100644
+> --- a/Documentation/riscv/vm-layout.rst
+> +++ b/Documentation/riscv/vm-layout.rst
+> @@ -133,3 +133,25 @@ RISC-V Linux Kernel SV57
+>      ffffffff00000000 |  -4     GB | ffffffff7fffffff |    2 GB | modules, BPF
+>      ffffffff80000000 |  -2     GB | ffffffffffffffff |    2 GB | kernel
+>     __________________|____________|__________________|_________|____________________________________________________________
+> +
+> +
+> +Userspace VAs
+> +--------------------
+> +To maintain compatibility with software that relies on the VA space
+> +with a maximum of 39-bits, the kernel will, by default, return virtual
+> +return virtual addresses to userspace from a 48-bit range (sv48).
+
+
+Hmmm weird, you say that applications that requires 38-bit address space 
+will be given a 47-bit address by default?
+
+
+>   This
+> +default behavior is achieved by passing 0 into the hint address parameter
+> +of mmap.
+> +
+> +Software can "opt-in" to receiving VAs from other VA space by providing
+> +a hint address to mmap. A call to mmap is guaranteed to return an address
+> +that will not override the unset left-aligned bits in the hint address,
+> +unless there is no space left in the address space. If there is no space
+> +available in the requested address space, an address in the next smallest
+> +available address space will be returned.
+> +
+> +For example, in order to obtain 48-bit VA space, a hint address greater than
+> +:code:`1 << 38` must be provided. Note that this is 38 due to sv39 userspace
+> +ending at :code:`1 << 38` with the addresses beyond this and up to :code:`1 << 39`
+
+
+Not "up to" since actually the MSB will all be set for the kernel 
+address space, so that would be up to (1 << 64) - 1.
+
+
+> +being reserved for the kernel. Similarly, to obtain 57-bit VA space addresses, a
+> +hint address greater than or equal to :code:`1 << 47` must be provided.
 > diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> index 75970ee2bda2..752e210c7547 100644
+> index 752e210c7547..5ac973193fab 100644
 > --- a/arch/riscv/include/asm/pgtable.h
 > +++ b/arch/riscv/include/asm/pgtable.h
-> @@ -57,18 +57,29 @@
->   #define MODULES_END		(PFN_ALIGN((unsigned long)&_start))
->   #endif
->   
-> +
->   /*
->    * Roughly size the vmemmap space to be large enough to fit enough
->    * struct pages to map half the virtual address space. Then
->    * position vmemmap directly below the VMALLOC region.
+> @@ -841,14 +841,16 @@ static inline pte_t pte_swp_clear_exclusive(pte_t pte)
+>    * Task size is 0x4000000000 for RV64 or 0x9fc00000 for RV32.
+>    * Note that PGDIR_SIZE must evenly divide TASK_SIZE.
+>    * Task size is:
+> - * -     0x9fc00000 (~2.5GB) for RV32.
+> - * -   0x4000000000 ( 256GB) for RV64 using SV39 mmu
+> - * - 0x800000000000 ( 128TB) for RV64 using SV48 mmu
+> + * -        0x9fc00000	(~2.5GB) for RV32.
+> + * -      0x4000000000	( 256GB) for RV64 using SV39 mmu
+> + * -    0x800000000000	( 128TB) for RV64 using SV48 mmu
+> + * - 0x100000000000000	(  64PB) for RV64 using SV57 mmu
+>    *
+>    * Note that PGDIR_SIZE must evenly divide TASK_SIZE since "RISC-V
+>    * Instruction Set Manual Volume II: Privileged Architecture" states that
+>    * "load and store effective addresses, which are 64bits, must have bits
+>    * 63–48 all equal to bit 47, or else a page-fault exception will occur."
+> + * Similarly for SV57, bits 63–57 must be equal to bit 56.
+
+
+This change should go in its own patch. And you should split this patch 
+into the documentation update and the addition of the test, both are 
+independent.
+
+
 >    */
 >   #ifdef CONFIG_64BIT
-> +#define VA_BITS_SV39 39
-> +#define VA_BITS_SV48 48
-> +#define VA_BITS_SV57 57
-> +
-> +#define VA_USER_SV39 (UL(1) << (VA_BITS_SV39 - 1))
-> +#define VA_USER_SV48 (UL(1) << (VA_BITS_SV48 - 1))
-> +#define VA_USER_SV57 (UL(1) << (VA_BITS_SV57 - 1))
-> +
->   #define VA_BITS		(pgtable_l5_enabled ? \
-> -				57 : (pgtable_l4_enabled ? 48 : 39))
-> +				VA_BITS_SV57 : (pgtable_l4_enabled ? VA_BITS_SV48 : VA_BITS_SV39))
->   #else
->   #define VA_BITS		32
->   #endif
+>   #define TASK_SIZE_64	(PGDIR_SIZE * PTRS_PER_PGD / 2)
+> diff --git a/tools/testing/selftests/riscv/Makefile b/tools/testing/selftests/riscv/Makefile
+> index 32a72902d045..0fee58f990ae 100644
+> --- a/tools/testing/selftests/riscv/Makefile
+> +++ b/tools/testing/selftests/riscv/Makefile
+> @@ -5,7 +5,7 @@
+>   ARCH ?= $(shell uname -m 2>/dev/null || echo not)
 >   
-> +#define DEFAULT_VA_BITS ((VA_BITS >= VA_BITS_SV48) ? VA_BITS_SV48 : VA_BITS)
-
-
-Maybe rename DEFAULT_VA_BITS into MMAP_VA_BITS? Or something similar?
-
-
+>   ifneq (,$(filter $(ARCH),riscv))
+> -RISCV_SUBTARGETS ?= hwprobe
+> +RISCV_SUBTARGETS ?= hwprobe mm
+>   else
+>   RISCV_SUBTARGETS :=
+>   endif
+> diff --git a/tools/testing/selftests/riscv/mm/.gitignore b/tools/testing/selftests/riscv/mm/.gitignore
+> new file mode 100644
+> index 000000000000..022ea0a3f7df
+> --- /dev/null
+> +++ b/tools/testing/selftests/riscv/mm/.gitignore
+> @@ -0,0 +1 @@
+> +mmap
+> \ No newline at end of file
+> diff --git a/tools/testing/selftests/riscv/mm/Makefile b/tools/testing/selftests/riscv/mm/Makefile
+> new file mode 100644
+> index 000000000000..d41a0b3d2ca2
+> --- /dev/null
+> +++ b/tools/testing/selftests/riscv/mm/Makefile
+> @@ -0,0 +1,21 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Originally tools/testing/selftests/arm64/signal
 > +
->   #define VMEMMAP_SHIFT \
->   	(VA_BITS - PAGE_SHIFT - 1 + STRUCT_PAGE_MAX_SHIFT)
->   #define VMEMMAP_SIZE	BIT(VMEMMAP_SHIFT)
-> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-> index 94a0590c6971..468a1f4b9da4 100644
-> --- a/arch/riscv/include/asm/processor.h
-> +++ b/arch/riscv/include/asm/processor.h
-> @@ -12,20 +12,40 @@
->   
->   #include <asm/ptrace.h>
->   
-> -/*
-> - * This decides where the kernel will search for a free chunk of vm
-> - * space during mmap's.
-> - */
-> -#define TASK_UNMAPPED_BASE	PAGE_ALIGN(TASK_SIZE / 3)
-> -
-> -#define STACK_TOP		TASK_SIZE
->   #ifdef CONFIG_64BIT
-> +#define DEFAULT_MAP_WINDOW	(UL(1) << (DEFAULT_VA_BITS - 1))
->   #define STACK_TOP_MAX		TASK_SIZE_64
+> +# Additional include paths needed by kselftest.h and local headers
+> +CFLAGS += -D_GNU_SOURCE -std=gnu99 -I.
 > +
-> +#define arch_get_mmap_end(addr, len, flags) \
-> +	((addr) >= VA_USER_SV57 ? STACK_TOP_MAX :   \
-> +	 ((((addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) ? \
-> +						 VA_USER_SV48 : \
-> +						 VA_USER_SV39)
+> +SRCS := $(filter-out testcases/testcases.c,$(wildcard testcases/*.c))
+> +PROGS := $(patsubst %.c,%,$(SRCS))
 > +
-> +#define arch_get_mmap_base(addr, base) \
-> +	(((addr >= VA_USER_SV57) && (VA_BITS >= VA_BITS_SV57)) ?   \
-
-
-So IIUC, a user must pass a hint larger than the max address of the mode 
-the user wants right? Shouldn't the user rather pass an address that is 
-larger than the previous mode? I mean if the user wants a 56-bit 
-address, he should just pass an address above 1<<47 no?
-
-
-> +		 VA_USER_SV57 - (DEFAULT_MAP_WINDOW - base) : \
-> +	 ((((addr) >= VA_USER_SV48)) && (VA_BITS >= VA_BITS_SV48)) ? \
-> +		 VA_USER_SV48 - (DEFAULT_MAP_WINDOW - base) : \
-> +	  (addr == 0) ? \
-> +		 base : \
-> +		 VA_USER_SV39 - (DEFAULT_MAP_WINDOW - base))
+> +# Generated binaries to be installed by top KSFT script
+> +TEST_GEN_PROGS := $(notdir $(PROGS))
 > +
-
-
-Can you turn that into a function or use if/else statement? It's very 
-hard to understand what happens there.
-
-And riscv selects ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT which means the 
-base is at the top of the address space (minus the stack IIRC). But if 
-rlimit_stack is set to infinity (see mmap_base() 
-https://elixir.bootlin.com/linux/latest/source/mm/util.c#L412), 
-mmap_base is equal to TASK_UNMAPPED_BASE. Does that work in that case? 
-It seems like this: VA_USER_SV39 - (DEFAULT_MAP_WINDOW - base)) would be 
-negative right?
-
-You should also add a rlimit test.
-
-
->   #else
-> +#define DEFAULT_MAP_WINDOW	TASK_SIZE
->   #define STACK_TOP_MAX		TASK_SIZE
->   #endif
->   #define STACK_ALIGN		16
->   
+> +# Get Kernel headers installed and use them.
 > +
-> +#define STACK_TOP		DEFAULT_MAP_WINDOW
+> +# Including KSFT lib.mk here will also mangle the TEST_GEN_PROGS list
+> +# to account for any OUTPUT target-dirs optionally provided by
+> +# the toplevel makefile
+> +include ../../lib.mk
 > +
-> +/*
-> + * This decides where the kernel will search for a free chunk of vm
-> + * space during mmap's.
-> + */
-> +#define TASK_UNMAPPED_BASE	PAGE_ALIGN(DEFAULT_MAP_WINDOW / 3)
+> +$(TEST_GEN_PROGS): $(PROGS)
+> +	cp $(PROGS) $(OUTPUT)/
+> \ No newline at end of file
+> diff --git a/tools/testing/selftests/riscv/mm/testcases/mmap.c b/tools/testing/selftests/riscv/mm/testcases/mmap.c
+> new file mode 100644
+> index 000000000000..781576f4c14b
+> --- /dev/null
+> +++ b/tools/testing/selftests/riscv/mm/testcases/mmap.c
+> @@ -0,0 +1,49 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +#include <sys/mman.h>
+> +#include "../../kselftest_harness.h"
 > +
->   #ifndef __ASSEMBLY__
->   
->   struct task_struct;
+> +TEST(sv57_test)
+> +{
+> +		// Only works on 64 bit
+> +		#if __riscv_xlen == 64
+> +		// Place all of the hint addresses on the boundaries of mmap
+> +		// sv39, sv48, sv57
+> +		// User addresses end at 1<<38, 1<<47, 1<<56 respectively
+> +		void *on_37_bits = (void *) (1UL << 37);
+> +		void *on_38_bits = (void *) (1UL << 38);
+> +		void *on_46_bits = (void *) (1UL << 46);
+> +		void *on_47_bits = (void *) (1UL << 47);
+> +		void *on_55_bits = (void *) (1UL << 55);
+> +		void *on_56_bits = (void *) (1UL << 56);
+> +
+> +		int prot = PROT_READ | PROT_WRITE;
+> +		int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+> +
+> +		int *no_hint = mmap(NULL, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_37_addr = mmap(on_37_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_38_addr = mmap(on_38_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_46_addr = mmap(on_46_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_47_addr = mmap(on_47_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_55_addr = mmap(on_55_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +		int *on_56_addr = mmap(on_56_bits, 5*sizeof(int), prot, flags, 0, 0);
+> +
+> +		EXPECT_NE(no_hint, MAP_FAILED);
+> +		EXPECT_NE(on_37_addr, MAP_FAILED);
+> +		EXPECT_NE(on_38_addr, MAP_FAILED);
+> +		EXPECT_NE(on_46_addr, MAP_FAILED);
+> +		EXPECT_NE(on_47_addr, MAP_FAILED);
+> +		EXPECT_NE(on_55_addr, MAP_FAILED);
+> +		EXPECT_NE(on_56_addr, MAP_FAILED);
+> +
+> +		EXPECT_LT((unsigned long) no_hint, 1UL << 47);
+> +		EXPECT_LT((unsigned long) on_37_addr, 1UL << 38);
+> +		EXPECT_LT((unsigned long) on_38_addr, 1UL << 38);
+> +		EXPECT_LT((unsigned long) on_46_addr, 1UL << 38);
+> +		EXPECT_LT((unsigned long) on_47_addr, 1UL << 47);
+> +		EXPECT_LT((unsigned long) on_55_addr, 1UL << 47);
+> +		EXPECT_LT((unsigned long) on_56_addr, 1UL << 57);
+> +		#else
+> +		#endif
+> +}
+> +
+> +TEST_HARNESS_MAIN
