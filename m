@@ -2,301 +2,1086 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0737DC001B0
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 15:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6721EB64D9
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 16:03:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232986AbjGGP0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 11:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58028 "EHLO
+        id S232700AbjGGQDI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jul 2023 12:03:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233054AbjGGP0H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 11:26:07 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2083.outbound.protection.outlook.com [40.107.6.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1951213F;
-        Fri,  7 Jul 2023 08:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u8Q5fF4hvYsZlIqDJIaDZwAjumlgFTV4j5eTd5BtzAI=;
- b=9u0yvlvRyMfhoIEQruQzh2M8DKowbpPSMcQtEQi0YvmHgjWTHoro1QJyxW+RIB2Jp3AQsqPeX51ylclbmBFn1SG/GeQpGFVszfWRYKqmGQtMICEiky/Qeu+A4sLSGdIHe0T3ZrVXcyaqW2/hHsGLShvnXNZtRuasJBKbpSYZsc8=
-Received: from DBBPR09CA0031.eurprd09.prod.outlook.com (2603:10a6:10:d4::19)
- by AS2PR08MB9390.eurprd08.prod.outlook.com (2603:10a6:20b:596::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Fri, 7 Jul
- 2023 15:25:34 +0000
-Received: from DBAEUR03FT036.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:d4:cafe::21) by DBBPR09CA0031.outlook.office365.com
- (2603:10a6:10:d4::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.18 via Frontend
- Transport; Fri, 7 Jul 2023 15:25:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT036.mail.protection.outlook.com (100.127.142.193) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6565.25 via Frontend Transport; Fri, 7 Jul 2023 15:25:33 +0000
-Received: ("Tessian outbound f5de790fcf89:v145"); Fri, 07 Jul 2023 15:25:33 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: f01b1f76621ccda2
-X-CR-MTA-TID: 64aa7808
-Received: from 5ccbeafcd8df.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id CA387735-31CF-4F53-9F14-7D1DEA12BFFE.1;
-        Fri, 07 Jul 2023 15:25:26 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 5ccbeafcd8df.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 07 Jul 2023 15:25:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R8UBm/iqMTHxPevrDarqCDkK40oPrYPpVMm/gms0/Px4w2/EzHQnKQ1ljIz9+nc2j9Ieuda4MUtn6sjs35X1jMAhOd4+0xhgB46H2nrCaPbdEsQqAYp/+5N9iTXaOH4SEA/e0VA1mjBcx06rdlKOSOSixNoaBXPvTKn8SHSlt6e8Zs5rhIjzYbYS+wZIOV8qydmHKaAHbW61lXPTQANAp2/GRCOLcTG+jkxN/3wtvGxftDw9ql6pxaBd23aT4jmdvh+LyJPR9MQgliq0NXUi4+SB4Yd6T0wbu1+aEBHuma+puZOCkUz7yeE81Yf/qzEjqMBUQ8rJAxaa62hkvWC84w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u8Q5fF4hvYsZlIqDJIaDZwAjumlgFTV4j5eTd5BtzAI=;
- b=T8wcvAIAfYmrgJEbohDV9FMY9B1NJ7AMvdYbIAHMTXRGvGLztLM3B6Hh9ZTSThH0jAlG/5BEsso0HUELEFWruWEsH/htbuhDx+omLb+oXCEXQeMVQiTCJqTOAoVAd1ictxYTLKvdQouoK+RsbanznkWREtrj71IaT8IpyL/84RrLSqtNpFSUKWeBBF/kKYHGPO8Iq4i0ulXB1i44SCEpiyDUuEhKHDYTvqFIoXXharbxshpOLQg6mqDt1GrbTexyRf1IlKX5AYR8afOFibifhUJ8rdmvpgi+5iS2prIwOyYy4/WSvkbDyzEpkIFdwn0fURaM2V7YNl+79K2BSzw4Vg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u8Q5fF4hvYsZlIqDJIaDZwAjumlgFTV4j5eTd5BtzAI=;
- b=9u0yvlvRyMfhoIEQruQzh2M8DKowbpPSMcQtEQi0YvmHgjWTHoro1QJyxW+RIB2Jp3AQsqPeX51ylclbmBFn1SG/GeQpGFVszfWRYKqmGQtMICEiky/Qeu+A4sLSGdIHe0T3ZrVXcyaqW2/hHsGLShvnXNZtRuasJBKbpSYZsc8=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com (2603:10a6:10:2cc::19)
- by DBAPR08MB5768.eurprd08.prod.outlook.com (2603:10a6:10:1b1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Fri, 7 Jul
- 2023 15:25:25 +0000
-Received: from DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::43b7:3a83:5cbe:4559]) by DB9PR08MB7179.eurprd08.prod.outlook.com
- ([fe80::43b7:3a83:5cbe:4559%4]) with mapi id 15.20.6565.016; Fri, 7 Jul 2023
- 15:25:24 +0000
-Date:   Fri, 7 Jul 2023 16:25:08 +0100
-From:   "szabolcs.nagy@arm.com" <szabolcs.nagy@arm.com>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>
-Cc:     "Xu, Pengfei" <pengfei.xu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "corbet@lwn.net" <corbet@lwn.net>, "nd@arm.com" <nd@arm.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "x86@kernel.org" <x86@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "Torvalds, Linus" <torvalds@linux-foundation.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v9 23/42] Documentation/x86: Add CET shadow stack
- description
-Message-ID: <ZKguVAZe+DGA1VEv@arm.com>
-References: <ZJQR7slVHvjeCQG8@arm.com>
- <CALCETrW+30_a2QQE-yw9djVFPxSxm7-c2FZFwZ50dOEmnmkeDA@mail.gmail.com>
- <ZJR545en+dYx399c@arm.com>
- <1cd67ae45fc379fd82d2745190e4caf74e67499e.camel@intel.com>
- <ZJ2sTu9QRmiWNISy@arm.com>
- <e057de9dd9e9fe48981afb4ded4b337e8a83fabf.camel@intel.com>
- <ZKMRFNSYQBC6S+ga@arm.com>
- <eda8b2c4b2471529954aadbe04592da1ddae906d.camel@intel.com>
- <ZKa8jB4lOik/aFn2@arm.com>
- <68b7f983ffd3b7c629940b6c6ee9533bb55d9a13.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <68b7f983ffd3b7c629940b6c6ee9533bb55d9a13.camel@intel.com>
-X-ClientProxiedBy: LO4P265CA0229.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:315::18) To DB9PR08MB7179.eurprd08.prod.outlook.com
- (2603:10a6:10:2cc::19)
+        with ESMTP id S232681AbjGGQDH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 12:03:07 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12FE31FD7;
+        Fri,  7 Jul 2023 09:02:58 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so1440145a12.1;
+        Fri, 07 Jul 2023 09:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688745777; x=1691337777;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xz2VWnFVFBivjxHouAs3v8rOM5YARDXnKOaiqqreg4E=;
+        b=ebDPq2pM1jyC0tcMjor7MZqFDn2ZJVv8eoAfbpaDTbOnV1sWDZjJCmb/xFB14TFCUs
+         th6wDss4tb2OUi9kgqtdpZRcpMTdYRaBXAwh/b6zOxl09T5iiqD8iSUgKP99Wge+NU4Z
+         3nz9CfAf+DA2l+NcyUvdnsw0C8vnRSM6hzk6IZmhKtK19EkjpLKxUHK5iVA25wEKLSSJ
+         ixBGSyohFytUn3XRnAprvvfKFlr0TJ5Rn/ukzz72BNH+qQmTVxjI+KtSWVhHyKjxwe4C
+         ZrAm/N3+AchJZCgTixNpYrE/rU67ouhtNCznWNkvW6dUW4CX/n49LRUY6skxbc0mIT3V
+         gUHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688745777; x=1691337777;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xz2VWnFVFBivjxHouAs3v8rOM5YARDXnKOaiqqreg4E=;
+        b=Qfoee09Bvz7cRmtE0c1jHsJ66nuONfrroZkqbeZ96CCkytb85WKVT7tcSwzbhD1niK
+         UhKN0VNT0IGluDDsZSwPZyY8uHiR/sgQXvFI/nQO//Kc3OnM4dNV/wIpzrcxMKibhJu7
+         Pydl5ernXOZfAHnsHXu2ud3Hp2lx+TASNnRw9MpJtu2vAhorvvlBLOxgFkOwxzUhOAMA
+         C0E69s1QDPL47Gpl8jOxswDuxEri0vhk1g9KYW5nAucahyeVVFqHAJF+gui6srOzWNdx
+         ihd2FQgbWhAywy/yuk91Jv8+e96WGk/Ry3O/jmZ3a+wqnZIgG5LkFJ1I6DXdNRC5cSV0
+         bXUA==
+X-Gm-Message-State: ABy/qLaxJEOua2DWOahZyh12nN9zmyCm4jqvxEt7LOPEYvIDub884af9
+        UJrUfxXsSq2+UV/IJAIo/2s=
+X-Google-Smtp-Source: APBJJlEhvF6qvGTxptVbQ2a5IT1hk9/daEV0nwtyWj/wEQNzL1juadbBXenHtDypKpZ2fwjhP1oe/A==
+X-Received: by 2002:a17:90b:38c8:b0:263:fc27:662c with SMTP id nn8-20020a17090b38c800b00263fc27662cmr5189247pjb.39.1688745776880;
+        Fri, 07 Jul 2023 09:02:56 -0700 (PDT)
+Received: from localhost.localdomain ([113.251.4.177])
+        by smtp.gmail.com with ESMTPSA id gz18-20020a17090b0ed200b00263dfe9b972sm1770154pjb.0.2023.07.07.09.02.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jul 2023 09:02:55 -0700 (PDT)
+From:   Hu Haowen <src.res.211@gmail.com>
+To:     corbet@lwn.net, siyanteng@loongson.cn, bobwxc@email.cn,
+        alexs@kernel.org, gregkh@linuxfoundation.org,
+        nabijaczleweli@nabijaczleweli.xyz, carlos.bilbao@amd.com
+Cc:     Hu Haowen <src.res.211@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: change my own email address
+Date:   Sat,  8 Jul 2023 00:01:19 +0800
+Message-Id: <20230707160119.26873-1-src.res.211@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DB9PR08MB7179:EE_|DBAPR08MB5768:EE_|DBAEUR03FT036:EE_|AS2PR08MB9390:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97c33ce4-8878-44cd-8e16-08db7efe684a
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: oBiXMI2qXnmtNlssZwnXREHo9ucw3QnTOOnzND3GD1ckP/nomAIKRe6qzn2H1wPsluzBPiF5mHxmVFRhN4vDfwJZ10hwXy25G47pwJUxvwQi56p0BDMs0GY5kroFvjTCaBDZEch0ShVHlHJ+5U+x0ia4RmhzP3BVwRcooRg0u1wBOtUIVYG6Useh8aXNtkqs3G7yLhwmqAutP9USCy9o/yB4fQr//0xrKwLy0c44s/DAbIcxAlBeV4cTYau2nLB/0JqqJuD0lNkPz7Ok8tcFbrCJWjCqsuFyIvpxy0Z5fsY/bTnvYP8vqMb9OEFVh07LdOFv/RqpvLa5Nbp7UBndzfbrQGL7kvZccT5ziV1T5mm3E3JxKOeOT8rYDb+KoaL1yIrYhNPaUyu5nxEZhYoCKbZdWTxpoyhYt2DN6QklqMcjl0I8WrLDBnD0ttJuvVRZi6TarfI8GUWaneTXXjiArBAT8B3Xa6L5P9RDf/64cQcG02AVBu9H++ufFoYO+2wC/GfhbEfJUxQh8QQ9P0u+G0W8PUHjCwUA4X/zDu1Ge5OhHy0xLmLix5wqxdBACytqoZbZekHnHXNAvnK1IDnOoAqHN+Eaf5zxJcvrP0wc15E=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB7179.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(366004)(376002)(39860400002)(396003)(136003)(451199021)(5660300002)(8936002)(8676002)(2906002)(7406005)(316002)(83380400001)(7416002)(41300700001)(4326008)(2616005)(66556008)(66476007)(66946007)(38100700002)(86362001)(186003)(6512007)(478600001)(110136005)(26005)(54906003)(6506007)(6486002)(6666004)(36756003)(67856001);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5768
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT036.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: fd1f0f02-3364-4d49-33e0-08db7efe629e
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0ZCN/FX1TSrjTjFqtvPLRdT8mfqwiLkcofKjDcYBsdmKY2yNCoY4X4EoAT42KAAAnEgvG6bDRGmJo9PxZ+TNYdohHxOQObTEneH9Z+gnuKrAqz7i6B4T+Dmg9PL6GReTF1/kv9NNCTw50nnoe76qnd8WG2ovo1J3V5hx7Wegi2BJNalrUjy9+x1H03clBm+B5ewvAhYP4E8A9V2x3LCQ4yLaL7jyf838bvnHp2mI87LA5iuY/Z9pSf8DpnPy+ZoXwr+Vi8UgaorrUnhBElNzE9RBFju/nDfAa4VIFkZSDKXjm8PT/rEmeKpN38TytT+1oFTgxqqXWZZnTK3CZapkuChXlyYfmYMp5tQ+rx4N4zfDLXL+mf/pKHwCRQHwyGNjM3f+9hMFyKbE0NlO3t1pFrmrnP2phlWFgz5Teh5RzUCu6njd49n1CveO5s87+YbWS1XRlBGhmxvVe6RC4Xj3yfX9EmWkS6sLRRGp0+aoMOmt5Zg5FJP44bpfHxRRTvjrovdWgTOacSinD5Tv4q1Mvou9voWer5UyDHSjnMLmPx2CgiJ4ocwnxcMmvkuLlE5bMx7bXuX3rCGspn238atZ/MPdevwlJgz26kUTly6kKcApW2r/R+5naBD+w/FTS6v7LW16WzoUKNU2n3oZFkHi4HUO1EIu/uPtRJ5CYue5ntn01oWwLdNLjEuoKIFy7UdbB02oTDdWS8tBG/alsoR4sFyFFtB21xocfABRmdc8Q+pXEBQGtRkbuD/xBwha7splyqPCYgp9CRvVOqDfTVG7WA==
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(346002)(136003)(376002)(451199021)(36840700001)(46966006)(40470700004)(450100002)(70206006)(356005)(6506007)(4326008)(70586007)(82740400003)(2616005)(40480700001)(81166007)(86362001)(186003)(6666004)(6512007)(36756003)(26005)(110136005)(478600001)(107886003)(6486002)(40460700003)(82310400005)(54906003)(36860700001)(8936002)(8676002)(41300700001)(83380400001)(5660300002)(47076005)(2906002)(316002)(336012)(67856001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2023 15:25:33.9254
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97c33ce4-8878-44cd-8e16-08db7efe684a
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT036.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9390
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 07/06/2023 18:25, Edgecombe, Rick P wrote:
-> On Thu, 2023-07-06 at 14:07 +0100, szabolcs.nagy@arm.com wrote:
-> 
-> [ snip ]
-> > 
-> > instead of priority, i'd say "posix conform c apps work
-> > without change" is a benchmark i use to see if the design
-> > is sound.
-> 
-> This involves leaking shadow stacks for sigaltstack and makecontext,
-> though, right? This seems kind of wrong. It might be useful for
-> avoiding crashes at all costs, but probably shouldn't be the long term
-> solution. I thought your API updates were the right direction.
+The previous email address was abandoned due to some reasons by myself, and
+thus shift the email contents mentioned from the old email address
+(src.res@email.cn) to the current version (src.res.211@gmail.com).
 
-new apis are not enough.
+Signed-off-by: Hu Haowen <src.res.211@gmail.com>
+---
+ .../translations/zh_CN/dev-tools/testing-overview.rst     | 2 +-
+ Documentation/translations/zh_TW/IRQ.txt                  | 8 ++++----
+ Documentation/translations/zh_TW/admin-guide/README.rst   | 2 +-
+ .../translations/zh_TW/admin-guide/bug-bisect.rst         | 2 +-
+ .../translations/zh_TW/admin-guide/bug-hunting.rst        | 2 +-
+ .../translations/zh_TW/admin-guide/clearing-warn-once.rst | 2 +-
+ Documentation/translations/zh_TW/admin-guide/cpu-load.rst | 2 +-
+ Documentation/translations/zh_TW/admin-guide/index.rst    | 2 +-
+ Documentation/translations/zh_TW/admin-guide/init.rst     | 2 +-
+ .../translations/zh_TW/admin-guide/reporting-issues.rst   | 2 +-
+ .../translations/zh_TW/admin-guide/security-bugs.rst      | 2 +-
+ .../translations/zh_TW/admin-guide/tainted-kernels.rst    | 2 +-
+ Documentation/translations/zh_TW/admin-guide/unicode.rst  | 2 +-
+ Documentation/translations/zh_TW/arch/arm64/amu.rst       | 2 +-
+ Documentation/translations/zh_TW/arch/arm64/booting.txt   | 4 ++--
+ .../translations/zh_TW/arch/arm64/elf_hwcaps.rst          | 2 +-
+ .../translations/zh_TW/arch/arm64/hugetlbpage.rst         | 2 +-
+ Documentation/translations/zh_TW/arch/arm64/index.rst     | 2 +-
+ .../translations/zh_TW/arch/arm64/legacy_instructions.txt | 4 ++--
+ Documentation/translations/zh_TW/arch/arm64/memory.txt    | 4 ++--
+ Documentation/translations/zh_TW/arch/arm64/perf.rst      | 2 +-
+ .../translations/zh_TW/arch/arm64/silicon-errata.txt      | 4 ++--
+ .../translations/zh_TW/arch/arm64/tagged-pointers.txt     | 4 ++--
+ Documentation/translations/zh_TW/cpu-freq/core.rst        | 2 +-
+ Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst | 2 +-
+ .../translations/zh_TW/cpu-freq/cpufreq-stats.rst         | 2 +-
+ Documentation/translations/zh_TW/cpu-freq/index.rst       | 2 +-
+ Documentation/translations/zh_TW/disclaimer-zh_TW.rst     | 2 +-
+ Documentation/translations/zh_TW/filesystems/debugfs.rst  | 4 ++--
+ Documentation/translations/zh_TW/filesystems/index.rst    | 2 +-
+ Documentation/translations/zh_TW/filesystems/sysfs.txt    | 2 +-
+ Documentation/translations/zh_TW/filesystems/tmpfs.rst    | 2 +-
+ Documentation/translations/zh_TW/filesystems/virtiofs.rst | 2 +-
+ Documentation/translations/zh_TW/gpio.txt                 | 8 ++++----
+ Documentation/translations/zh_TW/index.rst                | 2 +-
+ Documentation/translations/zh_TW/io_ordering.txt          | 8 ++++----
+ Documentation/translations/zh_TW/process/1.Intro.rst      | 2 +-
+ Documentation/translations/zh_TW/process/2.Process.rst    | 2 +-
+ .../translations/zh_TW/process/3.Early-stage.rst          | 2 +-
+ Documentation/translations/zh_TW/process/4.Coding.rst     | 2 +-
+ Documentation/translations/zh_TW/process/5.Posting.rst    | 2 +-
+ .../translations/zh_TW/process/6.Followthrough.rst        | 2 +-
+ .../translations/zh_TW/process/7.AdvancedTopics.rst       | 2 +-
+ Documentation/translations/zh_TW/process/8.Conclusion.rst | 2 +-
+ .../zh_TW/process/code-of-conduct-interpretation.rst      | 2 +-
+ .../translations/zh_TW/process/code-of-conduct.rst        | 2 +-
+ Documentation/translations/zh_TW/process/coding-style.rst | 2 +-
+ .../translations/zh_TW/process/development-process.rst    | 2 +-
+ .../translations/zh_TW/process/email-clients.rst          | 2 +-
+ .../zh_TW/process/embargoed-hardware-issues.rst           | 2 +-
+ Documentation/translations/zh_TW/process/howto.rst        | 2 +-
+ Documentation/translations/zh_TW/process/index.rst        | 2 +-
+ .../zh_TW/process/kernel-driver-statement.rst             | 2 +-
+ .../zh_TW/process/kernel-enforcement-statement.rst        | 2 +-
+ .../translations/zh_TW/process/license-rules.rst          | 2 +-
+ Documentation/translations/zh_TW/process/magic-number.rst | 2 +-
+ .../translations/zh_TW/process/management-style.rst       | 2 +-
+ .../translations/zh_TW/process/programming-language.rst   | 2 +-
+ .../translations/zh_TW/process/stable-api-nonsense.rst    | 2 +-
+ .../translations/zh_TW/process/stable-kernel-rules.rst    | 2 +-
+ .../translations/zh_TW/process/submit-checklist.rst       | 2 +-
+ .../translations/zh_TW/process/submitting-patches.rst     | 2 +-
+ .../zh_TW/process/volatile-considered-harmful.rst         | 2 +-
+ Documentation/translations/zh_TW/sparse.txt               | 6 +++---
+ MAINTAINERS                                               | 2 +-
+ 65 files changed, 82 insertions(+), 82 deletions(-)
 
-existing apis either must do something reasonable or shstk must
-be disabled when that api is used (sigaltstack, makecontext).
-
-the disable does not really work as the apis are widely used
-and there is no 'disable shstk locally' it is viral when a
-widely used dependency is affected.
-
-so apis must do something reasonable. however there will be
-remaining issues and that will need new apis which can take
-a long time to transition to.
-
-> > one nasty case is shadow stack overflow handling, but i
-> > think i have a solution for that (not the nicest thing:
-> > it involves setting the top bit on the last entry on the
-> > shadow stack instead of adding a new entry to it. + a new
-> > syscall that can switch to this entry. i havent convinced
-> > myself about this yet).
-> 
-> There might be some complicated thing around storing the last shadow
-> stack entry into the shadow stack sigframe and restoring it on
-> sigreturn. Then writing a token from the kernel to where the saved
-> frame was to live there in the meantime.
-
-this only works if you jump from the alt stack to the overflowed
-stack, not if you jump somewhere else in between.
-
-this is a would be nice to solve but not the most important case.
-
-> 
-> But to me this whole search, restore and INCSSP thing is suspect at
-> this point though. We could also increase compatibility and performance
-> more simply, by adding kernel help, at the expense of security.
-
-what is the kernel help? (and security trade-off)
-
-and why is scan+restore+incssp suspect?
-
-the reasoning i've seen are
-
-- some ppl might not add restore token: sounds fine, it's already
-  ub to jump to such stack either way.
-
-- it is slow: please give an example where there is slowdown.
-  (the slowdown has to be larger than the call/ret overhead)
-
-- jump to overflowed shadow stack: i'm fairly sure this can be done
-  (but indeed complicated), and if that's not acceptable then not
-  supporting this case is better than not supporting reliable
-  crash handling (alt stack handler can overflow the shadow stack
-  and shadow stack overflow cannot be handled).
-
-> > slow longjmp is bad. (well longjmp is actually always slow
-> > in glibc because it sets the signalmask with a syscall, but
-> > there are other jump operations that don't do this and want
-> > to be fast so yes we want fast jump to be possible).
-> > 
-> > jumping up the shadow stack is at least linear time in the
-> > number of frames jumped over (which already sounds significant
-> > slowdown however this is amortized by the fact that the stack
-> > frames had to be created at some point and that is actually a
-> > lot more expensive because it involves write operations, so a
-> > zero cost jump will not do any asymptotic speedup compared to
-> > a linear cost jump as far as i can see.).
-> > 
-> > with my proposed solution the jump is still linear. (i know
-> > x86 incssp can jump many entries at a time and does not have
-> > to actually read and check the entries, but technically it's
-> > linear time too: you have to do at least one read per page to
-> > have the guardpage protection). this all looks fine to me
-> > even for extreme made up workloads.
-> 
-> Well I guess we are talking about hypothetical performance. But linear
-> time is still worse than O(1). And I thought longjmp() was supposed to
-> be an O(1) type thing.
-
-longjmp is not O(1) with your proposed abi.
-
-and i don't think linear time is worse than O(1) in this case.
-
-> Separate from all of this...now that all the constraints are clearer,
-> if you have changed your mind on whether this series is ready, could
-> you comment at the top of this thread something to that effect? I'm
-> imagining not many are reading so far down at this point.
-> 
-> For my part, I think we should go forward with what we have on the
-> kernel side, unless glibc/gcc developers would like to start by
-> deprecating the existing binaries. I just talked with HJ, and he has
-> not changed his plans around this. If anyone else in that community has
-> (Florian?), please speak up. But otherwise I think it's better to start
-> getting real world feedback and grow based on that.
-> 
-
-the x86 v1 abi tries to be compatible with existing unwinders.
-(are there other binaries that constrains v1? portable code
-should be fine as they rely on libc which we can still change)
-
-i will have to discuss the arm plan with the arm kernel devs.
-the ugly bit i want to avoid on arm is to have to reimplement
-unwind and jump ops to make alt shadow stack work in a v2 abi.
-
-i think the worse bit of the x86 v1 abi is that crash handlers
-don't work reliably (e.g. a crash on a tiny makecontext stack
-with the usual sigaltstack crash handler can unrecoverably fail
-during crash handling). i guess this can be somewhat mitigated
-by both linux and libc adding an extra page to the shadow stack
-size to guarantee that alt stack handlers with certain depth
-always work.
+diff --git a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+index af65e7e93c02..69e7e4cb2002 100644
+--- a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
++++ b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+@@ -3,7 +3,7 @@
+ .. include:: ../disclaimer-zh_CN.rst
+ 
+ :Original: Documentation/dev-tools/testing-overview.rst
+-:Translator: 胡皓文 Hu Haowen <src.res@email.cn>
++:Translator: 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ ============
+ 内核测试指南
+diff --git a/Documentation/translations/zh_TW/IRQ.txt b/Documentation/translations/zh_TW/IRQ.txt
+index 73d435a0d1e7..fd78ca720298 100644
+--- a/Documentation/translations/zh_TW/IRQ.txt
++++ b/Documentation/translations/zh_TW/IRQ.txt
+@@ -7,7 +7,7 @@ help.  Contact the Chinese maintainer if this translation is outdated
+ or if there is a problem with the translation.
+ 
+ Maintainer: Eric W. Biederman <ebiederman@xmission.com>
+-Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
++Traditional Chinese maintainer: Hu Haowen <src.res.211@gmail.com>
+ ---------------------------------------------------------------------
+ Documentation/core-api/irq/index.rst 的繁體中文翻譯
+ 
+@@ -16,9 +16,9 @@ Documentation/core-api/irq/index.rst 的繁體中文翻譯
+ 者翻譯存在問題，請聯繫繁體中文版維護者。
+ 
+ 英文版維護者： Eric W. Biederman <ebiederman@xmission.com>
+-繁體中文版維護者： 胡皓文 Hu Haowen <src.res@email.cn>
+-繁體中文版翻譯者： 胡皓文 Hu Haowen <src.res@email.cn>
+-繁體中文版校譯者： 胡皓文 Hu Haowen <src.res@email.cn>
++繁體中文版維護者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
++繁體中文版翻譯者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
++繁體中文版校譯者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/admin-guide/README.rst b/Documentation/translations/zh_TW/admin-guide/README.rst
+index 6ce97edbab37..7fc56e1e3348 100644
+--- a/Documentation/translations/zh_TW/admin-guide/README.rst
++++ b/Documentation/translations/zh_TW/admin-guide/README.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ Linux內核5.x版本 <http://kernel.org/>
+ =========================================
+diff --git a/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst b/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst
+index 41a39aebb8d6..b448dbf5ac87 100644
+--- a/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst
++++ b/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 二分（bisect）缺陷
+ +++++++++++++++++++
+diff --git a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
+index 4d813aec77d2..9a3de3bff5e7 100644
+--- a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
++++ b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 追蹤缺陷
+ =========
+diff --git a/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst b/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
+index bdc1a22046cf..bd0c08aab8ea 100644
+--- a/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
++++ b/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
+@@ -2,7 +2,7 @@
+ 
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+-:Translator: 胡皓文 Hu Haowen <src.res@email.cn>
++:Translator: 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 清除 WARN_ONCE
+ --------------
+diff --git a/Documentation/translations/zh_TW/admin-guide/cpu-load.rst b/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
+index be087cef1967..9e04aeac1a5c 100644
+--- a/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
++++ b/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
+@@ -2,7 +2,7 @@
+ 
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+-:Translator: 胡皓文 Hu Haowen <src.res@email.cn>
++:Translator: 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ ========
+ CPU 負載
+diff --git a/Documentation/translations/zh_TW/admin-guide/index.rst b/Documentation/translations/zh_TW/admin-guide/index.rst
+index 293c20245783..2804d619201d 100644
+--- a/Documentation/translations/zh_TW/admin-guide/index.rst
++++ b/Documentation/translations/zh_TW/admin-guide/index.rst
+@@ -3,7 +3,7 @@
+ .. include:: ../disclaimer-zh_TW.rst
+ 
+ :Original: :doc:`../../../admin-guide/index`
+-:Translator: 胡皓文 Hu Haowen <src.res@email.cn>
++:Translator: 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ Linux 內核用戶和管理員指南
+ ==========================
+diff --git a/Documentation/translations/zh_TW/admin-guide/init.rst b/Documentation/translations/zh_TW/admin-guide/init.rst
+index 32cdf134948f..db3fdf611080 100644
+--- a/Documentation/translations/zh_TW/admin-guide/init.rst
++++ b/Documentation/translations/zh_TW/admin-guide/init.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 解釋「No working init found.」啓動掛起消息
+ ==========================================
+diff --git a/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst b/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
+index 27638e199f13..ea51342879c0 100644
+--- a/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
++++ b/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
+@@ -16,7 +16,7 @@
+ :譯者:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 
+ 報告問題
+diff --git a/Documentation/translations/zh_TW/admin-guide/security-bugs.rst b/Documentation/translations/zh_TW/admin-guide/security-bugs.rst
+index 15f8e9005071..65c8dd24c96d 100644
+--- a/Documentation/translations/zh_TW/admin-guide/security-bugs.rst
++++ b/Documentation/translations/zh_TW/admin-guide/security-bugs.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 安全缺陷
+ =========
+diff --git a/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst b/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
+index d7b3c4276417..ebe3812ead82 100644
+--- a/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
++++ b/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 受汙染的內核
+ -------------
+diff --git a/Documentation/translations/zh_TW/admin-guide/unicode.rst b/Documentation/translations/zh_TW/admin-guide/unicode.rst
+index 720875be5ef8..7908b369b85b 100644
+--- a/Documentation/translations/zh_TW/admin-guide/unicode.rst
++++ b/Documentation/translations/zh_TW/admin-guide/unicode.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ Unicode（統一碼）支持
+ ======================
+diff --git a/Documentation/translations/zh_TW/arch/arm64/amu.rst b/Documentation/translations/zh_TW/arch/arm64/amu.rst
+index f947a6c7369f..21ac0db63889 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/amu.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/amu.rst
+@@ -5,7 +5,7 @@
+ :Original: :ref:`Documentation/arch/arm64/amu.rst <amu_index>`
+ 
+ Translator: Bailu Lin <bailu.lin@vivo.com>
+-            Hu Haowen <src.res@email.cn>
++            Hu Haowen <src.res.211@gmail.com>
+ 
+ ==================================
+ AArch64 Linux 中擴展的活動監控單元
+diff --git a/Documentation/translations/zh_TW/arch/arm64/booting.txt b/Documentation/translations/zh_TW/arch/arm64/booting.txt
+index 24817b8b70cd..3cc8f593e006 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/booting.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/booting.txt
+@@ -10,7 +10,7 @@ or if there is a problem with the translation.
+ 
+ M:	Will Deacon <will.deacon@arm.com>
+ zh_CN:	Fu Wei <wefu@redhat.com>
+-zh_TW:	Hu Haowen <src.res@email.cn>
++zh_TW:	Hu Haowen <src.res.211@gmail.com>
+ C:	55f058e7574c3615dea4615573a19bdb258696c6
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/booting.rst 的中文翻譯
+@@ -23,7 +23,7 @@ Documentation/arch/arm64/booting.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者： 胡皓文  Hu Haowen <src.res@email.cn>
++繁體中文版校譯者： 胡皓文  Hu Haowen <src.res.211@gmail.com>
+ 本文翻譯提交時的 Git 檢出點爲： 55f058e7574c3615dea4615573a19bdb258696c6
+ 
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst b/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
+index fca3c6ff7b93..ca7ff749a67b 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
+@@ -5,7 +5,7 @@
+ :Original: :ref:`Documentation/arch/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
+ 
+ Translator: Bailu Lin <bailu.lin@vivo.com>
+-            Hu Haowen <src.res@email.cn>
++            Hu Haowen <src.res.211@gmail.com>
+ 
+ ================
+ ARM64 ELF hwcaps
+diff --git a/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst b/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
+index 10feb329dfb8..a17858c978d6 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
+@@ -5,7 +5,7 @@
+ :Original: :ref:`Documentation/arch/arm64/hugetlbpage.rst <hugetlbpage_index>`
+ 
+ Translator: Bailu Lin <bailu.lin@vivo.com>
+-            Hu Haowen <src.res@email.cn>
++            Hu Haowen <src.res.211@gmail.com>
+ 
+ =====================
+ ARM64中的 HugeTLBpage
+diff --git a/Documentation/translations/zh_TW/arch/arm64/index.rst b/Documentation/translations/zh_TW/arch/arm64/index.rst
+index 68befee14b99..a62b5f06b66c 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/index.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/index.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :ref:`Documentation/arch/arm64/index.rst <arm64_index>`
+ :Translator: Bailu Lin <bailu.lin@vivo.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_arm64_index:
+ 
+diff --git a/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt b/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt
+index 3c915df9836c..c2d02cd5017d 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt
+@@ -11,7 +11,7 @@ or if there is a problem with the translation.
+ Maintainer: Punit Agrawal <punit.agrawal@arm.com>
+             Suzuki K. Poulose <suzuki.poulose@arm.com>
+ Chinese maintainer: Fu Wei <wefu@redhat.com>
+-Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
++Traditional Chinese maintainer: Hu Haowen <src.res.211@gmail.com>
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/legacy_instructions.rst 的中文翻譯
+ 
+@@ -26,7 +26,7 @@ Documentation/arch/arm64/legacy_instructions.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者：胡皓文  Hu Haowen <src.res@email.cn>
++繁體中文版校譯者：胡皓文  Hu Haowen <src.res.211@gmail.com>
+ 
+ 以下爲正文
+ ---------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/arch/arm64/memory.txt b/Documentation/translations/zh_TW/arch/arm64/memory.txt
+index 2437380a26d8..0280200e791f 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/memory.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/memory.txt
+@@ -10,7 +10,7 @@ or if there is a problem with the translation.
+ 
+ Maintainer: Catalin Marinas <catalin.marinas@arm.com>
+ Chinese maintainer: Fu Wei <wefu@redhat.com>
+-Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
++Traditional Chinese maintainer: Hu Haowen <src.res.211@gmail.com>
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/memory.rst 的中文翻譯
+ 
+@@ -24,7 +24,7 @@ Documentation/arch/arm64/memory.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者： 胡皓文  Hu Haowen <src.res@email.cn>
++繁體中文版校譯者： 胡皓文  Hu Haowen <src.res.211@gmail.com>
+ 
+ 以下爲正文
+ ---------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/arch/arm64/perf.rst b/Documentation/translations/zh_TW/arch/arm64/perf.rst
+index 3b39997a52eb..645f3944a0f4 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/perf.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/perf.rst
+@@ -5,7 +5,7 @@
+ :Original: :ref:`Documentation/arch/arm64/perf.rst <perf_index>`
+ 
+ Translator: Bailu Lin <bailu.lin@vivo.com>
+-            Hu Haowen <src.res@email.cn>
++            Hu Haowen <src.res.211@gmail.com>
+ 
+ =============
+ Perf 事件屬性
+diff --git a/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt b/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
+index 66c3a3506458..f6f41835a54a 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
+@@ -10,7 +10,7 @@ or if there is a problem with the translation.
+ 
+ M:	Will Deacon <will.deacon@arm.com>
+ zh_CN:	Fu Wei <wefu@redhat.com>
+-zh_TW:	Hu Haowen <src.res@email.cn>
++zh_TW:	Hu Haowen <src.res.211@gmail.com>
+ C:	1926e54f115725a9248d0c4c65c22acaf94de4c4
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/silicon-errata.rst 的中文翻譯
+@@ -23,7 +23,7 @@ Documentation/arch/arm64/silicon-errata.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者： 胡皓文  Hu Haowen <src.res@email.cn>
++繁體中文版校譯者： 胡皓文  Hu Haowen <src.res.211@gmail.com>
+ 本文翻譯提交時的 Git 檢出點爲： 1926e54f115725a9248d0c4c65c22acaf94de4c4
+ 
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt b/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt
+index b7f683f20ed1..c0be1d1e0d01 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt
+@@ -10,7 +10,7 @@ or if there is a problem with the translation.
+ 
+ Maintainer: Will Deacon <will.deacon@arm.com>
+ Chinese maintainer: Fu Wei <wefu@redhat.com>
+-Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
++Traditional Chinese maintainer: Hu Haowen <src.res.211@gmail.com>
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/tagged-pointers.rst 的中文翻譯
+ 
+@@ -22,7 +22,7 @@ Documentation/arch/arm64/tagged-pointers.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者： 胡皓文  Hu Haowen <src.res@email.cn>
++繁體中文版校譯者： 胡皓文  Hu Haowen <src.res.211@gmail.com>
+ 
+ 以下爲正文
+ ---------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/cpu-freq/core.rst b/Documentation/translations/zh_TW/cpu-freq/core.rst
+index 3d890c2f2a61..f1951e1b23bb 100644
+--- a/Documentation/translations/zh_TW/cpu-freq/core.rst
++++ b/Documentation/translations/zh_TW/cpu-freq/core.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :doc:`../../../cpu-freq/core`
+ :Translator: Yanteng Si <siyanteng@loongson.cn>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_core.rst:
+ 
+diff --git a/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst b/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
+index 2bb8197cd320..671b1bf0e2c5 100644
+--- a/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
++++ b/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :doc:`../../../cpu-freq/cpu-drivers`
+ :Translator: Yanteng Si <siyanteng@loongson.cn>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_cpu-drivers.rst:
+ 
+diff --git a/Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst b/Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst
+index d80bfed50e8c..49088becd5fa 100644
+--- a/Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst
++++ b/Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :doc:`../../../cpu-freq/cpufreq-stats`
+ :Translator: Yanteng Si <siyanteng@loongson.cn>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_cpufreq-stats.rst:
+ 
+diff --git a/Documentation/translations/zh_TW/cpu-freq/index.rst b/Documentation/translations/zh_TW/cpu-freq/index.rst
+index 1a8e680f95ed..c6cf825b57a5 100644
+--- a/Documentation/translations/zh_TW/cpu-freq/index.rst
++++ b/Documentation/translations/zh_TW/cpu-freq/index.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :doc:`../../../cpu-freq/index`
+ :Translator: Yanteng Si <siyanteng@loongson.cn>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_index.rst:
+ 
+diff --git a/Documentation/translations/zh_TW/disclaimer-zh_TW.rst b/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
+index f4cf87d03dc5..0d0ffb1ca4e8 100644
+--- a/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
++++ b/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
+@@ -7,5 +7,5 @@
+ 
+ .. note::
+      如果您發現本文檔與原始文件有任何不同或者有翻譯問題，請聯繫該文件的譯者，
+-     或者發送電子郵件給胡皓文以獲取幫助：<src.res@email.cn>。
++     或者發送電子郵件給胡皓文以獲取幫助：<src.res.211@gmail.com>。
+ 
+diff --git a/Documentation/translations/zh_TW/filesystems/debugfs.rst b/Documentation/translations/zh_TW/filesystems/debugfs.rst
+index 270dd94fddf1..ddf801943c92 100644
+--- a/Documentation/translations/zh_TW/filesystems/debugfs.rst
++++ b/Documentation/translations/zh_TW/filesystems/debugfs.rst
+@@ -14,12 +14,12 @@ Debugfs
+ 	中文版維護者：羅楚成 Chucheng Luo <luochucheng@vivo.com>
+ 	中文版翻譯者：羅楚成 Chucheng Luo <luochucheng@vivo.com>
+ 	中文版校譯者: 羅楚成 Chucheng Luo <luochucheng@vivo.com>
+-	繁體中文版校譯者: 胡皓文 Hu Haowen <src.res@email.cn>
++	繁體中文版校譯者: 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 
+ 
+ 版權所有2020 羅楚成 <luochucheng@vivo.com>
+-版權所有2021 胡皓文 Hu Haowen <src.res@email.cn>
++版權所有2021 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 
+ Debugfs是內核開發人員在用戶空間獲取信息的簡單方法。與/proc不同，proc只提供進程
+diff --git a/Documentation/translations/zh_TW/filesystems/index.rst b/Documentation/translations/zh_TW/filesystems/index.rst
+index 4e5dde0dca3c..789e742fa3c5 100644
+--- a/Documentation/translations/zh_TW/filesystems/index.rst
++++ b/Documentation/translations/zh_TW/filesystems/index.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :ref:`Documentation/filesystems/index.rst <filesystems_index>`
+ :Translator: Wang Wenhu <wenhu.wang@vivo.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_filesystems_index:
+ 
+diff --git a/Documentation/translations/zh_TW/filesystems/sysfs.txt b/Documentation/translations/zh_TW/filesystems/sysfs.txt
+index 280824cc7e5d..a84eba2af9d3 100644
+--- a/Documentation/translations/zh_TW/filesystems/sysfs.txt
++++ b/Documentation/translations/zh_TW/filesystems/sysfs.txt
+@@ -22,7 +22,7 @@ Documentation/filesystems/sysfs.rst 的中文翻譯
+ 中文版維護者： 傅煒 Fu Wei <tekkamanninja@gmail.com>
+ 中文版翻譯者： 傅煒 Fu Wei <tekkamanninja@gmail.com>
+ 中文版校譯者： 傅煒 Fu Wei <tekkamanninja@gmail.com>
+-繁體中文版校譯者：胡皓文 Hu Haowen <src.res@email.cn>
++繁體中文版校譯者：胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/filesystems/tmpfs.rst b/Documentation/translations/zh_TW/filesystems/tmpfs.rst
+index 8d753a34785b..2c8439b2b77e 100644
+--- a/Documentation/translations/zh_TW/filesystems/tmpfs.rst
++++ b/Documentation/translations/zh_TW/filesystems/tmpfs.rst
+@@ -5,7 +5,7 @@
+ :Original: Documentation/filesystems/tmpfs.rst
+ 
+ Translated by Wang Qing <wangqing@vivo.com>
+-and Hu Haowen <src.res@email.cn>
++and Hu Haowen <src.res.211@gmail.com>
+ 
+ =====
+ Tmpfs
+diff --git a/Documentation/translations/zh_TW/filesystems/virtiofs.rst b/Documentation/translations/zh_TW/filesystems/virtiofs.rst
+index 2b05e84375dd..086fce5839dd 100644
+--- a/Documentation/translations/zh_TW/filesystems/virtiofs.rst
++++ b/Documentation/translations/zh_TW/filesystems/virtiofs.rst
+@@ -11,7 +11,7 @@
+ 	中文版翻譯者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
+ 	中文版校譯者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
+ 	中文版校譯者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
+-	繁體中文版校譯者：胡皓文 Hu Haowen <src.res@email.cn>
++	繁體中文版校譯者：胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ ===========================================
+ virtiofs: virtio-fs 主機<->客機共享文件系統
+diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/translations/zh_TW/gpio.txt
+index b93788a2628b..555e4b11a5c7 100644
+--- a/Documentation/translations/zh_TW/gpio.txt
++++ b/Documentation/translations/zh_TW/gpio.txt
+@@ -8,7 +8,7 @@ or if there is a problem with the translation.
+ 
+ Maintainer: Grant Likely <grant.likely@secretlab.ca>
+ 		Linus Walleij <linus.walleij@linaro.org>
+-Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
++Traditional Chinese maintainer: Hu Haowen <src.res.211@gmail.com>
+ ---------------------------------------------------------------------
+ Documentation/admin-guide/gpio 的繁體中文翻譯
+ 
+@@ -18,9 +18,9 @@ Documentation/admin-guide/gpio 的繁體中文翻譯
+ 
+ 英文版維護者： Grant Likely <grant.likely@secretlab.ca>
+ 		Linus Walleij <linus.walleij@linaro.org>
+-繁體中文版維護者： 胡皓文 Hu Haowen <src.res@email.cn>
+-繁體中文版翻譯者： 胡皓文 Hu Haowen <src.res@email.cn>
+-繁體中文版校譯者： 胡皓文 Hu Haowen <src.res@email.cn>
++繁體中文版維護者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
++繁體中文版翻譯者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
++繁體中文版校譯者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 以下爲正文
+ ---------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
+index e7c83868e780..5e7e3b117b42 100644
+--- a/Documentation/translations/zh_TW/index.rst
++++ b/Documentation/translations/zh_TW/index.rst
+@@ -15,7 +15,7 @@
+ 
+ .. note::
+    內核文檔繁體中文版的翻譯工作正在進行中。如果您願意並且有時間參與這項工
+-   作，歡迎提交補丁給胡皓文 <src.res@email.cn>。
++   作，歡迎提交補丁給胡皓文 <src.res.211@gmail.com>。
+ 
+ 許可證文檔
+ ----------
+diff --git a/Documentation/translations/zh_TW/io_ordering.txt b/Documentation/translations/zh_TW/io_ordering.txt
+index 1e99206c8421..03f86840c139 100644
+--- a/Documentation/translations/zh_TW/io_ordering.txt
++++ b/Documentation/translations/zh_TW/io_ordering.txt
+@@ -6,7 +6,7 @@ communicating in English you can also ask the Chinese maintainer for
+ help.  Contact the Chinese maintainer if this translation is outdated
+ or if there is a problem with the translation.
+ 
+-Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
++Traditional Chinese maintainer: Hu Haowen <src.res.211@gmail.com>
+ ---------------------------------------------------------------------
+ Documentation/driver-api/io_ordering.rst 的繁體中文翻譯
+ 
+@@ -14,9 +14,9 @@ Documentation/driver-api/io_ordering.rst 的繁體中文翻譯
+ 交流有困難的話，也可以向繁體中文版維護者求助。如果本翻譯更新不及時或
+ 者翻譯存在問題，請聯繫繁體中文版維護者。
+ 
+-繁體中文版維護者： 胡皓文 Hu Haowen <src.res@email.cn>
+-繁體中文版翻譯者： 胡皓文 Hu Haowen <src.res@email.cn>
+-繁體中文版校譯者： 胡皓文 Hu Haowen <src.res@email.cn>
++繁體中文版維護者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
++繁體中文版翻譯者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
++繁體中文版校譯者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/process/1.Intro.rst b/Documentation/translations/zh_TW/process/1.Intro.rst
+index ca2b931be6c5..f236fe95a6c6 100644
+--- a/Documentation/translations/zh_TW/process/1.Intro.rst
++++ b/Documentation/translations/zh_TW/process/1.Intro.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_development_process_intro:
+ 
+diff --git a/Documentation/translations/zh_TW/process/2.Process.rst b/Documentation/translations/zh_TW/process/2.Process.rst
+index 9d465df1f6c3..17bb4e07d171 100644
+--- a/Documentation/translations/zh_TW/process/2.Process.rst
++++ b/Documentation/translations/zh_TW/process/2.Process.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_development_process:
+ 
+diff --git a/Documentation/translations/zh_TW/process/3.Early-stage.rst b/Documentation/translations/zh_TW/process/3.Early-stage.rst
+index 076873ca0905..636e506fd196 100644
+--- a/Documentation/translations/zh_TW/process/3.Early-stage.rst
++++ b/Documentation/translations/zh_TW/process/3.Early-stage.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_development_early_stage:
+ 
+diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
+index 7fc0344ed16b..adb5339aab6a 100644
+--- a/Documentation/translations/zh_TW/process/4.Coding.rst
++++ b/Documentation/translations/zh_TW/process/4.Coding.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_development_coding:
+ 
+diff --git a/Documentation/translations/zh_TW/process/5.Posting.rst b/Documentation/translations/zh_TW/process/5.Posting.rst
+index 280a8832ecc0..27015622ad63 100644
+--- a/Documentation/translations/zh_TW/process/5.Posting.rst
++++ b/Documentation/translations/zh_TW/process/5.Posting.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_development_posting:
+ 
+diff --git a/Documentation/translations/zh_TW/process/6.Followthrough.rst b/Documentation/translations/zh_TW/process/6.Followthrough.rst
+index 4af782742db3..5073b6e77c1c 100644
+--- a/Documentation/translations/zh_TW/process/6.Followthrough.rst
++++ b/Documentation/translations/zh_TW/process/6.Followthrough.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_development_followthrough:
+ 
+diff --git a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+index 4fbc104a37ca..2cbd16bfed29 100644
+--- a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
++++ b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_development_advancedtopics:
+ 
+diff --git a/Documentation/translations/zh_TW/process/8.Conclusion.rst b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+index 044fcc118bef..1207991d1570 100644
+--- a/Documentation/translations/zh_TW/process/8.Conclusion.rst
++++ b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+@@ -10,7 +10,7 @@
+ :校譯:
+ 
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <src.res@email.cn>
++ 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_development_conclusion:
+ 
+diff --git a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+index 949d831aaf6c..920bb0f36974 100644
+--- a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
++++ b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :ref:`Documentation/process/code-of-conduct-interpretation.rst <code_of_conduct_interpretation>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_code_of_conduct_interpretation:
+ 
+diff --git a/Documentation/translations/zh_TW/process/code-of-conduct.rst b/Documentation/translations/zh_TW/process/code-of-conduct.rst
+index 716e5843b6e9..e3087112f0bc 100644
+--- a/Documentation/translations/zh_TW/process/code-of-conduct.rst
++++ b/Documentation/translations/zh_TW/process/code-of-conduct.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :ref:`Documentation/process/code-of-conduct.rst <code_of_conduct>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_code_of_conduct:
+ 
+diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
+index 61e614aad6a7..83862e4d3b64 100644
+--- a/Documentation/translations/zh_TW/process/coding-style.rst
++++ b/Documentation/translations/zh_TW/process/coding-style.rst
+@@ -15,7 +15,7 @@
+                  管旭東 Xudong Guan <xudong.guan@gmail.com>
+                  Li Zefan <lizf@cn.fujitsu.com>
+                  Wang Chen <wangchen@cn.fujitsu.com>
+-                 Hu Haowen <src.res@email.cn>
++                 Hu Haowen <src.res.211@gmail.com>
+ 
+ Linux 內核代碼風格
+ =========================
+diff --git a/Documentation/translations/zh_TW/process/development-process.rst b/Documentation/translations/zh_TW/process/development-process.rst
+index 45e6385647cd..f4cf5c2bbc82 100644
+--- a/Documentation/translations/zh_TW/process/development-process.rst
++++ b/Documentation/translations/zh_TW/process/development-process.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :ref:`Documentation/process/development-process.rst <development_process_main>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_development_process_main:
+ 
+diff --git a/Documentation/translations/zh_TW/process/email-clients.rst b/Documentation/translations/zh_TW/process/email-clients.rst
+index 4ba543d06f3b..ae63e41d9cee 100644
+--- a/Documentation/translations/zh_TW/process/email-clients.rst
++++ b/Documentation/translations/zh_TW/process/email-clients.rst
+@@ -14,7 +14,7 @@
+         中文版校譯者： Yinglin Luan <synmyth@gmail.com>
+         	       Xiaochen Wang <wangxiaochen0@gmail.com>
+                        yaxinsn <yaxinsn@163.com>
+-                      Hu Haowen <src.res@email.cn>
++                      Hu Haowen <src.res.211@gmail.com>
+ 
+ Linux郵件客戶端配置信息
+ =======================
+diff --git a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+index fbde3e26eda5..8e4db8baa0d1 100644
+--- a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
++++ b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :ref:`Documentation/process/embargoed-hardware-issues.rst <embargoed_hardware_issues>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ 被限制的硬體問題
+ ================
+diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
+index ea2f468d3e58..306f5b77b4b8 100644
+--- a/Documentation/translations/zh_TW/process/howto.rst
++++ b/Documentation/translations/zh_TW/process/howto.rst
+@@ -16,7 +16,7 @@
+                    鍾宇  TripleX Chung <xxx.phy@gmail.com>
+                    陳琦  Maggie Chen <chenqi@beyondsoft.com>
+                    王聰  Wang Cong <xiyou.wangcong@gmail.com>
+-                   胡皓文 Hu Haowen <src.res@email.cn>
++                   胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 如何參與Linux內核開發
+ =====================
+diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
+index c5c59b4fd595..d742642dab01 100644
+--- a/Documentation/translations/zh_TW/process/index.rst
++++ b/Documentation/translations/zh_TW/process/index.rst
+@@ -9,7 +9,7 @@
+ 
+ :Original: :ref:`Documentation/process/index.rst <process_index>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_process_index:
+ 
+diff --git a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
+index 8f225379b12c..963ecece3db1 100644
+--- a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
++++ b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
+@@ -6,7 +6,7 @@
+ 
+ :Original: :ref:`Documentation/process/kernel-driver-statement.rst <process_statement_driver>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ 內核驅動聲明
+ ------------
+diff --git a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+index 99e21d22800d..2861f4a15721 100644
+--- a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
++++ b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+@@ -6,7 +6,7 @@
+ 
+ :Original: :ref:`Documentation/process/kernel-enforcement-statement.rst <process_statement_kernel>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ Linux 內核執行聲明
+ ------------------
+diff --git a/Documentation/translations/zh_TW/process/license-rules.rst b/Documentation/translations/zh_TW/process/license-rules.rst
+index ad2b80f97123..503b6701bde4 100644
+--- a/Documentation/translations/zh_TW/process/license-rules.rst
++++ b/Documentation/translations/zh_TW/process/license-rules.rst
+@@ -6,7 +6,7 @@
+ 
+ :Original: :ref:`Documentation/process/license-rules.rst <kernel_licensing>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_kernel_licensing:
+ 
+diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Documentation/translations/zh_TW/process/magic-number.rst
+index c9e3db12c3f9..5657d5cd18d4 100644
+--- a/Documentation/translations/zh_TW/process/magic-number.rst
++++ b/Documentation/translations/zh_TW/process/magic-number.rst
+@@ -12,7 +12,7 @@
+         中文版維護者： 賈威威 Jia Wei Wei <harryxiyou@gmail.com>
+         中文版翻譯者： 賈威威 Jia Wei Wei <harryxiyou@gmail.com>
+         中文版校譯者： 賈威威 Jia Wei Wei <harryxiyou@gmail.com>
+-                      胡皓文 Hu Haowen <src.res@email.cn>
++                      胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ Linux 魔術數
+ ============
+diff --git a/Documentation/translations/zh_TW/process/management-style.rst b/Documentation/translations/zh_TW/process/management-style.rst
+index dce248470063..e9d29024f4c9 100644
+--- a/Documentation/translations/zh_TW/process/management-style.rst
++++ b/Documentation/translations/zh_TW/process/management-style.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :ref:`Documentation/process/management-style.rst <managementstyle>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_managementstyle:
+ 
+diff --git a/Documentation/translations/zh_TW/process/programming-language.rst b/Documentation/translations/zh_TW/process/programming-language.rst
+index 144bdaf81a41..e33389676eed 100644
+--- a/Documentation/translations/zh_TW/process/programming-language.rst
++++ b/Documentation/translations/zh_TW/process/programming-language.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_programming_language:
+ 
+diff --git a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
+index 22caa5b8d422..33fc85c2cc51 100644
+--- a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
++++ b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
+@@ -12,7 +12,7 @@
+         中文版維護者： 鍾宇  TripleX Chung <xxx.phy@gmail.com>
+         中文版翻譯者： 鍾宇  TripleX Chung <xxx.phy@gmail.com>
+         中文版校譯者： 李陽  Li Yang <leoyang.li@nxp.com>
+-                      胡皓文 Hu Haowen <src.res@email.cn>
++                      胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ Linux 內核驅動接口
+ ==================
+diff --git a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+index 9bb0d9b4f3ac..29d9a70a1868 100644
+--- a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
++++ b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+@@ -15,7 +15,7 @@
+         中文版校譯者：
+             - 李陽  Li Yang <leoyang.li@nxp.com>
+             - Kangkai Yin <e12051@motorola.com>
+-            - 胡皓文 Hu Haowen <src.res@email.cn>
++            - 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 所有你想知道的事情 - 關於linux穩定版發布
+ ========================================
+diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
+index ff2f89cba83f..12bf6f5ca5c6 100644
+--- a/Documentation/translations/zh_TW/process/submit-checklist.rst
++++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
+@@ -4,7 +4,7 @@
+ 
+ :Original: :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <src.res@email.cn>
++             Hu Haowen <src.res.211@gmail.com>
+ 
+ .. _tw_submitchecklist:
+ 
+diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
+index 3f77ef5d48a0..0746809c31a2 100644
+--- a/Documentation/translations/zh_TW/process/submitting-patches.rst
++++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
+@@ -13,7 +13,7 @@
+                        時奎亮 Alex Shi <alex.shi@linux.alibaba.com>
+         中文版校譯者： 李陽 Li Yang <leoyang.li@nxp.com>
+                        王聰 Wang Cong <xiyou.wangcong@gmail.com>
+-                       胡皓文 Hu Haowen <src.res@email.cn>
++                       胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 
+ 如何讓你的改動進入內核
+diff --git a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
+index 097fe80352cb..469cb5b3a07c 100644
+--- a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
++++ b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
+@@ -17,7 +17,7 @@
+         中文版校譯者： 張漢輝  Eugene Teo <eugeneteo@kernel.sg>
+                        楊瑞  Dave Young <hidave.darkstar@gmail.com>
+                        時奎亮 Alex Shi <alex.shi@linux.alibaba.com>
+-                       胡皓文 Hu Haowen <src.res@email.cn>
++                       胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 爲什麼不應該使用「volatile」類型
+ ================================
+diff --git a/Documentation/translations/zh_TW/sparse.txt b/Documentation/translations/zh_TW/sparse.txt
+index c9acb2c926cb..56fb17fd1359 100644
+--- a/Documentation/translations/zh_TW/sparse.txt
++++ b/Documentation/translations/zh_TW/sparse.txt
+@@ -6,7 +6,7 @@ communicating in English you can also ask the Chinese maintainer for
+ help.  Contact the Chinese maintainer if this translation is outdated
+ or if there is a problem with the translation.
+ 
+-Traditional Chinese maintainer: Hu Haowen <src.res@email.cn>
++Traditional Chinese maintainer: Hu Haowen <src.res.211@gmail.com>
+ ---------------------------------------------------------------------
+ Documentation/dev-tools/sparse.rst 的繁體中文翻譯
+ 
+@@ -14,8 +14,8 @@ Documentation/dev-tools/sparse.rst 的繁體中文翻譯
+ 交流有困難的話，也可以向繁體中文版維護者求助。如果本翻譯更新不及時或
+ 者翻譯存在問題，請聯繫繁體中文版維護者。
+ 
+-繁體中文版維護者： 胡皓文 Hu Haowen <src.res@email.cn>
+-繁體中文版翻譯者： 胡皓文 Hu Haowen <src.res@email.cn>
++繁體中文版維護者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
++繁體中文版翻譯者： 胡皓文 Hu Haowen <src.res.211@gmail.com>
+ 
+ 以下爲正文
+ ---------------------------------------------------------------------
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0022277a9405..13e7ddf46cd4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21612,7 +21612,7 @@ F:	kernel/trace/trace_osnoise.c
+ F:	kernel/trace/trace_sched_wakeup.c
+ 
+ TRADITIONAL CHINESE DOCUMENTATION
+-M:	Hu Haowen <src.res@email.cn>
++M:	Hu Haowen <src.res.211@gmail.com>
+ L:	linux-doc-tw-discuss@lists.sourceforge.net (moderated for non-subscribers)
+ S:	Maintained
+ W:	https://github.com/srcres258/linux-doc
+-- 
+2.34.1
 
