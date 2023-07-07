@@ -2,48 +2,48 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B5CEB64D9
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 10:53:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD4BEB64D9
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 10:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232277AbjGGKxO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 06:53:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52502 "EHLO
+        id S232989AbjGGK6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jul 2023 06:58:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232904AbjGGKxK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 06:53:10 -0400
+        with ESMTP id S232033AbjGGK61 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 06:58:27 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0E919A5;
-        Fri,  7 Jul 2023 03:53:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C02422106;
+        Fri,  7 Jul 2023 03:58:04 -0700 (PDT)
 Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3675mDOi006007;
-        Fri, 7 Jul 2023 10:53:00 GMT
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3679Ssr1021472;
+        Fri, 7 Jul 2023 10:57:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=KtfkCOnIAXvYTY8NXlpZbf3tZAVETmZLz4XrH0WvJrk=;
- b=Q34raBANEaLo1s5FDGCQvV8PqYhh1JATCGBZGjCKJSJfVFb7LNztRW8iVVYJ9JZ8SqKR
- loFRt0EN2zy8ezC5NMp7NVHFM1IAzwpf0RYqUchiSga0U6IQ038rDyL+6iI8gBOrj33h
- LoKAJ7E/xDrYFkHMDvOxn+NQ69nUxa3FrqBY2RPN08V2IdLfgOGd+cY9ZxP5K0BND5SL
- UhSU0Q9+dHF0t61a/YDgQpUb5XTp7IF7JtjTOVFcRRj6pNcN4Ao8BJRgdAHv48OA7qLJ
- yijAGr2t2/gyS/bl6Pv7WgHAQjuTz/gA50rjql1qrifymCjoZrUI/RSNTQayTD5yJBBt Vg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rp8a61a2d-1
+ bh=UUVBmJ02m1gkv2ywHlVMc6gGdkGzIntuYpbF9eOzEGk=;
+ b=OxzeQLj4lWZy3YGjEdMhA9X01gZXIDtZT/531+VB/rcNS2Aq/Xpi4l5ta31dbJF5lFkp
+ dc9A572y/m0SqegNiPU/dlGEznTLMUec5/8RFoZJ2AzctX90QRC5kfG/+dKseHMdHZBt
+ 4Slckh6KMqlN+vQyTJAo4rJyQ96PeIfxfQZanJLF4NEy4Zrkwt8soVwZJ294GSvUgxBi
+ UDZOjD3lt2eM8UUrmuEFrgl2lXE4q1JfjoO+RJMQaFjOrUr0Vap2sCCX1IDSizF/qkeb
+ v4E4jv+ATBSE0/zu7NgKTzSM2NFH/LQ6g/7cZ8M4kGq9m08cuy8KG0wFdlo6zBBQU0hd JA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rp8a61ak7-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 07 Jul 2023 10:53:00 +0000
+        Fri, 07 Jul 2023 10:57:57 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 367Aqw1O030665
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 367AvtqD009459
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 7 Jul 2023 10:52:58 GMT
+        Fri, 7 Jul 2023 10:57:55 GMT
 Received: from [10.216.29.164] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 7 Jul
- 2023 03:52:52 -0700
-Message-ID: <a5360f12-1687-d03e-6ba4-0f6e487905d5@quicinc.com>
-Date:   Fri, 7 Jul 2023 16:22:49 +0530
+ 2023 03:57:48 -0700
+Message-ID: <b5f01c70-14dc-7b7d-ddc9-2d9594f2a4f9@quicinc.com>
+Date:   Fri, 7 Jul 2023 16:27:45 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.1
-Subject: Re: [PATCH v2 1/8] PCI: endpoint: Add dstate change notifier support
+Subject: Re: [PATCH v2 4/8] PCI: endpoint: Add wakeup host API to EPC core
 Content-Language: en-US
 To:     Manivannan Sadhasivam <mani@kernel.org>
 CC:     <manivannan.sadhasivam@linaro.org>, <helgaas@kernel.org>,
@@ -58,24 +58,24 @@ CC:     <manivannan.sadhasivam@linaro.org>, <helgaas@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 References: <1688122331-25478-1-git-send-email-quic_krichai@quicinc.com>
- <1688122331-25478-2-git-send-email-quic_krichai@quicinc.com>
- <20230707054454.GA6001@thinkpad>
+ <1688122331-25478-5-git-send-email-quic_krichai@quicinc.com>
+ <20230707060425.GD6001@thinkpad>
 From:   Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
-In-Reply-To: <20230707054454.GA6001@thinkpad>
+In-Reply-To: <20230707060425.GD6001@thinkpad>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: N47EQJ3tPGMFEGeA0bYaakmohATvqppz
-X-Proofpoint-GUID: N47EQJ3tPGMFEGeA0bYaakmohATvqppz
+X-Proofpoint-ORIG-GUID: r28KXvkpjlDyfYagl9FBEdZR_TPt0rcy
+X-Proofpoint-GUID: r28KXvkpjlDyfYagl9FBEdZR_TPt0rcy
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-07_06,2023-07-06_02,2023-05-22_02
+ definitions=2023-07-07_07,2023-07-06_02,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- suspectscore=0 clxscore=1015 phishscore=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 clxscore=1015 phishscore=0 mlxlogscore=902 bulkscore=0
  spamscore=0 impostorscore=0 mlxscore=0 adultscore=0 malwarescore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2305260000 definitions=main-2307070099
@@ -84,106 +84,153 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 7/7/2023 11:14 AM, Manivannan Sadhasivam wrote:
-> On Fri, Jun 30, 2023 at 04:22:04PM +0530, Krishna chaitanya chundru wrote:
->> Add support to notify the EPF device about the D-state change event
->> from the EPC device.
+On 7/7/2023 11:34 AM, Manivannan Sadhasivam wrote:
+> On Fri, Jun 30, 2023 at 04:22:07PM +0530, Krishna chaitanya chundru wrote:
+>> Endpoint cannot send any data/MSI when the D-state is in
+>> D3cold or D3hot. Endpoint needs to bring the host back to D0
+> Endpoint needs to wake up the host to bring the D-state to D0
+>
+>> to send any kind of data.
 >>
+>> Endpoint can toggle wake signal when the D-state is in D3cold and vaux is
+>> not supplied or can send inband PME.
+>>
+>> To support this adding wake up host to epc core.
+>>
+> "add wakeup_host() callback to the EPC core".
+>
+>
 >> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
 >> ---
->>   Documentation/PCI/endpoint/pci-endpoint.rst |  5 +++++
->>   drivers/pci/endpoint/pci-epc-core.c         | 27 +++++++++++++++++++++++++++
->>   include/linux/pci-epc.h                     |  1 +
->>   include/linux/pci-epf.h                     |  1 +
->>   4 files changed, 34 insertions(+)
+>>   Documentation/PCI/endpoint/pci-endpoint.rst |  6 ++++++
+>>   drivers/pci/endpoint/pci-epc-core.c         | 31 +++++++++++++++++++++++++++++
+>>   include/linux/pci-epc.h                     | 11 ++++++++++
+>>   3 files changed, 48 insertions(+)
 >>
 >> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
->> index 4f5622a..0538cdc 100644
+>> index 0538cdc..186ce3b 100644
 >> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
 >> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
->> @@ -78,6 +78,11 @@ by the PCI controller driver.
->>      Cleanup the pci_epc_mem structure allocated during pci_epc_mem_init().
+>> @@ -53,6 +53,7 @@ by the PCI controller driver.
+>>   	 * raise_irq: ops to raise a legacy, MSI or MSI-X interrupt
+>>   	 * start: ops to start the PCI link
+>>   	 * stop: ops to stop the PCI link
+>> +	 * wakeup_host: ops to wake host
+> wakeup
+>
 >>   
+>>      The PCI controller driver can then create a new EPC device by invoking
+>>      devm_pci_epc_create()/pci_epc_create().
+>> @@ -122,6 +123,11 @@ by the PCI endpoint function driver.
+>>      The PCI endpoint function driver should use pci_epc_mem_free_addr() to
+>>      free the memory space allocated using pci_epc_mem_alloc_addr().
 >>   
->> +* pci_epc_dstate_change()
+>> +* pci_epc_wakeup_host()
 >> +
->> +   In order to notify all the function devices that the EPC device has
->> +   changed its D-state.
+>> +   The PCI endpoint function driver should use pci_epc_wakeup_host() to wake
+> wakeup
+>
+>> +   host.
 >> +
->>   EPC APIs for the PCI Endpoint Function Driver
->>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>   Other EPC APIs
+>>   ~~~~~~~~~~~~~~
 >>   
 >> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
->> index 6c54fa5..cad360f 100644
+>> index cad360f..23599b8 100644
 >> --- a/drivers/pci/endpoint/pci-epc-core.c
 >> +++ b/drivers/pci/endpoint/pci-epc-core.c
->> @@ -785,6 +785,33 @@ void pci_epc_bme_notify(struct pci_epc *epc)
->>   EXPORT_SYMBOL_GPL(pci_epc_bme_notify);
+>> @@ -167,6 +167,37 @@ const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
+>>   EXPORT_SYMBOL_GPL(pci_epc_get_features);
 >>   
 >>   /**
->> + * pci_epc_dstate_change() - Notify the EPF device that EPC device D-state
->> + *			has changed
->> + * @epc: the EPC device which has change in D-state
->> + * @state: the changed D-state
->> + *
->> + * Invoke to Notify the EPF device that the EPC device has D-state has
->> + * changed.
->> + */
->> +void pci_epc_dstate_change(struct pci_epc *epc, pci_power_t state)
-> How about "pci_epc_dstate_notity()"?
+>> + * pci_epc_wakeup_host() - Wakeup the host
+>> + * @epc: the EPC device which has to wake the host
+> wakeup
 >
-> Rest looks good.
+>> + * @func_no: the physical endpoint function number in the EPC device
+>> + * @vfunc_no: the virtual endpoint function number in the physical function
+>> + * @type: specify the type of wakeup: WAKEUP_FROM_D3COLD, WAKEUP_FROM_D3HOT
+>> + *
+>> + * Invoke to wakeup host
+>> + */
+>> +int pci_epc_wakeup_host(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>> +			enum pci_epc_wakeup_host_type type)
+> Why can't you use a bool?
 >
 > - Mani
 
-sure I will change to pci_epc_dstate_notity
+Sure I will change it to bool as suggested.
 
--KC
+- KC
 
 >
 >> +{
->> +	struct pci_epf *epf;
+>> +	int ret;
 >> +
->> +	if (!epc || IS_ERR(epc))
->> +		return;
+>> +	if (IS_ERR_OR_NULL(epc) || func_no >= epc->max_functions)
+>> +		return -EINVAL;
 >> +
->> +	mutex_lock(&epc->list_lock);
->> +	list_for_each_entry(epf, &epc->pci_epf, list) {
->> +		mutex_lock(&epf->lock);
->> +		if (epf->event_ops && epf->event_ops->dstate_change)
->> +			epf->event_ops->dstate_change(epf, state);
->> +		mutex_unlock(&epf->lock);
->> +	}
->> +	mutex_unlock(&epc->list_lock);
+>> +	if (vfunc_no > 0 && (!epc->max_vfs || vfunc_no > epc->max_vfs[func_no]))
+>> +		return -EINVAL;
+>> +
+>> +	if (!epc->ops->wakeup_host)
+>> +		return 0;
+>> +
+>> +	mutex_lock(&epc->lock);
+>> +	ret = epc->ops->wakeup_host(epc, func_no, vfunc_no, type);
+>> +	mutex_unlock(&epc->lock);
+>> +
+>> +	return ret;
 >> +}
->> +EXPORT_SYMBOL_GPL(pci_epc_dstate_change);
+>> +EXPORT_SYMBOL_GPL(pci_epc_wakeup_host);
 >> +
 >> +/**
->>    * pci_epc_destroy() - destroy the EPC device
->>    * @epc: the EPC device that has to be destroyed
+>>    * pci_epc_stop() - stop the PCI link
+>>    * @epc: the link of the EPC device that has to be stopped
 >>    *
 >> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
->> index 5cb6940..26a1108 100644
+>> index 26a1108..2323a10 100644
 >> --- a/include/linux/pci-epc.h
 >> +++ b/include/linux/pci-epc.h
->> @@ -251,4 +251,5 @@ void __iomem *pci_epc_mem_alloc_addr(struct pci_epc *epc,
->>   				     phys_addr_t *phys_addr, size_t size);
->>   void pci_epc_mem_free_addr(struct pci_epc *epc, phys_addr_t phys_addr,
->>   			   void __iomem *virt_addr, size_t size);
->> +void pci_epc_dstate_change(struct pci_epc *epc, pci_power_t state);
->>   #endif /* __LINUX_PCI_EPC_H */
->> diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
->> index 4b52807..1d3c2a2 100644
->> --- a/include/linux/pci-epf.h
->> +++ b/include/linux/pci-epf.h
->> @@ -79,6 +79,7 @@ struct pci_epc_event_ops {
->>   	int (*link_up)(struct pci_epf *epf);
->>   	int (*link_down)(struct pci_epf *epf);
->>   	int (*bme)(struct pci_epf *epf);
->> +	int (*dstate_change)(struct pci_epf *epf, pci_power_t state);
+>> @@ -26,6 +26,12 @@ enum pci_epc_irq_type {
+>>   	PCI_EPC_IRQ_MSIX,
 >>   };
 >>   
->>   /**
+>> +enum pci_epc_wakeup_host_type {
+>> +	PCI_WAKEUP_UNKNOWN,
+>> +	PCI_WAKEUP_SEND_PME,
+>> +	PCI_WAKEUP_TOGGLE_WAKE,
+>> +};
+>> +
+>>   static inline const char *
+>>   pci_epc_interface_string(enum pci_epc_interface_type type)
+>>   {
+>> @@ -59,6 +65,7 @@ pci_epc_interface_string(enum pci_epc_interface_type type)
+>>    * @start: ops to start the PCI link
+>>    * @stop: ops to stop the PCI link
+>>    * @get_features: ops to get the features supported by the EPC
+>> + * @wakeup_host: ops to wakeup the host
+>>    * @owner: the module owner containing the ops
+>>    */
+>>   struct pci_epc_ops {
+>> @@ -88,6 +95,8 @@ struct pci_epc_ops {
+>>   	void	(*stop)(struct pci_epc *epc);
+>>   	const struct pci_epc_features* (*get_features)(struct pci_epc *epc,
+>>   						       u8 func_no, u8 vfunc_no);
+>> +	int	(*wakeup_host)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>> +				enum pci_epc_wakeup_host_type type);
+>>   	struct module *owner;
+>>   };
+>>   
+>> @@ -234,6 +243,8 @@ int pci_epc_start(struct pci_epc *epc);
+>>   void pci_epc_stop(struct pci_epc *epc);
+>>   const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
+>>   						    u8 func_no, u8 vfunc_no);
+>> +int pci_epc_wakeup_host(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>> +					enum pci_epc_wakeup_host_type type);
+>>   enum pci_barno
+>>   pci_epc_get_first_free_bar(const struct pci_epc_features *epc_features);
+>>   enum pci_barno pci_epc_get_next_free_bar(const struct pci_epc_features
 >> -- 
 >> 2.7.4
 >>
