@@ -2,143 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2BEBEB64D9
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 11:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EAF9EB64D9
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 11:04:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231334AbjGGLAU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 07:00:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57514 "EHLO
+        id S229631AbjGGLEO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jul 2023 07:04:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232881AbjGGLAR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 07:00:17 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 458D71994;
-        Fri,  7 Jul 2023 04:00:16 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id E12D96606FCD;
-        Fri,  7 Jul 2023 12:00:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1688727614;
-        bh=loLGVRQqyArFuNBoSNIhMt6M/KC703SMKl35YJuaCrw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BSRQYXK9Sa3nNwKV4rG0/26Z/hJlhwYBkBDf6C+G2yFkYL25cMFO6WEMv+ks4S13W
-         KxviaaSG8QoCtljRNYygCPaisghYahAVHCA8NuTGMWNk9gxoH2GWL6ivC+i44BMjez
-         iX1a5g/H8Rh3OqcRMDNzrC2XPIhsvuTDhmjhD3fny8TbKyG4TmZiwA/72h179h66y4
-         dtgc3tqCHOJEuD0ebZ/HNT234/vo8p2wCNZDwj/UTCl0USSkmLTUFeK44mk+J1ogIt
-         dZq20bRuqgHT78/tWinzHW276jjSpZCmpEFN9Od+q2c6+727fCX36J2vMXWt/xv0N/
-         DN6kts+12TpuQ==
-Date:   Fri, 7 Jul 2023 13:00:10 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Danilo Krummrich <dakr@redhat.com>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
-        bskeggs@redhat.com, Liam.Howlett@oracle.com,
-        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
-        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Donald Robson <donald.robson@imgtec.com>,
-        Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-next v6 02/13] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <20230707130010.1bd5d41b@collabora.com>
-In-Reply-To: <20230629222651.3196-3-dakr@redhat.com>
-References: <20230629222651.3196-1-dakr@redhat.com>
-        <20230629222651.3196-3-dakr@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229460AbjGGLEN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 07:04:13 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496B2FF;
+        Fri,  7 Jul 2023 04:04:12 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36766l7f026321;
+        Fri, 7 Jul 2023 11:04:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=qcppdkim1;
+ bh=1DTdMrzLKr0yyzqfvIKYaB8YU3KPbZ9q75yXg4kY8ig=;
+ b=IuZVDy+f8GmaBG3OHwc9CfwJPoZoXJgkxqMWTG62HzKjxd2IPetnGS8oklx/6+2dTjl2
+ bpOO5LhLcCyp1GlBaeSl8c1DFCcNXN7q46kP/yjwiU4+rpvqBD3F7QEi3Yc/jqKE1j1D
+ H88GOktIpkYE72cvvAwJYkFM5lQLIncKS2v8H7UjCgMVbSEfXKRbbBAIWga/ZK04Blct
+ wljYyIjrtu3D3/bm7mHTOfHLMeMekOWkIsynArCGmxVlhbOAnLRvLS+iIqgiSfhPvtS+
+ yVEsZZ9OKqNq9MllqQXalBo2SdCrBbzNopavtlP1Jzi1rNXCmYHFRb7vfcFq75NNetwE lQ== 
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rpcxnrv0f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 07 Jul 2023 11:04:03 +0000
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 367B3xAg022730;
+        Fri, 7 Jul 2023 11:04:00 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3rjd7kq58a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 07 Jul 2023 11:04:00 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 367B3xU9022717;
+        Fri, 7 Jul 2023 11:03:59 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-krichai-hyd.qualcomm.com [10.213.110.112])
+        by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 367B3xGO022712;
+        Fri, 07 Jul 2023 11:03:59 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 4058933)
+        id D465046E6; Fri,  7 Jul 2023 16:33:58 +0530 (+0530)
+From:   Krishna chaitanya chundru <quic_krichai@quicinc.com>
+To:     manivannan.sadhasivam@linaro.org
+Cc:     helgaas@kernel.org, linux-pci@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        quic_vbadigan@quicinc.com, quic_nitegupt@quicinc.com,
+        quic_skananth@quicinc.com, quic_ramkri@quicinc.com,
+        krzysztof.kozlowski@linaro.org,
+        Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH v3 1/9] PCI: endpoint: Add dstate change notifier support
+Date:   Fri,  7 Jul 2023 16:33:48 +0530
+Message-Id: <1688727836-11141-2-git-send-email-quic_krichai@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1688727836-11141-1-git-send-email-quic_krichai@quicinc.com>
+References: <1688727836-11141-1-git-send-email-quic_krichai@quicinc.com>
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: QhRhWs6JeRGt2pyoA9knF1cflKLlOtzj
+X-Proofpoint-ORIG-GUID: QhRhWs6JeRGt2pyoA9knF1cflKLlOtzj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-07_07,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ suspectscore=0 mlxlogscore=828 adultscore=0 clxscore=1015 mlxscore=0
+ bulkscore=0 spamscore=0 impostorscore=0 phishscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307070102
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 30 Jun 2023 00:25:18 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+Add support to notify the EPF device about the D-state change event
+from the EPC device.
 
-> +/**
-> + * drm_gpuva_for_each_va_range - iternator to walk over a range of &drm_gpuvas
-> + * @va__: &drm_gpuva structure to assign to in each iteration step
-> + * @mgr__: &drm_gpuva_manager to walk over
-> + * @start__: starting offset, the first gpuva will overlap this
-> + * @end__: ending offset, the last gpuva will start before this (but may
-> + * overlap)
-> + *
-> + * This iterator walks over all &drm_gpuvas in the &drm_gpuva_manager that lie
-> + * between @start__ and @end__. It is implemented similarly to list_for_each(),
-> + * but is using the &drm_gpuva_manager's internal interval tree to accelerate
-> + * the search for the starting &drm_gpuva, and hence isn't safe against removal
-> + * of elements. It assumes that @end__ is within (or is the upper limit of) the
-> + * &drm_gpuva_manager. This iterator does not skip over the &drm_gpuva_manager's
-> + * @kernel_alloc_node.
-> + */
-> +#define drm_gpuva_for_each_va_range(va__, mgr__, start__, end__) \
-> +	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__)); \
+Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+---
+ Documentation/PCI/endpoint/pci-endpoint.rst |  5 +++++
+ drivers/pci/endpoint/pci-epc-core.c         | 27 +++++++++++++++++++++++++++
+ include/linux/pci-epc.h                     |  1 +
+ include/linux/pci-epf.h                     |  1 +
+ 4 files changed, 34 insertions(+)
 
-drm_gpuva_find_first() takes the range size as its last argument, not
-the range end:
+diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
+index 4f5622a..3a54713 100644
+--- a/Documentation/PCI/endpoint/pci-endpoint.rst
++++ b/Documentation/PCI/endpoint/pci-endpoint.rst
+@@ -78,6 +78,11 @@ by the PCI controller driver.
+    Cleanup the pci_epc_mem structure allocated during pci_epc_mem_init().
+ 
+ 
++* pci_epc_dstate_notity()
++
++   In order to notify all the function devices that the EPC device has
++   changed its D-state.
++
+ EPC APIs for the PCI Endpoint Function Driver
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+index 6c54fa5..ea76baf 100644
+--- a/drivers/pci/endpoint/pci-epc-core.c
++++ b/drivers/pci/endpoint/pci-epc-core.c
+@@ -785,6 +785,33 @@ void pci_epc_bme_notify(struct pci_epc *epc)
+ EXPORT_SYMBOL_GPL(pci_epc_bme_notify);
+ 
+ /**
++ * pci_epc_dstate_notity() - Notify the EPF device that EPC device D-state
++ *			has changed
++ * @epc: the EPC device which has change in D-state
++ * @state: the changed D-state
++ *
++ * Invoke to Notify the EPF device that the EPC device has D-state has
++ * changed.
++ */
++void pci_epc_dstate_notity(struct pci_epc *epc, pci_power_t state)
++{
++	struct pci_epf *epf;
++
++	if (!epc || IS_ERR(epc))
++		return;
++
++	mutex_lock(&epc->list_lock);
++	list_for_each_entry(epf, &epc->pci_epf, list) {
++		mutex_lock(&epf->lock);
++		if (epf->event_ops && epf->event_ops->dstate_notify)
++			epf->event_ops->dstate_notify(epf, state);
++		mutex_unlock(&epf->lock);
++	}
++	mutex_unlock(&epc->list_lock);
++}
++EXPORT_SYMBOL_GPL(pci_epc_dstate_notity);
++
++/**
+  * pci_epc_destroy() - destroy the EPC device
+  * @epc: the EPC device that has to be destroyed
+  *
+diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+index 5cb6940..26a1108 100644
+--- a/include/linux/pci-epc.h
++++ b/include/linux/pci-epc.h
+@@ -251,4 +251,5 @@ void __iomem *pci_epc_mem_alloc_addr(struct pci_epc *epc,
+ 				     phys_addr_t *phys_addr, size_t size);
+ void pci_epc_mem_free_addr(struct pci_epc *epc, phys_addr_t phys_addr,
+ 			   void __iomem *virt_addr, size_t size);
++void pci_epc_dstate_change(struct pci_epc *epc, pci_power_t state);
+ #endif /* __LINUX_PCI_EPC_H */
+diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
+index 3f44b6a..529075b 100644
+--- a/include/linux/pci-epf.h
++++ b/include/linux/pci-epf.h
+@@ -79,6 +79,7 @@ struct pci_epc_event_ops {
+ 	int (*link_up)(struct pci_epf *epf);
+ 	int (*link_down)(struct pci_epf *epf);
+ 	int (*bme)(struct pci_epf *epf);
++	int (*dstate_notify)(struct pci_epf *epf, pci_power_t state);
+ };
+ 
+ /**
+-- 
+2.7.4
 
-	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__) - (start__)); \
-
-
-> +	     va__ && (va__->va.addr < (end__)) && \
-> +	     !list_entry_is_head(va__, &(mgr__)->rb.list, rb.entry); \
-> +	     va__ = list_next_entry(va__, rb.entry))
-
-If you define:
-
-static inline struct drm_gpuva *
-drm_gpuva_next(struct drm_gpuva *va)
-{
-	if (va && !list_is_last(&va->rb.entry, &va->mgr->rb.list))
-		return list_next_entry(va, rb.entry);
-
-	return NULL;
-}
-
-the for loop becomes a bit more readable:
-
-	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__) - (start__)); \
-	     va__ && (va__->va.addr < (end__)); \
-	     va__ = drm_gpuva_next(va__))
-
-> +
-> +/**
-> + * drm_gpuva_for_each_va_range_safe - iternator to safely walk over a range of
-> + * &drm_gpuvas
-> + * @va__: &drm_gpuva to assign to in each iteration step
-> + * @next__: another &drm_gpuva to use as temporary storage
-> + * @mgr__: &drm_gpuva_manager to walk over
-> + * @start__: starting offset, the first gpuva will overlap this
-> + * @end__: ending offset, the last gpuva will start before this (but may
-> + * overlap)
-> + *
-> + * This iterator walks over all &drm_gpuvas in the &drm_gpuva_manager that lie
-> + * between @start__ and @end__. It is implemented similarly to
-> + * list_for_each_safe(), but is using the &drm_gpuva_manager's internal interval
-> + * tree to accelerate the search for the starting &drm_gpuva, and hence is safe
-> + * against removal of elements. It assumes that @end__ is within (or is the
-> + * upper limit of) the &drm_gpuva_manager. This iterator does not skip over the
-> + * &drm_gpuva_manager's @kernel_alloc_node.
-> + */
-> +#define drm_gpuva_for_each_va_range_safe(va__, next__, mgr__, start__, end__) \
-> +	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__)), \
-> +	     next__ = va ? list_next_entry(va__, rb.entry) : NULL; \
-> +	     va__ && (va__->va.addr < (end__)) && \
-> +	     !list_entry_is_head(va__, &(mgr__)->rb.list, rb.entry); \
-> +	     va__ = next__, next__ = list_next_entry(va__, rb.entry))
-
-And this is the safe version using the drm_gpuva_next() helper:
-
-	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__) - (start__)), \
-	     next__ = drm_gpuva_next(va__); \
-	     va__ && (va__->va.addr < (end__)); \
-	     va__ = next__, next__ = drm_gpuva_next(va__))
-
-Those changes fixed an invalid pointer access I had in the sm_unmap()
-path.
