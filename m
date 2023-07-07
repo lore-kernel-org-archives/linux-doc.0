@@ -2,247 +2,95 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BB4C001B0
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 21:56:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 850AFEB64D9
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 23:10:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233024AbjGGV4f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 17:56:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44658 "EHLO
+        id S229914AbjGGXKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jul 2023 19:10:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232910AbjGGV4X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 17:56:23 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A79426B7
-        for <linux-doc@vger.kernel.org>; Fri,  7 Jul 2023 14:55:59 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-56cf9a86277so26729027b3.3
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jul 2023 14:55:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1688766958; x=1691358958;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vNyM+7c0est1wcVkLGeYyWS2zFzaKr32nANrKlDiGpI=;
-        b=OMdpoDHVwHWGjrcqQJPsCz18MHB25H0LJo2nJDpMTFaEBMMVUhi44V1ldpofEQheC0
-         m4JfYqAGr/gmOByQh659ri0DTCXPUN3wq0q9Y61OTOaapOrMdiNoHQh6afOT6Th9pdol
-         6+Ht5/zRVaIIhULOylK6yhUyyPHER4k+z45bkpq2bwwXlhD5GQG21YfPfmVH3RloLN6w
-         wtstq9y90K39zITeLzb/scB5M7A5pCo8nSgwdCQYNkCCv8K/hLgyaE+soykDU5ln1WLL
-         7xsIGId5npFZRXxs0JphIddyCoDPMBn40haDcCt74ON/WBh0oWvk/3GCiN3vTTt9Y71N
-         aqMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688766958; x=1691358958;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vNyM+7c0est1wcVkLGeYyWS2zFzaKr32nANrKlDiGpI=;
-        b=LudGRV4A3laej8G2j6CwuOMfBSoxwjBWnpx8OZaLNPqCG/JWq0v8RBfnK/jALJkRr2
-         Juq9H8ufj0RI1aZ5wVc4OoQJ4tModaE9IPgtmyKYK7a3aJg6yq1lzm8JUn+Jr3MjJ3Nb
-         yBZiYg799Jw3OecbDAAy5/PazNN6WlqidPHFAS0RChMLGWA3wYGHkTVjOikeM/l0LByn
-         ueV9k3/Q1bvM3eh1l1mnsAF2osa4ROcGnRxIOzgzeSqa9pylhxxMpeDSQ1NXcNscCnc4
-         BOiURmAJ46aFCB+BYM8X/X15dLXIpmQ1BegUubDtm+wLtPf/TGUnyH4m9ohyzHxNRNS4
-         pe+A==
-X-Gm-Message-State: ABy/qLZu4zLrNwKhLofAlmWLVvekZYkrdR17wSPEGe2P7O3XyS/ok1Uy
-        T7mI/G93og4Y2d+xF5HDSrqtyxgs9rnfCZt+Qe4Y
-X-Google-Smtp-Source: APBJJlEkVp64R6YyNIYgkWWJLixkffDfIZz5S4mpdabnKl15q3RW7laRRo2Y50RlxbwI2hpdw7ztg2lX8JH5LcyqTH+L
-X-Received: from axel.svl.corp.google.com ([2620:15c:2a3:200:c201:5125:39d1:ef3f])
- (user=axelrasmussen job=sendgmr) by 2002:a81:b3c3:0:b0:569:e04a:239d with
- SMTP id r186-20020a81b3c3000000b00569e04a239dmr45939ywh.0.1688766958488; Fri,
- 07 Jul 2023 14:55:58 -0700 (PDT)
-Date:   Fri,  7 Jul 2023 14:55:40 -0700
-In-Reply-To: <20230707215540.2324998-1-axelrasmussen@google.com>
-Mime-Version: 1.0
-References: <20230707215540.2324998-1-axelrasmussen@google.com>
-X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
-Message-ID: <20230707215540.2324998-9-axelrasmussen@google.com>
-Subject: [PATCH v4 8/8] selftests/mm: add uffd unit test for UFFDIO_POISON
-From:   Axel Rasmussen <axelrasmussen@google.com>
-To:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        James Houghton <jthoughton@google.com>,
-        "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
-        Jiaqi Yan <jiaqiyan@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Nadav Amit <namit@vmware.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Peter Xu <peterx@redhat.com>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "T.J. Alumbaugh" <talumbau@google.com>,
-        Yu Zhao <yuzhao@google.com>,
-        ZhangPeng <zhangpeng362@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Axel Rasmussen <axelrasmussen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229471AbjGGXKx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 19:10:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9D9E1FEC;
+        Fri,  7 Jul 2023 16:10:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E8F861ABC;
+        Fri,  7 Jul 2023 23:10:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65D18C433C8;
+        Fri,  7 Jul 2023 23:10:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688771451;
+        bh=epNAr2DDyGPShAjRJk+xhNsNY5DucIhhIQhO0oT11n4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=YOzvootFxD46KcjzgYrtI2oxMbaSldAb75HMTQdUCLpDzul5OTrFWcH1CGmcfMwBZ
+         pbZeyIc4tkoY4udUKoiIop3n+IDcu23uzomggPH8iypEASs8GGNDc49LwAQcqpkKM8
+         JtUUXhU7QsMuvPokTSfZC3iegHb/9l2EAAml232xt1rZuqHg6E1LppiKm3ZrWivA3m
+         6hIHpF1F9sux+gOVX8BlTagqYkOUPl4ZLwoKiy583hM6eu4M+VsVt9Cp49f9D4Z1m2
+         oVXmTvzq6qG7C6ui8Iih9aWdTpmemfvTrrq6iJBx/vGJsQp1ts+F2ZpeIaGxrD2GSj
+         YOviVzQzXjLFg==
+Date:   Fri, 7 Jul 2023 16:10:50 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Breno Leitao <leitao@debian.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, sergey.senozhatsky@gmail.com,
+        pmladek@suse.com, tj@kernel.org, stephen@networkplumber.org,
+        Dave Jones <davej@codemonkey.org.uk>,
+        netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH v2] netconsole: Append kernel version to message
+Message-ID: <20230707161050.61ec46a8@kernel.org>
+In-Reply-To: <20230707132911.2033870-1-leitao@debian.org>
+References: <20230707132911.2033870-1-leitao@debian.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The test is pretty basic, and exercises UFFDIO_POISON straightforwardly.
-We register a region with userfaultfd, in missing fault mode. For each
-fault, we either UFFDIO_COPY a zeroed page (odd pages) or UFFDIO_POISON
-(even pages). We do this mix to test "something like a real use case",
-where guest memory would be some mix of poisoned and non-poisoned pages.
+On Fri,  7 Jul 2023 06:29:11 -0700 Breno Leitao wrote:
+> Create a new netconsole runtime option that prepends the kernel version in
+> the netconsole message. This is useful to map kernel messages to kernel
+> version in a simple way, i.e., without checking somewhere which kernel
+> version the host that sent the message is using.
+> 
+> If this option is selected, then the "<release>," is prepended before the
+> netconsole message. This is an example of a netconsole output, with
+> release feature enabled:
+> 
+> 	6.4.0-01762-ga1ba2ffe946e;12,426,112883998,-;this is a test
+> 
+> Calvin Owens send a RFC about this problem in 2016[1], but his
+> approach was a bit more intrusive, changing the printk subsystem. This
+> approach is lighter, and just append the information in the last mile,
+> just before netconsole push the message to netpoll.
+> 
+> [1] Link: https://lore.kernel.org/all/51047c0f6e86abcb9ee13f60653b6946f8fcfc99.1463172791.git.calvinowens@fb.com/
+> 
+> Cc: Dave Jones <davej@codemonkey.org.uk>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-We read each page in the region, and assert that the odd pages are
-zeroed as expected, and the even pages yield a SIGBUS as expected.
+Looks good! net-next is closed for the duration of the merge window 
+so you'll need to repost next week, and please put [PATCH net-next v3]
+as the subject prefix while at it.
 
-Why UFFDIO_COPY instead of UFFDIO_ZEROPAGE? Because hugetlb doesn't
-support UFFDIO_ZEROPAGE, and we don't want to have special case code.
+> @@ -332,6 +350,11 @@ static ssize_t enabled_store(struct config_item *item,
+>  	}
+>  
+>  	if (enabled) {	/* true */
+> +		if (nt->release && !nt->extended) {
+> +			pr_err("release feature requires extended log message\n");
+> +			goto out_unlock;
+> +		}
 
-Acked-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
----
- tools/testing/selftests/mm/uffd-unit-tests.c | 117 +++++++++++++++++++
- 1 file changed, 117 insertions(+)
-
-diff --git a/tools/testing/selftests/mm/uffd-unit-tests.c b/tools/testing/selftests/mm/uffd-unit-tests.c
-index 04d91f144d1c..2709a34a39c5 100644
---- a/tools/testing/selftests/mm/uffd-unit-tests.c
-+++ b/tools/testing/selftests/mm/uffd-unit-tests.c
-@@ -951,6 +951,117 @@ static void uffd_zeropage_test(uffd_test_args_t *args)
- 	uffd_test_pass();
- }
- 
-+static void uffd_register_poison(int uffd, void *addr, uint64_t len)
-+{
-+	uint64_t ioctls = 0;
-+	uint64_t expected = (1 << _UFFDIO_COPY) | (1 << _UFFDIO_POISON);
-+
-+	if (uffd_register_with_ioctls(uffd, addr, len, true,
-+				      false, false, &ioctls))
-+		err("poison register fail");
-+
-+	if ((ioctls & expected) != expected)
-+		err("registered area doesn't support COPY and POISON ioctls");
-+}
-+
-+static void do_uffdio_poison(int uffd, unsigned long offset)
-+{
-+	struct uffdio_poison uffdio_poison = { 0 };
-+	int ret;
-+	__s64 res;
-+
-+	uffdio_poison.range.start = (unsigned long) area_dst + offset;
-+	uffdio_poison.range.len = page_size;
-+	uffdio_poison.mode = 0;
-+	ret = ioctl(uffd, UFFDIO_POISON, &uffdio_poison);
-+	res = uffdio_poison.updated;
-+
-+	if (ret)
-+		err("UFFDIO_POISON error: %"PRId64, (int64_t)res);
-+	else if (res != page_size)
-+		err("UFFDIO_POISON unexpected size: %"PRId64, (int64_t)res);
-+}
-+
-+static void uffd_poison_handle_fault(
-+	struct uffd_msg *msg, struct uffd_args *args)
-+{
-+	unsigned long offset;
-+
-+	if (msg->event != UFFD_EVENT_PAGEFAULT)
-+		err("unexpected msg event %u", msg->event);
-+
-+	if (msg->arg.pagefault.flags &
-+	    (UFFD_PAGEFAULT_FLAG_WP | UFFD_PAGEFAULT_FLAG_MINOR))
-+		err("unexpected fault type %llu", msg->arg.pagefault.flags);
-+
-+	offset = (char *)(unsigned long)msg->arg.pagefault.address - area_dst;
-+	offset &= ~(page_size-1);
-+
-+	/* Odd pages -> copy zeroed page; even pages -> poison. */
-+	if (offset & page_size)
-+		copy_page(uffd, offset, false);
-+	else
-+		do_uffdio_poison(uffd, offset);
-+}
-+
-+static void uffd_poison_test(uffd_test_args_t *targs)
-+{
-+	pthread_t uffd_mon;
-+	char c;
-+	struct uffd_args args = { 0 };
-+	struct sigaction act = { 0 };
-+	unsigned long nr_sigbus = 0;
-+	unsigned long nr;
-+
-+	fcntl(uffd, F_SETFL, uffd_flags | O_NONBLOCK);
-+
-+	uffd_register_poison(uffd, area_dst, nr_pages * page_size);
-+	memset(area_src, 0, nr_pages * page_size);
-+
-+	args.handle_fault = uffd_poison_handle_fault;
-+	if (pthread_create(&uffd_mon, NULL, uffd_poll_thread, &args))
-+		err("uffd_poll_thread create");
-+
-+	sigbuf = &jbuf;
-+	act.sa_sigaction = sighndl;
-+	act.sa_flags = SA_SIGINFO;
-+	if (sigaction(SIGBUS, &act, 0))
-+		err("sigaction");
-+
-+	for (nr = 0; nr < nr_pages; ++nr) {
-+		unsigned long offset = nr * page_size;
-+		const char *bytes = (const char *) area_dst + offset;
-+		const char *i;
-+
-+		if (sigsetjmp(*sigbuf, 1)) {
-+			/*
-+			 * Access below triggered a SIGBUS, which was caught by
-+			 * sighndl, which then jumped here. Count this SIGBUS,
-+			 * and move on to next page.
-+			 */
-+			++nr_sigbus;
-+			continue;
-+		}
-+
-+		for (i = bytes; i < bytes + page_size; ++i) {
-+			if (*i)
-+				err("nonzero byte in area_dst (%p) at %p: %u",
-+				    area_dst, i, *i);
-+		}
-+	}
-+
-+	if (write(pipefd[1], &c, sizeof(c)) != sizeof(c))
-+		err("pipe write");
-+	if (pthread_join(uffd_mon, NULL))
-+		err("pthread_join()");
-+
-+	if (nr_sigbus != nr_pages / 2)
-+		err("expected to receive %lu SIGBUS, actually received %lu",
-+		    nr_pages / 2, nr_sigbus);
-+
-+	uffd_test_pass();
-+}
-+
- /*
-  * Test the returned uffdio_register.ioctls with different register modes.
-  * Note that _UFFDIO_ZEROPAGE is tested separately in the zeropage test.
-@@ -1126,6 +1237,12 @@ uffd_test_case_t uffd_tests[] = {
- 		UFFD_FEATURE_PAGEFAULT_FLAG_WP |
- 		UFFD_FEATURE_WP_HUGETLBFS_SHMEM,
- 	},
-+	{
-+		.name = "poison",
-+		.uffd_fn = uffd_poison_test,
-+		.mem_targets = MEM_ALL,
-+		.uffd_feature_required = UFFD_FEATURE_POISON,
-+	},
- };
- 
- static void usage(const char *prog)
--- 
-2.41.0.255.g8b1d071c50-goog
-
+This is the only bit that gave me pause - when parsing the command line
+you ignore release if extended is not set (with an error/warning).
+Does it make sense to be consistent and do the same thing here? 
+Or enabling at runtime is fundamentally different?
