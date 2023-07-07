@@ -2,321 +2,188 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C78BEB64D9
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 07:58:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B5CEB64D9
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 10:53:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232344AbjGGH6E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 03:58:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43134 "EHLO
+        id S232277AbjGGKxO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jul 2023 06:53:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232775AbjGGH6A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 03:58:00 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56332E70;
-        Fri,  7 Jul 2023 00:57:59 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0A0326606FC2;
-        Fri,  7 Jul 2023 08:57:57 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1688716677;
-        bh=wpCN2MraqfrjwJNiynUV8KannPzTI4X03gyxmC+JkbM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Bln0ofoSbwYZi76ZLY/bi4m1Bkkzy6uV7ZhtDIUIdW2k9uufm+y6h1EL3aR4tIAnP
-         b6GiA+LpLHHcig2xie60TXlwPFdAVbTOujWjaLdpgqcDhpmksI9aAGLjWAFXnG64i6
-         ZrQwM8aDpMKX8/pBfcQ4gYKzUcJcs5D/hRls41mnOIPqygGF/gkS6Z0pizbTQYIFhu
-         2Ay3jTeJP1UIfJFJWs/Ue8rfV8sC3U1ZA8/PrqWvuJMqzRdmqajtb5emwIbxJVpxhb
-         lyivE4xprOkWk3r7sUAvd60nManAiGZTRGPnuD8KFP38A0YdIKVh3+7/UBYbASRRDe
-         zI+gYJRGHcaUQ==
-Date:   Fri, 7 Jul 2023 09:57:54 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Danilo Krummrich <dakr@redhat.com>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
-        bskeggs@redhat.com, Liam.Howlett@oracle.com,
-        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
-        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Donald Robson <donald.robson@imgtec.com>,
-        Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-next v6 02/13] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <20230707095754.5d365f8e@collabora.com>
-In-Reply-To: <20230706202642.4cbc7227@collabora.com>
-References: <20230629222651.3196-1-dakr@redhat.com>
-        <20230629222651.3196-3-dakr@redhat.com>
-        <20230706202642.4cbc7227@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        with ESMTP id S232904AbjGGKxK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 06:53:10 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0E919A5;
+        Fri,  7 Jul 2023 03:53:08 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3675mDOi006007;
+        Fri, 7 Jul 2023 10:53:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=KtfkCOnIAXvYTY8NXlpZbf3tZAVETmZLz4XrH0WvJrk=;
+ b=Q34raBANEaLo1s5FDGCQvV8PqYhh1JATCGBZGjCKJSJfVFb7LNztRW8iVVYJ9JZ8SqKR
+ loFRt0EN2zy8ezC5NMp7NVHFM1IAzwpf0RYqUchiSga0U6IQ038rDyL+6iI8gBOrj33h
+ LoKAJ7E/xDrYFkHMDvOxn+NQ69nUxa3FrqBY2RPN08V2IdLfgOGd+cY9ZxP5K0BND5SL
+ UhSU0Q9+dHF0t61a/YDgQpUb5XTp7IF7JtjTOVFcRRj6pNcN4Ao8BJRgdAHv48OA7qLJ
+ yijAGr2t2/gyS/bl6Pv7WgHAQjuTz/gA50rjql1qrifymCjoZrUI/RSNTQayTD5yJBBt Vg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rp8a61a2d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 07 Jul 2023 10:53:00 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 367Aqw1O030665
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 7 Jul 2023 10:52:58 GMT
+Received: from [10.216.29.164] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 7 Jul
+ 2023 03:52:52 -0700
+Message-ID: <a5360f12-1687-d03e-6ba4-0f6e487905d5@quicinc.com>
+Date:   Fri, 7 Jul 2023 16:22:49 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2 1/8] PCI: endpoint: Add dstate change notifier support
+Content-Language: en-US
+To:     Manivannan Sadhasivam <mani@kernel.org>
+CC:     <manivannan.sadhasivam@linaro.org>, <helgaas@kernel.org>,
+        <linux-pci@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_vbadigan@quicinc.com>,
+        <quic_nitegupt@quicinc.com>, <quic_skananth@quicinc.com>,
+        <quic_ramkri@quicinc.com>, <krzysztof.kozlowski@linaro.org>,
+        "Lorenzo Pieralisi" <lpieralisi@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <1688122331-25478-1-git-send-email-quic_krichai@quicinc.com>
+ <1688122331-25478-2-git-send-email-quic_krichai@quicinc.com>
+ <20230707054454.GA6001@thinkpad>
+From:   Krishna Chaitanya Chundru <quic_krichai@quicinc.com>
+In-Reply-To: <20230707054454.GA6001@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: N47EQJ3tPGMFEGeA0bYaakmohATvqppz
+X-Proofpoint-GUID: N47EQJ3tPGMFEGeA0bYaakmohATvqppz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-07_06,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ suspectscore=0 clxscore=1015 phishscore=0 mlxlogscore=999 bulkscore=0
+ spamscore=0 impostorscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307070099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 6 Jul 2023 20:26:42 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-> On Fri, 30 Jun 2023 00:25:18 +0200
-> Danilo Krummrich <dakr@redhat.com> wrote:
-> 
-> > +#ifdef CONFIG_LOCKDEP
-> > +typedef struct lockdep_map *lockdep_map_p;
-> > +#define drm_gpuva_manager_ext_assert_held(mgr)		\
-> > +	lockdep_assert(lock_is_held((mgr)->ext_lock) != LOCK_STATE_NOT_HELD)
-> > +/**
-> > + * drm_gpuva_manager_set_ext_lock - set the external lock according to
-> > + * @DRM_GPUVA_MANAGER_LOCK_EXTERN
-> > + * @mgr: the &drm_gpuva_manager to set the lock for
-> > + * @lock: the lock to set
-> > + *
-> > + * If @DRM_GPUVA_MANAGER_LOCK_EXTERN is set, drivers need to call this function
-> > + * to provide the lock used to lock linking and unlinking of &drm_gpuvas to the
-> > + * &drm_gem_objects GPUVA list.
-> > + */
-> > +#define drm_gpuva_manager_set_ext_lock(mgr, lock)	\
-> > +	(mgr)->ext_lock = &(lock)->dep_map  
-> 
-> Okay, so, IIUC, this is the lock protecting the GEM's active mappings
-> list, meaning the lock is likely to be attached to the GEM object. Are
-> we expected to call drm_gpuva_manager_set_ext_lock() every time we call
-> drm_gpuva_[un]link(), or are we supposed to have some lock at the
-> device level serializing all drm_gpuva_[un]link() calls across VMs? The
-> later doesn't sound like a good option to me, and the former feels a bit
-> weird. I'm wondering if we shouldn't just drop this assert_held() check
-> when DRM_GPUVA_MANAGER_LOCK_EXTERN is set. Alternatively, we could say
-> that any driver wanting to use a custom lock (which is basically all
-> drivers modifying the VA space asynchronously in the ::run_job() path)
-> has to provide its own variant of drm_gpuva_[un]link() (maybe with its
-> own VA list too), which doesn't sound like a good idea either.
+On 7/7/2023 11:14 AM, Manivannan Sadhasivam wrote:
+> On Fri, Jun 30, 2023 at 04:22:04PM +0530, Krishna chaitanya chundru wrote:
+>> Add support to notify the EPF device about the D-state change event
+>> from the EPC device.
+>>
+>> Signed-off-by: Krishna chaitanya chundru <quic_krichai@quicinc.com>
+>> ---
+>>   Documentation/PCI/endpoint/pci-endpoint.rst |  5 +++++
+>>   drivers/pci/endpoint/pci-epc-core.c         | 27 +++++++++++++++++++++++++++
+>>   include/linux/pci-epc.h                     |  1 +
+>>   include/linux/pci-epf.h                     |  1 +
+>>   4 files changed, 34 insertions(+)
+>>
+>> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
+>> index 4f5622a..0538cdc 100644
+>> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
+>> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
+>> @@ -78,6 +78,11 @@ by the PCI controller driver.
+>>      Cleanup the pci_epc_mem structure allocated during pci_epc_mem_init().
+>>   
+>>   
+>> +* pci_epc_dstate_change()
+>> +
+>> +   In order to notify all the function devices that the EPC device has
+>> +   changed its D-state.
+>> +
+>>   EPC APIs for the PCI Endpoint Function Driver
+>>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>   
+>> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
+>> index 6c54fa5..cad360f 100644
+>> --- a/drivers/pci/endpoint/pci-epc-core.c
+>> +++ b/drivers/pci/endpoint/pci-epc-core.c
+>> @@ -785,6 +785,33 @@ void pci_epc_bme_notify(struct pci_epc *epc)
+>>   EXPORT_SYMBOL_GPL(pci_epc_bme_notify);
+>>   
+>>   /**
+>> + * pci_epc_dstate_change() - Notify the EPF device that EPC device D-state
+>> + *			has changed
+>> + * @epc: the EPC device which has change in D-state
+>> + * @state: the changed D-state
+>> + *
+>> + * Invoke to Notify the EPF device that the EPC device has D-state has
+>> + * changed.
+>> + */
+>> +void pci_epc_dstate_change(struct pci_epc *epc, pci_power_t state)
+> How about "pci_epc_dstate_notity()"?
+>
+> Rest looks good.
+>
+> - Mani
 
-Or we could just attach the dep_map to drm_gem_object::gpuva::lock, and
-let drivers overload the default lock in their GEM creation function if
-they want to use a custom lock (see the following diff).
+sure I will change to pci_epc_dstate_notity
 
----
+-KC
 
-diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mgr.c
-index e47747f22126..6427c88c22ba 100644
---- a/drivers/gpu/drm/drm_gpuva_mgr.c
-+++ b/drivers/gpu/drm/drm_gpuva_mgr.c
-@@ -675,8 +675,7 @@ drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
- 		       const char *name,
- 		       u64 start_offset, u64 range,
- 		       u64 reserve_offset, u64 reserve_range,
--		       const struct drm_gpuva_fn_ops *ops,
--		       enum drm_gpuva_manager_flags flags)
-+		       const struct drm_gpuva_fn_ops *ops)
- {
- 	mgr->rb.tree = RB_ROOT_CACHED;
- 	INIT_LIST_HEAD(&mgr->rb.list);
-@@ -686,7 +685,6 @@ drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
- 	mgr->mm_range = range;
- 
- 	mgr->name = name ? name : "unknown";
--	mgr->flags = flags;
- 	mgr->ops = ops;
- 
- 	memset(&mgr->kernel_alloc_node, 0, sizeof(struct drm_gpuva));
-@@ -822,16 +820,12 @@ EXPORT_SYMBOL(drm_gpuva_remove);
- void
- drm_gpuva_link(struct drm_gpuva *va)
- {
--	struct drm_gpuva_manager *mgr = va->mgr;
- 	struct drm_gem_object *obj = va->gem.obj;
- 
- 	if (unlikely(!obj))
- 		return;
- 
--	if (drm_gpuva_manager_external_lock(mgr))
--		drm_gpuva_manager_ext_assert_held(mgr);
--	else
--		dma_resv_assert_held(obj->resv);
-+	drm_gem_gpuva_assert_lock_held(obj);
- 
- 	list_add_tail(&va->gem.entry, &obj->gpuva.list);
- }
-@@ -850,16 +844,12 @@ EXPORT_SYMBOL(drm_gpuva_link);
- void
- drm_gpuva_unlink(struct drm_gpuva *va)
- {
--	struct drm_gpuva_manager *mgr = va->mgr;
- 	struct drm_gem_object *obj = va->gem.obj;
- 
- 	if (unlikely(!obj))
- 		return;
- 
--	if (drm_gpuva_manager_external_lock(mgr))
--		drm_gpuva_manager_ext_assert_held(mgr);
--	else
--		dma_resv_assert_held(obj->resv);
-+	drm_gem_gpuva_assert_lock_held(obj);
- 
- 	list_del_init(&va->gem.entry);
- }
-@@ -1680,10 +1670,7 @@ drm_gpuva_gem_unmap_ops_create(struct drm_gpuva_manager *mgr,
- 	struct drm_gpuva *va;
- 	int ret;
- 
--	if (drm_gpuva_manager_external_lock(mgr))
--		drm_gpuva_manager_ext_assert_held(mgr);
--	else
--		dma_resv_assert_held(obj->resv);
-+	drm_gem_gpuva_assert_lock_held(obj);
- 
- 	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
- 	if (!ops)
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 5ec8148a30ee..572d7a538324 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -387,10 +387,14 @@ struct drm_gem_object {
- 	 * Provides the list of GPU VAs attached to this GEM object.
- 	 *
- 	 * Drivers should lock list accesses with the GEMs &dma_resv lock
--	 * (&drm_gem_object.resv).
-+	 * (&drm_gem_object.resv) or a custom lock if one is provided.
- 	 */
- 	struct {
- 		struct list_head list;
-+
-+#ifdef CONFIG_LOCKDEP
-+		struct lockdep_map *lock_dep_map;
-+#endif
- 	} gpuva;
- 
- 	/**
-@@ -540,6 +544,26 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
- 
- int drm_gem_evict(struct drm_gem_object *obj);
- 
-+#ifdef CONFIG_LOCKDEP
-+/*
-+ * drm_gem_gpuva_set_lock() - Set the lock protecting accesses to the gpuva list.
-+ * @obj: the &drm_gem_object
-+ * @lock: the lock used to protect the gpuva list. The locking primitive
-+ * must contain a dep_map field.
-+ *
-+ * Call this if you're not proctecting access to the gpuva list
-+ * with the resv lock, otherwise, drm_gem_gpuva_init() takes case
-+ * of initializing the lock_dep_map for you.
-+ */
-+#define drm_gem_gpuva_set_lock(obj, lock) \
-+	obj->gpuva.lock_dep_map = &(lock)->dep_map
-+#define drm_gem_gpuva_assert_lock_held(obj) \
-+	lockdep_assert(lock_is_held(obj->gpuva.lock_dep_map))
-+#else
-+#define drm_gem_gpuva_set_lock(obj, lock) do {} while(0)
-+#define drm_gem_gpuva_assert_lock_held(obj) do {} while(0)
-+#endif
-+
- /**
-  * drm_gem_gpuva_init - initialize the gpuva list of a GEM object
-  * @obj: the &drm_gem_object
-@@ -552,6 +576,7 @@ int drm_gem_evict(struct drm_gem_object *obj);
- static inline void drm_gem_gpuva_init(struct drm_gem_object *obj)
- {
- 	INIT_LIST_HEAD(&obj->gpuva.list);
-+	drm_gem_gpuva_set_lock(obj, &obj->resv->lock.base);
- }
- 
- /**
-diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
-index 4f23aaf726dd..4ad56b67e244 100644
---- a/include/drm/drm_gpuva_mgr.h
-+++ b/include/drm/drm_gpuva_mgr.h
-@@ -185,44 +185,6 @@ static inline bool drm_gpuva_invalidated(struct drm_gpuva *va)
- 	return va->flags & DRM_GPUVA_INVALIDATED;
- }
- 
--#ifdef CONFIG_LOCKDEP
--typedef struct lockdep_map *lockdep_map_p;
--#define drm_gpuva_manager_ext_assert_held(mgr)		\
--	lockdep_assert(lock_is_held((mgr)->ext_lock) != LOCK_STATE_NOT_HELD)
--/**
-- * drm_gpuva_manager_set_ext_lock - set the external lock according to
-- * @DRM_GPUVA_MANAGER_LOCK_EXTERN
-- * @mgr: the &drm_gpuva_manager to set the lock for
-- * @lock: the lock to set
-- *
-- * If @DRM_GPUVA_MANAGER_LOCK_EXTERN is set, drivers need to call this function
-- * to provide the lock used to lock linking and unlinking of &drm_gpuvas to the
-- * &drm_gem_objects GPUVA list.
-- */
--#define drm_gpuva_manager_set_ext_lock(mgr, lock)	\
--	(mgr)->ext_lock = &(lock)->dep_map
--#else
--typedef struct { /* nothing */ } lockdep_map_p;
--#define drm_gpuva_manager_ext_assert_held(mgr)		do { (void)(mgr); } while (0)
--#define drm_gpuva_manager_set_ext_lock(mgr, lock)	do { } while (0)
--#endif
--
--/**
-- * enum drm_gpuva_manager_flags - the feature flags for the &drm_gpuva_manager
-- */
--enum drm_gpuva_manager_flags {
--	/**
--	 * @DRM_GPUVA_MANAGER_LOCK_EXTERN:
--	 *
--	 * Indicates the driver has it's own external lock for linking and
--	 * unlinking &drm_gpuvas to the &drm_gem_objects GPUVA list.
--	 *
--	 * When setting this flag it is rquired to set a lock via
--	 * drm_gpuva_set_ext_lock().
--	 */
--	DRM_GPUVA_MANAGER_LOCK_EXTERN = (1 << 0),
--};
--
- /**
-  * struct drm_gpuva_manager - DRM GPU VA Manager
-  *
-@@ -241,11 +203,6 @@ struct drm_gpuva_manager {
- 	 */
- 	const char *name;
- 
--	/**
--	 * @flags: the feature flags of the &drm_gpuva_manager
--	 */
--	enum drm_gpuva_manager_flags flags;
--
- 	/**
- 	 * @mm_start: start of the VA space
- 	 */
-@@ -283,31 +240,15 @@ struct drm_gpuva_manager {
- 	 * @ops: &drm_gpuva_fn_ops providing the split/merge steps to drivers
- 	 */
- 	const struct drm_gpuva_fn_ops *ops;
--
--	/**
--	 * @ext_lock: &lockdep_map according to @DRM_GPUVA_MANAGER_LOCK_EXTERN
--	 */
--	lockdep_map_p ext_lock;
- };
- 
- void drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
- 			    const char *name,
- 			    u64 start_offset, u64 range,
- 			    u64 reserve_offset, u64 reserve_range,
--			    const struct drm_gpuva_fn_ops *ops,
--			    enum drm_gpuva_manager_flags flags);
-+			    const struct drm_gpuva_fn_ops *ops);
- void drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr);
- 
--/**
-- * drm_gpuva_manager_external_lock - indicates whether the
-- * @DRM_GPUVA_MANAGER_LOCK_EXTERN flag is set
-- * @mgr: the &drm_gpuva_manager to check the flag for
-- */
--static inline bool drm_gpuva_manager_external_lock(struct drm_gpuva_manager *mgr)
--{
--	return mgr->flags & DRM_GPUVA_MANAGER_LOCK_EXTERN;
--}
--
- /**
-  * drm_gpuva_for_each_va_range - iternator to walk over a range of &drm_gpuvas
-  * @va__: &drm_gpuva structure to assign to in each iteration step
+>
+>> +{
+>> +	struct pci_epf *epf;
+>> +
+>> +	if (!epc || IS_ERR(epc))
+>> +		return;
+>> +
+>> +	mutex_lock(&epc->list_lock);
+>> +	list_for_each_entry(epf, &epc->pci_epf, list) {
+>> +		mutex_lock(&epf->lock);
+>> +		if (epf->event_ops && epf->event_ops->dstate_change)
+>> +			epf->event_ops->dstate_change(epf, state);
+>> +		mutex_unlock(&epf->lock);
+>> +	}
+>> +	mutex_unlock(&epc->list_lock);
+>> +}
+>> +EXPORT_SYMBOL_GPL(pci_epc_dstate_change);
+>> +
+>> +/**
+>>    * pci_epc_destroy() - destroy the EPC device
+>>    * @epc: the EPC device that has to be destroyed
+>>    *
+>> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
+>> index 5cb6940..26a1108 100644
+>> --- a/include/linux/pci-epc.h
+>> +++ b/include/linux/pci-epc.h
+>> @@ -251,4 +251,5 @@ void __iomem *pci_epc_mem_alloc_addr(struct pci_epc *epc,
+>>   				     phys_addr_t *phys_addr, size_t size);
+>>   void pci_epc_mem_free_addr(struct pci_epc *epc, phys_addr_t phys_addr,
+>>   			   void __iomem *virt_addr, size_t size);
+>> +void pci_epc_dstate_change(struct pci_epc *epc, pci_power_t state);
+>>   #endif /* __LINUX_PCI_EPC_H */
+>> diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
+>> index 4b52807..1d3c2a2 100644
+>> --- a/include/linux/pci-epf.h
+>> +++ b/include/linux/pci-epf.h
+>> @@ -79,6 +79,7 @@ struct pci_epc_event_ops {
+>>   	int (*link_up)(struct pci_epf *epf);
+>>   	int (*link_down)(struct pci_epf *epf);
+>>   	int (*bme)(struct pci_epf *epf);
+>> +	int (*dstate_change)(struct pci_epf *epf, pci_power_t state);
+>>   };
+>>   
+>>   /**
+>> -- 
+>> 2.7.4
+>>
