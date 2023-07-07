@@ -2,136 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC6CEB64D9
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 19:38:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F93C001B0
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 19:56:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231959AbjGGTi5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 15:38:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60410 "EHLO
+        id S230443AbjGGT4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jul 2023 15:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232808AbjGGTgB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 15:36:01 -0400
-Received: from sender4-of-o50.zoho.com (sender4-of-o50.zoho.com [136.143.188.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9060E269F;
-        Fri,  7 Jul 2023 12:32:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1688758303; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=EwVRDfNxcmQnOtFGleOVrjIkgKRwh7y52cIfKN0GFaKN0OBxQFBpkW0gztPv2rTPKlsHRlXNwqX0V7X/g+5tbnDalixwm2P/depB+msJkqw/5QsMvebiIudbxXZcK1IbibAsD9T0IWr/xFfu3sBT8tHUKltieu6YOTNc2Jmrb0Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1688758303; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=fHoswupnpLAD4heKyuTd/2GZhFPZ+XaZr9DP5UrvceM=; 
-        b=DqSq9DCKsV8NNFqKvMsP7CH363mjfejdsBrrzQySj2V3OvRaWyj+oqjlPq7Epav31II3NSHM/7frG+F6Y1XfRgBLU0KRRwB9dW4hauAHB+OjLS5TlBRetCewMpONDWbHiwkl967kv0nYSIzxfV2EGWvZw+ADN9A1drGyDR7Yv1E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=apertussolutions.com;
-        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-        dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1688758303;
-        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-        h=Message-ID:Date:Date:MIME-Version:To:To:Cc:Cc:References:From:From:Subject:Subject:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-        bh=fHoswupnpLAD4heKyuTd/2GZhFPZ+XaZr9DP5UrvceM=;
-        b=HoM7R2M40mW1tdXIy+g2mlEdzq4NQsxSZwuCWYH0mXFXkpb8z1J7gKkVr6gGnG0W
-        ThRDcJKAEMQPpH/O0wwTDLv9oL/6evwho0H4lNX1iHqyRIe2OeOj97Jr0LvSCMlnL99
-        foaIXq91NT2RQ/qveQIN7YXB140UETdVegWIRZHg=
-Received: from [10.10.1.138] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
-        with SMTPS id 1688758300880456.56534128910005; Fri, 7 Jul 2023 12:31:40 -0700 (PDT)
-Message-ID: <df033b7b-54ce-504a-47d6-1b92ea1038f7@apertussolutions.com>
-Date:   Fri, 7 Jul 2023 15:31:38 -0400
+        with ESMTP id S229675AbjGGT4p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 15:56:45 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F3E1FE0
+        for <linux-doc@vger.kernel.org>; Fri,  7 Jul 2023 12:56:43 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9928abc11deso278745566b.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jul 2023 12:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688759802; x=1691351802;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IxB32od6PqZJdUe5KvFRjX12BUZtWHFhrjYTDAzxhJY=;
+        b=F3bN+Y2C3obAkkXGRADKQLZ0LgNR3Npz0zPdisMg+57COAbWl3CQyMSuDgDchVJdzZ
+         WN2z1oeVhHRrKxCBeO9xm509lTqy5PjfMukjvh86Zzpgg7oqHp4oNhj2x3knnZ2WSLZb
+         QA48WYc4+R1bLExL+Zd/+sp939tEtUCOW2XjUJJFwBwz1X38NOFNJisP4pOWrdkXuscM
+         BO44X1ZPaItl/nKfbQzu9ytwMaEUEHdTXLfDMbZIbRs0fIQ59jpUVqEkvTlf0aKGFU/y
+         ykQQu72VxK/NchIJYzfbiZwX1G/m6/ZTrDdGXSLTvLF+KVytWN3t1M10MxPCHfA2Y35r
+         /CxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688759802; x=1691351802;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IxB32od6PqZJdUe5KvFRjX12BUZtWHFhrjYTDAzxhJY=;
+        b=dW+IqqFciXvHt/+GKP4v2KTd2ha3Q02Ms5cqkR4xpNEn/Wwk9+rTXvfocTMUpw7fVC
+         3c2AUdBMxEpELVuUtNjbReZPy3/qXKK2l/19jTxEBnUrHlGNcH/V3eum/a+lWWgzQPnU
+         QboS9KXPGDmBRSfKCNyUcqhTHFEPB4srSMun9GxGn9mNI3Q5zRXzJAG6zOgpgzK1yrLV
+         oNET3urBPMIosV0oqztKCP+g2IFST76/AR34Pa6YLA89U0B0jGs2aW4jBxiMOaUVKkkV
+         xagaPk31JMH3sovPttQSXraxnU3dsHhnMu9XntHCCo+39fmDHUrJiW0tx2I+ba8dn55w
+         i4Lg==
+X-Gm-Message-State: ABy/qLayQv+QzacJ/KN7aQrAlRlnTOR79cWDFbwM71mmpG5xlVeFRQml
+        tT8dJW5lRyYPdj5vzS07ni2UtLjQe/hwvzzvoSDDGQ==
+X-Google-Smtp-Source: APBJJlHAdK3upZeZZKgETPEKw5XJW8Xc+xy8QqYEJ3Ro+g0wfEDdzwJYTkqe5TzjQiBSgZWZtUSvFo1dCKCPY1EUESQ=
+X-Received: by 2002:a17:906:ca17:b0:96f:d780:5734 with SMTP id
+ jt23-20020a170906ca1700b0096fd7805734mr4451808ejb.65.1688759801563; Fri, 07
+ Jul 2023 12:56:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Content-Language: en-US
-To:     Matthew Garrett <mjg59@srcf.ucam.org>
-Cc:     Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, iommu@lists.linux-foundation.org,
-        kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        ardb@kernel.org, James.Bottomley@hansenpartnership.com,
-        luto@amacapital.net, nivedita@alum.mit.edu,
-        kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-References: <20230504145023.835096-1-ross.philipson@oracle.com>
- <20230504145023.835096-5-ross.philipson@oracle.com>
- <20230512105554.GB14461@srcf.ucam.org>
- <30d5891d-4747-8d67-2667-ff07628740bd@apertussolutions.com>
- <20230515212206.GA2162@srcf.ucam.org>
- <df9d1260-41dd-034b-9dc6-14173c6c0d25@apertussolutions.com>
- <20230516014310.GA5403@srcf.ucam.org>
- <eda6da3a-00fe-21c5-5a3d-3e06d21179f4@apertussolutions.com>
- <20230616201513.GA30963@srcf.ucam.org>
-From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Subject: Re: [PATCH v6 04/14] x86: Secure Launch Resource Table header file
-In-Reply-To: <20230616201513.GA30963@srcf.ucam.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+References: <20230706225037.1164380-1-axelrasmussen@google.com>
+ <20230706225037.1164380-5-axelrasmussen@google.com> <ZKgVISe0vkRKVZuG@x1n>
+In-Reply-To: <ZKgVISe0vkRKVZuG@x1n>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Fri, 7 Jul 2023 12:56:04 -0700
+Message-ID: <CAJHvVci8ZEdH2Nqft3bp6_PpFgqL2rqJDyPh_pVPx8oZAWfyqA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/8] mm: userfaultfd: add new UFFDIO_POISON ioctl
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        James Houghton <jthoughton@google.com>,
+        "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Nadav Amit <namit@vmware.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "T.J. Alumbaugh" <talumbau@google.com>,
+        Yu Zhao <yuzhao@google.com>,
+        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/16/23 16:15, Matthew Garrett wrote:
-> On Fri, Jun 16, 2023 at 04:01:09PM -0400, Daniel P. Smith wrote:
->> On 5/15/23 21:43, Matthew Garrett wrote:
->>> On Mon, May 15, 2023 at 08:41:00PM -0400, Daniel P. Smith wrote:
->>>> On 5/15/23 17:22, Matthew Garrett wrote:
->>>>> What if I don't use grub, but use something that behaves equivalently?
->>>>> Which value should be used here?
->>>>
->>>> Generally we would request that the bootloader submit a request to register
->>>> for a value to be reserved in the spec. That aside, the intent here is to
->>>> allow for the possibility for the DLE handler to be independent from the
->>>> bootloader, but this does not have to be this way. If a non-open entity
->>>> decides to produce their own implementation, they can freely use a
->>>> unallocated value at their own risk that it could be allocated to another
->>>> bootloader in the future. Though in this scenario it likely would not matter
->>>> as the non-open DLE handler would only be present when the non-open
->>>> bootloader was present.
->>>
->>> Is the expectation that the DLE will always be shipped with the
->>> bootloader? I think I'm not entirely clear on what's consuming this and
->>> why.
->>>
->>
->> No, in fact, an early idea proposed by a pair of us in the TrenchBoot
->> community was to have it live either as a Runtime Service that was loaded by
->> a UEFI app or in the coreboot UEFI payload.
-> 
-> Ok, then I think I'm still confused. If I want to write a new bootloader
-> but make use of the existing DLE, what contract am I establishing and
-> what value should I be putting in here?
+On Fri, Jul 7, 2023 at 6:37=E2=80=AFAM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Thu, Jul 06, 2023 at 03:50:32PM -0700, Axel Rasmussen wrote:
+> > The basic idea here is to "simulate" memory poisoning for VMs. A VM
+> > running on some host might encounter a memory error, after which some
+> > page(s) are poisoned (i.e., future accesses SIGBUS). They expect that
+> > once poisoned, pages can never become "un-poisoned". So, when we live
+> > migrate the VM, we need to preserve the poisoned status of these pages.
+> >
+> > When live migrating, we try to get the guest running on its new host as
+> > quickly as possible. So, we start it running before all memory has been
+> > copied, and before we're certain which pages should be poisoned or not.
+> >
+> > So the basic way to use this new feature is:
+> >
+> > - On the new host, the guest's memory is registered with userfaultfd, i=
+n
+> >   either MISSING or MINOR mode (doesn't really matter for this purpose)=
+.
+> > - On any first access, we get a userfaultfd event. At this point we can
+> >   communicate with the old host to find out if the page was poisoned.
+> > - If so, we can respond with a UFFDIO_POISON - this places a swap marke=
+r
+> >   so any future accesses will SIGBUS. Because the pte is now "present",
+> >   future accesses won't generate more userfaultfd events, they'll just
+> >   SIGBUS directly.
+> >
+> > UFFDIO_POISON does not handle unmapping previously-present PTEs. This
+> > isn't needed, because during live migration we want to intercept
+> > all accesses with userfaultfd (not just writes, so WP mode isn't useful
+> > for this). So whether minor or missing mode is being used (or both), th=
+e
+> > PTE won't be present in any case, so handling that case isn't needed.
+> >
+> > Similarly, UFFDIO_POISON won't replace existing PTE markers. This might
+> > be okay to do, but it seems to be safer to just refuse to overwrite any
+> > existing entry (like a UFFD_WP PTE marker).
+> >
+> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+>
+> I agree the current behavior is not as clear, especially after hwpoison
+> introduced.
+>
+> uffdio-copy is special right now that it can overwrite a marker, so a bug=
+gy
+> userapp can also overwrite a poisoned entry, but it also means the userap=
+p
+> is broken already, so may not really matter much.
+>
+> While zeropage wasn't doing that. I think that was just overlooked - i
+> assume it has the same reasoning as uffdio-copy otherwise.. and no one ju=
+st
+> used zeropage over a wp marker yet, or just got it work-arounded by
+> unprotect+zeropage.
+>
+> Not yet sure whether it'll make sense to unify this a bit, but making the
+> new poison api to be strict look fine.  If you have any thoughts after
+> reading feel free to keep the discussion going, I can ack this one I thin=
+k
+> (besides my rename request in 1st patch):
 
-Apologies on the delayed response, vacation and what not.
+Agreed, it would be nice to unify things. In my v2 I had anon/shmem
+and hugetlbfs behaving differently in this respect, for the same
+reason - it was just overlooked / cargo culted from existing code. If
+nothing else I think a single ioctl should be consistent across memory
+types! Heh.
 
-I believe I know where the confusion is coming from, let me see if I can 
-explain better by why that field came about. The motivation for the SLRT 
-came out of our agreement to use a callback mechanism to support 
-entering efi-stub and then going back to a dynamic launch aware hook to 
-complete the initiation of the dynamic launch. The SLRT was devised as a 
-platform and kernel agnostic means to handle the launch. As such, there 
-was a desire to use that interface, and the underlying DLE code, whether 
-GRUB was launching the kernel via the UEFI interface or the traditional 
-interface. Skipping the details, but it boils down to the fact that in 
-the non-UEFI case, functionality from core GRUB was needed. As a result, 
-to provide maximum flexibility for other bootloaders, and to make it 
-easier on us, we add the ability to pass a context object across the 
-interface. Thus allowing GRUB's DLE handler to have a single entry that 
-could be called externally by efi-stub or directly from GRUB proper.
+But I also think you're right and it's not exactly intentional that
+copy / zeropage / etc are different in this respect. Some unification
+would be nice, although I'm not 100% sure what that looks like
+concretely.
 
-IOW, the bootloader context is a means to provide a bootloader with them 
-means to implement a private interface between the bootloader proper and 
-a DLE handler that it installed into memory should its implementation 
-require it.
+My rule of thumb is, in cases where we can't imagine a real use case,
+it's better to be too strict rather than too loose. And in the future,
+it's less disruptive to loosen restrictions rather than tighten them
+(potentially breaking something which used to work).
 
-There is an underlying question within your question, and that is of 
-reuse. In this case, we wrote GRUB's DLE handler was written 
-specifically to be used by GRUB. It was written to provide a stable and 
-demonstrable implementation of the SL interface. In the future it may 
-get refactored or a common standalone implementation, e.g., the 
-previously mentioned UEFI runtime service, may arise that would be 
-reusable by multiple bootloaders.
+I'll leave untangling this to some future series, though.
 
-I hope this helped explain the purpose and use of this area of the 
-table. Please let me know if it did not.
-
-V/r,
-DPS
+>
+> Acked-by: Peter Xu <peterx@redhat.com>
+>
+> --
+> Peter Xu
+>
