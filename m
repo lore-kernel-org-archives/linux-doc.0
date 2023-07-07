@@ -2,120 +2,184 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8026EB64DA
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 13:43:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64FA5C001DF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 14:54:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232469AbjGGNn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 09:43:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55662 "EHLO
+        id S232327AbjGGOyh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jul 2023 10:54:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232055AbjGGNn0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 09:43:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD87269D
-        for <linux-doc@vger.kernel.org>; Fri,  7 Jul 2023 06:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688737343;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vvyaqhuLF/j1Og8h3rNFyZh2EidT6aQSYdLt9GNhDDY=;
-        b=NnBpsBLq2GI2WuuQ9M0K6x5GT4xZuP5ED9YJMla5o4N/YW5iqN02x6rwooOTJgDEkOffdW
-        Hip+OOY1Qg3Z2eeSrDo+EDeMvAn+Kz91b0NcabdGgHPFy4rVnogJH8Zim+9RHJKf0URwHN
-        UvwMHZxHxD1T9tGwrEJuS6LnvXAdtvs=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-fuuLvRHyN5SNVkZWHkiWYQ-1; Fri, 07 Jul 2023 09:42:22 -0400
-X-MC-Unique: fuuLvRHyN5SNVkZWHkiWYQ-1
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-637948b24bdso3264516d6.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jul 2023 06:42:22 -0700 (PDT)
+        with ESMTP id S232509AbjGGOyg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 10:54:36 -0400
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D567211C
+        for <linux-doc@vger.kernel.org>; Fri,  7 Jul 2023 07:53:48 -0700 (PDT)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-76758b855edso151941485a.0
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jul 2023 07:53:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688737341; x=1689342141;
+        d=1e100.net; s=20221208; t=1688741627; x=1691333627;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vvyaqhuLF/j1Og8h3rNFyZh2EidT6aQSYdLt9GNhDDY=;
-        b=PpJIlzpYIEx2d1+iDT+l7uwY7gHCeOplqVUTG5Z0u+jlvCQgHtesNUIDcQy5VHigAr
-         S5+6gg7XN5/XoNlZZ2nX0IyF1cXOG/jjYpXxMESYQP3ONbkwtAC1WiVvuYH2jyPL2GNU
-         F1EEKEfOPNwZlR2OC+5Y3qeb78tM1x0k5Plr4AADarlrd6tvmrY1+8SIcM9nC+WagtkQ
-         XFrt2RzlCK4akI+c8gfIAbRxhehZCSnRdPbuCC7UiprBgshvhImsp0h+hKgduN2G9s/0
-         PpKe2zlS8zxTGboVXR8HFv0M82ODMWGP1bpPD0lAVz37gU0Q7le2PJx6IUJ/hCWMil9J
-         YgKw==
-X-Gm-Message-State: ABy/qLbZNC62/iAqwK+z57DFf5fC+Hf1QwHsseC3/J4zCo71ASdUQh1k
-        eGsU1fI7+oJ5HDx/UKtNyEDFhTh+8EjTv6HQotNEYzMEB4n3wpcsdHMiJR/BUIgLykEwnd5dDwl
-        +ytnvkUGP1nrT7Zqjs50D
-X-Received: by 2002:a05:6214:20cc:b0:61b:2111:c2e2 with SMTP id 12-20020a05621420cc00b0061b2111c2e2mr5425152qve.2.1688737341646;
-        Fri, 07 Jul 2023 06:42:21 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHFH2MLUjHuHlJ0o0C1Yq4RbSkSJbn/7QaojqKFFhq0TCDBNojgWoYsFCzsCzTX8XCvxMu0gw==
-X-Received: by 2002:a05:6214:20cc:b0:61b:2111:c2e2 with SMTP id 12-20020a05621420cc00b0061b2111c2e2mr5425138qve.2.1688737341415;
-        Fri, 07 Jul 2023 06:42:21 -0700 (PDT)
-Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com. [99.254.144.39])
-        by smtp.gmail.com with ESMTPSA id p8-20020a0c9a08000000b0062ffbf23c22sm2090348qvd.131.2023.07.07.06.42.19
+        bh=CPovcDx0Jp7p0rxc31G4K4rf+RSfD3YoQjrCZo8Rivs=;
+        b=AEeDkMp94DK6B6/YSMiMZqgcKSpC9basDaq+EEojfw0rM9dJFUm81SmksFLWll/aBo
+         VqwpWNNTajsY4rxFe2b2NIF2cgjxgxgHYzH3XacnC25doJpC4ELHTmQYdkezOjfzUlce
+         aM4vjvvAF4XnrwXpTIUrsr0mYHVEgfWu8/uvGiXIOp4UsmUJxOa+hcgh82Ao1bePXPPb
+         v0DdaNQQBhe+4XedHOFtMtBcm6bn13wXy9tqTUJpkzhVW4RKGzlwKEiINwrJs7nDrQLt
+         Q9SXLFiwC+pXHQTwTQlwn3pJaKOPubJbMHTV4EEU5qrcdzNE8xQFvsyNF1/Ipw0oNcIO
+         pNpQ==
+X-Gm-Message-State: ABy/qLbwqmMptYIhlMGOyf9Jn14GAc4TlizqVY/iKCA8aVaJ2fa+kpdy
+        9VHkmkgyYEc5uFIxghz3BD/ZXKK4QyKxJls6ZQ==
+X-Google-Smtp-Source: APBJJlEcjwiB2P+G5P63povz9uFukN13UGlV0N1GEkdF3fsvn89XgwLKb03K3Qu7uI65bbZcCd9ADQ==
+X-Received: by 2002:a05:620a:3944:b0:765:44c2:826d with SMTP id qs4-20020a05620a394400b0076544c2826dmr6230550qkn.27.1688741627214;
+        Fri, 07 Jul 2023 07:53:47 -0700 (PDT)
+Received: from localhost (pool-68-160-166-30.bstnma.fios.verizon.net. [68.160.166.30])
+        by smtp.gmail.com with ESMTPSA id m21-20020a05620a13b500b0076219ec1fbesm1900772qki.42.2023.07.07.07.53.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 06:42:21 -0700 (PDT)
-Date:   Fri, 7 Jul 2023 09:42:17 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        James Houghton <jthoughton@google.com>,
-        "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
-        Jiaqi Yan <jiaqiyan@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Nadav Amit <namit@vmware.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "T.J. Alumbaugh" <talumbau@google.com>,
-        Yu Zhao <yuzhao@google.com>,
-        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 7/8] selftests/mm: refactor uffd_poll_thread to allow
- custom fault handlers
-Message-ID: <ZKgWOYuIdqa25Qcs@x1n>
-References: <20230706225037.1164380-1-axelrasmussen@google.com>
- <20230706225037.1164380-8-axelrasmussen@google.com>
+        Fri, 07 Jul 2023 07:53:46 -0700 (PDT)
+Date:   Fri, 7 Jul 2023 10:53:45 -0400
+From:   Mike Snitzer <snitzer@kernel.org>
+To:     Fan Wu <wufan@linux.microsoft.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, eparis@redhat.com,
+        paul@paul-moore.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, audit@vger.kernel.org,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v10 11/17] dm-verity: consume root hash digest and
+ signature data via LSM hook
+Message-ID: <ZKgm+ffQbdDTxrg9@redhat.com>
+References: <1687986571-16823-1-git-send-email-wufan@linux.microsoft.com>
+ <1687986571-16823-12-git-send-email-wufan@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230706225037.1164380-8-axelrasmussen@google.com>
+In-Reply-To: <1687986571-16823-12-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 06, 2023 at 03:50:35PM -0700, Axel Rasmussen wrote:
-> @@ -247,9 +245,13 @@ static int userfaultfd_stress(void)
->  {
->  	void *area;
->  	unsigned long nr;
-> -	struct uffd_args args[nr_cpus];
-> +	struct uffd_args *args;
->  	uint64_t mem_size = nr_pages * page_size;
+On Wed, Jun 28 2023 at  5:09P -0400,
+Fan Wu <wufan@linux.microsoft.com> wrote:
+
+> From: Deven Bowers <deven.desai@linux.microsoft.com>
+> 
+> dm-verity provides a strong guarantee of a block device's integrity. As
+> a generic way to check the integrity of a block device, it provides
+> those integrity guarantees to its higher layers, including the filesystem
+> level.
+> 
+> An LSM that control access to a resource on the system based on the
+> available integrity claims can use this transitive property of
+> dm-verity, by querying the underlying block_device of a particular
+> file.
+> 
+> The digest and signature information need to be stored in the block
+> device to fulfill the next requirement of authorization via LSM policy.
+> This will enable the LSM to perform revocation of devices that are still
+> mounted, prohibiting execution of files that are no longer authorized
+> by the LSM in question.
+> 
+> This patch added two security hook calls in dm-verity to save the
+> dm-verity roothash and the roothash signature to LSM blobs.
+> 
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> ---
+
+> diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-target.c
+> index 26adcfea0302..54d46b2f2723 100644
+> --- a/drivers/md/dm-verity-target.c
+> +++ b/drivers/md/dm-verity-target.c
+> @@ -1440,6 +1453,15 @@ static int verity_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+>  	ti->per_io_data_size = roundup(ti->per_io_data_size,
+>  				       __alignof__(struct dm_verity_io));
 >  
-> +	args = calloc(nr_cpus, sizeof(struct uffd_args));
-> +	if (!args)
-> +		err("allocating args array failed");
+> +	root_digest.digest = v->root_digest;
+> +	root_digest.digest_len = v->digest_size;
+> +	root_digest.algo = v->alg_name;
+> +
+> +	r = security_bdev_setsecurity(bdev, DM_VERITY_ROOTHASH_SEC_NAME, &root_digest,
+> +				      sizeof(root_digest));
+> +	if (r)
+> +		goto bad;
+> +
+>  	verity_verify_sig_opts_cleanup(&verify_args);
+>  
+>  	dm_audit_log_ctr(DM_MSG_PREFIX, ti, 1);
+> diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+> index 4836508ea50c..33165dd7470f 100644
+> --- a/drivers/md/dm-verity-verify-sig.c
+> +++ b/drivers/md/dm-verity-verify-sig.c
+> @@ -9,6 +9,9 @@
+>  #include <linux/verification.h>
+>  #include <keys/user-type.h>
+>  #include <linux/module.h>
+> +#include <linux/security.h>
+> +#include <linux/dm-verity.h>
+> +#include "dm-core.h"
 
-This is trivial, but I think I requested a "free" (or keep it allocate on
-stack) in previous version but it didn't get a response on why we cannot
-and it kept going..  could you help explain?
+Why are you including dm-core.h here?
 
--- 
-Peter Xu
+>  #include "dm-verity.h"
+>  #include "dm-verity-verify-sig.h"
+>  
+> @@ -97,14 +100,17 @@ int verity_verify_sig_parse_opt_args(struct dm_arg_set *as,
+>   * verify_verify_roothash - Verify the root hash of the verity hash device
+>   *			     using builtin trusted keys.
+>   *
+> + * @bdev: block_device representing the device-mapper created block device.
+> + *	  Used by the security hook, to set information about the block_device.
+>   * @root_hash: For verity, the roothash/data to be verified.
+>   * @root_hash_len: Size of the roothash/data to be verified.
+>   * @sig_data: The trusted signature that verifies the roothash/data.
+>   * @sig_len: Size of the signature.
+>   *
+>   */
+> -int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+> -			    const void *sig_data, size_t sig_len)
+> +int verity_verify_root_hash(struct block_device *bdev, const void *root_hash,
+> +			    size_t root_hash_len, const void *sig_data,
+> +			    size_t sig_len)
+>  {
+>  	int ret;
+>  
+> @@ -126,8 +132,12 @@ int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+>  				NULL,
+>  #endif
+>  				VERIFYING_UNSPECIFIED_SIGNATURE, NULL, NULL);
+> +	if (ret)
+> +		return ret;
+>  
+> -	return ret;
+> +	return security_bdev_setsecurity(bdev,
+> +					 DM_VERITY_SIGNATURE_SEC_NAME,
+> +					 sig_data, sig_len);
+>  }
+>  
+>  void verity_verify_sig_opts_cleanup(struct dm_verity_sig_opts *sig_opts)
 
+Both of your calls to security_bdev_setsecurity() to set your blobs in
+the bdev are suspect because you're doing so from the verity_ctr().
+The mapped_device has 2 dm_table slots (active and inactive).  The
+verity_ctr() becomes part of the inactive slot, there is an extra step
+to bind the inactive table to the active table.
+
+This leads to you changing the blobs in the global bdev _before_ the
+table is actually active.  It is possible that the inactive table will
+simply be removed and the DM verity device put back in service;
+leaving your blob(s) in the bdev inconsistent.
+
+This issue has parallels to how we need to defer changing the global
+queue_limits associated with a request_queue until _after_ all table
+loading is settled and then the update is done just before resuming
+the DM device (mapped_device) -- see dm_table_set_restrictions().
+
+Unfortunately, this feels like it may require a new hook in the
+target_type struct (e.g. ->finalize())
+
+Mike
