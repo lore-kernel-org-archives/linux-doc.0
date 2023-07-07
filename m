@@ -2,106 +2,355 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4615AEB64D9
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 12:12:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0080EB64D9
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 12:33:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231213AbjGGMMH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 08:12:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51912 "EHLO
+        id S231866AbjGGMdY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jul 2023 08:33:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229740AbjGGMMG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 08:12:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4384E210C
-        for <linux-doc@vger.kernel.org>; Fri,  7 Jul 2023 05:11:16 -0700 (PDT)
+        with ESMTP id S229661AbjGGMdW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 08:33:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B0B1FC4
+        for <linux-doc@vger.kernel.org>; Fri,  7 Jul 2023 05:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688731875;
+        s=mimecast20190719; t=1688733155;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=BVyqwSHAPLftzopmtaxC0lFHhRx6FuTQym8jgnJKosE=;
-        b=TT7UO4bheeBP7wmn9tkTywJkEp8fnSwMnFglXtwkzr1AbWAiX7Pg/2a+ZmaiYth/dsQ5FX
-        CTbrmt/pvv96HmwLAZkSvfTOFRDu/qPB909Qx1P+X4Vzq4IDLLaCl/mwGjAV01YRmHqdDt
-        of+gvaHQOTTt4GgYt9QmY6YfZmdqUh0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=nn3h1EpL0DqV/dmxdwYAjo6rDt1igIdvshyB/2r4DI8=;
+        b=iyRPSCj9k+TFdbeDuRsMVZSvlOZY9tZ3ZqzWTC5szkuwFPBK1CrPWSH1Lofr+815RK5xU+
+        3J7liBnH0EvqTmJqrmq8U/bu1bUkA56f8AUjnb1KBIG1ow7vAu/5ttMwGRYGmAIvAuNe70
+        zl4tEY/SwpzWN5GkG5N8f+VtFyT+kGs=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-626-zVbkCHP7PIS2i1S-Squ3Ag-1; Fri, 07 Jul 2023 08:11:14 -0400
-X-MC-Unique: zVbkCHP7PIS2i1S-Squ3Ag-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3143c941d0bso999905f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jul 2023 05:11:13 -0700 (PDT)
+ us-mta-55-w0S0ByjqP5e1-_wELhZriA-1; Fri, 07 Jul 2023 08:32:34 -0400
+X-MC-Unique: w0S0ByjqP5e1-_wELhZriA-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-993d5006993so35528866b.3
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jul 2023 05:32:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688731873; x=1691323873;
+        d=1e100.net; s=20221208; t=1688733153; x=1691325153;
         h=content-transfer-encoding:in-reply-to:organization:from:references
          :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BVyqwSHAPLftzopmtaxC0lFHhRx6FuTQym8jgnJKosE=;
-        b=WfbOCWD68AilYphzxewA2cOIWQVjs3SwmADWITOlh2t/za0uBQIqJ+Tz3xmBSd4MXw
-         Lv8aHHlmc8W3l5PXsqZPdWyFwauuOcWUvABt9016g7861UFLTFDodjR41EKR4i5pqTpl
-         5/JnnXzJ/j0UP/+fgi357Qk3+epDgpqViZxzYCSoQCJSYlHJjI5AlEoq51yTYECjHug+
-         ZRpvDb+Pi4YZ0Gehe5DxeVQpiSWax+huj7x80Glyc2KWMJfB5oEeR2pWwS9tp/WPNzvn
-         cC/re2sYdl5uOi8slv4eI0HwdiIBaAeD+Q0r/i1ipstV9anOn8Z6pKDS5lEmNZ240Hvt
-         ETwg==
-X-Gm-Message-State: ABy/qLZ6B0XSPjBIOO4N4MvOfIxy/yx6WgEslFH9Ag7OrphDMdaHP7xb
-        G3Yxsuz+CfxWBrbiuscwYRuJtybHnhwb13UtW2mON5kmCn2WLAwlHSjUCPfCroFB6J9IqNlvwX/
-        N8+VEyzHO7xmbwHW9NFU/
-X-Received: by 2002:a5d:5450:0:b0:314:3503:15ac with SMTP id w16-20020a5d5450000000b00314350315acmr4071147wrv.10.1688731872959;
-        Fri, 07 Jul 2023 05:11:12 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGQ+0CrqDvb4lVn+YlJy3j3lhmI2e5jJ3pz4I7kZYIBFwKLH8Ug0fJ0/CydpV5KGXWVfJemXw==
-X-Received: by 2002:a5d:5450:0:b0:314:3503:15ac with SMTP id w16-20020a5d5450000000b00314350315acmr4071129wrv.10.1688731872601;
-        Fri, 07 Jul 2023 05:11:12 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f04:3c00:248f:bf5b:b03e:aac7? (p200300d82f043c00248fbf5bb03eaac7.dip0.t-ipconnect.de. [2003:d8:2f04:3c00:248f:bf5b:b03e:aac7])
-        by smtp.gmail.com with ESMTPSA id k6-20020adfd846000000b00314315071bbsm4324550wrl.38.2023.07.07.05.11.11
+        bh=nn3h1EpL0DqV/dmxdwYAjo6rDt1igIdvshyB/2r4DI8=;
+        b=XS9iWA7rD9LtLHcJSqYJ5GQh4KUPNEityUrCCvC5x8ud6P3g8ZEhjTv3qdsDaZJ8qh
+         2dqAKM76nvCLukILKw8wpLLJYWWjzSlDO2GGBRP4Y60Kv9/IfmdjJm6UmkyQuo0Lgxpb
+         IR3ABHsYd9Vvu4IldMtUNob8ku6afKVwlPXRLevXDfYyWqItnlQvtd60JbWRedbQ9b+c
+         zqhaPFwGkIZD0LrfE+gIBGEFe7QR7ktXSClyCPU9usIn14PVNu2li/uejFi8vf0SfArC
+         p99uxglsyRcKJWrZwyZxJucmAtvE8hF6IBlEJJ93B65rLYec0e5tnssN13DcO1e1pCNh
+         pDBg==
+X-Gm-Message-State: ABy/qLY6wZ8SEZPacIuqBIofpQ9KQtAknZY471C5ZeBzE7x7cpLcDkuJ
+        F8HckviS+saFwimBiNBux+Waa9/ydy4Y76Tt0UhePzQwm2qVwJjUb5q4frpv6ZXXTNtzLf9dcAG
+        eHmrN/Gv/im2pmUU8mkxT
+X-Received: by 2002:a17:906:7a52:b0:993:d700:8a46 with SMTP id i18-20020a1709067a5200b00993d7008a46mr737161ejo.16.1688733153140;
+        Fri, 07 Jul 2023 05:32:33 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFRlTP4tlTIrMee4dualKZyn/YQvF5j+qEUu7LZCaQF464CIAp+SYm449fXhMCnrDIsRDqEmA==
+X-Received: by 2002:a17:906:7a52:b0:993:d700:8a46 with SMTP id i18-20020a1709067a5200b00993d7008a46mr737147ejo.16.1688733152784;
+        Fri, 07 Jul 2023 05:32:32 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id s6-20020a170906c30600b009934b1eb577sm2149724ejz.77.2023.07.07.05.32.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Jul 2023 05:11:12 -0700 (PDT)
-Message-ID: <b8bf72f4-f590-a159-ca94-526153b73216@redhat.com>
-Date:   Fri, 7 Jul 2023 14:11:11 +0200
+        Fri, 07 Jul 2023 05:32:32 -0700 (PDT)
+Message-ID: <dab8bc29-f053-09e4-40ba-5009d1787c26@redhat.com>
+Date:   Fri, 7 Jul 2023 14:32:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [RFC 0/4] arm64/mm: Clean up pte_dirty() state management
+Subject: Re: [PATCH drm-next v6 02/13] drm: manager to keep track of GPUs VA
+ mappings
 Content-Language: en-US
-To:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230707053331.510041-1-anshuman.khandual@arm.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230707053331.510041-1-anshuman.khandual@arm.com>
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+        bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Donald Robson <donald.robson@imgtec.com>,
+        Dave Airlie <airlied@redhat.com>
+References: <20230629222651.3196-1-dakr@redhat.com>
+ <20230629222651.3196-3-dakr@redhat.com>
+ <20230706202642.4cbc7227@collabora.com>
+ <20230707095754.5d365f8e@collabora.com>
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230707095754.5d365f8e@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07.07.23 07:33, Anshuman Khandual wrote:
-> These pte_dirty() changes make things explicitly clear, while improving the
-> code readability. This optimizes HW dirty state transfer into SW dirty bit.
-> This also adds a new arm64 documentation explaining overall pte dirty state
-> management in detail. This series applies on the latest mainline kernel.
+On 7/7/23 09:57, Boris Brezillon wrote:
+> On Thu, 6 Jul 2023 20:26:42 +0200
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
 > 
->
+>> On Fri, 30 Jun 2023 00:25:18 +0200
+>> Danilo Krummrich <dakr@redhat.com> wrote:
+>>
+>>> +#ifdef CONFIG_LOCKDEP
+>>> +typedef struct lockdep_map *lockdep_map_p;
+>>> +#define drm_gpuva_manager_ext_assert_held(mgr)		\
+>>> +	lockdep_assert(lock_is_held((mgr)->ext_lock) != LOCK_STATE_NOT_HELD)
+>>> +/**
+>>> + * drm_gpuva_manager_set_ext_lock - set the external lock according to
+>>> + * @DRM_GPUVA_MANAGER_LOCK_EXTERN
+>>> + * @mgr: the &drm_gpuva_manager to set the lock for
+>>> + * @lock: the lock to set
+>>> + *
+>>> + * If @DRM_GPUVA_MANAGER_LOCK_EXTERN is set, drivers need to call this function
+>>> + * to provide the lock used to lock linking and unlinking of &drm_gpuvas to the
+>>> + * &drm_gem_objects GPUVA list.
+>>> + */
+>>> +#define drm_gpuva_manager_set_ext_lock(mgr, lock)	\
+>>> +	(mgr)->ext_lock = &(lock)->dep_map
+>>
+>> Okay, so, IIUC, this is the lock protecting the GEM's active mappings
+>> list, meaning the lock is likely to be attached to the GEM object. Are
+>> we expected to call drm_gpuva_manager_set_ext_lock() every time we call
+>> drm_gpuva_[un]link(), or are we supposed to have some lock at the
+>> device level serializing all drm_gpuva_[un]link() calls across VMs? The
+>> later doesn't sound like a good option to me, and the former feels a bit
+>> weird. I'm wondering if we shouldn't just drop this assert_held() check
+>> when DRM_GPUVA_MANAGER_LOCK_EXTERN is set. Alternatively, we could say
+>> that any driver wanting to use a custom lock (which is basically all
+>> drivers modifying the VA space asynchronously in the ::run_job() path)
+>> has to provide its own variant of drm_gpuva_[un]link() (maybe with its
+>> own VA list too), which doesn't sound like a good idea either.
+> 
+> Or we could just attach the dep_map to drm_gem_object::gpuva::lock, and
+> let drivers overload the default lock in their GEM creation function if
+> they want to use a custom lock (see the following diff).
 
-I skimmed over most of the series, and I am not convinced that this is 
-actually a cleanup. If we cannot really always differentiate between 
-sw/hw clearing, why have separate primitives that give one the illusion 
-that it could be done and that they are two different concepts?
+Uh, I like that. Will pick it up, thanks!
 
-Maybe there are other opinions, but at least for me this made the code 
-harder to grasp.
-
-I do appreciate a doc update, though :)
-
--- 
-Cheers,
-
-David / dhildenb
+> 
+> ---
+> 
+> diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mgr.c
+> index e47747f22126..6427c88c22ba 100644
+> --- a/drivers/gpu/drm/drm_gpuva_mgr.c
+> +++ b/drivers/gpu/drm/drm_gpuva_mgr.c
+> @@ -675,8 +675,7 @@ drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+>   		       const char *name,
+>   		       u64 start_offset, u64 range,
+>   		       u64 reserve_offset, u64 reserve_range,
+> -		       const struct drm_gpuva_fn_ops *ops,
+> -		       enum drm_gpuva_manager_flags flags)
+> +		       const struct drm_gpuva_fn_ops *ops)
+>   {
+>   	mgr->rb.tree = RB_ROOT_CACHED;
+>   	INIT_LIST_HEAD(&mgr->rb.list);
+> @@ -686,7 +685,6 @@ drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+>   	mgr->mm_range = range;
+>   
+>   	mgr->name = name ? name : "unknown";
+> -	mgr->flags = flags;
+>   	mgr->ops = ops;
+>   
+>   	memset(&mgr->kernel_alloc_node, 0, sizeof(struct drm_gpuva));
+> @@ -822,16 +820,12 @@ EXPORT_SYMBOL(drm_gpuva_remove);
+>   void
+>   drm_gpuva_link(struct drm_gpuva *va)
+>   {
+> -	struct drm_gpuva_manager *mgr = va->mgr;
+>   	struct drm_gem_object *obj = va->gem.obj;
+>   
+>   	if (unlikely(!obj))
+>   		return;
+>   
+> -	if (drm_gpuva_manager_external_lock(mgr))
+> -		drm_gpuva_manager_ext_assert_held(mgr);
+> -	else
+> -		dma_resv_assert_held(obj->resv);
+> +	drm_gem_gpuva_assert_lock_held(obj);
+>   
+>   	list_add_tail(&va->gem.entry, &obj->gpuva.list);
+>   }
+> @@ -850,16 +844,12 @@ EXPORT_SYMBOL(drm_gpuva_link);
+>   void
+>   drm_gpuva_unlink(struct drm_gpuva *va)
+>   {
+> -	struct drm_gpuva_manager *mgr = va->mgr;
+>   	struct drm_gem_object *obj = va->gem.obj;
+>   
+>   	if (unlikely(!obj))
+>   		return;
+>   
+> -	if (drm_gpuva_manager_external_lock(mgr))
+> -		drm_gpuva_manager_ext_assert_held(mgr);
+> -	else
+> -		dma_resv_assert_held(obj->resv);
+> +	drm_gem_gpuva_assert_lock_held(obj);
+>   
+>   	list_del_init(&va->gem.entry);
+>   }
+> @@ -1680,10 +1670,7 @@ drm_gpuva_gem_unmap_ops_create(struct drm_gpuva_manager *mgr,
+>   	struct drm_gpuva *va;
+>   	int ret;
+>   
+> -	if (drm_gpuva_manager_external_lock(mgr))
+> -		drm_gpuva_manager_ext_assert_held(mgr);
+> -	else
+> -		dma_resv_assert_held(obj->resv);
+> +	drm_gem_gpuva_assert_lock_held(obj);
+>   
+>   	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+>   	if (!ops)
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 5ec8148a30ee..572d7a538324 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -387,10 +387,14 @@ struct drm_gem_object {
+>   	 * Provides the list of GPU VAs attached to this GEM object.
+>   	 *
+>   	 * Drivers should lock list accesses with the GEMs &dma_resv lock
+> -	 * (&drm_gem_object.resv).
+> +	 * (&drm_gem_object.resv) or a custom lock if one is provided.
+>   	 */
+>   	struct {
+>   		struct list_head list;
+> +
+> +#ifdef CONFIG_LOCKDEP
+> +		struct lockdep_map *lock_dep_map;
+> +#endif
+>   	} gpuva;
+>   
+>   	/**
+> @@ -540,6 +544,26 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
+>   
+>   int drm_gem_evict(struct drm_gem_object *obj);
+>   
+> +#ifdef CONFIG_LOCKDEP
+> +/*
+> + * drm_gem_gpuva_set_lock() - Set the lock protecting accesses to the gpuva list.
+> + * @obj: the &drm_gem_object
+> + * @lock: the lock used to protect the gpuva list. The locking primitive
+> + * must contain a dep_map field.
+> + *
+> + * Call this if you're not proctecting access to the gpuva list
+> + * with the resv lock, otherwise, drm_gem_gpuva_init() takes case
+> + * of initializing the lock_dep_map for you.
+> + */
+> +#define drm_gem_gpuva_set_lock(obj, lock) \
+> +	obj->gpuva.lock_dep_map = &(lock)->dep_map
+> +#define drm_gem_gpuva_assert_lock_held(obj) \
+> +	lockdep_assert(lock_is_held(obj->gpuva.lock_dep_map))
+> +#else
+> +#define drm_gem_gpuva_set_lock(obj, lock) do {} while(0)
+> +#define drm_gem_gpuva_assert_lock_held(obj) do {} while(0)
+> +#endif
+> +
+>   /**
+>    * drm_gem_gpuva_init - initialize the gpuva list of a GEM object
+>    * @obj: the &drm_gem_object
+> @@ -552,6 +576,7 @@ int drm_gem_evict(struct drm_gem_object *obj);
+>   static inline void drm_gem_gpuva_init(struct drm_gem_object *obj)
+>   {
+>   	INIT_LIST_HEAD(&obj->gpuva.list);
+> +	drm_gem_gpuva_set_lock(obj, &obj->resv->lock.base);
+>   }
+>   
+>   /**
+> diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
+> index 4f23aaf726dd..4ad56b67e244 100644
+> --- a/include/drm/drm_gpuva_mgr.h
+> +++ b/include/drm/drm_gpuva_mgr.h
+> @@ -185,44 +185,6 @@ static inline bool drm_gpuva_invalidated(struct drm_gpuva *va)
+>   	return va->flags & DRM_GPUVA_INVALIDATED;
+>   }
+>   
+> -#ifdef CONFIG_LOCKDEP
+> -typedef struct lockdep_map *lockdep_map_p;
+> -#define drm_gpuva_manager_ext_assert_held(mgr)		\
+> -	lockdep_assert(lock_is_held((mgr)->ext_lock) != LOCK_STATE_NOT_HELD)
+> -/**
+> - * drm_gpuva_manager_set_ext_lock - set the external lock according to
+> - * @DRM_GPUVA_MANAGER_LOCK_EXTERN
+> - * @mgr: the &drm_gpuva_manager to set the lock for
+> - * @lock: the lock to set
+> - *
+> - * If @DRM_GPUVA_MANAGER_LOCK_EXTERN is set, drivers need to call this function
+> - * to provide the lock used to lock linking and unlinking of &drm_gpuvas to the
+> - * &drm_gem_objects GPUVA list.
+> - */
+> -#define drm_gpuva_manager_set_ext_lock(mgr, lock)	\
+> -	(mgr)->ext_lock = &(lock)->dep_map
+> -#else
+> -typedef struct { /* nothing */ } lockdep_map_p;
+> -#define drm_gpuva_manager_ext_assert_held(mgr)		do { (void)(mgr); } while (0)
+> -#define drm_gpuva_manager_set_ext_lock(mgr, lock)	do { } while (0)
+> -#endif
+> -
+> -/**
+> - * enum drm_gpuva_manager_flags - the feature flags for the &drm_gpuva_manager
+> - */
+> -enum drm_gpuva_manager_flags {
+> -	/**
+> -	 * @DRM_GPUVA_MANAGER_LOCK_EXTERN:
+> -	 *
+> -	 * Indicates the driver has it's own external lock for linking and
+> -	 * unlinking &drm_gpuvas to the &drm_gem_objects GPUVA list.
+> -	 *
+> -	 * When setting this flag it is rquired to set a lock via
+> -	 * drm_gpuva_set_ext_lock().
+> -	 */
+> -	DRM_GPUVA_MANAGER_LOCK_EXTERN = (1 << 0),
+> -};
+> -
+>   /**
+>    * struct drm_gpuva_manager - DRM GPU VA Manager
+>    *
+> @@ -241,11 +203,6 @@ struct drm_gpuva_manager {
+>   	 */
+>   	const char *name;
+>   
+> -	/**
+> -	 * @flags: the feature flags of the &drm_gpuva_manager
+> -	 */
+> -	enum drm_gpuva_manager_flags flags;
+> -
+>   	/**
+>   	 * @mm_start: start of the VA space
+>   	 */
+> @@ -283,31 +240,15 @@ struct drm_gpuva_manager {
+>   	 * @ops: &drm_gpuva_fn_ops providing the split/merge steps to drivers
+>   	 */
+>   	const struct drm_gpuva_fn_ops *ops;
+> -
+> -	/**
+> -	 * @ext_lock: &lockdep_map according to @DRM_GPUVA_MANAGER_LOCK_EXTERN
+> -	 */
+> -	lockdep_map_p ext_lock;
+>   };
+>   
+>   void drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+>   			    const char *name,
+>   			    u64 start_offset, u64 range,
+>   			    u64 reserve_offset, u64 reserve_range,
+> -			    const struct drm_gpuva_fn_ops *ops,
+> -			    enum drm_gpuva_manager_flags flags);
+> +			    const struct drm_gpuva_fn_ops *ops);
+>   void drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr);
+>   
+> -/**
+> - * drm_gpuva_manager_external_lock - indicates whether the
+> - * @DRM_GPUVA_MANAGER_LOCK_EXTERN flag is set
+> - * @mgr: the &drm_gpuva_manager to check the flag for
+> - */
+> -static inline bool drm_gpuva_manager_external_lock(struct drm_gpuva_manager *mgr)
+> -{
+> -	return mgr->flags & DRM_GPUVA_MANAGER_LOCK_EXTERN;
+> -}
+> -
+>   /**
+>    * drm_gpuva_for_each_va_range - iternator to walk over a range of &drm_gpuvas
+>    * @va__: &drm_gpuva structure to assign to in each iteration step
+> 
 
