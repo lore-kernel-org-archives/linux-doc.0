@@ -2,58 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F93C001B0
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 19:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CDADC0015E
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jul 2023 20:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230443AbjGGT4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 15:56:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37574 "EHLO
+        id S232505AbjGGUja (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jul 2023 16:39:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbjGGT4p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 15:56:45 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F3E1FE0
-        for <linux-doc@vger.kernel.org>; Fri,  7 Jul 2023 12:56:43 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9928abc11deso278745566b.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jul 2023 12:56:43 -0700 (PDT)
+        with ESMTP id S232404AbjGGUj2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 16:39:28 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6E4126A4
+        for <linux-doc@vger.kernel.org>; Fri,  7 Jul 2023 13:38:54 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-99313a34b2dso269445166b.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jul 2023 13:38:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1688759802; x=1691351802;
+        d=google.com; s=20221208; t=1688762333; x=1691354333;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IxB32od6PqZJdUe5KvFRjX12BUZtWHFhrjYTDAzxhJY=;
-        b=F3bN+Y2C3obAkkXGRADKQLZ0LgNR3Npz0zPdisMg+57COAbWl3CQyMSuDgDchVJdzZ
-         WN2z1oeVhHRrKxCBeO9xm509lTqy5PjfMukjvh86Zzpgg7oqHp4oNhj2x3knnZ2WSLZb
-         QA48WYc4+R1bLExL+Zd/+sp939tEtUCOW2XjUJJFwBwz1X38NOFNJisP4pOWrdkXuscM
-         BO44X1ZPaItl/nKfbQzu9ytwMaEUEHdTXLfDMbZIbRs0fIQ59jpUVqEkvTlf0aKGFU/y
-         ykQQu72VxK/NchIJYzfbiZwX1G/m6/ZTrDdGXSLTvLF+KVytWN3t1M10MxPCHfA2Y35r
-         /CxA==
+        bh=j5GzoeG98fEPpoz1Cl1g4Qg71twRkm1tM+omwnJ1Pnk=;
+        b=WH7E9lv9EnTxKkw+kdIYBI9TKdORaKmjvGgb3pPV847969g1QlrNpJzaggCcNI2bbg
+         h+aTRRezJFDZNa2ZALyMVsdt2NvoXYZGyWbcku/1E36NYHjSECN46W7AD+0oz1803eA4
+         lzdBpVev9ZPerFAPGyWWO/aHlqgZl1OgHopnYcusk3HaKmwHFdBjqlJcsIoNJzycsTn1
+         kfnhJVTTNJRQ2wO1kfChdtz/wWwRdt88CkvoYcHmynwgWZRDLPCqtSlJvsAVO5fi2LMu
+         NHRdL3HXNn9cKscccOT7hsBazJ5f0Fua/tERjXEy/liWWxehP1UtUX7sQbJENxFBTTsl
+         H3dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688759802; x=1691351802;
+        d=1e100.net; s=20221208; t=1688762333; x=1691354333;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IxB32od6PqZJdUe5KvFRjX12BUZtWHFhrjYTDAzxhJY=;
-        b=dW+IqqFciXvHt/+GKP4v2KTd2ha3Q02Ms5cqkR4xpNEn/Wwk9+rTXvfocTMUpw7fVC
-         3c2AUdBMxEpELVuUtNjbReZPy3/qXKK2l/19jTxEBnUrHlGNcH/V3eum/a+lWWgzQPnU
-         QboS9KXPGDmBRSfKCNyUcqhTHFEPB4srSMun9GxGn9mNI3Q5zRXzJAG6zOgpgzK1yrLV
-         oNET3urBPMIosV0oqztKCP+g2IFST76/AR34Pa6YLA89U0B0jGs2aW4jBxiMOaUVKkkV
-         xagaPk31JMH3sovPttQSXraxnU3dsHhnMu9XntHCCo+39fmDHUrJiW0tx2I+ba8dn55w
-         i4Lg==
-X-Gm-Message-State: ABy/qLayQv+QzacJ/KN7aQrAlRlnTOR79cWDFbwM71mmpG5xlVeFRQml
-        tT8dJW5lRyYPdj5vzS07ni2UtLjQe/hwvzzvoSDDGQ==
-X-Google-Smtp-Source: APBJJlHAdK3upZeZZKgETPEKw5XJW8Xc+xy8QqYEJ3Ro+g0wfEDdzwJYTkqe5TzjQiBSgZWZtUSvFo1dCKCPY1EUESQ=
-X-Received: by 2002:a17:906:ca17:b0:96f:d780:5734 with SMTP id
- jt23-20020a170906ca1700b0096fd7805734mr4451808ejb.65.1688759801563; Fri, 07
- Jul 2023 12:56:41 -0700 (PDT)
+        bh=j5GzoeG98fEPpoz1Cl1g4Qg71twRkm1tM+omwnJ1Pnk=;
+        b=MJDPmf2lFu4B2XSxYxsiituqcsDPZP+ZfVfvYZ9cnyGiJ45/LPYUAVBXz2sWIg7T1B
+         ufY+SAQHyqVOcOcRvxa2g6knfuTK00Ky9IQKOZKqaCJDSYHdr4FsuXvj6J+XuhTqaGSB
+         n9Lx4kkkz0JTWr8i6ftdFQvhx5Abld2IA6TUfCEj8D8v5xeQqhC/TakLsj+A6S2NNJlH
+         /EPH/aGUvtHkwsFP5agW/9E7mFtD+g885qbk2nIq7wCgW46DH4vhN14cydyhHYRW6RoD
+         BXZ4ixrzrOV3g97y/wmDoZMjaQgtv1mRT2Y9AuxyML4hBMCKxI/RmT69KzKuIfcPSq9S
+         yIRw==
+X-Gm-Message-State: ABy/qLbr3ADDu89EXil3HN9LmzCr20FsklaQuzu6XyBqLt5RSKPAPYK+
+        LzdQelcnUOLt1L5TnBtVsdHBHMjieiVr4O6gfk4A5w==
+X-Google-Smtp-Source: APBJJlGvHGSDao1yQTFp/8AttfmOyAketz902pkJlwD7mID8tlI+W7elLQoXUGZjItFKxk9cWhaH/7FWxQqXJBHz7a0=
+X-Received: by 2002:a17:906:1001:b0:962:46d7:c8fc with SMTP id
+ 1-20020a170906100100b0096246d7c8fcmr5864601ejm.21.1688762333216; Fri, 07 Jul
+ 2023 13:38:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230706225037.1164380-1-axelrasmussen@google.com>
- <20230706225037.1164380-5-axelrasmussen@google.com> <ZKgVISe0vkRKVZuG@x1n>
-In-Reply-To: <ZKgVISe0vkRKVZuG@x1n>
+ <20230706225037.1164380-8-axelrasmussen@google.com> <ZKgWOYuIdqa25Qcs@x1n> <CAJHvVcj-3gUC3dx4LAVnNr-zgo8+cwjGNafQ480EhDifojrcRA@mail.gmail.com>
+In-Reply-To: <CAJHvVcj-3gUC3dx4LAVnNr-zgo8+cwjGNafQ480EhDifojrcRA@mail.gmail.com>
 From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Fri, 7 Jul 2023 12:56:04 -0700
-Message-ID: <CAJHvVci8ZEdH2Nqft3bp6_PpFgqL2rqJDyPh_pVPx8oZAWfyqA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/8] mm: userfaultfd: add new UFFDIO_POISON ioctl
+Date:   Fri, 7 Jul 2023 13:38:16 -0700
+Message-ID: <CAJHvVci6qCv+d7Hz0QkqeuEZze0OFJt0P9qnWgA_cgDeaLmptQ@mail.gmail.com>
+Subject: Re: [PATCH v3 7/8] selftests/mm: refactor uffd_poll_thread to allow
+ custom fault handlers
 To:     Peter Xu <peterx@redhat.com>
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -90,88 +91,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 7, 2023 at 6:37=E2=80=AFAM Peter Xu <peterx@redhat.com> wrote:
+On Fri, Jul 7, 2023 at 10:03=E2=80=AFAM Axel Rasmussen <axelrasmussen@googl=
+e.com> wrote:
 >
-> On Thu, Jul 06, 2023 at 03:50:32PM -0700, Axel Rasmussen wrote:
-> > The basic idea here is to "simulate" memory poisoning for VMs. A VM
-> > running on some host might encounter a memory error, after which some
-> > page(s) are poisoned (i.e., future accesses SIGBUS). They expect that
-> > once poisoned, pages can never become "un-poisoned". So, when we live
-> > migrate the VM, we need to preserve the poisoned status of these pages.
+> On Fri, Jul 7, 2023 at 6:42=E2=80=AFAM Peter Xu <peterx@redhat.com> wrote=
+:
 > >
-> > When live migrating, we try to get the guest running on its new host as
-> > quickly as possible. So, we start it running before all memory has been
-> > copied, and before we're certain which pages should be poisoned or not.
+> > On Thu, Jul 06, 2023 at 03:50:35PM -0700, Axel Rasmussen wrote:
+> > > @@ -247,9 +245,13 @@ static int userfaultfd_stress(void)
+> > >  {
+> > >       void *area;
+> > >       unsigned long nr;
+> > > -     struct uffd_args args[nr_cpus];
+> > > +     struct uffd_args *args;
+> > >       uint64_t mem_size =3D nr_pages * page_size;
+> > >
+> > > +     args =3D calloc(nr_cpus, sizeof(struct uffd_args));
+> > > +     if (!args)
+> > > +             err("allocating args array failed");
 > >
-> > So the basic way to use this new feature is:
-> >
-> > - On the new host, the guest's memory is registered with userfaultfd, i=
-n
-> >   either MISSING or MINOR mode (doesn't really matter for this purpose)=
-.
-> > - On any first access, we get a userfaultfd event. At this point we can
-> >   communicate with the old host to find out if the page was poisoned.
-> > - If so, we can respond with a UFFDIO_POISON - this places a swap marke=
-r
-> >   so any future accesses will SIGBUS. Because the pte is now "present",
-> >   future accesses won't generate more userfaultfd events, they'll just
-> >   SIGBUS directly.
-> >
-> > UFFDIO_POISON does not handle unmapping previously-present PTEs. This
-> > isn't needed, because during live migration we want to intercept
-> > all accesses with userfaultfd (not just writes, so WP mode isn't useful
-> > for this). So whether minor or missing mode is being used (or both), th=
-e
-> > PTE won't be present in any case, so handling that case isn't needed.
-> >
-> > Similarly, UFFDIO_POISON won't replace existing PTE markers. This might
-> > be okay to do, but it seems to be safer to just refuse to overwrite any
-> > existing entry (like a UFFD_WP PTE marker).
-> >
-> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+> > This is trivial, but I think I requested a "free" (or keep it allocate =
+on
+> > stack) in previous version but it didn't get a response on why we canno=
+t
+> > and it kept going..  could you help explain?
 >
-> I agree the current behavior is not as clear, especially after hwpoison
-> introduced.
+> Oh, sorry! I had meant to change this after our discussion, and simply
+> overlooked it while reworking the patches.
 >
-> uffdio-copy is special right now that it can overwrite a marker, so a bug=
-gy
-> userapp can also overwrite a poisoned entry, but it also means the userap=
-p
-> is broken already, so may not really matter much.
->
-> While zeropage wasn't doing that. I think that was just overlooked - i
-> assume it has the same reasoning as uffdio-copy otherwise.. and no one ju=
-st
-> used zeropage over a wp marker yet, or just got it work-arounded by
-> unprotect+zeropage.
->
-> Not yet sure whether it'll make sense to unify this a bit, but making the
-> new poison api to be strict look fine.  If you have any thoughts after
-> reading feel free to keep the discussion going, I can ack this one I thin=
-k
-> (besides my rename request in 1st patch):
+> I'll include this change in a v4 which also addresses e.g. the
+> comments on commit 1.
 
-Agreed, it would be nice to unify things. In my v2 I had anon/shmem
-and hugetlbfs behaving differently in this respect, for the same
-reason - it was just overlooked / cargo culted from existing code. If
-nothing else I think a single ioctl should be consistent across memory
-types! Heh.
+Ah, so I tried switching back to the {0} initializer, and was reminded
+why I didn't do that in v1. :) Ignoring the missing braces warning I
+talked about before, using {0} here is actually an error
+("variable-sized object may not be initialized") because this is a
+variable sized array (nr_cpus isn't constant). So, that option is out.
 
-But I also think you're right and it's not exactly intentional that
-copy / zeropage / etc are different in this respect. Some unification
-would be nice, although I'm not 100% sure what that looks like
-concretely.
+I'm not a huge fan of adding the free() cleanup and dealing with all
+of the err() calls this function has.
 
-My rule of thumb is, in cases where we can't imagine a real use case,
-it's better to be too strict rather than too loose. And in the future,
-it's less disruptive to loosen restrictions rather than tighten them
-(potentially breaking something which used to work).
-
-I'll leave untangling this to some future series, though.
+Originally I switched to calloc() because I'm not a big fan of VLAs
+anyway. But, as a compromise in v4 I'll leave it a VLA, and switch to
+memset() for initializing it.
 
 >
-> Acked-by: Peter Xu <peterx@redhat.com>
->
-> --
-> Peter Xu
->
+> >
+> > --
+> > Peter Xu
+> >
