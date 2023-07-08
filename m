@@ -2,103 +2,186 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E38EB64DA
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Jul 2023 03:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B9DC0015E
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Jul 2023 05:37:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232552AbjGHDC5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jul 2023 23:02:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54220 "EHLO
+        id S232910AbjGHFg7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Jul 2023 01:36:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229699AbjGHDC4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jul 2023 23:02:56 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F09FB1FEA;
-        Fri,  7 Jul 2023 20:02:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=q+fKJg6HR9afiGS5ZVUkMqH6jNo2B3LjnZTFJ0ksF7M=; b=p0hZbb6jEJgI7kz5GD5aPJTIxg
-        K5qlyeCab9L4xSs9SSpGF/0EgO6mRhDnh6fMTuGwZirQheHjG1QlF5eQW1cz44VptHS+NkRdfsEgW
-        NJJ88fZhRgWzwCFs6xpd1RoiueA2g1RFFtoWWtVzgz9J+IEcVN9hfuy1Pfz3rZgdGSXpwqEQOX+aE
-        kdZhFhKKxeGag+JOx6+HhToNSPjduhdgq0HEnCLJgtESF60hImYhtoRiao63uC1W5Osk/o9CM7Kho
-        2Ix3ZXTslu4bFUDZ8N/qkOkkVVWFoTEbv8TZgE1ig0n8rTHDOA+8vNpGi19/0JkBqS0XJotkJiUnJ
-        kINsSWZw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qHyDl-006Oo9-1m;
-        Sat, 08 Jul 2023 03:02:53 +0000
-Message-ID: <d1b35a5b-a061-a6c0-5898-aaaad3dd4986@infradead.org>
-Date:   Fri, 7 Jul 2023 20:02:52 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v4 4/4] RISC-V: mm: Document mmap changes
-Content-Language: en-US
-To:     Charlie Jenkins <charlie@rivosinc.com>,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     conor@kernel.org, paul.walmsley@sifive.com, palmer@rivosinc.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org,
-        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        mick@ics.forth.gr, jrtc27@jrtc27.com
-References: <20230708011156.2697409-1-charlie@rivosinc.com>
- <20230708011156.2697409-5-charlie@rivosinc.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230708011156.2697409-5-charlie@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S232904AbjGHFg6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jul 2023 01:36:58 -0400
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D5282107
+        for <linux-doc@vger.kernel.org>; Fri,  7 Jul 2023 22:36:56 -0700 (PDT)
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-403a0d7afafso4714791cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jul 2023 22:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1688794615; x=1691386615;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/6X+3H1ljfy7IjsbLjk8teqFst7rLlyJv0xIACsaZ2M=;
+        b=YTtOX0w+o9n/CPVzXDv1lowkOGTsW9kVS4l1u0GlN+P4+Pe6TRMgaq+o7QEeDp1B1f
+         7vM6U77MpQ9uceQKGo0/a+NnWjsimwHU6ohZpZeFLkemHDBGS0frgwzmdlyfUOOBAbxU
+         ET+4I+z7GIBzMBcsWS/933I401edCFOFcHQNgUzaGht1OEi7TIAKdIBtTQz9Kzgb2tiU
+         tw5cc4FxstdLt4ipYhJ9ZMkYCPe29jz+lLQa4scUKCUFk/nlfJ+gnP1h7/hQnqFLSwvv
+         /cA8qPKZNBaudKaHEGn+LQXo3rJzTpV5iLzFhKIQjljhwcsODwxFNmwiIbD6qae1PQVx
+         1cdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688794615; x=1691386615;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/6X+3H1ljfy7IjsbLjk8teqFst7rLlyJv0xIACsaZ2M=;
+        b=cl5pjUkDvEqWX8/DRmFT4HPa840DR83lSQPcAc7SeClpIvWy+keB/gxv0ff6AbUe2c
+         Tw+7787n3RcChbWslQ2c9tjEVRc5P2IgiUHx6AgvAUj2651plLMbSR+n38tQ/Laij9Di
+         mPAClHYOkZvzAFuiewExu/oDzfj9fTnAjMJ1btoImfHByVEs16De+/3JE/AqGc4XYazM
+         T0pJpTtOxOctr7SVL5bG4oEA4FItS9K4olw7P4fn/1qQrzHmFQCyqzW86Tvrf9o+4i8Z
+         80ng7T/yFrpt1YOeqFrYA1TkEc9faQ2e3/ciBANFF+aw7TN0/rVjtVYf0TpOYQheq+1S
+         owxA==
+X-Gm-Message-State: ABy/qLaY+w6RKmQrYWo/X7iZ4NcEX1UFgxDd/WFv9EgA6JXxN2vrpN7D
+        Oqu3CBeDTpS+w3L34c5R4zT/
+X-Google-Smtp-Source: APBJJlG+a1EKnj+jvMEDInNdvc1r1W/hz+0/12Nwm+mpbZz0DyPSVNjr9MqOf37m7Bq8n/2COLAfQA==
+X-Received: by 2002:a05:620a:4051:b0:767:923:48d8 with SMTP id i17-20020a05620a405100b00767092348d8mr6721872qko.27.1688794615250;
+        Fri, 07 Jul 2023 22:36:55 -0700 (PDT)
+Received: from localhost ([70.22.175.108])
+        by smtp.gmail.com with ESMTPSA id c11-20020ae9e20b000000b0075cebaa1540sm2479491qkc.58.2023.07.07.22.36.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jul 2023 22:36:54 -0700 (PDT)
+Date:   Sat, 08 Jul 2023 01:36:54 -0400
+Message-ID: <b460c0317dfbd5b4668015e104ea3e92.paul@paul-moore.com>
+From:   Paul Moore <paul@paul-moore.com>
+To:     Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
+        agk@redhat.com, snitzer@kernel.org, eparis@redhat.com
+Cc:     linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, audit@vger.kernel.org,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>,
+        Fan Wu <wufan@linux.microsoft.com>
+Subject: Re: [PATCH RFC v10 1/17] security: add ipe lsm
+References: <1687986571-16823-2-git-send-email-wufan@linux.microsoft.com>
+In-Reply-To: <1687986571-16823-2-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
-On 7/7/23 18:11, Charlie Jenkins wrote:
-> The behavior of mmap is modified with this patch series, so explain the
-> changes to the mmap hint address behavior.
+On Jun 28, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
 > 
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> Integrity Policy Enforcement (IPE) is an LSM that provides an
+> complimentary approach to Mandatory Access Control than existing LSMs
+> today.
+> 
+> Existing LSMs have centered around the concept of access to a resource
+> should be controlled by the current user's credentials. IPE's approach,
+> is that access to a resource should be controlled by the system's trust
+> of a current resource.
+> 
+> The basis of this approach is defining a global policy to specify which
+> resource can be trusted.
+> 
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 > ---
->  Documentation/riscv/vm-layout.rst | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
-> index 5462c84f4723..8141addbf888 100644
-> --- a/Documentation/riscv/vm-layout.rst
-> +++ b/Documentation/riscv/vm-layout.rst
-> @@ -133,3 +133,25 @@ RISC-V Linux Kernel SV57
->     ffffffff00000000 |  -4     GB | ffffffff7fffffff |    2 GB | modules, BPF
->     ffffffff80000000 |  -2     GB | ffffffffffffffff |    2 GB | kernel
->    __________________|____________|__________________|_________|____________________________________________________________
-> +
-> +
-> +Userspace VAs
-> +--------------------
-> +To maintain compatibility with software that relies on the VA space with a
-> +maximum of 48 bits the kernel will, by default, return virtual addresses to
-> +userspace from a 48-bit range (sv48). This default behavior is achieved by
-> +passing 0 into the hint address parameter of mmap. On CPUs with an address space
-> +smaller than sv48, the CPU maximum supported address space will be the default.
-> +
-> +Software can "opt-in" to receiving VAs from other VA space by providing
+>  MAINTAINERS           |  7 +++++++
+>  security/Kconfig      | 11 ++++++-----
+>  security/Makefile     |  1 +
+>  security/ipe/Kconfig  | 17 +++++++++++++++++
+>  security/ipe/Makefile | 10 ++++++++++
+>  security/ipe/ipe.c    | 37 +++++++++++++++++++++++++++++++++++++
+>  security/ipe/ipe.h    | 16 ++++++++++++++++
+>  7 files changed, 94 insertions(+), 5 deletions(-)
+>  create mode 100644 security/ipe/Kconfig
+>  create mode 100644 security/ipe/Makefile
+>  create mode 100644 security/ipe/ipe.c
+>  create mode 100644 security/ipe/ipe.h
 
-                                          from another VA space
-or
-                                          from other VA spaces
-I prefer the first one.
+...
 
-> +a hint address to mmap. A call to mmap is guaranteed to return an address
-> +that will not override the unset left-aligned bits in the hint address,
-> +unless there is no space left in the address space. If there is no space
-> +available in the requested address space, an address in the next smallest
-> +available address space will be returned.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a82795114ad4..ad00887d38ea 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10278,6 +10278,13 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git
+>  F:	security/integrity/
+>  F:	security/integrity/ima/
+>  
+> +INTEGRITY POLICY ENFORCEMENT (IPE)
+> +M:	Fan Wu <wufan@linux.microsoft.com>
+> +L:	linux-security-module@vger.kernel.org
+> +S:	Supported
+> +T:	git git://github.com/microsoft/ipe.git
+
+Using the raw git protocol doesn't seem to work with GH, I think you
+need to refernce the git/https URL:
+
+ https://github.com/microsoft/ipe.git
+
+> +F:	security/ipe/
 > +
-> +For example, in order to obtain 48-bit VA space, a hint address greater than
-> +:code:`1 << 38` must be provided. Note that this is 38 due to sv39 userspace
-> +ending at :code:`1 << 38` and the addresses beyond this are reserved for the
-> +kernel. Similarly, to obtain 57-bit VA space addresses, a hint address greater
-> +than or equal to :code:`1 << 47` must be provided.
+>  INTEL 810/815 FRAMEBUFFER DRIVER
+>  M:	Antonino Daplas <adaplas@gmail.com>
+>  L:	linux-fbdev@vger.kernel.org
+> diff --git a/security/Kconfig b/security/Kconfig
+> index 97abeb9b9a19..daa4626ea99c 100644
+> --- a/security/Kconfig
+> +++ b/security/Kconfig
+> @@ -202,6 +202,7 @@ source "security/yama/Kconfig"
+>  source "security/safesetid/Kconfig"
+>  source "security/lockdown/Kconfig"
+>  source "security/landlock/Kconfig"
+> +source "security/ipe/Kconfig"
+>  
+>  source "security/integrity/Kconfig"
+>  
+> @@ -241,11 +242,11 @@ endchoice
+>  
+>  config LSM
+>  	string "Ordered list of enabled LSMs"
+> -	default "landlock,lockdown,yama,loadpin,safesetid,smack,selinux,tomoyo,apparmor,bpf" if DEFAULT_SECURITY_SMACK
+> -	default "landlock,lockdown,yama,loadpin,safesetid,apparmor,selinux,smack,tomoyo,bpf" if DEFAULT_SECURITY_APPARMOR
+> -	default "landlock,lockdown,yama,loadpin,safesetid,tomoyo,bpf" if DEFAULT_SECURITY_TOMOYO
+> -	default "landlock,lockdown,yama,loadpin,safesetid,bpf" if DEFAULT_SECURITY_DAC
+> -	default "landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,apparmor,bpf"
+> +	default "landlock,lockdown,yama,loadpin,safesetid,smack,selinux,tomoyo,apparmor,bpf,ipe" if DEFAULT_SECURITY_SMACK
+> +	default "landlock,lockdown,yama,loadpin,safesetid,apparmor,selinux,smack,tomoyo,bpf,ipe" if DEFAULT_SECURITY_APPARMOR
+> +	default "landlock,lockdown,yama,loadpin,safesetid,tomoyo,bpf,ipe" if DEFAULT_SECURITY_TOMOYO
+> +	default "landlock,lockdown,yama,loadpin,safesetid,bpf,ipe" if DEFAULT_SECURITY_DAC
+> +	default "landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,apparmor,bpf,ipe"
 
--- 
-~Randy
+Generally speaking the BPF LSM should be the last entry in the LSM
+list to help prevent issues caused by a BPF LSM returning an improper
+error and shortcutting a LSM after it.
+
+>  	help
+>  	  A comma-separated list of LSMs, in initialization order.
+>  	  Any LSMs left off this list, except for those with order
+
+...
+
+> diff --git a/security/ipe/Makefile b/security/ipe/Makefile
+> new file mode 100644
+> index 000000000000..571648579991
+> --- /dev/null
+> +++ b/security/ipe/Makefile
+> @@ -0,0 +1,10 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Copyright (C) Microsoft Corporation. All rights reserved.
+> +#
+> +# Makefile for building the IPE module as part of the kernel tree.
+> +#
+> +
+> +obj-$(CONFIG_SECURITY_IPE) += \
+> +	hooks.o \
+> +	ipe.o \
+
+It doesn't look like security/ipe/hook.c is included in this patch.
+
+It is important to ensure that each patch compiles after it is
+applied.
+
+--
+paul-moore.com
