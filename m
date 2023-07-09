@@ -2,34 +2,36 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C4C3EB64DC
-	for <linux-doc@archiver.kernel.org>; Sun,  9 Jul 2023 21:18:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CE5C001B0
+	for <linux-doc@archiver.kernel.org>; Sun,  9 Jul 2023 21:18:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbjGIVSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Jul 2023 17:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
+        id S229937AbjGIVSH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Jul 2023 17:18:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjGIVSG (ORCPT
+        with ESMTP id S229450AbjGIVSG (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jul 2023 17:18:06 -0400
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7BD118;
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69E1511B;
         Sun,  9 Jul 2023 14:18:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-        s=mail; t=1688937483;
-        bh=WXEkw13RV61a6X752/mXvKkvA9bWqyILNC1f+dwJRBk=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=FLoAhU8/CEkJZE6yW4YBbhWeRgct9Nw4/c6y7zJvf5G6iTIwA1ee92P0qarFx7pAE
-         5uwXFvaf6Lm71n+QosRp/H2XYWEBrOZVUKFdDbDTcdzC5eftfU1PJ/lcUok4MNvTTN
-         BQeMEXZ/Pjgrzgj2zqXkeTqGpzQqym9vnRO8SEk4=
+        s=mail; t=1688937482;
+        bh=No8xXIKam1ZdBL258zzIwMmAiWCgXDsDDSVQxysmNX0=;
+        h=From:Subject:Date:To:Cc:From;
+        b=O2A5I6f2wRamvOLu2hvMMPuKyHTQ8FNh/CW+2mxmbU4JvXyYtg52hy5zKQEc5t4xJ
+         txFwLQQPCEnZDFk/INTT5eHpv7/vVZnXyw1LuQIh3OIrO/aoRIBTAoihCN9Uh6i/JG
+         A3T+6yVEh3hdIErDC+t+A6NKdY5PsGZT2flM2dWI=
 From:   =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date:   Sun, 09 Jul 2023 23:17:58 +0200
-Subject: [PATCH v2 1/3] dyndbg: constify opt_array
+Subject: [PATCH v2 0/3] dyndbg: add source file name to prefix
+Date:   Sun, 09 Jul 2023 23:17:57 +0200
+Message-Id: <20230709-dyndbg-filename-v2-0-fd83beef0925@weissschuh.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230709-dyndbg-filename-v2-1-fd83beef0925@weissschuh.net>
-References: <20230709-dyndbg-filename-v2-0-fd83beef0925@weissschuh.net>
-In-Reply-To: <20230709-dyndbg-filename-v2-0-fd83beef0925@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAAUkq2QC/3WNyw6CMBAAf4X0bE27YARP/ofh0MdCN8FiuoASw
+ r9buXucSSazCcZEyOJWbCLhQkxjzACnQrhgYo+SfGYBCkADlNKv0dtedjRgNE+UClDV18YbrKz
+ IlTWM0iYTXchdnIchy1fCjj7H5tFmDsTTmNbjuuif/T9YtFTS2a6+VKVSjdH3NxIzuzCHc8RJt
+ Pu+fwF6OXq/yAAAAA==
 To:     Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Luis Chamberlain <mcgrof@kernel.org>,
@@ -37,38 +39,45 @@ To:     Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1688937480; l=714;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1688937480; l=1116;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=WXEkw13RV61a6X752/mXvKkvA9bWqyILNC1f+dwJRBk=;
- b=1EveoNxSWocT/JvcCYMCkWLZELFPlTyvQJh/Gptn44acX2ghh09fk62hWml+DdBPa89Nq+4tM
- +Wqmripd92OADMsO+8xdaW2M7B2OG2A/4SbBWZi5b11pYoZ9zidgdbY
+ bh=No8xXIKam1ZdBL258zzIwMmAiWCgXDsDDSVQxysmNX0=;
+ b=UQKSy2QcmBDcMOt15jIfaOgs/ujS8NzocTchVsGuNvvvn1SR8oRrM2o814pvUMPG8h8JTn8GE
+ cJ7HBcfPMm6CnmA2USTy9mZurgdI0ufPlfk+11gXQ3veJoJRODkH3DQ
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It is never modified, so mark it const.
+Currently dyndbg has no facility to print the source file name of a
+debug statement.
+Without the source file the line number is of limited use.
+Also the dyndbg control file uses the filename as the primary index, so
+having it in the logmessage makes the relation clearer.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- lib/dynamic_debug.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- Apply Acks from Jason and Jim
+- Add Greg and Luis to recipients to pick up the patches
+- Link to v1: https://lore.kernel.org/r/20221223-dyndbg-filename-v1-0-cbf8543009a1@weissschuh.net
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index fdd6d9800a70..71b22d206a1b 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -88,7 +88,7 @@ static inline const char *trim_prefix(const char *path)
- 	return path + skip;
- }
- 
--static struct { unsigned flag:8; char opt_char; } opt_array[] = {
-+static const struct { unsigned flag:8; char opt_char; } opt_array[] = {
- 	{ _DPRINTK_FLAGS_PRINT, 'p' },
- 	{ _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
- 	{ _DPRINTK_FLAGS_INCL_FUNCNAME, 'f' },
+---
+Thomas Weißschuh (3):
+      dyndbg: constify opt_array
+      dyndbg: increase PREFIX_SIZE to 128
+      dyndbg: add source filename to prefix
 
+ Documentation/admin-guide/dynamic-debug-howto.rst | 5 +++--
+ include/linux/dynamic_debug.h                     | 4 +++-
+ lib/dynamic_debug.c                               | 8 ++++++--
+ 3 files changed, 12 insertions(+), 5 deletions(-)
+---
+base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+change-id: 20221223-dyndbg-filename-02e0879dae4b
+
+Best regards,
 -- 
-2.41.0
+Thomas Weißschuh <linux@weissschuh.net>
 
