@@ -2,141 +2,144 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 644F1EB64DC
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Jul 2023 17:19:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46884EB64DC
+	for <linux-doc@archiver.kernel.org>; Sun,  9 Jul 2023 01:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbjGHRTL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Jul 2023 13:19:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43966 "EHLO
+        id S229614AbjGIBIz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Jul 2023 21:08:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbjGHRTK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jul 2023 13:19:10 -0400
+        with ESMTP id S229436AbjGIBIy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jul 2023 21:08:54 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D05EFE45;
-        Sat,  8 Jul 2023 10:19:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B571BC;
+        Sat,  8 Jul 2023 18:08:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F3E760DD6;
-        Sat,  8 Jul 2023 17:19:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F4160C433C8;
-        Sat,  8 Jul 2023 17:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688836748;
-        bh=obPszca9HUUm39m5DN//rZarmmI8Vk++L/cwyjiHZIk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kI2M35eS+cw6Fn29keKYSvOWLrCP4dIqGPVPita2Ful/ophTkK5JdWM7Shte1F/ov
-         ijsAKvz9NwcqwoIQNleGAKEsl64YVPEC1fqaSEFp7DJAMoySmc9KBxGzYQc6+PV6Fe
-         rixmx0s5JOKmBJvGPgstbziv1jgbTy8t4Yj4qbWCNm2wK7kgRd4C9mYZiM4tFXDsCs
-         57AJj6IoXK62ULhit/QH516zpa91wkt7xRa86nc4DMuACVmpwLbaKJHgHsWLCK0bid
-         hldeysMHy8wXJlZLImsJnyQwW/77HkMmoUQJ5uu4WrgFZz+5Fu9d65X1g7Pavw5gLT
-         vE4xy+kl/YU/A==
-Message-ID: <0b4048d4-e80d-a80c-d16d-3fbb301cf698@kernel.org>
-Date:   Sat, 8 Jul 2023 19:19:02 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] proc.5: Clarify that boot arguments can be embedded in
- image
-Content-Language: en-US
-To:     paulmck@kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     mtk.manpages@gmail.com, corbet@lwn.net, akpm@linux-foundation.org,
-        ndesaulniers@google.com, vbabka@suse.cz, hannes@cmpxchg.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-man@vger.kernel.org
-References: <433d742b-743b-4335-878f-1ca0f45698f7@paulmck-laptop>
- <20230704215932.c9cab0af086528e52ca0bfbb@kernel.org>
- <d3057de8-39ca-4d2a-aa03-9134f916fac9@paulmck-laptop>
-From:   Alejandro Colomar <alx@kernel.org>
-In-Reply-To: <d3057de8-39ca-4d2a-aa03-9134f916fac9@paulmck-laptop>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0hNmHNIBNB4tyNxQxz770Y1k"
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 63EB260B6A;
+        Sun,  9 Jul 2023 01:08:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E62EC433C7;
+        Sun,  9 Jul 2023 01:08:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1688864932;
+        bh=k5nxP9jbAM1IeZ9Pjabku0MSbBxiNxaBsjdLI65+RGc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=aDLhQEW2U/Ce5YKFULJhO1iXzIZEfMh0qIsf91fXpGlDLKAGl3S4x1zHAzXaZBqJH
+         nDmSl0JnGqMiPVvyfXbiGQ7aK4uWDFVOT66Xf9WlGRZ+ubThBc9LOVAk+jKmRgDST6
+         vyy7ru4yQOv31Bb5r0zp+BxYYD2eUa+mISzsqUDQ=
+Date:   Sat, 8 Jul 2023 18:08:50 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Axel Rasmussen <axelrasmussen@google.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Brian Geffon <bgeffon@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        James Houghton <jthoughton@google.com>,
+        "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Nadav Amit <namit@vmware.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Peter Xu <peterx@redhat.com>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "T.J. Alumbaugh" <talumbau@google.com>,
+        Yu Zhao <yuzhao@google.com>,
+        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 1/8] mm: make PTE_MARKER_SWAPIN_ERROR more general
+Message-Id: <20230708180850.bc938ab49fbfb38b83c367c8@linux-foundation.org>
+In-Reply-To: <20230707215540.2324998-2-axelrasmussen@google.com>
+References: <20230707215540.2324998-1-axelrasmussen@google.com>
+        <20230707215540.2324998-2-axelrasmussen@google.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0hNmHNIBNB4tyNxQxz770Y1k
-Content-Type: multipart/mixed; boundary="------------EfxjfJRe60ewWmyBXc7L6Yfm";
- protected-headers="v1"
-From: Alejandro Colomar <alx@kernel.org>
-To: paulmck@kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
-Cc: mtk.manpages@gmail.com, corbet@lwn.net, akpm@linux-foundation.org,
- ndesaulniers@google.com, vbabka@suse.cz, hannes@cmpxchg.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-man@vger.kernel.org
-Message-ID: <0b4048d4-e80d-a80c-d16d-3fbb301cf698@kernel.org>
-Subject: Re: [PATCH] proc.5: Clarify that boot arguments can be embedded in
- image
-References: <433d742b-743b-4335-878f-1ca0f45698f7@paulmck-laptop>
- <20230704215932.c9cab0af086528e52ca0bfbb@kernel.org>
- <d3057de8-39ca-4d2a-aa03-9134f916fac9@paulmck-laptop>
-In-Reply-To: <d3057de8-39ca-4d2a-aa03-9134f916fac9@paulmck-laptop>
+On Fri,  7 Jul 2023 14:55:33 -0700 Axel Rasmussen <axelrasmussen@google.com> wrote:
 
---------------EfxjfJRe60ewWmyBXc7L6Yfm
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> Future patches will re-use PTE_MARKER_SWAPIN_ERROR to implement
+> UFFDIO_POISON, so make some various preparations for that:
+> 
+> First, rename it to just PTE_MARKER_POISONED. The "SWAPIN" can be
+> confusing since we're going to re-use it for something not really
+> related to swap. This can be particularly confusing for things like
+> hugetlbfs, which doesn't support swap whatsoever. Also rename some
+> various helper functions.
+> 
+> Next, fix pte marker copying for hugetlbfs. Previously, it would WARN on
+> seeing a PTE_MARKER_SWAPIN_ERROR, since hugetlbfs doesn't support swap.
+> But, since we're going to re-use it, we want it to go ahead and copy it
+> just like non-hugetlbfs memory does today. Since the code to do this is
+> more complicated now, pull it out into a helper which can be re-used in
+> both places. While we're at it, also make it slightly more explicit in
+> its handling of e.g. uffd wp markers.
+> 
+> For non-hugetlbfs page faults, instead of returning VM_FAULT_SIGBUS for
+> an error entry, return VM_FAULT_HWPOISON. For most cases this change
+> doesn't matter, e.g. a userspace program would receive a SIGBUS either
+> way. But for UFFDIO_POISON, this change will let KVM guests get an MCE
+> out of the box, instead of giving a SIGBUS to the hypervisor and
+> requiring it to somehow inject an MCE.
+> 
+> Finally, for hugetlbfs faults, handle PTE_MARKER_POISONED, and return
+> VM_FAULT_HWPOISON_LARGE in such cases. Note that this can't happen today
+> because the lack of swap support means we'll never end up with such a
+> PTE anyway, but this behavior will be needed once such entries *can*
+> show up via UFFDIO_POISON.
+> 
+> --- a/include/linux/mm_inline.h
+> +++ b/include/linux/mm_inline.h
+> @@ -523,6 +523,25 @@ static inline bool mm_tlb_flush_nested(struct mm_struct *mm)
+>  	return atomic_read(&mm->tlb_flush_pending) > 1;
+>  }
+>  
+> +/*
+> + * Computes the pte marker to copy from the given source entry into dst_vma.
+> + * If no marker should be copied, returns 0.
+> + * The caller should insert a new pte created with make_pte_marker().
+> + */
+> +static inline pte_marker copy_pte_marker(
+> +		swp_entry_t entry, struct vm_area_struct *dst_vma)
+> +{
+> +	pte_marker srcm = pte_marker_get(entry);
+> +	/* Always copy error entries. */
+> +	pte_marker dstm = srcm & PTE_MARKER_POISONED;
+> +
+> +	/* Only copy PTE markers if UFFD register matches. */
+> +	if ((srcm & PTE_MARKER_UFFD_WP) && userfaultfd_wp(dst_vma))
+> +		dstm |= PTE_MARKER_UFFD_WP;
+> +
+> +	return dstm;
+> +}
 
-SGkgUGF1bCENCg0KT24gNy81LzIzIDIyOjMzLCBQYXVsIEUuIE1jS2VubmV5IHdyb3RlOg0K
-PiBPbiBUdWUsIEp1bCAwNCwgMjAyMyBhdCAwOTo1OTozMlBNICswOTAwLCBNYXNhbWkgSGly
-YW1hdHN1IHdyb3RlOg0KPj4gT24gRnJpLCAzMCBKdW4gMjAyMyAxNjozMzoyOCAtMDcwMA0K
-Pj4gIlBhdWwgRS4gTWNLZW5uZXkiIDxwYXVsbWNrQGtlcm5lbC5vcmc+IHdyb3RlOg0KPj4N
-Cj4+PiBXaXRoIHRoZSBhZHZlbnQgb2YgdGhlIENPTkZJR19CT09UX0NPTkZJRyBLY29uZmln
-IG9wdGlvbiwga2VybmVsIGJvb3QNCj4+PiBhcmd1bWVudHMgY2FuIG5vdyBiZSBlbWJlZGRl
-ZCBpbiB0aGUga2VybmVsIGltYWdlLCBlaXRoZXIgYXR0YWNoZWQNCj4+PiB0byB0aGUgZW5k
-IG9mIGluaXRyYW1mcyBvciBlbWJlZGRlZCBpbiB0aGUga2VybmVsIGl0c2VsZi4gIERvY3Vt
-ZW50DQo+Pj4gdGhpcyBwb3NzaWJpbGl0eSBpbiB0aGUgL3Byb2MvY21kbGluZSBlbnRyeSBv
-ZiBwcm9jLjUuDQo+Pg0KPj4gVGhhbmtzIGZvciB1cGRhdGUhDQo+Pg0KPj4gUmV2aWV3ZWQt
-Ynk6IE1hc2FtaSBIaXJhbWF0c3UgKEdvb2dsZSkgPG1oaXJhbWF0QGtlcm5lbC5vcmc+DQo+
-IA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXchICBUYWcgYWRkZWQuDQoNCj4gVGhhbmsgeW91
-LCBNYXNhbWkhDQo+IA0KPiBBZGRpbmcgQWxlamFuZHJvIGFuZCBsaW51eC1tYW4gb24gQ0Mu
-DQo+IA0KPiAJCQkJCQkJVGhhbngsIFBhdWwNCj4gDQo+Pj4gU2lnbmVkLW9mZi1ieTogUGF1
-bCBFLiBNY0tlbm5leSA8cGF1bG1ja0BrZXJuZWwub3JnPg0KPj4+IENjOiBNaWNoYWVsIEtl
-cnJpc2sgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+DQo+Pj4gQ2M6IE1hc2FtaSBIaXJhbWF0
-c3UgPG1oaXJhbWF0QGtlcm5lbC5vcmc+DQo+Pj4gQ2M6IEpvbmF0aGFuIENvcmJldCA8Y29y
-YmV0QGx3bi5uZXQ+DQo+Pj4gQ2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRh
-dGlvbi5vcmc+DQo+Pj4gQ2M6IE5pY2sgRGVzYXVsbmllcnMgPG5kZXNhdWxuaWVyc0Bnb29n
-bGUuY29tPg0KPj4+IENjOiBWbGFzdGltaWwgQmFia2EgPHZiYWJrYUBzdXNlLmN6Pg0KPj4+
-IENjOiBKb2hhbm5lcyBXZWluZXIgPGhhbm5lc0BjbXB4Y2hnLm9yZz4NCj4+Pg0KDQpUaGFu
-a3MhICBQYXRjaCBhcHBsaWVkLg0KDQpDaGVlcnMsDQpBbGV4DQoNCj4+PiBkaWZmIC0tZ2l0
-IGEvbWFuNS9wcm9jLjUgYi9tYW41L3Byb2MuNQ0KPj4+IGluZGV4IGM2Njg0NjIwZS4uMTQx
-YTI5ODNjIDEwMDY0NA0KPj4+IC0tLSBhL21hbjUvcHJvYy41DQo+Pj4gKysrIGIvbWFuNS9w
-cm9jLjUNCj4+PiBAQCAtMzEwMCw2ICszMTAwLDkgQEAgT2Z0ZW4gZG9uZSB2aWEgYSBib290
-IG1hbmFnZXIgc3VjaCBhcw0KPj4+ICAgLkJSIGxpbG8gKDgpDQo+Pj4gICBvcg0KPj4+ICAg
-LkJSIGdydWIgKDgpLg0KPj4+ICtBbnkgYXJndW1lbnRzIGVtYmVkZGVkIGluIHRoZSBrZXJu
-ZWwgaW1hZ2Ugb3IgaW5pdHJhbWZzIHZpYQ0KPj4+ICsuQiBDT05GSUdfQk9PVF9DT05GSUcN
-Cj4+PiArd2lsbCBhbHNvIGJlIGRpc3BsYXllZC4NCj4+PiAgIC5UUA0KPj4+ICAgLklSIC9w
-cm9jL2NvbmZpZy5neiAiIChzaW5jZSBMaW51eCAyLjYpIg0KPj4+ICAgVGhpcyBmaWxlIGV4
-cG9zZXMgdGhlIGNvbmZpZ3VyYXRpb24gb3B0aW9ucyB0aGF0IHdlcmUgdXNlZA0KPj4NCj4+
-DQo+PiAtLSANCj4+IE1hc2FtaSBIaXJhbWF0c3UgKEdvb2dsZSkgPG1oaXJhbWF0QGtlcm5l
-bC5vcmc+DQoNCi0tIA0KPGh0dHA6Ly93d3cuYWxlamFuZHJvLWNvbG9tYXIuZXMvPg0KR1BH
-IGtleSBmaW5nZXJwcmludDogQTkzNDg1OTRDRTMxMjgzQTgyNkZCREQ4RDU3NjMzRDQ0MUUy
-NUJCNQ0KDQo=
+Breaks the build with CONFIG_MMU=n (arm allnoconfig).  pte_marker isn't
+defined.
 
---------------EfxjfJRe60ewWmyBXc7L6Yfm--
+I'll slap #ifdef CONFIG_MMU around this function, but probably somethng more
+fine-grained could be used, like CONFIG_PTE_MARKER_UFFD_WP.  Please
+consider.
 
---------------0hNmHNIBNB4tyNxQxz770Y1k
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+btw, both copy_pte_marker() and pte_install_uffd_wp_if_needed() look
+far too large to justify inlining.  Please review the desirability of
+this.
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmSpmoYACgkQnowa+77/
-2zLaAw/9GZ44D9oqBv/3PZ7DPzamy+1S94JAgMufrbV5SOSMXpIZhVHLSLR8CI0i
-MAV+vOp06f5lDuowwlCU/QetZK5OylyEy1G+7WuB+hY3/Qjtf7bblTDp+lrAISQn
-VyN9N/yJM1LPumsmwPwM2ifzTQ/xviTDWg4JeDAr0tE8G+R6Q42uXEfwl+F9W+sP
-6zWRWi4gPQw2/6iqZiJk5dm0M+xajjt+iFKp2z8UOaPXLDJzAWcnPozuyl8M4k5M
-/yRyzJpq3eqSAkpYzJVruMpcVcLhzh28iLOkSAH5OjNuZlxGPXbYHZCV+fUqcS7q
-XkZlgmkbahcYTMm/92jHAMvoD4YWnuPt5Ol6t0m12lvl25KfOkH+F28mp7n1YupR
-Y1TJUoc/ciVFiWBtgEY5i1pbiVqYIIEypN51QOb00CLCalyzQgD0MOPbMQgD4KiP
-ZZh3gL/Z0PRL4hRgV58U6WnWzSo55uQxCdrL6tcms1go+6PxELf1T3QCc2Jih714
-6iJ55BxnBiKCwqXOtGgZIDbKLBd4S5hZYVffFaqyaNem5srvZnNEmfeSJn00dvsh
-rSe6S4Hjvju93AgVay86dEy9Uk/92a64A6EHXc/9m167sp7hyVjmacg24M1G0Tll
-pByrjpjoCEHiWkxI0VlMfJkGN7BCtrMqDKeg/+mmL3oiwZduEDU=
-=pJ9c
------END PGP SIGNATURE-----
-
---------------0hNmHNIBNB4tyNxQxz770Y1k--
