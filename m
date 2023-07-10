@@ -2,73 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA5CFEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9863BEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 20:01:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbjGJTv6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 15:51:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53300 "EHLO
+        id S230107AbjGJUBY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 16:01:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229883AbjGJTv5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:51:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A0CC1BF;
-        Mon, 10 Jul 2023 12:51:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 15E8F611BC;
-        Mon, 10 Jul 2023 19:51:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04CDFC433C8;
-        Mon, 10 Jul 2023 19:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689018703;
-        bh=NXlbhj/0cxgH0ijFVF/EaGRYBQvflqeLcwwZA4/SIPo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oN1TkI7ZXaoq0KTpySKiSK/s908C0xnNLG1SvQplQx/czSaY3eWHSip+bIPQRoc1D
-         4Dv65d6rXWMzB6m7nKCS6EcehhLtZDNJqfeYNn3o1ht/2rZWB0qQeRnNgD/c+vMV3t
-         W+GJoj+PG8cwrQGc4/KQJDudoatitcxCk7xy5hI8=
-Date:   Mon, 10 Jul 2023 21:51:40 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
- backporting option and a few tweaks
-Message-ID: <2023071002-phrasing-tranquil-49d6@gregkh>
-References: <cover.1689008220.git.linux@leemhuis.info>
+        with ESMTP id S229641AbjGJUBY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 16:01:24 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02E4D194
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 13:01:22 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2b6f943383eso77796811fa.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 13:01:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google; t=1689019281; x=1691611281;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UVQddm2EFdyUg1lZY45lMs8lFNZyKaFAHPyUNGkCJXQ=;
+        b=TwY4aYwTH/qA6+coIWC80o97pbXwocmsDE8k0T5R+tc/7g1YooiSw1WkqeOdHg1KFz
+         GuUpRp5Ck2HuZANwYgDu58RbZF1Kp/oQCp32io6pstK1fO//JPi8dF9Ri/OUtcCPXQXW
+         05FdLd1S8rR44arV+clas0mYHnnqrgz6eiqR4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689019281; x=1691611281;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UVQddm2EFdyUg1lZY45lMs8lFNZyKaFAHPyUNGkCJXQ=;
+        b=WDRMtssOKGbKAt8b8WLEJtkfFalKke1420vCSVtpj7/Lqi6bokJEb4TiEfFP3UHr9w
+         7+FovFej/oBpeWkYJlSfi+DDQ0YMjELCvByc7U11B8psypQLoU6QZjzszTt+Q1S1JqxG
+         ZpZ4p8z3cGRE5KOUBmm7AGtV7q7mLeRtWl9TyCQI2DT82cBgoTcSZIn8ItW/rqMygAOo
+         a33q7DOmxFbApMlU2lq7oV/vHUNZvANA/2guuURBmF1usrraijEbMX0GoeNVsouabMbz
+         YO0+Wx6lDuVOmKlg5GcUbh2+W+v+ZnKBZIrCLtOM7jfOUILNoPfe9bCCl643kqZsj+Wt
+         DxDg==
+X-Gm-Message-State: ABy/qLZAp+j4CjK6fzR4zRD+adHWN7dLSBLZyC82YjleqzwxdKCTPc+Q
+        E+kB5BUSEGTr2zd4okDRPtZ85+/uDep/EBmgITJzjg==
+X-Google-Smtp-Source: APBJJlGgSLXp3yxbnFy0qDEYkmUE3GTfKvyf7aFFRBaVwMb9XLbkGdmsVhWedXpHmLgtZ5Ql2+eKt/zDdzDA5BtsEzI=
+X-Received: by 2002:a2e:9189:0:b0:2b4:78f6:d335 with SMTP id
+ f9-20020a2e9189000000b002b478f6d335mr10422076ljg.8.1689019280886; Mon, 10 Jul
+ 2023 13:01:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1689008220.git.linux@leemhuis.info>
+References: <20230706102849.437687-1-mmpgouride@gmail.com> <20230706102849.437687-2-mmpgouride@gmail.com>
+In-Reply-To: <20230706102849.437687-2-mmpgouride@gmail.com>
+From:   Joel Fernandes <joel@joelfernandes.org>
+Date:   Mon, 10 Jul 2023 16:01:07 -0400
+Message-ID: <CAEXW_YShqCHHH9Q1icU=oGBbeHO+a1PTY-Q-+KbqVdTm8mR3cw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] rcu: Use WRITE_ONCE() for assignments to ->next for rculist_nulls
+To:     Alan Huang <mmpgouride@gmail.com>
+Cc:     paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
+        josh@joshtriplett.org, boqun.feng@gmail.com, corbet@lwn.net,
+        rcu@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 07:10:10PM +0200, Thorsten Leemhuis wrote:
-> This is a RFC and a bit rough for now. I only set down to create the
-> first of the three patches. But while doing so I noticed a few things
-> that seemed odd for me with my background on writing and editing texts.
-> So I just quickly performed a few additional changes to fix those to see
-> if the stable team would appreciate them, as this document is clearly
-> their domain.
-> 
-> If those changes or even the initial patch are not welcomed, I'll simply
-> drop them. I'd totally understand this, as texts like these are delicate
-> and it's easy to accidentlly change the intent or the meaning while
-> adjusting things in good faith.
-> 
-> At the same time I might be willing to do a few more changes, if people
-> like the direction this takes and want a bit more fine tuning.
+On Thu, Jul 6, 2023 at 6:29=E2=80=AFAM Alan Huang <mmpgouride@gmail.com> wr=
+ote:
+>
+> When the objects managed by rculist_nulls are allocated with
+> SLAB_TYPESAFE_BY_RCU, readers may still hold references to this
+> object that is being added, which means the modification of ->next
+> is visible to readers. So, this patch uses WRITE_ONCE() for assignments
+> to ->next.
+>
+> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
+> ---
+>  include/linux/rculist_nulls.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/linux/rculist_nulls.h b/include/linux/rculist_nulls.=
+h
+> index ba4c00dd8005..89186c499dd4 100644
+> --- a/include/linux/rculist_nulls.h
+> +++ b/include/linux/rculist_nulls.h
+> @@ -101,7 +101,7 @@ static inline void hlist_nulls_add_head_rcu(struct hl=
+ist_nulls_node *n,
+>  {
+>         struct hlist_nulls_node *first =3D h->first;
+>
+> -       n->next =3D first;
+> +       WRITE_ONCE(n->next, first);
+>         WRITE_ONCE(n->pprev, &h->first);
+>         rcu_assign_pointer(hlist_nulls_first_rcu(h), n);
+>         if (!is_a_nulls(first))
+> @@ -137,7 +137,7 @@ static inline void hlist_nulls_add_tail_rcu(struct hl=
+ist_nulls_node *n,
+>                 last =3D i;
+>
+>         if (last) {
+> -               n->next =3D last->next;
+> +               WRITE_ONCE(n->next, last->next);
+>                 n->pprev =3D &last->next;
+>                 rcu_assign_pointer(hlist_nulls_next_rcu(last), n);
+>         } else {
 
-I do like it, many thanks for taking the time to do this work, it's much
-appreciated.
-
-If you resend the first 2 as a non-RFC patch, I'll be glad to queue up,
-the last one needs some more work as mentioned.
+Don't you need READ_ONCE() for the read-side accesses as well?
 
 thanks,
 
-greg k-h
+ - Joel
