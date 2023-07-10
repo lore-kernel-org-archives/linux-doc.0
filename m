@@ -2,58 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A27C1C001B0
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32BF7EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:33:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229469AbjGJTcl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 15:32:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43278 "EHLO
+        id S230118AbjGJTdZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 15:33:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbjGJTck (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:32:40 -0400
+        with ESMTP id S230247AbjGJTdW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:33:22 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B5F2BC;
-        Mon, 10 Jul 2023 12:32:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D64BC;
+        Mon, 10 Jul 2023 12:33:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:
         Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
         Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
-        bh=LlnkGC74GytHxIJJwovutf2P2UKxE2NwtFzNvbCu77w=; b=dD1fzSZm0jygoNKQ+rjqYV5ieH
-        MwkPL/1dkEj91m/+OIUepeywUTRrqPip2derKvuJJ+o5/teMxJHnp69oBMx5ZU9Pvj6dvs1Dseqrb
-        6UjHZTZk/ajaal30G38cj0dnJX/rOzDq3rqi7U47LoshOpCnvPFc8XjjAVJK5sWxypFTaVrtb9Xme
-        zDxPo9h5tfarAbWxeK3fhBtPBH56D726mv2DUisD4pVUU1kBE1kxUlH68KPFxj/VNmtYFMXeD9Bhz
-        A3CHl7vTSVbWMoZdp4wOqnNyznYMHJ6rQMFRA5ZCJ5P8cNwNXzCE0Tr3SyjJcsTQSWHrcNEi6Dx7y
-        VBcRVxQA==;
+        bh=KJl6xBiueEAkIKarvHIBEAsPNJcVrx9T6j5N5ztqHmI=; b=nAv4PnLMR9ljIg3pN8qz2+SZdQ
+        GnmTnnxMRnlYcmbRvgD7WPnmwyeQ4fMQnm+EY8Y6E1cwAHCeDQTgFZnMBBUayjjVcqu8G4XOKbqY4
+        qG9CSjIIsy7WAo4JDGM39MqIcah9cXtT7z+LFQqr5lXwqrUcXJDIp682dmFSR0+trTl45YLmSV4It
+        OwnqWnkVje/HfFzgPdF9KKgtM/RNRpgMXde0XpXcU/k3VkvBUYrIvQ4EB4jxWAOMmYCgyxC7HilZF
+        yNMeLg6Atw9GM0f/mr03zdv7JF/iQBoCJAzfmt/341pm/mEKlEHpDQ+NTwFVM5p5vZCE6vLz4q36F
+        b5tRrv4Q==;
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1qIwcS-00CZN0-0B;
-        Mon, 10 Jul 2023 19:32:37 +0000
-Date:   Mon, 10 Jul 2023 12:32:24 -0700
+        id 1qIwdA-00CZRB-2M;
+        Mon, 10 Jul 2023 19:33:08 +0000
+Date:   Mon, 10 Jul 2023 12:33:08 -0700
 From:   Luis Chamberlain <mcgrof@kernel.org>
 To:     Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
 Cc:     Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] dyndbg: increase PREFIX_SIZE to 128
-Message-ID: <ZKxcyC7hOStZrWy3@bombadil.infradead.org>
+Subject: Re: [PATCH v2 3/3] dyndbg: add source filename to prefix
+Message-ID: <ZKxc9BiZIS5GHmV9@bombadil.infradead.org>
 References: <20230709-dyndbg-filename-v2-0-fd83beef0925@weissschuh.net>
- <20230709-dyndbg-filename-v2-2-fd83beef0925@weissschuh.net>
+ <20230709-dyndbg-filename-v2-3-fd83beef0925@weissschuh.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230709-dyndbg-filename-v2-2-fd83beef0925@weissschuh.net>
+In-Reply-To: <20230709-dyndbg-filename-v2-3-fd83beef0925@weissschuh.net>
 Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 09, 2023 at 11:17:59PM +0200, Thomas Weiﬂschuh wrote:
-> A follow-up patch will add the possibility to print the filename as part
-> of the prefix.
-> Increase the maximum prefix size to accommodate this.
+On Sun, Jul 09, 2023 at 11:18:00PM +0200, Thomas Weiﬂschuh wrote:
+> Printing the line number without the file is of limited usefulness.
+> 
+> Knowing the filename also makes it also easier to relate the logged
+> information to the controlfile.
+> 
+> Example:
+> 
+>     # modprobe test_dynamic_debug
+>     # echo 'file test_dynamic_debug.c =pfsl' > /proc/dynamic_debug/control
+>     # echo 1 > /sys/module/test_dynamic_debug/parameters/do_prints
+>     # dmesg | tail -2
+>     [   71.802212] do_cats:lib/test_dynamic_debug.c:103: test_dd: doing categories
+>     [   71.802227] do_levels:lib/test_dynamic_debug.c:123: test_dd: doing levels
 > 
 > Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> Acked-by: Jim Cromie <jim.cromie@gmail.com>
+> Acked-by: Jason Baron <jbaron@akamai.com>
 
 Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
 
