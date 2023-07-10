@@ -2,325 +2,208 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF21EEB64DA
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 07:52:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5759BEB64DA
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 08:20:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232211AbjGJHwI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 03:52:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52030 "EHLO
+        id S232937AbjGJIUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 04:20:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232223AbjGJHvy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 03:51:54 -0400
-Received: from out-5.mta0.migadu.com (out-5.mta0.migadu.com [IPv6:2001:41d0:1004:224b::5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702C33A86
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 00:50:09 -0700 (PDT)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1688975406;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Q0vhRlBTeULR80skrZFYKvSx31/Ubeonn4r0lIgH5eg=;
-        b=FDrKxT7kix7z4dmE02nN3Z9PdkA1Xp+Z/rtKMFvrMD4R7SPHM3mgNbPjgCeKuPtSaG9CAt
-        XrT0fxeKeCiUmiU1eP1Po3BqEGLYaDhYSVhUWjGWd8Ic0Nkl5aWTMYx0dL7x7KTJ/A+oEM
-        2w2IgqPPM3OpVXR8M+7ONLY0LKSE+24=
-From:   Yajun Deng <yajun.deng@linux.dev>
-To:     corbet@lwn.net, hch@lst.de, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, akpm@linux-foundation.org,
-        paulmck@kernel.org, catalin.marinas@arm.com, rdunlap@infradead.org,
-        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, linux-mm@kvack.org,
-        Yajun Deng <yajun.deng@linux.dev>
-Subject: [PATCH] dma-contiguous: support numa CMA for specified node
-Date:   Mon, 10 Jul 2023 15:49:44 +0800
-Message-Id: <20230710074944.3501810-1-yajun.deng@linux.dev>
+        with ESMTP id S232658AbjGJIUP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 04:20:15 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF4B9E42;
+        Mon, 10 Jul 2023 01:20:13 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36A7krCQ023910;
+        Mon, 10 Jul 2023 08:20:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=/dTrcIscOIZJe6yEHmvNp1+3t34E6M4g60mqMCOCoh4=;
+ b=YGLCuJ72Yd2VxJXvd31r4R5xz8KzwvWWhcyHk669bvxCanG15JfJ+7/naWckdqug9ATu
+ Af8PWrWG1FWzZAvqc0y7NsYlu+3I6FUMRKJPeJKRmiAgR1WhxMj8JrcA4XsQ49J9QbrR
+ co4duyoWW51ir255b69zZfS83u+DDbsooUOh4aTRGXpkpjoL0C55JGmlCebjW0a9v/Da
+ 7AZWf2Q0Mi8hB8baiAIOvsQijoNyFD1U0+cG/gePBQq0cUCMJuyOdQsXo0Tox5a4LMzA
+ EXgxzwKXpyixprV6bC7n1s62QyzeVi3XNGwFz/oXiHkF31F9MqQrs4AkgJOtFmkpC86e nA== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rpyw1tv42-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 10 Jul 2023 08:20:02 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36A8K1Sr019193
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 10 Jul 2023 08:20:01 GMT
+Received: from [10.239.133.73] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 10 Jul
+ 2023 01:19:57 -0700
+Message-ID: <32f442e3-3d5c-4cec-9791-0da039f88287@quicinc.com>
+Date:   Mon, 10 Jul 2023 16:19:54 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+To:     Marc Zyngier <maz@kernel.org>
+CC:     <will@kernel.org>, <corbet@lwn.net>, <catalin.marinas@arm.com>,
+        <quic_pkondeti@quicinc.com>, <quic_kaushalk@quicinc.com>,
+        <quic_satyap@quicinc.com>, <quic_shashim@quicinc.com>,
+        <quic_songxue@quicinc.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
+ <875y6s8bwb.wl-maz@kernel.org>
+From:   "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
+In-Reply-To: <875y6s8bwb.wl-maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 9n2HqgBUyG4UyY5mpDd1fSudYTtjvnS-
+X-Proofpoint-ORIG-GUID: 9n2HqgBUyG4UyY5mpDd1fSudYTtjvnS-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-10_05,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 clxscore=1015 lowpriorityscore=0 adultscore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 impostorscore=0
+ mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307100074
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel parameter 'cma_pernuma=' only supports reserving the same
-size of CMA area for each node. We need to reserve different sizes of
-CMA area for specified nodes if these devices belong to different nodes.
+On 7/10/2023 3:27 PM, Marc Zyngier wrote:
+> On Mon, 10 Jul 2023 06:59:55 +0100,
+> Maria Yu <quic_aiquny@quicinc.com> wrote:
+>>
+>> In order to be able to disable lse_atomic even if cpu
+>> support it, most likely because of memory controller
+>> cannot deal with the lse atomic instructions, use a
+>> new idreg override to deal with it.
+> 
+> In general, the idreg overrides are *not* there to paper over HW bugs.
+> They are there to force the kernel to use or disable a feature for
+> performance reason or to guide the *enabling* of a feature, but not
+> because the HW is broken.
+> 
+> The broken status of a HW platform must also be documented so that we
+> know what to expect when we look at, for example, a bad case of memory
+> corruption (something I'd expect to see on a system that only
+> partially implements atomic memory operations).
+> 
 
-Change kernel parameter from 'cma_pernuma=' to 'numa_cma='. If node
-isn't specified, it will reserve CMA area for per-numa node. if the node
-is specified, it will reserve CMA area for the specified node.
+good idea. A noc error would be happened if the lse atomic instruction 
+happened during a memory controller doesn't support lse atomic instructions.
+I can put the information in next patchset comment message. Pls feel 
+free to let know if there is other place to have this kind of 
+information with.
+>>
+>> Signed-off-by: Maria Yu <quic_aiquny@quicinc.com>
+>> ---
+>>   Documentation/admin-guide/kernel-parameters.txt |  2 ++
+>>   arch/arm64/include/asm/cpufeature.h             |  1 +
+>>   arch/arm64/kernel/cpufeature.c                  |  4 +++-
+>>   arch/arm64/kernel/idreg-override.c              | 11 +++++++++++
+>>   4 files changed, 17 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 85fb0fa5d091..6ad754549f1d 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -433,6 +433,8 @@
+>>   	arm64.nomops	[ARM64] Unconditionally disable Memory Copy and Memory
+>>   			Set instructions support
+>>   
+>> +	arm64.nolse_atomic [ARM64] Unconditionally disable LSE Atomic support
+>> +
+> 
+> 'nolse', or 'noatomic' should be enough. In general, the suffix should
+> be either derived from the FEAT_* name or the idreg field name.
 
-At the same time, print the node id in cma_declare_contiguous_nid() if
-enabled CONFIG_NUMA.
+noatomic can be used in next patchset.
+ID_AA64ISAR0_EL1_ATOMIC_SHIFT
+> 
+>>   	ataflop=	[HW,M68k]
+>>   
+>>   	atarimouse=	[HW,MOUSE] Atari Mouse
+>> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+>> index 96e50227f940..9d56dea1fe62 100644
+>> --- a/arch/arm64/include/asm/cpufeature.h
+>> +++ b/arch/arm64/include/asm/cpufeature.h
+>> @@ -916,6 +916,7 @@ extern struct arm64_ftr_override id_aa64pfr0_override;
+>>   extern struct arm64_ftr_override id_aa64pfr1_override;
+>>   extern struct arm64_ftr_override id_aa64zfr0_override;
+>>   extern struct arm64_ftr_override id_aa64smfr0_override;
+>> +extern struct arm64_ftr_override id_aa64isar0_override;
+>>   extern struct arm64_ftr_override id_aa64isar1_override;
+>>   extern struct arm64_ftr_override id_aa64isar2_override;
+>>   
+>> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+>> index f9d456fe132d..9bd766880807 100644
+>> --- a/arch/arm64/kernel/cpufeature.c
+>> +++ b/arch/arm64/kernel/cpufeature.c
+>> @@ -669,6 +669,7 @@ struct arm64_ftr_override __ro_after_init id_aa64pfr0_override;
+>>   struct arm64_ftr_override __ro_after_init id_aa64pfr1_override;
+>>   struct arm64_ftr_override __ro_after_init id_aa64zfr0_override;
+>>   struct arm64_ftr_override __ro_after_init id_aa64smfr0_override;
+>> +struct arm64_ftr_override __ro_after_init id_aa64isar0_override;
+>>   struct arm64_ftr_override __ro_after_init id_aa64isar1_override;
+>>   struct arm64_ftr_override __ro_after_init id_aa64isar2_override;
+>>   
+>> @@ -721,7 +722,8 @@ static const struct __ftr_reg_entry {
+>>   	ARM64_FTR_REG(SYS_ID_AA64DFR1_EL1, ftr_raz),
+>>   
+>>   	/* Op1 = 0, CRn = 0, CRm = 6 */
+>> -	ARM64_FTR_REG(SYS_ID_AA64ISAR0_EL1, ftr_id_aa64isar0),
+>> +	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64ISAR0_EL1, ftr_id_aa64isar0,
+>> +			       &id_aa64isar0_override),
+>>   	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64ISAR1_EL1, ftr_id_aa64isar1,
+>>   			       &id_aa64isar1_override),
+>>   	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64ISAR2_EL1, ftr_id_aa64isar2,
+>> diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
+>> index 2fe2491b692c..af41ab4f3d94 100644
+>> --- a/arch/arm64/kernel/idreg-override.c
+>> +++ b/arch/arm64/kernel/idreg-override.c
+>> @@ -105,6 +105,15 @@ static const struct ftr_set_desc pfr1 __initconst = {
+>>   	},
+>>   };
+>>   
+>> +static const struct ftr_set_desc isar0 __initconst = {
+>> +	.name		= "id_aa64isar0",
+>> +	.override	= &id_aa64isar0_override,
+>> +	.fields		= {
+>> +	        FIELD("atomic", ID_AA64ISAR0_EL1_ATOMIC_SHIFT, NULL),
+>> +		{}
+>> +	},
+>> +};
+>> +
+>>   static const struct ftr_set_desc isar1 __initconst = {
+>>   	.name		= "id_aa64isar1",
+>>   	.override	= &id_aa64isar1_override,
+>> @@ -163,6 +172,7 @@ static const struct ftr_set_desc * const regs[] __initconst = {
+>>   	&mmfr1,
+>>   	&pfr0,
+>>   	&pfr1,
+>> +	&isar0,
+>>   	&isar1,
+>>   	&isar2,
+>>   	&smfr0,
+>> @@ -185,6 +195,7 @@ static const struct {
+>>   	{ "arm64.nomops",		"id_aa64isar2.mops=0" },
+>>   	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
+>>   	{ "nokaslr",			"arm64_sw.nokaslr=1" },
+>> +	{ "arm64.nolse_atomic",         "id_aa64isar0.atomic=0" },
+> 
+> And what of 32bit?
+> 
+> 	M.
+> 
 
-Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
----
- .../admin-guide/kernel-parameters.txt         | 17 ++--
- kernel/dma/Kconfig                            | 11 +--
- kernel/dma/contiguous.c                       | 90 +++++++++++++------
- mm/cma.c                                      | 12 ++-
- 4 files changed, 89 insertions(+), 41 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bdf0ab6716c8..b287647f0873 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -695,14 +695,19 @@
- 			altogether. For more information, see
- 			kernel/dma/contiguous.c
- 
--	cma_pernuma=nn[MG]
-+	numa_cma=nn[MG] or (node format)
-+			    <node>:nn[MG][,<node>:nn[MG]]
- 			[KNL,CMA]
--			Sets the size of kernel per-numa memory area for
-+			Sets the size of kernel numa memory area for
- 			contiguous memory allocations. A value of 0 disables
--			per-numa CMA altogether. And If this option is not
--			specified, the default value is 0.
--			With per-numa CMA enabled, DMA users on node nid will
--			first try to allocate buffer from the pernuma area
-+			numa CMA altogether. If this option is not specified,
-+			the default value is 0. If node isn't specified, it
-+			will reserve CMA area for per-numa node, if the node
-+			is specified, it will reserve CMA area for the
-+			specified node.
-+
-+			With numa CMA enabled, DMA users on node nid will
-+			first try to allocate buffer from the numa area
- 			which is located in node nid, if the allocation fails,
- 			they will fallback to the global default memory area.
- 
-diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-index 7afde9bc529f..f07fb97ef3e8 100644
---- a/kernel/dma/Kconfig
-+++ b/kernel/dma/Kconfig
-@@ -145,15 +145,16 @@ config DMA_CMA
- 
- if  DMA_CMA
- 
--config DMA_PERNUMA_CMA
--	bool "Enable separate DMA Contiguous Memory Area for each NUMA Node"
-+config DMA_NUMA_CMA
-+	bool "Enable separate DMA Contiguous Memory Area for NUMA Node"
- 	default NUMA
- 	help
--	  Enable this option to get pernuma CMA areas so that NUMA devices
-+	  Enable this option to get numa CMA areas so that NUMA devices
- 	  can get local memory by DMA coherent APIs.
- 
--	  You can set the size of pernuma CMA by specifying "cma_pernuma=size"
--	  on the kernel's command line.
-+	  You can set the size of pernuma CMA by specifying "numa_cma=size"
-+	  or set the node id and its size of CMA by specifying "numa_cma=
-+	  <node>:size[,<node>:size]" on the kernel's command line.
- 
- comment "Default contiguous memory area size:"
- 
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index 26a8e5365fcd..bf62d78abff7 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -50,6 +50,7 @@
- #include <linux/sizes.h>
- #include <linux/dma-map-ops.h>
- #include <linux/cma.h>
-+#include <linux/nospec.h>
- 
- #ifdef CONFIG_CMA_SIZE_MBYTES
- #define CMA_SIZE_MBYTES CONFIG_CMA_SIZE_MBYTES
-@@ -96,17 +97,44 @@ static int __init early_cma(char *p)
- }
- early_param("cma", early_cma);
- 
--#ifdef CONFIG_DMA_PERNUMA_CMA
-+#ifdef CONFIG_DMA_NUMA_CMA
- 
--static struct cma *dma_contiguous_pernuma_area[MAX_NUMNODES];
-+static struct cma *dma_contiguous_numa_area[MAX_NUMNODES];
- static phys_addr_t pernuma_size_bytes __initdata;
-+static phys_addr_t numa_cma_size_in_node[MAX_NUMNODES] __initdata;
- 
--static int __init early_cma_pernuma(char *p)
-+static int __init early_numa_cma(char *p)
- {
--	pernuma_size_bytes = memparse(p, &p);
-+	int nid, count = 0;
-+	unsigned long tmp;
-+	char *s = p;
-+
-+	while (*s) {
-+		if (sscanf(s, "%lu%n", &tmp, &count) != 1)
-+			break;
-+
-+		if (s[count] == ':') {
-+			if (tmp >= MAX_NUMNODES)
-+				break;
-+			nid = array_index_nospec(tmp, MAX_NUMNODES);
-+
-+			s += count + 1;
-+			tmp = memparse(s, &s);
-+			numa_cma_size_in_node[nid] = tmp;
-+
-+			if (*s == ',')
-+				s++;
-+			else
-+				break;
-+		} else {
-+			pernuma_size_bytes = memparse(p, &p);
-+			break;
-+		}
-+	}
-+
- 	return 0;
- }
--early_param("cma_pernuma", early_cma_pernuma);
-+early_param("numa_cma", early_numa_cma);
- #endif
- 
- #ifdef CONFIG_CMA_SIZE_PERCENTAGE
-@@ -127,34 +155,42 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
- 
- #endif
- 
--#ifdef CONFIG_DMA_PERNUMA_CMA
--static void __init dma_pernuma_cma_reserve(void)
-+#ifdef CONFIG_DMA_NUMA_CMA
-+static void __init dma_numa_cma_reserve(void)
- {
-+	phys_addr_t size;
- 	int nid;
- 
--	if (!pernuma_size_bytes)
--		return;
--
--	for_each_online_node(nid) {
-+	for_each_node(nid) {
- 		int ret;
- 		char name[CMA_MAX_NAME];
--		struct cma **cma = &dma_contiguous_pernuma_area[nid];
-+		struct cma **numa_cma;
- 
--		snprintf(name, sizeof(name), "pernuma%d", nid);
--		ret = cma_declare_contiguous_nid(0, pernuma_size_bytes, 0, 0,
--						 0, false, name, cma, nid);
--		if (ret) {
--			pr_warn("%s: reservation failed: err %d, node %d", __func__,
--				ret, nid);
-+		if (!node_online(nid)) {
-+			if (pernuma_size_bytes || numa_cma_size_in_node[nid])
-+				pr_warn("invalid node %d specified\n", nid);
- 			continue;
- 		}
- 
--		pr_debug("%s: reserved %llu MiB on node %d\n", __func__,
--			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
-+		if (pernuma_size_bytes)
-+			size = pernuma_size_bytes;
-+		else
-+			size = numa_cma_size_in_node[nid];
-+
-+		if (!size)
-+			continue;
-+
-+		numa_cma = &dma_contiguous_numa_area[nid];
-+		snprintf(name, sizeof(name), "numa%d", nid);
-+		ret = cma_declare_contiguous_nid(0, size, 0, 0, 0, false,
-+						 name, numa_cma, nid);
-+		if (ret)
-+			pr_warn("%s: reservation failed: err %d, node %d", __func__,
-+				ret, nid);
- 	}
- }
- #else
--static inline void __init dma_pernuma_cma_reserve(void)
-+static inline void __init dma_numa_cma_reserve(void)
- {
- }
- #endif
-@@ -175,7 +211,7 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
- 	phys_addr_t selected_limit = limit;
- 	bool fixed = false;
- 
--	dma_pernuma_cma_reserve();
-+	dma_numa_cma_reserve();
- 
- 	pr_debug("%s(limit %08lx)\n", __func__, (unsigned long)limit);
- 
-@@ -309,7 +345,7 @@ static struct page *cma_alloc_aligned(struct cma *cma, size_t size, gfp_t gfp)
-  */
- struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
- {
--#ifdef CONFIG_DMA_PERNUMA_CMA
-+#ifdef CONFIG_DMA_NUMA_CMA
- 	int nid = dev_to_node(dev);
- #endif
- 
-@@ -321,9 +357,9 @@ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
- 	if (size <= PAGE_SIZE)
- 		return NULL;
- 
--#ifdef CONFIG_DMA_PERNUMA_CMA
-+#ifdef CONFIG_DMA_NUMA_CMA
- 	if (nid != NUMA_NO_NODE && !(gfp & (GFP_DMA | GFP_DMA32))) {
--		struct cma *cma = dma_contiguous_pernuma_area[nid];
-+		struct cma *cma = dma_contiguous_numa_area[nid];
- 		struct page *page;
- 
- 		if (cma) {
-@@ -362,8 +398,8 @@ void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
- 		/*
- 		 * otherwise, page is from either per-numa cma or default cma
- 		 */
--#ifdef CONFIG_DMA_PERNUMA_CMA
--		if (cma_release(dma_contiguous_pernuma_area[page_to_nid(page)],
-+#ifdef CONFIG_DMA_NUMA_CMA
-+		if (cma_release(dma_contiguous_numa_area[page_to_nid(page)],
- 					page, count))
- 			return;
- #endif
-diff --git a/mm/cma.c b/mm/cma.c
-index 4880f72102fa..af5945932e9e 100644
---- a/mm/cma.c
-+++ b/mm/cma.c
-@@ -244,6 +244,7 @@ int __init cma_declare_contiguous_nid(phys_addr_t base,
- {
- 	phys_addr_t memblock_end = memblock_end_of_DRAM();
- 	phys_addr_t highmem_start;
-+	char nid_buf[32] = "";
- 	int ret = 0;
- 
- 	/*
-@@ -267,6 +268,10 @@ int __init cma_declare_contiguous_nid(phys_addr_t base,
- 	if (alignment && !is_power_of_2(alignment))
- 		return -EINVAL;
- 
-+#ifdef CONFIG_NUMA
-+	if (nid != NUMA_NO_NODE)
-+		snprintf(nid_buf, sizeof(nid_buf), " on node %d", nid);
-+#endif
- 	/* Sanitise input arguments. */
- 	alignment = max_t(phys_addr_t, alignment, CMA_MIN_ALIGNMENT_BYTES);
- 	if (fixed && base & (alignment - 1)) {
-@@ -372,14 +377,15 @@ int __init cma_declare_contiguous_nid(phys_addr_t base,
- 	if (ret)
- 		goto free_mem;
- 
--	pr_info("Reserved %ld MiB at %pa\n", (unsigned long)size / SZ_1M,
--		&base);
-+	pr_info("Reserved %ld MiB at %pa%s\n", (unsigned long)size / SZ_1M,
-+		&base, nid_buf);
- 	return 0;
- 
- free_mem:
- 	memblock_phys_free(base, size);
- err:
--	pr_err("Failed to reserve %ld MiB\n", (unsigned long)size / SZ_1M);
-+	pr_err("Failed to reserve %ld MiB%s\n", (unsigned long)size / SZ_1M,
-+	       nid_buf);
- 	return ret;
- }
- 
 -- 
-2.25.1
+Thx and BRs,
+Aiqun(Maria) Yu
 
