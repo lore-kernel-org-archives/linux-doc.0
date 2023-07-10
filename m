@@ -2,66 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 804A1EB64DA
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 365C8EB64DA
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:50:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231201AbjGJTqU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 15:46:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49984 "EHLO
+        id S231334AbjGJTuA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 15:50:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbjGJTqU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:46:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7416A136;
-        Mon, 10 Jul 2023 12:46:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S230213AbjGJTt7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:49:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F144A13E
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 12:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689018551;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=tuOgUub1usvf3/oKhasyYKOBssVvHMJ2wullIZXHhCs=;
+        b=XKzEVLlrKHNSTZcqBojk3n8zv1z597K5Im+tU53YyVxEcnWP0I+UiqyuxGWnEgQnqXT/oW
+        65W8FetPAdzf8OBwcEGyA9Vv4kV6HOv3GUPO7WAx5INq4QSZVegabdO7YV/jZSmys0lGPR
+        fBetlxInIwUa2iqNLnFr9g35wd2C/lw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-374-wRDRh4PaNGS3XCv-c4EfsA-1; Mon, 10 Jul 2023 15:49:08 -0400
+X-MC-Unique: wRDRh4PaNGS3XCv-c4EfsA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 109C2611C1;
-        Mon, 10 Jul 2023 19:46:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00CEFC433C7;
-        Mon, 10 Jul 2023 19:46:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689018378;
-        bh=cWBikRqm4V+QGDEJy1FHTID+jQ9XAUzubNrpwx2bKHs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0A0Cm+OgFgclQaBEOZbd54lsQg2oEzc/LNuQNMVmTEQoGnlvCdfgTWNsM/IO9TpXH
-         Ttgw/Ul0zhw6BK7+L3ME0ijRWgCKk2w9ImhjEG2h/1M+KqWLr9Qcx7SB82ADfFXCIz
-         uAlDXdGvH6snGmGtzD4l6ayCQUIL3njtAGJcYnnw=
-Date:   Mon, 10 Jul 2023 21:46:15 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RFC PATCH v1 3/3] docs: stable-kernel-rules: improve structure
- to optimize reading flow
-Message-ID: <2023071035-pristine-plus-0c11@gregkh>
-References: <cover.1689008220.git.linux@leemhuis.info>
- <e25941af193a99b70ee27fcbaa61974fc63a50fd.1689008220.git.linux@leemhuis.info>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D3C81006849;
+        Mon, 10 Jul 2023 19:49:07 +0000 (UTC)
+Received: from llong.com (unknown [10.22.18.171])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BDF55111E3E6;
+        Mon, 10 Jul 2023 19:49:05 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        x86@kernel.org, linux-pm@vger.kernel.org,
+        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v5 0/4] x86/speculation: Disable IBRS when idle
+Date:   Mon, 10 Jul 2023 15:48:53 -0400
+Message-Id: <20230710194857.2898284-1-longman@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e25941af193a99b70ee27fcbaa61974fc63a50fd.1689008220.git.linux@leemhuis.info>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 07:10:13PM +0200, Thorsten Leemhuis wrote:
-> Optimize the text flow to make things more straight forward to follow:
-> 
-> * remove a subheading without real purpose
-> * after outlining the three options add a section that explains them in
->   more detail; move the "Following the submission" text that set in the
->   middle of this to a later place in the document
-> * a few small clarifications along the way
+ v5:
+  - Update comment in patch 1.
+  - Minor doc update and code twist in patch 4 as suggested by Peter and
+    Randy.
 
-All of this churn makes it really hard to determine what the end result
-is.  Do you have a before/after result anywhere?
+ v4:
+  - Add a new __update_spec_ctrl() helper in patch 1.
+  - Rebased to the latest linux kernel.
 
-Or maybe split this out into 3 different patches?
+ v3:
+  - Drop patches 1 ("x86/speculation: Provide a debugfs file to dump
+    SPEC_CTRL MSRs") and 5 ("x86/idle: Disable IBRS entering mwait idle
+    and enable it on wakeup") for now.
+  - Drop the MSR restoration code in ("x86/idle: Disable IBRS when cpu
+    is offline") as native_play_dead() does not return.
+  - For patch ("intel_idle: Add ibrs_off module parameter to force
+    disable IBRS"), change the name from "no_ibrs" to "ibrs_off" and
+    document the new parameter in intel_idle.rst.
 
-thanks,
+For Intel processors that need to turn on IBRS to protect against
+Spectre v2 and Retbleed, the IBRS bit in the SPEC_CTRL MSR affects
+the performance of the whole core even if only one thread is turning
+it on when running in the kernel. For user space heavy applications,
+the performance impact of occasionally turning IBRS on during syscalls
+shouldn't be significant. Unfortunately, that is not the case when the
+sibling thread is idling in the kernel. In that case, the performance
+impact can be significant.
 
-greg k-h
+When DPDK is running on an isolated CPU thread processing network packets
+in user space while its sibling thread is idle. The performance of the
+busy DPDK thread with IBRS on and off in the sibling idle thread are:
+
+                                IBRS on         IBRS off
+                                -------         --------
+  packets/second:                  7.8M           10.4M
+  avg tsc cycles/packet:         282.26          209.86
+
+This is a 25% performance degradation. The test system is a Intel Xeon
+4114 CPU @ 2.20GHz.
+
+Commit bf5835bcdb96 ("intel_idle: Disable IBRS during long idle")
+disables IBRS when the CPU enters long idle (C6 or below). However, there
+are existing users out there who have set "intel_idle.max_cstate=1"
+to decrease latency. Those users won't be able to benefit from this
+commit. This patch series extends this commit by providing a new
+"intel_idle.ibrs_off" module parameter to force disable IBRS even when
+"intel_idle.max_cstate=1" at the expense of increased IRQ response
+latency. It also includes a commit to allow the disabling of IBRS when
+a CPU becomes offline.
+Waiman Long (4):
+  x86/speculation: Add __update_spec_ctrl() helper
+  x86/idle: Disable IBRS when cpu is offline
+  intel_idle: Use __update_spec_ctrl() in intel_idle_ibrs()
+  intel_idle: Add ibrs_off module parameter to force disable IBRS
+
+ Documentation/admin-guide/pm/intel_idle.rst | 17 ++++++++++++++++-
+ arch/x86/include/asm/nospec-branch.h        | 12 +++++++++++-
+ arch/x86/kernel/smpboot.c                   |  8 ++++++++
+ drivers/idle/intel_idle.c                   | 15 ++++++++++++---
+ 4 files changed, 47 insertions(+), 5 deletions(-)
+
+-- 
+2.31.1
+
