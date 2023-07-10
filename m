@@ -2,92 +2,221 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AFEBEB64D9
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 11:25:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66387EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 12:10:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230377AbjGJLZK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 07:25:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39768 "EHLO
+        id S231256AbjGJMKG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 08:10:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230058AbjGJLZJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 07:25:09 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AFA30E6;
-        Mon, 10 Jul 2023 04:25:07 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6DE3D2B;
-        Mon, 10 Jul 2023 04:25:49 -0700 (PDT)
-Received: from FVFF77S0Q05N (unknown [10.57.29.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D4783F67D;
-        Mon, 10 Jul 2023 04:25:05 -0700 (PDT)
-Date:   Mon, 10 Jul 2023 12:25:02 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Anshuman Khandual <anshuman.khandual@arm.com>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC 0/4] arm64/mm: Clean up pte_dirty() state management
-Message-ID: <ZKvqjrpyLZVB3R2z@FVFF77S0Q05N>
-References: <20230707053331.510041-1-anshuman.khandual@arm.com>
+        with ESMTP id S229469AbjGJMKF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 08:10:05 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 906AAFB
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 05:10:01 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fbea147034so43924285e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 05:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1688991000; x=1691583000;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=H+JMKDNGrwhDe4HBcYBuaXlqFjTwAt1vMreVme3OFY8=;
+        b=MD2tvasVfOO4Nxy8SwUpBNEofYhK1a76YN7YTyJ6XCk4qvq1spePWJ5U2HolrrDdOT
+         pzotR5LDEF25B41YlghYLyVcJkdw7vYJckcNJXxzoVzx8DbQ+6hEFFhdUj6XuU5/JwTS
+         de7OJ/wZbyomxDR6RlVAoOvpDOADSoZgTnFR2HGAnnoWaFFoubJOc/2oATJfKeVSTYBJ
+         xp2eDZ1l4OxeIVU/voQMubWmuIrIVwG/CaH7gXvloqVZatO1QXMFsWy7LlP8TddCh4qu
+         5Do8+o8pothhSJMw+0Mm75HDNlA3gJgbKA3Vb5t+JO+ihvcYFSzAincJ4KCt7QFMv+p/
+         CNRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688991000; x=1691583000;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H+JMKDNGrwhDe4HBcYBuaXlqFjTwAt1vMreVme3OFY8=;
+        b=CfdYnHRlCliD4A8IALRobj/CPl+/o9YDAzct/1daWIzn7MsxQNKagOnQVfRFz3NmKC
+         7ZjOtc2Mkat8Wm7SJbGQ5W38G4S6PnXu5OZhMBvy4MIfwN7d05ds68W35R/WSDShpKew
+         59gdpk6v6STOSTCNGn2TdOy2kVNhxBiPlTrZOj6kFPGXsD4jBCPoNhTHiS7Kv1bZp95e
+         beRl5J/HwRzn4UErfFag7UpOOuMSapHe3vs2yu/3dGBjFWNFfv3EXt7Cq2HzcO7qtDpz
+         X/xU82pheyjg48p3ZwdGXlVgFZaN83wJ8lIPEJigI7w6EcUqfyjZ9YaR+r5WnXk65HyZ
+         ROOA==
+X-Gm-Message-State: ABy/qLbmtJ/Ja+mt3Mn5RQDe//kNdcJ5PIjrHvaJ/S3kJp97XEGbI60L
+        HJgOqiPXKcNOBW2EgJ5vOqnbgw==
+X-Google-Smtp-Source: APBJJlG6iRHARThiiqxbJc+oH1dUx5jylRNEM8Djmjy4H8sNg1Su/SyUt7SEHMg58iXBXU/0NBUMLA==
+X-Received: by 2002:a05:600c:2209:b0:3fc:b86:d3fa with SMTP id z9-20020a05600c220900b003fc0b86d3famr4756381wml.1.1688990999804;
+        Mon, 10 Jul 2023 05:09:59 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id z13-20020a7bc7cd000000b003fc0062f0f8sm9128556wmk.9.2023.07.10.05.09.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 05:09:59 -0700 (PDT)
+Date:   Mon, 10 Jul 2023 14:09:57 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+Cc:     "kuba@kernel.org" <kuba@kernel.org>,
+        "vadfed@meta.com" <vadfed@meta.com>,
+        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "vadfed@fb.com" <vadfed@fb.com>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "M, Saeed" <saeedm@nvidia.com>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "sj@kernel.org" <sj@kernel.org>,
+        "javierm@redhat.com" <javierm@redhat.com>,
+        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "Michalik, Michal" <michal.michalik@intel.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "jacek.lawrynowicz@linux.intel.com" 
+        <jacek.lawrynowicz@linux.intel.com>,
+        "airlied@redhat.com" <airlied@redhat.com>,
+        "ogabbay@kernel.org" <ogabbay@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "linux@zary.sk" <linux@zary.sk>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "Olech, Milena" <milena.olech@intel.com>,
+        "kuniyu@amazon.com" <kuniyu@amazon.com>,
+        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
+        "razor@blackwall.org" <razor@blackwall.org>,
+        "idosch@nvidia.com" <idosch@nvidia.com>,
+        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        "phil@nwl.cc" <phil@nwl.cc>,
+        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
+        mschmidt <mschmidt@redhat.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
+Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
+Message-ID: <ZKv1FRTXWLnLGRRS@nanopsycho>
+References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+ <ZJq3a6rl6dnPMV17@nanopsycho>
+ <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
+ <ZJwWXZmZe4lQ04iK@nanopsycho>
+ <DM6PR11MB4657751607C36FC711271D639B30A@DM6PR11MB4657.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230707053331.510041-1-anshuman.khandual@arm.com>
+In-Reply-To: <DM6PR11MB4657751607C36FC711271D639B30A@DM6PR11MB4657.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 07, 2023 at 11:03:27AM +0530, Anshuman Khandual wrote:
-> These pte_dirty() changes make things explicitly clear, while improving the
-> code readability. This optimizes HW dirty state transfer into SW dirty bit.
-> This also adds a new arm64 documentation explaining overall pte dirty state
-> management in detail. This series applies on the latest mainline kernel.
+Mon, Jul 10, 2023 at 12:07:30PM CEST, arkadiusz.kubalewski@intel.com wrote:
+>>From: Jiri Pirko <jiri@resnulli.us>
+>>Sent: Wednesday, June 28, 2023 1:16 PM
+>>Wed, Jun 28, 2023 at 11:15:11AM CEST, arkadiusz.kubalewski@intel.com wrote:
+>>>>From: Jiri Pirko <jiri@resnulli.us>
+>>>>Sent: Tuesday, June 27, 2023 12:18 PM
+>>>>
+>>>>Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com
+>>>>wrote:
+>>>>
+>>>>>v8 -> v9:
+>>>>
+>>>>Could you please address all the unresolved issues from v8 and send v10?
+>>>>I'm not reviewing this one.
+>>>>
+>>>>Thanks!
+>>>
+>>>Sure, will do, but first missing to-do/discuss list:
+>>>1) remove mode_set as not used by any driver
+>
+>I have implemented in ice (also added back the DPLL_MODE_FREERUN).
 
-TBH, I think this is all swings and roundabouts, and I'm not sure this is
-worthwhile. I appreciate that as-is some people find this confusing, but I
-don't think the end result of this series is actually better, and it adds more
-code/documentation to maintain.
+Uh :/ Why exactly is it needed in this initial submission?
 
-In particular, I don't think that we should add Documentation/ files for this,
-as it's very likely that won't be updated together with the code, and I think
-it's more of a maintenance burden than a help. If we want some introductory
-text to explain how the HW/SW dirty bits work, I think that should be a comment
-block in <asm/pgtable.h>, clearly associated with the code.
 
-Overall, I'd prefer to leave the code as-is.
+>
+>>>2) remove "no-added-value" static functions descriptions in
+>>>   dpll_core/dpll_netlink
+>
+>Removed.
+>
+>>>3) merge patches [ 03/10, 04/10, 05/10 ] into patches that are compiling
+>>>   after each patch apply
+>
+>Hope Vadim will decide on this, the thing is merging in two patches
+>doesn't make much sense as there won't be any linking until both patches
+>are there, so most sense it would be if 3 are merged into one, but
+>then we will be back to one big blob patch issue.
+>
+>>>4) remove function return values descriptions/lists
+>
+>Fixed.
+>
+>>>5) Fix patch [05/10]:
+>>>   - status Supported
+>>>   - additional maintainers
+>>>   - remove callback:
+>>>     int (*source_pin_idx_get)(...) from `struct dpll_device_ops`
+>>>6) Fix patch [08/10]: rethink ice mutex locking scheme
+>
+>Fixed.
+>
+>>>7) Fix patch [09/10]: multiple comments on
+>>>https://lore.kernel.org/netdev/ZIQu+%2Fo4J0ZBspVg@nanopsycho/#t
+>>>8) add PPS DPLL phase offset to the netlink get-device API
+>>>
+>
+>Added few things on this matter
+>- 1 dpll level attribute:
+>  - phase-shift - measuring the phase difference between dpll input
+>    and it's output
+>- 1 dpll-pin tuple level attribute:
+>  - pin-phase-adjust - set/get phase adjust of a pin on a dpll
+>- 2 pin level attributes:
+>  - pin-phase-adjust-min - provide user with min value that can be set
+>  - pin-phase-adjust-max - provide user with max value that can be set
+>- a constant:
+>  - DPLL_PHASE_SHIFT_DIVIDER similar to DPLL_TEMP_DIVIDER for producing
+>    fraction value of measured DPLL_A_PHASE_SHIFT
 
-Thanks,
-Mark.
+Again, why do we need this in this initial submission? Why it can't be a
+follow-up patchset to extend this? This way we never converge :/
+Please focus on what we have now and bring it in. Let the extensions to
+be addressed later on, please.
 
-> 
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> 
-> Anshuman Khandual (4):
->   arm64/mm: Add SW and HW dirty state helpers
->   arm64/mm: Call pte_sw_mkdirty() while preserving the HW dirty state
->   arm64/mm: Add pte_preserve_hw_dirty()
->   docs: arm64: Add help document for pte dirty state management
-> 
->  Documentation/arch/arm64/index.rst     |  1 +
->  Documentation/arch/arm64/pte-dirty.rst | 95 ++++++++++++++++++++++++++
->  arch/arm64/include/asm/pgtable.h       | 66 ++++++++++++++----
->  3 files changed, 147 insertions(+), 15 deletions(-)
->  create mode 100644 Documentation/arch/arm64/pte-dirty.rst
-> 
-> -- 
-> 2.30.2
-> 
+
+
+>- implemented in dpll netlink and in ice
+>
+>>
+>>You are missing removal of pin->prop.package_label = dev_name(dev); in
+>>ice.
+>>
+>
+>I didn't touch it, as we still need to discuss it, Jakub didn't respond
+>on v8 thread.
+>I don't see why we shall not name it the way. This is most meaningful
+>label for those pins for the user right now.
+
+This is not meaningful, at all. dev_name() changes upon which pci slot
+you plug the card into. package_label should be an actual label on a
+silicon package. Why you think this two are related in aby way, makes me
+really wonder. Could you elaborate the meaningfulness of this?
+
+
+>
+>Thank you!
+>Arkadiusz
+>
+>>
+>>>Thank you!
+>>>Arkadiusz
