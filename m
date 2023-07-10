@@ -2,216 +2,194 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E14EB64D9
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 22:00:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D816EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 22:24:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbjGJWAg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 18:00:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49300 "EHLO
+        id S230291AbjGJWYJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 18:24:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230017AbjGJWAe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 18:00:34 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45AB7DA
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 15:00:33 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-9891c73e0fbso994977566b.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 15:00:33 -0700 (PDT)
+        with ESMTP id S230261AbjGJWYB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 18:24:01 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8E61B9
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 15:23:58 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-3113da5260dso4946324f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 15:23:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689026432; x=1691618432;
+        d=fireburn-co-uk.20221208.gappssmtp.com; s=20221208; t=1689027837; x=1691619837;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QfZzCSrgvGz9BGtS4wsvtCeE34B7/lj4xCbe4JnIP2Q=;
-        b=IELdvlh9d5ofdqTbS2z8RhDc+X1hOJTuBZf0ZbiY48jlt9lPfkJVZe/Wb+ANJ63yBp
-         3tbyTl8zoOZLeyBV+rFCAm3x940PyUDWPt8floL10TItqyH+FrB/lAGZJtOMKZtZt+LE
-         AXebzx74RigJZLsDEDj+71KrNZ7AIkM3jSIZhPTcrbtV9iT+zovNNmAfibmyJQAcAG3s
-         gar9gMyoH8kJeZoRZEbQRzmJOZpL3w6TvRyJ05iXZGAzAKumLDVIkbWrwobqCp/EnIhf
-         WQ1hrqXvH6LHXODojzsxf3hq+oeedejJX94Hat/Qve2IHSIsFzVJsuq7ZMf2QnUCPaxw
-         LZVw==
+        bh=k+uRSZaNW94drRfaP5L/VJThT+qbzWt+a4m0PC1+H4c=;
+        b=BGJwtu/eYDeeRz6gd9DW/1dlrKmdKTY5LkPMrD8VqiQjMxN7JoO9VdAeSxsct2N1AA
+         RHztHsO/Ag4ji7+SPc/aVGU+ioISxQDSctgi4qfPKB/qChuM1/SUco0pTqNmKQbWdbyo
+         7fDfQpW7AE7IIJpAdBuwj+QuXBAiNXIjBDr73NztsSaHYezINnldgNhJBcd0qYW5vmEY
+         +4G/hVixr3YySmX+NrwspZKpNocBFDbfCCAZadUYle20SqmBqPXX91t6M23ZcsnE/P09
+         wEEBJYThW/kn39pNb0v7acrw5izKLcx3fgmiSgQ3Y9cAMSokLMrSpnv6a5acp4nvaACs
+         GFww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689026432; x=1691618432;
+        d=1e100.net; s=20221208; t=1689027837; x=1691619837;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QfZzCSrgvGz9BGtS4wsvtCeE34B7/lj4xCbe4JnIP2Q=;
-        b=Pwe9Gk1SiiXxJvMld/7R1tPW+mwoRwO84gz0+Jv3xyUbLdQrS/lp0U6OZCWUMlWzBk
-         +RbbelOj3pWBHbMIodu9JflrdQD3hV1Y9+/t52KlxcOjuUbFozh3kdKqWxMiHwZuWz/0
-         vLPCfKTFnDW+isGpon62LLBSdFt0VuGdXgLYI3DTiazV5eKrrDkrQY7h3oh6sou/tR/6
-         Q0sZ1iCWfrAQBX3HsX+c9lVatTH4xb6jHJHaKzYR9BNZBuOrlTiT1kDbW15pQSYm2mcG
-         uim43bVJsqrkvryLwiMc8fDXY2ZbJCySp8N5R4zIX2+RutM+AIFc1KyI7Um9axAscXX+
-         yXMg==
-X-Gm-Message-State: ABy/qLarxW0hkI51k+DgYfMBEA14zbXHhgNr1sxP6DcxEauajeUIhAL0
-        TUD8VNK/XlmLW0f01s05S2efp+WKw+VF8nLe7MZbSw==
-X-Google-Smtp-Source: APBJJlF6PnMVGMOTSmSf3fdPKR5ba1hPx/zIlHrvaJ4KBennSkMIDBj6INtn7vwYR7M3C9Di2GejevZRUk2uTbDHu9g=
-X-Received: by 2002:a17:907:c29:b0:993:e85c:4ad6 with SMTP id
- ga41-20020a1709070c2900b00993e85c4ad6mr13335087ejc.7.1689026431632; Mon, 10
- Jul 2023 15:00:31 -0700 (PDT)
+        bh=k+uRSZaNW94drRfaP5L/VJThT+qbzWt+a4m0PC1+H4c=;
+        b=hhYA/pWQfLDipreQnHMHDKdf0pRbusNv5yXiRFhYb/L9pEltDiKPAcEGAkbW/5iwxp
+         olu4BPKEvohkNFDDvIJnZ9PVNGxz4ww68imsk1VSri8EqTG+f0UQTmbmRwgN9VQA+fzG
+         FafQzupnEMjXELKsbLl49zWtOujKuXSkevioYhKGchfxP5Bfe0ElfBX8oniAdqCG7v97
+         GqLFpP6+G3PbfAQxu0JcMm4CvY7eJhwoOcv/nilGImz+ABOb8MWBFYMyFm6e0jEXO59p
+         3YCjMjeV0NoAETJ3AvMsrTx+kULkty5323XQsuvcPnfm46KaNg5YS1THuxaGcZrVnNyn
+         hhrQ==
+X-Gm-Message-State: ABy/qLaKWfSdgu4EVaWh8CROwnAo3Df54IFUOXjMSq88nlBsZVH2tTci
+        ktgmXxHfv4DBJ1FxHVxCEY6XHLq71I5w018Q/2lL+w==
+X-Google-Smtp-Source: APBJJlGWtw8f4A2ctcC8tl3oCSE31f33fxmAUGJnr4OHt+wZ4ekqgW0g26gHvys0bWgym34SFWrWokUD9oDJHrFTQP0=
+X-Received: by 2002:a5d:614b:0:b0:314:7487:96a3 with SMTP id
+ y11-20020a5d614b000000b00314748796a3mr10923400wrt.52.1689027836873; Mon, 10
+ Jul 2023 15:23:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230707215540.2324998-1-axelrasmussen@google.com>
- <20230707215540.2324998-2-axelrasmussen@google.com> <20230708180850.bc938ab49fbfb38b83c367c8@linux-foundation.org>
- <CAJHvVcgfN5RVXJ_f3tN2UinV_kWCMyCY_g5oKm=BtgQJz-e7gA@mail.gmail.com>
-In-Reply-To: <CAJHvVcgfN5RVXJ_f3tN2UinV_kWCMyCY_g5oKm=BtgQJz-e7gA@mail.gmail.com>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Mon, 10 Jul 2023 14:59:55 -0700
-Message-ID: <CAJHvVch5j=J=d-TqC1bgN6bKLrr0N3W7cwSOAqHf8O3axqapwA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/8] mm: make PTE_MARKER_SWAPIN_ERROR more general
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Brian Geffon <bgeffon@google.com>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        James Houghton <jthoughton@google.com>,
-        "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
-        Jiaqi Yan <jiaqiyan@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
+ <20230426141520.0caf4386@meshulam.tesarici.cz> <2023042617-wobble-enlighten-9361@gregkh>
+ <20230426144439.5674f8bc@meshulam.tesarici.cz> <20230509091635.27450bd9@meshulam.tesarici.cz>
+ <2023050949-grueling-verify-a43b@gregkh>
+In-Reply-To: <2023050949-grueling-verify-a43b@gregkh>
+From:   Mike Lothian <mike@fireburn.co.uk>
+Date:   Mon, 10 Jul 2023 23:23:45 +0100
+Message-ID: <CAHbf0-HY0-u4MwgU39b53hjOM+bWfGmOEYQuvHARjV+6j+O7Kg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB bounce buffers
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
         Muchun Song <muchun.song@linux.dev>,
-        Nadav Amit <namit@vmware.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Peter Xu <peterx@redhat.com>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "T.J. Alumbaugh" <talumbau@google.com>,
-        Yu Zhao <yuzhao@google.com>,
-        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+        Borislav Petkov <bp@suse.de>, Won Chung <wonchung@google.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Petr Tesarik <petr.tesarik.ext@huawei.com>,
+        Kees Cook <keescook@chromium.org>, Ondrej Zary <linux@zary.sk>,
+        Petr Tesarik <petrtesarik@huaweicloud.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 10:19=E2=80=AFAM Axel Rasmussen
-<axelrasmussen@google.com> wrote:
+Hi
+
+I was hoping this might land for 6.5-rc1, is there a new version that
+might apply against 6.5?
+
+Cheers
+
+Mike
+
+On Tue, 9 May 2023 at 08:32, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> On Sat, Jul 8, 2023 at 6:08=E2=80=AFPM Andrew Morton <akpm@linux-foundati=
-on.org> wrote:
+> On Tue, May 09, 2023 at 09:16:35AM +0200, Petr Tesa=C5=99=C3=ADk wrote:
+> > On Wed, 26 Apr 2023 14:44:39 +0200
+> > Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote:
 > >
-> > On Fri,  7 Jul 2023 14:55:33 -0700 Axel Rasmussen <axelrasmussen@google=
-.com> wrote:
+> > > Hi Greg,
+> > >
+> > > On Wed, 26 Apr 2023 14:26:36 +0200
+> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > > On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesa=C5=99=C3=ADk wr=
+ote:
+> > > > > Hi,
+> > > > >
+> > > > > On Wed, 19 Apr 2023 12:03:52 +0200
+> > > > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
+> > > > >
+> > > > > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
+> > > > > >
+> > > > > > The goal of my work is to provide more flexibility in the sizin=
+g of
+> > > > > > SWIOTLB.
+> > > > > >
+> > > > > > The software IO TLB was designed with these assumptions:
+> > > > > >
+> > > > > > 1. It would not be used much, especially on 64-bit systems.
+> > > > > > 2. A small fixed memory area (64 MiB by default) is sufficient =
+to
+> > > > > >    handle the few cases which require a bounce buffer.
+> > > > > > 3. 64 MiB is little enough that it has no impact on the rest of=
+ the
+> > > > > >    system.
+> > > > > >
+> > > > > > First, if SEV is active, all DMA must be done through shared
+> > > > > > unencrypted pages, and SWIOTLB is used to make this happen with=
+out
+> > > > > > changing device drivers. The software IO TLB size is increased =
+to
+> > > > > > 6% of total memory in sev_setup_arch(), but that is more of an
+> > > > > > approximation. The actual requirements may vary depending on th=
+e
+> > > > > > amount of I/O and which drivers are used. These factors may not=
+ be
+> > > > > > know at boot time, i.e. when SWIOTLB is allocated.
+> > > > > >
+> > > > > > Second, other colleagues have noticed that they can reliably ge=
+t
+> > > > > > rid of occasional OOM kills on an Arm embedded device by reduci=
+ng
+> > > > > > the SWIOTLB size. This can be achieved with a kernel parameter,=
+ but
+> > > > > > determining the right value puts additional burden on pre-relea=
+se
+> > > > > > testing, which could be avoided if SWIOTLB is allocated small a=
+nd
+> > > > > > grows only when necessary.
+> > > > >
+> > > > > Now that merging into 6.4 has begun, what about this patch series=
+? I'm
+> > > > > eager to get some feedback (positive or negative) and respin the =
+next
+> > > > > version.
+> > > >
+> > > > It's the merge window, we can't add new things that haven't been in
+> > > > linux-next already.
+> > >
+> > > This is understood. I'm not asking for immediate inclusion.
+> > >
+> > > >   Please resubmit it after -rc1 is out.
+> > >
+> > > If you can believe that rebasing to -rc1 will be enough, then I will
+> > > also try to believe I'm lucky. ;-)
+> > >
+> > > The kind of feedback I really want to get is e.g. about the extra
+> > > per-device DMA-specific fields. If they cannot be added to struct
+> > > device, then I'd rather start discussing an interim solution, because
+> > > getting all existing DMA fields out of that struct will take a lot of
+> > > time...
 > >
-> > > Future patches will re-use PTE_MARKER_SWAPIN_ERROR to implement
-> > > UFFDIO_POISON, so make some various preparations for that:
-> > >
-> > > First, rename it to just PTE_MARKER_POISONED. The "SWAPIN" can be
-> > > confusing since we're going to re-use it for something not really
-> > > related to swap. This can be particularly confusing for things like
-> > > hugetlbfs, which doesn't support swap whatsoever. Also rename some
-> > > various helper functions.
-> > >
-> > > Next, fix pte marker copying for hugetlbfs. Previously, it would WARN=
- on
-> > > seeing a PTE_MARKER_SWAPIN_ERROR, since hugetlbfs doesn't support swa=
-p.
-> > > But, since we're going to re-use it, we want it to go ahead and copy =
-it
-> > > just like non-hugetlbfs memory does today. Since the code to do this =
-is
-> > > more complicated now, pull it out into a helper which can be re-used =
-in
-> > > both places. While we're at it, also make it slightly more explicit i=
-n
-> > > its handling of e.g. uffd wp markers.
-> > >
-> > > For non-hugetlbfs page faults, instead of returning VM_FAULT_SIGBUS f=
-or
-> > > an error entry, return VM_FAULT_HWPOISON. For most cases this change
-> > > doesn't matter, e.g. a userspace program would receive a SIGBUS eithe=
-r
-> > > way. But for UFFDIO_POISON, this change will let KVM guests get an MC=
-E
-> > > out of the box, instead of giving a SIGBUS to the hypervisor and
-> > > requiring it to somehow inject an MCE.
-> > >
-> > > Finally, for hugetlbfs faults, handle PTE_MARKER_POISONED, and return
-> > > VM_FAULT_HWPOISON_LARGE in such cases. Note that this can't happen to=
-day
-> > > because the lack of swap support means we'll never end up with such a
-> > > PTE anyway, but this behavior will be needed once such entries *can*
-> > > show up via UFFDIO_POISON.
-> > >
-> > > --- a/include/linux/mm_inline.h
-> > > +++ b/include/linux/mm_inline.h
-> > > @@ -523,6 +523,25 @@ static inline bool mm_tlb_flush_nested(struct mm=
-_struct *mm)
-> > >       return atomic_read(&mm->tlb_flush_pending) > 1;
-> > >  }
-> > >
-> > > +/*
-> > > + * Computes the pte marker to copy from the given source entry into =
-dst_vma.
-> > > + * If no marker should be copied, returns 0.
-> > > + * The caller should insert a new pte created with make_pte_marker()=
-.
-> > > + */
-> > > +static inline pte_marker copy_pte_marker(
-> > > +             swp_entry_t entry, struct vm_area_struct *dst_vma)
-> > > +{
-> > > +     pte_marker srcm =3D pte_marker_get(entry);
-> > > +     /* Always copy error entries. */
-> > > +     pte_marker dstm =3D srcm & PTE_MARKER_POISONED;
-> > > +
-> > > +     /* Only copy PTE markers if UFFD register matches. */
-> > > +     if ((srcm & PTE_MARKER_UFFD_WP) && userfaultfd_wp(dst_vma))
-> > > +             dstm |=3D PTE_MARKER_UFFD_WP;
-> > > +
-> > > +     return dstm;
-> > > +}
+> > All right, 6.4-rc1 is out now. The patch series still applies cleanly.
 > >
-> > Breaks the build with CONFIG_MMU=3Dn (arm allnoconfig).  pte_marker isn=
-'t
-> > defined.
-> >
-> > I'll slap #ifdef CONFIG_MMU around this function, but probably somethng=
- more
-> > fine-grained could be used, like CONFIG_PTE_MARKER_UFFD_WP.  Please
-> > consider.
+> > Any comments what must be changed (if anything) to get it in?
 >
-> Whoops, sorry about this. This function "ought" to be in
-> include/linux/swapops.h where it would be inside a #ifdef CONFIG_MMU
-> anyway, but it can't be because it uses userfaultfd_wp() so there'd be
-> a circular include. I think just wrapping it in CONFIG_MMU is the
-> right way.
+> Try resending it, it's long out of my review queue...
 >
-> But, this has also made me realize we need to not advertise
-> UFFDIO_POISON as supported unless we have CONFIG_MMU. I don't want
-> HAVE_ARCH_USERFAULTFD_WP for that, because it's only enabled on
-> x86_64, whereas I want to support at least arm64 as well. I don't see
-> a strong reason not to just use CONFIG_MMU for this too; this feature
-> depends on the API in swapops.h, which uses that ifdef, so I don't see
-> a lot of value out of creating a new but equivalent config option.
-
-Actually, I'm being silly. CONFIG_USERFAULTFD depends on CONFIG_MMU,
-so we don't need to worry about most of this.
-
-Andrew's fix to just wrap the helper in CONFIG_MMU is enough.
-
+> thanks,
 >
-> I'll make the needed changes (and also address Peter's comment above)
-> and send out a v5.
->
-> >
-> > btw, both copy_pte_marker() and pte_install_uffd_wp_if_needed() look
-> > far too large to justify inlining.  Please review the desirability of
-> > this.
-
-As far as inlining goes, I'm not opposed to un-inlining this, I was
-mainly copying that pattern from existing helpers in swapops.h.
-
-One question is, if it weren't inline, where should it go? There is no
-mm/swapops.c which I would say is otherwise the proper place for it. I
-don't see any other good place for the functions to go. The one I'm
-introducing isn't userfaultfd-specific so userfaultfd.c seems wrong.
-
-> >
-> >
+> greg k-h
