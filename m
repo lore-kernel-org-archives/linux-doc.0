@@ -2,106 +2,209 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E73EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 02:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1131EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 02:54:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbjGJCkn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Jul 2023 22:40:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42230 "EHLO
+        id S229805AbjGJCyQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Jul 2023 22:54:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbjGJCkm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jul 2023 22:40:42 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90CFCE0
-        for <linux-doc@vger.kernel.org>; Sun,  9 Jul 2023 19:40:41 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b52875b8d9so257785ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 09 Jul 2023 19:40:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1688956841; x=1691548841;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z/IXbjfKuqXK0LkUSvyJlpVWtt+IDL+3mxWlVV+iCWs=;
-        b=mRUT8n0EQoIJLjoyT3M/QgbW+yUQhTKEBK2l3R9zCHyVAVWDwrnKGjyZotnTUmr+H/
-         6tZ7qCfuSVE/1lIOXyuAM8Ijwppj7m8QLe/Haxi4ypBo908hsu8zbIQ2D5TJGnnv7bPQ
-         y/BBKVOMw3ETioMfZRgTB7WJ6c7QQiPNvGCrPNiq8fYz6UQucv1DnIHJSWGouajGWlUO
-         7ypAmKo2lGP/nplXlby+JRLJ6/AcXYVfy496QQJg52d3eemfbau3NxmPfs7iVffxGuT3
-         eGDGkCzTQkonpDA06mGAMVaMahduB/gIY0W8y7dR/hRvoZrldpSgOMOqIqST+RM09rPZ
-         wwUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688956841; x=1691548841;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z/IXbjfKuqXK0LkUSvyJlpVWtt+IDL+3mxWlVV+iCWs=;
-        b=SUAiFVH+KfoB1HnaTs40295JRUa9U7htwc9B1CZbbBtQE/kqkWTxvdXDRqIipnk0DV
-         LHUxaoX3eXT2huReS3WWbug7ADqFvLn1AV01Z1fFwXOzCkq9rmKD3GOZgD3nNjX0bPhG
-         NFvxHKF5gRSTBYTTWJxVmu3GNUGXneSd9MqiALwmTDFmnrpUasHKZEPMkLWdvuGFBzOP
-         atYmMOmjMvd03zqbOEiimXIwf/3g5vmJgK5lmW8EQR+6JPaLyOdcQUWC23Wd2qe6YvTc
-         i68gfsMUwQD/pF09ZmzfwhfV1BzFO2YBJw9zBC7rjIGQV54eQ82Rxf/XRVwmcpP77HN6
-         GqXw==
-X-Gm-Message-State: ABy/qLZGkxib3CdHGWM2p34LkZD34D0jLdJStOKz0/tXkRnQk5MOKw8Y
-        5PFcP04t+YaPI17LsbIKM0+yEg==
-X-Google-Smtp-Source: APBJJlHDprkhz5rwjoerAkPliIA9FF7/3p0AE4aab+XMzzj1RCCOp2CmuhVVTocTiN9jtJS9nt8aoA==
-X-Received: by 2002:a17:902:d482:b0:1b0:26c0:757d with SMTP id c2-20020a170902d48200b001b026c0757dmr364822plg.22.1688956840900;
-        Sun, 09 Jul 2023 19:40:40 -0700 (PDT)
-Received: from [2620:0:1008:15:1612:3901:b423:457c] ([2620:0:1008:15:1612:3901:b423:457c])
-        by smtp.gmail.com with ESMTPSA id s18-20020a170902a51200b001b8a85489a3sm6912523plq.262.2023.07.09.19.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jul 2023 19:40:40 -0700 (PDT)
-Date:   Sun, 9 Jul 2023 19:40:39 -0700 (PDT)
-From:   David Rientjes <rientjes@google.com>
-To:     Julian Pidancet <julian.pidancet@oracle.com>
-cc:     Christoph Lameter <cl@linux.com>,
-        "Lameter, Christopher" <cl@os.amperecomputing.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Rafael Aquini <aquini@redhat.com>
-Subject: Re: [PATCH v2] mm/slub: disable slab merging in the default
- configuration
-In-Reply-To: <3bcfa538-4474-09b7-1812-b4260b09256a@google.com>
-Message-ID: <7b6b07b3-d8a1-b24f-1df2-bf6080bc5516@google.com>
-References: <20230629221910.359711-1-julian.pidancet@oracle.com> <38083ed2-333b-e245-44e4-2f355e4f9249@google.com> <CTSGWINSM18Q.3HQ1DN27GNA1R@imme> <8813897d-4a52-37a0-fe44-a9157716be9b@google.com> <17349901-df3a-494e-fa71-2584d92526b5@google.com>
- <3bcfa538-4474-09b7-1812-b4260b09256a@google.com>
+        with ESMTP id S229648AbjGJCyP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jul 2023 22:54:15 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 65964E9;
+        Sun,  9 Jul 2023 19:54:14 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 308571FB;
+        Sun,  9 Jul 2023 19:54:56 -0700 (PDT)
+Received: from [10.162.40.20] (a077893.blr.arm.com [10.162.40.20])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BEBB43F740;
+        Sun,  9 Jul 2023 19:54:10 -0700 (PDT)
+Message-ID: <bc9c2d09-8c6c-e5b2-a5be-545b4bb0a1b4@arm.com>
+Date:   Mon, 10 Jul 2023 08:24:07 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC 1/4] arm64/mm: Add SW and HW dirty state helpers
+Content-Language: en-US
+To:     David Hildenbrand <david@redhat.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230707053331.510041-1-anshuman.khandual@arm.com>
+ <20230707053331.510041-2-anshuman.khandual@arm.com>
+ <0d035a57-b502-32b3-0010-d029f62d7757@redhat.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <0d035a57-b502-32b3-0010-d029f62d7757@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 9 Jul 2023, David Rientjes wrote:
 
-> There are some substantial performance degradations, most notably 
-> context_switch1_per_thread_ops which regressed ~21%.  I'll need to repeat
-> that test to confirm it and can also try on cascadelake if it reproduces.
+
+On 7/7/23 17:39, David Hildenbrand wrote:
+> On 07.07.23 07:33, Anshuman Khandual wrote:
+>> This factors out low level SW and HW state changes i.e make and clear into
+>> separate helpers making them explicit improving readability. This also adds
+>> pte_rdonly() helper as well. No functional change is intended.
+>>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will@kernel.org>
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>> ---
+>>   arch/arm64/include/asm/pgtable.h | 52 ++++++++++++++++++++++++++------
+>>   1 file changed, 42 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+>> index 0bd18de9fd97..fb03be697819 100644
+>> --- a/arch/arm64/include/asm/pgtable.h
+>> +++ b/arch/arm64/include/asm/pgtable.h
+>> @@ -103,6 +103,7 @@ static inline pteval_t __phys_to_pte_val(phys_addr_t phys)
+>>   #define pte_young(pte)        (!!(pte_val(pte) & PTE_AF))
+>>   #define pte_special(pte)    (!!(pte_val(pte) & PTE_SPECIAL))
+>>   #define pte_write(pte)        (!!(pte_val(pte) & PTE_WRITE))
+>> +#define pte_rdonly(pte)        (!!(pte_val(pte) & PTE_RDONLY))
+>>   #define pte_user(pte)        (!!(pte_val(pte) & PTE_USER))
+>>   #define pte_user_exec(pte)    (!(pte_val(pte) & PTE_UXN))
+>>   #define pte_cont(pte)        (!!(pte_val(pte) & PTE_CONT))
+>> @@ -120,7 +121,7 @@ static inline pteval_t __phys_to_pte_val(phys_addr_t phys)
+>>       (__boundary - 1 < (end) - 1) ? __boundary : (end);            \
+>>   })
+>>   -#define pte_hw_dirty(pte)    (pte_write(pte) && !(pte_val(pte) & PTE_RDONLY))
+>> +#define pte_hw_dirty(pte)    (pte_write(pte) && !pte_rdonly(pte))
+>>   #define pte_sw_dirty(pte)    (!!(pte_val(pte) & PTE_DIRTY))
+>>   #define pte_dirty(pte)        (pte_sw_dirty(pte) || pte_hw_dirty(pte))
+>>   @@ -174,6 +175,39 @@ static inline pmd_t clear_pmd_bit(pmd_t pmd, pgprot_t prot)
+>>       return pmd;
+>>   }
+>>   +static inline pte_t pte_hw_mkdirty(pte_t pte)
 > 
+> I'd have called this "pte_mkhw_dirty", similar to "pte_mksoft_dirty".
+> 
+>> +{
+>> +    if (pte_write(pte))
+>> +        pte = clear_pte_bit(pte, __pgprot(PTE_RDONLY));
+>> +
+>> +    return pte;
+>> +}
+>> +
+>> +static inline pte_t pte_sw_mkdirty(pte_t pte)
+> 
+> pte_mksw_dirty
 
-So the regression on skylake for will-it-scale appears to be real:
+Sure, will change them as pte_mkhw_dirty()/pte_mksw_dirty() instead.
 
-               LABEL              | COUNT |    MIN     |    MAX     |    MEAN    |   MEDIAN   | STDDEV | DIRECTION  
-----------------------------------+-------+------------+------------+------------+------------+--------+------------
-  context_switch1_per_thread_ops  |       |            |            |            |            |        |            
-  (A) v6.1.30                     | 1     | 314507.000 | 314507.000 | 314507.000 | 314507.000 | 0      |            
-  (B) v6.1.30 slab_nomerge        | 1     | 257403.000 | 257403.000 | 257403.000 | 257403.000 | 0      |            
-    !! REGRESSED !!               |       | -18.16%    | -18.16%    | -18.16%    | -18.16%    | ---    | + is good  
+> 
+>> +{
+>> +    return set_pte_bit(pte, __pgprot(PTE_DIRTY));
+>> +}
+>> +
+>> +static inline __always_unused pte_t pte_hw_clr_dirty(pte_t pte)
+> 
+> pte_clear_hw_dirty (again, similar to pte_clear_soft_dirty )
+> 
+>> +{
+>> +    return set_pte_bit(pte, __pgprot(PTE_RDONLY));
+>> +}
+>> +
+>> +static inline pte_t pte_sw_clr_dirty(pte_t pte)
+> 
+> pte_clear_sw_dirty
 
-but I can't reproduce this on cascadelake:
+Sure, will change them as pte_clear_hw_dirty()/pte_clear_sw_dirty() instead.
 
-               LABEL              | COUNT |    MIN     |    MAX     |    MEAN    |   MEDIAN   | STDDEV | DIRECTION  
-----------------------------------+-------+------------+------------+------------+------------+--------+------------
-  context_switch1_per_thread_ops  |       |            |            |            |            |        |            
-  (A) v6.1.30                     | 1     | 301128.000 | 301128.000 | 301128.000 | 301128.000 | 0      |            
-  (B) v6.1.30 slab_nomerge        | 1     | 301282.000 | 301282.000 | 301282.000 | 301282.000 | 0      |            
-                                  |       | +0.05%     | +0.05%     | +0.05%     | +0.05%     | ---    | + is good  
+> 
+>> +{
+>> +    pte = clear_pte_bit(pte, __pgprot(PTE_DIRTY));
+>> +
+>> +    /*
+>> +     * Clearing the software dirty state requires clearing
+>> +     * the PTE_DIRTY bit along with setting the PTE_RDONLY
+>> +     * ensuring a page fault on subsequent write access.
+>> +     *
+>> +     * NOTE: Setting the PTE_RDONLY (as a coincident) also
+>> +     * implies clearing the HW dirty state.
+>> +     */
+>> +    return set_pte_bit(pte, __pgprot(PTE_RDONLY));
+>> +}
+>> +
+>>   static inline pmd_t set_pmd_bit(pmd_t pmd, pgprot_t prot)
+>>   {
+>>       pmd_val(pmd) |= pgprot_val(prot);
+>> @@ -189,19 +223,17 @@ static inline pte_t pte_mkwrite(pte_t pte)
+>>     static inline pte_t pte_mkclean(pte_t pte)
+>>   {
+>> -    pte = clear_pte_bit(pte, __pgprot(PTE_DIRTY));
+>> -    pte = set_pte_bit(pte, __pgprot(PTE_RDONLY));
+>> -
+>> -    return pte;
+>> +    /*
+>> +     * Subsequent call to pte_hw_clr_dirty() is not required
+>> +     * because pte_sw_clr_dirty() in turn does that as well.
+>> +     */
+>> +    return pte_sw_clr_dirty(pte);
+> 
+> Hm, I'm not sure if that simplifies things.
+> 
+> You call pte_sw_clr_dirty() and suddenly your hw dirty bit is clear?
 
-So I'm a bit baffled at the moment.
+Because clearing HW dirty bit just needs setting PTE_RDONLY bit, which as
+a coincidence is also required, after clearing the SW dirty bit to enable
+a subsequent write fault. Here pte_sw_clr_dirty() just happen to contain
+pte_hw_clr_dirty().
 
-I'll try to dig deeper and see what slab caches this benchmark exercises
-that apparently no other benchmarks do.  (I'm really hoping that the only
-way to recover this performance is by something like
-kmem_cache_create(SLAB_MERGE).)
+> 
+> In that case I think the current implementation is clearer: it doesn't provide primitives that don't make any sense.
+
+It actually does a SW dirty bit clearing which also takes care of HW dirty
+bit clearing without saying so explicitly. These new helpers demonstrate
+bit clearly what is happening.
+
+> 
+>>   }
+>>     static inline pte_t pte_mkdirty(pte_t pte)
+>>   {
+>> -    pte = set_pte_bit(pte, __pgprot(PTE_DIRTY));
+>> -
+>> -    if (pte_write(pte))
+>> -        pte = clear_pte_bit(pte, __pgprot(PTE_RDONLY));
+>> -
+>> +    pte = pte_sw_mkdirty(pte);
+>> +    pte = pte_hw_mkdirty(pte);
+> 
+> That looks weird. Especially, pte_hw_mkdirty() only does something if pte_write().
+
+pte_write() check asserts if DBM is implemented and being used before clearing
+PTE_RDONLY making it a HW dirty state. If pte_write() is cleared, either DBM
+is not implemented or it's a non-writable entry, either way dirty state cannot
+be tracked in HW.
+
+> 
+> Shouldn't pte_hw_mkdirty() bail out if it cannot do anything reasonable (IOW, !writable)?
+
+static inline pte_t pte_hw_mkdirty(pte_t pte)
+{
+	if (pte_write(pte))
+		pte = clear_pte_bit(pte, __pgprot(PTE_RDONLY));
+
+	return pte;
+}
+
+If pte_write() is not positive, it's in !writable state on DBM enabled systems.
+Otherwise pte_write() state does not matter, as the bit position does not make
+sense on non DBM enabled systems.
+
+> 
+>>       return pte;
+>>   }
+>>   
+> 
