@@ -2,86 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 414C7EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 02:20:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E73EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 02:40:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbjGJCUl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Jul 2023 22:20:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39334 "EHLO
+        id S230014AbjGJCkn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Jul 2023 22:40:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjGJCUk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jul 2023 22:20:40 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 86486103;
-        Sun,  9 Jul 2023 19:20:37 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 304891FB;
-        Sun,  9 Jul 2023 19:21:19 -0700 (PDT)
-Received: from [10.162.40.20] (a077893.blr.arm.com [10.162.40.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E335A3F740;
-        Sun,  9 Jul 2023 19:20:33 -0700 (PDT)
-Message-ID: <60732ee3-f1c5-3534-29fc-783ec48f2c92@arm.com>
-Date:   Mon, 10 Jul 2023 07:50:30 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC 0/4] arm64/mm: Clean up pte_dirty() state management
-To:     David Hildenbrand <david@redhat.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
+        with ESMTP id S229554AbjGJCkm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jul 2023 22:40:42 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90CFCE0
+        for <linux-doc@vger.kernel.org>; Sun,  9 Jul 2023 19:40:41 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b52875b8d9so257785ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 09 Jul 2023 19:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688956841; x=1691548841;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=z/IXbjfKuqXK0LkUSvyJlpVWtt+IDL+3mxWlVV+iCWs=;
+        b=mRUT8n0EQoIJLjoyT3M/QgbW+yUQhTKEBK2l3R9zCHyVAVWDwrnKGjyZotnTUmr+H/
+         6tZ7qCfuSVE/1lIOXyuAM8Ijwppj7m8QLe/Haxi4ypBo908hsu8zbIQ2D5TJGnnv7bPQ
+         y/BBKVOMw3ETioMfZRgTB7WJ6c7QQiPNvGCrPNiq8fYz6UQucv1DnIHJSWGouajGWlUO
+         7ypAmKo2lGP/nplXlby+JRLJ6/AcXYVfy496QQJg52d3eemfbau3NxmPfs7iVffxGuT3
+         eGDGkCzTQkonpDA06mGAMVaMahduB/gIY0W8y7dR/hRvoZrldpSgOMOqIqST+RM09rPZ
+         wwUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688956841; x=1691548841;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z/IXbjfKuqXK0LkUSvyJlpVWtt+IDL+3mxWlVV+iCWs=;
+        b=SUAiFVH+KfoB1HnaTs40295JRUa9U7htwc9B1CZbbBtQE/kqkWTxvdXDRqIipnk0DV
+         LHUxaoX3eXT2huReS3WWbug7ADqFvLn1AV01Z1fFwXOzCkq9rmKD3GOZgD3nNjX0bPhG
+         NFvxHKF5gRSTBYTTWJxVmu3GNUGXneSd9MqiALwmTDFmnrpUasHKZEPMkLWdvuGFBzOP
+         atYmMOmjMvd03zqbOEiimXIwf/3g5vmJgK5lmW8EQR+6JPaLyOdcQUWC23Wd2qe6YvTc
+         i68gfsMUwQD/pF09ZmzfwhfV1BzFO2YBJw9zBC7rjIGQV54eQ82Rxf/XRVwmcpP77HN6
+         GqXw==
+X-Gm-Message-State: ABy/qLZGkxib3CdHGWM2p34LkZD34D0jLdJStOKz0/tXkRnQk5MOKw8Y
+        5PFcP04t+YaPI17LsbIKM0+yEg==
+X-Google-Smtp-Source: APBJJlHDprkhz5rwjoerAkPliIA9FF7/3p0AE4aab+XMzzj1RCCOp2CmuhVVTocTiN9jtJS9nt8aoA==
+X-Received: by 2002:a17:902:d482:b0:1b0:26c0:757d with SMTP id c2-20020a170902d48200b001b026c0757dmr364822plg.22.1688956840900;
+        Sun, 09 Jul 2023 19:40:40 -0700 (PDT)
+Received: from [2620:0:1008:15:1612:3901:b423:457c] ([2620:0:1008:15:1612:3901:b423:457c])
+        by smtp.gmail.com with ESMTPSA id s18-20020a170902a51200b001b8a85489a3sm6912523plq.262.2023.07.09.19.40.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Jul 2023 19:40:40 -0700 (PDT)
+Date:   Sun, 9 Jul 2023 19:40:39 -0700 (PDT)
+From:   David Rientjes <rientjes@google.com>
+To:     Julian Pidancet <julian.pidancet@oracle.com>
+cc:     Christoph Lameter <cl@linux.com>,
+        "Lameter, Christopher" <cl@os.amperecomputing.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230707053331.510041-1-anshuman.khandual@arm.com>
- <b8bf72f4-f590-a159-ca94-526153b73216@redhat.com>
-Content-Language: en-US
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <b8bf72f4-f590-a159-ca94-526153b73216@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Rafael Aquini <aquini@redhat.com>
+Subject: Re: [PATCH v2] mm/slub: disable slab merging in the default
+ configuration
+In-Reply-To: <3bcfa538-4474-09b7-1812-b4260b09256a@google.com>
+Message-ID: <7b6b07b3-d8a1-b24f-1df2-bf6080bc5516@google.com>
+References: <20230629221910.359711-1-julian.pidancet@oracle.com> <38083ed2-333b-e245-44e4-2f355e4f9249@google.com> <CTSGWINSM18Q.3HQ1DN27GNA1R@imme> <8813897d-4a52-37a0-fe44-a9157716be9b@google.com> <17349901-df3a-494e-fa71-2584d92526b5@google.com>
+ <3bcfa538-4474-09b7-1812-b4260b09256a@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sun, 9 Jul 2023, David Rientjes wrote:
 
-
-On 7/7/23 17:41, David Hildenbrand wrote:
-> On 07.07.23 07:33, Anshuman Khandual wrote:
->> These pte_dirty() changes make things explicitly clear, while improving the
->> code readability. This optimizes HW dirty state transfer into SW dirty bit.
->> This also adds a new arm64 documentation explaining overall pte dirty state
->> management in detail. This series applies on the latest mainline kernel.
->>
->>
+> There are some substantial performance degradations, most notably 
+> context_switch1_per_thread_ops which regressed ~21%.  I'll need to repeat
+> that test to confirm it and can also try on cascadelake if it reproduces.
 > 
-> I skimmed over most of the series, and I am not convinced that this is actually a cleanup. If we cannot really always differentiate between sw/hw clearing, why have separate primitives that give one the illusion that it could be done and that they are two different concepts?
 
-These are indeed two different concepts working together, the current code just
-obscures that. Without these primitives it's even hard to follow how the SW and
-HW dirty parts are intertwined in implementing the generic pte_dirty() state.
+So the regression on skylake for will-it-scale appears to be real:
 
-The current code acknowledges these two different concepts in identifying them
-i.e via pte_hw_dirty() and pte_sw_dirty().
+               LABEL              | COUNT |    MIN     |    MAX     |    MEAN    |   MEDIAN   | STDDEV | DIRECTION  
+----------------------------------+-------+------------+------------+------------+------------+--------+------------
+  context_switch1_per_thread_ops  |       |            |            |            |            |        |            
+  (A) v6.1.30                     | 1     | 314507.000 | 314507.000 | 314507.000 | 314507.000 | 0      |            
+  (B) v6.1.30 slab_nomerge        | 1     | 257403.000 | 257403.000 | 257403.000 | 257403.000 | 0      |            
+    !! REGRESSED !!               |       | -18.16%    | -18.16%    | -18.16%    | -18.16%    | ---    | + is good  
 
-#define pte_hw_dirty(pte)       (pte_write(pte) && !(pte_val(pte) & PTE_RDONLY))
-#define pte_sw_dirty(pte)       (!!(pte_val(pte) & PTE_DIRTY))
+but I can't reproduce this on cascadelake:
 
-But then falls short in demonstrating how these two states are being managed i.e
-created and cleared. The first patch tries to clear the situation to some extent.
+               LABEL              | COUNT |    MIN     |    MAX     |    MEAN    |   MEDIAN   | STDDEV | DIRECTION  
+----------------------------------+-------+------------+------------+------------+------------+--------+------------
+  context_switch1_per_thread_ops  |       |            |            |            |            |        |            
+  (A) v6.1.30                     | 1     | 301128.000 | 301128.000 | 301128.000 | 301128.000 | 0      |            
+  (B) v6.1.30 slab_nomerge        | 1     | 301282.000 | 301282.000 | 301282.000 | 301282.000 | 0      |            
+                                  |       | +0.05%     | +0.05%     | +0.05%     | +0.05%     | ---    | + is good  
 
-> 
-> Maybe there are other opinions, but at least for me this made the code harder to grasp.
-> 
-> I do appreciate a doc update, though :)
-These two changes also streamline HW dirty bit saving in SW dirty bit efficiently,
-skipping the re-doing of HW dirty bits setting which might be cleared off. That is
-the primary reason for saving it off in SW dirty bit in the first place.
+So I'm a bit baffled at the moment.
 
-  arm64/mm: Call pte_sw_mkdirty() while preserving the HW dirty state
-  arm64/mm: Add pte_preserve_hw_dirty(
-
-Regardless, I am still trying to understand how the first patch does not improve
-the clarity in modifying the PTE dirty state.
+I'll try to dig deeper and see what slab caches this benchmark exercises
+that apparently no other benchmarks do.  (I'm really hoping that the only
+way to recover this performance is by something like
+kmem_cache_create(SLAB_MERGE).)
