@@ -2,95 +2,125 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D04EB64DA
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:34:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5D30EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:39:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229811AbjGJTe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 15:34:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44744 "EHLO
+        id S230213AbjGJTjq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 15:39:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjGJTe0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:34:26 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C65CB115
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 12:34:24 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1b8ad356f03so31307635ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 12:34:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1689017664; x=1691609664;
-        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:to:cc:subject:date:message-id:reply-to;
-        bh=X4CI5+SmtveArFRq79zdeBAZUIe4gvMt0iRwnhpBO+M=;
-        b=O6OqaAAANi7fc6p016B8JcM8A4oTjbmBOcLJ18LWH7Ur+1YH4r3uQOvtPDwBv5c5Ve
-         bhRMQo1LxCQTDbf3WXDKXxgdDn+hvmPpDvzcVIzxSbePdddl0sjfwbRfkLHyC6278ySz
-         uWZVNrkq/0pjZEOTp4rGGfR/OO5dbH3NheQmO4G6aIf9KdYQFPisYzLgXIIEL1d98w9M
-         xu/r68NDudVA5qEIPpmM0AHG6utlBJKdpxgVX5SeT7CxN/JpEhphL0uxQuu1Ecjtza9p
-         VpWs06f8OHxl1eWuqueYzrJUGRXHMDHJLDuym0WBDPdiu3gPo4bE7Yc0kcjlDWDQ4L8u
-         ppQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689017664; x=1691609664;
-        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
-         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X4CI5+SmtveArFRq79zdeBAZUIe4gvMt0iRwnhpBO+M=;
-        b=a20b5WP8WcGuJF0B2YmI0G8+PRy9N4r7AvjDRWrEOcWjk0brpTDyzG4Wievmpu9UZE
-         27m6WsLjOafui814XuQAOiNcIjzQhavFUgg7rWFOSwwH5TgDbM89PzHlIYdWeuzR/CR5
-         wZ9NZm0NMU3zTbB1ykDVOAhUwR5OXt9B5CeR4MC57dAF5K13ZmjVd30DSMDuHrCxe22I
-         HpOFcT36JPdgh38Hd7dgI+TD+uOIPblNfF89rckGi3UVp0Jj7dy+nRPAauJPBuiFFt2O
-         Wi6eeNJSRdoCn17JOnGUe6FX2b555iVY1JNillpnaOd1Q9MxX1SUrvZtipBGsBBpQaPk
-         1yzA==
-X-Gm-Message-State: ABy/qLZFT0lG4Omrv6ThRKHjDYmXj2yDKn7p+pqiPnsixQWPYzG6Fg/A
-        xMBjdkxvehpBrA6HBknwtXTfzA==
-X-Google-Smtp-Source: APBJJlGZJoofWbuCDQO4c7uLwyw5Yl/UFAKfGuF0ww5KD7pI79rJwkvqu+sjqOGXfBR/I4jWcXqlzw==
-X-Received: by 2002:a17:902:eac4:b0:1b8:9002:c9ee with SMTP id p4-20020a170902eac400b001b89002c9eemr10551533pld.1.1689017664209;
-        Mon, 10 Jul 2023 12:34:24 -0700 (PDT)
-Received: from localhost ([50.38.6.230])
-        by smtp.gmail.com with ESMTPSA id p15-20020a170902e74f00b001b39ffff838sm276606plf.25.2023.07.10.12.34.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 12:34:23 -0700 (PDT)
-Subject: [PATCH] Documentation: RISC-V: hwprobe: Fix a formatting error
-Date:   Mon, 10 Jul 2023 12:33:30 -0700
-Message-Id: <20230710193329.2742-1-palmer@rivosinc.com>
-X-Mailer: git-send-email 2.40.1
+        with ESMTP id S229563AbjGJTjp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:39:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F4E9E;
+        Mon, 10 Jul 2023 12:39:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2799A611A8;
+        Mon, 10 Jul 2023 19:39:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABAEEC433C7;
+        Mon, 10 Jul 2023 19:39:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689017983;
+        bh=ernk864sCWu4fBl7VhZE7tFQQg9vQ7iqqyymWeIABp8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KDnDZZ4YvYMrFt7l8Mt8NZ5ak2zru2ncMyphxPA6q8+v8uPOQtvHSpiZSTB03x9Qi
+         48dioItGxAxRt2O5P+SBtdNRo8N8dTRiCI4rhuZ1eLMFDJZAkfIzF6Izhz//MRqH1V
+         1f2oT39u/lk3H2RrmDAp6pWuCFdImAQQBWbqg4OzjSr2OtwozQwDCD/JV6bqNBYv8v
+         ewk86yOimXOR0HpTQ7FY61oFQvUQGOrjZBH5zSTghoGakUPYIR4zyyHyQx2iSP0dh9
+         TCZZjfHIKXFSV8aYGirwHng/ZY9SKC0DZK6ySoklHvkAMRAch6PHjiltRerDm+hPTp
+         0xrJrfNWxNbww==
+Date:   Mon, 10 Jul 2023 20:39:40 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: Docs for base maintainer expectations?
+Message-ID: <20230710-veteran-progeny-fee091cfff3c@spud>
+References: <20230710115239.3f9e2c24@kernel.org>
+ <20230710-snowboard-bannister-7ed66c8d742b@spud>
+ <20230710122228.545d93be@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Evan Green <evan@rivosinc.com>, heiko@sntech.de,
-        andy.chiu@sifive.com, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux@rivosinc.com, Palmer Dabbelt <palmer@rivosinc.com>
-From:   Palmer Dabbelt <palmer@rivosinc.com>
-To:         linux-riscv@lists.infradead.org
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="y04JnO3VBR+Fad4g"
+Content-Disposition: inline
+In-Reply-To: <20230710122228.545d93be@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Palmer Dabbelt <palmer@rivosinc.com>
 
-I'm not sure what I was trying to do with the ':'s, but they're just
-rendered to HTML which looks odd.   This makes "fence.i" look like
-"mvendorid" and such, which is seems reasonable to me.
+--y04JnO3VBR+Fad4g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
----
- Documentation/riscv/hwprobe.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Jul 10, 2023 at 12:22:28PM -0700, Jakub Kicinski wrote:
+> On Mon, 10 Jul 2023 20:06:56 +0100 Conor Dooley wrote:
+> > On Mon, Jul 10, 2023 at 11:52:39AM -0700, Jakub Kicinski wrote:
+> > > do we have any docs describing what's expected from folks stepping up
+> > > to maintain (small-ish) parts of the kernel like a driver or a protoc=
+ol?
+> > >=20
+> > > Experienced developers / maintainers differ like the beautiful
+> > > snowflakes that we are, but outsiders have much less familiarity=20
+> > > with the landscape, and frankly sometimes much less interest in
+> > > participating once they code lands.
+> > >=20
+> > > Which makes we wonder if a simple list of responsibilities would be
+> > > useful as a baseline. =20
+> >=20
+> > > I haven't spotted anything in Docs/process but
+> > > perhaps someone has a local version for their subsystem? =20
+> >=20
+> > Given I figure you did this on with a -rc1 based tree, which would mean
+> > that what I wrote probably does not fit the bill, but I tried to do
+> > something along these lines with
+> > https://docs.kernel.org/process/maintainer-soc.html
+> > for which my target audience was people picking up maintenance of
+> > DT/soc drivers, which I hope there'll be a few of in RISC-V land soon...
+> >=20
+> > I suggested adding things to it, like putting the trees in linux-next
+> > etc, but review feedback suggested that was unsuited to a subsystem
+> > specific document.
+>=20
+> Thanks for the pointer! I haven't read it before because I assumed
+> it'll describe workflow and suggestions for SoC sub-tree (which it
+> does?)
 
-diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprobe.rst
-index 19165ebd82ba..933c715065d6 100644
---- a/Documentation/riscv/hwprobe.rst
-+++ b/Documentation/riscv/hwprobe.rst
-@@ -49,7 +49,7 @@ The following keys are defined:
-     privileged ISA, with the following known exceptions (more exceptions may be
-     added, but only if it can be demonstrated that the user ABI is not broken):
- 
--    * The :fence.i: instruction cannot be directly executed by userspace
-+    * The ``fence.i`` instruction cannot be directly executed by userspace
-       programs (it may still be executed in userspace via a
-       kernel-controlled mechanism such as the vDSO).
- 
--- 
-2.40.1
+You did mention "local version for the subsystem", but maybe by local
+you meant on their own box, rather than local to the subsystem. I
+interpreted it as the latter, sorry about that!
 
+> I was thinking about something way more basic, like "you are
+> expected to reply to bug reports", "you are expected to investigate
+> syzbot problems" etc. :(
+
+Yeah, along the lines of the generic stuff it was suggested that I
+should not add :)
+
+> IOW the SoC guide reads more like "how to get your code accepted" rather
+> than "what are the externally-facing responsibilities of a maintainer".
+
+I suppose it is a bit of a mix, since the document _is_ aimed at
+maintainers of platform support (there's details about sending PRs etc),
+but it does contain some conventions that "code" should follow, which
+they should in turn pass down to contributors.
+
+It sounds almost as if you're looking for something to present to people
+when they add themselves as an `M:` entry against a driver, for when
+$company sends a patch w/ someone you've not really seen before?
+
+--y04JnO3VBR+Fad4g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKxefAAKCRB4tDGHoIJi
+0gInAPwPMensrny+CEtLluvxkCOa7di6BECDuTKUE/W8/dfpxQD/TDTK1Omm7Tpd
+c6ji6hPp0yqMutg3FWQu35WN/n//rQk=
+=xnSu
+-----END PGP SIGNATURE-----
+
+--y04JnO3VBR+Fad4g--
