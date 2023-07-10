@@ -2,187 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C889EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 17:20:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B34BEB64DA
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 17:46:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231452AbjGJRUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 13:20:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40694 "EHLO
+        id S231183AbjGJRqm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 13:46:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229964AbjGJRUd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 13:20:33 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB2910D
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 10:20:32 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-98de21518fbso625842166b.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 10:20:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689009630; x=1691601630;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TUvRrbUgojp3S6sSCvyqiMIcXWz8PVCjBGghvW84veI=;
-        b=ht6uj+rb8yZwl2NV6V2gaufj2a9VqDGv3yssM3oEm8JYDAo3AfjXbxHJBoKuO5DlTl
-         pD2WbqWUNWBfOfUcp7EjZQaJuiAnv1BmYyrgKUWyxJdJCQ68MaP1VKmDPuxC7dJIjAX7
-         5lTxg6vkvvnF36m5L1bm4PnNDP4LvpxIoQveWHh2gkoks+XtXvEeE+KHOyBM/KtU7ana
-         rLs2CvLZmdELqO0wio4tAbxozq0KdYtf0J/CTkahgjBxYGRmPFuUf1LzxrU4EkTfeN3Z
-         gpy7JaV38FmOqpGRYZf93Pg/PDCJFItQcB8y5NCti8Gz2Dad+OcDiuukXy3mkez7MG1/
-         Lpcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689009630; x=1691601630;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TUvRrbUgojp3S6sSCvyqiMIcXWz8PVCjBGghvW84veI=;
-        b=NLbh28ZlhwvcdUVp7lqFoYgZ9nF2G0/im0d7sqYVSytEB/jaYp6qxdVYD0ER0ZQLrt
-         eISngb+5Kzjx3+i2wfi8Kw0Jaq6Lx/8S3EOehAk5FpgR9OMvv5iWfcX5B88Ss+cLXTET
-         /z5DRzWc8romHBAt0CllB5YfcUMnQEPzp4myYKE7ylMCylAaTycZyyObLGvb1KrOeFpa
-         66ztzMNBsESPrsgyxm31B5GzKLJaObJzcQ/HmWTlrmEJLKuRYIXqZipIjFMCqxlnabFG
-         8Z1TpBw0f/AHY8gDDdWCbMJkttgBGN8DCo9zyr+wb0ZgH5zGqJSDxIJQ9COMbr3r7l4E
-         nodg==
-X-Gm-Message-State: ABy/qLYG96FXzuWGMAKVpTauyuiKX1O9kuhIzmZtuAHy4ldGPOndD4yS
-        Qx775XyHTlqR8oTPYStPWHMLgayjZVp/x9EcNxtlXw==
-X-Google-Smtp-Source: APBJJlEwoywxx29c3j+Q6tKCZYdv00R5S9OXHCpuykOBe4v5wpLPGzaltu+U90bW+McFEnOZMwR1EGkBUBdKGHluAn4=
-X-Received: by 2002:a17:907:d23:b0:991:f383:d5c3 with SMTP id
- gn35-20020a1709070d2300b00991f383d5c3mr17452608ejc.74.1689009630336; Mon, 10
- Jul 2023 10:20:30 -0700 (PDT)
+        with ESMTP id S230133AbjGJRqm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 13:46:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74204DD
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 10:46:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 11D5D6115E
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 17:46:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D988C433C7;
+        Mon, 10 Jul 2023 17:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689011200;
+        bh=JAxHBqgOmJqchXSR6NoBE6n0/dxS2e6Jz25wI0ASHys=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cMCloIYV7yTHhbdKB+1ys8mQEFeldbiiR5oFxomKX/JK0UQatqANwYStqPzUS9J4d
+         QfLF9Og+sYv8+ZZeV7pKJ2p2hWvMCQuFse1NfBHIRBr3IydwCd8Nbhu6nUZINP8Pt7
+         b9sh8gqSeTs5em8PHH74xUf5tncjcmI60Xo8gN2ipN7gkw5PiFCG3gsRyEtwURnyHW
+         hP4x2tDTsBZ9yGfNIPXXCTqLAc7op+pP5l5XeHKqk9kX+cdwvULW3w30y//wzb+9aG
+         ccblALfhsNqQHSn9oVcbyw0HjwU9an1F1KrXK/03KWGhtErzXVmcSKxR/Xh+DRiM//
+         T4/BvnoNxCT4w==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net] docs: netdev: update the URL of the status page
+Date:   Mon, 10 Jul 2023 10:46:36 -0700
+Message-ID: <20230710174636.1174684-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230707215540.2324998-1-axelrasmussen@google.com>
- <20230707215540.2324998-2-axelrasmussen@google.com> <20230708180850.bc938ab49fbfb38b83c367c8@linux-foundation.org>
-In-Reply-To: <20230708180850.bc938ab49fbfb38b83c367c8@linux-foundation.org>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Mon, 10 Jul 2023 10:19:54 -0700
-Message-ID: <CAJHvVcgfN5RVXJ_f3tN2UinV_kWCMyCY_g5oKm=BtgQJz-e7gA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/8] mm: make PTE_MARKER_SWAPIN_ERROR more general
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Brian Geffon <bgeffon@google.com>,
-        Christian Brauner <brauner@kernel.org>,
-        David Hildenbrand <david@redhat.com>,
-        Gaosheng Cui <cuigaosheng1@huawei.com>,
-        Huang Ying <ying.huang@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        James Houghton <jthoughton@google.com>,
-        "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
-        Jiaqi Yan <jiaqiyan@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        Nadav Amit <namit@vmware.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Peter Xu <peterx@redhat.com>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "T.J. Alumbaugh" <talumbau@google.com>,
-        Yu Zhao <yuzhao@google.com>,
-        ZhangPeng <zhangpeng362@huawei.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 8, 2023 at 6:08=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
->
-> On Fri,  7 Jul 2023 14:55:33 -0700 Axel Rasmussen <axelrasmussen@google.c=
-om> wrote:
->
-> > Future patches will re-use PTE_MARKER_SWAPIN_ERROR to implement
-> > UFFDIO_POISON, so make some various preparations for that:
-> >
-> > First, rename it to just PTE_MARKER_POISONED. The "SWAPIN" can be
-> > confusing since we're going to re-use it for something not really
-> > related to swap. This can be particularly confusing for things like
-> > hugetlbfs, which doesn't support swap whatsoever. Also rename some
-> > various helper functions.
-> >
-> > Next, fix pte marker copying for hugetlbfs. Previously, it would WARN o=
-n
-> > seeing a PTE_MARKER_SWAPIN_ERROR, since hugetlbfs doesn't support swap.
-> > But, since we're going to re-use it, we want it to go ahead and copy it
-> > just like non-hugetlbfs memory does today. Since the code to do this is
-> > more complicated now, pull it out into a helper which can be re-used in
-> > both places. While we're at it, also make it slightly more explicit in
-> > its handling of e.g. uffd wp markers.
-> >
-> > For non-hugetlbfs page faults, instead of returning VM_FAULT_SIGBUS for
-> > an error entry, return VM_FAULT_HWPOISON. For most cases this change
-> > doesn't matter, e.g. a userspace program would receive a SIGBUS either
-> > way. But for UFFDIO_POISON, this change will let KVM guests get an MCE
-> > out of the box, instead of giving a SIGBUS to the hypervisor and
-> > requiring it to somehow inject an MCE.
-> >
-> > Finally, for hugetlbfs faults, handle PTE_MARKER_POISONED, and return
-> > VM_FAULT_HWPOISON_LARGE in such cases. Note that this can't happen toda=
-y
-> > because the lack of swap support means we'll never end up with such a
-> > PTE anyway, but this behavior will be needed once such entries *can*
-> > show up via UFFDIO_POISON.
-> >
-> > --- a/include/linux/mm_inline.h
-> > +++ b/include/linux/mm_inline.h
-> > @@ -523,6 +523,25 @@ static inline bool mm_tlb_flush_nested(struct mm_s=
-truct *mm)
-> >       return atomic_read(&mm->tlb_flush_pending) > 1;
-> >  }
-> >
-> > +/*
-> > + * Computes the pte marker to copy from the given source entry into ds=
-t_vma.
-> > + * If no marker should be copied, returns 0.
-> > + * The caller should insert a new pte created with make_pte_marker().
-> > + */
-> > +static inline pte_marker copy_pte_marker(
-> > +             swp_entry_t entry, struct vm_area_struct *dst_vma)
-> > +{
-> > +     pte_marker srcm =3D pte_marker_get(entry);
-> > +     /* Always copy error entries. */
-> > +     pte_marker dstm =3D srcm & PTE_MARKER_POISONED;
-> > +
-> > +     /* Only copy PTE markers if UFFD register matches. */
-> > +     if ((srcm & PTE_MARKER_UFFD_WP) && userfaultfd_wp(dst_vma))
-> > +             dstm |=3D PTE_MARKER_UFFD_WP;
-> > +
-> > +     return dstm;
-> > +}
->
-> Breaks the build with CONFIG_MMU=3Dn (arm allnoconfig).  pte_marker isn't
-> defined.
->
-> I'll slap #ifdef CONFIG_MMU around this function, but probably somethng m=
-ore
-> fine-grained could be used, like CONFIG_PTE_MARKER_UFFD_WP.  Please
-> consider.
+Move the status page from vger to the same server as mailbot.
 
-Whoops, sorry about this. This function "ought" to be in
-include/linux/swapops.h where it would be inside a #ifdef CONFIG_MMU
-anyway, but it can't be because it uses userfaultfd_wp() so there'd be
-a circular include. I think just wrapping it in CONFIG_MMU is the
-right way.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+BPF folks, I see a mention of the status page in your FAQ, too,
+but I'm leaving it to you to update, cause I'm not sure how
+up to date that section is.
+---
+ Documentation/process/maintainer-netdev.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-But, this has also made me realize we need to not advertise
-UFFDIO_POISON as supported unless we have CONFIG_MMU. I don't want
-HAVE_ARCH_USERFAULTFD_WP for that, because it's only enabled on
-x86_64, whereas I want to support at least arm64 as well. I don't see
-a strong reason not to just use CONFIG_MMU for this too; this feature
-depends on the API in swapops.h, which uses that ifdef, so I don't see
-a lot of value out of creating a new but equivalent config option.
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index 2397b31c0198..2ab843cde830 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -98,7 +98,7 @@ If you aren't subscribed to netdev and/or are simply unsure if
+ repository link above for any new networking-related commits.  You may
+ also check the following website for the current status:
+ 
+-  http://vger.kernel.org/~davem/net-next.html
++  https://patchwork.hopto.org/net-next.html
+ 
+ The ``net`` tree continues to collect fixes for the vX.Y content, and is
+ fed back to Linus at regular (~weekly) intervals.  Meaning that the
+-- 
+2.41.0
 
-I'll make the needed changes (and also address Peter's comment above)
-and send out a v5.
-
->
-> btw, both copy_pte_marker() and pte_install_uffd_wp_if_needed() look
-> far too large to justify inlining.  Please review the desirability of
-> this.
->
->
