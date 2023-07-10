@@ -2,209 +2,170 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1131EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 02:54:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43091EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 06:00:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbjGJCyQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Jul 2023 22:54:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48598 "EHLO
+        id S229458AbjGJGA4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 02:00:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbjGJCyP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jul 2023 22:54:15 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 65964E9;
-        Sun,  9 Jul 2023 19:54:14 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 308571FB;
-        Sun,  9 Jul 2023 19:54:56 -0700 (PDT)
-Received: from [10.162.40.20] (a077893.blr.arm.com [10.162.40.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BEBB43F740;
-        Sun,  9 Jul 2023 19:54:10 -0700 (PDT)
-Message-ID: <bc9c2d09-8c6c-e5b2-a5be-545b4bb0a1b4@arm.com>
-Date:   Mon, 10 Jul 2023 08:24:07 +0530
+        with ESMTP id S229792AbjGJGAz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 02:00:55 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05008FD;
+        Sun,  9 Jul 2023 23:00:53 -0700 (PDT)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36A4LYnW008582;
+        Mon, 10 Jul 2023 06:00:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=nMMlfpVJ+UOeVGD2dtc8/N7imAyEaUSCV1mdaihTP0w=;
+ b=kuf+EpJI3guDerzZxYiBLNtWJ6EV1r7ARyQK4hUBX/J4h+kuLcYVBXG/Cw0dUS/+MAX9
+ ERZFxgaLjKM7Cp8DpmPjfPP2VWa3FICeYbgC9mQZN6BSTiTy3wljZzms3toxyTfF2o+n
+ p6ERbqrivHOMlz19JxfrtdAZRuOdyiQLTxLtt6o53BMVx1lDf9IPQBSVKGZPJb2bV4BB
+ HvH9CVtcbiQreA+EaG0EiicU3znGLXtpn6c6xixulhK93w+v65mrmwxDs2X9XnIHdjYy
+ vx1Ws2SjjIIB0xOLwyBXkZlKwatX4i78OSvvh55OQiz/4OP0ufL/JoOxcMQkMAoVO+p/ fw== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rq06d2k7t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 10 Jul 2023 06:00:23 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36A60M2D027122
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 10 Jul 2023 06:00:22 GMT
+Received: from aiquny2-gv.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Sun, 9 Jul 2023 23:00:19 -0700
+From:   Maria Yu <quic_aiquny@quicinc.com>
+To:     <will@kernel.org>, <corbet@lwn.net>, <catalin.marinas@arm.com>
+CC:     <maz@kernel.org>, <quic_pkondeti@quicinc.com>,
+        <quic_kaushalk@quicinc.com>, <quic_satyap@quicinc.com>,
+        <quic_shashim@quicinc.com>, <quic_songxue@quicinc.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Maria Yu <quic_aiquny@quicinc.com>
+Subject: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+Date:   Mon, 10 Jul 2023 13:59:55 +0800
+Message-ID: <20230710055955.36551-1-quic_aiquny@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC 1/4] arm64/mm: Add SW and HW dirty state helpers
-Content-Language: en-US
-To:     David Hildenbrand <david@redhat.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Ryan Roberts <ryan.roberts@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20230707053331.510041-1-anshuman.khandual@arm.com>
- <20230707053331.510041-2-anshuman.khandual@arm.com>
- <0d035a57-b502-32b3-0010-d029f62d7757@redhat.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <0d035a57-b502-32b3-0010-d029f62d7757@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: m3sXGeh0TbaOb70k3S1OMxS1nxYXB0t8
+X-Proofpoint-GUID: m3sXGeh0TbaOb70k3S1OMxS1nxYXB0t8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-10_04,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ spamscore=0 lowpriorityscore=0 clxscore=1011 impostorscore=0 mlxscore=0
+ phishscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=911 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2307100054
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+In order to be able to disable lse_atomic even if cpu
+support it, most likely because of memory controller
+cannot deal with the lse atomic instructions, use a
+new idreg override to deal with it.
 
+Signed-off-by: Maria Yu <quic_aiquny@quicinc.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  2 ++
+ arch/arm64/include/asm/cpufeature.h             |  1 +
+ arch/arm64/kernel/cpufeature.c                  |  4 +++-
+ arch/arm64/kernel/idreg-override.c              | 11 +++++++++++
+ 4 files changed, 17 insertions(+), 1 deletion(-)
 
-On 7/7/23 17:39, David Hildenbrand wrote:
-> On 07.07.23 07:33, Anshuman Khandual wrote:
->> This factors out low level SW and HW state changes i.e make and clear into
->> separate helpers making them explicit improving readability. This also adds
->> pte_rdonly() helper as well. No functional change is intended.
->>
->> Cc: Catalin Marinas <catalin.marinas@arm.com>
->> Cc: Will Deacon <will@kernel.org>
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-kernel@vger.kernel.org
->> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
->> ---
->>   arch/arm64/include/asm/pgtable.h | 52 ++++++++++++++++++++++++++------
->>   1 file changed, 42 insertions(+), 10 deletions(-)
->>
->> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
->> index 0bd18de9fd97..fb03be697819 100644
->> --- a/arch/arm64/include/asm/pgtable.h
->> +++ b/arch/arm64/include/asm/pgtable.h
->> @@ -103,6 +103,7 @@ static inline pteval_t __phys_to_pte_val(phys_addr_t phys)
->>   #define pte_young(pte)        (!!(pte_val(pte) & PTE_AF))
->>   #define pte_special(pte)    (!!(pte_val(pte) & PTE_SPECIAL))
->>   #define pte_write(pte)        (!!(pte_val(pte) & PTE_WRITE))
->> +#define pte_rdonly(pte)        (!!(pte_val(pte) & PTE_RDONLY))
->>   #define pte_user(pte)        (!!(pte_val(pte) & PTE_USER))
->>   #define pte_user_exec(pte)    (!(pte_val(pte) & PTE_UXN))
->>   #define pte_cont(pte)        (!!(pte_val(pte) & PTE_CONT))
->> @@ -120,7 +121,7 @@ static inline pteval_t __phys_to_pte_val(phys_addr_t phys)
->>       (__boundary - 1 < (end) - 1) ? __boundary : (end);            \
->>   })
->>   -#define pte_hw_dirty(pte)    (pte_write(pte) && !(pte_val(pte) & PTE_RDONLY))
->> +#define pte_hw_dirty(pte)    (pte_write(pte) && !pte_rdonly(pte))
->>   #define pte_sw_dirty(pte)    (!!(pte_val(pte) & PTE_DIRTY))
->>   #define pte_dirty(pte)        (pte_sw_dirty(pte) || pte_hw_dirty(pte))
->>   @@ -174,6 +175,39 @@ static inline pmd_t clear_pmd_bit(pmd_t pmd, pgprot_t prot)
->>       return pmd;
->>   }
->>   +static inline pte_t pte_hw_mkdirty(pte_t pte)
-> 
-> I'd have called this "pte_mkhw_dirty", similar to "pte_mksoft_dirty".
-> 
->> +{
->> +    if (pte_write(pte))
->> +        pte = clear_pte_bit(pte, __pgprot(PTE_RDONLY));
->> +
->> +    return pte;
->> +}
->> +
->> +static inline pte_t pte_sw_mkdirty(pte_t pte)
-> 
-> pte_mksw_dirty
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 85fb0fa5d091..6ad754549f1d 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -433,6 +433,8 @@
+ 	arm64.nomops	[ARM64] Unconditionally disable Memory Copy and Memory
+ 			Set instructions support
+ 
++	arm64.nolse_atomic [ARM64] Unconditionally disable LSE Atomic support
++
+ 	ataflop=	[HW,M68k]
+ 
+ 	atarimouse=	[HW,MOUSE] Atari Mouse
+diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+index 96e50227f940..9d56dea1fe62 100644
+--- a/arch/arm64/include/asm/cpufeature.h
++++ b/arch/arm64/include/asm/cpufeature.h
+@@ -916,6 +916,7 @@ extern struct arm64_ftr_override id_aa64pfr0_override;
+ extern struct arm64_ftr_override id_aa64pfr1_override;
+ extern struct arm64_ftr_override id_aa64zfr0_override;
+ extern struct arm64_ftr_override id_aa64smfr0_override;
++extern struct arm64_ftr_override id_aa64isar0_override;
+ extern struct arm64_ftr_override id_aa64isar1_override;
+ extern struct arm64_ftr_override id_aa64isar2_override;
+ 
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index f9d456fe132d..9bd766880807 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -669,6 +669,7 @@ struct arm64_ftr_override __ro_after_init id_aa64pfr0_override;
+ struct arm64_ftr_override __ro_after_init id_aa64pfr1_override;
+ struct arm64_ftr_override __ro_after_init id_aa64zfr0_override;
+ struct arm64_ftr_override __ro_after_init id_aa64smfr0_override;
++struct arm64_ftr_override __ro_after_init id_aa64isar0_override;
+ struct arm64_ftr_override __ro_after_init id_aa64isar1_override;
+ struct arm64_ftr_override __ro_after_init id_aa64isar2_override;
+ 
+@@ -721,7 +722,8 @@ static const struct __ftr_reg_entry {
+ 	ARM64_FTR_REG(SYS_ID_AA64DFR1_EL1, ftr_raz),
+ 
+ 	/* Op1 = 0, CRn = 0, CRm = 6 */
+-	ARM64_FTR_REG(SYS_ID_AA64ISAR0_EL1, ftr_id_aa64isar0),
++	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64ISAR0_EL1, ftr_id_aa64isar0,
++			       &id_aa64isar0_override),
+ 	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64ISAR1_EL1, ftr_id_aa64isar1,
+ 			       &id_aa64isar1_override),
+ 	ARM64_FTR_REG_OVERRIDE(SYS_ID_AA64ISAR2_EL1, ftr_id_aa64isar2,
+diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
+index 2fe2491b692c..af41ab4f3d94 100644
+--- a/arch/arm64/kernel/idreg-override.c
++++ b/arch/arm64/kernel/idreg-override.c
+@@ -105,6 +105,15 @@ static const struct ftr_set_desc pfr1 __initconst = {
+ 	},
+ };
+ 
++static const struct ftr_set_desc isar0 __initconst = {
++	.name		= "id_aa64isar0",
++	.override	= &id_aa64isar0_override,
++	.fields		= {
++	        FIELD("atomic", ID_AA64ISAR0_EL1_ATOMIC_SHIFT, NULL),
++		{}
++	},
++};
++
+ static const struct ftr_set_desc isar1 __initconst = {
+ 	.name		= "id_aa64isar1",
+ 	.override	= &id_aa64isar1_override,
+@@ -163,6 +172,7 @@ static const struct ftr_set_desc * const regs[] __initconst = {
+ 	&mmfr1,
+ 	&pfr0,
+ 	&pfr1,
++	&isar0,
+ 	&isar1,
+ 	&isar2,
+ 	&smfr0,
+@@ -185,6 +195,7 @@ static const struct {
+ 	{ "arm64.nomops",		"id_aa64isar2.mops=0" },
+ 	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
+ 	{ "nokaslr",			"arm64_sw.nokaslr=1" },
++	{ "arm64.nolse_atomic",         "id_aa64isar0.atomic=0" },
+ };
+ 
+ static int __init parse_nokaslr(char *unused)
+-- 
+2.17.1
 
-Sure, will change them as pte_mkhw_dirty()/pte_mksw_dirty() instead.
-
-> 
->> +{
->> +    return set_pte_bit(pte, __pgprot(PTE_DIRTY));
->> +}
->> +
->> +static inline __always_unused pte_t pte_hw_clr_dirty(pte_t pte)
-> 
-> pte_clear_hw_dirty (again, similar to pte_clear_soft_dirty )
-> 
->> +{
->> +    return set_pte_bit(pte, __pgprot(PTE_RDONLY));
->> +}
->> +
->> +static inline pte_t pte_sw_clr_dirty(pte_t pte)
-> 
-> pte_clear_sw_dirty
-
-Sure, will change them as pte_clear_hw_dirty()/pte_clear_sw_dirty() instead.
-
-> 
->> +{
->> +    pte = clear_pte_bit(pte, __pgprot(PTE_DIRTY));
->> +
->> +    /*
->> +     * Clearing the software dirty state requires clearing
->> +     * the PTE_DIRTY bit along with setting the PTE_RDONLY
->> +     * ensuring a page fault on subsequent write access.
->> +     *
->> +     * NOTE: Setting the PTE_RDONLY (as a coincident) also
->> +     * implies clearing the HW dirty state.
->> +     */
->> +    return set_pte_bit(pte, __pgprot(PTE_RDONLY));
->> +}
->> +
->>   static inline pmd_t set_pmd_bit(pmd_t pmd, pgprot_t prot)
->>   {
->>       pmd_val(pmd) |= pgprot_val(prot);
->> @@ -189,19 +223,17 @@ static inline pte_t pte_mkwrite(pte_t pte)
->>     static inline pte_t pte_mkclean(pte_t pte)
->>   {
->> -    pte = clear_pte_bit(pte, __pgprot(PTE_DIRTY));
->> -    pte = set_pte_bit(pte, __pgprot(PTE_RDONLY));
->> -
->> -    return pte;
->> +    /*
->> +     * Subsequent call to pte_hw_clr_dirty() is not required
->> +     * because pte_sw_clr_dirty() in turn does that as well.
->> +     */
->> +    return pte_sw_clr_dirty(pte);
-> 
-> Hm, I'm not sure if that simplifies things.
-> 
-> You call pte_sw_clr_dirty() and suddenly your hw dirty bit is clear?
-
-Because clearing HW dirty bit just needs setting PTE_RDONLY bit, which as
-a coincidence is also required, after clearing the SW dirty bit to enable
-a subsequent write fault. Here pte_sw_clr_dirty() just happen to contain
-pte_hw_clr_dirty().
-
-> 
-> In that case I think the current implementation is clearer: it doesn't provide primitives that don't make any sense.
-
-It actually does a SW dirty bit clearing which also takes care of HW dirty
-bit clearing without saying so explicitly. These new helpers demonstrate
-bit clearly what is happening.
-
-> 
->>   }
->>     static inline pte_t pte_mkdirty(pte_t pte)
->>   {
->> -    pte = set_pte_bit(pte, __pgprot(PTE_DIRTY));
->> -
->> -    if (pte_write(pte))
->> -        pte = clear_pte_bit(pte, __pgprot(PTE_RDONLY));
->> -
->> +    pte = pte_sw_mkdirty(pte);
->> +    pte = pte_hw_mkdirty(pte);
-> 
-> That looks weird. Especially, pte_hw_mkdirty() only does something if pte_write().
-
-pte_write() check asserts if DBM is implemented and being used before clearing
-PTE_RDONLY making it a HW dirty state. If pte_write() is cleared, either DBM
-is not implemented or it's a non-writable entry, either way dirty state cannot
-be tracked in HW.
-
-> 
-> Shouldn't pte_hw_mkdirty() bail out if it cannot do anything reasonable (IOW, !writable)?
-
-static inline pte_t pte_hw_mkdirty(pte_t pte)
-{
-	if (pte_write(pte))
-		pte = clear_pte_bit(pte, __pgprot(PTE_RDONLY));
-
-	return pte;
-}
-
-If pte_write() is not positive, it's in !writable state on DBM enabled systems.
-Otherwise pte_write() state does not matter, as the bit position does not make
-sense on non DBM enabled systems.
-
-> 
->>       return pte;
->>   }
->>   
-> 
