@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBFFC0015E
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 09:40:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C29C3C001DC
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 09:40:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232772AbjGJJkU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 05:40:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54758 "EHLO
+        id S233041AbjGJJkS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 05:40:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231509AbjGJJjZ (ORCPT
+        with ESMTP id S230266AbjGJJjZ (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 05:39:25 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E351BF5;
-        Mon, 10 Jul 2023 02:37:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E01C2711;
+        Mon, 10 Jul 2023 02:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1688981825; x=1720517825;
+  t=1688981824; x=1720517824;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=O+veMtx+JvcXWx4LygV6hHgSQoTVwUJDCTyGDuzrzBQ=;
-  b=LBLIx8HxraHsJs4qdxZJMnyOOT6d/dfzVDMICBJ2XZr2tFxTWZl2W6Zn
-   adHNgUCPcRIxHTs+qCsCjM7rwyhS2rAgZm3tnKpR7FsXLILQJtaD5hHFK
-   p143z1stnt/t7udHMVooZxL/8z67TwOwBH+ilu0q0crxPKVlwmdidj0ao
-   doC4iIr1CjV2T0nUsHphTxnhLYgyy7hDPzqTlBC+awcWveXN23JYL+IsQ
-   vyK0Opnas7kxK1fi3IlaA9rmdfcoYT2kx+RkJAtE0QA7EoU/tSbWxY66Q
-   4CeV/U88RPAu+TenEvs1KhJenz1doK0JOgMhX1jO+lyYsG6ofRE6NAPDB
-   g==;
+  bh=iGe+YwVNmPq1+zqO9UyiaCBbCGF6aB1MOiyT8TFuwhg=;
+  b=rKEbVZi2+FAPAFm9HMgfOyY4+gnpmDVrPe3RKhFUcVxBboBGcRDHxHFp
+   rVYeGwPH9YSwIfXKuFJW2AB1AQophoj6mwGs2RUcsqe/HBqkAiTg29kfm
+   JXYcSOOykjxJJQadpMn2BDvbvjew7uFBWU0W1Zd9fZZ4I1Qb2F0KU3SRa
+   24/c21Ke/RcNu3k/nGvXiTrtr1LEhsFH2o9jfWtXzrnl34nIzoQS3i1nT
+   A+1L0I4LHc8W4DVi7LYk0oV0xNnTMm2QabJlSPVw+D2jljv1pgxjX5i9L
+   q+DWIPfe4jM3g8s2iAevFw0kw+K9Tan8ag0R5lywSV577T8I34bUONcUk
+   Q==;
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="222870094"
+   d="scan'208";a="222870079"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Jul 2023 02:37:02 -0700
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Jul 2023 02:36:54 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 10 Jul 2023 02:36:59 -0700
+ 15.1.2507.21; Mon, 10 Jul 2023 02:36:51 -0700
 Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex01.mchp-main.com
  (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 10 Jul 2023 02:36:57 -0700
+ Transport; Mon, 10 Jul 2023 02:36:48 -0700
 From:   Conor Dooley <conor.dooley@microchip.com>
 To:     <palmer@dabbelt.com>
 CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
@@ -52,16 +52,15 @@ CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
         Evan Green <evan@rivosinc.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
         <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v4 11/11] RISC-V: provide Kconfig & commandline options to control parsing "riscv,isa"
-Date:   Mon, 10 Jul 2023 10:35:46 +0100
-Message-ID: <20230710-reappear-unable-5f954043552a@wendy>
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 08/11] RISC-V: split riscv_fill_hwcap() in 3
+Date:   Mon, 10 Jul 2023 10:35:43 +0100
+Message-ID: <20230710-goatskin-thieving-a49e93cb9a7e@wendy>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230710-equipment-stained-dd042d66ba5d@wendy>
 References: <20230710-equipment-stained-dd042d66ba5d@wendy>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5841; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=O+veMtx+JvcXWx4LygV6hHgSQoTVwUJDCTyGDuzrzBQ=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmrL9y8PuV2Ys/Sp1ln9klIzzh54OEpA/nQ7D/2q3hOTZnj v/iCeUcpC4MYB4OsmCJL4u2+Fqn1f1x2OPe8hZnDygQyhIGLUwAmUveUkWG1b8Le2iv7uZJ3qqh0xX 8XT9h6piP31ok5+4NWz7AKs05k+Gcnk/aSeyM3J7um42zJ1AaWd3XnZI/ef7F4Xpv/5e1vrvACAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11968; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=iGe+YwVNmPq1+zqO9UyiaCBbCGF6aB1MOiyT8TFuwhg=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmrL9wo3pirwOm+UyWweEvGr0nHcjlZk1nW625lPJKtrWAt fm9FRykLgxgHg6yYIkvi7b4WqfV/XHY497yFmcPKBDKEgYtTACZio8jwTyU+aHHcbduzk1rYe5melG 6JUNA9udDGYaOH5tMW0/PhtYwM047zmvkem+w5VcvFYtr3877VX3a9thYV2Mhj939p5PLTDAA=
 X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -69,156 +68,401 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As it says on the tin, provide Kconfig option to control parsing the
-"riscv,isa" devicetree property. If either option is used, the kernel
-will fall back to parsing "riscv,isa", where "riscv,isa-base" and
-"riscv,isa-extensions" are not present.
-The Kconfig options are set up so that the default kernel configuration
-will enable the fallback path, without needing the commandline option.
+Before adding more complexity to it, split riscv_fill_hwcap() into 3
+distinct sections:
+- riscv_fill_hwcap() still is the top level function, into which the
+  additional complexity will be added.
+- riscv_fill_hwcap_from_isa_string() handles getting the information
+  from the riscv,isa/ACPI equivalent across harts & the various quirks
+  there
+- riscv_parse_isa_string() does what it says on the tin.
 
-Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-Suggested-by: Palmer Dabbelt <palmer@rivosinc.com>
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
-Changes in v4:
-- add __init to fixup k210 build issue
-- use Drew's revised wording
-
-Changes in v3:
-- Invert the Kconfig entry. It's now default y & not hidden by
-  NONPORTABLE, but its entablement will now activate the fallback
-- Add a commandline option to enable the fallback on kernels that do not
-  enable it in Kconfig, as Drew suggested
-- Default the global var to the Kconfig option & override it with the
-  commandline one, rather than have checks for IS_ENABLED() and for the
-  commandline option in riscv_fill_hwcap() &
-  riscv_early_of_processor_hartid()
+Changes in v2:
+- Drop unused variables
 ---
- .../admin-guide/kernel-parameters.txt          |  7 +++++++
- arch/riscv/Kconfig                             | 18 ++++++++++++++++++
- arch/riscv/include/asm/hwcap.h                 |  1 +
- arch/riscv/kernel/cpu.c                        |  8 +++++++-
- arch/riscv/kernel/cpufeature.c                 | 14 +++++++++++++-
- 5 files changed, 46 insertions(+), 2 deletions(-)
+ arch/riscv/kernel/cpufeature.c | 345 +++++++++++++++++----------------
+ 1 file changed, 177 insertions(+), 168 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a1457995fd41..bdc3fa712e92 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5468,6 +5468,13 @@
- 			[KNL] Disable ring 3 MONITOR/MWAIT feature on supported
- 			CPUs.
- 
-+	riscv_isa_fallback [RISCV]
-+			When CONFIG_RISCV_ISA_FALLBACK is not enabled, permit
-+			falling back to detecting extension support by parsing
-+			"riscv,isa" property on devicetree systems when the
-+			replacement properties are not found. See the Kconfig
-+			entry for RISCV_ISA_FALLBACK.
-+
- 	ro		[KNL] Mount root device read-only on boot
- 
- 	rodata=		[KNL]
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 4c07b9189c86..f52dd125ac5e 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -848,6 +848,24 @@ config XIP_PHYS_ADDR
- 	  be linked for and stored to.  This address is dependent on your
- 	  own flash usage.
- 
-+config RISCV_ISA_FALLBACK
-+	bool "Permit falling back to parsing riscv,isa for extension support by default"
-+	default y
-+	help
-+	  Parsing the "riscv,isa" devicetree property has been deprecated and
-+	  replaced by a list of explicitly defined strings. For compatibility
-+	  with existing platforms, the kernel will fall back to parsing the
-+	  "riscv,isa" property if the replacements are not found.
-+
-+	  Selecting N here will result in a kernel that does not use the
-+	  fallback, unless the commandline "riscv_isa_fallback" parameter is
-+	  present.
-+
-+	  Please see the dt-binding, located at
-+	  Documentation/devicetree/bindings/riscv/extensions.yaml for details
-+	  on the replacement properties, "riscv,isa-base" and
-+	  "riscv,isa-extensions".
-+
- endmenu # "Boot options"
- 
- config BUILTIN_DTB
-diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-index e3cda14a486b..b7b58258f6c7 100644
---- a/arch/riscv/include/asm/hwcap.h
-+++ b/arch/riscv/include/asm/hwcap.h
-@@ -81,6 +81,7 @@ struct riscv_isa_ext_data {
- 
- extern const struct riscv_isa_ext_data riscv_isa_ext[];
- extern const size_t riscv_isa_ext_count;
-+extern bool riscv_isa_fallback;
- 
- unsigned long riscv_isa_extension_base(const unsigned long *isa_bitmap);
- 
-diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-index 28d5af21f544..208f1a700121 100644
---- a/arch/riscv/kernel/cpu.c
-+++ b/arch/riscv/kernel/cpu.c
-@@ -41,7 +41,7 @@ int riscv_of_processor_hartid(struct device_node *node, unsigned long *hart)
- 	return 0;
- }
- 
--int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *hart)
-+int __init riscv_early_of_processor_hartid(struct device_node *node, unsigned long *hart)
- {
- 	const char *isa;
- 
-@@ -87,6 +87,12 @@ int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *har
- 	return 0;
- 
- old_interface:
-+	if (!riscv_isa_fallback) {
-+		pr_warn("CPU with hartid=%lu is invalid: this kernel does not parse \"riscv,isa\"",
-+			*hart);
-+		return -ENODEV;
-+	}
-+
- 	if (of_property_read_string(node, "riscv,isa", &isa)) {
- 		pr_warn("CPU with hartid=%lu has no \"riscv,isa-base\" or \"riscv,isa\" property\n",
- 			*hart);
 diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 2c4503fa984f..5945dfc5f806 100644
+index bf7e8e8852f0..41aedeaecb61 100644
 --- a/arch/riscv/kernel/cpufeature.c
 +++ b/arch/riscv/kernel/cpufeature.c
-@@ -471,6 +471,18 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
- 	return 0;
- }
+@@ -178,29 +178,172 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
  
-+#ifdef CONFIG_RISCV_ISA_FALLBACK
-+bool __initdata riscv_isa_fallback = true;
-+#else
-+bool __initdata riscv_isa_fallback;
-+static int __init riscv_isa_fallback_setup(char *__unused)
+ const size_t riscv_isa_ext_count = ARRAY_SIZE(riscv_isa_ext);
+ 
+-void __init riscv_fill_hwcap(void)
++static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct riscv_isainfo *isainfo,
++					  unsigned long *isa2hwcap, const char *isa)
 +{
-+	riscv_isa_fallback = true;
-+	return 1;
-+}
-+early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
-+#endif
++	/*
++	 * For all possible cpus, we have already validated in
++	 * the boot process that they at least contain "rv" and
++	 * whichever of "32"/"64" this kernel supports, and so this
++	 * section can be skipped.
++	 */
++	isa += 4;
 +
- void __init riscv_fill_hwcap(void)
++	while (*isa) {
++		const char *ext = isa++;
++		const char *ext_end = isa;
++		bool ext_long = false, ext_err = false;
++
++		switch (*ext) {
++		case 's':
++			/*
++			 * Workaround for invalid single-letter 's' & 'u'(QEMU).
++			 * No need to set the bit in riscv_isa as 's' & 'u' are
++			 * not valid ISA extensions. It works until multi-letter
++			 * extension starting with "Su" appears.
++			 */
++			if (ext[-1] != '_' && ext[1] == 'u') {
++				++isa;
++				ext_err = true;
++				break;
++			}
++			fallthrough;
++		case 'S':
++		case 'x':
++		case 'X':
++		case 'z':
++		case 'Z':
++			/*
++			 * Before attempting to parse the extension itself, we find its end.
++			 * As multi-letter extensions must be split from other multi-letter
++			 * extensions with an "_", the end of a multi-letter extension will
++			 * either be the null character or the "_" at the start of the next
++			 * multi-letter extension.
++			 *
++			 * Next, as the extensions version is currently ignored, we
++			 * eliminate that portion. This is done by parsing backwards from
++			 * the end of the extension, removing any numbers. This may be a
++			 * major or minor number however, so the process is repeated if a
++			 * minor number was found.
++			 *
++			 * ext_end is intended to represent the first character *after* the
++			 * name portion of an extension, but will be decremented to the last
++			 * character itself while eliminating the extensions version number.
++			 * A simple re-increment solves this problem.
++			 */
++			ext_long = true;
++			for (; *isa && *isa != '_'; ++isa)
++				if (unlikely(!isalnum(*isa)))
++					ext_err = true;
++
++			ext_end = isa;
++			if (unlikely(ext_err))
++				break;
++
++			if (!isdigit(ext_end[-1]))
++				break;
++
++			while (isdigit(*--ext_end))
++				;
++
++			if (tolower(ext_end[0]) != 'p' || !isdigit(ext_end[-1])) {
++				++ext_end;
++				break;
++			}
++
++			while (isdigit(*--ext_end))
++				;
++
++			++ext_end;
++			break;
++		default:
++			/*
++			 * Things are a little easier for single-letter extensions, as they
++			 * are parsed forwards.
++			 *
++			 * After checking that our starting position is valid, we need to
++			 * ensure that, when isa was incremented at the start of the loop,
++			 * that it arrived at the start of the next extension.
++			 *
++			 * If we are already on a non-digit, there is nothing to do. Either
++			 * we have a multi-letter extension's _, or the start of an
++			 * extension.
++			 *
++			 * Otherwise we have found the current extension's major version
++			 * number. Parse past it, and a subsequent p/minor version number
++			 * if present. The `p` extension must not appear immediately after
++			 * a number, so there is no fear of missing it.
++			 *
++			 */
++			if (unlikely(!isalpha(*ext))) {
++				ext_err = true;
++				break;
++			}
++
++			if (!isdigit(*isa))
++				break;
++
++			while (isdigit(*++isa))
++				;
++
++			if (tolower(*isa) != 'p')
++				break;
++
++			if (!isdigit(*++isa)) {
++				--isa;
++				break;
++			}
++
++			while (isdigit(*++isa))
++				;
++
++			break;
++		}
++
++		/*
++		 * The parser expects that at the start of an iteration isa points to the
++		 * first character of the next extension. As we stop parsing an extension
++		 * on meeting a non-alphanumeric character, an extra increment is needed
++		 * where the succeeding extension is a multi-letter prefixed with an "_".
++		 */
++		if (*isa == '_')
++			++isa;
++
++#define SET_ISA_EXT_MAP(name, bit)						\
++		do {								\
++			if ((ext_end - ext == sizeof(name) - 1) &&		\
++			     !strncasecmp(ext, name, sizeof(name) - 1) &&	\
++			     riscv_isa_extension_check(bit))			\
++				set_bit(bit, isainfo->isa);			\
++		} while (false)							\
++
++		if (unlikely(ext_err))
++			continue;
++		if (!ext_long) {
++			int nr = tolower(*ext) - 'a';
++
++			if (riscv_isa_extension_check(nr)) {
++				*this_hwcap |= isa2hwcap[nr];
++				set_bit(nr, isainfo->isa);
++			}
++		} else {
++			for (int i = 0; i < riscv_isa_ext_count; i++)
++				SET_ISA_EXT_MAP(riscv_isa_ext[i].name,
++						riscv_isa_ext[i].id);
++		}
++#undef SET_ISA_EXT_MAP
++	}
++}
++
++static void __init riscv_fill_hwcap_from_isa_string(unsigned long *isa2hwcap)
  {
- 	char print_str[NUM_ALPHA_EXTS + 1];
-@@ -490,7 +502,7 @@ void __init riscv_fill_hwcap(void)
- 	} else {
- 		int ret = riscv_fill_hwcap_from_ext_list(isa2hwcap);
+ 	struct device_node *node;
+ 	const char *isa;
+-	char print_str[NUM_ALPHA_EXTS + 1];
+-	int i, j, rc;
+-	unsigned long isa2hwcap[26] = {0};
++	int rc;
+ 	struct acpi_table_header *rhct;
+ 	acpi_status status;
+ 	unsigned int cpu;
  
--		if (ret) {
-+		if (ret && riscv_isa_fallback) {
- 			pr_info("Falling back to deprecated \"riscv,isa\"\n");
- 			riscv_fill_hwcap_from_isa_string(isa2hwcap);
+-	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
+-	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
+-	isa2hwcap['a' - 'a'] = COMPAT_HWCAP_ISA_A;
+-	isa2hwcap['f' - 'a'] = COMPAT_HWCAP_ISA_F;
+-	isa2hwcap['d' - 'a'] = COMPAT_HWCAP_ISA_D;
+-	isa2hwcap['c' - 'a'] = COMPAT_HWCAP_ISA_C;
+-	isa2hwcap['v' - 'a'] = COMPAT_HWCAP_ISA_V;
+-
+-	elf_hwcap = 0;
+-
+-	bitmap_zero(riscv_isa, RISCV_ISA_EXT_MAX);
+-
+ 	if (!acpi_disabled) {
+ 		status = acpi_get_table(ACPI_SIG_RHCT, 0, &rhct);
+ 		if (ACPI_FAILURE(status))
+@@ -232,158 +375,7 @@ void __init riscv_fill_hwcap(void)
+ 			}
  		}
+ 
+-		/*
+-		 * For all possible cpus, we have already validated in
+-		 * the boot process that they at least contain "rv" and
+-		 * whichever of "32"/"64" this kernel supports, and so this
+-		 * section can be skipped.
+-		 */
+-		isa += 4;
+-
+-		while (*isa) {
+-			const char *ext = isa++;
+-			const char *ext_end = isa;
+-			bool ext_long = false, ext_err = false;
+-
+-			switch (*ext) {
+-			case 's':
+-				/*
+-				 * Workaround for invalid single-letter 's' & 'u'(QEMU).
+-				 * No need to set the bit in riscv_isa as 's' & 'u' are
+-				 * not valid ISA extensions. It works until multi-letter
+-				 * extension starting with "Su" appears.
+-				 */
+-				if (ext[-1] != '_' && ext[1] == 'u') {
+-					++isa;
+-					ext_err = true;
+-					break;
+-				}
+-				fallthrough;
+-			case 'S':
+-			case 'x':
+-			case 'X':
+-			case 'z':
+-			case 'Z':
+-				/*
+-				 * Before attempting to parse the extension itself, we find its end.
+-				 * As multi-letter extensions must be split from other multi-letter
+-				 * extensions with an "_", the end of a multi-letter extension will
+-				 * either be the null character or the "_" at the start of the next
+-				 * multi-letter extension.
+-				 *
+-				 * Next, as the extensions version is currently ignored, we
+-				 * eliminate that portion. This is done by parsing backwards from
+-				 * the end of the extension, removing any numbers. This may be a
+-				 * major or minor number however, so the process is repeated if a
+-				 * minor number was found.
+-				 *
+-				 * ext_end is intended to represent the first character *after* the
+-				 * name portion of an extension, but will be decremented to the last
+-				 * character itself while eliminating the extensions version number.
+-				 * A simple re-increment solves this problem.
+-				 */
+-				ext_long = true;
+-				for (; *isa && *isa != '_'; ++isa)
+-					if (unlikely(!isalnum(*isa)))
+-						ext_err = true;
+-
+-				ext_end = isa;
+-				if (unlikely(ext_err))
+-					break;
+-
+-				if (!isdigit(ext_end[-1]))
+-					break;
+-
+-				while (isdigit(*--ext_end))
+-					;
+-
+-				if (tolower(ext_end[0]) != 'p' || !isdigit(ext_end[-1])) {
+-					++ext_end;
+-					break;
+-				}
+-
+-				while (isdigit(*--ext_end))
+-					;
+-
+-				++ext_end;
+-				break;
+-			default:
+-				/*
+-				 * Things are a little easier for single-letter extensions, as they
+-				 * are parsed forwards.
+-				 *
+-				 * After checking that our starting position is valid, we need to
+-				 * ensure that, when isa was incremented at the start of the loop,
+-				 * that it arrived at the start of the next extension.
+-				 *
+-				 * If we are already on a non-digit, there is nothing to do. Either
+-				 * we have a multi-letter extension's _, or the start of an
+-				 * extension.
+-				 *
+-				 * Otherwise we have found the current extension's major version
+-				 * number. Parse past it, and a subsequent p/minor version number
+-				 * if present. The `p` extension must not appear immediately after
+-				 * a number, so there is no fear of missing it.
+-				 *
+-				 */
+-				if (unlikely(!isalpha(*ext))) {
+-					ext_err = true;
+-					break;
+-				}
+-
+-				if (!isdigit(*isa))
+-					break;
+-
+-				while (isdigit(*++isa))
+-					;
+-
+-				if (tolower(*isa) != 'p')
+-					break;
+-
+-				if (!isdigit(*++isa)) {
+-					--isa;
+-					break;
+-				}
+-
+-				while (isdigit(*++isa))
+-					;
+-
+-				break;
+-			}
+-
+-			/*
+-			 * The parser expects that at the start of an iteration isa points to the
+-			 * first character of the next extension. As we stop parsing an extension
+-			 * on meeting a non-alphanumeric character, an extra increment is needed
+-			 * where the succeeding extension is a multi-letter prefixed with an "_".
+-			 */
+-			if (*isa == '_')
+-				++isa;
+-
+-#define SET_ISA_EXT_MAP(name, bit)							\
+-			do {								\
+-				if ((ext_end - ext == sizeof(name) - 1) &&		\
+-				     !strncasecmp(ext, name, sizeof(name) - 1) &&	\
+-				     riscv_isa_extension_check(bit))			\
+-					set_bit(bit, isainfo->isa);			\
+-			} while (false)							\
+-
+-			if (unlikely(ext_err))
+-				continue;
+-			if (!ext_long) {
+-				int nr = tolower(*ext) - 'a';
+-
+-				if (riscv_isa_extension_check(nr)) {
+-					this_hwcap |= isa2hwcap[nr];
+-					set_bit(nr, isainfo->isa);
+-				}
+-			} else {
+-				for (int i = 0; i < riscv_isa_ext_count; i++)
+-					SET_ISA_EXT_MAP(riscv_isa_ext[i].name,
+-							riscv_isa_ext[i].id);
+-			}
+-#undef SET_ISA_EXT_MAP
+-		}
++		riscv_parse_isa_string(&this_hwcap, isainfo, isa2hwcap, isa);
+ 
+ 		/*
+ 		 * Linux requires the following extensions, so we may as well
+@@ -420,6 +412,23 @@ void __init riscv_fill_hwcap(void)
+ 
+ 	if (!acpi_disabled && rhct)
+ 		acpi_put_table((struct acpi_table_header *)rhct);
++}
++
++void __init riscv_fill_hwcap(void)
++{
++	char print_str[NUM_ALPHA_EXTS + 1];
++	int i, j;
++	unsigned long isa2hwcap[26] = {0};
++
++	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
++	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
++	isa2hwcap['a' - 'a'] = COMPAT_HWCAP_ISA_A;
++	isa2hwcap['f' - 'a'] = COMPAT_HWCAP_ISA_F;
++	isa2hwcap['d' - 'a'] = COMPAT_HWCAP_ISA_D;
++	isa2hwcap['c' - 'a'] = COMPAT_HWCAP_ISA_C;
++	isa2hwcap['v' - 'a'] = COMPAT_HWCAP_ISA_V;
++
++	riscv_fill_hwcap_from_isa_string(isa2hwcap);
+ 
+ 	/* We don't support systems with F but without D, so mask those out
+ 	 * here. */
 -- 
 2.40.1
 
