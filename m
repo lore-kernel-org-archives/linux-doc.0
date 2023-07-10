@@ -2,98 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62825EB64DA
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:07:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D937EB64DA
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:10:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbjGJTHB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 15:07:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59222 "EHLO
+        id S231238AbjGJTK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 15:10:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjGJTHB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:07:01 -0400
+        with ESMTP id S232483AbjGJTKO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:10:14 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A687FB;
-        Mon, 10 Jul 2023 12:07:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E67E2722;
+        Mon, 10 Jul 2023 12:09:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 07839611A5;
-        Mon, 10 Jul 2023 19:07:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 938B6C433C8;
-        Mon, 10 Jul 2023 19:06:58 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C595D611AE;
+        Mon, 10 Jul 2023 19:08:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29B0DC433CA;
+        Mon, 10 Jul 2023 19:08:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689016019;
-        bh=vEzEIsBNbtl8f9ZOv0DgAmrPaubpxPl9uqkry5+adfI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VFnbLOYydVuEmYtfE/ZHrmqQpcZdyIXkfmGfG+Z0pgC8SbkeFybDMwulx7GmI6hy3
-         HY8fxmjk1CZYO9bSLWXQDmAYH4ofzrrT3eTAyfwoHe+8Rr22s6ErLk7Gd00V3P/owj
-         ShlV8MJDEb+iQjvj8wCpQ9tQVYUu35DAW6rwiKzfRcRbuhz6sjrxrQueBG0SHrR2Ma
-         6VElPBIE6J3Ihm7ouCLV94CTjR5w+E6zwj2A4+x5fnbv5f4J8EPyZECv9CLfaWK0Rf
-         LReYdF3O7jo2bi6YptvaRuGreiye9S634hdJi7f1Ha5fW1UZFFWGzfWYk4Zh3827ql
-         x5vzM6NUfOzow==
-Date:   Mon, 10 Jul 2023 20:06:56 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: Docs for base maintainer expectations?
-Message-ID: <20230710-snowboard-bannister-7ed66c8d742b@spud>
-References: <20230710115239.3f9e2c24@kernel.org>
+        s=k20201202; t=1689016119;
+        bh=Frt1mjerTXPRvhoyvZG7BYM7UCWVRKdMNPk0daCzDA8=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=FtzMy+sQXOoaWAPrsWsID8EYpChRMy6e7Zikyx4aqJrS1XxJi55L6T6khKhKE3Wbz
+         gRiopAk1JilRJjFT7E2w2F4EBOcwAfk00QrCmgn7KStM5XPp79+/C9bzKBIYxW0qeB
+         W3aGiInMmSzxb7EmEZ/pSKM89DEzuzy8wdZqI+TDmIshD5RJTlbcAM3yXqlg9A/XT7
+         YjnQbW1M7/FhhZRqw1RmB6eQ7asb44oq1j6RekBEopJCfar44fmGnIbTe1y94KW0CO
+         XlJFcpR7gGJpm5yxBPowoEVfAjWRptZTWT2nkNSI26SC0JttB9XPehrL7gh/YJX7xC
+         0PvqcTb65d83A==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id B409ECE00C6; Mon, 10 Jul 2023 12:08:38 -0700 (PDT)
+Date:   Mon, 10 Jul 2023 12:08:38 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Alan Huang <mmpgouride@gmail.com>
+Cc:     frederic@kernel.org, quic_neeraju@quicinc.com,
+        joel@joelfernandes.org, josh@joshtriplett.org,
+        boqun.feng@gmail.com, corbet@lwn.net, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] rcu: Use WRITE_ONCE() for assignments to ->next for
+ rculist_nulls
+Message-ID: <fd65010f-13bf-4bbe-95da-88097459ab7c@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20230706102849.437687-1-mmpgouride@gmail.com>
+ <20230706102849.437687-2-mmpgouride@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="e2PMl8QVKprJPwOd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230710115239.3f9e2c24@kernel.org>
+In-Reply-To: <20230706102849.437687-2-mmpgouride@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jul 06, 2023 at 10:28:48AM +0000, Alan Huang wrote:
+> When the objects managed by rculist_nulls are allocated with
+> SLAB_TYPESAFE_BY_RCU, readers may still hold references to this
+> object that is being added, which means the modification of ->next
+> is visible to readers. So, this patch uses WRITE_ONCE() for assignments
+> to ->next.
+> 
+> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
 
---e2PMl8QVKprJPwOd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Very good, queued for the v6.6 merge window, thank you!
 
-Hey Jakub,
+							Thanx, Paul
 
-On Mon, Jul 10, 2023 at 11:52:39AM -0700, Jakub Kicinski wrote:
-> do we have any docs describing what's expected from folks stepping up
-> to maintain (small-ish) parts of the kernel like a driver or a protocol?
->=20
-> Experienced developers / maintainers differ like the beautiful
-> snowflakes that we are, but outsiders have much less familiarity=20
-> with the landscape, and frankly sometimes much less interest in
-> participating once they code lands.
->=20
-> Which makes we wonder if a simple list of responsibilities would be
-> useful as a baseline.
-
-> I haven't spotted anything in Docs/process but
-> perhaps someone has a local version for their subsystem?
-
-Given I figure you did this on with a -rc1 based tree, which would mean
-that what I wrote probably does not fit the bill, but I tried to do
-something along these lines with
-https://docs.kernel.org/process/maintainer-soc.html
-for which my target audience was people picking up maintenance of
-DT/soc drivers, which I hope there'll be a few of in RISC-V land soon...
-
-I suggested adding things to it, like putting the trees in linux-next
-etc, but review feedback suggested that was unsuited to a subsystem
-specific document.
-
-Thanks,
-Conor.
-
---e2PMl8QVKprJPwOd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKxW0AAKCRB4tDGHoIJi
-0v7IAP0QAnShDpr53l+90D7z6XGzKZtQkQRemWL4ByMEH5a1xQEAh/fg+oTKxu0S
-78K/7CmB/erSl9CdFuR9hdpkS/4yyw0=
-=M1mc
------END PGP SIGNATURE-----
-
---e2PMl8QVKprJPwOd--
+> ---
+>  include/linux/rculist_nulls.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/rculist_nulls.h b/include/linux/rculist_nulls.h
+> index ba4c00dd8005..89186c499dd4 100644
+> --- a/include/linux/rculist_nulls.h
+> +++ b/include/linux/rculist_nulls.h
+> @@ -101,7 +101,7 @@ static inline void hlist_nulls_add_head_rcu(struct hlist_nulls_node *n,
+>  {
+>  	struct hlist_nulls_node *first = h->first;
+>  
+> -	n->next = first;
+> +	WRITE_ONCE(n->next, first);
+>  	WRITE_ONCE(n->pprev, &h->first);
+>  	rcu_assign_pointer(hlist_nulls_first_rcu(h), n);
+>  	if (!is_a_nulls(first))
+> @@ -137,7 +137,7 @@ static inline void hlist_nulls_add_tail_rcu(struct hlist_nulls_node *n,
+>  		last = i;
+>  
+>  	if (last) {
+> -		n->next = last->next;
+> +		WRITE_ONCE(n->next, last->next);
+>  		n->pprev = &last->next;
+>  		rcu_assign_pointer(hlist_nulls_next_rcu(last), n);
+>  	} else {
+> -- 
+> 2.34.1
+> 
