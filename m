@@ -2,128 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C50EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 09:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E68E5EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 09:41:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232154AbjGJJlK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 05:41:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55060 "EHLO
+        id S232953AbjGJJlY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 05:41:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231359AbjGJJjy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 05:39:54 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB079272B;
-        Mon, 10 Jul 2023 02:37:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1688981850; x=1720517850;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6+4fXO0Mgsbn0oR0/2jnJO0XttLzGYmDlCcJv+2evZU=;
-  b=r3P7ayFCc7VSFCyHJhjOMbwIuX+iUDOXzPiX+hIzlsQ8Rpxqs4/+QV6i
-   y8/tUGmKeYsviZwN+phnnef6J54EVLctrxJYHS+0bc5FTLtbY+KghrL2X
-   o8rRsoustQlBK40WNrA8JwlX+cSUhcdFf0HNemwdYTJOQQg6FA/qnRh/z
-   p32mscb/l4oSkO8FXm+7dxEsiBTLlz2pBcvHOqhZ8b48vcDB515cuntsT
-   haMV/W0HwxaAvdTSnqtGhxPD3ZSDDDqVjyBvOWwg420WPPR3xry0xWogx
-   v5dS53FHWeOayb45k8Y6swet68V9trmBVB0ZkeD7IRLmslgLM3VrwVufE
-   g==;
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="160600140"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Jul 2023 02:36:57 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 10 Jul 2023 02:36:56 -0700
-Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 10 Jul 2023 02:36:54 -0700
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     <palmer@dabbelt.com>
-CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        "Heiko Stuebner" <heiko.stuebner@vrull.eu>,
-        Evan Green <evan@rivosinc.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 10/11] RISC-V: try new extension properties in of_early_processor_hartid()
-Date:   Mon, 10 Jul 2023 10:35:45 +0100
-Message-ID: <20230710-multitude-badly-1c149269766f@wendy>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230710-equipment-stained-dd042d66ba5d@wendy>
-References: <20230710-equipment-stained-dd042d66ba5d@wendy>
+        with ESMTP id S232248AbjGJJkE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 05:40:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14396185;
+        Mon, 10 Jul 2023 02:37:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9C53960F08;
+        Mon, 10 Jul 2023 09:37:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAD20C433C7;
+        Mon, 10 Jul 2023 09:37:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688981878;
+        bh=5Va+D1vw5krsXXAHovHsEdN5okJNaHBciX0Ka1Bh8LI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d6ONynozQ5yTBS3WIdfoSmySH1DMQUcdlpG87TnWQ/PJ+obKufkZgO3RmSMsbcrAi
+         zBwni1vClKRr6CI8ZxlAA6QtTrrAZqs7elCyzW04nLbF13gDk0t6YtuCjDlyXzoxat
+         DjS0rTX9Y2rHrkkTs8xigbT5sF/U+odpM8JZ8nXKlMEX7Wd7R2BfzAyn5oi09tOlUg
+         OyZeeBpjq95SqZO5pHYdeSKUogtXzvxubYPdyc6yAKLuu6yVSf5ZzoHYADa9G0QxDi
+         HQhrA31+iFzk/tPKy64/KjMRIZ3qUgSwx0NIcgEaWEajdWwlIMXSZTH/HOtZwRlNEg
+         OHdM1WBmoBhZQ==
+Date:   Mon, 10 Jul 2023 10:37:52 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Maria Yu <quic_aiquny@quicinc.com>
+Cc:     corbet@lwn.net, catalin.marinas@arm.com, maz@kernel.org,
+        quic_pkondeti@quicinc.com, quic_kaushalk@quicinc.com,
+        quic_satyap@quicinc.com, quic_shashim@quicinc.com,
+        quic_songxue@quicinc.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+Message-ID: <20230710093751.GC32673@willie-the-truck>
+References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1977; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=6+4fXO0Mgsbn0oR0/2jnJO0XttLzGYmDlCcJv+2evZU=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmrL9wUYbX9WD13y3kjpZ6UTf6/rI5c3FPLXPWjZuX3dq9n +26zdpSyMIhxMMiKKbIk3u5rkVr/x2WHc89bmDmsTCBDGLg4BWAiZ14z/OHlcuBud/F7OUvh6rOLUz d3drdqfX0TZPrtdeJyvT1H1pcw/GbLiw/LZXpsc0+rUSCqLyLlkafxM5vbJo3P9/tfuvCigBMA
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230710055955.36551-1-quic_aiquny@quicinc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To fully deprecate the kernel's use of "riscv,isa",
-of_early_processor_hartid() needs to first try using the new properties,
-before falling back to "riscv,isa".
+On Mon, Jul 10, 2023 at 01:59:55PM +0800, Maria Yu wrote:
+> In order to be able to disable lse_atomic even if cpu
+> support it, most likely because of memory controller
+> cannot deal with the lse atomic instructions, use a
+> new idreg override to deal with it.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-Changes in v3:
-- Add some printouts to explain what went wrong while parsing harts,
-  so that if none are found there's at least a hint before we hit a
-  BUG()
----
- arch/riscv/kernel/cpu.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+This should not be a problem for cacheable memory though, right?
 
-diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-index 4f1f12f34b63..28d5af21f544 100644
---- a/arch/riscv/kernel/cpu.c
-+++ b/arch/riscv/kernel/cpu.c
-@@ -61,8 +61,35 @@ int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *har
- 		return -ENODEV;
- 	}
- 
-+	if (of_property_read_string(node, "riscv,isa-base", &isa))
-+		goto old_interface;
-+
-+	if (IS_ENABLED(CONFIG_32BIT) && strncasecmp(isa, "rv32i", 5)) {
-+		pr_warn("CPU with hartid=%lu does not support rv32i", *hart);
-+		return -ENODEV;
-+	}
-+
-+	if (IS_ENABLED(CONFIG_64BIT) && strncasecmp(isa, "rv64i", 5)) {
-+		pr_warn("CPU with hartid=%lu does not support rv64i", *hart);
-+		return -ENODEV;
-+	}
-+
-+	if (!of_property_present(node, "riscv,isa-extensions"))
-+		return -ENODEV;
-+
-+	if (of_property_match_string(node, "riscv,isa-extensions", "i") < 0 ||
-+	    of_property_match_string(node, "riscv,isa-extensions", "m") < 0 ||
-+	    of_property_match_string(node, "riscv,isa-extensions", "a") < 0) {
-+		pr_warn("CPU with hartid=%lu does not support ima", *hart);
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+
-+old_interface:
- 	if (of_property_read_string(node, "riscv,isa", &isa)) {
--		pr_warn("CPU with hartid=%lu has no \"riscv,isa\" property\n", *hart);
-+		pr_warn("CPU with hartid=%lu has no \"riscv,isa-base\" or \"riscv,isa\" property\n",
-+			*hart);
- 		return -ENODEV;
- 	}
- 
--- 
-2.40.1
+Given that Linux does not issue atomic operations to non-cacheable mappings,
+I'm struggling to see why there's a problem here.
 
+Please can you explain the problem that you are trying to solve?
+
+Will
