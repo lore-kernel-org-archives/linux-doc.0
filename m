@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA62C0015E
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 21:08:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8367EEB64DA
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 21:30:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbjGJVIf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 17:08:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35362 "EHLO
+        id S229655AbjGJVaP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 17:30:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229742AbjGJVIe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 17:08:34 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6E5CC4;
-        Mon, 10 Jul 2023 14:08:32 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-676f16e0bc4so2246502b3a.0;
-        Mon, 10 Jul 2023 14:08:32 -0700 (PDT)
+        with ESMTP id S229612AbjGJVaP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 17:30:15 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADC6FDE;
+        Mon, 10 Jul 2023 14:30:14 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-666ecf9a0ceso2565446b3a.2;
+        Mon, 10 Jul 2023 14:30:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689023312; x=1691615312;
+        d=gmail.com; s=20221208; t=1689024614; x=1691616614;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2WumLpz2xEP5+8PT8olwpPEOtDAiclqdr88UfJwne5c=;
-        b=OhfDziLrK2LihIMSV6Z5P3zQNZYTDuSYuR8reJ6mavc6O7MDoHRKA37qk5HQD1rPhV
-         GMX25JEahad1Ok1SEOZx1cHicb1IDroG39pagy2/Iic6K5MpsmwB5YxGzB11o0SixbS7
-         wZwZgDiKPWl0PdZFMh+yU0+2rVPvzI5y2LLoekGFF27w7Kd59mgZ996dPc/NKNnvra1u
-         klwVwjPUt+5La3erZOgYk6H1rkrMWsPghzZTGFHHQRwaex8geYy/fp/P5OHXO7ByuyzQ
-         hytxk+WWevZj71KI0BUNYig41ytJDNHpcw1qJ1zelX7bzxhPIKNW4EiL8+AtK17SvzWF
-         rcEA==
+        bh=EuY7YWF+Kh1UKEuVmzs1ImB1X2StsWyaHb8EJ2edbSU=;
+        b=b3unhp+1fEq1qyFirSnAUKqpNzuFjhYYSuty9IalbkDlKvc7XoIUkCzsQX53+qqMso
+         NwXyfA1g9Xij5ua20EZYWee/MO0shqL3wMkRZAmF3/qpeczM4vPXnasiWO7nmM4zPbpr
+         0hXqvIK9ovnj6bBskOJYe09WNUA7ZqVrWMXhlSpXhpAhs0U/uUmVhjPB3K5UT9VZvAox
+         7vtXOPRSOOHV8Ak+7M8NJNupp2LhUxzIWpQk6ViFHF13n0NiADBRyjZyT1Y1TJstujDg
+         qypPLEV3FJqR1rVskyvFRj9wLqdVoPTFtB/kSQLbNmTPRoK8nmjff2VZGWr2tnc4YlPm
+         3/2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689023312; x=1691615312;
+        d=1e100.net; s=20221208; t=1689024614; x=1691616614;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2WumLpz2xEP5+8PT8olwpPEOtDAiclqdr88UfJwne5c=;
-        b=Hk8o6HQVP0u+S0docObHYIKxg9dDTbJC1DZ9s3BzrjkNIS6bI/HRQVbjj/f2CEAAB+
-         O6xJmfaljuyotatJCaFKPOwYjAnxygFW08y4yCDUqfnsy2wbEGI+2C7Byc/3qCBNb8b2
-         OgPsAYpqoBgTTn3SBiic/V1fGq0AfocCgmRRXV0nG36BiYva/IhvtR3nIOFzJcOZJsU3
-         2X3uGnXrBuYx6ntctrWC8Sqn7f/qtacSNsH5l9ZJmM5+fEsT/eQDJ83nCyQ7PPr0ub0o
-         71ncnv6jmg2esjwxk+DD3g+GFS+SGkAIWf+y+paq1SNQHD74K6+1n15KEgM6Zke+SZQX
-         y7Dg==
-X-Gm-Message-State: ABy/qLb9JRM+x424q9Xc6cjYoQXuuSped3492U9J7gzTqL7+NA+wFUc6
-        2zOlMzphf1wxoLPpw3WA6yU=
-X-Google-Smtp-Source: APBJJlGeFt6GMCGjdaMKt5d41LWI4LQWVcLwpw65y2/arY7Uv1RBV/p6xWHLRuRpRIU6rzLCuzd+sg==
-X-Received: by 2002:a05:6a20:3d10:b0:130:bdc8:2294 with SMTP id y16-20020a056a203d1000b00130bdc82294mr9911426pzi.17.1689023311897;
-        Mon, 10 Jul 2023 14:08:31 -0700 (PDT)
+        bh=EuY7YWF+Kh1UKEuVmzs1ImB1X2StsWyaHb8EJ2edbSU=;
+        b=RmspFaZmcZcgZ1PyGHc4kwrbbfrv/8VXziY8AVnNbahfyo8x8pdl3F21VaG3fcox4O
+         OZQpkXl+mvCBfCwlMAlPu4qszUeMnsTU2z6ZZDt31pBGt35tW3nUQqx/k0cFy9A6W2mv
+         NAxM/wUaS+xFbFyFq+sXLndt39ITM4+vjBGzUnge8gVoMCwv66LB83vf5SxOZEujfLYH
+         pkmh5UshbDMtKHo0x5rwSu5c2Lml4ZalooMDRxxVisn3h+oGwaAqp4da/fNlkEc8HDUl
+         9MPmX+W4X3K0PuD5CGiv4WZ2DRVa2KoTOCCTuLdE0gFTZUnjxOdFk9/4UHnCYPbEhcaO
+         tarw==
+X-Gm-Message-State: ABy/qLZAOqwITqQaQUFjC1FvjTnhze3u8XnT9qC3Ntygf+KDrlCDEJpT
+        Vl2j0QW6ef/Vw5VqyMB81phzU4ixrOVt/A==
+X-Google-Smtp-Source: APBJJlEw5l9hIhPZnhlmln9tqLygtL8HWCz1m+ezNtvsanxXvgqKiIThDzls38J3M8LUWfBPuFLq+w==
+X-Received: by 2002:a05:6a00:1782:b0:666:8403:9f4 with SMTP id s2-20020a056a00178200b00666840309f4mr16380908pfg.16.1689024613985;
+        Mon, 10 Jul 2023 14:30:13 -0700 (PDT)
 Received: from localhost ([2620:10d:c090:400::5:e2fe])
-        by smtp.gmail.com with ESMTPSA id iy12-20020a170903130c00b001b243a20f26sm309068plb.273.2023.07.10.14.08.31
+        by smtp.gmail.com with ESMTPSA id a10-20020a62bd0a000000b0067db7c32419sm266518pff.15.2023.07.10.14.30.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 14:08:31 -0700 (PDT)
+        Mon, 10 Jul 2023 14:30:13 -0700 (PDT)
 Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 10 Jul 2023 11:08:30 -1000
+Date:   Mon, 10 Jul 2023 11:30:12 -1000
 From:   Tejun Heo <tj@kernel.org>
 To:     Waiman Long <longman@redhat.com>
 Cc:     Zefan Li <lizefan.x@bytedance.com>,
@@ -66,38 +66,35 @@ Cc:     Zefan Li <lizefan.x@bytedance.com>,
         Ryan Phillips <rphillips@redhat.com>,
         Brent Rowsell <browsell@redhat.com>,
         Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
-Subject: Re: [PATCH v4 0/9] cgroup/cpuset: Support remote partitions
-Message-ID: <ZKxzTrN2yiKfXndI@slm.duckdns.org>
+Subject: Re: [PATCH v4 8/9] cgroup/cpuset: Documentation update for partition
+Message-ID: <ZKx4ZJowRhRtjZxB@slm.duckdns.org>
 References: <20230627143508.1576882-1-longman@redhat.com>
+ <20230627143508.1576882-9-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230627143508.1576882-1-longman@redhat.com>
+In-Reply-To: <20230627143508.1576882-9-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello, Waiman.
+Hello,
 
-I applied the prep patches. They look good on their own.
-
-On Tue, Jun 27, 2023 at 10:34:59AM -0400, Waiman Long wrote:
+On Tue, Jun 27, 2023 at 10:35:07AM -0400, Waiman Long wrote:
 ...
-> cpuset. Unlike "cpuset.cpus", invalid input to "cpuset.cpus.exclusive"
-> will be rejected with an error. This new control file has no effect on
+> +	There are two types of partitions - local and remote.  A local
+> +	partition is one whose parent cgroup is also a valid partition
+> +	root.  A remote partition is one whose parent cgroup is not a
+> +	valid partition root itself.  Writing to "cpuset.cpus.exclusive"
+> +	is not mandatory for the creation of a local partition as its
+> +	"cpuset.cpus.exclusive" file will be filled in automatically if
+> +	it is not set.	The automaticaly set value will be based on its
+> +	"cpuset.cpus" value.  Writing the proper "cpuset.cpus.exclusive"
+> +	values down the cgroup hierarchy is mandatory for the creation
+> +	of a remote partition.
 
-We cannot maintain this as an invariant tho, right? For example, what
-happens when a parent cgroup later wants to withdraw a CPU from its
-cpuset.cpus which should always be allowed regardless of what its
-descendants are doing? Even with cpus.exclusive itself, I think it'd be
-important to always allow ancestors to be able to withdraw from the
-commitment as with other resources. I suppose one can argue that giving
-exclusive access to CPUs is a special case which doesn't follow this rule
-but cpus.exclusive having to be nested inside cpus which is subject to that
-rule makes that combination too contorted.
-
-Would it be difficult to follow how isolation modes behave when the target
-configuration can't be achieved?
+Wouldn't a partition root's cpus.exclusive always contain all of the CPUs in
+its cpus? Would it make sense for cpus.exclusive to be different from .cpus?
 
 Thanks.
 
