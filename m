@@ -2,168 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93B55C04FE1
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 08:43:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56991EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 08:49:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233023AbjGJInX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 04:43:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52058 "EHLO
+        id S230462AbjGJItm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 04:49:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232932AbjGJIms (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 04:42:48 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F0B2D41;
-        Mon, 10 Jul 2023 01:41:31 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QzyBX1LZqzqVdF;
-        Mon, 10 Jul 2023 16:40:36 +0800 (CST)
-Received: from localhost.localdomain (10.50.163.32) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 10 Jul 2023 16:41:08 +0800
-From:   Yicong Yang <yangyicong@huawei.com>
-To:     <akpm@linux-foundation.org>, <catalin.marinas@arm.com>,
-        <linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
-        <x86@kernel.org>, <mark.rutland@arm.com>, <ryan.roberts@arm.com>,
-        <will@kernel.org>, <anshuman.khandual@arm.com>,
-        <linux-doc@vger.kernel.org>
-CC:     <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
-        <punit.agrawal@bytedance.com>, <linux-kernel@vger.kernel.org>,
-        <darren@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
-        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
-        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
-        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-        <linux-s390@vger.kernel.org>, Barry Song <21cnbao@gmail.com>,
-        <wangkefeng.wang@huawei.com>, <xhao@linux.alibaba.com>,
-        <prime.zeng@hisilicon.com>, <Jonathan.Cameron@Huawei.com>
-Subject: [PATCH v10 0/4]  arm64: support batched/deferred tlb shootdown during page reclamation/migration
-Date:   Mon, 10 Jul 2023 16:39:10 +0800
-Message-ID: <20230710083914.18336-1-yangyicong@huawei.com>
-X-Mailer: git-send-email 2.31.0
+        with ESMTP id S230167AbjGJItl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 04:49:41 -0400
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B17CBC3;
+        Mon, 10 Jul 2023 01:49:40 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3fb4146e8deso54785535e9.0;
+        Mon, 10 Jul 2023 01:49:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688978979; x=1691570979;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0HwV3UkEkNArn08rHfYqKJNn2/lAt35vAipu5aJAzUk=;
+        b=mITH3vE8NGXs0FXSEn00pMu+nbQcrHdz5CpI06wWwORbh8Z3QjYdFOXB6kUdFzqyqg
+         4DoPfxVNS7+0uPBoutk09Uyuf2koimICX7BBdHyS9O3BZOwZbRLKArPcY+IaWUQ/YwDJ
+         Hq26pAta9ynsTSslEg+TET0TYF+6eOzs7Qc7/iDcfXkD5wJS/wXbJ4gEI0po0WuRVidi
+         tfVY1w2EJNFBYJgjKm8cTOjRKIgvrR2DSy0E0v14kmv1QS6SmQF5usBwrkKD8lqhT619
+         aK8OOho77H5w/l4dZrpLFHeY/mnhlXCIoaUGz/3RqXaiiMx1q9EVgyR1stsFPXgkxkIP
+         IBVw==
+X-Gm-Message-State: ABy/qLbqUkbAYss7bc9iUB3Zn7l2K+J3JMMLa14wEdPrhN5GxNC0OtDn
+        9o2lNBbVTo/PUv690YgbNcQ=
+X-Google-Smtp-Source: APBJJlFY7RJWgradJGfKyfSbfVLRNaXYxUZsHNesSfxwHiaBLTtgBsoFXv6KKg6hrgaK9bGTcJutAA==
+X-Received: by 2002:a7b:cc15:0:b0:3fb:9ef1:34ef with SMTP id f21-20020a7bcc15000000b003fb9ef134efmr16249506wmh.37.1688978978943;
+        Mon, 10 Jul 2023 01:49:38 -0700 (PDT)
+Received: from gmail.com (fwdproxy-cln-008.fbsv.net. [2a03:2880:31ff:8::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 4-20020a05600c028400b003fbdf8292a7sm9614997wmk.46.2023.07.10.01.49.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 01:49:38 -0700 (PDT)
+Date:   Mon, 10 Jul 2023 01:49:36 -0700
+From:   Breno Leitao <leitao@debian.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, sergey.senozhatsky@gmail.com,
+        pmladek@suse.com, tj@kernel.org, stephen@networkplumber.org,
+        Dave Jones <davej@codemonkey.org.uk>,
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] netconsole: Append kernel version to message
+Message-ID: <ZKvGIGbWa751sfTA@gmail.com>
+References: <20230707132911.2033870-1-leitao@debian.org>
+ <20230707161050.61ec46a8@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.50.163.32]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230707161050.61ec46a8@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yicong Yang <yangyicong@hisilicon.com>
+On Fri, Jul 07, 2023 at 04:10:50PM -0700, Jakub Kicinski wrote:
+> On Fri,  7 Jul 2023 06:29:11 -0700 Breno Leitao wrote:
+> > Create a new netconsole runtime option that prepends the kernel version in
+> > the netconsole message. This is useful to map kernel messages to kernel
+> > version in a simple way, i.e., without checking somewhere which kernel
+> > version the host that sent the message is using.
+> > 
+> > If this option is selected, then the "<release>," is prepended before the
+> > netconsole message. This is an example of a netconsole output, with
+> > release feature enabled:
+> > 
+> > 	6.4.0-01762-ga1ba2ffe946e;12,426,112883998,-;this is a test
+> > 
+> > Calvin Owens send a RFC about this problem in 2016[1], but his
+> > approach was a bit more intrusive, changing the printk subsystem. This
+> > approach is lighter, and just append the information in the last mile,
+> > just before netconsole push the message to netpoll.
+> > 
+> > [1] Link: https://lore.kernel.org/all/51047c0f6e86abcb9ee13f60653b6946f8fcfc99.1463172791.git.calvinowens@fb.com/
+> > 
+> > Cc: Dave Jones <davej@codemonkey.org.uk>
+> > Signed-off-by: Breno Leitao <leitao@debian.org>
+> 
+> Looks good! net-next is closed for the duration of the merge window 
+> so you'll need to repost next week, and please put [PATCH net-next v3]
+> as the subject prefix while at it.
+> 
+> > @@ -332,6 +350,11 @@ static ssize_t enabled_store(struct config_item *item,
+> >  	}
+> >  
+> >  	if (enabled) {	/* true */
+> > +		if (nt->release && !nt->extended) {
+> > +			pr_err("release feature requires extended log message\n");
+> > +			goto out_unlock;
+> > +		}
+> 
+> This is the only bit that gave me pause - when parsing the command line
+> you ignore release if extended is not set (with an error/warning).
+> Does it make sense to be consistent and do the same thing here? 
+> Or enabling at runtime is fundamentally different?
 
-Though ARM64 has the hardware to do tlb shootdown, the hardware broadcasting is
-not free. A simplest micro benchmark shows even on snapdragon 888 with only
-8 cores, the overhead for ptep_clear_flush is huge even for paging out one page
-mapped by only one process:
-5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
+That is a good point, this patch ignores "release" if extended feature
+is disabled in the command line, but, fails if "release" is set and
+extended is not.
 
-While pages are mapped by multiple processes or HW has more CPUs, the cost should
-become even higher due to the bad scalability of tlb shootdown. The same benchmark
-can result in 16.99% CPU consumption on ARM64 server with around 100 cores
-according to the test on patch 4/4.
+Looking at the other behaviours (netpoll parsing_ in the code, I think
+the best approach is to also fail on both cases.
 
-This patchset leverages the existing BATCHED_UNMAP_TLB_FLUSH by
-1. only send tlbi instructions in the first stage -
-	arch_tlbbatch_add_mm()
-2. wait for the completion of tlbi by dsb while doing tlbbatch
-	sync in arch_tlbbatch_flush()
+I'll fix it in v3.
 
-Testing on snapdragon shows the overhead of ptep_clear_flush is removed by the
-patchset. The micro benchmark becomes 5% faster even for one page mapped by
-single process on snapdragon 888.
-
-Since BATCHED_UNMAP_TLB_FLUSH is implemented only on x86, the patchset does some
-renaming/extension for the current implementation first (Patch 1-3), then add the
-support on arm64 (Patch 4).
-
--v10:
-1. Enable BATCHED_UNMAP_TLB_FLUSH regardless of CPU numbers, per Catalin.
-2. Split the renaming/extension works in a separate PATCH 2, per Catalin. Since
-   it's split from PATCH 2/2 in v9, so inherit the tags.
-3. Add arch_flush_tlb_batched_pending() to allow arch-specific implementation,
-   per Catalin. Since it's some kind of an optimization on arm64 so a separate
-   Patch 3/4.
-Link: https://lore.kernel.org/linux-mm/20230518065934.12877-1-yangyicong@huawei.com/
-
--v9:
-1. Using a runtime tunable to control batched TLB flush, per Catalin in v7.
-   Sorry for missing this on v8.
-Link: https://lore.kernel.org/all/20230329035512.57392-1-yangyicong@huawei.com/
-
--v8:
-1. Rebase on 6.3-rc4
-2. Tested the optimization on page migration and mentioned it in the commit
-3. Thanks the review from Anshuman.
-Link: https://lore.kernel.org/linux-mm/20221117082648.47526-1-yangyicong@huawei.com/
-
--v7:
-1. rename arch_tlbbatch_add_mm() to arch_tlbbatch_add_pending() as suggested, since it
-   takes an extra address for arm64, per Nadav and Anshuman. Also mentioned in the commit.
-2. add tags from Xin Hao, thanks.
-Link: https://lore.kernel.org/lkml/20221115031425.44640-1-yangyicong@huawei.com/
-
--v6:
-1. comment we don't defer TLB flush on platforms affected by ARM64_WORKAROUND_REPEAT_TLBI
-2. use cpus_have_const_cap() instead of this_cpu_has_cap()
-3. add tags from Punit, Thanks.
-4. default enable the feature when cpus >= 8 rather than > 8, since the original
-   improvement is observed on snapdragon 888 with 8 cores.
-Link: https://lore.kernel.org/lkml/20221028081255.19157-1-yangyicong@huawei.com/
-
--v5:
-1. Make ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH depends on EXPERT for this stage on arm64.
-2. Make a threshold of CPU numbers for enabling batched TLP flush on arm64
-Link: https://lore.kernel.org/linux-arm-kernel/20220921084302.43631-1-yangyicong@huawei.com/T/
-
--v4:
-1. Add tags from Kefeng and Anshuman, Thanks.
-2. Limit the TLB batch/defer on systems with >4 CPUs, per Anshuman
-3. Merge previous Patch 1,2-3 into one, per Anshuman
-Link: https://lore.kernel.org/linux-mm/20220822082120.8347-1-yangyicong@huawei.com/
-
--v3:
-1. Declare arch's tlbbatch defer support by arch_tlbbatch_should_defer() instead
-   of ARCH_HAS_MM_CPUMASK, per Barry and Kefeng
-2. Add Tested-by from Xin Hao
-Link: https://lore.kernel.org/linux-mm/20220711034615.482895-1-21cnbao@gmail.com/
-
--v2:
-1. Collected Yicong's test result on kunpeng920 ARM64 server;
-2. Removed the redundant vma parameter in arch_tlbbatch_add_mm()
-   according to the comments of Peter Zijlstra and Dave Hansen
-3. Added ARCH_HAS_MM_CPUMASK rather than checking if mm_cpumask
-   is empty according to the comments of Nadav Amit
-
-Thanks, Peter, Dave and Nadav for your testing or reviewing
-, and comments.
-
--v1:
-https://lore.kernel.org/lkml/20220707125242.425242-1-21cnbao@gmail.com/
-
-Anshuman Khandual (1):
-  mm/tlbbatch: Introduce arch_tlbbatch_should_defer()
-
-Barry Song (2):
-  mm/tlbbatch: Rename and extend some functions
-  arm64: support batched/deferred tlb shootdown during page
-    reclamation/migration
-
-Yicong Yang (1):
-  mm/tlbbatch: Introduce arch_flush_tlb_batched_pending()
-
- .../features/vm/TLB/arch-support.txt          |  2 +-
- arch/arm64/Kconfig                            |  1 +
- arch/arm64/include/asm/tlbbatch.h             | 12 +++++
- arch/arm64/include/asm/tlbflush.h             | 48 +++++++++++++++++--
- arch/x86/include/asm/tlbflush.h               | 22 ++++++++-
- include/linux/mm_types_task.h                 |  4 +-
- mm/rmap.c                                     | 23 ++++-----
- 7 files changed, 90 insertions(+), 22 deletions(-)
- create mode 100644 arch/arm64/include/asm/tlbbatch.h
-
--- 
-2.24.0
-
+Thanks for the review!
