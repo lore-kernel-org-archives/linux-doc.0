@@ -2,17 +2,17 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F1EC001DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF125C001E0
 	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 19:50:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbjGJTuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S230196AbjGJTuB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 10 Jul 2023 15:50:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51452 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231286AbjGJTt7 (ORCPT
+        with ESMTP id S231297AbjGJTt7 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 15:49:59 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05FC7194
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC28118D
         for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 12:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
         s=mimecast20190719; t=1689018552;
@@ -20,23 +20,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ynX4xs1ia0vVamnWxq7T+G8TSAYpJrKtW6apk2sxnag=;
-        b=OLkxUXFjfFYdmoMrTqYElOVSknfe9kndiaG7/AJxwHWNcYoFslnJXcEvlIdxlelhLMaKW0
-        djVvC8prwyGu1YnjcPCxmWFAFMdkNHSmxkyoamXl27DKPcD0KPcugTWpVBtBZNVi8DS9cg
-        zEoGN0WIap01a3EGJLanoMJkwfm3N3Q=
+        bh=a28aXvRJ7amV1kNyaLXIB+aU7kYRY1GTXEf8SQiQifs=;
+        b=S141/EcGxWrGmykJr4kEn4jFl/626Pzqt71D6GB5vsQiWeCe9vBkf9XQvEcAosX2oZ1Dkl
+        xVaAhyn5T1rvHWgkYr+ewj4O8yR/G934rJsf6WOgv9QqMxIOJIJ03SwPdkOwW4wG3+JFTu
+        0DyAyyQTBJC+/KTzrDYtMyj37C57mL4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-250-CSDJodKQPdmD9xBscMj83Q-1; Mon, 10 Jul 2023 15:49:09 -0400
-X-MC-Unique: CSDJodKQPdmD9xBscMj83Q-1
+ us-mta-656-GDihBXQ8Otyp4A0BaShv8g-1; Mon, 10 Jul 2023 15:49:10 -0400
+X-MC-Unique: GDihBXQ8Otyp4A0BaShv8g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 28DFB185A791;
-        Mon, 10 Jul 2023 19:49:08 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08004800193;
+        Mon, 10 Jul 2023 19:49:10 +0000 (UTC)
 Received: from llong.com (unknown [10.22.18.171])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4D32F111E3E6;
-        Mon, 10 Jul 2023 19:49:07 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2A1A9111E3E6;
+        Mon, 10 Jul 2023 19:49:09 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -53,9 +53,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v5 1/4] x86/speculation: Add __update_spec_ctrl() helper
-Date:   Mon, 10 Jul 2023 15:48:54 -0400
-Message-Id: <20230710194857.2898284-2-longman@redhat.com>
+Subject: [PATCH v5 3/4] intel_idle: Use __update_spec_ctrl() in intel_idle_ibrs()
+Date:   Mon, 10 Jul 2023 15:48:56 -0400
+Message-Id: <20230710194857.2898284-4-longman@redhat.com>
 In-Reply-To: <20230710194857.2898284-1-longman@redhat.com>
 References: <20230710194857.2898284-1-longman@redhat.com>
 MIME-Version: 1.0
@@ -65,46 +65,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new __update_spec_ctrl() helper which is a variant of
-update_spec_ctrl() that can be used in a noinstr function.
+When intel_idle_ibrs() is called, it modifies the SPEC_CTRL MSR to 0
+in order disable IBRS. However, the new MSR value isn't reflected in
+x86_spec_ctrl_current which is at odd with the other code that keep track
+of its state in that percpu variable.  Use the new __update_spec_ctrl()
+to have the x86_spec_ctrl_current percpu value properly updated.
 
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
 Signed-off-by: Waiman Long <longman@redhat.com>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- arch/x86/include/asm/nospec-branch.h | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/idle/intel_idle.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
-index 55388c9f7601..06ceacfd1fe2 100644
---- a/arch/x86/include/asm/nospec-branch.h
-+++ b/arch/x86/include/asm/nospec-branch.h
-@@ -9,7 +9,7 @@
+diff --git a/drivers/idle/intel_idle.c b/drivers/idle/intel_idle.c
+index b930036edbbe..c9479f089037 100644
+--- a/drivers/idle/intel_idle.c
++++ b/drivers/idle/intel_idle.c
+@@ -182,12 +182,12 @@ static __cpuidle int intel_idle_ibrs(struct cpuidle_device *dev,
+ 	int ret;
  
- #include <asm/alternative.h>
- #include <asm/cpufeatures.h>
--#include <asm/msr-index.h>
-+#include <asm/msr.h>
- #include <asm/unwind_hints.h>
- #include <asm/percpu.h>
- #include <asm/current.h>
-@@ -488,6 +488,16 @@ DECLARE_PER_CPU(u64, x86_spec_ctrl_current);
- extern void update_spec_ctrl_cond(u64 val);
- extern u64 spec_ctrl_current(void);
+ 	if (smt_active)
+-		native_wrmsrl(MSR_IA32_SPEC_CTRL, 0);
++		__update_spec_ctrl(0);
  
-+/*
-+ * This can be used in noinstr function & should only be called in bare
-+ * metal context.
-+ */
-+static __always_inline void __update_spec_ctrl(u64 val)
-+{
-+	__this_cpu_write(x86_spec_ctrl_current, val);
-+	native_wrmsrl(MSR_IA32_SPEC_CTRL, val);
-+}
-+
- /*
-  * With retpoline, we must use IBRS to restrict branch prediction
-  * before calling into firmware.
+ 	ret = __intel_idle(dev, drv, index);
+ 
+ 	if (smt_active)
+-		native_wrmsrl(MSR_IA32_SPEC_CTRL, spec_ctrl);
++		__update_spec_ctrl(spec_ctrl);
+ 
+ 	return ret;
+ }
 -- 
 2.31.1
 
