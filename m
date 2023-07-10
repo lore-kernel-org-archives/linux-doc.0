@@ -2,97 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98339C0015E
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 14:20:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B881CEB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 14:56:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232113AbjGJOUY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 10:20:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41696 "EHLO
+        id S230048AbjGJO4Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 10:56:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231876AbjGJOUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 10:20:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB9290;
-        Mon, 10 Jul 2023 07:20:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229451AbjGJO4P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 10:56:15 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295B2BC;
+        Mon, 10 Jul 2023 07:56:14 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4532B6102D;
-        Mon, 10 Jul 2023 14:20:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23776C433C7;
-        Mon, 10 Jul 2023 14:20:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688998821;
-        bh=OLMdz1DN5xibC7Sk2gaZG3zWRkoxbpH001OB0bLR0ww=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pmzHx8uT7TGM/txBD6jaX1GWoerubuy6fgJwTOmP694+ens0oNsgIh4iK2TRvNOvW
-         uM4MqBrd5sCukWd3zrE3vKvQStRY6o9w3dWjfoR8+rPum6TgDHPQXltABa4pICxUcE
-         LaBIW/v+zpMtFa10oD4kbBBpNPUZr7UMe8IDfsxjBCfdPSOPaDhh4GCE7sLbO3FEXq
-         evgwMbpQIX1SNnQkakwubpWueqTOz7dUx9W57YTzV7qMUMK2iK3oRurKhHb89loiR1
-         3Sp1UM1zDMtN5+BZLDsBWZ/aVt4Nrm3Q8HyAjYEJ9d0cJjComBi+nIiI2cQlfxLcGT
-         9j+MmPYVXC8CA==
-Date:   Mon, 10 Jul 2023 15:20:15 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 10/11] Documentation: kselftest: "make headers" is a
- prerequisite
-Message-ID: <36093b4d-1225-435e-accb-f596ef7a2967@sirena.org.uk>
-References: <20230606071637.267103-1-jhubbard@nvidia.com>
- <20230606071637.267103-11-jhubbard@nvidia.com>
+        by smtp-out2.suse.de (Postfix) with ESMTPS id DAAAC20017;
+        Mon, 10 Jul 2023 14:56:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1689000972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kEWPxet4qAxkuP2PISZ4OxOUGsMXMwH0HmtQelzmn/I=;
+        b=vrFscLPcbV+pCGt7cy5jLUauEcIMd8Tz1h3WyDhgEdQP4x9ZCe8Bsff2mz0LpKkVaJM0YT
+        VrO+9jMWG7zxy6+H7xGf6tRljrmt5DM6YFVg/yQHvsZYVN5dE/2oS56CN4D91gGg7GBDDy
+        Pc1+0F7Ts5KteRWMfqZsBMnXjbKczq8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1689000972;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kEWPxet4qAxkuP2PISZ4OxOUGsMXMwH0HmtQelzmn/I=;
+        b=kyZ5vWKkb9PL24I3b9vh1LeDNlDS5YxA5GvcXknfWLihpQcz59oe8EBCEOjvmhuxz5b8t+
+        Lzf/DwJBQq7Bt3AA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9F3BA13A05;
+        Mon, 10 Jul 2023 14:56:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id FT0+JgwcrGSQUQAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Mon, 10 Jul 2023 14:56:12 +0000
+Message-ID: <598673f2-66e0-dc9c-4469-e0680685d81c@suse.cz>
+Date:   Mon, 10 Jul 2023 16:56:12 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SXAURWvz4FkmpKYo"
-Content-Disposition: inline
-In-Reply-To: <20230606071637.267103-11-jhubbard@nvidia.com>
-X-Cookie: "I am, therefore I am."
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2] mm/slub: disable slab merging in the default
+ configuration
+Content-Language: en-US
+To:     David Rientjes <rientjes@google.com>,
+        Julian Pidancet <julian.pidancet@oracle.com>
+Cc:     Christoph Lameter <cl@linux.com>,
+        "Lameter, Christopher" <cl@os.amperecomputing.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Rafael Aquini <aquini@redhat.com>
+References: <20230629221910.359711-1-julian.pidancet@oracle.com>
+ <38083ed2-333b-e245-44e4-2f355e4f9249@google.com>
+ <CTSGWINSM18Q.3HQ1DN27GNA1R@imme>
+ <8813897d-4a52-37a0-fe44-a9157716be9b@google.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <8813897d-4a52-37a0-fe44-a9157716be9b@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 7/3/23 22:17, David Rientjes wrote:
+> Additionally, I wouldn't consider this to be super urgent: slab cache 
+> merging has been this way for several years, we have some time to do an 
+> assessment of the implications of changing an important aspect of kernel 
+> memory allocation that will affect everybody.
 
---SXAURWvz4FkmpKYo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Agreed, although I wouldn't say "affect everybody" because the changed
+upstream default may not automatically translate to what distros will use,
+and I'd expect most people rely on distro kernels.
 
-On Tue, Jun 06, 2023 at 12:16:36AM -0700, John Hubbard wrote:
-> As per a discussion with Muhammad Usama Anjum [1], the following is how
-> one is supposed to build selftests:
->=20
->     make headers && make -C tools/testing/selftests/mm
->=20
-> However, that's not yet documented anywhere. So add it to
-> Documentation/dev-tools/kselftest.rst .
+> I agree with the patch if 
+> we can make it work, I'd just like to study the effect of it more fully 
+> beyond some kernbench runs.
 
-This is breaking the arm64 selftests, I've sent a revert:
-
-   https://lore.kernel.org/linux-kselftest/20230710-kselftest-fix-arm64-v1-=
-1-48e872844f25@kernel.org/T/#u
-
-(logs included in the above patch.)
-
---SXAURWvz4FkmpKYo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSsE58ACgkQJNaLcl1U
-h9DW5wf+K3ErUXYG5NoFTwiBKRLqmjlCbqt53gVZU46qFA+tyb9S4K5iyg5Vd+/D
-srIjEtIdTXB+t7W7tZOrjVOlfDHIpJmGiG88pqq1MRJfTTlq+MNeKyhyK//8OkN4
-a/Ugsgf9v9gXc0DYLltGEj4NPHokXvxyrNRrqewj3OIoLY65qgqKSUgjvbBuORdn
-KSM/HoHqfp57n5xTBx7UdCTQ6KTsIbXSeNInDIq1FVC+THvEBgVTXYXa8720fRwy
-HLSLdcR7gOFGn6INsEUqOT33Z7UyreQhWtq0j6gfSZg9uqNt1RwXo493Krp6YLOm
-GOWBk8OfMij3SoSvAlEDxIt9Fqh9Mg==
-=bFPt
------END PGP SIGNATURE-----
-
---SXAURWvz4FkmpKYo--
