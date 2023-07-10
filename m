@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 324A6EB64DA
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 09:39:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D94D4EB64D9
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 09:40:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232851AbjGJJjy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 05:39:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54390 "EHLO
+        id S231977AbjGJJkD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 05:40:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232836AbjGJJjL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 05:39:11 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC299183;
-        Mon, 10 Jul 2023 02:36:55 -0700 (PDT)
+        with ESMTP id S232060AbjGJJjS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 05:39:18 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8649359D;
+        Mon, 10 Jul 2023 02:36:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1688981815; x=1720517815;
+  t=1688981819; x=1720517819;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=1i34KSawlUL8WNjNkmTiVglWiYjIqUpNKEWr7RWMan4=;
-  b=dkU568SU+UcSyHrU6giMnLlJ1v4LoewMAX6SrSQOP45Z3WqxQP/tHPZs
-   v9W6ZuI6dkVpeP9T/2osLaawFKsVqAdlv6hG2Hsqa8DSt62A+5UB6L5Ee
-   sUZjNOvp2DS2wh4tGl8HZdQdiz7Rc2D4UIaQyV7Mfd2TcN9ZXZX3xAHt3
-   26IaZbkz3v9Hb/JaFFtChMyDTf/GLG8Gk4taMsi0Ll5BuY2WxKgQ/qjFm
-   KA7MZxIOoJx+k9Hsp/rmlFBP8h7VIYleoO63BPYUtQisjzwuQlaN1ayRG
-   i/hI0Tu9OHijMj3AGEoGqNLi4s4go//SUH10a0G2XdRer8ZKKVVefOBxX
-   w==;
+  bh=5gfCaYU0chLq5c3B/D2KhUCxcGWsZsApGGytqjShGTw=;
+  b=gMjrZErUTiBgXaj+dPf8Xl4I8gbCxlxkvgSYdH2NvoArCz1D98neZW69
+   bAh8fkNXPl8FnxY01kfwvtw48WBaH8gEibG7ZZD8vru8NFBTG+UT87Pvj
+   +sCAzO45urGwMcuLfM4mhE6nVx91zQVek8dJSmD7nd0H/NID+eqPX2KdL
+   FF8QljXWvFSrDrKhZC5nZ4DlYoW+lmjbZXPEIUdgSgMJ6SfxocCrnJBf/
+   cmkPAs3sKj1GC6rSFsNvEirJ+9aS+Zwnlu4fhDz9oNRfyR9w/ktsPDE0w
+   x+HmtTCLVOboWSmj4FYlODt5gONp4SQscmwnftH+eUtpiLSCXe0jHUyzk
+   A==;
 X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="234573296"
+   d="scan'208";a="160600093"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Jul 2023 02:36:40 -0700
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Jul 2023 02:36:47 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 10 Jul 2023 02:36:36 -0700
+ 15.1.2507.21; Mon, 10 Jul 2023 02:36:42 -0700
 Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex01.mchp-main.com
  (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 10 Jul 2023 02:36:34 -0700
+ Transport; Mon, 10 Jul 2023 02:36:39 -0700
 From:   Conor Dooley <conor.dooley@microchip.com>
 To:     <palmer@dabbelt.com>
 CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
@@ -53,14 +53,14 @@ CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
         <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 03/11] RISC-V: drop a needless check in print_isa_ext()
-Date:   Mon, 10 Jul 2023 10:35:38 +0100
-Message-ID: <20230710-map-unlocking-9f674ee171bb@wendy>
+Subject: [PATCH v4 05/11] RISC-V: repurpose riscv_isa_ext array in riscv_fill_hwcap()
+Date:   Mon, 10 Jul 2023 10:35:40 +0100
+Message-ID: <20230710-banker-visible-4c4cb3685dc1@wendy>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230710-equipment-stained-dd042d66ba5d@wendy>
 References: <20230710-equipment-stained-dd042d66ba5d@wendy>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1275; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=1i34KSawlUL8WNjNkmTiVglWiYjIqUpNKEWr7RWMan4=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmrL1xTEVf/3XjKu/FK/trOlIJHnLEzzrSGtosIRW32sVOo THPpKGVhEONgkBVTZEm83dcitf6Pyw7nnrcwc1iZQIYwcHEKwEQKHBj++wUedIrm8Vv68c578dmTuH bbNJuHllrJPva9c+2/8f2HyxgZzp2WkLmxOl33VdKJsomyh4p4C2M/Lreb6H7JbJfBO6WTnAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3700; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=5gfCaYU0chLq5c3B/D2KhUCxcGWsZsApGGytqjShGTw=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCmrL1xPKCp13DJjVogsRwlTZfMlzXpt12j+2T8ZbJl2Cdet OyPWUcrCIMbBICumyJJ4u69Fav0flx3OPW9h5rAygQxh4OIUgIlcqWJk+FL9M1HkwgNBzrJw3wIr8y 0/2/tyOLWzN8vMf1O87FXPbIa/4ptXtRwIX+jS0cmzzDbz75bd9eyrdv9cUaXiHrwm4+85PgA=
 X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -68,40 +68,109 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-isa_ext_arr cannot be empty, as some of the extensions within it are
-always built into the kernel. When this code was first added, back in
-commit a9b202606c69 ("RISC-V: Improve /proc/cpuinfo output for ISA
-extensions"), the array was empty and needed a dummy item & thus there
-could be no extensions present. When the first multi-letter ones did
-get added, it was Sscofpmf - which didn't have a Kconfig symbol to
-disable it.
-
-Remove this check, as it has been redundant since Sscofpmf was added.
+In riscv_fill_hwcap() riscv_isa_ext array can be looped over, rather
+than duplicating the list of extensions with individual
+SET_ISA_EXT_MAP() usage. While at it, drop the statement-of-the-obvious
+comments from the struct, rename uprop to something more suitable for
+its new use & constify the members.
 
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 Changes in v2:
-- Reword commit message to explain why this can be dropped
+- Delete the now unused definition
 ---
- arch/riscv/kernel/cpu.c | 4 ----
- 1 file changed, 4 deletions(-)
+ arch/riscv/include/asm/hwcap.h |  7 ++-----
+ arch/riscv/kernel/cpu.c        |  5 +++--
+ arch/riscv/kernel/cpufeature.c | 26 +++++++-------------------
+ 3 files changed, 12 insertions(+), 26 deletions(-)
 
+diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+index 7a57e6109aef..2460ac2fc7ed 100644
+--- a/arch/riscv/include/asm/hwcap.h
++++ b/arch/riscv/include/asm/hwcap.h
+@@ -55,7 +55,6 @@
+ #define RISCV_ISA_EXT_ZIHPM		42
+ 
+ #define RISCV_ISA_EXT_MAX		64
+-#define RISCV_ISA_EXT_NAME_LEN_MAX	32
+ 
+ #ifdef CONFIG_RISCV_M_MODE
+ #define RISCV_ISA_EXT_SxAIA		RISCV_ISA_EXT_SMAIA
+@@ -70,10 +69,8 @@
+ unsigned long riscv_get_elf_hwcap(void);
+ 
+ struct riscv_isa_ext_data {
+-	/* Name of the extension displayed to userspace via /proc/cpuinfo */
+-	char uprop[RISCV_ISA_EXT_NAME_LEN_MAX];
+-	/* The logical ISA extension ID */
+-	unsigned int isa_ext_id;
++	const unsigned int id;
++	const char *name;
+ };
+ 
+ extern const struct riscv_isa_ext_data riscv_isa_ext[];
 diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-index f808b67f5a27..e721f15fdf17 100644
+index bf93293d51f3..aa17eeb0ec9a 100644
 --- a/arch/riscv/kernel/cpu.c
 +++ b/arch/riscv/kernel/cpu.c
-@@ -237,10 +237,6 @@ static void print_isa_ext(struct seq_file *f)
+@@ -168,9 +168,10 @@ static void print_isa_ext(struct seq_file *f)
+ {
+ 	for (int i = 0; i < riscv_isa_ext_count; i++) {
+ 		const struct riscv_isa_ext_data *edata = &riscv_isa_ext[i];
+-		if (!__riscv_isa_extension_available(NULL, edata->isa_ext_id))
++		if (!__riscv_isa_extension_available(NULL, edata->id))
+ 			continue;
+-		seq_printf(f, "_%s", edata->uprop);
++
++		seq_printf(f, "_%s", edata->name);
+ 	}
+ }
  
- 	arr_sz = ARRAY_SIZE(isa_ext_arr) - 1;
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index fb476153fffc..6d8cd45af723 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -99,11 +99,10 @@ static bool riscv_isa_extension_check(int id)
+ 	return true;
+ }
  
--	/* No extension support available */
--	if (arr_sz <= 0)
--		return;
--
- 	for (i = 0; i <= arr_sz; i++) {
- 		edata = &isa_ext_arr[i];
- 		if (!__riscv_isa_extension_available(NULL, edata->isa_ext_id))
+-#define __RISCV_ISA_EXT_DATA(UPROP, EXTID) \
+-	{							\
+-		.uprop = #UPROP,				\
+-		.isa_ext_id = EXTID,				\
+-	}
++#define __RISCV_ISA_EXT_DATA(_name, _id) {	\
++	.name = #_name,				\
++	.id = _id,				\
++}
+ 
+ /*
+  * The canonical order of ISA extension names in the ISA string is defined in
+@@ -366,20 +365,9 @@ void __init riscv_fill_hwcap(void)
+ 					set_bit(nr, isainfo->isa);
+ 				}
+ 			} else {
+-				/* sorted alphabetically */
+-				SET_ISA_EXT_MAP("smaia", RISCV_ISA_EXT_SMAIA);
+-				SET_ISA_EXT_MAP("ssaia", RISCV_ISA_EXT_SSAIA);
+-				SET_ISA_EXT_MAP("sscofpmf", RISCV_ISA_EXT_SSCOFPMF);
+-				SET_ISA_EXT_MAP("sstc", RISCV_ISA_EXT_SSTC);
+-				SET_ISA_EXT_MAP("svinval", RISCV_ISA_EXT_SVINVAL);
+-				SET_ISA_EXT_MAP("svnapot", RISCV_ISA_EXT_SVNAPOT);
+-				SET_ISA_EXT_MAP("svpbmt", RISCV_ISA_EXT_SVPBMT);
+-				SET_ISA_EXT_MAP("zba", RISCV_ISA_EXT_ZBA);
+-				SET_ISA_EXT_MAP("zbb", RISCV_ISA_EXT_ZBB);
+-				SET_ISA_EXT_MAP("zbs", RISCV_ISA_EXT_ZBS);
+-				SET_ISA_EXT_MAP("zicbom", RISCV_ISA_EXT_ZICBOM);
+-				SET_ISA_EXT_MAP("zicboz", RISCV_ISA_EXT_ZICBOZ);
+-				SET_ISA_EXT_MAP("zihintpause", RISCV_ISA_EXT_ZIHINTPAUSE);
++				for (int i = 0; i < riscv_isa_ext_count; i++)
++					SET_ISA_EXT_MAP(riscv_isa_ext[i].name,
++							riscv_isa_ext[i].id);
+ 			}
+ #undef SET_ISA_EXT_MAP
+ 		}
 -- 
 2.40.1
 
