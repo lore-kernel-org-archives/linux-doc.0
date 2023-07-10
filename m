@@ -2,103 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 192FFEB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 20:31:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D675FEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jul 2023 20:50:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbjGJUbP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 16:31:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42834 "EHLO
+        id S233351AbjGJUui (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 16:50:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbjGJUbG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 16:31:06 -0400
+        with ESMTP id S233213AbjGJUuX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 16:50:23 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E7510FD;
-        Mon, 10 Jul 2023 13:30:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F2DD173D;
+        Mon, 10 Jul 2023 13:48:01 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 34F52611C6;
-        Mon, 10 Jul 2023 20:30:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91DD7C433C8;
-        Mon, 10 Jul 2023 20:30:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D353C611DC;
+        Mon, 10 Jul 2023 20:46:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20440C433C8;
+        Mon, 10 Jul 2023 20:46:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689021021;
-        bh=+wP0eAg2GbC5oQ+lb4sHxBJC/hNB0xXugQykCtxdp3Q=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=Ph18YdcgRHei0djIICVwrzINl8fXNu2Jw01kwm6bnpg8sMfe2J/YRqfEKDwXSI+qJ
-         dXrpQeK20aARr8F7Ct7hmeUjISEnZ7ctt6yVzpzGDwyuuHzogL+eQ6gsxKrwZaCV+X
-         Jx7InrpQ5DHHzf9r2dRHzbWVl0M2VFltNgSQOz6Cd+Bnfy8MEY6Tw4XWu/5W2LXbC1
-         KIAwh/tVN/tkTx27x1ls/8jsZTfLv35O3PrMBGKZlew2mgvZNdZ4kXACpJ4vL4i9Zr
-         OBfzusJ4LI+DBJlQ6VnJr/3FdeSTqE0sReDH502YwHMZ6pURGMy4WVFp6fOcz645GC
-         Ec6w7khriGdAg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 2F452CE008B; Mon, 10 Jul 2023 13:30:21 -0700 (PDT)
-Date:   Mon, 10 Jul 2023 13:30:21 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Alan Huang <mmpgouride@gmail.com>, frederic@kernel.org,
-        quic_neeraju@quicinc.com, josh@joshtriplett.org,
-        boqun.feng@gmail.com, corbet@lwn.net, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] rcu: Use WRITE_ONCE() for assignments to ->next for
- rculist_nulls
-Message-ID: <6563b226-0cbe-4600-be68-2748048cec78@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230706102849.437687-1-mmpgouride@gmail.com>
- <20230706102849.437687-2-mmpgouride@gmail.com>
- <CAEXW_YShqCHHH9Q1icU=oGBbeHO+a1PTY-Q-+KbqVdTm8mR3cw@mail.gmail.com>
+        s=k20201202; t=1689021984;
+        bh=oUyjvXiwYn8yJN9vlqGtieLzlTeadZq9C9hLh3Yb5o8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=DdZg0OrYYcfnsB4rAN4Js7fDcNh6G6HCidsNnohVIK6GxfsHnqdu3z9OkG6eHdn2E
+         kHaQmq4/J3Mg3CQDk8DTqnbstr9L7STuTiBeZNoYQ5wnLY+dz5S5nyBS9A4esgzNS2
+         FvdYjokIhhwT7MdK12u1hMQHsENRXOJCEMdvfAuAraKnCAqcMdHpEtqk+KfkCGjRe8
+         EAuWakQl9mmWJ6SBGokL5yXdt/chCthqaqJrVNzX/aMUhPuvlkjSlRaDPlxfiFQ2+e
+         As7jXqcilcXQy9DHSx2L2++UdJ/qkGaAV3utPI2KsG901rZmgWljGLuUOmCNjCYLwA
+         hf0SgRKNDOiuA==
+Date:   Mon, 10 Jul 2023 13:46:23 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: Docs for base maintainer expectations?
+Message-ID: <20230710134623.659b3bc0@kernel.org>
+In-Reply-To: <20230710-veteran-progeny-fee091cfff3c@spud>
+References: <20230710115239.3f9e2c24@kernel.org>
+        <20230710-snowboard-bannister-7ed66c8d742b@spud>
+        <20230710122228.545d93be@kernel.org>
+        <20230710-veteran-progeny-fee091cfff3c@spud>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEXW_YShqCHHH9Q1icU=oGBbeHO+a1PTY-Q-+KbqVdTm8mR3cw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 04:01:07PM -0400, Joel Fernandes wrote:
-> On Thu, Jul 6, 2023 at 6:29 AM Alan Huang <mmpgouride@gmail.com> wrote:
-> >
-> > When the objects managed by rculist_nulls are allocated with
-> > SLAB_TYPESAFE_BY_RCU, readers may still hold references to this
-> > object that is being added, which means the modification of ->next
-> > is visible to readers. So, this patch uses WRITE_ONCE() for assignments
-> > to ->next.
-> >
-> > Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-> > ---
-> >  include/linux/rculist_nulls.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/include/linux/rculist_nulls.h b/include/linux/rculist_nulls.h
-> > index ba4c00dd8005..89186c499dd4 100644
-> > --- a/include/linux/rculist_nulls.h
-> > +++ b/include/linux/rculist_nulls.h
-> > @@ -101,7 +101,7 @@ static inline void hlist_nulls_add_head_rcu(struct hlist_nulls_node *n,
-> >  {
-> >         struct hlist_nulls_node *first = h->first;
-> >
-> > -       n->next = first;
-> > +       WRITE_ONCE(n->next, first);
-> >         WRITE_ONCE(n->pprev, &h->first);
-> >         rcu_assign_pointer(hlist_nulls_first_rcu(h), n);
-> >         if (!is_a_nulls(first))
-> > @@ -137,7 +137,7 @@ static inline void hlist_nulls_add_tail_rcu(struct hlist_nulls_node *n,
-> >                 last = i;
-> >
-> >         if (last) {
-> > -               n->next = last->next;
-> > +               WRITE_ONCE(n->next, last->next);
-> >                 n->pprev = &last->next;
-> >                 rcu_assign_pointer(hlist_nulls_next_rcu(last), n);
-> >         } else {
-> 
-> Don't you need READ_ONCE() for the read-side accesses as well?
+On Mon, 10 Jul 2023 20:39:40 +0100 Conor Dooley wrote:
+> It sounds almost as if you're looking for something to present to people
+> when they add themselves as an `M:` entry against a driver, for when
+> $company sends a patch w/ someone you've not really seen before?
 
-Both hlist_nulls_for_each_entry_rcu() and hlist_nulls_for_each_entry_safe()
-use rcu_dereference_raw().  To your point, both hlist_nulls_first_rcu()
-and hlist_nulls_next_rcu() look rather strange.  I would have expected
-them to also use rcu_dereference_raw().
-
-							Thanx, Paul
+That is exactly the use I have in mind.
