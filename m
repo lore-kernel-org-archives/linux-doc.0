@@ -2,177 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14953EB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 10:13:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B11EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 10:15:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbjGKKNL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 06:13:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49434 "EHLO
+        id S230238AbjGKKPw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 06:15:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjGKKNK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 06:13:10 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A1069E;
-        Tue, 11 Jul 2023 03:13:09 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36B9jPC2008987;
-        Tue, 11 Jul 2023 10:12:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=kuo7CikGsbdgndk67bwg/O5cTt5iHexi8B0jVS6YzSs=;
- b=GC581uu0EOQ+SJf4NvEZkfVez9ODBcBR8E6E3MsDR61Tc0IGwqThTk6Cxd3QPwol/rVY
- NMPZhOGotKdb1pqKy1XKQoS+ReX6F5d5jwvsPXyIQ1wZSZLoIrAf+vEEoVXReAUWvIs+
- QzKXpSbNpOafocqE8bnQArRbTFZ99LGXtpTyjOuh6k/P1nRLn0nEkwtmevsCzt2tDF5/
- xCQgmV9LYWZV2656zoqL1ftfOyHHTDpOdCey2UVIsYsQ1ts7cyD6qdoNjDUO5dHKdqOk
- rMl11Yxvb8CUl3vl2vVTyCJjphY7Ro5TjOeTF44mrG4G1yq/jSpqNd4hykheNJ2WlqPT Sg== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rs4qp01mr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Jul 2023 10:12:54 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36BACrVO010152
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Jul 2023 10:12:53 GMT
-Received: from [10.239.133.73] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 11 Jul
- 2023 03:12:50 -0700
-Message-ID: <8a950aa5-fdd8-f983-0411-4b39ade596f4@quicinc.com>
-Date:   Tue, 11 Jul 2023 18:12:48 +0800
+        with ESMTP id S230194AbjGKKPv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 06:15:51 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C6059E;
+        Tue, 11 Jul 2023 03:15:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689070550; x=1720606550;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=5JKHxewAX38O2bl/4vldtDfvVadZmqcSMbKGWm6ot3k=;
+  b=jbYvQOGUYgCsqB+P2IfvYNMAp50HGicPQclJM+O5Btc7pILEus3amk5u
+   fP60Aj+3zPdYka0IadmTNF00NUgbjARckqeWSateto0A/QlrGuLyIdpT5
+   xYNGTlz263JB9FQYxDOz63HQdVkjuY8/6/wYr60fF7+gbeK80irD4KO5o
+   voXQiXEQqRp6tjmTb8gYVD+mNnxijeXtaS+g5ZUS9NI+lYCbdal87y1do
+   TvNXCEJaR1688jP1QokH59A7X50u+motXbKYevvTpSQhgExeivhdxVoPL
+   tViuto3YaakOx3ktMu+pkKD+4G3HMjJmJDI2IJ2YqNwzf8kOi9gZkFyFO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="364616391"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
+   d="scan'208";a="364616391"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 03:15:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="967739956"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
+   d="scan'208";a="967739956"
+Received: from sneaga-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.52.179])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 03:15:47 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Greg KH <gregkh@linuxfoundation.org>, stable@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sasha Levin <sashal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [RFC PATCH v1 1/3] docs: stable-kernel-rules: mention other
+ usages for stable tag comments
+In-Reply-To: <d30686781c47c83927e0a41f6a1167a679fa822c.1689008220.git.linux@leemhuis.info>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1689008220.git.linux@leemhuis.info>
+ <d30686781c47c83927e0a41f6a1167a679fa822c.1689008220.git.linux@leemhuis.info>
+Date:   Tue, 11 Jul 2023 13:15:44 +0300
+Message-ID: <871qheiwj3.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
-To:     Marc Zyngier <maz@kernel.org>
-CC:     <will@kernel.org>, <corbet@lwn.net>, <catalin.marinas@arm.com>,
-        <quic_pkondeti@quicinc.com>, <quic_kaushalk@quicinc.com>,
-        <quic_satyap@quicinc.com>, <quic_shashim@quicinc.com>,
-        <quic_songxue@quicinc.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
- <875y6s8bwb.wl-maz@kernel.org>
- <32f442e3-3d5c-4cec-9791-0da039f88287@quicinc.com>
- <874jmc8654.wl-maz@kernel.org>
- <6e07ad52-2629-346e-6217-ec07777ebc5b@quicinc.com>
- <86lefnvsto.wl-maz@kernel.org>
-From:   "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
-In-Reply-To: <86lefnvsto.wl-maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Bkzf8wlK7wOARRdwB-QYAjYggnEEcQKb
-X-Proofpoint-GUID: Bkzf8wlK7wOARRdwB-QYAjYggnEEcQKb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-11_04,2023-07-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 adultscore=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- phishscore=0 impostorscore=0 spamscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307110089
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/11/2023 2:57 PM, Marc Zyngier wrote:
-> On Tue, 11 Jul 2023 04:30:44 +0100,
-> "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com> wrote:
->>
->> On 7/10/2023 5:31 PM, Marc Zyngier wrote:
->>> On Mon, 10 Jul 2023 09:19:54 +0100,
->>> "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com> wrote:
->>>>
->>>> On 7/10/2023 3:27 PM, Marc Zyngier wrote:
->>>>> On Mon, 10 Jul 2023 06:59:55 +0100,
->>>>> Maria Yu <quic_aiquny@quicinc.com> wrote:
->>>>>>
->>>>>> In order to be able to disable lse_atomic even if cpu
->>>>>> support it, most likely because of memory controller
->>>>>> cannot deal with the lse atomic instructions, use a
->>>>>> new idreg override to deal with it.
->>>>>
->>>>> In general, the idreg overrides are *not* there to paper over HW bugs.
->>>>> They are there to force the kernel to use or disable a feature for
->>>>> performance reason or to guide the *enabling* of a feature, but not
->>>>> because the HW is broken.
->>>>>
->>>>> The broken status of a HW platform must also be documented so that we
->>>>> know what to expect when we look at, for example, a bad case of memory
->>>>> corruption (something I'd expect to see on a system that only
->>>>> partially implements atomic memory operations).
->>>>>
->>>>
->>>> good idea. A noc error would be happened if the lse atomic instruction
->>>> happened during a memory controller doesn't support lse atomic
->>>> instructions.
->>>> I can put the information in next patchset comment message. Pls feel
->>>> free to let know if there is other place to have this kind of
->>>> information with.
->>>
->>> For a start, Documentation/arch/arm64/silicon-errata.rst should
->>> contain an entry for the actual erratum, and a description of the
->>> symptoms of the issue (you're mentioning a "noc error": how is that
->>> reported to the CPU?).
->>
->> This is not a cpu's errata as my understanding. It is the DDR
->> subsystem which don't have the LSE atomic feature supported.
-> 
-> CPU or not doesn't matter. We also track system errata.
+On Mon, 10 Jul 2023, Thorsten Leemhuis <linux@leemhuis.info> wrote:
+> Document how to delay backporting or send a note to the stable team
+> using shell-style inline comments attached to stable tags.
+>
+> CC: Greg KH <gregkh@linuxfoundation.org>
+> CC: Sasha Levin <sashal@kernel.org>
+> CC: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+>  Documentation/process/stable-kernel-rules.rst | 22 ++++++++++++++++---
+>  1 file changed, 19 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+> index 51df1197d5ab..6e4026dd6882 100644
+> --- a/Documentation/process/stable-kernel-rules.rst
+> +++ b/Documentation/process/stable-kernel-rules.rst
+> @@ -55,9 +55,10 @@ To have the patch automatically included in the stable tree, add the tag
+>  
+>       Cc: stable@vger.kernel.org
+>  
+> -in the sign-off area. Once the patch is merged it will be applied to
+> -the stable tree without anything else needing to be done by the author
+> -or subsystem maintainer.
+> +in the sign-off area; to accompany a note to the stable team, use a shell-style
+> +inline comment (see below for details). Once the patch is merged it will be
+> +applied to the stable tree without anything else needing to be done by the
+> +author or subsystem maintainer.
+>  
+>  .. _option_2:
+>  
+> @@ -139,6 +140,21 @@ The tag has the meaning of:
+>  
+>  For each "-stable" tree starting with the specified version.
+>  
+> +To delay pick up of patches submitted via :ref:`option_1`, use the following
+> +format:
+> +
+> +.. code-block:: none
+> +
+> +     Cc: <stable@vger.kernel.org> # after 4 weeks in mainline
+> +
+> +For any other requests related to patches submitted via :ref:`option_1`, just
+> +add a note to the stable tag. This for example can be used to point out known
+> +problems:
+> +
+> +.. code-block:: none
+> +
+> +     Cc: <stable@vger.kernel.org> # see patch description, needs adjustments for >= 6.3
+> +
 
-Thank you for clarify on this.
-If I am correct understanding, are you suggesting system errata with DT 
-seperate compatible (or similar) to runtime disable this feature instead 
-of idreg override with arm64.nolse options?
+To me, this seems like promoting *any* free text after the #, making it
+harder to parse in scripts.
 
-While it is better to finally affect the host arm64_ftr_regs value since 
-it can also derived to kvm sys reg as well.
-> 
->>>
->>> The workaround should also be detected at runtime -- we cannot rely on
->>> the user to provide a command-line argument to disable an essential
->>> feature that anyone has taken for granted for most of a decade...
->>
->> We are also seeking help from DDR Subsystem POC to see whether it is
->> possible to detect the LSE atomic feature support or not at runtime.
-> 
-> Keying it off a DT compatible (or something similar) would work.
-> 
->> In my opinion, LSE atomic is a system level feature instead of a cpu
->> only feature. So currently solution we is that even if cpu support lse
->> atomic, but it still needed to be disabled if the cpu working with a
->> lse atomic not support by current system's DDR subsystem.
-> 
-> In the absence of a detection mechanism for anything past the CPU,
-> this is a moot point. At this stage, this is a bit like saying
-> "writing to memory is a system thing, not only a CPU feature".
-> 
-> And this also breaks KVM if these CPUs don't have FWB, as a guest can
-> always map a piece of memory as non-cacheable, and trigger the issue
-> you describe in your reply to Will, even if you hide the atomics on
-> the host.
-> 
+Of course, I'm only ever producing this, and never consuming, so if the
+manual reading is fine for the stable developers, who am I to argue.
 
-For the KVM part, per my understanding, as long as the current feature 
-id being overriden, the KVM system also get the current vcpu without the 
-lse atomic feature enabled.
-KVM vcpu will read the sys reg from host arm64_ftr_regs which is already 
-been controled by the idreg_overrides.
 
-check reference from:
-https://elixir.bootlin.com/linux/v6.5-rc1/source/arch/arm64/kernel/cpufeature.c#L680
+BR,
+Jani.
 
-https://elixir.bootlin.com/linux/v6.5-rc1/source/arch/arm64/kvm/sys_regs.c#L1360
 
-> 	M.
-> 
+>  Following the submission:
+>  
+>   - The sender will receive an ACK when the patch has been accepted into the
 
 -- 
-Thx and BRs,
-Aiqun(Maria) Yu
-
+Jani Nikula, Intel Open Source Graphics Center
