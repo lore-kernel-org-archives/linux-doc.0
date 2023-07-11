@@ -2,98 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B98DEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 04:42:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F717EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 05:57:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229517AbjGKEmq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 00:42:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48204 "EHLO
+        id S229585AbjGKF5t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 01:57:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjGKEmo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 00:42:44 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E40190;
-        Mon, 10 Jul 2023 21:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=mPzEscneyvnM3uy7b9LxctE42Boier9y8NyRdeD47b4=; b=oIWebi57kYuAhPxjzqmc2OLJxO
-        rBWDmjk4qv//Xb5XtQ6UZw8fttgzCrj/xJttxiSZ32Sh2VKpnYpopxlhIZyXZsqXIw0jeB/6wE9gy
-        DJOcHC/yG5+SQkr/xrH3u8+oLUh51b/+S2SzCIas3Gt+I39jZTZqsndwhGpai6NLydbBQJpejcldg
-        CE+ACzBPdwHQCP6+Vk2OR0Z+Rzj2WsG8vXdqESZ6rCB6ASygTMjvkFOSgu/X/xQOgcFO/TeaHxJML
-        3TPKpZVXUhTUAohY6u9x/grsCxPG/ZE0rMQplH+PKK5b/urwxY/OxBoarymQl77uVHDKQISb7H/TQ
-        G4gokrSQ==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qJ5Cy-00DehZ-2m;
-        Tue, 11 Jul 2023 04:42:40 +0000
-Message-ID: <36b37893-c297-dab0-df2d-eeacfa1e06c0@infradead.org>
-Date:   Mon, 10 Jul 2023 21:42:39 -0700
+        with ESMTP id S229548AbjGKF5t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 01:57:49 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031FB195;
+        Mon, 10 Jul 2023 22:57:47 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qJ6Nb-0004qx-QV; Tue, 11 Jul 2023 07:57:43 +0200
+Message-ID: <67299d09-46dd-d96d-8c4f-b8b72af7c63b@leemhuis.info>
+Date:   Tue, 11 Jul 2023 07:57:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 5/5] docs: fuse: improve FUSE consistency explanation
-Content-Language: en-US
-To:     Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     me@jcix.top
-References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
- <20230711043405.66256-6-zhangjiachen.jaycee@bytedance.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230711043405.66256-6-zhangjiachen.jaycee@bytedance.com>
+Content-Language: en-US, de-DE
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <cover.1689008220.git.linux@leemhuis.info>
+ <29fb398b-a81c-70f9-f67c-21daaa42e4f7@leemhuis.info>
+ <2023071026-wired-erasure-6443@gregkh>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
+ backporting option and a few tweaks
+In-Reply-To: <2023071026-wired-erasure-6443@gregkh>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689055068;23723fed;
+X-HE-SMSGID: 1qJ6Nb-0004qx-QV
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+On 10.07.23 21:50, Greg KH wrote:
+> On Mon, Jul 10, 2023 at 07:18:43PM +0200, Thorsten Leemhuis wrote:
+>> On 10.07.23 19:10, Thorsten Leemhuis wrote:
 
-On 7/10/23 21:34, Jiachen Zhang wrote:
-> Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-> ---
->  Documentation/filesystems/fuse-io.rst | 32 +++++++++++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
+>>>  - It must either fix a real bug that bothers people or just add a device ID.
+>>>    To elaborate on the former:
+>>>
+>>>    - It fixes a problem like an oops, a hang, data corruption, a real security
+>>>      issue, a hardware quirk, a build error (but not for things marked
+>>>      CONFIG_BROKEN), or some "oh, that's not good" issue. In short, something
+>>>      critical.
+>>
+>> s/ In short, something critical.//
+>>
+>> Contradicts the "real bug that bothers people" somewhat and IMHO does
+>> not add anything. But maybe that's just me.
 > 
-> diff --git a/Documentation/filesystems/fuse-io.rst b/Documentation/filesystems/fuse-io.rst
-> index 255a368fe534..cdd292dd2e9c 100644
-> --- a/Documentation/filesystems/fuse-io.rst
-> +++ b/Documentation/filesystems/fuse-io.rst
+> Agreed, it can be dropped.
 
-> @@ -24,7 +31,8 @@ after any writes to the file.  All mmap modes are supported.
->  The cached mode has two sub modes controlling how writes are handled.  The
->  write-through mode is the default and is supported on all kernels.  The
->  writeback-cache mode may be selected by the FUSE_WRITEBACK_CACHE flag in the
-> -FUSE_INIT reply.
-> +FUSE_INIT reply. In either modes, if the FOPEN_KEEP_CACHE flag is not set in
+Thx for your feedback. I'll merge this bit into the second patch and
+will send a v2 with just patch 1 or 2; and then will try to find a way
+to handle all the other bits with a series that make it easier to see
+what's changing.
 
-                       either mode,
-
-> +the FUSE_OPEN, cached pages of the file will be invalidated immediatedly.
-
-                                                               immediately.
-
->  
->  In write-through mode each write is immediately sent to userspace as one or more
->  WRITE requests, as well as updating any cached pages (and caching previously
-> @@ -38,7 +46,27 @@ reclaim on memory pressure) or explicitly (invoked by close(2), fsync(2) and
->  when the last ref to the file is being released on munmap(2)).  This mode
->  assumes that all changes to the filesystem go through the FUSE kernel module
->  (size and atime/ctime/mtime attributes are kept up-to-date by the kernel), so
-> -it's generally not suitable for network filesystems.  If a partial page is
-> +it's generally not suitable for network filesystems (you can consider the
-> +writeback-cache-v2 mode mentioned latter for them).  If a partial page is
-
-                                     later
-
->  written, then the page needs to be first read from userspace.  This means, that
->  even for files opened for O_WRONLY it is possible that READ requests will be
->  generated by the kernel.
-
-
--- 
-~Randy
+Ciao, Thorsten
