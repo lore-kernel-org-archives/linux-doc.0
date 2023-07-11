@@ -2,116 +2,194 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47ABBC001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 20:14:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA98EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 20:18:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231309AbjGKUOt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 16:14:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40464 "EHLO
+        id S229937AbjGKUSi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 16:18:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230018AbjGKUOs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 16:14:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28865188;
-        Tue, 11 Jul 2023 13:14:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A9F1615F4;
-        Tue, 11 Jul 2023 20:14:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79250C433C9;
-        Tue, 11 Jul 2023 20:14:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689106486;
-        bh=QQ99VSEJ6m4sXmbmothGlilr6UcEysLFPY7XMiYqWYE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=F31+5G5q1kfmzpJ15gBHIwtHxL9nwCFFLcEOKirbusA2Twqp9jcnzJRCtb14dlq94
-         PjV0eAAjnd7Cd9joG25dBCL1xkx1chsR2rvqFGyerUkjJOXzEyr0nmjXAV93oeYoHr
-         m29+ZJu0dCzQLyaD+3cJI3ZPQ+s1BCFfnRyEIvacR8gaO/H4QBppX/wxTIlxkx38V8
-         7HPEQ/ThdwClPfg+enYIkIq7DobUatOn0MLuTyhWiICws1x6v/0LET2YeIEmf+qq8U
-         pRmOm3JmcsrKQ+leYH5bieK1ykedF2/GHCsOf/3Q+EawbagWjlfefvtjzi+sYdYbtY
-         jpvvU8v026JvA==
-Date:   Tue, 11 Jul 2023 13:14:43 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     Jiri Pirko <jiri@resnulli.us>, "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Message-ID: <20230711131443.2a4af476@kernel.org>
-In-Reply-To: <DM6PR11MB4657067EE043F4DBB9D8B03B9B31A@DM6PR11MB4657.namprd11.prod.outlook.com>
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
-        <ZJq3a6rl6dnPMV17@nanopsycho>
-        <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
-        <ZJwWXZmZe4lQ04iK@nanopsycho>
-        <DM6PR11MB4657751607C36FC711271D639B30A@DM6PR11MB4657.namprd11.prod.outlook.com>
-        <ZKv1FRTXWLnLGRRS@nanopsycho>
-        <DM6PR11MB46575D14FFE115546FDC9DEB9B31A@DM6PR11MB4657.namprd11.prod.outlook.com>
-        <ZK1CizcqjqO1L/RQ@nanopsycho>
-        <DM6PR11MB4657067EE043F4DBB9D8B03B9B31A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        with ESMTP id S229547AbjGKUSf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 16:18:35 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A0210D4
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 13:18:34 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-666ecf9a081so5417359b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 13:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1689106714; x=1691698714;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AHQ6nFJYzOLsxp4Cvh6Qt2yjVHqJxutm7vOmfrcNDX8=;
+        b=gU+6fKWqEDBFi3CMOReEhuawOezpwYZAZX2TlhxmqHfIyioJXL9zMXhX0oCoh138sV
+         t7XKc9BPuCaf/e1Rz9Mp2eM3CHX6gct6PNoZcWqFRFFbvu1FVvPCYgrzovVtk1PdAh5R
+         kjulHgyJApP6XV36S5thBRxGmtEJcR6oogkDyr4puqRV7n4xThnDwZ7HwrCRc97Aj+pd
+         X3s1YxuDDTAlF4Www/ONJF9cI2KHk6wbv0upXda9R0bGOg/9vKOAReqU4K7IXySqXgdA
+         Ua+WGYcaYhvAC5bj6PsD7qLSYQZZkIbhtB6NHaBp7Bbna9au5mwq+fQ1gw2hRGdNg6c0
+         M1HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689106714; x=1691698714;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AHQ6nFJYzOLsxp4Cvh6Qt2yjVHqJxutm7vOmfrcNDX8=;
+        b=OeiT5viwXqVdvjH/n7YKs9OWEER9lXKWKP2c5FhNis0OR9EEwxUGk/Kf0MfESQWCCh
+         B5WYJ9E1BsFLxfug+XiV5dG8ssD91MI+GR0gxCWjfCnUy2/SQ2WNAAxr2JPUB2oZkU3j
+         JxKzrFzEZqK6KPG4cNRfubV1+7gAdHBnCIfkvGoZ3LDbcxGjOQL7nptHFvcsenTibUwj
+         z6C8FqwZB4v0w7s0TvFOIlcPhuCtfxKdO7xkcJKYEtiFJiRRWRMyUD4DFByL9WKSfF7b
+         mSpGbHcaSTzDIa89kKaa01wCUhu1S8+kuDducz24KBLoknB5AT930bdnz55YOIQ/TVSw
+         0dmQ==
+X-Gm-Message-State: ABy/qLY04+OgpvmWCthQO1Mk74W71yAfpgvyo/YRG9rVItNEDTo38Sk6
+        2sQJj4AQw8YWyBOlpAmKhpe6gw==
+X-Google-Smtp-Source: APBJJlGW/76QXHpB92BCVxf9S/cFQibKuZxpLbyG6qJ+wjnJ9KEBPHPGtuTt+nGFTDquZLIOM4dpXQ==
+X-Received: by 2002:a05:6a00:2d84:b0:677:cda3:2222 with SMTP id fb4-20020a056a002d8400b00677cda32222mr18507941pfb.14.1689106714103;
+        Tue, 11 Jul 2023 13:18:34 -0700 (PDT)
+Received: from evan.ba.rivosinc.com ([66.220.2.162])
+        by smtp.gmail.com with ESMTPSA id j6-20020aa783c6000000b0063a04905379sm2100623pfn.137.2023.07.11.13.18.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jul 2023 13:18:33 -0700 (PDT)
+From:   Evan Green <evan@rivosinc.com>
+To:     Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        Evan Green <evan@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: [PATCH v4] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
+Date:   Tue, 11 Jul 2023 13:18:30 -0700
+Message-Id: <20230711201831.2695097-1-evan@rivosinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 11 Jul 2023 17:17:51 +0000 Kubalewski, Arkadiusz wrote:
-> >I think better to add the check to pin-register so future synce pin
-> >users don't have similar weird ideas. Could you please add this check?
-> 
-> Don't think it is way to go, and I don't think there is anything good
-> with preventing device drivers from labeling their pins the way they want.
+In /proc/cpuinfo, most of the information we show for each processor is
+specific to that hart: marchid, mvendorid, mimpid, processor, hart,
+compatible, and the mmu size. But the ISA string gets filtered through a
+lowest common denominator mask, so that if one CPU is missing an ISA
+extension, no CPUs will show it.
 
-We had a long argument about how label should have a clearly defined
-meaning. We're not going to rehash it on every revision. What did 
-I miss :|
+Now that we track the ISA extensions for each hart, let's report ISA
+extension info accurately per-hart in /proc/cpuinfo. We cannot change
+the "isa:" line, as usermode may be relying on that line to show only
+the common set of extensions supported across all harts. Add a new "hart
+isa" line instead, which reports the true set of extensions for that
+hart. This matches what is returned in riscv_hwprobe() when querying a
+given hart.
+
+Signed-off-by: Evan Green <evan@rivosinc.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+---
+
+Changes in v4:
+ - Documentation: Made the underline match the text line (Conor)
+ - Documentation: hanged "in question" to "being described" (Andrew)
+
+Changes in v3:
+ - Add some documentation (Conor)
+
+Changes in v2:
+ - Added new "hart isa" line rather than altering behavior of existing
+   "isa" line (Conor, Palmer)
+
+
+I based this series on top of Conor's riscv-extensions-strings branch
+from July 3rd, since otherwise this change gets hopelessly entangled
+with that series.
+
+---
+ Documentation/riscv/uabi.rst | 10 ++++++++++
+ arch/riscv/kernel/cpu.c      | 22 ++++++++++++++++++----
+ 2 files changed, 28 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
+index 8960fac42c40..afdda580e5a2 100644
+--- a/Documentation/riscv/uabi.rst
++++ b/Documentation/riscv/uabi.rst
+@@ -42,6 +42,16 @@ An example string following the order is::
+ 
+    rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
+ 
++"isa" vs "hart isa" lines in /proc/cpuinfo
++------------------------------------------
++
++The "isa" line in /proc/cpuinfo describes the lowest common denominator of
++RISC-V ISA extensions understood by the kernel and implemented on all harts. The
++"hart isa" line, in contrast, describes the set of extensions understood by the
++kernel on the particular hart being described, even if those extensions may not
++be present on all harts in the system. The "hart isa" line is consistent with
++what's returned by __riscv_hwprobe() when querying for that specific CPU.
++
+ Misaligned accesses
+ -------------------
+ 
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 1acf3679600d..6264b7b94945 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -197,9 +197,8 @@ arch_initcall(riscv_cpuinfo_init);
+ 
+ #ifdef CONFIG_PROC_FS
+ 
+-static void print_isa(struct seq_file *f)
++static void print_isa(struct seq_file *f, const unsigned long *isa_bitmap)
+ {
+-	seq_puts(f, "isa\t\t: ");
+ 
+ 	if (IS_ENABLED(CONFIG_32BIT))
+ 		seq_write(f, "rv32", 4);
+@@ -207,7 +206,7 @@ static void print_isa(struct seq_file *f)
+ 		seq_write(f, "rv64", 4);
+ 
+ 	for (int i = 0; i < riscv_isa_ext_count; i++) {
+-		if (!__riscv_isa_extension_available(NULL, riscv_isa_ext[i].id))
++		if (!__riscv_isa_extension_available(isa_bitmap, riscv_isa_ext[i].id))
+ 			continue;
+ 
+ 		/* Only multi-letter extensions are split by underscores */
+@@ -271,7 +270,15 @@ static int c_show(struct seq_file *m, void *v)
+ 
+ 	seq_printf(m, "processor\t: %lu\n", cpu_id);
+ 	seq_printf(m, "hart\t\t: %lu\n", cpuid_to_hartid_map(cpu_id));
+-	print_isa(m);
++
++	/*
++	 * For historical raisins, the isa: line is limited to the lowest common
++	 * denominator of extensions supported across all harts. A true list of
++	 * extensions supported on this hart is printed later in the hart_isa:
++	 * line.
++	 */
++	seq_puts(m, "isa\t\t: ");
++	print_isa(m, NULL);
+ 	print_mmu(m);
+ 
+ 	if (acpi_disabled) {
+@@ -287,6 +294,13 @@ static int c_show(struct seq_file *m, void *v)
+ 	seq_printf(m, "mvendorid\t: 0x%lx\n", ci->mvendorid);
+ 	seq_printf(m, "marchid\t\t: 0x%lx\n", ci->marchid);
+ 	seq_printf(m, "mimpid\t\t: 0x%lx\n", ci->mimpid);
++
++	/*
++	 * Print the ISA extensions specific to this hart, which may show
++	 * additional extensions not present across all harts.
++	 */
++	seq_puts(m, "hart isa\t: ");
++	print_isa(m, hart_isa[cpu_id].isa);
+ 	seq_puts(m, "\n");
+ 
+ 	return 0;
+-- 
+2.34.1
+
