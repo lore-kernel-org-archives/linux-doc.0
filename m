@@ -2,111 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7328CEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 03:25:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C6EEB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 03:31:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230017AbjGKDZ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jul 2023 23:25:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55660 "EHLO
+        id S229652AbjGKDbL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jul 2023 23:31:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbjGKDZ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 23:25:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F079DA
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 20:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689045883;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=bj1nFMlX6IrlygC3UiCib90ggxtKBa1bC1e3kuNGIGw=;
-        b=ERZd20PHFlCLw41TA4Sm/fTbcFdPDLOEqHqg5R9wA5caotV0O8/W4HWqQe/WFbmf3G7M5j
-        JqaSkRmDQ0B30IgV4JHmjHtC0XbVrzZ2VVFXC9LcoyHBP+x7zEwZUmwm4MJd9Tk584dOQ5
-        p01bKcdUgeM9TD/RzF2h6PG14XT7uAg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-ZWqJQPhYO0Gqnk1uTT0naQ-1; Mon, 10 Jul 2023 23:24:39 -0400
-X-MC-Unique: ZWqJQPhYO0Gqnk1uTT0naQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A17A01C07243;
-        Tue, 11 Jul 2023 03:24:38 +0000 (UTC)
-Received: from [10.22.18.171] (unknown [10.22.18.171])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6DDEF40C206F;
-        Tue, 11 Jul 2023 03:24:37 +0000 (UTC)
-Message-ID: <82aeb5aa-7d69-78dd-bb26-60a51dc8a839@redhat.com>
-Date:   Mon, 10 Jul 2023 23:24:37 -0400
+        with ESMTP id S229496AbjGKDbK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jul 2023 23:31:10 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 591CACE;
+        Mon, 10 Jul 2023 20:31:06 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36B2qEi7000675;
+        Tue, 11 Jul 2023 03:30:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=2E5Wwf9zHynho7YeHL1uNkcW/BeMipMerE6+V7msgwY=;
+ b=IXfoD3tnf3yuTxPk5QEEODaQTBDcwCWehfOYpU5OPNfQJ2W01WpDLJugS2CsnEAaCXc0
+ ZXb5lerFqo6eQO8z1Ikwwi/rHs1csJebeTRoJfBBIzIFvlbyMwtccORQYS5Pdn6j+fTw
+ VeoNdq7bIbuvsHqT6FYkRoAcMOC/EX9Kxs6n2Mc6+pA6/o5ioERDukxhzD3xt65raRns
+ zn5I8Ckw+frTvmWnOpS9fOO+zV9jGivjiOPSQaFeQa+KCXc6JKRnnkERdO9X3vMWFkdn
+ 4C26IaI1POAKjcIqHAAKP7cFX3EjzC2CSqbcQ2YZ4dyPmAQDriLWZ5neE87yPfw6haIu pA== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rrx7yg2u9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 11 Jul 2023 03:30:51 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36B3UoKh001774
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 11 Jul 2023 03:30:50 GMT
+Received: from [10.239.133.73] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 10 Jul
+ 2023 20:30:47 -0700
+Message-ID: <6e07ad52-2629-346e-6217-ec07777ebc5b@quicinc.com>
+Date:   Tue, 11 Jul 2023 11:30:44 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4 8/9] cgroup/cpuset: Documentation update for partition
-Content-Language: en-US
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Mrunal Patel <mpatel@redhat.com>,
-        Ryan Phillips <rphillips@redhat.com>,
-        Brent Rowsell <browsell@redhat.com>,
-        Peter Hunt <pehunt@redhat.com>, Phil Auld <pauld@redhat.com>
-References: <20230627143508.1576882-1-longman@redhat.com>
- <20230627143508.1576882-9-longman@redhat.com>
- <ZKx4ZJowRhRtjZxB@slm.duckdns.org>
- <6d5aee58-f558-868c-76e0-0b58f8332110@redhat.com>
- <ZKyljsbJgLNpsBLI@slm.duckdns.org>
- <a429e60a-fc4f-60b0-3978-71596fed9542@redhat.com>
- <ZKyrP74UzVb4Ltwi@slm.duckdns.org>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <ZKyrP74UzVb4Ltwi@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+To:     Marc Zyngier <maz@kernel.org>
+CC:     <will@kernel.org>, <corbet@lwn.net>, <catalin.marinas@arm.com>,
+        <quic_pkondeti@quicinc.com>, <quic_kaushalk@quicinc.com>,
+        <quic_satyap@quicinc.com>, <quic_shashim@quicinc.com>,
+        <quic_songxue@quicinc.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
+ <875y6s8bwb.wl-maz@kernel.org>
+ <32f442e3-3d5c-4cec-9791-0da039f88287@quicinc.com>
+ <874jmc8654.wl-maz@kernel.org>
+From:   "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
+In-Reply-To: <874jmc8654.wl-maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: GVrel2fJN7N_WB35GqcX8c5jdxgxhIwD
+X-Proofpoint-ORIG-GUID: GVrel2fJN7N_WB35GqcX8c5jdxgxhIwD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-10_18,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 malwarescore=0 mlxscore=0
+ mlxlogscore=999 lowpriorityscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2307110029
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/10/23 21:07, Tejun Heo wrote:
-> Hello,
->
-> On Mon, Jul 10, 2023 at 08:53:18PM -0400, Waiman Long wrote:
->> For local partition, it doesn't make sense to have a cpust.cpus.exclusive
->> that is not the same as cpuset.cpus as it artificially reduce the set of
->> CPUs that can be used in a partition. In the case of a remote partition, the
-> Yeah, I was wondering about local partitions. "Automatic but can be
-> overridden" behavior becomes confusing if it's difficult for the user to
-> easily tell which part is automatic when. I wonder whether it'd be better to
-> make the condition static - e.g. for a partition cgroup, cpus.exclusive
-> always contains all bits in cpus no matter what value is written to it. Or,
-> if we separate out cpus.exclusive and cpus.exclusive.effective, no matter
-> what cpus.exclusive is set, a partition root's cpus.exclusive.effective
-> always includes all bits in cpus.effective.
+On 7/10/2023 5:31 PM, Marc Zyngier wrote:
+> On Mon, 10 Jul 2023 09:19:54 +0100,
+> "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com> wrote:
+>>
+>> On 7/10/2023 3:27 PM, Marc Zyngier wrote:
+>>> On Mon, 10 Jul 2023 06:59:55 +0100,
+>>> Maria Yu <quic_aiquny@quicinc.com> wrote:
+>>>>
+>>>> In order to be able to disable lse_atomic even if cpu
+>>>> support it, most likely because of memory controller
+>>>> cannot deal with the lse atomic instructions, use a
+>>>> new idreg override to deal with it.
+>>>
+>>> In general, the idreg overrides are *not* there to paper over HW bugs.
+>>> They are there to force the kernel to use or disable a feature for
+>>> performance reason or to guide the *enabling* of a feature, but not
+>>> because the HW is broken.
+>>>
+>>> The broken status of a HW platform must also be documented so that we
+>>> know what to expect when we look at, for example, a bad case of memory
+>>> corruption (something I'd expect to see on a system that only
+>>> partially implements atomic memory operations).
+>>>
+>>
+>> good idea. A noc error would be happened if the lse atomic instruction
+>> happened during a memory controller doesn't support lse atomic
+>> instructions.
+>> I can put the information in next patchset comment message. Pls feel
+>> free to let know if there is other place to have this kind of
+>> information with.
+> 
+> For a start, Documentation/arch/arm64/silicon-errata.rst should
+> contain an entry for the actual erratum, and a description of the
+> symptoms of the issue (you're mentioning a "noc error": how is that
+> reported to the CPU?).
 
-With no offline CPUs, cpus.effective should be the same as 
-cpus.exclusive.effective for a valid partition root. Here 
-cpus.exclusive.effective is a bit different from cpus.effective as it 
-can contain offline cpus. It also mean that adding 
-cpus.exclusive.effective can be redundant.
+This is not a cpu's errata as my understanding. It is the DDR subsystem 
+which don't have the LSE atomic feature supported.
+> 
+> The workaround should also be detected at runtime -- we cannot rely on
+> the user to provide a command-line argument to disable an essential
+> feature that anyone has taken for granted for most of a decade...
 
-As said before, I try to avoid adding new cpuset control file unless 
-absolutely necessary. I now have a slight different proposal. Once 
-manually set, I can keep cpuset.cpus.exclusive invariant. I do need to 
-do a bit more work when enabling a partition root to find out the 
-effective set of exclusive CPUs to be used or make the partition invalid 
-if no exclusive CPU is available. I still want to do a initial check 
-when setting cpuset.cpus.exclusive to make sure that the value is at 
-least valid at the beginning.
+We are also seeking help from DDR Subsystem POC to see whether it is 
+possible to detect the LSE atomic feature support or not at runtime.
 
-Do you think this is an acceptable compromise?
+In my opinion, LSE atomic is a system level feature instead of a cpu 
+only feature. So currently solution we is that even if cpu support lse 
+atomic, but it still needed to be disabled if the cpu working with a lse 
+atomic not support by current system's DDR subsystem.
 
-Thanks,
-Longman
+> 
+> [...]
+> 
+>>>> @@ -185,6 +195,7 @@ static const struct {
+>>>>    	{ "arm64.nomops",		"id_aa64isar2.mops=0" },
+>>>>    	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
+>>>>    	{ "nokaslr",			"arm64_sw.nokaslr=1" },
+>>>> +	{ "arm64.nolse_atomic",         "id_aa64isar0.atomic=0" },
+>>>
+>>> And what of 32bit?
+> 
+> This particular question still stands, as it is likely to affect VMs.
+> 
+> 	M.
+> 
+
+-- 
+Thx and BRs,
+Aiqun(Maria) Yu
 
