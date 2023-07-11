@@ -2,85 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B98EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 08:42:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACDE7C0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 08:57:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbjGKImR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 04:42:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53100 "EHLO
+        id S229496AbjGKI5k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 04:57:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230128AbjGKImP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 04:42:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF24EAD;
-        Tue, 11 Jul 2023 01:42:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7D13C61384;
-        Tue, 11 Jul 2023 08:42:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C37C433C8;
-        Tue, 11 Jul 2023 08:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689064933;
-        bh=QWqb6klTfmzfPW+ObPRcGzlmwX27fx2bnikx5E4aU60=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oBQfTfUvpoLnrtR0W+2pR+8XNjfYaY6d4/QQSdqWSykbFjvleVQtpGqlgzFO5556H
-         IXw89gq/zYeahe1kOtiKC+EW5+HfDVvRcAsbG8M4ZBOngVHJZn/wt00sjzeuUvV1Od
-         4hYkN2iUxChLyl/FR4WzFJxIKJx9hmRohycLafQ/ubJaffUCR505YGzHRFi3ndDESq
-         VrQfrtEqR/CCT8NqKgzCS4NZ11Ir4LqGdA3yjM64481uSIV4AMxGy/+udPfQl5RIu/
-         YFNE+MUyvovFuLGObmgEBFXgZmz0Ht9EnPUqtc6v66IXWRn1f6Wde6q2F28htCT+dv
-         fCsvCS4y09SSg==
-Received: from johan by xi.lan with local (Exim 4.96)
-        (envelope-from <johan@kernel.org>)
-        id 1qJ8xF-0007QV-2r;
-        Tue, 11 Jul 2023 10:42:42 +0200
-Date:   Tue, 11 Jul 2023 10:42:41 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
+        with ESMTP id S230163AbjGKI5k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 04:57:40 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73A031A2;
+        Tue, 11 Jul 2023 01:57:38 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qJ9Bg-0003aY-9c; Tue, 11 Jul 2023 10:57:36 +0200
+Message-ID: <fa420ff8-1d9c-0ca5-0de2-c6e9a75a1b6f@leemhuis.info>
+Date:   Tue, 11 Jul 2023 10:57:35 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US, de-DE
+To:     Johan Hovold <johan@kernel.org>
 Cc:     Greg KH <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Sasha Levin <sashal@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
- backporting option and a few tweaks
-Message-ID: <ZK0WAbB2P8wFWPCu@hovoldconsulting.com>
 References: <cover.1689008220.git.linux@leemhuis.info>
  <29fb398b-a81c-70f9-f67c-21daaa42e4f7@leemhuis.info>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <29fb398b-a81c-70f9-f67c-21daaa42e4f7@leemhuis.info>
+ <ZK0WAbB2P8wFWPCu@hovoldconsulting.com>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
+ backporting option and a few tweaks
+In-Reply-To: <ZK0WAbB2P8wFWPCu@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689065858;cf2d1b24;
+X-HE-SMSGID: 1qJ9Bg-0003aY-9c
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 07:18:43PM +0200, Thorsten Leemhuis wrote:
-> On 10.07.23 19:10, Thorsten Leemhuis wrote:
-
-> >  * For patches that may have kernel version prerequisites specify them using
-> >    the following format in the sign-off area:
-> > 
-> >    .. code-block:: none
-> > 
-> >      Cc: <stable@vger.kernel.org> # 3.3.x
-> > 
-> >    The tag has the meaning of:
-> > 
-> >    .. code-block:: none
-> > 
-> >      git cherry-pick <this commit>
-> > 
-> >    For each "-stable" tree starting with the specified version.
+On 11.07.23 10:42, Johan Hovold wrote:
+> On Mon, Jul 10, 2023 at 07:18:43PM +0200, Thorsten Leemhuis wrote:
+>> On 10.07.23 19:10, Thorsten Leemhuis wrote:
 > 
-> /me wonders if something like a "note, such tagging is unnecessary if
-> the appropriate version can be derived from a Fixes: tag" would be
-> appropriate and worth it here
+>>>  * For patches that may have kernel version prerequisites specify them using
+>>>    the following format in the sign-off area:
+>>>
+>>>    .. code-block:: none
+>>>
+>>>      Cc: <stable@vger.kernel.org> # 3.3.x
+>>>
+>>>    The tag has the meaning of:
+>>>
+>>>    .. code-block:: none
+>>>
+>>>      git cherry-pick <this commit>
+>>>
+>>>    For each "-stable" tree starting with the specified version.
+>>
+>> /me wonders if something like a "note, such tagging is unnecessary if
+>> the appropriate version can be derived from a Fixes: tag" would be
+>> appropriate and worth it here
+> 
+> Having these comments in the patch itself makes it easier to determine
+> whether a fix addresses a recent regression or an issue that's been
+> around since forever without having to copy-paste and look up each
+> commit in the Fixes tag(s).
 
-Having these comments in the patch itself makes it easier to determine
-whether a fix addresses a recent regression or an issue that's been
-around since forever without having to copy-paste and look up each
-commit in the Fixes tag(s).
+Hmmm. But that can be misleading, as something like "Cc:
+<stable@vger.kernel.org> # 3.3.x" might only have been used because the
+submitter only tested if the change applies and works there while not
+bothering with earlier kernels; similar things can happen if 3.2 and
+earlier required changes to the patch due to API changes or file
+movements the submitter was not willing to handle.
 
-Johan
+But I don't care. I already integrated a change like outlined earlier in
+my local WIP document, but I can quickly remove it again.
+
+Ciao, Thorsten
