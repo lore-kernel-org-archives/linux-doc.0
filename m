@@ -2,88 +2,205 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AB6AEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 08:22:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB4FEB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 08:38:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbjGKIWj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 04:22:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41928 "EHLO
+        id S230035AbjGKIi4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 04:38:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbjGKIWi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 04:22:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E6091;
-        Tue, 11 Jul 2023 01:22:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2F7986136C;
-        Tue, 11 Jul 2023 08:22:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69C54C433C8;
-        Tue, 11 Jul 2023 08:22:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689063756;
-        bh=nA/0HHKApOjo4ebOQAYBWybrleEkpT23SyXmQekfRRw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ll/fOj6keaEqkWYdfQdmE9hijwu3oeVdT4Hu9opB1+5T6I+kgNiRjYEGew17HGQqs
-         hRElcg2uvSxkIsmRriYQm62Ag5KKdyYf7BoZ3HML0AWCtmCOKfy+gACKxrzLWpG3RY
-         D29AcWgMNnwzylEXCeu3ZK3n16HOfKeDmlgDvPe0f4f//X3tGZ0HRDdNzVcfJXI7m6
-         9U1QsxPhJCIjDikZSFn07TtCwU49D8uhIqCsrgSfEpP7zJLcxLRaEFHJhPZ0o6tVdI
-         wDyvGpj2XdmVwJPBpHzYqX29oJcQs9dxcl9oms2FS7kETiWMPp/OQAtrMHdaP8qrzj
-         NXVzColV9Z7MA==
-Date:   Tue, 11 Jul 2023 09:22:31 +0100
-From:   Will Deacon <will@kernel.org>
-To:     "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
-Cc:     corbet@lwn.net, catalin.marinas@arm.com, maz@kernel.org,
-        quic_pkondeti@quicinc.com, quic_kaushalk@quicinc.com,
-        quic_satyap@quicinc.com, quic_shashim@quicinc.com,
-        quic_songxue@quicinc.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
-Message-ID: <20230711082226.GA1554@willie-the-truck>
-References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
- <20230710093751.GC32673@willie-the-truck>
- <5cf15f85-0397-96f7-4110-13494551b53b@quicinc.com>
+        with ESMTP id S229769AbjGKIiz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 04:38:55 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED08C0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 01:38:53 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-314417861b9so5468076f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 01:38:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1689064732; x=1691656732;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wlgprI0JyP56APEsHhB8r5x7x5aPnleu5dukyGgRaIw=;
+        b=ELZVM/RMZqGcLMCnJd6woEA+W6+CZ8oFFs/q4MGTbqlL46t7/ONJ6KRSIYvICaT0yc
+         WFsbblZeo4WpgLdBoR3iYN0YmvXVT8pxk9ZaKtc0nUWanUCozQ3mgvW6tlbzhwiGVyEZ
+         jbQHfYykumlfPPfYn+UlLENuldS4ldunwC2kHMKTJyrw0d9QGqsoekDkDWXTVQcE7cYy
+         ZN4MqjupdVMAyYPyQcE6yRSUgGMPvHGS9V331CSzlaOl72DmGZfUV2jM+RL7Ou2uOAMl
+         JVQbRMWTJYBHbGOFTHVEqip2r51EEED2XwDw2h3fRoMpuD5E54uQ/bR4b0SWzTjZiYJ+
+         2s/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689064732; x=1691656732;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wlgprI0JyP56APEsHhB8r5x7x5aPnleu5dukyGgRaIw=;
+        b=LPRXcNms5tm7K9u2jCfA1bI+SDAne6j0wKRJiT5mz+YOB1IbdjZIHaAd/NcQySxWgC
+         cGeAQZH6vt5N64Lt+mSWay0aWWDzqSxPPp274T/DZvKvOwLTDx3/7/Ab36ldfqgphHTp
+         1oFs6STLB5BuCBwFxtD8SE7Fcd2kGbYUDWOCu68J1hj1TKZXpfKl5nwVf74DvkfeXSq2
+         B1aSJuvJmPAElAch9y4UKM0pbDz9bapM60dAPfRj8e7cHkMrZtJuGxpAoUtJZmkuW7w+
+         3W5E72dZzuDF57IpFAjNIgg34dFXYb8KrvHs/aUICgXRPVlHXfv5FYD01Jvq2Y8QOxIN
+         qWdw==
+X-Gm-Message-State: ABy/qLbwfpQJmWFz+FAl6aYLevNUS5y9keQiPUn8sTXPgpW+zdn1rbOY
+        GbSHdI4dImKActaYNKM6EQQIMg==
+X-Google-Smtp-Source: APBJJlHrYEg6YkvG3Eo4/aBAI5g7mqzkqBM/03YwAmExsZBveWNTNvGmYLZDkcJhQK7mr48DCYNSbw==
+X-Received: by 2002:a5d:4284:0:b0:314:ac1:d12a with SMTP id k4-20020a5d4284000000b003140ac1d12amr15655301wrq.26.1689064732218;
+        Tue, 11 Jul 2023 01:38:52 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id n8-20020a5d6b88000000b003141e9e2f81sm1641924wrx.4.2023.07.11.01.38.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jul 2023 01:38:51 -0700 (PDT)
+Date:   Tue, 11 Jul 2023 10:38:51 +0200
+From:   Andrew Jones <ajones@ventanamicro.com>
+To:     Evan Green <evan@rivosinc.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <apatel@ventanamicro.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v3] RISC-V: Show accurate per-hart isa in /proc/cpuinfo
+Message-ID: <20230711-d4ca408bba1621c56c3f166b@orel>
+References: <20230710192413.2089085-1-evan@rivosinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5cf15f85-0397-96f7-4110-13494551b53b@quicinc.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20230710192413.2089085-1-evan@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 11, 2023 at 12:02:22PM +0800, Aiqun(Maria) Yu wrote:
-> On 7/10/2023 5:37 PM, Will Deacon wrote:
-> > On Mon, Jul 10, 2023 at 01:59:55PM +0800, Maria Yu wrote:
-> > > In order to be able to disable lse_atomic even if cpu
-> > > support it, most likely because of memory controller
-> > > cannot deal with the lse atomic instructions, use a
-> > > new idreg override to deal with it.
-> > 
-> > This should not be a problem for cacheable memory though, right?
-> > 
-> > Given that Linux does not issue atomic operations to non-cacheable mappings,
-> > I'm struggling to see why there's a problem here.
+On Mon, Jul 10, 2023 at 12:24:13PM -0700, Evan Green wrote:
+> In /proc/cpuinfo, most of the information we show for each processor is
+> specific to that hart: marchid, mvendorid, mimpid, processor, hart,
+> compatible, and the mmu size. But the ISA string gets filtered through a
+> lowest common denominator mask, so that if one CPU is missing an ISA
+> extension, no CPUs will show it.
 > 
-> The lse atomic operation can be issued on non-cacheable mappings as well.
-> Even if it is cached data, with different CPUECTLR_EL1 setting, it can also
-> do far lse atomic operations.
-
-Please can you point me to the place in the kernel sources where this
-happens? The architecture doesn't guarantee that atomics to non-cacheable
-mappings will work, see "B2.2.6 Possible implementation restrictions on
-using atomic instructions". Linux, therefore, doesn't issue atomics
-to non-cacheable memory.
-
-> > Please can you explain the problem that you are trying to solve?
+> Now that we track the ISA extensions for each hart, let's report ISA
+> extension info accurately per-hart in /proc/cpuinfo. We cannot change
+> the "isa:" line, as usermode may be relying on that line to show only
+> the common set of extensions supported across all harts. Add a new "hart
+> isa" line instead, which reports the true set of extensions for that
+> hart. This matches what is returned in riscv_hwprobe() when querying a
+> given hart.
 > 
-> In our current case, it is a 100% reproducible issue that happened for
-> uncached data, the cpu which support LSE atomic, but the system's DDR
-> subsystem is not support this and caused a NOC error and thus synchronous
-> external abort happened.
+> Signed-off-by: Evan Green <evan@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> 
+> ---
+> 
+> Changes in v3:
+>  - Add some documentation (Conor)
+> 
+> Changes in v2:
+>  - Added new "hart isa" line rather than altering behavior of existing
+>    "isa" line (Conor, Palmer)
+> 
+> 
+> I based this series on top of Conor's riscv-extensions-strings branch
+> from July 3rd, since otherwise this change gets hopelessly entangled
+> with that series.
+> 
+> ---
+>  Documentation/riscv/uabi.rst | 10 ++++++++++
+>  arch/riscv/kernel/cpu.c      | 22 ++++++++++++++++++----
+>  2 files changed, 28 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
+> index 8960fac42c40..4f462f5b168c 100644
+> --- a/Documentation/riscv/uabi.rst
+> +++ b/Documentation/riscv/uabi.rst
+> @@ -42,6 +42,16 @@ An example string following the order is::
+>  
+>     rv64imadc_zifoo_zigoo_zafoo_sbar_scar_zxmbaz_xqux_xrux
+>  
+> +"isa" vs "hart isa" lines in /proc/cpuinfo
+> +-----------------------------------------
+> +
+> +The "isa" line in /proc/cpuinfo describes the lowest common denominator of
+> +RISC-V ISA extensions understood by the kernel and implemented on all harts. The
+> +"hart isa" line, in contrast, describes the set of extensions understood by the
+> +kernel on the particular hart in question, even if those extensions may not be
 
-So? The Arm ARM allows this behaviour and Linux shouldn't run into it.
+Maybe
 
-Will
+...understood by the kernel for the specific hart associated with the
+"hart isa" line, even if...
+
+That's much wordier than "in question", but "in question" didn't ring well
+with me. Anyway, just food for thought, feel free to ignore.
+
+Thanks,
+drew
+
+
+> +present on all harts in the system. The "hart isa" line is consistent with
+> +what's returned by __riscv_hwprobe() when querying for that specific CPU.
+> +
+>  Misaligned accesses
+>  -------------------
+>  
+> diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+> index 1acf3679600d..6264b7b94945 100644
+> --- a/arch/riscv/kernel/cpu.c
+> +++ b/arch/riscv/kernel/cpu.c
+> @@ -197,9 +197,8 @@ arch_initcall(riscv_cpuinfo_init);
+>  
+>  #ifdef CONFIG_PROC_FS
+>  
+> -static void print_isa(struct seq_file *f)
+> +static void print_isa(struct seq_file *f, const unsigned long *isa_bitmap)
+>  {
+> -	seq_puts(f, "isa\t\t: ");
+>  
+>  	if (IS_ENABLED(CONFIG_32BIT))
+>  		seq_write(f, "rv32", 4);
+> @@ -207,7 +206,7 @@ static void print_isa(struct seq_file *f)
+>  		seq_write(f, "rv64", 4);
+>  
+>  	for (int i = 0; i < riscv_isa_ext_count; i++) {
+> -		if (!__riscv_isa_extension_available(NULL, riscv_isa_ext[i].id))
+> +		if (!__riscv_isa_extension_available(isa_bitmap, riscv_isa_ext[i].id))
+>  			continue;
+>  
+>  		/* Only multi-letter extensions are split by underscores */
+> @@ -271,7 +270,15 @@ static int c_show(struct seq_file *m, void *v)
+>  
+>  	seq_printf(m, "processor\t: %lu\n", cpu_id);
+>  	seq_printf(m, "hart\t\t: %lu\n", cpuid_to_hartid_map(cpu_id));
+> -	print_isa(m);
+> +
+> +	/*
+> +	 * For historical raisins, the isa: line is limited to the lowest common
+> +	 * denominator of extensions supported across all harts. A true list of
+> +	 * extensions supported on this hart is printed later in the hart_isa:
+> +	 * line.
+> +	 */
+> +	seq_puts(m, "isa\t\t: ");
+> +	print_isa(m, NULL);
+>  	print_mmu(m);
+>  
+>  	if (acpi_disabled) {
+> @@ -287,6 +294,13 @@ static int c_show(struct seq_file *m, void *v)
+>  	seq_printf(m, "mvendorid\t: 0x%lx\n", ci->mvendorid);
+>  	seq_printf(m, "marchid\t\t: 0x%lx\n", ci->marchid);
+>  	seq_printf(m, "mimpid\t\t: 0x%lx\n", ci->mimpid);
+> +
+> +	/*
+> +	 * Print the ISA extensions specific to this hart, which may show
+> +	 * additional extensions not present across all harts.
+> +	 */
+> +	seq_puts(m, "hart isa\t: ");
+> +	print_isa(m, hart_isa[cpu_id].isa);
+>  	seq_puts(m, "\n");
+>  
+>  	return 0;
+> -- 
+> 2.34.1
+> 
