@@ -2,270 +2,348 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7283EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 11:52:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B7C3EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 11:55:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbjGKLw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 07:52:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37618 "EHLO
+        id S230462AbjGKLzm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 07:55:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231515AbjGKLwz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 07:52:55 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B81E410DF
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 04:52:47 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-51de9c2bc77so6824116a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 04:52:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1689076366; x=1691668366;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VMmzAbnQPb+hff08oGBX7AMmQrEjQkPWbeWYbWnEb2s=;
-        b=R6I4rQhZNuJhcRNVBlXhhbzoUBbtJugUPtDeDqspmlhc0LV6PhoXCtdxQT2Fj0bM/Z
-         D3kIChr40ply4orCGt+9ajW59qGsXI0q8dwmTjUCDnDH0ulp9uyX3O+SsEKbO2t7vinl
-         8gTJudbGuaMlUr/F2U1aCITw8lqIDA7UGsx63ZT1ftAReQn3Gp7VbkcsmETP/cRAyQai
-         lkIOqNqDJFzyv3RRj/Q+MFuMldUziVBZazHL8K6x6ggiatiMyxzswv65kZTUd+/j30i/
-         ceCU0hZSdHB7C1BCm/DJGmgVIEJr/TryA/39HtCJ72a1xnXsajO8AG8nwixG6ViSclLN
-         u3GA==
+        with ESMTP id S230358AbjGKLzl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 07:55:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FB46E74
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 04:54:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689076494;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=7ltfs96G2qWIBv3AataMyvfNvs/ZxeZQ5SXPMZ0jduU=;
+        b=WVwBfM8nQFAfiW9lb85+5515meIglI+ow61U+wCER1hpAwAA8/pVvHdTTmpRXSw8gKK0Wz
+        1v6pLBmzE5bfUyPcaBtA5/AFzlv8kUj2HnEiDwbEdr3tHO96PIGDjqUym1rm9x5f6fKNCz
+        Qjxf+JhWPyXtuFwgcURupXgTpQfIeHY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-665-8bUnjs0MM9GYLW7ZBgbCxQ-1; Tue, 11 Jul 2023 07:54:53 -0400
+X-MC-Unique: 8bUnjs0MM9GYLW7ZBgbCxQ-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3fbe4cecd66so32346095e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 04:54:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689076366; x=1691668366;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VMmzAbnQPb+hff08oGBX7AMmQrEjQkPWbeWYbWnEb2s=;
-        b=MMB7PDxC3ytKJsTC26GBcHFqpc/KWObrZ3ypya4QVl5A7vt8wYCjuf/7MyRpm4brfl
-         06J7nPJ+vlIjP8P6wRqkjd1TrClN8nMDKy9VAsmSW3T2LQYF1k1vX0kIOVyaUvvQUPkP
-         Ez60OZ9FQ22i4Dp7xUuzT4FVb5m8+OWjomuHek3w8pgZiw9W7GFQWcPCS6tnVB9IRXit
-         EoSm9TV8RS12mAwg0SktjZtqnrrejSMSWXpcN/W+zAn0/TkhfiilI12ATzZr6izz13kR
-         Tb3NBJnT0d/JBfcGmLmGdRUtv/JJgOIJSUIJxR/rC41XvMpBto35cgt3q03iecKrVaiS
-         GWlQ==
-X-Gm-Message-State: ABy/qLY4rRU9paxXfn5heiwu1HZ3eo29nWijUhvZmDMOF4QVr0AcnXjh
-        C/owIv2u2t2fwF8YvKUXhyXUhw==
-X-Google-Smtp-Source: APBJJlFxRCgoFvFTryd/EnnLREOPOgp5+SxcfOYu5/wDWMNeLe4NvM0dWgV+6D/1iKEYw/AVIF+zFw==
-X-Received: by 2002:a05:6402:506:b0:51e:26c8:25f7 with SMTP id m6-20020a056402050600b0051e26c825f7mr14275781edv.42.1689076365929;
-        Tue, 11 Jul 2023 04:52:45 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id u8-20020aa7d888000000b0051e0f21c43fsm1148663edq.31.2023.07.11.04.52.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jul 2023 04:52:45 -0700 (PDT)
-Date:   Tue, 11 Jul 2023 13:52:43 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     "kuba@kernel.org" <kuba@kernel.org>,
-        "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Message-ID: <ZK1CizcqjqO1L/RQ@nanopsycho>
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
- <ZJq3a6rl6dnPMV17@nanopsycho>
- <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
- <ZJwWXZmZe4lQ04iK@nanopsycho>
- <DM6PR11MB4657751607C36FC711271D639B30A@DM6PR11MB4657.namprd11.prod.outlook.com>
- <ZKv1FRTXWLnLGRRS@nanopsycho>
- <DM6PR11MB46575D14FFE115546FDC9DEB9B31A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        d=1e100.net; s=20221208; t=1689076492; x=1691668492;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7ltfs96G2qWIBv3AataMyvfNvs/ZxeZQ5SXPMZ0jduU=;
+        b=iPWBiBigJZXbzgMTAHAOr8bd+qLzvtWcTh/Tf0hAswHMp/0GPwVPD2/SVLvkJoFEnf
+         aawp36IAL1xLUNKA491d8y77TOKjgTTxOyVDZEuog27WPb6h0Q0z2HlIvfuYA93X758t
+         tfsDKxuYzPy9pHQRJ7D3FroEs8cZW7XB3G0EpCzcMAYVo5w7x3z6iHQVJbbpKkmY/6SQ
+         WXQh3hncKbB8aie9molWsVtP4Dj0VcRHU0EHiJshizFFMpjmNQuiNBk1vE/xBi/xWoLw
+         otIp+QlMWDTIhWd0dEXGhkkLUxjHIB7XSiTP2HOwyMH4omsdyR0IX40yp5BYnnz4Nv1M
+         rEuQ==
+X-Gm-Message-State: ABy/qLbEhMFEXIqTAMDQjvnGT2xF++7WtDzT/zeTgKe1aDhsYp849oEO
+        /4w0fyuIbOCbaDvR4o5X5OULCfeAW6N0v/UCz051XdjdKjF49IQpqKb6aBeqELybtuCKigpm9w+
+        SB8ptqjyV7kZfpnzuVFCO
+X-Received: by 2002:a05:600c:294c:b0:3fb:ffef:d058 with SMTP id n12-20020a05600c294c00b003fbffefd058mr10788095wmd.0.1689076492104;
+        Tue, 11 Jul 2023 04:54:52 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlE7yk4/9a7qsVmPysU0XyK+niweGp79jZE0baAAQRDb45p7c5tsWj9aND6mntHhLvGNKiIlKw==
+X-Received: by 2002:a05:600c:294c:b0:3fb:ffef:d058 with SMTP id n12-20020a05600c294c00b003fbffefd058mr10788078wmd.0.1689076491720;
+        Tue, 11 Jul 2023 04:54:51 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c745:4000:13ad:ed64:37e6:115d? (p200300cbc745400013aded6437e6115d.dip0.t-ipconnect.de. [2003:cb:c745:4000:13ad:ed64:37e6:115d])
+        by smtp.gmail.com with ESMTPSA id 24-20020a05600c22d800b003fbaade072dsm2360201wmg.23.2023.07.11.04.54.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jul 2023 04:54:51 -0700 (PDT)
+Message-ID: <c7d4364c-a067-567e-3248-6a0589d85472@redhat.com>
+Date:   Tue, 11 Jul 2023 13:54:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM6PR11MB46575D14FFE115546FDC9DEB9B31A@DM6PR11MB4657.namprd11.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] dma-contiguous: support numa CMA for specified node
+Content-Language: en-US
+To:     Yajun Deng <yajun.deng@linux.dev>, corbet@lwn.net, hch@lst.de,
+        m.szyprowski@samsung.com, robin.murphy@arm.com,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        catalin.marinas@arm.com, rdunlap@infradead.org,
+        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, linux-mm@kvack.org
+References: <20230710074944.3501810-1-yajun.deng@linux.dev>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230710074944.3501810-1-yajun.deng@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tue, Jul 11, 2023 at 12:34:11PM CEST, arkadiusz.kubalewski@intel.com wrote:
->>From: Jiri Pirko <jiri@resnulli.us>
->>Sent: Monday, July 10, 2023 2:10 PM
->>
->>Mon, Jul 10, 2023 at 12:07:30PM CEST, arkadiusz.kubalewski@intel.com wrote:
->>>>From: Jiri Pirko <jiri@resnulli.us>
->>>>Sent: Wednesday, June 28, 2023 1:16 PM
->>>>Wed, Jun 28, 2023 at 11:15:11AM CEST, arkadiusz.kubalewski@intel.com
->>wrote:
->>>>>>From: Jiri Pirko <jiri@resnulli.us>
->>>>>>Sent: Tuesday, June 27, 2023 12:18 PM
->>>>>>
->>>>>>Fri, Jun 23, 2023 at 02:38:10PM CEST, arkadiusz.kubalewski@intel.com
->>>>>>wrote:
->>>>>>
->>>>>>>v8 -> v9:
->>>>>>
->>>>>>Could you please address all the unresolved issues from v8 and send v10?
->>>>>>I'm not reviewing this one.
->>>>>>
->>>>>>Thanks!
->>>>>
->>>>>Sure, will do, but first missing to-do/discuss list:
->>>>>1) remove mode_set as not used by any driver
->>>
->>>I have implemented in ice (also added back the DPLL_MODE_FREERUN).
->>
->>Uh :/ Why exactly is it needed in this initial submission?
->>
->
->Without mode-set there is no need for device-set at all, right?
->So it is better to implement at least one set command, so we don't
->need remove device-set command entirely.
+On 10.07.23 09:49, Yajun Deng wrote:
+> The kernel parameter 'cma_pernuma=' only supports reserving the same
+> size of CMA area for each node. We need to reserve different sizes of
+> CMA area for specified nodes if these devices belong to different nodes.
+> 
+> Change kernel parameter from 'cma_pernuma=' to 'numa_cma='. If node
+> isn't specified, it will reserve CMA area for per-numa node. if the node
+> is specified, it will reserve CMA area for the specified node.
+> 
+> At the same time, print the node id in cma_declare_contiguous_nid() if
+> enabled CONFIG_NUMA.
+> 
+> Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
+> ---
+>   .../admin-guide/kernel-parameters.txt         | 17 ++--
+>   kernel/dma/Kconfig                            | 11 +--
+>   kernel/dma/contiguous.c                       | 90 +++++++++++++------
+>   mm/cma.c                                      | 12 ++-
+>   4 files changed, 89 insertions(+), 41 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index bdf0ab6716c8..b287647f0873 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -695,14 +695,19 @@
+>   			altogether. For more information, see
+>   			kernel/dma/contiguous.c
+>   
+> -	cma_pernuma=nn[MG]
+> +	numa_cma=nn[MG] or (node format)
+> +			    <node>:nn[MG][,<node>:nn[MG]]
+>   			[KNL,CMA]
+> -			Sets the size of kernel per-numa memory area for
+> +			Sets the size of kernel numa memory area for
+>   			contiguous memory allocations. A value of 0 disables
+> -			per-numa CMA altogether. And If this option is not
+> -			specified, the default value is 0.
+> -			With per-numa CMA enabled, DMA users on node nid will
+> -			first try to allocate buffer from the pernuma area
+> +			numa CMA altogether. If this option is not specified,
+> +			the default value is 0. If node isn't specified, it
+> +			will reserve CMA area for per-numa node, if the node
+> +			is specified, it will reserve CMA area for the
+> +			specified node.
+> +
+> +			With numa CMA enabled, DMA users on node nid will
+> +			first try to allocate buffer from the numa area
+>   			which is located in node nid, if the allocation fails,
+>   			they will fallback to the global default memory area.
+>   
+> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
+> index 7afde9bc529f..f07fb97ef3e8 100644
+> --- a/kernel/dma/Kconfig
+> +++ b/kernel/dma/Kconfig
+> @@ -145,15 +145,16 @@ config DMA_CMA
+>   
+>   if  DMA_CMA
+>   
+> -config DMA_PERNUMA_CMA
+> -	bool "Enable separate DMA Contiguous Memory Area for each NUMA Node"
+> +config DMA_NUMA_CMA
+> +	bool "Enable separate DMA Contiguous Memory Area for NUMA Node"
+>   	default NUMA
+>   	help
+> -	  Enable this option to get pernuma CMA areas so that NUMA devices
+> +	  Enable this option to get numa CMA areas so that NUMA devices
+>   	  can get local memory by DMA coherent APIs.
+>   
+> -	  You can set the size of pernuma CMA by specifying "cma_pernuma=size"
+> -	  on the kernel's command line.
+> +	  You can set the size of pernuma CMA by specifying "numa_cma=size"
+> +	  or set the node id and its size of CMA by specifying "numa_cma=
+> +	  <node>:size[,<node>:size]" on the kernel's command line.
+>   
+>   comment "Default contiguous memory area size:"
+>   
+> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+> index 26a8e5365fcd..bf62d78abff7 100644
+> --- a/kernel/dma/contiguous.c
+> +++ b/kernel/dma/contiguous.c
+> @@ -50,6 +50,7 @@
+>   #include <linux/sizes.h>
+>   #include <linux/dma-map-ops.h>
+>   #include <linux/cma.h>
+> +#include <linux/nospec.h>
+>   
+>   #ifdef CONFIG_CMA_SIZE_MBYTES
+>   #define CMA_SIZE_MBYTES CONFIG_CMA_SIZE_MBYTES
+> @@ -96,17 +97,44 @@ static int __init early_cma(char *p)
+>   }
+>   early_param("cma", early_cma);
+>   
+> -#ifdef CONFIG_DMA_PERNUMA_CMA
+> +#ifdef CONFIG_DMA_NUMA_CMA
+>   
+> -static struct cma *dma_contiguous_pernuma_area[MAX_NUMNODES];
+> +static struct cma *dma_contiguous_numa_area[MAX_NUMNODES];
+>   static phys_addr_t pernuma_size_bytes __initdata;
+> +static phys_addr_t numa_cma_size_in_node[MAX_NUMNODES] __initdata;
+>   
+> -static int __init early_cma_pernuma(char *p)
+> +static int __init early_numa_cma(char *p)
+>   {
+> -	pernuma_size_bytes = memparse(p, &p);
+> +	int nid, count = 0;
+> +	unsigned long tmp;
+> +	char *s = p;
+> +
+> +	while (*s) {
+> +		if (sscanf(s, "%lu%n", &tmp, &count) != 1)
+> +			break;
+> +
+> +		if (s[count] == ':') {
+> +			if (tmp >= MAX_NUMNODES)
+> +				break;
+> +			nid = array_index_nospec(tmp, MAX_NUMNODES);
+> +
+> +			s += count + 1;
+> +			tmp = memparse(s, &s);
+> +			numa_cma_size_in_node[nid] = tmp;
+> +
+> +			if (*s == ',')
+> +				s++;
+> +			else
+> +				break;
+> +		} else {
+> +			pernuma_size_bytes = memparse(p, &p);
+> +			break;
+> +		}
+> +	}
+> +
+>   	return 0;
+>   }
+> -early_param("cma_pernuma", early_cma_pernuma);
+> +early_param("numa_cma", early_numa_cma);
+>   #endif
+>   
+>   #ifdef CONFIG_CMA_SIZE_PERCENTAGE
+> @@ -127,34 +155,42 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
+>   
+>   #endif
+>   
+> -#ifdef CONFIG_DMA_PERNUMA_CMA
+> -static void __init dma_pernuma_cma_reserve(void)
+> +#ifdef CONFIG_DMA_NUMA_CMA
+> +static void __init dma_numa_cma_reserve(void)
+>   {
+> +	phys_addr_t size;
+>   	int nid;
+>   
+> -	if (!pernuma_size_bytes)
+> -		return;
+> -
+> -	for_each_online_node(nid) {
+> +	for_each_node(nid) {
+>   		int ret;
+>   		char name[CMA_MAX_NAME];
+> -		struct cma **cma = &dma_contiguous_pernuma_area[nid];
+> +		struct cma **numa_cma;
+>   
+> -		snprintf(name, sizeof(name), "pernuma%d", nid);
+> -		ret = cma_declare_contiguous_nid(0, pernuma_size_bytes, 0, 0,
+> -						 0, false, name, cma, nid);
+> -		if (ret) {
+> -			pr_warn("%s: reservation failed: err %d, node %d", __func__,
+> -				ret, nid);
+> +		if (!node_online(nid)) {
+> +			if (pernuma_size_bytes || numa_cma_size_in_node[nid])
+> +				pr_warn("invalid node %d specified\n", nid);
+>   			continue;
+>   		}
+>   
+> -		pr_debug("%s: reserved %llu MiB on node %d\n", __func__,
+> -			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
+> +		if (pernuma_size_bytes)
+> +			size = pernuma_size_bytes;
+> +		else
+> +			size = numa_cma_size_in_node[nid];
+> +
+> +		if (!size)
+> +			continue;
+> +
+> +		numa_cma = &dma_contiguous_numa_area[nid];
+> +		snprintf(name, sizeof(name), "numa%d", nid);
+> +		ret = cma_declare_contiguous_nid(0, size, 0, 0, 0, false,
+> +						 name, numa_cma, nid);
+> +		if (ret)
+> +			pr_warn("%s: reservation failed: err %d, node %d", __func__,
+> +				ret, nid);
+>   	}
+>   }
+>   #else
+> -static inline void __init dma_pernuma_cma_reserve(void)
+> +static inline void __init dma_numa_cma_reserve(void)
+>   {
+>   }
+>   #endif
+> @@ -175,7 +211,7 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
+>   	phys_addr_t selected_limit = limit;
+>   	bool fixed = false;
+>   
+> -	dma_pernuma_cma_reserve();
+> +	dma_numa_cma_reserve();
+>   
+>   	pr_debug("%s(limit %08lx)\n", __func__, (unsigned long)limit);
+>   
+> @@ -309,7 +345,7 @@ static struct page *cma_alloc_aligned(struct cma *cma, size_t size, gfp_t gfp)
+>    */
+>   struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
+>   {
+> -#ifdef CONFIG_DMA_PERNUMA_CMA
+> +#ifdef CONFIG_DMA_NUMA_CMA
+>   	int nid = dev_to_node(dev);
+>   #endif
+>   
+> @@ -321,9 +357,9 @@ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
+>   	if (size <= PAGE_SIZE)
+>   		return NULL;
+>   
+> -#ifdef CONFIG_DMA_PERNUMA_CMA
+> +#ifdef CONFIG_DMA_NUMA_CMA
+>   	if (nid != NUMA_NO_NODE && !(gfp & (GFP_DMA | GFP_DMA32))) {
+> -		struct cma *cma = dma_contiguous_pernuma_area[nid];
+> +		struct cma *cma = dma_contiguous_numa_area[nid];
+>   		struct page *page;
+>   
+>   		if (cma) {
+> @@ -362,8 +398,8 @@ void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
+>   		/*
+>   		 * otherwise, page is from either per-numa cma or default cma
+>   		 */
+> -#ifdef CONFIG_DMA_PERNUMA_CMA
+> -		if (cma_release(dma_contiguous_pernuma_area[page_to_nid(page)],
+> +#ifdef CONFIG_DMA_NUMA_CMA
+> +		if (cma_release(dma_contiguous_numa_area[page_to_nid(page)],
+>   					page, count))
+>   			return;
+>   #endif
+> diff --git a/mm/cma.c b/mm/cma.c
+> index 4880f72102fa..af5945932e9e 100644
+> --- a/mm/cma.c
+> +++ b/mm/cma.c
+> @@ -244,6 +244,7 @@ int __init cma_declare_contiguous_nid(phys_addr_t base,
+>   {
+>   	phys_addr_t memblock_end = memblock_end_of_DRAM();
+>   	phys_addr_t highmem_start;
+> +	char nid_buf[32] = "";
 
-The enum cmd valu could stay as a placeholder, the rest can go.
+That's a but ugly just for the sake of printing an info/error.
 
 
->
->>
->>>
->>>>>2) remove "no-added-value" static functions descriptions in
->>>>>   dpll_core/dpll_netlink
->>>
->>>Removed.
->>>
->>>>>3) merge patches [ 03/10, 04/10, 05/10 ] into patches that are compiling
->>>>>   after each patch apply
->>>
->>>Hope Vadim will decide on this, the thing is merging in two patches
->>>doesn't make much sense as there won't be any linking until both patches
->>>are there, so most sense it would be if 3 are merged into one, but
->>>then we will be back to one big blob patch issue.
->>>
->>>>>4) remove function return values descriptions/lists
->>>
->>>Fixed.
->>>
->>>>>5) Fix patch [05/10]:
->>>>>   - status Supported
->>>>>   - additional maintainers
->>>>>   - remove callback:
->>>>>     int (*source_pin_idx_get)(...) from `struct dpll_device_ops`
->>>>>6) Fix patch [08/10]: rethink ice mutex locking scheme
->>>
->>>Fixed.
->>>
->>>>>7) Fix patch [09/10]: multiple comments on
->>>>>https://lore.kernel.org/netdev/ZIQu+%2Fo4J0ZBspVg@nanopsycho/#t
->>>>>8) add PPS DPLL phase offset to the netlink get-device API
->>>>>
->>>
->>>Added few things on this matter
->>>- 1 dpll level attribute:
->>>  - phase-shift - measuring the phase difference between dpll input
->>>    and it's output
->>>- 1 dpll-pin tuple level attribute:
->>>  - pin-phase-adjust - set/get phase adjust of a pin on a dpll
->>>- 2 pin level attributes:
->>>  - pin-phase-adjust-min - provide user with min value that can be set
->>>  - pin-phase-adjust-max - provide user with max value that can be set
->>>- a constant:
->>>  - DPLL_PHASE_SHIFT_DIVIDER similar to DPLL_TEMP_DIVIDER for producing
->>>    fraction value of measured DPLL_A_PHASE_SHIFT
->>
->>Again, why do we need this in this initial submission? Why it can't be a
->>follow-up patchset to extend this? This way we never converge :/
->>Please focus on what we have now and bring it in. Let the extensions to
->>be addressed later on, please.
->>
->
->Well AFAIK, RHEL is doing some monitoring software, so the end-users need this.
+if (!IS_ENABLED(CONFIG_NUMA))
+	nid = NUMA_NO_NODE;
 
-They need it for the initial submission? Why? Why can't they wait 1 week
-for follow-up patchset?
+...
+
+pr_info("Reserved %ld MiB at %pa on node %d\n", (unsigned long)size /
+         SZ_1M, &base, nid);
 
 
->
->>
->>
->>>- implemented in dpll netlink and in ice
->>>
->>>>
->>>>You are missing removal of pin->prop.package_label = dev_name(dev); in
->>>>ice.
->>>>
->>>
->>>I didn't touch it, as we still need to discuss it, Jakub didn't respond
->>>on v8 thread.
->>>I don't see why we shall not name it the way. This is most meaningful
->>>label for those pins for the user right now.
->>
->>This is not meaningful, at all. dev_name() changes upon which pci slot
->>you plug the card into. package_label should be an actual label on a
->>silicon package. Why you think this two are related in aby way, makes me
->>really wonder. Could you elaborate the meaningfulness of this?
->>
->
->Without this, from end-user perspective, it would be very confusing.
->As in ice without any label there would 4 pins which differs only with id.
+"on node -1" would certainly be good enough for my taste.
 
-There you go, it does not have any label, yet you are trying hard to
-make up some. Does not make sense.
+-- 
+Cheers,
 
+David / dhildenb
 
->What names would you suggest?
-
-That is the point I made previously. For synce usecase, the label does
-not make sense. There should be no label. You reference the pin by ID
-from netdev, that is enough.
-
-I think better to add the check to pin-register so future synce pin
-users don't have similar weird ideas. Could you please add this check?
-
-Thanks!
-
-
-
->
->Thank you!
->Arkadiusz
->
->>
->>>
->>>Thank you!
->>>Arkadiusz
->>>
->>>>
->>>>>Thank you!
->>>>>Arkadiusz
