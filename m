@@ -2,23 +2,23 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F717EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 05:57:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AC0EC0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 06:07:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbjGKF5t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 01:57:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40132 "EHLO
+        id S231183AbjGKGHv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 02:07:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbjGKF5t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 01:57:49 -0400
+        with ESMTP id S230150AbjGKGHu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 02:07:50 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031FB195;
-        Mon, 10 Jul 2023 22:57:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0977F1BC;
+        Mon, 10 Jul 2023 23:07:47 -0700 (PDT)
 Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qJ6Nb-0004qx-QV; Tue, 11 Jul 2023 07:57:43 +0200
-Message-ID: <67299d09-46dd-d96d-8c4f-b8b72af7c63b@leemhuis.info>
-Date:   Tue, 11 Jul 2023 07:57:43 +0200
+        id 1qJ6XJ-0006TS-7b; Tue, 11 Jul 2023 08:07:45 +0200
+Message-ID: <e6c6b7b0-f5f1-603f-5f19-0f651d13739f@leemhuis.info>
+Date:   Tue, 11 Jul 2023 08:07:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
@@ -28,42 +28,61 @@ Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 References: <cover.1689008220.git.linux@leemhuis.info>
- <29fb398b-a81c-70f9-f67c-21daaa42e4f7@leemhuis.info>
- <2023071026-wired-erasure-6443@gregkh>
+ <d30686781c47c83927e0a41f6a1167a679fa822c.1689008220.git.linux@leemhuis.info>
+ <2023071003-slab-underling-2b50@gregkh>
 From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
- backporting option and a few tweaks
-In-Reply-To: <2023071026-wired-erasure-6443@gregkh>
+Subject: Re: [RFC PATCH v1 1/3] docs: stable-kernel-rules: mention other
+ usages for stable tag comments
+In-Reply-To: <2023071003-slab-underling-2b50@gregkh>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689055068;23723fed;
-X-HE-SMSGID: 1qJ6Nb-0004qx-QV
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689055667;bfe6727a;
+X-HE-SMSGID: 1qJ6XJ-0006TS-7b
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10.07.23 21:50, Greg KH wrote:
-> On Mon, Jul 10, 2023 at 07:18:43PM +0200, Thorsten Leemhuis wrote:
->> On 10.07.23 19:10, Thorsten Leemhuis wrote:
-
->>>  - It must either fix a real bug that bothers people or just add a device ID.
->>>    To elaborate on the former:
->>>
->>>    - It fixes a problem like an oops, a hang, data corruption, a real security
->>>      issue, a hardware quirk, a build error (but not for things marked
->>>      CONFIG_BROKEN), or some "oh, that's not good" issue. In short, something
->>>      critical.
+On 10.07.23 21:43, Greg KH wrote:
+> On Mon, Jul 10, 2023 at 07:10:11PM +0200, Thorsten Leemhuis wrote:
+>> Document how to delay backporting or send a note to the stable team
+>> using shell-style inline comments attached to stable tags.
 >>
->> s/ In short, something critical.//
+>> CC: Greg KH <gregkh@linuxfoundation.org>
+>> CC: Sasha Levin <sashal@kernel.org>
+>> CC: Jonathan Corbet <corbet@lwn.net>
+>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+>> ---
+>>  Documentation/process/stable-kernel-rules.rst | 22 ++++++++++++++++---
+>>  1 file changed, 19 insertions(+), 3 deletions(-)
 >>
->> Contradicts the "real bug that bothers people" somewhat and IMHO does
->> not add anything. But maybe that's just me.
+>> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+>> index 51df1197d5ab..6e4026dd6882 100644
+>> --- a/Documentation/process/stable-kernel-rules.rst
+>> +++ b/Documentation/process/stable-kernel-rules.rst
+>> @@ -55,9 +55,10 @@ To have the patch automatically included in the stable tree, add the tag
+>>  
+>>       Cc: stable@vger.kernel.org
+>>  
+>> -in the sign-off area. Once the patch is merged it will be applied to
+>> -the stable tree without anything else needing to be done by the author
+>> -or subsystem maintainer.
+>> +in the sign-off area; to accompany a note to the stable team, use a shell-style
 > 
-> Agreed, it can be dropped.
+> Is that how a ';' is really used?  I never can remember, so it's an
+> honest question here :)
 
-Thx for your feedback. I'll merge this bit into the second patch and
-will send a v2 with just patch 1 or 2; and then will try to find a way
-to handle all the other bits with a series that make it easier to see
-what's changing.
+Ha, better ask a native speaker or your favorite internet search engine
+for advice and not someone from Germany that in school was always bad at
+both German and English. ;)
+
+But to answer the question: I think it is used this way in English "to
+connect related, but independent clauses". But the relation is not that
+strong or important here; I also tend use semicolons a bit too much, so
+I'll just drop it for v2.
+
+> [...]
+> This looks great to me, so I'll be glad to take it.
+
+thx!
 
 Ciao, Thorsten
