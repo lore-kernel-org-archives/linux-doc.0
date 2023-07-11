@@ -2,87 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AC0EC0015E
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 06:07:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A416AEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 06:19:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231183AbjGKGHv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 02:07:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45308 "EHLO
+        id S231183AbjGKGT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 02:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230150AbjGKGHu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 02:07:50 -0400
+        with ESMTP id S230426AbjGKGT6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 02:19:58 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0977F1BC;
-        Mon, 10 Jul 2023 23:07:47 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qJ6XJ-0006TS-7b; Tue, 11 Jul 2023 08:07:45 +0200
-Message-ID: <e6c6b7b0-f5f1-603f-5f19-0f651d13739f@leemhuis.info>
-Date:   Tue, 11 Jul 2023 08:07:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Content-Language: en-US, de-DE
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <cover.1689008220.git.linux@leemhuis.info>
- <d30686781c47c83927e0a41f6a1167a679fa822c.1689008220.git.linux@leemhuis.info>
- <2023071003-slab-underling-2b50@gregkh>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EB70E49;
+        Mon, 10 Jul 2023 23:19:57 -0700 (PDT)
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1qJ6j5-0000FA-K7; Tue, 11 Jul 2023 08:19:55 +0200
 From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 1/3] docs: stable-kernel-rules: mention other
- usages for stable tag comments
-In-Reply-To: <2023071003-slab-underling-2b50@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689055667;bfe6727a;
-X-HE-SMSGID: 1qJ6XJ-0006TS-7b
+To:     Greg KH <gregkh@linuxfoundation.org>, stable@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] docs: stable-kernel-rules: add delayed backporting option and a few tweaks
+Date:   Tue, 11 Jul 2023 08:19:52 +0200
+Message-Id: <cover.1689056247.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689056397;0c99b682;
+X-HE-SMSGID: 1qJ6j5-0000FA-K7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10.07.23 21:43, Greg KH wrote:
-> On Mon, Jul 10, 2023 at 07:10:11PM +0200, Thorsten Leemhuis wrote:
->> Document how to delay backporting or send a note to the stable team
->> using shell-style inline comments attached to stable tags.
->>
->> CC: Greg KH <gregkh@linuxfoundation.org>
->> CC: Sasha Levin <sashal@kernel.org>
->> CC: Jonathan Corbet <corbet@lwn.net>
->> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
->> ---
->>  Documentation/process/stable-kernel-rules.rst | 22 ++++++++++++++++---
->>  1 file changed, 19 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
->> index 51df1197d5ab..6e4026dd6882 100644
->> --- a/Documentation/process/stable-kernel-rules.rst
->> +++ b/Documentation/process/stable-kernel-rules.rst
->> @@ -55,9 +55,10 @@ To have the patch automatically included in the stable tree, add the tag
->>  
->>       Cc: stable@vger.kernel.org
->>  
->> -in the sign-off area. Once the patch is merged it will be applied to
->> -the stable tree without anything else needing to be done by the author
->> -or subsystem maintainer.
->> +in the sign-off area; to accompany a note to the stable team, use a shell-style
-> 
-> Is that how a ';' is really used?  I never can remember, so it's an
-> honest question here :)
+I only set down to create the first of the two patches. But while
+doing so I noticed a few things that seemed odd for me with my
+background on writing and editing texts. So I just quickly performed a
+few additional changes to fix those to see if the stable team would
+appreciate them, as this document is clearly their domain.
 
-Ha, better ask a native speaker or your favorite internet search engine
-for advice and not someone from Germany that in school was always bad at
-both German and English. ;)
+v2:
+[this mail]
+* a few small tweaks after feedback from v1 submission
+* drop patch 3 for now
+* drop RFC
 
-But to answer the question: I think it is used this way in English "to
-connect related, but independent clauses". But the relation is not that
-strong or important here; I also tend use semicolons a bit too much, so
-I'll just drop it for v2.
+v1:
+https://lore.kernel.org/linux-doc/d30686781c47c83927e0a41f6a1167a679fa822c.1689008220.git.linux@leemhuis.info/
 
-> [...]
-> This looks great to me, so I'll be glad to take it.
+Thorsten Leemhuis (2):
+  docs: stable-kernel-rules: mention other usages for stable tag
+    comments
+  docs: stable-kernel-rules: make rule section more straight forward
 
-thx!
+ Documentation/process/stable-kernel-rules.rst | 60 ++++++++++++-------
+ 1 file changed, 37 insertions(+), 23 deletions(-)
 
-Ciao, Thorsten
+
+base-commit: 016571b6d52deb473676fb4d24baf8ed3667ae21
+-- 
+2.40.1
+
