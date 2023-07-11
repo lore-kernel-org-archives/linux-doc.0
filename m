@@ -2,348 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B7C3EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 11:55:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1913EB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 13:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230462AbjGKLzm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 07:55:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39464 "EHLO
+        id S231438AbjGKNwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 09:52:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230358AbjGKLzl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 07:55:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FB46E74
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 04:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689076494;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7ltfs96G2qWIBv3AataMyvfNvs/ZxeZQ5SXPMZ0jduU=;
-        b=WVwBfM8nQFAfiW9lb85+5515meIglI+ow61U+wCER1hpAwAA8/pVvHdTTmpRXSw8gKK0Wz
-        1v6pLBmzE5bfUyPcaBtA5/AFzlv8kUj2HnEiDwbEdr3tHO96PIGDjqUym1rm9x5f6fKNCz
-        Qjxf+JhWPyXtuFwgcURupXgTpQfIeHY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-665-8bUnjs0MM9GYLW7ZBgbCxQ-1; Tue, 11 Jul 2023 07:54:53 -0400
-X-MC-Unique: 8bUnjs0MM9GYLW7ZBgbCxQ-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-3fbe4cecd66so32346095e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 04:54:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689076492; x=1691668492;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7ltfs96G2qWIBv3AataMyvfNvs/ZxeZQ5SXPMZ0jduU=;
-        b=iPWBiBigJZXbzgMTAHAOr8bd+qLzvtWcTh/Tf0hAswHMp/0GPwVPD2/SVLvkJoFEnf
-         aawp36IAL1xLUNKA491d8y77TOKjgTTxOyVDZEuog27WPb6h0Q0z2HlIvfuYA93X758t
-         tfsDKxuYzPy9pHQRJ7D3FroEs8cZW7XB3G0EpCzcMAYVo5w7x3z6iHQVJbbpKkmY/6SQ
-         WXQh3hncKbB8aie9molWsVtP4Dj0VcRHU0EHiJshizFFMpjmNQuiNBk1vE/xBi/xWoLw
-         otIp+QlMWDTIhWd0dEXGhkkLUxjHIB7XSiTP2HOwyMH4omsdyR0IX40yp5BYnnz4Nv1M
-         rEuQ==
-X-Gm-Message-State: ABy/qLbEhMFEXIqTAMDQjvnGT2xF++7WtDzT/zeTgKe1aDhsYp849oEO
-        /4w0fyuIbOCbaDvR4o5X5OULCfeAW6N0v/UCz051XdjdKjF49IQpqKb6aBeqELybtuCKigpm9w+
-        SB8ptqjyV7kZfpnzuVFCO
-X-Received: by 2002:a05:600c:294c:b0:3fb:ffef:d058 with SMTP id n12-20020a05600c294c00b003fbffefd058mr10788095wmd.0.1689076492104;
-        Tue, 11 Jul 2023 04:54:52 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlE7yk4/9a7qsVmPysU0XyK+niweGp79jZE0baAAQRDb45p7c5tsWj9aND6mntHhLvGNKiIlKw==
-X-Received: by 2002:a05:600c:294c:b0:3fb:ffef:d058 with SMTP id n12-20020a05600c294c00b003fbffefd058mr10788078wmd.0.1689076491720;
-        Tue, 11 Jul 2023 04:54:51 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c745:4000:13ad:ed64:37e6:115d? (p200300cbc745400013aded6437e6115d.dip0.t-ipconnect.de. [2003:cb:c745:4000:13ad:ed64:37e6:115d])
-        by smtp.gmail.com with ESMTPSA id 24-20020a05600c22d800b003fbaade072dsm2360201wmg.23.2023.07.11.04.54.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jul 2023 04:54:51 -0700 (PDT)
-Message-ID: <c7d4364c-a067-567e-3248-6a0589d85472@redhat.com>
-Date:   Tue, 11 Jul 2023 13:54:49 +0200
+        with ESMTP id S229637AbjGKNwR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 09:52:17 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186C499;
+        Tue, 11 Jul 2023 06:52:16 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C818735D;
+        Tue, 11 Jul 2023 13:52:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C818735D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1689083535; bh=th7mU2Y52P3owRLZiI3vRPeVMIxGwFCBFlm93ZNUBws=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Rqwhyw6g6zzsff4NuNKIp2L7GFSVYYgtSp6RZO3j9FZD4lmAMzWEil64/I8p8UlHz
+         XnCFQm0NUAFoOUbsv+nihT3nKLju5cLHHyeCbvm+7toWyhb/63WO+Os06yFaPrbqTh
+         jlZuRoatDWbhdr9X30LQyUxHno7PptYLmzEvhwnhnlH5yqS4Ge/FmCXRBxiuug7ito
+         AVEP3ieEyn2d8LVdyZTWIPTyolymVNjJaZp8LbkKYtpd4c41vf0ZiGKADMZxwh7I3f
+         Kwano92y7Ka+y3fJfVxvfIqS08LUZBfXMiapph1a/MMW3qcoGtMEcLzfTidWs0gQmB
+         2R/fDeQHuRskQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: Docs for base maintainer expectations?
+In-Reply-To: <20230710115239.3f9e2c24@kernel.org>
+References: <20230710115239.3f9e2c24@kernel.org>
+Date:   Tue, 11 Jul 2023 07:52:14 -0600
+Message-ID: <875y6q8sj5.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] dma-contiguous: support numa CMA for specified node
-Content-Language: en-US
-To:     Yajun Deng <yajun.deng@linux.dev>, corbet@lwn.net, hch@lst.de,
-        m.szyprowski@samsung.com, robin.murphy@arm.com,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        catalin.marinas@arm.com, rdunlap@infradead.org,
-        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, linux-mm@kvack.org
-References: <20230710074944.3501810-1-yajun.deng@linux.dev>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230710074944.3501810-1-yajun.deng@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10.07.23 09:49, Yajun Deng wrote:
-> The kernel parameter 'cma_pernuma=' only supports reserving the same
-> size of CMA area for each node. We need to reserve different sizes of
-> CMA area for specified nodes if these devices belong to different nodes.
-> 
-> Change kernel parameter from 'cma_pernuma=' to 'numa_cma='. If node
-> isn't specified, it will reserve CMA area for per-numa node. if the node
-> is specified, it will reserve CMA area for the specified node.
-> 
-> At the same time, print the node id in cma_declare_contiguous_nid() if
-> enabled CONFIG_NUMA.
-> 
-> Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
-> ---
->   .../admin-guide/kernel-parameters.txt         | 17 ++--
->   kernel/dma/Kconfig                            | 11 +--
->   kernel/dma/contiguous.c                       | 90 +++++++++++++------
->   mm/cma.c                                      | 12 ++-
->   4 files changed, 89 insertions(+), 41 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index bdf0ab6716c8..b287647f0873 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -695,14 +695,19 @@
->   			altogether. For more information, see
->   			kernel/dma/contiguous.c
->   
-> -	cma_pernuma=nn[MG]
-> +	numa_cma=nn[MG] or (node format)
-> +			    <node>:nn[MG][,<node>:nn[MG]]
->   			[KNL,CMA]
-> -			Sets the size of kernel per-numa memory area for
-> +			Sets the size of kernel numa memory area for
->   			contiguous memory allocations. A value of 0 disables
-> -			per-numa CMA altogether. And If this option is not
-> -			specified, the default value is 0.
-> -			With per-numa CMA enabled, DMA users on node nid will
-> -			first try to allocate buffer from the pernuma area
-> +			numa CMA altogether. If this option is not specified,
-> +			the default value is 0. If node isn't specified, it
-> +			will reserve CMA area for per-numa node, if the node
-> +			is specified, it will reserve CMA area for the
-> +			specified node.
-> +
-> +			With numa CMA enabled, DMA users on node nid will
-> +			first try to allocate buffer from the numa area
->   			which is located in node nid, if the allocation fails,
->   			they will fallback to the global default memory area.
->   
-> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-> index 7afde9bc529f..f07fb97ef3e8 100644
-> --- a/kernel/dma/Kconfig
-> +++ b/kernel/dma/Kconfig
-> @@ -145,15 +145,16 @@ config DMA_CMA
->   
->   if  DMA_CMA
->   
-> -config DMA_PERNUMA_CMA
-> -	bool "Enable separate DMA Contiguous Memory Area for each NUMA Node"
-> +config DMA_NUMA_CMA
-> +	bool "Enable separate DMA Contiguous Memory Area for NUMA Node"
->   	default NUMA
->   	help
-> -	  Enable this option to get pernuma CMA areas so that NUMA devices
-> +	  Enable this option to get numa CMA areas so that NUMA devices
->   	  can get local memory by DMA coherent APIs.
->   
-> -	  You can set the size of pernuma CMA by specifying "cma_pernuma=size"
-> -	  on the kernel's command line.
-> +	  You can set the size of pernuma CMA by specifying "numa_cma=size"
-> +	  or set the node id and its size of CMA by specifying "numa_cma=
-> +	  <node>:size[,<node>:size]" on the kernel's command line.
->   
->   comment "Default contiguous memory area size:"
->   
-> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> index 26a8e5365fcd..bf62d78abff7 100644
-> --- a/kernel/dma/contiguous.c
-> +++ b/kernel/dma/contiguous.c
-> @@ -50,6 +50,7 @@
->   #include <linux/sizes.h>
->   #include <linux/dma-map-ops.h>
->   #include <linux/cma.h>
-> +#include <linux/nospec.h>
->   
->   #ifdef CONFIG_CMA_SIZE_MBYTES
->   #define CMA_SIZE_MBYTES CONFIG_CMA_SIZE_MBYTES
-> @@ -96,17 +97,44 @@ static int __init early_cma(char *p)
->   }
->   early_param("cma", early_cma);
->   
-> -#ifdef CONFIG_DMA_PERNUMA_CMA
-> +#ifdef CONFIG_DMA_NUMA_CMA
->   
-> -static struct cma *dma_contiguous_pernuma_area[MAX_NUMNODES];
-> +static struct cma *dma_contiguous_numa_area[MAX_NUMNODES];
->   static phys_addr_t pernuma_size_bytes __initdata;
-> +static phys_addr_t numa_cma_size_in_node[MAX_NUMNODES] __initdata;
->   
-> -static int __init early_cma_pernuma(char *p)
-> +static int __init early_numa_cma(char *p)
->   {
-> -	pernuma_size_bytes = memparse(p, &p);
-> +	int nid, count = 0;
-> +	unsigned long tmp;
-> +	char *s = p;
-> +
-> +	while (*s) {
-> +		if (sscanf(s, "%lu%n", &tmp, &count) != 1)
-> +			break;
-> +
-> +		if (s[count] == ':') {
-> +			if (tmp >= MAX_NUMNODES)
-> +				break;
-> +			nid = array_index_nospec(tmp, MAX_NUMNODES);
-> +
-> +			s += count + 1;
-> +			tmp = memparse(s, &s);
-> +			numa_cma_size_in_node[nid] = tmp;
-> +
-> +			if (*s == ',')
-> +				s++;
-> +			else
-> +				break;
-> +		} else {
-> +			pernuma_size_bytes = memparse(p, &p);
-> +			break;
-> +		}
-> +	}
-> +
->   	return 0;
->   }
-> -early_param("cma_pernuma", early_cma_pernuma);
-> +early_param("numa_cma", early_numa_cma);
->   #endif
->   
->   #ifdef CONFIG_CMA_SIZE_PERCENTAGE
-> @@ -127,34 +155,42 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
->   
->   #endif
->   
-> -#ifdef CONFIG_DMA_PERNUMA_CMA
-> -static void __init dma_pernuma_cma_reserve(void)
-> +#ifdef CONFIG_DMA_NUMA_CMA
-> +static void __init dma_numa_cma_reserve(void)
->   {
-> +	phys_addr_t size;
->   	int nid;
->   
-> -	if (!pernuma_size_bytes)
-> -		return;
-> -
-> -	for_each_online_node(nid) {
-> +	for_each_node(nid) {
->   		int ret;
->   		char name[CMA_MAX_NAME];
-> -		struct cma **cma = &dma_contiguous_pernuma_area[nid];
-> +		struct cma **numa_cma;
->   
-> -		snprintf(name, sizeof(name), "pernuma%d", nid);
-> -		ret = cma_declare_contiguous_nid(0, pernuma_size_bytes, 0, 0,
-> -						 0, false, name, cma, nid);
-> -		if (ret) {
-> -			pr_warn("%s: reservation failed: err %d, node %d", __func__,
-> -				ret, nid);
-> +		if (!node_online(nid)) {
-> +			if (pernuma_size_bytes || numa_cma_size_in_node[nid])
-> +				pr_warn("invalid node %d specified\n", nid);
->   			continue;
->   		}
->   
-> -		pr_debug("%s: reserved %llu MiB on node %d\n", __func__,
-> -			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
-> +		if (pernuma_size_bytes)
-> +			size = pernuma_size_bytes;
-> +		else
-> +			size = numa_cma_size_in_node[nid];
-> +
-> +		if (!size)
-> +			continue;
-> +
-> +		numa_cma = &dma_contiguous_numa_area[nid];
-> +		snprintf(name, sizeof(name), "numa%d", nid);
-> +		ret = cma_declare_contiguous_nid(0, size, 0, 0, 0, false,
-> +						 name, numa_cma, nid);
-> +		if (ret)
-> +			pr_warn("%s: reservation failed: err %d, node %d", __func__,
-> +				ret, nid);
->   	}
->   }
->   #else
-> -static inline void __init dma_pernuma_cma_reserve(void)
-> +static inline void __init dma_numa_cma_reserve(void)
->   {
->   }
->   #endif
-> @@ -175,7 +211,7 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
->   	phys_addr_t selected_limit = limit;
->   	bool fixed = false;
->   
-> -	dma_pernuma_cma_reserve();
-> +	dma_numa_cma_reserve();
->   
->   	pr_debug("%s(limit %08lx)\n", __func__, (unsigned long)limit);
->   
-> @@ -309,7 +345,7 @@ static struct page *cma_alloc_aligned(struct cma *cma, size_t size, gfp_t gfp)
->    */
->   struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
->   {
-> -#ifdef CONFIG_DMA_PERNUMA_CMA
-> +#ifdef CONFIG_DMA_NUMA_CMA
->   	int nid = dev_to_node(dev);
->   #endif
->   
-> @@ -321,9 +357,9 @@ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
->   	if (size <= PAGE_SIZE)
->   		return NULL;
->   
-> -#ifdef CONFIG_DMA_PERNUMA_CMA
-> +#ifdef CONFIG_DMA_NUMA_CMA
->   	if (nid != NUMA_NO_NODE && !(gfp & (GFP_DMA | GFP_DMA32))) {
-> -		struct cma *cma = dma_contiguous_pernuma_area[nid];
-> +		struct cma *cma = dma_contiguous_numa_area[nid];
->   		struct page *page;
->   
->   		if (cma) {
-> @@ -362,8 +398,8 @@ void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
->   		/*
->   		 * otherwise, page is from either per-numa cma or default cma
->   		 */
-> -#ifdef CONFIG_DMA_PERNUMA_CMA
-> -		if (cma_release(dma_contiguous_pernuma_area[page_to_nid(page)],
-> +#ifdef CONFIG_DMA_NUMA_CMA
-> +		if (cma_release(dma_contiguous_numa_area[page_to_nid(page)],
->   					page, count))
->   			return;
->   #endif
-> diff --git a/mm/cma.c b/mm/cma.c
-> index 4880f72102fa..af5945932e9e 100644
-> --- a/mm/cma.c
-> +++ b/mm/cma.c
-> @@ -244,6 +244,7 @@ int __init cma_declare_contiguous_nid(phys_addr_t base,
->   {
->   	phys_addr_t memblock_end = memblock_end_of_DRAM();
->   	phys_addr_t highmem_start;
-> +	char nid_buf[32] = "";
+Jakub Kicinski <kuba@kernel.org> writes:
 
-That's a but ugly just for the sake of printing an info/error.
+> do we have any docs describing what's expected from folks stepping up
+> to maintain (small-ish) parts of the kernel like a driver or a protocol?
+>
+> Experienced developers / maintainers differ like the beautiful
+> snowflakes that we are, but outsiders have much less familiarity 
+> with the landscape, and frankly sometimes much less interest in
+> participating once they code lands.
+>
+> Which makes we wonder if a simple list of responsibilities would be
+> useful as a baseline. I haven't spotted anything in Docs/process but
+> perhaps someone has a local version for their subsystem?
 
+I think that would be good to have.  We often complain about a lack of
+maintainers, but we have nothing to point to telling people how they can
+step up and do that.
 
-if (!IS_ENABLED(CONFIG_NUMA))
-	nid = NUMA_NO_NODE;
+I've tried to fill in some pieces with the documents on merging and
+such, but we're missing the introduction.
 
-...
+Thanks,
 
-pr_info("Reserved %ld MiB at %pa on node %d\n", (unsigned long)size /
-         SZ_1M, &base, nid);
-
-
-"on node -1" would certainly be good enough for my taste.
-
--- 
-Cheers,
-
-David / dhildenb
-
+jon
