@@ -2,124 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11BB1EB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 07:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4768EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 07:32:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbjGKHQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 03:16:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39888 "EHLO
+        id S231251AbjGKHcK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 03:32:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230398AbjGKHQC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 03:16:02 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4123DD1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 00:15:34 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-262c42d3fafso3443487a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 00:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1689059734; x=1691651734;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d4BQ4wTcz2ZUTX5UO6CgJKEdU05ydslf2Dnv0DUxPe8=;
-        b=Nqfdvl7rXarXx+hZfpG6gu3DaOZtr8ERFL/iz/q+5ZOnwjRv2vO+lUgGYjkeEV1D7D
-         rhCygc/2UeqXwLAY4Bq8PfD6tza1+OYAHTIvvKnneJ44witfk2s2atQUuGRBkisCnQTH
-         8K0ljpxZCGkrM9G5vrTTz0edHZPJLBirz1zxAYT6+DXmMcISelmzr/TeaBrvDz6Pyq0A
-         19XGHWmQroCxVK8FPf4WR5clZJ1iu/TWwug0tZpNgQNX9r0zg2D5nVFpG6pJzGLv5ECX
-         /jbeXHLPp8f2R3bYfnjrRhQepi/qlRXK5iV4ws/eu0oWFPsqXo5OaFKr3gKNPUiVuS/A
-         Uplg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689059734; x=1691651734;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=d4BQ4wTcz2ZUTX5UO6CgJKEdU05ydslf2Dnv0DUxPe8=;
-        b=fIVc6jm7bT+2X/eEiSRygQvD4Qry1ZfeF8NmBke9xEOC0UsMY5BnUNCn6gw4dxMTZ+
-         UyPt9m36rkQ5YqyJKYTsHdRmfqpiVlVfuBwrztbddE9Mx7ISkexA/myzHqA3hX4END02
-         foG5tCHModQyyXngvb2IzET9jo/MU8+j49GBaX7mh9lQ8WH518wrvmy9GR9lkLUBJnwL
-         WsHjqdybMq5+3mgK5XuYkGr4tR4npZ9S+sWXWYArha3r3DOSWWMUuFlpUOUwo1CSCgY1
-         UbldsX0A/i//NywfbeF+2cCxRfmYc+09NRL4/4JnobWR1lugTDsoOfVB0dI6L3igDE6h
-         3XkA==
-X-Gm-Message-State: ABy/qLZ/I1LRz8YcAWw9HMZUh3x2uDBiWfFdICuxu+GJa0cE49LswNw3
-        Rp0FnVUEKb35buge9ZduGK+RrMWSELCaGAyDDZnh+Q==
-X-Google-Smtp-Source: APBJJlF2jvPM9/iA5YdftgyiGiVvbJOJoIELEmWsn9DVn+t41v1OItFyJxn0J8NH4eG7HU45wkS+RQ==
-X-Received: by 2002:a17:90a:d80d:b0:263:161c:9e9c with SMTP id a13-20020a17090ad80d00b00263161c9e9cmr26706553pjv.12.1689059733720;
-        Tue, 11 Jul 2023 00:15:33 -0700 (PDT)
-Received: from [10.3.208.155] ([61.213.176.14])
-        by smtp.gmail.com with ESMTPSA id u11-20020a17090a890b00b00263987a50fcsm7319231pjn.22.2023.07.11.00.15.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jul 2023 00:15:33 -0700 (PDT)
-Message-ID: <5a2d4d3f-9d9d-0ce9-c5a0-fb9bd64b9f48@bytedance.com>
-Date:   Tue, 11 Jul 2023 15:15:29 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.13.0
-Subject: Re: [PATCH 5/5] docs: fuse: improve FUSE consistency explanation
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     me@jcix.top
-References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
- <20230711043405.66256-6-zhangjiachen.jaycee@bytedance.com>
- <36b37893-c297-dab0-df2d-eeacfa1e06c0@infradead.org>
-From:   Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-In-Reply-To: <36b37893-c297-dab0-df2d-eeacfa1e06c0@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229551AbjGKHcJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 03:32:09 -0400
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 81BE4133;
+        Tue, 11 Jul 2023 00:32:04 -0700 (PDT)
+Received: from loongson.cn (unknown [113.200.148.30])
+        by gateway (Coremail) with SMTP id _____8AxEvByBa1kuGsDAA--.8922S3;
+        Tue, 11 Jul 2023 15:32:02 +0800 (CST)
+Received: from linux.localdomain (unknown [113.200.148.30])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cx_c5wBa1k_1QoAA--.48833S2;
+        Tue, 11 Jul 2023 15:32:01 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, loongarch@lists.linux.dev,
+        linux-kernel@vger.kernel.org, loongson-kernel@lists.loongnix.cn
+Subject: [PATCH 0/2] Update Documentation/features
+Date:   Tue, 11 Jul 2023 15:31:58 +0800
+Message-Id: <1689060720-4628-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf8Cx_c5wBa1k_1QoAA--.48833S2
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrZr4xAF18Wry8AFW8Gw1kCrX_yoWfJwcEya
+        ySya4DG347Jrn2vw45AF15CF1j9340k3Z5Arnrtr4rCa1xAF13CFZF934ak3y5WF45ur4r
+        C3Z0qrZrCr1avosvyTuYvTs0mTUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvT
+        s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+        cSsGvfJTRUUUb3xYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+        vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+        w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+        W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+        6F4UJVW0owAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+        Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
+        Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+        xGrwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
+        XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+        kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+        6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+        vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kfnx
+        nUUI43ZEXa7IU8q2NtUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This patch series is based on 6.5-rc1, it also applies cleanly to
+DOCUMENTATION tree: git.lwn.net/linux.git docs-next
 
-On 2023/7/11 12:42, Randy Dunlap wrote:
-> Hi--
-> 
-> On 7/10/23 21:34, Jiachen Zhang wrote:
->> Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
->> ---
->>   Documentation/filesystems/fuse-io.rst | 32 +++++++++++++++++++++++++--
->>   1 file changed, 30 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/filesystems/fuse-io.rst b/Documentation/filesystems/fuse-io.rst
->> index 255a368fe534..cdd292dd2e9c 100644
->> --- a/Documentation/filesystems/fuse-io.rst
->> +++ b/Documentation/filesystems/fuse-io.rst
-> 
->> @@ -24,7 +31,8 @@ after any writes to the file.  All mmap modes are supported.
->>   The cached mode has two sub modes controlling how writes are handled.  The
->>   write-through mode is the default and is supported on all kernels.  The
->>   writeback-cache mode may be selected by the FUSE_WRITEBACK_CACHE flag in the
->> -FUSE_INIT reply.
->> +FUSE_INIT reply. In either modes, if the FOPEN_KEEP_CACHE flag is not set in
-> 
->                         either mode,
-> 
->> +the FUSE_OPEN, cached pages of the file will be invalidated immediatedly.
-> 
->                                                                 immediately.
-> 
->>   
->>   In write-through mode each write is immediately sent to userspace as one or more
->>   WRITE requests, as well as updating any cached pages (and caching previously
->> @@ -38,7 +46,27 @@ reclaim on memory pressure) or explicitly (invoked by close(2), fsync(2) and
->>   when the last ref to the file is being released on munmap(2)).  This mode
->>   assumes that all changes to the filesystem go through the FUSE kernel module
->>   (size and atime/ctime/mtime attributes are kept up-to-date by the kernel), so
->> -it's generally not suitable for network filesystems.  If a partial page is
->> +it's generally not suitable for network filesystems (you can consider the
->> +writeback-cache-v2 mode mentioned latter for them).  If a partial page is
-> 
->                                       later
-> 
->>   written, then the page needs to be first read from userspace.  This means, that
->>   even for files opened for O_WRONLY it is possible that READ requests will be
->>   generated by the kernel.
-> 
-> 
+Tiezhu Yang (2):
+  Documentation/features: Check ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
+  Documentation/features: Refresh support files for 6.5
 
+ Documentation/features/debug/kprobes-on-ftrace/arch-support.txt | 2 +-
+ Documentation/features/debug/kprobes/arch-support.txt           | 2 +-
+ Documentation/features/debug/kretprobes/arch-support.txt        | 2 +-
+ Documentation/features/debug/stackprotector/arch-support.txt    | 2 +-
+ Documentation/features/debug/uprobes/arch-support.txt           | 2 +-
+ Documentation/features/locking/lockdep/arch-support.txt         | 2 +-
+ Documentation/features/vm/ELF-ASLR/arch-support.txt             | 5 +++--
+ 7 files changed, 9 insertions(+), 8 deletions(-)
 
-Thanks, Randy. I will fix them in the next version.
+-- 
+2.1.0
 
-Jiachen
