@@ -2,62 +2,62 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B18CEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 04:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 690E5C001B0
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 04:36:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbjGKEge (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 00:36:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45012 "EHLO
+        id S230225AbjGKEgk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 00:36:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjGKEgd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 00:36:33 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE57EBF
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 21:36:31 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-666683eb028so2783888b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 21:36:31 -0700 (PDT)
+        with ESMTP id S230100AbjGKEgj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 00:36:39 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52902E56
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 21:36:38 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b8ad8383faso38760265ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 21:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1689050191; x=1691642191;
+        d=bytedance.com; s=google; t=1689050198; x=1691642198;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o2fbpRc1gP3OYJFiewDVSSan5FPPeq6w2nLF2ekKLbg=;
-        b=RQesib1xN1ZmHsPS1BZxb8GFBw3bLOQP+UTjbpSvqSu+zXCUbswMRRjAQVntHnffgk
-         2E7MeVDBV3pc5dYbmgSn6MIm2amFwKOtJplCxUPOs4k2kU3oM5T7RL+2F9ANb+ranU8N
-         cTamzNqo/wgS45OeJK1zXiqykdKVk4JG6kyQnw8eJDpaUqPUIkUPzbNhzXXwt17/i6dg
-         koxv3ey5vV36NfWt0COANNWYLYE5QEZNoTZyYAyTVobEvSdbLe/RxfNmvTFEo+Olk8Dn
-         BNMc0q1bCu/CaaEV8YEzXStHiJ5nkGZrRC5Gn+FtESHQPWr5TV0cdYOfjYn8FB/MEZYv
-         N43w==
+        bh=LYyneuFOya7q2sTcPQVJeQ03ke3KB9TyjkGjVTDlnv0=;
+        b=US+yv14lPeyTCnFdCgqlMbJNwE5KFha2iFb4bUJz85g79tWQwveWhVddRTdv1h409z
+         sTqEZOWjzTPRfgsJPWBR7Xx5TMSMfStlFaNsHvHzD2rRTGfDherNOCKdeLsuMxgINzR2
+         RQ/zGyLXnd+lNknbGvcDuOHlIVtsGnIVwOVpXPUZtRNkx761pJZXbBpAEj6JPPSqf78Y
+         thC7FMr85gmT+MdH6x1W87SMix0tqX2IT2CXnXTw0rGKCjfu9FSlEa2NOjTvXSK9JIpO
+         x4C5KSu2PyHdX8/MP4lTcW1T5X3bIbebYofTJvZNNZEApZEH8RJguPodrK/KFIeniH2p
+         hCRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689050191; x=1691642191;
+        d=1e100.net; s=20221208; t=1689050198; x=1691642198;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o2fbpRc1gP3OYJFiewDVSSan5FPPeq6w2nLF2ekKLbg=;
-        b=YQrzior+d7vStVAfHv3Bf+R4ky082/Up0IrZS0bN3XyWktG0PH51zXt+CmNqRSqoDJ
-         5rUqbY1bffc2bNGWrsLVrRbQKbvnKo40DsaV35eteCuuGr8F5Yg1tukRkIJHibTFroNE
-         RwOAYJtfDfu4N5eWHWsj45e/DXiMtqTgmKqlragCbTnIoOiZlTGrS9jqC83YMcCERSby
-         mMvoheZvT/I1MtneyfdNkZSCZsU5y/74ETsxaiILO1VDSLx4EW90hladxe9tnYuvgilQ
-         CFWwLqgTCsWf5pVgF22lQXU1yCc6mfaZsK+OL64PHNq64qT2epZL1J3P3BeSi1htfj4i
-         vVgQ==
-X-Gm-Message-State: ABy/qLat6932jcEL+CABSJgNaxTaAzKbOvkFSOwhUCJpvNykzYKIkBrv
-        BU3wE4YhfK2c7svg6DAbvmBtEg==
-X-Google-Smtp-Source: APBJJlH4Z539tozKrapAxAT/lMBr/3gs+hikaUOY++P9Tu6dKkQgiDYYm65yDeiYW5QBvBYNqbJcOA==
-X-Received: by 2002:a05:6a21:900c:b0:130:74c8:b501 with SMTP id tq12-20020a056a21900c00b0013074c8b501mr8444984pzb.30.1689050191294;
-        Mon, 10 Jul 2023 21:36:31 -0700 (PDT)
+        bh=LYyneuFOya7q2sTcPQVJeQ03ke3KB9TyjkGjVTDlnv0=;
+        b=NLVova54vpr0QABargC2z8LAKW56FEuwpxDQzM6kXQQnruDZUHviMJy6R4DVxTh7SJ
+         KZ1wZjZ0ApGa756hFKTyVjTzVH3aLXrmomv76dna0Va2mxY8HCcneKFc4caqQ8qfQ1tY
+         K/IbxJZWCxDARm1OdsTwgxr0OMN2B78kq9201bVt6f5e6X4mVu0q7ESDRaVrefsVVpIp
+         XVp8IQsuAf+Oo7tbBh6xERkrxv+p8G71dtYPTHQWNP/IsSo2TCyncYY+sPIySlNh67Hb
+         AUfiTAChABG6iNCyu7xmgOxzOkhAicgLB2IMt7ipf2b+Eo7Rvo2J46SkciGNtG8fqDl8
+         dfKQ==
+X-Gm-Message-State: ABy/qLYgKiOJ2J015BWM9rO1vbo6CVhHdbBSgPzyeh117duC184SMAKj
+        Ezcp5dvaCSaJUYanhLgtZVpezg==
+X-Google-Smtp-Source: APBJJlHIf59vPvuJkt+nHEjvyzXHNkLoYRaEdMaHVely1xqgzY3bc4iYFFavqAdHFMoBUkKWqV62rg==
+X-Received: by 2002:a17:902:e88b:b0:1b8:1d4b:f5fc with SMTP id w11-20020a170902e88b00b001b81d4bf5fcmr17269445plg.30.1689050197840;
+        Mon, 10 Jul 2023 21:36:37 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.236])
-        by smtp.gmail.com with ESMTPSA id ij9-20020a170902ab4900b001b9de67285dsm755259plb.156.2023.07.10.21.36.28
+        by smtp.gmail.com with ESMTPSA id ij9-20020a170902ab4900b001b9de67285dsm755259plb.156.2023.07.10.21.36.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 21:36:30 -0700 (PDT)
+        Mon, 10 Jul 2023 21:36:37 -0700 (PDT)
 From:   Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
 To:     Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     me@jcix.top, Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Subject: [PATCH 1/5] fuse: check attributes staleness on fuse_iget()
-Date:   Tue, 11 Jul 2023 12:34:01 +0800
-Message-Id: <20230711043405.66256-2-zhangjiachen.jaycee@bytedance.com>
+Subject: [PATCH 3/5] fuse: add FOPEN_INVAL_ATTR
+Date:   Tue, 11 Jul 2023 12:34:03 +0800
+Message-Id: <20230711043405.66256-4-zhangjiachen.jaycee@bytedance.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
 References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
@@ -67,76 +67,62 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Function fuse_direntplus_link() might call fuse_iget() to initialize a new
-fuse_inode and change its attributes. If fi->attr_version is always
-initialized with 0, even if the attributes returned by the FUSE_READDIR
-request is staled, as the new fi->attr_version is 0, fuse_change_attributes
-will still set the staled attributes to inode. This wrong behaviour may
-cause file size inconsistency even when there is no changes from
-server-side.
+Add FOPEN_INVAL_ATTR so that the fuse daemon can ask kernel to invalidate
+the attr cache on file open.
 
-To reproduce the issue, consider the following 2 programs (A and B) are
-running concurrently,
-
-        A                                               B
-----------------------------------      --------------------------------
-{ /fusemnt/dir/f is a file path in a fuse mount, the size of f is 0. }
-
-readdir(/fusemnt/dir) start
-//Daemon set size 0 to f direntry
-                                        fallocate(f, 1024)
-                                        stat(f) // B see size 1024
-                                        echo 2 > /proc/sys/vm/drop_caches
-readdir(/fusemnt/dir) reply to kernel
-Kernel set 0 to the I_NEW inode
-
-                                        stat(f) // B see size 0
-
-In the above case, only program B is modifying the file size, however, B
-observes file size changing between the 2 'readonly' stat() calls. To fix
-this issue, we should make sure readdirplus still follows the rule of
-attr_version staleness checking even if the fi->attr_version is lost due to
-inode eviction. So this patch increases fc->attr_version on inode eviction,
-and compares request attr_version and the fc->attr_version when a
-FUSE_READDIRPLUS request is finished.
+The fi->attr_version should be increased when handling FOPEN_INVAL_ATTR.
+Because if a FUSE request returning attributes (getattr, setattr, lookup,
+and readdirplus) starts before a FUSE_OPEN replying FOPEN_INVAL_ATTR, but
+finishes after the FUSE_OPEN, staled attributes will be set to the inode
+and falsely clears the inval_mask.
 
 Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
 ---
- fs/fuse/inode.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ fs/fuse/file.c            | 10 ++++++++++
+ include/uapi/linux/fuse.h |  2 ++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 660be31aaabc..3e0b1fb1db17 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -115,6 +115,7 @@ static void fuse_free_inode(struct inode *inode)
- 
- static void fuse_evict_inode(struct inode *inode)
- {
-+	struct fuse_conn *fc = get_fuse_conn(inode);
- 	struct fuse_inode *fi = get_fuse_inode(inode);
- 
- 	/* Will write inode on close/munmap and in all other dirtiers */
-@@ -137,6 +138,8 @@ static void fuse_evict_inode(struct inode *inode)
- 		WARN_ON(!list_empty(&fi->write_files));
- 		WARN_ON(!list_empty(&fi->queued_writes));
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index de37a3a06a71..412824a11b7b 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -215,6 +215,16 @@ void fuse_finish_open(struct inode *inode, struct file *file)
+ 		file_update_time(file);
+ 		fuse_invalidate_attr_mask(inode, FUSE_STATX_MODSIZE);
  	}
 +
-+	atomic64_inc(&fc->attr_version);
- }
- 
- static int fuse_reconfigure(struct fs_context *fsc)
-@@ -409,6 +412,10 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
- 	fi->nlookup++;
- 	spin_unlock(&fi->lock);
- 	fuse_change_attributes(inode, attr, attr_valid, attr_version);
-+	spin_lock(&fi->lock);
-+	if (attr_version < atomic64_read(&fc->attr_version))
++	if (ff->open_flags & FOPEN_INVAL_ATTR) {
++		struct fuse_inode *fi = get_fuse_inode(inode);
++
++		spin_lock(&fi->lock);
++		fi->attr_version = atomic64_inc_return(&fc->attr_version);
 +		fuse_invalidate_attr(inode);
-+	spin_unlock(&fi->lock);
- 
- 	return inode;
++		spin_unlock(&fi->lock);
++	}
++
+ 	if ((file->f_mode & FMODE_WRITE) && fc->writeback_cache)
+ 		fuse_link_write_file(file);
  }
+diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+index b3fcab13fcd3..1a24c11637a4 100644
+--- a/include/uapi/linux/fuse.h
++++ b/include/uapi/linux/fuse.h
+@@ -315,6 +315,7 @@ struct fuse_file_lock {
+  * FOPEN_STREAM: the file is stream-like (no file position at all)
+  * FOPEN_NOFLUSH: don't flush data cache on close (unless FUSE_WRITEBACK_CACHE)
+  * FOPEN_PARALLEL_DIRECT_WRITES: Allow concurrent direct writes on the same inode
++ * FOPEN_INVAL_ATTR: invalidate the attr cache on open
+  */
+ #define FOPEN_DIRECT_IO		(1 << 0)
+ #define FOPEN_KEEP_CACHE	(1 << 1)
+@@ -323,6 +324,7 @@ struct fuse_file_lock {
+ #define FOPEN_STREAM		(1 << 4)
+ #define FOPEN_NOFLUSH		(1 << 5)
+ #define FOPEN_PARALLEL_DIRECT_WRITES	(1 << 6)
++#define FOPEN_INVAL_ATTR	(1 << 7)
+ 
+ /**
+  * INIT request/reply flags
 -- 
 2.20.1
 
