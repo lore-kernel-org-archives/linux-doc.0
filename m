@@ -2,68 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1913EB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 13:52:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C23EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 14:02:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231438AbjGKNwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 09:52:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35138 "EHLO
+        id S233099AbjGKOCM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 10:02:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjGKNwR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 09:52:17 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186C499;
-        Tue, 11 Jul 2023 06:52:16 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C818735D;
-        Tue, 11 Jul 2023 13:52:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C818735D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689083535; bh=th7mU2Y52P3owRLZiI3vRPeVMIxGwFCBFlm93ZNUBws=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Rqwhyw6g6zzsff4NuNKIp2L7GFSVYYgtSp6RZO3j9FZD4lmAMzWEil64/I8p8UlHz
-         XnCFQm0NUAFoOUbsv+nihT3nKLju5cLHHyeCbvm+7toWyhb/63WO+Os06yFaPrbqTh
-         jlZuRoatDWbhdr9X30LQyUxHno7PptYLmzEvhwnhnlH5yqS4Ge/FmCXRBxiuug7ito
-         AVEP3ieEyn2d8LVdyZTWIPTyolymVNjJaZp8LbkKYtpd4c41vf0ZiGKADMZxwh7I3f
-         Kwano92y7Ka+y3fJfVxvfIqS08LUZBfXMiapph1a/MMW3qcoGtMEcLzfTidWs0gQmB
-         2R/fDeQHuRskQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: Docs for base maintainer expectations?
-In-Reply-To: <20230710115239.3f9e2c24@kernel.org>
-References: <20230710115239.3f9e2c24@kernel.org>
-Date:   Tue, 11 Jul 2023 07:52:14 -0600
-Message-ID: <875y6q8sj5.fsf@meer.lwn.net>
+        with ESMTP id S232798AbjGKOCM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 10:02:12 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41441B0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jul 2023 07:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689084130; x=1720620130;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=v2Y9tc1bjtnPJu6bwZnH5SIex5dOJ+HoNwYwEk3hIBY=;
+  b=LwgDwC0dz/txE7N+4MC4SQl3gBuRmU+IrASfDeGiTuVi1jWRvdm7mSBn
+   TR6DoN5ioc1/k+e/foB1f4AJKNAX3JwP1kDusnDTFxlTvBmvhovJWxxfX
+   X0xmsAA52DmRS5/rmRBOm3VPvJZPiJaAxAQ8OJWSv6hpXY0Zl/eqlmv15
+   6VK2GTTwVQFa02116ZXO050ic7GaH7atkUhCsnYqU+DQjPhdWrLCAYJxH
+   A5bjqqKJn9e/Ed+wte2lYLR933jUfh0v/dL3klnpBfs7zMk3klnDFlj3z
+   dOfsqohGyQs+I8kH7flbOSXyK1zUAoA6Ge+bSDpYUH7l+9poLjGgUmUcD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="344940839"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
+   d="scan'208";a="344940839"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 07:02:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="724447058"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
+   d="scan'208";a="724447058"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 11 Jul 2023 07:02:04 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qJDwJ-0004qU-1G;
+        Tue, 11 Jul 2023 14:02:03 +0000
+Date:   Tue, 11 Jul 2023 22:01:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Steve Jeong <how2soft@gmail.com>
+Cc:     oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>,
+        linux-doc@vger.kernel.org
+Subject: [tobetter:odroid-6.1.y 1/28] drivers/char/rk3568-gpiomem.c:2:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202307112153.HxNLkhCL-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+tree:   https://github.com/tobetter/linux odroid-6.1.y
+head:   75d4aa9f650a9465ed7109062e98625502745688
+commit: 161dee9509736facbf1906dd1005e70e240389fa [1/28] ODROID-M1: Add /dev/gpiomem device
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230711/202307112153.HxNLkhCL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230711/202307112153.HxNLkhCL-lkp@intel.com/reproduce)
 
-> do we have any docs describing what's expected from folks stepping up
-> to maintain (small-ish) parts of the kernel like a driver or a protocol?
->
-> Experienced developers / maintainers differ like the beautiful
-> snowflakes that we are, but outsiders have much less familiarity 
-> with the landscape, and frankly sometimes much less interest in
-> participating once they code lands.
->
-> Which makes we wonder if a simple list of responsibilities would be
-> useful as a baseline. I haven't spotted anything in Docs/process but
-> perhaps someone has a local version for their subsystem?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307112153.HxNLkhCL-lkp@intel.com/
 
-I think that would be good to have.  We often complain about a lack of
-maintainers, but we have nothing to point to telling people how they can
-step up and do that.
+All warnings (new ones prefixed by >>):
 
-I've tried to fill in some pieces with the documents on merging and
-such, but we're missing the introduction.
+>> drivers/char/rk3568-gpiomem.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * GPIO memory device driver
 
-Thanks,
 
-jon
+vim +2 drivers/char/rk3568-gpiomem.c
+
+   > 2	 * GPIO memory device driver
+     3	 *
+     4	 * Creates a chardev /dev/gpiomem which will provide user access to
+     5	 * the rk3568's GPIO registers when it is mmap()'d.
+     6	 * No longer need root for user GPIO access, but without relaxing permissions
+     7	 * on /dev/mem.
+     8	 *
+     9	 * Written by Luke Wren <luke@raspberrypi.org>
+    10	 * Copyright (c) 2015, Raspberry Pi (Trading) Ltd.
+    11	 *
+    12	 * Redistribution and use in source and binary forms, with or without
+    13	 * modification, are permitted provided that the following conditions
+    14	 * are met:
+    15	 * 1. Redistributions of source code must retain the above copyright
+    16	 *    notice, this list of conditions, and the following disclaimer,
+    17	 *    without modification.
+    18	 * 2. Redistributions in binary form must reproduce the above copyright
+    19	 *    notice, this list of conditions and the following disclaimer in the
+    20	 *    documentation and/or other materials provided with the distribution.
+    21	 * 3. The names of the above-listed copyright holders may not be used
+    22	 *    to endorse or promote products derived from this software without
+    23	 *    specific prior written permission.
+    24	 *
+    25	 * ALTERNATIVELY, this software may be distributed under the terms of the
+    26	 * GNU General Public License ("GPL") version 2, as published by the Free
+    27	 * Software Foundation.
+    28	 *
+    29	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+    30	 * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+    31	 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+    32	 * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+    33	 * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+    34	 * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    35	 * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+    36	 * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+    37	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    38	 * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    39	 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    40	 */
+    41	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
