@@ -2,123 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A01A3C00528
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 06:20:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE921EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 06:57:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230519AbjGKGUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 02:20:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50394 "EHLO
+        id S229458AbjGKG53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 02:57:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231296AbjGKGT7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 02:19:59 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4E53E4F;
-        Mon, 10 Jul 2023 23:19:57 -0700 (PDT)
-Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1qJ6j6-0000FA-55; Tue, 11 Jul 2023 08:19:56 +0200
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Greg KH <gregkh@linuxfoundation.org>, stable@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 2/2] docs: stable-kernel-rules: make rule section more straight forward
-Date:   Tue, 11 Jul 2023 08:19:54 +0200
-Message-Id: <f83e812879caa978a51a1a7cae7c359f29fc093c.1689056247.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <cover.1689056247.git.linux@leemhuis.info>
-References: <cover.1689056247.git.linux@leemhuis.info>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689056398;82679b42;
-X-HE-SMSGID: 1qJ6j6-0000FA-55
+        with ESMTP id S230148AbjGKG52 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 02:57:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D10B1A8;
+        Mon, 10 Jul 2023 23:57:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AF0E76132C;
+        Tue, 11 Jul 2023 06:57:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DA20C433C8;
+        Tue, 11 Jul 2023 06:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689058646;
+        bh=XbueLfbh+xpb2riKkcfsNl0zXNJkp7eCcVQSRNk/hHc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tDUnRYYQgv3S4zJf/g5HmzTmuA9OY72vHb9Zq968WcO8YETf+o/zoT6TUAuWVSEXy
+         xWSCsYTcvxoMRjz3mRujltcJX2Bz/ioEnU+zugbAYHW1/eTBWStfEQZR5f4FUuz/Sg
+         ImADdSIECbyQZV9dXQFCcvxGSpoMXvbg2KUGfU5ozV6SZcvG394mJLSliBQS3399mg
+         5tEM4FnUKA9PDfp3es8crk82z158wd2vqaWbYOpqgRdBnygnSoBjgs+UCcnz24JMlx
+         jUr7vHakZVLkRNN3QIRlN/DdLAfd5IcoBdivycNGOGZtKNhMZWR6MHRvbNErVTStt1
+         w4n8j79CuvjzA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1qJ7JL-00C29S-Cl;
+        Tue, 11 Jul 2023 07:57:23 +0100
+Date:   Tue, 11 Jul 2023 07:57:23 +0100
+Message-ID: <86lefnvsto.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
+Cc:     <will@kernel.org>, <corbet@lwn.net>, <catalin.marinas@arm.com>,
+        <quic_pkondeti@quicinc.com>, <quic_kaushalk@quicinc.com>,
+        <quic_satyap@quicinc.com>, <quic_shashim@quicinc.com>,
+        <quic_songxue@quicinc.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+In-Reply-To: <6e07ad52-2629-346e-6217-ec07777ebc5b@quicinc.com>
+References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
+        <875y6s8bwb.wl-maz@kernel.org>
+        <32f442e3-3d5c-4cec-9791-0da039f88287@quicinc.com>
+        <874jmc8654.wl-maz@kernel.org>
+        <6e07ad52-2629-346e-6217-ec07777ebc5b@quicinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: quic_aiquny@quicinc.com, will@kernel.org, corbet@lwn.net, catalin.marinas@arm.com, quic_pkondeti@quicinc.com, quic_kaushalk@quicinc.com, quic_satyap@quicinc.com, quic_shashim@quicinc.com, quic_songxue@quicinc.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tweak some of the rule text to make things more straight forward, with
-the goal to stick closely to the intend of the old text:
+On Tue, 11 Jul 2023 04:30:44 +0100,
+"Aiqun(Maria) Yu" <quic_aiquny@quicinc.com> wrote:
+> 
+> On 7/10/2023 5:31 PM, Marc Zyngier wrote:
+> > On Mon, 10 Jul 2023 09:19:54 +0100,
+> > "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com> wrote:
+> >> 
+> >> On 7/10/2023 3:27 PM, Marc Zyngier wrote:
+> >>> On Mon, 10 Jul 2023 06:59:55 +0100,
+> >>> Maria Yu <quic_aiquny@quicinc.com> wrote:
+> >>>> 
+> >>>> In order to be able to disable lse_atomic even if cpu
+> >>>> support it, most likely because of memory controller
+> >>>> cannot deal with the lse atomic instructions, use a
+> >>>> new idreg override to deal with it.
+> >>> 
+> >>> In general, the idreg overrides are *not* there to paper over HW bugs.
+> >>> They are there to force the kernel to use or disable a feature for
+> >>> performance reason or to guide the *enabling* of a feature, but not
+> >>> because the HW is broken.
+> >>> 
+> >>> The broken status of a HW platform must also be documented so that we
+> >>> know what to expect when we look at, for example, a bad case of memory
+> >>> corruption (something I'd expect to see on a system that only
+> >>> partially implements atomic memory operations).
+> >>> 
+> >> 
+> >> good idea. A noc error would be happened if the lse atomic instruction
+> >> happened during a memory controller doesn't support lse atomic
+> >> instructions.
+> >> I can put the information in next patchset comment message. Pls feel
+> >> free to let know if there is other place to have this kind of
+> >> information with.
+> > 
+> > For a start, Documentation/arch/arm64/silicon-errata.rst should
+> > contain an entry for the actual erratum, and a description of the
+> > symptoms of the issue (you're mentioning a "noc error": how is that
+> > reported to the CPU?).
+> 
+> This is not a cpu's errata as my understanding. It is the DDR
+> subsystem which don't have the LSE atomic feature supported.
 
-* put the "it or equivalent fix must be upstream" rule at the top, as
-  it's one of the most important ones that at the same time often seems
-  to be missed by developers.
-* "It must fix only one thing" was dropped, as that is almost always a
-  thing that needs to be handled earlier when the change is mainlined.
-  Furthermore, this is already indirectly covered by the "Separate your
-  changes" section in Documentation/process/submitting-patches.rst which
-  the rules already point to.
-* six other rules are in the end one rule with clarifications; structure
-  the text accordingly to make it a lot easier to follow and understand
-  the intend.
-* drop the 'In short, something critical' from one of those notes: it
-  contradicts the "real bug that bothers people" aspect somewhat and does
-  not really add anything
+CPU or not doesn't matter. We also track system errata.
 
-CC: Greg KH <gregkh@linuxfoundation.org>
-CC: Sasha Levin <sashal@kernel.org>
-CC: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
-v1->v2:
-- also drop the 'In short, something critical'
----
- Documentation/process/stable-kernel-rules.rst | 38 +++++++++----------
- 1 file changed, 18 insertions(+), 20 deletions(-)
+> > 
+> > The workaround should also be detected at runtime -- we cannot rely on
+> > the user to provide a command-line argument to disable an essential
+> > feature that anyone has taken for granted for most of a decade...
+> 
+> We are also seeking help from DDR Subsystem POC to see whether it is
+> possible to detect the LSE atomic feature support or not at runtime.
 
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index de0046c0586b..d3f040c2738e 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -6,31 +6,29 @@ Everything you ever wanted to know about Linux -stable releases
- Rules on what kind of patches are accepted, and which ones are not, into the
- "-stable" tree:
- 
-+ - It or an equivalent fix must already exist in Linus' tree (upstream).
-  - It must be obviously correct and tested.
-  - It cannot be bigger than 100 lines, with context.
-- - It must fix only one thing.
-- - It must fix a real bug that bothers people (not a, "This could be a
--   problem..." type thing).
-- - It must fix a problem that causes a build error (but not for things
--   marked CONFIG_BROKEN), an oops, a hang, data corruption, a real
--   security issue, or some "oh, that's not good" issue.  In short, something
--   critical.
-- - Serious issues as reported by a user of a distribution kernel may also
--   be considered if they fix a notable performance or interactivity issue.
--   As these fixes are not as obvious and have a higher risk of a subtle
--   regression they should only be submitted by a distribution kernel
--   maintainer and include an addendum linking to a bugzilla entry if it
--   exists and additional information on the user-visible impact.
-- - New device IDs and quirks are also accepted.
-- - No "theoretical race condition" issues, unless an explanation of how the
--   race can be exploited is also provided.
-- - It cannot contain any "trivial" fixes in it (spelling changes,
--   whitespace cleanups, etc).
-  - It must follow the
-    :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-    rules.
-- - It or an equivalent fix must already exist in Linus' tree (upstream).
--
-+ - It must either fix a real bug that bothers people or just add a device ID.
-+   To elaborate on the former:
-+
-+   - It fixes a problem like an oops, a hang, data corruption, a real security
-+     issue, a hardware quirk, a build error (but not for things marked
-+     CONFIG_BROKEN), or some "oh, that's not good" issue.
-+   - Serious issues as reported by a user of a distribution kernel may also
-+     be considered if they fix a notable performance or interactivity issue.
-+     As these fixes are not as obvious and have a higher risk of a subtle
-+     regression they should only be submitted by a distribution kernel
-+     maintainer and include an addendum linking to a bugzilla entry if it
-+     exists and additional information on the user-visible impact.
-+   - No "This could be a problem..." type of things like a "theoretical race
-+     condition", unless an explanation of how the bug can be exploited is also
-+     provided.
-+   - No "trivial" fixes without benefit for users (spelling changes, whitespace
-+     cleanups, etc).
- 
- Procedure for submitting patches to the -stable tree
- ----------------------------------------------------
+Keying it off a DT compatible (or something similar) would work.
+
+> In my opinion, LSE atomic is a system level feature instead of a cpu
+> only feature. So currently solution we is that even if cpu support lse
+> atomic, but it still needed to be disabled if the cpu working with a
+> lse atomic not support by current system's DDR subsystem.
+
+In the absence of a detection mechanism for anything past the CPU,
+this is a moot point. At this stage, this is a bit like saying
+"writing to memory is a system thing, not only a CPU feature".
+
+And this also breaks KVM if these CPUs don't have FWB, as a guest can
+always map a piece of memory as non-cacheable, and trigger the issue
+you describe in your reply to Will, even if you hide the atomics on
+the host.
+
+	M.
+
 -- 
-2.40.1
-
+Without deviation from the norm, progress is not possible.
