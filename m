@@ -2,140 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E6CBEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 04:36:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B925C001B0
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jul 2023 04:37:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230281AbjGKEgt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 00:36:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45112 "EHLO
+        id S230389AbjGKEg7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 00:36:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230259AbjGKEgq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 00:36:46 -0400
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com [IPv6:2607:f8b0:4864:20::c36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 506ECE5D
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 21:36:45 -0700 (PDT)
-Received: by mail-oo1-xc36.google.com with SMTP id 006d021491bc7-564e4656fecso3285677eaf.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 21:36:45 -0700 (PDT)
+        with ESMTP id S230295AbjGKEgy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 00:36:54 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07A0090
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 21:36:29 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3a1ebb85f99so4614423b6e.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jul 2023 21:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1689050204; x=1691642204;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uwg2LF4AANWZXAWwCxGinMEpTuqfx93iO2WWEDfZD58=;
-        b=FQYPBCJf+VlZ5ovBna1yPEjwhpPcuj+TyxHZ6gvlXmFomTF22kPeeT/g0ze4HZ9wHo
-         zqm6W0WC7dErw/M8WMC2QBLnzPkIlnJau1pUamJyDbHRCUYMta2PJDPLuefEj30lNmqQ
-         bFMNCmQHoyfEyV999O2zvsnHzuAHebR7iDySxbjdRsstFgtEIbbr2FjSj2EhgG5Yq/8J
-         6eqYzrVylv37i/NMhZFrvNEhx58ljDYuU6v/ZPCHAnyBWoKzf5/yGmtW+v1VyCZBFWI1
-         A3hQnXSUZR+VmVS5C6CeVBnQ+TKQ1SuUcDn8NMKn75QP4P+7Qq5cV+EdA1Vom2Os1u3g
-         Z+7g==
+        d=bytedance.com; s=google; t=1689050188; x=1691642188;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nq3lPXWT5aXljLcGjDhakg0e9OKm0kYjlfzX3G1YySM=;
+        b=U/k0gmhKprSH8HHPSLhEKtiEwMpj3UCthlCHSjtbF4pXeTx53Jd5X+28zSCp3EQVWN
+         gXH2/NxX1zWMZCkwtk1MolZBOeamaf25jM/L7DL/3kmjblno55kjVz0wZa6B6lfv2fEY
+         gYjG8h/brzAri8nVPWa/vxt9zxQcmjY+Yv3+TGwJuhyLNCOHN+3PR5VG8+qY/EixG2AY
+         OV/2xCqVSI81tQmCUeAcc1ZyLSQo8kSipb74slZE04gzTTzObNMQVx6jfu9EojvDiX+X
+         Q7NDao/lscWvdSB3CkmJM9vpJyKRn4RqjJ7mDz85hJYD2PixQfn3Xx3V7DzZNj/Lofcy
+         q+CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689050204; x=1691642204;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Uwg2LF4AANWZXAWwCxGinMEpTuqfx93iO2WWEDfZD58=;
-        b=auid3zs5gkg7S7eL7WorG4Ahh9aCq6sF9VodIDYgSku0NjrxRxKZGyEfVIr4QHx/qo
-         FeneZpcYhia7G36xExHg2m2RK/fc4/D93AxQSpyTnEVP/3DcBEY0fB9CRdQNmnHBLtc5
-         NaaaWiobXClayKHYfReGwYVpZIh3MPMl7I1jQiVsu4UYB73rj1J2sN5pKhAszD6B9GAT
-         FlsvZYfmGMoZKSi6B4r5W/O3lvBQaOR5Ox0XFHjJevOedEr9P0YBQ5uFuFP89jgBsSG7
-         xkltCfjWFuwsGAwPi7wYbXH5u2XLAZri+iA+Oseg/VwKzWHAS1HQ94bIvfLkTohd46Qq
-         jA1Q==
-X-Gm-Message-State: ABy/qLYMsGsxfRc3wZ3tFFuy1EdkUba0/LRxEZjuoMm2JtU/5Ai+6igK
-        xBqPdZNEg/kw+QAR8/v1GR3RDw==
-X-Google-Smtp-Source: APBJJlF+/Mer4asnYDOi1Z2fZgD4qhRhJV5X1fI+Mt3Z+R6CtLdrmsgjVXdUNNYIMRbvUQc7u4fz1g==
-X-Received: by 2002:a05:6358:9995:b0:131:46b:3953 with SMTP id j21-20020a056358999500b00131046b3953mr12700100rwb.13.1689050204573;
-        Mon, 10 Jul 2023 21:36:44 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689050188; x=1691642188;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nq3lPXWT5aXljLcGjDhakg0e9OKm0kYjlfzX3G1YySM=;
+        b=ESjXTiBrpcudlgtw8uEVSh3vC+XH9IBt9PY1bCFKwmFppqwGJ/Bvl5pn1fG1RfKKvG
+         31EBarT2lur7R/OrzXMcbCDKW2x0o5Iy8D0bTvARvRU+uNf3wZF8sMAe198D80889suR
+         FowDwS26PjhTwQVlZOZUmksdcsWI0OuQPO6Osl984VGeFenNoaV3zs9XFniHfu5h1W5Q
+         ToMYYXe0C6QovcpkEV9D7OtDzepRXeWDpYVY3iWtiPTU4q1XlvDvPOeqXYuCHfL4asZy
+         ReysWjUcLUC2U43bnLYoEbVJp4uMqHtWQVdG3/eVVh/7IXDCtSJpuDBesV16RUac+RyF
+         ejFQ==
+X-Gm-Message-State: ABy/qLYzar50RcwPnpC+OgrtkUfm9T8Sm+2IBOT6is1BYZ0F93BKg6Tb
+        jUwH6UhL7o4quQiEIyAtX4WrCw==
+X-Google-Smtp-Source: APBJJlG/BcxDe+NZs8OlImStJRESCa7bKcOOGDXXexFkijj4ysQOckROCY3jTsXmvPKD+bullkwFKg==
+X-Received: by 2002:a05:6358:9910:b0:134:ddad:2b4f with SMTP id w16-20020a056358991000b00134ddad2b4fmr14191945rwa.18.1689050188217;
+        Mon, 10 Jul 2023 21:36:28 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.236])
-        by smtp.gmail.com with ESMTPSA id ij9-20020a170902ab4900b001b9de67285dsm755259plb.156.2023.07.10.21.36.41
+        by smtp.gmail.com with ESMTPSA id ij9-20020a170902ab4900b001b9de67285dsm755259plb.156.2023.07.10.21.36.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 21:36:44 -0700 (PDT)
+        Mon, 10 Jul 2023 21:36:27 -0700 (PDT)
 From:   Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
 To:     Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     me@jcix.top, Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Subject: [PATCH 5/5] docs: fuse: improve FUSE consistency explanation
-Date:   Tue, 11 Jul 2023 12:34:05 +0800
-Message-Id: <20230711043405.66256-6-zhangjiachen.jaycee@bytedance.com>
+Subject: [PATCH 0/5] FUSE consistency improvements
+Date:   Tue, 11 Jul 2023 12:34:00 +0800
+Message-Id: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
-References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
----
- Documentation/filesystems/fuse-io.rst | 32 +++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
+This patchset resends some patches that related to FUSE consistency
+improvements in the mailing list.
 
-diff --git a/Documentation/filesystems/fuse-io.rst b/Documentation/filesystems/fuse-io.rst
-index 255a368fe534..cdd292dd2e9c 100644
---- a/Documentation/filesystems/fuse-io.rst
-+++ b/Documentation/filesystems/fuse-io.rst
-@@ -10,6 +10,10 @@ Fuse supports the following I/O modes:
- - cached
-   + write-through
-   + writeback-cache
-+  + writeback-cache-v2
-+
-+Direct-io Mode
-+==============
- 
- The direct-io mode can be selected with the FOPEN_DIRECT_IO flag in the
- FUSE_OPEN reply.
-@@ -17,6 +21,9 @@ FUSE_OPEN reply.
- In direct-io mode the page cache is completely bypassed for reads and writes.
- No read-ahead takes place. Shared mmap is disabled.
- 
-+Cached Modes and Cache Coherence
-+================================
-+
- In cached mode reads may be satisfied from the page cache, and data may be
- read-ahead by the kernel to fill the cache.  The cache is always kept consistent
- after any writes to the file.  All mmap modes are supported.
-@@ -24,7 +31,8 @@ after any writes to the file.  All mmap modes are supported.
- The cached mode has two sub modes controlling how writes are handled.  The
- write-through mode is the default and is supported on all kernels.  The
- writeback-cache mode may be selected by the FUSE_WRITEBACK_CACHE flag in the
--FUSE_INIT reply.
-+FUSE_INIT reply. In either modes, if the FOPEN_KEEP_CACHE flag is not set in
-+the FUSE_OPEN, cached pages of the file will be invalidated immediatedly.
- 
- In write-through mode each write is immediately sent to userspace as one or more
- WRITE requests, as well as updating any cached pages (and caching previously
-@@ -38,7 +46,27 @@ reclaim on memory pressure) or explicitly (invoked by close(2), fsync(2) and
- when the last ref to the file is being released on munmap(2)).  This mode
- assumes that all changes to the filesystem go through the FUSE kernel module
- (size and atime/ctime/mtime attributes are kept up-to-date by the kernel), so
--it's generally not suitable for network filesystems.  If a partial page is
-+it's generally not suitable for network filesystems (you can consider the
-+writeback-cache-v2 mode mentioned latter for them).  If a partial page is
- written, then the page needs to be first read from userspace.  This means, that
- even for files opened for O_WRONLY it is possible that READ requests will be
- generated by the kernel.
-+
-+Writeback-cache-v2 mode (enabled by the FUSE_WRITEBACK_CACHE_V2 flag) retains
-+the dirty page management logic of the writeback-cache mode, which provides
-+great write performance.  Furthermore, the v2 mode improves cache coherence for
-+multiple FUSE mounts scenarios, especially for network filesystems. The kernel
-+a/c/mtime and size attributes are allowed to be updated from the filesystem
-+either on timeout or when they have been explicitly invalidated. Meanwhile, if
-+ever updated by kernel locally, the attributes will not be propagated to the
-+filesystem. In other words, the filesystem rather than kernel is considered the
-+official source for generating these attributes.
-+
-+By combining the writeback-cache-v2 mode with the appropriate open flags
-+(FOPEN_KEEP_CACHE and FOPEN_INVAL_ATTR for keeping page cache and invalidating
-+attributes on FUSE_OPEN respectively), filesystems are able to implement the
-+close-to-open (CTO) consistency semantics, which is widely supported by NFS
-+client implementations. This allows for maintaining the writeback manner of
-+dirty pages while ensuring cache coherence of attributes and file data if the
-+operations among different FUSE mounts on a file are properly serialized by
-+users using the open-after-close manner.
+The 1st patch fixes a staleness-checking issue, which is the v2 version
+of the patch[1].
+
+The 2nd patch is a resend version of the patch[2] with its commit message
+rewritten.
+
+The 3rd and 4th patches are new versions of the patch[3] and the patch[4],
+FUSE filesystems are able to implement the close-to-open (CTO) consistency
+semantics with the help of these two patches. The 5th patch is a new
+patch which improves the explanation of FUSE cache mode and consistency
+models in the documentation.
+
+
+[1] [PATCH] fuse: initialize attr_version of new fuse inodes by fc->attr_version,
+https://lore.kernel.org/lkml/20221111093702.80975-1-zhangjiachen.jaycee@bytedance.com/
+[2] [PATCH] fuse: invalidate dentry on EEXIST creates or ENOENT deletes,
+https://lore.kernel.org/lkml/20220805131823.83544-1-zhangjiachen.jaycee@bytedance.com/
+[3] [PATCH] fuse: add FOPEN_INVAL_ATTR,
+https://lore.kernel.org/lkml/20220608104202.19461-1-zhangjiachen.jaycee@bytedance.com/
+[4] [PATCH] fuse: writeback_cache consistency enhancement (writeback_cache_v2),
+https://lore.kernel.org/lkml/20220624055825.29183-1-zhangjiachen.jaycee@bytedance.com/
+
+
+Jiachen Zhang (5):
+  fuse: check attributes staleness on fuse_iget()
+  fuse: invalidate dentry on EEXIST creates or ENOENT deletes
+  fuse: add FOPEN_INVAL_ATTR
+  fuse: writeback_cache consistency enhancement (writeback_cache_v2)
+  docs: fuse: improve FUSE consistency explanation
+
+ Documentation/filesystems/fuse-io.rst | 32 +++++++++++++++--
+ fs/fuse/dir.c                         | 11 +++---
+ fs/fuse/file.c                        | 35 +++++++++++++++++++
+ fs/fuse/fuse_i.h                      |  6 ++++
+ fs/fuse/inode.c                       | 49 +++++++++++++++++++++++++--
+ include/uapi/linux/fuse.h             | 11 +++++-
+ 6 files changed, 135 insertions(+), 9 deletions(-)
+
 -- 
 2.20.1
 
