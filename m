@@ -2,124 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 941CEC001E0
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 19:37:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4312C0015E
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 21:32:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231499AbjGLThJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 15:37:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33224 "EHLO
+        id S231269AbjGLVcQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 17:32:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231309AbjGLThI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 15:37:08 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 045AE1FC7
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:37:07 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-5149aafef44so9124994a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:37:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689190625; x=1691782625;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=181nRb34mOchYAye6iVohgQkjGw1ad08V10xOFxDSTo=;
-        b=Je6UUMmaidGnv0Fo0srK1gDbpcBFzA/8I0i8Hz6wr5CDI8G5GY6m6S8p/1aSzZPD5E
-         wkK3QhrjuVrKLjIPAot0WktP4GhdW6SIK+yyOKui+2HrhWbMe0mZRoM2+Szcd2+expLN
-         75iUfVtIXKguXYqnSBmrIvHB3YTCA3D0eM1+7/piKWktu0jfKzjA/Pje3HkLkZPR0xzY
-         0e1cC6uMIeCdnmez16qNSW19W7vVKjLWoobxtfIiya/4uHBeuh8Rf5JvMepOKQ82234/
-         U43MF3ZVjgz6qdJtwEVo7AN2pawOukAnfYhpYKtv1+r0yLAM/FsT4NFeCGc5f6hlY8fP
-         cmdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689190625; x=1691782625;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=181nRb34mOchYAye6iVohgQkjGw1ad08V10xOFxDSTo=;
-        b=ZJ2AS5Zwcyf+h69lzEH3bfzn+vZKYuPwTy0T7i+dl5u1Ifg/hOOkLammnfLAsHOd8W
-         nejqARHHD4Y4lYubThwc++dDeoEhjkalIZlffZSeYKEZwpUQz/c6+x/X37Zct3ITP6WJ
-         M4qrIUmbdtSbqTV7bSwJJ69opQCLyDv8jl1pgUgNQYOl3xgt3oKwDT4mkZEir2X1R4ZF
-         UCZ5jgYzZJjqvHXwRjlI0Id8KTAoyq3+lvNDXsO3nVTFkYEWjbpJ9ppz2i3jZ+nwewkP
-         ubgU/2is5b9VbWTU0oZFBY8XoyJbYXxnrv3iZ5peKEmWU0Ar9y/gjztJtGK5eUU2FeSP
-         z33Q==
-X-Gm-Message-State: ABy/qLa3Ff0yGOtANwcR9h4tfSfysOQKANfLN7KA1xF727RQYRszKGm3
-        zvWd7zI6vv8bezJxpcBEPpuZ9g==
-X-Google-Smtp-Source: APBJJlF+g5n2353+b/lgRe+uVfxvvxpHFQBAfIRl+jrS3le4CKoUwHgcKyqYYTIDFLe4gKFeQBe7uw==
-X-Received: by 2002:a17:906:c30e:b0:992:16bb:2b6e with SMTP id s14-20020a170906c30e00b0099216bb2b6emr17483852ejz.29.1689190625528;
-        Wed, 12 Jul 2023 12:37:05 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id b14-20020a17090636ce00b0098d486d2bdfsm2992208ejc.177.2023.07.12.12.37.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 12:37:04 -0700 (PDT)
-Message-ID: <0beb714b-7e8d-6699-6f09-df68b9307f1c@linaro.org>
-Date:   Wed, 12 Jul 2023 21:37:03 +0200
+        with ESMTP id S229512AbjGLVcP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 17:32:15 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4585CCF;
+        Wed, 12 Jul 2023 14:32:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=X5RvNDpha0pXy5z1FbTruBc/+E7AU+Rl+3OdvU1NSjw=; b=QInHJOTDWygtewJArexZLK/bmV
+        psP9Q+UJAGh0SrtpoNIvU/LFmi6i5qQl5I9m7XISjIrK+9RSVb5NYZDb5Ec1otdP9vuu2rgrxClKJ
+        W+DZ2SIg84jJMDHPnJkD9WOK1slvsPvGFyD8d6HAlaYh+k/akfHxWSqz7xWgpS/aWVUpOdcNIi9+2
+        mBvaWLUIXzPQThfwSCYf6E+l0QeB9J4RoF9pYtHcoCj0FRRWTn2otLEvzlcmmPEZaska/Wsc/oFNY
+        fDHONKjj4vXh9Yqr5p/yXz6JNWZlAA2Ui+DUnrZM0h3Llm9oILsLMyDxGR4rTCndvM3qZhAvBwhmX
+        aUkEbSjQ==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qJhRR-001JNw-1u;
+        Wed, 12 Jul 2023 21:32:09 +0000
+Message-ID: <c4afe7ca-7d6a-652c-3bfc-1b2c1d58f038@infradead.org>
+Date:   Wed, 12 Jul 2023 14:32:09 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] Documentation/process: maintainer-soc: document
- dtbs_check requirement for Samsung
+ Thunderbird/102.12.0
+Subject: Re: [PATCH docs] MAINTAINERS: treat Documentation/maintainer as
+ process docs
 Content-Language: en-US
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        soc@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230712084131.127982-1-krzysztof.kozlowski@linaro.org>
- <20230712-skier-ribcage-0d82be7e16fd@wendy>
- <da79ac87-f112-be43-52b2-2293e1a99d9b@linaro.org>
- <20230712-unfasten-trespass-d57b3ff1f134@wendy>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230712-unfasten-trespass-d57b3ff1f134@wendy>
+To:     Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>
+Cc:     linux-doc@vger.kernel.org, workflows@vger.kernel.org
+References: <20230712161011.1339829-1-kuba@kernel.org>
+ <20230712091154.7ad7561c@kernel.org> <87pm4x3xv3.fsf@meer.lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87pm4x3xv3.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/07/2023 14:34, Conor Dooley wrote:
-> On Wed, Jul 12, 2023 at 01:46:20PM +0200, Krzysztof Kozlowski wrote:
->> On 12/07/2023 11:48, Conor Dooley wrote:
->>> On Wed, Jul 12, 2023 at 10:41:31AM +0200, Krzysztof Kozlowski wrote:
->>>> Samsung ARM/ARM64 SoCs (except legacy S5PV210) are also expected not to
->>>> bring any new dtbs_check warnings.  In fact this have been already
->>>> enforced and tested since few release.
->>>>
->>>> Cc: Conor Dooley <conor.dooley@microchip.com>
->>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>>
->>>> ---
->>>
->>>> Not sure where to document this. Creating new maintainer profile for
->>>> Samsung SoC would be an overkill. OTOH, more SoCs might want to grow
->>>> this list, so this also scales poor.
->>>
->>> To me, this portion of the document was "information to the
->>> submaintainer", which would be you, not information to the contributors
->>> to the platform. Adding the comment about Samsung SoC seems aimed at
->>> contributors?
->>
->> Yes, I want to document it for contributors, so they won't be surprised.
->> Any hints where to store it? I could put it in the "About" tab of my
->> kernel.org repo, but no one checks this for contribution guidelines.
+
+
+On 7/12/23 09:20, Jonathan Corbet wrote:
+> Jakub Kicinski <kuba@kernel.org> writes:
 > 
-> I've not got a better suggestion for where to put this, but under
-> something labelled as "Information for (new) Submaintainers" isn't
-> where I would be looking as a contributor.
+>> On Wed, 12 Jul 2023 09:10:11 -0700 Jakub Kicinski wrote:
+>>>  F:	Documentation/process/
+>>> +F:	Documentation/maintainer/
+>>
+>> Ugh, and looking at it in the email client I remember that m comes
+>> before p. I'll send a v2 tomorrow if nobody nacks.
+> 
+> See https://git.kernel.org/linus/c192ac735768 :)
+> 
+> jon
 
-Yeah, true.
+Ugh, that is sad. :(
 
-> Is adding to the generic DT documentation that dtbs_check should not add
-> any new warnings at W=1 too extreme?
-
-It is to extreme. Several sub-arch maintainers might prioritize features
-than DT schema compliance. I would say it is their choice, even if I
-don't agree with it.
-
-> writing-schema.rst has the instructions about how to run dtbs_check while
-> writing dt-binding patches, but we don't seem to have any docs about
-> running dtbs_check for dts/dtsi changes.
-
-Maybe I will add generic maintainer-sub-arch-soc profile doc which then
-can be linked by multiple soc subsystems.
-
-Best regards,
-Krzysztof
-
+-- 
+~Randy
