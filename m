@@ -2,113 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD87EB64DC
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 03:32:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADCC2C001DC
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 03:43:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231676AbjGLDcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 23:32:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38036 "EHLO
+        id S231855AbjGLDng (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jul 2023 23:43:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231891AbjGLDcV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 23:32:21 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF4F910D2;
-        Tue, 11 Jul 2023 20:32:14 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-63770af327fso43876896d6.2;
-        Tue, 11 Jul 2023 20:32:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689132734; x=1691724734;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jvf0nF5ZRGZZqWs6AfvhMZd8lPGLYxeXrzMNbCUatcI=;
-        b=SxWs7+NhmtFmcBIYeyB0DJkbyihTJ/eJTVplhF1PBnu+7xoaTjCtrLQrHuwdLeFQ78
-         I3V+0ZV93yvXSyymfW23KSm49bdG2+cDQerjn3yUo7EY7/0mneaPnyICynnwfA41jpPA
-         naFsV9h5672637AMbpuI5rKyDIB3JNrSXE1gmfIjsGRnHmGmIJya6kl1cK7Au5vlJ+o0
-         qZ4wu7MQKjX1Qw9kEVfq2Uud8SykO3pPpDbkvH9aneGl/oxs8a+Tgu/ldl1ny5gWRfIK
-         X1leUhBEIbA2PIMJjep3EInbKA1GWE9b1EsAy8+gD8hJkhSi7o6o9657r4Mm0u2QiaZh
-         LL3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689132734; x=1691724734;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jvf0nF5ZRGZZqWs6AfvhMZd8lPGLYxeXrzMNbCUatcI=;
-        b=O4yaN+EFP8AdfLOxS577hf0VSk7KISRInzAPBLrsjKBVlopLyYyenNcetoGrdYAIrv
-         TavCEIiCURr6qJ3OFa0BiSbD2NPEMN7Ekr7H9oYXFfjSC3iEo/rSBOtx8830LTV7jHSK
-         XKbGVVU/B9o2aB9LrWaISIg9GcYotdwu2mMGt5VTCyNGXUeuEgacU46v8udLmgMv4Ws7
-         U7ri0rHlWTly9a4M4xbVyfYrCem0Gg1nQAZUWXFA5U+7CRF7T3yS7H4q9evk3eCjI8Ik
-         9oq7Q3e7qU/4PLRKfXV68RtU8pSVFBGFXUSzMzQJs7831hbqJ6pOi1tKvTywKGkXUwHV
-         gOXA==
-X-Gm-Message-State: ABy/qLbaLPQVgpT3Tt4zlntZkxDMt/wmxlpgDJxfiJ0OS6556jfpN+Vm
-        VZUT0fL7mziTsiTd1/nJiiGDyAgv/ck=
-X-Google-Smtp-Source: APBJJlEi9cxhyg3FYQSwltq1b2CBfAz1F+0jG2fDBkJz+XscIpuisGIVjUha+zJXqw5Cv3MbLPDerw==
-X-Received: by 2002:ac8:5cc8:0:b0:403:a770:e15a with SMTP id s8-20020ac85cc8000000b00403a770e15amr17034785qta.56.1689132733918;
-        Tue, 11 Jul 2023 20:32:13 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d7-20020aa78147000000b0067ea048cf83sm2419276pfn.186.2023.07.11.20.32.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jul 2023 20:32:13 -0700 (PDT)
-Message-ID: <0475d177-4c01-0988-0b34-3099dd703498@gmail.com>
-Date:   Wed, 12 Jul 2023 12:32:10 +0900
+        with ESMTP id S231753AbjGLDna (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 23:43:30 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 75246198B;
+        Tue, 11 Jul 2023 20:43:20 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+        id D850A21C4255; Tue, 11 Jul 2023 20:43:19 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D850A21C4255
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1689133399;
+        bh=AQSDwVr//PWnanNDVqJOKnFjTzDXsVxMzaz8VzfLX9U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gd86CwrooCUzTzLtcrbfpPja1MDbDSHeRi2drRdRHQKEr7+MeHUdPmo1OYofl8LO5
+         /BxTBXcBx+61KNVGQwmn84+RCmceckkYRqDvUCBubBwyfYCe0o4LvKZoEff8AP92wV
+         PLwJXBucI4r1Hv+6Ky15fLjo3Ox/F0xK3pPqj7RM=
+Date:   Tue, 11 Jul 2023 20:43:19 -0700
+From:   Fan Wu <wufan@linux.microsoft.com>
+To:     Mike Snitzer <snitzer@kernel.org>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, eparis@redhat.com,
+        paul@paul-moore.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, audit@vger.kernel.org,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v10 11/17] dm-verity: consume root hash digest and
+ signature data via LSM hook
+Message-ID: <20230712034319.GA17642@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1687986571-16823-1-git-send-email-wufan@linux.microsoft.com>
+ <1687986571-16823-12-git-send-email-wufan@linux.microsoft.com>
+ <ZKgm+ffQbdDTxrg9@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-To:     rdunlap@infradead.org
-Cc:     amd-gfx@lists.freedesktop.org, corbet@lwn.net,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <b5ebc891-ee63-1638-0377-7b512d34b823@infradead.org>
-Subject: Re: scripts/kernel-doc does not handle duplicate struct & function
- names (e.g., in amdgpu)
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <b5ebc891-ee63-1638-0377-7b512d34b823@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZKgm+ffQbdDTxrg9@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Randy,
+On Fri, Jul 07, 2023 at 10:53:45AM -0400, Mike Snitzer wrote:
+Thanks for the review!
 
-> [just documenting this for posterity or in case someone wants to fix it.]
+> On Wed, Jun 28 2023 at  5:09P -0400,
+> Fan Wu <wufan@linux.microsoft.com> wrote:
 > 
-> In drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c, one can find both
+> > From: Deven Bowers <deven.desai@linux.microsoft.com>
+> > 
+> > dm-verity provides a strong guarantee of a block device's integrity. As
+> > a generic way to check the integrity of a block device, it provides
+> > those integrity guarantees to its higher layers, including the filesystem
+> > level.
+> > 
+> > An LSM that control access to a resource on the system based on the
+> > available integrity claims can use this transitive property of
+> > dm-verity, by querying the underlying block_device of a particular
+> > file.
+> > 
+> > The digest and signature information need to be stored in the block
+> > device to fulfill the next requirement of authorization via LSM policy.
+> > This will enable the LSM to perform revocation of devices that are still
+> > mounted, prohibiting execution of files that are no longer authorized
+> > by the LSM in question.
+> > 
+> > This patch added two security hook calls in dm-verity to save the
+> > dm-verity roothash and the roothash signature to LSM blobs.
+> > 
+> > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> > ---
+...
+> > diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+> > index 4836508ea50c..33165dd7470f 100644
+> > --- a/drivers/md/dm-verity-verify-sig.c
+> > +++ b/drivers/md/dm-verity-verify-sig.c
+> > @@ -9,6 +9,9 @@
+> >  #include <linux/verification.h>
+> >  #include <keys/user-type.h>
+> >  #include <linux/module.h>
+> > +#include <linux/security.h>
+> > +#include <linux/dm-verity.h>
+> > +#include "dm-core.h"
 > 
-> struct amdgpu_vm_tlb_seq_cb {...};
-> 
-> and
-> static void amdgpu_vm_tlb_seq_cb(...)
-> 
-> Of course C has no problem with this, but kernel-doc reports:
-> 
-> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:833: WARNING: Duplicate C declaration, also defined at gpu/amdgpu/driver-core:115.
-> 
-> And of course, if the name of one of them is changed, kernel-doc is all happy...
-> not that I am suggesting that one of them should be changed.
-> 
-> I just want to make people aware of this. (or maybe people are already aware of this?)
-
-The duplicate warning is emitted from Sphinx, not kernel-doc.
-
-This is a bug of Sphinx >=3.1, first reported by Mauro back in September 2020 at:
-
-    https://github.com/sphinx-doc/sphinx/issues/8241
-
-It was closed when a local fix was presented.  Unfortunately, it was not
-merged at the time and a subsequent pull request was opened at:
-
-    https://github.com/sphinx-doc/sphinx/pull/8313
-
-It is not merged yet and carries a milestone of Sphinx 7.x.
-
-Looks like we need to wait patiently.
-
-        Thanks, Akira
+> Why are you including dm-core.h here?
+This is used to get the complete definition of struct mapped_device to extract
+the struct block_device from it.
 
 > 
-> -- 
-> ~Randy
+> >  #include "dm-verity.h"
+> >  #include "dm-verity-verify-sig.h"
+> >  
+> > @@ -97,14 +100,17 @@ int verity_verify_sig_parse_opt_args(struct dm_arg_set *as,
+> >   * verify_verify_roothash - Verify the root hash of the verity hash device
+> >   *			     using builtin trusted keys.
+> >   *
+> > + * @bdev: block_device representing the device-mapper created block device.
+> > + *	  Used by the security hook, to set information about the block_device.
+> >   * @root_hash: For verity, the roothash/data to be verified.
+> >   * @root_hash_len: Size of the roothash/data to be verified.
+> >   * @sig_data: The trusted signature that verifies the roothash/data.
+> >   * @sig_len: Size of the signature.
+> >   *
+> >   */
+> > -int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+> > -			    const void *sig_data, size_t sig_len)
+> > +int verity_verify_root_hash(struct block_device *bdev, const void *root_hash,
+> > +			    size_t root_hash_len, const void *sig_data,
+> > +			    size_t sig_len)
+> >  {
+> >  	int ret;
+> >  
+> > @@ -126,8 +132,12 @@ int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+> >  				NULL,
+> >  #endif
+> >  				VERIFYING_UNSPECIFIED_SIGNATURE, NULL, NULL);
+> > +	if (ret)
+> > +		return ret;
+> >  
+> > -	return ret;
+> > +	return security_bdev_setsecurity(bdev,
+> > +					 DM_VERITY_SIGNATURE_SEC_NAME,
+> > +					 sig_data, sig_len);
+> >  }
+> >  
+> >  void verity_verify_sig_opts_cleanup(struct dm_verity_sig_opts *sig_opts)
+> 
+> Both of your calls to security_bdev_setsecurity() to set your blobs in
+> the bdev are suspect because you're doing so from the verity_ctr().
+> The mapped_device has 2 dm_table slots (active and inactive).  The
+> verity_ctr() becomes part of the inactive slot, there is an extra step
+> to bind the inactive table to the active table.
+> 
+> This leads to you changing the blobs in the global bdev _before_ the
+> table is actually active.  It is possible that the inactive table will
+> simply be removed and the DM verity device put back in service;
+> leaving your blob(s) in the bdev inconsistent.
+> 
+> This issue has parallels to how we need to defer changing the global
+> queue_limits associated with a request_queue until _after_ all table
+> loading is settled and then the update is done just before resuming
+> the DM device (mapped_device) -- see dm_table_set_restrictions().
+> 
+> Unfortunately, this feels like it may require a new hook in the
+> target_type struct (e.g. ->finalize())
+> 
+> Mike
+Thanks for pointing out this issue. We were calling security_bdev_setsecurity()
+because the roothash signature data is only available in verity_ctr()
+and it is discarded after verity_ctr() finishes.
+After digging deeper into the table_load, I realized that we were indeed
+wrong here.
+
+Based on my understanding of your suggestion, it seems that the correct
+approach would be to save the roothash signature into the struct dm_target
+and then invoke security_bdev_setsecurity() before activating
+the inactive table in the __bind function (where dm_table_set_restrictions is called).
+
+To facilitate this process, it seems appropriate to introduce a new hook
+called finalize() within the struct target_type. This hook would enable
+targets to define tasks that need to be completed before activating
+a new table.
+
+In our specific case, we would add a finalize hook to the dm-verity module,
+allowing us to call security_bdev_setsecurity() and associate the roothash
+information in the struct dm_target with the struct block_device of
+the struct mapped_device. Is this correct?
+
+Thanks,
+- Fan
 
