@@ -2,92 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1436EB64D9
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 14:30:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DF89EB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 15:04:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233023AbjGLOad (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 10:30:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33218 "EHLO
+        id S233040AbjGLPE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 11:04:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233025AbjGLOa0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 10:30:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A430C2137
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 07:29:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689172165;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=SmfB+i5ITyD8VcQT6H0n4jQbBtZaHz3osNrT9kioxiQ=;
-        b=UuFg+m2Yvq/cYBpAgRMODwJ54BqHfYqmezUXh1VJIWgEP0vfhBG1M0pRo81QTilsuArSDw
-        W8mdLhVObMlcS1VxSYDBJ10HohWfUJe/NMmNu1iW/HDvI1ejebyhz+z5LaQc6zKYXbXzu/
-        HLk7qiwAh7we4NiMCwkxNA8KUHsO9n0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-246-ZvFoZD8XOOy3ihrMfmKmsg-1; Wed, 12 Jul 2023 10:29:24 -0400
-X-MC-Unique: ZvFoZD8XOOy3ihrMfmKmsg-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-31596170243so2752611f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 07:29:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689172163; x=1691764163;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SmfB+i5ITyD8VcQT6H0n4jQbBtZaHz3osNrT9kioxiQ=;
-        b=cH092LT6zqylb7UN8rUU7LjJLFncOheUz36WEHA0FKhlHpOsCTZ8hXLvCcu0CVuzmC
-         OkdEw0ohoS7/0tAAvCdgv+i0+1Zbpxfh/ZNQs5cR0+n/jyRdnv2MaChFLwQ1WfX9uGPw
-         Sx7L+EkIOB5lnz5fxZVykmLvG8jNTvkZKBWJHvP0EUzwGhjdwUyNFzoWl1HDcA8Q9njj
-         zu1TTihtk3yx66yO3OHUSls5Cjz/rXFyaOmRDzZOQrUInhyZx30v583NCGMXau38F173
-         xoWM42Nho4vUDcqlKwW6gbT+lgug4QtDpE/gTNpG5HnkEckaj9shybn/kpu7/gR4Lzgd
-         P61Q==
-X-Gm-Message-State: ABy/qLZE/mg5bqwA8FgJOik57usTfgbRRGC+Q8dp2FNjezYMTGbGOh6M
-        hYfxxWqZz0HHyEl/CG5rMA7pFQwDmHhCg4uK43H6MEvOOfDzjhk8WwUoDm7uiCgj7BwAGbr3R/y
-        3l1//rHfSDrca9TKpkI7mNJlhI6+uu06gXItt
-X-Received: by 2002:adf:ec8e:0:b0:314:1ebc:6e19 with SMTP id z14-20020adfec8e000000b003141ebc6e19mr17387217wrn.64.1689172163291;
-        Wed, 12 Jul 2023 07:29:23 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGrLy4XTfg4SYrDedL3LjN5ZHr+LA3Ut1XmsVNXLi1zBJheiu9Ajx5OzglpHTo4/1SshVrdO+NlkBUDSAisljg=
-X-Received: by 2002:adf:ec8e:0:b0:314:1ebc:6e19 with SMTP id
- z14-20020adfec8e000000b003141ebc6e19mr17387145wrn.64.1689172162850; Wed, 12
- Jul 2023 07:29:22 -0700 (PDT)
+        with ESMTP id S233076AbjGLPEv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 11:04:51 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0A971BD1;
+        Wed, 12 Jul 2023 08:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689174290; x=1720710290;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=aiwddmkP4PvW8dS8z+RC6OFpPF11mDhvLdw3CU4YY8s=;
+  b=TRDcCIW65v7KGOz+n0IyDjkdzhvWLvTb4IvwEulvGffD4zdBWd3oVSlb
+   bWl6dqlDy2TrGijXpX6gJFOzJmMwvl6fx9Hw2gvLoEjc7dXHc42rSsQyA
+   uQnlmFhsvxLj2/rObfBz9sbYMdtH7TOlk8fmCQfI9lF1lhZLmWbW6+PJa
+   /xtmlYTdQp3po/TXA4/X9vWwIo4okGMbJQ+4SbsOuMAmhg2soIFgyu3JO
+   V9+FIrKRDg/aUzxE2nslbH20SpobYFBwayZVU7+ekQpAgEHooPeKN41M1
+   kbL4YmhWuJMQpjhefayhlN9lrILMzrORDVm2Gyj4EXeRXWB43UAkHfIlc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="354824299"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
+   d="scan'208";a="354824299"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 08:03:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="751192661"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
+   d="scan'208";a="751192661"
+Received: from pmessina-mobl.ger.corp.intel.com (HELO localhost) ([10.252.42.186])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 08:03:02 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        David Gow <davidgow@google.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Rae Moar <rmoar@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Arthur Grillo <arthurgrillo@riseup.net>,
+        Kees Cook <keescook@chromium.org>,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, mauro.chehab@intel.com
+Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit
+ test
+In-Reply-To: <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1689171160.git.mchehab@kernel.org>
+ <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+Date:   Wed, 12 Jul 2023 18:03:00 +0300
+Message-ID: <87cz0xgokb.fsf@intel.com>
 MIME-Version: 1.0
-From:   Vitaly Grinberg <vgrinber@redhat.com>
-Date:   Wed, 12 Jul 2023 17:29:12 +0300
-Message-ID: <CACLnSDhA1io1tU0rVvuz6KYx3-c_4zEniLEs3KFUqsvLWATYWw@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 08/10] ice: implement dpll interface to control cgu
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     David Airlie <airlied@redhat.com>, andy.ren@getcruise.com,
-        anthony.l.nguyen@intel.com, arnd@arndb.de, axboe@kernel.dk,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        claudiajkang@gmail.com, corbet@lwn.net, davem@davemloft.net,
-        edumazet@google.com, geert+renesas@glider.be,
-        gregkh@linuxfoundation.org, hkallweit1@gmail.com,
-        idosch@nvidia.com, intel-wired-lan@lists.osuosl.org,
-        jacek.lawrynowicz@linux.intel.com,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        jesse.brandeburg@intel.com, Jiri Pirko <jiri@resnulli.us>,
-        jonathan.lemon@gmail.com, kuba@kernel.org, kuniyu@amazon.com,
-        leon@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux@zary.sk, liuhangbin@gmail.com, lucien.xin@gmail.com,
-        masahiroy@kernel.org, michal.michalik@intel.com,
-        milena.olech@intel.com, Michal Schmidt <mschmidt@redhat.com>,
-        Michael Tsirkin <mst@redhat.com>, netdev@vger.kernel.org,
-        nicolas.dichtel@6wind.com, nipun.gupta@amd.com, ogabbay@kernel.org,
-        Paolo Abeni <pabeni@redhat.com>, phil@nwl.cc,
-        Petr Oros <poros@redhat.com>, razor@blackwall.org,
-        ricardo.canuelo@collabora.com, richardcochran@gmail.com,
-        saeedm@nvidia.com, sj@kernel.org, tzimmermann@suse.de,
-        vadfed@fb.com, vadfed@meta.com, vadim.fedorenko@linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-I'd like to clarify about the DPLL phase offset requirement. We can
-live without it during the initial submission. The addition of phase
-offset can be an increment to patch v10.
-Thanks,
-Vitaly
+On Wed, 12 Jul 2023, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
+> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+> index 09ee6f6af896..dd6c5afd6cd6 100644
+> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *suite)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * KTEST_SUITE: set of tests for drm buddy alloc
+> + * Scope: drm subsystem
+> + * Mega feature: drm
+> + * Feature: buddy_alloc
+> + *
+> + * KTEST_TEST: drm_test_buddy_alloc_%s
+> + * Description: Run DRM buddy allocation %arg[1] test
+> + *
+> + * arg[1].values: limit, range, optimistic, smoke, pathological
+> + */
+> +
 
+"/**" indicates a kernel-doc comment, and this is not a kernel-doc
+comment.
+
+$ scripts/kernel-doc -none drivers/gpu/drm/tests/drm_buddy_test.c 
+drivers/gpu/drm/tests/drm_buddy_test.c:752: warning: cannot understand
+function prototype: 'struct kunit_case drm_buddy_tests[] = '
+
+Nowadays kernel-doc is part of W=1 builds.
+
+
+BR,
+Jani.
+
+
+>  static struct kunit_case drm_buddy_tests[] = {
+>  	KUNIT_CASE(drm_test_buddy_alloc_limit),
+>  	KUNIT_CASE(drm_test_buddy_alloc_range),
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
