@@ -2,109 +2,115 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F073AEB64DD
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 07:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F31EB64D9
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 07:36:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232083AbjGLHaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 03:30:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56282 "EHLO
+        id S231978AbjGLHg4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 03:36:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231753AbjGLHaO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 03:30:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64368E5C;
-        Wed, 12 Jul 2023 00:30:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E77D1616EF;
-        Wed, 12 Jul 2023 07:29:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57B76C433C8;
-        Wed, 12 Jul 2023 07:29:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689146999;
-        bh=mYl1VBLvBZPTuNIlm4VW2kK0B//qEYUU0LdpuTrRiDQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Y9Bvax+nzWdO9RlBo2qMr9H6yyOGsbHw6ch45Q/PnVePfWmzubxuBSDT3sA6cWZOL
-         qbkSITqIkE4RlOCPBHQLbdfzJsdz6QjAQpLVcID7L6lpv0vfg/7AotGdFzLvaKbn7Q
-         kvTVhKjSlISqpObF5nHs/LVLRHsCMhqpd0PmZID+o4Y2AaZLsgWsYewA+I4018430k
-         F2cJfenhUks1F5rJvcxRbxPTQ9MGns0wMVjaQ+yW5+Ve4ErpJiAF1W5hAb5nhyLW/j
-         K2PLoYfwGnXlODU3Om/D26j8PHqn1F6SPTjY1BuvlmuHtTzjkXW8HWLSCGIpFtufN/
-         1z1hLLbt+UNGQ==
-Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29] helo=wait-a-minute.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1qJUIN-00CMXF-VH;
-        Wed, 12 Jul 2023 08:29:57 +0100
-Date:   Wed, 12 Jul 2023 08:29:33 +0100
-Message-ID: <87h6q9a8pu.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
+        with ESMTP id S231693AbjGLHg4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 03:36:56 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5A3DCB8;
+        Wed, 12 Jul 2023 00:36:54 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6916E2F4;
+        Wed, 12 Jul 2023 00:37:36 -0700 (PDT)
+Received: from FVFF77S0Q05N.emea.arm.com (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3637D3F67D;
+        Wed, 12 Jul 2023 00:36:52 -0700 (PDT)
+Date:   Wed, 12 Jul 2023 08:36:46 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
 To:     "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
-Cc:     <will@kernel.org>, <corbet@lwn.net>, <catalin.marinas@arm.com>,
-        <quic_pkondeti@quicinc.com>, <quic_kaushalk@quicinc.com>,
-        <quic_satyap@quicinc.com>, <quic_shashim@quicinc.com>,
-        <quic_songxue@quicinc.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
+Cc:     Will Deacon <will@kernel.org>, corbet@lwn.net,
+        catalin.marinas@arm.com, maz@kernel.org, quic_pkondeti@quicinc.com,
+        quic_kaushalk@quicinc.com, quic_satyap@quicinc.com,
+        quic_shashim@quicinc.com, quic_songxue@quicinc.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
-In-Reply-To: <9e69158f-1e67-344b-fea9-85bb5e21183f@quicinc.com>
+Message-ID: <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
 References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
-        <875y6s8bwb.wl-maz@kernel.org>
-        <32f442e3-3d5c-4cec-9791-0da039f88287@quicinc.com>
-        <874jmc8654.wl-maz@kernel.org>
-        <6e07ad52-2629-346e-6217-ec07777ebc5b@quicinc.com>
-        <86lefnvsto.wl-maz@kernel.org>
-        <8a950aa5-fdd8-f983-0411-4b39ade596f4@quicinc.com>
-        <86cz0ywx5p.wl-maz@kernel.org>
-        <9e69158f-1e67-344b-fea9-85bb5e21183f@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.104.136.29
-X-SA-Exim-Rcpt-To: quic_aiquny@quicinc.com, will@kernel.org, corbet@lwn.net, catalin.marinas@arm.com, quic_pkondeti@quicinc.com, quic_kaushalk@quicinc.com, quic_satyap@quicinc.com, quic_shashim@quicinc.com, quic_songxue@quicinc.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+ <20230710093751.GC32673@willie-the-truck>
+ <5cf15f85-0397-96f7-4110-13494551b53b@quicinc.com>
+ <20230711082226.GA1554@willie-the-truck>
+ <84f0994a-26de-c20a-a32f-ec8fe41df3a3@quicinc.com>
+ <20230711102510.GA1809@willie-the-truck>
+ <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 12 Jul 2023 03:47:55 +0100,
-"Aiqun(Maria) Yu" <quic_aiquny@quicinc.com> wrote:
+On Wed, Jul 12, 2023 at 11:09:10AM +0800, Aiqun(Maria) Yu wrote:
+> On 7/11/2023 6:25 PM, Will Deacon wrote:
+> > On Tue, Jul 11, 2023 at 06:15:49PM +0800, Aiqun(Maria) Yu wrote:
+> > > On 7/11/2023 4:22 PM, Will Deacon wrote:
+> > > > On Tue, Jul 11, 2023 at 12:02:22PM +0800, Aiqun(Maria) Yu wrote:
+> > > > > On 7/10/2023 5:37 PM, Will Deacon wrote:
+> > > > > > On Mon, Jul 10, 2023 at 01:59:55PM +0800, Maria Yu wrote:
+> > > > > > > In order to be able to disable lse_atomic even if cpu
+> > > > > > > support it, most likely because of memory controller
+> > > > > > > cannot deal with the lse atomic instructions, use a
+> > > > > > > new idreg override to deal with it.
+> > > > > > 
+> > > > > > This should not be a problem for cacheable memory though, right?
+> > > > > > 
+> > > > > > Given that Linux does not issue atomic operations to non-cacheable mappings,
+> > > > > > I'm struggling to see why there's a problem here.
+> > > > > 
+> > > > > The lse atomic operation can be issued on non-cacheable mappings as well.
+> > > > > Even if it is cached data, with different CPUECTLR_EL1 setting, it can also
+> > > > > do far lse atomic operations.
+> > > > 
+> > > > Please can you point me to the place in the kernel sources where this
+> > > > happens? The architecture doesn't guarantee that atomics to non-cacheable
+> > > > mappings will work, see "B2.2.6 Possible implementation restrictions on
+> > > > using atomic instructions". Linux, therefore, doesn't issue atomics
+> > > > to non-cacheable memory.
+> > > 
+> > > We encounter the issue on third party kernel modules and third party apps
+> > > instead of linux kernel itself.
+> > 
+> > Great, so there's nothing to do in the kernel then!
+> > 
+> > The third party code needs to be modified not to use atomic instructions
+> > with non-cacheable mappings. No need to involve us with that.
 > 
-> On 7/11/2023 6:38 PM, Marc Zyngier wrote:
-> > On Tue, 11 Jul 2023 11:12:48 +0100,
-> > "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com> wrote:
-> >> 
-> >> For the KVM part, per my understanding, as long as the current feature
-> >> id being overriden, the KVM system also get the current vcpu without
-> >> the lse atomic feature enabled.
-> >> KVM vcpu will read the sys reg from host arm64_ftr_regs which is
-> >> already been controled by the idreg_overrides.
+> > > This is a tradeoff of performance and stability. Per my understanding,
+> > > options can be used to enable the lse_atomic to have the most performance
+> > > cared system, and disable the lse_atomic by stability cared most system.
 > > 
-> > You're completely missing the point.
-> > 
-> > The guest is free to map memory as non-cacheable *and* to use LSE
-> > atomics even if the idregs pretend this is not available. At which
-> The guest also can have the current linux kernel mechanism of LSE
-> ATOMIC way.
+> > Where do livelock and starvation fit in with "stability"? Disabling LSE
+> > atomics for things like qspinlock and the scheduler just because of some
+> > badly written third-party code isn't much of a tradeoff.
 
-[snip useless diagrams]
+> We also have requirement to have cpus/system fully support lse atomic and
+> cpus/system not fully support lse atomic with a generic kernel image.
 
-Yes, the guest can do the right thing. The guest, a totally
-unprivileged piece of SW, can also ignore the idregs and take the
-whole machine down because your HW is broken.
+Who *specifically* has this requirement (i.e. what does 'we' mean here)? The
+upstream kernel does not require that atomics work on non-cacheable memory, and
+saying "The company I work for want this" doesn't change that.
 
-> Just like other KVM vcpu cpu features, lse atomic can be a feature
-> inherit from the pysical cpu features for the KVM vcpus.
+AFAICT the system here is architecturally compliant, and what you're relying
+upon something that the architecture doesn't guarantee, and Linux doesn't
+guarantee.
 
-See above. Your reasoning applies to a well behaved guest, which is
-the *wrong* way to reason about these things.
+> Same kernel module wanted to be used by lse atomic fully support cpu and not
+> fully support cpu/system as well.
 
-	M.
+Which kernel modules *specifically* need to do atomics to non-cacheable memory?
 
--- 
-Without deviation from the norm, progress is not possible.
+> That's why we want to have a runtime option here.
+
+As per other replies, a runtime option doesn't solve the issue you have
+described, and it will adversely affect the system in other ways (e.g. the
+livelock and starvation issues will mentioned, which we have seen with
+LDXR+STXR atomics).
+
+Thanks,
+Mark.
