@@ -2,49 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E842EEB64DD
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 03:45:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7874AEB64D9
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 04:01:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbjGLDpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jul 2023 23:45:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43700 "EHLO
+        id S229475AbjGLEBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 00:01:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjGLDpV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jul 2023 23:45:21 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09EAA10D2;
-        Tue, 11 Jul 2023 20:45:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=vhbVcfMKPrLrsHtGRck5zDkPlc+WWbTuWV1q+FmP9WE=; b=FSxLoc66Nj5DiR7dt34uSHbc7k
-        LX2WRfxF0zgX/LLGETmLjNk9tVRSu3aNGUdhoAisWJHyCJnkgbxsxNL1X9KCwFmwLmfTjT0Bg7Yjs
-        OSgzQZEGldVCQN8S7OkzFQMnMwgZUvhSse8wM+qPiM1xjJdb5vPYhSPB6nwcai4lvBNR+m75Ofuby
-        0riHG4Pez2LrBscCC1RuAICmB/mqAYyIm8lAwY5f7CBLgbwx6pVEW4tJCfZfK39M5lmD+sdssTRFp
-        QRg5TvZsLyEr1iIhtYKoDwE9kOjMYYGuLu+bCz3qjDmQqhh71vIB/RYXBiW8ygKrGtQ04xKspgdVw
-        TmiekADw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qJQn1-00GQ2y-0N;
-        Wed, 12 Jul 2023 03:45:19 +0000
-Message-ID: <58cafdc0-0209-cfdd-c8e0-2dd25d73a184@infradead.org>
-Date:   Tue, 11 Jul 2023 20:45:18 -0700
+        with ESMTP id S229473AbjGLEBr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 00:01:47 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1DE5110EF;
+        Tue, 11 Jul 2023 21:01:45 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F5B32F4;
+        Tue, 11 Jul 2023 21:02:27 -0700 (PDT)
+Received: from [10.162.42.6] (unknown [10.162.42.6])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 22DE73F740;
+        Tue, 11 Jul 2023 21:01:41 -0700 (PDT)
+Message-ID: <8a7416df-1656-8380-9a42-1af3cd940f97@arm.com>
+Date:   Wed, 12 Jul 2023 09:31:39 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: scripts/kernel-doc does not handle duplicate struct & function
- names (e.g., in amdgpu)
+ Thunderbird/102.11.0
+Subject: Re: [RFC 0/4] arm64/mm: Clean up pte_dirty() state management
 Content-Language: en-US
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     amd-gfx@lists.freedesktop.org, corbet@lwn.net,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <b5ebc891-ee63-1638-0377-7b512d34b823@infradead.org>
- <0475d177-4c01-0988-0b34-3099dd703498@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <0475d177-4c01-0988-0b34-3099dd703498@gmail.com>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Ryan Roberts <ryan.roberts@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230707053331.510041-1-anshuman.khandual@arm.com>
+ <ZKvqjrpyLZVB3R2z@FVFF77S0Q05N>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <ZKvqjrpyLZVB3R2z@FVFF77S0Q05N>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -53,45 +48,47 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 7/11/23 20:32, Akira Yokosawa wrote:
-> Hi Randy,
-> 
->> [just documenting this for posterity or in case someone wants to fix it.]
->>
->> In drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c, one can find both
->>
->> struct amdgpu_vm_tlb_seq_cb {...};
->>
->> and
->> static void amdgpu_vm_tlb_seq_cb(...)
->>
->> Of course C has no problem with this, but kernel-doc reports:
->>
->> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:833: WARNING: Duplicate C declaration, also defined at gpu/amdgpu/driver-core:115.
->>
->> And of course, if the name of one of them is changed, kernel-doc is all happy...
->> not that I am suggesting that one of them should be changed.
->>
->> I just want to make people aware of this. (or maybe people are already aware of this?)
-> 
-> The duplicate warning is emitted from Sphinx, not kernel-doc.
-> 
-> This is a bug of Sphinx >=3.1, first reported by Mauro back in September 2020 at:
-> 
->     https://github.com/sphinx-doc/sphinx/issues/8241
-> 
-> It was closed when a local fix was presented.  Unfortunately, it was not
-> merged at the time and a subsequent pull request was opened at:
-> 
->     https://github.com/sphinx-doc/sphinx/pull/8313
-> 
-> It is not merged yet and carries a milestone of Sphinx 7.x.
-> 
-> Looks like we need to wait patiently.
-> 
->         Thanks, Akira
+On 7/10/23 16:55, Mark Rutland wrote:
+> On Fri, Jul 07, 2023 at 11:03:27AM +0530, Anshuman Khandual wrote:
+>> These pte_dirty() changes make things explicitly clear, while improving the
+>> code readability. This optimizes HW dirty state transfer into SW dirty bit.
+>> This also adds a new arm64 documentation explaining overall pte dirty state
+>> management in detail. This series applies on the latest mainline kernel.
+> TBH, I think this is all swings and roundabouts, and I'm not sure this is
+> worthwhile. I appreciate that as-is some people find this confusing, but I
 
-Ooooh, thanks for your assistance.  Waiting.... :)
+Current situation for pte_dirty() management is confusing when there are two
+distinct mechanisms to track PTE dirty states, but both are forced to work
+together because
 
--- 
-~Randy
+- HW DBM cannot track non-writable dirty state (PTE_DBM == PTE_WRITE)
+- Runtime check for HW DBM is avoided
+
+> don't think the end result of this series is actually better, and it adds more
+> code/documentation to maintain.
+
+Agreed, it does add more code and documentation but still trying to understand
+why it is not worthwhile. Regardless, following patch does optimize a situation
+where we dont need to call pte_mkdirty() knowing it will be cleared afterwards.
+
+[RFC 2/4] arm64/mm: Call pte_sw_mkdirty() while preserving the HW dirty state
+
+> 
+> In particular, I don't think that we should add Documentation/ files for this,
+> as it's very likely that won't be updated together with the code, and I think
+> it's more of a maintenance burden than a help. If we want some introductory
+
+There are many documentation files such as Documentation/arm64/memory.rst which
+needs to be updated when kernel virtual address layout changes again. I am just
+wondering - should not there be any documentation for internal implementation
+details, just because they need updating with code changes.
+
+> text to explain how the HW/SW dirty bits work, I think that should be a comment
+> block in <asm/pgtable.h>, clearly associated with the code.
+
+Sure, will add that.
+
+> 
+> Overall, I'd prefer to leave the code as-is.
+Even if we discount individual dirty clearing functions, why should not HW dirty
+bit transfer to SW dirty be optimized and wrapped around in a helper.
