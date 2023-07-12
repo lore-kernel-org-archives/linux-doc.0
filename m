@@ -2,106 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CACEB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 11:48:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1BB7EB64D9
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 12:35:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232968AbjGLLrr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 07:47:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37320 "EHLO
+        id S231436AbjGLMfG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 08:35:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232985AbjGLLrl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 07:47:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19B3319BC;
-        Wed, 12 Jul 2023 04:47:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 995B96179C;
-        Wed, 12 Jul 2023 11:47:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D464C433CA;
-        Wed, 12 Jul 2023 11:47:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689162439;
-        bh=bTeEZPf59lqakPF2P640QhtCaifAT8KzWjxjRQAvfnc=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=EiZoQjZ6OT3Ns26mOvM2p7uoHP09mmBq3LcJaYDrau8QaSqCuLLuh4DZ3E49nM2/1
-         M4cI+gkdiZMs6TAXBaWLu5RVN3pd7cdo6fCfyTe9OLCwdXj/3WKcKYQwd3NFr0QhzO
-         dNxUG3G8BX0lkYfp247WRyI9LMejNflUkUboKNMRs9Yd8g73JHBFMi+rsjzfU4+j0G
-         hRgHDvhfkHlCNb87ystKScAvOaNpBqpGy/6VNHSnbXO5B/uc3k14eqUvL+73sqkLd9
-         /PEku4ywk9LwSaWCUoB/watjzaDERPKE1t7xn7T44egvjg47elD5Wtikk4+Ud0kCS9
-         KW+qXVVi1XuuA==
-From:   Mark Brown <broonie@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        David Lin <CTLIN0@nuvoton.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        alsa-devel@alsa-project.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Antti Palosaari <crope@iki.fi>,
-        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
-        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Matthias Schwarzott <zzam@gentoo.org>,
-        Akihiro Tsukada <tskd08@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20230703135211.87416-1-andriy.shevchenko@linux.intel.com>
-References: <20230703135211.87416-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 0/4] ASoC: remove copy of intlog10()
-Message-Id: <168916243503.46574.8648492910653154560.b4-ty@kernel.org>
-Date:   Wed, 12 Jul 2023 12:47:15 +0100
+        with ESMTP id S232767AbjGLMfF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 08:35:05 -0400
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DAE310F3;
+        Wed, 12 Jul 2023 05:35:03 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.30.67.153])
+        by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4R1HJ11sRdz4f3mn9;
+        Wed, 12 Jul 2023 20:34:57 +0800 (CST)
+Received: from [10.174.176.73] (unknown [10.174.176.73])
+        by APP4 (Coremail) with SMTP id gCh0CgCXaK_xna5klTM2Nw--.23925S3;
+        Wed, 12 Jul 2023 20:34:59 +0800 (CST)
+Subject: Re: [PATCH v5 02/11] block: Block Device Filtering Mechanism
+To:     Yu Kuai <yukuai1@huaweicloud.com>,
+        Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
+Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+        willy@infradead.org, dlemoal@kernel.org, linux@weissschuh.net,
+        jack@suse.cz, ming.lei@redhat.com, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Donald Buczek <buczek@molgen.mpg.de>,
+        "yukuai (C)" <yukuai3@huawei.com>
+References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
+ <20230612135228.10702-3-sergei.shtepa@veeam.com>
+ <f935840e-12a7-c37b-183c-27e2d83990ea@huaweicloud.com>
+ <eca5a778-6795-fc03-7ae0-fe06f514af85@huaweicloud.com>
+From:   Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <2ab36e73-a612-76a8-9c20-f5e11c67bcc3@huaweicloud.com>
+Date:   Wed, 12 Jul 2023 20:34:57 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-099c9
+In-Reply-To: <eca5a778-6795-fc03-7ae0-fe06f514af85@huaweicloud.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgCXaK_xna5klTM2Nw--.23925S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7KryDGr4fXrWxZry8WFyUZFb_yoW8Ar48pr
+        95XayUJrWUXFn5Ww1qgF1UtFyFvF1UJw1DZryIqa43JrsFyrnFga17Wr9Y93sxCr48GrW7
+        Zr1jvrsxZwsxJFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+        c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+        AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+        17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+        IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq
+        3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+        nIWIevJa73UjIFyTuYvjfUOmhFUUUUU
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 03 Jul 2023 16:52:07 +0300, Andy Shevchenko wrote:
-> The first three patches moves intlog10() to be available in entire
-> kernel. The last one removes copy of it in one driver. Besides already
-> good Lines of Code (LoC) statistics the upcoming users, if any, can
-> utilize the exported functions.
+Hi,
+
+在 2023/07/12 18:04, Yu Kuai 写道:
+> Hi,
 > 
-> The series can be routed via ASoC tree (as Mauro suggested).
+> 在 2023/07/11 10:02, Yu Kuai 写道:
 > 
-> [...]
+>>> +static bool submit_bio_filter(struct bio *bio)
+>>> +{
+>>> +    if (bio_flagged(bio, BIO_FILTERED))
+>>> +        return false;
+>>> +
+>>> +    bio_set_flag(bio, BIO_FILTERED);
+>>> +    return bio->bi_bdev->bd_filter->ops->submit_bio(bio);
+>>> +}
+>>> +
+>>>   static void __submit_bio(struct bio *bio)
+>>>   {
+>>> +    /*
+>>> +     * If there is a filter driver attached, check if the BIO needs 
+>>> to go to
+>>> +     * the filter driver first, which can then pass on the bio or 
+>>> consume it.
+>>> +     */
+>>> +    if (bio->bi_bdev->bd_filter && submit_bio_filter(bio))
+>>> +        return;
+>>> +
+>>>       if (unlikely(!blk_crypto_bio_prep(&bio)))
+>>>           return;
+> 
+> ...
+> 
+>>> +static void __blkfilter_detach(struct block_device *bdev)
+>>> +{
+>>> +    struct blkfilter *flt = bdev->bd_filter;
+>>> +    const struct blkfilter_operations *ops = flt->ops;
+>>> +
+>>> +    bdev->bd_filter = NULL;
+>>> +    ops->detach(flt);
+>>> +    module_put(ops->owner);
+>>> +}
+>>> +
+>>> +void blkfilter_detach(struct block_device *bdev)
+>>> +{
+>>> +    if (bdev->bd_filter) {
+>>> +        blk_mq_freeze_queue(bdev->bd_queue);
+> 
+> And this is not sate as well, for bio-based device, q_usage_counter is
+> not grabbed while submit_bio_filter() is called, hence there is a risk
+> of uaf from submit_bio_filter().
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/4] lib/math: Move dvb_math.c into lib/math/int_log.c
-      commit: f97fa3dcb2db02013e6904c032a1d2d45707ee40
-[2/4] lib/math/int_log: Use ARRAY_SIZE(logtable) where makes sense
-      commit: 08f6a14b2d376e96cb7166694193ec3c3a496d25
-[3/4] lib/math/int_log: Replace LGPL-2.1-or-later boilerplate with SPDX identifier
-      commit: 9ab04d7ed8bdd395b0617a1647dd475681f99151
-[4/4] ASoC: nau8825: Replace copied'n'pasted intlog10()
-      commit: a04616321f50bc389cd8d19a6d300d3c3f1be77b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+And there is another question, can blkfilter_detach() from
+del_gendisk/delete_partiton and ioctl concurrent? I think it's a
+problem.
 
 Thanks,
-Mark
+Kuai
+> 
+> Thanks,
+> Kuai
+> 
+> .
+> 
 
