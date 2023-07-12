@@ -2,106 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B21D4C001B0
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 19:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34E2FEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 19:10:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232278AbjGLTAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 15:00:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48032 "EHLO
+        id S231774AbjGLTKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 15:10:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbjGLTAc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 15:00:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CBEB1BF8;
-        Wed, 12 Jul 2023 12:00:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 050C3618CE;
-        Wed, 12 Jul 2023 19:00:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB81C433C8;
-        Wed, 12 Jul 2023 19:00:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689188430;
-        bh=C75X2BnyEWDXBPD/0Zfk2U9UagD2+DsJ0ryNEGmeRYc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kkxIXB1mjYsJzX/NO5wASfnLQjv3gxKU/O7ohYn38fe9Ls155Kge8I3xZGDCp/Hna
-         khFKdJ1mUtbXr22HE9R0HLg+2RilUQAUAC+SEKT9lzFZXRSYCVUBvtDcLHZFYqsgbv
-         HX1DK7bqMtC69K2ji+7JS373MAlvfvSxSSahzBaw=
-Date:   Wed, 12 Jul 2023 21:00:27 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
- backporting option and a few tweaks
-Message-ID: <2023071215-able-mushy-c889@gregkh>
-References: <cover.1689008220.git.linux@leemhuis.info>
- <2023071002-phrasing-tranquil-49d6@gregkh>
- <a97a37bf-86b5-cd8e-a8ce-00e38720cee4@leemhuis.info>
- <2023071221-blade-reactive-0707@gregkh>
- <d8403c45-3561-4759-f6c2-d18afa5e323a@leemhuis.info>
+        with ESMTP id S230229AbjGLTKR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 15:10:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126C4198A
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:09:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689188969;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=iVqzN+gEicp3rJj4Bqvo5xYs3/pSCObCBEs+9bPEbpA=;
+        b=PEQ/pCYPQUZ1Wzt8eLRl1f2DjsneFPWUoS00X5lvwCZLo6aDnPyTtJ2W3/K+G7GgquV/Pa
+        /dUYT3ExTwE36D06a3BSw1g8kuTTUFPr1+hAB2KkUvT3Upap5PY/NtR2aI0XGbXLsJR9WR
+        mLofv13gSv2gHvxcvTsYlKqrToSXxOE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-201-7UvtcraQPXCVLf9eC5hIeA-1; Wed, 12 Jul 2023 15:09:27 -0400
+X-MC-Unique: 7UvtcraQPXCVLf9eC5hIeA-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-31273e0507dso4675751f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:09:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689188966; x=1691780966;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iVqzN+gEicp3rJj4Bqvo5xYs3/pSCObCBEs+9bPEbpA=;
+        b=KXKFYovVJlp2cWK0DiJwkTk5IOFIr87M+1EVEmql0FO82Il9C5i4pWk+tUoLwlFPvp
+         w+0VdUnbqoenWawP+IDVw/J/sFLTb5V8kOyKohceEO32f75XJr7PUV9bpqzbo6cVZGnE
+         ExFDA/+sgqKKXsF/Nx2r9ic0/FstwtTHJwNNJtNqKeEBrne8KghtqqQodpa8Pm8jBwWW
+         qhyd+w9taMHkEnyvfe6kNKy7kJPm240/3mzX/+cS68fb0UjrjJlbiFeNPhQ3IAgCcQZG
+         3s3HuEq9Z97G/6ZVT8FnS8Yf4pdkrtPtaKP0vArvZrFW4qGKRAXWF7J49SNy9SRDd+bh
+         +JxQ==
+X-Gm-Message-State: ABy/qLa+rcFvUH5CSgwA1wKmBZz2isBzmfFDjrl+LncV5ZiLznoekTie
+        W+yzE+AKBexyghjcRhMd9UAek/a6c7HwSik2/ktDN9qo81F5C/PFXaG1RZ3ogoDxWtrEQ67p53h
+        ChrLCbq63olvsieM9LnjVgS62BnPF
+X-Received: by 2002:adf:ffca:0:b0:313:f704:5450 with SMTP id x10-20020adfffca000000b00313f7045450mr17948893wrs.38.1689188966791;
+        Wed, 12 Jul 2023 12:09:26 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGMK+WYDzTjQtshzShQXsCucWYnUSAX3VLVEDUYHUPnftGCYTbdQEGcxTHN4+POng/GRwpVKA==
+X-Received: by 2002:adf:ffca:0:b0:313:f704:5450 with SMTP id x10-20020adfffca000000b00313f7045450mr17948880wrs.38.1689188966442;
+        Wed, 12 Jul 2023 12:09:26 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c707:3700:3eea:ace6:5bde:4478? (p200300cbc70737003eeaace65bde4478.dip0.t-ipconnect.de. [2003:cb:c707:3700:3eea:ace6:5bde:4478])
+        by smtp.gmail.com with ESMTPSA id f6-20020adff586000000b003142eb75724sm5825120wro.24.2023.07.12.12.09.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jul 2023 12:09:25 -0700 (PDT)
+Message-ID: <7449914a-1ae3-9ea8-b60b-f0314999b790@redhat.com>
+Date:   Wed, 12 Jul 2023 21:09:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d8403c45-3561-4759-f6c2-d18afa5e323a@leemhuis.info>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v1] mm/memory_hotplug: document the signal_pending() check
+ in offline_pages()
+Content-Language: en-US
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20230711174050.603820-1-david@redhat.com>
+ <ZK2/3Kq8VlDwcCpc@dhcp22.suse.cz>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <ZK2/3Kq8VlDwcCpc@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 07:02:34PM +0200, Thorsten Leemhuis wrote:
-> On 12.07.23 17:16, Greg KH wrote:
-> > On Wed, Jul 12, 2023 at 11:30:30AM +0200, Thorsten Leemhuis wrote:
-> >> While working on the latter I noticed one more thing:
-> >>
-> >> ```
-> >>     .. warning::
-> >>        The -stable-rc tree is a snapshot in time of the stable-queue
-> >> tree and
-> >>        will change frequently, hence will be rebased often. It should
-> >> only be
-> >>        used for testing purposes (e.g. to be consumed by CI systems).
-> >> ```
-> > [...]
-> >> I'll thus likely
-> >> change the text to something like this,
-> >> unless I'm missing something or someone has a better idea:
-> >> ```
-> >>   .. warning::
-> >>      The branches in the -stable-rc tree are rebased each time a new -rc
-> >>      is released, as they are created by taking the latest release and
-> >>      applying the patches from the stable-queue on top.
-> > 
-> > Yes, that is true, but they are also rebased sometimes in intermediate
-> > places, before a -rc is released, just to give CI systems a chance to
-> > test easier.
-> > 
-> > These are ONLY for CI systems to use, nothing else should be touching
-> > them.  So I think the current text is correct, what am I missing?
+On 11.07.23 22:47, Michal Hocko wrote:
+> On Tue 11-07-23 19:40:50, David Hildenbrand wrote:
+>> Let's update the documentation that any signal is sufficient, and
+>> add a comment that not only checking for fatal signals is historical
+>> baggage: changing it now could break existing user space. although
+>> unlikely.
+>>
+>> For example, when an app provides a custom SIGALRM handler and triggers
+>> memory offlining, the timeout cmd would no longer stop memory offlining,
+>> because SIGALRM would no longer be considered a fatal signal.
 > 
-> That I misunderstood things and forgot about the "rebased sometimes in
-> intermediate places" aspect I once knew about. Sorry. I'll leave the
-> text as it is then.
+> Yes, and it is likely goot to mention here that this is an antipattern
+> for many other kernel operations like IO (e.g. write) but it is a long
+> term behavior that somebody might depend on and it is safer to reflect
+> the documentation to the realitity rather than other way around (which
+> would be imho better).
 > 
-> Nevertheless makes me wonder: is that strategy wise in times when some
-> ordinary users and some distributions are building kernels straight from
-> git repos instead of tarballs? I'm one of those, as I distribute
-> stable-rc packages for Fedora here:
-> https://copr.fedorainfracloud.org/groups/g/kernel-vanilla/coprs/
 
-As we keep the patches in quilt, not git, it's the best we can do.  The
--rc releases are never a straight-line if we have to do multiple ones,
-we remove patches in the middle, add them at the end or beginning, and
-sometimes even change existing ones.
+You mean adding something like
 
-All of this is stuff that a linear history tool like git can't really
-model well, so we keep a quilt series of the patches in git for anyone
-that want to generate the tree themselves, and we provide the -rc git
-tree for those that don't want to generate it and can live with the
-constant rebasing.
+"Note that using signal_pending() instead of fatal_signal_pending() is 
+an anti-pattern, but slowly deprecating that behavior to eventually 
+change it in the far future is probably not worth the effort. If this 
+ever becomes relevant for user-space, we might want to rethink."
 
-thanks,
 
-greg k-h
+Thanks!
+
+-- 
+Cheers,
+
+David / dhildenb
+
