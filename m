@@ -2,148 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CB1EB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 19:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A91ECC0015E
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 19:37:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbjGLTKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 15:10:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50964 "EHLO
+        id S231723AbjGLThJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 15:37:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbjGLTKx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 15:10:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DFD1FC0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689189013;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LpyHkpVso0b8a+p6JmqDgDKJ26YHuwzqKI5Da7hz1I8=;
-        b=Re30oFtKFAJeCxiZiEyi9xS3hhJQEGKlLr6jOO8eEuvL4mIFKu4nybW1Ukw6WXsDaVNnqj
-        hxEuJ5WxoFn7pMhHrNkyQDGR+sMRmx5vb7dxwol9ZoudyjU6Py32CeVxhG5haQX7JeNTyJ
-        se2FRG7C4ge4jiHrNx0pckC1EnmseVg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-107-pmLzAgmGPt6JjnDiZnQtMg-1; Wed, 12 Jul 2023 15:10:10 -0400
-X-MC-Unique: pmLzAgmGPt6JjnDiZnQtMg-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3158f4d72e9so2709069f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:10:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689189009; x=1691781009;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LpyHkpVso0b8a+p6JmqDgDKJ26YHuwzqKI5Da7hz1I8=;
-        b=J+u4QVVVEzKBamLhNg0JWQg1KTICdhE66NqSBm83kLNw7LRhktQqm+jXCXMbXPTbTJ
-         vxebMbScAL/NGQRHGxcXHyZcvgJtQhK4KmAYKX40zcZK1cT0aAI9URJ0xP1A/myRuqne
-         eZaADikmObcWlcW+W9BLoUmpsaFguPlWyp5+Pq/N7mS5uInnCQZD//sZlBHx2/gkY/ZJ
-         xV2ferVddhw9uDG22w9NXIV3xJMser3k4AjO/uAvo0LKKPpKTY8p9dqr2OQ1gpFM0lS4
-         JhKVwOdsgW8yZTMd7omB1YDuPqkIuSz8H4ZGcaRTfvmH0OCJWwDx3VF6TjNlMCs+T4l9
-         P1jA==
-X-Gm-Message-State: ABy/qLZnoxt1B169pErLTfQ/mBEkHmAe9/6upP0yfPdZ8EhZHwgsa210
-        +3eeLar4jZo1eiBUBCmE0YF4jGyWd0tc+haLGA96BGNexajbEb6Xd2SHf4KORRPeP2ivjVMWg7u
-        WNzuZ18lyrA79AkluT+VQ
-X-Received: by 2002:a5d:664d:0:b0:313:ee2e:dae1 with SMTP id f13-20020a5d664d000000b00313ee2edae1mr16045099wrw.18.1689189009181;
-        Wed, 12 Jul 2023 12:10:09 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGMGfFIaXHwBrDx1CqxjskLjhy5sdzusnHEp8jN2HIPDxRD+vAGQJNr4BZ6vOAZC+oUwBNggg==
-X-Received: by 2002:a5d:664d:0:b0:313:ee2e:dae1 with SMTP id f13-20020a5d664d000000b00313ee2edae1mr16045086wrw.18.1689189008931;
-        Wed, 12 Jul 2023 12:10:08 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:3700:3eea:ace6:5bde:4478? (p200300cbc70737003eeaace65bde4478.dip0.t-ipconnect.de. [2003:cb:c707:3700:3eea:ace6:5bde:4478])
-        by smtp.gmail.com with ESMTPSA id k8-20020a5d5188000000b00314172ba213sm5718522wrv.108.2023.07.12.12.10.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 12:10:08 -0700 (PDT)
-Message-ID: <6d24ff50-b463-f2cd-09c8-fb6eb73d5c07@redhat.com>
-Date:   Wed, 12 Jul 2023 21:10:07 +0200
-MIME-Version: 1.0
+        with ESMTP id S229506AbjGLThH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 15:37:07 -0400
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2085.outbound.protection.outlook.com [40.107.101.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA6010F3;
+        Wed, 12 Jul 2023 12:37:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SykLDZaWHFknfRG4uMcf576ywhNrhu24Kwpl6EcVoGkrFCd33vFMZTdLRtOOOIv2fNBJQI5DDZg4ruqIaEnJ0LxUp616ZdnpAdU7on+7GYiV9F7mYqAqOvKxJQvnY/MefcmQ3Tr5Zszwh2V6Ll7I0SQt+KHDnnyg7z34lCsk3YCL8APeFwsMimPDGXDH1bFpgPROvfwmcbnPMc1Ty/o6sSfIdwAJ5NuCa9SK64eiMK9KKcWJiYJEaPPRj61wMp+6IsK+i3TU4++3pb/bSKd40gSDNQ6fHDt9jHziNL4/EBX8H0ILnKhq5SqBN4JMjoRmJ0bQrEYbRPY1B4eju9uXxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yc+Zrg0+JJ9GBKa/laZzJcyEfPmPD/F+BCA4vC7LkmA=;
+ b=Wip8BqyVNR1e6rVtX6d6uno/4JmD/KDZT2YNBTnL7RQG5Pkp3vQ+sQFXwiO48TeBSqVYd0gt/5TjAj4xtAGvVXFOTswyP2OELB12IjKi7LoOvjcPpIHXFa/cngxgY5vDR7hmc2jnwinL5fzsbH7Q45pDGeRDvfypcA1a66orbN6GQAkob0dv5yJgIeECY6v6cNz6MT16IvYHM4lT2K4i//a3xicGbQFRBDNdbCh6XqVA1sciCBvrDr5iPBKyN7wsWFfWE7FNq1qVjph6+Jn6XZe7NL7/keFjqqYb047dQSPbLKUpwN1K2F1eXsptf7farppabRKHX7wnIN9JgS3CyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yc+Zrg0+JJ9GBKa/laZzJcyEfPmPD/F+BCA4vC7LkmA=;
+ b=rrl/MPCxV4sexLCqJWsf0Wb78q1zFj9wWjK9OAybrl7LogFWFrcd0lEY0FOoxoU+QbMJdvlJW4pse7yxurTBRRCTPObHBHkbJr07zhSMDd26q2XjgzoXA8aLLI5RNyIjMM61rVzHvNMAesqmPfey8zsV1g1YEOuSBhtPNbMjpgk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by MN0PR12MB5955.namprd12.prod.outlook.com (2603:10b6:208:37e::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Wed, 12 Jul
+ 2023 19:37:03 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::f870:5325:36eb:e741]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::f870:5325:36eb:e741%2]) with mapi id 15.20.6565.028; Wed, 12 Jul 2023
+ 19:37:03 +0000
+Message-ID: <f443880e-fad7-b61e-e832-3cd180ad3a33@amd.com>
+Date:   Wed, 12 Jul 2023 14:36:59 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v1] mm/memory_hotplug: document the signal_pending() check
- in offline_pages()
+ Thunderbird/102.11.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v5 6/8] x86/resctrl: Display CLOSID and RMID for the
+ resctrl groups
 Content-Language: en-US
-To:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20230711174050.603820-1-david@redhat.com>
- <6e473d64-fbbc-db12-99ee-d32768d8af85@arm.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <6e473d64-fbbc-db12-99ee-d32768d8af85@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
+Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com, eranian@google.com,
+        christophe.leroy@csgroup.eu, jarkko@kernel.org,
+        adrian.hunter@intel.com, quic_jiles@quicinc.com,
+        peternewman@google.com
+References: <168564586603.527584.10518315376465080920.stgit@bmoger-ubuntu>
+ <168564611100.527584.7981937236207103115.stgit@bmoger-ubuntu>
+ <94694f76-62e0-3751-3791-936db8b7e3ce@intel.com>
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <94694f76-62e0-3751-3791-936db8b7e3ce@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DS7PR06CA0048.namprd06.prod.outlook.com
+ (2603:10b6:8:54::24) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MN0PR12MB5955:EE_
+X-MS-Office365-Filtering-Correlation-Id: c3180bc6-ed3d-42da-92d2-08db830f5e82
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v6ZH6mDzJpyqY/aUw4rb8SYq50R/clkhVgMiZwR0a2ujWnpFw3j8qcCKiQ4sRAw48SUwnnctKSq8eAAqEKKZMP5bIADVmIyzfYl7dxcoCLA+r8PbHdZmkJLDInKDO+DGbOS9uVufyu3GM1JI1V/3zNMBNooks3Od0S0n00cX4svxt74mgY9pI/KtG4lXd19Xm+EPdSKIrJH07+HdnWpizMwjZo/kRvq4F9glxxES1NWf6qx6LHxDUwshz+Fy4shcbwtJFNjyF815Z/O2B64yI4mkdKPOqktLYMvTQKOMQn3cfMSz4suhITEd/QCdKWVVFdkQ+R+Pq7YGW3Fk0YxQq02bluUY3W0NMWoWPRcFzEqSLh668+MYRw9s8EQqvv1yHlt7nxj32DnZiwPBYb3g4CcRDbMM3wWslclDNcNlVAe2rsHkWW3QnDNYOpk9+gsz3VWU0cumoyERR9kkXAzfQWTJb2sy2Gh3QDSzNxEUoyWM7AkTCkOhkENsT2Yhl2ucP12ZfmMU1psZIcgkJeNga1aUC0lmkKH786xgNUulV7HdZs+LP17NVg2OldHm8FnzKGCRH54llI1p0MBpllssJ4EF5ZbxNG9mQQ3YkgZ7MduEddrsazw+H4kxGpYhw+AYtrmunN3X8uPt1vPoh2rnpA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199021)(26005)(6666004)(6486002)(478600001)(53546011)(186003)(6512007)(6506007)(2906002)(3450700001)(66946007)(7416002)(41300700001)(66556008)(316002)(5660300002)(4326008)(66476007)(8676002)(7406005)(8936002)(31696002)(36756003)(2616005)(86362001)(38100700002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVNhdXJoREFqWHNtOGRMMGMrY0FmTW9TYnJ4STAxWXFNTXd4eTA5ZFM1d3Vl?=
+ =?utf-8?B?TEhzUWxGREdCaWd3L2U5cngyZXBmUVNyc1ZrQlV5bUx0SWRrWm5kbUlMM2w0?=
+ =?utf-8?B?TkZZaWc2aXVzeEUxOTJqS3ZFbkxIRE0wcjVxbm9yRHJ4S2szbGZQTG9rMWR4?=
+ =?utf-8?B?M3pxc0R5UkovZ0duWk9KT1piSFNLNVhFamhsM1AxOW5pb0RIZXNvNkpaalFn?=
+ =?utf-8?B?cmpvUEtPMVI2Y1NDaU1xVHdSZnRHUnFTV3Q0SnlHZnI0Tjdta2wzamE4a1Vz?=
+ =?utf-8?B?dHE0UWlDREpnT0tzSitzK3h1azRvZTUyOGdYVGZaYURuSU84WHl6RGFpTTNO?=
+ =?utf-8?B?Z3dmdHN4YTRLVEZCNy9RN1NJNnRNSGNOOEFnYnVkd25HNFVJNEVlYmdXQXVa?=
+ =?utf-8?B?b25WcDBJbktXdDlZMWlROTREd1FoYmgzSkNvSis1Y1RBcGhzeEpTYi8wdXF5?=
+ =?utf-8?B?bktPclF5MjRMUS9JVzllU2JVRUpNMFJjajd6RFJVN05WaWNvUjFqbWEvVyt3?=
+ =?utf-8?B?cldBMmdFUXJudW9SbVFMVUgzY1VnYm9sMTBlREs5RUdxTUF2dDZ6OXNCNmJ5?=
+ =?utf-8?B?bjdIaFAxeHpvUERXRXBMSHdLeEFQQjA4NzYxZ2Nubk5nMnFqU1hFczJXM1Bw?=
+ =?utf-8?B?dUhVUEdXUXUxd0pxeVRhRVlDUTY0V29PZkhvNFFMaERJcGRCRmhhUXpOQnJX?=
+ =?utf-8?B?KzlRcFVxM3F5SHlpU0ZaU0hFRXpUN29oU3dHbTVoTTJlWm9ZenQyK3F6ZS9u?=
+ =?utf-8?B?MkhXMUxxQ1FzQjg3RWM5bUJoSUFkRFdPK1dHd1J4YWZVSTkxYnh6MWZmd1BC?=
+ =?utf-8?B?VGZjNElETUJtSVd0YnQwcVhNbVBnMWdqVGIvdUFXTkxVYjB2OC9FRnNlcVFU?=
+ =?utf-8?B?Y3RISkN3T2diL0xwYWRxckluZU5VSXBlaXdsWTFVUGo2Q2IzNUkzQUJZcVZm?=
+ =?utf-8?B?TFY5eG9xSlBqNk1MM1FsSVlMQzg5RFFJa1RrZThYZGlwc1VtNldoWDN5eHEr?=
+ =?utf-8?B?YWNsczh6YVdFSk9rdytGdUNIUFpSKzN3ckhrMmZSWjFka29EanFvbVREUGdC?=
+ =?utf-8?B?ejdzRVA4L1RiK1hPRGhtcCtPOWUva3R3S2hCaUhycVpaMFYvSmxBT1p4em5K?=
+ =?utf-8?B?OTFlVUF2QkhqMDdSYTlwK1JZT2NsVVFkcU5sSFI0SDg2M1c1czRqY0dTNCta?=
+ =?utf-8?B?RzRGbk9HaXZEYTlFYk9jYWI0RmVQQVhoOHJIemtjbW56UUc3anNDMmR0MXUr?=
+ =?utf-8?B?dHdRckpaTHc5dzdjSnVwMEJlMXliRHpNYWFsRCt1YXI1bHdIcUxrVll1cVRX?=
+ =?utf-8?B?OUwxRXhQVmo4MXdWbDNZcmpybHdNdzkwTWgweFZLS3JOblo1aUtuSk1tbHhV?=
+ =?utf-8?B?VkN4akVHajVzZ2dkR2hnZ2F0dVczTy93UDFEb3ZLRDRZcVR6WnNSKzJtUFdM?=
+ =?utf-8?B?MnVMMGRJVnlyRU5IWHVoYnBQcC9JOXlJMG0rMklJa3dLU0J2K1I1R0g3SXJB?=
+ =?utf-8?B?T3ZwOWQyTlpkQmZTSGhZY3JIcFpzd0lmek5YNy9qMzZkKzFUUk5BQ0hmU1Fh?=
+ =?utf-8?B?TWdvNEVmblE4azQ5ZmVJQ0NWMHEwNHMzR0VoUStHSDV5U2JSeXl0VlpNTkN2?=
+ =?utf-8?B?YisvWUVOa3lrbkliVU1qWE01NDdNOVpNTWtsQ3h2R2ZTRzhkcGdjZ0lyK0x2?=
+ =?utf-8?B?Z1phdFBmd21VaC83WFNhMVJrLzRTMlBONWFEcldNNkw2WU5EMzR2S09wOHI1?=
+ =?utf-8?B?Yi94ckdrcHB2SzVlRXNNbzlDb1I5U1RvdFNVOEIrV0pIL1FyeTF0MlRtVEZa?=
+ =?utf-8?B?cGhxaVBTOUx1Q2VUdnYzVWRFampUNHZ5TUF6SU5WS1AycDdUU2pseGUvUFFW?=
+ =?utf-8?B?OHlhRHFXZy9GVW95UVJTOE5uMkNUM24xWEVwdEJobnlKQ3NJWEN2MFJzbllP?=
+ =?utf-8?B?QmtMZkJ5cVdITndHdXBsOWQ5OStiTEk0VjBCeHMybFpORnFCdXNiMWVMbXlr?=
+ =?utf-8?B?TzVKL25oWXJpdzdqT3ViWmZ5MURKY1ZCd0RiWE4rWTA0Skw4eUFYRnFWMXJQ?=
+ =?utf-8?B?amt2UnlTd0JrbGlUVit0UG5ZNXdjUElnbG5wTHlhL2djNjZhdDdOdnhZeDFO?=
+ =?utf-8?Q?NChk=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3180bc6-ed3d-42da-92d2-08db830f5e82
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 19:37:03.8134
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GF8V9DDe9/HdbH9IAbFGGBfgnvt8mtLMRQU2xPjQsXi85SG6Ln/Atpql6VGNAfzx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5955
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12.07.23 08:47, Anshuman Khandual wrote:
-> 
-> 
-> On 7/11/23 23:10, David Hildenbrand wrote:
->> Let's update the documentation that any signal is sufficient, and
->> add a comment that not only checking for fatal signals is historical
->> baggage: changing it now could break existing user space. although
->> unlikely.
->>
->> For example, when an app provides a custom SIGALRM handler and triggers
->> memory offlining, the timeout cmd would no longer stop memory offlining,
->> because SIGALRM would no longer be considered a fatal signal.
->>
->> Cc: Michal Hocko <mhocko@suse.com>
->> Cc: Oscar Salvador <osalvador@suse.de>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   Documentation/admin-guide/mm/memory-hotplug.rst | 2 +-
->>   mm/memory_hotplug.c                             | 5 +++++
->>   2 files changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
->> index 1b02fe5807cc..bd77841041af 100644
->> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
->> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
->> @@ -669,7 +669,7 @@ when still encountering permanently unmovable pages within ZONE_MOVABLE
->>   (-> BUG), memory offlining will keep retrying until it eventually succeeds.
->>   
->>   When offlining is triggered from user space, the offlining context can be
->> -terminated by sending a fatal signal. A timeout based offlining can easily be
->> +terminated by sending a signal. A timeout based offlining can easily be
->>   implemented via::
->>   
->>   	% timeout $TIMEOUT offline_block | failure_handling
->> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
->> index 3f231cf1b410..7cfd13c91568 100644
->> --- a/mm/memory_hotplug.c
->> +++ b/mm/memory_hotplug.c
->> @@ -1843,6 +1843,11 @@ int __ref offline_pages(unsigned long start_pfn, unsigned long nr_pages,
->>   	do {
->>   		pfn = start_pfn;
->>   		do {
->> +			/*
->> +			 * Historically we always checked for any signal and
->> +			 * can't limit it to fatal signals without eventually
->> +			 * breaking user space.> +			 */
-> 
-> Just curious, could 'signal type' to stop memory offline process be considered
-> an ABI and cannot be changed in kernel ever if required ? Just wondering if an
-> additional '!fatal_signal_pending()' check be introduced to warn about support
-> being deprecated, before finally replacing it with fatal_signal_pending().
+Hi Reinette,
 
-See my reply to Michal, while that would be doable it is probably not 
-worth the effort, and we'd still have to stick with the existing 
-handling for quite a while.
+On 7/7/23 16:45, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 6/1/2023 12:01 PM, Babu Moger wrote:
+>> In x86, hardware uses CLOSID and an RMID to identify a control group and
+>> a monitoring group respectively. When a user creates a control or monitor
+>> group these details are not visible to the user. These details can help
+>> to debug the issues.
+> 
+> "to debug the issues" -> "to debug issues"? Even so "issues" is vague,
+> perhaps just "These details can help debugging."
 
-Thanks!
+Sure.
+> 
+>>
+>> Add CLOSID(ctrl_hw_id) and RMID(mon_hw_id) to the control/monitor groups
+>> display in resctrl interface. Users can see these details when mounted
+> 
+> "when mounted with" -> "when resctrl is mounted with"?
 
+Sure.
+
+> 
+>> with "-o debug" option.
+> 
+> Could you please add a snippet to explain the file naming choice? Just a
+> mention that this is done in support of other architectures that do not use
+> "CLOSID" and "RMID". 
+Adding this.
+
+Other architectures do not use "CLOSID" and "RMID". Kept the names
+ctrl_hw_id and mon_hw_id to refer "CLOSID" and "RMID" respectively in an
+effort to keep the naming generic.
+
+> 
+> Considering that, "x86/resctrl: Display hardware ids of resource groups"
+> may be a more appropriate subject.
+Sure.
 -- 
-Cheers,
-
-David / dhildenb
-
+Thanks
+Babu Moger
