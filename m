@@ -2,125 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3939C001DE
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 16:54:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D92DEB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 17:02:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232129AbjGLQyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 12:54:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52298 "EHLO
+        id S231924AbjGLRCp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 13:02:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231655AbjGLQyb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 12:54:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7AD312E;
-        Wed, 12 Jul 2023 09:54:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B02F616F1;
-        Wed, 12 Jul 2023 16:54:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43BF2C433C7;
-        Wed, 12 Jul 2023 16:54:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689180864;
-        bh=GUKIjZVgdEMfP7TDM1aNuHteDasdN91zxotPStZohNU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oAbNSVNXNIHr6DtuTw/oe0aFSsEtMyVVSR4TG6U7T5lLWYPueKmSeg4WlMWtBySra
-         IlvvKmKpHIpVXeXMLRsPzCgrj4ePLxEznwuYSoG71a9NbS9p7CbfoFooV+jlDLFCBo
-         0qJ44bbNZDYeJTtRA0EXhMU0zLv6vvqpxkw/TvH606c1ylZZcFlK35RupigexhX/Ch
-         FmfvjTF6JvoucrTi1TDNzw0DzsXobsfGPq6iHnEDwTDhWBa+BKtSI+iB01eAGwudH4
-         +IxLG/oc4nCJg7xMhoa5NGrame6QczA00+OGkxe5MEBNuQeZCCjE/ztY4AjtMQurmv
-         8MFbVIxKStt2Q==
-Date:   Wed, 12 Jul 2023 09:54:22 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc:     Jiri Pirko <jiri@resnulli.us>, "vadfed@meta.com" <vadfed@meta.com>,
-        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "vadfed@fb.com" <vadfed@fb.com>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "M, Saeed" <saeedm@nvidia.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "sj@kernel.org" <sj@kernel.org>,
-        "javierm@redhat.com" <javierm@redhat.com>,
-        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
-        "mst@redhat.com" <mst@redhat.com>,
-        "tzimmermann@suse.de" <tzimmermann@suse.de>,
-        "Michalik, Michal" <michal.michalik@intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "jacek.lawrynowicz@linux.intel.com" 
-        <jacek.lawrynowicz@linux.intel.com>,
-        "airlied@redhat.com" <airlied@redhat.com>,
-        "ogabbay@kernel.org" <ogabbay@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "linux@zary.sk" <linux@zary.sk>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "Olech, Milena" <milena.olech@intel.com>,
-        "kuniyu@amazon.com" <kuniyu@amazon.com>,
-        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
-        "razor@blackwall.org" <razor@blackwall.org>,
-        "idosch@nvidia.com" <idosch@nvidia.com>,
-        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
-        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
-        "phil@nwl.cc" <phil@nwl.cc>,
-        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
-        mschmidt <mschmidt@redhat.com>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
-Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
-Message-ID: <20230712095422.00acaeaa@kernel.org>
-In-Reply-To: <DM6PR11MB465701C009D1DC2972F900F29B36A@DM6PR11MB4657.namprd11.prod.outlook.com>
-References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
-        <ZJq3a6rl6dnPMV17@nanopsycho>
-        <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
-        <ZJwWXZmZe4lQ04iK@nanopsycho>
-        <DM6PR11MB4657751607C36FC711271D639B30A@DM6PR11MB4657.namprd11.prod.outlook.com>
-        <ZKv1FRTXWLnLGRRS@nanopsycho>
-        <DM6PR11MB46575D14FFE115546FDC9DEB9B31A@DM6PR11MB4657.namprd11.prod.outlook.com>
-        <ZK1CizcqjqO1L/RQ@nanopsycho>
-        <DM6PR11MB4657067EE043F4DBB9D8B03B9B31A@DM6PR11MB4657.namprd11.prod.outlook.com>
-        <20230711131443.2a4af476@kernel.org>
-        <DM6PR11MB465701C009D1DC2972F900F29B36A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        with ESMTP id S232138AbjGLRCp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 13:02:45 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E54F01BD5;
+        Wed, 12 Jul 2023 10:02:43 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qJdEc-0005DU-C3; Wed, 12 Jul 2023 19:02:38 +0200
+Message-ID: <d8403c45-3561-4759-f6c2-d18afa5e323a@leemhuis.info>
+Date:   Wed, 12 Jul 2023 19:02:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US, de-DE
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <cover.1689008220.git.linux@leemhuis.info>
+ <2023071002-phrasing-tranquil-49d6@gregkh>
+ <a97a37bf-86b5-cd8e-a8ce-00e38720cee4@leemhuis.info>
+ <2023071221-blade-reactive-0707@gregkh>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
+ backporting option and a few tweaks
+In-Reply-To: <2023071221-blade-reactive-0707@gregkh>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689181364;0e7d24e0;
+X-HE-SMSGID: 1qJdEc-0005DU-C3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 12 Jul 2023 09:19:53 +0000 Kubalewski, Arkadiusz wrote:
-> >> Don't think it is way to go, and I don't think there is anything good
-> >> with preventing device drivers from labeling their pins the way they
-> >> want.  
-> >
-> >We had a long argument about how label should have a clearly defined
-> >meaning. We're not going to rehash it on every revision. What did I miss :|  
+On 12.07.23 17:16, Greg KH wrote:
+> On Wed, Jul 12, 2023 at 11:30:30AM +0200, Thorsten Leemhuis wrote:
+>> While working on the latter I noticed one more thing:
+>>
+>> ```
+>>     .. warning::
+>>        The -stable-rc tree is a snapshot in time of the stable-queue
+>> tree and
+>>        will change frequently, hence will be rebased often. It should
+>> only be
+>>        used for testing purposes (e.g. to be consumed by CI systems).
+>> ```
+> [...]
+>> I'll thus likely
+>> change the text to something like this,
+>> unless I'm missing something or someone has a better idea:
+>> ```
+>>   .. warning::
+>>      The branches in the -stable-rc tree are rebased each time a new -rc
+>>      is released, as they are created by taking the latest release and
+>>      applying the patches from the stable-queue on top.
 > 
-> Well, as I understand we are discussing if dpll subsystem shall prevent
-> labeling the SyncE type pins. I have labeled them in ice explicitly with
-> the name of a pci device they belong to.
+> Yes, that is true, but they are also rebased sometimes in intermediate
+> places, before a -rc is released, just to give CI systems a chance to
+> test easier.
 > 
-> You haven't miss much, mostly the problem is described in this thread.
+> These are ONLY for CI systems to use, nothing else should be touching
+> them.  So I think the current text is correct, what am I missing?
 
-Please read this thread:
+That I misunderstood things and forgot about the "rebased sometimes in
+intermediate places" aspect I once knew about. Sorry. I'll leave the
+text as it is then.
 
-https://lore.kernel.org/all/20230503191643.12a6e559@kernel.org/
+Nevertheless makes me wonder: is that strategy wise in times when some
+ordinary users and some distributions are building kernels straight from
+git repos instead of tarballs? I'm one of those, as I distribute
+stable-rc packages for Fedora here:
+https://copr.fedorainfracloud.org/groups/g/kernel-vanilla/coprs/
+
+And the "rebased sometimes in intermediate places" aspect complicated
+things for me (my scripts handle that and apparently I forgot about that
+since I wrote them; uhhps :-/ ).
+
+But whatever, not that important, feel free to ignore this remark. And I
+can see why you are doing it the way you do, too.
+
+Thx for you helpful feedback!
+
+Ciao, Thorsten
