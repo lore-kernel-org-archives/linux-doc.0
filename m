@@ -2,47 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5697EB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 16:46:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3939C001DE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 16:54:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233129AbjGLQqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 12:46:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46962 "EHLO
+        id S232129AbjGLQyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 12:54:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232812AbjGLQqa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 12:46:30 -0400
+        with ESMTP id S231655AbjGLQyb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 12:54:31 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43A241BF6;
-        Wed, 12 Jul 2023 09:46:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7AD312E;
+        Wed, 12 Jul 2023 09:54:25 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C129B6182E;
-        Wed, 12 Jul 2023 16:46:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11343C433C9;
-        Wed, 12 Jul 2023 16:46:26 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B02F616F1;
+        Wed, 12 Jul 2023 16:54:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43BF2C433C7;
+        Wed, 12 Jul 2023 16:54:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689180386;
-        bh=3DcsHy/vVm9dqT3ZG5U0+zBbNJXD8ImEHN3tqEpv5IU=;
+        s=k20201202; t=1689180864;
+        bh=GUKIjZVgdEMfP7TDM1aNuHteDasdN91zxotPStZohNU=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=b6WswjVFwR0Ts4ofWPfEoquBrzSDDZcu/eivbbPBYFNFvX5W3mYxUfUQLw+Aycyej
-         bK5+uBPd19uwMHPZxOZ0KDYW+SBU0KinpIwntix7QFz4y/qZGv4PoyXiQiTyTUEtya
-         NUtVKS4q4zlakNNpySs+HoudCrlpWaA2py4gIoRXM3+c4eSHkFhhBXIaKQPBcoMbHg
-         dKfkovrCbpGLeUlFDDr9aEY6qnt95+9pWcCyzULYYUklBISuzUHF+Ukssb0cxdaP16
-         PzmhYC2+yOJzMLFMBIMUPcgqhe69gQ2K1TiTQSSFXBv6XQodvEATEoF65T9OCq5Vo+
-         GEhFTFXKnS15g==
-Date:   Wed, 12 Jul 2023 09:46:25 -0700
+        b=oAbNSVNXNIHr6DtuTw/oe0aFSsEtMyVVSR4TG6U7T5lLWYPueKmSeg4WlMWtBySra
+         IlvvKmKpHIpVXeXMLRsPzCgrj4ePLxEznwuYSoG71a9NbS9p7CbfoFooV+jlDLFCBo
+         0qJ44bbNZDYeJTtRA0EXhMU0zLv6vvqpxkw/TvH606c1ylZZcFlK35RupigexhX/Ch
+         FmfvjTF6JvoucrTi1TDNzw0DzsXobsfGPq6iHnEDwTDhWBa+BKtSI+iB01eAGwudH4
+         +IxLG/oc4nCJg7xMhoa5NGrame6QczA00+OGkxe5MEBNuQeZCCjE/ztY4AjtMQurmv
+         8MFbVIxKStt2Q==
+Date:   Wed, 12 Jul 2023 09:54:22 -0700
 From:   Jakub Kicinski <kuba@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH docs] MAINTAINERS: treat Documentation/maintainer as
- process docs
-Message-ID: <20230712094625.65144f11@kernel.org>
-In-Reply-To: <87pm4x3xv3.fsf@meer.lwn.net>
-References: <20230712161011.1339829-1-kuba@kernel.org>
-        <20230712091154.7ad7561c@kernel.org>
-        <87pm4x3xv3.fsf@meer.lwn.net>
+To:     "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+Cc:     Jiri Pirko <jiri@resnulli.us>, "vadfed@meta.com" <vadfed@meta.com>,
+        "jonathan.lemon@gmail.com" <jonathan.lemon@gmail.com>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "vadfed@fb.com" <vadfed@fb.com>,
+        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+        "M, Saeed" <saeedm@nvidia.com>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "richardcochran@gmail.com" <richardcochran@gmail.com>,
+        "sj@kernel.org" <sj@kernel.org>,
+        "javierm@redhat.com" <javierm@redhat.com>,
+        "ricardo.canuelo@collabora.com" <ricardo.canuelo@collabora.com>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "Michalik, Michal" <michal.michalik@intel.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "jacek.lawrynowicz@linux.intel.com" 
+        <jacek.lawrynowicz@linux.intel.com>,
+        "airlied@redhat.com" <airlied@redhat.com>,
+        "ogabbay@kernel.org" <ogabbay@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "nipun.gupta@amd.com" <nipun.gupta@amd.com>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "linux@zary.sk" <linux@zary.sk>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "Olech, Milena" <milena.olech@intel.com>,
+        "kuniyu@amazon.com" <kuniyu@amazon.com>,
+        "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "andy.ren@getcruise.com" <andy.ren@getcruise.com>,
+        "razor@blackwall.org" <razor@blackwall.org>,
+        "idosch@nvidia.com" <idosch@nvidia.com>,
+        "lucien.xin@gmail.com" <lucien.xin@gmail.com>,
+        "nicolas.dichtel@6wind.com" <nicolas.dichtel@6wind.com>,
+        "phil@nwl.cc" <phil@nwl.cc>,
+        "claudiajkang@gmail.com" <claudiajkang@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>, poros <poros@redhat.com>,
+        mschmidt <mschmidt@redhat.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "vadim.fedorenko@linux.dev" <vadim.fedorenko@linux.dev>
+Subject: Re: [RFC PATCH v9 00/10] Create common DPLL configuration API
+Message-ID: <20230712095422.00acaeaa@kernel.org>
+In-Reply-To: <DM6PR11MB465701C009D1DC2972F900F29B36A@DM6PR11MB4657.namprd11.prod.outlook.com>
+References: <20230623123820.42850-1-arkadiusz.kubalewski@intel.com>
+        <ZJq3a6rl6dnPMV17@nanopsycho>
+        <DM6PR11MB4657084DDD7554663F86C1C19B24A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        <ZJwWXZmZe4lQ04iK@nanopsycho>
+        <DM6PR11MB4657751607C36FC711271D639B30A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        <ZKv1FRTXWLnLGRRS@nanopsycho>
+        <DM6PR11MB46575D14FFE115546FDC9DEB9B31A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        <ZK1CizcqjqO1L/RQ@nanopsycho>
+        <DM6PR11MB4657067EE043F4DBB9D8B03B9B31A@DM6PR11MB4657.namprd11.prod.outlook.com>
+        <20230711131443.2a4af476@kernel.org>
+        <DM6PR11MB465701C009D1DC2972F900F29B36A@DM6PR11MB4657.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -50,12 +107,20 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 12 Jul 2023 10:20:32 -0600 Jonathan Corbet wrote:
-> > Ugh, and looking at it in the email client I remember that m comes
-> > before p. I'll send a v2 tomorrow if nobody nacks.  
+On Wed, 12 Jul 2023 09:19:53 +0000 Kubalewski, Arkadiusz wrote:
+> >> Don't think it is way to go, and I don't think there is anything good
+> >> with preventing device drivers from labeling their pins the way they
+> >> want.  
+> >
+> >We had a long argument about how label should have a clearly defined
+> >meaning. We're not going to rehash it on every revision. What did I miss :|  
 > 
-> See https://git.kernel.org/linus/c192ac735768 :)
+> Well, as I understand we are discussing if dpll subsystem shall prevent
+> labeling the SyncE type pins. I have labeled them in ice explicitly with
+> the name of a pci device they belong to.
+> 
+> You haven't miss much, mostly the problem is described in this thread.
 
-Oops, it would have been pretty sad if the sorting survived only 
-3 days :)  Also I didn't realize there's a preferred (non-alphabetical)
-order of keywords!
+Please read this thread:
+
+https://lore.kernel.org/all/20230503191643.12a6e559@kernel.org/
