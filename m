@@ -2,86 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34E2FEB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 19:10:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58CB1EB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 19:10:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231774AbjGLTKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 15:10:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50932 "EHLO
+        id S230179AbjGLTKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 15:10:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230229AbjGLTKR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 15:10:17 -0400
+        with ESMTP id S229636AbjGLTKx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 15:10:53 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 126C4198A
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:09:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DFD1FC0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:10:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689188969;
+        s=mimecast20190719; t=1689189013;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=iVqzN+gEicp3rJj4Bqvo5xYs3/pSCObCBEs+9bPEbpA=;
-        b=PEQ/pCYPQUZ1Wzt8eLRl1f2DjsneFPWUoS00X5lvwCZLo6aDnPyTtJ2W3/K+G7GgquV/Pa
-        /dUYT3ExTwE36D06a3BSw1g8kuTTUFPr1+hAB2KkUvT3Upap5PY/NtR2aI0XGbXLsJR9WR
-        mLofv13gSv2gHvxcvTsYlKqrToSXxOE=
+        bh=LpyHkpVso0b8a+p6JmqDgDKJ26YHuwzqKI5Da7hz1I8=;
+        b=Re30oFtKFAJeCxiZiEyi9xS3hhJQEGKlLr6jOO8eEuvL4mIFKu4nybW1Ukw6WXsDaVNnqj
+        hxEuJ5WxoFn7pMhHrNkyQDGR+sMRmx5vb7dxwol9ZoudyjU6Py32CeVxhG5haQX7JeNTyJ
+        se2FRG7C4ge4jiHrNx0pckC1EnmseVg=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-201-7UvtcraQPXCVLf9eC5hIeA-1; Wed, 12 Jul 2023 15:09:27 -0400
-X-MC-Unique: 7UvtcraQPXCVLf9eC5hIeA-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-31273e0507dso4675751f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:09:27 -0700 (PDT)
+ us-mta-107-pmLzAgmGPt6JjnDiZnQtMg-1; Wed, 12 Jul 2023 15:10:10 -0400
+X-MC-Unique: pmLzAgmGPt6JjnDiZnQtMg-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3158f4d72e9so2709069f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 12:10:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689188966; x=1691780966;
+        d=1e100.net; s=20221208; t=1689189009; x=1691781009;
         h=content-transfer-encoding:in-reply-to:organization:from:references
          :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iVqzN+gEicp3rJj4Bqvo5xYs3/pSCObCBEs+9bPEbpA=;
-        b=KXKFYovVJlp2cWK0DiJwkTk5IOFIr87M+1EVEmql0FO82Il9C5i4pWk+tUoLwlFPvp
-         w+0VdUnbqoenWawP+IDVw/J/sFLTb5V8kOyKohceEO32f75XJr7PUV9bpqzbo6cVZGnE
-         ExFDA/+sgqKKXsF/Nx2r9ic0/FstwtTHJwNNJtNqKeEBrne8KghtqqQodpa8Pm8jBwWW
-         qhyd+w9taMHkEnyvfe6kNKy7kJPm240/3mzX/+cS68fb0UjrjJlbiFeNPhQ3IAgCcQZG
-         3s3HuEq9Z97G/6ZVT8FnS8Yf4pdkrtPtaKP0vArvZrFW4qGKRAXWF7J49SNy9SRDd+bh
-         +JxQ==
-X-Gm-Message-State: ABy/qLa+rcFvUH5CSgwA1wKmBZz2isBzmfFDjrl+LncV5ZiLznoekTie
-        W+yzE+AKBexyghjcRhMd9UAek/a6c7HwSik2/ktDN9qo81F5C/PFXaG1RZ3ogoDxWtrEQ67p53h
-        ChrLCbq63olvsieM9LnjVgS62BnPF
-X-Received: by 2002:adf:ffca:0:b0:313:f704:5450 with SMTP id x10-20020adfffca000000b00313f7045450mr17948893wrs.38.1689188966791;
-        Wed, 12 Jul 2023 12:09:26 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGMK+WYDzTjQtshzShQXsCucWYnUSAX3VLVEDUYHUPnftGCYTbdQEGcxTHN4+POng/GRwpVKA==
-X-Received: by 2002:adf:ffca:0:b0:313:f704:5450 with SMTP id x10-20020adfffca000000b00313f7045450mr17948880wrs.38.1689188966442;
-        Wed, 12 Jul 2023 12:09:26 -0700 (PDT)
+        bh=LpyHkpVso0b8a+p6JmqDgDKJ26YHuwzqKI5Da7hz1I8=;
+        b=J+u4QVVVEzKBamLhNg0JWQg1KTICdhE66NqSBm83kLNw7LRhktQqm+jXCXMbXPTbTJ
+         vxebMbScAL/NGQRHGxcXHyZcvgJtQhK4KmAYKX40zcZK1cT0aAI9URJ0xP1A/myRuqne
+         eZaADikmObcWlcW+W9BLoUmpsaFguPlWyp5+Pq/N7mS5uInnCQZD//sZlBHx2/gkY/ZJ
+         xV2ferVddhw9uDG22w9NXIV3xJMser3k4AjO/uAvo0LKKPpKTY8p9dqr2OQ1gpFM0lS4
+         JhKVwOdsgW8yZTMd7omB1YDuPqkIuSz8H4ZGcaRTfvmH0OCJWwDx3VF6TjNlMCs+T4l9
+         P1jA==
+X-Gm-Message-State: ABy/qLZnoxt1B169pErLTfQ/mBEkHmAe9/6upP0yfPdZ8EhZHwgsa210
+        +3eeLar4jZo1eiBUBCmE0YF4jGyWd0tc+haLGA96BGNexajbEb6Xd2SHf4KORRPeP2ivjVMWg7u
+        WNzuZ18lyrA79AkluT+VQ
+X-Received: by 2002:a5d:664d:0:b0:313:ee2e:dae1 with SMTP id f13-20020a5d664d000000b00313ee2edae1mr16045099wrw.18.1689189009181;
+        Wed, 12 Jul 2023 12:10:09 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGMGfFIaXHwBrDx1CqxjskLjhy5sdzusnHEp8jN2HIPDxRD+vAGQJNr4BZ6vOAZC+oUwBNggg==
+X-Received: by 2002:a5d:664d:0:b0:313:ee2e:dae1 with SMTP id f13-20020a5d664d000000b00313ee2edae1mr16045086wrw.18.1689189008931;
+        Wed, 12 Jul 2023 12:10:08 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c707:3700:3eea:ace6:5bde:4478? (p200300cbc70737003eeaace65bde4478.dip0.t-ipconnect.de. [2003:cb:c707:3700:3eea:ace6:5bde:4478])
-        by smtp.gmail.com with ESMTPSA id f6-20020adff586000000b003142eb75724sm5825120wro.24.2023.07.12.12.09.25
+        by smtp.gmail.com with ESMTPSA id k8-20020a5d5188000000b00314172ba213sm5718522wrv.108.2023.07.12.12.10.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 12:09:25 -0700 (PDT)
-Message-ID: <7449914a-1ae3-9ea8-b60b-f0314999b790@redhat.com>
-Date:   Wed, 12 Jul 2023 21:09:25 +0200
+        Wed, 12 Jul 2023 12:10:08 -0700 (PDT)
+Message-ID: <6d24ff50-b463-f2cd-09c8-fb6eb73d5c07@redhat.com>
+Date:   Wed, 12 Jul 2023 21:10:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
 Subject: Re: [PATCH v1] mm/memory_hotplug: document the signal_pending() check
  in offline_pages()
 Content-Language: en-US
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+To:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>
 References: <20230711174050.603820-1-david@redhat.com>
- <ZK2/3Kq8VlDwcCpc@dhcp22.suse.cz>
+ <6e473d64-fbbc-db12-99ee-d32768d8af85@arm.com>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <ZK2/3Kq8VlDwcCpc@dhcp22.suse.cz>
+In-Reply-To: <6e473d64-fbbc-db12-99ee-d32768d8af85@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11.07.23 22:47, Michal Hocko wrote:
-> On Tue 11-07-23 19:40:50, David Hildenbrand wrote:
+On 12.07.23 08:47, Anshuman Khandual wrote:
+> 
+> 
+> On 7/11/23 23:10, David Hildenbrand wrote:
 >> Let's update the documentation that any signal is sufficient, and
 >> add a comment that not only checking for fatal signals is historical
 >> baggage: changing it now could break existing user space. although
@@ -90,21 +94,51 @@ On 11.07.23 22:47, Michal Hocko wrote:
 >> For example, when an app provides a custom SIGALRM handler and triggers
 >> memory offlining, the timeout cmd would no longer stop memory offlining,
 >> because SIGALRM would no longer be considered a fatal signal.
+>>
+>> Cc: Michal Hocko <mhocko@suse.com>
+>> Cc: Oscar Salvador <osalvador@suse.de>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   Documentation/admin-guide/mm/memory-hotplug.rst | 2 +-
+>>   mm/memory_hotplug.c                             | 5 +++++
+>>   2 files changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+>> index 1b02fe5807cc..bd77841041af 100644
+>> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
+>> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+>> @@ -669,7 +669,7 @@ when still encountering permanently unmovable pages within ZONE_MOVABLE
+>>   (-> BUG), memory offlining will keep retrying until it eventually succeeds.
+>>   
+>>   When offlining is triggered from user space, the offlining context can be
+>> -terminated by sending a fatal signal. A timeout based offlining can easily be
+>> +terminated by sending a signal. A timeout based offlining can easily be
+>>   implemented via::
+>>   
+>>   	% timeout $TIMEOUT offline_block | failure_handling
+>> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+>> index 3f231cf1b410..7cfd13c91568 100644
+>> --- a/mm/memory_hotplug.c
+>> +++ b/mm/memory_hotplug.c
+>> @@ -1843,6 +1843,11 @@ int __ref offline_pages(unsigned long start_pfn, unsigned long nr_pages,
+>>   	do {
+>>   		pfn = start_pfn;
+>>   		do {
+>> +			/*
+>> +			 * Historically we always checked for any signal and
+>> +			 * can't limit it to fatal signals without eventually
+>> +			 * breaking user space.> +			 */
 > 
-> Yes, and it is likely goot to mention here that this is an antipattern
-> for many other kernel operations like IO (e.g. write) but it is a long
-> term behavior that somebody might depend on and it is safer to reflect
-> the documentation to the realitity rather than other way around (which
-> would be imho better).
-> 
+> Just curious, could 'signal type' to stop memory offline process be considered
+> an ABI and cannot be changed in kernel ever if required ? Just wondering if an
+> additional '!fatal_signal_pending()' check be introduced to warn about support
+> being deprecated, before finally replacing it with fatal_signal_pending().
 
-You mean adding something like
-
-"Note that using signal_pending() instead of fatal_signal_pending() is 
-an anti-pattern, but slowly deprecating that behavior to eventually 
-change it in the far future is probably not worth the effort. If this 
-ever becomes relevant for user-space, we might want to rethink."
-
+See my reply to Michal, while that would be doable it is probably not 
+worth the effort, and we'd still have to stick with the existing 
+handling for quite a while.
 
 Thanks!
 
