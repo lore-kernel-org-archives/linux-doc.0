@@ -2,82 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39071EB64D9
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 13:50:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 269D3EB64D9
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 14:29:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231641AbjGLNuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 09:50:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34462 "EHLO
+        id S231573AbjGLO3H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 10:29:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231221AbjGLNuX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 09:50:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F25E8;
-        Wed, 12 Jul 2023 06:50:22 -0700 (PDT)
+        with ESMTP id S232330AbjGLO3D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 10:29:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D765B1BDF;
+        Wed, 12 Jul 2023 07:29:01 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7CA28617C9;
-        Wed, 12 Jul 2023 13:50:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E2C1BC433C9;
-        Wed, 12 Jul 2023 13:50:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6764861805;
+        Wed, 12 Jul 2023 14:29:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C456FC433C8;
+        Wed, 12 Jul 2023 14:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689169821;
-        bh=0wFk1A/aNUUTpjvhGUBpRWPsahwPmj+gEshvobF0bE8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=IMl2jc9KaRv0leEA0CFOdFBQ9YH99BxBnfhVcNFs23Fu66Cp2ebzp2XnMnufb29yX
-         3hzEPYEbhZxoox/hFBTmSFYAo5ERYWdB8FNiZkZB9UBKb8nXr2LIUe1FYqfGvN/pW2
-         RJ9JhghgaHWcbB6YO03g/kstgbfp3za9Q863r1nEO5PCuHByLKKie7VHbwiHrWgbCU
-         KY/8fDMqkw1+o3sjdOJjhJ76bB6tb7xojpdZgEqe9gcWTFfhSY1OHc18VzF8UQV36H
-         p6jEBp5BsB3mYtcypgz9mfMgr5VZVAoV+Puqybqe0gadPB4CbEd4kFgls4+sc5n3xA
-         ghuXJzuEGPOhg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C66C1C04E32;
-        Wed, 12 Jul 2023 13:50:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1689172140;
+        bh=ymDSmyQE+1VjD+F72bagnnqt4nfj752WMEBt5dK+Lf8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=S0R/RaIUJMVH5qRd3pz5jBpfJ9HajmRwajHprZjx4FJo8VuMyk11Gzoauc+8Oi1r5
+         RQ2UbSV+xn9cGThw1Vao2W57lLkhyQA5D+CQOCbVK84AW8FxOjF2XPMX6RQ0DgjwZ/
+         jKV5Jm9v78U1GUyTpweDIgXj88SVHlVaARwtMzRBsVrVADMtIDU84GljlX7E+QlKD/
+         M8WW1BFb9+TmxctYDtMpsQodux4nSlCGfhhv0AErc+zZALvp5htxNuE03oT0aU6OeS
+         PVEQdEhyiFBTAhYwcqHTsaMtAwz1NTuh8Jq+BpovEjAZnyOVOFAeo/LbbU5M+QGL+p
+         e1LeC3DzwOAhA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.96)
+        (envelope-from <mchehab@kernel.org>)
+        id 1qJapt-003beq-1r;
+        Wed, 12 Jul 2023 16:28:57 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Brendan Higgins" <brendanhiggins@google.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        "David Gow" <davidgow@google.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+        "Nikolai Kondrashov" <spbnick@gmail.com>,
+        "Rae Moar" <rmoar@google.com>,
+        "Shuah Khan" <skhan@linuxfoundation.org>,
+        Arthur Grillo <arthurgrillo@riseup.net>,
+        Kees Cook <keescook@chromium.org>,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, mauro.chehab@intel.com
+Subject: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit test
+Date:   Wed, 12 Jul 2023 16:28:55 +0200
+Message-Id: <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <cover.1689171160.git.mchehab@kernel.org>
+References: <cover.1689171160.git.mchehab@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] Documentation: RISC-V: hwprobe: Fix a formatting error
-From:   patchwork-bot+linux-riscv@kernel.org
-Message-Id: <168916982180.8919.16048088678378231987.git-patchwork-notify@kernel.org>
-Date:   Wed, 12 Jul 2023 13:50:21 +0000
-References: <20230710193329.2742-1-palmer@rivosinc.com>
-In-Reply-To: <20230710193329.2742-1-palmer@rivosinc.com>
-To:     Palmer Dabbelt <palmer@rivosinc.com>
-Cc:     linux-riscv@lists.infradead.org, corbet@lwn.net,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, conor.dooley@microchip.com,
-        evan@rivosinc.com, heiko@sntech.de, andy.chiu@sifive.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux@rivosinc.com
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+As an example for the new documentation tool, add a documentation
+for drm_buddy_test.
 
-This patch was applied to riscv/linux.git (fixes)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+I opted to place this on a completely different directory, in order
+to make easier to test the feature with:
 
-On Mon, 10 Jul 2023 12:33:30 -0700 you wrote:
-> From: Palmer Dabbelt <palmer@rivosinc.com>
-> 
-> I'm not sure what I was trying to do with the ':'s, but they're just
-> rendered to HTML which looks odd.   This makes "fence.i" look like
-> "mvendorid" and such, which is seems reasonable to me.
-> 
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> 
-> [...]
+	$ make SPHINXDIRS="tests" htmldocs
 
-Here is the summary with links:
-  - Documentation: RISC-V: hwprobe: Fix a formatting error
-    https://git.kernel.org/riscv/c/d6e724d3ef0b
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-You are awesome, thank you!
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH RFC 0/2] at: https://lore.kernel.org/all/cover.1689171160.git.mchehab@kernel.org/
+
+ Documentation/index.rst                |  2 +-
+ Documentation/tests/index.rst          |  6 ++++++
+ Documentation/tests/kunit.rst          |  5 +++++
+ drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
+ 4 files changed, 24 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/tests/index.rst
+ create mode 100644 Documentation/tests/kunit.rst
+
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 9dfdc826618c..80a6ce14a61a 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -60,7 +60,7 @@ Various other manuals with useful information for all kernel developers.
+    fault-injection/index
+    livepatch/index
+    rust/index
+-
++   test/index
+ 
+ User-oriented documentation
+ ===========================
+diff --git a/Documentation/tests/index.rst b/Documentation/tests/index.rst
+new file mode 100644
+index 000000000000..bfc39eb5c0aa
+--- /dev/null
++++ b/Documentation/tests/index.rst
+@@ -0,0 +1,6 @@
++========================
++Kunit documentation test
++========================
++
++.. toctree::
++   kunit
+diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kunit.rst
+new file mode 100644
+index 000000000000..6ffc151988a0
+--- /dev/null
++++ b/Documentation/tests/kunit.rst
+@@ -0,0 +1,5 @@
++Kunit tests
++-----------
++
++.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
++
+diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+index 09ee6f6af896..dd6c5afd6cd6 100644
+--- a/drivers/gpu/drm/tests/drm_buddy_test.c
++++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+@@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *suite)
+ 	return 0;
+ }
+ 
++/**
++ * KTEST_SUITE: set of tests for drm buddy alloc
++ * Scope: drm subsystem
++ * Mega feature: drm
++ * Feature: buddy_alloc
++ *
++ * KTEST_TEST: drm_test_buddy_alloc_%s
++ * Description: Run DRM buddy allocation %arg[1] test
++ *
++ * arg[1].values: limit, range, optimistic, smoke, pathological
++ */
++
+ static struct kunit_case drm_buddy_tests[] = {
+ 	KUNIT_CASE(drm_test_buddy_alloc_limit),
+ 	KUNIT_CASE(drm_test_buddy_alloc_range),
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.40.1
 
