@@ -2,115 +2,328 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F31EB64D9
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 07:36:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43FEAEB64D9
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 07:54:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231978AbjGLHg4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 03:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58522 "EHLO
+        id S229762AbjGLHye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 03:54:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231693AbjGLHg4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 03:36:56 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5A3DCB8;
-        Wed, 12 Jul 2023 00:36:54 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6916E2F4;
-        Wed, 12 Jul 2023 00:37:36 -0700 (PDT)
-Received: from FVFF77S0Q05N.emea.arm.com (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3637D3F67D;
-        Wed, 12 Jul 2023 00:36:52 -0700 (PDT)
-Date:   Wed, 12 Jul 2023 08:36:46 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
-Cc:     Will Deacon <will@kernel.org>, corbet@lwn.net,
-        catalin.marinas@arm.com, maz@kernel.org, quic_pkondeti@quicinc.com,
-        quic_kaushalk@quicinc.com, quic_satyap@quicinc.com,
-        quic_shashim@quicinc.com, quic_songxue@quicinc.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
-Message-ID: <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
-References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
- <20230710093751.GC32673@willie-the-truck>
- <5cf15f85-0397-96f7-4110-13494551b53b@quicinc.com>
- <20230711082226.GA1554@willie-the-truck>
- <84f0994a-26de-c20a-a32f-ec8fe41df3a3@quicinc.com>
- <20230711102510.GA1809@willie-the-truck>
- <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
+        with ESMTP id S229505AbjGLHyd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 03:54:33 -0400
+X-Greylist: delayed 364 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Jul 2023 00:54:32 PDT
+Received: from out-13.mta1.migadu.com (out-13.mta1.migadu.com [95.215.58.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B61E6F
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 00:54:31 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1689148101;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=1JfPRCcZ10ZseppL9s+5yhkq0u8W8eJakvC9+qaKs70=;
+        b=Xf9dmNCtpcC3HcBJuYAaCviYyQmjbfosYOC/ouHWHuaeyPua4phSSVdsLmBn6chumJwqDL
+        VZOJB8CsC8NmDh0NbNOmkLadGCQ0i93sEX8Hqrw/HaFlAh/L9uHtshL/0XszDQDDAQ1Twp
+        XjHkKjqGeRV+AIMwzLy/B22u9r9vLLk=
+From:   Yajun Deng <yajun.deng@linux.dev>
+To:     corbet@lwn.net, hch@lst.de, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, akpm@linux-foundation.org,
+        paulmck@kernel.org, catalin.marinas@arm.com, rdunlap@infradead.org,
+        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, linux-mm@kvack.org,
+        Yajun Deng <yajun.deng@linux.dev>
+Subject: [PATCH v3] dma-contiguous: support numa CMA for specified node
+Date:   Wed, 12 Jul 2023 15:47:58 +0800
+Message-Id: <20230712074758.1133272-1-yajun.deng@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 11:09:10AM +0800, Aiqun(Maria) Yu wrote:
-> On 7/11/2023 6:25 PM, Will Deacon wrote:
-> > On Tue, Jul 11, 2023 at 06:15:49PM +0800, Aiqun(Maria) Yu wrote:
-> > > On 7/11/2023 4:22 PM, Will Deacon wrote:
-> > > > On Tue, Jul 11, 2023 at 12:02:22PM +0800, Aiqun(Maria) Yu wrote:
-> > > > > On 7/10/2023 5:37 PM, Will Deacon wrote:
-> > > > > > On Mon, Jul 10, 2023 at 01:59:55PM +0800, Maria Yu wrote:
-> > > > > > > In order to be able to disable lse_atomic even if cpu
-> > > > > > > support it, most likely because of memory controller
-> > > > > > > cannot deal with the lse atomic instructions, use a
-> > > > > > > new idreg override to deal with it.
-> > > > > > 
-> > > > > > This should not be a problem for cacheable memory though, right?
-> > > > > > 
-> > > > > > Given that Linux does not issue atomic operations to non-cacheable mappings,
-> > > > > > I'm struggling to see why there's a problem here.
-> > > > > 
-> > > > > The lse atomic operation can be issued on non-cacheable mappings as well.
-> > > > > Even if it is cached data, with different CPUECTLR_EL1 setting, it can also
-> > > > > do far lse atomic operations.
-> > > > 
-> > > > Please can you point me to the place in the kernel sources where this
-> > > > happens? The architecture doesn't guarantee that atomics to non-cacheable
-> > > > mappings will work, see "B2.2.6 Possible implementation restrictions on
-> > > > using atomic instructions". Linux, therefore, doesn't issue atomics
-> > > > to non-cacheable memory.
-> > > 
-> > > We encounter the issue on third party kernel modules and third party apps
-> > > instead of linux kernel itself.
-> > 
-> > Great, so there's nothing to do in the kernel then!
-> > 
-> > The third party code needs to be modified not to use atomic instructions
-> > with non-cacheable mappings. No need to involve us with that.
-> 
-> > > This is a tradeoff of performance and stability. Per my understanding,
-> > > options can be used to enable the lse_atomic to have the most performance
-> > > cared system, and disable the lse_atomic by stability cared most system.
-> > 
-> > Where do livelock and starvation fit in with "stability"? Disabling LSE
-> > atomics for things like qspinlock and the scheduler just because of some
-> > badly written third-party code isn't much of a tradeoff.
+The kernel parameter 'cma_pernuma=' only supports reserving the same
+size of CMA area for each node. We need to reserve different sizes of
+CMA area for specified nodes if these devices belong to different nodes.
 
-> We also have requirement to have cpus/system fully support lse atomic and
-> cpus/system not fully support lse atomic with a generic kernel image.
+Adding another kernel parameter 'numa_cma=' to reserve CMA area for
+the specified node. If we want to use one of these parameters, we need to
+enable DMA_NUMA_CMA.
 
-Who *specifically* has this requirement (i.e. what does 'we' mean here)? The
-upstream kernel does not require that atomics work on non-cacheable memory, and
-saying "The company I work for want this" doesn't change that.
+At the same time, print the node id in cma_declare_contiguous_nid() if
+CONFIG_NUMA is enabled.
 
-AFAICT the system here is architecturally compliant, and what you're relying
-upon something that the architecture doesn't guarantee, and Linux doesn't
-guarantee.
+Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
+---
+ V2 -> V3: Use nid but not nid_buf in cma_declare_contiguous_nid().
+ V1 -> V2: Add 'numa_cma=' and keep 'cma_pernuma=' kernel parameter.
+---
+ .../admin-guide/kernel-parameters.txt         |  11 ++
+ kernel/dma/Kconfig                            |   9 +-
+ kernel/dma/contiguous.c                       | 101 ++++++++++++++----
+ mm/cma.c                                      |  10 +-
+ 4 files changed, 102 insertions(+), 29 deletions(-)
 
-> Same kernel module wanted to be used by lse atomic fully support cpu and not
-> fully support cpu/system as well.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index bdf0ab6716c8..87ad8154b730 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -706,6 +706,17 @@
+ 			which is located in node nid, if the allocation fails,
+ 			they will fallback to the global default memory area.
+ 
++	numa_cma=<node>:nn[MG][,<node>:nn[MG]]
++			[KNL,CMA]
++			Sets the size of kernel numa memory area for
++			contiguous memory allocations. It will reserve CMA
++			area for the specified node.
++
++			With numa CMA enabled, DMA users on node nid will
++			first try to allocate buffer from the numa area
++			which is located in node nid, if the allocation fails,
++			they will fallback to the global default memory area.
++
+ 	cmo_free_hint=	[PPC] Format: { yes | no }
+ 			Specify whether pages are marked as being inactive
+ 			when they are freed.  This is used in CMO environments
+diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
+index 7afde9bc529f..562463fe30ea 100644
+--- a/kernel/dma/Kconfig
++++ b/kernel/dma/Kconfig
+@@ -145,15 +145,16 @@ config DMA_CMA
+ 
+ if  DMA_CMA
+ 
+-config DMA_PERNUMA_CMA
+-	bool "Enable separate DMA Contiguous Memory Area for each NUMA Node"
++config DMA_NUMA_CMA
++	bool "Enable separate DMA Contiguous Memory Area for NUMA Node"
+ 	default NUMA
+ 	help
+-	  Enable this option to get pernuma CMA areas so that NUMA devices
++	  Enable this option to get numa CMA areas so that NUMA devices
+ 	  can get local memory by DMA coherent APIs.
+ 
+ 	  You can set the size of pernuma CMA by specifying "cma_pernuma=size"
+-	  on the kernel's command line.
++	  or set the node id and its size of CMA by specifying "numa_cma=
++	  <node>:size[,<node>:size]" on the kernel's command line.
+ 
+ comment "Default contiguous memory area size:"
+ 
+diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+index 26a8e5365fcd..f005c66f378c 100644
+--- a/kernel/dma/contiguous.c
++++ b/kernel/dma/contiguous.c
+@@ -50,6 +50,7 @@
+ #include <linux/sizes.h>
+ #include <linux/dma-map-ops.h>
+ #include <linux/cma.h>
++#include <linux/nospec.h>
+ 
+ #ifdef CONFIG_CMA_SIZE_MBYTES
+ #define CMA_SIZE_MBYTES CONFIG_CMA_SIZE_MBYTES
+@@ -96,11 +97,44 @@ static int __init early_cma(char *p)
+ }
+ early_param("cma", early_cma);
+ 
+-#ifdef CONFIG_DMA_PERNUMA_CMA
++#ifdef CONFIG_DMA_NUMA_CMA
+ 
++static struct cma *dma_contiguous_numa_area[MAX_NUMNODES];
++static phys_addr_t numa_cma_size[MAX_NUMNODES] __initdata;
+ static struct cma *dma_contiguous_pernuma_area[MAX_NUMNODES];
+ static phys_addr_t pernuma_size_bytes __initdata;
+ 
++static int __init early_numa_cma(char *p)
++{
++	int nid, count = 0;
++	unsigned long tmp;
++	char *s = p;
++
++	while (*s) {
++		if (sscanf(s, "%lu%n", &tmp, &count) != 1)
++			break;
++
++		if (s[count] == ':') {
++			if (tmp >= MAX_NUMNODES)
++				break;
++			nid = array_index_nospec(tmp, MAX_NUMNODES);
++
++			s += count + 1;
++			tmp = memparse(s, &s);
++			numa_cma_size[nid] = tmp;
++
++			if (*s == ',')
++				s++;
++			else
++				break;
++		} else
++			break;
++	}
++
++	return 0;
++}
++early_param("numa_cma", early_numa_cma);
++
+ static int __init early_cma_pernuma(char *p)
+ {
+ 	pernuma_size_bytes = memparse(p, &p);
+@@ -127,34 +161,47 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
+ 
+ #endif
+ 
+-#ifdef CONFIG_DMA_PERNUMA_CMA
+-static void __init dma_pernuma_cma_reserve(void)
++#ifdef CONFIG_DMA_NUMA_CMA
++static void __init dma_numa_cma_reserve(void)
+ {
+ 	int nid;
+ 
+-	if (!pernuma_size_bytes)
+-		return;
+-
+-	for_each_online_node(nid) {
++	for_each_node(nid) {
+ 		int ret;
+ 		char name[CMA_MAX_NAME];
+-		struct cma **cma = &dma_contiguous_pernuma_area[nid];
+-
+-		snprintf(name, sizeof(name), "pernuma%d", nid);
+-		ret = cma_declare_contiguous_nid(0, pernuma_size_bytes, 0, 0,
+-						 0, false, name, cma, nid);
+-		if (ret) {
+-			pr_warn("%s: reservation failed: err %d, node %d", __func__,
+-				ret, nid);
++		struct cma **cma;
++
++		if (!node_online(nid)) {
++			if (pernuma_size_bytes || numa_cma_size[nid])
++				pr_warn("invalid node %d specified\n", nid);
+ 			continue;
+ 		}
+ 
+-		pr_debug("%s: reserved %llu MiB on node %d\n", __func__,
+-			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
++		if (pernuma_size_bytes) {
++
++			cma = &dma_contiguous_pernuma_area[nid];
++			snprintf(name, sizeof(name), "pernuma%d", nid);
++			ret = cma_declare_contiguous_nid(0, pernuma_size_bytes, 0, 0,
++							 0, false, name, cma, nid);
++			if (ret)
++				pr_warn("%s: reservation failed: err %d, node %d", __func__,
++					ret, nid);
++		}
++
++		if (numa_cma_size[nid]) {
++
++			cma = &dma_contiguous_numa_area[nid];
++			snprintf(name, sizeof(name), "numa%d", nid);
++			ret = cma_declare_contiguous_nid(0, numa_cma_size[nid], 0, 0, 0, false,
++							 name, cma, nid);
++			if (ret)
++				pr_warn("%s: reservation failed: err %d, node %d", __func__,
++					ret, nid);
++		}
+ 	}
+ }
+ #else
+-static inline void __init dma_pernuma_cma_reserve(void)
++static inline void __init dma_numa_cma_reserve(void)
+ {
+ }
+ #endif
+@@ -175,7 +222,7 @@ void __init dma_contiguous_reserve(phys_addr_t limit)
+ 	phys_addr_t selected_limit = limit;
+ 	bool fixed = false;
+ 
+-	dma_pernuma_cma_reserve();
++	dma_numa_cma_reserve();
+ 
+ 	pr_debug("%s(limit %08lx)\n", __func__, (unsigned long)limit);
+ 
+@@ -309,7 +356,7 @@ static struct page *cma_alloc_aligned(struct cma *cma, size_t size, gfp_t gfp)
+  */
+ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
+ {
+-#ifdef CONFIG_DMA_PERNUMA_CMA
++#ifdef CONFIG_DMA_NUMA_CMA
+ 	int nid = dev_to_node(dev);
+ #endif
+ 
+@@ -321,7 +368,7 @@ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
+ 	if (size <= PAGE_SIZE)
+ 		return NULL;
+ 
+-#ifdef CONFIG_DMA_PERNUMA_CMA
++#ifdef CONFIG_DMA_NUMA_CMA
+ 	if (nid != NUMA_NO_NODE && !(gfp & (GFP_DMA | GFP_DMA32))) {
+ 		struct cma *cma = dma_contiguous_pernuma_area[nid];
+ 		struct page *page;
+@@ -331,6 +378,13 @@ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
+ 			if (page)
+ 				return page;
+ 		}
++
++		cma = dma_contiguous_numa_area[nid];
++		if (cma) {
++			page = cma_alloc_aligned(cma, size, gfp);
++			if (page)
++				return page;
++		}
+ 	}
+ #endif
+ 	if (!dma_contiguous_default_area)
+@@ -362,10 +416,13 @@ void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
+ 		/*
+ 		 * otherwise, page is from either per-numa cma or default cma
+ 		 */
+-#ifdef CONFIG_DMA_PERNUMA_CMA
++#ifdef CONFIG_DMA_NUMA_CMA
+ 		if (cma_release(dma_contiguous_pernuma_area[page_to_nid(page)],
+ 					page, count))
+ 			return;
++		if (cma_release(dma_contiguous_numa_area[page_to_nid(page)],
++					page, count))
++			return;
+ #endif
+ 		if (cma_release(dma_contiguous_default_area, page, count))
+ 			return;
+diff --git a/mm/cma.c b/mm/cma.c
+index 4880f72102fa..da2967c6a223 100644
+--- a/mm/cma.c
++++ b/mm/cma.c
+@@ -267,6 +267,9 @@ int __init cma_declare_contiguous_nid(phys_addr_t base,
+ 	if (alignment && !is_power_of_2(alignment))
+ 		return -EINVAL;
+ 
++	if (!IS_ENABLED(CONFIG_NUMA))
++		nid = NUMA_NO_NODE;
++
+ 	/* Sanitise input arguments. */
+ 	alignment = max_t(phys_addr_t, alignment, CMA_MIN_ALIGNMENT_BYTES);
+ 	if (fixed && base & (alignment - 1)) {
+@@ -372,14 +375,15 @@ int __init cma_declare_contiguous_nid(phys_addr_t base,
+ 	if (ret)
+ 		goto free_mem;
+ 
+-	pr_info("Reserved %ld MiB at %pa\n", (unsigned long)size / SZ_1M,
+-		&base);
++	pr_info("Reserved %ld MiB at %pa on node %d\n", (unsigned long)size / SZ_1M,
++		&base, nid);
+ 	return 0;
+ 
+ free_mem:
+ 	memblock_phys_free(base, size);
+ err:
+-	pr_err("Failed to reserve %ld MiB\n", (unsigned long)size / SZ_1M);
++	pr_err("Failed to reserve %ld MiB on node %d\n", (unsigned long)size / SZ_1M,
++	       nid);
+ 	return ret;
+ }
+ 
+-- 
+2.25.1
 
-Which kernel modules *specifically* need to do atomics to non-cacheable memory?
-
-> That's why we want to have a runtime option here.
-
-As per other replies, a runtime option doesn't solve the issue you have
-described, and it will adversely affect the system in other ways (e.g. the
-livelock and starvation issues will mentioned, which we have seen with
-LDXR+STXR atomics).
-
-Thanks,
-Mark.
