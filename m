@@ -2,202 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04484C0015E
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 17:34:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B21D4C001B0
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jul 2023 19:00:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233167AbjGLRew (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 13:34:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40762 "EHLO
+        id S232278AbjGLTAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 15:00:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230252AbjGLReu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 13:34:50 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B53F1BD
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 10:34:44 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4fb96e2b573so11680282e87.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jul 2023 10:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1689183282; x=1691775282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7Kn9GKWzSCL2y3w2iBtXzlaPYZE6roRbs1qwKy/TmHY=;
-        b=o6+YFgzBDpsGfJuM/ertNh1ht/TceQDD5URMBDxiTzgooE3nIvHSeo2ebIf1in/J7A
-         +F/OptuLwzFhjBxN2yMdo0uxGPfdfmlYgE5duf+IWZZFl4dW+F+tkI1KnIkAXsG5ExNa
-         0tRzmewVAtiO7Kch2Ml/5iQwg2aE0ES/KR3tgvYqknmWCG2OZIyGnVtS8hO+/aFOjARf
-         U8L72Wzsve03ef41G8okxF49C32zxtmTRMIj6xvdb+AkwLXrLo3B226rTerhSxAu6yAC
-         6ENUpGSc5LR0Iem+lN2brhVBBb20EMb7wvfwBXzbDv4BNRg1eATMXMfX/IaJNI5Kjwh+
-         0NnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689183282; x=1691775282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7Kn9GKWzSCL2y3w2iBtXzlaPYZE6roRbs1qwKy/TmHY=;
-        b=S8Nfwz1eXqFa9vPM090q595XjXIHonFb/zTRjCrLcq/dyjgXxEyNRmI8+f0BLvRUcL
-         bMSQ9vnopexoN5RwDbJ3fd35dcjTbB/UL4PfAB+d2J6cND1d0nd2iDoTjCBdJ3ppjcn/
-         0sy8T/rUyq9rGaIpbSxDxVbIPb/A5xLS6ctms/vlsZ91U+muzsHqtYFjY3MSF7UkSA7A
-         P+VLkWljSs24jdh0HAI+Ecd58jECKxKo0k+ocmX9YGKvFKrzbglMTXw656/pjrd3Xp9Y
-         Rwk6FUJRS7N/fzICihxYo/9sKmkLG5OgG9g4Grnfi4eZhxFLEZuKV95JXWqz+eKusrAW
-         3oxg==
-X-Gm-Message-State: ABy/qLa9qB5F6icXzrOnoDW+d6M2G6xWzQTovcAKaJsKADjzyvsNOOHv
-        9RInsLUCcHfbIBamOZFfq1kVivmFSIkd1RqbIPLQ8w==
-X-Google-Smtp-Source: APBJJlGLe1857hveLUdO5LGGF1AxUUzRt+f/c/dzcQTQoh/f/dXe05qgO01maJoi+rxEnXtAHpOuHL5xkN7wEJ1BXNk=
-X-Received: by 2002:a05:6512:114b:b0:4f9:ec5e:d624 with SMTP id
- m11-20020a056512114b00b004f9ec5ed624mr18739314lfg.38.1689183282151; Wed, 12
- Jul 2023 10:34:42 -0700 (PDT)
+        with ESMTP id S229480AbjGLTAc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 15:00:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CBEB1BF8;
+        Wed, 12 Jul 2023 12:00:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 050C3618CE;
+        Wed, 12 Jul 2023 19:00:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB81C433C8;
+        Wed, 12 Jul 2023 19:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1689188430;
+        bh=C75X2BnyEWDXBPD/0Zfk2U9UagD2+DsJ0ryNEGmeRYc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kkxIXB1mjYsJzX/NO5wASfnLQjv3gxKU/O7ohYn38fe9Ls155Kge8I3xZGDCp/Hna
+         khFKdJ1mUtbXr22HE9R0HLg+2RilUQAUAC+SEKT9lzFZXRSYCVUBvtDcLHZFYqsgbv
+         HX1DK7bqMtC69K2ji+7JS373MAlvfvSxSSahzBaw=
+Date:   Wed, 12 Jul 2023 21:00:27 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
+ backporting option and a few tweaks
+Message-ID: <2023071215-able-mushy-c889@gregkh>
+References: <cover.1689008220.git.linux@leemhuis.info>
+ <2023071002-phrasing-tranquil-49d6@gregkh>
+ <a97a37bf-86b5-cd8e-a8ce-00e38720cee4@leemhuis.info>
+ <2023071221-blade-reactive-0707@gregkh>
+ <d8403c45-3561-4759-f6c2-d18afa5e323a@leemhuis.info>
 MIME-Version: 1.0
-References: <20230710-equipment-stained-dd042d66ba5d@wendy> <20230710-banker-visible-4c4cb3685dc1@wendy>
-In-Reply-To: <20230710-banker-visible-4c4cb3685dc1@wendy>
-From:   Evan Green <evan@rivosinc.com>
-Date:   Wed, 12 Jul 2023 10:34:06 -0700
-Message-ID: <CALs-HsstyS+qFJZjb7Lv_2LmygfhA_EAeEdoCSRhtaXnYfhw0w@mail.gmail.com>
-Subject: Re: [PATCH v4 05/11] RISC-V: repurpose riscv_isa_ext array in riscv_fill_hwcap()
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     palmer@dabbelt.com, conor@kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Heiko Stuebner <heiko.stuebner@vrull.eu>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d8403c45-3561-4759-f6c2-d18afa5e323a@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 2:36=E2=80=AFAM Conor Dooley <conor.dooley@microchi=
-p.com> wrote:
->
-> In riscv_fill_hwcap() riscv_isa_ext array can be looped over, rather
-> than duplicating the list of extensions with individual
-> SET_ISA_EXT_MAP() usage. While at it, drop the statement-of-the-obvious
-> comments from the struct, rename uprop to something more suitable for
-> its new use & constify the members.
->
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
-> Changes in v2:
-> - Delete the now unused definition
-> ---
->  arch/riscv/include/asm/hwcap.h |  7 ++-----
->  arch/riscv/kernel/cpu.c        |  5 +++--
->  arch/riscv/kernel/cpufeature.c | 26 +++++++-------------------
->  3 files changed, 12 insertions(+), 26 deletions(-)
->
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
-p.h
-> index 7a57e6109aef..2460ac2fc7ed 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -55,7 +55,6 @@
->  #define RISCV_ISA_EXT_ZIHPM            42
->
->  #define RISCV_ISA_EXT_MAX              64
-> -#define RISCV_ISA_EXT_NAME_LEN_MAX     32
->
->  #ifdef CONFIG_RISCV_M_MODE
->  #define RISCV_ISA_EXT_SxAIA            RISCV_ISA_EXT_SMAIA
-> @@ -70,10 +69,8 @@
->  unsigned long riscv_get_elf_hwcap(void);
->
->  struct riscv_isa_ext_data {
-> -       /* Name of the extension displayed to userspace via /proc/cpuinfo=
- */
-> -       char uprop[RISCV_ISA_EXT_NAME_LEN_MAX];
-> -       /* The logical ISA extension ID */
-> -       unsigned int isa_ext_id;
-> +       const unsigned int id;
-> +       const char *name;
->  };
->
->  extern const struct riscv_isa_ext_data riscv_isa_ext[];
-> diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-> index bf93293d51f3..aa17eeb0ec9a 100644
-> --- a/arch/riscv/kernel/cpu.c
-> +++ b/arch/riscv/kernel/cpu.c
-> @@ -168,9 +168,10 @@ static void print_isa_ext(struct seq_file *f)
->  {
->         for (int i =3D 0; i < riscv_isa_ext_count; i++) {
->                 const struct riscv_isa_ext_data *edata =3D &riscv_isa_ext=
-[i];
-> -               if (!__riscv_isa_extension_available(NULL, edata->isa_ext=
-_id))
-> +               if (!__riscv_isa_extension_available(NULL, edata->id))
->                         continue;
-> -               seq_printf(f, "_%s", edata->uprop);
-> +
-> +               seq_printf(f, "_%s", edata->name);
->         }
->  }
->
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index fb476153fffc..6d8cd45af723 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -99,11 +99,10 @@ static bool riscv_isa_extension_check(int id)
->         return true;
->  }
->
-> -#define __RISCV_ISA_EXT_DATA(UPROP, EXTID) \
-> -       {                                                       \
-> -               .uprop =3D #UPROP,                                \
-> -               .isa_ext_id =3D EXTID,                            \
-> -       }
-> +#define __RISCV_ISA_EXT_DATA(_name, _id) {     \
-> +       .name =3D #_name,                         \
-> +       .id =3D _id,                              \
-> +}
->
->  /*
->   * The canonical order of ISA extension names in the ISA string is defin=
-ed in
-> @@ -366,20 +365,9 @@ void __init riscv_fill_hwcap(void)
->                                         set_bit(nr, isainfo->isa);
->                                 }
->                         } else {
-> -                               /* sorted alphabetically */
-> -                               SET_ISA_EXT_MAP("smaia", RISCV_ISA_EXT_SM=
-AIA);
-> -                               SET_ISA_EXT_MAP("ssaia", RISCV_ISA_EXT_SS=
-AIA);
-> -                               SET_ISA_EXT_MAP("sscofpmf", RISCV_ISA_EXT=
-_SSCOFPMF);
-> -                               SET_ISA_EXT_MAP("sstc", RISCV_ISA_EXT_SST=
-C);
-> -                               SET_ISA_EXT_MAP("svinval", RISCV_ISA_EXT_=
-SVINVAL);
-> -                               SET_ISA_EXT_MAP("svnapot", RISCV_ISA_EXT_=
-SVNAPOT);
-> -                               SET_ISA_EXT_MAP("svpbmt", RISCV_ISA_EXT_S=
-VPBMT);
-> -                               SET_ISA_EXT_MAP("zba", RISCV_ISA_EXT_ZBA)=
-;
-> -                               SET_ISA_EXT_MAP("zbb", RISCV_ISA_EXT_ZBB)=
-;
-> -                               SET_ISA_EXT_MAP("zbs", RISCV_ISA_EXT_ZBS)=
-;
-> -                               SET_ISA_EXT_MAP("zicbom", RISCV_ISA_EXT_Z=
-ICBOM);
-> -                               SET_ISA_EXT_MAP("zicboz", RISCV_ISA_EXT_Z=
-ICBOZ);
-> -                               SET_ISA_EXT_MAP("zihintpause", RISCV_ISA_=
-EXT_ZIHINTPAUSE);
-> +                               for (int i =3D 0; i < riscv_isa_ext_count=
-; i++)
-> +                                       SET_ISA_EXT_MAP(riscv_isa_ext[i].=
-name,
+On Wed, Jul 12, 2023 at 07:02:34PM +0200, Thorsten Leemhuis wrote:
+> On 12.07.23 17:16, Greg KH wrote:
+> > On Wed, Jul 12, 2023 at 11:30:30AM +0200, Thorsten Leemhuis wrote:
+> >> While working on the latter I noticed one more thing:
+> >>
+> >> ```
+> >>     .. warning::
+> >>        The -stable-rc tree is a snapshot in time of the stable-queue
+> >> tree and
+> >>        will change frequently, hence will be rebased often. It should
+> >> only be
+> >>        used for testing purposes (e.g. to be consumed by CI systems).
+> >> ```
+> > [...]
+> >> I'll thus likely
+> >> change the text to something like this,
+> >> unless I'm missing something or someone has a better idea:
+> >> ```
+> >>   .. warning::
+> >>      The branches in the -stable-rc tree are rebased each time a new -rc
+> >>      is released, as they are created by taking the latest release and
+> >>      applying the patches from the stable-queue on top.
+> > 
+> > Yes, that is true, but they are also rebased sometimes in intermediate
+> > places, before a -rc is released, just to give CI systems a chance to
+> > test easier.
+> > 
+> > These are ONLY for CI systems to use, nothing else should be touching
+> > them.  So I think the current text is correct, what am I missing?
+> 
+> That I misunderstood things and forgot about the "rebased sometimes in
+> intermediate places" aspect I once knew about. Sorry. I'll leave the
+> text as it is then.
+> 
+> Nevertheless makes me wonder: is that strategy wise in times when some
+> ordinary users and some distributions are building kernels straight from
+> git repos instead of tarballs? I'm one of those, as I distribute
+> stable-rc packages for Fedora here:
+> https://copr.fedorainfracloud.org/groups/g/kernel-vanilla/coprs/
 
-Does this still work, given that SET_ISA_EXT_MAP() does sizeof(name)
-to get the string length? I worry that line of the macro is now
-evaluating to a constant sizeof(pointer), and the macro needs to
-change to use strlen().
+As we keep the patches in quilt, not git, it's the best we can do.  The
+-rc releases are never a straight-line if we have to do multiple ones,
+we remove patches in the middle, add them at the end or beginning, and
+sometimes even change existing ones.
 
--Evan
+All of this is stuff that a linear history tool like git can't really
+model well, so we keep a quilt series of the patches in git for anyone
+that want to generate the tree themselves, and we provide the -rc git
+tree for those that don't want to generate it and can live with the
+constant rebasing.
+
+thanks,
+
+greg k-h
