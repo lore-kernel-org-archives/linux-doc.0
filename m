@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81228EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 12:13:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51E8DEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 12:14:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234631AbjGMMNu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 08:13:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36392 "EHLO
+        id S234713AbjGMMOC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 08:14:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234028AbjGMMNk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 08:13:40 -0400
+        with ESMTP id S234666AbjGMMNr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 08:13:47 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69D2630D1;
-        Thu, 13 Jul 2023 05:13:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A20C2D6D;
+        Thu, 13 Jul 2023 05:13:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1689250393; x=1720786393;
+  t=1689250398; x=1720786398;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=SuAv8Leh99onWd/6PJcaTcunFy7r2dXNiII1c8HHGOI=;
-  b=u2WqJ21dG2I4qhGSQymH2rD5vEcwtO/xdKhDX8imetwqUPFAQb42by0y
-   P+Jzki3jpTvCKpd62PttIhbvdqPL0RAQRnltFo5Sa4H9d4nHXHMT6k0tW
-   BLYlN27m2HZDyEnQTyVQYR8N50JdT68QYvrY1C62CLPpb62xqlKJkz4ug
-   +oWLS6NIDWwVaHCr2DXBGLMvpRl3Nk3S5PqvLvchB3CppurIbJSEJ0dJn
-   zcRIieb0ZCRDcrj0d7km8ntUzncqtR+SQ9QDnTvgGe6Fw/NBgPNKHBd5Z
-   m6QHcQmME3MKbb1fz7l+Rwlp+cR+TUaDnq29KsjrX2ccdywfR/MSGwG6f
-   w==;
+  bh=Ao2V3XKzPyOMhVIBq5e6EqE2FH88Dgn3v9ob0DWGpxw=;
+  b=wCSgLbYVDQhniFQEDHfYL5cStT5IggHKWyDawes0KDwJDKfCElevMbes
+   ufPGHajyOrrtvC94CQ09K6C/isgxBwLtXpcZW08fTY6ZtPGqO6wsz4l4I
+   4g0CB1NuWpiX7UG77p1zzf+No+FNYiom5urW09adb5T2Ydx/tLrRvIutG
+   SAlAbG1Tew8DIbTctpNqEer4CbxJRPAWOjnoLxSck7i78mDdYs6raR9aG
+   Lk661bpqZ9cDLaqRH0lTuKrdTZJpm/e75A1XpTTvtq2nAQa7qYnJLdh9x
+   a6w9OWSrpVgYDDZ0lH3s/EpE/9CaVSz1a8M73wQugYGg0MZFwu0rSWNMG
+   Q==;
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="220194629"
+   d="scan'208";a="220194646"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Jul 2023 05:13:03 -0700
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Jul 2023 05:13:06 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
  chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 13 Jul 2023 05:12:56 -0700
+ 15.1.2507.21; Thu, 13 Jul 2023 05:13:02 -0700
 Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex02.mchp-main.com
  (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Thu, 13 Jul 2023 05:12:53 -0700
+ Transport; Thu, 13 Jul 2023 05:12:59 -0700
 From:   Conor Dooley <conor.dooley@microchip.com>
 To:     <palmer@dabbelt.com>
 CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
@@ -52,15 +52,16 @@ CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
         Evan Green <evan@rivosinc.com>,
         Sunil V L <sunilvl@ventanamicro.com>,
         <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 09/11] RISC-V: enable extension detection from dedicated properties
-Date:   Thu, 13 Jul 2023 13:11:07 +0100
-Message-ID: <20230713-vocation-profane-39a74b3c2649@wendy>
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Palmer Dabbelt <palmer@rivosinc.com>
+Subject: [PATCH v5 11/11] RISC-V: provide Kconfig & commandline options to control parsing "riscv,isa"
+Date:   Thu, 13 Jul 2023 13:11:09 +0100
+Message-ID: <20230713-aviator-plausibly-a35662485c2c@wendy>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230713-target-much-8ac624e90df8@wendy>
 References: <20230713-target-much-8ac624e90df8@wendy>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4797; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=SuAv8Leh99onWd/6PJcaTcunFy7r2dXNiII1c8HHGOI=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCnrX153FL9etPLdvZjQTYkiZ9X3npRO+ZUSUWxyI58/2utz 9KzWjlIWBjEOBlkxRZbE230tUuv/uOxw7nkLM4eVCWQIAxenAExklTojw2SbOdOC/Q3q1VoypHwX7a 6LWZI2u33aqdKNlSLaumKrrRgZfp1YdeRsBrv7cnvJ6yUWD9NX57g3v7WtlXZsZS+9mviIHQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5841; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=Ao2V3XKzPyOMhVIBq5e6EqE2FH88Dgn3v9ob0DWGpxw=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCnrX95I9v60+YCl/c5LJ3cqRWZvnjRp565oX06n/HV3lx+c ofDKq6OUhUGMg0FWTJEl8XZfi9T6Py47nHvewsxhZQIZwsDFKQATMexgZNgqPTXXwvqLudMPSY2f8V /b76280eY6dS/jD7am1S1P7WQZGZof1Ub+Pbw85ulcA+vHq+btfvHtIMc3/sxHlo/ZvUzrZ/ICAA==
 X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -68,152 +69,156 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for parsing the new riscv,isa-extensions property in
-riscv_fill_hwcap(), by means of a new "property" member of the
-riscv_isa_ext_data struct. For now, this shadows the name of the
-extension for all users, however this may not be the case for all
-extensions, based on how the dt-binding is written.
-For the sake of backwards compatibility, fall back to the old scheme
-if the new properties are not detected. For now, just inform, rather
-than warn, when that happens.
+As it says on the tin, provide Kconfig option to control parsing the
+"riscv,isa" devicetree property. If either option is used, the kernel
+will fall back to parsing "riscv,isa", where "riscv,isa-base" and
+"riscv,isa-extensions" are not present.
+The Kconfig options are set up so that the default kernel configuration
+will enable the fallback path, without needing the commandline option.
 
+Suggested-by: Andrew Jones <ajones@ventanamicro.com>
+Suggested-by: Palmer Dabbelt <palmer@rivosinc.com>
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
-Changes in v5:
-- Add a missing put of the cpu node where the property is not found
-- Reword the commit message, s/new/dedicated/
-- Remove a this_isa bitmap & replace it with isainfo->isa, to match what
-  is done for the isa string codepath
+Changes in v4:
+- add __init to fixup k210 build issue
+- use Drew's revised wording
 
-Changes in v2:
-- Pick a more suitable function name than fill_hwcap_new()
-- Actually use the property member to read from the DT
+Changes in v3:
+- Invert the Kconfig entry. It's now default y & not hidden by
+  NONPORTABLE, but its entablement will now activate the fallback
+- Add a commandline option to enable the fallback on kernels that do not
+  enable it in Kconfig, as Drew suggested
+- Default the global var to the Kconfig option & override it with the
+  commandline one, rather than have checks for IS_ENABLED() and for the
+  commandline option in riscv_fill_hwcap() &
+  riscv_early_of_processor_hartid()
 ---
- arch/riscv/include/asm/hwcap.h |  1 +
- arch/riscv/kernel/cpufeature.c | 78 ++++++++++++++++++++++++++++++++--
- 2 files changed, 75 insertions(+), 4 deletions(-)
+ .../admin-guide/kernel-parameters.txt          |  7 +++++++
+ arch/riscv/Kconfig                             | 18 ++++++++++++++++++
+ arch/riscv/include/asm/hwcap.h                 |  1 +
+ arch/riscv/kernel/cpu.c                        |  8 +++++++-
+ arch/riscv/kernel/cpufeature.c                 | 14 +++++++++++++-
+ 5 files changed, 46 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a1457995fd41..bdc3fa712e92 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5468,6 +5468,13 @@
+ 			[KNL] Disable ring 3 MONITOR/MWAIT feature on supported
+ 			CPUs.
+ 
++	riscv_isa_fallback [RISCV]
++			When CONFIG_RISCV_ISA_FALLBACK is not enabled, permit
++			falling back to detecting extension support by parsing
++			"riscv,isa" property on devicetree systems when the
++			replacement properties are not found. See the Kconfig
++			entry for RISCV_ISA_FALLBACK.
++
+ 	ro		[KNL] Mount root device read-only on boot
+ 
+ 	rodata=		[KNL]
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 4c07b9189c86..f52dd125ac5e 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -848,6 +848,24 @@ config XIP_PHYS_ADDR
+ 	  be linked for and stored to.  This address is dependent on your
+ 	  own flash usage.
+ 
++config RISCV_ISA_FALLBACK
++	bool "Permit falling back to parsing riscv,isa for extension support by default"
++	default y
++	help
++	  Parsing the "riscv,isa" devicetree property has been deprecated and
++	  replaced by a list of explicitly defined strings. For compatibility
++	  with existing platforms, the kernel will fall back to parsing the
++	  "riscv,isa" property if the replacements are not found.
++
++	  Selecting N here will result in a kernel that does not use the
++	  fallback, unless the commandline "riscv_isa_fallback" parameter is
++	  present.
++
++	  Please see the dt-binding, located at
++	  Documentation/devicetree/bindings/riscv/extensions.yaml for details
++	  on the replacement properties, "riscv,isa-base" and
++	  "riscv,isa-extensions".
++
+ endmenu # "Boot options"
+ 
+ config BUILTIN_DTB
 diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-index a20e4ade1b53..e3cda14a486b 100644
+index e3cda14a486b..b7b58258f6c7 100644
 --- a/arch/riscv/include/asm/hwcap.h
 +++ b/arch/riscv/include/asm/hwcap.h
-@@ -76,6 +76,7 @@ unsigned long riscv_get_elf_hwcap(void);
- struct riscv_isa_ext_data {
- 	const unsigned int id;
- 	const char *name;
-+	const char *property;
- };
+@@ -81,6 +81,7 @@ struct riscv_isa_ext_data {
  
  extern const struct riscv_isa_ext_data riscv_isa_ext[];
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 7c661b12ac8d..fdc71e52dc2b 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -101,6 +101,7 @@ static bool riscv_isa_extension_check(int id)
+ extern const size_t riscv_isa_ext_count;
++extern bool riscv_isa_fallback;
  
- #define __RISCV_ISA_EXT_DATA(_name, _id) {	\
- 	.name = #_name,				\
-+	.property = #_name,			\
- 	.id = _id,				\
+ unsigned long riscv_isa_extension_base(const unsigned long *isa_bitmap);
+ 
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 28d5af21f544..208f1a700121 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -41,7 +41,7 @@ int riscv_of_processor_hartid(struct device_node *node, unsigned long *hart)
+ 	return 0;
  }
  
-@@ -414,11 +415,69 @@ static void __init riscv_fill_hwcap_from_isa_string(unsigned long *isa2hwcap)
- 		acpi_put_table((struct acpi_table_header *)rhct);
- }
+-int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *hart)
++int __init riscv_early_of_processor_hartid(struct device_node *node, unsigned long *hart)
+ {
+ 	const char *isa;
  
-+static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
-+{
-+	unsigned int cpu;
-+
-+	for_each_possible_cpu(cpu) {
-+		unsigned long this_hwcap = 0;
-+		struct device_node *cpu_node;
-+		struct riscv_isainfo *isainfo = &hart_isa[cpu];
-+
-+		cpu_node = of_cpu_device_node_get(cpu);
-+		if (!cpu_node) {
-+			pr_warn("Unable to find cpu node\n");
-+			continue;
-+		}
-+
-+		if (!of_property_present(cpu_node, "riscv,isa-extensions")) {
-+			of_node_put(cpu_node);
-+			continue;
-+		}
-+
-+		for (int i = 0; i < riscv_isa_ext_count; i++) {
-+			if (of_property_match_string(cpu_node, "riscv,isa-extensions",
-+						     riscv_isa_ext[i].property) < 0)
-+				continue;
-+
-+			if (!riscv_isa_extension_check(riscv_isa_ext[i].id))
-+				continue;
-+
-+			/* Only single letter extensions get set in hwcap */
-+			if (strnlen(riscv_isa_ext[i].name, 2) == 1)
-+				this_hwcap |= isa2hwcap[riscv_isa_ext[i].id];
-+
-+			set_bit(riscv_isa_ext[i].id, isainfo->isa);
-+		}
-+
-+		of_node_put(cpu_node);
-+
-+		/*
-+		 * All "okay" harts should have same isa. Set HWCAP based on
-+		 * common capabilities of every "okay" hart, in case they don't.
-+		 */
-+		if (elf_hwcap)
-+			elf_hwcap &= this_hwcap;
-+		else
-+			elf_hwcap = this_hwcap;
-+
-+		if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
-+			bitmap_copy(riscv_isa, isainfo->isa, RISCV_ISA_EXT_MAX);
-+		else
-+			bitmap_and(riscv_isa, riscv_isa, isainfo->isa, RISCV_ISA_EXT_MAX);
+@@ -87,6 +87,12 @@ int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *har
+ 	return 0;
+ 
+ old_interface:
++	if (!riscv_isa_fallback) {
++		pr_warn("CPU with hartid=%lu is invalid: this kernel does not parse \"riscv,isa\"",
++			*hart);
++		return -ENODEV;
 +	}
 +
-+	if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
-+		return -ENOENT;
-+
-+	return 0;
+ 	if (of_property_read_string(node, "riscv,isa", &isa)) {
+ 		pr_warn("CPU with hartid=%lu has no \"riscv,isa-base\" or \"riscv,isa\" property\n",
+ 			*hart);
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index fdc71e52dc2b..71fb840ee246 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -473,6 +473,18 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_RISCV_ISA_FALLBACK
++bool __initdata riscv_isa_fallback = true;
++#else
++bool __initdata riscv_isa_fallback;
++static int __init riscv_isa_fallback_setup(char *__unused)
++{
++	riscv_isa_fallback = true;
++	return 1;
 +}
++early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
++#endif
 +
  void __init riscv_fill_hwcap(void)
  {
  	char print_str[NUM_ALPHA_EXTS + 1];
--	int i, j;
- 	unsigned long isa2hwcap[26] = {0};
-+	int i, j;
+@@ -492,7 +504,7 @@ void __init riscv_fill_hwcap(void)
+ 	} else {
+ 		int ret = riscv_fill_hwcap_from_ext_list(isa2hwcap);
  
- 	isa2hwcap['i' - 'a'] = COMPAT_HWCAP_ISA_I;
- 	isa2hwcap['m' - 'a'] = COMPAT_HWCAP_ISA_M;
-@@ -428,10 +487,21 @@ void __init riscv_fill_hwcap(void)
- 	isa2hwcap['c' - 'a'] = COMPAT_HWCAP_ISA_C;
- 	isa2hwcap['v' - 'a'] = COMPAT_HWCAP_ISA_V;
- 
--	riscv_fill_hwcap_from_isa_string(isa2hwcap);
-+	if (!acpi_disabled) {
-+		riscv_fill_hwcap_from_isa_string(isa2hwcap);
-+	} else {
-+		int ret = riscv_fill_hwcap_from_ext_list(isa2hwcap);
- 
--	/* We don't support systems with F but without D, so mask those out
--	 * here. */
-+		if (ret) {
-+			pr_info("Falling back to deprecated \"riscv,isa\"\n");
-+			riscv_fill_hwcap_from_isa_string(isa2hwcap);
-+		}
-+	}
-+
-+	/*
-+	 * We don't support systems with F but without D, so mask those out
-+	 * here.
-+	 */
- 	if ((elf_hwcap & COMPAT_HWCAP_ISA_F) && !(elf_hwcap & COMPAT_HWCAP_ISA_D)) {
- 		pr_info("This kernel does not support systems with F but not D\n");
- 		elf_hwcap &= ~COMPAT_HWCAP_ISA_F;
+-		if (ret) {
++		if (ret && riscv_isa_fallback) {
+ 			pr_info("Falling back to deprecated \"riscv,isa\"\n");
+ 			riscv_fill_hwcap_from_isa_string(isa2hwcap);
+ 		}
 -- 
 2.40.1
 
