@@ -2,167 +2,192 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2C3EC001B0
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 00:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A92EB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 02:24:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232608AbjGMALG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jul 2023 20:11:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34692 "EHLO
+        id S233595AbjGMCYv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jul 2023 22:24:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230134AbjGMALE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 20:11:04 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B431FC8;
-        Wed, 12 Jul 2023 17:11:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=9qXn+we4vl/6E7qv05qrX8iXxtrz7OQ9ZzhJSvff8Kc=; b=qhJaU/WRyim+49/LxqT2+QEPc+
-        pCd0GD9P1nk1zlaAiGQIJdpmTWnqLS6JONTSdB6dS0VfDtPp9k5BaINzFVn8l193BbZJJatf3CctK
-        KtZdXK1UTgSdb3wvBtOzsUxCTP3ahqdZgcD4e0fsxMCwgfT91fQwh/NoQyXqDhwS7orJ9iVSBOywH
-        i3oBsOjj87EMmIJKNrgplqkzn6zD6n1dgRID1iZUBuxH80nDjTIsEhZO2LUqCO4bnK/CSABkoRB7C
-        tWq6Fxs3SMzzS/6X1CiroYvdabqNUux+ko99Pmu41c16vF0w9row/RLtadTFNHAcA4LUriAKL3tas
-        COEHZi+g==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qJjvB-001YA3-0E;
-        Thu, 13 Jul 2023 00:11:01 +0000
-Message-ID: <f0dddc1a-6070-7e11-0458-b0db1f5ea671@infradead.org>
-Date:   Wed, 12 Jul 2023 17:10:59 -0700
+        with ESMTP id S232547AbjGMCYu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jul 2023 22:24:50 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E853312D;
+        Wed, 12 Jul 2023 19:24:47 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36D2Igia005681;
+        Thu, 13 Jul 2023 02:24:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=CYrBCdIbGLhs5PrJjQ2ca042r/AYgAnEwWB5RHs7viU=;
+ b=eYNH+jgy4o8Q3VTYafY4oXW/HE1rTNrumJzBWF6IuRJtDCe5ffrHeBFdVzp6U9hGfFk2
+ xm1dMQi6lg6oMz1L+GfoneGh3Vg/lYmZJ7dyMWQ2acETncAj8qKM0EI8KYgnYn0umKME
+ 6nGkefzXKGZuLSByjZhY+qiNsT3Ksd12426a1wlByQq7yLjC26Y/uMep8VcSXJjgh7jG
+ /7mm/DAnFT70cVrfNKqFCup7UnsIJF2eFqSLIYLZybPVJ4fFXHrOn95R+xL7i3GO7YwU
+ 3d4SNEAwu36czxgh4d9hkL1mm5BmB0KQmgS271RymNQhcsY67Iw5uYuLuCkrlhU6OoMu ig== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rshyuat7e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 13 Jul 2023 02:24:31 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36D2OUJm023121
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 13 Jul 2023 02:24:30 GMT
+Received: from [10.239.133.73] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 12 Jul
+ 2023 19:24:27 -0700
+Message-ID: <604ac52d-4336-744f-2ab8-44d1c93fbaa8@quicinc.com>
+Date:   Thu, 13 Jul 2023 10:24:24 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 22/28] Docs/x86/sgx: Add description for cgroup support
-Content-Language: en-US
-To:     Haitao Huang <haitao.huang@linux.intel.com>, jarkko@kernel.org,
-        dave.hansen@linux.intel.com, tj@kernel.org,
-        linux-kernel@vger.kernel.org, linux-sgx@vger.kernel.org,
-        cgroups@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     kai.huang@intel.com, reinette.chatre@intel.com,
-        Kristen Carlson Accardi <kristen@linux.intel.com>,
-        zhiquan1.li@intel.com, seanjc@google.com, bagasdotme@gmail.com,
-        linux-doc@vger.kernel.org, zhanb@microsoft.com,
-        anakrish@microsoft.com, mikko.ylinen@linux.intel.com
-References: <20230712230202.47929-1-haitao.huang@linux.intel.com>
- <20230712230202.47929-23-haitao.huang@linux.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230712230202.47929-23-haitao.huang@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+To:     Mark Rutland <mark.rutland@arm.com>
+CC:     Will Deacon <will@kernel.org>, <corbet@lwn.net>,
+        <catalin.marinas@arm.com>, <maz@kernel.org>,
+        <quic_pkondeti@quicinc.com>, <quic_kaushalk@quicinc.com>,
+        <quic_satyap@quicinc.com>, <quic_shashim@quicinc.com>,
+        <quic_songxue@quicinc.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
+ <20230710093751.GC32673@willie-the-truck>
+ <5cf15f85-0397-96f7-4110-13494551b53b@quicinc.com>
+ <20230711082226.GA1554@willie-the-truck>
+ <84f0994a-26de-c20a-a32f-ec8fe41df3a3@quicinc.com>
+ <20230711102510.GA1809@willie-the-truck>
+ <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
+ <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
+From:   "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
+In-Reply-To: <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: XVYfbToG5UFlZZTNlJeDPdYI_6IcNUrz
+X-Proofpoint-ORIG-GUID: XVYfbToG5UFlZZTNlJeDPdYI_6IcNUrz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-12_17,2023-07-11_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 mlxlogscore=999 phishscore=0
+ clxscore=1011 mlxscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307130018
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On 7/12/23 16:01, Haitao Huang wrote:
-> From: Kristen Carlson Accardi <kristen@linux.intel.com>
+On 7/12/2023 3:36 PM, Mark Rutland wrote:
+> On Wed, Jul 12, 2023 at 11:09:10AM +0800, Aiqun(Maria) Yu wrote:
+>> On 7/11/2023 6:25 PM, Will Deacon wrote:
+>>> On Tue, Jul 11, 2023 at 06:15:49PM +0800, Aiqun(Maria) Yu wrote:
+>>>> On 7/11/2023 4:22 PM, Will Deacon wrote:
+>>>>> On Tue, Jul 11, 2023 at 12:02:22PM +0800, Aiqun(Maria) Yu wrote:
+>>>>>> On 7/10/2023 5:37 PM, Will Deacon wrote:
+>>>>>>> On Mon, Jul 10, 2023 at 01:59:55PM +0800, Maria Yu wrote:
+>>>>>>>> In order to be able to disable lse_atomic even if cpu
+>>>>>>>> support it, most likely because of memory controller
+>>>>>>>> cannot deal with the lse atomic instructions, use a
+>>>>>>>> new idreg override to deal with it.
+>>>>>>>
+>>>>>>> This should not be a problem for cacheable memory though, right?
+>>>>>>>
+>>>>>>> Given that Linux does not issue atomic operations to non-cacheable mappings,
+>>>>>>> I'm struggling to see why there's a problem here.
+>>>>>>
+>>>>>> The lse atomic operation can be issued on non-cacheable mappings as well.
+>>>>>> Even if it is cached data, with different CPUECTLR_EL1 setting, it can also
+>>>>>> do far lse atomic operations.
+>>>>>
+>>>>> Please can you point me to the place in the kernel sources where this
+>>>>> happens? The architecture doesn't guarantee that atomics to non-cacheable
+>>>>> mappings will work, see "B2.2.6 Possible implementation restrictions on
+>>>>> using atomic instructions". Linux, therefore, doesn't issue atomics
+>>>>> to non-cacheable memory.
+>>>>
+>>>> We encounter the issue on third party kernel modules and third party apps
+>>>> instead of linux kernel itself.
+>>>
+>>> Great, so there's nothing to do in the kernel then!
+>>>
+>>> The third party code needs to be modified not to use atomic instructions
+>>> with non-cacheable mappings. No need to involve us with that.
+>>
+>>>> This is a tradeoff of performance and stability. Per my understanding,
+>>>> options can be used to enable the lse_atomic to have the most performance
+>>>> cared system, and disable the lse_atomic by stability cared most system.
+>>>
+>>> Where do livelock and starvation fit in with "stability"? Disabling LSE
+>>> atomics for things like qspinlock and the scheduler just because of some
+>>> badly written third-party code isn't much of a tradeoff.
 > 
-> Add initial documentation of how to regulate the distribution of
-> SGX Enclave Page Cache (EPC) memory via the Miscellaneous cgroup
-> controller.
+>> We also have requirement to have cpus/system fully support lse atomic and
+>> cpus/system not fully support lse atomic with a generic kernel image.
 > 
-> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
-> Cc: Sean Christopherson <seanjc@google.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/arch/x86/sgx.rst | 77 ++++++++++++++++++++++++++++++++++
->  1 file changed, 77 insertions(+)
+> Who *specifically* has this requirement (i.e. what does 'we' mean here)? The
+
+I can use other word to describe the requirement instead of "we".
+
+There is requirements like android google gki. It request different cpu 
+arch system to use same generic kernel Image.
+
+> upstream kernel does not require that atomics work on non-cacheable memory, and
+
+The same issue the system can be down of lse atomic not supported for 
+cachable memory when there need far atomic.
+
+> saying "The company I work for want this" doesn't change that.
 > 
-> diff --git a/Documentation/arch/x86/sgx.rst b/Documentation/arch/x86/sgx.rst
-> index 2bcbffacbed5..f6ca5594dcf2 100644
-> --- a/Documentation/arch/x86/sgx.rst
-> +++ b/Documentation/arch/x86/sgx.rst
-> @@ -300,3 +300,80 @@ to expected failures and handle them as follows:
->     first call.  It indicates a bug in the kernel or the userspace client
->     if any of the second round of ``SGX_IOC_VEPC_REMOVE_ALL`` calls has
->     a return code other than 0.
-> +
-> +
-> +Cgroup Support
-> +==============
-> +
-> +The "sgx_epc" resource within the Miscellaneous cgroup controller regulates
-> +distribution of SGX EPC memory, which is a subset of system RAM that
-> +is used to provide SGX-enabled applications with protected memory,
-> +and is otherwise inaccessible, i.e. shows up as reserved in
-> +/proc/iomem and cannot be read/written outside of an SGX enclave.
-> +
-> +Although current systems implement EPC by stealing memory from RAM,
-> +for all intents and purposes the EPC is independent from normal system
-> +memory, e.g. must be reserved at boot from RAM and cannot be converted
-> +between EPC and normal memory while the system is running.  The EPC is
-> +managed by the SGX subsystem and is not accounted by the memory
-> +controller.  Note that this is true only for EPC memory itself, i.e.
-> +normal memory allocations related to SGX and EPC memory, e.g. the
-> +backing memory for evicted EPC pages, are accounted, limited and
-> +protected by the memory controller.
-> +
-> +Much like normal system memory, EPC memory can be overcommitted via
-> +virtual memory techniques and pages can be swapped out of the EPC
-> +to their backing store (normal system memory allocated via shmem).
-> +The SGX EPC subsystem is analogous to the memory subsytem, and
-> +it implements limit and protection models for EPC memory.
-> +
-> +SGX EPC Interface Files
-> +-----------------------
-> +
-> +For a generic description of the Miscellaneous controller interface
-> +files, please see Documentation/admin-guide/cgroup-v2.rst
-> +
-> +All SGX EPC memory amounts are in bytes unless explicitly stated
-> +otherwise.  If a value which is not PAGE_SIZE aligned is written,
-> +the actual value used by the controller will be rounded down to
-> +the closest PAGE_SIZE multiple.
-> +
-> +  misc.capacity
-> +        A read-only flat-keyed file shown only in the root cgroup.
-> +        The sgx_epc resource will show the total amount of EPC
-> +        memory available on the platform.
-> +
-> +  misc.current
-> +        A read-only flat-keyed file shown in the non-root cgroups.
-> +        The sgx_epc resource will show the current active EPC memory
-> +        usage of the cgroup and its descendants. EPC pages that are
-> +        swapped out to backing RAM are not included in the current count.
-> +
-> +  misc.max
-> +        A read-write single value file which exists on non-root
-> +        cgroups. The sgx_epc resource will show the EPC usage
-> +        hard limit. The default is "max".
-> +
-> +        If a cgroup's EPC usage reaches this limit, EPC allocations,
-> +        e.g. for page fault handling, will be blocked until EPC can
-> +        be reclaimed from the cgroup.  If EPC cannot be reclaimed in
-> +        a timely manner, reclaim will be forced, e.g. by ignoring LRU.
-> +
-> +  misc.events
-> +	A read-write flat-keyed file which exists on non-root cgroups.
-> +	Writes to the file reset the event counters to zero.  A value
-> +	change in this file generates a file modified event.
-> +
-> +	  max
-> +		The number of times the cgroup has triggered a reclaim
-> +		due to its EPC usage approaching (or exceeding) its max
-> +		EPC boundary.
+> AFAICT the system here is architecturally compliant, and what you're relying
+> upon something that the architecture doesn't guarantee, and Linux doesn't
+> guarantee.
 
-The indentation here (above) is a little confusing.
-Is this formatted the way that is intended?
+It is not also only our company's problem:
+To support the atomic instructions added in the Armv8.1 architecture, 
+CHI-B provides Atomic Transactions. while Atomic Transactions support is 
+also *optional* from CHI-B.
 
-> +
-> +Migration
-> +---------
-> +
-> +Once an EPC page is charged to a cgroup (during allocation), it
-> +remains charged to the original cgroup until the page is released
-> +or reclaimed.  Migrating a process to a different cgroup doesn't
-> +move the EPC charges that it incurred while in the previous cgroup
-> +to its new cgroup.
+So far atomic cannot fully supported by ARMv8.1 cpu + CHI-B system as well.
+
+from: 
+https://developer.arm.com/documentation/102407/0100/Atomic-operations?lang=en 
+
+So only cpu support atomic cannot garantee the system support lse atomic
+> 
+>> Same kernel module wanted to be used by lse atomic fully support cpu and not
+>> fully support cpu/system as well.
+> 
+> Which kernel modules *specifically* need to do atomics to non-cacheable memory?
+The driver want to always do far atomic(no speculatively) and allow a 
+read-modify-write non-interruptible sequence in a single instruction.
+> 
+>> That's why we want to have a runtime option here.
+> 
+> As per other replies, a runtime option doesn't solve the issue you have
+> described, and it will adversely affect the system in other ways (e.g. the
+> livelock and starvation issues will mentioned, which we have seen with
+> LDXR+STXR atomics).
+I myself also have encounter issues from livelock because of LDXR+STXR 
+atomics unfairness before. More likely happened when different 
+performance cpu. So myself also glad to using atomics instead of 
+exclusive access.
+So if there is a way to fully utilize the atomic instructions for 
+current hardware, and also support the far atomic, that can be much 
+better solution than currently disable the feature.
+> 
+> Thanks,
+> Mark.
+
+Pls feel free to comments. It would lead to a reasonable and usable 
+solution from our discussions.
 
 -- 
-~Randy
+Thx and BRs,
+Aiqun(Maria) Yu
+
