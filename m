@@ -2,223 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51E8DEB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 12:14:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B397CC001B0
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 12:47:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234713AbjGMMOC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 08:14:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36916 "EHLO
+        id S234814AbjGMMr3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 08:47:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234666AbjGMMNr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 08:13:47 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A20C2D6D;
-        Thu, 13 Jul 2023 05:13:17 -0700 (PDT)
+        with ESMTP id S234623AbjGMMrZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 08:47:25 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B50362710;
+        Thu, 13 Jul 2023 05:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1689250398; x=1720786398;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689252412; x=1720788412;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Ao2V3XKzPyOMhVIBq5e6EqE2FH88Dgn3v9ob0DWGpxw=;
-  b=wCSgLbYVDQhniFQEDHfYL5cStT5IggHKWyDawes0KDwJDKfCElevMbes
-   ufPGHajyOrrtvC94CQ09K6C/isgxBwLtXpcZW08fTY6ZtPGqO6wsz4l4I
-   4g0CB1NuWpiX7UG77p1zzf+No+FNYiom5urW09adb5T2Ydx/tLrRvIutG
-   SAlAbG1Tew8DIbTctpNqEer4CbxJRPAWOjnoLxSck7i78mDdYs6raR9aG
-   Lk661bpqZ9cDLaqRH0lTuKrdTZJpm/e75A1XpTTvtq2nAQa7qYnJLdh9x
-   a6w9OWSrpVgYDDZ0lH3s/EpE/9CaVSz1a8M73wQugYGg0MZFwu0rSWNMG
+  bh=WP9jbrwJlCzDhGsE/E1k9YoxHP6CB4ER/l8Uze8ZUhU=;
+  b=aALYlDWc4583zGyteM5LYH2S3TGYDsFzhoie+tOVU3WyeEGIQy/ZI9st
+   8ruLr21fguAQ5KfPFn1oyyUQzbzvXnFEYRaTs7rE1ZODledMV0liQgXGY
+   1YRlgrK+80DYdkbv6oYr8v0/6VuIcUU2Ohk5xl25RoOdMVnOPUghQiJVJ
+   p34kaMMbWRpLd+OJvaeNuP2Yz6GXyzmiTFdW846+H/U3w6lda/Oa5hICh
+   H6O8DGPdU4/V2OT42LYE7ODvnM0bsS9sWwPU50CINKsnz39Uv8fc2yt9S
+   E/zIi2njwA8ndlgBctDEQM1csHgYjV4ehDEHJY0d5SvLlO8L1Y66Y6g8J
    Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="367797061"
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="220194646"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Jul 2023 05:13:06 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 13 Jul 2023 05:13:02 -0700
-Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Thu, 13 Jul 2023 05:12:59 -0700
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     <palmer@dabbelt.com>
-CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        "Heiko Stuebner" <heiko.stuebner@vrull.eu>,
-        Evan Green <evan@rivosinc.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v5 11/11] RISC-V: provide Kconfig & commandline options to control parsing "riscv,isa"
-Date:   Thu, 13 Jul 2023 13:11:09 +0100
-Message-ID: <20230713-aviator-plausibly-a35662485c2c@wendy>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230713-target-much-8ac624e90df8@wendy>
-References: <20230713-target-much-8ac624e90df8@wendy>
+   d="scan'208";a="367797061"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 05:46:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="757144524"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="757144524"
+Received: from ijarvine-mobl2.ger.corp.intel.com ([10.251.222.39])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 05:46:42 -0700
+From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Dean Luick <dean.luick@cornelisnetworks.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v4 11/11] PCI: Document the Capability accessor RMW improvements
+Date:   Thu, 13 Jul 2023 15:45:05 +0300
+Message-Id: <20230713124505.94866-12-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230713124505.94866-1-ilpo.jarvinen@linux.intel.com>
+References: <20230713124505.94866-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5841; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=Ao2V3XKzPyOMhVIBq5e6EqE2FH88Dgn3v9ob0DWGpxw=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCnrX95I9v60+YCl/c5LJ3cqRWZvnjRp565oX06n/HV3lx+c ofDKq6OUhUGMg0FWTJEl8XZfi9T6Py47nHvewsxhZQIZwsDFKQATMexgZNgqPTXXwvqLudMPSY2f8V /b76280eY6dS/jD7am1S1P7WQZGZof1Ub+Pbw85ulcA+vHq+btfvHtIMc3/sxHlo/ZvUzrZ/ICAA==
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As it says on the tin, provide Kconfig option to control parsing the
-"riscv,isa" devicetree property. If either option is used, the kernel
-will fall back to parsing "riscv,isa", where "riscv,isa-base" and
-"riscv,isa-extensions" are not present.
-The Kconfig options are set up so that the default kernel configuration
-will enable the fallback path, without needing the commandline option.
+Documentation claims port service drivers should play nice wrt. PCIe
+Capability changes but the concurrency control is now provided in the
+Capability accessors as long as the correct ones are used.
 
-Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-Suggested-by: Palmer Dabbelt <palmer@rivosinc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+Update the documention to match the RMW accessor behavior.
+
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
-Changes in v4:
-- add __init to fixup k210 build issue
-- use Drew's revised wording
+ Documentation/PCI/pciebus-howto.rst | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-Changes in v3:
-- Invert the Kconfig entry. It's now default y & not hidden by
-  NONPORTABLE, but its entablement will now activate the fallback
-- Add a commandline option to enable the fallback on kernels that do not
-  enable it in Kconfig, as Drew suggested
-- Default the global var to the Kconfig option & override it with the
-  commandline one, rather than have checks for IS_ENABLED() and for the
-  commandline option in riscv_fill_hwcap() &
-  riscv_early_of_processor_hartid()
----
- .../admin-guide/kernel-parameters.txt          |  7 +++++++
- arch/riscv/Kconfig                             | 18 ++++++++++++++++++
- arch/riscv/include/asm/hwcap.h                 |  1 +
- arch/riscv/kernel/cpu.c                        |  8 +++++++-
- arch/riscv/kernel/cpufeature.c                 | 14 +++++++++++++-
- 5 files changed, 46 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a1457995fd41..bdc3fa712e92 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5468,6 +5468,13 @@
- 			[KNL] Disable ring 3 MONITOR/MWAIT feature on supported
- 			CPUs.
+diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
+index f882ff62c51f..a0027e8fb0d0 100644
+--- a/Documentation/PCI/pciebus-howto.rst
++++ b/Documentation/PCI/pciebus-howto.rst
+@@ -213,8 +213,12 @@ PCI Config Registers
+ --------------------
  
-+	riscv_isa_fallback [RISCV]
-+			When CONFIG_RISCV_ISA_FALLBACK is not enabled, permit
-+			falling back to detecting extension support by parsing
-+			"riscv,isa" property on devicetree systems when the
-+			replacement properties are not found. See the Kconfig
-+			entry for RISCV_ISA_FALLBACK.
-+
- 	ro		[KNL] Mount root device read-only on boot
- 
- 	rodata=		[KNL]
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 4c07b9189c86..f52dd125ac5e 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -848,6 +848,24 @@ config XIP_PHYS_ADDR
- 	  be linked for and stored to.  This address is dependent on your
- 	  own flash usage.
- 
-+config RISCV_ISA_FALLBACK
-+	bool "Permit falling back to parsing riscv,isa for extension support by default"
-+	default y
-+	help
-+	  Parsing the "riscv,isa" devicetree property has been deprecated and
-+	  replaced by a list of explicitly defined strings. For compatibility
-+	  with existing platforms, the kernel will fall back to parsing the
-+	  "riscv,isa" property if the replacements are not found.
-+
-+	  Selecting N here will result in a kernel that does not use the
-+	  fallback, unless the commandline "riscv_isa_fallback" parameter is
-+	  present.
-+
-+	  Please see the dt-binding, located at
-+	  Documentation/devicetree/bindings/riscv/extensions.yaml for details
-+	  on the replacement properties, "riscv,isa-base" and
-+	  "riscv,isa-extensions".
-+
- endmenu # "Boot options"
- 
- config BUILTIN_DTB
-diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-index e3cda14a486b..b7b58258f6c7 100644
---- a/arch/riscv/include/asm/hwcap.h
-+++ b/arch/riscv/include/asm/hwcap.h
-@@ -81,6 +81,7 @@ struct riscv_isa_ext_data {
- 
- extern const struct riscv_isa_ext_data riscv_isa_ext[];
- extern const size_t riscv_isa_ext_count;
-+extern bool riscv_isa_fallback;
- 
- unsigned long riscv_isa_extension_base(const unsigned long *isa_bitmap);
- 
-diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
-index 28d5af21f544..208f1a700121 100644
---- a/arch/riscv/kernel/cpu.c
-+++ b/arch/riscv/kernel/cpu.c
-@@ -41,7 +41,7 @@ int riscv_of_processor_hartid(struct device_node *node, unsigned long *hart)
- 	return 0;
- }
- 
--int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *hart)
-+int __init riscv_early_of_processor_hartid(struct device_node *node, unsigned long *hart)
- {
- 	const char *isa;
- 
-@@ -87,6 +87,12 @@ int riscv_early_of_processor_hartid(struct device_node *node, unsigned long *har
- 	return 0;
- 
- old_interface:
-+	if (!riscv_isa_fallback) {
-+		pr_warn("CPU with hartid=%lu is invalid: this kernel does not parse \"riscv,isa\"",
-+			*hart);
-+		return -ENODEV;
-+	}
-+
- 	if (of_property_read_string(node, "riscv,isa", &isa)) {
- 		pr_warn("CPU with hartid=%lu has no \"riscv,isa-base\" or \"riscv,isa\" property\n",
- 			*hart);
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index fdc71e52dc2b..71fb840ee246 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -473,6 +473,18 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
- 	return 0;
- }
- 
-+#ifdef CONFIG_RISCV_ISA_FALLBACK
-+bool __initdata riscv_isa_fallback = true;
-+#else
-+bool __initdata riscv_isa_fallback;
-+static int __init riscv_isa_fallback_setup(char *__unused)
-+{
-+	riscv_isa_fallback = true;
-+	return 1;
-+}
-+early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
-+#endif
-+
- void __init riscv_fill_hwcap(void)
- {
- 	char print_str[NUM_ALPHA_EXTS + 1];
-@@ -492,7 +504,7 @@ void __init riscv_fill_hwcap(void)
- 	} else {
- 		int ret = riscv_fill_hwcap_from_ext_list(isa2hwcap);
- 
--		if (ret) {
-+		if (ret && riscv_isa_fallback) {
- 			pr_info("Falling back to deprecated \"riscv,isa\"\n");
- 			riscv_fill_hwcap_from_isa_string(isa2hwcap);
- 		}
+ Each service driver runs its PCI config operations on its own
+-capability structure except the PCI Express capability structure, in
+-which Root Control register and Device Control register are shared
+-between PME and AER. This patch assumes that all service drivers
+-will be well behaved and not overwrite other service driver's
+-configuration settings.
++capability structure except the PCI Express capability structure,
++that is shared between many drivers including the service drivers.
++RMW Capability accessors (pcie_capability_clear_and_set_word(),
++pcie_capability_set_word(), and pcie_capability_clear_word()) protect
++a selected set of PCI Express Capability Registers (Link Control
++Register and Root Control Register). Any change to those registers
++should be performed using RMW accessors to avoid problems due to
++concurrent updates. For the up-to-date list of protected registers,
++see pcie_capability_clear_and_set_word().
 -- 
-2.40.1
+2.30.2
 
