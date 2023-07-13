@@ -2,210 +2,88 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E9FC0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 22:49:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BDF1C001B0
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 23:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233126AbjGMWtT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 18:49:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40430 "EHLO
+        id S234120AbjGMXFu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 19:05:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232182AbjGMWtT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 18:49:19 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A9C5272E
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 15:49:17 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-516500163b2so2433a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 15:49:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689288556; x=1691880556;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MzcnyZs6D3jZP1/90Em2wdIP94ZrD+KbkxYDRuLwWJE=;
-        b=YbSBSKEGuVEqFb+8L1xB90bbx9PAx1IFGTDlwilLvm19IfKutZMrVwaN1yOaCXRzw5
-         MZUQjJpEWVZM0DR2m5AxleVdTk2ymAh4HpgWCiWdwfTjEVXF/OpyyFu9SpllQ9lrpzdT
-         xyz9Ijr8jA8PvvDfPo4oQpv5DJikjRnpxtuIZp0ll1yB/cHvfRQFiMg+OlFSVqnBDCy6
-         XZDThvtyAqCF75ID6U6JTpxG0+cS19CczfMsQ91gOY/M4t0H+rGN+4TvSNyxeinNxePx
-         0VjKQaZWz00m4npcN3skY9OJrbHcetRubpJbVaAiBp269Hce49FsIai61vXQji+qF6jZ
-         yGAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689288556; x=1691880556;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MzcnyZs6D3jZP1/90Em2wdIP94ZrD+KbkxYDRuLwWJE=;
-        b=O2WfZcOBwDlb+LvfP6z8haqBkZm0lvsJMUhm0cGHFfM1hrscRibpr288xWMdZyK99h
-         8S2F+12yQQV+FEoQJTPxgz0+tnl58gfoNaC9IFR9C5amjHBUklHQLo+0CRmbemYyUazk
-         JobD0zZKxZBvJwesvjkpl0cPnNb85NdW4hXGMIzWgX74YXoil+pLCMS9aIkproGrPx/O
-         YWtj3Vh2KO3+/IS/9fXUvmq9V5QYNHoBEUXJkiOCNddijZtoGLCOCmAkQmhaAMwHFFaW
-         vmUjoRlXJwDhApmi+xb7X1kLLiUAP/EFLLRdGP99HtFj7u1PUXh/wdOO9ZDkPk2+v7nb
-         0V6g==
-X-Gm-Message-State: ABy/qLaeoogXTUVwKYyVFdLEFu/PvBCiOSy/K7F+pztaRgfVncBaurUt
-        s0GRrTDEHLdH/UW37zKaDpB6hZ7cm6aPoXO+3KlMVw==
-X-Google-Smtp-Source: APBJJlGqtqJFAuAxh5MPiLeVS1ew+4dt62Lqbmv37bwCVq092aGdah1wT/JBThvQYfrLGxPjsNzHlRJYNInGjgUPRpw=
-X-Received: by 2002:a50:9ea7:0:b0:514:92e4:ab9f with SMTP id
- a36-20020a509ea7000000b0051492e4ab9fmr297828edf.7.1689288555839; Thu, 13 Jul
- 2023 15:49:15 -0700 (PDT)
+        with ESMTP id S231845AbjGMXFj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 19:05:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F5B02D73;
+        Thu, 13 Jul 2023 16:05:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A518661B45;
+        Thu, 13 Jul 2023 23:04:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB17CC433C7;
+        Thu, 13 Jul 2023 23:04:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689289459;
+        bh=Z1s5R43qfeyf0CsFH9TvxSaOG72jfmcq8W4z9hdnCrU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FmTemCxFBZCobEeGXA4UWVt6IO3vYs2m/5m4OrJSP8JpSzalMuSUWEuNwAUaj2JD1
+         o10VdAGTPPOXAzy9Axkb/aFBFXVXDdqJKqgLx0mQfoLm6FvQK8PCqRXIZzA7SdHB4h
+         OBMFYz9TWbx/r2CnM+fvgucRstexPghR/sBElQUUgq8ZLfuUQ6qMeGOes60+doGMHo
+         6I+ScjAWaMagJw9X/P/5/Vgox+xksvf82itSxYJ+3IzmD2BPgE0vhaYIWmtiW/9b0b
+         JultZ+R8jPKl7eOH0mTyiXKMT/Y6m2NKGH6VWRi7ulvLPRpWq2csBi+G4D9u6gsr0I
+         dxcyFUK1Q3zrg==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     corbet@lwn.net
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        torvalds@linux-foundation.org
+Subject: [PATCH docs] docs: maintainers: suggest including lore link for conflicts known to linux-next
+Date:   Thu, 13 Jul 2023 16:04:17 -0700
+Message-ID: <20230713230417.1504773-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <cover.1689171160.git.mchehab@kernel.org> <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
-In-Reply-To: <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
-From:   Rae Moar <rmoar@google.com>
-Date:   Thu, 13 Jul 2023 18:49:02 -0400
-Message-ID: <CA+GJov7ejGbgXPJYWKpve8Cz5M5z8G2vHJ0x+LZeK19OGmuX3A@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit test
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        David Gow <davidgow@google.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
-        Nikolai Kondrashov <spbnick@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Arthur Grillo <arthurgrillo@riseup.net>,
-        Kees Cook <keescook@chromium.org>,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, mauro.chehab@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 10:29=E2=80=AFAM Mauro Carvalho Chehab
-<mchehab@kernel.org> wrote:
->
-> As an example for the new documentation tool, add a documentation
-> for drm_buddy_test.
->
-> I opted to place this on a completely different directory, in order
-> to make easier to test the feature with:
->
->         $ make SPHINXDIRS=3D"tests" htmldocs
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
->
-> To avoid mailbombing on a large number of people, only mailing lists were=
- C/C on the cover.
-> See [PATCH RFC 0/2] at: https://lore.kernel.org/all/cover.1689171160.git.=
-mchehab@kernel.org/
->
->  Documentation/index.rst                |  2 +-
->  Documentation/tests/index.rst          |  6 ++++++
->  Documentation/tests/kunit.rst          |  5 +++++
->  drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
->  4 files changed, 24 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/tests/index.rst
->  create mode 100644 Documentation/tests/kunit.rst
->
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 9dfdc826618c..80a6ce14a61a 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -60,7 +60,7 @@ Various other manuals with useful information for all k=
-ernel developers.
->     fault-injection/index
->     livepatch/index
->     rust/index
-> -
-> +   test/index
->
->  User-oriented documentation
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> diff --git a/Documentation/tests/index.rst b/Documentation/tests/index.rs=
-t
-> new file mode 100644
-> index 000000000000..bfc39eb5c0aa
-> --- /dev/null
-> +++ b/Documentation/tests/index.rst
-> @@ -0,0 +1,6 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Kunit documentation test
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. toctree::
-> +   kunit
-> diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kunit.rs=
-t
-> new file mode 100644
-> index 000000000000..6ffc151988a0
-> --- /dev/null
-> +++ b/Documentation/tests/kunit.rst
-> @@ -0,0 +1,5 @@
-> +Kunit tests
-> +-----------
-> +
-> +.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
-> +
-> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tes=
-ts/drm_buddy_test.c
-> index 09ee6f6af896..dd6c5afd6cd6 100644
-> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *=
-suite)
->         return 0;
->  }
->
-> +/**
-> + * KTEST_SUITE: set of tests for drm buddy alloc
-> + * Scope: drm subsystem
-> + * Mega feature: drm
-> + * Feature: buddy_alloc
-> + *
-> + * KTEST_TEST: drm_test_buddy_alloc_%s
-> + * Description: Run DRM buddy allocation %arg[1] test
-> + *
-> + * arg[1].values: limit, range, optimistic, smoke, pathological
-> + */
-> +
+I'm not completely sure what is the best practice for notifying Linus
+about conflicts which have already been resolved in linux-next.
+I presume they are a no-op to him, so maybe we shouldn't even call
+them out?
 
-I apologize that the last email included a HTML attachment of the message.
+That's the question I was hoping to answer by reading this doc :)
 
-Just in case anyone was unable to receive the last email here is a
-copy of the message:
+For the small-time maintainers who aren't Linus including a lore link
+to the resolution from linux-next is the most optimal way in my experience.
+Sometimes people put the whole resolution diff into the PR message
+which occasionally confuses merge prep scripts making a mess of things...
 
-Hi!
+If Stephen already resolved the problem, just include the link.
 
-This is such a cool patch series. I just have a few comments related
-to the output.
+Cc: torvalds@linux-foundation.org
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ Documentation/maintainer/rebasing-and-merging.rst | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-In the html output the tests are listed as:
-ktest@drm_buddy_test@...
+diff --git a/Documentation/maintainer/rebasing-and-merging.rst b/Documentation/maintainer/rebasing-and-merging.rst
+index 85800ce95ae5..4134e63528fe 100644
+--- a/Documentation/maintainer/rebasing-and-merging.rst
++++ b/Documentation/maintainer/rebasing-and-merging.rst
+@@ -175,7 +175,11 @@ So what should a maintainer do when there is a conflict between their
+ subsystem branch and the mainline?  The most important step is to warn
+ Linus in the pull request that the conflict will happen; if nothing else,
+ that demonstrates an awareness of how your branch fits into the whole.  For
+-especially difficult conflicts, create and push a *separate* branch to show
++conflicts already resolved in linux-next include a lore link to the posted
++resolution.
++
++For especially difficult conflicts and when linux-next resolution is
++not available, create and push a *separate* branch to show
+ how you would resolve things.  Mention that branch in your pull request,
+ but the pull request itself should be for the unmerged branch.
+ 
+-- 
+2.41.0
 
-I wonder if instead of using the file name of "drm_buddy_test" this
-could possibly be the suite name, "drm_buddy", as this is what users
-will call when using kunit.py to run the tests. Although
-"drm_buddy_test" is also the module name so I don't mind it too much.
-But in the future the file name and module name are not guaranteed to
-be the same for other tests.
-
-Most preferably, there would be a reference to the kunit suite name,
-file name, and the module name.
-
-This may be difficult to implement as these can all differ. I am
-currently working on the KUnit Attribute framework which saves the
-module name and I am thinking about also saving the file path as a
-future attribute. This could be a helpful framework for the KUnit
-tests specifically.
-
-I am not sure how easy it would be to access c objects/functions using
-this system.
-
-Finally, I was wondering if it is the intention to put a list of all
-KUnit tests that use this new feature into tests/kunit.rst or would
-this be broken up in some way.
-
-Thanks!
--Rae
-
->  static struct kunit_case drm_buddy_tests[] =3D {
->         KUNIT_CASE(drm_test_buddy_alloc_limit),
->         KUNIT_CASE(drm_test_buddy_alloc_range),
-> --
-> 2.40.1
->
