@@ -2,91 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B84DCC001DC
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 08:13:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AD8EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 08:49:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233357AbjGMING (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 04:13:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49954 "EHLO
+        id S234662AbjGMItH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 04:49:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233842AbjGMILe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 04:11:34 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29EA71FD2;
-        Thu, 13 Jul 2023 01:09:34 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id D983A1F45E;
-        Thu, 13 Jul 2023 08:09:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1689235772; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=a4lzmGg5bFXSh1ovH2sAfn4p+vzl+/Qk0Uk/Y8saxFI=;
-        b=gG9p7HtN5tIubv2mnEEYqiqb65HTBQtoXZCxTlDSol3E4ZTp+eieRVtCBW254urji2Ww4J
-        L8vQW6OqxtdlyA1g3AbUyQlqypsiX72Y07Pc4rNX4wHIpmuUbobzgiMkIR4jAL6MHm4VB5
-        dRCvu21WltflCHrFtapcdul0Yv0Eu8w=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B6E2C133D6;
-        Thu, 13 Jul 2023 08:09:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id n05QKjyxr2SZJAAAMHmgww
-        (envelope-from <mhocko@suse.com>); Thu, 13 Jul 2023 08:09:32 +0000
-Date:   Thu, 13 Jul 2023 10:09:31 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v1] mm/memory_hotplug: document the signal_pending()
- check in offline_pages()
-Message-ID: <ZK+xOxQSevxpWoCr@dhcp22.suse.cz>
-References: <20230711174050.603820-1-david@redhat.com>
- <ZK2/3Kq8VlDwcCpc@dhcp22.suse.cz>
- <7449914a-1ae3-9ea8-b60b-f0314999b790@redhat.com>
+        with ESMTP id S231967AbjGMIsj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 04:48:39 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18CB9211F;
+        Thu, 13 Jul 2023 01:48:19 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qJrzj-00049e-RU; Thu, 13 Jul 2023 10:48:15 +0200
+Message-ID: <18238769-39c3-2b40-7725-367aa0e5c50b@leemhuis.info>
+Date:   Thu, 13 Jul 2023 10:48:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7449914a-1ae3-9ea8-b60b-f0314999b790@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <cover.1689008220.git.linux@leemhuis.info>
+ <2023071002-phrasing-tranquil-49d6@gregkh>
+ <a97a37bf-86b5-cd8e-a8ce-00e38720cee4@leemhuis.info>
+ <2023071221-blade-reactive-0707@gregkh>
+ <d8403c45-3561-4759-f6c2-d18afa5e323a@leemhuis.info>
+ <2023071215-able-mushy-c889@gregkh>
+Content-Language: en-US, de-DE
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
+ backporting option and a few tweaks
+In-Reply-To: <2023071215-able-mushy-c889@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689238099;33ba6bd9;
+X-HE-SMSGID: 1qJrzj-00049e-RU
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 12-07-23 21:09:25, David Hildenbrand wrote:
-> On 11.07.23 22:47, Michal Hocko wrote:
-> > On Tue 11-07-23 19:40:50, David Hildenbrand wrote:
-> > > Let's update the documentation that any signal is sufficient, and
-> > > add a comment that not only checking for fatal signals is historical
-> > > baggage: changing it now could break existing user space. although
-> > > unlikely.
-> > > 
-> > > For example, when an app provides a custom SIGALRM handler and triggers
-> > > memory offlining, the timeout cmd would no longer stop memory offlining,
-> > > because SIGALRM would no longer be considered a fatal signal.
-> > 
-> > Yes, and it is likely goot to mention here that this is an antipattern
-> > for many other kernel operations like IO (e.g. write) but it is a long
-> > term behavior that somebody might depend on and it is safer to reflect
-> > the documentation to the realitity rather than other way around (which
-> > would be imho better).
-> > 
+On 12.07.23 21:00, Greg KH wrote:
+> On Wed, Jul 12, 2023 at 07:02:34PM +0200, Thorsten Leemhuis wrote:
+>> On 12.07.23 17:16, Greg KH wrote:
+> [...]
+>>>>   .. warning::
+>>>>      The branches in the -stable-rc tree are rebased each time a new -rc
+>>>>      is released, as they are created by taking the latest release and
+>>>>      applying the patches from the stable-queue on top.
+>>>
+>>> Yes, that is true, but they are also rebased sometimes in intermediate
+>>> places, before a -rc is released, just to give CI systems a chance to
+>>> test easier.
+> [...]
+>> Nevertheless makes me wonder: is that strategy wise in times when some
+>> ordinary users and some distributions are building kernels straight from
+>> git repos instead of tarballs? I'm one of those, as I distribute
+>> stable-rc packages for Fedora here:
+>> https://copr.fedorainfracloud.org/groups/g/kernel-vanilla/coprs/
 > 
-> You mean adding something like
+> As we keep the patches in quilt, not git, it's the best we can do.  The
+> -rc releases are never a straight-line if we have to do multiple ones,
+> we remove patches in the middle, add them at the end or beginning, and
+> sometimes even change existing ones.
 > 
-> "Note that using signal_pending() instead of fatal_signal_pending() is an
-> anti-pattern, but slowly deprecating that behavior to eventually change it
-> in the far future is probably not worth the effort. If this ever becomes
-> relevant for user-space, we might want to rethink."
+> All of this is stuff that a linear history tool like git can't really
+> model well, so we keep a quilt series of the patches in git for anyone
+> that want to generate the tree themselves, and we provide the -rc git
+> tree for those that don't want to generate it and can live with the
+> constant rebasing.
 
-Yes, something like that. Thanks!
+/me first didn't want to reply, as this is not really important, but
+then reconsidered; again, feel free to just ignore this
 
--- 
-Michal Hocko
-SUSE Labs
+FWIW, I do not consider that rebasing to be problem at all; it are those
+rebases "sometimes in intermediate places, before a -rc is released,
+just to give CI systems a chance to test easier" make things this
+slightly annoying bit harder when you want to distribute stable-rc
+releases to users.
+
+But as I said, I can fully understand why you do those as well. I just
+with there was a way to reliably get a -rc release from git as well.
+Simply tagging them when you do a -rc release would solve all that. Is
+that maybe something that could be easily added to your -rc release scripts?
+
+/me looks at https://github.com/gregkh/gregkh-linux/tree/master/stable
+but failed to find the -rc release script :-/
+
+Whatever, as I said, not really important. :-D Have a nice day everyone!
+
+Ciao, Thorsten
