@@ -2,146 +2,177 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46ADCC001DD
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 17:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5615DC001B0
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 17:21:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232398AbjGMRGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 13:06:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39394 "EHLO
+        id S232014AbjGMRVr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 13:21:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232589AbjGMRG2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 13:06:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 098002D61
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 10:05:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689267935;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VFFV/4pnGfS5xOgVl1lU4W1qf1MMs0lzrapLnGgOEpU=;
-        b=VUGGq7noToMFHAf4g7CSdhgaVDjLQ4cCN5gfHxCS/BephD2irGy77eal5EBcndnNrUX134
-        HeUlrG1r8EsVGZknLDNKAvbVpsGjuWyJTnw65jpKeutQK40FssF7i7Cde2LDWPBbo4YPVd
-        fDC8/GVUzafq+Xhprlyl5TbQU8A2vTk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-539-2RX5uF5aMhaqbb83YyjD6w-1; Thu, 13 Jul 2023 13:05:32 -0400
-X-MC-Unique: 2RX5uF5aMhaqbb83YyjD6w-1
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-51da39aa6dcso546408a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 10:05:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689267930; x=1691859930;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VFFV/4pnGfS5xOgVl1lU4W1qf1MMs0lzrapLnGgOEpU=;
-        b=ccftqQg3f3XHT6tLCGPTkYlifvNJ0uzyCPl1fwA/ggq+KjO1aVZ+SMLByLLmouiTJq
-         F5s8K+EP5EmPWQMiS78IyoYjrqPPUTNTi3DIxxub7x/LyQfGTr20FE33Hu0Z8dQpOmRC
-         EiebVPGz7LgJoasrVercmfyIJoqZdgfNXd8KIwcSJ6wOhprToaBZMD4kQxDw1m0jIOdj
-         A5n9Lo8MDJAkXGnxKmg8sjGi8zFmeDnQqe03BbHP56rFNVymjyrcly2MKmbVOwwySMVe
-         p6GGpzXRCBt6f+wzcYB009rJ6vFZ0EHibXGWTXt7l6qWTJOHiDkBfIBA58FNpbD+k/kv
-         7H0g==
-X-Gm-Message-State: ABy/qLYdvM09SsazoputqUC8jWGHJHjylNF60n46SFoHGQsXPDOdyWZ8
-        WtW1QPzewYPUjKNO5H4Kn0QmWZokOnr5+wjWk6s1coDLLl387VXTz8TRyAwzv/C4G5NYr6nKIQn
-        UTjDdkQCvO/zjldLYT1Zr
-X-Received: by 2002:aa7:c58c:0:b0:51e:f83:6de3 with SMTP id g12-20020aa7c58c000000b0051e0f836de3mr1913963edq.17.1689267930200;
-        Thu, 13 Jul 2023 10:05:30 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEODGUrLe1vVHHn6APTyXlr4bMpDbQMD9jG5zlz4/cZihCoEP2XZYalZE9CagIk64p3fS6wOA==
-X-Received: by 2002:aa7:c58c:0:b0:51e:f83:6de3 with SMTP id g12-20020aa7c58c000000b0051e0f836de3mr1913942edq.17.1689267929984;
-        Thu, 13 Jul 2023 10:05:29 -0700 (PDT)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
-        by smtp.gmail.com with ESMTPSA id n7-20020aa7c447000000b0051e22660835sm4557121edr.46.2023.07.13.10.05.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jul 2023 10:05:29 -0700 (PDT)
-From:   Danilo Krummrich <dakr@redhat.com>
-To:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
-        bskeggs@redhat.com, Liam.Howlett@oracle.com,
-        matthew.brost@intel.com, boris.brezillon@collabora.com,
-        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
-        willy@infradead.org, jason@jlekstrand.net, donald.robson@imgtec.com
-Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Danilo Krummrich <dakr@redhat.com>
-Subject: [PATCH drm-next v7 13/13] drm/nouveau: debugfs: implement DRM GPU VA debugfs
-Date:   Thu, 13 Jul 2023 19:04:08 +0200
-Message-ID: <20230713170429.2964-14-dakr@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230713170429.2964-1-dakr@redhat.com>
-References: <20230713170429.2964-1-dakr@redhat.com>
+        with ESMTP id S232670AbjGMRVp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 13:21:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF652713;
+        Thu, 13 Jul 2023 10:21:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 168FF61B06;
+        Thu, 13 Jul 2023 17:21:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C50D3C433C7;
+        Thu, 13 Jul 2023 17:21:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689268902;
+        bh=N5E85XLHguq9VMc/lAhtUJwkW3CfjKC0ALqOBx9bMbY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hVQNPNojdWrmzo6Ws5YJFrydp9YnkwF629nYyfq57wdCnDCNI8dOl1RC3K38p0H4y
+         WHKBjofujR4xjmcUU4ofhjcrHMGZUj0RVA8h6M/eQaxtutrt/xFVQ2gu26sBpiCTBc
+         peb+7RTNskFXqx9r1PCfAY4q2N6dNrzxENjnUcUcg8BR6k8Be8bRH8qkAfuuCsf+a9
+         KkrD2zqfIOB6JWABjaDluHWSmhdgcJ0/ZpsxMhUB3ya2HfHnGPuCRlpYiIu6K8txqB
+         MSb0g3SpeCEb8NCaDDug7+v/2iEmlNltKLC+FK23sKeu+2ugL4BQ9l83nML24G1eML
+         /b3O7/cFKfuLw==
+Date:   Thu, 13 Jul 2023 18:21:35 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Evan Green <evan@rivosinc.com>
+Cc:     Palmer Dabbelt <palmer@rivosinc.com>, linux-doc@vger.kernel.org,
+        Yangyu Chen <cyy@cyyself.name>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Guo Ren <guoren@kernel.org>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+        Xianting Tian <xianting.tian@linux.alibaba.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Simon Hosie <shosie@rivosinc.com>,
+        Li Zhengyu <lizhengyu3@huawei.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Heiko Stuebner <heiko.stuebner@vrull.eu>,
+        Anup Patel <apatel@ventanamicro.com>,
+        linux-kernel@vger.kernel.org,
+        David Laight <David.Laight@aculab.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Andy Chiu <andy.chiu@sifive.com>,
+        Andrew Jones <ajones@ventanamicro.com>
+Subject: Re: [PATCH v2 1/2] RISC-V: Probe for unaligned access speed
+Message-ID: <20230713-unaligned-engaging-af88fa5fd9c8@spud>
+References: <20230705164833.995516-1-evan@rivosinc.com>
+ <20230705164833.995516-2-evan@rivosinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="fnLwWuReRbJ6hyE9"
+Content-Disposition: inline
+In-Reply-To: <20230705164833.995516-2-evan@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Provide the driver indirection iterating over all DRM GPU VA spaces to
-enable the common 'gpuvas' debugfs file for dumping DRM GPU VA spaces.
 
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_debugfs.c | 39 +++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+--fnLwWuReRbJ6hyE9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-index 99d022a91afc..053f703f2f68 100644
---- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-@@ -203,6 +203,44 @@ nouveau_debugfs_pstate_open(struct inode *inode, struct file *file)
- 	return single_open(file, nouveau_debugfs_pstate_get, inode->i_private);
- }
- 
-+static void
-+nouveau_debugfs_gpuva_regions(struct seq_file *m, struct nouveau_uvmm *uvmm)
-+{
-+	MA_STATE(mas, &uvmm->region_mt, 0, 0);
-+	struct nouveau_uvma_region *reg;
-+
-+	seq_puts  (m, " VA regions  | start              | range              | end                \n");
-+	seq_puts  (m, "----------------------------------------------------------------------------\n");
-+	mas_for_each(&mas, reg, ULONG_MAX)
-+		seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx\n",
-+			   reg->va.addr, reg->va.range, reg->va.addr + reg->va.range);
-+}
-+
-+static int
-+nouveau_debugfs_gpuva(struct seq_file *m, void *data)
-+{
-+	struct drm_info_node *node = (struct drm_info_node *) m->private;
-+	struct nouveau_drm *drm = nouveau_drm(node->minor->dev);
-+	struct nouveau_cli *cli;
-+
-+	mutex_lock(&drm->clients_lock);
-+	list_for_each_entry(cli, &drm->clients, head) {
-+		struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
-+
-+		if (!uvmm)
-+			continue;
-+
-+		nouveau_uvmm_lock(uvmm);
-+		drm_debugfs_gpuva_info(m, &uvmm->umgr);
-+		seq_puts(m, "\n");
-+		nouveau_debugfs_gpuva_regions(m, uvmm);
-+		nouveau_uvmm_unlock(uvmm);
-+	}
-+	mutex_unlock(&drm->clients_lock);
-+
-+	return 0;
-+}
-+
- static const struct file_operations nouveau_pstate_fops = {
- 	.owner = THIS_MODULE,
- 	.open = nouveau_debugfs_pstate_open,
-@@ -214,6 +252,7 @@ static const struct file_operations nouveau_pstate_fops = {
- static struct drm_info_list nouveau_debugfs_list[] = {
- 	{ "vbios.rom",  nouveau_debugfs_vbios_image, 0, NULL },
- 	{ "strap_peek", nouveau_debugfs_strap_peek, 0, NULL },
-+	DRM_DEBUGFS_GPUVA_INFO(nouveau_debugfs_gpuva, NULL),
- };
- #define NOUVEAU_DEBUGFS_ENTRIES ARRAY_SIZE(nouveau_debugfs_list)
- 
--- 
-2.41.0
+On Wed, Jul 05, 2023 at 09:48:32AM -0700, Evan Green wrote:
 
+I got kinda mad about the whole Zicclsm thing, so I decided to take a
+bit before reading the words "aligned access" again.
+
+> diff --git a/Documentation/riscv/hwprobe.rst b/Documentation/riscv/hwprob=
+e.rst
+> index 19165ebd82ba..88d7d64ec0bd 100644
+> --- a/Documentation/riscv/hwprobe.rst
+> +++ b/Documentation/riscv/hwprobe.rst
+> @@ -87,13 +87,12 @@ The following keys are defined:
+>      emulated via software, either in or below the kernel.  These accesse=
+s are
+>      always extremely slow.
+> =20
+> -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are su=
+pported
+> -    in hardware, but are slower than the cooresponding aligned accesses
+> -    sequences.
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned accesses are sl=
+ower
+> +    than equivalent byte accesses.  Misaligned accesses may be supported
+> +    directly in hardware, or trapped and emulated by software.
+> =20
+> -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are su=
+pported
+> -    in hardware and are faster than the cooresponding aligned accesses
+> -    sequences.
+> +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned accesses are fa=
+ster
+> +       than equivalent byte accesses.
+
+The indent here for line #2 looks odd. Is that an artifact of the patch?
+
+> diff --git a/arch/riscv/kernel/copy-unaligned.h b/arch/riscv/kernel/copy-=
+unaligned.h
+> new file mode 100644
+> index 000000000000..a4e8b6ad5b6a
+> --- /dev/null
+> +++ b/arch/riscv/kernel/copy-unaligned.h
+> @@ -0,0 +1,13 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2023 Rivos, Inc.
+> + */
+> +#ifndef __RISCV_KERNEL_COPY_UNALIGNED_H
+> +#define __RISCV_KERNEL_COPY_UNALIGNED_H
+> +
+> +#include <linux/types.h>
+> +
+> +void __copy_words_unaligned(void *dst, const void *src, size_t size);
+> +void __copy_bytes_unaligned(void *dst, const void *src, size_t size);
+
+If we are putting this stuff in headers to call into asm, should we
+prefix it with "riscv", or is __ enough?
+
+> +void check_unaligned_access(int cpu)
+> +{
+> +	u64 c0, c1;
+
+I quite dislike variables like "c0"/"c1", they make things harder to
+read for no real benefit IMO. Would you mind renaming them?
+
+> +	u64 word_cycles;
+> +	u64 byte_cycles;
+> +	int ratio;
+> +	unsigned long j0, j1;
+> +	struct page *page;
+> +	void *dst;
+> +	void *src;
+> +	long speed =3D RISCV_HWPROBE_MISALIGNED_SLOW;
+
+> +static int check_unaligned_access0(void)
+> +{
+> +	check_unaligned_access(0);
+> +	return 0;
+> +}
+
+> +arch_initcall(check_unaligned_access0);
+
+Could you please rename this function to match the actual use?
+So something like s/0/_boot_cpu/?
+
+Otherwise, I like the idea & we discussed the semantics last time around
+and I was happy with them. I don't feel qualified to review the actual
+speed test, so
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+--fnLwWuReRbJ6hyE9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZLAynwAKCRB4tDGHoIJi
+0vafAP9QtNqw2kcNrvo8jD3iX3SWjLnnq86q6AS5Xj38aRqJ+gEA41TCD6hkux31
+urM+gYjkopnUOvXtpkDrq7fN1NIlcQk=
+=YmcG
+-----END PGP SIGNATURE-----
+
+--fnLwWuReRbJ6hyE9--
