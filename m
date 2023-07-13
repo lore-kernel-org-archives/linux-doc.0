@@ -2,248 +2,210 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01DA9C0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 22:34:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89E9FC0015E
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 22:49:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbjGMWej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 18:34:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34890 "EHLO
+        id S233126AbjGMWtT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 18:49:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231396AbjGMWei (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 18:34:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F3342D45;
-        Thu, 13 Jul 2023 15:34:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0321061B86;
-        Thu, 13 Jul 2023 22:34:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F10CC433C8;
-        Thu, 13 Jul 2023 22:34:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689287676;
-        bh=KR+roRTahubjqRvW8WbdKt7yMP9TlT5Hidc/z4SmzCY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=spL9r9QNRddzKcJl4C5xPiMwM50/csCM8pk1UIQobjAoTqy6Zl/1EavjKF9RyfrP7
-         ng12Gv03GLHK2LCPHgSJ5Z7CKakbSpgbsdRWMnCu5TrAlASDkEUdYH+kqc3iYLINGZ
-         v2710ivqaAQBrLmfu2SBUsy+NjNUVaY1Y6DdH07M+2YFbCb+j4NSMjac90FsZ4KFEu
-         CIekQtwcs/qoX6HznrSfw9XAdNACYCNkxPTmCv5oUvEm705TT4UzFJGDTj6Sp1bEsP
-         jm0iYpJ7eZZdVte07din2Y+LP+Guo6WX+eYCirKYCiboBZfsnWClganwBSMde23pU9
-         PLWAJ7FbzMrdA==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     corbet@lwn.net
-Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH docs] docs: maintainer: document expectations of small time maintainers
-Date:   Thu, 13 Jul 2023 15:34:32 -0700
-Message-ID: <20230713223432.1501133-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S232182AbjGMWtT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 18:49:19 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A9C5272E
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 15:49:17 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-516500163b2so2433a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 15:49:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689288556; x=1691880556;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MzcnyZs6D3jZP1/90Em2wdIP94ZrD+KbkxYDRuLwWJE=;
+        b=YbSBSKEGuVEqFb+8L1xB90bbx9PAx1IFGTDlwilLvm19IfKutZMrVwaN1yOaCXRzw5
+         MZUQjJpEWVZM0DR2m5AxleVdTk2ymAh4HpgWCiWdwfTjEVXF/OpyyFu9SpllQ9lrpzdT
+         xyz9Ijr8jA8PvvDfPo4oQpv5DJikjRnpxtuIZp0ll1yB/cHvfRQFiMg+OlFSVqnBDCy6
+         XZDThvtyAqCF75ID6U6JTpxG0+cS19CczfMsQ91gOY/M4t0H+rGN+4TvSNyxeinNxePx
+         0VjKQaZWz00m4npcN3skY9OJrbHcetRubpJbVaAiBp269Hce49FsIai61vXQji+qF6jZ
+         yGAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689288556; x=1691880556;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MzcnyZs6D3jZP1/90Em2wdIP94ZrD+KbkxYDRuLwWJE=;
+        b=O2WfZcOBwDlb+LvfP6z8haqBkZm0lvsJMUhm0cGHFfM1hrscRibpr288xWMdZyK99h
+         8S2F+12yQQV+FEoQJTPxgz0+tnl58gfoNaC9IFR9C5amjHBUklHQLo+0CRmbemYyUazk
+         JobD0zZKxZBvJwesvjkpl0cPnNb85NdW4hXGMIzWgX74YXoil+pLCMS9aIkproGrPx/O
+         YWtj3Vh2KO3+/IS/9fXUvmq9V5QYNHoBEUXJkiOCNddijZtoGLCOCmAkQmhaAMwHFFaW
+         vmUjoRlXJwDhApmi+xb7X1kLLiUAP/EFLLRdGP99HtFj7u1PUXh/wdOO9ZDkPk2+v7nb
+         0V6g==
+X-Gm-Message-State: ABy/qLaeoogXTUVwKYyVFdLEFu/PvBCiOSy/K7F+pztaRgfVncBaurUt
+        s0GRrTDEHLdH/UW37zKaDpB6hZ7cm6aPoXO+3KlMVw==
+X-Google-Smtp-Source: APBJJlGqtqJFAuAxh5MPiLeVS1ew+4dt62Lqbmv37bwCVq092aGdah1wT/JBThvQYfrLGxPjsNzHlRJYNInGjgUPRpw=
+X-Received: by 2002:a50:9ea7:0:b0:514:92e4:ab9f with SMTP id
+ a36-20020a509ea7000000b0051492e4ab9fmr297828edf.7.1689288555839; Thu, 13 Jul
+ 2023 15:49:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1689171160.git.mchehab@kernel.org> <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+In-Reply-To: <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+From:   Rae Moar <rmoar@google.com>
+Date:   Thu, 13 Jul 2023 18:49:02 -0400
+Message-ID: <CA+GJov7ejGbgXPJYWKpve8Cz5M5z8G2vHJ0x+LZeK19OGmuX3A@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit test
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        David Gow <davidgow@google.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
+        Nikolai Kondrashov <spbnick@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Arthur Grillo <arthurgrillo@riseup.net>,
+        Kees Cook <keescook@chromium.org>,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, mauro.chehab@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We appear to have a gap in our process docs. We go into detail
-on how to contribute code to the kernel, and how to be a subsystem
-maintainer. I can't find any docs directed towards the thousands
-of small scale maintainers, like folks maintaining a single driver
-or a single network protocol.
+On Wed, Jul 12, 2023 at 10:29=E2=80=AFAM Mauro Carvalho Chehab
+<mchehab@kernel.org> wrote:
+>
+> As an example for the new documentation tool, add a documentation
+> for drm_buddy_test.
+>
+> I opted to place this on a completely different directory, in order
+> to make easier to test the feature with:
+>
+>         $ make SPHINXDIRS=3D"tests" htmldocs
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+>
+> To avoid mailbombing on a large number of people, only mailing lists were=
+ C/C on the cover.
+> See [PATCH RFC 0/2] at: https://lore.kernel.org/all/cover.1689171160.git.=
+mchehab@kernel.org/
+>
+>  Documentation/index.rst                |  2 +-
+>  Documentation/tests/index.rst          |  6 ++++++
+>  Documentation/tests/kunit.rst          |  5 +++++
+>  drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
+>  4 files changed, 24 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/tests/index.rst
+>  create mode 100644 Documentation/tests/kunit.rst
+>
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 9dfdc826618c..80a6ce14a61a 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -60,7 +60,7 @@ Various other manuals with useful information for all k=
+ernel developers.
+>     fault-injection/index
+>     livepatch/index
+>     rust/index
+> -
+> +   test/index
+>
+>  User-oriented documentation
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> diff --git a/Documentation/tests/index.rst b/Documentation/tests/index.rs=
+t
+> new file mode 100644
+> index 000000000000..bfc39eb5c0aa
+> --- /dev/null
+> +++ b/Documentation/tests/index.rst
+> @@ -0,0 +1,6 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Kunit documentation test
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +.. toctree::
+> +   kunit
+> diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kunit.rs=
+t
+> new file mode 100644
+> index 000000000000..6ffc151988a0
+> --- /dev/null
+> +++ b/Documentation/tests/kunit.rst
+> @@ -0,0 +1,5 @@
+> +Kunit tests
+> +-----------
+> +
+> +.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
+> +
+> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tes=
+ts/drm_buddy_test.c
+> index 09ee6f6af896..dd6c5afd6cd6 100644
+> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *=
+suite)
+>         return 0;
+>  }
+>
+> +/**
+> + * KTEST_SUITE: set of tests for drm buddy alloc
+> + * Scope: drm subsystem
+> + * Mega feature: drm
+> + * Feature: buddy_alloc
+> + *
+> + * KTEST_TEST: drm_test_buddy_alloc_%s
+> + * Description: Run DRM buddy allocation %arg[1] test
+> + *
+> + * arg[1].values: limit, range, optimistic, smoke, pathological
+> + */
+> +
 
-Document our expectations and best practices. I'm hoping this doc
-will be particularly useful to set expectations with HW vendors.
+I apologize that the last email included a HTML attachment of the message.
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-Please consider this more of a draft than a statement of my opinion.
-IOW prefer suggesting edits over arguing about correctness, hope
-that makes sense.
----
- .../feature-and-driver-maintainers.rst        | 159 ++++++++++++++++++
- Documentation/maintainer/index.rst            |   1 +
- 2 files changed, 160 insertions(+)
- create mode 100644 Documentation/maintainer/feature-and-driver-maintainers.rst
+Just in case anyone was unable to receive the last email here is a
+copy of the message:
 
-diff --git a/Documentation/maintainer/feature-and-driver-maintainers.rst b/Documentation/maintainer/feature-and-driver-maintainers.rst
-new file mode 100644
-index 000000000000..ee8ccc22b16a
---- /dev/null
-+++ b/Documentation/maintainer/feature-and-driver-maintainers.rst
-@@ -0,0 +1,159 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+Feature and driver maintainers
-+==============================
-+
-+The term "maintainer" spans a very wide range of levels of engagement
-+from people handling patches and pull requests as almost a full time job
-+to people responsible for a small feature or a driver.
-+
-+Unlike most of the chapter, this section is meant for the latter (more
-+populous) group. It provides tips and describes the expectations and
-+responsibilities of maintainers of a small(ish) section of the code.
-+
-+Driver and alike most often do not have their own mailing lists and
-+git trees but instead send and review patches on the list of a larger
-+subsystem.
-+
-+Responsibilities
-+================
-+
-+The amount of maintenance work is usually proportional to the size
-+and popularity of the code base. Small features and drivers should
-+require relatively small amount of care and feeding. Nonetheless
-+when the work does arrive (in form of patches which need review,
-+user bug reports etc.) it has to be acted upon very promptly.
-+Even when single driver only sees one patch a month, or a quarter,
-+a subsystem could well have a hundred such drivers. Subsystem
-+maintainers cannot afford to wait a long time to hear from reviewers.
-+
-+The exact expectations on the review time will vary by subsystem
-+from 1 day (e.g. networking) to a week in smaller subsystems.
-+
-+Mailing list participation
-+--------------------------
-+
-+Linux kernel uses mailing lists as the primary form of communication.
-+Maintainers must be subscribed and follow the appropriate subsystem-wide
-+mailing list. Either by subscribing to the whole list or using more
-+modern, selective setup like
-+`lei <https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started>`_.
-+
-+Maintainers must know how to communicate on the list (plain text, no invasive
-+legal footers, no top posting, etc.)
-+
-+Reviews
-+-------
-+
-+Maintainers must review *all* patches touching exclusively their drivers,
-+no matter how trivial. If the patch is a tree wide change and modifies
-+multiple drivers - whether to provide a review is left to the maintainer.
-+
-+There should be multiple maintainers for any piece of code, an ``Acked-by``
-+or ``Reviewed-by`` tag (or review comments) from a single maintainer is
-+enough to satisfy this requirement.
-+
-+If review process or validation for a particular change will take longer
-+than the expected review timeline for the subsystem, maintainer should
-+reply to the submission indicating that the work is being done, and when
-+to expect full results.
-+
-+Refactoring and core changes
-+----------------------------
-+
-+Occasionally core code needs to be changed to improve the maintainability
-+of the kernel as a whole. Maintainers are expected to be present and
-+help guide and test changes to their code to fit the new infrastructure.
-+
-+Bug reports
-+-----------
-+
-+Maintainers must respond to and address bug reports. The bug reports
-+range from users reporting real life crashes, thru errors discovered
-+in fuzzing to reports of issues with the code found by static analysis
-+tools and new compiler warnings.
-+
-+Volunteer maintainers are only required to address bugs and regressions.
-+It is understood that due to lack of access to documentation and
-+implementation details they may not be able to solve all problems.
-+
-+Commercial vendors are expected to address all issues, on any reasonable
-+platform supported by the Linux kernel, as well as answer ordinary user
-+questions. There is no concept of product End-of-Life in the Linux kernel,
-+the support is required until the subsystem maintainer deletes the code.
-+
-+The volunteer vs commercial vendor distinction could be seen as roughly
-+corresponding to the *Maintained* and *Supported* statuses of the codebase
-+in the MAINTAINERS file.
-+
-+Selecting the maintainer
-+========================
-+
-+The previous section described the expectations of the maintainer,
-+this section provides guidance on selecting one and decribes common
-+misconceptions.
-+
-+The author
-+----------
-+
-+Most natural and common choice of a maintainer is the author of the code.
-+The author is intimately familiar with the code, so it is the best person
-+to take care of it on an ongoing basis.
-+
-+That said, being a maintainer is an active role. The MAINTAINERS file
-+is not a list of credits (in fact a separate CREDITS file exists),
-+it is a list of those who will actively help with the code.
-+If the author does not have the time, interest or ability to maintain
-+the code, a different maintainer must be selected.
-+
-+Multiple maintainers
-+--------------------
-+
-+Modern best practices dictate that there should be at least two maintainers
-+for any piece of code, no matter how trivial. It spreads the burden, helps
-+people take vacations and prevents burnout, trains new members of
-+the community etc. etc. Even when there is clearly one perfect candidate,
-+another maintainer should be found.
-+
-+Maintainers must be human, however, it is not acceptable to add a mailing
-+list or a group email as a maintainer. Trust and understanding are the
-+foundation of kernel maintenance and one cannot build trust with a mailing
-+list.
-+
-+Corporate structures
-+--------------------
-+
-+To an outsider the Linux kernel may resemble a hierarchical organization
-+with Linus as the CEO. While the code flows in a hierarchical fashion,
-+the corporate template does not apply here. Linux is an anarchy held
-+together by (rarely expressed) mutual respect, trust and convenience.
-+
-+All that is to say that managers almost never make good maintainers.
-+The maintainer position more closely matches an on-call rotation
-+than a position of power.
-+
-+The following characteristics of a person selected as a maintainer
-+are clear red flags:
-+
-+ - unknown to the community, never sent an email to the list before
-+ - did not author any of the code
-+ - (when development is contracted) works for a company which paid
-+   for the development rather than the company which did the work
-+
-+Non compliance
-+==============
-+
-+Subsystem maintainers may remove inactive maintainers from the MAINTAINERS
-+file. If the maintainer was a significant author or have played an important
-+role in the development of the code they should be moved to the CREDITS file.
-+
-+Removing an inactive maintainer should not be seen as a punitive action.
-+Having an inactive maintainer has a real cost as all developeres have
-+to remember to include the maintainers in discussions and subsystem
-+maintainers spend brain power figuring out how to solicit feedback.
-+
-+Subsystem maintainers may remove code for lacking maintenance.
-+
-+Subsystem maintainers may refuse accepting code from companies
-+which repeatedly neglected their maintainership duties.
-diff --git a/Documentation/maintainer/index.rst b/Documentation/maintainer/index.rst
-index 3e03283c144e..eeee27f8b18c 100644
---- a/Documentation/maintainer/index.rst
-+++ b/Documentation/maintainer/index.rst
-@@ -9,6 +9,7 @@ additions to this manual.
- .. toctree::
-    :maxdepth: 2
- 
-+   feature-and-driver-maintainers
-    configure-git
-    rebasing-and-merging
-    pull-requests
--- 
-2.41.0
+Hi!
 
+This is such a cool patch series. I just have a few comments related
+to the output.
+
+In the html output the tests are listed as:
+ktest@drm_buddy_test@...
+
+I wonder if instead of using the file name of "drm_buddy_test" this
+could possibly be the suite name, "drm_buddy", as this is what users
+will call when using kunit.py to run the tests. Although
+"drm_buddy_test" is also the module name so I don't mind it too much.
+But in the future the file name and module name are not guaranteed to
+be the same for other tests.
+
+Most preferably, there would be a reference to the kunit suite name,
+file name, and the module name.
+
+This may be difficult to implement as these can all differ. I am
+currently working on the KUnit Attribute framework which saves the
+module name and I am thinking about also saving the file path as a
+future attribute. This could be a helpful framework for the KUnit
+tests specifically.
+
+I am not sure how easy it would be to access c objects/functions using
+this system.
+
+Finally, I was wondering if it is the intention to put a list of all
+KUnit tests that use this new feature into tests/kunit.rst or would
+this be broken up in some way.
+
+Thanks!
+-Rae
+
+>  static struct kunit_case drm_buddy_tests[] =3D {
+>         KUNIT_CASE(drm_test_buddy_alloc_limit),
+>         KUNIT_CASE(drm_test_buddy_alloc_range),
+> --
+> 2.40.1
+>
