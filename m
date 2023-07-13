@@ -2,149 +2,153 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B49EAC001DD
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 16:27:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E3A9C0015E
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 16:32:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231626AbjGMQ1t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 12:27:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39902 "EHLO
+        id S230333AbjGMQcd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 12:32:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229682AbjGMQ1s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 12:27:48 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A592735;
-        Thu, 13 Jul 2023 09:27:41 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qJzAD-0007ty-0z; Thu, 13 Jul 2023 18:27:33 +0200
-Message-ID: <b09c8265-c788-dede-aa34-0eb32f4eb107@leemhuis.info>
-Date:   Thu, 13 Jul 2023 18:27:32 +0200
+        with ESMTP id S229593AbjGMQcc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 12:32:32 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238D21980;
+        Thu, 13 Jul 2023 09:32:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689265951; x=1720801951;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cXZtGgbLWRfM3llFgBerTG/qiILJWd0SfRKH1JDQjUE=;
+  b=Wb+4pNuLn1Ud0jHvYCzYHX3KLUO+E/oQLvPSzgN81tF56sgyOXyEn/4P
+   xS2AzHwMvLZUdAX2pf9D/EQQgB5TtQy2KV8A9IOjHrgnpeRMJXb3Umheb
+   luyZBeo/URG4kYbchxTU++vUeFV5olpQoYKrGPS0FwU9rF2Xk/vAd56Mo
+   jj0klxUjx7Kr/aSVfpPwjutsVaV5tyz8hRnvNoIZMDgxlxdFNngzcwTSH
+   VRLho/o53f0ASh7/q5V0RQi97bdV2cxb8hwNggLX3TEo+kOQMJ4VfTLMN
+   /LWj8n0Zc4xXgsnHJbgNdGfIHhHXTNPp0Ol5tkbgtKRLGNQoYMie5CJsm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="362707580"
+X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
+   d="scan'208";a="362707580"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 09:32:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="722046367"
+X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
+   d="scan'208";a="722046367"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.74])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 09:32:21 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Fenghua Yu <fenghua.yu@intel.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Peter Newman <peternewman@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org
+Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
+        James Morse <james.morse@arm.com>,
+        Jamie Iles <quic_jiles@quicinc.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
+Subject: [PATCH v3 0/8] x86/resctrl: Add support for Sub-NUMA cluster (SNC) systems
+Date:   Thu, 13 Jul 2023 09:31:59 -0700
+Message-Id: <20230713163207.219710-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US, de-DE
-To:     Conor Dooley <conor@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <cover.1689008220.git.linux@leemhuis.info>
- <2023071002-phrasing-tranquil-49d6@gregkh>
- <a97a37bf-86b5-cd8e-a8ce-00e38720cee4@leemhuis.info>
- <2023071221-blade-reactive-0707@gregkh>
- <d8403c45-3561-4759-f6c2-d18afa5e323a@leemhuis.info>
- <2023071215-able-mushy-c889@gregkh>
- <18238769-39c3-2b40-7725-367aa0e5c50b@leemhuis.info>
- <2023071341-twitter-apron-e023@gregkh>
- <20230713-irritant-rarity-5f7b424fe43e@spud>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
- backporting option and a few tweaks
-In-Reply-To: <20230713-irritant-rarity-5f7b424fe43e@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689265661;26817c57;
-X-HE-SMSGID: 1qJzAD-0007ty-0z
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13.07.23 17:39, Conor Dooley wrote:
-> On Thu, Jul 13, 2023 at 05:06:22PM +0200, Greg KH wrote:
->> On Thu, Jul 13, 2023 at 10:48:14AM +0200, Thorsten Leemhuis wrote:
->>> On 12.07.23 21:00, Greg KH wrote:
->>>> On Wed, Jul 12, 2023 at 07:02:34PM +0200, Thorsten Leemhuis wrote:
->>>>> On 12.07.23 17:16, Greg KH wrote:
->>>> [...]
->>>>>>>   .. warning::
->>>>>>>      The branches in the -stable-rc tree are rebased each time a new -rc
->>>>>>>      is released, as they are created by taking the latest release and
->>>>>>>      applying the patches from the stable-queue on top.
->>>>>>
->>>>>> Yes, that is true, but they are also rebased sometimes in intermediate
->>>>>> places, before a -rc is released, just to give CI systems a chance to
->>>>>> test easier.
->>>> [...]
->>>>> Nevertheless makes me wonder: is that strategy wise in times when some
->>>>> ordinary users and some distributions are building kernels straight from
->>>>> git repos instead of tarballs? I'm one of those, as I distribute
->>>>> stable-rc packages for Fedora here:
->>>>> https://copr.fedorainfracloud.org/groups/g/kernel-vanilla/coprs/
->>>>
->>>> As we keep the patches in quilt, not git, it's the best we can do.  The
->>>> -rc releases are never a straight-line if we have to do multiple ones,
->>>> we remove patches in the middle, add them at the end or beginning, and
->>>> sometimes even change existing ones.
->>>>
->>>> All of this is stuff that a linear history tool like git can't really
->>>> model well, so we keep a quilt series of the patches in git for anyone
->>>> that want to generate the tree themselves, and we provide the -rc git
->>>> tree for those that don't want to generate it and can live with the
->>>> constant rebasing.
->>>
->>> /me first didn't want to reply, as this is not really important, but
->>> then reconsidered; again, feel free to just ignore this
->>>
->>> FWIW, I do not consider that rebasing to be problem at all; it are those
->>> rebases "sometimes in intermediate places, before a -rc is released,
->>> just to give CI systems a chance to test easier" make things this
->>> slightly annoying bit harder when you want to distribute stable-rc
->>> releases to users.
->>>
->>> But as I said, I can fully understand why you do those as well. I just
->>> with there was a way to reliably get a -rc release from git as well.
->>> Simply tagging them when you do a -rc release would solve all that. Is
->>> that maybe something that could be easily added to your -rc release scripts?
->>
->> I can add a tag, but it would have to be a tag that can be rebased, and
->> git doesn't like that very well :)
-> 
-> I figure the desired tagging behaviour is that you do it when the email
-> is sent out for a corresponding version & so the tag "should" not need to
-> be rebased?
+There isn't a simple hardware enumeration to indicate to software that
+a system is running with Sub-NUMA Clustering enabled.
 
-Yup, exactly, that's what I meant, as that makes it possible to get the
-same state as the tarball by simply doing a "git checkout v6.4.4-rc1",
-even if the linux-6.4.y branch in the stable-rc repo changed.
+Compare the number of NUMA nodes with the number of L3 caches to calculate
+the number of Sub-NUMA nodes per L3 cache.
 
-And CI systems should not care.
+When Sub-NUMA clustering mode is enabled in BIOS setup, the RMID counters
+are distributed equally between the SNC nodes within each socket.
 
->>> /me looks at https://github.com/gregkh/gregkh-linux/tree/master/stable
->>> but failed to find the -rc release script :-/
->>
->> Hah, no github, it's at:
->> 	https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/tree/scripts/quilt-mail
->>
->> But I don't think tags will help much.  I'll let anyone who actually
->> runs a CI that uses this to speak up to see if it would before adding
->> them.
-> 
-> I'm not sure that it is particularly valuable to the usual flow of
-> testing what is about to come down the tracks, at least in my simple
-> case where I trigger it based on the -rc emails
+E.g. if there are 400 RMID counters, and the system is configured with
+two SNC nodes per socket, then RMID counter 0..199 are used on SNC node
+0 on the socket, and RMID counter 200..399 on SNC node 1.
 
-My scripts instead wait for the tarballs to show up on kernel.org. :-D
+A model specific MSR (0xca0) can change the configuration of the RMIDs
+when SNC mode is enabled.
 
-> or whenever something
-> else interesting happens, like a patch being dropped that breaks the
-> build.
-> 
-> I suppose it may be useful if an issue presents itself but disappears
-> when a backport is dropped from the queue & some developers are
-> interested in figuring out why the backport went awry?
-> 
-> Other than that, I'm not sure what the value is in "I just with [sic]
-> there was a way to reliably get a -rc release from git as well", in
-> _my_ CI use case I don't care about the superseded stable -rc versions,
-> just whatever is about to be released.
-> 
-> Others with more complex CI infrastructure, like Linaro etc, might feel
-> differently :)
+The MSR controls the interpretation of the RMID field in the
+IA32_PQR_ASSOC MSR so that the appropriate hardware counters within the
+SNC node are updated. If reconfigured from default, RMIDs are divided
+evenly across clusters.
 
-Yeah, CI systems likely don't care much, but I distribute the proper
-stable-rc releases to ordinary users for simple testing in the wild; and
-it afaics would be good if they'd match the tarball in case a users runs
-into problems and reports them, as I fear people otherwise might quickly
-talk past each other...
+Also initialize a per-cpu RMID offset value. Use this to calculate the
+value to write to the IA32_QM_EVTSEL MSR when reading RMID event values.
 
-Ciao, Thorsten
+N.B. this works well for well-behaved NUMA applications that access
+memory predominantly from the local memory node. For applications that
+access memory across multiple nodes it may be necessary for the user
+to read counters for all SNC nodes on a socket and add the values to
+get the actual LLC occupancy or memory bandwidth. Perhaps this isn't
+all that different from applications that span across multiple sockets
+in a legacy system.
+
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+
+---
+
+Changes since v2:
+
+* Rebased to v6.5-rc1
+
+Peter Newman:	Found that I'd reversed the actions writing to the new
+		MSR to enable/disable RMID remapping for SNC mode.
+* Fixed.
+
+Peter Newman:	Provided Reviewed-by: and Tested-by: tags
+
+* Included in this series.
+
+Randy Dunlap:	Reported a run-on sentence in the documentation.
+
+* Broke the sentence into two as suggested.
+
+Shaopeng Tan:	Reported that the CMT resctrl self-test failed
+
+* Added extra patch to the series to make the resctrl test detect when SNC
+  mode is enabled and adjust effective cache size.
+
+* I also patched the rdtgroup_cbm_to_size() function to adjust the cache
+  size reported in the "size" files in resctrl groups when SNC is active.
+
+Shaopeng Tan:	Noted the for_each_capable_rdt_resource() macro is no longer used.
+
+* Deleted defintion of this macro.
+
+Tony Luck (8):
+  x86/resctrl: Refactor in preparation for node-scoped resources
+  x86/resctrl: Remove hard code of RDT_RESOURCE_L3 in monitor.c
+  x86/resctrl: Add a new node-scoped resource to rdt_resources_all[]
+  x86/resctrl: Add code to setup monitoring at L3 or NODE scope.
+  x86/resctrl: Add package scoped resource
+  x86/resctrl: Update documentation with Sub-NUMA cluster changes
+  x86/resctrl: Determine if Sub-NUMA Cluster is enabled and initialize.
+  selftests/resctrl: Adjust effective L3 cache size when SNC enabled
+
+ Documentation/arch/x86/resctrl.rst          |  10 +-
+ include/linux/resctrl.h                     |   5 +-
+ arch/x86/include/asm/resctrl.h              |   2 +
+ arch/x86/kernel/cpu/resctrl/internal.h      |  20 ++-
+ tools/testing/selftests/resctrl/resctrl.h   |   1 +
+ arch/x86/kernel/cpu/resctrl/core.c          | 154 ++++++++++++++++++--
+ arch/x86/kernel/cpu/resctrl/monitor.c       |  24 +--
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c   |   2 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c      |   6 +-
+ tools/testing/selftests/resctrl/resctrlfs.c |  57 ++++++++
+ 10 files changed, 248 insertions(+), 33 deletions(-)
+
+
+base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+-- 
+2.40.1
+
