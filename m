@@ -2,96 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AD8EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 08:49:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E20EFEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 11:20:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234662AbjGMItH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 04:49:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
+        id S234425AbjGMLUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 07:20:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231967AbjGMIsj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 04:48:39 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18CB9211F;
-        Thu, 13 Jul 2023 01:48:19 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qJrzj-00049e-RU; Thu, 13 Jul 2023 10:48:15 +0200
-Message-ID: <18238769-39c3-2b40-7725-367aa0e5c50b@leemhuis.info>
-Date:   Thu, 13 Jul 2023 10:48:14 +0200
+        with ESMTP id S234225AbjGMLUg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 07:20:36 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0165B198A;
+        Thu, 13 Jul 2023 04:20:28 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F3E1A1570;
+        Thu, 13 Jul 2023 04:21:10 -0700 (PDT)
+Received: from FVFF77S0Q05N.cambridge.arm.com (unknown [10.37.36.116])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 954BC3F740;
+        Thu, 13 Jul 2023 04:20:26 -0700 (PDT)
+Date:   Thu, 13 Jul 2023 12:20:19 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
+Cc:     Will Deacon <will@kernel.org>, corbet@lwn.net,
+        catalin.marinas@arm.com, maz@kernel.org, quic_pkondeti@quicinc.com,
+        quic_kaushalk@quicinc.com, quic_satyap@quicinc.com,
+        quic_shashim@quicinc.com, quic_songxue@quicinc.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+Message-ID: <ZK_d86ApI1FCHhTL@FVFF77S0Q05N.cambridge.arm.com>
+References: <20230710055955.36551-1-quic_aiquny@quicinc.com>
+ <20230710093751.GC32673@willie-the-truck>
+ <5cf15f85-0397-96f7-4110-13494551b53b@quicinc.com>
+ <20230711082226.GA1554@willie-the-truck>
+ <84f0994a-26de-c20a-a32f-ec8fe41df3a3@quicinc.com>
+ <20230711102510.GA1809@willie-the-truck>
+ <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
+ <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
+ <604ac52d-4336-744f-2ab8-44d1c93fbaa8@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <cover.1689008220.git.linux@leemhuis.info>
- <2023071002-phrasing-tranquil-49d6@gregkh>
- <a97a37bf-86b5-cd8e-a8ce-00e38720cee4@leemhuis.info>
- <2023071221-blade-reactive-0707@gregkh>
- <d8403c45-3561-4759-f6c2-d18afa5e323a@leemhuis.info>
- <2023071215-able-mushy-c889@gregkh>
-Content-Language: en-US, de-DE
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 0/3] docs: stable-kernel-rules: add delayed
- backporting option and a few tweaks
-In-Reply-To: <2023071215-able-mushy-c889@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689238099;33ba6bd9;
-X-HE-SMSGID: 1qJrzj-00049e-RU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <604ac52d-4336-744f-2ab8-44d1c93fbaa8@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12.07.23 21:00, Greg KH wrote:
-> On Wed, Jul 12, 2023 at 07:02:34PM +0200, Thorsten Leemhuis wrote:
->> On 12.07.23 17:16, Greg KH wrote:
-> [...]
->>>>   .. warning::
->>>>      The branches in the -stable-rc tree are rebased each time a new -rc
->>>>      is released, as they are created by taking the latest release and
->>>>      applying the patches from the stable-queue on top.
->>>
->>> Yes, that is true, but they are also rebased sometimes in intermediate
->>> places, before a -rc is released, just to give CI systems a chance to
->>> test easier.
-> [...]
->> Nevertheless makes me wonder: is that strategy wise in times when some
->> ordinary users and some distributions are building kernels straight from
->> git repos instead of tarballs? I'm one of those, as I distribute
->> stable-rc packages for Fedora here:
->> https://copr.fedorainfracloud.org/groups/g/kernel-vanilla/coprs/
+On Thu, Jul 13, 2023 at 10:24:24AM +0800, Aiqun(Maria) Yu wrote:
+> On 7/12/2023 3:36 PM, Mark Rutland wrote:
+> > On Wed, Jul 12, 2023 at 11:09:10AM +0800, Aiqun(Maria) Yu wrote:
+> > > On 7/11/2023 6:25 PM, Will Deacon wrote:
+> > > > On Tue, Jul 11, 2023 at 06:15:49PM +0800, Aiqun(Maria) Yu wrote:
+> > > > > On 7/11/2023 4:22 PM, Will Deacon wrote:
+> > > > > > On Tue, Jul 11, 2023 at 12:02:22PM +0800, Aiqun(Maria) Yu wrote:
+> > > > > > > On 7/10/2023 5:37 PM, Will Deacon wrote:
+> > > > > > > > On Mon, Jul 10, 2023 at 01:59:55PM +0800, Maria Yu wrote:
+> > > > > > > > > In order to be able to disable lse_atomic even if cpu
+> > > > > > > > > support it, most likely because of memory controller
+> > > > > > > > > cannot deal with the lse atomic instructions, use a
+> > > > > > > > > new idreg override to deal with it.
+> > > > > > > > 
+> > > > > > > > This should not be a problem for cacheable memory though, right?
+> > > > > > > > 
+> > > > > > > > Given that Linux does not issue atomic operations to non-cacheable mappings,
+> > > > > > > > I'm struggling to see why there's a problem here.
+> > > > > > > 
+> > > > > > > The lse atomic operation can be issued on non-cacheable mappings as well.
+> > > > > > > Even if it is cached data, with different CPUECTLR_EL1 setting, it can also
+> > > > > > > do far lse atomic operations.
+> > > > > > 
+> > > > > > Please can you point me to the place in the kernel sources where this
+> > > > > > happens? The architecture doesn't guarantee that atomics to non-cacheable
+> > > > > > mappings will work, see "B2.2.6 Possible implementation restrictions on
+> > > > > > using atomic instructions". Linux, therefore, doesn't issue atomics
+> > > > > > to non-cacheable memory.
+> > > > > 
+> > > > > We encounter the issue on third party kernel modules and third party apps
+> > > > > instead of linux kernel itself.
+> > > > 
+> > > > Great, so there's nothing to do in the kernel then!
+> > > > 
+> > > > The third party code needs to be modified not to use atomic instructions
+> > > > with non-cacheable mappings. No need to involve us with that.
+> > > 
+> > > > > This is a tradeoff of performance and stability. Per my understanding,
+> > > > > options can be used to enable the lse_atomic to have the most performance
+> > > > > cared system, and disable the lse_atomic by stability cared most system.
+> > > > 
+> > > > Where do livelock and starvation fit in with "stability"? Disabling LSE
+> > > > atomics for things like qspinlock and the scheduler just because of some
+> > > > badly written third-party code isn't much of a tradeoff.
+> > 
+> > > We also have requirement to have cpus/system fully support lse atomic and
+> > > cpus/system not fully support lse atomic with a generic kernel image.
+> > 
+> > Who *specifically* has this requirement (i.e. what does 'we' mean here)? The
 > 
-> As we keep the patches in quilt, not git, it's the best we can do.  The
-> -rc releases are never a straight-line if we have to do multiple ones,
-> we remove patches in the middle, add them at the end or beginning, and
-> sometimes even change existing ones.
+> I can use other word to describe the requirement instead of "we".
 > 
-> All of this is stuff that a linear history tool like git can't really
-> model well, so we keep a quilt series of the patches in git for anyone
-> that want to generate the tree themselves, and we provide the -rc git
-> tree for those that don't want to generate it and can live with the
-> constant rebasing.
+> There is requirements like android google gki. It request different cpu arch
+> system to use same generic kernel Image.
 
-/me first didn't want to reply, as this is not really important, but
-then reconsidered; again, feel free to just ignore this
+GKI requires the system to use the generic kernel image; GKI does not require
+supporting atomics to non-cacheable mappings.
 
-FWIW, I do not consider that rebasing to be problem at all; it are those
-rebases "sometimes in intermediate places, before a -rc is released,
-just to give CI systems a chance to test easier" make things this
-slightly annoying bit harder when you want to distribute stable-rc
-releases to users.
+What I am asking is: who has the requirement to perform atomics to
+non-cacheable mappings?
 
-But as I said, I can fully understand why you do those as well. I just
-with there was a way to reliably get a -rc release from git as well.
-Simply tagging them when you do a -rc release would solve all that. Is
-that maybe something that could be easily added to your -rc release scripts?
+> > upstream kernel does not require that atomics work on non-cacheable memory, and
+> 
+> The same issue the system can be down of lse atomic not supported for
+> cachable memory when there need far atomic.
 
-/me looks at https://github.com/gregkh/gregkh-linux/tree/master/stable
-but failed to find the -rc release script :-/
+Are you saying that LSE atomics to *cacheable* mappings do not work on your
+system?
 
-Whatever, as I said, not really important. :-D Have a nice day everyone!
+Specifically, when using a Normal Inner-Shareable Inner-Writeback
+Outer-Writeback mapping, do the LSE atomics work or not work?
 
-Ciao, Thorsten
+> > saying "The company I work for want this" doesn't change that.
+> > 
+> > AFAICT the system here is architecturally compliant, and what you're relying
+> > upon something that the architecture doesn't guarantee, and Linux doesn't
+> > guarantee.
+> 
+> It is not also only our company's problem:
+> To support the atomic instructions added in the Armv8.1 architecture, CHI-B
+> provides Atomic Transactions. while Atomic Transactions support is also
+> *optional* from CHI-B.
+> 
+> So far atomic cannot fully supported by ARMv8.1 cpu + CHI-B system as well.
+> 
+> from:
+> https://developer.arm.com/documentation/102407/0100/Atomic-operations?lang=en
+> 
+> So only cpu support atomic cannot garantee the system support lse atomic
+> > 
+> > > Same kernel module wanted to be used by lse atomic fully support cpu and not
+> > > fully support cpu/system as well.
+> > 
+> > Which kernel modules *specifically* need to do atomics to non-cacheable memory?
+> The driver want to always do far atomic(no speculatively) and allow a
+> read-modify-write non-interruptible sequence in a single instruction.
+
+That doesn't answer my question (you haven't told me what "the driver" is).
+
+That doesn't explain why you need to use non-cachable memory for this.
+
+Thanks,
+Mark.
