@@ -2,388 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A78AFEB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 11:24:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5E8EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jul 2023 12:12:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233093AbjGMLYa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 07:24:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34050 "EHLO
+        id S230514AbjGMMMc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 08:12:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232342AbjGMLYa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 07:24:30 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D94D610E2;
-        Thu, 13 Jul 2023 04:24:28 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id d2e1a72fcca58-66f5faba829so384046b3a.3;
-        Thu, 13 Jul 2023 04:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689247468; x=1691839468;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=diCaU9T9K+7GZFl+nMf3Y8Nxqf/vtw/IWeBhwen/Vlo=;
-        b=odnOR2uY1RopKeXAJpLEGKBaClPQYiJSC4r7/9td95LLHhm/Zzp2ObvEJyV2zQm3gT
-         iDtl05cdoTfKb6MOfjUzEhv/oLbm24y2DXud3CFIMB31lRckYjLIHksk5oZOYMHzvj/n
-         4Hc//aOM5kNk35RI9WgA4XDR3FuVH1J9Z7QxfahoLfI/gfNdxVQbQIYgmNoJqNnmXuqi
-         sehbB7y8Aqe6UmChPf70W0cetQt/8l6S71DR9zgxvFO0OQYjHQ/R4RWEVpBB85AoP0/H
-         uDFcbV+mes/8wSGDPRQ2fd6noOvkCJ4emJslvPCbnYji1XKAJ6xWjKKWCwrnQOwh6SXE
-         sTNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689247468; x=1691839468;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=diCaU9T9K+7GZFl+nMf3Y8Nxqf/vtw/IWeBhwen/Vlo=;
-        b=k4mfMXbcBTKwS+LBG3snx25MC1DYONySbvCwhLYwcGlSjniEDytwIXRC2ASzyv6//t
-         VykRjdi1zOFDTcTSuaJXV6TfmhzjPU0YkLUDGPcyarzA+AOcLXhFjDPad5m7/2pBkm98
-         JAEIfHXDuqhHNFZBaQ+D2arv23iBmkZjbAgygJm+Swqfo0R0czBisL7qt05g8UrfyIxM
-         0K9XTtvSA3prCNX/+LZ68RdcMql0emRWwxucIBEwzFBm+82I1UYSKw+AmaoMpwqm9Fr0
-         oXFJYcHSDA5V3qYlpcNl8HG7szKuk0wKRMA9BHnjjn8hSQANVbJ5qXAqpgzTn6QIxk+F
-         Sfcg==
-X-Gm-Message-State: ABy/qLYMKAQ1eKFR+cTnkizAUtKdbjf6Wn4Ufasir+I+lFzJ8qeN36F0
-        O2BXBJ6EfeCjJYT1MWrd15s=
-X-Google-Smtp-Source: APBJJlGZvaloFXknVRTvqkS8CO2229Ce8SaVTTc8OYaqYbk+O9Fae3U1O78NMpT1HHYwb5Da+Y9qWQ==
-X-Received: by 2002:a05:6a21:7881:b0:130:2e61:3061 with SMTP id bf1-20020a056a21788100b001302e613061mr676155pzc.60.1689247468114;
-        Thu, 13 Jul 2023 04:24:28 -0700 (PDT)
-Received: from localhost.localdomain ([203.205.141.86])
-        by smtp.gmail.com with ESMTPSA id z16-20020a1709028f9000b001b86dd825e7sm5686717plo.108.2023.07.13.04.24.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jul 2023 04:24:27 -0700 (PDT)
-From:   menglong8.dong@gmail.com
-X-Google-Original-From: imagedong@tencent.com
-To:     edumazet@google.com, ncardwell@google.com
-Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, dsahern@kernel.org, kuniyu@amazon.com,
-        morleyd@google.com, imagedong@tencent.com, mfreemon@cloudflare.com,
-        mubashirq@google.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2] net: tcp: support to probe tcp receiver OOM
-Date:   Thu, 13 Jul 2023 19:24:04 +0800
-Message-Id: <20230713112404.2022373-1-imagedong@tencent.com>
+        with ESMTP id S230027AbjGMMMb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 08:12:31 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE741FEA;
+        Thu, 13 Jul 2023 05:12:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1689250350; x=1720786350;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/7sS6FP9LTjC31OWZxS14sLk//bNWTQVsuYQYTG9dS4=;
+  b=DnI/eJ5RzY2w1/VU/kCc9ht0VPWaiJWrkqeoXZHiTtVCMcyD7Ji4Ro6R
+   Uu7XWEtz3ls0R0vS4BFLTkGRNrFtuauN4+/M/7IA6e0ubtgw3tI2lJJXW
+   YZwRIwCeoQwcmYzq7MhNX2uMANKG3U+qNoo+kmxCTaPQTRmJTiy5m0HlM
+   lAHPsg3/81kreSe/wyVZdUBcrSwQyp8+ZoCoAxFphL47obF4W5REF/ryg
+   R1+XkhBDU0QGOyJp0hCrqwqlToDrrPWEocn7SNPdzzUvE16p/kpr4zHXt
+   Twct068Ibvtou1S2X8hXGUuj0/jIjmfj4UWshaQI6TuuCjlP9gsLxN/IM
+   A==;
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="235310965"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 13 Jul 2023 05:12:30 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 13 Jul 2023 05:12:29 -0700
+Received: from wendy.microchip.com (10.10.115.15) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
+ Transport; Thu, 13 Jul 2023 05:12:27 -0700
+From:   Conor Dooley <conor.dooley@microchip.com>
+To:     <palmer@dabbelt.com>
+CC:     <conor@kernel.org>, <conor.dooley@microchip.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        "Heiko Stuebner" <heiko.stuebner@vrull.eu>,
+        Evan Green <evan@rivosinc.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 00/11] RISC-V: Probe DT extension support using riscv,isa-extensions & riscv,isa-base
+Date:   Thu, 13 Jul 2023 13:10:58 +0100
+Message-ID: <20230713-target-much-8ac624e90df8@wendy>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3429; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=/7sS6FP9LTjC31OWZxS14sLk//bNWTQVsuYQYTG9dS4=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCnrX175KZUvprYw7LniWt4b7+0LnfYGL9z3rG7qy0xPrQe5 xXO5O0pZGMQ4GGTFFFkSb/e1SK3/47LDuectzBxWJpAhDFycAjAR8UyGfyodqTXq87O25KUlLuC+zX dsglTF/H0KC0rkFoTfum/5LJ7hn56m/Nn7T22eh0XbJ1w48HBPoLvgaa3X1lpz50y8dDEyiBsA
+X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Menglong Dong <imagedong@tencent.com>
+Hey,
 
-For now, skb will be dropped directly if rmem schedule fails, which means
-tcp_try_rmem_schedule() returns an error. This can happen on following
-cases:
+Based on my latest iteration of deprecating riscv,isa [1], here's an
+implementation of the new properties for Linux. The first few patches,
+up to "RISC-V: split riscv_fill_hwcap() in 3", are all prep work that
+further tames some of the extension related code, on top of my already
+applied series that cleans up the ISA string parser.
+Perhaps "RISC-V: shunt isa_ext_arr to cpufeature.c" is a bit gratuitous,
+but I figured a bit of coalescing of extension related data structures
+would be a good idea. Note that riscv,isa will still be used in the
+absence of the new properties. Palmer suggested adding a Kconfig option
+to turn off the fallback for DT, which I have gone and done. It's locked
+behind the NONPORTABLE option for good reason.
 
-1. The total memory allocated for TCP protocol is up to tcp_mem[2], and
-   the receive queue of the tcp socket is not empty.
-2. The receive buffer of the tcp socket is full, which can happen on small
-   packet cases.
+In v2, I've also come up with a more reasonable name for the new
+function I added & fixed up various comments from Drew and Evan.
 
-If the user hangs and doesn't take away the packet in the receive queue
-with recv() or read() for a long time, the sender will keep
-retransmitting until timeout, and the tcp connection will break.
+In v3, there's the new commandline option that Drew suggested. I have
+Also picked up a patch from Palmer that adds more helpful prints where
+harts fail the checks in riscv_early_of_processor_id(), and I've
+sprinkled a few more of those prints in my new additions to the
+function.
 
-In order to handle such case, we introduce the tcp protocol OOM detection
-in following steps, as Neal Cardwell suggested:
+v4 just rebases on v6.5-rc1 and fixes the nommu build issue due to a
+missing __init.
 
-1. reply a pure ack, which doesn't contain SACK blocks, if we fail to
-   alloc memory to queue the skb on the receiving path. We only do this
-   for the next wanted sequence
-2. we assume that the receiver is OOM if we have retransmitted the first
-   skb in the retransmission queue for N times and every retransmission
-   has a corresponding pure ack, which doesn't contain SACK blocks.
-   Meanwhile, SACK should be enabled on the connection, too.
-3. the sender enter OOM state, and use the probe timer instead of the
-   retrans timer. In tcp_send_probe0(), we retransmit the first skb in
-   rtx queue instead of zero-window probe packet if the socket is in OOM
-   state.
-4. we exit the OOM state if snd_una was changed, which means
-   FLAG_SND_UNA_ADVANCED is set.
+In v5, I've fixed issues spotted by myself & Evan. I'm not the worlds
+biggest fan of the strlen() calls inside the macro - but that's going to
+go away again almost immediately if the scalar crypto stuff gets merged.
+I also spotted an issue with a rebase I did at some point, where the
+dedicated properties did not use isainfo->isa & created a bitmap for
+each cpu, which would've caused the per-hart extension tracking to
+break.
 
-And we introduce the sysctl "tcp_oom_retries" for the "N". By default,
-its value is 0, which means the OOM detection is disabled, to reduce the
-impact to the users who don't need such function.
+Cheers,
+Conor.
 
-Signed-off-by: Menglong Dong <imagedong@tencent.com>
----
-v2:
-- disable the OOM detection by default to reduce the impact
-- don't impact the fast path
----
- Documentation/networking/ip-sysctl.rst | 14 +++++
- include/linux/tcp.h                    |  1 +
- include/net/inet_connection_sock.h     |  3 +-
- include/net/netns/ipv4.h               |  1 +
- include/net/sock.h                     |  1 +
- net/ipv4/sysctl_net_ipv4.c             |  7 +++
- net/ipv4/tcp_input.c                   | 71 +++++++++++++++++++++++++-
- net/ipv4/tcp_ipv4.c                    |  1 +
- net/ipv4/tcp_output.c                  | 13 ++++-
- net/ipv4/tcp_timer.c                   |  7 ++-
- 10 files changed, 114 insertions(+), 5 deletions(-)
+[1] (it's in v6.5-rc1 now)
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 4a010a7cde7f..3de2dce74037 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -694,6 +694,20 @@ tcp_retries2 - INTEGER
- 	RFC 1122 recommends at least 100 seconds for the timeout,
- 	which corresponds to a value of at least 8.
- 
-+tcp_oom_retries - INTEGER
-+	RTO retransmissions count of the receiver is recognised as OOM.
-+	Given a value N, a hypothetical TCP connection will enter probe
-+	state if N times RTO retransmissions performed and every
-+	retransmission gets a pure ack, who doesn't contain SACK block.
-+
-+	The default value is 0, which means disable the OOM detection.
-+	If disabled, skb will be dropped directly, without sending an
-+	ACK, when rmem schedule fails. The function is valid only if sack
-+	is enabled.
-+
-+	3 is the suggested value to enable this function. Do't make it
-+	greater than tcp_retries2.
-+
- tcp_rfc1337 - BOOLEAN
- 	If set, the TCP stack behaves conforming to RFC1337. If unset,
- 	we are not conforming to RFC, but prevent TCP TIME_WAIT
-diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index b4c08ac86983..0801119a94ea 100644
---- a/include/linux/tcp.h
-+++ b/include/linux/tcp.h
-@@ -337,6 +337,7 @@ struct tcp_sock {
- 	u32	pushed_seq;	/* Last pushed seq, required to talk to windows */
- 	u32	lost_out;	/* Lost packets			*/
- 	u32	sacked_out;	/* SACK'd packets			*/
-+	u32	oom_ack_rcv;	/* Number of received pure ACK for OOM */
- 
- 	struct hrtimer	pacing_timer;
- 	struct hrtimer	compressed_ack_timer;
-diff --git a/include/net/inet_connection_sock.h b/include/net/inet_connection_sock.h
-index c2b15f7e5516..2c0d51a241b3 100644
---- a/include/net/inet_connection_sock.h
-+++ b/include/net/inet_connection_sock.h
-@@ -164,7 +164,8 @@ enum inet_csk_ack_state_t {
- 	ICSK_ACK_TIMER  = 2,
- 	ICSK_ACK_PUSHED = 4,
- 	ICSK_ACK_PUSHED2 = 8,
--	ICSK_ACK_NOW = 16	/* Send the next ACK immediately (once) */
-+	ICSK_ACK_NOW    = 16,	/* Send the next ACK immediately (once) */
-+	ICSK_ACK_PURE   = 32,	/* Send ACK without sack */
- };
- 
- void inet_csk_init_xmit_timers(struct sock *sk,
-diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
-index f00374718159..378656328b68 100644
---- a/include/net/netns/ipv4.h
-+++ b/include/net/netns/ipv4.h
-@@ -196,6 +196,7 @@ struct netns_ipv4 {
- 
- 	u8 sysctl_fib_notify_on_flag_change;
- 	u8 sysctl_tcp_syn_linear_timeouts;
-+	u8 sysctl_tcp_oom_retries;
- 
- #ifdef CONFIG_NET_L3_MASTER_DEV
- 	u8 sysctl_udp_l3mdev_accept;
-diff --git a/include/net/sock.h b/include/net/sock.h
-index 2eb916d1ff64..ecc5ba2f8ddf 100644
---- a/include/net/sock.h
-+++ b/include/net/sock.h
-@@ -959,6 +959,7 @@ enum sock_flags {
- 	SOCK_XDP, /* XDP is attached */
- 	SOCK_TSTAMP_NEW, /* Indicates 64 bit timestamps always */
- 	SOCK_RCVMARK, /* Receive SO_MARK  ancillary data with packet */
-+	SOCK_RCV_OOM, /* the receiver is in OOM state */
- };
- 
- #define SK_FLAGS_TIMESTAMP ((1UL << SOCK_TIMESTAMP) | (1UL << SOCK_TIMESTAMPING_RX_SOFTWARE))
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index 2afb0870648b..61143d0864d7 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -1489,6 +1489,13 @@ static struct ctl_table ipv4_net_table[] = {
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
- 	},
-+	{
-+		.procname	= "tcp_oom_retries",
-+		.data		= &init_net.ipv4.sysctl_tcp_oom_retries,
-+		.maxlen		= sizeof(u8),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dou8vec_minmax,
-+	},
- 	{ }
- };
- 
-diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-index 57c8af1859c1..f5179bcdf3bf 100644
---- a/net/ipv4/tcp_input.c
-+++ b/net/ipv4/tcp_input.c
-@@ -3762,6 +3762,65 @@ static u32 tcp_newly_delivered(struct sock *sk, u32 prior_delivered, int flag)
- 	return delivered;
- }
- 
-+static bool tcp_need_ack_oom(struct sock *sk)
-+{
-+	return (READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_oom_retries) &&
-+		inet_csk(sk)->icsk_retransmits &&
-+		tcp_is_sack(tcp_sk(sk))) ||
-+	       sock_flag(sk, SOCK_RCV_OOM);
-+}
-+
-+static void tcp_ack_oom(struct sock *sk, const struct sk_buff *skb,
-+			const u32 prior_snd_una, int *flag)
-+{
-+	struct inet_connection_sock *icsk = inet_csk(sk);
-+	u32 ack = TCP_SKB_CB(skb)->ack_seq;
-+	struct tcp_sock *tp = tcp_sk(sk);
-+	int tcp_oom_retries;
-+	unsigned long when;
-+
-+	if (sock_flag(sk, SOCK_RCV_OOM)) {
-+		/* new data is acked, which means the retransmission
-+		 * success, and we can leave the OOM state now.
-+		 */
-+		if (*flag & FLAG_SND_UNA_ADVANCED) {
-+			tp->oom_ack_rcv = 0;
-+			icsk->icsk_backoff = 0;
-+			icsk->icsk_probes_tstamp = 0;
-+			inet_csk_clear_xmit_timer(sk, ICSK_TIME_PROBE0);
-+			sock_reset_flag(sk, SOCK_RCV_OOM);
-+		}
-+		return;
-+	}
-+
-+	/* Only pure ACK without SACK blocks is considered here */
-+	if (TCP_SKB_CB(skb)->seq != TCP_SKB_CB(skb)->end_seq ||
-+	    TCP_SKB_CB(skb)->sacked || prior_snd_una != ack)
-+		return;
-+
-+	/* this means real packet drop may happen, don't enter the OOM
-+	 * state
-+	 */
-+	if (icsk->icsk_retransmits != tp->oom_ack_rcv + 1)
-+		return;
-+
-+	tp->oom_ack_rcv++;
-+	tcp_oom_retries = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_oom_retries);
-+	if (tp->oom_ack_rcv < tcp_oom_retries)
-+		return;
-+
-+	/* enter OOM state when we receive enough pure ACKs */
-+	sock_set_flag(sk, SOCK_RCV_OOM);
-+	tp->oom_ack_rcv = 0;
-+	icsk->icsk_retransmits = 0;
-+
-+	/* use oom-probe instead of retrans timer */
-+	when = tcp_probe0_when(sk, TCP_RTO_MAX);
-+	when = tcp_clamp_probe0_to_user_timeout(sk, when);
-+	tcp_reset_xmit_timer(sk, ICSK_TIME_PROBE0, when, TCP_RTO_MAX);
-+	*flag &= ~FLAG_SET_XMIT_TIMER;
-+}
-+
- /* This routine deals with incoming acks, but not outgoing ones. */
- static int tcp_ack(struct sock *sk, const struct sk_buff *skb, int flag)
- {
-@@ -3907,6 +3966,10 @@ static int tcp_ack(struct sock *sk, const struct sk_buff *skb, int flag)
- 				      &rexmit);
- 	}
- 
-+	if (tcp_need_ack_oom(sk))
-+		/* we don't impact the fast path......do we? */
-+		tcp_ack_oom(sk, skb, prior_snd_una, &flag);
-+
- 	/* If needed, reset TLP/RTO timer when RACK doesn't set. */
- 	if (flag & FLAG_SET_XMIT_TIMER)
- 		tcp_set_xmit_timer(sk);
-@@ -5056,7 +5119,13 @@ static void tcp_data_queue(struct sock *sk, struct sk_buff *skb)
- 			reason = SKB_DROP_REASON_PROTO_MEM;
- 			NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPRCVQDROP);
- 			sk->sk_data_ready(sk);
--			goto drop;
-+			if (tcp_is_sack(tp) &&
-+			    READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_oom_retries)) {
-+				inet_csk(sk)->icsk_ack.pending |= ICSK_ACK_PURE;
-+				goto out_of_window;
-+			} else {
-+				goto drop;
-+			}
- 		}
- 
- 		eaten = tcp_queue_rcv(sk, skb, &fragstolen);
-diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
-index cecd5a135e64..26a2fc6ae574 100644
---- a/net/ipv4/tcp_ipv4.c
-+++ b/net/ipv4/tcp_ipv4.c
-@@ -3216,6 +3216,7 @@ static int __net_init tcp_sk_init(struct net *net)
- 	net->ipv4.sysctl_tcp_notsent_lowat = UINT_MAX;
- 	net->ipv4.sysctl_tcp_tw_reuse = 2;
- 	net->ipv4.sysctl_tcp_no_ssthresh_metrics_save = 1;
-+	net->ipv4.sysctl_tcp_oom_retries = 0;
- 
- 	refcount_set(&net->ipv4.tcp_death_row.tw_refcount, 1);
- 	tcp_set_hashinfo(net);
-diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-index 2cb39b6dad02..6a30ce7e649f 100644
---- a/net/ipv4/tcp_output.c
-+++ b/net/ipv4/tcp_output.c
-@@ -959,7 +959,8 @@ static unsigned int tcp_established_options(struct sock *sk, struct sk_buff *skb
- 	}
- 
- 	eff_sacks = tp->rx_opt.num_sacks + tp->rx_opt.dsack;
--	if (unlikely(eff_sacks)) {
-+	if (!(inet_csk(sk)->icsk_ack.pending & ICSK_ACK_PURE) &&
-+	    unlikely(eff_sacks)) {
- 		const unsigned int remaining = MAX_TCP_OPTION_SPACE - size;
- 		if (unlikely(remaining < TCPOLEN_SACK_BASE_ALIGNED +
- 					 TCPOLEN_SACK_PERBLOCK))
-@@ -4130,6 +4131,13 @@ int tcp_write_wakeup(struct sock *sk, int mib)
- 	if (sk->sk_state == TCP_CLOSE)
- 		return -1;
- 
-+	if (sock_flag(sk, SOCK_RCV_OOM)) {
-+		skb = tcp_rtx_queue_head(sk);
-+		WARN_ON_ONCE(!skb);
-+		if (skb)
-+			return __tcp_retransmit_skb(sk, skb, 1);
-+	}
-+
- 	skb = tcp_send_head(sk);
- 	if (skb && before(TCP_SKB_CB(skb)->seq, tcp_wnd_end(tp))) {
- 		int err;
-@@ -4178,7 +4186,8 @@ void tcp_send_probe0(struct sock *sk)
- 
- 	err = tcp_write_wakeup(sk, LINUX_MIB_TCPWINPROBE);
- 
--	if (tp->packets_out || tcp_write_queue_empty(sk)) {
-+	if (!sock_flag(sk, SOCK_RCV_OOM) &&
-+	    (tp->packets_out || tcp_write_queue_empty(sk))) {
- 		/* Cancel probe timer, if it is not required. */
- 		icsk->icsk_probes_out = 0;
- 		icsk->icsk_backoff = 0;
-diff --git a/net/ipv4/tcp_timer.c b/net/ipv4/tcp_timer.c
-index 470f581eedd4..41dbe52101b8 100644
---- a/net/ipv4/tcp_timer.c
-+++ b/net/ipv4/tcp_timer.c
-@@ -369,7 +369,7 @@ static void tcp_probe_timer(struct sock *sk)
- 	struct tcp_sock *tp = tcp_sk(sk);
- 	int max_probes;
- 
--	if (tp->packets_out || !skb) {
-+	if (!sock_flag(sk, SOCK_RCV_OOM) && (tp->packets_out || !skb)) {
- 		icsk->icsk_probes_out = 0;
- 		icsk->icsk_probes_tstamp = 0;
- 		return;
-@@ -544,6 +544,11 @@ void tcp_retransmit_timer(struct sock *sk)
- 		}
- 		if (mib_idx)
- 			__NET_INC_STATS(sock_net(sk), mib_idx);
-+
-+		/* initialize oom_ack_rcv with 0 when the first
-+		 * retransmission happen
-+		 */
-+		tp->oom_ack_rcv = 0;
- 	}
- 
- 	tcp_enter_loss(sk);
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+CC: Paul Walmsley <paul.walmsley@sifive.com>
+CC: Palmer Dabbelt <palmer@dabbelt.com>
+CC: Albert Ou <aou@eecs.berkeley.edu>
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Andrew Jones <ajones@ventanamicro.com>
+CC: Heiko Stuebner <heiko.stuebner@vrull.eu>
+CC: Evan Green <evan@rivosinc.com>
+CC: Sunil V L <sunilvl@ventanamicro.com>
+CC: linux-doc@vger.kernel.org
+CC: linux-riscv@lists.infradead.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+
+Conor Dooley (9):
+  RISC-V: drop a needless check in print_isa_ext()
+  RISC-V: shunt isa_ext_arr to cpufeature.c
+  RISC-V: repurpose riscv_isa_ext array in riscv_fill_hwcap()
+  RISC-V: add missing single letter extension definitions
+  RISC-V: add single letter extensions to riscv_isa_ext
+  RISC-V: split riscv_fill_hwcap() in 3
+  RISC-V: enable extension detection from dedicated properties
+  RISC-V: try new extension properties in of_early_processor_hartid()
+  RISC-V: provide Kconfig & commandline options to control parsing
+    "riscv,isa"
+
+Heiko Stuebner (1):
+  RISC-V: don't parse dt/acpi isa string to get rv32/rv64
+
+Palmer Dabbelt (1):
+  RISC-V: Provide a more helpful error message on invalid ISA strings
+
+ .../admin-guide/kernel-parameters.txt         |   7 +
+ arch/riscv/Kconfig                            |  18 +
+ arch/riscv/include/asm/hwcap.h                |  17 +-
+ arch/riscv/kernel/cpu.c                       | 179 +++---
+ arch/riscv/kernel/cpufeature.c                | 521 ++++++++++++------
+ 5 files changed, 439 insertions(+), 303 deletions(-)
+
 -- 
 2.40.1
 
