@@ -2,126 +2,161 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B61A8C0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 23:46:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 165EDC3DA40
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 23:57:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbjGNXq3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 19:46:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50356 "EHLO
+        id S229601AbjGNX47 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 19:56:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjGNXq2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 19:46:28 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24813A93;
-        Fri, 14 Jul 2023 16:46:27 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36ELlPJL013025;
-        Fri, 14 Jul 2023 23:45:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=wUjJXOLQQaP2ZEAprH4fQWl8uZ95OgFaQHeNSlopaBw=;
- b=jC/Ci3XaraVH2SUoMHwH/1LRum615P+g1b1DbzCpu8GEeJWjXs/J8ix+SyPJ2TplrYxC
- MhVHOcWoa5KRwaRsgcB3YLcQNUyHB1qRE1PW7rwWnedwQrZ/YnHEt8SmlKXYJKE/BQnz
- GtWuHs99WiWILPkSZYGoj2HMS2YqeeEv1n7rJvqwwN3qZ6PkKbMkVwRafw99JmYaLzbb
- 9Ha6B7t1CvrCkQuBBECDi1K7XCRId7y8rNU4peMiSr02JsRtxlFR0WvkdGVvQZjP+Ocn
- XQlqFxjV1CzVmAETG9Z39Cni9dOcsZVJzSQTzR9sF8RAWee+nT4BfNwcBq6SXXRGGHud Kg== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rtpubb1qu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 14 Jul 2023 23:45:33 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36ENjW4e001624
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 14 Jul 2023 23:45:32 GMT
-Received: from [10.110.114.79] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 14 Jul
- 2023 16:45:31 -0700
-Message-ID: <52650970-de78-764f-28e2-ee0115b7d5c6@quicinc.com>
-Date:   Fri, 14 Jul 2023 16:45:28 -0700
+        with ESMTP id S229455AbjGNX46 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 19:56:58 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 317573A95;
+        Fri, 14 Jul 2023 16:56:57 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+        id 7335221C4688; Fri, 14 Jul 2023 16:56:56 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7335221C4688
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1689379016;
+        bh=55GL66P8Iq71LDl/wSLZ+IYTZ6btVclWUBP4727ThRM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AKVTgQCUWoa+NO1kegUiZiU3vjAzVsrbk+5FDPZI3It2c1vylgnJYSBa47ruMgJnL
+         w6yL2PZSPw5z6/2js00CimaEgCQTc8kqGyDTHgJXT74S+x4epf9KEj8ajgO7MsuqPE
+         O2sBiqkUBD047ZJkwQ81OnXZ7aDN1pjUo7X57ozQ=
+Date:   Fri, 14 Jul 2023 16:56:56 -0700
+From:   Fan Wu <wufan@linux.microsoft.com>
+To:     Paul Moore <paul@paul-moore.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, audit@vger.kernel.org,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [PATCH RFC v10 5/17] ipe: introduce 'boot_verified' as a trust
+  provider
+Message-ID: <20230714235656.GD15267@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1687986571-16823-6-git-send-email-wufan@linux.microsoft.com>
+ <7b0f16fd49fb3490af1018eba986d0e4.paul@paul-moore.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
- support
-From:   Trilok Soni <quic_tsoni@quicinc.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        "Alexander Shishkin" <alexander.shishkin@linux.intel.com>
-CC:     Greg KH <gregkh@linuxfoundation.org>,
-        Mukesh Ojha <quic_mojha@quicinc.com>, <corbet@lwn.net>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <keescook@chromium.org>,
-        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <andy.shevchenko@gmail.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <2023062814-chance-flounder-f002@gregkh>
- <CAL_JsqLO9yey2-4FcWsaGxijiS6hGL0SH9VoMuiyei-u9=Cv=w@mail.gmail.com>
- <CACRpkda3CJ7G4-wDPkWmzg6nyCoEfG+u2cQH6KXWNjbftd90ow@mail.gmail.com>
- <355de4c7-180d-4edd-b6fd-9c8e29e40e42@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <355de4c7-180d-4edd-b6fd-9c8e29e40e42@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: jXG6FgGFtb_gNPqZH6g1IhhZEKBI1bZD
-X-Proofpoint-GUID: jXG6FgGFtb_gNPqZH6g1IhhZEKBI1bZD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-14_11,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- priorityscore=1501 spamscore=0 mlxlogscore=999 bulkscore=0 phishscore=0
- suspectscore=0 adultscore=0 malwarescore=0 clxscore=1015
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307140216
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7b0f16fd49fb3490af1018eba986d0e4.paul@paul-moore.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/5/2023 10:29 AM, Trilok Soni wrote:
-> On 7/4/2023 2:27 AM, Linus Walleij wrote:
->> On Thu, Jun 29, 2023 at 1:12 AM Rob Herring <robh+dt@kernel.org> wrote:
->>
->>> My bigger issue with this whole series is what would this all look
->>> like if every SoC vendor upstreamed their own custom dumping
->>> mechanism. That would be a mess. (I have similar opinions on the
->>> $soc-vendor hypervisors.)
->>
->> I agree with Rob's stance.
->>
->> I think it would be useful to get input from the hwtracing developers
->> (Alexander and Mathieu) who faced this "necessarily different" issue
->> with all the hwtrace mechanisms and found a way out of it. I suspect
->> they can have an idea of how this should be abstracted.
+On Sat, Jul 08, 2023 at 12:23:02AM -0400, Paul Moore wrote:
+> On Jun 28, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
+> > 
+> > IPE is designed to provide system level trust guarantees, this usually
+> > implies that trust starts from bootup with a hardware root of trust,
+> > which validates the bootloader. After this, the bootloader verifies the
+> > kernel and the initramfs.
+> > 
+> > As there's no currently supported integrity method for initramfs, and
+> > it's typically already verified by the bootloader, introduce a property
+> > that causes the first superblock to have an execution to be "pinned",
+> > which is typically initramfs.
+> > 
+> > When the "pinned" device is unmounted, it will be "unpinned" and
+> > `boot_verified` property will always evaluate to false afterward.
+> > 
+> > We use a pointer with a spin_lock to "pin" the device instead of rcu
+> > because rcu synchronization may sleep, which is not allowed when
+> > unmounting a device.
+> > 
+> > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> > ---
+> >  security/ipe/eval.c          | 72 +++++++++++++++++++++++++++++++++++-
+> >  security/ipe/eval.h          |  2 +
+> >  security/ipe/hooks.c         | 12 ++++++
+> >  security/ipe/hooks.h         |  2 +
+> >  security/ipe/ipe.c           |  1 +
+> >  security/ipe/policy.h        |  2 +
+> >  security/ipe/policy_parser.c | 37 +++++++++++++++++-
+> >  7 files changed, 126 insertions(+), 2 deletions(-)
 > 
-> Any mailing list you suggest we expand to so that we get inputs from the 
-> hwtracing developers and maintainers or just look into the MAINTAINERS 
-> file and start an email thread?
+> The compilation errors continue into this patch.
 > 
-> We are fine to submit the abstract for the LPC in next two weeks, but 
-> prefer to have lot of good discussion before it on the mailing list, so 
-> that we have code to talk about in LPC.
+Sorry again for the header file problem.
 
-We have submitted abstract at LPC MC. Let's continue the discussion here 
-though.
+> > diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
+> > index 27e5767480b0..28c14adfe6d2 100644
+> > --- a/security/ipe/policy_parser.c
+> > +++ b/security/ipe/policy_parser.c
+> > @@ -265,6 +265,12 @@ static enum ipe_action_type parse_action(char *t)
+> >  	return match_token(t, action_tokens, args);
+> >  }
+> >  
+> > +static const match_table_t property_tokens = {
+> > +	{__IPE_PROP_BOOT_VERIFIED_FALSE,	"boot_verified=FALSE"},
+> > +	{__IPE_PROP_BOOT_VERIFIED_TRUE,		"boot_verified=TRUE"},
+> > +	{__IPE_PROP_INVALID,			NULL}
+> > +};
+> > +
+> >  /**
+> >   * parse_property - Parse the property type given a token string.
+> >   * @t: Supplies the token string to be parsed.
+> > @@ -277,7 +283,36 @@ static enum ipe_action_type parse_action(char *t)
+> >   */
+> >  static int parse_property(char *t, struct ipe_rule *r)
+> >  {
+> > -	return -EBADMSG;
+> > +	substring_t args[MAX_OPT_ARGS];
+> > +	struct ipe_prop *p = NULL;
+> > +	int rc = 0;
+> > +	int token;
+> > +
+> > +	p = kzalloc(sizeof(*p), GFP_KERNEL);
+> > +	if (!p)
+> > +		return -ENOMEM;
+> > +
+> > +	token = match_token(t, property_tokens, args);
+> > +
+> > +	switch (token) {
+> > +	case __IPE_PROP_BOOT_VERIFIED_FALSE:
+> > +	case __IPE_PROP_BOOT_VERIFIED_TRUE:
+> > +		p->type = token;
+> > +		break;
+> > +	case __IPE_PROP_INVALID:
+> 
+> You generally don't need to explicitly specify a case if the code
+> immediately falls through to 'default'.
+> 
+Got it, I will remove this line.
 
-Mukesh, do you want to expand the lists as necessary to see if other 
-soc-vendors are having any inputs here? May be add Exynos or MTK kernel 
-mailing lists + linux-kernel? I don't know if anyone will respond or 
-not, but let's try.
+> > +	default:
+> > +		rc = -EBADMSG;
+> > +		break;
+> > +	}
+> > +	if (rc)
+> > +		goto err;
+> > +	list_add_tail(&p->next, &r->props);
+> > +
+> > +out:
+> > +	return rc;
+> > +err:
+> > +	kfree(p);
+> > +	goto out;
+> 
+> Once again, don't use a goto when the jump destination simply does a
+> return, do the return directly.
+> 
+Sure, I will replace the goto with return.
 
----Trilok Soni
-
+-Fan
+> >  }
+> >  
+> >  /**
+> > -- 
+> > 2.25.1
+> 
+> --
+> paul-moore.com
