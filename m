@@ -2,77 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C01EC001DE
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 18:19:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EACDC0015E
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 18:29:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236771AbjGNSTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 14:19:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37944 "EHLO
+        id S236851AbjGNS3o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 14:29:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236739AbjGNSTD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 14:19:03 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CF11BD;
-        Fri, 14 Jul 2023 11:19:02 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 669CA5BF;
-        Fri, 14 Jul 2023 18:19:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 669CA5BF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689358742; bh=kKXWA+c2Cm/Sw1VCTU1wLREs010/IyM3OtFfP0eC0lc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=otSdXOsZUpCOtpqFHl615W5pfjTrD/1DfP4VQa7iLzHprdJvvZZ6lfyDA0VHM68Za
-         xTd4HNpMWsioqpUCTwBC5E5Np5pd5DW5n1YrTlfUBkz03+pbuZ1FcQY+/biRpxumtz
-         HMNM58WSKaP4EKoqIgBYCgThpGiK61mokZ6FlE38kmOHY27CU6MzdgQ1HX+gv6TMM8
-         eg8pVaAqw6M54TjWyDrot6dvdV8Gp4IYmhr6Ozf6yOXM6M4p6hm9IcXuu5nwZJdMI/
-         WNaoZ27O/Ue8/WfCwTxJ925b4Ae3PLeMFFsHEDNB1J7SzheH21YKfAtgo0ly2Pj8iM
-         7O1wyA8hfvdeQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH docs] docs: maintainers: mention tag -s for signed tags
-In-Reply-To: <20230713230606.1505458-1-kuba@kernel.org>
-References: <20230713230606.1505458-1-kuba@kernel.org>
-Date:   Fri, 14 Jul 2023 12:19:01 -0600
-Message-ID: <87jzv21hm2.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain
+        with ESMTP id S236560AbjGNS3n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 14:29:43 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4572026BB
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 11:29:42 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-cbb6c4e5608so875487276.3
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 11:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689359381; x=1691951381;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yxAUfh9tXsKn2HpY20y1qdPrUCx+3NBgZb4IkMtE0Gs=;
+        b=mRXoMTCmgDEUqGGQOSIsn5uuIWxzrKXnwuch52uQZkXJzVeF5h7KiOw042B2VG4MjP
+         Ud668hnCaHqrAsJelWng9Y2s3bZEVDGgCwmtA+RKaeDYCfKMRATcF36o9bwXZSjLJXmD
+         xGwtxtYrORJWP/GtvcdJ6DB3nWNbNp1NNsvwoy5dkJJkXV1mjG4ZyIAPBxa0ZeJy47wC
+         lRAwtwRfLuaZHPN6fZIxopQbbbLZSH+r7pelwbYbHYvr6TN2ykZ5n8m7RT6Rx1PDAv41
+         itfOO1Y5wnapfiZ17WHQSzoXlIaDEkigdLEJ+n13E7rjAc5bMhn9nmE0OvXONw09Gqtv
+         LCkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689359381; x=1691951381;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yxAUfh9tXsKn2HpY20y1qdPrUCx+3NBgZb4IkMtE0Gs=;
+        b=QJbgCVHkPK+HBZxchY+5sawW9uMQWjZjzBSMwtV1U932yeJnlbvF9oEYGfYYNH2v2e
+         nc2Ujq2GvqbCxUm5IdgXO0uyd5FA4qY5pwbz36m3p7z8FAPz4E7weQx3OUa8bKnPl5iJ
+         lRkCiM3aDpui7w07oRWyu33deSqmzDBsnTOzDVBzJdSxOHWdPQUI//EJNZdUkdfThm6i
+         T8/XW3/5YqCbiHz2thoNbdCapxuYxMwMBPEGyOwq+1WxRqnOVqLid5qDp4ITcs9YUvKy
+         eBrOHe2IUi3wB98oauL46hekmdsRn2QJSHS33uUf4aSlmqDIeN0oZ/KPZKeF5d22oNBr
+         kZnw==
+X-Gm-Message-State: ABy/qLaXxBNJLrDSSbLZM9DqkAwf1pcQJVwe0aIMcRUKNv77ngrb2eUF
+        Ek315pD+Rfy5DZhmLMubOfrfQB+vp0/bgLZMevr3
+X-Google-Smtp-Source: APBJJlHJ/kyB4gtYJRA2tBe4+IdzDMyqED2Fs1IG5ccfZHYtkPxqRy1tdgRGDnnyoyPph5LKlnKkyWQ84gNPe3dqgbnb
+X-Received: from axel.svl.corp.google.com ([2620:15c:2a3:200:eeac:4e26:b121:5ef2])
+ (user=axelrasmussen job=sendgmr) by 2002:a25:4157:0:b0:c10:8d28:d3ae with
+ SMTP id o84-20020a254157000000b00c108d28d3aemr26174yba.8.1689359381331; Fri,
+ 14 Jul 2023 11:29:41 -0700 (PDT)
+Date:   Fri, 14 Jul 2023 11:29:32 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230714182932.2608735-1-axelrasmussen@google.com>
+Subject: [PATCH mm-unstable fix] mm: userfaultfd: check for start + len
+ overflow in validate_range: fix
+From:   Axel Rasmussen <axelrasmussen@google.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Christian Brauner <brauner@kernel.org>,
+        David Hildenbrand <david@redhat.com>,
+        Gaosheng Cui <cuigaosheng1@huawei.com>,
+        Huang Ying <ying.huang@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        James Houghton <jthoughton@google.com>,
+        Jiaqi Yan <jiaqiyan@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Nadav Amit <namit@vmware.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "T.J. Alumbaugh" <talumbau@google.com>,
+        Yu Zhao <yuzhao@google.com>,
+        ZhangPeng <zhangpeng362@huawei.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        syzbot+42309678e0bc7b32f8e9@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+This commit removed an extra check for zero-length ranges, and folded it
+into the common validate_range() helper used by all UFFD ioctls.
 
-> The documentation talks about -u and how to configure the default
-> key. It does not mention that once the default key is set one
-> should use the -s flag. Which is likely what most people end up
-> using.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  Documentation/maintainer/configure-git.rst | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/maintainer/configure-git.rst b/Documentation/maintainer/configure-git.rst
-> index ec0ddfb9cdd3..a054de0c50dc 100644
-> --- a/Documentation/maintainer/configure-git.rst
-> +++ b/Documentation/maintainer/configure-git.rst
-> @@ -7,9 +7,10 @@ This chapter describes maintainer level git configuration.
->  
->  Tagged branches used in :ref:`Documentation/maintainer/pull-requests.rst
->  <pullrequests>` should be signed with the developers public GPG key. Signed
-> -tags can be created by passing the ``-u`` flag to ``git tag``. However,
-> -since you would *usually* use the same key for the same project, you can
-> -set it once with
-> +tags can be created by passing ``-u <key-id>`` to ``git tag``. However,
-> +since you would *usually* use the same key for the project, you can
-> +set it in the configuration and use the ``-s`` flag. To set the default
-> +``key-id`` use
->  ::
+It failed to notice though that UFFDIO_COPY *only* called validate_range
+on the dst range, not the src range. So removing this check actually let
+us proceed with zero-length source ranges, eventually hitting a BUG
+further down in the call stack.
 
-Applied, thanks.
+The correct fix seems clear: call validate_range() on the src range too.
 
-jon
+Other ioctls are not affected by this, as they only have one range, not
+two (src + dst).
+
+Reported-by: syzbot+42309678e0bc7b32f8e9@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=42309678e0bc7b32f8e9
+Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+---
+ fs/userfaultfd.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+index 53a7220c4679..36d233759233 100644
+--- a/fs/userfaultfd.c
++++ b/fs/userfaultfd.c
+@@ -1759,6 +1759,9 @@ static int userfaultfd_copy(struct userfaultfd_ctx *ctx,
+ 			   sizeof(uffdio_copy)-sizeof(__s64)))
+ 		goto out;
+ 
++	ret = validate_range(ctx->mm, uffdio_copy.src, uffdio_copy.len);
++	if (ret)
++		goto out;
+ 	ret = validate_range(ctx->mm, uffdio_copy.dst, uffdio_copy.len);
+ 	if (ret)
+ 		goto out;
+-- 
+2.41.0.255.g8b1d071c50-goog
+
