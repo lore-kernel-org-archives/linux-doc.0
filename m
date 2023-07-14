@@ -2,208 +2,194 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D74C001DF
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 21:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E87B9EB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 21:53:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229666AbjGNVrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 17:47:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49082 "EHLO
+        id S229611AbjGNVxz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 17:53:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbjGNVrG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 17:47:06 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 514B335A8;
-        Fri, 14 Jul 2023 14:47:03 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id B253220ABD64; Fri, 14 Jul 2023 14:47:02 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B253220ABD64
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1689371222;
-        bh=217tuDpVmoLrkkGoJqoyVlAua3WGHBs8gt+hDtlnBd4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ussi8JyOA+xtDdpRzNY9B5oZVy3yuTvi/fnM4AOv1VV3uHn6NlSKNB5+9JxM4ruvn
-         jo/kQBU8khVpAFaOcEwhkjZfkxwjHKzZc/B/xDo9kfU1d0QD0MrsJe2TZ2nrmWxgmf
-         mjNf6BZjR3nnivTzw6I8BsijyiefH+c8Evc1/DS4=
-Date:   Fri, 14 Jul 2023 14:47:02 -0700
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH RFC v10 4/17] ipe: add LSM hooks on execution and kernel
-  read
-Message-ID: <20230714214702.GC15267@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1687986571-16823-5-git-send-email-wufan@linux.microsoft.com>
- <cbe877b3905033d2b8c7c92e6d0cad4e.paul@paul-moore.com>
+        with ESMTP id S229452AbjGNVxx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 17:53:53 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB37B1720;
+        Fri, 14 Jul 2023 14:53:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689371632; x=1720907632;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=yumfd8oLxM4TnDfcfw2nx16MW9FOYlFSr+mrAxuHAYY=;
+  b=Yaxpmw8qh+OSvpRke3n3eR1mi3LOWyseX2ncb/3FYE7fa8/KunqWQ+V1
+   djWTpN4UisdoqWr5nX7mCsXlXH+79SYerr7fvPLz3bG8BWcgMceS78JTP
+   rVRc8+zXHrtrOoh34ST+alTFyOCIZWoARats6G0m3LBCY6xE3rqS/WgTf
+   Bra+C7SdZ31QnIdJaHkQXwb25+wWsMt+5+YNxtAmtCzsjmTygxcGlSa2/
+   XOnw9SFobyzU+jgiCt5gho7V63POIpXceAZfJu99SxdOmEksNSFBJ9Wlu
+   ba/Ext/e6K0/7Sb31DTumE672HjxEmqokShJQxNNdzoX7+oYkJiKV3EWy
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="369135311"
+X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
+   d="scan'208";a="369135311"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 14:53:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="722549968"
+X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
+   d="scan'208";a="722549968"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga002.jf.intel.com with ESMTP; 14 Jul 2023 14:53:51 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 14 Jul 2023 14:53:50 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 14 Jul 2023 14:53:50 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Fri, 14 Jul 2023 14:53:50 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Fri, 14 Jul 2023 14:53:49 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bN2qwsaiUJfdVjgi+GyLqTpLE5GKbuLYXaVdtjMdM2jHwPC9itIEJvLQ8RBthCAwovfVhgxKx1QaGEc3bfvyv8zJllBpgKOtsPSTrT4qBbXfCYhug8Qx31klO6XOdVhReImmlmCLkYALUe1/He/ji0yVelT9zXupKBGUa0AbERywVHwuRAwhCO1GwmUsQf0s3uVVF87KuRHHPX+F01+Q/SEzBjh/mssptGzCFlEQo3fKMVsNoksoPjgPOTC5wZ4LO8h3I4WKb9sU56jomL95YndIo6OKUTVrauPfulVPdybTl4HMVktItJW6ILAnEyj4PrEe6mvlCNA23qSgM5wTIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bxh9KuKo4rWiXddxmztRPM4BC67hexg4QBDBxS7N4Ks=;
+ b=V1Gl4XYo05F+HtTTMssnQmrbeFXGXP1snoC/AOMcYq2e31LV0zeTt5XPh7MvIqo6u1s1Td295GXqjDD6rW5th3FN9RHNxJEpT95LF0zzwZbDaAKGgaL0118uBBXC1FXPTiRfyRy94dtq3j7f4oN029QH56XX/CgcTZO+kxeiqAFiyKCgNalet8qhBR6ZwvBHYr83Vlu0WfgKWLRC0nFfFTtXcJmz8mGk5Jjpe+pQPkVV9zJv1b4m18n6Nzwc7jcMVENghXKDGNCQOSFvJ1qUa5TFBbFLQ/0ndZfZ6ZbIvr/yZ/Cj5m0JBxlvHkTlcvD1FBXOBne1WF9ZkTuu8sbh0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SJ2PR11MB8404.namprd11.prod.outlook.com (2603:10b6:a03:53f::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Fri, 14 Jul
+ 2023 21:53:42 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::3b1a:8ccf:e7e4:e9fa]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::3b1a:8ccf:e7e4:e9fa%4]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
+ 21:53:42 +0000
+Message-ID: <e051f7f9-3d51-e45c-f8d4-e3700d68aa92@intel.com>
+Date:   Fri, 14 Jul 2023 14:53:38 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+Subject: Re: [PATCH v5 6/8] x86/resctrl: Display CLOSID and RMID for the
+ resctrl groups
+Content-Language: en-US
+To:     <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>
+CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <songmuchun@bytedance.com>, <peterz@infradead.org>,
+        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
+        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
+        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
+        <sandipan.das@amd.com>, <tony.luck@intel.com>,
+        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
+        <eranian@google.com>, <christophe.leroy@csgroup.eu>,
+        <jarkko@kernel.org>, <adrian.hunter@intel.com>,
+        <quic_jiles@quicinc.com>, <peternewman@google.com>
+References: <168564586603.527584.10518315376465080920.stgit@bmoger-ubuntu>
+ <168564611100.527584.7981937236207103115.stgit@bmoger-ubuntu>
+ <94694f76-62e0-3751-3791-936db8b7e3ce@intel.com>
+ <f443880e-fad7-b61e-e832-3cd180ad3a33@amd.com>
+From:   Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <f443880e-fad7-b61e-e832-3cd180ad3a33@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW2PR16CA0064.namprd16.prod.outlook.com
+ (2603:10b6:907:1::41) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cbe877b3905033d2b8c7c92e6d0cad4e.paul@paul-moore.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SJ2PR11MB8404:EE_
+X-MS-Office365-Filtering-Correlation-Id: 083913ff-b57e-4f46-c539-08db84b4c999
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jxfWgzrogbTadTo1bS/cUhG0CO0UYtfFvFHF45mBjRAt5DpaZMj55vKan2loQixM55FfPKUNx6aRy+EIx9EAlKW4ZFzFjcWA440LLIizJc/tKGqLeAXZIKxWbAyOr794XrA8dTNLqid29WcM7Kgu6nuO2QpPbu285QEs35EzYh7vaQWhz1Gqgh3xxppHiH53IBjQvmX+CIRZmXU401rLyiv4KNENaMZqxdK4gO5BscGsuB1X71kO3gD083usmhECXImYfr2jt32VU8565HY0Vo74kmIq4cWwyqMAUou4wgSI4cO+EUbkVWCffTpA9zCs4KU4DownM5qjWJJtebp/a+KaPS1mtYD6AlNELA/KQtbyMQ+BUODT+g07TtuoySF32KtVYf9IBOmk3IXuaL7BNgTH1kG8s1cPBzq7D/ow8gIjjZbTNO4scC0Kj+sPz4oDkSAc8C/tPbcdN1VOYU9LHNfISfpSNV3yLRBQpUBomEeHnz0NDPv/E/80A+DQucJqRmJpOxmOlljRv592YXtSDdABoENMoKeGUOgmp6c8AoCbq0xqyiEP/finhdfjRLW/fNUorpJ/cCQUEqBJaC3XBfORi4CiAcOShsSACqK3ZSnPBhPv1JBa/oUwUmNj2KNsE9+JRbfgK/xCKXVS9HXO2w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(346002)(396003)(136003)(39860400002)(376002)(451199021)(2906002)(4744005)(31696002)(86362001)(36756003)(82960400001)(38100700002)(2616005)(5660300002)(26005)(6506007)(41300700001)(186003)(6512007)(6486002)(6666004)(53546011)(66476007)(66946007)(4326008)(316002)(66556008)(478600001)(8936002)(7406005)(7416002)(8676002)(44832011)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dkk0WUovKzhUY1BpLzZEVC9zZG9JRDVRYlBoQkpMUExkamdOUVdsc2RDTzZN?=
+ =?utf-8?B?YUtsUTNMZGRlc04vUmgyaVZLcEZMSk1LdCtyY2E1NFFkQS9WUFl0Z3lhYUFx?=
+ =?utf-8?B?dll3OG1MSEVtTVBqRkdZeUk4LzZBY1RiSFlDZ2tWQmRKZ1JOSUNKcE1pZDJl?=
+ =?utf-8?B?bVpQYjVSSlpSZ1FjbVpGSXRxQUNTbHBERkJCdWZmVGZZcnYvVWh2ekVHUXF5?=
+ =?utf-8?B?MDkrMUlsM3pWMmVVN01jZkR5RnQ1RVYzSFYzc2NzWmlxa1dWQVVCY1IrVVor?=
+ =?utf-8?B?cWhORDhhaWNVOExZL3dHR3RzTVNJUHlzbUhEQ3hmQkkrNWpRVEJvR3U1V3Bq?=
+ =?utf-8?B?RkVGYzJFMy8yekx5dEwweHR1OWNoL2FNSEJzOXMvSGZSSGJWWUprMnRBMUNT?=
+ =?utf-8?B?bThxT0FCSHNVaU5aUVJBK2JPY2cwaHE2aDZ3cjFwRGd2ZDFDM2MzQzloQlVF?=
+ =?utf-8?B?MCsrckFuVDJ4UjdkQWRGQkhnSjVJOEtZOGdUOEFGZ2twelo5RGMvRjRETkda?=
+ =?utf-8?B?RS9DWnZYb29YdTF6WjlscE1ISXpXZzlEdklFUzdMMlg1bjBHNWp1SjYxZUlo?=
+ =?utf-8?B?WEtIeUFKeU9xZmxGOXpjZWlUYTg2dUxCT0k3SDY5dmpka3BhOUR2dWIzSlQ2?=
+ =?utf-8?B?dnlQUWR3M09vWUlUN3AyZ0dkcnRDTVZVNXF1WDA4MExlNG85YlFGQ2ZwRmJF?=
+ =?utf-8?B?OXhsTzV3ejF4b2NLN25EcDhhRVRFUHZsMmM3SklGTUY2N09WdmZqQ2p3N3Yr?=
+ =?utf-8?B?UmRDWUZtUVoxT2M2K3NkQU1odWdsUllSOVB1T0pVb1pZZzBJbHZrQWRrTjU5?=
+ =?utf-8?B?VjRZUERZN3J3dnIxUGxYMWtjVldWaExUVUhZcUluYUV3eklXYVNxWnhETThx?=
+ =?utf-8?B?SHFEbWJMdDcwcStXWjRvYVZkWE8yNWZlb1ZFZmZOVFJDMDlGZFVzMVdWUWdV?=
+ =?utf-8?B?QlJUaGZlNE93SnM0TEN4TTU5M1p1NEtCRHI5eHVwMTFncXdJOGtLYnd5c1Jv?=
+ =?utf-8?B?Y0I0NW1YSjR4dXNzK2Y0aDBReitXcU13ZzBhRldHSXo3ano1VHByYnBMbDdx?=
+ =?utf-8?B?aHB4THBWZnJhY2pEcTM5VzgvZ2hlaVZjcVFyQ0dTNHo2ak5maGE0RUFIV2x6?=
+ =?utf-8?B?TVBDRzViSW9jQVIrak1ITzRqQmxJcWtjK3pOWVZrQm9vWlV6bW50U1I2QnA0?=
+ =?utf-8?B?L0dFYW1LZ09lcGowVVBSWVZKalBKbHQ4cXJCY0E4d1ZhMTVLVityNmwwWVE5?=
+ =?utf-8?B?Y1FQTHNDWTNpaHkyK3d2Z1hNRzFQSzJNd3BWOUxUZ3A5M1haQ1dvRHMzL21G?=
+ =?utf-8?B?Mk1QeEZFZVAvUUJ4OUxMOEZNQWcxSDNVM0poOVJTMTNFZGtMbmpCNHAyM0g4?=
+ =?utf-8?B?di9lQ0dzSGVPS1psQ2swL2pFVUpvSzMrVWpwbVVFSktQOW13MGdBeERiemRD?=
+ =?utf-8?B?MHlQL0hvUXkxNzJtYTg1RDBydUtkc29OV3lSbTdIR0tNYURGVVcyNXlVNUs1?=
+ =?utf-8?B?NkZNMGQzdG9QUk4ySDZ3VlBMQXBaUEI2ODZGcHFtcE5ET2d1OTJZdHQ5SnJY?=
+ =?utf-8?B?bGx1YkVkVkhJOElndm5JSitHWUJVcHRRK3UxZWp3YmFJZHBieUY2RzB4QnQ5?=
+ =?utf-8?B?SFZPcElMdHgzOEVvaU1ZWERZVVZZTzlGR3RSUFkrbzc1TUJBYUlZYzZUbiti?=
+ =?utf-8?B?WGExazh5R1F5OEVIK3RTMG5qdjZRUzVsWjJKYUlCdkxrbStRSks5Nm1oRGtI?=
+ =?utf-8?B?eW9nRkpHNTMxRUlhM2MrZlJFQmpVMktzNktaK2JlSnBLSVlseGdrb1ljUTdO?=
+ =?utf-8?B?b1VneitXWkRROGJnZVU3UlBhVFovMjkwNnNwVGtWMnV4L3phODY2UHk4RVFx?=
+ =?utf-8?B?d2p2SDFzSDRpbDdtWjFWU21rSjFZQ2RlaUtqWk53UVQvODZYb2tGdWtjeEVa?=
+ =?utf-8?B?MkxDYmpMaEVFZzRlcXZJQWFYQ0N5MjI1cHJ4cnEwQS82bHA0ZzErWjhiRW9p?=
+ =?utf-8?B?ZVRZYjVLVFhHYjJXdVh1amgxV2Q1OXZVdnRIY0p5emUxanVMQklzenQyV2FU?=
+ =?utf-8?B?K211ZG1kRGxaU0FwWngyVUpCM2NQQklTdmZ4aWtDUlRJOTR1OFRSdUtBVlVK?=
+ =?utf-8?B?TldUZGxsYWk1WnU3NDhQWUxzSjdSVFVvd0N1cHlwTTg0Q3QxbzU4SVFMQ1B0?=
+ =?utf-8?B?U1E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 083913ff-b57e-4f46-c539-08db84b4c999
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 21:53:41.6977
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gcoTuV+A3S5wxoV/AOmIGOj1JCCV9b+HzQ8ooZTFzNi5U4lVKJicPVNznSDoriX58VFOQ13JTUS66Yz+GkAY16yoMxPKVZT0hUvPMPiZ670=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8404
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 08, 2023 at 12:23:02AM -0400, Paul Moore wrote:
-> On Jun 28, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
-> > 
-> > IPE's initial goal is to control both execution and the loading of
-> > kernel modules based on the system's definition of trust. It
-> > accomplishes this by plugging into the security hooks for
-> > bprm_check_security, file_mprotect, mmap_file, kernel_load_data,
-> > and kernel_read_data.
-> > 
-> > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> > ---
-> >  security/ipe/eval.c  |  14 ++++
-> >  security/ipe/eval.h  |   1 +
-> >  security/ipe/hooks.c | 182 +++++++++++++++++++++++++++++++++++++++++++
-> >  security/ipe/hooks.h |  25 ++++++
-> >  security/ipe/ipe.c   |   6 ++
-> >  5 files changed, 228 insertions(+)
-> >  create mode 100644 security/ipe/hooks.c
-> >  create mode 100644 security/ipe/hooks.h
-> 
-> Adding the 'hooks.h' header allows for much of code added in the
-> previous patches to finally compile and there are a number of errors,
-> too many to include here.  Please fix those and ensure that each
-> point in the patchset compiles cleanly.
-> 
-Sorry again for the mistake I made here.
+Hi Babu,
 
-> > diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
-> > new file mode 100644
-> > index 000000000000..d896a5a474bc
-> > --- /dev/null
-> > +++ b/security/ipe/hooks.c
-> > @@ -0,0 +1,182 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) Microsoft Corporation. All rights reserved.
-> > + */
-> > +
-> > +#include <linux/fs.h>
-> > +#include <linux/types.h>
-> > +#include <linux/binfmts.h>
-> > +#include <linux/mman.h>
-> > +
-> > +#include "ipe.h"
-> > +#include "hooks.h"
-> > +#include "eval.h"
-> > +
-> > +/**
-> > + * ipe_bprm_check_security - ipe security hook function for bprm check.
-> > + * @bprm: Supplies a pointer to a linux_binprm structure to source the file
-> > + *	  being evaluated.
-> > + *
-> > + * This LSM hook is called when a binary is loaded through the exec
-> > + * family of system calls.
-> > + * Return:
-> > + * *0	- OK
-> > + * *!0	- Error
-> > + */
-> > +int ipe_bprm_check_security(struct linux_binprm *bprm)
-> > +{
-> > +	struct ipe_eval_ctx ctx = { 0 };
-> 
-> It's up to you, but when you have a fequently used initializer like
-> this it is often wrapped in a macro:
-> 
->   #define IPE_EVAL_CTX_INIT ((struct ipe_eval_ctx){ 0 })
-> 
-> ... so that you can write the variable decalaration like this:
-> 
->   struct ipe_eval_ctx ctx = IPE_EVAL_CTX_INIT;
-> 
-> It's not a requirement, it just tends to look a little cleaner and
-> should you ever need to change the initializer it makes your life
-> a lot easier.
-> 
-Yes I agree this looks way better, I will update all the context init.
+On 7/12/2023 12:36 PM, Moger, Babu wrote:
+> On 7/7/23 16:45, Reinette Chatre wrote:
+>> On 6/1/2023 12:01 PM, Babu Moger wrote:
 
-> > +	build_eval_ctx(&ctx, bprm->file, __IPE_OP_EXEC);
-> > +	return ipe_evaluate_event(&ctx);
-> > +}
-> > +
-> > +/**
-> > + * ipe_mmap_file - ipe security hook function for mmap check.
-> > + * @f: File being mmap'd. Can be NULL in the case of anonymous memory.
-> > + * @reqprot: The requested protection on the mmap, passed from usermode.
-> > + * @prot: The effective protection on the mmap, resolved from reqprot and
-> > + *	  system configuration.
-> > + * @flags: Unused.
-> > + *
-> > + * This hook is called when a file is loaded through the mmap
-> > + * family of system calls.
-> > + *
-> > + * Return:
-> > + * * 0	- OK
-> > + * * !0	- Error
-> > + */
-> > +int ipe_mmap_file(struct file *f, unsigned long reqprot, unsigned long prot,
-> > +		  unsigned long flags)
+>>
+>> Could you please add a snippet to explain the file naming choice? Just a
+>> mention that this is done in support of other architectures that do not use
+>> "CLOSID" and "RMID". 
+> Adding this.
 > 
-> Since @reqprot is always going to be unused in this function, you
-> might want to mark it as such to help prevent compiler
-> warnings/errors, for example:
+> Other architectures do not use "CLOSID" and "RMID". Kept the names
+> ctrl_hw_id and mon_hw_id to refer "CLOSID" and "RMID" respectively in an
+> effort to keep the naming generic.
 > 
->  unsigned long reqprot __always_unused
-> 
-Thanks for telling me this useful mark! I will add it.
 
--Fan
-> > +{
-> > +	struct ipe_eval_ctx ctx = { 0 };
-> > +
-> > +	if (prot & PROT_EXEC) {
-> > +		build_eval_ctx(&ctx, f, __IPE_OP_EXEC);
-> > +		return ipe_evaluate_event(&ctx);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/**
-> > + * ipe_file_mprotect - ipe security hook function for mprotect check.
-> > + * @vma: Existing virtual memory area created by mmap or similar.
-> > + * @reqprot: The requested protection on the mmap, passed from usermode.
-> > + * @prot: The effective protection on the mmap, resolved from reqprot and
-> > + *	  system configuration.
-> > + *
-> > + * This LSM hook is called when a mmap'd region of memory is changing
-> > + * its protections via mprotect.
-> > + *
-> > + * Return:
-> > + * * 0	- OK
-> > + * * !0	- Error
-> > + */
-> > +int ipe_file_mprotect(struct vm_area_struct *vma, unsigned long reqprot,
-> 
-> See my comment above about @reqprot.
-> 
-> > +		      unsigned long prot)
-> > +{
-> > +	struct ipe_eval_ctx ctx = { 0 };
-> > +
-> > +	/* Already Executable */
-> > +	if (vma->vm_flags & VM_EXEC)
-> > +		return 0;
-> > +
-> > +	if (prot & PROT_EXEC) {
-> > +		build_eval_ctx(&ctx, vma->vm_file, __IPE_OP_EXEC);
-> > +		return ipe_evaluate_event(&ctx);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> 
-> --
-> paul-moore.com
+Looks good. I would just replace "Kept" with "Use" since this
+change introduces these terms.
+
+Reinette
