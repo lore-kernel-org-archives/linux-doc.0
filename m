@@ -2,94 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 103B0EB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 19:42:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D31EB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 19:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236487AbjGNTmp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 15:42:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44962 "EHLO
+        id S236477AbjGNTpM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 15:45:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236491AbjGNTmn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 15:42:43 -0400
+        with ESMTP id S236203AbjGNTpL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 15:45:11 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1A492D57;
-        Fri, 14 Jul 2023 12:42:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D7822D57;
+        Fri, 14 Jul 2023 12:45:10 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5F4505BF;
-        Fri, 14 Jul 2023 19:42:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5F4505BF
+        by ms.lwn.net (Postfix) with ESMTPSA id E45505BF;
+        Fri, 14 Jul 2023 19:45:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E45505BF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689363760; bh=qTA+xiM0pkDKeWyhq+FQrKcNOUSzMCqp5p91kKbMUfQ=;
+        t=1689363910; bh=9OVkrDxVo6A8WjUDU3AQWi2pZQRzBF2hWL+uV9EMi1g=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=UGWlXRaxZUbXF9H6+XtSEFPouFI4NyyPR8Y88/wcsuUFNbqMNk6/yuQpZUubYJKF9
-         HdNQj54eM3yRvEjMDyITBcyAkhQF/GsBZHZsZACWiJPggUGoJ6NVDxwR3wIgZSz5H8
-         nFz7+nwTXsTLKMt2jA5jQkcudaz3z8YyKeeMpGWoUaB2hxKFk9Gtw5lWPemLS1YgGX
-         GawuZjQ+djVORVsnamG9PjULh8gc+CxXCpN/G90LXSglnltZlFsXs/Gdrctq4OSWR0
-         2Dl5bQ7R63KwRud8BatHLNYJa7LS5OGF3oEn++oqsP5Pl7rn/kLXBi0Um8aFTxbA8d
-         u4/rU3tPM+o3Q==
+        b=ANq8x1n7PadXgahfP2nzKXNTDfFTWa3BbWdyMolgk4uSDitLr7TMl5M3g4+i4dE91
+         hsR/poL7G8l/tEz9c8zFsSrinOLJ1ERiwfYyYtaPmBfGvk7bcqKij055X0aQ5+cxDS
+         GJk4/0V29H8vBoiB9hFdHGPITm9BgXKx/+47obuQFhv/Wld+LiMpPVByuKtlkYrP5t
+         Fy+H9yhpoxdxSCusZ7kArhtO+2TiHZiC6/m4KwowWsPbZP1LmSO1V4qV88ChcZAAaV
+         Gsdla5Jx3eUxySSW5tswO35JrVB+w/jdpI6On+oAdoFamUP8hZvdIfbJiM0mVO3nV3
+         Io/hypcwkBDDA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Avadhut Naik <avadhut.naik@amd.com>
-Cc:     linux-doc@vger.kernel.org, carlos.bilbao@amd.com,
-        linux-kernel@vger.kernel.org, avadnaik@amd.com
-Subject: Re: [PATCH v2 1/1] docs/sp_SP: Add translation of
- process/researcher-guidelines
-In-Reply-To: <20230621171457.443362-2-avadhut.naik@amd.com>
-References: <20230621171457.443362-1-avadhut.naik@amd.com>
- <20230621171457.443362-2-avadhut.naik@amd.com>
-Date:   Fri, 14 Jul 2023 13:42:39 -0600
-Message-ID: <87v8emxosw.fsf@meer.lwn.net>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Deming Wang <wangdeming@inspur.com>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v3] Documentation/highmem: Add information about
+ kmap_local_folio()
+In-Reply-To: <20230708121719.8270-1-fmdefrancesco@gmail.com>
+References: <20230708121719.8270-1-fmdefrancesco@gmail.com>
+Date:   Fri, 14 Jul 2023 13:45:09 -0600
+Message-ID: <87r0paxooq.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Avadhut Naik <avadhut.naik@amd.com> writes:
+"Fabio M. De Francesco" <fmdefrancesco@gmail.com> writes:
 
-> From: Avadhut Naik <Avadhut.Naik@amd.com>
+> The differences between kmap_local_page() and kmap_local_folio() consist
+> only in the first taking a pointer to a page and the second taking two
+> arguments, a pointer to a folio and the byte offset within the folio which
+> identifies the page.
 >
-> Translate Documentation/process/researcher-guidelines.rst into Spanish
+> The two API's can be explained at the same time in the "Temporary Virtual
+> Mappings" section of the Highmem's documentation.
 >
-> Signed-off-by: Avadhut Naik <avadhut.naik@amd.com>
-> Reviewed-By: Carlos Bilbao <carlos.bilbao@amd.com>
+> Add information about kmap_local_folio() in the same subsection that
+> explains kmap_local_page().
+>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: Mike Rapoport <rppt@linux.ibm.com>
+> Cc: Peter Collingbourne <pcc@google.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Will Deacon <will@kernel.org>
+> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> Reviewed-by: Mike Rapoport (IBM) <rppt@kernel.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > ---
->  .../translations/sp_SP/process/index.rst      |   1 +
->  .../sp_SP/process/researcher-guidelines.rst   | 152 ++++++++++++++++++
->  2 files changed, 153 insertions(+)
->  create mode 100644 Documentation/translations/sp_SP/process/researcher-guidelines.rst
+>
+> v2->v3:	Replaced "request" with "create". Noticed by Randy (thanks),
+> 	fixed by Matthew (again thanks).
+> 	https://lore.kernel.org/lkml/970a881a-cdaf-2568-657a-3b93b0273338@infradead.org/
+>
+> v1-v2:	I had Cc'ed everybody but Andrew :-( Sorry, it's now fixed.
+> 	In the meantime, I collected the review tags by Ira and Mike
+> 	(thanks to both of you). All entries are listed using a simple
+> 	ascending lexycographycal order based on first names.
+>
+>  Documentation/mm/highmem.rst | 27 +++++++++++++++------------
+>  1 file changed, 15 insertions(+), 12 deletions(-)
 
-I've  applied this, with one tweak:
-
-> diff --git a/Documentation/translations/sp_SP/process/index.rst b/Documentation/translations/sp_SP/process/index.rst
-> index 0bdeb1eb4403..ed6851892661 100644
-> --- a/Documentation/translations/sp_SP/process/index.rst
-> +++ b/Documentation/translations/sp_SP/process/index.rst
-> @@ -20,3 +20,4 @@
->     programming-language
->     deprecated
->     adding-syscalls
-> +   researcher-guidelines
-> diff --git a/Documentation/translations/sp_SP/process/researcher-guidelines.rst b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-> new file mode 100644
-> index 000000000000..9d374c70348c
-> --- /dev/null
-> +++ b/Documentation/translations/sp_SP/process/researcher-guidelines.rst
-> @@ -0,0 +1,152 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: :ref:`Documentation/process/researcher-guidelines.rst`
-> +:Translator: Avadhut Naik <avadhut.naik@amd.com>
-> +
-> +.. _sp_researcher_guidelines:
-
-I really don't know how this business of adding useless labels at the
-top of documents got started, but I'd like it to stop...this label isn't
-used anywhere and won't be, so I took it out.
-
-(Yes, the original has such a label, it shouldn't be there either).
-
-Thanks,
+Applied, thanks.
 
 jon
