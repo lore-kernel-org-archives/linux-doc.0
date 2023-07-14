@@ -2,145 +2,122 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2EF1EB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 06:24:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83338EB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 07:14:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234938AbjGNGYo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 02:24:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53162 "EHLO
+        id S235284AbjGNHOI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 03:14:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234619AbjGNGYn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 02:24:43 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B38D22D57;
-        Thu, 13 Jul 2023 23:24:41 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qKCEI-0004vU-Ix; Fri, 14 Jul 2023 08:24:38 +0200
-Message-ID: <f61a12c6-9587-9cb4-122e-dc3a74e58bd1@leemhuis.info>
-Date:   Fri, 14 Jul 2023 08:24:38 +0200
+        with ESMTP id S235308AbjGNHOC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 03:14:02 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20DE326B1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 00:13:59 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3142970df44so1621626f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 00:13:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689318837; x=1691910837;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8K9L3dLhDzQTv7y7e0RVrZSX+FOOeLwX47IYpkosCNQ=;
+        b=OC+YjhwBAquXA8bRTVqSc71oDkaWMW+X/CVE2b19QZwxMyZMKHAvPRMmvfaxAc4qjH
+         wS7bNaVBc65aNTvjFBCqH8OBSvvBxi62KVint4c5u3f5LPVie/jV2eC+Cnb++NzUzrAA
+         1WmPu1XVuNiQma+6ojXOFZSB2R3c3FD2ObygN3AbnrskivYYp264Mt3hLNiGN3o7ziS9
+         Zp5AMIbOkQqdPvl3/2powKYJl/VMwFZs6r91+UKudYvK4oe5VoTtD+WXIvp3zAO3GKEB
+         KYIRZB0B2uxWT66+BqOdlF2MALmKB4mznl4YuvMyV5H2X5vRACwCik0jnwWm2Fe4fqtO
+         tEZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689318837; x=1691910837;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8K9L3dLhDzQTv7y7e0RVrZSX+FOOeLwX47IYpkosCNQ=;
+        b=hQ795LFJBsccRXxCU4aWrvIXAM1t9BxHw/echnfNHSMU3M+nXADYXhy+ycR7qD8ofR
+         ebxvBFe0rgCKgYdXEq7f/rnA4mqXZYk4+qnlWnGUFwLjk952Nn/2+BvjMwMMMAblFYvI
+         bmiU2iOh/lniJgByQJynkk/lwUKKxNdAg0U+Itfuio7KXoDAlYiGfOjBeExkEqEJWMix
+         JzGb9VzA1WqL+8tW7bTbbu1TvQ/09PfMRj0wAXjKV1gdKEQe3Glu/3FAyUcz+8Ke3GQT
+         Vkg56Q49e5PT0VC61eTm03nULwMd9JLGDedZEbO7afmnxFctPo7xnkJFj3GsbddC2+5I
+         Vz4g==
+X-Gm-Message-State: ABy/qLZlJJt5XKhTI5dImzdO94ydIbX0zAPtcZZ+DPAC1RoADgFo2pV1
+        h42QdPD6v8sGG23k1hyDYmY9/g==
+X-Google-Smtp-Source: APBJJlFlh8jTiL5Fqlv9Labt5kPhUqu1Mydh9K2EVtifJxi6rOHGarAs9UJGSqlz51WFJVdcIGWexg==
+X-Received: by 2002:a5d:67c9:0:b0:313:ece8:e05c with SMTP id n9-20020a5d67c9000000b00313ece8e05cmr3230412wrw.33.1689318837343;
+        Fri, 14 Jul 2023 00:13:57 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id f14-20020a5d58ee000000b003143c532431sm10042716wrd.27.2023.07.14.00.13.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jul 2023 00:13:56 -0700 (PDT)
+Message-ID: <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
+Date:   Fri, 14 Jul 2023 09:13:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Content-Language: en-US, de-DE
-To:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
-Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
-References: <20230713223432.1501133-1-kuba@kernel.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
- time maintainers
-In-Reply-To: <20230713223432.1501133-1-kuba@kernel.org>
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+To:     =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
+        Billy Tsai <billy_tsai@aspeedtech.com>
+References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1689315881;382a6c3c;
-X-HE-SMSGID: 1qKCEI-0004vU-Ix
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14.07.23 00:34, Jakub Kicinski wrote:
-> We appear to have a gap in our process docs. We go into detail
-> on how to contribute code to the kernel, and how to be a subsystem
-> maintainer. I can't find any docs directed towards the thousands
-> of small scale maintainers, like folks maintaining a single driver
-> or a single network protocol.
+On 14/07/2023 09:04, 蔡承達 wrote:
+
+>         > This is because our register layout for PWM and Tach is not
+> continuous.
 > 
-> Document our expectations and best practices. I'm hoping this doc
-> will be particularly useful to set expectations with HW vendors.
+>         > PWM0 used 0x0 0x4, Tach0 used 0x8 0xc
+> 
+>         > PWM1 used 0x10 0x14, Tach1 used 0x18 0x1c
+> 
+>         > ...
+> 
+>         > Each PWM/Tach instance has its own controller register and is not
+> dependent on others.
 
-thx for working on this, much appreciated.
+Your email reply quoting style is very difficult to read.
 
-> [...] 
-> +Bug reports
-> +-----------
-> +
-> +Maintainers must respond to and address bug reports. The bug reports
-> +range from users reporting real life crashes, thru errors discovered
-> +in fuzzing to reports of issues with the code found by static analysis
-> +tools and new compiler warnings.
-> +
-> +Volunteer maintainers are only required to address bugs and regressions.
-> +It is understood that due to lack of access to documentation and
-> +implementation details they may not be able to solve all problems.
-> +
-> +Commercial vendors are expected to address all issues, on any reasonable
-> +platform supported by the Linux kernel, as well as answer ordinary user
-> +questions. There is no concept of product End-of-Life in the Linux kernel,
-> +the support is required until the subsystem maintainer deletes the code.
-> +
-> +The volunteer vs commercial vendor distinction could be seen as roughly
-> +corresponding to the *Maintained* and *Supported* statuses of the codebase
-> +in the MAINTAINERS file.
+> 
+> 
+> 
+> Hi Guenter,
+> 
+> 
+> 
+> Did you receive a response to my previous email?
+> 
+> I would like to inquire if you have any further concerns regarding the PWM
+> and Tach with 16 instances.
 
-The first sentence sets a pretty high bar -- one that afaics doesn't
-match current practices, as I frequently see maintainers from commercial
-vendors ignoring bad and some good bugs reports (like many reports from
-CI systems or report that lack in quality). Without any consequences in
-the community afaics, unless they ignore a lot of the good bug reports
-or repeatedly ignore regressions reports that reached a certain quality
-level (really bad ones are ignored as well and I don't really blame
-anyone for that).
+But isn't like this in all PWMs in all SoCs?
 
-Also: It's totally normal that commercial vendor contribute basic
-drivers with known problems and missing features (some of which will
-never be implemented). The latter will be considered a "bug" for quite a
-few users that read this. Those suddenly thus might becomes something
-they now "must" fix, which leads to questions: how fast? just in
-mainline, or in stable, too?
+Best regards,
+Krzysztof
 
-All this also opens questions like "what counts as bug report" -- I'd
-assume users that find and read this will expect that a report in
-bugzilla.kernel.org is one maintainers "must" respond to. But I assume
-you only meant bugs reports by mail or in trackers the MAINTAINERS file
-mentions?
-
-And overall I don't really like the way how handling of regressions is
-described in that section, as they afaics are expected to be handled
-with a higher priority than bugs.
-
-I considered writing something new, but I now feel a bit confused, as
-I'm unsure if my world view is off and yours closer to the proper one.
-FWIW, I recently published something[1] related that tries to explain to
-ordinary users why their bug report might be ignored. It round about
-shows my understanding of things:
-
-```
-Developers in the scope of the Linux kernel are considered volunteers
-that don't owe you anything
----------------------------------------------------------------------
----------------------------
-
-In the scope of upstream Linux kernel development all developers are
-considered volunteers – and as such obviously free to decide what to
-spend their time on.
-
-That's because developers in the end fall into two groups:
-
-    Companies, universities, government agencies, and other institutions
-contribute voluntarily through employees, contractors, students, et. al.
-
-    Individuals contribute voluntarily in their own time.
-
-Not even Linus Torvalds has a handle to make those do something he
-wishes, except his reputation and control over what is merged into
-mainline. That allows him to motivate and occasionally even compel those
-volunteers to do something he wants to see – but even for him that only
-works up to some point, as those institutions and individuals otherwise
-might stop contributing or even fork the Linux kernel.
-
-That in principle is true even for regressions or severe bugs (e.g.
-vulnerabilities, data loss, or hardware damage) – but developers or
-maintainers will look into those to avoid a bad reputation, which would
-cause trouble for future contributions or might cost them their rank.
-That can also happen if developers regularly ignore decent bug reports –
-which is among the reasons why developers usually help with them, too.
-```
-
-[1]
-https://linux-regtracking.leemhuis.info/post/frequent-reasons-why-linux-kernel-bug-reports-are-ignored/
-
-This was downplaying/ignoring the "commercial vendor" aspect on purpose.
-I would do that differently for a document like this one.
-
-Ciao, Thorsten
