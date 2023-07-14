@@ -2,69 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36BA5C0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 15:44:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D217C001B0
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 16:04:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234954AbjGNPo2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 11:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33174 "EHLO
+        id S235720AbjGNQEu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 12:04:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236160AbjGNPo0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 11:44:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 378EA3A82;
-        Fri, 14 Jul 2023 08:44:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BB35261D1A;
-        Fri, 14 Jul 2023 15:44:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4324C433C8;
-        Fri, 14 Jul 2023 15:44:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689349464;
-        bh=gIEirEVNj2eZrnvQMBk6eeqLsF9YpgAI2QODQB8o9KM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jCGKYGB/ySKGSIY3DFVkZr6AEKTeBe4dWS1D2LMlvynTsQmZAeDdventQJbKuI7GR
-         0FiaIuqY4NoCh2bGenNVFUnd8jMO/f76qgp9jBactaQr457I+1kQ9Ezn9t/28GTi7L
-         MHbBs66Hrj2xigwse2mEpC6iO8rRwWaSrjBt+pu325OYAQQ6TKHe1nST6f7Xf2rX+i
-         BdHW5GIOUItZFO+swsNQfXqsIemwnO+LKx6u8+p3PPM3QUG/jRA8UojvY3uVvY5xIN
-         4Y+/1H5MKyefWC4lA1KURJ7cEp0hmeF1vVzO4agb5PjEfJK57cznRYtRg7MtMbdcgo
-         x4pDZOYclak7w==
-Date:   Fri, 14 Jul 2023 08:44:22 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     "Theodore Ts'o" <tytso@mit.edu>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH docs] docs: maintainers: suggest including lore link for
- conflicts known to linux-next
-Message-ID: <20230714084422.107fca7a@kernel.org>
-In-Reply-To: <20230714031624.GA3736130@mit.edu>
-References: <20230713230417.1504773-1-kuba@kernel.org>
-        <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
-        <20230714031624.GA3736130@mit.edu>
+        with ESMTP id S235666AbjGNQEt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 12:04:49 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1FB272E;
+        Fri, 14 Jul 2023 09:04:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689350687; x=1720886687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bB40wKvZmZKP4Wn5M5OUOKQaWuB+T5oYQChHd9Q/N4I=;
+  b=OFh9E24JEBS0Icx9337JWcsWoikF19+0+ObkBItFgrPZ5jeQ3RcfWrSP
+   8Z/Jr0zXUewjZVNwJDtW1KW7R330zNoTZgNigUuJqJFrM/GzeyVKSDMM1
+   u/CXE/f/08rN0j7YZ9dSlL62VJWocsXQ9qwsEA0jWWoVsT/wH5QPMnxwv
+   JtTK4jfv7s+MJq//11bNKN/oZeQ0amKuLvyUd7j9xmA8KOZj3wd7EADWP
+   zUD/h/CkNLjdNsrL69XBtLAtDkJNGa7OkoJelZTd9a2LHGV4m1cFuO/7I
+   I0bs8aogu9MBGcJmKEbN5QduKfmIid7h/rdRwkHf33e/hXA/rtMbOwpPz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="350376985"
+X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
+   d="scan'208";a="350376985"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 09:04:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="787894352"
+X-IronPort-AV: E=Sophos;i="6.01,205,1684825200"; 
+   d="scan'208";a="787894352"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP; 14 Jul 2023 09:04:45 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qKLHf-002iDg-1f;
+        Fri, 14 Jul 2023 19:04:43 +0300
+Date:   Fri, 14 Jul 2023 19:04:43 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1 2/2] docs: printk-formats: Treat char as always
+ unsigned
+Message-ID: <ZLFyG4MtulHnJcnw@smile.fi.intel.com>
+References: <20230703145839.14248-1-andriy.shevchenko@linux.intel.com>
+ <20230703145839.14248-2-andriy.shevchenko@linux.intel.com>
+ <ZLFrC4Ocu7DvKuco@alley>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZLFrC4Ocu7DvKuco@alley>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 13 Jul 2023 23:16:24 -0400 Theodore Ts'o wrote:
-> On Thu, Jul 13, 2023 at 05:47:18PM -0700, Linus Torvalds wrote:
-> > 
-> > You can point to the email that Stephen sent (using lore), or you can
-> > quote his resolution (or your own, if you do a test-merge, like many
-> > people do) if you want.  It's not a requirement.  
-> 
-> Yeah, I normally do my own test merge.  I might check to see if it's
-> the same as the one which is in linux-next, but the more importantly,
-> I then run a full set of regression tests and make sure there are no
-> new test failures caused by the merge resolution.
+On Fri, Jul 14, 2023 at 05:34:35PM +0200, Petr Mladek wrote:
+> On Mon 2023-07-03 17:58:39, Andy Shevchenko wrote:
 
-Alright, I guess we all end up intuiting in a similar way :)
-In this case let's ditch the patch, it may do more harm than good.
-Someone may read it as "if Stephen posted something - just point 
-at it without thinking".
+...
+
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+
+Thank you for the review!
+
+> PS: I am going to queue both patches for 6.6. They are not
+>     urgent to be added in the -rc phase.
+
+Sure, works for me.
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
