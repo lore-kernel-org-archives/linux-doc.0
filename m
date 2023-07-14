@@ -2,109 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9121EB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 09:56:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4072CC001B0
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 09:59:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234693AbjGNJ4Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 05:56:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
+        id S235127AbjGNJ7q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 05:59:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231362AbjGNJ4Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 05:56:16 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F5E71989;
-        Fri, 14 Jul 2023 02:56:15 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id 3f1490d57ef6-c15a5ed884dso1607291276.2;
-        Fri, 14 Jul 2023 02:56:15 -0700 (PDT)
+        with ESMTP id S234881AbjGNJ7p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 05:59:45 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C328E211E;
+        Fri, 14 Jul 2023 02:59:43 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b852785a65so11004165ad.0;
+        Fri, 14 Jul 2023 02:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689328574; x=1691920574;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iLc4IFOrSQMumdSS27cGww/H0solCQj99/m3cUx+za0=;
-        b=U0+zCc7J47tgv3aokD+C9AbGUM0547IcCiSQEMzpBI+mYOOCtmzjv7TLV+15+Way2l
-         uIapCaUXBbx/phM9GIB5BFOIQNEHzbA7jNpWh7+Q0iZmZlO65IBlPd0HnXlJWqMc85kk
-         H5Q4LKdYKUNGqjL37XpunuGMoJ+Mtpl/BpDiZ03rfuXmWzrYel5MjIzmIiBpL+k04NA0
-         kIairDRA5S1vy0oVMkSwlo7M5XJ/2BC54TEVtGPKe6UNZB69tMRoq1VkITMgaXFHnnev
-         jeNCPG4T6jWGDnPKvbonN9yBfdH9GzBYSvFo4RyjgabhCFa4S3I4hdoNRXo1mIFSILk5
-         15TA==
+        d=gmail.com; s=20221208; t=1689328783; x=1691920783;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=vShZQMcarPkzUmWVXK6Ziq55LsnSbqaxjxY6sf8cpZQ=;
+        b=K4QzBf7A6YFEWHUA6ixpR5W1HoUYkbJ4J1W17P4+oIwAt4hv00eR5M3A3DYwAiyYjl
+         Cjhii1S2FLEqAefU1CBl2X9rFNItYL/fGQlJMxPXKPyUGG4FDXri1Ih33KHD/9hn/lMN
+         NQ0G9M7ye3B4cQl1ZvnapuP2jXPAHTKFlVrBt23TKLyNNc7zAp1PHl7yViwtSvzO0bqV
+         liXLvZ3vVOMKUviDUwGEALJnSnSmTuxXNrUATYeEnDbMAiHwPUvuzG43gGffELywmCcf
+         jM7gPAux+Gc5dhxfbdaHdPyoX6/L4dCz+Kxd4eSHxIoem3MZU0hK60IE1u6b6YMy7vw2
+         L/Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689328574; x=1691920574;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iLc4IFOrSQMumdSS27cGww/H0solCQj99/m3cUx+za0=;
-        b=CuG1wJK4rCKUeQrs4VmvNSzlLQlFVi2ZuQygDuSfZpeJW8pGKCbMpHRdVSJP8Db4oL
-         56zM0z16dwhz9sA1lJL0osvIUQk6jzrJUgc3UzwKdFl9ta27kfGtWBTJB3UDp9CZBDDK
-         +Reah7AcM+F7LfkoqsTWJ2RZgKO8WBkc/NzoA16W0iH++2SJwbCu36WCFdNiRdMABnXm
-         XYSyXxUeRUldK3kvu4nqYFOdGt/lBiQBmwNUWiqtjvDjDqAyUlAedRRdkp6dXb3Dr58v
-         LZXtKZcMgVglCczkvX7ce3tqGJtOYEMEufR6vZTlFVPz4aHztjjVkfUf1n+lF/gTYYEv
-         03og==
-X-Gm-Message-State: ABy/qLZi4k6YPzzIMNE21fHX7+iga9kPqaweKN0mrem0do0+WlJpi+6S
-        BCPmf+ipdMuAcRyx7PmFtghOB9t/7S/wl4aChuI=
-X-Google-Smtp-Source: APBJJlEP9rHYkKqqEeB1DAv7b3BU8yZcSQXF4+FqdKNDY/5pBH0h3wFr0gaoNioOqIHxzaGSE7p70VM3SMLPFrINvDs=
-X-Received: by 2002:a25:32d8:0:b0:ba7:7664:916b with SMTP id
- y207-20020a2532d8000000b00ba77664916bmr3607425yby.20.1689328574374; Fri, 14
- Jul 2023 02:56:14 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689328783; x=1691920783;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vShZQMcarPkzUmWVXK6Ziq55LsnSbqaxjxY6sf8cpZQ=;
+        b=XldzDDrr4CkKSAT2cNl+Umw9pKrYOMV6pTANsp0fzuQEcJbraD5zTUSvF2h3Mc4Y0b
+         pDMTNLHySh+eFteNHOZriopV5ObS9drBSTTJuTAB2ClC/mK04nI+aRWne1hGoEgA3e0I
+         SaUTHfQ8EzZTjupeN24qV9EgYSBZpciKWueXtQvxKQxrCru2CZgyf+Ke1SGPXqcax99c
+         RsgK1kLS9RghdehPCsYp4g/46eBUHWSSHPQd6UulWCeOCWSL+Wtn4dtHTrbKir4Alrkt
+         lP+pjAXqiEtKnP9WFSGHIiTwKx9IQ8tCRQdFmiGNkREpotZpbc+zfdZ6aJMIIDQFvtVm
+         WOgw==
+X-Gm-Message-State: ABy/qLbu87vwBhWz6nrcpPirWkr7y///AC7NYNMUGmdvJkO4qEPUo2Fm
+        BfogrxC6rQg5MO8WagpSNhk=
+X-Google-Smtp-Source: APBJJlHHDmGNSykHBKxMZGwxSLLnEVvuoPUPo9OdWpoStDfN/OVYQwEXP4FINTJblZuIsfG93KAeHQ==
+X-Received: by 2002:a17:902:f2d4:b0:1b8:a39e:ff4b with SMTP id h20-20020a170902f2d400b001b8a39eff4bmr1847417plc.32.1689328782949;
+        Fri, 14 Jul 2023 02:59:42 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id c1-20020a170902848100b001b801044466sm7400745plo.114.2023.07.14.02.59.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jul 2023 02:59:42 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
+Date:   Fri, 14 Jul 2023 02:59:40 -0700
 MIME-Version: 1.0
-References: <20230713112404.2022373-1-imagedong@tencent.com> <04a96ba2-6952-e6de-93a2-dc2998ce519d@infradead.org>
-In-Reply-To: <04a96ba2-6952-e6de-93a2-dc2998ce519d@infradead.org>
-From:   Menglong Dong <menglong8.dong@gmail.com>
-Date:   Fri, 14 Jul 2023 17:56:03 +0800
-Message-ID: <CADxym3Y2f6-FfyG3RfvPDXLS3b3FqUfxaDPgju6OoQPy-0i9bQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v2] net: tcp: support to probe tcp receiver OOM
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     edumazet@google.com, ncardwell@google.com, davem@davemloft.net,
-        kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-        dsahern@kernel.org, kuniyu@amazon.com, morleyd@google.com,
-        imagedong@tencent.com, mfreemon@cloudflare.com,
-        mubashirq@google.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
+        Billy Tsai <billy_tsai@aspeedtech.com>
+References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
+ <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 11:43=E2=80=AFPM Randy Dunlap <rdunlap@infradead.or=
-g> wrote:
->
->
->
-> On 7/13/23 04:24, menglong8.dong@gmail.com wrote:
-> > diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/net=
-working/ip-sysctl.rst
-> > index 4a010a7cde7f..3de2dce74037 100644
-> > --- a/Documentation/networking/ip-sysctl.rst
-> > +++ b/Documentation/networking/ip-sysctl.rst
-> > @@ -694,6 +694,20 @@ tcp_retries2 - INTEGER
-> >       RFC 1122 recommends at least 100 seconds for the timeout,
-> >       which corresponds to a value of at least 8.
-> >
-> > +tcp_oom_retries - INTEGER
-> > +     RTO retransmissions count of the receiver is recognised as OOM.
-> > +     Given a value N, a hypothetical TCP connection will enter probe
-> > +     state if N times RTO retransmissions performed and every
-> > +     retransmission gets a pure ack, who doesn't contain SACK block.
->
->                                    ACK
-> > +
-> > +     The default value is 0, which means disable the OOM detection.
-> > +     If disabled, skb will be dropped directly, without sending an
-> > +     ACK, when rmem schedule fails. The function is valid only if sack
->
->                                                                      SACK
->
-> > +     is enabled.
-> > +
-> > +     3 is the suggested value to enable this function. Do't make it
->
->                                                           Don't
->
-> > +     greater than tcp_retries2.
->
+On 7/14/23 00:13, Krzysztof Kozlowski wrote:
+> On 14/07/2023 09:04, 蔡承達 wrote:
+> 
+>>          > This is because our register layout for PWM and Tach is not
+>> continuous.
+>>
+>>          > PWM0 used 0x0 0x4, Tach0 used 0x8 0xc
+>>
+>>          > PWM1 used 0x10 0x14, Tach1 used 0x18 0x1c
+>>
+>>          > ...
+>>
+>>          > Each PWM/Tach instance has its own controller register and is not
+>> dependent on others.
+> 
+> Your email reply quoting style is very difficult to read.
+> 
+>>
+>>
+>>
+>> Hi Guenter,
+>>
+>>
+>>
+>> Did you receive a response to my previous email?
+>>
+>> I would like to inquire if you have any further concerns regarding the PWM
+>> and Tach with 16 instances.
+> 
+> But isn't like this in all PWMs in all SoCs?
+> 
 
-Thanks! I'll fix them in the next version.
+Correct, pretty much every fan controller is implemented that way.
+I don't understand the logic.
 
-> --
-> ~Randy
+Guenter
+
+
