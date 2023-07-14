@@ -2,124 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ADFEEB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 12:09:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9F80C001DD
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 12:13:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235734AbjGNMJ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 08:09:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58046 "EHLO
+        id S235542AbjGNMNe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 08:13:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235739AbjGNMJ4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 08:09:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2952358E;
-        Fri, 14 Jul 2023 05:09:53 -0700 (PDT)
+        with ESMTP id S235518AbjGNMNb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 08:13:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DD722722;
+        Fri, 14 Jul 2023 05:13:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 632FF61D03;
-        Fri, 14 Jul 2023 12:09:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A65AC433C8;
-        Fri, 14 Jul 2023 12:09:50 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AE60061CF8;
+        Fri, 14 Jul 2023 12:13:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC74AC433C7;
+        Fri, 14 Jul 2023 12:13:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689336592;
-        bh=GqntrC5nJzIPRXSONxz2G9J4TDNYa4iq/zHDKdXGLro=;
+        s=k20201202; t=1689336809;
+        bh=mWkDHkZl+VbW8o1b0RsUyRG5AF0ByNkcZoOfPpiApzQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LMuNDWn3UjL4P0QKGpk+hpHq5gijkQBc3pv9mk1yb8Y9tRwDHvVi/aY3Bxey/st8d
-         XKMuD79se12hhzzpq7q4Lm32XQve8/0J2L8I+dQoaRL7qkbQ65ve90XALWNbAS4gxA
-         J1vjwpgEQr9Bx532eXdoDmDIZ3EqKKQ5tzMMdVUjzRtHXh8Rl0S07wbP7bveZogoAF
-         PbEbRHrPwmc9g1XeaWwWMZTa/OJJNZrfUUeqm06adzX7t5jR8XeHuvTzW66ZeDCsII
-         Sak4InAitreezr4A92xfabmJUcyH2ZTPHo3Ynz0vU39sFjaF6Jy74Ol1TScQ1dCg6D
-         YP8ZSuzzo1DaQ==
-Date:   Fri, 14 Jul 2023 13:09:46 +0100
+        b=UuZ0XE83FMN9J4tSNwzLvCgw9ZnbZX4PPYRV2GO/4qxffRYC/DTawTyW2ZM+NjFuJ
+         xXBIUckgA3xiUQWUyXbdvU8McH2xv1sKdMmRe2yWLzPaJm9ByFyI6nKbPBpiNFNcFP
+         3hqz2S96Y0iDWCGl8nZ/32fQoC0KC8MwyPM8U2tLelX7b24oGzAMRpapLuOYKUKkx3
+         DZLb1d3KI71CtsEXOBSWKiwO+s6GtvkfzeQqi6s7lj9wMysXeikNmU1KPZbKaOhsFP
+         yP+FEXRSW1dPIAV11cJBZJ2v0hIv9sJahFoYLpfoUoOwxmOR488n8kHm+Fr7Z0P2ut
+         Rix5WH98gEW2Q==
+Date:   Fri, 14 Jul 2023 13:13:21 +0100
 From:   Will Deacon <will@kernel.org>
-To:     "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>, corbet@lwn.net,
-        catalin.marinas@arm.com, maz@kernel.org, quic_pkondeti@quicinc.com,
-        quic_kaushalk@quicinc.com, quic_satyap@quicinc.com,
-        quic_shashim@quicinc.com, quic_songxue@quicinc.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
-Message-ID: <20230714120946.GA5597@willie-the-truck>
-References: <20230711102510.GA1809@willie-the-truck>
- <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
- <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
- <604ac52d-4336-744f-2ab8-44d1c93fbaa8@quicinc.com>
- <ZK_d86ApI1FCHhTL@FVFF77S0Q05N.cambridge.arm.com>
- <e02b9969-a3ca-a80d-1d32-25d2bf4c72b6@quicinc.com>
- <ZLBLwG2LJ4gZLfbh@FVFF77S0Q05N.cambridge.arm.com>
- <6d1a6691-f858-71bf-97fe-97e13fcb93b6@quicinc.com>
- <20230714082348.GA5240@willie-the-truck>
- <b76c7a9b-8ed6-97da-bdfa-47cc7db51ff5@quicinc.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, qperret@google.com
+Subject: Re: [PATCH v13 10/24] gunyah: vm_mgr: Add/remove user memory regions
+Message-ID: <20230714121321.GB5597@willie-the-truck>
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+ <20230509204801.2824351-11-quic_eberman@quicinc.com>
+ <20230519115948.GB2637@willie-the-truck>
+ <e22c31bd-10ed-f242-3e72-debf40e01e3c@quicinc.com>
+ <20230605141839.GD21212@willie-the-truck>
+ <3bd86221-ee2e-d157-009b-11f6ada98537@quicinc.com>
+ <eae302ab-b508-cdc6-847f-dff6a6b82798@quicinc.com>
+ <04605642-cad8-1701-ff41-63f2f00ba5f6@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b76c7a9b-8ed6-97da-bdfa-47cc7db51ff5@quicinc.com>
+In-Reply-To: <04605642-cad8-1701-ff41-63f2f00ba5f6@quicinc.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 06:12:02PM +0800, Aiqun(Maria) Yu wrote:
-> On 7/14/2023 4:23 PM, Will Deacon wrote:
-> > On Fri, Jul 14, 2023 at 09:56:27AM +0800, Aiqun(Maria) Yu wrote:
-> > > Try to a detailed summarise of the whole discussions, anyone can ignore some
-> > > part if you are already know.
+On Thu, Jul 13, 2023 at 01:28:34PM -0700, Elliot Berman wrote:
+> On 6/22/2023 4:56 PM, Elliot Berman wrote:
+> > On 6/7/2023 8:54 AM, Elliot Berman wrote:
+> > > On 6/5/2023 7:18 AM, Will Deacon wrote:
+> > > > On Fri, May 19, 2023 at 10:02:29AM -0700, Elliot Berman wrote:
+> > > > > The user interface design for *shared* memory aligns with
+> > > > > KVM_SET_USER_MEMORY_REGION.
+> > > > 
+> > > > I don't think it does. For example, file mappings don't work (as above),
+> > > > you're placing additional rlimit requirements on the caller, read-only
+> > > > memslots are not functional, the memory cannot be swapped or migrated,
+> > > > dirty logging doesn't work etc. pKVM is in the same boat, but that's why
+> > > > we're not upstreaming this part in its current form.
+> > > > 
 > > > 
-> > > * Part 1: Solution for this issue.
-> > > While we still want to have options to let third party and end users can
-> > > have options:
-> > >    1.Disable lse atomic cap.
-> > >    2.*Disallow* far atomic by "CPUECTLR_EL1.atom force near atomic" and
-> > > non-cachable mappling for lse atomic only.
+> > > I thought pKVM was only holding off on upstreaming changes related
+> > > to guest-private memory?
+> > > 
+> > > > > I understood we want to use restricted memfd for giving
+> > > > > guest-private memory
+> > > > > (Gunyah calls this "lending memory"). When I went through
+> > > > > the changes, I
+> > > > > gathered KVM is using restricted memfd only for
+> > > > > guest-private memory and not
+> > > > > for shared memory. Thus, I dropped support for lending
+> > > > > memory to the guest
+> > > > > VM and only retained the shared memory support in this
+> > > > > series. I'd like to
+> > > > > merge what we can today and introduce the guest-private
+> > > > > memory support in
+> > > > > tandem with the restricted memfd; I don't see much reason to delay the
+> > > > > series.
+> > > > 
+> > > > Right, protected guests will use the new restricted memfd ("guest mem"
+> > > > now, I think?), but non-protected guests should implement the existing
+> > > > interface *without* the need for the GUP pin on guest memory pages. Yes,
+> > > > that means full support for MMU notifiers so that these pages can be
+> > > > managed properly by the host kernel. We're working on that for pKVM, but
+> > > > it requires a more flexible form of memory sharing over what we
+> > > > currently
+> > > > have so that e.g. the zero page can be shared between multiple entities.
+> > > 
+> > > Gunyah doesn't support swapping pages out while the guest is running
+> > > and the design of Gunyah isn't made to give host kernel full control
+> > > over the S2 page table for its guests. As best I can tell from
+> > > reading the respective drivers, ACRN and Nitro Enclaves both GUP pin
+> > > guest memory pages prior to giving them to the guest, so I don't
+> > > think this requirement from Gunyah is particularly unusual.
+> > > 
 > > 
-> > Sorry, but this still isn't making sense to me. Which CPUs do you have on
-> > this SoC?
-> cpu is cortex A78/A55.
-> > 
-> > My understanding of the CPUs from ARM is that LSE atomics are not supposed
-> > to be sent to blocks that don't support them. That doesn't mean you have to
-> > do everything near, however -- you can still execute them at e.g. L2.
-> > 
-> > For example, the Cortex-X1 TRM states:
-> > 
-> >    | Atomic instructions to cacheable memory can be performed as either
-> >    | near atomics or far atomics, depending on where the cache line
-> >    | containing the data resides.
-> >    |
-> >    | When an instruction hits in the L1 data cache in a unique state, then
-> >    | it is performed as a near atomic in the L1 memory system. If the atomic
-> >    | operation misses in the L1 cache, or the line is shared with another
-> >    | core, then the atomic is sent as a far atomic on the core CHI interface.
-> lse atomic is optional to CHI-B for example, some system may have cpu
-> feature register have lse atomic feature, but the far atomic is not accpeted
-> by CHI side. It will be simiar issue that we do.
+> > I read/dug into mmu notifiers more and I don't think it matches with
+> > Gunyah's features today. We don't allow the host to freely manage VM's
+> > pages because it requires the guest VM to have a level of trust on the
+> > host. Once a page is given to the guest, it's done for the lifetime of
+> > the VM. Allowing the host to replace pages in the guest memory map isn't
+> > part of any VM's security model that we run in Gunyah. With that
+> > requirement, longterm pinning looks like the correct approach to me.
+> 
+> Is my approach of longterm pinning correct given that Gunyah doesn't allow
+> host to freely swap pages?
 
-Again, that should not be a problem. Looking at the A55 TRM, it explicitly
-says that atomics will be done in the L3 if the interconnect does not
-support them. The A78 TRM doesn't talk about this at all, so I defer to
-Mark (or anybody else from Arm) on how that works, but one might assume
-that it does something similar to the other Arm cores.
+No, I really don't think a longterm GUP pin is the right approach for this.
+GUP pins in general are horrible for the mm layer, but required for cases
+such as DMA where I/O faults are unrecoverable. Gunyah is not a good
+justification for such a hack, and I don't think you get to choose which
+parts of the Linux mm you want and which bits you don't.
 
-> > > * Part 2: Why we need the solution
-> > > 1. There is also some case far atomic is better performance than near
-> > > atomic. end user may still can still try to do allow far atomic.
-> > > while this driver is also use kerenl LSE ATOMIC macro, so it can be running
-> > > on cpu don't support lse atomic and cpu support lse atomic already.
-> > > while current system, cpu have feature register said lse atomic is
-> > > supported, but memory controller is not supported is currently not yet
-> > > supported.
-> > 
-> > I think you're forgetting the fact that these instructions can be executed
-> > by userspace, so the kernel option is completely bogus. If you're saying
-> > that cacheable atomics can cause external aborts, then I can write an app
-> > which will crash your device even if you've set this command line option.
-> > 
-> For apps like userspace also needed to check the system capbility as far as
-
-That's not something you can enforce, so a malicious application can easily
-crash your system.
+In other words, either carve out your memory and pin it that way, or
+implement the proper hooks for the mm to do its job.
 
 Will
