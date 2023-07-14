@@ -2,134 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C87AEC3DA40
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 10:19:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F037EB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 10:25:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236107AbjGNKTB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 06:19:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34024 "EHLO
+        id S235584AbjGNKZy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 06:25:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236108AbjGNKS4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 06:18:56 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66D49358C;
-        Fri, 14 Jul 2023 03:18:40 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-3a40b756eb0so1075351b6e.2;
-        Fri, 14 Jul 2023 03:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689329919; x=1691921919;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G5S/Su+LnonQlJtv6h9aSSkyuGTPnasq4Gs6B9RnTFM=;
-        b=VNRWJ0vyETvMhGB3+48qAa5PT2NK/MARU30eKt5SIUMCo36TbT07+MGuFWUOU75kwn
-         9N4ENPVsAiqeCos8lwVFUgNCbBqN4VghsOWOcMLGJU0C6eWmxpLLOFb5temWQPOvvnyf
-         d+MBkEw/eV+X5Hy0BBNvVVLtTwavKPVuHAvJDEx2gksI45eodF27o+ZSmmXcF1WMEreI
-         TqLFQ1l3LJdeF9wJgPds1M24aiNnAGP2CwN2KYO9TcIczutklkOTHFS5LlZbXNHPaOuy
-         sifBZhHGvU1fviBCC4xY91oOZqMghBO6flASgNI9qJgpNGDp56Y6SyNqJCNkVHYpp8Tr
-         GQKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689329919; x=1691921919;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G5S/Su+LnonQlJtv6h9aSSkyuGTPnasq4Gs6B9RnTFM=;
-        b=DIWftiVk3G0Jw465u9czy8fko4b0Bth8DLlUgnZemU6S9QOZ36tW4DM7NegeXKMReX
-         fmSoIyuIRaSwke+Mn6bHVA22F6SN40IftAk1qEYhBa+ckkR2BUGK9MLfDC6FLAmsUvdL
-         T78ZZ0UeNxOKZmDiA9vSM/wYNGPHc0PmfMaN9GIk/UcEEr7dSU8gdZZHNqpbLyPvAMjt
-         FoDekVafzAnv5uyuciJS8iOg9LoG9MhIcDYe0dOpwnWFOP+X/2mxFY+bLKsHhmfF4nVE
-         y2wfJNQamZgeLmJxztZt4QJXl3PU7SyOlGqYOjaJk7k+NLY+DtOmCI268LB+vEXYitml
-         MVWw==
-X-Gm-Message-State: ABy/qLYxlTLZp06wpA8xeLY2dfct76VDVXCuvNzXIHi52XrdtiGoBqjq
-        MHK66tqdB3YQdIrcvcKdHxffFkQVDTpo+4EeBcA=
-X-Google-Smtp-Source: APBJJlFnmD26TrqVTOxm7Zyo2EOzSV61byUJyWgGAvIuT7uv/IVd5NbGKL7x4j5UPbh+Zfun/v4Fdt3+B1C0/pI0qWQ=
-X-Received: by 2002:a05:6808:13cf:b0:3a3:820e:2f05 with SMTP id
- d15-20020a05680813cf00b003a3820e2f05mr4930470oiw.1.1689329919411; Fri, 14 Jul
- 2023 03:18:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
- <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org> <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
-In-Reply-To: <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
-From:   =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>
-Date:   Fri, 14 Jul 2023 18:18:28 +0800
-Message-ID: <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
-Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control documentation
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
-        Billy Tsai <billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S234778AbjGNKZx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 06:25:53 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 819D32728;
+        Fri, 14 Jul 2023 03:25:52 -0700 (PDT)
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+        by linux.microsoft.com (Postfix) with ESMTPSA id D5CE32093881;
+        Fri, 14 Jul 2023 03:25:51 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D5CE32093881
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1689330351;
+        bh=E7hvGYkPHz3K0TydepAb0jacoxQPyr4cC8Fme00nDts=;
+        h=From:To:Subject:Date:From;
+        b=MZy/6pT3dpJBlxMlsBtTa5k35JliyK6k5LUMF9wKnnlNWwVV6ZS9tSt1HY/+5uWo0
+         /8K+ghAUlgr0/nNSVz1R+kysp1OQB3E53XE68sxSbKuRKECOgFOu5sbXWcmAhIXyoZ
+         JYPdcJxUXuDGQyxWbno/VbJk/klNK/eDpq57BY9U=
+From:   Saurabh Sengar <ssengar@linux.microsoft.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, mikelley@microsoft.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v3 0/3] UIO driver for low speed Hyper-V devices
+Date:   Fri, 14 Jul 2023 03:25:43 -0700
+Message-Id: <1689330346-5374-1-git-send-email-ssengar@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Guenter Roeck <linux@roeck-us.net> =E6=96=BC 2023=E5=B9=B47=E6=9C=8814=E6=
-=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=885:59=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On 7/14/23 00:13, Krzysztof Kozlowski wrote:
-> > On 14/07/2023 09:04, =E8=94=A1=E6=89=BF=E9=81=94 wrote:
-> >
-> >>          > This is because our register layout for PWM and Tach is not
-> >> continuous.
-> >>
-> >>          > PWM0 used 0x0 0x4, Tach0 used 0x8 0xc
-> >>
-> >>          > PWM1 used 0x10 0x14, Tach1 used 0x18 0x1c
-> >>
-> >>          > ...
-> >>
-> >>          > Each PWM/Tach instance has its own controller register and =
-is not
-> >> dependent on others.
-> >
-> > Your email reply quoting style is very difficult to read.
-> >
-> >>
-> >>
-> >>
-> >> Hi Guenter,
-> >>
-> >>
-> >>
-> >> Did you receive a response to my previous email?
-> >>
-> >> I would like to inquire if you have any further concerns regarding the=
- PWM
-> >> and Tach with 16 instances.
-> >
-> > But isn't like this in all PWMs in all SoCs?
-> >
->
-> Correct, pretty much every fan controller is implemented that way.
-> I don't understand the logic.
->
+Hyper-V is adding multiple low speed "speciality" synthetic devices.
+Instead of writing a new kernel-level VMBus driver for each device,
+make the devices accessible to user space through a UIO-based
+hv_vmbus_client driver. Each device can then be supported by a user
+space driver. This approach optimizes the development process and
+provides flexibility to user space applications to control the key
+interactions with the VMBus ring buffer.
 
-Hi Krzysztof and Guenter,
+The new synthetic devices are low speed devices that don't support
+VMBus monitor bits, and so they must use vmbus_setevent() to notify
+the host of ring buffer updates. The new driver provides this
+functionality along with a configurable ring buffer size.
 
-Apologies for any confusion earlier.
-So, you think that the implementation with 16 instances of TACH/PWM
-device nodes in dts instead of one is ok to you, right?
+Moreover, this series of patches incorporates an update to the fcopy
+application, enabling it to seamlessly utilize the new interface. The
+older fcopy driver and application will be phased out gradually.
+Development of other similar userspace drivers is still underway.
 
-Thanks
+Moreover, this patch series adds a new implementation of the fcopy
+application that uses the new UIO driver. The older fcopy driver and
+application will be phased out gradually. Development of other similar
+userspace drivers is still underway.
 
-Best regards,
-Billy Tsai
+[V3]
+- Removed ringbuffer sysfs entry and used uio framework for mmap
+- Remove ".id_table = NULL"
+- kasprintf -> devm_kasprintf
+- Change global variable ring_size to per device
+- More checks on value which can be set for ring_size
+- Remove driverctl, and used echo command instead for driver documentation
+- Remove unnecessary one time use macros
+- Change kernel version and date for sysfs documentation
+- Update documentation.
+- Made ring buffer data offset depend on page size
+- remove rte_smp_rwmb macro and reused rte_compiler_barrier instead
+- Added legal counsel sign-off
+- simplify mmap
+- Removed "Link:" tag 
+- Improve cover letter and commit messages
+- Improve debug prints
+- Instead of hardcoded instance id, query from class id sysfs
+- Set the ring_size value from application
+- new application compilation dependent on x86
+- Not removing the old driver and application for backward compatibility
+
+[V2]
+- Update driver info in Documentation/driver-api/uio-howto.rst
+- Update ring_size sysfs info in Documentation/ABI/stable/sysfs-bus-vmbus
+- Remove DRIVER_VERSION
+- Remove refcnt
+- scnprintf -> sysfs_emit
+- sysfs_create_file -> ATTRIBUTE_GROUPS + ".driver.groups";
+- sysfs_create_bin_file -> device_create_bin_file
+- dev_notice -> dev_err
+- remove MODULE_VERSION
+- simpler sysfs path, less parsing
+
+Saurabh Sengar (3):
+  uio: Add hv_vmbus_client driver
+  tools: hv: Add vmbus_bufring
+  tools: hv: Add new fcopy application based on uio driver
+
+ Documentation/ABI/stable/sysfs-bus-vmbus |  10 +
+ Documentation/driver-api/uio-howto.rst   |  54 +++
+ drivers/uio/Kconfig                      |  12 +
+ drivers/uio/Makefile                     |   1 +
+ drivers/uio/uio_hv_vmbus_client.c        | 218 +++++++++
+ tools/hv/Build                           |   2 +
+ tools/hv/Makefile                        |  21 +-
+ tools/hv/hv_fcopy_uio_daemon.c           | 578 +++++++++++++++++++++++
+ tools/hv/vmbus_bufring.c                 | 297 ++++++++++++
+ tools/hv/vmbus_bufring.h                 | 154 ++++++
+ 10 files changed, 1346 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/uio/uio_hv_vmbus_client.c
+ create mode 100644 tools/hv/hv_fcopy_uio_daemon.c
+ create mode 100644 tools/hv/vmbus_bufring.c
+ create mode 100644 tools/hv/vmbus_bufring.h
+
+-- 
+2.34.1
+
