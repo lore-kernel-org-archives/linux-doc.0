@@ -2,104 +2,69 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF29EB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 05:03:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF7A6EB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 05:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234417AbjGNFDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 01:03:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46222 "EHLO
+        id S234619AbjGNFFf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 01:05:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234654AbjGNFDT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 01:03:19 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B05B2D5F;
-        Thu, 13 Jul 2023 22:03:18 -0700 (PDT)
+        with ESMTP id S234438AbjGNFFe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 01:05:34 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 950CD2D40;
+        Thu, 13 Jul 2023 22:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=vYGgiwi6McTgXJVwB+z2H4GZagJiz++rZZuJFwVAhog=; b=11Cfc2grFTHW81PM4huphD6u7b
-        7QtstLh0AoPzH3AQqSgr3qBsnaE2oKv7wkOZnYtB3gvjGyqI1FoHGfsa8aLKPOWBhWZXWE5M9hfKd
-        FTqqraHGvq/6ItQ9wW5b7z5/naEvQOvruHKx0wcXJDVBc5YmWYGWHUHLxXoKyYFBnTUPhQrUeGWRu
-        n4lXZLvuOWjem1ymtqd1onFp+53dtvX6jSYUrqkiduU2lyoxtjrmfbwEC1hRX1WfEtxLybe6GamjZ
-        dgLiKh5jQ6fy38Z0mHzA+3hWWpouZKt61qyxQSaPjTov+msGAdXBMZ6sM8W4bDRryY2ruhkyKC2sh
-        IbzOBd9Q==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qKAxY-0051qn-0O;
-        Fri, 14 Jul 2023 05:03:16 +0000
-Message-ID: <d5727371-e580-a956-7846-b529f17048ca@infradead.org>
-Date:   Thu, 13 Jul 2023 22:03:15 -0700
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=xx2962OVdKvybh/3QZxjJMxEOcIZhNEbfw09t4MZaJo=; b=chGaa6Id1Oz3ayy1CliG2Kidiy
+        llwvQMueZcsYLD8SghVTuj7XMHpCKqCDHbG+A6H6tfEIAmkfwvvWioaEojJTOfugf6DcvJD22Nb+y
+        dW+yxpFK43/9z+k46AqML2ZACjy7ECVg2C3dxsYKCSxYiHthXfUTMw2fKlf4vRk6blGosSUnRSD1O
+        v/e2i/5hZuo7/ELgk5brRtF0hfvAXdJBy1BspNkANvHXg1i6x4DncbJUoa7ZDEQSOHZs2DweMkpai
+        1S7KoCMvsXEA8yCQ6iY8dKVzJDi9hxhCJEOiwhvEdnRU2+0xbKoh9e7w0GcDsULcCXv6SafkO4qKg
+        sigKSIBw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qKAzX-000j4N-IF; Fri, 14 Jul 2023 05:05:19 +0000
+Date:   Fri, 14 Jul 2023 06:05:19 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
+ time maintainers
+Message-ID: <ZLDXjzbp5tJ3UjjP@casper.infradead.org>
+References: <20230713223432.1501133-1-kuba@kernel.org>
+ <6f1014cd-f8c5-f935-dcc7-4f5a6b85e473@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH docs] scripts: kernel-doc: support private / public
- marking for enums
-Content-Language: en-US
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, arkadiusz.kubalewski@intel.com,
-        netdev@vger.kernel.org
-References: <20230621223525.2722703-1-kuba@kernel.org>
- <399c98c8-fbf5-8b90-d343-e25697b2e6fa@infradead.org>
-In-Reply-To: <399c98c8-fbf5-8b90-d343-e25697b2e6fa@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6f1014cd-f8c5-f935-dcc7-4f5a6b85e473@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
-
-On 6/21/23 20:10, Randy Dunlap wrote:
+On Fri, Jul 14, 2023 at 06:36:41AM +0200, Krzysztof Kozlowski wrote:
+> On 14/07/2023 00:34, Jakub Kicinski wrote:
+> > +Responsibilities
+> > +================
+> > +
+> > +The amount of maintenance work is usually proportional to the size
+> > +and popularity of the code base. Small features and drivers should
+> > +require relatively small amount of care and feeding. Nonetheless
+> > +when the work does arrive (in form of patches which need review,
+> > +user bug reports etc.) it has to be acted upon very promptly.
+> > +Even when single driver only sees one patch a month, or a quarter,
+> > +a subsystem could well have a hundred such drivers. Subsystem
+> > +maintainers cannot afford to wait a long time to hear from reviewers.
+> > +
+> > +The exact expectations on the review time will vary by subsystem
+> > +from 1 day (e.g. networking) to a week in smaller subsystems.
 > 
-> 
-> On 6/21/23 15:35, Jakub Kicinski wrote:
->> Enums benefit from private markings, too. For netlink attribute
->> name enums always end with a pair of __$n_MAX and $n_MAX members.
->> Documenting them feels a bit tedious.
->>
->> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> 
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Thanks.
+> Two weeks is the upper limit.
 
-I have a need for this patch. Are you planning to merge it?
+Indeed.  People need to be able to take holiday.  Maybe this is
+partially covered by "multiple maintainers", but even so, it is
+unreasonable to expect this kind of responsiveness.
 
-in current linux-next docs build:
-
-../include/drm/drm_connector.h:527: warning: Enum value 'DRM_MODE_COLORIMETRY_COUNT' not described in enum 'drm_colorspace'
-
-That enum identifier could/should be marked as private:.
-
-Thanks.
-
-> 
->> ---
->> Hi Jon, we've CCed you recently on a related discussion
->> but it appears that the fix is simple enough so posting
->> it before you had a chance to reply.
->> ---
->>  scripts/kernel-doc | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
->> index 2486689ffc7b..66b554897899 100755
->> --- a/scripts/kernel-doc
->> +++ b/scripts/kernel-doc
->> @@ -1301,6 +1301,9 @@ sub dump_enum($$) {
->>      my $file = shift;
->>      my $members;
->>  
->> +    # ignore members marked private:
->> +    $x =~ s/\/\*\s*private:.*?\/\*\s*public:.*?\*\///gosi;
->> +    $x =~ s/\/\*\s*private:.*}/}/gosi;
->>  
->>      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
->>      # strip #define macros inside enums
-> 
-
--- 
-~Randy
