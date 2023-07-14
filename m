@@ -2,126 +2,165 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95DEDC0015E
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 00:47:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68C2CC001B0
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 01:02:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233207AbjGNArk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 20:47:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48484 "EHLO
+        id S233484AbjGNBCQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 21:02:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231292AbjGNArj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 20:47:39 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CDD02D51
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 17:47:38 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b6ff1ada5dso20610691fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 17:47:38 -0700 (PDT)
+        with ESMTP id S230151AbjGNBCP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 21:02:15 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2099.outbound.protection.outlook.com [40.107.220.99])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F18521FEA;
+        Thu, 13 Jul 2023 18:02:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JOIJ2yJRoq6vd8QYQG9/NpWlkH6f6SkhGuqRS5USiR++pTC5X4Mb9ub7D3jvtqxWhQY0BbRBl4KB+CpkVjJPgkNFpxf1mhAWlIirgnQpyDUZkAbqmiFAk/5N2S5RYrRjiEAx6DXoZ/GjFCdjJYbKePRPgVfw0a+CRROMYXLXA0yIgMEB2JGbBz+th2fTtYLMsMOE7nuLybqiGGKP1AMdO0YlJoqmtItS3Pw5RpdZzeGDMqcvc3Mb9iC7e8pywDscSYF5d2URmdbheThzy6h2Mnmj/STCsiJSgGnHPrH0uw4YTAyrHm+lDu+bKU4l3WLAFE00ZwVM5/IWRR5oVXJKaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t7xHvM/kA4l9rUNrVhBg9XsMqEcNUDOakWs0wrg+nPg=;
+ b=gYMrqJhtWx7vjIXKc2n09XwMmLS3dNOTfdC+SJv9rrHbSL5cn6cs5fwGe2TLRTnTBzEFit6mmDaDgXXob2/x/dNeFYGzaH1daCm3vnrfMk1sKn0Zvb461iY4UMrt+SSy6Z1p6jgJEYhJh6ZqCv9nq+j+A1K4456Vj1bPQnNCByXXEunKv4LxzRnK4LAjUdg4VFctCDvKOv4/EQNmNdO0MgZSvkCoBxrNo36n5brB0A8e2EvFonpQZOcRWnbR6OCwNd0bws3ipIwSu1mCLlUYXZlogI6xcyT7oNj3YA/JmC89eXmSd+Qsm9r46jSt6uhy+udiC4ys2Z/ztyInAUiiJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1689295656; x=1691887656;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=k7y296KedplM2A3mke9UNwqTxqKMP8WdPVepgqrON6E=;
-        b=QPK4Vb9V1JiKbKNNG1W4kMrTt/sbfQYFbO+F+IzDPH4/Sc61AQqk0LodIW9hZeZYj8
-         a/yP5YwNng8/3JemhpHqBe3ELJQgYkgSm3tSyjJLb4657jtRsucgRZUKGy0rcJVvWgOl
-         V78bOBdfllbw8T5Ws3BnF2hFlJpaxWMKPWvcM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689295656; x=1691887656;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k7y296KedplM2A3mke9UNwqTxqKMP8WdPVepgqrON6E=;
-        b=U2WkugGFnu1fsGlqIH8Yuq0Poz/MwuIRybpkws0jLoYwjKMalO6JgHqvdTGgrMjcLQ
-         qBSaqxeKCtuJPbD5IObPBmCuJ/QQt/ZRIA9P6sMmXGNsmZ4tRn44fanLk0iJQI6kS4M7
-         B1xe185OTsMiE333+/osrEgQfHQ3ncZ9KcBShFbJzNfNRYrsKE2a/54oevuXqwRpQ3t8
-         257JPJ18KFw/C8OqEOmx1u2JMCYkDCE8YHOAs8mmRz0HSe79x6Ofc/DyViphT7J00Hvt
-         cM7OnS+v7TrC58vwCfKFy1wSOxOmbdJ0kOgwpKDSSH3tk6+lp+zaN7UuVH4J1bfx8qE1
-         D8dA==
-X-Gm-Message-State: ABy/qLbAX3y3bqwuJH7GvmpKzjqHxbp42hb+qKEpmEHEk50oXFC2bZSk
-        WxLyeQcb1L8mdRyqAWcLF4dKm3ZqAzydqokT5Hf3h8i9
-X-Google-Smtp-Source: APBJJlHlISh6g2AiKeu7lm/W/LOUkaWRjgPklrG8zNAtCTxyTOlSo+zxNUBty8rfp6WC+gEiTZkV3g==
-X-Received: by 2002:a2e:9e0a:0:b0:2b1:c1ae:73e3 with SMTP id e10-20020a2e9e0a000000b002b1c1ae73e3mr2601287ljk.15.1689295656465;
-        Thu, 13 Jul 2023 17:47:36 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
-        by smtp.gmail.com with ESMTPSA id z13-20020a2e9b8d000000b002b70206cd45sm1727278lji.90.2023.07.13.17.47.35
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jul 2023 17:47:35 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-4fb7589b187so2337583e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 17:47:35 -0700 (PDT)
-X-Received: by 2002:ac2:5388:0:b0:4f6:3677:54e with SMTP id
- g8-20020ac25388000000b004f63677054emr2106458lfh.36.1689295655179; Thu, 13 Jul
- 2023 17:47:35 -0700 (PDT)
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t7xHvM/kA4l9rUNrVhBg9XsMqEcNUDOakWs0wrg+nPg=;
+ b=CTeQ1aG9I8IRH2APo/vfiiOG8zG7SJBAI10ZcF7S3neQ/b/j7QUf2lkJ1LIfNTx6kPV4/hV9HateOSMH7+/Aw+CHXpnaWRU7Yw6btkl4cqkicOg4NLYe1/XHkqrZkhfFDIR9kczMUvrCF8b9WVus+hdSxaTqOmSgFiNJ2ynypQw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from DM5PR0102MB3590.prod.exchangelabs.com (2603:10b6:4:a4::25) by
+ BY3PR01MB6611.prod.exchangelabs.com (2603:10b6:a03:36a::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6588.27; Fri, 14 Jul 2023 01:02:08 +0000
+Received: from DM5PR0102MB3590.prod.exchangelabs.com
+ ([fe80::235a:622:9239:3963]) by DM5PR0102MB3590.prod.exchangelabs.com
+ ([fe80::235a:622:9239:3963%7]) with mapi id 15.20.6588.017; Fri, 14 Jul 2023
+ 01:02:08 +0000
+From:   Ilkka Koskinen <ilkka@os.amperecomputing.com>
+To:     Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Besar Wicaksono <bwicaksono@nvidia.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v5 0/4] perf: ampere: Add support for Ampere SoC PMUs
+Date:   Thu, 13 Jul 2023 18:01:37 -0700
+Message-Id: <20230714010141.824226-1-ilkka@os.amperecomputing.com>
+X-Mailer: git-send-email 2.40.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CH0P223CA0013.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:610:116::30) To DM5PR0102MB3590.prod.exchangelabs.com
+ (2603:10b6:4:a4::25)
 MIME-Version: 1.0
-References: <20230713230417.1504773-1-kuba@kernel.org>
-In-Reply-To: <20230713230417.1504773-1-kuba@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 13 Jul 2023 17:47:18 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
-Message-ID: <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
-Subject: Re: [PATCH docs] docs: maintainers: suggest including lore link for
- conflicts known to linux-next
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR0102MB3590:EE_|BY3PR01MB6611:EE_
+X-MS-Office365-Filtering-Correlation-Id: e513d80a-87d7-4697-510c-08db8405f284
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kOdoI20KWQbLL/ZZQf08H/fTIeR1Zpyz0mi9K9HnOfob4qowXaEo3PwarwIRI0VLAAgu6/SxxOzv4atJrzNTXebBdagp34cNIekQMEobKzT22fviOYevFTtj/BgekzO7xKAfSXtWcx622KUHtDFQG9UjAK8MFwjdCt6KEKJGj3O8JelRKvutyx10OmHbsF3iQ0dY9iBpoXSfOEn/5MOgkPjhIObvkbjJujrHvms9tEzF0CeRhbeysgZsP+sLqby12azXWp6FczTVxDu0ZvusQs35qa95gAVEJHoKYhPET7zfwB8WBLGmDQfrcoib9L4cQfYgJh1E48NCKCfg7/rlYfNeutmp2nC1DhjpVtQD+b4uOskefkueQ5NsPzmIvOkw6nc507LxAeiK3sk6CUedAKy6t9r5Zge3++yOl6XzM2JX9mUPpBtgBkQYEXVdE6RkgpRNMUGyWCRkrEXSADmtg5ZsEMw+YIqH1cO7XyJAuxHE+0DmOIIk/F/souguSXF7eiB/RfcKBFVtYFLEKzXd+Ft7Y/eQV7ISUuRYjlS9GCMxWdYWLBr4yemRq7V9MhhYSZImkEGhFJumPzpOXMGBmimltkeGeDyAbtZngTgPgdGCjWt6FMmxkHbnMM44eNvW
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR0102MB3590.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(346002)(136003)(39850400004)(376002)(451199021)(2906002)(38100700002)(38350700002)(6512007)(83380400001)(186003)(2616005)(26005)(1076003)(86362001)(6506007)(5660300002)(8676002)(8936002)(7416002)(110136005)(478600001)(6486002)(52116002)(6666004)(41300700001)(66946007)(66556008)(66476007)(316002)(4326008);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Jnw15+n75xoLosSPJdD+yHVvDIQTO8rfOc3bqn/eNlxJC3zGlYg0FNChb6iU?=
+ =?us-ascii?Q?tpAz61R5sU/yFnZrUydKx8KL6YTmdJp8wHEjp0i4fsfmgo1pBSFovwi8rN7F?=
+ =?us-ascii?Q?Fd9/uoKAht3iwfhAMrwez6G6MUaFec0ZG7hVTv353e9I5F0BqExj2AG6IY/3?=
+ =?us-ascii?Q?zLuYBqN0MEaHuizuLl3zBWxUIxBV9OrZ9ES04VWklhR2V6KPyQkXa+YzQm0v?=
+ =?us-ascii?Q?T5GITaDr0m5VjFAiulWMKlM9/mgQZR/77VlyQSwGr/6JPA/5uHyUYNap0R1G?=
+ =?us-ascii?Q?g1y98+XhqcqTlQs3tnHr6Isb96BPvfU2d/jtXPaoPZQbPfIlZLOFBM1slStK?=
+ =?us-ascii?Q?a4TXOKwiEMYIIyQOVMd0C6PMvoYnDw654zNmqtasYCgX9CK5lok9pcgbDK59?=
+ =?us-ascii?Q?YKXY6tuMkhBHufHSo7ql33hy6cdgJl/pCs77oCpkJ0MxgzL3eC0wxyMcYANA?=
+ =?us-ascii?Q?AjkUFc8GwmuKOeReVCVk0mFiXsqJSJ/myPLiIe58OUv7/5aHObDjIl7NJxCN?=
+ =?us-ascii?Q?AZKc94f/U60z/3cdm6M9kQcRKO0SPLF7IcOzgM6mJpRcm+4EqhP7I83WUrsn?=
+ =?us-ascii?Q?7KRZY9mA1vmzrbNyQ2oy1Bwb3UIc+KLZSuErHsR8iePEYgwsaUPla73HLfVG?=
+ =?us-ascii?Q?6rHDuXB/Fdf3+ikMqJmlp8JdmOgYn0fuwFIh1alQWclJyzAX7AcUOmdniynk?=
+ =?us-ascii?Q?p4OQXBJSV1pUwt1wlcytgiv9XTiFwZYL34kQlvWITsiXYcEIzEVAJSORVDTt?=
+ =?us-ascii?Q?Tm/v4zUwX0WYwpUqOCZJC+KEHKV/vBe2Qrwmtous7m41UkyUK1qY0ZJ2pzdx?=
+ =?us-ascii?Q?aZTFfl+eZXRwyf8CHlTtV7xEcrgRNuWg/Rz58m9BP0DFN6rSxyC8daDIU7cI?=
+ =?us-ascii?Q?uJ4OJ7PXAcM8g46oQSgbUXFv6F8w5Q33gEa+58qHLpD6QeKyD6RYf/l8YFEI?=
+ =?us-ascii?Q?Z310FyTZllXTtCnl2TR3vrAr4pzVlkToRRWGNvGH0rpsL2ESiz78041x4sdg?=
+ =?us-ascii?Q?x1BJL2ReSZ78hF0RAJS7lUW7xL/ylJShdpV+5k3SpkqmU5ej85+rnfKCUIc4?=
+ =?us-ascii?Q?ujkhi/6UkESrda93K3BdTm0J4scv5jSClM/jt8eVYH9ssSGZ+WdZ7STp69my?=
+ =?us-ascii?Q?0C4PkBc2HYTHIKiNgrBq9pkAHOVufnj+XQ3QiIaNEGeSD8p1bP/zNMsb17hi?=
+ =?us-ascii?Q?MBuxXGjrRaCXAjIf5VdyahN1+FR8RY8WG4ytRZp7FSBTAR1ROY583n6+lutN?=
+ =?us-ascii?Q?ckS4bpORSywzQMikwXZ4qmCcsmb4liQbgde7lhQaaQO4JF8y1b+JvhK8lPSM?=
+ =?us-ascii?Q?QSj31eAOcH5D4iKKBT5hgGc73HqIjmhB1XsyN5KmAYLgI93vaiTc20tS5f7c?=
+ =?us-ascii?Q?KPTALvOBXKdqTx8NZ0HE1IVdt2f6cRyZ1D/oCIo3JvugvypqUbdOu89CmXsS?=
+ =?us-ascii?Q?FR0tpnfWF3iPWw0jdhmchW/vNX3XoOthcbBJesAPU0yZWjbP9/ovfk8TEn3L?=
+ =?us-ascii?Q?yR5H/CNrbMRdudlsVKEPrzg2pTEYigHoqh40BY8Qij7l2tUUd3GXRqrsOaUh?=
+ =?us-ascii?Q?vpTxu31wysZoLMbH2Xb5qIiby65/zy9A/Qm+tQEfcCtLcaOeVkgYdsG4CJfN?=
+ =?us-ascii?Q?CQ=3D=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e513d80a-87d7-4697-510c-08db8405f284
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR0102MB3590.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 01:02:08.4384
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VvL3LwkUaI9lwSnrkLRPtupK6ENLV7Z3/cCEFB0+b1LslIpsAeDbxPGN+DGRJHZDQd2914bc7V0c+74ayJmPKM+9kXKUu0aselbsIuzT774G9NsL2IEUHFc8u3SWS14R
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY3PR01MB6611
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 13 Jul 2023 at 16:04, Jakub Kicinski <kuba@kernel.org> wrote:
->
-> I'm not completely sure what is the best practice for notifying Linus
-> about conflicts which have already been resolved in linux-next.
-> I presume they are a no-op to him, so maybe we shouldn't even call
-> them out?
+Changes since v4:
+    * "Support implementation specific filters" patch:
+        - Added comment about filter and impdef registers and reference
+          to the Coresight PMU specification to the commit message
 
-No, I do *not* somehow auto-merge stuff that has been merged in
-linux-next. I will do my own merge, and see the conflicts, and I will
-resolve them independently of anything that has happened in
-linux-next.
+    * "Add support for Ampere SoC PMU" patch:
+	- Fixed the documentation and added more comments
+        - Changed the incrementing PMU index number to idr_alloc()
+	  (Needs a impdef release hook patch to release unused index)
+	- Fixed style in init_ops() to more reasonable
+	- Moved bank parameter to config1
 
-I may then check what linux-next did, particularly if the merge was
-non-trivial, but honestly, that's fairly rare. And if the merge was so
-non-trivial that I check what happened in linux-next, it's actually
-not all that unlikely that I ended up resolving it differently anyway.
-I send out emails saying "that was wrong in linux-next" somewhat
-regularly.
+Changes since v3:
+    * use_64b_counter_reg => has_atomic_dword (patch 1/4)
+    * Removed the unnecessary hook for group validation (patch 3/4)
+    * Added group config validation to ampere_cspmu_validate_event() (patch 4/4)
+    * Rebased the patchset
 
-So if you were notified by Stephen that there is a conflict in
-linux-next, and it has been resolved there, that means that as far as
-linux-next is concerned - and *only* as fat as linux-next is concerned
-- that resolution will now continue to be done in linux-next.
+Changes since v2:
+    * Changed to use supports_64bits_atomics() and replaced the split writes
+      with lo_hi_writeq()
+    * Added implementation specific group validation to patch 3
+    * Dropped shared interrupt patch
+    * Removed unnecessary filter_enable parameter from ampere module
+    * Added group validation to ampere module
 
-But you should preferably mention said conflict when you then send the
-pull request to me.
+Changes since v1:
+    * Rather than creating a completely new driver, implemented as a submodule
+      of Arm CoreSight PMU driver
+      * Fixed shared filter handling
 
-It's perfectly fine to just mention it - say "there's a conflict in
-so-and-so with the pull from tree so-and-so". That will give me a
-heads-up to not be surprised about it.
 
-You can point to the email that Stephen sent (using lore), or you can
-quote his resolution (or your own, if you do a test-merge, like many
-people do) if you want.  It's not a requirement.
+Ilkka Koskinen (4):
+  perf: arm_cspmu: Split 64-bit write to 32-bit writes
+  perf: arm_cspmu: Support implementation specific filters
+  perf: arm_cspmu: Support implementation specific validation
+  perf: arm_cspmu: ampere_cspmu: Add support for Ampere SoC PMU
 
-But I do kind of want to see the "there's a conflict" mention, not
-just to have a heads-up. It's also a sign that you are actually
-keeping track of what happens in linux-next and are on top of things.
+ .../admin-guide/perf/ampere_cspmu.rst         |  29 +++
+ drivers/perf/arm_cspmu/Makefile               |   2 +-
+ drivers/perf/arm_cspmu/ampere_cspmu.c         | 243 ++++++++++++++++++
+ drivers/perf/arm_cspmu/ampere_cspmu.h         |  17 ++
+ drivers/perf/arm_cspmu/arm_cspmu.c            |  29 ++-
+ drivers/perf/arm_cspmu/arm_cspmu.h            |   6 +
+ 6 files changed, 321 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/admin-guide/perf/ampere_cspmu.rst
+ create mode 100644 drivers/perf/arm_cspmu/ampere_cspmu.c
+ create mode 100644 drivers/perf/arm_cspmu/ampere_cspmu.h
 
-Because I've had _too_ many pull requests that actually turned out to
-have had problems in linux-next - merge related or not - and the
-developer having not tracked anything at all despite having been told
-about said problems, and just sent the resulting untested crap to me.
+-- 
+2.40.1
 
-So the "there's a conflict" note ends up having that kind of secondary
-meaning. It gives me the warm and fuzzies that the developer has
-actually reacted to what happened in linux-next.
-
-The corollary to that is that when I see a conflict - even if it's
-completely trivial - and I see it in linux-next too, and the conflict
-was never mentioned, I go "ok, this maintainer never actually reacted
-to anything that Stephen said about his tree".
-
-That often says more about the situation in general than about the
-particular conflict.
-
-             Linus
