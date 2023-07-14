@@ -2,151 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEE7C04FE1
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 08:47:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AE5AC001E0
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 08:51:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235486AbjGNIrq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 04:47:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53960 "EHLO
+        id S235636AbjGNIvT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 04:51:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235622AbjGNIrf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 04:47:35 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C58270B
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 01:47:32 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-51e57870becso1892315a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 01:47:32 -0700 (PDT)
+        with ESMTP id S235618AbjGNIvP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 04:51:15 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F24A2700
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 01:51:13 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b6f0508f54so24830391fa.3
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 01:51:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689324451; x=1691916451;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=atishpatra.org; s=google; t=1689324671; x=1691916671;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FA7l8IIaj4aslYJzQ2fc8TOlfhX9HZt+/RtZQq7WtRA=;
-        b=IjRI/ni/znH5CfUK0qL5zLtrjXUMOaLNLSrIjp94+7qxfkRqsKiVPVS+QG7xDnOTp5
-         zqVS8raXsnlmrk4UofwpwgzbCex35dBTyD18hk9u7sFl1jpNKPh+lX72cNrhFb5pbBau
-         V9OQY57fR7x8DEGW5GblZVYzOMBpn48qmiyKffhHB53Iyrdr6hZAsU4FQbUnwglf0/nI
-         1kAtgRohXmRo0S3MxwHv2JDA9+VJB2NkEIrC22nQKOinVipQiTkZ1HD8QXSiTDj7O8G9
-         8Z11gWKpFdHJY5N91jzvPamwh1Gp414zZHdDII2AF50a8m+nDyOXIdVbgKbwR7/E1CZB
-         rFZQ==
+        bh=UVJFUGPgUiZjejGogHmLzYwwKGbHbhdGEjYSUHSjBfo=;
+        b=pYAcX4FPQitZnsDIm6cTcKdm1Ztraq4W2bv6eu94SIYUTBpXculUzJiLK05nDzIZQY
+         X+ajUMzJ4+s3GZVMczZKydx+tBqLXWPIIcNeeaSKxDbOIpV+juiQrp9N9A7oMFbOy0ej
+         Bev1FExTBu9b0hpfG/pxEJkztwcOKTfi7ojBA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689324451; x=1691916451;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1689324671; x=1691916671;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FA7l8IIaj4aslYJzQ2fc8TOlfhX9HZt+/RtZQq7WtRA=;
-        b=e+977IhrErSCCwysLastELoM3c6lhfAjL9Ah7VPctUfG7Q2cWIDWilEOn6JYAljMk1
-         nTdErCWthCKuO2bcMPRyPmHIiha3p1e+V6xJZMdMnuCDNIXIWVn8zne2zB162x2AWFgq
-         ObTYlbx2fwVXfOGOLHrNtFu+1AahT6efSLfFC95fCwIS377f38NC89GlZUL6cGsmiNtI
-         nzzItg1G5bf4Udmz9LfjLSSSDNevdWW6YotRlBIfZo1OE5mlv94CKeMkBl9CqRofC0ov
-         O684JYv/qvkvSw8OI6IlrMKTScPI53XlGy4KoUn2+wAOp13I34ICV+5YJHhPcUtZ7Tz7
-         W5qQ==
-X-Gm-Message-State: ABy/qLZcFFlJLJb0fcAd1l6Kc7i6WPSQbKqUMSlcvLLd5SqsA/9RZMmM
-        ItMmq8u7H3zZWsu6Y/r/P+lv5g==
-X-Google-Smtp-Source: APBJJlGbRMLTxhL0KR5Vo3tgekUEa/KYea9Ns8LQK2+4AHZpZEZ1JvWe0hTShfEvBphmXA2MIroU3Q==
-X-Received: by 2002:a05:6402:1210:b0:51d:ec25:ce38 with SMTP id c16-20020a056402121000b0051dec25ce38mr3932884edw.10.1689324450843;
-        Fri, 14 Jul 2023 01:47:30 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id w24-20020aa7cb58000000b0051e0f8aac74sm5480662edt.8.2023.07.14.01.47.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 01:47:30 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Conor Dooley <conor@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        bh=UVJFUGPgUiZjejGogHmLzYwwKGbHbhdGEjYSUHSjBfo=;
+        b=HcYBQE/jUFpYWG578N9PK5yUg7nhjZdz8o5aV4IbjVoY9rOrW8zFp08CMVyNneM2Ij
+         2bQemxlNZS0GV6bp55u8Qqqk6SZQDEz7JuTnHd5ISNTzEPr+63+10j3Ne6U1kvvkigng
+         A0mSYakTpLXxuya9NLPFE8+CgcdAes3QoBnibwP9Vdr0TEGxrAjZ7yqFZrw9VL6fSZtg
+         HNo9LbHeBlCfQYikm4puvFltObJ43sKeuNYcyb7cBpxtokpGHzZxJxDb5aU4q1U4xUI7
+         NjZGnqn8qnuiHCOlQ9FnfewOeYopnZkkmQtYI/NcVadgLFyX8vGXlqY1y0rKnFuNeQEY
+         SNeA==
+X-Gm-Message-State: ABy/qLYBmtQxaxul8FVNCPrd83g95KQgSMT5nzIfd2EumKsDHS7DwYQ0
+        cC6sZLYyIbWEj2mLBMCsuWpRleYu0lLFjFH+Itzt
+X-Google-Smtp-Source: APBJJlHjR6JsuaMQbXZar+lmwIZWlDiqDI6I9i3Y4OuSMcqQfvuZ6VyIJunOF1Ue2HAQ0kQfJSL6fyyKFEWspQicjTo=
+X-Received: by 2002:a2e:8611:0:b0:2b6:ee1c:216a with SMTP id
+ a17-20020a2e8611000000b002b6ee1c216amr3436379lji.34.1689324671023; Fri, 14
+ Jul 2023 01:51:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230703124647.215952-1-alexghiti@rivosinc.com> <20230703124647.215952-9-alexghiti@rivosinc.com>
+In-Reply-To: <20230703124647.215952-9-alexghiti@rivosinc.com>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Fri, 14 Jul 2023 01:50:59 -0700
+Message-ID: <CAOnJCUJGHWicrhGOGPK_aduaD9jXz7THHcbU+i+7tK-ChtQxNg@mail.gmail.com>
+Subject: Re: [PATCH v4 08/10] Documentation: admin-guide: Add riscv sysctl_perf_user_access
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Nishanth Menon <nm@ti.com>, linux-riscv@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        soc@kernel.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/3] Documentation/process: maintainer-soc: add clean platforms profile
-Date:   Fri, 14 Jul 2023 10:47:24 +0200
-Message-Id: <20230714084725.27847-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230714084725.27847-1-krzysztof.kozlowski@linaro.org>
-References: <20230714084725.27847-1-krzysztof.kozlowski@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some SoC platforms require that commits must not bring any new
-dtbs_check warnings.  Maintainers of such platforms usually have some
-automation set, so any new warning will be spotted sooner or later.
-Worst case: they run the tests themselves.  Document requirements for
-such platforms, so contributors can expect their patches being dropped
-or ignored, if they bring new warnings for existing boards.
+On Mon, Jul 3, 2023 at 5:54=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc.=
+com> wrote:
+>
+> riscv now uses this sysctl so document its usage for this architecture.
+>
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst | 27 ++++++++++++++++++---
+>  1 file changed, 23 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/=
+admin-guide/sysctl/kernel.rst
+> index d85d90f5d000..19b627883313 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -941,16 +941,35 @@ enabled, otherwise writing to this file will return=
+ ``-EBUSY``.
+>  The default value is 8.
+>
+>
+> -perf_user_access (arm64 only)
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +perf_user_access (arm64 and riscv only)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Controls user space access for reading perf event counters.
+>
+> -Controls user space access for reading perf event counters. When set to =
+1,
+> -user space can read performance monitor counter registers directly.
+> +arm64
+> +=3D=3D=3D=3D=3D
+>
+>  The default value is 0 (access disabled).
+>
+> +When set to 1, user space can read performance monitor counter registers
+> +directly.
+> +
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../process/maintainer-handbooks.rst          |  1 +
- .../process/maintainer-soc-clean-dts.rst      | 22 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 3 files changed, 24 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/process/maintainer-soc-clean-dts.rst
+For ARM64, 1 also enables reading performance counters via perf interface o=
+nly.
+I don't think there is any way to access the counters directly in ARM64.
 
-diff --git a/Documentation/process/maintainer-handbooks.rst b/Documentation/process/maintainer-handbooks.rst
-index 9992bfd7eaa3..976391cec528 100644
---- a/Documentation/process/maintainer-handbooks.rst
-+++ b/Documentation/process/maintainer-handbooks.rst
-@@ -17,5 +17,6 @@ Contents:
- 
-    maintainer-netdev
-    maintainer-soc
-+   maintainer-soc-clean-dts
-    maintainer-tip
-    maintainer-kvm-x86
-diff --git a/Documentation/process/maintainer-soc-clean-dts.rst b/Documentation/process/maintainer-soc-clean-dts.rst
-new file mode 100644
-index 000000000000..87feeb5543ff
---- /dev/null
-+++ b/Documentation/process/maintainer-soc-clean-dts.rst
-@@ -0,0 +1,22 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============================
-+SoC Platforms with Strict DTS
-+=============================
-+
-+Overview
-+--------
-+
-+SoC platforms or subarchitectures follow all the rules from
-+Documentation/process/maintainer-soc.rst.  However platforms referencing this
-+document impose additional requirements listed below.
-+
-+Strict DTS DT schema compliance
-+-------------------------------
-+None of the changes to the SoC platform Devicetree sources (DTS files) can
-+bring new ``make dtbs_check W=1`` warnings.  The platform maintainers have
-+automation in place which should point out any new warnings.
-+
-+If a commit introducing new warning gets accepted somehow, the resulting issues
-+shall be fixed in reasonable time (e.g. within one release) or the commit
-+reverted.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b61289fa7891..7405fb6e38c3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1561,7 +1561,7 @@ S:	Maintained
- P:	Documentation/process/maintainer-soc.rst
- C:	irc://irc.libera.chat/armlinux
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git
--F:	Documentation/process/maintainer-soc.rst
-+F:	Documentation/process/maintainer-soc*.rst
- F:	arch/arm/boot/dts/Makefile
- F:	arch/arm64/boot/dts/Makefile
- 
--- 
-2.34.1
+>  See Documentation/arm64/perf.rst for more information.
+>
+> +riscv
+> +=3D=3D=3D=3D=3D
+> +
+> +When set to 0, user space access is disabled.
+> +
+> +The default value is 1, user space can read performance monitor counter
+> +registers through perf, any direct access without perf intervention will=
+ trigger
+> +an illegal instruction.
+> +
+> +When set to 2, which enables legacy mode (user space has direct access t=
+o cycle
+> +and insret CSRs only). Note that this legacy value is deprecated and wil=
+l be
+> +removed once all user space applications are fixed.
+> +
+> +Note that the time CSR is always directly accessible to all modes.
+>
+>  pid_max
+>  =3D=3D=3D=3D=3D=3D=3D
+> --
+> 2.39.2
+>
 
+
+--=20
+Regards,
+Atish
