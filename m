@@ -2,299 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF41EB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 11:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6341FEB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 11:17:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234317AbjGNLOh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 07:14:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60702 "EHLO
+        id S235295AbjGNLRI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 07:17:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229973AbjGNLOg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 07:14:36 -0400
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA1626AE;
-        Fri, 14 Jul 2023 04:14:34 -0700 (PDT)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fba8e2aa52so17451685e9.1;
-        Fri, 14 Jul 2023 04:14:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689333273; x=1691925273;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ka9amKpo1CCxEHUIhHtGYAE4Tvgc7QiGZQoTsn95Ms8=;
-        b=J8RTQIi42flq/BuJbnkc5dF9B/tmxjCjU2d/ur5E17e2E55/Dw7/zmAZw4CKZHjmsJ
-         0peDvlM66FThrjbv9SdqW6aMf0OJGhchRdNQc/UQYmScp7FVb3o8r2Uyhnc9iYTU6ERU
-         9y/fork9Y6sEouj6MaoYHpid5dIkNcfuZqN0RfadvNexBPEY5nqWfIz7yijklRpu2zRY
-         biWDfnbMlcujfGG4JpDfyQLkm0c595ZE6HeGtDG3HXcMx7TAhPOS4QJTCkOwRdJEmK7o
-         ZZ8j2doHmvKi/ne4MW52F56FTfY/ZJ1CZDOzCtxUBuGAkf8FhPk44h8XX+i61r+LX2g4
-         jBNw==
-X-Gm-Message-State: ABy/qLY5UoC0b2XwLLX6gy/rQ+2s1vUrID0kllLe+D912xwpIQD6ZiJE
-        MosrsFt0vstwhUZ2JYtztTo=
-X-Google-Smtp-Source: APBJJlHFDFUTYl5i3lcE0ReA3pP/WgSjIrl97snzNpFAEYsdN4uRpVr56VBh/MshrCYdHI/KWxq3rg==
-X-Received: by 2002:a7b:cd97:0:b0:3fc:92:73d6 with SMTP id y23-20020a7bcd97000000b003fc009273d6mr4009310wmj.11.1689333273092;
-        Fri, 14 Jul 2023 04:14:33 -0700 (PDT)
-Received: from localhost (fwdproxy-cln-000.fbsv.net. [2a03:2880:31ff::face:b00c])
-        by smtp.gmail.com with ESMTPSA id 8-20020a05600c028800b003fba94c9e18sm1228715wmk.4.2023.07.14.04.14.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 04:14:32 -0700 (PDT)
-From:   Breno Leitao <leitao@debian.org>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     leit@meta.com, Dave Jones <davej@codemonkey.org.uk>,
-        netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH next-next v3] netconsole: Append kernel version to message
-Date:   Fri, 14 Jul 2023 04:13:29 -0700
-Message-Id: <20230714111330.3069605-1-leitao@debian.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229973AbjGNLRH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 07:17:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09072D78;
+        Fri, 14 Jul 2023 04:17:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 64EEC61CDA;
+        Fri, 14 Jul 2023 11:17:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6E61C433C7;
+        Fri, 14 Jul 2023 11:17:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689333425;
+        bh=Yf59rtKFicaadtmI6Nu2BYl9fHiZoEYJ3kP0RAok4to=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Lv5p4XEJQEMYWbfF3sNwRz+QmN/bOZIdS4qb75dRXPFKTzZr72kGVX0h5YjfVYWdF
+         PhUgBU5l1GxxzHUCa0AYbY86VyEPh2lt5CQI/D1w2jl5eZFVlh9Zb0VIG95kKqkBON
+         0LQSgEEjpRwOHP4U8NL+kMLyDXECXLt7xgZVosEniQOAmc/Ac5G6MBnvVwz+/4JIhM
+         mHgYukXGY/eNVWv9vjAuxG4ig1/K/yzGnZpnoz05MCqOQZhfi5rkD6zU+9tP8uEp44
+         1VtjmtpAbcdPRbBt1Krv2ccvfEtR39qs02rULLJoWltPcziP8WwTLIu3jduXY5imNh
+         Z8jQYbEpf2UTw==
+Date:   Fri, 14 Jul 2023 12:17:00 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Charlie Jenkins <charlie@rivosinc.com>
+Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        paul.walmsley@sifive.com, palmer@rivosinc.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        mick@ics.forth.gr, jrtc27@jrtc27.com, rdunlap@infradead.org,
+        alexghiti@rivosinc.com
+Subject: Re: [PATCH v5 0/4] RISC-V: mm: Make SV48 the default address space
+Message-ID: <20230714-hangnail-stinking-60f9725ac0d5@spud>
+References: <20230714001430.75798-1-charlie@rivosinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jMLB4CN0CiHBLUdn"
+Content-Disposition: inline
+In-Reply-To: <20230714001430.75798-1-charlie@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Create a new netconsole runtime option that prepends the kernel version in
-the netconsole message. This is useful to map kernel messages to kernel
-version in a simple way, i.e., without checking somewhere which kernel
-version the host that sent the message is using.
 
-If this option is selected, then the "<release>," is prepended before the
-netconsole message. This is an example of a netconsole output, with
-release feature enabled:
+--jMLB4CN0CiHBLUdn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	6.4.0-01762-ga1ba2ffe946e;12,426,112883998,-;this is a test
+On Thu, Jul 13, 2023 at 05:13:59PM -0700, Charlie Jenkins wrote:
+> Make sv48 the default address space for mmap as some applications
+> currently depend on this assumption. Users can now select a
+> desired address space using a non-zero hint address to mmap. Previously,
+> requesting the default address space from mmap by passing zero as the hint
+> address would result in using the largest address space possible. Some
+> applications depend on empty bits in the virtual address space, like Go a=
+nd
+> Java, so this patch provides more flexibility for application developers.
 
-Cc: Dave Jones <davej@codemonkey.org.uk>
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
-V1 -> V2:
- * Configured at runtime instead of at compilation time.
- * Reuse send_ext_msg_udp to avoid extra memory allocation.
-V2 -> V3:
- * Do no enable netcons if parameters release is set but not extended
-   log.
----
- Documentation/networking/netconsole.rst | 11 +++-
- drivers/net/netconsole.c                | 81 ++++++++++++++++++++++++-
- 2 files changed, 88 insertions(+), 4 deletions(-)
+The patchwork automation failed to apply this, what is the base for the
+series?
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index dd0518e002f6..7a9de0568e84 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -13,6 +13,8 @@ IPv6 support by Cong Wang <xiyou.wangcong@gmail.com>, Jan 1 2013
- 
- Extended console support by Tejun Heo <tj@kernel.org>, May 1 2015
- 
-+Release prepend support by Breno Leitao <leitao@debian.org>, Jul 7 2023
-+
- Please send bug reports to Matt Mackall <mpm@selenic.com>
- Satyam Sharma <satyam.sharma@gmail.com>, and Cong Wang <xiyou.wangcong@gmail.com>
- 
-@@ -34,10 +36,11 @@ Sender and receiver configuration:
- It takes a string configuration parameter "netconsole" in the
- following format::
- 
-- netconsole=[+][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr]
-+ netconsole=[+][r][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr]
- 
-    where
- 	+             if present, enable extended console support
-+	r             if present, prepend kernel version (release) to the message
- 	src-port      source for UDP packets (defaults to 6665)
- 	src-ip        source IP to use (interface address)
- 	dev           network interface (eth0)
-@@ -125,6 +128,7 @@ The interface exposes these parameters of a netconsole target to userspace:
- 	==============  =================================       ============
- 	enabled		Is this target currently enabled?	(read-write)
- 	extended	Extended mode enabled			(read-write)
-+	release		Prepend kernel release to message	(read-write)
- 	dev_name	Local network interface name		(read-write)
- 	local_port	Source UDP port to use			(read-write)
- 	remote_port	Remote agent's UDP port			(read-write)
-@@ -165,6 +169,11 @@ following format which is the same as /dev/kmsg::
- 
-  <level>,<sequnum>,<timestamp>,<contflag>;<message text>
- 
-+If 'r' (release) feature is enabled, the kernel release version is
-+prepended to the start of the message. Example::
-+
-+ 6.4.0,6,444,501151268,-;netconsole: network logging started
-+
- Non printable characters in <message text> are escaped using "\xff"
- notation. If the message contains optional dictionary, verbatim
- newline is used as the delimiter.
-diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-index 4f4f79532c6c..31cbe02eda49 100644
---- a/drivers/net/netconsole.c
-+++ b/drivers/net/netconsole.c
-@@ -36,6 +36,7 @@
- #include <linux/inet.h>
- #include <linux/configfs.h>
- #include <linux/etherdevice.h>
-+#include <linux/utsname.h>
- 
- MODULE_AUTHOR("Maintainer: Matt Mackall <mpm@selenic.com>");
- MODULE_DESCRIPTION("Console driver for network interfaces");
-@@ -84,6 +85,8 @@ static struct console netconsole_ext;
-  *		Also, other parameters of a target may be modified at
-  *		runtime only when it is disabled (enabled == 0).
-  * @extended:	Denotes whether console is extended or not.
-+ * @release:	Denotes whether kernel release version should be prepended
-+ *		to the message. Depends on extended console.
-  * @np:		The netpoll structure for this target.
-  *		Contains the other userspace visible parameters:
-  *		dev_name	(read-write)
-@@ -101,6 +104,7 @@ struct netconsole_target {
- #endif
- 	bool			enabled;
- 	bool			extended;
-+	bool			release;
- 	struct netpoll		np;
- };
- 
-@@ -188,6 +192,15 @@ static struct netconsole_target *alloc_param_target(char *target_config)
- 		target_config++;
- 	}
- 
-+	if (*target_config == 'r') {
-+		if (!nt->extended) {
-+			pr_err("Netconsole configuration error. Release feature requires extended log message");
-+			goto fail;
-+		}
-+		nt->release = true;
-+		target_config++;
-+	}
-+
- 	/* Parse parameters and setup netpoll */
- 	err = netpoll_parse_options(&nt->np, target_config);
- 	if (err)
-@@ -222,6 +235,7 @@ static void free_param_target(struct netconsole_target *nt)
-  *				|
-  *				<target>/
-  *				|	enabled
-+ *				|	release
-  *				|	dev_name
-  *				|	local_port
-  *				|	remote_port
-@@ -254,6 +268,11 @@ static ssize_t extended_show(struct config_item *item, char *buf)
- 	return snprintf(buf, PAGE_SIZE, "%d\n", to_target(item)->extended);
- }
- 
-+static ssize_t release_show(struct config_item *item, char *buf)
-+{
-+	return snprintf(buf, PAGE_SIZE, "%d\n", to_target(item)->release);
-+}
-+
- static ssize_t dev_name_show(struct config_item *item, char *buf)
- {
- 	return snprintf(buf, PAGE_SIZE, "%s\n", to_target(item)->np.dev_name);
-@@ -332,6 +351,11 @@ static ssize_t enabled_store(struct config_item *item,
- 	}
- 
- 	if (enabled) {	/* true */
-+		if (nt->release && !nt->extended) {
-+			pr_err("Not enabling netconsole. Release feature requires extended log message");
-+			goto out_unlock;
-+		}
-+
- 		if (nt->extended && !console_is_registered(&netconsole_ext))
- 			register_console(&netconsole_ext);
- 
-@@ -366,6 +390,38 @@ static ssize_t enabled_store(struct config_item *item,
- 	return err;
- }
- 
-+static ssize_t release_store(struct config_item *item, const char *buf,
-+			     size_t count)
-+{
-+	struct netconsole_target *nt = to_target(item);
-+	int release;
-+	int err;
-+
-+	mutex_lock(&dynamic_netconsole_mutex);
-+	if (nt->enabled) {
-+		pr_err("target (%s) is enabled, disable to update parameters\n",
-+		       config_item_name(&nt->item));
-+		err = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	err = kstrtoint(buf, 10, &release);
-+	if (err < 0)
-+		goto out_unlock;
-+	if (release < 0 || release > 1) {
-+		err = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	nt->release = release;
-+
-+	mutex_unlock(&dynamic_netconsole_mutex);
-+	return strnlen(buf, count);
-+out_unlock:
-+	mutex_unlock(&dynamic_netconsole_mutex);
-+	return err;
-+}
-+
- static ssize_t extended_store(struct config_item *item, const char *buf,
- 		size_t count)
- {
-@@ -576,10 +632,12 @@ CONFIGFS_ATTR(, local_ip);
- CONFIGFS_ATTR(, remote_ip);
- CONFIGFS_ATTR_RO(, local_mac);
- CONFIGFS_ATTR(, remote_mac);
-+CONFIGFS_ATTR(, release);
- 
- static struct configfs_attribute *netconsole_target_attrs[] = {
- 	&attr_enabled,
- 	&attr_extended,
-+	&attr_release,
- 	&attr_dev_name,
- 	&attr_local_port,
- 	&attr_remote_port,
-@@ -772,9 +830,23 @@ static void send_ext_msg_udp(struct netconsole_target *nt, const char *msg,
- 	const char *header, *body;
- 	int offset = 0;
- 	int header_len, body_len;
-+	const char *msg_ready = msg;
-+	const char *release;
-+	int release_len = 0;
-+
-+	if (nt->release) {
-+		release = init_utsname()->release;
-+		release_len = strlen(release) + 1;
-+	}
- 
--	if (msg_len <= MAX_PRINT_CHUNK) {
--		netpoll_send_udp(&nt->np, msg, msg_len);
-+	if (msg_len + release_len <= MAX_PRINT_CHUNK) {
-+		/* No fragmentation needed */
-+		if (nt->release) {
-+			scnprintf(buf, MAX_PRINT_CHUNK, "%s,%s", release, msg);
-+			msg_len += release_len;
-+			msg_ready = buf;
-+		}
-+		netpoll_send_udp(&nt->np, msg_ready, msg_len);
- 		return;
- 	}
- 
-@@ -792,7 +864,10 @@ static void send_ext_msg_udp(struct netconsole_target *nt, const char *msg,
- 	 * Transfer multiple chunks with the following extra header.
- 	 * "ncfrag=<byte-offset>/<total-bytes>"
- 	 */
--	memcpy(buf, header, header_len);
-+	if (nt->release)
-+		scnprintf(buf, MAX_PRINT_CHUNK, "%s,", release);
-+	memcpy(buf + release_len, header, header_len);
-+	header_len += release_len;
- 
- 	while (offset < body_len) {
- 		int this_header = header_len;
--- 
-2.34.1
+>=20
+> -Charlie
+>=20
+> ---
+> v5:
+> - Minor wording change in documentation
+> - Change some parenthesis in arch_get_mmap_ macros
+> - Added case for addr=3D=3D0 in arch_get_mmap_ because without this, prog=
+rams would
+>   crash if RLIMIT_STACK was modified before executing the program. This w=
+as
+>   tested using the libhugetlbfs tests.=20
+>=20
+> v4:
+> - Split testcases/document patch into test cases, in-code documentation, =
+and
+>   formal documentation patches
+> - Modified the mmap_base macro to be more legible and better represent me=
+mory
+>   layout
+> - Fixed documentation to better reflect the implmentation
+> - Renamed DEFAULT_VA_BITS to MMAP_VA_BITS
+> - Added additional test case for rlimit changes
+> ---
+>=20
+> Charlie Jenkins (4):
+>   RISC-V: mm: Restrict address space for sv39,sv48,sv57
+>   RISC-V: mm: Add tests for RISC-V mm
+>   RISC-V: mm: Update pgtable comment documentation
+>   RISC-V: mm: Document mmap changes
+>=20
+>  Documentation/riscv/vm-layout.rst             |  22 +++
+>  arch/riscv/include/asm/elf.h                  |   2 +-
+>  arch/riscv/include/asm/pgtable.h              |  20 ++-
+>  arch/riscv/include/asm/processor.h            |  46 +++++-
+>  tools/testing/selftests/riscv/Makefile        |   2 +-
+>  tools/testing/selftests/riscv/mm/.gitignore   |   1 +
+>  tools/testing/selftests/riscv/mm/Makefile     |  21 +++
+>  .../selftests/riscv/mm/testcases/mmap.c       | 133 ++++++++++++++++++
+>  8 files changed, 234 insertions(+), 13 deletions(-)
+>  create mode 100644 tools/testing/selftests/riscv/mm/.gitignore
+>  create mode 100644 tools/testing/selftests/riscv/mm/Makefile
+>  create mode 100644 tools/testing/selftests/riscv/mm/testcases/mmap.c
+>=20
+> --=20
+> 2.41.0
+>=20
 
+--jMLB4CN0CiHBLUdn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZLEurAAKCRB4tDGHoIJi
+0vWmAQC/EywXok82Hrth9kz9y/zRYvLkySW1jR8buVPiN1zfigEAnSaGF2UkAjYa
+6VCcjkwS7uQI4c/XFRtzztmmptbfaQo=
+=V+TD
+-----END PGP SIGNATURE-----
+
+--jMLB4CN0CiHBLUdn--
