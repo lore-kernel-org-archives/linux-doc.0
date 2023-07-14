@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8B0FEB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 09:29:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FD37C001DD
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 09:30:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235660AbjGNJ3q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 05:29:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53772 "EHLO
+        id S235806AbjGNJaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 05:30:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235659AbjGNJ3p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 05:29:45 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E92A2D63
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 02:29:43 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2b6f52e1c5cso25274661fa.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 02:29:43 -0700 (PDT)
+        with ESMTP id S235801AbjGNJaK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 05:30:10 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830B62D63
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 02:30:09 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2b700e85950so24816281fa.3
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 02:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1689326981; x=1691918981;
+        d=atishpatra.org; s=google; t=1689327008; x=1691919008;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HPuE+yRzqiEB8varg/w30zSn9gbVAkPIryT0l1Bao0s=;
-        b=jK5Xtm5jSqA1gQEB1zqIWZrWjhypJYmneNg2c/JPWKd+ea9Kaql368JQ7WEkdFlnDc
-         3NyBkZhtAZeJEoB0DyaD+4ec+9G/adfezCCfH+VSTTPf95jFkGBE+PWh5KR5MrVQU413
-         puA97e3k8noBO4WvDAM2xRmZO11oKqI0SGP1Y=
+        bh=dosegy5s6S3Py/sYCBb7fr6YwHTMUrv8EM9f77WeMOc=;
+        b=Xqcw23ipPcPee2KGDUUmScxC6YI+Lt+tpZLhyiWzpqBFRO340fdakn0xdVV1NlwZYo
+         8LZbDjW6NUOsDs0GB/lm0oM1oxUlYm5/QtzGj1+yTps3jl6EW1l2EbnJeFvc6s69+PMu
+         3etpZNsNrgUTw2j28xUGW6FsyP7PGWyvOkhIA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689326981; x=1691918981;
+        d=1e100.net; s=20221208; t=1689327008; x=1691919008;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HPuE+yRzqiEB8varg/w30zSn9gbVAkPIryT0l1Bao0s=;
-        b=MCnAE9OrpydLfXbhBRfa41YjvhZvlR9bgtl9FhxCWfLl+mlhMpDSQTaADkJE7HwP8Z
-         5ZUwGurwvJM/ktCjXxevFCikRqKcZmcq4K+asPS0l5bV7t65k8mQf0PYGhIqiwx82w7W
-         gwH7cV8gFSXB7PC8XY2eJR7ONB4IQoZEAciJrtyLMkvw183Snv8fCzDRMw95D6Ry5NPx
-         HH9ET+qL7kjOzHDSClvPZhvO7nZ2UFSKGGXFBfTzWTdEUaBSTrE5VFaLRniuMlo1BkGY
-         DWYgWPLR8oIwR8b2dPsFbCb6+dMNNf5O+osbTyr+UNYnoz3/1D7cQwbYqWYUT33l22A+
-         FZEw==
-X-Gm-Message-State: ABy/qLbY6Mm7pUfaLFz1Dudv2HmeZ9Eg+1nuqIWZXq4G2OD9jNwqku1O
-        0GcXkeRMEm33vg6RUYB4+z0s+DA+96m9yb3upCjc
-X-Google-Smtp-Source: APBJJlH+wwYG8rQHkktJTc9cF2xK2F2ZrpVsAjubYvXyVIMRlsbQTU4ksU6lDxZvd+KH8RWoOin1VgN0rwcYfkVGNd0=
-X-Received: by 2002:a2e:b04b:0:b0:2b8:3ff3:cd93 with SMTP id
- d11-20020a2eb04b000000b002b83ff3cd93mr643024ljl.7.1689326981568; Fri, 14 Jul
- 2023 02:29:41 -0700 (PDT)
+        bh=dosegy5s6S3Py/sYCBb7fr6YwHTMUrv8EM9f77WeMOc=;
+        b=AxwzAcmCmZjWi5mY1wlhi4dXa3ijbQpcJdcCMtoACOr8qa0+B1uh2treIbs+tWltF3
+         r8My0kZBN/EFoVsPNL7npKwit5PYi0Q0/qutPtH5+FAc4cU+BQedqxke1GL/nzMzi/ip
+         69Vy8KUV9CA/5fV2wlk3j4rmFXlFUH58rwGbNfjDokzIv9aj1q+zUAvNOsvoeidB71IA
+         V2L68Uylkta6uS29KtrdvFfyMDf4PzZak1+OcBmLqjrcN1DW0iHqMGNcsIwP514FsuV0
+         wpXR93EqAiQ1/ObQAbPTV62dvJ4yjvrlo6Vu3J+zdf8xDZo1312kpd3oUM28/XyRxw62
+         /EJQ==
+X-Gm-Message-State: ABy/qLaLhj19TriYa/jDO5ZNDlnEBiM2XLfO2R8QgQnn22277Vn+zBsG
+        3YWI879Cc5ZvgK/MR8o+TLavoijmIZ2Rf2oULkJD
+X-Google-Smtp-Source: APBJJlEPgo1IICV+iHBqiUW+Vh3Nr2Vbvx10CePV36LNEMGHrNoz3v5ECTBa/vGZDHxkGoGYB97wfvhB3JFhCknlnkc=
+X-Received: by 2002:a2e:a16f:0:b0:2b6:d57f:d81 with SMTP id
+ u15-20020a2ea16f000000b002b6d57f0d81mr3198367ljl.53.1689327007925; Fri, 14
+ Jul 2023 02:30:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230703124647.215952-1-alexghiti@rivosinc.com> <20230703124647.215952-10-alexghiti@rivosinc.com>
-In-Reply-To: <20230703124647.215952-10-alexghiti@rivosinc.com>
+References: <20230703124647.215952-1-alexghiti@rivosinc.com> <20230703124647.215952-11-alexghiti@rivosinc.com>
+In-Reply-To: <20230703124647.215952-11-alexghiti@rivosinc.com>
 From:   Atish Patra <atishp@atishpatra.org>
-Date:   Fri, 14 Jul 2023 02:29:30 -0700
-Message-ID: <CAOnJCULxXRx0H30zrozcEJ5Nhmco7+m98kJxf8BGJsob8F97MA@mail.gmail.com>
-Subject: Re: [PATCH v4 09/10] tools: lib: perf: Implement riscv mmap support
+Date:   Fri, 14 Jul 2023 02:29:56 -0700
+Message-ID: <CAOnJCUJcYAX3=h=O6nCjN+hAL9cT8Cmw5sgXa1MZpKEPCuyM-A@mail.gmail.com>
+Subject: Re: [PATCH v4 10/10] perf: tests: Adapt mmap-basic.c for riscv
 To:     Alexandre Ghiti <alexghiti@rivosinc.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -75,95 +75,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 3, 2023 at 5:56=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc.=
+On Mon, Jul 3, 2023 at 5:57=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc.=
 com> wrote:
 >
-> riscv now supports mmaping hardware counters so add what's needed to
-> take advantage of that in libperf.
+> riscv now supports mmaping hardware counters to userspace so adapt the te=
+st
+> to run on this architecture.
 >
 > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 > ---
->  tools/lib/perf/mmap.c | 65 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 65 insertions(+)
+>  tools/perf/tests/mmap-basic.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/tools/lib/perf/mmap.c b/tools/lib/perf/mmap.c
-> index 0d1634cedf44..378a163f0554 100644
-> --- a/tools/lib/perf/mmap.c
-> +++ b/tools/lib/perf/mmap.c
-> @@ -392,6 +392,71 @@ static u64 read_perf_counter(unsigned int counter)
->
->  static u64 read_timestamp(void) { return read_sysreg(cntvct_el0); }
->
-> +#elif __riscv_xlen =3D=3D 64
-> +
-> +/* TODO: implement rv32 support */
-> +
-> +#define CSR_CYCLE      0xc00
-> +#define CSR_TIME       0xc01
-> +
-> +#define csr_read(csr)                                          \
-> +({                                                             \
-> +       register unsigned long __v;                             \
-> +               __asm__ __volatile__ ("csrr %0, " #csr          \
-> +                : "=3Dr" (__v) :                                 \
-> +                : "memory");                                   \
-> +                __v;                                           \
-> +})
-> +
-> +static unsigned long csr_read_num(int csr_num)
-> +{
-> +#define switchcase_csr_read(__csr_num, __val)           {\
-> +       case __csr_num:                                 \
-> +               __val =3D csr_read(__csr_num);            \
-> +               break; }
-> +#define switchcase_csr_read_2(__csr_num, __val)         {\
-> +       switchcase_csr_read(__csr_num + 0, __val)        \
-> +       switchcase_csr_read(__csr_num + 1, __val)}
-> +#define switchcase_csr_read_4(__csr_num, __val)         {\
-> +       switchcase_csr_read_2(__csr_num + 0, __val)      \
-> +       switchcase_csr_read_2(__csr_num + 2, __val)}
-> +#define switchcase_csr_read_8(__csr_num, __val)         {\
-> +       switchcase_csr_read_4(__csr_num + 0, __val)      \
-> +       switchcase_csr_read_4(__csr_num + 4, __val)}
-> +#define switchcase_csr_read_16(__csr_num, __val)        {\
-> +       switchcase_csr_read_8(__csr_num + 0, __val)      \
-> +       switchcase_csr_read_8(__csr_num + 8, __val)}
-> +#define switchcase_csr_read_32(__csr_num, __val)        {\
-> +       switchcase_csr_read_16(__csr_num + 0, __val)     \
-> +       switchcase_csr_read_16(__csr_num + 16, __val)}
-> +
-> +       unsigned long ret =3D 0;
-> +
-> +       switch (csr_num) {
-> +       switchcase_csr_read_32(CSR_CYCLE, ret)
-> +       default:
-> +               break;
-> +       }
-> +
-> +       return ret;
-> +#undef switchcase_csr_read_32
-> +#undef switchcase_csr_read_16
-> +#undef switchcase_csr_read_8
-> +#undef switchcase_csr_read_4
-> +#undef switchcase_csr_read_2
-> +#undef switchcase_csr_read
-> +}
-> +
-> +static u64 read_perf_counter(unsigned int counter)
-> +{
-> +       return csr_read_num(CSR_CYCLE + counter);
-> +}
-> +
-> +static u64 read_timestamp(void)
-> +{
-> +       return csr_read_num(CSR_TIME);
-> +}
-> +
+> diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.=
+c
+> index e68ca6229756..f5075ca774f8 100644
+> --- a/tools/perf/tests/mmap-basic.c
+> +++ b/tools/perf/tests/mmap-basic.c
+> @@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] =3D {
+>                          "permissions"),
+>         TEST_CASE_REASON("User space counter reading of instructions",
+>                          mmap_user_read_instr,
+> -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
+> +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || =
+__riscv_xlen =3D=3D 64
+>                          "permissions"
 >  #else
->  static u64 read_perf_counter(unsigned int counter __maybe_unused) { retu=
-rn 0; }
->  static u64 read_timestamp(void) { return 0; }
+>                          "unsupported"
+> @@ -292,7 +292,7 @@ static struct test_case tests__basic_mmap[] =3D {
+>                 ),
+>         TEST_CASE_REASON("User space counter reading of cycles",
+>                          mmap_user_read_cycles,
+> -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
+> +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || =
+__riscv_xlen =3D=3D 64
+>                          "permissions"
+>  #else
+>                          "unsupported"
 > --
 > 2.39.2
 >
