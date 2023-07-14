@@ -2,63 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C3EEB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 03:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72CC1EB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 03:28:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234410AbjGNDQo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 23:16:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40662 "EHLO
+        id S234822AbjGND2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 23:28:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229580AbjGNDQn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 23:16:43 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF3B8269D
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 20:16:41 -0700 (PDT)
-Received: from cwcc.thunk.org (pool-173-48-82-193.bstnma.fios.verizon.net [173.48.82.193])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 36E3GOMP025390
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 13 Jul 2023 23:16:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1689304587; bh=3LUnnjT3pGUyMkQArakk9mIcEmwYS0xaw1BgQ8VKDRg=;
-        h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-        b=CVWRo4BJTpYkOkyNhrLG0MoY/jorNvWdYP7cusP9KHt9yv9adnylUDp44sPLrU6+A
-         qJCrvlOIbnAjta+QKq01aAk9fqJmV1mtMv74WesBIQejUZfwCU2MkgdMB/l0R/nzxF
-         e0UfhTibxVtxYLQfAZsT6vG4vFxIfCHafF3WyXJMk8AzvzL64LtrMAfy38y+47HwrF
-         yIyE+xGRr+kETCX48C8kAeO2TpWr2CZ38UcpnLnurTa3hGrnVf6Vtq7Dcmul3b5M/T
-         vtLbERS262NjluLvP/svl4E86plu2a0zutPNBthtWHzfq3mK9ZImBco736ynOor61O
-         sNmyKqrB6bp7A==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id BFDEB15C0280; Thu, 13 Jul 2023 23:16:24 -0400 (EDT)
-Date:   Thu, 13 Jul 2023 23:16:24 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH docs] docs: maintainers: suggest including lore link for
- conflicts known to linux-next
-Message-ID: <20230714031624.GA3736130@mit.edu>
-References: <20230713230417.1504773-1-kuba@kernel.org>
- <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
+        with ESMTP id S234819AbjGND2b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 23:28:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 957DC26A5;
+        Thu, 13 Jul 2023 20:28:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2756B61BAA;
+        Fri, 14 Jul 2023 03:28:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BECDFC433C7;
+        Fri, 14 Jul 2023 03:28:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689305308;
+        bh=2xj8F0S6TzwUbEUnsVNE1YC34zaDXKl959eBBMlj52s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=J9M4mF9jlTs29Tku+qyUmRi0yvEnNSyQttTlGjlCjm3nIvIM6qvY1GekaAEVY+M54
+         Ek8S1m+5OJoc7ZHsJ/sSOiuSDZLDz6KBNDGIw6VV06aR18RAPYnzAqK1pFaFspPLi5
+         zLRQdLy8GmCSDN41biWTzUBF6HfAjYaMgrw/6l2VCRQmq109qAUXVPCudZ18Mhs3oG
+         DSd8ul0FpLW4wqJgcVKKMDg9pQCEmjVTz2oaOPnkaWT0jHU9gnH0nekSlTxQMJ8eEo
+         HwritwpbLXtxHm5wbqDbyKLnyryihOd50frFNT8/nOXeyG3APooRSLQNlgw12jPtOp
+         PJUKnH3Sb4akg==
+Date:   Thu, 13 Jul 2023 20:28:26 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Hariprasad Kelam <hkelam@marvell.com>
+Cc:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <davem@davemloft.net>, <willemdebruijn.kernel@gmail.com>,
+        <andrew@lunn.ch>, <sgoutham@marvell.com>, <lcherian@marvell.com>,
+        <gakula@marvell.com>, <jerinj@marvell.com>, <sbhatta@marvell.com>,
+        <naveenm@marvell.com>, <edumazet@google.com>, <pabeni@redhat.com>,
+        <jhs@mojatatu.com>, <xiyou.wangcong@gmail.com>, <jiri@resnulli.us>,
+        <maxtram95@gmail.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [net-next Patchv2 0/3] support Round Robin scheduling
+Message-ID: <20230713202826.52cb8389@kernel.org>
+In-Reply-To: <20230713060111.14169-1-hkelam@marvell.com>
+References: <20230713060111.14169-1-hkelam@marvell.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 05:47:18PM -0700, Linus Torvalds wrote:
-> 
-> You can point to the email that Stephen sent (using lore), or you can
-> quote his resolution (or your own, if you do a test-merge, like many
-> people do) if you want.  It's not a requirement.
+On Thu, 13 Jul 2023 11:31:08 +0530 Hariprasad Kelam wrote:
+> octeontx2 and CN10K silicons support Round Robin scheduling. When multiple
+> traffic flows reach transmit level with the same priority, with Round Robin
+> scheduling traffic flow with the highest quantum value is picked. With this
+> support, the user can add multiple classes with the same priority and
+> different quantum in htb offload.
 
-Yeah, I normally do my own test merge.  I might check to see if it's
-the same as the one which is in linux-next, but the more importantly,
-I then run a full set of regression tests and make sure there are no
-new test failures caused by the merge resolution.
-
-					- Ted
+Please extend the driver documentation appropriately, there's 
+a "Setup HTB offload" section which only shows strict prio now.
+-- 
+pw-bot: cr
