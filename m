@@ -2,75 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 750C7EB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 13:29:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D580EB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 13:35:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234892AbjGNN3O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 09:29:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38340 "EHLO
+        id S235734AbjGNNfx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 09:35:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234638AbjGNN3O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 09:29:14 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8BB02691;
-        Fri, 14 Jul 2023 06:29:12 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 563BD2DC;
-        Fri, 14 Jul 2023 13:29:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 563BD2DC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689341351; bh=H9tz5ldsMO8c9+uUJZhkOeHUmpPUNR2Ib1G3wp49Bhc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Am+uUs2BwqV9EprXa3PcWPC88FAiB/JW4muHNqUgE1Bb2D1ucDfL3OUhaitAOxBV9
-         5ub7+WpXxnZj+b48CHRMgCArIuz7MDzjyxV5vr2Ts/MsKQZqo5puhALartHPwMC7y6
-         3a2e/xSi9HFmOGylEJhy8MnJGsSdILHyYbjElZfoOMOl5ip1BSvgozGQTkdzvLiONq
-         gOYz8kbDW3efmAB3qMCnK81IWXYbGPq8CAqRukJwl9tZwmizIMVSFisi3VO0WilPBH
-         hOPjhXuG0KSwxsNJ91RQbgXiKtRr2gIDDFiZS21pmoOpnU3rk6lKFkq6XbaA9VqVLr
-         RTdoyIVbHO/rg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     linux-doc@vger.kernel.org, arkadiusz.kubalewski@intel.com,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH docs] scripts: kernel-doc: support private / public
- marking for enums
-In-Reply-To: <d5727371-e580-a956-7846-b529f17048ca@infradead.org>
-References: <20230621223525.2722703-1-kuba@kernel.org>
- <399c98c8-fbf5-8b90-d343-e25697b2e6fa@infradead.org>
- <d5727371-e580-a956-7846-b529f17048ca@infradead.org>
-Date:   Fri, 14 Jul 2023 07:29:10 -0600
-Message-ID: <875y6m39ll.fsf@meer.lwn.net>
+        with ESMTP id S235219AbjGNNfp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 09:35:45 -0400
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B163FAA
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 06:35:43 -0700 (PDT)
+Received: by mail-io1-xd34.google.com with SMTP id ca18e2360f4ac-783544a1c90so77324439f.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 06:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689341743; x=1691933743;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OrrlpET1J++D0rWn+MEFzbX9FlSrTXFzI92fTxQjI5s=;
+        b=mwlleTSR8yEy1PaS939rfY4GuBWcXyWA0t8fIi9rgz1Pxwi/AZM6vk8gypg4p5WTzN
+         3l7l9N0d2tmi5avur0AIPBn2UGUs0QwvXlI0WKiDqpNWGNJ/AuIXhmjcfFnulgwYWBAA
+         X+49Py+hY3mt+d74cTdPjb5XxMIDZJ0xJyxvcIPsfmzc3pIpDwiuVUjUPq/9aBdv2sNL
+         QoI+5pQVpxo8l97IjqVAlNtXgafrbO+bUDvXxazPH9RnXtHMpi/JyiZD99DxSTx/OM2q
+         aPAjXC4cLsATkJFzSo6W+NX6Z7Gy4rEUMpn2BfcMY5Vc6ahqzi+2o9ykaVuui1QUJkr6
+         nvFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689341743; x=1691933743;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OrrlpET1J++D0rWn+MEFzbX9FlSrTXFzI92fTxQjI5s=;
+        b=SrGrEBLoZBxtek/qE6OBetEITPwEn6l++EL3+lVKnlpKBokCtrDFTtft/1DO6877h5
+         szSXfP/DNN/agvx5tfs8GUUomMhzGEfbTRFM7tZrAdjrhC3O8IHcMuANedf3I6F239YO
+         SovkRcB1OSdHqsubCsWYXapTbXIxx87ATH1blAbeRtt7tEnR++3nltQbtk+kbSDvRCYe
+         BjtTT6PR3cFDeASw93aj0vy+TVNdZyorJolAM44iZ5/7uQNSMvq9f8x0DmqCq2Fpa8hq
+         3tuL42876lsHuF7lW7LkOkoJqazWyvQvCGvbS28/2+vvi4cPos+OQhAyXw8xh+Qaz+vH
+         Dkgg==
+X-Gm-Message-State: ABy/qLbf+xZCmPv3tLHMF6+jCzkvOvprdMXrmjn0M+ODPsPdErCLPZxu
+        DNdeYJa5tOoNy/cv64LfIraAzg==
+X-Google-Smtp-Source: APBJJlEoST73Soh2t45u8KhAHwB+dZMgEFJ5zGII3htqmtNMTdG4c4gXQU4m3cr5Uaw+nkupDpxMlA==
+X-Received: by 2002:a6b:3c0c:0:b0:785:ff35:f340 with SMTP id k12-20020a6b3c0c000000b00785ff35f340mr4830684iob.14.1689341743082;
+        Fri, 14 Jul 2023 06:35:43 -0700 (PDT)
+Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
+        by smtp.gmail.com with ESMTPSA id v6-20020a6b5b06000000b007870289f4fdsm2623774ioh.51.2023.07.14.06.35.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jul 2023 06:35:42 -0700 (PDT)
+Message-ID: <c3a8bb16-7016-c3d6-1cf9-0e56535e51e2@linaro.org>
+Date:   Fri, 14 Jul 2023 08:35:40 -0500
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v14 01/25] docs: gunyah: Introduce Gunyah Hypervisor
+Content-Language: en-US
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Will Deacon <will@kernel.org>, Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20230613172054.3959700-1-quic_eberman@quicinc.com>
+ <20230613172054.3959700-2-quic_eberman@quicinc.com>
+ <cb1d4b05-26f3-22f5-ce8e-813d255cda8a@linaro.org>
+ <5dc7438c-e161-915c-c037-19c5099a274f@quicinc.com>
+From:   Alex Elder <elder@linaro.org>
+In-Reply-To: <5dc7438c-e161-915c-c037-19c5099a274f@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+On 7/3/23 5:41 PM, Elliot Berman wrote:
+>> If it's signaled after every message is sent, does it
+>> indicate that the message has been *received* by VM_B
+>> (versus just received and copied by Gunyah)?
+>>
+> 
+> To connect some dots: the Tx vIRQ is fired when the reader reads a 
+> message and the number of messages still in the queue decrements to the 
+> "not full" threshold.
+> 
+> https://github.com/quic/gunyah-hypervisor/blob/3d4014404993939f898018cfb1935c2d9bfc2830/hyp/ipc/msgqueue/src/msgqueue_common.c#L142-L148
 
-> Hi Jon,
->
-> On 6/21/23 20:10, Randy Dunlap wrote:
->> 
->> 
->> On 6/21/23 15:35, Jakub Kicinski wrote:
->>> Enums benefit from private markings, too. For netlink attribute
->>> name enums always end with a pair of __$n_MAX and $n_MAX members.
->>> Documenting them feels a bit tedious.
->>>
->>> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
->> 
->> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->> Tested-by: Randy Dunlap <rdunlap@infradead.org>
->> 
->> Thanks.
->
-> I have a need for this patch. Are you planning to merge it?
+So the Tx vIRQ on the sender is only fired when the state of the
+receiver's Rx queue goes from "full" to "not full".
 
-It's commit e27cb89a22ad in 6.5-rc1 ...
+Normally there is no signal sent, and a sender sends messages
+until it gets a "queue full" flag back from a gh_msgq_send()
+call.  At that point it should stop sending, until the Tx vIRQ
+fires to indicate the receiver queue has "room" (fewer than
+the "full threshold" messages are consumed).
 
-Thanks,
+There is no way (at this layer of the protocol) to tell whether
+a given message has been *received*, only that it has been *sent*
+(meaning the hypervisor has accepted it).  And Gunyah provides
+reliable delivery (each message received in send order, exactly
+once).
 
-jon
+Now that I re-read what you said it makes sense and I guess I
+just misunderstood.  There *might* be a way to reword slightly
+to prevent any misinterpretation.
+
+Thanks.
+
+					-Alex
