@@ -2,133 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F0AFC04A6A
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 22:57:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E30C001DF
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 23:23:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbjGNW51 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 18:57:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
+        id S229513AbjGNXXJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 19:23:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbjGNW50 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 18:57:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30B063593;
-        Fri, 14 Jul 2023 15:57:25 -0700 (PDT)
+        with ESMTP id S230043AbjGNXXI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 19:23:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01D05198A;
+        Fri, 14 Jul 2023 16:23:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B3D4A61E07;
-        Fri, 14 Jul 2023 22:57:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73C28C433C8;
-        Fri, 14 Jul 2023 22:57:10 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 93FD161E19;
+        Fri, 14 Jul 2023 23:23:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E83AFC433C9;
+        Fri, 14 Jul 2023 23:23:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689375444;
-        bh=P8clI5KtqQRzgFfns22g81I3g6E4+6MLCwEqWyZYU68=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qjATGNeW2AnMB8iSVCidFlZhH9OfkN7bAt2p7ldacOlxk00MBC0K43n0wGgdC/kES
-         5er615dq9DLL0q9cE1VNLaWlbFSi2IfYsicV7umDzTZyH4W2s60ky3l5tGI2zapesZ
-         a6IFRb5wsW2IyAbgdPu3qj324ZAqxXKa5uD5MSOHkbg0ycP0RX1WKos7Wx9s9h14c7
-         mr09nK6DvKTxBa912H2K859rBf/1exfAJQyuctMgVjw5UcRvPGqHIzg/7kZ1W2WHDS
-         fPdS6OedIvs2Ff2PDWFgTKxBrTglm+398FEIc7xd983iXS7+gUDgWarryvZetDtEg3
-         d1Xp1VJIV7NTA==
-Date:   Fri, 14 Jul 2023 23:57:06 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        John Allen <john.allen@amd.com>, kcc@google.com,
-        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, akpm@linux-foundation.org,
-        Andrew.Cooper3@citrix.com, christina.schimpe@intel.com,
-        david@redhat.com, debug@rivosinc.com, szabolcs.nagy@arm.com,
-        torvalds@linux-foundation.org, linux-alpha@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-        Michal Simek <monstr@monstr.eu>,
-        Dinh Nguyen <dinguyen@kernel.org>, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        Linus Torvalds <torvalds@linuxfoundation.org>
-Subject: Re: [PATCH v9 01/42] mm: Rename arch pte_mkwrite()'s to
- pte_mkwrite_novma()
-Message-ID: <b389274a-abed-40dc-8e33-7ce922ea9b61@sirena.org.uk>
-References: <20230613001108.3040476-1-rick.p.edgecombe@intel.com>
- <20230613001108.3040476-2-rick.p.edgecombe@intel.com>
+        s=k20201202; t=1689376987;
+        bh=Bq8mT5NowggKChVIveBcI4YHxzhRtHrerMWKoRsw5Pw=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=CusJZKSPNDZYaHuGoZLW0RNiN1XPXxFZWs4sjPPZrFunnq+0g3supEXXDQLCnojTU
+         5ZwSZq3nvymu/yqtJC9IPL/TGL8rkEf1CLVeMy9ll8xZUxb9GBV2lOrbZw4Ngk2GNj
+         LY6W/izS72cG8VBIdAmfihLm/g96aTiZf3fpc9pAUmigZD15uIanejpunbxAO/OWE7
+         eTQ5xQfYyejaKcR/FV+pyckTsDlxDwHug/RYbBtRjCcV7OK0s5SQojpm2Zs8aBX3FB
+         BqlbSWlXo223i97Z3BOLA4MxyodvwN/jEvXHy7wrzhxherAskioT8vVptpKLcbz0zX
+         YZ65S1yJ2eKww==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 7E86ECE0123; Fri, 14 Jul 2023 16:23:06 -0700 (PDT)
+Date:   Fri, 14 Jul 2023 16:23:06 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Alan Huang <mmpgouride@gmail.com>
+Cc:     frederic@kernel.org, quic_neeraju@quicinc.com,
+        joel@joelfernandes.org, josh@joshtriplett.org,
+        boqun.feng@gmail.com, corbet@lwn.net, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] docs/RCU: Bring back smp_wmb()
+Message-ID: <9eaf506f-cc14-4da6-9efc-057c0c3e56b0@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20230711150906.466434-1-mmpgouride@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Om+vkuYZS0OLKEiC"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230613001108.3040476-2-rick.p.edgecombe@intel.com>
-X-Cookie: Preserve the old, but know the new.
+In-Reply-To: <20230711150906.466434-1-mmpgouride@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jul 11, 2023 at 03:09:06PM +0000, Alan Huang wrote:
+> The objects are allocated with SLAB_TYPESAFE_BY_RCU, and there is
+> n->next = first within hlist_add_head_rcu() before rcu_assign_pointer(),
+> which modifies obj->obj_node.next. There may be readers holding the
+> reference of obj in lockless_lookup, and when updater modifies ->next,
+> readers can see the change immediately because of SLAB_TYPESAFE_BY_RCU.
+> 
+> There are two memory ordering required in the insertion algorithm,
+> we need to make sure obj->key is updated before obj->obj_node.next
+> and obj->refcnt, atomic_set_release is not enough to provide the
+> required memory barrier.
+> 
+> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
 
---Om+vkuYZS0OLKEiC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This is an interesting one!!!
 
-On Mon, Jun 12, 2023 at 05:10:27PM -0700, Rick Edgecombe wrote:
-> The x86 Shadow stack feature includes a new type of memory called shadow
-> stack. This shadow stack memory has some unusual properties, which requires
-> some core mm changes to function properly.
+Now I am having a hard time believing that the smp_rmb() suffices.
 
-This seems to break sparc64_defconfig when applied on top of v6.5-rc1:
+> ---
+> Changelog:
+>   v1 -> v2: Use _ONCE to protect obj->key.
+> 
+>  Documentation/RCU/rculist_nulls.rst | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
+> index 21e40fcc08de..2a9f5a63d334 100644
+> --- a/Documentation/RCU/rculist_nulls.rst
+> +++ b/Documentation/RCU/rculist_nulls.rst
+> @@ -47,7 +47,7 @@ objects, which is having below type.
+>      * reuse these object before the RCU grace period, we
+>      * must check key after getting the reference on object
+>      */
+> -    if (obj->key != key) { // not the object we expected
+> +    if (READ_ONCE(obj->key) != key) { // not the object we expected
+>        put_ref(obj);
+>        rcu_read_unlock();
+>        goto begin;
+> @@ -64,10 +64,10 @@ but a version with an additional memory barrier (smp_rmb())
+>    {
+>      struct hlist_node *node, *next;
+>      for (pos = rcu_dereference((head)->first);
+> -         pos && ({ next = pos->next; smp_rmb(); prefetch(next); 1; }) &&
+> +         pos && ({ next = READ_ONCE(pos->next); smp_rmb(); prefetch(next); 1; }) &&
 
-In file included from /home/broonie/git/bisect/include/linux/mm.h:29,
-                 from /home/broonie/git/bisect/net/core/skbuff.c:40:
-/home/broonie/git/bisect/include/linux/pgtable.h: In function 'pmd_mkwrite':
-/home/broonie/git/bisect/include/linux/pgtable.h:528:9: error: implicit declaration of function 'pmd_mkwrite_novma'; did you mean 'pte_mkwrite_novma'? [-Werror=implicit-function-declaration]
-  return pmd_mkwrite_novma(pmd);
-         ^~~~~~~~~~~~~~~~~
-         pte_mkwrite_novma
-/home/broonie/git/bisect/include/linux/pgtable.h:528:9: error: incompatible types when returning type 'int' but 'pmd_t' {aka 'struct <anonymous>'} was expected
-  return pmd_mkwrite_novma(pmd);
-         ^~~~~~~~~~~~~~~~~~~~~~
+Suppose that lockless_lookup() is delayed just before fetching pos->next,
+and that there were 17 more node to search in the list.
 
-The same issue seems to apply with the version that was in -next based
-on v6.4-rc4 too.
+Then consider the following sequence of events:
 
---Om+vkuYZS0OLKEiC
-Content-Type: application/pgp-signature; name="signature.asc"
+o	The updater deletes this same node and kmem_cache_free()s it.
 
------BEGIN PGP SIGNATURE-----
+o	Another updater kmem_cache_alloc()s that same memory and
+	inserts it into an empty hash chain with a different key.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSx0sEACgkQJNaLcl1U
-h9Cgsgf+I5DDysBO4SJ+jmxeXww6HYCycJsoc6oA/wVf/wO7aTv89RFcAPpwMOoq
-jZKiD/xiUtCMUcNE+ZtCQIYVymIrK1BBcNPzgflt5fa50gm53Hp2mcNFaUeriWjC
-x2DfyH1wsfgAjwv14aKu1m59Y7xdhIQWZ4HTezaEFND/3GQTrvGy8tHMDL07GKWz
-qL1gMkJ7kYVKEAf86IsSwbDBcSa/SV5cLbsL4S5GEm5K/hQcLwUqSw4WYuMLfNip
-Eb4Napl5JYGKJcb/IQIm/PGQbmnKgijPg7mR0lvF6RWZk39wCFxKQizahf6cRCwv
-HSMmlXJHILeOK57vaStYZJvapWZzdg==
-=/plS
------END PGP SIGNATURE-----
+o	Then lockless_lookup() fetches pos->next and sees a NULL pointer,
+	thus failing to search the remaining 17 nodes in the list,
+	one of which had the desired key value.
 
---Om+vkuYZS0OLKEiC--
+o	The lookup algorithm resumes and sees the NULL return from
+	lockless_lookup(), and ends up with a NULL obj.
+
+	And this happens even with the strongest possible ordering
+	everywhere.
+
+OK, yes, it is late on Friday.  So what am I missing here?
+
+Independent of that, does hlist_add_head_rcu() need to replace its
+"n->next = first" with "WRITE_ONCE(n->next, first)"?
+
+						Thanx, Paul
+
+>           ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
+>           pos = rcu_dereference(next))
+> -      if (obj->key == key)
+> +      if (READ_ONCE(obj->key) == key)
+>          return obj;
+>      return NULL;
+>    }
+> @@ -111,8 +111,13 @@ detect the fact that it missed following items in original chain.
+>     */
+>    obj = kmem_cache_alloc(...);
+>    lock_chain(); // typically a spin_lock()
+> -  obj->key = key;
+> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
+> +  WRITE_ONCE(obj->key, key);
+> +  /*
+> +   * We need to make sure obj->key is updated before obj->obj_node.next
+> +   * and obj->refcnt.
+> +   */
+> +  smp_wmb();
+> +  atomic_set(&obj->refcnt, 1);
+>    hlist_add_head_rcu(&obj->obj_node, list);
+>    unlock_chain(); // typically a spin_unlock()
+>  
+> @@ -165,12 +170,12 @@ Note that using hlist_nulls means the type of 'obj_node' field of
+>    begin:
+>    rcu_read_lock();
+>    hlist_nulls_for_each_entry_rcu(obj, node, head, obj_node) {
+> -    if (obj->key == key) {
+> +    if (READ_ONCE(obj->key) == key) {
+>        if (!try_get_ref(obj)) { // might fail for free objects
+>  	rcu_read_unlock();
+>          goto begin;
+>        }
+> -      if (obj->key != key) { // not the object we expected
+> +      if (READ_ONCE(obj->key) != key) { // not the object we expected
+>          put_ref(obj);
+>  	rcu_read_unlock();
+>          goto begin;
+> @@ -206,7 +211,7 @@ hlist_add_head_rcu().
+>     */
+>    obj = kmem_cache_alloc(cachep);
+>    lock_chain(); // typically a spin_lock()
+> -  obj->key = key;
+> +  WRITE_ONCE(obj->key, key);
+>    atomic_set_release(&obj->refcnt, 1); // key before refcnt
+>    /*
+>     * insert obj in RCU way (readers might be traversing chain)
+> -- 
+> 2.34.1
+> 
