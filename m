@@ -2,41 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB6E2EB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 19:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B281EEB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 19:16:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236064AbjGNTO3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 15:14:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35182 "EHLO
+        id S235609AbjGNTQS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 15:16:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235472AbjGNTO3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 15:14:29 -0400
+        with ESMTP id S231912AbjGNTQQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 15:16:16 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A671635AB;
-        Fri, 14 Jul 2023 12:14:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 425D535AB;
+        Fri, 14 Jul 2023 12:16:16 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 470425BF;
-        Fri, 14 Jul 2023 19:14:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 470425BF
+        by ms.lwn.net (Postfix) with ESMTPSA id D11B02DC;
+        Fri, 14 Jul 2023 19:16:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D11B02DC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689362067; bh=G1IQitCcy3yp2mr8acmODt7HuEWR/LWNkQXy/GwgKvA=;
+        t=1689362176; bh=9+KAduSppuO0HKOQyBqeDDZ71UMKFOK16uTR3b+q4Oc=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Sib4+clSMEu+WO2ucpToeZJJBtzCxb5T3tkifrRjWvb3ndwsF3YSgEyrWAhnRXj7b
-         fbUcvtDL75UTHnnFg9BxV2YZH1sEfBNpufcBtsFyBrV89HjNUvs2uMRCK0VONdI9n1
-         UYXtlN5mBnIAZtOjFMXN/LIXK9OMgKiP9mr4BCDiLoou+LBdnOS5zBczl/ONnsVQHE
-         2S6EqiPy40gFjEATC75PiMxB96n2+PKm07GM55KxZqz5Kxn6m1Pt0COEVjwoPdov3+
-         1Ze63jhLnnXUAVDsqasyA0B+fHfNoUnNh7TNLmGyXaM6WyWhGEIA2Pk3BewOvXln0H
-         YPsWIFVwcr7Ww==
+        b=ca0mlRY4IZyNuy+qg8P2/TH5v2y8/gdue0t4DkL61MERD8blmiYf+4nTR7mCqJHQY
+         LQA3gOp7/gkFUt56kbkOkDyxbu5Xxlxm81ky7JBPdPZAJu8WlqLN1tj9wr6rsInlfC
+         Vkvyr9Pe28WRwEuGIMqCTGrMye6ktH3eqkf0RfaJgGJqVeewdsDSJWmPAXiBx1Gfix
+         3KNl0CgaupABUf8V6whvs9g3XZunfUVYOxoaoYhOUDdyVtpUrijGQHRxFRty5iPAxt
+         SoUSbfe1cjWM82J6TDqE5utCUn+kSmPQPv8O0dV8ZgRAE3fG5TE0TfszdTnGxcg+y6
+         wSuSijBvyiC/Q==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: panic: cleanups for panic params
-In-Reply-To: <20230704001954.20518-1-rdunlap@infradead.org>
-References: <20230704001954.20518-1-rdunlap@infradead.org>
-Date:   Fri, 14 Jul 2023 13:14:26 -0600
-Message-ID: <87ttu6z4od.fsf@meer.lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jesse Taube <mr.bossman075@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] kconfig: docs: mention gconfig at top of kconfig.rst
+In-Reply-To: <20230704000120.8098-1-rdunlap@infradead.org>
+References: <20230704000120.8098-1-rdunlap@infradead.org>
+Date:   Fri, 14 Jul 2023 13:16:15 -0600
+Message-ID: <87mszyz4lc.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -45,18 +51,23 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Move 'panic_print' to its correct place in alphabetical order.
-> Add parameter format for 'pause_on_oops'.
+> Jesse mentioned that gconfig is missing from the top of the
+> kconfig.rst file, so add it for completeness.
 >
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Link: lore.kernel.org/r/CAJFTR8QgYykuEq_AkODEWPUYXncKgRBHOncxT=ypZTQODkyarw@mail.gmail.com
+> Cc: Jesse Taube <mr.bossman075@gmail.com>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
 > Cc: Jonathan Corbet <corbet@lwn.net>
 > Cc: linux-doc@vger.kernel.org
 > ---
->  Documentation/admin-guide/kernel-parameters.txt |   30 +++++++-------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+>  Documentation/kbuild/kconfig.rst |    2 ++
+>  1 file changed, 2 insertions(+)
 
-This one doesn't apply to docs-next; care to respin?
-
-Thanks,
+Applied, thanks.
 
 jon
