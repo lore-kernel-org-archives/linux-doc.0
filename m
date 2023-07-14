@@ -2,146 +2,149 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E2B6EB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 08:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1DDC001B0
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 08:23:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234790AbjGNIGL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 04:06:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55620 "EHLO
+        id S235103AbjGNIX5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 04:23:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234777AbjGNIFv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 04:05:51 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC05F49CC
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 01:03:43 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2b74310566cso24760561fa.2
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 01:03:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1689321822; x=1691913822;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KjGLAxee+6Ys9A4CymyGT7r3XR+DwzfZMVxRgHoxE5Q=;
-        b=b+8Y76ubQBEsmw0OURqO7KFA8OHTp14jd9XKy7GMWKPSY6Uxd+ajftRuFaEi9GOZAk
-         kWvdf6EEL9xA/Ope1tei1Crd5XjRbOO4j8US6/o6A1HMHJ7y2sZ+lfznYLqL/3v1v07H
-         s3bPyAGNvAwNKvQ80gqFuHcgoR3GRAZrHYFos=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689321822; x=1691913822;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KjGLAxee+6Ys9A4CymyGT7r3XR+DwzfZMVxRgHoxE5Q=;
-        b=SskSjq0Czfzgw1+YsCnQz2o7mPow76XAAlS7lyMG2VYdTrotXpAlC8GfYBg5g81NGp
-         NrA8StwCfO7ogK1GbZ0sAMgqxueEbdaX8cRbN8USv0dQ3pVqKd1uIkT4pTSSva+OEJj2
-         nGfmITaGtuH/HzpjbpQWRTJgZoD70LvPPP7pMus2M38NtgI+TZqVQcMTesOTWGe4rhO/
-         UXkSL7VFe39cwCQNF2TF/TY+yL5dYoZXjSsb8tANu8XDW8VVGjX6FHLAV7rV3ui+m4Nt
-         uqsww90QDCbykmhgWNIFCQqQNTJETEgpM2lmkc6BAyX5gEHK1LzdJxNFl/A2aiURAk/i
-         /vDw==
-X-Gm-Message-State: ABy/qLY7VD9ttE6mBlzBJTkxlZfAxMzwzmKkIjhycdlPoEmqAFUqveqg
-        1Nf8fuZ2snN88l4FiV/RuBXEmsbbzGu/O3bDPhfv
-X-Google-Smtp-Source: APBJJlFMUlhWa9Bc5+g9g+JYTmYYF2lCTHnWmApqUVwFo+Nv3dexs2cSKLqHSfAq2guIwBhHZgSIhFGHf3AueKs0GvA=
-X-Received: by 2002:a05:651c:104e:b0:2b6:c790:150a with SMTP id
- x14-20020a05651c104e00b002b6c790150amr3565106ljm.22.1689321821152; Fri, 14
- Jul 2023 01:03:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230703124647.215952-1-alexghiti@rivosinc.com> <20230703124647.215952-7-alexghiti@rivosinc.com>
-In-Reply-To: <20230703124647.215952-7-alexghiti@rivosinc.com>
-From:   Atish Patra <atishp@atishpatra.org>
-Date:   Fri, 14 Jul 2023 01:03:29 -0700
-Message-ID: <CAOnJCULYD_Z32dupvTZZm7E6GnXaOy+R3yf7wqSy3ZMdd6eOFw@mail.gmail.com>
-Subject: Re: [PATCH v4 06/10] drivers: perf: Implement perf event mmap support
- in the legacy backend
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
+        with ESMTP id S235059AbjGNIX5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 04:23:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C65909B;
+        Fri, 14 Jul 2023 01:23:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 655DF61C61;
+        Fri, 14 Jul 2023 08:23:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87BBAC433C8;
+        Fri, 14 Jul 2023 08:23:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689323034;
+        bh=vzHIGLT92Won/B+RdarvMWgfIJZa19KQoX8ChdEHMg8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AskWsqQaO75T/DiVs/BB5UDGtJvAKhKPuM097sDiW6fUZOYHFrFKYQ5y9pu0Dlgj3
+         go1lNSQtftxWnc8pIgT9bexrb5IrtorOqcnQfX5n5CkbdVZ9lSZmvUrHhJNlttGx3s
+         phXYBswGDYE+qruo00bdQ83nCIhwMJYcCX4PTvi4HtR21J6j/kCA3KSUsRjtZuT/cr
+         0kQa1AHRxdpKKDIMOmgUjO4VcMl2PxG3vtMEDR41p/UTZ05l9/O8cNuPxzzopWK+or
+         F0osdwWgs8io0eK2jKPRFJisr565qCNZ9cPI7OSiuKMPlUTADqqtImqDCJUDk/rEO2
+         +zuUDEzTXaQWg==
+Date:   Fri, 14 Jul 2023 09:23:48 +0100
+From:   Will Deacon <will@kernel.org>
+To:     "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>, corbet@lwn.net,
+        catalin.marinas@arm.com, maz@kernel.org, quic_pkondeti@quicinc.com,
+        quic_kaushalk@quicinc.com, quic_satyap@quicinc.com,
+        quic_shashim@quicinc.com, quic_songxue@quicinc.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+Message-ID: <20230714082348.GA5240@willie-the-truck>
+References: <20230711082226.GA1554@willie-the-truck>
+ <84f0994a-26de-c20a-a32f-ec8fe41df3a3@quicinc.com>
+ <20230711102510.GA1809@willie-the-truck>
+ <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
+ <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
+ <604ac52d-4336-744f-2ab8-44d1c93fbaa8@quicinc.com>
+ <ZK_d86ApI1FCHhTL@FVFF77S0Q05N.cambridge.arm.com>
+ <e02b9969-a3ca-a80d-1d32-25d2bf4c72b6@quicinc.com>
+ <ZLBLwG2LJ4gZLfbh@FVFF77S0Q05N.cambridge.arm.com>
+ <6d1a6691-f858-71bf-97fe-97e13fcb93b6@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6d1a6691-f858-71bf-97fe-97e13fcb93b6@quicinc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 3, 2023 at 5:52=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc.=
-com> wrote:
->
-> Implement the needed callbacks in the legacy driver so that we can
-> directly access the counters through perf in userspace.
->
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> ---
->  drivers/perf/riscv_pmu_legacy.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
->
-> diff --git a/drivers/perf/riscv_pmu_legacy.c b/drivers/perf/riscv_pmu_leg=
-acy.c
-> index 6a000abc28bb..79fdd667922e 100644
-> --- a/drivers/perf/riscv_pmu_legacy.c
-> +++ b/drivers/perf/riscv_pmu_legacy.c
-> @@ -71,6 +71,29 @@ static void pmu_legacy_ctr_start(struct perf_event *ev=
-ent, u64 ival)
->         local64_set(&hwc->prev_count, initial_val);
->  }
->
-> +static uint8_t pmu_legacy_csr_index(struct perf_event *event)
-> +{
-> +       return event->hw.idx;
-> +}
-> +
-> +static void pmu_legacy_event_mapped(struct perf_event *event, struct mm_=
-struct *mm)
-> +{
-> +       if (event->attr.config !=3D PERF_COUNT_HW_CPU_CYCLES &&
-> +           event->attr.config !=3D PERF_COUNT_HW_INSTRUCTIONS)
-> +               return;
-> +
-> +       event->hw.flags |=3D PERF_EVENT_FLAG_USER_READ_CNT;
-> +}
-> +
-> +static void pmu_legacy_event_unmapped(struct perf_event *event, struct m=
-m_struct *mm)
-> +{
-> +       if (event->attr.config !=3D PERF_COUNT_HW_CPU_CYCLES &&
-> +           event->attr.config !=3D PERF_COUNT_HW_INSTRUCTIONS)
-> +               return;
-> +
-> +       event->hw.flags &=3D ~PERF_EVENT_FLAG_USER_READ_CNT;
-> +}
-> +
->  /*
->   * This is just a simple implementation to allow legacy implementations
->   * compatible with new RISC-V PMU driver framework.
-> @@ -91,6 +114,9 @@ static void pmu_legacy_init(struct riscv_pmu *pmu)
->         pmu->ctr_get_width =3D NULL;
->         pmu->ctr_clear_idx =3D NULL;
->         pmu->ctr_read =3D pmu_legacy_read_ctr;
-> +       pmu->event_mapped =3D pmu_legacy_event_mapped;
-> +       pmu->event_unmapped =3D pmu_legacy_event_unmapped;
-> +       pmu->csr_index =3D pmu_legacy_csr_index;
->
->         perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
->  }
-> --
-> 2.39.2
->
+On Fri, Jul 14, 2023 at 09:56:27AM +0800, Aiqun(Maria) Yu wrote:
+> On 7/14/2023 3:08 AM, Mark Rutland wrote:
+> > On Thu, Jul 13, 2023 at 10:08:34PM +0800, Aiqun(Maria) Yu wrote:
+> > > On 7/13/2023 7:20 PM, Mark Rutland wrote:
+> > > > Are you saying that LSE atomics to *cacheable* mappings do not work on your
+> > > > system?
+> > > > 
+> > > > Specifically, when using a Normal Inner-Shareable Inner-Writeback
+> > > > Outer-Writeback mapping, do the LSE atomics work or not work?
+> > > *cacheable* mapping have the LSE atomic is not working if far atomic is
+> > > performed.
+> > 
+> > Thanks for confirming; the fact that this doesn't work on *cacheable* memory is
+> > definitely a major issue. I think everyone is confused here because of the
+> > earlier mention of non-cachable accesses (which don't matter).
+> > 
+> Maybe I can have the information collected in a summary to see if that
+> helps.
+> > I know that some CPU implementations have EL3 control bits to force LSE atomics
+> > to be performed near (e.g. in Cortex-A55, the CPUECTLR.ATOM control bits),
+> > which would avoid the issue while still allowing the LSE atomics to be used.
+> > 
+> > If those can be configured in EL3 firmware, that would be a preferable
+> > workaround.
+> > 
+> > Can you say which CPUs are integrated in this system? and/or can you check if
+> > such control bits exist?
+> 
+> We have CPUECTLR_EL1.ATOM bit can force LSE atomics to be perform near.
+> CPUECTLR_EL1 is also an option to EL1 kernel drivers to be configuarable.
+> 
+> Try to a detailed summarise of the whole discussions, anyone can ignore some
+> part if you are already know.
+> 
+> * Part 1: Solution for this issue.
+> While we still want to have options to let third party and end users can
+> have options:
+>   1.Disable lse atomic cap.
+>   2.*Disallow* far atomic by "CPUECTLR_EL1.atom force near atomic" and
+> non-cachable mappling for lse atomic only.
 
+Sorry, but this still isn't making sense to me. Which CPUs do you have on
+this SoC?
 
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
---=20
-Regards,
-Atish
+My understanding of the CPUs from ARM is that LSE atomics are not supposed
+to be sent to blocks that don't support them. That doesn't mean you have to
+do everything near, however -- you can still execute them at e.g. L2.
+
+For example, the Cortex-X1 TRM states:
+
+  | Atomic instructions to cacheable memory can be performed as either
+  | near atomics or far atomics, depending on where the cache line
+  | containing the data resides.
+  |
+  | When an instruction hits in the L1 data cache in a unique state, then
+  | it is performed as a near atomic in the L1 memory system. If the atomic
+  | operation misses in the L1 cache, or the line is shared with another
+  | core, then the atomic is sent as a far atomic on the core CHI interface.
+  |
+  | If the operation misses everywhere within the cluster, and the
+  | interconnect supports far atomics, then the atomic is passed on to the
+  | interconnect to perform the operation.
+  | 
+  | When the operation hits anywhere inside the cluster, or when an
+  | interconnect does not support atomics, the L3 memory system performs
+  | the atomic operation. If the line is not already there, it allocates
+  | the line into the L3 cache. This depends on whether the DSU is configured
+  | with an L3 cache.
+
+So something doesn't add up.
+
+> * Part 2: Why we need the solution
+> 1. There is also some case far atomic is better performance than near
+> atomic. end user may still can still try to do allow far atomic.
+> while this driver is also use kerenl LSE ATOMIC macro, so it can be running
+> on cpu don't support lse atomic and cpu support lse atomic already.
+> while current system, cpu have feature register said lse atomic is
+> supported, but memory controller is not supported is currently not yet
+> supported.
+
+I think you're forgetting the fact that these instructions can be executed
+by userspace, so the kernel option is completely bogus. If you're saying
+that cacheable atomics can cause external aborts, then I can write an app
+which will crash your device even if you've set this command line option.
+
+Will
