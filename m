@@ -2,69 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF7A6EB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 05:05:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C53EB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 05:50:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234619AbjGNFFf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 01:05:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46914 "EHLO
+        id S234937AbjGNFuV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 01:50:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234438AbjGNFFe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 01:05:34 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 950CD2D40;
-        Thu, 13 Jul 2023 22:05:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=xx2962OVdKvybh/3QZxjJMxEOcIZhNEbfw09t4MZaJo=; b=chGaa6Id1Oz3ayy1CliG2Kidiy
-        llwvQMueZcsYLD8SghVTuj7XMHpCKqCDHbG+A6H6tfEIAmkfwvvWioaEojJTOfugf6DcvJD22Nb+y
-        dW+yxpFK43/9z+k46AqML2ZACjy7ECVg2C3dxsYKCSxYiHthXfUTMw2fKlf4vRk6blGosSUnRSD1O
-        v/e2i/5hZuo7/ELgk5brRtF0hfvAXdJBy1BspNkANvHXg1i6x4DncbJUoa7ZDEQSOHZs2DweMkpai
-        1S7KoCMvsXEA8yCQ6iY8dKVzJDi9hxhCJEOiwhvEdnRU2+0xbKoh9e7w0GcDsULcCXv6SafkO4qKg
-        sigKSIBw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qKAzX-000j4N-IF; Fri, 14 Jul 2023 05:05:19 +0000
-Date:   Fri, 14 Jul 2023 06:05:19 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <ZLDXjzbp5tJ3UjjP@casper.infradead.org>
-References: <20230713223432.1501133-1-kuba@kernel.org>
- <6f1014cd-f8c5-f935-dcc7-4f5a6b85e473@kernel.org>
+        with ESMTP id S231351AbjGNFuU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 01:50:20 -0400
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 199712123;
+        Thu, 13 Jul 2023 22:50:15 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VnKW-Oq_1689313812;
+Received: from 30.221.157.198(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0VnKW-Oq_1689313812)
+          by smtp.aliyun-inc.com;
+          Fri, 14 Jul 2023 13:50:13 +0800
+Message-ID: <ac961438-2d88-e7bb-d58f-10054478fb26@linux.alibaba.com>
+Date:   Fri, 14 Jul 2023 13:50:11 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f1014cd-f8c5-f935-dcc7-4f5a6b85e473@kernel.org>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.13.0
+Subject: Re: [PATCH 0/5] FUSE consistency improvements
+Content-Language: en-US
+To:     Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     me@jcix.top
+References: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
+From:   Jingbo Xu <jefflexu@linux.alibaba.com>
+In-Reply-To: <20230711043405.66256-1-zhangjiachen.jaycee@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 06:36:41AM +0200, Krzysztof Kozlowski wrote:
-> On 14/07/2023 00:34, Jakub Kicinski wrote:
-> > +Responsibilities
-> > +================
-> > +
-> > +The amount of maintenance work is usually proportional to the size
-> > +and popularity of the code base. Small features and drivers should
-> > +require relatively small amount of care and feeding. Nonetheless
-> > +when the work does arrive (in form of patches which need review,
-> > +user bug reports etc.) it has to be acted upon very promptly.
-> > +Even when single driver only sees one patch a month, or a quarter,
-> > +a subsystem could well have a hundred such drivers. Subsystem
-> > +maintainers cannot afford to wait a long time to hear from reviewers.
-> > +
-> > +The exact expectations on the review time will vary by subsystem
-> > +from 1 day (e.g. networking) to a week in smaller subsystems.
+
+
+On 7/11/23 12:34 PM, Jiachen Zhang wrote:
+> This patchset resends some patches that related to FUSE consistency
+> improvements in the mailing list.
 > 
-> Two weeks is the upper limit.
+> The 1st patch fixes a staleness-checking issue, which is the v2 version
+> of the patch[1].
+> 
+> The 2nd patch is a resend version of the patch[2] with its commit message
+> rewritten.
+> 
+> The 3rd and 4th patches are new versions of the patch[3] and the patch[4],
+> FUSE filesystems are able to implement the close-to-open (CTO) consistency
+> semantics with the help of these two patches. The 5th patch is a new
+> patch which improves the explanation of FUSE cache mode and consistency
+> models in the documentation.
+> 
 
-Indeed.  People need to be able to take holiday.  Maybe this is
-partially covered by "multiple maintainers", but even so, it is
-unreasonable to expect this kind of responsiveness.
+Yeah our internal production environment will also benefit from this
+cache consistency enhancement.  It would be great if this feature could
+be improved and finally gets merged.
 
+
+-- 
+Thanks,
+Jingbo
