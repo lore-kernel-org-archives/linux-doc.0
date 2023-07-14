@@ -2,122 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83338EB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 07:14:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59BE9EB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 08:04:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235284AbjGNHOI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 03:14:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52290 "EHLO
+        id S235194AbjGNIEC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 04:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235308AbjGNHOC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 03:14:02 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20DE326B1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 00:13:59 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3142970df44so1621626f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 00:13:58 -0700 (PDT)
+        with ESMTP id S234892AbjGNIDg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 04:03:36 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CACA94C01
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 01:01:14 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2b703c900e3so24199421fa.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 01:01:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689318837; x=1691910837;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8K9L3dLhDzQTv7y7e0RVrZSX+FOOeLwX47IYpkosCNQ=;
-        b=OC+YjhwBAquXA8bRTVqSc71oDkaWMW+X/CVE2b19QZwxMyZMKHAvPRMmvfaxAc4qjH
-         wS7bNaVBc65aNTvjFBCqH8OBSvvBxi62KVint4c5u3f5LPVie/jV2eC+Cnb++NzUzrAA
-         1WmPu1XVuNiQma+6ojXOFZSB2R3c3FD2ObygN3AbnrskivYYp264Mt3hLNiGN3o7ziS9
-         Zp5AMIbOkQqdPvl3/2powKYJl/VMwFZs6r91+UKudYvK4oe5VoTtD+WXIvp3zAO3GKEB
-         KYIRZB0B2uxWT66+BqOdlF2MALmKB4mznl4YuvMyV5H2X5vRACwCik0jnwWm2Fe4fqtO
-         tEZQ==
+        d=atishpatra.org; s=google; t=1689321673; x=1691913673;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1EP8QirGSf2eyBcIi4yRsMFtzBd2RQ70krFjONUiThU=;
+        b=qrgkw6OLa/u09k4e8aJM4RCLYCSGJL2Ws3SFmAj0tiB0tCpyZoQo61oYAsI8sU9BB8
+         H+gQWv8vCeKgKgyoeSKS4C4Sc0C4IPiwmVfTHUNpOFsAZRTsMpO+0/j6Wnd+QMliJQf8
+         i4x/3jU9uKTH2hS4SI8A4xrNpqD/H+x2vIEBo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689318837; x=1691910837;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8K9L3dLhDzQTv7y7e0RVrZSX+FOOeLwX47IYpkosCNQ=;
-        b=hQ795LFJBsccRXxCU4aWrvIXAM1t9BxHw/echnfNHSMU3M+nXADYXhy+ycR7qD8ofR
-         ebxvBFe0rgCKgYdXEq7f/rnA4mqXZYk4+qnlWnGUFwLjk952Nn/2+BvjMwMMMAblFYvI
-         bmiU2iOh/lniJgByQJynkk/lwUKKxNdAg0U+Itfuio7KXoDAlYiGfOjBeExkEqEJWMix
-         JzGb9VzA1WqL+8tW7bTbbu1TvQ/09PfMRj0wAXjKV1gdKEQe3Glu/3FAyUcz+8Ke3GQT
-         Vkg56Q49e5PT0VC61eTm03nULwMd9JLGDedZEbO7afmnxFctPo7xnkJFj3GsbddC2+5I
-         Vz4g==
-X-Gm-Message-State: ABy/qLZlJJt5XKhTI5dImzdO94ydIbX0zAPtcZZ+DPAC1RoADgFo2pV1
-        h42QdPD6v8sGG23k1hyDYmY9/g==
-X-Google-Smtp-Source: APBJJlFlh8jTiL5Fqlv9Labt5kPhUqu1Mydh9K2EVtifJxi6rOHGarAs9UJGSqlz51WFJVdcIGWexg==
-X-Received: by 2002:a5d:67c9:0:b0:313:ece8:e05c with SMTP id n9-20020a5d67c9000000b00313ece8e05cmr3230412wrw.33.1689318837343;
-        Fri, 14 Jul 2023 00:13:57 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id f14-20020a5d58ee000000b003143c532431sm10042716wrd.27.2023.07.14.00.13.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 00:13:56 -0700 (PDT)
-Message-ID: <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
-Date:   Fri, 14 Jul 2023 09:13:53 +0200
+        d=1e100.net; s=20221208; t=1689321673; x=1691913673;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1EP8QirGSf2eyBcIi4yRsMFtzBd2RQ70krFjONUiThU=;
+        b=lSUIuiqpkKHg9clP+nErQzgyu0QvdIlw9efLGZzLNmsc2uvgEfk1swJ6YvWlR5m3i0
+         P8za5JqX2NOtamxe0XATUZVf20J5YhV18RlV3GUz1x3WwEoXccG4FHc/BjVuiLdemyfQ
+         0g7TaQ9BQUFmi2mnIGhlR9lqm5EBmms3Qq13FOAk7CkT84Zhy2PF69sPyEhuVDzUqDgq
+         p/Ob1Uo0FdQ0v5COQBTa/SLhwP+kc4bRhx5Wi0vmmFfwJ1IVaUyqzPOwblWSboe3IQm8
+         Toj/nFr+7uoq+UOBng0Dote5PF1MUEI/DnfMeIJ3ZeR9IWfv2t5CPe5xrY9/dJ3m3Tts
+         b9dQ==
+X-Gm-Message-State: ABy/qLYIwhFu8fFtRJlwgjxTj/V9nkVht/8qI8VDgYJozo1uj1SDufbX
+        UoC72Z/zWRMF7r9oPuFq/S297HNp0eqQiT3txC7j
+X-Google-Smtp-Source: APBJJlH9NXJwG/irkEBqLyvhCaQIJQoJOMcC3K+qxYOhEFI0i6ghNvHJrlfaGxOM3WfsQn8boxIxuA7ht9mmOsLse2o=
+X-Received: by 2002:a2e:8611:0:b0:2b6:ee1c:216a with SMTP id
+ a17-20020a2e8611000000b002b6ee1c216amr3346497lji.34.1689321672902; Fri, 14
+ Jul 2023 01:01:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
- documentation
-To:     =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
-        Billy Tsai <billy_tsai@aspeedtech.com>
-References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230703124647.215952-1-alexghiti@rivosinc.com> <20230703124647.215952-4-alexghiti@rivosinc.com>
+In-Reply-To: <20230703124647.215952-4-alexghiti@rivosinc.com>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Fri, 14 Jul 2023 01:01:01 -0700
+Message-ID: <CAOnJCULeM0TXR8mp-FihtMZ2KfOTkPzmzjX74Mj6_c62UrhAEA@mail.gmail.com>
+Subject: Re: [PATCH v4 03/10] riscv: Make legacy counter enum match the HW numbering
+To:     Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <anup@brainfault.org>,
+        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14/07/2023 09:04, 蔡承達 wrote:
+On Mon, Jul 3, 2023 at 5:49=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc.=
+com> wrote:
+>
+> RISCV_PMU_LEGACY_INSTRET used to be set to 1 whereas the offset of this
+> hardware counter from CSR_CYCLE is actually 2: make this offset match the
+> real hw offset so that we can directly expose those values to userspace.
+>
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> ---
+>  drivers/perf/riscv_pmu_legacy.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/perf/riscv_pmu_legacy.c b/drivers/perf/riscv_pmu_leg=
+acy.c
+> index ca9e20bfc7ac..6a000abc28bb 100644
+> --- a/drivers/perf/riscv_pmu_legacy.c
+> +++ b/drivers/perf/riscv_pmu_legacy.c
+> @@ -13,7 +13,7 @@
+>  #include <linux/platform_device.h>
+>
+>  #define RISCV_PMU_LEGACY_CYCLE         0
+> -#define RISCV_PMU_LEGACY_INSTRET       1
+> +#define RISCV_PMU_LEGACY_INSTRET       2
+>
+>  static bool pmu_init_done;
+>
+> --
+> 2.39.2
+>
 
->         > This is because our register layout for PWM and Tach is not
-> continuous.
-> 
->         > PWM0 used 0x0 0x4, Tach0 used 0x8 0xc
-> 
->         > PWM1 used 0x10 0x14, Tach1 used 0x18 0x1c
-> 
->         > ...
-> 
->         > Each PWM/Tach instance has its own controller register and is not
-> dependent on others.
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
 
-Your email reply quoting style is very difficult to read.
-
-> 
-> 
-> 
-> Hi Guenter,
-> 
-> 
-> 
-> Did you receive a response to my previous email?
-> 
-> I would like to inquire if you have any further concerns regarding the PWM
-> and Tach with 16 instances.
-
-But isn't like this in all PWMs in all SoCs?
-
-Best regards,
-Krzysztof
-
+--=20
+Regards,
+Atish
