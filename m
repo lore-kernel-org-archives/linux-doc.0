@@ -2,111 +2,126 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90DDAC001DE
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 00:15:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95DEDC0015E
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 00:47:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234296AbjGNAPY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jul 2023 20:15:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40592 "EHLO
+        id S233207AbjGNArk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jul 2023 20:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234567AbjGNAPV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 20:15:21 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7313930D8
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 17:15:09 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6687096c6ddso946707b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 17:15:09 -0700 (PDT)
+        with ESMTP id S231292AbjGNArj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jul 2023 20:47:39 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CDD02D51
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 17:47:38 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b6ff1ada5dso20610691fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 17:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1689293709; x=1689898509;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iY0BqE22+vH8ihdQ5F+U3lQTo4OY0Ve5Zo6wbRWfHfc=;
-        b=xExIMHzLTtkjN2LFQngS3OX4jDs1xLdIX7r/tiDx0kppQfQRkPMYGwyfuGwrBTa86a
-         XoaNrcUcmG5pmtq3t+bqbkNwiHPqfObctew9lUGCvXVSRZ5ZMzwxuDl5bh0kXZqCOeN/
-         2KOkMuhJYkV6QfPobPU9mX56qewrBddlJ17DJjsRmikAwwn6WVy6MHjfUpM665kqgqnx
-         8Vd77tSJfClsrB+dbBunC3han9WPucnmhgEbe2AxB1x5RWqedcL/TQmo7JAbJuXl1Q+J
-         +JuGlcjr4IzBotD3ZK9zOhKx+93UelIHVMWCiiWjS83cS6p52MDULRTAs1+X2jnehbH9
-         5cQw==
+        d=linux-foundation.org; s=google; t=1689295656; x=1691887656;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=k7y296KedplM2A3mke9UNwqTxqKMP8WdPVepgqrON6E=;
+        b=QPK4Vb9V1JiKbKNNG1W4kMrTt/sbfQYFbO+F+IzDPH4/Sc61AQqk0LodIW9hZeZYj8
+         a/yP5YwNng8/3JemhpHqBe3ELJQgYkgSm3tSyjJLb4657jtRsucgRZUKGy0rcJVvWgOl
+         V78bOBdfllbw8T5Ws3BnF2hFlJpaxWMKPWvcM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689293709; x=1689898509;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iY0BqE22+vH8ihdQ5F+U3lQTo4OY0Ve5Zo6wbRWfHfc=;
-        b=lhSWpxFx+rqGYUc12dRk87yuyk5b00yUYnbSqsfYqvrmpPwHIFgedx53exsYTuPs4a
-         QnJ6QvuWVacgw9InVzMRPQ0FitJXibGg6nazKLJX1euL25pSpAdjeUER509UYswkw+3h
-         wKQsQCIiqfQUXFbNVsVD3HULSQCv1jLVLjf5qgcNRdF5819dPB6kjk4uucK7prFxBcTn
-         A7iaLc3Sdsw2xogh6P3r8aR2yX5wV4cKgtrlV/DVEDLhEkj4ViPMYvJ/ka1ykaqRYxNU
-         88dyJEZ0GVF1lp89C5r9D4tkL5SOW6zPdyzfHQ+lGjINFAfTSZBEfQoen35mT7NRgDt2
-         L0Jg==
-X-Gm-Message-State: ABy/qLbhoQmVc8ZNEDX5E1ywFcfdCsOaS186RzmYWRkSoLni3YZ1gkQW
-        PDrPAZrRWdpcMoYGuMLbs2yNdQ==
-X-Google-Smtp-Source: APBJJlE/NehJK/yZ31QQ51ruFcoOUZ8Dr5gN8omHKM50vUTZXpJ3oVnR2nhUcvBJtDwEUljTcHiqAg==
-X-Received: by 2002:a05:6a00:2d84:b0:666:8cbb:6e0f with SMTP id fb4-20020a056a002d8400b006668cbb6e0fmr3042793pfb.3.1689293708687;
-        Thu, 13 Jul 2023 17:15:08 -0700 (PDT)
-Received: from charlie.ba.rivosinc.com ([66.220.2.162])
-        by smtp.gmail.com with ESMTPSA id x25-20020aa793b9000000b00673e652985esm5938107pff.44.2023.07.13.17.15.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jul 2023 17:15:08 -0700 (PDT)
-From:   Charlie Jenkins <charlie@rivosinc.com>
-To:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Cc:     charlie@rivosinc.com, conor@kernel.org, paul.walmsley@sifive.com,
-        palmer@rivosinc.com, aou@eecs.berkeley.edu, anup@brainfault.org,
-        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        mick@ics.forth.gr, jrtc27@jrtc27.com, rdunlap@infradead.org,
-        alexghiti@rivosinc.com
-Subject: [PATCH v5 4/4] RISC-V: mm: Document mmap changes
-Date:   Thu, 13 Jul 2023 17:14:03 -0700
-Message-ID: <20230714001430.75798-5-charlie@rivosinc.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230714001430.75798-1-charlie@rivosinc.com>
-References: <20230714001430.75798-1-charlie@rivosinc.com>
+        d=1e100.net; s=20221208; t=1689295656; x=1691887656;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=k7y296KedplM2A3mke9UNwqTxqKMP8WdPVepgqrON6E=;
+        b=U2WkugGFnu1fsGlqIH8Yuq0Poz/MwuIRybpkws0jLoYwjKMalO6JgHqvdTGgrMjcLQ
+         qBSaqxeKCtuJPbD5IObPBmCuJ/QQt/ZRIA9P6sMmXGNsmZ4tRn44fanLk0iJQI6kS4M7
+         B1xe185OTsMiE333+/osrEgQfHQ3ncZ9KcBShFbJzNfNRYrsKE2a/54oevuXqwRpQ3t8
+         257JPJ18KFw/C8OqEOmx1u2JMCYkDCE8YHOAs8mmRz0HSe79x6Ofc/DyViphT7J00Hvt
+         cM7OnS+v7TrC58vwCfKFy1wSOxOmbdJ0kOgwpKDSSH3tk6+lp+zaN7UuVH4J1bfx8qE1
+         D8dA==
+X-Gm-Message-State: ABy/qLbAX3y3bqwuJH7GvmpKzjqHxbp42hb+qKEpmEHEk50oXFC2bZSk
+        WxLyeQcb1L8mdRyqAWcLF4dKm3ZqAzydqokT5Hf3h8i9
+X-Google-Smtp-Source: APBJJlHlISh6g2AiKeu7lm/W/LOUkaWRjgPklrG8zNAtCTxyTOlSo+zxNUBty8rfp6WC+gEiTZkV3g==
+X-Received: by 2002:a2e:9e0a:0:b0:2b1:c1ae:73e3 with SMTP id e10-20020a2e9e0a000000b002b1c1ae73e3mr2601287ljk.15.1689295656465;
+        Thu, 13 Jul 2023 17:47:36 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id z13-20020a2e9b8d000000b002b70206cd45sm1727278lji.90.2023.07.13.17.47.35
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jul 2023 17:47:35 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-4fb7589b187so2337583e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jul 2023 17:47:35 -0700 (PDT)
+X-Received: by 2002:ac2:5388:0:b0:4f6:3677:54e with SMTP id
+ g8-20020ac25388000000b004f63677054emr2106458lfh.36.1689295655179; Thu, 13 Jul
+ 2023 17:47:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230713230417.1504773-1-kuba@kernel.org>
+In-Reply-To: <20230713230417.1504773-1-kuba@kernel.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 13 Jul 2023 17:47:18 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
+Message-ID: <CAHk-=wiyGEZKpb1h=OTYzxaam_g0ek4GKyCPCvVz4fOh+BzCEA@mail.gmail.com>
+Subject: Re: [PATCH docs] docs: maintainers: suggest including lore link for
+ conflicts known to linux-next
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The behavior of mmap is modified with this patch series, so explain the
-changes to the mmap hint address behavior.
+On Thu, 13 Jul 2023 at 16:04, Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> I'm not completely sure what is the best practice for notifying Linus
+> about conflicts which have already been resolved in linux-next.
+> I presume they are a no-op to him, so maybe we shouldn't even call
+> them out?
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
----
- Documentation/riscv/vm-layout.rst | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+No, I do *not* somehow auto-merge stuff that has been merged in
+linux-next. I will do my own merge, and see the conflicts, and I will
+resolve them independently of anything that has happened in
+linux-next.
 
-diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
-index 5462c84f4723..892412b91300 100644
---- a/Documentation/riscv/vm-layout.rst
-+++ b/Documentation/riscv/vm-layout.rst
-@@ -133,3 +133,25 @@ RISC-V Linux Kernel SV57
-    ffffffff00000000 |  -4     GB | ffffffff7fffffff |    2 GB | modules, BPF
-    ffffffff80000000 |  -2     GB | ffffffffffffffff |    2 GB | kernel
-   __________________|____________|__________________|_________|____________________________________________________________
-+
-+
-+Userspace VAs
-+--------------------
-+To maintain compatibility with software that relies on the VA space with a
-+maximum of 48 bits the kernel will, by default, return virtual addresses to
-+userspace from a 48-bit range (sv48). This default behavior is achieved by
-+passing 0 into the hint address parameter of mmap. On CPUs with an address space
-+smaller than sv48, the CPU maximum supported address space will be the default.
-+
-+Software can "opt-in" to receiving VAs from another VA space by providing
-+a hint address to mmap. A call to mmap is guaranteed to return an address
-+that will not override the unset left-aligned bits in the hint address,
-+unless there is no space left in the address space. If there is no space
-+available in the requested address space, an address in the next smallest
-+available address space will be returned.
-+
-+For example, in order to obtain 48-bit VA space, a hint address greater than
-+:code:`1 << 38` must be provided. Note that this is 38 due to sv39 userspace
-+ending at :code:`1 << 38` and the addresses beyond this are reserved for the
-+kernel. Similarly, to obtain 57-bit VA space addresses, a hint address greater
-+than or equal to :code:`1 << 47` must be provided.
--- 
-2.41.0
+I may then check what linux-next did, particularly if the merge was
+non-trivial, but honestly, that's fairly rare. And if the merge was so
+non-trivial that I check what happened in linux-next, it's actually
+not all that unlikely that I ended up resolving it differently anyway.
+I send out emails saying "that was wrong in linux-next" somewhat
+regularly.
 
+So if you were notified by Stephen that there is a conflict in
+linux-next, and it has been resolved there, that means that as far as
+linux-next is concerned - and *only* as fat as linux-next is concerned
+- that resolution will now continue to be done in linux-next.
+
+But you should preferably mention said conflict when you then send the
+pull request to me.
+
+It's perfectly fine to just mention it - say "there's a conflict in
+so-and-so with the pull from tree so-and-so". That will give me a
+heads-up to not be surprised about it.
+
+You can point to the email that Stephen sent (using lore), or you can
+quote his resolution (or your own, if you do a test-merge, like many
+people do) if you want.  It's not a requirement.
+
+But I do kind of want to see the "there's a conflict" mention, not
+just to have a heads-up. It's also a sign that you are actually
+keeping track of what happens in linux-next and are on top of things.
+
+Because I've had _too_ many pull requests that actually turned out to
+have had problems in linux-next - merge related or not - and the
+developer having not tracked anything at all despite having been told
+about said problems, and just sent the resulting untested crap to me.
+
+So the "there's a conflict" note ends up having that kind of secondary
+meaning. It gives me the warm and fuzzies that the developer has
+actually reacted to what happened in linux-next.
+
+The corollary to that is that when I see a conflict - even if it's
+completely trivial - and I see it in linux-next too, and the conflict
+was never mentioned, I go "ok, this maintainer never actually reacted
+to anything that Stephen said about his tree".
+
+That often says more about the situation in general than about the
+particular conflict.
+
+             Linus
