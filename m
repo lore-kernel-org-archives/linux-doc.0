@@ -2,91 +2,67 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA261EB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 18:34:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB6BEB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 18:43:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235853AbjGNSeW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 14:34:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46070 "EHLO
+        id S235491AbjGNSnX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 14:43:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235790AbjGNSeV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 14:34:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E2D4C6;
-        Fri, 14 Jul 2023 11:34:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S235463AbjGNSnW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 14:43:22 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 419CE30FB;
+        Fri, 14 Jul 2023 11:43:20 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2EB0961DC2;
-        Fri, 14 Jul 2023 18:34:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3688CC433C7;
-        Fri, 14 Jul 2023 18:34:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689359659;
-        bh=WCHZqBac1jgCHUwyQJ8QVnJ2MMfqq+0zZRukAUThmGY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=V7+5HVNbJ+kVtknpGS3EVELMYaJkXEDkYUDOz/24CouQom4qQTS9GLJHRCSuUhv8Q
-         A88iqTZdapvFE6Px0Qoe8iUwkyXx2OI8vDikvNtQfsmBXdg0RQWDsLTmYzVziHgGP/
-         sTWBmPzxpMJc9RK6a8fIGsNJeflF8UJELz1lzh3usMe6fWIX5dcDIiPKzwne0s8k/A
-         c8DTZN4KzG2u+ck6g/I/lXX+4kc7+gwtFTy16lP2FCBCIgwh5XQscj28lOQE13Dtvb
-         i3EDdo+MO36q5ebAup9NVKZuZSCfaY4ELOWhg+AT6noUngBXfQQD6HB5NaiPBW05a3
-         xA1SVc9sKB+pQ==
-Date:   Fri, 14 Jul 2023 11:34:18 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <20230714113418.49dfac7e@kernel.org>
-In-Reply-To: <a7d0381c-c99e-4dba-9156-cc07a86bdc39@sirena.org.uk>
-References: <20230713223432.1501133-1-kuba@kernel.org>
-        <f61a12c6-9587-9cb4-122e-dc3a74e58bd1@leemhuis.info>
-        <20230714102218.687ee2ea@kernel.org>
-        <a7d0381c-c99e-4dba-9156-cc07a86bdc39@sirena.org.uk>
+        by ms.lwn.net (Postfix) with ESMTPSA id DF62A2DC;
+        Fri, 14 Jul 2023 18:43:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DF62A2DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1689360200; bh=Bon09mDec0urmze6A54Y2o0448k0+MpKSg6TVjXG9To=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Lu/g8sRPv5SNvVNKReUrV1WPAeOeQ5DQQ/bg7mLy28xrFc+z7k91E2MOwDuNUXIqE
+         jHTeOK4XWFlx4Rdnh/lqIyWHMo37F2ngTIyzMdEwgGwx53CZ62ROUIUJORcSmkp4WM
+         de73dQN4F4XGWlLMlwz6OxaeEQpxvY4rIbcmrbkRK4WJDQ0H9cquA+Y2Uf9YcF+zSF
+         QYfLPqjn1l+KfYTMf0Z4ypa+csKDiT7Qlb9QFhwx/VsZYFG4VyvV43dW42Nz8BKYKt
+         ULv/uq7yOrgsqnLUe90UmrVVqxOkAGwr9Hg55u7fjsOCkT31lzZQNp8cfsWGEs/Cgg
+         LT9cIE/KizO0g==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     linux-doc@vger.kernel.org, loongarch@lists.linux.dev,
+        linux-kernel@vger.kernel.org, loongson-kernel@lists.loongnix.cn
+Subject: Re: [PATCH 0/2] Update Documentation/features
+In-Reply-To: <1689060720-4628-1-git-send-email-yangtiezhu@loongson.cn>
+References: <1689060720-4628-1-git-send-email-yangtiezhu@loongson.cn>
+Date:   Fri, 14 Jul 2023 12:43:19 -0600
+Message-ID: <87bkge1ghk.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 14 Jul 2023 18:59:08 +0100 Mark Brown wrote:
-> > If we try to fend off anyone who doesn't understand common meaning 
-> > of words the document will be very long and painful to read.  
-> 
-> That's true, but "bug" is one of those things where there is a frequent
-> disconnect on definitions, and when coupled with the must respond bit I
-> can see things going wrong.
+Tiezhu Yang <yangtiezhu@loongson.cn> writes:
 
-Right, I agree the "what's a bug" arguments often happen but they
-happen primarily when people are trying to get Greg to pull patches
-into stable. Or when people try to fast path their "oh, so important
-feature" into Linus's tree skipping -next.
+> This patch series is based on 6.5-rc1, it also applies cleanly to
+> DOCUMENTATION tree: git.lwn.net/linux.git docs-next
+>
+> Tiezhu Yang (2):
+>   Documentation/features: Check ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
+>   Documentation/features: Refresh support files for 6.5
+>
+>  Documentation/features/debug/kprobes-on-ftrace/arch-support.txt | 2 +-
+>  Documentation/features/debug/kprobes/arch-support.txt           | 2 +-
+>  Documentation/features/debug/kretprobes/arch-support.txt        | 2 +-
+>  Documentation/features/debug/stackprotector/arch-support.txt    | 2 +-
+>  Documentation/features/debug/uprobes/arch-support.txt           | 2 +-
+>  Documentation/features/locking/lockdep/arch-support.txt         | 2 +-
+>  Documentation/features/vm/ELF-ASLR/arch-support.txt             | 5 +++--
+>  7 files changed, 9 insertions(+), 8 deletions(-)
+>
 
-The simple way to put it would be if the resulting code goes to stable
-or linux/master then it was a bug.
+Series applied, thanks.
 
-But we can't expect from the user to know if the problem is stable
-material, or even whether their problem is a bug in the first place.
-Simple example - WiFi cards which don't support AP mode. User may try
-to run an AP, and report it doesn't work. They may not know whether
-it's HW limitation or a bug. The maintainer responding with "it's not
-supported, sorry" does not seem to me to be a high bar.
-
-Also, in my defense, I do give a rough ballpark of what we consider to
-be a problem we expect to be addressed:
-
-  ... bug reports of reasonable quality. The bug reports range from
-  users reporting real life crashes, thru errors discovered in fuzzing
-  to reports of issues with the code found by static analysis tools 
-  and new compiler warnings.
-
-Just in case someone thought that maintainers are their tech support.
-Then again, I don't want to completely exclude technical questions which
-aren't straight up crashes because some of those are reasonable, should
-be answered or even result in improving docs or error reporting.
-
-It's a balancing act :(
+jon
