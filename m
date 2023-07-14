@@ -2,151 +2,124 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F17EB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 11:42:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ADFEEB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 12:09:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234873AbjGNLmc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 07:42:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44950 "EHLO
+        id S235734AbjGNMJ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 08:09:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235323AbjGNLmb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 07:42:31 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C02523A93;
-        Fri, 14 Jul 2023 04:42:07 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 62AEA1FD8A;
-        Fri, 14 Jul 2023 11:42:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1689334920; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+bI4L209gcDMOttkb6gYEjAaK8FSpSt87+9I+YqlkJ8=;
-        b=m6ec5be5POm77rzxsDYwk+0dmMuE8FvcRsm6t3C1ePr+pO2lCq1fhNBINGy6JQwhIwWQpM
-        HB5Iw2NAfUtInozjO+OcqNt6Xp48+7DnPLu8mDpEuj9Cl5Y5iQT6gYsNrjp79AWSHUoHxq
-        Z9pliSVh0bvXHHEnANjN9vL+VsazVdY=
-Received: from suse.cz (pmladek.tcp.ovpn2.prg.suse.de [10.100.208.146])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S235739AbjGNMJ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 08:09:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2952358E;
+        Fri, 14 Jul 2023 05:09:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 92DE92C142;
-        Fri, 14 Jul 2023 11:41:59 +0000 (UTC)
-Date:   Fri, 14 Jul 2023 13:41:55 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Breno Leitao <leitao@debian.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, sergey.senozhatsky@gmail.com,
-        tj@kernel.org, stephen@networkplumber.org,
-        Dave Jones <davej@codemonkey.org.uk>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] netconsole: Append kernel version to message
-Message-ID: <ZLE0g9NXYZvlGcyy@alley>
-References: <20230707132911.2033870-1-leitao@debian.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 632FF61D03;
+        Fri, 14 Jul 2023 12:09:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A65AC433C8;
+        Fri, 14 Jul 2023 12:09:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689336592;
+        bh=GqntrC5nJzIPRXSONxz2G9J4TDNYa4iq/zHDKdXGLro=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LMuNDWn3UjL4P0QKGpk+hpHq5gijkQBc3pv9mk1yb8Y9tRwDHvVi/aY3Bxey/st8d
+         XKMuD79se12hhzzpq7q4Lm32XQve8/0J2L8I+dQoaRL7qkbQ65ve90XALWNbAS4gxA
+         J1vjwpgEQr9Bx532eXdoDmDIZ3EqKKQ5tzMMdVUjzRtHXh8Rl0S07wbP7bveZogoAF
+         PbEbRHrPwmc9g1XeaWwWMZTa/OJJNZrfUUeqm06adzX7t5jR8XeHuvTzW66ZeDCsII
+         Sak4InAitreezr4A92xfabmJUcyH2ZTPHo3Ynz0vU39sFjaF6Jy74Ol1TScQ1dCg6D
+         YP8ZSuzzo1DaQ==
+Date:   Fri, 14 Jul 2023 13:09:46 +0100
+From:   Will Deacon <will@kernel.org>
+To:     "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>, corbet@lwn.net,
+        catalin.marinas@arm.com, maz@kernel.org, quic_pkondeti@quicinc.com,
+        quic_kaushalk@quicinc.com, quic_satyap@quicinc.com,
+        quic_shashim@quicinc.com, quic_songxue@quicinc.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+Message-ID: <20230714120946.GA5597@willie-the-truck>
+References: <20230711102510.GA1809@willie-the-truck>
+ <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
+ <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
+ <604ac52d-4336-744f-2ab8-44d1c93fbaa8@quicinc.com>
+ <ZK_d86ApI1FCHhTL@FVFF77S0Q05N.cambridge.arm.com>
+ <e02b9969-a3ca-a80d-1d32-25d2bf4c72b6@quicinc.com>
+ <ZLBLwG2LJ4gZLfbh@FVFF77S0Q05N.cambridge.arm.com>
+ <6d1a6691-f858-71bf-97fe-97e13fcb93b6@quicinc.com>
+ <20230714082348.GA5240@willie-the-truck>
+ <b76c7a9b-8ed6-97da-bdfa-47cc7db51ff5@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230707132911.2033870-1-leitao@debian.org>
+In-Reply-To: <b76c7a9b-8ed6-97da-bdfa-47cc7db51ff5@quicinc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 2023-07-07 06:29:11, Breno Leitao wrote:
-> Create a new netconsole runtime option that prepends the kernel version in
-> the netconsole message. This is useful to map kernel messages to kernel
-> version in a simple way, i.e., without checking somewhere which kernel
-> version the host that sent the message is using.
-> 
-> If this option is selected, then the "<release>," is prepended before the
-> netconsole message. This is an example of a netconsole output, with
-> release feature enabled:
-> 
-> 	6.4.0-01762-ga1ba2ffe946e;12,426,112883998,-;this is a test
-> 
-> Calvin Owens send a RFC about this problem in 2016[1], but his
-> approach was a bit more intrusive, changing the printk subsystem. This
-> approach is lighter, and just append the information in the last mile,
-> just before netconsole push the message to netpoll.
+On Fri, Jul 14, 2023 at 06:12:02PM +0800, Aiqun(Maria) Yu wrote:
+> On 7/14/2023 4:23 PM, Will Deacon wrote:
+> > On Fri, Jul 14, 2023 at 09:56:27AM +0800, Aiqun(Maria) Yu wrote:
+> > > Try to a detailed summarise of the whole discussions, anyone can ignore some
+> > > part if you are already know.
+> > > 
+> > > * Part 1: Solution for this issue.
+> > > While we still want to have options to let third party and end users can
+> > > have options:
+> > >    1.Disable lse atomic cap.
+> > >    2.*Disallow* far atomic by "CPUECTLR_EL1.atom force near atomic" and
+> > > non-cachable mappling for lse atomic only.
+> > 
+> > Sorry, but this still isn't making sense to me. Which CPUs do you have on
+> > this SoC?
+> cpu is cortex A78/A55.
+> > 
+> > My understanding of the CPUs from ARM is that LSE atomics are not supposed
+> > to be sent to blocks that don't support them. That doesn't mean you have to
+> > do everything near, however -- you can still execute them at e.g. L2.
+> > 
+> > For example, the Cortex-X1 TRM states:
+> > 
+> >    | Atomic instructions to cacheable memory can be performed as either
+> >    | near atomics or far atomics, depending on where the cache line
+> >    | containing the data resides.
+> >    |
+> >    | When an instruction hits in the L1 data cache in a unique state, then
+> >    | it is performed as a near atomic in the L1 memory system. If the atomic
+> >    | operation misses in the L1 cache, or the line is shared with another
+> >    | core, then the atomic is sent as a far atomic on the core CHI interface.
+> lse atomic is optional to CHI-B for example, some system may have cpu
+> feature register have lse atomic feature, but the far atomic is not accpeted
+> by CHI side. It will be simiar issue that we do.
 
-Thanks a lot for solving this on the netconsole level. The extended
-console format is used also for /dev/kmsg. Which is then used by
-systemd journal, dmesg, and maybe other userspace tools. Any format
-changes might break these tools.
+Again, that should not be a problem. Looking at the A55 TRM, it explicitly
+says that atomics will be done in the L3 if the interconnect does not
+support them. The A78 TRM doesn't talk about this at all, so I defer to
+Mark (or anybody else from Arm) on how that works, but one might assume
+that it does something similar to the other Arm cores.
 
-I have glanced over the patch and have two comments.
+> > > * Part 2: Why we need the solution
+> > > 1. There is also some case far atomic is better performance than near
+> > > atomic. end user may still can still try to do allow far atomic.
+> > > while this driver is also use kerenl LSE ATOMIC macro, so it can be running
+> > > on cpu don't support lse atomic and cpu support lse atomic already.
+> > > while current system, cpu have feature register said lse atomic is
+> > > supported, but memory controller is not supported is currently not yet
+> > > supported.
+> > 
+> > I think you're forgetting the fact that these instructions can be executed
+> > by userspace, so the kernel option is completely bogus. If you're saying
+> > that cacheable atomics can cause external aborts, then I can write an app
+> > which will crash your device even if you've set this command line option.
+> > 
+> For apps like userspace also needed to check the system capbility as far as
 
+That's not something you can enforce, so a malicious application can easily
+crash your system.
 
-> @@ -254,6 +267,11 @@ static ssize_t extended_show(struct config_item *item, char *buf)
->  	return snprintf(buf, PAGE_SIZE, "%d\n", to_target(item)->extended);
->  }
->  
-> +static ssize_t release_show(struct config_item *item, char *buf)
-> +{
-> +	return snprintf(buf, PAGE_SIZE, "%d\n", to_target(item)->release);
-
-I have learned recently that sysfs_emit() was preferred over snprintf() in the
-_show() callbacks.
-
-> +}
-> +
->  static ssize_t dev_name_show(struct config_item *item, char *buf)
->  {
->  	return snprintf(buf, PAGE_SIZE, "%s\n", to_target(item)->np.dev_name);
-> @@ -366,6 +389,38 @@ static ssize_t enabled_store(struct config_item *item,
->  	return err;
->  }
->  
-> +static ssize_t release_store(struct config_item *item, const char *buf,
-> +			     size_t count)
-> +{
-> +	struct netconsole_target *nt = to_target(item);
-> +	int release;
-> +	int err;
-> +
-> +	mutex_lock(&dynamic_netconsole_mutex);
-> +	if (nt->enabled) {
-> +		pr_err("target (%s) is enabled, disable to update parameters\n",
-> +		       config_item_name(&nt->item));
-> +		err = -EINVAL;
-> +		goto out_unlock;
-> +	}
-> +
-> +	err = kstrtoint(buf, 10, &release);
-> +	if (err < 0)
-> +		goto out_unlock;
-> +	if (release < 0 || release > 1) {
-> +		err = -EINVAL;
-> +		goto out_unlock;
-> +	}
-
-You might consider using:
-
-	bool enabled;
-
-	err = kstrtobool(buf, &enabled);
-	if (err)
-		goto unlock;
-
-
-It accepts more input values, for example, 1/0, y/n, Y/N, ...
-
-Well, I see that kstrtoint() is used also in enabled_store().
-It might be confusing when "/enabled" supports only "1/0"
-and "/release" supports more variants.
-
-> +
-> +	nt->release = release;
-> +
-> +	mutex_unlock(&dynamic_netconsole_mutex);
-> +	return strnlen(buf, count);
-> +out_unlock:
-> +	mutex_unlock(&dynamic_netconsole_mutex);
-> +	return err;
-> +}
-> +
-
-Best Regards,
-Petr
+Will
