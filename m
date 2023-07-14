@@ -2,59 +2,56 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98158C001DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 19:36:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D809DEB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 19:38:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236426AbjGNTgr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 15:36:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
+        id S235922AbjGNTie (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 15:38:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235705AbjGNTgq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 15:36:46 -0400
-X-Greylist: delayed 4802 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 14 Jul 2023 12:36:45 PDT
+        with ESMTP id S236476AbjGNTid (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 15:38:33 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B5553A91;
-        Fri, 14 Jul 2023 12:36:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D1273A95;
+        Fri, 14 Jul 2023 12:38:32 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BC87F5BF;
-        Fri, 14 Jul 2023 19:36:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BC87F5BF
+        by ms.lwn.net (Postfix) with ESMTPSA id E20205BF;
+        Fri, 14 Jul 2023 19:38:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E20205BF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689363404; bh=Y6cx46rpyh4f4kwzVAMRkODbnECw1wEIsMHA+sJSiFk=;
+        t=1689363512; bh=kd7l8uQjKXWQlkgfloaGJY937UoSw+kMU7u2OIGadVM=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=rkhiCVGUzUcMHrD9BPxy+15/3RNrw4fFAeTTf5qCi2Tk89A1pkY8CVO1+U8PRPfuL
-         WYo09QA9gPZdFOFqftdtEqsT/pGIVs2RMtQpdqQl2jmh2OZzEcVRchviTCojJzU+p/
-         2c/a2rIkGjOAOgtWg6it4AsuygjqthETJ6r1UG+Qi3bsnDbYZLBIS1CSidlvi0231K
-         BigK+Z/XGzhE8CKF2NGFfjURfNonotxadSMwCSDbnJexDZiTKkDbYFkTs5TC8eUThk
-         abwSapIoq2P9gYohspDzVCpyD5dU7VR5I1MgtYOrJLoZbSczwAt2KD0VfPtswcJs9h
-         gBVb2XhGeiPxA==
+        b=ijLOPzmfJwOrS8DSC6AD9vLtI2bPScV1IX5qCV0vClQmwstZfil50AMVmT9IBp2jK
+         I4EMWkUzchEmsuf7JuMoOvMQINVWJpTuKVLlBFmk1Mw/rbBZ5ZW6yfz+tOj2JCz1QU
+         xylZfdY9xPadTDl58ACUTOkwFwVfT2iArn+lW7Fxs+X5K+mIB44gCquWSfvyxSZYRV
+         6DMmy+67qbVSVOzL2pIYpvbbraQ+mlUvesl6VxkJjJ0Y+ENzHDtMCYbFl574+TmKw9
+         7eZp3Br6VSaSIlervmePW1s31peBgAknpoXnVBmhKtgZmxQOTybR4qseXB5jHE5i6Y
+         kr1ZpuI/136PA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: deprecated.rst: Update an example
-In-Reply-To: <3484e46180dd2cf05d993ff1a78b481bc2ad1f71.1687723931.git.christophe.jaillet@wanadoo.fr>
-References: <3484e46180dd2cf05d993ff1a78b481bc2ad1f71.1687723931.git.christophe.jaillet@wanadoo.fr>
-Date:   Fri, 14 Jul 2023 13:36:44 -0600
-Message-ID: <875y6mz3n7.fsf@meer.lwn.net>
+To:     Costa Shulyupin <costa.shul@redhat.com>, linux-doc@vger.kernel.org
+Cc:     Costa Shulyupin <costa.shul@redhat.com>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: consolidate core subsystems
+In-Reply-To: <20230622071004.2934698-1-costa.shul@redhat.com>
+References: <20230622071004.2934698-1-costa.shul@redhat.com>
+Date:   Fri, 14 Jul 2023 13:38:31 -0600
+Message-ID: <871qhaz3k8.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Christophe JAILLET <christophe.jaillet@wanadoo.fr> writes:
+Costa Shulyupin <costa.shul@redhat.com> writes:
 
-> vmalloc() has a 2-factor form. It is vmalloc_array().
-> So use another function as an example.
+> to make the page more organized as requested
 >
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 > ---
->  Documentation/process/deprecated.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/subsystem-apis.rst | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
 
 Applied, thanks.
 
