@@ -2,123 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FD37C001DD
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 09:30:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9121EB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 09:56:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235806AbjGNJaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 05:30:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54146 "EHLO
+        id S234693AbjGNJ4Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 05:56:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235801AbjGNJaK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 05:30:10 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830B62D63
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 02:30:09 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2b700e85950so24816281fa.3
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jul 2023 02:30:09 -0700 (PDT)
+        with ESMTP id S231362AbjGNJ4Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 05:56:16 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F5E71989;
+        Fri, 14 Jul 2023 02:56:15 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id 3f1490d57ef6-c15a5ed884dso1607291276.2;
+        Fri, 14 Jul 2023 02:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1689327008; x=1691919008;
+        d=gmail.com; s=20221208; t=1689328574; x=1691920574;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dosegy5s6S3Py/sYCBb7fr6YwHTMUrv8EM9f77WeMOc=;
-        b=Xqcw23ipPcPee2KGDUUmScxC6YI+Lt+tpZLhyiWzpqBFRO340fdakn0xdVV1NlwZYo
-         8LZbDjW6NUOsDs0GB/lm0oM1oxUlYm5/QtzGj1+yTps3jl6EW1l2EbnJeFvc6s69+PMu
-         3etpZNsNrgUTw2j28xUGW6FsyP7PGWyvOkhIA=
+        bh=iLc4IFOrSQMumdSS27cGww/H0solCQj99/m3cUx+za0=;
+        b=U0+zCc7J47tgv3aokD+C9AbGUM0547IcCiSQEMzpBI+mYOOCtmzjv7TLV+15+Way2l
+         uIapCaUXBbx/phM9GIB5BFOIQNEHzbA7jNpWh7+Q0iZmZlO65IBlPd0HnXlJWqMc85kk
+         H5Q4LKdYKUNGqjL37XpunuGMoJ+Mtpl/BpDiZ03rfuXmWzrYel5MjIzmIiBpL+k04NA0
+         kIairDRA5S1vy0oVMkSwlo7M5XJ/2BC54TEVtGPKe6UNZB69tMRoq1VkITMgaXFHnnev
+         jeNCPG4T6jWGDnPKvbonN9yBfdH9GzBYSvFo4RyjgabhCFa4S3I4hdoNRXo1mIFSILk5
+         15TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689327008; x=1691919008;
+        d=1e100.net; s=20221208; t=1689328574; x=1691920574;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dosegy5s6S3Py/sYCBb7fr6YwHTMUrv8EM9f77WeMOc=;
-        b=AxwzAcmCmZjWi5mY1wlhi4dXa3ijbQpcJdcCMtoACOr8qa0+B1uh2treIbs+tWltF3
-         r8My0kZBN/EFoVsPNL7npKwit5PYi0Q0/qutPtH5+FAc4cU+BQedqxke1GL/nzMzi/ip
-         69Vy8KUV9CA/5fV2wlk3j4rmFXlFUH58rwGbNfjDokzIv9aj1q+zUAvNOsvoeidB71IA
-         V2L68Uylkta6uS29KtrdvFfyMDf4PzZak1+OcBmLqjrcN1DW0iHqMGNcsIwP514FsuV0
-         wpXR93EqAiQ1/ObQAbPTV62dvJ4yjvrlo6Vu3J+zdf8xDZo1312kpd3oUM28/XyRxw62
-         /EJQ==
-X-Gm-Message-State: ABy/qLaLhj19TriYa/jDO5ZNDlnEBiM2XLfO2R8QgQnn22277Vn+zBsG
-        3YWI879Cc5ZvgK/MR8o+TLavoijmIZ2Rf2oULkJD
-X-Google-Smtp-Source: APBJJlEPgo1IICV+iHBqiUW+Vh3Nr2Vbvx10CePV36LNEMGHrNoz3v5ECTBa/vGZDHxkGoGYB97wfvhB3JFhCknlnkc=
-X-Received: by 2002:a2e:a16f:0:b0:2b6:d57f:d81 with SMTP id
- u15-20020a2ea16f000000b002b6d57f0d81mr3198367ljl.53.1689327007925; Fri, 14
- Jul 2023 02:30:07 -0700 (PDT)
+        bh=iLc4IFOrSQMumdSS27cGww/H0solCQj99/m3cUx+za0=;
+        b=CuG1wJK4rCKUeQrs4VmvNSzlLQlFVi2ZuQygDuSfZpeJW8pGKCbMpHRdVSJP8Db4oL
+         56zM0z16dwhz9sA1lJL0osvIUQk6jzrJUgc3UzwKdFl9ta27kfGtWBTJB3UDp9CZBDDK
+         +Reah7AcM+F7LfkoqsTWJ2RZgKO8WBkc/NzoA16W0iH++2SJwbCu36WCFdNiRdMABnXm
+         XYSyXxUeRUldK3kvu4nqYFOdGt/lBiQBmwNUWiqtjvDjDqAyUlAedRRdkp6dXb3Dr58v
+         LZXtKZcMgVglCczkvX7ce3tqGJtOYEMEufR6vZTlFVPz4aHztjjVkfUf1n+lF/gTYYEv
+         03og==
+X-Gm-Message-State: ABy/qLZi4k6YPzzIMNE21fHX7+iga9kPqaweKN0mrem0do0+WlJpi+6S
+        BCPmf+ipdMuAcRyx7PmFtghOB9t/7S/wl4aChuI=
+X-Google-Smtp-Source: APBJJlEP9rHYkKqqEeB1DAv7b3BU8yZcSQXF4+FqdKNDY/5pBH0h3wFr0gaoNioOqIHxzaGSE7p70VM3SMLPFrINvDs=
+X-Received: by 2002:a25:32d8:0:b0:ba7:7664:916b with SMTP id
+ y207-20020a2532d8000000b00ba77664916bmr3607425yby.20.1689328574374; Fri, 14
+ Jul 2023 02:56:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230703124647.215952-1-alexghiti@rivosinc.com> <20230703124647.215952-11-alexghiti@rivosinc.com>
-In-Reply-To: <20230703124647.215952-11-alexghiti@rivosinc.com>
-From:   Atish Patra <atishp@atishpatra.org>
-Date:   Fri, 14 Jul 2023 02:29:56 -0700
-Message-ID: <CAOnJCUJcYAX3=h=O6nCjN+hAL9cT8Cmw5sgXa1MZpKEPCuyM-A@mail.gmail.com>
-Subject: Re: [PATCH v4 10/10] perf: tests: Adapt mmap-basic.c for riscv
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup@brainfault.org>,
-        Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
+References: <20230713112404.2022373-1-imagedong@tencent.com> <04a96ba2-6952-e6de-93a2-dc2998ce519d@infradead.org>
+In-Reply-To: <04a96ba2-6952-e6de-93a2-dc2998ce519d@infradead.org>
+From:   Menglong Dong <menglong8.dong@gmail.com>
+Date:   Fri, 14 Jul 2023 17:56:03 +0800
+Message-ID: <CADxym3Y2f6-FfyG3RfvPDXLS3b3FqUfxaDPgju6OoQPy-0i9bQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v2] net: tcp: support to probe tcp receiver OOM
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     edumazet@google.com, ncardwell@google.com, davem@davemloft.net,
+        kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+        dsahern@kernel.org, kuniyu@amazon.com, morleyd@google.com,
+        imagedong@tencent.com, mfreemon@cloudflare.com,
+        mubashirq@google.com, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 3, 2023 at 5:57=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc.=
-com> wrote:
+On Thu, Jul 13, 2023 at 11:43=E2=80=AFPM Randy Dunlap <rdunlap@infradead.or=
+g> wrote:
 >
-> riscv now supports mmaping hardware counters to userspace so adapt the te=
-st
-> to run on this architecture.
 >
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> ---
->  tools/perf/tests/mmap-basic.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/tools/perf/tests/mmap-basic.c b/tools/perf/tests/mmap-basic.=
-c
-> index e68ca6229756..f5075ca774f8 100644
-> --- a/tools/perf/tests/mmap-basic.c
-> +++ b/tools/perf/tests/mmap-basic.c
-> @@ -284,7 +284,7 @@ static struct test_case tests__basic_mmap[] =3D {
->                          "permissions"),
->         TEST_CASE_REASON("User space counter reading of instructions",
->                          mmap_user_read_instr,
-> -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || =
-__riscv_xlen =3D=3D 64
->                          "permissions"
->  #else
->                          "unsupported"
-> @@ -292,7 +292,7 @@ static struct test_case tests__basic_mmap[] =3D {
->                 ),
->         TEST_CASE_REASON("User space counter reading of cycles",
->                          mmap_user_read_cycles,
-> -#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__)
-> +#if defined(__i386__) || defined(__x86_64__) || defined(__aarch64__) || =
-__riscv_xlen =3D=3D 64
->                          "permissions"
->  #else
->                          "unsupported"
+> On 7/13/23 04:24, menglong8.dong@gmail.com wrote:
+> > diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/net=
+working/ip-sysctl.rst
+> > index 4a010a7cde7f..3de2dce74037 100644
+> > --- a/Documentation/networking/ip-sysctl.rst
+> > +++ b/Documentation/networking/ip-sysctl.rst
+> > @@ -694,6 +694,20 @@ tcp_retries2 - INTEGER
+> >       RFC 1122 recommends at least 100 seconds for the timeout,
+> >       which corresponds to a value of at least 8.
+> >
+> > +tcp_oom_retries - INTEGER
+> > +     RTO retransmissions count of the receiver is recognised as OOM.
+> > +     Given a value N, a hypothetical TCP connection will enter probe
+> > +     state if N times RTO retransmissions performed and every
+> > +     retransmission gets a pure ack, who doesn't contain SACK block.
+>
+>                                    ACK
+> > +
+> > +     The default value is 0, which means disable the OOM detection.
+> > +     If disabled, skb will be dropped directly, without sending an
+> > +     ACK, when rmem schedule fails. The function is valid only if sack
+>
+>                                                                      SACK
+>
+> > +     is enabled.
+> > +
+> > +     3 is the suggested value to enable this function. Do't make it
+>
+>                                                           Don't
+>
+> > +     greater than tcp_retries2.
+>
+
+Thanks! I'll fix them in the next version.
+
 > --
-> 2.39.2
->
-
-
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
---=20
-Regards,
-Atish
+> ~Randy
