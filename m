@@ -2,113 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D41EB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 20:02:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 428A9EB64DC
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 20:26:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236155AbjGNUCT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 16:02:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51800 "EHLO
+        id S236367AbjGNU0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 16:26:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235873AbjGNUCT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 16:02:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C99E5C;
-        Fri, 14 Jul 2023 13:02:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DB5A261DE6;
-        Fri, 14 Jul 2023 20:02:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD564C433C8;
-        Fri, 14 Jul 2023 20:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689364937;
-        bh=UT9j9q6/BWfR67FxkI+ij2KTzELof0exJwjKYHRs4R8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YcBccN58eI766HtMQ2IQlB0kW1JvkiwsS5clOvALgM0UWC3MdI/3E5p+ACpxkHNQO
-         wYpxnKfUwZfM1qWLFdxScfAXt40ygyI+xRoOhsOOMA0UaRJYmVvQqMy+bwixSC3bao
-         19NUWX93HpVfXCXgnwZrNY4YqDvo7j7iBnaRnFKsse583R/hdW8UjXgCL8TNwJ/84U
-         WHvuC8iw+hx52up83YpirfblY1ButPG7w0SM/EiGNWC7c26iRdHX5C1X2JaeZItxza
-         PM7T2vItZzdSVitXTJTHHWyFuq9dJbgKxQatEYyROvSIrtdfAumRWioqrZhwvR7q0c
-         iipeLmo15v5BQ==
-Date:   Fri, 14 Jul 2023 21:02:12 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <a5fcc05c-3549-491e-b28f-68ceedceb75e@sirena.org.uk>
-References: <20230713223432.1501133-1-kuba@kernel.org>
- <f61a12c6-9587-9cb4-122e-dc3a74e58bd1@leemhuis.info>
- <20230714102218.687ee2ea@kernel.org>
- <a7d0381c-c99e-4dba-9156-cc07a86bdc39@sirena.org.uk>
- <20230714113418.49dfac7e@kernel.org>
+        with ESMTP id S236158AbjGNU0n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 16:26:43 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A6AF35A0;
+        Fri, 14 Jul 2023 13:26:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689366402; x=1720902402;
+  h=to:cc:subject:references:date:mime-version:
+   content-transfer-encoding:from:message-id:in-reply-to;
+  bh=hN1j+GFrFTi2sMdb0x6EvEauXOQiHe+xtthEmkTSYxI=;
+  b=bisEsH+RDsJv3bzPwySZf3SxqsJzyymVWfNewe80yQEgKrvhaMOUQSZw
+   +pQNIHO2r1xq4iJaB7fZ2m3tvYXCCWJqLP36rNudlfGwKXth4LfECZsxG
+   O2hutCfIaMR4nQob3CAE0PgR67Q4AHshG6KCdIsT88iZ7otFwCLOfVnQW
+   UREH6/xjlc9/eQdrB+szPx8c5YJcRXQotuawhYude4YWIqNFcZe0qPnfS
+   DK1Bo9zVmiMSfTkYn/bSgjKUIdajkP9VzGj9JKO8DVj3gmu7DFiUnPlFa
+   4RspIqvr3hGYB9/xgxWYjABYq+cEiYuT5r1237rMQDSe+91NgSGyE+N3Q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="363032479"
+X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
+   d="scan'208";a="363032479"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 13:26:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="969152359"
+X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
+   d="scan'208";a="969152359"
+Received: from hhuan26-mobl.amr.corp.intel.com ([10.92.18.126])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA; 14 Jul 2023 13:26:39 -0700
+Content-Type: text/plain; charset=iso-8859-15; format=flowed; delsp=yes
+To:     jarkko@kernel.org, dave.hansen@linux.intel.com, tj@kernel.org,
+        linux-kernel@vger.kernel.org, linux-sgx@vger.kernel.org,
+        cgroups@vger.kernel.org, "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Haitao Huang" <haitao.huang@linux.intel.com>
+Cc:     kai.huang@intel.com, reinette.chatre@intel.com,
+        "Kristen Carlson Accardi" <kristen@linux.intel.com>,
+        zhiquan1.li@intel.com, seanjc@google.com, bagasdotme@gmail.com,
+        linux-doc@vger.kernel.org, zhanb@microsoft.com,
+        anakrish@microsoft.com, mikko.ylinen@linux.intel.com
+Subject: Re: [PATCH v3 22/28] Docs/x86/sgx: Add description for cgroup support
+References: <20230712230202.47929-1-haitao.huang@linux.intel.com>
+ <20230712230202.47929-23-haitao.huang@linux.intel.com>
+Date:   Fri, 14 Jul 2023 15:26:38 -0500
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZMGLOwCUDl6aLp+8"
-Content-Disposition: inline
-In-Reply-To: <20230714113418.49dfac7e@kernel.org>
-X-Cookie: Preserve the old, but know the new.
+Content-Transfer-Encoding: 7bit
+From:   "Haitao Huang" <haitao.huang@linux.intel.com>
+Organization: Intel
+Message-ID: <op.1729qobwwjvjmi@hhuan26-mobl.amr.corp.intel.com>
+In-Reply-To: <20230712230202.47929-23-haitao.huang@linux.intel.com>
+User-Agent: Opera Mail/1.0 (Win32)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---ZMGLOwCUDl6aLp+8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +
+> +  misc.events
+> +	A read-write flat-keyed file which exists on non-root cgroups.
 
-On Fri, Jul 14, 2023 at 11:34:18AM -0700, Jakub Kicinski wrote:
-> On Fri, 14 Jul 2023 18:59:08 +0100 Mark Brown wrote:
-> > > If we try to fend off anyone who doesn't understand common meaning=20
-> > > of words the document will be very long and painful to read. =20
+It's actually read-only for this file. Will fix.
 
-> > That's true, but "bug" is one of those things where there is a frequent
-> > disconnect on definitions, and when coupled with the must respond bit I
-> > can see things going wrong.
-
-=2E..
-
-> But we can't expect from the user to know if the problem is stable
-> material, or even whether their problem is a bug in the first place.
-> Simple example - WiFi cards which don't support AP mode. User may try
-> to run an AP, and report it doesn't work. They may not know whether
-> it's HW limitation or a bug. The maintainer responding with "it's not
-> supported, sorry" does not seem to me to be a high bar.
-
-Sure, there's cases where it's really clear and people ought to reply
-but there's other things especially as you get into the automated
-reports - for things like the fuzzers with automated reports and
-sometimes janky bisection it's a lot more reasonable to just drop them
-on the floor.
-
-> Just in case someone thought that maintainers are their tech support.
-> Then again, I don't want to completely exclude technical questions which
-> aren't straight up crashes because some of those are reasonable, should
-> be answered or even result in improving docs or error reporting.
-
-> It's a balancing act :(
-
-Honestly I think a lot of it is the "must" rather than "should", it
-comes over as being a bit inflexible.
-
---ZMGLOwCUDl6aLp+8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSxqcMACgkQJNaLcl1U
-h9BaWQf+ISEPJQXevs7v9RaLSpGDfpwmrHXZ2yL/97jE8US6G50yCCTI2pnHwDKA
-kO9VWuxFj/ZQMx8xrbVJTGmQ3YlohH+s6a6obkVoRb+qSP68Sw0ekiG6b2Yv1gip
-/RTHQ1rsigv+yFKd+n1n7tTKA8QLzHVJNlAN06Y8drdnNEGtyn+xMB2S3DQY1onb
-u/BgR4frCSl+BIIvfeTPHA5SeE1/Adpjir/0wZMO0s8W2K1fCVNVtQCsT+fEAn2L
-3qNYAjZIcCNTR1de44QGNY88zKYWQwTalrkTMYvxqmO/HlvhzeedwZIzsaHkjTQJ
-vfzjMPbVZ5ff/SuzBO8bxhf50YyYQw==
-=yOvy
------END PGP SIGNATURE-----
-
---ZMGLOwCUDl6aLp+8--
+Haitao
