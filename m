@@ -2,146 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F288AEB64DA
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 13:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2266C04A94
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 14:05:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235555AbjGNNto (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 09:49:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46392 "EHLO
+        id S235666AbjGNOF5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 10:05:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235510AbjGNNtm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 09:49:42 -0400
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A8AF3580;
-        Fri, 14 Jul 2023 06:49:41 -0700 (PDT)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fbc6ab5ff5so17647465e9.1;
-        Fri, 14 Jul 2023 06:49:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689342580; x=1691934580;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9ehiH+nJa6KAQHmBUdX/E6O673kcIIwUhMgPN51VMJA=;
-        b=KQpHRNzV9d4rrGez7i5omKcEbADoom4mJ8ZEHRHQ5PEy9sG0IYvjW9tcm2vVX4IQPq
-         e31HrZZeNLr9+QcFcZH7LxOJ/ph0d09C7MPZTiOD+w5A/Fmvi733AaV7SxthTxo9Vcjl
-         buv0qODvX769MqoWNCjn5SLSpbaAVnXiebNnakYGzbQ4jD0IMwddmTUbiqtzhawIB6Ml
-         /CA7WyAL8wB7MDg/QUQN/1xV1oGSgB1xbvDmfq0p6fLVdLUIbkn+7AMwzwq2HUGgcpks
-         34g9G+DvH+KqhAvvdGAzV/zUcUpFwzBOofOVed9rBqsgvlsFed+5+m17fkr5V5OENV3X
-         /glQ==
-X-Gm-Message-State: ABy/qLbV7G4lOlwuIkvt36umUEho9qwaD6uL0CeGGz63iGatbaKjZM9S
-        WkiY+kY70RvueIaUQaQrM+E=
-X-Google-Smtp-Source: APBJJlGt8SdB6gDAyhKo1Eu8jIkbcnT8cYjPbi2+Y4GcwmoOJFFp73Lo1ZucaHJqPFgip/vUDfK91w==
-X-Received: by 2002:a05:600c:240a:b0:3f9:b430:199b with SMTP id 10-20020a05600c240a00b003f9b430199bmr3992071wmp.15.1689342579485;
-        Fri, 14 Jul 2023 06:49:39 -0700 (PDT)
-Received: from gmail.com (fwdproxy-cln-018.fbsv.net. [2a03:2880:31ff:12::face:b00c])
-        by smtp.gmail.com with ESMTPSA id j18-20020a5d4492000000b00315a1c160casm10900178wrq.99.2023.07.14.06.49.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 06:49:39 -0700 (PDT)
-Date:   Fri, 14 Jul 2023 06:49:37 -0700
-From:   Breno Leitao <leitao@debian.org>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, sergey.senozhatsky@gmail.com,
-        tj@kernel.org, stephen@networkplumber.org,
-        Dave Jones <davej@codemonkey.org.uk>,
-        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] netconsole: Append kernel version to message
-Message-ID: <ZLFScfJtt/9ClORF@gmail.com>
-References: <20230707132911.2033870-1-leitao@debian.org>
- <ZLE0g9NXYZvlGcyy@alley>
+        with ESMTP id S235685AbjGNOFz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 10:05:55 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688103580;
+        Fri, 14 Jul 2023 07:05:53 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id D2D961F747;
+        Fri, 14 Jul 2023 14:05:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1689343551;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WfJYvmV12IuAluB3xxpilLWbnnbGqme6TLcXjOvVTys=;
+        b=qOb3n5CgUl/kxztnUq+EG3DQjjAw7kU0gPdV+91ITOdnPR5Ruh2eoXbnOwJ1jIVbrkvdTa
+        deCwzyBOT7WtSLgxmEYtUL2D6Abfza5mkN4mZ6MTQTxFr/7E/I83KlVs+Z2kIa58M5H9F7
+        P152JWT0JFnKDyAikCQCl1wns3Y6bxU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1689343551;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WfJYvmV12IuAluB3xxpilLWbnnbGqme6TLcXjOvVTys=;
+        b=8SacSFrMGznoswC3DLlSI9eAQn481Dq8gZ3qFdvYfFr/5pVQhmCFltTS3Vrh5kJCPOvliz
+        +xMjlRGwh91cZzCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 62C1E138F8;
+        Fri, 14 Jul 2023 14:05:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id XKdBFz9WsWRNEwAAMHmgww
+        (envelope-from <dsterba@suse.cz>); Fri, 14 Jul 2023 14:05:51 +0000
+Date:   Fri, 14 Jul 2023 15:59:14 +0200
+From:   David Sterba <dsterba@suse.cz>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Conor Dooley <conor@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Nishanth Menon <nm@ti.com>, linux-riscv@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        soc@kernel.org, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/3] Documentation/process: maintainer-soc: add clean
+ platforms profile
+Message-ID: <20230714135914.GI20457@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <20230714084725.27847-1-krzysztof.kozlowski@linaro.org>
+ <20230714084725.27847-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZLE0g9NXYZvlGcyy@alley>
+In-Reply-To: <20230714084725.27847-2-krzysztof.kozlowski@linaro.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 14, 2023 at 01:41:55PM +0200, Petr Mladek wrote:
-> On Fri 2023-07-07 06:29:11, Breno Leitao wrote:
-> > @@ -254,6 +267,11 @@ static ssize_t extended_show(struct config_item *item, char *buf)
-> >  	return snprintf(buf, PAGE_SIZE, "%d\n", to_target(item)->extended);
-> >  }
-> >  
-> > +static ssize_t release_show(struct config_item *item, char *buf)
-> > +{
-> > +	return snprintf(buf, PAGE_SIZE, "%d\n", to_target(item)->release);
-> 
-> I have learned recently that sysfs_emit() was preferred over snprintf() in the
-> _show() callbacks.
+On Fri, Jul 14, 2023 at 10:47:24AM +0200, Krzysztof Kozlowski wrote:
+> +Overview
+> +--------
+> +
+> +SoC platforms or subarchitectures follow all the rules from
+> +Documentation/process/maintainer-soc.rst.  However platforms referencing this
 
-I didn't know either, I just read about it in the thread. Thanks for the
-heads up. We probably want to change it for the other _show() structs.
-
-> > +}
-> > +
-> >  static ssize_t dev_name_show(struct config_item *item, char *buf)
-> >  {
-> >  	return snprintf(buf, PAGE_SIZE, "%s\n", to_target(item)->np.dev_name);
-> > @@ -366,6 +389,38 @@ static ssize_t enabled_store(struct config_item *item,
-> >  	return err;
-> >  }
-> >  
-> > +static ssize_t release_store(struct config_item *item, const char *buf,
-> > +			     size_t count)
-> > +{
-> > +	struct netconsole_target *nt = to_target(item);
-> > +	int release;
-> > +	int err;
-> > +
-> > +	mutex_lock(&dynamic_netconsole_mutex);
-> > +	if (nt->enabled) {
-> > +		pr_err("target (%s) is enabled, disable to update parameters\n",
-> > +		       config_item_name(&nt->item));
-> > +		err = -EINVAL;
-> > +		goto out_unlock;
-> > +	}
-> > +
-> > +	err = kstrtoint(buf, 10, &release);
-> > +	if (err < 0)
-> > +		goto out_unlock;
-> > +	if (release < 0 || release > 1) {
-> > +		err = -EINVAL;
-> > +		goto out_unlock;
-> > +	}
-> 
-> You might consider using:
-> 
-> 	bool enabled;
-> 
-> 	err = kstrtobool(buf, &enabled);
-> 	if (err)
-> 		goto unlock;
-> 
-> 
-> It accepts more input values, for example, 1/0, y/n, Y/N, ...
-> 
-> Well, I see that kstrtoint() is used also in enabled_store().
-> It might be confusing when "/enabled" supports only "1/0"
-> and "/release" supports more variants.
-
-Right. we probably want to move a few _stores to kstrtobool(). Here is
-what I have in mind:
-	* enabled_store()
-	* release_store()
-	* extended_store()
-
-That said, there are two ways moving forward:
-
-1) I forward fix it. I've send v3 earlier today[1], I can send a patch
-on top of it.
-2) I fix this in a v4 patch. Probably a patchset of 3 patches:
-	a) Move the current snprintf to emit_sysfs()
-	b) Move kstrtoint() to kstrtobool()
-	c) This new feature using emit_sysfs() and kstrtobool().
-
-What is the best way moving forward?
-
-
-Thanks for the review!
-[1] Link: https://lore.kernel.org/all/20230714111330.3069605-1-leitao@debian.org/
+Just a drive by comment, references to highly relevant documents should
+be clickable, so :doc:`Documentation/process/maintainer-soc` , with
+exceptions like if the document has been referenced already.
