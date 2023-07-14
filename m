@@ -2,396 +2,197 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8364C001DC
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 04:18:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B049EB64DA
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jul 2023 04:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234642AbjGNESN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 00:18:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34112 "EHLO
+        id S234930AbjGNEgw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 00:36:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232770AbjGNESN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 00:18:13 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7A98C106;
-        Thu, 13 Jul 2023 21:18:11 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id CED5321C4671; Thu, 13 Jul 2023 21:18:10 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CED5321C4671
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1689308290;
-        bh=1gEl/GRj6c25B7r9dHqS3pawBqKkEdHWIHvR4HQj6sU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Oal6HR6h4sgrZUtnk3MlRaBzwN7QdW1Gc4+tOBT7PmbOeNpZCqr3pN14m8kZ8i39X
-         ipr2fevWdb2kJ2e48Pqt4ojbmsCIpM0R++7n6rIcCeCsY3Gxkkdj3F/7+JDK2c91eL
-         /l+HeHh9TpGqUna+1UTD9QWbL963n6ytqKUYhKxQ=
-Date:   Thu, 13 Jul 2023 21:18:10 -0700
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH RFC v10 2/17] ipe: add policy parser
-Message-ID: <20230714041810.GA15267@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1687986571-16823-3-git-send-email-wufan@linux.microsoft.com>
- <b2abfd3883dce682ee911413fea2ec66.paul@paul-moore.com>
+        with ESMTP id S234497AbjGNEgv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 00:36:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0498EE5C;
+        Thu, 13 Jul 2023 21:36:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8317D61BE3;
+        Fri, 14 Jul 2023 04:36:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77953C433C7;
+        Fri, 14 Jul 2023 04:36:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689309408;
+        bh=qs1u/ZYJZiaTb0F8yk8LaI3dBfd09CDYXgEOadys3Ug=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=VWryaICehPJ4j7l6Yaff5LNSlGsxj39Rrd1Uz6PbCHNVWRzzA8Lwz6LNOreIv6mgN
+         fEw8/eQF0O5XIw57yGvmclZbN9HZ/UCeNZwxt2o8iUD0QxVQng61+qKRE3zICFlOCK
+         eZIxponL92EMbdrsVsDYs77GlQNLf7L+5+PkO1D7i8Ll320U4lwVi7+zqejbtriIV0
+         JY/I6/LeJGNvbUD9LZpJJ37WCFisfCORc8F+CQRiqOOiZZnhwMUfIz3+cOtQvYQlnS
+         +eWeFlyHa61BInTgOjkxLUDLeOu1wd7nq07EmgPKQnQ2iW71jUikVQGWVw15JcVtQm
+         A7si7OxTiNT0Q==
+Message-ID: <6f1014cd-f8c5-f935-dcc7-4f5a6b85e473@kernel.org>
+Date:   Fri, 14 Jul 2023 06:36:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b2abfd3883dce682ee911413fea2ec66.paul@paul-moore.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
+ time maintainers
+To:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
+References: <20230713223432.1501133-1-kuba@kernel.org>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20230713223432.1501133-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 08, 2023 at 12:23:00AM -0400, Paul Moore wrote:
-> On Jun 28, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
-> > 
-> > IPE's interpretation of the what the user trusts is accomplished through
-> > its policy. IPE's design is to not provide support for a single trust
-> > provider, but to support multiple providers to enable the end-user to
-> > choose the best one to seek their needs.
-> > 
-> > This requires the policy to be rather flexible and modular so that
-> > integrity providers, like fs-verity, dm-verity, dm-integrity, or
-> > some other system, can plug into the policy with minimal code changes.
-> > 
-> > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> > ---
-> >  security/ipe/Makefile        |   2 +
-> >  security/ipe/policy.c        |  97 +++++++
-> >  security/ipe/policy.h        |  83 ++++++
-> >  security/ipe/policy_parser.c | 488 +++++++++++++++++++++++++++++++++++
-> >  security/ipe/policy_parser.h |  11 +
-> >  5 files changed, 681 insertions(+)
-> >  create mode 100644 security/ipe/policy.c
-> >  create mode 100644 security/ipe/policy.h
-> >  create mode 100644 security/ipe/policy_parser.c
-> >  create mode 100644 security/ipe/policy_parser.h
+On 14/07/2023 00:34, Jakub Kicinski wrote:
+> We appear to have a gap in our process docs. We go into detail
+> on how to contribute code to the kernel, and how to be a subsystem
+> maintainer. I can't find any docs directed towards the thousands
+> of small scale maintainers, like folks maintaining a single driver
+> or a single network protocol.
 > 
-> ...
+> Document our expectations and best practices. I'm hoping this doc
+> will be particularly useful to set expectations with HW vendors.
 > 
-> > diff --git a/security/ipe/policy.c b/security/ipe/policy.c
-> > new file mode 100644
-> > index 000000000000..4069ff075093
-> > --- /dev/null
-> > +++ b/security/ipe/policy.c
-> > @@ -0,0 +1,97 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) Microsoft Corporation. All rights reserved.
-> > + */
-> > +
-> > +#include <linux/errno.h>
-> > +#include <linux/verification.h>
-> > +
-> > +#include "ipe.h"
-> > +#include "policy.h"
-> > +#include "policy_parser.h"
-> > +
-> > +/**
-> > + * ipe_free_policy - Deallocate a given IPE policy.
-> > + * @p: Supplies the policy to free.
-> > + *
-> > + * Safe to call on IS_ERR/NULL.
-> > + */
-> > +void ipe_free_policy(struct ipe_policy *p)
-> > +{
-> > +	if (IS_ERR_OR_NULL(p))
-> > +		return;
-> > +
-> > +	free_parsed_policy(p->parsed);
-> > +	if (!p->pkcs7)
-> > +		kfree(p->text);
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> Please consider this more of a draft than a statement of my opinion.
+> IOW prefer suggesting edits over arguing about correctness, hope
+> that makes sense.
+> ---
+>  .../feature-and-driver-maintainers.rst        | 159 ++++++++++++++++++
+>  Documentation/maintainer/index.rst            |   1 +
+>  2 files changed, 160 insertions(+)
+>  create mode 100644 Documentation/maintainer/feature-and-driver-maintainers.rst
 > 
-> Since it's safe to kfree(NULL), you could kfree(p->text) without
-> having to check if p->pkcs7 was non-NULL, correct?
-> 
-when p->pkcs7 is not NULL, p->text points to the plain text policy area inside
-the data of p->pkcs7, for such cases p->text is not really an allocated memory chunk
-so it cannot be passed to kfree.
+> diff --git a/Documentation/maintainer/feature-and-driver-maintainers.rst b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> new file mode 100644
+> index 000000000000..ee8ccc22b16a
+> --- /dev/null
+> +++ b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> @@ -0,0 +1,159 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +==============================
+> +Feature and driver maintainers
+> +==============================
+> +
+> +The term "maintainer" spans a very wide range of levels of engagement
+> +from people handling patches and pull requests as almost a full time job
+> +to people responsible for a small feature or a driver.
+> +
+> +Unlike most of the chapter, this section is meant for the latter (more
+> +populous) group. It provides tips and describes the expectations and
+> +responsibilities of maintainers of a small(ish) section of the code.
+> +
+> +Driver and alike most often do not have their own mailing lists and
+> +git trees but instead send and review patches on the list of a larger
+> +subsystem.
+> +
+> +Responsibilities
+> +================
+> +
+> +The amount of maintenance work is usually proportional to the size
+> +and popularity of the code base. Small features and drivers should
+> +require relatively small amount of care and feeding. Nonetheless
+> +when the work does arrive (in form of patches which need review,
+> +user bug reports etc.) it has to be acted upon very promptly.
+> +Even when single driver only sees one patch a month, or a quarter,
+> +a subsystem could well have a hundred such drivers. Subsystem
+> +maintainers cannot afford to wait a long time to hear from reviewers.
+> +
+> +The exact expectations on the review time will vary by subsystem
+> +from 1 day (e.g. networking) to a week in smaller subsystems.
 
-I might better add a comment here to avoid confusion in the future.
+Two weeks is the upper limit.
 
-> > +	kfree(p->pkcs7);
-> > +	kfree(p);
-> > +}
-> 
-> ...
-> 
-> > diff --git a/security/ipe/policy.h b/security/ipe/policy.h
-> > new file mode 100644
-> > index 000000000000..113a037f0d71
-> > --- /dev/null
-> > +++ b/security/ipe/policy.h
-> > @@ -0,0 +1,83 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (C) Microsoft Corporation. All rights reserved.
-> > + */
-> > +#ifndef _IPE_POLICY_H
-> > +#define _IPE_POLICY_H
-> > +
-> > +#include <linux/list.h>
-> > +#include <linux/types.h>
-> > +
-> > +enum ipe_op_type {
-> > +	__IPE_OP_EXEC = 0,
-> > +	__IPE_OP_FIRMWARE,
-> > +	__IPE_OP_KERNEL_MODULE,
-> > +	__IPE_OP_KEXEC_IMAGE,
-> > +	__IPE_OP_KEXEC_INITRAMFS,
-> > +	__IPE_OP_IMA_POLICY,
-> > +	__IPE_OP_IMA_X509,
-> > +	__IPE_OP_MAX
-> > +};
-> 
-> Thanks for capitalizing the enums, that helps make IPE consistent with
-> the majority of the kernel.  However, when I talked about using
-> underscores for "__IPE_OP_MAX", I was talking about *only*
-> "__IPE_OP_MAX" to help indicate it is a sentinel value and not an enum
-> value that would normally be used by itself.
-> 
-> Here is what I was intending:
-> 
-> enum ipe_op_type {
->   IPE_OP_EXEC = 0,
->   IPE_OP_FIRMWARE,
->   ...
->   IPE_OP_IMA_X509,
->   __IPE_OP_MAX
-> };
-> 
-> > +#define __IPE_OP_INVALID __IPE_OP_MAX
-> 
-> Similarly, I would remove the underscores from "__IPE_OP_INVALID":
-> 
-> #define IPE_OP_INVALID __IPE_OP_MAX
-> 
-> Both of these comments would apply to the other IPE enums as well.
-> 
-Sorry for the mistake, I will update them.
+> +
+> +Mailing list participation
+> +--------------------------
+> +
+> +Linux kernel uses mailing lists as the primary form of communication.
+> +Maintainers must be subscribed and follow the appropriate subsystem-wide
+> +mailing list. Either by subscribing to the whole list or using more
+> +modern, selective setup like
+> +`lei <https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started>`_.
+> +
+> +Maintainers must know how to communicate on the list (plain text, no invasive
+> +legal footers, no top posting, etc.)
+> +
+> +Reviews
+> +-------
+> +
+> +Maintainers must review *all* patches touching exclusively their drivers,
 
-> > diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
-> > new file mode 100644
-> > index 000000000000..27e5767480b0
-> > --- /dev/null
-> > +++ b/security/ipe/policy_parser.c
-> > @@ -0,0 +1,488 @@
-> 
-> ...
-> 
-> > +/**
-> > + * parse_header - Parse policy header information.
-> > + * @line: Supplies header line to be parsed.
-> > + * @p: Supplies the partial parsed policy.
-> > + *
-> > + * Return:
-> > + * * 0	- OK
-> > + * * !0	- Standard errno
-> > + */
-> > +static int parse_header(char *line, struct ipe_parsed_policy *p)
-> > +{
-> > +	int rc = 0;
-> > +	char *t, *ver = NULL;
-> > +	substring_t args[MAX_OPT_ARGS];
-> > +	size_t idx = 0;
-> > +
-> > +	while ((t = strsep(&line, " \t")) != NULL) {
-> 
-> It might be nice to define a macro to help reinforce that " \t" are
-> the IPE policy delimiters, how about IPE_POLICY_DELIM?
-> 
-> #define IPE_POLICY_DELIM " \t"
-> 
-Sure, this is better, I will take this idea.
+I don't agree with this as a small driver maintainer. Several subsystem
+maintainers take the patches much faster than I am able to check the
+inbox. I can provide names if you need some proves. With such criteria I
+should be removed from maintainers, because I am not able to review
+within 24h.
 
-> > +		int token;
-> > +
-> > +		if (*t == '\0')
-> > +			continue;
-> 
-> Why would you want to continue if you run into a NUL byte?  You would
-> only run into a NUL byte if the line was trimmed due to comments or
-> whitespace, correct?  If that is the case, wouldn't you want to
-> break out of this loop when hitting a NUL byte?
-> 
-This happens when two spaces are passed, for example "DEFAULT<space><space>action=DENY"
-has two spaces inside, the strsep will create a NUL string when it sees the first space,
-so for such cases I think we should just skip to the next token.
+Either give reasonable time, like two weeks, or don't require driver
+maintainers to be 24/7 for subystem maintainer disposal. This is very
+unfair rule.
 
-> > +		if (idx >= __IPE_HEADER_MAX) {
-> > +			rc = -EBADMSG;
-> > +			goto err;
-> > +		}
-> > +
-> > +		token = match_token(t, header_tokens, args);
-> > +		if (token != idx) {
-> > +			rc = -EBADMSG;
-> > +			goto err;
-> > +		}
-> > +
-> > +		switch (token) {
-> > +		case __IPE_HEADER_POLICY_NAME:
-> > +			p->name = match_strdup(&args[0]);
-> > +			if (!p->name)
-> > +				rc = -ENOMEM;
-> > +			break;
-> > +		case __IPE_HEADER_POLICY_VERSION:
-> > +			ver = match_strdup(&args[0]);
-> > +			if (!ver) {
-> > +				rc = -ENOMEM;
-> > +				break;
-> > +			}
-> > +			rc = parse_version(ver, p);
-> > +			break;
-> > +		default:
-> > +			rc = -EBADMSG;
-> > +		}
-> > +		if (rc)
-> > +			goto err;
-> > +		++idx;
-> > +	}
-> > +
-> > +	if (idx != __IPE_HEADER_MAX) {
-> > +		rc = -EBADMSG;
-> > +		goto err;
-> > +	}
-> > +
-> > +out:
-> > +	kfree(ver);
-> > +	return rc;
-> > +err:
-> > +	kfree(p->name);
-> > +	p->name = NULL;
-> > +	goto out;
-> 
-> Do we need to worry about ipe_parsed_policy::name here?  If we are
-> returning an error the caller will call free_parsed_policy() for us,
-> right?  This would allow us to get rid of the 'err' jump label and
-> simply use 'out' for both success and failure.
-> 
-Yes this is not necessary, I will remove this part.
+> +no matter how trivial. If the patch is a tree wide change and modifies
+> +multiple drivers - whether to provide a review is left to the maintainer.
+> +
+> +There should be multiple maintainers for any piece of code, an ``Acked-by``
+> +or ``Reviewed-by`` tag (or review comments) from a single maintainer is
+> +enough to satisfy this requirement.
+> +
+> +If review process or validation for a particular change will take longer
+> +than the expected review timeline for the subsystem, maintainer should
+> +reply to the submission indicating that the work is being done, and when
+> +to expect full results.
+> +
+> +Refactoring and core changes
+> +----------------------------
+> +
+> +Occasionally core code needs to be changed to improve the maintainability
+> +of the kernel as a whole. Maintainers are expected to be present and
+> +help guide and test changes to their code to fit the new infrastructure.
+> +
+> +Bug reports
+> +-----------
+> +
+> +Maintainers must respond to and address bug reports. The bug reports
 
-> > +}
-> 
-> ...
-> 
-> > +/**
-> > + * parse_rule - parse a policy rule line.
-> > + * @line: Supplies rule line to be parsed.
-> > + * @p: Supplies the partial parsed policy.
-> > + *
-> > + * Return:
-> > + * * !IS_ERR	- OK
-> > + * * -ENOMEM	- Out of memory
-> > + * * -EBADMSG	- Policy syntax error
-> > + */
-> > +static int parse_rule(char *line, struct ipe_parsed_policy *p)
-> > +{
-> > +	int rc = 0;
-> > +	bool first_token = true, is_default_rule = false;
-> > +	bool op_parsed = false;
-> > +	enum ipe_op_type op = __IPE_OP_INVALID;
-> > +	enum ipe_action_type action = __IPE_ACTION_INVALID;
-> > +	struct ipe_rule *r = NULL;
-> > +	char *t;
-> > +
-> > +	r = kzalloc(sizeof(*r), GFP_KERNEL);
-> > +	if (!r)
-> > +		return -ENOMEM;
-> > +
-> > +	INIT_LIST_HEAD(&r->next);
-> > +	INIT_LIST_HEAD(&r->props);
-> > +
-> > +	while (t = strsep(&line, " \t"), line) {
-> 
-> See my previous comment about IPE_POLICY_DELIM.
-> 
-> > +		if (*t == '\0')
-> > +			continue;
-> 
-> I still wonder why continuing here is the desired behavior, can you
-> help me understand?
-This one is the same to the parse header function, when two consecutive
-delimitators is passed to strsep it will generate a '\0'.
+This is even more unreasonable than previous 1 day review. I don't have
+capabilities to address bug reports for numerous drivers I am
+maintaining. I don't have hardware, I don't have time, no one pays me
+for it. I still need some life outside of working hours, so expecting
+both reviews in 1 day and addressing bugs is way too much.
 
-> 
-> > +		if (first_token && token_default(t)) {
-> > +			is_default_rule = true;
-> > +		} else {
-> > +			if (!op_parsed) {
-> > +				op = parse_operation(t);
-> > +				if (op == __IPE_OP_INVALID)
-> > +					rc = -EBADMSG;
-> > +				else
-> > +					op_parsed = true;
-> > +			} else {
-> > +				rc = parse_property(t, r);
-> > +			}
-> > +		}
-> > +
-> > +		if (rc)
-> > +			goto err;
-> > +		first_token = false;
-> > +	}
-> > +
-> > +	action = parse_action(t);
-> > +	if (action == __IPE_ACTION_INVALID) {
-> > +		rc = -EBADMSG;
-> > +		goto err;
-> > +	}
-> > +
-> > +	if (is_default_rule) {
-> > +		if (!list_empty(&r->props)) {
-> > +			rc = -EBADMSG;
-> > +		} else if (op == __IPE_OP_INVALID) {
-> > +			if (p->global_default_action != __IPE_ACTION_INVALID)
-> > +				rc = -EBADMSG;
-> > +			else
-> > +				p->global_default_action = action;
-> > +		} else {
-> > +			if (p->rules[op].default_action != __IPE_ACTION_INVALID)
-> > +				rc = -EBADMSG;
-> > +			else
-> > +				p->rules[op].default_action = action;
-> > +		}
-> > +	} else if (op != __IPE_OP_INVALID && action != __IPE_ACTION_INVALID) {
-> > +		r->op = op;
-> > +		r->action = action;
-> > +	} else {
-> > +		rc = -EBADMSG;
-> > +	}
-> > +
-> > +	if (rc)
-> > +		goto err;
-> > +	if (!is_default_rule)
-> > +		list_add_tail(&r->next, &p->rules[op].rules);
-> > +	else
-> > +		free_rule(r);
-> > +
-> > +out:
-> > +	return rc;
-> > +err:
-> > +	free_rule(r);
-> > +	goto out;
-> 
-> In keeping with the rule of not jumping to a label only to
-> immediately return, and considering that the only place where we jump
-> to 'out' is in the 'err' code, let's get rid of the 'out' label and
-> have 'err' "return rc" instead of "goto out".
-> 
-Sure I can change this part, yeah I agree this looks weird. 
+> +range from users reporting real life crashes, thru errors discovered
+> +in fuzzing to reports of issues with the code found by static analysis
+> +tools and new compiler warnings.
+> +
+> +Volunteer maintainers are only required to address bugs and regressions.
 
--Fan
-> > +}
-> 
-> --
-> paul-moore.com
+"Only required"? That's not "only" but a lot.
+
+> +It is understood that due to lack of access to documentation and
+> +implementation details they may not be able to solve all problems.
+
+So how do I address? Say "Oh, that's bad"?
+
+Jakub, with both of your criteria - reviewing and addressing - I should
+be dropped from all the driver maintainership. If this document passes,
+I will do it - drop myself - because:
+1. No one pays me for it,
+2. I barely have hardware,
+3. I want to live a life and I am already working much more than 8h per day.
+
+
+Best regards,
+Krzysztof
+
