@@ -2,141 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B16C001E0
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 04:00:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F0FC0015E
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 05:39:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbjGOEAb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Jul 2023 00:00:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41550 "EHLO
+        id S229657AbjGOFjr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Jul 2023 01:39:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjGOEAa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 00:00:30 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 891473588;
-        Fri, 14 Jul 2023 21:00:29 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id 1139721C4693; Fri, 14 Jul 2023 21:00:29 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1139721C4693
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1689393629;
-        bh=T+rS0NBXQ8rmZa6Pv6GYhkR4sFygUmWyBqsbSsfgTyA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cDoM/dayOIqXlO5WYELh4VdXzsOuz+zQzAmUzPjeRkz74duW+/HbrgjuR4td7uHih
-         PVSGFalEqGe64dK1ZYcaRiC6fsORYlkGjN4De35/Ao89rB7a04pqDfuE6QFAViLyWy
-         hli//fs1rJYxaYI1i1Q0crJXB84OXHw+TuLF/L9s=
-Date:   Fri, 14 Jul 2023 21:00:29 -0700
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH RFC v10 9/17] ipe: add permissive toggle
-Message-ID: <20230715040029.GH15267@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1687986571-16823-10-git-send-email-wufan@linux.microsoft.com>
- <85af33c02638ebb501b40fd0f3785b12.paul@paul-moore.com>
+        with ESMTP id S229482AbjGOFjq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 01:39:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4FA13AA1;
+        Fri, 14 Jul 2023 22:39:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 46F2C60304;
+        Sat, 15 Jul 2023 05:39:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A55E5C433CC;
+        Sat, 15 Jul 2023 05:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689399584;
+        bh=EoC7y3rLdsTfdggC5ynHU58rMj0H+USBvF2tf7JCyGc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Miy423FMByR4Mt9Mua6XH9tmYZvsLJslHdxjnKySlfbtmniZQXalrENN/Fxix3Vet
+         CFLXEuE0apDpD+Q18wTAMJb8LOajcHeDDs86flbTYZHRDHAkgtqHQ2Sryavowta+eW
+         Rkhz0aU0pWIw+HjP9MiNU6VVUQJkaa/PaSpiMMYoUHhfocXHFvpehwV1c7T8j0iD8q
+         8xtxeaJAeuMeRfdyXGbS4lYe7uqQN8QjvBTk5BpcCDnpsJ8VmLRlUA14Rft0lXsgeZ
+         XvKaT+aLuUgoRgWSzkGEzcYvkIZ9M1p+Ghl4HrT8CohNDtEP3Vm6/ZYG1JqPnARoX5
+         jataUoLhDvmZw==
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-56347da4a50so1797261eaf.2;
+        Fri, 14 Jul 2023 22:39:44 -0700 (PDT)
+X-Gm-Message-State: ABy/qLbg7GbEqV/AMkelfn9jw5qLJ/lwSKBizpTAxOZO82KYXQUiRQlp
+        Kn7svz2sCF5dZIcaDPz+JzAX18jhyXmR8Dn/MbA=
+X-Google-Smtp-Source: APBJJlH+rK8S6u2KM7p7YAxOaFaTck4jBygqc6Df57rcB1UhTIYwDXWuRAWE79tRtcn0Ok3nSryS8fx6ETzofuUbWQ4=
+X-Received: by 2002:a4a:86cd:0:b0:566:6971:9379 with SMTP id
+ y13-20020a4a86cd000000b0056669719379mr800864ooh.1.1689399583837; Fri, 14 Jul
+ 2023 22:39:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <85af33c02638ebb501b40fd0f3785b12.paul@paul-moore.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+References: <20230704000120.8098-1-rdunlap@infradead.org> <87mszyz4lc.fsf@meer.lwn.net>
+In-Reply-To: <87mszyz4lc.fsf@meer.lwn.net>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 15 Jul 2023 14:39:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASXk28=uxS4ENz7w5hCahseN8HLcbJaAbLVU7=78vThTw@mail.gmail.com>
+Message-ID: <CAK7LNASXk28=uxS4ENz7w5hCahseN8HLcbJaAbLVU7=78vThTw@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: docs: mention gconfig at top of kconfig.rst
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        Jesse Taube <mr.bossman075@gmail.com>,
+        linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 08, 2023 at 12:23:06AM -0400, Paul Moore wrote:
-> On Jun 28, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
-> > 
-> > IPE, like SELinux, supports a permissive mode. This mode allows policy
-> > authors to test and evaluate IPE policy without it effecting their
-> > programs. When the mode is changed, a 1404 AUDIT_MAC_STATUS
-> > be reported.
-> > 
-> > This patch adds the following audit records:
-> > 
-> >     audit: MAC_STATUS enforcing=0 old_enforcing=1 auid=4294967295
-> >       ses=4294967295 enabled=1 old-enabled=1 lsm=ipe res=1
-> >     audit: MAC_STATUS enforcing=1 old_enforcing=0 auid=4294967295
-> >       ses=4294967295 enabled=1 old-enabled=1 lsm=ipe res=1
-> > 
-> > The audit record only emit when the value from the user input is
-> > different from the current enforce value.
-> > 
-> > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+On Sat, Jul 15, 2023 at 4:16=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
+>
+> Randy Dunlap <rdunlap@infradead.org> writes:
+>
+> > Jesse mentioned that gconfig is missing from the top of the
+> > kconfig.rst file, so add it for completeness.
+> >
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > Link: lore.kernel.org/r/CAJFTR8QgYykuEq_AkODEWPUYXncKgRBHOncxT=3DypZTQO=
+Dkyarw@mail.gmail.com
+> > Cc: Jesse Taube <mr.bossman075@gmail.com>
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: linux-kbuild@vger.kernel.org
+> > Cc: Nathan Chancellor <nathan@kernel.org>
+> > Cc: Nick Desaulniers <ndesaulniers@google.com>
+> > Cc: Nicolas Schier <nicolas@fjasle.eu>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: linux-doc@vger.kernel.org
 > > ---
-> >  security/ipe/audit.c | 22 ++++++++++++++
-> >  security/ipe/audit.h |  1 +
-> >  security/ipe/eval.c  |  9 ++++++
-> >  security/ipe/eval.h  |  1 +
-> >  security/ipe/fs.c    | 69 ++++++++++++++++++++++++++++++++++++++++++++
-> >  5 files changed, 102 insertions(+)
-> 
-> ...
-> 
-> > diff --git a/security/ipe/fs.c b/security/ipe/fs.c
-> > index 6bd2aa84831b..1761d39e4d04 100644
-> > --- a/security/ipe/fs.c
-> > +++ b/security/ipe/fs.c
-> > @@ -16,6 +16,7 @@ static struct dentry *np __ro_after_init;
-> >  static struct dentry *root __ro_after_init;
-> >  struct dentry *policy_root __ro_after_init;
-> >  static struct dentry *audit_node __ro_after_init;
-> > +static struct dentry *enforce_node __ro_after_init;
-> >  
-> >  /**
-> >   * setaudit - Write handler for the securityfs node, "ipe/success_audit"
-> > @@ -68,6 +69,61 @@ static ssize_t getaudit(struct file *f, char __user *data,
-> >  	return simple_read_from_buffer(data, len, offset, result, 1);
-> >  }
-> >  
-> > +/**
-> > + * setenforce - Write handler for the securityfs node, "ipe/enforce"
-> > + * @f: Supplies a file structure representing the securityfs node.
-> > + * @data: Supplies a buffer passed to the write syscall.
-> > + * @len: Supplies the length of @data.
-> > + * @offset: unused.
-> > + *
-> > + * Return:
-> > + * * >0	- Success, Length of buffer written
-> > + * * <0	- Error
-> > + */
-> > +static ssize_t setenforce(struct file *f, const char __user *data,
-> > +			  size_t len, loff_t *offset)
-> > +{
-> > +	int rc = 0;
-> > +	bool new_value, old_value;
-> > +
-> > +	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
-> > +		return -EPERM;
-> > +
-> > +	old_value = READ_ONCE(enforce);
-> > +	new_value = old_value;
-> 
-> Why set @new_value equal to @old_value here?
-> 
-Sorry this mistake is the same as the one for audit switch. 
-kstrtobool_from_user will return error if new_value is not set,
-I will remove the above line.
+> >  Documentation/kbuild/kconfig.rst |    2 ++
+> >  1 file changed, 2 insertions(+)
+>
+> Applied, thanks.
+>
+> jon
 
--Fan
-> > +	rc = kstrtobool_from_user(data, len, &new_value);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	if (new_value != old_value) {
-> > +		ipe_audit_enforce(new_value, old_value);
-> > +		WRITE_ONCE(enforce, new_value);
-> > +	}
-> > +
-> > +	return len;
-> > +}
-> 
-> --
-> paul-moore.com
+
+Unless it is too late,
+
+Acked: Masahiro Yamada <masahiroy@kernel.org>
+
+
+--=20
+Best Regards
+Masahiro Yamada
