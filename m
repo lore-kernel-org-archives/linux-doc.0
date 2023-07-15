@@ -2,98 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F0FC0015E
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 05:39:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E246C001DC
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 06:38:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbjGOFjr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Jul 2023 01:39:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51094 "EHLO
+        id S230146AbjGOGiT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Jul 2023 02:38:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjGOFjq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 01:39:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4FA13AA1;
-        Fri, 14 Jul 2023 22:39:45 -0700 (PDT)
+        with ESMTP id S229555AbjGOGiT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 02:38:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAD1A358E;
+        Fri, 14 Jul 2023 23:38:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 46F2C60304;
-        Sat, 15 Jul 2023 05:39:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A55E5C433CC;
-        Sat, 15 Jul 2023 05:39:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689399584;
-        bh=EoC7y3rLdsTfdggC5ynHU58rMj0H+USBvF2tf7JCyGc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Miy423FMByR4Mt9Mua6XH9tmYZvsLJslHdxjnKySlfbtmniZQXalrENN/Fxix3Vet
-         CFLXEuE0apDpD+Q18wTAMJb8LOajcHeDDs86flbTYZHRDHAkgtqHQ2Sryavowta+eW
-         Rkhz0aU0pWIw+HjP9MiNU6VVUQJkaa/PaSpiMMYoUHhfocXHFvpehwV1c7T8j0iD8q
-         8xtxeaJAeuMeRfdyXGbS4lYe7uqQN8QjvBTk5BpcCDnpsJ8VmLRlUA14Rft0lXsgeZ
-         XvKaT+aLuUgoRgWSzkGEzcYvkIZ9M1p+Ghl4HrT8CohNDtEP3Vm6/ZYG1JqPnARoX5
-         jataUoLhDvmZw==
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-56347da4a50so1797261eaf.2;
-        Fri, 14 Jul 2023 22:39:44 -0700 (PDT)
-X-Gm-Message-State: ABy/qLbg7GbEqV/AMkelfn9jw5qLJ/lwSKBizpTAxOZO82KYXQUiRQlp
-        Kn7svz2sCF5dZIcaDPz+JzAX18jhyXmR8Dn/MbA=
-X-Google-Smtp-Source: APBJJlH+rK8S6u2KM7p7YAxOaFaTck4jBygqc6Df57rcB1UhTIYwDXWuRAWE79tRtcn0Ok3nSryS8fx6ETzofuUbWQ4=
-X-Received: by 2002:a4a:86cd:0:b0:566:6971:9379 with SMTP id
- y13-20020a4a86cd000000b0056669719379mr800864ooh.1.1689399583837; Fri, 14 Jul
- 2023 22:39:43 -0700 (PDT)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 508B5600BE;
+        Sat, 15 Jul 2023 06:38:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4CACC433C7;
+        Sat, 15 Jul 2023 06:38:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1689403096;
+        bh=uRlIl+vbdu2QDLuqivP4y8zF+71MOCAvYoUKfpnosCc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ucZdyl0ekP17LSlYQl20XnwxkfjrKusvXBqL5aS3aQ7EOagl3MTDzTh7nTZvtDm3G
+         7wjEP//NUajY+2c+mvFIPoX1SPB91hbDrX7U/4ybPVKxFKRrE1rwT/k4fBX8+Ksg/a
+         E5gpVu//lE0YohivXiMBMt9B3VZ88wBINLN8SrQA=
+Date:   Sat, 15 Jul 2023 08:38:10 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
+ time maintainers
+Message-ID: <2023071542-startup-everyone-eb5d@gregkh>
+References: <20230713223432.1501133-1-kuba@kernel.org>
 MIME-Version: 1.0
-References: <20230704000120.8098-1-rdunlap@infradead.org> <87mszyz4lc.fsf@meer.lwn.net>
-In-Reply-To: <87mszyz4lc.fsf@meer.lwn.net>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 15 Jul 2023 14:39:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASXk28=uxS4ENz7w5hCahseN8HLcbJaAbLVU7=78vThTw@mail.gmail.com>
-Message-ID: <CAK7LNASXk28=uxS4ENz7w5hCahseN8HLcbJaAbLVU7=78vThTw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: docs: mention gconfig at top of kconfig.rst
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-        Jesse Taube <mr.bossman075@gmail.com>,
-        linux-kbuild@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230713223432.1501133-1-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 15, 2023 at 4:16=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> Randy Dunlap <rdunlap@infradead.org> writes:
->
-> > Jesse mentioned that gconfig is missing from the top of the
-> > kconfig.rst file, so add it for completeness.
-> >
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Link: lore.kernel.org/r/CAJFTR8QgYykuEq_AkODEWPUYXncKgRBHOncxT=3DypZTQO=
-Dkyarw@mail.gmail.com
-> > Cc: Jesse Taube <mr.bossman075@gmail.com>
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: linux-kbuild@vger.kernel.org
-> > Cc: Nathan Chancellor <nathan@kernel.org>
-> > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > Cc: Nicolas Schier <nicolas@fjasle.eu>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: linux-doc@vger.kernel.org
-> > ---
-> >  Documentation/kbuild/kconfig.rst |    2 ++
-> >  1 file changed, 2 insertions(+)
->
-> Applied, thanks.
->
-> jon
+On Thu, Jul 13, 2023 at 03:34:32PM -0700, Jakub Kicinski wrote:
+> We appear to have a gap in our process docs. We go into detail
+> on how to contribute code to the kernel, and how to be a subsystem
+> maintainer. I can't find any docs directed towards the thousands
+> of small scale maintainers, like folks maintaining a single driver
+> or a single network protocol.
+> 
+> Document our expectations and best practices. I'm hoping this doc
+> will be particularly useful to set expectations with HW vendors.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> Please consider this more of a draft than a statement of my opinion.
+> IOW prefer suggesting edits over arguing about correctness, hope
+> that makes sense.
 
+This looks great to me, thanks for putting it together.
 
-Unless it is too late,
+But I do have one objection on the timeline portion:
 
-Acked: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>  .../feature-and-driver-maintainers.rst        | 159 ++++++++++++++++++
+>  Documentation/maintainer/index.rst            |   1 +
+>  2 files changed, 160 insertions(+)
+>  create mode 100644 Documentation/maintainer/feature-and-driver-maintainers.rst
+> 
+> diff --git a/Documentation/maintainer/feature-and-driver-maintainers.rst b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> new file mode 100644
+> index 000000000000..ee8ccc22b16a
+> --- /dev/null
+> +++ b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> @@ -0,0 +1,159 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +==============================
+> +Feature and driver maintainers
+> +==============================
+> +
+> +The term "maintainer" spans a very wide range of levels of engagement
+> +from people handling patches and pull requests as almost a full time job
+> +to people responsible for a small feature or a driver.
+> +
+> +Unlike most of the chapter, this section is meant for the latter (more
+> +populous) group. It provides tips and describes the expectations and
+> +responsibilities of maintainers of a small(ish) section of the code.
+> +
+> +Driver and alike most often do not have their own mailing lists and
+> +git trees but instead send and review patches on the list of a larger
+> +subsystem.
+> +
+> +Responsibilities
+> +================
+> +
+> +The amount of maintenance work is usually proportional to the size
+> +and popularity of the code base. Small features and drivers should
+> +require relatively small amount of care and feeding. Nonetheless
+> +when the work does arrive (in form of patches which need review,
+> +user bug reports etc.) it has to be acted upon very promptly.
+> +Even when single driver only sees one patch a month, or a quarter,
+> +a subsystem could well have a hundred such drivers. Subsystem
+> +maintainers cannot afford to wait a long time to hear from reviewers.
+> +
+> +The exact expectations on the review time will vary by subsystem
+> +from 1 day (e.g. networking) to a week in smaller subsystems.
 
+"to a few weeks".
 
---=20
-Best Regards
-Masahiro Yamada
+I can't do 1 day, or even 1 week for the subsystems I maintain
+(especially during merge windows or vacations.)  How about that line
+being:
+	from 1 day (e.g. networking) to a few weeks for smaller subsystems.
+
+And then add a link to "For specific subsystem response times, please
+see the document in [insert link here to where we keep the subsystem
+expectations]"
+
+And yeah, I do need to go add some process/maintainer-* files for the
+subsystems I maintain, it might be a good idea to also say that any new
+subsystems also provide this so we can start catching up on that.
+
+thanks,
+
+greg k-h
