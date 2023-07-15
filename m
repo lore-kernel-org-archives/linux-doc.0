@@ -2,228 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAF50C0015E
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 10:39:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1676BEB64DC
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 12:03:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230435AbjGOKjk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Jul 2023 06:39:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38782 "EHLO
+        id S229494AbjGOMDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Jul 2023 08:03:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbjGOKji (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 06:39:38 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E18535AA;
-        Sat, 15 Jul 2023 03:39:37 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-6682909acadso1954541b3a.3;
-        Sat, 15 Jul 2023 03:39:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689417576; x=1692009576;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kkkbOsG5a5/O8531sLbibG1Jh/zjE8LtxfebLVzSHEQ=;
-        b=RVYs47VBfRzr4yR63PtPKTr8LxYyzLWAm36K0T71CjTOSFeDkmY1FdKDNykLa8diEP
-         39lhtO+Qdheoipkz2xdnp/fgJgwJGIBe/MTnA69d785djW+bAPiDXwSe7E/iNkXG6rT+
-         /NN08QTp8IyQAH4Vrm1oHAmalS0AFKJBQYyK+A6/SFFJ8/+b9M1L8r8IOHQCE834QUSg
-         ZU6IgFGzu7v6C9L4F02JE6TiZhkqE13a2qPIZsEQjx6tWusBPZcU1XlJUf6ciGZa/uFc
-         jfYuV8uEam/YB7WFEeg+RGvfEpaaNEK6VvJ+xsETrXhYYUFp+qZnQMzHUyjCPKaXAtS7
-         K+SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689417576; x=1692009576;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kkkbOsG5a5/O8531sLbibG1Jh/zjE8LtxfebLVzSHEQ=;
-        b=WJNOFG7V4LaJNnJ8nkFvjJjfUE72yq4A6O8KOS5cpgieMzObZgp9RWURejnd02Nhx6
-         eq4IQiDMTz0ThpplLOi+RvG7pI0ysJf8ahPx70E2qSft4WQj0ClUMIFiklCAswgeGp81
-         pvDYmvz6T8MQQgUAOAGl8tutCn3qbnGyU4MpLWlO1JEwmqdaWYSrefC/tYuWktkr92u+
-         TpoRfkVjApLPepmI9feU4jLqhdj5HRXcjKS+3fGzv2WlFWwmdzpvOCppd679+C08CtJh
-         qj51Z8azrc5rybpSNHI+HdyJqdDalOusJl9wTc9pt+2Lojueau0kP3PZqePlpRrWJjvG
-         bnvw==
-X-Gm-Message-State: ABy/qLYtEtmGldlz0YEG/EqtY1g3qbeWj3I31R/vNg6lbRk/crs/7aou
-        uv5rEhyGaQ9+JbDiEi+tZh0=
-X-Google-Smtp-Source: APBJJlFhDW+2w9DH5WJv6VeHG45E9uq4g+tz5w9EufrX8ox8j57ccn30JZXhOZVek//u3ROyzKHpjQ==
-X-Received: by 2002:a05:6a00:a82:b0:643:aa8d:8cd7 with SMTP id b2-20020a056a000a8200b00643aa8d8cd7mr9238053pfl.32.1689417576477;
-        Sat, 15 Jul 2023 03:39:36 -0700 (PDT)
-Received: from localhost ([2402:d0c0:2:a2a::1])
-        by smtp.gmail.com with ESMTPSA id 18-20020aa79212000000b0064fd4a6b306sm8524733pfo.76.2023.07.15.03.39.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Jul 2023 03:39:36 -0700 (PDT)
-From:   Alan Huang <mmpgouride@gmail.com>
-To:     paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
-        joel@joelfernandes.org, josh@joshtriplett.org,
-        boqun.feng@gmail.com, corbet@lwn.net
-Cc:     rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alan Huang <mmpgouride@gmail.com>
-Subject: [PATCH v3] docs/RCU: Bring back smp_wmb()
-Date:   Sat, 15 Jul 2023 10:39:22 +0000
-Message-Id: <20230715103922.472171-1-mmpgouride@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229436AbjGOMDT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 08:03:19 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D14D2113;
+        Sat, 15 Jul 2023 05:03:18 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1qKdzY-0000T3-6j; Sat, 15 Jul 2023 14:03:16 +0200
+Message-ID: <cdd40a39-28ba-3c75-b9d0-b62904cb48a3@leemhuis.info>
+Date:   Sat, 15 Jul 2023 14:03:15 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 04/27] locking/atomic: make atomic*_{cmp,}xchg optional
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+To:     Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux@armlinux.org.uk, linux-doc@vger.kernel.org
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
+          Linux regressions mailing list 
+          <regressions@lists.linux.dev>
+References: <20230605070124.3741859-1-mark.rutland@arm.com>
+ <20230605070124.3741859-5-mark.rutland@arm.com>
+ <32395f1f-19e4-41da-9f67-68c7d21cf9b2@roeck-us.net>
+ <a94334d8-0a9a-1cbc-ebfe-1825abfb8307@leemhuis.info>
+ <36c1ef3d-603b-574a-ad9d-796964a1410c@roeck-us.net>
+ <278dc66d-7cc8-2735-5cd0-c64dc139b10c@leemhuis.info>
+In-Reply-To: <278dc66d-7cc8-2735-5cd0-c64dc139b10c@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1689422598;f8773574;
+X-HE-SMSGID: 1qKdzY-0000T3-6j
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The objects are allocated with SLAB_TYPESAFE_BY_RCU, and there is
-n->next = first within hlist_add_head_rcu() before rcu_assign_pointer(),
-which modifies obj->obj_node.next. There may be readers holding the
-reference of obj in lockless_lookup, and when updater modifies ->next,
-readers can see the change immediately because of SLAB_TYPESAFE_BY_RCU.
+[TLDR: This mail in primarily relevant for Linux kernel regression
+tracking. See link in footer if these mails annoy you.]
 
-There are two memory ordering required in the insertion algorithm,
-we need to make sure obj->key is updated before obj->obj_node.next
-and obj->refcnt, atomic_set_release is not enough to provide the
-required memory barrier.
+On 08.07.23 15:37, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 08.07.23 15:20, Guenter Roeck wrote:
+>> On 7/8/23 06:07, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>> On 27.06.23 19:07, Guenter Roeck wrote:
+>>> Guenter, please correct me if I'm wrong:
+>>>
+>>> This is fixed by Arnd's patch "sparc: mark __arch_xchg() as
+>>> __always_inline", but that afaics sadly hasn't even reached -next yet.
+>>> https://lore.kernel.org/all/20230628094938.2318171-1-arnd@kernel.org/
+>>>
+>>> Hence adding it to the tracking now that the end of the merge window is
+>>> near:
+>>> #regzbot ^introduced d12157efc8e083c7
+>>> #regzbot title locking/atomic: build error on sparc64:allmodconfig
+>>> #regzbot ignore-activity
+>> Yes, this is correct.
+> Thx for confirming (and also for adding the other regression to the
+> tracking). Let me use this opportunity to tell regzbot about the patch
+> for this regression, which I forgot to do earlier (sorry!):
+> #regzbot monitor:
+> https://lore.kernel.org/all/20230628094938.2318171-1-arnd@kernel.org/
 
-Also use compute_slot to detect whether the object has been moved.
+Kees applied this: https://git.kernel.org/kees/c/ec7633de404e
 
-Signed-off-by: Alan Huang <mmpgouride@gmail.com>
----
-Changelog:
- V2 -> V3: Use compute_slot to detect whether the object has been
-           moved. Remove the broken lockless_lookup, use macro instead.
+#regzbot fix: sparc: mark __arch_xchg() as __always_inline
+#regzbot ignore-activity
 
- v1 -> v2: Use _ONCE to protect obj->key.
-
- Documentation/RCU/rculist_nulls.rst | 73 +++++++++++++++--------------
- 1 file changed, 39 insertions(+), 34 deletions(-)
-
-diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-index 21e40fcc08de..9d39394602b0 100644
---- a/Documentation/RCU/rculist_nulls.rst
-+++ b/Documentation/RCU/rculist_nulls.rst
-@@ -34,54 +34,54 @@ objects, which is having below type.
- 
- ::
- 
-+  object *obj;
-+  struct hlist_node *pos, *next;
-+  slot = compute_slot(key);
-+  head = &table[slot];
-   begin:
-   rcu_read_lock();
--  obj = lockless_lookup(key);
--  if (obj) {
--    if (!try_get_ref(obj)) { // might fail for free objects
-+  obj_for_each_entry_rcu(obj, pos, head, next) {
-+    if (compute_slot(READ_ONCE(obj->key)) != slot) { // object is moved
-       rcu_read_unlock();
-       goto begin;
-     }
--    /*
--    * Because a writer could delete object, and a writer could
--    * reuse these object before the RCU grace period, we
--    * must check key after getting the reference on object
--    */
--    if (obj->key != key) { // not the object we expected
--      put_ref(obj);
--      rcu_read_unlock();
--      goto begin;
-+    if (READ_ONCE(obj->key) == key) {
-+      if (!try_get_ref(obj)) { // might fail for free objects
-+        rcu_read_unlock();
-+        goto begin;
-+      }
-+      /*
-+      * Because a writer could delete object, and a writer could
-+      * reuse these object before the RCU grace period, we
-+      * must check key after getting the reference on object
-+      */
-+      if (READ_ONCE(obj->key) != key) { // not the object we expected
-+        put_ref(obj);
-+        rcu_read_unlock();
-+        goto begin;
-+      }
-+      goto out;
-     }
-   }
-+  out:
-   rcu_read_unlock();
- 
--Beware that lockless_lookup(key) cannot use traditional hlist_for_each_entry_rcu()
-+Beware that obj_for_each_entry_rcu() cannot use traditional hlist_for_each_entry_rcu()
- but a version with an additional memory barrier (smp_rmb())
- 
- ::
- 
--  lockless_lookup(key)
--  {
--    struct hlist_node *node, *next;
--    for (pos = rcu_dereference((head)->first);
--         pos && ({ next = pos->next; smp_rmb(); prefetch(next); 1; }) &&
--         ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
--         pos = rcu_dereference(next))
--      if (obj->key == key)
--        return obj;
--    return NULL;
--  }
-+  for (pos = rcu_dereference((head)->first);
-+       pos && ({ next = READ_ONCE(pos->next); smp_rmb(); prefetch(next); 1; }) &&
-+       ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
-+       pos = rcu_dereference(next))
- 
- And note the traditional hlist_for_each_entry_rcu() misses this smp_rmb()::
- 
--  struct hlist_node *node;
-   for (pos = rcu_dereference((head)->first);
-        pos && ({ prefetch(pos->next); 1; }) &&
-        ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
-        pos = rcu_dereference(pos->next))
--    if (obj->key == key)
--      return obj;
--  return NULL;
- 
- Quoting Corey Minyard::
- 
-@@ -111,8 +111,13 @@ detect the fact that it missed following items in original chain.
-    */
-   obj = kmem_cache_alloc(...);
-   lock_chain(); // typically a spin_lock()
--  obj->key = key;
--  atomic_set_release(&obj->refcnt, 1); // key before refcnt
-+  WRITE_ONCE(obj->key, key);
-+  /*
-+   * We need to make sure obj->key is updated before obj->obj_node.next
-+   * and obj->refcnt.
-+   */
-+  smp_wmb();
-+  atomic_set(&obj->refcnt, 1);
-   hlist_add_head_rcu(&obj->obj_node, list);
-   unlock_chain(); // typically a spin_unlock()
- 
-@@ -140,7 +145,7 @@ very very fast (before the end of RCU grace period)
- Avoiding extra smp_rmb()
- ========================
- 
--With hlist_nulls we can avoid extra smp_rmb() in lockless_lookup().
-+With hlist_nulls we can avoid extra smp_rmb() in obj_for_each_entry_rcu().
- 
- For example, if we choose to store the slot number as the 'nulls'
- end-of-list marker for each slot of the hash table, we can detect
-@@ -165,12 +170,12 @@ Note that using hlist_nulls means the type of 'obj_node' field of
-   begin:
-   rcu_read_lock();
-   hlist_nulls_for_each_entry_rcu(obj, node, head, obj_node) {
--    if (obj->key == key) {
-+    if (READ_ONCE(obj->key) == key) {
-       if (!try_get_ref(obj)) { // might fail for free objects
- 	rcu_read_unlock();
-         goto begin;
-       }
--      if (obj->key != key) { // not the object we expected
-+      if (READ_ONCE(obj->key) != key) { // not the object we expected
-         put_ref(obj);
- 	rcu_read_unlock();
-         goto begin;
-@@ -206,7 +211,7 @@ hlist_add_head_rcu().
-    */
-   obj = kmem_cache_alloc(cachep);
-   lock_chain(); // typically a spin_lock()
--  obj->key = key;
-+  WRITE_ONCE(obj->key, key);
-   atomic_set_release(&obj->refcnt, 1); // key before refcnt
-   /*
-    * insert obj in RCU way (readers might be traversing chain)
--- 
-2.34.1
-
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
