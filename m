@@ -2,83 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1676BEB64DC
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 12:03:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3BD7C001B0
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 16:57:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbjGOMDU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Jul 2023 08:03:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51520 "EHLO
+        id S229649AbjGOQ5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Jul 2023 12:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjGOMDT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 08:03:19 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D14D2113;
-        Sat, 15 Jul 2023 05:03:18 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qKdzY-0000T3-6j; Sat, 15 Jul 2023 14:03:16 +0200
-Message-ID: <cdd40a39-28ba-3c75-b9d0-b62904cb48a3@leemhuis.info>
-Date:   Sat, 15 Jul 2023 14:03:15 +0200
+        with ESMTP id S229549AbjGOQ5u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 12:57:50 -0400
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C7D0123;
+        Sat, 15 Jul 2023 09:57:49 -0700 (PDT)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3143b88faebso3314960f8f.3;
+        Sat, 15 Jul 2023 09:57:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689440267; x=1692032267;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ug0bAU2a7Om6W32fM4EAdrQFwmfB/WZfYPsUmK+80bQ=;
+        b=QFfbqSzF52j+i1Dm7yU3kL+JWTKIhk98XiQBavNuIiUHpIKNdiYqaYKyREkwPDQyl7
+         hOhIRmTtwrPR3Gck9WOCHSEjrOW3JTeA665E9xSVFFDl4MoOku7IV1hZJnsgnSphsud4
+         kDqA1rcEFLyXH7WKRTyFXVCt6atleeppmgo0vCb2e/9eu3/JI0b9Q9lIxEc67Wawc/Ew
+         0OfxFuGOj/oyhBDJhpWuRxboaim40+ccZI7L+ACTiErVSckxQ9GOYe4LQDPpDBpWyFgM
+         tRAzskNw60Eej7LYV6kMKu6R7fFcRGpAOhydZs4bpEAPHmYJsDv99PjEM6MoMWjHUYgX
+         GbXw==
+X-Gm-Message-State: ABy/qLYCxyUgc2Mz0GvsRWBjik76wEQ/QIWGMDoaNGd3GXqdzkc+VSpB
+        CQdpBQtwi260mTFR93+XLJk=
+X-Google-Smtp-Source: APBJJlGMZUMUsHxxSafCCeAMWP25eekW5pCgG1xShpj+zitI3/ItTaH1y8QuUsbRAyMsL2GC6trhKQ==
+X-Received: by 2002:adf:e7c1:0:b0:315:8f65:91a6 with SMTP id e1-20020adfe7c1000000b003158f6591a6mr8098191wrn.18.1689440267080;
+        Sat, 15 Jul 2023 09:57:47 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a040:1a3:c11b:3ae6:1732:e587:a81f])
+        by smtp.gmail.com with ESMTPSA id a5-20020a5d53c5000000b002fb60c7995esm14316454wrw.8.2023.07.15.09.57.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Jul 2023 09:57:46 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Costa Shulyupin <costa.shul@redhat.com>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/3] docs: consolidate networking interfaces
+Date:   Sat, 15 Jul 2023 19:57:36 +0300
+Message-ID: <20230715165736.74816-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 04/27] locking/atomic: make atomic*_{cmp,}xchg optional
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux@armlinux.org.uk, linux-doc@vger.kernel.org
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
-          Linux regressions mailing list 
-          <regressions@lists.linux.dev>
-References: <20230605070124.3741859-1-mark.rutland@arm.com>
- <20230605070124.3741859-5-mark.rutland@arm.com>
- <32395f1f-19e4-41da-9f67-68c7d21cf9b2@roeck-us.net>
- <a94334d8-0a9a-1cbc-ebfe-1825abfb8307@leemhuis.info>
- <36c1ef3d-603b-574a-ad9d-796964a1410c@roeck-us.net>
- <278dc66d-7cc8-2735-5cd0-c64dc139b10c@leemhuis.info>
-In-Reply-To: <278dc66d-7cc8-2735-5cd0-c64dc139b10c@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1689422598;f8773574;
-X-HE-SMSGID: 1qKdzY-0000T3-6j
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[TLDR: This mail in primarily relevant for Linux kernel regression
-tracking. See link in footer if these mails annoy you.]
+to make the page more organized as requested
 
-On 08.07.23 15:37, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 08.07.23 15:20, Guenter Roeck wrote:
->> On 7/8/23 06:07, Linux regression tracking (Thorsten Leemhuis) wrote:
->>> On 27.06.23 19:07, Guenter Roeck wrote:
->>> Guenter, please correct me if I'm wrong:
->>>
->>> This is fixed by Arnd's patch "sparc: mark __arch_xchg() as
->>> __always_inline", but that afaics sadly hasn't even reached -next yet.
->>> https://lore.kernel.org/all/20230628094938.2318171-1-arnd@kernel.org/
->>>
->>> Hence adding it to the tracking now that the end of the merge window is
->>> near:
->>> #regzbot ^introduced d12157efc8e083c7
->>> #regzbot title locking/atomic: build error on sparc64:allmodconfig
->>> #regzbot ignore-activity
->> Yes, this is correct.
-> Thx for confirming (and also for adding the other regression to the
-> tracking). Let me use this opportunity to tell regzbot about the patch
-> for this regression, which I forgot to do earlier (sorry!):
-> #regzbot monitor:
-> https://lore.kernel.org/all/20230628094938.2318171-1-arnd@kernel.org/
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/subsystem-apis.rst | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-Kees applied this: https://git.kernel.org/kees/c/ec7633de404e
+diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
+index 8664b05777c3..90a0535a932a 100644
+--- a/Documentation/subsystem-apis.rst
++++ b/Documentation/subsystem-apis.rst
+@@ -36,6 +36,18 @@ Human interfaces
+    gpu/index
+    fb/index
+ 
++Networking interfaces
++---------------------
++
++.. toctree::
++   :maxdepth: 1
++
++   networking/index
++   netlabel/index
++   infiniband/index
++   isdn/index
++   mhi/index
++
+ Storage interfaces
+ ------------------
+ 
+@@ -58,11 +70,7 @@ Storage interfaces
+    fpga/index
+    i2c/index
+    iio/index
+-   isdn/index
+-   infiniband/index
+    leds/index
+-   netlabel/index
+-   networking/index
+    pcmcia/index
+    spi/index
+    w1/index
+@@ -76,6 +84,5 @@ Storage interfaces
+    usb/index
+    PCI/index
+    misc-devices/index
+-   mhi/index
+    peci/index
+    wmi/index
+-- 
+2.41.0
 
-#regzbot fix: sparc: mark __arch_xchg() as __always_inline
-#regzbot ignore-activity
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
