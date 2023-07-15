@@ -2,130 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E246C001DC
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 06:38:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E519BC0015E
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 07:53:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230146AbjGOGiT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Jul 2023 02:38:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55996 "EHLO
+        id S229549AbjGOHw5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Jul 2023 03:52:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjGOGiT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 02:38:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAD1A358E;
-        Fri, 14 Jul 2023 23:38:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 508B5600BE;
-        Sat, 15 Jul 2023 06:38:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4CACC433C7;
-        Sat, 15 Jul 2023 06:38:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689403096;
-        bh=uRlIl+vbdu2QDLuqivP4y8zF+71MOCAvYoUKfpnosCc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ucZdyl0ekP17LSlYQl20XnwxkfjrKusvXBqL5aS3aQ7EOagl3MTDzTh7nTZvtDm3G
-         7wjEP//NUajY+2c+mvFIPoX1SPB91hbDrX7U/4ybPVKxFKRrE1rwT/k4fBX8+Ksg/a
-         E5gpVu//lE0YohivXiMBMt9B3VZ88wBINLN8SrQA=
-Date:   Sat, 15 Jul 2023 08:38:10 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <2023071542-startup-everyone-eb5d@gregkh>
-References: <20230713223432.1501133-1-kuba@kernel.org>
+        with ESMTP id S229482AbjGOHw4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 03:52:56 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08C51358E;
+        Sat, 15 Jul 2023 00:52:55 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2b6f943383eso40424631fa.2;
+        Sat, 15 Jul 2023 00:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689407573; x=1691999573;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XICKv7iip3MX1RFnTjF/KQz1iwO2NUYvEEXm4nzQgNQ=;
+        b=n7GBFw0VA8g9+MovuidzqH1rtNUx4NWKs08ia7oDqD+egQk2zED4a5ArwLhc0H7xkr
+         1s6YxbUWC+aF1E+FBFRJEEdNe59Dah6E2YefZL8FxWM8cAIiB5OEjIkMcONnul4LUshj
+         NKELF2LPD/t6pzxOcRth+uxClGGR4/Q7Qiaz94uKJN12VTQ04boaYRRQs1VKZpfNKaQd
+         eB4aQrdj7vSHx+l5nDmtcCJpJBKpSn4RkSn/C0RkA3jGrzh5pf9l1uuKE3iy3eOZSACV
+         Qjc1hoF6KIunIvIaRzk+3eC/dWP7PvcOF7kA7pzFFs+dh+KR8z2ffmHesY7brEsClwRv
+         o9iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689407573; x=1691999573;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XICKv7iip3MX1RFnTjF/KQz1iwO2NUYvEEXm4nzQgNQ=;
+        b=hTpwyE8qNOpxVv9X/zi4NplW2UVEaQRIxFlCQ7QpqM+ecx3/Xlg1aCb8vAB2UszYhq
+         h4jjoZMGfI7Aj6DcKdqZHv9gbnjXEH8PBJXaxGT6vFL/9RFeJZR2k+/E1Tdiii2fZRVB
+         sZIZuctCqobTfqLt5e4HYOiH2m0UaBlWGGoQHa5s31Ck87Slnqd2AcDryGcwaV0lZfOe
+         Kzfk+KKx+N2dN+SlSBXooG7PfnocySkLlL1QwJJuGuGwHTRAF0Qdv3l1lyeZmasRCNXF
+         xKg97vLMG+tGoGWal3ki01V5kJ5NL6iFR+sSuS5/HtKP5ZbZcxviyd2WKzVjf0/dteLf
+         g3Ow==
+X-Gm-Message-State: ABy/qLYXzaJ1pWQlnz7xRhLgnXx1hzUfhmd3ftjRAJdc6he3JsqMqEbi
+        0ApNuRo3MwpuoTCg4L3wt2Qhlufyi7rkPHdT8rMWvhQb8zfFVQ==
+X-Google-Smtp-Source: APBJJlHuM5uaVxOoW6CXKvDuoa2N/p6vZb0IHe56Mkz0y4mpOlYt0tjacW01U5xP6PE4CX9/ET8ktR9Ec43kLf2A7cs=
+X-Received: by 2002:a19:f618:0:b0:4fb:74da:989a with SMTP id
+ x24-20020a19f618000000b004fb74da989amr5403336lfe.3.1689407572670; Sat, 15 Jul
+ 2023 00:52:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230713223432.1501133-1-kuba@kernel.org>
+References: <20230708054052.45967-1-src.res.211@gmail.com> <87351q1fcw.fsf@meer.lwn.net>
+ <d2da2720-ebcb-ee77-f732-a23184c560a6@gmail.com>
+In-Reply-To: <d2da2720-ebcb-ee77-f732-a23184c560a6@gmail.com>
+From:   src res <src.res.211@gmail.com>
+Date:   Sat, 15 Jul 2023 15:52:40 +0800
+Message-ID: <CADztU2OQ+5GWZrFw-2oXOGU99WGrs1tCT11vWXU0koN6T21Rog@mail.gmail.com>
+Subject: Fwd: [PATCH] docs/zh_TW: rewrite index.rst
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 03:34:32PM -0700, Jakub Kicinski wrote:
-> We appear to have a gap in our process docs. We go into detail
-> on how to contribute code to the kernel, and how to be a subsystem
-> maintainer. I can't find any docs directed towards the thousands
-> of small scale maintainers, like folks maintaining a single driver
-> or a single network protocol.
-> 
-> Document our expectations and best practices. I'm hoping this doc
-> will be particularly useful to set expectations with HW vendors.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> Please consider this more of a draft than a statement of my opinion.
-> IOW prefer suggesting edits over arguing about correctness, hope
-> that makes sense.
+On 2023/7/15 03:07, Jonathan Corbet wrote:
+> Hu Haowen <src.res.211@gmail.com> writes:
+>
+>> Update zh_TW's index.rst to the version of commit 0c7b4366f1ab ("docs:
+>> Rewrite the front page") with some reference from commit f4bf1cd4ac9c
+>> ("docs: move asm-annotations.rst into core-api") and commit eef24f7054a6
+>> ("docs/zh_CN: Rewrite the Chinese translation front page").
+>>
+>> Signed-off-by: Hu Haowen <src.res.211@gmail.com>
+>> ---
+>>   Documentation/translations/zh_TW/index.rst | 156 ++++++++-------------
+>>   1 file changed, 56 insertions(+), 100 deletions(-)
+>
+> So your two patches conflict with each other.  I've sorted it out and
+> applied this, but it would be nicer if I didn't have to do that...
 
-This looks great to me, thanks for putting it together.
+Sorry for bothering you. The conflict might be caused by my attempting
+to split the patches belonged to one ensemble originally into two
+independent parts. Only after sending the first one patch did I recall
+remaining some work which was supposed to be patched and sent together
+with the former. But that was late.
 
-But I do have one objection on the timeline portion:
+The next time I will check if my work is done wholly before sending and
+send the patches altogether so as to ensure that they won't cause any
+conflicts. Apologies to you again.
 
-> ---
->  .../feature-and-driver-maintainers.rst        | 159 ++++++++++++++++++
->  Documentation/maintainer/index.rst            |   1 +
->  2 files changed, 160 insertions(+)
->  create mode 100644 Documentation/maintainer/feature-and-driver-maintainers.rst
-> 
-> diff --git a/Documentation/maintainer/feature-and-driver-maintainers.rst b/Documentation/maintainer/feature-and-driver-maintainers.rst
-> new file mode 100644
-> index 000000000000..ee8ccc22b16a
-> --- /dev/null
-> +++ b/Documentation/maintainer/feature-and-driver-maintainers.rst
-> @@ -0,0 +1,159 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==============================
-> +Feature and driver maintainers
-> +==============================
-> +
-> +The term "maintainer" spans a very wide range of levels of engagement
-> +from people handling patches and pull requests as almost a full time job
-> +to people responsible for a small feature or a driver.
-> +
-> +Unlike most of the chapter, this section is meant for the latter (more
-> +populous) group. It provides tips and describes the expectations and
-> +responsibilities of maintainers of a small(ish) section of the code.
-> +
-> +Driver and alike most often do not have their own mailing lists and
-> +git trees but instead send and review patches on the list of a larger
-> +subsystem.
-> +
-> +Responsibilities
-> +================
-> +
-> +The amount of maintenance work is usually proportional to the size
-> +and popularity of the code base. Small features and drivers should
-> +require relatively small amount of care and feeding. Nonetheless
-> +when the work does arrive (in form of patches which need review,
-> +user bug reports etc.) it has to be acted upon very promptly.
-> +Even when single driver only sees one patch a month, or a quarter,
-> +a subsystem could well have a hundred such drivers. Subsystem
-> +maintainers cannot afford to wait a long time to hear from reviewers.
-> +
-> +The exact expectations on the review time will vary by subsystem
-> +from 1 day (e.g. networking) to a week in smaller subsystems.
+Thanks,
+Hu
 
-"to a few weeks".
-
-I can't do 1 day, or even 1 week for the subsystems I maintain
-(especially during merge windows or vacations.)  How about that line
-being:
-	from 1 day (e.g. networking) to a few weeks for smaller subsystems.
-
-And then add a link to "For specific subsystem response times, please
-see the document in [insert link here to where we keep the subsystem
-expectations]"
-
-And yeah, I do need to go add some process/maintainer-* files for the
-subsystems I maintain, it might be a good idea to also say that any new
-subsystems also provide this so we can start catching up on that.
-
-thanks,
-
-greg k-h
+>
+> Thanks,
+>
+> jon
