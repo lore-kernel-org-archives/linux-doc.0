@@ -2,76 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09189C001E0
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 22:10:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8556C0015E
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 23:51:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230136AbjGOWKW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Jul 2023 18:10:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55896 "EHLO
+        id S229679AbjGOXvL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Jul 2023 19:51:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230090AbjGOWKV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 18:10:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E4282723;
-        Sat, 15 Jul 2023 15:10:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 318BF60C47;
-        Sat, 15 Jul 2023 22:10:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36E0AC433C7;
-        Sat, 15 Jul 2023 22:10:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689459019;
-        bh=wg3gQs+CZ4wlzlacPdDFW5G/hgcmzR3RDndodc/Clrg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Cq7uHBFD3h8wnQ2G1mml0l6V5nAQbhmjBMTucBTKtC1quhW1XaYL85btXRFR1xTBF
-         Fil1oxXHyrWNF9VM0NKVEaTJTPez8RxI4DXSh8tm6X+uR1rasHa1xmAIDf5CjWhlHO
-         vimFngSHJM4nUcsYxv4cK+aa/q+8oZe+dPRL3UnJ7z7dkXuHXzmrzeG/7/pgvmUIdR
-         Thr+uNpJpqKU8pFgOvUoKxQ4Iw6OJ3zXae6fTJn+iSXAKp2SHxAfw3zFIRMeOd7XGn
-         EXdLHY0UQ4rZXjrLUv4bY9HgVjkif67bvTO5XR0OxbesZtBurqC3c7BclUls4qFomQ
-         OjF/lWCzRwUww==
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     agross@kernel.org, konrad.dybcio@linaro.org, corbet@lwn.net,
-        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        linus.walleij@linaro.org, linux-gpio@vger.kernel.org,
-        srinivas.kandagatla@linaro.org,
-        Mukesh Ojha <quic_mojha@quicinc.com>
-Cc:     linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 00/18] Add basic Minidump kernel driver support
-Date:   Sat, 15 Jul 2023 15:13:34 -0700
-Message-ID: <168945921478.1805013.7211960599963339759.b4-ty@kernel.org>
+        with ESMTP id S229665AbjGOXvL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 19:51:11 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 596501FEE;
+        Sat, 15 Jul 2023 16:51:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=XGMqHpO0IlQS1LESo07MXYq+MnOltcI0tcyM9SWJvEI=; b=Am8FYRPKSaiEweeMhkF+bLVIdL
+        l652zTjdr/Wm69ZmkQ+DBFqTH65RCw9Otp3c+NTPxPbshFxzp8V7ZXAlO7HA3YtPhSCqYMmasJZH3
+        J/zZ61MYRRXemt0bQxZkfiLXQqUWqPOhYFfESDKdY+Sk9rC68IK+xLx3a85pK+Gr7yUSFcSJ/TKpR
+        hoQgJuWw65YaHOW/hRAh6IrVwXghPj7v6I9es8vQNuwv7iHgfpb+gqQvIY6vNM1OgDYfI/2fHMFYQ
+        xca24EDTeNnBWrXQ8x3jTUopFoP3nYJu3DNb4RysB0qG99H3F2eoUYZfwOn3s8paZIL6yHjbLl8Yw
+        F8A4YQzA==;
+Received: from 50-198-160-193-static.hfc.comcastbusiness.net ([50.198.160.193] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qKp2Y-009h5w-2J;
+        Sat, 15 Jul 2023 23:51:06 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] Docs: kernel-parameters: sort arm64 entries
+Date:   Sat, 15 Jul 2023 16:51:05 -0700
+Message-ID: <20230715235105.17966-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
-References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Put the arm64 kernel-parameters entries into alphabetical order.
 
-On Wed, 03 May 2023 22:32:14 +0530, Mukesh Ojha wrote:
-> Minidump is a best effort mechanism to collect useful and predefined data
-> for first level of debugging on end user devices running on Qualcomm SoCs.
-> It is built on the premise that System on Chip (SoC) or subsystem part of
-> SoC crashes, due to a range of hardware and software bugs. Hence, the
-> ability to collect accurate data is only a best-effort. The data collected
-> could be invalid or corrupted, data collection itself could fail, and so on.
-> 
-> [...]
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org
+---
+ Documentation/admin-guide/kernel-parameters.txt |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Applied, thanks!
-
-[01/18] remoteproc: qcom: Expand MD_* as MINIDUMP_*
-        commit: 318da1371246fdc1806011a27138175cfb078687
-
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+--- linux-next-20230714.orig/Documentation/admin-guide/kernel-parameters.txt
++++ linux-next-20230714/Documentation/admin-guide/kernel-parameters.txt
+@@ -418,20 +418,20 @@
+ 	arm64.nobti	[ARM64] Unconditionally disable Branch Target
+ 			Identification support
+ 
+-	arm64.nopauth	[ARM64] Unconditionally disable Pointer Authentication
+-			support
++	arm64.nomops	[ARM64] Unconditionally disable Memory Copy and Memory
++			Set instructions support
+ 
+ 	arm64.nomte	[ARM64] Unconditionally disable Memory Tagging Extension
+ 			support
+ 
+-	arm64.nosve	[ARM64] Unconditionally disable Scalable Vector
+-			Extension support
++	arm64.nopauth	[ARM64] Unconditionally disable Pointer Authentication
++			support
+ 
+ 	arm64.nosme	[ARM64] Unconditionally disable Scalable Matrix
+ 			Extension support
+ 
+-	arm64.nomops	[ARM64] Unconditionally disable Memory Copy and Memory
+-			Set instructions support
++	arm64.nosve	[ARM64] Unconditionally disable Scalable Vector
++			Extension support
+ 
+ 	ataflop=	[HW,M68k]
+ 
