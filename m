@@ -2,274 +2,109 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C69B9C001E0
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 03:26:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF9C7EB64DC
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jul 2023 03:48:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229534AbjGOD0r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jul 2023 23:26:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60538 "EHLO
+        id S229473AbjGODsR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jul 2023 23:48:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjGOD0q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 23:26:46 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5456F35AA;
-        Fri, 14 Jul 2023 20:26:45 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1052)
-        id B822021C4693; Fri, 14 Jul 2023 20:26:44 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B822021C4693
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1689391604;
-        bh=uHlf75Div8mbLFgAGmoIhLsDxBVNzT1+8eAHLZNdd7A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Gi+aRl0SZqeMF0TJzMJC2yxDI7aKDbisnyJxYJJydfc8WLZF7iyMQNz8014HRBFX2
-         SbJtruH/3DrYYWOMfLkGjGI3LRRWCLTIdgOljRHXhgBD5z4gEZ0SjjRFlI2tJXddpe
-         gFky4eZxEs250wNruoVUgMnltH3EURKo7kPyMrNY=
-Date:   Fri, 14 Jul 2023 20:26:44 -0700
-From:   Fan Wu <wufan@linux.microsoft.com>
-To:     Paul Moore <paul@paul-moore.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH RFC v10 7/17] ipe: add userspace interface
-Message-ID: <20230715032644.GF15267@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1687986571-16823-8-git-send-email-wufan@linux.microsoft.com>
- <fcc5de3f153eb60b5acf799c159e6ec8.paul@paul-moore.com>
+        with ESMTP id S229536AbjGODsQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jul 2023 23:48:16 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0589530FB;
+        Fri, 14 Jul 2023 20:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=8aCWMj77QZ8ONW03YRtoGFYKcph9Q/SLzHgp+bEd3EY=; b=J3CzbnJ5LuguUHhMs7M3kxNxmE
+        qHha+Wga7hF6k//BYHTBnvdKTTFV+SXANERUEA31UAcWIUyVzjXI6u4zDR9WIIKpkwqLHYKC9ZF0M
+        2QCFNv7qVrp/1UrZ8XtVO7ntplNj5r7kWz3nnXWoqNbRG5dwcuizS2PavkdNDwaHLjuOVvX2vfCuT
+        tFh45e26UUVv4JD5vkaXtAZp0ko6xOVnydjIj8EVSlqHdQRUfgPyeabbtbZ+qzIsSV0Wi+bEmS/mq
+        ICCSjnDVR4O4Z+Bui39d9NEk9k5AjezfcicrVFhDNp4fJKiMY/ELbjxQJNoTr0f073XLt16FCHDFB
+        r/+8ejOQ==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qKWGT-007pkC-1Z;
+        Sat, 15 Jul 2023 03:48:13 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v2] docs: panic: cleanups for panic params
+Date:   Fri, 14 Jul 2023 20:48:11 -0700
+Message-ID: <20230715034811.9665-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fcc5de3f153eb60b5acf799c159e6ec8.paul@paul-moore.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 08, 2023 at 12:23:04AM -0400, Paul Moore wrote:
-> On Jun 28, 2023 Fan Wu <wufan@linux.microsoft.com> wrote:
-> > 
-> > As is typical with LSMs, IPE uses securityfs as its interface with
-> > userspace. for a complete list of the interfaces and the respective
-> > inputs/outputs, please see the documentation under
-> > admin-guide/LSM/ipe.rst
-> > 
-> > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> > ---
-> >  security/ipe/Makefile    |   2 +
-> >  security/ipe/fs.c        | 101 ++++++++
-> >  security/ipe/fs.h        |  16 ++
-> >  security/ipe/ipe.c       |   3 +
-> >  security/ipe/ipe.h       |   2 +
-> >  security/ipe/policy.c    | 111 +++++++++
-> >  security/ipe/policy.h    |   9 +
-> >  security/ipe/policy_fs.c | 481 +++++++++++++++++++++++++++++++++++++++
-> >  8 files changed, 725 insertions(+)
-> >  create mode 100644 security/ipe/fs.c
-> >  create mode 100644 security/ipe/fs.h
-> >  create mode 100644 security/ipe/policy_fs.c
-> 
-> ...
-> 
-> > diff --git a/security/ipe/policy.c b/security/ipe/policy.c
-> > index 4069ff075093..3e8e4a06a044 100644
-> > --- a/security/ipe/policy.c
-> > +++ b/security/ipe/policy.c
-> > @@ -7,9 +7,36 @@
-> >  #include <linux/verification.h>
-> >  
-> >  #include "ipe.h"
-> > +#include "eval.h"
-> > +#include "fs.h"
-> >  #include "policy.h"
-> >  #include "policy_parser.h"
-> >  
-> > +/* lock for synchronizing writers across ipe policy */
-> > +DEFINE_MUTEX(ipe_policy_lock);
-> > +
-> > +/**
-> > + * ver_to_u64 - Convert an internal ipe_policy_version to a u64.
-> > + * @p: Policy to extract the version from.
-> > + *
-> > + * Bits (LSB is index 0):
-> > + *	[48,32] -> Major
-> > + *	[32,16] -> Minor
-> > + *	[16, 0] -> Revision
-> > + *
-> > + * Return: u64 version of the embedded version structure.
-> > + */
-> > +static inline u64 ver_to_u64(const struct ipe_policy *const p)
-> > +{
-> > +	u64 r;
-> > +
-> > +	r = (((u64)p->parsed->version.major) << 32)
-> > +	  | (((u64)p->parsed->version.minor) << 16)
-> > +	  | ((u64)(p->parsed->version.rev));
-> > +
-> > +	return r;
-> > +}
-> > +
-> >  /**
-> >   * ipe_free_policy - Deallocate a given IPE policy.
-> >   * @p: Supplies the policy to free.
-> > @@ -21,6 +48,7 @@ void ipe_free_policy(struct ipe_policy *p)
-> >  	if (IS_ERR_OR_NULL(p))
-> >  		return;
-> >  
-> > +	ipe_del_policyfs_node(p);
-> >  	free_parsed_policy(p->parsed);
-> >  	if (!p->pkcs7)
-> >  		kfree(p->text);
-> > @@ -39,6 +67,65 @@ static int set_pkcs7_data(void *ctx, const void *data, size_t len,
-> >  	return 0;
-> >  }
-> >  
-> > +/**
-> > + * ipe_update_policy - parse a new policy and replace @old with it.
-> 
-> What does "@old" refer to?  I'm guessing you want to drop the "@".
-> 
-Yes it shouldn't be here, sorry confusion.
+Move 'panic_print' to its correct place in alphabetical order.
+Add parameter format for 'pause_on_oops'.
 
-> > + * @root: Supplies a pointer to the securityfs inode saved the policy.
-> > + * @text: Supplies a pointer to the plain text policy.
-> > + * @textlen: Supplies the length of @text.
-> > + * @pkcs7: Supplies a pointer to a buffer containing a pkcs7 message.
-> > + * @pkcs7len: Supplies the length of @pkcs7len.
-> > + *
-> > + * @text/@textlen is mutually exclusive with @pkcs7/@pkcs7len - see
-> > + * ipe_new_policy.
-> > + *
-> > + * Return:
-> > + * * !IS_ERR	- The old policy
-> 
-> "The old policy" is what?
-> 
-Let me try to pharse it in another way, how about the existing policy
-saved in the inode before update?
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+v2: rebase/resend since v1 did not apply cleanly;
 
-> > + * * -ENOENT	- Policy doesn't exist
-> > + * * -EINVAL	- New policy is invalid
-> > + */
-> > +struct ipe_policy *ipe_update_policy(struct inode *root,
-> > +				     const char *text, size_t textlen,
-> > +				     const char *pkcs7, size_t pkcs7len)
-> > +{
-> > +	int rc = 0;
-> > +	struct ipe_policy *old, *ap, *new = NULL;
-> > +
-> > +	lockdep_assert_held(&ipe_policy_lock);
-> > +
-> > +	old = (struct ipe_policy *)root->i_private;
-> > +	if (!old)
-> > +		return ERR_PTR(-ENOENT);
-> > +
-> > +	new = ipe_new_policy(text, textlen, pkcs7, pkcs7len);
-> > +	if (IS_ERR(new))
-> > +		return new;
-> > +
-> > +	if (strcmp(new->parsed->name, old->parsed->name)) {
-> > +		rc = -EINVAL;
-> > +		goto err;
-> > +	}
-> > +
-> > +	if (ver_to_u64(old) > ver_to_u64(new)) {
-> > +		rc = -EINVAL;
-> > +		goto err;
-> > +	}
-> > +
-> > +	root->i_private = new;
-> > +
-> > +	ap = rcu_dereference_protected(ipe_active_policy,
-> > +				       lockdep_is_held(&ipe_policy_lock));
-> > +	if (old == ap)
-> > +		rcu_assign_pointer(ipe_active_policy, new);
-> > +
-> > +	swap(new->policyfs, old->policyfs);
-> 
-> We don't have to worry about @new, but is there a guarantee that this
-> function is the only one attempting to modify @old?
-> 
-> *EDIT*: I found that @root is locked by the caller, that's good.  I
-> would suggest adding this assumption/requirement to the function's
-> description.  In general whenever a function requires something from
-> a caller it should be documented in the function's description.
-> 
-Sorry I missed that, I will add the locking assumption in the description.
-Also, just found the err part below might better be replaced by return.
+ Documentation/admin-guide/kernel-parameters.txt |   30 +++++++-------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-> > +out:
-> > +	return (rc < 0) ? ERR_PTR(rc) : old;
-> > +err:
-> > +	ipe_free_policy(new);
-> > +	goto out;
-> > +}
-> > +
-> 
-> ...
-> 
-> > diff --git a/security/ipe/policy_fs.c b/security/ipe/policy_fs.c
-> > new file mode 100644
-> > index 000000000000..52a120118cda
-> > --- /dev/null
-> > +++ b/security/ipe/policy_fs.c
-> > @@ -0,0 +1,481 @@
-> 
-> ...
-> 
-> > +/**
-> > + * getactive - Read handler for "ipe/policies/$name/active".
-> > + * @f: Supplies a file structure representing the securityfs node.
-> > + * @data: Suppleis a buffer passed to the write syscall.
-> > + * @len: Supplies the length of @data.
-> > + * @offset: unused.
-> > + *
-> > + * @data will be populated with the 1 or 0 depending on if the
-> > + * corresponding policy is active.
-> > + *
-> > + * Return:
-> > + * * >0	- Success, Length of buffer written
-> > + * * <0	- Error
-> > + */
-> > +static ssize_t getactive(struct file *f, char __user *data,
-> > +			 size_t len, loff_t *offset)
-> > +{
-> > +	int rc = 0;
-> > +	const char *str;
-> > +	struct inode *root = NULL;
-> > +	const struct ipe_policy *p = NULL;
-> > +
-> > +	root = d_inode(f->f_path.dentry->d_parent);
-> > +
-> > +	inode_lock_shared(root);
-> > +	p = (struct ipe_policy *)root->i_private;
-> > +	if (!p) {
-> > +		inode_unlock_shared(root);
-> > +		return -ENOENT;
-> > +	}
-> > +	inode_unlock_shared(root);
-> > +
-> > +	str = (p == rcu_access_pointer(ipe_active_policy)) ? "1" : "0";
-> 
-> The line above should be wrapped with a RCU lock.
-> 
-This call only checks the value inside the pointer but doesn't dereference it.
-Also from https://lwn.net/Articles/652156/ I found it says "The call to
-rcu_access_pointer() need not be protected. In contrast, rcu_dereference() must
-either be within an RCU read-side critical section", so I didn't add the lock
-here, is this article outdated?
-
-Thanks,
--Fan
-> > +	rc = simple_read_from_buffer(data, len, offset, str, 1);
-> > +
-> > +	return rc;
-> > +}
-> 
-> --
-> paul-moore.com
+diff -- a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4037,20 +4037,6 @@
+ 			timeout < 0: reboot immediately
+ 			Format: <timeout>
+ 
+-	panic_print=	Bitmask for printing system info when panic happens.
+-			User can chose combination of the following bits:
+-			bit 0: print all tasks info
+-			bit 1: print system memory info
+-			bit 2: print timer info
+-			bit 3: print locks info if CONFIG_LOCKDEP is on
+-			bit 4: print ftrace buffer
+-			bit 5: print all printk messages in buffer
+-			bit 6: print all CPUs backtrace (if available in the arch)
+-			*Be aware* that this option may print a _lot_ of lines,
+-			so there are risks of losing older messages in the log.
+-			Use this option carefully, maybe worth to setup a
+-			bigger log buffer with "log_buf_len" along with this.
+-
+ 	panic_on_taint=	Bitmask for conditionally calling panic() in add_taint()
+ 			Format: <hex>[,nousertaint]
+ 			Hexadecimal bitmask representing the set of TAINT flags
+@@ -4067,6 +4053,20 @@
+ 	panic_on_warn=1	panic() instead of WARN().  Useful to cause kdump
+ 			on a WARN().
+ 
++	panic_print=	Bitmask for printing system info when panic happens.
++			User can chose combination of the following bits:
++			bit 0: print all tasks info
++			bit 1: print system memory info
++			bit 2: print timer info
++			bit 3: print locks info if CONFIG_LOCKDEP is on
++			bit 4: print ftrace buffer
++			bit 5: print all printk messages in buffer
++			bit 6: print all CPUs backtrace (if available in the arch)
++			*Be aware* that this option may print a _lot_ of lines,
++			so there are risks of losing older messages in the log.
++			Use this option carefully, maybe worth to setup a
++			bigger log buffer with "log_buf_len" along with this.
++
+ 	parkbd.port=	[HW] Parallel port number the keyboard adapter is
+ 			connected to, default is 0.
+ 			Format: <parport#>
+@@ -4186,7 +4186,7 @@
+ 			mode 0, bit 1 is for mode 1, and so on.  Mode 0 only
+ 			allowed by default.
+ 
+-	pause_on_oops=
++	pause_on_oops=<int>
+ 			Halt all CPUs after the first oops has been printed for
+ 			the specified number of seconds.  This is to be used if
+ 			your oopses keep scrolling off the screen.
