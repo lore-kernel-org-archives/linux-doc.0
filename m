@@ -2,119 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EED17C001DC
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Jul 2023 15:12:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FED0EB64DA
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Jul 2023 15:16:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbjGPPMD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jul 2023 11:12:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42328 "EHLO
+        id S230115AbjGPPQ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jul 2023 11:16:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbjGPPMC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 11:12:02 -0400
+        with ESMTP id S229617AbjGPPQZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 11:16:25 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51ACB1B7;
-        Sun, 16 Jul 2023 08:12:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E35981B7;
+        Sun, 16 Jul 2023 08:16:24 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E2D6260D2E;
-        Sun, 16 Jul 2023 15:12:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FFB8C433C9;
-        Sun, 16 Jul 2023 15:11:58 +0000 (UTC)
-Date:   Sun, 16 Jul 2023 08:11:56 -0700
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Yicong Yang <yangyicong@huawei.com>
-Cc:     akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-        mark.rutland@arm.com, ryan.roberts@arm.com, will@kernel.org,
-        anshuman.khandual@arm.com, linux-doc@vger.kernel.org,
-        corbet@lwn.net, peterz@infradead.org, arnd@arndb.de,
-        punit.agrawal@bytedance.com, linux-kernel@vger.kernel.org,
-        darren@os.amperecomputing.com, yangyicong@hisilicon.com,
-        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
-        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        Barry Song <21cnbao@gmail.com>, wangkefeng.wang@huawei.com,
-        xhao@linux.alibaba.com, prime.zeng@hisilicon.com,
-        Jonathan.Cameron@huawei.com, Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-Subject: Re: [PATCH v10 4/4] arm64: support batched/deferred tlb shootdown
- during page reclamation/migration
-Message-ID: <ZLQIvPpKvjWppc59@arm.com>
-References: <20230710083914.18336-1-yangyicong@huawei.com>
- <20230710083914.18336-5-yangyicong@huawei.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 80B6160D30;
+        Sun, 16 Jul 2023 15:16:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65317C433C8;
+        Sun, 16 Jul 2023 15:16:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1689520583;
+        bh=TBe9iDjVnkR+UmC0zth4fQ+GS4Xe/RGNJO67dRLKtQ4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WX63MLrQ7bxnNctMb3HgCh4i2qCHQ3M5ugI6ZOkweVwbjM8/NoILt5biY78yW57Jo
+         nnE63fWeaDDp8rZpmuEAYBjbo1sIY89rs131GVe1z51rlH6jaF8OQSlzecqtRcljbi
+         s2c+TVGlaZ1Cm4Rje4UEBQk0NPGaag2HG8lcAsxc=
+Date:   Sun, 16 Jul 2023 17:16:21 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+Cc:     Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        yj.chiang@mediatek.com, Peter Korsgaard <peter@korsgaard.com>,
+        Mike Snitzer <snitzer@kernel.org>, stable@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 5.15] dm init: add dm-mod.waitfor to wait for
+ asynchronously probed block devices
+Message-ID: <2023071603-lustily-defraud-2149@gregkh>
+References: <20230713055841.24815-1-mark-pk.tsai@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230710083914.18336-5-yangyicong@huawei.com>
+In-Reply-To: <20230713055841.24815-1-mark-pk.tsai@mediatek.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 04:39:14PM +0800, Yicong Yang wrote:
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 7856c3a3e35a..f0ce8208c57f 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -96,6 +96,7 @@ config ARM64
->  	select ARCH_SUPPORTS_NUMA_BALANCING
->  	select ARCH_SUPPORTS_PAGE_TABLE_CHECK
->  	select ARCH_SUPPORTS_PER_VMA_LOCK
-> +	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH if EXPERT
+On Thu, Jul 13, 2023 at 01:58:37PM +0800, Mark-PK Tsai wrote:
+> From: Peter Korsgaard <peter@korsgaard.com>
+> 
+> Just calling wait_for_device_probe() is not enough to ensure that
+> asynchronously probed block devices are available (E.G. mmc, usb), so
+> add a "dm-mod.waitfor=<device1>[,..,<deviceN>]" parameter to get
+> dm-init to explicitly wait for specific block devices before
+> initializing the tables with logic similar to the rootwait logic that
+> was introduced with commit  cc1ed7542c8c ("init: wait for
+> asynchronously scanned block devices").
+> 
+> E.G. with dm-verity on mmc using:
+> dm-mod.waitfor="PARTLABEL=hash-a,PARTLABEL=root-a"
+> 
+> [    0.671671] device-mapper: init: waiting for all devices to be available before creating mapped devices
+> [    0.671679] device-mapper: init: waiting for device PARTLABEL=hash-a ...
+> [    0.710695] mmc0: new HS200 MMC card at address 0001
+> [    0.711158] mmcblk0: mmc0:0001 004GA0 3.69 GiB
+> [    0.715954] mmcblk0boot0: mmc0:0001 004GA0 partition 1 2.00 MiB
+> [    0.722085] mmcblk0boot1: mmc0:0001 004GA0 partition 2 2.00 MiB
+> [    0.728093] mmcblk0rpmb: mmc0:0001 004GA0 partition 3 512 KiB, chardev (249:0)
+> [    0.738274]  mmcblk0: p1 p2 p3 p4 p5 p6 p7
+> [    0.751282] device-mapper: init: waiting for device PARTLABEL=root-a ...
+> [    0.751306] device-mapper: init: all devices available
+> [    0.751683] device-mapper: verity: sha256 using implementation "sha256-generic"
+> [    0.759344] device-mapper: ioctl: dm-0 (vroot) is ready
+> [    0.766540] VFS: Mounted root (squashfs filesystem) readonly on device 254:0.
+> 
+> Signed-off-by: Peter Korsgaard <peter@korsgaard.com>
+> Signed-off-by: Mike Snitzer <snitzer@kernel.org>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+> ---
+>  .../admin-guide/device-mapper/dm-init.rst     |  8 +++++++
+>  drivers/md/dm-init.c                          | 22 ++++++++++++++++++-
+>  2 files changed, 29 insertions(+), 1 deletion(-)
 
-I don't want EXPERT to turn on a feature that's not selectable by the
-user. This would lead to different performance behaviour based on
-EXPERT. Just select it unconditionally.
+What is the git commit id of this change in Linus's tree?
 
-> diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
-> index 412a3b9a3c25..4bb9cec62e26 100644
-> --- a/arch/arm64/include/asm/tlbflush.h
-> +++ b/arch/arm64/include/asm/tlbflush.h
-> @@ -254,17 +254,23 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
->  	dsb(ish);
->  }
->  
-> -static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-> -					 unsigned long uaddr)
-> +static inline void __flush_tlb_page_nosync(struct mm_struct *mm,
-> +					   unsigned long uaddr)
->  {
->  	unsigned long addr;
->  
->  	dsb(ishst);
-> -	addr = __TLBI_VADDR(uaddr, ASID(vma->vm_mm));
-> +	addr = __TLBI_VADDR(uaddr, ASID(mm));
->  	__tlbi(vale1is, addr);
->  	__tlbi_user(vale1is, addr);
->  }
->  
-> +static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-> +					 unsigned long uaddr)
-> +{
-> +	return __flush_tlb_page_nosync(vma->vm_mm, uaddr);
-> +}
-> +
->  static inline void flush_tlb_page(struct vm_area_struct *vma,
->  				  unsigned long uaddr)
->  {
-> @@ -272,6 +278,42 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
->  	dsb(ish);
->  }
->  
-> +#ifdef CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+thanks,
 
-If it's selected unconditionally, we won't need this #ifdef here.
-
-> +
-> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
-> +{
-> +#ifdef CONFIG_ARM64_WORKAROUND_REPEAT_TLBI
-> +	/*
-> +	 * TLB flush deferral is not required on systems, which are affected with
-
-"affected by" and drop the comma before "which".
-
--- 
-Catalin
+greg k-h
