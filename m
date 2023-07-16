@@ -2,91 +2,74 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 695DAC001E0
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Jul 2023 00:35:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39A97EB64DA
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Jul 2023 08:14:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbjGPAfz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Jul 2023 20:35:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41620 "EHLO
+        id S229881AbjGPIOX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jul 2023 04:14:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbjGPAfz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jul 2023 20:35:55 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00CF72715;
-        Sat, 15 Jul 2023 17:35:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=mE9+71SpcGsafbLERUBD51p4fXq4pCC+GFqB11xSv5M=; b=Ug+2GIzIZbSN72q9ekRkGYBv94
-        hTsJx9IlKFxSw+d93vnKSKnQ5VBjD1EiE0M15cB01ZiAAxKhAbcxsO2KOkeTNESLS4b7fiVXyxf6+
-        bvagVEvfUW1VvU7wM5thK/fZ3bEXnHMQTm+ztTZzVSkfXWTjnvJN+NZpUlzIb1V2A1Gr9T+a8ZEZl
-        1EifUYjP3j2OtCVxVnM/pxRgdv1nGcNkS6nnMhNf8lCkpOuJiBJQxbDkBA2Vd3G+CzOXr5cqSFjPO
-        86i39noH1h5v6nHq30iGX0ncNMKMvWQDoLQKaTMexHqqEoR2s9UIPSkfJdB4/oa4ylBuRhiR3++Pq
-        +m5Z2mrQ==;
-Received: from 50-198-160-193-static.hfc.comcastbusiness.net ([50.198.160.193] helo=[10.150.81.113])
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qKpji-0078Xu-2P;
-        Sun, 16 Jul 2023 00:35:43 +0000
-Message-ID: <5e5ee5f1-6391-dea3-77eb-c55dd7bff0a3@infradead.org>
-Date:   Sat, 15 Jul 2023 17:35:30 -0700
+        with ESMTP id S229462AbjGPIOW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 04:14:22 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DFBDBA
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jul 2023 01:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689495261; x=1721031261;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LE62KD0y4St/M8PY0h1NWwh1D87YSDi5golUzrRvq5o=;
+  b=Q6dRZrc6N2p2g8TkNkiCKuJH/Dc8CTzhTGTCPjCsd+YNE/s60mGULKL0
+   RtrT+TEYHW9LWTwF8lI8OvI5mRIp3bT6w8ciVOGkhBKyPiSZd5lTaA70v
+   kuq6DIjcPatC5+Uix3xt4kbAh6xbuxAwHi9uVWmhyCXB0DjpV59tC6Grf
+   830SHSONtowhSI+DLNOtVIEBnE3l/BcuOubpkpeBj1BsT0banyr+BjLUm
+   IANixiLiheQ2qlC+gbYdYuhm7jiCwwqbZ4mn0W8Ualqq0zycVn5zAueqK
+   k3oziFpKg420dK2HWgFtInXAltARLNjJxvAXLPWgs/V65AlVT5kxED4Ww
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="368381949"
+X-IronPort-AV: E=Sophos;i="6.01,210,1684825200"; 
+   d="scan'208";a="368381949"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2023 01:14:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10772"; a="716823944"
+X-IronPort-AV: E=Sophos;i="6.01,210,1684825200"; 
+   d="scan'208";a="716823944"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 16 Jul 2023 01:14:20 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qKwtX-0008j7-1C;
+        Sun, 16 Jul 2023 08:14:19 +0000
+Date:   Sun, 16 Jul 2023 16:13:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [broonie-ci:arm64-gcs 16/46] htmldocs:
+ Documentation/arch/arm64/gcs.rst: WARNING: document isn't included in any
+ toctree
+Message-ID: <202307161643.Pq3zjcHW-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH docs] scripts: kernel-doc: support private / public
- marking for enums
-Content-Language: en-US
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>
-Cc:     linux-doc@vger.kernel.org, arkadiusz.kubalewski@intel.com,
-        netdev@vger.kernel.org
-References: <20230621223525.2722703-1-kuba@kernel.org>
- <399c98c8-fbf5-8b90-d343-e25697b2e6fa@infradead.org>
- <d5727371-e580-a956-7846-b529f17048ca@infradead.org>
- <875y6m39ll.fsf@meer.lwn.net>
- <f5c04cf1-c6ca-70d6-1903-4603acc30df4@infradead.org>
-In-Reply-To: <f5c04cf1-c6ca-70d6-1903-4603acc30df4@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git arm64-gcs
+head:   17fe9f3a6087c12d1b09fac9759521ab14fb663b
+commit: 943ea20bbf51f49bde46c3f4182730b0de1f235e [16/46] arm64/gcs: Document the ABI for Guarded Control Stacks
+reproduce: (https://download.01.org/0day-ci/archive/20230716/202307161643.Pq3zjcHW-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307161643.Pq3zjcHW-lkp@intel.com/
 
-On 7/14/23 08:15, Randy Dunlap wrote:
-> 
-> 
-> On 7/14/23 06:29, Jonathan Corbet wrote:
->> Randy Dunlap <rdunlap@infradead.org> writes:
->>
->>> Hi Jon,
->>>
->>> On 6/21/23 20:10, Randy Dunlap wrote:
->>>>
->>>>
->>>> On 6/21/23 15:35, Jakub Kicinski wrote:
->>>>> Enums benefit from private markings, too. For netlink attribute
->>>>> name enums always end with a pair of __$n_MAX and $n_MAX members.
->>>>> Documenting them feels a bit tedious.
->>>>>
->>>>> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
->>>>
->>>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->>>> Tested-by: Randy Dunlap <rdunlap@infradead.org>
->>>>
->>>> Thanks.
->>>
->>> I have a need for this patch. Are you planning to merge it?
->>
->> It's commit e27cb89a22ad in 6.5-rc1 ...
-> 
-> Oops, my bad, sorry about that.
-> 
-> I'm testing with linux-next. Something is rotten here /methinks.
-> 
-> I will check it out.
+All warnings (new ones prefixed by >>):
 
-Apparently this was due to user error -- it works today.
-Sorry about the noise.
+>> Documentation/arch/arm64/gcs.rst: WARNING: document isn't included in any toctree
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
