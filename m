@@ -2,97 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AAA8EB64DD
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Jul 2023 16:15:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69AAEC00528
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Jul 2023 17:00:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229517AbjGPQPd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jul 2023 12:15:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51974 "EHLO
+        id S229997AbjGPRAG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jul 2023 13:00:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjGPQPc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 12:15:32 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5703186;
-        Sun, 16 Jul 2023 09:15:28 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id d2e1a72fcca58-666e5f0d60bso2251494b3a.3;
-        Sun, 16 Jul 2023 09:15:28 -0700 (PDT)
+        with ESMTP id S229687AbjGPRAF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 13:00:05 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2DF1B1;
+        Sun, 16 Jul 2023 10:00:04 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-666e5f0d60bso2262956b3a.3;
+        Sun, 16 Jul 2023 10:00:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689524128; x=1692116128;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LBL5NqseIBukuSWtHPII+PsIomyDUgBgQDu+tUXCE2s=;
-        b=InKsCFZ18PT0DK8VmhsOF9ruukaMaoZnEgHZq/BhpZV7jDRVreGDLu0iuIm2pQftnf
-         o+Wr+ZQoimIkMEcUWg8dgfxMjFvQnhpatFJLXwE/yJFwRkVkmSaPHaiiMLdXYELadVkC
-         JsoUzreRvLt0eb+UdLw0Xp/62xZXb31zA2L4OzogO5PncRJNQvaU/R5sJ5bYF6KgxEyR
-         IBMj0mJJvHDI4L44qeUxE2uXs4TGl9zjHvgffpiHJTxxACU+yH0XCnvnRe6TPy5qTjQj
-         CgFNjsp9loD3ypGusLrzP2fNsyplmHjBl6UfeUBw6kgeS9K2ad1QX7tGeTnyxON94GjL
-         cFag==
+        d=gmail.com; s=20221208; t=1689526804; x=1692118804;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7RZBSC9VlSCWDDQ9NaldE02NH19Agbf9l1F2PLZ3gMU=;
+        b=Xhgz+LJBK80DgVAlAdMzAf9hJLuv4SUnLFdgKVhm7CIJMmSwB4uOUnzvuj91L751x6
+         BdutsfJZ8dpA+kY1eU+7kkGYO80pdi2UHVijW6BxEp+xX7MTPEezQmcZ5jLqudo034zH
+         z8q56R0ND8Ev7G40aXSvWeknaOnLokeZ+dhGaCwk6E+klX2YjhVmDNIKh91EjQSRRsXn
+         CvuXXqon+6/PsPOzfN1Jz6DlTG5JJBlBofVFnjUpxZ50O1dfd/g9qZcWRV2iGww2magn
+         i/Iq7vuXYgcWuoWeSsGzLY73/xU4wa710bYCPOET+TD/9JV0P70gEOfIwwT8LrBWUMnU
+         ypVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689524128; x=1692116128;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LBL5NqseIBukuSWtHPII+PsIomyDUgBgQDu+tUXCE2s=;
-        b=IQDywo41TYyw8o8Hgvi7UBkb62vcocDUv4D5zrMuuAU+bCbcUo8DIbqK51IEHztPvF
-         DQfbFmk3FlVhWOBz7IElUstz4v/paKNTr+QFuG5gIO3U79Ee1si6HVxXfDloMLi0oXfw
-         Dfw51z/iNCi6oslP0gRgfPov9R0tt88k5K00XHvDITyIqpC1pY/+RAXG2ui2PvU0KRlP
-         h3XYK/XK8Z7EKm8Uz4zeUqcnliaef/UdU8K63YFrjLyVjcOTkRQ/qQv1JEm5oMO+KMpK
-         nzBikhEvZXC9lNACktP1k3e6aOMOYhW9Bb8JyeI39RGMhygmYDhnD8+xTggVS6j/UlC7
-         aVXg==
-X-Gm-Message-State: ABy/qLYKVx280xeqG+HVWGsRm0iPCGFLrv7/3YyGUy2UopYfrI3UkSlp
-        LnuI5vuD/k1RulR+wMvPKDE=
-X-Google-Smtp-Source: APBJJlEqOxep6IWK22vhMAuDiadbdVm+M1ZMwwju5DfNRbiTIj/Rs/g23zRkWPK2336alBd+BGUy0A==
-X-Received: by 2002:a05:6a20:a10b:b0:132:7fb3:3325 with SMTP id q11-20020a056a20a10b00b001327fb33325mr9830591pzk.59.1689524127841;
-        Sun, 16 Jul 2023 09:15:27 -0700 (PDT)
-Received: from localhost.localdomain ([113.251.0.121])
-        by smtp.gmail.com with ESMTPSA id c24-20020a62e818000000b0067aea93af40sm10393829pfi.2.2023.07.16.09.15.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jul 2023 09:15:27 -0700 (PDT)
-From:   Hu Haowen <src.res.211@gmail.com>
-To:     dan.j.williams@intel.com, dave.jiang@intel.com,
-        Jonathan.Cameron@huawei.com, hdegoede@redhat.com, corbet@lwn.net
-Cc:     Hu Haowen <src.res.211@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] docs: ABI: sysfs-bus-nvdimm: correct indentations
-Date:   Mon, 17 Jul 2023 00:14:42 +0800
-Message-Id: <20230716161443.1375-1-src.res.211@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1689526804; x=1692118804;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7RZBSC9VlSCWDDQ9NaldE02NH19Agbf9l1F2PLZ3gMU=;
+        b=egdKT1rcuijo3eQgzAZ3CWfMewn250aoDiOhuq9K70p/qJ/XRy1winyw6zoK/EYF7o
+         cACFdjrt//8m06vKz13V90FTPstT2oedbFPOvbjnp0NSe4YMyYnLLYhipS/UkFxM8ShZ
+         NEY4EMB6+4EYeamj1rcomDUnBxKcIQHKVkb1yJRS9R+kx9rGAMKGqTkqfWNo84eqQJX4
+         mWuXqJJGSncKqwktbag7Zl1neqPX7qEeHjiR57LFT3qjUffFGcn/+zXNdNYIZ5h9dbQJ
+         yBppmrRJOEbliuDOsaY8LaPzfPO9V1rPUGeuIfRqq9op0FEqSJtsL7a9wZwC8wy7uRYZ
+         roOQ==
+X-Gm-Message-State: ABy/qLYOtfbyBZLN5Yz2ln9i9hsO1XCubeE8yO35iCIPOic3bon8t566
+        3+pdQieulq3U6xXO19v7XO4=
+X-Google-Smtp-Source: APBJJlEf5Hxvs83+h5l+00e+naQWCiqNakhSinl9PZLGOJ0G+eMabdQR6VlF1n/dqXxDfUKPyylETg==
+X-Received: by 2002:a17:903:2310:b0:1b8:7618:5414 with SMTP id d16-20020a170903231000b001b876185414mr9372013plh.60.1689526803628;
+        Sun, 16 Jul 2023 10:00:03 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y4-20020a170902ed4400b001b8a54f99d1sm11183638plb.275.2023.07.16.10.00.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Jul 2023 10:00:02 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <7a69bda1-5f4c-5b1f-8eb6-6fd58917a9b1@roeck-us.net>
+Date:   Sun, 16 Jul 2023 10:00:00 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>
+Cc:     "jdelvare@suse.com" <jdelvare@suse.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
+        Billy Tsai <billy_tsai@aspeedtech.com>
+References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
+ <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
+ <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
+ <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
+ <7b198d57-ddec-3074-314a-3e5e5b8f48f9@roeck-us.net>
+ <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
+ <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+In-Reply-To: <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The identations from line 1 to 4 within sysfs-bus-nvdimm were wrongly
-incompatible with the indentations of the following contents. Hence
-correct them.
+On 7/16/23 09:08, Krzysztof Kozlowski wrote:
 
-Discovered when I was executing "make htmldocs" and received the
-following stderr output:
+[ ... ]
 
-    /<... root dir ...>/Documentation/ABI/testing/sysfs-bus-nvdimm:11: WARNING: Unexpected indentation.
+>>
+>> This patch serial doesn't use to binding the fan control h/w. It is
+>> used to binding the two independent h/w blocks.
+>> One is used to provide pwm output and another is used to monitor the
+>> speed of the input.
+>> My patch is used to point out that the pwm and the tach is the
+>> different function and don't need to
+>> bind together. You can not only combine them as the fan usage but also
+>> treat them as the individual module for
+>> use. For example: the pwm can use to be the beeper (pwm-beeper.c), the
+>> tach can be used to monitor the heart beat signal.
+> 
+> Isn't this exactly the same as in every other SoC? PWMs can be used in
+> different ways?
+> 
 
-Signed-off-by: Hu Haowen <src.res.211@gmail.com>
----
- Documentation/ABI/testing/sysfs-bus-nvdimm | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+... and in every fan controller. Not that it really makes sense because
+normally the pwm controller part of such chips is tied to the fan input,
+to enable automatic fan control, but it is technically possible.
+In many cases this is also the case in SoCs, for example, in ast2500.
+Apparently this was redesigned in ast2600 where they two blocks are
+only lightly coupled (there are two pwm status bits in the fan status
+register, but I have no idea what those mean). If the blocks are tightly
+coupled, separate drivers don't really make sense.
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-nvdimm b/Documentation/ABI/testing/sysfs-bus-nvdimm
-index de8c5a59c77f..8d048f8e3c39 100644
---- a/Documentation/ABI/testing/sysfs-bus-nvdimm
-+++ b/Documentation/ABI/testing/sysfs-bus-nvdimm
-@@ -1,7 +1,7 @@
--What:          nvdimm
--Date:          July 2020
--KernelVersion: 5.8
--Contact:       Dan Williams <dan.j.williams@intel.com>
-+What:           nvdimm
-+Date:           July 2020
-+KernelVersion:  5.8
-+Contact:        Dan Williams <dan.j.williams@intel.com>
- Description:
- 
- The libnvdimm sub-system implements a common sysfs interface for
--- 
-2.34.1
+There are multiple ways to separate the pwm controller part from the
+fan inputs if that is really necessary. One would be to provide a
+sequence of address mappings, the other would be to pass the memory
+region from an mfd driver. It is not necessary to have N instances
+of the fan controller, even if the address space is not continuous.
+
+Guenter
+
+> Anyway, it is tricky to keep the discussion since you avoid posting
+> entire DTS. I already said:
+> 
+> "I will start NAKing such patches without DTS user. It's like reviewing
+> fake code for some unknown solution and trying to get from you piece of
+> answers one by one, because you do not want to share entire part."
+> 
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
 
