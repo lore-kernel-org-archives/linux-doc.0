@@ -2,131 +2,174 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6285AC001DC
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Jul 2023 15:43:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C477BC001DE
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Jul 2023 16:08:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbjGPPne (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jul 2023 11:43:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47736 "EHLO
+        id S229804AbjGPQIb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jul 2023 12:08:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjGPPnd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 11:43:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3DAAE5D;
-        Sun, 16 Jul 2023 08:43:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 395E260D58;
-        Sun, 16 Jul 2023 15:43:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F5FC433C8;
-        Sun, 16 Jul 2023 15:43:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689522211;
-        bh=jaqa0HCS19s0PDvOrcJ3LKInhBxF2KV171eQMHttwyo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DQARaTQayEv+DfaM2Gz058pqDQpaTD9G0lzO7bgWOpLc2MuguNh4fzrA5+1uzT+g8
-         PvsLDuduUSxPdblx0IFoyiF5tN4W4E9uDIxRcur4W4Ua4Of9NCZQ18qXMBj3TU6VC/
-         5q5k6KyJAdq2YB8dcgZBAaHjUo01dA3SM6NP4U28=
-Date:   Sun, 16 Jul 2023 17:43:28 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Mike Snitzer <snitzer@redhat.com>
-Cc:     Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
-        Alasdair Kergon <agk@redhat.com>,
-        "development, device-mapper" <dm-devel@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        yj.chiang@mediatek.com, Peter Korsgaard <peter@korsgaard.com>,
-        Mike Snitzer <snitzer@kernel.org>, stable@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 5.15] dm init: add dm-mod.waitfor to wait for
- asynchronously probed block devices
-Message-ID: <2023071657-marry-usual-882f@gregkh>
-References: <20230713055841.24815-1-mark-pk.tsai@mediatek.com>
- <2023071603-lustily-defraud-2149@gregkh>
- <CAH6w=aztzhm3Sa-afN2Xk-7mp1BVtTKNXJ=JyXqJvm3wtEnd3Q@mail.gmail.com>
+        with ESMTP id S229617AbjGPQIa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 12:08:30 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9282DE5E
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jul 2023 09:08:28 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-51e590a8ab5so4793876a12.2
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jul 2023 09:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689523707; x=1692115707;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yFNOxCkZidbalN7CuyDDRpdo9zeZvLW7A53Aw1rLKbM=;
+        b=HE//uS2g8oJofWthSV32zbw+CJapJ/Tm9PZHDtSngUqz/r5XkJc+b4Tc0sLTaTvKec
+         zqJ00IlLi8lak5WeR8YLitYN3Bkzh817YQi9Bp7ypzpZB2bE3EEk+U+xjVZ695Bn+EPt
+         mERPLvOewkPUntu/559HrttHK4qFScRiUc8NPkyH4rEam7+/cn+U4N+UJkBVrQGoPJMV
+         tnzvlkqbfdhnGCGytVmUv+CPan6p/vMJHvJ/lFJ4uq/721YrER1nWvVr/45mHJkJttAy
+         6z2Hd9W8kMAP1CXmTvbfuQZbYSJwG5k0dgs0vQi6Iox0liE8LmiFvew9Hb13NsKLOVk5
+         CkUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689523707; x=1692115707;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yFNOxCkZidbalN7CuyDDRpdo9zeZvLW7A53Aw1rLKbM=;
+        b=DYwbg2WccjR8l+o7FNY6UYuLIV4IEJiEjMGDtKNphL3940vVikRL8jxdMtwHaQJVL4
+         Cpf7ArgIOItDzHsRT1ij6ri9SbBenWQ+ZqzpvoAd4XtA+jxx0VRCQO7yf4WmLuKEcnGw
+         N9rmyWkUGxGrQfpMY8X9hADLcdinpNUcSGX4qYr0zbZjH8Y56+LXr5huapmscK2JKQX/
+         +02y8jyr/KKcJ1a/tWSYXUMHcvKFlKITqaRwHd4725/asn4bdEe68lD9Y1BBhGuLtWCR
+         PBs2ak8Rz25MtQK+OVQ9+AinP4j4t0yS4Mx0+xckBaxBeN382h4nKovVzTPjk5X80AJh
+         qJkw==
+X-Gm-Message-State: ABy/qLZgNt28M3x6ylh2S9MR5oQoBGmlvV75O8EvieUoRUG1nU3L2PgO
+        Sr9vFbwFAm9j1+VIWyeYgEgIuw==
+X-Google-Smtp-Source: APBJJlGTep8KdTxvuPl0WnJS8vyPvSMZi8aDsQQ+H0L3EiFiiq2Ww4jKrPFs5gGwcbADlAqstdyWEA==
+X-Received: by 2002:a17:906:1114:b0:98e:4c96:6e1f with SMTP id h20-20020a170906111400b0098e4c966e1fmr9722967eja.69.1689523706778;
+        Sun, 16 Jul 2023 09:08:26 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id l9-20020a170906230900b0099342c87775sm8124189eja.20.2023.07.16.09.08.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Jul 2023 09:08:25 -0700 (PDT)
+Message-ID: <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org>
+Date:   Sun, 16 Jul 2023 18:08:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAH6w=aztzhm3Sa-afN2Xk-7mp1BVtTKNXJ=JyXqJvm3wtEnd3Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+To:     =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     "jdelvare@suse.com" <jdelvare@suse.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
+        Billy Tsai <billy_tsai@aspeedtech.com>
+References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
+ <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
+ <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
+ <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
+ <7b198d57-ddec-3074-314a-3e5e5b8f48f9@roeck-us.net>
+ <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 16, 2023 at 11:36:36AM -0400, Mike Snitzer wrote:
-> On Sun, Jul 16, 2023, 11:16 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+On 14/07/2023 13:17, 蔡承達 wrote:
+> Guenter Roeck <linux@roeck-us.net> 於 2023年7月14日 週五 下午6:26寫道：
+>>
+>> On 7/14/23 03:18, 蔡承達 wrote:
+>>> Guenter Roeck <linux@roeck-us.net> 於 2023年7月14日 週五 下午5:59寫道：
+>>>>
+>>>> On 7/14/23 00:13, Krzysztof Kozlowski wrote:
+>>>>> On 14/07/2023 09:04, 蔡承達 wrote:
+>>>>>
+>>>>>>           > This is because our register layout for PWM and Tach is not
+>>>>>> continuous.
+>>>>>>
+>>>>>>           > PWM0 used 0x0 0x4, Tach0 used 0x8 0xc
+>>>>>>
+>>>>>>           > PWM1 used 0x10 0x14, Tach1 used 0x18 0x1c
+>>>>>>
+>>>>>>           > ...
+>>>>>>
+>>>>>>           > Each PWM/Tach instance has its own controller register and is not
+>>>>>> dependent on others.
+>>>>>
+>>>>> Your email reply quoting style is very difficult to read.
+>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> Hi Guenter,
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> Did you receive a response to my previous email?
+>>>>>>
+>>>>>> I would like to inquire if you have any further concerns regarding the PWM
+>>>>>> and Tach with 16 instances.
+>>>>>
+>>>>> But isn't like this in all PWMs in all SoCs?
+>>>>>
+>>>>
+>>>> Correct, pretty much every fan controller is implemented that way.
+>>>> I don't understand the logic.
+>>>>
+>>>
+>>> Hi Krzysztof and Guenter,
+>>>
+>>> Apologies for any confusion earlier.
+>>> So, you think that the implementation with 16 instances of TACH/PWM
+>>> device nodes in dts instead of one is ok to you, right?
+>>>
+>>
+>> Did I say that ? No, it is not ok with me. It is confusing and doesn't make
+>> sense to me. This is one fan controller with 16 channels, not 16 separate
+>> controllers.
+>>
 > 
-> > On Thu, Jul 13, 2023 at 01:58:37PM +0800, Mark-PK Tsai wrote:
-> > > From: Peter Korsgaard <peter@korsgaard.com>
-> > > 
-> > > Just calling wait_for_device_probe() is not enough to ensure that
-> > > asynchronously probed block devices are available (E.G. mmc, usb), so
-> > > add a "dm-mod.waitfor=<device1>[,..,<deviceN>]" parameter to get
-> > > dm-init to explicitly wait for specific block devices before
-> > > initializing the tables with logic similar to the rootwait logic that
-> > > was introduced with commit  cc1ed7542c8c ("init: wait for
-> > > asynchronously scanned block devices").
-> > > 
-> > > E.G. with dm-verity on mmc using:
-> > > dm-mod.waitfor="PARTLABEL=hash-a,PARTLABEL=root-a"
-> > > 
-> > > [    0.671671] device-mapper: init: waiting for all devices to be 
-> > available before creating mapped devices
-> > > [    0.671679] device-mapper: init: waiting for device PARTLABEL=hash-a 
-> > ...
-> > > [    0.710695] mmc0: new HS200 MMC card at address 0001
-> > > [    0.711158] mmcblk0: mmc0:0001 004GA0 3.69 GiB
-> > > [    0.715954] mmcblk0boot0: mmc0:0001 004GA0 partition 1 2.00 MiB
-> > > [    0.722085] mmcblk0boot1: mmc0:0001 004GA0 partition 2 2.00 MiB
-> > > [    0.728093] mmcblk0rpmb: mmc0:0001 004GA0 partition 3 512 KiB, 
-> > chardev (249:0)
-> > > [    0.738274]  mmcblk0: p1 p2 p3 p4 p5 p6 p7
-> > > [    0.751282] device-mapper: init: waiting for device PARTLABEL=root-a 
-> > ...
-> > > [    0.751306] device-mapper: init: all devices available
-> > > [    0.751683] device-mapper: verity: sha256 using implementation 
-> > "sha256-generic"
-> > > [    0.759344] device-mapper: ioctl: dm-0 (vroot) is ready
-> > > [    0.766540] VFS: Mounted root (squashfs filesystem) readonly on 
-> > device 254:0.
-> > > 
-> > > Signed-off-by: Peter Korsgaard <peter@korsgaard.com>
-> > > Signed-off-by: Mike Snitzer <snitzer@kernel.org>
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-> > > ---
-> > >  .../admin-guide/device-mapper/dm-init.rst     |  8 +++++++
-> > >  drivers/md/dm-init.c                          | 22 ++++++++++++++++++-
-> > >  2 files changed, 29 insertions(+), 1 deletion(-)
-> >
-> > What is the git commit id of this change in Linus's tree?
-> >
-> > thanks,
-> >
-> > greg k-h
-> >
-> >
-> 
-> Hey Greg,
-> 
-> This change shouldn't be backported to stable@. It is a feature, if
-> Mark-PK feels they need it older kernels they need to carry the change
-> in their own tree. Or at a minimum they need to explain why this
-> change is warranted in stable@.
+> This patch serial doesn't use to binding the fan control h/w. It is
+> used to binding the two independent h/w blocks.
+> One is used to provide pwm output and another is used to monitor the
+> speed of the input.
+> My patch is used to point out that the pwm and the tach is the
+> different function and don't need to
+> bind together. You can not only combine them as the fan usage but also
+> treat them as the individual module for
+> use. For example: the pwm can use to be the beeper (pwm-beeper.c), the
+> tach can be used to monitor the heart beat signal.
 
-Ok, I'll drop it from my queue.
+Isn't this exactly the same as in every other SoC? PWMs can be used in
+different ways?
 
-> But to answer your original question the upstream commit is:
-> 
-> 035641b01e72 dm init: add dm-mod.waitfor to wait for asynchronously probed block devices
+Anyway, it is tricky to keep the discussion since you avoid posting
+entire DTS. I already said:
 
-Ah, showed up in 6.2, so we have to have a 6.1.y backport as well, I
-can't take patches for only older kernels, sorry.
+"I will start NAKing such patches without DTS user. It's like reviewing
+fake code for some unknown solution and trying to get from you piece of
+answers one by one, because you do not want to share entire part."
 
-thanks,
 
-greg k-h
+
+Best regards,
+Krzysztof
+
