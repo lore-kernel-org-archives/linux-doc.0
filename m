@@ -2,138 +2,150 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B166AC001DE
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Jul 2023 22:04:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23158EB64DD
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 00:16:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233251AbjGPWEr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jul 2023 18:04:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
+        id S230239AbjGQAQE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jul 2023 20:16:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233168AbjGPWEc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 18:04:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 129B126B7;
-        Sun, 16 Jul 2023 15:01:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B9A360D57;
-        Sun, 16 Jul 2023 21:55:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E35E3C433CA;
-        Sun, 16 Jul 2023 21:55:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689544545;
-        bh=Go+3eKanODPQVKnV1QnMIrC75/lXwO2PkPnkMfOn2oA=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=ECT5d5diCXHo8bURXVIe57IrwH3LVPYaT55I2eb0E/Np71GzQcUGWtEUntEplKCwC
-         fSmOAVmBorLnsgdHECB59B6DWbXGccZoyiGERfCXmTdxh7yjb1uTsifR2DxSsYeO2g
-         U59ZQuj5PrDb+/agN7Dl9Qr1uBqTthk1hxAJleZaJ4gtKJsKCutWsOB4+ssCclqi5/
-         H9dWxEzsXwaori9qPClLzwpRbupwk9Ahieh4tVmZfRl24pHmhdyqWIGn9qVn3eme22
-         Pf5Swp61Fy74Mc9DWDxTGwXq9nrTn7ONg7lOy18b9YDt4vbk8A7gQZNsWJcUnRxvOG
-         XtfE91WRSD4iA==
-From:   Mark Brown <broonie@kernel.org>
-Date:   Sun, 16 Jul 2023 22:51:24 +0100
-Subject: [PATCH 28/35] kselftest/arm64: Add GCS as a detected feature in
- the signal tests
+        with ESMTP id S230262AbjGQAQD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 20:16:03 -0400
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D24BE6B;
+        Sun, 16 Jul 2023 17:15:55 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 07B575C004F;
+        Sun, 16 Jul 2023 20:15:53 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Sun, 16 Jul 2023 20:15:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1689552953; x=1689639353; bh=GC
+        Tn0BVnsIZ/kr4rEJXZN6H1iUcPCln8l5ob7SgqWEY=; b=YWYQGIi1873g1B5Cw9
+        1JUp911HGrF26/Hb8PTGhpJ/L4Ec0MFSacYN53hXWWJrOZT1F7r7Iyhv4X2lkJB0
+        Bh71CLSnz9Lw3/BeVqgaEhjQ6+80bNvwF3wgx88mn5FTgG+CsPVt23oVGWml8vgm
+        Q9PQlAOnMhudZFk97qQkf6bYbGJLF9hIHmyoHNFaS2KZiNl3dYxWZdw0l3Qi7YGN
+        O5i/M0cvA7CqAAptHpKxmbocgbNzKBHy7LD7K1pV9Ay47mSrV/U7UC/it0uozUAm
+        kixdcJO04rDHG5Gsvlp5xzMoWUbtVon/378+i/WNS1TjYGYsco9POiEx6VRYxB0n
+        7rww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1689552953; x=1689639353; bh=GCTn0BVnsIZ/k
+        r4rEJXZN6H1iUcPCln8l5ob7SgqWEY=; b=qhRnvcC7vx4j83sJ2ArYgOj05iaFY
+        pVhKEftVV2oCh9TkVw1cuzDZGfX1xg70yKBS4Lo/q2TxrShmb+WHtE7A2HpDjMYY
+        hr9rCnj460X1F7iTup8UHM4qCIuJycLLnlevPd3Rs7zEEMWbcCOG0E5QOHd3i4s0
+        065SL2mwX0HjemIIb5c1x5K04O9KuNXAVY5CGwBuzwGclbmrQGJFAIoWHgJjjjDZ
+        ZgxwdFBhhLq/x4yePp8RAuav7L67Z2F+rOf7ua79Mnpq7L6fNXIbSocFI5YBJTuc
+        aGMtK2E9C8IPkjCrOswR+IUP0UZ2qjrspUoL10UAjhSBwk0z1R+CZ1NKw==
+X-ME-Sender: <xms:OIi0ZHZzq_31U38cubHm0mcu9kUBsUyZwo2fvKt3zGx47PcHHdJp5A>
+    <xme:OIi0ZGZJehjBlYwxGIDQIu0bmiDH3z3b0WZFAuEpHjX-4hHwJpxr3zPcQzHE3cH_y
+    xV64LIejGWitSDatMU>
+X-ME-Received: <xmr:OIi0ZJ88a1-ejbOYKMtNWM_agfZT1JVCZpODsCVVHOWO7cHRrvJSED7dBlyQ3q9zmM6d9iliWxvBQMeY7EKgrDEWYUUYKSqskdkD>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrgedugdefvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghr
+    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+    eqnecuggftrfgrthhtvghrnhepvdevjeetjeejveekveetveetjeejgffgudekleektdei
+    hfehieehieethfejffegnecuffhomhgrihhnpehpohhlihhmihdrihhtpdhsphhhihhngi
+    dqughotgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+    fhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:OIi0ZNoVlwJQPx_v_7C-4WCy3HBF2BtWrHv5mRv8pC9L_Ve0KMo_xg>
+    <xmx:OIi0ZCruMUUuoUJDpWq6t6PjcsK-WpjC3jKWSvdTJb253Zg6O1qkDw>
+    <xmx:OIi0ZDTA2s16R7rRUyF-hIEglGBJ41G92lk0BTawTo2VeOCoVvb2dA>
+    <xmx:OYi0ZLk5kke8WAll71FIYfXA211r8_5CGMYNJu-C2pbc-skCz8xDMw>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 16 Jul 2023 20:15:49 -0400 (EDT)
+Date:   Mon, 17 Jul 2023 10:15:44 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Marco Morandini <marco.morandini@polimi.it>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] HID: Add introduction about HID for non-kernel
+ programmers
+Message-ID: <20230717001544.GA129954@quokka>
+References: <70fdef05-d3b8-e24b-77be-901bd5be369e@polimi.it>
+ <20230627060437.GA726439@quokka>
+ <dc79f50c-0539-0d7c-129a-d02d5bbee4d5@polimi.it>
+ <20230710021034.GA600582@quokka>
+ <2c2a03ac-cd11-7893-4b89-b88845e0f189@polimi.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230716-arm64-gcs-v1-28-bf567f93bba6@kernel.org>
-References: <20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org>
-In-Reply-To: <20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-        Deepak Gupta <debug@rivosinc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Cc:     "H.J. Lu" <hjl.tools@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-099c9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1828; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Go+3eKanODPQVKnV1QnMIrC75/lXwO2PkPnkMfOn2oA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBktGalnGeU3K7oX3kc7kc1vOCWlIGVrULEZrhSEdLZ
- vws1w6CJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZLRmpQAKCRAk1otyXVSH0AFnB/
- 9US05dk0B/KCfZYMHoYXXScr7LLlbQV9vVecVF7KEFOCMc4EuaMKkGy1uQfpsJ0o9xGpwumm9m1qG8
- p9K1kLmFInC+9t6XitfcPIRPnKUxan5FQ3yiLuUWWVu+tmyJX2kWaffOTAuKj7zO25Pwt2c9YW5oEa
- f9VjL6uJP9BDwSSRNbN7mBs9zRr+yc9wX4u0gvytmfyGkk0jEWoHm8dF/xwK5qyFYXm4giL26Q8iFG
- 354GpQCiMKtFPNDO8A4H9GdYiNecTC7cDsCOSsa7a/giwNB848wAuQmV6vpgDwXDhUhupaTLe9yjoB
- yXFF55Ml7rxGBuJJFbC4EDNdyHgRPd
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c2a03ac-cd11-7893-4b89-b88845e0f189@polimi.it>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In preparation for testing GCS related signal handling add it as a feature
-we check for in the signal handling support code.
+On Thu, Jul 13, 2023 at 04:36:18PM +0200, Marco Morandini wrote:
+> 
+> The current version is with a unique code block, and renders like this
+> 
+> https://home.aero.polimi.it/morandini/Downloads/Screenshot_20230712_185907.png
+> 
+> With a unique code block but a newline in between the report and the
+> explanation I get
+> 
+> https://home.aero.polimi.it/morandini/Downloads/Screenshot_20230712_190335.png
+> 
+> that I find somewhat more dispersive.
+> 
+> If I interpose multiple code blocks and explanations (as text) unfortunately
+> spynx add a colon at the end of every paragraph, as if the text was the explanation of the
+> code block below, and not above:
+> 
+> https://home.aero.polimi.it/morandini/Downloads/Screenshot_20230712_190656.png
+> 
+> I've not understood how to get rid of that colon, and I would prefer to leave the
+> explanation _after_ the corresponding code block, and not move it before.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/arm64/signal/test_signals.h       | 2 ++
- tools/testing/selftests/arm64/signal/test_signals_utils.c | 3 +++
- 2 files changed, 5 insertions(+)
+https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#literal-blocks
 
-diff --git a/tools/testing/selftests/arm64/signal/test_signals.h b/tools/testing/selftests/arm64/signal/test_signals.h
-index 1e6273d81575..7ada43688c02 100644
---- a/tools/testing/selftests/arm64/signal/test_signals.h
-+++ b/tools/testing/selftests/arm64/signal/test_signals.h
-@@ -35,6 +35,7 @@ enum {
- 	FSME_BIT,
- 	FSME_FA64_BIT,
- 	FSME2_BIT,
-+	FGCS_BIT,
- 	FMAX_END
- };
- 
-@@ -43,6 +44,7 @@ enum {
- #define FEAT_SME		(1UL << FSME_BIT)
- #define FEAT_SME_FA64		(1UL << FSME_FA64_BIT)
- #define FEAT_SME2		(1UL << FSME2_BIT)
-+#define FEAT_GCS		(1UL << FGCS_BIT)
- 
- /*
-  * A descriptor used to describe and configure a test case.
-diff --git a/tools/testing/selftests/arm64/signal/test_signals_utils.c b/tools/testing/selftests/arm64/signal/test_signals_utils.c
-index 0dc948db3a4a..89ef95c1af0e 100644
---- a/tools/testing/selftests/arm64/signal/test_signals_utils.c
-+++ b/tools/testing/selftests/arm64/signal/test_signals_utils.c
-@@ -30,6 +30,7 @@ static char const *const feats_names[FMAX_END] = {
- 	" SME ",
- 	" FA64 ",
- 	" SME2 ",
-+	" GCS ",
- };
- 
- #define MAX_FEATS_SZ	128
-@@ -329,6 +330,8 @@ int test_init(struct tdescr *td)
- 			td->feats_supported |= FEAT_SME_FA64;
- 		if (getauxval(AT_HWCAP2) & HWCAP2_SME2)
- 			td->feats_supported |= FEAT_SME2;
-+		if (getauxval(AT_HWCAP2) & HWCAP2_GCS)
-+			td->feats_supported |= FEAT_GCS;
- 		if (feats_ok(td)) {
- 			if (td->feats_required & td->feats_supported)
- 				fprintf(stderr,
+This suggests that if you write it as "what follows is a button ::"
+(i.e. space before ::) that should render it without a colon.
 
--- 
-2.30.2
+[...]
+
+> >> +This Report Descriptor tells us that the mouse input will be
+> >> +transmitted using four bytes: the first one for the buttons (three
+> >> +bits used, five for padding), the last three for the mouse X, Y and
+> >> +wheel changes, respectively.
+> > 
+> > I wonder if here we should mention something like:
+> > "This particular device only has one HID report so it may (and does)
+> > omit the Report ID. Devices that can send multiple different HID reports
+> > must send the Report ID as the first byte of each report."
+> 
+> The problem is that, with the current document structure,
+> Report IDs are introduced later, in section
+> "Collections, Report IDs and Evdev events".
+> There we have the sentence "A device with only one supporteHID report 
+> (like the mouse example above) may omit the report ID."
+> 
+> Before that section the reader does not know what
+> a Report ID is.
+> 
+> Thus, I could add the sentence you are suggesting, but
+> changing it into something like
+> 
+> This particular device only has one HID report so it may (and does)
+> omit the Report ID (see Section "Collections, Report IDs and Evdev events"). 
+> Devices that can send multiple different HID reports
+> must send the Report ID as the first byte of each report.
+> 
+> I don't know whether we are clarifying of confusing the matter,
+> and I propose to leave things as they are now.
+
+sure, that's fine
+
+Cheers,
+  Peter
 
