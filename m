@@ -2,163 +2,232 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF1DC0015E
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 05:13:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 527A0C001B0
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 07:07:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229920AbjGQFNc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jul 2023 01:13:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35282 "EHLO
+        id S230231AbjGQHHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jul 2023 03:07:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbjGQFNa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 01:13:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C21AE6A
-        for <linux-doc@vger.kernel.org>; Sun, 16 Jul 2023 22:12:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689570762;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=XpPl7D+YyowuSTqvPnZdoj0YXyM0k/RzKfcV3mHh1uY=;
-        b=Wmrn3HLJbC794iKAMYXG1277wJyUCtLyelgT1tZIzjcczL3lMv8gvurrNA1iIScpmcQDbj
-        FiKPWN2NIOhWTzt/+52pqh9K7ndoEWIWkmSaXaVX+DbxmWXw+YzC2R1fU+cjDjSXog8RTa
-        Gsfm8cxMcliMO31c0FhfHh1nGBGiVKI=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-563-vRqqIB4wPBa-asGkpC47Jw-1; Mon, 17 Jul 2023 01:12:39 -0400
-X-MC-Unique: vRqqIB4wPBa-asGkpC47Jw-1
-Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-187959a901eso6660960fac.0
-        for <linux-doc@vger.kernel.org>; Sun, 16 Jul 2023 22:12:39 -0700 (PDT)
+        with ESMTP id S230215AbjGQHHW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 03:07:22 -0400
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA081AE;
+        Mon, 17 Jul 2023 00:07:21 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-51f90f713b2so6329224a12.1;
+        Mon, 17 Jul 2023 00:07:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689570758; x=1692162758;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XpPl7D+YyowuSTqvPnZdoj0YXyM0k/RzKfcV3mHh1uY=;
-        b=W87OBOStis8NUV3X7H+bHefOe429n78pWf+P6QB+mdg4upxrPYnWQZW/XpCI68UyxD
-         RW3twkzfhDuNtmca8C4CGRIsZADZvItVF8nk/9daCAFKCrTAQnu0MA1Yt5N3wAhBeNd5
-         8+Gb5rKFaV+fr15M2nZ8mU5cQZwGGJ7J6hUzvapuiBZnV7qkU5Fyr+IPSPtvb1RXd/aC
-         uwEbHH4JsurvXPOU3biMxKgSnBJfdtZSk/+DOV3iGaz/1at87wx5E+HaVmdSLT6qWEWb
-         3o95VEY5pecOG4vYLbe6bE/7t3WHe8e/ZmTR03GQoNQQochEheWo7BZ9p7doPTgK9iZd
-         xO0Q==
-X-Gm-Message-State: ABy/qLYDPq9hxRtcCyHwVxlSln/7Xt5hD7W4traOUoUSWszH9UywD12n
-        XGJVww8inHo7awf//ajfeNv9B3/iHT8cPF8pDJZz9bXT9KQYg33ja0+VffH21drni4K1tZIEfmU
-        3YAsQ7Q/0Deqhob/jCHh7B5zi0jVxWAu+F4jBANW9zTVbCAs=
-X-Received: by 2002:a05:6870:2d4:b0:1b3:ec6b:b264 with SMTP id r20-20020a05687002d400b001b3ec6bb264mr12384794oaf.5.1689570758677;
-        Sun, 16 Jul 2023 22:12:38 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEhv8PmsM82bP4te8cHd92PfJoaIOIdUOnlQPVX0Ctase4wozNPYJ1aosaCxbjVD/0Z0bfNV4Aof5r+kG80NEQ=
-X-Received: by 2002:a05:6870:2d4:b0:1b3:ec6b:b264 with SMTP id
- r20-20020a05687002d400b001b3ec6bb264mr12384786oaf.5.1689570758330; Sun, 16
- Jul 2023 22:12:38 -0700 (PDT)
-MIME-Version: 1.0
+        d=1e100.net; s=20221208; t=1689577640; x=1692169640;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BK34qhMsmNxAvU6AATspLEoQD1LgYJ16sQOnvySU0Tk=;
+        b=L9f810MvBcRXGkxjXA+eVigVNRHFQfkIsRRuBSxKVpNDMXXplgZ3g9TBFlyHOZ8oes
+         sIU3ULDI8B5Bk1qMUmyu21hxbvh5VIOV7Jkg6Gj2AkmrLx87HSzDJO1877ZkmRQJYCBI
+         A+GcwdhqnhtK6dLN85kTtL3lyxIwYIX6te1MESw6gZ1cTdJLvaFpBaIiB4hdtiG+ucic
+         WAhzXSCAixFvKVp5Zz/cWFltzNEXg4J1m4urdZjt1qBG772GtGrCrx95QeEU56QqkUPD
+         hxYqkVvXA0ThUwa4y837Oc6waxEvgr+5MNbdht9oLfZBe6afwDVV+xjjN57Dn1c3B/76
+         /G+A==
+X-Gm-Message-State: ABy/qLb3YmVnjEkp8uCbJn18XsGlqYWcys+Lh0Pf7T7muvIuVGy+T/C4
+        Ed9PtornbVEnlPjR3ad958g=
+X-Google-Smtp-Source: APBJJlFDRZd4z0vXM1uFEVX+Tzb98q56LccSwBq3J5YUVfGWisydG4D+RmxfN/eezcIik1xYEHSjxQ==
+X-Received: by 2002:a50:fc1a:0:b0:51b:fbf3:d9a7 with SMTP id i26-20020a50fc1a000000b0051bfbf3d9a7mr10667509edr.39.1689577639646;
+        Mon, 17 Jul 2023 00:07:19 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([5.29.20.9])
+        by smtp.gmail.com with ESMTPSA id a19-20020a50ff13000000b0051bed498851sm9513311edu.54.2023.07.17.00.07.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jul 2023 00:07:19 -0700 (PDT)
 From:   Costa Shulyupin <costa.shul@redhat.com>
-Date:   Mon, 17 Jul 2023 08:12:27 +0300
-Message-ID: <CADDUTFyArtN--_27xLWpqnBM2e_udmL+E6Ka7KgimTUOguWthg@mail.gmail.com>
-Subject: confusing changes in the documentation table of contents
-To:     linux-doc@vger.kernel.org, kernelnewbies@kernelnewbies.org,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Alexandre TORGUE <alexandre.torgue@foss.st.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Costa Shulyupin <costa.shul@redhat.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        loongarch@lists.linux.dev (open list:LOONGARCH)
+Subject: [PATCH] docs: move loongarch under arch
+Date:   Mon, 17 Jul 2023 10:06:02 +0300
+Message-ID: <20230717070643.313689-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=true
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+and fix all in-tree references.
 
-In https://www.kernel.org/doc/html/v6.2/ Table of Contents consisted
-of 10 items. It was compact, organized and observable:
+Architecture-specific documentation is being moved into Documentation/arch/
+as a way of cleaning up the top-level documentation directory and making
+the docs hierarchy more closely match the source hierarchy.
 
-The Linux Kernel documentation
-- Working with the development community
-- Internal API manuals
-- Development tools and processes
-- User-oriented documentation
-- Firmware-related documentation
-- Architecture-specific documentation
-- Other documentation
-- Translations
-Indices and tables
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/arch/index.rst                                  | 2 +-
+ Documentation/{ => arch}/loongarch/booting.rst                | 0
+ Documentation/{ => arch}/loongarch/features.rst               | 0
+ Documentation/{ => arch}/loongarch/index.rst                  | 0
+ Documentation/{ => arch}/loongarch/introduction.rst           | 0
+ Documentation/{ => arch}/loongarch/irq-chip-model.rst         | 0
+ Documentation/translations/zh_CN/arch/index.rst               | 2 +-
+ .../translations/zh_CN/{ => arch}/loongarch/booting.rst       | 4 ++--
+ .../translations/zh_CN/{ => arch}/loongarch/features.rst      | 4 ++--
+ .../translations/zh_CN/{ => arch}/loongarch/index.rst         | 4 ++--
+ .../translations/zh_CN/{ => arch}/loongarch/introduction.rst  | 4 ++--
+ .../zh_CN/{ => arch}/loongarch/irq-chip-model.rst             | 4 ++--
+ 12 files changed, 12 insertions(+), 12 deletions(-)
+ rename Documentation/{ => arch}/loongarch/booting.rst (100%)
+ rename Documentation/{ => arch}/loongarch/features.rst (100%)
+ rename Documentation/{ => arch}/loongarch/index.rst (100%)
+ rename Documentation/{ => arch}/loongarch/introduction.rst (100%)
+ rename Documentation/{ => arch}/loongarch/irq-chip-model.rst (100%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/booting.rst (94%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/features.rst (61%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/index.rst (78%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/introduction.rst (99%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/irq-chip-model.rst (98%)
 
-Since  https://www.kernel.org/doc/html/v6.3/ it consists of 60+ items.
-Now it is long, unorganized and unobservable:
-
-A guide to the Kernel Development Process
-Submitting patches: the essential guide to getting your code into the kerne=
-l
-Code of conduct
-Kernel Maintainer Handbook
-All development-process docs
-
-Linux kernel licensing rules
-HOWTO do Linux kernel development
-Contributor Covenant Code of Conduct
-Linux Kernel Contributor Covenant Code of Conduct Interpretation
-A guide to the Kernel Development Process
-Submitting patches: the essential guide to getting your code into the kerne=
-l
-Handling regressions
-Programming Language
-Linux kernel coding style
-Subsystem and maintainer tree specific development process notes
-Kernel Maintainer PGP guide
-Email clients info for Linux
-Linux Kernel Enforcement Statement
-Kernel Driver Statement
-Security bugs
-Embargoed hardware issues
-Minimal requirements to compile the Kernel
-The Linux Kernel Driver Interface
-Linux kernel management style
-Everything you ever wanted to know about Linux -stable releases
-Linux Kernel patch submission checklist
-Index of Further Kernel Documentation
-Deprecated Interfaces, Language Features, Attributes, and Conventions
-List of maintainers and how to submit kernel changes
-Researcher Guidelines
-Applying Patches To The Linux Kernel
-Adding a New System Call
-Linux magic numbers
-Why the =E2=80=9Cvolatile=E2=80=9D type class should not be used
-(How to avoid) Botching up ioctls
-clang-format
-arch/riscv maintenance guidelines for developers
-Unaligned Memory Accesses
-
-Core API Documentation
-Driver implementer=E2=80=99s API guide
-Kernel subsystem documentation
-Locking in the kernel
-
-Linux kernel licensing rules
-How to write kernel documentation
-Development tools for the kernel
-Kernel Testing Guide
-Kernel Hacking Guides
-Linux Tracing Technologies
-fault-injection
-Kernel Livepatching
-Rust
-
-The Linux kernel user=E2=80=99s and administrator=E2=80=99s guide
-The kernel build system
-Reporting issues
-User-space tools
-The Linux kernel user-space API guide
-
-The Linux kernel firmware guide
-Open Firmware and Devicetree
-
-CPU Architectures
-
-Unsorted Documentation
-
-Questions:
-- Why?
-- What are further plans?
-- What to do?
-
-Thanks,
-Costa
+diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
+index 8458b88e9b79..4b6b1beebad6 100644
+--- a/Documentation/arch/index.rst
++++ b/Documentation/arch/index.rst
+@@ -13,7 +13,7 @@ implementation.
+    arm/index
+    arm64/index
+    ia64/index
+-   ../loongarch/index
++   loongarch/index
+    m68k/index
+    ../mips/index
+    nios2/index
+diff --git a/Documentation/loongarch/booting.rst b/Documentation/arch/loongarch/booting.rst
+similarity index 100%
+rename from Documentation/loongarch/booting.rst
+rename to Documentation/arch/loongarch/booting.rst
+diff --git a/Documentation/loongarch/features.rst b/Documentation/arch/loongarch/features.rst
+similarity index 100%
+rename from Documentation/loongarch/features.rst
+rename to Documentation/arch/loongarch/features.rst
+diff --git a/Documentation/loongarch/index.rst b/Documentation/arch/loongarch/index.rst
+similarity index 100%
+rename from Documentation/loongarch/index.rst
+rename to Documentation/arch/loongarch/index.rst
+diff --git a/Documentation/loongarch/introduction.rst b/Documentation/arch/loongarch/introduction.rst
+similarity index 100%
+rename from Documentation/loongarch/introduction.rst
+rename to Documentation/arch/loongarch/introduction.rst
+diff --git a/Documentation/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+similarity index 100%
+rename from Documentation/loongarch/irq-chip-model.rst
+rename to Documentation/arch/loongarch/irq-chip-model.rst
+diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
+index 6fa0cb671009..d4c1c729dde2 100644
+--- a/Documentation/translations/zh_CN/arch/index.rst
++++ b/Documentation/translations/zh_CN/arch/index.rst
+@@ -13,7 +13,7 @@
+    ../riscv/index
+    openrisc/index
+    parisc/index
+-   ../loongarch/index
++   loongarch/index
+ 
+ TODOList:
+ 
+diff --git a/Documentation/translations/zh_CN/loongarch/booting.rst b/Documentation/translations/zh_CN/arch/loongarch/booting.rst
+similarity index 94%
+rename from Documentation/translations/zh_CN/loongarch/booting.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/booting.rst
+index fb6440c438f0..d2f55872904e 100644
+--- a/Documentation/translations/zh_CN/loongarch/booting.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/booting.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/booting.rst
++:Original: Documentation/arch/loongarch/booting.rst
+ 
+ :翻译:
+ 
+diff --git a/Documentation/translations/zh_CN/loongarch/features.rst b/Documentation/translations/zh_CN/arch/loongarch/features.rst
+similarity index 61%
+rename from Documentation/translations/zh_CN/loongarch/features.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/features.rst
+index 3886e635ec06..82bfac180bdc 100644
+--- a/Documentation/translations/zh_CN/loongarch/features.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/features.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/features.rst
++:Original: Documentation/arch/loongarch/features.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+ .. kernel-feat:: $srctree/Documentation/features loongarch
+diff --git a/Documentation/translations/zh_CN/loongarch/index.rst b/Documentation/translations/zh_CN/arch/loongarch/index.rst
+similarity index 78%
+rename from Documentation/translations/zh_CN/loongarch/index.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/index.rst
+index 0273a08342f7..4bd24f5ffed1 100644
+--- a/Documentation/translations/zh_CN/loongarch/index.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/index.rst
++:Original: Documentation/arch/loongarch/index.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+ =================
+diff --git a/Documentation/translations/zh_CN/loongarch/introduction.rst b/Documentation/translations/zh_CN/arch/loongarch/introduction.rst
+similarity index 99%
+rename from Documentation/translations/zh_CN/loongarch/introduction.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/introduction.rst
+index 470c38ae2caf..cba04befc950 100644
+--- a/Documentation/translations/zh_CN/loongarch/introduction.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/introduction.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/introduction.rst
++:Original: Documentation/arch/loongarch/introduction.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+ =============
+diff --git a/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+similarity index 98%
+rename from Documentation/translations/zh_CN/loongarch/irq-chip-model.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+index fb5d23b49ed5..f1e9ab18206c 100644
+--- a/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/irq-chip-model.rst
++:Original: Documentation/arch/loongarch/irq-chip-model.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+ ==================================
+-- 
+2.41.0
 
