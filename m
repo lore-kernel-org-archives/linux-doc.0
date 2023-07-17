@@ -2,93 +2,170 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C7D1EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 09:34:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAEF2C00528
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 09:41:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230517AbjGQJee (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jul 2023 05:34:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
+        id S229868AbjGQJlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jul 2023 05:41:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230439AbjGQJeR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 05:34:17 -0400
-Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C47E1725;
-        Mon, 17 Jul 2023 02:34:04 -0700 (PDT)
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36H5TrO8020470;
-        Mon, 17 Jul 2023 02:33:53 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0220; bh=A6vb4AfiZvBPM3VMzeFbHqzbdNwya3XR1SiGD5k6Gnk=;
- b=UCxuh6ood5GryilNTUmftnSpyu2p3oR8PtnPRkXxw63/y5j/QxkxbxbD7fV07FSMJBcn
- QNP1xtj886of9YNAEw0RtfAWHa2n4lP2Eiw8cKTXcVkFLcZKOqdj9Bj9RrnOZoe0NrP+
- OLViurmeYKDwYCDJz4lNmdO5KNF+m1wJ9w0wWQfc9+exZykA1diyngxtjBCuUujecMNp
- mvUPUbWzKfjT9QnQ9Gx5k5qFQ82N6LsxakE5m92LMm2c2xmA688jZW2eIRb+DkT6w7Xa
- BAJD6Un9isVu7+c0F8g4YNzm+J95bsIW2OZiZHiGeT4eFeVAU8sjvqwN+9c9D2TktgVB mw== 
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
-        by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3rvyhx0p41-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Mon, 17 Jul 2023 02:33:53 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 17 Jul
- 2023 02:33:51 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
- Transport; Mon, 17 Jul 2023 02:33:51 -0700
-Received: from hyd1soter3.marvell.com (unknown [10.29.37.134])
-        by maili.marvell.com (Postfix) with ESMTP id 87F5F3F70A4;
-        Mon, 17 Jul 2023 02:33:45 -0700 (PDT)
-From:   Hariprasad Kelam <hkelam@marvell.com>
-To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <kuba@kernel.org>, <davem@davemloft.net>,
-        <willemdebruijn.kernel@gmail.com>, <andrew@lunn.ch>,
-        <sgoutham@marvell.com>, <lcherian@marvell.com>,
-        <gakula@marvell.com>, <jerinj@marvell.com>, <sbhatta@marvell.com>,
-        <hkelam@marvell.com>, <naveenm@marvell.com>, <edumazet@google.com>,
-        <pabeni@redhat.com>, <jhs@mojatatu.com>,
-        <xiyou.wangcong@gmail.com>, <jiri@resnulli.us>,
-        <maxtram95@gmail.com>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-Subject: [net-next Patch v3 4/4] docs: octeontx2: extend documentation for Round Robin scheduling
-Date:   Mon, 17 Jul 2023 15:03:19 +0530
-Message-ID: <20230717093319.26618-5-hkelam@marvell.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230717093319.26618-1-hkelam@marvell.com>
-References: <20230717093319.26618-1-hkelam@marvell.com>
+        with ESMTP id S230490AbjGQJkp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 05:40:45 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0803C27
+        for <linux-doc@vger.kernel.org>; Mon, 17 Jul 2023 02:39:05 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-991ef0b464cso1156263266b.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Jul 2023 02:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689586744; x=1692178744;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=W0Abj6UC9IBcOuGYotmVfSuiZNB5aYWz62cWUjDEEUg=;
+        b=oNVQ4IxLU5eX07C5sklU29DxI6u6wg6e2WB+o1jYa8ec1pIsG+BAHCXbIxFDRp3qTl
+         /dzmITQUrQQAtrbiRbTKZ7mq/rdWdu+IY4bT2jTa5aUo9wx6WkrAvvLb0bRSd7M0ZydQ
+         b29rvFfZZGyNnhzH4VVO4rGTo0TGUdB9O6a27CQXtCHKjU0W1AvEl5NC9OA7pA5Ua0WT
+         2QAa11Z87kgv9ExsFKCWzMZMoLOgRhBMS8YGxwsV7sbWrTqGIVGhrip83rrcvyfi851o
+         rJzoec2YkfyS05pvyryJhBl8FoshXHTLwU2JZW7ssjAP1OaNkbGfKIRVXNLz5N+4DxLD
+         lKcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689586744; x=1692178744;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W0Abj6UC9IBcOuGYotmVfSuiZNB5aYWz62cWUjDEEUg=;
+        b=H8BMcXgwRJwY4EPL0We1Ls1MTV08d2nfws3NLtSDBIQZPSYqGm9tTrrfasPY3AsgEq
+         o5XR9CTztXhUQJGzEfs6a8Gu2/8iNSfl1fe9XYkVpGDHk3zmGhobmfYmk90Wd/9MDLij
+         ek/XjHuvnZ8W5OH3WJx/xhq0ls5L2Q9+d2TNEYRdouyUv7MiqCr9rznIMEnRMEOOeQRC
+         y+FltUy/JvvyI7ZXUJDj5r1+fRdy6BK9qBNT8kxsg72xcJK49B46x7RJ9CK0Q1Jf4jwx
+         hWwMXlQvJh5pnqkp5LXcay4HTvOId+pzwzocx2V3nx46Fng25OXWgQXcl70l6tNov+pn
+         cDKA==
+X-Gm-Message-State: ABy/qLYKqp5zt8rYoNFSMmY97fr/ikJRYsXAsCwVJbStXXfv87NAbNLk
+        qv7q2dKsnx2v0+Az09a/pr2M+A==
+X-Google-Smtp-Source: APBJJlESrTNaJcx/BujEXJeNKPZNlBYFJGnbXsuE/wnWYk8Pltb8LBwpD6Msb01kwBYC5AzGsjQodw==
+X-Received: by 2002:a17:906:28a:b0:988:15f4:fdba with SMTP id 10-20020a170906028a00b0098815f4fdbamr12038269ejf.14.1689586744230;
+        Mon, 17 Jul 2023 02:39:04 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id ov4-20020a170906fc0400b00992b50fbbe9sm9051066ejb.90.2023.07.17.02.39.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jul 2023 02:39:03 -0700 (PDT)
+Message-ID: <b22b2ccc-6760-0db6-067b-109c3864d2e8@linaro.org>
+Date:   Mon, 17 Jul 2023 11:39:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-GUID: zmcuVvw3xrV44UQ9PWInUeQ82PT9qnUP
-X-Proofpoint-ORIG-GUID: zmcuVvw3xrV44UQ9PWInUeQ82PT9qnUP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-17_07,2023-07-13_01,2023-05-22_02
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+To:     =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     "jdelvare@suse.com" <jdelvare@suse.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
+        Billy Tsai <billy_tsai@aspeedtech.com>
+References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
+ <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
+ <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
+ <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
+ <7b198d57-ddec-3074-314a-3e5e5b8f48f9@roeck-us.net>
+ <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
+ <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org>
+ <7a69bda1-5f4c-5b1f-8eb6-6fd58917a9b1@roeck-us.net>
+ <CAGUgbhCTDPGt_vpbfaEreX+iuLJ3WUBqt4kppxyaFZQus9Zf0Q@mail.gmail.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAGUgbhCTDPGt_vpbfaEreX+iuLJ3WUBqt4kppxyaFZQus9Zf0Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add example tc-htb commands for Round robin scheduling
+On 17/07/2023 11:01, 蔡承達 wrote:
+> Guenter Roeck <linux@roeck-us.net> 於 2023年7月17日 週一 上午1:00寫道：
+>>
+>> On 7/16/23 09:08, Krzysztof Kozlowski wrote:
+>>
+>> [ ... ]
+>>
+>>>>
+>>>> This patch serial doesn't use to binding the fan control h/w. It is
+>>>> used to binding the two independent h/w blocks.
+>>>> One is used to provide pwm output and another is used to monitor the
+>>>> speed of the input.
+>>>> My patch is used to point out that the pwm and the tach is the
+>>>> different function and don't need to
+>>>> bind together. You can not only combine them as the fan usage but also
+>>>> treat them as the individual module for
+>>>> use. For example: the pwm can use to be the beeper (pwm-beeper.c), the
+>>>> tach can be used to monitor the heart beat signal.
+>>>
+>>> Isn't this exactly the same as in every other SoC? PWMs can be used in
+>>> different ways?
+>>>
+>>
+>> ... and in every fan controller. Not that it really makes sense because
+>> normally the pwm controller part of such chips is tied to the fan input,
+>> to enable automatic fan control, but it is technically possible.
+>> In many cases this is also the case in SoCs, for example, in ast2500.
+>> Apparently this was redesigned in ast2600 where they two blocks are
+>> only lightly coupled (there are two pwm status bits in the fan status
+>> register, but I have no idea what those mean). If the blocks are tightly
+>> coupled, separate drivers don't really make sense.
+>>
+>> There are multiple ways to separate the pwm controller part from the
+>> fan inputs if that is really necessary. One would be to provide a
+>> sequence of address mappings, the other would be to pass the memory
+>> region from an mfd driver. It is not necessary to have N instances
+>> of the fan controller, even if the address space is not continuous.
+>>
+> 
+> Hi Guenter,
+> 
+> May I ask about the meaning of the sequence of address mappings? It appears
+> to consist of multiple tuples within the 'reg' property, indicating
+> the usage of PWM/Tach
+> registers within a single instance. After that I can use the dts like following:
+> 
+> pwm: pwm@1e610000 {
+> ...
+> reg = <0x1e610000 0x8
+> 0x1e610010 0x8
+> 0x1e610020 0x8
+> 0x1e610030 0x8
+> 0x1e610040 0x8
+> 0x1e610050 0x8
+> 0x1e610060 0x8
+> 0x1e610070 0x8
+> 0x1e610080 0x8
+> 0x1e610090 0x8
+> 0x1e6100A0 0x8
+> 0x1e6100B0 0x8
+> 0x1e6100C0 0x8
+> 0x1e6100D0 0x8
+> 0x1e6100E0 0x8
+> 0x1e6100F0 0x8>;
 
-Signed-off-by: Hariprasad Kelam <hkelam@marvell.com>
----
- .../device_drivers/ethernet/marvell/octeontx2.rst         | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-index bfd233cfac35..3523e101cb53 100644
---- a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-+++ b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-@@ -332,3 +332,11 @@ Setup HTB offload
-         # tc class add dev <interface> parent 1: classid 1:1 htb rate 10Gbit prio 1
- 
-         # tc class add dev <interface> parent 1: classid 1:2 htb rate 10Gbit prio 7
-+
-+4. Create tc classes with same priorities and different quantum::
-+
-+        # tc class add dev <interface> parent 1: classid 1:1 htb rate 10Gbit prio 2 quantum 409600
-+
-+        # tc class add dev <interface> parent 1: classid 1:2 htb rate 10Gbit prio 2 quantum 188416
-+
-+        # tc class add dev <interface> parent 1: classid 1:2 htb rate 10Gbit prio 2 quantum 32768
--- 
-2.17.1
+Uh, no... I mean, why? We keep pointing out that this should not be done
+differently than any other SoC. Open any other SoC PWM controller and
+tell me why this is different? Why this cannot be one address space?
+
+Best regards,
+Krzysztof
 
