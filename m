@@ -2,82 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26AC9C04A94
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 14:38:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49357EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 14:40:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231691AbjGQOiF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jul 2023 10:38:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
+        id S231863AbjGQOkS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jul 2023 10:40:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231987AbjGQOhv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 10:37:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA9A6E60;
-        Mon, 17 Jul 2023 07:37:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S230339AbjGQOkO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 10:40:14 -0400
+Received: from mx1.veeam.com (mx1.veeam.com [216.253.77.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ADB210DF;
+        Mon, 17 Jul 2023 07:40:11 -0700 (PDT)
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 31A0D610A7;
-        Mon, 17 Jul 2023 14:37:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A82DC433C7;
-        Mon, 17 Jul 2023 14:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689604669;
-        bh=2r0sll+s0IDy8bTc7YEbr58iDiN4CqkfNKcW4JXgjNo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q36eFDp2S55Uz3SGh9XpDRKshan0KQuW4SsGfDkGUd3gdtRMaGjBGClRcWqJedQLW
-         94YlB3S2VU7KqhljCOksy9V/PP+vbfVVDavv1H4nxsWs1Kng77cxegWwkf288YJGuD
-         BQit2h1PmgEgP/M6u3OhPMNkUmXnIIG3WLuviGJM=
-Date:   Mon, 17 Jul 2023 16:37:46 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <2023071759-visible-identify-e5d7@gregkh>
-References: <20230713223432.1501133-1-kuba@kernel.org>
- <6f1014cd-f8c5-f935-dcc7-4f5a6b85e473@kernel.org>
- <20230714101028.337fb39a@kernel.org>
- <bb8c6476-283c-3bc6-710b-5a8602ccd40e@leemhuis.info>
- <895ed8ae-e93f-b296-330e-356cda698de2@kernel.org>
+        by mx1.veeam.com (Postfix) with ESMTPS id 55C5741D18;
+        Mon, 17 Jul 2023 10:40:08 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
+        s=mx1-2022; t=1689604808;
+        bh=Pwh+6BKATXlzMY/0vs5/6BSZ4BXrZSlQNcFaAamt3eU=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
+        b=Adq03v/jALeVIjYIT0f7+HUydl+LQABSjOpd1ZRRqWEflsvaQqDTH3HXaIoeR1wdd
+         9/BWuq6Q5UJsTXskcJwbtKxqDxgUVxZ73zXINy7uEZg/bH2Erb1PKPgs3sAvIOjgL8
+         Z8ZzUWeajvsygdgqOSelPoqbyL2NTpWotf0WmkL7lspgFrgSJsRpAUe9pYAf88bNSd
+         ueYVJVkjRGjGB0yL3fhsm8LEIhJZzUYqQOhQc+NMFEj++3YOs0g5hputoTUW4+5W+G
+         m018T4ShEQn44ZF2q8ASes4XifNIkdi1vKtpe1ltZj6VDONFfCM1Cnf5Ltypp87h4p
+         DnZceBUr5c8Bg==
+Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
+ (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.16; Mon, 17 Jul
+ 2023 16:40:01 +0200
+Message-ID: <90f79cf3-86a2-02c0-1887-d3490f9848bb@veeam.com>
+Date:   Mon, 17 Jul 2023 16:39:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <895ed8ae-e93f-b296-330e-356cda698de2@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v5 02/11] block: Block Device Filtering Mechanism
+Content-Language: en-US
+To:     Yu Kuai <yukuai1@huaweicloud.com>, <axboe@kernel.dk>,
+        <hch@infradead.org>, <corbet@lwn.net>, <snitzer@kernel.org>
+CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+        <dchinner@redhat.com>, <willy@infradead.org>, <dlemoal@kernel.org>,
+        <linux@weissschuh.net>, <jack@suse.cz>, <ming.lei@redhat.com>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        Donald Buczek <buczek@molgen.mpg.de>,
+        "yukuai (C)" <yukuai3@huawei.com>
+References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
+ <20230612135228.10702-3-sergei.shtepa@veeam.com>
+ <f935840e-12a7-c37b-183c-27e2d83990ea@huaweicloud.com>
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+In-Reply-To: <f935840e-12a7-c37b-183c-27e2d83990ea@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.24.10.107]
+X-ClientProxiedBy: colmbx01.amust.local (172.31.112.31) To
+ prgmbx01.amust.local (172.24.128.102)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A292403155B677461
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 17, 2023 at 09:49:09AM +0200, Krzysztof Kozlowski wrote:
-> On 15/07/2023 12:31, Linux regression tracking (Thorsten Leemhuis) wrote:
-> > [CCing other people in the thread]
-> > How about something like this:
-> > 
-> > ```
-> > Bug reports
-> > -----------
-> > 
-> > Maintainers must ensure severe problems in their code reported to them
-> > are resolved in a timely manner: security vulnerabilities, regressions,
-> > compilation errors, data loss, kernel crashes, and bugs of similar scope.
-> > 
-> > Maintainers furthermore should respond to reports about other kind of
-> > bugs as well, if the report is of reasonable quality or indicates a
-> > problem that might be severe -- especially if they have *Supported*
-> > status of the codebase in the MAINTAINERS file.
-> 
-> I like mentioning the "Supported" part. We should be a bit more
-> understanding to all folks who are not paid to do this.
 
-And, we should not be as understanding for companies who do NOT allow
-their developers to do this on company time, so pointing out the
-difference here is good, as most of the time it goes unnoticed as to
-just how little companies allow their maintainers to do their work.
 
-thanks,
+On 7/11/23 04:02, Yu Kuai wrote:
+> bdev_disk_changed() is not handled, where delete_partition() and
+> add_partition() will be called, this means blkfilter for partiton will
+> be removed after partition rescan. Am I missing something?
 
-greg k-h
+Yes, when the bdev_disk_changed() is called, all disk block devices
+are deleted and new ones are re-created. Therefore, the information
+about the attached filters will be lost. This is equivalent to
+removing the disk and adding it back.
+
+For the blksnap module, partition rescan will mean the loss of the
+change trackers data. If a snapshot was created, then such
+a partition rescan will cause the snapshot to be corrupted.
+
+There was an idea to do filtering at the disk level,
+but I abandoned it.
