@@ -2,150 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23158EB64DD
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 00:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 621FEC3DA40
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 01:16:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbjGQAQE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jul 2023 20:16:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52220 "EHLO
+        id S230225AbjGQBQE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jul 2023 21:16:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230262AbjGQAQD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 20:16:03 -0400
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D24BE6B;
-        Sun, 16 Jul 2023 17:15:55 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 07B575C004F;
-        Sun, 16 Jul 2023 20:15:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sun, 16 Jul 2023 20:15:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1689552953; x=1689639353; bh=GC
-        Tn0BVnsIZ/kr4rEJXZN6H1iUcPCln8l5ob7SgqWEY=; b=YWYQGIi1873g1B5Cw9
-        1JUp911HGrF26/Hb8PTGhpJ/L4Ec0MFSacYN53hXWWJrOZT1F7r7Iyhv4X2lkJB0
-        Bh71CLSnz9Lw3/BeVqgaEhjQ6+80bNvwF3wgx88mn5FTgG+CsPVt23oVGWml8vgm
-        Q9PQlAOnMhudZFk97qQkf6bYbGJLF9hIHmyoHNFaS2KZiNl3dYxWZdw0l3Qi7YGN
-        O5i/M0cvA7CqAAptHpKxmbocgbNzKBHy7LD7K1pV9Ay47mSrV/U7UC/it0uozUAm
-        kixdcJO04rDHG5Gsvlp5xzMoWUbtVon/378+i/WNS1TjYGYsco9POiEx6VRYxB0n
-        7rww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1689552953; x=1689639353; bh=GCTn0BVnsIZ/k
-        r4rEJXZN6H1iUcPCln8l5ob7SgqWEY=; b=qhRnvcC7vx4j83sJ2ArYgOj05iaFY
-        pVhKEftVV2oCh9TkVw1cuzDZGfX1xg70yKBS4Lo/q2TxrShmb+WHtE7A2HpDjMYY
-        hr9rCnj460X1F7iTup8UHM4qCIuJycLLnlevPd3Rs7zEEMWbcCOG0E5QOHd3i4s0
-        065SL2mwX0HjemIIb5c1x5K04O9KuNXAVY5CGwBuzwGclbmrQGJFAIoWHgJjjjDZ
-        ZgxwdFBhhLq/x4yePp8RAuav7L67Z2F+rOf7ua79Mnpq7L6fNXIbSocFI5YBJTuc
-        aGMtK2E9C8IPkjCrOswR+IUP0UZ2qjrspUoL10UAjhSBwk0z1R+CZ1NKw==
-X-ME-Sender: <xms:OIi0ZHZzq_31U38cubHm0mcu9kUBsUyZwo2fvKt3zGx47PcHHdJp5A>
-    <xme:OIi0ZGZJehjBlYwxGIDQIu0bmiDH3z3b0WZFAuEpHjX-4hHwJpxr3zPcQzHE3cH_y
-    xV64LIejGWitSDatMU>
-X-ME-Received: <xmr:OIi0ZJ88a1-ejbOYKMtNWM_agfZT1JVCZpODsCVVHOWO7cHRrvJSED7dBlyQ3q9zmM6d9iliWxvBQMeY7EKgrDEWYUUYKSqskdkD>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrgedugdefvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghr
-    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-    eqnecuggftrfgrthhtvghrnhepvdevjeetjeejveekveetveetjeejgffgudekleektdei
-    hfehieehieethfejffegnecuffhomhgrihhnpehpohhlihhmihdrihhtpdhsphhhihhngi
-    dqughotgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-X-ME-Proxy: <xmx:OIi0ZNoVlwJQPx_v_7C-4WCy3HBF2BtWrHv5mRv8pC9L_Ve0KMo_xg>
-    <xmx:OIi0ZCruMUUuoUJDpWq6t6PjcsK-WpjC3jKWSvdTJb253Zg6O1qkDw>
-    <xmx:OIi0ZDTA2s16R7rRUyF-hIEglGBJ41G92lk0BTawTo2VeOCoVvb2dA>
-    <xmx:OYi0ZLk5kke8WAll71FIYfXA211r8_5CGMYNJu-C2pbc-skCz8xDMw>
-Feedback-ID: i7ce144cd:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Jul 2023 20:15:49 -0400 (EDT)
-Date:   Mon, 17 Jul 2023 10:15:44 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Marco Morandini <marco.morandini@polimi.it>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] HID: Add introduction about HID for non-kernel
- programmers
-Message-ID: <20230717001544.GA129954@quokka>
-References: <70fdef05-d3b8-e24b-77be-901bd5be369e@polimi.it>
- <20230627060437.GA726439@quokka>
- <dc79f50c-0539-0d7c-129a-d02d5bbee4d5@polimi.it>
- <20230710021034.GA600582@quokka>
- <2c2a03ac-cd11-7893-4b89-b88845e0f189@polimi.it>
+        with ESMTP id S230294AbjGQBQD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 21:16:03 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7948FE4B
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jul 2023 18:16:01 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-676f16e0bc4so2541547b3a.0
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jul 2023 18:16:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689556561; x=1692148561;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7oYHq1p/oXp0puIhFy9OrnpLdy2w5rBXDTDnolu96uM=;
+        b=lpLLCmgz30TGZmwSdUJe4tDFJz5Fcd74dvul6RV1b10GYjbMvH7ymiHWYqHYwl1XDU
+         AXvc9ttDTLXuhQDQ6AawB/CVruvT818GWrcl+rSI9CtyU4dUNshxytZ8qMbOnyt5hWo/
+         NR2IUmY18rsbM26/5zCo5bACAbL5EdbpNCDmCSeu04IKz2/F38pSlK90Ee6/pp07p8iM
+         2b312nFSgBZHusqLwvGAjAXkWhrRd+L6jTlWmn40iZ2VYBTHzaXHGEHE1QU2mvzpYcw2
+         PcFrQ4ACun+46PghhI95QzcyTb0HxTlK8n0ChaNriwetm1HejWpDgt5yc+9WRH0WWLCv
+         I4/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689556561; x=1692148561;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7oYHq1p/oXp0puIhFy9OrnpLdy2w5rBXDTDnolu96uM=;
+        b=CC3/etRGBt+no6n0JYsQFOC95ZgdIG00qJnEfn84ZabcbUPf8WGwHJSiWTurbqlL98
+         5eG3KAsa+Yy+lozjv4d+zrhTRrE0samIHMo5xzj9JmMg42OPCw9vgVSxTvyxf1ybo4bT
+         Wer5tFh4E2ra5zs70qlVIKfxNFuwbak83ny33eBNVI1LCb4wKqpz56VG5WcwkjT0hSYl
+         Np5b+z3f3qnWiSOdk6m+kAQwQoW3k2OxK06rK6u3qeDoJOOX2PKu9LDkR+k8BgblOIb+
+         UlcTm4pery3VtwdSmTDml/TJSeLclvFj8TiHymjO9sYxipNPbNZGXA+6Ufb3YDXkTP9z
+         IYwg==
+X-Gm-Message-State: ABy/qLa7kvAxGinJvQ1qQ2BTKooz6SczetJnXo/zPvAyru7GbpoK3DLi
+        a1MAeJiTeSTKJxNkWlGpnOCxPA==
+X-Google-Smtp-Source: APBJJlGT729jgOISi92Vcn9sb6yb8hOJik/a8kpi8tvYnR/R2ZGG42BlJaza9mC2BASDQp7lhQ53bw==
+X-Received: by 2002:a05:6a20:2451:b0:126:43f7:e271 with SMTP id t17-20020a056a20245100b0012643f7e271mr12234973pzc.39.1689556560877;
+        Sun, 16 Jul 2023 18:16:00 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:1bdd:1b8b:7a6:78d0])
+        by smtp.gmail.com with ESMTPSA id k10-20020a633d0a000000b0054fe6bae952sm11687701pga.4.2023.07.16.18.15.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jul 2023 18:16:00 -0700 (PDT)
+Date:   Sun, 16 Jul 2023 19:15:57 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Bjorn Andersson <andersson@kernel.org>
+Cc:     agross@kernel.org, konrad.dybcio@linaro.org, corbet@lwn.net,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        catalin.marinas@arm.com, will@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        linus.walleij@linaro.org, linux-gpio@vger.kernel.org,
+        srinivas.kandagatla@linaro.org,
+        Mukesh Ojha <quic_mojha@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: (subset) [PATCH v3 00/18] Add basic Minidump kernel driver
+ support
+Message-ID: <ZLSWTaMtr9UGmrDy@p14s>
+References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
+ <168945921478.1805013.7211960599963339759.b4-ty@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2c2a03ac-cd11-7893-4b89-b88845e0f189@polimi.it>
+In-Reply-To: <168945921478.1805013.7211960599963339759.b4-ty@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 04:36:18PM +0200, Marco Morandini wrote:
+On Sat, Jul 15, 2023 at 03:13:34PM -0700, Bjorn Andersson wrote:
 > 
-> The current version is with a unique code block, and renders like this
-> 
-> https://home.aero.polimi.it/morandini/Downloads/Screenshot_20230712_185907.png
-> 
-> With a unique code block but a newline in between the report and the
-> explanation I get
-> 
-> https://home.aero.polimi.it/morandini/Downloads/Screenshot_20230712_190335.png
-> 
-> that I find somewhat more dispersive.
-> 
-> If I interpose multiple code blocks and explanations (as text) unfortunately
-> spynx add a colon at the end of every paragraph, as if the text was the explanation of the
-> code block below, and not above:
-> 
-> https://home.aero.polimi.it/morandini/Downloads/Screenshot_20230712_190656.png
-> 
-> I've not understood how to get rid of that colon, and I would prefer to leave the
-> explanation _after_ the corresponding code block, and not move it before.
-
-https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#literal-blocks
-
-This suggests that if you write it as "what follows is a button ::"
-(i.e. space before ::) that should render it without a colon.
-
-[...]
-
-> >> +This Report Descriptor tells us that the mouse input will be
-> >> +transmitted using four bytes: the first one for the buttons (three
-> >> +bits used, five for padding), the last three for the mouse X, Y and
-> >> +wheel changes, respectively.
+> On Wed, 03 May 2023 22:32:14 +0530, Mukesh Ojha wrote:
+> > Minidump is a best effort mechanism to collect useful and predefined data
+> > for first level of debugging on end user devices running on Qualcomm SoCs.
+> > It is built on the premise that System on Chip (SoC) or subsystem part of
+> > SoC crashes, due to a range of hardware and software bugs. Hence, the
+> > ability to collect accurate data is only a best-effort. The data collected
+> > could be invalid or corrupted, data collection itself could fail, and so on.
 > > 
-> > I wonder if here we should mention something like:
-> > "This particular device only has one HID report so it may (and does)
-> > omit the Report ID. Devices that can send multiple different HID reports
-> > must send the Report ID as the first byte of each report."
+> > [...]
 > 
-> The problem is that, with the current document structure,
-> Report IDs are introduced later, in section
-> "Collections, Report IDs and Evdev events".
-> There we have the sentence "A device with only one supporteHID report 
-> (like the mouse example above) may omit the report ID."
+> Applied, thanks!
 > 
-> Before that section the reader does not know what
-> a Report ID is.
-> 
-> Thus, I could add the sentence you are suggesting, but
-> changing it into something like
-> 
-> This particular device only has one HID report so it may (and does)
-> omit the Report ID (see Section "Collections, Report IDs and Evdev events"). 
-> Devices that can send multiple different HID reports
-> must send the Report ID as the first byte of each report.
-> 
-> I don't know whether we are clarifying of confusing the matter,
-> and I propose to leave things as they are now.
+> [01/18] remoteproc: qcom: Expand MD_* as MINIDUMP_*
+>         commit: 318da1371246fdc1806011a27138175cfb078687
+>
 
-sure, that's fine
+Krzysztof asked for modifications on this patch.
 
-Cheers,
-  Peter
-
+> Best regards,
+> -- 
+> Bjorn Andersson <andersson@kernel.org>
