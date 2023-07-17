@@ -2,143 +2,179 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08B2AEB64DD
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 01:57:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA097EB64DD
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 02:01:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230059AbjGQB5q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jul 2023 21:57:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43888 "EHLO
+        id S229804AbjGQCBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jul 2023 22:01:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229697AbjGQB5p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 21:57:45 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C34DE52;
-        Sun, 16 Jul 2023 18:57:36 -0700 (PDT)
-X-UUID: 496abba0244511eeb20a276fd37b9834-20230717
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=iWG5WrewmZyGOqX9g3fBInai637V8c0IB0YAxIq934s=;
-        b=erb0pqvQU+77Z4XObw+hivyQ+0zdsAr1thX+qnIhHLllmdUuYUWQwIN5eNfMcJYYmVXNudGBrDHyZtR1wf8NfP1wtPNZ7PQbv/PUQeIapz+UetzG7QI22VfF1OiE8L7J+khBQoLo/cBvzSpzVGMTkE3b/CTpJuizmLqEOhGYqWM=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28,REQID:77017d85-47d1-496b-a3d9-dd56ef0fafbd,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:28,RULE:Release_Ham,ACTIO
-        N:release,TS:79
-X-CID-INFO: VERSION:1.1.28,REQID:77017d85-47d1-496b-a3d9-dd56ef0fafbd,IP:0,URL
-        :0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:28,RULE:Spam_GS981B3D,ACTIO
-        N:quarantine,TS:79
-X-CID-META: VersionHash:176cd25,CLOUDID:6c33c64c-06c1-468b-847d-5b62d44dbb9b,B
-        ulkID:2307162316286AMI74JA,BulkQuantity:18,Recheck:0,SF:19|48|29|28|17|102
-        ,TC:nil,Content:0|-5,EDM:-3,IP:nil,URL:0,File:nil,Bulk:40|20,QS:nil,BEC:ni
-        l,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
-X-CID-BVR: 1,FCT|NGT
-X-CID-BAS: 1,FCT|NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_OBB,TF_CID_SPAM_FCD,
-        TF_CID_SPAM_SNR,TF_CID_SPAM_SDM,TF_CID_SPAM_ASC
-X-UUID: 496abba0244511eeb20a276fd37b9834-20230717
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
-        (envelope-from <mark-pk.tsai@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1800077516; Mon, 17 Jul 2023 09:57:29 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 17 Jul 2023 09:57:28 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 17 Jul 2023 09:57:28 +0800
-From:   Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-To:     <snitzer@redhat.com>
-CC:     <agk@redhat.com>, <corbet@lwn.net>, <dm-devel@redhat.com>,
-        <gregkh@linuxfoundation.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <mark-pk.tsai@mediatek.com>,
-        <matthias.bgg@gmail.com>, <peter@korsgaard.com>,
-        <snitzer@kernel.org>, <stable@vger.kernel.org>,
-        <yj.chiang@mediatek.com>
-Subject: Re: [PATCH 5.15] dm init: add dm-mod.waitfor to wait for asynchronously probed block devices
-Date:   Mon, 17 Jul 2023 09:57:28 +0800
-Message-ID: <20230717015728.12641-1-mark-pk.tsai@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <CAH6w=aztzhm3Sa-afN2Xk-7mp1BVtTKNXJ=JyXqJvm3wtEnd3Q@mail.gmail.com>
-References: <CAH6w=aztzhm3Sa-afN2Xk-7mp1BVtTKNXJ=JyXqJvm3wtEnd3Q@mail.gmail.com>
+        with ESMTP id S229579AbjGQCBw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 22:01:52 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E703A19F;
+        Sun, 16 Jul 2023 19:01:50 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36H1Q8gU003025;
+        Mon, 17 Jul 2023 02:01:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=DfJz2VDf1tHd5phO3+tWCj9//S5no9rj8sSeJFbAzzg=;
+ b=ZkQMnvM4lzWdzTG7UCvj2sRU+W85f7UW7H7kuMEN+OkKAOEyMAmMoocAfNF44Y34wTwB
+ zkLFxxGL/qVbbs3ab3SApMPbGPLSSYxTQLrN3Ea8T10f6rB9OddnR54pQYLE6zG+pb4R
+ munQWW0ynXHFSL/g3Qq9zyBRKtJZpIskbndD4+7eKCC4XTqE96EpjtEUGUL67WgttXgC
+ FrB7Dffbm156LNIAigafdfSAOpd6qlWUUhB4V71pqlwMHrS5KSNLHaNRWY0+LWRkr1qI
+ l3pFrR1nKfUSme1TANsS14dWAB9eh/W1ysSqBQHNkeT6KgI8BeRpPl+7k+67CsIjK/Iz aA== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3run0ea8p0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 17 Jul 2023 02:01:34 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36H21YRB012614
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 17 Jul 2023 02:01:34 GMT
+Received: from [10.239.133.73] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sun, 16 Jul
+ 2023 19:01:31 -0700
+Message-ID: <836603c6-16ac-5829-3d16-60aef66dd31b@quicinc.com>
+Date:   Mon, 17 Jul 2023 10:01:28 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
+To:     Will Deacon <will@kernel.org>
+CC:     Mark Rutland <mark.rutland@arm.com>, <corbet@lwn.net>,
+        <catalin.marinas@arm.com>, <maz@kernel.org>,
+        <quic_pkondeti@quicinc.com>, <quic_kaushalk@quicinc.com>,
+        <quic_satyap@quicinc.com>, <quic_shashim@quicinc.com>,
+        <quic_songxue@quicinc.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+References: <20230711102510.GA1809@willie-the-truck>
+ <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
+ <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
+ <604ac52d-4336-744f-2ab8-44d1c93fbaa8@quicinc.com>
+ <ZK_d86ApI1FCHhTL@FVFF77S0Q05N.cambridge.arm.com>
+ <e02b9969-a3ca-a80d-1d32-25d2bf4c72b6@quicinc.com>
+ <ZLBLwG2LJ4gZLfbh@FVFF77S0Q05N.cambridge.arm.com>
+ <6d1a6691-f858-71bf-97fe-97e13fcb93b6@quicinc.com>
+ <20230714082348.GA5240@willie-the-truck>
+ <b76c7a9b-8ed6-97da-bdfa-47cc7db51ff5@quicinc.com>
+ <20230714120946.GA5597@willie-the-truck>
+From:   "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
+In-Reply-To: <20230714120946.GA5597@willie-the-truck>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: m0A_1Z2-64VBmPGbNQLuebqGPLHf4NBN
+X-Proofpoint-ORIG-GUID: m0A_1Z2-64VBmPGbNQLuebqGPLHf4NBN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-17_01,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 clxscore=1015 mlxscore=0 spamscore=0 lowpriorityscore=0
+ suspectscore=0 phishscore=0 impostorscore=0 bulkscore=0 mlxlogscore=819
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307170017
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Sun, Jul 16, 2023, 11:16 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+On 7/14/2023 8:09 PM, Will Deacon wrote:
+> On Fri, Jul 14, 2023 at 06:12:02PM +0800, Aiqun(Maria) Yu wrote:
+>> On 7/14/2023 4:23 PM, Will Deacon wrote:
+>>> On Fri, Jul 14, 2023 at 09:56:27AM +0800, Aiqun(Maria) Yu wrote:
+>>>> Try to a detailed summarise of the whole discussions, anyone can ignore some
+>>>> part if you are already know.
+>>>>
+>>>> * Part 1: Solution for this issue.
+>>>> While we still want to have options to let third party and end users can
+>>>> have options:
+>>>>     1.Disable lse atomic cap.
+>>>>     2.*Disallow* far atomic by "CPUECTLR_EL1.atom force near atomic" and
+>>>> non-cachable mappling for lse atomic only.
+>>>
+>>> Sorry, but this still isn't making sense to me. Which CPUs do you have on
+>>> this SoC?
+>> cpu is cortex A78/A55.
+>>>
+>>> My understanding of the CPUs from ARM is that LSE atomics are not supposed
+>>> to be sent to blocks that don't support them. That doesn't mean you have to
+>>> do everything near, however -- you can still execute them at e.g. L2.
+>>>
+>>> For example, the Cortex-X1 TRM states:
+>>>
+>>>     | Atomic instructions to cacheable memory can be performed as either
+>>>     | near atomics or far atomics, depending on where the cache line
+>>>     | containing the data resides.
+>>>     |
+>>>     | When an instruction hits in the L1 data cache in a unique state, then
+>>>     | it is performed as a near atomic in the L1 memory system. If the atomic
+>>>     | operation misses in the L1 cache, or the line is shared with another
+>>>     | core, then the atomic is sent as a far atomic on the core CHI interface.
+>> lse atomic is optional to CHI-B for example, some system may have cpu
+>> feature register have lse atomic feature, but the far atomic is not accpeted
+>> by CHI side. It will be simiar issue that we do.
 > 
-> > On Thu, Jul 13, 2023 at 01:58:37PM +0800, Mark-PK Tsai wrote:
-> > > From: Peter Korsgaard <peter@korsgaard.com>
-> > > 
-> > > Just calling wait_for_device_probe() is not enough to ensure that
-> > > asynchronously probed block devices are available (E.G. mmc, usb), so
-> > > add a "dm-mod.waitfor=<device1>[,..,<deviceN>]" parameter to get
-> > > dm-init to explicitly wait for specific block devices before
-> > > initializing the tables with logic similar to the rootwait logic that
-> > > was introduced with commit  cc1ed7542c8c ("init: wait for
-> > > asynchronously scanned block devices").
-> > > 
-> > > E.G. with dm-verity on mmc using:
-> > > dm-mod.waitfor="PARTLABEL=hash-a,PARTLABEL=root-a"
-> > > 
-> > > [    0.671671] device-mapper: init: waiting for all devices to be 
-> > available before creating mapped devices
-> > > [    0.671679] device-mapper: init: waiting for device PARTLABEL=hash-a 
-> > ...
-> > > [    0.710695] mmc0: new HS200 MMC card at address 0001
-> > > [    0.711158] mmcblk0: mmc0:0001 004GA0 3.69 GiB
-> > > [    0.715954] mmcblk0boot0: mmc0:0001 004GA0 partition 1 2.00 MiB
-> > > [    0.722085] mmcblk0boot1: mmc0:0001 004GA0 partition 2 2.00 MiB
-> > > [    0.728093] mmcblk0rpmb: mmc0:0001 004GA0 partition 3 512 KiB, 
-> > chardev (249:0)
-> > > [    0.738274]  mmcblk0: p1 p2 p3 p4 p5 p6 p7
-> > > [    0.751282] device-mapper: init: waiting for device PARTLABEL=root-a 
-> > ...
-> > > [    0.751306] device-mapper: init: all devices available
-> > > [    0.751683] device-mapper: verity: sha256 using implementation 
-> > "sha256-generic"
-> > > [    0.759344] device-mapper: ioctl: dm-0 (vroot) is ready
-> > > [    0.766540] VFS: Mounted root (squashfs filesystem) readonly on 
-> > device 254:0.
-> > > 
-> > > Signed-off-by: Peter Korsgaard <peter@korsgaard.com>
-> > > Signed-off-by: Mike Snitzer <snitzer@kernel.org>
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-> > > ---
-> > >  .../admin-guide/device-mapper/dm-init.rst     |  8 +++++++
-> > >  drivers/md/dm-init.c                          | 22 ++++++++++++++++++-
-> > >  2 files changed, 29 insertions(+), 1 deletion(-)
-> >
-> > What is the git commit id of this change in Linus's tree?
-> >
-> > thanks,
-> >
-> > greg k-h
-> >
-> >
-> 
-> Hey Greg,
-> 
-> This change shouldn't be backported to stable@. It is a feature, if
-> Mark-PK feels they need it older kernels they need to carry the change
-> in their own tree. Or at a minimum they need to explain why this
-> change is warranted in stable@.
-
-Thanks for your comment.
-The reason why we think this should be backported to stable kernel is
-that it actually fix the potential race condition when make block
-device probe async in stable kernel.
-And we'd like to fix this upstream rather than just take it in
-our custom tree.
+> Again, that should not be a problem. Looking at the A55 TRM, it explicitly
+> says that atomics will be done in the L3 if the interconnect does not
+> support them. The A78 TRM doesn't talk about this at all, so I defer to
+We will check internally to see why it is not happened in current system 
+which have issue.
+> Mark (or anybody else from Arm) on how that works, but one might assume
+> that it does something similar to the other Arm cores.
+I checked other Arm cores like A720 TRM. It seems the similar statement:
+If the operation hits anywhere inside the cluster, or if an interconnect 
+does not support atomics, then the L3 memory system performs the atomic 
+operation. If the line is not already there, it allocates the line into 
+the L3 cache.
 
 > 
-> But to answer your original question the upstream commit is:
+>>>> * Part 2: Why we need the solution
+>>>> 1. There is also some case far atomic is better performance than near
+>>>> atomic. end user may still can still try to do allow far atomic.
+>>>> while this driver is also use kerenl LSE ATOMIC macro, so it can be running
+>>>> on cpu don't support lse atomic and cpu support lse atomic already.
+>>>> while current system, cpu have feature register said lse atomic is
+>>>> supported, but memory controller is not supported is currently not yet
+>>>> supported.
+>>>
+>>> I think you're forgetting the fact that these instructions can be executed
+>>> by userspace, so the kernel option is completely bogus. If you're saying
+>>> that cacheable atomics can cause external aborts, then I can write an app
+>>> which will crash your device even if you've set this command line option.
+>>>
+>> For apps like userspace also needed to check the system capbility as far as
 > 
-> 035641b01e72 dm init: add dm-mod.waitfor to wait for asynchronously probed block devices
+> That's not something you can enforce, so a malicious application can easily
+> crash your system.
+we provide the capability for sotfware to do the runtime compatible 
+check. we surely cannot enforce that. If the software is align the rule, 
+it can also funcational fine on the "intermediate support system".
+
+By the way:
+ALso the A720 TRM doc mentioned the uncachable memory case:
+The Cortex-A720 core supports atomics to Device or Non-cacheable memory, 
+however this relies on the interconnect also supporting atomics. If such 
+an atomic instruction is executed when the interconnect does not support 
+them, then it results in an abort.
+
+So it is not a single one company's scenario as well, shall we have an 
+option to handle this scenario?
+
+Why the non-cacheable memory is forbiden? Does it only due to limitation 
+of hardware?
+
 > 
-> Thanks,
-> Mike
+> Will
+
+-- 
+Thx and BRs,
+Aiqun(Maria) Yu
+
