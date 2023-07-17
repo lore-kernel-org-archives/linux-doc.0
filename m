@@ -2,296 +2,240 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E6AC001DC
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 17:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C489EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 18:17:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230235AbjGQRyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jul 2023 13:54:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59442 "EHLO
+        id S231688AbjGQSRX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jul 2023 14:17:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230138AbjGQRyV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 13:54:21 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F22F01B5;
-        Mon, 17 Jul 2023 10:54:19 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1b8b318c5cfso38117835ad.1;
-        Mon, 17 Jul 2023 10:54:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689616459; x=1692208459;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I445E5TLpV47uGDgqnX/7Akf3w5dItM4bZI8w/daTBw=;
-        b=QbUEJ+vwpjLU5xEkZ805FeCObW9PvhIXQDdM0wRhS2L/OYD50uQ2wGpmQWj5Jbr+J2
-         EE5M8awy8J+ubMzYB0qAsB6yqxvOfl2Iwv3r7/zORo9Nngn07ZVbHlbxnFZf6UTonxrn
-         V1D1kb/NmQa8ng81rlS/Rb/VAyTr/uzenA5wB0f6K8FE1NO9yek8BuCbMUm7m1+cJXRp
-         Q8+11WTMY1ElutmMzPd3W5rjAw384xgJUnsal8uOuOmuU0EyseZU1C2w5tfEpLf6MZoy
-         0qJ2Sh7+UGpqU4i44MuKOBznasKnJbEZvjWeh8NWu5S/Xkv3EXjuNvZYcyyfGcNrkl2j
-         B3zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689616459; x=1692208459;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I445E5TLpV47uGDgqnX/7Akf3w5dItM4bZI8w/daTBw=;
-        b=k2ZH1OJI1LbztCque2MHaGJieLn7Nsai3DtG46qzmmTuZ72gsmf16WMeCKtzQjiI5o
-         F0GM/PiIkjzSc221coh7CKSTWfasNrMA/b96MfLKltS1rNoJCQPvYqhyhyhVwW8+osBV
-         cwiS2Xu0oJuGThoYB+6bw72kEF7jrKOHPIT/RE9T4EtqOJS5iYY+DjbwoDLziAzNdQUy
-         gJpL4/lcJjRiZcFfUNl9N9QrOYmKlvIFCGnpaoAHn8cII2dhk1u4IBIN2JgpkFa4NK+K
-         W/jrkPFEuvl7bpfSXvDd67NbQ3D2RIgGcEW9QnTYPCbLFONhMxMEhIJJuJQCCOhmoAuF
-         0t4g==
-X-Gm-Message-State: ABy/qLYA0pePTIZPPPGgVk/xJXK6NnZ5ez0hVQqVj2XHQ/l7tcC5ktuy
-        U+U34E5uO/kIl1L4O9w3/J+rHCO8Vnk=
-X-Google-Smtp-Source: APBJJlEKrDJRA7HUbME/2NAWjPOrN2n5/obCs7Qfv6kjwAag+NE0pVIDGrN1ytmicFNIzpwpe+rOXQ==
-X-Received: by 2002:a17:903:2351:b0:1b8:a31b:ac85 with SMTP id c17-20020a170903235100b001b8a31bac85mr13735850plh.41.1689616459292;
-        Mon, 17 Jul 2023 10:54:19 -0700 (PDT)
-Received: from smtpclient.apple ([2402:d0c0:2:a2a::1])
-        by smtp.gmail.com with ESMTPSA id u6-20020a170902e80600b001b9e9765d8fsm149866plg.261.2023.07.17.10.54.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jul 2023 10:54:18 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH v2] docs/RCU: Bring back smp_wmb()
-From:   Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <02a84e4b-a322-4c43-ad9d-1832ce277c2f@paulmck-laptop>
-Date:   Tue, 18 Jul 2023 01:53:10 +0800
-Cc:     Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <636D1ED4-C90D-47CA-A46A-28E40E777966@gmail.com>
-References: <20230711150906.466434-1-mmpgouride@gmail.com>
- <9eaf506f-cc14-4da6-9efc-057c0c3e56b0@paulmck-laptop>
- <9D42CEB7-FE22-4BC6-9E5C-8131579C129D@gmail.com>
- <eabec10a-9283-42eb-85c7-e447e2368c91@paulmck-laptop>
- <6E813D30-2791-4DE8-A70C-E1F91011631D@gmail.com>
- <02a84e4b-a322-4c43-ad9d-1832ce277c2f@paulmck-laptop>
-To:     paulmck@kernel.org
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
+        with ESMTP id S230236AbjGQSRW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 14:17:22 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on20602.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaa::602])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA9861989;
+        Mon, 17 Jul 2023 11:17:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TMyy7kH5Nh6gIxSHCn7yUwWiaVLtM64zAvDXUljYqXnz9blzO+7Cr7IsP7CB4uApOm51qAxAo3yxAP687JKj8xlgFbf/TZLf1Xz5IlUeo924mzov7G1MS4yayNQkvd1PKA/0zoILh4e8KPoqy9AZNyi850374z0VmcerhnvXRM9H5gYMYx4Wayl0a6mU0jm2ZT9wePtZlsFnjf6Fy9C2UvxITkAW2j7fDU00rhHbjYvb/GPGpsupkMJvs7/423oxKWLzKoGVObgMbErLl37QUJwX8xVkkl08NaomMGEFVOWAYXeAOj+mGqdMqihHgyFEbh1fVRxACjx89GJHKNmJmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VwM1kV6kX55DK2d4VKvCRbLKJlk/ustRBCwsMpIqzsE=;
+ b=W0II6/oAobZx4yfbP1KZw0JXHmO08ig4uMmAZP+80V91/xa5uBukFaheEcvhzCof39FrC85kHL6xjjRIeuWvufifI7UK2X29nmofAZ+wviX2P7C+WGwCKJTIEGd9eBMplIPfbHlOHz3USQ9u3FMxKxggzt1ccPtlR9gytsYW0Kt98SYJeOlQ/CP2W3ablvc8CumBgtIfSzq72zvfpUKgnrq1FjSvwEJGwGaHPyU+7TT2/copMXU4DMUP+Gp36Q99Oymm+o9xAVFLIfultUc6reqFC6+CjieTwV0FGwb6bMJMyhPSteEtLQXW61vNjzD2oKu1SnvORRTH9BP9boYiKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VwM1kV6kX55DK2d4VKvCRbLKJlk/ustRBCwsMpIqzsE=;
+ b=36Jw7aYvvoWvqVLB2LqpGMUH2ofsniKiXM/UwkaQiqAJkRvDrHeN5+MLFVzcQJ+7wsdBEcRg3KfJh8uk7iPqXIAd7s3T+nKoc0iUkkqM9xeUH7hBy5LpXqjj53uJtHAuXtq3hDY2sYeLCAsX+yDPktPSqglDcpm+BpSReO4/x2Y=
+Received: from MW4PR03CA0351.namprd03.prod.outlook.com (2603:10b6:303:dc::26)
+ by LV2PR12MB5846.namprd12.prod.outlook.com (2603:10b6:408:175::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.31; Mon, 17 Jul
+ 2023 18:16:11 +0000
+Received: from CO1NAM11FT116.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:dc:cafe::bc) by MW4PR03CA0351.outlook.office365.com
+ (2603:10b6:303:dc::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33 via Frontend
+ Transport; Mon, 17 Jul 2023 18:16:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT116.mail.protection.outlook.com (10.13.174.243) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6588.33 via Frontend Transport; Mon, 17 Jul 2023 18:16:10 +0000
+Received: from onyx-7400host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 17 Jul
+ 2023 13:16:09 -0500
+From:   Avadhut Naik <avadhut.naik@amd.com>
+To:     <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <carlos.bilbao@amd.com>,
+        <linux-kernel@vger.kernel.org>, <avadnaik@amd.com>
+Subject: [PATCH] docs/sp_SP: Add translation of process/contribution-maturity-model
+Date:   Mon, 17 Jul 2023 18:16:02 +0000
+Message-ID: <20230717181602.3468421-1-avadhut.naik@amd.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT116:EE_|LV2PR12MB5846:EE_
+X-MS-Office365-Filtering-Correlation-Id: 39df6f29-1332-4374-ddd3-08db86f1e5fa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Y9qh2UmivixbctW1rG33DjPn1R4sNXsmcbtI9xpGTIaqHQ9UM3qclU/jWtVr2XHj/9qYNjoRlWlMeZqIzXkg8+bwdMfwX1Uu8Td0PZ68CkohHUpVgSdZgujql0RZC2aNn60cJ1POTft9wfN6HKTSyAhmGddWXzfMuoKYoy8FMt5YHkSi4r4BOEfRu+z7KpS5FlBaEFXi4kmYfTwzEF/KuINITyIxZjNuyQL5jxwCWfh/Gwh70Ln3H0HLz8zGuj7CLAwxYfhRLHERfK/8tJKBEGQmHSQnH7nt6g73EkbQ55USn5CmUwCspHUlKUQv5vzXYDurU/UsdOMAH/2+cE8e5Fw4aorrnjzxyo8yJtUGrIx4l6kK9QGikd66kR9i8vZKWJ4CkrzVX8iKiGeEn1T6NljK/QGpGDwpwjGGvVLBEz+2LuGPFmJM+/zE3uAGFuY6d3tpbNdyqR416eJ/8iCh9Ch4Rzm1tYVsB+H7CtQF2x7UHkAM+O8Rcwz1SIenASyyZDVBX69iROkmYAJzIOGVNCZ+1aufMwrY7vrHtGv5dmHWsbvoxSw3zr/QlGX82or3MeOehX4b8bYLC+NS9H6/VjW5ruaJ7Shv039xX8JqZAPuNisbZQWzCPdG9lAp8l4naNNhwC6rAo8+ZbUxFgJPfeB2EmmagQUAhxWfqechVxjydvqQ0gJB35+4hLB6P8Ki0QO2FqKvX/+vbNGqfVL6SNdwcD1tKkHYVLoSn5p6ikfRQQc5z+KtzJBN4ALXF68xtY3lhOhISfW7yR7/WP8tMw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:es;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(396003)(136003)(39860400002)(451199021)(82310400008)(46966006)(40470700004)(36840700001)(2616005)(6666004)(478600001)(36860700001)(7696005)(26005)(54906003)(36756003)(40460700003)(426003)(40480700001)(86362001)(2906002)(82740400003)(81166007)(70206006)(70586007)(336012)(186003)(356005)(47076005)(1076003)(16526019)(41300700001)(8936002)(6916009)(316002)(5660300002)(44832011)(4326008)(8676002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 18:16:10.5158
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39df6f29-1332-4374-ddd3-08db86f1e5fa
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT116.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5846
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Translate Documentation/process/contribution-maturity-model.rst into
+Spanish
 
-> 2023=E5=B9=B47=E6=9C=8818=E6=97=A5 00:02=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Sun, Jul 16, 2023 at 07:21:28PM +0800, Alan Huang wrote:
->>> 2023=E5=B9=B47=E6=9C=8816=E6=97=A5 01:19=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->>> On Sat, Jul 15, 2023 at 08:50:23AM +0800, Alan Huang wrote:
->>>>> 2023=E5=B9=B47=E6=9C=8815=E6=97=A5 07:23=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->>>>> On Tue, Jul 11, 2023 at 03:09:06PM +0000, Alan Huang wrote:
->>>>>> The objects are allocated with SLAB_TYPESAFE_BY_RCU, and there is
->>>>>> n->next =3D first within hlist_add_head_rcu() before =
-rcu_assign_pointer(),
->>>>>> which modifies obj->obj_node.next. There may be readers holding =
-the
->>>>>> reference of obj in lockless_lookup, and when updater modifies =
-->next,
->>>>>> readers can see the change immediately because =
-ofSLAB_TYPESAFE_BY_RCU.
->>>>>>=20
->>>>>> There are two memory ordering required in the insertion =
-algorithm,
->>>>>> we need to make sure obj->key is updated before =
-obj->obj_node.next
->>>>>> and obj->refcnt, atomic_set_release is not enough to provide the
->>>>>> required memory barrier.
->>>>>>=20
->>>>>> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
->>>>>=20
->>>>> This is an interesting one!!!
->>>>>=20
->>>>> Now I am having a hard time believing that the smp_rmb() suffices.
->>>>>=20
->>>>>> ---
->>>>>> Changelog:
->>>>>> v1 -> v2: Use _ONCE to protect obj->key.
->>>>>>=20
->>>>>> Documentation/RCU/rculist_nulls.rst | 21 +++++++++++++--------
->>>>>> 1 file changed, 13 insertions(+), 8 deletions(-)
->>>>>>=20
->>>>>> diff --git a/Documentation/RCU/rculist_nulls.rst =
-b/Documentation/RCU/rculist_nulls.rst
->>>>>> index 21e40fcc08de..2a9f5a63d334 100644
->>>>>> --- a/Documentation/RCU/rculist_nulls.rst
->>>>>> +++ b/Documentation/RCU/rculist_nulls.rst
->>>>>> @@ -47,7 +47,7 @@ objects, which is having below type.
->>>>>>   * reuse these object before the RCU grace period, we
->>>>>>   * must check key after getting the reference on object
->>>>>>   */
->>>>>> -    if (obj->key !=3D key) { // not the object we expected
->>>>>> +    if (READ_ONCE(obj->key) !=3D key) { // not the object we =
-expected
->>>>>>     put_ref(obj);
->>>>>>     rcu_read_unlock();
->>>>>>     goto begin;
->>>>>> @@ -64,10 +64,10 @@ but a version with an additional memory =
-barrier (smp_rmb())
->>>>>> {
->>>>>>   struct hlist_node *node, *next;
->>>>>>   for (pos =3D rcu_dereference((head)->first);
->>>>>> -         pos && ({ next =3D pos->next; smp_rmb(); =
-prefetch(next); 1; }) &&
->>>>>> +         pos && ({ next =3D READ_ONCE(pos->next); smp_rmb(); =
-prefetch(next); 1; }) &&
->>>>>=20
->>>>> Suppose that lockless_lookup() is delayed just before fetching =
-pos->next,
->>>>> and that there were 17 more node to search in the list.
->>>>>=20
->>>>> Then consider the following sequence of events:
->>>>>=20
->>>>> o The updater deletes this same node and kmem_cache_free()s it.
->>>>>=20
->>>>> o Another updater kmem_cache_alloc()s that same memory and
->>>>> inserts it into an empty hash chain with a different key.
->>>>>=20
->>>>> o Then lockless_lookup() fetches pos->next and sees a NULL =
-pointer,
->>>>> thus failing to search the remaining 17 nodes in the list,
->>>>> one of which had the desired key value.
->>>>>=20
->>>>> o The lookup algorithm resumes and sees the NULL return from
->>>>> lockless_lookup(), and ends up with a NULL obj.
->>>>>=20
->>>>> And this happens even with the strongest possible ordering
->>>>> everywhere.
->>>>>=20
->>>>> OK, yes, it is late on Friday.  So what am I missing here?
->>>>=20
->>>> You missed nothing!
->>>>=20
->>>> The lockless_lockup should not be a function, but a macro like =
-hlist_for_each_entry_rcu.
->>>=20
->>> How would you fix this using a macro?
->>=20
->> With additional detection code. A moved object (in another chain) =
-will have a different slot.
->> (I have sent patch v3. )
->>=20
->>>=20
->>>>> Independent of that, does hlist_add_head_rcu() need to replace its
->>>>> "n->next =3D first" with "WRITE_ONCE(n->next, first)"?
->>>>=20
->>>> I think users who want to use hlist with SLAB_TYPESAFE_BY_RCU =
-should use rculist_nulls?
->>>=20
->>> I believe that you are correct.  Would you like to propose a patch, =
-or
->>> would you rather I put something together?  My current thought is to
->>=20
->> Feel free to add.=20
->>=20
->> One thing I think would be useful is to tell readers where the =
-=E2=80=98next' is.=20
->> The document mentions =E2=80=99next=E2=80=99 many times, but it=E2=80=99=
-s hard for me, as a reader, to realize that
->> the =E2=80=98next' is within hlist_add_head_rcu(). (I have no idea =
-where to put the hint.)
->>=20
->>=20
->>> keep the examples, but to show why the one with smp_rmb() is broken.
->>=20
->> I think the example needs to be fixed. :)
->=20
-> Even better!  I will take a look, but in the meantime, would you be
-> interested in updating the wording to explain how the back-pointer =
-works?
+Signed-off-by: Avadhut Naik <avadhut.naik@amd.com>
+Reviewed-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
+ .../process/contribution-maturity-model.rst   | 120 ++++++++++++++++++
+ .../translations/sp_SP/process/index.rst      |   1 +
+ 2 files changed, 121 insertions(+)
+ create mode 100644 Documentation/translations/sp_SP/process/contribution-maturity-model.rst
 
-Which document needs to be updated?=20
-And is there anything that I can refer to? It=E2=80=99s the first time I =
-have ever heard about it.
-
->=20
-> (Looks similar to the is_a_nulls() pointer, but in each element =
-instead of
-> just at the end.  One advantage is the ability to detect a move =
-mid-list,
-> though that is not a big deal in well-tuned hash tables, which tend to
-> have short hash chains.  The need to move elements to the front of the
-> destination list remains, though in both cases only if it has been =
-less
-> than a grace period since the last move.)
-
-Looks like that I need to learn it first. :)
-
->=20
-> Thanx, Paul
->=20
->>>> I didn=E2=80=99t find a case using hlist with SLAB_TYPESAFE_BY_RCU, =
-but I did find a case using list
->>>> with SLAB_TYPESAFE_BY_RCU in drivers/gpu/drm/i915, the driver also =
-doesn=E2=80=99t use _ONCE
->>>> on the fields of the objects allocated with SLAB_TYPESAFE_BY_RCU.
->>>=20
->>> Feel free to send them a patch, though I cannot speak for their
->>> reception of it.
->>>=20
->>> Thanx, Paul
->>>=20
->>>>> Thanx, Paul
->>>>>=20
->>>>>>        ({ obj =3D hlist_entry(pos, typeof(*obj), obj_node); 1; =
-});
->>>>>>        pos =3D rcu_dereference(next))
->>>>>> -      if (obj->key =3D=3D key)
->>>>>> +      if (READ_ONCE(obj->key) =3D=3D key)
->>>>>>       return obj;
->>>>>>   return NULL;
->>>>>> }
->>>>>> @@ -111,8 +111,13 @@ detect the fact that it missed following =
-items in original chain.
->>>>>>  */
->>>>>> obj =3D kmem_cache_alloc(...);
->>>>>> lock_chain(); // typically a spin_lock()
->>>>>> -  obj->key =3D key;
->>>>>> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
->>>>>> +  WRITE_ONCE(obj->key, key);
->>>>>> +  /*
->>>>>> +   * We need to make sure obj->key is updated before =
-obj->obj_node.next
->>>>>> +   * and obj->refcnt.
->>>>>> +   */
->>>>>> +  smp_wmb();
->>>>>> +  atomic_set(&obj->refcnt, 1);
->>>>>> hlist_add_head_rcu(&obj->obj_node, list);
->>>>>> unlock_chain(); // typically a spin_unlock()
->>>>>>=20
->>>>>> @@ -165,12 +170,12 @@ Note that using hlist_nulls means the type =
-of 'obj_node' field of
->>>>>> begin:
->>>>>> rcu_read_lock();
->>>>>> hlist_nulls_for_each_entry_rcu(obj, node, head, obj_node) {
->>>>>> -    if (obj->key =3D=3D key) {
->>>>>> +    if (READ_ONCE(obj->key) =3D=3D key) {
->>>>>>     if (!try_get_ref(obj)) { // might fail for free objects
->>>>>> rcu_read_unlock();
->>>>>>       goto begin;
->>>>>>     }
->>>>>> -      if (obj->key !=3D key) { // not the object we expected
->>>>>> +      if (READ_ONCE(obj->key) !=3D key) { // not the object we =
-expected
->>>>>>       put_ref(obj);
->>>>>> rcu_read_unlock();
->>>>>>       goto begin;
->>>>>> @@ -206,7 +211,7 @@ hlist_add_head_rcu().
->>>>>>  */
->>>>>> obj =3D kmem_cache_alloc(cachep);
->>>>>> lock_chain(); // typically a spin_lock()
->>>>>> -  obj->key =3D key;
->>>>>> +  WRITE_ONCE(obj->key, key);
->>>>>> atomic_set_release(&obj->refcnt, 1); // key before refcnt
->>>>>> /*
->>>>>>  * insert obj in RCU way (readers might be traversing chain)
->>>>>> --=20
->>>>>> 2.34.1
-
+diff --git a/Documentation/translations/sp_SP/process/contribution-maturity-model.rst b/Documentation/translations/sp_SP/process/contribution-maturity-model.rst
+new file mode 100644
+index 000000000000..36a6f9727933
+--- /dev/null
++++ b/Documentation/translations/sp_SP/process/contribution-maturity-model.rst
+@@ -0,0 +1,120 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-sp.rst
++
++:Original: :ref:`Documentation/process/contribution-maturity-model.rst`
++:Translator: Avadhut Naik <avadhut.naik@amd.com>
++
++====================================================
++Modelo de Madurez de Contribución al Kernel de Linux
++====================================================
++
++
++Los Antecedentes
++================
++
++Como parte de la cumbre de mantenedores del kernel de Linux 2021, hubo
++una `discusión <https://lwn.net/Articles/870581/>`_ sobre los desafíos
++en el reclutamiento de mantenedores del kernel, así como la sucesión de
++los mantenedores. Algunas de las conclusiones de esa discusión incluyeron
++que las empresas que forman parte de la comunidad del kernel de Linux
++necesitan permitir que los ingenieros sean mantenedores como parte de su
++trabajo, para que puedan convertirse en lideres respetados y finalmente,
++en mantenedores del kernel. Para apoyar una fuente solida de talento, se
++debe permitir y alentar a los desarrolladores a asumir contribuciones
++upstream, como revisar los parches de otras personas, reestructurar la
++infraestructura del kernel y escribir documentación.
++
++Con ese fin, Technical Advisory Board (TAB) de la Fundación Linux propone
++este Modelo de Madurez de Contribución al Kernel de Linux. Estas
++expectativas comunes para la participación con la comunidad upstream
++tienen como objetivo aumentar la influencia de los desarrolladores
++individuales, aumentar la colaboración de las organizaciones y mejorar
++la salud general del ecosistema del kernel de Linux.
++
++El TAB insta a las organizaciones a evaluar continuamente su modelo de
++madurez de Código Abierto y comprometerse a realizar mejoras para
++alinearse con este modelo. Para ser eficaz, esta evaluación debe
++incorporar la reacción de toda la organización, incluyendo la gerencia
++y los desarrolladores en todos los niveles de antigüedad. En el espíritu
++de Código Abierto, alentamos a las organizaciones a publicar sus
++evaluaciones y planes para mejorar su participación con la comunidad
++upstream.
++
++Nivel 0
++=======
++
++* A los ingenieros de software no se les permite contribuir con parches
++  al kernel de Linux.
++
++Nivel 1
++=======
++
++* A los ingenieros de software se les permite contribuir con parches al
++  kernel de Linux, ya sea como parte de sus responsabilidades de trabajo
++  o en su propio tiempo.
++
++Nivel 2
++=======
++
++* Se espera que los ingenieros de software contribuyan al kernel de Linux
++  como parte de sus responsabilidades de trabajo.
++* Se proporcionará apoyo a los ingenieros de software para asistir a
++  conferencias relacionadas con Linux como parte de su trabajo.
++* Las contribuciones de código upstream de un ingeniero de software se
++  considerarán en la promoción y las revisiones de rendimiento.
++
++Nivel 3
++=======
++
++* Se espera que los ingenieros de software revisen los parches (incluidos
++  los parches escritos por ingenieros de otras empresas) como parte de
++  sus responsabilidades de trabajo.
++* Contribuir con presentaciones o ponencias a conferencias relacionadas
++  con Linux o académicas (como las organizadas por la Fundación Linux,
++  Usenix, ACM, etc.), se consideran parte del trabajo de un ingeniero.
++* Las contribuciones a la comunidad de un ingeniero de software se
++  considerarán en la promoción y las revisiones de rendimiento.
++* Las organizaciones informarán regularmente sobre las métricas de sus
++  contribuciones de código abierto y harán un seguimiento de estas
++  métricas a lo largo del tiempo. Estas métricas pueden publicarse
++  solo internamente dentro de la organización, o a discreción de la
++  organización, algunas o todas pueden publicarse externamente. Las
++  métricas que se sugieren encarecidamente incluyen:
++
++  * El número de contribuciones al kernel upstream por equipo u
++    organización (por ejemplo, todas las personas que reportan a un
++    gerente o director o vicepresidente).
++  * El porcentaje de desarrolladores del kernel que han realizado
++    contribuciones upstream relativo al total de desarrolladores
++    del kernel en la organización.
++  * El intervalo de tiempo entre los kernels utilizados en los servidores
++    y/o productos de la organización y la fecha de publicación del kernel
++    upstream en el que se basa el kernel interno.
++  * El número de commits fuera del árbol de desarrollo presentes en los
++    kernels internos.
++
++Nivel 4
++=======
++
++* Se anima a los ingenieros de software a pasar una parte de su tiempo de
++  trabajo centrado en el Trabajo Ascendente, que se define como revisar
++  parches, servir en los comités de programas, mejorar la infraestructura
++  del proyecto central como escribir o mantener pruebas, reducir la deuda
++  de tecnología upstream, escribir documentación, etc.
++* Los ingenieros de software son apoyados para ayudar a organizar
++  conferencias relacionadas con Linux.
++* Las organizaciones considerarán los comentarios de los miembros de la
++  comunidad en las revisiones oficiales de rendimiento.
++
++Nivel 5
++=======
++
++* El desarrollo del kernel upstream se considera un puesto de trabajo
++  formal, con al menos un tercio del tiempo del ingeniero pasado a hacer
++  el Trabajo Ascendente.
++* Las organizaciones buscarán activamente las reacciones de los miembros
++  de la comunidad como un factor en las revisiones oficiales de
++  rendimiento.
++* Las organizaciones informarán regularmente internamente sobre la ratio
++  de trabajo upstream a trabajo enfocado en perseguir directamente los
++  objetivos comerciales.
+diff --git a/Documentation/translations/sp_SP/process/index.rst b/Documentation/translations/sp_SP/process/index.rst
+index ed6851892661..09bfece0f52f 100644
+--- a/Documentation/translations/sp_SP/process/index.rst
++++ b/Documentation/translations/sp_SP/process/index.rst
+@@ -21,3 +21,4 @@
+    deprecated
+    adding-syscalls
+    researcher-guidelines
++   contribution-maturity-model
+-- 
+2.34.1
 
