@@ -2,179 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA097EB64DD
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 02:01:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5999FEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 05:09:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbjGQCBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jul 2023 22:01:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45296 "EHLO
+        id S229548AbjGQFJg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jul 2023 01:09:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbjGQCBw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 22:01:52 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E703A19F;
-        Sun, 16 Jul 2023 19:01:50 -0700 (PDT)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36H1Q8gU003025;
-        Mon, 17 Jul 2023 02:01:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=DfJz2VDf1tHd5phO3+tWCj9//S5no9rj8sSeJFbAzzg=;
- b=ZkQMnvM4lzWdzTG7UCvj2sRU+W85f7UW7H7kuMEN+OkKAOEyMAmMoocAfNF44Y34wTwB
- zkLFxxGL/qVbbs3ab3SApMPbGPLSSYxTQLrN3Ea8T10f6rB9OddnR54pQYLE6zG+pb4R
- munQWW0ynXHFSL/g3Qq9zyBRKtJZpIskbndD4+7eKCC4XTqE96EpjtEUGUL67WgttXgC
- FrB7Dffbm156LNIAigafdfSAOpd6qlWUUhB4V71pqlwMHrS5KSNLHaNRWY0+LWRkr1qI
- l3pFrR1nKfUSme1TANsS14dWAB9eh/W1ysSqBQHNkeT6KgI8BeRpPl+7k+67CsIjK/Iz aA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3run0ea8p0-1
+        with ESMTP id S230397AbjGQFJe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 01:09:34 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E553E56;
+        Sun, 16 Jul 2023 22:09:33 -0700 (PDT)
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36H4bhda003688;
+        Mon, 17 Jul 2023 05:09:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=djYQ1lJBn0LukPc9XaG8yrilkPySwBvGSjdkQoCHC3Y=;
+ b=C+cpcHguWeG/1UiS8xCI37nsvopu925w8G9gzMIuMQ2AFy8alUcNmdNESwA0uhoPOcSg
+ tvRQyBGhCJXUdm2nJ7T6jRuRUXtAS77Ltq/7F5+XZ+M6EBdZIbKhbQGCc+EiNbLhvAEm
+ 1byzXgEUp/CnK0yZS9/GCjv/asXuHBy3iLn8hqghR+PSG46fpAwekoG6QiUmC7I6ieiY
+ sBTMO4wElmbsgOxIFw1Jk4PTu+WnsMGv2wXyj30LQU3lhJZsuW6uDaErm8Ler/dZEq15
+ xrhKJHdCjqnkaxdfku4h9tjtx26N1fd7SKWIjBQZtd8V690HdRZ+OcDPBljxg3jwCIyK fQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rvxfvgtud-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 17 Jul 2023 02:01:34 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36H21YRB012614
+        Mon, 17 Jul 2023 05:09:24 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36H4qabW013023;
+        Mon, 17 Jul 2023 05:09:24 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rvxfvgttq-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 17 Jul 2023 02:01:34 GMT
-Received: from [10.239.133.73] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sun, 16 Jul
- 2023 19:01:31 -0700
-Message-ID: <836603c6-16ac-5829-3d16-60aef66dd31b@quicinc.com>
-Date:   Mon, 17 Jul 2023 10:01:28 +0800
+        Mon, 17 Jul 2023 05:09:23 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 36H3qg2p023422;
+        Mon, 17 Jul 2023 05:09:21 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+        by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3rujqe0ycj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 17 Jul 2023 05:09:21 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+        by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 36H59JaP25231664
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 17 Jul 2023 05:09:19 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 53B7020043;
+        Mon, 17 Jul 2023 05:09:19 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id F27502004B;
+        Mon, 17 Jul 2023 05:09:16 +0000 (GMT)
+Received: from li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com (unknown [9.109.216.99])
+        by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+        Mon, 17 Jul 2023 05:09:16 +0000 (GMT)
+Date:   Mon, 17 Jul 2023 10:39:14 +0530
+From:   Kautuk Consul <kconsul@linux.vnet.ibm.com>
+To:     Jordan Niethe <jniethe5@gmail.com>
+Cc:     Nicholas Piggin <npiggin@gmail.com>,
+        Fabiano Rosas <farosas@linux.ibm.com>, jpn@linux.vnet.ibm.com,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@ozlabs.org>,
+        Thomas Huth <thuth@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] KVM: ppc64: Enable ring-based dirty memory tracking
+Message-ID: <ZLTM+kyIGYVX7rG7@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+References: <20230608123448.71861-1-kconsul@linux.vnet.ibm.com>
+ <266701ad-90df-e4c8-bbf7-c6411b759c5f@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH] arm64: Add the arm64.nolse_atomics command line option
-To:     Will Deacon <will@kernel.org>
-CC:     Mark Rutland <mark.rutland@arm.com>, <corbet@lwn.net>,
-        <catalin.marinas@arm.com>, <maz@kernel.org>,
-        <quic_pkondeti@quicinc.com>, <quic_kaushalk@quicinc.com>,
-        <quic_satyap@quicinc.com>, <quic_shashim@quicinc.com>,
-        <quic_songxue@quicinc.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230711102510.GA1809@willie-the-truck>
- <67c2621f-4cad-2495-9785-7737246d3e90@quicinc.com>
- <ZK5X9bXQT7GBxNHj@FVFF77S0Q05N.emea.arm.com>
- <604ac52d-4336-744f-2ab8-44d1c93fbaa8@quicinc.com>
- <ZK_d86ApI1FCHhTL@FVFF77S0Q05N.cambridge.arm.com>
- <e02b9969-a3ca-a80d-1d32-25d2bf4c72b6@quicinc.com>
- <ZLBLwG2LJ4gZLfbh@FVFF77S0Q05N.cambridge.arm.com>
- <6d1a6691-f858-71bf-97fe-97e13fcb93b6@quicinc.com>
- <20230714082348.GA5240@willie-the-truck>
- <b76c7a9b-8ed6-97da-bdfa-47cc7db51ff5@quicinc.com>
- <20230714120946.GA5597@willie-the-truck>
-From:   "Aiqun(Maria) Yu" <quic_aiquny@quicinc.com>
-In-Reply-To: <20230714120946.GA5597@willie-the-truck>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: m0A_1Z2-64VBmPGbNQLuebqGPLHf4NBN
-X-Proofpoint-ORIG-GUID: m0A_1Z2-64VBmPGbNQLuebqGPLHf4NBN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <266701ad-90df-e4c8-bbf7-c6411b759c5f@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 1ppIkR7FTQy7ja3SY_JxBjMnnReMPURX
+X-Proofpoint-GUID: fvxbgi9YedCm6ixdZ-qsjXhE7i_dPGmC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-17_01,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 clxscore=1015 mlxscore=0 spamscore=0 lowpriorityscore=0
- suspectscore=0 phishscore=0 impostorscore=0 bulkscore=0 mlxlogscore=819
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307170017
+ definitions=2023-07-17_03,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 adultscore=0 impostorscore=0 spamscore=0 bulkscore=0
+ suspectscore=0 phishscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
+ mlxlogscore=426 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307170046
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/14/2023 8:09 PM, Will Deacon wrote:
-> On Fri, Jul 14, 2023 at 06:12:02PM +0800, Aiqun(Maria) Yu wrote:
->> On 7/14/2023 4:23 PM, Will Deacon wrote:
->>> On Fri, Jul 14, 2023 at 09:56:27AM +0800, Aiqun(Maria) Yu wrote:
->>>> Try to a detailed summarise of the whole discussions, anyone can ignore some
->>>> part if you are already know.
->>>>
->>>> * Part 1: Solution for this issue.
->>>> While we still want to have options to let third party and end users can
->>>> have options:
->>>>     1.Disable lse atomic cap.
->>>>     2.*Disallow* far atomic by "CPUECTLR_EL1.atom force near atomic" and
->>>> non-cachable mappling for lse atomic only.
->>>
->>> Sorry, but this still isn't making sense to me. Which CPUs do you have on
->>> this SoC?
->> cpu is cortex A78/A55.
->>>
->>> My understanding of the CPUs from ARM is that LSE atomics are not supposed
->>> to be sent to blocks that don't support them. That doesn't mean you have to
->>> do everything near, however -- you can still execute them at e.g. L2.
->>>
->>> For example, the Cortex-X1 TRM states:
->>>
->>>     | Atomic instructions to cacheable memory can be performed as either
->>>     | near atomics or far atomics, depending on where the cache line
->>>     | containing the data resides.
->>>     |
->>>     | When an instruction hits in the L1 data cache in a unique state, then
->>>     | it is performed as a near atomic in the L1 memory system. If the atomic
->>>     | operation misses in the L1 cache, or the line is shared with another
->>>     | core, then the atomic is sent as a far atomic on the core CHI interface.
->> lse atomic is optional to CHI-B for example, some system may have cpu
->> feature register have lse atomic feature, but the far atomic is not accpeted
->> by CHI side. It will be simiar issue that we do.
+Hi Jordan,
+
+On 2023-07-06 14:15:13, Jordan Niethe wrote:
 > 
-> Again, that should not be a problem. Looking at the A55 TRM, it explicitly
-> says that atomics will be done in the L3 if the interconnect does not
-> support them. The A78 TRM doesn't talk about this at all, so I defer to
-We will check internally to see why it is not happened in current system 
-which have issue.
-> Mark (or anybody else from Arm) on how that works, but one might assume
-> that it does something similar to the other Arm cores.
-I checked other Arm cores like A720 TRM. It seems the similar statement:
-If the operation hits anywhere inside the cluster, or if an interconnect 
-does not support atomics, then the L3 memory system performs the atomic 
-operation. If the line is not already there, it allocates the line into 
-the L3 cache.
-
 > 
->>>> * Part 2: Why we need the solution
->>>> 1. There is also some case far atomic is better performance than near
->>>> atomic. end user may still can still try to do allow far atomic.
->>>> while this driver is also use kerenl LSE ATOMIC macro, so it can be running
->>>> on cpu don't support lse atomic and cpu support lse atomic already.
->>>> while current system, cpu have feature register said lse atomic is
->>>> supported, but memory controller is not supported is currently not yet
->>>> supported.
->>>
->>> I think you're forgetting the fact that these instructions can be executed
->>> by userspace, so the kernel option is completely bogus. If you're saying
->>> that cacheable atomics can cause external aborts, then I can write an app
->>> which will crash your device even if you've set this command line option.
->>>
->> For apps like userspace also needed to check the system capbility as far as
+> On 8/6/23 10:34 pm, Kautuk Consul wrote:
 > 
-> That's not something you can enforce, so a malicious application can easily
-> crash your system.
-we provide the capability for sotfware to do the runtime compatible 
-check. we surely cannot enforce that. If the software is align the rule, 
-it can also funcational fine on the "intermediate support system".
-
-By the way:
-ALso the A720 TRM doc mentioned the uncachable memory case:
-The Cortex-A720 core supports atomics to Device or Non-cacheable memory, 
-however this relies on the interconnect also supporting atomics. If such 
-an atomic instruction is executed when the interconnect does not support 
-them, then it results in an abort.
-
-So it is not a single one company's scenario as well, shall we have an 
-option to handle this scenario?
-
-Why the non-cacheable memory is forbiden? Does it only due to limitation 
-of hardware?
-
+> Need at least a little context in the commit message itself:
 > 
-> Will
+> "Enable ring-based dirty memory tracking on ppc64:"
+Sure will take this in the v2 patch.
+> 
+> > - Enable CONFIG_HAVE_KVM_DIRTY_RING_ACQ_REL as ppc64 is weakly
+> >    ordered.
+> > - Enable CONFIG_NEED_KVM_DIRTY_RING_WITH_BITMAP because the
+> >    kvmppc_xive_native_set_attr is called in the context of an ioctl
+> >    syscall and will call kvmppc_xive_native_eq_sync for setting the
+> >    KVM_DEV_XIVE_EQ_SYNC attribute which will call mark_dirty_page()
+> >    when there isn't a running vcpu. Implemented the
+> >    kvm_arch_allow_write_without_running_vcpu to always return true
+> >    to allow mark_page_dirty_in_slot to mark the page dirty in the
+> >    memslot->dirty_bitmap in this case.
+> 
+> Should kvm_arch_allow_write_without_running_vcpu() only return true in the
+> context of kvmppc_xive_native_eq_sync()?
+Not required. Reason is: kvm_arch_allow_write_without_running_vcpu() is
+anyway used only for avoiding the WARN_ON_ONCE in
+mark_page_dirty_in_slot(). The memslot->dirty_bitmap in mark_page_dirty_in_slot()
+will be anyway used only when the KVM_CAP_DIRTY_LOG_RING_WITH_BITMAP is
+set and the vcpu returned by kvm_get_running_vcpu() is NULL which is
+what happens only when kvmppc_xive_native_eq_sync is called via the
+ioctl syscall I mentioned.
 
--- 
-Thx and BRs,
-Aiqun(Maria) Yu
-
+> > +		*ptep = __pte(pte_val(*ptep) & ~(_PAGE_WRITE));
+> On rpt I think you'd need to use kvmppc_radix_update_pte()?
+Sure. I'll add a check for radix_enabled() and call
+kvmppc_radix_update_pte() or a similar function in the v2 patch for this.
