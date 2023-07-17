@@ -2,170 +2,191 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAEF2C00528
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 09:41:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A942EB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 10:02:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbjGQJlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jul 2023 05:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45584 "EHLO
+        id S231357AbjGQKCW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jul 2023 06:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230490AbjGQJkp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 05:40:45 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD0803C27
-        for <linux-doc@vger.kernel.org>; Mon, 17 Jul 2023 02:39:05 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-991ef0b464cso1156263266b.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Jul 2023 02:39:05 -0700 (PDT)
+        with ESMTP id S231409AbjGQKCK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 06:02:10 -0400
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAAA4172A;
+        Mon, 17 Jul 2023 03:01:38 -0700 (PDT)
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+        by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36H64rGW025426;
+        Mon, 17 Jul 2023 11:00:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
+        from:to:cc:subject:date:message-id:references:in-reply-to
+        :content-type:content-id:content-transfer-encoding:mime-version;
+         s=dk201812; bh=687B7ygr+V5ty72LFplGeOeBBUZ8pkgfbGSW/bYSaCE=; b=
+        GDxVt7OmtwrjIDmWlNqY+OV99z4Tf1WBN41C5xUpVzGJsRE/Jb5cG1fNMzErNuPS
+        7iBXPRLNLh5Y+vjrK1XeYDw833ohSAWUqDYxLN12hoGiw7UTVqM3h/X7l/SbwAW5
+        zqXF6y0YCZBRzth+EXt6104eCjSFrJ/vga4LonvduMMdS4zcNM2PLqtT4KlgM8bf
+        sDBH1wjo956LhnWXXjBvXem1BTqud7FMqrLx7H5kBYZ1HZUsxGmaVh4+KSZQukb7
+        h2psoVv9SbpRKEGv5TTQy4/NDDdWaV9qr+XUDOaehee1rBzXNnr4YihMnnOMxvLq
+        r24mjyh6h2sAQ+wm9z1pJA==
+Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
+        by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3rutdrs61f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Mon, 17 Jul 2023 11:00:39 +0100 (BST)
+Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
+ HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 17 Jul 2023 11:00:38 +0100
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.59) by
+ email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27 via Frontend
+ Transport; Mon, 17 Jul 2023 11:00:38 +0100
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RuGqOoLsHgOLFj9dNs4b3X1DRYeto9TsNJXeGp4xx7VHdam8KfJfW5yiE8V9W6bjECoIUvxBG87o9A3GAEP/HPfBF8FvHz2zqH5zbcElYSY4YvbXQc1WW1JLd+PnyiCof04P2XJdxsv5CYR+VCXUrmYtXhvWOtLVsMwVM+h3EfkrPj1SrE98P/Qj6BCdDfl8W3bh/NSae7L47FjPo4KXxXbLxuP44CAU79ifU5S6EgwmCSv8deqWdyii7MCbR1F94D6LY3h7qW0H43BXV22JSm5D1aOajiU9O9TUULhZ1FEgQ1tai7z7pgKNPeXtjpc0GTtQE2EiKBam4Deta9seyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=687B7ygr+V5ty72LFplGeOeBBUZ8pkgfbGSW/bYSaCE=;
+ b=D5vTergi6tz1aRXHbSkFw/KejFTosqs4roe48tcpHekVbbIeRrklzIfmDgKXYe0jb73kLp1VxPaBIaEvxx3AK/wBnQ9SFElxiUeAETod8O8RzEYCLHLc39zJQ0EJvkPNbLmon1Tyl3uvNnr+68w4/IInMzl/B4smsYVkaAe9431sfQ7aWXw/B95xKeWGPb+TCpG58+gtr0EMtlIfMG8ceU4MnESpEv9/H9GdFpHRNHp5XfJ/LNHs4TGn7hirp0nCBHoVo9WAII2MLzj5m4W5rOArXNUN9Q0JpDlfBDK/d+3yiJP3RCZeTgNoeYqNyDGHidr1EtmWqggVJlqnzEOJJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689586744; x=1692178744;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W0Abj6UC9IBcOuGYotmVfSuiZNB5aYWz62cWUjDEEUg=;
-        b=oNVQ4IxLU5eX07C5sklU29DxI6u6wg6e2WB+o1jYa8ec1pIsG+BAHCXbIxFDRp3qTl
-         /dzmITQUrQQAtrbiRbTKZ7mq/rdWdu+IY4bT2jTa5aUo9wx6WkrAvvLb0bRSd7M0ZydQ
-         b29rvFfZZGyNnhzH4VVO4rGTo0TGUdB9O6a27CQXtCHKjU0W1AvEl5NC9OA7pA5Ua0WT
-         2QAa11Z87kgv9ExsFKCWzMZMoLOgRhBMS8YGxwsV7sbWrTqGIVGhrip83rrcvyfi851o
-         rJzoec2YkfyS05pvyryJhBl8FoshXHTLwU2JZW7ssjAP1OaNkbGfKIRVXNLz5N+4DxLD
-         lKcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689586744; x=1692178744;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W0Abj6UC9IBcOuGYotmVfSuiZNB5aYWz62cWUjDEEUg=;
-        b=H8BMcXgwRJwY4EPL0We1Ls1MTV08d2nfws3NLtSDBIQZPSYqGm9tTrrfasPY3AsgEq
-         o5XR9CTztXhUQJGzEfs6a8Gu2/8iNSfl1fe9XYkVpGDHk3zmGhobmfYmk90Wd/9MDLij
-         ek/XjHuvnZ8W5OH3WJx/xhq0ls5L2Q9+d2TNEYRdouyUv7MiqCr9rznIMEnRMEOOeQRC
-         y+FltUy/JvvyI7ZXUJDj5r1+fRdy6BK9qBNT8kxsg72xcJK49B46x7RJ9CK0Q1Jf4jwx
-         hWwMXlQvJh5pnqkp5LXcay4HTvOId+pzwzocx2V3nx46Fng25OXWgQXcl70l6tNov+pn
-         cDKA==
-X-Gm-Message-State: ABy/qLYKqp5zt8rYoNFSMmY97fr/ikJRYsXAsCwVJbStXXfv87NAbNLk
-        qv7q2dKsnx2v0+Az09a/pr2M+A==
-X-Google-Smtp-Source: APBJJlESrTNaJcx/BujEXJeNKPZNlBYFJGnbXsuE/wnWYk8Pltb8LBwpD6Msb01kwBYC5AzGsjQodw==
-X-Received: by 2002:a17:906:28a:b0:988:15f4:fdba with SMTP id 10-20020a170906028a00b0098815f4fdbamr12038269ejf.14.1689586744230;
-        Mon, 17 Jul 2023 02:39:04 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id ov4-20020a170906fc0400b00992b50fbbe9sm9051066ejb.90.2023.07.17.02.39.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jul 2023 02:39:03 -0700 (PDT)
-Message-ID: <b22b2ccc-6760-0db6-067b-109c3864d2e8@linaro.org>
-Date:   Mon, 17 Jul 2023 11:39:00 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
- documentation
-To:     =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     "jdelvare@suse.com" <jdelvare@suse.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=687B7ygr+V5ty72LFplGeOeBBUZ8pkgfbGSW/bYSaCE=;
+ b=ZE2D+OH3AlxUknqqO0qaTq9yS7a5EQFVazTe8/yQD3yAESTSZ6wniQ/vnGB2aLOxv4Qo3syws4WEz7nvGAgqmgduxAXsPILAsmhcVRpudNlAERufr5MHKak3vNsyEthYgkq5+PrKFT3OO68Ha8MaYajaDttliER05OoUO4i576M=
+Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1a0::8)
+ by CWLP265MB5330.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1c6::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.32; Mon, 17 Jul
+ 2023 10:00:32 +0000
+Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::76a7:922d:d0e0:3449]) by CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::76a7:922d:d0e0:3449%4]) with mapi id 15.20.6588.031; Mon, 17 Jul 2023
+ 10:00:32 +0000
+From:   Donald Robson <Donald.Robson@imgtec.com>
+To:     "corbet@lwn.net" <corbet@lwn.net>,
+        "jason@jlekstrand.net" <jason@jlekstrand.net>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "mripard@kernel.org" <mripard@kernel.org>,
+        "matthew.brost@intel.com" <matthew.brost@intel.com>,
+        "bskeggs@redhat.com" <bskeggs@redhat.com>,
+        "dakr@redhat.com" <dakr@redhat.com>,
+        "ogabbay@kernel.org" <ogabbay@kernel.org>,
+        "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "alexdeucher@gmail.com" <alexdeucher@gmail.com>,
+        "airlied@gmail.com" <airlied@gmail.com>
+CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+        "airlied@redhat.com" <airlied@redhat.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
-        Billy Tsai <billy_tsai@aspeedtech.com>
-References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
- <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
- <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
- <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
- <7b198d57-ddec-3074-314a-3e5e5b8f48f9@roeck-us.net>
- <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
- <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org>
- <7a69bda1-5f4c-5b1f-8eb6-6fd58917a9b1@roeck-us.net>
- <CAGUgbhCTDPGt_vpbfaEreX+iuLJ3WUBqt4kppxyaFZQus9Zf0Q@mail.gmail.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH drm-next v7 02/13] drm: manager to keep track of GPUs VA
+ mappings
+Thread-Topic: [PATCH drm-next v7 02/13] drm: manager to keep track of GPUs VA
+ mappings
+Thread-Index: AQHZuJWG9L5X8pjo/0KTAgTcke7AyQ==
+Date:   Mon, 17 Jul 2023 10:00:32 +0000
+Message-ID: <f5957892c4fb41becd7084ac93310aae3a6e091a.camel@imgtec.com>
+References: <20230713170429.2964-1-dakr@redhat.com>
+         <20230713170429.2964-3-dakr@redhat.com>
+In-Reply-To: <20230713170429.2964-3-dakr@redhat.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAGUgbhCTDPGt_vpbfaEreX+iuLJ3WUBqt4kppxyaFZQus9Zf0Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWLP265MB5770:EE_|CWLP265MB5330:EE_
+x-ms-office365-filtering-correlation-id: 1110ad0c-7a2d-4a74-0759-08db86aca8a0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8XAYHQjpurFDas/THPVBJaW43l767xb2cs5GWQbca6P6YSPfZ/86LsK8Q2iAUhkWdUcDD/gKfd52mnSQ9o53o6hsaZclQ2FfpAwd/1P0H0ckgJ4oUEO6dDozaJrXBVOPJdkWIZQEzSpGclDYaCbaZT8Q7TrgpYWBwlYErNQQqK+xhiJ+hgvnHwjBVYjoD3JwoT003e43pJ1iJLTkrPOrjBenZhvEFD+mWwhOeIH5vaqCKw4wYsBpSYKyNG63JMv798Hco35+JmJxCa9k9hO80zxkLvMcI95+9X9u7YtWb3X671SnjN9zW0OnlKvfPHVcMRU/a1qL2bQjd0asqcP5+ILHIN3lLuxF1LE5dZWTDjM/tLITdUAgLHJs8BrZ+2ca73AdAmsTPB1SmjmkzTcBlhtmqOi/ncGWDhUU/yRRJWUwP4F3TEF96X793oigMh4MLJpDVwquFtOYLseys2xYw20jwyWuBbfI5ZE4/+x/xDQnM+NGYBzPn8y3YEMmMJaOcBottCcb3xKFJfBbLZMMZXE/LXlecMM7KYeP0k4GUT+xGNsr0EvD5WjG2lQeUhkPhTTGbigQSWvQi76twLY5ZQDzS7FzsrraLaQGbEl8ONDnhYOeKvQ50jIqNPkJOp+kpCXq7ATJNqzWkKpoHnOu7Q==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(39840400004)(396003)(366004)(136003)(346002)(376002)(451199021)(478600001)(71200400001)(6486002)(91956017)(110136005)(54906003)(186003)(6506007)(26005)(6512007)(76116006)(2906002)(41300700001)(316002)(66476007)(66946007)(64756008)(66556008)(66446008)(4326008)(5660300002)(36756003)(7416002)(8676002)(8936002)(38100700002)(122000001)(921005)(86362001)(38070700005)(2616005)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZktMTVVOVEhENjNQM1ZGNEEwd0tJNTZlaDV4VFBlY2tiajBXd3c2czVYcGgv?=
+ =?utf-8?B?aDlBem9CSXhPa0dNWkpocmtiMzlVNVBYa2czV0ljOEVLNnVxcFJNVHdGU3o0?=
+ =?utf-8?B?QlZYTXpqWURYUUN2QVhaNWt1V3R1amVGMm00WWpRd1pFNVBFSjNERkN2WFpq?=
+ =?utf-8?B?Ujl0am9URytjeTJhempyRUJLVWNyTjRsZDcxOUFtbTBYVUp2M0gyY09hNVJz?=
+ =?utf-8?B?MUlCcEQrUkxySm5rbWZSMGJpVVhZc0xZc3R2aTJEMWVjNlZ5bFNBZy90bjZz?=
+ =?utf-8?B?aFRFOS8xeWp4R1Q2bkFkbE9Hc09naFVnUVl6UjJjdEgzTmNjRFN2b3cwMzN6?=
+ =?utf-8?B?T1lHeWMzclJpZFR0N2ZUOUsyTytGNzVkeEwzdm43N0NtQ1RmUnFSaXFwemQy?=
+ =?utf-8?B?UlVvOWR4V2xYUEVZb2d6N3RnRy8vZHNCS0l2dFdHelF6N0tmWWRxZnNiZzNK?=
+ =?utf-8?B?UDdCRFNaTDEweVl5Q2JZWXYyMDZXYXBTdEpveEVUaGRrdHRYR281YU1KWm1S?=
+ =?utf-8?B?TFhlbWxXNGY2Nk1JQW5aajAwVDhxbzcxNGlaVm1tR3pVME9Db3RKR3IvcExG?=
+ =?utf-8?B?MFgvNEdBVlNIV2o5Mm9jYmd2Y2JoVno1TThrZVg3NW9sS0c4bjBJR2M0R0p4?=
+ =?utf-8?B?dnI0YndkWTZrczFhMTYyOGxNOWptelRIMVBWaEpWMmhYTXFlZTRJeUFJWGoz?=
+ =?utf-8?B?ZjNNTFI2OGVlSEZmK2lTRDZUQkVaaWp5d2w5c2EwaXRseXdjQVJhYVBRZ3Ba?=
+ =?utf-8?B?Z1dTR05xb1N2ZWNBdWRKSnFQbk1PV2FxUHk1WVdyYzZhRGh6Z0tFTytoZzRM?=
+ =?utf-8?B?QnJvTDBOSXIzU3d3aXoyaFh5VGpSOXdGZ01QTm9NMllyYzQwdGVPWU90aXlC?=
+ =?utf-8?B?UjR2YWVvdHBDZDNmVXU1TE9OZVB4bG0vQnlHRTg0bFg4ZDVqQndXb1phMWRa?=
+ =?utf-8?B?dWZMMFY5Nm9LZndBcHlvRkFEakpFRkVwOTE2cHZ3UlIzTWtxWEZhRi9XMlpt?=
+ =?utf-8?B?Y3MrZi9ya0FDZ3g1ZmZ1eWt1dDNkeTV5SnlSRWFndDIzQlphVGtuTGtQYUQv?=
+ =?utf-8?B?bFZJc21jRTY0b3JGR1kzRXljR0hUa2NhMXhVamdoMGEzVmtNL1hMWFhhUk9B?=
+ =?utf-8?B?cmx5eTEvem85Wng3Nko4QU1rWlNXRlo0VGxyUXhjWWRub0JnSTRNdWJ5YjB3?=
+ =?utf-8?B?aTNvZTZIQ3BRQVdxSnJhT2lGOGpja2hQSXFMRWdDU3J5MXMybXhLalErbFRm?=
+ =?utf-8?B?OWhvRUkray83eWpRRTFKa2VRdDVhQU1CS0RjMmxyN0lpNy9XUWViSmpKQ1VV?=
+ =?utf-8?B?ZVBvSTNsaEVIb0c3VlpYNUlEOGx3bkdvcHUxbjNCbkdITU5DbFd5STkvZGVW?=
+ =?utf-8?B?ZXlnRjNwTVc5RmNrb1Y3cGtLdDNSRG9Jak5nZUM4UStuMTV6K0JLYmFNRUtL?=
+ =?utf-8?B?dHpIQVJGOGtrek1KcXQwb0psSm1TZDY0dm8yUzdZTUo3MTZSNWpxQnI1Y2Uz?=
+ =?utf-8?B?OGlmUzBzUEZZdEl3WkNjVm9naFpteko4SG5CSGNxQVVvSnFRWi9XTWRScERK?=
+ =?utf-8?B?WUZVakhscy9kZlVsUXdCK3VYekZCMXNpVTMrKy9EZElkTGZObXJSNUczKzU1?=
+ =?utf-8?B?TE5GREQyYkFZVUVoK0xuV3ZEU2UxZ3dXYS8zQWJuazg2RllxNEF5Wk5HOGUy?=
+ =?utf-8?B?cUYxZnNPdTdHT3dFMXhHa2gwa3NTZk9vdHg4MHhFa0ppekRlNDVidm1qbW5M?=
+ =?utf-8?B?aTA4T2Z4czNjb3BLWS9CelNBWHJya0YybWlPb2RhMW5RcHU5ZC9ZZFBjYXpv?=
+ =?utf-8?B?STdmRkpCOVRmZnBLbGt3VUFFanRkeXRLaFVrTFZid1V0VktqUVNrdi82Ryt5?=
+ =?utf-8?B?aGt1Y24rTUs4bFBuR3VEU0dBT3FmeG56N0w2Q2NGVVhXNnRabWR5anc3MjBW?=
+ =?utf-8?B?RFRubFdUN01naktrWk0zTjlqL3VnSkhxaWtCTFJtckowaFlORGp2aDBDNXFz?=
+ =?utf-8?B?Q1hmQnAyeU1acGNSR1NZZStPQUphWVpVOUN5bmVVSlc1V1UwcE1LUzNzSFNz?=
+ =?utf-8?B?MzFyQnVVRHg4dmNsb1g3VDhiRkhyYUhLZVBZUmpkbGpzWDBRYzhiRTY5RHV0?=
+ =?utf-8?B?K1FKT1Znb0ZxNUtxanZEemlzNWVvQW02bGJLTXZYZDk1cC9lTGxDVSthZ3pr?=
+ =?utf-8?B?Snc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E3E06D8B6817C148A2A8F011637C1173@GBRP265.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1110ad0c-7a2d-4a74-0759-08db86aca8a0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2023 10:00:32.4200
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PSfmcp14lRjStLByDzyGaKMFuenKmS+lsHd7xAhoT0mkGFGJRHqU4ac3xD9bT79kMcst8f7dZQifSdwlfEhaQoQ7zuY7ZkNyVLY+saKNIFo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB5330
+X-OriginatorOrg: imgtec.com
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-GUID: SB8EFyNjSNchWqoMVkdrtJO_IneBfPz3
+X-Proofpoint-ORIG-GUID: SB8EFyNjSNchWqoMVkdrtJO_IneBfPz3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17/07/2023 11:01, 蔡承達 wrote:
-> Guenter Roeck <linux@roeck-us.net> 於 2023年7月17日 週一 上午1:00寫道：
->>
->> On 7/16/23 09:08, Krzysztof Kozlowski wrote:
->>
->> [ ... ]
->>
->>>>
->>>> This patch serial doesn't use to binding the fan control h/w. It is
->>>> used to binding the two independent h/w blocks.
->>>> One is used to provide pwm output and another is used to monitor the
->>>> speed of the input.
->>>> My patch is used to point out that the pwm and the tach is the
->>>> different function and don't need to
->>>> bind together. You can not only combine them as the fan usage but also
->>>> treat them as the individual module for
->>>> use. For example: the pwm can use to be the beeper (pwm-beeper.c), the
->>>> tach can be used to monitor the heart beat signal.
->>>
->>> Isn't this exactly the same as in every other SoC? PWMs can be used in
->>> different ways?
->>>
->>
->> ... and in every fan controller. Not that it really makes sense because
->> normally the pwm controller part of such chips is tied to the fan input,
->> to enable automatic fan control, but it is technically possible.
->> In many cases this is also the case in SoCs, for example, in ast2500.
->> Apparently this was redesigned in ast2600 where they two blocks are
->> only lightly coupled (there are two pwm status bits in the fan status
->> register, but I have no idea what those mean). If the blocks are tightly
->> coupled, separate drivers don't really make sense.
->>
->> There are multiple ways to separate the pwm controller part from the
->> fan inputs if that is really necessary. One would be to provide a
->> sequence of address mappings, the other would be to pass the memory
->> region from an mfd driver. It is not necessary to have N instances
->> of the fan controller, even if the address space is not continuous.
->>
-> 
-> Hi Guenter,
-> 
-> May I ask about the meaning of the sequence of address mappings? It appears
-> to consist of multiple tuples within the 'reg' property, indicating
-> the usage of PWM/Tach
-> registers within a single instance. After that I can use the dts like following:
-> 
-> pwm: pwm@1e610000 {
-> ...
-> reg = <0x1e610000 0x8
-> 0x1e610010 0x8
-> 0x1e610020 0x8
-> 0x1e610030 0x8
-> 0x1e610040 0x8
-> 0x1e610050 0x8
-> 0x1e610060 0x8
-> 0x1e610070 0x8
-> 0x1e610080 0x8
-> 0x1e610090 0x8
-> 0x1e6100A0 0x8
-> 0x1e6100B0 0x8
-> 0x1e6100C0 0x8
-> 0x1e6100D0 0x8
-> 0x1e6100E0 0x8
-> 0x1e6100F0 0x8>;
-
-
-Uh, no... I mean, why? We keep pointing out that this should not be done
-differently than any other SoC. Open any other SoC PWM controller and
-tell me why this is different? Why this cannot be one address space?
-
-Best regards,
-Krzysztof
-
+SGkgRGFuaWxvLA0KVGhlIGJlbG93IHBhcnQgb2YgdGhlIGRvY3VtZW50YXRpb24gaXMgb3V0IG9m
+IGRhdGUgbm93Lg0KVGhhbmtzLA0KRG9uYWxkDQoNCk9uIFRodSwgMjAyMy0wNy0xMyBhdCAxOTow
+MyArMDIwMCwgRGFuaWxvIEtydW1tcmljaCB3cm90ZToNCj4gDQo+ICsNCj4gKy8qKg0KPiArICog
+RE9DOiBMb2NraW5nDQo+ICsgKg0KPiArICogR2VuZXJhbGx5LCB0aGUgR1BVIFZBIG1hbmFnZXIg
+ZG9lcyBub3QgdGFrZSBjYXJlIG9mIGxvY2tpbmcgaXRzZWxmLCBpdCBpcw0KPiArICogdGhlIGRy
+aXZlcnMgcmVzcG9uc2liaWxpdHkgdG8gdGFrZSBjYXJlIGFib3V0IGxvY2tpbmcuIERyaXZlcnMg
+bWlnaHQgd2FudCB0bw0KPiArICogcHJvdGVjdCB0aGUgZm9sbG93aW5nIG9wZXJhdGlvbnM6IGlu
+c2VydGluZywgcmVtb3ZpbmcgYW5kIGl0ZXJhdGluZw0KPiArICogJmRybV9ncHV2YSBvYmplY3Rz
+IGFzIHdlbGwgYXMgZ2VuZXJhdGluZyBhbGwga2luZHMgb2Ygb3BlcmF0aW9ucywgc3VjaCBhcw0K
+PiArICogc3BsaXQgLyBtZXJnZSBvciBwcmVmZXRjaC4NCj4gKyAqDQo+ICsgKiBUaGUgR1BVIFZB
+IG1hbmFnZXIgYWxzbyBkb2VzIG5vdCB0YWtlIGNhcmUgb2YgdGhlIGxvY2tpbmcgb2YgdGhlIGJh
+Y2tpbmcNCj4gKyAqICZkcm1fZ2VtX29iamVjdCBidWZmZXJzIEdQVSBWQSBsaXN0cyBieSBpdHNl
+bGY7IGRyaXZlcnMgYXJlIHJlc3BvbnNpYmxlIHRvDQo+ICsgKiBlbmZvcmNlIG11dHVhbCBleGNs
+dXNpb24gdXNpbmcgZWl0aGVyIHRoZSBHRU1zIGRtYV9yZXN2IGxvY2sgb3IgYWx0ZXJuYXRpdmVs
+eQ0KPiArICogYSBkcml2ZXIgc3BlY2lmaWMgZXh0ZXJuYWwgbG9jayBieSBzZXR0aW5nIHRoZSBA
+RFJNX0dQVVZBX01BTkFHRVJfTE9DS19FWFRFUk4NCj4gKyAqIGZsYWcuDQo+ICsgKg0KPiArICog
+Rm9yIHRoZSBsYXR0ZXIsIGZ1bmN0aW9ucyBzdWNoIGFzIGRybV9ncHV2YV9saW5rKCkgb3IgZHJt
+X2dwdXZhX3VubGluaygpDQo+ICsgKiBjb250YWluIGxvY2tkZXAgY2hlY2tzIHRvIGluZGljYXRl
+IGxvY2tpbmcgaXNzdWVzLiBGb3IgdGhpcyB0byB3b3JrIGRyaXZlcnMNCj4gKyAqIG11c3QgcHJv
+dmlkZSAoaW4gY2FzZSB0aGUgQERSTV9HUFVWQV9NQU5BR0VSX0xPQ0tfRVhURVJOIGZsYWcgaXMg
+c2V0KSB0aGVpcg0KPiArICogZXh0ZXJuYWwgbG9jayB3aXRoIGRybV9ncHV2YV9tYW5hZ2VyX3Nl
+dF9leHRfbG9jaygpIGFmdGVyIGluaXRpYWxpemF0aW9uLg0KPiArICovDQo+IA0K
