@@ -2,98 +2,143 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 621FEC3DA40
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 01:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08B2AEB64DD
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 01:57:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230225AbjGQBQE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jul 2023 21:16:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35632 "EHLO
+        id S230059AbjGQB5q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jul 2023 21:57:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbjGQBQD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 21:16:03 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7948FE4B
-        for <linux-doc@vger.kernel.org>; Sun, 16 Jul 2023 18:16:01 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-676f16e0bc4so2541547b3a.0
-        for <linux-doc@vger.kernel.org>; Sun, 16 Jul 2023 18:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689556561; x=1692148561;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7oYHq1p/oXp0puIhFy9OrnpLdy2w5rBXDTDnolu96uM=;
-        b=lpLLCmgz30TGZmwSdUJe4tDFJz5Fcd74dvul6RV1b10GYjbMvH7ymiHWYqHYwl1XDU
-         AXvc9ttDTLXuhQDQ6AawB/CVruvT818GWrcl+rSI9CtyU4dUNshxytZ8qMbOnyt5hWo/
-         NR2IUmY18rsbM26/5zCo5bACAbL5EdbpNCDmCSeu04IKz2/F38pSlK90Ee6/pp07p8iM
-         2b312nFSgBZHusqLwvGAjAXkWhrRd+L6jTlWmn40iZ2VYBTHzaXHGEHE1QU2mvzpYcw2
-         PcFrQ4ACun+46PghhI95QzcyTb0HxTlK8n0ChaNriwetm1HejWpDgt5yc+9WRH0WWLCv
-         I4/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689556561; x=1692148561;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7oYHq1p/oXp0puIhFy9OrnpLdy2w5rBXDTDnolu96uM=;
-        b=CC3/etRGBt+no6n0JYsQFOC95ZgdIG00qJnEfn84ZabcbUPf8WGwHJSiWTurbqlL98
-         5eG3KAsa+Yy+lozjv4d+zrhTRrE0samIHMo5xzj9JmMg42OPCw9vgVSxTvyxf1ybo4bT
-         Wer5tFh4E2ra5zs70qlVIKfxNFuwbak83ny33eBNVI1LCb4wKqpz56VG5WcwkjT0hSYl
-         Np5b+z3f3qnWiSOdk6m+kAQwQoW3k2OxK06rK6u3qeDoJOOX2PKu9LDkR+k8BgblOIb+
-         UlcTm4pery3VtwdSmTDml/TJSeLclvFj8TiHymjO9sYxipNPbNZGXA+6Ufb3YDXkTP9z
-         IYwg==
-X-Gm-Message-State: ABy/qLa7kvAxGinJvQ1qQ2BTKooz6SczetJnXo/zPvAyru7GbpoK3DLi
-        a1MAeJiTeSTKJxNkWlGpnOCxPA==
-X-Google-Smtp-Source: APBJJlGT729jgOISi92Vcn9sb6yb8hOJik/a8kpi8tvYnR/R2ZGG42BlJaza9mC2BASDQp7lhQ53bw==
-X-Received: by 2002:a05:6a20:2451:b0:126:43f7:e271 with SMTP id t17-20020a056a20245100b0012643f7e271mr12234973pzc.39.1689556560877;
-        Sun, 16 Jul 2023 18:16:00 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:1bdd:1b8b:7a6:78d0])
-        by smtp.gmail.com with ESMTPSA id k10-20020a633d0a000000b0054fe6bae952sm11687701pga.4.2023.07.16.18.15.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jul 2023 18:16:00 -0700 (PDT)
-Date:   Sun, 16 Jul 2023 19:15:57 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Bjorn Andersson <andersson@kernel.org>
-Cc:     agross@kernel.org, konrad.dybcio@linaro.org, corbet@lwn.net,
-        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        linus.walleij@linaro.org, linux-gpio@vger.kernel.org,
-        srinivas.kandagatla@linaro.org,
-        Mukesh Ojha <quic_mojha@quicinc.com>,
-        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 00/18] Add basic Minidump kernel driver
- support
-Message-ID: <ZLSWTaMtr9UGmrDy@p14s>
-References: <1683133352-10046-1-git-send-email-quic_mojha@quicinc.com>
- <168945921478.1805013.7211960599963339759.b4-ty@kernel.org>
+        with ESMTP id S229697AbjGQB5p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jul 2023 21:57:45 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C34DE52;
+        Sun, 16 Jul 2023 18:57:36 -0700 (PDT)
+X-UUID: 496abba0244511eeb20a276fd37b9834-20230717
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=iWG5WrewmZyGOqX9g3fBInai637V8c0IB0YAxIq934s=;
+        b=erb0pqvQU+77Z4XObw+hivyQ+0zdsAr1thX+qnIhHLllmdUuYUWQwIN5eNfMcJYYmVXNudGBrDHyZtR1wf8NfP1wtPNZ7PQbv/PUQeIapz+UetzG7QI22VfF1OiE8L7J+khBQoLo/cBvzSpzVGMTkE3b/CTpJuizmLqEOhGYqWM=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.28,REQID:77017d85-47d1-496b-a3d9-dd56ef0fafbd,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:28,RULE:Release_Ham,ACTIO
+        N:release,TS:79
+X-CID-INFO: VERSION:1.1.28,REQID:77017d85-47d1-496b-a3d9-dd56ef0fafbd,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:51,FILE:0,BULK:28,RULE:Spam_GS981B3D,ACTIO
+        N:quarantine,TS:79
+X-CID-META: VersionHash:176cd25,CLOUDID:6c33c64c-06c1-468b-847d-5b62d44dbb9b,B
+        ulkID:2307162316286AMI74JA,BulkQuantity:18,Recheck:0,SF:19|48|29|28|17|102
+        ,TC:nil,Content:0|-5,EDM:-3,IP:nil,URL:0,File:nil,Bulk:40|20,QS:nil,BEC:ni
+        l,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
+X-CID-BVR: 1,FCT|NGT
+X-CID-BAS: 1,FCT|NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_OBB,TF_CID_SPAM_FCD,
+        TF_CID_SPAM_SNR,TF_CID_SPAM_SDM,TF_CID_SPAM_ASC
+X-UUID: 496abba0244511eeb20a276fd37b9834-20230717
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+        (envelope-from <mark-pk.tsai@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1800077516; Mon, 17 Jul 2023 09:57:29 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 17 Jul 2023 09:57:28 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 17 Jul 2023 09:57:28 +0800
+From:   Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+To:     <snitzer@redhat.com>
+CC:     <agk@redhat.com>, <corbet@lwn.net>, <dm-devel@redhat.com>,
+        <gregkh@linuxfoundation.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <mark-pk.tsai@mediatek.com>,
+        <matthias.bgg@gmail.com>, <peter@korsgaard.com>,
+        <snitzer@kernel.org>, <stable@vger.kernel.org>,
+        <yj.chiang@mediatek.com>
+Subject: Re: [PATCH 5.15] dm init: add dm-mod.waitfor to wait for asynchronously probed block devices
+Date:   Mon, 17 Jul 2023 09:57:28 +0800
+Message-ID: <20230717015728.12641-1-mark-pk.tsai@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <CAH6w=aztzhm3Sa-afN2Xk-7mp1BVtTKNXJ=JyXqJvm3wtEnd3Q@mail.gmail.com>
+References: <CAH6w=aztzhm3Sa-afN2Xk-7mp1BVtTKNXJ=JyXqJvm3wtEnd3Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <168945921478.1805013.7211960599963339759.b4-ty@kernel.org>
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 15, 2023 at 03:13:34PM -0700, Bjorn Andersson wrote:
+> On Sun, Jul 16, 2023, 11:16 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 > 
-> On Wed, 03 May 2023 22:32:14 +0530, Mukesh Ojha wrote:
-> > Minidump is a best effort mechanism to collect useful and predefined data
-> > for first level of debugging on end user devices running on Qualcomm SoCs.
-> > It is built on the premise that System on Chip (SoC) or subsystem part of
-> > SoC crashes, due to a range of hardware and software bugs. Hence, the
-> > ability to collect accurate data is only a best-effort. The data collected
-> > could be invalid or corrupted, data collection itself could fail, and so on.
-> > 
-> > [...]
+> > On Thu, Jul 13, 2023 at 01:58:37PM +0800, Mark-PK Tsai wrote:
+> > > From: Peter Korsgaard <peter@korsgaard.com>
+> > > 
+> > > Just calling wait_for_device_probe() is not enough to ensure that
+> > > asynchronously probed block devices are available (E.G. mmc, usb), so
+> > > add a "dm-mod.waitfor=<device1>[,..,<deviceN>]" parameter to get
+> > > dm-init to explicitly wait for specific block devices before
+> > > initializing the tables with logic similar to the rootwait logic that
+> > > was introduced with commit  cc1ed7542c8c ("init: wait for
+> > > asynchronously scanned block devices").
+> > > 
+> > > E.G. with dm-verity on mmc using:
+> > > dm-mod.waitfor="PARTLABEL=hash-a,PARTLABEL=root-a"
+> > > 
+> > > [    0.671671] device-mapper: init: waiting for all devices to be 
+> > available before creating mapped devices
+> > > [    0.671679] device-mapper: init: waiting for device PARTLABEL=hash-a 
+> > ...
+> > > [    0.710695] mmc0: new HS200 MMC card at address 0001
+> > > [    0.711158] mmcblk0: mmc0:0001 004GA0 3.69 GiB
+> > > [    0.715954] mmcblk0boot0: mmc0:0001 004GA0 partition 1 2.00 MiB
+> > > [    0.722085] mmcblk0boot1: mmc0:0001 004GA0 partition 2 2.00 MiB
+> > > [    0.728093] mmcblk0rpmb: mmc0:0001 004GA0 partition 3 512 KiB, 
+> > chardev (249:0)
+> > > [    0.738274]  mmcblk0: p1 p2 p3 p4 p5 p6 p7
+> > > [    0.751282] device-mapper: init: waiting for device PARTLABEL=root-a 
+> > ...
+> > > [    0.751306] device-mapper: init: all devices available
+> > > [    0.751683] device-mapper: verity: sha256 using implementation 
+> > "sha256-generic"
+> > > [    0.759344] device-mapper: ioctl: dm-0 (vroot) is ready
+> > > [    0.766540] VFS: Mounted root (squashfs filesystem) readonly on 
+> > device 254:0.
+> > > 
+> > > Signed-off-by: Peter Korsgaard <peter@korsgaard.com>
+> > > Signed-off-by: Mike Snitzer <snitzer@kernel.org>
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+> > > ---
+> > >  .../admin-guide/device-mapper/dm-init.rst     |  8 +++++++
+> > >  drivers/md/dm-init.c                          | 22 ++++++++++++++++++-
+> > >  2 files changed, 29 insertions(+), 1 deletion(-)
+> >
+> > What is the git commit id of this change in Linus's tree?
+> >
+> > thanks,
+> >
+> > greg k-h
+> >
+> >
 > 
-> Applied, thanks!
+> Hey Greg,
 > 
-> [01/18] remoteproc: qcom: Expand MD_* as MINIDUMP_*
->         commit: 318da1371246fdc1806011a27138175cfb078687
->
+> This change shouldn't be backported to stable@. It is a feature, if
+> Mark-PK feels they need it older kernels they need to carry the change
+> in their own tree. Or at a minimum they need to explain why this
+> change is warranted in stable@.
 
-Krzysztof asked for modifications on this patch.
+Thanks for your comment.
+The reason why we think this should be backported to stable kernel is
+that it actually fix the potential race condition when make block
+device probe async in stable kernel.
+And we'd like to fix this upstream rather than just take it in
+our custom tree.
 
-> Best regards,
-> -- 
-> Bjorn Andersson <andersson@kernel.org>
+> 
+> But to answer your original question the upstream commit is:
+> 
+> 035641b01e72 dm init: add dm-mod.waitfor to wait for asynchronously probed block devices
+> 
+> Thanks,
+> Mike
