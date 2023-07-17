@@ -2,252 +2,276 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 574D9EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 19:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7315AEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 19:25:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230190AbjGQTGb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jul 2023 15:06:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51298 "EHLO
+        id S230192AbjGQTZh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jul 2023 15:25:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbjGQTGa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 15:06:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A6B6AF;
-        Mon, 17 Jul 2023 12:06:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ECAA061210;
-        Mon, 17 Jul 2023 19:06:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AD29C433C8;
-        Mon, 17 Jul 2023 19:06:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689620788;
-        bh=db9xuvwkTna2SGmH5Yy1xm32IDRU4TNDb71xJ4dekcY=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=sTGu7LDA4zOahLWeMh7jBVG5bay1PQNfLaY08iZJCpJo/Vwgx3TwzKRYj1uwnbID7
-         srip96ACZPCkuQiPmMXT+OEPYX3GEekFmICmZoGsdXW7qQ5hUZE5WO+ihCBbHajZGw
-         dWLCDpv6Sc5daeMNi5Fud1aMgVv68rYoSVhNW2Xo0Ajk/KWu8/G1FxrFUzwbRa5Z57
-         oYdrXaTD0jcfvIwguolAYmiASEmlY4RveBhQdKoZPMDZnmnu+zLBiJDqFcIh6driMm
-         J9iPPzHfoxkE0/ID6PRJEDdqbXpykvRfZIaXwSyz3bB/g9htg9kg8P4DJbfQLgVf3A
-         0imEANMdSx47A==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id E28FBCE03F1; Mon, 17 Jul 2023 12:06:27 -0700 (PDT)
-Date:   Mon, 17 Jul 2023 12:06:27 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Alan Huang <mmpgouride@gmail.com>
-Cc:     Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/RCU: Bring back smp_wmb()
-Message-ID: <9b1967c5-6b8d-4d66-879c-42818d6e3170@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230711150906.466434-1-mmpgouride@gmail.com>
- <9eaf506f-cc14-4da6-9efc-057c0c3e56b0@paulmck-laptop>
- <9D42CEB7-FE22-4BC6-9E5C-8131579C129D@gmail.com>
- <eabec10a-9283-42eb-85c7-e447e2368c91@paulmck-laptop>
- <6E813D30-2791-4DE8-A70C-E1F91011631D@gmail.com>
- <02a84e4b-a322-4c43-ad9d-1832ce277c2f@paulmck-laptop>
- <636D1ED4-C90D-47CA-A46A-28E40E777966@gmail.com>
+        with ESMTP id S229471AbjGQTZg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 15:25:36 -0400
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7442D1B1;
+        Mon, 17 Jul 2023 12:25:32 -0700 (PDT)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-403f3890a8eso4055161cf.3;
+        Mon, 17 Jul 2023 12:25:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689621931; x=1692213931;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AxmyMfhYMNFgB+irOERGNsRiBqoXurjZjWBXr/t1e0o=;
+        b=MKc312g5viiyWrhiQEW2UsNdiXTuLhwmmCSSd5/kYkJnXDzrCSh5koVFhivdK7T1Dm
+         /bcGeUgEV6sbZWBwcRnoLc3p2qtRf+5SK28O4yaDytSkzMlW8aiWgbg65XAHpaqU8MhM
+         E8GPrxlPB2zv04JTaWNCV2H9ffSMoeoyB9shuhnkiTu8FudH2lUY0l0FQzWXe7YkYh3n
+         5SN8T68xwsQHAb33Y83Fbc90RDOeLeYoWwEtMIoxmViG/mTbWi1MXPSesCuQ2hksBU2s
+         vrJuaem4rkg8Ofg/M/Xvcoy0yQRPcn5Gl6rzLyyDzAL6+EyTyuaOICd416DpXdGJA68J
+         UR/A==
+X-Gm-Message-State: ABy/qLasuRO7me+/ZenF61NSXNuM0qk1WqUnvPFHeqq837N71dCslcEr
+        Fs6cws04tIa0kRxwiNNlnjHLPX3oPDh68UV2
+X-Google-Smtp-Source: APBJJlHIeiFlNQLQ3Oc1I7RZzdEmHwFhnwR+JIB+IskmOTGNsbQXSFVwU3c5Pln+MbqR+K1C9nZjRQ==
+X-Received: by 2002:ac8:5989:0:b0:400:97c6:b40b with SMTP id e9-20020ac85989000000b0040097c6b40bmr18029663qte.48.1689621931312;
+        Mon, 17 Jul 2023 12:25:31 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([5.29.20.9])
+        by smtp.gmail.com with ESMTPSA id x14-20020ac86b4e000000b0040346ce43a5sm83026qts.44.2023.07.17.12.25.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jul 2023 12:25:30 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Costa Shulyupin <costa.shul@redhat.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        loongarch@lists.linux.dev (open list:LOONGARCH)
+Subject: [PATCH v3] docs: move loongarch under arch
+Date:   Mon, 17 Jul 2023 22:24:27 +0300
+Message-ID: <20230717192456.453124-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <87edl6wr9p.fsf@meer.lwn.net>
+References: <87edl6wr9p.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=true
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <636D1ED4-C90D-47CA-A46A-28E40E777966@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 01:53:10AM +0800, Alan Huang wrote:
-> > 2023年7月18日 00:02，Paul E. McKenney <paulmck@kernel.org> 写道：
-> > On Sun, Jul 16, 2023 at 07:21:28PM +0800, Alan Huang wrote:
-> >>> 2023年7月16日 01:19，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>> On Sat, Jul 15, 2023 at 08:50:23AM +0800, Alan Huang wrote:
-> >>>>> 2023年7月15日 07:23，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>>>> On Tue, Jul 11, 2023 at 03:09:06PM +0000, Alan Huang wrote:
-> >>>>>> The objects are allocated with SLAB_TYPESAFE_BY_RCU, and there is
-> >>>>>> n->next = first within hlist_add_head_rcu() before rcu_assign_pointer(),
-> >>>>>> which modifies obj->obj_node.next. There may be readers holding the
-> >>>>>> reference of obj in lockless_lookup, and when updater modifies ->next,
-> >>>>>> readers can see the change immediately because ofSLAB_TYPESAFE_BY_RCU.
-> >>>>>> 
-> >>>>>> There are two memory ordering required in the insertion algorithm,
-> >>>>>> we need to make sure obj->key is updated before obj->obj_node.next
-> >>>>>> and obj->refcnt, atomic_set_release is not enough to provide the
-> >>>>>> required memory barrier.
-> >>>>>> 
-> >>>>>> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-> >>>>> 
-> >>>>> This is an interesting one!!!
-> >>>>> 
-> >>>>> Now I am having a hard time believing that the smp_rmb() suffices.
-> >>>>> 
-> >>>>>> ---
-> >>>>>> Changelog:
-> >>>>>> v1 -> v2: Use _ONCE to protect obj->key.
-> >>>>>> 
-> >>>>>> Documentation/RCU/rculist_nulls.rst | 21 +++++++++++++--------
-> >>>>>> 1 file changed, 13 insertions(+), 8 deletions(-)
-> >>>>>> 
-> >>>>>> diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-> >>>>>> index 21e40fcc08de..2a9f5a63d334 100644
-> >>>>>> --- a/Documentation/RCU/rculist_nulls.rst
-> >>>>>> +++ b/Documentation/RCU/rculist_nulls.rst
-> >>>>>> @@ -47,7 +47,7 @@ objects, which is having below type.
-> >>>>>>   * reuse these object before the RCU grace period, we
-> >>>>>>   * must check key after getting the reference on object
-> >>>>>>   */
-> >>>>>> -    if (obj->key != key) { // not the object we expected
-> >>>>>> +    if (READ_ONCE(obj->key) != key) { // not the object we expected
-> >>>>>>     put_ref(obj);
-> >>>>>>     rcu_read_unlock();
-> >>>>>>     goto begin;
-> >>>>>> @@ -64,10 +64,10 @@ but a version with an additional memory barrier (smp_rmb())
-> >>>>>> {
-> >>>>>>   struct hlist_node *node, *next;
-> >>>>>>   for (pos = rcu_dereference((head)->first);
-> >>>>>> -         pos && ({ next = pos->next; smp_rmb(); prefetch(next); 1; }) &&
-> >>>>>> +         pos && ({ next = READ_ONCE(pos->next); smp_rmb(); prefetch(next); 1; }) &&
-> >>>>> 
-> >>>>> Suppose that lockless_lookup() is delayed just before fetching pos->next,
-> >>>>> and that there were 17 more node to search in the list.
-> >>>>> 
-> >>>>> Then consider the following sequence of events:
-> >>>>> 
-> >>>>> o The updater deletes this same node and kmem_cache_free()s it.
-> >>>>> 
-> >>>>> o Another updater kmem_cache_alloc()s that same memory and
-> >>>>> inserts it into an empty hash chain with a different key.
-> >>>>> 
-> >>>>> o Then lockless_lookup() fetches pos->next and sees a NULL pointer,
-> >>>>> thus failing to search the remaining 17 nodes in the list,
-> >>>>> one of which had the desired key value.
-> >>>>> 
-> >>>>> o The lookup algorithm resumes and sees the NULL return from
-> >>>>> lockless_lookup(), and ends up with a NULL obj.
-> >>>>> 
-> >>>>> And this happens even with the strongest possible ordering
-> >>>>> everywhere.
-> >>>>> 
-> >>>>> OK, yes, it is late on Friday.  So what am I missing here?
-> >>>> 
-> >>>> You missed nothing!
-> >>>> 
-> >>>> The lockless_lockup should not be a function, but a macro like hlist_for_each_entry_rcu.
-> >>> 
-> >>> How would you fix this using a macro?
-> >> 
-> >> With additional detection code. A moved object (in another chain) will have a different slot.
-> >> (I have sent patch v3. )
-> >> 
-> >>> 
-> >>>>> Independent of that, does hlist_add_head_rcu() need to replace its
-> >>>>> "n->next = first" with "WRITE_ONCE(n->next, first)"?
-> >>>> 
-> >>>> I think users who want to use hlist with SLAB_TYPESAFE_BY_RCU should use rculist_nulls?
-> >>> 
-> >>> I believe that you are correct.  Would you like to propose a patch, or
-> >>> would you rather I put something together?  My current thought is to
-> >> 
-> >> Feel free to add. 
-> >> 
-> >> One thing I think would be useful is to tell readers where the ‘next' is. 
-> >> The document mentions ’next’ many times, but it’s hard for me, as a reader, to realize that
-> >> the ‘next' is within hlist_add_head_rcu(). (I have no idea where to put the hint.)
-> >> 
-> >> 
-> >>> keep the examples, but to show why the one with smp_rmb() is broken.
-> >> 
-> >> I think the example needs to be fixed. :)
-> > 
-> > Even better!  I will take a look, but in the meantime, would you be
-> > interested in updating the wording to explain how the back-pointer works?
-> 
-> Which document needs to be updated? 
-> And is there anything that I can refer to? It’s the first time I have ever heard about it.
+and fix all in-tree references.
 
-Documentation/RCU/rculist_nulls.rst, the one that you are updating.
+Architecture-specific documentation is being moved into Documentation/arch/
+as a way of cleaning up the top-level documentation directory and making
+the docs hierarchy more closely match the source hierarchy.
 
-There admittedly isn't a whole lot of commentary.
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 
-> > (Looks similar to the is_a_nulls() pointer, but in each element instead of
-> > just at the end.  One advantage is the ability to detect a move mid-list,
-> > though that is not a big deal in well-tuned hash tables, which tend to
-> > have short hash chains.  The need to move elements to the front of the
-> > destination list remains, though in both cases only if it has been less
-> > than a grace period since the last move.)
-> 
-> Looks like that I need to learn it first. :)
+---
 
-Well, you wrote the code, so...  ;-)
+Changes:
+v3: fixed typo in drivers/irqchip/Kconfig
+v2: added fix of MAINTAINERS and drivers/irqchip/Kconfig
 
-							Thanx, Paul
+I'll continue with the rest architectures.
+Thank you.
+---
+ Documentation/arch/index.rst                                  | 2 +-
+ Documentation/{ => arch}/loongarch/booting.rst                | 0
+ Documentation/{ => arch}/loongarch/features.rst               | 0
+ Documentation/{ => arch}/loongarch/index.rst                  | 0
+ Documentation/{ => arch}/loongarch/introduction.rst           | 0
+ Documentation/{ => arch}/loongarch/irq-chip-model.rst         | 0
+ Documentation/translations/zh_CN/arch/index.rst               | 2 +-
+ .../translations/zh_CN/{ => arch}/loongarch/booting.rst       | 4 ++--
+ .../translations/zh_CN/{ => arch}/loongarch/features.rst      | 4 ++--
+ .../translations/zh_CN/{ => arch}/loongarch/index.rst         | 4 ++--
+ .../translations/zh_CN/{ => arch}/loongarch/introduction.rst  | 4 ++--
+ .../zh_CN/{ => arch}/loongarch/irq-chip-model.rst             | 4 ++--
+ MAINTAINERS                                                   | 4 ++--
+ drivers/irqchip/Kconfig                                       | 2 +-
+ 14 files changed, 15 insertions(+), 15 deletions(-)
+ rename Documentation/{ => arch}/loongarch/booting.rst (100%)
+ rename Documentation/{ => arch}/loongarch/features.rst (100%)
+ rename Documentation/{ => arch}/loongarch/index.rst (100%)
+ rename Documentation/{ => arch}/loongarch/introduction.rst (100%)
+ rename Documentation/{ => arch}/loongarch/irq-chip-model.rst (100%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/booting.rst (94%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/features.rst (61%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/index.rst (78%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/introduction.rst (99%)
+ rename Documentation/translations/zh_CN/{ => arch}/loongarch/irq-chip-model.rst (98%)
 
-> > Thanx, Paul
-> > 
-> >>>> I didn’t find a case using hlist with SLAB_TYPESAFE_BY_RCU, but I did find a case using list
-> >>>> with SLAB_TYPESAFE_BY_RCU in drivers/gpu/drm/i915, the driver also doesn’t use _ONCE
-> >>>> on the fields of the objects allocated with SLAB_TYPESAFE_BY_RCU.
-> >>> 
-> >>> Feel free to send them a patch, though I cannot speak for their
-> >>> reception of it.
-> >>> 
-> >>> Thanx, Paul
-> >>> 
-> >>>>> Thanx, Paul
-> >>>>> 
-> >>>>>>        ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
-> >>>>>>        pos = rcu_dereference(next))
-> >>>>>> -      if (obj->key == key)
-> >>>>>> +      if (READ_ONCE(obj->key) == key)
-> >>>>>>       return obj;
-> >>>>>>   return NULL;
-> >>>>>> }
-> >>>>>> @@ -111,8 +111,13 @@ detect the fact that it missed following items in original chain.
-> >>>>>>  */
-> >>>>>> obj = kmem_cache_alloc(...);
-> >>>>>> lock_chain(); // typically a spin_lock()
-> >>>>>> -  obj->key = key;
-> >>>>>> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> >>>>>> +  WRITE_ONCE(obj->key, key);
-> >>>>>> +  /*
-> >>>>>> +   * We need to make sure obj->key is updated before obj->obj_node.next
-> >>>>>> +   * and obj->refcnt.
-> >>>>>> +   */
-> >>>>>> +  smp_wmb();
-> >>>>>> +  atomic_set(&obj->refcnt, 1);
-> >>>>>> hlist_add_head_rcu(&obj->obj_node, list);
-> >>>>>> unlock_chain(); // typically a spin_unlock()
-> >>>>>> 
-> >>>>>> @@ -165,12 +170,12 @@ Note that using hlist_nulls means the type of 'obj_node' field of
-> >>>>>> begin:
-> >>>>>> rcu_read_lock();
-> >>>>>> hlist_nulls_for_each_entry_rcu(obj, node, head, obj_node) {
-> >>>>>> -    if (obj->key == key) {
-> >>>>>> +    if (READ_ONCE(obj->key) == key) {
-> >>>>>>     if (!try_get_ref(obj)) { // might fail for free objects
-> >>>>>> rcu_read_unlock();
-> >>>>>>       goto begin;
-> >>>>>>     }
-> >>>>>> -      if (obj->key != key) { // not the object we expected
-> >>>>>> +      if (READ_ONCE(obj->key) != key) { // not the object we expected
-> >>>>>>       put_ref(obj);
-> >>>>>> rcu_read_unlock();
-> >>>>>>       goto begin;
-> >>>>>> @@ -206,7 +211,7 @@ hlist_add_head_rcu().
-> >>>>>>  */
-> >>>>>> obj = kmem_cache_alloc(cachep);
-> >>>>>> lock_chain(); // typically a spin_lock()
-> >>>>>> -  obj->key = key;
-> >>>>>> +  WRITE_ONCE(obj->key, key);
-> >>>>>> atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> >>>>>> /*
-> >>>>>>  * insert obj in RCU way (readers might be traversing chain)
-> >>>>>> -- 
-> >>>>>> 2.34.1
-> 
-> 
+diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
+index 8458b88e9b79..4b6b1beebad6 100644
+--- a/Documentation/arch/index.rst
++++ b/Documentation/arch/index.rst
+@@ -13,7 +13,7 @@ implementation.
+    arm/index
+    arm64/index
+    ia64/index
+-   ../loongarch/index
++   loongarch/index
+    m68k/index
+    ../mips/index
+    nios2/index
+diff --git a/Documentation/loongarch/booting.rst b/Documentation/arch/loongarch/booting.rst
+similarity index 100%
+rename from Documentation/loongarch/booting.rst
+rename to Documentation/arch/loongarch/booting.rst
+diff --git a/Documentation/loongarch/features.rst b/Documentation/arch/loongarch/features.rst
+similarity index 100%
+rename from Documentation/loongarch/features.rst
+rename to Documentation/arch/loongarch/features.rst
+diff --git a/Documentation/loongarch/index.rst b/Documentation/arch/loongarch/index.rst
+similarity index 100%
+rename from Documentation/loongarch/index.rst
+rename to Documentation/arch/loongarch/index.rst
+diff --git a/Documentation/loongarch/introduction.rst b/Documentation/arch/loongarch/introduction.rst
+similarity index 100%
+rename from Documentation/loongarch/introduction.rst
+rename to Documentation/arch/loongarch/introduction.rst
+diff --git a/Documentation/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+similarity index 100%
+rename from Documentation/loongarch/irq-chip-model.rst
+rename to Documentation/arch/loongarch/irq-chip-model.rst
+diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
+index 6fa0cb671009..d4c1c729dde2 100644
+--- a/Documentation/translations/zh_CN/arch/index.rst
++++ b/Documentation/translations/zh_CN/arch/index.rst
+@@ -13,7 +13,7 @@
+    ../riscv/index
+    openrisc/index
+    parisc/index
+-   ../loongarch/index
++   loongarch/index
+ 
+ TODOList:
+ 
+diff --git a/Documentation/translations/zh_CN/loongarch/booting.rst b/Documentation/translations/zh_CN/arch/loongarch/booting.rst
+similarity index 94%
+rename from Documentation/translations/zh_CN/loongarch/booting.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/booting.rst
+index fb6440c438f0..d2f55872904e 100644
+--- a/Documentation/translations/zh_CN/loongarch/booting.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/booting.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/booting.rst
++:Original: Documentation/arch/loongarch/booting.rst
+ 
+ :翻译:
+ 
+diff --git a/Documentation/translations/zh_CN/loongarch/features.rst b/Documentation/translations/zh_CN/arch/loongarch/features.rst
+similarity index 61%
+rename from Documentation/translations/zh_CN/loongarch/features.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/features.rst
+index 3886e635ec06..82bfac180bdc 100644
+--- a/Documentation/translations/zh_CN/loongarch/features.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/features.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/features.rst
++:Original: Documentation/arch/loongarch/features.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+ .. kernel-feat:: $srctree/Documentation/features loongarch
+diff --git a/Documentation/translations/zh_CN/loongarch/index.rst b/Documentation/translations/zh_CN/arch/loongarch/index.rst
+similarity index 78%
+rename from Documentation/translations/zh_CN/loongarch/index.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/index.rst
+index 0273a08342f7..4bd24f5ffed1 100644
+--- a/Documentation/translations/zh_CN/loongarch/index.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/index.rst
++:Original: Documentation/arch/loongarch/index.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+ =================
+diff --git a/Documentation/translations/zh_CN/loongarch/introduction.rst b/Documentation/translations/zh_CN/arch/loongarch/introduction.rst
+similarity index 99%
+rename from Documentation/translations/zh_CN/loongarch/introduction.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/introduction.rst
+index 470c38ae2caf..cba04befc950 100644
+--- a/Documentation/translations/zh_CN/loongarch/introduction.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/introduction.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/introduction.rst
++:Original: Documentation/arch/loongarch/introduction.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+ =============
+diff --git a/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+similarity index 98%
+rename from Documentation/translations/zh_CN/loongarch/irq-chip-model.rst
+rename to Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+index fb5d23b49ed5..f1e9ab18206c 100644
+--- a/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/loongarch/irq-chip-model.rst
++:Original: Documentation/arch/loongarch/irq-chip-model.rst
+ :Translator: Huacai Chen <chenhuacai@loongson.cn>
+ 
+ ==================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d0ccb621a660..b68512f1b65f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12282,8 +12282,8 @@ R:	WANG Xuerui <kernel@xen0n.name>
+ L:	loongarch@lists.linux.dev
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git
+-F:	Documentation/loongarch/
+-F:	Documentation/translations/zh_CN/loongarch/
++F:	Documentation/arch/loongarch/
++F:	Documentation/translations/zh_CN/arch/loongarch/
+ F:	arch/loongarch/
+ F:	drivers/*/*loongarch*
+ 
+diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+index 4b9036c6d45b..f7149d0f3d45 100644
+--- a/drivers/irqchip/Kconfig
++++ b/drivers/irqchip/Kconfig
+@@ -567,7 +567,7 @@ config IRQ_LOONGARCH_CPU
+ 	help
+ 	  Support for the LoongArch CPU Interrupt Controller. For details of
+ 	  irq chip hierarchy on LoongArch platforms please read the document
+-	  Documentation/loongarch/irq-chip-model.rst.
++	  Documentation/arch/loongarch/irq-chip-model.rst.
+ 
+ config LOONGSON_LIOINTC
+ 	bool "Loongson Local I/O Interrupt Controller"
+-- 
+2.41.0
+
