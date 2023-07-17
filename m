@@ -2,150 +2,176 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6806C001B0
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 15:17:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03B0BC0015E
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 15:36:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231295AbjGQPR0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jul 2023 11:17:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50560 "EHLO
+        id S230096AbjGQPgH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jul 2023 11:36:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231239AbjGQPRZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 11:17:25 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38130D2;
-        Mon, 17 Jul 2023 08:17:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dhRiGvI3XDBh7ZCGJThleXgXiEtKHKGKsKkz7TKBBFT4DdTKgWYyaEt319XfWlNnBKxyCjWVYzTvHGHXo5e1jXjEjTIWhqNmlQcmu+hgsQrPjv/V0+LfsdqwDxPRvtJhKVedZ1W2cfZIeRQxTwhWllg43xgVoqO2EizGMS7smrO9uwvZusXZkuW2SSwVv59Iv04jbpjzTTk3/H++IQYgXxXUXv7gEezfKLb35kbtD0Vr2zufbH63G7F8YcQoqCBiZhW5KLOoAycjvbIOVIzCNQ0pgTC1WMie1qpcuiDZoa8ZpFUv+kCDSqsUpeA1vWA+XOEx4JFmtgaVV8WzSlwY1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fdJeC2kWIZIZdeObkmzMk7lTUT798Y0jJoEjwbupOSE=;
- b=ckd0DBLU87Bw/4HBUWwN/XYSaHvG+OSHkNXAnAPCk6n6xm+5GWR3yhtAXRulTeGQ89/wZVUxPCI58ffY0ZN/PEfDWBrMCmmEA4lh/rnE61Y+UJZEpNCBToELOqdU7fner4v1AJyuLzsSIF3DfinNJOgpVP6O/+h8vAKMK4aeH2+2Bn9hAg9gNg+6woczxMfgTkeVKwULSJKi98J7acVbniDNnepOCxYdC8Id0oZuu2IAGgwPcSLmkSTc7iGQQG6RfBjlpckNWdHxEs3aADGyP6hErwcaJej5Wh0L8J1cfa+kqADcqwYYzBK+vdL/Avd8xm+U3d2BqsKuTZAu5AK93g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fdJeC2kWIZIZdeObkmzMk7lTUT798Y0jJoEjwbupOSE=;
- b=4PiaADqgHsvJ/Nt7nrn4knJRKzySZzp965dRs1Vhy4f9N4zyc598HP1tOz8jKQT7VtlDG/gDBQ3xORduiysMgRmwS2LdWzkNYncI866AqEgBd23XaA/LM6S6oDMKBl+5TIWmKtDH5AoGtUvf9fwvH3TChKaouYRhM+XYo8+Ebhw=
-Received: from BN9PR03CA0866.namprd03.prod.outlook.com (2603:10b6:408:13d::31)
- by IA0PR12MB8087.namprd12.prod.outlook.com (2603:10b6:208:401::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Mon, 17 Jul
- 2023 15:17:21 +0000
-Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13d:cafe::a1) by BN9PR03CA0866.outlook.office365.com
- (2603:10b6:408:13d::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33 via Frontend
- Transport; Mon, 17 Jul 2023 15:17:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6588.33 via Frontend Transport; Mon, 17 Jul 2023 15:17:20 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 17 Jul
- 2023 10:16:42 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 17 Jul
- 2023 10:16:33 -0500
-Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.23 via Frontend
- Transport; Mon, 17 Jul 2023 10:16:33 -0500
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-To:     <corbet@lwn.net>, <ojeda@kernel.org>
-CC:     <jani.nikula@linux.intel.com>, <rdunlap@infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <konstantin@linuxfoundation.org>,
-        Carlos Bilbao <carlos.bilbao@amd.com>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH v7 2/2] docs: Integrate rustdoc generation into htmldocs
-Date:   Mon, 17 Jul 2023 10:16:24 -0500
-Message-ID: <20230717151624.3470714-3-carlos.bilbao@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230717151624.3470714-1-carlos.bilbao@amd.com>
-References: <20230717151624.3470714-1-carlos.bilbao@amd.com>
+        with ESMTP id S230033AbjGQPgG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 11:36:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2F83FA;
+        Mon, 17 Jul 2023 08:36:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2E3236112B;
+        Mon, 17 Jul 2023 15:36:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1921C433C7;
+        Mon, 17 Jul 2023 15:36:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689608164;
+        bh=0KH5QZtva041A6q7/f5OP+yi5SzktuvZ1Reqbp3ZKbY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=JNynSVfFOXQtpLLV2T55ySh4UwU/qNfGCss1eZBxmRCgoefhlXiH39pvQsTZS/WTQ
+         X9iZpTLnnA9cYONCEHUJqXr9DAWX9vBTOjiv/vOWLxwy6lm8GFzmCDp4lpiRf48Q99
+         rIKNZNBI/a2IzlIEZvfK9MePH239Ydv7qY/dCMpxnYHFyq0UlIzqcuo6/yr4cD2m94
+         PNnVLy/uKsVpSJeUGnc1yAWtUYaknmaMZRglJEV4SHwItbSidsalQlkZzaiscyWVB+
+         3cYOkLlP+X4AArc7Figug4vChnieHQUjVQfgOnTMqAD6VzRTCcYjj2LDQiuSAvhy67
+         +Hm5JRNvHZf+w==
+Message-ID: <9b212c49-ab51-0cd9-5871-c145c5f41b48@kernel.org>
+Date:   Mon, 17 Jul 2023 17:36:00 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT039:EE_|IA0PR12MB8087:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fd3a633-a67c-4ea8-db89-08db86d8ea12
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vIUFiZrcyuR8bNKKSRV3yiWP8TmU0zVlUQmm8K+CXf8jTKKvwB9vosfo6qV9F4lVnfGqSvjDMjhhwwUldEBsEGiY9cdLOAfSSe97nU7prZYXmNVxeK/6vrZBfQ8BRRFFzIEfQFx2sBnK1svGbrr5SX8hCHbLctuu1nvRj1Ybc4FziEIEnv0qMGP9O9BOLzonp1cf040Dme5Pq9NVZ6rtOWi9GFucxiMb+ABKGTLGs+erhZ3P5WdlDBdEhN4CkYpgRhFQAVnP2qyW82Cnpm3+PrrxY4s+suaoUSDJZu+ZTkISz6n4I6E634ojXRRzifNZj3lDQrfzfyQj+jY9E2hlUqcR9dzi5SeKQpHW4TZk/Qgav8c/zz26Bv6E05MJ2G013h+zqdzI1wlFKDxGsEk5Bz8TMoIq0LMkFhdH+wvvZhNcFwE/1fc7l3tgn//+KCTZhCORSgc/lzfSgT4/AMsQ7fzHa/9YyGLZpJatmN8CToHg/ACis7rFhct6cgn+mWdO0w7X1M/BUpC2lEEBwCa7LeCrUClWA/NjQORdV5IlOvduB9PVVJTF5z9C3/CcHABa046J0PHxj/BvcAVQMHcQmMm8kToqfQYf9ztNeOCg3vDicipkifR73NJ6EJ2kxtKraKUDOs+su9NdgfEJFS8Ug2Hl/5+P+N05sdst+/6qS+Z/jo/MO3d6QGfxzDddbDPVfq5EOBzX64AjRj4FjdKV3T4lAJFgJqK6f221QJF4DBmF1OP3B60NKKB84aTgVrep2Gw5zgxu+UqtXSGV06iPjA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(376002)(39860400002)(136003)(451199021)(82310400008)(46966006)(36840700001)(40470700004)(40480700001)(40460700003)(54906003)(110136005)(356005)(81166007)(82740400003)(6666004)(7696005)(70206006)(41300700001)(478600001)(8676002)(8936002)(5660300002)(316002)(70586007)(4326008)(2616005)(336012)(36860700001)(186003)(1076003)(26005)(426003)(47076005)(86362001)(36756003)(44832011)(2906002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 15:17:20.0750
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fd3a633-a67c-4ea8-db89-08db86d8ea12
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8087
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] tracing/timerlat: Add latency threshold
+Content-Language: en-US, pt-BR, it-IT
+To:     Costa Shulyupin <costa.shul@redhat.com>,
+        linux-rt-users@vger.kernel.org
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:TRACING" <linux-kernel@vger.kernel.org>,
+        "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20230716193000.231406-1-costa.shul@redhat.com>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <20230716193000.231406-1-costa.shul@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change target `make htmldocs` to combine RST Sphinx and the generation of
-Rust documentation, when support is available and .config exists.
+Hi Costa,
 
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
----
- Documentation/Makefile | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+On 7/16/23 21:30, Costa Shulyupin wrote:
+> The timerlat tracer generates a huge amount of traces.
+> This affects the performance of the system and
+> the delays we are trying to measure with timerlat.
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 023fa658a0a8..3c375c34fd81 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -59,6 +59,12 @@ PAPEROPT_letter = -D latex_paper_size=letter
- KERNELDOC       = $(srctree)/scripts/kernel-doc
- KERNELDOC_CONF  = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
- ALLSPHINXOPTS   =  $(KERNELDOC_CONF) $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
-+ifneq ($(wildcard $(srctree)/.config),)
-+ifeq ($(CONFIG_RUST),y)
-+	# Let Sphinx know we will include rustdoc
-+	ALLSPHINXOPTS   +=  -t rustdoc
-+endif
-+endif
- # the i18n builder cannot share the environment and doctrees with the others
- I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
- 
-@@ -95,6 +101,20 @@ htmldocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
- 
-+# If Rust support is available and .config exists, add rustdoc generated contents.
-+# If there are any, the errors from this make rustdoc will be displayed but
-+# won't stop the execution of htmldocs
-+
-+ifneq ($(wildcard $(srctree)/.config),)
-+ifeq ($(CONFIG_RUST),y)
-+	$(Q)$(MAKE) rustdoc || true
-+else
-+	@echo "   Skipping Rust documentation since CONFIG_RUST is not y."
-+endif
-+else
-+	@echo "   Skipping Rust documentation since .config was not found."
-+endif
-+
- texinfodocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,texinfo,$(var),texinfo,$(var)))
--- 
-2.34.1
+More explanations in the code, but that is not the dominant factor,
+neither relevant for large spikes.
 
+> However, we are often interested in spikes of delay
+> rather than small values.
+
+That is why the stop tracing exists. One can set stop tracing,
+ignore the trace buffer while tracing is on. Once tracing
+turns off, tail the trace.
+
+rtla timerlat has the --aa-only that ignores the trace until
+the tracing stops, and then do the auto-analysis based on the
+tail of the trace.
+
+> 
+> The patch effectively filters out irrelevant traces
+> before they are generated and produces more reliable
+> data.
+
+More in the code, but it is not more reliable data... did
+you mean human-readable data?
+
+> 
+> This patch helped to debug a very big problem
+> and find this solution:
+> https://lore.kernel.org/lkml/20221208075604.811710-1-junxiao.chang@intel.com/
+
+Can you explain more about this? Because AFAICT, the patch above is
+dealing with a SOFT timer. timerlat uses a HARD timer, so timerlat
+is not affected by that bug... so I might be missing a point here.
+
+> 
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> ---
+>  Documentation/trace/timerlat-tracer.rst |  1 +
+>  kernel/trace/trace_osnoise.c            | 17 +++++++++++++++++
+>  2 files changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/trace/timerlat-tracer.rst b/Documentation/trace/timerlat-tracer.rst
+> index 53a56823e903..71b1c63ca403 100644
+> --- a/Documentation/trace/timerlat-tracer.rst
+> +++ b/Documentation/trace/timerlat-tracer.rst
+> @@ -68,6 +68,7 @@ directory. The timerlat configs are:
+>  
+>   - cpus: CPUs at which a timerlat thread will execute.
+>   - timerlat_period_us: the period of the timerlat thread.
+> + - timerlat_threshold_ns: filter out timer latencies below the threshold
+
+All the interface is in us....
+
+>   - stop_tracing_us: stop the system tracing if a
+>     timer latency at the *irq* context higher than the configured
+>     value happens. Writing 0 disables this option.
+> diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
+> index bd0d01d00fb9..43284a1e8bea 100644
+> --- a/kernel/trace/trace_osnoise.c
+> +++ b/kernel/trace/trace_osnoise.c
+> @@ -346,6 +346,7 @@ static struct osnoise_data {
+>  	u64	stop_tracing_total;	/* stop trace in the final operation (report/thread) */
+>  #ifdef CONFIG_TIMERLAT_TRACER
+>  	u64	timerlat_period;	/* timerlat period */
+> +	u64	timerlat_threshold_ns;
+
+comment....
+
+>  	u64	print_stack;		/* print IRQ stack if total > */
+>  	int	timerlat_tracer;	/* timerlat tracer */
+>  #endif
+> @@ -358,6 +359,7 @@ static struct osnoise_data {
+>  #ifdef CONFIG_TIMERLAT_TRACER
+>  	.print_stack			= 0,
+>  	.timerlat_period		= DEFAULT_TIMERLAT_PERIOD,
+> +	.timerlat_threshold_ns		= 0,
+>  	.timerlat_tracer		= 0,
+>  #endif
+>  };
+> @@ -597,6 +599,10 @@ static void trace_timerlat_sample(struct timerlat_sample *sample)
+>  	struct osnoise_instance *inst;
+>  	struct trace_buffer *buffer;
+>  
+> +	if (osnoise_data.timerlat_threshold_ns &&
+> +	    sample->timer_latency < osnoise_data.timerlat_threshold_ns)
+> +		return;
+> +
+
+From the entire timerlat machinery, skipping the print is not the
+dominant factor. It can save a few nanoseconds, but the values are already
+produced at this point... so why not?
+
+You mentioned that this is useful for large spikes, so... it will not be the few
+ns to cause problems.
+
+And I'm not convinced that it produces more reliable results.
+For example, if you find a large latency in the thread context, but skip
+the IRQ context trace, you will lose useful data.... so your analysis is
+prone to be less reliable.
+
+Did you mean readable? improve the readability... That I can see.
+
+Also, for debugging purposes, one needs to enable more events... at least
+the osnoise: ones. These events happen more frequently than the timerlat
+ones... and they are not being filtered here... Filtering them using the
+event filtering interface will not help either, e.g., hiding 1k one us
+interrupts bomb will mask you a 1ms delay...
+
+So, as I said, I am not convinced that adding this interface file is
+better than setting the stop-tracing option... and then waiting for
+the trace to stop... parsing only the tail of the buffer.
+
+Thoughts?
+
+-- Daniel
