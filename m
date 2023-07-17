@@ -2,95 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5C8EB64DC
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 11:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B737FEB64DC
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jul 2023 12:08:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbjGQLnG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jul 2023 07:43:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51164 "EHLO
+        id S231337AbjGQMIJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jul 2023 08:08:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230261AbjGQLm4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 07:42:56 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D12EE4F;
-        Mon, 17 Jul 2023 04:42:52 -0700 (PDT)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4R4Kqp1Psbz67Lnh;
-        Mon, 17 Jul 2023 19:39:34 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 17 Jul
- 2023 12:42:48 +0100
-Date:   Mon, 17 Jul 2023 12:42:47 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Mark Brown <broonie@kernel.org>
-CC:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Oliver Upton <oliver.upton@linux.dev>,
-        James Morse <james.morse@arm.com>,
-        "Suzuki K Poulose" <suzuki.poulose@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Oleg Nesterov" <oleg@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        "Kees Cook" <keescook@chromium.org>, Shuah Khan <shuah@kernel.org>,
-        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
-        Deepak Gupta <debug@rivosinc.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <kvmarm@lists.linux.dev>,
-        <linux-fsdevel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH 04/35] arm64/gcs: Document the ABI for Guarded Control
- Stacks
-Message-ID: <20230717124247.00001f1c@Huawei.com>
-In-Reply-To: <20230716-arm64-gcs-v1-4-bf567f93bba6@kernel.org>
-References: <20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org>
-        <20230716-arm64-gcs-v1-4-bf567f93bba6@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+        with ESMTP id S231229AbjGQMH7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 08:07:59 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF0C8E58;
+        Mon, 17 Jul 2023 05:07:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689595655; x=1721131655;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=WP9jbrwJlCzDhGsE/E1k9YoxHP6CB4ER/l8Uze8ZUhU=;
+  b=VUmHmtKw3+V42iWkXCTgXkiGTj4CJyxGrrr5Ms0I109kVZouKhHgUt5e
+   1r28kx5QtN1ijv0wbR7WNK/ak1FVKwbxQNCzkGKZsNSRwj9wIls8JdsZ0
+   3zqJHAxJ+0EE5R1WKNrU70uGoSZtXVDuOV4+k8xq7JNgwXGkqlLM/n2pW
+   DaBG7wWAZzdBCtoPPJQ5U7fd9pCusF0OjGpRoCKdCk2NL41Tk2CrAhT3m
+   BB7IHn1/tIvJjaOxUJZUBHQ8kJEYEmc3KcbwV/HKwzggWe3vHPPbt3/Pt
+   gokginQ5eqnFlz6raXWRz0XoaSMyHP89IZTg8CGAMMBj82HL81k3cG8fN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="432082001"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="432082001"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 05:07:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="752876486"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="752876486"
+Received: from dkravtso-mobl1.ccr.corp.intel.com (HELO ijarvine-mobl2.ger.corp.intel.com) ([10.252.45.233])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 05:07:10 -0700
+From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Dean Luick <dean.luick@cornelisnetworks.com>,
+        =?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v5 11/11] PCI: Document the Capability accessor RMW improvements
+Date:   Mon, 17 Jul 2023 15:05:03 +0300
+Message-Id: <20230717120503.15276-12-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230717120503.15276-1-ilpo.jarvinen@linux.intel.com>
+References: <20230717120503.15276-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 16 Jul 2023 22:51:00 +0100
-Mark Brown <broonie@kernel.org> wrote:
+Documentation claims port service drivers should play nice wrt. PCIe
+Capability changes but the concurrency control is now provided in the
+Capability accessors as long as the correct ones are used.
 
-> Add some documentation of the userspace ABI for Guarded Control Stacks.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-Hi Mark,
+Update the documention to match the RMW accessor behavior.
 
-Nice document.  All I could find on a first read was one typo...
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ Documentation/PCI/pciebus-howto.rst | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-...
-
-> +7.  ptrace extensions
-> +---------------------
-> +
-> +* A new regset NT_ARM_GCS is defined for use with PTRACE_GETREGSET and
-> +  PTRACE_SETREGSET.
-> +
-> +* Due to the complexity surrounding allocation and deallocation of stakcs and
-
-stacks
-
-> +  lack of practical application changes to the GCS configuration via ptrace
-> +  are not supported.
-> +
+diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
+index f882ff62c51f..a0027e8fb0d0 100644
+--- a/Documentation/PCI/pciebus-howto.rst
++++ b/Documentation/PCI/pciebus-howto.rst
+@@ -213,8 +213,12 @@ PCI Config Registers
+ --------------------
+ 
+ Each service driver runs its PCI config operations on its own
+-capability structure except the PCI Express capability structure, in
+-which Root Control register and Device Control register are shared
+-between PME and AER. This patch assumes that all service drivers
+-will be well behaved and not overwrite other service driver's
+-configuration settings.
++capability structure except the PCI Express capability structure,
++that is shared between many drivers including the service drivers.
++RMW Capability accessors (pcie_capability_clear_and_set_word(),
++pcie_capability_set_word(), and pcie_capability_clear_word()) protect
++a selected set of PCI Express Capability Registers (Link Control
++Register and Root Control Register). Any change to those registers
++should be performed using RMW accessors to avoid problems due to
++concurrent updates. For the up-to-date list of protected registers,
++see pcie_capability_clear_and_set_word().
+-- 
+2.30.2
 
