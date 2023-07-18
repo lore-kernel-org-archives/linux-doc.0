@@ -2,101 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 936D9EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 19:55:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96892C0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 20:05:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229891AbjGRTzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 15:55:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37400 "EHLO
+        id S229780AbjGRUFg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 16:05:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjGRTzn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 15:55:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4102E198E;
-        Tue, 18 Jul 2023 12:55:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D196D60B45;
-        Tue, 18 Jul 2023 19:55:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D68C433C7;
-        Tue, 18 Jul 2023 19:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689710142;
-        bh=gshhwkunm0Nkznr6q9yEkdRdIiyNHnhVMZurRxoSIOQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lgSBOvWQdpxF3liRy3mjW5e2MFL87uVxkeVJ1V2wPudywexzVM18dF3ko8cfRL/EH
-         +VwKa8cr4Kojk/tBS5K9Qgl/+UXz39EWbpO3NmAtzd6k3bK6WcfCseH6RjE4b9UEcm
-         mXH6ANOp6IJ5J4HdWrjaWQ2bH7ueTtEr2KM+8PHf40GJni1e8zVZaR9s5f7b4rCTZv
-         jWVCDticxRP5dKAu4n0O0N+dSF/tm9SBR1ORKXtt5NZBYCmt29WxD09jfTvNVNotFL
-         HRTWsdMlFS+2DBMXp81oqy6bufzJUfwty4TFn9hCwiv1zt0UbDxJBxcaLPon+du3S8
-         Cdw8dFvA/BYxQ==
-Date:   Tue, 18 Jul 2023 20:55:37 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     corbet@lwn.net, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
-        linux@leemhuis.info, krzk@kernel.org
-Subject: Re: [PATCH docs v2] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <71224ff9-98d0-4148-afb8-d35b45519c79@sirena.org.uk>
-References: <20230718155814.1674087-1-kuba@kernel.org>
+        with ESMTP id S229504AbjGRUFg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 16:05:36 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A689B9D;
+        Tue, 18 Jul 2023 13:05:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689710734; x=1721246734;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=mnxKohf2xPQKgrCKJyNvtxb6h6YDhp8sG/+vF3Y5qeA=;
+  b=KQKLvePxb48ZxmD4lnOHF0gj7KUy9rvtDjlgNxJcbNm2BWNqQPTNyVPN
+   tvqtaKquouDsypCEykRPWDpr5fjVXQhoUGa08anka3Td4UdIQburnkbEy
+   NHLsvCgZi+Tn4duquCgXVT+sezyj4+VJVYH5F/hM7rjrJHUrGzmwfZAWX
+   +LMZVV4VlG5cqeWaU6nh7GaB6lNyfJBU60dsjlb+BKDQuxBWIngkfwdlR
+   HphWlGgVPkzt3iYhwKy9vmUTwZAQKuuip07uj5kVnKSDNAiZH8nL54jYb
+   C0ZvqlIpVKUdWrfSpQojIA6zfdVCgeijVvGf1QgvFADiveS3mxUX8JzzW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="346601842"
+X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
+   d="scan'208";a="346601842"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 13:05:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="793749516"
+X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
+   d="scan'208";a="793749516"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP; 18 Jul 2023 13:05:31 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qLqwr-00BDgm-1E;
+        Tue, 18 Jul 2023 23:05:29 +0300
+Date:   Tue, 18 Jul 2023 23:05:29 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        James Clark <james.clark@arm.com>, linux-doc@vger.kernel.org,
+        kernel@pengutronix.de, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 01/18] pwm: Provide devm_pwmchip_alloc() function
+Message-ID: <ZLbwib753V6wSHKB@smile.fi.intel.com>
+References: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
+ <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="LSdGOUQcgKsH6g7g"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230718155814.1674087-1-kuba@kernel.org>
-X-Cookie: You are as I am with You.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jul 18, 2023 at 08:18:32PM +0200, Uwe Kleine-König wrote:
+> This function allocates a struct pwm_chip and driver data. Compared to
+> the status quo the split into pwm_chip and driver data is new, otherwise
+> it doesn't change anything relevant (yet).
+> 
+> The intention is that after all drivers are switched to use this
+> allocation function, its possible to add a struct device to struct
+> pwm_chip to properly track the latter's lifetime without touching all
+> drivers again. Proper lifetime tracking is a necessary precondition to
+> introduce character device support for PWMs (that implements atomic
+> setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
+> userspace support).
+> 
+> The new function pwmchip_priv() (obviously?) only works for chips
+> allocated with devm_pwmchip_alloc().
 
---LSdGOUQcgKsH6g7g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+...
 
-On Tue, Jul 18, 2023 at 08:58:14AM -0700, Jakub Kicinski wrote:
+> +void *pwmchip_priv(struct pwm_chip *chip)
+> +{
+> +	return (char *)chip + ALIGN(sizeof(*chip), 32);
 
-> We appear to have a gap in our process docs. We go into detail
-> on how to contribute code to the kernel, and how to be a subsystem
-> maintainer. I can't find any docs directed towards the thousands
-> of small scale maintainers, like folks maintaining a single driver
-> or a single network protocol.
+Why 32? I haven't found any explanation on the choice. I can understand arch
+minimum align, but hard coded value is a bit hard to get.
 
-I'm not super comfortable with all of the musts here but this is
-probably fine so
+> +}
 
-Reviewed-by: Mark Brown <broonie@kernel.org>
+...
 
-One note:
+> +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, size_t sizeof_priv)
+> +{
+> +	struct pwm_chip *chip;
+> +	size_t alloc_size;
 
-> +Maintainers must be human, however, it is not acceptable to add a mailing
-> +list or a group email as a maintainer. Trust and understanding are the
-> +foundation of kernel maintenance and one cannot build trust with a mailing
-> +list.
+> +	alloc_size = ALIGN(sizeof(*chip), 32) + sizeof_priv;
 
-If you're revising this I'd add a note about the L: tag in MAINTAINERS
-here, or possibly just adding a list in addition to humans.  It is
-sensible and often helpful for companies to want to get mail copied to a
-wider distribution list internally but they're not really what we mean
-by list since external people typically can't join them.
+Ditto.
 
---LSdGOUQcgKsH6g7g
-Content-Type: application/pgp-signature; name="signature.asc"
+Shouldn't it use a macro from overflow.h?
 
------BEGIN PGP SIGNATURE-----
+> +	chip = devm_kzalloc(parent, alloc_size, GFP_KERNEL);
+> +	if (!chip)
+> +		return NULL;
+> +
+> +	chip->dev = parent;
+> +
+> +	return chip;
+> +}
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS27jgACgkQJNaLcl1U
-h9CIIgf+LLz2FFY+gdDkyU+XJv8nVYZJr7tmYVzdbjT94MAsKgVXjd/DcXrUdISB
-gItU3VHXnC2vXX+rgEUOSZwEBQ2HXi/Grj4As79eV6n29QwE4yMDZ2GIOhcDKqvH
-2GZGDLYaShzkKQNzin2eyCkjVd9ZCquoNCpU8trTaUz56uX3DmuyD2JwqDWnqX1v
-OkPdZHhfAF1jy9XPo1CNXMjgnhP3yNawqptigD7c/bVGY76VjwJ0pphpPij93BQl
-eHMTeQceIZGAPnDtxJAcxFHojjZ9UoHPcit1hMLuIn4xSIIMMOJDVS2fyrcLTynJ
-qg2xILiUbAc4zJlKhCe2eLYe8eM4sg==
-=guc9
------END PGP SIGNATURE-----
+-- 
+With Best Regards,
+Andy Shevchenko
 
---LSdGOUQcgKsH6g7g--
+
