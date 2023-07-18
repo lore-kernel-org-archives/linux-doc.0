@@ -2,288 +2,195 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15793C001B0
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 02:16:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 247CBEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 04:01:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbjGRCQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jul 2023 22:16:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43580 "EHLO
+        id S231206AbjGREB1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 00:01:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjGRCQU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jul 2023 22:16:20 -0400
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6594B11C;
-        Mon, 17 Jul 2023 19:16:18 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.109.108])
-        by gateway (Coremail) with SMTP id _____8Cxc_Dw9bVkfV4GAA--.16556S3;
-        Tue, 18 Jul 2023 10:16:16 +0800 (CST)
-Received: from [192.168.100.8] (unknown [112.20.109.108])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxJ8zt9bVkAXgyAA--.33506S3;
-        Tue, 18 Jul 2023 10:16:14 +0800 (CST)
-Message-ID: <dac99aca-aff4-b288-6dd5-c660514f2988@loongson.cn>
-Date:   Tue, 18 Jul 2023 10:16:13 +0800
+        with ESMTP id S229496AbjGREB0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 00:01:26 -0400
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D43194;
+        Mon, 17 Jul 2023 21:01:25 -0700 (PDT)
+Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3a43cbb4326so2466140b6e.2;
+        Mon, 17 Jul 2023 21:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689652885; x=1692244885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TFDsYeU09QyX9nMGiHdFlrICPlkCawySijwdpTw5NLM=;
+        b=fCpfi36ddfNUO4DxSsb38t1Gm9qcZ2cyxe1ho9CTdR0NF3RYOvfxRFg8sjudYuMA35
+         YbfxUYupQDgG7zx/tJKMpfhNlAXcnXKnKu1xoxJeOd362zxKXkWrBRU1KfqYzmif3OuM
+         yaNzfCWTnY5jtYBCPD8/LkyjZIgn1wuVPT6F5YHmK4DWR/VkTpeXKdunCmjQIxdZVknY
+         g9x+RMMYiTVo243FOHcCk/5Jy98HLDIzKYer4s9KRVaLv3052hDn3acFvxHfSrMDlK0t
+         f7vauHUJk9r0tJqPad+Iv4P+drE/i5dirMTQfBoPV+8/VkfMy62mQxYR2YHYrR0Y+2M0
+         F5ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689652885; x=1692244885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TFDsYeU09QyX9nMGiHdFlrICPlkCawySijwdpTw5NLM=;
+        b=li1lho2sIO894N4aZBZ/Fk8nXEET5W4AXkHLabgGT2xIykiaXyDW9fne4S7joIr7az
+         Zq20r7kycRo9NdAZC6kcXHUVc9KuMa52tVqv4GQoGPNNWURxAJRZw8q1umeI7cDjdExv
+         kcs1dVefOk46jOreqP3z5JhFnaRnReAArtGSIVbqILHkjJHkqI5DoeY2vhkaUXGAqiW9
+         d8nBGtr8e4pjRcge0MUhQ7AIpsG8Le7pNk/LxNUMV4+nPvLbk+K2pi2K+XsvxHo/nNqy
+         F7acRRtQ5LICAq9Et1HKS1RDaKk3dRB7Wo8M8D75zb9bpyLHxH/lLOHQ90X97RYvCNUC
+         EtiQ==
+X-Gm-Message-State: ABy/qLZSIeFTsL3BjxdWpNmb0oMF4FeSGZZek/eXvVFLo5rMpYe7nqeM
+        /ya9Wf0INmdJAcG3v8fbyvnsnYTVX2o0tZHekysEOnvkEdq5ry4+
+X-Google-Smtp-Source: APBJJlFei5nTsv62G4RI+NBkc29pl0jchtNvubF4SKpPkRcKNsh9fO5zwyBsd/MW55rbHWgSub5On7KihHxl/Remrv4=
+X-Received: by 2002:a05:6808:199c:b0:3a3:ac49:77dc with SMTP id
+ bj28-20020a056808199c00b003a3ac4977dcmr15295760oib.1.1689652884633; Mon, 17
+ Jul 2023 21:01:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3] docs: move loongarch under arch
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>, Alex Shi <alexs@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Vineet Gupta <vgupta@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:LOONGARCH" <loongarch@lists.linux.dev>
-References: <87edl6wr9p.fsf@meer.lwn.net>
- <20230717192456.453124-1-costa.shul@redhat.com>
-Content-Language: en-US
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20230717192456.453124-1-costa.shul@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxJ8zt9bVkAXgyAA--.33506S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3tw4rurW3Ww13XF48CFW5XFc_yoWDWFWUpF
-        929r97Kan3Cw1UG348Ga47Wr1UJF1xGa12qF13t340gFsrXw4vyr48tr90gFy7Jw4FyFWI
-        gF4fK345ZFyjywbCm3ZEXasCq-sJn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7KY7ZEXa
-        sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-        0xBIdaVrnRJUUUP2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-        IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-        e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-        0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-        6r4j6r4UJwAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
-        Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
-        Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
-        CYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48J
-        MxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI
-        0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
-        0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-        W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-        IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8svtJUUUU
-        U==
+References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
+ <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org> <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
+ <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
+ <7b198d57-ddec-3074-314a-3e5e5b8f48f9@roeck-us.net> <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
+ <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org> <7a69bda1-5f4c-5b1f-8eb6-6fd58917a9b1@roeck-us.net>
+ <CAGUgbhCTDPGt_vpbfaEreX+iuLJ3WUBqt4kppxyaFZQus9Zf0Q@mail.gmail.com> <b22b2ccc-6760-0db6-067b-109c3864d2e8@linaro.org>
+In-Reply-To: <b22b2ccc-6760-0db6-067b-109c3864d2e8@linaro.org>
+From:   =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>
+Date:   Tue, 18 Jul 2023 12:01:13 +0800
+Message-ID: <CAGUgbhDmXnyxYCL9h9C0P4ByDSTstWnGqW=uFoDVVHeK3BerHA@mail.gmail.com>
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control documentation
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
+        Billy Tsai <billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-在 2023/7/18 03:24, Costa Shulyupin 写道:
-> and fix all in-tree references.
 >
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.
+> On 17/07/2023 11:01, =E8=94=A1=E6=89=BF=E9=81=94 wrote:
+> > Guenter Roeck <linux@roeck-us.net> =E6=96=BC 2023=E5=B9=B47=E6=9C=8817=
+=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=881:00=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+> >>
+> >> On 7/16/23 09:08, Krzysztof Kozlowski wrote:
+> >>
+> >> [ ... ]
+> >>
+> >>>>
+> >>>> This patch serial doesn't use to binding the fan control h/w. It is
+> >>>> used to binding the two independent h/w blocks.
+> >>>> One is used to provide pwm output and another is used to monitor the
+> >>>> speed of the input.
+> >>>> My patch is used to point out that the pwm and the tach is the
+> >>>> different function and don't need to
+> >>>> bind together. You can not only combine them as the fan usage but al=
+so
+> >>>> treat them as the individual module for
+> >>>> use. For example: the pwm can use to be the beeper (pwm-beeper.c), t=
+he
+> >>>> tach can be used to monitor the heart beat signal.
+> >>>
+> >>> Isn't this exactly the same as in every other SoC? PWMs can be used i=
+n
+> >>> different ways?
+> >>>
+> >>
+> >> ... and in every fan controller. Not that it really makes sense becaus=
+e
+> >> normally the pwm controller part of such chips is tied to the fan inpu=
+t,
+> >> to enable automatic fan control, but it is technically possible.
+> >> In many cases this is also the case in SoCs, for example, in ast2500.
+> >> Apparently this was redesigned in ast2600 where they two blocks are
+> >> only lightly coupled (there are two pwm status bits in the fan status
+> >> register, but I have no idea what those mean). If the blocks are tight=
+ly
+> >> coupled, separate drivers don't really make sense.
+> >>
+> >> There are multiple ways to separate the pwm controller part from the
+> >> fan inputs if that is really necessary. One would be to provide a
+> >> sequence of address mappings, the other would be to pass the memory
+> >> region from an mfd driver. It is not necessary to have N instances
+> >> of the fan controller, even if the address space is not continuous.
+> >>
+> >
+> > Hi Guenter,
+> >
+> > May I ask about the meaning of the sequence of address mappings? It app=
+ears
+> > to consist of multiple tuples within the 'reg' property, indicating
+> > the usage of PWM/Tach
+> > registers within a single instance. After that I can use the dts like f=
+ollowing:
+> >
+> > pwm: pwm@1e610000 {
+> > ...
+> > reg =3D <0x1e610000 0x8
+> > 0x1e610010 0x8
+> > 0x1e610020 0x8
+> > 0x1e610030 0x8
+> > 0x1e610040 0x8
+> > 0x1e610050 0x8
+> > 0x1e610060 0x8
+> > 0x1e610070 0x8
+> > 0x1e610080 0x8
+> > 0x1e610090 0x8
+> > 0x1e6100A0 0x8
+> > 0x1e6100B0 0x8
+> > 0x1e6100C0 0x8
+> > 0x1e6100D0 0x8
+> > 0x1e6100E0 0x8
+> > 0x1e6100F0 0x8>;
 >
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-
-
-Thanks,
-
-Yanteng
-
-> ---
 >
-> Changes:
-> v3: fixed typo in drivers/irqchip/Kconfig
-> v2: added fix of MAINTAINERS and drivers/irqchip/Kconfig
->
-> I'll continue with the rest architectures.
-> Thank you.
-> ---
->   Documentation/arch/index.rst                                  | 2 +-
->   Documentation/{ => arch}/loongarch/booting.rst                | 0
->   Documentation/{ => arch}/loongarch/features.rst               | 0
->   Documentation/{ => arch}/loongarch/index.rst                  | 0
->   Documentation/{ => arch}/loongarch/introduction.rst           | 0
->   Documentation/{ => arch}/loongarch/irq-chip-model.rst         | 0
->   Documentation/translations/zh_CN/arch/index.rst               | 2 +-
->   .../translations/zh_CN/{ => arch}/loongarch/booting.rst       | 4 ++--
->   .../translations/zh_CN/{ => arch}/loongarch/features.rst      | 4 ++--
->   .../translations/zh_CN/{ => arch}/loongarch/index.rst         | 4 ++--
->   .../translations/zh_CN/{ => arch}/loongarch/introduction.rst  | 4 ++--
->   .../zh_CN/{ => arch}/loongarch/irq-chip-model.rst             | 4 ++--
->   MAINTAINERS                                                   | 4 ++--
->   drivers/irqchip/Kconfig                                       | 2 +-
->   14 files changed, 15 insertions(+), 15 deletions(-)
->   rename Documentation/{ => arch}/loongarch/booting.rst (100%)
->   rename Documentation/{ => arch}/loongarch/features.rst (100%)
->   rename Documentation/{ => arch}/loongarch/index.rst (100%)
->   rename Documentation/{ => arch}/loongarch/introduction.rst (100%)
->   rename Documentation/{ => arch}/loongarch/irq-chip-model.rst (100%)
->   rename Documentation/translations/zh_CN/{ => arch}/loongarch/booting.rst (94%)
->   rename Documentation/translations/zh_CN/{ => arch}/loongarch/features.rst (61%)
->   rename Documentation/translations/zh_CN/{ => arch}/loongarch/index.rst (78%)
->   rename Documentation/translations/zh_CN/{ => arch}/loongarch/introduction.rst (99%)
->   rename Documentation/translations/zh_CN/{ => arch}/loongarch/irq-chip-model.rst (98%)
->
-> diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
-> index 8458b88e9b79..4b6b1beebad6 100644
-> --- a/Documentation/arch/index.rst
-> +++ b/Documentation/arch/index.rst
-> @@ -13,7 +13,7 @@ implementation.
->      arm/index
->      arm64/index
->      ia64/index
-> -   ../loongarch/index
-> +   loongarch/index
->      m68k/index
->      ../mips/index
->      nios2/index
-> diff --git a/Documentation/loongarch/booting.rst b/Documentation/arch/loongarch/booting.rst
-> similarity index 100%
-> rename from Documentation/loongarch/booting.rst
-> rename to Documentation/arch/loongarch/booting.rst
-> diff --git a/Documentation/loongarch/features.rst b/Documentation/arch/loongarch/features.rst
-> similarity index 100%
-> rename from Documentation/loongarch/features.rst
-> rename to Documentation/arch/loongarch/features.rst
-> diff --git a/Documentation/loongarch/index.rst b/Documentation/arch/loongarch/index.rst
-> similarity index 100%
-> rename from Documentation/loongarch/index.rst
-> rename to Documentation/arch/loongarch/index.rst
-> diff --git a/Documentation/loongarch/introduction.rst b/Documentation/arch/loongarch/introduction.rst
-> similarity index 100%
-> rename from Documentation/loongarch/introduction.rst
-> rename to Documentation/arch/loongarch/introduction.rst
-> diff --git a/Documentation/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
-> similarity index 100%
-> rename from Documentation/loongarch/irq-chip-model.rst
-> rename to Documentation/arch/loongarch/irq-chip-model.rst
-> diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
-> index 6fa0cb671009..d4c1c729dde2 100644
-> --- a/Documentation/translations/zh_CN/arch/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/index.rst
-> @@ -13,7 +13,7 @@
->      ../riscv/index
->      openrisc/index
->      parisc/index
-> -   ../loongarch/index
-> +   loongarch/index
->   
->   TODOList:
->   
-> diff --git a/Documentation/translations/zh_CN/loongarch/booting.rst b/Documentation/translations/zh_CN/arch/loongarch/booting.rst
-> similarity index 94%
-> rename from Documentation/translations/zh_CN/loongarch/booting.rst
-> rename to Documentation/translations/zh_CN/arch/loongarch/booting.rst
-> index fb6440c438f0..d2f55872904e 100644
-> --- a/Documentation/translations/zh_CN/loongarch/booting.rst
-> +++ b/Documentation/translations/zh_CN/arch/loongarch/booting.rst
-> @@ -1,8 +1,8 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/loongarch/booting.rst
-> +:Original: Documentation/arch/loongarch/booting.rst
->   
->   :翻译:
->   
-> diff --git a/Documentation/translations/zh_CN/loongarch/features.rst b/Documentation/translations/zh_CN/arch/loongarch/features.rst
-> similarity index 61%
-> rename from Documentation/translations/zh_CN/loongarch/features.rst
-> rename to Documentation/translations/zh_CN/arch/loongarch/features.rst
-> index 3886e635ec06..82bfac180bdc 100644
-> --- a/Documentation/translations/zh_CN/loongarch/features.rst
-> +++ b/Documentation/translations/zh_CN/arch/loongarch/features.rst
-> @@ -1,8 +1,8 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/loongarch/features.rst
-> +:Original: Documentation/arch/loongarch/features.rst
->   :Translator: Huacai Chen <chenhuacai@loongson.cn>
->   
->   .. kernel-feat:: $srctree/Documentation/features loongarch
-> diff --git a/Documentation/translations/zh_CN/loongarch/index.rst b/Documentation/translations/zh_CN/arch/loongarch/index.rst
-> similarity index 78%
-> rename from Documentation/translations/zh_CN/loongarch/index.rst
-> rename to Documentation/translations/zh_CN/arch/loongarch/index.rst
-> index 0273a08342f7..4bd24f5ffed1 100644
-> --- a/Documentation/translations/zh_CN/loongarch/index.rst
-> +++ b/Documentation/translations/zh_CN/arch/loongarch/index.rst
-> @@ -1,8 +1,8 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/loongarch/index.rst
-> +:Original: Documentation/arch/loongarch/index.rst
->   :Translator: Huacai Chen <chenhuacai@loongson.cn>
->   
->   =================
-> diff --git a/Documentation/translations/zh_CN/loongarch/introduction.rst b/Documentation/translations/zh_CN/arch/loongarch/introduction.rst
-> similarity index 99%
-> rename from Documentation/translations/zh_CN/loongarch/introduction.rst
-> rename to Documentation/translations/zh_CN/arch/loongarch/introduction.rst
-> index 470c38ae2caf..cba04befc950 100644
-> --- a/Documentation/translations/zh_CN/loongarch/introduction.rst
-> +++ b/Documentation/translations/zh_CN/arch/loongarch/introduction.rst
-> @@ -1,8 +1,8 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/loongarch/introduction.rst
-> +:Original: Documentation/arch/loongarch/introduction.rst
->   :Translator: Huacai Chen <chenhuacai@loongson.cn>
->   
->   =============
-> diff --git a/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
-> similarity index 98%
-> rename from Documentation/translations/zh_CN/loongarch/irq-chip-model.rst
-> rename to Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
-> index fb5d23b49ed5..f1e9ab18206c 100644
-> --- a/Documentation/translations/zh_CN/loongarch/irq-chip-model.rst
-> +++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
-> @@ -1,8 +1,8 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> -.. include:: ../disclaimer-zh_CN.rst
-> +.. include:: ../../disclaimer-zh_CN.rst
->   
-> -:Original: Documentation/loongarch/irq-chip-model.rst
-> +:Original: Documentation/arch/loongarch/irq-chip-model.rst
->   :Translator: Huacai Chen <chenhuacai@loongson.cn>
->   
->   ==================================
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d0ccb621a660..b68512f1b65f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12282,8 +12282,8 @@ R:	WANG Xuerui <kernel@xen0n.name>
->   L:	loongarch@lists.linux.dev
->   S:	Maintained
->   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git
-> -F:	Documentation/loongarch/
-> -F:	Documentation/translations/zh_CN/loongarch/
-> +F:	Documentation/arch/loongarch/
-> +F:	Documentation/translations/zh_CN/arch/loongarch/
->   F:	arch/loongarch/
->   F:	drivers/*/*loongarch*
->   
-> diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-> index 4b9036c6d45b..f7149d0f3d45 100644
-> --- a/drivers/irqchip/Kconfig
-> +++ b/drivers/irqchip/Kconfig
-> @@ -567,7 +567,7 @@ config IRQ_LOONGARCH_CPU
->   	help
->   	  Support for the LoongArch CPU Interrupt Controller. For details of
->   	  irq chip hierarchy on LoongArch platforms please read the document
-> -	  Documentation/loongarch/irq-chip-model.rst.
-> +	  Documentation/arch/loongarch/irq-chip-model.rst.
->   
->   config LOONGSON_LIOINTC
->   	bool "Loongson Local I/O Interrupt Controller"
+> Uh, no... I mean, why? We keep pointing out that this should not be done
+> differently than any other SoC. Open any other SoC PWM controller and
+> tell me why this is different? Why this cannot be one address space?
 
+Hi Krzysztof,
+
+This is because the register layout for PWM and Tach is not continuous.
+Each PWM/Tach instance has its own set of controller registers, and they
+are independent of each other.
+
+For example:
+PWM0 uses registers 0x0 and 0x4, while Tach0 uses registers 0x8 and 0xc.
+PWM1 uses registers 0x10 and 0x14, while Tach1 uses registers 0x18 and 0x1c=
+.
+...
+
+To separate the PWM controller part from the fan inputs, Guenter has
+provided two methods.
+The first method involves passing the memory region from an MFD
+driver, which was the
+initial method I intended to use. However, it seems that this method
+does not make sense to you.
+
+Therefore, I would like to explore the second method suggested by
+Guenter, which involves providing
+a sequence of address mappings.
+
+Thanks
+
+Best Regards,
+Billy Tsai
