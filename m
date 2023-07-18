@@ -2,85 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 380FFEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 15:33:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCE2EB64DA
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 15:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232155AbjGRPdZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 11:33:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33158 "EHLO
+        id S232921AbjGRPhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 11:37:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231582AbjGRPdY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 11:33:24 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 321651BC9;
-        Tue, 18 Jul 2023 08:32:58 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-cc7863e7b82so3812211276.0;
-        Tue, 18 Jul 2023 08:32:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689694361; x=1692286361;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v0Ew4xDSq7MPi86/w9VZGABdvX7HcWbeJ7xpN4f/T0Q=;
-        b=FmqGVJCml02/ilNevpUFn/TQWqjlykL92VfRnD+cKehmvmOsbBdpW2grMoNXm2reHp
-         1EjtfCmx1n5HLtCIRw+z6znkwfps/sMFwItmDxxO+5ZUiyTiMRQKGAhC6pfxpm/Bs7mZ
-         fG896h10jrFADrHG9duWLAljqr7LMuZfMKlj1HBq3+kqupzZ50UFG185bzDknuxDa/lj
-         tbAxLimD/oVh4LgCeRKhRcqDYU0cLIHVw/jRsK5+iN4uYcPrLA1KXGHQ5Tkb5fm0qRUf
-         naWAXSMJYYiffHZ6tRo1+6JBtN75MN0Sw8ag83GAGEk6MSNcAeG1zRb0l3bepoW0fNPZ
-         7maw==
+        with ESMTP id S232651AbjGRPhr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 11:37:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E1A992
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jul 2023 08:37:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689694629;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WFSYW0DOGpPster+jaAtGmVXakx425pOilKzR4Mqu7g=;
+        b=EfC//0cZ6cnEK0lBopJvUYkG1OGCDzVR49B2g/aeZidcf9UQIarX+GxtYFLdpgZheP8L4O
+        QqUHZAPAN4hCjCuSfqiT7kQ9jrDyWP0z6uN74AuSiEiOTX293V2eo4BFVX68vSWM0Tum9A
+        peCMwxRR4Fo8ynvvQ7xazwNEBT6nyAY=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-616-_CRBcH1EMVyfIyJDqGykzw-1; Tue, 18 Jul 2023 11:37:07 -0400
+X-MC-Unique: _CRBcH1EMVyfIyJDqGykzw-1
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-39a9590f9fdso8008963b6e.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jul 2023 08:37:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689694361; x=1692286361;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v0Ew4xDSq7MPi86/w9VZGABdvX7HcWbeJ7xpN4f/T0Q=;
-        b=ji9FnvnBjmavb8FCQwBNypAyx/jF5O/fHoda65tH29Z2pG4SjpLw/E/mhCPOJaVZul
-         1RofyDSb5TncmtZgMSrX6gCPaApSH/NP+AxFN32n+wC8qDpZiYZkqx1fILEb2KhverME
-         UQQNL8mMSmJ1xe4Le1olUvrwgDozxT3pSNggprmkzPsCFCSdaAtWNxRtR/8TLubrtCw0
-         3GgqOsFu+s830SzHZdcrxJwwsKzZvEIP8hj44O+LW0oCjdiwj+qqow5S+FAzZU/+7eeI
-         0mZRVW4VQ9i5I9iNEzLk+HCXfwP5i6id9bGp/APQRRJzdFGTodL0EwUqF81/r+FEA5Ew
-         y94g==
-X-Gm-Message-State: ABy/qLb9bvEpQXpYVgdDkp0pRGaAg6rLEVUERI2bexGL+/NSAeYS09E3
-        gh1ZZo56yy8aVEG2kpWEIqxBGPvAwzhenOGyowM=
-X-Google-Smtp-Source: APBJJlH0ne69dDk1mq0QwkUUsLJPBFfYY2V3/WGOX0if93HKy07/Z0XGrjiTXhKPcqu08pWmPMdFFF2957u984MsT60=
-X-Received: by 2002:a25:aba1:0:b0:c6f:db67:cbf7 with SMTP id
- v30-20020a25aba1000000b00c6fdb67cbf7mr95826ybi.16.1689694361102; Tue, 18 Jul
- 2023 08:32:41 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689694625; x=1692286625;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WFSYW0DOGpPster+jaAtGmVXakx425pOilKzR4Mqu7g=;
+        b=R9b5RbPiC8qfwuAOnrP54B9tY7MgIpJVzG6HULjDRfsdcrG4zJgLdulvXYVo9yKrIl
+         UWSMdPEPYJV5ZZk1IovWs6XMnTzeIDX8TXRBDL71QeO+tXb/6BFtSCkU/jFKjMJos8ND
+         EmkroRRT3eHKhGZcqs6opvQ4ceIBQi1y9pG3N+VDs2TCsHTVxeYp8cLJUC0ONj60sZFl
+         Wj+PwhBaTdJsyMT8LRVQITKNTOA8URbPr9wMACIMyoRnXd7tLgaCtiKC78SCD9mY38E0
+         Q0iFWkA5a5pE6+1QvGu039Hew+NrnQQEk1MsuSeYIr8tzyhkqM7FUOoW4thzT0kp5emn
+         fURA==
+X-Gm-Message-State: ABy/qLYtza7Lmn1gEDDeiE9VknHRSrW9oIQpysbV9vYnnmyUxyZBRjhi
+        qIQHCJsTTouJhtEH/F2FHCK61Gj3oakqziKXzF6p1iUMieMx12Rju1J1yvDh+H3r5WeSaKAhQ4z
+        mAgDHeLWevZ5fAOrGwteO8AhBOlfHP60eqwdd
+X-Received: by 2002:a05:6808:8dc:b0:3a4:2941:6c4e with SMTP id k28-20020a05680808dc00b003a429416c4emr8358187oij.14.1689694625694;
+        Tue, 18 Jul 2023 08:37:05 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEf9mgh2Nt7cWxiKa+uMA40DWO59oOanYv0EqBNuG6J62s4TTbWO3ymUHzb1Pts2sn8rpd/wCp6KZ9iqWw7z9M=
+X-Received: by 2002:a05:6808:8dc:b0:3a4:2941:6c4e with SMTP id
+ k28-20020a05680808dc00b003a429416c4emr8358177oij.14.1689694625367; Tue, 18
+ Jul 2023 08:37:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230717151624.3470714-1-carlos.bilbao@amd.com>
- <20230717151624.3470714-3-carlos.bilbao@amd.com> <CANiq72=jiEqYfEvcRAxXsm1BCODnpxmWZOmbGB_YwM=pUGYEeA@mail.gmail.com>
- <88eefdcf-5398-97bc-161c-78f056c682a0@amd.com>
-In-Reply-To: <88eefdcf-5398-97bc-161c-78f056c682a0@amd.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 18 Jul 2023 17:32:30 +0200
-Message-ID: <CANiq72nTYGrHCCGmhavHU=qTs4XJoXsgTf3KgdrjEnuLjy4W9A@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] docs: Integrate rustdoc generation into htmldocs
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, ojeda@kernel.org, jani.nikula@linux.intel.com,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, konstantin@linuxfoundation.org,
-        Akira Yokosawa <akiyks@gmail.com>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>
+References: <CADDUTFyArtN--_27xLWpqnBM2e_udmL+E6Ka7KgimTUOguWthg@mail.gmail.com>
+ <87ilaiwsyl.fsf@meer.lwn.net>
+In-Reply-To: <87ilaiwsyl.fsf@meer.lwn.net>
+From:   Costa Shulyupin <costa.shul@redhat.com>
+Date:   Tue, 18 Jul 2023 18:36:54 +0300
+Message-ID: <CADDUTFyYxh6+-+uhiVYXcPvS+1qQ6XYG_y4J5Q9uLwhcuZp_4A@mail.gmail.com>
+Subject: Re: confusing changes in the documentation table of contents
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, kernelnewbies@kernelnewbies.org,
+        open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 3:54=E2=80=AFPM Carlos Bilbao <carlos.bilbao@amd.co=
-m> wrote:
->
-> The previous patch works without this, the generated HTML will show in th=
-e
-> Rust index:
->
->   This documentation does not include rustdoc generated information.
+Hi Jonathan,
 
-I see, thanks, then it does not matter much. I guess you put it in the
-first commit because the docs were moved to the URL the docs talk
-about, but it still means we are using a tag that does not yet exist,
-so I would have put the "link/URL feature" as a separate commit
-(together with the creation of the tag).
+> By "table of contents" you're talking about the left column?
+Yes, on the left. Now it is named "Contents".
 
-Cheers,
-Miguel
+>  I agree it's still far from ideal.
+Do you have any prototypes as examples or in mind?
+
+Costa,
+Thank you
+
