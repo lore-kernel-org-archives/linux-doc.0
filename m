@@ -2,207 +2,255 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D507EB64DA
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 15:49:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0350EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 16:00:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233725AbjGRPtq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 11:49:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45658 "EHLO
+        id S232526AbjGRQAk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 12:00:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231502AbjGRPtp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 11:49:45 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 386679E;
-        Tue, 18 Jul 2023 08:49:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689695384; x=1721231384;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=PgmgpHTW+p3JyAEdN5Ip5rsVIX4TbbHlm0Lu9WzSOt8=;
-  b=OukEHvkUu9ktSQqYaoC7PSSfPj8XMcQuDYjox6nXFIBWbp1Bkv8Qsp8y
-   6LXoP5hR0e4pJKOD09tc6BEGY8OxgB/o5GqAtJQ0BsrhguIP+UbMQ1Nvo
-   5X0N0K1v5NvVfhpRvTWNgWhIjXqwI48j/I0edpAZ2fXyQfvIaC5lOBKaG
-   oE/gbKDBj1QtaM6H5f1HK7vQyFT+EW0N/uX94jvgCQayLKp16cFv/LtRT
-   HHw+znGZGArcnooqZbDnXPf8oF0z8+07aetkMR8Es4hYfcSZ1MJfcnxiu
-   zN2rnKFHLJPxt43ipsHSXh6uroIcXrffxO2fyp9WF3HjXYNsSj0P0qua9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="369798287"
-X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="369798287"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 08:49:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="726980370"
-X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="726980370"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga007.fm.intel.com with ESMTP; 18 Jul 2023 08:49:42 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 18 Jul 2023 08:49:40 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Tue, 18 Jul 2023 08:49:40 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Tue, 18 Jul 2023 08:49:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b8h7w+or1FrmqSv3HsUpwKt52nd0Qs6LIj7gJSV1L9KmGfzpKXGahma4BmN7gPEOr1qHhKVrR3NnZW3S2kPLmzZtaKE/D+ECNWlkXbXOsX09fPqQQWMQm78P0efbxJ8psHCk1x/CCRWSoEKjA8v6YPA/r67H6E5SJ4rGqVXqgaQX+akZySAKX1c2Id1tBkDhK3GbjZiKDEtH7oN1q5dGL6pt2zr4btBuKJbu/kbs2URyxceWyfgZ+LkRRNeWDoRyDkkQlCdDwQXGnn+u2zOlrU5K4vYzIIbGWSpIr03fEJuqaADkpdvtyFez5nuImZYQT6Yhaws13DrXr45FAxwlTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PgmgpHTW+p3JyAEdN5Ip5rsVIX4TbbHlm0Lu9WzSOt8=;
- b=BuI72QxgxLieq+n3eSmbZyQSkS/Zs6idf3pSRM+jf31VgXuENCpyj6vL5+Ugv8Hrv2SxBrBmVMAQX5JcYbupk/uOK7RfSsVbYTtaBgEaUvvyLHxI1XkK04IWJWG5FL+dQvA9qQ5ufSciMbpP7eJVKrL+ZoWeFNtUB+k4k+wK10H37ALM2J4ywnOxfY74vRlElVV/duUk1d0V/7QDjjjtmzlMMXBklY3lFh10Gdr8ENYEopncviRmXuGUqqgPV50D4J379Sa4BvZdKc1xk6VIQWTYHdAW/4WS/cT1TCTnI0lLkre4BHh359mOAwAzUUdAxWYZKH09XRmSrjzXDu96SA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
- by PH0PR11MB4901.namprd11.prod.outlook.com (2603:10b6:510:3a::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.32; Tue, 18 Jul
- 2023 15:49:28 +0000
-Received: from MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::abd2:f781:1433:259]) by MN0PR11MB5963.namprd11.prod.outlook.com
- ([fe80::abd2:f781:1433:259%3]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
- 15:49:28 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "broonie@kernel.org" <broonie@kernel.org>,
-        "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "palmer@dabbelt.com" <palmer@dabbelt.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH 22/35] arm64/mm: Implement map_shadow_stack()
-Thread-Topic: [PATCH 22/35] arm64/mm: Implement map_shadow_stack()
-Thread-Index: AQHZuDA9Hy9NIq2k+UabXI3UglVqjq+/PuYAgABPpICAAB/ygA==
-Date:   Tue, 18 Jul 2023 15:49:28 +0000
-Message-ID: <7a4c97f68347d4188286c543cdccaa12577cdb9e.camel@intel.com>
-References: <20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org>
-         <20230716-arm64-gcs-v1-22-bf567f93bba6@kernel.org>
-         <ZLZW7Kvg2Rep8ySO@arm.com>
-         <8ea03eda-e630-40c5-acc1-a63f5c5b3102@sirena.org.uk>
-In-Reply-To: <8ea03eda-e630-40c5-acc1-a63f5c5b3102@sirena.org.uk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR11MB5963:EE_|PH0PR11MB4901:EE_
-x-ms-office365-filtering-correlation-id: 90c4084b-e0e0-404a-092a-08db87a69200
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: T14orw1qCxy8wsGBuUl8o/XR3HtlKRJWziRic4iWmV/T/n5Eaqf58EBoaiw1GyZBRSXKKJcPIca2jUl85TpIf1lAs3HvdqbRou2Md90PMADb3hY1HAc7NRNxetBVD6DXjqieoc7vOqQu85LC5E2v/p4N1sR5czz7z+X4aeZbhfdpGXAiZzDrRX+Utv6TvI2Nq3xGmNx+uvHktakvVTEokyvd+9IdT+JqvzhCuHK86bhaDU8ekgec/yn2I4Zh13hVJYT9le3Dp7lIXNTnqIVyjUB1r0TmhwpSIOvTn1N9W8uYJjmwy9gsjHTnE7qDawylsfaOlhxb5gauZ5pk2NcaBFXLCOSFt5+Q582j2uqPfTpor98/cavSk5Pgnyzwdj4R9+eZ+0I7iS/zymmjO2/W6UiBrWTncCE7sqeksz9SndR8xse6sD7PtI08VBkT94+smyWmCgEsAGNZaS0ne2SiqjxNtV15FNo/YL5kKbyib7I9GE/FHiIKafhP7Md85lS4kKmZAiDLRICR66RMvz+siBpEkiNl0e9c9MmbnC81ehxuC4NZTCTxcpE6+CTFSFtsHkD7Q43WlPQcfZ9DIZNJx8YFFdnU522bj76uh4K6Sb0Ny0QiT3OOZW1F155NsNZX
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(376002)(136003)(346002)(396003)(366004)(451199021)(41300700001)(8676002)(7406005)(7416002)(66446008)(66476007)(66946007)(2906002)(8936002)(66556008)(6486002)(54906003)(91956017)(122000001)(76116006)(86362001)(4326008)(316002)(64756008)(36756003)(5660300002)(2616005)(6512007)(38100700002)(83380400001)(186003)(26005)(82960400001)(6506007)(71200400001)(38070700005)(110136005)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U0dPd1NKOW11SklRcFJOU01EV3FFbHZOVm5YUkdEaVBHb1JnR0plYzAvamN5?=
- =?utf-8?B?S3psbVVNbHliR0cyVW0wY2dBTUFBVnYzOUJwY1pTbW5PN1V5ZTcrY2FmaHN1?=
- =?utf-8?B?WG1EcUNlNXM0eHNoYXFsb3JCdWVmOVlLR21WakdsaUlQZGo2MXlVY24vYWl1?=
- =?utf-8?B?MXg4UE1YUkE0QlNUYUNOSTRodzZ3dVdNNHZKc1dtQ25OOWNENi9CbVhWdVpx?=
- =?utf-8?B?a1FWdlFaSnNVSTJJMzQ0cDhrTlY1Vk5sMjl3QjRYWVZIOVNxWG5uNDhaZzJp?=
- =?utf-8?B?UCtMQ3JLY0h5K2xWREJyb1U4S1ZJTHlRWG1wbW5YUU1BMmJTd3lJOEhBaHVP?=
- =?utf-8?B?cFRsZ2FFTm0xRGgwWFJwU1JYdDJ0WnRRSmtGU2FLSjlCWVVFTHhCN0Jhc2Fh?=
- =?utf-8?B?ajBhZ0UydHZ4dTRSc28rTmMySUpCYjZnUUZrbFhhdlhpcEhxMVQwY3o5TDlS?=
- =?utf-8?B?cGdqVFpmNE01TnpCM2prdUYyT2xXWTF2Wk5zLzQxMGRhY1pYamcrSW1ybGtM?=
- =?utf-8?B?L3NFV1I2cGhNMWxVSHFXTm90WGNBY2tnb1BDOUMydUQrWW13VE5uMm92V09E?=
- =?utf-8?B?M3N1citoeWRPbS9iL3pmVG5DNCs0aVloV3IySThBRW5BaDZzZ1VuRkJ0a2h6?=
- =?utf-8?B?a2J2UDJlSHBNTkUwT1dGOGc2NUpRbEFXWGlYYVl1OGptckY4MWZkZ21VUzY0?=
- =?utf-8?B?SzhObmJVMHV0QnVmUGV4SEhzK2VuUkkxTm1WcGpOT0VVQUhmMkRVRlJRaVRN?=
- =?utf-8?B?TklzaU5hU1RkN3dzTXlHRDdtR013ekJhYzVVcEZaU1BFM2s0WklmR3ZRRG5E?=
- =?utf-8?B?MWY4ZlpTcHZwV09QalF2blFwM1BWQjg3aG9XMzBXeXpWT2NtQXZuNVdSY2NL?=
- =?utf-8?B?bUVsenIyMksvMzQ2Z1dZb0dGR0ZDbGUxb2d3YXl1eE9DYlAvYzdZYmo4NmZ4?=
- =?utf-8?B?QUhwYXJsOUNmbUpwa2lkZXc4R3p0eFR4ZkFSR2NBQnVPWmpYZzdzMEh2aGpW?=
- =?utf-8?B?amY3cW82NG1haEVNK0NlNEIzY2xiaW8zYVFOK2JvY3dDL0JQZlVuV2xWTWlV?=
- =?utf-8?B?bHBlbXphS0dtcmgrUkVwdFJZRnpVSW8rL1hYT0hLVW1CV3k4RzZzalBOZU9U?=
- =?utf-8?B?Z2xPOGhYNHN2ZEZVZy92cUhBa1ZCcldHMXN3RVVyRml2ZHJ6OXJUMGE2clpk?=
- =?utf-8?B?ZG9aZHVsR1BRcHVNU2pZKy9zdVRCYmJWcW9UaFkxbGhuS3RqbmNkUlFLZUQy?=
- =?utf-8?B?MENBYUIzQjlvMTA3TFNsWkNzbEE1RDNtL1NGZXpuTXpMRmpBYjhkeTJwZ2c3?=
- =?utf-8?B?WTdCMVY1d0w2MFN0VTE1U0RLYlBnSzdEZEtZN2Q5SlVSendmUitkWXAwL05N?=
- =?utf-8?B?UGx2Z1hLaFFNWVVGaExrd2hyUDhkY0pxZDhqTjdYUlJoL05OYlhET2drL3A5?=
- =?utf-8?B?ZDUyakpQK1ozV1BIQUdaQXRDcWl3SXJkcStzY255ait1b3p0NUVDcXdIZWpt?=
- =?utf-8?B?NmdXczc4bnpERWtGOHZDb0xKWFBjUUFVSnlwUk4rRlN0c01mL3pIUndJbmNq?=
- =?utf-8?B?U0hZR291TjlWMUN6bWdyYzMwNzl3UlljRG16NUExZW1zOXV6WHRnY3pWMVFQ?=
- =?utf-8?B?RzkrZ0VqQWFNa24yeXEyZUU4SnNQaWhXc25zTU8xbzlidnF3amtTcEU1L3pR?=
- =?utf-8?B?MHgra2V4UXJJMTZVS3lqV0lYaTIyOXpVT0ZQVjFITTVQdjF3NTIxQW52WWF6?=
- =?utf-8?B?azNEQlF5U3NYQnh0c0ZtcmpMQkVTUGJKb05NL01UVkp3TDlFejBKTDA2L0Fr?=
- =?utf-8?B?UnVoNWYvcW42NVcwczBqUFFxMXhhbStSUjNjM1NWTG5yVjFMMU9FYngzOWpv?=
- =?utf-8?B?VkxBeXZGc0VMcjk2VFJaWTVqMUgrZndEdUM0NmZMRE1icGRQMllucUErOG5o?=
- =?utf-8?B?RktJclBqSGFDZ2hZV3JHM0p1VU1SZEExaWRGN3Z5em1POEQ2Skxpb0hGb3By?=
- =?utf-8?B?Y3dUTmVlaWxvNVZPQ2pHVUxGd1UxZ0M2NWhDVm1JeGcyREVqRzJYUk5EQ0dt?=
- =?utf-8?B?MjBySTc1YkpUcXpnMXBFMGU1ZVl5T2JNZ0FNTGEra2tHd213VkIyR0VDcU5q?=
- =?utf-8?B?UzdHU2trUm00Z2x5T3VqcDhMQ1oweVhMU2EvQ1E5WndlSkpWUWVrdGpEVnVs?=
- =?utf-8?B?Y1E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F21A12086E28FD428EAF494D03A270A7@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S230019AbjGRQAj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 12:00:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E807F1;
+        Tue, 18 Jul 2023 09:00:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E555F61652;
+        Tue, 18 Jul 2023 16:00:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE7A6C433C7;
+        Tue, 18 Jul 2023 16:00:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689696036;
+        bh=jvMVNhdv/97zl9sPMxZQndXVmhxPoD5xlaUndo6zZv8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FteMW5mLmz58s7a9E5NDYgKBur+BL1NbhXkAd4O+2Vti6gO1zw0GdngI1Rj4ZL862
+         pMizkXjotag4O3QHuwSSkFMDZ+QorloBhXZgsq2kItnp4Mqf/N6Wz6AZdJFmJAXell
+         exStooah3RAcIGnY/9HYqsLG1eVkNjtSkeRbSd6NT9ZSNoiM1qRsfdQD+2yQEbhhCG
+         bmhmqjLQuTTCjZ8FgR4UHoNVe7tZoS10M1S67p13ROH9gUucgWZd/9aj/2TgJ5SsJL
+         k62fkbZ7JZU9RcvyuAQ+n95aIb6W5Z3uHSqyybZ5lR4x1Y8Gyxj+JrhpkwDcyyKy6a
+         jOoEZAYeU3TiQ==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     corbet@lwn.net
+Cc:     Jakub Kicinski <kuba@kernel.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
+        linux@leemhuis.info, broonie@kernel.org, krzk@kernel.org
+Subject: [PATCH docs v2] docs: maintainer: document expectations of small time maintainers
+Date:   Tue, 18 Jul 2023 08:58:14 -0700
+Message-ID: <20230718155814.1674087-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90c4084b-e0e0-404a-092a-08db87a69200
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2023 15:49:28.6388
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 49gGbJ+kIBx5H5iMPgELadCVQH9VuTaxOuOBKA6mDTvNQPSjCtLs2eTpzNZwjGDEPboeuZjYzN+5HNAoc/l30FwQb6bspJ+loTl8xlv87Hc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4901
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVHVlLCAyMDIzLTA3LTE4IGF0IDE0OjU1ICswMTAwLCBNYXJrIEJyb3duIHdyb3RlOg0KPiBP
-biBUdWUsIEp1bCAxOCwgMjAyMyBhdCAxMDoxMDowNEFNICswMTAwLCBTemFib2xjcyBOYWd5IHdy
-b3RlOg0KPiANCj4gPiDCoMKgIHVpbnQ2NF90ICpwID0gbWFwX3NoYWRvd19zdGFjaygwLCBOKjgs
-IDApOw0KPiANCj4gPiBpJ2QgZXhwZWN0IHBbTi0xXSB0byBiZSB0aGUgZW5kIHRva2VuIGFuZCBw
-W04tMl0gdG8gYmUgdGhlIGNhcA0KPiA+IHRva2VuLA0KPiA+IG5vdCBwW1BBR0VfQUxJR04oTio4
-KS84LTJdLg0KPiANCj4gWWVzLCB0aGF0IHByb2JhYmx5IHdvdWxkIGJlIG1vcmUgaGVscGZ1bC4N
-Cg0KSEogbWFkZSBhIHNpbWlsYXIgcmVxdWVzdCBvbiB0aGUgeDg2IHNpZGUuIEhlIHdhbnRlZCBh
-biB1bmFsaWduZWQgc2l6ZQ0KcGFzc2VkIGluIHRvIHJlc3VsdCBpbiB1bmFsaWduZWQgdG9rZW4g
-cGxhY2VtZW50Lg0KDQo+IA0KPiA+IGlmIHdlIGFsbG93IG1pc2FsbGlnbmVkIHNpemUgaGVyZSAo
-YW5kIGluIG11bm1hcCkgdGhlbiBpIHRoaW5rIGl0J3MNCj4gPiBiZXR0ZXIgdG8gbm90IHBhZ2Ug
-YWxpZ24uwqAgc2l6ZSU4IT0wIHx8IHNpemU8MTYgY2FuIGJlIGFuIGVycm9yLg0KPiANCj4gSG9u
-ZXN0bHkgSSdkIGJlIGEgbG90IGhhcHBpZXIgdG8ganVzdCBub3QgYWxsb3cgbWlzYWxpZ25tZW50
-IGJ1dCB0aGF0DQo+IHJhaXNlcyB0aGUgaXNzdWUgd2l0aCBiaW5hcmllcyByYW5kb21seSBub3Qg
-d29ya2luZyB3aGVuIG1vdmVkIHRvIGENCj4ga2VybmVsIHdpdGggYSBkaWZmZXJlbnQgcGFnZSBz
-aXplLsKgIEknbGwgaGF2ZSBhIHRoaW5rIGJ1dCBwb3NzaWJseQ0KPiB0aGUNCj4gc2FmZXN0IHRo
-aW5nIHdvdWxkIGJlIHJlcXVpcmluZyBhIG11bHRpcGxlIG9mIDRLIHRoZW4gcm91bmRpbmcgdXAg
-dG8NCj4gb3VyDQo+IGFjdHVhbCBwYWdlIHNpemUuDQoNCg0KU29tZWRheSB3aGVuIHRoZSB4ODYg
-c2lkZSBpcyBmaW5hbGx5IHVwc3RyZWFtIEkgaGF2ZSBhIG1hbnBhZ2UgZm9yDQptYXBfc2hhZG93
-X3N0YWNrLiBBbnkgZGlmZmVyZW5jZXMgb24gdGhlIGFybSBzaWRlIHdvdWxkIG5lZWQgdG8gYmUN
-CmRvY3VtZW50ZWQsIGJ1dCBJJ20gbm90IHN1cmUgd2h5IHRoZXJlIHNob3VsZCBiZSBhbnkgZGlm
-ZmVyZW5jZXMuIExpa2UsDQp3aHkgbm90IHVzZSB0aGUgc2FtZSBmbGFncz8gT3IgaGF2ZSBhIG5l
-dyBmbGFnIGZvciB0b2tlbitlbmQgbWFya2VyDQp0aGF0IHg4NiBjYW4gdXNlIGFzIHdlbGw/DQo=
+We appear to have a gap in our process docs. We go into detail
+on how to contribute code to the kernel, and how to be a subsystem
+maintainer. I can't find any docs directed towards the thousands
+of small scale maintainers, like folks maintaining a single driver
+or a single network protocol.
+
+Document our expectations and best practices. I'm hoping this doc
+will be particularly useful to set expectations with HW vendors.
+
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+v2:
+ - use Thorsten's wording for bug fixing requirements
+ - put more words into the review/response timeline expectations
+v1: https://lore.kernel.org/all/20230713223432.1501133-1-kuba@kernel.org/
+
+CC: workflows@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: gregkh@linuxfoundation.org
+Cc: linux@leemhuis.info
+Cc: broonie@kernel.org
+Cc: krzk@kernel.org
+---
+ .../feature-and-driver-maintainers.rst        | 155 ++++++++++++++++++
+ Documentation/maintainer/index.rst            |   1 +
+ 2 files changed, 156 insertions(+)
+ create mode 100644 Documentation/maintainer/feature-and-driver-maintainers.rst
+
+diff --git a/Documentation/maintainer/feature-and-driver-maintainers.rst b/Documentation/maintainer/feature-and-driver-maintainers.rst
+new file mode 100644
+index 000000000000..7064b5de076d
+--- /dev/null
++++ b/Documentation/maintainer/feature-and-driver-maintainers.rst
+@@ -0,0 +1,155 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==============================
++Feature and driver maintainers
++==============================
++
++The term "maintainer" spans a very wide range of levels of engagement
++from people handling patches and pull requests as almost a full time job
++to people responsible for a small feature or a driver.
++
++Unlike most of the chapter, this section is meant for the latter (more
++populous) group. It provides tips and describes the expectations and
++responsibilities of maintainers of a small(ish) section of the code.
++
++Driver and alike most often do not have their own mailing lists and
++git trees but instead send and review patches on the list of a larger
++subsystem.
++
++Responsibilities
++================
++
++The amount of maintenance work is usually proportional to the size
++and popularity of the code base. Small features and drivers should
++require relatively small amount of care and feeding. Nonetheless
++when the work does arrive (in form of patches which need review,
++user bug reports etc.) it has to be acted upon promptly.
++Even when single driver only sees one patch a month, or a quarter,
++a subsystem could well have a hundred such drivers. Subsystem
++maintainers cannot afford to wait a long time to hear from reviewers.
++
++The exact expectations on the response time will vary by subsystem.
++The patch review SLA the subsystem had set for itself can sometimes
++be found in the subsystem documentation. Failing that as a rule of thumb
++reviewers should try to respond quicker than what is the usual patch
++review delay of the subsystem maintainer. The resulting expectations
++may range from two working days for fast-paced subsystems (e.g. networking)
++to as long as a few weeks in slower moving parts of the kernel.
++
++Mailing list participation
++--------------------------
++
++Linux kernel uses mailing lists as the primary form of communication.
++Maintainers must be subscribed and follow the appropriate subsystem-wide
++mailing list. Either by subscribing to the whole list or using more
++modern, selective setup like
++`lei <https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started>`_.
++
++Maintainers must know how to communicate on the list (plain text, no invasive
++legal footers, no top posting, etc.)
++
++Reviews
++-------
++
++Maintainers must review *all* patches touching exclusively their drivers,
++no matter how trivial. If the patch is a tree wide change and modifies
++multiple drivers - whether to provide a review is left to the maintainer.
++
++There should be multiple maintainers for any piece of code, an ``Acked-by``
++or ``Reviewed-by`` tag (or review comments) from a single maintainer is
++enough to satisfy this requirement.
++
++If review process or validation for a particular change will take longer
++than the expected review timeline for the subsystem, maintainer should
++reply to the submission indicating that the work is being done, and when
++to expect full results.
++
++Refactoring and core changes
++----------------------------
++
++Occasionally core code needs to be changed to improve the maintainability
++of the kernel as a whole. Maintainers are expected to be present and
++help guide and test changes to their code to fit the new infrastructure.
++
++Bug reports
++-----------
++
++Maintainers must ensure severe problems in their code reported to them
++are resolved in a timely manner: regressions, kernel crashes, kernel warnings,
++compilation errors, lockups, data loss, and other bugs of similar scope.
++
++Maintainers furthermore should respond to reports about other kind of
++bugs as well, if the report is of reasonable quality or indicates a
++problem that might be severe -- especially if they have *Supported*
++status of the codebase in the MAINTAINERS file.
++
++Selecting the maintainer
++========================
++
++The previous section described the expectations of the maintainer,
++this section provides guidance on selecting one and decribes common
++misconceptions.
++
++The author
++----------
++
++Most natural and common choice of a maintainer is the author of the code.
++The author is intimately familiar with the code, so it is the best person
++to take care of it on an ongoing basis.
++
++That said, being a maintainer is an active role. The MAINTAINERS file
++is not a list of credits (in fact a separate CREDITS file exists),
++it is a list of those who will actively help with the code.
++If the author does not have the time, interest or ability to maintain
++the code, a different maintainer must be selected.
++
++Multiple maintainers
++--------------------
++
++Modern best practices dictate that there should be at least two maintainers
++for any piece of code, no matter how trivial. It spreads the burden, helps
++people take vacations and prevents burnout, trains new members of
++the community etc. etc. Even when there is clearly one perfect candidate,
++another maintainer should be found.
++
++Maintainers must be human, however, it is not acceptable to add a mailing
++list or a group email as a maintainer. Trust and understanding are the
++foundation of kernel maintenance and one cannot build trust with a mailing
++list.
++
++Corporate structures
++--------------------
++
++To an outsider the Linux kernel may resemble a hierarchical organization
++with Linus as the CEO. While the code flows in a hierarchical fashion,
++the corporate template does not apply here. Linux is an anarchy held
++together by (rarely expressed) mutual respect, trust and convenience.
++
++All that is to say that managers almost never make good maintainers.
++The maintainer position more closely matches an on-call rotation
++than a position of power.
++
++The following characteristics of a person selected as a maintainer
++are clear red flags:
++
++ - unknown to the community, never sent an email to the list before
++ - did not author any of the code
++ - (when development is contracted) works for a company which paid
++   for the development rather than the company which did the work
++
++Non compliance
++==============
++
++Subsystem maintainers may remove inactive maintainers from the MAINTAINERS
++file. If the maintainer was a significant author or have played an important
++role in the development of the code they should be moved to the CREDITS file.
++
++Removing an inactive maintainer should not be seen as a punitive action.
++Having an inactive maintainer has a real cost as all developeres have
++to remember to include the maintainers in discussions and subsystem
++maintainers spend brain power figuring out how to solicit feedback.
++
++Subsystem maintainers may remove code for lacking maintenance.
++
++Subsystem maintainers may refuse accepting code from companies
++which repeatedly neglected their maintainership duties.
+diff --git a/Documentation/maintainer/index.rst b/Documentation/maintainer/index.rst
+index 3e03283c144e..eeee27f8b18c 100644
+--- a/Documentation/maintainer/index.rst
++++ b/Documentation/maintainer/index.rst
+@@ -9,6 +9,7 @@ additions to this manual.
+ .. toctree::
+    :maxdepth: 2
+ 
++   feature-and-driver-maintainers
+    configure-git
+    rebasing-and-merging
+    pull-requests
+-- 
+2.41.0
+
