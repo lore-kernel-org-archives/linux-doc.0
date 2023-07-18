@@ -2,138 +2,101 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C7D9EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 19:37:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 936D9EB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 19:55:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbjGRTh0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 15:37:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57828 "EHLO
+        id S229891AbjGRTzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 15:55:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjGRThZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 15:37:25 -0400
+        with ESMTP id S229504AbjGRTzn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 15:55:43 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D895A198D;
-        Tue, 18 Jul 2023 12:37:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4102E198E;
+        Tue, 18 Jul 2023 12:55:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 73F2060B59;
-        Tue, 18 Jul 2023 19:37:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06F4AC433C7;
-        Tue, 18 Jul 2023 19:37:17 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D196D60B45;
+        Tue, 18 Jul 2023 19:55:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D68C433C7;
+        Tue, 18 Jul 2023 19:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689709043;
-        bh=ZxtPv1D0nptmBko9s7OKhZDvD31woHBZFfU7oYY10b8=;
+        s=k20201202; t=1689710142;
+        bh=gshhwkunm0Nkznr6q9yEkdRdIiyNHnhVMZurRxoSIOQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HMLY8kCEqG0wMS07BdWto8m0clJr2/78xvRh1w9dZf9yG8l29QftXXKHFF55EFsz3
-         rMx0ONDAp3wXEMIlVWX54Q8iMQycKnWpkwPHNUgvAd6rMgpv3P0Yoj8MIFKE/aOJ6F
-         LRmzXHn9sUf5TWmvjnegDi3yttbTb0Zz6AagJoP4t5CylB1YdgUOjZPrtgkqdRnacp
-         g4lHW0S/qAk6zPJYXKsgsuJglyVgIy3O5bIBW60emia1334fKYVwDNILv497vXIGse
-         MTMybqf0Swz27NUZmnrkgdv5Kv9IGHQvU3SGj3GplW2cBlx4sxBs/AzGXS1s65Y7jR
-         vKNy338gfsWYg==
-Date:   Tue, 18 Jul 2023 20:37:14 +0100
+        b=lgSBOvWQdpxF3liRy3mjW5e2MFL87uVxkeVJ1V2wPudywexzVM18dF3ko8cfRL/EH
+         +VwKa8cr4Kojk/tBS5K9Qgl/+UXz39EWbpO3NmAtzd6k3bK6WcfCseH6RjE4b9UEcm
+         mXH6ANOp6IJ5J4HdWrjaWQ2bH7ueTtEr2KM+8PHf40GJni1e8zVZaR9s5f7b4rCTZv
+         jWVCDticxRP5dKAu4n0O0N+dSF/tm9SBR1ORKXtt5NZBYCmt29WxD09jfTvNVNotFL
+         HRTWsdMlFS+2DBMXp81oqy6bufzJUfwty4TFn9hCwiv1zt0UbDxJBxcaLPon+du3S8
+         Cdw8dFvA/BYxQ==
+Date:   Tue, 18 Jul 2023 20:55:37 +0100
 From:   Mark Brown <broonie@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-        "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "palmer@dabbelt.com" <palmer@dabbelt.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH 21/35] arm64/gcs: Implement shadow stack prctl() interface
-Message-ID: <22a53782-7c8b-409e-92b5-ce89e2a86e2d@sirena.org.uk>
-References: <20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org>
- <20230716-arm64-gcs-v1-21-bf567f93bba6@kernel.org>
- <2e1c24e343fb920e1f8616e083bba625717c384d.camel@intel.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
+        linux@leemhuis.info, krzk@kernel.org
+Subject: Re: [PATCH docs v2] docs: maintainer: document expectations of small
+ time maintainers
+Message-ID: <71224ff9-98d0-4148-afb8-d35b45519c79@sirena.org.uk>
+References: <20230718155814.1674087-1-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="+LcC9ieUsmFeoYzA"
+        protocol="application/pgp-signature"; boundary="LSdGOUQcgKsH6g7g"
 Content-Disposition: inline
-In-Reply-To: <2e1c24e343fb920e1f8616e083bba625717c384d.camel@intel.com>
-X-Cookie: Nothing happens.
+In-Reply-To: <20230718155814.1674087-1-kuba@kernel.org>
+X-Cookie: You are as I am with You.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---+LcC9ieUsmFeoYzA
-Content-Type: text/plain; charset=iso-8859-1
+--LSdGOUQcgKsH6g7g
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 18, 2023 at 05:51:54PM +0000, Edgecombe, Rick P wrote:
-> On Sun, 2023-07-16 at 22:51 +0100, Mark Brown wrote:
+On Tue, Jul 18, 2023 at 08:58:14AM -0700, Jakub Kicinski wrote:
 
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0g=
-cs =3D alloc_gcs(task->thread.gcspr_el0, size,
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A00, 0);
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0i=
-f (!gcs)
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0return -ENOMEM;
+> We appear to have a gap in our process docs. We go into detail
+> on how to contribute code to the kernel, and how to be a subsystem
+> maintainer. I can't find any docs directed towards the thousands
+> of small scale maintainers, like folks maintaining a single driver
+> or a single network protocol.
 
-> > +=A0=A0=A0=A0=A0=A0=A0task->thread.gcs_el0_mode =3D arg;
-> > +=A0=A0=A0=A0=A0=A0=A0if (task =3D=3D current)
-> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0gcs_set_el0_mode(task);
-> > +
+I'm not super comfortable with all of the musts here but this is
+probably fine so
 
-> Ah! So does this task =3D=3D current part mean this can be called from
-> another task via ptrace?
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-Ugh, right.  So I had been worried about preemption rather than invoking
-prctl() via ptrace, though since ptrace can change the syscall invoked
-by a task it could cause prctl() to be invoked that way (but that should
-look like being run in the target process).
+One note:
 
-I'm not aware of an interface specifically intended to remotely invoke
-prctls via ptrace but that doesn't mean there isn't one that I didn't
-find yet.  I can't remember why I'm aware of the task !=3D current case as
-a concern which is worrying me.
+> +Maintainers must be human, however, it is not acceptable to add a mailing
+> +list or a group email as a maintainer. Trust and understanding are the
+> +foundation of kernel maintenance and one cannot build trust with a mailing
+> +list.
 
-> If so, then is the alloc_gcs() part on the wrong mm?
+If you're revising this I'd add a note about the L: tag in MAINTAINERS
+here, or possibly just adding a list in addition to humans.  It is
+sensible and often helpful for companies to want to get mail copied to a
+wider distribution list internally but they're not really what we mean
+by list since external people typically can't join them.
 
-Yes, it will be.  I'll add a check in there to reject attempts to enable
-GCS when task !=3D current.
-
---+LcC9ieUsmFeoYzA
+--LSdGOUQcgKsH6g7g
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS26eoACgkQJNaLcl1U
-h9CYygf+IDDkv7ACSKD5nM6hnqcKIlhFl4zq3viBlcIX0vXYzPVupOCAbCarTXX9
-8ONJZvPpTQjznNjMcmvWut8WU+hWOW/UvsbtftxjLJRyoioHPqwZHy7KVVYYWUwv
-FIGO+d+5I7UpABBVNJsdHFSGthvOxBPGzFMNqyi/0wO8rtRAlfdg+cmMkGgpxoel
-HEC4D5W7U+X5BEs1wnPKZZuvTvt5hbqeLbY4VSyKqfqjryTxnqebHLo5RzW3PKdH
-ZDcn47+rFqdw4kMF7gsLWp++R3fZXCO5PRO6B+Ok6A12Hh3ICV+MbVPdeDrzhfiw
-s1AEnkG+S/KEme6d6O1scSv5RQymhg==
-=hLC+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS27jgACgkQJNaLcl1U
+h9CIIgf+LLz2FFY+gdDkyU+XJv8nVYZJr7tmYVzdbjT94MAsKgVXjd/DcXrUdISB
+gItU3VHXnC2vXX+rgEUOSZwEBQ2HXi/Grj4As79eV6n29QwE4yMDZ2GIOhcDKqvH
+2GZGDLYaShzkKQNzin2eyCkjVd9ZCquoNCpU8trTaUz56uX3DmuyD2JwqDWnqX1v
+OkPdZHhfAF1jy9XPo1CNXMjgnhP3yNawqptigD7c/bVGY76VjwJ0pphpPij93BQl
+eHMTeQceIZGAPnDtxJAcxFHojjZ9UoHPcit1hMLuIn4xSIIMMOJDVS2fyrcLTynJ
+qg2xILiUbAc4zJlKhCe2eLYe8eM4sg==
+=guc9
 -----END PGP SIGNATURE-----
 
---+LcC9ieUsmFeoYzA--
+--LSdGOUQcgKsH6g7g--
