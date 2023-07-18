@@ -2,123 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B68CCEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 19:10:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE6BEB64DC
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 19:19:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230005AbjGRTKt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 15:10:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49160 "EHLO
+        id S229543AbjGRTTR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 15:19:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230140AbjGRTKr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 15:10:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61ED2113;
-        Tue, 18 Jul 2023 12:10:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A7D96616CE;
-        Tue, 18 Jul 2023 19:10:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE09C433C8;
-        Tue, 18 Jul 2023 19:10:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689707445;
-        bh=YYl/EUj6DCRSCQey6kEPZ2T5dVhRW3N46kZgt3rw2LU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CPOMIHmHcysn6e7Ezp7G9Lvt5eZGNIxiZV8UrLxoyk03fhbOjyFIFDPEDxQVjGxYr
-         0IJDGgSBCcj1y3UJKnXlohYlZo2TZR55ziCWM+86tX1h476ymSNvomBxYATFGDiKD3
-         kM4DP+Uy+Rbt/rr9VbChoK4eYmVmmf/OH1LeGVL0gPDFxxcExeeUqUIKfTbdHwmWwj
-         66xboAw32/YLlqeRbYTLZJqR8hZxQYweZH3uYGuQVY/W6gV1++qmVkfgSNyFT5rPDJ
-         e0ivgfAmet3+KXZ29mn3Tuj5p6aWr2wpx7JISQCOXZJ4RmRChoWXmtAXKlBm/sdulP
-         kTlli0NniP8Eg==
-Date:   Tue, 18 Jul 2023 20:10:35 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "maz@kernel.org" <maz@kernel.org>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-        "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "palmer@dabbelt.com" <palmer@dabbelt.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH 02/35] prctl: Add flag for shadow stack writeability and
- push/pop
-Message-ID: <19911588-f74d-4a7a-858c-2994c8614463@sirena.org.uk>
-References: <20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org>
- <20230716-arm64-gcs-v1-2-bf567f93bba6@kernel.org>
- <a236d8bb1593035252f7094b6461e4d2c5b432a1.camel@intel.com>
+        with ESMTP id S229437AbjGRTTQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 15:19:16 -0400
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE9DF198B;
+        Tue, 18 Jul 2023 12:19:15 -0700 (PDT)
+Received: by mail-vs1-xe34.google.com with SMTP id ada2fe7eead31-440bb9bad3cso1925663137.0;
+        Tue, 18 Jul 2023 12:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689707955; x=1692299955;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ka+h1AwDZ7wd2kMZ1WG3CJg2grD7MqdarHGbW5wU5Y4=;
+        b=QktrLhRT3zfbV/H0lv2tZwRpZSBvnmRka7Y4l/rOuIjB+GRtv+MNkAJzmEeH2hAhH0
+         CR24Am0i8EnmlGntBZDui0YA3alxNFko3q3bvHQrEKAv9s1iznXzHVNllkg4bB0bL4yE
+         hyJCj0WFuwhSkWq+9GQwxiKZSLvV3B3B6DfuXPQmf2CBmciVBpuSvg7KIhGozA4XzEW6
+         /7zzCkHtkhbNokpYOmAMBKqUBaPiXxrLcpVXlPg3GgiqadIvc0AoWDikt6y4T3drHYJo
+         fhjqhERxmWdQLHC2oRo0kWb2HqFP6F92KUROVPx4ATJVmvW1lANGP38TJFbWhBN69pF+
+         t7uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689707955; x=1692299955;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ka+h1AwDZ7wd2kMZ1WG3CJg2grD7MqdarHGbW5wU5Y4=;
+        b=eeFSGEORmI4YiV4WkfXh+OnAWAMyRgBqhbUvQvCuAy3Fw33h8J0UnvHLRkKv/sElVQ
+         +ZT2Kgm6pfjVy+ydLjwwgD/3AI4YRrLNwjEPHHAtF3LzcGvvLnGMTfgLJ/F64+sfw8+N
+         Tvv/fmt6aPJw9oAxy5+DBzYGNLN6A4fyU6/0sTukmTRCFz1x2uBoBCrQhshWUVtv4N2y
+         WQD2Tu96Tv80cioLlhmgDiQNcz/jluSvOpFJbYyusVZQMZjqaOZZDu0SZd8S6IWnU3oE
+         zeR9fYpBJcfDWY3aN0qub2nQD7D4jcH+87knwRkLNNHkiJuWaCE8ul3C6OkbXoDCGsE+
+         gHyw==
+X-Gm-Message-State: ABy/qLbnBbURRuNj6r71Je2FOFeUpnbwH9yEzkZ7HovirVoDLxo9fA07
+        o7kesZFP35Cd+UrYQNOOJzc=
+X-Google-Smtp-Source: APBJJlH6yGZest7hdrsUtNnwQKOPUpN3e9kLHUAUeNzhj1B56NskbQPjGSNXLDHZILID0nm/2sd6Lg==
+X-Received: by 2002:a67:ffca:0:b0:436:57fc:ffa3 with SMTP id w10-20020a67ffca000000b0043657fcffa3mr7515892vsq.23.1689707955012;
+        Tue, 18 Jul 2023 12:19:15 -0700 (PDT)
+Received: from localhost (modemcable065.128-200-24.mc.videotron.ca. [24.200.128.65])
+        by smtp.gmail.com with ESMTPSA id m1-20020a0c9d01000000b0063623c266easm958028qvf.3.2023.07.18.12.19.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jul 2023 12:19:14 -0700 (PDT)
+Date:   Tue, 18 Jul 2023 15:19:13 -0400
+From:   Benjamin Poirier <benjamin.poirier@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
+        linux@leemhuis.info, broonie@kernel.org, krzk@kernel.org
+Subject: Re: [PATCH docs v2] docs: maintainer: document expectations of small
+ time maintainers
+Message-ID: <ZLblsQe1fLLhZzvU@d3>
+References: <20230718155814.1674087-1-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="iAfYGwbU4kDAge8S"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a236d8bb1593035252f7094b6461e4d2c5b432a1.camel@intel.com>
-X-Cookie: Nothing happens.
+In-Reply-To: <20230718155814.1674087-1-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2023-07-18 08:58 -0700, Jakub Kicinski wrote:
+[...]
+> +Reviews
+> +-------
+> +
+> +Maintainers must review *all* patches touching exclusively their drivers,
+> +no matter how trivial. If the patch is a tree wide change and modifies
+> +multiple drivers - whether to provide a review is left to the maintainer.
+> +
+> +There should be multiple maintainers for any piece of code, an ``Acked-by``
+> +or ``Reviewed-by`` tag (or review comments) from a single maintainer is
+> +enough to satisfy this requirement.
 
---iAfYGwbU4kDAge8S
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This sentence seems strange. Were the first two words swapped?
 
-On Tue, Jul 18, 2023 at 05:47:32PM +0000, Edgecombe, Rick P wrote:
-> On Sun, 2023-07-16 at 22:50 +0100, Mark Brown wrote:
+Given the latter part of the document which recommends to have multiple
+maintainers, maybe this sentence could begin with "When there are
+multiple maintainers for a piece of code". That sounds less speculative.
 
-> > On arm64 the kernel can separately control if userspace is able to
-> > pop
-> > and push values directly onto the shadow stack via GCS push and pop
-> > instructions, supporting many scenarios where userspace needs to
-> > write
-> > to the stack with less security exposure than full write access.=A0 Add
-> > a
-> > flag to allow this to be selected when changing the shadow stack
-> > status.
+[...]
+> +Non compliance
+> +==============
+> +
+> +Subsystem maintainers may remove inactive maintainers from the MAINTAINERS
+> +file. If the maintainer was a significant author or have played an important
+> +role in the development of the code they should be moved to the CREDITS file.
 
-> Is this correct? I thought Szabolcs was saying pop was always
-> supported, but push was optional.
-
-It's not, I wrote this right after looking at hypervisor controls which
-do control push and pop.
-
---iAfYGwbU4kDAge8S
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS246sACgkQJNaLcl1U
-h9CH3Af9Gc0ROtEwiO2hraLxRf8RP7E57Zl493uWzd9vEx2utPcr5meeChS7qWAk
-zNoD8IB/4WfafwXv6xjwP5d1PnERWQMij8YDHh3/HPUskRQQJoqb2i0rdSrne/n7
-PEhrLVeF69IYVhVhpnSrOQqdGD0P8iSmaC9Z23grrFoUC/l0uRGqX5DaafWRwhMt
-2dDXduZC/3AmH6m+s05fouTSJCmAgTgBWrSyKpIvL6/Gle5/GHZMwOBoNEIFwnxD
-DhOyjAeycXa5+EfcJY4tSlXiZmvs9SEz1NdYRQnBDxs7s1WBf0XMjO+IRJIj2HlC
-vE24/LaeVmr9BnVOuylmqCUJInN5Jw==
-=UfKG
------END PGP SIGNATURE-----
-
---iAfYGwbU4kDAge8S--
+         If the maintainer was a significant author or played an important
+   role in the development of the code, they should be moved to the CREDITS file.
