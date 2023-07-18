@@ -2,435 +2,356 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F3A9EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 20:45:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58DD6EB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 22:08:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229730AbjGRUpL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 16:45:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50576 "EHLO
+        id S229679AbjGRWI2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 18:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjGRUpK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 16:45:10 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A828198C;
-        Tue, 18 Jul 2023 13:45:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689713107; x=1721249107;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=gCYzhuclPqL7GumJ3YdsxPULQDl4+V8NeL3mLESdecg=;
-  b=gVrk3kTaBSGGUxoRRh+p21V0LEDdoYrBJI1YfSVsvtH3DwZ+Y9wzr/ty
-   qlR0j+PLtkS5O5bgPV678l+yv22UPRbYo2Ft7KIskPuMBrwdAxiAbn7rr
-   ujiLYn/jGZXM+o5TdCbAyNqxHHH5MzmLoas44zVIxtK8MajFFQeixzxx0
-   JF7TeE1k2omLY4Jylc6vg16eoyOMY0Xbq9ZyVAwH9PfRpOHTm2RIGZ6/j
-   PujEY/qOzJdQvC5gtCn5R9ocpLsIOdv1nUt58LwtuM3RyuZJcTnhZtQ7x
-   4rzGkuf7FVm5KTS93bjOrWHfFZkLsebo9cTmCsoQRSGuGX3qC9kmYvqYp
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="356256644"
-X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="356256644"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 13:45:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="674051241"
-X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="674051241"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga003.jf.intel.com with ESMTP; 18 Jul 2023 13:45:06 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 18 Jul 2023 13:45:05 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 18 Jul 2023 13:45:05 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Tue, 18 Jul 2023 13:45:05 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Tue, 18 Jul 2023 13:45:05 -0700
+        with ESMTP id S230519AbjGRWI1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 18:08:27 -0400
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2062f.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eb2::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2771995;
+        Tue, 18 Jul 2023 15:08:04 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fh642t3cov9l98dRdxu17rNnbIe+1GOygFMj9QcxT+mmGiHh6ZQ5d+U4rzHZ8qip0BmvSeFTxGUJ4QyKduS7AZhdBZxGnYGKHA80xUhsgegmhOglaJWE9EqfbdKoubc6TXlWE2Iuq2jS1p9gsdtij9IdMFDW8lC2M4YjgaFwv1yWhpZufjJQyddGRy49s4B7s/FG7v2c91p5ePUrm01vSd/5AnV0+25+cfO2KFoZOR0wsN+n9nmvN5+x3zIVrlPrvk+Z6AkBmvAXj4C0HW/wSBcdosTHhNcWlsGFWhkNgXenefF3RhRAs2qIZD6qnUITbNmdDPh8wMPW/sdvr2x+ng==
+ b=GTGj6boWtohwKdzCbgbOwkwKke5C4RIvs9pp6iPtYsvOCBUh1CBzd/+QFLy0wPB4tsRi5sZB8BQu+C+gqY4xKB847qzj7zz0w3nP5UXRiiz+uW6+/yefrICrgSJrQs72mVtFLU/bTrx1UZh4q9H/BTEx8l1r+08cDKGuWY3NA/MXfRd3yUinICuYMYasqBTPZlh30EYcIQeZ3qytYJlDAS6GHHXE+my8nJSKT5z42LCGAnnJDaXryTeEmlllgd9XWbXKXK090sqoaeT3cUn5MRxJEAWbWNVgiALDK4gRmDrxkL6H+4dV6p4ZSJJxei1T+zOksvWObItJtVYd4+iMTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QKVQvHkVkZOhozHaPRVD8TVWTLJ19vV+dk1g5zarH4M=;
- b=JVPoZ3LCbza7B6PUK0pwRK4hnZFLSxuCqbpT98+sjviKyshgmZamCwy5msgew0hYkw7dFp4e4GPQlRi66xsCAK86ItoYy6qdusAZWV7Z/IKnm9VhewAc7sUMFWG3GdOyA12wJVAfPRHj1/16jD05ws87lPXRN/rkynEivOzpHwXuGvYhCFXam8jP22Hzw5m+SruGYzNdIZX0d63DuQVjWBG+fF0AcyyLW1wBrOH91B8mBvT/Z0dQ/CYEmjwiQ6s9zakMZh/6lFQpIjDk6TdJbb4Zaue85GXGYQy2GrzaIjB7NvxGKpT0T88D6r06Omt7SQFcnioi5FscaV4uTsH33w==
+ bh=d6EkvlD6DT1Qqjvk1idF2CjRc57WMh/Jy1dwlmh3GVc=;
+ b=jFXrbthUiDdNjD6uCGfoNWqre0vAgFg3kizV/TR5xrwHWbP+0f2pzcImtazVkgCBctWgCJOzzCKNYhP3S7mWbPeighdieG56xfiOHNBOk2h3Y3S7D32WAnU5H80PeD5++SZ74TViOtH5aiLxtnRrOs4UEjScF5qTYWXvB4pC1BzPm/uKNh8GguvQVWYA8U+uEzbsWRpZbBsMjywvYqVBUIFOuBjzbj2IXHsCUCkeP890+5OnHQf33gzdKzkqmx5J43zkyX4fGVa5La3mPQbm9hhV6AodhFMOmOhivY9mRyKtwthZSKFoMZK0zuyR1boHzJYzfzXIph8lOW5KO6RtUw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d6EkvlD6DT1Qqjvk1idF2CjRc57WMh/Jy1dwlmh3GVc=;
+ b=SlWbHo5uUukEzKD6f2+pZAimQOr4TX8GTuq9ALdg+JMuBn42Yrx4FysgcCxk9jKB3Kv6nDteDdyIFE5rV3gz+NFCrBW0IdxVlq1ttf1PjbFwKHKV3QrNj41DheOn+6s/bqMwH2AMGCj6lZpa1OHRA2e81y35xejU3rd8VyM6vIw=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by IA1PR11MB6346.namprd11.prod.outlook.com (2603:10b6:208:38a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Tue, 18 Jul
- 2023 20:45:03 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::116c:1030:6e1a:be28]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::116c:1030:6e1a:be28%5]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
- 20:45:02 +0000
-Message-ID: <436375fe-92a4-648d-6e6c-649eacc320b8@intel.com>
-Date:   Tue, 18 Jul 2023 13:45:00 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Subject: Re: [PATCH v3 7/8] x86/resctrl: Determine if Sub-NUMA Cluster is
- enabled and initialize.
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS0PR12MB6583.namprd12.prod.outlook.com (2603:10b6:8:d1::12) by
+ PH0PR12MB5435.namprd12.prod.outlook.com (2603:10b6:510:ed::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6588.33; Tue, 18 Jul 2023 22:02:23 +0000
+Received: from DS0PR12MB6583.namprd12.prod.outlook.com
+ ([fe80::bf76:da18:e4b4:746b]) by DS0PR12MB6583.namprd12.prod.outlook.com
+ ([fe80::bf76:da18:e4b4:746b%7]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
+ 22:02:23 +0000
+Message-ID: <8ab6e3ec-7868-caf2-fed9-44c08fb751bf@amd.com>
+Date:   Tue, 18 Jul 2023 15:02:19 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.12.0
+Subject: Re: [PATCH docs v2] docs: maintainer: document expectations of small
+ time maintainers
 Content-Language: en-US
-To:     Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
-        "Peter Newman" <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Shuah Khan" <skhan@linuxfoundation.org>, <x86@kernel.org>
-CC:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <patches@lists.linux.dev>
-References: <20230713163207.219710-1-tony.luck@intel.com>
- <20230713163207.219710-8-tony.luck@intel.com>
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <20230713163207.219710-8-tony.luck@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+To:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
+Cc:     workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        gregkh@linuxfoundation.org, linux@leemhuis.info,
+        broonie@kernel.org, krzk@kernel.org
+References: <20230718155814.1674087-1-kuba@kernel.org>
+From:   Shannon Nelson <shannon.nelson@amd.com>
+In-Reply-To: <20230718155814.1674087-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0150.namprd03.prod.outlook.com
- (2603:10b6:303:8c::35) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+X-ClientProxiedBy: SJ0PR05CA0019.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::24) To DS0PR12MB6583.namprd12.prod.outlook.com
+ (2603:10b6:8:d1::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA1PR11MB6346:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b69557f-18bb-4f97-34c2-08db87cfdc4b
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6583:EE_|PH0PR12MB5435:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a89faab-bd1e-4919-b4c0-08db87daaa0d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B5evV3j0VHDelmW+DG6Wpku2Sqx0rlhIHs1f7DjM8CKoYmFQoBuXaBz4xj+yHwehh0xL6/cYZDKmlqrMuG5dV1ftPp/Wbs9uVZSGva1E9+4SwUUYI9fuQkb9/yVUvmb5PqtVF7PwqSncObD/ZHVkLZ9o5BBoL2yf8gT4LFN4HVvHizPqtpqdtzCBB8PqS7IwV85PvBDgYR/qnIqLh6U4Vv7Al0UgFj1zddhGVBKQnXt3/qwpr6HrWOMogzdIRzA/ELnkClNCziv9DTknAoTKO4tfWkngXRRGWyxYeZl9mja5nj47B7lcYn84mJiVJvllByn+MXy8JIw0/CqpD8POj3h2eEQapyCw/1HDeLG3t2u1N01/th9YweT0bowEG/qepQUz3fHeZRSbw49Y9D9EQYvymOWN/e7Nr9Q5Kv53NvrSCLzPCQT44EitwxVUGRhhpfiz9gKhISEJ1Kcj6XZC9gDCto8JMgf3okIRhV/oRbqn3INn/HA5ZNoOotUJWptPCj3ACIs0UvRYR+EvubP6CuvN/1Ps+fK162zgAaz1/4Uh5VffQWRfIP0p3QA9KNCf9ZLNLRyVbxfDGvH4swIM2Shz9t2QAGAu6pgD7j7WuY4z3Rvssq20T2K4t6dN3PHHxjPLO1GbgO5QiqBQJ095Bw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(366004)(136003)(346002)(39860400002)(376002)(451199021)(110136005)(478600001)(6486002)(54906003)(53546011)(6506007)(186003)(6512007)(26005)(2906002)(44832011)(4326008)(316002)(66556008)(66946007)(41300700001)(7416002)(36756003)(8676002)(5660300002)(8936002)(82960400001)(38100700002)(66476007)(86362001)(31696002)(2616005)(83380400001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: oMnqbjiNh+jAqj41oXV+//XWLug0vltssPNwjCmF6x8F90iQK/7/NSkROYxJiqCQHHwQ9Gp27vZ6QszOEgkZmNScRcm8cCu1fGRCY+BgfKtq53wHWF6Hf+FoWS3X6LcOglJWMeD21AwRPeY46FR2d7LXgGvbBKrDI7QR8VKNaOFGNdXzypFiEz5K0MmB7MUnMjI6tMpLx43B1fhA0LuXHecRydTPEXYfLMRvvr7OnjM7OhlXGoH0WxvQ7zhStriGxwUlAW4/WNVNWklLZzsf0yC/WA9qNVG/88smhmVVOy3yjIq3X/8DtfF1Egyd4SyaFDgEta9wES5JeWo4QhFzDtn/ror/AHF/UjSW2EI7m0Chb18JqMyeep2kuAe24qosp4oVFAgNfPMUrLNyEWwyCFSyDZfpR30vJ2AzPpjcs/wk8aC1gD4up8EwSWhagyCW5qbmUjP5yHC/+tXCQVaL6zDxwdSMd4q456/oXyxxGFSeyP1g1FEfIKCqXBr4K+PnMfHUHZZwfteCuZKfQwA2//fKKmPcipnWxepXMS0JC1zjmlRHRP5aA1k7VsRIchJGhVGSqhsUJoulIskJ2+nSquDfRHh7IiH8Mxjaq1j5esmTYjFIjgJ/JXNelLi52gOOp0/4btuRmwFJPBziCGD24g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6583.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(136003)(346002)(396003)(376002)(451199021)(478600001)(6486002)(6666004)(53546011)(186003)(6506007)(966005)(6512007)(26005)(31696002)(2906002)(41300700001)(66556008)(66476007)(44832011)(4326008)(7416002)(8676002)(5660300002)(66946007)(8936002)(316002)(38100700002)(86362001)(36756003)(2616005)(83380400001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2p6YTJDalBvaHdHU0JIcmxLOVFrYXp0dTNnTVhXeXFCSG42S21sVllDbDNk?=
- =?utf-8?B?ODAzb1ZGanpBMnZVb3pUVTIxN1lzMjB0VEhMR04rTnFvRW5WcVUxS2RENzc3?=
- =?utf-8?B?cGlWYlN6a1oxT2VIZEI0STZHaWFaZDVqZUhQa1A3Rk83b3QvcFI0ZFNnZmR1?=
- =?utf-8?B?ZjZOSXVtR3dtdTJYVW5JcTRhOCs4UUh5YlR5U24vN09WbmlkVUM1cnNtckxm?=
- =?utf-8?B?U1hOU25uYUY2TVBsbXRvaHhhTlFkRzgwVWJxUVNLblpqUGZJZ3N3NGpCS3Ns?=
- =?utf-8?B?cVRyajhOcEZSb1FUdld4clRZMUF6anVnVEhXNVNsVi9VQ3pZVzhYaElsdmJn?=
- =?utf-8?B?TGNQdmVndm16c3NPS205Nkc4Qk0xaVhQeXFyUmY2d1ZDeTZUY2FCa0RUcERO?=
- =?utf-8?B?VDJmTmhlcStRdkZ4bUUxT0pqemFSUWFBL1FsYURxbXdqVnJYbE9NVDY5c040?=
- =?utf-8?B?c201OWFEQlBtSER5YTVhQWpQOTJGZzlwcFU4UmFJcGVITHc2NzF4c1A4aGhN?=
- =?utf-8?B?YkNnUG1zc1Z2emE3MWt5YVEzNTJ4blRuQnJRQTZlNzdWL1NKdWI0Uk44NWZL?=
- =?utf-8?B?alEvZXBXclF6b3R5bFVKb0hGSlpYanJ4QVh4Sm1rRWF4aTZIQ0xtLzdVaHd1?=
- =?utf-8?B?REo0S3IyRlI0SmljMFlTSVlFTU5CL0hxdjNPd2JlRWQ4UXdkL1NFUHNPOUFl?=
- =?utf-8?B?MUp4ZGg2SnZkQnlnamxZVWVPN3B4bmdUb3ZGTTE3NC9ldEZ4dzk3a0lQdW5F?=
- =?utf-8?B?N3pySlRGUnNWRHovdWFBbjZCL0FhZDd1dVVyMmVhVk9reGc1U09DM0JjL292?=
- =?utf-8?B?TU5YZXlFOFNsSzB3K3d1NDF0M092OHAvS3U3OVdjaS81VEhpdjZrd0JibDVx?=
- =?utf-8?B?U3NBY0ljRk5QQTBTcUwveDBZeGswWDI5SE5qVGE1SCtSaFZTWHpyUHRVa0xs?=
- =?utf-8?B?VjdDZk1MMnJ2RzZ2ekMyWmxmVXN0Z1FaaU0wSnRxUFJnNWdMTWMwY213MHFS?=
- =?utf-8?B?RUYyQUhiRmNpUXdsMk5UWG5CRzkrblBlSTZ2ZGI1dDBUNmcvQ0xFR2g0TThv?=
- =?utf-8?B?MlBiTDdPbmc4U0s5SFBpS001SG1xVHNkbW1FSlU5RVpuTDU1aTMyanBWQVVW?=
- =?utf-8?B?eUpLWHV3VHpzdWY0TDc2aVIxNW1OSzlLTDBaQ01oTE1xbE5UV09rTjNDU3RP?=
- =?utf-8?B?Y3k4QTlYbkFkYzcvVXQwM3N4ekwrSWh6b3B1YS84d0dnYVNTcS93Mjd3QTMv?=
- =?utf-8?B?cElraVV1QkdaZmxCQzRjRDhjYkdXbzRXNjNzZTRFd0w5ekhDdjk2V1RObm9t?=
- =?utf-8?B?Rmk2SWFlcjRlSkx4YWNIYnF1SWhTczZYekFSb3crUk1oU0FLNVFWNnA5STNK?=
- =?utf-8?B?MUNoTlgrWkZNWFA4bXg0aTdFRDFuWnRpaVU3cGZERTFQdTRXcVcxNzN0SXND?=
- =?utf-8?B?SWd5TmplOVZnSVNFTTRXZ0dGNHJpVk1lNkE4bUxZZkFEZW0xREVRMjRBWDAz?=
- =?utf-8?B?blM3UWZjenlyOEpXMW13U3NTQ3RpSDRHQi80MUsyakg3LzZGbTNkcjJ1MGhs?=
- =?utf-8?B?Zm50Tmc0aVcxekZERFlLUCtRQWJ3OE1ibFh0ZkNXcHhpTFkxTUl6M2E5ZHpx?=
- =?utf-8?B?WDBnQXZiZE9HN2FONVZGdEJQOG5iTytmRnUvNDJaT3g0SnEyVk9mY0FpVXRs?=
- =?utf-8?B?SUlVRzlTcmlJbjBtUFZxL05oa3hYdis5U0RSMXFGaDNUZWViSEIzSmNxZldC?=
- =?utf-8?B?ZHdZMk5BcmNhSi9GOFJ6eWpLaWRjRHppUDZvWnZhVU5zN0ZheFFzRWRNNnF2?=
- =?utf-8?B?dlNXNXdLQWovQ2NvYmczOVNCcDUwLzNwMjZQb1R6MUt5RkFvLzRsWTd4aVVL?=
- =?utf-8?B?K0V1VlRUc2p2c1U3YmdIcmZGMVk2eUVxYWZISVFCM3FjaDQ4dEpJek4yR3U0?=
- =?utf-8?B?SFdIWUlCZXRDbWlZRHU4Wms3WS9HdjZid1NDUXd1SjRET1FLTzVPSisxYzk5?=
- =?utf-8?B?bkgyNnJLNWxRYU1QdmlLVHFrZ0NjajRMbmVkeEpaYW1YaDB1NmJZaVNMTFJh?=
- =?utf-8?B?MUVSY3hPQkkyaDYxTmtpYmlzTzVkakNZaWNIMmQ1empvMjRNVUJXTzBFdnYx?=
- =?utf-8?B?d3VlZE5wRUJJbFVaMjRwNjlXblUwZS9ZZVJJeWJXekJsVTZLZFh2dkxHS2I5?=
- =?utf-8?B?QWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b69557f-18bb-4f97-34c2-08db87cfdc4b
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bFFHQk5UMmNJdzlpN3RYZ09aR1JIRlI2N3ZpakhVc0VSM2w3RldWUjRWK1Ux?=
+ =?utf-8?B?NE1OUko4UlFxYjdJdWhsRFUxenJUcmhlWkFVVnNLc3p1Z0hqbk9KelErNVBK?=
+ =?utf-8?B?dXl4N1o1RWdNZXlKcGpNQW9xcHJwNjBhUWxPR25TZzZtbXh5dmsxVUxqVyt5?=
+ =?utf-8?B?VHJXRGh0aG9kd3NJdnozeWZTYjFTZ2xhVXYwMG9MUUtOS2NSSkFqQ3NnajVF?=
+ =?utf-8?B?ejVFdzNkSjBhZnNsdHhYL2lSZTBMSmU3cE1pemFVMHVkcjlaaGRKQVhBZmZt?=
+ =?utf-8?B?SUhZajVHT0ZwUHQ0a3ZuazlPeFNQbUtFRjlGc1l6bWtrUzhKeVJ0bEFUVWFX?=
+ =?utf-8?B?ZDhaWGxGNGc2REtIalZMV2F2NnAyUEJSOWJmZkF1WFR2dnFIdXhtRG5oWFU3?=
+ =?utf-8?B?SW5VekVBdjcyVDEzTGFPMGZwVFg2Vmo3SlBtZWNkTnJRQ1JjcmZSaUlGSU8y?=
+ =?utf-8?B?blJpZmNHN3BmR3J3R280VEdkbnpNdS9Id2pucG5nZEZyVTRmeTlLYlk0ekJC?=
+ =?utf-8?B?Sk1XcVRDYVNjNmx6M3h0SGtHR0FKVzJpUFY2YnEvVlNkZTl4VU5raldibG83?=
+ =?utf-8?B?RG9pbVlPRVhpVVhINkRmZ1cyZzVxaU1taVBkUkl2akNjQjJwTVJUVWFzdHlY?=
+ =?utf-8?B?N3pNUzhwdmpmTTU5bzRMZDl2UTZaRlpFU3BCcUdEbHdURHBOV0IxdFRXTVVN?=
+ =?utf-8?B?ZzBnM0hTV201U1ZmMzNVb2FkU3ZiK0pGMVNmT2U1bXppa1pvRHVPWWZOekpk?=
+ =?utf-8?B?eWR1bGs2aU5ydVErT1lFNkw2Vno3Ri9yQnpyOHJOdVQyTWUyVldCdFZabDZr?=
+ =?utf-8?B?cDEwUVV1TytqanlJSjQrVVBwNGcvWlkyTENBMTVFazlSNkt3VGtocy9XbU1u?=
+ =?utf-8?B?Y2ZxNnBXQmZNWkx3OTBKdzM0MVQvTmdDK3Z6VFFpc3NrSTRWYVphT0t2dUZt?=
+ =?utf-8?B?YU82Sml3cE9JWmNrMk1vZW1Ccm1KdThpbEdVVGxOUnNjcWJUUUordVcrd29z?=
+ =?utf-8?B?MUNGR1JlazFEYVVwTGFVUGdRSXJMbm1QS21TZk4zM2p0cS94ZExDZHI4enE2?=
+ =?utf-8?B?UGIrcW5UWUExUis5U3Q5RUoxaEpjM3lLcFUrWUp4Q3VZYmJYUWE5d2ZFYjI4?=
+ =?utf-8?B?akVzREt3cEdZVFhCVm4xTDB6dWRZL21NUTFLdWl5ckhEYjFHcDRuNFp0WjJu?=
+ =?utf-8?B?REE5V1E3VGV5K1dwWUtVaHhjeVVIcGZ4TWxZNXdlOUtYaWptTHRBSnV4WXBw?=
+ =?utf-8?B?SWlzRitLY1J5cDA4N2VpMTRVQmhqcHZkYlUvUDRhSDkwMHdYcmtkYjNpZlM2?=
+ =?utf-8?B?Z3VnbkN5Vm8zczhpZStieDF3eTlsQ1JGb1I4ZXMrQXcwQ0JnVU0rU1FSRzh4?=
+ =?utf-8?B?d1VVbkc0QmNJcENUbVd3cVM0Y0MzaVA0MzBXRzNML0QxUExFNzVpYzJ1VXVr?=
+ =?utf-8?B?azJNbU1obXZUQjAxVlgxQkFGdXFGdi9BbTdRSkJUSUJBTTQvdFJEL2YyQVZH?=
+ =?utf-8?B?YkFVNWhoQ0VyNnJlRWE4SUpNdG9FNVhpNERPYi9NSlRvV2NDMTBsZnY4K2lZ?=
+ =?utf-8?B?TVF3R0ExbmcwbVlDU29NTkFtZC9jcGdpQUVQTERQWmRKY0JjMlVTK1dWYjNm?=
+ =?utf-8?B?dXhKdG9HbVRhRVRaTlhhZEFmQkNPZFNGZ01HZ0hqZWt4WHRRZHFFSGxYTUNo?=
+ =?utf-8?B?VFlmeFdCR2JEUDcycFJaaEI1VGVkN3gveThpUVdqQStiZHg5WEtQMmNDTGli?=
+ =?utf-8?B?T0M1ZnJIT0FiNCtGOElsNXNIVWpHM1pRTS9Yb282cU9Cb05SOWp6MjJCai9j?=
+ =?utf-8?B?UzFZSFppZzNEYVU2Qkk1b0Q4S3I1QXE4Y1M4dWVncjVUaXN5ZDl1WTVxblpy?=
+ =?utf-8?B?bTFmQ3hjZU83dmtZUGxoaENIMDh2d0JselM2cHYrbnp1c0FPbUZHR1JJQith?=
+ =?utf-8?B?SGQxMFRFTFM2RzRGNjBpYkU1cTZrMy8vK1V0bGI1di9ST3BOV09Xd3NxTUNL?=
+ =?utf-8?B?UTVVaDROQWJXajlCVXAxcHdldzVaQzNzM0hKVnNBcSs2YmZqWUtHdlRLRTN0?=
+ =?utf-8?B?THEwR1JZSTNXTzBqNWhwbnRhNGQxeUhVcjZNYmp3ODJ4VWF2SWxOU3p4cGlE?=
+ =?utf-8?Q?k5wX/2+HlmNyEZRztSSm8ZyI/?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a89faab-bd1e-4919-b4c0-08db87daaa0d
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6583.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2023 20:45:02.8260
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2023 22:02:23.0330
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /UVcF3AVwHhA0JuxKGqfko0Kzj6uTmpRO366umaYbndfzHqVgQz4UNIeXIo6ZtF6hVef+VXcRCYoBhJZzV4vAsYhk+w4twqxDhwr+8VYVtg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6346
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: vDTRlv4yhokPu8p28xbMfvGuZlVAgmIXcqBiqXXMTNNrxpu1BiAhcYxOCajfQUPZZLavHxDKqLT0h3MMGOJz7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5435
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Tony,
-
-On 7/13/2023 9:32 AM, Tony Luck wrote:
-> There isn't a simple hardware enumeration to indicate to software that
-> a system is running with Sub-NUMA Cluster enabled.
-
-This changelog appears to _almost_ be identical to the cover letter. There
-is no problem with changelog and cover letter being identical but it makes
-things confusing when there are slight differences between the text.
-For example, "Sub-NUMA Cluster" vs "Sub-NUMA Clustering". With this difference
-between the two the reader is left wondering what behind the difference is.
-
+On 7/18/23 8:58 AM, Jakub Kicinski wrote:
 > 
-> Compare the number of NUMA nodes with the number of L3 caches to calculate
-> the number of Sub-NUMA nodes per L3 cache.
+> We appear to have a gap in our process docs. We go into detail
+> on how to contribute code to the kernel, and how to be a subsystem
+> maintainer. I can't find any docs directed towards the thousands
+> of small scale maintainers, like folks maintaining a single driver
+> or a single network protocol.
 > 
-> When Sub-NUMA cluster mode is enabled in BIOS setup the RMID counters
-> are distributed equally between the SNC nodes within each socket.
+> Document our expectations and best practices. I'm hoping this doc
+> will be particularly useful to set expectations with HW vendors.
 > 
-> E.g. if there are 400 RMID counters, and the system is configured with
-> two SNC nodes per socket, then RMID counter 0..199 are used on SNC node
-> 0 on the socket, and RMID counter 200..399 on SNC node 1.
-> 
-> A model specific MSR (0xca0) can change the configuration of the RMIDs
-> when SNC mode is enabled.
-> 
-> The MSR controls the interpretation of the RMID field in the
-> IA32_PQR_ASSOC MSR so that the appropriate hardware counters
-> within the SNC node are updated.
-> 
-> Also initialize a per-cpu RMID offset value. Use this
-> to calculate the value to write to the IA32_QM_EVTSEL MSR when
-> reading RMID event values.
-> 
-> N.B. this works well for well-behaved NUMA applications that access
-> memory predominantly from the local memory node. For applications that
-> access memory across multiple nodes it may be necessary for the user
-> to read counters for all SNC nodes on a socket and add the values to
-> get the actual LLC occupancy or memory bandwidth. Perhaps this isn't
-> all that different from applications that span across multiple sockets
-> in a legacy system.
-> 
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> Reviewed-by: Peter Newman <peternewman@google.com>
-> Tested-by: Peter Newman <peternewman@google.com>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 > ---
->  arch/x86/include/asm/resctrl.h         |  2 +
->  arch/x86/kernel/cpu/resctrl/core.c     | 99 +++++++++++++++++++++++++-
->  arch/x86/kernel/cpu/resctrl/monitor.c  |  2 +-
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c |  2 +-
->  4 files changed, 100 insertions(+), 5 deletions(-)
+> v2:
+>   - use Thorsten's wording for bug fixing requirements
+>   - put more words into the review/response timeline expectations
+> v1: https://lore.kernel.org/all/20230713223432.1501133-1-kuba@kernel.org/
 > 
-> diff --git a/arch/x86/include/asm/resctrl.h b/arch/x86/include/asm/resctrl.h
-> index 255a78d9d906..f95e69bacc65 100644
-> --- a/arch/x86/include/asm/resctrl.h
-> +++ b/arch/x86/include/asm/resctrl.h
-> @@ -35,6 +35,8 @@ DECLARE_STATIC_KEY_FALSE(rdt_enable_key);
->  DECLARE_STATIC_KEY_FALSE(rdt_alloc_enable_key);
->  DECLARE_STATIC_KEY_FALSE(rdt_mon_enable_key);
->  
-> +DECLARE_PER_CPU(int, rmid_offset);
+> CC: workflows@vger.kernel.org
+> CC: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Cc: gregkh@linuxfoundation.org
+> Cc: linux@leemhuis.info
+> Cc: broonie@kernel.org
+> Cc: krzk@kernel.org
+> ---
+>   .../feature-and-driver-maintainers.rst        | 155 ++++++++++++++++++
+>   Documentation/maintainer/index.rst            |   1 +
+>   2 files changed, 156 insertions(+)
+>   create mode 100644 Documentation/maintainer/feature-and-driver-maintainers.rst
+> 
+> diff --git a/Documentation/maintainer/feature-and-driver-maintainers.rst b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> new file mode 100644
+> index 000000000000..7064b5de076d
+> --- /dev/null
+> +++ b/Documentation/maintainer/feature-and-driver-maintainers.rst
+> @@ -0,0 +1,155 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
->  /*
->   * __resctrl_sched_in() - Writes the task's CLOSid/RMID to IA32_PQR_MSR
->   *
-> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-> index af3be3c2db96..a03ff1a95624 100644
-> --- a/arch/x86/kernel/cpu/resctrl/core.c
-> +++ b/arch/x86/kernel/cpu/resctrl/core.c
-> @@ -16,11 +16,14 @@
->  
->  #define pr_fmt(fmt)	"resctrl: " fmt
->  
-> +#include <linux/cpu.h>
->  #include <linux/slab.h>
->  #include <linux/err.h>
->  #include <linux/cacheinfo.h>
->  #include <linux/cpuhotplug.h>
-> +#include <linux/mod_devicetable.h>
->  
-> +#include <asm/cpu_device_id.h>
->  #include <asm/intel-family.h>
->  #include <asm/resctrl.h>
->  #include "internal.h"
-> @@ -524,6 +527,39 @@ static int get_domain_id(int cpu, enum resctrl_scope scope)
->  	}
->  }
->  
-> +DEFINE_PER_CPU(int, rmid_offset);
+> +==============================
+> +Feature and driver maintainers
+> +==============================
 > +
-> +static void set_per_cpu_rmid_offset(int cpu, struct rdt_resource *r)
-> +{
-> +	this_cpu_write(rmid_offset, (cpu_to_node(cpu) % snc_ways) * r->num_rmid);
-> +}
+> +The term "maintainer" spans a very wide range of levels of engagement
+> +from people handling patches and pull requests as almost a full time job
+> +to people responsible for a small feature or a driver.
+> +
+> +Unlike most of the chapter, this section is meant for the latter (more
+> +populous) group. It provides tips and describes the expectations and
+> +responsibilities of maintainers of a small(ish) section of the code.
+> +
+> +Driver and alike most often do not have their own mailing lists and
 
-Does this mean that per-cpu data is used as a way to keep "per SNC node" data?
-Why is it required for this to be per-cpu data instead of, for example, the
-offset computed when it is needed?
+s/Driver/Drivers/
+
+> +git trees but instead send and review patches on the list of a larger
+> +subsystem.
+> +
+> +Responsibilities
+> +================
+> +
+> +The amount of maintenance work is usually proportional to the size
+> +and popularity of the code base. Small features and drivers should
+> +require relatively small amount of care and feeding. Nonetheless
+> +when the work does arrive (in form of patches which need review,
+> +user bug reports etc.) it has to be acted upon promptly.
+> +Even when single driver only sees one patch a month, or a quarter,
+
+s/when single/when a particular/
+
+> +a subsystem could well have a hundred such drivers. Subsystem
+> +maintainers cannot afford to wait a long time to hear from reviewers.
+> +
+> +The exact expectations on the response time will vary by subsystem.
+> +The patch review SLA the subsystem had set for itself can sometimes
+> +be found in the subsystem documentation. Failing that as a rule of thumb
+> +reviewers should try to respond quicker than what is the usual patch
+> +review delay of the subsystem maintainer. The resulting expectations
+> +may range from two working days for fast-paced subsystems (e.g. networking)
+> +to as long as a few weeks in slower moving parts of the kernel.
+> +
+> +Mailing list participation
+> +--------------------------
+> +
+> +Linux kernel uses mailing lists as the primary form of communication.
+> +Maintainers must be subscribed and follow the appropriate subsystem-wide
+> +mailing list. Either by subscribing to the whole list or using more
+> +modern, selective setup like
+> +`lei <https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started>`_.
+> +
+> +Maintainers must know how to communicate on the list (plain text, no invasive
+> +legal footers, no top posting, etc.)
+> +
+> +Reviews
+> +-------
+> +
+> +Maintainers must review *all* patches touching exclusively their drivers,
+> +no matter how trivial. If the patch is a tree wide change and modifies
+> +multiple drivers - whether to provide a review is left to the maintainer.
+> +
+> +There should be multiple maintainers for any piece of code, an ``Acked-by``
+> +or ``Reviewed-by`` tag (or review comments) from a single maintainer is
+> +enough to satisfy this requirement.
+> +
+> +If review process or validation for a particular change will take longer
+
+s/If review/If the review/
+
+> +than the expected review timeline for the subsystem, maintainer should
+> +reply to the submission indicating that the work is being done, and when
+> +to expect full results.
+> +
+> +Refactoring and core changes
+> +----------------------------
+> +
+> +Occasionally core code needs to be changed to improve the maintainability
+> +of the kernel as a whole. Maintainers are expected to be present and
+> +help guide and test changes to their code to fit the new infrastructure.
+> +
+> +Bug reports
+> +-----------
+> +
+> +Maintainers must ensure severe problems in their code reported to them
+> +are resolved in a timely manner: regressions, kernel crashes, kernel warnings,
+> +compilation errors, lockups, data loss, and other bugs of similar scope.
+> +
+> +Maintainers furthermore should respond to reports about other kind of
+
+s/kind/kinds/
+
+> +bugs as well, if the report is of reasonable quality or indicates a
+> +problem that might be severe -- especially if they have *Supported*
+> +status of the codebase in the MAINTAINERS file.
+> +
+> +Selecting the maintainer
+> +========================
+> +
+> +The previous section described the expectations of the maintainer,
+> +this section provides guidance on selecting one and decribes common
+
+s/decribes/describes/
+
+> +misconceptions.
+> +
+> +The author
+> +----------
+> +
+> +Most natural and common choice of a maintainer is the author of the code.
+> +The author is intimately familiar with the code, so it is the best person
+> +to take care of it on an ongoing basis.
+> +
+> +That said, being a maintainer is an active role. The MAINTAINERS file
+> +is not a list of credits (in fact a separate CREDITS file exists),
+> +it is a list of those who will actively help with the code.
+> +If the author does not have the time, interest or ability to maintain
+> +the code, a different maintainer must be selected.
+> +
+> +Multiple maintainers
+> +--------------------
+> +
+> +Modern best practices dictate that there should be at least two maintainers
+> +for any piece of code, no matter how trivial. It spreads the burden, helps
+> +people take vacations and prevents burnout, trains new members of
+> +the community etc. etc. Even when there is clearly one perfect candidate,
+> +another maintainer should be found.
+> +
+> +Maintainers must be human, however, it is not acceptable to add a mailing
+> +list or a group email as a maintainer. Trust and understanding are the
+> +foundation of kernel maintenance and one cannot build trust with a mailing
+> +list.
+> +
+> +Corporate structures
+> +--------------------
+> +
+> +To an outsider the Linux kernel may resemble a hierarchical organization
+> +with Linus as the CEO. While the code flows in a hierarchical fashion,
+> +the corporate template does not apply here. Linux is an anarchy held
+> +together by (rarely expressed) mutual respect, trust and convenience.
+
+:-)
+I definitely respect the amount of time and effort you put into the job.
+
 
 > +
-> +/*
-> + * This MSR provides for configuration of RMIDs on Sub-NUMA Cluster
-> + * systems.
-> + * Bit0 = 1 (default) For legacy configuration
-> + * Bit0 = 0 RMIDs are divided evenly between SNC nodes.
-> + */
-> +#define MSR_RMID_SNC_CONFIG   0xCA0
+> +All that is to say that managers almost never make good maintainers.
+> +The maintainer position more closely matches an on-call rotation
+> +than a position of power.
+> +
+> +The following characteristics of a person selected as a maintainer
+> +are clear red flags:
+> +
+> + - unknown to the community, never sent an email to the list before
+> + - did not author any of the code
+> + - (when development is contracted) works for a company which paid
+> +   for the development rather than the company which did the work
+> +
+> +Non compliance
+> +==============
+> +
+> +Subsystem maintainers may remove inactive maintainers from the MAINTAINERS
+> +file. If the maintainer was a significant author or have played an important
+> +role in the development of the code they should be moved to the CREDITS file.
+> +
+> +Removing an inactive maintainer should not be seen as a punitive action.
+> +Having an inactive maintainer has a real cost as all developeres have
 
-Please move to msr-index.h. For reference:
-97fa21f65c3e ("x86/resctrl: Move MSR defines into msr-index.h")
+s/developeres/developers/
 
-> +
-> +static void snc_add_pkg(void)
-> +{
-> +	u64	msrval;
-> +
-> +	rdmsrl(MSR_RMID_SNC_CONFIG, msrval);
-> +	msrval &= ~BIT_ULL(0);
-> +	wrmsrl(MSR_RMID_SNC_CONFIG, msrval);
-> +}
-> +
-> +static void snc_remove_pkg(void)
-> +{
-> +	u64	msrval;
-> +
-> +	rdmsrl(MSR_RMID_SNC_CONFIG, msrval);
-> +	msrval |= BIT_ULL(0);
-> +	wrmsrl(MSR_RMID_SNC_CONFIG, msrval);
-> +}
-> +
->  /*
->   * domain_add_cpu - Add a cpu to a resource's domain list.
->   *
-> @@ -555,6 +591,8 @@ static void domain_add_cpu(int cpu, struct rdt_resource *r)
->  		cpumask_set_cpu(cpu, &d->cpu_mask);
->  		if (r->cache.arch_has_per_cpu_cfg)
->  			rdt_domain_reconfigure_cdp(r);
-> +		if (r->mon_capable)
-> +			set_per_cpu_rmid_offset(cpu, r);
->  		return;
->  	}
->  
-> @@ -573,11 +611,17 @@ static void domain_add_cpu(int cpu, struct rdt_resource *r)
->  		return;
->  	}
->  
-> -	if (r->mon_capable && arch_domain_mbm_alloc(r->num_rmid, hw_dom)) {
-> -		domain_free(hw_dom);
-> -		return;
-> +	if (r->mon_capable) {
-> +		if (arch_domain_mbm_alloc(r->num_rmid, hw_dom)) {
-> +			domain_free(hw_dom);
-> +			return;
-> +		}
-> +		set_per_cpu_rmid_offset(cpu, r);
->  	}
->  
-> +	if (r->pkg_actions)
-> +		snc_add_pkg();
-> +
-
-This seems unnecessary use of a resctrl resource.
+Thanks,
+sln
 
 
->  	list_add_tail(&d->list, add_pos);
->  
->  	err = resctrl_online_domain(r, d);
-> @@ -613,6 +657,9 @@ static void domain_remove_cpu(int cpu, struct rdt_resource *r)
->  			d->plr->d = NULL;
->  		domain_free(hw_dom);
->  
-> +		if (r->pkg_actions)
-> +			snc_remove_pkg();
+> +to remember to include the maintainers in discussions and subsystem
+> +maintainers spend brain power figuring out how to solicit feedback.
 > +
->  		return;
->  	}
->  
-> @@ -899,11 +946,57 @@ static __init bool get_rdt_resources(void)
->  	return (rdt_mon_capable || rdt_alloc_capable);
->  }
->  
-> +static const struct x86_cpu_id snc_cpu_ids[] __initconst = {
-> +	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_X, 0),
-> +	X86_MATCH_INTEL_FAM6_MODEL(SAPPHIRERAPIDS_X, 0),
-> +	X86_MATCH_INTEL_FAM6_MODEL(EMERALDRAPIDS_X, 0),
-> +	{}
-> +};
+> +Subsystem maintainers may remove code for lacking maintenance.
 > +
-> +/*
-> + * There isn't a simple enumeration bit to show whether SNC mode
-> + * is enabled. Look at the ratio of number of NUMA nodes to the
-> + * number of distinct L3 caches. Take care to skip memory-only nodes.
-> + */
-> +static __init int find_snc_ways(void)
-
-Based on the function comment and function name it is not clear what
-this function is intended to do. In cache "ways" have a particular meaning,
-what does "ways" mean in this context? 
-
-> +{
-> +	unsigned long *node_caches;
-> +	int mem_only_nodes = 0;
-> +	int cpu, node, ret;
-> +
-> +	if (!x86_match_cpu(snc_cpu_ids))
-> +		return 1;
-> +
-> +	node_caches = kcalloc(BITS_TO_LONGS(nr_node_ids), sizeof(*node_caches), GFP_KERNEL);
-> +	if (!node_caches)
-> +		return 1;
-> +
-> +	cpus_read_lock();
-> +	for_each_node(node) {
-> +		cpu = cpumask_first(cpumask_of_node(node));
-> +		if (cpu < nr_cpu_ids)
-> +			set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches);
-> +		else
-> +			mem_only_nodes++;
-> +	}
-> +	cpus_read_unlock();
-> +
-> +	ret = (nr_node_ids - mem_only_nodes) / bitmap_weight(node_caches, nr_node_ids);
-> +	kfree(node_caches);
-> +
-> +	if (ret > 1)
-> +		rdt_resources_all[RDT_RESOURCE_PKG].r_resctrl.pkg_actions = true;
-> +
-> +	return ret;
-> +}
-> +
->  static __init void rdt_init_res_defs_intel(void)
->  {
->  	struct rdt_hw_resource *hw_res;
->  	struct rdt_resource *r;
->  
-> +	snc_ways = find_snc_ways();
-> +
->  	for_each_rdt_resource(r) {
->  		hw_res = resctrl_to_arch_res(r);
->  
-> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-> index da3f36212898..74db99d299e1 100644
-> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
-> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-> @@ -160,7 +160,7 @@ static int __rmid_read(u32 rmid, enum resctrl_event_id eventid, u64 *val)
->  	 * IA32_QM_CTR.Error (bit 63) and IA32_QM_CTR.Unavailable (bit 62)
->  	 * are error bits.
->  	 */
-> -	wrmsr(MSR_IA32_QM_EVTSEL, eventid, rmid);
-> +	wrmsr(MSR_IA32_QM_EVTSEL, eventid, rmid + this_cpu_read(rmid_offset));
->  	rdmsrl(MSR_IA32_QM_CTR, msr_val);
->  
->  	if (msr_val & RMID_VAL_ERROR)
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index d037f3da9e55..1a9c38b018ba 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -1354,7 +1354,7 @@ unsigned int rdtgroup_cbm_to_size(struct rdt_resource *r,
->  		}
->  	}
->  
-> -	return size;
-> +	return size / snc_ways;
->  }
->  
->  /**
-
-The last hunk does not seem to be covered in the changelog.
-
-Reinette
+> +Subsystem maintainers may refuse accepting code from companies
+> +which repeatedly neglected their maintainership duties.
+> diff --git a/Documentation/maintainer/index.rst b/Documentation/maintainer/index.rst
+> index 3e03283c144e..eeee27f8b18c 100644
+> --- a/Documentation/maintainer/index.rst
+> +++ b/Documentation/maintainer/index.rst
+> @@ -9,6 +9,7 @@ additions to this manual.
+>   .. toctree::
+>      :maxdepth: 2
+> 
+> +   feature-and-driver-maintainers
+>      configure-git
+>      rebasing-and-merging
+>      pull-requests
+> --
+> 2.41.0
+> 
+> 
