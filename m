@@ -2,168 +2,146 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D212EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 15:05:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36760EB64DA
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 15:15:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232049AbjGRPFb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 11:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44688 "EHLO
+        id S231941AbjGRPPo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 11:15:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbjGRPFa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 11:05:30 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3483510CB;
-        Tue, 18 Jul 2023 08:05:29 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36I6REAM009677;
-        Tue, 18 Jul 2023 15:03:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=l8jXQmV2PvUFWpCgMtL+9QUJ1C8Jq0rbIFdYtG4s468=;
- b=HQ9Dgbuumrk6U3TYMHXPq+XpXX9aBMnpORf4iEOsVGRbBqub7T8X+mfRSz0DyoLXaIjn
- xkLGBiYDNLsy00U0pnVKVirunJmzSzCLpz3rp4dAHEIqpNKSlGQ19d+FUgDiJnxxGA7i
- nLBhulwd1tMkmF2XEFKUBXnAtLsOVY8ljQGFD7eM4JzaZ+y9RRs1U0N4gXLwkTuxbtDK
- ALjGS3NomUPnCVtonoSLZq2+59J3WycjQbkdM3LY/4L7I/ZVFzCbJRFUhXoqexqHtiQ4
- 0D9Q4nBsNOViMtNAXINSLB6ynVIz/koB8TI4dTE3JuAJnt+SA0str0xN8Wp62oQ1HUOA ug== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rwfj79vw4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 Jul 2023 15:03:59 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36IF3wiL010970
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 Jul 2023 15:03:58 GMT
-Received: from [10.216.47.173] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 18 Jul
- 2023 08:03:49 -0700
-Message-ID: <c0284d98-4cb2-cb78-9123-54d83fc31101@quicinc.com>
-Date:   Tue, 18 Jul 2023 20:33:44 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
- support
-Content-Language: en-US
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Trilok Soni <quic_tsoni@quicinc.com>
-CC:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>, <corbet@lwn.net>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <keescook@chromium.org>,
-        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linus.walleij@linaro.org>, <andy.shevchenko@gmail.com>,
+        with ESMTP id S231384AbjGRPPn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 11:15:43 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2087.outbound.protection.outlook.com [40.107.243.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F313E170C;
+        Tue, 18 Jul 2023 08:15:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U+h8qqLhBhAiAumRPi/1LthlaoPq7Sn7Yib1Dg7HWgC9YIWde7khvNk0l3jLEpIpJvGGARnk4QLw2r8fYbLOksr3d9Xg7pKttGxKua4CGHfneUrGewLMty0MMtowTBDNLoCnMDdYVaWVnyqxXq3UjXshsNyKIYSo1U32Zqb8s8fbMfMMRBaE13kV3Lk5FxRtoUBMIoAZ52YOTmaSdFtEvnMgPNTodrHTWrvpL1XoWorSQvfBTOnTUxHk9beUJtK1dSBhOXAykYgr1UymFANiuZS9wMax4BWS/giUKZUdlqZYk72U8vu+krvj73E7ZIcKjSQMgMlSIkfKefAoxTdigA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H8rMpB1V6eQ29/v+a8uQ8ImD0gWgEqhzmdnyEnER2mE=;
+ b=mrGc/+vmCXmt3dtPQGF9bJJ2NesKZ5/7y89IIfzuPJCSUz9G/XqX6W3OpKYYk5F/wvb4az6TjiIIC6p7+VGfuXp7NFfkIo73M2p2M9vpVPlX9gpHaUIyCQGrFu/+cQQu7uVPnJPztb97irJ5kGxNXEhXYSyzat/nzDL5JxK2I15l7gp8yvOtWm3C8JB+nDPvltGRB2Q+dUf3ps/ixpJPIRv5TgFFBBoH9/E25emey/qmPHz8M31/dd6aKzSA04MoudAx91Y4vzqpBIv4ldc5ohjyuc1gSiAkJ2b6skHkDzJK9ylIRaToBYaEIkbNZRJ6aioofgoXWECQ1enaplFZSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H8rMpB1V6eQ29/v+a8uQ8ImD0gWgEqhzmdnyEnER2mE=;
+ b=lKopU1aZSUNI5MS9Dlec174jfd+Vfe3uIUq2NJyOCRum/qXwL6CQUOm8y3BxavpYcahV4Cx0kY2E+0Uy3+8GK2YmlNrAYRXlBLcY+xvv3BLNmZ9AnkH9aLbwGb8vzSnokeU885KD6GFOHiQKIJHvsz1TIRxxmQP+cDHnG22mKHI=
+Received: from MW4P222CA0014.NAMP222.PROD.OUTLOOK.COM (2603:10b6:303:114::19)
+ by IA0PR12MB8930.namprd12.prod.outlook.com (2603:10b6:208:481::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.26; Tue, 18 Jul
+ 2023 15:15:38 +0000
+Received: from CO1NAM11FT106.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:114:cafe::73) by MW4P222CA0014.outlook.office365.com
+ (2603:10b6:303:114::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33 via Frontend
+ Transport; Tue, 18 Jul 2023 15:15:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1NAM11FT106.mail.protection.outlook.com (10.13.175.44) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6588.33 via Frontend Transport; Tue, 18 Jul 2023 15:15:37 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 18 Jul
+ 2023 10:15:37 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 18 Jul
+ 2023 10:15:36 -0500
+Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.23 via Frontend
+ Transport; Tue, 18 Jul 2023 10:15:36 -0500
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+To:     <corbet@lwn.net>, <ojeda@kernel.org>
+CC:     <jani.nikula@linux.intel.com>, <rdunlap@infradead.org>,
         <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>, Alex Elder <elder@linaro.org>
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <2023062814-chance-flounder-f002@gregkh>
- <CAL_JsqLO9yey2-4FcWsaGxijiS6hGL0SH9VoMuiyei-u9=Cv=w@mail.gmail.com>
- <cc30660f-dd72-aade-6346-a93c6ad4b695@quicinc.com>
- <29af84dc-7db8-0c43-07b6-eb743cf25e57@linaro.org>
- <957a3cdb-6091-8679-ddb0-296db2347291@quicinc.com> <ZKb3wz2eXS6h1yIW@p14s>
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <ZKb3wz2eXS6h1yIW@p14s>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 5wVB4_xXDRj5tnrwuwAq9UgRU4sEv_dd
-X-Proofpoint-ORIG-GUID: 5wVB4_xXDRj5tnrwuwAq9UgRU4sEv_dd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-18_11,2023-07-18_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- mlxlogscore=999 impostorscore=0 clxscore=1011 phishscore=0 spamscore=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307180138
+        <konstantin@linuxfoundation.org>, <rust-for-linux@vger.kernel.org>,
+        "Carlos Bilbao" <carlos.bilbao@amd.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v8 2/2] docs: Integrate rustdoc generation into htmldocs
+Date:   Tue, 18 Jul 2023 10:15:34 -0500
+Message-ID: <20230718151534.4067460-3-carlos.bilbao@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230718151534.4067460-1-carlos.bilbao@amd.com>
+References: <20230718151534.4067460-1-carlos.bilbao@amd.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT106:EE_|IA0PR12MB8930:EE_
+X-MS-Office365-Filtering-Correlation-Id: b484d83b-4111-400a-38fc-08db87a1d7aa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cXzMG13AivBd30obCJ9ztmT1oOHuwo2hfvC9OmcT8dTPQVgi7OLwkt4VXGsEe+rSUnNHJnnl5+BQY2TM306httumlC8euUykEYgFptemgLy+m8l6L0V/XvR5MMwW+ootiY84Pd7lK7d5R19elDebGf7tIbrsHwm7jKmNYwtEbxb41EsD/Xt0uoVg1pIj6eFwB1PxuVoFnulCXUAB2/D88dHPigjsK74ZHyyEHmgsZL2Z7LJzsL+w6phXIiq1/Y9MqQJ9MdNZtyZmkGFcWqQ4Ogd8FHDph9FdWC2JFFEc8EewH+vlYgCUeyMxRKo3PMP1xvwRdr/tvCgnXtnYq32IyuWsoNSAMXee/WjhMD3sn3PzmprDRngudSUcC+Ku1gKUs4IzkI5ILUl4Z6540WbhQVSr67+yNn45bNU3iLg8t9bVE+OsWuPGwStr1tKb1j1jgkU7lEsdk3AoM5TgvNIuQjzIXmeLe5iayFHMrQF5uux2qxQMIDANPNuGaNMXYleGeKHPeP4MEjwwPxyJ1UU04ahTdzEVZ014glCvalqQyfxtAvvvKI/h9ItEaMa22ZU4UFNg8qAAjCjEp5+ZdzMdpK2UbubYDPQWrwdkMYcYGq2auJAM40yF48W3ZORVm2z3s8tHa34ykp31oPUQtFzuPctZ3ALnjbHcHq1b75fQqvoyjp/u0u2ApPQ+3sU88P4cTUwRsn2PzgJ2Fr91TnpKmv1CviGRKXKR4AcMG+8u4QYqXTA6GfmcyHZvt4G7V65NI9NBk6OFhSvJTdq+ROTCLQ==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(346002)(39860400002)(376002)(451199021)(82310400008)(40470700004)(46966006)(36840700001)(70206006)(70586007)(44832011)(316002)(8676002)(4326008)(8936002)(40460700003)(5660300002)(41300700001)(86362001)(36756003)(2906002)(40480700001)(7696005)(478600001)(426003)(336012)(82740400003)(186003)(26005)(1076003)(2616005)(110136005)(54906003)(36860700001)(356005)(81166007)(47076005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2023 15:15:37.9236
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b484d83b-4111-400a-38fc-08db87a1d7aa
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT106.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8930
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Change target `make htmldocs` to combine RST Sphinx and the generation of
+Rust documentation, when support is available and .config exists.
 
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
+ Documentation/Makefile | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-On 7/6/2023 10:50 PM, Mathieu Poirier wrote:
-> On Mon, Jul 03, 2023 at 02:05:58PM -0700, Trilok Soni wrote:
->> On 7/2/2023 1:29 AM, Krzysztof Kozlowski wrote:
->>> On 30/06/2023 18:04, Mukesh Ojha wrote:
->>>>>
->>>>>> We don't add layers when they are not needed, and never when there is no
->>>>>> actual user.  If you need the extra "complexity" later, then add it
->>>>>> later when it is needed as who knows when that will ever be.
->>>>>>
->>>>>> Please redo this series based on that, thanks.
->>>>>
->>>>> My bigger issue with this whole series is what would this all look
->>>>> like if every SoC vendor upstreamed their own custom dumping
->>>>> mechanism. That would be a mess. (I have similar opinions on the
->>>>> $soc-vendor hypervisors.)
->>>
->>> Mukesh,
->>>
->>> LPC CFP is still open. There will be also Android and Kernel Debugging
->>> LPC microconference tracks. Coming with a unified solution could be a
->>> great topic for LPC. Solutions targeting only one user are quite often
->>> frowned upon.
->>
->> LPC is far out and in November. Can we not have others speak up if they have
->> the similar solution now? We can expand this to linux-kernel and ask for the
->> other SOC vendors to chime in. I am sure that we may have existing solutions
->> which came in for the one user first like Intel RDT if I remember. I am sure
->> ARM MPAM usecase was present at that time but Intel RDT based solution which
->> was x86 specific but accepted.
-> 
-> I am not familiar with Intel RDT and Arm MPAM but the community is always
-> improving on the way it does things.
-> 
-> LPC is indeed far out in November but it is an opportunity to cover the
-> groundwork needed to have this discussion.  It is always best to improve on
-> something then introduce something new.  Even better if something specific such
-> as Intel RDT and Arm MPAM can be made more generic.  A perfect example is
-> hwtracing Linus referred to.  The perf framework wasn't a perfect fit but it was
-> enhanced to accommodate our requirements.  I suggest to look at what is currently
-> available and come up with a strategy to be presented at LPC - event better if
-> you have a prototype.  If you can't find anything or the drawbacks inherent to
-> each avenue outweigh the benefits then we can have that conversation at LPC.
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 023fa658a0a8..2f35793acd2a 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -59,6 +59,12 @@ PAPEROPT_letter = -D latex_paper_size=letter
+ KERNELDOC       = $(srctree)/scripts/kernel-doc
+ KERNELDOC_CONF  = -D kerneldoc_srctree=$(srctree) -D kerneldoc_bin=$(KERNELDOC)
+ ALLSPHINXOPTS   =  $(KERNELDOC_CONF) $(PAPEROPT_$(PAPER)) $(SPHINXOPTS)
++ifneq ($(wildcard $(srctree)/.config),)
++ifeq ($(CONFIG_RUST),y)
++	# Let Sphinx know we will include rustdoc
++	ALLSPHINXOPTS   +=  -t rustdoc
++endif
++endif
+ # the i18n builder cannot share the environment and doctrees with the others
+ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+ 
+@@ -95,6 +101,16 @@ htmldocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+ 
++# If Rust support is available and .config exists, add rustdoc generated contents.
++# If there are any, the errors from this make rustdoc will be displayed but
++# won't stop the execution of htmldocs
++
++ifneq ($(wildcard $(srctree)/.config),)
++ifeq ($(CONFIG_RUST),y)
++	$(Q)$(MAKE) rustdoc || true
++endif
++endif
++
+ texinfodocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,texinfo,$(var),texinfo,$(var)))
+-- 
+2.34.1
 
-I was checking hwtracing[1] and pmu interface introduction of
-address filtering[3] from analogy point of view, which i think you
-meant that perf framework was extended to accommodate this.
-
-Minidump is quite different and simple in its way to address the problem
-of debugging on end user devices with minimum data captured to debug 
-crashes and this patch series is inline with similar (core + backend)
-implementation done for stm patches[1] where stm core was developed
-and intel trace hub get hooked into it and later it got reused in [2] by 
-coresight-stm driver.
-
-I am still exploring if something available we can reuse but it seems 
-unlikely at the moment to already available something in the kernel with
-similar use case.
-
--Mukesh
-
-[1]
-https://lwn.net/Articles/650245/
-
-[2]
-https://lwn.net/Articles/674201/
-
-[3]
-https://lore.kernel.org/lkml/1461771888-10409-1-git-send-email-alexander.shishkin@linux.intel.com/
-
-
-> 
->>
->> ---Trilok Soni
