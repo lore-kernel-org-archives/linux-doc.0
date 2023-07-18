@@ -2,320 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13189EB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 16:09:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A314C00528
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 16:23:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232403AbjGRQJJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 12:09:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59194 "EHLO
+        id S232777AbjGRQXj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 12:23:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232347AbjGRQJH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 12:09:07 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A922EB5;
-        Tue, 18 Jul 2023 09:09:03 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1b8a8154f9cso37563665ad.1;
-        Tue, 18 Jul 2023 09:09:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689696543; x=1692288543;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+hjlZMl56iCN+5YdMjl7qBjpjgi00vCDvCCzTRMBRuE=;
-        b=Z1GkCBUwNOf1GqtSNytSbnQRh+FJIw1XbwdAsv1UbnGgOxy+/FJM5PdIM9j71+JYb9
-         /yvuDTMnBtEIAvGKwZo5PR9apNMsan8w+DbZVUL5V8+0eGN1zDRk2+PP8Yn69ax58LO7
-         eGL0OdxnAquQk1C8XYWEKDum6moFSMVcdSFgDewj6k77NxpGzPSjOt/lhCE19OePXNiD
-         APCaOx0Av6/xM/sGslJXGepyce5frKmZsp0ybNJeemafHj1U+4WQvymecPJ5eIMduwF9
-         8Ip6kfbWhP6ihwO0C+Gsf/PvkDcoHU9HmsvEdXpWwW/Wpp9hWd3vYIacbtBZOvnoIvss
-         Icgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689696543; x=1692288543;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+hjlZMl56iCN+5YdMjl7qBjpjgi00vCDvCCzTRMBRuE=;
-        b=fD5MNCrlYaTbBTIDw8EDX2cs6HRI91ypTs5k1OjC5KD8+JTZQ19WIRfREXxV0/JyUH
-         6iaQ0ROEPqDVrgPzMXxw1Sh0pwz7dR9tpskRokHZNtYVmCsOz8vVfgi/JatPi7TfiZTH
-         aga7aLc45UOgRNMc0qTr7MDiwtqzgedLcl++LT1v3dhUb9cWvBQe+wOi1Hi2VYTfuX2/
-         J2HFd09N4a/9FcmF4en+v+9+qoP5CgSkMNPXKE5bklbU8OJHl8PGSymfKDYzloIyvgsi
-         uPm3dQoJacKG4Pl/svqAvhuIyTctgIrPDb39Vyz32gtWdxRGXLN7AOTV26Ar8NQvcUAH
-         3mcg==
-X-Gm-Message-State: ABy/qLb+RKoKy1DbvPxPrCSGaytTq8p1SszATdHsMgHU0HzDoA+cMic+
-        xDrWfYRho0lmF3bAvQ80rj7Kr7PHjWo=
-X-Google-Smtp-Source: APBJJlEqyeySDPEMR+7aU86BhJ5jeV7g5mq3ISM5ReFgybhAoKEYk4W6fYddW2BRo32XOEJrRlEcIw==
-X-Received: by 2002:a17:902:db08:b0:1b8:a936:1915 with SMTP id m8-20020a170902db0800b001b8a9361915mr18453068plx.22.1689696542789;
-        Tue, 18 Jul 2023 09:09:02 -0700 (PDT)
-Received: from smtpclient.apple ([2402:d0c0:2:a2a::1])
-        by smtp.gmail.com with ESMTPSA id g12-20020a170902868c00b001ac6b926621sm2046623plo.292.2023.07.18.09.08.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Jul 2023 09:09:02 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH v2] docs/RCU: Bring back smp_wmb()
-From:   Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <9b1967c5-6b8d-4d66-879c-42818d6e3170@paulmck-laptop>
-Date:   Wed, 19 Jul 2023 00:08:33 +0800
-Cc:     Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <30E3504D-4E64-4C61-9503-690C1657C6F3@gmail.com>
-References: <20230711150906.466434-1-mmpgouride@gmail.com>
- <9eaf506f-cc14-4da6-9efc-057c0c3e56b0@paulmck-laptop>
- <9D42CEB7-FE22-4BC6-9E5C-8131579C129D@gmail.com>
- <eabec10a-9283-42eb-85c7-e447e2368c91@paulmck-laptop>
- <6E813D30-2791-4DE8-A70C-E1F91011631D@gmail.com>
- <02a84e4b-a322-4c43-ad9d-1832ce277c2f@paulmck-laptop>
- <636D1ED4-C90D-47CA-A46A-28E40E777966@gmail.com>
- <9b1967c5-6b8d-4d66-879c-42818d6e3170@paulmck-laptop>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
+        with ESMTP id S231511AbjGRQXf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 12:23:35 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 148A1139;
+        Tue, 18 Jul 2023 09:23:34 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36IFsRTa015227;
+        Tue, 18 Jul 2023 16:22:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=9PudKBtLRGdIrG6woA6cD0ablmWghbSuQeHqb7JxJpo=;
+ b=V3hWrUBHM+woS1my6mR7GJ8l5RToeNqfgquoQjxX6hkw1KKaAanxIf6/jPFsF7ifNAvS
+ 1vHTPwrwUqCvEGemIWxR4BS+5Vgy8EgWyM/aEFM2j6GYDfZsLCOa/wC062IsQQ8e60YO
+ nY58M9LYuLrwkKYy0QwMyC9lr7E32TGVd5OZeWel5uipmEyukWZU+8ioEcyi8yf6S4Lm
+ FxLgw8WEfd2SFVdakSH3aKbFwmvmMX3H01gcOa4HzXuzGDK94uxnJqTL9ji9msXIuUZC
+ y5hMjcWR+DrEBvFl6znN3TEk8Zq+auOevV4dC/mJErlQcTEDSGAfWi1sGSjx/INajtzm Tg== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rwqqg92xe-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 18 Jul 2023 16:22:04 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36IGM3IM002800
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 18 Jul 2023 16:22:03 GMT
+Received: from [10.110.1.206] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 18 Jul
+ 2023 09:22:02 -0700
+Message-ID: <38716e0a-fb99-bb71-23f4-7952a4f6e04e@quicinc.com>
+Date:   Tue, 18 Jul 2023 09:22:01 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
+ support
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Mukesh Ojha <quic_mojha@quicinc.com>
+CC:     <linux-samsung-soc@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <corbet@lwn.net>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <keescook@chromium.org>,
+        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <andy.shevchenko@gmail.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-gpio@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
+ <2023062814-chance-flounder-f002@gregkh>
+ <CAL_JsqLO9yey2-4FcWsaGxijiS6hGL0SH9VoMuiyei-u9=Cv=w@mail.gmail.com>
+ <CACRpkda3CJ7G4-wDPkWmzg6nyCoEfG+u2cQH6KXWNjbftd90ow@mail.gmail.com>
+ <355de4c7-180d-4edd-b6fd-9c8e29e40e42@quicinc.com>
+ <52650970-de78-764f-28e2-ee0115b7d5c6@quicinc.com>
+ <e4784d1c-73da-9cda-6aef-d02625e8efd2@quicinc.com>
+ <2023071833-clamshell-drinking-188c@gregkh>
+ <c8064592-bfac-67b4-1d7e-e173355c43f8@quicinc.com>
+ <2023071844-promptly-swimwear-f6f9@gregkh>
+Content-Language: en-US
+From:   Trilok Soni <quic_tsoni@quicinc.com>
+In-Reply-To: <2023071844-promptly-swimwear-f6f9@gregkh>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: e8N4s61eNav6K3VmUuYrrBLypPGDxsor
+X-Proofpoint-ORIG-GUID: e8N4s61eNav6K3VmUuYrrBLypPGDxsor
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-18_12,2023-07-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
+ mlxlogscore=999 phishscore=0 malwarescore=0 adultscore=0
+ lowpriorityscore=0 clxscore=1011 impostorscore=0 bulkscore=0
+ priorityscore=1501 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2306200000 definitions=main-2307180150
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 7/18/2023 7:41 AM, Greg KH wrote:
+> On Tue, Jul 18, 2023 at 07:25:15PM +0530, Mukesh Ojha wrote:
+>>
+>>
+>> On 7/18/2023 7:05 PM, Greg KH wrote:
+>>> On Tue, Jul 18, 2023 at 11:17:12AM +0530, Mukesh Ojha wrote:
+>>>> + linux-samsung-soc@vger.kernel.org
+>>>> + linux-mediatek@lists.infradead.org
+>>>
+>>> What does that do?
+>>
+>> This is to seek their feedback, if they have something similar requirement
+>> to debug end user device crashes.
+> 
+> Feedback to what?  There is no context here and no content either at
+> all.
+> 
+> Just adding a mailing list to the top of a message doesn't actually send
+> the thread there.
+> 
+> confused,
 
-> 2023=E5=B9=B47=E6=9C=8818=E6=97=A5 03:06=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On Tue, Jul 18, 2023 at 01:53:10AM +0800, Alan Huang wrote:
->>> 2023=E5=B9=B47=E6=9C=8818=E6=97=A5 00:02=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->>> On Sun, Jul 16, 2023 at 07:21:28PM +0800, Alan Huang wrote:
->>>>> 2023=E5=B9=B47=E6=9C=8816=E6=97=A5 01:19=EF=BC=8CPaul E. McKenney =
-<paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->>>>> On Sat, Jul 15, 2023 at 08:50:23AM +0800, Alan Huang wrote:
->>>>>>> 2023=E5=B9=B47=E6=9C=8815=E6=97=A5 07:23=EF=BC=8CPaul E. =
-McKenney <paulmck@kernel.org> =E5=86=99=E9=81=93=EF=BC=9A
->>>>>>> On Tue, Jul 11, 2023 at 03:09:06PM +0000, Alan Huang wrote:
->>>>>>>> The objects are allocated with SLAB_TYPESAFE_BY_RCU, and there =
-is
->>>>>>>> n->next =3D first within hlist_add_head_rcu() before =
-rcu_assign_pointer(),
->>>>>>>> which modifies obj->obj_node.next. There may be readers holding =
-the
->>>>>>>> reference of obj in lockless_lookup, and when updater modifies =
-->next,
->>>>>>>> readers can see the change immediately because =
-ofSLAB_TYPESAFE_BY_RCU.
->>>>>>>>=20
->>>>>>>> There are two memory ordering required in the insertion =
-algorithm,
->>>>>>>> we need to make sure obj->key is updated before =
-obj->obj_node.next
->>>>>>>> and obj->refcnt, atomic_set_release is not enough to provide =
-the
->>>>>>>> required memory barrier.
->>>>>>>>=20
->>>>>>>> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
->>>>>>>=20
->>>>>>> This is an interesting one!!!
->>>>>>>=20
->>>>>>> Now I am having a hard time believing that the smp_rmb() =
-suffices.
->>>>>>>=20
->>>>>>>> ---
->>>>>>>> Changelog:
->>>>>>>> v1 -> v2: Use _ONCE to protect obj->key.
->>>>>>>>=20
->>>>>>>> Documentation/RCU/rculist_nulls.rst | 21 +++++++++++++--------
->>>>>>>> 1 file changed, 13 insertions(+), 8 deletions(-)
->>>>>>>>=20
->>>>>>>> diff --git a/Documentation/RCU/rculist_nulls.rst =
-b/Documentation/RCU/rculist_nulls.rst
->>>>>>>> index 21e40fcc08de..2a9f5a63d334 100644
->>>>>>>> --- a/Documentation/RCU/rculist_nulls.rst
->>>>>>>> +++ b/Documentation/RCU/rculist_nulls.rst
->>>>>>>> @@ -47,7 +47,7 @@ objects, which is having below type.
->>>>>>>>  * reuse these object before the RCU grace period, we
->>>>>>>>  * must check key after getting the reference on object
->>>>>>>>  */
->>>>>>>> -    if (obj->key !=3D key) { // not the object we expected
->>>>>>>> +    if (READ_ONCE(obj->key) !=3D key) { // not the object we =
-expected
->>>>>>>>    put_ref(obj);
->>>>>>>>    rcu_read_unlock();
->>>>>>>>    goto begin;
->>>>>>>> @@ -64,10 +64,10 @@ but a version with an additional memory =
-barrier (smp_rmb())
->>>>>>>> {
->>>>>>>>  struct hlist_node *node, *next;
->>>>>>>>  for (pos =3D rcu_dereference((head)->first);
->>>>>>>> -         pos && ({ next =3D pos->next; smp_rmb(); =
-prefetch(next); 1; }) &&
->>>>>>>> +         pos && ({ next =3D READ_ONCE(pos->next); smp_rmb(); =
-prefetch(next); 1; }) &&
->>>>>>>=20
->>>>>>> Suppose that lockless_lookup() is delayed just before fetching =
-pos->next,
->>>>>>> and that there were 17 more node to search in the list.
->>>>>>>=20
->>>>>>> Then consider the following sequence of events:
->>>>>>>=20
->>>>>>> o The updater deletes this same node and kmem_cache_free()s it.
->>>>>>>=20
->>>>>>> o Another updater kmem_cache_alloc()s that same memory and
->>>>>>> inserts it into an empty hash chain with a different key.
->>>>>>>=20
->>>>>>> o Then lockless_lookup() fetches pos->next and sees a NULL =
-pointer,
->>>>>>> thus failing to search the remaining 17 nodes in the list,
->>>>>>> one of which had the desired key value.
->>>>>>>=20
->>>>>>> o The lookup algorithm resumes and sees the NULL return from
->>>>>>> lockless_lookup(), and ends up with a NULL obj.
->>>>>>>=20
->>>>>>> And this happens even with the strongest possible ordering
->>>>>>> everywhere.
->>>>>>>=20
->>>>>>> OK, yes, it is late on Friday.  So what am I missing here?
->>>>>>=20
->>>>>> You missed nothing!
->>>>>>=20
->>>>>> The lockless_lockup should not be a function, but a macro like =
-hlist_for_each_entry_rcu.
->>>>>=20
->>>>> How would you fix this using a macro?
->>>>=20
->>>> With additional detection code. A moved object (in another chain) =
-will have a different slot.
->>>> (I have sent patch v3. )
->>>>=20
->>>>>=20
->>>>>>> Independent of that, does hlist_add_head_rcu() need to replace =
-its
->>>>>>> "n->next =3D first" with "WRITE_ONCE(n->next, first)"?
->>>>>>=20
->>>>>> I think users who want to use hlist with SLAB_TYPESAFE_BY_RCU =
-should use rculist_nulls?
->>>>>=20
->>>>> I believe that you are correct.  Would you like to propose a =
-patch, or
->>>>> would you rather I put something together?  My current thought is =
-to
->>>>=20
->>>> Feel free to add.=20
->>>>=20
->>>> One thing I think would be useful is to tell readers where the =
-=E2=80=98next' is.=20
->>>> The document mentions =E2=80=99next=E2=80=99 many times, but it=E2=80=
-=99s hard for me, as a reader, to realize that
->>>> the =E2=80=98next' is within hlist_add_head_rcu(). (I have no idea =
-where to put the hint.)
->>>>=20
->>>>=20
->>>>> keep the examples, but to show why the one with smp_rmb() is =
-broken.
->>>>=20
->>>> I think the example needs to be fixed. :)
->>>=20
->>> Even better!  I will take a look, but in the meantime, would you be
->>> interested in updating the wording to explain how the back-pointer =
-works?
->>=20
->> Which document needs to be updated?=20
->> And is there anything that I can refer to? It=E2=80=99s the first =
-time I have ever heard about it.
->=20
-> Documentation/RCU/rculist_nulls.rst, the one that you are updating.
->=20
-> There admittedly isn't a whole lot of commentary.
->=20
->>> (Looks similar to the is_a_nulls() pointer, but in each element =
-instead of
->>> just at the end.  One advantage is the ability to detect a move =
-mid-list,
->>> though that is not a big deal in well-tuned hash tables, which tend =
-to
->>> have short hash chains.  The need to move elements to the front of =
-the
->>> destination list remains, though in both cases only if it has been =
-less
->>> than a grace period since the last move.)
->>=20
->> Looks like that I need to learn it first. :)
->=20
-> Well, you wrote the code, so...  ;-)
+Mukesh, instead of adding the mailing lists here, we should send either 
+the refreshed revision of this patchset (if there are enough changes) w/ 
+MLs CCed or start a new discussion with these mailing list with the 
+context of the minidump and refer these patches from the mailing list 
+archives.
 
-If I understand correctly, it works only for 64-bit machines?
-
-And the number of slots of the hash table will be limited?
-
->=20
-> Thanx, Paul
->=20
->>> Thanx, Paul
->>>=20
->>>>>> I didn=E2=80=99t find a case using hlist with =
-SLAB_TYPESAFE_BY_RCU, but I did find a case using list
->>>>>> with SLAB_TYPESAFE_BY_RCU in drivers/gpu/drm/i915, the driver =
-also doesn=E2=80=99t use _ONCE
->>>>>> on the fields of the objects allocated with SLAB_TYPESAFE_BY_RCU.
->>>>>=20
->>>>> Feel free to send them a patch, though I cannot speak for their
->>>>> reception of it.
->>>>>=20
->>>>> Thanx, Paul
->>>>>=20
->>>>>>> Thanx, Paul
->>>>>>>=20
->>>>>>>>       ({ obj =3D hlist_entry(pos, typeof(*obj), obj_node); 1; =
-});
->>>>>>>>       pos =3D rcu_dereference(next))
->>>>>>>> -      if (obj->key =3D=3D key)
->>>>>>>> +      if (READ_ONCE(obj->key) =3D=3D key)
->>>>>>>>      return obj;
->>>>>>>>  return NULL;
->>>>>>>> }
->>>>>>>> @@ -111,8 +111,13 @@ detect the fact that it missed following =
-items in original chain.
->>>>>>>> */
->>>>>>>> obj =3D kmem_cache_alloc(...);
->>>>>>>> lock_chain(); // typically a spin_lock()
->>>>>>>> -  obj->key =3D key;
->>>>>>>> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
->>>>>>>> +  WRITE_ONCE(obj->key, key);
->>>>>>>> +  /*
->>>>>>>> +   * We need to make sure obj->key is updated before =
-obj->obj_node.next
->>>>>>>> +   * and obj->refcnt.
->>>>>>>> +   */
->>>>>>>> +  smp_wmb();
->>>>>>>> +  atomic_set(&obj->refcnt, 1);
->>>>>>>> hlist_add_head_rcu(&obj->obj_node, list);
->>>>>>>> unlock_chain(); // typically a spin_unlock()
->>>>>>>>=20
->>>>>>>> @@ -165,12 +170,12 @@ Note that using hlist_nulls means the =
-type of 'obj_node' field of
->>>>>>>> begin:
->>>>>>>> rcu_read_lock();
->>>>>>>> hlist_nulls_for_each_entry_rcu(obj, node, head, obj_node) {
->>>>>>>> -    if (obj->key =3D=3D key) {
->>>>>>>> +    if (READ_ONCE(obj->key) =3D=3D key) {
->>>>>>>>    if (!try_get_ref(obj)) { // might fail for free objects
->>>>>>>> rcu_read_unlock();
->>>>>>>>      goto begin;
->>>>>>>>    }
->>>>>>>> -      if (obj->key !=3D key) { // not the object we expected
->>>>>>>> +      if (READ_ONCE(obj->key) !=3D key) { // not the object we =
-expected
->>>>>>>>      put_ref(obj);
->>>>>>>> rcu_read_unlock();
->>>>>>>>      goto begin;
->>>>>>>> @@ -206,7 +211,7 @@ hlist_add_head_rcu().
->>>>>>>> */
->>>>>>>> obj =3D kmem_cache_alloc(cachep);
->>>>>>>> lock_chain(); // typically a spin_lock()
->>>>>>>> -  obj->key =3D key;
->>>>>>>> +  WRITE_ONCE(obj->key, key);
->>>>>>>> atomic_set_release(&obj->refcnt, 1); // key before refcnt
->>>>>>>> /*
->>>>>>>> * insert obj in RCU way (readers might be traversing chain)
->>>>>>>> --=20
->>>>>>>> 2.34.1
-
-
+---Trilok Soni
