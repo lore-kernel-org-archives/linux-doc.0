@@ -2,139 +2,231 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54896EB64DA
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 05:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5534EB64DA
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 05:50:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230291AbjGRFtL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 01:49:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44346 "EHLO
+        id S229625AbjGRFu1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 01:50:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230377AbjGRFtC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 01:49:02 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1455610E4;
-        Mon, 17 Jul 2023 22:49:00 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36I5eYYS008122;
-        Tue, 18 Jul 2023 05:47:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=botXgHX6lvKxI//MS5qCm7ZrIXLhTHjIntqkzLlfZ7E=;
- b=J+4F8hVZ9+BwXwycxS77FsGp/9CE9z+niHIhfkHXTTN1u1B5I4Gz8RZIfz2g9YRSZyaQ
- 5IiMd2Ea9PRZk6tya8+iagYVyPCKHdbDI2z83Gs9Ba+CD76fhvJylaXLGJnCqNeBfKQJ
- TMFPlfaII/AgZHC2l1sB5BXV/3ltQJs5X6IaC+VqPDuLi6bz8Q8VeDlXA/woLuHyfixM
- jrPmvjMPTJxYoLQCz8PZH0LHT5JpIGFLF7xPcpHJj9wHDK0+kg44VLM0N1yPA8Sd+jrY
- H5i+W5aKvBQ66myjQAIbg/pvcTFLjzepU0hhJEb+ERLTXctjzZFJdewjSntr9XPMHNkl sA== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rwfj78jh8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 Jul 2023 05:47:29 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36I5lSOk009126
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 Jul 2023 05:47:28 GMT
-Received: from [10.216.47.173] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 17 Jul
- 2023 22:47:20 -0700
-Message-ID: <e4784d1c-73da-9cda-6aef-d02625e8efd2@quicinc.com>
-Date:   Tue, 18 Jul 2023 11:17:12 +0530
+        with ESMTP id S229458AbjGRFu0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 01:50:26 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1BF5E55;
+        Mon, 17 Jul 2023 22:50:24 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1b89114266dso42617675ad.0;
+        Mon, 17 Jul 2023 22:50:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689659424; x=1692251424;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gga9IzaJCX3VSwGofmNS+NNP6GAiPOUQ3G8Z12KqV+w=;
+        b=S8Smn9fJOljvaaVmEISGQfSKJ4dZL5LIWPTTiZg1DuhVf+1V912GvyFw/XuUVJOc9R
+         M1fSlhP/wxDBLahScFNn/b+tSq2JRuUPDRdf7Rx2mrfl+d/paNUTVKLrSav7ggXBL1Uy
+         /kt0r4Q3y8BC5m82raWtOaHMootriX4N749vjwj2uQ7RKs34I/u0hq39Iiwbhrzma5NJ
+         v1W3fX0svObu3oryimKWpecNu9dbwnv39aJ1aklFn6gfBo3hE9azTwx28emGPUp4hO1V
+         91bc3Bo2n1xLVm9t4WhgraDxfygCKpGFYCdogoxG0EYoMfr751lgmyJk+Kaz13zk6Cbe
+         1yVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689659424; x=1692251424;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gga9IzaJCX3VSwGofmNS+NNP6GAiPOUQ3G8Z12KqV+w=;
+        b=Smuparp8B3pxDNW88od8xHRcvtfqgsHvXe031uEcsz8mErOCMhzRgQJGkPjx569zwJ
+         Pj88Tw1xipmqqqPVBmrqJUcRVnUGHkZChNzSvkgQYhd2lKJIbWTczXUYmY+p4GnJIqGK
+         733P2UlMUQWT5uiJ6dUK8t6eJSRS25gF8JheCF+ktNHPoTp0jVaiFXUchx0e+unE7opn
+         sGOtac274bW/RAaUb1zHzhTH8ujnRFkC8KaoXEDgNJyKj6ogIu0H8uNY//5B/kKNLKFi
+         hg+riZJL4kftQwFdaOz39D0KXRE3oA3HdksydupAcj0dI0I5oskewfJ4LVrTlzBdxB+6
+         ntug==
+X-Gm-Message-State: ABy/qLb6vR0N5fgZX/doL/LDW5hckhV99LmF5+/8RFO5OYuwQRQmPtyw
+        qH/7Hk8nFPSauPmoKQ69kcE=
+X-Google-Smtp-Source: APBJJlGDklalLU/jpOzk9HrL7DjNmsurU4Ks+fW9fRuI1cFSPNs3NyB+6/aasRpcLZCBqtae3jheHA==
+X-Received: by 2002:a17:903:2581:b0:1b9:d961:69b7 with SMTP id jb1-20020a170903258100b001b9d96169b7mr13452653plb.10.1689659424421;
+        Mon, 17 Jul 2023 22:50:24 -0700 (PDT)
+Received: from ?IPV6:2601:1c2:980:9ec0::2764? ([2601:1c2:980:9ec0::2764])
+        by smtp.gmail.com with ESMTPSA id l8-20020a170902f68800b001b80de83b10sm823737plg.301.2023.07.17.22.50.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jul 2023 22:50:24 -0700 (PDT)
+Message-ID: <aa7d96d5-bbd9-0a37-f43b-5c8c62d9a9dc@gmail.com>
+Date:   Mon, 17 Jul 2023 22:50:22 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v4 00/21] Add Qualcomm Minidump kernel driver related
- support
-To:     <linux-samsung-soc@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>
-CC:     Greg KH <gregkh@linuxfoundation.org>, <corbet@lwn.net>,
-        <agross@kernel.org>, <andersson@kernel.org>,
-        <konrad.dybcio@linaro.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <keescook@chromium.org>,
-        <tony.luck@intel.com>, <gpiccoli@igalia.com>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <andy.shevchenko@gmail.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-gpio@vger.kernel.org>,
-        "Trilok Soni" <quic_tsoni@quicinc.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>
-References: <1687955688-20809-1-git-send-email-quic_mojha@quicinc.com>
- <2023062814-chance-flounder-f002@gregkh>
- <CAL_JsqLO9yey2-4FcWsaGxijiS6hGL0SH9VoMuiyei-u9=Cv=w@mail.gmail.com>
- <CACRpkda3CJ7G4-wDPkWmzg6nyCoEfG+u2cQH6KXWNjbftd90ow@mail.gmail.com>
- <355de4c7-180d-4edd-b6fd-9c8e29e40e42@quicinc.com>
- <52650970-de78-764f-28e2-ee0115b7d5c6@quicinc.com>
+Subject: Re: [PATCH] docs: move s390 under arch
 Content-Language: en-US
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <52650970-de78-764f-28e2-ee0115b7d5c6@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 4MQCr3V3jn7NkD1q7loLspC5CvNWJFhH
-X-Proofpoint-ORIG-GUID: 4MQCr3V3jn7NkD1q7loLspC5CvNWJFhH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-17_15,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- mlxlogscore=999 impostorscore=0 clxscore=1011 phishscore=0 spamscore=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307180053
+To:     Costa Shulyupin <costa.shul@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Yantengsi <siyanteng@loongson.cn>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Mikhail Zaslonko <zaslonko@linux.ibm.com>,
+        Eric DeVolder <eric.devolder@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:S390 ARCHITECTURE" <linux-s390@vger.kernel.org>,
+        "open list:S390 VFIO-CCW DRIVER" <kvm@vger.kernel.org>
+References: <20230718045550.495428-1-costa.shul@redhat.com>
+From:   Randy Dunlap <rd.dunlab@gmail.com>
+In-Reply-To: <20230718045550.495428-1-costa.shul@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+ linux-samsung-soc@vger.kernel.org
-+ linux-mediatek@lists.infradead.org
-
-
-
-On 7/15/2023 5:15 AM, Trilok Soni wrote:
-> On 7/5/2023 10:29 AM, Trilok Soni wrote:
->> On 7/4/2023 2:27 AM, Linus Walleij wrote:
->>> On Thu, Jun 29, 2023 at 1:12 AM Rob Herring <robh+dt@kernel.org> wrote:
->>>
->>>> My bigger issue with this whole series is what would this all look
->>>> like if every SoC vendor upstreamed their own custom dumping
->>>> mechanism. That would be a mess. (I have similar opinions on the
->>>> $soc-vendor hypervisors.)
->>>
->>> I agree with Rob's stance.
->>>
->>> I think it would be useful to get input from the hwtracing developers
->>> (Alexander and Mathieu) who faced this "necessarily different" issue
->>> with all the hwtrace mechanisms and found a way out of it. I suspect
->>> they can have an idea of how this should be abstracted.
->>
->> Any mailing list you suggest we expand to so that we get inputs from 
->> the hwtracing developers and maintainers or just look into the 
->> MAINTAINERS file and start an email thread?
->>
->> We are fine to submit the abstract for the LPC in next two weeks, but 
->> prefer to have lot of good discussion before it on the mailing list, 
->> so that we have code to talk about in LPC.
+On 7/17/23 21:55, Costa Shulyupin wrote:
+> and fix all in-tree references.
 > 
-> We have submitted abstract at LPC MC. Let's continue the discussion here 
-> though.
+> Architecture-specific documentation is being moved into Documentation/arch/
+> as a way of cleaning up the top-level documentation directory and making
+> the docs hierarchy more closely match the source hierarchy.
 > 
-> Mukesh, do you want to expand the lists as necessary to see if other 
-> soc-vendors are having any inputs here? May be add Exynos or MTK kernel 
-> mailing lists + linux-kernel? I don't know if anyone will respond or 
-> not, but let's try.
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 
-Sure.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
--Mukesh
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt   | 4 ++--
+>  Documentation/arch/index.rst                      | 2 +-
+>  Documentation/{ => arch}/s390/3270.ChangeLog      | 0
+>  Documentation/{ => arch}/s390/3270.rst            | 4 ++--
+>  Documentation/{ => arch}/s390/cds.rst             | 2 +-
+>  Documentation/{ => arch}/s390/common_io.rst       | 2 +-
+>  Documentation/{ => arch}/s390/config3270.sh       | 0
+>  Documentation/{ => arch}/s390/driver-model.rst    | 0
+>  Documentation/{ => arch}/s390/features.rst        | 0
+>  Documentation/{ => arch}/s390/index.rst           | 0
+>  Documentation/{ => arch}/s390/monreader.rst       | 0
+>  Documentation/{ => arch}/s390/pci.rst             | 2 +-
+>  Documentation/{ => arch}/s390/qeth.rst            | 0
+>  Documentation/{ => arch}/s390/s390dbf.rst         | 0
+>  Documentation/{ => arch}/s390/text_files.rst      | 0
+>  Documentation/{ => arch}/s390/vfio-ap-locking.rst | 0
+>  Documentation/{ => arch}/s390/vfio-ap.rst         | 0
+>  Documentation/{ => arch}/s390/vfio-ccw.rst        | 2 +-
+>  Documentation/{ => arch}/s390/zfcpdump.rst        | 0
+>  Documentation/driver-api/s390-drivers.rst         | 4 ++--
+>  MAINTAINERS                                       | 8 ++++----
+>  arch/s390/Kconfig                                 | 4 ++--
+>  arch/s390/include/asm/debug.h                     | 4 ++--
+>  drivers/s390/char/zcore.c                         | 2 +-
+>  kernel/Kconfig.kexec                              | 2 +-
+>  25 files changed, 21 insertions(+), 21 deletions(-)
+>  rename Documentation/{ => arch}/s390/3270.ChangeLog (100%)
+>  rename Documentation/{ => arch}/s390/3270.rst (99%)
+>  rename Documentation/{ => arch}/s390/cds.rst (99%)
+>  rename Documentation/{ => arch}/s390/common_io.rst (98%)
+>  rename Documentation/{ => arch}/s390/config3270.sh (100%)
+>  rename Documentation/{ => arch}/s390/driver-model.rst (100%)
+>  rename Documentation/{ => arch}/s390/features.rst (100%)
+>  rename Documentation/{ => arch}/s390/index.rst (100%)
+>  rename Documentation/{ => arch}/s390/monreader.rst (100%)
+>  rename Documentation/{ => arch}/s390/pci.rst (99%)
+>  rename Documentation/{ => arch}/s390/qeth.rst (100%)
+>  rename Documentation/{ => arch}/s390/s390dbf.rst (100%)
+>  rename Documentation/{ => arch}/s390/text_files.rst (100%)
+>  rename Documentation/{ => arch}/s390/vfio-ap-locking.rst (100%)
+>  rename Documentation/{ => arch}/s390/vfio-ap.rst (100%)
+>  rename Documentation/{ => arch}/s390/vfio-ccw.rst (99%)
+>  rename Documentation/{ => arch}/s390/zfcpdump.rst (100%)
 > 
-> ---Trilok Soni
-> 
+
+> diff --git a/Documentation/s390/3270.ChangeLog b/Documentation/arch/s390/3270.ChangeLog
+> similarity index 100%
+> rename from Documentation/s390/3270.ChangeLog
+> rename to Documentation/arch/s390/3270.ChangeLog
+> diff --git a/Documentation/s390/3270.rst b/Documentation/arch/s390/3270.rst
+> similarity index 99%
+> rename from Documentation/s390/3270.rst
+> rename to Documentation/arch/s390/3270.rst
+
+> diff --git a/Documentation/s390/cds.rst b/Documentation/arch/s390/cds.rst
+> similarity index 99%
+> rename from Documentation/s390/cds.rst
+> rename to Documentation/arch/s390/cds.rst
+
+> diff --git a/Documentation/s390/common_io.rst b/Documentation/arch/s390/common_io.rst
+> similarity index 98%
+> rename from Documentation/s390/common_io.rst
+> rename to Documentation/arch/s390/common_io.rst
+
+> diff --git a/Documentation/s390/config3270.sh b/Documentation/arch/s390/config3270.sh
+> similarity index 100%
+> rename from Documentation/s390/config3270.sh
+> rename to Documentation/arch/s390/config3270.sh
+> diff --git a/Documentation/s390/driver-model.rst b/Documentation/arch/s390/driver-model.rst
+> similarity index 100%
+> rename from Documentation/s390/driver-model.rst
+> rename to Documentation/arch/s390/driver-model.rst
+> diff --git a/Documentation/s390/features.rst b/Documentation/arch/s390/features.rst
+> similarity index 100%
+> rename from Documentation/s390/features.rst
+> rename to Documentation/arch/s390/features.rst
+> diff --git a/Documentation/s390/index.rst b/Documentation/arch/s390/index.rst
+> similarity index 100%
+> rename from Documentation/s390/index.rst
+> rename to Documentation/arch/s390/index.rst
+> diff --git a/Documentation/s390/monreader.rst b/Documentation/arch/s390/monreader.rst
+> similarity index 100%
+> rename from Documentation/s390/monreader.rst
+> rename to Documentation/arch/s390/monreader.rst
+> diff --git a/Documentation/s390/pci.rst b/Documentation/arch/s390/pci.rst
+> similarity index 99%
+> rename from Documentation/s390/pci.rst
+> rename to Documentation/arch/s390/pci.rst
+
+> diff --git a/Documentation/s390/qeth.rst b/Documentation/arch/s390/qeth.rst
+> similarity index 100%
+> rename from Documentation/s390/qeth.rst
+> rename to Documentation/arch/s390/qeth.rst
+> diff --git a/Documentation/s390/s390dbf.rst b/Documentation/arch/s390/s390dbf.rst
+> similarity index 100%
+> rename from Documentation/s390/s390dbf.rst
+> rename to Documentation/arch/s390/s390dbf.rst
+> diff --git a/Documentation/s390/text_files.rst b/Documentation/arch/s390/text_files.rst
+> similarity index 100%
+> rename from Documentation/s390/text_files.rst
+> rename to Documentation/arch/s390/text_files.rst
+> diff --git a/Documentation/s390/vfio-ap-locking.rst b/Documentation/arch/s390/vfio-ap-locking.rst
+> similarity index 100%
+> rename from Documentation/s390/vfio-ap-locking.rst
+> rename to Documentation/arch/s390/vfio-ap-locking.rst
+> diff --git a/Documentation/s390/vfio-ap.rst b/Documentation/arch/s390/vfio-ap.rst
+> similarity index 100%
+> rename from Documentation/s390/vfio-ap.rst
+> rename to Documentation/arch/s390/vfio-ap.rst
+> diff --git a/Documentation/s390/vfio-ccw.rst b/Documentation/arch/s390/vfio-ccw.rst
+> similarity index 99%
+> rename from Documentation/s390/vfio-ccw.rst
+> rename to Documentation/arch/s390/vfio-ccw.rst
+
+
+-- 
+~Randy
