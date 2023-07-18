@@ -2,106 +2,194 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3718CEB64DC
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 18:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F985C001DC
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 18:55:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229528AbjGRSyT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 14:54:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42594 "EHLO
+        id S229989AbjGRSzb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 14:55:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbjGRSyT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 14:54:19 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EC0126;
-        Tue, 18 Jul 2023 11:54:03 -0700 (PDT)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4039a2b71c1so34218491cf.0;
-        Tue, 18 Jul 2023 11:54:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689706443; x=1692298443;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J/CrsgelAy4D5Z8podo/b2JgC3WEAES3DxJp/G1efUs=;
-        b=Tlp0jl/6iTEc+3lhwQJ/MM+AjX6CGjfXpB4UCVWw7NTyh8c32HZcIN2mUwOYHLCOx7
-         XEOfK4v78aG2381SGqx5fBTFkhyJ/HlrmZDn0ZHwWGi2aXWxrmbyWXfVHGOV0EQktLAO
-         NHiUl8aWP3FUK2Eojxj1V21okaqFOtQyyXkdiodKK0XbE8NqA5dp0J21hwkk1loLzrPA
-         0tkQp36uRCpfYL3bLTc6Tve4i72sz3Gn0QnKzoWOIrtdSpy+beA//GFxElrfgjNQ+jKH
-         nuM7WYS78VatHpCyAwkm8AbGVkmLf/FBckfwM0m94WcxrgwygCta8DmEvdpN4kQ7KfOe
-         57SA==
-X-Gm-Message-State: ABy/qLbNVFmfOldM0rUmaxXqMubUmCxYry8vNTaimEDvVNg6LVkZP+Hp
-        DHat+3CTsyZA+dJczMveXJo=
-X-Google-Smtp-Source: APBJJlHrH0/tybuohRWeYrtPu0nss6uiitUDZIQ0BdYifYGlbtDGiSDLznYA5LAHpCalYHNjzZpXag==
-X-Received: by 2002:ac8:5f95:0:b0:403:c74e:3999 with SMTP id j21-20020ac85f95000000b00403c74e3999mr17336292qta.45.1689706442750;
-        Tue, 18 Jul 2023 11:54:02 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([5.29.20.9])
-        by smtp.gmail.com with ESMTPSA id hg5-20020a05622a610500b0040353ea0827sm825193qtb.56.2023.07.18.11.54.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 11:54:02 -0700 (PDT)
-From:   Costa Shulyupin <costa.shul@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Cc:     Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH] docs: remove tree links from the main index
-Date:   Tue, 18 Jul 2023 21:51:55 +0300
-Message-ID: <20230718185156.1015753-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S229517AbjGRSza (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 14:55:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA97D123;
+        Tue, 18 Jul 2023 11:55:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CB498616AC;
+        Tue, 18 Jul 2023 18:55:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FFD5C433C8;
+        Tue, 18 Jul 2023 18:55:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689706506;
+        bh=g90tmctGip5JZ/qUltLRa3L/ha79p8Mr36vMSarsNto=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hL9gb0hWnxYQ//PahNxf6ii3EcokNDZCUKPYDDX2Uj5Y9En1S9Qey0qZDQ2RW3P2p
+         dTTMDDmfmtisD08Vic4XKPtxlGRvJPgyq8Vz7vooyeMlS1DNpBL5LhEkFy/YxE3mnd
+         JGZwQRVkEFMazG6MnqCTiZ62Hf2mFE7KFIDZ1yzZpMPF9iQKXY403xt9uho3pljmBz
+         dmdQAiwMPBz8emAKbWggcfJxkiAAU719bIyF0/5kw/Nu71BoYVur9E70n5SstkziYs
+         8h5G21sSol6HTKBwHCSG9f3dVB8vIx3V2YTIARB0eTo6wi80Ose2YR2SPxc5OAnBn2
+         l/Cl4NVx1FtQA==
+Date:   Tue, 18 Jul 2023 19:54:57 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "ardb@kernel.org" <ardb@kernel.org>,
+        "maz@kernel.org" <maz@kernel.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "debug@rivosinc.com" <debug@rivosinc.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+        "palmer@dabbelt.com" <palmer@dabbelt.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH 01/35] prctl: arch-agnostic prctl for shadow stack
+Message-ID: <45489f30-8bb7-45f1-ad09-28de4cebf406@sirena.org.uk>
+References: <20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org>
+ <20230716-arm64-gcs-v1-1-bf567f93bba6@kernel.org>
+ <3185fa6c37e54d26d66cd0e87e74fb5492399d78.camel@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="KcrOI5lcfTfmau0e"
+Content-Disposition: inline
+In-Reply-To: <3185fa6c37e54d26d66cd0e87e74fb5492399d78.camel@intel.com>
+X-Cookie: Nothing happens.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-and leave only their neighbor subsystem-apis
 
-because these links are already listed under
-section "Core subsystems" of Documentation/subsystem-apis.rst:
+--KcrOI5lcfTfmau0e
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    Core subsystems
-    ---------------
+On Tue, Jul 18, 2023 at 05:45:01PM +0000, Edgecombe, Rick P wrote:
+> On Sun, 2023-07-16 at 22:50 +0100, Mark Brown wrote:
 
-    .. toctree::
-       :maxdepth: 1
+> > Three architectures (x86, aarch64, riscv) have announced support for
+> > shadow stack.=A0 This patch adds arch-agnostic prtcl support to enable
+> > /disable/get/set status of shadow stack and forward control (landing
+> > pad)
+> > flow cfi statuses.
 
-       core-api/index
-       driver-api/index
-       mm/index
-       power/index
-       scheduler/index
-       timers/index
-       locking/index
+> What is this about forward control flow? Seems to be just about shadow
+> stack.
 
-Reference:
-- https://www.kernel.org/doc/html/next/subsystem-apis.html#core-subsystems
+Sorry, that's the original commit message - the original version of this
+also had support for controlling landing pads but I don't need that and
+cut them out of the series.  I forgot to update that bit of the commit
+message.
 
-Motivation:
-- make the documentation more organized
-- increase consistency, observability and maintainability
-- improve balance of ToC tree by reducing overly populated lists
-- avoid duplicate parallel links
-- escape tangling of links
-- intention to fit the main index into one page
+> > [Rebased onto current kernels, renumbering to track other allocations
+> > =A0already upstream, dropping indirect LP, updating to pass arg to set
+> > =A0 by value, fix missing prototypes for weak functions and update
+> > title.
+> > =A0 -- broonie]
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
- Documentation/index.rst | 3 ---
- 1 file changed, 3 deletions(-)
+> 1. PR_SET_SHADOW_STACK_STATUS seems like a strange name for the thing
+> actually doing the whole enabling of the feature which involves
+> allocating memory, etc. And in the future a growing array of different
+> things (enabling push, write, etc).
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 9dfdc826618c..8d8b7eab1131 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -38,10 +38,7 @@ kernel.
- .. toctree::
-    :maxdepth: 1
- 
--   core-api/index
--   driver-api/index
-    subsystem-apis
--   Locking in the kernel <locking/index>
- 
- Development tools and processes
- ===============================
--- 
-2.41.0
+I have no strong opinion on naming here.  _MODE?  I didn't find any
+discussions around this in the=20
 
+> 2. x86 only allows one enabling/disabling operation at a time. So you
+> can't enable shadow stack AND WRSS with one syscall, for example. This
+> is to make it so it's clear which operation failed. Also, since some
+> features depend on others (WRSS), there would need to be some ordering
+> and rollback logic.=A0There was some discussion about a batch enabling
+> arch_prctl() that could report failures independently, but it was
+> deemed premature optimization.
+
+I did see that the x86 implementation required a call per flag, the
+logic wasn't hugely obvious there - it didn't seem super helpful.
+There's nothing stopping userspace turning one flag at a time if it
+wants to, we just don't require it.  I wasn't overly concerned about the
+rollback logic since I was anticipating that the main complexity is the
+base enable and allocate, everything else would just be storing a mode.
+
+We can implement things with the one bit per call approach, I just
+didn't see much upside to it.  Perhaps I'm missing some case though.
+
+> 3. It only allows you to lock the whole feature, and not individual
+> subfeatures. For things like WRSS, it came up that there might be an
+> elf bit, like the shadow stack one, but that works a bit different.
+> Instead of only enabling shadow stack when ALL DSOs support the
+> feature, it would want to be enabled if ANY DSOs require it. So
+> userspace might want to do something like lock shadow stack, but leave
+> WRSS unlocked in case a dlopen() call came across a WRSS-requiring DSO.
+
+We could add either a second argument with the lock or a separate lock
+prctl() and matching query which takes the same bitmask, being able
+to lock per feature does give more flexibility to userspace in how we do
+the locking and isn't hugely more costly to implement.  My model for
+locking had been that there would be a final decision on what the
+features should be, I was modelling "can enable" as equivalent access to
+"is enabled" when it came to what was locked.
+
+> 4. To support CRIU, there needed to be a ptrace-only unlock feature.
+> The arch_prctl() has a special ptrace route to enforce that this unlock
+> is only coming from ptrace. Is there some way to do this with a regular
+> prctl()?
+
+For arm64 we need to add a regset to expose the GCS pointer anyway so
+the GCS mode is in there, though at the minute we prevent any changes at
+all via that mechanism it could be implemented later.  I'm not aware of
+any way for prctl() to tell if it is being invoked via ptrace so that'd
+need to be dealt with somehow.
+
+> 5. I see in the next patch there is hinted support for write and push
+> as well (although I can't find the implementation in the patches, am I
+> missing it?). X86 has something close enough to write, but not push.
+> What is the idea for when the features don't exactly match?
+
+The implementation is in "arm64/gcs: Implement shadow stack prctl()
+interface", it just boils down to turning on or off a register bit.
+
+> I think when Deepak originally brought up this unified prctl-based
+> interface, it seemed far away before we could tell if it *could* be
+> unified. Do either of you have any thoughts on whether the above points
+> could be incorporated?
+
+Other than the issue with CRIU I don't see any huge difficulty.
+
+--KcrOI5lcfTfmau0e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS24AAACgkQJNaLcl1U
+h9DxkQgAgZwa9pvR8VpxobsPn+zGULF2/Agz87ptksoCHAdiehLbLFMyBPdWVlPE
+VpUVG9yRkpPwF6CxIGr7eYT3bdZPRghlak/eJK+2vfEr9OBZrtn5jUDtLcYXHFEh
+4zY9eSZj4uM6IEH8PR/edFhVsRmngGx2xU0Y4yqcmKXBT2S4OdfrOQQvQkKQ15eG
+oZBMN4uX+3JFgQLViUMNpPj0bbkA+G4kab1alwOZiQZfZEqH1CRuPpk4CHu51Db9
+8bP7/Jy0QkCO19VmDm3NC8v3vAUoECs9iGx6GzsL41fRNlNMbEy2yyTxdz4Nu4YH
+/Fkhbx2eF0EG2nmwEzbQ+eAsBn/+eg==
+=rIz9
+-----END PGP SIGNATURE-----
+
+--KcrOI5lcfTfmau0e--
