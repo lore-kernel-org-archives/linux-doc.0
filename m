@@ -2,79 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCE2EB64DA
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 15:37:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A111AC001DC
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Jul 2023 15:38:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232921AbjGRPhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 11:37:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36866 "EHLO
+        id S232729AbjGRPiW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 11:38:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232651AbjGRPhr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 11:37:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E1A992
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jul 2023 08:37:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689694629;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WFSYW0DOGpPster+jaAtGmVXakx425pOilKzR4Mqu7g=;
-        b=EfC//0cZ6cnEK0lBopJvUYkG1OGCDzVR49B2g/aeZidcf9UQIarX+GxtYFLdpgZheP8L4O
-        QqUHZAPAN4hCjCuSfqiT7kQ9jrDyWP0z6uN74AuSiEiOTX293V2eo4BFVX68vSWM0Tum9A
-        peCMwxRR4Fo8ynvvQ7xazwNEBT6nyAY=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-616-_CRBcH1EMVyfIyJDqGykzw-1; Tue, 18 Jul 2023 11:37:07 -0400
-X-MC-Unique: _CRBcH1EMVyfIyJDqGykzw-1
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-39a9590f9fdso8008963b6e.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jul 2023 08:37:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689694625; x=1692286625;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WFSYW0DOGpPster+jaAtGmVXakx425pOilKzR4Mqu7g=;
-        b=R9b5RbPiC8qfwuAOnrP54B9tY7MgIpJVzG6HULjDRfsdcrG4zJgLdulvXYVo9yKrIl
-         UWSMdPEPYJV5ZZk1IovWs6XMnTzeIDX8TXRBDL71QeO+tXb/6BFtSCkU/jFKjMJos8ND
-         EmkroRRT3eHKhGZcqs6opvQ4ceIBQi1y9pG3N+VDs2TCsHTVxeYp8cLJUC0ONj60sZFl
-         Wj+PwhBaTdJsyMT8LRVQITKNTOA8URbPr9wMACIMyoRnXd7tLgaCtiKC78SCD9mY38E0
-         Q0iFWkA5a5pE6+1QvGu039Hew+NrnQQEk1MsuSeYIr8tzyhkqM7FUOoW4thzT0kp5emn
-         fURA==
-X-Gm-Message-State: ABy/qLYtza7Lmn1gEDDeiE9VknHRSrW9oIQpysbV9vYnnmyUxyZBRjhi
-        qIQHCJsTTouJhtEH/F2FHCK61Gj3oakqziKXzF6p1iUMieMx12Rju1J1yvDh+H3r5WeSaKAhQ4z
-        mAgDHeLWevZ5fAOrGwteO8AhBOlfHP60eqwdd
-X-Received: by 2002:a05:6808:8dc:b0:3a4:2941:6c4e with SMTP id k28-20020a05680808dc00b003a429416c4emr8358187oij.14.1689694625694;
-        Tue, 18 Jul 2023 08:37:05 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEf9mgh2Nt7cWxiKa+uMA40DWO59oOanYv0EqBNuG6J62s4TTbWO3ymUHzb1Pts2sn8rpd/wCp6KZ9iqWw7z9M=
-X-Received: by 2002:a05:6808:8dc:b0:3a4:2941:6c4e with SMTP id
- k28-20020a05680808dc00b003a429416c4emr8358177oij.14.1689694625367; Tue, 18
- Jul 2023 08:37:05 -0700 (PDT)
+        with ESMTP id S233682AbjGRPiV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 11:38:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B54719A0;
+        Tue, 18 Jul 2023 08:37:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B98066163F;
+        Tue, 18 Jul 2023 15:37:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8838C433C8;
+        Tue, 18 Jul 2023 15:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689694674;
+        bh=4lzpTYj2kIXHXWaJYs/83EbVi/o1EKnwum3LfzARXr8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cNzyHRvyhQo8fy2tY5qhlfauywDksEZ+wW+jlrLSvyw0CUNqEW+spb+JpKUeB2vOF
+         XRpuWyi5psLzSvAtrML+E9fp18f+Wxveel+SbkG2kyrEQIi1sELC0TkdIjv8SKOj6E
+         HvfhLomkv0Sc67piLn6lGkvzrpMvQz7GqNiKqfkczbT1uZnRHaCUYs7u4O3MUvUPeQ
+         rP7waYDkAeKoM0V0LAbaZjfjyY+bD8tj/zX3/bJBJtCrOHshOjfjNsx8x45l1cEGDE
+         37ios2bSMjDt03MW1wvDgqPoxSzZVqBJqMqK2DNaN3mYtVo/gjp/77YoiLOgZpOhX2
+         XoHMPrp44k96A==
+Date:   Tue, 18 Jul 2023 08:37:53 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Krzysztof Kozlowski <krzk@kernel.org>, corbet@lwn.net,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+        Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH docs] docs: maintainer: document expectations of small
+ time maintainers
+Message-ID: <20230718083753.2d1e003a@kernel.org>
+In-Reply-To: <bb8c6476-283c-3bc6-710b-5a8602ccd40e@leemhuis.info>
+References: <20230713223432.1501133-1-kuba@kernel.org>
+        <6f1014cd-f8c5-f935-dcc7-4f5a6b85e473@kernel.org>
+        <20230714101028.337fb39a@kernel.org>
+        <bb8c6476-283c-3bc6-710b-5a8602ccd40e@leemhuis.info>
 MIME-Version: 1.0
-References: <CADDUTFyArtN--_27xLWpqnBM2e_udmL+E6Ka7KgimTUOguWthg@mail.gmail.com>
- <87ilaiwsyl.fsf@meer.lwn.net>
-In-Reply-To: <87ilaiwsyl.fsf@meer.lwn.net>
-From:   Costa Shulyupin <costa.shul@redhat.com>
-Date:   Tue, 18 Jul 2023 18:36:54 +0300
-Message-ID: <CADDUTFyYxh6+-+uhiVYXcPvS+1qQ6XYG_y4J5Q9uLwhcuZp_4A@mail.gmail.com>
-Subject: Re: confusing changes in the documentation table of contents
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, kernelnewbies@kernelnewbies.org,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan,
+On Sat, 15 Jul 2023 12:31:02 +0200 Linux regression tracking (Thorsten
+Leemhuis) wrote:
+> Maintainers must ensure severe problems in their code reported to them
+> are resolved in a timely manner: security vulnerabilities, regressions,
+> compilation errors, data loss, kernel crashes, and bugs of similar scope.
 
-> By "table of contents" you're talking about the left column?
-Yes, on the left. Now it is named "Contents".
+SG, thanks for the suggestion!
 
->  I agree it's still far from ideal.
-Do you have any prototypes as examples or in mind?
-
-Costa,
-Thank you
-
+One edit - I'd like to remove "security vulnerabilities" from the list.
+Security implications are an axis on which bug can be evaluated, one of
+many. All kernel bugs have some security implications. Placing them as
+a category like crashes, lockups or compiler errors could deepen the
+confusion.
