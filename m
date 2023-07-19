@@ -2,202 +2,186 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24C4BC0015E
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 00:12:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68725EB64DC
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 02:29:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229441AbjGSAMI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Jul 2023 20:12:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38276 "EHLO
+        id S229672AbjGSC3q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Jul 2023 22:29:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjGSAMH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 20:12:07 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C151B121;
-        Tue, 18 Jul 2023 17:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689725525; x=1721261525;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=x85A4IVhvxutMPESG5bbtPNOJ/18BBoMq9Ehwvsc4G4=;
-  b=QDEfPqHMKFWp+BGBbJhqjIKO6gExtLGpIrRVOxdI1BhsmGBzx+jxGJIT
-   LhamblNz8UnGi3yfgcD+j10UJ4A8vkR0DFa/c1L5krWdqNpTpHxR3DRNr
-   A94KXWY7gBNKYcL1NllxG0Gs1ePRLip9ys7TDoNafm8XOWX5imWzo7h14
-   xieHoLxEwccdsCCwcjwJZcnBtqCMJIfhiDRukPZCNoTr64PM45k9VYo/5
-   XKhSXc8y2e7SIl5su+daAfb1EeoVtVt2R2eRwD8E4bFoiRHPcboeTvxp6
-   VohrIu3gL6FoCHGFQoxSjOPCs/2FO+batxOVfi0POn1JaYldEzcdHrqED
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="366383191"
-X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="366383191"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 17:12:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="897726544"
-X-IronPort-AV: E=Sophos;i="6.01,215,1684825200"; 
-   d="scan'208";a="897726544"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga005.jf.intel.com with ESMTP; 18 Jul 2023 17:12:04 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 18 Jul 2023 17:12:04 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Tue, 18 Jul 2023 17:12:04 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Tue, 18 Jul 2023 17:12:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WesFBpLWNj31rBDB8jbn8zPv3MOePkQ3ldbp+8Ye3nj2fHS6QffcEa8RwIvnnQkRrAQsJTTJgSTSPygeqlT8nGFTn1a+TaOzLgLsjlGmaHNBgexFNby1X1/uHm+QZDmLaYHmN0ZClnxb8IZuWFjOr02hrpSWbnaQtaE6RCpVufAJ/Nk3u2Prku9VS7OVuK0VJHPVZEVq+7FGUiy/OM0R543mllmC2ol092sgIzr9mDwI39X6sIcA0wJdFmbA1qAmHTWr5KtymgthhAUCIAYmE9uJKg57muuLT0ujlR2oPS3E+q9d+AfzoO/bdhjYOrIv6aWcEzuwRn2029sYZx7x1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x85A4IVhvxutMPESG5bbtPNOJ/18BBoMq9Ehwvsc4G4=;
- b=CEliWc6hktJe+2mkuxS4ziujstd9RTsHmpXPDaYNSgoIfxxsQiaZdnovkfRakciKvQux1+7/7F3XcDe62PJ08GKQ1UFM23ynIcE72xnvn4hNtJ3apTHY9nzyYzTvy0Fm6mMze6KoyLIkUAS7KeYs9kO42WQuowV/zMeZPU9YFbnXQZ7rBZ/pXldGfiyFzww3PaiZ7HvXlz5eQOEcLXBA95SxMu0xY9MR7YF80HAig1gvXDo/ptJ+M5zR2XHXfkVyhmMhhgYumPEFiYSH2uEJBygYNu+NY+uUHu44NKj8ghu3vBmYeuPZFbZAK7ziYmI/uU2qXURjNH6ZMf/18wGVjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by BY1PR11MB8056.namprd11.prod.outlook.com (2603:10b6:a03:533::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Wed, 19 Jul
- 2023 00:12:00 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::6c4d:b433:cf0b:8a5]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::6c4d:b433:cf0b:8a5%7]) with mapi id 15.20.6588.031; Wed, 19 Jul 2023
- 00:11:59 +0000
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     "Chatre, Reinette" <reinette.chatre@intel.com>
-CC:     "Yu, Fenghua" <fenghua.yu@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: RE: [PATCH v3 3/8] x86/resctrl: Add a new node-scoped resource to
- rdt_resources_all[]
-Thread-Topic: [PATCH v3 3/8] x86/resctrl: Add a new node-scoped resource to
- rdt_resources_all[]
-Thread-Index: AQHZtaekZVdqWpMt9kG5/7FX5qK7u6/ABOEAgAAzyECAAAJr4A==
-Date:   Wed, 19 Jul 2023 00:11:59 +0000
-Message-ID: <SJ1PR11MB60834DE7D5F7728BF45953F7FC39A@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <20230713163207.219710-1-tony.luck@intel.com>
- <20230713163207.219710-4-tony.luck@intel.com>
- <769521ee-6907-1613-442f-e2915a8ea554@intel.com>
- <ZLcY1MQr5/Ibnv7N@agluck-desk3>
- <076a76c9-ab57-cae2-e6e4-99d26921b578@intel.com>
-In-Reply-To: <076a76c9-ab57-cae2-e6e4-99d26921b578@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|BY1PR11MB8056:EE_
-x-ms-office365-filtering-correlation-id: 36ebf4b1-eef8-4f90-b168-08db87ecc550
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ht6/wmkvn4JL4IlmkjTGcnXVECRrbWBD9kyGWqMS9hJehzL54ccf/btu7pCx2CI1pDIGl8DELMn3zNdwWqu9Dwzzt8sDBhQBRPloRgohl9hnnBh14wQC9WO3hbZohznBYOl9KLDyauJAhv4NFHuAHvbXPy27aYtlgXkrbw3pILxrFOq/o/lDf8ClfDHmjy2UTP2LYdB8RoLHZdouLQi8QwJ4aGxW4vGZfJY05j2RJ2clrE4WobT0ldHNTSkc5T6ZJfCfAVBlCaWnRBBPUyEi8o3h8PQmj9bJdlvP+F6BzKqZJ2IqRrlHA/agcKci+ceVAr3OITVBbWxXyNK4T70lmEFJ0Tm3DWi4ZW8vZx2C7QiyT3mo0mtWzSz6Rxirugp9RY2E+ZGmw3wu0R6mdQ1b+UG4KpuEeSRfjOm9Si3LJKez85QpYH2/X6mfe9t4R0lgT6g/k0rCj0XY1bgk1QYAV1waB1y9i7zdFvB8je6yIYtU4p5hpRwnHsmRlbRl0txzjubAq9zc/WBhlGTaRguSYZGyN2oqE2AHrMRm3W0Gbabvj/zDoTM5V3j8ITYSFJQ5mrGQEvPtAZ2xuRMndRe4qCqbd1k4j8S7nMI9RICMpBoQmTrL4QWm4WNHLSmQBOV1
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(136003)(366004)(39860400002)(396003)(376002)(451199021)(82960400001)(478600001)(83380400001)(186003)(26005)(6506007)(9686003)(55016003)(8936002)(6862004)(33656002)(8676002)(41300700001)(4326008)(2906002)(5660300002)(316002)(86362001)(7696005)(71200400001)(6636002)(76116006)(122000001)(66556008)(54906003)(38100700002)(66946007)(66476007)(7416002)(66446008)(52536014)(38070700005)(64756008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MkNKWXBrZEtBNFZBMmRwL1V5ZU1aaGtsR3Y1QjBzU2hMT25Mak9WMWpCQjdn?=
- =?utf-8?B?b2piUjNhVisyc1Z3NkxYbWh3Rm9mRi8yT1ZhQXdhcmxxZ2U1U0ZrZTFyMWor?=
- =?utf-8?B?bi9aQ2NHUmp1NmVRMDV5MmIwbWVqV0o3VEZBV01nOGVxcW50TGZtRXQveEhT?=
- =?utf-8?B?U3BhMlh4MERvN3U5UERsa2tvRitxTlA1dm11SFVsMitlS0t5emdRT1BmSGRy?=
- =?utf-8?B?aWFwb1RuVyszUVppenZ5VU8rSmpadHNrdU1MK1dtN1pOQXdKbjhCRmdiZmI5?=
- =?utf-8?B?NGhmQXE0cFFTcXlQZGIrSmpmUlErcHg4MTBVYWFnclNBcUZZU251U3hQUSt0?=
- =?utf-8?B?RHdqamRnNllYeDlyRFphdkpaT3p2enJlbUVNNzZqUUQzK2taT05BUmUyQWNY?=
- =?utf-8?B?NWJPd3RScWRGc2I2VFAyRkVHbDVUUkpFU2VqMm1lTzU4dytSY3k0bFY5K3c0?=
- =?utf-8?B?cFpiaitqVVA1L3pDb0grNERPZG5JWEgzV2RieWlYdVZtcWx5WDFlZW1WTVZK?=
- =?utf-8?B?T1FDc3BYTFh4QTFjNHBvL1VWRkh5OXJjWW50cE9KQ2RZZlIxa25LTjg2UFhR?=
- =?utf-8?B?Vm5KU290Q0ZWdnBiUEF0Z2VlMks4WDRaWXR5dCtFbUZ0SjlpUWxybnlIWU1E?=
- =?utf-8?B?c2U4Z254UGp4WTEzV1FUUnZoempaSCtIbVRHbUk0OEVWd3JIVVJ2MHE3eFV1?=
- =?utf-8?B?cXk2UmZ0UllxbTdrOGNLYUlNU0pNbTk1bmlBdTVHa01oMERTN0NrWHM2L1B6?=
- =?utf-8?B?K3A4NXg0emxkQmY1NVBHTVlEQ3N4RFBkQlFLMnlQWFFoSWphUEs4aFZ5KzVY?=
- =?utf-8?B?THIyNjFwcUpwU2UyMzZIWDhpemZUc1VuTU5zQzNORzg5VkN1b1B1MGJwS0Mr?=
- =?utf-8?B?a1N5RE9NKzFsbW85cTR5dzZPVjRRS0twOGtlTkx6MHh5NjZZMEk3bTZlRGdu?=
- =?utf-8?B?YXNReHFXbUZ2RUVjdXN0SndPWkgvQjAzWTE4a1JnQWJHYjlxb1QrTGJBUXpM?=
- =?utf-8?B?aGdnUFhidGphS0c1MGlHTXBLSTNMa1piZmJ4UGxsZ3MrbmY3Q2lNS3BYRlUv?=
- =?utf-8?B?ODhRZTI5Vk9kY1hUYS9ORksyclUxNzdwZUtidTBsUTFZRU5NakJleXlLZGxC?=
- =?utf-8?B?TVppWUtqZkVCNVJVdmYrZS9yc1RhVlJwRUFxaWhqWDFOWFo0ZXBWN2tKVVRG?=
- =?utf-8?B?RU43NWhlc2JjWTA4K3lnZ3ZmMGF4ZzByRnN2TncvYnBhYm0ya1dvWmQ3M3Fq?=
- =?utf-8?B?WHVHTDlaWWN6RDNtNWJaK0g0YmdnRkFPdVpHL0d1R0puL1hsVkJpOVFvVHVY?=
- =?utf-8?B?eUZURDU3UHRTZEVFOG9HNVJPZnFJZnR6U1c3L01TYWVFY0FnQ29HU2UyZk9w?=
- =?utf-8?B?VUR4WFdoTXBBT2UwN1FoVS9WM2NJb1ZqWEFpSDlWd2oyZGVZYS9kbHY0Y3A4?=
- =?utf-8?B?TlF4azFlT3hSNW9rS3ZvaUJOcCtQQzJKazRzTm8xQ3R5TmFhUXE0dWozZ2ZM?=
- =?utf-8?B?RUNPSFN2VHdJdUluTXJwWFhUSE5hOTg0Rk9xTi8zdlFNSlJ1SHR1UFBwTEI2?=
- =?utf-8?B?SHdWWlFqSXBlbTRKdVllem0xRm4vajdoVFdNemhPRVUxRWZFaXV1K3IxVUhB?=
- =?utf-8?B?cjVzQTJxWkQ5UlVqMWZsc3IvMXlJcUh1WTMwT0w3TmFVUlIxenIrS29oZy9p?=
- =?utf-8?B?M0pWQjNkbDZFTG44MnJPN1lCWG40elFQWWp6aE9QblpzM0lCMFFodVdPeVFh?=
- =?utf-8?B?SDBOQU44VUhPc1M1cE9YdmRwK2tCYzBVbDdWSUhtY1FMWFRaeWxnTnY5WnJH?=
- =?utf-8?B?dytGdnphQmZ4K2FpY3E5WWNVQWFvM21MSXVyQ0ZrMk8zVlM4NHFkckdBdVU1?=
- =?utf-8?B?T2lTdk1iYUtBemUrZjlHM25qVXZVOU83ZXY3VGVjS2FnZmlCNEl5aUNBUUls?=
- =?utf-8?B?dVVFTmRMdTZPTzI1NUlzTEU5STRWUzJpUXlvZXNzeG1BY0VRTUJrY0JjV2J2?=
- =?utf-8?B?UmEzNEZWbVN6UXJtSmhzYlJ4b2pYaEhXR1NhWTQxTVdXRFdSa1NOL2pVZjVH?=
- =?utf-8?B?dW84c3p0VjFmdEtvckxPbGlUeSt6ZTJ0azE0OXJOanpzTFdTZlh0cElqbE5B?=
- =?utf-8?Q?V4zo=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S229458AbjGSC3p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jul 2023 22:29:45 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7AD71BC3;
+        Tue, 18 Jul 2023 19:29:44 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36J2TIxH007959;
+        Wed, 19 Jul 2023 02:29:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=+oBvnbE4xroSbYblQPs/8HL2djhB8Xgtq8WYGp/sZlM=;
+ b=gqeFM/rhDgWUd2209z2WRBT19d41SxrQNrXet2O9odcevW+J9p4WwN8aUK5aaTbuqJ5A
+ TKARAu5EURfu3HE0BOqD6DNmuwA8t9NOeIAl+PK9ss+729369gvylZK9apd8zzl7iZZ9
+ 7NoVWKd1iV7Yww5fwpdwzFLC3dKmfINMPau8cQnNhB/VFdfQTk+yUqnizhWaSSlYG+bB
+ Ojq8CJnG1C7GSN+gfTsh0oK/mlWfJuLLQIcoZmJ0cc/sULmkcF2kJEqR/vNTteUIr0zg
+ 62NXmi46g6kEjQp05u7a8EpAqhdmm5xyDEQCqi9r5rgtV9wHrZUY656hRY8LamHSIxwj Hg== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rx728r02k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 19 Jul 2023 02:29:17 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36J2SpRI022113
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 19 Jul 2023 02:28:51 GMT
+Received: from [10.110.33.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 18 Jul
+ 2023 19:28:49 -0700
+Message-ID: <5ef4a5f7-27a0-f46c-fcbd-c3b8c93e0366@quicinc.com>
+Date:   Tue, 18 Jul 2023 19:28:49 -0700
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36ebf4b1-eef8-4f90-b168-08db87ecc550
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2023 00:11:59.4966
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3JVYlxZeerNgtgWSs61qLzHcXojjpdqRwsF/aLL3l2QjmOHzM2CcvigxoGgsrrw2vXt4BHyxYhI69zyVzoGc8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR11MB8056
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v13 10/24] gunyah: vm_mgr: Add/remove user memory regions
+To:     Will Deacon <will@kernel.org>
+CC:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Bagas Sanjaya" <bagasdotme@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <qperret@google.com>
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+ <20230509204801.2824351-11-quic_eberman@quicinc.com>
+ <20230519115948.GB2637@willie-the-truck>
+ <e22c31bd-10ed-f242-3e72-debf40e01e3c@quicinc.com>
+ <20230605141839.GD21212@willie-the-truck>
+ <3bd86221-ee2e-d157-009b-11f6ada98537@quicinc.com>
+ <eae302ab-b508-cdc6-847f-dff6a6b82798@quicinc.com>
+ <04605642-cad8-1701-ff41-63f2f00ba5f6@quicinc.com>
+ <20230714121321.GB5597@willie-the-truck>
+Content-Language: en-US
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <20230714121321.GB5597@willie-the-truck>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: SNSk4sgb0_aYac39uGO505G7EPNebv42
+X-Proofpoint-ORIG-GUID: SNSk4sgb0_aYac39uGO505G7EPNebv42
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-18_19,2023-07-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
+ bulkscore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0
+ mlxlogscore=965 impostorscore=0 spamscore=0 clxscore=1011 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307190022
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBZZXMsIHRoaXMgaXMgdGhlIGlkZWEuIFRoYW5rIHlvdSBmb3IgY29uc2lkZXJpbmcgaXQuIFNv
-bWV0aGluZyBlbHNlDQo+IHRvIGNvbnNpZGVyIHRoYXQgbWF5IG1ha2UgdGhpcyBldmVuIGNsZWFu
-ZXIvc2ltcGxlciB3b3VsZCBiZSB0byByZXZpZXcNCj4gc3RydWN0IHJkdF9kb21haW4gYW5kIHN0
-cnVjdCByZHRfaHdfZG9tYWluIG1lbWJlcnMgZm9yICJtb25pdG9yIiB2cyAiY29udHJvbCINCj4g
-dXNhZ2UuIFRoZXNlIHN0cnVjdHMgY291bGQgcG90ZW50aWFsbHkgYmUgc3BsaXQgZnVydGhlciBp
-bnRvIHNlcGFyYXRlDQo+ICJjb250cm9sIiBhbmQgIm1vbml0b3IiIHZhcmlhbnRzLiBGb3IgZXhh
-bXBsZSwgInN0cnVjdCByZHRfZG9tYWluIiBzcGxpdCBpbnRvDQo+ICJzdHJ1Y3QgcmR0X2N0cmxf
-ZG9tYWluIiBhbmQgInN0cnVjdCByZHRfbW9uX2RvbWFpbiIuIElmIHRoZXJlIGlzIGEgY2xlYW4N
-Cj4gc3BsaXQgdGhlbiByZXNjdHJsIGNhbiBhbHdheXMgY3JlYXRlIHR3byBsaXN0cyB3aXRoIHRo
-ZSB1bm5lY2Vzc2FyeSBkdXBsaWNhdGlvbg0KPiBlbGltaW5hdGVkIHdoZW4gdHdvIGRvbWFpbiBs
-aXN0cyBhcmUgY3JlYXRlZC4gVGhpcyB3b3VsZCBhbHNvDQo+IGVsaW1pbmF0ZSB0aGUgbmVlZCB0
-byBzY2F0dGVyIGN0cmxfc2NvcGUgPT0gbW9uX3Njb3BlIGNoZWNrcyB0aHJvdWdob3V0Lg0KDQpZ
-b3UgbWlnaHQgbGlrZSB3aGF0IEknbSBkb2luZyBpbiB0aGUgInJlc2N0cmwyIiByZS13cml0ZVsx
-XS4gQXJjaCBpbmRlcGVuZGVudCBjb2RlDQp0aGF0IG1haW50YWlucyB0aGUgZG9tYWluIGxpc3Rz
-IGZvciBhIHJlc291cmNlIHZpYSBhIGNwdWhwIG5vdGlmaWVyIGp1c3QgaGFzIHRoaXMNCmZvciB0
-aGUgZG9tYWluIHN0cnVjdHVyZToNCg0Kc3RydWN0IHJlc2N0cmxfZG9tYWluIHsNCiAgICAgICAg
-c3RydWN0IGxpc3RfaGVhZCAgICAgICAgbGlzdDsNCiAgICAgICAgc3RydWN0IGNwdW1hc2sgICAg
-ICAgICAgY3B1X21hc2s7DQogICAgICAgIGludCAgICAgICAgICAgICAgICAgICAgIGlkOw0KICAg
-ICAgICBpbnQgICAgICAgICAgICAgICAgICAgICBjYWNoZV9zaXplOw0KfTsNCg0KRWFjaCBtb2R1
-bGUgbWFuYWdpbmcgYSByZXNvdXJjZSBkZWNpZGVzIHdoYXQgZXh0cmEgaW5mb3JtYXRpb24gaXQg
-d2FudHMgdG8NCmNhcnJ5IGluIHRoZSBkb21haW4uIFNvIHRoZSBhYm92ZSBzdHJ1Y3R1cmUgaXMg
-Y29tbW9uIHRvIGFsbCwgYnV0IGl0IGlzIGZvbGxvd2VkDQpieSB3aGF0ZXZlciB0aGUgcmVzb3Vy
-Y2UgbW9kdWxlIHdhbnRzLiBFLmcuIHRoZSBDQk0gbWFza3MgZm9yIGVhY2ggQ0xPU2lkDQpmb3Ig
-dGhlIENBVCBtb2R1bGUuIFRoZSBtb2R1bGUgdGVsbHMgY29yZSBjb2RlIHRoZSBzaXplIHRvIGFs
-bG9jYXRlLg0KDQoiY2FjaGVfc2l6ZSIgaXMgb25seSB0aGVyZSBiZWNhdXNlIHRoZSBjYWNoZSB0
-b3BvbG9neSBiaXRzIG5lZWRlZCB0byBkaXNjb3Zlcg0Kc2l6ZXMgb2YgY2FjaGVzIGFyZW4ndCBl
-eHBvcnRlZC4gQm90aCB0aGUgInNpemUiIGZpbGUgYW5kIHBzZXVkby1sb2NraW5nIG5lZWQNCnRv
-IGtub3cgdGhlIHNpemUuDQoNCkl0J3MgYWxzbyBwb3NzaWJsZSB0aGF0IHlvdSBtYXkgaGF0ZSBp
-dC4gVGhlcmUgaXMgemVybyBzaGFyaW5nIG9mIHJlc291cmNlIHN0cnVjdHVyZXMNCmV2ZW4gaWYg
-dGhleSBoYXZlIHRoZSBzYW1lIHNjb3BlLiBUaGlzIGlzIGJlY2F1c2UgYWxsIG1vZHVsZXMgYXJl
-IGluZGVwZW5kZW50bHkNCmxvYWRhYmxlLg0KDQotVG9ueQ0KDQpbMV0gV0lQIHNuYXBzaG90IGF0
-IGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9hZWdsL2xpbnV4
-LmdpdA0KYnJhbmNoIHJlc2N0cmwyX3Y2NXJjMS4gVGhhdCBkb2Vzbid0IGhhdmUgcHNldWRvLWxv
-Y2tpbmcsIGJ1dCBtb3N0IG9mIHRoZSByZXN0DQpvZiBleGlzdGluZyByZXNjdHJsIGZ1bmN0aW9u
-YWxpdHkgaXMgdGhlcmUuDQo=
+Hi Will,
+
+On 7/14/2023 5:13 AM, Will Deacon wrote:
+> On Thu, Jul 13, 2023 at 01:28:34PM -0700, Elliot Berman wrote:
+>> On 6/22/2023 4:56 PM, Elliot Berman wrote:
+>>> On 6/7/2023 8:54 AM, Elliot Berman wrote:
+>>>> On 6/5/2023 7:18 AM, Will Deacon wrote:
+>>>>> On Fri, May 19, 2023 at 10:02:29AM -0700, Elliot Berman wrote:
+>>>>>> The user interface design for *shared* memory aligns with
+>>>>>> KVM_SET_USER_MEMORY_REGION.
+>>>>>
+>>>>> I don't think it does. For example, file mappings don't work (as above),
+>>>>> you're placing additional rlimit requirements on the caller, read-only
+>>>>> memslots are not functional, the memory cannot be swapped or migrated,
+>>>>> dirty logging doesn't work etc. pKVM is in the same boat, but that's why
+>>>>> we're not upstreaming this part in its current form.
+>>>>>
+>>>>
+>>>> I thought pKVM was only holding off on upstreaming changes related
+>>>> to guest-private memory?
+>>>>
+>>>>>> I understood we want to use restricted memfd for giving
+>>>>>> guest-private memory
+>>>>>> (Gunyah calls this "lending memory"). When I went through
+>>>>>> the changes, I
+>>>>>> gathered KVM is using restricted memfd only for
+>>>>>> guest-private memory and not
+>>>>>> for shared memory. Thus, I dropped support for lending
+>>>>>> memory to the guest
+>>>>>> VM and only retained the shared memory support in this
+>>>>>> series. I'd like to
+>>>>>> merge what we can today and introduce the guest-private
+>>>>>> memory support in
+>>>>>> tandem with the restricted memfd; I don't see much reason to delay the
+>>>>>> series.
+>>>>>
+>>>>> Right, protected guests will use the new restricted memfd ("guest mem"
+>>>>> now, I think?), but non-protected guests should implement the existing
+>>>>> interface *without* the need for the GUP pin on guest memory pages. Yes,
+>>>>> that means full support for MMU notifiers so that these pages can be
+>>>>> managed properly by the host kernel. We're working on that for pKVM, but
+>>>>> it requires a more flexible form of memory sharing over what we
+>>>>> currently
+>>>>> have so that e.g. the zero page can be shared between multiple entities.
+>>>>
+>>>> Gunyah doesn't support swapping pages out while the guest is running
+>>>> and the design of Gunyah isn't made to give host kernel full control
+>>>> over the S2 page table for its guests. As best I can tell from
+>>>> reading the respective drivers, ACRN and Nitro Enclaves both GUP pin
+>>>> guest memory pages prior to giving them to the guest, so I don't
+>>>> think this requirement from Gunyah is particularly unusual.
+>>>>
+>>>
+>>> I read/dug into mmu notifiers more and I don't think it matches with
+>>> Gunyah's features today. We don't allow the host to freely manage VM's
+>>> pages because it requires the guest VM to have a level of trust on the
+>>> host. Once a page is given to the guest, it's done for the lifetime of
+>>> the VM. Allowing the host to replace pages in the guest memory map isn't
+>>> part of any VM's security model that we run in Gunyah. With that
+>>> requirement, longterm pinning looks like the correct approach to me.
+>>
+>> Is my approach of longterm pinning correct given that Gunyah doesn't allow
+>> host to freely swap pages?
+> 
+> No, I really don't think a longterm GUP pin is the right approach for this.
+> GUP pins in general are horrible for the mm layer, but required for cases
+> such as DMA where I/O faults are unrecoverable. Gunyah is not a good
+> justification for such a hack, and I don't think you get to choose which
+> parts of the Linux mm you want and which bits you don't.
+> 
+> In other words, either carve out your memory and pin it that way, or
+> implement the proper hooks for the mm to do its job.
+
+I talked to the team about whether we can extend the Gunyah support for 
+this. We have plans to support sharing/lending individual pages when the 
+guest faults on them. The support also allows (unprotected) pages to be 
+removed from the VM. We'll need to temporarily pin the pages of the VM 
+configuration device tree blob while the VM is being created and those 
+pages can be unpinned once the VM starts. I'll work on this.
+
+Thanks for the feedback!
+
+- Elliot
+
+
