@@ -2,126 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5AC3C0015E
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 07:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A769EC001DE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 08:10:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbjGSH7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jul 2023 03:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49626 "EHLO
+        id S229687AbjGSIKz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jul 2023 04:10:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbjGSH7l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 03:59:41 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B777B1FC8;
-        Wed, 19 Jul 2023 00:59:33 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-51e5da802afso9297988a12.3;
-        Wed, 19 Jul 2023 00:59:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689753572; x=1692345572;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SY33JB6mC06OX+KVuVVPGO/hdA0681iQksC22lBI39w=;
-        b=liuKUqJaUlnKfEF8tXwzSZ49YiRIlsc7h1XPQEDoYy6gsuhiF8c4HJCRILWSRJsMBJ
-         1olJrfyfekaaEnjVx+tmP2AJqXnczuPHJ74w58LITgN+rP9mtpulsVwZ+zn+vnXhLuQR
-         Uhym8tWeE7khXi2Qzp1di3JKvZl/CM0xS9gqCpcCG8dolwy5U2eang7d7BujbWvruxc+
-         /nHY42aAhVSgPn9+kFtjX/VzzAHMPcCp/A/FgW2Ooiz0m0AeWmqLhoFNGRFqJytHMkXz
-         4zJKvmPuOockRHief8wnp2KoZEY7Q5N6P5IdsyFXSER7nwMDXTniyxM10RqfGteyZ/W6
-         2vtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689753572; x=1692345572;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SY33JB6mC06OX+KVuVVPGO/hdA0681iQksC22lBI39w=;
-        b=egou8S8qwbQM88+BP1AX9OZsQa+MO7G2A09xAD4EASSegknn6OTYC3ZozLaIfLvxnN
-         2itZIDSlLPCAvFJIRC7xz5QHvxDJWAZpDyYOMKStIAzQx5coIrKoAOAwAOf4nhVcieQO
-         PkT3db/4uQ5gTTZze12rQnW2yjXvkJuEVmMcW+PascyFu3UMP+3Mt3hdShTbfFhGmitv
-         OLLfkHxTXDKHEPZ3Hi7KYunmQpc9k/Nz1dLkyXb/BJL3fVdf+0pkcLeOaSKvKo2ouvzb
-         ygv8QsS+Ho63OL/s7keFYLaiR++s07JMgfEUtf0qpDaKvMDWJzfnorq3zam28ErMnudS
-         LaJg==
-X-Gm-Message-State: ABy/qLYX2BW3sPwkEi1udfUD720WZ6BQ+eq5bUUKwnMAnff4sh/AOy2Q
-        q6tAYmQ5p8A2PCtdBfrnY74=
-X-Google-Smtp-Source: APBJJlEc2dwWmDy7Bm2SJDKNnr3eVPMKtYL5zZyHQ5J0s+PDo/mH3pp2hKySUA2Q9wvbJO1vfvKWjA==
-X-Received: by 2002:a05:6402:181a:b0:51d:9b4d:66bd with SMTP id g26-20020a056402181a00b0051d9b4d66bdmr1857165edy.9.1689753571518;
-        Wed, 19 Jul 2023 00:59:31 -0700 (PDT)
-Received: from orome (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id v17-20020aa7d651000000b0051de3e1323dsm2304242edr.95.2023.07.19.00.59.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jul 2023 00:59:30 -0700 (PDT)
-Date:   Wed, 19 Jul 2023 09:59:29 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        James Clark <james.clark@arm.com>, linux-doc@vger.kernel.org,
-        kernel@pengutronix.de, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 01/18] pwm: Provide devm_pwmchip_alloc() function
-Message-ID: <ZLeX4UbFaY592HIa@orome>
-References: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
- <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S229458AbjGSIKy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 04:10:54 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC880E0;
+        Wed, 19 Jul 2023 01:10:53 -0700 (PDT)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36J87nUn013534;
+        Wed, 19 Jul 2023 08:10:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=bmtdoH4x78WOzEgO0hJr3Q4YAok9U57wjwgQujC0nAA=;
+ b=b6ITED5+a63nh8h/9Mi20RaNVia658Hk1kPH0a3vu+15UlGdMvRoF/cMcbTv0p3xkP3d
+ jMenfcl2ZZyhx/hs4A5PCxmTcMQmGgniVu952R2R1H61QeH4EGCZhBeBNPz4BkMfxE0L
+ u44TmGAQqXjEB2Kq8WaY7bVnUlacKsYCJS/AHfOEtH5DKHFe2pQ8FdSMc690PlmWbmEM
+ 6kV1adx4PHwxEccCva1BiTXY9ZDBIE1QgYAZL194hdLv+4PyMhNxL5Xh9CoTArRZZ00R
+ xEDrqqHY8TIQ348X+8Ip4i8LYekuZqQ6PbOLwgQF5g60SQ/wqWBUsBf2l4sLhbRqOYls Sg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxbuqgc8t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 19 Jul 2023 08:10:26 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36J87x9i014971;
+        Wed, 19 Jul 2023 08:10:25 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxbuqgc86-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 19 Jul 2023 08:10:25 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+        by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 36J4EjMD029129;
+        Wed, 19 Jul 2023 08:10:24 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+        by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3rv6smgq3d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 19 Jul 2023 08:10:24 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+        by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 36J8ALVY46072444
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 19 Jul 2023 08:10:21 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 21CD720043;
+        Wed, 19 Jul 2023 08:10:21 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 537682006A;
+        Wed, 19 Jul 2023 08:10:20 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.233])
+        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+        Wed, 19 Jul 2023 08:10:20 +0000 (GMT)
+Date:   Wed, 19 Jul 2023 10:10:19 +0200
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Costa Shulyupin <costa.shul@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Yantengsi <siyanteng@loongson.cn>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Mikhail Zaslonko <zaslonko@linux.ibm.com>,
+        Eric DeVolder <eric.devolder@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:S390 ARCHITECTURE" <linux-s390@vger.kernel.org>,
+        "open list:S390 VFIO-CCW DRIVER" <kvm@vger.kernel.org>
+Subject: Re: [PATCH] docs: move s390 under arch
+Message-ID: <ZLeaa6N2Dug3DpBs@osiris>
+References: <20230718045550.495428-1-costa.shul@redhat.com>
+ <ZLYxVo5/YjjOd3i7@osiris>
+ <874jm1uzz4.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zj8p4Nk1goxewME3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+In-Reply-To: <874jm1uzz4.fsf@meer.lwn.net>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: R7AfpQ8NRP86mYnCjoffY47XQ7k9vNVu
+X-Proofpoint-ORIG-GUID: aYJmZMez_Q6H0kPd3jIlPFVhvX9jMX89
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-19_04,2023-07-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ phishscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ mlxlogscore=747 mlxscore=0 suspectscore=0 impostorscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307190073
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jul 18, 2023 at 07:10:55AM -0600, Jonathan Corbet wrote:
+> Heiko Carstens <hca@linux.ibm.com> writes:
+> 
+> > I guess this should go via Jonathan, like most (or all) other similar
+> > patches? Jonathan, let me know if you pick this up, or if this should
+> > go via the s390 tree.
+> 
+> I'm happy either way...I'd sort of thought these would go through the
+> arch trees to minimize the conflict potential, but it hasn't happened
+> that way yet.  Let me know your preference and I'll go with it...should
+> you take it:
+> 
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
 
---zj8p4Nk1goxewME3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 18, 2023 at 08:18:32PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> This function allocates a struct pwm_chip and driver data. Compared to
-> the status quo the split into pwm_chip and driver data is new, otherwise
-> it doesn't change anything relevant (yet).
->=20
-> The intention is that after all drivers are switched to use this
-> allocation function, its possible to add a struct device to struct
-> pwm_chip to properly track the latter's lifetime without touching all
-> drivers again. Proper lifetime tracking is a necessary precondition to
-> introduce character device support for PWMs (that implements atomic
-> setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
-> userspace support).
->=20
-> The new function pwmchip_priv() (obviously?) only works for chips
-> allocated with devm_pwmchip_alloc().
-
-If this is supposed to be similar to the GPIO chardev, why doesn't GPIO
-require this way of allocating a struct gpio_chip? I'm not a fan of
-doing all this upfront work without seeing where this is ultimately
-headed. Please hold off on reworking everything until you have a
-complete proposal that can be reviewed in full.
-
-Thierry
-
---zj8p4Nk1goxewME3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmS3l94ACgkQ3SOs138+
-s6GbQQ/9FNu04+Be3HbKY179h5Sp0Nc/r7oY7Mfv0aFqL5bBhlQFNjiiZE73n7AK
-6qUfXstBKYLaMWTFLQt3pqpx5JoupwmEfr7gDLRzLUcXjQt0C2IqQak0yzmxMe/l
-pdT9XbdJHMD2/zpbJ6H4Fp/GwtRw2oA3Yv9XnEv56sRFTFSqMY7Ync+JwMvLxsmN
-LHVNqC8psDnCpUQk8yfV3LbIenfEpBGIWDIs7s5HPZ7ylvdw9i4Z6uPmklbusZ1T
-XZ39wTU7adrQahZ5GawUmnIexKjXD7TiqIF9tR4Lcc7ycr0KAPb49+ShuNb9ka/F
-eWY5DTfZ4pcmtXbIzWohwoME5O4q94X3ZikG1LbVhjD3syJcHkC6Xw2u4LCwnHmh
-65HaTngGwpRo8PLx+yysv6Qs9mB4aPPgkaenExAbX7Wo6QL5ydiHMIRuwYQGL5rs
-pVnBzX+gIK/i6cx+H32vJrxHRR1tXhMNPmFh3CS0XI3U3U5Q2/zHFxKJgmz+Bghi
-R3DL6Z4+8X2xJqNfQ6MIW7h8mdr4Dw7ipONEHa3ErnoPYMxHeEv7oDhtn2SjKxZb
-SUGQud2jT05aucQoEZpq5eCUUysmyZlEkl6ZY1bVYR7VgaF9cIl3tJuqn5OQldU1
-0hZ8h7PlDt20RcsO2OgCflm4u8WgZUa7EB4KTG0LWmH7LU+6OwM=
-=YVVW
------END PGP SIGNATURE-----
-
---zj8p4Nk1goxewME3--
+I'll take it. There will be a trivial merge conflict with the kexec Kconfig
+rework that is sitting in Andrew's tree. In case there is more Kconfig
+rework happining in the s390 tree this will avoid additional conflicts.
