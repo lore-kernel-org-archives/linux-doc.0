@@ -2,127 +2,160 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3082DEB64DA
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 12:36:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A24EB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 12:58:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229524AbjGSMgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jul 2023 08:36:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51902 "EHLO
+        id S229750AbjGSM6C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jul 2023 08:58:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjGSMgK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 08:36:10 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C938E0;
-        Wed, 19 Jul 2023 05:36:09 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso5178285a12.3;
-        Wed, 19 Jul 2023 05:36:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689770169; x=1690374969;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BZdKOkj/pVrFSmE8tkXiZ35iQBmOuKBnbuFSjBYYCYM=;
-        b=qKujtPbWHCdhULLk6BL+9cSOPZl355b9NMUZuqVpy1vP9noL9gzlP0beeIT8Aybc9r
-         22QjjwKM9utPp+OeTlI1AABqGgDU7PqYvGPvSOV5z5K2b/kCNgEvTfFSv+UGZzHrVZ3H
-         H9lBLip5BoITAL9mXlNUdZUrpe7s0FZ5XKJoBe6fHGIAIGhcEIka1h9kWHJOkUfoV73l
-         vW7KXdMPLDe9tO0R/BebWTSW/2lnDjCbgXkZyZn1jVhPWPnrjYAP8sPo11DohIadhTEW
-         sfQMJD/9tfuVzDzTJV8bNoruPxgtXuNm+fZLA3ic8k6xs9vsf6z3uzyo0zv+8v8GYke2
-         AaYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689770169; x=1690374969;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BZdKOkj/pVrFSmE8tkXiZ35iQBmOuKBnbuFSjBYYCYM=;
-        b=W2izTA5jHmDsOzruWANzRFP6U2Vf51J38TgO+qkX1LLKcp5DRo4vNq2MnObfsP8ENZ
-         ZZF5TiP0v1/qfjQeTSdP7FwCebJmSPy4Lbed+gg80wLO9b5ZeJg7Ut8jfdWRr0dY3OmO
-         AfC5iL0QrG+dXWGs7cWMJmtLh54+4gLtQuUl5XEj+8aCFJYiTN1/ek8HM5wXdKbpYKQn
-         gN6WfSrR1a5X+KuY/Hi4v7mGERrx7V5Ktzkxv2IdXOXQfteNd1keOfNojQU2adbcwCcU
-         AQPe5S97qHrm/4Fx49zDwVjgC9YUMLm4l5N6XSoPnTsPyYNn5dLGgmtbiHs0oZIsx2j8
-         D2qQ==
-X-Gm-Message-State: ABy/qLYDWkjdbSNUKAJPhiWApqyl4VClt4Cbx5hUado0SZPJ7QDC5i8Z
-        026z0Phpl2Kqqhd4IFXEK9xju3Zip1kZ4G+3
-X-Google-Smtp-Source: APBJJlGucFMUwkgT49zJJYTKA+XetmHtHCMMw1YV8DRbgBunp2jmaYGuZc7Ec1h8XcCkNNaQh+NrQQ==
-X-Received: by 2002:a17:90a:d392:b0:262:d661:75e4 with SMTP id q18-20020a17090ad39200b00262d66175e4mr1965052pju.0.1689770168957;
-        Wed, 19 Jul 2023 05:36:08 -0700 (PDT)
-Received: from smtpclient.apple ([103.7.29.32])
-        by smtp.gmail.com with ESMTPSA id 22-20020a17090a019600b0026309d57724sm1185425pjc.39.2023.07.19.05.36.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Jul 2023 05:36:08 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.600.7\))
-Subject: Re: [PATCH net-next v2] net: tcp: support to probe tcp receiver OOM
-From:   Menglong Dong <menglong8.dong@gmail.com>
-In-Reply-To: <CANn89iJMzChaDsB+bPAuCEDUHVApsYs8KtD3oEC+oU_Qvi1KvQ@mail.gmail.com>
-Date:   Wed, 19 Jul 2023 20:35:39 +0800
-Cc:     ncardwell@google.com, davem@davemloft.net, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, dsahern@kernel.org,
-        kuniyu@amazon.com, morleyd@google.com, imagedong@tencent.com,
-        mfreemon@cloudflare.com, mubashirq@google.com,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <95B4463B-F57A-46A0-8F04-D52A84058343@gmail.com>
-References: <20230713112404.2022373-1-imagedong@tencent.com>
- <CANn89iJMzChaDsB+bPAuCEDUHVApsYs8KtD3oEC+oU_Qvi1KvQ@mail.gmail.com>
-To:     Eric Dumazet <edumazet@google.com>
-X-Mailer: Apple Mail (2.3731.600.7)
+        with ESMTP id S230128AbjGSM5y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 08:57:54 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C9910FE;
+        Wed, 19 Jul 2023 05:57:53 -0700 (PDT)
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36JC13Ru024043;
+        Wed, 19 Jul 2023 12:57:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=vTJllK3QIosIdkN/l1AacXcP7ML5CIMxUDU9jzrNDpA=;
+ b=GHGbdYQASDxavATVPpsM1WgWPgS/2U+jpxlUluO2wbWS1BpTVRZM8xxmRTAV1D/cAVHi
+ XMox148U3Y6AQV/wV2Lcv1gOs8iqwGdwFBmztXjyvLWrVAhBRti1qz6bdmzG6JuVTWJE
+ iBAOYNMouQ6G9DEGC9GBTNkFBJDR5VJcMGx5nb/LMQKumQan3RxQM/+U4Al4cklaXLs0
+ Gqm2kb6gA91dWbgE/RpDricOxcKG+9H4PqTxPKheRrurwtEpAD0Ps7f4yUPxjVdBNrip
+ ymHqrKhWUJ5QXPGY9qF+VNtFg5s6YJ239xLilYrda5QsVmSMjGAaJITNOPaU15Bd0PLC 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxcen6vht-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 19 Jul 2023 12:57:02 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36JBoV6T007562;
+        Wed, 19 Jul 2023 12:57:01 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxcen6vhc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 19 Jul 2023 12:57:01 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+        by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 36JBUgeR007434;
+        Wed, 19 Jul 2023 12:57:00 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+        by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3rv80j7bq8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 19 Jul 2023 12:57:00 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+        by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 36JCuxQC61866456
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 19 Jul 2023 12:56:59 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0697A58056;
+        Wed, 19 Jul 2023 12:56:59 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 069AB58052;
+        Wed, 19 Jul 2023 12:56:56 +0000 (GMT)
+Received: from [9.61.44.182] (unknown [9.61.44.182])
+        by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+        Wed, 19 Jul 2023 12:56:55 +0000 (GMT)
+Message-ID: <3663c0e7-4108-c2cc-06cf-ac569f65d101@linux.ibm.com>
+Date:   Wed, 19 Jul 2023 08:56:55 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v11 4/6] iommu/s390: Force ISM devices to use
+ IOMMU_DOMAIN_DMA
+Content-Language: en-US
+To:     Niklas Schnelle <schnelle@linux.ibm.com>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Gerd Bayer <gbayer@linux.ibm.com>,
+        Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>,
+        Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
+ <20230717-dma_iommu-v11-4-a7a0b83c355c@linux.ibm.com>
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <20230717-dma_iommu-v11-4-a7a0b83c355c@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: mAn_ySuLThAyex-XKSILyYpwW2wAL_f5
+X-Proofpoint-ORIG-GUID: p_U8uENcifu8d_t15JnMCmjpsu3eYgTy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-19_08,2023-07-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 clxscore=1011 mlxscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307190113
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 7/17/23 7:00 AM, Niklas Schnelle wrote:
+> ISM devices are virtual PCI devices used for cross-LPAR communication.
+> Unlike real PCI devices ISM devices do not use the hardware IOMMU but
+> inspects IOMMU translation tables directly on IOTLB flush (s390 RPCIT
+> instruction).
+> 
+> While ISM devices keep their DMA allocations static and only very rarely
+> DMA unmap at all, For each IOTLB flush that occurs after unmap the ISM
+> devices will inspect the area of the IOVA space indicated by the flush.
+> This means that for the global IOTLB flushes used by the flush queue
+> mechanism the entire IOVA space would be inspected. In principle this
+> would be fine, albeit potentially unnecessarily slow, it turns out
+> however that ISM devices are sensitive to seeing IOVA addresses that are
+> currently in use in the IOVA range being flushed. Seeing such in-use
+> IOVA addresses will cause the ISM device to enter an error state and
+> become unusable.
+> 
+> Fix this by forcing IOMMU_DOMAIN_DMA to be used for ISM devices. This
+> makes sure IOTLB flushes only cover IOVAs that have been unmapped and
+> also restricts the range of the IOTLB flush potentially reducing latency
+> spikes.
+> 
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 
+This makes sense to me.
 
-> On Jul 18, 2023, at 00:46, Eric Dumazet <edumazet@google.com> wrote:
->=20
-> On Thu, Jul 13, 2023 at 1:24=E2=80=AFPM <menglong8.dong@gmail.com> =
-wrote:
->>=20
->> From: Menglong Dong <imagedong@tencent.com>
->>=20
->> For now, skb will be dropped directly if rmem schedule fails, which =
-means
->> tcp_try_rmem_schedule() returns an error. This can happen on =
-following
->> cases:
->>=20
->> 1. The total memory allocated for TCP protocol is up to tcp_mem[2], =
-and
->>   the receive queue of the tcp socket is not empty.
->> 2. The receive buffer of the tcp socket is full, which can happen on =
-small
->>   packet cases.
->>=20
->> If the user hangs and doesn't take away the packet in the receive =
-queue
->> with recv() or read() for a long time, the sender will keep
->> retransmitting until timeout, and the tcp connection will break.
->>=20
->> In order to handle such case, we introduce the tcp protocol OOM =
-detection
->> in following steps, as Neal Cardwell suggested:
->>=20
->=20
-> For the record, I dislike this patch. I am not sure what Neal had in =
-mind.
->=20
-> I suggested instead to send an ACK RWIN 0, whenever we were under
-> extreme memory pressure,
-> and we only could queue one skb in the receive queue.
->=20
-> For details, look at the points we call sk_forced_mem_schedule().
-> This would be a matter of refactoring code around it, in =
-tcp_data_queue()
->=20
-> The patch would be much simpler. Nothing changed at the sender side :/
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
-I think you are right. I misunderstood the code in =
-tcp_retransmit_timer().
-It seems that it already handle the window shrink case properly.
-
-Let me do more testing first.
-
-Thanks!
-Menglong Dong
 
