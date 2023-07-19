@@ -2,654 +2,334 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA66EC001DE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 11:05:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1520AC001DC
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 11:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230329AbjGSLFt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jul 2023 07:05:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41300 "EHLO
+        id S229618AbjGSLpL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jul 2023 07:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230273AbjGSLFq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 07:05:46 -0400
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 299C8186;
-        Wed, 19 Jul 2023 04:05:42 -0700 (PDT)
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36J9jrtu013032;
-        Wed, 19 Jul 2023 04:05:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=pfpt0220; bh=nL8fpG9iocxNyRSI2y8KFYKeGEYWNd9e7mV45V49b7w=;
- b=erGqh7osu8HYZnMue4BYMOxGGIRsN9HweHZ5xqO2ef9zKuX+XLrSaJDP3jtqo44+KKX8
- +du/j57OEc0CFJMa9uH1RWkasx2jcPDFtw7t9V/SuJKYTcPhQAFDFg8rxxgEr+gEo6S/
- /2AydK/1ADFzJX6QceGbfUbNiXy4yf/5NzzcYtuznGzaY50lykVKcTM3HP6REfQ58JWh
- KrzsqQUARncZE73cd9hdwFiGY3xGJTErkoOveMoHG6SYPJN0kpvUAjkqrtC8yN+rgggN
- ypsV2gCnuKfJM/qZrdLT/M2fyJloAHGPETsE9ZMGp2NJPMHEg6Mg3i38aY649dJNpdMk eg== 
-Received: from dc5-exch01.marvell.com ([199.233.59.181])
-        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3rwyc6jdya-10
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 19 Jul 2023 04:05:29 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 19 Jul
- 2023 04:05:09 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
- Transport; Wed, 19 Jul 2023 04:05:09 -0700
-Received: from hyd1soter3.marvell.com (unknown [10.29.37.12])
-        by maili.marvell.com (Postfix) with ESMTP id 55AF93F7053;
-        Wed, 19 Jul 2023 04:05:04 -0700 (PDT)
-From:   Hariprasad Kelam <hkelam@marvell.com>
-To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <kuba@kernel.org>, <davem@davemloft.net>,
-        <willemdebruijn.kernel@gmail.com>, <andrew@lunn.ch>,
-        <sgoutham@marvell.com>, <lcherian@marvell.com>,
-        <gakula@marvell.com>, <jerinj@marvell.com>, <sbhatta@marvell.com>,
-        <hkelam@marvell.com>, <naveenm@marvell.com>, <edumazet@google.com>,
-        <pabeni@redhat.com>, <jhs@mojatatu.com>,
-        <xiyou.wangcong@gmail.com>, <jiri@resnulli.us>,
-        <maxtram95@gmail.com>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-Subject: [net-next PatchV4 3/4] octeontx2-pf: htb offload support for Round Robin scheduling
-Date:   Wed, 19 Jul 2023 16:34:42 +0530
-Message-ID: <20230719110443.15310-4-hkelam@marvell.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230719110443.15310-1-hkelam@marvell.com>
-References: <20230719110443.15310-1-hkelam@marvell.com>
+        with ESMTP id S229530AbjGSLpK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 07:45:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51FC1D3;
+        Wed, 19 Jul 2023 04:45:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BC65361646;
+        Wed, 19 Jul 2023 11:45:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F206C433C8;
+        Wed, 19 Jul 2023 11:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689767108;
+        bh=X193VsTHxd/qDbY1iwu9zyDcvx+RDZWX3xtpuMtgrvk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CZgrXNM7PXs5djMhW97w3CedauBAIO7tJp4gD0qIPDeHSm5dCuZK/mfLTFNwLEbfA
+         u/Sds+3iynFpc+ngWUYxVnc+zFYD4DzN/L5LLVP+ghbUyAA59K78pPPozod4KVG8fP
+         A65lkT8yWYMBcq58Bc4M14IdRbh71Sq/FHB/SgH+5Y8jPFLgRm4YgYWHi/qxINYV5Y
+         ToDcL0Z/YLJa/T2Deryyl39XzhIjmHJvCPhvLpPjvTe+NTZneejIxNLFmZlSs3o54Y
+         T0vek5G+sRtvwgOfUrlpDVgvPmcjy2C8ccH9pVBAZP7wlMgP+WYBf3NTIL35kxcib0
+         V8zRn5/OT1vyQ==
+Date:   Wed, 19 Jul 2023 14:44:37 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Oliver Upton <oliver.upton@linux.dev>,
+        James Morse <james.morse@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Oleg Nesterov <oleg@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Rick P. Edgecombe" <rick.p.edgecombe@intel.com>,
+        Deepak Gupta <debug@rivosinc.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org
+Subject: Re: [PATCH 04/35] arm64/gcs: Document the ABI for Guarded Control
+ Stacks
+Message-ID: <20230719114437.GJ1901145@kernel.org>
+References: <20230716-arm64-gcs-v1-0-bf567f93bba6@kernel.org>
+ <20230716-arm64-gcs-v1-4-bf567f93bba6@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-GUID: kYMaGcWDUxHgcFeTtuPI5lWtpg06s8TX
-X-Proofpoint-ORIG-GUID: kYMaGcWDUxHgcFeTtuPI5lWtpg06s8TX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-19_06,2023-07-19_01,2023-05-22_02
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230716-arm64-gcs-v1-4-bf567f93bba6@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Naveen Mamindlapalli <naveenm@marvell.com>
+On Sun, Jul 16, 2023 at 10:51:00PM +0100, Mark Brown wrote:
+> Add some documentation of the userspace ABI for Guarded Control Stacks.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  Documentation/arch/arm64/gcs.rst   | 216 +++++++++++++++++++++++++++++++++++++
+>  Documentation/arch/arm64/index.rst |   1 +
+>  2 files changed, 217 insertions(+)
+> 
+> diff --git a/Documentation/arch/arm64/gcs.rst b/Documentation/arch/arm64/gcs.rst
+> new file mode 100644
+> index 000000000000..27ba72d27952
+> --- /dev/null
+> +++ b/Documentation/arch/arm64/gcs.rst
+> @@ -0,0 +1,216 @@
+> +===============================================
+> +Guarded Control Stack support for AArch64 Linux
+> +===============================================
+> +
+> +This document outlines briefly the interface provided to userspace by Linux in
+> +order to support use of the ARM Guarded Control Stack (GCS) feature.
+> +
+> +This is an outline of the most important features and issues only and not
+> +intended to be exhaustive.
+> +
+> +
+> +
+> +1.  General
+> +-----------
+> +
+> +* GCS is an architecture feature intended to provide greater protection
+> +  against return oriented programming (ROP) attacks and to simplify the
+> +  implementation of features that need to collect stack traces such as
+> +  profiling.
+> +
+> +* When GCS is enabled a separate guarded control stack is maintained by the
+> +  PE which is writeable only through specific GCS operations.  This
+> +  stores the call stack only, when a procedure call instruction is
+> +  performed the current PC is pushed onto the GCS and on RET the
+> +  address in the LR is verified against that on the top of the GCS.
+> +
+> +* When active current GCS pointer is stored in the system register
+> +  GCSPR_EL0.  This is readable by userspace but can only be updated
+> +  via specific GCS instructions.
+> +
+> +* The architecture provides instructions for switching between guarded
+> +  control stacks with checks to ensure that the new stack is a valid
+> +  target for switching.
+> +
+> +* The functionality of GCS is similar to that provided by the x86 Shadow
+> +  Stack feature, due to sharing of userspace interfaces the ABI refers to
+> +  shadow stacks rather than GCS.
+> +
+> +* Support for GCS is reported to userspace via HWCAP2_GCS in the aux vector
+> +  AT_HWCAP2 entry.
+> +
+> +* GCS is enabled per thread.  While there is support for disabling GCS
+> +  at runtime this should be done with great care.
+> +
+> +* GCS memory access faults are reported as normal memory access faults.
+> +
+> +* GCS specific errors (those reported with EC 0x2d) will be reported as
+> +  SIGSEGV with a si_code of SEGV_CPERR (control protection error).
+> +
+> +* GCS is supported only for AArch64.
+> +
+> +* On systems where GCS is supported GCSPR_EL0 is always readable by EL0
+> +  regardless of the GCS configuration for the thread.
+> +
+> +* The architecture supports enabling GCS without verifying that return values
+> +  in LR match those in the GCS, the LR will be ignored.  This is not supported
+> +  by Linux.
+> +
+> +* EL0 GCS entries with bit 63 set are reserved for use, one such use is defined
+> +  below for signals and should be ignored when parsing the stack if not
+> +  understood.
+> +
+> +
+> +2.  Enabling and disabling Guarded Control Stacks
+> +-------------------------------------------------
+> +
+> +* GCS is enabled and disabled for a thread via the PR_SET_SHADOW_STACK_STATUS
+> +  prctl(), this takes a single flags argument specifying which GCS features
+> +  should be used.
+> +
+> +* When set PR_SHADOW_STACK_ENABLE flag allocates a Guarded Control Stack for
 
-When multiple traffic flows reach Transmit level with the same
-priority, with Round robin scheduling traffic flow with the highest
-quantum value is picked. With this support, the user can add multiple
-classes with the same priority and different quantum. This patch
-does necessary changes to support the same.
+                                                 'for' here looks excessive ^
 
-Signed-off-by: Naveen Mamindlapalli <naveenm@marvell.com>
-Signed-off-by: Hariprasad Kelam <hkelam@marvell.com>
----
- .../marvell/octeontx2/nic/otx2_common.c       |   1 +
- .../marvell/octeontx2/nic/otx2_common.h       |   1 +
- .../net/ethernet/marvell/octeontx2/nic/qos.c  | 280 +++++++++++++++---
- .../net/ethernet/marvell/octeontx2/nic/qos.h  |   5 +-
- 4 files changed, 247 insertions(+), 40 deletions(-)
+> +  and enables GCS for the thread, enabling the functionality controlled by
+> +  GCSPRE0_EL1.{nTR, RVCHKEN, PCRSEL}.
+> +
+> +* When set the PR_SHADOW_STACK_PUSH flag enables the functionality controlled
+> +  by GCSCRE0_EL1.PUSHMEn, allowing explicit GCS push and pops.
+> +
+> +* When set the PR_SHADOW_STACK_WRITE flag enables the functionality controlled
+> +  by GCSCRE0_EL1.STREn, allowing explicit stores to the Guarded Control Stack.
+> +
+> +* When set the PR_SHADOW_STACK_LOCK flag prevents any further configuration of
+> +  the GCS settings for the thread, further attempts to configure GCS will
+> +  return -EBUSY.
+> +
+> +* Any unknown flags will cause PR_SET_SHADOW_STACK_STATUS to return -EINVAL.
+> +
+> +* PR_SET_SHADOW_STACK_STATUS affects only the thread the called it, any
+> +  other running threads will be unaffected.
+> +
+> +* New threads inherit the GCS configuration of the thread that created them.
+> +
+> +* GCS is disabled on exec().
+> +
+> +* The current GCS configuration for a thread may be read with the
+> +  PR_GET_SHADOW_STACK_STATUS prctl(), this returns the same flags that
+> +  are passed to PR_SET_SHADOW_STACK_STATUS.
+> +
+> +* If GCS is disabled for a thread after having previously been enabled then
+> +  the stack will remain allocated for the lifetime of the thread.  At present
+> +  any attempt to reenable GCS for the thread will be rejected, this may be
+> +  revisited in future.
+> +
+> +* It should be noted that since enabling GCS will result in GCS becoming
+> +  active immediately it is not normally possible to return from the function
+> +  that invoked the prctl() that enabled GCS.  It is expected that the normal
+> +  usage will be that GCS is enabled very early in execution of a program.
+> +
+> +
+> +
+> +3.  Allocation of Guarded Control Stacks
+> +----------------------------------------
+> +
+> +* When GCS is enabled for a thread a new Guarded Control Stack will be
+> +  allocated for it of size RLIMIT_STACK / 2 or 2 gigabytes, whichever is
+> +  smaller.
+> +
+> +* When a new thread is created by a thread which has GCS enabled then a
+> +  new Guarded Control Stack will be allocated for the new thread with
+> +  half the size of the standard stack.
+> +
+> +* When a stack is allocated by enabling GCS or during thread creation then
+> +  the top 8 bytes of the stack will be initialised to 0 and GCSPR_EL0 will
+> +  be set to point to the address of this 0 value, this can be used to
+> +  detect the top of the stack.
+> +
+> +* Additional Guarded Control Stacks can be allocated using the
+> +  map_shadow_stack() system call.
+> +
+> +* Stacks allocated using map_shadow_stack() will have the top 8 bytes
+> +  set to 0 and the 8 bytes below that initialised with an architecturally
+> +  valid GCS cap value, this allows switching to these stacks using the
+> +  stack switch instructions provided by the architecture.
+> +
+> +* When GCS is disabled for a thread the Guarded Control Stack initially
+> +  allocated for that thread will be freed.  Note carefully that if the
+> +  stack has been switched this may not be the stack currently in use by
+> +  the thread.
+> +
+> +
+> +4.  Signal handling
+> +--------------------
+> +
+> +* A new signal frame record gcs_context encodes the current GCS mode and
+> +  pointer for the interrupted context on signal delivery.  This will always
+> +  be present on systems that support GCS.
+> +
+> +* The record contains a flag field which reports the current GCS configuration
+> +  for the interrupted context as PR_GET_SHADOW_STACK_STATUS would.
+> +
+> +* The signal handler is run with the same GCS configuration as the interrupted
+> +  context.
+> +
+> +* When GCS is enabled for the interrupted thread a signal handling specific
+> +  GCS cap token will be written to the GCS, this is an architectural GCS cap
+> +  token with bit 63 set.  The GCSPR_EL0 reported in the signal frame will
+> +  point to this cap token.
+> +
+> +* The signal handler will use the same GCS as the interrupted context.
+> +
+> +* When GCS is enabled on signal entry a frame with the address of the signal
+> +  return handler will be pushed onto the GCS, allowing return from the signal
+> +  handler via RET as normal.  This will not be reported in the gcs_context in
+> +  the signal frame.
+> +
+> +
+> +5.  Signal return
+> +-----------------
+> +
+> +When returning from a signal handler:
+> +
+> +* If there is a gcs_context record in the signal frame then the GCS flags
+> +  and GCSPR_EL0 will be restored from that context prior to further
+> +  validation.
+> +
+> +* If there is no gcs_context record in the signal frame then the GCS
+> +  configuration will be unchanged.
+> +
+> +* If GCS is enabled on return from a signal handler then GCSPR_EL0 must
+> +  point to a valid GCS signal cap record, this will be popped from the
+> +  GCS prior to signal return.
+> +
+> +* If the GCS configuration is locked when returning from a signal then any
+> +  attempt to change the GCS configuration will be treated as an error.  This
+> +  is true even if GCS was not enabled prior to signal entry.
+> +
+> +* GCS may be disabled via signal return but any attempt to enable GCS via
+> +  signal return will be rejected.
+> +
+> +
+> +7.  ptrace extensions
+> +---------------------
+> +
+> +* A new regset NT_ARM_GCS is defined for use with PTRACE_GETREGSET and
+> +  PTRACE_SETREGSET.
+> +
+> +* Due to the complexity surrounding allocation and deallocation of stakcs and
+> +  lack of practical application changes to the GCS configuration via ptrace
+> +  are not supported.
 
-diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
-index 77c8f650f7ac..8cdd92dd9762 100644
---- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
-+++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c
-@@ -774,6 +774,7 @@ int otx2_txsch_alloc(struct otx2_nic *pfvf)
- 				rsp->schq_list[lvl][schq];
- 
- 	pfvf->hw.txschq_link_cfg_lvl = rsp->link_cfg_lvl;
-+	pfvf->hw.txschq_aggr_lvl_rr_prio = rsp->aggr_lvl_rr_prio;
- 
- 	return 0;
- }
-diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
-index ba8091131ec0..37d792f18809 100644
---- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
-+++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h
-@@ -224,6 +224,7 @@ struct otx2_hw {
- 
- 	/* NIX */
- 	u8			txschq_link_cfg_lvl;
-+	u8			txschq_aggr_lvl_rr_prio;
- 	u16			txschq_list[NIX_TXSCH_LVL_CNT][MAX_TXSCHQ_PER_FUNC];
- 	u16			matchall_ipolicer;
- 	u32			dwrr_mtu;
-diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/qos.c b/drivers/net/ethernet/marvell/octeontx2/nic/qos.c
-index 919cd01b7f02..1e77bbf5d22a 100644
---- a/drivers/net/ethernet/marvell/octeontx2/nic/qos.c
-+++ b/drivers/net/ethernet/marvell/octeontx2/nic/qos.c
-@@ -20,6 +20,8 @@
- #define OTX2_QOS_DEFAULT_PRIO		0xF
- #define OTX2_QOS_INVALID_SQ		0xFFFF
- #define OTX2_QOS_INVALID_TXSCHQ_IDX	0xFFFF
-+#define CN10K_MAX_RR_WEIGHT		GENMASK_ULL(13, 0)
-+#define OTX2_MAX_RR_QUANTUM		GENMASK_ULL(23, 0)
- 
- static void otx2_qos_update_tx_netdev_queues(struct otx2_nic *pfvf)
- {
-@@ -66,11 +68,24 @@ static void otx2_qos_get_regaddr(struct otx2_qos_node *node,
- 	}
- }
- 
-+static int otx2_qos_quantum_to_dwrr_weight(struct otx2_nic *pfvf, u32 quantum)
-+{
-+	u32 weight;
-+
-+	weight = quantum / pfvf->hw.dwrr_mtu;
-+	if (quantum % pfvf->hw.dwrr_mtu)
-+		weight += 1;
-+
-+	return weight;
-+}
-+
- static void otx2_config_sched_shaping(struct otx2_nic *pfvf,
- 				      struct otx2_qos_node *node,
- 				      struct nix_txschq_config *cfg,
- 				      int *num_regs)
- {
-+	u32 rr_weight;
-+	u32 quantum;
- 	u64 maxrate;
- 
- 	otx2_qos_get_regaddr(node, cfg, *num_regs);
-@@ -87,8 +102,17 @@ static void otx2_config_sched_shaping(struct otx2_nic *pfvf,
- 		return;
- 	}
- 
--	/* configure priority  */
--	cfg->regval[*num_regs] = (node->schq - node->parent->prio_anchor) << 24;
-+	/* configure priority/quantum  */
-+	if (node->is_static) {
-+		cfg->regval[*num_regs] =
-+			(node->schq - node->parent->prio_anchor) << 24;
-+	} else {
-+		quantum = node->quantum ?
-+			  node->quantum : pfvf->tx_max_pktlen;
-+		rr_weight = otx2_qos_quantum_to_dwrr_weight(pfvf, quantum);
-+		cfg->regval[*num_regs] = node->parent->child_dwrr_prio << 24 |
-+					 rr_weight;
-+	}
- 	(*num_regs)++;
- 
- 	/* configure PIR */
-@@ -196,9 +220,8 @@ static int otx2_qos_txschq_set_parent_topology(struct otx2_nic *pfvf,
- 		cfg->reg[0] = NIX_AF_TL1X_TOPOLOGY(parent->schq);
- 
- 	cfg->regval[0] = (u64)parent->prio_anchor << 32;
--	if (parent->level == NIX_TXSCH_LVL_TL1)
--		cfg->regval[0] |= (u64)TXSCH_TL1_DFLT_RR_PRIO << 1;
--
-+	cfg->regval[0] |= ((parent->child_dwrr_prio != OTX2_QOS_DEFAULT_PRIO) ?
-+			    parent->child_dwrr_prio : 0)  << 1;
- 	cfg->num_regs++;
- 
- 	rc = otx2_sync_mbox_msg(&pfvf->mbox);
-@@ -384,10 +407,12 @@ otx2_qos_alloc_root(struct otx2_nic *pfvf)
- 		return ERR_PTR(-ENOMEM);
- 
- 	node->parent = NULL;
--	if (!is_otx2_vf(pfvf->pcifunc))
-+	if (!is_otx2_vf(pfvf->pcifunc)) {
- 		node->level = NIX_TXSCH_LVL_TL1;
--	else
-+	} else {
- 		node->level = NIX_TXSCH_LVL_TL2;
-+		node->child_dwrr_prio = OTX2_QOS_DEFAULT_PRIO;
-+	}
- 
- 	WRITE_ONCE(node->qid, OTX2_QOS_QID_INNER);
- 	node->classid = OTX2_QOS_ROOT_CLASSID;
-@@ -444,6 +469,10 @@ static int otx2_qos_alloc_txschq_node(struct otx2_nic *pfvf,
- 		txschq_node->rate = 0;
- 		txschq_node->ceil = 0;
- 		txschq_node->prio = 0;
-+		txschq_node->quantum = 0;
-+		txschq_node->is_static = true;
-+		txschq_node->child_dwrr_prio = OTX2_QOS_DEFAULT_PRIO;
-+		txschq_node->txschq_idx = OTX2_QOS_INVALID_TXSCHQ_IDX;
- 
- 		mutex_lock(&pfvf->qos.qos_lock);
- 		list_add_tail(&txschq_node->list, &node->child_schq_list);
-@@ -469,7 +498,7 @@ static struct otx2_qos_node *
- otx2_qos_sw_create_leaf_node(struct otx2_nic *pfvf,
- 			     struct otx2_qos_node *parent,
- 			     u16 classid, u32 prio, u64 rate, u64 ceil,
--			     u16 qid)
-+			     u32 quantum, u16 qid, bool static_cfg)
- {
- 	struct otx2_qos_node *node;
- 	int err;
-@@ -486,7 +515,10 @@ otx2_qos_sw_create_leaf_node(struct otx2_nic *pfvf,
- 	node->rate = otx2_convert_rate(rate);
- 	node->ceil = otx2_convert_rate(ceil);
- 	node->prio = prio;
--	node->is_static = true;
-+	node->quantum = quantum;
-+	node->is_static = static_cfg;
-+	node->child_dwrr_prio = OTX2_QOS_DEFAULT_PRIO;
-+	node->txschq_idx = OTX2_QOS_INVALID_TXSCHQ_IDX;
- 
- 	__set_bit(qid, pfvf->qos.qos_sq_bmap);
- 
-@@ -633,6 +665,7 @@ static int otx2_qos_txschq_alloc(struct otx2_nic *pfvf,
- 	}
- 
- 	pfvf->qos.link_cfg_lvl = rsp->link_cfg_lvl;
-+	pfvf->hw.txschq_aggr_lvl_rr_prio = rsp->aggr_lvl_rr_prio;
- 
- out:
- 	mutex_unlock(&mbox->lock);
-@@ -1006,6 +1039,13 @@ static int otx2_qos_root_add(struct otx2_nic *pfvf, u16 htb_maj_id, u16 htb_defc
- 		goto free_root_node;
- 	}
- 
-+	/* Update TL1 RR PRIO */
-+	if (root->level == NIX_TXSCH_LVL_TL1) {
-+		root->child_dwrr_prio = pfvf->hw.txschq_aggr_lvl_rr_prio;
-+		netdev_dbg(pfvf->netdev,
-+			   "TL1 DWRR Priority %d\n", root->child_dwrr_prio);
-+	}
-+
- 	if (!(pfvf->netdev->flags & IFF_UP) ||
- 	    root->level == NIX_TXSCH_LVL_TL1) {
- 		root->schq = new_cfg->schq_list[root->level][0];
-@@ -1052,37 +1092,126 @@ static int otx2_qos_root_destroy(struct otx2_nic *pfvf)
- 	return 0;
- }
- 
-+static int otx2_qos_validate_quantum(struct otx2_nic *pfvf, u32 quantum)
-+{
-+	u32 rr_weight = otx2_qos_quantum_to_dwrr_weight(pfvf, quantum);
-+	int err = 0;
-+
-+	/* Max Round robin weight supported by octeontx2 and CN10K
-+	 * is different. Validate accordingly
-+	 */
-+	if (is_dev_otx2(pfvf->pdev))
-+		err = (rr_weight > OTX2_MAX_RR_QUANTUM) ? -EINVAL : 0;
-+	else if	(rr_weight > CN10K_MAX_RR_WEIGHT)
-+		err = -EINVAL;
-+
-+	return err;
-+}
-+
-+static int otx2_qos_validate_dwrr_cfg(struct otx2_qos_node *parent,
-+				      struct netlink_ext_ack *extack,
-+				      struct otx2_nic *pfvf,
-+				      u64 prio, u64 quantum)
-+{
-+	int err;
-+
-+	err = otx2_qos_validate_quantum(pfvf, quantum);
-+	if (err) {
-+		NL_SET_ERR_MSG_MOD(extack, "Unsupported quantum value");
-+		return err;
-+	}
-+
-+	if (parent->child_dwrr_prio == OTX2_QOS_DEFAULT_PRIO) {
-+		parent->child_dwrr_prio = prio;
-+	} else if (prio != parent->child_dwrr_prio) {
-+		NL_SET_ERR_MSG_MOD(extack, "Only one DWRR group is allowed");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
- static int otx2_qos_validate_configuration(struct otx2_qos_node *parent,
- 					   struct netlink_ext_ack *extack,
- 					   struct otx2_nic *pfvf,
--					   u64 prio)
-+					   u64 prio, bool static_cfg)
- {
--	if (test_bit(prio, parent->prio_bmap)) {
--		NL_SET_ERR_MSG_MOD(extack,
--				   "Static priority child with same priority exists");
-+	if (prio == parent->child_dwrr_prio && static_cfg) {
-+		NL_SET_ERR_MSG_MOD(extack, "DWRR child group with same priority exists");
- 		return -EEXIST;
- 	}
- 
--	if (prio == TXSCH_TL1_DFLT_RR_PRIO) {
-+	if (static_cfg && test_bit(prio, parent->prio_bmap)) {
- 		NL_SET_ERR_MSG_MOD(extack,
--				   "Priority is reserved for Round Robin");
--		return -EINVAL;
-+				   "Static priority child with same priority exists");
-+		return -EEXIST;
- 	}
- 
- 	return 0;
- }
- 
-+static void otx2_reset_dwrr_prio(struct otx2_qos_node *parent, u64 prio)
-+{
-+	/* For PF, root node dwrr priority is static */
-+	if (parent->level == NIX_TXSCH_LVL_TL1)
-+		return;
-+
-+	if (parent->child_dwrr_prio != OTX2_QOS_DEFAULT_PRIO) {
-+		parent->child_dwrr_prio = OTX2_QOS_DEFAULT_PRIO;
-+		clear_bit(prio, parent->prio_bmap);
-+	}
-+}
-+
-+static bool is_qos_node_dwrr(struct otx2_qos_node *parent,
-+			     struct otx2_nic *pfvf,
-+			     u64 prio)
-+{
-+	struct otx2_qos_node *node;
-+	bool ret = false;
-+
-+	if (parent->child_dwrr_prio == prio)
-+		return true;
-+
-+	mutex_lock(&pfvf->qos.qos_lock);
-+	list_for_each_entry(node, &parent->child_list, list) {
-+		if (prio == node->prio) {
-+			if (parent->child_dwrr_prio != OTX2_QOS_DEFAULT_PRIO &&
-+			    parent->child_dwrr_prio != prio)
-+				continue;
-+
-+			if (otx2_qos_validate_quantum(pfvf, node->quantum)) {
-+				netdev_err(pfvf->netdev,
-+					   "Unsupported quantum value for existing classid=0x%x quantum=%d prio=%d",
-+					    node->classid, node->quantum,
-+					    node->prio);
-+				break;
-+			}
-+			/* mark old node as dwrr */
-+			node->is_static = false;
-+			parent->child_dwrr_cnt++;
-+			parent->child_static_cnt--;
-+			ret = true;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&pfvf->qos.qos_lock);
-+
-+	return ret;
-+}
-+
- static int otx2_qos_leaf_alloc_queue(struct otx2_nic *pfvf, u16 classid,
- 				     u32 parent_classid, u64 rate, u64 ceil,
--				     u64 prio, struct netlink_ext_ack *extack)
-+				     u64 prio, u32 quantum,
-+				     struct netlink_ext_ack *extack)
- {
- 	struct otx2_qos_cfg *old_cfg, *new_cfg;
- 	struct otx2_qos_node *node, *parent;
- 	int qid, ret, err;
-+	bool static_cfg;
- 
- 	netdev_dbg(pfvf->netdev,
--		   "TC_HTB_LEAF_ALLOC_QUEUE: classid=0x%x parent_classid=0x%x rate=%lld ceil=%lld prio=%lld\n",
--		   classid, parent_classid, rate, ceil, prio);
-+		   "TC_HTB_LEAF_ALLOC_QUEUE: classid=0x%x parent_classid=0x%x rate=%lld ceil=%lld prio=%lld quantum=%d\n",
-+		   classid, parent_classid, rate, ceil, prio, quantum);
- 
- 	if (prio > OTX2_QOS_MAX_PRIO) {
- 		NL_SET_ERR_MSG_MOD(extack, "Valid priority range 0 to 7");
-@@ -1090,6 +1219,12 @@ static int otx2_qos_leaf_alloc_queue(struct otx2_nic *pfvf, u16 classid,
- 		goto out;
- 	}
- 
-+	if (!quantum || quantum > INT_MAX) {
-+		NL_SET_ERR_MSG_MOD(extack, "Invalid quantum, range 1 - 2147483647 bytes");
-+		ret = -EOPNOTSUPP;
-+		goto out;
-+	}
-+
- 	/* get parent node */
- 	parent = otx2_sw_node_find(pfvf, parent_classid);
- 	if (!parent) {
-@@ -1103,11 +1238,24 @@ static int otx2_qos_leaf_alloc_queue(struct otx2_nic *pfvf, u16 classid,
- 		goto out;
- 	}
- 
--	ret = otx2_qos_validate_configuration(parent, extack, pfvf, prio);
-+	static_cfg = !is_qos_node_dwrr(parent, pfvf, prio);
-+	ret = otx2_qos_validate_configuration(parent, extack, pfvf, prio,
-+					      static_cfg);
- 	if (ret)
- 		goto out;
- 
--	parent->child_static_cnt++;
-+	if (!static_cfg) {
-+		ret = otx2_qos_validate_dwrr_cfg(parent, extack, pfvf, prio,
-+						 quantum);
-+		if (ret)
-+			goto out;
-+	}
-+
-+	if (static_cfg)
-+		parent->child_static_cnt++;
-+	else
-+		parent->child_dwrr_cnt++;
-+
- 	set_bit(prio, parent->prio_bmap);
- 
- 	/* read current txschq configuration */
-@@ -1132,7 +1280,7 @@ static int otx2_qos_leaf_alloc_queue(struct otx2_nic *pfvf, u16 classid,
- 
- 	/* allocate and initialize a new child node */
- 	node = otx2_qos_sw_create_leaf_node(pfvf, parent, classid, prio, rate,
--					    ceil, qid);
-+					    ceil, quantum, qid, static_cfg);
- 	if (IS_ERR(node)) {
- 		NL_SET_ERR_MSG_MOD(extack, "Unable to allocate leaf node");
- 		ret = PTR_ERR(node);
-@@ -1180,7 +1328,11 @@ static int otx2_qos_leaf_alloc_queue(struct otx2_nic *pfvf, u16 classid,
- free_old_cfg:
- 	kfree(old_cfg);
- reset_prio:
--	parent->child_static_cnt--;
-+	if (static_cfg)
-+		parent->child_static_cnt--;
-+	else
-+		parent->child_dwrr_cnt--;
-+
- 	clear_bit(prio, parent->prio_bmap);
- out:
- 	return ret;
-@@ -1188,10 +1340,11 @@ static int otx2_qos_leaf_alloc_queue(struct otx2_nic *pfvf, u16 classid,
- 
- static int otx2_qos_leaf_to_inner(struct otx2_nic *pfvf, u16 classid,
- 				  u16 child_classid, u64 rate, u64 ceil, u64 prio,
--				  struct netlink_ext_ack *extack)
-+				  u32 quantum, struct netlink_ext_ack *extack)
- {
- 	struct otx2_qos_cfg *old_cfg, *new_cfg;
- 	struct otx2_qos_node *node, *child;
-+	bool static_cfg;
- 	int ret, err;
- 	u16 qid;
- 
-@@ -1205,6 +1358,12 @@ static int otx2_qos_leaf_to_inner(struct otx2_nic *pfvf, u16 classid,
- 		goto out;
- 	}
- 
-+	if (!quantum || quantum > INT_MAX) {
-+		NL_SET_ERR_MSG_MOD(extack, "Invalid quantum, range 1 - 2147483647 bytes");
-+		ret = -EOPNOTSUPP;
-+		goto out;
-+	}
-+
- 	/* find node related to classid */
- 	node = otx2_sw_node_find(pfvf, classid);
- 	if (!node) {
-@@ -1219,7 +1378,19 @@ static int otx2_qos_leaf_to_inner(struct otx2_nic *pfvf, u16 classid,
- 		goto out;
- 	}
- 
--	node->child_static_cnt++;
-+	static_cfg = !is_qos_node_dwrr(node, pfvf, prio);
-+	if (!static_cfg) {
-+		ret = otx2_qos_validate_dwrr_cfg(node, extack, pfvf, prio,
-+						 quantum);
-+		if (ret)
-+			goto out;
-+	}
-+
-+	if (static_cfg)
-+		node->child_static_cnt++;
-+	else
-+		node->child_dwrr_cnt++;
-+
- 	set_bit(prio, node->prio_bmap);
- 
- 	/* store the qid to assign to leaf node */
-@@ -1242,7 +1413,8 @@ static int otx2_qos_leaf_to_inner(struct otx2_nic *pfvf, u16 classid,
- 
- 	/* allocate and initialize a new child node */
- 	child = otx2_qos_sw_create_leaf_node(pfvf, node, child_classid,
--					     prio, rate, ceil, qid);
-+					     prio, rate, ceil, quantum,
-+					     qid, static_cfg);
- 	if (IS_ERR(child)) {
- 		NL_SET_ERR_MSG_MOD(extack, "Unable to allocate leaf node");
- 		ret = PTR_ERR(child);
-@@ -1293,7 +1465,10 @@ static int otx2_qos_leaf_to_inner(struct otx2_nic *pfvf, u16 classid,
- free_old_cfg:
- 	kfree(old_cfg);
- reset_prio:
--	node->child_static_cnt--;
-+	if (static_cfg)
-+		node->child_static_cnt--;
-+	else
-+		node->child_dwrr_cnt--;
- 	clear_bit(prio, node->prio_bmap);
- out:
- 	return ret;
-@@ -1303,6 +1478,7 @@ static int otx2_qos_leaf_del(struct otx2_nic *pfvf, u16 *classid,
- 			     struct netlink_ext_ack *extack)
- {
- 	struct otx2_qos_node *node, *parent;
-+	int dwrr_del_node = false;
- 	u64 prio;
- 	u16 qid;
- 
-@@ -1318,17 +1494,28 @@ static int otx2_qos_leaf_del(struct otx2_nic *pfvf, u16 *classid,
- 	prio   = node->prio;
- 	qid    = node->qid;
- 
-+	if (!node->is_static)
-+		dwrr_del_node = true;
-+
- 	otx2_qos_disable_sq(pfvf, node->qid);
- 
- 	otx2_qos_destroy_node(pfvf, node);
- 	pfvf->qos.qid_to_sqmap[qid] = OTX2_QOS_INVALID_SQ;
- 
--	parent->child_static_cnt--;
-+	if (dwrr_del_node) {
-+		parent->child_dwrr_cnt--;
-+	} else {
-+		parent->child_static_cnt--;
-+		clear_bit(prio, parent->prio_bmap);
-+	}
-+
-+	/* Reset DWRR priority if all dwrr nodes are deleted */
-+	if (!parent->child_dwrr_cnt)
-+		otx2_reset_dwrr_prio(parent, prio);
-+
- 	if (!parent->child_static_cnt)
- 		parent->max_static_prio = 0;
- 
--	clear_bit(prio, parent->prio_bmap);
--
- 	return 0;
- }
- 
-@@ -1337,6 +1524,7 @@ static int otx2_qos_leaf_del_last(struct otx2_nic *pfvf, u16 classid, bool force
- {
- 	struct otx2_qos_node *node, *parent;
- 	struct otx2_qos_cfg *new_cfg;
-+	int dwrr_del_node = false;
- 	u64 prio;
- 	int err;
- 	u16 qid;
-@@ -1361,16 +1549,27 @@ static int otx2_qos_leaf_del_last(struct otx2_nic *pfvf, u16 classid, bool force
- 		return -ENOENT;
- 	}
- 
-+	if (!node->is_static)
-+		dwrr_del_node = true;
-+
- 	/* destroy the leaf node */
- 	otx2_qos_destroy_node(pfvf, node);
- 	pfvf->qos.qid_to_sqmap[qid] = OTX2_QOS_INVALID_SQ;
- 
--	parent->child_static_cnt--;
-+	if (dwrr_del_node) {
-+		parent->child_dwrr_cnt--;
-+	} else {
-+		parent->child_static_cnt--;
-+		clear_bit(prio, parent->prio_bmap);
-+	}
-+
-+	/* Reset DWRR priority if all dwrr nodes are deleted */
-+	if (!parent->child_dwrr_cnt)
-+		otx2_reset_dwrr_prio(parent, prio);
-+
- 	if (!parent->child_static_cnt)
- 		parent->max_static_prio = 0;
- 
--	clear_bit(prio, parent->prio_bmap);
--
- 	/* create downstream txschq entries to parent */
- 	err = otx2_qos_alloc_txschq_node(pfvf, parent);
- 	if (err) {
-@@ -1422,10 +1621,12 @@ void otx2_qos_config_txschq(struct otx2_nic *pfvf)
- 	if (!root)
- 		return;
- 
--	err = otx2_qos_txschq_config(pfvf, root);
--	if (err) {
--		netdev_err(pfvf->netdev, "Error update txschq configuration\n");
--		goto root_destroy;
-+	if (root->level != NIX_TXSCH_LVL_TL1) {
-+		err = otx2_qos_txschq_config(pfvf, root);
-+		if (err) {
-+			netdev_err(pfvf->netdev, "Error update txschq configuration\n");
-+			goto root_destroy;
-+		}
- 	}
- 
- 	err = otx2_qos_txschq_push_cfg_tl(pfvf, root, NULL);
-@@ -1458,7 +1659,8 @@ int otx2_setup_tc_htb(struct net_device *ndev, struct tc_htb_qopt_offload *htb)
- 		res = otx2_qos_leaf_alloc_queue(pfvf, htb->classid,
- 						htb->parent_classid,
- 						htb->rate, htb->ceil,
--						htb->prio, htb->extack);
-+						htb->prio, htb->quantum,
-+						htb->extack);
- 		if (res < 0)
- 			return res;
- 		htb->qid = res;
-@@ -1467,7 +1669,7 @@ int otx2_setup_tc_htb(struct net_device *ndev, struct tc_htb_qopt_offload *htb)
- 		return otx2_qos_leaf_to_inner(pfvf, htb->parent_classid,
- 					      htb->classid, htb->rate,
- 					      htb->ceil, htb->prio,
--					      htb->extack);
-+					      htb->quantum, htb->extack);
- 	case TC_HTB_LEAF_DEL:
- 		return otx2_qos_leaf_del(pfvf, &htb->classid, htb->extack);
- 	case TC_HTB_LEAF_DEL_LAST:
-diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/qos.h b/drivers/net/ethernet/marvell/octeontx2/nic/qos.h
-index faa7c24675d1..221bd0438f60 100644
---- a/drivers/net/ethernet/marvell/octeontx2/nic/qos.h
-+++ b/drivers/net/ethernet/marvell/octeontx2/nic/qos.h
-@@ -60,12 +60,15 @@ struct otx2_qos_node {
- 	u64 ceil;
- 	u32 classid;
- 	u32 prio;
--	u16 schq; /* hw txschq */
-+	u32 quantum;
-+	/* hw txschq */
-+	u16 schq;
- 	u16 qid;
- 	u16 prio_anchor;
- 	u16 max_static_prio;
- 	u16 child_dwrr_cnt;
- 	u16 child_static_cnt;
-+	u16 child_dwrr_prio;
- 	u16 txschq_idx;			/* txschq allocation index */
- 	u8 level;
- 	bool is_static;
+On x86 CRIU needed to be able to temporarily unlock shadow stack features
+to recreate the shadow stack of the thread being restored. I presume CRIU
+will need something like that on arm64 as well.
+
+> +
+> +
+> +
+> +8.  ELF coredump extensions
+> +---------------------------
+> +
+> +* NT_ARM_GCS notes will be added to each coredump for each thread of the
+> +  dumped process.  The contents will be equivalent to the data that would
+> +  have been read if a PTRACE_GETREGSET of the corresponding type were
+> +  executed for each thread when the coredump was generated.
+> +
+> +
+> +
+> +9.  /proc extensions
+> +--------------------
+> +
+> +* Guarded Control Stack pages will include "ss" in their VmFlags in
+> +  /proc/<pid>/smaps.
+> diff --git a/Documentation/arch/arm64/index.rst b/Documentation/arch/arm64/index.rst
+> index d08e924204bf..dcf3ee3eb8c0 100644
+> --- a/Documentation/arch/arm64/index.rst
+> +++ b/Documentation/arch/arm64/index.rst
+> @@ -14,6 +14,7 @@ ARM64 Architecture
+>      booting
+>      cpu-feature-registers
+>      elf_hwcaps
+> +    gcs
+>      hugetlbpage
+>      kdump
+>      legacy_instructions
+> 
+> -- 
+> 2.30.2
+> 
+> 
+
 -- 
-2.17.1
-
+Sincerely yours,
+Mike.
