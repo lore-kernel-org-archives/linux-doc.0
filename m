@@ -2,83 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2358FC001E0
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 18:35:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A83C00528
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 18:36:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229471AbjGSSfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jul 2023 14:35:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55460 "EHLO
+        id S229961AbjGSSgZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jul 2023 14:36:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230322AbjGSSfP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 14:35:15 -0400
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68EBC1FDD;
-        Wed, 19 Jul 2023 11:35:10 -0700 (PDT)
-Received: by mail-oo1-xc30.google.com with SMTP id 006d021491bc7-565a8d9d832so19121eaf.1;
-        Wed, 19 Jul 2023 11:35:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689791709; x=1690396509;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=K2abvvyLPjfrwEoupsEOTHIOOMVyeM8JABW3sZpsX+c=;
-        b=Chuf4XrWiNI7GbdlQoLbjIxxVRqU1yzyfCDc4BQIjKBgDx2WgfJQcj4NUjz0nCS3ek
-         j4jESGCDHbPCBUNw51V2wD3QubnkA1OoNm5SzkzdRyi74QRuTeiEmWYuZYLflw5HQnBa
-         xwWa+wvLDRi55jBintfVIEeDaQHH7ImaeK1Fql4rYRd8ZmwwjlKfw1+l6be6eoHUw0j0
-         +Bsq0xLIg84wNoxSp+tOuGvXN83V8v+ohOc131z/m0RXr4IztZi+3IHddMCyZbFI9ljl
-         R4seAXcy1C0E6maCx6997/u6qFWUCras2W94/SvUY+1kNI2OGacC6Ab12zx53zWqh9ny
-         Ex4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689791709; x=1690396509;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K2abvvyLPjfrwEoupsEOTHIOOMVyeM8JABW3sZpsX+c=;
-        b=ZiOtLtfmZhO5AX7byRdH16ptuBuse6bVaVxiebauCzxLCAp1qlGX3sSMJHxzjUR/DB
-         AXgryNJ5oMrM/4EYwNzEruHaMeikbMPIY/DGFqpdACo38PGIvu9EFYXnMgUqD022hTyI
-         ABlvBVDmbMVuGamRotu8nQodPp9F3H40LZgJT1qQIO/FricXwjN8WoqpwpSKJB190Su9
-         4zT1znyloN5Iceg2y++bpFc+XMyb2WTJbEKHQkAUdjt2bIEjSGZbMO2ldVTZnbTKdgA9
-         RToaH/QaecFCHG2P3qNVivBzkNbTo1J25m/FwI+IIes8Nj5AMbPR9iV3mo3PDVAxSIlz
-         ysXg==
-X-Gm-Message-State: ABy/qLZDdxmzBlxGlWdnIvWGTjimt02DCJuiYAvQveYy6ftzWaLSfZgj
-        AR4WIyepmpoZ1nJfR7ObuAA=
-X-Google-Smtp-Source: APBJJlGBGnmfeQj7NSDv1T5T78KoUYPTK0sESCJ9Z0C+0mL3eOOy1dFM1lzgwsUas3vnUqkRaINgAA==
-X-Received: by 2002:a05:6808:50:b0:39c:59e2:dd79 with SMTP id v16-20020a056808005000b0039c59e2dd79mr319800oic.36.1689791709468;
-        Wed, 19 Jul 2023 11:35:09 -0700 (PDT)
-Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id y7-20020a056808130700b003a3860b375esm2042016oiv.34.2023.07.19.11.35.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Jul 2023 11:35:09 -0700 (PDT)
-Message-ID: <a1dcf888-ee91-f6e5-fe8b-db186a7864e2@gmail.com>
-Date:   Wed, 19 Jul 2023 14:39:57 -0300
+        with ESMTP id S229531AbjGSSgZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 14:36:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62DEFB6;
+        Wed, 19 Jul 2023 11:36:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EA321617C7;
+        Wed, 19 Jul 2023 18:36:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 147F2C433C7;
+        Wed, 19 Jul 2023 18:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689791783;
+        bh=i0UCInbZcP5QkOgVWTWoZZYo5sBM7w7AUy/qgXJAKqA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OtcJycs603KfeRaT7rm5I5qvi48ExseEPsUdOgdmUBJ+C9LuJxtAuAQ2gk3ug8Kg+
+         Hfq7atKHckdBgbpkYNQOeTF327nRkSySRlK/1pLVPoCrXFf37SPu7KutRPZHnw1Uwf
+         L+MM7I2XhptQuRIWhhM/vRuFHrF7vq8xbLORk8CKC517+UpSu0juNbFRxe391V6fnz
+         algtCABm3I8s9kfiJwZYCO8tvF4ITYt47UZyLSau7rsGSRzCLNzwfRS74BPhRPI553
+         nHxZNYeqsMN9q941DQUgojKWi3PrZxnyrPUELjCMjzJk3Ax4GitepwC9AtARTMXvAx
+         f2ap+e9JCDMQw==
+Date:   Wed, 19 Jul 2023 11:36:22 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     corbet@lwn.net, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
+        linux@leemhuis.info, broonie@kernel.org, krzk@kernel.org
+Subject: Re: [PATCH docs v2] docs: maintainer: document expectations of
+ small time maintainers
+Message-ID: <20230719113622.27afb5f0@kernel.org>
+In-Reply-To: <CAL_JsqKBbP_dXZCbyKtgXVDMV-0Qp8YLQAXANg+_XSiMxou9vw@mail.gmail.com>
+References: <20230718155814.1674087-1-kuba@kernel.org>
+        <CAL_JsqKBbP_dXZCbyKtgXVDMV-0Qp8YLQAXANg+_XSiMxou9vw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: rust: clarify what 'rustup override' does
-Content-Language: en-US
-To:     Trevor Gross <tmgross@umich.edu>, ojeda@kernel.org,
-        alex.gaynor@gmail.com, wedsonaf@gmail.com, boqun.feng@gmail.com,
-        gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
-        corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230718054416.861412-1-tmgross@umich.edu>
- <20230718054416.861412-3-tmgross@umich.edu>
-From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230718054416.861412-3-tmgross@umich.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/18/23 02:44, Trevor Gross wrote:
-> The behavior of 'rustup override' is not very well known. This patch is
-> a small edit that adds details about what it does, so users have a better
-> understanding of how it affects their system toolchain (i.e., it does
-> not affect system toolchain and only sets a directory-specific
-> override).
+On Wed, 19 Jul 2023 11:54:53 -0600 Rob Herring wrote:
+> > We appear to have a gap in our process docs. We go into detail
+> > on how to contribute code to the kernel, and how to be a subsystem
+> > maintainer. I can't find any docs directed towards the thousands
+> > of small scale maintainers, like folks maintaining a single driver
+> > or a single network protocol.  
 > 
-> Signed-off-by: Trevor Gross <tmgross@umich.edu>
-> ---
-> [...]
-Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+> I think the split is great. It would be even better if this
+> distinction could be made in MAINTAINERS and then the tools could use
+> that. For example, on treewide changes on Cc subsystem maintainers and
+> skip driver maintainers. The problem right now is Cc'ing everyone
+> quickly hits maillist moderation for too many recipients.
+
+Interesting idea. I wonder how much of this can be accomplished by
+improvements to get_maintainers and interpreting what we already have.
+There are inverse annoyances, too, where patches for subsystems get
+CCed all the way up the hierarchy and including linux-kernel@
+for not apparent reason. We have to go sprinkle X: entries in
+MAINTAINERS currently to prevent it.
+
+In any case, I think that's a bit tangential. I sent a v3 already
+'cause people kept reporting the same typoes :)
