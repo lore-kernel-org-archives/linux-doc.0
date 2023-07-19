@@ -2,152 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E08C0C001DC
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 10:32:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 269D2EB64DA
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 11:05:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229651AbjGSKcK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jul 2023 06:32:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53806 "EHLO
+        id S229826AbjGSLFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jul 2023 07:05:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229867AbjGSKcI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 06:32:08 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 252B726BB
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jul 2023 03:31:47 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qM4T3-0007JD-Mu; Wed, 19 Jul 2023 12:31:37 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qM4T0-000a0I-Kd; Wed, 19 Jul 2023 12:31:34 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qM4Sz-00652u-4l; Wed, 19 Jul 2023 12:31:33 +0200
-Date:   Wed, 19 Jul 2023 12:31:32 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-pwm@vger.kernel.org,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        James Clark <james.clark@arm.com>, kernel@pengutronix.de,
-        Yang Yingliang <yangyingliang@huawei.com>
-Subject: Re: [PATCH 01/18] pwm: Provide devm_pwmchip_alloc() function
-Message-ID: <20230719103132.h3tfor2dswza7z26@pengutronix.de>
-References: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
- <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
- <ZLbwib753V6wSHKB@smile.fi.intel.com>
+        with ESMTP id S230158AbjGSLFm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 07:05:42 -0400
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29679E42;
+        Wed, 19 Jul 2023 04:05:41 -0700 (PDT)
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36J9jrtn013032;
+        Wed, 19 Jul 2023 04:05:20 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=pfpt0220;
+ bh=JC+SlG2J1cwHPNYKwRoVuKapytz+jNTHeq1scJHPdeg=;
+ b=Ix3MCGYUm998VvdjXYeUNa3FsQVhI0bC4a6Es5AB+hcIXPcvzcjwaELEuKvy5En/8ANn
+ DDK42qPxz2KArvU+vVF+LeJ1OKG/95COP013imq1zwU6wjs0UVrJudrLnQU1+5DGFFzL
+ +quWuKuT86s1KkJ2VuMN5YRZk1g1mX8sqIVRUpVwbT+m3f5wewxrSmBvqE8NiAaPJuxm
+ 8/G0/PXqan6Wd+gi4WBMJnkDrO9hwVOf7Mxh9ezm4X6CKsFGq3BJ+6xyqzSg8xLziBLK
+ e51oQuc5mXKbmW2m0KUsPt54PRCZvbwbmxsx7h5WwySjvpqNz62nc6PuK7GFlGZ+Ymea dQ== 
+Received: from dc5-exch02.marvell.com ([199.233.59.182])
+        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3rwyc6je0u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Wed, 19 Jul 2023 04:05:18 -0700
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 19 Jul
+ 2023 04:04:50 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.48 via Frontend
+ Transport; Wed, 19 Jul 2023 04:04:50 -0700
+Received: from hyd1soter3.marvell.com (unknown [10.29.37.12])
+        by maili.marvell.com (Postfix) with ESMTP id 197623F704F;
+        Wed, 19 Jul 2023 04:04:44 -0700 (PDT)
+From:   Hariprasad Kelam <hkelam@marvell.com>
+To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <kuba@kernel.org>, <davem@davemloft.net>,
+        <willemdebruijn.kernel@gmail.com>, <andrew@lunn.ch>,
+        <sgoutham@marvell.com>, <lcherian@marvell.com>,
+        <gakula@marvell.com>, <jerinj@marvell.com>, <sbhatta@marvell.com>,
+        <hkelam@marvell.com>, <naveenm@marvell.com>, <edumazet@google.com>,
+        <pabeni@redhat.com>, <jhs@mojatatu.com>,
+        <xiyou.wangcong@gmail.com>, <jiri@resnulli.us>,
+        <maxtram95@gmail.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+Subject: [net-next PatchV4 0/4] octeontx2-pf: support Round Robin scheduling
+Date:   Wed, 19 Jul 2023 16:34:39 +0530
+Message-ID: <20230719110443.15310-1-hkelam@marvell.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="c47aihx6qnumjkol"
-Content-Disposition: inline
-In-Reply-To: <ZLbwib753V6wSHKB@smile.fi.intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
+X-Proofpoint-GUID: gv3LVWq6OLvDfRF9DNmHhmgmuMhz9Eo4
+X-Proofpoint-ORIG-GUID: gv3LVWq6OLvDfRF9DNmHhmgmuMhz9Eo4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-19_06,2023-07-19_01,2023-05-22_02
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+octeontx2 and CN10K silicons support Round Robin scheduling. When multiple
+traffic flows reach transmit level with the same priority, with Round Robin
+scheduling traffic flow with the highest quantum value is picked. With this
+support, the user can add multiple classes with the same priority and
+different quantum in htb offload.
 
---c47aihx6qnumjkol
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series of patches adds support for the same.
 
-Hello Andy,
+Patch1: implement transmit schedular allocation algorithm as preparation
+        for support round robin scheduling.
 
-On Tue, Jul 18, 2023 at 11:05:29PM +0300, Andy Shevchenko wrote:
-> On Tue, Jul 18, 2023 at 08:18:32PM +0200, Uwe Kleine-K=F6nig wrote:
-> > This function allocates a struct pwm_chip and driver data. Compared to
-> > the status quo the split into pwm_chip and driver data is new, otherwise
-> > it doesn't change anything relevant (yet).
-> >=20
-> > The intention is that after all drivers are switched to use this
-> > allocation function, its possible to add a struct device to struct
-> > pwm_chip to properly track the latter's lifetime without touching all
-> > drivers again. Proper lifetime tracking is a necessary precondition to
-> > introduce character device support for PWMs (that implements atomic
-> > setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
-> > userspace support).
-> >=20
-> > The new function pwmchip_priv() (obviously?) only works for chips
-> > allocated with devm_pwmchip_alloc().
->=20
-> ...
->=20
-> > +void *pwmchip_priv(struct pwm_chip *chip)
-> > +{
-> > +	return (char *)chip + ALIGN(sizeof(*chip), 32);
->=20
-> Why 32? I haven't found any explanation on the choice. I can understand a=
-rch
-> minimum align, but hard coded value is a bit hard to get.
+Patch2: Allow quantum parameter in HTB offload mode.
 
-I copied that part from netdev_priv (without introducing the equivalent
-of NETDEV_ALIGN). The 32 there isn't motivated in a comment, and i
-didn't think much about it. Alternatives that I'm aware of are:
+Patch3: extends octeontx2 htb offload support for Round Robin scheduling
 
-	dma_get_cache_alignment() (spi)
-	Use a struct (counter's counter_device_allochelper uses ____cacheline_alig=
-ned)
+Patch4: extend QOS documentation for Round Robin scheduling
 
-(but I wonder about dma_get_cache_alignment() which might return 1 on
-some archs and then doesn't even ensure natural aligning for shorts.)
+Hariprasad Kelam (1):
+  docs: octeontx2: extend documentation for Round Robin scheduling
 
-> > +}
->=20
-> ...
->=20
-> > +struct pwm_chip *devm_pwmchip_alloc(struct device *parent, size_t size=
-of_priv)
-> > +{
-> > +	struct pwm_chip *chip;
-> > +	size_t alloc_size;
->=20
-> > +	alloc_size =3D ALIGN(sizeof(*chip), 32) + sizeof_priv;
->=20
-> Ditto.
+Naveen Mamindlapalli (3):
+  octeontx2-pf: implement transmit schedular allocation algorithm
+  sch_htb: Allow HTB quantum parameter in offload mode
+  octeontx2-pf: htb offload support for Round Robin scheduling
+---
+v4 * update classid values in documentation.
 
-Of course this needs to match the above. spi uses dev_get_drvdata on the
-controller's dev. Also a nice idea.
+v3 * 1. update QOS documentation for round robin scheduling
+     2. added out of bound checks for quantum parameter
 
-> Shouldn't it use a macro from overflow.h?
+v2 * change data type of otx2_index_used to reduce size of structure
+     otx2_qos_cfg
 
-Yupp, that would make sense. Something like:
+ .../ethernet/marvell/octeontx2.rst            |   8 +
+ .../marvell/octeontx2/nic/otx2_common.c       |   1 +
+ .../marvell/octeontx2/nic/otx2_common.h       |   1 +
+ .../net/ethernet/marvell/octeontx2/nic/qos.c  | 398 ++++++++++++++++--
+ .../net/ethernet/marvell/octeontx2/nic/qos.h  |  11 +-
+ .../net/ethernet/mellanox/mlx5/core/en/qos.c  |   4 +-
+ include/net/pkt_cls.h                         |   1 +
+ net/sched/sch_htb.c                           |   7 +-
+ 8 files changed, 388 insertions(+), 43 deletions(-)
 
-	if (unlikely(check_add_overflow(ALIGN(sizeof(*chip), 32), sizeof_priv, &al=
-loc_size)))
-		return NULL;
-
-(with 32 replaced by something with a better name.)
-
-Thanks for your feedback,
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---c47aihx6qnumjkol
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmS3u4QACgkQj4D7WH0S
-/k63uwgAgEjte499Qzqkybmbo3Hnvx4gt8KAcSTR4BRd+1YG9y9ENRVfkt4RucR9
-WeIHfwn5JrbcxMQkTYrDosWm7QeJXSimuelrpFLgD4blcu3Y0BSTwQEM0L7vfF/5
-6bhOQBnrn3BB1f523YSUJi2vIXBxfXk/4dYf/v3Sp9Dt40wXE6z659JLejtLvXvH
-MgWQ+hIOE3yY7ZhUi7pGDOUUqlQ2DcbV6kDpRQ+TLkXWIFHBFG3O7Hi/sP2Zi0by
-G+zqIGzjRijApdk58ybzrUcarOHgJc3P8KalexRpcNH314ue/C3A9G7iFAQhqpb6
-CxZoWE/b482gFpgGyJcv8FH/L75fig==
-=iHpb
------END PGP SIGNATURE-----
-
---c47aihx6qnumjkol--
+--
+2.17.1
