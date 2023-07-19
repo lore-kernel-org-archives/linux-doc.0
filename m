@@ -2,134 +2,249 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A769EC001DE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 08:10:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBACC05051
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Jul 2023 08:37:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbjGSIKz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jul 2023 04:10:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53686 "EHLO
+        id S230442AbjGSIhB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jul 2023 04:37:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjGSIKy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 04:10:54 -0400
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC880E0;
-        Wed, 19 Jul 2023 01:10:53 -0700 (PDT)
-Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36J87nUn013534;
-        Wed, 19 Jul 2023 08:10:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=bmtdoH4x78WOzEgO0hJr3Q4YAok9U57wjwgQujC0nAA=;
- b=b6ITED5+a63nh8h/9Mi20RaNVia658Hk1kPH0a3vu+15UlGdMvRoF/cMcbTv0p3xkP3d
- jMenfcl2ZZyhx/hs4A5PCxmTcMQmGgniVu952R2R1H61QeH4EGCZhBeBNPz4BkMfxE0L
- u44TmGAQqXjEB2Kq8WaY7bVnUlacKsYCJS/AHfOEtH5DKHFe2pQ8FdSMc690PlmWbmEM
- 6kV1adx4PHwxEccCva1BiTXY9ZDBIE1QgYAZL194hdLv+4PyMhNxL5Xh9CoTArRZZ00R
- xEDrqqHY8TIQ348X+8Ip4i8LYekuZqQ6PbOLwgQF5g60SQ/wqWBUsBf2l4sLhbRqOYls Sg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxbuqgc8t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 19 Jul 2023 08:10:26 +0000
-Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36J87x9i014971;
-        Wed, 19 Jul 2023 08:10:25 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rxbuqgc86-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 19 Jul 2023 08:10:25 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-        by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 36J4EjMD029129;
-        Wed, 19 Jul 2023 08:10:24 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-        by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3rv6smgq3d-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 19 Jul 2023 08:10:24 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-        by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 36J8ALVY46072444
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 19 Jul 2023 08:10:21 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 21CD720043;
-        Wed, 19 Jul 2023 08:10:21 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 537682006A;
-        Wed, 19 Jul 2023 08:10:20 +0000 (GMT)
-Received: from osiris (unknown [9.152.212.233])
-        by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-        Wed, 19 Jul 2023 08:10:20 +0000 (GMT)
-Date:   Wed, 19 Jul 2023 10:10:19 +0200
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Costa Shulyupin <costa.shul@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Kim Phillips <kim.phillips@amd.com>,
-        Yantengsi <siyanteng@loongson.cn>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Vineet Gupta <vgupta@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Mikhail Zaslonko <zaslonko@linux.ibm.com>,
-        Eric DeVolder <eric.devolder@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:S390 ARCHITECTURE" <linux-s390@vger.kernel.org>,
-        "open list:S390 VFIO-CCW DRIVER" <kvm@vger.kernel.org>
-Subject: Re: [PATCH] docs: move s390 under arch
-Message-ID: <ZLeaa6N2Dug3DpBs@osiris>
-References: <20230718045550.495428-1-costa.shul@redhat.com>
- <ZLYxVo5/YjjOd3i7@osiris>
- <874jm1uzz4.fsf@meer.lwn.net>
+        with ESMTP id S230402AbjGSIg7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 04:36:59 -0400
+Received: from mx1.veeam.com (mx1.veeam.com [216.253.77.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1268519B1;
+        Wed, 19 Jul 2023 01:36:49 -0700 (PDT)
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.128.102])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1.veeam.com (Postfix) with ESMTPS id 5211E4247A;
+        Wed, 19 Jul 2023 04:36:46 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com;
+        s=mx1-2022; t=1689755806;
+        bh=wGCVKhkqJH+Yo7LufeZklucelDz+msotbtzEN6Hr8P0=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To:From;
+        b=b0tym7087WS5sdxCyrv3EV2zpaoRiGi3ekxt669mmHNcKFikaqhwLNEQX+e0l9gmH
+         U3bGI9EdrhhlVagIdk5CzOIo6lCiLeU6jbAPnUX8gZQYRfUdQQv/xkNyPz/xxw2eA1
+         FLz9qgNpPSZLpEfJZI5IR4ug8hL8iVnooW4AqFoyt49KPdoXvHc3fiPvrbdFSBrx5/
+         cWGuswVMpPWnRUdA7fQfthFBQsJLLA031X0YfmcUNsWhw68+C/6Pd0FdjkkWw6LcIV
+         RobDFJ5mpZoD9qruEAWpiveN2dNnj7iecoPk6XynlSWg3O8IlqHtWUVVUxq4XzrohS
+         +eHXbcHzHnfrA==
+Received: from [172.24.10.107] (172.24.10.107) by prgmbx01.amust.local
+ (172.24.128.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.16; Wed, 19 Jul
+ 2023 10:36:39 +0200
+Message-ID: <c33df221-968c-9f31-e545-27dd4e90729f@veeam.com>
+Date:   Wed, 19 Jul 2023 10:36:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <874jm1uzz4.fsf@meer.lwn.net>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: R7AfpQ8NRP86mYnCjoffY47XQ7k9vNVu
-X-Proofpoint-ORIG-GUID: aYJmZMez_Q6H0kPd3jIlPFVhvX9jMX89
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-19_04,2023-07-18_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
- phishscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- mlxlogscore=747 mlxscore=0 suspectscore=0 impostorscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307190073
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v5 02/11] block: Block Device Filtering Mechanism
+Content-Language: en-US
+To:     Yu Kuai <yukuai1@huaweicloud.com>, <axboe@kernel.dk>,
+        <hch@infradead.org>, <corbet@lwn.net>, <snitzer@kernel.org>
+CC:     <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+        <dchinner@redhat.com>, <willy@infradead.org>, <dlemoal@kernel.org>,
+        <linux@weissschuh.net>, <jack@suse.cz>, <ming.lei@redhat.com>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        Donald Buczek <buczek@molgen.mpg.de>,
+        "yukuai (C)" <yukuai3@huawei.com>
+References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
+ <20230612135228.10702-3-sergei.shtepa@veeam.com>
+ <f935840e-12a7-c37b-183c-27e2d83990ea@huaweicloud.com>
+ <90f79cf3-86a2-02c0-1887-d3490f9848bb@veeam.com>
+ <d929eaa7-61d6-c4c4-aabc-0124c3693e10@huaweicloud.com>
+ <686b9999-c903-cff1-48ba-21324031da17@veeam.com>
+ <fc740cf1-93a7-e438-e784-5209808981dc@huaweicloud.com>
+ <fdebc267-249a-2345-ba60-476240c8cf63@veeam.com>
+ <8257903a-1905-49c5-bed4-d15ca06c6d3b@huaweicloud.com>
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+In-Reply-To: <8257903a-1905-49c5-bed4-d15ca06c6d3b@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [172.24.10.107]
+X-ClientProxiedBy: colmbx01.amust.local (172.31.112.31) To
+ prgmbx01.amust.local (172.24.128.102)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A292403155B677661
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 07:10:55AM -0600, Jonathan Corbet wrote:
-> Heiko Carstens <hca@linux.ibm.com> writes:
-> 
-> > I guess this should go via Jonathan, like most (or all) other similar
-> > patches? Jonathan, let me know if you pick this up, or if this should
-> > go via the s390 tree.
-> 
-> I'm happy either way...I'd sort of thought these would go through the
-> arch trees to minimize the conflict potential, but it hasn't happened
-> that way yet.  Let me know your preference and I'll go with it...should
-> you take it:
-> 
-> Acked-by: Jonathan Corbet <corbet@lwn.net>
 
-I'll take it. There will be a trivial merge conflict with the kexec Kconfig
-rework that is sitting in Andrew's tree. In case there is more Kconfig
-rework happining in the s390 tree this will avoid additional conflicts.
+
+On 7/19/23 09:28, Yu Kuai wrote:
+> Subject:
+> Re: [PATCH v5 02/11] block: Block Device Filtering Mechanism
+> From:
+> Yu Kuai <yukuai1@huaweicloud.com>
+> Date:
+> 7/19/23, 09:28
+> 
+> To:
+> Sergei Shtepa <sergei.shtepa@veeam.com>, Yu Kuai <yukuai1@huaweicloud.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
+> CC:
+> viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com, willy@infradead.org, dlemoal@kernel.org, linux@weissschuh.net, jack@suse.cz, ming.lei@redhat.com, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Donald Buczek <buczek@molgen.mpg.de>, "yukuai (C)" <yukuai3@huawei.com>
+> 
+> 
+> Hi,
+> 
+> 在 2023/07/19 0:33, Sergei Shtepa 写道:
+>>
+>>
+>> On 7/18/23 14:32, Yu Kuai wrote:
+>>> Subject:
+>>> Re: [PATCH v5 02/11] block: Block Device Filtering Mechanism
+>>> From:
+>>> Yu Kuai <yukuai1@huaweicloud.com>
+>>> Date:
+>>> 7/18/23, 14:32
+>>>
+>>> To:
+>>> Sergei Shtepa <sergei.shtepa@veeam.com>, Yu Kuai <yukuai1@huaweicloud.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
+>>> CC:
+>>> viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com, willy@infradead.org, dlemoal@kernel.org, linux@weissschuh.net, jack@suse.cz, ming.lei@redhat.com, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Donald Buczek <buczek@molgen.mpg.de>, "yukuai (C)" <yukuai3@huawei.com>
+>>>
+>>>
+>>> Hi,
+>>>
+>>> 在 2023/07/18 19:25, Sergei Shtepa 写道:
+>>>> Hi.
+>>>>
+>>>> On 7/18/23 03:37, Yu Kuai wrote:
+>>>>> Subject:
+>>>>> Re: [PATCH v5 02/11] block: Block Device Filtering Mechanism
+>>>>> From:
+>>>>> Yu Kuai <yukuai1@huaweicloud.com>
+>>>>> Date:
+>>>>> 7/18/23, 03:37
+>>>>>
+>>>>> To:
+>>>>> Sergei Shtepa <sergei.shtepa@veeam.com>, Yu Kuai <yukuai1@huaweicloud.com>, axboe@kernel.dk, hch@infradead.org, corbet@lwn.net, snitzer@kernel.org
+>>>>> CC:
+>>>>> viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com, willy@infradead.org, dlemoal@kernel.org, linux@weissschuh.net, jack@suse.cz, ming.lei@redhat.com, linux-block@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Donald Buczek <buczek@molgen.mpg.de>, "yukuai (C)" <yukuai3@huawei.com>
+>>>>>
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> 在 2023/07/17 22:39, Sergei Shtepa 写道:
+>>>>>>
+>>>>>>
+>>>>>> On 7/11/23 04:02, Yu Kuai wrote:
+>>>>>>> bdev_disk_changed() is not handled, where delete_partition() and
+>>>>>>> add_partition() will be called, this means blkfilter for partiton will
+>>>>>>> be removed after partition rescan. Am I missing something?
+>>>>>>
+>>>>>> Yes, when the bdev_disk_changed() is called, all disk block devices
+>>>>>> are deleted and new ones are re-created. Therefore, the information
+>>>>>> about the attached filters will be lost. This is equivalent to
+>>>>>> removing the disk and adding it back.
+>>>>>>
+>>>>>> For the blksnap module, partition rescan will mean the loss of the
+>>>>>> change trackers data. If a snapshot was created, then such
+>>>>>> a partition rescan will cause the snapshot to be corrupted.
+>>>>>>
+>>>>>
+>>>>> I haven't review blksnap code yet, but this sounds like a problem.
+>>>>
+>>>> I can't imagine a case where this could be a problem.
+>>>> Partition rescan is possible only if the file system has not been
+>>>> mounted on any of the disk partitions. Ioctl BLKRRPART will return
+>>>> -EBUSY. Therefore, during normal operation of the system, rescan is
+>>>> not performed.
+>>>> And if the file systems have not been mounted, it is possible that
+>>>> the disk partition structure has changed or the disk in the media
+>>>> device has changed. In this case, it is better to detach the
+>>>> filter, otherwise it may lead to incorrect operation of the module.
+>>>>
+>>>> We can add prechange/postchange callback functions so that the
+>>>> filter can track rescan process. But at the moment, this is not
+>>>> necessary for the blksnap module.
+>>>
+>>> So you mean that blkfilter is only used for the case that partition
+>>> is mounted? (Or you mean that partition is opened)
+>>>
+>>> Then, I think you mean that filter should only be used for the partition
+>>> that is opended? Otherwise, filter can be gone at any time since
+>>> partition rescan can be gone.
+>>>
+>>> //user
+>>> 1. attach filter
+>>>          // other context rescan partition
+>>> 2. mount fs
+>>> // user will found filter is gone.
+>>
+>> Mmm...  The fact is that at the moment the user of the filter is the
+>> blksnap module. There are no other filter users yet. The blksnap module
+>> solves the problem of creating snapshots, primarily for backup purposes.
+>> Therefore, the main use case is to attach a filter for an already running
+>> system, where all partitions are marked up, file systems are mounted.
+>>
+>> If the server is being serviced, during which the disk is being
+>> re-partitioned, then disabling the filter is normal. In this case, the
+>> change tracker will be reset, and at the next backup, the filter will be
+>> attached again.
+> 
+> Thanks for the explanation, I was thinking that blkshap can replace
+> dm-snapshot.
+
+Thanks!
+At the moment I am creating blksnap with the Veeam product needs in mind.
+I would be glad if blksnap would be useful in other products as well.
+If you have any thoughts/questions/suggestions/comments, then write to me
+directly. I'll be happy to discuss everything.
+To work on the patch, I use the branch here
+Link: https://github.com/SergeiShtepa/linux/tree/blksnap-master
+The user-space libs, tools and tests, compatible with the upstream is here
+Link: https://github.com/veeam/blksnap/tree/stable-v2.0
+Perhaps it will be useful to you.
+
+> 
+> Thanks,
+> Kuai
+> 
+>>
+>> But if I were still solving the problem of saving the filter when rescanning,
+>> then it is necessary to take into account the UUID and name of the partition
+>> (struct partition_meta_info). It is unacceptable that due to a change in the
+>> structure of partitions, the filter is attached to another partition by mistake.
+>> The changed() callback would also be good to add so that the filter receives
+>> a notification that the block device has been updated.
+>>
+>> But I'm not sure that this should be done, since if some code is not used in
+>> the kernel, then it should not be in the kernel.
+>>
+>>>
+>>> Thanks,
+>>> Kuai
+>>>
+>>>>
+>>>> Therefore, I will refrain from making changes for now.
+>>>>
+>>>>>
+>>>>> possible solutions I have in mind:
+>>>>>
+>>>>> 1. Store blkfilter for each partition from bdev_disk_changed() before
+>>>>> delete_partition(), and add blkfilter back after add_partition().
+>>>>>
+>>>>> 2. Store blkfilter from gendisk as a xarray, and protect it by
+>>>>> 'open_mutex' like 'part_tbl', block_device can keep the pointer to
+>>>>> reference blkfilter so that performance from fast path is ok, and the
+>>>>> lifetime of blkfiter can be managed separately.
+>>>>>
+>>>>>> There was an idea to do filtering at the disk level,
+>>>>>> but I abandoned it.
+>>>>>> .
+>>>>>>
+>>>>> I think it's better to do filtering at the partition level as well.
+>>>>>
+>>>>> Thanks,
+>>>>> Kuai
+>>>>>
+>>>> .
+>>>>
+>>>
+>> .
+>>
+> 
