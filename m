@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A06B9EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 23:23:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DF91C001E0
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 23:23:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbjGTXXz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 19:23:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37684 "EHLO
+        id S229843AbjGTXX4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 19:23:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjGTXXy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 19:23:54 -0400
+        with ESMTP id S229571AbjGTXXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 19:23:55 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6FE812709;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6E78AEE;
         Thu, 20 Jul 2023 16:23:53 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id AB9B6236EBE2;
+        by linux.microsoft.com (Postfix) with ESMTPSA id DE0F0236EBE9;
         Thu, 20 Jul 2023 16:23:52 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AB9B6236EBE2
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DE0F0236EBE9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1689895432;
-        bh=SA9Rg3cMgQ7b1lFGvwN/QhJbcx0qd36JOXDv4dAQXxY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=cVupQpfkOgBO/eAATTcmC1NeKzfe8T3WsdUXDeZPP7LR4RW3+9TH2nGRt3emkuyYJ
-         Q38NW7QQpLKa1Sn/BKofbm4IIths4zBfi1zkNRXn4/MHO/c26lOcnBj2SGHgnTsxCP
-         rnzqimOFAkzmLzcF671NKwvUXJTiOUFl9SwVTU+U=
+        bh=ZpoFJV8a3LGSmjkBEN6m+1UxfkfXL7fXho/ORp6glDI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=h99ncapq+l5cdMXXwq/jqMP1j3JKqjBTxtKj9FnJ8GkyByUzfGisBMM/Oz65CVfTs
+         RI0iCRPvI9EkxdzWFHerv1mpY7CP8fmL9zMyXCehZ41zFWQ0gn8HAoIG4NMHKSfMl/
+         Y0WkcxqOoN34na55vBxs97yqZ9EWkaXkC1xYEkxA=
 From:   Easwar Hariharan <eahariha@linux.microsoft.com>
 To:     stable@vger.kernel.org
 Cc:     easwar.hariharan@microsoft.com, catalin.marinas@arm.com,
@@ -32,47 +32,208 @@ Cc:     easwar.hariharan@microsoft.com, catalin.marinas@arm.com,
         joro@8bytes.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         iommu@lists.linux.dev
-Subject: [PATCH 5.15 0/4] ARM64 errata for stable kernel 5.15 and above
-Date:   Thu, 20 Jul 2023 16:23:30 -0700
-Message-Id: <1689895414-17425-1-git-send-email-eahariha@linux.microsoft.com>
+Subject: [PATCH 5.15 2/4] arm64: errata: Add workaround for TSB flush failures
+Date:   Thu, 20 Jul 2023 16:23:32 -0700
+Message-Id: <1689895414-17425-3-git-send-email-eahariha@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1689895414-17425-1-git-send-email-eahariha@linux.microsoft.com>
+References: <1689895414-17425-1-git-send-email-eahariha@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Easwar Hariharan <easwar.hariharan@microsoft.com>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
 
-This series works around a few ARM64 errata. Please pick these up for
-v6.1 and v6.4 as well.
+commit fa82d0b4b833790ac4572377fb777dcea24a9d69 upstream
 
-Cc: Catalin Marinas <catalin.marinas@arm.com> 
+Arm Neoverse-N2 (#2067961) and Cortex-A710 (#2054223) suffers
+from errata, where a TSB (trace synchronization barrier)
+fails to flush the trace data completely, when executed from
+a trace prohibited region. In Linux we always execute it
+after we have moved the PE to trace prohibited region. So,
+we can apply the workaround every time a TSB is executed.
+
+The work around is to issue two TSB consecutively.
+
+NOTE: This errata is defined as LOCAL_CPU_ERRATUM, implying
+that a late CPU could be blocked from booting if it is the
+first CPU that requires the workaround. This is because we
+do not allow setting a cpu_hwcaps after the SMP boot. The
+other alternative is to use "this_cpu_has_cap()" instead
+of the faster system wide check, which may be a bit of an
+overhead, given we may have to do this in nvhe KVM host
+before a guest entry.
+
 Cc: Will Deacon <will@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: iommu@lists.linux.dev
-Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Mike Leach <mike.leach@linaro.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Marc Zyngier <maz@kernel.org>
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Link: https://lore.kernel.org/r/20211019163153.3692640-4-suzuki.poulose@arm.com
+Signed-off-by: Will Deacon <will@kernel.org>
 ---
-Robin Murphy (1):
-  iommu/arm-smmu-v3: Document MMU-700 erratum 2812531
+ Documentation/arm64/silicon-errata.rst |  4 ++++
+ arch/arm64/Kconfig                     | 33 ++++++++++++++++++++++++++
+ arch/arm64/include/asm/barrier.h       | 16 ++++++++++++-
+ arch/arm64/kernel/cpu_errata.c         | 19 +++++++++++++++
+ arch/arm64/tools/cpucaps               |  1 +
+ 5 files changed, 72 insertions(+), 1 deletion(-)
 
-Suzuki K Poulose (3):
-  arm64: errata: Add detection for TRBE overwrite in FILL mode
-  arm64: errata: Add workaround for TSB flush failures
-  arm64: errata: Add detection for TRBE write to out-of-range
-
- Documentation/arm64/silicon-errata.rst      |  16 +++
- arch/arm64/Kconfig                          | 115 ++++++++++++++++++++
- arch/arm64/include/asm/barrier.h            |  16 ++-
- arch/arm64/kernel/cpu_errata.c              |  65 +++++++++++
- arch/arm64/tools/cpucaps                    |   3 +
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |  41 +++++++
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |   1 +
- 7 files changed, 256 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
+index 076861b0f5ac..1de575fc135b 100644
+--- a/Documentation/arm64/silicon-errata.rst
++++ b/Documentation/arm64/silicon-errata.rst
+@@ -104,6 +104,8 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A710     | #2119858        | ARM64_ERRATUM_2119858       |
+ +----------------+-----------------+-----------------+-----------------------------+
++| ARM            | Cortex-A710     | #2054223        | ARM64_ERRATUM_2054223       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Neoverse-N1     | #1188873,1418040| ARM64_ERRATUM_1418040       |
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Neoverse-N1     | #1349291        | N/A                         |
+@@ -112,6 +114,8 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Neoverse-N2     | #2139208        | ARM64_ERRATUM_2139208       |
+ +----------------+-----------------+-----------------+-----------------------------+
++| ARM            | Neoverse-N2     | #2067961        | ARM64_ERRATUM_2067961       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | MMU-500         | #841119,826419  | N/A                         |
+ +----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index e5e35470647b..6dce6e56ee53 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -774,6 +774,39 @@ config ARM64_ERRATUM_2139208
+ 
+ 	  If unsure, say Y.
+ 
++config ARM64_WORKAROUND_TSB_FLUSH_FAILURE
++	bool
++
++config ARM64_ERRATUM_2054223
++	bool "Cortex-A710: 2054223: workaround TSB instruction failing to flush trace"
++	default y
++	select ARM64_WORKAROUND_TSB_FLUSH_FAILURE
++	help
++	  Enable workaround for ARM Cortex-A710 erratum 2054223
++
++	  Affected cores may fail to flush the trace data on a TSB instruction, when
++	  the PE is in trace prohibited state. This will cause losing a few bytes
++	  of the trace cached.
++
++	  Workaround is to issue two TSB consecutively on affected cores.
++
++	  If unsure, say Y.
++
++config ARM64_ERRATUM_2067961
++	bool "Neoverse-N2: 2067961: workaround TSB instruction failing to flush trace"
++	default y
++	select ARM64_WORKAROUND_TSB_FLUSH_FAILURE
++	help
++	  Enable workaround for ARM Neoverse-N2 erratum 2067961
++
++	  Affected cores may fail to flush the trace data on a TSB instruction, when
++	  the PE is in trace prohibited state. This will cause losing a few bytes
++	  of the trace cached.
++
++	  Workaround is to issue two TSB consecutively on affected cores.
++
++	  If unsure, say Y.
++
+ config CAVIUM_ERRATUM_22375
+ 	bool "Cavium erratum 22375, 24313"
+ 	default y
+diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
+index 451e11e5fd23..1c5a00598458 100644
+--- a/arch/arm64/include/asm/barrier.h
++++ b/arch/arm64/include/asm/barrier.h
+@@ -23,7 +23,7 @@
+ #define dsb(opt)	asm volatile("dsb " #opt : : : "memory")
+ 
+ #define psb_csync()	asm volatile("hint #17" : : : "memory")
+-#define tsb_csync()	asm volatile("hint #18" : : : "memory")
++#define __tsb_csync()	asm volatile("hint #18" : : : "memory")
+ #define csdb()		asm volatile("hint #20" : : : "memory")
+ 
+ #ifdef CONFIG_ARM64_PSEUDO_NMI
+@@ -46,6 +46,20 @@
+ #define dma_rmb()	dmb(oshld)
+ #define dma_wmb()	dmb(oshst)
+ 
++
++#define tsb_csync()								\
++	do {									\
++		/*								\
++		 * CPUs affected by Arm Erratum 2054223 or 2067961 needs	\
++		 * another TSB to ensure the trace is flushed. The barriers	\
++		 * don't have to be strictly back to back, as long as the	\
++		 * CPU is in trace prohibited state.				\
++		 */								\
++		if (cpus_have_final_cap(ARM64_WORKAROUND_TSB_FLUSH_FAILURE))	\
++			__tsb_csync();						\
++		__tsb_csync();							\
++	} while (0)
++
+ /*
+  * Generate a mask for array_index__nospec() that is ~0UL when 0 <= idx < sz
+  * and 0 otherwise.
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index d810d4b7b438..ab412b45732f 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -375,6 +375,18 @@ static const struct midr_range trbe_overwrite_fill_mode_cpus[] = {
+ };
+ #endif	/* CONFIG_ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE */
+ 
++#ifdef CONFIG_ARM64_WORKAROUND_TSB_FLUSH_FAILURE
++static const struct midr_range tsb_flush_fail_cpus[] = {
++#ifdef CONFIG_ARM64_ERRATUM_2067961
++	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
++#endif
++#ifdef CONFIG_ARM64_ERRATUM_2054223
++	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
++#endif
++	{},
++};
++#endif	/* CONFIG_ARM64_WORKAROUND_TSB_FLUSH_FAILURE */
++
+ const struct arm64_cpu_capabilities arm64_errata[] = {
+ #ifdef CONFIG_ARM64_WORKAROUND_CLEAN_CACHE
+ 	{
+@@ -606,6 +618,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+ 		.type = ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE,
+ 		CAP_MIDR_RANGE_LIST(trbe_overwrite_fill_mode_cpus),
+ 	},
++#endif
++#ifdef CONFIG_ARM64_WORKAROUND_TSB_FLUSH_FAILURE
++	{
++		.desc = "ARM erratum 2067961 or 2054223",
++		.capability = ARM64_WORKAROUND_TSB_FLUSH_FAILURE,
++		ERRATA_MIDR_RANGE_LIST(tsb_flush_fail_cpus),
++	},
+ #endif
+ 	{
+ 	}
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index 32fe50a3a26c..36ab307c69d4 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -57,6 +57,7 @@ WORKAROUND_1542419
+ WORKAROUND_1742098
+ WORKAROUND_2457168
+ WORKAROUND_TRBE_OVERWRITE_FILL_MODE
++WORKAROUND_TSB_FLUSH_FAILURE
+ WORKAROUND_CAVIUM_23154
+ WORKAROUND_CAVIUM_27456
+ WORKAROUND_CAVIUM_30115
 -- 
 2.25.1
 
