@@ -2,116 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE22EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 14:53:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B650C0015E
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 15:15:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231956AbjGTOxK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 10:53:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41076 "EHLO
+        id S231945AbjGTPPk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 11:15:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232430AbjGTOxE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 10:53:04 -0400
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90928E60;
-        Thu, 20 Jul 2023 07:53:03 -0700 (PDT)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-579ed2829a8so10627287b3.1;
-        Thu, 20 Jul 2023 07:53:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689864783; x=1690469583;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bvMr3T1p15XlXcu1FTpChfqGLr/+qVrwbwtZIWp+fI0=;
-        b=kO9WQz7rK0/+lGVQ/yK7d94iSfvTSIIQLoqAX4O+kisIiIZMV60Ouel/kc4srVmbqF
-         76rOjM3GrcgFOEroazpxRfB2lJ/JIupbg3qnvOM5+7WhZ0Y7MRlB5xQ3cYinYN7miYE9
-         iXq7/NZ3gYGKmB7Ftd7LT8oRPQP4wlgS5PD6aOcjvVp3Kx0KGh82dH87Y8hpkf1opaNr
-         ymmkdCQp8tVU9WBqir+RsXB+GRWBhpbGN7Nknx97c4gQdNxs/HoI77nwAJzPJCsOY7kV
-         gsgxKEoCt5fq6NnDpY7+nA0KGQ9TvzaIEvj/klJJcc4fdap60SZRd1X865x/Me+PhNOS
-         9e4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689864783; x=1690469583;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bvMr3T1p15XlXcu1FTpChfqGLr/+qVrwbwtZIWp+fI0=;
-        b=dlENfrS0oL870RGAWdlqS0gQXioUZGnsFKv9auS7+vxEaRLPvLLRm6E/slA1AkS4Ic
-         tIlfgixVl6tw7fhVI58FncILoWYDU6B6eBtfDB6mC5ZgMT2zqy0Jquqgo4hBs3QBJXDn
-         /vFCwt2aSikjzNuYvLm9twcOgHss8z3iBz36T8GXYS5xSddl04PzfgIBbRDP6YfseN3b
-         mlLM0nINleME7quCYyMA6pswTJn/rMPMRD+LKtIDc7Pujj2yRtosqIofz9YqA1WsIa+S
-         GhXmM6rs8+wJo6RkFyORmBn/r8WqE76OKa7JI3Ut8eZG59A6i9tVMUzWy3Eut3laH2BR
-         Kl1Q==
-X-Gm-Message-State: ABy/qLa374eDUUDNBTwqDQtHqBAG+PEcOtMQAhBj9BKxBp1dfZkEUiyA
-        IllKU9vFd6xiQ+LP1rc3S4S+czEz8dmAUX90IaY=
-X-Google-Smtp-Source: APBJJlEiujDeAVJNH/1GLw2NmF8gP6rL7sbKwZBUpbAW83QGPF1do6ceqgk/eUhEkCIZRtIvJQHpIx3rCQauF60rxw8=
-X-Received: by 2002:a81:488b:0:b0:577:60ba:440a with SMTP id
- v133-20020a81488b000000b0057760ba440amr19093706ywa.50.1689864782754; Thu, 20
- Jul 2023 07:53:02 -0700 (PDT)
+        with ESMTP id S232530AbjGTPPd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 11:15:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0CF26B0;
+        Thu, 20 Jul 2023 08:15:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D5FB361B40;
+        Thu, 20 Jul 2023 15:15:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F333C433C7;
+        Thu, 20 Jul 2023 15:15:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689866131;
+        bh=04mRcNWXgjQaxb3drv8PqaZhrLgEK17mnXzAi5oyt+s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YZ7zi/YChc7USpnQSp5T0WNJP3whsLqNWbYH0AXGbZ+OPIel3HkL12V4RKtTgkT3q
+         12cinlCgxfelVNBEDAe/C0Nug7zGF65Y84fptydiaXuEy/BOgWQmMqwP3Vk3usLG7u
+         3miKCy4dtQr/lMDbN52RFCxGfNngX2QivUxp114Tc6xZ2qBGdMQLKmuJTze6tSUeSA
+         t1s8ShqnRBSwyTwAM+xWRnykyxYYelnnPwhfWr7DhahqaYfd2teQXHFSN7bOVgrJj0
+         z4jdKRMjh1U/oMSe6H9AvAsgbvJy/MGYoL5COk72Gbzu/sIgrRNmoJYLy53QDhrCSF
+         aJNHRycL1Vrzg==
+Date:   Thu, 20 Jul 2023 16:15:26 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     corbet@lwn.net, Andrew Lunn <andrew@lunn.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Leon Romanovsky <leonro@nvidia.com>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux@leemhuis.info, kvalo@kernel.org,
+        benjamin.poirier@gmail.com
+Subject: Re: [PATCH docs v3] docs: maintainer: document expectations of small
+ time maintainers
+Message-ID: <20230720-proxy-smile-f1b882906ded@spud>
+References: <20230719183225.1827100-1-kuba@kernel.org>
 MIME-Version: 1.0
-References: <20230718054416.861412-1-tmgross@umich.edu> <20230718054416.861412-2-tmgross@umich.edu>
-In-Reply-To: <20230718054416.861412-2-tmgross@umich.edu>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 20 Jul 2023 16:52:51 +0200
-Message-ID: <CANiq72=L+_1OctE_fgeXfmzL2PCZmmMLW9i0GJZyCcf=B_=pRQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] docs: rust: update instructions for obtaining 'core' source
-To:     Trevor Gross <tmgross@umich.edu>
-Cc:     ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
-        boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-        benno.lossin@proton.me, corbet@lwn.net, linux-doc@vger.kernel.org,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="d/z8QjQ7RZYLewHr"
+Content-Disposition: inline
+In-Reply-To: <20230719183225.1827100-1-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 7:50=E2=80=AFAM Trevor Gross <tmgross@umich.edu> wr=
-ote:
->
-> The source for Rust's 'core' library is needed to build the kernel with
-> Rust support. This must be obtained manually when using a non-rustup
-> install, such as when using 'rustc' from a package manager or from a
 
-What does "manually" mean here? I guess "setting it up by hand", but a
-distribution may provide a package for that (e.g. `rust-1.62-src` in
-Ubuntu), so it is essentially the same as with `rustup` in that case
-(i.e. when the distribution provides the means via the package
-manager).
+--d/z8QjQ7RZYLewHr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> standalone installer. Currently, the documentation suggests cloning the
-> 'rust' repository to obtain these sources, but this is quite slow (on
-> the order of a few minutes).
->
-> This patch changes this documentation to suggest using the source
-> tarball instead, which includes only needed information (<5M) and is
-> significantly faster to download. This is more in line with what
-> 'rustup' does.
+Hey,
 
-If I recall correctly, the idea with the clone was to easily change
-the tag when migrating to another version (assuming the base path does
-not need to change across versions). But the tarball approach is
-likely better anyway, especially for the majority of users.
+On Wed, Jul 19, 2023 at 11:32:25AM -0700, Jakub Kicinski wrote:
+> We appear to have a gap in our process docs. We go into detail
+> on how to contribute code to the kernel, and how to be a subsystem
+> maintainer. I can't find any docs directed towards the thousands
+> of small scale maintainers, like folks maintaining a single driver
+> or a single network protocol.
+>=20
+> Document our expectations and best practices. I'm hoping this doc
+> will be particularly useful to set expectations with HW vendors.
 
-> Signed-off-by: Trevor Gross <tmgross@umich.edu>
+Thanks for writing this up, it's great to have this stuff written down.
 
-It may be nice to add `Link:
-https://github.com/Rust-for-Linux/linux/pull/1024`, but I can do that
-on my side.
+I had one minor comment from reading through things...
 
-In addition, commit messages should describe the changes in imperative
-mood. Many commits do not follow that convention, but it is what the
-kernel docs say, so we should try to adhere to it if possible.
+> +Responsibilities
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The amount of maintenance work is usually proportional to the size
+> +and popularity of the code base. Small features and drivers should
+> +require relatively small amount of care and feeding. Nonetheless
+> +when the work does arrive (in form of patches which need review,
+> +user bug reports etc.) it has to be acted upon promptly.
+> +Even when a particular driver only sees one patch a month, or a quarter,
+> +a subsystem could well have a hundred such drivers. Subsystem
+> +maintainers cannot afford to wait a long time to hear from reviewers.
+> +
+> +The exact expectations on the response time will vary by subsystem.
+> +The patch review SLA the subsystem had set for itself can sometimes
+> +be found in the subsystem documentation. Failing that as a rule of thumb
+> +reviewers should try to respond quicker than what is the usual patch
+> +review delay of the subsystem maintainer. The resulting expectations
+> +may range from two working days for fast-paced subsystems (e.g. networki=
+ng)
+> +to as long as a few weeks in slower moving parts of the kernel.
+> +
+> +Mailing list participation
+> +--------------------------
 
-> -Otherwise, if a standalone installer is used, the Rust repository may be=
- cloned
-> -into the installation folder of the toolchain::
-> +Otherwise, if a standalone installer is used, the Rust source tree may b=
-e
-> +downloaded into the toolchain's installation folder::
+> +Reviews
+> +-------
 
-Is the rewording (i.e. the Saxon genitive change) expected? Not a big
-deal, of course -- I am mentioning it since, in general, all changes
-should be mentioned so that that they are expected, e.g. with a quick
-"and improve the wording while at it".
+> +Refactoring and core changes
+> +----------------------------
 
-Cheers,
-Miguel
+
+> +Bug reports
+> +-----------
+
+=2E.I noticed that none of these sections address actually testing the
+code they're responsible for on a (semi-)regular basis. Sure, that comes
+as part of reviewing the patches for their code, but changes to other
+subsystems that a driver/feature maintainer probably would not have been
+CCed on may cause problems for the code they maintain.
+If we are adding a doc about best-practice for maintainers, I think we
+should be encouraging people to test regularly.
+
+
+--d/z8QjQ7RZYLewHr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZLlPigAKCRB4tDGHoIJi
+0vo7AP9SiCGy+w1ylCijiSy5SGDnWjSKXk19XlvB6y46RGchEgD/eDPkXorZb8NH
+dbM/yc7dITacGo/AZysVMhOVCS2KYA4=
+=umN0
+-----END PGP SIGNATURE-----
+
+--d/z8QjQ7RZYLewHr--
