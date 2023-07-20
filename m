@@ -2,278 +2,68 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF84DC001DC
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 16:57:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D62CAEB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 16:59:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbjGTQ5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 12:57:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45730 "EHLO
+        id S229653AbjGTQ7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 12:59:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbjGTQ5C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 12:57:02 -0400
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF7D119
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 09:57:01 -0700 (PDT)
-Received: by mail-ua1-x92b.google.com with SMTP id a1e0cc1a2514c-79702eee5a8so433841241.1
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 09:57:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689872220; x=1690477020;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZCX9yhI7AbKGy/HnG34aNNVUXchyn5dmI5801hBoFs=;
-        b=OFmwChsRfRqH9lASmE0v54HU6kpsRwivRWRyqB44btzy+zNV0jDMcoAocZMcp1FND+
-         cTyrMgIW3CLI8mL3wxSoWtBJ+tZl36pkDUnxy25Zov3bibz2ZRjelm2iUOHZ77rpItZh
-         UTDrKqVkVnHFItLO2tlUgwvou+HqhGBpvx8dEl3TpunBsGcTJKgzd2/burDS9oRfzK1r
-         ZoJRsjyKq+9MGqnwF/bALJxj6p/0RlAhxpa11+oAP43beOBRwV1f17nUgrNQOCy+qgnD
-         n9DGWXgd+4FDzMQi6Gqmz2rokhcWpYWXbzn8xMZj3GGenjzAcFNrG8KEk3e90QgjWF8e
-         iMqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689872220; x=1690477020;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZCX9yhI7AbKGy/HnG34aNNVUXchyn5dmI5801hBoFs=;
-        b=UM0YurXf+CCiwTam04eA6gkDG7aOV5mvO5LQ3RMpGmT2ewTKiYEBzoA4DgFASxI1OV
-         6YVLwDkIo28uX0pwUeiEOsZThckfiEH/6bIPXchLKmXssWD4SMCwv4SJpNTmT76GDLd7
-         ap9jYrs+wgc9ksKZKx2H7bwxf7QVAdvsvl7s5xqfoQsOdNAp986W4qz2ynq3ug8/xZew
-         nLu0xwS1K8vk7929ZhYi+W6ySMlZpYGB51D+X5qKKqaMM1DSf+rQiPe+vsLRxWXbkj92
-         9Y0kKq+1UsifiCDUvptHZzUOLpdn1CW/YIf8LdwmouPi7iK4BL5PJ8M5C7K/Afh+8EaS
-         OKpQ==
-X-Gm-Message-State: ABy/qLZsaqqqbi6KF/uuhQO0q9RksmTLKCzwaiJmML1XE1sfXpj2FOHc
-        75Y+tXr3rK6KZWzOzzo9ujpE7Yt8Z0DvJNg+0sNoVg==
-X-Google-Smtp-Source: APBJJlEsYqZ49Ny+WkiZxWE5TyzQv98GOGbTZwiNitn54WzBknEBplR1bvLxwQOCYwqiC5hsOLi/Kw==
-X-Received: by 2002:a67:b604:0:b0:43d:6660:581b with SMTP id d4-20020a67b604000000b0043d6660581bmr2252078vsm.5.1689872220064;
-        Thu, 20 Jul 2023 09:57:00 -0700 (PDT)
-Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id w136-20020a81498e000000b0056974f4019esm319055ywa.6.2023.07.20.09.56.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 09:56:59 -0700 (PDT)
-Date:   Thu, 20 Jul 2023 09:56:51 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.attlocal.net
-To:     Oleksandr Tymoshenko <ovt@google.com>
-cc:     Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christian Brauner <brauner@kernel.org>,
+        with ESMTP id S229644AbjGTQ7o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 12:59:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B2F119;
+        Thu, 20 Jul 2023 09:59:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3732161B75;
+        Thu, 20 Jul 2023 16:59:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0480EC433C7;
+        Thu, 20 Jul 2023 16:59:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1689872382;
+        bh=VQP4is4iOB2/41AHouFlM3A0fVhNC+wCz4HgAMyDQJA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=TMBoI2XM8Qy1bdgkB4k3gZ/g21ckwokUfTE4m3rYc60ZnJMwhRxAw4E/ku8iXOhdm
+         5cHctZA2oLj/p+se92cTa8MbmUQaSeVtxBtrV/dk47aRPFjGILnGgZU6sgRGDL2jaD
+         ZyZJbtkv8Kse+lZlsju/ncyPaxn554dwqIf7uArc=
+Date:   Thu, 20 Jul 2023 09:59:41 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Yajun Deng <yajun.deng@linux.dev>, corbet@lwn.net,
+        m.szyprowski@samsung.com, robin.murphy@arm.com, paulmck@kernel.org,
+        catalin.marinas@arm.com, rdunlap@infradead.org,
+        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH] shmem: add support for user extended attributes
-In-Reply-To: <20230720065430.2178136-1-ovt@google.com>
-Message-ID: <9b8d38f0-fd22-3f98-d070-16baf976ecb5@google.com>
-References: <20230720065430.2178136-1-ovt@google.com>
-MIME-Version: 1.0
+        iommu@lists.linux.dev, linux-mm@kvack.org
+Subject: Re: [PATCH v3] dma-contiguous: support numa CMA for specified node
+Message-Id: <20230720095941.76803bbda5ad0c5103713d0c@linux-foundation.org>
+In-Reply-To: <20230720115408.GA13114@lst.de>
+References: <20230720082517.GA7057@lst.de>
+        <20230712074758.1133272-1-yajun.deng@linux.dev>
+        <25942dafbc7f52488a30c807b6322109539442cf@linux.dev>
+        <20230720115408.GA13114@lst.de>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 20 Jul 2023, Oleksandr Tymoshenko wrote:
+On Thu, 20 Jul 2023 13:54:08 +0200 Christoph Hellwig <hch@lst.de> wrote:
 
-> User extended attributes are not enabled in tmpfs because
-> the size of the value is not limited and the memory allocated
-> for it is not counted against any limit. Malicious
-> non-privileged user can exhaust kernel memory by creating
-> user.* extended attribute with very large value.
+> On Thu, Jul 20, 2023 at 08:47:37AM +0000, Yajun Deng wrote:
+> > It's based on linux-next tree.
+> > 
+> > This patch should be after my other patch in linux-next tree.
+> > a960925a6b23("dma-contiguous: support per-numa CMA for all architectures").
 > 
-> There are still situations when enabling suport for extended
-> user attributes on tmpfs is required and the attack vector
-> is not applicable, for instance batch jobs with trusted binaries.
-> 
-> This patch introduces two mount options to enable/disable
-> support for user.* extended attributes on tmpfs:
-> 
-> user_xattr    enable support for user extended aatributes
-> nouser_xattr  disable support for user extended attributes
-> 
-> The default behavior of the filesystem is not changed.
-> 
-> Signed-off-by: Oleksandr Tymoshenko <ovt@google.com>
+> Where did this land?  dma patches really should be going through
+> the DMA tree..
 
-Thanks, but no.
+It's in mm-unstable with a note "hch" :)
 
-This is not something we want mount options for:
-we just want to limit the memory usage of tmpfs user xattrs.
-
-I've had the patch to do that limiting (taking it out of the inode
-space already limited by nr_inodes) in my test tree for 2.5 years now:
-waiting to reach the top of the heap to pull together and submit.
-
-Your sending this patch does help to raise the priority for my
-sending that patch: thank you; but I cannot promise when that will be.
-
-(And the way mm/shmem.c is conflicted between vfs and mm trees
-is rather discouraging development there at the moment: I'm hoping
-it can be mostly wrested back into the mm tree in the next cycle.)
-
-Hugh
-
-> ---
->  Documentation/filesystems/tmpfs.rst | 12 ++++++++
->  include/linux/shmem_fs.h            |  1 +
->  mm/shmem.c                          | 45 +++++++++++++++++++++++++++++
->  3 files changed, 58 insertions(+)
-> 
-> diff --git a/Documentation/filesystems/tmpfs.rst b/Documentation/filesystems/tmpfs.rst
-> index f18f46be5c0c..5700ba72d095 100644
-> --- a/Documentation/filesystems/tmpfs.rst
-> +++ b/Documentation/filesystems/tmpfs.rst
-> @@ -215,6 +215,16 @@ will give you tmpfs instance on /mytmpfs which can allocate 10GB
->  RAM/SWAP in 10240 inodes and it is only accessible by root.
->  
->  
-> +tmpfs, when compiled with CONFIG_TMPFS_XATTR, does not support
-> +Extended User Attributes for security reasons. The support can be
-> +enabled/disabled by two mount options:
-> +
-> +============  ===========================================
-> +user_xattr    Enable support for Extended User Attributes
-> +nouser_xattr  Disable upport for Extended User Attributes
-> +============  ===========================================
-> +
-> +
->  :Author:
->     Christoph Rohland <cr@sap.com>, 1.12.01
->  :Updated:
-> @@ -223,3 +233,5 @@ RAM/SWAP in 10240 inodes and it is only accessible by root.
->     KOSAKI Motohiro, 16 Mar 2010
->  :Updated:
->     Chris Down, 13 July 2020
-> +:Updated:
-> +   Oleksandr Tymoshenko, 19 July 2023
-> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> index 9029abd29b1c..f06d18b9041c 100644
-> --- a/include/linux/shmem_fs.h
-> +++ b/include/linux/shmem_fs.h
-> @@ -53,6 +53,7 @@ struct shmem_sb_info {
->  	spinlock_t shrinklist_lock;   /* Protects shrinklist */
->  	struct list_head shrinklist;  /* List of shinkable inodes */
->  	unsigned long shrinklist_len; /* Length of shrinklist */
-> +	bool user_xattr;	      /* user.* xattrs are allowed */
->  };
->  
->  static inline struct shmem_inode_info *SHMEM_I(struct inode *inode)
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 2f2e0e618072..4f7d46d65494 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -85,6 +85,7 @@ static struct vfsmount *shm_mnt;
->  
->  #define BLOCKS_PER_PAGE  (PAGE_SIZE/512)
->  #define VM_ACCT(size)    (PAGE_ALIGN(size) >> PAGE_SHIFT)
-> +#define TMPFS_USER_XATTR_INDEX 1
->  
->  /* Pretend that each entry is of this size in directory's i_size */
->  #define BOGO_DIRENT_SIZE 20
-> @@ -116,11 +117,13 @@ struct shmem_options {
->  	int huge;
->  	int seen;
->  	bool noswap;
-> +	bool user_xattr;
->  #define SHMEM_SEEN_BLOCKS 1
->  #define SHMEM_SEEN_INODES 2
->  #define SHMEM_SEEN_HUGE 4
->  #define SHMEM_SEEN_INUMS 8
->  #define SHMEM_SEEN_NOSWAP 16
-> +#define SHMEM_SEEN_USER_XATTR 32
->  };
->  
->  #ifdef CONFIG_TMPFS
-> @@ -3447,6 +3450,16 @@ static int shmem_xattr_handler_get(const struct xattr_handler *handler,
->  				   const char *name, void *buffer, size_t size)
->  {
->  	struct shmem_inode_info *info = SHMEM_I(inode);
-> +	struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
-> +
-> +	switch (handler->flags) {
-> +	case TMPFS_USER_XATTR_INDEX:
-> +		if (!sbinfo->user_xattr)
-> +			return -EOPNOTSUPP;
-> +		break;
-> +	default:
-> +		break;
-> +	}
->  
->  	name = xattr_full_name(handler, name);
->  	return simple_xattr_get(&info->xattrs, name, buffer, size);
-> @@ -3459,8 +3472,18 @@ static int shmem_xattr_handler_set(const struct xattr_handler *handler,
->  				   size_t size, int flags)
->  {
->  	struct shmem_inode_info *info = SHMEM_I(inode);
-> +	struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
->  	int err;
->  
-> +	switch (handler->flags) {
-> +	case TMPFS_USER_XATTR_INDEX:
-> +		if (!sbinfo->user_xattr)
-> +			return -EOPNOTSUPP;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
->  	name = xattr_full_name(handler, name);
->  	err = simple_xattr_set(&info->xattrs, name, value, size, flags, NULL);
->  	if (!err) {
-> @@ -3482,9 +3505,17 @@ static const struct xattr_handler shmem_trusted_xattr_handler = {
->  	.set = shmem_xattr_handler_set,
->  };
->  
-> +static const struct xattr_handler shmem_user_xattr_handler = {
-> +	.prefix = XATTR_USER_PREFIX,
-> +	.flags = TMPFS_USER_XATTR_INDEX,
-> +	.get = shmem_xattr_handler_get,
-> +	.set = shmem_xattr_handler_set,
-> +};
-> +
->  static const struct xattr_handler *shmem_xattr_handlers[] = {
->  	&shmem_security_xattr_handler,
->  	&shmem_trusted_xattr_handler,
-> +	&shmem_user_xattr_handler,
->  	NULL
->  };
->  
-> @@ -3604,6 +3635,8 @@ enum shmem_param {
->  	Opt_inode32,
->  	Opt_inode64,
->  	Opt_noswap,
-> +	Opt_user_xattr,
-> +	Opt_nouser_xattr,
->  };
->  
->  static const struct constant_table shmem_param_enums_huge[] = {
-> @@ -3626,6 +3659,8 @@ const struct fs_parameter_spec shmem_fs_parameters[] = {
->  	fsparam_flag  ("inode32",	Opt_inode32),
->  	fsparam_flag  ("inode64",	Opt_inode64),
->  	fsparam_flag  ("noswap",	Opt_noswap),
-> +	fsparam_flag  ("user_xattr",	Opt_user_xattr),
-> +	fsparam_flag  ("nouser_xattr",	Opt_nouser_xattr),
->  	{}
->  };
->  
-> @@ -3717,6 +3752,14 @@ static int shmem_parse_one(struct fs_context *fc, struct fs_parameter *param)
->  		ctx->noswap = true;
->  		ctx->seen |= SHMEM_SEEN_NOSWAP;
->  		break;
-> +	case Opt_user_xattr:
-> +		ctx->user_xattr = true;
-> +		ctx->seen |= SHMEM_SEEN_USER_XATTR;
-> +		break;
-> +	case Opt_nouser_xattr:
-> +		ctx->user_xattr = false;
-> +		ctx->seen |= SHMEM_SEEN_USER_XATTR;
-> +		break;
->  	}
->  	return 0;
->  
-> @@ -3834,6 +3877,8 @@ static int shmem_reconfigure(struct fs_context *fc)
->  		sbinfo->max_inodes  = ctx->inodes;
->  		sbinfo->free_inodes = ctx->inodes - inodes;
->  	}
-> +	if (ctx->seen & SHMEM_SEEN_USER_XATTR)
-> +		sbinfo->user_xattr = ctx->user_xattr;
->  
->  	/*
->  	 * Preserve previous mempolicy unless mpol remount option was specified.
-> -- 
-> 2.41.0.255.g8b1d071c50-goog
-> 
-> 
+I'll drop it.
