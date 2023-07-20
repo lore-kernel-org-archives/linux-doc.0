@@ -2,62 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59BFFEB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 08:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04121EB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 09:47:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230233AbjGTI5j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 04:57:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38002 "EHLO
+        id S230100AbjGTJrP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 05:47:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230508AbjGTIrm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 04:47:42 -0400
-Received: from out-50.mta1.migadu.com (out-50.mta1.migadu.com [95.215.58.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E8A268C
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 01:47:40 -0700 (PDT)
+        with ESMTP id S230243AbjGTJq5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 05:46:57 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA4AC46A6;
+        Thu, 20 Jul 2023 02:43:24 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4fb77f21c63so867738e87.2;
+        Thu, 20 Jul 2023 02:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689846203; x=1690451003;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DhzN4qcCsXrBpHBz7GecFneSOqYVBbg2vRpxqza4atk=;
+        b=R0uk7n9H4QRbDY75AOIL55xFhZJc3quqJrlQe9yBxWnYtPe1vx4CrXdpDhxJQ4+Tv7
+         /Hf3XmBgoHeCA414NXsttQZs7TTyFA5yfEXLhZjB5QWETq+70O1Lp2w8aj4Six7yMRdk
+         /1b95eH9nKFrTzN2yBWUvPAAjMKCinMLZYFMyIgFocZVSolFcblbOF/oyc77A1x5T6Nc
+         HUmRLZ6dIuAs5m945/a8nJaBKeYQ0JxUu2C5ApryyPbEa1hOjUXShwt6pyDGovrMcsOi
+         8O5i/seeNAZb4AXacxCetyHr8sGzcgXChcRaYDbbEYsAGTeDW3c09j2MR3UGPNlBenP0
+         lJhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689846203; x=1690451003;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DhzN4qcCsXrBpHBz7GecFneSOqYVBbg2vRpxqza4atk=;
+        b=LtWf2nHtE9q0ReFE8DsSDaerirnA5yCY2pSFKSELOdCVBoEui3+hSyYYTZQiSnyN7r
+         Hu7U/woY16n9ewpQz5lLePOpHOIKMB+RfJyc3fiQmfxyNJOTG3NLK+G/htNRJ1cJm/Wt
+         f0olEAuuFZ8yfr1GFrZ2ME9QgW+MqNqPWvF0yQpZkpw8DjeBAnM2lCBfJGphR0PFWJ5A
+         FTDK924xQcNpWGeZZvQ0qh67qwdGKTzQVgL0In4BALeNRZXjqDms8x4ES/A4Ed3r7oWK
+         Xes4qVDfYcMTVh0GkOGxqHE5PO2GwciCOQeFrWsJV8M57aKRvLMQhaOJmdcQJSY/hJjM
+         5C2Q==
+X-Gm-Message-State: ABy/qLYU+tcZfD6e5Q5CyFJo11H7eMoU6iCbQr4zh6535cYf+spDA+i7
+        +CDjf3nED7JPqRVFBt2B5gQ=
+X-Google-Smtp-Source: APBJJlFEX9pibdR1e+6fRVOrpfAnUm08G0crM+2MIHDpBWy+r0Xk0zxxXVd5dIwAGZICk/3NsxouOw==
+X-Received: by 2002:a19:6705:0:b0:4fb:780d:2a49 with SMTP id b5-20020a196705000000b004fb780d2a49mr1592371lfc.5.1689846202847;
+        Thu, 20 Jul 2023 02:43:22 -0700 (PDT)
+Received: from lukas-virtualBox.synapse.com ([94.42.83.62])
+        by smtp.gmail.com with ESMTPSA id t28-20020ac243bc000000b004fb8603f6e0sm122441lfl.12.2023.07.20.02.43.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 02:43:22 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     David Howells <dhowells@redhat.com>,
+        Marc Dionne <marc.dionne@auristor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-afs@lists.infradead.org, linux-doc@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] afs: Documentation: correct reference to CONFIG_AFS_FS
+Date:   Thu, 20 Jul 2023 11:43:01 +0200
+Message-Id: <20230720094301.9888-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1689842858;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JL2+aJ5O5gUNHRDDxgtEpVboWWUfK6z9tvOlRoQ8myk=;
-        b=xtQyII0x5U1qJFK0WPGA+HV++LxAJwxaVyUTgg84THCOFE6YEDyA6wDA+mVZU1Jke7uI3E
-        jjnscDcehbsYcLIDxx7AgzgmrX/I1Ml3V9JTcGlNb+xJhhB4UiynyXS4y2wSwl1lzX8OJl
-        NQaJw47b8YyWhWCfGBIn/6ohKJdHRuU=
-Date:   Thu, 20 Jul 2023 08:47:37 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   "Yajun Deng" <yajun.deng@linux.dev>
-Message-ID: <25942dafbc7f52488a30c807b6322109539442cf@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH v3] dma-contiguous: support numa CMA for specified node
-To:     "Christoph Hellwig" <hch@lst.de>
-Cc:     corbet@lwn.net, hch@lst.de, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, akpm@linux-foundation.org,
-        paulmck@kernel.org, catalin.marinas@arm.com, rdunlap@infradead.org,
-        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, linux-mm@kvack.org
-In-Reply-To: <20230720082517.GA7057@lst.de>
-References: <20230720082517.GA7057@lst.de>
- <20230712074758.1133272-1-yajun.deng@linux.dev>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-July 20, 2023 at 4:25 PM, "Christoph Hellwig" <hch@lst.de> wrote:
+Commit 0795e7c031c4 ("[AFS]: Update the AFS fs documentation.") adds a new
+section listing the build configuration options that need to be enabled for
+the AFS file system.
 
+The documentation refers to CONFIG_AFS, but the option is called
+CONFIG_AFS_FS, since the beginning of Linux's git history.
 
->=20
->=20It turns out this doesn't apply at all. Can you resend it against
-> Linus' latest tree?
->
+Refer to the config option with the correct name.
 
-It's based on linux-next tree.
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ Documentation/filesystems/afs.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This patch should be after my other patch in linux-next tree.
-a960925a6b23("dma-contiguous: support per-numa CMA for all architectures"=
-).
+diff --git a/Documentation/filesystems/afs.rst b/Documentation/filesystems/afs.rst
+index ca062a7f8ee2..f15ba388bbde 100644
+--- a/Documentation/filesystems/afs.rst
++++ b/Documentation/filesystems/afs.rst
+@@ -44,7 +44,7 @@ options::
+ 
+ 	CONFIG_AF_RXRPC		- The RxRPC protocol transport
+ 	CONFIG_RXKAD		- The RxRPC Kerberos security handler
+-	CONFIG_AFS		- The AFS filesystem
++	CONFIG_AFS_FS		- The AFS filesystem
+ 
+ Additionally, the following can be turned on to aid debugging::
+ 
+-- 
+2.34.1
+
