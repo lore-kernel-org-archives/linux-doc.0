@@ -2,96 +2,312 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2246EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 18:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1AC3EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 18:36:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232073AbjGTSbT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 14:31:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36412 "EHLO
+        id S229519AbjGTSgM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 14:36:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232072AbjGTSbT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 14:31:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CD11734;
-        Thu, 20 Jul 2023 11:31:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0ACA061BDC;
-        Thu, 20 Jul 2023 18:31:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 853CBC433C9;
-        Thu, 20 Jul 2023 18:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689877877;
-        bh=CtNFdU3F9NU71cT8OwvsL628imoZj0J7FgObAG63Kxs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f3oMGjflOKxpKcCuRTekPugXGhdCEoJECkCTCtljh9qkBNODb2gjp/RH8CrfeBET3
-         V08CAQ5L9vSmqBuNoa0cwYWxopmZ5ohkahFf2x+u1lf2LjjL/ThDQE8eEP3imj/n2s
-         XjvY50a4o8mJpBIu9YI+Goan+/t1AadoS2R9nhmLxM49gjZHc4ddLrAIE8c2QHhhoF
-         imn4wueHAcTdZV+KnNNPpD/A06brA5ZstZxqjtZwxb9vjbKeCc1lWlbZtdCZCo5Pj4
-         s7zXHStdAlWnD9z0EraLhldfQRFvipqq5zuitrNJjgvpfxeDN/aDZOtNQxzUuEJqW2
-         4gxfgLSwZs5PA==
-Date:   Thu, 20 Jul 2023 19:31:11 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Edward Cree <ecree.xilinx@gmail.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        Andrew Lunn <andrew@lunn.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Leon Romanovsky <leonro@nvidia.com>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux@leemhuis.info, kvalo@kernel.org,
-        benjamin.poirier@gmail.com
-Subject: Re: [PATCH docs v3] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <1d136db7-4c39-4b56-86fc-3840b1395b4d@sirena.org.uk>
-References: <20230719183225.1827100-1-kuba@kernel.org>
- <50164116-9d12-698d-f552-96b52c718749@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="jb9kzeyvt9pPL7IP"
+        with ESMTP id S229750AbjGTSgL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 14:36:11 -0400
+Received: from mx-out2.startmail.com (mx-out2.startmail.com [145.131.90.155])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10E95E44;
+        Thu, 20 Jul 2023 11:36:07 -0700 (PDT)
+Date:   Thu, 20 Jul 2023 13:35:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=startmail.com;
+        s=2020-07; t=1689878166;
+        bh=/1/B55OPbXOmGRqqlWE45gL8DqcUzSTS0PIDXR0+4kI=;
+        h=Date:From:To:Subject:Message-ID:References:Mime-Version:
+         Content-Type:Content-Disposition:In-Reply-To:From:Subject:To:Date:
+         Sender:Content-Type:Content-Transfer-Encoding:Content-Disposition:
+         Mime-Version:Reply-To:In-Reply-To:References:Message-Id:Autocrypt;
+        b=OfnDtgd9ul8GSBrh5Fu21gW6y6U8L5RcHha5/LlQP33uuUw8BLeMpb9+6croqybu6
+         f7ah+hBn5QLvGC3XNU5Y5iMvBYwSsZvXpKMfvSVq+yeuJjFuvsy90lVkp26dBILUCs
+         ZRAaWWeHIDzHuAM1xWZfELqZkZyIj4ZJic+1aTE0RiTbRU+qv/0Do8Nvyp4nCIcfLU
+         uxLYNGb+4U6q8Cg6UG0GIPT+/O6ZUcqS88JQ/b07x+F7R9SUBmunB4QE/2PWG8CGOg
+         t8R6R2VOvNb7o90ND2565cKG5uTY9uaGU0075Lydf1EIGEAt+K+DGl/W+l3niWH6IF
+         K+B6X85gtNiVQ==
+From:   "Marty E. Plummer" <hanetzer@startmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] hwmon: (pmbus) Add driver fpr Infineon IR35201
+Message-ID: <axue7wmaxbj7vurapabuwtvqk3br3zt2g373d6ako4m24wzaxf@2uvgmasdd7dk>
+References: <20230720115805.1510279-1-hanetzer@startmail.com>
+ <b86e19ed-12af-e488-3c21-002be2ad5914@roeck-us.net>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <50164116-9d12-698d-f552-96b52c718749@gmail.com>
-X-Cookie: Ginger snap.
+In-Reply-To: <b86e19ed-12af-e488-3c21-002be2ad5914@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---jb9kzeyvt9pPL7IP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Jul 20, 2023 at 07:23:56PM +0100, Edward Cree wrote:
-> On 19/07/2023 19:32, Jakub Kicinski wrote:
-
-> > +Maintainers must review *all* patches touching exclusively their drivers,
-> > +no matter how trivial. If the patch is a tree wide change and modifies
-> > +multiple drivers - whether to provide a review is left to the maintainer.
-
-> Does this apply even to "checkpatch cleanup patch spam", where other patches
->  sprayed from the same source (perhaps against other drivers) have already
->  been nacked as worthless churn?  I've generally been assuming I can ignore
->  those, do I need to make sure to explicitly respond with typically a repeat
->  of what's already been said elsewhere?
-
-Yeah, it's this sort of stuff that makes me concerned about the "must"
-wording.  I'd say it's obviously reasonable to ignore such things.
-
---jb9kzeyvt9pPL7IP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS5fW4ACgkQJNaLcl1U
-h9AIHQf/Q9pz80IaSHLonaCmKZBC/PhYzARUEaUDHduoe5xLcbBScTYkq8I6Z7Xp
-MMEdiuI9ueOcSGGJNwSxrsjJMPvYQ59ji4fsJ7hEQULZZ+44f5XBR46jRd0rYX3z
-b3fNyivasjTQEo/yNinlzMDQBA5Bzgquft3GCSd7sOn+Ba76YWofKBrAWJ9XfHqs
-Hc9JY98Eh/sa03U8rTMF8BuDKpz+XNexp6r5WY9SbVwtHlNOM/vwvb3Lf3EK5TYA
-Xau0KMJYF+Z+kIn7vElXvGwxLPa1rbxZfj8yuvEnwxX76U0in2XSXmJ2b8Nyd2I4
-wF7oOllE5TwlbmHTw0i5uBWk33Npdw==
-=XcvA
------END PGP SIGNATURE-----
-
---jb9kzeyvt9pPL7IP--
+On Thu, Jul 20, 2023 at 07:00:39AM -0700, Guenter Roeck wrote:
+>
+Maybe.On 7/20/23 04:58, Marty E. Plummer wrote:
+> > The IR35201 is a dual-loop digital multi-phase buck controller designed for CPU voltage regulation.
+> > 
+> > Signed-off-by: Marty E. Plummer <hanetzer@startmail.com>
+> > ---
+> >   Documentation/hwmon/index.rst   |  1 +
+> >   Documentation/hwmon/ir35201.rst | 63 +++++++++++++++++++++++
+> >   drivers/hwmon/pmbus/Kconfig     |  9 ++++
+> >   drivers/hwmon/pmbus/Makefile    |  1 +
+> >   drivers/hwmon/pmbus/ir35201.c   | 89 +++++++++++++++++++++++++++++++++
+> >   5 files changed, 163 insertions(+)
+> >   create mode 100644 Documentation/hwmon/ir35201.rst
+> >   create mode 100644 drivers/hwmon/pmbus/ir35201.c
+> > 
+> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> > index 042e1cf9501b..5b44a268de0d 100644
+> > --- a/Documentation/hwmon/index.rst
+> > +++ b/Documentation/hwmon/index.rst
+> > @@ -87,6 +87,7 @@ Hardware Monitoring Kernel Drivers
+> >      ina3221
+> >      inspur-ipsps1
+> >      intel-m10-bmc-hwmon
+> > +   ir35201
+> >      ir35221
+> >      ir38064
+> >      ir36021
+> > diff --git a/Documentation/hwmon/ir35201.rst b/Documentation/hwmon/ir35201.rst
+> > new file mode 100644
+> > index 000000000000..6ca34d4b02a3
+> > --- /dev/null
+> > +++ b/Documentation/hwmon/ir35201.rst
+> > @@ -0,0 +1,63 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +Kernel driver ir35201
+> > +=====================
+> > +
+> > +Supported chips:
+> > +
+> > +  * Infineon IR35201
+> > +
+> > +    Prefix: ir35201
+> > +    Addresses scanned: -
+> > +
+> > +    Datasheet: Publicly available at the Infineon website
+> > +      https://www.infineon.com/dgdl/Infineon-IR35201MTRPBF-DS-v01_00-EN.pdf?fileId=5546d462576f347501579c95d19772b5
+> > +
+> > +Authors:
+> > +      - Marty E. Plummer <hanetzer@startmail.com>
+> > +
+> > +Description
+> > +-----------
+> > +
+> > +The IR35201 is a dual-loop digital multi-phase buck controller designed for
+> > +CPU voltage regulation.
+> > +
+> > +Usage Notes
+> > +-----------
+> > +
+> > +This driver does not probe for PMBus devices. You will have to instantiate
+> > +devices explicitly.
+> > +
+> > +Sysfs attributes
+> > +----------------
+> > +
+> > +======================= ===========================
+> > +curr1_label             "iin"
+> > +curr1_input             Measured input current
+> > +curr1_alarm             Input fault alarm
+> > +
+> > +curr2_label             "iout1"
+> > +curr2_input             Measured output current
+> > +curr2_alarm             Output over-current alarm
+> > +
+> > +in1_label               "vin"
+> > +in1_input               Measured input voltage
+> > +in1_alarm               Input under-voltage alarm
+> > +
+> > +in2_label               "vout1"
+> > +in2_input               Measured output voltage
+> > +in2_alarm               Output over-voltage alarm
+> > +
+> > +power1_label            "pin"
+> > +power1_input            Measured input power
+> > +power1_alarm            Input under-voltage alarm
+> > +
+> > +power2_label            "pout1"
+> > +power2_input            Measured output power
+> > +
+> > +temp1_input             Measured temperature
+> > +temp1_alarm             Temperature alarm
+> > +
+> > +temp2_input             Measured other loop temperature
+> > +temp2_alarm             Temperature alarm
+> > +======================= ===========================
+> > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> > index 270b6336b76d..7180823b15bb 100644
+> > --- a/drivers/hwmon/pmbus/Kconfig
+> > +++ b/drivers/hwmon/pmbus/Kconfig
+> > @@ -123,6 +123,15 @@ config SENSORS_INSPUR_IPSPS
+> >   	  This driver can also be built as a module. If so, the module will
+> >   	  be called inspur-ipsps.
+> > +config SENSORS_IR35201
+> > +	tristate "Infineon IR35201"
+> > +	help
+> > +	  If you say yes here you get hardware monitoring support for the
+> > +	  Infineon IR35201 controller.
+> > +
+> > +	  This driver can also be built as a module. If so, the module will
+> > +	  be called ir35201.
+> > +
+> >   config SENSORS_IR35221
+> >   	tristate "Infineon IR35221"
+> >   	help
+> > diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> > index 84ee960a6c2d..40729dd14e7a 100644
+> > --- a/drivers/hwmon/pmbus/Makefile
+> > +++ b/drivers/hwmon/pmbus/Makefile
+> > @@ -15,6 +15,7 @@ obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
+> >   obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+> >   obj-$(CONFIG_SENSORS_DPS920AB)	+= dps920ab.o
+> >   obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+> > +obj-$(CONFIG_SENSORS_IR35201)	+= ir35201.o
+> >   obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+> >   obj-$(CONFIG_SENSORS_IR36021)	+= ir36021.o
+> >   obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
+> > diff --git a/drivers/hwmon/pmbus/ir35201.c b/drivers/hwmon/pmbus/ir35201.c
+> > new file mode 100644
+> > index 000000000000..77f77057175a
+> > --- /dev/null
+> > +++ b/drivers/hwmon/pmbus/ir35201.c
+> > @@ -0,0 +1,89 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * Hardware monitoring driver for Infineon IR35201
+> > + */
+> > +
+> > +#include <linux/err.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/init.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include "pmbus.h"
+> > +
+> > +static struct pmbus_driver_info ir35201_info = {
+> > +	.pages = 1,
+> > +	.format[PSC_VOLTAGE_IN] = linear,
+> > +	.format[PSC_VOLTAGE_OUT] = linear,
+> > +	.format[PSC_CURRENT_IN] = linear,
+> > +	.format[PSC_CURRENT_OUT] = linear,
+> > +	.format[PSC_POWER] = linear,
+> > +	.format[PSC_TEMPERATURE] = linear,
+> > +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
+> > +		| PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
+> > +		| PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
+> > +		| PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2
+> > +		| PMBUS_HAVE_STATUS_TEMP,
+> 
+> Several supported status registers are missing.
+> 
+Maybe. Did the best I could with this and another datasheet (ir36* iirc)
+open at the same time and both source files open for comparison, and the
+output from sensors with this patch, with allowances for variations
+in temps, matches more or less what HWINFO64 outputs on a windows pe
+based build of hiren's boot cd.
+> > +};
+> > +
+> > +static int ir35201_probe(struct i2c_client *client)
+> > +{
+> > +	u8 buf[I2C_SMBUS_BLOCK_MAX];
+> > +	int ret;
+> > +
+> > +	if (!i2c_check_functionality(client->adapter,
+> > +				     I2C_FUNC_SMBUS_READ_BYTE_DATA
+> > +					 | I2C_FUNC_SMBUS_READ_WORD_DATA
+> > +					 | I2C_FUNC_SMBUS_READ_BLOCK_DATA))
+> > +		return -ENODEV;
+> > +
+> > +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
+> > +	if (ret < 0) {
+> > +		dev_err(&client->dev, "Failed to read PMBUS_MFR_ID\n");
+> > +		return ret;
+> > +	}
+> > +	if (ret != 2 || strncmp(buf, "IR", strlen("IR"))) {
+> > +		dev_err(&client->dev, "MFR_ID unrecognized\n");
+> > +		return -ENODEV;
+> > +	}
+> > +
+> 
+> Did you actually test this ? Datasheet says it is "ASCII 52 49" which
+> would make it "RI" like IR35221, not "IR". Problem though is that it
+> seems like the register is writeable via some USER programming,
+> making it unreliable.
+> 
+Yes, I did. And strangely enough, it reads 'backwards' or so, relative
+to the 35221. I almost sent this along without removing the debugging
+pr_infos I had in this area to check that. drove me bonkers a bit.
+> > +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
+> > +	if (ret < 0) {
+> > +		dev_err(&client->dev, "Failed to read PMBUS_MFR_MODEL\n");
+> > +		return ret;
+> > +	}
+> > +	if (ret != 1 || buf[0] != 0x50) {
+> > +		dev_err(&client->dev, "MFR_MODEL unrecognized\n");
+> > +		return -ENODEV;
+> > +	}
+> > +
+> 
+> The datasheet suggests that PMBUS_MFR_ID and PMBUS_MFR_MODEL can differ based
+> on some USER register programming. I would suggest to read IC_DEVICE_ID instead
+> and compare against that (which s supposed to be 0x4d).
+> 
+Somehow I missed that, but it was on my 'to-check' list. I think the
+issue may have arose from my datasheet comparison, as the ir36* doesn't
+have such a register listed.
+> On a higher level, I don't see anything special in this chip. Would it be possible
+> to just add it to pmbus.c ? Something like
+> 
+> 	{"ir35201", (kernel_ulong_t)&pmbus_info_one},
+> 
+Honestly, I was wondering about folding this and the other very similar
+IR3* chips into one driver. Should be doable? But I guess this approach
+works as well; in fact, during my investigation phase I stuck the pmbus
+driver onto the correct i2c address to get an easy way to read stuff
+from the chip (tbh I'm surprised that this far along in linux we don't
+have anything other than pmbus_peek to poke for info; maybe i2c-tools
+can do it but I can't seem to make it work like I'd expect).
+> should do.
+> 
+> Thanks,
+> Guenter
+> 
+> > +	return pmbus_do_probe(client, &ir35201_info);
+> > +}
+> > +
+> > +static const struct i2c_device_id ir35201_id[] = {
+> > +	{ "ir35201", 0},
+> > +	{},
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, ir35201_id);
+> > +
+> > +static const struct of_device_id __maybe_unused ir35201_of_id[] = {
+> > +	{ .compatible = "infineon,ir35201" },
+> > +	{},
+> > +};
+> > +MODULE_DEVICE_TABLE(of, ir35201_of_id);
+> > +
+> > +static struct i2c_driver ir35201_driver = {
+> > +	.class = I2C_CLASS_HWMON,
+> > +	.driver = {
+> > +		.name = "ir35201",
+> > +		.of_match_table = of_match_ptr(ir35201_of_id),
+> > +	},
+> > +	.probe_new = ir35201_probe,
+> > +	.id_table = ir35201_id,
+> > +};
+> > +
+> > +module_i2c_driver(ir35201_driver);
+> > +
+> > +MODULE_AUTHOR("Marty E. Plummer <hanetzer@startmail.com>");
+> > +MODULE_DESCRIPTION("PMBus driver for Infineon IR35201");
+> > +MODULE_LICENSE("GPL");
+> > +MODULE_IMPORT_NS(PMBUS);
+> 
