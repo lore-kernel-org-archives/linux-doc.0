@@ -2,125 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07635EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 17:58:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BC6C001DC
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 18:24:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231422AbjGTR6A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 13:58:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47408 "EHLO
+        id S231516AbjGTSYW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 14:24:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232011AbjGTR56 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 13:57:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4BB4270E;
-        Thu, 20 Jul 2023 10:57:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3FF4A61BB6;
-        Thu, 20 Jul 2023 17:57:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2150BC433C8;
-        Thu, 20 Jul 2023 17:57:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689875875;
-        bh=jwoVf1k/2DgnDdDINMgCGUjRiLmfJ+Q0tnPUMEak6D4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xq/zReWCoVx3iIsML8lwq7mmfwRhUgXMHizkUQ3yxJgG13uL36LEZeXE6gEMA58Xd
-         lL0VIFeIT6Oi/svxhwWo4qL5se6EiCV3J/qS9TCLKT9Y1pcgAAGasOitFv9ZrTDzBR
-         q96YBxWtmzCw8NVCC+uGg28SNkkMKVSHJoIU+QYc=
-Date:   Thu, 20 Jul 2023 19:57:53 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-Cc:     snitzer@redhat.com, agk@redhat.com, corbet@lwn.net,
-        dm-devel@redhat.com, linux-arm-kernel@lists.infradead.org,
+        with ESMTP id S231519AbjGTSYU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 14:24:20 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D0DA2D5D;
+        Thu, 20 Jul 2023 11:23:59 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-307d20548adso911720f8f.0;
+        Thu, 20 Jul 2023 11:23:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689877438; x=1690482238;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tx9RtKQ03Nd1GuwyZE0noO7TOti2z3ne8no8zAe784s=;
+        b=jmdcc9prvj3Nk1J8/5XJfiTTkfWYn+BjtTwbUnUVLt1Ytq69Ux/NMf0BQdehKwxqKN
+         uKi2uUicZtqCUOMh4KB7s91FSaO1IQCYaYUAz4gJ3tHvz6FJT+SNmNn7lg30vlEKXgpf
+         Ti6iXqU1ex9KpgnjF61O36t5WTsPOs2j4XzpipW6qsE0AclZQ/+d5r0zEENIhL4SUDLK
+         pAxBbSDZ0gY/cYNcl7zXioy/ZNAdCz8I1vcQrSk5dvqenGJXh/WGv8LlApTZfMg6sxdi
+         TyCglpVeDQPTBCB/zcM9V4r2miNmJoqlYzn0mtX2NSzFeniY23+XVe6DCNEeJd+CgRhT
+         OefA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689877438; x=1690482238;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tx9RtKQ03Nd1GuwyZE0noO7TOti2z3ne8no8zAe784s=;
+        b=jcx4SejeuNyxCdVhy4XPH3HZQqbZfIHyk1zkhj/BMqnKrQ8pGk7+1oKzTd67AmciEA
+         u9fVBWAMkMko6pGwhtteT7DseEJqn3XXecjkQa5wAlSbvrmnwZf7P66yWjiPDUiCQLWy
+         XflMZnn/UIo0+IXXXgIU49azFX8Exzg97DXpxGE5CHQp8nGh16i1LY/jcRTG0ZDCp6fJ
+         gDzTYi92iyeu+3W9uEo+knzKuEG5aQ9YI4yPM4MaWfY6X9rJz36Dz9AZdia8ovm6XJpn
+         3hrIJXjCNTld2PBoQ//V0EC8PEy0xeezUK+ZmCW2Vo+HUsGdZxksizQGzz4OV7Fg6fpx
+         rymw==
+X-Gm-Message-State: ABy/qLYjx1PD0CGGc04nqvH0CSQiu17cJs6ayom1hQkGmz1ocLYrg10h
+        oJTdRedKaYnYnO68AimeDZA=
+X-Google-Smtp-Source: APBJJlHyoNH+nfkRuS5hV4IuhlxA0HDhX7nfF0PQfFOI23Z58N69P0JU+5GuxGGQqDB+ciUQvGtasw==
+X-Received: by 2002:a05:6000:ce:b0:317:1911:fd7a with SMTP id q14-20020a05600000ce00b003171911fd7amr2750481wrx.12.1689877437799;
+        Thu, 20 Jul 2023 11:23:57 -0700 (PDT)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id w10-20020adfd4ca000000b003140f47224csm2004755wrk.15.2023.07.20.11.23.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jul 2023 11:23:57 -0700 (PDT)
+Subject: Re: [PATCH docs v3] docs: maintainer: document expectations of small
+ time maintainers
+To:     Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Leon Romanovsky <leonro@nvidia.com>, workflows@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
-        peter@korsgaard.com, snitzer@kernel.org, stable@vger.kernel.org,
-        yj.chiang@mediatek.com
-Subject: Re: [PATCH 5.15] dm init: add dm-mod.waitfor to wait for
- asynchronously probed block devices
-Message-ID: <2023072033-hedge-buffing-8862@gregkh>
-References: <CAH6w=aztzhm3Sa-afN2Xk-7mp1BVtTKNXJ=JyXqJvm3wtEnd3Q@mail.gmail.com>
- <20230717015728.12641-1-mark-pk.tsai@mediatek.com>
+        netdev@vger.kernel.org, linux@leemhuis.info, kvalo@kernel.org,
+        benjamin.poirier@gmail.com
+References: <20230719183225.1827100-1-kuba@kernel.org>
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <50164116-9d12-698d-f552-96b52c718749@gmail.com>
+Date:   Thu, 20 Jul 2023 19:23:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230717015728.12641-1-mark-pk.tsai@mediatek.com>
+In-Reply-To: <20230719183225.1827100-1-kuba@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 17, 2023 at 09:57:28AM +0800, Mark-PK Tsai wrote:
-> > On Sun, Jul 16, 2023, 11:16 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > 
-> > > On Thu, Jul 13, 2023 at 01:58:37PM +0800, Mark-PK Tsai wrote:
-> > > > From: Peter Korsgaard <peter@korsgaard.com>
-> > > > 
-> > > > Just calling wait_for_device_probe() is not enough to ensure that
-> > > > asynchronously probed block devices are available (E.G. mmc, usb), so
-> > > > add a "dm-mod.waitfor=<device1>[,..,<deviceN>]" parameter to get
-> > > > dm-init to explicitly wait for specific block devices before
-> > > > initializing the tables with logic similar to the rootwait logic that
-> > > > was introduced with commit  cc1ed7542c8c ("init: wait for
-> > > > asynchronously scanned block devices").
-> > > > 
-> > > > E.G. with dm-verity on mmc using:
-> > > > dm-mod.waitfor="PARTLABEL=hash-a,PARTLABEL=root-a"
-> > > > 
-> > > > [    0.671671] device-mapper: init: waiting for all devices to be 
-> > > available before creating mapped devices
-> > > > [    0.671679] device-mapper: init: waiting for device PARTLABEL=hash-a 
-> > > ...
-> > > > [    0.710695] mmc0: new HS200 MMC card at address 0001
-> > > > [    0.711158] mmcblk0: mmc0:0001 004GA0 3.69 GiB
-> > > > [    0.715954] mmcblk0boot0: mmc0:0001 004GA0 partition 1 2.00 MiB
-> > > > [    0.722085] mmcblk0boot1: mmc0:0001 004GA0 partition 2 2.00 MiB
-> > > > [    0.728093] mmcblk0rpmb: mmc0:0001 004GA0 partition 3 512 KiB, 
-> > > chardev (249:0)
-> > > > [    0.738274]  mmcblk0: p1 p2 p3 p4 p5 p6 p7
-> > > > [    0.751282] device-mapper: init: waiting for device PARTLABEL=root-a 
-> > > ...
-> > > > [    0.751306] device-mapper: init: all devices available
-> > > > [    0.751683] device-mapper: verity: sha256 using implementation 
-> > > "sha256-generic"
-> > > > [    0.759344] device-mapper: ioctl: dm-0 (vroot) is ready
-> > > > [    0.766540] VFS: Mounted root (squashfs filesystem) readonly on 
-> > > device 254:0.
-> > > > 
-> > > > Signed-off-by: Peter Korsgaard <peter@korsgaard.com>
-> > > > Signed-off-by: Mike Snitzer <snitzer@kernel.org>
-> > > > Cc: stable@vger.kernel.org
-> > > > Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-> > > > ---
-> > > >  .../admin-guide/device-mapper/dm-init.rst     |  8 +++++++
-> > > >  drivers/md/dm-init.c                          | 22 ++++++++++++++++++-
-> > > >  2 files changed, 29 insertions(+), 1 deletion(-)
-> > >
-> > > What is the git commit id of this change in Linus's tree?
-> > >
-> > > thanks,
-> > >
-> > > greg k-h
-> > >
-> > >
-> > 
-> > Hey Greg,
-> > 
-> > This change shouldn't be backported to stable@. It is a feature, if
-> > Mark-PK feels they need it older kernels they need to carry the change
-> > in their own tree. Or at a minimum they need to explain why this
-> > change is warranted in stable@.
+On 19/07/2023 19:32, Jakub Kicinski wrote:
+> We appear to have a gap in our process docs. We go into detail
+> on how to contribute code to the kernel, and how to be a subsystem
+> maintainer. I can't find any docs directed towards the thousands
+> of small scale maintainers, like folks maintaining a single driver
+> or a single network protocol.
 > 
-> Thanks for your comment.
-> The reason why we think this should be backported to stable kernel is
-> that it actually fix the potential race condition when make block
-> device probe async in stable kernel.
-> And we'd like to fix this upstream rather than just take it in
-> our custom tree.
+> Document our expectations and best practices. I'm hoping this doc
+> will be particularly useful to set expectations with HW vendors.
+> 
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Mark Brown <broonie@kernel.org>
+> Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
 
-Potential race condition, is this actually able to be hit in real life?
+Thanks for writing this.  One question—
 
-thanks,
+> +Reviews
+> +-------
+> +
+> +Maintainers must review *all* patches touching exclusively their drivers,
+> +no matter how trivial. If the patch is a tree wide change and modifies
+> +multiple drivers - whether to provide a review is left to the maintainer.
 
-greg k-h
+Does this apply even to "checkpatch cleanup patch spam", where other patches
+ sprayed from the same source (perhaps against other drivers) have already
+ been nacked as worthless churn?  I've generally been assuming I can ignore
+ those, do I need to make sure to explicitly respond with typically a repeat
+ of what's already been said elsewhere?
+
+-ed
