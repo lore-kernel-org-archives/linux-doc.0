@@ -2,193 +2,278 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C24C6C04A6A
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 16:40:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF84DC001DC
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 16:57:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230211AbjGTQkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 12:40:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34622 "EHLO
+        id S230034AbjGTQ5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 12:57:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231609AbjGTQkE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 12:40:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6165B19BE
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 09:38:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689871087;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gPdSzcTTJlOeO2aEdgyECLhQy37txJLWdi6TDmez9kY=;
-        b=LWKi0K/q2ObYXtpQvUhLsqzKoDTeKes4e0GXnlqnYpQMO8NYEmeIrfVOd7bmBuDRriu5GP
-        dGnmn4Qc7SNbRZfSXmNOZ11Fya4QTCNaoIPGnx9qbaULS4N4wFAm0fMTPHRfrUGXN40YN3
-        NtXC7pNwAPZ7tvbknJRn9U7IyABBIuE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-kFK-c7oyNgC289gF1X8KZw-1; Thu, 20 Jul 2023 12:34:11 -0400
-X-MC-Unique: kFK-c7oyNgC289gF1X8KZw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FA07101A54E;
-        Thu, 20 Jul 2023 16:34:08 +0000 (UTC)
-Received: from vschneid.remote.csb (unknown [10.42.28.48])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 29A9240C206F;
-        Thu, 20 Jul 2023 16:33:59 +0000 (UTC)
-From:   Valentin Schneider <vschneid@redhat.com>
-To:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Cc:     "Paul E . McKenney" <paulmck@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
+        with ESMTP id S229689AbjGTQ5C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 12:57:02 -0400
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF7D119
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 09:57:01 -0700 (PDT)
+Received: by mail-ua1-x92b.google.com with SMTP id a1e0cc1a2514c-79702eee5a8so433841241.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 09:57:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689872220; x=1690477020;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TZCX9yhI7AbKGy/HnG34aNNVUXchyn5dmI5801hBoFs=;
+        b=OFmwChsRfRqH9lASmE0v54HU6kpsRwivRWRyqB44btzy+zNV0jDMcoAocZMcp1FND+
+         cTyrMgIW3CLI8mL3wxSoWtBJ+tZl36pkDUnxy25Zov3bibz2ZRjelm2iUOHZ77rpItZh
+         UTDrKqVkVnHFItLO2tlUgwvou+HqhGBpvx8dEl3TpunBsGcTJKgzd2/burDS9oRfzK1r
+         ZoJRsjyKq+9MGqnwF/bALJxj6p/0RlAhxpa11+oAP43beOBRwV1f17nUgrNQOCy+qgnD
+         n9DGWXgd+4FDzMQi6Gqmz2rokhcWpYWXbzn8xMZj3GGenjzAcFNrG8KEk3e90QgjWF8e
+         iMqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689872220; x=1690477020;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TZCX9yhI7AbKGy/HnG34aNNVUXchyn5dmI5801hBoFs=;
+        b=UM0YurXf+CCiwTam04eA6gkDG7aOV5mvO5LQ3RMpGmT2ewTKiYEBzoA4DgFASxI1OV
+         6YVLwDkIo28uX0pwUeiEOsZThckfiEH/6bIPXchLKmXssWD4SMCwv4SJpNTmT76GDLd7
+         ap9jYrs+wgc9ksKZKx2H7bwxf7QVAdvsvl7s5xqfoQsOdNAp986W4qz2ynq3ug8/xZew
+         nLu0xwS1K8vk7929ZhYi+W6ySMlZpYGB51D+X5qKKqaMM1DSf+rQiPe+vsLRxWXbkj92
+         9Y0kKq+1UsifiCDUvptHZzUOLpdn1CW/YIf8LdwmouPi7iK4BL5PJ8M5C7K/Afh+8EaS
+         OKpQ==
+X-Gm-Message-State: ABy/qLZsaqqqbi6KF/uuhQO0q9RksmTLKCzwaiJmML1XE1sfXpj2FOHc
+        75Y+tXr3rK6KZWzOzzo9ujpE7Yt8Z0DvJNg+0sNoVg==
+X-Google-Smtp-Source: APBJJlEsYqZ49Ny+WkiZxWE5TyzQv98GOGbTZwiNitn54WzBknEBplR1bvLxwQOCYwqiC5hsOLi/Kw==
+X-Received: by 2002:a67:b604:0:b0:43d:6660:581b with SMTP id d4-20020a67b604000000b0043d6660581bmr2252078vsm.5.1689872220064;
+        Thu, 20 Jul 2023 09:57:00 -0700 (PDT)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id w136-20020a81498e000000b0056974f4019esm319055ywa.6.2023.07.20.09.56.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 09:56:59 -0700 (PDT)
+Date:   Thu, 20 Jul 2023 09:56:51 -0700 (PDT)
+From:   Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.attlocal.net
+To:     Oleksandr Tymoshenko <ovt@google.com>
+cc:     Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: [RFC PATCH v2 16/20] rcu: Make RCU dynticks counter size configurable
-Date:   Thu, 20 Jul 2023 17:30:52 +0100
-Message-Id: <20230720163056.2564824-17-vschneid@redhat.com>
-In-Reply-To: <20230720163056.2564824-1-vschneid@redhat.com>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
+        Christian Brauner <brauner@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH] shmem: add support for user extended attributes
+In-Reply-To: <20230720065430.2178136-1-ovt@google.com>
+Message-ID: <9b8d38f0-fd22-3f98-d070-16baf976ecb5@google.com>
+References: <20230720065430.2178136-1-ovt@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CONTEXT_TRACKING_WORK reduces the size of the dynticks counter to free up
-some bits for work deferral. Paul suggested making the actual counter size
-configurable for rcutorture to poke at, so do that.
+On Thu, 20 Jul 2023, Oleksandr Tymoshenko wrote:
 
-Make it only configurable under RCU_EXPERT. Previous commits have added
-build-time checks that ensure a kernel with problematic dynticks counter
-width can't be built.
+> User extended attributes are not enabled in tmpfs because
+> the size of the value is not limited and the memory allocated
+> for it is not counted against any limit. Malicious
+> non-privileged user can exhaust kernel memory by creating
+> user.* extended attribute with very large value.
+> 
+> There are still situations when enabling suport for extended
+> user attributes on tmpfs is required and the attack vector
+> is not applicable, for instance batch jobs with trusted binaries.
+> 
+> This patch introduces two mount options to enable/disable
+> support for user.* extended attributes on tmpfs:
+> 
+> user_xattr    enable support for user extended aatributes
+> nouser_xattr  disable support for user extended attributes
+> 
+> The default behavior of the filesystem is not changed.
+> 
+> Signed-off-by: Oleksandr Tymoshenko <ovt@google.com>
 
-Link: http://lore.kernel.org/r/4c2cb573-168f-4806-b1d9-164e8276e66a@paulmck-laptop
-Suggested-by: Paul E. McKenney <paulmck@kernel.org>
-Signed-off-by: Valentin Schneider <vschneid@redhat.com>
----
- include/linux/context_tracking.h       |  3 ++-
- include/linux/context_tracking_state.h |  3 +--
- kernel/rcu/Kconfig                     | 33 ++++++++++++++++++++++++++
- 3 files changed, 36 insertions(+), 3 deletions(-)
+Thanks, but no.
 
-diff --git a/include/linux/context_tracking.h b/include/linux/context_tracking.h
-index 8aee086d0a25f..9c0c622bc27bb 100644
---- a/include/linux/context_tracking.h
-+++ b/include/linux/context_tracking.h
-@@ -12,7 +12,8 @@
- 
- #ifdef CONFIG_CONTEXT_TRACKING_WORK
- static_assert(CONTEXT_WORK_MAX_OFFSET <= CONTEXT_WORK_END + 1 - CONTEXT_WORK_START,
--	      "Not enough bits for CONTEXT_WORK");
-+	      "Not enough bits for CONTEXT_WORK, "
-+	      "CONFIG_RCU_DYNTICKS_BITS might be too high");
- #endif
- 
- #ifdef CONFIG_CONTEXT_TRACKING_USER
-diff --git a/include/linux/context_tracking_state.h b/include/linux/context_tracking_state.h
-index 828fcdb801f73..292a0b7c06948 100644
---- a/include/linux/context_tracking_state.h
-+++ b/include/linux/context_tracking_state.h
-@@ -58,8 +58,7 @@ enum ctx_state {
- #define CONTEXT_STATE_START 0
- #define CONTEXT_STATE_END   (bits_per(CONTEXT_MAX - 1) - 1)
- 
--#define RCU_DYNTICKS_BITS  (IS_ENABLED(CONFIG_CONTEXT_TRACKING_WORK) ? 16 : 31)
--#define RCU_DYNTICKS_START (CT_STATE_SIZE - RCU_DYNTICKS_BITS)
-+#define RCU_DYNTICKS_START (CT_STATE_SIZE - CONFIG_RCU_DYNTICKS_BITS)
- #define RCU_DYNTICKS_END   (CT_STATE_SIZE - 1)
- #define RCU_DYNTICKS_IDX   BIT(RCU_DYNTICKS_START)
- 
-diff --git a/kernel/rcu/Kconfig b/kernel/rcu/Kconfig
-index bdd7eadb33d8f..1ff2aab24e964 100644
---- a/kernel/rcu/Kconfig
-+++ b/kernel/rcu/Kconfig
-@@ -332,4 +332,37 @@ config RCU_DOUBLE_CHECK_CB_TIME
- 	  Say Y here if you need tighter callback-limit enforcement.
- 	  Say N here if you are unsure.
- 
-+config RCU_DYNTICKS_RANGE_BEGIN
-+	int
-+	depends on !RCU_EXPERT
-+	default 31 if !CONTEXT_TRACKING_WORK
-+	default 16 if CONTEXT_TRACKING_WORK
-+
-+config RCU_DYNTICKS_RANGE_BEGIN
-+	int
-+	depends on RCU_EXPERT
-+	default 2
-+
-+config RCU_DYNTICKS_RANGE_END
-+	int
-+	default 31 if !CONTEXT_TRACKING_WORK
-+	default 16 if CONTEXT_TRACKING_WORK
-+
-+config RCU_DYNTICKS_BITS_DEFAULT
-+       int
-+       default 31 if !CONTEXT_TRACKING_WORK
-+       default 16 if CONTEXT_TRACKING_WORK
-+
-+config RCU_DYNTICKS_BITS
-+	int "Dynticks counter width" if CONTEXT_TRACKING_WORK
-+	range RCU_DYNTICKS_RANGE_BEGIN RCU_DYNTICKS_RANGE_END
-+	default RCU_DYNTICKS_BITS_DEFAULT
-+	help
-+	  This option controls the width of the dynticks counter.
-+
-+	  Lower values will make overflows more frequent, which will increase
-+	  the likelihood of extending grace-periods.
-+
-+	  Don't touch this unless you are running some tests.
-+
- endmenu # "RCU Subsystem"
--- 
-2.31.1
+This is not something we want mount options for:
+we just want to limit the memory usage of tmpfs user xattrs.
 
+I've had the patch to do that limiting (taking it out of the inode
+space already limited by nr_inodes) in my test tree for 2.5 years now:
+waiting to reach the top of the heap to pull together and submit.
+
+Your sending this patch does help to raise the priority for my
+sending that patch: thank you; but I cannot promise when that will be.
+
+(And the way mm/shmem.c is conflicted between vfs and mm trees
+is rather discouraging development there at the moment: I'm hoping
+it can be mostly wrested back into the mm tree in the next cycle.)
+
+Hugh
+
+> ---
+>  Documentation/filesystems/tmpfs.rst | 12 ++++++++
+>  include/linux/shmem_fs.h            |  1 +
+>  mm/shmem.c                          | 45 +++++++++++++++++++++++++++++
+>  3 files changed, 58 insertions(+)
+> 
+> diff --git a/Documentation/filesystems/tmpfs.rst b/Documentation/filesystems/tmpfs.rst
+> index f18f46be5c0c..5700ba72d095 100644
+> --- a/Documentation/filesystems/tmpfs.rst
+> +++ b/Documentation/filesystems/tmpfs.rst
+> @@ -215,6 +215,16 @@ will give you tmpfs instance on /mytmpfs which can allocate 10GB
+>  RAM/SWAP in 10240 inodes and it is only accessible by root.
+>  
+>  
+> +tmpfs, when compiled with CONFIG_TMPFS_XATTR, does not support
+> +Extended User Attributes for security reasons. The support can be
+> +enabled/disabled by two mount options:
+> +
+> +============  ===========================================
+> +user_xattr    Enable support for Extended User Attributes
+> +nouser_xattr  Disable upport for Extended User Attributes
+> +============  ===========================================
+> +
+> +
+>  :Author:
+>     Christoph Rohland <cr@sap.com>, 1.12.01
+>  :Updated:
+> @@ -223,3 +233,5 @@ RAM/SWAP in 10240 inodes and it is only accessible by root.
+>     KOSAKI Motohiro, 16 Mar 2010
+>  :Updated:
+>     Chris Down, 13 July 2020
+> +:Updated:
+> +   Oleksandr Tymoshenko, 19 July 2023
+> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> index 9029abd29b1c..f06d18b9041c 100644
+> --- a/include/linux/shmem_fs.h
+> +++ b/include/linux/shmem_fs.h
+> @@ -53,6 +53,7 @@ struct shmem_sb_info {
+>  	spinlock_t shrinklist_lock;   /* Protects shrinklist */
+>  	struct list_head shrinklist;  /* List of shinkable inodes */
+>  	unsigned long shrinklist_len; /* Length of shrinklist */
+> +	bool user_xattr;	      /* user.* xattrs are allowed */
+>  };
+>  
+>  static inline struct shmem_inode_info *SHMEM_I(struct inode *inode)
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 2f2e0e618072..4f7d46d65494 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -85,6 +85,7 @@ static struct vfsmount *shm_mnt;
+>  
+>  #define BLOCKS_PER_PAGE  (PAGE_SIZE/512)
+>  #define VM_ACCT(size)    (PAGE_ALIGN(size) >> PAGE_SHIFT)
+> +#define TMPFS_USER_XATTR_INDEX 1
+>  
+>  /* Pretend that each entry is of this size in directory's i_size */
+>  #define BOGO_DIRENT_SIZE 20
+> @@ -116,11 +117,13 @@ struct shmem_options {
+>  	int huge;
+>  	int seen;
+>  	bool noswap;
+> +	bool user_xattr;
+>  #define SHMEM_SEEN_BLOCKS 1
+>  #define SHMEM_SEEN_INODES 2
+>  #define SHMEM_SEEN_HUGE 4
+>  #define SHMEM_SEEN_INUMS 8
+>  #define SHMEM_SEEN_NOSWAP 16
+> +#define SHMEM_SEEN_USER_XATTR 32
+>  };
+>  
+>  #ifdef CONFIG_TMPFS
+> @@ -3447,6 +3450,16 @@ static int shmem_xattr_handler_get(const struct xattr_handler *handler,
+>  				   const char *name, void *buffer, size_t size)
+>  {
+>  	struct shmem_inode_info *info = SHMEM_I(inode);
+> +	struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
+> +
+> +	switch (handler->flags) {
+> +	case TMPFS_USER_XATTR_INDEX:
+> +		if (!sbinfo->user_xattr)
+> +			return -EOPNOTSUPP;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+>  
+>  	name = xattr_full_name(handler, name);
+>  	return simple_xattr_get(&info->xattrs, name, buffer, size);
+> @@ -3459,8 +3472,18 @@ static int shmem_xattr_handler_set(const struct xattr_handler *handler,
+>  				   size_t size, int flags)
+>  {
+>  	struct shmem_inode_info *info = SHMEM_I(inode);
+> +	struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
+>  	int err;
+>  
+> +	switch (handler->flags) {
+> +	case TMPFS_USER_XATTR_INDEX:
+> +		if (!sbinfo->user_xattr)
+> +			return -EOPNOTSUPP;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+>  	name = xattr_full_name(handler, name);
+>  	err = simple_xattr_set(&info->xattrs, name, value, size, flags, NULL);
+>  	if (!err) {
+> @@ -3482,9 +3505,17 @@ static const struct xattr_handler shmem_trusted_xattr_handler = {
+>  	.set = shmem_xattr_handler_set,
+>  };
+>  
+> +static const struct xattr_handler shmem_user_xattr_handler = {
+> +	.prefix = XATTR_USER_PREFIX,
+> +	.flags = TMPFS_USER_XATTR_INDEX,
+> +	.get = shmem_xattr_handler_get,
+> +	.set = shmem_xattr_handler_set,
+> +};
+> +
+>  static const struct xattr_handler *shmem_xattr_handlers[] = {
+>  	&shmem_security_xattr_handler,
+>  	&shmem_trusted_xattr_handler,
+> +	&shmem_user_xattr_handler,
+>  	NULL
+>  };
+>  
+> @@ -3604,6 +3635,8 @@ enum shmem_param {
+>  	Opt_inode32,
+>  	Opt_inode64,
+>  	Opt_noswap,
+> +	Opt_user_xattr,
+> +	Opt_nouser_xattr,
+>  };
+>  
+>  static const struct constant_table shmem_param_enums_huge[] = {
+> @@ -3626,6 +3659,8 @@ const struct fs_parameter_spec shmem_fs_parameters[] = {
+>  	fsparam_flag  ("inode32",	Opt_inode32),
+>  	fsparam_flag  ("inode64",	Opt_inode64),
+>  	fsparam_flag  ("noswap",	Opt_noswap),
+> +	fsparam_flag  ("user_xattr",	Opt_user_xattr),
+> +	fsparam_flag  ("nouser_xattr",	Opt_nouser_xattr),
+>  	{}
+>  };
+>  
+> @@ -3717,6 +3752,14 @@ static int shmem_parse_one(struct fs_context *fc, struct fs_parameter *param)
+>  		ctx->noswap = true;
+>  		ctx->seen |= SHMEM_SEEN_NOSWAP;
+>  		break;
+> +	case Opt_user_xattr:
+> +		ctx->user_xattr = true;
+> +		ctx->seen |= SHMEM_SEEN_USER_XATTR;
+> +		break;
+> +	case Opt_nouser_xattr:
+> +		ctx->user_xattr = false;
+> +		ctx->seen |= SHMEM_SEEN_USER_XATTR;
+> +		break;
+>  	}
+>  	return 0;
+>  
+> @@ -3834,6 +3877,8 @@ static int shmem_reconfigure(struct fs_context *fc)
+>  		sbinfo->max_inodes  = ctx->inodes;
+>  		sbinfo->free_inodes = ctx->inodes - inodes;
+>  	}
+> +	if (ctx->seen & SHMEM_SEEN_USER_XATTR)
+> +		sbinfo->user_xattr = ctx->user_xattr;
+>  
+>  	/*
+>  	 * Preserve previous mempolicy unless mpol remount option was specified.
+> -- 
+> 2.41.0.255.g8b1d071c50-goog
+> 
+> 
