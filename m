@@ -2,61 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FC52EB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 13:29:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E6AEB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 13:31:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231308AbjGTN3t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 09:29:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48264 "EHLO
+        id S229761AbjGTNbZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 09:31:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231923AbjGTN33 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 09:29:29 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B7F5E60;
-        Thu, 20 Jul 2023 06:29:01 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id d9443c01a7336-1b8ad9eede0so5760105ad.1;
-        Thu, 20 Jul 2023 06:29:01 -0700 (PDT)
+        with ESMTP id S231971AbjGTNbI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 09:31:08 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCF630C3;
+        Thu, 20 Jul 2023 06:30:28 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id d9443c01a7336-1b8ad356f03so4634405ad.1;
+        Thu, 20 Jul 2023 06:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689859740; x=1690464540;
+        d=gmail.com; s=20221208; t=1689859809; x=1690464609;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bOTT3ocs5JS/M9oY/Qz6qPTtcZIfhKxiBJT+VKUnYUM=;
-        b=iovOk69kzRzzkSvq9XeKsGniEcjwMeVyNhpahYVC9W2NZy5NV/p71zVFp9qavCKomk
-         0eHB38W33VhsoDGs8YrMUKegQI1cWB1yKRhf9M7HfQQusPT572edfT6WhaaG/1qM/Hiy
-         Hh9mc7Q1+1HkgR1lxplIUn0dsOCpixDRlYZ/soHO9v1u5v632QPD07CyELeD+Txri10s
-         R+ieIYJYDnYkMmcXCsuATE70OSwcwDTF0HCFmvHYi+GisStDGgVnL/aT56Qc1ZvW9nIc
-         97kKRLKkQYOc1pKSV5HptizCilcB6H8oRW5XtW7rsmRq6vSoYKrDWj72mLder1MG/6Ar
-         8+aQ==
+        bh=gvyNRJBQ11pXNQvWgbLUDf2K7q03T5RUswvoa04jxNo=;
+        b=XxNl8k+hKsGw1yAAAL0GDE3zTH0VZBw12Xvhj7d3mNAxf/5AD1pHByeKwwruwdBJJ5
+         CE3BpRi+oauALCGsD9gw7bSFHxPNK7aJT4lh5CkgwH0TmD5NMG6al5Dssuon4XcvgNzq
+         AGGOS04s2hv2f/WVJ2TCmEPifu9XZbnmRViyaOw38kkcZVfq+1YESjhiZwWq5GSSjjpe
+         7pUpRPGPXu5N/eOMQcfcQ2x8UN1xFGOkBBALamxzNh9pIRH4qQpUegxO4NENLeo7lTaS
+         g+1gqr3Ow64ilxHjboDb6t/Dpnsh1tdSDVkVbuv2bC57rQeNh7gGzgrffVgqhl5cL9LB
+         Y1fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689859740; x=1690464540;
+        d=1e100.net; s=20221208; t=1689859809; x=1690464609;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bOTT3ocs5JS/M9oY/Qz6qPTtcZIfhKxiBJT+VKUnYUM=;
-        b=GeRESvFpPQ1r8MtCuMVqI6acqjJls98/qHmbcNDcWZf7HzcKD/OknsOK6WQwIs+n75
-         yVF00Lx27cMitObsbSLeIg3m4J+wqORPIlOt0SGlrP05zvYPbIYZ5f7Jzo/5FX2Jywkw
-         4XkPkHbdzRIEYblLVYLT6bwpPYRwhhf3wsbClkQMgZKmN4/66AMhEcwpf7oKWwr3d0Q1
-         pXjeXhOUL9TwYRE3DBl0Znc84986AGlG+jrwSR9IvRD4qEBNj+4V53wMRWVOoaBTpKJi
-         GJIc8ZzWIXgRJ9MndEpd04pEsaDrJ/025WVWNgH2tcN0J9ZFd0oc/tsL2YEKiFYtoEDf
-         Ii3g==
-X-Gm-Message-State: ABy/qLaBTPN5Ocjj4DiW2rABJd6nO6bKAiPU30IvzDiv0Hzp5H4js1u4
-        0G0lBSE/fcejtKdiuzdPBHs=
-X-Google-Smtp-Source: APBJJlFbUIsQMJD7dGPOWSibWoGn/r0Y6xSq+C9XGpK2FSrXZR2m/+pAsHqA4tkOrRqjr+NkIdmbIw==
-X-Received: by 2002:a17:902:ce8f:b0:1b8:6cae:3570 with SMTP id f15-20020a170902ce8f00b001b86cae3570mr6843497plg.11.1689859740047;
-        Thu, 20 Jul 2023 06:29:00 -0700 (PDT)
+        bh=gvyNRJBQ11pXNQvWgbLUDf2K7q03T5RUswvoa04jxNo=;
+        b=V44280OOBRqj5RIFBrnBnW8QmHLx4B1QbICyCH0jbEAGWj7kSNj5ZvDwBgs9sWnGeR
+         estPDYb9cs2oZ+Ntmqb0wi/e57A7H3zYGlT4V6oXZnzMwHkKaKmUBXXxOK1KA1shmrNx
+         fwiNaIM4aSSs84NbtW+62BOfPDZc7OFlKgFJ5DAsR4HZIsbTwLJBA72yrerlnTxDMQXo
+         rqC0UE2ppGiHjTeJogOIaaV3bBnY8fFKIoN++yd37dFtnPaJqvIhEuHeIqbVM1nMK9JM
+         tk6VdGbZQdTbQglxPG8sROKgWJ8Uv1mjnSxpTojQE42RgboarKe5jsRu5ZoslIaPQDoS
+         Z5/w==
+X-Gm-Message-State: ABy/qLbOnh6oca6UqHAgiIhKL+mcXLn2z+DOeFOntfMH2A0qH73Z4Ecs
+        3mqP/Nb5w3+bwD9rWlU60ds=
+X-Google-Smtp-Source: APBJJlEWxQA4orw3r0Ol0FMMHTAPWXiDD+fOqiBcXJgb4RlvvwBk2ZhsXJRvZ5RFNYfOPVcpd3jStw==
+X-Received: by 2002:a17:902:a589:b0:1b8:2dca:fa19 with SMTP id az9-20020a170902a58900b001b82dcafa19mr4838460plb.28.1689859808130;
+        Thu, 20 Jul 2023 06:30:08 -0700 (PDT)
 Received: from localhost.localdomain ([113.251.0.121])
-        by smtp.gmail.com with ESMTPSA id u19-20020a170902a61300b001b830d8bc40sm1346309plq.74.2023.07.20.06.28.54
+        by smtp.gmail.com with ESMTPSA id u19-20020a170902a61300b001b830d8bc40sm1346309plq.74.2023.07.20.06.30.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 06:28:59 -0700 (PDT)
+        Thu, 20 Jul 2023 06:30:07 -0700 (PDT)
 From:   Hu Haowen <src.res.211@gmail.com>
 To:     corbet@lwn.net
 Cc:     Hu Haowen <src.res.211@gmail.com>,
         linux-doc-tw-discuss@lists.sourceforge.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND 4/6] docs/zh_TW: update filesystems
-Date:   Thu, 20 Jul 2023 21:27:27 +0800
-Message-Id: <20230720132729.1821-5-src.res.211@gmail.com>
+Subject: [PATCH RESEND 6/6] docs/zh_TW: turn zh_CN's folder references and headers into zh_TW's ones
+Date:   Thu, 20 Jul 2023 21:27:29 +0800
+Message-Id: <20230720132729.1821-7-src.res.211@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230720132729.1821-1-src.res.211@gmail.com>
 References: <20230720132729.1821-1-src.res.211@gmail.com>
@@ -67,381 +67,642 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update zh_TW's filesystems documentation concentrating on the following
-aspects:
-
-    * The file tree structure changes of the main documentation;
-    * Some changes and ideas from zh_CN translation;
-    * Removal for several obsoleted contents within the zh_TW translation
-      or those which are not exising anymore in the main documentation.
-    * Replacements for some incorrect words and phrases in traditional
-      Chinese or those which are odd within their context being hard for
-      readers to comprehend.
+Some contents under zh_TW's translation folder contain folder references
+and headers that refer to zh_CN's locations. Hence replace them.
 
 Signed-off-by: Hu Haowen <src.res.211@gmail.com>
 ---
- .../zh_TW/filesystems/debugfs.rst             | 38 +++++++++----------
- .../translations/zh_TW/filesystems/index.rst  |  2 +-
- .../translations/zh_TW/filesystems/sysfs.txt  | 16 ++++----
- .../translations/zh_TW/filesystems/tmpfs.rst  | 32 ++++++++--------
- .../zh_TW/filesystems/virtiofs.rst            |  8 ++--
- 5 files changed, 47 insertions(+), 49 deletions(-)
+ .../translations/zh_TW/admin-guide/README.rst |  6 ++--
+ .../zh_TW/admin-guide/reporting-issues.rst    | 12 ++++----
+ .../admin-guide/reporting-regressions.rst     | 10 +++----
+ .../zh_TW/admin-guide/security-bugs.rst       |  2 +-
+ .../translations/zh_TW/arch/arm64/booting.txt |  2 +-
+ .../zh_TW/arch/arm64/silicon-errata.txt       |  2 +-
+ .../translations/zh_TW/process/1.Intro.rst    | 14 +++++-----
+ .../translations/zh_TW/process/4.Coding.rst   |  2 +-
+ .../translations/zh_TW/process/5.Posting.rst  | 14 +++++-----
+ .../zh_TW/process/8.Conclusion.rst            |  4 +--
+ .../code-of-conduct-interpretation.rst        |  2 +-
+ .../zh_TW/process/coding-style.rst            |  4 +--
+ .../translations/zh_TW/process/howto.rst      | 12 ++++----
+ .../process/kernel-enforcement-statement.rst  |  4 +--
+ .../zh_TW/process/management-style.rst        |  4 +--
+ .../zh_TW/process/programming-language.rst    | 28 +++++++++----------
+ .../zh_TW/process/stable-kernel-rules.rst     |  2 +-
+ .../zh_TW/process/submit-checklist.rst        |  6 ++--
+ .../zh_TW/process/submitting-patches.rst      | 16 +++++------
+ 19 files changed, 73 insertions(+), 73 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/filesystems/debugfs.rst b/Documentation/translations/zh_TW/filesystems/debugfs.rst
-index 270dd94fddf1..45347ae1ccd2 100644
---- a/Documentation/translations/zh_TW/filesystems/debugfs.rst
-+++ b/Documentation/translations/zh_TW/filesystems/debugfs.rst
-@@ -23,8 +23,8 @@ Debugfs
- 
- 
- Debugfs是內核開發人員在用戶空間獲取信息的簡單方法。與/proc不同，proc只提供進程
--信息。也不像sysfs,具有嚴格的「每個文件一個值「的規則。debugfs根本沒有規則,開發
--人員可以在這裡放置他們想要的任何信息。debugfs文件系統也不能用作穩定的ABI接口。
-+信息。也不像sysfs,具有嚴格的“每個文件一個值“的規則。debugfs根本沒有規則,開發
-+人員可以在這裏放置他們想要的任何信息。debugfs文件系統也不能用作穩定的ABI接口。
- 從理論上講，debugfs導出文件的時候沒有任何約束。但是[1]實際情況並不總是那麼
- 簡單。即使是debugfs接口，也最好根據需要進行設計,並儘量保持接口不變。
- 
-@@ -34,8 +34,8 @@ Debugfs通常使用以下命令安裝::
-     mount -t debugfs none /sys/kernel/debug
- 
- （或等效的/etc/fstab行）。
--debugfs根目錄默認僅可由root用戶訪問。要更改對文件樹的訪問，請使用「 uid」，「 gid」
--和「 mode」掛載選項。請注意，debugfs API僅按照GPL協議導出到模塊。
-+debugfs根目錄默認僅可由root用戶訪問。要更改對文件樹的訪問，請使用“ uid”，“ gid”
-+和“ mode”掛載選項。請注意，debugfs API僅按照GPL協議導出到模塊。
- 
- 使用debugfs的代碼應包含<linux/debugfs.h>。然後，首先是創建至少一個目錄來保存
- 一組debugfs文件::
-@@ -54,8 +54,8 @@ debugfs根目錄默認僅可由root用戶訪問。要更改對文件樹的訪問
- 				       struct dentry *parent, void *data,
- 				       const struct file_operations *fops);
- 
--在這裡，name是要創建的文件的名稱，mode描述了訪問文件應具有的權限，parent指向
--應該保存文件的目錄，data將存儲在產生的inode結構體的i_private欄位中，而fops是
-+在這裏，name是要創建的文件的名稱，mode描述了訪問文件應具有的權限，parent指向
-+應該保存文件的目錄，data將存儲在產生的inode結構體的i_private字段中，而fops是
- 一組文件操作函數，這些函數中實現文件操作的具體行爲。至少，read（）和/或
- write（）操作應提供；其他可以根據需要包括在內。同樣的，返回值將是指向創建文件
- 的dentry指針，錯誤時返回ERR_PTR（-ERROR），系統不支持debugfs時返回值爲ERR_PTR
-@@ -81,7 +81,7 @@ file_size是初始文件大小。其他參數跟函數debugfs_create_file的相
- 			    struct dentry *parent, u64 *value);
- 
- 這些文件支持讀取和寫入給定值。如果某個文件不支持寫入，只需根據需要設置mode
--參數位。這些文件中的值以十進位表示；如果需要使用十六進位，可以使用以下函數
-+參數位。這些文件中的值以十進制表示；如果需要使用十六進制，可以使用以下函數
- 替代::
- 
-     void debugfs_create_x8(const char *name, umode_t mode,
-@@ -93,7 +93,7 @@ file_size是初始文件大小。其他參數跟函數debugfs_create_file的相
-     void debugfs_create_x64(const char *name, umode_t mode,
- 			    struct dentry *parent, u64 *value);
- 
--這些功能只有在開發人員知道導出值的大小的時候才有用。某些數據類型在不同的架構上
-+這些功能只有在開發人員知道導出值的大小的時候纔有用。某些數據類型在不同的架構上
- 有不同的寬度，這樣會使情況變得有些複雜。在這種特殊情況下可以使用以下函數::
- 
-     void debugfs_create_size_t(const char *name, umode_t mode,
-@@ -101,7 +101,7 @@ file_size是初始文件大小。其他參數跟函數debugfs_create_file的相
- 
- 不出所料，此函數將創建一個debugfs文件來表示類型爲size_t的變量。
- 
--同樣地，也有導出無符號長整型變量的函數，分別以十進位和十六進位表示如下::
-+同樣地，也有導出無符號長整型變量的函數，分別以十進制和十六進制表示如下::
- 
-     struct dentry *debugfs_create_ulong(const char *name, umode_t mode,
- 					struct dentry *parent,
-@@ -125,7 +125,7 @@ file_size是初始文件大小。其他參數跟函數debugfs_create_file的相
- 
- 讀取此文件將獲得atomic_t值，寫入此文件將設置atomic_t值。
- 
--另一個選擇是通過以下結構體和函數導出一個任意二進位數據塊::
-+另一個選擇是通過以下結構體和函數導出一個任意二進制數據塊::
- 
-     struct debugfs_blob_wrapper {
- 	void *data;
-@@ -136,10 +136,10 @@ file_size是初始文件大小。其他參數跟函數debugfs_create_file的相
- 				       struct dentry *parent,
- 				       struct debugfs_blob_wrapper *blob);
- 
--讀取此文件將返回由指針指向debugfs_blob_wrapper結構體的數據。一些驅動使用「blobs」
--作爲一種返回幾行（靜態）格式化文本的簡單方法。這個函數可用於導出二進位信息，但
-+讀取此文件將返回由指針指向debugfs_blob_wrapper結構體的數據。一些驅動使用“blobs”
-+作爲一種返回幾行（靜態）格式化文本的簡單方法。這個函數可用於導出二進制信息，但
- 似乎在主線中沒有任何代碼這樣做。請注意，使用debugfs_create_blob（）命令創建的
--所有文件是只讀的。
-+所有文件是隻讀的。
- 
- 如果您要轉儲一個寄存器塊（在開發過程中經常會這麼做，但是這樣的調試代碼很少上傳
- 到主線中。Debugfs提供兩個函數：一個用於創建僅寄存器文件，另一個把一個寄存器塊
-@@ -163,7 +163,7 @@ file_size是初始文件大小。其他參數跟函數debugfs_create_file的相
-     void debugfs_print_regs32(struct seq_file *s, struct debugfs_reg32 *regs,
- 			 int nregs, void __iomem *base, char *prefix);
- 
--「base」參數可能爲0，但您可能需要使用__stringify構建reg32數組，實際上有許多寄存器
-+“base”參數可能爲0，但您可能需要使用__stringify構建reg32數組，實際上有許多寄存器
- 名稱（宏）是寄存器塊在基址上的字節偏移量。
- 
- 如果要在debugfs中轉儲u32數組，可以使用以下函數創建文件::
-@@ -172,7 +172,7 @@ file_size是初始文件大小。其他參數跟函數debugfs_create_file的相
- 			struct dentry *parent,
- 			u32 *array, u32 elements);
- 
--「array」參數提供數據，而「elements」參數爲數組中元素的數量。注意：數組創建後，數組
-+“array”參數提供數據，而“elements”參數爲數組中元素的數量。注意：數組創建後，數組
- 大小無法更改。
- 
- 有一個函數來創建與設備相關的seq_file::
-@@ -183,8 +183,8 @@ file_size是初始文件大小。其他參數跟函數debugfs_create_file的相
- 				int (*read_fn)(struct seq_file *s,
- 					void *data));
- 
--「dev」參數是與此debugfs文件相關的設備，並且「read_fn」是一個函數指針，這個函數在
--列印seq_file內容的時候被回調。
-+“dev”參數是與此debugfs文件相關的設備，並且“read_fn”是一個函數指針，這個函數在
-+打印seq_file內容的時候被回調。
- 
- 還有一些其他的面向目錄的函數::
- 
-@@ -199,7 +199,7 @@ file_size是初始文件大小。其他參數跟函數debugfs_create_file的相
- 
- 調用debugfs_rename()將爲現有的debugfs文件重命名，可能同時切換目錄。 new_name
- 函數調用之前不能存在；返回值爲old_dentry，其中包含更新的信息。可以使用
--debugfs_create_symlink（）創建符號連結。
-+debugfs_create_symlink（）創建符號鏈接。
- 
- 所有debugfs用戶必須考慮的一件事是：
- 
-@@ -219,6 +219,6 @@ dentry值可以爲NULL或錯誤值，在這種情況下，不會有任何文件
- 
- 如果將對應頂層目錄的dentry傳遞給以上函數，則該目錄下的整個層次結構將會被刪除。
- 
--注釋：
-+註釋：
- [1] http://lwn.net/Articles/309298/
- 
-diff --git a/Documentation/translations/zh_TW/filesystems/index.rst b/Documentation/translations/zh_TW/filesystems/index.rst
-index 4e5dde0dca3c..415abfe327c1 100644
---- a/Documentation/translations/zh_TW/filesystems/index.rst
-+++ b/Documentation/translations/zh_TW/filesystems/index.rst
-@@ -12,7 +12,7 @@
- Linux Kernel中的文件系統
- ========================
- 
--這份正在開發的手冊或許在未來某個輝煌的日子裡以易懂的形式將Linux虛擬\
-+這份正在開發的手冊或許在未來某個輝煌的日子裏以易懂的形式將Linux虛擬\
- 文件系統（VFS）層以及基於其上的各種文件系統如何工作呈現給大家。當前\
- 可以看到下面的內容。
- 
-diff --git a/Documentation/translations/zh_TW/filesystems/sysfs.txt b/Documentation/translations/zh_TW/filesystems/sysfs.txt
-index 280824cc7e5d..a401739d0914 100644
---- a/Documentation/translations/zh_TW/filesystems/sysfs.txt
-+++ b/Documentation/translations/zh_TW/filesystems/sysfs.txt
-@@ -1,5 +1,3 @@
--SPDX-License-Identifier: GPL-2.0
--
- Chinese translated version of Documentation/filesystems/sysfs.rst
- 
- If you have any comment or update to the content, please contact the
-@@ -61,7 +59,7 @@ Documentation/core-api/kobject.rst 文檔以獲得更多關於 kobject 接口的
- 
- 任何 kobject 在系統中註冊，就會有一個目錄在 sysfs 中被創建。這個
- 目錄是作爲該 kobject 的父對象所在目錄的子目錄創建的，以準確地傳遞
--內核的對象層次到用戶空間。sysfs 中的頂層目錄代表著內核對象層次的
-+內核的對象層次到用戶空間。sysfs 中的頂層目錄代表着內核對象層次的
- 共同祖先；例如：某些對象屬於某個子系統。
- 
- Sysfs 在與其目錄關聯的 kernfs_node 對象中內部保存一個指向實現
-@@ -198,7 +196,7 @@ Sysfs 將會爲每次讀寫操作調用一次這個方法。這使得這些方
-   不會不太高。
- 
-   這使得用戶空間可以局部地讀和任意的向前搜索整個文件。如果用戶空間
--  向後搜索到零或使用『0』偏移執行一個pread(2)操作，show()方法將
-+  向後搜索到零或使用‘0’偏移執行一個pread(2)操作，show()方法將
-   再次被調用，以重新填充緩存。
- 
- - 在寫方面（write(2)），sysfs 希望在第一次寫操作時得到整個緩衝區。
-@@ -253,7 +251,7 @@ static DEVICE_ATTR(name, S_IRUGO, show_name, store_name);
- 
- （注意：真正的實現不允許用戶空間設置設備名。）
- 
--頂層目錄布局
-+頂層目錄佈局
- ~~~~~~~~~~~~
- 
- sysfs 目錄的安排顯示了內核數據結構之間的關係。
-@@ -272,23 +270,23 @@ fs/
- devices/ 包含了一個設備樹的文件系統表示。他直接映射了內部的內核
- 設備樹，反映了設備的層次結構。
- 
--bus/ 包含了內核中各種總線類型的平面目錄布局。每個總線目錄包含兩個
-+bus/ 包含了內核中各種總線類型的平面目錄佈局。每個總線目錄包含兩個
- 子目錄:
- 
- 	devices/
- 	drivers/
- 
--devices/ 包含了系統中出現的每個設備的符號連結，他們指向 root/ 下的
-+devices/ 包含了系統中出現的每個設備的符號鏈接，他們指向 root/ 下的
- 設備目錄。
- 
--drivers/ 包含了每個已爲特定總線上的設備而掛載的驅動程序的目錄(這裡
-+drivers/ 包含了每個已爲特定總線上的設備而掛載的驅動程序的目錄(這裏
- 假定驅動沒有跨越多個總線類型)。
- 
- fs/ 包含了一個爲文件系統設立的目錄。現在每個想要導出屬性的文件系統必須
- 在 fs/ 下創建自己的層次結構(參見Documentation/filesystems/fuse.rst)。
- 
- dev/ 包含兩個子目錄： char/ 和 block/。在這兩個子目錄中，有以
--<major>:<minor> 格式命名的符號連結。這些符號連結指向 sysfs 目錄
-+<major>:<minor> 格式命名的符號鏈接。這些符號鏈接指向 sysfs 目錄
- 中相應的設備。/sys/dev 提供一個通過一個 stat(2) 操作結果，查找
- 設備 sysfs 接口快捷的方法。
- 
-diff --git a/Documentation/translations/zh_TW/filesystems/tmpfs.rst b/Documentation/translations/zh_TW/filesystems/tmpfs.rst
-index 8d753a34785b..16c188436b41 100644
---- a/Documentation/translations/zh_TW/filesystems/tmpfs.rst
-+++ b/Documentation/translations/zh_TW/filesystems/tmpfs.rst
-@@ -13,18 +13,18 @@ Tmpfs
- 
- Tmpfs是一個將所有文件都保存在虛擬內存中的文件系統。
- 
--tmpfs中的所有內容都是臨時的，也就是說沒有任何文件會在硬碟上創建。
-+tmpfs中的所有內容都是臨時的，也就是說沒有任何文件會在硬盤上創建。
- 如果卸載tmpfs實例，所有保存在其中的文件都會丟失。
- 
--tmpfs將所有文件保存在內核緩存中，隨著文件內容增長或縮小可以將不需要的
--頁面swap出去。它具有最大限制，可以通過「mount -o remount ...」調整。
-+tmpfs將所有文件保存在內核緩存中，隨着文件內容增長或縮小可以將不需要的
-+頁面swap出去。它具有最大限制，可以通過“mount -o remount ...”調整。
- 
- 和ramfs（創建tmpfs的模板）相比，tmpfs包含交換和限制檢查。和tmpfs相似的另
--一個東西是RAM磁碟（/dev/ram*），可以在物理RAM中模擬固定大小的硬碟，並在
-+一個東西是RAM磁盤（/dev/ram*），可以在物理RAM中模擬固定大小的硬盤，並在
- 此之上創建一個普通的文件系統。Ramdisks無法swap，因此無法調整它們的大小。
- 
- 由於tmpfs完全保存於頁面緩存和swap中，因此所有tmpfs頁面將在/proc/meminfo
--中顯示爲「Shmem」，而在free(1)中顯示爲「Shared」。請注意，這些計數還包括
-+中顯示爲“Shmem”，而在free(1)中顯示爲“Shared”。請注意，這些計數還包括
- 共享內存(shmem，請參閱ipcs(1))。獲得計數的最可靠方法是使用df(1)和du(1)。
- 
- tmpfs具有以下用途：
-@@ -45,7 +45,7 @@ tmpfs具有以下用途：
-    tmpfs的前身(shm fs)才能使用SYSV共享內存)
- 
- 3) 很多人（包括我）都覺的在/tmp和/var/tmp上掛載非常方便，並具有較大的
--   swap分區。目前循環掛載tmpfs可以正常工作，所以大多數發布都應當可以
-+   swap分區。目前循環掛載tmpfs可以正常工作，所以大多數發佈都應當可以
-    使用mkinitrd通過/tmp訪問/tmp。
- 
- 4) 也許還有更多我不知道的地方:-)
-@@ -58,11 +58,11 @@ size       tmpfs實例分配的字節數限制。默認值是不swap時物理RAM
-            如果tmpfs實例過大，機器將死鎖，因爲OOM處理將無法釋放該內存。
- nr_blocks  與size相同，但以PAGE_SIZE爲單位。
- nr_inodes  tmpfs實例的最大inode個數。默認值是物理內存頁數的一半，或者
--           (有高端內存的機器)低端內存RAM的頁數，二者以較低者為準。
-+           (有高端內存的機器)低端內存RAM的頁數，二者以較低者爲準。
- =========  ===========================================================
- 
- 這些參數接受後綴k，m或g表示千，兆和千兆字節，可以在remount時更改。
--size參數也接受後綴％用來限制tmpfs實例占用物理RAM的百分比：
-+size參數也接受後綴％用來限制tmpfs實例佔用物理RAM的百分比：
- 未指定size或nr_blocks時，默認值爲size=50％
- 
- 如果nr_blocks=0（或size=0），block個數將不受限制；如果nr_inodes=0，
-@@ -71,26 +71,26 @@ inode個數將不受限制。這樣掛載通常是不明智的，因爲它允許
- 場景下的訪問。
- 
- tmpfs具有爲所有文件設置NUMA內存分配策略掛載選項(如果啓用了CONFIG_NUMA),
--可以通過「mount -o remount ...」調整
-+可以通過“mount -o remount ...”調整
- 
- ======================== =========================
- mpol=default             採用進程分配策略
-                          (請參閱 set_mempolicy(2))
- mpol=prefer:Node         傾向從給定的節點分配
--mpol=bind:NodeList       只允許從指定的鍊表分配
-+mpol=bind:NodeList       只允許從指定的鏈表分配
- mpol=interleave          傾向於依次從每個節點分配
- mpol=interleave:NodeList 依次從每個節點分配
- mpol=local               優先本地節點分配內存
- ======================== =========================
- 
--NodeList格式是以逗號分隔的十進位數字表示大小和範圍，最大和最小範圍是用-
--分隔符的十進位數來表示。例如，mpol=bind0-3,5,7,9-15
-+NodeList格式是以逗號分隔的十進制數字表示大小和範圍，最大和最小範圍是用-
-+分隔符的十進制數來表示。例如，mpol=bind0-3,5,7,9-15
- 
- 帶有有效NodeList的內存策略將按指定格式保存，在創建文件時使用。當任務在該
- 文件系統上創建文件時，會使用到掛載時的內存策略NodeList選項，如果設置的話，
- 由調用任務的cpuset[請參見Documentation/admin-guide/cgroup-v1/cpusets.rst]
- 以及下面列出的可選標誌約束。如果NodeLists爲設置爲空集，則文件的內存策略將
--恢復爲「默認」策略。
-+恢復爲“默認”策略。
- 
- NUMA內存分配策略有可選標誌，可以用於模式結合。在掛載tmpfs時指定這些可選
- 標誌可以在NodeList之前生效。
-@@ -107,12 +107,12 @@ Documentation/admin-guide/mm/numa_memory_policy.rst列出所有可用的內存
- 請注意，如果內核不支持NUMA，那麼使用mpol選項掛載tmpfs將會失敗；nodelist指定不
- 在線的節點也會失敗。如果您的系統依賴於此，但內核會運行不帶NUMA功能(也許是安全
- revocery內核)，或者具有較少的節點在線，建議從自動模式中省略mpol選項掛載選項。
--可以在以後通過「mount -o remount,mpol=Policy:NodeList MountPoint」添加到掛載點。
-+可以在以後通過“mount -o remount,mpol=Policy:NodeList MountPoint”添加到掛載點。
- 
- 要指定初始根目錄，可以使用如下掛載選項：
- 
- ====	====================
--模式	權限用八進位數字表示
-+模式	權限用八進制數字表示
- uid	用戶ID
- gid	組ID
- ====	====================
-@@ -129,7 +129,7 @@ inode32   使用32位inode
- 
- 在32位內核上，默認是inode32，掛載時指定inode64會被拒絕。
- 在64位內核上，默認配置是CONFIG_TMPFS_INODE64。inode64避免了單個設備上可能有多個
--具有相同inode編號的文件；比如32位應用程式使用glibc如果長期訪問tmpfs，一旦達到33
-+具有相同inode編號的文件；比如32位應用程序使用glibc如果長期訪問tmpfs，一旦達到33
- 位inode編號，就有EOVERFLOW失敗的危險，無法打開大於2GiB的文件，並返回EINVAL。
- 
- 所以'mount -t tmpfs -o size=10G,nr_inodes=10k,mode=700 tmpfs /mytmpfs'將在
-diff --git a/Documentation/translations/zh_TW/filesystems/virtiofs.rst b/Documentation/translations/zh_TW/filesystems/virtiofs.rst
-index 2b05e84375dd..05274d9e0843 100644
---- a/Documentation/translations/zh_TW/filesystems/virtiofs.rst
-+++ b/Documentation/translations/zh_TW/filesystems/virtiofs.rst
-@@ -21,7 +21,7 @@ virtiofs: virtio-fs 主機<->客機共享文件系統
- 
- 介紹
- ====
--Linux的virtiofs文件系統實現了一個半虛擬化VIRTIO類型「virtio-fs」設備的驅動，通過該\
-+Linux的virtiofs文件系統實現了一個半虛擬化VIRTIO類型“virtio-fs”設備的驅動，通過該\
- 類型設備實現客機<->主機文件系統共享。它允許客機掛載一個已經導出到主機的目錄。
- 
- 客機通常需要訪問主機或者遠程系統上的文件。使用場景包括：在新客機安裝時讓文件對其\
-@@ -42,12 +42,12 @@ Linux的virtiofs文件系統實現了一個半虛擬化VIRTIO類型「virtio-fs
- 
-   guest# mount -t virtiofs myfs /mnt
- 
--請查閱 https://virtio-fs.gitlab.io/ 了解配置QEMU和virtiofsd守護程序的詳細信息。
-+請查閱 https://virtio-fs.gitlab.io/ 瞭解配置QEMU和virtiofsd守護程序的詳細信息。
- 
- 內幕
- ====
- 由於virtio-fs設備將FUSE協議用於文件系統請求，因此Linux的virtiofs文件系統與FUSE文\
--件系統客戶端緊密集成在一起。客機充當FUSE客戶端而主機充當FUSE伺服器，內核與用戶空\
-+件系統客戶端緊密集成在一起。客機充當FUSE客戶端而主機充當FUSE服務器，內核與用戶空\
- 間之間的/dev/fuse接口由virtio-fs設備接口代替。
- 
- FUSE請求被置於虛擬隊列中由主機處理。主機填充緩衝區中的響應部分，而客機處理請求的完成部分。
-@@ -55,7 +55,7 @@ FUSE請求被置於虛擬隊列中由主機處理。主機填充緩衝區中的
- 將/dev/fuse映射到虛擬隊列需要解決/dev/fuse和虛擬隊列之間語義上的差異。每次讀取\
- /dev/fuse設備時，FUSE客戶端都可以選擇要傳輸的請求，從而可以使某些請求優先於其他\
- 請求。虛擬隊列有其隊列語義，無法更改已入隊請求的順序。在虛擬隊列已滿的情況下尤
--其關鍵，因爲此時不可能加入高優先級的請求。爲了解決此差異，virtio-fs設備採用「hiprio」\
-+其關鍵，因爲此時不可能加入高優先級的請求。爲了解決此差異，virtio-fs設備採用“hiprio”\
- （高優先級）虛擬隊列，專門用於有別於普通請求的高優先級請求。
- 
- 
+diff --git a/Documentation/translations/zh_TW/admin-guide/README.rst b/Documentation/translations/zh_TW/admin-guide/README.rst
+index 4cb581f5994a..e132993abce6 100644
+--- a/Documentation/translations/zh_TW/admin-guide/README.rst
++++ b/Documentation/translations/zh_TW/admin-guide/README.rst
+@@ -284,12 +284,12 @@ Linux內核6.x版本 <http://kernel.org/>
+ -----------
+ 
+ 如果您發現了一些可能由於內核缺陷所導致的問題，請參閱：
+-Documentation/translations/zh_CN/admin-guide/reporting-issues.rst 。
++Documentation/translations/zh_TW/admin-guide/reporting-issues.rst 。
+ 
+ 想要理解內核錯誤報告，請參閱：
+-Documentation/translations/zh_CN/admin-guide/bug-hunting.rst 。
++Documentation/translations/zh_TW/admin-guide/bug-hunting.rst 。
+ 
+ 更多用GDB調試內核的信息，請參閱：
+-Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
++Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst
+ 和 Documentation/dev-tools/kgdb.rst 。
+ 
+diff --git a/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst b/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
+index fe5a5a07d51a..ff2d406ab4d5 100644
+--- a/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
++++ b/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
+@@ -301,7 +301,7 @@ Documentation/admin-guide/reporting-regressions.rst 對此進行了更詳細的
+ 添加到迴歸跟蹤列表中，以確保它不會被忽略。
+ 
+ 什麼是安全問題留給您自己判斷。在繼續之前，請考慮閱讀
+-Documentation/translations/zh_CN/admin-guide/security-bugs.rst ，
++Documentation/translations/zh_TW/admin-guide/security-bugs.rst ，
+ 因爲它提供瞭如何最恰當地處理安全問題的額外細節。
+ 
+ 當發生了完全無法接受的糟糕事情時，此問題就是一個“非常嚴重的問題”。例如，
+@@ -385,7 +385,7 @@ Linux內核破壞了它處理的數據或損壞了它運行的硬件。當內核
+ 核未被污染，那麼它應該以“Not infected”結束；如果你看到“Tainted:”且後跟一些
+ 空格和字母，那就被污染了。
+ 
+-如果你的內核被污染了，請閱讀 Documentation/translations/zh_CN/admin-guide/tainted-kernels.rst
++如果你的內核被污染了，請閱讀 Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
+ 以找出原因。設法消除污染因素。通常是由以下三種因素之一引起的：
+ 
+  1. 發生了一個可恢復的錯誤（“kernel Oops”），內核污染了自己，因爲內核知道在
+@@ -798,7 +798,7 @@ Linux 首席開發者 Linus Torvalds 認爲 Linux 內核永遠不應惡化，這
+ 重現它。
+ 
+ 有一個叫做“二分”的過程可以來尋找變化，這在
+-Documentation/translations/zh_CN/admin-guide/bug-bisect.rst 文檔中進行了詳細
++Documentation/translations/zh_TW/admin-guide/bug-bisect.rst 文檔中進行了詳細
+ 的描述，這個過程通常需要你構建十到二十個內核鏡像，每次都嘗試在構建下一個鏡像
+ 之前重現問題。是的，這需要花費一些時間，但不用擔心，它比大多數人想象的要快得多。
+ 多虧了“binary search二分搜索”，這將引導你在源代碼管理系統中找到導致迴歸的提交。
+@@ -984,7 +984,7 @@ Documentation/admin-guide/reporting-regressions.rst ；它還提供了大量其
+ 報告，請將報告的文本轉發到這些地址；但請在報告的頂部加上註釋，表明您提交了
+ 報告，並附上工單鏈接。
+ 
+-更多信息請參見 Documentation/translations/zh_CN/admin-guide/security-bugs.rst 。
++更多信息請參見 Documentation/translations/zh_TW/admin-guide/security-bugs.rst 。
+ 
+ 
+ 發佈報告後的責任
+@@ -1198,7 +1198,7 @@ FLOSS 問題報告的人看，詢問他們的意見。同時徵求他們關於
+ 前一段基本粗略地概述了“二分”方法。一旦報告出來，您可能會被要求做一個正確的
+ 報告，因爲它允許精確地定位導致問題的確切更改（然後很容易被恢復以快速修復問題）。
+ 因此如果時間允許，考慮立即進行適當的二分。有關如何詳細信息，請參閱“對迴歸的
+-特別關照”部分和文檔 Documentation/translations/zh_CN/admin-guide/bug-bisect.rst 。
++特別關照”部分和文檔 Documentation/translations/zh_TW/admin-guide/bug-bisect.rst 。
+ 如果成功二分的話，請將“罪魁禍首”的作者添加到收件人中；同時抄送所有在
+ signed-off-by鏈中的人，您可以在提交消息的末尾找到。
+ 
+@@ -1217,7 +1217,7 @@ signed-off-by鏈中的人，您可以在提交消息的末尾找到。
+ 
+ 即使是微小的、看似明顯的代碼變化，有時也會帶來新的、完全意想不到的問題。穩
+ 定版和長期支持內核的維護者非常清楚這一點，因此他們只對這些內核進行符合
+-Documentation/translations/zh_CN/process/stable-kernel-rules.rst 中所列出的
++Documentation/translations/zh_TW/process/stable-kernel-rules.rst 中所列出的
+ 規則的修改。
+ 
+ 複雜或有風險的修改不符合條件，因此只能應用於主線。其他的修復很容易被回溯到
+diff --git a/Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst b/Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
+index d7dcb2a26564..38149b0f6493 100644
+--- a/Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
++++ b/Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
+@@ -28,7 +28,7 @@ Torvalds立下了此規則並確保它被落實。
+    能用，那麼你就碰見迴歸問題了。注意，新內核需要使用類似配置編譯；更多相關細
+    節參見下方。
+ 
+-#. 按照 Documentation/translations/zh_CN/admin-guide/reporting-issues.rst 中
++#. 按照 Documentation/translations/zh_TW/admin-guide/reporting-issues.rst 中
+    所說的報告你的問題，該文檔已經包含了所有關於迴歸的重要方面，爲了方便起見也
+    複製到了下面。兩個重點：在報告主題中使用“[REGRESSION]”開頭並抄送或轉發到
+    `迴歸郵件列表 <https://lore.kernel.org/regressions/>`_
+@@ -71,7 +71,7 @@ Torvalds立下了此規則並確保它被落實。
+ 如何報告迴歸？
+ ~~~~~~~~~~~~~~
+ 
+-只需按照 Documentation/translations/zh_CN/admin-guide/reporting-issues.rst 中
++只需按照 Documentation/translations/zh_TW/admin-guide/reporting-issues.rst 中
+ 所說的報告你的問題，該文檔已經包含了要點。下面幾點概述了一下只在迴歸中重要的
+ 方面：
+ 
+@@ -133,8 +133,8 @@ regzbot發送的每週迴歸報告，可能會出現延遲。 這樣的延誤會
+ 如何找到罪魁禍首？
+ ~~~~~~~~~~~~~~~~~~
+ 
+-如 Documentation/translations/zh_CN/admin-guide/reporting-issues.rst （簡要）
+-和 Documentation/translations/zh_CN/admin-guide/bug-bisect.rst （詳細）中所
++如 Documentation/translations/zh_TW/admin-guide/reporting-issues.rst （簡要）
++和 Documentation/translations/zh_TW/admin-guide/bug-bisect.rst （詳細）中所
+ 述，執行二分。聽起來工作量很大，但大部分情況下很快就能找到罪魁禍首。如果這很
+ 困難或可靠地重現問題很耗時，請考慮與其他受影響的用戶合作，一起縮小搜索範圍。
+ 
+@@ -364,7 +364,7 @@ Regzbot還支持其他一些主要由開發人員或迴歸追蹤人員使用的
+ ..
+    如本文件開頭所述，本文以GPL-2.0+或CC-BY-4.0許可發行。如您想僅在CC-BY-4.0許
+    可下重分發本文，請用“Linux內核開發者”作爲作者，並用如下鏈接作爲來源：
+-   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/translations/zh_CN/admin-guide/reporting-regressions.rst
++   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
+ ..
+    注意：本RST文件內容只有在來自Linux內核源代碼時是使用CC-BY-4.0許可的，因爲經
+    過處理的版本（如經內核的構建系統）可能包含來自使用更嚴格許可證的文件的內容。
+diff --git a/Documentation/translations/zh_TW/admin-guide/security-bugs.rst b/Documentation/translations/zh_TW/admin-guide/security-bugs.rst
+index c0e9fc247695..a2e196b3ad6a 100644
+--- a/Documentation/translations/zh_TW/admin-guide/security-bugs.rst
++++ b/Documentation/translations/zh_TW/admin-guide/security-bugs.rst
+@@ -24,7 +24,7 @@ Linux內核開發人員非常重視安全性。因此我們想知道何時發現
+ 人員那裏獲得額外的幫助，以理解和修復安全漏洞。
+ 
+ 與任何缺陷一樣，提供的信息越多，診斷和修復就越容易。如果您不清楚哪些信息有用，
+-請查看“Documentation/translations/zh_CN/admin-guide/reporting-issues.rst”中
++請查看“Documentation/translations/zh_TW/admin-guide/reporting-issues.rst”中
+ 概述的步驟。任何利用漏洞的攻擊代碼都非常有用，未經報告者同意不會對外發布，除
+ 非已經公開。
+ 
+diff --git a/Documentation/translations/zh_TW/arch/arm64/booting.txt b/Documentation/translations/zh_TW/arch/arm64/booting.txt
+index af1bd2d7eec1..80487c86d3eb 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/booting.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/booting.txt
+@@ -9,7 +9,7 @@ help.  Contact the Chinese maintainer if this translation is outdated
+ or if there is a problem with the translation.
+ 
+ M:	Will Deacon <will.deacon@arm.com>
+-zh_CN:	Fu Wei <wefu@redhat.com>
++zh_TW:	Fu Wei <wefu@redhat.com>
+ zh_TW:	Hu Haowen <src.res@email.cn>
+ C:	55f058e7574c3615dea4615573a19bdb258696c6
+ ---------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt b/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
+index 9d1f49a6b6e7..cdcb3b338cb1 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
+@@ -9,7 +9,7 @@ help.  Contact the Chinese maintainer if this translation is outdated
+ or if there is a problem with the translation.
+ 
+ M:	Will Deacon <will.deacon@arm.com>
+-zh_CN:	Fu Wei <wefu@redhat.com>
++zh_TW:	Fu Wei <wefu@redhat.com>
+ zh_TW:	Hu Haowen <src.res@email.cn>
+ C:	1926e54f115725a9248d0c4c65c22acaf94de4c4
+ ---------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/process/1.Intro.rst b/Documentation/translations/zh_TW/process/1.Intro.rst
+index 53f3f3135d47..a5ac77942bef 100644
+--- a/Documentation/translations/zh_TW/process/1.Intro.rst
++++ b/Documentation/translations/zh_TW/process/1.Intro.rst
+@@ -26,31 +26,31 @@
+ 的自動可用性、多種形式的社區支持以及影響內核開發方向的能力。提供給Linux內核
+ 的代碼必須在與GPL兼容的許可證下可用。
+ 
+-:ref:`cn_development_process` 介紹了開發過程、內核發佈週期和合並窗口的機制。
++:ref:`tw_development_process` 介紹了開發過程、內核發佈週期和合並窗口的機制。
+ 涵蓋了補丁開發、審查和合並週期中的各個階段。還有一些關於工具和郵件列表的討論？
+ 鼓勵希望開始內核開發的開發人員跟蹤並修復缺陷以作爲初步練習。
+ 
+ 
+-:ref:`cn_development_early_stage` 包括項目的早期規劃，重點是儘快讓開發社區
++:ref:`tw_development_early_stage` 包括項目的早期規劃，重點是儘快讓開發社區
+ 參與進來。
+ 
+-:ref:`cn_development_coding` 是關於編程過程的；介紹了其他開發人員遇到的幾個
++:ref:`tw_development_coding` 是關於編程過程的；介紹了其他開發人員遇到的幾個
+ 陷阱。也涵蓋了對補丁的一些要求，並且介紹了一些工具，這些工具有助於確保內核
+ 補丁是正確的。
+ 
+-:ref:`cn_development_posting` 描述發佈補丁以供評審的過程。爲了讓開發社區能
++:ref:`tw_development_posting` 描述發佈補丁以供評審的過程。爲了讓開發社區能
+ 認真對待，補丁必須被正確格式化和描述，並且必須發送到正確的地方。遵循本節中的
+ 建議有助於確保您的工作能被較好地接納。
+ 
+-:ref:`cn_development_followthrough` 介紹了發佈補丁之後發生的事情；工作在這時
++:ref:`tw_development_followthrough` 介紹了發佈補丁之後發生的事情；工作在這時
+ 還遠遠沒有完成。與審閱者一起工作是開發過程中的一個重要部分；本節提供了一些
+ 關於如何在這個重要階段避免問題的提示。當補丁被合併到主線中時，開發人員要注意
+ 不要假定任務已經完成。
+ 
+-:ref:`cn_development_advancedtopics` 介紹了兩個“高級”主題：使用Git管理補丁
++:ref:`tw_development_advancedtopics` 介紹了兩個“高級”主題：使用Git管理補丁
+ 和查看其他人發佈的補丁。
+ 
+-:ref:`cn_development_conclusion` 總結了有關內核開發的更多信息，附帶有相關資源
++:ref:`tw_development_conclusion` 總結了有關內核開發的更多信息，附帶有相關資源
+ 鏈接。
+ 
+ 這個文檔是關於什麼的
+diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
+index 96b8c0bd8423..8b7b4a3248c8 100644
+--- a/Documentation/translations/zh_TW/process/4.Coding.rst
++++ b/Documentation/translations/zh_TW/process/4.Coding.rst
+@@ -32,7 +32,7 @@
+ ********
+ 
+ 內核長期以來都有其標準的代碼風格，如
+-:ref:`Documentation/translations/zh_CN/process/coding-style.rst <cn_codingstyle>`
++:ref:`Documentation/translations/zh_TW/process/coding-style.rst <tw_codingstyle>`
+ 中所述。在多數時候，該文檔中描述的準則至多被認爲是建議性的。因此，內核中存在
+ 大量不符合代碼風格準則的代碼。這種代碼的存在會給內核開發人員帶來兩方面的危害。
+ 
+diff --git a/Documentation/translations/zh_TW/process/5.Posting.rst b/Documentation/translations/zh_TW/process/5.Posting.rst
+index caef6e0b31a5..2bd87b8358d5 100644
+--- a/Documentation/translations/zh_TW/process/5.Posting.rst
++++ b/Documentation/translations/zh_TW/process/5.Posting.rst
+@@ -22,8 +22,8 @@
+ 內核開發社區已經發展出一套用於發佈補丁的約定和過程；遵循這些約定和過程將使
+ 參與其中的每個人的生活更加輕鬆。本文檔試圖描述這些約定的部分細節；更多信息
+ 也可在以下文檔中找到
+-:ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
+-和 :ref:`Documentation/translations/zh_CN/process/submit-checklist.rst <cn_submitchecklist>`。
++:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
++和 :ref:`Documentation/translations/zh_TW/process/submit-checklist.rst <tw_submitchecklist>`。
+ 
+ 何時寄送
+ --------
+@@ -154,7 +154,7 @@
+ 其傳遞給diff。
+ 
+ 上面提到的標籤（tag）用於描述各種開發人員如何與這個補丁的開發相關聯。
+-:ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
++:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+ 文檔中對它們進行了詳細描述；下面是一個簡短的總結。每一行的格式如下：
+ 
+ ::
+@@ -165,14 +165,14 @@
+ 
+  - Signed-off-by: 這是一個開發人員的證明，證明他或她有權提交補丁以包含到內核
+    中。這表明同意開發者來源認證協議，其全文見
+-   :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
++   :ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+    如果沒有合適的簽字，則不能合併到主線中。
+ 
+  - Co-developed-by: 聲明補丁是由多個開發人員共同創建的；當幾個人在一個補丁上
+    工作時，它用於給出共同作者（除了 From: 所給出的作者之外）。由於
+    Co-developed-by: 表示作者身份，所以每個共同開發人，必須緊跟在相關合作作者
+    的Signed-off-by之後。具體內容和示例見以下文件
+-   :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
++   :ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+ 
+  - Acked-by: 表示另一個開發人員（通常是相關代碼的維護人員）同意補丁適合包含
+    在內核中。
+@@ -180,7 +180,7 @@
+  - Tested-by: 聲明某人已經測試了補丁並確認它可以工作。
+ 
+  - Reviewed-by: 表示某開發人員已經審查了補丁的正確性；有關詳細信息，請參閱
+-   :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
++   :ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+ 
+  - Reported-by: 指定報告此補丁修復的問題的用戶；此標記用於表示感謝。
+ 
+@@ -197,7 +197,7 @@
+    無法被另一端接受，並且通常不會進行任何詳細檢查。如果有任何疑問，先把補丁寄
+    給你自己，讓你自己確定它是完好無損的。
+ 
+-   :ref:`Documentation/translations/zh_CN/process/email-clients.rst <cn_email_clients>`
++   :ref:`Documentation/translations/zh_TW/process/email-clients.rst <tw_email_clients>`
+    提供了一些有用的提示，可以讓特定的郵件客戶端正常發送補丁。
+ 
+  - 你確定你的補丁沒有荒唐的錯誤嗎？您應該始終通過scripts/checkpatch.pl檢查
+diff --git a/Documentation/translations/zh_TW/process/8.Conclusion.rst b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+index 3ae08a41fd78..cac4b794c84a 100644
+--- a/Documentation/translations/zh_TW/process/8.Conclusion.rst
++++ b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+@@ -19,9 +19,9 @@
+ 
+ 關於Linux內核開發和相關主題的信息來源很多。首先是在內核源代碼分發中找到的
+ 文檔目錄。頂級
+-:ref:`Documentation/translations/zh_CN/process/howto.rst <cn_process_howto>`
++:ref:`Documentation/translations/zh_TW/process/howto.rst <tw_process_howto>`
+ 文件是一個重要的起點；
+-:ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
++:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+ 也是所有內核開發人員都應該閱讀的內容。許多內部內核API都是使用kerneldoc機制
+ 記錄的；“make htmldocs”或“make pdfdocs”可用於以HTML或PDF格式生成這些文檔
+ （儘管某些發行版提供的tex版本會遇到內部限制，無法正確處理文檔）。
+diff --git a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+index 70293eb332b9..843ba484abdc 100644
+--- a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
++++ b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+@@ -11,7 +11,7 @@
+ Linux內核貢獻者契約行爲準則解釋
+ ===============================
+ 
+-:ref:`cn_code_of_conduct` 準則是一個通用文檔，旨在爲幾乎所有開源社區提供一套規則。
++:ref:`tw_code_of_conduct` 準則是一個通用文檔，旨在爲幾乎所有開源社區提供一套規則。
+ 每個開源社區都是獨一無二的，Linux內核也不例外。因此，本文描述了Linux內核社區中
+ 如何解釋它。我們也不希望這種解釋隨着時間的推移是靜態的，並將根據需要進行調整。
+ 
+diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
+index 6c9d4dcbc669..0fe08e03b33a 100644
+--- a/Documentation/translations/zh_TW/process/coding-style.rst
++++ b/Documentation/translations/zh_TW/process/coding-style.rst
+@@ -546,7 +546,7 @@ Linux 裏這是提倡的做法，因爲這樣可以很簡單的給讀者提供
+ 也可以加上它做這些事情的原因。
+ 
+ 當註釋內核 API 函數時，請使用 kernel-doc 格式。詳見
+-Documentation/translations/zh_CN/doc-guide/index.rst 和 scripts/kernel-doc 。
++Documentation/translations/zh_TW/doc-guide/index.rst 和 scripts/kernel-doc 。
+ 
+ 長 (多行) 註釋的首選風格是：
+ 
+@@ -819,7 +819,7 @@ dev_info() 等等。對於那些不和某個特定設備相關連的信息，<li
+ 內核提供了下面的一般用途的內存分配函數：
+ kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc() 和 vzalloc()。
+ 請參考 API 文檔以獲取有關它們的詳細信息：
+-Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
++Documentation/translations/zh_TW/core-api/memory-allocation.rst 。
+ 
+ 傳遞結構體大小的首選形式是這樣的：
+ 
+diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
+index 18094c27ad4d..d568903bf51c 100644
+--- a/Documentation/translations/zh_TW/process/howto.rst
++++ b/Documentation/translations/zh_TW/process/howto.rst
+@@ -67,7 +67,7 @@ Linux內核使用GNU C和GNU工具鏈開發。雖然它遵循ISO C11標準，但
+ Linux內核源代碼都是在GPL（通用公共許可證）的保護下發布的。要了解這種許可
+ 的細節請查看源代碼主目錄下的COPYING文件。Linux內核許可準則和如何使用
+ `SPDX <https://spdx.org/>` 標誌符說明在這個文件中
+-:ref:`Documentation/translations/zh_CN/process/license-rules.rst <cn_kernel_licensing>`
++:ref:`Documentation/translations/zh_TW/process/license-rules.rst <tw_kernel_licensing>`
+ 如果你對它還有更深入問題請聯繫律師，而不要在Linux內核郵件組上提問。因爲
+ 郵件組裏的人並不是律師，不要期望他們的話有法律效力。
+ 
+@@ -93,12 +93,12 @@ Linux內核代碼中包含有大量的文檔。這些文檔對於學習如何與
+   :ref:`Documentation/process/changes.rst <changes>`
+     文件給出了用來編譯和使用內核所需要的最小軟件包列表。
+ 
+-  :ref:`Documentation/translations/zh_CN/process/coding-style.rst <cn_codingstyle>`
++  :ref:`Documentation/translations/zh_TW/process/coding-style.rst <tw_codingstyle>`
+     描述Linux內核的代碼風格和理由。所有新代碼需要遵守這篇文檔中定義的規
+     範。大多數維護者只會接收符合規定的補丁，很多人也只會幫忙檢查符合風格
+     的代碼。
+ 
+-  :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
++  :ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+ 
+     這兩份文檔明確描述如何創建和發送補丁，其中包括（但不僅限於)：
+        - 郵件內容
+@@ -117,7 +117,7 @@ Linux內核代碼中包含有大量的文檔。這些文檔對於學習如何與
+ 
+         https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
+ 
+-  :ref:`Documentation/translations/zh_CN/process/stable-api-nonsense.rst <cn_stable_api_nonsense>`
++  :ref:`Documentation/translations/zh_TW/process/stable-api-nonsense.rst <tw_stable_api_nonsense>`
+     論證內核爲什麼特意不包括穩定的內核內部API，也就是說不包括像這樣的特
+     性：
+ 
+@@ -132,7 +132,7 @@ Linux內核代碼中包含有大量的文檔。這些文檔對於學習如何與
+     如果你認爲自己發現了Linux內核的安全性問題，請根據這篇文檔中的步驟來
+     提醒其他內核開發者並幫助解決這個問題。
+ 
+-  :ref:`Documentation/translations/zh_CN/process/management-style.rst <cn_managementstyle>`
++  :ref:`Documentation/translations/zh_TW/process/management-style.rst <tw_managementstyle>`
+ 
+     描述內核維護者的工作方法及其共有特點。這對於剛剛接觸內核開發（或者對
+     它感到好奇）的人來說很重要，因爲它解釋了很多對於內核維護者獨特行爲的
+@@ -335,7 +335,7 @@ MAINTAINERS文件中可以找到不同話題對應的郵件列表。
+ 這幾行。將你的評論加在被引用的段落之間而不要放在郵件的頂部。
+ 
+ 如果你在郵件中附帶補丁，請確認它們是可以直接閱讀的純文本（如
+-:ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
++:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+ 文檔中所述）。內核開發者們不希望遇到附件或者被壓縮了的補丁。只有這樣才能
+ 保證他們可以直接評論你的每行代碼。請確保你使用的郵件發送程序不會修改空格
+ 和製表符。一個防範性的測試方法是先將郵件發送給自己，然後自己嘗試是否可以
+diff --git a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+index 86d876a5fa0f..519d0f236bfa 100644
+--- a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
++++ b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+@@ -1,6 +1,6 @@
+-﻿.. _cn_process_statement_kernel:
++﻿.. _tw_process_statement_kernel:
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../disclaimer-zh_TW.rst
+ 
+ :Original: :ref:`Documentation/process/kernel-enforcement-statement.rst <process_statement_kernel>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+diff --git a/Documentation/translations/zh_TW/process/management-style.rst b/Documentation/translations/zh_TW/process/management-style.rst
+index 2d373f71e976..80d5db27a8de 100644
+--- a/Documentation/translations/zh_TW/process/management-style.rst
++++ b/Documentation/translations/zh_TW/process/management-style.rst
+@@ -31,7 +31,7 @@ Linux內核管理風格
+ 
+ 不管怎樣，這裏是：
+ 
+-.. _cn_decisions:
++.. _tw_decisions:
+ 
+ 1）決策
+ -------
+@@ -111,7 +111,7 @@ Linux內核管理風格
+ 但是，爲了做好作爲內核管理者的準備，最好記住不要燒掉任何橋樑，不要轟炸任何
+ 無辜的村民，也不要疏遠太多的內核開發人員。事實證明，疏遠人是相當容易的，而
+ 親近一個疏遠的人是很難的。因此，“疏遠”立即屬於“不可逆”的範疇，並根據
+-:ref:`cn_decisions` 成爲絕不可以做的事情。
++:ref:`tw_decisions` 成爲絕不可以做的事情。
+ 
+ 這裏只有幾個簡單的規則：
+ 
+diff --git a/Documentation/translations/zh_TW/process/programming-language.rst b/Documentation/translations/zh_TW/process/programming-language.rst
+index 591e884dfd58..144bdaf81a41 100644
+--- a/Documentation/translations/zh_TW/process/programming-language.rst
++++ b/Documentation/translations/zh_TW/process/programming-language.rst
+@@ -11,20 +11,20 @@
+ 程序設計語言
+ ============
+ 
+-內核是用C語言 :ref:`c-language <cn_c-language>` 編寫的。更準確地說，內核通常是用 :ref:`gcc <cn_gcc>`
+-在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下編譯的：ISO C11的 GNU 方言
++內核是用C語言 :ref:`c-language <tw_c-language>` 編寫的。更準確地說，內核通常是用 :ref:`gcc <tw_gcc>`
++在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <tw_gcc-c-dialect-options>` 下編譯的：ISO C11的 GNU 方言
+ 
+-這種方言包含對語言 :ref:`gnu-extensions <cn_gnu-extensions>` 的許多擴展，當然，它們許多都在內核中使用。
++這種方言包含對語言 :ref:`gnu-extensions <tw_gnu-extensions>` 的許多擴展，當然，它們許多都在內核中使用。
+ 
+-對於一些體系結構，有一些使用 :ref:`clang <cn_clang>` 和 :ref:`icc <cn_icc>` 編譯內核
++對於一些體系結構，有一些使用 :ref:`clang <tw_clang>` 和 :ref:`icc <tw_icc>` 編譯內核
+ 的支持，儘管在編寫此文檔時還沒有完成，仍需要第三方補丁。
+ 
+ 屬性
+ ----
+ 
+-在整個內核中使用的一個常見擴展是屬性（attributes） :ref:`gcc-attribute-syntax <cn_gcc-attribute-syntax>`
++在整個內核中使用的一個常見擴展是屬性（attributes） :ref:`gcc-attribute-syntax <tw_gcc-attribute-syntax>`
+ 屬性允許將實現定義的語義引入語言實體（如變量、函數或類型），而無需對語言進行
+-重大的語法更改（例如添加新關鍵字） :ref:`n2049 <cn_n2049>`
++重大的語法更改（例如添加新關鍵字） :ref:`n2049 <tw_n2049>`
+ 
+ 在某些情況下，屬性是可選的（即不支持這些屬性的編譯器仍然應該生成正確的代碼，
+ 即使其速度較慢或執行的編譯時檢查/診斷次數不夠）
+@@ -33,42 +33,42 @@
+ ``__attribute__((__pure__))`` ），以檢測可以使用哪些關鍵字和/或縮短代碼, 具體
+ 請參閱 ``include/linux/compiler_attributes.h``
+ 
+-.. _cn_c-language:
++.. _tw_c-language:
+ 
+ c-language
+    http://www.open-std.org/jtc1/sc22/wg14/www/standards
+ 
+-.. _cn_gcc:
++.. _tw_gcc:
+ 
+ gcc
+    https://gcc.gnu.org
+ 
+-.. _cn_clang:
++.. _tw_clang:
+ 
+ clang
+    https://clang.llvm.org
+ 
+-.. _cn_icc:
++.. _tw_icc:
+ 
+ icc
+    https://software.intel.com/en-us/c-compilers
+ 
+-.. _cn_gcc-c-dialect-options:
++.. _tw_gcc-c-dialect-options:
+ 
+ c-dialect-options
+    https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
+ 
+-.. _cn_gnu-extensions:
++.. _tw_gnu-extensions:
+ 
+ gnu-extensions
+    https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
+ 
+-.. _cn_gcc-attribute-syntax:
++.. _tw_gcc-attribute-syntax:
+ 
+ gcc-attribute-syntax
+    https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
+ 
+-.. _cn_n2049:
++.. _tw_n2049:
+ 
+ n2049
+    http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
+diff --git a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+index 4c66eb448eaa..5da43e010102 100644
+--- a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
++++ b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+@@ -36,7 +36,7 @@
+   - 沒有“理論上的競爭條件”，除非能給出競爭條件如何被利用的解釋。
+   - 不能存在任何的“瑣碎的”修正（拼寫修正，去掉多餘空格之類的）。
+   - 必須被相關子系統的維護者接受。
+-  - 必須遵循Documentation/translations/zh_CN/process/submitting-patches.rst裏的規則。
++  - 必須遵循Documentation/translations/zh_TW/process/submitting-patches.rst裏的規則。
+ 
+ 向穩定版代碼樹提交補丁的過程：
+ ------------------------------
+diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
+index 004a241ca72a..aa4888dc71ef 100644
+--- a/Documentation/translations/zh_TW/process/submit-checklist.rst
++++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
+@@ -14,7 +14,7 @@ Linux內核補丁提交清單
+ 如果開發人員希望看到他們的內核補丁提交更快地被接受，那麼他們應該做一些基本
+ 的事情。
+ 
+-這些都是在 Documentation/translations/zh_CN/process/submitting-patches.rst
++這些都是在 Documentation/translations/zh_TW/process/submitting-patches.rst
+ 和其他有關提交Linux內核補丁的文檔中提供的。
+ 
+ 1) 如果使用工具，則包括定義/聲明該工具的文件。不要依賴其他頭文件來引入您使用
+@@ -37,7 +37,7 @@ Linux內核補丁提交清單
+ 4) PPC64是一種很好的交叉編譯檢查體系結構，因爲它傾向於對64位的數使用無符號
+    長整型。
+ 
+-5) 按 Documentation/translations/zh_CN/process/coding-style.rst 所述檢查您的
++5) 按 Documentation/translations/zh_TW/process/coding-style.rst 所述檢查您的
+    補丁是否爲常規樣式。在提交之前使用補丁樣式檢查器 ``scripts/checkpatch.pl``
+    檢查是否有輕微的衝突。您應該能夠處理您的補丁中存在的所有
+    違規行爲。
+@@ -52,7 +52,7 @@ Linux內核補丁提交清單
+    回報的。
+ 
+ 9) 通過 sparse 清查。
+-   （參見 Documentation/translations/zh_CN/dev-tools/sparse.rst ）
++   （參見 Documentation/translations/zh_TW/dev-tools/sparse.rst ）
+ 
+ 10) 使用 ``make checkstack`` 和 ``make namespacecheck`` 並修復他們發現的任何
+     問題。
+diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
+index a3e55a59bc66..256cd8a90b4d 100644
+--- a/Documentation/translations/zh_TW/process/submitting-patches.rst
++++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
+@@ -24,8 +24,8 @@
+ 的改動被接受的機會.
+ 
+ 本文檔以較爲簡潔的行文給出了大量建議。關於內核開發流程如何進行的詳細信息，
+-參見： Documentation/translations/zh_CN/process/development-process.rst 。
+-Documentation/translations/zh_CN/process/submit-checklist.rst 給出了一系列
++參見： Documentation/translations/zh_TW/process/development-process.rst 。
++Documentation/translations/zh_TW/process/submit-checklist.rst 給出了一系列
+ 提交補丁之前要檢查的事項。設備樹相關的補丁，請參閱
+ Documentation/devicetree/bindings/submitting-patches.rst 。
+ 
+@@ -161,7 +161,7 @@ xyzzy do frotz”或“[I]changed xyzzy to do frotz”，就好像你在命令
+ ----------------
+ 
+ 檢查您的補丁是否違反了基本樣式規定，詳細信息參見
+-Documentation/translations/zh_CN/process/coding-style.rst
++Documentation/translations/zh_TW/process/coding-style.rst
+ 中找到。如果不這樣做，只會浪費審閱者的時間，並且會導致你的補丁被拒絕，甚至
+ 可能沒有被閱讀。
+ 
+@@ -208,7 +208,7 @@ torvalds@linux-foundation.org 。他收到的郵件很多，所以一般來說
+ 如果您有修復可利用安全漏洞的補丁，請將該補丁發送到 security@kernel.org 。對於
+ 嚴重的bug，可以考慮短期禁令以允許分銷商（有時間）向用戶發佈補丁；在這種情況下，
+ 顯然不應將補丁發送到任何公共列表。
+-參見 Documentation/translations/zh_CN/admin-guide/security-bugs.rst 。
++參見 Documentation/translations/zh_TW/admin-guide/security-bugs.rst 。
+ 
+ 修復已發佈內核中嚴重錯誤的補丁程序應該抄送給穩定版維護人員，方法是把以下列行
+ 放進補丁的籤準區（注意，不是電子郵件收件人）::
+@@ -216,7 +216,7 @@ torvalds@linux-foundation.org 。他收到的郵件很多，所以一般來說
+   Cc: stable@vger.kernel.org
+ 
+ 除了本文件之外，您還應該閱讀
+-Documentation/translations/zh_CN/process/stable-kernel-rules.rst 。
++Documentation/translations/zh_TW/process/stable-kernel-rules.rst 。
+ 
+ 如果更改影響到用戶側內核接口，請向手冊頁維護人員（如維護人員文件中所列）發送
+ 手冊頁補丁，或至少發送更改通知，以便一些信息進入手冊頁。還應將用戶空間API
+@@ -247,7 +247,7 @@ Linus 和其他的內核開發者需要閱讀和評論你提交的改動。對
+ 
+ 例外：如果你的郵路損壞了補丁，那麼有人可能會要求你使用MIME重新發送補丁。
+ 
+-請參閱 Documentation/translations/zh_CN/process/email-clients.rst
++請參閱 Documentation/translations/zh_TW/process/email-clients.rst
+ 以獲取有關配置電子郵件客戶端以使其不受影響地發送補丁的提示。
+ 
+ 回覆審閱意見
+@@ -442,7 +442,7 @@ Fixes: 指示補丁修復了之前提交的一個問題。它可以便於確定
+ 
+   附加Fixes:標籤不會改變穩定內核規則流程，也不改變所有穩定版補丁抄送
+   stable@vger.kernel.org的要求。有關更多信息，請閱讀
+-  Documentation/translations/zh_CN/process/stable-kernel-rules.rst 。
++  Documentation/translations/zh_TW/process/stable-kernel-rules.rst 。
+ 
+ .. _zh_the_canonical_patch_format:
+ 
+@@ -646,7 +646,7 @@ Greg Kroah-Hartman，“如何惹惱內核子系統維護人員”
+ 不！！！別再發巨型補丁炸彈給linux-kernel@vger.kernel.org的人們了！
+   <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
+ 
+-內核 Documentation/translations/zh_CN/process/coding-style.rst
++內核 Documentation/translations/zh_TW/process/coding-style.rst
+ 
+ Linus Torvalds關於標準補丁格式的郵件
+   <https://lore.kernel.org/r/Pine.LNX.4.58.0504071023190.28951@ppc970.osdl.org>
 -- 
 2.34.1
 
