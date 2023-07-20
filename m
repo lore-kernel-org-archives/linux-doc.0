@@ -2,55 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE55EB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 06:07:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFDBAEB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 06:15:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbjGTGHt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 02:07:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55410 "EHLO
+        id S229729AbjGTGPX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 02:15:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229597AbjGTGHs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 02:07:48 -0400
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DE3D1734;
-        Wed, 19 Jul 2023 23:07:47 -0700 (PDT)
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id C188067373; Thu, 20 Jul 2023 08:07:42 +0200 (CEST)
-Date:   Thu, 20 Jul 2023 08:07:42 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        iommu@lists.linux.dev
-Subject: Re: [PATCH] dma: DMA_ATTR_SKIP_CPU_SYNC documentation tweaks
-Message-ID: <20230720060742.GA2987@lst.de>
-References: <98ef4f76d7a5f90b0878e649a70b101402b8889d.1689761699.git.mst@redhat.com>
+        with ESMTP id S229451AbjGTGPW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 02:15:22 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F1919B2;
+        Wed, 19 Jul 2023 23:15:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=z8bMcYL2sfItal6IPN1MaB7xzF8i69WDSnHwMDnwZ2A=; b=iCftUFPYgfzlWh7j3fpyVulRXo
+        ba4PcyoOflOzDAEsmAZv96NBFLZKtt9i6/HxH6cktJPdkgDWm8jJ5w8TquEBW3dYmxQNZxR8LOz3J
+        9kdB7IRUvPKYHLXTAAdhCQLz5Ux13wtOjtXuseNEDLVvqOQUB9kAXvC27L791ckcJS5Dqjh8laT8d
+        2fiuDjLMqnOxXvsCAhrFY0ClDR7ARN9aGZCw2wDvcHyJKEquXCzkLMb0CAxd8FG9Ug3vB29G1lkg7
+        6xUZG29bDDGCOhSfITFLVEYxZdZ0ZhpUYHRk/gef+6Hr2LP0+yeBijY5QVk/scwD3ASrcyZ67hLxE
+        9CKqaO5w==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1qMMvx-009uI8-1n;
+        Thu, 20 Jul 2023 06:14:41 +0000
+Date:   Wed, 19 Jul 2023 23:14:41 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Yu Kuai <yukuai1@huaweicloud.com>
+Cc:     Sergei Shtepa <sergei.shtepa@veeam.com>, axboe@kernel.dk,
+        hch@infradead.org, corbet@lwn.net, snitzer@kernel.org,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, dchinner@redhat.com,
+        willy@infradead.org, dlemoal@kernel.org, linux@weissschuh.net,
+        jack@suse.cz, ming.lei@redhat.com, linux-block@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        Donald Buczek <buczek@molgen.mpg.de>,
+        "yukuai (C)" <yukuai3@huawei.com>
+Subject: Re: [PATCH v5 02/11] block: Block Device Filtering Mechanism
+Message-ID: <ZLjQ0YfH7JyQyMyJ@infradead.org>
+References: <20230612135228.10702-1-sergei.shtepa@veeam.com>
+ <20230612135228.10702-3-sergei.shtepa@veeam.com>
+ <f935840e-12a7-c37b-183c-27e2d83990ea@huaweicloud.com>
+ <90f79cf3-86a2-02c0-1887-d3490f9848bb@veeam.com>
+ <d929eaa7-61d6-c4c4-aabc-0124c3693e10@huaweicloud.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <98ef4f76d7a5f90b0878e649a70b101402b8889d.1689761699.git.mst@redhat.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <d929eaa7-61d6-c4c4-aabc-0124c3693e10@huaweicloud.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 19, 2023 at 06:15:59AM -0400, Michael S. Tsirkin wrote:
-> A recent patchset highlighted to me that DMA_ATTR_SKIP_CPU_SYNC
-> might be easily misunderstood.
+On Tue, Jul 18, 2023 at 09:37:33AM +0800, Yu Kuai wrote:
+> I haven't review blksnap code yet, but this sounds like a problem.
+> 
+> possible solutions I have in mind:
+> 
+> 1. Store blkfilter for each partition from bdev_disk_changed() before
+> delete_partition(), and add blkfilter back after add_partition().
+> 
+> 2. Store blkfilter from gendisk as a xarray, and protect it by
+> 'open_mutex' like 'part_tbl', block_device can keep the pointer to
+> reference blkfilter so that performance from fast path is ok, and the
+> lifetime of blkfiter can be managed separately.
 
-.. just curious: what patchset is that?  DMA_ATTR_SKIP_CPU_SYNC is
-often a bad idea and all users probably could use a really good
-audit..
-
->  #define DMA_ATTR_NO_KERNEL_MAPPING	(1UL << 4)
->  /*
-> - * DMA_ATTR_SKIP_CPU_SYNC: Allows platform code to skip synchronization of
-> - * the CPU cache for the given buffer assuming that it has been already
-> - * transferred to 'device' domain.
-> + * DMA_ATTR_SKIP_CPU_SYNC: Allows platform code to skip synchronization of the
-> + * CPU and device domains for the given buffer.
-
-While we're at it, I think "allows" is the wrong word here, we really
-must skip the synchronization or else we're in trouble.
+The whole point of bdev_disk_changed is that the partitions might not
+be the same ones as before..
