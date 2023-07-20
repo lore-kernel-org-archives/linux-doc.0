@@ -2,326 +2,223 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39147EB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 19:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F263EB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 19:48:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230503AbjGTTW7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 15:22:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35450 "EHLO
+        id S231177AbjGTTsD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 15:48:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230421AbjGTTWw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 15:22:52 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BBE21995;
-        Thu, 20 Jul 2023 12:22:50 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6689430d803so788087b3a.0;
-        Thu, 20 Jul 2023 12:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689880969; x=1690485769;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PGg26867SurNnD+Z76uNBzgA66sBrVx8xJg995G0XKI=;
-        b=aOm14nF6w/NfKu1hfoaTODjqZHhRBAhWdsfbBxEQvfD3KUPUOeHFz5yBD3EXSTmY8P
-         o6SMWYo159wLcqqETufg5FgkkB5k8YKeejF6/02RpJSa+BMP/k6S5ctNPhhy//C13WvL
-         4eVFGcy6qu+rJvKzzTcCxSgqsfKDeZRzhF9s8hU8Pta+0SHPJ69SH56F0WWdojqY6OHS
-         nUgOAOvJDtQ+kMS+eboFUcSrlDRN4cDXGgR9t4wVsT1QLIgfHrNn8OB73Lr1rVYiH+HD
-         2LjB9D1qft4E/mG5pwE7mbetCuAoIm6ScCznSXXq4U9vxrkd6wHCfKrcAM8DoSgnLsRX
-         Kwvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689880969; x=1690485769;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PGg26867SurNnD+Z76uNBzgA66sBrVx8xJg995G0XKI=;
-        b=hnPd+jLRS/24DAcBQjAIXCd1+km+g+v9z+Z72lOQggenvQNJ+LcZmcBj3eeOhzTQ/2
-         O4s2hIJUzWhdwYp/NaWmTcIjeUwniVZOgQ1G6z6D9oTPFu7h1gbJBLTA60W2N4nbYaWc
-         S2PFyLTfW00sRzl2PtgL1BYxxrbe1qUNOk/PSK7rYSHsFKHKvoBhVQZgsMvv6o7fbD4T
-         J+e3LNeKUIn+wYfwiMFwhx7NYDWIEU6W+EwDULIfnLr3xk7/ImIHc9/dFBDyP2HW/DPw
-         6ix31cuHrBlhYRF451eZUhRQWSpd22Zv8rS4OY9cDswe4jKzJFNEZgiFz5GpD3Qg3BBq
-         kjqA==
-X-Gm-Message-State: ABy/qLaSzRd1xRW1I2BN16ClqXj16zi3auW/Noct7mpwMMlVZExPhH8F
-        SvN+iqHlGlExFl0fkvsBXIQ=
-X-Google-Smtp-Source: APBJJlGw1SsoVuVB4n9SNYQcYnW6YT7TGUDJZ2vJreRL3kv+P/0B59vg1Fhf3qyRcR1YLZS36mEq7w==
-X-Received: by 2002:a05:6a20:bc9e:b0:137:2460:d3b5 with SMTP id fx30-20020a056a20bc9e00b001372460d3b5mr226735pzb.62.1689880969298;
-        Thu, 20 Jul 2023 12:22:49 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c1-20020a639601000000b00563826c66eesm36789pge.61.2023.07.20.12.22.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jul 2023 12:22:48 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <bf1be356-9e3e-6fd7-0987-03deb593131e@roeck-us.net>
-Date:   Thu, 20 Jul 2023 12:22:47 -0700
+        with ESMTP id S231209AbjGTTrz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 15:47:55 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2079.outbound.protection.outlook.com [40.107.94.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196101BC1;
+        Thu, 20 Jul 2023 12:47:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KVW4vsVI/xUmjaCBpkqGOKDKVulA4Rr8aFJUv6snf98VcsOJ9+ELRgv8M7+mf63zfVraTvxevURe4NaCBQcnAIRKCmF5pp9jOJGYOQkgd4PaNwsRLvNIQoTSW4Tc5sR18yN5ayuKR0d5/6KVzUSOZBl4OIPbiLuHJReVLx+vd8V742igkEYbmLxkmym7YkXFsDGstCbbu8aB+pyebs/QWsFAVvPNocYwJpBQ+dDdTs1zv/C83X0wl8iok1D+4+44I4lnovoefKus/HYteDEz5UZRDLnKQDoVS52Q4BQ/S4s6NxWjCfM5YErOn4Fj59sYhYdl1A3gRv0sOUo1BajwGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pkcKh2u5enw7xFgbs4vv1vMUe4jKMjBKsFTlp0vPMXw=;
+ b=hIkJ4QT3aB3QNlR3eD9YXAo+iD8hlWXfemDXyaSKk/sjqEVJhtCxtB28Si41YtKrZNsiSj5jJFtSIql7fl9f3d6rJgk3dxxD0cRNkNWzjqIMHBittEY0Crx26kH+io/YtHLPOQ8GPSgScK7mVfQGRSpoRGI/49OU3CDh3v0Pc+XiiuReDIyCRNh5hYB3/rFU9T5MRd+l+uAVQKCYmTnVsxbbP0qcnbKqMIA5xr4WIjb+r4qRCHcY1telwlmnZDtZ0h0bov5DyMasRUvRr3znAgCtirFH2fQiD3eSwkX9EStLQcKgvhIxTQMdYoOS1z4nWS72nQQW0LzQJKL8QpZoyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pkcKh2u5enw7xFgbs4vv1vMUe4jKMjBKsFTlp0vPMXw=;
+ b=WpKRl8CR8xzE8WLkhEY6Q+S7UoW+3lObTyKL+lLkk5afthihHHzEqqbPJjAhbQbDU53DiQdeq/HIgPw5iY4hdQvZvj4KDtvYnzb6i5wGlL924nlSwn2q4WuYVy/kqPI1Y3UPNAz/HlOqyboHd3t9JjYE0JB7mJ6VhGa6pL8CfbE=
+Received: from DM6PR08CA0055.namprd08.prod.outlook.com (2603:10b6:5:1e0::29)
+ by BL3PR12MB6642.namprd12.prod.outlook.com (2603:10b6:208:38e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33; Thu, 20 Jul
+ 2023 19:47:51 +0000
+Received: from DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1e0:cafe::93) by DM6PR08CA0055.outlook.office365.com
+ (2603:10b6:5:1e0::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.25 via Frontend
+ Transport; Thu, 20 Jul 2023 19:47:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT034.mail.protection.outlook.com (10.13.173.47) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6609.28 via Frontend Transport; Thu, 20 Jul 2023 19:47:50 +0000
+Received: from fritz.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 20 Jul
+ 2023 14:47:48 -0500
+From:   Kim Phillips <kim.phillips@amd.com>
+To:     <x86@kernel.org>
+CC:     Kim Phillips <kim.phillips@amd.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Konrad Rzeszutek Wilk" <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Alexey Kardashevskiy <aik@amd.com>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <stable@vger.kernel.org>
+Subject: [PATCH] x86/cpu: Enable STIBP if Automatic IBRS is enabled
+Date:   Thu, 20 Jul 2023 14:47:27 -0500
+Message-ID: <20230720194727.67022-1-kim.phillips@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-To:     "Marty E. Plummer" <hanetzer@startmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20230720115805.1510279-1-hanetzer@startmail.com>
- <b86e19ed-12af-e488-3c21-002be2ad5914@roeck-us.net>
- <axue7wmaxbj7vurapabuwtvqk3br3zt2g373d6ako4m24wzaxf@2uvgmasdd7dk>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] hwmon: (pmbus) Add driver fpr Infineon IR35201
-In-Reply-To: <axue7wmaxbj7vurapabuwtvqk3br3zt2g373d6ako4m24wzaxf@2uvgmasdd7dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT034:EE_|BL3PR12MB6642:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7bff015-ab52-44fe-7893-08db895a3389
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VhfHClzs4RHBeiE2J9+8KlyX14MoDhVoZw76bPF/Kmk9ehPoVapVH8MplTC7XrDAwnHnoPS9qlSRPlHDJxsbFgExDqDHRLj2l6io0MpTUfJjTXZjVuHyAbGVhCCB9TXRkaa0HuDkLku1Ps/qrr9wmln/5nccFDpFHennEyCm1IeuqqdKzoFYmeAUV9X5D7HIE1DBt+7CTyBDWgyemFqxdj/RudKHOSh4kmYx3m2+Q/8jkpRqTGfSF3LKyI2IbJJl1rjiiDjKniSMRvfNSV6CVmN/ndztYSdoAub28ByMEEr9l1lwH92J7HV9kS/GmnLhAtzYSNUTS6T2qwhhLpcw6sRpy3lFpFswoJtH5JI9HIjyeefE71sL8oJrJj1yWag9xef+UzRdn9Wn+s83YN31k0QuwKbfZdP2GiiZdqpBfRUl4cZWsxIVeg5cthEw3kOe8IigFiL1FpjWlNBMogB3nQk4GAgqhnxJ9LqJBKeLcyVZumEC00cC4fCRnoirqfGjkqvyt3p7FDJ7Jxc655NK8Q5AGu8GRiGaOoMTs5sP0a62E5JaHfpSspKKsh4cJv/XKgNOH9ID7wLwsKBQGB5GYpD9oPEdIB49HqpEOKDDHvYSDuF/IMZSr3PmTr3bMAzyu2Uk2ngOM75+61p6L9gjsiut2/PHJX7V2A3AHmqfv2ThY5JGHXI4Z+LmEnpjSZLtMGeeqT+5Nn+eJgBBK0UGOrYVaDuJxojKCfUs9HdE+Qrf8qZkp2TJwj25x0Bj83lC
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(396003)(39860400002)(346002)(82310400008)(451199021)(36840700001)(46966006)(40470700004)(36756003)(40460700003)(2616005)(47076005)(426003)(2906002)(8936002)(8676002)(41300700001)(7416002)(44832011)(5660300002)(6916009)(4326008)(83380400001)(316002)(70206006)(70586007)(36860700001)(40480700001)(186003)(6666004)(7696005)(966005)(1076003)(336012)(26005)(16526019)(81166007)(356005)(54906003)(82740400003)(86362001)(478600001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2023 19:47:50.6985
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7bff015-ab52-44fe-7893-08db895a3389
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6642
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/20/23 11:35, Marty E. Plummer wrote:
-> On Thu, Jul 20, 2023 at 07:00:39AM -0700, Guenter Roeck wrote:
->>
-> Maybe.On 7/20/23 04:58, Marty E. Plummer wrote:
->>> The IR35201 is a dual-loop digital multi-phase buck controller designed for CPU voltage regulation.
->>>
->>> Signed-off-by: Marty E. Plummer <hanetzer@startmail.com>
->>> ---
->>>    Documentation/hwmon/index.rst   |  1 +
->>>    Documentation/hwmon/ir35201.rst | 63 +++++++++++++++++++++++
->>>    drivers/hwmon/pmbus/Kconfig     |  9 ++++
->>>    drivers/hwmon/pmbus/Makefile    |  1 +
->>>    drivers/hwmon/pmbus/ir35201.c   | 89 +++++++++++++++++++++++++++++++++
->>>    5 files changed, 163 insertions(+)
->>>    create mode 100644 Documentation/hwmon/ir35201.rst
->>>    create mode 100644 drivers/hwmon/pmbus/ir35201.c
->>>
->>> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
->>> index 042e1cf9501b..5b44a268de0d 100644
->>> --- a/Documentation/hwmon/index.rst
->>> +++ b/Documentation/hwmon/index.rst
->>> @@ -87,6 +87,7 @@ Hardware Monitoring Kernel Drivers
->>>       ina3221
->>>       inspur-ipsps1
->>>       intel-m10-bmc-hwmon
->>> +   ir35201
->>>       ir35221
->>>       ir38064
->>>       ir36021
->>> diff --git a/Documentation/hwmon/ir35201.rst b/Documentation/hwmon/ir35201.rst
->>> new file mode 100644
->>> index 000000000000..6ca34d4b02a3
->>> --- /dev/null
->>> +++ b/Documentation/hwmon/ir35201.rst
->>> @@ -0,0 +1,63 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +
->>> +Kernel driver ir35201
->>> +=====================
->>> +
->>> +Supported chips:
->>> +
->>> +  * Infineon IR35201
->>> +
->>> +    Prefix: ir35201
->>> +    Addresses scanned: -
->>> +
->>> +    Datasheet: Publicly available at the Infineon website
->>> +      https://www.infineon.com/dgdl/Infineon-IR35201MTRPBF-DS-v01_00-EN.pdf?fileId=5546d462576f347501579c95d19772b5
->>> +
->>> +Authors:
->>> +      - Marty E. Plummer <hanetzer@startmail.com>
->>> +
->>> +Description
->>> +-----------
->>> +
->>> +The IR35201 is a dual-loop digital multi-phase buck controller designed for
->>> +CPU voltage regulation.
->>> +
->>> +Usage Notes
->>> +-----------
->>> +
->>> +This driver does not probe for PMBus devices. You will have to instantiate
->>> +devices explicitly.
->>> +
->>> +Sysfs attributes
->>> +----------------
->>> +
->>> +======================= ===========================
->>> +curr1_label             "iin"
->>> +curr1_input             Measured input current
->>> +curr1_alarm             Input fault alarm
->>> +
->>> +curr2_label             "iout1"
->>> +curr2_input             Measured output current
->>> +curr2_alarm             Output over-current alarm
->>> +
->>> +in1_label               "vin"
->>> +in1_input               Measured input voltage
->>> +in1_alarm               Input under-voltage alarm
->>> +
->>> +in2_label               "vout1"
->>> +in2_input               Measured output voltage
->>> +in2_alarm               Output over-voltage alarm
->>> +
->>> +power1_label            "pin"
->>> +power1_input            Measured input power
->>> +power1_alarm            Input under-voltage alarm
->>> +
->>> +power2_label            "pout1"
->>> +power2_input            Measured output power
->>> +
->>> +temp1_input             Measured temperature
->>> +temp1_alarm             Temperature alarm
->>> +
->>> +temp2_input             Measured other loop temperature
->>> +temp2_alarm             Temperature alarm
->>> +======================= ===========================
->>> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
->>> index 270b6336b76d..7180823b15bb 100644
->>> --- a/drivers/hwmon/pmbus/Kconfig
->>> +++ b/drivers/hwmon/pmbus/Kconfig
->>> @@ -123,6 +123,15 @@ config SENSORS_INSPUR_IPSPS
->>>    	  This driver can also be built as a module. If so, the module will
->>>    	  be called inspur-ipsps.
->>> +config SENSORS_IR35201
->>> +	tristate "Infineon IR35201"
->>> +	help
->>> +	  If you say yes here you get hardware monitoring support for the
->>> +	  Infineon IR35201 controller.
->>> +
->>> +	  This driver can also be built as a module. If so, the module will
->>> +	  be called ir35201.
->>> +
->>>    config SENSORS_IR35221
->>>    	tristate "Infineon IR35221"
->>>    	help
->>> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
->>> index 84ee960a6c2d..40729dd14e7a 100644
->>> --- a/drivers/hwmon/pmbus/Makefile
->>> +++ b/drivers/hwmon/pmbus/Makefile
->>> @@ -15,6 +15,7 @@ obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
->>>    obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
->>>    obj-$(CONFIG_SENSORS_DPS920AB)	+= dps920ab.o
->>>    obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
->>> +obj-$(CONFIG_SENSORS_IR35201)	+= ir35201.o
->>>    obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
->>>    obj-$(CONFIG_SENSORS_IR36021)	+= ir36021.o
->>>    obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
->>> diff --git a/drivers/hwmon/pmbus/ir35201.c b/drivers/hwmon/pmbus/ir35201.c
->>> new file mode 100644
->>> index 000000000000..77f77057175a
->>> --- /dev/null
->>> +++ b/drivers/hwmon/pmbus/ir35201.c
->>> @@ -0,0 +1,89 @@
->>> +// SPDX-License-Identifier: GPL-2.0+
->>> +/*
->>> + * Hardware monitoring driver for Infineon IR35201
->>> + */
->>> +
->>> +#include <linux/err.h>
->>> +#include <linux/i2c.h>
->>> +#include <linux/init.h>
->>> +#include <linux/kernel.h>
->>> +#include <linux/module.h>
->>> +#include "pmbus.h"
->>> +
->>> +static struct pmbus_driver_info ir35201_info = {
->>> +	.pages = 1,
->>> +	.format[PSC_VOLTAGE_IN] = linear,
->>> +	.format[PSC_VOLTAGE_OUT] = linear,
->>> +	.format[PSC_CURRENT_IN] = linear,
->>> +	.format[PSC_CURRENT_OUT] = linear,
->>> +	.format[PSC_POWER] = linear,
->>> +	.format[PSC_TEMPERATURE] = linear,
->>> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
->>> +		| PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
->>> +		| PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
->>> +		| PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2
->>> +		| PMBUS_HAVE_STATUS_TEMP,
->>
->> Several supported status registers are missing.
->>
-> Maybe. Did the best I could with this and another datasheet (ir36* iirc)
-> open at the same time and both source files open for comparison, and the
-> output from sensors with this patch, with allowances for variations
-> in temps, matches more or less what HWINFO64 outputs on a windows pe
-> based build of hiren's boot cd.
+Unlike Intel's Enhanced IBRS feature, AMD's Automatic IBRS does not
+provide protection to processes running at CPL3/user mode [1].
 
-STATUS_INPUT, STATUS_IOUT, and STATUS_VOUT are supported according
-to the datasheet. Do you have reason to believe that this is incorrect ?
-If so, I would want to see a comment in the driver explaining that the
-datasheet is wrong and doesn't support those registers.
+Explicitly enable STIBP to protect against cross-thread CPL3
+branch target injections on systems with Automatic IBRS enabled.
 
->>> +};
->>> +
->>> +static int ir35201_probe(struct i2c_client *client)
->>> +{
->>> +	u8 buf[I2C_SMBUS_BLOCK_MAX];
->>> +	int ret;
->>> +
->>> +	if (!i2c_check_functionality(client->adapter,
->>> +				     I2C_FUNC_SMBUS_READ_BYTE_DATA
->>> +					 | I2C_FUNC_SMBUS_READ_WORD_DATA
->>> +					 | I2C_FUNC_SMBUS_READ_BLOCK_DATA))
->>> +		return -ENODEV;
->>> +
->>> +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
->>> +	if (ret < 0) {
->>> +		dev_err(&client->dev, "Failed to read PMBUS_MFR_ID\n");
->>> +		return ret;
->>> +	}
->>> +	if (ret != 2 || strncmp(buf, "IR", strlen("IR"))) {
->>> +		dev_err(&client->dev, "MFR_ID unrecognized\n");
->>> +		return -ENODEV;
->>> +	}
->>> +
->>
->> Did you actually test this ? Datasheet says it is "ASCII 52 49" which
->> would make it "RI" like IR35221, not "IR". Problem though is that it
->> seems like the register is writeable via some USER programming,
->> making it unreliable.
->>
-> Yes, I did. And strangely enough, it reads 'backwards' or so, relative
-> to the 35221. I almost sent this along without removing the debugging
-> pr_infos I had in this area to check that. drove me bonkers a bit.
->>> +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
->>> +	if (ret < 0) {
->>> +		dev_err(&client->dev, "Failed to read PMBUS_MFR_MODEL\n");
->>> +		return ret;
->>> +	}
->>> +	if (ret != 1 || buf[0] != 0x50) {
->>> +		dev_err(&client->dev, "MFR_MODEL unrecognized\n");
->>> +		return -ENODEV;
->>> +	}
->>> +
->>
->> The datasheet suggests that PMBUS_MFR_ID and PMBUS_MFR_MODEL can differ based
->> on some USER register programming. I would suggest to read IC_DEVICE_ID instead
->> and compare against that (which s supposed to be 0x4d).
->>
-> Somehow I missed that, but it was on my 'to-check' list. I think the
-> issue may have arose from my datasheet comparison, as the ir36* doesn't
-> have such a register listed.
+Also update the relevant documentation.
 
-Different series, probably different microcontroller and different microcode.
+The first version of the original AutoIBRS patchseries enabled STIBP
+always-on, but it got dropped by mistake in v2 and on.
 
->> On a higher level, I don't see anything special in this chip. Would it be possible
->> to just add it to pmbus.c ? Something like
->>
->> 	{"ir35201", (kernel_ulong_t)&pmbus_info_one},
->>
-> Honestly, I was wondering about folding this and the other very similar
-> IR3* chips into one driver. Should be doable? But I guess this approach
-> works as well; in fact, during my investigation phase I stuck the pmbus
-> driver onto the correct i2c address to get an easy way to read stuff
-> from the chip (tbh I'm surprised that this far along in linux we don't
-> have anything other than pmbus_peek to poke for info; maybe i2c-tools
-> can do it but I can't seem to make it work like I'd expect).
+[1] "AMD64 Architecture Programmer's Manual Volume 2: System Programming",
+    Pub. 24593, rev. 3.41, June 2023, Part 1, Section 3.1.7 "Extended
+    Feature Enable Register (EFER)" - accessible via Link.
 
-This isn't about "doable". We don't want to add new drivers just for fun
-and/or "because it works as well". A new driver should only be added if
-needed. It was done, for example, for IR35221 because that chip has
-non-standard registers which we want to have supported.
+Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
+Fixes: e7862eda309e ("x86/cpu: Support AMD Automatic IBRS")
+Link: https://bugzilla.kernel.org/attachment.cgi?id=304652
+Signed-off-by: Kim Phillips <kim.phillips@amd.com>
+Cc: Borislav Petkov (AMD) <bp@alien8.de>
+Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Joao Martins <joao.m.martins@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Sean Christopherson <seanjc@google.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: David Woodhouse <dwmw@amazon.co.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Juergen Gross <jgross@suse.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Alexey Kardashevskiy <aik@amd.com>
+Cc: kvm@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: x86@kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+---
+ Documentation/admin-guide/hw-vuln/spectre.rst | 11 +++++++----
+ arch/x86/kernel/cpu/bugs.c                    | 15 +++++++++------
+ 2 files changed, 16 insertions(+), 10 deletions(-)
 
-Unless I am missing something, IR35201 only supports standard commands.
-So the question is: Is the new driver really needed ? It appears you are
-saying that, no, it isn't needed. Add the chip to pmbus.c as I suggested above.
-If and only if that doesn't work we can talk about a new driver.
-
-Thanks,
-Guenter
+diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
+index 4d186f599d90..32a8893e5617 100644
+--- a/Documentation/admin-guide/hw-vuln/spectre.rst
++++ b/Documentation/admin-guide/hw-vuln/spectre.rst
+@@ -484,11 +484,14 @@ Spectre variant 2
+ 
+    Systems which support enhanced IBRS (eIBRS) enable IBRS protection once at
+    boot, by setting the IBRS bit, and they're automatically protected against
+-   Spectre v2 variant attacks, including cross-thread branch target injections
+-   on SMT systems (STIBP). In other words, eIBRS enables STIBP too.
++   Spectre v2 variant attacks.
+ 
+-   Legacy IBRS systems clear the IBRS bit on exit to userspace and
+-   therefore explicitly enable STIBP for that
++   On Intel's enhanced IBRS systems, this includes cross-thread branch target
++   injections on SMT systems (STIBP). In other words, Intel eIBRS enables
++   STIBP, too.
++
++   AMD Automatic IBRS does not protect userspace, and Legacy IBRS systems clear
++   the IBRS bit on exit to userspace, therefore both explicitly enable STIBP.
+ 
+    The retpoline mitigation is turned on by default on vulnerable
+    CPUs. It can be forced on or off by the administrator
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 9e2a91830f72..95507448e781 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -1150,19 +1150,21 @@ spectre_v2_user_select_mitigation(void)
+ 	}
+ 
+ 	/*
+-	 * If no STIBP, enhanced IBRS is enabled, or SMT impossible, STIBP
++	 * If no STIBP, Intel enhanced IBRS is enabled, or SMT impossible, STIBP
+ 	 * is not required.
+ 	 *
+-	 * Enhanced IBRS also protects against cross-thread branch target
++	 * Intel's Enhanced IBRS also protects against cross-thread branch target
+ 	 * injection in user-mode as the IBRS bit remains always set which
+ 	 * implicitly enables cross-thread protections.  However, in legacy IBRS
+ 	 * mode, the IBRS bit is set only on kernel entry and cleared on return
+-	 * to userspace. This disables the implicit cross-thread protection,
+-	 * so allow for STIBP to be selected in that case.
++	 * to userspace.  AMD Automatic IBRS also does not protect userspace.
++	 * These modes therefore disable the implicit cross-thread protection,
++	 * so allow for STIBP to be selected in those cases.
+ 	 */
+ 	if (!boot_cpu_has(X86_FEATURE_STIBP) ||
+ 	    !smt_possible ||
+-	    spectre_v2_in_eibrs_mode(spectre_v2_enabled))
++	    (spectre_v2_in_eibrs_mode(spectre_v2_enabled) &&
++	     !boot_cpu_has(X86_FEATURE_AUTOIBRS)))
+ 		return;
+ 
+ 	/*
+@@ -2294,7 +2296,8 @@ static ssize_t mmio_stale_data_show_state(char *buf)
+ 
+ static char *stibp_state(void)
+ {
+-	if (spectre_v2_in_eibrs_mode(spectre_v2_enabled))
++	if (spectre_v2_in_eibrs_mode(spectre_v2_enabled) &&
++	    !boot_cpu_has(X86_FEATURE_AUTOIBRS))
+ 		return "";
+ 
+ 	switch (spectre_v2_user_stibp) {
+-- 
+2.34.1
 
