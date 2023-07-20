@@ -2,58 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE91BC001DE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 00:15:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B97C001DC
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 00:15:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229603AbjGTAPs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Jul 2023 20:15:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48784 "EHLO
+        id S229720AbjGTAP4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Jul 2023 20:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjGTAPs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 20:15:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB69C189
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jul 2023 17:14:59 -0700 (PDT)
+        with ESMTP id S229640AbjGTAPz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jul 2023 20:15:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D61D1FF3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Jul 2023 17:15:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689812099;
+        s=mimecast20190719; t=1689812108;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=9MAJ8EMtFenMie1SWTJmxdbBwMxGBZxk+7aJAcUj1jA=;
-        b=abTDxD2y7ElL9p4GJ3TlnXVVo9Kp9nWOAObhAD4J32UCBZeX1oUW7yrYLBW8spUf8Wo8ur
-        ivipCazYFxU9tJBZxHj9DT/Xdjf80KlUTdySk3ZWOc4G3/8QGBo9JrTGEdsKSzk7A2vr2g
-        n6wsAQJOZ0avsX5S/jUc7gCdOAtOQ7c=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mDBNWdVA4hQ8PRBsFs3dd+X68qTkUgeiN1mzO/5EjB0=;
+        b=Gw4sq8l67j+xCfeGwVWqLnUCD9yKyRTIbcp2MQ98lUb1QLga26dHybBIESm3VCN86xGkZi
+        fn5jGqKJGoscqtOfxHyfTInXCfH7hqyYja+9WNkg1plRAGuijIMHKFgv8ripiK4h65cwOy
+        Bo20FjkaaOur1aOGSUi4sMRkDBQ1qsw=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-b9wSlEbLMOWBIqNGYoM4jg-1; Wed, 19 Jul 2023 20:14:57 -0400
-X-MC-Unique: b9wSlEbLMOWBIqNGYoM4jg-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9892495397cso15575166b.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jul 2023 17:14:57 -0700 (PDT)
+ us-mta-634-mp12lBDiOzWDxcZk9tZ8QQ-1; Wed, 19 Jul 2023 20:15:07 -0400
+X-MC-Unique: mp12lBDiOzWDxcZk9tZ8QQ-1
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-2b701c82e83so1335971fa.1
+        for <linux-doc@vger.kernel.org>; Wed, 19 Jul 2023 17:15:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689812096; x=1692404096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9MAJ8EMtFenMie1SWTJmxdbBwMxGBZxk+7aJAcUj1jA=;
-        b=CLQkuKPZjULLldBUXofctVJ/T/+mXPbPFSD69GyR49CI3VQc1hQZJMEh2JdmgsoSLD
-         uHiO3m0zPsN+gBrrA5/Ci2PVKcrCq1BrX3Hrw/82eGqu9+duBQTBFQCDW7RPfiB1Xg3K
-         H6C98H1rNPF9LlO8sJJbY8GYBta28pcLE/wCL8q4qE5e4FKPtdrZwyu7fjEwpUTGvUfE
-         QHCjvdnX7BDuhPBmbZhO3kAHXH5aO35IHPNfzo9A4pLqWaXPjbWb7l+fnnLsXV32MxLJ
-         6/LTCFLXEb/d4pFy3L2pLwRRc6Sw8pzfuq77LL7/y+xLU8g1O8mUHdOkBz1I6S200uUg
-         BEmw==
-X-Gm-Message-State: ABy/qLZg+TpEfuDPdyaRAi86omMP/XbvVjqoH3o8hpNYKOhPaiC18Yff
-        bRY8BJa99k0vf9S53+ielm1l1MBagWoGiay8ISQhy13Oi/IBcVHZt9HN6L0ueZI7YWCwiFMHryz
-        /XpXTHEFm9dDKt0z7vodt
-X-Received: by 2002:a17:906:10dd:b0:991:e458:d14 with SMTP id v29-20020a17090610dd00b00991e4580d14mr3344021ejv.34.1689812096254;
-        Wed, 19 Jul 2023 17:14:56 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlF5+4dLhxa5BBeAmhJX+HcnTR8JVBHx6BwH73LHNhgOneI4cJ8GnCbCVpg9/Ayq9OSdhGTQhg==
-X-Received: by 2002:a17:906:10dd:b0:991:e458:d14 with SMTP id v29-20020a17090610dd00b00991e4580d14mr3343993ejv.34.1689812095878;
-        Wed, 19 Jul 2023 17:14:55 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689812105; x=1692404105;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mDBNWdVA4hQ8PRBsFs3dd+X68qTkUgeiN1mzO/5EjB0=;
+        b=CETgLnQtezUS7j3g5gHstS8aD19Qm0PsEXggoYIpHu3ostsPvzTgjH4HUP3DkEUg4S
+         S1JicLmX33k3bUOleNjJti36+Zyss+fst6hsP4dXDTbkna5Yhu8kXHBB9Orm50EdIXKF
+         BoWkHB0kzo7xsXPwi8XCqGSqYMTfkQPA02TPQatOpVLxLTU35KSXm3oC/BuPI3XccsU6
+         PCRrUNyBgDQKhSRqQXGEbRzs61KFwPpE+Bp2ZLLxL/h9+bqKIqsixoRCLnnwD1N0lEib
+         Z+1sWFzseY5NOpdMnWCk8E9j3XkcNi2j793A2Ekp5aLwntT7ozuM5v54vAEOF6uHyB62
+         VzQQ==
+X-Gm-Message-State: ABy/qLZUprYU6M2h4Gq0fi9+9QlJdmN0TM3Ag+a8tALlZwv5df0CElc3
+        KnuqmCxcD0Jyk8uN82xd3Qs1CCyBc29e8Go0iqSkA/yWzQKyz6IJrbmmx3BkrV2Caskcc/yR9oz
+        fXshE0wob2lex9CsF8YSr
+X-Received: by 2002:a05:6512:3d1c:b0:4f9:8c08:57db with SMTP id d28-20020a0565123d1c00b004f98c0857dbmr1145862lfv.58.1689812105458;
+        Wed, 19 Jul 2023 17:15:05 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFP/e4tQgiMj/c+VLd0yImRb/qX63aMNMbPbX1bFJohBiqdbDnu7LOESr77GsTCXzoX31EdxQ==
+X-Received: by 2002:a05:6512:3d1c:b0:4f9:8c08:57db with SMTP id d28-20020a0565123d1c00b004f98c0857dbmr1145842lfv.58.1689812105043;
+        Wed, 19 Jul 2023 17:15:05 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
-        by smtp.gmail.com with ESMTPSA id y23-20020a17090614d700b00985ed2f1584sm2621787ejc.187.2023.07.19.17.14.54
+        by smtp.gmail.com with ESMTPSA id s10-20020a056402014a00b00521830574c1sm3362386edu.2.2023.07.19.17.15.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jul 2023 17:14:55 -0700 (PDT)
+        Wed, 19 Jul 2023 17:15:04 -0700 (PDT)
 From:   Danilo Krummrich <dakr@redhat.com>
 To:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
         mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
@@ -64,343 +65,141 @@ To:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
 Cc:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Danilo Krummrich <dakr@redhat.com>
-Subject: [PATCH drm-misc-next v8 00/12] DRM GPUVA Manager & Nouveau VM_BIND UAPI
-Date:   Thu, 20 Jul 2023 02:14:21 +0200
-Message-ID: <20230720001443.2380-1-dakr@redhat.com>
+Subject: [PATCH drm-misc-next v8 02/12] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+Date:   Thu, 20 Jul 2023 02:14:23 +0200
+Message-ID: <20230720001443.2380-3-dakr@redhat.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230720001443.2380-1-dakr@redhat.com>
+References: <20230720001443.2380-1-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+This commit adds a function to dump a DRM GPU VA space and a macro for
+drivers to register the struct drm_info_list 'gpuvas' entry.
 
-This patch series provides a new UAPI for the Nouveau driver in order to
-support Vulkan features, such as sparse bindings and sparse residency.
+Most likely, most drivers might maintain one DRM GPU VA space per struct
+drm_file, but there might also be drivers not having a fixed relation
+between DRM GPU VA spaces and a DRM core infrastructure, hence we need the
+indirection via the driver iterating it's maintained DRM GPU VA spaces.
 
-Furthermore, with the DRM GPUVA manager it provides a new DRM core feature to
-keep track of GPU virtual address (VA) mappings in a more generic way.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+---
+ drivers/gpu/drm/drm_debugfs.c | 40 +++++++++++++++++++++++++++++++++++
+ include/drm/drm_debugfs.h     | 25 ++++++++++++++++++++++
+ 2 files changed, 65 insertions(+)
 
-The DRM GPUVA manager is indented to help drivers implement userspace-manageable
-GPU VA spaces in reference to the Vulkan API. In order to achieve this goal it
-serves the following purposes in this context.
-
-    1) Provide infrastructure to track GPU VA allocations and mappings,
-       using an interval tree (RB-tree).
-
-    2) Generically connect GPU VA mappings to their backing buffers, in
-       particular DRM GEM objects.
-
-    3) Provide a common implementation to perform more complex mapping
-       operations on the GPU VA space. In particular splitting and merging
-       of GPU VA mappings, e.g. for intersecting mapping requests or partial
-       unmap requests.
-
-The new VM_BIND Nouveau UAPI build on top of the DRM GPUVA manager, itself
-providing the following new interfaces.
-
-    1) Initialize a GPU VA space via the new DRM_IOCTL_NOUVEAU_VM_INIT ioctl
-       for UMDs to specify the portion of VA space managed by the kernel and
-       userspace, respectively.
-
-    2) Allocate and free a VA space region as well as bind and unbind memory
-       to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
-
-    3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
-
-Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, make use of the DRM
-scheduler to queue jobs and support asynchronous processing with DRM syncobjs
-as synchronization mechanism.
-
-By default DRM_IOCTL_NOUVEAU_VM_BIND does synchronous processing,
-DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
-
-The new VM_BIND UAPI for Nouveau makes also use of drm_exec (execution context
-for GEM buffers) by Christian König. Since the patch implementing drm_exec was
-not yet merged into drm-next it is part of this series, as well as a small fix
-for this patch, which was found while testing this series.
-
-This patch series is also available at [1].
-
-There is a Mesa NVK merge request by Dave Airlie [2] implementing the
-corresponding userspace parts for this series.
-
-The Vulkan CTS test suite passes the sparse binding and sparse residency test
-cases for the new UAPI together with Dave's Mesa work.
-
-There are also some test cases in the igt-gpu-tools project [3] for the new UAPI
-and hence the DRM GPU VA manager. However, most of them are testing the DRM GPU
-VA manager's logic through Nouveau's new UAPI and should be considered just as
-helper for implementation.
-
-However, I absolutely intend to change those test cases to proper kunit test
-cases for the DRM GPUVA manager, once and if we agree on it's usefulness and
-design.
-
-[1] https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next /
-    https://gitlab.freedesktop.org/nouvelles/kernel/-/merge_requests/1
-[2] https://gitlab.freedesktop.org/nouveau/mesa/-/merge_requests/150/
-[3] https://gitlab.freedesktop.org/dakr/igt-gpu-tools/-/tree/wip_nouveau_vm_bind
-
-Changes in V2:
-==============
-  Nouveau:
-    - Reworked the Nouveau VM_BIND UAPI to avoid memory allocations in fence
-      signalling critical sections. Updates to the VA space are split up in three
-      separate stages, where only the 2. stage executes in a fence signalling
-      critical section:
-
-        1. update the VA space, allocate new structures and page tables
-        2. (un-)map the requested memory bindings
-        3. free structures and page tables
-
-    - Separated generic job scheduler code from specific job implementations.
-    - Separated the EXEC and VM_BIND implementation of the UAPI.
-    - Reworked the locking parts of the nvkm/vmm RAW interface, such that
-      (un-)map operations can be executed in fence signalling critical sections.
-
-  GPUVA Manager:
-    - made drm_gpuva_regions optional for users of the GPUVA manager
-    - allow NULL GEMs for drm_gpuva entries
-    - swichted from drm_mm to maple_tree for track drm_gpuva / drm_gpuva_region
-      entries
-    - provide callbacks for users to allocate custom drm_gpuva_op structures to
-      allow inheritance
-    - added user bits to drm_gpuva_flags
-    - added a prefetch operation type in order to support generating prefetch
-      operations in the same way other operations generated
-    - hand the responsibility for mutual exclusion for a GEM's
-      drm_gpuva list to the user; simplified corresponding (un-)link functions
-
-  Maple Tree:
-    - I added two maple tree patches to the series, one to support custom tree
-      walk macros and one to hand the locking responsibility to the user of the
-      GPUVA manager without pre-defined lockdep checks.
-
-Changes in V3:
-==============
-  Nouveau:
-    - Reworked the Nouveau VM_BIND UAPI to do the job cleanup (including page
-      table cleanup) within a workqueue rather than the job_free() callback of
-      the scheduler itself. A job_free() callback can stall the execution (run()
-      callback) of the next job in the queue. Since the page table cleanup
-      requires to take the same locks as need to be taken for page table
-      allocation, doing it directly in the job_free() callback would still
-      violate the fence signalling critical path.
-    - Separated Nouveau fence allocation and emit, such that we do not violate
-      the fence signalling critical path in EXEC jobs.
-    - Implement "regions" (for handling sparse mappings through PDEs and dual
-      page tables) within Nouveau.
-    - Drop the requirement for every mapping to be contained within a region.
-    - Add necassary synchronization of VM_BIND job operation sequences in order
-      to work around limitations in page table handling. This will be addressed
-      in a future re-work of Nouveau's page table handling.
-    - Fixed a couple of race conditions found through more testing. Thanks to
-      Dave for consitently trying to break it. :-)
-
-  GPUVA Manager:
-    - Implement pre-allocation capabilities for tree modifications within fence
-      signalling critical sections.
-    - Implement accessors to to apply tree modification while walking the GPUVA
-      tree in order to actually support processing of drm_gpuva_ops through
-      callbacks in fence signalling critical sections rather than through
-      pre-allocated operation lists.
-    - Remove merging of GPUVAs; the kernel has limited to none knowlege about
-      the semantics of mapping sequences. Hence, merging is purely speculative.
-      It seems that gaining a significant (or at least a measurable) performance
-      increase through merging is way more likely to happen when userspace is
-      responsible for merging mappings up to the next larger page size if
-      possible.
-    - Since merging was removed, regions pretty much loose their right to exist.
-      They might still be useful for handling dual page tables or similar
-      mechanisms, but since Nouveau seems to be the only driver having a need
-      for this for now, regions were removed from the GPUVA manager.
-    - Fixed a couple of maple_tree related issues; thanks to Liam for helping me
-      out.
-
-Changes in V4:
-==============
-  Nouveau:
-    - Refactored how specific VM_BIND and EXEC jobs are created and how their
-      arguments are passed to the generic job implementation.
-    - Fixed a UAF race condition where bind job ops could have been freed
-      already while still waiting for a job cleanup to finish. This is due to
-      in certain cases we need to wait for mappings actually being unmapped
-      before creating sparse regions in the same area.
-    - Re-based the code onto drm_exec v4 patch.
-
-  GPUVA Manager:
-    - Fixed a maple tree related bug when pre-allocating MA states.
-      (Boris Brezillion)
-    - Made struct drm_gpuva_fn_ops a const object in all occurrences.
-      (Boris Brezillion)
-
-Changes in V5:
-==============
-  Nouveau:
-    - Link and unlink GPUVAs outside the fence signalling critical path in
-      nouveau_uvmm_bind_job_submit() holding the dma-resv lock. Mutual exclusion
-      of BO evicts causing mapping invalidation and regular mapping operations
-      is ensured with dma-fences.
-
-  GPUVA Manager:
-    - Removed the separate GEMs GPUVA list lock. Link and unlink as well as
-      iterating the GEM's GPUVA list should be protected with the GEM's dma-resv
-      lock instead.
-    - Renamed DRM_GPUVA_EVICTED flag to DRM_GPUVA_INVALIDATED. Mappings do not
-      get eviced, they might get invalidated due to eviction.
-    - Maple tree uses the 'unsinged long' type for node entries. While this
-      works for GPU VA spaces larger than 32-bit on 64-bit kernel, the GPU VA
-      space is limited to 32-bit on 32-bit kernels as well.
-      As long as we do not have a 64-bit capable maple tree for 32-bit kernels,
-      the GPU VA manager contains checks to throw warnings when GPU VA entries
-      exceed the maple tree's storage capabilities.
-    - Extended the Documentation and added example code as requested by Donald
-      Robson.
-
-Changes in V6
-=============
-
-  Nouveau:
-    - Re-based the code onto drm_exec v5 patch.
-
-  GPUVA Manager:
-    - Switch from maple tree to RB-tree.
-
-      It turned out that mas_preallocate() requires the maple tree not to change
-      in between pre-allocating nodes with mas_preallocate() and inserting an
-      entry with the help of the pre-allocated memory (mas_insert_prealloc()).
-
-      However, considering that drivers typically implement interfaces where
-      jobs to create GPU mappings can be submitted by userspace, are queued up
-      by the kernel and are processed asynchronously in dma-fence signalling
-      critical paths, this is a major issue. In the ioctl() used to submit a job
-      we'd need to pre-allocated memory with mas_preallocate(), however,
-      previously queued up jobs could concurrently alter the maple tree
-      resulting in potentially insufficient pre-allocated memory for the
-      currently submitted job on execution time.
-
-      There is a detailed and still ongoing discussion about this topic one the
-      -mm list [1]. So far the only solution seems to be to use GFP_ATOMIC
-      and allocate memory directly in the fence signalling critical path, where
-      we need it. However, I think that is not what we want to rely on.
-
-      I think we should definitely continue in trying to find a solution on how
-      to fit in the maple tree (or how to make the maple tree fit in). However,
-      for now it seems to be more expedient to move on using a RB-tree.
-
-      [1] https://lore.kernel.org/lkml/20230612203953.2093911-15-Liam.Howlett@oracle.com/
-
-    - Provide a flag to let driver optionally provide their own lock to lock
-      linking and unlinking of GPUVAs to GEM objects. The DRM GPUVA manager
-      still does not take the locks itself, but rather contains lockdep checks
-      on either the GEMs dma-resv lock (default) or, if
-      DRM_GPUVA_MANAGER_LOCK_EXTERN is set, the driver provided lock.
-      (Boris Brezillon)
-
-Changes in V7
-=============
-  Nouveau:
-    - Rebase to drm_exec v7.
-    - Move drm_gem_gpuva_init() before ttm_bo_init_validate(), but after
-      initialization of the corresponding dma-resv.
-
-  GPUVA Manager:
-    - Fix drm_gpuva_find_first() range parameter in drm_gpuva_for_each_va*
-      macros. (Boris)
-    - Simplify drm_gpuva_for_each_va* macros using a __drm_gpuva_next() helper.
-      (Boris)
-    - Move lockdep checks for an optional external GEM gpuva list lock out of
-      the GPUVA Manager to drm_gem.h. (Boris)
-    - Fix code style issues pointed out by Thomas.
-    - Switch to EXPORT_SYMBOL_GPL(). (Christoph)
-
-Changes in V8
-=============
-  Nouveau:
-    - n/a
-
-  GPUVA Manager:
-    - Fix documentation about locking the GEMs GPUVA list. (Donald)
-    - Fix a few minor checkpatch warnings.
-
-Danilo Krummrich (12):
-  drm: manager to keep track of GPUs VA mappings
-  drm: debugfs: provide infrastructure to dump a DRM GPU VA space
-  drm/nouveau: new VM_BIND uapi interfaces
-  drm/nouveau: get vmm via nouveau_cli_vmm()
-  drm/nouveau: bo: initialize GEM GPU VA interface
-  drm/nouveau: move usercopy helpers to nouveau_drv.h
-  drm/nouveau: fence: separate fence alloc and emit
-  drm/nouveau: fence: fail to emit when fence context is killed
-  drm/nouveau: chan: provide nouveau_channel_kill()
-  drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
-  drm/nouveau: implement new VM_BIND uAPI
-  drm/nouveau: debugfs: implement DRM GPU VA debugfs
-
- Documentation/gpu/driver-uapi.rst             |   11 +
- Documentation/gpu/drm-mm.rst                  |   36 +
- drivers/gpu/drm/Makefile                      |    1 +
- drivers/gpu/drm/drm_debugfs.c                 |   40 +
- drivers/gpu/drm/drm_gem.c                     |    3 +
- drivers/gpu/drm/drm_gpuva_mgr.c               | 1728 +++++++++++++++
- drivers/gpu/drm/nouveau/Kbuild                |    3 +
- drivers/gpu/drm/nouveau/Kconfig               |    2 +
- drivers/gpu/drm/nouveau/dispnv04/crtc.c       |    9 +-
- drivers/gpu/drm/nouveau/include/nvif/if000c.h |   26 +-
- drivers/gpu/drm/nouveau/include/nvif/vmm.h    |   19 +-
- .../gpu/drm/nouveau/include/nvkm/subdev/mmu.h |   20 +-
- drivers/gpu/drm/nouveau/nouveau_abi16.c       |   24 +
- drivers/gpu/drm/nouveau/nouveau_abi16.h       |    1 +
- drivers/gpu/drm/nouveau/nouveau_bo.c          |  209 +-
- drivers/gpu/drm/nouveau/nouveau_bo.h          |    2 +-
- drivers/gpu/drm/nouveau/nouveau_chan.c        |   22 +-
- drivers/gpu/drm/nouveau/nouveau_chan.h        |    1 +
- drivers/gpu/drm/nouveau/nouveau_debugfs.c     |   39 +
- drivers/gpu/drm/nouveau/nouveau_dmem.c        |    9 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c         |   27 +-
- drivers/gpu/drm/nouveau/nouveau_drv.h         |   94 +-
- drivers/gpu/drm/nouveau/nouveau_exec.c        |  414 ++++
- drivers/gpu/drm/nouveau/nouveau_exec.h        |   54 +
- drivers/gpu/drm/nouveau/nouveau_fence.c       |   23 +-
- drivers/gpu/drm/nouveau/nouveau_fence.h       |    5 +-
- drivers/gpu/drm/nouveau/nouveau_gem.c         |   62 +-
- drivers/gpu/drm/nouveau/nouveau_mem.h         |    5 +
- drivers/gpu/drm/nouveau/nouveau_prime.c       |    2 +-
- drivers/gpu/drm/nouveau/nouveau_sched.c       |  462 ++++
- drivers/gpu/drm/nouveau/nouveau_sched.h       |  123 +
- drivers/gpu/drm/nouveau/nouveau_svm.c         |    2 +-
- drivers/gpu/drm/nouveau/nouveau_uvmm.c        | 1970 +++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_uvmm.h        |  107 +
- drivers/gpu/drm/nouveau/nouveau_vmm.c         |    4 +-
- drivers/gpu/drm/nouveau/nvif/vmm.c            |  100 +-
- .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  213 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c |  197 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   25 +
- .../drm/nouveau/nvkm/subdev/mmu/vmmgf100.c    |   16 +-
- .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   16 +-
- .../gpu/drm/nouveau/nvkm/subdev/mmu/vmmnv50.c |   27 +-
- include/drm/drm_debugfs.h                     |   25 +
- include/drm/drm_drv.h                         |    6 +
- include/drm/drm_gem.h                         |   79 +
- include/drm/drm_gpuva_mgr.h                   |  706 ++++++
- include/uapi/drm/nouveau_drm.h                |  209 ++
- 47 files changed, 6938 insertions(+), 240 deletions(-)
- create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
- create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.c
- create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.h
- create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.c
- create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.h
- create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.c
- create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.h
- create mode 100644 include/drm/drm_gpuva_mgr.h
-
-
-base-commit: 41639b3a8b0f1f194dfe0577d99db70613f78626
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 4855230ba2c6..c90dbcffa0dc 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -39,6 +39,7 @@
+ #include <drm/drm_file.h>
+ #include <drm/drm_gem.h>
+ #include <drm/drm_managed.h>
++#include <drm/drm_gpuva_mgr.h>
+ 
+ #include "drm_crtc_internal.h"
+ #include "drm_internal.h"
+@@ -175,6 +176,45 @@ static const struct file_operations drm_debugfs_fops = {
+ 	.release = single_release,
+ };
+ 
++/**
++ * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
++ * @m: pointer to the &seq_file to write
++ * @mgr: the &drm_gpuva_manager representing the GPU VA space
++ *
++ * Dumps the GPU VA mappings of a given DRM GPU VA manager.
++ *
++ * For each DRM GPU VA space drivers should call this function from their
++ * &drm_info_list's show callback.
++ *
++ * Returns: 0 on success, -ENODEV if the &mgr is not initialized
++ */
++int drm_debugfs_gpuva_info(struct seq_file *m,
++			   struct drm_gpuva_manager *mgr)
++{
++	struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
++
++	if (!mgr->name)
++		return -ENODEV;
++
++	seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
++		   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
++	seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
++		   kva->va.addr, kva->va.addr + kva->va.range);
++	seq_puts(m, "\n");
++	seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
++	seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
++	drm_gpuva_for_each_va(va, mgr) {
++		if (unlikely(va == kva))
++			continue;
++
++		seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
++			   va->va.addr, va->va.range, va->va.addr + va->va.range,
++			   (u64)va->gem.obj, va->gem.offset);
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_debugfs_gpuva_info);
+ 
+ /**
+  * drm_debugfs_create_files - Initialize a given set of debugfs files for DRM
+diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
+index 7616f457ce70..cb2c1956a214 100644
+--- a/include/drm/drm_debugfs.h
++++ b/include/drm/drm_debugfs.h
+@@ -34,6 +34,22 @@
+ 
+ #include <linux/types.h>
+ #include <linux/seq_file.h>
++
++#include <drm/drm_gpuva_mgr.h>
++
++/**
++ * DRM_DEBUGFS_GPUVA_INFO - &drm_info_list entry to dump a GPU VA space
++ * @show: the &drm_info_list's show callback
++ * @data: driver private data
++ *
++ * Drivers should use this macro to define a &drm_info_list entry to provide a
++ * debugfs file for dumping the GPU VA space regions and mappings.
++ *
++ * For each DRM GPU VA space drivers should call drm_debugfs_gpuva_info() from
++ * their @show callback.
++ */
++#define DRM_DEBUGFS_GPUVA_INFO(show, data) {"gpuvas", show, DRIVER_GEM_GPUVA, data}
++
+ /**
+  * struct drm_info_list - debugfs info list entry
+  *
+@@ -134,6 +150,9 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
+ 
+ void drm_debugfs_add_files(struct drm_device *dev,
+ 			   const struct drm_debugfs_info *files, int count);
++
++int drm_debugfs_gpuva_info(struct seq_file *m,
++			   struct drm_gpuva_manager *mgr);
+ #else
+ static inline void drm_debugfs_create_files(const struct drm_info_list *files,
+ 					    int count, struct dentry *root,
+@@ -155,6 +174,12 @@ static inline void drm_debugfs_add_files(struct drm_device *dev,
+ 					 const struct drm_debugfs_info *files,
+ 					 int count)
+ {}
++
++static inline int drm_debugfs_gpuva_info(struct seq_file *m,
++					 struct drm_gpuva_manager *mgr)
++{
++	return 0;
++}
+ #endif
+ 
+ #endif /* _DRM_DEBUGFS_H_ */
 -- 
 2.41.0
 
