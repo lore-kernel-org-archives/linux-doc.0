@@ -2,134 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B650C0015E
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 15:15:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76611EB64DC
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 15:31:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231945AbjGTPPk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 11:15:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52640 "EHLO
+        id S232680AbjGTPbm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 11:31:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232530AbjGTPPd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 11:15:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0CF26B0;
-        Thu, 20 Jul 2023 08:15:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D5FB361B40;
-        Thu, 20 Jul 2023 15:15:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F333C433C7;
-        Thu, 20 Jul 2023 15:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689866131;
-        bh=04mRcNWXgjQaxb3drv8PqaZhrLgEK17mnXzAi5oyt+s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YZ7zi/YChc7USpnQSp5T0WNJP3whsLqNWbYH0AXGbZ+OPIel3HkL12V4RKtTgkT3q
-         12cinlCgxfelVNBEDAe/C0Nug7zGF65Y84fptydiaXuEy/BOgWQmMqwP3Vk3usLG7u
-         3miKCy4dtQr/lMDbN52RFCxGfNngX2QivUxp114Tc6xZ2qBGdMQLKmuJTze6tSUeSA
-         t1s8ShqnRBSwyTwAM+xWRnykyxYYelnnPwhfWr7DhahqaYfd2teQXHFSN7bOVgrJj0
-         z4jdKRMjh1U/oMSe6H9AvAsgbvJy/MGYoL5COk72Gbzu/sIgrRNmoJYLy53QDhrCSF
-         aJNHRycL1Vrzg==
-Date:   Thu, 20 Jul 2023 16:15:26 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     corbet@lwn.net, Andrew Lunn <andrew@lunn.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Leon Romanovsky <leonro@nvidia.com>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux@leemhuis.info, kvalo@kernel.org,
-        benjamin.poirier@gmail.com
-Subject: Re: [PATCH docs v3] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <20230720-proxy-smile-f1b882906ded@spud>
-References: <20230719183225.1827100-1-kuba@kernel.org>
+        with ESMTP id S232623AbjGTPbZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 11:31:25 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122FB273A;
+        Thu, 20 Jul 2023 08:31:03 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id d9443c01a7336-1b9c368f4b5so14339465ad.0;
+        Thu, 20 Jul 2023 08:31:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689867062; x=1690471862;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=o9pCoYfLYt9B3ChEvgrKldiUE8AoOWfPJHRKLLp3+jA=;
+        b=DqE6Cr+kIf9OW0thCOvOADRkskSzpHMmBsgHy4ZByuTyC6r1EUsoHgcnJ28zwTpQhv
+         36YECQOqtifRSOZfTRMpcF/C8FJ+xWWmoS6LFX85s7CAeUkCDYtdbpguJtlkVn/80Unv
+         BMuDvJUbjBxyEyYnSCCPWQET03+Q6dvxc1Oubm11eZotKwSoL16O9vtShvOmDMAQ9jyg
+         I7btG6lXzOnMKfjEtgzDgNKinbOWZ0Wg5Hyu8QS9DVPD7+0CuOeFBRILSjP0eGJgCWmN
+         VliDwtOoUUKHFmDX/o1gO+NYcH7uPD6Amod2FyzkF8bf4TZN2CcFGwmywVixGyGpiS/y
+         YHdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689867062; x=1690471862;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o9pCoYfLYt9B3ChEvgrKldiUE8AoOWfPJHRKLLp3+jA=;
+        b=gdYPHWaXYT/17V2Q17azpKR+9p2k0KuY4/mBGMvfREzxhCpi3OZcGu8gjPIHYzcDXn
+         aGBe4ulCKQYZj9F7S79pN9B5yCyOkVl09QH0GMbArc1ccLJvKCMrzKWyZsjqYUXf07sv
+         139TgLHfK0CM/0X7Hs+guDqzC0WIjgjfg3jakbx/7scS9q26Ec0PRINUQAPZbSTMjO22
+         4gx4WEw1bENvry81VQQfosxBJYEyCh9KbRuiX3BImCiqIuwKwOBLz1MVBGQanI498NtT
+         OGCk2S7x8cxi+ONucmO9squ8FCGcKt7XwFVVrJskaN9r19Xq014Ct3zBxBj0c3+YhUFo
+         5m+A==
+X-Gm-Message-State: ABy/qLagvJl6M4u+NKCyzlqzIq5csIwk2wGf+EIJi7aL5d+EbHVHSfRK
+        qd2WudMG4gcA/KXA3NnbH98dSnLzjkGcRkGQLdo=
+X-Google-Smtp-Source: APBJJlGgAxfEmsiDRz5I9c14rHKpjRRYROihAalNfv7cu7/JYJNIrhBD0B+MgfydBQfc8b2Am9w8nQ==
+X-Received: by 2002:a17:903:338e:b0:1b7:de50:7d9c with SMTP id kb14-20020a170903338e00b001b7de507d9cmr6670195plb.15.1689867062281;
+        Thu, 20 Jul 2023 08:31:02 -0700 (PDT)
+Received: from [172.23.111.174] ([113.251.0.121])
+        by smtp.gmail.com with ESMTPSA id g14-20020a63ad0e000000b00528db73ed70sm1390564pgf.3.2023.07.20.08.30.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jul 2023 08:31:01 -0700 (PDT)
+Message-ID: <671503c8-c5c9-f475-1085-2a5c551d74ea@gmail.com>
+Date:   Thu, 20 Jul 2023 23:30:50 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="d/z8QjQ7RZYLewHr"
-Content-Disposition: inline
-In-Reply-To: <20230719183225.1827100-1-kuba@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From:   Hu Haowen <src.res.211@gmail.com>
+Subject: Re: [PATCH RESEND 0/6] docs/zh_TW: update zh_TW's documentation from
+ an ascensive aspect
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230720132729.1821-1-src.res.211@gmail.com>
+ <877cqur8l6.fsf@meer.lwn.net>
+Content-Language: en-US
+In-Reply-To: <877cqur8l6.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---d/z8QjQ7RZYLewHr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hey,
+On 2023/7/20 21:55, Jonathan Corbet wrote:
+> Hu Haowen <src.res.211@gmail.com> writes:
+> 
+>> Update zh_TW's documentation concentrating on the following aspects:
+>>
+>>      * The file tree structure changes of the main documentation;
+>>      * Some changes and ideas from zh_CN translation;
+>>      * Removal for several obsoleted contents within the zh_TW translation
+>>        or those which are not exising anymore in the main documentation.
+>>      * Replacements for some incorrect words and phrases in traditional
+>>        Chinese or those which are odd within their context being hard for
+>>        readers to comprehend.
+> 
+> Is there a reason why you're resending a patch series from four days
+> ago?
 
-On Wed, Jul 19, 2023 at 11:32:25AM -0700, Jakub Kicinski wrote:
-> We appear to have a gap in our process docs. We go into detail
-> on how to contribute code to the kernel, and how to be a subsystem
-> maintainer. I can't find any docs directed towards the thousands
-> of small scale maintainers, like folks maintaining a single driver
-> or a single network protocol.
->=20
-> Document our expectations and best practices. I'm hoping this doc
-> will be particularly useful to set expectations with HW vendors.
+Considering for a long time but no reply, I just thought my patches were
+ignored among the flood of emails or regarded as spam information.
 
-Thanks for writing this up, it's great to have this stuff written down.
+Accordingly I resent my patches to ensure the reception of my patches as
+well as added the cover email to provide an outline of my patch series.
 
-I had one minor comment from reading through things...
+Thanks,
+Hu Haowen
 
-> +Responsibilities
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The amount of maintenance work is usually proportional to the size
-> +and popularity of the code base. Small features and drivers should
-> +require relatively small amount of care and feeding. Nonetheless
-> +when the work does arrive (in form of patches which need review,
-> +user bug reports etc.) it has to be acted upon promptly.
-> +Even when a particular driver only sees one patch a month, or a quarter,
-> +a subsystem could well have a hundred such drivers. Subsystem
-> +maintainers cannot afford to wait a long time to hear from reviewers.
-> +
-> +The exact expectations on the response time will vary by subsystem.
-> +The patch review SLA the subsystem had set for itself can sometimes
-> +be found in the subsystem documentation. Failing that as a rule of thumb
-> +reviewers should try to respond quicker than what is the usual patch
-> +review delay of the subsystem maintainer. The resulting expectations
-> +may range from two working days for fast-paced subsystems (e.g. networki=
-ng)
-> +to as long as a few weeks in slower moving parts of the kernel.
-> +
-> +Mailing list participation
-> +--------------------------
-
-> +Reviews
-> +-------
-
-> +Refactoring and core changes
-> +----------------------------
-
-
-> +Bug reports
-> +-----------
-
-=2E.I noticed that none of these sections address actually testing the
-code they're responsible for on a (semi-)regular basis. Sure, that comes
-as part of reviewing the patches for their code, but changes to other
-subsystems that a driver/feature maintainer probably would not have been
-CCed on may cause problems for the code they maintain.
-If we are adding a doc about best-practice for maintainers, I think we
-should be encouraging people to test regularly.
-
-
---d/z8QjQ7RZYLewHr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZLlPigAKCRB4tDGHoIJi
-0vo7AP9SiCGy+w1ylCijiSy5SGDnWjSKXk19XlvB6y46RGchEgD/eDPkXorZb8NH
-dbM/yc7dITacGo/AZysVMhOVCS2KYA4=
-=umN0
------END PGP SIGNATURE-----
-
---d/z8QjQ7RZYLewHr--
+> 
+> Thanks,
+> 
+> jon
