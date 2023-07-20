@@ -2,96 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04121EB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 09:47:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F38CCEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 10:39:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbjGTJrP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 05:47:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46634 "EHLO
+        id S229919AbjGTKj5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 06:39:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230243AbjGTJq5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 05:46:57 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA4AC46A6;
-        Thu, 20 Jul 2023 02:43:24 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4fb77f21c63so867738e87.2;
-        Thu, 20 Jul 2023 02:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689846203; x=1690451003;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DhzN4qcCsXrBpHBz7GecFneSOqYVBbg2vRpxqza4atk=;
-        b=R0uk7n9H4QRbDY75AOIL55xFhZJc3quqJrlQe9yBxWnYtPe1vx4CrXdpDhxJQ4+Tv7
-         /Hf3XmBgoHeCA414NXsttQZs7TTyFA5yfEXLhZjB5QWETq+70O1Lp2w8aj4Six7yMRdk
-         /1b95eH9nKFrTzN2yBWUvPAAjMKCinMLZYFMyIgFocZVSolFcblbOF/oyc77A1x5T6Nc
-         HUmRLZ6dIuAs5m945/a8nJaBKeYQ0JxUu2C5ApryyPbEa1hOjUXShwt6pyDGovrMcsOi
-         8O5i/seeNAZb4AXacxCetyHr8sGzcgXChcRaYDbbEYsAGTeDW3c09j2MR3UGPNlBenP0
-         lJhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689846203; x=1690451003;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DhzN4qcCsXrBpHBz7GecFneSOqYVBbg2vRpxqza4atk=;
-        b=LtWf2nHtE9q0ReFE8DsSDaerirnA5yCY2pSFKSELOdCVBoEui3+hSyYYTZQiSnyN7r
-         Hu7U/woY16n9ewpQz5lLePOpHOIKMB+RfJyc3fiQmfxyNJOTG3NLK+G/htNRJ1cJm/Wt
-         f0olEAuuFZ8yfr1GFrZ2ME9QgW+MqNqPWvF0yQpZkpw8DjeBAnM2lCBfJGphR0PFWJ5A
-         FTDK924xQcNpWGeZZvQ0qh67qwdGKTzQVgL0In4BALeNRZXjqDms8x4ES/A4Ed3r7oWK
-         Xes4qVDfYcMTVh0GkOGxqHE5PO2GwciCOQeFrWsJV8M57aKRvLMQhaOJmdcQJSY/hJjM
-         5C2Q==
-X-Gm-Message-State: ABy/qLYU+tcZfD6e5Q5CyFJo11H7eMoU6iCbQr4zh6535cYf+spDA+i7
-        +CDjf3nED7JPqRVFBt2B5gQ=
-X-Google-Smtp-Source: APBJJlFEX9pibdR1e+6fRVOrpfAnUm08G0crM+2MIHDpBWy+r0Xk0zxxXVd5dIwAGZICk/3NsxouOw==
-X-Received: by 2002:a19:6705:0:b0:4fb:780d:2a49 with SMTP id b5-20020a196705000000b004fb780d2a49mr1592371lfc.5.1689846202847;
-        Thu, 20 Jul 2023 02:43:22 -0700 (PDT)
-Received: from lukas-virtualBox.synapse.com ([94.42.83.62])
-        by smtp.gmail.com with ESMTPSA id t28-20020ac243bc000000b004fb8603f6e0sm122441lfl.12.2023.07.20.02.43.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 02:43:22 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     David Howells <dhowells@redhat.com>,
-        Marc Dionne <marc.dionne@auristor.com>,
+        with ESMTP id S229704AbjGTKj4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 06:39:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA37E10FC;
+        Thu, 20 Jul 2023 03:39:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 76ED9619D6;
+        Thu, 20 Jul 2023 10:39:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 628BEC433C8;
+        Thu, 20 Jul 2023 10:39:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689849594;
+        bh=Ar/Gi1NpfeGPQHX9IvNG60t0nluiTW51x6QacXx+2Fo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=itESVfl4kwoeHpazFODI25Ze0/Mpw2JE1wwRTKeEpY6l2/WuEIglQJEqaZBBDgn9G
+         81ZjDN1xNM6U6lOU5IKpsoInvikT3lNMYPlf2Mc4fbJklfhGG7ZcbZe6A3fxkBtDnq
+         CLge5Hw424qwiu1mL+NxMUzR4+xHVahM3J/cxYe/iJpsCf0yzo2FM4d4R+jZyrDM5h
+         1l93xBHmhfkfp2igQPCjy3TW3h0uWjhOImxdePy2KnFv0i/P5a5EmsX5MIWawoytEZ
+         OFbqU1U4a+vkd+dex7ykkUUD5hnFA7JFDZWuwsLfRomtCCgHVX36A4MjmX2km/T+de
+         05/h+1VZXHCdQ==
+Date:   Thu, 20 Jul 2023 11:39:47 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-afs@lists.infradead.org, linux-doc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] afs: Documentation: correct reference to CONFIG_AFS_FS
-Date:   Thu, 20 Jul 2023 11:43:01 +0200
-Message-Id: <20230720094301.9888-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, qperret@google.com
+Subject: Re: [PATCH v13 10/24] gunyah: vm_mgr: Add/remove user memory regions
+Message-ID: <20230720103946.GC11034@willie-the-truck>
+References: <20230509204801.2824351-1-quic_eberman@quicinc.com>
+ <20230509204801.2824351-11-quic_eberman@quicinc.com>
+ <20230519115948.GB2637@willie-the-truck>
+ <e22c31bd-10ed-f242-3e72-debf40e01e3c@quicinc.com>
+ <20230605141839.GD21212@willie-the-truck>
+ <3bd86221-ee2e-d157-009b-11f6ada98537@quicinc.com>
+ <eae302ab-b508-cdc6-847f-dff6a6b82798@quicinc.com>
+ <04605642-cad8-1701-ff41-63f2f00ba5f6@quicinc.com>
+ <20230714121321.GB5597@willie-the-truck>
+ <5ef4a5f7-27a0-f46c-fcbd-c3b8c93e0366@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ef4a5f7-27a0-f46c-fcbd-c3b8c93e0366@quicinc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 0795e7c031c4 ("[AFS]: Update the AFS fs documentation.") adds a new
-section listing the build configuration options that need to be enabled for
-the AFS file system.
+On Tue, Jul 18, 2023 at 07:28:49PM -0700, Elliot Berman wrote:
+> On 7/14/2023 5:13 AM, Will Deacon wrote:
+> > On Thu, Jul 13, 2023 at 01:28:34PM -0700, Elliot Berman wrote:
+> > > On 6/22/2023 4:56 PM, Elliot Berman wrote:
+> > > > On 6/7/2023 8:54 AM, Elliot Berman wrote:
+> > > > > On 6/5/2023 7:18 AM, Will Deacon wrote:
+> > > > > > Right, protected guests will use the new restricted memfd ("guest mem"
+> > > > > > now, I think?), but non-protected guests should implement the existing
+> > > > > > interface *without* the need for the GUP pin on guest memory pages. Yes,
+> > > > > > that means full support for MMU notifiers so that these pages can be
+> > > > > > managed properly by the host kernel. We're working on that for pKVM, but
+> > > > > > it requires a more flexible form of memory sharing over what we
+> > > > > > currently
+> > > > > > have so that e.g. the zero page can be shared between multiple entities.
+> > > > > 
+> > > > > Gunyah doesn't support swapping pages out while the guest is running
+> > > > > and the design of Gunyah isn't made to give host kernel full control
+> > > > > over the S2 page table for its guests. As best I can tell from
+> > > > > reading the respective drivers, ACRN and Nitro Enclaves both GUP pin
+> > > > > guest memory pages prior to giving them to the guest, so I don't
+> > > > > think this requirement from Gunyah is particularly unusual.
+> > > > > 
+> > > > 
+> > > > I read/dug into mmu notifiers more and I don't think it matches with
+> > > > Gunyah's features today. We don't allow the host to freely manage VM's
+> > > > pages because it requires the guest VM to have a level of trust on the
+> > > > host. Once a page is given to the guest, it's done for the lifetime of
+> > > > the VM. Allowing the host to replace pages in the guest memory map isn't
+> > > > part of any VM's security model that we run in Gunyah. With that
+> > > > requirement, longterm pinning looks like the correct approach to me.
+> > > 
+> > > Is my approach of longterm pinning correct given that Gunyah doesn't allow
+> > > host to freely swap pages?
+> > 
+> > No, I really don't think a longterm GUP pin is the right approach for this.
+> > GUP pins in general are horrible for the mm layer, but required for cases
+> > such as DMA where I/O faults are unrecoverable. Gunyah is not a good
+> > justification for such a hack, and I don't think you get to choose which
+> > parts of the Linux mm you want and which bits you don't.
+> > 
+> > In other words, either carve out your memory and pin it that way, or
+> > implement the proper hooks for the mm to do its job.
+> 
+> I talked to the team about whether we can extend the Gunyah support for
+> this. We have plans to support sharing/lending individual pages when the
+> guest faults on them. The support also allows (unprotected) pages to be
+> removed from the VM. We'll need to temporarily pin the pages of the VM
+> configuration device tree blob while the VM is being created and those pages
+> can be unpinned once the VM starts. I'll work on this.
 
-The documentation refers to CONFIG_AFS, but the option is called
-CONFIG_AFS_FS, since the beginning of Linux's git history.
+That's pleasantly unexpected, thanks for pursuing this!
 
-Refer to the config option with the correct name.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- Documentation/filesystems/afs.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/filesystems/afs.rst b/Documentation/filesystems/afs.rst
-index ca062a7f8ee2..f15ba388bbde 100644
---- a/Documentation/filesystems/afs.rst
-+++ b/Documentation/filesystems/afs.rst
-@@ -44,7 +44,7 @@ options::
- 
- 	CONFIG_AF_RXRPC		- The RxRPC protocol transport
- 	CONFIG_RXKAD		- The RxRPC Kerberos security handler
--	CONFIG_AFS		- The AFS filesystem
-+	CONFIG_AFS_FS		- The AFS filesystem
- 
- Additionally, the following can be turned on to aid debugging::
- 
--- 
-2.34.1
-
+Will
