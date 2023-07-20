@@ -2,102 +2,77 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76611EB64DC
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 15:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D8D1C001DC
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 15:51:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232680AbjGTPbm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 11:31:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36572 "EHLO
+        id S231812AbjGTPvK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 11:51:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232623AbjGTPbZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 11:31:25 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122FB273A;
-        Thu, 20 Jul 2023 08:31:03 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id d9443c01a7336-1b9c368f4b5so14339465ad.0;
-        Thu, 20 Jul 2023 08:31:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689867062; x=1690471862;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=o9pCoYfLYt9B3ChEvgrKldiUE8AoOWfPJHRKLLp3+jA=;
-        b=DqE6Cr+kIf9OW0thCOvOADRkskSzpHMmBsgHy4ZByuTyC6r1EUsoHgcnJ28zwTpQhv
-         36YECQOqtifRSOZfTRMpcF/C8FJ+xWWmoS6LFX85s7CAeUkCDYtdbpguJtlkVn/80Unv
-         BMuDvJUbjBxyEyYnSCCPWQET03+Q6dvxc1Oubm11eZotKwSoL16O9vtShvOmDMAQ9jyg
-         I7btG6lXzOnMKfjEtgzDgNKinbOWZ0Wg5Hyu8QS9DVPD7+0CuOeFBRILSjP0eGJgCWmN
-         VliDwtOoUUKHFmDX/o1gO+NYcH7uPD6Amod2FyzkF8bf4TZN2CcFGwmywVixGyGpiS/y
-         YHdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689867062; x=1690471862;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o9pCoYfLYt9B3ChEvgrKldiUE8AoOWfPJHRKLLp3+jA=;
-        b=gdYPHWaXYT/17V2Q17azpKR+9p2k0KuY4/mBGMvfREzxhCpi3OZcGu8gjPIHYzcDXn
-         aGBe4ulCKQYZj9F7S79pN9B5yCyOkVl09QH0GMbArc1ccLJvKCMrzKWyZsjqYUXf07sv
-         139TgLHfK0CM/0X7Hs+guDqzC0WIjgjfg3jakbx/7scS9q26Ec0PRINUQAPZbSTMjO22
-         4gx4WEw1bENvry81VQQfosxBJYEyCh9KbRuiX3BImCiqIuwKwOBLz1MVBGQanI498NtT
-         OGCk2S7x8cxi+ONucmO9squ8FCGcKt7XwFVVrJskaN9r19Xq014Ct3zBxBj0c3+YhUFo
-         5m+A==
-X-Gm-Message-State: ABy/qLagvJl6M4u+NKCyzlqzIq5csIwk2wGf+EIJi7aL5d+EbHVHSfRK
-        qd2WudMG4gcA/KXA3NnbH98dSnLzjkGcRkGQLdo=
-X-Google-Smtp-Source: APBJJlGgAxfEmsiDRz5I9c14rHKpjRRYROihAalNfv7cu7/JYJNIrhBD0B+MgfydBQfc8b2Am9w8nQ==
-X-Received: by 2002:a17:903:338e:b0:1b7:de50:7d9c with SMTP id kb14-20020a170903338e00b001b7de507d9cmr6670195plb.15.1689867062281;
-        Thu, 20 Jul 2023 08:31:02 -0700 (PDT)
-Received: from [172.23.111.174] ([113.251.0.121])
-        by smtp.gmail.com with ESMTPSA id g14-20020a63ad0e000000b00528db73ed70sm1390564pgf.3.2023.07.20.08.30.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jul 2023 08:31:01 -0700 (PDT)
-Message-ID: <671503c8-c5c9-f475-1085-2a5c551d74ea@gmail.com>
-Date:   Thu, 20 Jul 2023 23:30:50 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From:   Hu Haowen <src.res.211@gmail.com>
-Subject: Re: [PATCH RESEND 0/6] docs/zh_TW: update zh_TW's documentation from
- an ascensive aspect
-To:     Jonathan Corbet <corbet@lwn.net>
+        with ESMTP id S232983AbjGTPvJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 11:51:09 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6574A123;
+        Thu, 20 Jul 2023 08:51:08 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E8364733;
+        Thu, 20 Jul 2023 15:51:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E8364733
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1689868268; bh=koaFNtpbcHava0Y0C+gpeyC1x0C0S3Ay62GAGr7//R8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=RWiS2lyreGWqPC+Nf2p0NUGM/O3jbrMb5VKac5CW/T5pq3spNIihAMCKyT6L4M/CP
+         QrXpMWxxdJ0mu/wtKb/v8kzyMejsw40YykRxTji9xLou4D14K9rCYJ9Z2NqwlyrA0D
+         uZTxPkGYASqJsxjr+P04+lLDH8aNiT3TK+zotLVVRMBa5r8VJI2MWHz3rOXuLDejYy
+         18pkHc7udrDGjU7GCI+V8JMWfWZySDieMLkXmgIF5eWNIZIeu9nuuIEkcmRdspyS57
+         TskUf+kUhrrp1CkpksyiLLd2amQ1xaviMbYD/3U75qFKAmqu8i3GCB22CbIiL69W6u
+         c3brPKssZYoWQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Hu Haowen <src.res.211@gmail.com>
 Cc:     linux-doc-tw-discuss@lists.sourceforge.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND 0/6] docs/zh_TW: update zh_TW's documentation
+ from an ascensive aspect
+In-Reply-To: <671503c8-c5c9-f475-1085-2a5c551d74ea@gmail.com>
 References: <20230720132729.1821-1-src.res.211@gmail.com>
  <877cqur8l6.fsf@meer.lwn.net>
-Content-Language: en-US
-In-Reply-To: <877cqur8l6.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <671503c8-c5c9-f475-1085-2a5c551d74ea@gmail.com>
+Date:   Thu, 20 Jul 2023 09:51:07 -0600
+Message-ID: <87h6pypono.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hu Haowen <src.res.211@gmail.com> writes:
 
+> On 2023/7/20 21:55, Jonathan Corbet wrote:
+>> Hu Haowen <src.res.211@gmail.com> writes:
+>> 
+>>> Update zh_TW's documentation concentrating on the following aspects:
+>>>
+>>>      * The file tree structure changes of the main documentation;
+>>>      * Some changes and ideas from zh_CN translation;
+>>>      * Removal for several obsoleted contents within the zh_TW translation
+>>>        or those which are not exising anymore in the main documentation.
+>>>      * Replacements for some incorrect words and phrases in traditional
+>>>        Chinese or those which are odd within their context being hard for
+>>>        readers to comprehend.
+>> 
+>> Is there a reason why you're resending a patch series from four days
+>> ago?
+>
+> Considering for a long time but no reply, I just thought my patches were
+> ignored among the flood of emails or regarded as spam information.
+>
+> Accordingly I resent my patches to ensure the reception of my patches as
+> well as added the cover email to provide an outline of my patch series.
 
-On 2023/7/20 21:55, Jonathan Corbet wrote:
-> Hu Haowen <src.res.211@gmail.com> writes:
-> 
->> Update zh_TW's documentation concentrating on the following aspects:
->>
->>      * The file tree structure changes of the main documentation;
->>      * Some changes and ideas from zh_CN translation;
->>      * Removal for several obsoleted contents within the zh_TW translation
->>        or those which are not exising anymore in the main documentation.
->>      * Replacements for some incorrect words and phrases in traditional
->>        Chinese or those which are odd within their context being hard for
->>        readers to comprehend.
-> 
-> Is there a reason why you're resending a patch series from four days
-> ago?
-
-Considering for a long time but no reply, I just thought my patches were
-ignored among the flood of emails or regarded as spam information.
-
-Accordingly I resent my patches to ensure the reception of my patches as
-well as added the cover email to provide an outline of my patch series.
+Four days is not long enough by far; I'll get to it.
 
 Thanks,
-Hu Haowen
 
-> 
-> Thanks,
-> 
-> jon
+jon
