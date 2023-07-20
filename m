@@ -2,268 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09333EB64DD
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 12:05:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AAFDC001DF
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 12:27:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229883AbjGTMF2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 08:05:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59050 "EHLO
+        id S230354AbjGTM1V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 08:27:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229880AbjGTMF1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 08:05:27 -0400
-Received: from mx-out1.startmail.com (mx-out1.startmail.com [145.131.90.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 087C810F5
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 05:05:22 -0700 (PDT)
-From:   "Marty E. Plummer" <hanetzer@startmail.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=startmail.com;
-        s=2020-07; t=1689854295;
-        bh=QcDTd84f5Syv2zlZDzVZzw50uxA1cKbNqqF+nxsaLiA=;
-        h=From:To:Subject:Date:Message-ID:Mime-Version:
-         Content-Transfer-Encoding:From:Subject:To:Date:Sender:Content-Type:
-         Content-Transfer-Encoding:Content-Disposition:Mime-Version:
-         Reply-To:In-Reply-To:References:Message-Id:Autocrypt;
-        b=DZMAEosiWQwnb2IXM3Em5+0qiKiSvnyUymUZf3gwfWy9e8w/LFXvQIl8soY2IK5hv
-         yiX+mGQRSLQMpjLQCNCzApOzAKsfKIwC137VCRUzmGrZKyP+8R5r42Lp4O8M1pEbx9
-         hAk7zA/hd8cMyCaByQO75Q9zfWMzTC9irK4bZGXvA5f7ZAiRcaUz5WL5xpcd0jCyW7
-         NXH1evjfbSZPjJZCnbOl07Ro6uJOQufv14wBKgmu3LiZQp9BEx6ykvhzMLiVR1OolT
-         pSDLQfy71G9Fi3Do4o6+aTh1Ki1t+/Afo96IIuAW44+wtSJWmNZiPcTjVuMFgcKYD2
-         UmEoctV/KFpNg==
-To:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Marty E. Plummer" <hanetzer@startmail.com>
-Subject: [PATCH] hwmon: (pmbus) Add driver fpr Infineon IR35201
-Date:   Thu, 20 Jul 2023 06:58:05 -0500
-Message-ID: <20230720115805.1510279-1-hanetzer@startmail.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229450AbjGTM1U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 08:27:20 -0400
+Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E62FC2115
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 05:27:19 -0700 (PDT)
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by bee.tesarici.cz (Postfix) with ESMTPSA id 5F1E0167B3D;
+        Thu, 20 Jul 2023 14:27:13 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
+        t=1689856033; bh=Sy15tdSUh75Kyy0EKSX/r/RpOL8nRcOu9kVoTovs9Uo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=FP+LjtMSc0sf3lDo+Te+5LTKxW+4HtUmYkgN/XmiJ+LTxwyoVKCOVISvr6qA1n54o
+         AZi5SA1NID+w81Ij7hZxzKW56ukZ7Vdn0ZMcpIv6kGywuXKOOCwd6f3hzOTQ6ZFmPz
+         Qf9ggxu+sA3uwa4mrapH6fESYG8zPK7NmVb/QMIMD0MFfty0POHqpn+8VyyOMyOZbC
+         9Gjm4ZQRBYpMZOz1YOkmBH/SJBIF1j5aOG8og2+upta5x7iq7eBFx2KL0xUMO9qqwb
+         1k48i2ObRWTs3PeK/P1mWnUNg3qCIIBrsvPGmDGy/T7jzMwqiqrIlXMfYvgYOKFRYZ
+         NOfXCITBF19sg==
+Date:   Thu, 20 Jul 2023 14:27:12 +0200
+From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Yajun Deng <yajun.deng@linux.dev>, corbet@lwn.net,
+        m.szyprowski@samsung.com, robin.murphy@arm.com,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        catalin.marinas@arm.com, rdunlap@infradead.org,
+        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, linux-mm@kvack.org
+Subject: Re: [PATCH v3] dma-contiguous: support numa CMA for specified node
+Message-ID: <20230720142712.295834d0@meshulam.tesarici.cz>
+In-Reply-To: <20230720115408.GA13114@lst.de>
+References: <20230720082517.GA7057@lst.de>
+        <20230712074758.1133272-1-yajun.deng@linux.dev>
+        <25942dafbc7f52488a30c807b6322109539442cf@linux.dev>
+        <20230720115408.GA13114@lst.de>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The IR35201 is a dual-loop digital multi-phase buck controller designed for CPU voltage regulation.
+V Thu, 20 Jul 2023 13:54:08 +0200
+Christoph Hellwig <hch@lst.de> naps=C3=A1no:
 
-Signed-off-by: Marty E. Plummer <hanetzer@startmail.com>
----
- Documentation/hwmon/index.rst   |  1 +
- Documentation/hwmon/ir35201.rst | 63 +++++++++++++++++++++++
- drivers/hwmon/pmbus/Kconfig     |  9 ++++
- drivers/hwmon/pmbus/Makefile    |  1 +
- drivers/hwmon/pmbus/ir35201.c   | 89 +++++++++++++++++++++++++++++++++
- 5 files changed, 163 insertions(+)
- create mode 100644 Documentation/hwmon/ir35201.rst
- create mode 100644 drivers/hwmon/pmbus/ir35201.c
+> On Thu, Jul 20, 2023 at 08:47:37AM +0000, Yajun Deng wrote:
+> > It's based on linux-next tree.
+> >=20
+> > This patch should be after my other patch in linux-next tree.
+> > a960925a6b23("dma-contiguous: support per-numa CMA for all architecture=
+s"). =20
+>=20
+> Where did this land?
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 042e1cf9501b..5b44a268de0d 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -87,6 +87,7 @@ Hardware Monitoring Kernel Drivers
-    ina3221
-    inspur-ipsps1
-    intel-m10-bmc-hwmon
-+   ir35201
-    ir35221
-    ir38064
-    ir36021
-diff --git a/Documentation/hwmon/ir35201.rst b/Documentation/hwmon/ir35201.rst
-new file mode 100644
-index 000000000000..6ca34d4b02a3
---- /dev/null
-+++ b/Documentation/hwmon/ir35201.rst
-@@ -0,0 +1,63 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver ir35201
-+=====================
-+
-+Supported chips:
-+
-+  * Infineon IR35201
-+
-+    Prefix: ir35201
-+    Addresses scanned: -
-+
-+    Datasheet: Publicly available at the Infineon website
-+      https://www.infineon.com/dgdl/Infineon-IR35201MTRPBF-DS-v01_00-EN.pdf?fileId=5546d462576f347501579c95d19772b5
-+
-+Authors:
-+      - Marty E. Plummer <hanetzer@startmail.com>
-+
-+Description
-+-----------
-+
-+The IR35201 is a dual-loop digital multi-phase buck controller designed for
-+CPU voltage regulation.
-+
-+Usage Notes
-+-----------
-+
-+This driver does not probe for PMBus devices. You will have to instantiate
-+devices explicitly.
-+
-+Sysfs attributes
-+----------------
-+
-+======================= ===========================
-+curr1_label             "iin"
-+curr1_input             Measured input current
-+curr1_alarm             Input fault alarm
-+
-+curr2_label             "iout1"
-+curr2_input             Measured output current
-+curr2_alarm             Output over-current alarm
-+
-+in1_label               "vin"
-+in1_input               Measured input voltage
-+in1_alarm               Input under-voltage alarm
-+
-+in2_label               "vout1"
-+in2_input               Measured output voltage
-+in2_alarm               Output over-voltage alarm
-+
-+power1_label            "pin"
-+power1_input            Measured input power
-+power1_alarm            Input under-voltage alarm
-+
-+power2_label            "pout1"
-+power2_input            Measured output power
-+
-+temp1_input             Measured temperature
-+temp1_alarm             Temperature alarm
-+
-+temp2_input             Measured other loop temperature
-+temp2_alarm             Temperature alarm
-+======================= ===========================
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 270b6336b76d..7180823b15bb 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -123,6 +123,15 @@ config SENSORS_INSPUR_IPSPS
- 	  This driver can also be built as a module. If so, the module will
- 	  be called inspur-ipsps.
- 
-+config SENSORS_IR35201
-+	tristate "Infineon IR35201"
-+	help
-+	  If you say yes here you get hardware monitoring support for the
-+	  Infineon IR35201 controller.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called ir35201.
-+
- config SENSORS_IR35221
- 	tristate "Infineon IR35221"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 84ee960a6c2d..40729dd14e7a 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -15,6 +15,7 @@ obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
- obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
- obj-$(CONFIG_SENSORS_DPS920AB)	+= dps920ab.o
- obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
-+obj-$(CONFIG_SENSORS_IR35201)	+= ir35201.o
- obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
- obj-$(CONFIG_SENSORS_IR36021)	+= ir36021.o
- obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
-diff --git a/drivers/hwmon/pmbus/ir35201.c b/drivers/hwmon/pmbus/ir35201.c
-new file mode 100644
-index 000000000000..77f77057175a
---- /dev/null
-+++ b/drivers/hwmon/pmbus/ir35201.c
-@@ -0,0 +1,89 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Hardware monitoring driver for Infineon IR35201
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include "pmbus.h"
-+
-+static struct pmbus_driver_info ir35201_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = linear,
-+	.format[PSC_CURRENT_IN] = linear,
-+	.format[PSC_CURRENT_OUT] = linear,
-+	.format[PSC_POWER] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
-+		| PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
-+		| PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
-+		| PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2
-+		| PMBUS_HAVE_STATUS_TEMP,
-+};
-+
-+static int ir35201_probe(struct i2c_client *client)
-+{
-+	u8 buf[I2C_SMBUS_BLOCK_MAX];
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter,
-+				     I2C_FUNC_SMBUS_READ_BYTE_DATA
-+					 | I2C_FUNC_SMBUS_READ_WORD_DATA
-+					 | I2C_FUNC_SMBUS_READ_BLOCK_DATA))
-+		return -ENODEV;
-+
-+	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "Failed to read PMBUS_MFR_ID\n");
-+		return ret;
-+	}
-+	if (ret != 2 || strncmp(buf, "IR", strlen("IR"))) {
-+		dev_err(&client->dev, "MFR_ID unrecognized\n");
-+		return -ENODEV;
-+	}
-+
-+	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "Failed to read PMBUS_MFR_MODEL\n");
-+		return ret;
-+	}
-+	if (ret != 1 || buf[0] != 0x50) {
-+		dev_err(&client->dev, "MFR_MODEL unrecognized\n");
-+		return -ENODEV;
-+	}
-+
-+	return pmbus_do_probe(client, &ir35201_info);
-+}
-+
-+static const struct i2c_device_id ir35201_id[] = {
-+	{ "ir35201", 0},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(i2c, ir35201_id);
-+
-+static const struct of_device_id __maybe_unused ir35201_of_id[] = {
-+	{ .compatible = "infineon,ir35201" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, ir35201_of_id);
-+
-+static struct i2c_driver ir35201_driver = {
-+	.class = I2C_CLASS_HWMON,
-+	.driver = {
-+		.name = "ir35201",
-+		.of_match_table = of_match_ptr(ir35201_of_id),
-+	},
-+	.probe_new = ir35201_probe,
-+	.id_table = ir35201_id,
-+};
-+
-+module_i2c_driver(ir35201_driver);
-+
-+MODULE_AUTHOR("Marty E. Plummer <hanetzer@startmail.com>");
-+MODULE_DESCRIPTION("PMBus driver for Infineon IR35201");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(PMBUS);
--- 
-2.41.0
+Well... in the linux-next tree:
 
+https://www.kernel.org/doc/man-pages/linux-next.html
+
+>  dma patches really should be going through the DMA tree..
+
+Indeed. The other patch was also sent to the iommu ML back in May. It's
+the thread where we were looking for Barry Song's current email address.
+
+Petr T
