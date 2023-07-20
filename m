@@ -2,211 +2,70 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B3D2EB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 21:31:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7187EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 21:37:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbjGTVbb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 17:31:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55210 "EHLO
+        id S229692AbjGTVht (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 17:37:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbjGTVbb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 17:31:31 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D2319B6
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 14:31:29 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-521db0bb0e8so4430a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 14:31:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689888688; x=1690493488;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o+TZv+9vK9meP7yrsiegPH7fftVme4KMzKQcTAi+dYg=;
-        b=J9e30X5mOAwxlKHrwP2CbSu1F/CG6CRF7CJdwE5hWdatry0QdC7GvE9sa2GAUHmqfx
-         BQnNh2u/B8EU2isZoPyJaY55LxZr8Wk7ijCpORBGrRQRtcI9DRSQa1JxA+IpFvev3qHQ
-         2NETPb6LKzoIq9u5qvcHNgD/tLM6DhBjaeNaA/47QL1sXQacbivg0MR8Mg4hi0l70+UI
-         z9aWO1z0PneeUD7Gx5YAfVdbYnZ5MQ4/NvrTPiy0rWggWHYTSo+esvZacmx3WmPFCilh
-         cFtM8RiYLG+6x9amz7i0XqnUCojw/43ZFwPD+JXlTBit32B5TjQlPciHIN99sayBH5Rx
-         tn+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689888688; x=1690493488;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o+TZv+9vK9meP7yrsiegPH7fftVme4KMzKQcTAi+dYg=;
-        b=fl8IiKxRBb6JsuHqFLFR0/kcr9ccijAOVH/yM6U7PIWLK6FlKPy3ryzwj63mP/hV3t
-         UbswroY64fpmAAvTDtDwfbyxPa0ZzhpssFVqB6YauWge4pfaW7mw/bOzLVWL/XnIOv+G
-         eNteCjQJTykF3xEsw1joH7a/dX9ia/vwWulXl4wNdpLkEqDnvOODc1pmg8ciCGikw886
-         iLFZdrbdc81lPWFil/xERIHgdsFkgp8pTniWWJiEd+a/lWNbiIROFxBeqKsYu177FAfK
-         7zBxecmP/u8je7CpiAOqQBk3c/aXwU0Ue5x5otAv7bz1rt5lW60aViDZgNdpMKPZeS5y
-         Lh/w==
-X-Gm-Message-State: ABy/qLa/bvbWvyl+Tf7MSBnxUkqljnfgqIy35cAYV2qdXRES3sR/HLLV
-        6HYdKSuXbKpcvlnlsjqPe7ASoRt6ACVchMYfCXS9wQ==
-X-Google-Smtp-Source: APBJJlHZmK/ZBI3PExS8dMAh0beNXqHS4PzqN8eSz+tcvORm0rEPyAk7MU4aQKmS9HkW2VbAurIC5Ay813GGueoI0q4=
-X-Received: by 2002:a50:cd16:0:b0:51e:27ac:8f9a with SMTP id
- z22-20020a50cd16000000b0051e27ac8f9amr10339edi.1.1689888687673; Thu, 20 Jul
- 2023 14:31:27 -0700 (PDT)
+        with ESMTP id S229570AbjGTVht (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 17:37:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B0A270D;
+        Thu, 20 Jul 2023 14:37:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0E06961CAA;
+        Thu, 20 Jul 2023 21:37:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F18DAC433C7;
+        Thu, 20 Jul 2023 21:37:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689889067;
+        bh=GZUiHqFRIa9kRqFdnfZG76QIb9kkoyd03I0c7rzEtyg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=FjhNfRFqD9OiPLhgTKdcW4hQ0kZIJhTHZ2NEg/quOHHTaoMtPNoe2XuiAdXjlbQJr
+         9UAEe1eip8ms1WhUOp6y9/cOoIIlfQm5lbMp90k0a14oSSvvPDe+YhLgLBZEvlk+Mz
+         UdZVfCsS/iDSTIRHRtnYltLW12WLvk3h59LAd8t7RcJ76cF1XbKDQLPHEs8LbuqS1l
+         ocekAft9WQjJ2F/Y3o15wfGmjfDcHuc2ypSLEz+A60jg1fCcN0hkDnE+2QNBuZ9Fy0
+         0ITe+vyojYkS11bfISx/Za/cuv4RwmNBY+lFESbUITd0OnKLYB0jurnSBxOGUT+Bs1
+         oHqjgiW89wo7Q==
+Date:   Thu, 20 Jul 2023 14:37:46 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Conor Dooley <conor@kernel.org>
+Cc:     corbet@lwn.net, Andrew Lunn <andrew@lunn.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Leon Romanovsky <leonro@nvidia.com>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux@leemhuis.info, kvalo@kernel.org,
+        benjamin.poirier@gmail.com
+Subject: Re: [PATCH docs v3] docs: maintainer: document expectations of
+ small time maintainers
+Message-ID: <20230720143746.1adb159a@kernel.org>
+In-Reply-To: <20230720-proxy-smile-f1b882906ded@spud>
+References: <20230719183225.1827100-1-kuba@kernel.org>
+        <20230720-proxy-smile-f1b882906ded@spud>
 MIME-Version: 1.0
-References: <20230420205734.1288498-1-rmoar@google.com>
-In-Reply-To: <20230420205734.1288498-1-rmoar@google.com>
-From:   Rae Moar <rmoar@google.com>
-Date:   Thu, 20 Jul 2023 17:31:07 -0400
-Message-ID: <CA+GJov6w2GvD8th0t9RW=K1ntHk4dQRuYa4hoDHcmzBDK5YriA@mail.gmail.com>
-Subject: Re: [KTAP V2 PATCH] ktap_v2: add test metadata
-To:     frowand.list@gmail.com, davidgow@google.com,
-        skhan@linuxfoundation.org, keescook@chromium.org,
-        Tim.Bird@sony.com, brendanhiggins@google.com
-Cc:     corbet@lwn.net, guillaume.tucker@collabora.com,
-        dlatypov@google.com, kernelci@lists.linux.dev,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 20, 2023 at 4:57=E2=80=AFPM Rae Moar <rmoar@google.com> wrote:
->
-> Add specification for declaring test metadata to the KTAP v2 spec.
->
-> The purpose of test metadata is to allow for the declaration of essential
-> testing information in KTAP output. This information includes test
-> names, test configuration info, test attributes, and test files.
->
-> There have been similar ideas around the idea of test metadata such as te=
-st
-> prefixes and test name lines. However, I propose this specification as an
-> overall fix for these issues.
->
-> These test metadata lines are a form of diagnostic lines with the
-> format: "# <metadata_type>: <data>". As a type of diagnostic line, test
-> metadata lines are compliant with KTAP v1, which will help to not
-> interfere too much with current parsers.
->
-> Specifically the "# Subtest:" line is derived from the TAP 14 spec:
-> https://testanything.org/tap-version-14-specification.html.
->
-> The proposed location for test metadata is in the test header, between th=
-e
-> version line and the test plan line. Note including diagnostic lines in
-> the test header is a depature from KTAP v1.
->
-> This location provides two main benefits:
->
-> First, metadata will be printed prior to when subtests are run. Then if a
-> test fails, test metadata can help discern which test is causing the issu=
-e
-> and potentially why.
->
-> Second, this location ensures that the lines will not be accidentally
-> parsed as a subtest's diagnostic lines because the lines are bordered by
-> the version line and plan line.
->
-> Here is an example of test metadata:
->
->  KTAP version 2
->  # Config: CONFIG_TEST=3Dy
->  1..1
->      KTAP version 2
->      # Subtest: test_suite
->      # File: /sys/kernel/...
->      # Attributes: slow
->      # Other: example_test
->      1..2
->      ok 1 test_1
->      ok 2 test_2
->  ok 1 test_suite
+On Thu, 20 Jul 2023 16:15:26 +0100 Conor Dooley wrote:
+> ..I noticed that none of these sections address actually testing the
+> code they're responsible for on a (semi-)regular basis. Sure, that comes
+> as part of reviewing the patches for their code, but changes to other
+> subsystems that a driver/feature maintainer probably would not have been
+> CCed on may cause problems for the code they maintain.
+> If we are adding a doc about best-practice for maintainers, I think we
+> should be encouraging people to test regularly.
 
-Hi everyone!
-
-I have been doing some more thinking on KTAP Metadata as I have been
-working on the KUnit Test Attributes patch set
-(https://lore.kernel.org/all/20230719222338.259684-1-rmoar@google.com/).
-Two additional ideas have come up in the discussion:
-
-1) I wonder if it would be easier to separate "ktap_attributes" into
-individual attributes.
-
-The two proposed KUnit attributes currently are speed and module name.
-I think it would be easier for parsing and reading if these attributes
-had corresponding "ktap_speed" and "ktap_module" categories. Then, in
-the future if there are too many attributes to print on separate lines
-they could be grouped into a "ktap_attributes" category later.
-
-2) I wonder if we can shift the concept of KTAP metadata to all tests
-rather than just suites.
-
-I think it would be very valuable to have a KTAP metadata format that
-is flexible to work for both suites and test cases. To transition this
-to test cases, I propose we would use the same format we have been
-discussing but just printed just before the test result line (David
-Gow originally came up with this idea). This would look something like
-this:
-
-KTAP version 2
-# ktap_config: CONFIG_TEST=3Dy
-1..1
-    KTAP version 2
-    # ktap_test: test_suite
-    # ktap_module: example
-    1..2
-    ok 1 test_1
-    # ktap_test: test_2
-    # ktap_speed: slow
-    # test initializing   // diagnostic data
-    ok 2 test_2
-ok 1 test_suite
-
-I don't love using the "ktap_test: test_2" line since the test name is
-repeated. However, I like that this mirrors the same format used for a
-suite and I currently think it is the best way to define the start of
-the metadata header.
-
-The test name line could actually be useful by providing context for
-any test diagnostic data printed below or if the test crashes while
-running.
-
-What do people think of these ideas?
-
-Thanks!
--Rae
-
->
-> Here is a link to a version of the KUnit parser that is able to parse tes=
-t
-> metadata lines for KTAP version 2. Note this includes test metadata
-> lines for the main level of KTAP.
->
-> Link: https://kunit-review.googlesource.com/c/linux/+/5809
->
-> Signed-off-by: Rae Moar <rmoar@google.com>
-> ---
->
-> Hi everyone,
->
-> I would like to use this proposal similar to an RFC to gather ideas on th=
-e
-> topic of test metadata. Let me know what you think.
->
-> I am also interested in brainstorming a list of recognized metadata types=
-.
-> Providing recognized metadata types would be helpful in parsing and
-> displaying test metadata in a useful way.
->
-> Current ideas:
-> - "# Subtest: <test_name>" to indicate test name (name must match
->   corresponding result line)
-> - "# Attributes: <attributes list>" to indicate test attributes (list
->   separated by commas)
-> - "# File: <file_path>" to indicate file used in testing
->
-> Any other ideas?
->
-> Note this proposal replaces two of my previous proposals: "ktap_v2: add
-> recognized test name line" and "ktap_v2: allow prefix to KTAP lines."
->
-> Thanks!
-> -Rae
->
-> Note: this patch is based on Frank's ktap_spec_version_2 branch.
+I think our testing story is too shaky to make that a requirement.
+Differently put - I was never able to get good upstream testing running
+when I worked for a vendor myself so I wouldn't know how to draw 
+the lines.
