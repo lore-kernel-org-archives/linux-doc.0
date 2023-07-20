@@ -2,78 +2,184 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AAFDC001DF
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 12:27:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C2AEB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 13:28:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230354AbjGTM1V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 08:27:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39236 "EHLO
+        id S231946AbjGTN2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 09:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjGTM1U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 08:27:20 -0400
-Received: from bee.tesarici.cz (bee.tesarici.cz [IPv6:2a03:3b40:fe:2d4::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E62FC2115
-        for <linux-doc@vger.kernel.org>; Thu, 20 Jul 2023 05:27:19 -0700 (PDT)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by bee.tesarici.cz (Postfix) with ESMTPSA id 5F1E0167B3D;
-        Thu, 20 Jul 2023 14:27:13 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-        t=1689856033; bh=Sy15tdSUh75Kyy0EKSX/r/RpOL8nRcOu9kVoTovs9Uo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=FP+LjtMSc0sf3lDo+Te+5LTKxW+4HtUmYkgN/XmiJ+LTxwyoVKCOVISvr6qA1n54o
-         AZi5SA1NID+w81Ij7hZxzKW56ukZ7Vdn0ZMcpIv6kGywuXKOOCwd6f3hzOTQ6ZFmPz
-         Qf9ggxu+sA3uwa4mrapH6fESYG8zPK7NmVb/QMIMD0MFfty0POHqpn+8VyyOMyOZbC
-         9Gjm4ZQRBYpMZOz1YOkmBH/SJBIF1j5aOG8og2+upta5x7iq7eBFx2KL0xUMO9qqwb
-         1k48i2ObRWTs3PeK/P1mWnUNg3qCIIBrsvPGmDGy/T7jzMwqiqrIlXMfYvgYOKFRYZ
-         NOfXCITBF19sg==
-Date:   Thu, 20 Jul 2023 14:27:12 +0200
-From:   Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Yajun Deng <yajun.deng@linux.dev>, corbet@lwn.net,
-        m.szyprowski@samsung.com, robin.murphy@arm.com,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        catalin.marinas@arm.com, rdunlap@infradead.org,
-        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, linux-mm@kvack.org
-Subject: Re: [PATCH v3] dma-contiguous: support numa CMA for specified node
-Message-ID: <20230720142712.295834d0@meshulam.tesarici.cz>
-In-Reply-To: <20230720115408.GA13114@lst.de>
-References: <20230720082517.GA7057@lst.de>
-        <20230712074758.1133272-1-yajun.deng@linux.dev>
-        <25942dafbc7f52488a30c807b6322109539442cf@linux.dev>
-        <20230720115408.GA13114@lst.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+        with ESMTP id S231925AbjGTN2J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 09:28:09 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C84BB270F;
+        Thu, 20 Jul 2023 06:27:42 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id d9443c01a7336-1b8ad907ba4so4542525ad.0;
+        Thu, 20 Jul 2023 06:27:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689859661; x=1690464461;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AAIAY+cO7qocGEY3Hb27qRK+EBx4cy55A4noWZT0+PU=;
+        b=grjDB9Emn8tU7gt1j6PpGPioCKc/qbwUXK4McElsAC4DZqdVAWzfxZRa35at/lzsLw
+         kAoLJIxyVLhs9j4vVo8qpn8HTzsS7rESVBnuox5zM4gx0JlyYe05FCY09fHgmIMiDC/a
+         A/YAWt6oYQwa60X5Vo9d7KdWmR8CXDJTOBpQH/tUQK12DoovDE9oyivVmR3GtESi/HPy
+         vgFV3hPMuRNH/M1aAMPkT28vxYbOJnun68ROcVjYA4sZFIOi2sGAlrssVNZSM9Bi8clN
+         j+P1KYQS1qK7VSkBXes0ABVLPL/U+lGIWfasjm1KvHo2pmN7LEejGuJdGw8SqB/MjSZp
+         sZKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689859661; x=1690464461;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AAIAY+cO7qocGEY3Hb27qRK+EBx4cy55A4noWZT0+PU=;
+        b=Qn+57ZfjALiuUjSuCJfHJjvnWsfY6ZB6urwfHQY8FYjgUCDrvilvi2MdTOtUtuKJmS
+         85CgtH2PYXxi7O7oM1fZGlH6c2aXKqYJ7lPqMZnjXOHN4Jj1uB0VJ8BXthpu4YazvYUG
+         cbE0K98ETB+nZj6DkqcHD2yjsvai+e3YckLQ6LCPleVmH7SwdA+ZPXIFps2iexnDBIK9
+         n3ePEQbeA7PU4HyYIgNrgwvdE4g4wKNQBczMwJNdQZFq8c/JKYHyv/idZpQEDXIHmuVP
+         jDfzx4Jp+dMP+Ooa2f1FY7qDOe79VMunK0AwmK8KMvx6qneR/nkHAZyM5Sz5BAiszPir
+         XkFA==
+X-Gm-Message-State: ABy/qLZ+L9lJXVShkwUBHTLBKyFTMroBTQcmxQpGRm2Sb7AMeVeUF30f
+        vOy/sGcaDn3slYrdEEh5CeM=
+X-Google-Smtp-Source: APBJJlH4yr+ruaV/UXaqSoPLQE4SHcsRnLioV/BA3H1cpzaIdymcEsxMkwYeiFJcegt21ZWHgcd0AA==
+X-Received: by 2002:a17:902:f688:b0:1b8:987f:3eaa with SMTP id l8-20020a170902f68800b001b8987f3eaamr21803045plg.58.1689859661384;
+        Thu, 20 Jul 2023 06:27:41 -0700 (PDT)
+Received: from localhost.localdomain ([113.251.0.121])
+        by smtp.gmail.com with ESMTPSA id u19-20020a170902a61300b001b830d8bc40sm1346309plq.74.2023.07.20.06.27.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 06:27:40 -0700 (PDT)
+From:   Hu Haowen <src.res.211@gmail.com>
+To:     corbet@lwn.net
+Cc:     Hu Haowen <src.res.211@gmail.com>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND 0/6] docs/zh_TW: update zh_TW's documentation from an ascensive aspect
+Date:   Thu, 20 Jul 2023 21:27:23 +0800
+Message-Id: <20230720132729.1821-1-src.res.211@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-V Thu, 20 Jul 2023 13:54:08 +0200
-Christoph Hellwig <hch@lst.de> naps=C3=A1no:
+Update zh_TW's documentation concentrating on the following aspects:
 
-> On Thu, Jul 20, 2023 at 08:47:37AM +0000, Yajun Deng wrote:
-> > It's based on linux-next tree.
-> >=20
-> > This patch should be after my other patch in linux-next tree.
-> > a960925a6b23("dma-contiguous: support per-numa CMA for all architecture=
-s"). =20
->=20
-> Where did this land?
+    * The file tree structure changes of the main documentation;
+    * Some changes and ideas from zh_CN translation;
+    * Removal for several obsoleted contents within the zh_TW translation
+      or those which are not exising anymore in the main documentation.
+    * Replacements for some incorrect words and phrases in traditional
+      Chinese or those which are odd within their context being hard for
+      readers to comprehend.
 
-Well... in the linux-next tree:
+Hu Haowen (6):
+  docs/zh_TW: update admin-guide
+  docs/zh_TW: update arch
+  docs/zh_TW: update cpu-freq
+  docs/zh_TW: update filesystems
+  docs/zh_TW: update process
+  docs/zh_TW: turn zh_CN's folder references and headers into zh_TW's
+    ones
 
-https://www.kernel.org/doc/man-pages/linux-next.html
+ .../translations/zh_TW/admin-guide/README.rst | 166 ++--
+ .../zh_TW/admin-guide/bootconfig.rst          | 294 +++++++
+ .../zh_TW/admin-guide/bug-bisect.rst          |  12 +-
+ .../zh_TW/admin-guide/bug-hunting.rst         |  40 +-
+ .../zh_TW/admin-guide/clearing-warn-once.rst  |   6 +-
+ .../zh_TW/admin-guide/cpu-load.rst            |  10 +-
+ .../zh_TW/admin-guide/cputopology.rst         |  98 +++
+ .../translations/zh_TW/admin-guide/index.rst  | 136 ++--
+ .../translations/zh_TW/admin-guide/init.rst   |  38 +-
+ .../zh_TW/admin-guide/lockup-watchdogs.rst    |  69 ++
+ .../zh_TW/admin-guide/mm/damon/index.rst      |  31 +
+ .../zh_TW/admin-guide/mm/damon/lru_sort.rst   | 265 +++++++
+ .../zh_TW/admin-guide/mm/damon/reclaim.rst    | 230 ++++++
+ .../zh_TW/admin-guide/mm/damon/start.rst      | 126 +++
+ .../zh_TW/admin-guide/mm/damon/usage.rst      | 593 ++++++++++++++
+ .../zh_TW/admin-guide/mm/index.rst            |  52 ++
+ .../translations/zh_TW/admin-guide/mm/ksm.rst | 201 +++++
+ .../zh_TW/admin-guide/reporting-issues.rst    | 729 ++++++++---------
+ .../admin-guide/reporting-regressions.rst     | 371 +++++++++
+ .../zh_TW/admin-guide/security-bugs.rst       |  28 +-
+ .../translations/zh_TW/admin-guide/sysrq.rst  | 283 +++++++
+ .../zh_TW/admin-guide/tainted-kernels.rst     |  86 +-
+ .../zh_TW/admin-guide/unicode.rst             |  12 +-
+ .../translations/zh_TW/arch/arm/Booting       | 176 +++++
+ .../zh_TW/arch/arm/kernel_user_helpers.txt    | 285 +++++++
+ .../translations/zh_TW/arch/arm64/amu.rst     |   6 +-
+ .../translations/zh_TW/arch/arm64/booting.txt |  28 +-
+ .../zh_TW/arch/arm64/elf_hwcaps.rst           |  10 +-
+ .../zh_TW/arch/arm64/legacy_instructions.txt  |  14 +-
+ .../translations/zh_TW/arch/arm64/memory.txt  |  16 +-
+ .../translations/zh_TW/arch/arm64/perf.rst    |   2 +-
+ .../zh_TW/arch/arm64/silicon-errata.txt       |  30 +-
+ .../zh_TW/arch/arm64/tagged-pointers.txt      |  10 +-
+ .../translations/zh_TW/arch/index.rst         |  30 +
+ .../zh_TW/arch/openrisc/index.rst             |  33 +
+ .../zh_TW/arch/openrisc/openrisc_port.rst     | 129 +++
+ .../translations/zh_TW/arch/openrisc/todo.rst |  25 +
+ .../zh_TW/arch/parisc/debugging.rst           |  47 ++
+ .../translations/zh_TW/arch/parisc/index.rst  |  32 +
+ .../zh_TW/arch/parisc/registers.rst           | 157 ++++
+ .../translations/zh_TW/cpu-freq/core.rst      |  26 +-
+ .../zh_TW/cpu-freq/cpu-drivers.rst            | 147 ++--
+ .../zh_TW/cpu-freq/cpufreq-stats.rst          |  41 +-
+ .../translations/zh_TW/cpu-freq/index.rst     |   4 +-
+ .../zh_TW/filesystems/debugfs.rst             |  38 +-
+ .../translations/zh_TW/filesystems/index.rst  |   2 +-
+ .../translations/zh_TW/filesystems/sysfs.txt  |  16 +-
+ .../translations/zh_TW/filesystems/tmpfs.rst  |  32 +-
+ .../zh_TW/filesystems/virtiofs.rst            |   8 +-
+ Documentation/translations/zh_TW/index.rst    |   5 +-
+ .../translations/zh_TW/process/1.Intro.rst    |  78 +-
+ .../translations/zh_TW/process/2.Process.rst  | 130 ++--
+ .../zh_TW/process/3.Early-stage.rst           |  44 +-
+ .../translations/zh_TW/process/4.Coding.rst   | 102 +--
+ .../translations/zh_TW/process/5.Posting.rst  |  66 +-
+ .../zh_TW/process/6.Followthrough.rst         |  46 +-
+ .../zh_TW/process/7.AdvancedTopics.rst        |  56 +-
+ .../zh_TW/process/8.Conclusion.rst            |  10 +-
+ .../code-of-conduct-interpretation.rst        |  52 +-
+ .../zh_TW/process/code-of-conduct.rst         |  18 +-
+ .../zh_TW/process/coding-style.rst            | 383 ++++++---
+ .../zh_TW/process/development-process.rst     |   2 +-
+ .../zh_TW/process/email-clients.rst           | 254 +++---
+ .../process/embargoed-hardware-issues.rst     |  74 +-
+ .../translations/zh_TW/process/howto.rst      | 142 ++--
+ .../translations/zh_TW/process/index.rst      |   5 +-
+ .../process/kernel-enforcement-statement.rst  |  15 +-
+ .../zh_TW/process/license-rules.rst           |  52 +-
+ .../zh_TW/process/magic-number.rst            |   1 +
+ .../zh_TW/process/management-style.rst        |  60 +-
+ .../zh_TW/process/stable-api-nonsense.rst     |  86 +-
+ .../zh_TW/process/stable-kernel-rules.rst     |  36 +-
+ .../zh_TW/process/submit-checklist.rst        |  80 +-
+ .../zh_TW/process/submitting-patches.rst      | 734 +++++++++---------
+ .../process/volatile-considered-harmful.rst   |  32 +-
+ 75 files changed, 5744 insertions(+), 2039 deletions(-)
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/bootconfig.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/cputopology.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/lockup-watchdogs.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/index.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/lru_sort.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/reclaim.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/start.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/index.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/ksm.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/sysrq.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/arm/Booting
+ create mode 100644 Documentation/translations/zh_TW/arch/arm/kernel_user_helpers.txt
+ create mode 100644 Documentation/translations/zh_TW/arch/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/openrisc/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/openrisc/openrisc_port.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/openrisc/todo.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/parisc/debugging.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/parisc/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/parisc/registers.rst
 
->  dma patches really should be going through the DMA tree..
+-- 
+2.34.1
 
-Indeed. The other patch was also sent to the iommu ML back in May. It's
-the thread where we were looking for Barry Song's current email address.
-
-Petr T
