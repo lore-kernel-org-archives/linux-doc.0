@@ -2,87 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A10EB64DC
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 14:19:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE22EB64DD
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 14:53:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231824AbjGTOTa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 10:19:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50736 "EHLO
+        id S231956AbjGTOxK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 10:53:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231775AbjGTOTa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 10:19:30 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A8CC1B6;
-        Thu, 20 Jul 2023 07:19:29 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id 41be03b00d2f7-55c85b4b06bso411925a12.2;
-        Thu, 20 Jul 2023 07:19:29 -0700 (PDT)
+        with ESMTP id S232430AbjGTOxE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 10:53:04 -0400
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90928E60;
+        Thu, 20 Jul 2023 07:53:03 -0700 (PDT)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-579ed2829a8so10627287b3.1;
+        Thu, 20 Jul 2023 07:53:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689862769; x=1690467569;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+UmiVU80Lqrzb2qyigiYCT+sEr22kLYoauqxq19CCww=;
-        b=NwUPRLEEVzwl5/ARikpjhHMyNoe34pLZ06fuw6S+6nqDxVkP6c8jh7+kftmpicZkwo
-         MG8ef7WsxO7pTw/ejQX9L/UTo6r9r3qJb4fOYf+g0qk97i/0jJJPBYnuIGkc0Ub711Ly
-         RzQ8kILhNPGyY+fdHWu0UZgVNo5+sDtxkR7X5PrpRiX5/RhX1trvGVjShZCj7BuInKje
-         jxjBQVXKWo/TlMgQBF8Te4zsebIR6eWsTdB4//BBpxeRN4cYmNyDc4TnYzpSqnTXN4Ng
-         Ut3SK6V237rtTC8N/wHiBriX9JI8SSh0GPhDORFxwGgsuhrbCeYXJDeWwFbLBPFJx3/R
-         Zvcg==
+        d=gmail.com; s=20221208; t=1689864783; x=1690469583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bvMr3T1p15XlXcu1FTpChfqGLr/+qVrwbwtZIWp+fI0=;
+        b=kO9WQz7rK0/+lGVQ/yK7d94iSfvTSIIQLoqAX4O+kisIiIZMV60Ouel/kc4srVmbqF
+         76rOjM3GrcgFOEroazpxRfB2lJ/JIupbg3qnvOM5+7WhZ0Y7MRlB5xQ3cYinYN7miYE9
+         iXq7/NZ3gYGKmB7Ftd7LT8oRPQP4wlgS5PD6aOcjvVp3Kx0KGh82dH87Y8hpkf1opaNr
+         ymmkdCQp8tVU9WBqir+RsXB+GRWBhpbGN7Nknx97c4gQdNxs/HoI77nwAJzPJCsOY7kV
+         gsgxKEoCt5fq6NnDpY7+nA0KGQ9TvzaIEvj/klJJcc4fdap60SZRd1X865x/Me+PhNOS
+         9e4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689862769; x=1690467569;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+UmiVU80Lqrzb2qyigiYCT+sEr22kLYoauqxq19CCww=;
-        b=h4y8QrrQ5bxn7qffZDao6BIlQnR9yfQ8/iBHr31suNrfId69/qJpJek1rusFzW56Yl
-         YEIBzIjZkRT2Ii6IRO5dyeXJQzRoWuOUX+vi0juk2bMkSpPcje9jeSqTUuZQNjVIp00a
-         PKFRbuaeIiUEC/f3HKuwNFImeaGfogwxIhqY+hIdL0e0SPPKUzCcLr0FwdYRUlNhIVpW
-         EvdRy+D5RvtC3ST5vKsJYrSp/JhMn3tah9F2eCtE9KxPPk9n6B9IIw4k/Nmwrt3WXyW4
-         obLAxcDge1J7G2GtBFesiSfIhC27XJbCTyU0DCLGbsld3uh/zwdZ7joKbEsHAcmaAajq
-         novA==
-X-Gm-Message-State: ABy/qLadNlZVQt4zmosrLl1gi62fYm68/oAHiJcs4IRH84RFLNXU46ph
-        hNg2QIpf0iy8ydQTEKb2lGjNmvhOdO75qIp7/wo=
-X-Google-Smtp-Source: APBJJlGCfMxsJ3oRcHRe5IGiQDj+LW1uJY91a8CE4WULWa2DXXCNEB6RqDWpgIdBPKPtVG7K8A0r0g==
-X-Received: by 2002:a17:90b:3b51:b0:263:f5fa:cf1b with SMTP id ot17-20020a17090b3b5100b00263f5facf1bmr14705654pjb.30.1689862768717;
-        Thu, 20 Jul 2023 07:19:28 -0700 (PDT)
-Received: from localhost.localdomain ([113.251.0.121])
-        by smtp.gmail.com with ESMTPSA id n1-20020a17090a670100b002630bfd35b0sm2711594pjj.7.2023.07.20.07.19.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 07:19:28 -0700 (PDT)
-From:   Hu Haowen <src.res.211@gmail.com>
-To:     corbet@lwn.net, gregkh@linuxfoundation.org
-Cc:     Hu Haowen <src.res.211@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_TW: remove the mailing list entry for zh_TW
-Date:   Thu, 20 Jul 2023 22:18:46 +0800
-Message-Id: <20230720141846.1787-1-src.res.211@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1689864783; x=1690469583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bvMr3T1p15XlXcu1FTpChfqGLr/+qVrwbwtZIWp+fI0=;
+        b=dlENfrS0oL870RGAWdlqS0gQXioUZGnsFKv9auS7+vxEaRLPvLLRm6E/slA1AkS4Ic
+         tIlfgixVl6tw7fhVI58FncILoWYDU6B6eBtfDB6mC5ZgMT2zqy0Jquqgo4hBs3QBJXDn
+         /vFCwt2aSikjzNuYvLm9twcOgHss8z3iBz36T8GXYS5xSddl04PzfgIBbRDP6YfseN3b
+         mlLM0nINleME7quCYyMA6pswTJn/rMPMRD+LKtIDc7Pujj2yRtosqIofz9YqA1WsIa+S
+         GhXmM6rs8+wJo6RkFyORmBn/r8WqE76OKa7JI3Ut8eZG59A6i9tVMUzWy3Eut3laH2BR
+         Kl1Q==
+X-Gm-Message-State: ABy/qLa374eDUUDNBTwqDQtHqBAG+PEcOtMQAhBj9BKxBp1dfZkEUiyA
+        IllKU9vFd6xiQ+LP1rc3S4S+czEz8dmAUX90IaY=
+X-Google-Smtp-Source: APBJJlEiujDeAVJNH/1GLw2NmF8gP6rL7sbKwZBUpbAW83QGPF1do6ceqgk/eUhEkCIZRtIvJQHpIx3rCQauF60rxw8=
+X-Received: by 2002:a81:488b:0:b0:577:60ba:440a with SMTP id
+ v133-20020a81488b000000b0057760ba440amr19093706ywa.50.1689864782754; Thu, 20
+ Jul 2023 07:53:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230718054416.861412-1-tmgross@umich.edu> <20230718054416.861412-2-tmgross@umich.edu>
+In-Reply-To: <20230718054416.861412-2-tmgross@umich.edu>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 20 Jul 2023 16:52:51 +0200
+Message-ID: <CANiq72=L+_1OctE_fgeXfmzL2PCZmmMLW9i0GJZyCcf=B_=pRQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] docs: rust: update instructions for obtaining 'core' source
+To:     Trevor Gross <tmgross@umich.edu>
+Cc:     ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
+        boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+        benno.lossin@proton.me, corbet@lwn.net, linux-doc@vger.kernel.org,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Due to some reasons the current mailing list will be revoked and new one
-will replace it in the future, hence remove the entry from MAINTAINERS
-ahead of time.
+On Tue, Jul 18, 2023 at 7:50=E2=80=AFAM Trevor Gross <tmgross@umich.edu> wr=
+ote:
+>
+> The source for Rust's 'core' library is needed to build the kernel with
+> Rust support. This must be obtained manually when using a non-rustup
+> install, such as when using 'rustc' from a package manager or from a
 
-Signed-off-by: Hu Haowen <src.res.211@gmail.com>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+What does "manually" mean here? I guess "setting it up by hand", but a
+distribution may provide a package for that (e.g. `rust-1.62-src` in
+Ubuntu), so it is essentially the same as with `rustup` in that case
+(i.e. when the distribution provides the means via the package
+manager).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a5c16bb92fe2..36e67c46a4a6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21707,7 +21707,6 @@ F:	kernel/trace/trace_sched_wakeup.c
- 
- TRADITIONAL CHINESE DOCUMENTATION
- M:	Hu Haowen <src.res.211@gmail.com>
--L:	linux-doc-tw-discuss@lists.sourceforge.net (moderated for non-subscribers)
- S:	Maintained
- W:	https://github.com/srcres258/linux-doc
- T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
--- 
-2.34.1
+> standalone installer. Currently, the documentation suggests cloning the
+> 'rust' repository to obtain these sources, but this is quite slow (on
+> the order of a few minutes).
+>
+> This patch changes this documentation to suggest using the source
+> tarball instead, which includes only needed information (<5M) and is
+> significantly faster to download. This is more in line with what
+> 'rustup' does.
 
+If I recall correctly, the idea with the clone was to easily change
+the tag when migrating to another version (assuming the base path does
+not need to change across versions). But the tarball approach is
+likely better anyway, especially for the majority of users.
+
+> Signed-off-by: Trevor Gross <tmgross@umich.edu>
+
+It may be nice to add `Link:
+https://github.com/Rust-for-Linux/linux/pull/1024`, but I can do that
+on my side.
+
+In addition, commit messages should describe the changes in imperative
+mood. Many commits do not follow that convention, but it is what the
+kernel docs say, so we should try to adhere to it if possible.
+
+> -Otherwise, if a standalone installer is used, the Rust repository may be=
+ cloned
+> -into the installation folder of the toolchain::
+> +Otherwise, if a standalone installer is used, the Rust source tree may b=
+e
+> +downloaded into the toolchain's installation folder::
+
+Is the rewording (i.e. the Saxon genitive change) expected? Not a big
+deal, of course -- I am mentioning it since, in general, all changes
+should be mentioned so that that they are expected, e.g. with a quick
+"and improve the wording while at it".
+
+Cheers,
+Miguel
