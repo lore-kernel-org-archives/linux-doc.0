@@ -2,108 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0DE1EB64DA
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 22:24:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6685EB64DA
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 22:47:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbjGTWX7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 18:23:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51826 "EHLO
+        id S229555AbjGTWrE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 18:47:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230134AbjGTWX6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 18:23:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFE3E1737;
-        Thu, 20 Jul 2023 15:23:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        with ESMTP id S229551AbjGTWrE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 18:47:04 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 762ABE65;
+        Thu, 20 Jul 2023 15:47:00 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8E9E361CAE;
-        Thu, 20 Jul 2023 22:23:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CC8CC433C8;
-        Thu, 20 Jul 2023 22:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689891832;
-        bh=B6W1N9chnY7IcnK3aYia8wRiaWLSW1VhXwx0aoj6k7g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PEdZggyJVgTuqkjHTW9vQYx8gKCeE1Xet8TZMC/fGc2BodpG5ZrAhZ3O4r/ZfsAP1
-         0kdKUz9xtWPKZpfE2FOpprUfK7lO2u3GVhTX20Vx7ucTnqx0dPBkJvtWsCBxA4xmEW
-         e8O/GY52Zi0Ug0lDLoBYZU/EcOqUeBTge+dnBuozEDW+iHKh2KNczSt6mLKztWjjQO
-         J6mC+pA4Cqm/TSDGRiVfYQl5xISN/KL30Vz7vsGEAgtMxK2okIx27DwRvq6YvS4gA1
-         OmzaL++lleNpAuPkTjCoLDmtt1g9gFCab3PoFyVMgKAw6/lnjKdW3SZcZoEQ9v7sz7
-         J1Gzn/i6zRvtg==
-Date:   Thu, 20 Jul 2023 23:23:46 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     corbet@lwn.net, Andrew Lunn <andrew@lunn.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Leon Romanovsky <leonro@nvidia.com>, workflows@vger.kernel.org,
+        by ms.lwn.net (Postfix) with ESMTPSA id D7842733;
+        Thu, 20 Jul 2023 22:46:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D7842733
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1689893220; bh=tFdI7CTQuCic0jHrfVESxCPoArF8aqckP43aHZq4XRw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=fy1XrfyRidnLQ/BIZvEKZPSlS2qvjsnFuWVdcmAUTlJ73zRlVXvkC2/GGT0qIlb8A
+         BO0mcvJ1Cm7GEJd7D+CGh75PDlC1j5W+QK3/rq3wbjZXILsU3uCHOoYxKisR8pYwwO
+         w1tjk27BYl9lzMU23BRUAEWvIfTeQUIlN49kspM42fCbqV2iebDnkpapQy6kvqcRB3
+         cSwRJnpyE3uYsI9w2mHSebP0N0hHnOEzUoPufRUAPseBiVKecruxVzPQ3PU1pJBRtl
+         11SlVMj6a2924ZkpGxTpciyRc0/3gDC1A5f1mEfBr1h2KLZTuvNFXIHxETyhnLH+hs
+         EvlYgDcFjV2kw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org
+Cc:     jani.nikula@linux.intel.com, rdunlap@infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux@leemhuis.info, kvalo@kernel.org,
-        benjamin.poirier@gmail.com
-Subject: Re: [PATCH docs v3] docs: maintainer: document expectations of small
- time maintainers
-Message-ID: <20230720-mace-dipped-3bd066667b3f@spud>
-References: <20230719183225.1827100-1-kuba@kernel.org>
- <20230720-proxy-smile-f1b882906ded@spud>
- <20230720143746.1adb159a@kernel.org>
+        konstantin@linuxfoundation.org, rust-for-linux@vger.kernel.org,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH v8 0/2] docs: Integrate rustdoc into Rust documentation
+In-Reply-To: <20230718151534.4067460-1-carlos.bilbao@amd.com>
+References: <20230718151534.4067460-1-carlos.bilbao@amd.com>
+Date:   Thu, 20 Jul 2023 16:46:59 -0600
+Message-ID: <87mszqfbfg.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7E5noNPs/iMecJG0"
-Content-Disposition: inline
-In-Reply-To: <20230720143746.1adb159a@kernel.org>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
---7E5noNPs/iMecJG0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Include HTML output generated with rustdoc into the Linux kernel
+> documentation on Rust.
+>
+> Carlos Bilbao:
+>  docs: Move rustdoc output, cross-reference it
+>  docs: Integrate rustdoc generation into htmldocs
 
-On Thu, Jul 20, 2023 at 02:37:46PM -0700, Jakub Kicinski wrote:
-> On Thu, 20 Jul 2023 16:15:26 +0100 Conor Dooley wrote:
-> > ..I noticed that none of these sections address actually testing the
-> > code they're responsible for on a (semi-)regular basis. Sure, that comes
-> > as part of reviewing the patches for their code, but changes to other
-> > subsystems that a driver/feature maintainer probably would not have been
-> > CCed on may cause problems for the code they maintain.
-> > If we are adding a doc about best-practice for maintainers, I think we
-> > should be encouraging people to test regularly.
+So I've been messing with this a bit, trying the various combinations.
 
-> I think our testing story is too shaky to make that a requirement.
-> Differently put - I was never able to get good upstream testing running
-> when I worked for a vendor myself so I wouldn't know how to draw=20
-> the lines.
+- With no .config file, it behaves as it always did - thanks.
 
-I'm not saying it needs to be added as a must level item, some words to the
-effect of
-  Maintainers should test the drivers/features they are responsible for on a
-  regular basis, independent of patches that modify their area of
-  responsibility. This helps ensure that changes to other parts of the kern=
-el
-  do not introduce regressions in their driver/feature."
-would suffice IMO.
+- With CONFIG_RUST=y I get the rustdocs, as expected.  There is a time
+  penalty of about 5%, which is unfortunate, but that's the cost of
+  progress, I guess.
 
-The doc as it is is a useful addition though, so you can add a
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-if you like.
+- Setting CONFIG_RUST=n led to a crash with make complaining:
+  "No rule to make target 'rustdoc'".  That isn't something I have been
+  able to reproduce, though, so I have no idea what happened there; have
+  you ever seen this?
+
+Other than that one bit of strangeness, I think this is about ready to
+be applied.
 
 Thanks,
-Conor.
 
---7E5noNPs/iMecJG0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZLmz8gAKCRB4tDGHoIJi
-0pN2AP0Xd2XBsDNncFbZ2tU2esaZm61Bv1Qm8ravumVaJPp4aQEAp34+tM3RtH9V
-grQF54xOH05cBTHFkohiAdRN/PILXww=
-=E5Ol
------END PGP SIGNATURE-----
-
---7E5noNPs/iMecJG0--
+jon
