@@ -2,227 +2,90 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CC00C04A6A
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Jul 2023 23:24:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35BDFC001DC
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 01:56:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbjGTXX7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Jul 2023 19:23:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37694 "EHLO
+        id S229619AbjGUB4f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Jul 2023 21:56:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbjGTXXz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 19:23:55 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6F4C72111;
-        Thu, 20 Jul 2023 16:23:53 -0700 (PDT)
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id C5815236EBE8;
-        Thu, 20 Jul 2023 16:23:52 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C5815236EBE8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1689895432;
-        bh=lILWt7bDCpcb7A25rFrVQC7VmUomZ/X0dBfspgXvAeQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dOK58m5lmqCLT0TkZ9n6k8PEWuoiLnDhOqwTzj4mwq5ovT3Auf9WHehgUEd69LJrb
-         rSKAY0IyTvwSHDQOx+w8Z3x6K2r6IOV+TxAtK9LD8PfOw+VMFwxksNHbpWW0pLo4HH
-         WXiiTRCGjo9d2Yp7q4HuKcBWo4kI8ya45hMnq0Kc=
-From:   Easwar Hariharan <eahariha@linux.microsoft.com>
-To:     stable@vger.kernel.org
-Cc:     easwar.hariharan@microsoft.com, catalin.marinas@arm.com,
-        will@kernel.org, corbet@lwn.net, robin.murphy@arm.com,
-        joro@8bytes.org, linux-arm-kernel@lists.infradead.org,
+        with ESMTP id S229484AbjGUB4e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jul 2023 21:56:34 -0400
+Received: from out-54.mta0.migadu.com (out-54.mta0.migadu.com [IPv6:2001:41d0:1004:224b::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E639C270B;
+        Thu, 20 Jul 2023 18:56:32 -0700 (PDT)
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1689904589;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=V9xzmr/d2IKBxXzSTTNBuI1FHVZ5ZZJ/JXVFqjqdjOE=;
+        b=OYjShRuZxV8Y0Z7cVXsAqeuM94VqiBwWsu1rSmvrg76erAxQHqby2QDGa+eVAQqh+BMK+D
+        UkH3oUHWzYlGmPqFrGFXgeNjDrECYNiK4Q6Paxpp/X1IymcrkjpTMNsmcuXNdJd3ymFt2K
+        I8eURhKyVsefGlj0SUNO9ZibjPQDgps=
+Date:   Fri, 21 Jul 2023 01:56:28 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   "Yajun Deng" <yajun.deng@linux.dev>
+Message-ID: <e2c15ec828daf2c1d4277e78859698929efe86b0@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH v3] dma-contiguous: support numa CMA for specified node
+To:     "=?utf-8?B?UGV0ciBUZXNhxZnDrWs=?=" <petr@tesarici.cz>,
+        "Christoph Hellwig" <hch@lst.de>
+Cc:     corbet@lwn.net, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        catalin.marinas@arm.com, rdunlap@infradead.org,
+        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev
-Subject: [PATCH 5.15 1/4] arm64: errata: Add detection for TRBE overwrite in FILL mode
-Date:   Thu, 20 Jul 2023 16:23:31 -0700
-Message-Id: <1689895414-17425-2-git-send-email-eahariha@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1689895414-17425-1-git-send-email-eahariha@linux.microsoft.com>
-References: <1689895414-17425-1-git-send-email-eahariha@linux.microsoft.com>
+        iommu@lists.linux.dev, linux-mm@kvack.org
+In-Reply-To: <20230720142712.295834d0@meshulam.tesarici.cz>
+References: <20230720142712.295834d0@meshulam.tesarici.cz>
+ <20230720082517.GA7057@lst.de> <20230712074758.1133272-1-yajun.deng@linux.dev>
+ <25942dafbc7f52488a30c807b6322109539442cf@linux.dev>
+ <20230720115408.GA13114@lst.de>
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
+July 20, 2023 at 8:27 PM, "Petr Tesa=C5=99=C3=ADk" <petr@tesarici.cz> wro=
+te:
 
-commit b9d216fcef4298de76519e2baeed69ba482467bd upstream
 
-Arm Neoverse-N2 and the Cortex-A710 cores are affected
-by a CPU erratum where the TRBE will overwrite the trace buffer
-in FILL mode. The TRBE doesn't stop (as expected in FILL mode)
-when it reaches the limit and wraps to the base to continue
-writing upto 3 cache lines. This will overwrite any trace that
-was written previously.
+>=20
+>=20V Thu, 20 Jul 2023 13:54:08 +0200
+> Christoph Hellwig <hch@lst.de> naps=C3=A1no:
+>=20
+>=20>=20
+>=20> On Thu, Jul 20, 2023 at 08:47:37AM +0000, Yajun Deng wrote:
+> >  It's based on linux-next tree.
+> >=20=20
+>=20>  This patch should be after my other patch in linux-next tree.
+> >  a960925a6b23("dma-contiguous: support per-numa CMA for all architect=
+ures").=20
+>=20>=20=20
+>=20>  Where did this land?
+> >=20
+>=20
+> Well... in the linux-next tree:
+>=20
+>=20https://www.kernel.org/doc/man-pages/linux-next.html
+>=20
+>=20>=20
+>=20> dma patches really should be going through the DMA tree..
+> >=20
+>=20
+> Indeed. The other patch was also sent to the iommu ML back in May. It's
+> the thread where we were looking for Barry Song's current email address=
+.
+>
 
-Add the Neoverse-N2 erratum(#2139208) and Cortex-A710 erratum
-(#2119858) to the detection logic.
-
-This will be used by the TRBE driver in later patches to work
-around the issue. The detection has been kept with the core
-arm64 errata framework list to make sure :
-  - We don't duplicate the framework in TRBE driver
-  - The errata detection is advertised like the rest
-    of the CPU errata.
-
-Note that the Kconfig entries are not fully active until the
-TRBE driver implements the work around.
-
-Cc: Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Mike Leach <mike.leach@linaro.org>
-cc: Leo Yan <leo.yan@linaro.org>
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
-Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Link: https://lore.kernel.org/r/20211019163153.3692640-3-suzuki.poulose@arm.com
-Signed-off-by: Will Deacon <will@kernel.org>
-Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
----
- Documentation/arm64/silicon-errata.rst |  4 +++
- arch/arm64/Kconfig                     | 41 ++++++++++++++++++++++++++
- arch/arm64/kernel/cpu_errata.c         | 26 ++++++++++++++++
- arch/arm64/tools/cpucaps               |  1 +
- 4 files changed, 72 insertions(+)
-
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index 1cee230338a2..076861b0f5ac 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -102,12 +102,16 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-A510     | #2457168        | ARM64_ERRATUM_2457168       |
- +----------------+-----------------+-----------------+-----------------------------+
-+| ARM            | Cortex-A710     | #2119858        | ARM64_ERRATUM_2119858       |
-++----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Neoverse-N1     | #1188873,1418040| ARM64_ERRATUM_1418040       |
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Neoverse-N1     | #1349291        | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Neoverse-N1     | #1542419        | ARM64_ERRATUM_1542419       |
- +----------------+-----------------+-----------------+-----------------------------+
-+| ARM            | Neoverse-N2     | #2139208        | ARM64_ERRATUM_2139208       |
-++----------------+-----------------+-----------------+-----------------------------+
- | ARM            | MMU-500         | #841119,826419  | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 9d3cbe786f8d..e5e35470647b 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -733,6 +733,47 @@ config ARM64_ERRATUM_2457168
- 
- 	  If unsure, say Y.
- 
-+config ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
-+	bool
-+
-+config ARM64_ERRATUM_2119858
-+	bool "Cortex-A710: 2119858: workaround TRBE overwriting trace data in FILL mode"
-+	default y
-+	depends on COMPILE_TEST # Until the CoreSight TRBE driver changes are in
-+	depends on CORESIGHT_TRBE
-+	select ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
-+	help
-+	  This option adds the workaround for ARM Cortex-A710 erratum 2119858.
-+
-+	  Affected Cortex-A710 cores could overwrite up to 3 cache lines of trace
-+	  data at the base of the buffer (pointed to by TRBASER_EL1) in FILL mode in
-+	  the event of a WRAP event.
-+
-+	  Work around the issue by always making sure we move the TRBPTR_EL1 by
-+	  256 bytes before enabling the buffer and filling the first 256 bytes of
-+	  the buffer with ETM ignore packets upon disabling.
-+
-+	  If unsure, say Y.
-+
-+config ARM64_ERRATUM_2139208
-+	bool "Neoverse-N2: 2139208: workaround TRBE overwriting trace data in FILL mode"
-+	default y
-+	depends on COMPILE_TEST # Until the CoreSight TRBE driver changes are in
-+	depends on CORESIGHT_TRBE
-+	select ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
-+	help
-+	  This option adds the workaround for ARM Neoverse-N2 erratum 2139208.
-+
-+	  Affected Neoverse-N2 cores could overwrite up to 3 cache lines of trace
-+	  data at the base of the buffer (pointed to by TRBASER_EL1) in FILL mode in
-+	  the event of a WRAP event.
-+
-+	  Work around the issue by always making sure we move the TRBPTR_EL1 by
-+	  256 bytes before enabling the buffer and filling the first 256 bytes of
-+	  the buffer with ETM ignore packets upon disabling.
-+
-+	  If unsure, say Y.
-+
- config CAVIUM_ERRATUM_22375
- 	bool "Cavium erratum 22375, 24313"
- 	default y
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index ce59811616d8..d810d4b7b438 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -363,6 +363,18 @@ static struct midr_range broken_aarch32_aes[] = {
- };
- #endif
- 
-+#ifdef CONFIG_ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
-+static const struct midr_range trbe_overwrite_fill_mode_cpus[] = {
-+#ifdef CONFIG_ARM64_ERRATUM_2139208
-+	MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
-+#endif
-+#ifdef CONFIG_ARM64_ERRATUM_2119858
-+	MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
-+#endif
-+	{},
-+};
-+#endif	/* CONFIG_ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE */
-+
- const struct arm64_cpu_capabilities arm64_errata[] = {
- #ifdef CONFIG_ARM64_WORKAROUND_CLEAN_CACHE
- 	{
-@@ -564,6 +576,7 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- 		ERRATA_MIDR_ALL_VERSIONS(MIDR_NVIDIA_CARMEL),
- 	},
- #endif
-+
- #ifdef CONFIG_ARM64_ERRATUM_2457168
- 	{
- 		.desc = "ARM erratum 2457168",
-@@ -580,6 +593,19 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- 		CAP_MIDR_RANGE_LIST(broken_aarch32_aes),
- 		.type = ARM64_CPUCAP_LOCAL_CPU_ERRATUM,
- 	},
-+#endif
-+#ifdef CONFIG_ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE
-+	{
-+		/*
-+		 * The erratum work around is handled within the TRBE
-+		 * driver and can be applied per-cpu. So, we can allow
-+		 * a late CPU to come online with this erratum.
-+		 */
-+		.desc = "ARM erratum 2119858 or 2139208",
-+		.capability = ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE,
-+		.type = ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE,
-+		CAP_MIDR_RANGE_LIST(trbe_overwrite_fill_mode_cpus),
-+	},
- #endif
- 	{
- 	}
-diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-index 6b1e70aee8cf..32fe50a3a26c 100644
---- a/arch/arm64/tools/cpucaps
-+++ b/arch/arm64/tools/cpucaps
-@@ -56,6 +56,7 @@ WORKAROUND_1508412
- WORKAROUND_1542419
- WORKAROUND_1742098
- WORKAROUND_2457168
-+WORKAROUND_TRBE_OVERWRITE_FILL_MODE
- WORKAROUND_CAVIUM_23154
- WORKAROUND_CAVIUM_27456
- WORKAROUND_CAVIUM_30115
--- 
-2.25.1
-
+Thanks. This link shows what happened at that time:
+https://lore.kernel.org/all/20230512094210.141540-1-yajun.deng@linux.dev/=
+T/#u
+=20
+>=20Petr T
+>
