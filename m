@@ -2,77 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FF0EB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 21:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30213EB64DD
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 21:43:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbjGUVHd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Jul 2023 17:07:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34444 "EHLO
+        id S229756AbjGUVnF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Jul 2023 17:43:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbjGUVHc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 17:07:32 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7938030E1;
-        Fri, 21 Jul 2023 14:07:31 -0700 (PDT)
+        with ESMTP id S229592AbjGUVnE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 17:43:04 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FBB22D7E;
+        Fri, 21 Jul 2023 14:43:04 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id F299D733;
-        Fri, 21 Jul 2023 21:07:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F299D733
+        by ms.lwn.net (Postfix) with ESMTPSA id E92C7733;
+        Fri, 21 Jul 2023 21:43:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E92C7733
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689973651; bh=yqScLomjgHGlGue7ZzyaCfjdFN3rTb1w9u8Dn+9+lSg=;
+        t=1689975783; bh=SNG0zXp+EBUeGzjNMD43Y/EOQIkrzPIn9fZTujaSg8I=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ds1sihkCdYeQ4Hvnd4To/fuZ660f7QL8+lxW/MLzQFXL5S5cKWXa9AZqkbOGSfwJs
-         XNFPYdv0lmKsxW/UE4Kv8s4/eeZhUYqA2N2C5tah99cdluaBmJ6SktA5iOsXAeJ/bt
-         kbfGUdrbpCKn4RAk/zHaB4DuEpUUkJYYQZrfYf6UQGdb1f4isJj8TeazXi8Mv3UZwh
-         piR/vDo6ifjOFxUcWzNJcppMW0t8a+CUjKOXQnNnXOuOpmYAkdU66VBZI5jwDa4Uom
-         tGsa+7AyWK/EI8peQ2z9iCjpEEJm5o4oheBeoNH0fqoosv0Cg3SYzeJ7fu9jFiPqXA
-         nLvtAWBiA0GZQ==
+        b=FB2NkZC9/T9a1V6o7j6wJvmT7l/v2QuYAttIMkvp8mspnSX/86EWl9dCLqq+ubVf6
+         qWnvusYrTc2PvFziP4FY2SNViWSWP0wI0NdGzxtIwXr0m3yn/3IyrVmjJ7aGPwh9AV
+         5YpQpo9qIxxwt5AwOIW/Ma9pXq6mr/RVVRE1YmN3WCoNyjR9UDB2XUmEhuRlgHBXI1
+         i8E43wk46C/iPPaEnJnxugZAEx2pnZb2tvGHg5TJb2+tpu632p9VpExz6amF+wc3Di
+         vF1u5rEwys6UxxVPg7djNObFiG8uexjEZVT/YB0hazt7YfC8YelSifYGYkV+f4ySDW
+         mCYHnx0BKEDlA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Song Shuai <songshuaishuai@tinylab.org>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: Re: [PATCH v4 1/3] Documentation: arm: Add bootargs to the table of
- added DT parameters
-In-Reply-To: <20230626143626.106584-1-alexghiti@rivosinc.com>
-References: <20230626143626.106584-1-alexghiti@rivosinc.com>
-Date:   Fri, 21 Jul 2023 15:07:30 -0600
-Message-ID: <87v8edas8d.fsf@meer.lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>, ojeda@kernel.org
+Cc:     jani.nikula@linux.intel.com, rdunlap@infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        konstantin@linuxfoundation.org, rust-for-linux@vger.kernel.org,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: Re: [PATCH v8 0/2] docs: Integrate rustdoc into Rust documentation
+In-Reply-To: <87mszqfbfg.fsf@meer.lwn.net>
+References: <20230718151534.4067460-1-carlos.bilbao@amd.com>
+ <87mszqfbfg.fsf@meer.lwn.net>
+Date:   Fri, 21 Jul 2023 15:43:02 -0600
+Message-ID: <87jzutaql5.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexandre Ghiti <alexghiti@rivosinc.com> writes:
+Jonathan Corbet <corbet@lwn.net> writes:
 
-> The bootargs node is also added by the EFI stub in the function
-> update_fdt(), so add it to the table.
->
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Atish Patra <atishp@rivosinc.com>
-> Reviewed-by: Song Shuai <songshuaishuai@tinylab.org>
-> ---
->  Documentation/arm/uefi.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> Other than that one bit of strangeness, I think this is about ready to
+> be applied.
 
-So I'm not sure if I'm supposed to be applying these patches, or whether
-they will go through the arch trees?
-
-In the former case, they don't apply to docs-next, so could I get a
-respin please?
-
-Thanks,
+...and I've just gone ahead and done that - thanks for doing this and
+sticking with it!
 
 jon
