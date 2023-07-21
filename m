@@ -2,123 +2,64 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51B42EB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 20:47:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07ECFEB64DD
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 20:52:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229569AbjGUUrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Jul 2023 16:47:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55494 "EHLO
+        id S230321AbjGUUwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Jul 2023 16:52:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjGUUri (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 16:47:38 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F8B30E2;
-        Fri, 21 Jul 2023 13:47:37 -0700 (PDT)
+        with ESMTP id S229941AbjGUUwx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 16:52:53 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 010CC30E2;
+        Fri, 21 Jul 2023 13:52:51 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 02D0A733;
-        Fri, 21 Jul 2023 20:47:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 02D0A733
+        by ms.lwn.net (Postfix) with ESMTPSA id 9CF717DB;
+        Fri, 21 Jul 2023 20:52:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9CF717DB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1689972457; bh=uooNNHsnavtZDFWMnhrK7qfIkdzRUtt/iYGfwA0MW60=;
+        t=1689972771; bh=/pW3hEGyg79PkXdVD5J7I9kJxt4z0s0b8Oz2Xi41fcg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=q5E12EouGHqAxrE/YXKVPqx/ucr3m21SL8SWzG99/mguvQ0EHTDbwSgcck7cWeBJs
-         NTH4XtLvQ3eJqaL33fcNC71w99DHsM9BzlEm0QbzaNHfcjkGrZBC7LBcqdjqE5vfd8
-         +BCf1KA5/cc2l12aNMFqAx4i2gjOZmuLeXawjVzZQUy1JW3amntPUKcJhYvCemAx+3
-         RzZzIrbhZ5Dk2RKmQusAJ6wJwxWZyzL5xrtDRmAm1qwY+tBilPdusDsLXF2ijOHcAq
-         OlqeATWzhuDpNgv6nCa08FWqDEbVLCzpmq6FzwkxiHziOZ26yKkkXAkuLpz43soneI
-         T/Ll/5J+pxwRQ==
+        b=FuosDovDFfQUGlzt7vLWAoKhJSFJPCqglJQ88AGCay/dnExvK3fbueKPAq4MxpxUh
+         532G8LMpEV2pqgW309UmxHBdj1HrVtyGg++sMKK5+IQz13qOuSs8YZ3GneDpdqbWbC
+         pqYoXZ/gjC2UvhyzgxVcSOvSna7HKSAd4EZjI7ui5892XtE+MqgeLcsHReLNoc+w9D
+         SjUc+AkD4HKPcr0A0eAYWfenzpzs8/1DNpVGf0FsGM+aTqrwMGXub+cATd36alZ1kv
+         RS18kv8qS1nUe1VqJmAh1UsSrj4smd2xiZmxqQivGdJtEP+i7b8t2hOAX+8c6E1qj5
+         mlm9ns9qxs6GA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Hu Haowen <src.res.211@gmail.com>, dan.j.williams@intel.com,
-        dave.jiang@intel.com, Jonathan.Cameron@huawei.com,
-        hdegoede@redhat.com
-Cc:     Hu Haowen <src.res.211@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: ABI: sysfs-bus-nvdimm: correct indentations
-In-Reply-To: <20230716161443.1375-1-src.res.211@gmail.com>
-References: <20230716161443.1375-1-src.res.211@gmail.com>
-Date:   Fri, 21 Jul 2023 14:47:35 -0600
-Message-ID: <87h6pxc7q0.fsf@meer.lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] Docs: kernel-parameters: sort arm64 entries
+In-Reply-To: <20230715235105.17966-1-rdunlap@infradead.org>
+References: <20230715235105.17966-1-rdunlap@infradead.org>
+Date:   Fri, 21 Jul 2023 14:52:50 -0600
+Message-ID: <87cz0lc7h9.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hu Haowen <src.res.211@gmail.com> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> The identations from line 1 to 4 within sysfs-bus-nvdimm were wrongly
-> incompatible with the indentations of the following contents. Hence
-> correct them.
+> Put the arm64 kernel-parameters entries into alphabetical order.
 >
-> Discovered when I was executing "make htmldocs" and received the
-> following stderr output:
->
->     /<... root dir ...>/Documentation/ABI/testing/sysfs-bus-nvdimm:11: WARNING: Unexpected indentation.
->
-> Signed-off-by: Hu Haowen <src.res.211@gmail.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: linux-arm-kernel@lists.infradead.org
 > ---
->  Documentation/ABI/testing/sysfs-bus-nvdimm | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/ABI/testing/sysfs-bus-nvdimm b/Documentation/ABI/testing/sysfs-bus-nvdimm
-> index de8c5a59c77f..8d048f8e3c39 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-nvdimm
-> +++ b/Documentation/ABI/testing/sysfs-bus-nvdimm
-> @@ -1,7 +1,7 @@
-> -What:          nvdimm
-> -Date:          July 2020
-> -KernelVersion: 5.8
-> -Contact:       Dan Williams <dan.j.williams@intel.com>
-> +What:           nvdimm
-> +Date:           July 2020
-> +KernelVersion:  5.8
-> +Contact:        Dan Williams <dan.j.williams@intel.com>
->  Description:
+>  Documentation/admin-guide/kernel-parameters.txt |   12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-There's only one little problem ... that's not where the error was, so
-this change doesn't actually make the warning go away.
-
-I've committed the following instead.
-
-Thanks,
+Applied, thanks.
 
 jon
-
-docs: ABI: fix an RST error in sysfs-bus-nvdimm
-
-The literal blocks in this file lacked the necessary blank line at the top,
-causing Sphinx to complain:
-
-  /Documentation/ABI/testing/sysfs-bus-nvdimm:11: WARNING: Unexpected indentation.
-
-Add the lines it's longing for and bring about a bit of warning peace.
-
-Reported-by: Hu Haowen <src.res.211@gmail.com>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/ABI/testing/sysfs-bus-nvdimm | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-bus-nvdimm b/Documentation/ABI/testing/sysfs-bus-nvdimm
-index de8c5a59c77f..64eb8f4c6a41 100644
---- a/Documentation/ABI/testing/sysfs-bus-nvdimm
-+++ b/Documentation/ABI/testing/sysfs-bus-nvdimm
-@@ -18,10 +18,12 @@ Description:	(RO) Attribute group to describe the magic bits
- 		Each attribute under this group defines a bit range of the
- 		perf_event_attr.config. Supported attribute is listed
- 		below::
-+
- 		  event  = "config:0-4"  - event ID
- 
- 		For example::
--			ctl_res_cnt = "event=0x1"
-+
-+		  ctl_res_cnt = "event=0x1"
- 
- What:           /sys/bus/event_source/devices/nmemX/events
- Date:           February 2022
--- 
-2.41.0
-
