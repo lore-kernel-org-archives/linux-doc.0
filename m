@@ -2,176 +2,247 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD06EB64DC
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 16:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58A45EB64DD
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 18:03:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230210AbjGUQjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Jul 2023 12:39:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37924 "EHLO
+        id S229925AbjGUSD2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Jul 2023 14:03:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231207AbjGUQjC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 12:39:02 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E5C349ED;
-        Fri, 21 Jul 2023 09:37:25 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-4fb7373dd35so4080250e87.1;
-        Fri, 21 Jul 2023 09:37:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689957437; x=1690562237;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature:dkim-signature
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sy1CMbA9h8MyISsmlxFD3H9uleaHAMciF3iNXrbKPXI=;
-        b=cURjEIW0JoTFMtd0MFjRif1LCfBqNJDW0qmPcMMmNo0NZnRo7r54K/6Vo+BwqoOakZ
-         3UmY/SbZRq5gJf+7GDXSOg6Liy08ExJvAtzVcRGwGN53EiqxdK3EQz2T0zyMAadk0juc
-         DMHt2bYhOFUFWCmFonLkRFsrUYXXESn1b/ztKlc9PTh7IDGVnKwvyJS+CxRqfiMd/Cix
-         fBL/lQ89oz9207xgZDxtajvEpoYvux+GK+WXlgMnLq5KjxA3yxryXe8sjTJCy580ZH43
-         nq3TdGpaqBiGLJOTtfaQJqDeAXMu7YhnQ11fTJTo++80DkTPcQpNBRu30hcLX3VOF0+b
-         R6kw==
-X-Gm-Message-State: ABy/qLYT0IlVtC61Pkq0M5tvcavb4CQSkwvTXXOqKWtCCtYH+d1YfO3l
-        wtOntOIqE5sHehWNOZunLidkZB6SA1DsGw==
-X-Google-Smtp-Source: APBJJlF4hbC5pYpHY6nPBPZrXFJkuIuJv1qkFKM3M6i20QhLLrBNRSkWvUIe3ye8OUYhtPZ8bfOu4g==
-X-Received: by 2002:a05:6512:220a:b0:4f8:6e1a:f3ac with SMTP id h10-20020a056512220a00b004f86e1af3acmr1093438lfu.28.1689957437348;
-        Fri, 21 Jul 2023 09:37:17 -0700 (PDT)
-Received: from flawful.org (c-f5f0e255.011-101-6d6c6d3.bbcust.telenor.se. [85.226.240.245])
-        by smtp.gmail.com with ESMTPSA id s3-20020a19ad43000000b004fbad09317csm810924lfd.189.2023.07.21.09.37.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jul 2023 09:37:17 -0700 (PDT)
-Received: by flawful.org (Postfix, from userid 112)
-        id 5C7AA3F2E; Fri, 21 Jul 2023 18:37:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=flawful.org; s=mail;
-        t=1689957436; bh=1KEtoqG8iFBcyK+j2liNzeIKfEtGmRDVia0Bj1gjXcw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lGKjXK5Fhd6/ziwR7HIjdBp/Yk54v5Jqqd0PKxgelW2mkCTuScyCWdiRnx58Az5Sa
-         E2zW7m4X5BQL8G6/2yrDQSjxt0A+Itff20Bsywy7ZAq/icaUNWyb5YJlo81UUyGgzf
-         Qv0xgZVyLLzeEYhfOqZR9fUtAH25tMMW91P/rrZY=
-Received: from x1-carbon.lan (OpenWrt.lan [192.168.1.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by flawful.org (Postfix) with ESMTPSA id B367D3F58;
-        Fri, 21 Jul 2023 18:33:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=flawful.org; s=mail;
-        t=1689957181; bh=1KEtoqG8iFBcyK+j2liNzeIKfEtGmRDVia0Bj1gjXcw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E/W4XGuYz509MTJV4untTRm8x80yIPmvD946+ulx5gAXpkl8NlfJoR8UlkX1l79K8
-         arw2gh8C2+c7cFRuZP7OYFzOt212KP6nyCb5zdoJkp+xQS991B9n1AacddfjkL+ZAZ
-         fYhgrsaBUvoqX8w9Nmhz9ShVWfDCmAsUwi4lO5zk=
-From:   Niklas Cassel <nks@flawful.org>
-To:     Damien Le Moal <dlemoal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     Hannes Reinecke <hare@suse.com>,
-        John Garry <john.g.garry@oracle.com>,
-        linux-ide@vger.kernel.org, linux-scsi@vger.kernel.org,
-        Niklas Cassel <niklas.cassel@wdc.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v3 9/9] ata: remove deprecated EH callbacks
-Date:   Fri, 21 Jul 2023 18:32:20 +0200
-Message-ID: <20230721163229.399676-10-nks@flawful.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230721163229.399676-1-nks@flawful.org>
-References: <20230721163229.399676-1-nks@flawful.org>
-MIME-Version: 1.0
+        with ESMTP id S229576AbjGUSD0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 14:03:26 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 870C52737;
+        Fri, 21 Jul 2023 11:03:25 -0700 (PDT)
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36LEGEi2003849;
+        Fri, 21 Jul 2023 16:32:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : from : to : cc : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=HWByv861nrO9TNW0942R7zYddd561p62PJx4QHCHXGg=;
+ b=Pal3m49b8LQgtMDXANE3zfs9T+RuAOTTFqOoZTXp1guvu5ap9H1IRfzhrpTFwS2pQ9DZ
+ SG8jYIr+Z0Ud9SnHWM6YVkBKElm3iTT0msJ3GwMBgtA5R4fHJqb4VjDD3+hZb3NMYO8c
+ StVlluvA8l4tKhyZfgQf1iglJZviumCSfvx9gkRwvL3p9VdyPk09lnefbEVpPc6zcLSd
+ y57l4v+757OpDvcD3WAe6j1zDL7AWxnZyUbNf77GexaMSVCwQB9TxihIMiW/wSttTlcI
+ XQNZHZVkEEHYTpXJMfko6AMLd4gnn6lPw97xiPjdWhezok237pv+bT21EBKvGNlOKqTz lw== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3run8a4cex-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 21 Jul 2023 16:32:25 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 36LF4XQL019175;
+        Fri, 21 Jul 2023 16:32:24 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
+        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ruhwap5j1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 21 Jul 2023 16:32:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IUO+9VvoJDvnNjmGcMdKMKiQwkxtLLvxODQNQNY1NZr8cOWcfU07gC9aUg6reNfQlDE+JHa2a1/XVQ8YiT9s87khgpkZQRdvKe3+qjCUiSEH5qEuahwqGGjy4c30Nx5Q4i8+Khh7x+nNDTHxWrBpOTKvk3slYpphL9z+m/np9Y12xay/uKfc0OLse12R9LqVGeBoqejQRpaNH2Z77W9bApgDLKEkH6mlIh2unglfXMs+FSNPn1ivdJjNzMa8jPDvGB4OYn/D5lNiy1Uv+TWfXB78AcIHUHuzUV4D+rlq/CoTYI9r5I5LMqRlAZ6Zei7mtn0aBPn844ueD2ufOdJOJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HWByv861nrO9TNW0942R7zYddd561p62PJx4QHCHXGg=;
+ b=HmWbHQiHqwndnVhU3DqWep3ciw9MUCN1T7qCGCgxa0Ehp61pj98VnVxaAtdcpxeWOj2dh55icqZQi3iSr+nCymom+3SmufuRbsxq8/1Rj2BKHLofcDv5s2a4IQQPCoWHQNGQ17BVVBCMoJ8ELCj4m/fgo9u+YJjxqSw6NgNIov1ep06au8NBQbDt57oHAMr4gYwJmhjNE8fny++cK/tN67MKUKGc7SN/27uHjzJKA87NQmIk0TPI3YzFAMH6XTrHJJXXArkwaAIkqu2FRyqjNFGVro5junCBbqeqgN6gT93+J0+5hlyldK0pOIOQKPSQ4jd29MnNbL/aSS2toeUJJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HWByv861nrO9TNW0942R7zYddd561p62PJx4QHCHXGg=;
+ b=Kf7w1hol3l5moWN4spACHE9n/WdH/YS+A1/Bb0TtO2mt9vM10780ck1/F8PzUBL+U03d7Ket9RR8N2QG4WvM1c59+f8brpwEvPZ/nDdKaWcYd6+QRyiXHxke1B2j68nqs5iwNCwTN8T9RemBjqqjCHbFWhz0+lk8xlT2h0bR2YI=
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
+ by CH0PR10MB5372.namprd10.prod.outlook.com (2603:10b6:610:c2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.28; Fri, 21 Jul
+ 2023 16:32:20 +0000
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::a7b5:113e:6f8c:5028]) by CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::a7b5:113e:6f8c:5028%4]) with mapi id 15.20.6609.026; Fri, 21 Jul 2023
+ 16:32:19 +0000
+Message-ID: <6d2811f5-a5ee-a49d-012d-b519b2c6ee26@oracle.com>
+Date:   Fri, 21 Jul 2023 11:32:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v25 01/10] drivers/base: refactor cpu.c to use
+ .is_visible()
+Content-Language: en-US
+From:   Eric DeVolder <eric.devolder@oracle.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, david@redhat.com, osalvador@suse.de,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, bhe@redhat.com,
+        ebiederm@xmission.com, kexec@lists.infradead.org, hpa@zytor.com,
+        rafael@kernel.org, vgoyal@redhat.com, dyoung@redhat.com,
+        lf32.dev@gmail.com, akpm@linux-foundation.org,
+        naveen.n.rao@linux.vnet.ibm.com, zohar@linux.ibm.com,
+        bhelgaas@google.com, vbabka@suse.cz, tiwai@suse.de,
+        seanjc@google.com, linux@weissschuh.net, vschneid@redhat.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        sourabhjain@linux.ibm.com, konrad.wilk@oracle.com,
+        boris.ostrovsky@oracle.com
+References: <20230629192119.6613-1-eric.devolder@oracle.com>
+ <20230629192119.6613-2-eric.devolder@oracle.com>
+ <2023070342-human-spill-a62c@gregkh>
+ <31c1393d-4285-0032-7675-737737d21f71@oracle.com>
+In-Reply-To: <31c1393d-4285-0032-7675-737737d21f71@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN4PR0501CA0014.namprd05.prod.outlook.com
+ (2603:10b6:803:40::27) To CO1PR10MB4531.namprd10.prod.outlook.com
+ (2603:10b6:303:6c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4531:EE_|CH0PR10MB5372:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4d612bd-de1b-4301-0c4f-08db8a080db2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8TODz/Y7IhLbcGTSkFU1VVYW+SrdKOEO/9iXm4JNPb6m8XOlMycWrzw95Z4U5CwU71zjBcYObcKzYiY01mQERq5H1gkORaXQu+sehsN6FxI1vYfZp5NJnBGTfQ1/AGC6ioa1t5LrQr3s+M4TWti5tjSCF0/euoudiVmkqQeyDiH37IDAdeTXUB5PTb1oIH2wU3ziTm6781VmhLxOnhfuEjz+hRKsB65YBuIrMFQlGvO64RUda3EDkDjfI8iRLlq66oUpRNPVoMyeKY40JwVIrf9t1Ejs2BqavvZQay2LICDCRGUNvvNgrlfkS8wED81/ICW55YrrDHk+ADofR4bDbc3vNRskGV5Pfn7WR6wQh3mFmkOHihKI0WPFpM1KqU2e6tcoONF81clifsJLipxzzjDvmsDPTOKRcXzrHId3eCeg5LGQB69STqpvXT1CsBs13bR5DkEmnI5WetbrozuRzMl/Wvbv0kRxlg+5LYTptSfJ2No2iCvqv+EgWAY8V/telEMub57QLFKnIgS/oMqxOckM2kXeTCGKNg5rQyNbHdPGet5MpSh0WO9zeKrOejwYadyTUfjU46a2yh+XsF1mMDoVK+H5FQ3Mh4noiQ5cK1gcopk0IiS5tKwz4HMvBcocUKm5Ma5epEGYyqOxFNGSFh2co5kccqQGGnk5DNcScbxxRzEfpvj4kmG6pBo9SskW
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4531.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(396003)(346002)(366004)(39860400002)(136003)(451199021)(6666004)(6512007)(107886003)(6916009)(316002)(4326008)(6486002)(186003)(26005)(31686004)(53546011)(6506007)(41300700001)(478600001)(5660300002)(8936002)(7416002)(7406005)(8676002)(66946007)(66476007)(66556008)(2906002)(2616005)(83380400001)(38100700002)(31696002)(36756003)(86362001)(142923001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHBjTFR0T05XK1d3cG4vT0RwQUtkYlFKQWlRQnZUK1lSaE9ROWhtSk5SYVFn?=
+ =?utf-8?B?RjIxamRPSjQ5ajNJaEtXdlNrd2REdENJS21WUWFMaTVQb1hnaTQvVytvOXVW?=
+ =?utf-8?B?ZmN1SUZuZWZnUitsNHJCZ044RStkUjVmdy80OEVXMjNkV3A3aHZhNWcwSnU4?=
+ =?utf-8?B?N1hITHkxM3JCOVA4ei9sSXN4bzdTWlhWclRmME5sbXZ2OGRNNlpNWU0zWFpD?=
+ =?utf-8?B?KytqMXhvNEE0Um5heVBqSG8zZGtoVlloSlordmJ0WlNtaXR6NnBXQ0x4N3BB?=
+ =?utf-8?B?ZTN2dlpObnpJT1FxN1N1OUpDa0lBSkViTXdpVFc1YjF6MjFreEFsYU5ZaE44?=
+ =?utf-8?B?TmtuMytOLzZiUmZ0aVJpTFBlclBobDVDejJQdUJmU1U0Z0RpM3N1Vkp3Slp6?=
+ =?utf-8?B?aGNSZEdwWUx3QWJCQjhDM01pN3FqMmxZRTdCTUFXakVUbHpYNlJyWkt1MC9K?=
+ =?utf-8?B?YU96L1ZHcnVFZ3QyTmc3K3d0akVuci9BWmdKN2I4UEUxTnNGdnlZL3ZXbTE1?=
+ =?utf-8?B?T3I3T0h3UllTNWQwVTNYU2tQaEpLeVprdlhIa3ZsZlhYV0lueU5RLzVoWTMx?=
+ =?utf-8?B?ZHk3ZXdwL0RSaHluNUw4cy9mRE5CbXhxTHhENExpRHBOdHZQYlBFVFBjSm5m?=
+ =?utf-8?B?SkZFZDJkUXRLR0JkM0NZbVB2Vit5K0lxUktSNkhETVg3MFVTaElpR3NZNEt6?=
+ =?utf-8?B?VnB5bm9aTjBEL2dSdVRzSG10YTRaKzR1bzQwUm1xQkhVVFQvMzIvd0xYZ3U4?=
+ =?utf-8?B?L2pwbjZDYVhVenU3L1BtUUk2ai94ZzNzM3BoYjBHVGl1ZGNtbkwrZ2xlazAy?=
+ =?utf-8?B?TklWS216STI1MWFuUndOSjVrRFl6RFNVa2FmSXlYdVhQaWVBSTdwa2h1YjhO?=
+ =?utf-8?B?NjlhUyt4NE9xeDBlZWtGckE4UTU0eVc0WDdVcEVhcTRDczRMbkM5d0RvdWJy?=
+ =?utf-8?B?b3luU05WLzlKM21ldEpYOWlHUERhR0lTMXRpRFh0enl4L0UxOS9yVTdqdW9m?=
+ =?utf-8?B?T2krWmNTaE15RGtkT3VQeW9EUEU5TzB2cU1YRzVDNlVGNEV3cWRzTXh0SDQ2?=
+ =?utf-8?B?OVJtVWMxWVZnY2xONUtZU0RZTVBmWUdic1FndU54Z05oSHZVZmdidkd1SjNK?=
+ =?utf-8?B?ZFRnVEFERnRHUmtQUWZqNDNqdXc5dzFHMVViY0xMNXpnVU5wNk5qMGF3Lytt?=
+ =?utf-8?B?NEc1VFFxK0MyUWJWTFNGOUlLeHFRQmlwOTNFaEd6dkhGc2l3MXVGcGc0blhD?=
+ =?utf-8?B?ZWIrR3NSM0M0b29nU3MyaVZHc2xtYWxuVkY1algwL2ovM2dLN1FCRTRHanVX?=
+ =?utf-8?B?NXdjTS9jRmU2ekxGNExBRHZRTDc2Nmh4elFsT05IeW5nTHRQcVUxdlhjck9Z?=
+ =?utf-8?B?QXFJODdFT25ubFhhazFkSkRGT2FkV3BSOENRc2pzM1Zyd0NENExtV1YwYWRr?=
+ =?utf-8?B?UmZSV2hPK042ZkRleU1sWnk0T1NmcS9GSCtuZTRIeVFxcFZjTkF2WEhVMEpj?=
+ =?utf-8?B?SVhIcmhvb0VCY01tOGVQakV4MlZrVU9pN0pmak8rTjd6cFZkaTAwR3JTMlcz?=
+ =?utf-8?B?anRpMENrWTNBL2t0SEZ0SVBUZTJrV1dWQVlCUHl2dHVlbTEyNFdiY1VvOGUz?=
+ =?utf-8?B?RTYrTnZSRVZpZWdiWkxBVjlyYWI2eTdDOVVTb0xIY0kwQU1LVkNYZEMrSzhK?=
+ =?utf-8?B?MHJrU0F3QVpieGFBNE0rYXdVNS9jZlZtYVVrSVVTWUFsWGVYaG56WnpiZ2No?=
+ =?utf-8?B?dnozM0h3YkpBVzRhaUlZdWZ6UG96R1JIWTQxd3VXWk1INGVzaEsxcy9WeGNr?=
+ =?utf-8?B?YnVhcldCKzN0UzVUMzFucGZoT29NVFE2b2dja3lFUUc1aGVoRm5RSWx0ZjAv?=
+ =?utf-8?B?UG9QRHVCOEpDL3A3dUg2OHQyeUk4Y1c3MGsrQjB1d0wrTEdvWHRTa3BtWVhr?=
+ =?utf-8?B?TUoyc0hpbWtWZ0hhMmk2VXAvWTczYWJPK3o3dGwraXpGdHVEalVzYXVwYW9L?=
+ =?utf-8?B?VFI1Y1VUQkJJc2lrTFJKcVZVd1N6cVRIT3piajlqdHZpUUxDVDVMK0I0OVQr?=
+ =?utf-8?B?R1Q4aVdGcVlkY1FMeVJzV1lOSk1MQ1BkdXpYM2NNR0dmYUlkTVhOdTV6dm9L?=
+ =?utf-8?Q?1/9K2ZqaQ+JbImu/oLP3Yj6mL?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?ZHNEZGxBeEdidm1qVTMzYUpJaWJBdXpXd0tua1JIUXRPLzZNelB1ZFhteFpJ?=
+ =?utf-8?B?ZnZMaXE2RVBnWnRJdDlMMWlBV1k2YjFvdmZjRHNITkxvQWxxTUhjeFBQamlE?=
+ =?utf-8?B?bERVWXRHbWpWNmROaEhSc0ZoQVpLQjZoR0hreHA4RnZPVWRLNkR6L0tMSGxs?=
+ =?utf-8?B?blBQRHNSbFZnZlFCMnF2NWxxb1BGZjIvUmpQcnozR3JKMkg3Ly9DYW9zcVNm?=
+ =?utf-8?B?MXR2dmVOMXl3bTdqV3UySG0zUUc0VGtHM3E5TkJsOXl5eGM1VTd0SWNMeDA4?=
+ =?utf-8?B?c2o5UnAxeENmYk9wRHBveVpyRDRVVC95M1dDRU1xU0kva2dMN05LVzl1VGRF?=
+ =?utf-8?B?SUQ5bXFpYlJEdktlNWt5WVJDNkQ0Q3JwaWZteWhrb2k5NGZaRnJrc3JWeFB0?=
+ =?utf-8?B?QW9YOFNKd2dCSnFwVm03VlVtU0tjVjBJWlRTWjdaVWlqNFkzb0tqa2ZyRDV6?=
+ =?utf-8?B?cW9YbW14Q1hPVVFmTXFxU0E2cGZOZVd0b0gyd29tNlpKcWk3ZUxRRTBPR2JU?=
+ =?utf-8?B?dmZDK2ZYWGYrM1RIMkdBaUloMGljMHNrMktyTGhpcFN4KzVmRTRyaFBZSlFj?=
+ =?utf-8?B?SVFzQkdDenFYbzRjSWF6d1BEOHppUEZySWVkbTlyZ2ZlUitQN1lONjl1dERU?=
+ =?utf-8?B?dDlIR1NoUFhnTTltODhDLytGcXNZemRpdEhSamZDcnNmQmE0ZEsyZytGSHZ2?=
+ =?utf-8?B?T2t5TjFHQnJYbWdWakd0MUdxRTUrRll5Q016NTR4UGNUNkF2NWtiWUFsdW5v?=
+ =?utf-8?B?SnVkOHdMYkpQc3gwRTVVbWFibDR2M2w4WWZrWEpsRktmWWVnUXpEKzZOVGw1?=
+ =?utf-8?B?bm9MeVRSb1pPeTJlUW9BeWJOaWMrQ0RRVHUvRk1Jenhxb0VQTGVsT0kzTnN3?=
+ =?utf-8?B?QzhBTzFEbFNsUUJYdXV4UXFYL05nYjZmN3RLUVMydmZiaHRDTGhQaU5FTFRO?=
+ =?utf-8?B?YWdKYjMzN2ZKdmtNK0NTRXNaTnh6a293Ym5JRkNHU25pREUyWjBWWEpXcFV3?=
+ =?utf-8?B?Q2dPNUxpK0IxOUVIM0VybzVwNkN6RVU1N29GT3Bkd1lma2J0UWVab2l3aTRO?=
+ =?utf-8?B?UlJPUGJac01xMHdpd2JGS0d0QTNHV1VEY0Y3ZGFKUGM5MC82TjM0ZURYVHMz?=
+ =?utf-8?B?NDV2VEpaNVhBZ1BLSUJ4QTArMEkxdkJTSGdjbHVXWGozUTJGUlFvY05QR1Yw?=
+ =?utf-8?B?VFpVSEJTUG9UTnA4MjFiRXFSQ25mM1Rhb0ZXZk9uNGVialR2dk4vNXJPS2R5?=
+ =?utf-8?B?WkV5eUlkWkVZUGI5VGtJNDBFbllnVjBncjFiK3ZQRHRPcTVqQitIVmxVYW51?=
+ =?utf-8?B?ZU1kSlRjL3Q1QTM5dFR3RkRyWFpqcVRlbFU1MGQyL1RLRm5QWURHdXNUYXBy?=
+ =?utf-8?B?aWhuVDRBQU1IZnNFc1VqWDJYUkQwMkhhNVpzTXdmc0JOL1pPcWo5dlhrczYz?=
+ =?utf-8?B?S3JSL3p6ajJhTlZoMW84VWNlNlJiNDJGUmNkR0JWRHJJQ2lMUmtxT3B2b09E?=
+ =?utf-8?B?cnQ5SW5oS3c4ejQyUU9nQVNMSUNvREE5YU5GUVVDeTVvd2ZJR2h5YmZMS1Bw?=
+ =?utf-8?B?eUowVmp0TnI4WTc2bkFoSzF4RUFqeEI5SFR4VTNzU3dTVGZKZ3luR3V6eVZ4?=
+ =?utf-8?B?ZlFOdXVsK2doZ0QyelhmNFpmZTUxSGlVTG1YK1VRcWRMbzBQZE9TcnZjZnpV?=
+ =?utf-8?B?cmhSYS8rdDNxT3hrTlFjWGlGU0xpKzVreTFrQ2UxcjRHL0h3OXprYVFtV1Fr?=
+ =?utf-8?B?VG9KQnZLbm9uc3BhdDM4bCtIc3FrN3p5UktsVW5ISEF5WlJBbUFaRUFqaWZN?=
+ =?utf-8?B?VFgxci9XV0trV0Z5cW5ud3BQT1lFM3IwWFJLUXN2c2FIZ054TEwvQm1nakdk?=
+ =?utf-8?B?UCsyckJmbkgrN1AzR1Axb2dvakJFbUpNQ1RLYlQ2b0dtYUdnbmhsRHFoMFFN?=
+ =?utf-8?Q?s9hIgSyooKY=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4d612bd-de1b-4301-0c4f-08db8a080db2
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2023 16:32:19.9204
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vrkqtzd8gw/+TZwoecQdOLAzxpVMT6DAdxS0xYtZH3s0fWEyU/lhlwQBbhLhKESSOx1ODAD6hhZI4W7C3XO3Pt9LyssjjODQHRC4qV7gsD8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5372
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-21_10,2023-07-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ mlxscore=0 adultscore=0 spamscore=0 phishscore=0 bulkscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307210144
+X-Proofpoint-ORIG-GUID: _navfhUWneorfAxf2PDAnqus4TK6YeeJ
+X-Proofpoint-GUID: _navfhUWneorfAxf2PDAnqus4TK6YeeJ
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Niklas Cassel <niklas.cassel@wdc.com>
 
-Now when all libata drivers have migrated to use the error_handler
-callback, remove the deprecated phy_reset and eng_timeout callbacks.
 
-Also remove references to non-existent functions sata_phy_reset and
-ata_qc_timeout from Documentation/driver-api/libata.rst.
+On 7/3/23 11:53, Eric DeVolder wrote:
+> 
+> 
+> On 7/3/23 08:05, Greg KH wrote:
+>> On Thu, Jun 29, 2023 at 03:21:10PM -0400, Eric DeVolder wrote:
+>>>   - the function body of the callback functions are now wrapped with
+>>>     IS_ENABLED(); as the callback function must exist now that the
+>>>     attribute is always compiled-in (though not necessarily visible).
+>>
+>> Why do you need to do this last thing?  Is it a code savings goal?  Or
+>> something else?  The file will not be present in the system if the
+>> option is not enabled, so it should be safe to not do this unless you
+>> feel it's necessary for some reason?
+> 
+> To accommodate the request, all DEVICE_ATTR() must be unconditionally present in this file. The 
+> DEVICE_ATTR() requires the .show() callback. As the callback is referenced from a data structure, 
+> the callback has to be present for link. All the callbacks for these attributes are in this file.
+> 
+> I have two basic choices for gutting the function body if the config feature is not enabled. I can 
+> either use #ifdef or IS_ENABLED(). Thomas has made it clear I need to use IS_ENABLED(). I can 
+> certainly use #ifdef (which is what I did in v24).
+> 
+>>
+>> Not doing this would make the diff easier to read :)
+> 
+> I agree this is messy. I'm not really sure what this request/effort achieves as these attributes are 
+> not strongly related (unlike cacheinfo) and the way the file was before results in less code.
+> 
+> At any rate, please indicate if you'd rather I use #ifdef.
+> Thanks for your time!
+> eric
+> 
+>>
+>> thanks,
+>>
+>> greg k-h
 
-Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
----
- Documentation/driver-api/libata.rst | 22 ++++++----------------
- drivers/ata/pata_sl82c105.c         |  3 +--
- include/linux/libata.h              |  6 ------
- 3 files changed, 7 insertions(+), 24 deletions(-)
+Hi Greg,
+I was wondering if you might weigh-in so that I can proceed.
 
-diff --git a/Documentation/driver-api/libata.rst b/Documentation/driver-api/libata.rst
-index eecb8b81e185..5da27a749246 100644
---- a/Documentation/driver-api/libata.rst
-+++ b/Documentation/driver-api/libata.rst
-@@ -256,14 +256,6 @@ advanced drivers implement their own ``->qc_issue``.
- Exception and probe handling (EH)
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--::
--
--    void (*eng_timeout) (struct ata_port *ap);
--    void (*phy_reset) (struct ata_port *ap);
--
--
--Deprecated. Use ``->error_handler()`` instead.
--
- ::
- 
-     void (*freeze) (struct ata_port *ap);
-@@ -348,8 +340,7 @@ SATA phy read/write
-                        u32 val);
- 
- 
--Read and write standard SATA phy registers. Currently only used if
--``->phy_reset`` hook called the :c:func:`sata_phy_reset` helper function.
-+Read and write standard SATA phy registers.
- sc_reg is one of SCR_STATUS, SCR_CONTROL, SCR_ERROR, or SCR_ACTIVE.
- 
- Init and shutdown
-@@ -520,13 +511,12 @@ to return without deallocating the qc. This leads us to
- 
- :c:func:`ata_scsi_error` is the current ``transportt->eh_strategy_handler()``
- for libata. As discussed above, this will be entered in two cases -
--timeout and ATAPI error completion. This function calls low level libata
--driver's :c:func:`eng_timeout` callback, the standard callback for which is
--:c:func:`ata_eng_timeout`. It checks if a qc is active and calls
--:c:func:`ata_qc_timeout` on the qc if so. Actual error handling occurs in
--:c:func:`ata_qc_timeout`.
-+timeout and ATAPI error completion. This function will check if a qc is active
-+and has not failed yet. Such a qc will be marked with AC_ERR_TIMEOUT such that
-+EH will know to handle it later. Then it calls low level libata driver's
-+:c:func:`error_handler` callback.
- 
--If EH is invoked for timeout, :c:func:`ata_qc_timeout` stops BMDMA and
-+When the :c:func:`error_handler` callback is invoked it stops BMDMA and
- completes the qc. Note that as we're currently in EH, we cannot call
- scsi_done. As described in SCSI EH doc, a recovered scmd should be
- either retried with :c:func:`scsi_queue_insert` or finished with
-diff --git a/drivers/ata/pata_sl82c105.c b/drivers/ata/pata_sl82c105.c
-index 3b62ea482f1a..93882e976ede 100644
---- a/drivers/ata/pata_sl82c105.c
-+++ b/drivers/ata/pata_sl82c105.c
-@@ -180,8 +180,7 @@ static void sl82c105_bmdma_start(struct ata_queued_cmd *qc)
-  *	document.
-  *
-  *	This function is also called to turn off DMA when a timeout occurs
-- *	during DMA operation. In both cases we need to reset the engine,
-- *	so no actual eng_timeout handler is required.
-+ *	during DMA operation. In both cases we need to reset the engine.
-  *
-  *	We assume bmdma_stop is always called if bmdma_start as called. If
-  *	not then we may need to wrap qc_issue.
-diff --git a/include/linux/libata.h b/include/linux/libata.h
-index 2d5e4b516a69..3718169834d5 100644
---- a/include/linux/libata.h
-+++ b/include/linux/libata.h
-@@ -975,12 +975,6 @@ struct ata_port_operations {
- 	ssize_t (*transmit_led_message)(struct ata_port *ap, u32 state,
- 					ssize_t size);
- 
--	/*
--	 * Obsolete
--	 */
--	void (*phy_reset)(struct ata_port *ap);
--	void (*eng_timeout)(struct ata_port *ap);
--
- 	/*
- 	 * ->inherits must be the last field and all the preceding
- 	 * fields must be pointers.
--- 
-2.41.0
+I think there are three options on the table:
+- use #ifdef to comment out these function bodies, which keeps the diff much more readable
+- use IS_ENABLED() as Thomas has requested I do, but makes the diff more difficult to read
+- remove this refactor altogether, perhaps post-poning until after this crash hotplug series merges, 
+as this refactor is largely unrelated to crash hotplug.
 
+Thank you for your time on this topic!
+eric
