@@ -2,105 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBBEEB64DD
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 05:27:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B76FC0015E
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 05:51:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229692AbjGUF1f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Jul 2023 01:27:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
+        id S230027AbjGUFva (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Jul 2023 01:51:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjGUF1f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 01:27:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07D98B4;
-        Thu, 20 Jul 2023 22:27:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 95C316106D;
-        Fri, 21 Jul 2023 05:27:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D285C433C9;
-        Fri, 21 Jul 2023 05:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689917252;
-        bh=1afuGQPjD3KQx3/4ehbMFfIxt3CD7zfKs3ykg3JJelE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lECO1F7bktgAsOfWmqS2j/yGnDirF99NzuIcsBZJOMFEISz0FNvFWz+j88jdaqk4o
-         YgegmaKK9BCb0lgGHbKo7IB4GRDw2v5rhYVTwn31Cr9ruXOoPA1wmBA3psI0nXislB
-         /f7OVGBoznS8wQy2v2jJlOlXV+58hBvjHRYViUuc=
-Date:   Fri, 21 Jul 2023 07:27:29 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc:     stable@vger.kernel.org, easwar.hariharan@microsoft.com,
-        catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
-        robin.murphy@arm.com, joro@8bytes.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev
-Subject: Re: [PATCH 5.15 2/4] arm64: errata: Add workaround for TSB flush
- failures
-Message-ID: <2023072131-supremacy-modify-f9ff@gregkh>
-References: <1689895414-17425-1-git-send-email-eahariha@linux.microsoft.com>
- <1689895414-17425-3-git-send-email-eahariha@linux.microsoft.com>
+        with ESMTP id S229756AbjGUFvA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 01:51:00 -0400
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714CE2D58;
+        Thu, 20 Jul 2023 22:50:16 -0700 (PDT)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+        by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36L4QrOS016769;
+        Fri, 21 Jul 2023 05:49:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+         h=from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding:content-type; s=PPS06212021; bh=ujkXA
+        VCxBZj9F45iQ5IJ+YX1d9OwAy1El3x8A5hKVp0=; b=XDMMhe7OQC17YJgu6jhIY
+        nub0gACJkbdJJgC07Mqzhr3CvvcnnNxFIoLXNmGb4w09TbB/bvKGDJfUBDwX6Fg/
+        SZJUKgwvJLuoq5HLSWHaZE/shhqGxat5BRy+pCYQDMRvuvLJmdoQH/6MP50eOfOz
+        SjHdgHAk0u9d33LAvKks7VDK2k5OuHnn91qOc6GwYJQCJzDfWiwQS1GO/LFXJv9x
+        6/M2vrc/noUk8HtjJHFh3abFHPFNWcA4WUI6uKu0edAKXK73uQs0/KZYcV2fUCfW
+        KIjTMoR+c3tyVx2FEZv0RbOL5RDqdIl2cg0EyANEPzuINmft9iz4hCIFHgClNyUK
+        g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+        by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3run8adcjq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Fri, 21 Jul 2023 05:49:49 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 20 Jul 2023 22:49:48 -0700
+Received: from pek-lpd-ccm6.wrs.com (147.11.1.11) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Thu, 20 Jul 2023 22:49:46 -0700
+From:   <xiongwei.song@windriver.com>
+To:     <tj@kernel.org>, <lizefan.x@bytedance.com>, <hannes@cmpxchg.org>,
+        <corbet@lwn.net>
+CC:     <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] docs: cgroup-v1: correct the term of Page Cache organization in inode
+Date:   Fri, 21 Jul 2023 13:49:37 +0800
+Message-ID: <20230721054938.1666475-1-xiongwei.song@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1689895414-17425-3-git-send-email-eahariha@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: bySpQadOfK_eOMn0m_uI2mgwQQfnU01d
+X-Proofpoint-ORIG-GUID: bySpQadOfK_eOMn0m_uI2mgwQQfnU01d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-21_02,2023-07-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=908 clxscore=1011 adultscore=0 lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2307210052
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 20, 2023 at 04:23:32PM -0700, Easwar Hariharan wrote:
-> From: Suzuki K Poulose <suzuki.poulose@arm.com>
-> 
-> commit fa82d0b4b833790ac4572377fb777dcea24a9d69 upstream
-> 
-> Arm Neoverse-N2 (#2067961) and Cortex-A710 (#2054223) suffers
-> from errata, where a TSB (trace synchronization barrier)
-> fails to flush the trace data completely, when executed from
-> a trace prohibited region. In Linux we always execute it
-> after we have moved the PE to trace prohibited region. So,
-> we can apply the workaround every time a TSB is executed.
-> 
-> The work around is to issue two TSB consecutively.
-> 
-> NOTE: This errata is defined as LOCAL_CPU_ERRATUM, implying
-> that a late CPU could be blocked from booting if it is the
-> first CPU that requires the workaround. This is because we
-> do not allow setting a cpu_hwcaps after the SMP boot. The
-> other alternative is to use "this_cpu_has_cap()" instead
-> of the faster system wide check, which may be a bit of an
-> overhead, given we may have to do this in nvhe KVM host
-> before a guest entry.
-> 
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Cc: Mike Leach <mike.leach@linaro.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
-> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Link: https://lore.kernel.org/r/20211019163153.3692640-4-suzuki.poulose@arm.com
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->  Documentation/arm64/silicon-errata.rst |  4 ++++
->  arch/arm64/Kconfig                     | 33 ++++++++++++++++++++++++++
->  arch/arm64/include/asm/barrier.h       | 16 ++++++++++++-
->  arch/arm64/kernel/cpu_errata.c         | 19 +++++++++++++++
->  arch/arm64/tools/cpucaps               |  1 +
->  5 files changed, 72 insertions(+), 1 deletion(-)
+From: Xiongwei Song <xiongwei.song@windriver.com>
 
-As you forwarded this patch on to me, you forgot to sign-off on it :(
+The radix-tree for Page Cache has been replaced with xarray, see
+commit eb797a8ee0ab ("page cache: Rearrange address_space"), so move
+"radix-tree" to "xarray".
 
-I've taken patch 1/4 of this series, but not the rest.  Please redo
-them, and send the needed backports for 6.1.y and 6.4.y as a separate
-series (obviously I can't apply patches in a series to trees that
-already have them.)
+Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
+---
+ Documentation/admin-guide/cgroup-v1/memory.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-thanks,
+diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
+index 47d1d7d932a8..dcb65b49bb22 100644
+--- a/Documentation/admin-guide/cgroup-v1/memory.rst
++++ b/Documentation/admin-guide/cgroup-v1/memory.rst
+@@ -197,11 +197,11 @@ are not accounted. We just account pages under usual VM management.
+ 
+ RSS pages are accounted at page_fault unless they've already been accounted
+ for earlier. A file page will be accounted for as Page Cache when it's
+-inserted into inode (radix-tree). While it's mapped into the page tables of
++inserted into inode (xarray). While it's mapped into the page tables of
+ processes, duplicate accounting is carefully avoided.
+ 
+ An RSS page is unaccounted when it's fully unmapped. A PageCache page is
+-unaccounted when it's removed from radix-tree. Even if RSS pages are fully
++unaccounted when it's removed from xarray. Even if RSS pages are fully
+ unmapped (by kswapd), they may exist as SwapCache in the system until they
+ are really freed. Such SwapCaches are also accounted.
+ A swapped-in page is accounted after adding into swapcache.
+-- 
+2.25.1
 
-greg k-h
