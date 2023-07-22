@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F37EAC0015E
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 19:07:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C31D4C41513
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 19:07:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjGVTHz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229750AbjGVTHz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 22 Jul 2023 15:07:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50640 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbjGVTHy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 15:07:54 -0400
+        with ESMTP id S229684AbjGVTHz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 15:07:55 -0400
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D62BE66;
-        Sat, 22 Jul 2023 12:07:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2AFE65;
+        Sat, 22 Jul 2023 12:07:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690052873; x=1721588873;
+  t=1690052874; x=1721588874;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Yy6x70ipohJUPyKImz7JLNE9lxHDkygNbgZeApYJDZc=;
-  b=nLtkhuXoeMtTnxTgnOfXr4AYQ3L72upxxzgJsCHe/JcdZSMLGvl3Becl
-   LWklwzDUT2T3UUR7dIWgHypFfCs7s6ikfmcmSbN8rKE++pi6mjdW7YbBR
-   ZxGBhhjVl34VYgVPths3E58HH57qSu7TmIm0PTdVCe0ePzkBhWuX/HEoc
-   iESABcaFEu9GfucIPA9/8qz7F7uMlQr1UcZe3QPK0b71/dJvnhTkabY+S
-   wTrlQToqmQMdckPTsafoSUpZXs/tniP4iqdoLTso6pyKZClBSJ2h20BKp
-   B3pKHGEuikNbZPMrsKQRVDtth4YWW2zcCvV9wgZk9rk7WRoM2zr/6iBLU
+  bh=S8skQQ7drJ+64mO8NcrQzFMdrllN3e8XeB4pKF6xRCE=;
+  b=Rhm5MRAltWbnFMD/FG6xQmYR2POmfCqLcoYsZrhgTGKGSeAR7RdkQ+6H
+   6PZcCZsOo5pgbqXvzt6f29TXKTso8K20d5foW7uN9x+GrATSqbSRsvijL
+   N/4hNRsNWYiTpQDh4kT/aMyXTc9Z01jW3WCehzEq6KNtmBbz+5qUvpn0b
+   36gEinwcpL0Ie0AcvO7bDD8HWj0dBOlprd4wlVUo39hhiAqS4YLV70Xhz
+   8LzyqQcRKG7mVPPMzvU6s/9xgzh+F1FxqtiafDaIvVsFoV08ynbvehb2u
+   z0msKtwBtz9faNF1cHefYThHTyjDx/gfupj+hGI3GdFF4nva8CG3Q8jZ8
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="346823971"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="346823981"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="346823971"
+   d="scan'208";a="346823981"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 12:07:51 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 12:07:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="815368081"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="815368088"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="815368081"
+   d="scan'208";a="815368088"
 Received: from agluck-desk3.sc.intel.com ([172.25.222.74])
   by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 12:07:51 -0700
 From:   Tony Luck <tony.luck@intel.com>
@@ -51,9 +51,9 @@ Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v4 2/7] x86/resctrl: Split the rdt_domain structures
-Date:   Sat, 22 Jul 2023 12:07:35 -0700
-Message-Id: <20230722190740.326190-3-tony.luck@intel.com>
+Subject: [PATCH v4 4/7] x86/resctrl: Delete unused fields from struct rdt_domain
+Date:   Sat, 22 Jul 2023 12:07:37 -0700
+Message-Id: <20230722190740.326190-5-tony.luck@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230722190740.326190-1-tony.luck@intel.com>
 References: <20230713163207.219710-1-tony.luck@intel.com>
@@ -64,103 +64,69 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The rdt_domain and rdt_hw_domain structures contain an amalgam of
-fields used by control and monitoring features. Now that there
-are separate domain lists for control/monitoring these can be
-divided between two structures.
-
-First step: Add new domain structures for monitoring with the
-fields that are needed. Leave these fields in the legacy structure
-so compilation won't fail. They will be deleted once all the
-monitoring code has been converted to use the new structure.
+Now that all the monitoring functions use struct rdt_mondomain the
+monitor fields can be dropped from the structure used for control
+operations.
 
 Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- include/linux/resctrl.h                | 28 +++++++++++++++++++++++++-
- arch/x86/kernel/cpu/resctrl/internal.h | 17 +++++++++++++++-
- 2 files changed, 43 insertions(+), 2 deletions(-)
+ include/linux/resctrl.h                | 14 --------------
+ arch/x86/kernel/cpu/resctrl/internal.h |  4 ----
+ 2 files changed, 18 deletions(-)
 
 diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-index 1267d56f9e76..475912662e47 100644
+index 663bbc427c4b..80a89d171eba 100644
 --- a/include/linux/resctrl.h
 +++ b/include/linux/resctrl.h
-@@ -53,7 +53,7 @@ struct resctrl_staged_config {
- };
- 
- /**
-- * struct rdt_domain - group of CPUs sharing a resctrl resource
-+ * struct rdt_domain - group of CPUs sharing a resctrl control resource
+@@ -57,13 +57,6 @@ struct resctrl_staged_config {
   * @list:		all instances of this resource
   * @id:			unique id for this instance
   * @cpu_mask:		which CPUs share this resource
-@@ -86,6 +86,32 @@ struct rdt_domain {
+- * @rmid_busy_llc:	bitmap of which limbo RMIDs are above threshold
+- * @mbm_total:		saved state for MBM total bandwidth
+- * @mbm_local:		saved state for MBM local bandwidth
+- * @mbm_over:		worker to periodically read MBM h/w counters
+- * @cqm_limbo:		worker to periodically read CQM h/w counters
+- * @mbm_work_cpu:	worker CPU for MBM h/w counters
+- * @cqm_work_cpu:	worker CPU for CQM h/w counters
+  * @plr:		pseudo-locked region (if any) associated with domain
+  * @staged_config:	parsed configuration to be applied
+  * @mbps_val:		When mba_sc is enabled, this holds the array of user
+@@ -74,13 +67,6 @@ struct rdt_domain {
+ 	struct list_head		list;
+ 	int				id;
+ 	struct cpumask			cpu_mask;
+-	unsigned long			*rmid_busy_llc;
+-	struct mbm_state		*mbm_total;
+-	struct mbm_state		*mbm_local;
+-	struct delayed_work		mbm_over;
+-	struct delayed_work		cqm_limbo;
+-	int				mbm_work_cpu;
+-	int				cqm_work_cpu;
+ 	struct pseudo_lock_region	*plr;
+ 	struct resctrl_staged_config	staged_config[CDP_NUM_TYPES];
  	u32				*mbps_val;
- };
- 
-+/**
-+ * struct rdt_mondomain - group of CPUs sharing a resctrl monitor resource
-+ * @list:		all instances of this resource
-+ * @id:			unique id for this instance
-+ * @cpu_mask:		which CPUs share this resource
-+ * @rmid_busy_llc:	bitmap of which limbo RMIDs are above threshold
-+ * @mbm_total:		saved state for MBM total bandwidth
-+ * @mbm_local:		saved state for MBM local bandwidth
-+ * @mbm_over:		worker to periodically read MBM h/w counters
-+ * @cqm_limbo:		worker to periodically read CQM h/w counters
-+ * @mbm_work_cpu:	worker CPU for MBM h/w counters
-+ * @cqm_work_cpu:	worker CPU for CQM h/w counters
-+ */
-+struct rdt_mondomain {
-+	struct list_head		list;
-+	int				id;
-+	struct cpumask			cpu_mask;
-+	unsigned long			*rmid_busy_llc;
-+	struct mbm_state		*mbm_total;
-+	struct mbm_state		*mbm_local;
-+	struct delayed_work		mbm_over;
-+	struct delayed_work		cqm_limbo;
-+	int				mbm_work_cpu;
-+	int				cqm_work_cpu;
-+};
-+
- /**
-  * struct resctrl_cache - Cache allocation related data
-  * @cbm_len:		Length of the cache bit mask
 diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index c5e2ac2a60cf..e956090a874e 100644
+index 401af6ccf272..016ef0373c5a 100644
 --- a/arch/x86/kernel/cpu/resctrl/internal.h
 +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -320,7 +320,7 @@ struct arch_mbm_state {
- 
- /**
-  * struct rdt_hw_domain - Arch private attributes of a set of CPUs that share
-- *			  a resource
-+ *			  a control resource
+@@ -323,16 +323,12 @@ struct arch_mbm_state {
+  *			  a control resource
   * @d_resctrl:	Properties exposed to the resctrl file system
   * @ctrl_val:	array of cache or mem ctrl values (indexed by CLOSID)
-  * @arch_mbm_total:	arch private state for MBM total bandwidth
-@@ -335,6 +335,21 @@ struct rdt_hw_domain {
- 	struct arch_mbm_state		*arch_mbm_local;
+- * @arch_mbm_total:	arch private state for MBM total bandwidth
+- * @arch_mbm_local:	arch private state for MBM local bandwidth
+  *
+  * Members of this structure are accessed via helpers that provide abstraction.
+  */
+ struct rdt_hw_domain {
+ 	struct rdt_domain		d_resctrl;
+ 	u32				*ctrl_val;
+-	struct arch_mbm_state		*arch_mbm_total;
+-	struct arch_mbm_state		*arch_mbm_local;
  };
  
-+/**
-+ * struct rdt_hw_mondomain - Arch private attributes of a set of CPUs that share
-+ *			  a monitor resource
-+ * @d_resctrl:	Properties exposed to the resctrl file system
-+ * @arch_mbm_total:	arch private state for MBM total bandwidth
-+ * @arch_mbm_local:	arch private state for MBM local bandwidth
-+ *
-+ * Members of this structure are accessed via helpers that provide abstraction.
-+ */
-+struct rdt_hw_mondomain {
-+	struct rdt_mondomain		d_resctrl;
-+	struct arch_mbm_state		*arch_mbm_total;
-+	struct arch_mbm_state		*arch_mbm_local;
-+};
-+
- static inline struct rdt_hw_domain *resctrl_to_arch_dom(struct rdt_domain *r)
- {
- 	return container_of(r, struct rdt_hw_domain, d_resctrl);
+ /**
 -- 
 2.40.1
 
