@@ -2,97 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1163C001DC
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 23:15:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2523EC0015E
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 23:59:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbjGVXPW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Jul 2023 19:15:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
+        id S229477AbjGVX7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Jul 2023 19:59:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbjGVXPU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 19:15:20 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910BB1705
-        for <linux-doc@vger.kernel.org>; Sat, 22 Jul 2023 16:15:17 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-76571dae5feso291819085a.1
-        for <linux-doc@vger.kernel.org>; Sat, 22 Jul 2023 16:15:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1690067716; x=1690672516;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jqX+omN+4AV/jEW9gJWFZdBmlFQeDD8EFviSI3KwL+8=;
-        b=h4VGOvKMgez+/NKOawppSiHt7934PF71iQ7qv8jvSgyoGVHQdeSp1JgcRIsn2D88hx
-         g2qwPAuZJScjWF75Ou+qLGKjKOMoBD6KgtLtf0HDYfqszmZ+yCoggVBesEXvtWMjVL8g
-         JpUjuA4gJbUNFr73GuH0FlWZrgf5yI6+x2LMQdtPiA8g0Av/6cdf1+CYfjPWtybKpcP9
-         eVd7uPFytoOlTw5R5xKtG9M76QYaPDi/SS5XihMN3binOTlJbuopN24pguAFSUKmGTZV
-         KDBH4hbi0ALobtUZ6mlYQTvapei1p+n2u+rufzxhHrLS/TA6KLItQHUFRHlM6LpiyDgq
-         m73w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690067716; x=1690672516;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jqX+omN+4AV/jEW9gJWFZdBmlFQeDD8EFviSI3KwL+8=;
-        b=lmBvxenOKHzAVW9RRJUqH2mQIUi+IZUsRqg4UuS1xU5Z1CufUJguTbfzMViUFaP0s0
-         S6oTaVXgoOFL44OWuRJ5GkkIolYFqGT9M47teurWf5G7qWGahFP2UoU6kWak5/8bBnDv
-         bcTMDJ3M9f77bX4EzjVZ9/npxBlgmCUeRkZTU+ccts1pKSkDoScCKP4tv/I/h5u8QM1b
-         IvlwXgnmNayaMRM7b3PHy8iDCm1z22vJDOj6TyChB5x2XKg/UNr6907AkVF2oIj9WaWk
-         oBvs5DBQgngmOCHMotCE+axx2Cwv72WPL9WjyXD23mcWA3mdSTfg628yTEFZKPZvF0m1
-         1xAQ==
-X-Gm-Message-State: ABy/qLbvuL0fYn4N9mImW2wqFDSCBj/IoO95BtMgkWr93xxCxx72NiPy
-        Rll3RAjk7EdSstqMXQtA1js/VA==
-X-Google-Smtp-Source: APBJJlFbRKGfdxJ0JTND8bD4QwfCFUoHWRvornko1ZnN1WHJ1NJtPHQPbc8oka0cm1metbm5E4tqEg==
-X-Received: by 2002:a05:620a:2807:b0:75b:23a0:e7e9 with SMTP id f7-20020a05620a280700b0075b23a0e7e9mr4800481qkp.74.1690067716634;
-        Sat, 22 Jul 2023 16:15:16 -0700 (PDT)
-Received: from soleen.c.googlers.com.com (193.132.150.34.bc.googleusercontent.com. [34.150.132.193])
-        by smtp.gmail.com with ESMTPSA id u21-20020ae9c015000000b007675c4b530fsm2075957qkk.28.2023.07.22.16.15.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Jul 2023 16:15:16 -0700 (PDT)
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-To:     pasha.tatashin@soleen.com, akpm@linux-foundation.org,
-        corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rick.p.edgecombe@intel.com
-Subject: [PATCH v2 3/3] mm/page_table_check: Check writable zero page in page table check
-Date:   Sat, 22 Jul 2023 23:15:08 +0000
-Message-ID: <20230722231508.1030269-4-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
-In-Reply-To: <20230722231508.1030269-1-pasha.tatashin@soleen.com>
-References: <20230722231508.1030269-1-pasha.tatashin@soleen.com>
+        with ESMTP id S229452AbjGVX7n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 19:59:43 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B830A0;
+        Sat, 22 Jul 2023 16:59:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=LdCxj801Ht28G0rQCx13yx2xtmGpyFI2ZkIeXhDpMo0=; b=C+1b9Mc+r/BExG40Gtw3eTuvMR
+        tQuiJ1T8CLJ6kKeYXXIaeC7dqqzlVeL+mL286qomuXSUm9AOssj63PWZNw0yg2EfKRKDwfAljLW2J
+        H4PyQUDPgmFBVMshlnygDT7y5vQU99TlPtJkgho1rGh4RESccFAt3lOipOBWF9lJoxN/qEPS9g+Dl
+        L+1XXMLhrs7rdtOgKJA6LDuf1PzBhjM/CoBttnP0liw3nuRRhlMVRNOwHNWNO0NuTjHi2haZjF+sr
+        GWhtrCzc2lKLQujHKAKMbqeIVlFWWp+i/4aRXjhxemTyXDBlCggXv4NNAYnb/V1bHrBRk3C22j5w1
+        qRYso4Hg==;
+Received: from 50-198-160-193-static.hfc.comcastbusiness.net ([50.198.160.193] helo=[10.150.81.113])
+        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qNMVP-000xLy-2e;
+        Sat, 22 Jul 2023 23:59:28 +0000
+Message-ID: <52c883a3-5951-b298-cae4-a46fa0619411@infradead.org>
+Date:   Sat, 22 Jul 2023 16:59:15 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2 2/3] doc/vm: add information about page_table_check
+ warn_on behavior
+Content-Language: en-US
+To:     Pasha Tatashin <pasha.tatashin@soleen.com>,
+        akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rick.p.edgecombe@intel.com
+References: <20230722231508.1030269-1-pasha.tatashin@soleen.com>
+ <20230722231508.1030269-3-pasha.tatashin@soleen.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230722231508.1030269-3-pasha.tatashin@soleen.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Hi--
 
-The zero page should remain all zero, so that it can be mapped as
-read-only for read faults of memory that should be zeroed. If it is ever
-mapped writable to userspace, it could become non-zero and so other apps
-would unexpectedly get non-zero data. So the zero page should never be
-mapped writable to userspace. Check for this condition in
-page_table_check_set().
+On 7/22/23 16:15, Pasha Tatashin wrote:
+> The default behavior of page table check was changed from panicking
+> kernel to printing a warning.
+> 
+> Add a note how to still panic the kernel when error is detected.
+> 
+> Signed-off-by: Pasha Tatashin<pasha.tatashin@soleen.com>
+> ---
+>   Documentation/mm/page_table_check.rst | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/mm/page_table_check.rst b/Documentation/mm/page_table_check.rst
+> index c12838ce6b8d..f534c80ee9c9 100644
+> --- a/Documentation/mm/page_table_check.rst
+> +++ b/Documentation/mm/page_table_check.rst
+> @@ -14,13 +14,14 @@ Page table check performs extra verifications at the time when new pages become
+>   accessible from the userspace by getting their page table entries (PTEs PMDs
+>   etc.) added into the table.
+>   
+> -In case of detected corruption, the kernel is crashed. There is a small
+> +In case of detected corruption, a warning is printed. There is a small
+>   performance and memory overhead associated with the page table check. Therefore,
+>   it is disabled by default, but can be optionally enabled on systems where the
+>   extra hardening outweighs the performance costs. Also, because page table check
+>   is synchronous, it can help with debugging double map memory corruption issues,
+>   by crashing kernel at the time wrong mapping occurs instead of later which is
+> -often the case with memory corruptions bugs.
+> +often the case with memory corruptions bugs. In order to crash kernel sysctl
+> +panic_on_warn should be set to 1.
 
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- mm/page_table_check.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/mm/page_table_check.c b/mm/page_table_check.c
-index ad4447e999f8..db1ed36f7203 100644
---- a/mm/page_table_check.c
-+++ b/mm/page_table_check.c
-@@ -114,6 +114,8 @@ static void page_table_check_set(struct mm_struct *mm, unsigned long addr,
- 	if (!pfn_valid(pfn))
- 		return;
- 
-+	PAGE_TABLE_CHECK_WARN(is_zero_pfn(pfn) && rw);
-+
- 	page = pfn_to_page(pfn);
- 	page_ext = page_ext_get(page);
- 
--- 
-2.41.0.487.g6d72f3e995-goog
+Better as:
+   In order to crash the kernel, the sysctl panic_on_warn should be set 
+to 1.
 
