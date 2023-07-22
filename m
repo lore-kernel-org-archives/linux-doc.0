@@ -2,270 +2,178 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D10FC41513
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Jul 2023 22:49:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64CC9C41513
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 00:45:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbjGUWtb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Jul 2023 18:49:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47284 "EHLO
+        id S229861AbjGVApA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Jul 2023 20:45:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbjGUWta (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 18:49:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9955A3A87;
-        Fri, 21 Jul 2023 15:49:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1BE2861DA7;
-        Fri, 21 Jul 2023 22:49:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D03CC433C9;
-        Fri, 21 Jul 2023 22:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689979767;
-        bh=aMwshRBTybsjEYHhaBeiIUt9W3+XG6RnwfnTTTSDEOk=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=coIXdY8Dp6+qB0SG1OobhJ80hOD2/tqzAXOzkvlOBL1BqBdNe0/kenQZqmch/WTtG
-         1+E4Dff8DDcfSOoRQ1xQDxHY7ZyaDwLtW2XU3r9NZ96f1r4mnh+F/3z9miC/wrI2VC
-         QZUIpFh3Z3wIflM7sxfuUbp9aRePtUgvqMcNTUM6XzuY44tI3vSAzjQygI59fCUi/E
-         QbaVwgR+in1mLKAT02UNvrLeXRVjrqg9v/evtR48t5Bi8V+cdFZFMvaJvPzsqv+B7F
-         EGQf5BiEWbMUkmWqcK32zirbDKyFb8ZYaFa3ltaOGQzaDtEJtj9r0ZIuGRAMjYNzFp
-         aULXWdft5cmBg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 06E30CE09E0; Fri, 21 Jul 2023 15:49:27 -0700 (PDT)
-Date:   Fri, 21 Jul 2023 15:49:27 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Alan Huang <mmpgouride@gmail.com>
-Cc:     Frederic Weisbecker <frederic@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>, corbet@lwn.net,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/RCU: Bring back smp_wmb()
-Message-ID: <8d54c0a5-11ab-48e2-b187-25b229406b2a@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20230711150906.466434-1-mmpgouride@gmail.com>
- <9eaf506f-cc14-4da6-9efc-057c0c3e56b0@paulmck-laptop>
- <9D42CEB7-FE22-4BC6-9E5C-8131579C129D@gmail.com>
- <eabec10a-9283-42eb-85c7-e447e2368c91@paulmck-laptop>
- <6E813D30-2791-4DE8-A70C-E1F91011631D@gmail.com>
- <02a84e4b-a322-4c43-ad9d-1832ce277c2f@paulmck-laptop>
- <636D1ED4-C90D-47CA-A46A-28E40E777966@gmail.com>
- <9b1967c5-6b8d-4d66-879c-42818d6e3170@paulmck-laptop>
- <30E3504D-4E64-4C61-9503-690C1657C6F3@gmail.com>
+        with ESMTP id S229529AbjGVAo7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jul 2023 20:44:59 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D851BE4;
+        Fri, 21 Jul 2023 17:44:58 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-991da766865so382993466b.0;
+        Fri, 21 Jul 2023 17:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689986697; x=1690591497;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TSkVUAs/bC4Qut2615ixo6merV8IPi1f4c7VcSRSGl0=;
+        b=Eka2UzXKh4jYI0Tmj260Dr+WcsoM73VBZr4t67pnteCoEuo6f2v5+NQpVU2CbJgk7P
+         CnC78vdJ99kATvqTXIrkvk0lCKfQnAL58eNo6lcRNxbNjw92mCUzxMqPjeCNaVC3FvI/
+         dbw/cOIlDNI+axS73IiJypZeOVRkT2lSnnExKAqsuBJVmORMhTlGkrw/KapjU9Dm6xui
+         L/EuNEIdvYu4byMwItAaExzXCnXqG7noxoRYAdo8JEPy/LmbjlfljHPEx+4viZYy6U0N
+         fU4FNSQOLXmV1ABQuH1zclehlgoZZRLwFyoxAFb1WKoJd8aDh4hiqRgXQJKPJOCe5laD
+         02Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689986697; x=1690591497;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TSkVUAs/bC4Qut2615ixo6merV8IPi1f4c7VcSRSGl0=;
+        b=ede08CYG8wAWmEv8CEsN0ouNfYNVLQfB4/1+HAm1GQEw+icLnWCKNa2b8DSaUhlUUz
+         hMp/gCrsMG7VHfRzNej8KMgGE3S4R3DeYIq8HsvtEmGmO/9NiOxuwzoaQLwuKNZlnOzd
+         9DDb7x+Wd/nmVqSX42apQIYXE/m/MXg5wYEbKLzHFbyhZUmpmFHMLXFhjvJgWK8ig+jE
+         SUha5vheUyecRe+2FoAtwPsrB3l6MqTz0xSmhHQa2+hp6LOhhYHp0AySHaRurPXssOxc
+         Z9cSbFq//5YkWoAZvWEWO/aH0H75sTbvb+QMG0yDd9TxqFwMt73AfC234amLSU0Homcr
+         TRCQ==
+X-Gm-Message-State: ABy/qLYfE8SujjomnGdQ1S9hbyzOrNri1TrnzOug4BbALW6+/M2TF2gf
+        tAKvhM1tH10tdnuAgcJ00Mo=
+X-Google-Smtp-Source: APBJJlFkEZtV9yQDYlcm5eBbc3TmV1SftKpzjlhgBWwW1LaVDbWsTb+Z5w0CocRBp9A77mYvyyvq7Q==
+X-Received: by 2002:a17:906:18c:b0:957:2e48:5657 with SMTP id 12-20020a170906018c00b009572e485657mr3200545ejb.68.1689986696396;
+        Fri, 21 Jul 2023 17:44:56 -0700 (PDT)
+Received: from localhost.localdomain (host-79-21-231-40.retail.telecomitalia.it. [79.21.231.40])
+        by smtp.gmail.com with ESMTPSA id r11-20020a056000014b00b0031437299fafsm5507490wrx.34.2023.07.21.17.44.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jul 2023 17:44:55 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [RFC PATCH] Documentation/page_tables: MMU, TLB, and Page Faults
+Date:   Sat, 22 Jul 2023 02:43:13 +0200
+Message-ID: <20230722004451.7730-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <30E3504D-4E64-4C61-9503-690C1657C6F3@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 19, 2023 at 12:08:33AM +0800, Alan Huang wrote:
-> 
-> > 2023年7月18日 03:06，Paul E. McKenney <paulmck@kernel.org> 写道：
-> > 
-> > On Tue, Jul 18, 2023 at 01:53:10AM +0800, Alan Huang wrote:
-> >>> 2023年7月18日 00:02，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>> On Sun, Jul 16, 2023 at 07:21:28PM +0800, Alan Huang wrote:
-> >>>>> 2023年7月16日 01:19，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>>>> On Sat, Jul 15, 2023 at 08:50:23AM +0800, Alan Huang wrote:
-> >>>>>>> 2023年7月15日 07:23，Paul E. McKenney <paulmck@kernel.org> 写道：
-> >>>>>>> On Tue, Jul 11, 2023 at 03:09:06PM +0000, Alan Huang wrote:
-> >>>>>>>> The objects are allocated with SLAB_TYPESAFE_BY_RCU, and there is
-> >>>>>>>> n->next = first within hlist_add_head_rcu() before rcu_assign_pointer(),
-> >>>>>>>> which modifies obj->obj_node.next. There may be readers holding the
-> >>>>>>>> reference of obj in lockless_lookup, and when updater modifies ->next,
-> >>>>>>>> readers can see the change immediately because ofSLAB_TYPESAFE_BY_RCU.
-> >>>>>>>> 
-> >>>>>>>> There are two memory ordering required in the insertion algorithm,
-> >>>>>>>> we need to make sure obj->key is updated before obj->obj_node.next
-> >>>>>>>> and obj->refcnt, atomic_set_release is not enough to provide the
-> >>>>>>>> required memory barrier.
-> >>>>>>>> 
-> >>>>>>>> Signed-off-by: Alan Huang <mmpgouride@gmail.com>
-> >>>>>>> 
-> >>>>>>> This is an interesting one!!!
-> >>>>>>> 
-> >>>>>>> Now I am having a hard time believing that the smp_rmb() suffices.
-> >>>>>>> 
-> >>>>>>>> ---
-> >>>>>>>> Changelog:
-> >>>>>>>> v1 -> v2: Use _ONCE to protect obj->key.
-> >>>>>>>> 
-> >>>>>>>> Documentation/RCU/rculist_nulls.rst | 21 +++++++++++++--------
-> >>>>>>>> 1 file changed, 13 insertions(+), 8 deletions(-)
-> >>>>>>>> 
-> >>>>>>>> diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
-> >>>>>>>> index 21e40fcc08de..2a9f5a63d334 100644
-> >>>>>>>> --- a/Documentation/RCU/rculist_nulls.rst
-> >>>>>>>> +++ b/Documentation/RCU/rculist_nulls.rst
-> >>>>>>>> @@ -47,7 +47,7 @@ objects, which is having below type.
-> >>>>>>>>  * reuse these object before the RCU grace period, we
-> >>>>>>>>  * must check key after getting the reference on object
-> >>>>>>>>  */
-> >>>>>>>> -    if (obj->key != key) { // not the object we expected
-> >>>>>>>> +    if (READ_ONCE(obj->key) != key) { // not the object we expected
-> >>>>>>>>    put_ref(obj);
-> >>>>>>>>    rcu_read_unlock();
-> >>>>>>>>    goto begin;
-> >>>>>>>> @@ -64,10 +64,10 @@ but a version with an additional memory barrier (smp_rmb())
-> >>>>>>>> {
-> >>>>>>>>  struct hlist_node *node, *next;
-> >>>>>>>>  for (pos = rcu_dereference((head)->first);
-> >>>>>>>> -         pos && ({ next = pos->next; smp_rmb(); prefetch(next); 1; }) &&
-> >>>>>>>> +         pos && ({ next = READ_ONCE(pos->next); smp_rmb(); prefetch(next); 1; }) &&
-> >>>>>>> 
-> >>>>>>> Suppose that lockless_lookup() is delayed just before fetching pos->next,
-> >>>>>>> and that there were 17 more node to search in the list.
-> >>>>>>> 
-> >>>>>>> Then consider the following sequence of events:
-> >>>>>>> 
-> >>>>>>> o The updater deletes this same node and kmem_cache_free()s it.
-> >>>>>>> 
-> >>>>>>> o Another updater kmem_cache_alloc()s that same memory and
-> >>>>>>> inserts it into an empty hash chain with a different key.
-> >>>>>>> 
-> >>>>>>> o Then lockless_lookup() fetches pos->next and sees a NULL pointer,
-> >>>>>>> thus failing to search the remaining 17 nodes in the list,
-> >>>>>>> one of which had the desired key value.
-> >>>>>>> 
-> >>>>>>> o The lookup algorithm resumes and sees the NULL return from
-> >>>>>>> lockless_lookup(), and ends up with a NULL obj.
-> >>>>>>> 
-> >>>>>>> And this happens even with the strongest possible ordering
-> >>>>>>> everywhere.
-> >>>>>>> 
-> >>>>>>> OK, yes, it is late on Friday.  So what am I missing here?
-> >>>>>> 
-> >>>>>> You missed nothing!
-> >>>>>> 
-> >>>>>> The lockless_lockup should not be a function, but a macro like hlist_for_each_entry_rcu.
-> >>>>> 
-> >>>>> How would you fix this using a macro?
-> >>>> 
-> >>>> With additional detection code. A moved object (in another chain) will have a different slot.
-> >>>> (I have sent patch v3. )
-> >>>> 
-> >>>>> 
-> >>>>>>> Independent of that, does hlist_add_head_rcu() need to replace its
-> >>>>>>> "n->next = first" with "WRITE_ONCE(n->next, first)"?
-> >>>>>> 
-> >>>>>> I think users who want to use hlist with SLAB_TYPESAFE_BY_RCU should use rculist_nulls?
-> >>>>> 
-> >>>>> I believe that you are correct.  Would you like to propose a patch, or
-> >>>>> would you rather I put something together?  My current thought is to
-> >>>> 
-> >>>> Feel free to add. 
-> >>>> 
-> >>>> One thing I think would be useful is to tell readers where the ‘next' is. 
-> >>>> The document mentions ’next’ many times, but it’s hard for me, as a reader, to realize that
-> >>>> the ‘next' is within hlist_add_head_rcu(). (I have no idea where to put the hint.)
-> >>>> 
-> >>>> 
-> >>>>> keep the examples, but to show why the one with smp_rmb() is broken.
-> >>>> 
-> >>>> I think the example needs to be fixed. :)
-> >>> 
-> >>> Even better!  I will take a look, but in the meantime, would you be
-> >>> interested in updating the wording to explain how the back-pointer works?
-> >> 
-> >> Which document needs to be updated? 
-> >> And is there anything that I can refer to? It’s the first time I have ever heard about it.
-> > 
-> > Documentation/RCU/rculist_nulls.rst, the one that you are updating.
-> > 
-> > There admittedly isn't a whole lot of commentary.
-> > 
-> >>> (Looks similar to the is_a_nulls() pointer, but in each element instead of
-> >>> just at the end.  One advantage is the ability to detect a move mid-list,
-> >>> though that is not a big deal in well-tuned hash tables, which tend to
-> >>> have short hash chains.  The need to move elements to the front of the
-> >>> destination list remains, though in both cases only if it has been less
-> >>> than a grace period since the last move.)
-> >> 
-> >> Looks like that I need to learn it first. :)
-> > 
-> > Well, you wrote the code, so...  ;-)
-> 
-> If I understand correctly, it works only for 64-bit machines?
-> 
-> And the number of slots of the hash table will be limited?
+Extend page_tables.rst by adding a small introductive section about
+the role of MMU and TLB in translating between virtual addresses and
+physical page frames. Furthermore explain the concepts behind the
+Page Faults exceptions and how Linux handles them.
 
-You are asking about the is_a_nulls() value?  If so, it works on both
-32-bit and 64-bit machines.  They each have enough bits for the nulls
-value to cover all possible two-byte objects in the full address space.
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-If that wasn't what you were asking, please help me with your question.
+This is an RFC PATCH because of two reasons:
 
-						Thanx, Paul
+1) I've heard that there is consensus about the need to revise and
+extend the MM documentation, but I'm not sure about whether or not
+developers need these kind of introductory information.
+ 
+2) While preparing this little patch I decided to take a quicj look at
+the code and found out it currently is not how I thought I remembered
+it. I'm especially speaking about the x86 case. I'm not sure that I've
+been able to properly understand what I described as a difference in
+workflow compared to most of the other architecture.
 
-> > Thanx, Paul
-> > 
-> >>> Thanx, Paul
-> >>> 
-> >>>>>> I didn’t find a case using hlist with SLAB_TYPESAFE_BY_RCU, but I did find a case using list
-> >>>>>> with SLAB_TYPESAFE_BY_RCU in drivers/gpu/drm/i915, the driver also doesn’t use _ONCE
-> >>>>>> on the fields of the objects allocated with SLAB_TYPESAFE_BY_RCU.
-> >>>>> 
-> >>>>> Feel free to send them a patch, though I cannot speak for their
-> >>>>> reception of it.
-> >>>>> 
-> >>>>> Thanx, Paul
-> >>>>> 
-> >>>>>>> Thanx, Paul
-> >>>>>>> 
-> >>>>>>>>       ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
-> >>>>>>>>       pos = rcu_dereference(next))
-> >>>>>>>> -      if (obj->key == key)
-> >>>>>>>> +      if (READ_ONCE(obj->key) == key)
-> >>>>>>>>      return obj;
-> >>>>>>>>  return NULL;
-> >>>>>>>> }
-> >>>>>>>> @@ -111,8 +111,13 @@ detect the fact that it missed following items in original chain.
-> >>>>>>>> */
-> >>>>>>>> obj = kmem_cache_alloc(...);
-> >>>>>>>> lock_chain(); // typically a spin_lock()
-> >>>>>>>> -  obj->key = key;
-> >>>>>>>> -  atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> >>>>>>>> +  WRITE_ONCE(obj->key, key);
-> >>>>>>>> +  /*
-> >>>>>>>> +   * We need to make sure obj->key is updated before obj->obj_node.next
-> >>>>>>>> +   * and obj->refcnt.
-> >>>>>>>> +   */
-> >>>>>>>> +  smp_wmb();
-> >>>>>>>> +  atomic_set(&obj->refcnt, 1);
-> >>>>>>>> hlist_add_head_rcu(&obj->obj_node, list);
-> >>>>>>>> unlock_chain(); // typically a spin_unlock()
-> >>>>>>>> 
-> >>>>>>>> @@ -165,12 +170,12 @@ Note that using hlist_nulls means the type of 'obj_node' field of
-> >>>>>>>> begin:
-> >>>>>>>> rcu_read_lock();
-> >>>>>>>> hlist_nulls_for_each_entry_rcu(obj, node, head, obj_node) {
-> >>>>>>>> -    if (obj->key == key) {
-> >>>>>>>> +    if (READ_ONCE(obj->key) == key) {
-> >>>>>>>>    if (!try_get_ref(obj)) { // might fail for free objects
-> >>>>>>>> rcu_read_unlock();
-> >>>>>>>>      goto begin;
-> >>>>>>>>    }
-> >>>>>>>> -      if (obj->key != key) { // not the object we expected
-> >>>>>>>> +      if (READ_ONCE(obj->key) != key) { // not the object we expected
-> >>>>>>>>      put_ref(obj);
-> >>>>>>>> rcu_read_unlock();
-> >>>>>>>>      goto begin;
-> >>>>>>>> @@ -206,7 +211,7 @@ hlist_add_head_rcu().
-> >>>>>>>> */
-> >>>>>>>> obj = kmem_cache_alloc(cachep);
-> >>>>>>>> lock_chain(); // typically a spin_lock()
-> >>>>>>>> -  obj->key = key;
-> >>>>>>>> +  WRITE_ONCE(obj->key, key);
-> >>>>>>>> atomic_set_release(&obj->refcnt, 1); // key before refcnt
-> >>>>>>>> /*
-> >>>>>>>> * insert obj in RCU way (readers might be traversing chain)
-> >>>>>>>> -- 
-> >>>>>>>> 2.34.1
-> 
-> 
+Therefore, for the two reasons explained above, I'd like to hear from
+people actively involved in MM. If this is not what you want, feel free
+to throw it away. Otherwise I'd be happy to write more on this and other
+MM topics. I'm looking forward for comments on this small work.
+
+ Documentation/mm/page_tables.rst | 61 ++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+
+diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
+index 7840c1891751..fa617894fda8 100644
+--- a/Documentation/mm/page_tables.rst
++++ b/Documentation/mm/page_tables.rst
+@@ -152,3 +152,64 @@ Page table handling code that wishes to be architecture-neutral, such as the
+ virtual memory manager, will need to be written so that it traverses all of the
+ currently five levels. This style should also be preferred for
+ architecture-specific code, so as to be robust to future changes.
++
++
++MMU, TLB, and Page Faults
++=========================
++
++The Memory Management Unit (MMU) is a hardware component that handles virtual to
++physical address translations. It uses a relatively small cache in hardware
++called the Translation Lookaside Buffer (TLB) to speed up these translations.
++When a process wants to access a memory location, the CPU provides a virtual
++address to the MMU, which then uses the TLB to quickly find the corresponding
++physical address.
++
++However, sometimes the MMU can't find a valid translation in the TLB. This
++could be because the process is trying to access a range of memory that it's not
++allowed to, or because the memory hasn't been loaded into RAM yet. When this
++happens, the MMU triggers a page fault, which is a type of interrupt that
++signals the CPU to pause the current process and run a special function to
++handle the fault.
++
++One cause of page faults is due to bugs (or maliciously crafted addresses) and
++happens when a process tries to access a range of memory that it doesn't have
++permission to. This could be because the memory is reserved for the kernel or
++for another process, or because the process is trying to write to a read-only
++section of memory. When this happens, the kernel sends a Segmentation Fault
++(SIGSEGV) signal to the process, which usually causes the process to terminate.
++
++An expected and more common cause of page faults is "lazy allocation". This is
++a technique used by the Kernel to improve memory efficiency and reduce
++footprint. Instead of allocating physical memory to a process as soon as it's
++requested, the kernel waits until the process actually tries to use the memory.
++This can save a significant amount of memory in cases where a process requests
++a large block but only uses a small portion of it.
++
++A related technique is "Copy-on-Write" (COW), where the Kernel allows multiple
++processes to share the same physical memory as long as they're only reading
++from it. If a process tries to write to the shared memory, the kernel triggers
++a page fault and allocates a separate copy of the memory for the process. This
++allows the kernel to save memory and avoid unnecessary data copying and, by
++doing so, it reduces latency.
++
++Now, let's see how the Linux kernel handles these page faults:
++
++1. For most architectures, `do_page_fault()` is the primary interrupt handler
++   for page faults. It delegates the actual handling of the page fault to
++   `handle_mm_fault()`. This function checks the cause of the page fault and
++   takes the appropriate action, such as loading the required page into
++   memory, granting the process the necessary permissions, or sending a
++   SIGSEGV signal to the process.
++
++2. In the specific case of the x86 architecture, the interrupt handler is
++   defined by the `DEFINE_IDTENTRY_RAW_ERRORCODE()` macro, which calls
++   `handle_page_fault()`. This function then calls either
++   `do_user_addr_fault()` or `do_kern_addr_fault()`, depending on whether
++   the fault occurred in user space or kernel space. Both of these functions
++   eventually lead to `handle_mm_fault()`, similar to the workflow in other
++   architectures.
++
++The actual implementation of the workflow is very complex. Its design allows
++Linux to handle page faults in a way that is tailored to the specific
++characteristics of each architecture, while still sharing a common overall
++structure.
+-- 
+2.41.0
+
