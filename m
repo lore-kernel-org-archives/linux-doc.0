@@ -2,108 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D126C001DC
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 20:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB6DC0015E
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 23:15:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbjGVUVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Jul 2023 16:21:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37438 "EHLO
+        id S229505AbjGVXPR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Jul 2023 19:15:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbjGVUVU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 16:21:20 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01E82E53;
-        Sat, 22 Jul 2023 13:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690057280; x=1721593280;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=w3wkQwxgDff1pIzMxFu0mHCGE5IrK6AXlVJ/ZMqnjZA=;
-  b=XeLTy1KDeyONeLg3Hr5XZs2/pNSE2RmABfZJPBLJJJQQ9IdXZ8H0hpK+
-   GvCzJRSFiw3pTsW2rsCbjDW2P7/t4Z6ovTS4Y01e1rs0RIN/bqX85FWv2
-   ItzTr9d7UxCjN4EU3r5ZzTri2EpouKcy/4w/PG6RdA82DuJnJ+W4liaWj
-   JO9oUsZKSYS8htJ7wjopnHbELad5mLN6o1m7NQOrFB8Xk0+PBMw0ibhFw
-   f9qVSBWoPGMy6rQFOSJOpZ9Rtz4mvGyD4ligYnYpdUksR5DkouJewRHBJ
-   HGPSELDdAwRLPIxxvM9JEuT8VjpRmVLpXpv2IyA8KYUhFGcKbD7s5C5Y7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="453599899"
-X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="453599899"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 13:21:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="815378869"
-X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="815378869"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 13:21:19 -0700
-Date:   Sat, 22 Jul 2023 13:21:18 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>
-Cc:     Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Peter Newman <peternewman@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: Re: [PATCH v3 0/8] x86/resctrl: Add support for Sub-NUMA cluster
- (SNC) systems
-Message-ID: <ZLw6PpPV5H546VSJ@agluck-desk3>
-References: <20230713163207.219710-1-tony.luck@intel.com>
- <TYAPR01MB6330A4EB3633B791939EA45E8B39A@TYAPR01MB6330.jpnprd01.prod.outlook.com>
+        with ESMTP id S229476AbjGVXPQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 19:15:16 -0400
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B29B1708
+        for <linux-doc@vger.kernel.org>; Sat, 22 Jul 2023 16:15:15 -0700 (PDT)
+Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-7659db6339eso149831985a.1
+        for <linux-doc@vger.kernel.org>; Sat, 22 Jul 2023 16:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1690067714; x=1690672514;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YXElrv06JK6ubX3O8HfdY1dTf7E2OdArtAZ3IXA7EKs=;
+        b=MqCdFdFdVTTsNdqd7a+xzhmq+/LUHtdY6xsY5wr3z4/kwOiTDbnyLic0aYc5jSUAai
+         Fls1V658MGJnX5mm8K/uAxOlFLYzEUz+Japtx9a4BnSvSX4VJmkvFOl5XDIKf06sDPKX
+         21UiJ6w6gXx4dFsxzua0q7bp7P16vsnZ/HYO38i2CC1ihjSEx8dl2J1tmHXJxfcGtS2U
+         f6J0PeiE2z58XMKgEuJsjbuxKK1dtbQTRriU5fO4Tf+ljmHbqqapHubprl7UOROa/09y
+         DGetG6MBSsoaPIw9C8YA9es8Ouoe5qbzpO9ZeolUU2GCXJ2MqDm6VWevM+3zD8zddiVf
+         vwmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690067714; x=1690672514;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YXElrv06JK6ubX3O8HfdY1dTf7E2OdArtAZ3IXA7EKs=;
+        b=Fs8i47XvKVOQ74mnhww3tmstyGsIQwUc8DvnkVttWuqGJcBPPbMGQys9NYVAil4epf
+         1CYdyHWat2k1FiDhnZ2ICTcJhCbutJFZLg4m0WumGynCaX937aa6Io0/tU9A08uo0272
+         KvmjZYSDkzHG/2qcjVNJRAZ+ev0cz3ahlFCC401Kzl+FpzxJS3NPR2lRjNNrb/CvAlwR
+         HnPSgTql0hh8y4/Seez2svK8pA279tCHWcffDDxn7a+xzYpa7klHIWrWFq2rmZnjMa16
+         5M7nv1hYAFrDsUjY4pqoHNpaZT3B/2/M/YDU0Mpccem0YlmrX+C6RGzPc2Xj+9+816N7
+         owvA==
+X-Gm-Message-State: ABy/qLaLl2/ssFSkBqfRX+bnn4M01oxc6KYRq2OVcXeZFZin1DgfjWHV
+        kqlFOXmr7uSEDohuRwkoaYY2HQ==
+X-Google-Smtp-Source: APBJJlEwEWhxXUuJjs4OHq12cJyfHYs2GwALr861Aofp1I2rAlFZ0uSkxnIVzvs0yNYsBhj+03etpQ==
+X-Received: by 2002:a05:620a:258b:b0:767:dd1e:967b with SMTP id x11-20020a05620a258b00b00767dd1e967bmr3977698qko.39.1690067714674;
+        Sat, 22 Jul 2023 16:15:14 -0700 (PDT)
+Received: from soleen.c.googlers.com.com (193.132.150.34.bc.googleusercontent.com. [34.150.132.193])
+        by smtp.gmail.com with ESMTPSA id u21-20020ae9c015000000b007675c4b530fsm2075957qkk.28.2023.07.22.16.15.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Jul 2023 16:15:14 -0700 (PDT)
+From:   Pasha Tatashin <pasha.tatashin@soleen.com>
+To:     pasha.tatashin@soleen.com, akpm@linux-foundation.org,
+        corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rick.p.edgecombe@intel.com
+Subject: [PATCH v2 0/3] page table check warn instead of panic
+Date:   Sat, 22 Jul 2023 23:15:05 +0000
+Message-ID: <20230722231508.1030269-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYAPR01MB6330A4EB3633B791939EA45E8B39A@TYAPR01MB6330.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 19, 2023 at 02:43:20AM +0000, Shaopeng Tan (Fujitsu) wrote:
-> Hi tony,
-> 
-> I ran selftest/resctrl in my environment,
-> the test result is "not ok".
-> 
-> Processer in my environment:
-> Intel(R) Xeon(R) Gold 6254 CPU @ 3.10GHz
-> 
-> kernel:
-> $ uname -r
-> 6.5.0-rc1+
-> 
-> Result :
-> Sub-NUMA enable:
-> xxx@xxx:~/linux_v6.5_rc1l$ sudo make -C tools/testing/selftests/resctrl run_tests
-> make: Entering directory '/.../tools/testing/selftests/resctrl'
+Changelog:
+v2:
+ - Moved "Check writable zero page in page table check" to be last in
+   series so not to add more BUG_ON.
+ - Removed page_table_check=panic as was suggested by Mathew Wilcox
+v1:
+  https://lore.kernel.org/linux-mm/20220911095923.3614387-1-pasha.tatashin@soleen.com/
 
-I see most tests pass. Just one fail on my most recent run with the
-v4 patch series:
+Page table check when detects errors panics the kernel, instead,
+print warnings as it is more useful, and it was agreed the right
+behaviour for kernel.
 
-# # Fail: Check MBA diff within 5% for schemata 10
-# # avg_diff_per: 7%
-# # avg_bw_imc: 883
-# # avg_bw_resc: 815
-# # Fail: Check schemata change using MBA
+In case when panic is still preferred, there is panic_on_warn sysctl
+option.
 
-But just missed the 5% target by a small amount,
-not the near total failures that you see.
+Pasha Tatashin (2):
+  mm/page_table_check: Do WARN_ON instead of BUG_ON
+  doc/vm: add information about page_table_check warn_on behavior
 
-I wonder if there is a cross-SNC node memory
-allocation issue.  Can you try running the test
-bound to a CPU in one node:
+Rick Edgecombe (1):
+  mm/page_table_check: Check writable zero page in page table check
 
-$ taskset -c 1 sudo make -C tools/testing/selftests/resctrl run_tests
+ Documentation/mm/page_table_check.rst |  5 ++--
+ mm/page_table_check.c                 | 39 ++++++++++++++++-----------
+ 2 files changed, 27 insertions(+), 17 deletions(-)
 
-Try with different "-c" arguments to bind to different nodes. Do you
-see different results on differnt nodes?
+-- 
+2.41.0.487.g6d72f3e995-goog
 
--Tony
