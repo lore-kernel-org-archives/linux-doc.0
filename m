@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C6FCC001E0
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 19:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD2FC001DC
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 19:08:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229710AbjGVTH6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Jul 2023 15:07:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50668 "EHLO
+        id S229836AbjGVTIB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Jul 2023 15:08:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbjGVTH4 (ORCPT
+        with ESMTP id S229785AbjGVTH4 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 15:07:56 -0400
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2887410D5;
-        Sat, 22 Jul 2023 12:07:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF7CE66;
+        Sat, 22 Jul 2023 12:07:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690052875; x=1721588875;
+  t=1690052874; x=1721588874;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ZOy5MkUskaMi6eenP6yRXpishaPCWFKbnwW46GbBktI=;
-  b=InNELO8yAmETukic+SMgG2lWQ0WrUAv5yCTLFat7ASoq2nQ/ZqRlf5Ua
-   6p5M+WRooZLOV0JTSPFeplVLlmMhBXbyzgvt99ZXEBwvyyNRxw+qBK3jF
-   ouBURxR8Ws+iexuHCjokQ8wN5EWgE4iuzQJulKJrPj3foPr7sxvGKJpOF
-   5Ic59aYj/vRnXai6SrXLpAZnYUcyFFwdB6utB+TINLQLL/b/5s8I4QL+7
-   k7txYVje7AP8rD0sbRNdEKvT2uSUvAph/vdrsSXATBH2cp2LCO2V4UfTd
-   t9AOturEYtMdYAbQDGBwRmJKTlMdIcNjHczbNeXXWGIZpg33RxFQlBEhH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="346823986"
+  bh=befwtDDXWSFUCMNKnCYf7+XXxsRZza2+B9XgXPEc3dU=;
+  b=WGPR117XTxeLv/U8p6YtbavXBZtuoJkfno8wIElwJbCzo+3go3sY42lu
+   ElCyA5gGa3g2Q0fkIvSV+a1YUoNsIRNZ7oTsVpu1CaZYfq1Jk8z3kBD+Z
+   DW8s+jHj1K+lac7OYH4F5STFkCrnSUc0hrRuorY86scyKlu/AvfbLTek4
+   c99iS59wnSyev+N3SCzF5HnRjmVCkCTdBQW0fFHe3K+G1yUVfXMK5SmqJ
+   JSdqJSRozXYK0cLjZRxNw/ndZmvKBe/emjfXTORZRsfUqVrgq1Nz80BnF
+   gNYZILDvx8XQONR8WkAeidDeQ3H52Q6P/uwUfpzT/EqrbMtue9mYWzmVB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="346823972"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="346823986"
+   d="scan'208";a="346823972"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 12:07:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="815368091"
+X-IronPort-AV: E=McAfee;i="6600,9927,10779"; a="815368084"
 X-IronPort-AV: E=Sophos;i="6.01,224,1684825200"; 
-   d="scan'208";a="815368091"
+   d="scan'208";a="815368084"
 Received: from agluck-desk3.sc.intel.com ([172.25.222.74])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 12:07:52 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2023 12:07:51 -0700
 From:   Tony Luck <tony.luck@intel.com>
 To:     Fenghua Yu <fenghua.yu@intel.com>,
         Reinette Chatre <reinette.chatre@intel.com>,
@@ -51,9 +51,9 @@ Cc:     Shaopeng Tan <tan.shaopeng@fujitsu.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v4 5/7] x86/resctrl: Determine if Sub-NUMA Cluster is enabled and initialize.
-Date:   Sat, 22 Jul 2023 12:07:38 -0700
-Message-Id: <20230722190740.326190-6-tony.luck@intel.com>
+Subject: [PATCH v4 3/7] x86/resctrl: Change monitor code to use rdt_mondomain
+Date:   Sat, 22 Jul 2023 12:07:36 -0700
+Message-Id: <20230722190740.326190-4-tony.luck@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230722190740.326190-1-tony.luck@intel.com>
 References: <20230713163207.219710-1-tony.luck@intel.com>
@@ -64,308 +64,527 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There isn't a simple hardware enumeration to indicate to software that
-a system is running with Sub-NUMA Cluster enabled.
-
-Compare the number of NUMA nodes with the number of L3 caches to calculate
-the number of Sub-NUMA nodes per L3 cache.
-
-When Sub-NUMA cluster mode is enabled in BIOS setup the RMID counters
-are distributed equally between the SNC nodes within each socket.
-
-E.g. if there are 400 RMID counters, and the system is configured with
-two SNC nodes per socket, then RMID counter 0..199 are used on SNC node
-0 on the socket, and RMID counter 200..399 on SNC node 1.
-
-A model specific MSR (0xca0) can change the configuration of the RMIDs
-when SNC mode is enabled.
-
-The MSR controls the interpretation of the RMID field in the
-IA32_PQR_ASSOC MSR so that the appropriate hardware counters
-within the SNC node are updated.
-
-To read the RMID counters an offset must be used to get data
-from the physical counter associated with the SNC node. As in
-the example above with 400 RMID counters Linux sees only 200
-counters. No special action is needed to read a counter from
-the first SNC node on a socket. But to read a Linux visible
-counter 50 on the second SNC node the kernel must load 250
-into the QM_EVTSEL MSR.
-
-N.B. this works well for well-behaved NUMA applications that access
-memory predominantly from the local memory node. For applications that
-access memory across multiple nodes it may be necessary for the user
-to read counters for all SNC nodes on a socket and add the values to
-get the actual LLC occupancy or memory bandwidth. Perhaps this isn't
-all that different from applications that span across multiple sockets
-in a legacy system.
-
-The cache allocation feature still provides the same number of
-bits in a mask to control allocation into the L3 cache. But each
-of those ways has its capacity reduced because the cache is divided
-between the SNC nodes. Adjust the value reported in the resctrl
-"size" file accordingly.
-
-Mounting the file system with the "mba_MBps" option is disabled
-when SNC mode is enabled. This is because the measurement of bandwidth
-is per SNC node, while the MBA throttling controls are still at
-the L3 cache scope.
+A few functions need to be duplicated to provide versions to
+operate on control and monitor domains respectively. But most
+of the changes are just fixing argument and return value types.
 
 Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- include/linux/resctrl.h                |  2 +
- arch/x86/include/asm/msr-index.h       |  1 +
- arch/x86/kernel/cpu/resctrl/internal.h |  2 +
- arch/x86/kernel/cpu/resctrl/core.c     | 82 +++++++++++++++++++++++++-
- arch/x86/kernel/cpu/resctrl/monitor.c  | 18 +++++-
- arch/x86/kernel/cpu/resctrl/rdtgroup.c |  4 +-
- 6 files changed, 103 insertions(+), 6 deletions(-)
+ include/linux/resctrl.h                   | 10 +++---
+ arch/x86/kernel/cpu/resctrl/internal.h    | 21 +++++++-----
+ arch/x86/kernel/cpu/resctrl/core.c        | 40 ++++++++++++++---------
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c |  4 +--
+ arch/x86/kernel/cpu/resctrl/monitor.c     | 38 ++++++++++-----------
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 24 +++++++-------
+ 6 files changed, 75 insertions(+), 62 deletions(-)
 
 diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-index 80a89d171eba..576dc21bd990 100644
+index 475912662e47..663bbc427c4b 100644
 --- a/include/linux/resctrl.h
 +++ b/include/linux/resctrl.h
-@@ -200,6 +200,8 @@ struct rdt_resource {
- 	bool			cdp_capable;
- };
+@@ -248,9 +248,9 @@ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_domain *d,
+ u32 resctrl_arch_get_config(struct rdt_resource *r, struct rdt_domain *d,
+ 			    u32 closid, enum resctrl_conf_type type);
+ int resctrl_online_ctrl_domain(struct rdt_resource *r, struct rdt_domain *d);
+-int resctrl_online_mon_domain(struct rdt_resource *r, struct rdt_domain *d);
++int resctrl_online_mon_domain(struct rdt_resource *r, struct rdt_mondomain *d);
+ void resctrl_offline_ctrl_domain(struct rdt_resource *r, struct rdt_domain *d);
+-void resctrl_offline_mon_domain(struct rdt_resource *r, struct rdt_domain *d);
++void resctrl_offline_mon_domain(struct rdt_resource *r, struct rdt_mondomain *d);
  
-+#define MON_SCOPE_NODE 100
-+
  /**
-  * struct resctrl_schema - configuration abilities of a resource presented to
-  *			   user-space
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 3aedae61af4f..4b624a37d64a 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -1087,6 +1087,7 @@
- #define MSR_IA32_QM_CTR			0xc8e
- #define MSR_IA32_PQR_ASSOC		0xc8f
- #define MSR_IA32_L3_CBM_BASE		0xc90
-+#define MSR_RMID_SNC_CONFIG		0xca0
- #define MSR_IA32_L2_CBM_BASE		0xd10
- #define MSR_IA32_MBA_THRTL_BASE		0xd50
+  * resctrl_arch_rmid_read() - Read the eventid counter corresponding to rmid
+@@ -266,7 +266,7 @@ void resctrl_offline_mon_domain(struct rdt_resource *r, struct rdt_domain *d);
+  * Return:
+  * 0 on success, or -EIO, -EINVAL etc on error.
+  */
+-int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain *d,
++int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_mondomain *d,
+ 			   u32 rmid, enum resctrl_event_id eventid, u64 *val);
  
+ /**
+@@ -279,7 +279,7 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain *d,
+  *
+  * This can be called from any CPU.
+  */
+-void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_domain *d,
++void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_mondomain *d,
+ 			     u32 rmid, enum resctrl_event_id eventid);
+ 
+ /**
+@@ -291,7 +291,7 @@ void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_domain *d,
+  *
+  * This can be called from any CPU.
+  */
+-void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_domain *d);
++void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_mondomain *d);
+ 
+ extern unsigned int resctrl_rmid_realloc_threshold;
+ extern unsigned int resctrl_rmid_realloc_limit;
 diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index 016ef0373c5a..00a330bc5ced 100644
+index e956090a874e..401af6ccf272 100644
 --- a/arch/x86/kernel/cpu/resctrl/internal.h
 +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -446,6 +446,8 @@ DECLARE_STATIC_KEY_FALSE(rdt_alloc_enable_key);
+@@ -106,7 +106,7 @@ union mon_data_bits {
+ struct rmid_read {
+ 	struct rdtgroup		*rgrp;
+ 	struct rdt_resource	*r;
+-	struct rdt_domain	*d;
++	struct rdt_mondomain	*d;
+ 	enum resctrl_event_id	evtid;
+ 	bool			first;
+ 	int			err;
+@@ -355,6 +355,11 @@ static inline struct rdt_hw_domain *resctrl_to_arch_dom(struct rdt_domain *r)
+ 	return container_of(r, struct rdt_hw_domain, d_resctrl);
+ }
  
- extern struct dentry *debugfs_resctrl;
- 
-+extern int snc_nodes_per_l3_cache;
++static inline struct rdt_hw_mondomain *resctrl_to_arch_mondom(struct rdt_mondomain *r)
++{
++	return container_of(r, struct rdt_hw_mondomain, d_resctrl);
++}
 +
- enum resctrl_res_level {
- 	RDT_RESOURCE_L3,
- 	RDT_RESOURCE_L2,
+ /**
+  * struct msr_param - set a range of MSRs from a domain
+  * @res:       The resource to use
+@@ -526,8 +531,8 @@ void rdtgroup_kn_unlock(struct kernfs_node *kn);
+ int rdtgroup_kn_mode_restrict(struct rdtgroup *r, const char *name);
+ int rdtgroup_kn_mode_restore(struct rdtgroup *r, const char *name,
+ 			     umode_t mask);
+-struct rdt_domain *rdt_find_domain(struct list_head *h, int id,
+-				   struct list_head **pos);
++void *rdt_find_domain(struct list_head *h, int id,
++		      struct list_head **pos);
+ ssize_t rdtgroup_schemata_write(struct kernfs_open_file *of,
+ 				char *buf, size_t nbytes, loff_t off);
+ int rdtgroup_schemata_show(struct kernfs_open_file *of,
+@@ -556,17 +561,17 @@ bool __init rdt_cpu_has(int flag);
+ void mon_event_count(void *info);
+ int rdtgroup_mondata_show(struct seq_file *m, void *arg);
+ void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
+-		    struct rdt_domain *d, struct rdtgroup *rdtgrp,
++		    struct rdt_mondomain *d, struct rdtgroup *rdtgrp,
+ 		    int evtid, int first);
+-void mbm_setup_overflow_handler(struct rdt_domain *dom,
++void mbm_setup_overflow_handler(struct rdt_mondomain *dom,
+ 				unsigned long delay_ms);
+ void mbm_handle_overflow(struct work_struct *work);
+ void __init intel_rdt_mbm_apply_quirk(void);
+ bool is_mba_sc(struct rdt_resource *r);
+-void cqm_setup_limbo_handler(struct rdt_domain *dom, unsigned long delay_ms);
++void cqm_setup_limbo_handler(struct rdt_mondomain *dom, unsigned long delay_ms);
+ void cqm_handle_limbo(struct work_struct *work);
+-bool has_busy_rmid(struct rdt_resource *r, struct rdt_domain *d);
+-void __check_limbo(struct rdt_domain *d, bool force_free);
++bool has_busy_rmid(struct rdt_resource *r, struct rdt_mondomain *d);
++void __check_limbo(struct rdt_mondomain *d, bool force_free);
+ void rdt_domain_reconfigure_cdp(struct rdt_resource *r);
+ void __init thread_throttle_mode_init(void);
+ void __init mbm_config_rftype_init(const char *config);
 diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-index 0161362b0c3e..1331add347fc 100644
+index 274605aaa026..0161362b0c3e 100644
 --- a/arch/x86/kernel/cpu/resctrl/core.c
 +++ b/arch/x86/kernel/cpu/resctrl/core.c
-@@ -16,11 +16,14 @@
- 
- #define pr_fmt(fmt)	"resctrl: " fmt
- 
-+#include <linux/cpu.h>
- #include <linux/slab.h>
- #include <linux/err.h>
- #include <linux/cacheinfo.h>
- #include <linux/cpuhotplug.h>
-+#include <linux/mod_devicetable.h>
- 
-+#include <asm/cpu_device_id.h>
- #include <asm/intel-family.h>
- #include <asm/resctrl.h>
- #include "internal.h"
-@@ -48,6 +51,13 @@ int max_name_width, max_data_width;
+@@ -393,9 +393,12 @@ void rdt_ctrl_update(void *arg)
+  * id is found in a domain, return the domain. Otherwise, if requested by
+  * caller, return the first domain whose id is bigger than the input id.
+  * The domain list is sorted by id in ascending order.
++ *
++ * N.B. Returned value may be either a pointer to "struct rdt_domain" or
++ * to "struct rdt_mondomain" depending on which domain list is scanned.
   */
- bool rdt_alloc_capable;
+-struct rdt_domain *rdt_find_domain(struct list_head *h, int id,
+-				   struct list_head **pos)
++void *rdt_find_domain(struct list_head *h, int id,
++		      struct list_head **pos)
+ {
+ 	struct rdt_domain *d;
+ 	struct list_head *l;
+@@ -434,10 +437,15 @@ static void setup_default_ctrlval(struct rdt_resource *r, u32 *dc)
+ }
  
-+/*
-+ * Number of SNC nodes that share each L3 cache.
-+ * Default is 1 for systems that do not support
-+ * SNC, or have SNC disabled.
-+ */
-+int snc_nodes_per_l3_cache = 1;
+ static void domain_free(struct rdt_hw_domain *hw_dom)
++{
++	kfree(hw_dom->ctrl_val);
++	kfree(hw_dom);
++}
 +
- static void
- mba_wrmsr_intel(struct rdt_domain *d, struct msr_param *m,
- 		struct rdt_resource *r);
-@@ -543,9 +553,16 @@ static void domain_add_cpu_ctrl(int cpu, struct rdt_resource *r)
++static void mondomain_free(struct rdt_hw_mondomain *hw_dom)
+ {
+ 	kfree(hw_dom->arch_mbm_total);
+ 	kfree(hw_dom->arch_mbm_local);
+-	kfree(hw_dom->ctrl_val);
+ 	kfree(hw_dom);
+ }
+ 
+@@ -467,7 +475,7 @@ static int domain_setup_ctrlval(struct rdt_resource *r, struct rdt_domain *d)
+  * @num_rmid:	The size of the MBM counter array
+  * @hw_dom:	The domain that owns the allocated arrays
+  */
+-static int arch_domain_mbm_alloc(u32 num_rmid, struct rdt_hw_domain *hw_dom)
++static int arch_domain_mbm_alloc(u32 num_rmid, struct rdt_hw_mondomain *hw_dom)
+ {
+ 	size_t tsize;
+ 
+@@ -539,8 +547,8 @@ static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
+ {
+ 	int id = get_cpu_cacheinfo_id(cpu, r->mon_scope);
+ 	struct list_head *add_pos = NULL;
+-	struct rdt_hw_domain *hw_dom;
+-	struct rdt_domain *d;
++	struct rdt_hw_mondomain *hw_mondom;
++	struct rdt_mondomain *d;
+ 	int err;
+ 
+ 	d = rdt_find_domain(&r->mondomains, id, &add_pos);
+@@ -556,16 +564,16 @@ static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
+ 		return;
+ 	}
+ 
+-	hw_dom = kzalloc_node(sizeof(*hw_dom), GFP_KERNEL, cpu_to_node(cpu));
+-	if (!hw_dom)
++	hw_mondom = kzalloc_node(sizeof(*hw_mondom), GFP_KERNEL, cpu_to_node(cpu));
++	if (!hw_mondom)
+ 		return;
+ 
+-	d = &hw_dom->d_resctrl;
++	d = &hw_mondom->d_resctrl;
+ 	d->id = id;
+ 	cpumask_set_cpu(cpu, &d->cpu_mask);
+ 
+-	if (arch_domain_mbm_alloc(r->num_rmid, hw_dom)) {
+-		domain_free(hw_dom);
++	if (arch_domain_mbm_alloc(r->num_rmid, hw_mondom)) {
++		mondomain_free(hw_mondom);
+ 		return;
+ 	}
+ 
+@@ -574,7 +582,7 @@ static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
+ 	err = resctrl_online_mon_domain(r, d);
+ 	if (err) {
+ 		list_del(&d->list);
+-		domain_free(hw_dom);
++		mondomain_free(hw_mondom);
  	}
  }
  
-+static int get_mon_scope_id(int cpu, int scope)
-+{
-+	if (scope == MON_SCOPE_NODE)
-+		return cpu_to_node(cpu);
-+	return get_cpu_cacheinfo_id(cpu, scope);
-+}
-+
- static void domain_add_cpu_mon(int cpu, struct rdt_resource *r)
+@@ -632,22 +640,22 @@ static void domain_remove_cpu_ctrl(int cpu, struct rdt_resource *r)
+ static void domain_remove_cpu_mon(int cpu, struct rdt_resource *r)
  {
--	int id = get_cpu_cacheinfo_id(cpu, r->mon_scope);
-+	int id = get_mon_scope_id(cpu, r->mon_scope);
- 	struct list_head *add_pos = NULL;
- 	struct rdt_hw_mondomain *hw_mondom;
- 	struct rdt_mondomain *d;
-@@ -692,11 +709,28 @@ static void clear_closid_rmid(int cpu)
- 	wrmsr(MSR_IA32_PQR_ASSOC, 0, 0);
+ 	int id = get_cpu_cacheinfo_id(cpu, r->cache_level);
+-	struct rdt_hw_domain *hw_dom;
+-	struct rdt_domain *d;
++	struct rdt_hw_mondomain *hw_mondom;
++	struct rdt_mondomain *d;
+ 
+ 	d = rdt_find_domain(&r->mondomains, id, NULL);
+ 	if (IS_ERR_OR_NULL(d)) {
+ 		pr_warn("Couldn't find cache id for CPU %d\n", cpu);
+ 		return;
+ 	}
+-	hw_dom = resctrl_to_arch_dom(d);
++	hw_mondom = resctrl_to_arch_mondom(d);
+ 
+ 	cpumask_clear_cpu(cpu, &d->cpu_mask);
+ 	if (cpumask_empty(&d->cpu_mask)) {
+ 		resctrl_offline_mon_domain(r, d);
+ 		list_del(&d->list);
+ 
+-		domain_free(hw_dom);
++		mondomain_free(hw_mondom);
+ 
+ 		return;
+ 	}
+diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+index 839df83d1a0a..86fc5b0e3d39 100644
+--- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
++++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+@@ -521,7 +521,7 @@ int rdtgroup_schemata_show(struct kernfs_open_file *of,
  }
  
-+static void snc_remap_rmids(int cpu)
-+{
-+	u64	val;
-+
-+	/* Only need to enable once per package */
-+	if (cpumask_first(topology_core_cpumask(cpu)) != cpu)
-+		return;
-+
-+	rdmsrl(MSR_RMID_SNC_CONFIG, val);
-+	val &= ~BIT_ULL(0);
-+	wrmsrl(MSR_RMID_SNC_CONFIG, val);
-+}
-+
- static int resctrl_online_cpu(unsigned int cpu)
+ void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
+-		    struct rdt_domain *d, struct rdtgroup *rdtgrp,
++		    struct rdt_mondomain *d, struct rdtgroup *rdtgrp,
+ 		    int evtid, int first)
  {
+ 	/*
+@@ -544,7 +544,7 @@ int rdtgroup_mondata_show(struct seq_file *m, void *arg)
+ 	struct rdtgroup *rdtgrp;
  	struct rdt_resource *r;
- 
- 	mutex_lock(&rdtgroup_mutex);
-+
-+	if (snc_nodes_per_l3_cache > 1)
-+		snc_remap_rmids(cpu);
-+
- 	for_each_capable_rdt_resource(r)
- 		domain_add_cpu(cpu, r);
- 	/* The cpu is set in default rdtgroup after online. */
-@@ -951,11 +985,57 @@ static __init bool get_rdt_resources(void)
- 	return (rdt_mon_capable || rdt_alloc_capable);
- }
- 
-+static const struct x86_cpu_id snc_cpu_ids[] __initconst = {
-+	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_X, 0),
-+	X86_MATCH_INTEL_FAM6_MODEL(SAPPHIRERAPIDS_X, 0),
-+	X86_MATCH_INTEL_FAM6_MODEL(EMERALDRAPIDS_X, 0),
-+	{}
-+};
-+
-+/*
-+ * There isn't a simple enumeration bit to show whether SNC mode
-+ * is enabled. Look at the ratio of number of NUMA nodes to the
-+ * number of distinct L3 caches. Take care to skip memory-only nodes.
-+ */
-+static __init int get_snc_config(void)
-+{
-+	unsigned long *node_caches;
-+	int mem_only_nodes = 0;
-+	int cpu, node, ret;
-+
-+	if (!x86_match_cpu(snc_cpu_ids))
-+		return 1;
-+
-+	node_caches = kcalloc(BITS_TO_LONGS(nr_node_ids), sizeof(*node_caches), GFP_KERNEL);
-+	if (!node_caches)
-+		return 1;
-+
-+	cpus_read_lock();
-+	for_each_node(node) {
-+		cpu = cpumask_first(cpumask_of_node(node));
-+		if (cpu < nr_cpu_ids)
-+			set_bit(get_cpu_cacheinfo_id(cpu, 3), node_caches);
-+		else
-+			mem_only_nodes++;
-+	}
-+	cpus_read_unlock();
-+
-+	ret = (nr_node_ids - mem_only_nodes) / bitmap_weight(node_caches, nr_node_ids);
-+	kfree(node_caches);
-+
-+	if (ret > 1)
-+		rdt_resources_all[RDT_RESOURCE_L3].r_resctrl.mon_scope = MON_SCOPE_NODE;
-+
-+	return ret;
-+}
-+
- static __init void rdt_init_res_defs_intel(void)
- {
- 	struct rdt_hw_resource *hw_res;
- 	struct rdt_resource *r;
- 
-+	snc_nodes_per_l3_cache = get_snc_config();
-+
- 	for_each_rdt_resource(r) {
- 		hw_res = resctrl_to_arch_res(r);
+ 	union mon_data_bits md;
+-	struct rdt_domain *d;
++	struct rdt_mondomain *d;
+ 	struct rmid_read rr;
+ 	int ret = 0;
  
 diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-index 0d9605fccb34..4ca064e62911 100644
+index 66beca785535..0d9605fccb34 100644
 --- a/arch/x86/kernel/cpu/resctrl/monitor.c
 +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-@@ -148,8 +148,18 @@ static inline struct rmid_entry *__rmid_entry(u32 rmid)
- 
- static int __rmid_read(u32 rmid, enum resctrl_event_id eventid, u64 *val)
- {
-+	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
-+	int cpu = get_cpu();
-+	int rmid_offset = 0;
- 	u64 msr_val;
- 
-+	/*
-+	 * When SNC mode is on, need to compute the offset to read the
-+	 * physical RMID counter for the node to which this CPU belongs
-+	 */
-+	if (snc_nodes_per_l3_cache > 1)
-+		rmid_offset = (cpu_to_node(cpu) % snc_nodes_per_l3_cache) * r->num_rmid;
-+
- 	/*
- 	 * As per the SDM, when IA32_QM_EVTSEL.EvtID (bits 7:0) is configured
- 	 * with a valid event code for supported resource type and the bits
-@@ -158,9 +168,11 @@ static int __rmid_read(u32 rmid, enum resctrl_event_id eventid, u64 *val)
- 	 * IA32_QM_CTR.Error (bit 63) and IA32_QM_CTR.Unavailable (bit 62)
- 	 * are error bits.
- 	 */
--	wrmsr(MSR_IA32_QM_EVTSEL, eventid, rmid);
-+	wrmsr(MSR_IA32_QM_EVTSEL, eventid, rmid + rmid_offset);
- 	rdmsrl(MSR_IA32_QM_CTR, msr_val);
- 
-+	put_cpu();
-+
- 	if (msr_val & RMID_VAL_ERROR)
- 		return -EIO;
- 	if (msr_val & RMID_VAL_UNAVAIL)
-@@ -783,8 +795,8 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
- 	int ret;
- 
- 	resctrl_rmid_realloc_limit = boot_cpu_data.x86_cache_size * 1024;
--	hw_res->mon_scale = boot_cpu_data.x86_cache_occ_scale;
--	r->num_rmid = boot_cpu_data.x86_cache_max_rmid + 1;
-+	hw_res->mon_scale = boot_cpu_data.x86_cache_occ_scale / snc_nodes_per_l3_cache;
-+	r->num_rmid = (boot_cpu_data.x86_cache_max_rmid + 1) / snc_nodes_per_l3_cache;
- 	hw_res->mbm_width = MBM_CNTR_WIDTH_BASE;
- 
- 	if (mbm_offset > 0 && mbm_offset <= MBM_CNTR_WIDTH_OFFSET_MAX)
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 4a268df9b456..d831b21f7389 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -1354,7 +1354,7 @@ unsigned int rdtgroup_cbm_to_size(struct rdt_resource *r,
- 		}
- 	}
- 
--	return size;
-+	return size / snc_nodes_per_l3_cache;
+@@ -170,7 +170,7 @@ static int __rmid_read(u32 rmid, enum resctrl_event_id eventid, u64 *val)
+ 	return 0;
  }
  
- /**
-@@ -2587,7 +2587,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
- 		ctx->enable_cdpl2 = true;
- 		return 0;
- 	case Opt_mba_mbps:
--		if (!supports_mba_mbps())
-+		if (!supports_mba_mbps() || snc_nodes_per_l3_cache > 1)
- 			return -EINVAL;
- 		ctx->enable_mba_mbps = true;
- 		return 0;
+-static struct arch_mbm_state *get_arch_mbm_state(struct rdt_hw_domain *hw_dom,
++static struct arch_mbm_state *get_arch_mbm_state(struct rdt_hw_mondomain *hw_dom,
+ 						 u32 rmid,
+ 						 enum resctrl_event_id eventid)
+ {
+@@ -189,10 +189,10 @@ static struct arch_mbm_state *get_arch_mbm_state(struct rdt_hw_domain *hw_dom,
+ 	return NULL;
+ }
+ 
+-void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_domain *d,
++void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_mondomain *d,
+ 			     u32 rmid, enum resctrl_event_id eventid)
+ {
+-	struct rdt_hw_domain *hw_dom = resctrl_to_arch_dom(d);
++	struct rdt_hw_mondomain *hw_dom = resctrl_to_arch_mondom(d);
+ 	struct arch_mbm_state *am;
+ 
+ 	am = get_arch_mbm_state(hw_dom, rmid, eventid);
+@@ -208,9 +208,9 @@ void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_domain *d,
+  * Assumes that hardware counters are also reset and thus that there is
+  * no need to record initial non-zero counts.
+  */
+-void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_domain *d)
++void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_mondomain *d)
+ {
+-	struct rdt_hw_domain *hw_dom = resctrl_to_arch_dom(d);
++	struct rdt_hw_mondomain *hw_dom = resctrl_to_arch_mondom(d);
+ 
+ 	if (is_mbm_total_enabled())
+ 		memset(hw_dom->arch_mbm_total, 0,
+@@ -229,11 +229,11 @@ static u64 mbm_overflow_count(u64 prev_msr, u64 cur_msr, unsigned int width)
+ 	return chunks >> shift;
+ }
+ 
+-int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain *d,
++int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_mondomain *d,
+ 			   u32 rmid, enum resctrl_event_id eventid, u64 *val)
+ {
+ 	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+-	struct rdt_hw_domain *hw_dom = resctrl_to_arch_dom(d);
++	struct rdt_hw_mondomain *hw_dom = resctrl_to_arch_mondom(d);
+ 	struct arch_mbm_state *am;
+ 	u64 msr_val, chunks;
+ 	int ret;
+@@ -266,7 +266,7 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain *d,
+  * decrement the count. If the busy count gets to zero on an RMID, we
+  * free the RMID
+  */
+-void __check_limbo(struct rdt_domain *d, bool force_free)
++void __check_limbo(struct rdt_mondomain *d, bool force_free)
+ {
+ 	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+ 	struct rmid_entry *entry;
+@@ -305,7 +305,7 @@ void __check_limbo(struct rdt_domain *d, bool force_free)
+ 	}
+ }
+ 
+-bool has_busy_rmid(struct rdt_resource *r, struct rdt_domain *d)
++bool has_busy_rmid(struct rdt_resource *r, struct rdt_mondomain *d)
+ {
+ 	return find_first_bit(d->rmid_busy_llc, r->num_rmid) != r->num_rmid;
+ }
+@@ -334,7 +334,7 @@ int alloc_rmid(void)
+ static void add_rmid_to_limbo(struct rmid_entry *entry)
+ {
+ 	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+-	struct rdt_domain *d;
++	struct rdt_mondomain *d;
+ 	int cpu, err;
+ 	u64 val = 0;
+ 
+@@ -383,7 +383,7 @@ void free_rmid(u32 rmid)
+ 		list_add_tail(&entry->list, &rmid_free_lru);
+ }
+ 
+-static struct mbm_state *get_mbm_state(struct rdt_domain *d, u32 rmid,
++static struct mbm_state *get_mbm_state(struct rdt_mondomain *d, u32 rmid,
+ 				       enum resctrl_event_id evtid)
+ {
+ 	switch (evtid) {
+@@ -516,7 +516,7 @@ void mon_event_count(void *info)
+  * throttle MSRs already have low percentage values.  To avoid
+  * unnecessarily restricting such rdtgroups, we also increase the bandwidth.
+  */
+-static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_domain *dom_mbm)
++static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_mondomain *dom_mbm)
+ {
+ 	u32 closid, rmid, cur_msr_val, new_msr_val;
+ 	struct mbm_state *pmbm_data, *cmbm_data;
+@@ -600,7 +600,7 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_domain *dom_mbm)
+ 	}
+ }
+ 
+-static void mbm_update(struct rdt_resource *r, struct rdt_domain *d, int rmid)
++static void mbm_update(struct rdt_resource *r, struct rdt_mondomain *d, int rmid)
+ {
+ 	struct rmid_read rr;
+ 
+@@ -641,12 +641,12 @@ void cqm_handle_limbo(struct work_struct *work)
+ 	unsigned long delay = msecs_to_jiffies(CQM_LIMBOCHECK_INTERVAL);
+ 	int cpu = smp_processor_id();
+ 	struct rdt_resource *r;
+-	struct rdt_domain *d;
++	struct rdt_mondomain *d;
+ 
+ 	mutex_lock(&rdtgroup_mutex);
+ 
+ 	r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+-	d = container_of(work, struct rdt_domain, cqm_limbo.work);
++	d = container_of(work, struct rdt_mondomain, cqm_limbo.work);
+ 
+ 	__check_limbo(d, false);
+ 
+@@ -656,7 +656,7 @@ void cqm_handle_limbo(struct work_struct *work)
+ 	mutex_unlock(&rdtgroup_mutex);
+ }
+ 
+-void cqm_setup_limbo_handler(struct rdt_domain *dom, unsigned long delay_ms)
++void cqm_setup_limbo_handler(struct rdt_mondomain *dom, unsigned long delay_ms)
+ {
+ 	unsigned long delay = msecs_to_jiffies(delay_ms);
+ 	int cpu;
+@@ -674,7 +674,7 @@ void mbm_handle_overflow(struct work_struct *work)
+ 	int cpu = smp_processor_id();
+ 	struct list_head *head;
+ 	struct rdt_resource *r;
+-	struct rdt_domain *d;
++	struct rdt_mondomain *d;
+ 
+ 	mutex_lock(&rdtgroup_mutex);
+ 
+@@ -682,7 +682,7 @@ void mbm_handle_overflow(struct work_struct *work)
+ 		goto out_unlock;
+ 
+ 	r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+-	d = container_of(work, struct rdt_domain, mbm_over.work);
++	d = container_of(work, struct rdt_mondomain, mbm_over.work);
+ 
+ 	list_for_each_entry(prgrp, &rdt_all_groups, rdtgroup_list) {
+ 		mbm_update(r, d, prgrp->mon.rmid);
+@@ -701,7 +701,7 @@ void mbm_handle_overflow(struct work_struct *work)
+ 	mutex_unlock(&rdtgroup_mutex);
+ }
+ 
+-void mbm_setup_overflow_handler(struct rdt_domain *dom, unsigned long delay_ms)
++void mbm_setup_overflow_handler(struct rdt_mondomain *dom, unsigned long delay_ms)
+ {
+ 	unsigned long delay = msecs_to_jiffies(delay_ms);
+ 	int cpu;
+diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+index 27753eb5d513..4a268df9b456 100644
+--- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
++++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+@@ -1483,7 +1483,7 @@ static void mon_event_config_read(void *info)
+ 	mon_info->mon_config = msrval & MAX_EVT_CONFIG_BITS;
+ }
+ 
+-static void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mon_info)
++static void mondata_config_read(struct rdt_mondomain *d, struct mon_config_info *mon_info)
+ {
+ 	smp_call_function_any(&d->cpu_mask, mon_event_config_read, mon_info, 1);
+ }
+@@ -1491,7 +1491,7 @@ static void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mo
+ static int mbm_config_show(struct seq_file *s, struct rdt_resource *r, u32 evtid)
+ {
+ 	struct mon_config_info mon_info = {0};
+-	struct rdt_domain *dom;
++	struct rdt_mondomain *dom;
+ 	bool sep = false;
+ 
+ 	mutex_lock(&rdtgroup_mutex);
+@@ -1548,7 +1548,7 @@ static void mon_event_config_write(void *info)
+ }
+ 
+ static int mbm_config_write_domain(struct rdt_resource *r,
+-				   struct rdt_domain *d, u32 evtid, u32 val)
++				   struct rdt_mondomain *d, u32 evtid, u32 val)
+ {
+ 	struct mon_config_info mon_info = {0};
+ 	int ret = 0;
+@@ -1598,7 +1598,7 @@ static int mon_config_write(struct rdt_resource *r, char *tok, u32 evtid)
+ {
+ 	char *dom_str = NULL, *id_str;
+ 	unsigned long dom_id, val;
+-	struct rdt_domain *d;
++	struct rdt_mondomain *d;
+ 	int ret = 0;
+ 
+ next:
+@@ -2463,7 +2463,7 @@ static void schemata_list_destroy(void)
+ static int rdt_get_tree(struct fs_context *fc)
+ {
+ 	struct rdt_fs_context *ctx = rdt_fc2context(fc);
+-	struct rdt_domain *dom;
++	struct rdt_mondomain *dom;
+ 	struct rdt_resource *r;
+ 	int ret;
+ 
+@@ -2845,7 +2845,7 @@ static void rmdir_mondata_subdir_allrdtgrp(struct rdt_resource *r,
+ }
+ 
+ static int mkdir_mondata_subdir(struct kernfs_node *parent_kn,
+-				struct rdt_domain *d,
++				struct rdt_mondomain *d,
+ 				struct rdt_resource *r, struct rdtgroup *prgrp)
+ {
+ 	union mon_data_bits priv;
+@@ -2894,7 +2894,7 @@ static int mkdir_mondata_subdir(struct kernfs_node *parent_kn,
+  * and "monitor" groups with given domain id.
+  */
+ static void mkdir_mondata_subdir_allrdtgrp(struct rdt_resource *r,
+-					   struct rdt_domain *d)
++					   struct rdt_mondomain *d)
+ {
+ 	struct kernfs_node *parent_kn;
+ 	struct rdtgroup *prgrp, *crgrp;
+@@ -2916,7 +2916,7 @@ static int mkdir_mondata_subdir_alldom(struct kernfs_node *parent_kn,
+ 				       struct rdt_resource *r,
+ 				       struct rdtgroup *prgrp)
+ {
+-	struct rdt_domain *dom;
++	struct rdt_mondomain *dom;
+ 	int ret;
+ 
+ 	list_for_each_entry(dom, &r->mondomains, list) {
+@@ -3701,7 +3701,7 @@ static int __init rdtgroup_setup_root(void)
+ 	return ret;
+ }
+ 
+-static void domain_destroy_mon_state(struct rdt_domain *d)
++static void domain_destroy_mon_state(struct rdt_mondomain *d)
+ {
+ 	bitmap_free(d->rmid_busy_llc);
+ 	kfree(d->mbm_total);
+@@ -3716,7 +3716,7 @@ void resctrl_offline_ctrl_domain(struct rdt_resource *r, struct rdt_domain *d)
+ 		mba_sc_domain_destroy(r, d);
+ }
+ 
+-void resctrl_offline_mon_domain(struct rdt_resource *r, struct rdt_domain *d)
++void resctrl_offline_mon_domain(struct rdt_resource *r, struct rdt_mondomain *d)
+ {
+ 	lockdep_assert_held(&rdtgroup_mutex);
+ 
+@@ -3745,7 +3745,7 @@ void resctrl_offline_mon_domain(struct rdt_resource *r, struct rdt_domain *d)
+ 	domain_destroy_mon_state(d);
+ }
+ 
+-static int domain_setup_mon_state(struct rdt_resource *r, struct rdt_domain *d)
++static int domain_setup_mon_state(struct rdt_resource *r, struct rdt_mondomain *d)
+ {
+ 	size_t tsize;
+ 
+@@ -3786,7 +3786,7 @@ int resctrl_online_ctrl_domain(struct rdt_resource *r, struct rdt_domain *d)
+ 	return 0;
+ }
+ 
+-int resctrl_online_mon_domain(struct rdt_resource *r, struct rdt_domain *d)
++int resctrl_online_mon_domain(struct rdt_resource *r, struct rdt_mondomain *d)
+ {
+ 	int err;
+ 
 -- 
 2.40.1
 
