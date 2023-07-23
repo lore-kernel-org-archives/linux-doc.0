@@ -2,306 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 007ADC001DC
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Jul 2023 22:07:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01727C41513
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Jul 2023 23:54:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbjGWWHd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Jul 2023 18:07:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51404 "EHLO
+        id S229509AbjGWXyu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Jul 2023 19:54:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbjGWWHc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jul 2023 18:07:32 -0400
-Received: from mx-out2.startmail.com (mx-out2.startmail.com [145.131.90.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B17A2E5C;
-        Sun, 23 Jul 2023 15:07:28 -0700 (PDT)
-Date:   Sun, 23 Jul 2023 17:07:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=startmail.com;
-        s=2020-07; t=1690150046;
-        bh=Pzhbdmi+Q4cAPO2nJq3dihfzBgR3qM8T9EVB24WXGeE=;
-        h=Date:From:To:Subject:Message-ID:References:Mime-Version:
-         Content-Type:Content-Disposition:In-Reply-To:From:Subject:To:Date:
-         Sender:Content-Type:Content-Transfer-Encoding:Content-Disposition:
-         Mime-Version:Reply-To:In-Reply-To:References:Message-Id:Autocrypt;
-        b=Fsi7v8rCqO8VBaD+2fAY45r8W9+Cxydl7tdq66yA5syYPQ4NZYMoRAv89z5wXhx9t
-         U9wUtRa+dyfXmFZtcnKbwAQzJkrKaC2LCmrNFdPU3qZRMyG+xVWzdonOJxgBXEW13V
-         kuIutoJh/KpEXc3L8xrBwEMJRG445/zcyr7K/n4GBCEnxBWDDXpl2sI9IWdX/SANVY
-         xebjc8aa+NdyzdnUgvjEiDUTk6K/EpBi4TFP12XkFD8izbaHgREevuA+z9oWNTevLL
-         oRHn7VnGQi//wQvKBLTZu81NPmfxTDKDFzoZFDns/rgu6VM6dmmOWMTK4tJw8zPIOr
-         Kba6d6Zv4wyEg==
-From:   "Marty E. Plummer" <hanetzer@startmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] hwmon: (pmbus) Add driver fpr Infineon IR35201
-Message-ID: <izfbs2b72mmy6hgwugq5pnilon6626up7yp5quta6dd6tnlusx@bkuyfpenkb4f>
-References: <20230720115805.1510279-1-hanetzer@startmail.com>
- <b86e19ed-12af-e488-3c21-002be2ad5914@roeck-us.net>
- <axue7wmaxbj7vurapabuwtvqk3br3zt2g373d6ako4m24wzaxf@2uvgmasdd7dk>
- <bf1be356-9e3e-6fd7-0987-03deb593131e@roeck-us.net>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bf1be356-9e3e-6fd7-0987-03deb593131e@roeck-us.net>
+        with ESMTP id S229477AbjGWXyt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jul 2023 19:54:49 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82A15E5F;
+        Sun, 23 Jul 2023 16:54:48 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-98e011f45ffso562456466b.3;
+        Sun, 23 Jul 2023 16:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690156487; x=1690761287;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZIT+hSMafkg++eE44gK8LEvrBC1icuncW2J+Pf4/L80=;
+        b=ZO7wxRHl1bT/4i+iOouXAMTcpShANRl/Kj9440bykG3Dv7tg+xdYCRWXuFLwMyYkPh
+         tkzf4xXIjhMh6Aen7KX/SIsgveiIz+vcsvch2N6khrdisapCoEMS/62azvWnmVksGDqb
+         I3jJ9XF5tj+2JHikIxAu/ViZddt4EZtFGfFjC3gGwqYYF/BNiN/vZoDSRcjwkPyI7oyJ
+         60tde6X9wh30Ivlthv6O2jcjQ4qthJrRiEv8Ft3MQBF9Y8JjPWePl0VbBowBAR1ahvLC
+         zNFoMZQfuWAAtoO1j1gujHTpcBQzR3qNPn+6p/35g0Xdv6Zupfdm2Mcd0nGs7rLZ5Rgr
+         sq/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690156487; x=1690761287;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZIT+hSMafkg++eE44gK8LEvrBC1icuncW2J+Pf4/L80=;
+        b=FWS62mSx3VpGCWLoo1S1EbtBC2gHgIbKXuz00Qu0JlMX7PdvLpeyrSX4kiiHhbptds
+         yB6o6iYOI6AuY/Q/J3VRxJuLXEv8Nc6l7Oh6Z4Xw4rNz/IGSwXw1NrW8+UpY7wEneyrD
+         +7GdsP4CuZR9Ju+NPqPCb9Zxw9fZT+CgjEncZoViA5NTcWJ8HIvik4A6FSK67zG25Mqw
+         T2cGXhR7lSkw0MU26OXvfCWSaQIM3r9T6n7LLnjaNdFpjdtFrguSRGqDVUADDxuAawaW
+         216Kw7/D7Ur7hAymW2/dSp6dhvGrIht8Ldl63IDMHh7l9zM3y9lVT4985VZXWf5FU0FJ
+         ELbg==
+X-Gm-Message-State: ABy/qLbUPorIgu1gsYZ6B37Wd30KqdPhQr4Zb+PjXn+yhavpbE2UysKc
+        TZnEkQdeTRK8rLcJGoKgHd35V5jnHW0J/qXT7r0=
+X-Google-Smtp-Source: APBJJlGVH6e+Cmznbgs7azX60lZYUZNxmpCjiTEvV0Fem9YUEz3NQ0NgyP51NP4kNMRRzgXDd+APqGYJ5wmdpTo/s5U=
+X-Received: by 2002:a17:906:77dd:b0:994:539d:f983 with SMTP id
+ m29-20020a17090677dd00b00994539df983mr6921287ejn.23.1690156486697; Sun, 23
+ Jul 2023 16:54:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230720001443.2380-1-dakr@redhat.com> <20230720001443.2380-12-dakr@redhat.com>
+ <CAOFGe945tp344=g-++=EAT89t0qJHZ=3yeW-k9OTbGNJodvwAg@mail.gmail.com>
+In-Reply-To: <CAOFGe945tp344=g-++=EAT89t0qJHZ=3yeW-k9OTbGNJodvwAg@mail.gmail.com>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Mon, 24 Jul 2023 09:54:34 +1000
+Message-ID: <CAPM=9tyQQTn=+Af1kWySde75T=MLFeboTErLv3NxqtQ8pvqtzA@mail.gmail.com>
+Subject: Re: [PATCH drm-misc-next v8 11/12] drm/nouveau: implement new VM_BIND uAPI
+To:     Faith Ekstrand <faith@gfxstrand.net>
+Cc:     Danilo Krummrich <dakr@redhat.com>, daniel@ffwll.ch,
+        tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+        christian.koenig@amd.com, bskeggs@redhat.com,
+        Liam.Howlett@oracle.com, matthew.brost@intel.com,
+        boris.brezillon@collabora.com, alexdeucher@gmail.com,
+        ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+        jason@jlekstrand.net, donald.robson@imgtec.com,
+        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 20, 2023 at 12:22:47PM -0700, Guenter Roeck wrote:
-> On 7/20/23 11:35, Marty E. Plummer wrote:
-> > On Thu, Jul 20, 2023 at 07:00:39AM -0700, Guenter Roeck wrote:
-> > > 
-> > Maybe.On 7/20/23 04:58, Marty E. Plummer wrote:
-> > > > The IR35201 is a dual-loop digital multi-phase buck controller designed for CPU voltage regulation.
-> > > > 
-> > > > Signed-off-by: Marty E. Plummer <hanetzer@startmail.com>
-> > > > ---
-> > > >    Documentation/hwmon/index.rst   |  1 +
-> > > >    Documentation/hwmon/ir35201.rst | 63 +++++++++++++++++++++++
-> > > >    drivers/hwmon/pmbus/Kconfig     |  9 ++++
-> > > >    drivers/hwmon/pmbus/Makefile    |  1 +
-> > > >    drivers/hwmon/pmbus/ir35201.c   | 89 +++++++++++++++++++++++++++++++++
-> > > >    5 files changed, 163 insertions(+)
-> > > >    create mode 100644 Documentation/hwmon/ir35201.rst
-> > > >    create mode 100644 drivers/hwmon/pmbus/ir35201.c
-> > > > 
-> > > > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> > > > index 042e1cf9501b..5b44a268de0d 100644
-> > > > --- a/Documentation/hwmon/index.rst
-> > > > +++ b/Documentation/hwmon/index.rst
-> > > > @@ -87,6 +87,7 @@ Hardware Monitoring Kernel Drivers
-> > > >       ina3221
-> > > >       inspur-ipsps1
-> > > >       intel-m10-bmc-hwmon
-> > > > +   ir35201
-> > > >       ir35221
-> > > >       ir38064
-> > > >       ir36021
-> > > > diff --git a/Documentation/hwmon/ir35201.rst b/Documentation/hwmon/ir35201.rst
-> > > > new file mode 100644
-> > > > index 000000000000..6ca34d4b02a3
-> > > > --- /dev/null
-> > > > +++ b/Documentation/hwmon/ir35201.rst
-> > > > @@ -0,0 +1,63 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +Kernel driver ir35201
-> > > > +=====================
-> > > > +
-> > > > +Supported chips:
-> > > > +
-> > > > +  * Infineon IR35201
-> > > > +
-> > > > +    Prefix: ir35201
-> > > > +    Addresses scanned: -
-> > > > +
-> > > > +    Datasheet: Publicly available at the Infineon website
-> > > > +      https://www.infineon.com/dgdl/Infineon-IR35201MTRPBF-DS-v01_00-EN.pdf?fileId=5546d462576f347501579c95d19772b5
-> > > > +
-> > > > +Authors:
-> > > > +      - Marty E. Plummer <hanetzer@startmail.com>
-> > > > +
-> > > > +Description
-> > > > +-----------
-> > > > +
-> > > > +The IR35201 is a dual-loop digital multi-phase buck controller designed for
-> > > > +CPU voltage regulation.
-> > > > +
-> > > > +Usage Notes
-> > > > +-----------
-> > > > +
-> > > > +This driver does not probe for PMBus devices. You will have to instantiate
-> > > > +devices explicitly.
-> > > > +
-> > > > +Sysfs attributes
-> > > > +----------------
-> > > > +
-> > > > +======================= ===========================
-> > > > +curr1_label             "iin"
-> > > > +curr1_input             Measured input current
-> > > > +curr1_alarm             Input fault alarm
-> > > > +
-> > > > +curr2_label             "iout1"
-> > > > +curr2_input             Measured output current
-> > > > +curr2_alarm             Output over-current alarm
-> > > > +
-> > > > +in1_label               "vin"
-> > > > +in1_input               Measured input voltage
-> > > > +in1_alarm               Input under-voltage alarm
-> > > > +
-> > > > +in2_label               "vout1"
-> > > > +in2_input               Measured output voltage
-> > > > +in2_alarm               Output over-voltage alarm
-> > > > +
-> > > > +power1_label            "pin"
-> > > > +power1_input            Measured input power
-> > > > +power1_alarm            Input under-voltage alarm
-> > > > +
-> > > > +power2_label            "pout1"
-> > > > +power2_input            Measured output power
-> > > > +
-> > > > +temp1_input             Measured temperature
-> > > > +temp1_alarm             Temperature alarm
-> > > > +
-> > > > +temp2_input             Measured other loop temperature
-> > > > +temp2_alarm             Temperature alarm
-> > > > +======================= ===========================
-> > > > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> > > > index 270b6336b76d..7180823b15bb 100644
-> > > > --- a/drivers/hwmon/pmbus/Kconfig
-> > > > +++ b/drivers/hwmon/pmbus/Kconfig
-> > > > @@ -123,6 +123,15 @@ config SENSORS_INSPUR_IPSPS
-> > > >    	  This driver can also be built as a module. If so, the module will
-> > > >    	  be called inspur-ipsps.
-> > > > +config SENSORS_IR35201
-> > > > +	tristate "Infineon IR35201"
-> > > > +	help
-> > > > +	  If you say yes here you get hardware monitoring support for the
-> > > > +	  Infineon IR35201 controller.
-> > > > +
-> > > > +	  This driver can also be built as a module. If so, the module will
-> > > > +	  be called ir35201.
-> > > > +
-> > > >    config SENSORS_IR35221
-> > > >    	tristate "Infineon IR35221"
-> > > >    	help
-> > > > diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> > > > index 84ee960a6c2d..40729dd14e7a 100644
-> > > > --- a/drivers/hwmon/pmbus/Makefile
-> > > > +++ b/drivers/hwmon/pmbus/Makefile
-> > > > @@ -15,6 +15,7 @@ obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
-> > > >    obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
-> > > >    obj-$(CONFIG_SENSORS_DPS920AB)	+= dps920ab.o
-> > > >    obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
-> > > > +obj-$(CONFIG_SENSORS_IR35201)	+= ir35201.o
-> > > >    obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
-> > > >    obj-$(CONFIG_SENSORS_IR36021)	+= ir36021.o
-> > > >    obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
-> > > > diff --git a/drivers/hwmon/pmbus/ir35201.c b/drivers/hwmon/pmbus/ir35201.c
-> > > > new file mode 100644
-> > > > index 000000000000..77f77057175a
-> > > > --- /dev/null
-> > > > +++ b/drivers/hwmon/pmbus/ir35201.c
-> > > > @@ -0,0 +1,89 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0+
-> > > > +/*
-> > > > + * Hardware monitoring driver for Infineon IR35201
-> > > > + */
-> > > > +
-> > > > +#include <linux/err.h>
-> > > > +#include <linux/i2c.h>
-> > > > +#include <linux/init.h>
-> > > > +#include <linux/kernel.h>
-> > > > +#include <linux/module.h>
-> > > > +#include "pmbus.h"
-> > > > +
-> > > > +static struct pmbus_driver_info ir35201_info = {
-> > > > +	.pages = 1,
-> > > > +	.format[PSC_VOLTAGE_IN] = linear,
-> > > > +	.format[PSC_VOLTAGE_OUT] = linear,
-> > > > +	.format[PSC_CURRENT_IN] = linear,
-> > > > +	.format[PSC_CURRENT_OUT] = linear,
-> > > > +	.format[PSC_POWER] = linear,
-> > > > +	.format[PSC_TEMPERATURE] = linear,
-> > > > +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
-> > > > +		| PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
-> > > > +		| PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
-> > > > +		| PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2
-> > > > +		| PMBUS_HAVE_STATUS_TEMP,
-> > > 
-> > > Several supported status registers are missing.
-> > > 
-> > Maybe. Did the best I could with this and another datasheet (ir36* iirc)
-> > open at the same time and both source files open for comparison, and the
-> > output from sensors with this patch, with allowances for variations
-> > in temps, matches more or less what HWINFO64 outputs on a windows pe
-> > based build of hiren's boot cd.
-> 
-> STATUS_INPUT, STATUS_IOUT, and STATUS_VOUT are supported according
-> to the datasheet. Do you have reason to believe that this is incorrect ?
-> If so, I would want to see a comment in the driver explaining that the
-> datasheet is wrong and doesn't support those registers.
-> 
-> > > > +};
-> > > > +
-> > > > +static int ir35201_probe(struct i2c_client *client)
-> > > > +{
-> > > > +	u8 buf[I2C_SMBUS_BLOCK_MAX];
-> > > > +	int ret;
-> > > > +
-> > > > +	if (!i2c_check_functionality(client->adapter,
-> > > > +				     I2C_FUNC_SMBUS_READ_BYTE_DATA
-> > > > +					 | I2C_FUNC_SMBUS_READ_WORD_DATA
-> > > > +					 | I2C_FUNC_SMBUS_READ_BLOCK_DATA))
-> > > > +		return -ENODEV;
-> > > > +
-> > > > +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
-> > > > +	if (ret < 0) {
-> > > > +		dev_err(&client->dev, "Failed to read PMBUS_MFR_ID\n");
-> > > > +		return ret;
-> > > > +	}
-> > > > +	if (ret != 2 || strncmp(buf, "IR", strlen("IR"))) {
-> > > > +		dev_err(&client->dev, "MFR_ID unrecognized\n");
-> > > > +		return -ENODEV;
-> > > > +	}
-> > > > +
-> > > 
-> > > Did you actually test this ? Datasheet says it is "ASCII 52 49" which
-> > > would make it "RI" like IR35221, not "IR". Problem though is that it
-> > > seems like the register is writeable via some USER programming,
-> > > making it unreliable.
-> > > 
-> > Yes, I did. And strangely enough, it reads 'backwards' or so, relative
-> > to the 35221. I almost sent this along without removing the debugging
-> > pr_infos I had in this area to check that. drove me bonkers a bit.
-> > > > +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
-> > > > +	if (ret < 0) {
-> > > > +		dev_err(&client->dev, "Failed to read PMBUS_MFR_MODEL\n");
-> > > > +		return ret;
-> > > > +	}
-> > > > +	if (ret != 1 || buf[0] != 0x50) {
-> > > > +		dev_err(&client->dev, "MFR_MODEL unrecognized\n");
-> > > > +		return -ENODEV;
-> > > > +	}
-> > > > +
-> > > 
-> > > The datasheet suggests that PMBUS_MFR_ID and PMBUS_MFR_MODEL can differ based
-> > > on some USER register programming. I would suggest to read IC_DEVICE_ID instead
-> > > and compare against that (which s supposed to be 0x4d).
-> > > 
-> > Somehow I missed that, but it was on my 'to-check' list. I think the
-> > issue may have arose from my datasheet comparison, as the ir36* doesn't
-> > have such a register listed.
-> 
-> Different series, probably different microcontroller and different microcode.
-> 
-> > > On a higher level, I don't see anything special in this chip. Would it be possible
-> > > to just add it to pmbus.c ? Something like
-> > > 
-> > > 	{"ir35201", (kernel_ulong_t)&pmbus_info_one},
-> > > 
-> > Honestly, I was wondering about folding this and the other very similar
-> > IR3* chips into one driver. Should be doable? But I guess this approach
-> > works as well; in fact, during my investigation phase I stuck the pmbus
-> > driver onto the correct i2c address to get an easy way to read stuff
-> > from the chip (tbh I'm surprised that this far along in linux we don't
-> > have anything other than pmbus_peek to poke for info; maybe i2c-tools
-> > can do it but I can't seem to make it work like I'd expect).
-> 
-> This isn't about "doable". We don't want to add new drivers just for fun
-> and/or "because it works as well". A new driver should only be added if
-> needed. It was done, for example, for IR35221 because that chip has
-> non-standard registers which we want to have supported.
-> 
-> Unless I am missing something, IR35201 only supports standard commands.
-> So the question is: Is the new driver really needed ? It appears you are
-> saying that, no, it isn't needed. Add the chip to pmbus.c as I suggested above.
-> If and only if that doesn't work we can talk about a new driver.
-> 
-Binding the pmbus subdriver (I guess you could call it that) for the
-"adp4000", which shares the same pmbus_device_info struct you suggested
-results in sensible output in lm_sensors. I'll whip up a new patch and
-send it in.
-> Thanks,
-> Guenter
-> 
+On Sun, 23 Jul 2023 at 01:12, Faith Ekstrand <faith@gfxstrand.net> wrote:
+>
+> On Wed, Jul 19, 2023 at 7:15=E2=80=AFPM Danilo Krummrich <dakr@redhat.com=
+> wrote:
+>>
+>> This commit provides the implementation for the new uapi motivated by th=
+e
+>> Vulkan API. It allows user mode drivers (UMDs) to:
+>>
+>> 1) Initialize a GPU virtual address (VA) space via the new
+>>    DRM_IOCTL_NOUVEAU_VM_INIT ioctl for UMDs to specify the portion of VA
+>>    space managed by the kernel and userspace, respectively.
+>>
+>> 2) Allocate and free a VA space region as well as bind and unbind memory
+>>    to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
+>>    UMDs can request the named operations to be processed either
+>>    synchronously or asynchronously. It supports DRM syncobjs
+>>    (incl. timelines) as synchronization mechanism. The management of the
+>>    GPU VA mappings is implemented with the DRM GPU VA manager.
+>>
+>> 3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl. The
+>>    execution happens asynchronously. It supports DRM syncobj (incl.
+>>    timelines) as synchronization mechanism. DRM GEM object locking is
+>>    handled with drm_exec.
+>>
+>> Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, use the DRM
+>> GPU scheduler for the asynchronous paths.
+>
+>
+> IDK where the best place to talk about this is but this seems as good as =
+any.
+>
+> I've been looking into why the Vulkan CTS runs about 2x slower for me on =
+the new UAPI and I created a little benchmark to facilitate testing:
+>
+> https://gitlab.freedesktop.org/mesa/crucible/-/merge_requests/141
+>
+> The test, roughly, does the following:
+>  1. Allocates and binds 1000 BOs
+>  2. Constructs a pushbuf that executes a no-op compute shader.
+>  3. Does a single EXEC/wait combo to warm up the kernel
+>  4. Loops 10,000 times, doing SYNCOBJ_RESET (fast), EXEC, and then SYNCOB=
+J_WAIT and times the loop
+>
+> Of course, there's a bit of userspace driver overhead but that's negledga=
+ble.
+>
+> If you drop the top patch which allocates 1k buffers, the submit time on =
+the old uAPI is 54 us/exec vs. 66 us/exec on the new UAPI. This includes th=
+e time to do a SYNCOBJ_RESET (fast), EXEC, and SYNCOBJ_WAIT. The Intel driv=
+er, by comparison, is 33us/exec so it's not syncobj overhead. This is a bit=
+ concerning (you'd think the new thing would be faster) but what really has=
+ me concerned is the 1k buffer case.
+>
+> If you include the top patch in the crucible MR, it allocates 1000 BOs an=
+d VM_BINDs them. All the binding is done before the warmup EXEC. Suddenly, =
+the submit time jumps to 257 us/exec with the new UAPI. The old UAPI is muc=
+h worse (1134 us/exec) but that's not the point. Once we've done the first =
+EXEC and created our VM bindings, the cost per EXEC shouldn't change at all=
+ based on the number of BOs bound.  Part of the point of VM_BIND is to get =
+all that binding logic and BO walking off the EXEC path.
+>
+> Normally, I wouldn't be too worried about a little performance problem li=
+ke this. This is the first implementation and we can improve it later. I ge=
+t that. However, I suspect the solution to this problem involves more UAPI =
+and I want to make sure we have it all before we call this all done and dus=
+ted and land it.
+>
+> The way AMD solves this problem as well as the new Xe driver for Intel is=
+ to have a concept of internal vs. external BOs. Basically, there's an INTE=
+RNAL bit specified somewhere in BO creation that has a few userspace implic=
+ations:
+>  1. In the Xe world where VMs are objects, INTERNAL BOs are assigned a VM=
+ on creation and can never be bound to any other VM.
+>  2. Any attempt to export an INTERNAL BO via prime or a similar mechanism=
+ will fail with -EINVAL (I think?).
+
+Okay I've done a first pass at implementing this,
+
+https://gitlab.freedesktop.org/nouvelles/kernel/-/commit/005a0005ff80ec85f3=
+e9a314cae0576b7441076c
+
+Danilo we should probably pick that up for the next iteration. with
+corresponding mesa work it gets the latency for me from 180us down to
+70us.
+
+Dave.
