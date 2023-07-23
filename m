@@ -2,139 +2,183 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46A09C001DE
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Jul 2023 08:22:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AEEDC001DF
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Jul 2023 12:02:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbjGWIWo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Jul 2023 04:22:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53778 "EHLO
+        id S229896AbjGWMCj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Jul 2023 08:02:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229914AbjGWIWi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jul 2023 04:22:38 -0400
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5428C10EC;
-        Sun, 23 Jul 2023 01:22:32 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R751e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0Vnzn8WJ_1690100545;
-Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vnzn8WJ_1690100545)
-          by smtp.aliyun-inc.com;
-          Sun, 23 Jul 2023 16:22:26 +0800
-From:   Jing Zhang <renyu.zj@linux.alibaba.com>
-To:     John Garry <john.g.garry@oracle.com>,
-        Ian Rogers <irogers@google.com>
-Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        James Clark <james.clark@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-        Zhuo Song <zhuo.song@linux.alibaba.com>,
-        Jing Zhang <renyu.zj@linux.alibaba.com>,
-        Shuai Xue <xueshuai@linux.alibaba.com>
-Subject: [PATCH v4 4/4] perf vendor events: Add metrics for Arm CMN
-Date:   Sun, 23 Jul 2023 16:21:53 +0800
-Message-Id: <1690100513-61165-5-git-send-email-renyu.zj@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1690100513-61165-1-git-send-email-renyu.zj@linux.alibaba.com>
-References: <1690100513-61165-1-git-send-email-renyu.zj@linux.alibaba.com>
+        with ESMTP id S229925AbjGWMCj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jul 2023 08:02:39 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0435C10C7;
+        Sun, 23 Jul 2023 05:02:37 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-307d20548adso2362547f8f.0;
+        Sun, 23 Jul 2023 05:02:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690113755; x=1690718555;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XLocNhdXvsCh5682u3tK4o2ag/IbV/VNJhwUsrpqvbM=;
+        b=Cb2lfDRlIrYNFNu7MM2OIF0BLCRrxQvyJKUmU5c7sAJLDXZ/VV6fli0zv1I1+j/M3N
+         GqA+9LIteXR+lEttcbLme0xBL39wB2Nxb0KJmCzwgLIeRksm0rY4KsJh7rlx40EW2Ls8
+         F5Z9QCaEXQg5dOci/yYs4ojTcr4AfyLFQLVCve+g+EGLOEWPTDhY4Lpu7sTwF6XHimWX
+         runWvZRbxnJFG1fgTuNkdajG3cYFzmWOtK5je/8kEQSj7iA4RAbFSyZcpYM5Uz3285zA
+         HJV1yNMqd/WlfR9HJODdp0qgw4JrFDxBWPJd4HMTwog5obAgrcU53MU5OcPlu0AVXCH+
+         Sxtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690113755; x=1690718555;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XLocNhdXvsCh5682u3tK4o2ag/IbV/VNJhwUsrpqvbM=;
+        b=mFfSFYPcH576UV4/S3z1s5S8uf17nlxNiDYZKeuuX/Ry9QR8H0/DhBuZWaLsIoPsZE
+         pEATuIa0gD1z3ovGAuKJhEUdSMIcNQFmtDnrKKX8CMWQH/mRrtkMqDXqsYcibPX8uQGD
+         i149U5gzyhvLARr4A41RaQy6i+qWeGeUliTDffhNyyVBJ0Fpcen0PJ7yP0HJXoZ81UWd
+         hI/HMj60N5Cp2oJ1n7YsQSnQpmTktXvOMm3zVle4VFzEMgO85DzLmHemk8YAWCYpwEp6
+         7hKinbS5tn/zTJ4t9+Hr0BFvUJhmryeOQz1obdO+ja7SppPWDGPwvZfAu6GTl/rvdaLZ
+         qJSQ==
+X-Gm-Message-State: ABy/qLZHao1d3PyBZ0TMU3dM6yFoKq4u3lNLvEgu1EDvi+UER7XT2iL9
+        ihHoCEiY+dNLRgxcAeeo7TdwT1wqJu8=
+X-Google-Smtp-Source: APBJJlHR0BT4IvdyoiCMYrkcYODlZ7zleJUj+ySiHvfmTMOTHWoNqt26QTCoF0V+jtZBTkizWiMgUg==
+X-Received: by 2002:a05:6000:1373:b0:307:8c47:a266 with SMTP id q19-20020a056000137300b003078c47a266mr3730382wrz.61.1690113755166;
+        Sun, 23 Jul 2023 05:02:35 -0700 (PDT)
+Received: from localhost.localdomain (host-87-20-104-222.retail.telecomitalia.it. [87.20.104.222])
+        by smtp.gmail.com with ESMTPSA id x3-20020a05600c21c300b003fa95890484sm7561611wmj.20.2023.07.23.05.02.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jul 2023 05:02:34 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [RFC PATCH v2] Documentation/page_tables: MMU, TLB, and Page Faults
+Date:   Sun, 23 Jul 2023 13:56:38 +0200
+Message-ID: <20230723120100.5891-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add JSON metrics for Arm CMN. Currently just add part of CMN PMU
-metrics which are general and compatible for any SoC with CMN-ANY.
+Extend page_tables.rst by adding a small introductive section about
+the role of MMU and TLB in translating between virtual addresses and
+physical page frames. Furthermore explain the concepts behind the
+Page Faults exceptions and how Linux handles them.
 
-Signed-off-by: Jing Zhang <renyu.zj@linux.alibaba.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  | 74 ++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
 
-diff --git a/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
-new file mode 100644
-index 0000000..64db534
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
-@@ -0,0 +1,74 @@
-+[
-+	{
-+		"MetricName": "slc_miss_rate",
-+		"BriefDescription": "The system level cache miss rate.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_cache_miss / hnf_slc_sf_cache_access",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "hnf_message_retry_rate",
-+		"BriefDescription": "HN-F message retry rate indicates whether a lack of credits is causing the bottlenecks.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_pocq_retry / hnf_pocq_reqs_recvd",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "sf_hit_rate",
-+		"BriefDescription": "Snoop filter hit rate can be used to measure the snoop filter efficiency.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_sf_hit / hnf_slc_sf_cache_access",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "mc_message_retry_rate",
-+		"BriefDescription": "The memory controller request retries rate indicates whether the memory controller is the bottleneck.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "hnf_mc_retries / hnf_mc_reqs",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "rni_actual_read_bandwidth.all",
-+		"BriefDescription": "This event measure the actual bandwidth that RN-I bridge sends to the interconnect.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "rnid_rxdat_flits * 32 / 1e6 / duration_time",
-+		"ScaleUnit": "1MB/s",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "rni_actual_write_bandwidth.all",
-+		"BriefDescription": "This event measures the actual write bandwidth at RN-I bridges.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "rnid_txdat_flits * 32 / 1e6 / duration_time",
-+		"ScaleUnit": "1MB/s",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "rni_retry_rate",
-+		"BriefDescription": "RN-I bridge retry rate indicates whether the memory controller is the bottleneck.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "rnid_txreq_flits_retried / rnid_txreq_flits_total",
-+		"ScaleUnit": "100%",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	},
-+	{
-+		"MetricName": "sbsx_actual_write_bandwidth.all",
-+		"BriefDescription": "sbsx actual write bandwidth.",
-+		"MetricGroup": "cmn",
-+		"MetricExpr": "sbsx_txdat_flitv * 32 / 1e6 / duration_time",
-+		"ScaleUnit": "1MB/s",
-+		"Unit": "arm_cmn",
-+		"Compat": "434*;436*;43c*;43a*"
-+	}
-+]
+v1->v2: Add further information about lower level functions in the page
+fault handler and add information about how and why to disable / enable
+the page fault handler (provided a link to a Ira's patch that make use
+of pagefault_disable() to prevent deadlocks.
+
+This is an RFC PATCH because of two reasons:
+
+1) I've heard that there is consensus about the need to revise and
+extend the MM documentation, but I'm not sure about whether or not
+developers need these kind of introductory information.
+ 
+2) While preparing this little patch I decided to take a quicj look at
+the code and found out it currently is not how I thought I remembered
+it. I'm especially speaking about the x86 case. I'm not sure that I've
+been able to properly understand what I described as a difference in
+workflow compared to most of the other architecture.
+
+Therefore, for the two reasons explained above, I'd like to hear from
+people actively involved in MM. If this is not what you want, feel free
+to throw it away. Otherwise I'd be happy to write more on this and other
+MM topics. I'm looking forward for comments on this small work.
+
+ Documentation/mm/page_tables.rst | 61 ++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+
+diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
+index 7840c1891751..fa617894fda8 100644
+--- a/Documentation/mm/page_tables.rst
++++ b/Documentation/mm/page_tables.rst
+@@ -152,3 +152,64 @@ Page table handling code that wishes to be architecture-neutral, such as the
+ virtual memory manager, will need to be written so that it traverses all of the
+ currently five levels. This style should also be preferred for
+ architecture-specific code, so as to be robust to future changes.
++
++
++MMU, TLB, and Page Faults
++=========================
++
++The Memory Management Unit (MMU) is a hardware component that handles virtual to
++physical address translations. It uses a relatively small cache in hardware
++called the Translation Lookaside Buffer (TLB) to speed up these translations.
++When a process wants to access a memory location, the CPU provides a virtual
++address to the MMU, which then uses the TLB to quickly find the corresponding
++physical address.
++
++However, sometimes the MMU can't find a valid translation in the TLB. This
++could be because the process is trying to access a range of memory that it's not
++allowed to, or because the memory hasn't been loaded into RAM yet. When this
++happens, the MMU triggers a page fault, which is a type of interrupt that
++signals the CPU to pause the current process and run a special function to
++handle the fault.
++
++One cause of page faults is due to bugs (or maliciously crafted addresses) and
++happens when a process tries to access a range of memory that it doesn't have
++permission to. This could be because the memory is reserved for the kernel or
++for another process, or because the process is trying to write to a read-only
++section of memory. When this happens, the kernel sends a Segmentation Fault
++(SIGSEGV) signal to the process, which usually causes the process to terminate.
++
++An expected and more common cause of page faults is "lazy allocation". This is
++a technique used by the Kernel to improve memory efficiency and reduce
++footprint. Instead of allocating physical memory to a process as soon as it's
++requested, the kernel waits until the process actually tries to use the memory.
++This can save a significant amount of memory in cases where a process requests
++a large block but only uses a small portion of it.
++
++A related technique is "Copy-on-Write" (COW), where the Kernel allows multiple
++processes to share the same physical memory as long as they're only reading
++from it. If a process tries to write to the shared memory, the kernel triggers
++a page fault and allocates a separate copy of the memory for the process. This
++allows the kernel to save memory and avoid unnecessary data copying and, by
++doing so, it reduces latency.
++
++Now, let's see how the Linux kernel handles these page faults:
++
++1. For most architectures, `do_page_fault()` is the primary interrupt handler
++   for page faults. It delegates the actual handling of the page fault to
++   `handle_mm_fault()`. This function checks the cause of the page fault and
++   takes the appropriate action, such as loading the required page into
++   memory, granting the process the necessary permissions, or sending a
++   SIGSEGV signal to the process.
++
++2. In the specific case of the x86 architecture, the interrupt handler is
++   defined by the `DEFINE_IDTENTRY_RAW_ERRORCODE()` macro, which calls
++   `handle_page_fault()`. This function then calls either
++   `do_user_addr_fault()` or `do_kern_addr_fault()`, depending on whether
++   the fault occurred in user space or kernel space. Both of these functions
++   eventually lead to `handle_mm_fault()`, similar to the workflow in other
++   architectures.
++
++The actual implementation of the workflow is very complex. Its design allows
++Linux to handle page faults in a way that is tailored to the specific
++characteristics of each architecture, while still sharing a common overall
++structure.
 -- 
-1.8.3.1
+2.41.0
 
