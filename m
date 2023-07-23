@@ -2,121 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAFFFC001B0
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Jul 2023 03:37:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23369C001DE
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Jul 2023 08:22:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjGWDh5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Jul 2023 23:37:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54656 "EHLO
+        id S229656AbjGWIWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Jul 2023 04:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjGWDh4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 23:37:56 -0400
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 700D51BE6
-        for <linux-doc@vger.kernel.org>; Sat, 22 Jul 2023 20:37:55 -0700 (PDT)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-570877f7838so39363467b3.0
-        for <linux-doc@vger.kernel.org>; Sat, 22 Jul 2023 20:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1690083474; x=1690688274;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gtVI/IEjpmaRtvShyZurI+Mn3IaZd/ZZL2NDUlIKnng=;
-        b=H2+CbEPx1fthLXaGk4VzQCqF0jOJH+yGFI3Cte9F+/2q4jeZfA/wroxJwHBwc9P0gt
-         2x7okFgxSx+UDJlOojkQalXVcL9L9JfxlTkHf/nl815Szxxm+AQmN8D28ur1Bt5JMb5z
-         AkT9nOhWtlP7Y5Li58BJOenzNK/wT6nE0bfwSh4FYsZZ8mhpqsxtY490KwhPZlzItP+1
-         MIPvcNf2qkJ6c53UQNmfvenIbJZGKtnXOw/3/61VEyZEsW4vwykmCZdj5NxBG/98Vxzr
-         Laqp9C6DSvh9djEH7IPxiyScARwhTisTm0log7cKy3NUDemQrJhod5EuezyTGklX08dw
-         76hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690083474; x=1690688274;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gtVI/IEjpmaRtvShyZurI+Mn3IaZd/ZZL2NDUlIKnng=;
-        b=ICWAdEwaH2/dG9y+Fw1QfmwSi9ck5QWG4HpwZxGndOJO3U2g4Zlfjabkl5KnlUPAt/
-         2jwNQcT3ZZO81txBy0NURIORtmbvCN4davY/EaodFoS6f4kHhcdat0SzttEbJGiergm5
-         41QMru4BczHMLXzLwmsdaLPsCh1rXnHn2glQVrvdS9P5knM1dTRodBo5hstlrXR81o14
-         yEyyH3bf6DTJv3Qy3e258Bewq8PaiYL4B+I5Y2PFNNYjCecPka+zSAJT2pohLa7033X9
-         Pj6KQeXb0keETcXfiIvp+TOCnZa1s2VHCT81n03PJSCkMzIFWp90HhbyBChbe8ULpWxZ
-         KWVQ==
-X-Gm-Message-State: ABy/qLaw05Knkdm0+OorWVm7iSBZ9Fv6cjCb0Y3P0RKKcwEz4nnseHpb
-        KwXvAUb7IsBN5GfHq2puz3I3jlBaBYqhoQKo8J8YgI0Bsv4Q0gKX
-X-Google-Smtp-Source: APBJJlFG1OLz30Hlcsi7+14xlEwLIEqgPtj5SKYS41G+Nw4//VdBXJE5DhRbOh7Wa2hVMlPvZoqDU4Ez45ymIY3Nfhw=
-X-Received: by 2002:a81:5dc2:0:b0:576:c543:2a5f with SMTP id
- r185-20020a815dc2000000b00576c5432a5fmr3663930ywb.4.1690083474682; Sat, 22
- Jul 2023 20:37:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230722231508.1030269-1-pasha.tatashin@soleen.com>
- <20230722231508.1030269-3-pasha.tatashin@soleen.com> <52c883a3-5951-b298-cae4-a46fa0619411@infradead.org>
-In-Reply-To: <52c883a3-5951-b298-cae4-a46fa0619411@infradead.org>
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Sat, 22 Jul 2023 23:37:10 -0400
-Message-ID: <CA+CK2bCoxzp_e7oBTqUYaL36e6WGnc7AxG0M+2SC8SZrrAd3Tw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] doc/vm: add information about page_table_check
- warn_on behavior
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rick.p.edgecombe@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229452AbjGWIW3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jul 2023 04:22:29 -0400
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 425A110C8;
+        Sun, 23 Jul 2023 01:22:27 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=renyu.zj@linux.alibaba.com;NM=1;PH=DS;RN=20;SR=0;TI=SMTPD_---0Vnzn8Ns_1690100515;
+Received: from srmbuffer011165236051.sqa.net(mailfrom:renyu.zj@linux.alibaba.com fp:SMTPD_---0Vnzn8Ns_1690100515)
+          by smtp.aliyun-inc.com;
+          Sun, 23 Jul 2023 16:22:22 +0800
+From:   Jing Zhang <renyu.zj@linux.alibaba.com>
+To:     John Garry <john.g.garry@oracle.com>,
+        Ian Rogers <irogers@google.com>
+Cc:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        James Clark <james.clark@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>,
+        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+        Zhuo Song <zhuo.song@linux.alibaba.com>,
+        Jing Zhang <renyu.zj@linux.alibaba.com>,
+        Shuai Xue <xueshuai@linux.alibaba.com>
+Subject: [PATCH v4 0/4] Add metric for Arm CMN
+Date:   Sun, 23 Jul 2023 16:21:49 +0800
+Message-Id: <1690100513-61165-1-git-send-email-renyu.zj@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 22, 2023 at 7:59=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
->
-> Hi--
->
-> On 7/22/23 16:15, Pasha Tatashin wrote:
-> > The default behavior of page table check was changed from panicking
-> > kernel to printing a warning.
-> >
-> > Add a note how to still panic the kernel when error is detected.
-> >
-> > Signed-off-by: Pasha Tatashin<pasha.tatashin@soleen.com>
-> > ---
-> >   Documentation/mm/page_table_check.rst | 5 +++--
-> >   1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/mm/page_table_check.rst b/Documentation/mm/p=
-age_table_check.rst
-> > index c12838ce6b8d..f534c80ee9c9 100644
-> > --- a/Documentation/mm/page_table_check.rst
-> > +++ b/Documentation/mm/page_table_check.rst
-> > @@ -14,13 +14,14 @@ Page table check performs extra verifications at th=
-e time when new pages become
-> >   accessible from the userspace by getting their page table entries (PT=
-Es PMDs
-> >   etc.) added into the table.
-> >
-> > -In case of detected corruption, the kernel is crashed. There is a smal=
-l
-> > +In case of detected corruption, a warning is printed. There is a small
-> >   performance and memory overhead associated with the page table check.=
- Therefore,
-> >   it is disabled by default, but can be optionally enabled on systems w=
-here the
-> >   extra hardening outweighs the performance costs. Also, because page t=
-able check
-> >   is synchronous, it can help with debugging double map memory corrupti=
-on issues,
-> >   by crashing kernel at the time wrong mapping occurs instead of later =
-which is
-> > -often the case with memory corruptions bugs.
-> > +often the case with memory corruptions bugs. In order to crash kernel =
-sysctl
-> > +panic_on_warn should be set to 1.
->
-> Better as:
->    In order to crash the kernel, the sysctl panic_on_warn should be set
-> to 1.
+Hi all,
 
-Will update in the next version.
+This patch set adds event aliases and metrics for Arm CMN, and expands
+Compat's ability to match multiple identifiers and expands event fields
+in order to achieve the above capabilities.
 
-Thanks,
-Pasha
+If it is no longer necessary to declare the "Compat" or "Unit" value
+when the metric is described by event aliases, I will delete "Compat"
+and "Unit" in the metric, but keep them for now.
 
->
+Changes since v3:
+- Split the arm CMN and ali_drw PMU patches compare to v3. ali_drw PMU
+  related patches are in another patchset.
+- "Compat" supports matching multiple identifiers.
+- Support more event filed.
+- Add alias for part of Arm CMN PMU.
+- Fix some bug for CMN metric description.
+- Link: https://lore.kernel.org/all/1685438374-33287-1-git-send-email-renyu.zj@linux.alibaba.com/
+
+Jing Zhang (4):
+  perf metric: Event "Compat" value supports matching multiple
+    identifiers
+  perf jevents: Support more event fields
+  perf vendor events: Add alias for Arm CMN PMU events.
+  perf vendor events: Add metrics for Arm CMN
+
+ .../pmu-events/arch/arm64/arm/cmn/sys/cmn.json     | 266 +++++++++++++++++++++
+ .../pmu-events/arch/arm64/arm/cmn/sys/metric.json  |  74 ++++++
+ tools/perf/pmu-events/jevents.py                   |  23 +-
+ tools/perf/util/metricgroup.c                      |  27 ++-
+ 4 files changed, 381 insertions(+), 9 deletions(-)
+ create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/cmn.json
+ create mode 100644 tools/perf/pmu-events/arch/arm64/arm/cmn/sys/metric.json
+
+-- 
+1.8.3.1
+
