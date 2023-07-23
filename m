@@ -2,87 +2,73 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2523EC0015E
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Jul 2023 23:59:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B86DC0015E
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Jul 2023 01:57:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229477AbjGVX7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Jul 2023 19:59:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36858 "EHLO
+        id S229677AbjGWB5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Jul 2023 21:57:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbjGVX7n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 19:59:43 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B830A0;
-        Sat, 22 Jul 2023 16:59:42 -0700 (PDT)
+        with ESMTP id S229476AbjGWB5E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jul 2023 21:57:04 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C6981BE6;
+        Sat, 22 Jul 2023 18:57:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=LdCxj801Ht28G0rQCx13yx2xtmGpyFI2ZkIeXhDpMo0=; b=C+1b9Mc+r/BExG40Gtw3eTuvMR
-        tQuiJ1T8CLJ6kKeYXXIaeC7dqqzlVeL+mL286qomuXSUm9AOssj63PWZNw0yg2EfKRKDwfAljLW2J
-        H4PyQUDPgmFBVMshlnygDT7y5vQU99TlPtJkgho1rGh4RESccFAt3lOipOBWF9lJoxN/qEPS9g+Dl
-        L+1XXMLhrs7rdtOgKJA6LDuf1PzBhjM/CoBttnP0liw3nuRRhlMVRNOwHNWNO0NuTjHi2haZjF+sr
-        GWhtrCzc2lKLQujHKAKMbqeIVlFWWp+i/4aRXjhxemTyXDBlCggXv4NNAYnb/V1bHrBRk3C22j5w1
-        qRYso4Hg==;
-Received: from 50-198-160-193-static.hfc.comcastbusiness.net ([50.198.160.193] helo=[10.150.81.113])
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qNMVP-000xLy-2e;
-        Sat, 22 Jul 2023 23:59:28 +0000
-Message-ID: <52c883a3-5951-b298-cae4-a46fa0619411@infradead.org>
-Date:   Sat, 22 Jul 2023 16:59:15 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 2/3] doc/vm: add information about page_table_check
- warn_on behavior
-Content-Language: en-US
-To:     Pasha Tatashin <pasha.tatashin@soleen.com>,
-        akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=44TAO7fZz6hxR8n6K1VxaF5RLJ5K1lVta2e75naOYuI=; b=fd471AmZbL4iL4EAIRqJ6GRP4x
+        1DRBJMV05Hv8AtPWVzmT5MKc2o9+fg/k5Tzv82JBd/Y4PwAOIreWpiNU03lRIyz+2opZg3LQ6mRW0
+        AbfzfVl9af5hZ5ig33UqNxgBP0g6dVgv8QYoqMzcScH2CRzSHEU/qraRu4zwaoHUdWvhh3XPhsZ01
+        Yd/8N0SkiwOOGKfBRGuMAOZluMw52E4zd3lRM/TVhuKIgdTiX9k6AWqOZRZWsnO6GIbFfEz/Zk1U4
+        vHUH0/OHR6Q4StDW01CP6YIsl6DD0JU70A5nZG+/oAUnQYzix4NizMqw3+z7NDsx90DuW49x5222B
+        TpnUF3+A==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qNOL5-002bdT-7n; Sun, 23 Jul 2023 01:56:51 +0000
+Date:   Sun, 23 Jul 2023 02:56:51 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc:     akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         rick.p.edgecombe@intel.com
+Subject: Re: [PATCH v2 1/3] mm/page_table_check: Do WARN_ON instead of BUG_ON
+Message-ID: <ZLyI48BYnecaROmZ@casper.infradead.org>
 References: <20230722231508.1030269-1-pasha.tatashin@soleen.com>
- <20230722231508.1030269-3-pasha.tatashin@soleen.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230722231508.1030269-3-pasha.tatashin@soleen.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20230722231508.1030269-2-pasha.tatashin@soleen.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230722231508.1030269-2-pasha.tatashin@soleen.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+On Sat, Jul 22, 2023 at 11:15:06PM +0000, Pasha Tatashin wrote:
+>  static struct page_table_check *get_page_table_check(struct page_ext *page_ext)
+>  {
+> -	BUG_ON(!page_ext);
+> +	PAGE_TABLE_CHECK_WARN(!page_ext);
+> +
+>  	return (void *)(page_ext) + page_table_check_ops.offset;
+>  }
 
-On 7/22/23 16:15, Pasha Tatashin wrote:
-> The default behavior of page table check was changed from panicking
-> kernel to printing a warning.
-> 
-> Add a note how to still panic the kernel when error is detected.
-> 
-> Signed-off-by: Pasha Tatashin<pasha.tatashin@soleen.com>
-> ---
->   Documentation/mm/page_table_check.rst | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/mm/page_table_check.rst b/Documentation/mm/page_table_check.rst
-> index c12838ce6b8d..f534c80ee9c9 100644
-> --- a/Documentation/mm/page_table_check.rst
-> +++ b/Documentation/mm/page_table_check.rst
-> @@ -14,13 +14,14 @@ Page table check performs extra verifications at the time when new pages become
->   accessible from the userspace by getting their page table entries (PTEs PMDs
->   etc.) added into the table.
->   
-> -In case of detected corruption, the kernel is crashed. There is a small
-> +In case of detected corruption, a warning is printed. There is a small
->   performance and memory overhead associated with the page table check. Therefore,
->   it is disabled by default, but can be optionally enabled on systems where the
->   extra hardening outweighs the performance costs. Also, because page table check
->   is synchronous, it can help with debugging double map memory corruption issues,
->   by crashing kernel at the time wrong mapping occurs instead of later which is
-> -often the case with memory corruptions bugs.
-> +often the case with memory corruptions bugs. In order to crash kernel sysctl
-> +panic_on_warn should be set to 1.
+[...]
 
-Better as:
-   In order to crash the kernel, the sysctl panic_on_warn should be set 
-to 1.
+> @@ -137,15 +144,15 @@ void __page_table_check_zero(struct page *page, unsigned int order)
+>  	struct page_ext *page_ext;
+>  	unsigned long i;
+>  
+> -	BUG_ON(PageSlab(page));
+> +	PAGE_TABLE_CHECK_WARN(PageSlab(page));
+>  
+>  	page_ext = page_ext_get(page);
+> -	BUG_ON(!page_ext);
+> +	PAGE_TABLE_CHECK_WARN(!page_ext);
+>  	for (i = 0; i < (1ul << order); i++) {
+>  		struct page_table_check *ptc = get_page_table_check(page_ext);
 
+Seems like we're going to warn about !page_ext twice?  Or more than
+twice -- once per tail page?
+
+But then we'll crash because page_ext was NULL and offset was small?
