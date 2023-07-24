@@ -2,117 +2,345 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B99C001DF
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 19:19:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EF3EB64DD
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 19:32:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbjGXTTD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jul 2023 15:19:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
+        id S229698AbjGXTc2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jul 2023 15:32:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229532AbjGXTTC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 15:19:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC24B122;
-        Mon, 24 Jul 2023 12:19:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 385EB6133D;
-        Mon, 24 Jul 2023 19:19:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAAD8C433C7;
-        Mon, 24 Jul 2023 19:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690226340;
-        bh=+LZ4eYxU8Ln7Boi9fvVDKSeBa0mdLKhS5TxPxP6U5z0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z5AG13I0eH3r/+JSxGx9V3KuQ5ylHVmcPa9CYhTBkOLcUC66vL7aUBLfmCEWqCzs1
-         kd9VaGz4WlPaTpBu9omhaYQsqJONitcO0G7YTsH8ytsIisX70dDfHM0UeGfGEFA1wh
-         E8Xhox9lBrf3cJzEYVfWEOWPDBWsCC/cy+8NBlnfSkjhTz10yjXYJNMOiI8SkmbneQ
-         Om6JFX5LOy7ta8iPjHIZgupC1tbyg4AlfXomMtY3a4A0vOYBOYMi4dxdQhXyqUdoeZ
-         p0rTqA6x7c6miitYlN49KP50tlIssxGzF2fzCfCe7ARt9xAtTfki69TnzMu46eGMVG
-         uuDqcdB6qdZuQ==
-Date:   Mon, 24 Jul 2023 21:18:57 +0200
-From:   Frederic Weisbecker <frederic@kernel.org>
-To:     Valentin Schneider <vschneid@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: Re: [RFC PATCH v2 15/20] context-tracking: Introduce work deferral
- infrastructure
-Message-ID: <ZL7OoUMLZwfUttjV@lothringen>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
- <20230720163056.2564824-16-vschneid@redhat.com>
- <ZL6QI4mV-NKlh4Ox@localhost.localdomain>
- <xhsmh351dtfjj.mognet@vschneid.remote.csb>
+        with ESMTP id S229678AbjGXTc1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 15:32:27 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4ECD10E4;
+        Mon, 24 Jul 2023 12:32:25 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7653bd3ff2fso509104385a.3;
+        Mon, 24 Jul 2023 12:32:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690227145; x=1690831945;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=snIuRlpqRdn7Uzqe0GJNOw+a8Zw/s3ZtXUk/2L64uAA=;
+        b=XS3En4NWsbn2269FsI0rV4mQu0mpvsZqv1sHFbxOZ8qE7B2ebcEVMm64pQ210AFFJ7
+         we9MVpX7s0bZrbJKAszufkjlHTibLPnpho+EReW9ly/ZbbDGF9OV5Bp3412bDxD+AW/m
+         JtohP8jw1frt4OZrI9ERfTTmhj8E4KFQ34FWx+R9LA58c0ImWffIjuY+n7AyMEhI3JaX
+         6iILO/Bf2cmlUQEm3EhdcA15gEQ/i6q43DnrMnAuct7KB2Gxv9bzmVjMpp/ocgY+ibhu
+         psV6jyhh4is0xrHXEDyj+4JCXLenF3Zfefs8B2Iiyg4pusXY9KBBLdfuZPJmK+G8MFI0
+         g2Sw==
+X-Gm-Message-State: ABy/qLYeghk3k4iYojCDCC2m6c26gPnQXgmG4/iuxvNZcOPnzLZt9CFO
+        MgWpXGq6z4GUAEihXpvfI/Q=
+X-Google-Smtp-Source: APBJJlGX6E7tIF2IevxuDF8AY7Ip2Kl11BPrppogixZjAKcFqjVa5GBZSecZ4Os5uhXP2ETzOwU9HQ==
+X-Received: by 2002:a05:620a:248c:b0:76c:4d4c:7942 with SMTP id i12-20020a05620a248c00b0076c4d4c7942mr919919qkn.21.1690227144448;
+        Mon, 24 Jul 2023 12:32:24 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a040:199:8930:2c90:cb9e:b154:73dc])
+        by smtp.gmail.com with ESMTPSA id u11-20020a0cdd0b000000b00636d2482dd4sm3749283qvk.17.2023.07.24.12.32.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jul 2023 12:32:24 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
+        rust-for-linux@vger.kernel.org (open list:RUST)
+Cc:     Costa Shulyupin <costa.shul@redhat.com>
+Subject: [RFC PATCH] rework top page and organize toc on the sidebar
+Date:   Mon, 24 Jul 2023 22:31:16 +0300
+Message-ID: <20230724193118.2204673-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xhsmh351dtfjj.mognet@vschneid.remote.csb>
+Content-Type: text/plain; charset=true
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 24, 2023 at 05:55:44PM +0100, Valentin Schneider wrote:
-> I can make that a 'do {} while ()' instead to force at least one execution
-> of the cmpxchg().
-> 
-> This is only about reducing the race window, right? If we're executing this
-> just as the target CPU is about to enter userspace, we're going to be in
-> racy territory anyway. Regardless, I'm happy to do that change.
+Template {{ toctree(maxdepth=3) }} in
+Documentation/sphinx/templates/kernel-toc.html
+uses directives toctree and doesn't use sections on the top page
+Documentation/index.rst
+to generate expandable toc on the sidebar.
 
-Right, it's only about narrowing down the race window. It probably don't matter
-in practice, but it's one less thing to consider for the brain :-)
+BTW, other template {{ toc }} uses only sections, and doesn't
+use directives toctree.
 
-Also, why bothering with handling CONTEXT_IDLE?
+Summary of changes:
+- split top page index.rst to several pages
+- convert sections of Documentation/index.rst to hierarchical toctree
+- vertical bars '|' add empty lines
 
-Thanks.
+Benefits:
+- collapsed toc is just seven short lines length
+- toc is expandable
+
+References:
+- https://www.sphinx-doc.org/en/master/development/templating.html#toctree
+- https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-toctree
+- https://www.sphinx-doc.org/en/master/development/templating.html#toc
+- https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections
+- https://sphinx-rtd-theme.readthedocs.io/
+
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/development.rst  | 19 +++++++++
+ Documentation/index.rst        | 78 +++++++++-------------------------
+ Documentation/internal-api.rst | 12 ++++++
+ Documentation/low-level.rst    | 24 +++++++++++
+ Documentation/process/main.rst | 16 +++++++
+ Documentation/user.rst         | 21 +++++++++
+ 6 files changed, 112 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/development.rst
+ create mode 100644 Documentation/internal-api.rst
+ create mode 100644 Documentation/low-level.rst
+ create mode 100644 Documentation/process/main.rst
+ create mode 100644 Documentation/user.rst
+
+diff --git a/Documentation/development.rst b/Documentation/development.rst
+new file mode 100644
+index 000000000000..8d8eea6d4491
+--- /dev/null
++++ b/Documentation/development.rst
+@@ -0,0 +1,19 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Development processes
++=====================
++
++Various other manuals with useful information for all kernel developers.
++
++.. toctree::
++   :maxdepth: 1
++
++   process/license-rules
++   doc-guide/index
++   dev-tools/index
++   dev-tools/testing-overview
++   kernel-hacking/index
++   trace/index
++   fault-injection/index
++   livepatch/index
++   rust/index
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 9dfdc826618c..3c0efebba9e9 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -13,94 +13,56 @@ documents into a coherent whole.  Please note that improvements to the
+ documentation are welcome; join the linux-doc list at vger.kernel.org if
+ you want to help out.
+ 
+-Working with the development community
+-======================================
++|
+ 
+ The essential guides for interacting with the kernel's development
+-community and getting your work upstream.
++community and getting your work upstream:
+ 
+ .. toctree::
+-   :maxdepth: 1
+-
+-   process/development-process
+-   process/submitting-patches
+-   Code of conduct <process/code-of-conduct>
+-   maintainer/index
+-   All development-process docs <process/index>
++   :maxdepth: 2
+ 
++   process/main
+ 
+-Internal API manuals
+-====================
++|
+ 
+ Manuals for use by developers working to interface with the rest of the
+-kernel.
++kernel:
+ 
+ .. toctree::
+-   :maxdepth: 1
++   :maxdepth: 2
+ 
+-   core-api/index
+-   driver-api/index
+-   subsystem-apis
+-   Locking in the kernel <locking/index>
++   internal-api
+ 
+-Development tools and processes
+-===============================
++|
+ 
+-Various other manuals with useful information for all kernel developers.
++Various other manuals with useful information for all kernel developers:
+ 
+ .. toctree::
+-   :maxdepth: 1
+-
+-   process/license-rules
+-   doc-guide/index
+-   dev-tools/index
+-   dev-tools/testing-overview
+-   kernel-hacking/index
+-   trace/index
+-   fault-injection/index
+-   livepatch/index
+-   rust/index
++   :maxdepth: 2
+ 
++   development
+ 
+-User-oriented documentation
+-===========================
++|
+ 
+ The following manuals are written for *users* of the kernel — those who are
+ trying to get it to work optimally on a given system and application
+-developers seeking information on the kernel's user-space APIs.
++developers seeking information on the kernel's user-space APIs:
+ 
+ .. toctree::
+-   :maxdepth: 1
+-
+-   admin-guide/index
+-   The kernel build system <kbuild/index>
+-   admin-guide/reporting-issues.rst
+-   User-space tools <tools/index>
+-   userspace-api/index
+-
+-See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_,
+-which are kept separately from the kernel's own documentation.
+-
+-Firmware-related documentation
+-==============================
+-The following holds information on the kernel's expectations regarding the
+-platform firmwares.
+-
+-.. toctree::
+-   :maxdepth: 1
++   :maxdepth: 2
+ 
+-   firmware-guide/index
+-   devicetree/index
++   user
+ 
++|
+ 
+-Architecture-specific documentation
+-===================================
++Low level heardware depended documentation:
+ 
+ .. toctree::
+    :maxdepth: 2
+ 
+-   arch/index
++   low-level
+ 
++|
+ 
+ Other documentation
+ ===================
+diff --git a/Documentation/internal-api.rst b/Documentation/internal-api.rst
+new file mode 100644
+index 000000000000..c4aa757cbca7
+--- /dev/null
++++ b/Documentation/internal-api.rst
+@@ -0,0 +1,12 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Internal API manuals
++====================
++
++.. toctree::
++   :maxdepth: 1
++
++   core-api/index
++   driver-api/index
++   subsystem-apis
++   Locking in the kernel <locking/index>
+diff --git a/Documentation/low-level.rst b/Documentation/low-level.rst
+new file mode 100644
+index 000000000000..4288633b37af
+--- /dev/null
++++ b/Documentation/low-level.rst
+@@ -0,0 +1,24 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Low level
++=========
++
++Firmware-related documentation
++------------------------------
++The following holds information on the kernel's expectations regarding the
++platform firmwares.
++
++.. toctree::
++   :maxdepth: 1
++
++   firmware-guide/index
++   devicetree/index
++
++
++Architecture-specific documentation
++-----------------------------------
++
++.. toctree::
++   :maxdepth: 2
++
++   arch/index
+diff --git a/Documentation/process/main.rst b/Documentation/process/main.rst
+new file mode 100644
+index 000000000000..732dab311d6d
+--- /dev/null
++++ b/Documentation/process/main.rst
+@@ -0,0 +1,16 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Community
++=========
++
++Working with the development community
++
++
++.. toctree::
++   :maxdepth: 1
++
++   development-process
++   submitting-patches
++   Code of conduct <code-of-conduct>
++   ../maintainer/index
++   All development-process docs <../process/index>
+diff --git a/Documentation/user.rst b/Documentation/user.rst
+new file mode 100644
+index 000000000000..22151edc5bcc
+--- /dev/null
++++ b/Documentation/user.rst
+@@ -0,0 +1,21 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++User-oriented documentation
++===========================
++
++The following manuals are written for *users* of the kernel — those who are
++trying to get it to work optimally on a given system and application
++developers seeking information on the kernel's user-space APIs.
++
++.. toctree::
++   :maxdepth: 1
++
++   admin-guide/index
++   The kernel build system <kbuild/index>
++   admin-guide/reporting-issues.rst
++   User-space tools <tools/index>
++   userspace-api/index
++
++See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_,
++which are kept separately from the kernel's own documentation.
++
+-- 
+2.41.0
+
