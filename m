@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC21BC41513
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 10:07:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EB7C001DE
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 10:17:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233189AbjGXKHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jul 2023 06:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35998 "EHLO
+        id S232865AbjGXKRh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jul 2023 06:17:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233060AbjGXKGt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 06:06:49 -0400
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A509583D5;
-        Mon, 24 Jul 2023 02:59:18 -0700 (PDT)
-Received: by mail-oi1-x22f.google.com with SMTP id 5614622812f47-3a3373211a1so2491743b6e.0;
-        Mon, 24 Jul 2023 02:59:18 -0700 (PDT)
+        with ESMTP id S232003AbjGXKRT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 06:17:19 -0400
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEB8665B7;
+        Mon, 24 Jul 2023 03:09:36 -0700 (PDT)
+Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-56597d949b1so2542379eaf.1;
+        Mon, 24 Jul 2023 03:09:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690192735; x=1690797535;
+        d=gmail.com; s=20221208; t=1690193375; x=1690798175;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=RDlfftCqHuUNq6LkkwKxzRiSDkmFGSCz0/vq6oh3T+s=;
-        b=DSXykGWLjFrMqpPv66tlr93X7a0vmBHxz/80vR9k8v9lxYIlxldXX+1QWnvqrVQiPL
-         T9Z0gIzVebVrJtp/2dD1t24vN029WXT4YJv6bfRGMsyfrY7Ev7oCdHj/SdtZ3eKyWxJ1
-         qp1KSO0l/8QzlY8IcUxvUKiFg83LuDfw9+RP1+s/OGqqqy/Py0x9QGfKA9M186kkmNxK
-         PsY/yS3fIWwz3Wa/OVWrLwpf8y9A0QALq0ODtl9acsl6mEWViFV/17vEYrEyFlXN0Mpn
-         b5wly/Nqx3jOJrPhGkUvcatvS4JRzlZvhfIA4VyebxQJiDaXw3czDVbLLBv200CQBMbz
-         S8tA==
+        b=hrex/GaUVfMUNZRWvZGpegE4riCW/oOM8uo1UlMmZrlwQR1Y5g9p5yiEY70tHm1Nzn
+         Kr5sAEgXdRnmXkRixZ7uSFsyu3mNjkPZQedetliik0YCgA1z5anwyhWO9wgDZJyycz8L
+         bqVnG2/rUHzputkQE2I8YmX+z8H53N83YyFIUqLlAn9cJmQ4l5FtwSeir3YT0mCh/CG7
+         JEi1SSLS+YGBbkTVOq9MO8LWjBph4mBH+cWBfdLJUhXU6fvKZdialD83Hcug1zFLoGt6
+         BHhQtXdk8mLSMT19jnYSRQvWcdarZMfp3CBtw3bGQxqh6FJqAgde0fb2q24nvFcehQ0V
+         1Kew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690192735; x=1690797535;
+        d=1e100.net; s=20221208; t=1690193375; x=1690798175;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=RDlfftCqHuUNq6LkkwKxzRiSDkmFGSCz0/vq6oh3T+s=;
-        b=hlN12kPJz4SLuUOvrtSpXgWR52DyrWUq07zVdDOedyHFq2XwT+qdY/95eqTYvwrnkM
-         Zf7QZ2vDqQSLTj6xO88vYWwNAdNd9KgyMMEWhApohKeds0+2tW3r1jRaVImkXIzmyd3c
-         3zDwU9EPb+DpBsM7D9+AujCwGNyhhME3xPd6IE3amUr5umMcofas+boraY9BoMuDq0xO
-         rrfPchQ0Iylo/rjnEEiZUsKOKSUHiX7+lv/6oZeJN5r2/AEOyJiDDC1fNZtjbgniZfXq
-         CAyVybM/PwXFPaz+zHaNmj7l/GCi4FDcd62hNYRxmGn1PCNTVRWnbNEAENmLAq1he4ib
-         kFyg==
-X-Gm-Message-State: ABy/qLZPT2qStzSjldPCAItxc7AIGzQpF/zHgrywPXuvaXmL/T0qvN4C
-        7Ev3QIhjK75gL3OUO3M1RcQ=
-X-Google-Smtp-Source: APBJJlHa0gbcqcComJDdQw8zIzYrXjx/3orq1WOFxcJ0mjEKBVzrS5YHzxRQ/Nvge46RN553XCHzQQ==
-X-Received: by 2002:a05:6808:98c:b0:3a3:7ecd:7d32 with SMTP id a12-20020a056808098c00b003a37ecd7d32mr9466634oic.30.1690192735254;
-        Mon, 24 Jul 2023 02:58:55 -0700 (PDT)
-Received: from localhost.localdomain ([58.240.82.166])
-        by smtp.gmail.com with ESMTPSA id d12-20020a63734c000000b0055acfd94c20sm8174380pgn.35.2023.07.24.02.58.51
+        b=HH3TfRjHnWS8nK9abvA1Fzry8XUzkeK3UrglqfGgYbWjfsuVjOZM72N79wKtn/ayvN
+         prjT/cNuI1siVpZY8AiWsMzdyKzESirDuUCVmI/Ua5zjaSHgqSB4JnqDLwUt1A4Q7g+F
+         OaSdGNpuVrHSaCe9JjYqhEY54b2eS6h7s24OiXQQBrZ2pn6+j+7eSHXuPXXktlQTC5Ek
+         eVMaoDK3DYVInFkNq5WFIB57pHbGODDXcGJMwx6MXdNUuAxRr1D8U/DwiOclgb5FOFfJ
+         GJVPCnLv+WqsVVgBMTqYo16pEHaOoUxAR+zIKOWuUunCxDJw1qU77gmiGKlAuMz6T+Hm
+         ETfQ==
+X-Gm-Message-State: ABy/qLbfVbDi/kmT9vy5zLi550CfcBOqDaD1wdsGS6qM+2wULgVInhF0
+        Dn6Le5UK1EwNXOofx/Nj0Hk=
+X-Google-Smtp-Source: APBJJlHdgdC3rG6LO2coONZP/kkI0Ylc1MgH/PIQ2Zz6Htck/GwFgmmgxR6G3vTB6BKFwu4lvsrr9w==
+X-Received: by 2002:a05:6808:1410:b0:3a3:5fc6:3ba6 with SMTP id w16-20020a056808141000b003a35fc63ba6mr12452468oiv.42.1690193375682;
+        Mon, 24 Jul 2023 03:09:35 -0700 (PDT)
+Received: from localhost.localdomain ([2408:843e:c90:2347:5782:34b7:c2b6:16d2])
+        by smtp.gmail.com with ESMTPSA id t29-20020a63b25d000000b0051b8172fa68sm8272826pgo.38.2023.07.24.03.09.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 02:58:54 -0700 (PDT)
+        Mon, 24 Jul 2023 03:09:35 -0700 (PDT)
 From:   Song Shuai <suagrfillet@gmail.com>
 To:     bhe@redhat.com, vgoyal@redhat.com, dyoung@redhat.com,
         corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
@@ -57,9 +57,9 @@ To:     bhe@redhat.com, vgoyal@redhat.com, dyoung@redhat.com,
         conor.dooley@microchip.com
 Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: [PATCH -fixes 1/2] riscv: Export va_kernel_pa_offset in vmcoreinfo
-Date:   Mon, 24 Jul 2023 17:57:44 +0800
-Message-Id: <20230724095745.286695-1-suagrfillet@gmail.com>
+Subject: [RESEND PATCH -fixes 1/2] riscv: Export va_kernel_pa_offset in vmcoreinfo
+Date:   Mon, 24 Jul 2023 18:09:16 +0800
+Message-Id: <20230724100917.309061-1-suagrfillet@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
