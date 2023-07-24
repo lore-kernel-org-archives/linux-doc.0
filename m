@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9532C001DF
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 16:16:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1865BC001B0
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 16:20:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbjGXQQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jul 2023 12:16:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46850 "EHLO
+        id S230036AbjGXQT7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jul 2023 12:19:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjGXQQm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 12:16:42 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D0410C8;
-        Mon, 24 Jul 2023 09:16:40 -0700 (PDT)
+        with ESMTP id S229959AbjGXQT6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 12:19:58 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB3210C0;
+        Mon, 24 Jul 2023 09:19:58 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 51478359;
-        Mon, 24 Jul 2023 16:16:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 51478359
+        by ms.lwn.net (Postfix) with ESMTPSA id AB320359;
+        Mon, 24 Jul 2023 16:19:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB320359
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1690215400; bh=scfRRVcgHg3+xFerWctqO866z/nYyLkDjxVImmUT9+E=;
+        t=1690215597; bh=2Mh7lM0TPt2ygo2ZM+oJY+bparIzFNpASC4Yp7GYdR4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=dGVm8AzNNAXDX9gt7Owxg2uCLTdDjfEknoSzLkarJsP4rdpulGMG/o07hGhxMzhfT
-         iOXsti8Ct+oVfqpYckMBmZFVgTfDRHnn8nkCTr69q2jcBdUH4/uMyeQmY1cgL6QUaN
-         RBA3XtUkKqOdGJk5mzMG1GpCy7UNcFWPFvRX+js16iB14HeJLdgUdxeKs0uXHeTtbz
-         TsQDgW2+P2PQpJo4SDkorcOYGM878feWhafVD+uNeuAZU0eJcT1vHnMQmAX0mGiVjj
-         d7FmK0jdshJu+0rxhoYNsWGshlFuZtXoLvIAyEfpCsRi5dCn5LVruwunrGwltH6szy
-         xvn+nEnJ+oFEg==
+        b=bTcex0i7z6WWriQNqF9598os6nLFKZ5fuufbKlAkd31Hwv3njsxGCcq7StjKP3Mt+
+         ISdVu7OSAc/LXPM8CxCrMELNrih+FKVaB/2FDR9nALAtehLCfEFw0lGcautUKPYFa7
+         cfrW2S3sLmnbfndNTiv8XOXstbYAx+eda4lUMIUuskIZHzmsV2tPNy4LvrSY+tbSgK
+         emL2krYvEZ8A/bQpJ6vdDnmoeSNZEEy49HC2/B27uXiQVlcb082e8iy/QjgbMWgL3b
+         +8y4uAOGcXPaEu+n0+1jktToFgelw9lckAPCws2fJCZytDAvhiY8EY8gSsFVHrRaJW
+         H3+xcaWW3pOmA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+To:     Costa Shulyupin <costa.shul@redhat.com>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
-Cc:     Costa Shulyupin <costa.shul@redhat.com>
-Subject: Re: [PATCH v2 2/3] docs: consolidate peripheral interfaces
-In-Reply-To: <20230722113253.1545231-1-costa.shul@redhat.com>
-References: <874jlxc78i.fsf@meer.lwn.net>
- <20230722113253.1545231-1-costa.shul@redhat.com>
-Date:   Mon, 24 Jul 2023 10:16:38 -0600
-Message-ID: <87r0oxb7yx.fsf@meer.lwn.net>
+Subject: Re: [PATCH] docs: remove tree links from the main index
+In-Reply-To: <CADDUTFxu4owj_aXo2OBug3qBLbmS8boNXzcra8qLsqDYwN5Kpg@mail.gmail.com>
+References: <20230718185156.1015753-1-costa.shul@redhat.com>
+ <87y1j9ca42.fsf@meer.lwn.net>
+ <CADDUTFxu4owj_aXo2OBug3qBLbmS8boNXzcra8qLsqDYwN5Kpg@mail.gmail.com>
+Date:   Mon, 24 Jul 2023 10:19:56 -0600
+Message-ID: <87mszlb7tf.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -48,79 +48,28 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Costa Shulyupin <costa.shul@redhat.com> writes:
 
-> to make page Subsystems APIs more organized as requested
+> The left column "Contents" is overloaded and hard to use. The value of
+> this patch is to make it more usable.
 >
-> Changes:
-> v2: added pcmcia and subtitle
+> Sections of the main page are not displayed after patch "docs: Add
+> more information to the HTML sidebar". So sections don't work now and
+> should be fixed too.
 >
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
->
-> ---
->
-> Alternative consolidation of buses look more challenging.
-> Here are too many buses, so them should be split again.
-> Many of buses are specific for only x86 or only embedded computers.
-> Is SCSI generic bus or storage bus?
-> ---
->  Documentation/subsystem-apis.rst | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-> index 90a0535a932a..5ace1c434977 100644
-> --- a/Documentation/subsystem-apis.rst
-> +++ b/Documentation/subsystem-apis.rst
-> @@ -48,6 +48,20 @@ Networking interfaces
->     isdn/index
->     mhi/index
->  
-> +Peripheral interfaces
-> +----------------------
-> +
-> +except specific networking and storage interfaces
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   usb/index
-> +   PCI/index
-> +   hwmon/index
-> +   leds/index
-> +   pcmcia/index
-> +
->  Storage interfaces
->  ------------------
->  
-> @@ -70,19 +84,14 @@ Storage interfaces
->     fpga/index
->     i2c/index
->     iio/index
-> -   leds/index
-> -   pcmcia/index
->     spi/index
->     w1/index
->     watchdog/index
->     virt/index
-> -   hwmon/index
->     accel/index
->     security/index
->     crypto/index
->     bpf/index
-> -   usb/index
-> -   PCI/index
->     misc-devices/index
->     peci/index
->     wmi/index
+> I have in mind to reorganize the main page so the left column
+> "Contents" becomes usable.
 
-I'm sorry, but I feel like you've missed the point here - adding PCMCIA
-doesn't really address my concern at all.  What is a "peripheral
-interface", and how does USB qualify but, say, SPI does not?  I feel
-like we have stopped adding clarity at this point.
+No, that is not the right approach.
 
-A lot of this documentation needs a closer look to think about how it
-fits into our model.  As a quick example (and an example only), the LED
-documentation would appear to be properly placed in the userspace-api
-guide, not in this grab-bag section.  Just shuffling it around in the
-file doesn't help address problems like that, unfortunately.
+Much of our documentation is just thrown together in haphazard ways, but
+the front page has actually been the target of a certain amount of
+thought.  It is, after all, the entry point into our documentation.
+
+This page can surely be improved.  But thrashing it up for the purpose
+of making the sidebar better is getting the priorities wrong; the front
+page is far more important.  The way to improve the sidebar is to change
+how that is generated; that almost certainly requires digging into the
+theme code.  That has been on my list for some time, but I haven't
+gotten to it.  It would be wonderful if somebody beat me to it.
 
 Thanks,
 
