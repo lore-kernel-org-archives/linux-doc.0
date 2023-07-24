@@ -2,219 +2,190 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3958C001DC
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 01:54:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23644EB64DD
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 04:18:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230461AbjGXByU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Jul 2023 21:54:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60398 "EHLO
+        id S229705AbjGXESe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jul 2023 00:18:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233226AbjGXBxh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jul 2023 21:53:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2DEE30DE;
-        Sun, 23 Jul 2023 18:44:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 81BFB60E17;
-        Mon, 24 Jul 2023 01:18:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BACA4C433C8;
-        Mon, 24 Jul 2023 01:18:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690161536;
-        bh=VAUVrDKsxKmQTd4qU5eND6DPF6UiQpEvEcMDq2Pzp+g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Tc1bwUAtCfyxZPF1t0PNJ0u8tBvJ4u4AxxCrlUbjb6NikEFtVXCqOT+h4FywiG3Mb
-         cgPWDEF0sZg1TeBoJW/unwaEjjrKptqa9mKBpTx0FGHGtVppaC7fAVtGDl1acNVZeT
-         8pYX/QwYu7ohr/VMfS+7gKbjdjoa0b92m4tnYlAjlu59X5hnQiNTaOEb5vRNFE99at
-         MUdV9RIqTwxCgGI7pXz/DdAsISm1ebl0dPyCSqEXxseu5oJv59wmd3lkp7d6r3leOR
-         hGX6KuTFXWWk3/NQQ6rndD1Iw8hyWAfFt+PQrq6VYeCTZzWwgyV1DxcfzRb97fQSDA
-         p0Xq7y9qaGV6g==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
-        Joerg Roedel <jroedel@suse.de>,
-        Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-        joro@8bytes.org, will@kernel.org, paulmck@kernel.org,
-        catalin.marinas@arm.com, rdunlap@infradead.org,
-        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com,
-        linux-doc@vger.kernel.org, iommu@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.4 37/58] iommu/amd: Introduce Disable IRTE Caching Support
-Date:   Sun, 23 Jul 2023 21:13:05 -0400
-Message-Id: <20230724011338.2298062-37-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230724011338.2298062-1-sashal@kernel.org>
-References: <20230724011338.2298062-1-sashal@kernel.org>
+        with ESMTP id S229628AbjGXESd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 00:18:33 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76739129;
+        Sun, 23 Jul 2023 21:18:31 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id d2e1a72fcca58-666eef03ebdso2152842b3a.1;
+        Sun, 23 Jul 2023 21:18:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690172311; x=1690777111;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p4D+OHolQG34ZYJwZS92wPVcCwGXYHw/xfZ1x2mpIF0=;
+        b=lRS15qiucwtzodZShizhAakJpIp4taE7l0IBgOUnOBChrTL/gudL2hyOxJg6mhy9lz
+         a3RT0WMWMj4zZxJrel47Dth7sLcOeiv+qbOpVDML6NMbXTZfd2Q301gjQlPVqrGyXb4G
+         /PZa8caMDpOsBJsyfcAnBSoOT2fW5yvyzUG5NkeRzwZD60p7y72T6yPZ+V1R6ToBmCNI
+         Xd14Lx6MlES8K3+Y7eJQIkm1ESgw57xecBdQK6+i4zUEB7chfwGE5ALlmtH7EWBHrU0c
+         9NSRkNA4Qe1MnXzK2r8vWRo7tz2kxsvdxwl9Yi4oEqIiOBJnIOpKUuJ81mjgXg71Fh7H
+         17oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690172311; x=1690777111;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p4D+OHolQG34ZYJwZS92wPVcCwGXYHw/xfZ1x2mpIF0=;
+        b=kmtsPy8zxB34Yc5I+YBu5NLlDdLcZIZ3F94FRM2r8s/Lkak6W/wxDsmCPB5Y/siieo
+         LMPWlDmZzmOYe2Eh87+HDIL1AKzam4L3orxLL2elTRlPH6ABadtKkXtLtjY8i5GEmiUL
+         if0rdrbjRb1P9TBVLD0maccwUfftHWCIhU/N1csPz6NY5P5nemdampMwPjY9IBzFiCEn
+         mp9DRCwaMZpua/bg20Vz2/FQGl2rD+QSrEkCR7YQcvYsK9OWSsKBTNwsrOo8fssIwVTT
+         u5RQZ7a0zNZa4C/y/5dDZpgjNU9X/4UduP7iWEuMRj+yHhw7ZL5noAPicOFnSsYV99oN
+         x2vA==
+X-Gm-Message-State: ABy/qLbMfkW5mzUm0m+TPJyfZ0ovYDCr+rgSXlgAni/qaIE9funJHQt/
+        xVinmVodMrN2tWk0DeQSe0I=
+X-Google-Smtp-Source: APBJJlGuWV3zuDRVGL+WQI3tQNagJuxov5qpSxQOVpKEgbyGVUxW+mS27/LddI/6/zYYOvIAO/ikZw==
+X-Received: by 2002:a05:6a20:7489:b0:129:c38e:cdd7 with SMTP id p9-20020a056a20748900b00129c38ecdd7mr7515374pzd.38.1690172310830;
+        Sun, 23 Jul 2023 21:18:30 -0700 (PDT)
+Received: from localhost.localdomain ([113.251.5.100])
+        by smtp.gmail.com with ESMTPSA id d6-20020a170902cec600b001aadd0d7364sm7661288plg.83.2023.07.23.21.18.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Jul 2023 21:18:30 -0700 (PDT)
+From:   Hu Haowen <src.res.211@gmail.com>
+To:     corbet@lwn.net
+Cc:     Hu Haowen <src.res.211@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] docs/zh_TW: update zh_TW's documentation from an ascensive aspect
+Date:   Mon, 24 Jul 2023 12:17:09 +0800
+Message-Id: <20230724041715.20050-1-src.res.211@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.5
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Update zh_TW's documentation concentrating on the following aspects:
 
-[ Upstream commit 66419036f68a838c00cbccacd6cb2e99da6e5710 ]
+    * The file tree structure changes of the main documentation;
+    * Some changes and ideas from zh_CN translation;
+    * Removal for several obsoleted contents within the zh_TW translation
+      or those which are not exising anymore in the main documentation.
+    * Replacements for some incorrect words and phrases in traditional
+      Chinese or those which are odd within their context being hard for
+      readers to comprehend.
 
-An Interrupt Remapping Table (IRT) stores interrupt remapping configuration
-for each device. In a normal operation, the AMD IOMMU caches the table
-to optimize subsequent data accesses. This requires the IOMMU driver to
-invalidate IRT whenever it updates the table. The invalidation process
-includes issuing an INVALIDATE_INTERRUPT_TABLE command following by
-a COMPLETION_WAIT command.
+v2:
+    * Remove the fancy character U+feff (ZERO WIDTH NO-BREAK SPACE) reported by Corbet
+      in https://lore.kernel.org/lkml/87bkg5dp6x.fsf@meer.lwn.net/
 
-However, there are cases in which the IRT is updated at a high rate.
-For example, for IOMMU AVIC, the IRTE[IsRun] bit is updated on every
-vcpu scheduling (i.e. amd_iommu_update_ga()). On system with large
-amount of vcpus and VFIO PCI pass-through devices, the invalidation
-process could potentially become a performance bottleneck.
+v1:
+    https://lore.kernel.org/lkml/20230720132729.1821-1-src.res.211@gmail.com/
 
-Introducing a new kernel boot option:
+Hu Haowen (6):
+  docs/zh_TW: update admin-guide
+  docs/zh_TW: update arch
+  docs/zh_TW: update cpu-freq
+  docs/zh_TW: update filesystems
+  docs/zh_TW: update process
+  docs/zh_TW: turn zh_CN's folder references and headers into zh_TW's
+    ones
 
-    amd_iommu=irtcachedis
+ .../translations/zh_TW/admin-guide/README.rst | 166 ++--
+ .../zh_TW/admin-guide/bootconfig.rst          | 294 +++++++
+ .../zh_TW/admin-guide/bug-bisect.rst          |  12 +-
+ .../zh_TW/admin-guide/bug-hunting.rst         |  40 +-
+ .../zh_TW/admin-guide/clearing-warn-once.rst  |   6 +-
+ .../zh_TW/admin-guide/cpu-load.rst            |  10 +-
+ .../zh_TW/admin-guide/cputopology.rst         |  98 +++
+ .../translations/zh_TW/admin-guide/index.rst  | 136 ++--
+ .../translations/zh_TW/admin-guide/init.rst   |  38 +-
+ .../zh_TW/admin-guide/lockup-watchdogs.rst    |  69 ++
+ .../zh_TW/admin-guide/mm/damon/index.rst      |  31 +
+ .../zh_TW/admin-guide/mm/damon/lru_sort.rst   | 265 ++++++
+ .../zh_TW/admin-guide/mm/damon/reclaim.rst    | 230 ++++++
+ .../zh_TW/admin-guide/mm/damon/start.rst      | 126 +++
+ .../zh_TW/admin-guide/mm/damon/usage.rst      | 593 ++++++++++++++
+ .../zh_TW/admin-guide/mm/index.rst            |  52 ++
+ .../translations/zh_TW/admin-guide/mm/ksm.rst | 201 +++++
+ .../zh_TW/admin-guide/reporting-issues.rst    | 729 +++++++++--------
+ .../admin-guide/reporting-regressions.rst     | 371 +++++++++
+ .../zh_TW/admin-guide/security-bugs.rst       |  28 +-
+ .../translations/zh_TW/admin-guide/sysrq.rst  | 283 +++++++
+ .../zh_TW/admin-guide/tainted-kernels.rst     |  86 +-
+ .../zh_TW/admin-guide/unicode.rst             |  12 +-
+ .../translations/zh_TW/arch/arm/Booting       | 176 ++++
+ .../zh_TW/arch/arm/kernel_user_helpers.txt    | 285 +++++++
+ .../translations/zh_TW/arch/arm64/amu.rst     |   6 +-
+ .../translations/zh_TW/arch/arm64/booting.txt |  28 +-
+ .../zh_TW/arch/arm64/elf_hwcaps.rst           |  10 +-
+ .../zh_TW/arch/arm64/legacy_instructions.txt  |  14 +-
+ .../translations/zh_TW/arch/arm64/memory.txt  |  16 +-
+ .../translations/zh_TW/arch/arm64/perf.rst    |   2 +-
+ .../zh_TW/arch/arm64/silicon-errata.txt       |  30 +-
+ .../zh_TW/arch/arm64/tagged-pointers.txt      |  10 +-
+ .../translations/zh_TW/arch/index.rst         |  30 +
+ .../zh_TW/arch/openrisc/index.rst             |  33 +
+ .../zh_TW/arch/openrisc/openrisc_port.rst     | 129 +++
+ .../translations/zh_TW/arch/openrisc/todo.rst |  25 +
+ .../zh_TW/arch/parisc/debugging.rst           |  47 ++
+ .../translations/zh_TW/arch/parisc/index.rst  |  32 +
+ .../zh_TW/arch/parisc/registers.rst           | 157 ++++
+ .../translations/zh_TW/cpu-freq/core.rst      |  26 +-
+ .../zh_TW/cpu-freq/cpu-drivers.rst            | 147 ++--
+ .../zh_TW/cpu-freq/cpufreq-stats.rst          |  41 +-
+ .../translations/zh_TW/cpu-freq/index.rst     |   4 +-
+ .../zh_TW/filesystems/debugfs.rst             |  38 +-
+ .../translations/zh_TW/filesystems/index.rst  |   2 +-
+ .../translations/zh_TW/filesystems/sysfs.txt  |  16 +-
+ .../translations/zh_TW/filesystems/tmpfs.rst  |  32 +-
+ .../zh_TW/filesystems/virtiofs.rst            |   8 +-
+ Documentation/translations/zh_TW/index.rst    |   5 +-
+ .../translations/zh_TW/process/1.Intro.rst    |  78 +-
+ .../translations/zh_TW/process/2.Process.rst  | 130 +--
+ .../zh_TW/process/3.Early-stage.rst           |  44 +-
+ .../translations/zh_TW/process/4.Coding.rst   | 102 +--
+ .../translations/zh_TW/process/5.Posting.rst  |  66 +-
+ .../zh_TW/process/6.Followthrough.rst         |  46 +-
+ .../zh_TW/process/7.AdvancedTopics.rst        |  56 +-
+ .../zh_TW/process/8.Conclusion.rst            |  10 +-
+ .../code-of-conduct-interpretation.rst        |  52 +-
+ .../zh_TW/process/code-of-conduct.rst         |  18 +-
+ .../zh_TW/process/coding-style.rst            | 400 ++++++----
+ .../zh_TW/process/development-process.rst     |   2 +-
+ .../zh_TW/process/email-clients.rst           | 273 ++++---
+ .../process/embargoed-hardware-issues.rst     |  78 +-
+ .../translations/zh_TW/process/howto.rst      | 144 ++--
+ .../translations/zh_TW/process/index.rst      |   5 +-
+ .../zh_TW/process/kernel-driver-statement.rst |   2 +-
+ .../process/kernel-enforcement-statement.rst  |  14 +-
+ .../zh_TW/process/license-rules.rst           |  54 +-
+ .../zh_TW/process/management-style.rst        |  60 +-
+ .../zh_TW/process/stable-api-nonsense.rst     |  86 +-
+ .../zh_TW/process/stable-kernel-rules.rst     |  36 +-
+ .../zh_TW/process/submit-checklist.rst        |  92 ++-
+ .../zh_TW/process/submitting-patches.rst      | 755 +++++++++---------
+ .../process/volatile-considered-harmful.rst   |  32 +-
+ 75 files changed, 5781 insertions(+), 2079 deletions(-)
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/bootconfig.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/cputopology.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/lockup-watchdogs.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/index.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/lru_sort.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/reclaim.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/start.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/index.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/ksm.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
+ create mode 100644 Documentation/translations/zh_TW/admin-guide/sysrq.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/arm/Booting
+ create mode 100644 Documentation/translations/zh_TW/arch/arm/kernel_user_helpers.txt
+ create mode 100644 Documentation/translations/zh_TW/arch/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/openrisc/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/openrisc/openrisc_port.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/openrisc/todo.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/parisc/debugging.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/parisc/index.rst
+ create mode 100644 Documentation/translations/zh_TW/arch/parisc/registers.rst
 
-which disables IRTE caching by setting the IRTCachedis bit in each IOMMU
-Control register, and bypass the IRT invalidation process.
-
-Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
-Co-developed-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-Signed-off-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Link: https://lore.kernel.org/r/20230530141137.14376-4-suravee.suthikulpanit@amd.com
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../admin-guide/kernel-parameters.txt         |  1 +
- drivers/iommu/amd/amd_iommu_types.h           |  4 +++
- drivers/iommu/amd/init.c                      | 36 +++++++++++++++++++
- 3 files changed, 41 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9e5bab29685ff..986ac2b73ea22 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -323,6 +323,7 @@
- 				       option with care.
- 			pgtbl_v1     - Use v1 page table for DMA-API (Default).
- 			pgtbl_v2     - Use v2 page table for DMA-API.
-+			irtcachedis  - Disable Interrupt Remapping Table (IRT) caching.
- 
- 	amd_iommu_dump=	[HW,X86-64]
- 			Enable AMD IOMMU driver option to dump the ACPI table
-diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-index 2ddbda3a43746..5a224e244be8a 100644
---- a/drivers/iommu/amd/amd_iommu_types.h
-+++ b/drivers/iommu/amd/amd_iommu_types.h
-@@ -174,6 +174,7 @@
- #define CONTROL_GAINT_EN	29
- #define CONTROL_XT_EN		50
- #define CONTROL_INTCAPXT_EN	51
-+#define CONTROL_IRTCACHEDIS	59
- #define CONTROL_SNPAVIC_EN	61
- 
- #define CTRL_INV_TO_MASK	(7 << CONTROL_INV_TIMEOUT)
-@@ -716,6 +717,9 @@ struct amd_iommu {
- 	/* if one, we need to send a completion wait command */
- 	bool need_sync;
- 
-+	/* true if disable irte caching */
-+	bool irtcachedis_enabled;
-+
- 	/* Handle for IOMMU core code */
- 	struct iommu_device iommu;
- 
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index c2d80a4e5fb06..02846299af0ef 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -162,6 +162,7 @@ static int amd_iommu_xt_mode = IRQ_REMAP_XAPIC_MODE;
- static bool amd_iommu_detected;
- static bool amd_iommu_disabled __initdata;
- static bool amd_iommu_force_enable __initdata;
-+static bool amd_iommu_irtcachedis;
- static int amd_iommu_target_ivhd_type;
- 
- /* Global EFR and EFR2 registers */
-@@ -484,6 +485,9 @@ static void iommu_disable(struct amd_iommu *iommu)
- 
- 	/* Disable IOMMU hardware itself */
- 	iommu_feature_disable(iommu, CONTROL_IOMMU_EN);
-+
-+	/* Clear IRTE cache disabling bit */
-+	iommu_feature_disable(iommu, CONTROL_IRTCACHEDIS);
- }
- 
- /*
-@@ -2710,6 +2714,33 @@ static void iommu_enable_ga(struct amd_iommu *iommu)
- #endif
- }
- 
-+static void iommu_disable_irtcachedis(struct amd_iommu *iommu)
-+{
-+	iommu_feature_disable(iommu, CONTROL_IRTCACHEDIS);
-+}
-+
-+static void iommu_enable_irtcachedis(struct amd_iommu *iommu)
-+{
-+	u64 ctrl;
-+
-+	if (!amd_iommu_irtcachedis)
-+		return;
-+
-+	/*
-+	 * Note:
-+	 * The support for IRTCacheDis feature is dertermined by
-+	 * checking if the bit is writable.
-+	 */
-+	iommu_feature_enable(iommu, CONTROL_IRTCACHEDIS);
-+	ctrl = readq(iommu->mmio_base +  MMIO_CONTROL_OFFSET);
-+	ctrl &= (1ULL << CONTROL_IRTCACHEDIS);
-+	if (ctrl)
-+		iommu->irtcachedis_enabled = true;
-+	pr_info("iommu%d (%#06x) : IRT cache is %s\n",
-+		iommu->index, iommu->devid,
-+		iommu->irtcachedis_enabled ? "disabled" : "enabled");
-+}
-+
- static void early_enable_iommu(struct amd_iommu *iommu)
- {
- 	iommu_disable(iommu);
-@@ -2720,6 +2751,7 @@ static void early_enable_iommu(struct amd_iommu *iommu)
- 	iommu_set_exclusion_range(iommu);
- 	iommu_enable_ga(iommu);
- 	iommu_enable_xt(iommu);
-+	iommu_enable_irtcachedis(iommu);
- 	iommu_enable(iommu);
- 	iommu_flush_all_caches(iommu);
- }
-@@ -2770,10 +2802,12 @@ static void early_enable_iommus(void)
- 		for_each_iommu(iommu) {
- 			iommu_disable_command_buffer(iommu);
- 			iommu_disable_event_buffer(iommu);
-+			iommu_disable_irtcachedis(iommu);
- 			iommu_enable_command_buffer(iommu);
- 			iommu_enable_event_buffer(iommu);
- 			iommu_enable_ga(iommu);
- 			iommu_enable_xt(iommu);
-+			iommu_enable_irtcachedis(iommu);
- 			iommu_set_device_table(iommu);
- 			iommu_flush_all_caches(iommu);
- 		}
-@@ -3426,6 +3460,8 @@ static int __init parse_amd_iommu_options(char *str)
- 			amd_iommu_pgtable = AMD_IOMMU_V1;
- 		} else if (strncmp(str, "pgtbl_v2", 8) == 0) {
- 			amd_iommu_pgtable = AMD_IOMMU_V2;
-+		} else if (strncmp(str, "irtcachedis", 11) == 0) {
-+			amd_iommu_irtcachedis = true;
- 		} else {
- 			pr_notice("Unknown option - '%s'\n", str);
- 		}
 -- 
-2.39.2
+2.34.1
 
