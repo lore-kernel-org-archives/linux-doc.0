@@ -2,179 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B35D8C001DF
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 18:52:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B99C001DF
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 19:19:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229654AbjGXSwD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jul 2023 14:52:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53388 "EHLO
+        id S229994AbjGXTTD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jul 2023 15:19:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbjGXSvw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 14:51:52 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7630710EF;
-        Mon, 24 Jul 2023 11:51:38 -0700 (PDT)
-Received: from rrs24-12-35.corp.microsoft.com (unknown [131.107.8.21])
-        by linux.microsoft.com (Postfix) with ESMTPSA id E6B7620A118A;
-        Mon, 24 Jul 2023 11:51:37 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E6B7620A118A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1690224698;
-        bh=TIdl384Iap1GcXbzei1Rvgtksno4iQVw2UrSwGaph0c=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qfwl3P9+LbBTGYvPg5VZqZlmmY2vsCK0hIt674Dmm1joKUc5oR73ftZaS6kMb+whi
-         BmFGo4t+3+rvWjo20YiawnO1BQ/jr/RaAgCDqSWoTwRh1ArvYU/7CcAoCIrwTNosEc
-         5/evqI6GK3LmClj6QH/8/kvokVF1dF9jyy3DyahQ=
-From:   Easwar Hariharan <eahariha@linux.microsoft.com>
-To:     stable@vger.kernel.org
-Cc:     easwar.hariharan@microsoft.com,
-        Robin Murphy <robin.murphy@arm.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+        with ESMTP id S229532AbjGXTTC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 15:19:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC24B122;
+        Mon, 24 Jul 2023 12:19:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 385EB6133D;
+        Mon, 24 Jul 2023 19:19:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAAD8C433C7;
+        Mon, 24 Jul 2023 19:18:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690226340;
+        bh=+LZ4eYxU8Ln7Boi9fvVDKSeBa0mdLKhS5TxPxP6U5z0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Z5AG13I0eH3r/+JSxGx9V3KuQ5ylHVmcPa9CYhTBkOLcUC66vL7aUBLfmCEWqCzs1
+         kd9VaGz4WlPaTpBu9omhaYQsqJONitcO0G7YTsH8ytsIisX70dDfHM0UeGfGEFA1wh
+         E8Xhox9lBrf3cJzEYVfWEOWPDBWsCC/cy+8NBlnfSkjhTz10yjXYJNMOiI8SkmbneQ
+         Om6JFX5LOy7ta8iPjHIZgupC1tbyg4AlfXomMtY3a4A0vOYBOYMi4dxdQhXyqUdoeZ
+         p0rTqA6x7c6miitYlN49KP50tlIssxGzF2fzCfCe7ARt9xAtTfki69TnzMu46eGMVG
+         uuDqcdB6qdZuQ==
+Date:   Mon, 24 Jul 2023 21:18:57 +0200
+From:   Frederic Weisbecker <frederic@kernel.org>
+To:     Valentin Schneider <vschneid@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Joerg Roedel <joro@8bytes.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Yicong Yang <yangyicong@hisilicon.com>,
-        Tomas Krcka <krckatom@amazon.de>,
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM64 PORT
-        (AARCH64 ARCHITECTURE)),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS),
-        iommu@lists.linux.dev (open list:IOMMU DRIVERS)
-Subject: [PATCH 6.4] iommu/arm-smmu-v3: Document MMU-700 erratum 2812531
-Date:   Mon, 24 Jul 2023 18:51:28 +0000
-Message-Id: <20230724185130.1676140-1-eahariha@linux.microsoft.com>
-X-Mailer: git-send-email 2.25.1
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 15/20] context-tracking: Introduce work deferral
+ infrastructure
+Message-ID: <ZL7OoUMLZwfUttjV@lothringen>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+ <20230720163056.2564824-16-vschneid@redhat.com>
+ <ZL6QI4mV-NKlh4Ox@localhost.localdomain>
+ <xhsmh351dtfjj.mognet@vschneid.remote.csb>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <xhsmh351dtfjj.mognet@vschneid.remote.csb>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Robin Murphy <robin.murphy@arm.com>
+On Mon, Jul 24, 2023 at 05:55:44PM +0100, Valentin Schneider wrote:
+> I can make that a 'do {} while ()' instead to force at least one execution
+> of the cmpxchg().
+> 
+> This is only about reducing the race window, right? If we're executing this
+> just as the target CPU is about to enter userspace, we're going to be in
+> racy territory anyway. Regardless, I'm happy to do that change.
 
-commit 309a15cb16bb075da1c99d46fb457db6a1a2669e upstream
+Right, it's only about narrowing down the race window. It probably don't matter
+in practice, but it's one less thing to consider for the brain :-)
 
-To work around MMU-700 erratum 2812531 we need to ensure that certain
-sequences of commands cannot be issued without an intervening sync. In
-practice this falls out of our current command-batching machinery
-anyway - each batch only contains a single type of invalidation command,
-and ends with a sync. The only exception is when a batch is sufficiently
-large to need issuing across multiple command queue slots, wherein the
-earlier slots will not contain a sync and thus may in theory interleave
-with another batch being issued in parallel to create an affected
-sequence across the slot boundary.
+Also, why bothering with handling CONTEXT_IDLE?
 
-Since MMU-700 supports range invalidate commands and thus we will prefer
-to use them (which also happens to avoid conditions for other errata),
-I'm not entirely sure it's even possible for a single high-level
-invalidate call to generate a batch of more than 63 commands, but for
-the sake of robustness and documentation, wire up an option to enforce
-that a sync is always inserted for every slot issued.
-
-The other aspect is that the relative order of DVM commands cannot be
-controlled, so DVM cannot be used. Again that is already the status quo,
-but since we have at least defined ARM_SMMU_FEAT_BTM, we can explicitly
-disable it for documentation purposes even if it's not wired up anywhere
-yet.
-
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
-Link: https://lore.kernel.org/r/330221cdfd0003cd51b6c04e7ff3566741ad8374.1683731256.git.robin.murphy@arm.com
-Signed-off-by: Will Deacon <will@kernel.org>
-Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
----
- Documentation/arm64/silicon-errata.rst      |  4 +++
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 39 +++++++++++++++++++++
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  1 +
- 3 files changed, 44 insertions(+)
-
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index cd46e2b20a81..b0346968765d 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -143,6 +143,10 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | MMU-500         | #841119,826419  | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
-+| ARM            | MMU-600         | #1076982        | N/A                         |
-++----------------+-----------------+-----------------+-----------------------------+
-+| ARM            | MMU-700         | #2812531        | N/A                         |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_845719        |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 3fd83fb75722..410a683740ae 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -894,6 +894,12 @@ static void arm_smmu_cmdq_batch_add(struct arm_smmu_device *smmu,
- {
- 	int index;
- 
-+	if (cmds->num == CMDQ_BATCH_ENTRIES - 1 &&
-+	    (smmu->options & ARM_SMMU_OPT_CMDQ_FORCE_SYNC)) {
-+		arm_smmu_cmdq_issue_cmdlist(smmu, cmds->cmds, cmds->num, true);
-+		cmds->num = 0;
-+	}
-+
- 	if (cmds->num == CMDQ_BATCH_ENTRIES) {
- 		arm_smmu_cmdq_issue_cmdlist(smmu, cmds->cmds, cmds->num, false);
- 		cmds->num = 0;
-@@ -3429,6 +3435,39 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
- 	return 0;
- }
- 
-+#define IIDR_IMPLEMENTER_ARM		0x43b
-+#define IIDR_PRODUCTID_ARM_MMU_600	0x483
-+#define IIDR_PRODUCTID_ARM_MMU_700	0x487
-+
-+static void arm_smmu_device_iidr_probe(struct arm_smmu_device *smmu)
-+{
-+	u32 reg;
-+	unsigned int implementer, productid, variant, revision;
-+
-+	reg = readl_relaxed(smmu->base + ARM_SMMU_IIDR);
-+	implementer = FIELD_GET(IIDR_IMPLEMENTER, reg);
-+	productid = FIELD_GET(IIDR_PRODUCTID, reg);
-+	variant = FIELD_GET(IIDR_VARIANT, reg);
-+	revision = FIELD_GET(IIDR_REVISION, reg);
-+
-+	switch (implementer) {
-+	case IIDR_IMPLEMENTER_ARM:
-+		switch (productid) {
-+		case IIDR_PRODUCTID_ARM_MMU_600:
-+			/* Arm erratum 1076982 */
-+			if (variant == 0 && revision <= 2)
-+				smmu->features &= ~ARM_SMMU_FEAT_SEV;
-+			break;
-+		case IIDR_PRODUCTID_ARM_MMU_700:
-+			/* Arm erratum 2812531 */
-+			smmu->features &= ~ARM_SMMU_FEAT_BTM;
-+			smmu->options |= ARM_SMMU_OPT_CMDQ_FORCE_SYNC;
-+			break;
-+		}
-+		break;
-+	}
-+}
-+
- static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
- {
- 	u32 reg;
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-index b574c58a3487..81dd6f151ac8 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-@@ -644,6 +644,7 @@ struct arm_smmu_device {
- #define ARM_SMMU_OPT_SKIP_PREFETCH	(1 << 0)
- #define ARM_SMMU_OPT_PAGE0_REGS_ONLY	(1 << 1)
- #define ARM_SMMU_OPT_MSIPOLL		(1 << 2)
-+#define ARM_SMMU_OPT_CMDQ_FORCE_SYNC	(1 << 3)
- 	u32				options;
- 
- 	struct arm_smmu_cmdq		cmdq;
--- 
-2.25.1
-
+Thanks.
