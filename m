@@ -2,183 +2,248 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00AC9C41513
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 14:33:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D662C41513
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 14:52:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbjGXOdc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jul 2023 10:33:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56018 "EHLO
+        id S231645AbjGXOwm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jul 2023 10:52:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbjGXOda (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 10:33:30 -0400
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECCEB120
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jul 2023 07:33:24 -0700 (PDT)
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20230724143322epoutp01ffc2cd6e9c3d05896c177b5d8eed9116~01FCE4Vp00544005440epoutp01c
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jul 2023 14:33:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20230724143322epoutp01ffc2cd6e9c3d05896c177b5d8eed9116~01FCE4Vp00544005440epoutp01c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1690209202;
-        bh=2lbXG54zL1G8BlZYG/zy39SDXTgugu4KVifoDcPDB0s=;
-        h=From:To:In-Reply-To:Subject:Date:References:From;
-        b=EgsT2B3zHiOUKOmkwRyYN7pBLC2tlPfezi/2jz9Vvm98a4o0kXFVw8qI0w4EIV3kf
-         evtLGLNPRUDACtB2lk+R722GCMRwP2uNzMDlkmtoXzZ8BoGKUHacYHbgZGaINvF/A0
-         ymLvsE6TLBJVz/O+QrbHGAUYOmSzuDAf3kIqQkx8=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-        20230724143321epcas5p2f0468b310ac42bddc2f0425049a18eff~01FBmEqUA2906029060epcas5p2P;
-        Mon, 24 Jul 2023 14:33:21 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.181]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4R8jM34c2vz4x9Q1; Mon, 24 Jul
-        2023 14:33:19 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-        epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        43.A9.57354.FAB8EB46; Mon, 24 Jul 2023 23:33:19 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-        20230724143319epcas5p45943b6438993193a457c7e3750d5407a~01E__51sB0398903989epcas5p49;
-        Mon, 24 Jul 2023 14:33:19 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20230724143319epsmtrp1c8e00b315bc428a088a576ba71a3fd34~01E_95vVN3018030180epsmtrp1M;
-        Mon, 24 Jul 2023 14:33:19 +0000 (GMT)
-X-AuditID: b6c32a44-269fb7000001e00a-7b-64be8baf6f8f
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        04.D2.30535.EAB8EB46; Mon, 24 Jul 2023 23:33:18 +0900 (KST)
-Received: from alimakhtar04 (unknown [107.122.12.5]) by epsmtip1.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20230724143315epsmtip10ab7ae65819b6fa5ffaabf4fd2de38b7~01E7a3F8l2217022170epsmtip1R;
-        Mon, 24 Jul 2023 14:33:15 +0000 (GMT)
-From:   "Alim Akhtar" <alim.akhtar@samsung.com>
-To:     "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>,
-        "'Rob Herring'" <robh+dt@kernel.org>,
-        "'Krzysztof Kozlowski'" <krzysztof.kozlowski+dt@linaro.org>,
-        "'Conor Dooley'" <conor+dt@kernel.org>,
-        "'Andy Gross'" <agross@kernel.org>,
-        "'Bjorn Andersson'" <andersson@kernel.org>,
-        "'Konrad Dybcio'" <konrad.dybcio@linaro.org>,
-        <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        "'Jonathan Corbet'" <corbet@lwn.net>,
-        "'Arnd Bergmann'" <arnd@arndb.de>,
-        "'Olof Johansson'" <olof@lixom.net>, <soc@kernel.org>,
-        <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <arm@kernel.org>
-In-Reply-To: <20230723131924.78190-3-krzysztof.kozlowski@linaro.org>
-Subject: RE: [PATCH v3 3/3] MAINTAINER: samsung: document dtbs_check
- requirement for Samsung
-Date:   Mon, 24 Jul 2023 20:03:13 +0530
-Message-ID: <18dd01d9be3b$ca143490$5e3c9db0$@samsung.com>
+        with ESMTP id S230166AbjGXOwl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 10:52:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06DBF10D7;
+        Mon, 24 Jul 2023 07:52:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6DBB3611F6;
+        Mon, 24 Jul 2023 14:52:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA815C433C8;
+        Mon, 24 Jul 2023 14:52:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690210353;
+        bh=Io85B1vzGj1NiepBNP1CXkgl9j43eYMLYiUZyMtHevU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CJj9nVWeVnJDFBR0XVDtKFcRx4DdPvYzBxJs7NdyqhCdkyJSi7ns/QunyuF5T7ps6
+         XU2A2MDFy7UQQzJsIx/xDqLe0FliBY/Oeg0aB/OquAS8cepo48SytLWwhoRHBnqAgE
+         wTZhFOxngaubHLo/KhuNmg/icDkWf3KABmSQcw7hRGodIB5PblbvuCT6kpl36W6FZr
+         hIH+s80Togjk4lAfltww4D/tmAcJlqIFj1q84XSHWsxVyk2brxNcyWdq/AUnuQb02p
+         QLpBDuBflcJsU3fMXLT8vIMOo2OPS1Po+gVqEtzb2kBqqlYChJ+9nWv8THywbJoX77
+         fSGCA/VpqlDFg==
+Date:   Mon, 24 Jul 2023 16:52:19 +0200
+From:   Frederic Weisbecker <frederic@kernel.org>
+To:     Valentin Schneider <vschneid@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 15/20] context-tracking: Introduce work deferral
+ infrastructure
+Message-ID: <ZL6QI4mV-NKlh4Ox@localhost.localdomain>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+ <20230720163056.2564824-16-vschneid@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQJVkvW7fnRp8t18XMiZ0n2xtNvXyAL8zzyAAox4cNyupQckgA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TbUxbVRjOaW9vC1p3V6ocuujKzYjSBGg3qLcG1CjRjs3YBD+iznV37Q0l
-        9Mu2wNQfIggrVIawgEpg3QYZpC7WtYxuY2UIZa6QlYxvCRjKhxtDPgKbzgHGtndT/j3v+z7v
-        ed7nPedwmLxJVMDJ1Vsok57U4mg00t6TmJjktHWqxY6VeCIwu4EQ7dZ04vq9NpTYqrnOJs57
-        Awxirus4IOy+AIuwnvQgxIk7QSbhXbzIJlyzoyyi+tpNNnGmrBkhhq40oMR3A50Mom9sHSVK
-        vT42MTu2iRL3L28xXo2RbzysAXKXoxyVT45eReXu5i/kwzeKWfKmEydZ8nXXcwr2h3npGopU
-        UyYhpVcZ1Ln6nAz8QLbydWWaVCxJksiIF3GhntRRGXjmQUXSG7nakBVcWEBq80MpBWk24ykv
-        p5sM+RZKqDGYLRk4ZVRrjanGZDOpM+frc5L1lOUliVi8Ny1EPJKnqfHwjX07jv3QdAopAg5u
-        BeBwIJYKK7YSKkA0h4d1ALji2AB0sAZgoPk3hA7+BNDnr0IrQFSko8f/kE0XvABu3H3AooMF
-        AIuddlaYhWJJ8FJTGRou8LFbLDjtsqFhwSgsE676lWFODHYYlteVssMYwRLgZXtJBHMxGfxj
-        7VeExjuh//u5CGZiu6FnqYFJTyGEf8+fY9H5WLjQ64v08rHX4IytP6ILsVUOnJ/peDR2Juyb
-        rmPTOAbe/aXtERbAhaoyNr0MOTy7KaDTGrjU4gQ0fgV2DTcgYQoTS4TOKym07FOwcmOOQXdy
-        obWMR7MTYMnyCELjXbDaZmM9Pnyqzkhv6haAPdZx9BsgrN9msn6byfptxur/Fz4NEAeIo4xm
-        XQ6lSjNK9FThf7etMuhcIPLMRZmXwLj9n+RuwOCAbgA5TJzPlRzqVPO4avLTzyiTQWnK11Lm
-        bpAW2nw1U/C0yhD6J3qLUpIqE6dKpdJU2T6pBI/lLpY2qnlYDmmh8ijKSJke9zE4UYIiBmtu
-        eb57qngn7/TqYNdZbWFRp/uZSfKOWzD0wW3v/H77PuMn8Rewod+PjwU28efXd/F8iQ8c355b
-        K5cWrIw6D2S3Z54PvulNafFNF+g+T74/PjAgri3E354RZfUoLryjOvXk0k9fZ/cGRc2VfHJF
-        NdVWM+Gq9Phyexm+ldyfrbulyPtBmeJosnS86Ks9ngTnjht1I+uBtxqDI/5haqKQW5X3kXtw
-        9r3l1kYwUnuvPkZjiIstn5zpT6t94XaVszfbt/fo4LWJm3wGlXH4YnyZSz4RXZVSd5Uhiut4
-        4qCypfXjEuzQj19W98dmdbVv/lW8p9/tYe8/cmzJzn/32axF45lWHDFrSImIaTKT/wIULqAS
-        bwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRmVeSWpSXmKPExsWy7bCSnO667n0pBsvWWVmce/ybxWJbh43F
-        sS9b2Cz+TjrGbrFm7zkmiycH2hkt5h85x2rRMXk7i0Xfi4fMFntfb2W32PT4GqvFxP1n2S0W
-        ti1hsbi8aw6bxYzz+5gsTl3/zGbRuvcIu8Xj63/YLL7u/MvkIOzx+9ckRo9NqzrZPO5c28Pm
-        sXlJvceVE02sHov7JrN6fN4kF8AexWWTkpqTWZZapG+XwJUxabtIwSn+itWL57E0MK7i7WLk
-        5JAQMJE4fPIXexcjF4eQwG5GiTk7GlghEtIS1zdOYIewhSVW/nsOVfScUeLXz9lMIAk2AV2J
-        HYvb2EASIgIPWSU+3prHAlF1llHi2OzNQKM4ODgFXCQ+nIwHaRAWiJE4+HEBG4jNIqAqsXN+
-        M9gGXgFLiTefbrJA2IISJ2c+YQFpZRbQk2jbyAgSZhaQl9j+dg4zxEEKEj+fLmOFiItLvDx6
-        BGyMiICTxKPu02wTGIVmIZk0C2HSLCSTZiHpXsDIsopRMrWgODc9t9iwwCgvtVyvODG3uDQv
-        XS85P3cTIzh2tbR2MO5Z9UHvECMTB+MhRgkOZiURXsOYfSlCvCmJlVWpRfnxRaU5qcWHGKU5
-        WJTEeb+97k0REkhPLEnNTk0tSC2CyTJxcEo1MBn0lJ4+rlFz67LC0d2P/N9VZQmsMjsyyb64
-        c/3UbrEi96tzl+yJY9QpLv/a+Ha1frFR+5nEnUk+3D8+T9AN3O1UW397xZSgf8FNoiq/tCaW
-        J98xueTIEfm0S1drmXLf+lknLCQY1EpW3mINUnXnm3ok/bfegsikf1Fz357x1XM/5HdXJ7uO
-        Va7BeHbJNPM2CcdlYXnyG2Jbcr8Yh9g7GRRGGJ9YtyP1xLyjTOWettfOZfI833vn7ZzI0LLJ
-        ZrkfXxVGTaplmNDwPeQZz+PybbxXt7x1eVN9sOhT1teLXat3WB5QNJ+2bPeyBxVP/W83LtBc
-        7RDHeOKZRvCxr1oJLhOyLDJCG3sF5zIkKr94qsRSnJFoqMVcVJwIAMDkWeBMAwAA
-X-CMS-MailID: 20230724143319epcas5p45943b6438993193a457c7e3750d5407a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230723131941epcas5p17cc35fcb68cb748ed1dbd00bf609540f
-References: <20230723131924.78190-1-krzysztof.kozlowski@linaro.org>
-        <CGME20230723131941epcas5p17cc35fcb68cb748ed1dbd00bf609540f@epcas5p1.samsung.com>
-        <20230723131924.78190-3-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230720163056.2564824-16-vschneid@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Le Thu, Jul 20, 2023 at 05:30:51PM +0100, Valentin Schneider a écrit :
+> +enum ctx_state {
+> +	/* Following are values */
+> +	CONTEXT_DISABLED	= -1,	/* returned by ct_state() if unknown */
+> +	CONTEXT_KERNEL		= 0,
+> +	CONTEXT_IDLE		= 1,
+> +	CONTEXT_USER		= 2,
+> +	CONTEXT_GUEST		= 3,
+> +	CONTEXT_MAX             = 4,
+> +};
+> +
+> +/*
+> + * We cram three different things within the same atomic variable:
+> + *
+> + *                CONTEXT_STATE_END                        RCU_DYNTICKS_END
+> + *                         |       CONTEXT_WORK_END                |
+> + *                         |               |                       |
+> + *                         v               v                       v
+> + *         [ context_state ][ context work ][ RCU dynticks counter ]
+> + *         ^                ^               ^
+> + *         |                |               |
+> + *         |        CONTEXT_WORK_START      |
+> + * CONTEXT_STATE_START              RCU_DYNTICKS_START
 
+Should the layout be displayed in reverse? Well at least I always picture
+bitmaps in reverse, that's probably due to the direction of the shift arrows.
+Not sure what is the usual way to picture it though...
 
-> -----Original Message-----
-> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Sent: Sunday, July 23, 2023 6:49 PM
-> To: Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
-> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>;
-> Alim Akhtar <alim.akhtar@samsung.com>; Andy Gross <agross@kernel.org>;
-> Bjorn Andersson <andersson@kernel.org>; Konrad Dybcio
-> <konrad.dybcio@linaro.org>; devicetree@vger.kernel.org; linux-arm-
-> kernel@lists.infradead.org; linux-samsung-soc@vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-arm-msm@vger.kernel.org; Jonathan Corbet
-> <corbet@lwn.net>; Arnd Bergmann <arnd@arndb.de>; Olof Johansson
-> <olof@lixom.net>; soc@kernel.org; workflows@vger.kernel.org; linux-
-> doc@vger.kernel.org; arm@kernel.org
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Subject: [PATCH v3 3/3] MAINTAINER: samsung: document dtbs_check
-> requirement for Samsung
-> 
-> Samsung ARM/ARM64 SoCs (including legacy S3C64xx and S5PV210) are also
-> expected not to bring any new dtbs_check warnings.  In fact this have been
-> already enforced and tested since few release.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+> + */
+> +
+> +#define CT_STATE_SIZE (sizeof(((struct context_tracking *)0)->state) * BITS_PER_BYTE)
+> +
+> +#define CONTEXT_STATE_START 0
+> +#define CONTEXT_STATE_END   (bits_per(CONTEXT_MAX - 1) - 1)
 
-Reviewed-by: Alim Akhtar <alim.akhtar@samsung.com>
+Since you have non overlapping *_START symbols, perhaps the *_END
+are superfluous?
 
-> ---
-> 
-> Changes in v3:
-> 1. None
-> 
-> Changes in v2:
-> 1. None
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9fe3870300f2..4b299e39111d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2646,6 +2646,7 @@ R:	Alim Akhtar <alim.akhtar@samsung.com>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  L:	linux-samsung-soc@vger.kernel.org
->  S:	Maintained
-> +P:	Documentation/process/maintainer-soc-clean-dts.rst
->  Q:	https://patchwork.kernel.org/project/linux-samsung-soc/list/
->  B:	mailto:linux-samsung-soc@vger.kernel.org
->  C:	irc://irc.libera.chat/linux-exynos
-> --
-> 2.34.1
+> +
+> +#define RCU_DYNTICKS_BITS  (IS_ENABLED(CONFIG_CONTEXT_TRACKING_WORK) ? 16 : 31)
+> +#define RCU_DYNTICKS_START (CT_STATE_SIZE - RCU_DYNTICKS_BITS)
+> +#define RCU_DYNTICKS_END   (CT_STATE_SIZE - 1)
+> +#define RCU_DYNTICKS_IDX   BIT(RCU_DYNTICKS_START)
 
+Might be the right time to standardize and fix our naming:
 
+CT_STATE_START,
+CT_STATE_KERNEL,
+CT_STATE_USER,
+...
+CT_WORK_START,
+CT_WORK_*,
+...
+CT_RCU_DYNTICKS_START,
+CT_RCU_DYNTICKS_IDX
+
+> +bool ct_set_cpu_work(unsigned int cpu, unsigned int work)
+> +{
+> +	struct context_tracking *ct = per_cpu_ptr(&context_tracking, cpu);
+> +	unsigned int old;
+> +	bool ret = false;
+> +
+> +	preempt_disable();
+> +
+> +	old = atomic_read(&ct->state);
+> +	/*
+> +	 * Try setting the work until either
+> +	 * - the target CPU no longer accepts any more deferred work
+> +	 * - the work has been set
+> +	 *
+> +	 * NOTE: CONTEXT_GUEST intersects with CONTEXT_USER and CONTEXT_IDLE
+> +	 * as they are regular integers rather than bits, but that doesn't
+> +	 * matter here: if any of the context state bit is set, the CPU isn't
+> +	 * in kernel context.
+> +	 */
+> +	while ((old & (CONTEXT_GUEST | CONTEXT_USER | CONTEXT_IDLE)) && !ret)
+
+That may still miss a recent entry to userspace due to the first plain read, ending
+with an undesired interrupt.
+
+You need at least one cmpxchg. Well, of course that stays racy by nature because
+between the cmpxchg() returning CONTEXT_KERNEL and the actual IPI raised and
+received, the remote CPU may have gone to userspace already. But still it limits
+a little the window.
+
+Thanks.
+
+> +		ret = atomic_try_cmpxchg(&ct->state, &old, old | (work << CONTEXT_WORK_START));
+> +
+> +	preempt_enable();
+> +	return ret;
+> +}
+> +#else
+> +static __always_inline void ct_work_flush(unsigned long work) { }
+> +static __always_inline void ct_work_clear(struct context_tracking *ct) { }
+> +#endif
+> +
+>  /*
+>   * Record entry into an extended quiescent state.  This is only to be
+>   * called when not already in an extended quiescent state, that is,
+> @@ -88,7 +133,8 @@ static noinstr void ct_kernel_exit_state(int offset)
+>  	 * next idle sojourn.
+>  	 */
+>  	rcu_dynticks_task_trace_enter();  // Before ->dynticks update!
+> -	seq = ct_state_inc(offset);
+> +	seq = ct_state_inc_clear_work(offset);
+> +
+>  	// RCU is no longer watching.  Better be in extended quiescent state!
+>  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && (seq & RCU_DYNTICKS_IDX));
+>  }
+> @@ -100,7 +146,7 @@ static noinstr void ct_kernel_exit_state(int offset)
+>   */
+>  static noinstr void ct_kernel_enter_state(int offset)
+>  {
+> -	int seq;
+> +	unsigned long seq;
+>  
+>  	/*
+>  	 * CPUs seeing atomic_add_return() must see prior idle sojourns,
+> @@ -108,6 +154,7 @@ static noinstr void ct_kernel_enter_state(int offset)
+>  	 * critical section.
+>  	 */
+>  	seq = ct_state_inc(offset);
+> +	ct_work_flush(seq);
+>  	// RCU is now watching.  Better not be in an extended quiescent state!
+>  	rcu_dynticks_task_trace_exit();  // After ->dynticks update!
+>  	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && !(seq & RCU_DYNTICKS_IDX));
+> diff --git a/kernel/time/Kconfig b/kernel/time/Kconfig
+> index bae8f11070bef..fdb266f2d774b 100644
+> --- a/kernel/time/Kconfig
+> +++ b/kernel/time/Kconfig
+> @@ -181,6 +181,11 @@ config CONTEXT_TRACKING_USER_FORCE
+>  	  Say N otherwise, this option brings an overhead that you
+>  	  don't want in production.
+>  
+> +config CONTEXT_TRACKING_WORK
+> +	bool
+> +	depends on HAVE_CONTEXT_TRACKING_WORK && CONTEXT_TRACKING_USER
+> +	default y
+> +
+>  config NO_HZ
+>  	bool "Old Idle dynticks config"
+>  	help
+> -- 
+> 2.31.1
+> 
