@@ -2,257 +2,192 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD56C0015E
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 11:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBEDC001B0
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 11:35:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231343AbjGXLVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jul 2023 07:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47186 "EHLO
+        id S229552AbjGXLem (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jul 2023 07:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231185AbjGXLVs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 07:21:48 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59ACBE56;
-        Mon, 24 Jul 2023 04:21:45 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3fd0f000f1cso26057645e9.1;
-        Mon, 24 Jul 2023 04:21:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690197703; x=1690802503;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TFhFWl3vFXI5sPJ8FjP5qyAt2hWCbzGdgcfHzMXY7QM=;
-        b=XSeQ/loMiS/JX1qZ4jbdZ53R3soRSnaXmc8nlgDRZ+PNsTA++w39sG5vMl/xSsAic5
-         Bye26XiWAeiro/xUINpaMvvwabcjrDT45tNUwVf0yKfFOUWGcgIPw/6wTry15Tc6AFSQ
-         JLlaSYj/4wM0oWyZFWEaZ8E/BtB+XjCkUnu91+Esnm6knDrmdhXoyzbUM5TUGpKd/5gt
-         kP2VLUnHctEEzfxCGUivrjIFyLImw3EZ9U8M9wTh4ZDFpGyTdybibvPsn2u1RpYulosK
-         taDGeM2M+Fyx4gd1R0p4XmSkwlzrFjwDOaw0nFG2xCGDFWI9hWDPzGXepI4K72KJx144
-         Ctmw==
+        with ESMTP id S229905AbjGXLeY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 07:34:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9693026A8
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jul 2023 04:33:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1690198364;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EXJhrkLdNOLUHGZbbc+F0hjfqb3hPCsrY6WTn8MVyN8=;
+        b=IKMGMDoBf5Q4TRF+J45GToUGxW8KJvD5bGgLyJeeLFh25nplZJDxAd3SInz6BrXVMcuVby
+        hYYnA1MfyF7PRcydtsYPxyA9Zv0hniuCao8nXh20+jsSTaAkzAhJk2Wn0xOxzvlNoVm9B7
+        dKLPBtMs43iUq3LlMZkcsIFwzQ66bYY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-103-mProoDIhPpejkp9o3h5gQQ-1; Mon, 24 Jul 2023 07:32:43 -0400
+X-MC-Unique: mProoDIhPpejkp9o3h5gQQ-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-31701b27d19so2227300f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jul 2023 04:32:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690197703; x=1690802503;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1690198362; x=1690803162;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TFhFWl3vFXI5sPJ8FjP5qyAt2hWCbzGdgcfHzMXY7QM=;
-        b=PdT7SrT7XHfBILxxN0gwfzkUVyRYXsM0MbElGUea8d48/tDc5cDHXusHGMgLTJ2zrp
-         +6feTlKl8LcxgA1tpAHNVr/tdC/YbNP/1YmvAoXoq97Uq84rXoTrPTZWhy9Ykgyj8I6s
-         UYOrQDi7fGPgusZX8w7RHzDHAMqcJecvVJV/xsolAbyF6Nb+4LougpcLb5A+WrhMyMIu
-         mxpUgJuaDD+obKskzXNDq/E+Oh5t1AetVf1efy6cCLlMiupd6O+efiV7/pHd8cp7kTg7
-         0WrjU0OSqxLfe2jSmC0TI0p7X0eAoPjC06CkiHzl6YtsLyEcqkKyVkmmNt5Owpx+dOKJ
-         74tA==
-X-Gm-Message-State: ABy/qLYbxiQiD5TUgHFPLmYWVCRbXEYIu641gncJnUxkZUJpJ6ktR6CC
-        iasvQ23ObfyPLD5klef67qsdNCc3fwdS1Q==
-X-Google-Smtp-Source: APBJJlGgSiV3HlEbJ70IaPI4jigHZPogdp1chytFPFwub6+Z681rVxLwfJ+8C3bskxVT1+lbFSRzDg==
-X-Received: by 2002:a1c:6a0e:0:b0:3fb:acbe:da5d with SMTP id f14-20020a1c6a0e000000b003fbacbeda5dmr8130689wmc.4.1690197703191;
-        Mon, 24 Jul 2023 04:21:43 -0700 (PDT)
-Received: from suse.localnet (host-87-20-104-222.retail.telecomitalia.it. [87.20.104.222])
-        by smtp.gmail.com with ESMTPSA id l8-20020a7bc448000000b003fb40ec9475sm10059915wmi.11.2023.07.24.04.21.41
+        bh=EXJhrkLdNOLUHGZbbc+F0hjfqb3hPCsrY6WTn8MVyN8=;
+        b=hvRi8PnXiqi+wzY46YvX9+qCfivJUHRBjYTkZCNEOpEMW3sS4oiP0edjeS7SeQU/Ny
+         eZ0o0mL+PMwK+GJpP7+pkbKA+PQVh91zyIjlObDZKZT0pZWBvX+IVP1DquMOu+8OyuZs
+         kuCydV+gx67i467W/zwauYkdtEtCmlJUoHcFjASLr17O9+dEXywbN6ELJr7dG9XRXQz4
+         wCnirvhBSZytj/P5yFu5tO8FgImrAjGVZ1gw5WVGwYpRCN7GPdOVNfmvTrv3bO5FFASj
+         S0jAsQPncmqNF/ZpNB9sTAQWdyziwEN6+QaEO6Xa7UlVNbkLzbp4JCEb9jtarCV/fjLW
+         R8Gg==
+X-Gm-Message-State: ABy/qLayMQaFoHlK8JutG3ac+D4HHjYsEHNHDtKy4+FJLcZF4IBc4mAA
+        BSKJzVM0CQWwHhP2FWEDHwBpOnMBmKMG0BAz8FFf9X5bj+uOGzdrzs2RU8HYbO5V43Y4OTxirpm
+        rzZZvwZnuphFLvZkasyRP
+X-Received: by 2002:a5d:4ec5:0:b0:314:98f:2495 with SMTP id s5-20020a5d4ec5000000b00314098f2495mr7489842wrv.12.1690198362011;
+        Mon, 24 Jul 2023 04:32:42 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEI60yM7OEQYltk8pZJRHHkHj4AM6BZ+3LNkwODYxQy3aj86Uaqvq9RfiI7soFJIBmCEAmJvQ==
+X-Received: by 2002:a5d:4ec5:0:b0:314:98f:2495 with SMTP id s5-20020a5d4ec5000000b00314098f2495mr7489803wrv.12.1690198361680;
+        Mon, 24 Jul 2023 04:32:41 -0700 (PDT)
+Received: from vschneid.remote.csb ([149.12.7.81])
+        by smtp.gmail.com with ESMTPSA id w7-20020a5d4047000000b00313f61889ecsm12615302wrp.66.2023.07.24.04.32.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 04:21:42 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Mon, 24 Jul 2023 04:32:41 -0700 (PDT)
+From:   Valentin Schneider <vschneid@redhat.com>
+To:     Nadav Amit <namit@vmware.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-trace-kernel@vger.kernel.org" 
+        <linux-trace-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, bpf <bpf@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [RFC PATCH v2] Documentation/page_tables: Add info about MMU/TLB and Page
- Faults
-Date:   Mon, 24 Jul 2023 13:21:40 +0200
-Message-ID: <23157760.6Emhk5qWAg@suse>
-In-Reply-To: <20230724105505.000060c7@Huawei.com>
-References: <20230723120721.7139-1-fmdefrancesco@gmail.com>
- <20230724105505.000060c7@Huawei.com>
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 20/20] x86/mm, mm/vmalloc: Defer
+ flush_tlb_kernel_range() targeting NOHZ_FULL CPUs
+In-Reply-To: <188AEA79-10E6-4DFF-86F4-FE624FD1880F@vmware.com>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+ <20230720163056.2564824-21-vschneid@redhat.com>
+ <188AEA79-10E6-4DFF-86F4-FE624FD1880F@vmware.com>
+Date:   Mon, 24 Jul 2023 12:32:38 +0100
+Message-ID: <xhsmh8rb5tui1.mognet@vschneid.remote.csb>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On luned=EC 24 luglio 2023 11:55:05 CEST Jonathan Cameron wrote:
-> On Sun, 23 Jul 2023 14:07:09 +0200
->=20
-> "Fabio M. De Francesco" <fmdefrancesco@gmail.com> wrote:
-> > Extend page_tables.rst by adding a section about the role of MMU and TLB
-> > in translating between virtual addresses and physical page frames.
-> > Furthermore explain the concept behind Page Faults and how the Linux
-> > kernel handles TLB misses. Finally briefly explain how and why to disab=
-le
-> > the page faults handler.
-> >=20
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-> > Cc: Ira Weiny <ira.weiny@intel.com>
-> > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Matthew Wilcox <willy@infradead.org>
-> > Cc: Mike Rapoport <rppt@kernel.org>
-> > Cc: Randy Dunlap <rdunlap@infradead.org>
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
->=20
-> Hi Fabio,
->=20
-
-Hi Jonathan,
-
-> Some superficial comments...
-
-Maybe that they are "superficial", BTW they are indeed very welcome :-)
-
-> > ---
-> >=20
-> > v1->v2: Add further information about lower level functions in the page
-> > fault handler and add information about how and why to disable / enable
-> > the page fault handler (provided a link to a Ira's patch that make use
-> > of pagefault_disable() to prevent deadlocks).
-> >=20
-> > This is an RFC PATCH because of two reasons:
-> >=20
-> > 1) I've heard that there is consensus about the need to revise and
-> > extend the MM documentation, but I'm not sure about whether or not
-> > developers need these kind of introductory information.
-> >=20
-> > 2) While preparing this little patch I decided to take a quicj look at
->=20
-> Spell check your intro text.
-
-Sure, I'll s/quicj/quick/
-
-> > the code and found out it currently is not how I thought I remembered
-> > it. I'm especially speaking about the x86 case. I'm not sure that I've
-> > been able to properly understand what I described as a difference in
-> > workflow compared to most of the other architecture.
-> >=20
-> > Therefore, for the two reasons explained above, I'd like to hear from
-> > people actively involved in MM. If this is not what you want, feel free
-> > to throw it away. Otherwise I'd be happy to write more on this and other
-> > MM topics. I'm looking forward for comments on this small work.
-> >=20
-> >  Documentation/mm/page_tables.rst | 87 ++++++++++++++++++++++++++++++++
-> >  1 file changed, 87 insertions(+)
-> >=20
-> > diff --git a/Documentation/mm/page_tables.rst
-> > b/Documentation/mm/page_tables.rst index 7840c1891751..2be56f50c88f 100=
-644
-> > --- a/Documentation/mm/page_tables.rst
-> > +++ b/Documentation/mm/page_tables.rst
-> > @@ -152,3 +152,90 @@ Page table handling code that wishes to be
-> > architecture-neutral, such as the>=20
-> >  virtual memory manager, will need to be written so that it traverses a=
-ll=20
+On 21/07/23 18:15, Nadav Amit wrote:
+>> On Jul 20, 2023, at 9:30 AM, Valentin Schneider <vschneid@redhat.com> wr=
+ote:
+>>
+>> vunmap()'s issued from housekeeping CPUs are a relatively common source =
 of
-> >  the currently five levels. This style should also be preferred for
-> >  architecture-specific code, so as to be robust to future changes.
-> >=20
-> > +
-> > +
-> > +MMU, TLB, and Page Faults
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> > +
-> > +The Memory Management Unit (MMU) is a hardware component that handles
-> > virtual to +physical address translations. It uses a relatively small=20
-cache
-> > in hardware
-> It may use a relatively...
-> (I doubt Linux supports anything that doesn't have a TLB but they aren't
-> required by some architectures - just a performance optimization that you
-> 'can' add to an implementation.)
+>> interference for isolated NOHZ_FULL CPUs, as they are hit by the
+>> flush_tlb_kernel_range() IPIs.
+>>
+>> Given that CPUs executing in userspace do not access data in the vmalloc
+>> range, these IPIs could be deferred until their next kernel entry.
+>
+> So I think there are a few assumptions here that it seems suitable to con=
+firm
+> and acknowledge the major one in the commit log (assuming they hold).
+>
+> There is an assumption that VMAP page-tables are not freed. I actually
+> never paid attention to that, but skimming the code it does seem so. To
+> clarify the issue: if page-tables were freed and their pages were reused,
+> there would be a problem that page-walk caches for instance would be used
+> and =E2=80=9Cjunk=E2=80=9D entries from the reused pages would be used. S=
+ee [1].
+>
 
-Oh, I didn't know that Linux supports non-MMU architectures. However I susp=
-ect=20
-that the vast majority have MMU and TLB. Is it correct?=20
+Thanks for looking into this and sharing context. This is an area I don't
+have much experience with, so help is much appreciated!
 
-I'll change the statement to "it may use, and in the vast majority of=20
-supported architecture it indeed uses [...]". How about this? Is it not yet=
-=20
-what you meant?
+Indeed, accessing addresses that should be impacted by a TLB flush *before*
+executing the deferred flush is an issue. Deferring sync_core() for
+instruction patching is a similar problem - it's all in the shape of
+"access @addr impacted by @operation during kernel entry, before actually
+executing @operation".
 
-> > +called the Translation Lookaside Buffer (TLB) to speed up these
-> > translations. +When a process wants to access a memory location, the CPU
-> > provides a virtual +address to the MMU, which then uses the TLB to quic=
-kly
-> > find the corresponding +physical address.
-> > +
-> > +However, sometimes the MMU can't find a valid translation in the TLB.=
-=20
-This
-> > +could be because the process is trying to access a range of memory that
-> > it's not +allowed to, or because the memory hasn't been loaded into RAM
-> > yet.
->=20
-> It might not find it because this is first attempt to do the translation =
-and
-> the MMU hasn't filled the TLB entry yet, or a capacity eviction has=20
-happened.
+AFAICT the only reasonable way to go about the deferral is to prove that no
+such access happens before the deferred @operation is done. We got to prove
+that for sync_core() deferral, cf. PATCH 18.
 
-I thought that "[...] hasn't been loaded into RAM yet" would have covered a=
-ll=20
-cases comprising lazy allocation, copy-n-write, and swapped out pages. I=20
-talked about the first two later in the text, but I forgot to speak about=20
-swapped out page frames to persistent storage so I'll add it in the next=20
-version.
+I'd like to reason about it for deferring vunmap TLB flushes:
 
-However, I am thinking that is not the TLB misses that may cause an excepti=
-on=20
-to fault in memory, but it is the MMU itself if not able to fill the TLB wi=
-th=20
-the content of allocated page tables. If you confirm so, I'll need to rewri=
-te=20
-the first introductory paragraphs. Can you please confirm?=20
+What addresses in VMAP range, other than the stack, can early entry code
+access? Yes, the ranges can be checked at runtime, but is there any chance
+of figuring this out e.g. at build-time?
 
-> Basically failure to find it in the TLB doesn't mean we get a page fault
-> (unless you are on an ancient architecture where TLB entries are software
-> filled which is definitely not the case for most modern ones).
-
-Let me summarize so that you can confirm or deny whether or not I=20
-understood...
-
-1) TLB misses don't cause page faults unless MMU is not able to find the=20
-entries in the hierarchy of page tables. If it finds the entries is=20
-transparently refills the TLB buffer with the found translations.
-
-2) Page faults happens only if MMU, after walking the hierarchy, cannot yet=
-=20
-find any suitable translation.
-
-> >  When this
-> >=20
-> > +happens, the MMU triggers a page fault, which is a type of interrupt t=
-hat
->=20
-> Hmm. Whilst similar to an interrupt I'd argue that it's not one..
-
-3) I shouldn't define it as an "interrupt" because it technically is not. H=
-ow=20
-about "exception" or "software exception"?
-=20
-> > +signals the CPU to pause the current process and run a special functio=
-n=20
-to
-> > +handle the fault.
->=20
-> ...
->=20
-> Jonathan
-
-I don't read any other comments on the second part of the RFC. Does it mean=
-=20
-that the second part is OK from your POV?
-
-It would be of great help if you could set aside some more minutes and clea=
-r=20
-the doubts I just expressed and answer the questions I asked :-)
-
-Thanks for the comments,
-
-=46abio
-
-
+> I would also assume the memory-hot-unplug of some sorts is not an issue,
+> (i.e., you cannot have a stale TLB entry pointing to memory that was
+> unplugged).
+>
+> I also think that there might be speculative code execution using stale
+> TLB entries that would point to memory that has been reused and perhaps
+> controllable by the user. If somehow the CPU/OS is tricked to use the
+> stale executable TLB entries early enough on kernel entry that might be
+> an issue. I guess it is probably theoretical issue, but it would be helpf=
+ul
+> to confirm.
+>
+> In general, deferring TLB flushes can be done safely. This patch, I think,
+> takes it one step forward and allows the reuse of the memory before the T=
+LB
+> flush is actually done. This is more dangerous.
+>
+> [1] https://lore.kernel.org/lkml/tip-b956575bed91ecfb136a8300742ecbbf4514=
+71ab@git.kernel.org/
 
