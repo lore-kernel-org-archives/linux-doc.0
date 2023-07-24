@@ -2,190 +2,200 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23644EB64DD
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 04:18:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D993C001DE
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 06:11:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbjGXESe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jul 2023 00:18:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49974 "EHLO
+        id S229862AbjGXGLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jul 2023 02:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbjGXESd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 00:18:33 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76739129;
-        Sun, 23 Jul 2023 21:18:31 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id d2e1a72fcca58-666eef03ebdso2152842b3a.1;
-        Sun, 23 Jul 2023 21:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690172311; x=1690777111;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p4D+OHolQG34ZYJwZS92wPVcCwGXYHw/xfZ1x2mpIF0=;
-        b=lRS15qiucwtzodZShizhAakJpIp4taE7l0IBgOUnOBChrTL/gudL2hyOxJg6mhy9lz
-         a3RT0WMWMj4zZxJrel47Dth7sLcOeiv+qbOpVDML6NMbXTZfd2Q301gjQlPVqrGyXb4G
-         /PZa8caMDpOsBJsyfcAnBSoOT2fW5yvyzUG5NkeRzwZD60p7y72T6yPZ+V1R6ToBmCNI
-         Xd14Lx6MlES8K3+Y7eJQIkm1ESgw57xecBdQK6+i4zUEB7chfwGE5ALlmtH7EWBHrU0c
-         9NSRkNA4Qe1MnXzK2r8vWRo7tz2kxsvdxwl9Yi4oEqIiOBJnIOpKUuJ81mjgXg71Fh7H
-         17oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690172311; x=1690777111;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p4D+OHolQG34ZYJwZS92wPVcCwGXYHw/xfZ1x2mpIF0=;
-        b=kmtsPy8zxB34Yc5I+YBu5NLlDdLcZIZ3F94FRM2r8s/Lkak6W/wxDsmCPB5Y/siieo
-         LMPWlDmZzmOYe2Eh87+HDIL1AKzam4L3orxLL2elTRlPH6ABadtKkXtLtjY8i5GEmiUL
-         if0rdrbjRb1P9TBVLD0maccwUfftHWCIhU/N1csPz6NY5P5nemdampMwPjY9IBzFiCEn
-         mp9DRCwaMZpua/bg20Vz2/FQGl2rD+QSrEkCR7YQcvYsK9OWSsKBTNwsrOo8fssIwVTT
-         u5RQZ7a0zNZa4C/y/5dDZpgjNU9X/4UduP7iWEuMRj+yHhw7ZL5noAPicOFnSsYV99oN
-         x2vA==
-X-Gm-Message-State: ABy/qLbMfkW5mzUm0m+TPJyfZ0ovYDCr+rgSXlgAni/qaIE9funJHQt/
-        xVinmVodMrN2tWk0DeQSe0I=
-X-Google-Smtp-Source: APBJJlGuWV3zuDRVGL+WQI3tQNagJuxov5qpSxQOVpKEgbyGVUxW+mS27/LddI/6/zYYOvIAO/ikZw==
-X-Received: by 2002:a05:6a20:7489:b0:129:c38e:cdd7 with SMTP id p9-20020a056a20748900b00129c38ecdd7mr7515374pzd.38.1690172310830;
-        Sun, 23 Jul 2023 21:18:30 -0700 (PDT)
-Received: from localhost.localdomain ([113.251.5.100])
-        by smtp.gmail.com with ESMTPSA id d6-20020a170902cec600b001aadd0d7364sm7661288plg.83.2023.07.23.21.18.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jul 2023 21:18:30 -0700 (PDT)
-From:   Hu Haowen <src.res.211@gmail.com>
-To:     corbet@lwn.net
-Cc:     Hu Haowen <src.res.211@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/6] docs/zh_TW: update zh_TW's documentation from an ascensive aspect
-Date:   Mon, 24 Jul 2023 12:17:09 +0800
-Message-Id: <20230724041715.20050-1-src.res.211@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229691AbjGXGLR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 02:11:17 -0400
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D5BA1B4
+        for <linux-doc@vger.kernel.org>; Sun, 23 Jul 2023 23:11:14 -0700 (PDT)
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230724061111epoutp036b91940e8e6fd7adfab1eb18d7ad08db~0uOkKn-3l1775417754epoutp03D
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jul 2023 06:11:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230724061111epoutp036b91940e8e6fd7adfab1eb18d7ad08db~0uOkKn-3l1775417754epoutp03D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1690179071;
+        bh=wTF0Ru9o1qX1XpvkpWa3mKHhkbLaktTkpAUnB1hI0DQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=pGzoCpXs1UOQ+l3asEdG8DArz1Syln55BBDbmu2SPssX7NAmvlsjNwHBxzcuhQQWj
+         CxG6DVMTl+TTlscFhStH+wFX3j38d+bpojDrzobtlpjsDLbIb/Vgr44md4/fUoSJSS
+         ySiQqvXB5ZQdS6B1yohx1LRduHCNBtouAz//wb9Q=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+        epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+        20230724061110epcas5p2503ac4c4ac74bf7d8c202484a6932147~0uOjZHrS53020830208epcas5p2e;
+        Mon, 24 Jul 2023 06:11:10 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
+        epsnrtp4.localdomain (Postfix) with ESMTP id 4R8VCc0BLhz4x9QK; Mon, 24 Jul
+        2023 06:11:08 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        8A.B5.06099.BF51EB46; Mon, 24 Jul 2023 15:11:07 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+        20230724054922epcas5p4cdcf4bdb7ddc57eac4d687b40d9633b9~0t7hBWhw70396703967epcas5p4_;
+        Mon, 24 Jul 2023 05:49:22 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20230724054922epsmtrp1589ea7b455f628dab9e4898d7d32032a~0t7g8VLIR2266822668epsmtrp1C;
+        Mon, 24 Jul 2023 05:49:22 +0000 (GMT)
+X-AuditID: b6c32a4b-d308d700000017d3-66-64be15fb2893
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        1A.24.34491.1E01EB46; Mon, 24 Jul 2023 14:49:21 +0900 (KST)
+Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20230724054918epsmtip2e23bc6255b974fdc88465d963a53ae7e~0t7da5FbA1810118101epsmtip2U;
+        Mon, 24 Jul 2023 05:49:18 +0000 (GMT)
+Date:   Mon, 24 Jul 2023 11:16:06 +0530
+From:   Nitesh Shetty <nj.shetty@samsung.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+        Keith Busch <kbusch@kernel.org>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Chaitanya Kulkarni <kch@nvidia.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+        willy@infradead.org, hare@suse.de, djwong@kernel.org,
+        bvanassche@acm.org, ming.lei@redhat.com, dlemoal@kernel.org,
+        nitheshshetty@gmail.com, gost.dev@samsung.com,
+        Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v13 4/9] fs, block: copy_file_range for def_blk_ops for
+ direct block device
+Message-ID: <20230724054606.y6ibtn4mwupmziii@green245>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230720075710.GC5042@lst.de>
+User-Agent: NeoMutt/20171215
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0zTVxTHvb9f+2vBFX8gZBdwSso2Awzk7UVAmRr9GRaHcZGMZWGV/tIy
+        oO36QDfH5DFwgjwrwhCEqeO9Eh6RZxmUTAbqWIJUJYOVWdx4isgEBcpaCov/fe73nO+5956T
+        w8ZtVCwHdrRITktFvFguYcm41ePi4r5s18n37C4IQHX9t3GUnLOKo5qRbAJN9cwDdGXuJY70
+        XRcAGtRbId3PB5B69ioTPepqxVDH9TwMVdX8gqE8jRag8aEiDKmH3dAPaTcZqEPdx0CDbcUE
+        Ki0fZ6GMBy0Equg1YEijTMFQiz4JINXUUwb6ddgRDaz2MtHyUjER4kgN3g+lWotGWNTAaD2D
+        aqx0pQbvKaiG6osE1XjzPNX+KJGgbmQpmVRmyixBPRsfZlBPO4cIKqupGlCNd85Rzxt2Ug36
+        GSyMjIgJEtI8Pi11okVRYn60SBDMDT0ZeSjSz9/Ty90rAO3lOol4cXQw9/AHYe5HomONjeE6
+        xfNiFUYpjCeTcffsD5KKFXLaSSiWyYO5tIQfK/GVeMh4cTKFSOAhouX7vDw9vf2MiZ/FCAv/
+        XCIkw7Znr313n5kI8q3TgQUbkr5wvqqGSAeWbBuyHcDBxb+ZpoANOQ9getMGvwBQP/r+pqEs
+        UwvMBjWA/9TlM8yHJwDmXl7ATVkM8h2YVZxsLMtmE6QbvLPGNsm2JBeOT95bN+PkChN26VQs
+        U2A7yYPNhqx15pD+cCzpD4aZrWHf9/p1tjDWaSg2ABPbkTtg4Y//4qZCkNRawIKk2yzz8w7D
+        W30GzMzb4WRv04buACey0zb4DKy6XEmYzd8CWPSgCJgDB2Bqf/b6D3BSCMvWcplm/S2Y36/C
+        zLoVzFzWb1zAgS3XNtkZ1taVEWa2h9rFpA2m4ETGw41+6QBcUfeycsCuotd+V/TafWbeBy/O
+        JRuZbWRHWGFgm9EF1rXtKQPMamBPS2RxAlrmJ/ER0Wf+n3iUOK4BrC+Oa2gL+Es356EBGBto
+        AGTjXFuOQNDGt+HweV9+RUvFkVJFLC3TAD/jtHJxB7sosXHzRPJIL98AT19/f3/fAB9/L+6b
+        nKnUEr4NKeDJ6RialtDSTR/GtnBIxHCWOm1hx/GVj1+uvfc4jyNICFl0vZB6vEDn9vm2uBsl
+        22q5swYifMtC3vmjzhrlifmMsZHcoyFqZFknvxTfXsZrVZ4mXhW7PMyoYTXz8U9P5lSJG3da
+        frgQ99yn4OLXuu6+SmX44Ee7I0ruHns79QV/fzbLetoqRNVcypgejZ4OrV7kDBysfKVl2v/+
+        jEXqV9sSjukC1bXyptSfRr0jQpQ559asl4IStgi8w8McXGaY7m/s0paf6p2cqAqcU36Rdvrx
+        oY69nb9lpxxMKZ/55En41qsK58Ka4Qj+qbOl7wYG7earvHsyhfr4KItL3elHZk4kfTNUX3H9
+        rtX82NjWegssSq3iMmRCnpcrLpXx/gMaI2auwQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAIsWRmVeSWpSXmKPExsWy7bCSvO5DgX0pBl1frSzWnzrGbNE04S+z
+        xeq7/WwWrw9/YrSY9uEns8WTA+2MFpef8Fk82G9vsffdbFaLmwd2MlnsWTSJyWLl6qNMFpMO
+        XWO0eHp1FpPF3lvaFgvblrBY7Nl7ksXi8q45bBbzlz1lt+i+voPNYvnxf0wWhyY3M1nseNLI
+        aLHu9XsWixO3pC3O/z3OavH7xxw2B2mPy1e8PXbOusvucf7eRhaPzSu0PC6fLfXYtKqTzWPz
+        knqP3Tcb2DwW901m9ehtfsfm8fHpLRaP9/uusnn0bVnF6LH5dLXH501yHpuevGUKEIjisklJ
+        zcksSy3St0vgypi6Yyt7QY9QxZ5nW1kaGB/ydTFyckgImEgs6L3G2MXIxSEksJtR4tG2g2wQ
+        CUmJZX+PMEPYwhIr/z1nhyh6wihxe+E2VpAEi4CqRN+cJqAGDg42AW2J0/85QMIiAkoST1+d
+        BRvKLNDAJtFz7zVYvbBAosT2f33sIDavgJnEw8Y7LBBDHzBKTJ+3nREiIShxcuYTFhCbGaho
+        3uaHzCALmAWkJZb/A1vACbRr05x/YOWiAjISM5Z+ZZ7AKDgLSfcsJN2zELoXMDKvYpRMLSjO
+        Tc8tNiwwzEst1ytOzC0uzUvXS87P3cQIThRamjsYt6/6oHeIkYmD8RCjBAezkghvevquFCHe
+        lMTKqtSi/Pii0pzU4kOM0hwsSuK84i96U4QE0hNLUrNTUwtSi2CyTBycUg1M83ICDkiefP1R
+        w3f+1xd/hGd6HXtQsEm0IlftwdFXJTXxMbynCjoevkpv/Z+yL/fX+Xy3zNBcBsG0c9rfTgTn
+        tu9bPWtlULFBbthBSx5H/wPP57FE/GbcvHZ18AOpW1xznmXzXas74aSqV6tVd9Hw7+2bFVKS
+        x52Nb87efqBxB+PD6wd9ZJ4uvH7JYEFD/P/UmfP+rHSVi9/za064KZ+SZTqra0rvtpPN7csD
+        bv5R2mD9Z9qswDDm3mmJh9XrW9pEufOmPZ2xu5Ct5ayEgUXN8/SOZOb0eXx692fz6so0Xb87
+        d1np/yNawmaGBxY1PVBt+le0OjWMbVex1n0R3Q8zvR/fusHw8tZT8yx7ic1CSizFGYmGWsxF
+        xYkASAGQ3YMDAAA=
+X-CMS-MailID: 20230724054922epcas5p4cdcf4bdb7ddc57eac4d687b40d9633b9
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+        boundary="----PcSJ1RlEyPKfjXIiTsweH-7MCPtMf9v3nlMrb72LWO-fIHxy=_dd00a_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230627184029epcas5p49a29676fa6dff5f24ddfa5c64e525a51
+References: <20230627183629.26571-1-nj.shetty@samsung.com>
+        <CGME20230627184029epcas5p49a29676fa6dff5f24ddfa5c64e525a51@epcas5p4.samsung.com>
+        <20230627183629.26571-5-nj.shetty@samsung.com>
+        <20230720075710.GC5042@lst.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update zh_TW's documentation concentrating on the following aspects:
+------PcSJ1RlEyPKfjXIiTsweH-7MCPtMf9v3nlMrb72LWO-fIHxy=_dd00a_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-    * The file tree structure changes of the main documentation;
-    * Some changes and ideas from zh_CN translation;
-    * Removal for several obsoleted contents within the zh_TW translation
-      or those which are not exising anymore in the main documentation.
-    * Replacements for some incorrect words and phrases in traditional
-      Chinese or those which are odd within their context being hard for
-      readers to comprehend.
+On 23/07/20 09:57AM, Christoph Hellwig wrote:
+>> +/* Copy source offset from source block device to destination block
+>> + * device. Returns the length of bytes copied.
+>> + */
+>> +ssize_t blkdev_copy_offload_failfast(
+>> +		struct block_device *bdev_in, loff_t pos_in,
+>> +		struct block_device *bdev_out, loff_t pos_out,
+>> +		size_t len, gfp_t gfp_mask)
+>
+>This is an odd and very misnamed interface.
+>
+>Either we have a klkdev_copy() interface that automatically falls back
+>to a fallback (maybe with an opt-out), or we have separate
+>blkdev_copy_offload/blkdev_copy_emulated interface and let the caller
+>decide.  But none of that really is "failfast".
+>
+>Also this needs to go into the helpers patch and not a patch that is
+>supposed to just wire copying up for block device node.
+>
+Acked.
 
-v2:
-    * Remove the fancy character U+feff (ZERO WIDTH NO-BREAK SPACE) reported by Corbet
-      in https://lore.kernel.org/lkml/87bkg5dp6x.fsf@meer.lwn.net/
+>> index b07de77ef126..d27148a2543f 100644
+>> --- a/fs/read_write.c
+>> +++ b/fs/read_write.c
+>> @@ -1447,7 +1447,8 @@ static int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
+>>  		return -EOVERFLOW;
+>>
+>>  	/* Shorten the copy to EOF */
+>> -	size_in = i_size_read(inode_in);
+>> +	size_in = i_size_read(file_in->f_mapping->host);
+>
+>generic_copy_file_checks needs to be fixed to use ->mapping->host both
+>or inode_in and inode_out at the top of the file instead of this
+>band aid.  And that needs to be a separate patch with a Fixes tag.
+>
+Addressed below.
 
-v1:
-    https://lore.kernel.org/lkml/20230720132729.1821-1-src.res.211@gmail.com/
+>> @@ -1708,7 +1709,9 @@ int generic_file_rw_checks(struct file *file_in, struct file *file_out)
+>>  	/* Don't copy dirs, pipes, sockets... */
+>>  	if (S_ISDIR(inode_in->i_mode) || S_ISDIR(inode_out->i_mode))
+>>  		return -EISDIR;
+>> -	if (!S_ISREG(inode_in->i_mode) || !S_ISREG(inode_out->i_mode))
+>> +
+>> +	if ((!S_ISREG(inode_in->i_mode) || !S_ISREG(inode_out->i_mode)) &&
+>> +		(!S_ISBLK(inode_in->i_mode) || !S_ISBLK(inode_out->i_mode)))
+>
+>This is using weird indentation, and might also not be doing
+>exactly what we want.  I think the better thing to do here is to:
+>
+> 1) check for the accetable types only on the in inode
+> 2) have a check that the mode matches for the in and out inodes
+>
+>And please do this as a separate prep patch instead of hiding it here.
+>
+Agreed. We will send a separate patch, that enables copy_file_range on
+block devices.
 
-Hu Haowen (6):
-  docs/zh_TW: update admin-guide
-  docs/zh_TW: update arch
-  docs/zh_TW: update cpu-freq
-  docs/zh_TW: update filesystems
-  docs/zh_TW: update process
-  docs/zh_TW: turn zh_CN's folder references and headers into zh_TW's
-    ones
+Thank you,
+Nitesh Shetty
 
- .../translations/zh_TW/admin-guide/README.rst | 166 ++--
- .../zh_TW/admin-guide/bootconfig.rst          | 294 +++++++
- .../zh_TW/admin-guide/bug-bisect.rst          |  12 +-
- .../zh_TW/admin-guide/bug-hunting.rst         |  40 +-
- .../zh_TW/admin-guide/clearing-warn-once.rst  |   6 +-
- .../zh_TW/admin-guide/cpu-load.rst            |  10 +-
- .../zh_TW/admin-guide/cputopology.rst         |  98 +++
- .../translations/zh_TW/admin-guide/index.rst  | 136 ++--
- .../translations/zh_TW/admin-guide/init.rst   |  38 +-
- .../zh_TW/admin-guide/lockup-watchdogs.rst    |  69 ++
- .../zh_TW/admin-guide/mm/damon/index.rst      |  31 +
- .../zh_TW/admin-guide/mm/damon/lru_sort.rst   | 265 ++++++
- .../zh_TW/admin-guide/mm/damon/reclaim.rst    | 230 ++++++
- .../zh_TW/admin-guide/mm/damon/start.rst      | 126 +++
- .../zh_TW/admin-guide/mm/damon/usage.rst      | 593 ++++++++++++++
- .../zh_TW/admin-guide/mm/index.rst            |  52 ++
- .../translations/zh_TW/admin-guide/mm/ksm.rst | 201 +++++
- .../zh_TW/admin-guide/reporting-issues.rst    | 729 +++++++++--------
- .../admin-guide/reporting-regressions.rst     | 371 +++++++++
- .../zh_TW/admin-guide/security-bugs.rst       |  28 +-
- .../translations/zh_TW/admin-guide/sysrq.rst  | 283 +++++++
- .../zh_TW/admin-guide/tainted-kernels.rst     |  86 +-
- .../zh_TW/admin-guide/unicode.rst             |  12 +-
- .../translations/zh_TW/arch/arm/Booting       | 176 ++++
- .../zh_TW/arch/arm/kernel_user_helpers.txt    | 285 +++++++
- .../translations/zh_TW/arch/arm64/amu.rst     |   6 +-
- .../translations/zh_TW/arch/arm64/booting.txt |  28 +-
- .../zh_TW/arch/arm64/elf_hwcaps.rst           |  10 +-
- .../zh_TW/arch/arm64/legacy_instructions.txt  |  14 +-
- .../translations/zh_TW/arch/arm64/memory.txt  |  16 +-
- .../translations/zh_TW/arch/arm64/perf.rst    |   2 +-
- .../zh_TW/arch/arm64/silicon-errata.txt       |  30 +-
- .../zh_TW/arch/arm64/tagged-pointers.txt      |  10 +-
- .../translations/zh_TW/arch/index.rst         |  30 +
- .../zh_TW/arch/openrisc/index.rst             |  33 +
- .../zh_TW/arch/openrisc/openrisc_port.rst     | 129 +++
- .../translations/zh_TW/arch/openrisc/todo.rst |  25 +
- .../zh_TW/arch/parisc/debugging.rst           |  47 ++
- .../translations/zh_TW/arch/parisc/index.rst  |  32 +
- .../zh_TW/arch/parisc/registers.rst           | 157 ++++
- .../translations/zh_TW/cpu-freq/core.rst      |  26 +-
- .../zh_TW/cpu-freq/cpu-drivers.rst            | 147 ++--
- .../zh_TW/cpu-freq/cpufreq-stats.rst          |  41 +-
- .../translations/zh_TW/cpu-freq/index.rst     |   4 +-
- .../zh_TW/filesystems/debugfs.rst             |  38 +-
- .../translations/zh_TW/filesystems/index.rst  |   2 +-
- .../translations/zh_TW/filesystems/sysfs.txt  |  16 +-
- .../translations/zh_TW/filesystems/tmpfs.rst  |  32 +-
- .../zh_TW/filesystems/virtiofs.rst            |   8 +-
- Documentation/translations/zh_TW/index.rst    |   5 +-
- .../translations/zh_TW/process/1.Intro.rst    |  78 +-
- .../translations/zh_TW/process/2.Process.rst  | 130 +--
- .../zh_TW/process/3.Early-stage.rst           |  44 +-
- .../translations/zh_TW/process/4.Coding.rst   | 102 +--
- .../translations/zh_TW/process/5.Posting.rst  |  66 +-
- .../zh_TW/process/6.Followthrough.rst         |  46 +-
- .../zh_TW/process/7.AdvancedTopics.rst        |  56 +-
- .../zh_TW/process/8.Conclusion.rst            |  10 +-
- .../code-of-conduct-interpretation.rst        |  52 +-
- .../zh_TW/process/code-of-conduct.rst         |  18 +-
- .../zh_TW/process/coding-style.rst            | 400 ++++++----
- .../zh_TW/process/development-process.rst     |   2 +-
- .../zh_TW/process/email-clients.rst           | 273 ++++---
- .../process/embargoed-hardware-issues.rst     |  78 +-
- .../translations/zh_TW/process/howto.rst      | 144 ++--
- .../translations/zh_TW/process/index.rst      |   5 +-
- .../zh_TW/process/kernel-driver-statement.rst |   2 +-
- .../process/kernel-enforcement-statement.rst  |  14 +-
- .../zh_TW/process/license-rules.rst           |  54 +-
- .../zh_TW/process/management-style.rst        |  60 +-
- .../zh_TW/process/stable-api-nonsense.rst     |  86 +-
- .../zh_TW/process/stable-kernel-rules.rst     |  36 +-
- .../zh_TW/process/submit-checklist.rst        |  92 ++-
- .../zh_TW/process/submitting-patches.rst      | 755 +++++++++---------
- .../process/volatile-considered-harmful.rst   |  32 +-
- 75 files changed, 5781 insertions(+), 2079 deletions(-)
- create mode 100644 Documentation/translations/zh_TW/admin-guide/bootconfig.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/cputopology.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/lockup-watchdogs.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/index.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/lru_sort.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/reclaim.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/start.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/index.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/mm/ksm.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
- create mode 100644 Documentation/translations/zh_TW/admin-guide/sysrq.rst
- create mode 100644 Documentation/translations/zh_TW/arch/arm/Booting
- create mode 100644 Documentation/translations/zh_TW/arch/arm/kernel_user_helpers.txt
- create mode 100644 Documentation/translations/zh_TW/arch/index.rst
- create mode 100644 Documentation/translations/zh_TW/arch/openrisc/index.rst
- create mode 100644 Documentation/translations/zh_TW/arch/openrisc/openrisc_port.rst
- create mode 100644 Documentation/translations/zh_TW/arch/openrisc/todo.rst
- create mode 100644 Documentation/translations/zh_TW/arch/parisc/debugging.rst
- create mode 100644 Documentation/translations/zh_TW/arch/parisc/index.rst
- create mode 100644 Documentation/translations/zh_TW/arch/parisc/registers.rst
+------PcSJ1RlEyPKfjXIiTsweH-7MCPtMf9v3nlMrb72LWO-fIHxy=_dd00a_
+Content-Type: text/plain; charset="utf-8"
 
--- 
-2.34.1
 
+------PcSJ1RlEyPKfjXIiTsweH-7MCPtMf9v3nlMrb72LWO-fIHxy=_dd00a_--
