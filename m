@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E1DC001DE
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 01:25:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3958C001DC
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 01:54:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbjGXBZC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Jul 2023 21:25:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52694 "EHLO
+        id S230461AbjGXByU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Jul 2023 21:54:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231172AbjGXBYK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jul 2023 21:24:10 -0400
+        with ESMTP id S233226AbjGXBxh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jul 2023 21:53:37 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4556019A9;
-        Sun, 23 Jul 2023 18:22:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2DEE30DE;
+        Sun, 23 Jul 2023 18:44:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0AA1460F1D;
-        Mon, 24 Jul 2023 01:22:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C892AC433C9;
-        Mon, 24 Jul 2023 01:22:47 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 81BFB60E17;
+        Mon, 24 Jul 2023 01:18:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BACA4C433C8;
+        Mon, 24 Jul 2023 01:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690161769;
-        bh=SryEwRecL/h/LuGScixb9fHQTh1zrXN+ikgoNGQ2X3w=;
+        s=k20201202; t=1690161536;
+        bh=VAUVrDKsxKmQTd4qU5eND6DPF6UiQpEvEcMDq2Pzp+g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TU92PNTQ2Fy3dN5oeAelgI7702RtgATfUf4B0Mz44imHpl/HP2R4jlhm0aNx8Dvei
-         VlXvahrcHVypd3pg5gvtOptrrATLP72JoXefxv8zndqz5AjS+6DDabDec23QjGHWAr
-         wYC0Kvs972pP1XcGuchVhxtlxDGlmnVG2LNsKdWplZ1E/oaqXfTqOVxba6z3N9B41w
-         ODJqzaneZNliy711NVVSDQqJSWH/XFSL0gtNbvHdA1lT54kUMfc9Wj5PRU1kEMpVzi
-         /rAvuqX7O0E3RnUB1R3N2KLeTLbyaqrFhQpDWQaWBtSP5LJOpjEPf73WDfyXHXMqaO
-         pKZsoFUAlCdXQ==
+        b=Tc1bwUAtCfyxZPF1t0PNJ0u8tBvJ4u4AxxCrlUbjb6NikEFtVXCqOT+h4FywiG3Mb
+         cgPWDEF0sZg1TeBoJW/unwaEjjrKptqa9mKBpTx0FGHGtVppaC7fAVtGDl1acNVZeT
+         8pYX/QwYu7ohr/VMfS+7gKbjdjoa0b92m4tnYlAjlu59X5hnQiNTaOEb5vRNFE99at
+         MUdV9RIqTwxCgGI7pXz/DdAsISm1ebl0dPyCSqEXxseu5oJv59wmd3lkp7d6r3leOR
+         hGX6KuTFXWWk3/NQQ6rndD1Iw8hyWAfFt+PQrq6VYeCTZzWwgyV1DxcfzRb97fQSDA
+         p0Xq7y9qaGV6g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
@@ -39,20 +39,20 @@ Cc:     Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
         Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
         Joerg Roedel <jroedel@suse.de>,
         Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-        joro@8bytes.org, will@kernel.org, gregkh@linuxfoundation.org,
-        kim.phillips@amd.com, bp@suse.de, eiichi.tsukata@nutanix.com,
-        stephen@networkplumber.org, linux-doc@vger.kernel.org,
-        iommu@lists.linux-foundation.org, iommu@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1 25/41] iommu/amd: Introduce Disable IRTE Caching Support
-Date:   Sun, 23 Jul 2023 21:20:58 -0400
-Message-Id: <20230724012118.2316073-25-sashal@kernel.org>
+        joro@8bytes.org, will@kernel.org, paulmck@kernel.org,
+        catalin.marinas@arm.com, rdunlap@infradead.org,
+        peterz@infradead.org, rostedt@goodmis.org, kim.phillips@amd.com,
+        linux-doc@vger.kernel.org, iommu@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.4 37/58] iommu/amd: Introduce Disable IRTE Caching Support
+Date:   Sun, 23 Jul 2023 21:13:05 -0400
+Message-Id: <20230724011338.2298062-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230724012118.2316073-1-sashal@kernel.org>
-References: <20230724012118.2316073-1-sashal@kernel.org>
+In-Reply-To: <20230724011338.2298062-1-sashal@kernel.org>
+References: <20230724011338.2298062-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.40
+X-stable-base: Linux 6.4.5
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -96,7 +96,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 41 insertions(+)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6b838869554b1..71e93d8e2c130 100644
+index 9e5bab29685ff..986ac2b73ea22 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
 @@ -323,6 +323,7 @@
@@ -108,10 +108,10 @@ index 6b838869554b1..71e93d8e2c130 100644
  	amd_iommu_dump=	[HW,X86-64]
  			Enable AMD IOMMU driver option to dump the ACPI table
 diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-index 5ecc17240eff5..f5e9377b55212 100644
+index 2ddbda3a43746..5a224e244be8a 100644
 --- a/drivers/iommu/amd/amd_iommu_types.h
 +++ b/drivers/iommu/amd/amd_iommu_types.h
-@@ -172,6 +172,7 @@
+@@ -174,6 +174,7 @@
  #define CONTROL_GAINT_EN	29
  #define CONTROL_XT_EN		50
  #define CONTROL_INTCAPXT_EN	51
@@ -119,7 +119,7 @@ index 5ecc17240eff5..f5e9377b55212 100644
  #define CONTROL_SNPAVIC_EN	61
  
  #define CTRL_INV_TO_MASK	(7 << CONTROL_INV_TIMEOUT)
-@@ -708,6 +709,9 @@ struct amd_iommu {
+@@ -716,6 +717,9 @@ struct amd_iommu {
  	/* if one, we need to send a completion wait command */
  	bool need_sync;
  
@@ -130,10 +130,10 @@ index 5ecc17240eff5..f5e9377b55212 100644
  	struct iommu_device iommu;
  
 diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index b0af8b5967e0d..f6e64c9858021 100644
+index c2d80a4e5fb06..02846299af0ef 100644
 --- a/drivers/iommu/amd/init.c
 +++ b/drivers/iommu/amd/init.c
-@@ -160,6 +160,7 @@ static int amd_iommu_xt_mode = IRQ_REMAP_XAPIC_MODE;
+@@ -162,6 +162,7 @@ static int amd_iommu_xt_mode = IRQ_REMAP_XAPIC_MODE;
  static bool amd_iommu_detected;
  static bool amd_iommu_disabled __initdata;
  static bool amd_iommu_force_enable __initdata;
@@ -141,7 +141,7 @@ index b0af8b5967e0d..f6e64c9858021 100644
  static int amd_iommu_target_ivhd_type;
  
  /* Global EFR and EFR2 registers */
-@@ -477,6 +478,9 @@ static void iommu_disable(struct amd_iommu *iommu)
+@@ -484,6 +485,9 @@ static void iommu_disable(struct amd_iommu *iommu)
  
  	/* Disable IOMMU hardware itself */
  	iommu_feature_disable(iommu, CONTROL_IOMMU_EN);
@@ -151,7 +151,7 @@ index b0af8b5967e0d..f6e64c9858021 100644
  }
  
  /*
-@@ -2700,6 +2704,33 @@ static void iommu_enable_ga(struct amd_iommu *iommu)
+@@ -2710,6 +2714,33 @@ static void iommu_enable_ga(struct amd_iommu *iommu)
  #endif
  }
  
@@ -185,7 +185,7 @@ index b0af8b5967e0d..f6e64c9858021 100644
  static void early_enable_iommu(struct amd_iommu *iommu)
  {
  	iommu_disable(iommu);
-@@ -2710,6 +2741,7 @@ static void early_enable_iommu(struct amd_iommu *iommu)
+@@ -2720,6 +2751,7 @@ static void early_enable_iommu(struct amd_iommu *iommu)
  	iommu_set_exclusion_range(iommu);
  	iommu_enable_ga(iommu);
  	iommu_enable_xt(iommu);
@@ -193,7 +193,7 @@ index b0af8b5967e0d..f6e64c9858021 100644
  	iommu_enable(iommu);
  	iommu_flush_all_caches(iommu);
  }
-@@ -2760,10 +2792,12 @@ static void early_enable_iommus(void)
+@@ -2770,10 +2802,12 @@ static void early_enable_iommus(void)
  		for_each_iommu(iommu) {
  			iommu_disable_command_buffer(iommu);
  			iommu_disable_event_buffer(iommu);
@@ -206,7 +206,7 @@ index b0af8b5967e0d..f6e64c9858021 100644
  			iommu_set_device_table(iommu);
  			iommu_flush_all_caches(iommu);
  		}
-@@ -3411,6 +3445,8 @@ static int __init parse_amd_iommu_options(char *str)
+@@ -3426,6 +3460,8 @@ static int __init parse_amd_iommu_options(char *str)
  			amd_iommu_pgtable = AMD_IOMMU_V1;
  		} else if (strncmp(str, "pgtbl_v2", 8) == 0) {
  			amd_iommu_pgtable = AMD_IOMMU_V2;
