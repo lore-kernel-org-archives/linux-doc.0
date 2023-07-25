@@ -2,158 +2,389 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B45C04E69
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 16:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD1EC00528
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 16:44:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231151AbjGYQiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 12:38:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34826 "EHLO
+        id S232311AbjGYQoV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 12:44:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230120AbjGYQiu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 12:38:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BF9F1BE2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 09:38:08 -0700 (PDT)
+        with ESMTP id S231398AbjGYQoC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 12:44:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15C591FC4
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 09:43:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690303087;
+        s=mimecast20190719; t=1690303393;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=jLj18oLOp3KH/CAHpxuqfsfjyo2yWkCl10MaSaKRkoU=;
-        b=EQP3p1cHkEIRiB+y27l5gynle4EIDi6jzweIHfU2USDyWokUAhR1r7OKXTKG+icGw8yPHB
-        vx96iXXCf2+7kV1j70maWpDCUGZv1FoDtoni+GO5kL8UftH/+GPGIvO7CHqGNJqyPqJzdU
-        ayBHDHfEZcn1XYu7rYdhn0myLOV/7/o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-130-1Gk68m60OaugU8loWBg99g-1; Tue, 25 Jul 2023 12:38:00 -0400
-X-MC-Unique: 1Gk68m60OaugU8loWBg99g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27C681044597;
-        Tue, 25 Jul 2023 16:38:00 +0000 (UTC)
-Received: from tpad.localdomain (ovpn-112-3.gru2.redhat.com [10.97.112.3])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D021492B01;
-        Tue, 25 Jul 2023 16:37:59 +0000 (UTC)
-Received: by tpad.localdomain (Postfix, from userid 1000)
-        id B479B4018E672; Tue, 25 Jul 2023 13:37:32 -0300 (-03)
-Date:   Tue, 25 Jul 2023 13:37:32 -0300
-From:   Marcelo Tosatti <mtosatti@redhat.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Valentin Schneider <vschneid@redhat.com>,
-        Nadav Amit <namit@vmware.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-trace-kernel@vger.kernel.org" 
-        <linux-trace-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, bpf <bpf@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "rcu@vger.kernel.org" <rcu@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-Subject: Re: [RFC PATCH v2 20/20] x86/mm, mm/vmalloc: Defer
- flush_tlb_kernel_range() targeting NOHZ_FULL CPUs
-Message-ID: <ZL/6THDvmC5mVyBI@tpad>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
- <20230720163056.2564824-21-vschneid@redhat.com>
- <188AEA79-10E6-4DFF-86F4-FE624FD1880F@vmware.com>
- <xhsmh8rb5tui1.mognet@vschneid.remote.csb>
- <2284d0db-f94a-e059-7bd0-bab4f112ed35@intel.com>
+        bh=DumZqxaVyfmECX8MJn416CV8fns14ADEeMsPKD9aBjY=;
+        b=hl+q9AdWPvvjdBpcgYObuxPc8IQsxt98NVdYAyAxrlotK8opwyMBxWKMmMBlao7zX926ek
+        vX9jr4oMxdGMJ2rNxaYcKTUxaN2bXhcHnUhf/85bdOdcHsn1fXvKERuKCO1fppj7p1yyNb
+        DETISqRhNNBNvyFRx0HsDY+XHtNLtOY=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-623-AvQULIFZOqipALlu2y-K_Q-1; Tue, 25 Jul 2023 12:43:11 -0400
+X-MC-Unique: AvQULIFZOqipALlu2y-K_Q-1
+Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-4fb9364b320so5213464e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 09:43:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690303390; x=1690908190;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DumZqxaVyfmECX8MJn416CV8fns14ADEeMsPKD9aBjY=;
+        b=UpbIqNbtun8ryqVZkP0tQYkZ+hNGLVPBKwh12froDac4sVqohj44lrZAUSiQOz8Kog
+         T0ZRSXHePHWWHJgtJk0I4+Fo6zAzou8g20KaADR4iBtJo02Pxpd/3txWOgI9zaoQjbvM
+         YUScR+lp0pd4SYjPKojQ1vqBZkINZjD/AGhKSmxDrxBoqSXuf8jx6S7sPaDGNZLaMDZ7
+         N7H4PzhKut26IMQX8gR67T0sIiX7+GiCFU09TVLAPFQbIA716/XQk+aASw4UKIHL7mAs
+         2HnZS3cDNC27Tb2bocd4cAzTkcgEdIIGJEs7Qd3T08++zg/ZdpSiaZ35X7DZoAcBzQ3g
+         LUkw==
+X-Gm-Message-State: ABy/qLaSdca7PjrPUCYJb0XTqJtTIFP8sXwhxhB9KSs+IvU+fn0uucD5
+        yX3RxqDpg0UDF9dEAIlidY5orT+OYFeGvaQiSJp4E/LX06VRFQgk/1tdN9WUA8ui9r/UBbvX6Ba
+        q+GrOYmhKohmIC0Y1Km3w
+X-Received: by 2002:ac2:41d6:0:b0:4fb:ca59:42d7 with SMTP id d22-20020ac241d6000000b004fbca5942d7mr6995124lfi.33.1690303389978;
+        Tue, 25 Jul 2023 09:43:09 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGXr14dAVQSWXE3vfq1e8pmsjMxBx83DZc37lbfZseo2qXC3gtSFL30CnkRMrXCtuvGkGwvdw==
+X-Received: by 2002:ac2:41d6:0:b0:4fb:ca59:42d7 with SMTP id d22-20020ac241d6000000b004fbca5942d7mr6995106lfi.33.1690303389480;
+        Tue, 25 Jul 2023 09:43:09 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+        by smtp.gmail.com with ESMTPSA id h15-20020aa7c94f000000b0051d890b2407sm7692182edt.81.2023.07.25.09.43.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jul 2023 09:43:09 -0700 (PDT)
+Message-ID: <75c86224-6183-07fe-da04-6a2101615a50@redhat.com>
+Date:   Tue, 25 Jul 2023 18:43:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2284d0db-f94a-e059-7bd0-bab4f112ed35@intel.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH drm-misc-next v8 11/12] drm/nouveau: implement new VM_BIND
+ uAPI
+Content-Language: en-US
+To:     Faith Ekstrand <faith@gfxstrand.net>
+Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+        bskeggs@redhat.com, Liam.Howlett@oracle.com,
+        matthew.brost@intel.com, boris.brezillon@collabora.com,
+        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
+        willy@infradead.org, jason@jlekstrand.net,
+        donald.robson@imgtec.com, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230720001443.2380-1-dakr@redhat.com>
+ <20230720001443.2380-12-dakr@redhat.com>
+ <CAOFGe945tp344=g-++=EAT89t0qJHZ=3yeW-k9OTbGNJodvwAg@mail.gmail.com>
+ <542203c6-781a-dc44-6fa1-13cd20ab9e21@redhat.com>
+ <CAOFGe94sG5==GM+spcTihcAtMCoj2xZYpN8NsYE6CEckdHJ8rQ@mail.gmail.com>
+From:   Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <CAOFGe94sG5==GM+spcTihcAtMCoj2xZYpN8NsYE6CEckdHJ8rQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 24, 2023 at 10:40:04AM -0700, Dave Hansen wrote:
-> On 7/24/23 04:32, Valentin Schneider wrote:
-> > AFAICT the only reasonable way to go about the deferral is to prove that no
-> > such access happens before the deferred @operation is done. We got to prove
-> > that for sync_core() deferral, cf. PATCH 18.
-> > 
-> > I'd like to reason about it for deferring vunmap TLB flushes:
-> > 
-> > What addresses in VMAP range, other than the stack, can early entry code
-> > access? Yes, the ranges can be checked at runtime, but is there any chance
-> > of figuring this out e.g. at build-time?
+On 7/25/23 18:16, Faith Ekstrand wrote:
+> On Mon, Jul 24, 2023 at 9:04 PM Danilo Krummrich <dakr@redhat.com 
+> <mailto:dakr@redhat.com>> wrote:
 > 
-> Nadav was touching on a very important point: TLB flushes for addresses
-> are relatively easy to defer.  You just need to ensure that the CPU
-> deferring the flush does an actual flush before it might architecturally
-> consume the contents of the flushed entry.
+>     On 7/22/23 17:12, Faith Ekstrand wrote:
+>      > On Wed, Jul 19, 2023 at 7:15 PM Danilo Krummrich <dakr@redhat.com
+>     <mailto:dakr@redhat.com>
+>      > <mailto:dakr@redhat.com <mailto:dakr@redhat.com>>> wrote:
+>      >
+>      >     This commit provides the implementation for the new uapi
+>     motivated
+>      >     by the
+>      >     Vulkan API. It allows user mode drivers (UMDs) to:
+>      >
+>      >     1) Initialize a GPU virtual address (VA) space via the new
+>      >         DRM_IOCTL_NOUVEAU_VM_INIT ioctl for UMDs to specify the
+>     portion
+>      >     of VA
+>      >         space managed by the kernel and userspace, respectively.
+>      >
+>      >     2) Allocate and free a VA space region as well as bind and
+>     unbind memory
+>      >         to the GPUs VA space via the new
+>     DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
+>      >         UMDs can request the named operations to be processed either
+>      >         synchronously or asynchronously. It supports DRM syncobjs
+>      >         (incl. timelines) as synchronization mechanism. The
+>     management
+>      >     of the
+>      >         GPU VA mappings is implemented with the DRM GPU VA manager.
+>      >
+>      >     3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC
+>     ioctl. The
+>      >         execution happens asynchronously. It supports DRM syncobj
+>     (incl.
+>      >         timelines) as synchronization mechanism. DRM GEM object
+>     locking is
+>      >         handled with drm_exec.
+>      >
+>      >     Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC,
+>     use the DRM
+>      >     GPU scheduler for the asynchronous paths.
+>      >
+>      >
+>      > IDK where the best place to talk about this is but this seems as
+>     good as
+>      > any.
+>      >
+>      > I've been looking into why the Vulkan CTS runs about 2x slower
+>     for me on
+>      > the new UAPI and I created a little benchmark to facilitate testing:
+>      >
+>      > https://gitlab.freedesktop.org/mesa/crucible/-/merge_requests/141
+>     <https://gitlab.freedesktop.org/mesa/crucible/-/merge_requests/141>
+>      >
+>     <https://gitlab.freedesktop.org/mesa/crucible/-/merge_requests/141
+>     <https://gitlab.freedesktop.org/mesa/crucible/-/merge_requests/141>>
+>      >
+>      > The test, roughly, does the following:
+>      >   1. Allocates and binds 1000 BOs
+>      >   2. Constructs a pushbuf that executes a no-op compute shader.
+>      >   3. Does a single EXEC/wait combo to warm up the kernel
+>      >   4. Loops 10,000 times, doing SYNCOBJ_RESET (fast), EXEC, and then
+>      > SYNCOBJ_WAIT and times the loop
+>      >
+>      > Of course, there's a bit of userspace driver overhead but that's
+>      > negledgable.
+>      >
+>      > If you drop the top patch which allocates 1k buffers, the submit
+>     time on
+>      > the old uAPI is 54 us/exec vs. 66 us/exec on the new UAPI. This
+>     includes
+>      > the time to do a SYNCOBJ_RESET (fast), EXEC, and SYNCOBJ_WAIT.The
+>     Intel
+>      > driver, by comparison, is 33us/exec so it's not syncobj overhead.
+>     This
+>      > is a bit concerning (you'd think the new thing would be faster)
+>     but what
+>      > really has me concerned is the 1k buffer case.
+>      >
+>      > If you include the top patch in the crucible MR, it allocates
+>     1000 BOs
+>      > and VM_BINDs them. All the binding is done before the warmup EXEC.
+>      > Suddenly, the submit time jumps to 257 us/exec with the new UAPI.
+>     The
+>      > old UAPI is much worse (1134 us/exec) but that's not the point. Once
+>      > we've done the first EXEC and created our VM bindings, the cost
+>     per EXEC
+>      > shouldn't change at all based on the number of BOs bound.  Part
+>     of the
+>      > point of VM_BIND is to get all that binding logic and BO walking
+>     off the
+>      > EXEC path.
+>      >
+>      > Normally, I wouldn't be too worried about a little performance
+>     problem
+>      > like this. This is the first implementation and we can improve it
+>     later.
+>      > I get that. However, I suspect the solution to this problem involves
+>      > more UAPI and I want to make sure we have it all before we call
+>     this all
+>      > done and dusted and land it.
+>      >
+>      > The way AMD solves this problem as well as the new Xe driver for
+>     Intel
+>      > is to have a concept of internal vs. external BOs. Basically,
+>     there's an
+>      > INTERNAL bit specified somewhere in BO creation that has a few
+>     userspace
+>      > implications:
+>      >   1. In the Xe world where VMs are objects, INTERNAL BOs are
+>     assigned a
+>      > VM on creation and can never be bound to any other VM.
+>      >   2. Any attempt to export an INTERNAL BO via prime or a similar
+>      > mechanism will fail with -EINVAL (I think?).
+>      >
+>      > Inside the kernel driver, all the internal BOs on a VM (or DRM
+>     file in
+>      > the case of nouveau/AMD since they don't have VM objects) share a
+>     single
+>      > dma_resv which allows you to avoid having to walk lists of BOs
+>     and take
+>      > locks on every exec. Instead, you can just look at the fences on the
+>      > dma_resv for the VM. There's still a BO list associated with the
+>     VM for
+>      > external BOs but, in most Vulkan applications, there are less than a
+>      > half dozen external BOs total.  Meanwhile, the hundreds or
+>     thousands of
+>      > BOs used entirely internally to the application basically count
+>     as one
+>      > BO when it comes to locking overhead.
 > 
-> TLB flushes for freed page tables are another game entirely.  The CPU is
-> free to cache any part of the paging hierarchy it wants at any time.
-
-Depend on CONFIG_PAGE_TABLE_ISOLATION=y, which flushes TLB (and page
-table caches) on user->kernel and kernel->user context switches ?
-
-So freeing a kernel pagetable page does not require interrupting a CPU 
-which is in userspace (therefore does not have visibility into kernel
-pagetables).
-
-> It's also free to set accessed and dirty bits at any time, even for
-> instructions that may never execute architecturally.
+>     I am aware of that and I have some WIP patches [1] to generalize a
+>     common dma-resv within the GPUVA manager which basically represents a
+>     GPU-VM. It also keeps track of external GEM objects and evicted
+>     objects,
+>     such that on EXEC we only need to validate objects needing validation,
+>     rather than all of them. Hence, it should be faster than with Daves
+>     patch having a common dma-resv only.
 > 
-> That basically means that if you have *ANY* freed page table page
-> *ANYWHERE* in the page table hierarchy of any CPU at any time ... you're
-> screwed.
+>     In [1] I also picked up Daves code to allow for noop jobs to be
+>     submitted as well as the NOUVEAU_GEM_DOMAIN_NO_SHARE flag.
 > 
-> There's no reasoning about accesses or ordering.  As soon as the CPU
-> does *anything*, it's out to get you.
+>     This seems to work fine with yours and Daves latest mesa work
+>     (670c301a9845a3fc795fd48a1e6714e75b388245).
 > 
-> You're going to need to do something a lot more radical to deal with
-> free page table pages.
+>     Your crucible bench.submit-latency test goes down to 51us on my machine
+>     with those patches.
+> 
+>     I am unsure though, if we should aim for a common solution within the
+>     GPUVA manager directly or if we should do it driver specific in a first
+>     shot. I discussed this patch with Matt and I know that XE looks for
+>     having a generalized solution as well. However, it surely needs some
+>     more care and polish and feedback from other drivers perspective.
+> 
+>     [1]
+>     https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next-vm-resv <https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next-vm-resv>
+> 
+>      >
+>      > I'm not actually trying to dictate kernel driver design here. If one
+>      > dma_resv doesn't work, fine. I don't care as long as EXEC scales.
+>      > However, given that the solution in all the other drivers
+>     involves a BO
+>      > create flag nouveau doesn't have, we need to either add that or
+>     prove
+>      > that we can get EXEC to scale without it.
+> 
+>       From #nouveau:
+> 
+>     <gfxstrand> CTSing now
+>     <gfxstrand> It looks like it's still going to take 1.5 hours.
+> 
+>     I may have an idea what could be the issue, let me explain.
+> 
+>     Currently, there is a single drm_gpu_scheduler having a
+>     drm_sched_entity
+>     per client (for VM_BIND jobs) and a drm_sched_entity per channel (for
+>     EXEC jobs).
+> 
+>     For VM_BIND jobs the corresponding PT[E]s are allocated before the job
+>     is pushed to the corresponding drm_sched_entity. The PT[E]s are
+>     freed by
+>     the schedulers free() callback pushing work to a single threaded
+>     workqueue doing the actual free. (We can't do it in the free() callback
+>     directly, since to free PT[E]s we need to hold a mutex we also need to
+>     hold while allocating them.)
+> 
+>     Because of how the page table handling in Nouveau is implemented
+>     currently there are some ordering restrictions when it comes to
+>     allocating and freeing PT[E]s. For instance, we can't allocate PT[E]s
+>     for sparse regions before the PT[E]s of previously removed memory
+>     backed
+>     mappings *within the same address range* aren't freed. The same applies
+>     vice versa and for sparse mapping replacing sparse mapping. For memory
+>     backed mappings (also for those within sparse regions) we do *not* have
+>     such ordering requirements.
+> 
+>     So, let's assume userspace removes a sparse region A[0x0, 0x8000000]
+>     and
+>     asks for a couple of new memory backed mappings within or crossing this
+>     range; the kernel needs to wait for A not only to be unmapped, but also
+>     the backing PT[E]s to be freed before it can even allocate the PT[E]s
+>     for the new memory backed mappings.
+> 
+>     Now, let's have a look what the gpu schedulers main loop does. Before
+>     picking the next entity to schedule a job for, it tries to fetch the
+>     first job from the pending_list and checks whether its dma-fence is
+>     signaled already and whether the job can be cleaned up. Subsequent jobs
+>     on the pending_list are not taken into consideration. Hence, it might
+>     well be that the first job on the pending_list isn't signaled yet, but
+>     subsequent jobs are and hence *could* be cleaned up.
+> 
+>     Normally, this shouldn't be a problem, since we wouldn't really care
+>     *when* resources are cleaned up as long as they are eventually.
+>     However,
+>     with the ordering restrictions the page table handling gives us we
+>     might
+>     actually care about the "when".
+> 
+>     For instance, it could happen that the first job on the pending list is
+>     a rather long running EXEC job (1) scheduled from client A on some
+>     channel. The next job on the pending list could be a VM_BIND job (2)
+>     from client B removing a sparse region, which is finished already
+>     but is
+>     blocked to be cleaned up until the EXEC job (1) from client A is
+>     finished and cleaned up. Now, a subsequent VM_BIND job (3) from
+>     client B
+>     creating a new memory backed mapping in the same address range as the
+>     sparse region removed by job (2) would need to wait for (2) to be
+>     cleaned up. Ultimately, we can expect client B to submit an EXEC job
+>     that needs to wait for the corresponding mappings to be created, namely
+>     the VM_BIND job (3).
+> 
+>     Clearly in order to address this we need to rework the page table
+>     handling in Nouveau to get rid of those ordering restrictions.
+> 
+>     Temporarily, we could also try to run a secondary drm_gpu_scheduler
+>     instance, one for VM_BINDs and one for EXECs maybe...
+> 
+>     However, I would not expect this to be an issue in real applications,
+>     especially if mesa takes a little care not to re-use certain address
+>     space areas right away to avoid running into such wait conditions.
+> 
+>     For parallel VK CTS runs I could imagine that we run into such cases
+>     from time to time though.
+> 
+> 
+> Thanks for the detailed write-up! That would definitely explain it. If I 
+> remember, I'll try to do a single-threaded run or two. If your theory is 
+> correct, there should be no real perf difference when running 
+> single-threaded. Those runs will take a long time, though, so I'll have 
+> to run them over night. I'll let you know in a few days once I have the 
+> results.
 
+I can also push a separate branch where I just print out a warning 
+whenever we run into such a condition including the time we were waiting 
+for things to complete. I can probably push something later today.
 
+> 
+> If this theory holds, then I'm not concerned about the performance of 
+> the API itself. It would still be good to see if we can find a way to 
+> reduce the cross-process drag in the implementation but that's a perf 
+> optimization we can do later.
+
+ From the kernel side I think the only thing we could really do is to 
+temporarily run a secondary drm_gpu_scheduler instance, one for VM_BINDs 
+and one for EXECs until we got the new page table handling in place.
+
+However, the UMD could avoid such conditions more effectively, since it 
+controls the address space. Namely, avoid re-using the same region of 
+the address space right away in certain cases. For instance, instead of 
+replacing a sparse region A[0x0, 0x4000000] with a larger sparse region 
+B[0x0, 0x8000000], replace it with B'[0x4000000, 0xC000000] if possible.
+
+However, just mentioning this for completeness. The UMD surely shouldn't 
+probably even temporarily work around such a kernel limitation.
+
+Anyway, before doing any of those, let's see if the theory holds and 
+we're actually running into such cases.
+
+> 
+> Does it actually matter? Yes, it kinda does. No, it probably doesn't 
+> matter for games because you're typically only running one game at a 
+> time. From a development PoV, however, if it makes CI take longer then 
+> that slows down development and that's not good for the users, either.
+
+Fully agree.
+
+- Danilo
+
+> 
+> ~Faith
+> 
+>     - Danilo
+> 
+>      >
+>      > ~Faith
+>      >
+> 
 
