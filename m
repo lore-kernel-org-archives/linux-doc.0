@@ -2,89 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 716A0C0015E
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:46:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3BEFC0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:56:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbjGYNqz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 09:46:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40242 "EHLO
+        id S232129AbjGYN4i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 09:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231452AbjGYNqw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:46:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE6D81FF7;
-        Tue, 25 Jul 2023 06:46:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 837006171E;
-        Tue, 25 Jul 2023 13:46:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C76EC433C7;
-        Tue, 25 Jul 2023 13:46:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690292798;
-        bh=JZqrPn+/DHRI6pWh4me2MAQvwy7w4laz7lhHcxIHSxA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z2gILGbcAHKPc+dC4tnYImKJ8Lz6VQz6UgiEbMc2w+TJIzDMlkPw8kkC7EiZd7Q0B
-         wSjleOQqtX3QaxF1h1zqruU/AmEW6FGOtR0GlWzOVrStTevaYkxa9L54+ZlNo2k0KF
-         bSOqTF2M7wgBcoxCWLMNJkrapbSqbOc2KVI+ZZSzeBqVaTwQ0li+mP4VgWBWpkgTcw
-         JpS0rtVsjdNM11gXgUxMho0Qbs6wGzV+7TUPE3fadPTOhTofY0/ipoEcWTSBaxA8bj
-         Vf85uFdzOGyVZ08wyPOT1ge0v6F5uUwQQBuATHRD4QCRdE+A0oHjmSK9n7FUyjLDFc
-         R45KWZoFXkrDg==
-Date:   Tue, 25 Jul 2023 14:46:33 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 1/1] Documentation: core-api: Drop :export: for
- int_log.h
-Message-ID: <b761d010-ef21-4be6-b6c3-678498b7fa71@sirena.org.uk>
-References: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
- <87a5vkb0ee.fsf@meer.lwn.net>
+        with ESMTP id S232154AbjGYN4L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:56:11 -0400
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA7E02102;
+        Tue, 25 Jul 2023 06:56:00 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7659db6339eso257706485a.1;
+        Tue, 25 Jul 2023 06:56:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690293360; x=1690898160;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=88QG+EwF/eDKfWMz+zR4yw2Isf3lGky7V/U2bBHNF5o=;
+        b=XP964ku1yxqdbpoD7JJLDdTOgIzA9ME5AKAS7k+xxrldqTy3BBZFbTbvTUmT2q5knn
+         nUpQYOV3HGAhn+7/ND3iosIre+fAd445F1uG9QSoaPKR7AFPf0jRtWr9bn9CMn+1FUYm
+         HKK6iQ6O9K7YEkeWHLk8xtyalYpoeeEhns3e445HH2dNdgck8ox0Zd34ZBD4v5J2e0Yq
+         xgLL3+9pQyi+PF7QThbuSwynvN3cSb1S082SxzReXhvKUIPJMzb+GhsEZMvHzlxBel6+
+         x7vKwnR2YDa2VL1K8HyGm0zaBacQxn9Szhq0ZidBtwJQmz/lW66Be8er39Qb2enZ77vJ
+         H3/w==
+X-Gm-Message-State: ABy/qLaqA4pud5Tkm8Kc7y4/JRPun3snPtKbHi8F/7fBN9CIcRGsGeIC
+        TRH1oECW9Mv/Q8ZCASiyA8/IsuzPFLHIacYi
+X-Google-Smtp-Source: APBJJlHjJYvouLEUKwC5K67LVNqpOUfHAQyg2Hzatnvf+//We1oa/BaWucDLiwV1hIfi940pFSbRhQ==
+X-Received: by 2002:a05:620a:28cb:b0:767:dc46:eb6c with SMTP id l11-20020a05620a28cb00b00767dc46eb6cmr2954089qkp.0.1690293359653;
+        Tue, 25 Jul 2023 06:55:59 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a040:199:8930:2c90:cb9e:b154:73dc])
+        by smtp.gmail.com with ESMTPSA id i16-20020a0cf390000000b0063646f1147asm4340406qvk.135.2023.07.25.06.55.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 06:55:59 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Costa Shulyupin <costa.shul@redhat.com>
+Subject: [PATCH] docs: consolidate embedded interfaces
+Date:   Tue, 25 Jul 2023 16:55:36 +0300
+Message-ID: <20230725135537.2534212-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="sx+tKS4ZQ5MXdS0r"
-Content-Disposition: inline
-In-Reply-To: <87a5vkb0ee.fsf@meer.lwn.net>
-X-Cookie: Happiness is the greatest good.
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+to make page Subsystems APIs more organized as requested
 
---sx+tKS4ZQ5MXdS0r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/subsystem-apis.rst | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-On Tue, Jul 25, 2023 at 07:12:25AM -0600, Jonathan Corbet wrote:
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
+diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
+index 90a0535a932a..7453586114d4 100644
+--- a/Documentation/subsystem-apis.rst
++++ b/Documentation/subsystem-apis.rst
+@@ -60,20 +60,28 @@ Storage interfaces
+    scsi/index
+    target/index
+ 
+-**Fixme**: much more organizational work is needed here.
++Embedded interfaces
++-------------------
++
++.. toctree::
++   :maxdepth: 1
++
++   iio/index
++   spi/index
++   i2c/index
++   fpga/index
++   w1/index
++   misc-devices/index
++
++**Fixme**: some organizational work is still needed here.
+ 
+ .. toctree::
+    :maxdepth: 1
+ 
+    accounting/index
+    cpu-freq/index
+-   fpga/index
+-   i2c/index
+-   iio/index
+    leds/index
+    pcmcia/index
+-   spi/index
+-   w1/index
+    watchdog/index
+    virt/index
+    hwmon/index
+@@ -83,6 +91,5 @@ Storage interfaces
+    bpf/index
+    usb/index
+    PCI/index
+-   misc-devices/index
+    peci/index
+    wmi/index
+-- 
+2.41.0
 
-> > The :export: keyword makes sense only for C-files, where EXPORT_SYMBOL()
-> > might appear. Otherwise kernel-doc may not produce anything out of this
-> > file.
-
-> So I still can't take this patch for the reasons described before.  It
-> looks like Mark took the patch that added the problem, so perhaps he
-> should be a recipient of this one too?  I'll add him to the CC...
-
-Is this the same patch I applied yesterday or a different one?
-
---sx+tKS4ZQ5MXdS0r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS/0jUACgkQJNaLcl1U
-h9AVuQf/eS2VDsEqbQkWzEHHEkArGf8F18F0Qgg37XCfM2YZnAuFeYTHC7GheM44
-6cOWRRWa/PeOO4ywBCddgHokVy54IgzKeRoTP4au9slwbskxrrdfd3cjy2FMzQe0
-iUJmMSeky1zuvf+tZeNKTcrrV7bYF0chIpD8HhLcq9qsdiz+I8sxCuYmsu+U50L7
-pUJeVlVB+LZ8CmhTpc8MYYMUcavdGoCbW3/0GDB2onqn/MsJQQBGYAOdRbGGl3Wc
-t6HD3Fo6QCF5PA3wm0+rgI1qtAT8hVhKukGEdS2A6xnUqN3hmftjbFX1kS9pmSZa
-J2bDUU7+2DwkR91t1L8bANya5PrSbg==
-=d9c9
------END PGP SIGNATURE-----
-
---sx+tKS4ZQ5MXdS0r--
