@@ -2,169 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E390C41513
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 17:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D4C1EB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 18:55:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbjGYRrS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 13:47:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44928 "EHLO
+        id S229459AbjGYSzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 14:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbjGYRrP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 13:47:15 -0400
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com [IPv6:2607:f8b0:4864:20::929])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B69A71B8
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 10:47:12 -0700 (PDT)
-Received: by mail-ua1-x929.google.com with SMTP id a1e0cc1a2514c-76d846a4b85so1871983241.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 10:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1690307232; x=1690912032;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tjxGQ97jdZy+msttaE6/InGye12w/eRXu8aDXNaXRhA=;
-        b=mJItfjJo0J8vq8ZI7eQRqgBugJTE/Qjls8F9j5zJT4/6drjQg4QRDl54H4s/m4+/B6
-         OdBZ9Wq1QAC//eamW92We5bVMlBhbiRysXzmrEde6b6WilxsOOxfPGb41E5gLvLxIRQd
-         mG8WW9RKwkhn1rvhmTvmgDcKKzEniO9bQreDA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690307232; x=1690912032;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tjxGQ97jdZy+msttaE6/InGye12w/eRXu8aDXNaXRhA=;
-        b=J7pDIb+9CPdHTYttfOuewiy4s/7l8XeuJ5cjalyD9Wux5mD75/FqFaP+mNm4cjwfXJ
-         u/yt+NcWTsKNIvZF0o+olJW0CFwd865djOsggPxv8eaHJcUr3waxgb76kW6IUv9ny88L
-         uMallGCreMyEWMAuC5iyuDZs+zgiWDGjI8hxzkTGMmJxtsV32OPoQEtVSSddCza3ZjeM
-         OwmxO8XhKJYfOXLsfxyoAWks+zF1cQruvrapR43v3bcep91S9R3q/SLngT7RZWC9Afuj
-         LFvVLW8fhhvUXXyUCjwptF2CmcVjlbqReFU3YnJn2PoLdQYurEblezX86x+bcxumkfb5
-         dHDg==
-X-Gm-Message-State: ABy/qLaIZq1aTRcBJd1Z7qB7DUHZtnOkoj5Id7BPAe2P9NArWLHOP6vR
-        5d9mrPA+TbzOPUYYdd9jwSNRljM2V2BykJwWkMw=
-X-Google-Smtp-Source: APBJJlFxF234D/M5tS2Q+/KCUeJ8ymhGYnmYBO9RSoGjcR24zk88rZomSukAB6JnjgPjlb4vStmdHw==
-X-Received: by 2002:a67:b106:0:b0:443:60d7:3925 with SMTP id w6-20020a67b106000000b0044360d73925mr5444114vsl.20.1690307231746;
-        Tue, 25 Jul 2023 10:47:11 -0700 (PDT)
-Received: from [192.168.0.198] (c-98-249-43-138.hsd1.va.comcast.net. [98.249.43.138])
-        by smtp.gmail.com with ESMTPSA id c11-20020a0cf2cb000000b0063d1f967268sm404045qvm.111.2023.07.25.10.47.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 10:47:11 -0700 (PDT)
-Message-ID: <c72c1089-f5ac-9ed2-3412-cdb310cf5b51@joelfernandes.org>
-Date:   Tue, 25 Jul 2023 13:47:09 -0400
+        with ESMTP id S230190AbjGYSzb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 14:55:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24DE91BC2
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 11:55:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AB0886187D
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 18:55:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA3D3C433C9;
+        Tue, 25 Jul 2023 18:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690311329;
+        bh=s6phFJ9yBv1XmQB6gDeUZIImvyU/LkcA0/ax2HSpizY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=o/r1Y25gagTV062gymRgKk6qq04PwJT5zjfx02tXUHLCKL8yZx6UFZVp4k7A0D3g5
+         AR/ZYAfN24NroHcUWIQClQEa4RwJ4pGq371mLm9e8YyBowWNDE7vOt3hk+R1HlsYBC
+         B/AjTIvxb3ods6l/uVaQGv1mNiLzhJm7CCaxpdk2Sek3wOsCj+Rrlez/y2/sdDj/dO
+         lbHMkcGFwK0dF0fsxU9gqaiOZ6Tt1fsOXuzWXzQD58T20FFIc8FSasH6uABZZ+I9lC
+         uq9Mnhe7hE7kfm3qfK08wi7kqwJkeqITbC4k6LPBiqGlf3gBf4u+NkSiaWrXClgPNo
+         jOvEhLhLXAO0Q==
+Date:   Tue, 25 Jul 2023 11:55:28 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Alexander H Duyck <alexander.duyck@gmail.com>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: net: clarify the NAPI rules around XDP Tx
+Message-ID: <20230725115528.596b5305@kernel.org>
+In-Reply-To: <c429298e279bd549de923deba09952e7540e534a.camel@gmail.com>
+References: <20230720161323.2025379-1-kuba@kernel.org>
+        <c429298e279bd549de923deba09952e7540e534a.camel@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [RFC PATCH v2 18/20] context_tracking,x86: Defer kernel text
- patching IPIs
-Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Valentin Schneider <vschneid@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Nadav Amit <namit@vmware.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-References: <20230720163056.2564824-19-vschneid@redhat.com>
- <6EBAEEED-6F38-472D-BA31-9C61179EFA2F@joelfernandes.org>
- <20230725133936.GM3765278@hirez.programming.kicks-ass.net>
-From:   Joel Fernandes <joel@joelfernandes.org>
-In-Reply-To: <20230725133936.GM3765278@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 7/25/23 09:39, Peter Zijlstra wrote:
-> On Tue, Jul 25, 2023 at 06:49:45AM -0400, Joel Fernandes wrote:
->> Interesting series Valentin. Some high-level question/comments on this one:
->>
->>> On Jul 20, 2023, at 12:34 PM, Valentin Schneider <vschneid@redhat.com> wrote:
->>>
->>> ﻿text_poke_bp_batch() sends IPIs to all online CPUs to synchronize
->>> them vs the newly patched instruction. CPUs that are executing in userspace
->>> do not need this synchronization to happen immediately, and this is
->>> actually harmful interference for NOHZ_FULL CPUs.
->>
->> Does the amount of harm not correspond to practical frequency of text_poke? 
->> How often does instruction patching really happen? If it is very infrequent
->> then I am not sure if it is that harmful.
+On Tue, 25 Jul 2023 10:30:24 -0700 Alexander H Duyck wrote:
+> > -In other words, it is recommended to ignore the budget argument when
+> > -performing TX buffer reclamation to ensure that the reclamation is not
+> > -arbitrarily bounded; however, it is required to honor the budget argument
+> > -for RX processing.
+> > +In other words for Rx processing the ``budget`` argument limits how many
+> > +packets driver can process in a single poll. Rx specific APIs like page
+> > +pool or XDP cannot be used at all when ``budget`` is 0.
+> > +skb Tx processing should happen regardless of the ``budget``, but if
+> > +the argument is 0 driver cannot call any XDP (or page pool) APIs.
 > 
-> Well, it can happen quite a bit, also from things people would not
-> typically 'expect' it.
+> This isn't accurate, and I would say it is somewhat dangerous advice.
+> The Tx still needs to be processed regardless of if it is processing
+> page_pool pages or XDP pages. I agree the Rx should not be processed,
+> but the Tx must be processed using mechanisms that do NOT make use of
+> NAPI optimizations when budget is 0.
 > 
-> For instance, the moment you create the first per-task perf event we
-> frob some jump-labels (and again some second after the last one goes
-> away).
+> So specifically, xdp_return_frame is safe in non-NAPI Tx cleanup. The
+> xdp_return_frame_rx_napi is not.
 > 
-> The same for a bunch of runtime network configurations.
-
-Ok cool. I guess I still have memories of that old ARM device I had
-where modifications to kernel text was forbidden by hardware (was a
-security feature). That was making kprobes unusable...
-
->>> As the synchronization IPIs are sent using a blocking call, returning from
->>> text_poke_bp_batch() implies all CPUs will observe the patched
->>> instruction(s), and this should be preserved even if the IPI is deferred.
->>> In other words, to safely defer this synchronization, any kernel
->>> instruction leading to the execution of the deferred instruction
->>> sync (ct_work_flush()) must *not* be mutable (patchable) at runtime.
->>
->> If it is not infrequent, then are you handling the case where userland
->> spends multiple seconds before entering the kernel, and all this while
->> the blocking call waits? Perhaps in such situation you want the real IPI
->> to be sent out instead of the deferred one?
+> Likewise there is napi_consume_skb which will use either a NAPI or non-
+> NAPI version of things depending on if budget is 0 or not.
 > 
-> Please re-read what Valentin wrote -- nobody is waiting on anything.
+> For the page_pool calls there is the "allow_direct" argument that is
+> meant to decide between recycling in directly into the page_pool cache
+> or not. It should only be used in the Rx handler itself when budget is
+> non-zero.
+> 
+> I realise this was written up in response to a patch on the Mellanox
+> driver. Based on the patch in question it looks like they were calling
+> page_pool_recycle_direct outside of NAPI context. There is an explicit
+> warning above that function about NOT calling it outside of NAPI
+> context.
 
-Makes sense. To be fair I received his email 3 minutes before yours ;-).
-But thank you both for clarifying!
+Unless I'm missing something budget=0 can be called from hard IRQ
+context. And page pool takes _bh() locks. So unless we "teach it"
+not to recycle _anything_ in hard IRQ context, it is not safe to call.
 
- - Joel
+> >  .. warning::
+> >  
+> > -   The ``budget`` argument may be 0 if core tries to only process Tx completions
+> > -   and no Rx packets.
+> > +   The ``budget`` argument may be 0 if core tries to only process
+> > +   skb Tx completions and no Rx or XDP packets.
+> >  
+> >  The poll method returns the amount of work done. If the driver still
+> >  has outstanding work to do (e.g. ``budget`` was exhausted)  
+> 
+> We cannot make this distinction if both XDP and skb are processed in
+> the same Tx queue. Otherwise you will cause the Tx to stall and break
+> netpoll. If the ring is XDP only then yes, it can be skipped like what
+> they did in the Mellanox driver, but if it is mixed then the XDP side
+> of things needs to use the "safe" versions of the calls.
 
-
+IDK, a rare delay in sending of a netpoll message is not a major
+concern.
