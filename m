@@ -2,153 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D73CEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 22:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00E03C001DE
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 23:26:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229606AbjGYWxC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 18:53:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
+        id S229873AbjGYXZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 19:25:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231824AbjGYWwq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 18:52:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ACA226A3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 15:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690325327;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fqtwPYmHGNsoP1pFuN8jF45AEQfTNG8g69I653X2PAs=;
-        b=cpbOXseG36fl6vzagfBRrQPsMhHZr8u099BMO16tkW/kp1GXeHXl0MFTU6Np7S8k56kt1U
-        CJdiDPuz2H8eCc5Ir+94NV3Yp4HRX+cKkf+QWc17vvBfTpIicyUAzNTvBWtKra8HDhDlqO
-        FTLkSwDPuAiReTYxxg2BzqVogZtEn1k=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-367-VGuSKGLMP9G13_YNXb3bUw-1; Tue, 25 Jul 2023 18:48:45 -0400
-X-MC-Unique: VGuSKGLMP9G13_YNXb3bUw-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-94a348facbbso351012966b.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 15:48:45 -0700 (PDT)
+        with ESMTP id S229746AbjGYXZ7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 19:25:59 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A5E19AD
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 16:25:57 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1b9ed206018so41535ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 16:25:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1690327557; x=1690932357;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XUAymOqyJF+KJzhkhKRHjkAaSaauZTSc0FF9IG/sL8s=;
+        b=K/zocu5kXUyK0/jI3vAvSSXNAJ68vZAWBxXmVZ2imIvEsi7Fx8cNGPhTKJBVNOQsX8
+         ma9NJSi0ZrEZvF0QVbb4UIDpZkW5pNU+rFWNr6Bh2kyJOZ6UJAV3MKm8wcBBdYPLUTMy
+         yP9hRlwTYRBW1/WwDkjU/ZbOaXUCJEMm/Ph6C+SU71Py5ANKvVSnT9otHCbQGvdCGW11
+         mjw4K6e0DWr1yCUtqbg97DsKQaI3JFD8WvxKI+gvu3TmjjpqfMVxMmDlsBa3ZvbFTL6D
+         1uORd5FDtYbAmNw1hMAK4lO3WW9TVrDa5yF08G7o/Sbal6jTBu2knXTksXpMMYHw6y+d
+         IJFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690325325; x=1690930125;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :from:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fqtwPYmHGNsoP1pFuN8jF45AEQfTNG8g69I653X2PAs=;
-        b=PfE1I9//aPlmTQjrIRAHLD0q02J8yQcO4/ToPMNLG0cKrt2HXy/8yt5YApv+hrDRDe
-         Ij1bYS+yWYyD8UVetunskISi4W9dpl6ruQx2iNWRhEFhlqULM0mYtt5zqfq+VwHDCgbC
-         hR1a1cNTfDkRSAXIZq3N7AVlT5D9aEdH5rqboj1/SHIiQmF5Hw/53rGm1AsoISlEYVxi
-         wds7t/QVgU72Azk9JLMGEo6l/Xwp4Ax29FnRCirlOJRU0utpioZQfTwHwdVbY93gmHFX
-         yZnUNQ/SkXI/RblhHf6GgWoZFqQ/wjQ6lyOJWSbsTnEBuY/TOHYra4yY9LxhpT5V/iGC
-         fM9A==
-X-Gm-Message-State: ABy/qLZSArEhSXrsTV1+lhm8iignfEKJCpGfyAxiroUwkqW0Y+5zAXt2
-        1GqNwHwp3SpFXE4Ak6VSzzyV537jxvdvMSGgkJnRNYPpl/t0Y1LxyIBJBtc7mOvWaYO3+NoyMqw
-        sVL+mW9a0Af+5XXGMW23D
-X-Received: by 2002:a17:907:2be9:b0:982:7545:efb6 with SMTP id gv41-20020a1709072be900b009827545efb6mr158288ejc.66.1690325324933;
-        Tue, 25 Jul 2023 15:48:44 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFjV59E7oAEbgLcfuvqGzUWbSIkW/kHUTr3BMaofJ0Plmev7uMfuohC5/16L7eW3+4p7WZnVA==
-X-Received: by 2002:a17:907:2be9:b0:982:7545:efb6 with SMTP id gv41-20020a1709072be900b009827545efb6mr158266ejc.66.1690325324597;
-        Tue, 25 Jul 2023 15:48:44 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c? ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
-        by smtp.gmail.com with ESMTPSA id lg23-20020a170906f89700b0098733a40bb7sm8814043ejb.155.2023.07.25.15.48.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 15:48:44 -0700 (PDT)
-Message-ID: <21ea63fe-33d7-a075-7291-35dd1b2a9b64@redhat.com>
-Date:   Tue, 25 Jul 2023 23:00:23 +0200
+        d=1e100.net; s=20221208; t=1690327557; x=1690932357;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XUAymOqyJF+KJzhkhKRHjkAaSaauZTSc0FF9IG/sL8s=;
+        b=arWW3NppIzOmhZpT7sEM+NDytdOetIoKpNhgZ40lxYmfWi/Xr0QWmm9T5qjEBouhYs
+         4ZlExDdwQG3bDL5DFL+cMKMxejQ5SVknmj/I8w2q3YgqNK0v8W+b3WpEJ9r0uN69GVkV
+         LHsmeRtzT0u8prsu0lAGM6XSl7GAc0QbZzk8YjPrMoFNS/hskhLKCHScXyUyCAAii0Js
+         PHgeHR6NdRKOGdYb44EGZV/OPYrDL4SaZmMH/iWtHBJVpLXfgOjxGL75ScQiZESwIuSz
+         1n2rkfBRKUIuaFXuMvYebV4Hqp4gUff63qmKBGgH09x6SvPDQFDmWyGriZNQcNOPoj6+
+         CKOg==
+X-Gm-Message-State: ABy/qLahSTrBYNY6Hyek71iyO+PHfTLuqPDyGn8bkwPkXwe+zBAFY+B+
+        5OH049KnEpbQWtMgDTJEB5WotQ==
+X-Google-Smtp-Source: APBJJlFq1uMDAKy4VsXXWIgKNW3YHd+x947A6mDx0IlNuq/VCClpH++XD+l+geMp8QQyqsWsJ2FRHQ==
+X-Received: by 2002:a17:902:d48c:b0:1bb:9675:8c1a with SMTP id c12-20020a170902d48c00b001bb96758c1amr300090plg.24.1690327556899;
+        Tue, 25 Jul 2023 16:25:56 -0700 (PDT)
+Received: from [2620:0:1008:15:ecb7:d63b:6ebb:ac11] ([2620:0:1008:15:ecb7:d63b:6ebb:ac11])
+        by smtp.gmail.com with ESMTPSA id w13-20020aa7858d000000b00686236718d8sm10117911pfn.41.2023.07.25.16.25.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 16:25:56 -0700 (PDT)
+Date:   Tue, 25 Jul 2023 16:25:55 -0700 (PDT)
+From:   David Rientjes <rientjes@google.com>
+To:     Julian Pidancet <julian.pidancet@oracle.com>
+cc:     Christoph Lameter <cl@linux.com>,
+        "Lameter, Christopher" <cl@os.amperecomputing.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Rafael Aquini <aquini@redhat.com>
+Subject: Re: [PATCH v2] mm/slub: disable slab merging in the default
+ configuration
+In-Reply-To: <CU5AB77A9U99.1G4IRUW6DZPJP@imme>
+Message-ID: <b9e451a6-087d-4fb6-521b-bb8962da1f5c@google.com>
+References: <20230629221910.359711-1-julian.pidancet@oracle.com> <38083ed2-333b-e245-44e4-2f355e4f9249@google.com> <CTSGWINSM18Q.3HQ1DN27GNA1R@imme> <8813897d-4a52-37a0-fe44-a9157716be9b@google.com> <17349901-df3a-494e-fa71-2584d92526b5@google.com>
+ <3bcfa538-4474-09b7-1812-b4260b09256a@google.com> <7b6b07b3-d8a1-b24f-1df2-bf6080bc5516@google.com> <CU5AB77A9U99.1G4IRUW6DZPJP@imme>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH drm-misc-next v8 11/12] drm/nouveau: implement new VM_BIND
- uAPI
-Content-Language: en-US
-From:   Danilo Krummrich <dakr@redhat.com>
-To:     Faith Ekstrand <faith@gfxstrand.net>
-Cc:     airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
-        mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
-        bskeggs@redhat.com, Liam.Howlett@oracle.com,
-        matthew.brost@intel.com, boris.brezillon@collabora.com,
-        alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
-        willy@infradead.org, jason@jlekstrand.net,
-        donald.robson@imgtec.com, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230720001443.2380-1-dakr@redhat.com>
- <20230720001443.2380-12-dakr@redhat.com>
- <CAOFGe945tp344=g-++=EAT89t0qJHZ=3yeW-k9OTbGNJodvwAg@mail.gmail.com>
- <542203c6-781a-dc44-6fa1-13cd20ab9e21@redhat.com>
- <CAOFGe94sG5==GM+spcTihcAtMCoj2xZYpN8NsYE6CEckdHJ8rQ@mail.gmail.com>
- <75c86224-6183-07fe-da04-6a2101615a50@redhat.com>
-Organization: RedHat
-In-Reply-To: <75c86224-6183-07fe-da04-6a2101615a50@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/25/23 18:43, Danilo Krummrich wrote:
-> On 7/25/23 18:16, Faith Ekstrand wrote:
->> Thanks for the detailed write-up! That would definitely explain it. If 
->> I remember, I'll try to do a single-threaded run or two. If your 
->> theory is correct, there should be no real perf difference when 
->> running single-threaded. Those runs will take a long time, though, so 
->> I'll have to run them over night. I'll let you know in a few days once 
->> I have the results.
-> 
-> I can also push a separate branch where I just print out a warning 
-> whenever we run into such a condition including the time we were waiting 
-> for things to complete. I can probably push something later today.
+On Tue, 18 Jul 2023, Julian Pidancet wrote:
 
-https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next-track-stalls
+> Hi David,
+> 
+> Many thanks for running all these tests. The amount of attention you've
+> given this change is simply amazing. I wish I could have been able to
+> assist you by doing more tests, but I've been lacking the necessary
+> resources to do so.
+> 
+> I'm as surprised as you are regarding the skylake regression. 20% is
+> quite a large number, but perhaps it's less worrying than it looks given
+> that benchmarks are usually very different from real-world workloads?
+> 
 
-It prints out the duration of every wait as well as the total wait time 
-since boot.
+I'm not an expert on context_switch1_per_thread_ops so I can't infere 
+which workloads would be most affected by such a regression other than to 
+point out that -18% is quite substantial.
 
-- Danilo
+I'm still hoping to run some benchmarks with 64KB page sizes as Christoph 
+suggested, I should be able to do this with arm64.
 
-> 
->>
->> If this theory holds, then I'm not concerned about the performance of 
->> the API itself. It would still be good to see if we can find a way to 
->> reduce the cross-process drag in the implementation but that's a perf 
->> optimization we can do later.
-> 
->  From the kernel side I think the only thing we could really do is to 
-> temporarily run a secondary drm_gpu_scheduler instance, one for VM_BINDs 
-> and one for EXECs until we got the new page table handling in place.
-> 
-> However, the UMD could avoid such conditions more effectively, since it 
-> controls the address space. Namely, avoid re-using the same region of 
-> the address space right away in certain cases. For instance, instead of 
-> replacing a sparse region A[0x0, 0x4000000] with a larger sparse region 
-> B[0x0, 0x8000000], replace it with B'[0x4000000, 0xC000000] if possible.
-> 
-> However, just mentioning this for completeness. The UMD surely shouldn't 
-> probably even temporarily work around such a kernel limitation.
-> 
-> Anyway, before doing any of those, let's see if the theory holds and 
-> we're actually running into such cases.
-> 
->>
->> Does it actually matter? Yes, it kinda does. No, it probably doesn't 
->> matter for games because you're typically only running one game at a 
->> time. From a development PoV, however, if it makes CI take longer then 
->> that slows down development and that's not good for the users, either.
-> 
-> Fully agree.
-> 
-> - Danilo
-> 
->>
->> ~Faith
->>
->>     - Danilo
->>
->>      >
->>      > ~Faith
->>      >
->>
+It's ceratinly good news that the overall memory footprint doesn't change 
+much with this change.
 
+> As Kees Cook was suggesting in his own reply, have you given a thought
+> about including this change in -next and see if there are regressions
+> showing up in CI performance tests results?
+> 
+
+I assume that anything we can run with CI performance tests can also be 
+run without merging into -next?
+
+The performance degradation is substantial for a microbenchmark, I'd like 
+to complete the picture on other benchmarks and do a complete analysis 
+with 64KB page sizes since I think the concern Christoph mentions could be 
+quite real.  We just don't have the data yet to make an informed 
+assessment of it.  Certainly would welcome any help that others would like 
+to provide for running benchmarks with this change as well :P
+
+Once we have a complete picture, we might also want to discuss what we are 
+hoping to achieve with such a change.  I was very supportive of it prior 
+to the -18% benchmark result.  But if most users are simply using whatever 
+their distro defaults to and other users may already be opting into this 
+either by the kernel command line or .config, it's hard to determine 
+exactly the set of users that would be affected by this change.  Suddenly 
+causing a -18% regression overnight for this would be surprising for them.
