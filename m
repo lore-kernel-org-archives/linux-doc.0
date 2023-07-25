@@ -2,152 +2,82 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6B57C001DF
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 17:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1296C001DF
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 17:27:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230347AbjGYRM2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 13:12:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55942 "EHLO
+        id S230152AbjGYR1g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 13:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbjGYRM0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 13:12:26 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A558C1718;
-        Tue, 25 Jul 2023 10:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690305145; x=1721841145;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=fq0MiyGtfdmEy3j11xkXHlesEoaC2GKhOtTrGN15RYs=;
-  b=QAHjsUaHOriLvxDau9WpfAXbQoPdZr6Ws3ztbkKz3v/ju1OVCccak5YO
-   APcUwkkbVNmqp1onD9nPZ88T9kcgWtadBX/BJxfp106jyJDFVZaYFRMHy
-   SE1VbAQvR1knQCRxgYaD/2Yf3Z8OHh8ycI+Cfranw6K6/wYXlk2ryFtbg
-   Y13JQvkOyKvhPxz0GZfxhRxJN3QzUy6mVSFBmyAli2Upl5iUp4fYiCDoT
-   6t+j1VMvLUwTwu5R1DToj8gLuXZLezld/HSR+BV47mnlrjeX7L1cOyeC9
-   koo8mFRmbYtoZEJi5Kj7/VCg3dcQaY6SxhndKcgyZ7F3IiZiFgKGVhJg9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="366675112"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="366675112"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 10:12:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="720114234"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="720114234"
-Received: from chrisper-mobl.amr.corp.intel.com (HELO [10.209.69.88]) ([10.209.69.88])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 10:12:22 -0700
-Message-ID: <abdc2626-d776-e3be-81b5-eca669b6becc@intel.com>
-Date:   Tue, 25 Jul 2023 10:12:21 -0700
+        with ESMTP id S229795AbjGYR1g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 13:27:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D5F71BE1;
+        Tue, 25 Jul 2023 10:27:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 22BCF61839;
+        Tue, 25 Jul 2023 17:27:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04B55C433C8;
+        Tue, 25 Jul 2023 17:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1690306054;
+        bh=CcM1IgStycED3EC2PKiW7/oey5fK8XVGM11fqAHnwvU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EXnFZ73GREwzmyNVPlOFvkbZgDlHBbesKIUKiXMcyp55Md7qsCMXEmF/hlur29jWS
+         CDkFah8B31D/Rks/YVgvJ/bYhvbGy2A87YIxg6JTSBRFlr9IUSp/6WlQ9F3E21nWNq
+         gB7XseMaLUGC9VB5SaqZS+ORGkAcRHDavz7cPI1M=
+Date:   Tue, 25 Jul 2023 19:27:31 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Timur Tabi <timur@kernel.org>,
+        Kumar Gala <galak@kernel.crashing.org>,
+        linuxppc-dev@lists.ozlabs.org, Jiri Slaby <jirislaby@kernel.org>,
+        linux-serial@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: devices.txt: reconcile serial/ucc_uart
+ minor numers
+Message-ID: <2023072544-cloning-footsie-65e0@gregkh>
+References: <20230724063341.28198-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC PATCH v2 20/20] x86/mm, mm/vmalloc: Defer
- flush_tlb_kernel_range() targeting NOHZ_FULL CPUs
-Content-Language: en-US
-To:     Marcelo Tosatti <mtosatti@redhat.com>
-Cc:     Valentin Schneider <vschneid@redhat.com>,
-        Nadav Amit <namit@vmware.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-trace-kernel@vger.kernel.org" 
-        <linux-trace-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, bpf <bpf@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "rcu@vger.kernel.org" <rcu@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Zqiang <qiang.zhang1211@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Lorenzo Stoakes <lstoakes@gmail.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Chuang Wang <nashuiliang@gmail.com>,
-        Yang Jihong <yangjihong1@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
-        Julian Pidancet <julian.pidancet@oracle.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Dionna Glaze <dionnaglaze@google.com>,
-        =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Yair Podemsky <ypodemsk@redhat.com>
-References: <20230720163056.2564824-1-vschneid@redhat.com>
- <20230720163056.2564824-21-vschneid@redhat.com>
- <188AEA79-10E6-4DFF-86F4-FE624FD1880F@vmware.com>
- <xhsmh8rb5tui1.mognet@vschneid.remote.csb>
- <2284d0db-f94a-e059-7bd0-bab4f112ed35@intel.com> <ZL/6THDvmC5mVyBI@tpad>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <ZL/6THDvmC5mVyBI@tpad>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230724063341.28198-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/25/23 09:37, Marcelo Tosatti wrote:
->> TLB flushes for freed page tables are another game entirely.  The CPU is
->> free to cache any part of the paging hierarchy it wants at any time.
-> Depend on CONFIG_PAGE_TABLE_ISOLATION=y, which flushes TLB (and page
-> table caches) on user->kernel and kernel->user context switches ?
+On Sun, Jul 23, 2023 at 11:33:41PM -0700, Randy Dunlap wrote:
+> Reconcile devices.txt with serial/ucc_uart.c regarding device number
+> assignments. ucc_uart.c supports 4 ports and uses minor devnums
+> 46-49, so update devices.txt with that info.
+> Then update ucc_uart.c's reference to the location of the devices.txt
+> list in the kernel source tree.
+> 
+> Fixes: d7584ed2b994 ("[POWERPC] qe-uart: add support for Freescale QUICCEngine UART")
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Timur Tabi <timur@kernel.org>
+> Cc: Kumar Gala <galak@kernel.crashing.org>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Cc: linux-serial@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/admin-guide/devices.txt |    2 +-
+>  drivers/tty/serial/ucc_uart.c         |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Well, first of all, CONFIG_PAGE_TABLE_ISOLATION doesn't flush the TLB at
-all on user<->kernel switches when PCIDs are enabled.
+Very nice, thanks for catching this, I'll go queue it up.
 
-Second, even if it did, the CPU is still free to cache any portion of
-the paging hierarchy at any time.  Without LASS[1], userspace can even
-_compel_ walks of the kernel portion of the address space, and we don't
-have any infrastructure to tell if a freed kernel page is exposed in the
-user copy of the page tables with PTI.
+Actually, how did you notice this?  I don't think the devices.txt file
+is up to date at all anymore, and odds are, other things are wrong in it
+too.
 
-Third, (also ignoring PCIDs) there are plenty of instructions between
-kernel entry and the MOV-to-CR3 that can flush the TLB.  All those
-instructions architecturally permitted to speculatively set Accessed or
-Dirty bits in any part of the address space.  If they run into a free
-page table page, things get ugly.
+thanks,
 
-These accesses are not _likely_.  There probably isn't a predictor out
-there that's going to see a:
-
-	movq    %rsp, PER_CPU_VAR(cpu_tss_rw + TSS_sp2)
-
-and go off trying to dirty memory in the vmalloc() area.  But we'd need
-some backward *and* forward-looking guarantees from our intrepid CPU
-designers to promise that this kind of thing is safe yesterday, today
-and tomorrow.  I suspect such a guarantee is going to be hard to obtain.
-
-1. https://lkml.kernel.org/r/20230110055204.3227669-1-yian.chen@intel.com
-
-
+greg k-h
