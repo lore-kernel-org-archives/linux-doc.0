@@ -2,133 +2,187 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 612E4C00528
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 20:44:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CBBAC001DE
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 20:46:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbjGYUo3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 16:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42304 "EHLO
+        id S230224AbjGYUqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 16:46:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229914AbjGYUo2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 16:44:28 -0400
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2DF526B0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 13:44:00 -0700 (PDT)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-579de633419so68807757b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 13:44:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1690317840; x=1690922640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nWFtInZ1K1dOfuS7k8qAbtMBBIEMrxLy4VGVUtC5gnI=;
-        b=C8boa0Mv2x13zaBKrUj+xzuVti30LteOQD/85/WnBKhzbeDHEzvYvZ3kQdHoCjYdG0
-         ftqVyfqFa6NOhebzP3zMyFH7Nlp1JPPPKMGc1aE91kApgf84Ufspb27OrNQYnal4fJdI
-         RuMjkIlaBANH5JbWHDMSmJYGIzqqyjVZTAseBtkUxPVzAHisNHbe6FS0O0hpPY2Mahdy
-         fdrDOGG8cimzMGhjO/sM3c08lCiYTBbFA4aZL9R/TiSrtJIosdGWlE6hbhCkOQUU/TaG
-         FqmFBGWx8K2cus33+JbUinADhEt8mhX8e9cNl+6Pf8/2HVcctD7B/+1vZNujcT3jVfWL
-         BwBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690317840; x=1690922640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nWFtInZ1K1dOfuS7k8qAbtMBBIEMrxLy4VGVUtC5gnI=;
-        b=h3qbbbYcUxGUD9OF7XjAk24BtAcmEsTxBu80XWSDu8PVO6QOFiuCrrx3aUp/O0HovV
-         Kh2pgcArowMvLZPw6gX8AZIYl216Pt6ylYCBjySENeiddux6mB2MATntpBukAGAO7I9Q
-         pBctS6qXacIjygMKG3znUMsfCqPDVmZ2UTipXWjxZUXEikDfgEdldlzCN2x9pZhWNXUM
-         YoIH8Rc1QS5QuLwW+UaHOHCD4RdPFxvKk7hj4uMKWHBVqLpZAzn+Mw3HMbC6aJMDI4aO
-         KdlAVuzjyp795/bKKTtM7bMN6Idq9Exa8JCOGrs6qOb4tixnEiLwSubI8BH4388vBLLM
-         +ezg==
-X-Gm-Message-State: ABy/qLZTAPDQz8r901kRS4wxIL2kyBHoxzgWFmR/lnxFCOgqeXw6Y0Ch
-        h2M7McxnebCxnGoxnM3gI6vFNSEFCw5I9n/kEiLo
-X-Google-Smtp-Source: APBJJlFkTo4MqIRboyJijfvAESH41Sn7XZLb7Wq1Qb4xbUmcbmJhG5qWNqiv1iYXWOFUlllWKuTA5JqszvfgcdQJA1g=
-X-Received: by 2002:a25:2f16:0:b0:c83:27d4:c0d6 with SMTP id
- v22-20020a252f16000000b00c8327d4c0d6mr98124ybv.37.1690317839194; Tue, 25 Jul
- 2023 13:43:59 -0700 (PDT)
+        with ESMTP id S230319AbjGYUqp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 16:46:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B384512D
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 13:45:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1690317954;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ePQHpPP/m2zFLGwnISEyrwq9ac4YxSfkwTurK23ce8w=;
+        b=NeyV0lXh6m7Sx3PEqfRWKPK8TSjtKuaqhAO5+0Ij4czbSoVg2C40H38sGhFIiODqcDMOxe
+        isygEYKXECZ+Lwz+7ZNI6/zzJPvFkBtVl0W38tCB6/qnhOqAh/u0s1i6v2CejGXjlir7rU
+        vg346RcNqPjtkg3eUjs8pB8wwsL6B9M=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-217-4NkOkLwcPZGcOnX2_xcNmQ-1; Tue, 25 Jul 2023 16:45:51 -0400
+X-MC-Unique: 4NkOkLwcPZGcOnX2_xcNmQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E3D528088A7;
+        Tue, 25 Jul 2023 20:45:50 +0000 (UTC)
+Received: from [10.22.18.12] (unknown [10.22.18.12])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4529BF7830;
+        Tue, 25 Jul 2023 20:45:49 +0000 (UTC)
+Message-ID: <f5f25279-bbb5-e040-aeaa-dd3d8686c670@redhat.com>
+Date:   Tue, 25 Jul 2023 16:45:49 -0400
 MIME-Version: 1.0
-References: <1687986571-16823-1-git-send-email-wufan@linux.microsoft.com>
- <1687986571-16823-12-git-send-email-wufan@linux.microsoft.com>
- <ZKgm+ffQbdDTxrg9@redhat.com> <20230712034319.GA17642@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-In-Reply-To: <20230712034319.GA17642@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 25 Jul 2023 16:43:48 -0400
-Message-ID: <CAHC9VhQFxqcfgR0acgdiXKP9LT1KLgGjZd-QHs6O1dEex31HEQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v10 11/17] dm-verity: consume root hash digest and
- signature data via LSM hook
-To:     Fan Wu <wufan@linux.microsoft.com>
-Cc:     Mike Snitzer <snitzer@kernel.org>, corbet@lwn.net,
-        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
-        agk@redhat.com, eparis@redhat.com, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, audit@vger.kernel.org,
-        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
-        Deven Bowers <deven.desai@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v5 4/4] intel_idle: Add ibrs_off module parameter to force
+ disable IBRS
+Content-Language: en-US
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        x86@kernel.org, linux-pm@vger.kernel.org,
+        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+References: <20230710194857.2898284-1-longman@redhat.com>
+ <20230710194857.2898284-5-longman@redhat.com>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20230710194857.2898284-5-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 11, 2023 at 11:43=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com>=
- wrote:
-> On Fri, Jul 07, 2023 at 10:53:45AM -0400, Mike Snitzer wrote:
-
-...
-
-> > Both of your calls to security_bdev_setsecurity() to set your blobs in
-> > the bdev are suspect because you're doing so from the verity_ctr().
-> > The mapped_device has 2 dm_table slots (active and inactive).  The
-> > verity_ctr() becomes part of the inactive slot, there is an extra step
-> > to bind the inactive table to the active table.
-> >
-> > This leads to you changing the blobs in the global bdev _before_ the
-> > table is actually active.  It is possible that the inactive table will
-> > simply be removed and the DM verity device put back in service;
-> > leaving your blob(s) in the bdev inconsistent.
-> >
-> > This issue has parallels to how we need to defer changing the global
-> > queue_limits associated with a request_queue until _after_ all table
-> > loading is settled and then the update is done just before resuming
-> > the DM device (mapped_device) -- see dm_table_set_restrictions().
-> >
-> > Unfortunately, this feels like it may require a new hook in the
-> > target_type struct (e.g. ->finalize())
+On 7/10/23 15:48, Waiman Long wrote:
+> Commit bf5835bcdb96 ("intel_idle: Disable IBRS during long idle")
+> disables IBRS when the cstate is 6 or lower. However, there are
+> some use cases where a customer may want to use max_cstate=1 to
+> lower latency. Such use cases will suffer from the performance
+> degradation caused by the enabling of IBRS in the sibling idle thread.
+> Add a "ibrs_off" module parameter to force disable IBRS and the
+> CPUIDLE_FLAG_IRQ_ENABLE flag if set.
 >
-> Thanks for pointing out this issue. We were calling security_bdev_setsecu=
-rity()
-> because the roothash signature data is only available in verity_ctr()
-> and it is discarded after verity_ctr() finishes.
-> After digging deeper into the table_load, I realized that we were indeed
-> wrong here.
+> In the case of a Skylake server with max_cstate=1, this new ibrs_off
+> option will likely increase the IRQ response latency as IRQ will now
+> be disabled.
 >
-> Based on my understanding of your suggestion, it seems that the correct
-> approach would be to save the roothash signature into the struct dm_targe=
-t
-
-Would you be doing this with a LSM hook, or would this live in the
-device mapper layer?
-
-> and then invoke security_bdev_setsecurity() before activating
-> the inactive table in the __bind function (where dm_table_set_restriction=
-s is called).
+> When running SPECjbb2015 with cstates set to C1 on a Skylake system.
 >
-> To facilitate this process, it seems appropriate to introduce a new hook
-> called finalize() within the struct target_type. This hook would enable
-> targets to define tasks that need to be completed before activating
-> a new table.
+> First test when the kernel is booted with: "intel_idle.ibrs_off"
+>    max-jOPS = 117828, critical-jOPS = 66047
 >
-> In our specific case, we would add a finalize hook to the dm-verity modul=
-e,
-> allowing us to call security_bdev_setsecurity() and associate the roothas=
-h
-> information in the struct dm_target with the struct block_device of
-> the struct mapped_device. Is this correct?
+> Then retest when the kernel is booted without the "intel_idle.ibrs_off"
+> added.
+>    max-jOPS = 116408, critical-jOPS = 58958
+>
+> That means booting with "intel_idle.ibrs_off" improves performance by:
+>    max-jOPS:   1.2%, which could be considered noise range.
+>    critical-jOPS: 12%, which is definitely a solid improvement.
+>
+> The admin-guide/pm/intel_idle.rst file is updated to add a description
+> about the new "ibrs_off" module parameter.
+>
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>   Documentation/admin-guide/pm/intel_idle.rst | 17 ++++++++++++++++-
+>   drivers/idle/intel_idle.c                   | 11 ++++++++++-
+>   2 files changed, 26 insertions(+), 2 deletions(-)
 
-Where would the finalize() hook be called?
+Ping! Is there further suggested changes for this patch series or is it 
+good enough to be merged?
 
---=20
-paul-moore.com
+Thanks,
+Longman
+
+>
+> diff --git a/Documentation/admin-guide/pm/intel_idle.rst b/Documentation/admin-guide/pm/intel_idle.rst
+> index b799a43da62e..39bd6ecce7de 100644
+> --- a/Documentation/admin-guide/pm/intel_idle.rst
+> +++ b/Documentation/admin-guide/pm/intel_idle.rst
+> @@ -170,7 +170,7 @@ and ``idle=nomwait``.  If any of them is present in the kernel command line, the
+>   ``MWAIT`` instruction is not allowed to be used, so the initialization of
+>   ``intel_idle`` will fail.
+>   
+> -Apart from that there are four module parameters recognized by ``intel_idle``
+> +Apart from that there are five module parameters recognized by ``intel_idle``
+>   itself that can be set via the kernel command line (they cannot be updated via
+>   sysfs, so that is the only way to change their values).
+>   
+> @@ -216,6 +216,21 @@ are ignored).
+>   The idle states disabled this way can be enabled (on a per-CPU basis) from user
+>   space via ``sysfs``.
+>   
+> +The ``ibrs_off`` module parameter is a boolean flag (defaults to
+> +false). If set, it is used to control if IBRS (Indirect Branch Restricted
+> +Speculation) should be turned off when the CPU enters an idle state.
+> +This flag does not affect CPUs that use Enhanced IBRS which can remain
+> +on with little performance impact.
+> +
+> +For some CPUs, IBRS will be selected as mitigation for Spectre v2 and Retbleed
+> +security vulnerabilities by default.  Leaving the IBRS mode on while idling may
+> +have a performance impact on its sibling CPU.  The IBRS mode will be turned off
+> +by default when the CPU enters into a deep idle state, but not in some
+> +shallower ones.  Setting the ``ibrs_off`` module parameter will force the IBRS
+> +mode to off when the CPU is in any one of the available idle states.  This may
+> +help performance of a sibling CPU at the expense of a slightly higher wakeup
+> +latency for the idle CPU.
+> +
+>   
+>   .. _intel-idle-core-and-package-idle-states:
+>   
+> diff --git a/drivers/idle/intel_idle.c b/drivers/idle/intel_idle.c
+> index c9479f089037..e1b826344682 100644
+> --- a/drivers/idle/intel_idle.c
+> +++ b/drivers/idle/intel_idle.c
+> @@ -69,6 +69,7 @@ static int max_cstate = CPUIDLE_STATE_MAX - 1;
+>   static unsigned int disabled_states_mask __read_mostly;
+>   static unsigned int preferred_states_mask __read_mostly;
+>   static bool force_irq_on __read_mostly;
+> +static bool ibrs_off __read_mostly;
+>   
+>   static struct cpuidle_device __percpu *intel_idle_cpuidle_devices;
+>   
+> @@ -1919,11 +1920,13 @@ static void state_update_enter_method(struct cpuidle_state *state, int cstate)
+>   	}
+>   
+>   	if (cpu_feature_enabled(X86_FEATURE_KERNEL_IBRS) &&
+> -			   state->flags & CPUIDLE_FLAG_IBRS) {
+> +			((state->flags & CPUIDLE_FLAG_IBRS) || ibrs_off)) {
+>   		/*
+>   		 * IBRS mitigation requires that C-states are entered
+>   		 * with interrupts disabled.
+>   		 */
+> +		if (ibrs_off && (state->flags & CPUIDLE_FLAG_IRQ_ENABLE))
+> +			state->flags &= ~CPUIDLE_FLAG_IRQ_ENABLE;
+>   		WARN_ON_ONCE(state->flags & CPUIDLE_FLAG_IRQ_ENABLE);
+>   		state->enter = intel_idle_ibrs;
+>   		return;
+> @@ -2346,3 +2349,9 @@ MODULE_PARM_DESC(preferred_cstates, "Mask of preferred idle states");
+>    * 'CPUIDLE_FLAG_INIT_XSTATE' and 'CPUIDLE_FLAG_IBRS' flags.
+>    */
+>   module_param(force_irq_on, bool, 0444);
+> +/*
+> + * Force the disabling of IBRS when X86_FEATURE_KERNEL_IBRS is on and
+> + * CPUIDLE_FLAG_IRQ_ENABLE isn't set.
+> + */
+> +module_param(ibrs_off, bool, 0444);
+> +MODULE_PARM_DESC(ibrs_off, "Disable IBRS when idle");
+
