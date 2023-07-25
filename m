@@ -2,90 +2,171 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC220C00528
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 17:32:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD9BC04A6A
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 17:41:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230431AbjGYRcS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 13:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37048 "EHLO
+        id S232141AbjGYRlj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 13:41:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232591AbjGYRcE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 13:32:04 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8247026A2;
-        Tue, 25 Jul 2023 10:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=huYoQw/VsEdrryOXoPwzfkMHdWCe1iNxFEa9sxkfcOM=; b=XGd4cWPy+ck0qamKi1HoaQ3V4J
-        cAg8PCJdLaOAS8I1hdDZlIms71DvfnTT2+K0iXzmhCE8z1d3x6xAalmEOG2NLbjOmoEQCf3LVg/Br
-        qhkqDMeC7h6og0JHEzpU79ZvSSSQJXBRpKHCXC81i7DrB9yCaTYJRl7dn4Y/GMQ7068cbKfAMOsU5
-        jCG4WDwx9ZQEg6JHiRy9Wu1fw2LSs86Gnc+UYHa16LcDk9ybV9kY0aI3va9Ab7JTrP5uLJWAEEOyf
-        8aY5DVnk7YcRgJ5V8hTRugrH9D1/HSsOS2GLeyny/sxp+cTkpNAo8qxEloL9KJe0fax+soT4WDnbz
-        S0hNStOw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qOLt2-008AIf-0R;
-        Tue, 25 Jul 2023 17:31:52 +0000
-Message-ID: <5da2379c-4ec1-9bbf-bc94-2e1dbb7344f2@infradead.org>
-Date:   Tue, 25 Jul 2023 10:31:48 -0700
+        with ESMTP id S231593AbjGYRlj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 13:41:39 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480421FD7
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 10:41:36 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-403a3df88a8so44378801cf.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 10:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google; t=1690306895; x=1690911695;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WJvVodEb8nnJEl20cUTyJdImyktiXScfem+69qgqo3Q=;
+        b=e5ID1UqXliZ+Zyl9RyCsKE4cEfBV1Yk3CrsZNrSv5V3zn6E8LT99TL1D17Nwe6Lqiv
+         nW/9bnXAFTLNnHj1mEGcktsTtyeTL09GQF65dj1XCRs8uhbyeGqbtPrqeu2zjjCtPw6E
+         CGqFZ4KvpaNSKdpjWcT/8chMGtdRtPBD4m7d8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690306895; x=1690911695;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WJvVodEb8nnJEl20cUTyJdImyktiXScfem+69qgqo3Q=;
+        b=Gx0YHTURWpCHoRYbFRl+MEX4ggchH4Jj14E9ZqayNhoVdBjhG5z916kGtAbBudyd2W
+         11xLzSwZ3KNNSsPnP8xgzeXyeqjbv4lVb2ap7t/OkISBB7Rd6gY1L3OiRdhVvHGc8xEF
+         bW5ejeYGpKtWprG76sCNs4MOvSgeVsFewZbX0LfV/iTY8wAexzwCEnHxGZnB6mhmyhgO
+         YYJZO1wygneYHF90hJC2lfGqx0rnJ8fkV8eZZaoSOZyuHNnmBYkbZtjx5vFkQ3Unzklq
+         BgFYdwws9YNRVLjmJC/yNFMwH24uNqTS2pFVezbbgfESb45HborF5JkPMcWGHzQLog/P
+         3uJQ==
+X-Gm-Message-State: ABy/qLbFBTmGgw/DJnLhSU9mZnE7oYtiVkD42DOd+uJslinAPN5Mippd
+        5rwuyQsAHDvOXGDKMMbcrJI8sA==
+X-Google-Smtp-Source: APBJJlHBHpNnHoYZv15+3LbjPWhNhvppPgE8W+pmrg9pYJauopPMXA+KIqGV321IR1oTEDcTpImI2Q==
+X-Received: by 2002:a05:622a:1742:b0:403:b6a9:b8f9 with SMTP id l2-20020a05622a174200b00403b6a9b8f9mr3981171qtk.36.1690306895263;
+        Tue, 25 Jul 2023 10:41:35 -0700 (PDT)
+Received: from [192.168.0.198] (c-98-249-43-138.hsd1.va.comcast.net. [98.249.43.138])
+        by smtp.gmail.com with ESMTPSA id z4-20020a05622a124400b004054b7cc490sm3480130qtx.73.2023.07.25.10.41.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jul 2023 10:41:34 -0700 (PDT)
+Message-ID: <1e254a35-d0c2-8d41-f020-21694945911a@joelfernandes.org>
+Date:   Tue, 25 Jul 2023 13:41:32 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] Documentation: devices.txt: reconcile serial/ucc_uart
- minor numers
+ Thunderbird/102.12.0
+Subject: Re: [RFC PATCH v2 18/20] context_tracking,x86: Defer kernel text
+ patching IPIs
 Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, Timur Tabi <timur@kernel.org>,
-        Kumar Gala <galak@kernel.crashing.org>,
-        linuxppc-dev@lists.ozlabs.org, Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <20230724063341.28198-1-rdunlap@infradead.org>
- <2023072544-cloning-footsie-65e0@gregkh>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2023072544-cloning-footsie-65e0@gregkh>
+To:     Valentin Schneider <vschneid@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+References: <20230720163056.2564824-19-vschneid@redhat.com>
+ <6EBAEEED-6F38-472D-BA31-9C61179EFA2F@joelfernandes.org>
+ <xhsmhtttsru2s.mognet@vschneid.remote.csb>
+From:   Joel Fernandes <joel@joelfernandes.org>
+In-Reply-To: <xhsmhtttsru2s.mognet@vschneid.remote.csb>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 7/25/23 10:27, Greg Kroah-Hartman wrote:
-> On Sun, Jul 23, 2023 at 11:33:41PM -0700, Randy Dunlap wrote:
->> Reconcile devices.txt with serial/ucc_uart.c regarding device number
->> assignments. ucc_uart.c supports 4 ports and uses minor devnums
->> 46-49, so update devices.txt with that info.
->> Then update ucc_uart.c's reference to the location of the devices.txt
->> list in the kernel source tree.
+On 7/25/23 09:36, Valentin Schneider wrote:
+> On 25/07/23 06:49, Joel Fernandes wrote:
+>> Interesting series Valentin. Some high-level question/comments on this one:
 >>
->> Fixes: d7584ed2b994 ("[POWERPC] qe-uart: add support for Freescale QUICCEngine UART")
->> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Timur Tabi <timur@kernel.org>
->> Cc: Kumar Gala <galak@kernel.crashing.org>
->> Cc: linuxppc-dev@lists.ozlabs.org
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Cc: Jiri Slaby <jirislaby@kernel.org>
->> Cc: linux-serial@vger.kernel.org
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> ---
->>  Documentation/admin-guide/devices.txt |    2 +-
->>  drivers/tty/serial/ucc_uart.c         |    2 +-
->>  2 files changed, 2 insertions(+), 2 deletions(-)
+>>> On Jul 20, 2023, at 12:34 PM, Valentin Schneider <vschneid@redhat.com> wrote:
+>>>
+>>> ﻿text_poke_bp_batch() sends IPIs to all online CPUs to synchronize
+>>> them vs the newly patched instruction. CPUs that are executing in userspace
+>>> do not need this synchronization to happen immediately, and this is
+>>> actually harmful interference for NOHZ_FULL CPUs.
+>>
+>> Does the amount of harm not correspond to practical frequency of text_poke?
+>> How often does instruction patching really happen? If it is very infrequent
+>> then I am not sure if it is that harmful.
+>>
 > 
-> Very nice, thanks for catching this, I'll go queue it up.
+> Being pushed over a latency threshold *once* is enough to impact the
+> latency evaluation of your given system/application.
 > 
-> Actually, how did you notice this?  I don't think the devices.txt file
-> is up to date at all anymore, and odds are, other things are wrong in it
-> too.
+> It's mainly about shielding the isolated, NOHZ_FULL CPUs from whatever the
+> housekeeping CPUs may be up to (flipping static keys, loading kprobes,
+> using ftrace...) - frequency of the interference isn't such a big part of
+> the reasoning.
 
-I accidentally! saw some reference to lanana.org in the kernel source code
-and just grepped for that and saw this...
+Makes sense.
 
--- 
-~Randy
+>>> As the synchronization IPIs are sent using a blocking call, returning from
+>>> text_poke_bp_batch() implies all CPUs will observe the patched
+>>> instruction(s), and this should be preserved even if the IPI is deferred.
+>>> In other words, to safely defer this synchronization, any kernel
+>>> instruction leading to the execution of the deferred instruction
+>>> sync (ct_work_flush()) must *not* be mutable (patchable) at runtime.
+>>
+>> If it is not infrequent, then are you handling the case where userland
+>> spends multiple seconds before entering the kernel, and all this while
+>> the blocking call waits? Perhaps in such situation you want the real IPI
+>> to be sent out instead of the deferred one?
+>>
+> 
+> The blocking call only waits for CPUs for which it queued a CSD. Deferred
+> calls do not queue a CSD thus do not impact the waiting at all. See
+> smp_call_function_many_cond().
+
+Ah I see you are using on_each_cpu_cond(). I should have gone through
+the other patch before making noise.
+
+thanks,
+
+ - Joel
+
