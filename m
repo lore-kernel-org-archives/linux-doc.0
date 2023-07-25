@@ -2,82 +2,141 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1296C001DF
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 17:27:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E5AC001DE
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 17:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230152AbjGYR1g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 13:27:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34120 "EHLO
+        id S231699AbjGYRad (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 13:30:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbjGYR1g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 13:27:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D5F71BE1;
-        Tue, 25 Jul 2023 10:27:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 22BCF61839;
-        Tue, 25 Jul 2023 17:27:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04B55C433C8;
-        Tue, 25 Jul 2023 17:27:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1690306054;
-        bh=CcM1IgStycED3EC2PKiW7/oey5fK8XVGM11fqAHnwvU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EXnFZ73GREwzmyNVPlOFvkbZgDlHBbesKIUKiXMcyp55Md7qsCMXEmF/hlur29jWS
-         CDkFah8B31D/Rks/YVgvJ/bYhvbGy2A87YIxg6JTSBRFlr9IUSp/6WlQ9F3E21nWNq
-         gB7XseMaLUGC9VB5SaqZS+ORGkAcRHDavz7cPI1M=
-Date:   Tue, 25 Jul 2023 19:27:31 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Timur Tabi <timur@kernel.org>,
-        Kumar Gala <galak@kernel.crashing.org>,
-        linuxppc-dev@lists.ozlabs.org, Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: devices.txt: reconcile serial/ucc_uart
- minor numers
-Message-ID: <2023072544-cloning-footsie-65e0@gregkh>
-References: <20230724063341.28198-1-rdunlap@infradead.org>
+        with ESMTP id S230345AbjGYRac (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 13:30:32 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F8DC1FF2;
+        Tue, 25 Jul 2023 10:30:27 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-666e5f0d60bso3344961b3a.3;
+        Tue, 25 Jul 2023 10:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690306226; x=1690911026;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UM3t/74KMPWdkZ3pY89+UmJpDjqGQV4OPuSMqiJoFic=;
+        b=aO8Sw7vgWZRYzj1X9XMLSNpmW3c63c4K6svQY3VLUnezb+pyYbe/7bs9Muobm6gWHD
+         GXaqGO17/mBD4qPn5o8imG7LP+7N7gLUHoHfrOm0af6c7Acexlww02Wwy1IC3Zq6lCdh
+         m5Trsof2rqAKIxsr7Ob7FV26MxjA2Pw6cOrZpn+X8x3ZNFLQqYhWNdZ7eFRVNivjZBKC
+         h0UhhdKnkt97qgd25OVVkPMNWtuDcT8kIGNMQB8RsME4BTsdIwmX0TLgiuDA7i6I3Y0J
+         TapWlvx3rE0I3eVST8Yzot2nL1X2wr2Par9kPwFgACBpxbbnEVqAfrSVTU8ZD927kc0G
+         HdTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690306226; x=1690911026;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UM3t/74KMPWdkZ3pY89+UmJpDjqGQV4OPuSMqiJoFic=;
+        b=TrMMreO1MfskEv7Xx+YBzX5hjKP4tSSGsCS6zQJ7+UNMJ0VRAoPk5Ni2QQWtSVbm1B
+         8g93FsuzTgk/yMCWa3LWjAnMWGdGtoaDF1Bbcy8AVkmRK7hxyRYvWxgYnW87iIjFGn7P
+         XJiZ6r04PmSOC4BFI/u7svVS/RqWy57Vk9MtEcrJTiiOWiV9olz9FlnAk69puD3Pz0Fp
+         13Z9Yfuv5NX9+siSNaTI3ryyiyYbVmoykzxdeE9O756IeZBocwj7Ik4afADbqK7/kFq4
+         bq2mDQ1I95yF+0PXstNeXFn/TPg6gzlzYj21HDLzvWDgoYAGUrpIETiCkw+VHJModnNV
+         qI5Q==
+X-Gm-Message-State: ABy/qLarAxpBbYID+Vj/9uq1FqwckR0zRhHa2UfFpEScobUOuHdwarfz
+        8ygDS27H5nG0p1PAZ5LZ6iM=
+X-Google-Smtp-Source: APBJJlE5L20lCoh8USKSIgBGXLeO/cxoroFQWgkYJCipDM5fTPdXAUl7ktUZ4t6pZSjYMiQu+fmbzw==
+X-Received: by 2002:a05:6a20:3b30:b0:137:26b9:f403 with SMTP id c48-20020a056a203b3000b0013726b9f403mr10619678pzh.49.1690306226289;
+        Tue, 25 Jul 2023 10:30:26 -0700 (PDT)
+Received: from ?IPv6:2605:59c8:448:b800:82ee:73ff:fe41:9a02? ([2605:59c8:448:b800:82ee:73ff:fe41:9a02])
+        by smtp.googlemail.com with ESMTPSA id 13-20020aa7914d000000b00682a839d0aesm9900163pfi.112.2023.07.25.10.30.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 10:30:25 -0700 (PDT)
+Message-ID: <c429298e279bd549de923deba09952e7540e534a.camel@gmail.com>
+Subject: Re: [PATCH net] docs: net: clarify the NAPI rules around XDP Tx
+From:   Alexander H Duyck <alexander.duyck@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Date:   Tue, 25 Jul 2023 10:30:24 -0700
+In-Reply-To: <20230720161323.2025379-1-kuba@kernel.org>
+References: <20230720161323.2025379-1-kuba@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230724063341.28198-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 23, 2023 at 11:33:41PM -0700, Randy Dunlap wrote:
-> Reconcile devices.txt with serial/ucc_uart.c regarding device number
-> assignments. ucc_uart.c supports 4 ports and uses minor devnums
-> 46-49, so update devices.txt with that info.
-> Then update ucc_uart.c's reference to the location of the devices.txt
-> list in the kernel source tree.
-> 
-> Fixes: d7584ed2b994 ("[POWERPC] qe-uart: add support for Freescale QUICCEngine UART")
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Timur Tabi <timur@kernel.org>
-> Cc: Kumar Gala <galak@kernel.crashing.org>
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jiri Slaby <jirislaby@kernel.org>
-> Cc: linux-serial@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+On Thu, 2023-07-20 at 09:13 -0700, Jakub Kicinski wrote:
+> page pool and XDP should not be accessed from IRQ context
+> which may happen if drivers try to clean up XDP TX with
+> NAPI budget of 0.
+>=20
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 > ---
->  Documentation/admin-guide/devices.txt |    2 +-
->  drivers/tty/serial/ucc_uart.c         |    2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> CC: corbet@lwn.net
+> CC: linux-doc@vger.kernel.org
+> ---
+>  Documentation/networking/napi.rst | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/Documentation/networking/napi.rst b/Documentation/networking=
+/napi.rst
+> index a7a047742e93..7bf7b95c4f7a 100644
+> --- a/Documentation/networking/napi.rst
+> +++ b/Documentation/networking/napi.rst
+> @@ -65,15 +65,16 @@ argument - drivers can process completions for any nu=
+mber of Tx
+>  packets but should only process up to ``budget`` number of
+>  Rx packets. Rx processing is usually much more expensive.
+> =20
+> -In other words, it is recommended to ignore the budget argument when
+> -performing TX buffer reclamation to ensure that the reclamation is not
+> -arbitrarily bounded; however, it is required to honor the budget argumen=
+t
+> -for RX processing.
+> +In other words for Rx processing the ``budget`` argument limits how many
+> +packets driver can process in a single poll. Rx specific APIs like page
+> +pool or XDP cannot be used at all when ``budget`` is 0.
+> +skb Tx processing should happen regardless of the ``budget``, but if
+> +the argument is 0 driver cannot call any XDP (or page pool) APIs.
+>=20
 
-Very nice, thanks for catching this, I'll go queue it up.
+This isn't accurate, and I would say it is somewhat dangerous advice.
+The Tx still needs to be processed regardless of if it is processing
+page_pool pages or XDP pages. I agree the Rx should not be processed,
+but the Tx must be processed using mechanisms that do NOT make use of
+NAPI optimizations when budget is 0.
 
-Actually, how did you notice this?  I don't think the devices.txt file
-is up to date at all anymore, and odds are, other things are wrong in it
-too.
+So specifically, xdp_return_frame is safe in non-NAPI Tx cleanup. The
+xdp_return_frame_rx_napi is not.
 
-thanks,
+Likewise there is napi_consume_skb which will use either a NAPI or non-
+NAPI version of things depending on if budget is 0 or not.
 
-greg k-h
+For the page_pool calls there is the "allow_direct" argument that is
+meant to decide between recycling in directly into the page_pool cache
+or not. It should only be used in the Rx handler itself when budget is
+non-zero.
+
+I realise this was written up in response to a patch on the Mellanox
+driver. Based on the patch in question it looks like they were calling
+page_pool_recycle_direct outside of NAPI context. There is an explicit
+warning above that function about NOT calling it outside of NAPI
+context.
+
+>  .. warning::
+> =20
+> -   The ``budget`` argument may be 0 if core tries to only process Tx com=
+pletions
+> -   and no Rx packets.
+> +   The ``budget`` argument may be 0 if core tries to only process
+> +   skb Tx completions and no Rx or XDP packets.
+> =20
+>  The poll method returns the amount of work done. If the driver still
+>  has outstanding work to do (e.g. ``budget`` was exhausted)
+
+We cannot make this distinction if both XDP and skb are processed in
+the same Tx queue. Otherwise you will cause the Tx to stall and break
+netpoll. If the ring is XDP only then yes, it can be skipped like what
+they did in the Mellanox driver, but if it is mixed then the XDP side
+of things needs to use the "safe" versions of the calls.
