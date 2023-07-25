@@ -2,106 +2,242 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4371C41513
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 03:05:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 358E6C41513
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 04:38:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbjGYDFe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jul 2023 23:05:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56868 "EHLO
+        id S230339AbjGYEi4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 00:38:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231635AbjGYDFP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 23:05:15 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4305210C3;
-        Mon, 24 Jul 2023 20:05:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=oa+so10xLETAgc5pdBX8v/zloJHSFamiykfxB9L3iNQ=; b=pqw9oioaugNc/2kx9y0xlJ9NId
-        jyWlek+X1AoKk0llItmIC3Bf3mzcoWu0ZTlj6G2sYvsHiO6+UHsis4MxPhQujAYnQ0Z42oQw3MOUm
-        aT1/QNOaq2uLaY9aJkIkqTjTvcxMB7aL12fQ/Vc3M2yGTqobvXOkxeikSUdxkM1cr1WxiIOdyE7ny
-        +Gqkh6ljwnDBIToS47UTxIXHDk8B9zX34r2/93tHSoD4aLc9GQOhHrL10cFO7Dxj7xxU3c6KCEofm
-        0GPJb3RuDytDWvYT1xQclal3ZH3bsRt6VE4SnFbBhLygs70kHMgmJ+w7zzOo3Q/2D610I+JeyZFt3
-        roNC6HaA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qO8M8-005zR5-1M;
-        Tue, 25 Jul 2023 03:05:00 +0000
-Message-ID: <9fa8e67e-e46b-074d-8406-bfd11303e95f@infradead.org>
-Date:   Mon, 24 Jul 2023 20:04:59 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC PATCH] rework top page and organize toc on the sidebar
-Content-Language: en-US
+        with ESMTP id S229748AbjGYEi4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 00:38:56 -0400
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B824710D1;
+        Mon, 24 Jul 2023 21:38:54 -0700 (PDT)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-63d0f62705dso5912776d6.0;
+        Mon, 24 Jul 2023 21:38:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690259934; x=1690864734;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=to0ZqeoMS9cOMLpLlEax7c1/5oKN+/3gMdofXFZUUPo=;
+        b=V9buO518vlgvqy0QbRMypV1+GVKBUsoMT4zSYGH17v02DDGlvlvo0TZKidqz5jB2Ye
+         jE2BIzNWqtJkXcRmKqXMwFPuh2cKXRVN/Rj33NeiJYIYbt5hORgd0iDDuh1Yg667YxsV
+         RWNRv3nvsd1IP71QHZt2UOIPPxDM3KyR5CKW7KIAYjzudjMFHxuIhhoug8gipWXsT988
+         4FYGeITxL1GexiwUDbfOzijeU4fxedfsFfgYrMnweQ3xu3iiJ1sm4yVstF6cRffU5tJw
+         uc6hkwtaW653TQ4eq2+JFwY9/fWMp1+hZxFLpf7Yuvhq1UdlpP5Rl0UgfeJV1OkN1HRL
+         Cghg==
+X-Gm-Message-State: ABy/qLZB2qXlay0/yEDfTw/0+j9/V/wKPxarIj8XR+qvIJTJaZ0buz5T
+        X6bjH2uRKfOJUmrj/RLs6jEZQs7N/FcAB4V4
+X-Google-Smtp-Source: APBJJlGrshfAi/w84P5yGeLE4VeC2hEMZFXulQzp+++J2675VyHWA8Djqejqs4bRtxzxbnnkHR9Yjg==
+X-Received: by 2002:a0c:f404:0:b0:631:fa2e:249f with SMTP id h4-20020a0cf404000000b00631fa2e249fmr1720031qvl.61.1690259933621;
+        Mon, 24 Jul 2023 21:38:53 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a040:199:8930:2c90:cb9e:b154:73dc])
+        by smtp.gmail.com with ESMTPSA id d26-20020a0caa1a000000b0063631be090csm4104445qvb.125.2023.07.24.21.38.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jul 2023 21:38:52 -0700 (PDT)
+From:   Costa Shulyupin <costa.shul@redhat.com>
 To:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
         Costa Shulyupin <costa.shul@redhat.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
-        "open list:RUST" <rust-for-linux@vger.kernel.org>
-References: <20230724193118.2204673-1-costa.shul@redhat.com>
- <87ila9atuk.fsf@meer.lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87ila9atuk.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Heiko Carstens <hca@linux.ibm.com>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Paul Cercueil <paul@crapouillou.net>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        linux-mips@vger.kernel.org (open list:MIPS),
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE BINDINGS)
+Subject: [PATCH] docs: move mips under arch
+Date:   Tue, 25 Jul 2023 07:38:03 +0300
+Message-ID: <20230725043835.2249678-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=true
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+and fix all in-tree references.
 
+Architecture-specific documentation is being moved into Documentation/arch/
+as a way of cleaning up the top-level documentation directory and making
+the docs hierarchy more closely match the source hierarchy.
 
-On 7/24/23 14:21, Jonathan Corbet wrote:
-> Costa Shulyupin <costa.shul@redhat.com> writes:
-> 
->> Template {{ toctree(maxdepth=3) }} in
->> Documentation/sphinx/templates/kernel-toc.html
->> uses directives toctree and doesn't use sections on the top page
->> Documentation/index.rst
->> to generate expandable toc on the sidebar.
->>
->> BTW, other template {{ toc }} uses only sections, and doesn't
->> use directives toctree.
->>
->> Summary of changes:
->> - split top page index.rst to several pages
->> - convert sections of Documentation/index.rst to hierarchical toctree
->> - vertical bars '|' add empty lines
->>
->> Benefits:
->> - collapsed toc is just seven short lines length
->> - toc is expandable
->>
->> References:
->> - https://www.sphinx-doc.org/en/master/development/templating.html#toctree
->> - https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-toctree
->> - https://www.sphinx-doc.org/en/master/development/templating.html#toc
->> - https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections
->> - https://sphinx-rtd-theme.readthedocs.io/
-> 
-> What is the purpose of all these links in a patch changelog?
-> 
-> This patch is somewhat difficult to apply, as a result of:
-> 
->> Content-Type: text/plain; charset=true
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/arch/index.rst                                  | 2 +-
+ Documentation/{ => arch}/mips/booting.rst                     | 0
+ Documentation/{ => arch}/mips/features.rst                    | 0
+ Documentation/{ => arch}/mips/index.rst                       | 0
+ Documentation/{ => arch}/mips/ingenic-tcu.rst                 | 0
+ Documentation/devicetree/bindings/timer/ingenic,tcu.yaml      | 2 +-
+ Documentation/translations/zh_CN/arch/index.rst               | 2 +-
+ Documentation/translations/zh_CN/{ => arch}/mips/booting.rst  | 4 ++--
+ Documentation/translations/zh_CN/{ => arch}/mips/features.rst | 4 ++--
+ Documentation/translations/zh_CN/{ => arch}/mips/index.rst    | 4 ++--
+ .../translations/zh_CN/{ => arch}/mips/ingenic-tcu.rst        | 4 ++--
+ MAINTAINERS                                                   | 2 +-
+ 12 files changed, 12 insertions(+), 12 deletions(-)
+ rename Documentation/{ => arch}/mips/booting.rst (100%)
+ rename Documentation/{ => arch}/mips/features.rst (100%)
+ rename Documentation/{ => arch}/mips/index.rst (100%)
+ rename Documentation/{ => arch}/mips/ingenic-tcu.rst (100%)
+ rename Documentation/translations/zh_CN/{ => arch}/mips/booting.rst (92%)
+ rename Documentation/translations/zh_CN/{ => arch}/mips/features.rst (65%)
+ rename Documentation/translations/zh_CN/{ => arch}/mips/index.rst (79%)
+ rename Documentation/translations/zh_CN/{ => arch}/mips/ingenic-tcu.rst (97%)
 
-I didn't have any problem applying and testing it.
-
-> But the real problem is that you seem to have ignored my last message.
-> The purpose of the front page isn't to create a nice-looking sidebar, it
-> is the entry point to our documentation as a whole.  I am all for a
-> better sidebar, but this is not the way to do it.
-
-Regardless of what the purpose of the front page is, I prefer this one
-from Costa.  The other one is a huge mess.
-
+diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
+index d39504fae12c..84b80255b851 100644
+--- a/Documentation/arch/index.rst
++++ b/Documentation/arch/index.rst
+@@ -15,7 +15,7 @@ implementation.
+    ia64/index
+    loongarch/index
+    m68k/index
+-   ../mips/index
++   mips/index
+    nios2/index
+    openrisc/index
+    parisc/index
+diff --git a/Documentation/mips/booting.rst b/Documentation/arch/mips/booting.rst
+similarity index 100%
+rename from Documentation/mips/booting.rst
+rename to Documentation/arch/mips/booting.rst
+diff --git a/Documentation/mips/features.rst b/Documentation/arch/mips/features.rst
+similarity index 100%
+rename from Documentation/mips/features.rst
+rename to Documentation/arch/mips/features.rst
+diff --git a/Documentation/mips/index.rst b/Documentation/arch/mips/index.rst
+similarity index 100%
+rename from Documentation/mips/index.rst
+rename to Documentation/arch/mips/index.rst
+diff --git a/Documentation/mips/ingenic-tcu.rst b/Documentation/arch/mips/ingenic-tcu.rst
+similarity index 100%
+rename from Documentation/mips/ingenic-tcu.rst
+rename to Documentation/arch/mips/ingenic-tcu.rst
+diff --git a/Documentation/devicetree/bindings/timer/ingenic,tcu.yaml b/Documentation/devicetree/bindings/timer/ingenic,tcu.yaml
+index 2d14610888a7..585b5f5217c4 100644
+--- a/Documentation/devicetree/bindings/timer/ingenic,tcu.yaml
++++ b/Documentation/devicetree/bindings/timer/ingenic,tcu.yaml
+@@ -8,7 +8,7 @@ title: Ingenic SoCs Timer/Counter Unit (TCU)
+ 
+ description: |
+   For a description of the TCU hardware and drivers, have a look at
+-  Documentation/mips/ingenic-tcu.rst.
++  Documentation/arch/mips/ingenic-tcu.rst.
+ 
+ maintainers:
+   - Paul Cercueil <paul@crapouillou.net>
+diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
+index d4c1c729dde2..e3d273d7d599 100644
+--- a/Documentation/translations/zh_CN/arch/index.rst
++++ b/Documentation/translations/zh_CN/arch/index.rst
+@@ -8,7 +8,7 @@
+ .. toctree::
+    :maxdepth: 2
+ 
+-   ../mips/index
++   mips/index
+    arm64/index
+    ../riscv/index
+    openrisc/index
+diff --git a/Documentation/translations/zh_CN/mips/booting.rst b/Documentation/translations/zh_CN/arch/mips/booting.rst
+similarity index 92%
+rename from Documentation/translations/zh_CN/mips/booting.rst
+rename to Documentation/translations/zh_CN/arch/mips/booting.rst
+index e0bbd3f20862..485b57e0ca0b 100644
+--- a/Documentation/translations/zh_CN/mips/booting.rst
++++ b/Documentation/translations/zh_CN/arch/mips/booting.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/mips/booting.rst
++:Original: Documentation/arch/mips/booting.rst
+ 
+ :翻译:
+ 
+diff --git a/Documentation/translations/zh_CN/mips/features.rst b/Documentation/translations/zh_CN/arch/mips/features.rst
+similarity index 65%
+rename from Documentation/translations/zh_CN/mips/features.rst
+rename to Documentation/translations/zh_CN/arch/mips/features.rst
+index b61dab06ceaf..da1b956e4a40 100644
+--- a/Documentation/translations/zh_CN/mips/features.rst
++++ b/Documentation/translations/zh_CN/arch/mips/features.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/mips/features.rst
++:Original: Documentation/arch/mips/features.rst
+ 
+ :翻译:
+ 
+diff --git a/Documentation/translations/zh_CN/mips/index.rst b/Documentation/translations/zh_CN/arch/mips/index.rst
+similarity index 79%
+rename from Documentation/translations/zh_CN/mips/index.rst
+rename to Documentation/translations/zh_CN/arch/mips/index.rst
+index 192c6adbb72e..2a34217119ea 100644
+--- a/Documentation/translations/zh_CN/mips/index.rst
++++ b/Documentation/translations/zh_CN/arch/mips/index.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/mips/index.rst
++:Original: Documentation/arch/mips/index.rst
+ 
+ :翻译:
+ 
+diff --git a/Documentation/translations/zh_CN/mips/ingenic-tcu.rst b/Documentation/translations/zh_CN/arch/mips/ingenic-tcu.rst
+similarity index 97%
+rename from Documentation/translations/zh_CN/mips/ingenic-tcu.rst
+rename to Documentation/translations/zh_CN/arch/mips/ingenic-tcu.rst
+index ddbe149c517b..3d599a36b571 100644
+--- a/Documentation/translations/zh_CN/mips/ingenic-tcu.rst
++++ b/Documentation/translations/zh_CN/arch/mips/ingenic-tcu.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
+ 
+-:Original: Documentation/mips/ingenic-tcu.rst
++:Original: Documentation/arch/mips/ingenic-tcu.rst
+ 
+ :翻译:
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6c650179159f..d1d8a9745761 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14215,7 +14215,7 @@ W:	http://www.linux-mips.org/
+ Q:	https://patchwork.kernel.org/project/linux-mips/list/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git
+ F:	Documentation/devicetree/bindings/mips/
+-F:	Documentation/mips/
++F:	Documentation/arch/mips/
+ F:	arch/mips/
+ F:	drivers/platform/mips/
+ F:	include/dt-bindings/mips/
 -- 
-~Randy
+2.41.0
+
