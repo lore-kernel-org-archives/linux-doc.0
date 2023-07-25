@@ -2,130 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B30C001DF
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 20:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 612E4C00528
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 20:44:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbjGYUls (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 16:41:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39712 "EHLO
+        id S230229AbjGYUo3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 16:44:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231599AbjGYUln (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 16:41:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AED62703
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 13:41:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 941346187D
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 20:41:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F86C433C9;
-        Tue, 25 Jul 2023 20:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690317684;
-        bh=4V1XXxIW5oRnhknxJ2XuysM/hqs0Fd0JpSgwRpnx7JU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lSlUdVfKUV9Bh3jPsCExGKGOHdD0ZuAjtGsICKq/f602KKHb0qrjBkeao1pS6rIr3
-         EFCYA16xqDhktZ7IauZuuydw13btbP1YFtBRMZqbqK+XjRzAaP82lxo6bvX5mWH8xZ
-         Zp8B1U/m0WbH0MeRA63iFVFFOF20EVRFd4ehPGOik00L0JaaFw8Zqedb6TbzX4vWra
-         GdY7bnKcad4IYrseznj/yhAhKUcrzS9R+peSXaLi5HPkFqy1iLVjor9yTVxwOFs60U
-         VC4qfhy2tN1MDlEgzzyhpdY6SV5YOCCqqG3vccTDgNd+0O+COUi0+FhmUwn1O0oAF5
-         7yhUrOg1CHquA==
-Date:   Tue, 25 Jul 2023 13:41:22 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Alexander Duyck <alexander.duyck@gmail.com>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] docs: net: clarify the NAPI rules around XDP Tx
-Message-ID: <20230725134122.1684a2f1@kernel.org>
-In-Reply-To: <CAKgT0UdKWmogiFD_Gip3TCi8-ydy+CVjwca1hPTYBRQQZ8_mGQ@mail.gmail.com>
-References: <20230720161323.2025379-1-kuba@kernel.org>
-        <c429298e279bd549de923deba09952e7540e534a.camel@gmail.com>
-        <20230725115528.596b5305@kernel.org>
-        <CAKgT0UdKWmogiFD_Gip3TCi8-ydy+CVjwca1hPTYBRQQZ8_mGQ@mail.gmail.com>
+        with ESMTP id S229914AbjGYUo2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 16:44:28 -0400
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2DF526B0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 13:44:00 -0700 (PDT)
+Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-579de633419so68807757b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 13:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1690317840; x=1690922640;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nWFtInZ1K1dOfuS7k8qAbtMBBIEMrxLy4VGVUtC5gnI=;
+        b=C8boa0Mv2x13zaBKrUj+xzuVti30LteOQD/85/WnBKhzbeDHEzvYvZ3kQdHoCjYdG0
+         ftqVyfqFa6NOhebzP3zMyFH7Nlp1JPPPKMGc1aE91kApgf84Ufspb27OrNQYnal4fJdI
+         RuMjkIlaBANH5JbWHDMSmJYGIzqqyjVZTAseBtkUxPVzAHisNHbe6FS0O0hpPY2Mahdy
+         fdrDOGG8cimzMGhjO/sM3c08lCiYTBbFA4aZL9R/TiSrtJIosdGWlE6hbhCkOQUU/TaG
+         FqmFBGWx8K2cus33+JbUinADhEt8mhX8e9cNl+6Pf8/2HVcctD7B/+1vZNujcT3jVfWL
+         BwBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690317840; x=1690922640;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nWFtInZ1K1dOfuS7k8qAbtMBBIEMrxLy4VGVUtC5gnI=;
+        b=h3qbbbYcUxGUD9OF7XjAk24BtAcmEsTxBu80XWSDu8PVO6QOFiuCrrx3aUp/O0HovV
+         Kh2pgcArowMvLZPw6gX8AZIYl216Pt6ylYCBjySENeiddux6mB2MATntpBukAGAO7I9Q
+         pBctS6qXacIjygMKG3znUMsfCqPDVmZ2UTipXWjxZUXEikDfgEdldlzCN2x9pZhWNXUM
+         YoIH8Rc1QS5QuLwW+UaHOHCD4RdPFxvKk7hj4uMKWHBVqLpZAzn+Mw3HMbC6aJMDI4aO
+         KdlAVuzjyp795/bKKTtM7bMN6Idq9Exa8JCOGrs6qOb4tixnEiLwSubI8BH4388vBLLM
+         +ezg==
+X-Gm-Message-State: ABy/qLZTAPDQz8r901kRS4wxIL2kyBHoxzgWFmR/lnxFCOgqeXw6Y0Ch
+        h2M7McxnebCxnGoxnM3gI6vFNSEFCw5I9n/kEiLo
+X-Google-Smtp-Source: APBJJlFkTo4MqIRboyJijfvAESH41Sn7XZLb7Wq1Qb4xbUmcbmJhG5qWNqiv1iYXWOFUlllWKuTA5JqszvfgcdQJA1g=
+X-Received: by 2002:a25:2f16:0:b0:c83:27d4:c0d6 with SMTP id
+ v22-20020a252f16000000b00c8327d4c0d6mr98124ybv.37.1690317839194; Tue, 25 Jul
+ 2023 13:43:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <1687986571-16823-1-git-send-email-wufan@linux.microsoft.com>
+ <1687986571-16823-12-git-send-email-wufan@linux.microsoft.com>
+ <ZKgm+ffQbdDTxrg9@redhat.com> <20230712034319.GA17642@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20230712034319.GA17642@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Tue, 25 Jul 2023 16:43:48 -0400
+Message-ID: <CAHC9VhQFxqcfgR0acgdiXKP9LT1KLgGjZd-QHs6O1dEex31HEQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v10 11/17] dm-verity: consume root hash digest and
+ signature data via LSM hook
+To:     Fan Wu <wufan@linux.microsoft.com>
+Cc:     Mike Snitzer <snitzer@kernel.org>, corbet@lwn.net,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk,
+        agk@redhat.com, eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com, audit@vger.kernel.org,
+        roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+        Deven Bowers <deven.desai@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 25 Jul 2023 13:10:18 -0700 Alexander Duyck wrote:
-> On Tue, Jul 25, 2023 at 11:55=E2=80=AFAM Jakub Kicinski <kuba@kernel.org>=
+On Tue, Jul 11, 2023 at 11:43=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com>=
  wrote:
-> > > This isn't accurate, and I would say it is somewhat dangerous advice.
-> > > The Tx still needs to be processed regardless of if it is processing
-> > > page_pool pages or XDP pages. I agree the Rx should not be processed,
-> > > but the Tx must be processed using mechanisms that do NOT make use of
-> > > NAPI optimizations when budget is 0.
-> > >
-> > > So specifically, xdp_return_frame is safe in non-NAPI Tx cleanup. The
-> > > xdp_return_frame_rx_napi is not.
-> > >
-> > > Likewise there is napi_consume_skb which will use either a NAPI or no=
-n-
-> > > NAPI version of things depending on if budget is 0 or not.
-> > >
-> > > For the page_pool calls there is the "allow_direct" argument that is
-> > > meant to decide between recycling in directly into the page_pool cache
-> > > or not. It should only be used in the Rx handler itself when budget is
-> > > non-zero.
-> > >
-> > > I realise this was written up in response to a patch on the Mellanox
-> > > driver. Based on the patch in question it looks like they were calling
-> > > page_pool_recycle_direct outside of NAPI context. There is an explicit
-> > > warning above that function about NOT calling it outside of NAPI
-> > > context. =20
+> On Fri, Jul 07, 2023 at 10:53:45AM -0400, Mike Snitzer wrote:
+
+...
+
+> > Both of your calls to security_bdev_setsecurity() to set your blobs in
+> > the bdev are suspect because you're doing so from the verity_ctr().
+> > The mapped_device has 2 dm_table slots (active and inactive).  The
+> > verity_ctr() becomes part of the inactive slot, there is an extra step
+> > to bind the inactive table to the active table.
 > >
-> > Unless I'm missing something budget=3D0 can be called from hard IRQ
-> > context. And page pool takes _bh() locks. So unless we "teach it"
-> > not to recycle _anything_ in hard IRQ context, it is not safe to call. =
-=20
->=20
-> That is the thing. We have to be able to free the pages regardless of
-> context. Otherwise we make a huge mess of things. Also there isn't
-> much way to differentiate between page_pool and non-page_pool pages
-> because an skb can be composed of page pool pages just as easy as an
-> XDP frame can be. All you would just have to enable routing or
-> bridging for Rx frames to end up with page pool pages in the Tx path.
->=20
-> As far as netpoll itself we are safe because it has BH disabled and so
-
-We do? Can you point me to where netpoll disables BH?
-
-> as a result page_pool doesn't use the _bh locks. There is code in
-> place to account for that in the producer locking code, and if it were
-> an issue we would have likely blown up long before now. The fact is
-> that page_pool has proliferated into skbs, so you are still freeing
-> page_pool pages indirectly anyway.
->=20
-> That said, there are calls that are not supposed to be used outside of
-> NAPI context, such as page_pool_recycle_direct(). Those have mostly
-> been called out in the page_pool.h header itself, so if someone
-> decides to shoot themselves in the foot with one of those, that is on
-> them. What we need to watch out for are people abusing the "direct"
-> calls and such or just passing "true" for allow_direct in the
-> page_pool calls without taking proper steps to guarantee the context.
+> > This leads to you changing the blobs in the global bdev _before_ the
+> > table is actually active.  It is possible that the inactive table will
+> > simply be removed and the DM verity device put back in service;
+> > leaving your blob(s) in the bdev inconsistent.
+> >
+> > This issue has parallels to how we need to defer changing the global
+> > queue_limits associated with a request_queue until _after_ all table
+> > loading is settled and then the update is done just before resuming
+> > the DM device (mapped_device) -- see dm_table_set_restrictions().
+> >
+> > Unfortunately, this feels like it may require a new hook in the
+> > target_type struct (e.g. ->finalize())
 >
-> > > We cannot make this distinction if both XDP and skb are processed in
-> > > the same Tx queue. Otherwise you will cause the Tx to stall and break
-> > > netpoll. If the ring is XDP only then yes, it can be skipped like what
-> > > they did in the Mellanox driver, but if it is mixed then the XDP side
-> > > of things needs to use the "safe" versions of the calls. =20
-> >
-> > IDK, a rare delay in sending of a netpoll message is not a major
-> > concern. =20
->=20
-> The whole point of netpoll is to get data out after something like a
-> crash. Otherwise we could have just been using regular NAPI. If the Tx
-> ring is hung it might not be a delay but rather a complete stall that
-> prevents data on the Tx queue from being transmitted on since the
-> system will likely not be recovering. Worse yet is if it is a scenario
-> where the Tx queue can recover it might trigger the Tx watchdog since
-> I could see scenarios where the ring fills, but interrupts were
-> dropped because of the netpoll.
+> Thanks for pointing out this issue. We were calling security_bdev_setsecu=
+rity()
+> because the roothash signature data is only available in verity_ctr()
+> and it is discarded after verity_ctr() finishes.
+> After digging deeper into the table_load, I realized that we were indeed
+> wrong here.
+>
+> Based on my understanding of your suggestion, it seems that the correct
+> approach would be to save the roothash signature into the struct dm_targe=
+t
 
-I'm not disagreeing with you. I just don't have time to take a deeper
-look and add the IRQ checks myself and I'm 90% sure the current code
-can't work with netpoll. So I thought I'd at least document that :(
+Would you be doing this with a LSM hook, or would this live in the
+device mapper layer?
+
+> and then invoke security_bdev_setsecurity() before activating
+> the inactive table in the __bind function (where dm_table_set_restriction=
+s is called).
+>
+> To facilitate this process, it seems appropriate to introduce a new hook
+> called finalize() within the struct target_type. This hook would enable
+> targets to define tasks that need to be completed before activating
+> a new table.
+>
+> In our specific case, we would add a finalize hook to the dm-verity modul=
+e,
+> allowing us to call security_bdev_setsecurity() and associate the roothas=
+h
+> information in the struct dm_target with the struct block_device of
+> the struct mapped_device. Is this correct?
+
+Where would the finalize() hook be called?
+
+--=20
+paul-moore.com
