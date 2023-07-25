@@ -2,117 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 306E1C0015E
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 14:22:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FD14C001DF
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 14:28:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232563AbjGYOWU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 10:22:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34152 "EHLO
+        id S231292AbjGYO2k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 10:28:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230450AbjGYOWD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 10:22:03 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 531572680
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 07:21:38 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-31743dbf13eso2372839f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 07:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690294890; x=1690899690;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+UwYYe6ucZvdBvqF8iQhg0hDnshi1xav4hUdpbdxiqw=;
-        b=WbIR7n/yzc9VAozw8Sk+VSB2504MVtOdu1vnFMj5noYjek5szstVImCB0Qp6a7sqFz
-         Gz1gOgq/xvFNwR6NQej4DgG6nd0XEbv7N3vBqNr4x74ijnVGuP6dp2xAnyb09iyks1TD
-         U3hriTLler5E7fm9b3s9X5Pv4EUZBMV+gFxGRvGwNfHZyV9OSzwvCZH1U0E6XOZvuUqY
-         p07D4iEfPMttDvKhK+zGj8L1eAcWLj/Q3iN5wQ36akJ38bS8XiId2FJF9QSZk+K+/BxR
-         fR8/8EV1BgMPvCEA5uZCfxHxHjuyY1xOUxXk1NtodoYq/XT1SGJTBfJWvqEg23Om2VK+
-         P3Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690294890; x=1690899690;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+UwYYe6ucZvdBvqF8iQhg0hDnshi1xav4hUdpbdxiqw=;
-        b=NgAH+IZijhU7DtKyWlnxAkn6d48CKZs4ujVgMnsE42iNel1u35I2xhsaIXDM3Js5V8
-         BhT/7dBmdDCRRPeQbZRHcgTHYu3s9dTiB4K4W0Zog/Jygnv6WI9j4M5Z3uj5P3FOEqfT
-         PbRsUZHKzwNNZqL8jbcHuwaxwrm/unWXLIHuVp1LHr4HVAwcwjr3zscx4Ebb0SYeaLne
-         fHlH01viw/or+V1BmUt3bWJGgjxMO850yIrPHXE5LXbP8ECJSOYi5DsbUP41lNP8EFhH
-         23HqLJWfOSuE5JsYgbLc7K8QZOZQjMmomHBgobmpCeFB9yZXk0M3gwT5oxjKmrFL90kS
-         KxLA==
-X-Gm-Message-State: ABy/qLaN275J9TtyNZqGAdELyX5v2zZ05F+c+w2y1rTF2ljwnHuevHYe
-        F3uu5rXIcpgIYk6OkRVwCw1zLQ==
-X-Google-Smtp-Source: APBJJlHTPdf8WSeLzfqvdw+Iv3zNCwUMRolvKBj5Y5BArZHknPJjzTL9f7IYaGzso0TGmRYunEA55Q==
-X-Received: by 2002:a5d:45c1:0:b0:313:ee5b:d4bc with SMTP id b1-20020a5d45c1000000b00313ee5bd4bcmr9304252wrs.5.1690294889769;
-        Tue, 25 Jul 2023 07:21:29 -0700 (PDT)
-Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id x10-20020adff0ca000000b00314367cf43asm16503568wro.106.2023.07.25.07.21.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jul 2023 07:21:29 -0700 (PDT)
-From:   Alexandre Ghiti <alexghiti@rivosinc.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-        Andrew Jones <ajones@ventanamicro.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Song Shuai <songshuaishuai@tinylab.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Atish Patra <atishp@rivosinc.com>,
-        Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v6 3/3] Documentation: riscv: Update boot image header since EFI stub is supported
-Date:   Tue, 25 Jul 2023 16:19:25 +0200
-Message-Id: <20230725141926.823153-3-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230725141926.823153-1-alexghiti@rivosinc.com>
-References: <20230725141926.823153-1-alexghiti@rivosinc.com>
+        with ESMTP id S233607AbjGYO2Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 10:28:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D673213B;
+        Tue, 25 Jul 2023 07:28:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 16DA861703;
+        Tue, 25 Jul 2023 14:28:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D9DC433C8;
+        Tue, 25 Jul 2023 14:28:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690295284;
+        bh=pLcGjTdvsPWLtNuFTaVkfHigxXLo+fNXVIF1U1P7CPw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=StVl5h3+QO2ZWslM97azeV+4ZyU/B/KES+LtwQn7KkU5oAA9Yfx/d/eVYYC5P1BQf
+         xWJUMuWvPX6Apk2rqUELDpN8/9l4nUvJMDGGn6yEy3gpHmGO72Fy3pnpfUm9RCZXfX
+         YNVd6sKyMDWzNrIqAZKcBaA14WBX+vbT45ENK0V6zDdOuLyisB162vQNsvaS9PweW7
+         /wK2i4LlVSQsh8X7ngrDj/0yfaK2jyOK+pX2A5VDtUC3qAvzh7c2bWnZlEYl78FvHZ
+         VJhfKbMg8AC+EgkouoMBscBXhI6X6L9yBSlyJ9falHnzL+b4dnqHSZEXXMSInbKdyP
+         y9/o4l+kBP5fQ==
+Date:   Tue, 25 Jul 2023 15:27:58 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/1] Documentation: core-api: Drop :export: for
+ int_log.h
+Message-ID: <29369f0b-732d-4d20-9afa-0918dba0f512@sirena.org.uk>
+References: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
+ <87a5vkb0ee.fsf@meer.lwn.net>
+ <b761d010-ef21-4be6-b6c3-678498b7fa71@sirena.org.uk>
+ <ZL/W5rc043oPLfMV@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="eQzzTH+PTuaQADBN"
+Content-Disposition: inline
+In-Reply-To: <ZL/W5rc043oPLfMV@smile.fi.intel.com>
+X-Cookie: Happiness is the greatest good.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The EFI stub is supported on RISC-V so update the documentation that
-explains how the boot image header was reused to support it.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
-Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
----
+--eQzzTH+PTuaQADBN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-- Changes in v5:
-  * Rebase on top of docs-next
+On Tue, Jul 25, 2023 at 05:06:30PM +0300, Andy Shevchenko wrote:
+> On Tue, Jul 25, 2023 at 02:46:33PM +0100, Mark Brown wrote:
 
- Documentation/riscv/boot-image-header.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+> > Is this the same patch I applied yesterday or a different one?
 
-diff --git a/Documentation/riscv/boot-image-header.rst b/Documentation/riscv/boot-image-header.rst
-index a4a45310c4c4..df2ffc173e80 100644
---- a/Documentation/riscv/boot-image-header.rst
-+++ b/Documentation/riscv/boot-image-header.rst
-@@ -28,11 +28,11 @@ header in future.
- Notes
- =====
- 
--- This header can also be reused to support EFI stub for RISC-V in future. EFI
--  specification needs PE/COFF image header in the beginning of the kernel image
--  in order to load it as an EFI application. In order to support EFI stub,
--  code0 should be replaced with "MZ" magic string and res3(at offset 0x3c) should
--  point to the rest of the PE/COFF header.
-+- This header is also reused to support EFI stub for RISC-V. EFI specification
-+  needs PE/COFF image header in the beginning of the kernel image in order to
-+  load it as an EFI application. In order to support EFI stub, code0 is replaced
-+  with "MZ" magic string and res3(at offset 0x3c) points to the rest of the
-+  PE/COFF header.
- 
- - version field indicate header version number
- 
--- 
-2.39.2
+> Hmm...
+> I do not see anything like this patch in your current ASoC for-next
+> (nor in for-6.6). Did I look into wrong branch?
 
+There was some random patch you just sent me the message ID for in the
+replies to something from Stephen which I'm fairly sure I queued,
+perhaps it was a different thing or git thought it was a noop when it
+was applied?
+
+--eQzzTH+PTuaQADBN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS/2+0ACgkQJNaLcl1U
+h9CWugf/ZkE8tnRDZ8V5xvbNkjHRdkJUvIlBwjPjQQbY6ySAGZdrgwhgaUEB7J+5
+m6yCDqE0ZSGaGzqSHT56DBUal3qmo5UUVaXzpIqF2sJdpCx04T4p8I2exgpH73oG
+dpFK6JSICXHbozc8OYysARMFyzho2Yb1AoBY27Tp5aVxOzo1GLi+gXjCSd+2k4dC
+BoSp25WhKDr7jM8dJ1s6M9nD+4MXyEOcJ0SyWMw6tXs4Z4YN3H5vHlwGBiXT/daF
+5EQkAGdFPNjYbpIpVTX14oyKKTYktA9l5vscjpg2qQpZZXKE0cJ/c8tQov8hlmr+
+pxeZMSxAz6z5LfJC3AjOlC20hWBdHQ==
+=F+Oi
+-----END PGP SIGNATURE-----
+
+--eQzzTH+PTuaQADBN--
