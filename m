@@ -2,92 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FD14C001DF
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 14:28:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E2CC04A6A
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 14:42:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231292AbjGYO2k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 10:28:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37188 "EHLO
+        id S233244AbjGYOmn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 10:42:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233607AbjGYO2Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 10:28:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D673213B;
-        Tue, 25 Jul 2023 07:28:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 16DA861703;
-        Tue, 25 Jul 2023 14:28:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D9DC433C8;
-        Tue, 25 Jul 2023 14:28:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690295284;
-        bh=pLcGjTdvsPWLtNuFTaVkfHigxXLo+fNXVIF1U1P7CPw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=StVl5h3+QO2ZWslM97azeV+4ZyU/B/KES+LtwQn7KkU5oAA9Yfx/d/eVYYC5P1BQf
-         xWJUMuWvPX6Apk2rqUELDpN8/9l4nUvJMDGGn6yEy3gpHmGO72Fy3pnpfUm9RCZXfX
-         YNVd6sKyMDWzNrIqAZKcBaA14WBX+vbT45ENK0V6zDdOuLyisB162vQNsvaS9PweW7
-         /wK2i4LlVSQsh8X7ngrDj/0yfaK2jyOK+pX2A5VDtUC3qAvzh7c2bWnZlEYl78FvHZ
-         VJhfKbMg8AC+EgkouoMBscBXhI6X6L9yBSlyJ9falHnzL+b4dnqHSZEXXMSInbKdyP
-         y9/o4l+kBP5fQ==
-Date:   Tue, 25 Jul 2023 15:27:58 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        with ESMTP id S233314AbjGYOml (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 10:42:41 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 446BCE51;
+        Tue, 25 Jul 2023 07:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690296160; x=1721832160;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BxmoiYkf/4mBJrfAXlvBlg7ie0alDwfIBXTfXdM8EWk=;
+  b=Cu0zBkyvFFmftAtn0ufshPbqpHzYgrQSgEWHp7eZSx5bol5HWtERfvcX
+   BFd2Dwigf/b0QBhxQkyw9OEHnQDXVbFFJxJqKAxWbCTelDi2l94uDhvy+
+   PNyxP8668O2L4C49VtiS/xxNEwDx9BOdWDxExPKBasldRuDCM2cY75ACc
+   IO5LSYXdsgToQDnfaY2vZb+KGJzdlgfcRsWd01N/rtX2c2nLAZggXDAdU
+   rYRNz0sIg9e8tN/+OWZvQN2xcEbPjpTLNX6ZdwLPkegd6HJ/eLbmktcGG
+   7kS5vJ7e3jS2wepSe7zbynN5v7XFhJXOk3FMtuz6Uu8xxJ+JX54W4BSU0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="357747050"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="357747050"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 07:41:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
+   d="scan'208";a="869498358"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Jul 2023 07:40:57 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qOJDa-00DymC-2A;
+        Tue, 25 Jul 2023 17:40:54 +0300
+Date:   Tue, 25 Jul 2023 17:40:54 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mark Brown <broonie@kernel.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [PATCH v2 1/1] Documentation: core-api: Drop :export: for
  int_log.h
-Message-ID: <29369f0b-732d-4d20-9afa-0918dba0f512@sirena.org.uk>
+Message-ID: <ZL/e9oguxJ8+nht/@smile.fi.intel.com>
 References: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
  <87a5vkb0ee.fsf@meer.lwn.net>
  <b761d010-ef21-4be6-b6c3-678498b7fa71@sirena.org.uk>
  <ZL/W5rc043oPLfMV@smile.fi.intel.com>
+ <29369f0b-732d-4d20-9afa-0918dba0f512@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="eQzzTH+PTuaQADBN"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZL/W5rc043oPLfMV@smile.fi.intel.com>
-X-Cookie: Happiness is the greatest good.
+In-Reply-To: <29369f0b-732d-4d20-9afa-0918dba0f512@sirena.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Jul 25, 2023 at 03:27:58PM +0100, Mark Brown wrote:
+> On Tue, Jul 25, 2023 at 05:06:30PM +0300, Andy Shevchenko wrote:
+> > On Tue, Jul 25, 2023 at 02:46:33PM +0100, Mark Brown wrote:
+> 
+> > > Is this the same patch I applied yesterday or a different one?
+> 
+> > Hmm...
+> > I do not see anything like this patch in your current ASoC for-next
+> > (nor in for-6.6). Did I look into wrong branch?
+> 
+> There was some random patch you just sent me the message ID for in the
+> replies to something from Stephen which I'm fairly sure I queued,
+> perhaps it was a different thing or git thought it was a noop when it
+> was applied?
 
---eQzzTH+PTuaQADBN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The first version is here [1].
+Then it was a discussion about Linux Next build issues [2].
 
-On Tue, Jul 25, 2023 at 05:06:30PM +0300, Andy Shevchenko wrote:
-> On Tue, Jul 25, 2023 at 02:46:33PM +0100, Mark Brown wrote:
+In the discussion I mentioned:
 
-> > Is this the same patch I applied yesterday or a different one?
+  The 20230713165320.14199-1-andriy.shevchenko@linux.intel.com had been sent.
 
-> Hmm...
-> I do not see anything like this patch in your current ASoC for-next
-> (nor in for-6.6). Did I look into wrong branch?
+which is exactly what [1] is.
 
-There was some random patch you just sent me the message ID for in the
-replies to something from Stephen which I'm fairly sure I queued,
-perhaps it was a different thing or git thought it was a noop when it
-was applied?
+I have no idea how it can be a noop, but the patch is missing as far
+as I can tell.
 
---eQzzTH+PTuaQADBN
-Content-Type: application/pgp-signature; name="signature.asc"
+This thread is v2 of what was in [1].
 
------BEGIN PGP SIGNATURE-----
+[1]: https://lore.kernel.org/linux-doc/20230713165320.14199-1-andriy.shevchenko@linux.intel.com/
+[2]: https://lore.kernel.org/linux-next/20230713121627.17990c86@canb.auug.org.au/T/#u
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS/2+0ACgkQJNaLcl1U
-h9CWugf/ZkE8tnRDZ8V5xvbNkjHRdkJUvIlBwjPjQQbY6ySAGZdrgwhgaUEB7J+5
-m6yCDqE0ZSGaGzqSHT56DBUal3qmo5UUVaXzpIqF2sJdpCx04T4p8I2exgpH73oG
-dpFK6JSICXHbozc8OYysARMFyzho2Yb1AoBY27Tp5aVxOzo1GLi+gXjCSd+2k4dC
-BoSp25WhKDr7jM8dJ1s6M9nD+4MXyEOcJ0SyWMw6tXs4Z4YN3H5vHlwGBiXT/daF
-5EQkAGdFPNjYbpIpVTX14oyKKTYktA9l5vscjpg2qQpZZXKE0cJ/c8tQov8hlmr+
-pxeZMSxAz6z5LfJC3AjOlC20hWBdHQ==
-=F+Oi
------END PGP SIGNATURE-----
 
---eQzzTH+PTuaQADBN--
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
