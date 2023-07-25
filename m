@@ -2,187 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CBBAC001DE
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 20:46:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B50EEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 20:51:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbjGYUqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 16:46:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43608 "EHLO
+        id S230342AbjGYUvm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 16:51:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230319AbjGYUqp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 16:46:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B384512D
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 13:45:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690317954;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ePQHpPP/m2zFLGwnISEyrwq9ac4YxSfkwTurK23ce8w=;
-        b=NeyV0lXh6m7Sx3PEqfRWKPK8TSjtKuaqhAO5+0Ij4czbSoVg2C40H38sGhFIiODqcDMOxe
-        isygEYKXECZ+Lwz+7ZNI6/zzJPvFkBtVl0W38tCB6/qnhOqAh/u0s1i6v2CejGXjlir7rU
-        vg346RcNqPjtkg3eUjs8pB8wwsL6B9M=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-217-4NkOkLwcPZGcOnX2_xcNmQ-1; Tue, 25 Jul 2023 16:45:51 -0400
-X-MC-Unique: 4NkOkLwcPZGcOnX2_xcNmQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E3D528088A7;
-        Tue, 25 Jul 2023 20:45:50 +0000 (UTC)
-Received: from [10.22.18.12] (unknown [10.22.18.12])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4529BF7830;
-        Tue, 25 Jul 2023 20:45:49 +0000 (UTC)
-Message-ID: <f5f25279-bbb5-e040-aeaa-dd3d8686c670@redhat.com>
-Date:   Tue, 25 Jul 2023 16:45:49 -0400
+        with ESMTP id S230009AbjGYUvl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 16:51:41 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1F04B6;
+        Tue, 25 Jul 2023 13:51:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=BI6vld8daiZZqGCYXywTiEB06qS0pOcYQzPLq+kIgpA=; b=kBoM0QDDYWvRihqO9OYZiObhMj
+        GlyRzTCZ7/WdvW06YOS6WhtEsgXu4P1dKW10wb/QbeKXBO9YvNSYtgD9VbSTzkwB612KtZK3+NKZL
+        PUCberLDUcsiNFgFwoVPx1l3HnofLB9hYRk0dGE1wJYC/WBqIRrlZGzJxeCWlpE/oM/6a8jfZLd2g
+        A20JUg5vvH4JUfv17i+QZRPSFeyFT74AQc8YT84WpVzZ3L4JbMNVTsJtZRXTSqPKDs3fi93vJfSuq
+        p0PQYB8/Rg0lTnL28cf9yteCsl9N6+X6L1vjKxXoTcp+pM4nbyjbr8AEp1iNmusW8JYUFcNJaqS+G
+        ryDERQsA==;
+Received: from [2601:1c2:980:9ec0::2764]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qOP0M-008Te2-2y;
+        Tue, 25 Jul 2023 20:51:40 +0000
+Message-ID: <10fbf60c-f7fe-d2ca-3d16-488453a88889@infradead.org>
+Date:   Tue, 25 Jul 2023 13:51:37 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v5 4/4] intel_idle: Add ibrs_off module parameter to force
- disable IBRS
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] Documentation: devices.txt: reconcile serial/ucc_uart
+ minor numers
 Content-Language: en-US
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, linux-pm@vger.kernel.org,
-        Robin Jarry <rjarry@redhat.com>, Joe Mario <jmario@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-References: <20230710194857.2898284-1-longman@redhat.com>
- <20230710194857.2898284-5-longman@redhat.com>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <20230710194857.2898284-5-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+To:     Timur Tabi <timur@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Kumar Gala <galak@kernel.crashing.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-serial@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+References: <20230724063341.28198-1-rdunlap@infradead.org>
+ <CAOZdJXVuvVNzbyTLSiqRoSNdU0aprHoxozZzBahFUghqLvL2kw@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAOZdJXVuvVNzbyTLSiqRoSNdU0aprHoxozZzBahFUghqLvL2kw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/10/23 15:48, Waiman Long wrote:
-> Commit bf5835bcdb96 ("intel_idle: Disable IBRS during long idle")
-> disables IBRS when the cstate is 6 or lower. However, there are
-> some use cases where a customer may want to use max_cstate=1 to
-> lower latency. Such use cases will suffer from the performance
-> degradation caused by the enabling of IBRS in the sibling idle thread.
-> Add a "ibrs_off" module parameter to force disable IBRS and the
-> CPUIDLE_FLAG_IRQ_ENABLE flag if set.
->
-> In the case of a Skylake server with max_cstate=1, this new ibrs_off
-> option will likely increase the IRQ response latency as IRQ will now
-> be disabled.
->
-> When running SPECjbb2015 with cstates set to C1 on a Skylake system.
->
-> First test when the kernel is booted with: "intel_idle.ibrs_off"
->    max-jOPS = 117828, critical-jOPS = 66047
->
-> Then retest when the kernel is booted without the "intel_idle.ibrs_off"
-> added.
->    max-jOPS = 116408, critical-jOPS = 58958
->
-> That means booting with "intel_idle.ibrs_off" improves performance by:
->    max-jOPS:   1.2%, which could be considered noise range.
->    critical-jOPS: 12%, which is definitely a solid improvement.
->
-> The admin-guide/pm/intel_idle.rst file is updated to add a description
-> about the new "ibrs_off" module parameter.
->
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
->   Documentation/admin-guide/pm/intel_idle.rst | 17 ++++++++++++++++-
->   drivers/idle/intel_idle.c                   | 11 ++++++++++-
->   2 files changed, 26 insertions(+), 2 deletions(-)
 
-Ping! Is there further suggested changes for this patch series or is it 
-good enough to be merged?
 
-Thanks,
-Longman
+On 7/25/23 13:38, Timur Tabi wrote:
+> On Mon, Jul 24, 2023 at 1:33 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>> Reconcile devices.txt with serial/ucc_uart.c regarding device number
+>> assignments. ucc_uart.c supports 4 ports and uses minor devnums
+>> 46-49, so update devices.txt with that info.
+>> Then update ucc_uart.c's reference to the location of the devices.txt
+>> list in the kernel source tree.
+>>
+>> Fixes: d7584ed2b994 ("[POWERPC] qe-uart: add support for Freescale QUICCEngine UART")
+>> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Timur Tabi <timur@kernel.org>
+>> Cc: Kumar Gala <galak@kernel.crashing.org>
+>> Cc: linuxppc-dev@lists.ozlabs.org
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: Jiri Slaby <jirislaby@kernel.org>
+>> Cc: linux-serial@vger.kernel.org
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+> 
+> Acked-by: Timur Tabi <timur@kernel.org>
+> 
+> One thing does concern me.  The UCC UART driver piggy-backs on the CPM
+> driver's layout (see cpm_uart.h), but apparently CPM UART supports 6
+> devices, not four:
+> 
+> #define UART_NR        fs_uart_nr
+> 
+> where fs_uart_nr is defined in enum fs_uart_id.
+> 
+> Unfortunately, it's been so long since I've touched this code, I'm not
+> sure whether this means anything.
 
->
-> diff --git a/Documentation/admin-guide/pm/intel_idle.rst b/Documentation/admin-guide/pm/intel_idle.rst
-> index b799a43da62e..39bd6ecce7de 100644
-> --- a/Documentation/admin-guide/pm/intel_idle.rst
-> +++ b/Documentation/admin-guide/pm/intel_idle.rst
-> @@ -170,7 +170,7 @@ and ``idle=nomwait``.  If any of them is present in the kernel command line, the
->   ``MWAIT`` instruction is not allowed to be used, so the initialization of
->   ``intel_idle`` will fail.
->   
-> -Apart from that there are four module parameters recognized by ``intel_idle``
-> +Apart from that there are five module parameters recognized by ``intel_idle``
->   itself that can be set via the kernel command line (they cannot be updated via
->   sysfs, so that is the only way to change their values).
->   
-> @@ -216,6 +216,21 @@ are ignored).
->   The idle states disabled this way can be enabled (on a per-CPU basis) from user
->   space via ``sysfs``.
->   
-> +The ``ibrs_off`` module parameter is a boolean flag (defaults to
-> +false). If set, it is used to control if IBRS (Indirect Branch Restricted
-> +Speculation) should be turned off when the CPU enters an idle state.
-> +This flag does not affect CPUs that use Enhanced IBRS which can remain
-> +on with little performance impact.
-> +
-> +For some CPUs, IBRS will be selected as mitigation for Spectre v2 and Retbleed
-> +security vulnerabilities by default.  Leaving the IBRS mode on while idling may
-> +have a performance impact on its sibling CPU.  The IBRS mode will be turned off
-> +by default when the CPU enters into a deep idle state, but not in some
-> +shallower ones.  Setting the ``ibrs_off`` module parameter will force the IBRS
-> +mode to off when the CPU is in any one of the available idle states.  This may
-> +help performance of a sibling CPU at the expense of a slightly higher wakeup
-> +latency for the idle CPU.
-> +
->   
->   .. _intel-idle-core-and-package-idle-states:
->   
-> diff --git a/drivers/idle/intel_idle.c b/drivers/idle/intel_idle.c
-> index c9479f089037..e1b826344682 100644
-> --- a/drivers/idle/intel_idle.c
-> +++ b/drivers/idle/intel_idle.c
-> @@ -69,6 +69,7 @@ static int max_cstate = CPUIDLE_STATE_MAX - 1;
->   static unsigned int disabled_states_mask __read_mostly;
->   static unsigned int preferred_states_mask __read_mostly;
->   static bool force_irq_on __read_mostly;
-> +static bool ibrs_off __read_mostly;
->   
->   static struct cpuidle_device __percpu *intel_idle_cpuidle_devices;
->   
-> @@ -1919,11 +1920,13 @@ static void state_update_enter_method(struct cpuidle_state *state, int cstate)
->   	}
->   
->   	if (cpu_feature_enabled(X86_FEATURE_KERNEL_IBRS) &&
-> -			   state->flags & CPUIDLE_FLAG_IBRS) {
-> +			((state->flags & CPUIDLE_FLAG_IBRS) || ibrs_off)) {
->   		/*
->   		 * IBRS mitigation requires that C-states are entered
->   		 * with interrupts disabled.
->   		 */
-> +		if (ibrs_off && (state->flags & CPUIDLE_FLAG_IRQ_ENABLE))
-> +			state->flags &= ~CPUIDLE_FLAG_IRQ_ENABLE;
->   		WARN_ON_ONCE(state->flags & CPUIDLE_FLAG_IRQ_ENABLE);
->   		state->enter = intel_idle_ibrs;
->   		return;
-> @@ -2346,3 +2349,9 @@ MODULE_PARM_DESC(preferred_cstates, "Mask of preferred idle states");
->    * 'CPUIDLE_FLAG_INIT_XSTATE' and 'CPUIDLE_FLAG_IBRS' flags.
->    */
->   module_param(force_irq_on, bool, 0444);
-> +/*
-> + * Force the disabling of IBRS when X86_FEATURE_KERNEL_IBRS is on and
-> + * CPUIDLE_FLAG_IRQ_ENABLE isn't set.
-> + */
-> +module_param(ibrs_off, bool, 0444);
-> +MODULE_PARM_DESC(ibrs_off, "Disable IBRS when idle");
+If CPM UART code ever worked with > 4 ports, it probably just used minor devnums
+that were not allocated to it.
 
+Also, it looks like the CPU UART part of Documentation/admin-guide/devices.txt
+needs to be updated:
+
+		 46 = /dev/cucpm0		Callout device for ttyCPM0
+		    ...
+		 49 = /dev/cucpm5		Callout device for ttyCPM5
+
+The driver must use some tricks to get 6 ports into 4 devnums. :)
+
+
+-- 
+~Randy
