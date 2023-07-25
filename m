@@ -2,242 +2,91 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 358E6C41513
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 04:38:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E07BEB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 05:23:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230339AbjGYEi4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 00:38:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60288 "EHLO
+        id S231518AbjGYFXg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 01:23:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbjGYEi4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 00:38:56 -0400
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B824710D1;
-        Mon, 24 Jul 2023 21:38:54 -0700 (PDT)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-63d0f62705dso5912776d6.0;
-        Mon, 24 Jul 2023 21:38:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690259934; x=1690864734;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=to0ZqeoMS9cOMLpLlEax7c1/5oKN+/3gMdofXFZUUPo=;
-        b=V9buO518vlgvqy0QbRMypV1+GVKBUsoMT4zSYGH17v02DDGlvlvo0TZKidqz5jB2Ye
-         jE2BIzNWqtJkXcRmKqXMwFPuh2cKXRVN/Rj33NeiJYIYbt5hORgd0iDDuh1Yg667YxsV
-         RWNRv3nvsd1IP71QHZt2UOIPPxDM3KyR5CKW7KIAYjzudjMFHxuIhhoug8gipWXsT988
-         4FYGeITxL1GexiwUDbfOzijeU4fxedfsFfgYrMnweQ3xu3iiJ1sm4yVstF6cRffU5tJw
-         uc6hkwtaW653TQ4eq2+JFwY9/fWMp1+hZxFLpf7Yuvhq1UdlpP5Rl0UgfeJV1OkN1HRL
-         Cghg==
-X-Gm-Message-State: ABy/qLZB2qXlay0/yEDfTw/0+j9/V/wKPxarIj8XR+qvIJTJaZ0buz5T
-        X6bjH2uRKfOJUmrj/RLs6jEZQs7N/FcAB4V4
-X-Google-Smtp-Source: APBJJlGrshfAi/w84P5yGeLE4VeC2hEMZFXulQzp+++J2675VyHWA8Djqejqs4bRtxzxbnnkHR9Yjg==
-X-Received: by 2002:a0c:f404:0:b0:631:fa2e:249f with SMTP id h4-20020a0cf404000000b00631fa2e249fmr1720031qvl.61.1690259933621;
-        Mon, 24 Jul 2023 21:38:53 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a040:199:8930:2c90:cb9e:b154:73dc])
-        by smtp.gmail.com with ESMTPSA id d26-20020a0caa1a000000b0063631be090csm4104445qvb.125.2023.07.24.21.38.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jul 2023 21:38:52 -0700 (PDT)
-From:   Costa Shulyupin <costa.shul@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Costa Shulyupin <costa.shul@redhat.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Paul Cercueil <paul@crapouillou.net>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        linux-mips@vger.kernel.org (open list:MIPS),
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE BINDINGS)
-Subject: [PATCH] docs: move mips under arch
-Date:   Tue, 25 Jul 2023 07:38:03 +0300
-Message-ID: <20230725043835.2249678-1-costa.shul@redhat.com>
+        with ESMTP id S231315AbjGYFXg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 01:23:36 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21CA7A6;
+        Mon, 24 Jul 2023 22:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=w1RQcZApJNcQIiOYko3MBN0wAf27FXEvpHj25/B9Tsw=; b=rE1E61PVdJWNEsWmfXuK5T1ovO
+        5AUZlmGgeAu+Hpt/3i6QoDfcBzCy59P+qcU0ffxUhYP9jaovuutm04ey5xq3BiKb9109Rdt0I/id3
+        GN/8GNJyGjgs1XAExNntJug/VHZ+mBpuSQe1eTJLYgLhrv5uosY9FvwOxAmNfyQj5nawe3Hvbfmc2
+        vAuLgZHP5j60p8puNVuCgqL5iVbvzrcUDeYZFBNycK1tp39mbT+AHtcXuAXFQXsKl8F9OO0Fy6pMO
+        bCFzekbFcI0AJsWezAKs4GeFKB5Fz5OXQnJAMnEYnivhPt8n5Gy7M2aSM0H5LgyCFRWH19hHEWF73
+        5rporfmQ==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qOAWE-006IGf-1w;
+        Tue, 25 Jul 2023 05:23:34 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Hugh Dickins <hughd@google.com>, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] tmpfs: fixup Docs table for huge mount options
+Date:   Mon, 24 Jul 2023 22:23:33 -0700
+Message-ID: <20230725052333.26857-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=true
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-and fix all in-tree references.
+A table's header and footer lines must match its text columns in
+width, so extend the header/footer for column 1 to match the text.
 
-Architecture-specific documentation is being moved into Documentation/arch/
-as a way of cleaning up the top-level documentation directory and making
-the docs hierarchy more closely match the source hierarchy.
+Fixes this documentation build error:
+Documentation/filesystems/tmpfs.rst:116: ERROR: Malformed table.
+Text in column margin in table line 4.
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+Fixes: a0ebb5aa2de3 ("tmpfs: fix Documentation of noswap and huge mount options")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Link: https://lore.kernel.org/lkml/3084e97c-3a7d-ace8-2e9c-31642fd663df@google.com/T/#me28ed2124bca2e632eee86ff1d986e5c1f731a7c
+Cc: Hugh Dickins <hughd@google.com>
+Cc: linux-mm@kvack.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
 ---
- Documentation/arch/index.rst                                  | 2 +-
- Documentation/{ => arch}/mips/booting.rst                     | 0
- Documentation/{ => arch}/mips/features.rst                    | 0
- Documentation/{ => arch}/mips/index.rst                       | 0
- Documentation/{ => arch}/mips/ingenic-tcu.rst                 | 0
- Documentation/devicetree/bindings/timer/ingenic,tcu.yaml      | 2 +-
- Documentation/translations/zh_CN/arch/index.rst               | 2 +-
- Documentation/translations/zh_CN/{ => arch}/mips/booting.rst  | 4 ++--
- Documentation/translations/zh_CN/{ => arch}/mips/features.rst | 4 ++--
- Documentation/translations/zh_CN/{ => arch}/mips/index.rst    | 4 ++--
- .../translations/zh_CN/{ => arch}/mips/ingenic-tcu.rst        | 4 ++--
- MAINTAINERS                                                   | 2 +-
- 12 files changed, 12 insertions(+), 12 deletions(-)
- rename Documentation/{ => arch}/mips/booting.rst (100%)
- rename Documentation/{ => arch}/mips/features.rst (100%)
- rename Documentation/{ => arch}/mips/index.rst (100%)
- rename Documentation/{ => arch}/mips/ingenic-tcu.rst (100%)
- rename Documentation/translations/zh_CN/{ => arch}/mips/booting.rst (92%)
- rename Documentation/translations/zh_CN/{ => arch}/mips/features.rst (65%)
- rename Documentation/translations/zh_CN/{ => arch}/mips/index.rst (79%)
- rename Documentation/translations/zh_CN/{ => arch}/mips/ingenic-tcu.rst (97%)
+I guess that Andrew will merge this since he merged the previous patch.
 
-diff --git a/Documentation/arch/index.rst b/Documentation/arch/index.rst
-index d39504fae12c..84b80255b851 100644
---- a/Documentation/arch/index.rst
-+++ b/Documentation/arch/index.rst
-@@ -15,7 +15,7 @@ implementation.
-    ia64/index
-    loongarch/index
-    m68k/index
--   ../mips/index
-+   mips/index
-    nios2/index
-    openrisc/index
-    parisc/index
-diff --git a/Documentation/mips/booting.rst b/Documentation/arch/mips/booting.rst
-similarity index 100%
-rename from Documentation/mips/booting.rst
-rename to Documentation/arch/mips/booting.rst
-diff --git a/Documentation/mips/features.rst b/Documentation/arch/mips/features.rst
-similarity index 100%
-rename from Documentation/mips/features.rst
-rename to Documentation/arch/mips/features.rst
-diff --git a/Documentation/mips/index.rst b/Documentation/arch/mips/index.rst
-similarity index 100%
-rename from Documentation/mips/index.rst
-rename to Documentation/arch/mips/index.rst
-diff --git a/Documentation/mips/ingenic-tcu.rst b/Documentation/arch/mips/ingenic-tcu.rst
-similarity index 100%
-rename from Documentation/mips/ingenic-tcu.rst
-rename to Documentation/arch/mips/ingenic-tcu.rst
-diff --git a/Documentation/devicetree/bindings/timer/ingenic,tcu.yaml b/Documentation/devicetree/bindings/timer/ingenic,tcu.yaml
-index 2d14610888a7..585b5f5217c4 100644
---- a/Documentation/devicetree/bindings/timer/ingenic,tcu.yaml
-+++ b/Documentation/devicetree/bindings/timer/ingenic,tcu.yaml
-@@ -8,7 +8,7 @@ title: Ingenic SoCs Timer/Counter Unit (TCU)
- 
- description: |
-   For a description of the TCU hardware and drivers, have a look at
--  Documentation/mips/ingenic-tcu.rst.
-+  Documentation/arch/mips/ingenic-tcu.rst.
- 
- maintainers:
-   - Paul Cercueil <paul@crapouillou.net>
-diff --git a/Documentation/translations/zh_CN/arch/index.rst b/Documentation/translations/zh_CN/arch/index.rst
-index d4c1c729dde2..e3d273d7d599 100644
---- a/Documentation/translations/zh_CN/arch/index.rst
-+++ b/Documentation/translations/zh_CN/arch/index.rst
-@@ -8,7 +8,7 @@
- .. toctree::
-    :maxdepth: 2
- 
--   ../mips/index
-+   mips/index
-    arm64/index
-    ../riscv/index
-    openrisc/index
-diff --git a/Documentation/translations/zh_CN/mips/booting.rst b/Documentation/translations/zh_CN/arch/mips/booting.rst
-similarity index 92%
-rename from Documentation/translations/zh_CN/mips/booting.rst
-rename to Documentation/translations/zh_CN/arch/mips/booting.rst
-index e0bbd3f20862..485b57e0ca0b 100644
---- a/Documentation/translations/zh_CN/mips/booting.rst
-+++ b/Documentation/translations/zh_CN/arch/mips/booting.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--.. include:: ../disclaimer-zh_CN.rst
-+.. include:: ../../disclaimer-zh_CN.rst
- 
--:Original: Documentation/mips/booting.rst
-+:Original: Documentation/arch/mips/booting.rst
- 
- :翻译:
- 
-diff --git a/Documentation/translations/zh_CN/mips/features.rst b/Documentation/translations/zh_CN/arch/mips/features.rst
-similarity index 65%
-rename from Documentation/translations/zh_CN/mips/features.rst
-rename to Documentation/translations/zh_CN/arch/mips/features.rst
-index b61dab06ceaf..da1b956e4a40 100644
---- a/Documentation/translations/zh_CN/mips/features.rst
-+++ b/Documentation/translations/zh_CN/arch/mips/features.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--.. include:: ../disclaimer-zh_CN.rst
-+.. include:: ../../disclaimer-zh_CN.rst
- 
--:Original: Documentation/mips/features.rst
-+:Original: Documentation/arch/mips/features.rst
- 
- :翻译:
- 
-diff --git a/Documentation/translations/zh_CN/mips/index.rst b/Documentation/translations/zh_CN/arch/mips/index.rst
-similarity index 79%
-rename from Documentation/translations/zh_CN/mips/index.rst
-rename to Documentation/translations/zh_CN/arch/mips/index.rst
-index 192c6adbb72e..2a34217119ea 100644
---- a/Documentation/translations/zh_CN/mips/index.rst
-+++ b/Documentation/translations/zh_CN/arch/mips/index.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--.. include:: ../disclaimer-zh_CN.rst
-+.. include:: ../../disclaimer-zh_CN.rst
- 
--:Original: Documentation/mips/index.rst
-+:Original: Documentation/arch/mips/index.rst
- 
- :翻译:
- 
-diff --git a/Documentation/translations/zh_CN/mips/ingenic-tcu.rst b/Documentation/translations/zh_CN/arch/mips/ingenic-tcu.rst
-similarity index 97%
-rename from Documentation/translations/zh_CN/mips/ingenic-tcu.rst
-rename to Documentation/translations/zh_CN/arch/mips/ingenic-tcu.rst
-index ddbe149c517b..3d599a36b571 100644
---- a/Documentation/translations/zh_CN/mips/ingenic-tcu.rst
-+++ b/Documentation/translations/zh_CN/arch/mips/ingenic-tcu.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
--.. include:: ../disclaimer-zh_CN.rst
-+.. include:: ../../disclaimer-zh_CN.rst
- 
--:Original: Documentation/mips/ingenic-tcu.rst
-+:Original: Documentation/arch/mips/ingenic-tcu.rst
- 
- :翻译:
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6c650179159f..d1d8a9745761 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14215,7 +14215,7 @@ W:	http://www.linux-mips.org/
- Q:	https://patchwork.kernel.org/project/linux-mips/list/
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git
- F:	Documentation/devicetree/bindings/mips/
--F:	Documentation/mips/
-+F:	Documentation/arch/mips/
- F:	arch/mips/
- F:	drivers/platform/mips/
- F:	include/dt-bindings/mips/
--- 
-2.41.0
+ Documentation/filesystems/tmpfs.rst |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
+diff -- a/Documentation/filesystems/tmpfs.rst b/Documentation/filesystems/tmpfs.rst
+--- a/Documentation/filesystems/tmpfs.rst
++++ b/Documentation/filesystems/tmpfs.rst
+@@ -110,13 +110,13 @@ configured with CONFIG_TRANSPARENT_HUGEP
+ your system (has_transparent_hugepage(), which is architecture specific).
+ The mount options for this are:
+ 
+-===========  ==============================================================
+-huge=never   Do not allocate huge pages.  This is the default.
+-huge=always  Attempt to allocate huge page every time a new page is needed.
++================ ==============================================================
++huge=never       Do not allocate huge pages.  This is the default.
++huge=always      Attempt to allocate huge page every time a new page is needed.
+ huge=within_size Only allocate huge page if it will be fully within i_size.
+-             Also respect madvise(2) hints.
+-huge=advise  Only allocate huge page if requested with madvise(2).
+-===========  ==============================================================
++                 Also respect madvise(2) hints.
++huge=advise      Only allocate huge page if requested with madvise(2).
++================ ==============================================================
+ 
+ See also Documentation/admin-guide/mm/transhuge.rst, which describes the
+ sysfs file /sys/kernel/mm/transparent_hugepage/shmem_enabled: which can
