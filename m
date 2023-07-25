@@ -2,108 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83185C001DF
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 15:16:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B45C04E69
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 16:38:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230450AbjGYPQg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 11:16:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44950 "EHLO
+        id S231151AbjGYQiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 12:38:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbjGYPQf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 11:16:35 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D31C0122;
-        Tue, 25 Jul 2023 08:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690298194; x=1721834194;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xpHwSbXJDRSJ66SV37sB5LCnaud2LYp/SXO1YFM1PJ4=;
-  b=aMlxej4SkBVltj9tM8XvPg6cPMFtIZEF+ilGkNeucbAEzWEx182WrnEf
-   xZ+Ngu8BXxio3870xvoHcH69N7n5GgeHWOeAJwVrD69XKD2vxxMz/AXXm
-   Be3KeK7FCD6kMIw7AYIGXLJBtR0lhzV8dqmWxgXMCXQ7PTqdZUPl78fOg
-   mjyUi5k+bA/wAD3Og4CvRQondFqoqELsn0SChja5JzqyW+tzqQMbd3fDa
-   fe64vjGK/708TrZ+nO+uUPD9pxHt8YgEosI20TzfPR/CEi9D0s60FLWyB
-   gu33vBNtRhmTRrEXszhczpoPIJlc6lUivN8/lAqrB4CZCXm5JU6kq8NLy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="434009697"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="434009697"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 08:16:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="850066794"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="850066794"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 25 Jul 2023 08:16:32 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qOJm3-00FDHf-0I;
-        Tue, 25 Jul 2023 18:16:31 +0300
-Date:   Tue, 25 Jul 2023 18:16:30 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 1/1] Documentation: core-api: Drop :export: for
- int_log.h
-Message-ID: <ZL/nTi3LNPiLI8dF@smile.fi.intel.com>
-References: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
- <87a5vkb0ee.fsf@meer.lwn.net>
- <b761d010-ef21-4be6-b6c3-678498b7fa71@sirena.org.uk>
- <ZL/W5rc043oPLfMV@smile.fi.intel.com>
- <29369f0b-732d-4d20-9afa-0918dba0f512@sirena.org.uk>
- <ZL/e9oguxJ8+nht/@smile.fi.intel.com>
- <4f6c9be9-22bd-472e-a20a-cd361b46e005@sirena.org.uk>
+        with ESMTP id S230120AbjGYQiu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 12:38:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BF9F1BE2
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 09:38:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1690303087;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jLj18oLOp3KH/CAHpxuqfsfjyo2yWkCl10MaSaKRkoU=;
+        b=EQP3p1cHkEIRiB+y27l5gynle4EIDi6jzweIHfU2USDyWokUAhR1r7OKXTKG+icGw8yPHB
+        vx96iXXCf2+7kV1j70maWpDCUGZv1FoDtoni+GO5kL8UftH/+GPGIvO7CHqGNJqyPqJzdU
+        ayBHDHfEZcn1XYu7rYdhn0myLOV/7/o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-130-1Gk68m60OaugU8loWBg99g-1; Tue, 25 Jul 2023 12:38:00 -0400
+X-MC-Unique: 1Gk68m60OaugU8loWBg99g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27C681044597;
+        Tue, 25 Jul 2023 16:38:00 +0000 (UTC)
+Received: from tpad.localdomain (ovpn-112-3.gru2.redhat.com [10.97.112.3])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D021492B01;
+        Tue, 25 Jul 2023 16:37:59 +0000 (UTC)
+Received: by tpad.localdomain (Postfix, from userid 1000)
+        id B479B4018E672; Tue, 25 Jul 2023 13:37:32 -0300 (-03)
+Date:   Tue, 25 Jul 2023 13:37:32 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Valentin Schneider <vschneid@redhat.com>,
+        Nadav Amit <namit@vmware.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-trace-kernel@vger.kernel.org" 
+        <linux-trace-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, bpf <bpf@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 20/20] x86/mm, mm/vmalloc: Defer
+ flush_tlb_kernel_range() targeting NOHZ_FULL CPUs
+Message-ID: <ZL/6THDvmC5mVyBI@tpad>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+ <20230720163056.2564824-21-vschneid@redhat.com>
+ <188AEA79-10E6-4DFF-86F4-FE624FD1880F@vmware.com>
+ <xhsmh8rb5tui1.mognet@vschneid.remote.csb>
+ <2284d0db-f94a-e059-7bd0-bab4f112ed35@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4f6c9be9-22bd-472e-a20a-cd361b46e005@sirena.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <2284d0db-f94a-e059-7bd0-bab4f112ed35@intel.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 03:51:44PM +0100, Mark Brown wrote:
-> On Tue, Jul 25, 2023 at 05:40:54PM +0300, Andy Shevchenko wrote:
-> > On Tue, Jul 25, 2023 at 03:27:58PM +0100, Mark Brown wrote:
+On Mon, Jul 24, 2023 at 10:40:04AM -0700, Dave Hansen wrote:
+> On 7/24/23 04:32, Valentin Schneider wrote:
+> > AFAICT the only reasonable way to go about the deferral is to prove that no
+> > such access happens before the deferred @operation is done. We got to prove
+> > that for sync_core() deferral, cf. PATCH 18.
+> > 
+> > I'd like to reason about it for deferring vunmap TLB flushes:
+> > 
+> > What addresses in VMAP range, other than the stack, can early entry code
+> > access? Yes, the ranges can be checked at runtime, but is there any chance
+> > of figuring this out e.g. at build-time?
 > 
-> > > There was some random patch you just sent me the message ID for in the
-> > > replies to something from Stephen which I'm fairly sure I queued,
-> > > perhaps it was a different thing or git thought it was a noop when it
-> > > was applied?
+> Nadav was touching on a very important point: TLB flushes for addresses
+> are relatively easy to defer.  You just need to ensure that the CPU
+> deferring the flush does an actual flush before it might architecturally
+> consume the contents of the flushed entry.
 > 
-> > The first version is here [1].
-> > Then it was a discussion about Linux Next build issues [2].
-> 
-> > In the discussion I mentioned:
-> 
-> >   The 20230713165320.14199-1-andriy.shevchenko@linux.intel.com had been sent.
-> 
-> > which is exactly what [1] is.
-> 
-> > I have no idea how it can be a noop, but the patch is missing as far
-> > as I can tell.
-> 
-> > This thread is v2 of what was in [1].
-> 
-> > [1]: https://lore.kernel.org/linux-doc/20230713165320.14199-1-andriy.shevchenko@linux.intel.com/
-> > [2]: https://lore.kernel.org/linux-next/20230713121627.17990c86@canb.auug.org.au/T/#u
-> 
-> So there's two versions of the patch and for some reason v1 was
-> mentioned yesterday but there's also a v2 version?
+> TLB flushes for freed page tables are another game entirely.  The CPU is
+> free to cache any part of the paging hierarchy it wants at any time.
 
-Yes, and I forgot to initially Cc you for v2.
+Depend on CONFIG_PAGE_TABLE_ISOLATION=y, which flushes TLB (and page
+table caches) on user->kernel and kernel->user context switches ?
 
-If you are using b4, you can take Message ID of this message and I am sure it
-capable to retrieve v2 of the patch. Or I can resend with you in Cc list.
+So freeing a kernel pagetable page does not require interrupting a CPU 
+which is in userspace (therefore does not have visibility into kernel
+pagetables).
 
--- 
-With Best Regards,
-Andy Shevchenko
+> It's also free to set accessed and dirty bits at any time, even for
+> instructions that may never execute architecturally.
+> 
+> That basically means that if you have *ANY* freed page table page
+> *ANYWHERE* in the page table hierarchy of any CPU at any time ... you're
+> screwed.
+> 
+> There's no reasoning about accesses or ordering.  As soon as the CPU
+> does *anything*, it's out to get you.
+> 
+> You're going to need to do something a lot more radical to deal with
+> free page table pages.
+
 
 
