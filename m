@@ -2,119 +2,172 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E593C0015E
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:28:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 804E8C001DF
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:38:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbjGYN2O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 09:28:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
+        id S231190AbjGYNiL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 09:38:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230345AbjGYN2N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:28:13 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C99D310E5
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 06:28:10 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-317715ec496so155213f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 06:28:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1690291689; x=1690896489;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HL0T6H/EfUbYgBfW0MPg+n5xypCoWhi+Eukq1dYSLSU=;
-        b=Yyqy/6LQz7P0c6LN2BJ8PYCKWIbJTGfBx5WmBhojsqhf1+nWU6KbwLK70p56PaKpkb
-         3UBGxh06++q61haJ9+Ug1scKRTfZbR0SDEPuUfCiSwRiqF6EXUJF63BfiFD0KEp/PNbd
-         NUSnvFr+9vY0Q+Kd46yOmC7NUx1uPGqTqCwG3EKf8MiZAmmXXpEkfzRtnfwlrRLcwolG
-         xEfp12ZUCd1gFSuW6kS+fVWI9w5Y491kAJMlIPQqhmjOr9oXAeoskMmEFc6PSq5F6yry
-         X3hS9AuUnBELD/3xt8+5pr/bJ2bT8E/AFsODzX9yBrjLNRyk1hDFlqxwizcRuaUI+N9e
-         ml0Q==
+        with ESMTP id S231205AbjGYNiJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:38:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9264B1BFA
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 06:37:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1690292231;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YuHDDSh+hqntXfEBDTeZy9lkclJmyfPYzRYLt1ff+f8=;
+        b=KLrggd8ID9bV+sZajwjH/KPayEyeMDk4I2qpr22TXau1Py48tKEpUmgAMyA1VPL6RKWkgI
+        nuvBtkGFmczbl6wwbrTSMIK7PQH0wAZycv91DcJ+YihpDfLJlzxL+O2WoFt0ziZDT9N7+j
+        s31T1gUS2rWp3egCMS1mWEJD8DXume4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-641-xuIVxExxNZSXUoCCQ9aMvw-1; Tue, 25 Jul 2023 09:37:07 -0400
+X-MC-Unique: xuIVxExxNZSXUoCCQ9aMvw-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3142665f122so3270145f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 06:37:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690291689; x=1690896489;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HL0T6H/EfUbYgBfW0MPg+n5xypCoWhi+Eukq1dYSLSU=;
-        b=gy7BjDvTZc6+fo6W298BWO+EMy1g51cNSFRZTQa70bfk+Iy7PvUirxw2GttqMFLegT
-         2PLagz/6kY9ZweWZpt8sFwVpyOn5UJiaoxEjBpRgrkV3UMM3+sW5ch5xIr5wv19QJhD4
-         dGObHM5jR3s7e3owVouJXhjG8P3+NEkVuJKdopsJpWxWsMUnkkfnNTQF1z5k8Jh65zDV
-         NOEDMtOkA9EA+L28HngMwEXtBe6GR1nNFl9+v8mY1zX7eftffjjy/8gA06h3GRsSb9R4
-         83R0fr10zF/mIynh/aWUFEMkUA5V+OTHDzV4f4qRwcPMZVcN0I/J6M8+Bb3xZNRYdzto
-         0G2g==
-X-Gm-Message-State: ABy/qLZ8r+ev7FoSOG5hbNNLy0KVP+r9lX50s1ZO5LWdpyIljv2AbRLA
-        6OqfHg9WTnidarXamVzygWqu6w==
-X-Google-Smtp-Source: APBJJlHKh1Rx41U19FhczWdPNN/82vyW/RshDVEPcQ4Q4DIvjB94EasFuMPtFRQ4ByoPGusL9OKOug==
-X-Received: by 2002:a5d:484c:0:b0:317:6ea5:ab71 with SMTP id n12-20020a5d484c000000b003176ea5ab71mr989517wrs.30.1690291689222;
-        Tue, 25 Jul 2023 06:28:09 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.203.142])
-        by smtp.gmail.com with ESMTPSA id v5-20020a5d6785000000b0031770443c4bsm947250wru.28.2023.07.25.06.28.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jul 2023 06:28:08 -0700 (PDT)
-Message-ID: <5ba5530d-cc5c-9e20-742c-946c0af6c98b@linaro.org>
-Date:   Tue, 25 Jul 2023 15:28:06 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.13.0
-Subject: Re: [PATCH] docs: move mips under arch
-Content-Language: en-US
-To:     Costa Shulyupin <costa.shul@redhat.com>,
+        d=1e100.net; s=20221208; t=1690292223; x=1690897023;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YuHDDSh+hqntXfEBDTeZy9lkclJmyfPYzRYLt1ff+f8=;
+        b=DQgSrb81yN/yQLZcDnvlu4DHH8n1lQ0G6f6X400sHvIi3kjpr7W5z4ggI/w8G4s9Zy
+         x3giKdZlBu4pkCG6l4+I3L9kKEjAu5pgLIidlSUbPO1M8jmlvTEV4ppaYpzgLIFHs9oM
+         +e1dK8tst2CuymAhPmqwTlUc14Ll80IDi89r39yKWGsMr+x6e5DIcgDBVClqlYs8t9EE
+         74Gkl/kVv3xxl8/cNE2MqAJ9XGmqYA+1Gd1IHyMDDN1k8inliwCejyJTO67T3iKSNaty
+         vsdM2EB7+hAU/Ua8+YGo5CtKOPlRmzAbyT2IVJJ+I/qqdaOscpMHsm2sBYc+vxLoAACF
+         /gWQ==
+X-Gm-Message-State: ABy/qLZCkyt+7mMTTPo5VIlhnUFhnMSdgcvPwneIs1Mu9Zl4csZVjOku
+        soSfAWNFfG4mppYJfSJjptk2/I8UbDeuW+lRV6yZpaFTTAh265gjK3FNACAa5UMEMmtuapqUxc/
+        mpiLuPH4sExtpWqQWdR4d
+X-Received: by 2002:adf:edd1:0:b0:313:df09:ad04 with SMTP id v17-20020adfedd1000000b00313df09ad04mr11718243wro.57.1690292223004;
+        Tue, 25 Jul 2023 06:37:03 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEu1q96uzpYLmrQ6ZyLxOIliHI6bjUjLVOksOKXP2KWpblMNlkbQak2J3cKJncV5JGWmoXhZA==
+X-Received: by 2002:adf:edd1:0:b0:313:df09:ad04 with SMTP id v17-20020adfedd1000000b00313df09ad04mr11718201wro.57.1690292222669;
+        Tue, 25 Jul 2023 06:37:02 -0700 (PDT)
+Received: from vschneid.remote.csb ([149.12.7.81])
+        by smtp.gmail.com with ESMTPSA id h3-20020a5d4fc3000000b00314329f7d8asm16390715wrw.29.2023.07.25.06.36.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 06:37:01 -0700 (PDT)
+From:   Valentin Schneider <vschneid@redhat.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Paul Cercueil <paul@crapouillou.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:MIPS" <linux-mips@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-References: <20230725043835.2249678-1-costa.shul@redhat.com>
-From:   =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230725043835.2249678-1-costa.shul@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 18/20] context_tracking,x86: Defer kernel text
+ patching IPIs
+In-Reply-To: <6EBAEEED-6F38-472D-BA31-9C61179EFA2F@joelfernandes.org>
+References: <20230720163056.2564824-19-vschneid@redhat.com>
+ <6EBAEEED-6F38-472D-BA31-9C61179EFA2F@joelfernandes.org>
+Date:   Tue, 25 Jul 2023 14:36:59 +0100
+Message-ID: <xhsmhtttsru2s.mognet@vschneid.remote.csb>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25/7/23 06:38, Costa Shulyupin wrote:
-> and fix all in-tree references.
-> 
-> Architecture-specific documentation is being moved into Documentation/arch/
-> as a way of cleaning up the top-level documentation directory and making
-> the docs hierarchy more closely match the source hierarchy.
-> 
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
-> ---
->   Documentation/arch/index.rst                                  | 2 +-
->   Documentation/{ => arch}/mips/booting.rst                     | 0
->   Documentation/{ => arch}/mips/features.rst                    | 0
->   Documentation/{ => arch}/mips/index.rst                       | 0
->   Documentation/{ => arch}/mips/ingenic-tcu.rst                 | 0
->   Documentation/devicetree/bindings/timer/ingenic,tcu.yaml      | 2 +-
->   Documentation/translations/zh_CN/arch/index.rst               | 2 +-
->   Documentation/translations/zh_CN/{ => arch}/mips/booting.rst  | 4 ++--
->   Documentation/translations/zh_CN/{ => arch}/mips/features.rst | 4 ++--
->   Documentation/translations/zh_CN/{ => arch}/mips/index.rst    | 4 ++--
->   .../translations/zh_CN/{ => arch}/mips/ingenic-tcu.rst        | 4 ++--
->   MAINTAINERS                                                   | 2 +-
->   12 files changed, 12 insertions(+), 12 deletions(-)
->   rename Documentation/{ => arch}/mips/booting.rst (100%)
->   rename Documentation/{ => arch}/mips/features.rst (100%)
->   rename Documentation/{ => arch}/mips/index.rst (100%)
->   rename Documentation/{ => arch}/mips/ingenic-tcu.rst (100%)
->   rename Documentation/translations/zh_CN/{ => arch}/mips/booting.rst (92%)
->   rename Documentation/translations/zh_CN/{ => arch}/mips/features.rst (65%)
->   rename Documentation/translations/zh_CN/{ => arch}/mips/index.rst (79%)
->   rename Documentation/translations/zh_CN/{ => arch}/mips/ingenic-tcu.rst (97%)
+On 25/07/23 06:49, Joel Fernandes wrote:
+> Interesting series Valentin. Some high-level question/comments on this on=
+e:
+>
+>> On Jul 20, 2023, at 12:34 PM, Valentin Schneider <vschneid@redhat.com> w=
+rote:
+>>
+>> =EF=BB=BFtext_poke_bp_batch() sends IPIs to all online CPUs to synchroni=
+ze
+>> them vs the newly patched instruction. CPUs that are executing in usersp=
+ace
+>> do not need this synchronization to happen immediately, and this is
+>> actually harmful interference for NOHZ_FULL CPUs.
+>
+> Does the amount of harm not correspond to practical frequency of text_pok=
+e?
+> How often does instruction patching really happen? If it is very infreque=
+nt
+> then I am not sure if it is that harmful.
+>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Being pushed over a latency threshold *once* is enough to impact the
+latency evaluation of your given system/application.
+
+It's mainly about shielding the isolated, NOHZ_FULL CPUs from whatever the
+housekeeping CPUs may be up to (flipping static keys, loading kprobes,
+using ftrace...) - frequency of the interference isn't such a big part of
+the reasoning.
+
+>>
+>> As the synchronization IPIs are sent using a blocking call, returning fr=
+om
+>> text_poke_bp_batch() implies all CPUs will observe the patched
+>> instruction(s), and this should be preserved even if the IPI is deferred.
+>> In other words, to safely defer this synchronization, any kernel
+>> instruction leading to the execution of the deferred instruction
+>> sync (ct_work_flush()) must *not* be mutable (patchable) at runtime.
+>
+> If it is not infrequent, then are you handling the case where userland
+> spends multiple seconds before entering the kernel, and all this while
+> the blocking call waits? Perhaps in such situation you want the real IPI
+> to be sent out instead of the deferred one?
+>
+
+The blocking call only waits for CPUs for which it queued a CSD. Deferred
+calls do not queue a CSD thus do not impact the waiting at all. See
+smp_call_function_many_cond().
 
