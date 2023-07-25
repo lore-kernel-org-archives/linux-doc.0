@@ -2,121 +2,113 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00E03C001DE
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 23:26:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0149CC41513
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 23:51:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229873AbjGYXZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 19:25:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37686 "EHLO
+        id S229611AbjGYXvt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 19:51:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbjGYXZ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 19:25:59 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A5E19AD
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 16:25:57 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1b9ed206018so41535ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 16:25:57 -0700 (PDT)
+        with ESMTP id S230073AbjGYXvr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 19:51:47 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D9BFE2;
+        Tue, 25 Jul 2023 16:51:46 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3a04e5baffcso4226093b6e.3;
+        Tue, 25 Jul 2023 16:51:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1690327557; x=1690932357;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XUAymOqyJF+KJzhkhKRHjkAaSaauZTSc0FF9IG/sL8s=;
-        b=K/zocu5kXUyK0/jI3vAvSSXNAJ68vZAWBxXmVZ2imIvEsi7Fx8cNGPhTKJBVNOQsX8
-         ma9NJSi0ZrEZvF0QVbb4UIDpZkW5pNU+rFWNr6Bh2kyJOZ6UJAV3MKm8wcBBdYPLUTMy
-         yP9hRlwTYRBW1/WwDkjU/ZbOaXUCJEMm/Ph6C+SU71Py5ANKvVSnT9otHCbQGvdCGW11
-         mjw4K6e0DWr1yCUtqbg97DsKQaI3JFD8WvxKI+gvu3TmjjpqfMVxMmDlsBa3ZvbFTL6D
-         1uORd5FDtYbAmNw1hMAK4lO3WW9TVrDa5yF08G7o/Sbal6jTBu2knXTksXpMMYHw6y+d
-         IJFw==
+        d=gmail.com; s=20221208; t=1690329106; x=1690933906;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cmL3jdsD2794K6zfOGkD4whNhD1loW+1ORVFHG9hOz4=;
+        b=KHoom7OjBgwQ22Ucv09mRZlfO1w8XMPFHSagwVgOf8fF6NWFF+ANefSBctT7SHKcwL
+         ySDGnb9TFpNQ8vTcssXQgA8tZfzTqN1pB8pdFSlw5qczSJgfn8Mxvbiy7owCcsdQvtNL
+         799bDw8eTtQf67CTrF22jJMqCh5BHEHLMVLl/De0kjgHx63BVzq5zxHYETwtOxXSUr0A
+         uPvM/RQiFnboXqpCaX9oskf2oQfTOpZ4WHu7Q0fh9axY79G/lYjU6Svtway80enGYVyI
+         3rLs2Aej735lotxTIr2+1kitPowVHY9Cg4TXWoGfMVzTJAvUF00cmUGEHV0FTZR+6/H3
+         i3yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690327557; x=1690932357;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XUAymOqyJF+KJzhkhKRHjkAaSaauZTSc0FF9IG/sL8s=;
-        b=arWW3NppIzOmhZpT7sEM+NDytdOetIoKpNhgZ40lxYmfWi/Xr0QWmm9T5qjEBouhYs
-         4ZlExDdwQG3bDL5DFL+cMKMxejQ5SVknmj/I8w2q3YgqNK0v8W+b3WpEJ9r0uN69GVkV
-         LHsmeRtzT0u8prsu0lAGM6XSl7GAc0QbZzk8YjPrMoFNS/hskhLKCHScXyUyCAAii0Js
-         PHgeHR6NdRKOGdYb44EGZV/OPYrDL4SaZmMH/iWtHBJVpLXfgOjxGL75ScQiZESwIuSz
-         1n2rkfBRKUIuaFXuMvYebV4Hqp4gUff63qmKBGgH09x6SvPDQFDmWyGriZNQcNOPoj6+
-         CKOg==
-X-Gm-Message-State: ABy/qLahSTrBYNY6Hyek71iyO+PHfTLuqPDyGn8bkwPkXwe+zBAFY+B+
-        5OH049KnEpbQWtMgDTJEB5WotQ==
-X-Google-Smtp-Source: APBJJlFq1uMDAKy4VsXXWIgKNW3YHd+x947A6mDx0IlNuq/VCClpH++XD+l+geMp8QQyqsWsJ2FRHQ==
-X-Received: by 2002:a17:902:d48c:b0:1bb:9675:8c1a with SMTP id c12-20020a170902d48c00b001bb96758c1amr300090plg.24.1690327556899;
-        Tue, 25 Jul 2023 16:25:56 -0700 (PDT)
-Received: from [2620:0:1008:15:ecb7:d63b:6ebb:ac11] ([2620:0:1008:15:ecb7:d63b:6ebb:ac11])
-        by smtp.gmail.com with ESMTPSA id w13-20020aa7858d000000b00686236718d8sm10117911pfn.41.2023.07.25.16.25.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jul 2023 16:25:56 -0700 (PDT)
-Date:   Tue, 25 Jul 2023 16:25:55 -0700 (PDT)
-From:   David Rientjes <rientjes@google.com>
-To:     Julian Pidancet <julian.pidancet@oracle.com>
-cc:     Christoph Lameter <cl@linux.com>,
-        "Lameter, Christopher" <cl@os.amperecomputing.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Rafael Aquini <aquini@redhat.com>
-Subject: Re: [PATCH v2] mm/slub: disable slab merging in the default
- configuration
-In-Reply-To: <CU5AB77A9U99.1G4IRUW6DZPJP@imme>
-Message-ID: <b9e451a6-087d-4fb6-521b-bb8962da1f5c@google.com>
-References: <20230629221910.359711-1-julian.pidancet@oracle.com> <38083ed2-333b-e245-44e4-2f355e4f9249@google.com> <CTSGWINSM18Q.3HQ1DN27GNA1R@imme> <8813897d-4a52-37a0-fe44-a9157716be9b@google.com> <17349901-df3a-494e-fa71-2584d92526b5@google.com>
- <3bcfa538-4474-09b7-1812-b4260b09256a@google.com> <7b6b07b3-d8a1-b24f-1df2-bf6080bc5516@google.com> <CU5AB77A9U99.1G4IRUW6DZPJP@imme>
+        d=1e100.net; s=20221208; t=1690329106; x=1690933906;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cmL3jdsD2794K6zfOGkD4whNhD1loW+1ORVFHG9hOz4=;
+        b=QE33FnFyqJJ7DC/szR3yE/1NS3aD/CUMVOrAhMvDKhVgeG9tQ1cUTR6eQwqwzgzf4G
+         YSYJJaxFGkkfyM3K//I5+19XJylvlibEG+VWeNw8mdQr2VaFQhjjYEt8iHhfbk4bZg5Z
+         IGIMey3UdMRHkg2xfKICEhgUVSRbHu7gs7rvXkYAWp0FjGIsnxDucl6vjFwWVHTKWqFf
+         c5fUb7COfsfbHrDYW9hFCz0yfI+DhlmSv2iJg4F8jIz+hWCysar/iIcd5ncbej2/U9au
+         U5tumjX/P7hR7/mtl47t5JjrPsso6qmuMY+8BkD7OxIPEahPCy7kheAHnVkrJJEUbBkF
+         9Lrw==
+X-Gm-Message-State: ABy/qLbLIsJKU4eC0EbedGFF08RCi+TIovfAkPwJab9PBJ8wNgZpE/Kj
+        wZzX1anbk9fkoBRs31e7hns=
+X-Google-Smtp-Source: APBJJlGUZvJeQlbNa6wi+9fDLG0eijp0Kze6XwcxOJGA287A9uJXVYWSfQJg6Y3Gevq38sU/87eczA==
+X-Received: by 2002:a05:6808:f03:b0:3a3:61fc:f913 with SMTP id m3-20020a0568080f0300b003a361fcf913mr602994oiw.0.1690329105778;
+        Tue, 25 Jul 2023 16:51:45 -0700 (PDT)
+Received: from ?IPV6:2600:6c56:7d00:582f::64e? ([2600:6c56:7d00:582f::64e])
+        by smtp.googlemail.com with ESMTPSA id o5-20020a05680803c500b003a41484b23dsm5657475oie.46.2023.07.25.16.51.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jul 2023 16:51:45 -0700 (PDT)
+Message-ID: <11603db1-97c7-cfa0-ab1e-dbf5225ea6eb@gmail.com>
+Date:   Tue, 25 Jul 2023 18:51:44 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+To:     james@equiv.tech
+Cc:     corbet@lwn.net, jdelvare@suse.com, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux@roeck-us.net
+References: <20230504075752.1320967-4-james@equiv.tech>
+Subject: Re: [RFC 03/11] hwmon: (core) Revise kerneldoc comments
+Content-Language: en-US
+From:   Russell Haley <yumpusamongus@gmail.com>
+In-Reply-To: <20230504075752.1320967-4-james@equiv.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jul 2023, Julian Pidancet wrote:
+> @@ -888,18 +891,25 @@ hwmon_device_register_with_groups(struct device *dev, const char *name,
+>  EXPORT_SYMBOL_GPL(hwmon_device_register_with_groups);
+>  
+>  /**
+> - * hwmon_device_register_with_info - register w/ hwmon
+> - * @dev: the parent device (mandatory)
+> - * @name: hwmon name attribute (mandatory)
+> - * @drvdata: driver data to attach to created device (optional)
+> - * @chip: pointer to hwmon chip information (mandatory)
+> - * @extra_groups: pointer to list of additional non-standard attribute groups
+> - *	(optional)
+> + * hwmon_device_register_with_info - Register a hardware monitoring device.
+> + * @dev: A pointer to the parent device (mandatory).
+> + * @name: The ``hwmon`` device name (mandatory).
+> + * @drvdata: A pointer to the private driver data structure.
+> + * @chip: A pointer to the chip descriptor (mandatory).
+> + * @extra_groups: A pointer to a ``NULL``-terminated list of additional
+> + *	non-standard ``sysfs`` attribute groups.
 
-> Hi David,
-> 
-> Many thanks for running all these tests. The amount of attention you've
-> given this change is simply amazing. I wish I could have been able to
-> assist you by doing more tests, but I've been lacking the necessary
-> resources to do so.
-> 
-> I'm as surprised as you are regarding the skylake regression. 20% is
-> quite a large number, but perhaps it's less worrying than it looks given
-> that benchmarks are usually very different from real-world workloads?
-> 
+This function has no @groups parameter, only @extra_groups.
 
-I'm not an expert on context_switch1_per_thread_ops so I can't infere 
-which workloads would be most affected by such a regression other than to 
-point out that -18% is quite substantial.
+>   *
+> - * hwmon_device_unregister() must be called when the device is no
+> - * longer needed.
+> + * Creates the standard ``sysfs`` attributes in the hardware monitoring core,
+> + * letting the driver focus on reading from and writing to the chip instead of
+> + * having to bother with ``sysfs`` attributes.
+>   *
+> - * Returns the pointer to the new device.
+> + * The result is a newly allocated ``hwmon`` device with standard ``sysfs``
+> + * attributes as specified by @name and @groups and additional attributes as
 
-I'm still hoping to run some benchmarks with 64KB page sizes as Christoph 
-suggested, I should be able to do this with arm64.
+But here a @groups parameter is mentioned.
 
-It's ceratinly good news that the overall memory footprint doesn't change 
-much with this change.
+> + * specified by @extra_groups.
+> + *
+> + * Return: On success, a pointer to the new ``hwmon`` device.
+> + * hwmon_device_unregister() must be called on it when it is no longer needed.
+> + * On failure, a &PTR_ERR.
+>   */
+>  struct device *
+>  hwmon_device_register_with_info(struct device *dev, const char *name,
 
-> As Kees Cook was suggesting in his own reply, have you given a thought
-> about including this change in -next and see if there are regressions
-> showing up in CI performance tests results?
-> 
-
-I assume that anything we can run with CI performance tests can also be 
-run without merging into -next?
-
-The performance degradation is substantial for a microbenchmark, I'd like 
-to complete the picture on other benchmarks and do a complete analysis 
-with 64KB page sizes since I think the concern Christoph mentions could be 
-quite real.  We just don't have the data yet to make an informed 
-assessment of it.  Certainly would welcome any help that others would like 
-to provide for running benchmarks with this change as well :P
-
-Once we have a complete picture, we might also want to discuss what we are 
-hoping to achieve with such a change.  I was very supportive of it prior 
-to the -18% benchmark result.  But if most users are simply using whatever 
-their distro defaults to and other users may already be opting into this 
-either by the kernel command line or .config, it's hard to determine 
-exactly the set of users that would be affected by this change.  Suddenly 
-causing a -18% regression overnight for this would be surprising for them.
