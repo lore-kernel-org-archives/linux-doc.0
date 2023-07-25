@@ -2,106 +2,239 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B50EEB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 20:51:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E69A3C0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 21:10:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230342AbjGYUvm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 16:51:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46056 "EHLO
+        id S229746AbjGYVK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 17:10:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230009AbjGYUvl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 16:51:41 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1F04B6;
-        Tue, 25 Jul 2023 13:51:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=BI6vld8daiZZqGCYXywTiEB06qS0pOcYQzPLq+kIgpA=; b=kBoM0QDDYWvRihqO9OYZiObhMj
-        GlyRzTCZ7/WdvW06YOS6WhtEsgXu4P1dKW10wb/QbeKXBO9YvNSYtgD9VbSTzkwB612KtZK3+NKZL
-        PUCberLDUcsiNFgFwoVPx1l3HnofLB9hYRk0dGE1wJYC/WBqIRrlZGzJxeCWlpE/oM/6a8jfZLd2g
-        A20JUg5vvH4JUfv17i+QZRPSFeyFT74AQc8YT84WpVzZ3L4JbMNVTsJtZRXTSqPKDs3fi93vJfSuq
-        p0PQYB8/Rg0lTnL28cf9yteCsl9N6+X6L1vjKxXoTcp+pM4nbyjbr8AEp1iNmusW8JYUFcNJaqS+G
-        ryDERQsA==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qOP0M-008Te2-2y;
-        Tue, 25 Jul 2023 20:51:40 +0000
-Message-ID: <10fbf60c-f7fe-d2ca-3d16-488453a88889@infradead.org>
-Date:   Tue, 25 Jul 2023 13:51:37 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] Documentation: devices.txt: reconcile serial/ucc_uart
- minor numers
-Content-Language: en-US
-To:     Timur Tabi <timur@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Kumar Gala <galak@kernel.crashing.org>,
-        linuxppc-dev@lists.ozlabs.org,
+        with ESMTP id S230232AbjGYVK2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 17:10:28 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A05C419A7
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 14:10:26 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qOPIN-0003un-TK; Tue, 25 Jul 2023 23:10:15 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qOPII-0025cV-IU; Tue, 25 Jul 2023 23:10:10 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qOPIH-007lq2-O2; Tue, 25 Jul 2023 23:10:09 +0200
+Date:   Tue, 25 Jul 2023 23:10:04 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-pwm@vger.kernel.org,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <20230724063341.28198-1-rdunlap@infradead.org>
- <CAOZdJXVuvVNzbyTLSiqRoSNdU0aprHoxozZzBahFUghqLvL2kw@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAOZdJXVuvVNzbyTLSiqRoSNdU0aprHoxozZzBahFUghqLvL2kw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>,
+        James Clark <james.clark@arm.com>, kernel@pengutronix.de,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>
+Subject: Re: [PATCH 01/18] pwm: Provide devm_pwmchip_alloc() function
+Message-ID: <20230725211004.peqxxb4y3j62gmnp@pengutronix.de>
+References: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
+ <20230718181849.3947851-2-u.kleine-koenig@pengutronix.de>
+ <ZLeX4UbFaY592HIa@orome>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="lbja7j2q6q4txaou"
+Content-Disposition: inline
+In-Reply-To: <ZLeX4UbFaY592HIa@orome>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--lbja7j2q6q4txaou
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 7/25/23 13:38, Timur Tabi wrote:
-> On Mon, Jul 24, 2023 at 1:33 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> Reconcile devices.txt with serial/ucc_uart.c regarding device number
->> assignments. ucc_uart.c supports 4 ports and uses minor devnums
->> 46-49, so update devices.txt with that info.
->> Then update ucc_uart.c's reference to the location of the devices.txt
->> list in the kernel source tree.
->>
->> Fixes: d7584ed2b994 ("[POWERPC] qe-uart: add support for Freescale QUICCEngine UART")
->> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Timur Tabi <timur@kernel.org>
->> Cc: Kumar Gala <galak@kernel.crashing.org>
->> Cc: linuxppc-dev@lists.ozlabs.org
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Cc: Jiri Slaby <jirislaby@kernel.org>
->> Cc: linux-serial@vger.kernel.org
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
-> 
-> Acked-by: Timur Tabi <timur@kernel.org>
-> 
-> One thing does concern me.  The UCC UART driver piggy-backs on the CPM
-> driver's layout (see cpm_uart.h), but apparently CPM UART supports 6
-> devices, not four:
-> 
-> #define UART_NR        fs_uart_nr
-> 
-> where fs_uart_nr is defined in enum fs_uart_id.
-> 
-> Unfortunately, it's been so long since I've touched this code, I'm not
-> sure whether this means anything.
+On Wed, Jul 19, 2023 at 09:59:29AM +0200, Thierry Reding wrote:
+> On Tue, Jul 18, 2023 at 08:18:32PM +0200, Uwe Kleine-K=F6nig wrote:
+> > This function allocates a struct pwm_chip and driver data. Compared to
+> > the status quo the split into pwm_chip and driver data is new, otherwise
+> > it doesn't change anything relevant (yet).
+> >=20
+> > The intention is that after all drivers are switched to use this
+> > allocation function, its possible to add a struct device to struct
+> > pwm_chip to properly track the latter's lifetime without touching all
+> > drivers again. Proper lifetime tracking is a necessary precondition to
+> > introduce character device support for PWMs (that implements atomic
+> > setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
+> > userspace support).
+> >=20
+> > The new function pwmchip_priv() (obviously?) only works for chips
+> > allocated with devm_pwmchip_alloc().
+>=20
+> If this is supposed to be similar to the GPIO chardev, why doesn't GPIO
+> require this way of allocating a struct gpio_chip? I'm not a fan of
+> doing all this upfront work without seeing where this is ultimately
+> headed. Please hold off on reworking everything until you have a
+> complete proposal that can be reviewed in full.
 
-If CPM UART code ever worked with > 4 ports, it probably just used minor devnums
-that were not allocated to it.
+I'm working on that and already have a patch stack with more than 100
+patches, many of them are cleanups that I found while working on each
+PWM driver (most of these are already posted to the linux-pwm list). The
+biggest part is to convert each of the 50+ pwm drivers to
+pwmchip_alloc().
 
-Also, it looks like the CPU UART part of Documentation/admin-guide/devices.txt
-needs to be updated:
+Today I managed to trigger the problem I intend to address with this
+series. My machine to test this on is an stm32mp157. To be able to
+trigger the problem reliably I applied the following patches on top of
+v6.5-rc1:
 
-		 46 = /dev/cucpm0		Callout device for ttyCPM0
-		    ...
-		 49 = /dev/cucpm5		Callout device for ttyCPM5
+ - pwm: stm32: Don't modify HW state in .remove() callback
+   This is a cleanup that I already sent out.
+   https://lore.kernel.org/r/20230713155142.2454010-2-u.kleine-koenig@pengu=
+tronix.de
+   The purpose for reproducing the problem is to not trigger further
+   calls to the apply callback.
 
-The driver must use some tricks to get 6 ports into 4 devnums. :)
+ - The following patch:
 
+diff --git a/drivers/pwm/pwm-stm32.c b/drivers/pwm/pwm-stm32.c
+index 687967d3265f..c7fc02b0fa3c 100644
+--- a/drivers/pwm/pwm-stm32.c
++++ b/drivers/pwm/pwm-stm32.c
+@@ -451,6 +451,10 @@ static int stm32_pwm_apply(struct pwm_chip *chip, stru=
+ct pwm_device *pwm,
+ 	struct stm32_pwm *priv =3D to_stm32_pwm_dev(chip);
+ 	int ret;
+=20
++	dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
++	msleep(5000);
++	dev_info(chip->dev, "%s:%d\n", __func__, __LINE__);
++
+ 	enabled =3D pwm->state.enabled;
+=20
+ 	if (enabled && !state->enabled) {
+@@ -650,7 +654,11 @@ static void stm32_pwm_remove(struct platform_device *p=
+dev)
+ {
+ 	struct stm32_pwm *priv =3D platform_get_drvdata(pdev);
+=20
++	dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
+ 	pwmchip_remove(&priv->chip);
++	dev_info(&pdev->dev, "%s:%d\n", __func__, __LINE__);
++
++	priv->regmap =3D NULL;
+ }
+=20
+ static int __maybe_unused stm32_pwm_suspend(struct device *dev)
 
--- 
-~Randy
+The first hunk is only there to widen the race window. The second is to
+give some diagnostics and make stm32_pwm_apply() crash if it continues
+to run after the msleep. (Without it it didn't crash reproducibly, don't
+understand why. *shrug*)
+
+The device tree contains a pwm-fan device making use of one of the PWMs.
+
+Now I do the following:
+
+	echo fan > /sys/bus/platform/drivers/pwm-fan/unbind & sleep 1; echo 400070=
+00.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unbind
+
+Unbinding the fan device has two effects:
+
+ - The device link between fan and pwm looses its property to unbind fan
+   when pwm gets unbound.
+   (Its .status changes from DL_STATE_ACTIVE to DL_STATE_AVAILABLE)
+ - It calls pwm_fan_cleanup() which triggers a call to
+   pwm_apply_state().
+
+So when the pwm device gets unbound the first thread is sleeping in
+stm32_pwm_apply(). The driver calls pwmchip_remove() and sets
+priv->regmap to NULL. Then a few seconds later the first thread wakes up
+in stm32_pwm_apply() with the chip freed and priv->regmap =3D NULL. Bang!
+
+This looks as follows:
+
+root@crown:~# echo fan > /sys/bus/platform/drivers/pwm-fan/unbind & sleep 1=
+; echo 40007000.timer:pwm > /sys/bus/platform/drivers/stm32-pwm/unbind
+[  187.182113] stm32-pwm 40007000.timer:pwm: stm32_pwm_apply:454
+[  188.164769] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:657
+[  188.184555] stm32-pwm 40007000.timer:pwm: stm32_pwm_remove:659
+root@crown:~# [  192.236423] platform 40007000.timer:pwm: stm32_pwm_apply:4=
+56
+[  192.240727] 8<--- cut here ---
+[  192.243759] Unable to handle kernel NULL pointer dereference at virtual =
+address 0000001c when read
+=2E..
+
+Even without the crash you can see that stm32_pwm_apply() is still
+running after pwmchip_remove() completed.
+
+I'm unsure if the device link could be improved here to ensure that the
+fan is completely unbound even if it started unbinding already before
+the pwm device gets unbound. (And if it could, would this fit the device
+links purpose and so be a sensible improvement?)
+
+If not, the only possible other fix is to make sure that the pwm
+callbacks are serialized with pwmchip_remove() and stop calling the
+driver callbacks when pwmchip_remove() was called. For that the
+pwm_chip struct must stay around until all consumers are really gone. So
+the pwm_chip must not be allocated using devm_kzalloc for the pwm's
+parent device.
+
+Am I missing something? Is this good enough to convince you that we need
+the concept of devm_pwmchip_alloc() from this thread?
+
+My preferred way to continue fixing that would be to get all the
+preparing cleanups into next soon to keep my patch stack smaller.
+Another pre-condition to serializing the pwm callbacks is (I think) that
+all low-level drivers must be fixed to not call pwm-API functions[1].
+
+Then I'll prepare switching all drivers based on this series plus some
+more patches to introduce a struct device in struct gpio_chip to track
+the lifetime and eventually fix the issue demonstrated above.
+
+While addressing this issue isn't a hard requirement for my final plan
+to introduce /dev/pwmchip character devices, fixing it now before the
+pwm core is complicated with the character device code should be easier
+at least. (Also these character devices introduce another "user" of
+pwm_chips and so another reason that these shouldn't be allocated using
+devm_kzalloc.)
+
+Best regards
+Uwe
+
+[1] first approximation:
+
+	$ git grep -Ew 'pwm_(apply|get_state|is_enabled|set_period|get_period|[sg]=
+et_duty_cycle|get_polarity|enable|disable)' v6.5-rc1 -- drivers/pwm/pwm-*.c=
+ | wc -l
+	43
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--lbja7j2q6q4txaou
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmTAOiwACgkQj4D7WH0S
+/k58Fgf7BWV6pk5FT045rf4yFD4sn1UYpbD3qoPthfdP7GyKsRcef6m7GOXTR/bP
+k1oF2x45Wv4OTeIg9mFBW3WXG01hOBcMDHyJcuJZ0sWot2fmlJ6EYrqTE5AKiIk6
+I42C2/nzGS4UZZrgQy9I7tmcHBHnGRSSWVYRXGAx2qurJ8bg6C3YI/bWLXBOUsq3
+d0rCQ8J0nmJfESXTBxxXyeZW21q4Zi4Q9cV4PsgMYnwCAZJrRwkLni56qTOMtvki
+CkS+r4g/6uAEeigOcmIcc0ZbWvBZbtVHzCEvBJjI8/6SpvYqe9KyceX+MXbgAEAV
+UaDNpeRqPxOYSnmtyulC5+cdf8bFTw==
+=7ktW
+-----END PGP SIGNATURE-----
+
+--lbja7j2q6q4txaou--
