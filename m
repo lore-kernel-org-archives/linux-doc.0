@@ -2,159 +2,232 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BF89EB64DD
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 20:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEDC1EB64DD
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 20:20:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229508AbjGYUK7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 16:10:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51282 "EHLO
+        id S229624AbjGYUUG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 16:20:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbjGYUK6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 16:10:58 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FB0E2118;
-        Tue, 25 Jul 2023 13:10:56 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-686bc261111so292241b3a.3;
-        Tue, 25 Jul 2023 13:10:56 -0700 (PDT)
+        with ESMTP id S229486AbjGYUUF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 16:20:05 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4276C1BE2;
+        Tue, 25 Jul 2023 13:20:04 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id 3f1490d57ef6-c4cb4919bb9so6560501276.3;
+        Tue, 25 Jul 2023 13:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1690315855; x=1690920655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IKPAlFBqfz/fhqIGuaxdBQTHebTtxe/9uM05NU60yXk=;
-        b=UnRwOhGV7if+FNnwnBOYSidhXsOU4QlZ7NzG6M/tcxSD5sPWMVtO3MvMLPhdS03smK
-         khQ0EDptYnmwqu3MUlz3oR+4PM37hHpPKbSnwdUrimccd0MyP1UXhW2qQq5QONBx2THn
-         TM1eebzswO53cQCDT1Q1vz8L8x0sjzqmM1+1AJnbI6neQnnkhtTdV6w2wa6WJvGR2I5x
-         z12DvfSFJsy/ly6IQpu6aLiWf+mc9K0Y1U994OMGOl1qgWn5Dd+Lx3YARr0OsD0m6KBc
-         rSbLPvagAvpT75x/kssIMhyxWJEWZ3Trf/pATmodq8Z9yACT9cSLNa5sSC6PoKpiMSOH
-         5Cgg==
+        d=gmail.com; s=20221208; t=1690316403; x=1690921203;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JplYEBO71eE2jWz0LBGOQOzxtjuDy5Pj6xly4aLbp8o=;
+        b=H09+KHs9AN3LWmXS6SPrW4PqJzV40N+orlppWvBqAiSUAsN3OCzQqNvk4oHI342SlA
+         g86MgYnYgIKaIukvul2s9uolMA4Wg5FCLaBwOSnqzZFhU1vZJEFJEuZM3ulsIikf1Ukl
+         H/0l1STde/VwcUpuyK/FV5lSUse9uQSTpy59ge6p+LV2HSwgkASve5UxiZUd02QC+Wko
+         3jzR54YCLrGKk8MCNKh4j1fp/3KKNd2kSBxD3KGhrO9wxZuPJ02oZ35txH8IEXqwgjI9
+         jel5IkcDismkgxJxOCokPp/T6anhKyc86mh7GkKjDu842h4l1ZmgwtEi42L2ldTHLR//
+         p3Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690315855; x=1690920655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IKPAlFBqfz/fhqIGuaxdBQTHebTtxe/9uM05NU60yXk=;
-        b=eqcq7iMlzQalO2gUiOOGq8PzO9fVi96ag4PgVkWxD7YJM0W2Wvl0L0lpYKIM7Yc2aq
-         DKzL1/cjrGeayrpEI8/6L/hzjzlmHb5/CovoLRzjJ6Djvcz2HatIV6ZHK44sd0cQ1MfR
-         clvj3fBTFcxyKLeMZ/RopbbUnQGVIGgGVmay2Rk4tAEMB++/mguyoaGTcMcnXQ5SB8+t
-         /08k1czsFyafZu6OrCYOC8YnDtmMkgvlX/S8VZoJci4p6ZgHaC3/HuWl9O1jbwBsJhgY
-         Ok+7u8/Pljri24bmyM5AZR/SmsAedS4B8/jxEAAPIEO/m92kLy6oVPYtw3kFQ0yzTwNa
-         eoEg==
-X-Gm-Message-State: ABy/qLZKxnFxf6OjPbRqPks4CgW6EeyrFx5B0m/GBA89JOhGm1lbApyM
-        2JEPJj63I0PK7DX/6JM65UmrvbaA9O0oSKYQnSs=
-X-Google-Smtp-Source: APBJJlEk5X9+pybB7eLuYNWbeDFCP+wlFKoHfAyk6uM1nk2WbLKfESkxPncd+piZlRgHlyREdM7HPhK5oMMzcH58KbE=
-X-Received: by 2002:a17:90b:3907:b0:268:160d:937e with SMTP id
- ob7-20020a17090b390700b00268160d937emr159142pjb.27.1690315855289; Tue, 25 Jul
- 2023 13:10:55 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1690316403; x=1690921203;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JplYEBO71eE2jWz0LBGOQOzxtjuDy5Pj6xly4aLbp8o=;
+        b=K55FeCrYAamylFHadIkjf7ud77esL4cwm/mSDMSGLdOWjzXh8J7aEEVPnRKOUMnD2i
+         QmwnoIwo04TMTnkMGCe06PhFiKn06wSlhiC+01v3gvMH0JIuQ04UXV2mn7ky0f9Y0ecN
+         Pdaf5BPeRK7HgJOSLxhXUqvi55J9x7B3feMzzKRCKubr10ztpCiVy9TWn4Vv/4B7fShl
+         pdwiICZAXmfjcgRDo4ARCU+3hDtOAsoXralfkbZ2v0dqKVHvENU5zW92MyUy1Mj5/E26
+         cT4zywBmWIlVaEJQLMxXhXAYm44XpKdSyW4LfA9g282RMU33Th5aSV7J7hqy16DoRWik
+         rtKw==
+X-Gm-Message-State: ABy/qLbzqMQg+D4U7keIkWeN/xK1gcpHFujhxb12TA/TO14bn3Wfij18
+        UXMMQ9wAEgunMMsN3aBLbTlCwFtah3M=
+X-Google-Smtp-Source: APBJJlHAzkLPRR+D+g6g9SGSb/9OeFtEgu+KQqwuBmcYCg21b/sad8a+CK4BWrGPiFr7fXtaQ5YBng==
+X-Received: by 2002:a25:4217:0:b0:d19:86a8:24c6 with SMTP id p23-20020a254217000000b00d1986a824c6mr51337yba.42.1690316403322;
+        Tue, 25 Jul 2023 13:20:03 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:3122:9f86:908c:8eb3? ([2600:1700:2442:6db0:3122:9f86:908c:8eb3])
+        by smtp.gmail.com with ESMTPSA id q16-20020a5b0350000000b00bcf788d09e3sm3042194ybp.34.2023.07.25.13.20.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jul 2023 13:20:02 -0700 (PDT)
+Message-ID: <a825567e-ff51-fdae-0e58-eb9365ecc6b5@gmail.com>
+Date:   Tue, 25 Jul 2023 15:20:01 -0500
 MIME-Version: 1.0
-References: <20230720161323.2025379-1-kuba@kernel.org> <c429298e279bd549de923deba09952e7540e534a.camel@gmail.com>
- <20230725115528.596b5305@kernel.org>
-In-Reply-To: <20230725115528.596b5305@kernel.org>
-From:   Alexander Duyck <alexander.duyck@gmail.com>
-Date:   Tue, 25 Jul 2023 13:10:18 -0700
-Message-ID: <CAKgT0UdKWmogiFD_Gip3TCi8-ydy+CVjwca1hPTYBRQQZ8_mGQ@mail.gmail.com>
-Subject: Re: [PATCH net] docs: net: clarify the NAPI rules around XDP Tx
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [KTAP V2 PATCH] ktap_v2: add test metadata
+Content-Language: en-US
+To:     Rae Moar <rmoar@google.com>, davidgow@google.com,
+        skhan@linuxfoundation.org, keescook@chromium.org,
+        Tim.Bird@sony.com, brendanhiggins@google.com
+Cc:     corbet@lwn.net, guillaume.tucker@collabora.com,
+        dlatypov@google.com, kernelci@lists.linux.dev,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230420205734.1288498-1-rmoar@google.com>
+ <CA+GJov6w2GvD8th0t9RW=K1ntHk4dQRuYa4hoDHcmzBDK5YriA@mail.gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+In-Reply-To: <CA+GJov6w2GvD8th0t9RW=K1ntHk4dQRuYa4hoDHcmzBDK5YriA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 11:55=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> w=
-rote:
->
-> On Tue, 25 Jul 2023 10:30:24 -0700 Alexander H Duyck wrote:
-> > > -In other words, it is recommended to ignore the budget argument when
-> > > -performing TX buffer reclamation to ensure that the reclamation is n=
-ot
-> > > -arbitrarily bounded; however, it is required to honor the budget arg=
-ument
-> > > -for RX processing.
-> > > +In other words for Rx processing the ``budget`` argument limits how =
-many
-> > > +packets driver can process in a single poll. Rx specific APIs like p=
-age
-> > > +pool or XDP cannot be used at all when ``budget`` is 0.
-> > > +skb Tx processing should happen regardless of the ``budget``, but if
-> > > +the argument is 0 driver cannot call any XDP (or page pool) APIs.
-> >
-> > This isn't accurate, and I would say it is somewhat dangerous advice.
-> > The Tx still needs to be processed regardless of if it is processing
-> > page_pool pages or XDP pages. I agree the Rx should not be processed,
-> > but the Tx must be processed using mechanisms that do NOT make use of
-> > NAPI optimizations when budget is 0.
-> >
-> > So specifically, xdp_return_frame is safe in non-NAPI Tx cleanup. The
-> > xdp_return_frame_rx_napi is not.
-> >
-> > Likewise there is napi_consume_skb which will use either a NAPI or non-
-> > NAPI version of things depending on if budget is 0 or not.
-> >
-> > For the page_pool calls there is the "allow_direct" argument that is
-> > meant to decide between recycling in directly into the page_pool cache
-> > or not. It should only be used in the Rx handler itself when budget is
-> > non-zero.
-> >
-> > I realise this was written up in response to a patch on the Mellanox
-> > driver. Based on the patch in question it looks like they were calling
-> > page_pool_recycle_direct outside of NAPI context. There is an explicit
-> > warning above that function about NOT calling it outside of NAPI
-> > context.
->
-> Unless I'm missing something budget=3D0 can be called from hard IRQ
-> context. And page pool takes _bh() locks. So unless we "teach it"
-> not to recycle _anything_ in hard IRQ context, it is not safe to call.
+On 7/20/23 16:31, Rae Moar wrote:
+> On Thu, Apr 20, 2023 at 4:57 PM Rae Moar <rmoar@google.com> wrote:
+>>
+>> Add specification for declaring test metadata to the KTAP v2 spec.
+>>
+>> The purpose of test metadata is to allow for the declaration of essential
+>> testing information in KTAP output. This information includes test
+>> names, test configuration info, test attributes, and test files.
+>>
+>> There have been similar ideas around the idea of test metadata such as test
+>> prefixes and test name lines. However, I propose this specification as an
+>> overall fix for these issues.
+>>
+>> These test metadata lines are a form of diagnostic lines with the
+>> format: "# <metadata_type>: <data>". As a type of diagnostic line, test
+>> metadata lines are compliant with KTAP v1, which will help to not
+>> interfere too much with current parsers.
+>>
+>> Specifically the "# Subtest:" line is derived from the TAP 14 spec:
+>> https://testanything.org/tap-version-14-specification.html.
+>>
+>> The proposed location for test metadata is in the test header, between the
+>> version line and the test plan line. Note including diagnostic lines in
+>> the test header is a depature from KTAP v1.
+>>
+>> This location provides two main benefits:
+>>
+>> First, metadata will be printed prior to when subtests are run. Then if a
+>> test fails, test metadata can help discern which test is causing the issue
+>> and potentially why.
+>>
+>> Second, this location ensures that the lines will not be accidentally
+>> parsed as a subtest's diagnostic lines because the lines are bordered by
+>> the version line and plan line.
+>>
+>> Here is an example of test metadata:
+>>
+>>  KTAP version 2
+>>  # Config: CONFIG_TEST=y
+>>  1..1
+>>      KTAP version 2
+>>      # Subtest: test_suite
+>>      # File: /sys/kernel/...
+>>      # Attributes: slow
+>>      # Other: example_test
+>>      1..2
+>>      ok 1 test_1
+>>      ok 2 test_2
+>>  ok 1 test_suite
+> 
+> Hi everyone!
+> 
+> I have been doing some more thinking on KTAP Metadata as I have been
+> working on the KUnit Test Attributes patch set
+> (https://lore.kernel.org/all/20230719222338.259684-1-rmoar@google.com/).
+> Two additional ideas have come up in the discussion:
+> 
+> 1) I wonder if it would be easier to separate "ktap_attributes" into
+> individual attributes.
+> 
+> The two proposed KUnit attributes currently are speed and module name.
+> I think it would be easier for parsing and reading if these attributes
+> had corresponding "ktap_speed" and "ktap_module" categories. Then, in
+> the future if there are too many attributes to print on separate lines
+> they could be grouped into a "ktap_attributes" category later.
 
-That is the thing. We have to be able to free the pages regardless of
-context. Otherwise we make a huge mess of things. Also there isn't
-much way to differentiate between page_pool and non-page_pool pages
-because an skb can be composed of page pool pages just as easy as an
-XDP frame can be. All you would just have to enable routing or
-bridging for Rx frames to end up with page pool pages in the Tx path.
+I am fine with the above.  This basically removes the special case of
+"attribute", and what we have been calling attributes are now metadata,
+just like any other metadata.
 
-As far as netpoll itself we are safe because it has BH disabled and so
-as a result page_pool doesn't use the _bh locks. There is code in
-place to account for that in the producer locking code, and if it were
-an issue we would have likely blown up long before now. The fact is
-that page_pool has proliferated into skbs, so you are still freeing
-page_pool pages indirectly anyway.
+> 
+> 2) I wonder if we can shift the concept of KTAP metadata to all tests
+> rather than just suites.
+> 
+> I think it would be very valuable to have a KTAP metadata format that
+> is flexible to work for both suites and test cases. To transition this
+> to test cases, I propose we would use the same format we have been
+> discussing but just printed just before the test result line (David
+> Gow originally came up with this idea). This would look something like
+> this:
+> 
+> KTAP version 2
+> # ktap_config: CONFIG_TEST=y
+> 1..1
+>     KTAP version 2
+>     # ktap_test: test_suite
+>     # ktap_module: example
+>     1..2
+>     ok 1 test_1
+>     # ktap_test: test_2
+>     # ktap_speed: slow
+>     # test initializing   // diagnostic data
+>     ok 2 test_2
+> ok 1 test_suite
 
-That said, there are calls that are not supposed to be used outside of
-NAPI context, such as page_pool_recycle_direct(). Those have mostly
-been called out in the page_pool.h header itself, so if someone
-decides to shoot themselves in the foot with one of those, that is on
-them. What we need to watch out for are people abusing the "direct"
-calls and such or just passing "true" for allow_direct in the
-page_pool calls without taking proper steps to guarantee the context.
+That is the way I would expect metadata to exist.  I think I had implicitly
+expected test metadata and suite metadata to be of the same format.
 
-> > >  .. warning::
-> > >
-> > > -   The ``budget`` argument may be 0 if core tries to only process Tx=
- completions
-> > > -   and no Rx packets.
-> > > +   The ``budget`` argument may be 0 if core tries to only process
-> > > +   skb Tx completions and no Rx or XDP packets.
-> > >
-> > >  The poll method returns the amount of work done. If the driver still
-> > >  has outstanding work to do (e.g. ``budget`` was exhausted)
-> >
-> > We cannot make this distinction if both XDP and skb are processed in
-> > the same Tx queue. Otherwise you will cause the Tx to stall and break
-> > netpoll. If the ring is XDP only then yes, it can be skipped like what
-> > they did in the Mellanox driver, but if it is mixed then the XDP side
-> > of things needs to use the "safe" versions of the calls.
->
-> IDK, a rare delay in sending of a netpoll message is not a major
-> concern.
+It seems to me that "suite" is more a kunit concept than a KTAP concept.
+The kunit suite naturally maps into the top level KTAP test, but I don't
+think that KTAP should use the term "suite".
 
-The whole point of netpoll is to get data out after something like a
-crash. Otherwise we could have just been using regular NAPI. If the Tx
-ring is hung it might not be a delay but rather a complete stall that
-prevents data on the Tx queue from being transmitted on since the
-system will likely not be recovering. Worse yet is if it is a scenario
-where the Tx queue can recover it might trigger the Tx watchdog since
-I could see scenarios where the ring fills, but interrupts were
-dropped because of the netpoll.
+> 
+> I don't love using the "ktap_test: test_2" line since the test name is
+> repeated. However, I like that this mirrors the same format used for a
+> suite and I currently think it is the best way to define the start of
+> the metadata header.
+> 
+> The test name line could actually be useful by providing context for
+> any test diagnostic data printed below or if the test crashes while
+> running.
+> 
+> What do people think of these ideas?
+
+Sounds good to me.
+
+-Frank
+
+> 
+> Thanks!
+> -Rae
+> 
+>>
+>> Here is a link to a version of the KUnit parser that is able to parse test
+>> metadata lines for KTAP version 2. Note this includes test metadata
+>> lines for the main level of KTAP.
+>>
+>> Link: https://kunit-review.googlesource.com/c/linux/+/5809
+>>
+>> Signed-off-by: Rae Moar <rmoar@google.com>
+>> ---
+>>
+>> Hi everyone,
+>>
+>> I would like to use this proposal similar to an RFC to gather ideas on the
+>> topic of test metadata. Let me know what you think.
+>>
+>> I am also interested in brainstorming a list of recognized metadata types.
+>> Providing recognized metadata types would be helpful in parsing and
+>> displaying test metadata in a useful way.
+>>
+>> Current ideas:
+>> - "# Subtest: <test_name>" to indicate test name (name must match
+>>   corresponding result line)
+>> - "# Attributes: <attributes list>" to indicate test attributes (list
+>>   separated by commas)
+>> - "# File: <file_path>" to indicate file used in testing
+>>
+>> Any other ideas?
+>>
+>> Note this proposal replaces two of my previous proposals: "ktap_v2: add
+>> recognized test name line" and "ktap_v2: allow prefix to KTAP lines."
+>>
+>> Thanks!
+>> -Rae
+>>
+>> Note: this patch is based on Frank's ktap_spec_version_2 branch.
+
