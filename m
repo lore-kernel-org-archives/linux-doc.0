@@ -2,88 +2,111 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE02BC001DE
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 14:12:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D067AC001DF
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 14:21:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232200AbjGYOME (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 10:12:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57906 "EHLO
+        id S232115AbjGYOVA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 10:21:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230309AbjGYOMD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 10:12:03 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FC98102;
-        Tue, 25 Jul 2023 07:12:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690294322; x=1721830322;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PWe9GNMaoHh1LXm7vt0nJC8CylhYVvYcKyTMHoFXiSs=;
-  b=W1mg2S368EBdyh5bxVmcwX/RNIaxm/eB8spyWMfbOSikH8e9j9SRFFDV
-   gjN+yNIIJQBkQ7w9svAmppFtkUBONKzzpsuSAAK46yGWOolzpVpaiEOfQ
-   CUAHw4JT/tOWV3Hj/9zoKy9GASM2nXDf7//3l8az2hgOm3NYFKMdya9cC
-   8WtIAJRgfyqsQ/f2LjvHLosgD5iy9QULOC8949Rvq1zph/lYgbzEjfD1N
-   f7NMzqYutFXs7R/FobsBTQ7uQzlNOVHiG8H3soevnGWzIU92rf45GkStb
-   jKPF30bOeCMMnJQpSBGyMuVOnFPD03I65lBgEbyKclIAhJC3vV7HVooEJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="365195243"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="365195243"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 07:06:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="729369767"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="729369767"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2023 07:06:32 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qOIgI-00CmmR-29;
-        Tue, 25 Jul 2023 17:06:30 +0300
-Date:   Tue, 25 Jul 2023 17:06:30 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 1/1] Documentation: core-api: Drop :export: for
- int_log.h
-Message-ID: <ZL/W5rc043oPLfMV@smile.fi.intel.com>
-References: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
- <87a5vkb0ee.fsf@meer.lwn.net>
- <b761d010-ef21-4be6-b6c3-678498b7fa71@sirena.org.uk>
+        with ESMTP id S232479AbjGYOUw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 10:20:52 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5ECA26B1
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 07:19:38 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-31743dbf13eso2370213f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 07:19:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1690294768; x=1690899568;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NuP7PfUWkHmNyDCiiBKijYVB5Ha6vR4zrSGdSILdtOY=;
+        b=VobxKKfj3YlLkMovUBsPqivFLT1NQJ6OYhCHAqVTKo9GWx9ePkndLU6RA9fqyBnbX9
+         0cEyorheLHBaC3FUSmD55JY9EoBsNwU8YGmrJ6nrSoqx25pRKblUqIhKmr6l4hoxs0Pi
+         WpqUv23b/CbIvjtIA9NOhD8EuFNdCi4A+flYzcXovy3RJ4k1usDUx29HqclIi08ouCzR
+         a/j6sfz0MvHe+JXGN/kO+kL3mbo2zUkUstTdjll1Jzo5fKn1G0fOR2aRjiddntLh6QhP
+         Ga1awsWTGFVzQUVRckzNcjQap5cmvojdYtvXEyDUc6XbjB0MPUPoEMPcZvMOwzChtzNd
+         sb7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690294768; x=1690899568;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NuP7PfUWkHmNyDCiiBKijYVB5Ha6vR4zrSGdSILdtOY=;
+        b=F5wB5QP5eBjj/ONBJ93HI++v4CzyQ2Y1ix613ZKzUp5cmbrOZm8xIT0L0iGSebSF9S
+         6FBIFdrIR5IB1oJiKc8RnMqtMKL7+zr2EFuqIcvFzVUEZOcmXOExo+3lFGH1o8/AU4og
+         gtCyZ2axxU6qa5LW6IhSKA+QiT+UtuqTLCFR6v+9pNdyjOA48D/Ekvm36oRU9uQNY5M+
+         zja6cCgE0JalGYuUtU04v9S8GvH36Ql1J04Q2x1v5G70ey28mfZDEfc1/i5mbRASXs4A
+         lZAKUUBXKXdggUDzIaqg7MITgVbZF7vOR3tgWwirpGXSESx2YXc2Z5hh92mLgIGUKdIj
+         gpUg==
+X-Gm-Message-State: ABy/qLbszsGtKnV65yh8qPWUahKh8mawAcNGX/8PqVZRoG38nNXLyL50
+        fqOoU7EThzgYNdvcVAXi/nqLtvKmvwBL4BeEnN0=
+X-Google-Smtp-Source: APBJJlEfIjpTWK3hKuGbaXC9p3pwmKCgC7ZtILnlK9IbfVHDNYwlUwlSUbRxcXQArkn+Q0EUY/j0KA==
+X-Received: by 2002:adf:ed08:0:b0:317:634c:46e9 with SMTP id a8-20020adfed08000000b00317634c46e9mr4183117wro.43.1690294767655;
+        Tue, 25 Jul 2023 07:19:27 -0700 (PDT)
+Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id a17-20020adffad1000000b003143cdc5949sm16619297wrs.9.2023.07.25.07.19.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jul 2023 07:19:27 -0700 (PDT)
+From:   Alexandre Ghiti <alexghiti@rivosinc.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
+        Andrew Jones <ajones@ventanamicro.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Song Shuai <songshuaishuai@tinylab.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Atish Patra <atishp@rivosinc.com>
+Subject: [PATCH v6 1/3] Documentation: arm: Add bootargs to the table of added DT parameters
+Date:   Tue, 25 Jul 2023 16:19:23 +0200
+Message-Id: <20230725141926.823153-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b761d010-ef21-4be6-b6c3-678498b7fa71@sirena.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 02:46:33PM +0100, Mark Brown wrote:
-> On Tue, Jul 25, 2023 at 07:12:25AM -0600, Jonathan Corbet wrote:
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
-> 
-> > > The :export: keyword makes sense only for C-files, where EXPORT_SYMBOL()
-> > > might appear. Otherwise kernel-doc may not produce anything out of this
-> > > file.
-> 
-> > So I still can't take this patch for the reasons described before.  It
-> > looks like Mark took the patch that added the problem, so perhaps he
-> > should be a recipient of this one too?  I'll add him to the CC...
-> 
-> Is this the same patch I applied yesterday or a different one?
+The bootargs node is also added by the EFI stub in the function
+update_fdt(), so add it to the table.
 
-Hmm...
-I do not see anything like this patch in your current ASoC for-next
-(nor in for-6.6). Did I look into wrong branch?
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
+Reviewed-by: Song Shuai <songshuaishuai@tinylab.org>
+---
 
+- Changes in v5:
+  * Rebase on top of docs-next
+
+ Documentation/arch/arm/uefi.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/arch/arm/uefi.rst b/Documentation/arch/arm/uefi.rst
+index baebe688a006..2b7ad9bd7cd2 100644
+--- a/Documentation/arch/arm/uefi.rst
++++ b/Documentation/arch/arm/uefi.rst
+@@ -50,7 +50,7 @@ The stub populates the FDT /chosen node with (and the kernel scans for) the
+ following parameters:
+ 
+ ==========================  ======   ===========================================
+-Name                        Size     Description
++Name                        Type     Description
+ ==========================  ======   ===========================================
+ linux,uefi-system-table     64-bit   Physical address of the UEFI System Table.
+ 
+@@ -67,4 +67,6 @@ linux,uefi-mmap-desc-ver    32-bit   Version of the mmap descriptor format.
+ 
+ kaslr-seed                  64-bit   Entropy used to randomize the kernel image
+                                      base address location.
++
++bootargs                    String   Kernel command line
+ ==========================  ======   ===========================================
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.2
 
