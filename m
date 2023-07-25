@@ -2,93 +2,74 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19980C001B0
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Jul 2023 21:21:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 030D1C001E0
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 01:52:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231129AbjGXVVr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Jul 2023 17:21:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54812 "EHLO
+        id S229949AbjGYBwp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Jul 2023 21:52:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231145AbjGXVVq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 17:21:46 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57AB1737;
-        Mon, 24 Jul 2023 14:21:40 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1603A733;
-        Mon, 24 Jul 2023 21:21:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1603A733
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1690233700; bh=gaNKVqyvP22L4mM+8WXVkl4QkXFivhR0y8i1kXszzPQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Imyn4jnOBa86K/OaOKITI/KBfz9yvh0y9ALfYriy5qxu4LN+yV24qqe3iRsQWGXet
-         Z0x30JO9siMaPYMDEly+xc1qoNp45ZaUQ1D85j9tUoC6C5NVbGLODqkfajJaPYXs0N
-         KFT7VVC9eI8oduNvf/yvbgOi9hQ5JCJuSm9uDzMiQMhkAigNV1uBCRBERqqny9mtXY
-         VcQdMGxkwxZcXHjLPVM7yP2kJyq7AqvEX51t1e0q6hb47Ba7f6fiodQUqvxe7mcXT2
-         a/TsUs0wUQQIY8VUy/Uurzj1/RQMIhvRoz77GY4o2+QyPG0ySzzrSOxjoLuOcPIxdP
-         3iGu6Y+qoYdXw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Costa Shulyupin <costa.shul@redhat.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
-        "open list:RUST" <rust-for-linux@vger.kernel.org>
-Cc:     Costa Shulyupin <costa.shul@redhat.com>
-Subject: Re: [RFC PATCH] rework top page and organize toc on the sidebar
-In-Reply-To: <20230724193118.2204673-1-costa.shul@redhat.com>
-References: <20230724193118.2204673-1-costa.shul@redhat.com>
-Date:   Mon, 24 Jul 2023 15:21:39 -0600
-Message-ID: <87ila9atuk.fsf@meer.lwn.net>
+        with ESMTP id S229475AbjGYBwo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jul 2023 21:52:44 -0400
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD2BD1B3;
+        Mon, 24 Jul 2023 18:52:42 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R891e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0VoAl.6s_1690249956;
+Received: from 30.221.109.71(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VoAl.6s_1690249956)
+          by smtp.aliyun-inc.com;
+          Tue, 25 Jul 2023 09:52:37 +0800
+Message-ID: <f452ad3e-c0cd-8d02-48af-f20497875b68@linux.alibaba.com>
+Date:   Tue, 25 Jul 2023 09:52:36 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.0
+Subject: Re: [RESEND PATCH -fixes 1/2] riscv: Export va_kernel_pa_offset in
+ vmcoreinfo
+To:     Song Shuai <suagrfillet@gmail.com>, bhe@redhat.com,
+        vgoyal@redhat.com, dyoung@redhat.com, corbet@lwn.net,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, robh@kernel.org,
+        ajones@ventanamicro.com, alexghiti@rivosinc.com,
+        conor.dooley@microchip.com
+Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+References: <20230724100917.309061-1-suagrfillet@gmail.com>
+From:   Xianting Tian <xianting.tian@linux.alibaba.com>
+In-Reply-To: <20230724100917.309061-1-suagrfillet@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Costa Shulyupin <costa.shul@redhat.com> writes:
 
-> Template {{ toctree(maxdepth=3) }} in
-> Documentation/sphinx/templates/kernel-toc.html
-> uses directives toctree and doesn't use sections on the top page
-> Documentation/index.rst
-> to generate expandable toc on the sidebar.
+在 2023/7/24 下午6:09, Song Shuai 写道:
+> Since RISC-V Linux v6.4, the commit 3335068f8721 ("riscv: Use
+> PUD/P4D/PGD pages for the linear mapping") changes phys_ram_base
+> from the physical start of the kernel to the actual start of the DRAM.
 >
-> BTW, other template {{ toc }} uses only sections, and doesn't
-> use directives toctree.
+> The Crash-utility's VTOP() still uses phys_ram_base and kernel_map.virt_addr
+> to translate kernel virtual address, that failed the Crash with Linux v6.4 [1].
 >
-> Summary of changes:
-> - split top page index.rst to several pages
-> - convert sections of Documentation/index.rst to hierarchical toctree
-> - vertical bars '|' add empty lines
+> Export kernel_map.va_kernel_pa_offset in vmcoreinfo to help Crash translate
+> the kernel virtual address correctly.
 >
-> Benefits:
-> - collapsed toc is just seven short lines length
-> - toc is expandable
+> Fixes: 3335068f8721 ("riscv: Use PUD/P4D/PGD pages for the linear mapping")
+> Link: https://lore.kernel.org/linux-riscv/20230724040649.220279-1-suagrfillet@gmail.com/ [1]
+> Signed-off-by: Song Shuai <suagrfillet@gmail.com>
+> ---
+>   arch/riscv/kernel/crash_core.c | 2 ++
+>   1 file changed, 2 insertions(+)
 >
-> References:
-> - https://www.sphinx-doc.org/en/master/development/templating.html#toctree
-> - https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-toctree
-> - https://www.sphinx-doc.org/en/master/development/templating.html#toc
-> - https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#sections
-> - https://sphinx-rtd-theme.readthedocs.io/
-
-What is the purpose of all these links in a patch changelog?
-
-This patch is somewhat difficult to apply, as a result of:
-
-> Content-Type: text/plain; charset=true
-
-But the real problem is that you seem to have ignored my last message.
-The purpose of the front page isn't to create a nice-looking sidebar, it
-is the entry point to our documentation as a whole.  I am all for a
-better sidebar, but this is not the way to do it.
-
-jon
+> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
+> index b351a3c01355..55f1d7856b54 100644
+> --- a/arch/riscv/kernel/crash_core.c
+> +++ b/arch/riscv/kernel/crash_core.c
+> @@ -18,4 +18,6 @@ void arch_crash_save_vmcoreinfo(void)
+>   	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
+>   #endif
+>   	vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
+> +	vmcoreinfo_append_str("NUMBER(va_kernel_pa_offset)=0x%lx\n",
+> +						kernel_map.va_kernel_pa_offset);
+>   }
+Reviewed-by: Xianting Tian  <xianting.tian@linux.alibaba.com>
