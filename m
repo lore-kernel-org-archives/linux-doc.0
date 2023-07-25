@@ -2,85 +2,151 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D89EC001DE
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 687BEC001E0
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:22:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229746AbjGYNQn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 09:16:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48234 "EHLO
+        id S230078AbjGYNWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 09:22:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbjGYNQm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:16:42 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB491BF8;
-        Tue, 25 Jul 2023 06:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690290994; x=1721826994;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FzQltc/Yqt8LVzDvpBtr1I2HWq5tm4lFYF5Dmo6gkcM=;
-  b=RR8dKq8UlyS9r+ciPT8bV1kgn3H5mCPJBFXd3RSorqoZTvotwCKQ65gH
-   9nDnpH9TQG816jdi1BIiIt4fP64QaTTqSIckYDkTVQstBDBFBd+ZYJwo9
-   XnPWvFvz8RT5tzQum6yZlhzBnQrgOtRFDlEUFRR66Ty04SfzvGcxgfusA
-   LXMCHfr6ISbLeIMZqqqXUA7wlxiPemc2YE0uEGtz8bv2zEABu2Nz5+6Oo
-   T5a7uQlQjXb6XDCtfTUfOaZOM0cT+0HdQz0Vz174N1P338Vkhk9tQCtdl
-   /NqzKvOIP+r/+MFm7/QwzhyWah68kCYpQ8vZHBHxa8ssqozXJ9LQ8yAqR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="431520718"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="431520718"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 06:16:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="720059655"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
-   d="scan'208";a="720059655"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP; 25 Jul 2023 06:16:26 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qOHto-00B2DC-37;
-        Tue, 25 Jul 2023 16:16:24 +0300
-Date:   Tue, 25 Jul 2023 16:16:24 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v2 1/1] Documentation: core-api: Drop :export: for
- int_log.h
-Message-ID: <ZL/LKPmDvfUdZWb+@smile.fi.intel.com>
-References: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
- <87a5vkb0ee.fsf@meer.lwn.net>
+        with ESMTP id S230060AbjGYNWA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:22:00 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B297FE3;
+        Tue, 25 Jul 2023 06:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=wGqxpUXCoDxIaORETfr7uIrAMmzRtESmnNtnwpMTjcQ=; b=f8AwNDDBNeSxUozU34si/zZBDf
+        plnXfYPhG0x+P/nfzmym0QplxCPJ7SZ/55xlG0/wfRzFP3qjjqPhRviGKBsC7Zd5aD7/51ehEIcju
+        h9rI0QP6TNGPTo8sDE7i8ZIUdODxaSbETaTglg2bkjgwSno/LOwy+t3L6frXOZ/gUdBsYDnf3fTWm
+        i32WJGiyMpI0+74+v+giFGr+IGzPqQICkYSOV1tb2wK/ha9P4p+geQWGEfD/B23DNww43mcOaxmvj
+        HnaHdDr5UPRMasRRiI/PqfVG343MRV53doZZI+vc7ByAdPWQKHp0/uzlgiPhp2WJKwweLe3q1Axtm
+        CBejci1Q==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qOHzA-005Uxm-Md; Tue, 25 Jul 2023 13:21:57 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5DFA9300155;
+        Tue, 25 Jul 2023 15:21:55 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 42E6127D9B9A2; Tue, 25 Jul 2023 15:21:55 +0200 (CEST)
+Date:   Tue, 25 Jul 2023 15:21:55 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Valentin Schneider <vschneid@redhat.com>,
+        Nadav Amit <namit@vmware.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-trace-kernel@vger.kernel.org" 
+        <linux-trace-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, bpf <bpf@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "rcu@vger.kernel.org" <rcu@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 20/20] x86/mm, mm/vmalloc: Defer
+ flush_tlb_kernel_range() targeting NOHZ_FULL CPUs
+Message-ID: <20230725132155.GJ3765278@hirez.programming.kicks-ass.net>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+ <20230720163056.2564824-21-vschneid@redhat.com>
+ <188AEA79-10E6-4DFF-86F4-FE624FD1880F@vmware.com>
+ <xhsmh8rb5tui1.mognet@vschneid.remote.csb>
+ <2284d0db-f94a-e059-7bd0-bab4f112ed35@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87a5vkb0ee.fsf@meer.lwn.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <2284d0db-f94a-e059-7bd0-bab4f112ed35@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 07:12:25AM -0600, Jonathan Corbet wrote:
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
+On Mon, Jul 24, 2023 at 10:40:04AM -0700, Dave Hansen wrote:
 
-> > ---
-> > v2: added tags (Randy, Jonathan), assumed to go via ASoC tree
+> TLB flushes for freed page tables are another game entirely.  The CPU is
+> free to cache any part of the paging hierarchy it wants at any time.
+> It's also free to set accessed and dirty bits at any time, even for
+> instructions that may never execute architecturally.
+> 
+> That basically means that if you have *ANY* freed page table page
+> *ANYWHERE* in the page table hierarchy of any CPU at any time ... you're
+> screwed.
+> 
+> There's no reasoning about accesses or ordering.  As soon as the CPU
+> does *anything*, it's out to get you.
+> 
+> You're going to need to do something a lot more radical to deal with
+> free page table pages.
 
-> So I still can't take this patch for the reasons described before.  It
-> looks like Mark took the patch that added the problem, so perhaps he
-> should be a recipient of this one too? 
+Ha! IIRC the only thing we can reasonably do there is to have strict
+per-cpu page-tables such that NOHZ_FULL CPUs can be isolated. That is,
+as long we the per-cpu tables do not contain -- and have never contained
+-- a particular table page, we can avoid flushing it. Because if it
+never was there, it also couldn't have speculatively loaded it.
 
-That's what have been assumed above.
+Now, x86 doesn't really do per-cpu page tables easily (otherwise we'd
+have done them ages ago) and doing them is going to be *major* surgery
+and pain.
 
-> I'll add him to the CC...
-
-Oh, I missed Cc'ing him...
-
--- 
-With Best Regards,
-Andy Shevchenko
+Other than that, we must take the TLBI-IPI when freeing
+page-table-pages.
 
 
+But yeah, I think Nadav is right, vmalloc.c never frees page-tables (or
+at least, I couldn't find it in a hurry either), but if we're going to
+be doing this, then that file must include a very prominent comment
+explaining it must never actually do so either.
+
+Not being able to free page-tables might be a 'problem' if we're going
+to be doing more of HUGE_VMALLOC, because that means it becomes rather
+hard to swizzle from small to large pages.
