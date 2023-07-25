@@ -2,228 +2,89 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C35CC04A6A
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:45:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 716A0C0015E
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:46:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231455AbjGYNpn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 09:45:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40084 "EHLO
+        id S231429AbjGYNqz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 09:46:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231426AbjGYNpj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:45:39 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC9631BD9;
-        Tue, 25 Jul 2023 06:45:11 -0700 (PDT)
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4R9JCD6fF0zVjqj;
-        Tue, 25 Jul 2023 21:43:36 +0800 (CST)
-Received: from huawei.com (10.67.174.205) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 25 Jul
- 2023 21:45:09 +0800
-From:   Chen Jiahao <chenjiahao16@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <paul.walmsley@sifive.com>, <palmer@dabbelt.com>,
-        <conor.dooley@microchip.com>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <bjorn@rivosinc.com>, <alex@ghiti.fr>,
-        <akpm@linux-foundation.org>, <atishp@rivosinc.com>,
-        <bhe@redhat.com>, <thunder.leizhen@huawei.com>, <horms@kernel.org>
-CC:     <chenjiahao16@huawei.com>
-Subject: [PATCH -next v8 1/2] riscv: kdump: Implement crashkernel=X,[high,low]
-Date:   Tue, 25 Jul 2023 21:44:11 +0000
-Message-ID: <20230725214413.2488159-2-chenjiahao16@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230725214413.2488159-1-chenjiahao16@huawei.com>
-References: <20230725214413.2488159-1-chenjiahao16@huawei.com>
+        with ESMTP id S231452AbjGYNqw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:46:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE6D81FF7;
+        Tue, 25 Jul 2023 06:46:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 837006171E;
+        Tue, 25 Jul 2023 13:46:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C76EC433C7;
+        Tue, 25 Jul 2023 13:46:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690292798;
+        bh=JZqrPn+/DHRI6pWh4me2MAQvwy7w4laz7lhHcxIHSxA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Z2gILGbcAHKPc+dC4tnYImKJ8Lz6VQz6UgiEbMc2w+TJIzDMlkPw8kkC7EiZd7Q0B
+         wSjleOQqtX3QaxF1h1zqruU/AmEW6FGOtR0GlWzOVrStTevaYkxa9L54+ZlNo2k0KF
+         bSOqTF2M7wgBcoxCWLMNJkrapbSqbOc2KVI+ZZSzeBqVaTwQ0li+mP4VgWBWpkgTcw
+         JpS0rtVsjdNM11gXgUxMho0Qbs6wGzV+7TUPE3fadPTOhTofY0/ipoEcWTSBaxA8bj
+         Vf85uFdzOGyVZ08wyPOT1ge0v6F5uUwQQBuATHRD4QCRdE+A0oHjmSK9n7FUyjLDFc
+         R45KWZoFXkrDg==
+Date:   Tue, 25 Jul 2023 14:46:33 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/1] Documentation: core-api: Drop :export: for
+ int_log.h
+Message-ID: <b761d010-ef21-4be6-b6c3-678498b7fa71@sirena.org.uk>
+References: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
+ <87a5vkb0ee.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.67.174.205]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="sx+tKS4ZQ5MXdS0r"
+Content-Disposition: inline
+In-Reply-To: <87a5vkb0ee.fsf@meer.lwn.net>
+X-Cookie: Happiness is the greatest good.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On riscv, the current crash kernel allocation logic is trying to
-allocate within 32bit addressible memory region by default, if
-failed, try to allocate without 4G restriction.
 
-In need of saving DMA zone memory while allocating a relatively large
-crash kernel region, allocating the reserved memory top down in
-high memory, without overlapping the DMA zone, is a mature solution.
-Here introduce the parameter option crashkernel=X,[high,low].
+--sx+tKS4ZQ5MXdS0r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-One can reserve the crash kernel from high memory above DMA zone range
-by explicitly passing "crashkernel=X,high"; or reserve a memory range
-below 4G with "crashkernel=X,low".
+On Tue, Jul 25, 2023 at 07:12:25AM -0600, Jonathan Corbet wrote:
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
 
-Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
-Acked-by: Guo Ren <guoren@kernel.org>
----
- arch/riscv/kernel/setup.c |  5 +++
- arch/riscv/mm/init.c      | 93 ++++++++++++++++++++++++++++++++++++---
- 2 files changed, 91 insertions(+), 7 deletions(-)
+> > The :export: keyword makes sense only for C-files, where EXPORT_SYMBOL()
+> > might appear. Otherwise kernel-doc may not produce anything out of this
+> > file.
 
-diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-index 971fe776e2f8..376f5d49ce85 100644
---- a/arch/riscv/kernel/setup.c
-+++ b/arch/riscv/kernel/setup.c
-@@ -178,6 +178,11 @@ static void __init init_resources(void)
- 		if (ret < 0)
- 			goto error;
- 	}
-+	if (crashk_low_res.start != crashk_low_res.end) {
-+		ret = add_resource(&iomem_resource, &crashk_low_res);
-+		if (ret < 0)
-+			goto error;
-+	}
- #endif
- 
- #ifdef CONFIG_CRASH_DUMP
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 9ce504737d18..156e09a1ceee 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -1297,6 +1297,28 @@ static inline void setup_vm_final(void)
- }
- #endif /* CONFIG_MMU */
- 
-+/* Reserve 128M low memory by default for swiotlb buffer */
-+#define DEFAULT_CRASH_KERNEL_LOW_SIZE	(128UL << 20)
-+
-+static int __init reserve_crashkernel_low(unsigned long long low_size)
-+{
-+	unsigned long long low_base;
-+
-+	low_base = memblock_phys_alloc_range(low_size, PMD_SIZE, 0, dma32_phys_limit);
-+	if (!low_base) {
-+		pr_err("cannot allocate crashkernel low memory (size:0x%llx).\n", low_size);
-+		return -ENOMEM;
-+	}
-+
-+	pr_info("crashkernel low memory reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-+		low_base, low_base + low_size, low_size >> 20);
-+
-+	crashk_low_res.start = low_base;
-+	crashk_low_res.end = low_base + low_size - 1;
-+
-+	return 0;
-+}
-+
- /*
-  * reserve_crashkernel() - reserves memory for crash kernel
-  *
-@@ -1308,8 +1330,12 @@ static void __init reserve_crashkernel(void)
- {
- 	unsigned long long crash_base = 0;
- 	unsigned long long crash_size = 0;
-+	unsigned long long crash_low_size = 0;
- 	unsigned long search_start = memblock_start_of_DRAM();
--	unsigned long search_end = memblock_end_of_DRAM();
-+	unsigned long search_end = (unsigned long)dma32_phys_limit;
-+	char *cmdline = boot_command_line;
-+	bool fixed_base = false;
-+	bool high = false;
- 
- 	int ret = 0;
- 
-@@ -1325,14 +1351,36 @@ static void __init reserve_crashkernel(void)
- 		return;
- 	}
- 
--	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
-+	ret = parse_crashkernel(cmdline, memblock_phys_mem_size(),
- 				&crash_size, &crash_base);
--	if (ret || !crash_size)
-+	if (ret == -ENOENT) {
-+		/* Fallback to crashkernel=X,[high,low] */
-+		ret = parse_crashkernel_high(cmdline, 0, &crash_size, &crash_base);
-+		if (ret || !crash_size)
-+			return;
-+
-+		/*
-+		 * crashkernel=Y,low is valid only when crashkernel=X,high
-+		 * is passed.
-+		 */
-+		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
-+		if (ret == -ENOENT)
-+			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+		else if (ret)
-+			return;
-+
-+		search_start = (unsigned long)dma32_phys_limit;
-+		search_end = memblock_end_of_DRAM();
-+		high = true;
-+	} else if (ret || !crash_size) {
-+		/* Invalid argument value specified */
- 		return;
-+	}
- 
- 	crash_size = PAGE_ALIGN(crash_size);
- 
- 	if (crash_base) {
-+		fixed_base = true;
- 		search_start = crash_base;
- 		search_end = crash_base + crash_size;
- 	}
-@@ -1345,12 +1393,37 @@ static void __init reserve_crashkernel(void)
- 	 * swiotlb can work on the crash kernel.
- 	 */
- 	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
--					       search_start,
--					       min(search_end, (unsigned long)(SZ_4G - 1)));
-+					       search_start, search_end);
- 	if (crash_base == 0) {
--		/* Try again without restricting region to 32bit addressible memory */
-+		/*
-+		 * For crashkernel=size[KMG]@offset[KMG], print out failure
-+		 * message if can't reserve the specified region.
-+		 */
-+		if (fixed_base) {
-+			pr_warn("crashkernel: allocating failed with given size@offset\n");
-+			return;
-+		}
-+
-+		if (high) {
-+			/*
-+			 * For crashkernel=size[KMG],high, if the first attempt was
-+			 * for high memory, fall back to low memory.
-+			 */
-+			search_start = memblock_start_of_DRAM();
-+			search_end = (unsigned long)dma32_phys_limit;
-+		} else {
-+			/*
-+			 * For crashkernel=size[KMG], if the first attempt was for
-+			 * low memory, fall back to high memory, the minimum required
-+			 * low memory will be reserved later.
-+			 */
-+			search_start = (unsigned long)dma32_phys_limit;
-+			search_end = memblock_end_of_DRAM();
-+			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+		}
-+
- 		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
--						search_start, search_end);
-+						       search_start, search_end);
- 		if (crash_base == 0) {
- 			pr_warn("crashkernel: couldn't allocate %lldKB\n",
- 				crash_size >> 10);
-@@ -1358,6 +1431,12 @@ static void __init reserve_crashkernel(void)
- 		}
- 	}
- 
-+	if ((crash_base >= dma32_phys_limit) && crash_low_size &&
-+	     reserve_crashkernel_low(crash_low_size)) {
-+		memblock_phys_free(crash_base, crash_size);
-+		return;
-+	}
-+
- 	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
- 		crash_base, crash_base + crash_size, crash_size >> 20);
- 
--- 
-2.34.1
+> So I still can't take this patch for the reasons described before.  It
+> looks like Mark took the patch that added the problem, so perhaps he
+> should be a recipient of this one too?  I'll add him to the CC...
 
+Is this the same patch I applied yesterday or a different one?
+
+--sx+tKS4ZQ5MXdS0r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmS/0jUACgkQJNaLcl1U
+h9AVuQf/eS2VDsEqbQkWzEHHEkArGf8F18F0Qgg37XCfM2YZnAuFeYTHC7GheM44
+6cOWRRWa/PeOO4ywBCddgHokVy54IgzKeRoTP4au9slwbskxrrdfd3cjy2FMzQe0
+iUJmMSeky1zuvf+tZeNKTcrrV7bYF0chIpD8HhLcq9qsdiz+I8sxCuYmsu+U50L7
+pUJeVlVB+LZ8CmhTpc8MYYMUcavdGoCbW3/0GDB2onqn/MsJQQBGYAOdRbGGl3Wc
+t6HD3Fo6QCF5PA3wm0+rgI1qtAT8hVhKukGEdS2A6xnUqN3hmftjbFX1kS9pmSZa
+J2bDUU7+2DwkR91t1L8bANya5PrSbg==
+=d9c9
+-----END PGP SIGNATURE-----
+
+--sx+tKS4ZQ5MXdS0r--
