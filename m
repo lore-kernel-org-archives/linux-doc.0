@@ -2,183 +2,158 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A9EAC001E0
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 12:45:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D477C001DF
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:07:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbjGYMpD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 08:45:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58640 "EHLO
+        id S233471AbjGYNH0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 09:07:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230089AbjGYMpB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 08:45:01 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A26AC4
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 05:44:59 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-98e39784a85so1388103866b.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 05:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1690289098; x=1690893898;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DVe5kbgnFh2Y4eGHfjCzHKbLu04TQkYMB7dsKJm3Umo=;
-        b=GpcyljcjU7Qr5dRNNYfizZwrwBd4cnjkvyHTuvC/QsN3XiYBpHJim9y0Fwhwc12FfD
-         aXUdwC4S44xNeyqhfcrwKMKZn14++9A7dS881Sg+Nm6Rp55TRzJuABW3jgcxoetQ82KS
-         rdPHpg0b0w+Cu7zrIR6V80QMY49a17Up7GMpMri0hlbFbJ/e85dQN/8v9LUhnjzptMP2
-         I1rLEsN8NAbBHL6D2Z4ZsHzrPphtmuQjq1BmY4zHbzxWwUm57J72SMevDz7P6ChP9tkh
-         1bWV1k8SOuFyF7PNNO2I0iyrpY/3VczpraJ9h6dwsNUtCnP2hQGAMKzOgSjG1qKB+O+3
-         SQ1Q==
+        with ESMTP id S233403AbjGYNHW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:07:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F08173F
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 06:05:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1690290357;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Sjst0ANUHPkhmyS9EMxljg+0hKTtA2LkvoCccenEaWc=;
+        b=PsZZ+IRfo0Vje9ZlKc6QeZsZsl8NQzvqFuV+WpJiBlWT6mmLLwuaNR7Va12b6gfaITelxB
+        7IHCvYSlcZtZ0Dt1OHR4gFi3fbiwOlm048gQW8M9X2C/m4Ge1QiRTtvzcVzf2PvT8qsKlc
+        wJI8LU4xzTnXwWUHJUnaPt0/BrQSah0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-135-WluTyR5uPzeyxU4T0t082w-1; Tue, 25 Jul 2023 09:05:52 -0400
+X-MC-Unique: WluTyR5uPzeyxU4T0t082w-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-317421b94a4so1371374f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Jul 2023 06:05:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690289098; x=1690893898;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DVe5kbgnFh2Y4eGHfjCzHKbLu04TQkYMB7dsKJm3Umo=;
-        b=PUenlkNft48lVXOaeQZplThIZWBWNiiI7oN4ZUQdjme6eZZY1k0r4iaoc+1xDHgEpX
-         lpCHLu2oChTGDxxMIqwRlyPeIagU69337GqjTxV7Sz9mr/Qc+pZuPpYAOHWXnezGt53X
-         UOg6SUiNb8pPBwREfz4CJEPuufeLSQJffArg9ccuYNQfXP3KgJ5leZzvBZ2JIyVDy97S
-         FcDMit13NynvlrHHcwTejb6h27EEk/ixuljMAH4Ul1vAPnsdHnCtCQazfUnX+AFJx8fq
-         6qvSf/bKzZBwcCbZZVbQIGc9CVlme7bGa0fXx8K/Jf6DUtaXcnPRHj0UnOWsq9MOgE60
-         BfVA==
-X-Gm-Message-State: ABy/qLZ1JNidB9y4MCKo2gZqg0CBEVOgCIDagL8jv6riOaKDy1Fhjzjj
-        KaeZWGtW9VWbLOlpECQZYcqvIA==
-X-Google-Smtp-Source: APBJJlGRSB+oOdzfbHk1XswFZQ6sXyZlhMpraB1keFiipvJqv7JZBaK38TlZAFpu/NEWGgF+T3sqfA==
-X-Received: by 2002:a17:906:5dd8:b0:99b:4d3d:c9b7 with SMTP id p24-20020a1709065dd800b0099b4d3dc9b7mr2464164ejv.31.1690289098120;
-        Tue, 25 Jul 2023 05:44:58 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id qp7-20020a170907206700b00992b66e54e9sm8134209ejb.214.2023.07.25.05.44.57
+        d=1e100.net; s=20221208; t=1690290351; x=1690895151;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sjst0ANUHPkhmyS9EMxljg+0hKTtA2LkvoCccenEaWc=;
+        b=b4R4FmGvrfPZiRVkSupdqaji+QSv6XesqzzObpI4BNdkXeSrOOo1EkpdjRJgFhs83k
+         vinGjtLgIgcuTHYH+Vkso4rxL/6AzLx4K91et/xe2FSTdK9I66sV55CWveq8TzrTQRFg
+         kbmtwreKiPLg/yFiaXBtM+MKYZ1SBOWnQrsjGdDtjyDV7P8jiZmNGAhM3NlpvhmGJIds
+         X4M2LPinE73Cmm+GM2YYGX8UWypvMKxWXHgDvSpY/TAsdCUDVRdRUMFBUUFBekT/cyDY
+         lajPqJnD5veEsIztcc/5SDqUEmVH2CXbP5QUzcjke9xiV9iGQMM4mS6XvEBVhQzKYYIk
+         2cFA==
+X-Gm-Message-State: ABy/qLaXV+R2IZPG7lqdhMiNUlQJ2Oej2UWO0LYTpfnF7CFUqf+9KAXt
+        Lo5kAUPRBorWfIyztpOp8WqLmbBWJQsjxQS8SFBg77BX1WFiQnEgoenAl6dcfdMfzqbT5ZiVf3r
+        KsSg9i1sB0ZWMdHNTFFuv
+X-Received: by 2002:a05:6000:4c3:b0:314:3f98:a788 with SMTP id h3-20020a05600004c300b003143f98a788mr9662129wri.7.1690290351829;
+        Tue, 25 Jul 2023 06:05:51 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlF3IfiPQXJmTRIbnVDIkRhO1QGeOmJQGB2V7Ax+LFUYp7XQ/uOSm8c19TiPQx/PfreNkIV1Uw==
+X-Received: by 2002:a05:6000:4c3:b0:314:3f98:a788 with SMTP id h3-20020a05600004c300b003143f98a788mr9662062wri.7.1690290351507;
+        Tue, 25 Jul 2023 06:05:51 -0700 (PDT)
+Received: from vschneid.remote.csb ([149.12.7.81])
+        by smtp.gmail.com with ESMTPSA id a15-20020adfeecf000000b00311d8c2561bsm16238717wrp.60.2023.07.25.06.05.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jul 2023 05:44:57 -0700 (PDT)
-Date:   Tue, 25 Jul 2023 14:44:56 +0200
-From:   Andrew Jones <ajones@ventanamicro.com>
-To:     Haibo Xu <xiaobo55x@gmail.com>
-Cc:     Haibo Xu <haibo1.xu@intel.com>, maz@kernel.org,
-        oliver.upton@linux.dev, seanjc@google.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Anup Patel <anup@brainfault.org>,
-        Atish Patra <atishp@atishpatra.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Shuah Khan <shuah@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Ricardo Koller <ricarkol@google.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Vipin Sharma <vipinsh@google.com>,
-        David Matlack <dmatlack@google.com>,
-        Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        Tue, 25 Jul 2023 06:05:51 -0700 (PDT)
+From:   Valentin Schneider <vschneid@redhat.com>
+To:     Frederic Weisbecker <frederic@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+        bpf@vger.kernel.org, x86@kernel.org, rcu@vger.kernel.org,
         linux-kselftest@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v6 06/13] KVM: arm64: selftests: Split get-reg-list test
- code
-Message-ID: <20230725-f5cf47c63abd8673d22b4936@orel>
-References: <cover.1690273969.git.haibo1.xu@intel.com>
- <1f25f27d1316bc91e1e31cd3d50a1d20f696759a.1690273969.git.haibo1.xu@intel.com>
- <CAJve8okJ-HYpsOrqH4Zvn7OBtwXWa4JumC+ZsMfHKB-deVYd2A@mail.gmail.com>
+        Nicolas Saenz Julienne <nsaenzju@redhat.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Zqiang <qiang.zhang1211@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Lorenzo Stoakes <lstoakes@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jason Baron <jbaron@akamai.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Nadav Amit <namit@vmware.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Chuang Wang <nashuiliang@gmail.com>,
+        Yang Jihong <yangjihong1@huawei.com>,
+        Petr Mladek <pmladek@suse.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Song Liu <song@kernel.org>,
+        Julian Pidancet <julian.pidancet@oracle.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Dionna Glaze <dionnaglaze@google.com>,
+        Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Yair Podemsky <ypodemsk@redhat.com>
+Subject: Re: [RFC PATCH v2 15/20] context-tracking: Introduce work deferral
+ infrastructure
+In-Reply-To: <ZL+wgn76H1em9hZU@lothringen>
+References: <20230720163056.2564824-1-vschneid@redhat.com>
+ <20230720163056.2564824-16-vschneid@redhat.com>
+ <ZL6QI4mV-NKlh4Ox@localhost.localdomain>
+ <xhsmh351dtfjj.mognet@vschneid.remote.csb> <ZL7OoUMLZwfUttjV@lothringen>
+ <xhsmhzg3ks3mw.mognet@vschneid.remote.csb> <ZL+wgn76H1em9hZU@lothringen>
+Date:   Tue, 25 Jul 2023 14:05:47 +0100
+Message-ID: <xhsmhwmyorvis.mognet@vschneid.remote.csb>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJve8okJ-HYpsOrqH4Zvn7OBtwXWa4JumC+ZsMfHKB-deVYd2A@mail.gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 04:50:36PM +0800, Haibo Xu wrote:
-> On Tue, Jul 25, 2023 at 4:37 PM Haibo Xu <haibo1.xu@intel.com> wrote:
-> >
-> > From: Andrew Jones <ajones@ventanamicro.com>
-> >
-> > Split the arch-neutral test code out of aarch64/get-reg-list.c into
-> > get-reg-list.c. To do this we invent a new make variable
-> > $(SPLIT_TESTS) which expects common parts to be in the KVM selftests
-> > root and the counterparts to have the same name, but be in
-> > $(ARCH_DIR).
-> >
-> > There's still some work to be done to de-aarch64 the common
-> > get-reg-list.c, but we leave that to the next patch to avoid
-> > modifying too much code while moving it.
-> >
-> > Signed-off-by: Andrew Jones <ajones@ventanamicro.com>
-> > Signed-off-by: Haibo Xu <haibo1.xu@intel.com>
-> > ---
-> >  tools/testing/selftests/kvm/Makefile          |  12 +-
-> >  .../selftests/kvm/aarch64/get-reg-list.c      | 367 +----------------
-> >  tools/testing/selftests/kvm/get-reg-list.c    | 377 ++++++++++++++++++
-> >  3 files changed, 398 insertions(+), 358 deletions(-)
-> >  create mode 100644 tools/testing/selftests/kvm/get-reg-list.c
-> >
-> > diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-> > index c692cc86e7da..95f180e711d5 100644
-> > --- a/tools/testing/selftests/kvm/Makefile
-> > +++ b/tools/testing/selftests/kvm/Makefile
-> > @@ -140,7 +140,6 @@ TEST_GEN_PROGS_EXTENDED_x86_64 += x86_64/nx_huge_pages_test
-> >  TEST_GEN_PROGS_aarch64 += aarch64/aarch32_id_regs
-> >  TEST_GEN_PROGS_aarch64 += aarch64/arch_timer
-> >  TEST_GEN_PROGS_aarch64 += aarch64/debug-exceptions
-> > -TEST_GEN_PROGS_aarch64 += aarch64/get-reg-list
-> >  TEST_GEN_PROGS_aarch64 += aarch64/hypercalls
-> >  TEST_GEN_PROGS_aarch64 += aarch64/page_fault_test
-> >  TEST_GEN_PROGS_aarch64 += aarch64/psci_test
-> > @@ -152,6 +151,7 @@ TEST_GEN_PROGS_aarch64 += access_tracking_perf_test
-> >  TEST_GEN_PROGS_aarch64 += demand_paging_test
-> >  TEST_GEN_PROGS_aarch64 += dirty_log_test
-> >  TEST_GEN_PROGS_aarch64 += dirty_log_perf_test
-> > +TEST_GEN_PROGS_aarch64 += get-reg-list
-> >  TEST_GEN_PROGS_aarch64 += kvm_create_max_vcpus
-> >  TEST_GEN_PROGS_aarch64 += kvm_page_table_test
-> >  TEST_GEN_PROGS_aarch64 += memslot_modification_stress_test
-> > @@ -181,6 +181,8 @@ TEST_GEN_PROGS_riscv += kvm_page_table_test
-> >  TEST_GEN_PROGS_riscv += set_memory_region_test
-> >  TEST_GEN_PROGS_riscv += kvm_binary_stats_test
-> >
-> > +SPLIT_TESTS += get-reg-list
-> > +
-> >  TEST_PROGS += $(TEST_PROGS_$(ARCH_DIR))
-> >  TEST_GEN_PROGS += $(TEST_GEN_PROGS_$(ARCH_DIR))
-> >  TEST_GEN_PROGS_EXTENDED += $(TEST_GEN_PROGS_EXTENDED_$(ARCH_DIR))
-> > @@ -228,11 +230,14 @@ LIBKVM_C_OBJ := $(patsubst %.c, $(OUTPUT)/%.o, $(LIBKVM_C))
-> >  LIBKVM_S_OBJ := $(patsubst %.S, $(OUTPUT)/%.o, $(LIBKVM_S))
-> >  LIBKVM_STRING_OBJ := $(patsubst %.c, $(OUTPUT)/%.o, $(LIBKVM_STRING))
-> >  LIBKVM_OBJS = $(LIBKVM_C_OBJ) $(LIBKVM_S_OBJ) $(LIBKVM_STRING_OBJ)
-> > +SPLIT_TESTS_TARGETS := $(patsubst %, $(OUTPUT)/%, $(SPLIT_TESTS))
-> > +SPLIT_TESTS_OBJS := $(patsubst %, $(ARCH_DIR)/%.o, $(SPLIT_TESTS))
-> >
-> >  TEST_GEN_OBJ = $(patsubst %, %.o, $(TEST_GEN_PROGS))
-> >  TEST_GEN_OBJ += $(patsubst %, %.o, $(TEST_GEN_PROGS_EXTENDED))
-> >  TEST_DEP_FILES = $(patsubst %.o, %.d, $(TEST_GEN_OBJ))
-> >  TEST_DEP_FILES += $(patsubst %.o, %.d, $(LIBKVM_OBJS))
-> > +TEST_DEP_FILES += $(patsubst %.o, %.d, $(SPLIT_TESTS_OBJS))
-> >  -include $(TEST_DEP_FILES)
-> >
-> >  $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED): %: %.o
-> > @@ -240,7 +245,10 @@ $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED): %: %.o
-> >  $(TEST_GEN_OBJ): $(OUTPUT)/%.o: %.c
-> >         $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $@
-> >
-> > -EXTRA_CLEAN += $(LIBKVM_OBJS) $(TEST_DEP_FILES) $(TEST_GEN_OBJ) cscope.*
-> > +$(SPLIT_TESTS_TARGETS): %: %.o $(SPLIT_TESTS_OBJS)
-> > +       $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH) $^ $(LDLIBS) -o $@
-> > +
-> > +EXTRA_CLEAN += $(LIBKVM_OBJS) $(TEST_DEP_FILES) $(TEST_GEN_OBJ) $(SPLIT_TESTS_OBJS) cscope.*
-> >
-> >  x := $(shell mkdir -p $(sort $(dir $(LIBKVM_C_OBJ) $(LIBKVM_S_OBJ))))
-> >  $(LIBKVM_C_OBJ): $(OUTPUT)/%.o: %.c
-> 
-> Hi @Andrew Jones,
-> 
-> After rebasing to v6.5-rc3, some changes are needed to the SPLIT_TESTS
-> target, or the make would fail.
-> Please help have a look.
+On 25/07/23 13:22, Frederic Weisbecker wrote:
+> On Tue, Jul 25, 2023 at 11:10:31AM +0100, Valentin Schneider wrote:
+>> I have reasons! I just swept them under the rug and didn't mention them :D
+>> Also looking at the config dependencies again I got it wrong, but
+>> nevertheless that means I get to ramble about it.
+>>
+>> With NO_HZ_IDLE, we get CONTEXT_TRACKING_IDLE, so we get these
+>> transitions:
+>>
+>>   ct_idle_enter()
+>>     ct_kernel_exit()
+>>       ct_state_inc_clear_work()
+>>
+>>   ct_idle_exit()
+>>     ct_kernel_enter()
+>>       ct_work_flush()
+>>
+>> Now, if we just make CONTEXT_TRACKING_WORK depend on CONTEXT_TRACKING_IDLE
+>> rather than CONTEXT_TRACKING_USER, we get to leverage the IPI deferral for
+>> NO_HZ_IDLE kernels - in other words, we get to keep idle CPUs idle longer.
+>>
+>> It's a completely different argument than reducing interference for
+>> NOHZ_FULL userspace applications and I should have at the very least
+>> mentioned it in the cover letter, but it's the exact same backing
+>> mechanism.
+>>
+>> Looking at it again, I'll probably make the CONTEXT_IDLE thing a separate
+>> patch with a proper changelog.
 >
+> Ok should that be a seperate Kconfig? This indeed can bring power improvement
+> but at the cost of more overhead from the sender. A balance to be measured...
 
-I took a look and then remembered why I hate looking at Makefiles... I
-guess it's fine, but it's a pity we need to repeat the $(CC) line.
+Yep agreed, I'll make that an optional config.
 
-Thanks,
-drew
