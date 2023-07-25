@@ -2,81 +2,85 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA183C001DF
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D89EC001DE
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Jul 2023 13:16:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232112AbjGYNMa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Jul 2023 09:12:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45926 "EHLO
+        id S229746AbjGYNQn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Jul 2023 09:16:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231222AbjGYNM3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:12:29 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27A03E3;
-        Tue, 25 Jul 2023 06:12:27 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A54BC37A;
-        Tue, 25 Jul 2023 13:12:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A54BC37A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1690290746; bh=5u4BZFBu868zKlxsIvE0FHvQW39n/7MPPlnFcfZZr2A=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=br4OSV3qtwoxq6/FU1iNU//cKIJW7YnDU4n7dXk8AZoE/9dcF1QS5t7Kqr8uiMgXR
-         qM9m2NU1SBoQcK0IGnYwL+szGw2EEftG6qrnuD9G+7aXdCiTTLnVntXKDdaXWR9upr
-         VhL/nvvUwcp3Da77dWkMEHcJwM38FKxrNLQMAkiWH2i7t2T5i30mDGz/K6ccpC+4ue
-         /NdmXXd/6LG9QFVcpuYdcFFMvzLyWqPlfJbGJKAsb5kfBuKvfV1Z1XHcPB0ZSEvHoW
-         i+Clx+j2iBCaZiUlRaW0jcfhLk5folSI/pu/4bn8YgQxn4A4dpc16HyHsGNSte86eC
-         nIVwlG2woYGsw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        with ESMTP id S229606AbjGYNQm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jul 2023 09:16:42 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB491BF8;
+        Tue, 25 Jul 2023 06:16:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1690290994; x=1721826994;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FzQltc/Yqt8LVzDvpBtr1I2HWq5tm4lFYF5Dmo6gkcM=;
+  b=RR8dKq8UlyS9r+ciPT8bV1kgn3H5mCPJBFXd3RSorqoZTvotwCKQ65gH
+   9nDnpH9TQG816jdi1BIiIt4fP64QaTTqSIckYDkTVQstBDBFBd+ZYJwo9
+   XnPWvFvz8RT5tzQum6yZlhzBnQrgOtRFDlEUFRR66Ty04SfzvGcxgfusA
+   LXMCHfr6ISbLeIMZqqqXUA7wlxiPemc2YE0uEGtz8bv2zEABu2Nz5+6Oo
+   T5a7uQlQjXb6XDCtfTUfOaZOM0cT+0HdQz0Vz174N1P338Vkhk9tQCtdl
+   /NqzKvOIP+r/+MFm7/QwzhyWah68kCYpQ8vZHBHxa8ssqozXJ9LQ8yAqR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="431520718"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="431520718"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2023 06:16:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="720059655"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; 
+   d="scan'208";a="720059655"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007.jf.intel.com with ESMTP; 25 Jul 2023 06:16:26 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qOHto-00B2DC-37;
+        Tue, 25 Jul 2023 16:16:24 +0300
+Date:   Tue, 25 Jul 2023 16:16:24 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Randy Dunlap <rdunlap@infradead.org>,
         Mark Brown <broonie@kernel.org>
 Subject: Re: [PATCH v2 1/1] Documentation: core-api: Drop :export: for
  int_log.h
-In-Reply-To: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
+Message-ID: <ZL/LKPmDvfUdZWb+@smile.fi.intel.com>
 References: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
-Date:   Tue, 25 Jul 2023 07:12:25 -0600
-Message-ID: <87a5vkb0ee.fsf@meer.lwn.net>
+ <87a5vkb0ee.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a5vkb0ee.fsf@meer.lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
+On Tue, Jul 25, 2023 at 07:12:25AM -0600, Jonathan Corbet wrote:
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
 
-> The :export: keyword makes sense only for C-files, where EXPORT_SYMBOL()
-> might appear. Otherwise kernel-doc may not produce anything out of this
-> file.
->
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Fixes: f97fa3dcb2db ("lib/math: Move dvb_math.c into lib/math/int_log.c")
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Acked-by: Jonathan Corbet <corbet@lwn.net>
-> ---
-> v2: added tags (Randy, Jonathan), assumed to go via ASoC tree
->  Documentation/core-api/kernel-api.rst | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-> index a526fbe06f86..ae92a2571388 100644
-> --- a/Documentation/core-api/kernel-api.rst
-> +++ b/Documentation/core-api/kernel-api.rst
-> @@ -166,7 +166,6 @@ Integer log and power Functions
->  -------------------------------
->  
->  .. kernel-doc:: include/linux/int_log.h
-> -   :export:
->  
+> > ---
+> > v2: added tags (Randy, Jonathan), assumed to go via ASoC tree
 
-So I still can't take this patch for the reasons described before.  It
-looks like Mark took the patch that added the problem, so perhaps he
-should be a recipient of this one too?  I'll add him to the CC...
+> So I still can't take this patch for the reasons described before.  It
+> looks like Mark took the patch that added the problem, so perhaps he
+> should be a recipient of this one too? 
 
-jon
+That's what have been assumed above.
+
+> I'll add him to the CC...
+
+Oh, I missed Cc'ing him...
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
