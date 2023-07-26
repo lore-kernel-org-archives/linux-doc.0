@@ -2,138 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E20F6C001B0
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 14:12:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D8FC001B0
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 14:45:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233707AbjGZOMC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 10:12:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35836 "EHLO
+        id S232810AbjGZOpn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 10:45:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232478AbjGZOLo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 10:11:44 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24CD2738;
-        Wed, 26 Jul 2023 07:10:54 -0700 (PDT)
+        with ESMTP id S232085AbjGZOpm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 10:45:42 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619D11990;
+        Wed, 26 Jul 2023 07:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690380654; x=1721916654;
+  t=1690382741; x=1721918741;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/MDgNGkVeaPDA3kkMNG+Ho9/GQxRTUSTwqG0wzLJTZk=;
-  b=IUVj4xObF37JDdFUDB52RAF/2nOAbZpAvJ+P9VsY0jGzYysXaSgeIJtQ
-   TLxxeJO3oZp5kiN+rlIdR11jZsw7gvB0K/Sb40uz91YyT4E3xcnRfOUZR
-   ISmtRxysNyuVMLwpi0341wBYJILOcSRN+Nttiqp2HrOdHwlP8K202bj2N
-   KVc6syHjk7byEqsRgdLHnDQ+wnSOjkv/qxJaSRluWbFT6Q2gMp9ssfZy4
-   fkxiOgxyITuU/F73sEm75KYHVpE2ntOgXRh2lDDrT9fI1zZpT2HyJ+O31
-   3qG49yARIyrjnawS/H+gWmh7yQiKOQl3eFTVTCpT1qNVLbrZMaHQTqrIk
+  bh=74mpgfL0FeV7YMwi8zS/vUUeKAUF9iLmvpmetcgSpNE=;
+  b=AGn6k8SY8NGQqDKCJ72o1CNTdpgB0A1yhh8+qeHtFhuDG1XET8YK26U8
+   RBFTblscBY11l4svrN6Lri2cZ2Y/b8SdS2o2OScCqFn1noSgDc1oBPTxH
+   x6HPYwvglrX7pJiMUhyePfBHFuVQ0nqqcKTkeZHK52FnL5uqDgLF5EvU4
+   qmTpz7Ys97L8Ajl8tfWPimImmii57wTHhvbFIwaeaOlNiI8a3U9bTaXJd
+   vExWgxf6hIHg84mLL9bCQ6f53NZkYX161ws0GwU6IzAh+mwcW4w6VAsjN
+   Z6EjxTJ+GaQuKF6f0r5aa/IYbIZk6es+FzMAmLXwLZfgTdE8oqodKz8xP
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="368045562"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="366914644"
 X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="368045562"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 07:10:30 -0700
+   d="scan'208";a="366914644"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 07:45:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="900441006"
+X-IronPort-AV: E=McAfee;i="6600,9927,10783"; a="850485473"
 X-IronPort-AV: E=Sophos;i="6.01,232,1684825200"; 
-   d="scan'208";a="900441006"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2023 07:10:29 -0700
-Date:   Wed, 26 Jul 2023 07:10:28 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Drew Fustini <dfustini@baylibre.com>
-Cc:     Fenghua Yu <fenghua.yu@intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Peter Newman <peternewman@google.com>,
+   d="scan'208";a="850485473"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga004.jf.intel.com with ESMTP; 26 Jul 2023 07:45:24 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qOflS-00BRtF-1M;
+        Wed, 26 Jul 2023 17:45:22 +0300
+Date:   Wed, 26 Jul 2023 17:45:22 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, x86@kernel.org,
-        Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-        James Morse <james.morse@arm.com>,
-        Jamie Iles <quic_jiles@quicinc.com>,
-        Babu Moger <babu.moger@amd.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        patches@lists.linux.dev
-Subject: Re: [PATCH v4 0/7] Add support for Sub-NUMA cluster (SNC) systems
-Message-ID: <ZMEpVBO5dGxtBzfy@agluck-desk3>
-References: <20230713163207.219710-1-tony.luck@intel.com>
- <20230722190740.326190-1-tony.luck@intel.com>
- <ZMCOvMfROYhQEFXo@x1>
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/1] Documentation: core-api: Drop :export: for
+ int_log.h
+Message-ID: <ZMExglQlP/KsjQET@smile.fi.intel.com>
+References: <20230725104956.47806-1-andriy.shevchenko@linux.intel.com>
+ <169031283259.1609546.106488095269313393.b4-ty@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZMCOvMfROYhQEFXo@x1>
+In-Reply-To: <169031283259.1609546.106488095269313393.b4-ty@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 25, 2023 at 08:10:52PM -0700, Drew Fustini wrote:
-> I think that the resctrl interface for RISC-V CBQRI could also benefit
-> from separate domain lists for control and monitoring.
+On Tue, Jul 25, 2023 at 08:20:32PM +0100, Mark Brown wrote:
+> On Tue, 25 Jul 2023 13:49:56 +0300, Andy Shevchenko wrote:
+> > The :export: keyword makes sense only for C-files, where EXPORT_SYMBOL()
+> > might appear. Otherwise kernel-doc may not produce anything out of this
+> > file.
 > 
-> For example, the bandwidth controller QoS register [1] interface allows
-> a device to implement both bandwidth usage monitoring and bandwidth
-> allocation. The resctrl proof-of-concept [2] had to awkwardly create two
-> domains for each memory controller in our example SoC, one that would
-> contain the MBA resource and one that would contain the L3 resource to
-> represent MBM files like local_bytes.
+> Applied to
 > 
-> This resulted in a very odd looking schemata that would be hard to the
-> user to understand:
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 > 
->   # cat /sys/fs/resctrl/schemata
->   MB:4=  80;6=  80;8=  80
->   L2:0=0fff;1=0fff
->   L3:2=ffff;3=0000;5=0000;7=0000
-> 
-> Where:
-> 
->   Domain 0 is L2 cache controller 0 capacity allocation
->   Domain 1 is L2 cache controller 1 capacity allocation
->   Domain 2 is L3 cache controller capacity allocation
-> 
->   Domain 4 is Memory controller 0 bandwidth allocation
->   Domain 6 is Memory controller 1 bandwidth allocation
->   Domain 8 is Memory controller 2 bandwidth allocation
-> 
->   Domain 3 is Memory controller 0 bandwidth monitoring
->   Domain 5 is Memory controller 1 bandwidth monitoring
->   Domain 7 is Memory controller 2 bandwidth monitoring
-> 
-> But there is no value of having the domains created for the purposes of
-> bandwidth monitoring in schemata.
+> Thanks!
 
-There's certainly no value in exposing those domain numbers
-in the schemata file. There should also be some way for users
-to decode the ids. On x86 the "id" is exposed in sysfs. Though
-the user does need to work to get all the details:
+Thank you!
 
-$ cat /sys/devices/system/cpu/cpu36/cache/index3/level
-3
-$ cat /sys/devices/system/cpu/cpu36/cache/index3/id
-1
-$ cat /sys/devices/system/cpu/cpu36/cache/index3/shared_cpu_list
-36-71,108-143
+-- 
+With Best Regards,
+Andy Shevchenko
 
-This shows the L3 cachce with id "1" is shared by CPUs 36-71,108-143
 
-X86 also has independent domain numbers for each resource. So the
-L2 ones count 0, 1, 2, ... and so do the L3 ones: 0, 1, 2 and the
-MBA ones: 0, 1, 2
-
-That fits well with the /sys decoding ... but maybe your approach of
-not repeating domain numbers across different resources is less
-confusing?
-
-Note that in my resctrl re-write where each resource is handled by
-a separate loadable module it may be hard for you to keep the unique
-domain scheme as resource modules are unaware of each other. Though
-perhaps its just an arch specific hook to provide domain numbers.
-
-> I've not yet fully understood how the new approach in this patch series
-> could help the situation for CBQRI, but I thought I would mention that
-> separate lists for control and monitoring might be useful.
-
-Good. It's nice to know there's potentially another use case for
-this split besides SNC.
-
--Tony
