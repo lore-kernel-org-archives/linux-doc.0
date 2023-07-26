@@ -2,115 +2,83 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F4EC0015E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 19:29:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B7BEC001DC
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Jul 2023 19:31:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231785AbjGZT3y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Jul 2023 15:29:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34894 "EHLO
+        id S231882AbjGZTbC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Jul 2023 15:31:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjGZT3w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 15:29:52 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC6630F4;
-        Wed, 26 Jul 2023 12:29:34 -0700 (PDT)
-Received: from [192.168.1.103] (178.176.74.8) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 26 Jul
- 2023 22:29:30 +0300
-Subject: Re: [PATCH v3 9/9] ata: remove deprecated EH callbacks
-To:     Niklas Cassel <nks@flawful.org>,
-        Damien Le Moal <dlemoal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-CC:     Hannes Reinecke <hare@suse.com>,
-        John Garry <john.g.garry@oracle.com>,
-        <linux-ide@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-        Niklas Cassel <niklas.cassel@wdc.com>,
-        <linux-doc@vger.kernel.org>
-References: <20230721163229.399676-1-nks@flawful.org>
- <20230721163229.399676-10-nks@flawful.org>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <05906461-0805-54dd-bb60-722616eb8848@omp.ru>
-Date:   Wed, 26 Jul 2023 22:29:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        with ESMTP id S229480AbjGZTbB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Jul 2023 15:31:01 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D52C3272A;
+        Wed, 26 Jul 2023 12:30:59 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 651D9359;
+        Wed, 26 Jul 2023 19:30:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 651D9359
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1690399859; bh=dsJxPvwqZe8zXKEvc6QkO8wpGMltaVf8thuTWXhtQZY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=pOA0IJm98VuGV4JWI8+ZqgCAVwc+3pavlc2hyQ+JIgjbi3ghYoupHOGb+qi+r4KLE
+         hobSQ7kPcO/f8pyIrwcF1xkQtWKs1ii3kPfxTbOgJKK4FqvOKGxa5ay+/Q3Fl2sN7L
+         /I2TOBdbHuH7piNx2uMQBypYOztK9208QJZVYDwWOnfaqdXxp4Bz1DBnSu9z4ujsom
+         5pCSuj31iV5sPEp6GlM/dutCL1o/Zd3eo7b0qUdYiJb0AsxiiAs7xdWCfsw6kbrTPv
+         Z+3A15zxXib/TZPpnwy2nYOvfY9Xowep4tvfxyT32i7eVzuuADDItkhsDGAx113UnM
+         16yPUiPG2AGWw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Costa Shulyupin <costa.shul@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Cc:     Costa Shulyupin <costa.shul@redhat.com>
+Subject: Re: [RFC PATCH v2] docs: rework "Working with the development
+ community"
+In-Reply-To: <20230726184939.3118350-1-costa.shul@redhat.com>
+References: <87ila9atuk.fsf@meer.lwn.net>
+ <20230726184939.3118350-1-costa.shul@redhat.com>
+Date:   Wed, 26 Jul 2023 13:30:58 -0600
+Message-ID: <87edku8o7h.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20230721163229.399676-10-nks@flawful.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [178.176.74.8]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.59, Database issued on: 07/26/2023 19:13:04
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 178891 [Jul 26 2023]
-X-KSE-AntiSpam-Info: Version: 5.9.59.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 526 526 7a6a9b19f6b9b3921b5701490f189af0e0cd5310
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.8 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.74.8:7.7.3,7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: {rdns complete}
-X-KSE-AntiSpam-Info: {fromrtbl complete}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.8
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=none header.from=omp.ru;spf=none
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 07/26/2023 19:16:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 7/26/2023 5:23:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/21/23 7:32 PM, Niklas Cassel wrote:
+Costa Shulyupin <costa.shul@redhat.com> writes:
 
-> From: Niklas Cassel <niklas.cassel@wdc.com>
-> 
-> Now when all libata drivers have migrated to use the error_handler
-> callback, remove the deprecated phy_reset and eng_timeout callbacks.
-> 
-> Also remove references to non-existent functions sata_phy_reset and
-> ata_qc_timeout from Documentation/driver-api/libata.rst.
-> 
-> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-[...]
-> diff --git a/drivers/ata/pata_sl82c105.c b/drivers/ata/pata_sl82c105.c
-> index 3b62ea482f1a..93882e976ede 100644
-> --- a/drivers/ata/pata_sl82c105.c
-> +++ b/drivers/ata/pata_sl82c105.c
-> @@ -180,8 +180,7 @@ static void sl82c105_bmdma_start(struct ata_queued_cmd *qc)
->   *	document.
->   *
->   *	This function is also called to turn off DMA when a timeout occurs
-> - *	during DMA operation. In both cases we need to reset the engine,
-> - *	so no actual eng_timeout handler is required.
-> + *	during DMA operation. In both cases we need to reset the engine.
->   *
->   *	We assume bmdma_stop is always called if bmdma_start as called. If
->   *	not then we may need to wrap qc_issue.
+> Mission: Make the documentation more readable, organized and maintainable.
+>
+> NB: no information content is lost of changed on the rendered top page.
+>
+> This patch demonstrates rework of the only the first section
+> of the top page for review. The proposal is to rework all sections.
+>
+> Summary of changes:
+> - Heading "Working with the development community" is converted into
+>   branch of toctree and visually moved after the text
+>   "The essential guides for interacting ..."
+> - toctree list is split into separated file. Please don't worry, the
+>   content of the list is incorporated to the top page because of
+>   `:maxdepth: 2`
+> - vertical bar '|' add empty line for better visual distribution
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+I will repeat.  I do not support carving useful stuff out of the front
+page in this way.  The front page does not exist just to make a
+nice-looking sidebar.
 
-[...]
+> Technical explanations:
+> Template {{ toctree(maxdepth=3) }} in
+> Documentation/sphinx/templates/kernel-toc.html
+> uses directives toctree and doesn't use sections on the top page
+> Documentation/index.rst
+> to generate expandable toc on the sidebar.
+>
+> BTW, other template {{ toc }} uses only sections, and doesn't
+> use directives toctree.
 
-MBR, Sergey
+*This* is where the problem lies.  I have started looking at it again,
+but digging deep into the Sphinx code can be painful at times.
+
+jon
